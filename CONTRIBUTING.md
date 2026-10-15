@@ -25,6 +25,25 @@ The evaluator prints the code match and saves the full objdiff result under the 
 
 For a function that has no split yet, run `python3 scripts/isolate_functions.py 0xADDRESS`, reconfigure, and build its original object. Ghidra can supply the first C version. `scripts/prepare_full_game_task.py` can also package Ghidra C and assembly if you have generated the local analysis database.
 
+## C++ classes
+
+Much of the game is C++. RTTI gives the names of classes with virtual functions and their base classes, and their vtables appear in the `.rdata` assembly as `??_7ClassName@@6B@`. A method can be written as C++ instead of C when that makes its code clearer or helps it match:
+
+1. Declare the class in a header under `include/`. Take the base classes, in order, from the class's `??_R2` base class array. Keep unknown fields as `unkXX` members at their offsets. Name methods after their vtable offset, such as `vf08`, until their purpose is known.
+2. Rename the unit to `.cpp` in `config/4D5308C9/splits.txt` and `objects.json`, and define the method in that file. The build compiles `.cpp` units with `/TP`.
+3. Compile the unit and replace the function's `fn_` name in `config/4D5308C9/symbols.txt` with the mangled name the compiler produced. objdiff compares functions by name, and the parameter types, `const` and class all change the mangled name.
+4. Run the split again so the original object uses the new name, then evaluate the function. The evaluator finds the configured symbol name and adds `include/` and the source's directory to the compiler's include path; pass `/TP` instead of `/TC` in `--cflags`.
+
+Compiling a header with `/GR` emits RTTI. Its `??_R1` names encode each base class's offset, so they should match the game's when the layout is right.
+
+Declare functions and data that have no names yet inside `extern "C"` with their configured `fn_` or `lbl_` names, so calls to them match without renaming anything.
+
+The compiler generates deleting destructors (`??_G`) wherever it emits a class's vtable, which happens where a constructor or destructor is defined or inlined. A unit for one can include the unit whose code emits the vtable. The game was also linked with identical functions folded together, so one function can appear in the vtables of several classes.
+
+The `R1::Soundscape` event handles in `include/R1/Soundscape/` are an example: the state classes in `EventHandleState.h`, the context that forwards to them in `EventHandleContext.h`, and the `Singleton_c` template and heap operators they use.
+
+The compiler names floating-point constants after their bits, such as `__real@00000000` for `0.0f`, in C and C++ alike. When a constant in `symbols.txt` still has an `lbl_` name, renaming it to the `__real@` form lets source use the literal value instead of an `extern`.
+
 ## Send the result
 
 Commit the source, and include any split or object configuration changes the function needs. Keep a partial result as `NonMatching`; mark it `Matching` after the object matches completely. In your pull request, give the address, compiler flags, objdiff result and any useful type or class findings. A compilable improvement is worth sharing even if it is not a full match.
