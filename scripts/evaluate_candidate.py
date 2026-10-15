@@ -39,7 +39,10 @@ def main() -> int:
     compiler = (args.compiler or args.lab / "tools/compilers/X360/16.00.10224.00/cl.exe").resolve()
     if not compiler.is_file():
         parser.error(f"Xbox 360 compiler not found: {compiler}; pass --compiler /path/to/cl.exe")
-    wibo = os.environ.get("WIBO") or shutil.which("wibo-kinect") or shutil.which("wibo") or "wibo"
+    command = [str(compiler), *args.cflags, "/Focandidate.obj", "candidate.c"]
+    if sys.platform != "win32":
+        wibo = os.environ.get("WIBO") or shutil.which("wibo-kinect") or shutil.which("wibo") or "wibo"
+        command.insert(0, str(wibo))
     objdiff = os.environ.get("OBJDIFF_CLI") or shutil.which("objdiff-cli") or "objdiff-cli"
     report = {
         "address": f"0x{stem}",
@@ -49,7 +52,7 @@ def main() -> int:
         "cflags": args.cflags,
     }
     result = subprocess.run(
-        [str(wibo), str(compiler), *args.cflags, "/Focandidate.obj", "candidate.c"],
+        command,
         cwd=work, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
     )
     report["compile_exit_code"] = result.returncode
