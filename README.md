@@ -31,7 +31,7 @@ python3 configure.py
 ninja
 ```
 
-On Linux, pass `--wrapper /path/to/wibo` to `configure.py` if Wibo is not already configured. Run `python3 configure.py --help` for other tool paths.
+On Linux, pass `--wrapper /path/to/wibo` to `configure.py` if Wibo is not already configured. On Windows, run `py configure.py`; the compiler runs without a wrapper. Run `python3 configure.py --help` for other tool paths.
 
 ## Contributing
 
