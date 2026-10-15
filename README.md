@@ -24,7 +24,7 @@ A decompilation of **Kinect Sports** for Xbox 360.
 
 ## Building
 
-Place `default.xex` from your copy of the game in `orig/4D5308C9/`. Install Python 3 and Ninja, then run:
+Place `default.xex` from your copy of the game in `orig/4D5308C9/`. Install Python 3.10+ and Ninja, then run:
 
 ```sh
 python3 configure.py
