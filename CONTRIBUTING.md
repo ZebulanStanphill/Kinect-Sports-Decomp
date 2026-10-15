@@ -6,6 +6,8 @@ Kinect Sports is being reconstructed one function at a time. The C already in `s
 
 Place `default.xex` from your own copy of the game as shown in the [README](README.md), then run `python3 configure.py`. You will need the Xbox 360 compiler, Jeff, objdiff and, on Linux, Wibo. Build the original object for the function you choose; a full `ninja` build is not needed for each iteration. Keep game files and generated objects out of commits.
 
+On Windows, use `py` where these instructions say `python3`. In PowerShell, end a continued line with a backtick (`` ` ``) instead of `\`.
+
 ## Work on a function
 
 Choose a function in `src/auto_match/` whose entry in `config/4D5308C9/objects.json` is `NonMatching`. Work on a separate branch so others can work on different functions at the same time. Read its C, the corresponding assembly in `build/4D5308C9/asm/auto_match/`, and its object in objdiff.
