@@ -23,6 +23,10 @@ class EvaluateCandidateTests(unittest.TestCase):
         original = self.root / "build/4D5308C9/obj/auto_match/func_82400E48.obj"
         original.parent.mkdir(parents=True)
         original.touch()
+        symbols = self.root / "config/4D5308C9/symbols.txt"
+        symbols.parent.mkdir(parents=True)
+        symbols.write_text("fn_82400E48 = .text:0x82400E48; // type:function size:0x1C0\n",
+                           encoding="utf-8")
         self.compiler = self.root / "compiler tools/cl.exe"
         self.compiler.parent.mkdir()
         self.compiler.touch()
@@ -67,7 +71,7 @@ class EvaluateCandidateTests(unittest.TestCase):
         self.assertEqual(process.call_count, 2)
         self.assertEqual(process.call_args_list[0].args[0], [
             *prefix, str(self.compiler), "/nologo", "/c", "/TC", "/O1",
-            "/Focandidate.obj", "candidate.c",
+            f"/I{self.root / 'include'}", f"/I{self.root}", "/Focandidate.obj", "candidate.c",
         ])
         self.assertEqual(report["code_match_percent"], 87.5)
         self.assertEqual(report["compiler_output"], "compiler output")
