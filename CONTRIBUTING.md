@@ -19,7 +19,7 @@ python3 scripts/evaluate_candidate.py 0x82400E48 src/auto_match/func_82400E48.c 
   --cflags /nologo /c /TC /O1
 ```
 
-The evaluator prints the code match and saves the full objdiff result under the local lab directory. Set `WIBO` and `OBJDIFF_CLI` if those tools are not on your `PATH`. Try `/O2` when the assembly suggests a different optimization setting. Inspect objdiff's instruction and relocation differences before calling a function complete.
+The evaluator prints the code match and saves the full objdiff result under the local lab directory. On Windows, it runs the compiler directly. On other platforms, it uses Wibo; set `WIBO` if the wrapper is not on your `PATH`. Set `OBJDIFF_CLI` if objdiff is not on your `PATH`. Try `/O2` when the assembly suggests a different optimization setting. Inspect objdiff's instruction and relocation differences before calling a function complete.
 
 For a function that has no split yet, run `python3 scripts/isolate_functions.py 0xADDRESS`, reconfigure, and build its original object. Ghidra can supply the first C version. `scripts/prepare_full_game_task.py` can also package Ghidra C and assembly if you have generated the local analysis database.
 
