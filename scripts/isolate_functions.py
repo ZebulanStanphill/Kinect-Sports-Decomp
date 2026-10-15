@@ -44,14 +44,14 @@ def main() -> None:
         occupied.append((start, end))
         additions.append(f"auto_match/func_{start:08X}.c:\n\t.text       start:0x{start:08X} end:0x{end:08X}\n")
     if additions:
-        SPLITS.write_text(original.rstrip() + "\n" + "".join(additions), encoding="utf-8")
+        SPLITS.write_text(original.rstrip() + "\n" + "".join(additions), encoding="utf-8", newline="\n")
         objects = json.loads(OBJECTS.read_text(encoding="utf-8"))
         game = objects.setdefault("game", {"cflags": "base", "objects": {}})
         for value in args.addresses:
             start = int(value, 16)
             if any(f"func_{start:08X}.c:" in addition for addition in additions):
                 game["objects"].setdefault(f"auto_match/func_{start:08X}.c", "MISSING")
-        OBJECTS.write_text(json.dumps(objects, indent=2) + "\n", encoding="utf-8")
+        OBJECTS.write_text(json.dumps(objects, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Added {len(additions)} function splits; run Jeff split or ninja to regenerate objects")
 
 
