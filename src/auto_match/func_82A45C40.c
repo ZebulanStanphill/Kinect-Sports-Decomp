@@ -30,13 +30,14 @@ extern int fn_82A45290();
 extern unsigned int lbl_83219DD0;
 
 
+extern char lbl_8315D948[];
 undefined8 fn_82A45C40(int param_1)
 
 {
   if ((*(uint *)(param_1 + 4) & 4) != 0) {
-    RtlEnterCriticalSection(0xffffffff8315d948);
+    RtlEnterCriticalSection(lbl_8315D948);
     (&lbl_83219DD0)[*(ushort *)(*(int *)(param_1 + 8) + 0x50)] = 0;
-    RtlLeaveCriticalSection(0xffffffff8315d948);
+    RtlLeaveCriticalSection(lbl_8315D948);
   }
   fn_82A45290(param_1);
   if ((*(uint *)(param_1 + 4) & 2) == 0) {

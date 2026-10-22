@@ -41,8 +41,8 @@ fn_82304538(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined4
   undefined1 auStack_70 [32];
   undefined1 auStack_50 [32];
   
-  fn_82230110(auStack_50,0xffffffff821aeed4);
-  fn_82230110(auStack_70,0xffffffff821aeee4);
+  fn_82230110(auStack_50,"passlocomotion");
+  fn_82230110(auStack_70,"pass_locomotion");
   fn_823018E8(param_1,auStack_70,param_2,auStack_50,param_3);
   fn_82230300(auStack_70,1,0);
   fn_82230300(auStack_50,1,0);
