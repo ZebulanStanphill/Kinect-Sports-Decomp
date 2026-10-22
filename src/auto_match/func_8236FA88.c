@@ -36,26 +36,25 @@ undefined8 fn_8236FA88(int param_1)
   int *piVar2;
   int *piVar3;
   uint uVar4;
-  int iVar5;
+  uint iVar5;
   uint uVar6;
   
   iVar1 = *(int *)(param_1 + 0x1e0);
   if (iVar1 != 8) {
-    uVar4 = (uint)((ulonglong)LZCOUNT(iVar1) >> 3) & 4;
+    uVar4 = (iVar1 == 0) * 4;
     iVar5 = fn_822AA770(*(undefined4 *)(**(int **)(param_1 + 8) + uVar4));
     if (iVar5 != 0) {
-      if (*(int *)(iVar5 + 0x168) == 0) {
+      if (*(uint *)(iVar5 + 0x168) != 0) {
+        uVar6 = fn_8288B760(*(uint *)(iVar5 + 0x168));
+        uVar6 = uVar6 & 0xff;
+      } else {
         uVar6 = *(uint *)(iVar5 + 0x16c);
       }
-      else {
-        uVar6 = fn_8288B760();
-        uVar6 = uVar6 & 0xff;
-      }
-      if (uVar6 != 0) {
+      if ((int)uVar6 != 0) {
         piVar2 = *(int **)(**(int **)(param_1 + 8) + uVar4);
         piVar3 = *(int **)(iVar1 * 4 + **(int **)(param_1 + 8));
-        uVar4 = (uint)*(float *)(*(int *)(piVar2[4] * 4 + *piVar2) + 0x20);
-        uVar6 = (uint)*(float *)(*(int *)(piVar3[4] * 4 + *piVar3) + 0x20);
+        uVar4 = (int)*(float *)(*(int *)(piVar2[4] * 4 + *piVar2) + 0x20);
+        uVar6 = (uint)(int)*(float *)(*(int *)(piVar3[4] * 4 + *piVar3) + 0x20);
         if (((uVar4 == uVar6 - 1) && (2 < uVar4)) && (2 < uVar6)) {
           return 1;
         }

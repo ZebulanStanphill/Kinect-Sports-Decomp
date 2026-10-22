@@ -1,71 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_82545950();
-extern int fn_82545A90();
-extern int fn_8262FEC8();
+typedef struct Obj {
+    void *f0;
+    int f4;
+    void *f8;
+    void *fc;
+    void *f10;
+    void *f14;
+    void *f18;
+    int f1c;
+    int f20;
+    int f24;
+    int pad28;
+    void *f2c;
+} Obj;
 
+extern void fn_8251FA58(void *p);
+extern void fn_82522ED8(void *p);
+extern void fn_82545950(void **p);
+extern void fn_82545A90(void **p);
+extern void fn_8262FEC8(void *p);
 
-void fn_82624BF0(int *param_1)
-
+void fn_82624BF0(Obj *o)
 {
-  if (param_1[3] != 0) {
-    fn_82545A90(param_1 + 3);
-  }
-  if (param_1[2] != 0) {
-    fn_82545950(param_1 + 2);
-  }
-  if (param_1[6] != 0) {
-    fn_8251FA58();
-    param_1[6] = 0;
-    param_1[9] = 0;
-  }
-  if (param_1[5] != 0) {
-    fn_8251FA58();
-    param_1[5] = 0;
-    param_1[8] = 0;
-  }
-  if (param_1[4] != 0) {
-    fn_8251FA58();
-    param_1[4] = 0;
-    param_1[7] = 0;
-  }
-  if (*param_1 != 0) {
-    fn_8262FEC8();
-    *param_1 = 0;
-    param_1[1] = 0;
-  }
-  if (param_1[0xb] != 0) {
-    fn_82522ED8();
-    param_1[0xb] = 0;
-  }
-  fn_82522ED8(param_1);
-  return;
+    if (o->fc != 0) {
+        fn_82545A90(&o->fc);
+    }
+    if (o->f8 != 0) {
+        fn_82545950(&o->f8);
+    }
+    if (o->f18 != 0) {
+        fn_8251FA58(o->f18);
+        o->f18 = 0;
+        o->f24 = 0;
+    }
+    if (o->f14 != 0) {
+        fn_8251FA58(o->f14);
+        o->f14 = 0;
+        o->f20 = 0;
+    }
+    if (o->f10 != 0) {
+        fn_8251FA58(o->f10);
+        o->f10 = 0;
+        o->f1c = 0;
+    }
+    if (o->f0 != 0) {
+        fn_8262FEC8(o->f0);
+        o->f0 = 0;
+        o->f4 = 0;
+    }
+    if (o->f2c != 0) {
+        fn_82522ED8(o->f2c);
+        o->f2c = 0;
+    }
+    fn_82522ED8(o);
 }
-

@@ -1,52 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267D670();
-extern int fn_8267DCB8();
-extern unsigned int lbl_831E7E64;
-extern unsigned int lbl_831E7E6C;
+extern void *lbl_831E7E64;
+/* The original singleton pointer is volatile: fn_8267DE70 reloads it right
+   after testing it with nothing in between, which only volatile produces. */
+extern void * volatile lbl_831E7E6C;
+extern void *fn_8267B890(void *heap, unsigned int size, int flags);
+extern void *fn_8267D670(void *mem);
+extern void fn_8267DCB8(void *inst, void *arg);
 
-
-void fn_8267DDF8(undefined8 param_1)
-
+void fn_8267DDF8(void *arg)
 {
-  int iVar1;
-  
-  if (lbl_831E7E6C == 0) {
-    iVar1 = fn_8267B890(lbl_831E7E64,0x20,0);
-    if (iVar1 == 0) {
-      lbl_831E7E6C = 0;
+    if (lbl_831E7E6C == 0) {
+        void *mem = fn_8267B890(lbl_831E7E64, 0x20, 0);
+        lbl_831E7E6C = mem ? fn_8267D670(mem) : 0;
     }
-    else {
-      lbl_831E7E6C = fn_8267D670();
-    }
-  }
-  fn_8267DCB8(lbl_831E7E6C,param_1);
-  return;
+    fn_8267DCB8(lbl_831E7E6C, arg);
 }
-

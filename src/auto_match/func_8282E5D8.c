@@ -37,32 +37,24 @@ extern int fn_82832B28();
 extern int fn_82833780();
 
 
-void fn_8282E5D8(int param_1)
-
+typedef struct { int size; int pad[4]; } Sec;
+typedef struct { char pad0[0x51]; unsigned char f51; char pad52[2]; int f54; Sec sec[(0x2d8-0x58)/0x14]; int f2d8; char pad2dc[8]; int f2e4; int f2e8; char pad2ec[1000-0x2ec]; char f3e8; char pad3e9[6]; char f3ef; char f3f0; } S;
+static void alloc(S *p, int *out, int n, unsigned char idx) { Sec *s = &p->sec[idx]; *out = p->f2e4 + p->f2d8; p->f2d8 += n; s->size = n + s->size; }
+static void alloc2(S *p, int *out, int n, unsigned char idx) { *out = p->f2e4 + p->f2d8; p->f2d8 += n; p->sec[idx].size += n; }
+static void skip(S *p, int n, unsigned char idx) { Sec *s = &p->sec[idx]; p->f2d8 += n; s->size = n + s->size; }
+static void skip2(S *p, int n, unsigned char idx) { p->f2d8 += n; p->sec[idx].size += n; }
+static void skip3(S *p, int n, unsigned char idx) { Sec *s = &p->sec[idx]; p->f2d8 += n; s->size += n; }
+void fn_8282E5D8(S *p)
 {
-  int iVar1;
-  
-  *(undefined1 *)(param_1 + 1000) = 0;
-  fn_8282D970();
-  *(int *)(param_1 + 0x2e8) = *(int *)(param_1 + 0x2e4) + *(int *)(param_1 + 0x2d8);
-  iVar1 = (uint)*(byte *)(param_1 + 0x51) * 0x21;
-  *(int *)(param_1 + 0x2d8) = *(int *)(param_1 + 0x2d8) + iVar1;
-  *(int *)(param_1 + 0x58) = *(int *)(param_1 + 0x58) + iVar1;
-  *(int *)(param_1 + 0x2d8) = *(int *)(param_1 + 0x54) + *(int *)(param_1 + 0x2d8);
-  *(int *)(param_1 + 0x58) = *(int *)(param_1 + 0x58) + *(int *)(param_1 + 0x54);
-  fn_8282E438(param_1);
-  fn_8282DA48(param_1);
-  fn_8282DB10(param_1);
-  if (*(char *)(param_1 + 0x3ef) != '\0') {
-    fn_8282B788(param_1);
-    fn_82832B28(param_1);
-  }
-  fn_8282B1C8(param_1);
-  fn_8282AA10(param_1);
-  if (*(char *)(param_1 + 0x3f0) != '\0') {
-    fn_82833780(param_1);
-  }
-  fn_8282DD60(param_1);
-  return;
+  p->f3e8 = 0;
+  fn_8282D970(p);
+  alloc2(p, &p->f2e8, p->f51 * 0x21, 0); skip2(p, p->f54, 0);
+  fn_8282E438(p);
+  fn_8282DA48(p);
+  fn_8282DB10(p);
+  if (p->f3ef) { fn_8282B788(p); fn_82832B28(p); }
+  fn_8282B1C8(p);
+  fn_8282AA10(p);
+  if (p->f3f0) fn_82833780(p);
+  fn_8282DD60(p);
 }
-

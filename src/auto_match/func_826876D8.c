@@ -1,69 +1,75 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82686608();
-extern int fn_82686758();
-extern unsigned int uStack_34;
-extern unsigned int uStack_3c;
+typedef struct Obj Obj;
+typedef struct Ref Ref;
+typedef struct {
+    void *f0;
+    Ref *(*get_ref)(Ref *out, Obj *o);
+} ObjVtbl;
+struct Obj { ObjVtbl *vt; };
 
+typedef struct RefObj RefObj;
+typedef struct {
+    void *f0;
+    void *f4;
+    void (*release)(RefObj *p, int x);
+} RefVtbl;
+struct RefObj { RefVtbl *vt; };
 
-void fn_826876D8(int param_1,int *param_2)
+struct Ref {
+    RefObj *p;
+    int x;
+};
 
+typedef struct {
+    int state;
+    Obj *obj;
+    int pad[2];
+} Entry;
+
+typedef struct {
+    Entry *entries;
+} Map;
+
+typedef struct {
+    char pad0[0xc];
+    char cs[0x1c];
+    Map map;
+} Mgr;
+
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern int fn_82686758(Map *m, Ref *key);
+extern void fn_82686608(Map *m, Ref *key);
+
+static Entry *find(Map *m, Ref *k)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  int *piStack_40;
-  undefined4 uStack_3c;
-  int *piStack_38;
-  undefined4 uStack_34;
-  
-  RtlEnterCriticalSection(param_1 + 0xc);
-  uVar1 = (**(code **)(*param_2 + 4))(&piStack_40,param_2);
-  piVar4 = (int *)(param_1 + 0x28);
-  iVar2 = fn_82686758(piVar4,uVar1);
-  if (iVar2 < 0) {
-    piVar3 = (int *)0x0;
-  }
-  else {
-    piVar3 = (int *)((iVar2 + 1) * 0x10 + *piVar4);
-  }
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 8))(piStack_40,uStack_3c);
-  }
-  if (((piVar3 != (int *)0x0) && (*piVar3 == 0)) && ((int *)piVar3[1] == param_2)) {
-    uVar1 = (**(code **)(*param_2 + 4))(&piStack_38,param_2);
-    fn_82686608(piVar4,uVar1);
-    if (piStack_38 != (int *)0x0) {
-      (**(code **)(*piStack_38 + 8))(piStack_38,uStack_34);
+    int i = fn_82686758(m, k);
+    if (i >= 0) {
+        return &m->entries[i + 1];
     }
-  }
-  RtlLeaveCriticalSection(param_1 + 0xc);
-  return;
+    return 0;
 }
 
+static void erase(Map *m, Ref *k)
+{
+    fn_82686608(m, k);
+}
+
+void fn_826876D8(Mgr *mgr, Obj *obj)
+{
+    Entry *e;
+    Ref r1;
+    Ref r2;
+
+    RtlEnterCriticalSection(mgr->cs);
+    e = find(&mgr->map, (*obj->vt->get_ref)(&r1, obj));
+    if (r1.p != 0) {
+        (*r1.p->vt->release)(r1.p, r1.x);
+    }
+    if (e != 0 && e->state == 0 && e->obj == obj) {
+        erase(&mgr->map, (*obj->vt->get_ref)(&r2, obj));
+        if (r2.p != 0) {
+            (*r2.p->vt->release)(r2.p, r2.x);
+        }
+    }
+    RtlLeaveCriticalSection(mgr->cs);
+}

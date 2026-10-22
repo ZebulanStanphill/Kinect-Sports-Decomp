@@ -27,12 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_20;
 extern int fn_8240D930();
-extern int fn_825B5568();
+extern unsigned char fn_825B5568();
 extern int fn_8265CA20();
 extern int fn_828B22F0();
 extern int fn_828B2BF8();
 extern int fn_828B3E88();
-extern int fn_828B45A8();
+typedef struct { uint p; } It;
+extern void fn_828B45A8(void *,void *,It,It);
 extern unsigned int lbl_82024E20;
 extern unsigned int lbl_82024E60;
 
@@ -40,9 +41,9 @@ extern unsigned int lbl_82024E60;
 void fn_828B5110(undefined4 *param_1)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   int *piVar1;
-  undefined1 auStack_20 [8];
+  undefined1 auStack_20 [8]; It first,last;
   
   *param_1 = &lbl_82024E60;
   if (*(char *)(param_1 + 0xe) != '\0') {
@@ -51,13 +52,13 @@ void fn_828B5110(undefined4 *param_1)
     if (cVar2 != '\0') {
       fn_828B2BF8();
       piVar1 = (int *)fn_8240D930();
-      (**(code **)(*piVar1 + 0x24))(piVar1,param_1[0x10]);
+      (*(code *)(*piVar1 + 0x24))(piVar1,param_1[0x10]);
     }
     *(undefined1 *)(param_1 + 0xe) = 0;
   }
-  fn_828B45A8(auStack_20,param_1 + 0x15,*(undefined4 *)param_1[0x16]);
+  last.p=param_1[0x16]; first.p=*(uint *)last.p; fn_828B45A8(auStack_20,param_1+0x15,first,last);
   fn_8265CA20(param_1[0x16]);
-  fn_828B45A8(auStack_20,param_1 + 0x11,*(undefined4 *)param_1[0x12]);
+  last.p=param_1[0x12]; first.p=*(uint *)last.p; fn_828B45A8(auStack_20,param_1+0x11,first,last);
   fn_8265CA20(param_1[0x12]);
   *param_1 = &lbl_82024E20;
   fn_828B22F0(param_1 + 8);

@@ -25,42 +25,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_8268F7C0();
-extern int fn_82724448();
-extern int fn_827A2638();
-extern int fn_827A2EC8();
-extern int fn_827A2F40();
-extern int fn_827A52B0();
+extern void fn_8267C498(void *);
+extern int fn_8268F7C0(int);
+extern int fn_82724448(int);
+extern void fn_827A2638(void *, int);
+extern void fn_827A2EC8(void *, char *, int);
+extern void fn_827A2F40(void *, int);
+extern void *fn_827A52B0(int);
+extern char lbl_820E975C[];
 
+typedef struct Obj Obj;
+typedef struct {
+  char pad[0x40];
+  char *(*get)(Obj *);
+} Vtbl;
+struct Obj {
+  Vtbl *vt;
+  char pad4[0x9c];
+  char *a0;      /* 0xa0 */
+  char pada4[0x44];
+  int e8;        /* 0xe8 */
+};
 
-void fn_82725978(int *param_1)
-
+void fn_82725978(Obj *p)
 {
-  int iVar3;
-  longlong lVar1;
-  undefined8 uVar2;
-  int iVar4;
-  
-  if (*(int *)(param_1[0x28] + 0x114) != 0) {
-    iVar3 = fn_827A52B0();
-    if (iVar3 != 0) {
-      *(int *)(iVar3 + 4) = *(int *)(iVar3 + 4) + 1;
+  int *r;
+  int k;
+  char *q;
+
+  if (*(int *)(p->a0 + 0x114) != 0) {
+    r = fn_827A52B0(*(int *)(p->a0 + 0x114));
+    if (r != 0) {
+      r[1]++;
     }
-    if ((param_1[0x3a] != 0) && (lVar1 = fn_82724448(), lVar1 != 0)) {
-      fn_827A2638(iVar3);
+    if (p->e8 != 0 && (k = fn_82724448(p->e8)) != 0) {
+      fn_827A2638(r, k);
     }
-    fn_827A2EC8(iVar3,0xffffffff820e975c,0xffffffffffffffff);
-    uVar2 = fn_8268F7C0(*(undefined4 *)(param_1[0x28] + 0x114));
-    fn_827A2F40(iVar3,uVar2);
-    iVar4 = (**(code **)(*param_1 + 0x40))(param_1);
-    if (iVar4 != 0) {
-      *(uint *)(iVar4 + 0xb00) = *(uint *)(iVar4 + 0xb00) | 0x400;
+    fn_827A2EC8(r, lbl_820E975C, -1);
+    fn_827A2F40(r, fn_8268F7C0(*(int *)(p->a0 + 0x114)));
+    q = p->vt->get(p);
+    if (q != 0) {
+      *(unsigned int *)(q + 0xb00) |= 0x400;
     }
-    if (iVar3 != 0) {
-      fn_8267C498(iVar3);
+    if (r != 0) {
+      fn_8267C498(r);
     }
   }
-  return;
 }
-

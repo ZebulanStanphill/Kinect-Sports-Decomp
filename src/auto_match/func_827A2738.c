@@ -1,48 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
 typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82725DF0();
+extern int *fn_82725DF0(int a, int b, int c, int d);
 
+typedef struct {
+    ushort pad : 9;
+    ushort b6 : 1;
+    ushort pad2 : 4;
+    ushort b1 : 1;
+    ushort b0 : 1;
+} Flags;
 
-undefined8 fn_827A2738(int param_1)
+typedef struct {
+    char pad[0x10];
+    int x10;
+    char pad2[0x68 - 0x14];
+    Flags f;
+} Obj;
 
+int fn_827A2738(Obj *p, int a, int b)
 {
-  ushort uVar1;
-  int *piVar2;
-  
-  if (*(int *)(param_1 + 0x10) != 0) {
-    piVar2 = (int *)fn_82725DF0();
-    if ((piVar2 != (int *)0x0) && (*piVar2 == 3)) {
-      uVar1 = *(ushort *)(param_1 + 0x68);
-      if (((uVar1 >> 1 & 1) != 0) && ((uVar1 >> 6 & 1) != 0)) {
-        *(ushort *)(param_1 + 0x68) = uVar1 & 0xffbf;
-      }
+    int *r;
+    if (p->x10 != 0) {
+        r = fn_82725DF0(p->x10, a, b, 1);
+        if (r != 0 && *r == 3) {
+            if ((unsigned char)p->f.b1 && (unsigned char)p->f.b6) {
+                p->f.b6 = 0;
+            }
+        }
     }
-  }
-  return 1;
+    return 1;
 }
-

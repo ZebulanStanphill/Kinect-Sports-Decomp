@@ -1,62 +1,75 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82250768();
-extern int fn_82250848();
+extern void fn_822315A0(void *);
+typedef struct Node { struct Node *left, *parent, *right; } Node;
+typedef struct Tree { int alloc; Node *head; int size; } Tree;
+extern void fn_82250768(Tree *t, Node *n);
+extern void fn_82250848(Tree *t, Node *n);
 
+typedef struct SP { void *ptr; void *rep; } SP;
 
-void fn_8251A030(int *param_1)
+typedef struct Obj Obj;
+typedef struct Vt { void *f0; void *f1; void (*f2)(Obj *); } Vt;
+struct Obj {
+  Vt *vt;
+  int unk4;
+  unsigned char flag;
+  int unkc;
+  int unk10;
+  Tree a;
+  int unk20;
+  Tree b;
+  int unk30;
+  int unk34;
+  int unk38;
+  int unk3c;
+  int unk40;
+  SP sp;
+};
 
+static void sp_swap(SP *a, SP *b)
 {
-  int iVar1;
-  
-  (**(code **)(*param_1 + 8))();
-  *(undefined1 *)(param_1 + 2) = 1;
-  param_1[4] = 0;
-  fn_82250768(param_1 + 5,*(undefined4 *)(param_1[6] + 4));
-  *(int *)(param_1[6] + 4) = param_1[6];
-  *(int *)param_1[6] = param_1[6];
-  *(int *)(param_1[6] + 8) = param_1[6];
-  param_1[7] = 0;
-  fn_82250848(param_1 + 9,*(undefined4 *)(param_1[10] + 4));
-  *(int *)(param_1[10] + 4) = param_1[10];
-  *(int *)param_1[10] = param_1[10];
-  *(int *)(param_1[10] + 8) = param_1[10];
-  param_1[0xb] = 0;
-  param_1[0xd] = 0x32;
-  param_1[0xe] = 0;
-  param_1[0xf] = 8;
-  iVar1 = param_1[0x12];
-  param_1[0x12] = 0;
-  param_1[0x11] = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  return;
+  void *t;
+  t = a->rep; a->rep = b->rep; b->rep = t;
+  t = a->ptr; a->ptr = b->ptr; b->ptr = t;
 }
 
+static void sp_reset(SP *s)
+{
+  SP tmp;
+  tmp.ptr = 0;
+  tmp.rep = 0;
+  sp_swap(s, &tmp);
+  if (tmp.rep != 0) {
+    fn_822315A0(tmp.rep);
+  }
+}
+
+static void clear_a(Tree *t)
+{
+  fn_82250768(t, t->head->parent);
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+}
+
+static void clear_b(Tree *t)
+{
+  fn_82250848(t, t->head->parent);
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+}
+
+void fn_8251A030(Obj *p)
+{
+  p->vt->f2(p);
+  p->flag = 1;
+  p->unk10 = 0;
+  clear_a(&p->a);
+  clear_b(&p->b);
+  p->unk34 = 0x32;
+  p->unk38 = 0;
+  p->unk3c = 8;
+  sp_reset(&p->sp);
+}

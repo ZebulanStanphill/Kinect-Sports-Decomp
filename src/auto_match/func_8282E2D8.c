@@ -1,78 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82518FF0();
-extern int fn_828223C8();
-extern int memcpy();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
+typedef struct LNode { struct LNode *next; struct LNode *prev; int pad8; void *src; unsigned int size; int pad14; int off; } LNode;
+typedef struct { int pad; LNode *head; } List;
+typedef struct { char pad[0x14]; unsigned char key; char pad2[0xb]; int base; } A;
+typedef struct { char pad[0x24]; int base; unsigned char key; char pad2[0x13]; List *list; } B;
+typedef struct { char pad[0x2f4]; char la[8]; char lb[8]; } Self;
+extern void fn_828223C8(void *node, void *out);
+extern void fn_82518FF0(LNode **it);
+extern void *memcpy(void *d, const void *s, unsigned int n);
 
-
-void fn_8282E2D8(int param_1)
-
+void fn_8282E2D8(Self *self)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  uint *puVar4;
-  int *piVar5;
-  int iStack_40;
-  int iStack_3c;
-  int aiStack_38;
-  
-  fn_828223C8(param_1 + 0x2f4,&iStack_3c);
-  if (iStack_3c != 0) {
-    iVar3 = param_1 + 0x2fc;
-    iVar2 = iStack_3c;
-    do {
-      while (fn_828223C8(iVar3,&iStack_40), iStack_40 != 0) {
-        iVar3 = iStack_40;
-        if (*(char *)(iStack_40 + 0x28) == *(char *)(iVar2 + 0x14)) {
-          piVar5 = (int *)(iStack_40 + 0x3c);
-          piVar1 = *(int **)(*(int *)(iStack_40 + 0x3c) + 4);
-          aiStack_38 = *piVar1;
-          if ((int *)aiStack_38 != piVar1) {
-            puVar4 = (uint *)(iStack_40 + 0x24);
-            do {
-              memcpy((ulonglong)*(uint *)(aiStack_38 + 0x18) +
-                           (ulonglong)*(uint *)(iVar2 + 0x20) + (ulonglong)*puVar4,
-                           *(undefined4 *)(aiStack_38 + 0xc),
-                           *(undefined4 *)(aiStack_38 + 0x10));
-              fn_82518FF0(&aiStack_38);
-              iVar3 = iStack_40;
-            } while (aiStack_38 != *(int *)(*piVar5 + 4));
-          }
+    A *an;
+    A *a;
+    B *b;
+    LNode *it;
+    LNode *head;
+    List **pl;
+    int *pbase;
+    for (fn_828223C8(self->la, &an); an != 0; fn_828223C8(an, &an)) { a = an;
+        fn_828223C8(self->lb, &b);
+        while (b != 0) {
+            if (b->key == a->key) {
+                pl = &b->list;
+                head = (*pl)->head;
+                it = head->next;
+                if (it != head) {
+                    pbase = &b->base;
+                    do {
+                        memcpy((char *)(it->off + a->base + *pbase), it->src, it->size);
+                        fn_82518FF0(&it);
+                    } while (it != (*pl)->head);
+                }
+            }
+            fn_828223C8(b, &b);
         }
-      }
-      fn_828223C8(iStack_3c,&iStack_3c);
-      iVar3 = param_1 + 0x2fc;
-      iVar2 = iStack_3c;
-    } while (iStack_3c != 0);
-  }
-  return;
+    }
 }
-

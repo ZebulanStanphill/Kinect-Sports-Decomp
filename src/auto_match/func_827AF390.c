@@ -1,51 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827AF130();
+extern void fn_827AF130(void *p);
 
+typedef struct {
+    int last;
+    int end;
+} Pair;
 
-undefined4 *
-fn_827AF390(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+typedef struct {
+    int first;
+    Pair r;
+    unsigned char flag;
+} Sub;
 
+typedef struct {
+    int i0;
+    int p0;
+    unsigned int i1;
+    int p1;
+    int x10;
+    int x14;
+    Sub v;
+} T;
+
+typedef struct {
+    int a;
+    int b;
+    int c;
+    T t;
+} S;
+
+static void Pair_init(Pair *r)
 {
-  *param_1 = param_2;
-  param_1[1] = param_3;
-  param_1[2] = param_4;
-  param_1[4] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[3] = 0xffffffff;
-  param_1[5] = 0xffffffff;
-  param_1[0xb] = 0;
-  param_1[10] = 0;
-  param_1[9] = 0;
-  *(undefined1 *)(param_1 + 0xc) = 0;
-  fn_827AF130();
-  return param_1;
+    r->end = 0;
+    r->last = 0;
 }
 
+static void Sub_init(Sub *s)
+{
+    Pair_init(&s->r);
+    s->first = 0;
+    s->flag = 0;
+}
+
+static void T_init(T *t)
+{
+    t->i0 = -1;
+    t->p0 = 0;
+    t->i1 = 0xffffffff;
+    t->p1 = 0;
+    t->x10 = 0;
+    t->x14 = 0;
+    Sub_init(&t->v);
+}
+
+S *fn_827AF390(S *p, int a, int b, int c)
+{
+    p->a = a;
+    p->b = b;
+    p->c = c;
+    T_init(&p->t);
+    fn_827AF130(p);
+    return p;
+}

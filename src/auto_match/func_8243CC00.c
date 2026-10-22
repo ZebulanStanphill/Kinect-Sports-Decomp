@@ -1,59 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B1F78();
-extern int fn_8236DB30();
-extern int fn_82897600();
-extern int fn_82897B18();
-extern int fn_82898220();
+typedef struct Obj Obj;
 
+typedef struct {
+    char pad0[0x28];
+    int x28;
+    char pad2c[0x28];
+} Sub;
 
-void fn_8243CC00(int param_1)
+struct Obj {
+    int pad0;
+    int x4;
+    int pad8;
+    int xc;
+    char *data;
+    char pad14[0xdc];
+    char a[6][0x148];
+    Sub s1;
+    Sub s2;
+};
 
+extern void fn_8236DB30(Obj *p);
+extern void fn_822B1F78(void *a, Obj *p, void *d);
+extern int fn_82897B18(void *d);
+extern void fn_82897600(Obj *p, Sub *s, int v);
+extern void fn_82898220(Sub *s, Obj *p, void *d, int x);
+
+static void setup(Obj *p, Sub *s, void *d)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  
-  fn_8236DB30();
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x10);
-  fn_822B1F78(param_1 + 0xf0,param_1,uVar2 + 0xe4);
-  fn_822B1F78(param_1 + 0x238,param_1,uVar2 + 0x20c);
-  fn_822B1F78(param_1 + 0x380,param_1,uVar2 + 0x334);
-  fn_822B1F78(param_1 + 0x4c8,param_1,uVar2 + 0x45c);
-  fn_822B1F78(param_1 + 0x610,param_1,uVar2 + 0x584);
-  fn_822B1F78(param_1 + 0x758,param_1,uVar2 + 0x6ac);
-  uVar1 = fn_82897B18(uVar2 + 0x7d4);
-  fn_82897600(param_1,param_1 + 0x8a0,uVar1);
-  *(undefined4 *)(param_1 + 0x8c8) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x8a0,param_1,uVar2 + 0x7d4,*(undefined4 *)(param_1 + 4));
-  uVar1 = fn_82897B18(uVar2 + 0x82c);
-  fn_82897600(param_1,param_1 + 0x8f4,uVar1);
-  *(undefined4 *)(param_1 + 0x91c) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x8f4,param_1,uVar2 + 0x82c,*(undefined4 *)(param_1 + 4));
-  return;
+    fn_82897600(p, s, fn_82897B18(d));
+    s->x28 = p->xc;
+    fn_82898220(s, p, d, p->x4);
 }
 
+void fn_8243CC00(Obj *p)
+{
+    char *d;
+
+    fn_8236DB30(p);
+    d = p->data;
+    fn_822B1F78(p->a[0], p, d + 0xe4);
+    fn_822B1F78(p->a[1], p, d + 0x20c);
+    fn_822B1F78(p->a[2], p, d + 0x334);
+    fn_822B1F78(p->a[3], p, d + 0x45c);
+    fn_822B1F78(p->a[4], p, d + 0x584);
+    fn_822B1F78(p->a[5], p, d + 0x6ac);
+    setup(p, &p->s1, d + 0x7d4);
+    setup(p, &p->s2, d + 0x82c);
+}

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_82232540();
-extern int fn_8223AAC0();
+extern unsigned char fn_8223AAC0();
 extern int fn_8223B930();
 extern int fn_82240688();
 extern int fn_8265C9E0();
@@ -35,46 +35,46 @@ extern unsigned int lbl_82196BD0;
 extern unsigned int lbl_821980A4;
 extern unsigned int lbl_821AD588;
 
+typedef struct Ptr { void *ptr; int *rep; } Ptr;
 
-undefined4 * fn_82256288(undefined4 *param_1)
-
+Ptr *fn_82256288(Ptr *param_1)
 {
-  undefined4 *puVar1;
-  char cVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0xb28);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  int *rep;
+  int *obj;
+  int *mem;
+
+  mem = (int *)fn_8265C9E0(0xb28);
+  if (mem != 0) {
+    mem[1] = 1;
+    mem[0] = (int)&lbl_821AD588;
+    mem[2] = 1;
+    obj = mem + 3;
+    if (obj != 0) {
+      fn_82232540(obj);
+      *obj = (int)&lbl_82196BD0;
+      fn_8223B930(obj + 0x267);
+      fn_8223B930(obj + 0x281);
+      *obj = (int)&lbl_821980A4;
+      fn_82240688(obj + 0x29b);
+      fn_82240688(obj + 0x2b1);
+    }
+    rep = mem;
   }
   else {
-    puVar3 = puVar1 + 3;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar3 != (undefined4 *)0x0) {
-      fn_82232540(puVar3);
-      *puVar3 = &lbl_82196BD0;
-      fn_8223B930(puVar1 + 0x26a);
-      fn_8223B930(puVar1 + 0x284);
-      *puVar3 = &lbl_821980A4;
-      fn_82240688(puVar1 + 0x29e);
-      fn_82240688(puVar1 + 0x2b4);
-    }
+    rep = 0;
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    cVar2 = fn_8223AAC0(puVar1);
-    if (cVar2 != '\0') {
-      if (param_1[1] != 0) {
-        fn_822315A0();
+  obj = rep + 3;
+  param_1->ptr = 0;
+  param_1->rep = 0;
+  if (rep != 0) {
+    if (fn_8223AAC0(rep) != 0) {
+      if (param_1->rep != 0) {
+        fn_822315A0(param_1->rep);
       }
-      param_1[1] = puVar1;
-      *param_1 = puVar1 + 3;
+      param_1->rep = rep;
+      param_1->ptr = obj;
     }
-    fn_822315A0(puVar1);
+    fn_822315A0(rep);
   }
   return param_1;
 }
-

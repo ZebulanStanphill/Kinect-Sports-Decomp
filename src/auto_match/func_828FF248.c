@@ -1,49 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_828FCF88();
+extern void fn_8265C990(void *p, unsigned int flags);
+extern void fn_828FCF88(void *p);
 
+typedef struct IObj IObj;
+typedef struct {
+  void (*f0)(IObj *);
+  void (*release)(IObj *);
+} IObjVtbl;
+struct IObj {
+  IObjVtbl *vtbl;
+};
 
-void fn_828FF248(int param_1)
+typedef struct {
+  int a;
+  int b;
+  IObj *obj;
+  char pad[0x50];
+  void *buf;
+  char pad2[0x1c];
+  void *child;
+} Obj;
 
+void fn_828FF248(Obj *o)
 {
-  int iVar1;
-  
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 8) + 4))();
-    *(undefined4 *)(param_1 + 8) = 0;
+  void *c;
+  if (o->obj != 0) {
+    o->obj->vtbl->release(o->obj);
+    o->obj = 0;
   }
-  fn_8265C990(*(undefined4 *)(param_1 + 0x5c),0x24810000);
-  iVar1 = *(int *)(param_1 + 0x7c);
-  if (iVar1 != 0) {
-    fn_828FCF88(iVar1);
-    fn_8265C990(iVar1,0x24810000);
+  fn_8265C990(o->buf, 0x24810000);
+  c = o->child;
+  if (c != 0) {
+    fn_828FCF88(c);
+    fn_8265C990(c, 0x24810000);
   }
-  return;
 }
-

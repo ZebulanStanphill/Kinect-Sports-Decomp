@@ -1,67 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828D4E10();
+typedef struct Elem {
+  int pad0[2];
+  int a;
+  int pad1;
+  __int64 b;
+  char name[42];
+} Elem;
 
+typedef struct Proxy Proxy;
+typedef struct Cont {
+  Proxy *proxy;
+} Cont;
+struct Proxy {
+  Cont *cont;
+};
 
-undefined4 * fn_828B3AB8(undefined4 *param_1,int param_2,int param_3,int *param_4)
+typedef struct Iter {
+  Proxy *proxy;
+  void *next;
+  unsigned int idx;
+} Iter;
 
+extern Elem *fn_828D4E10(Iter *it);
+
+Iter *fn_828B3AB8(Iter *ret, Iter *first, Iter *last, Iter *dest)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  longlong lVar6;
-  
-  if (*(int *)(param_2 + 8) != *(int *)(param_3 + 8)) {
-    do {
-      *(int *)(param_3 + 8) = *(int *)(param_3 + 8) + -1;
-      iVar3 = fn_828D4E10(param_3);
-      param_4[2] = param_4[2] + -1;
-      iVar4 = fn_828D4E10(param_4);
-      iVar5 = 0;
-      *(undefined4 *)(iVar4 + 8) = *(undefined4 *)(iVar3 + 8);
-      lVar6 = 0x2a;
-      *(undefined8 *)(iVar4 + 0x10) = *(undefined8 *)(iVar3 + 0x10);
-      do {
-        *(undefined1 *)(iVar4 + 0x18 + iVar5) = *(undefined1 *)(iVar3 + 0x18 + iVar5);
-        iVar5 = iVar5 + 1;
-        lVar6 = lVar6 + -1;
-      } while (lVar6 != 0);
-    } while (*(int *)(param_2 + 8) != *(int *)(param_3 + 8));
-  }
-  piVar1 = (int *)*param_4;
-  *param_1 = 0;
-  param_1[1] = 0;
-  if ((piVar1 != (int *)0x0) && (puVar2 = (undefined4 *)*piVar1, puVar2 != (undefined4 *)0x0)) {
-    *param_1 = *puVar2;
-  }
-  param_1[2] = param_4[2];
-  return param_1;
-}
+  Elem *s;
+  Elem *d;
+  Proxy *px;
+  int i;
 
+  while (first->idx != last->idx) {
+    last->idx--;
+    s = fn_828D4E10(last);
+    dest->idx--;
+    d = fn_828D4E10(dest);
+    d->a = s->a;
+    d->b = s->b;
+    for (i = 0; i < 42; i++) {
+      d->name[i] = s->name[i];
+    }
+  }
+  px = dest->proxy;
+  ret->proxy = 0;
+  ret->next = 0;
+  if (px != 0 && px->cont != 0) {
+    ret->proxy = px->cont->proxy;
+  }
+  ret->idx = dest->idx;
+  return ret;
+}

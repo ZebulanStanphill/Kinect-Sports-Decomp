@@ -1,70 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82560690();
-extern int fn_82576C08();
-extern int fn_82590188();
-extern int fn_825904E0();
-extern int fn_825F5DF8();
-extern int fn_8264C398();
-extern unsigned int lbl_831C02C4;
-extern unsigned int lbl_8320A898;
+extern void fn_82576C08(void *a, float f, int b);
+extern void fn_82590188(void);
+extern void fn_825904E0(void *p, int a);
+extern void fn_825F5DF8(void *p, int a);
+extern void fn_8264C398(void *a, void *b);
+extern int fn_82560690(int a);
+extern int lbl_831C02C4;
+extern void *lbl_8320A898;
 
+typedef struct {
+  char pad0[0xcc];
+  void *ptrs[3];
+  char pad1[0x110 - 0xd8];
+  unsigned int ids[3];
+  unsigned char b11c;
+  unsigned char flag;
+  char pad2[2];
+  unsigned int cur;
+} Sub;
 
-void fn_82590090(int param_1,undefined8 param_2)
+typedef struct {
+  char pad0[0xb8];
+  int *b8;
+  char pad1[0x828 - 0xbc];
+  float f828;
+  char pad2[0x93c - 0x82c];
+  void *p93c;
+  char pad3[0xa10 - 0x940];
+  Sub sub;
+} Obj;
 
+static void helper(Sub *s)
 {
-  int iVar1;
-  int *piVar2;
-  uint uVar3;
-  
-  fn_82590188();
-  if (*(int *)(param_1 + 0x93c) != 0) {
-    fn_82576C08((double)*(float *)(param_1 + 0x828));
-  }
-  fn_825F5DF8(param_1,param_2);
-  fn_825904E0(param_1,param_2);
-  iVar1 = fn_82560690(0);
-  if ((((iVar1 == 1) && (lbl_831C02C4 != 0)) && (*(int *)(*(int *)(param_1 + 0xb8) + 0x28) == 0)) &&
-     (*(char *)(param_1 + 0xb2d) != '\0')) {
-    uVar3 = 0;
-    piVar2 = (int *)(param_1 + 0xb20);
-    do {
-      if (*piVar2 == *(int *)(param_1 + 0xb30)) {
-        if (*(int *)((uVar3 + 0x33) * 4 + param_1 + 0xa10) == 0) {
-          return;
-        }
-        fn_8264C398(lbl_8320A898);
-        return;
+  unsigned int i;
+  if (s->flag == 0) return;
+  for (i = 0; i < 3; i++) {
+    if (s->ids[i] == s->cur) {
+      if (s->ptrs[i] != 0) {
+        fn_8264C398(lbl_8320A898, s->ptrs[i]);
       }
-      uVar3 = uVar3 + 1;
-      piVar2 = piVar2 + 1;
-    } while (uVar3 < 3);
+      return;
+    }
   }
-  return;
 }
 
+void fn_82590090(Obj *p, int a)
+{
+  fn_82590188();
+  if (p->p93c != 0) {
+    fn_82576C08(p->p93c, p->f828, a);
+  }
+  fn_825F5DF8(p, a);
+  fn_825904E0(p, a);
+  if (fn_82560690(0) == 1 && lbl_831C02C4 != 0 && p->b8[10] == 0) {
+    helper(&p->sub);
+  }
+}

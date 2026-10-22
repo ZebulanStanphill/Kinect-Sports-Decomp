@@ -1,64 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_1c;
+typedef struct Target Target;
+typedef struct TargetVtbl {
+    void *f0;
+    void *f4;
+    void (*Release)(Target *self, int x);
+    void *fc;
+    void *f10;
+    int (*Handle)(Target *self, int x, void **arg);
+} TargetVtbl;
+struct Target {
+    TargetVtbl *vt;
+};
 
+typedef struct Ref {
+    Target *ptr;
+    int x;
+} Ref;
 
-undefined8 fn_826860D8(int *param_1,int *param_2)
+typedef struct Source Source;
+typedef struct SourceVtbl {
+    void *f0;
+    Ref *(*Get)(Ref *out, Source *self);
+} SourceVtbl;
+struct Source {
+    SourceVtbl *vt;
+    char pad[0x10];
+    Ref ref;
+};
 
+typedef struct Holder {
+    int direct;
+    Source *src;
+} Holder;
+
+int fn_826860D8(Holder *h, void **arg)
 {
-  int *piVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  int *piStack_20;
-  undefined4 uStack_1c;
-  
-  if (*param_1 == 0) {
-    piVar3 = (int *)(**(code **)(*(int *)param_1[1] + 4))(&piStack_20);
-    piVar1 = (int *)*piVar3;
-    if ((piVar1 == (int *)0x0) || (*param_2 == 0)) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = (**(code **)(*piVar1 + 0x14))(piVar1,piVar3[1],param_2);
-    }
-    if (piStack_20 != (int *)0x0) {
-      (**(code **)(*piStack_20 + 8))(piStack_20,uStack_1c);
-    }
-  }
-  else {
-    piVar1 = *(int **)(param_1[1] + 0x14);
-    if ((piVar1 == (int *)0x0) || (*param_2 == 0)) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = (**(code **)(*piVar1 + 0x14))(piVar1,*(undefined4 *)(param_1[1] + 0x18),param_2);
-    }
-  }
-  return uVar2;
-}
+    int hr;
 
+    if (h->direct == 0) {
+        Ref tmp;
+        Ref *r = h->src->vt->Get(&tmp, h->src);
+        if (r->ptr != 0 && *arg != 0)
+            hr = r->ptr->vt->Handle(r->ptr, r->x, arg);
+        else
+            hr = 0;
+        if (tmp.ptr != 0)
+            tmp.ptr->vt->Release(tmp.ptr, tmp.x);
+        return hr;
+    } else {
+        Target *t = h->src->ref.ptr;
+        if (t != 0 && *arg != 0)
+            return t->vt->Handle(t, h->src->ref.x, arg);
+        return 0;
+    }
+}

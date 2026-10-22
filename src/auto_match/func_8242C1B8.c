@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 extern int fn_8242C410();
-extern int fn_8288B760();
+extern unsigned char fn_8288B760(void *);
 
 
 int fn_8242C1B8(int param_1)
@@ -36,44 +36,31 @@ int fn_8242C1B8(int param_1)
   int *piVar1;
   bool bVar2;
   int iVar3;
-  int iVar4;
-  uint uVar5;
-  int iVar6;
+  unsigned char *iVar4;
+  int uVar5;
+  uint iVar6;
   int iVar7;
   
   iVar6 = 0;
   iVar7 = 0;
-  iVar3 = fn_8242C410();
+  iVar3 = fn_8242C410(param_1);
   if (0 < iVar3) {
     iVar3 = 0;
     do {
       piVar1 = *(int **)(**(int **)(param_1 + 8) + iVar3);
-      iVar4 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),0);
-      if (*(char *)(*(int *)(param_1 + 0x174) + 200) == '\0') {
-LAB_8242c240:
-        bVar2 = true;
-      }
-      else {
-        if (*(int *)(iVar4 + 0x168) == 0) {
-          uVar5 = *(uint *)(iVar4 + 0x16c);
-        }
-        else {
-          uVar5 = fn_8288B760();
-          uVar5 = uVar5 & 0xff;
-        }
-        bVar2 = false;
-        if (uVar5 != 0) goto LAB_8242c240;
-      }
+      iVar4 = (unsigned char *)fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),0);
+      bVar2 = *(unsigned char *)(*(int *)(param_1+0x174)+200) == 0 ||
+        (*(void **)(iVar4+0x168) ? (int)fn_8288B760(*(void **)(iVar4+0x168)) : *(int *)(iVar4+0x16c));
       if ((*(int *)(iVar4 + 0x24) != 0) && (bVar2)) {
         if (iVar6 == *(int *)(*(int *)(param_1 + 0x174) + 0xc0)) {
-          return iVar4;
+          return (int)iVar4;
         }
         iVar6 = iVar6 + 1;
       }
       iVar7 = iVar7 + 1;
       iVar3 = iVar3 + 4;
-      iVar4 = fn_8242C410(param_1);
-    } while (iVar7 < iVar4);
+      iVar4 = (unsigned char *)fn_8242C410(param_1);
+    } while (iVar7 < (int)iVar4);
   }
   return 0;
 }
