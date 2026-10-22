@@ -34,10 +34,10 @@ extern int fn_822402F8();
 undefined8 fn_82533868(undefined8 param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_30 [32];
   
-  uVar1 = fn_82230110(auStack_30,0xffffffff821c3a80);
+  uVar1 = fn_82230110(auStack_30,"Avatar Emitter Callback");
   fn_822402F8(param_2,uVar1);
   fn_82230300(auStack_30,1,0);
   return 0;

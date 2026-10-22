@@ -35,10 +35,10 @@ fn_82295990(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 
              undefined8 param_5,undefined8 param_6)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_70 [64];
   
-  uVar1 = fn_82F64020(auStack_70,0x40,0xffffffff82196ff8,param_6);
+  uVar1 = fn_82F64020(auStack_70,0x40,"%p",param_6);
   fn_822960B0(param_1,param_2,param_3,param_4,param_5,auStack_70,uVar1);
   return param_1;
 }

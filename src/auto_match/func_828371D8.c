@@ -31,7 +31,8 @@ extern int fn_82836D68();
 extern unsigned int lbl_8320A898;
 
 
-void fn_828371D8(ulonglong param_1)
+extern char lbl_8320A800[];
+void fn_828371D8(unsigned int param_1)
 
 {
   undefined1 auStack_10 [1];
@@ -39,7 +40,7 @@ void fn_828371D8(ulonglong param_1)
   if ((param_1 & 0xffffffff) != 0) {
     fn_82836D68(param_1,auStack_10);
   }
-  fn_826474B8(lbl_8320A898,0xffffffff8320a800);
+  fn_826474B8(lbl_8320A898,lbl_8320A800);
   return;
 }
 

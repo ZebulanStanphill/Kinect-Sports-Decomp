@@ -33,13 +33,13 @@ extern int fn_82F6CE40();
 void fn_828318B0(int param_1,int param_2)
 
 {
-  int iVar2;
-  longlong lVar1;
+  unsigned int iVar2;
+  int lVar1;
   
-  if ((*(int *)(param_2 + 0x14) != 0) &&
+  if ((*(unsigned int *)(param_2 + 0x14) != 0) &&
      (iVar2 = fn_82F67CF8(param_2 + 0x18,4,1,*(undefined4 *)(param_1 + 0x3c0)), iVar2 != 1)) {
     lVar1 = fn_82F6AB08();
-    fn_82F6CE40(lVar1 + 0x40,0xffffffff8201f0e0);
+    fn_82F6CE40(lVar1 + 0x40,"sectionDb error while writing non-relocation entry\n");
   }
   return;
 }

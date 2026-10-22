@@ -36,12 +36,12 @@ extern int fn_82864988();
 void fn_822930F8(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 auStack_50 [4];
   undefined1 auStack_40 [48];
   
   if (*(int *)(param_1 + 0x18) != 0) {
-    fn_82864988(auStack_40,0xffffffff821aa4b0);
+    fn_82864988(auStack_40,"Stop_music_credits");
     auStack_50[0] = fn_828647D8();
     fn_82864898(auStack_40);
     uVar1 = fn_828647D8(param_1 + 0x28);

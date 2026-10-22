@@ -29,6 +29,7 @@ extern int fn_8243CD40();
 extern int fn_82594EC8();
 
 
+extern char lbl_83296FF4[];
 void fn_8251E6F0(int param_1)
 
 {
@@ -38,10 +39,10 @@ void fn_8251E6F0(int param_1)
   
   if (*(int *)(param_1 + 0x28) != 0) {
     puVar3 = (undefined4 *)(param_1 + 0x2c);
-    puVar2 = (uint *)fn_8243CD40(0xffffffff83296ff4,puVar3);
+    puVar2 = (uint *)fn_8243CD40(lbl_83296FF4,puVar3);
     uVar1 = *puVar2;
     *puVar2 = (uint)((ulonglong)uVar1 - 1);
-    if ((ulonglong)uVar1 - 1 == 0) {
+    if ((unsigned int)uVar1 - 1 == 0) {
       fn_82594EC8(puVar3);
     }
     *(undefined4 *)(param_1 + 0x28) = 0;

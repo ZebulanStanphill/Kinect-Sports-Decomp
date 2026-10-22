@@ -32,9 +32,9 @@ void fn_82455158(uint *param_1)
 
 {
   int *piVar1;
-  char cVar2;
+  unsigned char cVar2;
   
-  cVar2 = fn_822BD338((ulonglong)*param_1 + 0x38,0xffffffff821ba488);
+  cVar2 = fn_822BD338((ulonglong)*param_1 + 0x38,"coach");
   if (cVar2 != '\0') {
     piVar1 = (int *)*param_1;
     *(undefined4 *)(*piVar1 + 0x1d0) = 0;

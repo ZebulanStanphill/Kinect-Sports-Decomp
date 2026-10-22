@@ -32,9 +32,9 @@ void fn_8235A6A0(uint *param_1)
 
 {
   int *piVar1;
-  char cVar2;
+  unsigned char cVar2;
   
-  cVar2 = fn_822BD338((ulonglong)*param_1 + 0x38,0xffffffff821b2628);
+  cVar2 = fn_822BD338((ulonglong)*param_1 + 0x38,"manager");
   if (cVar2 != '\0') {
     piVar1 = (int *)*param_1;
     *(undefined4 *)(*piVar1 + 0x1d0) = 0;

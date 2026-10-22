@@ -31,11 +31,12 @@ extern int fn_82811238();
 extern int fn_82811438();
 
 
+extern char lbl_8320A3E0[];
 void fn_827EF8F8(int param_1)
 
 {
-  int iVar1;
-  undefined8 uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   undefined4 auStack_40 [4];
   undefined1 auStack_30 [32];
   
@@ -47,7 +48,7 @@ void fn_827EF8F8(int param_1)
   if (iVar1 != 0) {
     auStack_40[0] = 3;
     uVar2 = fn_82811438(auStack_30,auStack_40,0x10);
-    fn_82811238(0xffffffff8320a3e0,iVar1,uVar2);
+    fn_82811238(lbl_8320A3E0,iVar1,uVar2);
   }
   return;
 }
