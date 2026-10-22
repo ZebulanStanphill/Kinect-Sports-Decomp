@@ -26,17 +26,17 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CA20();
-extern int fn_82E1FB68();
+extern __int64 fn_82E1FB68();
 extern int fn_82E20100();
 
 
 undefined8 fn_82E1FCA8(undefined8 param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined8 uVar2;
   
-  uVar1 = fn_82E20100(0xffffffff8214bb14,1);
+  uVar1 = fn_82E20100("VinceGameTimer.dat",1);
   uVar2 = fn_82E1FB68(param_1,uVar1);
   if ((uVar1 & 0xffffffff) != 0) {
     fn_8265CA20(uVar1);

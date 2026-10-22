@@ -31,16 +31,17 @@ extern int fn_82CFBBF0();
 extern unsigned int lbl_8323AEC8;
 
 
+extern char lbl_8204EF40[];
 void fn_82E09EC0(undefined8 param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   uVar1 = fn_82CEAC20();
-  iVar2 = fn_82CFBBF0(uVar1,0xffffffff8214a6d8);
+  iVar2 = fn_82CFBBF0(uVar1,"hctAttributeDescription");
   if ((iVar2 == 0) &&
-     (iVar2 = fn_82CEAFA8(param_1,0xffffffff8204ef40), *(int *)(iVar2 + 4) == 0)) {
+     (iVar2 = fn_82CEAFA8(param_1,lbl_8204EF40), *(unsigned int *)(iVar2 + 4) == 0)) {
     *(undefined **)(iVar2 + 4) = &lbl_8323AEC8;
   }
   return;

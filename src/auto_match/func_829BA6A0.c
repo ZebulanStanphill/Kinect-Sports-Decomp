@@ -30,12 +30,12 @@ extern int fn_829B9080();
 extern int fn_829B9B60();
 
 
-void fn_829BA6A0(int param_1,int param_2,undefined8 param_3)
+void fn_829BA6A0(int param_1,unsigned int param_2,undefined8 param_3)
 
 {
   fn_829B9080(param_1,param_1 + 0x60c);
   if (((*(byte *)(param_1 + 0x60c) & 0x20) != 0) ||
-     (fn_829AB140(param_1,0xffffffff82055000), param_2 != 0)) {
+     (fn_829AB140(param_1,"unknown critical chunk"), param_2 != 0)) {
     if ((*(uint *)(param_1 + 0x558) & 4) != 0) {
       *(uint *)(param_1 + 0x558) = *(uint *)(param_1 + 0x558) | 8;
     }

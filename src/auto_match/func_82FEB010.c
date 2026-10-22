@@ -25,17 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8301EEA8();
+extern __int64 fn_8301EEA8();
 
 
+extern char lbl_8326434C[];
 undefined8 fn_82FEB010(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
   undefined8 uVar1;
   
-  RtlEnterCriticalSection(0xffffffff8326434c);
+  RtlEnterCriticalSection(lbl_8326434C);
   uVar1 = fn_8301EEA8(param_1,param_2,param_3);
-  RtlLeaveCriticalSection(0xffffffff8326434c);
+  RtlLeaveCriticalSection(lbl_8326434C);
   return uVar1;
 }
 

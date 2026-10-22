@@ -29,11 +29,11 @@ extern int fn_82AB15D0();
 extern int fn_82AB7070();
 
 
-undefined8 fn_82B7FA30(int param_1,undefined8 param_2,undefined8 param_3)
+undefined8 fn_82B7FA30(unsigned int param_1,undefined8 param_2,undefined8 param_3)
 
 {
   if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9f38,0xffffffff820dbba0,0x579);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pCP","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledprogram.cpp",0x579);
   }
   fn_82AB7070(*(undefined4 *)(param_1 + 0x30),param_2,param_3);
   return 0;

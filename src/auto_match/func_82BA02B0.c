@@ -32,8 +32,8 @@ extern int fn_82BBFDB0();
 void fn_82BA02B0(undefined4 param_1,int param_2,int param_3)
 
 {
-  if (*(int *)(param_2 + 0x10) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820deb34,0xffffffff820deb50,0xf4);
+  if (*(unsigned int *)(param_2 + 0x10) == 0) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","block_prev.owningCFG != 0","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\cfg.cpp",0xf4);
   }
   fn_82BBFDB0(param_3,param_2);
   *(undefined4 *)(param_3 + 0x10) = param_1;

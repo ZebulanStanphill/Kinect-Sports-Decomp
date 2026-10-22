@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-bool fn_82BEA200(longlong param_1)
+unsigned int  fn_82BEA200(longlong param_1)
 
 {
   longlong lVar1;
   
   lVar1 = RtlTryEnterCriticalSection(param_1 + 0x14);
-  return lVar1 != 0;
+  return 0 != lVar1;
 }
 

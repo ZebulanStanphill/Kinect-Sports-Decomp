@@ -33,10 +33,10 @@ void fn_829B0F58(int param_1,undefined4 param_2,undefined4 param_3)
 {
   *(undefined4 *)(param_1 + 0x554) = param_2;
   *(undefined4 *)(param_1 + 0x550) = param_3;
-  if (*(int *)(param_1 + 0x54c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x54c) != 0) {
     *(undefined4 *)(param_1 + 0x54c) = 0;
-    fn_829AB128(param_1,0xffffffff82052640);
-    fn_829AB128(param_1,0xffffffff82052608);
+    fn_829AB128(param_1,"It's an error to set both read_data_fn and write_data_fn in the ");
+    fn_829AB128(param_1,"same structure.  Resetting write_data_fn to NULL.");
   }
   *(undefined4 *)(param_1 + 0x620) = 0;
   return;

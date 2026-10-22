@@ -31,16 +31,17 @@ extern int fn_82811400();
 extern int fn_828724B8();
 
 
-undefined8 fn_82873990(undefined8 param_1,ulonglong param_2)
+extern char lbl_832116F8[];
+undefined8 fn_82873990(undefined8 param_1,unsigned int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_30 [24];
   
   fn_828724B8();
   if ((param_2 & 1) != 0) {
     uVar1 = fn_82811400(auStack_30,4);
-    fn_82811238(0xffffffff832116f8,param_1,uVar1);
+    fn_82811238(lbl_832116F8,param_1,uVar1);
   }
   return param_1;
 }

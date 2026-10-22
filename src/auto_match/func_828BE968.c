@@ -31,14 +31,15 @@ extern int fn_828C4368();
 extern int fn_828C4620();
 
 
-undefined8 fn_828BE968(undefined8 param_1)
+extern char lbl_8321434C[];
+unsigned int  fn_828BE968(undefined8 param_1)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   undefined8 uVar1;
   undefined1 auStack_10 [1];
   
-  fn_828C4620(auStack_10,0xffffffff8321434c,param_1);
+  fn_828C4620(auStack_10,lbl_8321434C,param_1);
   cVar2 = fn_828C4368(auStack_10);
   if (cVar2 != '\0') {
     return 0x19;

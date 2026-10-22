@@ -31,14 +31,14 @@ extern int fn_82AB15D0();
 extern int fn_82AB95F8();
 
 
-undefined8 fn_82AB45F0(ulonglong param_1,undefined8 param_2)
+unsigned int  fn_82AB45F0(unsigned int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_20 [16];
   
   if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(param_1,0xffffffff820d2ea4,0xffffffff820d67c8,0xffffffff820d67d8,0x187);
+    fn_82AB15D0(param_1,"Assertion failed: %s (%s:%u)","hSSMDevice","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\interface\\ssmcallbacks.cpp",0x187);
     uVar1 = 0;
   }
   else {

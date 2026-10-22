@@ -29,14 +29,14 @@ extern int fn_82AB15D0();
 extern int fn_82B6B008();
 
 
-longlong fn_82AB5AB0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+int  fn_82AB5AB0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82B6B008(param_4,0x14,param_2,param_3,param_1);
   if (lVar1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a64,0xffffffff820d68b0,0x672);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pMemMgr","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp",0x672);
   }
   return lVar1;
 }

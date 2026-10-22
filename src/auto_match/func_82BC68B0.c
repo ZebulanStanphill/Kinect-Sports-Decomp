@@ -29,13 +29,13 @@ extern int fn_82AB15D0();
 extern int fn_82BC2958();
 
 
-void fn_82BC68B0(int param_1,ulonglong param_2)
+void fn_82BC68B0(int param_1,unsigned int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if ((param_2 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dec5c,0xffffffff820dec00,0x78c);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","resource","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\IRInst.hpp",0x78c);
   }
   lVar1 = (ulonglong)*(uint *)(param_1 + 0x14) + 1;
   *(int *)(param_1 + 0x14) = (int)lVar1;

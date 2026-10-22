@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
 
-undefined4 fn_82AB6FB8(int param_1)
+undefined4 fn_82AB6FB8(unsigned int param_1)
 
 {
   if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d683c,0xffffffff820d6be8,0x1d8);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pCS","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledshader.cpp",0x1d8);
   }
   return *(undefined4 *)(param_1 + 0x28);
 }

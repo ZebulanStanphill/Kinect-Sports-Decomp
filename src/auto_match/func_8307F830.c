@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82D04B90();
 
 
-undefined4 fn_8307F830(float *param_1,undefined4 *param_2,undefined1 param_3)
+undefined4 fn_8307F830(float *param_1,undefined4 *param_2,char param_3)
 
 {
-  fn_82D04B90(param_2,0xffffffff82186f00,(double)*param_1,param_3,(double)param_1[1],param_3,
+  fn_82D04B90(param_2,"%f%c%f%c%f",(double)*param_1,param_3,(double)param_1[1],param_3,
                     (double)param_1[2]);
   return *param_2;
 }

@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
 
-undefined8 fn_82B6AEB8(ulonglong param_1)
+undefined8 fn_82B6AEB8(unsigned int param_1)
 
 {
   if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(param_1,0xffffffff820d2ea4,0xffffffff820d8f04,0xffffffff820d96f0,0x19c);
+    fn_82AB15D0(param_1,"Assertion failed: %s (%s:%u)","pStateCache","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\hashstatecache.cpp",0x19c);
   }
   return 0;
 }
