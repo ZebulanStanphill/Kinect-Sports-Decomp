@@ -36,7 +36,7 @@ undefined8 fn_824A9298(int param_1)
 
 {
   undefined1 uVar4;
-  longlong lVar1;
+  int lVar1;
   int iVar2;
   int iVar3;
   
