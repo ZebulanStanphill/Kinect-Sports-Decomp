@@ -31,7 +31,7 @@ extern unsigned int lbl_8217BB98;
 extern unsigned int lbl_8217C940;
 
 
-undefined4 * fn_82FF45A8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82FF45A8(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_8217BB98;

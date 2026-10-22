@@ -32,7 +32,7 @@ extern int fn_82FE8FA0();
 void fn_82FE9430(undefined8 param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_82FE8FA0();
   fn_82FE7880(uVar1,param_2);

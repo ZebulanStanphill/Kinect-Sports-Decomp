@@ -33,7 +33,7 @@ void fn_82FEA1A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
                   undefined8 param_5)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_82FE89F8();
   fn_82FEA060(uVar1,param_2,param_3,param_4,param_5,0);

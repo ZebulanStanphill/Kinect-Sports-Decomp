@@ -33,7 +33,7 @@ extern int fn_8305BB70();
 void fn_8305B020(uint *param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)*param_1;
   if (uVar1 != 0) {

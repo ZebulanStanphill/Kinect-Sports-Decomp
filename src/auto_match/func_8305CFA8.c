@@ -34,7 +34,7 @@ extern int fn_83065E50();
 void fn_8305CFA8(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_83065E50();
   fn_8305E0F8(uVar1,param_4);
