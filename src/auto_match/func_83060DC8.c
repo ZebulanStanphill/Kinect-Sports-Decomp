@@ -1,68 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83060438();
+typedef struct {
+    int *key;
+    int x;
+} Elem;
 
+typedef struct Vec {
+    int pad0;
+    Elem *begin;
+    Elem *end;
+    int padc[2];
+    unsigned char valid;
+} Vec;
 
-ulonglong fn_83060DC8(int param_1,int param_2)
+extern Vec *fn_83060438(void);
 
+int fn_83060DC8(Vec *v, int idx)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  
-  if (*(char *)(param_1 + 0x14) == '\0') {
-    param_1 = fn_83060438();
-  }
-  iVar1 = *(int *)(param_1 + 4);
-  iVar4 = 0;
-  iVar6 = 0;
-  iVar3 = *(int *)(param_1 + 8) - iVar1 >> 3;
-  if (0 < iVar3) {
-    do {
-      uVar2 = **(uint **)(iVar6 * 8 + iVar1);
-      if (iVar4 == param_2) {
-        return (ulonglong)uVar2;
-      }
-      iVar6 = iVar6 + 1;
-      if (iVar6 < iVar3) {
-        iVar5 = iVar6 * 8;
-        do {
-          if (**(uint **)(iVar5 + iVar1) != uVar2) break;
-          iVar6 = iVar6 + 1;
-          iVar5 = iVar5 + 8;
-        } while (iVar6 < iVar3);
-      }
-      iVar4 = iVar4 + 1;
-    } while (iVar6 < iVar3);
-  }
-  return 0xffffffffffffffff;
-}
+    int n;
+    int i;
+    int count;
+    int key;
 
+    if (!v->valid) {
+        v = fn_83060438();
+    }
+    count = 0;
+    i = 0;
+    n = v->end - v->begin;
+    while (i < n) {
+        key = *v->begin[i].key;
+        if (count == idx) {
+            return key;
+        }
+        i++;
+        while (i < n && *v->begin[i].key == key) {
+            i++;
+        }
+        count++;
+    }
+    return -1;
+}

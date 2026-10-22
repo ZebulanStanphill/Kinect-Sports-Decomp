@@ -1,53 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern int fn_83010288();
-extern unsigned int lbl_832642E0;
-extern unsigned int lbl_832642E4;
+typedef struct Obj Obj;
+typedef struct {
+    void *f0;
+    void *f4;
+    void (*Release)(Obj *);
+    void *pad[7];
+    void (*Fn28)(Obj *, int, void *, int);
+} ObjVtbl;
+struct Obj { ObjVtbl *vt; };
 
+typedef struct {
+    char pad0[0x38];
+    int active;
+    int f3c;
+    char pad40[0x10];
+    int f50;
+    char pad54[0xc];
+    void *f60;
+    char pad64[0x14];
+    int f78;
+} Self;
 
-undefined8 fn_83014CA0(int param_1)
+extern Obj *fn_82FAB9C0(int, void *);
+extern void fn_83010288(int, int);
+extern int lbl_832642E0;
+extern int lbl_832642E4;
 
+int fn_83014CA0(Self *self)
 {
-  int *piVar1;
-  
-  if (*(int *)(param_1 + 0x38) != 0) {
-    *(undefined4 *)(param_1 + 0x38) = 0;
-    *(undefined4 *)(param_1 + 0x78) = 0;
-    fn_83010288(lbl_832642E4,*(undefined4 *)(param_1 + 0x50));
-    if ((*(int *)(param_1 + 0x60) != 0) &&
-       (piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar1 != (int *)0x0)) {
-      (**(code **)(*piVar1 + 0x28))
-                (piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x60),
-                 *(undefined4 *)(param_1 + 0x50));
-      (**(code **)(*piVar1 + 8))(piVar1);
-    }
-  }
-  return 1;
-}
+    Obj *o;
 
+    if (self->active != 0) {
+        self->active = 0;
+        self->f78 = 0;
+        fn_83010288(lbl_832642E4, self->f50);
+        if (self->f60 != 0) {
+            o = fn_82FAB9C0(lbl_832642E0 + 4, self->f60);
+            if (o != 0) {
+                o->vt->Fn28(o, self->f3c, self->f60, self->f50);
+                o->vt->Release(o);
+            }
+        }
+    }
+    return 1;
+}

@@ -1,59 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef void (*cb_t)(int, void *);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 extern int fn_82A1E7D8();
 extern int fn_82A1E810();
-extern int fn_82FF5200();
 
+typedef struct {
+    char pad0[8];
+    int m_8;
+    int m_c;
+    char pad10[0x10];
+    cb_t m_20;
+    int m_24;
+    uint m_28;
+} Entry;
 
-void fn_82FF4D30(int param_1,undefined8 param_2,undefined4 *param_3)
+extern Entry *fn_82FF5200(void *, int);
 
+void fn_82FF4D30(char *param_1, int param_2, int *param_3)
 {
-  code *pcVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = param_1 + 0x88;
-  RtlEnterCriticalSection(iVar3);
-  iVar2 = fn_82FF5200(param_1 + 4,param_2);
-  if ((iVar2 == 0) || ((*(uint *)(iVar2 + 0x28) & 0x10) == 0)) {
-    RtlLeaveCriticalSection(iVar3);
-  }
-  else {
-    *param_3 = *(undefined4 *)(iVar2 + 0x24);
-    param_3[1] = *(undefined4 *)(iVar2 + 0xc);
-    param_3[2] = (int)param_2;
-    param_3[3] = *(undefined4 *)(iVar2 + 8);
-    pcVar1 = *(code **)(iVar2 + 0x20);
-    fn_82A1E7D8(*(undefined4 *)(param_1 + 0xa4));
-    RtlLeaveCriticalSection(iVar3);
-    (*pcVar1)(0x10,param_3);
-    fn_82A1E810(*(undefined4 *)(param_1 + 0xa4));
-  }
-  return;
-}
+    cb_t cb;
+    void *cs;
+    Entry *e;
 
+    cs = param_1 + 0x88;
+    RtlEnterCriticalSection(cs);
+    e = fn_82FF5200(param_1 + 4, param_2);
+    if (e == 0 || (e->m_28 & 0x10) == 0) {
+        RtlLeaveCriticalSection(cs);
+    }
+    else {
+        param_3[0] = e->m_24;
+        param_3[1] = e->m_c;
+        param_3[2] = param_2;
+        param_3[3] = e->m_8;
+        cb = e->m_20;
+        fn_82A1E7D8(*(int *)(param_1 + 0xa4));
+        RtlLeaveCriticalSection(cs);
+        cb(0x10, param_3);
+        fn_82A1E810(*(int *)(param_1 + 0xa4));
+    }
+}

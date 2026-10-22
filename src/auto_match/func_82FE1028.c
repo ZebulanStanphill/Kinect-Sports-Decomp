@@ -31,13 +31,13 @@ extern int fn_82FE0190();
 extern int fn_82FE02A0();
 extern int fn_82FE0890();
 extern int fn_82FE0960();
-extern unsigned int lbl_821AAD20;
 
 
+typedef struct { float f[20]; } Blk;
 void fn_82FE1028(int param_1)
 
 {
-  memcpy(param_1 + 0xe4,(ulonglong)*(uint *)(param_1 + 0xe0) + 4,0x50);
+  *(Blk *)(param_1 + 0xe4) = *(Blk *)(*(int *)(param_1 + 0xe0) + 4);
   *(undefined1 *)(param_1 + 0xd3) = 0;
   if ((*(float *)(param_1 + 0xe4) != *(float *)(param_1 + 0x1a4)) ||
      (*(float *)(param_1 + 0xe8) != *(float *)(param_1 + 0x1a8))) {
@@ -63,7 +63,7 @@ void fn_82FE1028(int param_1)
     fn_82FE02A0(param_1);
   }
   if (*(char *)(param_1 + 0xd1) != '\0') {
-    *(undefined4 *)(param_1 + 0x128) = lbl_821AAD20;
+    *(float *)(param_1 + 0x128) = 0.0f;
   }
   return;
 }

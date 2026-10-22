@@ -1,46 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float lbl_8200DFF4;
-extern unsigned int lbl_821AAD20;
 
+typedef struct Inner {
+    char pad0[0x20];
+    unsigned int rate;
+} Inner;
 
-double fn_83049158(int param_1)
+typedef struct Info {
+    char pad0[0x6c];
+    Inner *inner;
+    char pad70[0xd4 - 0x70];
+    unsigned short count;
+} Info;
 
+typedef struct Obj {
+    char pad0[8];
+    Info *info;
+    char padc[0x20 - 0xc];
+    unsigned int start;
+    unsigned int end;
+    char pad28[0x34 - 0x28];
+    unsigned int offset;
+} Obj;
+
+float fn_83049158(Obj *o)
 {
-  ushort uVar1;
-  
-  uVar1 = *(ushort *)(*(int *)(param_1 + 8) + 0xd4);
-  if (uVar1 != 0) {
-    return (double)((((float)((*(int *)(param_1 + 0x24) - *(int *)(param_1 + 0x20)) + 1) *
-                      (float)(longlong)(int)(uVar1 - 1) + (float)*(uint *)(param_1 + 0x34)) *
-                    lbl_8200DFF4) / (float)*(uint *)(*(int *)(*(int *)(param_1 + 8) + 0x6c) + 0x20))
-    ;
-  }
-  return (double)lbl_821AAD20;
+    unsigned short n = o->info->count;
+    if (n != 0) {
+        return ((float)(o->end - o->start + 1) * (float)(n - 1) + (float)o->offset) * lbl_8200DFF4
+            / (float)o->info->inner->rate;
+    }
+    return 0.0f;
 }
-

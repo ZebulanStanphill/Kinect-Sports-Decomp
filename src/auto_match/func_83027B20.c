@@ -25,37 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_83021E58();
-extern int fn_83022038();
-extern int fn_83022140();
-extern unsigned int lbl_831BC768;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+  void (*dtor)(Obj *self, int flags);
+} ObjVtbl;
+struct Obj {
+  ObjVtbl *vtbl;
+};
+typedef struct Owner {
+  char pad0[0x14];
+  Obj *obj;
+  char pad18[0x14];
+  unsigned short id;
+} Owner;
+extern Obj *fn_82FA5060(int heap, int size);
+extern void fn_82FA5190(int heap, Obj *p);
+extern void fn_83021E58(Obj *p);
+extern int fn_83022038(Obj *p, unsigned short id, int flag);
+extern void fn_83022140(Obj *p);
+extern int lbl_831BC768;
 
 
-undefined8 fn_83027B20(int param_1)
+int fn_83027B20(Owner *param_1)
 
 {
-  int iVar1;
-  undefined8 uVar2;
+  Obj *o;
+  int result;
   
-  uVar2 = 1;
-  iVar1 = fn_82FA5060(lbl_831BC768,0x30);
-  *(int *)(param_1 + 0x14) = iVar1;
-  if (iVar1 != 0) {
-    fn_83021E58();
+  result = 1;
+  o = fn_82FA5060(lbl_831BC768,0x30);
+  param_1->obj = o;
+  if (o != 0) {
+    fn_83021E58(o);
   }
-  if ((*(int *)(param_1 + 0x14) == 0) ||
-     (iVar1 = fn_83022038(*(int *)(param_1 + 0x14),*(undefined2 *)(param_1 + 0x2c),1),
-     iVar1 != 1)) {
-    uVar2 = 0;
-    if (*(int *)(param_1 + 0x14) != 0) {
-      fn_83022140();
-      (**(code **)**(undefined4 **)(param_1 + 0x14))(*(undefined4 **)(param_1 + 0x14),0);
-      fn_82FA5190(lbl_831BC768,*(undefined4 *)(param_1 + 0x14));
-      *(undefined4 *)(param_1 + 0x14) = 0;
+  if (param_1->obj == 0 || fn_83022038(param_1->obj,param_1->id,1) != 1) {
+    result = 0;
+    if (param_1->obj != 0) {
+      fn_83022140(param_1->obj);
+      param_1->obj->vtbl->dtor(param_1->obj,0);
+      fn_82FA5190(lbl_831BC768,param_1->obj);
+      param_1->obj = 0;
     }
   }
-  return uVar2;
+  return result;
 }
-

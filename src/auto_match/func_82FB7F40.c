@@ -1,48 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
+typedef struct Obj { void **vtbl; } Obj;
+typedef struct Item { int *a; int b; Obj *c; } Item;
+typedef struct Vec { int pad; Item *begin; Item *end; } Vec;
 
-void fn_82FB7F40(int param_1)
-
+void fn_82FB7F40(Vec *v)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 4);
-  if (piVar1 != *(int **)(param_1 + 8)) {
-    do {
-      if (((*(int *)(*piVar1 + 0x1c) == 0) || (*(int *)(*piVar1 + 0x1c) == 2)) &&
-         ((int *)piVar1[2] != (int *)0x0)) {
-        (**(code **)(*(int *)piVar1[2] + 4))();
-      }
-      piVar1 = piVar1 + 3;
-    } while (piVar1 != *(int **)(param_1 + 8));
-  }
-  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(param_1 + 4);
-  return;
-}
+  Item *p;
 
+  for (p = v->begin; p != v->end; p++) {
+    if ((p->a[7] == 0 || p->a[7] == 2) && p->c != 0) {
+      ((void (*)(Obj *))p->c->vtbl[1])(p->c);
+    }
+  }
+  v->end = v->begin;
+}

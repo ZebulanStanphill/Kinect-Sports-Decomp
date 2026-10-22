@@ -25,23 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF7E30();
+typedef struct Entry {
+  uint key;
+  int value[3];
+} Entry;
+typedef struct Map {
+  Entry *begin;
+  Entry *end;
+} Map;
+extern Entry *fn_82FF7E30();
 
-
-int * fn_82FF8068(undefined4 *param_1,int param_2)
+static __inline int Found(Map *m, Entry *p) { return p != m->end; }
+static __inline int *Get(Map *m, Entry *p) { return Found(m, p) ? p->value : 0; }
+int *fn_82FF8068(Map *param_1,uint param_2)
 
 {
-  int *piVar1;
-  int *piVar2;
+  Entry *e;
+  Entry *p;
+  int *r;
   
-  for (piVar2 = (int *)*param_1; (piVar2 != (int *)param_1[1] && (*piVar2 != param_2));
-      piVar2 = piVar2 + 4) {
+  for (p = param_1->begin; p != param_1->end && p->key != param_2; p++) {
   }
-  piVar2 = (int *)(-(uint)((int *)param_1[1] != piVar2) & (uint)(piVar2 + 1));
-  if ((piVar2 == (int *)0x0) && (piVar1 = (int *)fn_82FF7E30(), piVar1 != (int *)0x0)) {
-    piVar2 = piVar1 + 1;
-    *piVar1 = param_2;
+  r = Get(param_1, p);
+  if (r == 0) {
+    e = fn_82FF7E30();
+    if (e != 0) {
+      r = e->value;
+      e->key = param_2;
+    }
   }
-  return piVar2;
+  return r;
 }
-
