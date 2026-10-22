@@ -29,7 +29,7 @@ extern int fn_82545950();
 extern int fn_82545A90();
 
 
-void fn_824E8300(int *param_1)
+void fn_824E8300(unsigned int *param_1)
 
 {
   if (*param_1 != 0) {
