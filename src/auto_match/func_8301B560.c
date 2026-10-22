@@ -1,52 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern unsigned int lbl_831BC768;
-
-
-undefined8 fn_8301B560(int param_1,int param_2)
-
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void *lbl_831BC768;
+typedef struct { int f0; int *begin; int *cur; unsigned int cap; unsigned int count; } Obj;
+int fn_8301B560(Obj *o, unsigned int n)
 {
-  int iVar1;
-  
-  if (param_2 == 0) {
-    param_2 = 0xff;
-  }
-  *(int *)(param_1 + 0x10) = param_2;
-  if (param_2 != 0) {
-    iVar1 = fn_82FA5060(lbl_831BC768,param_2 << 2);
-    *(int *)(param_1 + 4) = iVar1;
-    *(int *)(param_1 + 8) = iVar1;
-    if (iVar1 == 0) {
+  int *p;
+  unsigned int c = n ? n : 0xff;
+  o->count = c;
+  if (c != 0) {
+    p = fn_82FA5060(lbl_831BC768, c * 4);
+    o->begin = p;
+    o->cur = p;
+    if (p == 0) {
       return 0x34;
     }
-    *(int *)(param_1 + 0xc) = param_2;
+    o->cap = c;
   }
   return 1;
 }
-

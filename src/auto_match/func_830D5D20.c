@@ -35,7 +35,7 @@ extern int fn_82C9B9E0();
 void fn_830D5D20(int param_1,undefined8 param_2)
 
 {
-  undefined4 uVar1;
+
   
   *(undefined4 *)(param_1 + 0xb64) =
        *(undefined4 *)((*(int *)(param_1 + 0xb94) + 0x2df) * 4 + param_1);
@@ -51,21 +51,20 @@ void fn_830D5D20(int param_1,undefined8 param_2)
   else {
     *(undefined4 *)(param_1 + 0x1cc) = 1;
   }
-  if ((*(int *)(param_1 + 0x39f8) * *(int *)(param_1 + 0xd64) & 0xffffff80U) == 0) {
-    *(undefined4 *)(param_1 + 0x39fc) = 1;
-    *(undefined4 *)(param_1 + 0x3a00) = 3;
-  }
-  else {
+  if ((*(int *)(param_1 + 0x39f8) * *(int *)(param_1 + 0xd64) & (int)0xffffff80) != 0) {
     *(undefined4 *)(param_1 + 0x3a00) = 1;
     *(undefined4 *)(param_1 + 0x39fc) = 3;
   }
+  else {
+    *(undefined4 *)(param_1 + 0x39fc) = 1;
+    *(undefined4 *)(param_1 + 0x3a00) = 3;
+  }
   if (*(int *)(param_1 + 0x50d0) == 0) {
-    uVar1 = *(undefined4 *)(param_1 + 0x56a0);
+    *(undefined4 *)(param_1 + 0x569c) = *(undefined4 *)(param_1 + 0x56a0);
   }
   else {
-    uVar1 = *(undefined4 *)(param_1 + 0x56a4);
+    *(undefined4 *)(param_1 + 0x569c) = *(undefined4 *)(param_1 + 0x56a4);
   }
-  *(undefined4 *)(param_1 + 0x569c) = uVar1;
   if (*(int *)(param_1 + 0x54c8) == 1) {
     *(int *)(param_1 + 0x55d0) = *(int *)(param_1 + 0x8c) * 4 + *(int *)(param_1 + 0x55d4);
   }

@@ -37,25 +37,25 @@ undefined8 fn_83014D58(int param_1)
 
 {
   int *piVar1;
-  longlong lVar2;
+  uint lVar2;
   
-  if ((ulonglong)*(uint *)(param_1 + 0x78) != 0) {
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x78) - 1;
+  if (*(uint *)(param_1 + 0x78) != 0) {
+    lVar2 = *(uint *)(param_1 + 0x78) - 1;
     *(int *)(param_1 + 0x78) = (int)lVar2;
     if (lVar2 == 0) {
       if (*(int *)(param_1 + 0x38) != 1) {
         fn_83014BF8();
       }
       fn_8300FF80(lbl_832642E4,*(undefined4 *)(param_1 + 0x50));
-      if ((*(int *)(param_1 + 0x60) != 0) &&
-         (piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar1 != (int *)0x0)) {
+      if ((*(void **)(param_1 + 0x60) != 0) &&
+         (piVar1 = (int *)fn_82FAB9C0(lbl_832642E0 + 4,*(void **)(param_1 + 0x60)), piVar1 != (int *)0x0)) {
         fn_82FFF5C8(piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x50));
-        (**(code **)(*piVar1 + 8))(piVar1);
+        (*(code *)(*piVar1 + 8))(piVar1);
       }
-      if ((*(int *)(param_1 + 0x6c) != 0) &&
-         (piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar1 != (int *)0x0)) {
+      if ((*(void **)(param_1 + 0x6c) != 0) &&
+         (piVar1 = (int *)fn_82FAB9C0(lbl_832642E0 + 4,*(void **)(param_1 + 0x6c)), piVar1 != (int *)0x0)) {
         fn_82FFF5C8(piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x50));
-        (**(code **)(*piVar1 + 8))(piVar1);
+        (*(code *)(*piVar1 + 8))(piVar1);
       }
     }
   }

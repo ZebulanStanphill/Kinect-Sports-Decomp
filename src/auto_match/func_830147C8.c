@@ -1,65 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern int fn_82FFF510();
-extern int fn_83010288();
-extern unsigned int lbl_832642E0;
-extern unsigned int lbl_832642E4;
+typedef struct Iface Iface;
+typedef struct IfaceVtbl {
+  void *f0;
+  void *f4;
+  void (*Release)(Iface *self);
+  void *fc[7];
+  void (*f28)(Iface *self, void *a, void *b, void *c);
+} IfaceVtbl;
+struct Iface {
+  IfaceVtbl *vtbl;
+};
 
+typedef struct Obj {
+  char pad0[0x38];
+  int x38;
+  void *x3c;
+  char pad40[0x10];
+  void *x50;
+  char pad54[0xc];
+  void *x60;
+  char pad64[8];
+  void *x6c;
+  char pad70[8];
+  int x78;
+} Obj;
 
-undefined8 fn_830147C8(int param_1,int param_2)
+extern Iface *fn_82FAB9C0(void *table, void *key);
+extern void fn_82FFF510(Iface *p, void *a, void *b);
+extern void fn_83010288(void *a, void *b);
+extern char *lbl_832642E0;
+extern void *lbl_832642E4;
 
+int fn_830147C8(Obj *o, int flag)
 {
-  int *piVar1;
-  
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  *(undefined4 *)(param_1 + 0x78) = 0;
-  fn_83010288(lbl_832642E4,*(undefined4 *)(param_1 + 0x50));
-  if ((*(int *)(param_1 + 0x6c) != 0) && (param_2 == 0)) {
-    piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4);
-    if (piVar1 != (int *)0x0) {
-      fn_82FFF510(piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x50));
-      (**(code **)(*piVar1 + 8))(piVar1);
+  Iface *p;
+
+  o->x38 = 0;
+  o->x78 = 0;
+  fn_83010288(lbl_832642E4, o->x50);
+  if (o->x6c != 0 && flag == 0) {
+    p = fn_82FAB9C0(lbl_832642E0 + 4, o->x6c);
+    if (p != 0) {
+      fn_82FFF510(p, o->x3c, o->x50);
+      p->vtbl->Release(p);
     }
-    *(undefined4 *)(param_1 + 0x6c) = 0;
+    o->x6c = 0;
   }
-  if ((*(int *)(param_1 + 0x60) != 0) &&
-     (piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar1 != (int *)0x0)) {
-    if (param_2 == 0) {
-      fn_82FFF510(piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x50));
+  if (o->x60 != 0) {
+    p = fn_82FAB9C0(lbl_832642E0 + 4, o->x60);
+    if (p != 0) {
+      if (flag == 0) {
+        fn_82FFF510(p, o->x3c, o->x50);
+      } else {
+        p->vtbl->f28(p, o->x3c, o->x60, o->x50);
+      }
+      p->vtbl->Release(p);
     }
-    else {
-      (**(code **)(*piVar1 + 0x28))
-                (piVar1,*(undefined4 *)(param_1 + 0x3c),*(undefined4 *)(param_1 + 0x60),
-                 *(undefined4 *)(param_1 + 0x50));
-    }
-    (**(code **)(*piVar1 + 8))(piVar1);
   }
   return 1;
 }
-

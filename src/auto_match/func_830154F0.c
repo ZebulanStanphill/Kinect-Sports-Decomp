@@ -1,53 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_83014FE0();
-extern int fn_83015CF8();
-extern unsigned int iStack_28;
+typedef struct Iface Iface;
+typedef struct {
+  void *f0, *f4, *f8, *fc;
+  void (*fn10)(Iface *self, void *arg);
+} IfaceVtbl;
+struct Iface { IfaceVtbl *vt; };
 
+typedef struct { char pad[0xc]; Iface *obj; } Node;
+typedef struct { void *a; void *b; Node *node; } Iter;
+typedef struct { int v[4]; } Res;
 
-undefined8 fn_830154F0(longlong param_1,undefined8 param_2)
+extern char lbl_831BC7F4[];
+extern void fn_83014FE0(Iter *it, void *map, void *key);
+extern void fn_83015CF8(Res *r, void *map, Iter *it);
 
+int fn_830154F0(char *self, void *key)
 {
-  int *piVar1;
-  undefined1 auStack_30 [8];
-  int iStack_28;
-  undefined1 auStack_20 [16];
-  
-  fn_83014FE0(auStack_30,param_1 + 4,param_2);
-  if (iStack_28 != 0) {
-    piVar1 = *(int **)(iStack_28 + 0xc);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0x10))(piVar1,0xffffffff831bc7f4);
+  Iter it;
+  Res r;
+
+  fn_83014FE0(&it, self + 4, key);
+  if (it.node != 0) {
+    Iface *p = it.node->obj;
+    if (p != 0) {
+      p->vt->fn10(p, lbl_831BC7F4);
     }
-    fn_83015CF8(auStack_20,param_1 + 4,auStack_30);
+    fn_83015CF8(&r, self + 4, &it);
   }
   return 1;
 }
-

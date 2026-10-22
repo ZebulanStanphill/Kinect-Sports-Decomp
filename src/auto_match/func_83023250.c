@@ -1,66 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82A427B0();
-extern int fn_8307DB88();
+typedef struct Obj Obj;
+typedef struct {
+    void *f[10];
+    int (*Init)(Obj *, void *, int, int, int, int, int);
+} ObjVt;
+struct Obj { ObjVt *vt; };
 
+typedef struct {
+    char pad[0x24];
+    int count;
+    unsigned int mask;
+    Obj *obj;
+    char data[4];
+} S;
 
-undefined8 fn_83023250(int param_1)
+extern int fn_82A427B0(Obj **p, int a, int b);
+extern void fn_8307DB88(void);
+extern int XAudioGetSpeakerConfig(unsigned int *cfg);
 
+int fn_83023250(S *s)
 {
-  int *piVar1;
-  int iVar2;
-  uint uVar3;
-  uint auStack_20 [2];
-  
-  iVar2 = fn_82A427B0((undefined4 *)(param_1 + 0x2c),0,4);
-  if (((iVar2 != 0) ||
-      (piVar1 = *(int **)(param_1 + 0x2c),
-      iVar2 = (**(code **)(*piVar1 + 0x28))(piVar1,param_1 + 0x30,0,48000,0,0,0), iVar2 < 0)) ||
-     (iVar2 = XAudioGetSpeakerConfig(auStack_20), iVar2 != 0)) {
-    return 2;
-  }
-  fn_8307DB88();
-  *(undefined4 *)(param_1 + 0x28) = 3;
-  if ((auStack_20[0] & 1) == 0) {
-    if ((auStack_20[0] & 2) != 0) {
-      *(undefined4 *)(param_1 + 0x28) = 3;
-      goto code_r0x83023318;
-    }
-    if ((auStack_20[0] & 0x10000) == 0) goto code_r0x83023318;
-  }
-  *(undefined4 *)(param_1 + 0x28) = 0x3f;
-code_r0x83023318:
-  iVar2 = 0;
-  for (uVar3 = *(uint *)(param_1 + 0x28); uVar3 != 0; uVar3 = uVar3 - 1 & uVar3) {
-    iVar2 = iVar2 + 1;
-  }
-  *(int *)(param_1 + 0x24) = iVar2;
-  return 1;
-}
+    unsigned int cfg;
+    unsigned int m;
+    int n;
 
+    int hr;
+    if (fn_82A427B0(&s->obj, 0, 4) != 0)
+        hr = 0x80004005;
+    else
+        hr = s->obj->vt->Init(s->obj, s->data, 0, 48000, 0, 0, 0);
+    if (hr < 0)
+        return 2;
+    if (XAudioGetSpeakerConfig(&cfg) != 0)
+        return 2;
+    fn_8307DB88();
+    s->mask = 3;
+    if (cfg & 1) {
+        s->mask = 0x3f;
+    } else if (cfg & 2) {
+        s->mask = 3;
+    } else if (cfg & 0x10000) {
+        s->mask = 0x3f;
+    }
+    n = 0;
+    for (m = s->mask; m != 0; m = (m - 1) & m)
+        n++;
+    s->count = n;
+    return 1;
+}

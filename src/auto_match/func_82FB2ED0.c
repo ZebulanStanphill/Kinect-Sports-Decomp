@@ -1,116 +1,119 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_82FB76F8();
-extern int fn_830080D8();
-extern unsigned int lbl_8216D59C;
-extern unsigned int lbl_8216D5A4;
-extern unsigned int lbl_831BC768;
+typedef struct Rec {
+  void *kind;
+  int a4;
+  void *children;
+  int ac;
+  unsigned short a10;
+  unsigned short a12;
+  unsigned short a14;
+  unsigned char a16;
+  unsigned char a17;
+} Rec;
 
+typedef struct Node Node;
+typedef struct NodeVtbl {
+  void (*destroy)(Node *self, int flags);
+} NodeVtbl;
 
-undefined8 fn_82FB2ED0(undefined8 param_1,int param_2,int *param_3,uint param_4)
+struct Node {
+  void *vtbl;
+  Node *parent;
+  int f8;
+  unsigned short fc;
+  unsigned short fe;
+  int f10;
+  int f14;
+  int f18;
+  int f1c;
+  int f20;
+  unsigned char f24;
+  unsigned char f25;
+  unsigned char f26;
+  unsigned short f28;
+};
 
+extern void *fn_82FA5060(int heap, int size);
+extern void fn_82FA5190(int heap, void *p);
+extern void fn_82FB76F8(Node *n);
+extern Node **fn_830080D8(void *list);
+extern char lbl_8216D59C[];
+extern char lbl_8216D5A4[];
+extern int lbl_831BC768;
+
+int fn_82FB2ED0(int ctx, Node *parent, Rec **cursor, unsigned int count)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  int iVar5;
-  uint uVar6;
-  
-  uVar6 = 0;
-  if (param_4 != 0) {
-    do {
-      piVar1 = (int *)*param_3;
-      *param_3 = (int)(piVar1 + 6);
-      if (*piVar1 == 0) {
-        puVar3 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x2c);
-        if (puVar3 == (undefined4 *)0x0) {
-          return 2;
-        }
-        puVar3[1] = param_2;
-        *puVar3 = &lbl_8216D5A4;
-        puVar3[2] = 0;
-        *(undefined2 *)((int)puVar3 + 0xe) = 0x32;
-        puVar3[4] = 0;
-        puVar3[5] = 0;
-        puVar3[6] = 0;
-        puVar3[7] = 0;
-        puVar3[8] = 0;
-        *(undefined1 *)(puVar3 + 9) = 0;
-        *(undefined1 *)((int)puVar3 + 0x25) = 1;
-        *(undefined1 *)((int)puVar3 + 0x26) = 0;
-        *(undefined2 *)(puVar3 + 10) = 0;
-        puVar4 = (undefined4 *)fn_830080D8(param_2 + 0x10);
-        if (puVar4 == (undefined4 *)0x0) goto LAB_82fb3074;
-        *puVar4 = puVar3;
-        *(undefined2 *)(puVar3 + 10) = *(undefined2 *)(piVar1 + 5);
-        *(undefined2 *)(puVar3 + 3) = *(undefined2 *)(piVar1 + 4);
-        *(undefined2 *)((int)puVar3 + 0xe) = *(undefined2 *)((int)piVar1 + 0x12);
-        puVar3[7] = piVar1[3];
-        *(undefined1 *)(puVar3 + 9) = 0;
-        *(undefined1 *)((int)puVar3 + 0x25) = *(undefined1 *)((int)piVar1 + 0x17);
-        puVar3[2] = piVar1[1];
-        if ((piVar1[2] != 0) && (iVar5 = ((int (*)())fn_82FB2ED0)(param_1,puVar3,param_3), iVar5 != 1)) {
-          return 2;
-        }
+  unsigned int i;
+  Rec *rec;
+  Node *n;
+  Node **slot;
+  int heap;
+
+  for (i = 0; i < count; i++) {
+    rec = *cursor;
+    *cursor = rec + 1;
+    if (rec->kind == 0) {
+      n = (Node *)fn_82FA5060(lbl_831BC768, 0x2c);
+      if (n == 0) {
+        return 2;
       }
-      else {
-        puVar3 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x14);
-        if (puVar3 == (undefined4 *)0x0) {
-          return 2;
-        }
-        puVar3[1] = param_2;
-        *puVar3 = &lbl_8216D59C;
-        puVar3[2] = 0;
-        *(undefined2 *)((int)puVar3 + 0xe) = 0x32;
-        puVar4 = (undefined4 *)fn_830080D8(param_2 + 0x10);
-        if (puVar4 == (undefined4 *)0x0) {
-LAB_82fb3074:
-          uVar2 = lbl_831BC768;
-          (**(code **)*puVar3)(puVar3,0);
-          fn_82FA5190(uVar2,puVar3);
-          return 2;
-        }
-        *puVar4 = puVar3;
-        *(undefined2 *)(puVar3 + 3) = *(undefined2 *)(piVar1 + 4);
-        *(undefined2 *)((int)puVar3 + 0xe) = *(undefined2 *)((int)piVar1 + 0x12);
-        puVar3[4] = *piVar1;
-        puVar3[2] = piVar1[1];
-        fn_82FB76F8(param_2);
+      n->parent = parent;
+      n->vtbl = lbl_8216D5A4;
+      n->f8 = 0;
+      n->fe = 0x32;
+      n->f10 = 0;
+      n->f14 = 0;
+      n->f18 = 0;
+      n->f1c = 0;
+      n->f20 = 0;
+      n->f24 = 0;
+      n->f25 = 1;
+      n->f26 = 0;
+      n->f28 = 0;
+      slot = fn_830080D8((char *)parent + 0x10);
+      if (slot == 0) {
+        heap = lbl_831BC768;
+        (*(*(NodeVtbl **)n)->destroy)(n, 0);
+        fn_82FA5190(heap, n);
+        return 2;
       }
-      if (*(short *)((int)piVar1 + 0x12) != 0x32) {
-        *(undefined1 *)(param_2 + 0x24) = 1;
+      *slot = n;
+      n->f28 = rec->a14;
+      n->fc = rec->a10;
+      n->fe = rec->a12;
+      n->f1c = rec->ac;
+      n->f24 = 0;
+      n->f25 = rec->a17;
+      n->f8 = rec->a4;
+      if (rec->children != 0 && fn_82FB2ED0(ctx, n, cursor, (unsigned int)rec->children) != 1) {
+        return 2;
       }
-      uVar6 = uVar6 + 1;
-    } while (uVar6 < param_4);
+    }
+    else {
+      n = (Node *)fn_82FA5060(lbl_831BC768, 0x14);
+      if (n == 0) {
+        return 2;
+      }
+      n->parent = parent;
+      n->vtbl = lbl_8216D59C;
+      n->f8 = 0;
+      n->fe = 0x32;
+      slot = fn_830080D8((char *)parent + 0x10);
+      if (slot == 0) {
+        heap = lbl_831BC768;
+        (*(*(NodeVtbl **)n)->destroy)(n, 0);
+        fn_82FA5190(heap, n);
+        return 2;
+      }
+      *slot = n;
+      n->fc = rec->a10;
+      n->fe = rec->a12;
+      n->f10 = (int)rec->kind;
+      n->f8 = rec->a4;
+      fn_82FB76F8(parent);
+    }
+    if (rec->a12 != 0x32) {
+      *((unsigned char *)parent + 0x24) = 1;
+    }
   }
   return 1;
 }
-

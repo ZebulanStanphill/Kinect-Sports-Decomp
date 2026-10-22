@@ -1,50 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Item Item;
+typedef struct Arg {
+    int pad[2];
+    unsigned char flag;
+} Arg;
 
+typedef struct ItemVtbl {
+    void *slots[0x34 / 4];
+    void (*update)(Item *self, Arg *arg);
+} ItemVtbl;
 
-void fn_82FAEE00(int param_1,int param_2)
+struct Item {
+    ItemVtbl *vtbl;
+    int pad[4];
+    int f14;
+    unsigned short f18;
+};
 
+typedef struct Entry {
+    int key;
+    Item *item;
+} Entry;
+
+typedef struct Obj {
+    char pad[0x7c];
+    Entry *begin;
+    Entry *end;
+} Obj;
+
+void fn_82FAEE00(Obj *p, Arg *arg)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = *(int *)(param_1 + 0x7c);
-  if (iVar2 != *(int *)(param_1 + 0x80)) {
-    do {
-      if ((*(char *)(param_2 + 8) == '\0') || (*(int *)(*(int *)(iVar2 + 4) + 0x14) == 0)) {
-        piVar1 = *(int **)(iVar2 + 4);
-        if (*(short *)(piVar1 + 6) != 0) {
-          (**(code **)(*piVar1 + 0x34))(piVar1,param_2);
-        }
-      }
-      iVar2 = iVar2 + 8;
-    } while (iVar2 != *(int *)(param_1 + 0x80));
-  }
-  return;
-}
+    Entry *e;
+    Item *it;
 
+    for (e = p->begin; e != p->end; e++) {
+        if (!arg->flag || e->item->f14 == 0) {
+            it = e->item;
+            if (it->f18 != 0) {
+                it->vtbl->update(it, arg);
+            }
+        }
+    }
+}

@@ -32,7 +32,7 @@ extern int fn_8305CFA8();
 extern int fn_8305E0F8();
 extern int fn_8305EC98();
 extern int fn_83060380();
-extern int fn_830603C0();
+extern unsigned char fn_830603C0();
 extern int fn_830603D0();
 extern int fn_83060CB0();
 extern int fn_83060CD0();
@@ -45,9 +45,9 @@ extern int fn_83065E50();
 void fn_8305D038(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  char cVar3;
-  undefined8 uVar1;
-  undefined8 uVar2;
+  unsigned char cVar3;
+  uint uVar1;
+  uint uVar2;
   undefined1 auStack_70 [16];
   undefined1 auStack_60 [16];
   undefined1 auStack_50 [48];
@@ -58,8 +58,7 @@ void fn_8305D038(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   while( true ) {
     cVar3 = fn_830603C0(auStack_70);
     if (cVar3 != '\0') break;
-    uVar1 = fn_830603D0(auStack_70);
-    fn_8305CFA8(param_1,param_2,uVar1,auStack_50);
+    fn_8305CFA8(param_1,param_2,fn_830603D0(auStack_70),auStack_50);
     fn_83060CD0(auStack_70);
   }
   fn_83061548(param_3,0);

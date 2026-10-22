@@ -1,72 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
+typedef struct Node {
+  char pad[0xc];
+  void *key;
+  struct Node *next;
+  struct Node *alt;
+} Node;
+
+struct Obj;
+typedef struct Vtbl {
+  void (*f0)(struct Obj *);
+  void (*f4)(struct Obj *);
+  void (*Release)(struct Obj *);
+} Vtbl;
+
+typedef struct Obj {
+  Vtbl *vtbl;
+  int a;
+  int b;
+  int c;
+  Node *first;
+  Node *alt;
+} Obj;
+
+extern Obj *fn_82FAB9C0();
 extern unsigned int lbl_832642E0;
 
-
-longlong fn_83010770(undefined8 param_1,int param_2,undefined8 param_3)
-
+unsigned char fn_83010770(int param_1, void *a, void *b)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  longlong lVar4;
-  
-  lVar4 = 0;
-  if ((param_2 != 0) && ((int)param_3 != 0)) {
-    if (param_2 == (int)param_3) {
-      lVar4 = 1;
+  unsigned char found;
+  Obj *o;
+  Node *n;
+  Node *alt;
+
+  found = 0;
+  if (a != 0 && b != 0) {
+    if (a == b) {
+      return 1;
     }
-    else {
-      piVar2 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,param_3);
-      if (piVar2 != (int *)0x0) {
-        iVar3 = piVar2[5];
-        for (iVar1 = piVar2[4]; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x10)) {
-          if (param_2 == *(int *)(iVar1 + 0xc)) {
-            lVar4 = 1;
+    o = fn_82FAB9C0(lbl_832642E0 + 4, b);
+    if (o != 0) {
+      alt = o->alt;
+      for (n = o->first; n != 0; n = n->next) {
+        if (a == n->key) {
+          found = 1;
+          break;
+        }
+        if (alt == 0) {
+          alt = n->alt;
+        }
+      }
+      if (!found) {
+        for (; alt != 0; alt = alt->alt) {
+          if (a == alt->key) {
+            found = 1;
             break;
           }
-          if (iVar3 == 0) {
-            iVar3 = *(int *)(iVar1 + 0x14);
-          }
         }
-        if (lVar4 == 0) {
-          for (; iVar3 != 0; iVar3 = *(int *)(iVar3 + 0x14)) {
-            if (param_2 == *(int *)(iVar3 + 0xc)) {
-              lVar4 = 1;
-              break;
-            }
-          }
-        }
-        (**(code **)(*piVar2 + 8))();
       }
+      o->vtbl->Release(o);
     }
   }
-  return lVar4;
+  return found;
 }
-

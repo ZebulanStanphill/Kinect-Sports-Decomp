@@ -1,69 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8300D8E8();
-extern int fn_83027E80();
-extern unsigned int lbl_832645D0;
+typedef struct {
+  char pad[0x4d];
+  unsigned char f4d;
+} Mgr;
 
+extern Mgr *lbl_832645D0;
+extern unsigned char fn_8300D8E8(Mgr *m);
+extern void *fn_83027E80(unsigned short a, unsigned int b, int c);
 
-undefined4 fn_82FEFD50(int param_1)
+typedef struct Dev Dev;
+typedef struct {
+  void *f0[0x40];
+  void (*bind)(Dev *self, void *h, void *a, void *b, int c);
+  void *f104[2];
+  void *(*query)(Dev *self);
+} DevVt;
+struct Dev { DevVt *vt; };
 
+typedef struct {
+  char pad0[0x24];
+  unsigned int f24;
+} Desc;
+
+typedef struct {
+  char pad0[8];
+  int f8;
+} Info;
+
+typedef struct {
+  char pad0[0x38];
+  Info *info;
+  char pad3c[0x68 - 0x3c];
+  Dev *dev;
+  Desc *desc;
+  void *f70;
+  char pad74[0xda - 0x74];
+  unsigned char flags;
+  char paddb[0x178 - 0xdb];
+  void *handle;
+} S;
+
+void *fn_82FEFD50(S *s)
 {
-  int iVar1;
-  char cVar4;
-  int iVar2;
-  undefined4 uVar3;
-  
-  iVar1 = lbl_832645D0;
-  if ((lbl_832645D0 == 0) || (cVar4 = fn_8300D8E8(lbl_832645D0), cVar4 == '\0')) {
-    uVar3 = 0;
-  }
-  else {
-    if ((*(byte *)(param_1 + 0xda) & 4) == 0) {
-      if ((*(int *)(param_1 + 0x178) == 0) &&
-         ((iVar2 = (**(code **)(**(int **)(param_1 + 0x68) + 0x10c))(), iVar2 != 0 ||
-          ((*(byte *)(param_1 + 0xda) & 2) != 0)))) {
-        uVar3 = 1;
-        if (*(int *)(param_1 + 0x38) != 0) {
-          uVar3 = *(undefined4 *)(*(int *)(param_1 + 0x38) + 8);
-        }
-        uVar3 = fn_83027E80(*(undefined1 *)(iVar1 + 0x4d),
-                                  *(uint *)(*(int *)(param_1 + 0x6c) + 0x24) >> 0xe,uVar3);
-        *(undefined4 *)(param_1 + 0x178) = uVar3;
-      }
-      if (*(int *)(param_1 + 0x178) != 0) {
-        (**(code **)(**(int **)(param_1 + 0x68) + 0x100))
-                  (*(int **)(param_1 + 0x68),*(int *)(param_1 + 0x178),
-                   *(undefined4 *)(param_1 + 0x6c),*(undefined4 *)(param_1 + 0x70),1);
-      }
-      *(byte *)(param_1 + 0xda) = *(byte *)(param_1 + 0xda) | 4;
-    }
-    uVar3 = *(undefined4 *)(param_1 + 0x178);
-  }
-  return uVar3;
-}
+  Mgr *m;
+  int n;
+  int a;
 
+  m = lbl_832645D0;
+  if (m == 0 || !fn_8300D8E8(m)) {
+    return 0;
+  }
+  if ((s->flags & 4) == 0) {
+    if (s->handle == 0 && (s->dev->vt->query(s->dev) != 0 || (s->flags & 2) != 0)) {
+      n = 1;
+      if (s->info != 0) {
+        n = s->info->f8;
+      }
+      a = m->f4d;
+      s->handle = fn_83027E80(a, s->desc->f24 >> 14, n);
+    }
+    if (s->handle != 0) {
+      s->dev->vt->bind(s->dev, s->handle, s->desc, s->f70, 1);
+    }
+    s->flags |= 4;
+  }
+  return s->handle;
+}

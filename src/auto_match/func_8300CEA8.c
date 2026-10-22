@@ -1,49 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern unsigned int lbl_8217C320;
-extern unsigned int lbl_831BC768;
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void *lbl_831BC768;
+extern char lbl_8217C320[];
+typedef struct Obj { void *vtbl; int pad[2]; unsigned char a; unsigned char pad2; unsigned short b; } Obj;
+static Obj *Obj_ctor(Obj *o) { o->a = 1; o->vtbl = lbl_8217C320; o->b = 0xffff; return o; }
 
-
-undefined4 * fn_8300CEA8(int param_1)
-
+Obj *fn_8300CEA8(Obj *src)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x10);
-  if (puVar1 != (undefined4 *)0x0) {
-    *(undefined1 *)(puVar1 + 3) = 1;
-    *puVar1 = &lbl_8217C320;
-    *(undefined2 *)((int)puVar1 + 0xe) = 0xffff;
-    *(undefined1 *)(puVar1 + 3) = *(undefined1 *)(param_1 + 0xc);
-    *(undefined2 *)((int)puVar1 + 0xe) = *(undefined2 *)(param_1 + 0xe);
-    return puVar1;
-  }
-  return (undefined4 *)0x0;
+    Obj *mem = (Obj *)fn_82FA5060(lbl_831BC768, 0x10);
+    Obj *o = mem ? Obj_ctor(mem) : 0;
+    if (o != 0) { o->a = src->a; o->b = src->b; }
+    return o;
 }
-

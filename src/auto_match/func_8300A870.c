@@ -1,88 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FEC018();
-extern int fn_82FEC0A0();
-extern int fn_82FEC350();
-extern int fn_82FEC4C0();
-extern int fn_8300A140();
-extern int fn_8300A298();
-extern unsigned int lbl_832645A8;
+typedef struct Slot { int id; int a; int b; } Slot;
+typedef struct SlotSet { int hdr[3]; Slot slots[4]; } SlotSet;
+typedef struct Item Item;
+typedef struct ItemVtbl { char pad[0x50]; void (*fn50)(Item *self); } ItemVtbl;
+struct Item { ItemVtbl *vt; char pad[0x14]; unsigned short f18; };
+typedef struct Pair { int key; Item *item; } Pair;
+typedef struct Obj {
+  char pad0[0xc];
+  void *ctx;
+  char pad10[0x28 - 0x10];
+  SlotSet *set;
+  char pad2c[0x48 - 0x2c];
+  Pair *begin;
+  Pair *end;
+} Obj;
+extern Obj *lbl_832645A8;
+extern void fn_82FEC018(void);
+extern void fn_82FEC0A0(void);
+extern void fn_82FEC350(void *ctx);
+extern void fn_82FEC4C0(void *ctx);
+extern void fn_8300A140(Obj *o);
+extern void fn_8300A298(Obj *o);
 
-
-void fn_8300A870(int param_1)
-
+static unsigned char anyActive(Obj *o)
 {
-  undefined4 uVar1;
-  bool bVar2;
-  int iVar3;
-  uint uVar4;
-  int iVar5;
-  
-  iVar5 = *(int *)(param_1 + 0x28);
-  if (iVar5 != 0) {
-    uVar4 = 0;
-    iVar3 = iVar5;
-    do {
-      if (*(int *)(iVar3 + 0xc) != -1) {
-        bVar2 = true;
-        goto LAB_8300a8bc;
-      }
-      uVar4 = uVar4 + 0xc;
-      iVar3 = uVar4 + iVar5;
-    } while (uVar4 < 0x30);
-  }
-  bVar2 = false;
-LAB_8300a8bc:
-  if (bVar2) {
-    if (param_1 == lbl_832645A8) {
-      fn_8300A140(param_1);
-      fn_82FEC018();
-      fn_8300A298(param_1);
-      fn_82FEC0A0();
-    }
-    else {
-      uVar1 = *(undefined4 *)(param_1 + 0xc);
-      fn_8300A140(param_1);
-      fn_82FEC350(uVar1);
-      uVar1 = *(undefined4 *)(param_1 + 0xc);
-      fn_8300A298(param_1);
-      fn_82FEC4C0(uVar1);
+  unsigned int i;
+  if (o->set != 0) {
+    for (i = 0; i < 4; i++) {
+      if (o->set->slots[i].id != -1)
+        return 1;
     }
   }
-  iVar5 = *(int *)(param_1 + 0x48);
-  if (iVar5 != *(int *)(param_1 + 0x4c)) {
-    do {
-      if (*(short *)(*(int **)(iVar5 + 4) + 6) != 0) {
-        (**(code **)(**(int **)(iVar5 + 4) + 0x50))();
-      }
-      iVar5 = iVar5 + 8;
-    } while (iVar5 != *(int *)(param_1 + 0x4c));
-  }
-  return;
+  return 0;
 }
 
+void fn_8300A870(Obj *o)
+{
+  void *ctx;
+  Pair *it;
+
+  if (anyActive(o)) {
+    if (o == lbl_832645A8) {
+      fn_8300A140(o);
+      fn_82FEC018();
+      fn_8300A298(o);
+      fn_82FEC0A0();
+    } else {
+      ctx = o->ctx;
+      fn_8300A140(o);
+      fn_82FEC350(ctx);
+      ctx = o->ctx;
+      fn_8300A298(o);
+      fn_82FEC4C0(ctx);
+    }
+  }
+  for (it = o->begin; it != o->end; it++) {
+    Item *item = it->item;
+    if (item->f18 != 0)
+      item->vt->fn50(item);
+  }
+}

@@ -1,81 +1,77 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
+typedef struct Node Node;
+typedef struct NodeVtbl {
+    void *f0;
+    void *f4;
+    void (*release)(Node *n);
+} NodeVtbl;
+
+struct Node {
+    NodeVtbl *vtbl;
+    int f4;
+    int f8;
+    unsigned int id;
+    Node *next;
+    Node *alt;
+};
+
+typedef struct Vec {
+    unsigned int *begin;
+    unsigned int *end;
+} Vec;
+
+typedef struct X {
+    char pad[0x10];
+    void *f10;
+} X;
+
 extern unsigned int lbl_832642E0;
+extern Node *fn_82FAB9C0(unsigned int a, void *b);
 
-
-undefined8 fn_83010658(undefined8 param_1,int param_2,int *param_3)
-
+int fn_83010658(int unused, X *x, Vec *v)
 {
-  int *piVar1;
-  bool bVar2;
-  int *piVar3;
-  int *piVar4;
-  int *piVar5;
-  int iVar6;
-  
-  if (param_3 != (int *)0x0) {
-    bVar2 = false;
-    iVar6 = 0;
-    if ((*(int *)(param_2 + 0x10) != 0) &&
-       (piVar3 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar3 != (int *)0x0)) {
-      piVar1 = (int *)param_3[1];
-      param_3 = (int *)*param_3;
-      piVar5 = piVar3;
-      do {
-        if (param_3 != piVar1) {
-          piVar4 = param_3;
-          do {
-            if (*piVar4 == piVar5[3]) goto LAB_83010750;
-            piVar4 = piVar4 + 1;
-          } while (piVar4 != piVar1);
-        }
-        if ((!bVar2) && (iVar6 = piVar5[5], iVar6 != 0)) {
-          bVar2 = true;
-        }
-        piVar5 = (int *)piVar5[4];
-      } while (piVar5 != (int *)0x0);
-      for (; iVar6 != 0; iVar6 = *(int *)(iVar6 + 0x14)) {
-        if (param_3 != piVar1) {
-          piVar5 = param_3;
-          do {
-            if (*piVar5 == *(int *)(iVar6 + 0xc)) {
-LAB_83010750:
-              (**(code **)(*piVar3 + 8))();
-              return 1;
-            }
-            piVar5 = piVar5 + 1;
-          } while (piVar5 != piVar1);
-        }
-      }
-      (**(code **)(*piVar3 + 8))();
-    }
-  }
-  return 0;
-}
+    unsigned char found;
+    Node *alt;
+    Node *head;
+    Node *n;
+    unsigned int *begin;
+    unsigned int *end;
+    unsigned int *p;
 
+    if (v == 0) {
+        return 0;
+    }
+    found = 0;
+    alt = 0;
+    if (x->f10 == 0) {
+        return 0;
+    }
+    n = fn_82FAB9C0(lbl_832642E0 + 4, x->f10);
+    head = n;
+    if (n == 0) {
+        return 0;
+    }
+    end = v->end;
+    begin = v->begin;
+    for (; n != 0; n = n->next) {
+        for (p = begin; p != end; p++) {
+            if (*p == n->id) {
+                goto hit;
+            }
+        }
+        if (!found && (alt = n->alt) != 0) {
+            found = 1;
+        }
+    }
+    for (; alt != 0; alt = alt->alt) {
+        for (p = begin; p != end; p++) {
+            if (*p == alt->id) {
+                goto hit;
+            }
+        }
+    }
+    head->vtbl->release(head);
+    return 0;
+hit:
+    head->vtbl->release(head);
+    return 1;
+}

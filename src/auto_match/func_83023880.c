@@ -1,52 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8217C5D0;
-extern unsigned int lbl_8217C5EC;
+typedef struct CRITICAL_SECTION { int v[8]; } CRITICAL_SECTION;
+void RtlInitializeCriticalSection(CRITICAL_SECTION *cs);
+extern char lbl_8217C5EC[];
+extern char lbl_8217C5D0[];
+typedef struct Obj {
+    void *vtbl;
+    void *vtbl2;
+    CRITICAL_SECTION cs;
+    int f28, f2c, f30, f34, f38;
+    unsigned short f3c, f3e;
+    int arr[2];
+    unsigned short f48, f4a;
+    unsigned char f4c;
+} Obj;
 
-
-undefined4 * fn_83023880(undefined4 *param_1)
-
+Obj *fn_83023880(Obj *o)
 {
-  *param_1 = &lbl_8217C5EC;
-  param_1[1] = &lbl_8217C5D0;
-  RtlInitializeCriticalSection(param_1 + 2);
-  param_1[10] = 0;
-  param_1[0xe] = 0;
-  *(undefined2 *)((int)param_1 + 0x4a) = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  *(undefined1 *)(param_1 + 0x13) = 0;
-  *(undefined2 *)(param_1 + 0xf) = 0;
-  *(undefined2 *)((int)param_1 + 0x3e) = 0;
-  *(undefined2 *)(param_1 + 0x12) = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  return param_1;
+    o->vtbl = lbl_8217C5EC;
+    o->vtbl2 = lbl_8217C5D0;
+    RtlInitializeCriticalSection(&o->cs);
+    { int i; o->f28 = 0; o->f38 = 0; o->f4a = 0; o->f2c = 0; o->f30 = 0; o->f34 = 0; o->f4c = 0; o->f3c = 0; o->f3e = 0; o->f48 = 0; for (i = 0; i < 2; i++) o->arr[i] = 0; }
+    return o;
 }
-
