@@ -1,57 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_828D4D00();
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828EA180();
+typedef struct { char b[0x34]; } Elem;
 
+typedef struct {
+    char pad[0x88];
+    Elem *begin;
+    Elem *end;
+} Obj;
 
-void fn_828DC8A0(int param_1,undefined8 param_2)
-
+extern int fn_828E9DA8(void *s);
+extern int fn_828E9D90(void *s);
+extern void fn_828EA180(void *s, void *buf, int n);
+extern void fn_828D4D00(Elem *e, void *buf);
+void fn_828DC8A0(Obj *o, void *s)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  undefined1 auStack_60 [48];
-  
-  uVar3 = (ulonglong)*(uint *)(param_1 + 0x88);
-  if (uVar3 != *(uint *)(param_1 + 0x8c)) {
-    do {
-      iVar1 = fn_828E9DA8(param_2);
-      iVar2 = fn_828E9D90(param_2);
-      if (0x14f < iVar1 - iVar2) {
-        fn_828EA180(param_2,auStack_60,0x2a);
-      }
-      fn_828D4D00(uVar3,auStack_60);
-      uVar3 = uVar3 + 0x34;
-    } while ((uVar3 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x8c));
-  }
-  return;
+    Elem *p;
+    char buf[48];
+    for (p = o->begin; p != o->end; p++) {
+            if (fn_828E9DA8(s) - fn_828E9D90(s) >= 0x150)
+                fn_828EA180(s, buf, 0x2a);
+            fn_828D4D00(p, buf);
+    }
 }
-

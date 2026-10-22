@@ -1,82 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5358();
-extern int fn_830514A8();
-extern int fn_83055E98();
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82FA5358(int a, int b);
+extern void fn_830514A8(void *p);
+extern void fn_83055E98(void *p);
 
+typedef struct Node {
+    char pad0[8];
+    int x8;
+    char padc[4];
+    struct Node *next;
+} Node;
 
-undefined8 fn_83051B70(int param_1)
+typedef struct Pool {
+    char pad0[0x10];
+    char cs[0x68];
+    Node *free;
+    char pad7c[0x10];
+    int x8c;
+} Pool;
 
+int fn_83051B70(char *p)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int iVar4;
-  longlong lVar5;
-  
-  iVar4 = param_1 + -0x40;
-  RtlEnterCriticalSection(iVar4);
-  if (*(char *)(param_1 + 0x30) == '\0') {
-    RtlLeaveCriticalSection(iVar4);
-    uVar3 = 2;
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0x24);
-    lVar5 = (ulonglong)*(uint *)(param_1 + -0x18) + 0x10;
-    RtlEnterCriticalSection(lVar5);
-    fn_82FA5358(*(undefined4 *)(*(int *)(param_1 + -0x18) + 0x8c),*(undefined4 *)(iVar1 + 8));
-    fn_83055E98(*(undefined4 *)(param_1 + -0x18));
-    iVar2 = *(int *)(param_1 + 0x24);
-    if (iVar2 != 0) {
-      if (*(int *)(iVar2 + 0x10) == 0) {
-        *(undefined4 *)(param_1 + 0x24) = 0;
-        *(undefined4 *)(param_1 + 0x28) = 0;
-      }
-      else {
-        *(undefined4 *)(param_1 + 0x24) = *(undefined4 *)(iVar2 + 0x10);
-      }
-      *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + -1;
+    void *cs = p - 0x40;
+    Node *n;
+    Node *h;
+    Pool *pool;
+    void *pcs;
+    RtlEnterCriticalSection(cs);
+    if (*(unsigned char *)(p + 0x30) != 0) {
+        n = *(Node **)(p + 0x24);
+        pcs = (*(Pool **)(p - 0x18))->cs;
+        RtlEnterCriticalSection(pcs);
+        fn_82FA5358((*(Pool **)(p - 0x18))->x8c, n->x8);
+        fn_83055E98(*(Pool **)(p - 0x18));
+        h = *(Node **)(p + 0x24);
+        if (h != 0) {
+            if (h->next == 0) {
+                *(Node **)(p + 0x24) = 0;
+                *(Node **)(p + 0x28) = 0;
+            } else {
+                *(Node **)(p + 0x24) = (*(Node **)(p + 0x24))->next;
+            }
+            *(int *)(p + 0x2c) = *(int *)(p + 0x2c) - 1;
+        }
+        pool = *(Pool **)(p - 0x18);
+        if (pool->free == 0) {
+            pool->free = n;
+            n->next = 0;
+        } else {
+            n->next = pool->free;
+            pool->free = n;
+        }
+        RtlLeaveCriticalSection(pcs);
+        *(unsigned char *)(p + 0x30) = *(unsigned char *)(p + 0x30) - 1;
+        fn_830514A8(p - 0x78);
+        RtlLeaveCriticalSection(cs);
+        return 1;
+    } else {
+        RtlLeaveCriticalSection(cs);
+        return 2;
     }
-    iVar2 = *(int *)(param_1 + -0x18);
-    if (*(int *)(iVar2 + 0x78) == 0) {
-      *(int *)(iVar2 + 0x78) = iVar1;
-      *(undefined4 *)(iVar1 + 0x10) = 0;
-    }
-    else {
-      *(int *)(iVar1 + 0x10) = *(int *)(iVar2 + 0x78);
-      *(int *)(iVar2 + 0x78) = iVar1;
-    }
-    RtlLeaveCriticalSection(lVar5);
-    *(char *)(param_1 + 0x30) = *(char *)(param_1 + 0x30) + -1;
-    fn_830514A8(param_1 + -0x78);
-    RtlLeaveCriticalSection(iVar4);
-    uVar3 = 1;
-  }
-  return uVar3;
 }
-

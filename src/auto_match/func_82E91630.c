@@ -1,57 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82E91630(int *param_1,int param_2)
-
-{
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  
-  piVar1 = (int *)param_1[3];
-  if ((param_2 != 0) && (-1 < piVar1[4])) {
-    piVar2 = (int *)piVar1[2];
-    iVar3 = *piVar2;
-    piVar1[2] = iVar3;
-    if (iVar3 == 0) {
-      piVar1[3] = 0;
-    }
-    piVar2[1] = param_2;
-    *piVar2 = *piVar1;
-    *piVar1 = (int)piVar2;
-    if (piVar1[1] == 0) {
-      piVar1[1] = (int)piVar2;
-    }
-    piVar1[4] = piVar1[4] + 1;
-    *param_1 = *param_1 + 1;
-    return 0;
+typedef struct Node {struct Node *next; unsigned value;} Node;
+typedef struct List {Node *head,*tail,*free_head,*free_tail; int count;} List;
+typedef struct Owner {int count; int pad[2]; List *list;} Owner;
+static int List_Insert(List *l, unsigned value, int index) {
+  Node *n;
+  if (value == 0 || index > l->count) return 0;
+  n = l->free_head;
+  l->free_head = n->next;
+  if (l->free_head == 0) l->free_tail = 0;
+  n->value = value;
+  if (index == 0) {
+    n->next = l->head;
+    l->head = n;
+    if (l->tail == 0) l->tail = n;
+  } else if (index == -1) {
+    n->next = 0;
+    l->tail = n;
+    if (l->head == 0) l->head = n;
+  } else {
+    Node *prev = l->head;
+    int i;
+    for (i = index - 1; i > 0; i--) prev = prev->next;
+    n->next = prev->next;
+    prev->next = n;
+    if (n->next == 0) l->tail = n;
   }
-  return 0xffffffffffffff9c;
+  l->count++;
+  return 1;
 }
-
+int fn_82E91630(Owner *p,unsigned value) {
+ if (!List_Insert(p->list, value, 0)) return -100;
+ p->count++;
+ return 0;
+}
