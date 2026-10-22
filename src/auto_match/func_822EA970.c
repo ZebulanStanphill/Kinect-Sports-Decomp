@@ -1,56 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822FB670();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
+extern void fn_822FB670(void *, int, int, int, int, int);
+extern void *fn_8265C9E0(unsigned int);
+extern char lbl_821AD588[];
 
+struct CB { void *vt; int uses; int weak; int obj[0x1f]; };
 
-undefined4 *
-fn_822EA970(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined4 *param_6)
-
+void **fn_822EA970(void **param_1, int a, int b, int c, int d, int *e)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x88);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar1 + 3 != (undefined4 *)0x0) {
-      fn_822FB670(puVar1 + 3,param_2,param_3,param_4,param_5,*param_6);
+  struct CB *cb = (struct CB *)fn_8265C9E0(0x88);
+  if (cb) {
+    cb->uses = 1;
+    cb->vt = lbl_821AD588;
+    cb->weak = 1;
+    if (cb->obj) {
+      fn_822FB670(cb->obj, a, b, c, d, *e);
     }
+  } else {
+    cb = 0;
   }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 3;
+  param_1[1] = cb;
+  param_1[0] = cb->obj;
   return param_1;
 }
-

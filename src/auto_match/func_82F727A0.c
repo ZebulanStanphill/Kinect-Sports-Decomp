@@ -32,6 +32,7 @@ extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
 
+extern char lbl_82196582[];
 undefined8 fn_82F727A0(undefined8 param_1)
 
 {
@@ -44,6 +45,6 @@ undefined8 fn_82F727A0(undefined8 param_1)
   stack_pair_20.first = 0;
   stack_pair_18.second = stack_pair_18.second & 0xffff;
   stack_pair_18.first = 0;
-  fn_82F775F0(param_1,&stack_pair_18.first,0xffffffff82196582,&stack_pair_20.first,1);
+  fn_82F775F0(param_1,&stack_pair_18.first,lbl_82196582,&stack_pair_20.first,1);
   return param_1;
 }
