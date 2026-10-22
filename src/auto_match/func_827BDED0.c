@@ -34,12 +34,12 @@ void fn_827BDED0(int *param_1,int param_2)
   if ((param_1[5] != 0xcf) && (param_1[5] != 0xcc)) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
+    (*(code *)*param_1)(param_1);
   }
-  if (param_2 < 1) {
+  if (param_2 <= 0) {
     param_2 = 1;
   }
-  if ((*(char *)(param_1[100] + 0x11) != '\0') && (param_1[0x1f] < param_2)) {
+  if ((*(char *)(param_1[100] + 0x11) != '\0') && (param_2 > param_1[0x1f])) {
     param_2 = param_1[0x1f];
   }
   param_1[0x21] = param_2;

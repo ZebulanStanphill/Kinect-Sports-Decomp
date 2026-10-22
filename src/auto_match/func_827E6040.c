@@ -26,37 +26,21 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827D50F8();
-extern int fn_827D9DC0();
+extern unsigned int fn_827D9DC0();
 extern int fn_827D9DC8();
 
-
-undefined8 fn_827E6040(int param_1)
-
+int fn_827E6040(int param_1)
 {
-  int iVar3;
-  undefined8 uVar1;
-  ulonglong uVar2;
-  
-  iVar3 = fn_827D50F8(*(undefined4 *)(param_1 + 0x14));
-  if (iVar3 == 0) {
-    if (*(int *)((*(int *)(param_1 + 4) + 3) * 0x28 + *(int *)(param_1 + 0x20)) == 0) {
-      uVar1 = 0x4b0;
-    }
-    else {
-      uVar2 = fn_827D9DC0(*(undefined4 *)(param_1 + 8));
-      if (((uVar2 & 2) == 0) &&
-         (uVar2 = fn_827D9DC0(*(undefined4 *)(param_1 + 8)), (uVar2 & 1) == 0)) {
-        uVar1 = 6;
-      }
-      else {
-        fn_827D9DC8(*(undefined4 *)(param_1 + 8));
-        uVar1 = 0x3e4;
-      }
-    }
+  if (fn_827D50F8(*(int *)(param_1 + 0x14)) != 0) {
+    return 0x4c7;
   }
-  else {
-    uVar1 = 0x4c7;
+  if (*(int *)((*(int *)(param_1 + 4) + 3) * 0x28 + *(int *)(param_1 + 0x20)) == 0) {
+    return 0x4b0;
   }
-  return uVar1;
+  if ((fn_827D9DC0(*(int *)(param_1 + 8)) & 2) == 0 &&
+      (fn_827D9DC0(*(int *)(param_1 + 8)) & 1) == 0) {
+    return 6;
+  }
+  fn_827D9DC8(*(int *)(param_1 + 8));
+  return 0x3e4;
 }
-

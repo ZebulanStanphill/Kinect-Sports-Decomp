@@ -34,13 +34,13 @@ void fn_827BF878(int *param_1)
   if (param_1[5] != 100) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
+    (*(code *)*param_1)(param_1);
   }
-  (**(code **)(*param_1 + 0x10))(param_1);
-  (**(code **)(param_1[6] + 8))(param_1);
+  (*(code *)(*param_1 + 0x10))(param_1);
+  (*(code *)(param_1[6] + 8))(param_1);
   fn_827C5DD0(param_1);
-  (**(code **)(param_1[0x53] + 0x10))(param_1);
-  (**(code **)(param_1[6] + 0x10))(param_1);
+  (*(code *)(param_1[0x53] + 0x10))(param_1);
+  (*(code *)(param_1[6] + 0x10))(param_1);
   return;
 }
 

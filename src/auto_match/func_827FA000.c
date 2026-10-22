@@ -1,81 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827F6AC0();
-extern int fn_827F6BA0();
-extern int fn_827F6F58();
-extern int fn_827F9BA0();
-extern int fn_827FA1F0();
-extern int fn_827FF7C8();
-extern int fn_82800DE0();
-extern int fn_828E0268();
+typedef struct Src {
+  char pad0[0x20];
+  unsigned short f20;
+  char pad22[0x48 - 0x22];
+  void *f48;
+  unsigned short f4c;
+  unsigned short f4e;
+  unsigned short f50;
+  unsigned short f52;
+} Src;
 
+typedef struct Self {
+  Src *src;
+  char f4[0x98 - 4];
+  int f98;
+  int f9c;
+  int fa0;
+  char fa4[0xbc - 0xa4];
+  int fbc;
+  int fc0;
+  int fc4;
+  char pad_c8[0xe4 - 0xc8];
+  unsigned short fe4;
+  unsigned short fe6;
+  unsigned short fe8;
+  unsigned short fea;
+  char pad_ec[4];
+  int ff0;
+  int ff4;
+  int ff8;
+  int ffc;
+} Self;
 
-void fn_827FA000(int *param_1,int param_2)
+extern void fn_827F6AC0(void *a, unsigned short b);
+extern void fn_827F6BA0(void *a, unsigned short b);
+extern void fn_827F6F58(void *a, void *b);
+extern void fn_827F9BA0(Self *a, void *b);
+extern void fn_827FA1F0(void *a, unsigned int b);
+extern void fn_827FF7C8(Self *a);
+extern void fn_82800DE0(void *a);
+extern void fn_828E0268(int a, void *b);
+extern char lbl_821960D0[];
 
+void fn_827FA000(Self *self, Src *src)
 {
-  int iVar1;
-  ushort uVar2;
-  int *piVar3;
-  
-  *param_1 = param_2;
-  piVar3 = param_1 + 1;
-  fn_827F6F58(piVar3,*(undefined4 *)(param_2 + 0x48));
-  if (*(int *)(*param_1 + 0x48) == 0) {
-    fn_827F6BA0(piVar3,*(undefined2 *)(*param_1 + 0x20));
-    fn_827F6AC0(piVar3,*(undefined2 *)(*param_1 + 0x4e));
-    uVar2 = *(ushort *)(*param_1 + 0x52);
-    if (0xf < uVar2) {
-      uVar2 = 0x10;
-    }
-    fn_827FA1F0(piVar3,uVar2);
-  }
-  param_1[0x3c] = 0;
-  param_1[0x3d] = 0;
-  param_1[0x3e] = 0;
-  param_1[0x27] = 0;
-  param_1[0x28] = 0;
-  param_1[0x2f] = 1;
-  param_1[0x30] = 0;
-  param_1[0x3f] = 1;
-  fn_827F9BA0(param_1,piVar3);
-  fn_82800DE0(param_1 + 0x29);
-  fn_828E0268(param_1[0x26],0xffffffff821960d0);
-  param_1[0x31] = 0;
-  fn_827FF7C8(param_1);
-  iVar1 = *param_1;
-  *(undefined2 *)(param_1 + 0x39) = *(undefined2 *)(iVar1 + 0x4e);
-  *(undefined2 *)(param_1 + 0x3a) = *(undefined2 *)(iVar1 + 0x50);
-  uVar2 = *(ushort *)(iVar1 + 0x52);
-  if (0xf < uVar2) {
-    uVar2 = 0x10;
-  }
-  *(ushort *)((int)param_1 + 0xe6) = uVar2;
-  *(undefined2 *)((int)param_1 + 0xea) = *(undefined2 *)(iVar1 + 0x4c);
-  return;
-}
+  Src *s;
+  unsigned int n;
+  unsigned short m;
 
+  self->src = src;
+  fn_827F6F58(self->f4, src->f48);
+  if (self->src->f48 == 0) {
+    fn_827F6BA0(self->f4, self->src->f20);
+    fn_827F6AC0(self->f4, self->src->f4e);
+    n = self->src->f52;
+    fn_827FA1F0(self->f4, n < 16 ? n : 16);
+  }
+  self->ff0 = 0;
+  self->ff4 = 0;
+  self->ff8 = 0;
+  self->f9c = 0;
+  self->fa0 = 0;
+  self->fbc = 1;
+  self->fc0 = 0;
+  self->ffc = 1;
+  fn_827F9BA0(self, self->f4);
+  fn_82800DE0(self->fa4);
+  fn_828E0268(self->f98, lbl_821960D0);
+  self->fc4 = 0;
+  fn_827FF7C8(self);
+  s = self->src;
+  self->fe4 = s->f4e;
+  self->fe8 = s->f50;
+  m = s->f52;
+  if (m >= 16) {
+    m = 16;
+  }
+  self->fe6 = m;
+  self->fea = s->f4c;
+}

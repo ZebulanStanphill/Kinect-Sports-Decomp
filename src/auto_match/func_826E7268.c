@@ -1,54 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826E7110();
+typedef struct {
+    char pad0[0x48];
+    int f48;
+    unsigned int pos;
+} Stream;
 
+typedef struct {
+    char pad0[8];
+    Stream *s;
+} Obj;
 
-ulonglong fn_826E7268(int param_1,longlong param_2,uint param_3)
+extern void fn_826E7110(Stream *s, int pos);
 
+unsigned int fn_826E7268(Obj *self, int offset, unsigned int whence)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if (iVar1 == 0) {
-    return 0xffffffffffffffff;
-  }
-  if (*(int *)(iVar1 + 0x48) != 0) {
-    return (ulonglong)*(uint *)(iVar1 + 0x4c);
-  }
-  if (param_3 != 0) {
-    if (param_3 != 1) {
-      if ((2 < param_3) || (fn_826E7110(iVar1,0x7fffffff), (int)param_2 == 0)) goto LAB_826e72e8;
-      iVar1 = *(int *)(param_1 + 8);
+    Stream *s = self->s;
+    if (s == 0) {
+        return 0xffffffff;
     }
-    param_2 = (ulonglong)*(uint *)(iVar1 + 0x4c) + param_2;
-  }
-  fn_826E7110(iVar1,param_2);
-LAB_826e72e8:
-  return (ulonglong)*(uint *)(*(int *)(param_1 + 8) + 0x4c);
+    if (s->f48 != 0) {
+        return s->pos;
+    }
+    switch (whence) {
+    case 2:
+        fn_826E7110(s, 0x7fffffff);
+        if (offset == 0) {
+            break;
+        }
+        s = self->s;
+        /* fall through */
+    case 1:
+        offset += s->pos;
+        /* fall through */
+    case 0:
+        fn_826E7110(s, offset);
+        break;
+    }
+    return self->s->pos;
 }
-

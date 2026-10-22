@@ -1,58 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_82699AD0();
-extern int fn_8269D480();
-extern int fn_826C86D8();
-extern int fn_826CE308();
-extern int fn_826D03A0();
+typedef struct VObj VObj;
+typedef struct VTbl {
+    void *f[13];
+    void (*f34)(VObj *self, void *a, int b);
+} VTbl;
+struct VObj {
+    VTbl *vt;
+};
 
+typedef struct Sub {
+    char pad0[0xa98];
+    char ma98[0x68];
+    unsigned int flags;
+} Sub;
 
-void fn_826D1430(int param_1)
+typedef struct Self {
+    char pad0[0x68];
+    VObj v68;
+    char pad6c[0x34];
+    Sub *sub;
+    char pada4[4];
+    char ma8[0xa0];
+    char m148[0x6c];
+    void *p1b4;
+} Self;
 
+extern void fn_826CE308(void *p);
+extern void fn_8267BE38(void *p);
+extern int fn_826C86D8(Self *p);
+extern void fn_826D03A0(void *p, int i);
+extern void fn_82699AD0(void *p);
+extern void fn_8269D480(Self *p);
+
+void fn_826D1430(Self *self)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x1b4);
-  if (iVar1 != 0) {
-    fn_826CE308(iVar1);
-    fn_8267BE38(iVar1);
-  }
-  *(undefined4 *)(param_1 + 0x1b4) = 0;
-  uVar2 = fn_826C86D8(param_1);
-  if (-1 < (int)uVar2) {
-    fn_826D03A0((ulonglong)*(uint *)(param_1 + 0xa0) + 0xa98,uVar2);
-  }
-  *(uint *)(*(int *)(param_1 + 0xa0) + 0xb00) = *(uint *)(*(int *)(param_1 + 0xa0) + 0xb00) | 0x400;
-  fn_82699AD0(param_1 + 0xa8);
-  fn_8269D480(param_1);
-  (**(code **)(*(int *)(param_1 + 0x68) + 0x34))(param_1 + 0x68,param_1 + 0x148,0);
-  return;
-}
+    void *p;
+    int idx;
 
+    p = self->p1b4;
+    if (p != 0) {
+        fn_826CE308(p);
+        fn_8267BE38(p);
+    }
+    self->p1b4 = 0;
+    idx = fn_826C86D8(self);
+    if (idx > -1) {
+        fn_826D03A0(self->sub->ma98, idx);
+    }
+    self->sub->flags |= 0x400;
+    fn_82699AD0(self->ma8);
+    fn_8269D480(self);
+    self->v68.vt->f34(&self->v68, self->m148, 0);
+}

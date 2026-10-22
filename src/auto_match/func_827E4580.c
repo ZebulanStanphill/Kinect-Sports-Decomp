@@ -1,59 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef void (*cb_t)(void *, int);
 extern int fn_82517978();
 extern int fn_827D50C0();
 extern int fn_827D5108();
 extern int fn_827D9E70();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
 
+typedef struct {
+    int a0;
+    int a4;
+    void *p8;
+    cb_t cbC;
+    int x10;
+    int x14;
+    int x18;
+    int x1c;
+    int x20;
+    int done24;
+} S;
 
-void fn_827E4580(int param_1)
-
+void fn_827E4580(S *s)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    struct { int first; int second; } pair;
 
-  
-  if (*(int *)(param_1 + 0x24) == 0) {
-    fn_827D50C0(*(undefined4 *)(param_1 + 0x14),0);
-    if (*(int *)(param_1 + 0xc) != 0) {
-      stack_pair_20.first = 0;
-      stack_pair_20.second = 0;
-      fn_82517978(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0
-                       );
-      (**(code **)(param_1 + 0xc))(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x10));
+    if (s->done24 == 0) {
+        fn_827D50C0(s->x14, 0);
+        if (s->cbC != 0) {
+            pair.first = 0;
+            pair.second = 0;
+            fn_82517978(&pair, s->x14, s->x18, 0);
+            s->cbC(&pair, s->x10);
+        }
+        if (s->p8 != 0) {
+            fn_827D9E70(s->p8);
+        }
+        fn_827D5108(s->x14, 3);
+        s->done24 = 1;
     }
-    if (*(int *)(param_1 + 8) != 0) {
-      fn_827D9E70();
-    }
-    fn_827D5108(*(undefined4 *)(param_1 + 0x14),3);
-    *(undefined4 *)(param_1 + 0x24) = 1;
-  }
-  return;
 }
-

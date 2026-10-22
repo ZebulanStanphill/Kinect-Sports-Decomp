@@ -25,51 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_8267C498();
-extern int fn_8268BA10();
-extern int fn_826C6368();
+typedef struct { int pad; int ref; } RefA;
+typedef struct { int ref; } RefB;
 
+typedef struct {
+  char pad0[8];
+  int s8;
+  int c;
+  int s10;
+  int x14;
+  int a;
+  int b;
+  int x20;
+  unsigned short x24;
+  unsigned short x26;
+  unsigned char x28;
+  unsigned short x2a;
+} Self;
 
-int fn_82726AB8(int param_1,int param_2)
+extern void fn_8267BE38(RefB *p);
+extern void fn_8267C498(RefA *p);
+extern void fn_8268BA10(void *dst, void *src);
+extern void fn_826C6368(RefB *p);
 
+Self *fn_82726AB8(Self *param_1, Self *param_2)
 {
-  int iVar1;
-  int *piVar2;
-  uint *puVar3;
-  uint uVar4;
-  
-  fn_8268BA10(param_1 + 8,param_2 + 8);
-  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(param_2 + 0xc);
-  fn_8268BA10(param_1 + 0x10,param_2 + 0x10);
-  *(undefined4 *)(param_1 + 0x14) = *(undefined4 *)(param_2 + 0x14);
-  iVar1 = *(int *)(param_2 + 0x18);
-  if (iVar1 != 0) {
-    *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) + 1;
+  RefB *b;
+  int h;
+
+  fn_8268BA10(&param_1->s8, &param_2->s8);
+  param_1->c = param_2->c;
+  fn_8268BA10(&param_1->s10, &param_2->s10);
+  param_1->x14 = param_2->x14;
+  h = param_2->a;
+  if (h != 0) {
+    ((RefA *)h)->ref++;
   }
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_8267C498();
+  if ((RefA *)param_1->a != 0) {
+    fn_8267C498((RefA *)param_1->a);
   }
-  *(undefined4 *)(param_1 + 0x18) = *(undefined4 *)(param_2 + 0x18);
-  piVar2 = *(int **)(param_2 + 0x1c);
-  if (piVar2 != (int *)0x0) {
-    *piVar2 = *piVar2 + 1;
+  param_1->a = param_2->a;
+  h = param_2->b;
+  if (h != 0) {
+    ((RefB *)h)->ref++;
   }
-  puVar3 = *(uint **)(param_1 + 0x1c);
-  if (puVar3 != (uint *)0x0) {
-    uVar4 = *puVar3;
-    *puVar3 = (uint)((ulonglong)uVar4 - 1);
-    if ((ulonglong)uVar4 - 1 == 0) {
-      fn_826C6368(puVar3);
-      fn_8267BE38(puVar3);
+  b = (RefB *)param_1->b;
+  if (b != 0) {
+    if (--b->ref == 0) {
+      fn_826C6368(b);
+      fn_8267BE38(b);
     }
   }
-  *(undefined4 *)(param_1 + 0x1c) = *(undefined4 *)(param_2 + 0x1c);
-  *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_2 + 0x20);
-  *(undefined2 *)(param_1 + 0x24) = *(undefined2 *)(param_2 + 0x24);
-  *(undefined2 *)(param_1 + 0x26) = *(undefined2 *)(param_2 + 0x26);
-  *(undefined1 *)(param_1 + 0x28) = *(undefined1 *)(param_2 + 0x28);
-  *(undefined2 *)(param_1 + 0x2a) = *(undefined2 *)(param_2 + 0x2a);
+  param_1->b = param_2->b;
+  param_1->x20 = param_2->x20;
+  param_1->x24 = param_2->x24;
+  param_1->x26 = param_2->x26;
+  param_1->x28 = param_2->x28;
+  param_1->x2a = param_2->x2a;
   return param_1;
 }
-

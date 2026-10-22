@@ -36,7 +36,7 @@ void fn_8278DAD0(int param_1)
 {
   *(uint *)(param_1 + 0x20) = *(uint *)(param_1 + 0x20) & 0xff000000;
   *(ushort *)(param_1 + 0x2a) = *(ushort *)(param_1 + 0x2a) | 1;
-  fn_8278D038(param_1,0xffffffff820155f0,0xffffffffffffffff);
+  fn_8278D038(param_1,"Times New Roman",0xffffffffffffffff);
   *(undefined2 *)(param_1 + 0x26) = 0xf0;
   *(ushort *)(param_1 + 0x2a) = *(ushort *)(param_1 + 0x2a) | 8;
   fn_8278D2E0(param_1,0);

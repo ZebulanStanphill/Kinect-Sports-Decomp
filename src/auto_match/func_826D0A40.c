@@ -29,32 +29,40 @@ extern int fn_8267B890();
 extern int fn_826C6A68();
 extern unsigned int lbl_831E7E64;
 
+typedef struct Obj {
+  int a;
+  int b;
+  int c[7];
+} Obj;
 
-void fn_826D0A40(int param_1,undefined4 param_2)
+typedef struct Owner {
+  char pad[0x1b4];
+  Obj *obj;
+} Owner;
 
+static Obj *Obj_Init(Obj *o)
 {
-  undefined4 *puVar1;
-  
-  if (*(int *)(param_1 + 0x1b4) == 0) {
-    puVar1 = (undefined4 *)fn_8267B890(lbl_831E7E64,0x24,0);
-    if (puVar1 == (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)0x0;
-    }
-    else {
-      puVar1[2] = 0;
-      puVar1[3] = 0;
-      puVar1[4] = 0;
-      puVar1[5] = 0;
-      puVar1[6] = 0;
-      puVar1[7] = 0;
-      puVar1[8] = 0;
-      *puVar1 = 100;
-      puVar1[1] = 0;
-    }
-    *(undefined4 **)(param_1 + 0x1b4) = puVar1;
-  }
-  *(undefined4 *)(*(int *)(param_1 + 0x1b4) + 4) = param_2;
-  fn_826C6A68(param_1);
-  return;
+  o->c[0] = 0;
+  o->c[1] = 0;
+  o->c[2] = 0;
+  o->c[3] = 0;
+  o->c[4] = 0;
+  o->c[5] = 0;
+  o->c[6] = 0;
+  o->a = 100;
+  o->b = 0;
+  return o;
 }
 
+void fn_826D0A40(Owner *param_1,int param_2)
+
+{
+  Obj *o;
+  
+  if (param_1->obj == 0) {
+    o = (Obj *)fn_8267B890(lbl_831E7E64,0x24,0);
+    param_1->obj = o ? Obj_Init(o) : 0;
+  }
+  param_1->obj->b = param_2;
+  fn_826C6A68(param_1);
+}

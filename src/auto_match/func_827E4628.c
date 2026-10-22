@@ -1,59 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_827D50C0();
-extern int fn_827D5108();
-extern int fn_827D9E70();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct { int first; int second; } Pair;
+typedef struct {
+  int pad0;
+  int pad4;
+  void *p8;
+  void (*cb)(Pair *, int);
+  int arg;
+  int p14;
+  int p18;
+  int pad1c;
+  int pad20;
+  int done;
+} Obj;
+extern void fn_82517978(Pair *, int, int, int);
+extern void fn_827D50C0(int);
+extern void fn_827D5108(int, int);
+extern void fn_827D9E70(void *);
 
-
-void fn_827E4628(int param_1)
-
+void fn_827E4628(Obj *param_1)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  Pair pair;
 
-  
-  if (*(int *)(param_1 + 0x24) == 0) {
-    fn_827D50C0(*(undefined4 *)(param_1 + 0x14));
-    if (*(int *)(param_1 + 0xc) != 0) {
-      stack_pair_20.first = 0;
-      stack_pair_20.second = 0;
-      fn_82517978(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0
-                       );
-      (**(code **)(param_1 + 0xc))(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x10));
+  if (param_1->done == 0) {
+    fn_827D50C0(param_1->p14);
+    if (param_1->cb != 0) {
+      pair.first = 0;
+      pair.second = 0;
+      fn_82517978(&pair, param_1->p14, param_1->p18, 0);
+      param_1->cb(&pair, param_1->arg);
     }
-    if (*(int *)(param_1 + 8) != 0) {
-      fn_827D9E70();
+    if (param_1->p8 != 0) {
+      fn_827D9E70(param_1->p8);
     }
-    fn_827D5108(*(undefined4 *)(param_1 + 0x14),3);
-    *(undefined4 *)(param_1 + 0x24) = 1;
+    fn_827D5108(param_1->p14, 3);
+    param_1->done = 1;
   }
-  return;
 }
-

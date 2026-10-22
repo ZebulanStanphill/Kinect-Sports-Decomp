@@ -25,26 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F678C8();
-extern int fn_82F6C060();
+typedef void (*err_fn)(void *);
+struct jerr { err_fn error_exit; int pad[4]; int msg_code; };
+struct jcinfo { struct jerr *err; };
+struct bstore { int pad[3]; void *temp_file; };
 
+extern unsigned int fn_82F678C8(void *buf, unsigned int size, unsigned int count, void *file);
+extern int fn_82F6C060(void *file, long offset, int origin);
 
-void fn_827C8F08(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,ulonglong param_5)
-
+void fn_827C8F08(struct jcinfo *cinfo, struct bstore *info, void *buffer_address, long file_offset, long byte_count)
 {
-  int iVar2;
-  ulonglong uVar1;
-  
-  iVar2 = fn_82F6C060(*(undefined4 *)(param_2 + 0xc),param_4,0);
-  if (iVar2 != 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x41;
-    (**(code **)*param_1)(param_1);
+  if (fn_82F6C060(info->temp_file, file_offset, 0)) {
+    cinfo->err->msg_code = 0x41;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  uVar1 = fn_82F678C8(param_3,1,param_5,*(undefined4 *)(param_2 + 0xc));
-  if ((uVar1 & 0xffffffff) != (param_5 & 0xffffffff)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x40;
-    (**(code **)*param_1)(param_1);
+  if (fn_82F678C8(buffer_address, 1, byte_count, info->temp_file) != (unsigned int)byte_count) {
+    cinfo->err->msg_code = 0x40;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  return;
 }
-

@@ -1,66 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned short ushort;
 
+typedef struct Sub {
+  uint flags;
+  int f4;
+  ushort f8;
+  ushort fa;
+} Sub;
 
-int * fn_826F74F8(int param_1,int param_2,int param_3)
+typedef struct Node {
+  struct Node *next;
+  int f4;
+  uint f8;
+  uint fc;
+  Sub sub;
+  int f1c;
+  uint f20;
+  int f24;
+  int f28;
+  uint f2c;
+} Node;
 
+static bool eq2(Sub *a, Sub *b)
 {
-  int *piVar1;
-  bool bVar2;
-  bool bVar3;
-  
-  piVar1 = *(int **)(param_2 * 0xc + param_1);
-  if (piVar1 != (int *)0x0) {
-    do {
-      if ((((piVar1[1] == *(int *)(param_3 + 4)) && (piVar1[3] == *(int *)(param_3 + 0xc))) &&
-          (piVar1[2] == *(int *)(param_3 + 8))) &&
-         ((piVar1[0xb] == *(int *)(param_3 + 0x2c) && (piVar1[8] == *(int *)(param_3 + 0x20))))) {
-        if ((piVar1[4] == *(uint *)(param_3 + 0x10)) &&
-           (((piVar1[4] & 0x20000U) == 0 || (*(short *)(piVar1 + 6) == *(short *)(param_3 + 0x18))))
-           ) {
-          bVar2 = true;
-        }
-        else {
-          bVar2 = false;
-        }
-        bVar3 = true;
-        if (!bVar2) goto code_r0x826f7598;
-      }
-      else {
-code_r0x826f7598:
-        bVar3 = false;
-      }
-      if (bVar3) {
-        return piVar1;
-      }
-      piVar1 = (int *)*piVar1;
-    } while (piVar1 != (int *)0x0);
-  }
-  return (int *)0x0;
+  return a->flags == b->flags && (!(a->flags & 0x20000) || a->f8 == b->f8);
 }
 
+static bool eq(Node *a, Node *b)
+{
+  return a->f4 == b->f4 && a->fc == b->fc && a->f8 == b->f8 && a->f2c == b->f2c &&
+         a->f20 == b->f20 && eq2(&a->sub, &b->sub);
+}
+
+Node *fn_826F74F8(Node **param_1, int param_2, Node *param_3)
+{
+  Node *p;
+
+  for (p = *(Node **)((char *)param_1 + param_2 * 0xc); p != 0; p = p->next) {
+    if (eq(p, param_3)) {
+      return p;
+    }
+  }
+  return 0;
+}

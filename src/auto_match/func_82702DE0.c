@@ -1,59 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C3378();
+extern void fn_826C3378(void *self, void *q, int flag);
 
+typedef struct {
+    int f0;
+    int f4;
+    unsigned int refs;
+} Obj;
 
-int * fn_82702DE0(int *param_1,int *param_2)
+typedef struct {
+    Obj *p;
+    void *q;
+    unsigned char flag;
+} Sub;
 
+typedef struct {
+    Obj *a;
+    int *rc;
+    Sub s;
+} T;
+
+T *fn_82702DE0(T *d, T *s)
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = *param_2;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  *param_1 = *param_2;
-  piVar2 = (int *)param_2[1];
-  if (piVar2 != (int *)0x0) {
-    *piVar2 = *piVar2 + 1;
-  }
-  param_1[1] = param_2[1];
-  *(undefined1 *)(param_1 + 4) = 0;
-  iVar1 = param_2[2];
-  param_1[2] = iVar1;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  param_1[3] = 0;
-  if (param_2[3] != 0) {
-    fn_826C3378(param_1 + 2,param_2[3],*(byte *)(param_2 + 4) & 1);
-  }
-  return param_1;
-}
+    Sub *sub;
+    int *rc;
 
+    if (s->a != 0)
+        s->a->refs = (s->a->refs + 1) & 0x8fffffff;
+    d->a = s->a;
+    rc = s->rc;
+    if (rc != 0)
+        (*rc)++;
+    d->rc = s->rc;
+    sub = &d->s;
+    sub->flag = 0;
+    sub->p = s->s.p;
+    if (sub->p != 0)
+        sub->p->refs = (sub->p->refs + 1) & 0x8fffffff;
+    sub->q = 0;
+    if (s->s.q != 0)
+        fn_826C3378(sub, s->s.q, s->s.flag & 1);
+    return d;
+}

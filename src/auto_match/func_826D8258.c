@@ -1,58 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4F0();
-extern int fn_826D7428();
-extern unsigned int lbl_82005928;
-extern unsigned int lbl_8200BD80;
-extern unsigned int lbl_8200C610;
-extern unsigned int lbl_8200C628;
+extern void fn_8267C4F0(void *p);
+extern void fn_826D7428(void *p);
+extern char lbl_82005928[];
+extern char lbl_8200BD80[];
+extern char lbl_8200C610[];
+extern char lbl_8200C628[];
 
+typedef struct {
+    void *vt0;
+    int pad4;
+    int pad8;
+    void *vtC;
+    void *p10;
+    void *p14;
+    void *p18;
+    void *p1C;
+} Obj;
 
-void fn_826D8258(undefined4 *param_1)
-
+void fn_826D8258(Obj *self)
 {
-  *param_1 = &lbl_8200C628;
-  param_1[3] = &lbl_8200C610;
-  fn_826D7428(param_1[7]);
-  if (param_1[7] != 0) {
-    fn_8267C4F0();
-  }
-  if (param_1[6] != 0) {
-    fn_8267C4F0();
-  }
-  if (param_1[5] != 0) {
-    fn_8267C4F0();
-  }
-  if (param_1[4] != 0) {
-    fn_8267C4F0();
-  }
-  param_1[3] = &lbl_82005928;
-  *param_1 = &lbl_8200BD80;
-  return;
+    void *p;
+    self->vt0 = lbl_8200C628;
+    self->vtC = lbl_8200C610;
+    fn_826D7428(self->p1C);
+    if ((p = self->p1C) != 0) {
+        fn_8267C4F0(p);
+    }
+    if ((p = self->p18) != 0) {
+        fn_8267C4F0(p);
+    }
+    if ((p = self->p14) != 0) {
+        fn_8267C4F0(p);
+    }
+    if ((p = self->p10) != 0) {
+        fn_8267C4F0(p);
+    }
+    self->vtC = lbl_82005928;
+    self->vt0 = lbl_8200BD80;
 }
-
