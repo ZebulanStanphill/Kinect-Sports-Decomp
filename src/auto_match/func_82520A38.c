@@ -1,58 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82A1BB28();
-extern int fn_82A1BB50();
-extern int fn_82A1BC70();
-extern int memcpy();
+extern int fn_82A1BB28(U32 h, void *a, U32 *b, void *c, U32 n);
+extern int fn_82A1BB50(int a, int b, int c, U32 *out);
+extern void fn_82A1BC70(U32 h);
+extern void *memcpy(void *d, const void *s, U32 n);
 
-
-undefined8 fn_82520A38(int param_1,ulonglong param_2)
-
+int fn_82520A38(unsigned char *param_1, void *param_2)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined4 auStack_30;
-  
-  uVar2 = 0;
-  if ((param_2 & 0xffffffff) != 0) {
-    memcpy(param_1 + 8,param_2,1000);
-    auStack_30 = 0;
-    iVar1 = fn_82A1BB50(0,0,0,&auStack_30);
-    if (-1 < iVar1) {
-      *(undefined4 *)(param_1 + 0x7d8) = 1000;
-      iVar1 = fn_82A1BB28(auStack_30,param_1 + 0x3f0,param_1 + 0x7d8,param_1 + 8,1000);
-      fn_82A1BC70(auStack_30);
-      if (-1 < iVar1) {
-        uVar2 = 1;
+  int hr;
+  int result;
+  U32 h;
+
+  result = 0;
+  if (param_2 != 0) {
+    memcpy(param_1 + 8, param_2, 1000);
+    h = 0;
+    hr = fn_82A1BB50(0, 0, 0, &h);
+    if (hr >= 0) {
+      *(U32 *)(param_1 + 0x7d8) = 1000;
+      hr = fn_82A1BB28(h, param_1 + 0x3f0, (U32 *)(param_1 + 0x7d8), param_1 + 8, 1000);
+      fn_82A1BC70(h);
+      if (hr >= 0) {
+        result = 1;
       }
     }
   }
-  return uVar2;
+  return result;
 }
-

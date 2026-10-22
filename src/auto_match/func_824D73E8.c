@@ -1,64 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_824CC840();
 extern int fn_824CD030();
 extern int fn_824D7968();
-extern unsigned int lbl_82193E50;
-extern unsigned int lbl_821C0E94;
+extern float lbl_82193E50;
+extern char lbl_821C0E94[];
 
+typedef struct {
+    char pad[0x10];
+    float f10;
+} Sub;
 
-undefined4 * fn_824D73E8(undefined4 *param_1,undefined8 param_2)
+typedef struct {
+    void *vtbl;
+    char pad04[0x1c];
+    Sub *sub;
+    char pad24[0xbc];
+    unsigned char bE0;
+    char padE1[0xf];
+    int a[14];
+} Obj;
 
+Obj *fn_824D73E8(Obj *p, int arg)
 {
-  int iVar1;
-  
-  fn_824CC840();
-  param_1[0x3c] = 0;
-  *(undefined1 *)(param_1 + 0x38) = 1;
-  *param_1 = &lbl_821C0E94;
-  param_1[0x3d] = 0;
-  param_1[0x3e] = 0;
-  param_1[0x3f] = 0;
-  param_1[0x40] = 0;
-  param_1[0x41] = 0;
-  param_1[0x42] = 0;
-  param_1[0x43] = 0;
-  param_1[0x44] = 0;
-  param_1[0x45] = 0;
-  param_1[0x46] = 0;
-  param_1[0x47] = 0;
-  param_1[0x48] = 0;
-  param_1[0x49] = 0;
-  iVar1 = fn_824CD030(param_1);
-  if (iVar1 != 0) {
-    fn_824D7968(param_1,param_2);
-  }
-  *(undefined4 *)(param_1[8] + 0x10) = lbl_82193E50;
-  return param_1;
+    fn_824CC840();
+p->bE0 = 1;
+p->a[0] = 0;
+p->vtbl = lbl_821C0E94;
+p->a[1] = 0;
+    p->a[1] = 0;
+    p->a[2] = 0;
+    p->a[3] = 0;
+    p->a[4] = 0;
+    p->a[5] = 0;
+    p->a[6] = 0;
+    p->a[7] = 0;
+    p->a[8] = 0;
+    p->a[9] = 0;
+    p->a[10] = 0;
+    p->a[11] = 0;
+    p->a[12] = 0;
+    p->a[13] = 0;
+    if (fn_824CD030(p) != 0) {
+        fn_824D7968(p, arg);
+    }
+    p->sub->f10 = lbl_82193E50;
+    return p;
 }
-

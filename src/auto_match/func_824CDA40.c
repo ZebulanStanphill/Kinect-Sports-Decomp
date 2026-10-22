@@ -1,65 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517E78();
-extern int fn_82F51178();
-extern int fn_82F513F8();
-extern unsigned int lbl_821C0BE0;
-extern unsigned int lbl_821C0C24;
+extern void fn_82517E78(void *p);
+extern void fn_82F51178(void *p, int n);
+extern void *fn_82F513F8(void *p);
+extern char lbl_821C0BE0[];
+extern char lbl_821C0C24[];
 
+typedef struct Inner {
+    char pad0[0x80];
+    char *p80;
+    char pad1[0x94 - 0x84];
+    void *p94;
+} Inner;
 
-void fn_824CDA40(undefined4 *param_1)
+typedef struct Holder {
+    char pad0[0x14];
+    Inner *inner;
+} Holder;
 
+typedef struct VObj {
+    void (**vt)(struct VObj *, int);
+} VObj;
+
+typedef struct Obj {
+    void *vt0;
+    char pad0[0x68 - 4];
+    void *vt68;
+    char pad1[0x80 - 0x6C];
+    Holder *holder;
+    char pad2[0x94 - 0x84];
+    VObj *child;
+} Obj;
+
+void fn_824CDA40(Obj *o)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  
-  iVar1 = param_1[0x20];
-  *param_1 = &lbl_821C0BE0;
-  param_1[0x1a] = &lbl_821C0C24;
-  if (iVar1 != 0) {
-    iVar2 = *(int *)(iVar1 + 0x14);
-    if (iVar2 != 0) {
-      iVar4 = fn_82F513F8(*(undefined4 *)(*(int *)(iVar2 + 0x80) + 0x20));
-      if (iVar4 == *(int *)(iVar2 + 0x94)) {
-        fn_82F51178(*(undefined4 *)(*(int *)(iVar2 + 0x80) + 0x20),0);
-      }
-      *(undefined4 *)(iVar2 + 0x80) = 0;
-    }
-    *(undefined4 *)(iVar1 + 0x14) = 0;
-    param_1[0x20] = 0;
-  }
-  puVar3 = (undefined4 *)param_1[0x25];
-  if (puVar3 != (undefined4 *)0x0) {
-    (**(code **)*puVar3)(puVar3,1);
-  }
-  fn_82517E78(param_1);
-  return;
-}
+    Holder *h = o->holder;
+    Inner *in;
 
+    o->vt0 = lbl_821C0BE0;
+    o->vt68 = lbl_821C0C24;
+    if (h != 0) {
+        in = h->inner;
+        if (in != 0) {
+            if (fn_82F513F8(*(void **)(in->p80 + 0x20)) == in->p94) {
+                fn_82F51178(*(void **)(in->p80 + 0x20), 0);
+            }
+            in->p80 = 0;
+        }
+        h->inner = 0;
+        o->holder = 0;
+    }
+    if (o->child != 0) {
+        o->child->vt[0](o->child, 1);
+    }
+    fn_82517E78(o);
+}

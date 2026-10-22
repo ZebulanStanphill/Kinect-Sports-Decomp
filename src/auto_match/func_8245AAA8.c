@@ -1,60 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8245B458();
-extern int fn_82A1EFC0();
+typedef struct CS {
+    char data[0x1c];
+} CS;
 
+typedef void (*Callback)(unsigned char id, int ctx, int arg);
 
-void fn_8245AAA8(int param_1,undefined8 param_2)
+typedef struct Obj {
+    char pad0[0xf];
+    unsigned char id;
+    char pad10[0x80068 - 0x10];
+    int f80068;
+    int f8006c;
+    int f80070;
+    char pad80074[0x80080 - 0x80074];
+    Callback cb;
+    int cbctx;
+    char pad80088[0x8008c - 0x80088];
+    CS cs;
+    char pad800a8[0x800bc - 0x800a8];
+    int f800bc;
+} Obj;
 
+typedef struct Mgr {
+    CS cs;
+    char pad[0x58c - 0x1c];
+    int f58c;
+} Mgr;
+
+extern void RtlEnterCriticalSection(CS *cs);
+extern void RtlLeaveCriticalSection(CS *cs);
+extern Mgr *fn_8245B458(void);
+extern void fn_82A1EFC0(void *p, int c, unsigned int n);
+
+void fn_8245AAA8(Obj *o, int arg)
 {
-  code *pcVar1;
-  int iVar2;
-  int iVar3;
-  
-  pcVar1 = *(code **)(param_1 + 0x80080);
-  if (pcVar1 != (code *)0x0) {
-    (*pcVar1)(*(undefined1 *)(param_1 + 0xf),*(undefined4 *)(param_1 + 0x80084),param_2);
-    *(undefined4 *)(param_1 + 0x80080) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x80070) = 0;
-  iVar3 = param_1 + 0x8008c;
-  *(undefined4 *)(param_1 + 0x8006c) = 0;
-  *(undefined4 *)(param_1 + 0x80068) = 0;
-  RtlEnterCriticalSection(iVar3);
-  *(undefined4 *)(param_1 + 0x800bc) = 0;
-  iVar2 = fn_8245B458();
-  RtlEnterCriticalSection();
-  *(undefined4 *)(iVar2 + 0x58c) = 0;
-  RtlLeaveCriticalSection(iVar2);
-  if (iVar3 != 0) {
-    RtlLeaveCriticalSection(iVar3);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0xc,0,0x8005a);
-}
+    CS *cs;
+    Mgr *m;
 
+    if (o->cb) {
+        o->cb(o->id, o->cbctx, arg);
+        o->cb = 0;
+    }
+    o->f80070 = 0;
+    o->f8006c = 0;
+    o->f80068 = 0;
+    cs = &o->cs;
+    RtlEnterCriticalSection(cs);
+    o->f800bc = 0;
+    m = fn_8245B458();
+    RtlEnterCriticalSection(&m->cs);
+    m->f58c = 0;
+    RtlLeaveCriticalSection(&m->cs);
+    if (cs)
+        RtlLeaveCriticalSection(cs);
+    fn_82A1EFC0((char *)o + 0xc, 0, 0x8005a);
+}

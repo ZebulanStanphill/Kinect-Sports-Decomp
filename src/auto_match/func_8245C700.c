@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8245C7B8();
+extern int fn_8245C7B8(param_1);
 extern int fn_8245C8D0();
 extern int fn_82579EF0();
 extern int fn_82579F78();
@@ -38,9 +38,9 @@ void fn_8245C700(int param_1)
   uint uVar2;
   int iVar3;
   
-  fn_8245C7B8();
+  fn_8245C7B8(param_1);
   iVar3 = param_1 + 0x6c8;
-  iVar1 = fn_82579EF0(iVar3,0xffffffff821bacd0,0x8000);
+  iVar1 = fn_82579EF0(iVar3,"CompressionPartitionSizeInBytes",0x8000);
   if (iVar1 < 0x8000) {
     iVar1 = 0x8000;
   }
@@ -48,7 +48,7 @@ void fn_8245C700(int param_1)
     iVar1 = 0x1000000;
   }
   *(int *)(param_1 + 0x668) = iVar1;
-  iVar1 = fn_82579EF0(iVar3,0xffffffff821bacf0,0x8000);
+  iVar1 = fn_82579EF0(iVar3,"CompressionWindowSizeInBytes",0x8000);
   if (iVar1 < 0x8000) {
     iVar1 = 0x8000;
   }
@@ -56,7 +56,7 @@ void fn_8245C700(int param_1)
     iVar1 = 0x200000;
   }
   *(int *)(param_1 + 0x66c) = iVar1;
-  uVar2 = fn_82579F78(iVar3,0xffffffff821bad10);
+  uVar2 = fn_82579F78(iVar3,"ShouldCompressData");
   *(uint *)(param_1 + 0x660) = uVar2 & 0xff;
   fn_8245C8D0(param_1);
   return;

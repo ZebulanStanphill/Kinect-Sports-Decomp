@@ -1,66 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251F720();
+typedef struct Node {
+    struct Node *next;
+    int f4;
+    int a8;
+    unsigned int ac;
+    int b0;
+    unsigned int b4;
+    int c8;
+    unsigned int cc;
+} Node;
 
+typedef struct Entry {
+    int count;
+    Node *head;
+    int f8;
+    int fc;
+    int f10;
+} Entry;
 
-void fn_8246BC48(int param_1)
+typedef struct Thing {
+    Entry entries[2];
+} Thing;
 
+extern unsigned int fn_8251F720(void *p, int a);
+
+void fn_8246BC48(Thing *param_1)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  longlong lVar4;
-  undefined4 *puVar5;
-  
-  puVar5 = (undefined4 *)(param_1 + 4);
-  lVar4 = 2;
-  do {
-    puVar1 = (undefined4 *)*puVar5;
-    puVar5[-1] = 0;
-    puVar5[3] = 0;
-    for (puVar2 = (undefined4 *)*puVar1; puVar2 != puVar1; puVar2 = (undefined4 *)*puVar2) {
-      if (puVar2[3] == 0) {
-        uVar3 = fn_8251F720(puVar2 + 2,0);
-        puVar2[3] = uVar3;
-      }
-      if (puVar2[5] == 0) {
-        uVar3 = fn_8251F720(puVar2 + 4,0);
-        puVar2[5] = uVar3;
-      }
-      if (puVar2[7] == 0) {
-        uVar3 = fn_8251F720(puVar2 + 6,0);
-        puVar2[7] = uVar3;
-      }
-      puVar1 = (undefined4 *)*puVar5;
-    }
-    lVar4 = lVar4 + -1;
-    puVar5 = puVar5 + 5;
-  } while (lVar4 != 0);
-  return;
-}
+    int i;
+    Node *n;
 
+    for (i = 0; i < 2; i++) {
+        Entry *e = &param_1->entries[i];
+        e->count = 0;
+        e->f10 = 0;
+        for (n = e->head->next; n != e->head; n = n->next) {
+            if (n->ac == 0) {
+                n->ac = fn_8251F720(&n->a8, 0);
+            }
+            if (n->b4 == 0) {
+                n->b4 = fn_8251F720(&n->b0, 0);
+            }
+            if (n->cc == 0) {
+                n->cc = fn_8251F720(&n->c8, 0);
+            }
+        }
+    }
+}

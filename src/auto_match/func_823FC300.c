@@ -1,74 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223AAC0();
-extern int fn_823FD340();
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int lbl_821AD588;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+typedef struct {
+  int first;
+  void *second;
+} Pair;
 
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_823FD340(void *, Pair *, Pair *);
+extern char lbl_821AD588[];
 
-undefined4 * fn_823FC300(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
+typedef struct {
+  void *vt;
+  int a;
+  int b;
+  char sub[1];
+} Obj;
 
+Obj *fn_823FC300(Obj *param_1, Pair *param_2, Pair *param_3)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  struct { undefined4 first; int second; } stack_pair_50;
+  Pair p50;
+  Pair p48;
+  void *s;
+  int f;
 
-  struct { undefined4 first; int second; } stack_pair_48;
-
-
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    iVar1 = param_3[1];
-    uVar2 = *param_3;
-    stack_pair_50.first = 0;
-    stack_pair_50.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_50.first = uVar2;
-        stack_pair_50.second = iVar1;
-      }
+  param_1->a = 1;
+  param_1->vt = lbl_821AD588;
+  param_1->b = 1;
+  if (param_1->sub != 0) {
+    s = param_3->second;
+    f = param_3->first;
+    p50.first = 0;
+    p50.second = 0;
+    if (s != 0 && fn_8223AAC0(s)) {
+      p50.second = s;
+      p50.first = f;
     }
-    iVar1 = param_2[1];
-    uVar2 = *param_2;
-    stack_pair_48.first = 0;
-    stack_pair_48.second = 0;
-    if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-      stack_pair_48.first = uVar2;
-      stack_pair_48.second = iVar1;
+    s = param_2->second;
+    f = param_2->first;
+    p48.first = 0;
+    p48.second = 0;
+    if (s != 0 && fn_8223AAC0(s)) {
+      p48.second = s;
+      p48.first = f;
     }
-    fn_823FD340(param_1 + 3,&stack_pair_48.first,&stack_pair_50.first);
+    fn_823FD340(param_1->sub, &p48, &p50);
   }
   return param_1;
 }

@@ -1,59 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_82359C18();
-extern int fn_824CA518();
-extern int fn_824CAA50();
-extern int fn_824CAC50();
-extern int fn_8265CA20();
-extern unsigned int lbl_821C7FB8;
+typedef struct Node {
+    struct Node *left;
+    struct Node *parent;
+    struct Node *right;
+} Node;
 
+typedef struct Iter {
+    Node *node;
+} Iter;
 
-int fn_824C6A00(int param_1)
+typedef struct Tree {
+    int alloc;
+    Node *head;
+    unsigned int size;
+} Tree;
 
+extern void fn_82230300(void *p, int a, int b);
+extern void fn_822315A0(void *p);
+extern void fn_82359C18(void *p);
+extern void fn_824CA518(void *p);
+extern void fn_824CAA50(void *p);
+extern Iter *fn_824CAC50(Iter *out, Tree *t, Iter first, Iter last);
+extern void fn_8265CA20(void *p);
+extern char lbl_821C7FB8[];
+
+typedef struct Sub78 {
+    void *vtbl;
+    int pad4;
+    char m8[0x18];
+} Sub78;
+
+typedef struct Obj {
+    int pad0;
+    void *p4;
+    char m8[0x1c];
+    char m24[0x20];
+    char m44[0x10];
+    Tree t54;
+    char pad60[4];
+    char m64[0x14];
+    Sub78 s78;
+    char m98[8];
+} Obj;
+
+Obj *fn_824C6A00(Obj *p)
 {
-  undefined1 auStack_20 [16];
-  
-  fn_82359C18(param_1 + 0x98);
-  fn_82359C18(param_1 + 0x80);
-  *(undefined ***)(param_1 + 0x78) = &lbl_821C7FB8;
-  fn_824CA518(param_1 + 100);
-  fn_824CAC50(auStack_20,param_1 + 0x54,**(undefined4 **)(param_1 + 0x58));
-  fn_8265CA20(*(undefined4 *)(param_1 + 0x58));
-  fn_824CAA50(param_1 + 0x44);
-  fn_82230300(param_1 + 0x24,1,0);
-  fn_82230300(param_1 + 8,1,0);
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_822315A0();
-  }
-  fn_8265CA20(param_1);
-  return param_1;
-}
+    Iter buf;
+    Iter first;
+    Iter last;
+    Sub78 *s;
 
+    fn_82359C18(p->m98);
+    s = &p->s78;
+    fn_82359C18(s->m8);
+    s->vtbl = lbl_821C7FB8;
+    fn_824CA518(p->m64);
+    last.node = p->t54.head;
+    first.node = p->t54.head->left;
+    fn_824CAC50(&buf, &p->t54, first, last);
+    fn_8265CA20(p->t54.head);
+    fn_824CAA50(p->m44);
+    fn_82230300(p->m24, 1, 0);
+    fn_82230300(p->m8, 1, 0);
+    if (p->p4 != 0) {
+        fn_822315A0(p->p4);
+    }
+    fn_8265CA20(p);
+    return p;
+}

@@ -1,60 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82267AC0();
-extern int fn_82280558();
+typedef unsigned char u8;
+extern void fn_82267AC0(int a);
+extern void fn_82280558(u8 *a, int b);
 
-
-void fn_82487DF8(int param_1,undefined8 param_2)
-
+void fn_82487DF8(u8 *param_1, int param_2)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x458);
-  if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0x60c) != 0) {
-      fn_82267AC0(*(undefined4 *)(*(int *)(iVar1 + 0x60c) + 0x5c0));
-    }
-    if (*(int *)(iVar1 + 0x610) != 0) {
-      fn_82267AC0(*(undefined4 *)(*(int *)(iVar1 + 0x610) + 0x5c0));
-    }
-    if (*(int *)(iVar1 + 0x614) != 0) {
-      fn_82267AC0(*(undefined4 *)(*(int *)(iVar1 + 0x614) + 0x5c0));
-    }
-    if (*(int *)(iVar1 + 0x618) != 0) {
-      fn_82267AC0(*(undefined4 *)(*(int *)(iVar1 + 0x618) + 0x2cc));
-    }
-    if (*(int *)(iVar1 + 0x67c) != 0) {
-      fn_82267AC0(*(undefined4 *)(*(int *)(iVar1 + 0x67c) + 0x80));
-    }
-  }
-  if (*(int *)(param_1 + 0x45c) != 0) {
-    fn_82280558(*(int *)(param_1 + 0x45c),param_2);
-  }
-  return;
-}
+    u8 *p;
+    u8 *q;
 
+    p = *(u8 **)(param_1 + 0x458);
+    if (p != 0) {
+        q = *(u8 **)(p + 0x60c);
+        if (q != 0) {
+            fn_82267AC0(*(int *)(q + 0x5c0));
+        }
+        q = *(u8 **)(p + 0x610);
+        if (q != 0) {
+            fn_82267AC0(*(int *)(q + 0x5c0));
+        }
+        q = *(u8 **)(p + 0x614);
+        if (q != 0) {
+            fn_82267AC0(*(int *)(q + 0x5c0));
+        }
+        q = *(u8 **)(p + 0x618);
+        if (q != 0) {
+            fn_82267AC0(*(int *)(q + 0x2cc));
+        }
+        q = *(u8 **)(p + 0x67c);
+        if (q != 0) {
+            fn_82267AC0(*(int *)(q + 0x80));
+        }
+    }
+    if (*(u8 **)(param_1 + 0x45c) != 0) {
+        fn_82280558(*(u8 **)(param_1 + 0x45c), param_2);
+    }
+}

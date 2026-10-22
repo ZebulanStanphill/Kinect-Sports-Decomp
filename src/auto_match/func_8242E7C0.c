@@ -27,30 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 
-
 void fn_8242E7C0(int param_1)
-
 {
   int *piVar1;
   int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = 0;
-  if (0 < *(int *)(*(int *)(param_1 + 0x174) + 0xbc)) {
-    iVar4 = 0;
-    do {
-      piVar1 = *(int **)(**(int **)(param_1 + 8) + iVar4);
-      iVar2 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),0);
-      if (*(int **)(iVar2 + 0x24) != (int *)0x0) {
-        (**(code **)(**(int **)(iVar2 + 0x24) + 0x24))();
-      }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < *(int *)(*(int *)(param_1 + 0x174) + 0xbc));
-  }
-  *(undefined4 *)(*(int *)(param_1 + 0x174) + 0xcc) =
-       *(undefined4 *)(*(int *)(param_1 + 0x174) + 0xd0);
-  return;
-}
+  int *obj;
+  int i;
 
+  for (i = 0; i < *(int *)(*(int *)(param_1 + 0x174) + 0xbc); i++) {
+    piVar1 = (*(int ***)(param_1 + 8))[0][i];
+    iVar2 = fn_822ABA88(*(int *)(piVar1[4] * 4 + *piVar1), 0);
+    obj = *(int **)(iVar2 + 0x24);
+    if (obj != 0) {
+      (*(code *)(*obj + 0x24))(obj);
+    }
+  }
+  *(float *)(*(int *)(param_1 + 0x174) + 0xcc) =
+       *(float *)(*(int *)(param_1 + 0x174) + 0xd0);
+}

@@ -1,60 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern int fn_82522ED8();
-extern unsigned int lbl_832767AC;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+extern void fn_822315A0(void *p);
+extern void fn_82517978(void *out, int a, void *b, int c);
+extern void fn_82522ED8(void *p);
+extern int lbl_832767AC;
 
+typedef struct Obj Obj;
+typedef struct {
+    void (*dtor)(Obj *self, int flags);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vtbl;
+};
 
-void fn_8251FD50(undefined4 *param_1,int *param_2)
+typedef struct {
+    int a;
+    void *b;
+} Pair;
 
+typedef struct {
+    Obj *obj;
+    int f4;
+    int f8;
+    int fc;
+    void (*cb)(Pair *pair, int ctx);
+    int ctx;
+} Req;
+
+void fn_8251FD50(Pair *p, Req *req)
 {
-  undefined4 *puVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    Pair tmp;
+    void *b;
 
-  
-  if (param_2[4] != 0) {
-    stack_pair_20.first = 0;
-    stack_pair_20.second = 0;
-    fn_82517978(&stack_pair_20.first,*param_1,param_1[1],0);
-    (*(code *)param_2[4])(&stack_pair_20.first,param_2[5]);
-  }
-  puVar1 = (undefined4 *)*param_2;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  fn_82522ED8(param_2);
-  lbl_832767AC = lbl_832767AC + -1;
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  return;
+    if (req->cb != 0) {
+        tmp.a = 0;
+        tmp.b = 0;
+        fn_82517978(&tmp, p->a, p->b, 0);
+        req->cb(&tmp, req->ctx);
+    }
+    if (req->obj != 0)
+        req->obj->vtbl->dtor(req->obj, 1);
+    fn_82522ED8(req);
+    b = p->b;
+    lbl_832767AC--;
+    if (b != 0)
+        fn_822315A0(b);
 }
-

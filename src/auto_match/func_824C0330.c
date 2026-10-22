@@ -1,60 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82230300();
-extern int fn_822B1B28();
-extern int fn_822B4EB0();
-extern int fn_82359C18();
-extern int fn_8265CA20();
-extern unsigned int lbl_821C0678;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void (*dtor)(Obj *self, int flags);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vtbl;
+};
 
+typedef struct Node Node;
+struct Node {
+    Node *left;
+};
+typedef struct Iter {
+    Node *node;
+} Iter;
 
-void fn_824C0330(undefined4 *param_1)
+extern void fn_82230300(void *p, int a, int b);
+extern void fn_822B1B28(void *p);
+extern void fn_822B4EB0(Iter *out, void *tree, Iter first, Iter last);
+extern void fn_82359C18(void *p);
+extern void fn_8265CA20(void *p);
+extern char lbl_821C0678[];
 
+typedef struct Self {
+    void *vtbl;
+    int f4;
+    Node *head;
+    char pad0c[0x1c - 0xc];
+    char f1c[0x3c - 0x1c];
+    char *f3c;
+    Obj *f40;
+} Self;
+
+void fn_824C0330(Self *self)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  undefined1 auStack_20 [8];
-  
-  puVar1 = (undefined4 *)param_1[0x10];
-  *param_1 = &lbl_821C0678;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  uVar2 = (ulonglong)(uint)param_1[0xf];
-  if (uVar2 != 0) {
-    fn_82359C18(uVar2 + 0x10);
-    fn_822B1B28(uVar2);
-    fn_8265CA20(uVar2);
-  }
-  fn_82230300(param_1 + 7,1,0);
-  fn_822B4EB0(auStack_20,param_1 + 1,*(undefined4 *)param_1[2]);
-  fn_8265CA20(param_1[2]);
-  return;
-}
+    Obj *o;
+    char *p;
+    Iter it;
+    Iter first;
+    Iter last;
 
+    o = self->f40;
+    self->vtbl = lbl_821C0678;
+    if (o != 0) {
+        o->vtbl->dtor(o, 1);
+    }
+    p = self->f3c;
+    if (p != 0) {
+        fn_82359C18(p + 0x10);
+        fn_822B1B28(p);
+        fn_8265CA20(p);
+    }
+    fn_82230300(self->f1c, 1, 0);
+    last.node = self->head;
+    first.node = self->head->left;
+    fn_822B4EB0(&it, &self->f4, first, last);
+    fn_8265CA20(self->head);
+}

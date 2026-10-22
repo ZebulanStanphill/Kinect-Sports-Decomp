@@ -39,36 +39,27 @@ extern unsigned int lbl_821C112C;
 undefined4 * fn_824D4D20(undefined4 *param_1,undefined8 param_2)
 
 {
-  int iVar1;
-  undefined4 uVar2;
+  void *p;
   undefined4 *puVar3;
-  longlong lVar4;
+  int i;
   
   fn_82517D50(param_1,param_2,7);
   param_1[0x20] = 0;
   *param_1 = &lbl_821C0BE0;
   puVar3 = param_1 + 0x28;
   param_1[0x1a] = &lbl_821C0C24;
-  lVar4 = 0x13;
+  i = 0x13;
   param_1[0x24] = 0;
   do {
     fn_824CD480(puVar3);
-    lVar4 = lVar4 + -1;
     puVar3 = puVar3 + 0x1c;
-  } while (-1 < lVar4);
+  } while (--i >= 0);
   *(undefined8 *)(param_1 + 0x22) = 0;
-  iVar1 = fn_8265C9E0(0x220);
-  if (iVar1 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_824CD4E8();
-  }
-  param_1[0x25] = uVar2;
+  p = (void *)fn_8265C9E0(0x220);
+  param_1[0x25] = p ? fn_824CD4E8(p) : 0;
   fn_82517CB0();
   *param_1 = &lbl_821C0DF8;
   param_1[0x1a] = &lbl_821C112C;
   fn_82517CB0();
   return param_1;
 }
-

@@ -1,53 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B17A8();
-extern int fn_8240BCE8();
-extern int fn_824569A8();
-extern int fn_82508078();
-extern unsigned int lbl_821BA6F0;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void *f0;
+    void *f4;
+    void *(*get)(Obj *o);
+} ObjVtbl;
 
+typedef struct Sub Sub;
+typedef struct SubVtbl {
+    void *f0;
+    void *f4;
+    void *f8;
+    int (*make)(Sub *s, void *arg);
+} SubVtbl;
 
-void fn_8240C498(int *param_1,int param_2)
+struct Sub {
+    SubVtbl *vtbl;
+};
 
+typedef struct Arg {
+    char pad[0x24];
+    void *ref;
+} Arg;
+
+struct Obj {
+    ObjVtbl *vtbl;
+    char pad4[0x20];
+    void **ctx;
+    char pad28[0xec - 0x28];
+    int busy;
+    int padf0;
+    void *snd;
+};
+
+extern void fn_8240BCE8(Obj *o, int a, Arg *arg, int v);
+extern void fn_82508078(void *ctx, unsigned int id, int c);
+extern void fn_824569A8(void *p);
+extern void fn_822B17A8(void *p, int a, int b);
+extern unsigned int lbl_821BA6C0[];
+
+void fn_8240C498(Obj *o, Arg *arg)
 {
-  int iVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  
-  piVar3 = (int *)(**(code **)(*param_1 + 8))();
-  uVar2 = (**(code **)(*piVar3 + 0xc))(piVar3,param_2);
-  fn_8240BCE8(param_1,2,param_2,uVar2);
-  fn_82508078(*(undefined4 *)param_1[9],lbl_821BA6F0,0);
-  fn_824569A8(param_1[0x3d]);
-  if (((*(int *)(param_2 + 0x24) != 0) && (param_1[0x3b] == 0)) &&
-     (iVar1 = *(int *)(*(int *)(param_2 + 0x24) + 0x34), iVar1 != 0)) {
-    fn_822B17A8(iVar1,0x14,0);
-  }
-  return;
-}
+    Sub *s;
+    void *p;
 
+    s = (Sub *)o->vtbl->get(o);
+    fn_8240BCE8(o, 2, arg, s->vtbl->make(s, arg));
+    fn_82508078(*o->ctx, lbl_821BA6C0[12], 0);
+    fn_824569A8(o->snd);
+    if (arg->ref != 0 && o->busy == 0) {
+        p = *(void **)((char *)arg->ref + 0x34);
+        if (p != 0) {
+            fn_822B17A8(p, 0x14, 0);
+        }
+    }
+}

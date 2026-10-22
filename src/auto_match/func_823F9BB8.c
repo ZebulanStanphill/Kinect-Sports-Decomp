@@ -1,43 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fC;
+    void (*f10)(Obj *self, int a, int b);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vt;
+};
 
+typedef struct Owner {
+    int pad0;
+    int pad4;
+    unsigned int off[4];
+    Obj *obj0;
+    int pad1c;
+    Obj *obj1;
+    int pad24;
+    Obj *obj2;
+    int pad2c;
+    Obj *obj3;
+} Owner;
 
-void fn_823F9BB8(int param_1,undefined8 param_2,longlong param_3)
-
+void fn_823F9BB8(Owner *p, int a, int base)
 {
-  (**(code **)(**(int **)(param_1 + 0x18) + 0x10))
-            (*(int **)(param_1 + 0x18),param_2,(ulonglong)*(uint *)(param_1 + 8) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x20) + 0x10))
-            (*(int **)(param_1 + 0x20),param_2,(ulonglong)*(uint *)(param_1 + 0xc) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x28) + 0x10))
-            (*(int **)(param_1 + 0x28),param_2,(ulonglong)*(uint *)(param_1 + 0x10) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x30) + 0x10))
-            (*(int **)(param_1 + 0x30),param_2,(ulonglong)*(uint *)(param_1 + 0x14) + param_3);
-  return;
+    p->obj0->vt->f10(p->obj0, a, p->off[0] + base);
+    p->obj1->vt->f10(p->obj1, a, p->off[1] + base);
+    p->obj2->vt->f10(p->obj2, a, p->off[2] + base);
+    p->obj3->vt->f10(p->obj3, a, p->off[3] + base);
 }
-

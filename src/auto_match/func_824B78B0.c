@@ -26,7 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
-extern int fn_8225F160();
+typedef struct S8225 { int pad[6]; int f18; int f1c; int f20; int f24; int f28; } S8225;
+extern S8225 *fn_8225F160();
 extern int fn_823AB478();
 extern int fn_8245AE18();
 extern int fn_8245AF50();
@@ -46,17 +47,18 @@ void fn_824B78B0(undefined8 param_1,undefined1 param_2,undefined4 param_3,undefi
 
 {
   int iVar1;
-  char cVar3;
+  S8225 *s;
+  unsigned char cVar3;
   int iVar2;
   undefined1 uVar4;
   undefined2 auStack_50;
   
-  iVar1 = fn_8225F160();
-  *(undefined4 *)(iVar1 + 0x1c) = 3;
-  *(undefined4 *)(iVar1 + 0x18) = 1;
-  *(undefined4 *)(iVar1 + 0x28) = 4;
-  *(undefined4 *)(iVar1 + 0x20) = param_3;
-  *(undefined4 *)(iVar1 + 0x24) = 0;
+  s = fn_8225F160();
+  s->f18 = 1;
+  s->f1c = 3;
+  s->f28 = 4;
+  s->f20 = param_3;
+  s->f24 = 0;
   cVar3 = fn_828EA610(param_1);
   if (cVar3 == '\0') {
     cVar3 = fn_828EA5F8(param_1);

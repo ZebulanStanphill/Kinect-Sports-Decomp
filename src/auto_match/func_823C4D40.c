@@ -1,53 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
+typedef struct { char pad[0x2c]; int value; } Item;
+typedef struct { void **items; int pad[3]; int index; } List;
 
+typedef struct {
+  char pad0[8];
+  List ***lists;          /* 0x008 */
+  char pad1[0x41c - 0xc];
+  int state;              /* 0x41c */
+  int listIndex;          /* 0x420 */
+  int key;                /* 0x424 */
+  char pad2[0x9a0 - 0x428];
+  Item *item;             /* 0x9a0 */
+  Item *fallback;         /* 0x9a4 */
+} Obj;
 
-ulonglong fn_823C4D40(int param_1)
+extern Item *fn_822ABA88(void *a, int b);
 
+int fn_823C4D40(Obj *self)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 0x9a0);
-  if (iVar3 == 0) {
-    iVar1 = *(int *)(param_1 + 0x41c);
-    iVar3 = *(int *)(param_1 + 0x9a4);
-    if (((iVar1 == 3) || (iVar1 == 4)) || (iVar1 == 5)) {
-      piVar2 = *(int **)(*(int *)(param_1 + 0x420) * 4 + **(int **)(param_1 + 8));
-      iVar3 = fn_822ABA88(*(undefined4 *)(piVar2[4] * 4 + *piVar2),*(undefined4 *)(param_1 + 0x424)
-                          );
-    }
-    if (iVar3 == 0) {
-      return 0xffffffffffffffff;
+  Item *item;
+  int state;
+  List *l;
+
+  item = self->item;
+  if (item == 0) {
+    state = self->state;
+    item = self->fallback;
+    if (state == 3 || state == 4 || state == 5) {
+      l = (*self->lists)[self->listIndex];
+      item = fn_822ABA88(l->items[l->index], self->key);
     }
   }
-  return (ulonglong)*(uint *)(iVar3 + 0x2c);
+  return item ? item->value : -1;
 }
-

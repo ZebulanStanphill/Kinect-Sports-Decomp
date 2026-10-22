@@ -1,64 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8224F690();
-extern int fn_82521120();
-extern int fn_8265CA20();
+typedef struct {
+  int pad[3];
+  int sub;        /* 0x0c */
+  int pad2[19];
+  void *p5c;      /* 0x5c */
+} Inner;
 
+typedef struct {
+  void *a;
+  Inner *b;
+} Holder;
 
-void fn_824C41E8(undefined4 *param_1)
+extern void fn_822315A0(void *p);
+extern void fn_8224F690(void *p);
+extern void fn_82521120(Inner *p);
+extern void fn_8265CA20(void *p);
 
+void fn_824C41E8(Holder **param_1)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = (int *)*param_1;
-  if (piVar1 != (int *)0x0) {
-    iVar2 = *piVar1;
-    if (iVar2 != 0) {
-      fn_8224F690(iVar2);
-      fn_8265CA20(iVar2);
-      *piVar1 = 0;
-    }
-    if (piVar1[1] != 0) {
-      fn_82521120();
-      iVar2 = piVar1[1];
-      if (iVar2 != 0) {
-        if (*(int *)(iVar2 + 0x5c) != 0) {
-          fn_822315A0();
-        }
-        fn_8224F690(iVar2 + 0xc);
-        fn_8265CA20(iVar2);
-      }
-      piVar1[1] = 0;
-    }
-    fn_8265CA20(piVar1);
-  }
-  return;
-}
+  Holder *h;
+  void *a;
+  Inner *b;
 
+  h = *param_1;
+  if (h != 0) {
+    a = h->a;
+    if (a != 0) {
+      fn_8224F690(a);
+      fn_8265CA20(a);
+      h->a = 0;
+    }
+    if (h->b != 0) {
+      fn_82521120(h->b);
+      b = h->b;
+      if (b != 0) {
+        if (b->p5c != 0) {
+          fn_822315A0(b->p5c);
+        }
+        fn_8224F690(&b->sub);
+        fn_8265CA20(b);
+      }
+      h->b = 0;
+    }
+    fn_8265CA20(h);
+  }
+}
