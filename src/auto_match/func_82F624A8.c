@@ -32,7 +32,7 @@ extern int fn_82F680A0();
 undefined8 fn_82F624A8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_82F680A0(param_3);
   fn_82230110(param_1,uVar1);

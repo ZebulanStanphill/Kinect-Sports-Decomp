@@ -29,7 +29,7 @@ extern int (*lbl_83223C5C)();
 extern unsigned int lbl_83223C64;
 
 
-void fn_82AB1870(ulonglong param_1)
+void fn_82AB1870(unsigned int param_1)
 
 {
   if ((param_1 & 0xffffffff) == 0) {

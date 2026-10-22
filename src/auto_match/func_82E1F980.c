@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1BFA8();
 
 
-ulonglong fn_82E1F980(void)
+unsigned int  fn_82E1F980(void)
 
 {
   int iVar1;
-  ulonglong uVar2;
+  unsigned int uVar2;
   
   uVar2 = 0;
   do {

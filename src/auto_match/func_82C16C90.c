@@ -30,7 +30,7 @@ extern int fn_82C16A98();
 extern int fn_82C2B590();
 
 
-void fn_82C16C90(ulonglong param_1)
+void fn_82C16C90(unsigned int param_1)
 
 {
   if ((param_1 & 0xffffffff) != 0) {

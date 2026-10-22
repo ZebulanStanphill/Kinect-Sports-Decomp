@@ -29,7 +29,7 @@ extern int fn_82C53970();
 extern int fn_82C7F8F8();
 
 
-undefined8 fn_82C7FCA0(ulonglong param_1)
+undefined8 fn_82C7FCA0(unsigned int param_1)
 
 {
   if ((param_1 & 0xffffffff) == 0) {

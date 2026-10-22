@@ -31,7 +31,7 @@ extern int fn_82A488B8();
 extern int fn_82A49350();
 
 
-void fn_82A49460(int param_1,undefined8 param_2,ulonglong param_3)
+void fn_82A49460(int param_1,undefined8 param_2,unsigned int param_3)
 
 {
   fn_82A432C8(param_1,0,0);

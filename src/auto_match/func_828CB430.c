@@ -30,7 +30,7 @@ extern int fn_828B55B0();
 extern int fn_828DF3B8();
 
 
-longlong fn_828CB430(longlong param_1,ulonglong param_2)
+longlong fn_828CB430(longlong param_1,unsigned int param_2)
 
 {
   fn_828B55B0(param_1 + 0x10);

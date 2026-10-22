@@ -32,7 +32,7 @@ extern int fn_82E0E658();
 bool fn_82E12A08(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   uVar1 = fn_82E0E658();

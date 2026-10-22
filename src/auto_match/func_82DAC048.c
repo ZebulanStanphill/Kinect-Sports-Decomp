@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82DAC048(int param_1,uint param_2)
+int  fn_82DAC048(int param_1,uint param_2)
 
 {
   return (ulonglong)*(byte *)(*(int *)(param_1 + 0x20) + (param_2 & 0xffff)) * 0x20 +

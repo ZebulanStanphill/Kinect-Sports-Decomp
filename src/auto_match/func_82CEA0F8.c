@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 longlong fn_82CEA0F8(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = 8;
   if (8 < param_1 << 1) {

@@ -29,7 +29,7 @@ extern int fn_82EF2CB8();
 
 
 undefined8
-fn_82EF3718(int param_1,ulonglong param_2,undefined2 *param_3,undefined4 *param_4,
+fn_82EF3718(int param_1,unsigned int param_2,undefined2 *param_3,undefined4 *param_4,
              undefined4 *param_5,undefined4 *param_6,undefined2 *param_7)
 
 {

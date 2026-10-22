@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A3B5D8();
 extern int fn_82A3B768();
-extern int fn_82A3BF58();
+extern __int64 fn_82A3BF58();
 
 
 undefined8 fn_82A39E40(undefined8 param_1)

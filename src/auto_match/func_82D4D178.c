@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined1 fn_82D4D178(undefined1 param_1)
+unsigned int  fn_82D4D178(undefined1 param_1)
 
 {
   return param_1;

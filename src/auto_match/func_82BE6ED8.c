@@ -32,7 +32,7 @@ extern int fn_82F6D460();
 extern unsigned int iStack_1c;
 
 
-undefined8 fn_82BE6ED8(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82BE6ED8(undefined8 param_1,unsigned int param_2)
 
 {
   int iVar1;

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82E57C38();
 
 
-undefined8 fn_82E58488(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82E58488(undefined8 param_1,unsigned int param_2)
 
 {
   undefined8 uVar1;
