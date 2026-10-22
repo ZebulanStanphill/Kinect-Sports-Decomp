@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_1a0;
 extern int fn_82CE0658();
 extern int fn_82CE08A0();
-extern unsigned int lbl_832129FC;
+extern unsigned char lbl_832129FC;
 
 
 void fn_828800C8(void)

@@ -29,10 +29,10 @@ extern int fn_8267BE38();
 extern int fn_827A9760();
 
 
-void fn_827A9870(undefined8 param_1,undefined8 param_2)
+void fn_827A9870(undefined8 param_1,unsigned int param_2)
 
 {
-  if ((int)param_2 != 0) {
+  if (param_2 != 0) {
     fn_827A9760(param_2);
     fn_8267BE38(param_2);
   }

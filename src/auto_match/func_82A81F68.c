@@ -30,8 +30,8 @@ extern int fn_82A828B8();
 extern int fn_82A84B10();
 extern int fn_82A84B20();
 extern int fn_82A86110();
-extern unsigned int lbl_8322344C;
-extern unsigned int lbl_8322344D;
+extern unsigned char lbl_8322344C;
+extern unsigned char lbl_8322344D;
 extern unsigned int lbl_83223450;
 extern unsigned int lbl_832234AC;
 

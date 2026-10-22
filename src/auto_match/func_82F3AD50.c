@@ -29,12 +29,12 @@ extern int fn_82E4FE40();
 extern int fn_82F3A700();
 
 
-undefined8 fn_82F3AD50(undefined8 param_1,undefined8 param_2)
+undefined8 fn_82F3AD50(undefined8 param_1,unsigned int param_2)
 
 {
   undefined8 uVar1;
   
-  if ((int)param_2 == 0) {
+  if (param_2 == 0) {
     uVar1 = 0xffffffff80070057;
   }
   else {

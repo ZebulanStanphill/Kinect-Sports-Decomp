@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83211326;
+extern unsigned char lbl_83211326;
 
 
 void fn_828593C0(void)

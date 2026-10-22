@@ -29,10 +29,10 @@ extern int fn_8265C9E0();
 extern int fn_828DD278();
 
 
-undefined8 fn_828BE9C8(void)
+unsigned int  fn_828BE9C8(void)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   
   iVar2 = fn_8265C9E0(0x98);

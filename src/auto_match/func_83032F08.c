@@ -32,8 +32,8 @@ extern unsigned int lbl_832642F4;
 void fn_83032F08(int param_1)
 
 {
-  if ((*(int *)(param_1 + 0x24) != 0) && ((ulonglong)*(uint *)(param_1 + 0x94) != 0)) {
-    fn_82FF5750(lbl_832642F4,*(int *)(param_1 + 0x24),(ulonglong)*(uint *)(param_1 + 0x94) + 4);
+  if ((*(unsigned int *)(param_1 + 0x24) != 0) && ((ulonglong)*(uint *)(param_1 + 0x94) != 0)) {
+    fn_82FF5750(lbl_832642F4,*(int *)(param_1 + 0x24),(unsigned int)*(uint *)(param_1 + 0x94) + 4);
   }
   *(undefined4 *)(param_1 + 0x24) = 0;
   *(byte *)(param_1 + 0x28) = *(byte *)(param_1 + 0x28) & 0xbf;

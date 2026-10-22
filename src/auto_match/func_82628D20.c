@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
-extern int fn_827D50B8();
+extern __int64 fn_827D50B8();
 
 
 undefined8 fn_82628D20(int param_1,undefined8 param_2,int param_3)
@@ -35,7 +35,7 @@ undefined8 fn_82628D20(int param_1,undefined8 param_2,int param_3)
   undefined8 uVar1;
   
   uVar1 = fn_827D50B8(*(undefined4 *)(param_1 + 0x18));
-  if (*(int *)(param_3 + 4) != 0) {
+  if (*(unsigned int *)(param_3 + 4) != 0) {
     fn_822315A0(*(int *)(param_3 + 4));
   }
   return uVar1;

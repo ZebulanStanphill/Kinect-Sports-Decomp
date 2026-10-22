@@ -33,12 +33,12 @@ extern int fn_82BF0E40();
 undefined8 fn_82BEF2D0(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   uVar1 = fn_82BE1A10();
   iVar2 = fn_82BE1FA8(uVar1,1);
-  if ((iVar2 == 0) && (*(int *)(param_1 + 0x2c) != 0)) {
+  if ((iVar2 == 0) && (*(unsigned int *)(param_1 + 0x2c) != 0)) {
     fn_82BF0E40(*(int *)(param_1 + 0x2c),0);
   }
   *(undefined4 *)(param_1 + 0x10) = 2;

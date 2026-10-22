@@ -39,7 +39,7 @@ void fn_8256AA98(void)
 
 {
   undefined4 *puVar1;
-  undefined8 uVar2;
+  unsigned int uVar2;
   int iVar3;
   undefined4 auStack_20 [2];
   
@@ -49,7 +49,7 @@ void fn_8256AA98(void)
   for (puVar1 = (undefined4 *)**(undefined4 **)(iVar3 + 0x14); iVar3 = fn_82569B10(),
       puVar1 != *(undefined4 **)(iVar3 + 0x14); puVar1 = (undefined4 *)*puVar1) {
     iVar3 = puVar1[3];
-    if (*(int *)(iVar3 + 0xc) != 0) {
+    if (*(unsigned int *)(iVar3 + 0xc) != 0) {
       if ((*(byte *)(iVar3 + 0x28) & 0x80) != 0) {
         fn_8256B850(iVar3);
       }

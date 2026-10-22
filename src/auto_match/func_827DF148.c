@@ -37,10 +37,10 @@ undefined4 fn_827DF148(int param_1,undefined8 param_2,int param_3)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar2;
   int iVar3;
   undefined4 uStack_30;
-  int aiStack_2c;
+  unsigned int aiStack_2c;
   
   uStack_30 = fn_827D96A0(param_2);
   fn_827E0658(&aiStack_2c,param_1,&uStack_30);

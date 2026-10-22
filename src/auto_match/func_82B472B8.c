@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82AC6560();
 extern int fn_82B47118();
-extern int fn_82B841E8();
+extern __int64 fn_82B841E8();
 
 
 undefined8 fn_82B472B8(int param_1,int param_2)
@@ -38,7 +38,7 @@ undefined8 fn_82B472B8(int param_1,int param_2)
   
   uVar1 = fn_82B841E8(param_1,param_2,param_2 + 0x20,0x58,0,0);
   *(uint *)(param_2 + 0x30) = *(uint *)(param_2 + 0x30) | 0x100000;
-  if (*(int *)(*(int *)(param_1 + 0x18) + 0x10) == 0) {
+  if (*(unsigned int *)(*(int *)(param_1 + 0x18) + 0x10) == 0) {
     *(int *)(*(int *)(param_1 + 0x18) + 0x10) = param_2;
   }
   else {

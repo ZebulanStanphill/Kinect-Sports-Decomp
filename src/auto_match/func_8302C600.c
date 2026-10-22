@@ -30,10 +30,10 @@ extern int fn_8300CE88();
 extern unsigned int lbl_831BC768;
 
 
-undefined8 fn_8302C600(void)
+unsigned int  fn_8302C600(void)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   
   iVar2 = fn_82FA5060(lbl_831BC768,0x10);

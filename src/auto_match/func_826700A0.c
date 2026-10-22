@@ -32,8 +32,8 @@ extern int fn_8266EC60();
 void fn_826700A0(int param_1)
 
 {
-  int iVar1;
-  undefined8 uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   
   iVar1 = *(int *)(param_1 + 0xc);
   if (iVar1 != 0) {

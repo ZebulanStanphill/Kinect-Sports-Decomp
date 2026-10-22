@@ -31,12 +31,12 @@ extern int fn_82BF9038();
 void fn_82BF95B0(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 0xc);
   if (iVar1 != 0) {
-    iVar2 = fn_82BF9038(param_1 + 0x10,0x2000,((ulonglong)*(ushort *)(param_1 + 8) + 2) * 0x2000,0
+    iVar2 = fn_82BF9038(param_1 + 0x10,0x2000,((unsigned int)*(ushort *)(param_1 + 8) + 2) * 0x2000,0
                          );
     if (iVar2 == 0) {
       *(undefined1 *)(iVar1 + 0xf) = 1;

@@ -33,8 +33,8 @@ extern int fn_826C59F8();
 void fn_826C5BC0(int param_1)
 
 {
-  int iVar2;
-  undefined8 uVar1;
+  unsigned int iVar2;
+  unsigned int uVar1;
   
   iVar2 = fn_826C59F8();
   if (iVar2 != 0) {

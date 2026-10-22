@@ -29,11 +29,11 @@ extern unsigned int *auStack_30;
 extern int fn_827DE600();
 
 
-void fn_827DE6F8(int param_1,int param_2)
+void fn_827DE6F8(int param_1,unsigned int param_2)
 
 {
   uint uVar1;
-  ulonglong uVar2;
+  unsigned int uVar2;
   undefined1 auStack_30 [16];
   
   if (**(int **)(param_1 + 4) != param_2) {

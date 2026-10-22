@@ -34,12 +34,12 @@ extern int fn_830615A8();
 void fn_8305E0F8(int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   int iVar3;
   int iVar4;
   
-  if (*(int *)(param_1 + 0x28) != 0) {
+  if (*(unsigned int *)(param_1 + 0x28) != 0) {
     iVar3 = 0;
     if (0 < *(int *)(param_1 + 0x30)) {
       iVar4 = 0;
