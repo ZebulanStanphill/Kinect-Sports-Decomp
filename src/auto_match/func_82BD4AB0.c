@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined4 fn_82BD4AB0(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)((param_2 + 0x14) * 4 + param_1);
   if ((iVar1 != 0) && (iVar1 = *(int *)(iVar1 + 8), iVar1 != 0)) {

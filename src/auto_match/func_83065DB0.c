@@ -34,14 +34,14 @@ void fn_83065DB0(void)
 
 {
   if (lbl_83265080 != 0) {
-    if (*(int *)(lbl_83265080 + 0x10) != 0) {
-      fn_83066120(*(int *)(lbl_83265080 + 0x10),1);
+    if (*(unsigned int *)(lbl_83265080 + 0x10) != 0) {
+      fn_83066120(*(unsigned int *)(lbl_83265080 + 0x10),1);
     }
-    if (*(int *)(lbl_83265080 + 0x14) != 0) {
-      fn_83066120(*(int *)(lbl_83265080 + 0x14),1);
+    if (*(unsigned int *)(lbl_83265080 + 0x14) != 0) {
+      fn_83066120(*(unsigned int *)(lbl_83265080 + 0x14),1);
     }
-    if (*(int *)(lbl_83265080 + 0x18) != 0) {
-      fn_83066120(*(int *)(lbl_83265080 + 0x18),1);
+    if (*(unsigned int *)(lbl_83265080 + 0x18) != 0) {
+      fn_83066120(*(unsigned int *)(lbl_83265080 + 0x18),1);
     }
     fn_8265CA20(*(undefined4 *)(lbl_83265080 + 8));
     fn_8265CA20(*(undefined4 *)(lbl_83265080 + 0xc));

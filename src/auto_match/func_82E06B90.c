@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_82E06B90(int *param_1,short param_2,int param_3)
+int fn_82E06B90(int *param_1,unsigned short param_2,int param_3)
 
 {
   int iVar1;
-  short *psVar2;
+  unsigned short *psVar2;
   int iVar3;
   
   iVar1 = 0;

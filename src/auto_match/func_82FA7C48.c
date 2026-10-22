@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82FF7F18();
 
 
-int * fn_82FA7C48(int *param_1)
+int * fn_82FA7C48(unsigned int *param_1)
 
 {
   int *piVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   cVar2 = fn_82FF7F18();
   if (cVar2 != '\0') {

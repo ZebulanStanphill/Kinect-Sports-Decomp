@@ -30,7 +30,7 @@ extern unsigned int lbl_821A7E94;
 extern unsigned int lbl_821C52DC;
 
 
-void fn_82564998(undefined4 *param_1)
+void fn_82564998(int *param_1)
 
 {
   *param_1 = &lbl_821C52DC;

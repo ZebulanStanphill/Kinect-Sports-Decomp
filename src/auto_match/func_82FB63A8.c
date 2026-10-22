@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_82FB63A8(undefined8 param_1,int param_2,int param_3,int param_4)
+int fn_82FB63A8(undefined8 param_1,int param_2,unsigned int param_3,unsigned int param_4)
 
 {
   for (; (param_4 != 0 && (param_4 != param_2)); param_4 = *(int *)(param_4 + 0x10)) {

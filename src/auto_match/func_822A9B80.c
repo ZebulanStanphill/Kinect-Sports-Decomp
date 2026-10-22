@@ -35,7 +35,7 @@ int fn_822A9B80(void)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   iVar1 = lbl_83265988;
   if ((((lbl_83265988 != 0) && (cVar2 = fn_828EA608(lbl_83265988), cVar2 != '\0')) &&

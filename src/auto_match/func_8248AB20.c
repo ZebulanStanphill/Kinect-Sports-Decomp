@@ -33,9 +33,9 @@ void fn_8248AB20(int param_1)
 {
   int iVar1;
   
-  if (*(int *)(param_1 + 0x88) != 0) {
-    iVar1 = *(int *)(param_1 + 0x80);
-    if ((*(int *)(iVar1 + 0x18) == 0) || (*(int *)(iVar1 + 8) == 0)) {
+  if (*(unsigned int *)(param_1 + 0x88) != 0) {
+    iVar1 = *(unsigned int *)(param_1 + 0x80);
+    if ((*(unsigned int *)(iVar1 + 0x18) == 0) || (*(unsigned int *)(iVar1 + 8) == 0)) {
       *(undefined4 *)(iVar1 + 0x58) = 0;
     }
     else {
@@ -43,7 +43,7 @@ void fn_8248AB20(int param_1)
     }
   }
   fn_8248C128(param_1);
-  *(undefined4 *)(*(int *)(param_1 + 0x80) + 0x58) = 0;
+  *(undefined4 *)(*(unsigned int *)(param_1 + 0x80) + 0x58) = 0;
   return;
 }
 

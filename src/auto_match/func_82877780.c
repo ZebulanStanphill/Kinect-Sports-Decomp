@@ -32,9 +32,9 @@ undefined8 fn_82877780(int param_1,undefined8 param_2,undefined1 param_3)
 
 {
   int iVar1;
-  char cVar3;
+  unsigned char cVar3;
   undefined8 uVar2;
-  int iVar4;
+  unsigned int iVar4;
   
   iVar1 = *(int *)(param_1 + 8);
   for (iVar4 = *(int *)(param_1 + 4); iVar4 != iVar1; iVar4 = iVar4 + 0x30) {

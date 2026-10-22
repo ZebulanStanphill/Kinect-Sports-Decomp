@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829AE220(int param_1,int param_2,undefined4 param_3,undefined2 param_4)
+void fn_829AE220(unsigned int param_1,unsigned int param_2,undefined4 param_3,undefined2 param_4)
 
 {
   if (param_1 == 0) {

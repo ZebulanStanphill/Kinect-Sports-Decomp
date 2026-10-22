@@ -38,7 +38,7 @@ fn_828602F8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 
 
 {
   undefined4 *puVar1;
-  char cVar3;
+  unsigned char cVar3;
   undefined4 uVar2;
   
   fn_8285A808();

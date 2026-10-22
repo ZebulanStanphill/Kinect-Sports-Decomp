@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_82824400(int param_1)
 
 {
-  return *(int *)(param_1 + 0x14) == -1;
+  return *(unsigned int *)(param_1 + 0x14) == -1;
 }
 

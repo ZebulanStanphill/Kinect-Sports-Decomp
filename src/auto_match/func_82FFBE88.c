@@ -29,10 +29,10 @@ extern int fn_82FFBD98();
 extern int fn_8302B618();
 
 
-void fn_82FFBE88(longlong param_1,undefined8 param_2,char param_3,undefined8 param_4)
+void fn_82FFBE88(longlong param_1,undefined8 param_2,unsigned char param_3,undefined8 param_4)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_8302B618(param_1 + 0x39c);
   if (iVar1 != 0) {

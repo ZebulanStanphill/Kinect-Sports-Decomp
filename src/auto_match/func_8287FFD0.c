@@ -27,20 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8287FFD0(int *param_1,int param_2)
+void fn_8287FFD0(unsigned int *param_1,int param_2)
 
 {
-  if (*(int *)(param_2 + 0x30) != 0) {
-    *(undefined4 *)(*(int *)(param_2 + 0x30) + 0x34) = *(undefined4 *)(param_2 + 0x34);
+  if (*(unsigned int *)(param_2 + 0x30) != 0) {
+    *(undefined4 *)(*(unsigned int *)(param_2 + 0x30) + 0x34) = *(undefined4 *)(param_2 + 0x34);
   }
-  if (*(int *)(param_2 + 0x34) != 0) {
-    *(undefined4 *)(*(int *)(param_2 + 0x34) + 0x30) = *(undefined4 *)(param_2 + 0x30);
+  if (*(unsigned int *)(param_2 + 0x34) != 0) {
+    *(undefined4 *)(*(unsigned int *)(param_2 + 0x34) + 0x30) = *(undefined4 *)(param_2 + 0x30);
   }
   if (*param_1 == param_2) {
-    *param_1 = *(int *)(param_2 + 0x30);
+    *param_1 = *(unsigned int *)(param_2 + 0x30);
   }
   if (param_1[1] == param_2) {
-    param_1[1] = *(int *)(param_2 + 0x34);
+    param_1[1] = *(unsigned int *)(param_2 + 0x34);
   }
   *(undefined4 *)(param_2 + 0x30) = 0;
   *(undefined4 *)(param_2 + 0x34) = 0;

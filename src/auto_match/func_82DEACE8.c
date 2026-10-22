@@ -31,9 +31,9 @@ extern int fn_82CEA280();
 int fn_82DEACE8(int param_1,int param_2,undefined1 *param_3,int *param_4,undefined1 *param_5)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
-  char cVar3;
+  unsigned char cVar3;
   uint uVar4;
   
   uVar4 = *(byte *)(param_2 + 0xf) >> 2 & 1;

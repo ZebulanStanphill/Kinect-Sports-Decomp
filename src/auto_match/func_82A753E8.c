@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A753E8(short param_1)
+undefined8 fn_82A753E8(unsigned short param_1)
 
 {
   if (((param_1 != 0x165) && (param_1 != 0x166)) && (param_1 != 0x167)) {

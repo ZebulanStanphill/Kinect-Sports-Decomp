@@ -32,14 +32,14 @@ undefined8 fn_82F3E8B8(int param_1,longlong *param_2,undefined8 *param_3)
 {
   longlong lVar1;
   
-  if (*(int *)(param_1 + 0xc) == 0) {
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
     return 0xffffffffc00d36b6;
   }
   lVar1 = (ulonglong)*(uint *)(param_1 + 0x58) + 0x28;
-  if (*(int *)(param_1 + 0x50) != 0) {
+  if (*(unsigned int *)(param_1 + 0x50) != 0) {
     lVar1 = (ulonglong)*(uint *)(param_1 + 0x5c) + lVar1;
   }
-  if (*(int *)(param_1 + 0x54) != 0) {
+  if (*(unsigned int *)(param_1 + 0x54) != 0) {
     lVar1 = (ulonglong)*(uint *)(param_1 + 0x60) + lVar1;
   }
   *(longlong *)(param_1 + 0x20) = lVar1;

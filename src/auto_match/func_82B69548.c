@@ -32,8 +32,8 @@ extern int fn_82AB71F0();
 void fn_82B69548(undefined8 param_1,undefined8 param_2)
 
 {
-  int iVar1;
-  int iVar2;
+  unsigned int iVar1;
+  unsigned int iVar2;
   undefined8 uVar3;
   
   iVar1 = fn_82AB71F0(param_1,0x4f,param_2);

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82461790(int param_1,int *param_2)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   longlong lVar2;
   
   if (*param_2 != 0x44) {

@@ -28,16 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE8D28();
 
 
-undefined8 fn_82BF8958(int param_1,int param_2)
+undefined8 fn_82BF8958(int param_1,unsigned int param_2)
 
 {
   undefined8 uVar1;
   
-  if (((param_2 == 0) || (*(int *)(param_2 + 8) == 0)) || (*(int *)(param_2 + 0xc) == 0)) {
+  if (((param_2 == 0) || (*(unsigned int *)(param_2 + 8) == 0)) || (*(unsigned int *)(param_2 + 0xc) == 0)) {
     uVar1 = 0;
   }
   else {
-    *(int *)(param_1 + 0xc) = param_2;
+    *(unsigned int *)(param_1 + 0xc) = param_2;
     fn_82BE8D28(param_2);
     uVar1 = 1;
   }

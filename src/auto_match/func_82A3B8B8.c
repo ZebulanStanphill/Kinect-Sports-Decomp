@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A3B8B8(int param_1)
 
 {
-  uint uVar1;
-  char cVar2;
+  int uVar1;
+  unsigned char cVar2;
   uint uVar3;
   
   uVar3 = 0;

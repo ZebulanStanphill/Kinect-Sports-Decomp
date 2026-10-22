@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63268();
 
 
-bool fn_82296FC8(longlong param_1,ushort param_2,undefined8 param_3)
+bool fn_82296FC8(longlong param_1,short param_2,undefined8 param_3)
 
 {
-  ushort uVar1;
+  short uVar1;
   
   uVar1 = fn_82F63268(param_3,param_1 + 8);
   return (uVar1 & param_2) != 0;

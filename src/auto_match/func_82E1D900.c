@@ -32,9 +32,9 @@ extern int fn_82E1D7A0();
 void fn_82E1D900(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
-  int iVar3;
+  unsigned int iVar3;
   
   iVar2 = *(int *)(param_1 + 4);
   iVar3 = 0;

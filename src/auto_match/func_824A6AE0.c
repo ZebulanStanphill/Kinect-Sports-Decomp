@@ -35,13 +35,13 @@ extern unsigned int lbl_821BF828;
 void fn_824A6AE0(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *param_1 = &lbl_821BF828;
-  if (*(int *)(param_1[0xf] + 0x34) != 0) {
+  if (*(unsigned int *)(param_1[0xf] + 0x34) != 0) {
     fn_82536288(param_1[0xf] + 0x34);
   }
-  if (*(int *)(param_1[0xf] + 0x38) != 0) {
+  if (*(unsigned int *)(param_1[0xf] + 0x38) != 0) {
     fn_82536288(param_1[0xf] + 0x38);
   }
   iVar1 = param_1[0xf];

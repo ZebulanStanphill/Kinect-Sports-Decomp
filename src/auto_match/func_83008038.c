@@ -32,8 +32,8 @@ int fn_83008038(int *param_1)
 
 {
   uint uVar1;
-  char cVar3;
-  int iVar2;
+  unsigned char cVar3;
+  unsigned int iVar2;
   
   uVar1 = param_1[1] - *param_1 >> 5;
   if (((uVar1 < (uint)param_1[2]) || (cVar3 = fn_83007F58(param_1,2), cVar3 != '\0')) &&

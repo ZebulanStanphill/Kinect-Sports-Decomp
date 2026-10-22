@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8303BAB8(int param_1,char param_2,uint param_3)
+void fn_8303BAB8(int param_1,unsigned char param_2,uint param_3)
 
 {
   *(uint *)(param_1 + 0x2c) = param_3;

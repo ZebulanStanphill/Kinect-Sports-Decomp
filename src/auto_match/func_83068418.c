@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_83068418(int param_1)
 
 {
-  if ((*(int *)(param_1 + 0x30) == 0) && (*(int *)(param_1 + 0x34) == 0)) {
+  if ((*(unsigned int *)(param_1 + 0x30) == 0) && (*(unsigned int *)(param_1 + 0x34) == 0)) {
     return 1;
   }
   return 0;

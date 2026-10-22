@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82E181D8(undefined8 param_1,int param_2,int param_3)
 
 {
-  if ((*(char *)(param_2 + 0xc) == *(char *)(param_3 + 0xc)) &&
-     ((*(char *)(param_2 + 0xd) == *(char *)(param_3 + 0xd) || (*(char *)(param_2 + 0xc) == '\x18'))
+  if ((*(unsigned char *)(param_2 + 0xc) == *(unsigned char *)(param_3 + 0xc)) &&
+     ((*(unsigned char *)(param_2 + 0xd) == *(unsigned char *)(param_3 + 0xd) || (*(unsigned char *)(param_2 + 0xc) == '\x18'))
      )) {
     return 1;
   }

@@ -45,7 +45,7 @@ void fn_824B7FF8(undefined8 param_1,undefined1 param_2,undefined4 param_3)
 
 {
   int iVar1;
-  char cVar3;
+  unsigned char cVar3;
   int iVar2;
   undefined1 uVar4;
   undefined2 auStack_40;

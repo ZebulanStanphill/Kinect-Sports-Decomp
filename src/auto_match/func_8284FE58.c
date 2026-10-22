@@ -30,13 +30,13 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8284FE58(int param_1,int param_2,undefined4 param_3)
 
 {
-  if (*(int *)(param_1 + 0x90) == 0) {
+  if (*(unsigned int *)(param_1 + 0x90) == 0) {
     return;
   }
-  if (*(int *)(*(int *)(param_1 + 0x90) + 0x1c) != 0) {
+  if (*(unsigned int *)(*(unsigned int *)(param_1 + 0x90) + 0x1c) != 0) {
     return;
   }
-  *(undefined4 *)(*(int *)(param_2 + 4) + 0xc) = param_3;
+  *(undefined4 *)(*(unsigned int *)(param_2 + 4) + 0xc) = param_3;
   return;
 }
 

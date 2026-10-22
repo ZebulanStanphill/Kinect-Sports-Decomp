@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_8231FE40(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(*(int *)(param_2 + 0x110) + 0x18);
   if (((iVar1 != 0xc) && (iVar1 != 0xd)) && (iVar1 != 0x1d)) {

@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82835930(int param_1,int param_2)
 
 {
-  int *piVar1;
-  int iVar2;
+  unsigned int *piVar1;
+  unsigned int iVar2;
   
   iVar2 = *(int *)(param_1 + 8);
   if (iVar2 == 0) {

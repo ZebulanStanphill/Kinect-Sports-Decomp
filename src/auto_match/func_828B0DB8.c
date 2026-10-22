@@ -34,7 +34,7 @@ undefined4 fn_828B0DB8(int param_1)
 {
   int *piVar1;
   undefined4 uVar2;
-  char cVar3;
+  unsigned char cVar3;
   int aiStack_20 [2];
   
   piVar1 = *(int **)(*(int *)(param_1 + 0x14) + 0x220);
@@ -47,7 +47,7 @@ undefined4 fn_828B0DB8(int param_1)
         return uVar2;
       }
       fn_82381BC0(aiStack_20);
-    } while (aiStack_20[0] != *(int *)(*(int *)(param_1 + 0x14) + 0x220));
+    } while (aiStack_20[0] != *(unsigned int *)(*(int *)(param_1 + 0x14) + 0x220));
   }
   return 0;
 }

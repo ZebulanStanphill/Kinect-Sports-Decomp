@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1BB18();
 
 
-undefined8 fn_82A5B680(int param_1,int param_2)
+undefined8 fn_82A5B680(int param_1,unsigned int param_2)
 
 {
   int iVar2;
   undefined8 uVar1;
   
   if (((param_2 == 0) || (param_2 == -2)) &&
-     ((*(int *)(param_1 + 0x14) == 0 || (iVar2 = fn_82A1BB18(), iVar2 == *(int *)(param_1 + 0x14)))
+     ((*(unsigned int *)(param_1 + 0x14) == 0 || (iVar2 = fn_82A1BB18(), iVar2 == *(unsigned int *)(param_1 + 0x14)))
      )) {
     uVar1 = 1;
   }

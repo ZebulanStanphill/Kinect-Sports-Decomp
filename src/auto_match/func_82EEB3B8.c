@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82EEB3B8(undefined8 param_1,int *param_2,int *param_3)
+void fn_82EEB3B8(undefined8 param_1,unsigned int *param_2,int *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if (*param_3 == *param_2) {
     *param_2 = *(int *)(*param_3 + 0xc);

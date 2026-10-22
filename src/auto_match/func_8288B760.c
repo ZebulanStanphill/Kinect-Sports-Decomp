@@ -30,9 +30,9 @@ typedef struct { U64 lo, hi; } V16;
 undefined1 fn_8288B760(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
-  if ((*(int *)(param_1 + 0x34) != 0) &&
+  if ((*(unsigned int *)(param_1 + 0x34) != 0) &&
      (iVar1 = *(int *)(*(int *)(param_1 + 0x34) + 0x38), iVar1 != 0)) {
     return *(undefined1 *)(iVar1 + 0x26);
   }

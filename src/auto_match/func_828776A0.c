@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_828776A0(int param_1,char param_2)
+undefined8 fn_828776A0(int param_1,unsigned char param_2)
 
 {
-  if (*(char *)(param_1 + 4) != param_2) {
+  if (*(unsigned char *)(param_1 + 4) != param_2) {
     *(undefined1 *)(param_1 + 0xc) = 1;
   }
   *(char *)(param_1 + 4) = param_2;

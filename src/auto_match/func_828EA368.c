@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1BFB8();
 
 
-undefined8 fn_828EA368(undefined8 param_1,char param_2)
+undefined8 fn_828EA368(undefined8 param_1,unsigned char param_2)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   int aiStack_10;
   
