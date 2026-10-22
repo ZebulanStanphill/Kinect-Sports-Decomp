@@ -32,7 +32,7 @@ extern int fn_826CBEF0();
 void fn_826CD420(uint *param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   fn_826CBEF0(param_1,param_1,(ulonglong)param_1[1] + 1);
   lVar1 = ((ulonglong)param_1[1] & 0xfffffff) * 0x10 + (ulonglong)*param_1 + -0x10;

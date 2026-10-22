@@ -29,7 +29,7 @@ extern int fn_8267BE38();
 extern int fn_8267BED0();
 
 
-void fn_826EB580(int param_1,ulonglong param_2)
+void fn_826EB580(int param_1,unsigned int param_2)
 
 {
   undefined4 uVar1;

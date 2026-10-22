@@ -31,7 +31,7 @@ extern int fn_826A9DB0();
 longlong fn_826AB298(uint *param_1,undefined4 *param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   longlong lVar2;
   
   if ((*param_1 == 0) ||

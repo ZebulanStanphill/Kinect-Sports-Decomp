@@ -26,13 +26,13 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8269A678();
-extern int fn_826BD928();
+extern __int64 fn_826BD928();
 
 
 undefined8 fn_826C8688(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined8 uVar2;
   
   if ((*(int *)(param_1 + 0x1c0) == 0) ||

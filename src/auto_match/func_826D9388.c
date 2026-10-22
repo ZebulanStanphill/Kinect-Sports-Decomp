@@ -33,7 +33,7 @@ void fn_826D9388(uint *param_1,undefined8 param_2)
 
 {
   fn_826D8650(param_1,param_1,(ulonglong)param_1[1] + 1);
-  fn_82687F40(((ulonglong)param_1[1] & 0x3fffffff) * 4 + (ulonglong)*param_1 + -4,param_2);
+  fn_82687F40(((unsigned int)param_1[1] & 0x3fffffff) * 4 + (ulonglong)*param_1 + -4,param_2);
   return;
 }
 

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8268EAC0();
 extern int fn_8270B030();
-extern int fn_8270B4A0();
+extern __int64 fn_8270B4A0();
 
 
 undefined8 fn_8270B780(longlong param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
@@ -35,7 +35,7 @@ undefined8 fn_8270B780(longlong param_1,undefined8 param_2,undefined8 param_3,un
 {
   int iVar2;
   undefined8 uVar1;
-  longlong lVar3;
+  int lVar3;
   
   iVar2 = fn_8270B030(param_1 + 0x44);
   fn_8268EAC0(param_1 + 0x4c,iVar2,param_2,param_3,param_4);

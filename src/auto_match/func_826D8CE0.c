@@ -31,7 +31,7 @@ extern int fn_8267D248();
 extern int fn_8267D2B0();
 
 
-longlong fn_826D8CE0(longlong param_1,ulonglong param_2)
+longlong fn_826D8CE0(longlong param_1,unsigned int param_2)
 
 {
   fn_8267D2B0(param_1 + 0x1c);

@@ -29,10 +29,10 @@ extern int fn_826E96C8();
 extern int fn_82F6BAB8();
 
 
-longlong fn_826E98E8(int param_1)
+int  fn_826E98E8(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined4 uVar2;
   
   lVar1 = fn_82F6BAB8(*(undefined4 *)(param_1 + 0x10));

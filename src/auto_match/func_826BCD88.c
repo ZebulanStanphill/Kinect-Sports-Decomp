@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-bool fn_826BCD88(int param_1,uint param_2)
+bool fn_826BCD88(int param_1,unsigned short param_2)
 
 {
   ushort uVar1;
