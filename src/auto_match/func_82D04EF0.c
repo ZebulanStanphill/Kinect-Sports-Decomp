@@ -29,26 +29,18 @@ extern int fn_82CE5410();
 extern int fn_82CE6310();
 extern int fn_82CF68D0();
 
+typedef struct { char *data; int len; unsigned int cap; } Str;
 
-void fn_82D04EF0(int *param_1,undefined8 param_2,int param_3)
-
+void fn_82D04EF0(Str *s, int src, int n)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = param_3 + 1;
-  iVar1 = fn_82CE5410();
-  if ((int)(param_1[2] & 0x3fffffffU) < iVar3) {
-    iVar2 = (param_1[2] & 0x3fffffffU) << 1;
-    if (iVar2 <= iVar3) {
-      iVar2 = iVar3;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar1 + 0xc),param_1,iVar2,1);
+  int need = n + 1;
+  int heap = *(int *)(fn_82CE5410() + 0xc);
+  int cap = s->cap & 0x3fffffff;
+  if (cap < need) {
+    int nc = cap * 2;
+    fn_82CE6310(heap, s, need < nc ? nc : need, 1);
   }
-  param_1[1] = iVar3;
-  *(undefined1 *)(*param_1 + param_3) = 0;
-  fn_82CF68D0(*param_1,param_2,param_3);
-  return;
+  s->len = need;
+  s->data[n] = 0;
+  fn_82CF68D0(s->data, src, n);
 }
-

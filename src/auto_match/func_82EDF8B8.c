@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82EDF8B8(undefined4 *param_1)
+void fn_82EDF8B8(int *param_1)
 
 {
   param_1[3] = 2;
@@ -101,9 +101,9 @@ void fn_82EDF8B8(undefined4 *param_1)
   param_1[0xe5e] = 0;
   param_1[0xe5f] = 0;
   param_1[0xe57] = 1;
-  param_1[0xe59] = 0xffffffff;
-  param_1[0xe5a] = 0xffffffff;
-  param_1[0xe5b] = 0xffffffff;
+  param_1[0xe59] = -1;
+  param_1[0xe5a] = -1;
+  param_1[0xe5b] = -1;
   param_1[0xe58] = 1;
   return;
 }

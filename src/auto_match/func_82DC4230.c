@@ -1,74 +1,73 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82DC4190();
+typedef struct Node { struct Node *next; } Node;
 
+typedef struct Heap Heap;
+typedef struct {
+  void *f0;
+  void *f4;
+  void (*Free)(Heap *h, void *p, int size);
+  void *fc;
+  void (*Free2)(Heap *h, void *p, int size, int flags);
+} HeapVtbl;
+struct Heap { HeapVtbl *vt; };
 
-void fn_82DC4230(int param_1)
+typedef struct {
+  char pad0[0x10];
+  Heap *h10;
+  char pad14[4];
+  Heap *h18;
+} Mem;
 
+typedef struct {
+  char pad0[0x10];
+  int count;
+  void *buf14;
+  int pad18;
+  int size1c;
+  char pad20[0x50 - 0x20];
+  void *buf50;
+  short pad54;
+  unsigned short size56;
+  char pad58[0x68 - 0x58];
+  Node *list68;
+  char pad6c[0x78 - 0x6c];
+  Node *list78;
+} Obj;
+
+extern Mem *fn_82CE5410(void);
+extern void fn_82DC4190(Obj *o, int f);
+
+void fn_82DC4230(Obj *o)
 {
-  undefined2 uVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar4 = *(int *)(param_1 + 0x68);
-  while (iVar4 != 0) {
-    puVar2 = *(undefined4 **)(param_1 + 0x68);
-    *(undefined4 *)(param_1 + 0x68) = *puVar2;
-    iVar4 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar4 + 0x10) + 8))(*(int **)(iVar4 + 0x10),puVar2,0x1000);
-    iVar4 = *(int *)(param_1 + 0x68);
-  }
-  iVar4 = *(int *)(param_1 + 0x78);
-  while (iVar4 != 0) {
-    puVar2 = *(undefined4 **)(param_1 + 0x78);
-    *(undefined4 *)(param_1 + 0x78) = *puVar2;
-    iVar4 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar4 + 0x10) + 8))(*(int **)(iVar4 + 0x10),puVar2,0x30);
-    iVar4 = *(int *)(param_1 + 0x78);
-  }
-  iVar4 = *(int *)(param_1 + 0x14);
-  if (iVar4 != 0) {
-    uVar3 = *(undefined4 *)(param_1 + 0x1c);
-    iVar5 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar5 + 0x18) + 0x10))(*(int **)(iVar5 + 0x18),iVar4,uVar3,1);
-    *(undefined4 *)(param_1 + 0x14) = 0;
-  }
-  if (1 < *(int *)(param_1 + 0x10)) {
-    uVar1 = *(undefined2 *)(param_1 + 0x56);
-    uVar3 = *(undefined4 *)(param_1 + 0x50);
-    iVar4 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))(*(int **)(iVar4 + 0x10),uVar3,uVar1,4);
-    *(undefined4 *)(param_1 + 0x50) = 0;
-  }
-  fn_82DC4190(param_1,1);
-  return;
-}
+  Node *n;
+  Mem *m;
+  void *p;
+  int size;
 
+  while (o->list68 != 0) {
+    n = o->list68;
+    o->list68 = n->next;
+    m = fn_82CE5410();
+    m->h10->vt->Free(m->h10, n, 0x1000);
+  }
+  while (o->list78 != 0) {
+    n = o->list78;
+    o->list78 = n->next;
+    m = fn_82CE5410();
+    m->h10->vt->Free(m->h10, n, 0x30);
+  }
+  p = o->buf14;
+  if (p != 0) {
+    size = o->size1c;
+    m = fn_82CE5410();
+    m->h18->vt->Free2(m->h18, p, size, 1);
+    o->buf14 = 0;
+  }
+  if (o->count > 1) {
+    size = o->size56;
+    p = o->buf50;
+    m = fn_82CE5410();
+    m->h10->vt->Free2(m->h10, p, size, 4);
+    o->buf50 = 0;
+  }
+  fn_82DC4190(o, 1);
+}

@@ -30,22 +30,23 @@ extern int fn_82E5AF48();
 extern int memcpy();
 
 
-undefined8
+int
 fn_82E5B290(int param_1,uint param_2,undefined4 *param_3,undefined2 *param_4,uint *param_5,
-             ulonglong param_6)
+             uint param_6)
 
 {
-  longlong lVar1;
-  undefined8 uVar2;
+  uint lVar1;
+  int uVar2;
   undefined4 *puVar3;
   uint auStack_30;
+  uint n;
   
   if (((param_3 == (undefined4 *)0x0) || (param_4 == (undefined2 *)0x0)) ||
-     (*(uint *)(param_1 + 0xf4) <= (param_2 & 0xffff))) {
-    return 0xffffffff80070057;
+     ((param_2 & 0xffff) >= *(uint *)(param_1 + 0xf4))) {
+    return 0x80070057;
   }
   lVar1 = fn_82E5AF48(param_1 + 0x8c,param_2 & 0xffff,&auStack_30);
-  puVar3 = (undefined4 *)(-(uint)(lVar1 != 0) & auStack_30);
+  puVar3 = (undefined4 *)(lVar1 ? auStack_30 : 0);
   *param_3 = *puVar3;
   param_3[1] = puVar3[1];
   param_3[2] = puVar3[2];
@@ -56,17 +57,17 @@ LAB_82e5b360:
     uVar2 = 0;
   }
   else {
-    if ((param_6 & 0xffffffff) == 0) {
-      if (*param_5 != 0) {
-        return 0xffffffff80070057;
+    if (param_6 == 0) {
+      if (*param_5 > 0) {
+        return 0x80070057;
       }
     }
-    else if ((uint)puVar3[5] <= *param_5) {
-      *param_5 = puVar3[5];
+    else if ((n = puVar3[5], *param_5 >= n)) {
+      *param_5 = n;
       memcpy(param_6,puVar3[6],puVar3[5]);
       goto LAB_82e5b360;
     }
-    uVar2 = 0xffffffffc00d36b1;
+    uVar2 = 0xc00d36b1;
     *param_5 = puVar3[5];
   }
   return uVar2;

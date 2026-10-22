@@ -25,26 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct Obj Obj;
+typedef struct {
+  void *f[7];
+  void (*fn1c)(Obj *, int);
+} ObjVtbl;
+struct Obj { ObjVtbl *vt; };
+typedef struct { int key; Obj *obj; } Entry;
+typedef struct Self Self;
+typedef struct { void (*del)(Self *, int); } SelfVtbl;
+struct Self {
+  SelfVtbl *vt;
+  int pad[2];
+  Entry *entries;
+  int count;
+};
 
-
-void fn_82D6BA80(undefined4 *param_1,undefined8 param_2)
-
+void fn_82D6BA80(Self *self, int arg)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = 0;
-  if (0 < (int)param_1[4]) {
-    iVar2 = 0;
-    do {
-      piVar1 = *(int **)(param_1[3] + iVar2 + 4);
-      (**(code **)(*piVar1 + 0x1c))(piVar1,param_2);
-      iVar3 = iVar3 + 1;
-      iVar2 = iVar2 + 8;
-    } while (iVar3 < (int)param_1[4]);
+  int i;
+  for (i = 0; i < self->count; i++) {
+    Obj *o = self->entries[i].obj;
+    o->vt->fn1c(o, arg);
   }
-  (**(code **)*param_1)(param_1,1);
-  return;
+  self->vt->del(self, 1);
 }
-

@@ -1,88 +1,66 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry {
+  unsigned char a;
+  unsigned char b;
+  unsigned char pad[2];
+  unsigned char idx[4];
+} Entry;
 
+typedef union EntryU {
+  Entry s;
+  unsigned int w[2];
+} EntryU;
 
-undefined8 fn_82DD75C0(byte *param_1,short *param_2)
+typedef struct Table {
+  unsigned char f0[2];
+  unsigned char count;
+  unsigned char f3;
+  EntryU e[1];
+} Table;
 
+typedef struct Key {
+  unsigned short v[4];
+  unsigned char a;
+  unsigned char b;
+} Key;
+
+#define VAL(t, n, i) (*(unsigned short *)((unsigned char *)&(t)->e[n] + ((i) >> 3)))
+
+int fn_82DD75C0(Table *t, Key *k)
 {
-  byte bVar1;
-  byte bVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar7;
-  undefined8 uVar6;
-  byte *pbVar8;
-  
-  bVar1 = param_1[2];
-  uVar7 = (uint)bVar1;
-  uVar4 = 0;
-  if (uVar7 != 0) {
-    pbVar8 = param_1;
-    do {
-      if ((*(byte *)(param_2 + 4) == pbVar8[4]) && (*(byte *)((int)param_2 + 9) == pbVar8[5])) {
-        uVar5 = (uint)*(byte *)((int)param_2 + 9) + (uint)*(byte *)(param_2 + 4);
-        iVar3 = (uint)bVar1 * 8;
-        if ((((*param_2 == *(short *)(param_1 + (uint)(pbVar8[8] >> 3) + iVar3 + 4)) &&
-             (param_2[1] == *(short *)(param_1 + (uint)(pbVar8[9] >> 3) + iVar3 + 4))) &&
-            ((uVar5 < 3 || (param_2[2] == *(short *)(param_1 + (uint)(pbVar8[10] >> 3) + iVar3 + 4))
-             ))) && ((uVar5 < 4 ||
-                     (param_2[3] == *(short *)(param_1 + (uint)(pbVar8[0xb] >> 3) + iVar3 + 4))))) {
-          if (uVar4 != 0) {
-            uVar6 = *(undefined8 *)(param_1 + uVar4 * 8 + 4);
-            *(undefined4 *)(param_1 + uVar4 * 8 + 4) = *(undefined4 *)(param_1 + 4);
-            *(undefined4 *)(param_1 + uVar4 * 8 + 8) = *(undefined4 *)(param_1 + 8);
-            *(undefined8 *)(param_1 + 4) = uVar6;
-          }
-          return 1;
+  unsigned int n;
+  unsigned int i;
+  int sum;
+  EntryU tmp;
+  EntryU *e;
+
+  n = t->count;
+  for (i = 0; i < n; i++) {
+    e = &t->e[i];
+    if (k->a == e->s.a && k->b == e->s.b) {
+      sum = k->a + k->b;
+      if (k->v[0] == VAL(t, n, e->s.idx[0]) &&
+          k->v[1] == VAL(t, n, e->s.idx[1]) &&
+          (sum <= 2 || k->v[2] == VAL(t, n, e->s.idx[2])) &&
+          (sum <= 3 || k->v[3] == VAL(t, n, e->s.idx[3]))) {
+        if (i != 0) {
+          tmp = t->e[i];
+          t->e[i] = t->e[0];
+          t->e[0] = tmp;
         }
+        return 1;
       }
-      uVar4 = uVar4 + 1;
-      pbVar8 = pbVar8 + 8;
-    } while (uVar4 < uVar7);
+    }
   }
-  bVar2 = *(byte *)(param_2 + 4);
-  if (((bVar2 == 1) || (*(char *)((int)param_2 + 9) == '\x01')) && (uVar4 = 0, uVar7 != 0)) {
-    pbVar8 = param_1 + 4;
-    do {
-      if ((((bVar2 == 1) && (*pbVar8 == 1)) &&
-          (*(short *)(param_1 + (uint)(pbVar8[4] >> 3) + (uint)bVar1 * 8 + 4) == *param_2)) ||
-         (((*(char *)((int)param_2 + 9) == '\x01' && (pbVar8[1] == 1)) &&
-          (*(short *)(param_1 + (uint)(pbVar8[*pbVar8 + 4] >> 3) + (uint)bVar1 * 8 + 4) ==
-           param_2[bVar2])))) {
-        pbVar8[1] = 0;
-        *pbVar8 = 0;
+  if (k->a == 1 || k->b == 1) {
+    for (i = 0; i < n; i++) {
+      e = &t->e[i];
+      if ((k->a == 1 && e->s.a == 1 && VAL(t, n, e->s.idx[0]) == k->v[0]) ||
+          (k->b == 1 && e->s.b == 1 && VAL(t, n, e->s.idx[e->s.a]) == k->v[k->a])) {
+        e->s.b = 0;
+        e->s.a = 0;
         return 0;
       }
-      uVar4 = uVar4 + 1;
-      pbVar8 = pbVar8 + 8;
-    } while (uVar4 < uVar7);
+    }
   }
   return 0;
 }
-

@@ -1,55 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA9208();
-extern int fn_82FABA50();
-
-
-void fn_82FAB1D8(int param_1)
-
+typedef struct VT { void *a; void (*rel)(void *, int); } VT;
+typedef struct Obj { int pad; VT *vt; } Obj;
+typedef struct Node { struct Node *next; int pad[4]; int obj; } Node;
+typedef struct List { Node *head; } List;
+typedef struct Mgr { char pad[0x2c]; List list; } Mgr;
+extern void fn_82FA9208(Obj *);
+extern void fn_82FABA50(List *, Node *, int);
+void fn_82FAB1D8(Mgr *m)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  for (puVar1 = *(undefined4 **)(param_1 + 0x2c); puVar1 != (undefined4 *)0x0;
-      puVar1 = (undefined4 *)*puVar1) {
-    iVar2 = puVar1[5];
-    if (iVar2 != 0) {
-      (**(code **)(*(int *)(iVar2 + 4) + 4))(iVar2 + 4,0);
-      iVar2 = puVar1[5];
-      puVar1[5] = 0;
-      if (iVar2 != 0) {
-        fn_82FA9208();
-      }
+    Node *n;
+    List *l = &m->list;
+    Obj *o;
+    for (n = l->head; n; n = n->next) {
+        if (n->obj != 0) {
+            ((Obj *)n->obj)->vt->rel(&((Obj *)n->obj)->vt, 0);
+            o = (Obj *)n->obj;
+            n->obj = 0;
+            if (o)
+                fn_82FA9208(o);
+        }
     }
-  }
-  while (iVar2 = *(int *)(param_1 + 0x2c), iVar2 != 0) {
-    fn_82FABA50((int *)(param_1 + 0x2c),iVar2,0);
-  }
-  return;
+    do {
+        n = l->head;
+        if (n)
+            fn_82FABA50(l, n, 0);
+    } while (n);
 }
-

@@ -1,63 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+    float acc[8];
+    unsigned short cnt[8];
+    int pad[4];
+    double val;
+} A;
 
+typedef struct {
+    int pad;
+    int idx[2];
+    unsigned int mode;
+    float scale[2];
+} B;
 
-void fn_82CF0998(int param_1,int param_2,int param_3,int param_4)
+typedef struct {
+    int pad;
+    unsigned int v[2];
+} C;
 
+void fn_82CF0998(A *a, B *b, C *c, C *d)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_2 + 4);
-  if ((-1 < iVar1) && (iVar1 < 8)) {
-    iVar2 = (iVar1 + 0x10) * 2;
-    *(float *)(iVar1 * 4 + param_1) =
-         (float)(uint)(*(int *)(param_4 + 4) - *(int *)(param_3 + 4)) * *(float *)(param_2 + 0x10) +
-         *(float *)(iVar1 * 4 + param_1);
-    *(short *)(iVar2 + param_1) = *(short *)(iVar2 + param_1) + 1;
-  }
-  iVar1 = *(int *)(param_2 + 8);
-  if ((-1 < iVar1) && (iVar1 < 8)) {
-    iVar2 = (iVar1 + 0x10) * 2;
-    *(float *)(iVar1 * 4 + param_1) =
-         (float)(uint)(*(int *)(param_4 + 8) - *(int *)(param_3 + 8)) * *(float *)(param_2 + 0x14) +
-         *(float *)(iVar1 * 4 + param_1);
-    *(short *)(iVar2 + param_1) = *(short *)(iVar2 + param_1) + 1;
-  }
-  if (*(int *)(param_2 + 0xc) == 0) {
-    *(double *)(param_1 + 0x40) =
-         (double)*(float *)(param_2 + 0x10) * (double)*(uint *)(param_3 + 4);
-    return;
-  }
-  if (*(int *)(param_2 + 0xc) != 1) {
-    return;
-  }
-  *(double *)(param_1 + 0x40) = (double)*(float *)(param_2 + 0x14) * (double)*(uint *)(param_3 + 8);
-  return;
-}
+    int i;
 
+    i = b->idx[0];
+    if (i >= 0 && i < 8) {
+        a->acc[i] += (float)(d->v[0] - c->v[0]) * b->scale[0];
+        a->cnt[i]++;
+    }
+    i = b->idx[1];
+    if (i >= 0 && i < 8) {
+        a->acc[i] += (float)(d->v[1] - c->v[1]) * b->scale[1];
+        a->cnt[i]++;
+    }
+    if (b->mode == 0) {
+        a->val = (double)b->scale[0] * (double)c->v[0];
+    } else if (b->mode == 1) {
+        a->val = (double)b->scale[1] * (double)c->v[1];
+    }
+}

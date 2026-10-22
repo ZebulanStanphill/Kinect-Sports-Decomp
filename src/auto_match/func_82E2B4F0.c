@@ -1,52 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E2AC98();
+typedef struct {
+    int a, b;
+} RTL_CRITICAL_SECTION;
 
+void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
 
-undefined8 fn_82E2B4F0(longlong param_1,undefined8 param_2,undefined8 *param_3)
+typedef struct {
+    unsigned short type;
+    unsigned short pad[3];
+    unsigned __int64 value;
+} Prop;
 
+typedef struct {
+    int pad[2];
+    RTL_CRITICAL_SECTION cs;
+} Store;
+
+extern Prop *fn_82E2AC98(Store *s, int key);
+
+int fn_82E2B4F0(Store *s, int key, unsigned __int64 *out)
 {
-  short *psVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0;
-  RtlEnterCriticalSection(param_1 + 8);
-  psVar1 = (short *)fn_82E2AC98(param_1,param_2);
-  if (psVar1 == (short *)0x0) {
-    uVar2 = 0xffffffffc00d36e6;
-  }
-  else if (*psVar1 == 0x15) {
-    *param_3 = *(undefined8 *)(psVar1 + 4);
-  }
-  else {
-    uVar2 = 0xffffffffc00d36bd;
-  }
-  RtlLeaveCriticalSection(param_1 + 8);
-  return uVar2;
+    int hr = 0;
+    Prop *p;
+    RtlEnterCriticalSection(&s->cs);
+    p = fn_82E2AC98(s, key);
+    if (p != 0) {
+        if (p->type == 0x15) {
+            *out = p->value;
+        } else {
+            hr = 0xc00d36bd;
+        }
+    } else {
+        hr = 0xc00d36e6;
+    }
+    RtlLeaveCriticalSection(&s->cs);
+    return hr;
 }
-

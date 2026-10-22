@@ -39,19 +39,19 @@ void fn_82E22FC0(int param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  int iStack_30;
-  undefined1 auStack_2c [44];
+  uint uVar1;
+  uint iStack_30;
+  undefined1 auStack_2c [4];
   
   if (*(int *)(param_1 + 0x178) != 0) {
     iVar2 = fn_82A1F2F8();
     if ((*(uint *)(param_1 + 0x158) != 0) &&
-       (*(uint *)(param_1 + 0x158) < (uint)(iVar2 - *(int *)(param_1 + 0x154)))) {
+       ((uint)(iVar2 - *(int *)(param_1 + 0x154)) > *(uint *)(param_1 + 0x158))) {
       *(undefined4 *)(param_1 + 0x17c) = 1;
     }
     if (*(int *)(param_1 + 0x17c) == 0) {
       fn_82E23A10(param_1 + 0x30,*(undefined4 *)(param_1 + 0x180),
-                      (ulonglong)*(uint *)(param_1 + 0x150) + 9,auStack_2c,0,0);
+                      *(uint *)(param_1 + 0x150) + 9,auStack_2c,0,0);
       *(undefined4 *)(param_1 + 0x180) = 0;
     }
     else {
@@ -67,7 +67,7 @@ void fn_82E22FC0(int param_1)
       *(undefined4 *)(param_1 + 0x17c) = 0;
       *(undefined4 *)(param_1 + 0x180) = 0;
       *(undefined4 *)(param_1 + 0x178) = 0;
-      fn_82E23670(param_1 + 0x168,uVar1,uVar1);
+      fn_82E23670(param_1 + 0x168,uVar1,uVar1,iStack_30);
     }
   }
   return;

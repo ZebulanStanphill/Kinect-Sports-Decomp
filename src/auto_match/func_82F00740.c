@@ -1,100 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+#define I(off) (*(int *)(p + (off)))
+#define L(off) (*(__int64 *)(p + (off)))
 
-
-void fn_82F00740(int param_1,int param_2)
-
+void fn_82F00740(char *p, int n)
 {
-  int iVar1;
-  int iVar2;
-  
-  *(undefined4 *)(param_1 + 0x784c) = *(undefined4 *)(param_1 + 0x7844);
-  *(undefined4 *)(param_1 + 0x7848) = *(undefined4 *)(param_1 + 0x7840);
-  *(undefined4 *)(param_1 + 0x782c) = *(undefined4 *)(param_1 + 0x7824);
-  *(int *)(param_1 + 0x7828) = *(int *)(param_1 + 0x7820);
-  if (((*(int *)(param_1 + 0x6d54) != 0) && (*(int *)(param_1 + 0x7b38) != 0)) &&
-     (*(int *)(param_1 + 0x6de8) == 1)) {
-    return;
-  }
-  if ((*(int *)(param_1 + 0x84c) != 0) && (1 < *(longlong *)(param_1 + 0x2e0))) {
-    return;
-  }
-  if (*(int *)(param_1 + 0x7808) != 0) {
-    if (*(int *)(param_1 + 0x7810) == 0) {
-      return;
-    }
-    if (*(longlong *)(param_1 + 0x2e0) < 2) {
-      return;
-    }
-    if ((*(uint *)(param_1 + 0x1e4c) & 1) != 0) {
-      return;
-    }
-    iVar2 = *(int *)(param_1 + 0x7820) + 1;
-    *(int *)(param_1 + 0x7820) = iVar2;
-    if (8 < iVar2) {
-      iVar2 = 1;
-    }
-    iVar1 = iVar2 + 1;
-    *(int *)(param_1 + 0x7820) = iVar2;
-    *(int *)(param_1 + 0x7824) = iVar1;
-    if (8 < iVar1) {
-      iVar1 = 1;
-    }
-    *(int *)(param_1 + 0x7824) = iVar1;
-    *(int *)(param_1 + 0x7844) = iVar1;
-    *(undefined4 *)(param_1 + 0x7840) = *(undefined4 *)(param_1 + 0x7820);
-    return;
-  }
-  *(undefined4 *)(param_1 + 0x7824) = 0;
-  *(undefined4 *)(param_1 + 0x7820) = 0;
-  if (0x17 < param_2) {
-    param_2 = param_2 + -0x17;
-    *(int *)(param_1 + 0x7820) = param_2;
-    if (7 < param_2) {
-      param_2 = 8;
-    }
-    iVar2 = param_2 + 2;
-    *(int *)(param_1 + 0x7820) = param_2;
-    *(int *)(param_1 + 0x7824) = iVar2;
-    if (7 < iVar2) {
-      iVar2 = 8;
-    }
-    *(int *)(param_1 + 0x7824) = iVar2;
-    *(int *)(param_1 + 0x2a0) = *(int *)(param_1 + 0x2a0) - param_2;
-  }
-  *(int *)(param_1 + 0x7840) = *(int *)(param_1 + 0x7820);
-  *(int *)(param_1 + 0x7844) = *(int *)(param_1 + 0x7824);
-  if ((*(int *)(param_1 + 0x7820) == *(int *)(param_1 + 0x7828)) &&
-     (*(int *)(param_1 + 0x7824) == *(int *)(param_1 + 0x782c))) {
-    return;
-  }
-  *(undefined4 *)(param_1 + 0x7814) = 1;
-  *(undefined4 *)(param_1 + 0x7818) = 1;
-  return;
-}
+    int a;
+    int b;
 
+    I(0x784c) = I(0x7844);
+    I(0x7848) = I(0x7840);
+    I(0x782c) = I(0x7824);
+    I(0x7828) = I(0x7820);
+    if (I(0x6d54) != 0 && I(0x7b38) != 0 && I(0x6de8) == 1) {
+        return;
+    }
+    if (I(0x84c) != 0 && L(0x2e0) > 1) {
+        return;
+    }
+    if (I(0x7808) != 0) {
+        if (I(0x7810) == 0) {
+            return;
+        }
+        if (L(0x2e0) <= 1) {
+            return;
+        }
+        if ((I(0x1e4c) & 1) != 0) {
+            return;
+        }
+        I(0x7820) = I(0x7820) + 1;
+        I(0x7820) = I(0x7820) > 8 ? 1 : I(0x7820);
+        I(0x7824) = I(0x7820) + 1;
+        I(0x7824) = I(0x7824) > 8 ? 1 : I(0x7824);
+        I(0x7844) = I(0x7824);
+        I(0x7840) = I(0x7820);
+        return;
+    }
+    I(0x7824) = 0;
+    I(0x7820) = 0;
+    if (n >= 0x18) {
+        a = n - 0x17;
+        I(0x7820) = a;
+        if (a >= 8) {
+            a = 8;
+        }
+        b = a + 2;
+        I(0x7820) = a;
+        I(0x7824) = b;
+        if (b >= 8) {
+            b = 8;
+        }
+        I(0x7824) = b;
+        I(0x2a0) -= a;
+    }
+    I(0x7840) = I(0x7820);
+    I(0x7844) = I(0x7824);
+    if (I(0x7820) != I(0x7828) || I(0x7824) != I(0x782c)) {
+        I(0x7814) = 1;
+        I(0x7818) = 1;
+    }
+}

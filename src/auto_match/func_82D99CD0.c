@@ -1,90 +1,75 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82CE4040();
-extern int fn_82CE4118();
-extern int fn_82D80C18();
-extern int fn_82D80C30();
-extern int fn_82D80C48();
-extern int fn_82D91178();
-extern int fn_82D913E0();
-extern int fn_82D9A330();
-extern int fn_82DADCE0();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_28;
+typedef struct Mgr {
+    char pad0[0x8c];
+    int f8c;
+    int f90;
+    int busy;
+    int f98;
+    unsigned char f9c;
+    char pad9d[7];
+    int fa4;
+} Mgr;
 
+typedef struct Obj {
+    int f0;
+    int f4;
+    Mgr *mgr;
+    int fc;
+    int f10;
+} Obj;
 
-undefined8 fn_82D99CD0(int param_1,undefined8 param_2)
+typedef struct Msg {
+    unsigned char type;
+    Obj *obj;
+    void *val;
+} Msg;
 
+extern void fn_82CE4040(void *p);
+extern void fn_82CE4118(void *p);
+extern void fn_82D80C18(Mgr *m);
+extern void fn_82D80C30(Mgr *m);
+extern void fn_82D80C48(Mgr *m, Msg *msg);
+extern void fn_82D91178(Mgr *m, Obj *o);
+extern void fn_82D913E0(Mgr *m, Obj *o);
+extern void fn_82D9A330(Obj *o);
+extern void fn_82DADCE0(Mgr *m, Obj *o);
+
+static void Obj_lock(Obj *o)
 {
-  int iVar1;
-  longlong lVar2;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  undefined4 uStack_28;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0x94) != 0) {
-      auStack_30[0] = 5;
-      iStack_2c = param_1;
-      uStack_28 = (int)param_2;
-      fn_82D80C48(iVar1,auStack_30);
-      return 0;
+    if (o->mgr != 0) {
+        o->mgr->busy++;
+        fn_82D913E0(o->mgr, o);
     }
-    if (iVar1 != 0) {
-      *(int *)(iVar1 + 0x94) = *(int *)(iVar1 + 0x94) + 1;
-      fn_82D913E0(*(undefined4 *)(param_1 + 8),param_1);
-    }
-  }
-  fn_82CE4040(param_2);
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_82CE4118();
-  }
-  *(int *)(param_1 + 0x10) = (int)param_2;
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82DADCE0(*(int *)(param_1 + 8),param_1);
-  }
-  fn_82D9A330(param_1);
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82D91178(*(int *)(param_1 + 8),param_1);
-    iVar1 = *(int *)(param_1 + 8);
-    lVar2 = (ulonglong)*(uint *)(iVar1 + 0x94) - 1;
-    *(int *)(iVar1 + 0x94) = (int)lVar2;
-    if ((lVar2 == 0) && (*(char *)(iVar1 + 0x9c) == '\0')) {
-      if (*(int *)(iVar1 + 0x8c) != 0) {
-        fn_82D80C18(iVar1);
-      }
-      if ((*(int *)(iVar1 + 0xa4) == 1) && (*(int *)(iVar1 + 0x90) != 0)) {
-        fn_82D80C30(iVar1);
-      }
-    }
-  }
-  return 1;
 }
 
+int fn_82D99CD0(Obj *o, void *v)
+{
+    Mgr *m = o->mgr;
+
+    if (m != 0 && m->busy != 0) {
+        Msg msg;
+        msg.type = 5;
+        msg.obj = o;
+        msg.val = v;
+        fn_82D80C48(m, &msg);
+        return 0;
+    }
+    Obj_lock(o);
+    fn_82CE4040(v);
+    if (o->f10 != 0)
+        fn_82CE4118((void *)o->f10);
+    o->f10 = (int)v;
+    if (o->mgr != 0)
+        fn_82DADCE0(o->mgr, o);
+    fn_82D9A330(o);
+    if (o->mgr != 0) {
+        fn_82D91178(o->mgr, o);
+        m = o->mgr;
+        if (--m->busy == 0 && !m->f9c) {
+            if (m->f8c != 0)
+                fn_82D80C18(m);
+            if (m->fa4 == 1 && m->f90 != 0)
+                fn_82D80C30(m);
+        }
+    }
+    return 1;
+}

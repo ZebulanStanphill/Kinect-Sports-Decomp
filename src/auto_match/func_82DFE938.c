@@ -1,69 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE4040();
-extern int fn_82CE5410();
-extern int fn_82DFE070();
-extern int fn_82DFEC58();
+extern void fn_82CE4040(void *p);
+extern void *fn_82CE5410(void);
+extern void *fn_82DFE070(void *mem, void *a);
+extern void fn_82DFEC58(void *o, void *p);
 
+typedef struct {
+  void *f0;
+  void *(*alloc)(void *self, int size);
+} AllocVt;
+typedef struct { AllocVt *vt; } Allocator;
 
-int fn_82DFE938(int param_1,undefined4 *param_2,undefined8 param_3)
+typedef struct {
+  void *f[7];
+  unsigned char *(*make)(void *self, void *a, int b);
+} MakerVt;
+typedef struct { MakerVt *vt; } Maker;
 
+typedef struct {
+  void *f[3];
+  void *(*clone)(void *self);
+} CloneVt;
+typedef struct { CloneVt *vt; } Cloner;
+
+typedef struct {
+  char pad0[0x8];
+  int f8;
+  int fc;
+  char pad10[0x8];
+  void *f18;
+  void *a[8];
+  unsigned char *f3c;
+  void *f40;
+  void *f44;
+  char pad48[0x9c - 0x48];
+  void *f9c;
+} Out;
+
+typedef struct {
+  char pad0[0x3c];
+  Maker *maker;
+  void *f40;
+  char pad44[0x9c - 0x44];
+  Cloner *cloner;
+} Src;
+
+typedef struct {
+  char pad[0x10];
+  Allocator *allocator;
+} Ctx;
+
+Out *fn_82DFE938(Src *src, void ***pp, int arg)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  uVar3 = *(undefined4 *)*param_2;
-  iVar1 = fn_82CE5410();
-  iVar1 = (**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0xd4);
-  *(undefined2 *)(iVar1 + 4) = 0xd4;
-  iVar1 = fn_82DFE070(iVar1,uVar3);
-  fn_82DFEC58(iVar1,param_1);
-  *(undefined4 *)(iVar1 + 0x18) = uVar3;
-  *(undefined4 *)(iVar1 + 8) = 0;
-  *(undefined4 *)(iVar1 + 0xc) = 0;
-  iVar2 = (**(code **)(**(int **)(param_1 + 0x3c) + 0x1c))(*(int **)(param_1 + 0x3c),uVar3,param_3);
-  *(int *)(iVar1 + 0x3c) = iVar2;
-  *(undefined1 *)(iVar2 + 8) = 1;
-  uVar3 = (**(code **)(**(int **)(param_1 + 0x9c) + 0xc))();
-  *(undefined4 *)(iVar1 + 0x9c) = uVar3;
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x1c));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x20));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x24));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x28));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x2c));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x30));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x34));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x38));
-  fn_82CE4040(*(undefined4 *)(iVar1 + 0x44));
-  if (*(int *)(param_1 + 0x40) != 0) {
-    fn_82CE4040(*(undefined4 *)(iVar1 + 0x40));
-  }
-  return iVar1;
-}
+  void *key;
+  Ctx *ctx;
+  short *mem;
+  Out *o;
+  unsigned char *m;
 
+  key = **pp;
+  ctx = fn_82CE5410();
+  mem = ctx->allocator->vt->alloc(ctx->allocator, 0xd4);
+  mem[2] = 0xd4;
+  o = fn_82DFE070(mem, key);
+  fn_82DFEC58(o, src);
+  o->f18 = key;
+  o->f8 = 0;
+  o->fc = 0;
+  m = src->maker->vt->make(src->maker, key, arg);
+  o->f3c = m;
+  m[8] = 1;
+  o->f9c = src->cloner->vt->clone(src->cloner);
+  fn_82CE4040(o->a[0]);
+  fn_82CE4040(o->a[1]);
+  fn_82CE4040(o->a[2]);
+  fn_82CE4040(o->a[3]);
+  fn_82CE4040(o->a[4]);
+  fn_82CE4040(o->a[5]);
+  fn_82CE4040(o->a[6]);
+  fn_82CE4040(o->a[7]);
+  fn_82CE4040(o->f44);
+  if (src->f40 != 0) {
+    fn_82CE4040(o->f40);
+  }
+  return o;
+}

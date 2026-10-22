@@ -1,71 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
-extern int fn_82EEE678();
-extern int fn_82EEF368();
+typedef struct Inner {
+    int f0, f4;
+    int *vbptr;
+} Inner;
+typedef struct Outer {
+    char pad[0x20];
+    Inner *inner;
+} Outer;
+extern int fn_82EEE678(void *base, int a, int b, int c, unsigned short *buf, unsigned short *count, int d);
+extern int fn_82EEF368(void *base, int a, unsigned short v, int d);
+extern unsigned short *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
+extern void fn_82E4FE40(void *p);
 
+#define VBASE(o) ((char *)((o)->inner->vbptr[2] + (int)(o)->inner + 8))
 
-longlong fn_82E7BC68(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82E7BC68(Outer *o, int a, int b)
 {
-  longlong lVar1;
-  int iVar2;
-  ushort auStack_40;
-  
-  auStack_40 = 0;
-  lVar1 = fn_82EEE678(*(int *)(*(int *)(*(int *)(param_1 + 0x20) + 8) + 8) +
-                            *(int *)(param_1 + 0x20) + 8,param_2,param_3,0,0,&auStack_40,1);
-  if (-1 < lVar1) {
-    if ((ulonglong)auStack_40 == 0) {
-      lVar1 = -0x3ff2c173;
-    }
-    else {
-      iVar2 = fn_82E50BE8((ulonglong)auStack_40 << 1,0,0,0,0);
-      if (iVar2 == 0) {
-        lVar1 = -0x7ff8fff2;
-      }
-      else {
-        lVar1 = fn_82EEE678(*(int *)(*(int *)(*(int *)(param_1 + 0x20) + 8) + 8) +
-                                  *(int *)(param_1 + 0x20) + 8,param_2,param_3,0,iVar2,&auStack_40,1)
-        ;
-        while (-1 < lVar1) {
-          if (auStack_40 == 0) break;
-          auStack_40 = auStack_40 - 1;
-          lVar1 = fn_82EEF368(*(int *)(*(int *)(*(int *)(param_1 + 0x20) + 8) + 8) +
-                                    *(int *)(param_1 + 0x20) + 8,param_2,
-                                    *(undefined2 *)((uint)auStack_40 * 2 + iVar2),1);
-        }
-        fn_82E4FE40(iVar2);
-      }
-    }
-  }
-  return lVar1;
-}
+    int hr;
+    unsigned short count;
+    unsigned short *buf;
+    unsigned int size;
 
+    count = 0;
+    hr = fn_82EEE678(VBASE(o), a, b, 0, 0, &count, 1);
+    if (hr >= 0) {
+        if (count == 0) {
+            hr = 0xc00d3e8d;
+        } else {
+            size = count * 2;
+            buf = fn_82E50BE8(size, 0, 0, 0, 0);
+            if (buf == 0) {
+                hr = 0x8007000e;
+            } else {
+                hr = fn_82EEE678(VBASE(o), a, b, 0, buf, &count, 1);
+                if (hr >= 0) {
+                    while (count != 0) {
+                        count--;
+                        hr = fn_82EEF368(VBASE(o), a, buf[count], 1);
+                        if (hr < 0)
+                            break;
+                    }
+                }
+                fn_82E4FE40(buf);
+            }
+        }
+    }
+    return hr;
+}

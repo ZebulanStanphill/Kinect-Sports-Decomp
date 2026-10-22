@@ -1,46 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50BE8();
+typedef struct S {
+    void *a;
+    int b;
+    void *c;
+    int d;
+} S;
 
+extern void *fn_82E50BE8(void *p, int a, int b, int c, int d);
 
-undefined4 * fn_82E80FD8(undefined4 *param_1,undefined4 param_2,ulonglong param_3)
-
+S *fn_82E80FD8(S *p, int b, void *h)
 {
-  int iVar1;
-  
-  param_1[1] = param_2;
-  *param_1 = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  if (((param_3 & 0xffffffff) != 0) && (iVar1 = fn_82E50BE8(param_3,0,0,0,0), iVar1 != 0)) {
-    *param_1 = (int)param_3;
-    param_1[2] = iVar1;
-  }
-  return param_1;
-}
+    void *r;
 
+    p->b = b;
+    p->a = 0;
+    p->c = 0;
+    p->d = 0;
+    if (h != 0) {
+        r = fn_82E50BE8(h, 0, 0, 0, 0);
+        if (r != 0) {
+            p->a = h;
+            p->c = r;
+        }
+    }
+    return p;
+}
