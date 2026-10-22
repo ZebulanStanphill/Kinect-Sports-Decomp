@@ -1,55 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct IUnk IUnk;
+typedef struct {
+    int (*QueryInterface)(IUnk *, void *, void **);
+    unsigned int (*AddRef)(IUnk *);
+    unsigned int (*Release)(IUnk *);
+} IUnkVtbl;
+struct IUnk { IUnkVtbl *vt; };
 
+typedef struct {
+    char pad0[0xc];
+    void *ready;
+    char pad10[0x88 - 0x10];
+    unsigned int obj;
+} Self;
 
-undefined8 fn_82E5A068(int param_1,undefined4 *param_2)
-
+int fn_82E5A068(Self *self, IUnk **out)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if (param_2 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    if (*(int **)(param_1 + 0x88) == (int *)0x0) {
-      uVar2 = 0;
+    IUnk *p;
+    if (self->ready == 0) {
+        return 0xc00d36b6;
     }
-    else {
-      (**(code **)(**(int **)(param_1 + 0x88) + 4))();
-      uVar2 = *(undefined4 *)(param_1 + 0x88);
+    if (out == 0) {
+        return 0x80070057;
     }
-    *param_2 = uVar2;
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (self->obj != 0) {
+        ((IUnk *)self->obj)->vt->AddRef((IUnk *)self->obj);
+        p = (IUnk *)self->obj;
+    } else {
+        p = 0;
+    }
+    *out = p;
+    return 0;
 }
-

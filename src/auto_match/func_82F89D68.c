@@ -1,56 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+typedef unsigned int size_t;
+void *memcpy(void *dst, const void *src, size_t n);
 
+typedef struct internal_state {
+    void *strm;
+    int status;
+    unsigned char *pending_buf;
+    unsigned int pending_buf_size;
+    unsigned char *pending_out;
+    unsigned int pending;
+} deflate_state;
 
-void fn_82F89D68(int param_1)
+typedef struct z_stream_s {
+    unsigned char *next_in;
+    unsigned int avail_in;
+    unsigned int total_in;
+    unsigned char *next_out;
+    unsigned int avail_out;
+    unsigned int total_out;
+    char *msg;
+    deflate_state *state;
+} z_stream;
 
+void fn_82F89D68(z_stream *strm)
 {
-  int iVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(*(int *)(param_1 + 0x1c) + 0x14);
-  if (*(uint *)(param_1 + 0x10) < uVar2) {
-    uVar2 = *(uint *)(param_1 + 0x10);
-  }
-  if (uVar2 != 0) {
-    fn_82F68CC0(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x10),
-                 uVar2);
-    *(uint *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + uVar2;
-    *(uint *)(*(int *)(param_1 + 0x1c) + 0x10) = *(int *)(*(int *)(param_1 + 0x1c) + 0x10) + uVar2;
-    *(uint *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) - uVar2;
-    *(uint *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + uVar2;
-    *(uint *)(*(int *)(param_1 + 0x1c) + 0x14) = *(int *)(*(int *)(param_1 + 0x1c) + 0x14) - uVar2;
-    iVar1 = *(int *)(param_1 + 0x1c);
-    if (*(int *)(iVar1 + 0x14) == 0) {
-      *(undefined4 *)(iVar1 + 0x10) = *(undefined4 *)(iVar1 + 8);
-    }
-  }
-  return;
-}
+    unsigned len = strm->state->pending;
 
+    if (len > strm->avail_out) len = strm->avail_out;
+    if (len == 0) return;
+
+    memcpy(strm->next_out, strm->state->pending_out, len);
+    strm->next_out += len;
+    strm->state->pending_out += len;
+    strm->total_out += len;
+    strm->avail_out -= len;
+    strm->state->pending -= len;
+    if (strm->state->pending == 0) {
+        strm->state->pending_out = strm->state->pending_buf;
+    }
+}

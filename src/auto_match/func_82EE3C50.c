@@ -1,53 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EE3630();
+typedef struct Item {
+    char pad[0x40];
+    int v;
+} Item;
 
+typedef struct S {
+    char pad0[0xc];
+    void *ready;
+    char pad1[0x48 - 0x10];
+    char list[0xb0 - 0x48];
+    unsigned int count;
+} S;
 
-undefined8 fn_82EE3C50(int param_1,uint param_2,undefined2 *param_3)
+extern void fn_82EE3630(void *list, unsigned int idx, Item ***out);
 
+int fn_82EE3C50(S *s, unsigned short idx, unsigned short *out)
 {
-  undefined8 uVar1;
-  int *apiStack_20 [4];
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if (param_3 == (undefined2 *)0x0) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else if ((param_2 & 0xffff) < *(uint *)(param_1 + 0xb0)) {
-    fn_82EE3630(param_1 + 0x48,param_2 & 0xffff,apiStack_20);
-    uVar1 = 0;
-    *param_3 = (short)*(undefined4 *)(*apiStack_20[0] + 0x40);
-  }
-  else {
-    uVar1 = 0xffffffffc00d36d5;
-  }
-  return uVar1;
+    Item **it;
+    if (s->ready == 0) {
+        return 0xc00d36b6;
+    }
+    if (out == 0) {
+        return 0x80070057;
+    }
+    if (idx >= s->count) {
+        return 0xc00d36d5;
+    }
+    fn_82EE3630(s->list, idx, &it);
+    *out = (unsigned short)(*it)->v;
+    return 0;
 }
-

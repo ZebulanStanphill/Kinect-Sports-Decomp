@@ -25,33 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFBC28();
+typedef struct Node Node;
+struct Node {
+  char pad0[0x14];
+  uint f14;
+  char pad18[0x10];
+  Node **children;
+  int count;
+};
+extern int fn_82CFBC28(const char *a, uint b);
+static __inline const char *GetName(Node *n) { return (const char *)(n->f14 & ~1); }
 
-
-int fn_82E06158(int param_1,ulonglong param_2)
+Node *fn_82E06158(Node *param_1,uint param_2)
 
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
+  int i;
+  Node *child;
+  Node *r;
   
-  if (((param_2 & 0xffffffff) != 0) && (iVar3 = 0, 0 < *(int *)(param_1 + 0x2c))) {
-    iVar4 = 0;
-    do {
-      iVar2 = *(int *)(*(int *)(param_1 + 0x28) + iVar4);
-      if (((*(uint *)(iVar2 + 0x14) & 0xfffffffe) != 0) &&
-         (iVar1 = fn_82CFBC28(*(uint *)(iVar2 + 0x14) & 0xfffffffe,param_2), iVar1 == 0)) {
-        return iVar2;
+  if (param_2 != 0) {
+    for (i = 0; i < param_1->count; i++) {
+      child = param_1->children[i];
+      if (GetName(child) != 0 && fn_82CFBC28(GetName(child), param_2) == 0) {
+        return child;
       }
-      iVar2 = fn_82E06158(iVar2,param_2);
-      if (iVar2 != 0) {
-        return iVar2;
+      r = fn_82E06158(child,param_2);
+      if (r != 0) {
+        return r;
       }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < *(int *)(param_1 + 0x2c));
+    }
   }
   return 0;
 }
-

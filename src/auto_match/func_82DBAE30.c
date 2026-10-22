@@ -25,59 +25,42 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_30;
+typedef struct {
+  unsigned int key;
+  int value;
+} Elem;
 
-
-void fn_82DBAE30(int param_1,int param_2,int param_3,undefined8 param_4)
-
+void fn_82DBAE30(Elem *a, int l, int r, int p4)
 {
-  uint uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  undefined8 *puVar4;
-  uint *puVar5;
-  undefined8 *puVar6;
-  int iVar7;
-  uint uStack_30;
-  
-  do {
-    uStack_30 = (uint)((ulonglong)*(undefined8 *)((param_2 + param_3 >> 1) * 8 + param_1) >> 0x20);
-    iVar2 = param_3;
-    iVar7 = param_2;
-    do {
-      puVar5 = (uint *)(iVar7 * 8 + param_1);
-      uVar1 = *puVar5;
-      while (uVar1 < uStack_30) {
-        puVar5 = puVar5 + 2;
-        iVar7 = iVar7 + 1;
-        uVar1 = *puVar5;
-      }
-      puVar5 = (uint *)(iVar2 * 8 + param_1);
-      uVar1 = *puVar5;
-      while (uStack_30 < uVar1) {
-        puVar5 = puVar5 + -2;
-        iVar2 = iVar2 + -1;
-        uVar1 = *puVar5;
-      }
-      if (iVar2 < iVar7) break;
-      if (iVar2 != iVar7) {
-        puVar6 = (undefined8 *)(iVar7 * 8 + param_1);
-        puVar4 = (undefined8 *)(iVar2 * 8 + param_1);
-        uVar3 = *puVar4;
-        *(undefined4 *)puVar4 = *(undefined4 *)puVar6;
-        *(undefined4 *)((int)puVar4 + 4) = *(undefined4 *)((int)puVar6 + 4);
-        *puVar6 = uVar3;
-      }
-      iVar2 = iVar2 + -1;
-      iVar7 = iVar7 + 1;
-    } while (iVar7 <= iVar2);
-    if (param_2 < iVar2) {
-      fn_82DBAE30(param_1,param_2,iVar2,param_4);
-    }
-    param_2 = iVar7;
-    if (param_3 <= iVar7) {
-      return;
-    }
-  } while( true );
-}
+  Elem pivot;
+  Elem t;
+  int i;
+  int j;
 
+  for (;;) {
+    pivot = a[(l + r) >> 1];
+    j = r;
+    i = l;
+    do {
+      while (a[i].key < pivot.key) {
+        i++;
+      }
+      while (pivot.key < a[j].key) {
+        j--;
+      }
+      if (j < i) break;
+      if (j != i) {
+        t = a[j];
+        a[j] = a[i];
+        a[i] = t;
+      }
+      j--;
+      i++;
+    } while (i <= j);
+    if (l < j) {
+      fn_82DBAE30(a, l, j, p4);
+    }
+    if (i >= r) break;
+    l = i;
+  }
+}

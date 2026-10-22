@@ -1,57 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern int fn_82E2EBE8();
-extern int fn_82E4FE40();
-extern unsigned int uStack_30;
+typedef long HRESULT;
 
+typedef struct {
+    unsigned int Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+} GUID;
 
-longlong fn_82E30388(undefined8 param_1,int *param_2)
+typedef struct IThing IThing;
 
+typedef struct {
+    char pad0[0x40];
+    int (*GetData)(IThing *self, const GUID *id, void **data, unsigned int *size);
+    char pad44[0x3c];
+    void (*Apply)(IThing *self, void *target);
+} IThingVtbl;
+
+struct IThing {
+    IThingVtbl *vtbl;
+};
+
+extern const GUID lbl_8214C710;
+
+extern HRESULT fn_82E2EBE8(void *target, void *data, unsigned int size);
+extern void fn_82E4FE40(void *data);
+
+HRESULT fn_82E30388(void *target, IThing *thing)
 {
-  int iVar1;
-  longlong lVar2;
-  undefined4 uStack_30;
-  undefined4 auStack_2c;
-  
-  lVar2 = 0;
-  uStack_30 = 0;
-  auStack_2c = 0;
-  if (param_2 == (int *)0x0) {
-    lVar2 = -0x7fffbffd;
-  }
-  else {
-    iVar1 = (**(code **)(*param_2 + 0x40))(param_2,0xffffffff8214c710,&uStack_30,&auStack_2c);
-    if ((iVar1 != 0) || (lVar2 = fn_82E2EBE8(param_1,uStack_30,auStack_2c), -1 < lVar2)) {
-      (**(code **)(*param_2 + 0x80))(param_2,param_1);
-    }
-  }
-  fn_82E4FE40(uStack_30);
-  return lVar2;
-}
+    HRESULT hr;
+    void *data;
+    unsigned int size;
 
+    hr = 0;
+    data = 0;
+    size = 0;
+    if (thing == 0) {
+        hr = 0x80004003;
+    } else {
+        if (thing->vtbl->GetData(thing, &lbl_8214C710, &data, &size) != 0 ||
+            (hr = fn_82E2EBE8(target, data, size)) >= 0) {
+            thing->vtbl->Apply(thing, target);
+        }
+    }
+    fn_82E4FE40(data);
+    return hr;
+}

@@ -1,64 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
-extern int fn_82E631F0();
-extern unsigned int lbl_82154F90;
+typedef struct Obj Obj;
+typedef struct {
+    void *f0;
+    void *f4;
+    void (*Release)(Obj *);
+} ObjVtbl;
+struct Obj { ObjVtbl *vt; };
 
+typedef struct {
+    void *vt;
+    char pad4[0x50];
+    unsigned int count;
+    Obj **items;
+    void *f5c;
+} Self;
 
-void fn_82E635D8(undefined4 *param_1)
+extern void fn_82E4FE40(void *);
+extern void fn_82E631F0(Self *);
+extern char lbl_82154F90[];
 
+void fn_82E635D8(Self *s)
 {
-  uint uVar1;
-  int iVar2;
-  
-  *param_1 = &lbl_82154F90;
-  if (param_1[0x16] != 0) {
-    uVar1 = 0;
-    if (param_1[0x15] != 0) {
-      iVar2 = 0;
-      do {
-        if (*(int **)(param_1[0x16] + iVar2) != (int *)0x0) {
-          (**(code **)(**(int **)(param_1[0x16] + iVar2) + 8))();
-          *(undefined4 *)(param_1[0x16] + iVar2) = 0;
-        }
-        uVar1 = uVar1 + 1;
-        iVar2 = iVar2 + 4;
-      } while (uVar1 < (uint)param_1[0x15]);
-    }
-    if (param_1[0x16] != 0) {
-      fn_82E4FE40();
-    }
-  }
-  if (param_1[0x17] != 0) {
-    fn_82E4FE40();
-  }
-  param_1[0x17] = 0;
-  fn_82E631F0(param_1);
-  return;
-}
+    unsigned int i;
 
+    s->vt = lbl_82154F90;
+    if (s->items != 0) {
+        for (i = 0; i < s->count; i++) {
+            if (s->items[i] != 0) {
+                s->items[i]->vt->Release(s->items[i]);
+                s->items[i] = 0;
+            }
+        }
+        if (s->items != 0) {
+            fn_82E4FE40(s->items);
+        }
+    }
+    if (s->f5c != 0) {
+        fn_82E4FE40(s->f5c);
+    }
+    s->f5c = 0;
+    fn_82E631F0(s);
+}

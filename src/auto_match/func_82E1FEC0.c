@@ -33,12 +33,12 @@ extern int fn_82E1FE08();
 extern int fn_82E1FE58();
 
 
-undefined8 fn_82E1FEC0(int *param_1,undefined8 param_2)
+int fn_82E1FEC0(uint *param_1,int param_2)
 
 {
   int iVar1;
   uint uVar2;
-  undefined8 uVar3;
+  int uVar3;
   
   uVar3 = 0;
   iVar1 = fn_82E1F690(param_2);
@@ -49,7 +49,7 @@ undefined8 fn_82E1FEC0(int *param_1,undefined8 param_2)
   param_1[1] = 0;
   *(undefined1 *)(param_1 + 5) = 1;
   iVar1 = fn_82E1D550();
-  uVar2 = fn_82E1DE88(*(undefined4 *)(iVar1 + 8),0xffffffff8214b940,0x3c);
+  uVar2 = fn_82E1DE88(*(undefined4 *)(iVar1 + 8),"GameTimeSaveInterval",0x3c);
   if (0xe10 < uVar2) {
     uVar2 = 0xe10;
   }
@@ -60,4 +60,3 @@ undefined8 fn_82E1FEC0(int *param_1,undefined8 param_2)
   *(undefined1 *)((int)param_1 + 0x15) = 1;
   return uVar3;
 }
-
