@@ -1,69 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE50B0();
-extern int fn_82F68CC0();
+typedef unsigned int size_t;
+void *memcpy(void *d, const void *s, size_t n);
 
+typedef struct Info {
+    char pad0[0xc];
+    int valid;
+    char pad10[4];
+    unsigned int count;
+    float scale;
+} Info;
 
-undefined8 fn_82BEFB38(int param_1,int param_2,int param_3)
+typedef struct Src {
+    char pad0[0x5a];
+    unsigned short count;
+    float scale;
+} Src;
 
+typedef struct Obj {
+    char pad0[0x2c];
+    Src *src;
+    char pad30[0x30];
+    unsigned short count;
+    char pad62[2];
+    float scale;
+} Obj;
+
+typedef struct Target {
+    char pad0[0x60];
+    int state;
+} Target;
+
+typedef struct Arg {
+    char pad0[8];
+    Target *target;
+} Arg;
+
+extern Info *fn_82BE50B0(Target *t, int n);
+int fn_82BEFB38(Obj *o, Arg *a, Info *out)
 {
-  float fVar1;
-  ushort uVar2;
-  int iVar3;
-  int iVar4;
-  double dVar5;
-  
-  iVar3 = *(int *)(param_1 + 0x2c);
-  if (iVar3 == 0) {
-    uVar2 = *(ushort *)(param_1 + 0x60);
-  }
-  else {
-    uVar2 = *(ushort *)(iVar3 + 0x5a);
-  }
-  if (iVar3 == 0) {
-    fVar1 = *(float *)(param_1 + 100);
-  }
-  else {
-    fVar1 = *(float *)(iVar3 + 0x5c);
-  }
-  dVar5 = (double)fVar1;
-  iVar3 = *(int *)(param_2 + 8);
-  iVar4 = fn_82BE50B0(iVar3,1);
-  *(undefined4 *)(iVar3 + 0x60) = 3;
-  if ((((iVar4 != 0) && (*(int *)(iVar4 + 0xc) != 0)) &&
-      (*(undefined4 *)(iVar3 + 0x60) = 1,
-      (float)*(uint *)(param_3 + 0x14) * *(float *)(param_3 + 0x18) <=
-      (float)*(uint *)(iVar4 + 0x14) * *(float *)(iVar4 + 0x18))) &&
-     ((fn_82F68CC0(param_3,iVar4,0x24), dVar5 <= (double)*(float *)(iVar4 + 0x18) &&
-      ((uint)uVar2 <= *(uint *)(iVar4 + 0x14))))) {
-    *(undefined4 *)(iVar3 + 0x60) = 2;
-    return 1;
-  }
-  return 0;
+    unsigned short count;
+    float scale;
+    Target *t;
+    Info *info;
+    if (o->src) count = o->src->count; else count = o->count;
+    scale = o->src ? o->src->scale : o->scale;
+    t = a->target;
+    info = fn_82BE50B0(t, 1);
+    t->state = 3;
+    if (info != 0 && info->valid != 0) {
+        t->state = 1;
+        if ((float)info->count * info->scale >= (float)out->count * out->scale) {
+            memcpy(out, info, 0x24);
+            if (info->scale >= scale && info->count >= count) {
+                t->state = 2;
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
-

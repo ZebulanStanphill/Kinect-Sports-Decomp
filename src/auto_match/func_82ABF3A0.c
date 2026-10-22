@@ -1,74 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
-extern int fn_82A9F7E0();
-extern int fn_82ABDD90();
-extern int fn_82ABDE58();
-extern int fn_82ABDEC0();
-extern int fn_82D7E470();
-extern unsigned int uStack_40;
+typedef struct Info {
+    char pad[0x4c];
+    unsigned int flags;
+} Info;
 
+typedef struct Item {
+    char pad[0x1c];
+    Info *info;
+    char pad20[0x4];
+    unsigned int link;
+} Item;
 
-void fn_82ABF3A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4,
-                  uint param_5)
+typedef struct Node {
+    char pad[0x8];
+    unsigned int kind;
+} Node;
 
+extern void fn_82A9F7E0(unsigned int a, int b, int c, int d, int e, int f, unsigned char g);
+extern unsigned int *fn_82ABDD90(int ctx, int id, int x, int y);
+extern unsigned char fn_82ABDE58(int ctx, void *p, int *a, int *b);
+extern int fn_82ABDEC0(int ctx, unsigned int n);
+extern void *fn_82D7E470(int ctx, Item *item, int x);
+
+static unsigned int *attr(int ctx, char *node)
 {
-  uint uVar1;
-  longlong lVar2;
-  char cVar4;
-  int iVar3;
-  bool bVar5;
-  undefined8 uVar6;
-  undefined4 uStack_40;
-  undefined4 auStack_3c;
-  
-  if ((param_4 & 0xffffffff) != 0) {
-    lVar2 = fn_82D7E470(param_1,param_5,1);
-    if (lVar2 != 0) {
-      cVar4 = fn_82ABDE58(param_1,lVar2,&auStack_3c,&uStack_40);
-      if (cVar4 != '\0') {
-        if ((*(uint *)(*(int *)(param_5 + 0x1c) + 0x4c) & 0x7ffff) == 0) {
-          uVar6 = 0xffffffffffffffff;
-        }
-        else {
-          uVar6 = fn_82ABDEC0(param_1);
-        }
-        bVar5 = false;
-        uVar1 = *(uint *)((param_5 & 0xfffffffe) + 0x24);
-        if ((((uVar1 & 1) == 0) && (uVar1 = uVar1 & 0xfffffffe, uVar1 != 0x28)) &&
-           ((*(uint *)(uVar1 - 0x20) & 0x3f80) == 0x3a80)) {
-          iVar3 = fn_82ABDD90(param_1,0x75,0,0);
-          bVar5 = (*(uint *)(iVar3 + (uVar1 - 0x38)) & 7) == 3;
-        }
-        fn_82A9F7E0(param_4,param_2,param_3,auStack_3c,uStack_40,uVar6,bVar5);
-      }
-    }
-  }
-  return;
+    return (unsigned int *)((char *)fn_82ABDD90(ctx, 0x75, 0, 0) + (int)(node - 0x10));
 }
 
+void fn_82ABF3A0(int ctx, int b, int c, unsigned int d, Item *item)
+{
+    void *p;
+    int v1;
+    int v2;
+    unsigned int n;
+    int v;
+    int flag;
+    unsigned int link;
+    char *node;
+
+    if (d != 0) {
+        p = fn_82D7E470(ctx, item, 1);
+        if (p != 0) {
+            if (fn_82ABDE58(ctx, p, &v1, &v2)) {
+                n = item->info->flags & 0x7ffff;
+                if (n == 0)
+                    v = -1;
+                else
+                    v = fn_82ABDEC0(ctx, n);
+                flag = 0;
+                link = ((Item *)((unsigned int)item & ~1u))->link;
+                if ((link & 1) == 0) {
+                    node = (char *)(link & ~1u) - 0x28;
+                    if (node != 0 && (((Node *)node)->kind & 0x3f80) == 0x3a80) {
+                        flag = (*attr(ctx, node) & 7) == 3;
+                    }
+                }
+                fn_82A9F7E0(d, b, c, v1, v2, v, flag);
+            }
+        }
+    }
+}

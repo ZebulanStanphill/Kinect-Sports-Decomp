@@ -1,53 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BC2360();
+typedef struct A A;
+typedef struct B B;
+typedef unsigned char (*BoolFnA)(A *);
+typedef unsigned char (*BoolFnB)(B *);
+struct B {
+  BoolFnB *vt;
+  int pad04[4];
+  int v14;
+  int pad18[(0xe4 - 0x18) / 4];
+  unsigned int pad_hi : 22;
+  unsigned int flag : 1;
+  unsigned int pad_lo : 9;
+};
+struct A {
+  BoolFnA *vt;
+  int pad04[(0xac - 4) / 4];
+  B *bac;
+  int padb0;
+  B *bb4;
+};
+extern unsigned char fn_82BC2360(B *b, A *a);
 
-
-undefined8 fn_82BD3338(int *param_1,int *param_2,undefined8 param_3,int param_4,int param_5)
-
+unsigned char fn_82BD3338(A *a, B *b, int unused, int key, int mode)
 {
-  char cVar1;
-  
-  if (param_5 == 0) {
-    if ((((((uint)param_2[0x39] >> 9 & 1) == 0) || (param_4 != param_2[5])) ||
-        (cVar1 = fn_82BC2360(param_2,param_1), cVar1 == '\0')) &&
-       ((cVar1 = (**(code **)(*param_2 + 0x48))(param_2), cVar1 == '\0' ||
-        (((cVar1 = (**(code **)(*param_1 + 0x44))(param_1), cVar1 == '\0' ||
-          ((int *)param_1[0x2b] != param_2)) &&
-         ((cVar1 = (**(code **)(*param_1 + 0x18))(param_1), cVar1 == '\0' ||
-          ((cVar1 = (**(code **)(*param_1 + 0x1c))(param_1), cVar1 == '\0' ||
-           ((int *)param_1[0x2d] != param_2)))))))))) {
+  if (mode == 0) {
+    if (!(((unsigned char)b->flag && key == b->v14 && fn_82BC2360(b, a)) ||
+        (b->vt[0x48 / 4](b) &&
+         ((a->vt[0x44 / 4](a) && a->bac == b) ||
+          (a->vt[0x18 / 4](a) && a->vt[0x1c / 4](a) && a->bb4 == b)))))
       return 1;
-    }
   }
-  else if (param_5 == 1) {
+  else if (mode == 1) {
     return 1;
   }
   return 0;
 }
-

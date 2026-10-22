@@ -1,73 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
+typedef struct {
+  uint pad0 : 10;
+  uint nsrc : 3;
+  uint pad1 : 5;
+  uint op : 7;
+  uint pad2 : 7;
+} Info;
 
-uint fn_82AE9218(int param_1,uint *param_2,int *param_3)
+typedef struct Ins {
+  uint f0;
+  uint *uses;
+  Info info;
+  char pad[0x2c - 0xc];
+  struct Ins **src[3];
+} Ins;
 
+static unsigned char inRange(uint k) { return k >= 0x20 && k <= 0x52; }
+
+/* Loop conditions written as small if/return helpers: the late inlining
+   keeps the loops top-tested (no rotation), as in the original. */
+static int notNull(uint *p) { if (p) return 1; return 0; }
+
+static int below(uint i, Ins *ins) { if (i < ins->info.nsrc) return 1; return 0; }
+
+uint fn_82AE9218(Ins *ins, uint *mask, int *count)
 {
-  uint *puVar1;
-  uint uVar2;
-  bool bVar3;
-  uint uVar4;
-  uint uVar5;
-  int *piVar6;
-  
-  uVar5 = 0;
-  for (puVar1 = *(uint **)(param_1 + 4); puVar1 != (uint *)0x0; puVar1 = (uint *)puVar1[2]) {
-    uVar2 = puVar1[4];
-    if (uVar2 != 0) {
-      if ((*puVar1 & 0xe000000) != 0) {
-        uVar4 = *(uint *)(uVar2 + 8) >> 7 & 0x7f;
-        if ((uVar4 < 0x20) || (bVar3 = true, 0x52 < uVar4)) {
-          bVar3 = false;
+  uint *p;
+  uint v;
+  uint k;
+  uint result;
+  uint i;
+
+  result = 0;
+  for (p = ins->uses; notNull(p); p = (uint *)p[2]) {
+    v = p[4];
+    if (v != 0 && (*p & 0xe000000) != 0) {
+      k = ((Ins *)v)->info.op;
+      if (inRange(k) && (*(uint *)(v + 8) & 0x380000) == 0x100000) {
+        if ((*(uint *)((*(uint **)(v + 0x2c))[3] + 8) & 0x3f80) == 0x3e00) {
+          *mask = 1 << (**(uint **)(v + 0x2c) >> 5 & 3) | *mask;
         }
-        if ((bVar3) && ((*(uint *)(uVar2 + 8) & 0x380000) == 0x100000)) {
-          if ((*(uint *)((*(uint **)(uVar2 + 0x2c))[3] + 8) & 0x3f80) == 0x3e00) {
-            *param_2 = 1 << (**(uint **)(uVar2 + 0x2c) >> 5 & 3) | *param_2;
-          }
-          else {
-            *param_3 = *param_3 + 1;
-          }
+        else {
+          *count = *count + 1;
         }
-        else if (uVar4 == 0x6e) {
-          uVar5 = uVar2;
-        }
+      }
+      else if (k == 0x6e) {
+        result = v;
       }
     }
   }
-  if ((*(uint *)(param_1 + 8) & 0x3f80) == 0x3700) {
-    piVar6 = (int *)(param_1 + 0x28);
-    for (uVar5 = 0; uVar5 < (*(uint *)(param_1 + 8) >> 0x13 & 7); uVar5 = uVar5 + 1) {
-      piVar6 = piVar6 + 1;
-      fn_82AE9218(*(undefined4 *)(*piVar6 + 0xc),param_2,param_3);
+  if (ins->info.op == 0x6e) {
+    for (i = 0; below(i, ins); i++) {
+      fn_82AE9218(*(Ins **)((int)ins->src[i] + 0xc), mask, count);
     }
-    uVar5 = 0;
+    result = 0;
   }
-  return uVar5;
+  return result;
 }
-

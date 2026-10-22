@@ -46,12 +46,16 @@ extern int fn_82B38918();
 extern int fn_82B397C0();
 
 
+/* tagged list link: low bit set marks the end */
+#define FIRST(x) (((x) & 1) ? 0 : (x))
+
 void fn_82B404A0(int param_1)
 
 {
-  uint uVar1;
   uint uVar2;
   int iVar3;
+  uint n;
+  int iVar4;
   
   if ((*(uint *)(param_1 + 0x28) & 0x2000) != 0) {
     fn_82B1F4A8(param_1,0);
@@ -82,15 +86,19 @@ void fn_82B404A0(int param_1)
   fn_82B356B8(param_1);
   *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + -0x20000;
   fn_82AA6868(iVar3);
-  uVar1 = *(uint *)(param_1 + 4);
-  uVar2 = *(uint *)((-(uint)((uVar1 & 1) == 0) & uVar1 & 0xfffffffe) + 4);
-  if (((uVar2 & 1) == 0) && (uVar2 != 0)) {
-    for (; ((uVar1 & 1) == 0 && (uVar1 != 0)); uVar1 = *(uint *)((uVar1 & 0xfffffffe) + 4)) {
-      if ((((*(uint *)(uVar1 + 0x24) & 1) == 0) &&
-          (uVar2 = *(uint *)(uVar1 + 0x20) & 0xfffffffe, uVar2 != 0x28)) &&
-         ((*(uint *)(uVar2 - 0x20) & 0x3f80) == 0x2d00)) {
-        *(uint *)(param_1 + 0x2c) = *(uint *)(param_1 + 0x2c) | 0x400000;
-      }
+  uVar2 = *(uint *)((FIRST(*(uint *)(param_1 + 4)) & 0xfffffffe) + 4);
+  if ((uVar2 & 1) == 0 && uVar2 != 0) {
+    n = FIRST(*(uint *)(param_1 + 4));
+    if (n != 0) {
+      do {
+        if ((*(uint *)(n + 0x24) & 1) == 0) {
+          iVar4 = (*(uint *)(n + 0x20) & 0xfffffffe) - 0x28;
+          if (iVar4 != 0 && (*(uint *)(iVar4 + 8) & 0x3f80) == 0x2d00) {
+            *(uint *)(param_1 + 0x2c) = *(uint *)(param_1 + 0x2c) | 0x400000;
+          }
+        }
+        n = *(uint *)((n & 0xfffffffe) + 4);
+      } while ((n & 1) == 0 && n != 0);
     }
   }
   *(uint *)(param_1 + 0x28) = *(uint *)(param_1 + 0x28) & 0xfffffdff;

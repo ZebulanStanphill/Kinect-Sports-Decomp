@@ -36,12 +36,11 @@ undefined8 fn_82C7D1E8(int param_1)
   int iVar2;
   
   if (*(int *)(param_1 + 0x571c) != 0) {
-    if (*(int *)(param_1 + 0x5714) == 0) {
-      if (*(int *)(param_1 + 0x3ba0) == 0) goto LAB_82c7d238;
-    }
-    else {
+    if (*(int *)(param_1 + 0x5714) != 0) {
       if (*(int *)(param_1 + 0x3ba0) != 1) goto LAB_82c7d238;
       *(undefined4 *)(param_1 + 0x3ba0) = 0xffffffff;
+    } else {
+      if (*(int *)(param_1 + 0x3ba0) == 0) goto LAB_82c7d238;
     }
     *(undefined4 *)(param_1 + 0x571c) = 0;
   }

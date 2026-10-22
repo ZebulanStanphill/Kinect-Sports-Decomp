@@ -1,55 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE23E0();
+typedef struct Entry { int v[4]; } Entry;
+typedef struct Table { Entry entries[32]; unsigned int count; } Table;
+typedef struct Obj { int pad; Table *table; char pad2[0x14]; int src; } Obj;
 
+extern int fn_82CE23E0(int *src, unsigned char *out);
 
-undefined8 fn_82CE2BA0(int param_1,uint param_2,uint *param_3,uint *param_4)
-
+static Entry *Table_get(Table *t, unsigned int idx)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  byte abStack_30;
-  
-  if (param_2 < 2) {
-    uVar1 = fn_82CE23E0(param_1 + 0x1c,&abStack_30);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    if (param_4 != (uint *)0x0) {
-      *param_4 = abStack_30 >> 5 & 1;
-    }
-    uVar2 = -(uint)((abStack_30 & 0x1f) < *(uint *)(*(int *)(param_1 + 4) + 0x200)) &
-            (abStack_30 & 0x1f) * 0x10 + *(int *)(param_1 + 4);
-    *param_3 = uVar2;
-    if (uVar2 != 0) {
-      return uVar1;
-    }
-  }
-  return 0xffffffff80004005;
+    return idx < t->count ? &t->entries[idx] : 0;
 }
 
+int fn_82CE2BA0(Obj *o, unsigned int kind, Entry **out, unsigned int *flag)
+{
+    unsigned char b;
+    int hr;
+
+    if (kind <= 1) {
+        hr = fn_82CE23E0(&o->src, &b);
+        if (hr < 0)
+            return hr;
+        if (flag != 0)
+            *flag = (b >> 5) & 1;
+        if ((*out = Table_get(o->table, b & 0x1f)) != 0)
+            return hr;
+    }
+    return 0x80004005;
+}

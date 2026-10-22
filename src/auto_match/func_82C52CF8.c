@@ -11,7 +11,7 @@ typedef unsigned int undefined4;
 typedef unsigned int uint;
 typedef unsigned int dword;
 typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
+typedef unsigned __int64 unused64;
 typedef unsigned __int64 ulonglong;
 typedef unsigned __int64 qword;
 typedef __int64 longlong;
@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C59720();
 
 
-undefined8 fn_82C52CF8(int param_1)
+int fn_82C52CF8(int param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   *(undefined4 *)(param_1 + 0x549c) = 0;
   *(undefined4 *)(param_1 + 0xd8c) = 0;
@@ -55,10 +55,10 @@ undefined8 fn_82C52CF8(int param_1)
   if ((int)uVar1 == 0) {
     *(undefined4 *)(param_1 + 0xe94) = 0;
     *(undefined4 *)(param_1 + 0x55b4) = 0;
-    if (((*(int *)(param_1 + 0x5578) < *(int *)(param_1 + 0x5628) * *(int *)(param_1 + 0x562c)) ||
-        (*(int *)(param_1 + 0x5588) < *(int *)(param_1 + 0x5628))) ||
-       (*(int *)(param_1 + 0x558c) < *(int *)(param_1 + 0x562c))) {
-      uVar1 = 0xfffffffffffffff8;
+    if (((*(int *)(param_1 + 0x5628) * *(int *)(param_1 + 0x562c) > *(int *)(param_1 + 0x5578)) ||
+        (*(int *)(param_1 + 0x5628) > *(int *)(param_1 + 0x5588))) ||
+       (*(int *)(param_1 + 0x562c) > *(int *)(param_1 + 0x558c))) {
+      uVar1 = -8;
     }
     else {
       *(undefined4 *)(param_1 + 0x557c) = 0;

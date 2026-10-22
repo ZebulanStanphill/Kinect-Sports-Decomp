@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE5340();
 extern int fn_82BE5350();
 extern int fn_82BE5378();
-extern int fn_82BE5478();
+extern int fn_82BE5478(iVar2);
 
 
 void fn_82BF8D78(int param_1)
@@ -42,11 +42,11 @@ void fn_82BF8D78(int param_1)
   while (*(int *)(param_1 + 0xec) != 0) {
     puVar1 = (undefined4 *)fn_82BE5378(iVar2);
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
     fn_82BE5350(iVar2);
   }
-  fn_82BE5478();
+  fn_82BE5478(iVar2);
   return;
 }
 

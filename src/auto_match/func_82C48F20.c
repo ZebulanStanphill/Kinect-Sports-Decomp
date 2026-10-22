@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern int memcpy();
 extern unsigned int lbl_820FBA20;
 
 
-void fn_82C48F20(undefined4 *param_1,int param_2,ulonglong param_3,undefined8 param_4)
+void fn_82C48F20(undefined4 *param_1,int param_2,uint param_3,int param_4)
 
 {
   if ((*(int *)(param_2 + 0x50c8) == 0) || (*(int *)(param_2 + 0x50cc) == 0)) {
@@ -37,14 +37,14 @@ void fn_82C48F20(undefined4 *param_1,int param_2,ulonglong param_3,undefined8 pa
   }
   else {
     *param_1 = *(undefined4 *)
-                (&lbl_820FBA20 + (*(int *)(param_2 + 0x5514) * 6 + *(int *)(param_2 + 0x5510)) * 4);
+                (&lbl_820FBA20 + (*(int *)(param_2 + 0x5514) * 6 + *(int *)(param_2 + 0x5510)));
   }
   param_1[1] = *(undefined4 *)(param_2 + 0x5568);
   param_1[2] = *(undefined4 *)(param_2 + 0x5424);
   param_1[3] = *(undefined4 *)(param_2 + 0x5428);
   param_1[4] = *(undefined4 *)(param_2 + 0x556c);
   param_1[5] = (int)param_3;
-  fn_82F68CC0(param_1 + 6,param_4,(param_3 & 0xfffffff) << 4);
+  memcpy(param_1 + 6,param_4,param_3 * 16);
   param_1[0x16] = *(undefined4 *)(param_2 + 0x54b0);
   param_1[0x17] = *(undefined4 *)(param_2 + 0xd9c);
   param_1[0x18] = *(undefined4 *)(param_2 + 0xda0);

@@ -34,7 +34,7 @@ undefined4 *
 fn_82BF8E90(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820ebe60);
+  fn_82BE51E8(param_1,"CMassiveRecord");
   param_1[5] = param_3;
   param_1[6] = param_4;
   param_1[7] = param_2;

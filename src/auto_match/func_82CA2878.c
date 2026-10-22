@@ -1,53 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C53960();
-extern int fn_82CA23F0();
-extern int fn_82CD2570();
-extern int fn_82CD5A90();
 
-
-ulonglong fn_82CA2878(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+extern void *fn_82C53960(int, int);
+extern void fn_82CA23F0(void *);
+extern void fn_82CD2570(void *);
+extern void fn_82CD5A90(int *, unsigned int, unsigned int, void *, unsigned int);
+void *fn_82CA2878(int *err, unsigned int a, unsigned int b, unsigned int c)
 {
-  ulonglong uVar1;
-  
-  uVar1 = fn_82C53960(0x394c,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    *param_1 = 1;
-  }
-  else {
-    fn_82CD2570(uVar1);
-    fn_82CD5A90(param_1,param_2,param_3,uVar1,param_4);
-    if (*param_1 != 0) {
-      fn_82CA23F0(uVar1);
-      uVar1 = 0;
-    }
-  }
-  return uVar1;
+  void *obj;
+  obj = fn_82C53960(0x394c, 0);
+  if (obj == 0) { *err = 1; return 0; }
+  fn_82CD2570(obj);
+  fn_82CD5A90(err, a, b, obj, c);
+  if (*err != 0) { fn_82CA23F0(obj); return 0; }
+  return obj;
 }
-

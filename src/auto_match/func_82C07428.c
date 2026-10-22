@@ -1,107 +1,99 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10F68();
-extern int fn_82C10FD0();
-extern int fn_82C11038();
-extern int fn_82C11AE0();
-extern unsigned int iStack_4c;
-extern unsigned int uStack_48;
+typedef struct Ops Ops;
+struct Ops {
+  void *f0[6];
+  int (*fn18)(Ops *self, unsigned __int64 v, unsigned char b, int c);
+};
 
+typedef struct Item {
+  int f0;
+  int state;
+  int f8;
+  int fc;
+  int f10;
+  unsigned char f14;
+  int f18;
+  int f1c;
+  char pad20[0x50 - 0x20];
+  unsigned int f50;
+} Item;
 
-void fn_82C07428(int *param_1,ulonglong param_2,undefined8 param_3)
+typedef struct Obj {
+  Ops *ops;
+  char pad4[0x214 - 4];
+  int f214;
+  int f218;
+  char pad21c[0x22c - 0x21c];
+  int f22c;
+  char pad230[0x238 - 0x230];
+  void *list238;
+  void *list23c;
+  char pad240[0x24c - 0x240];
+  int f24c;
+  unsigned char f250;
+  unsigned int f254;
+} Obj;
 
+extern int fn_82C10F68(void *list, int *iter, void *out, unsigned char *key);
+extern int fn_82C10FD0(void *list, int iter, void *out, unsigned char *key);
+extern void fn_82C11038(void *list, int iter);
+extern int fn_82C11AE0(int v);
+
+void fn_82C07428(Obj *o, unsigned char key, int c)
 {
-  int iVar1;
-  int iVar2;
-  byte abStack_50;
-  int iStack_4c;
-  undefined4 uStack_48;
-  undefined4 *apuStack_44 [1];
-  
-  uStack_48 = 0;
-  iStack_4c = 0;
-  abStack_50 = 0;
-  apuStack_44[0] = (undefined4 *)0x0;
-  iVar2 = 0;
-  iVar1 = fn_82C10F68(param_1[0x8f],&uStack_48,apuStack_44,&abStack_50);
-  if (iVar1 != -0x7fafffea) {
-    if (iVar1 < 0) {
-      return;
-    }
-    do {
-      if (iVar1 < 0) {
-        return;
-      }
-      iVar1 = fn_82C11AE0(*apuStack_44[0]);
-      if (iVar1 < 0) {
-        return;
-      }
-      iVar1 = fn_82C10FD0(param_1[0x8f],uStack_48,apuStack_44,&abStack_50);
-    } while (iVar1 != -0x7fafffea);
-  }
-  fn_82C11038(param_1[0x8f],uStack_48);
-  iVar1 = fn_82C10F68(param_1[0x8e],&uStack_48,&iStack_4c,&abStack_50);
-  if (iVar1 != -0x7fafffea) {
-    if (iVar1 < 0) {
-      return;
-    }
-    do {
-      if (iVar1 < 0) {
-        return;
-      }
-      if (*(int *)(iStack_4c + 4) == 3) {
-        *(undefined4 *)(iStack_4c + 4) = 1;
-      }
-      else if (*(int *)(iStack_4c + 4) == 2) {
-        *(undefined4 *)(iStack_4c + 4) = 0;
-      }
-      *(undefined4 *)(iStack_4c + 0x10) = 0;
-      *(undefined1 *)(iStack_4c + 0x14) = 0;
-      *(undefined4 *)(iStack_4c + 8) = 0;
-      *(undefined4 *)(iStack_4c + 0xc) = 0;
-      *(undefined4 *)(iStack_4c + 0x18) = 0;
-      *(undefined4 *)(iStack_4c + 0x1c) = 0;
-      if ((ulonglong)abStack_50 == (param_2 & 0xff)) {
-        iVar2 = *(int *)(iStack_4c + 0x50);
-      }
-      iVar1 = fn_82C10FD0(param_1[0x8e],uStack_48,&iStack_4c,&abStack_50);
-    } while (iVar1 != -0x7fafffea);
-  }
-  fn_82C11038(param_1[0x8e],uStack_48);
-  iVar1 = (**(code **)(*param_1 + 0x18))(*param_1,iVar2,param_2,param_3);
-  if (-1 < iVar1) {
-    param_1[0x95] = iVar2;
-    *(char *)(param_1 + 0x94) = (char)param_2;
-    param_1[0x86] = 0;
-    param_1[0x85] = 2;
-    param_1[0x8b] = 1;
-    param_1[0x93] = 0;
-  }
-  return;
-}
+  int hr;
+  unsigned char k;
+  Item *item;
+  int iter;
+  int *pp;
+  unsigned int found;
 
+  iter = 0;
+  item = 0;
+  k = 0;
+  pp = 0;
+  found = 0;
+  hr = fn_82C10F68(o->list23c, &iter, &pp, &k);
+  if (hr != 0x80500016) {
+    if (hr < 0) return;
+    do {
+      if (hr < 0) return;
+      hr = fn_82C11AE0(*pp);
+      if (hr < 0) return;
+      hr = fn_82C10FD0(o->list23c, iter, &pp, &k);
+    } while (hr != 0x80500016);
+  }
+  fn_82C11038(o->list23c, iter);
+  hr = fn_82C10F68(o->list238, &iter, &item, &k);
+  if (hr != 0x80500016) {
+    if (hr < 0) return;
+    do {
+      if (hr < 0) return;
+      if (item->state == 3) {
+        item->state = 1;
+      }
+      else if (item->state == 2) {
+        item->state = 0;
+      }
+      item->f10 = 0;
+      item->f14 = 0;
+      item->f8 = 0;
+      item->fc = 0;
+      item->f18 = 0;
+      item->f1c = 0;
+      if (k == key) {
+        found = item->f50;
+      }
+      hr = fn_82C10FD0(o->list238, iter, &item, &k);
+    } while (hr != 0x80500016);
+  }
+  fn_82C11038(o->list238, iter);
+  hr = o->ops->fn18(o->ops, found, key, c);
+  if (hr >= 0) {
+    o->f254 = found;
+    o->f250 = key;
+    o->f218 = 0;
+    o->f214 = 2;
+    o->f22c = 1;
+    o->f24c = 0;
+  }
+}
