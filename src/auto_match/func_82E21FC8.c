@@ -32,16 +32,16 @@ void fn_82E21FC8(int param_1)
 
 {
   uint uVar2;
-  longlong lVar1;
+  int lVar1;
   
-  if (*(int *)(param_1 + 0x10) != 0) {
+  if (*(unsigned int *)(param_1 + 0x10) != 0) {
     fn_82230300(*(undefined4 *)(*(int *)(param_1 + 4) + *(int *)(param_1 + 0xc) * 4),1,0);
     uVar2 = *(int *)(param_1 + 0xc) + 1;
     *(uint *)(param_1 + 0xc) = uVar2;
     if (*(uint *)(param_1 + 8) <= uVar2) {
       *(undefined4 *)(param_1 + 0xc) = 0;
     }
-    lVar1 = (ulonglong)*(uint *)(param_1 + 0x10) - 1;
+    lVar1 = *(int *)(param_1 + 0x10) - 1;
     *(int *)(param_1 + 0x10) = (int)lVar1;
     if (lVar1 == 0) {
       *(undefined4 *)(param_1 + 0xc) = 0;

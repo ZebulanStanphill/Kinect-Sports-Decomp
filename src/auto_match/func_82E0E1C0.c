@@ -30,14 +30,14 @@ extern int fn_82CEA160();
 extern int fn_82CEA280();
 
 
-void fn_82E0E1C0(int param_1,undefined8 param_2,ulonglong param_3)
+void fn_82E0E1C0(int param_1,undefined8 param_2,uint param_3)
 
 {
   int iVar1;
   int iVar2;
   
   iVar1 = fn_82CEA280(param_1 + 0x20,param_2,0xffffffffffffffff);
-  if ((param_3 & 0xffffffff) != 0) {
+  if (param_3 != 0) {
     iVar2 = fn_82CE5410();
     fn_82CEA160(param_1 + 0x20,*(undefined4 *)(iVar2 + 0x10),param_3,iVar1);
   }

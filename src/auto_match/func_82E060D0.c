@@ -1,55 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned int U;
+typedef struct Tagged { U text; } Tagged;
+typedef struct Item { U pad[5]; Tagged name; } Item;
+typedef struct Entry { Tagged name; U pad[3]; } Entry;
 extern int fn_82CFBC28();
-
-
-int fn_82E060D0(int param_1,ulonglong param_2)
-
-{
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  if (((param_2 & 0xffffffff) != 0) && (iVar4 = 0, 0 < *(int *)(param_1 + 0x2c))) {
-    iVar5 = 0;
-    do {
-      iVar2 = *(int *)(*(int *)(param_1 + 0x28) + iVar5);
-      uVar1 = *(uint *)(iVar2 + 0x14);
-      if (((uVar1 & 0xfffffffe) != 0) &&
-         (iVar3 = fn_82CFBC28(uVar1 & 0xfffffffe,param_2), iVar3 == 0)) {
-        return iVar2;
-      }
-      iVar4 = iVar4 + 1;
-      iVar5 = iVar5 + 4;
-    } while (iVar4 < *(int *)(param_1 + 0x2c));
-  }
-  return 0;
+typedef struct Object { U pad[10]; Item **items; int count; } Object;
+static char *get(Tagged *p) {return (char *)(p->text & ~1u);}
+static int valid(Tagged *p) {return get(p)!=0;}
+void *fn_82E060D0(Object *p, U key) {
+ int i;
+ if(key && (i=0,p->count>0)) {do { Item *e=p->items[i]; U text=e->name.text;
+ if((text & ~1u)!=0 && fn_82CFBC28(get(&e->name),key)==0) return e;
+ ++i;
+ } while(i<p->count);}
+ return 0;
 }
-

@@ -15,7 +15,7 @@ typedef unsigned __int64 undefined8;
 typedef unsigned __int64 ulonglong;
 typedef unsigned __int64 qword;
 typedef __int64 longlong;
-typedef int (*code)();
+typedef unsigned char (*code)();
 typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
@@ -27,23 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82BC56D0(int param_1)
-
-{
-  int *piVar1;
-  char cVar2;
-  int iVar3;
-  
-  piVar1 = *(int **)(param_1 + 0x1c);
-  iVar3 = 0;
-  while( true ) {
-    if (piVar1[2] == 0) {
-      return 1;
-    }
-    if ((((piVar1[0x39] & 1U) != 0) && (iVar3 = iVar3 + 1, iVar3 == 1)) &&
-       (cVar2 = (**(code **)(*piVar1 + 0x24))(piVar1), cVar2 == '\0')) break;
-    piVar1 = (int *)piVar1[2];
-  }
-  return 0;
+int fn_82BC56D0(int param_1) {
+ int *node = *(int **)(param_1 + 0x1c); int count = 0;
+ for (;node[2] != 0;node = (int *)node[2]) {
+  if ((node[0x39] & 1U) && ++count == 1 && !(*(code *)(*node+0x24))(node)) return 0;
+ }
+ return 1;
 }
-

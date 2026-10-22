@@ -41,15 +41,15 @@ void fn_82BEB7A8(undefined4 *param_1)
   undefined4 *puVar1;
   undefined4 *puVar2;
   
-  puVar2 = param_1 + 5;
   *param_1 = &lbl_820EAF14;
+  puVar2 = param_1 + 5;
   fn_82BE5340(puVar2);
   while( true ) {
     puVar1 = (undefined4 *)fn_82BE5378(puVar2);
     if (puVar1 == (undefined4 *)0x0) break;
     fn_82BE66A0(puVar1);
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
     fn_82BE5350(puVar2);
   }

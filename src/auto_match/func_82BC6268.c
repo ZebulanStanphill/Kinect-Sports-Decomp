@@ -47,14 +47,9 @@ undefined4 * fn_82BC6268(undefined4 *param_1,int param_2)
   uVar2 = *(undefined4 *)(param_2 + 0x5ac);
   puVar1 = (undefined4 *)fn_82B7BD28(uVar2,0x8c);
   *puVar1 = uVar2;
-  if (puVar1 + 1 == (undefined4 *)0x0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_82BC5758(puVar1 + 1,param_2);
-  }
+  uVar2 = puVar1 + 1 != 0 ? fn_82BC5758(puVar1 + 1,param_2) : 0;
   param_1[0x24] = uVar2;
-  fn_82BC5ED8(param_1);
+  fn_82BC5ED8(param_1,uVar2);
   return param_1;
 }
 

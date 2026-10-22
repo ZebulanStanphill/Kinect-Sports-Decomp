@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
-extern unsigned int lbl_820E4F08;
+extern unsigned int lbl_820E4F08[];
 
 
 undefined4 fn_82BC6820(char param_1)
@@ -45,9 +45,9 @@ undefined4 fn_82BC6820(char param_1)
     iVar2 = iVar1 + -0x74;
   }
   if ((iVar2 < 0) || (6 < iVar2)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e7504,0xffffffff820e74a8,0x3f7);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","i >= 0 && i <= 6","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\expansion.cpp",0x3f7);
   }
 LAB_82bc6888:
-  return *(undefined4 *)(&lbl_820E4F08 + iVar2 * 4);
+  return lbl_820E4F08[iVar2];
 }
 

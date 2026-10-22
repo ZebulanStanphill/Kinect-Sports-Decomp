@@ -38,22 +38,13 @@ undefined4 fn_82BA4058(int param_1)
   undefined4 *puVar3;
   int iVar4;
   
-  if (*(int *)(param_1 + 0x9c) == 0) {
+  if (*(uint *)(param_1 + 0x9c) == 0) {
     iVar1 = fn_82BBFE28(param_1 + 0x80);
     uVar2 = fn_82B7BD28(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x5ac),iVar1 * 4 + 4);
     *(undefined4 *)(param_1 + 0x9c) = uVar2;
     puVar3 = (undefined4 *)fn_82BA3FB0(param_1);
     **(undefined4 **)(param_1 + 0x9c) = *puVar3;
-    if (0 < iVar1) {
-      iVar4 = 4;
-      puVar3 = puVar3 + iVar1 + 1;
-      do {
-        puVar3 = puVar3 + -1;
-        *(undefined4 *)(iVar4 + *(int *)(param_1 + 0x9c)) = *puVar3;
-        iVar4 = iVar4 + 4;
-        iVar1 = iVar1 + -1;
-      } while (iVar1 != 0);
-    }
+    for (iVar4=1; iVar4<=iVar1; ++iVar4) { ((undefined4 *)*(int *)(param_1 + 0x9c))[iVar4] = puVar3[iVar1-iVar4+1]; }
   }
   return *(undefined4 *)(param_1 + 0x9c);
 }

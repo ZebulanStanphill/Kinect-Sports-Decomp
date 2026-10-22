@@ -40,9 +40,9 @@ void fn_82D13318(int *param_1)
   if (0 < param_1[1]) {
     iVar4 = 0;
     do {
-      uVar1 = *(undefined4 *)(iVar4 + *param_1);
+      uVar1 = ((undefined4 *)*param_1)[iVar3];
       iVar2 = fn_82CE5410();
-      (**(code **)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),uVar1,0x908);
+      (*(code *)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),uVar1,0x908);
       iVar3 = iVar3 + 1;
       iVar4 = iVar4 + 4;
     } while (iVar3 < param_1[1]);

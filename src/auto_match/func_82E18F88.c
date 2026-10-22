@@ -32,18 +32,18 @@ extern int fn_82E182B0();
 extern int fn_82E19C10();
 
 
-undefined8
-fn_82E18F88(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+undefined4
+fn_82E18F88(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 
 {
-  undefined8 uVar1;
+  undefined4 uVar1;
   int *piVar3;
-  longlong lVar2;
+  int lVar2;
   
   uVar1 = fn_82CFE1F0(param_3);
   fn_82E182B0(uVar1,2);
   piVar3 = (int *)fn_82CFE1F0(param_3);
-  uVar1 = (**(code **)(*piVar3 + 0x20))();
+  uVar1 = (*(code *)(*piVar3 + 0x20))();
   fn_82E19C10(param_4,param_2,uVar1);
   lVar2 = fn_82CFBE40(param_1);
   fn_82CFE180(param_3,param_1,lVar2 + 1);

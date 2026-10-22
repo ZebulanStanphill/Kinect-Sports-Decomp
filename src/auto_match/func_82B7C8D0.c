@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB1818();
 extern int fn_82F6EDE8();
-extern int iRam83160628;
+extern int lbl_83160578[];
 
 
 void fn_82B7C8D0(int param_1,undefined8 param_2,undefined8 param_3)
@@ -35,13 +35,13 @@ void fn_82B7C8D0(int param_1,undefined8 param_2,undefined8 param_3)
 {
   int iVar1;
   undefined4 uVar2;
-  char acStack_120 [288];
+  char acStack_120 [256];
   
-  if (iRam83160628 != 0) {
+  if (lbl_83160578[44] != 0) {
     iVar1 = fn_82F6EDE8(acStack_120,0xff,param_2,param_3);
     acStack_120[iVar1] = '\0';
-    if (((acStack_120[0] != '\0') && (iRam83160628 == 2)) && (*(char *)(param_1 + 0x558) != '\0')) {
-      uVar2 = fn_82AB1818(0xffffffff820db484);
+    if (((acStack_120[0] != '\0') && (lbl_83160578[44] == 2)) && (*(char *)(param_1 + 0x558) != '\0')) {
+      uVar2 = fn_82AB1818("timer.out");
       *(undefined4 *)(param_1 + 0x55c) = uVar2;
       *(undefined1 *)(param_1 + 0x558) = 0;
     }

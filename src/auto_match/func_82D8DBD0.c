@@ -37,10 +37,10 @@ void fn_82D8DBD0(int param_1,int param_2)
   undefined1 auStack_10 [1];
   
   uVar1 = *(uint *)(param_1 + 0x30);
-  if ((uVar1 == 0) || (uVar1 == 1)) {
+  if ((uVar1 < 1) || (uVar1 == 1)) {
     fn_82D8B6C8(param_2,5,1,0);
   }
-  else if ((uVar1 < 3) && (*(int *)(param_2 + 8) == *(int *)(param_1 + 0x14))) {
+  else if ((uVar1 < 3) && (*(uint *)(param_2 + 8) == *(uint *)(param_1 + 0x14))) {
     fn_82D81240(auStack_10,*(int *)(param_1 + 0x14),param_2);
     return;
   }

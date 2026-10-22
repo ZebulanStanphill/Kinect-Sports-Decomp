@@ -25,17 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BEC810();
-extern unsigned int lbl_831751CC;
+extern uint fn_82BEC810(char *);
+extern void (*lbl_831751CC)(unsigned int);
 
 
 undefined8 fn_82BECDF0(int param_1,char *param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    (*(code *)lbl_831751CC)();
+  if (*(uint *)(param_1 + 0x1c) != 0) {
+    lbl_831751CC(*(uint *)(param_1 + 0x1c));
     *(undefined4 *)(param_1 + 0x1c) = 0;
   }
   if ((param_2 != (char *)0x0) && (*param_2 != '\0')) {

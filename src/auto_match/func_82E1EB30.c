@@ -1,3 +1,4 @@
+extern void fn_82E1EAE0(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -31,15 +32,15 @@ extern int fn_82A1E508();
 extern int fn_82A1E5B8();
 
 
-void fn_82E1EB30(int param_1,undefined8 param_2)
+void fn_82E1EB30(int param_1,int param_2)
 
 {
   undefined4 uVar1;
   
-  uVar1 = fn_82A1E0C0(0,0,0xffffffff82e1eae0,param_1,4,0);
+  uVar1 = fn_82A1E0C0(0,0,fn_82E1EAE0,param_1,4,0);
   *(undefined4 *)(param_1 + 0x1c) = uVar1;
   if (5 < (int)param_2) {
-    param_2 = 0xffffffffffffffff;
+    param_2 = -1;
   }
   if ((int)param_2 < 0) {
     param_2 = fn_82A1E5B8();

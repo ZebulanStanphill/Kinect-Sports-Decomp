@@ -26,31 +26,23 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE5340();
-extern int fn_82BE5350();
+extern int fn_82BE5350(iVar2);
 extern int fn_82BE5378();
 extern int fn_82BE5398();
 
 
-undefined8 fn_82BEB838(int param_1,undefined4 *param_2)
-
+int fn_82BEB838(int param_1,undefined4 *param_2)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  iVar2 = param_1 + 0x14;
-  fn_82BE5340(iVar2);
-  while( true ) {
-    puVar1 = (undefined4 *)fn_82BE5378(iVar2);
-    if (puVar1 == (undefined4 *)0x0) {
-      return 0x3e9;
+  undefined4 *item;
+  int list = param_1 + 0x14;
+  fn_82BE5340(list);
+  for (item = (undefined4 *)fn_82BE5378(list); item != 0; item = (undefined4 *)fn_82BE5378(list)) {
+    if (item == param_2) {
+      fn_82BE5398(list, *(undefined4 *)(param_1+0x1c), 1);
+      if (item != 0) (*(code *)*item)(item,1);
+      return 0;
     }
-    if (puVar1 == param_2) break;
-    fn_82BE5350();
+    fn_82BE5350(list);
   }
-  fn_82BE5398(iVar2,*(undefined4 *)(param_1 + 0x1c),1);
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  return 0;
+  return 0x3e9;
 }
-

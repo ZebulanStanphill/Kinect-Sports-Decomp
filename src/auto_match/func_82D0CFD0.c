@@ -36,7 +36,7 @@ void fn_82D0CFD0(int param_1)
   fn_82D14080(*(undefined4 *)(param_1 + 8),0);
   puVar1 = *(undefined4 **)(param_1 + 0x10);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
     *(undefined4 *)(param_1 + 0x10) = 0;
     return;
   }

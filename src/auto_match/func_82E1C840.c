@@ -1,3 +1,4 @@
+typedef struct { unsigned int x[4]; } Four;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -28,21 +29,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82E1C598();
 
 
-undefined8 fn_82E1C840(int param_1,undefined4 *param_2)
+int fn_82E1C840(int param_1,undefined4 *param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_2 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff80004003;
+    uVar1 = 0x80004003;
   }
-  else if ((*(char *)(param_1 + 0x20) != '\0') || (uVar1 = fn_82E1C598(param_1), -1 < (int)uVar1))
+  else if ((*(char *)(param_1 + 0x20) != '\0') || (uVar1 = fn_82E1C598(param_1), uVar1 >= 0))
   {
     uVar1 = 0;
-    *param_2 = *(undefined4 *)(param_1 + 0x40);
-    param_2[1] = *(undefined4 *)(param_1 + 0x44);
-    param_2[2] = *(undefined4 *)(param_1 + 0x48);
-    param_2[3] = *(undefined4 *)(param_1 + 0x4c);
+    *(Four *)param_2 = *(Four *)(param_1 + 64);
   }
   return uVar1;
 }

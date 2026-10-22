@@ -1,3 +1,4 @@
+typedef struct { unsigned pad:22; unsigned partial:1; unsigned low:9; } WriteFlags;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -31,8 +32,8 @@ extern int fn_82AB15D0();
 void fn_82BA04B8(int param_1)
 
 {
-  if ((*(uint *)(param_1 + 0xe4) >> 9 & 1) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820debe8,0xffffffff820dec00,0x775);
+  if ((unsigned char)((WriteFlags *)(param_1 + 0xe4))->partial == 0) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","HasPartialWriteInput()","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\IRInst.hpp",0x775);
   }
   *(undefined4 *)((*(int *)(param_1 + 0x14) + 0x3a) * 4 + param_1) = 0;
   *(uint *)(param_1 + 0xe4) = *(uint *)(param_1 + 0xe4) & 0xfffffdff;

@@ -35,9 +35,8 @@ void fn_82BABB08(int param_1,int param_2,undefined8 param_3,int param_4)
   
   iVar1 = *(int *)(*(int *)(param_4 + 0xab0) + 8);
   *(undefined4 *)(*(int *)(param_1 + 0xa8) * 8 + iVar1) = *(undefined4 *)(param_2 + 0x10);
-  if (5 < *(int *)(param_1 + 0xac)) {
-    fn_82BA9020(param_2,(ulonglong)*(uint *)(param_2 + 0x18) -
-                          (ulonglong)*(uint *)(param_2 + 0x14));
+  if (*(int *)(param_1 + 0xac) >= 6) {
+    fn_82BA9020(param_2,*(uint *)(param_2 + 0x18) - *(uint *)(param_2 + 0x14));
     *(undefined4 *)(*(int *)(param_1 + 0xa8) * 8 + iVar1 + 4) = *(undefined4 *)(param_2 + 0x18);
     *(undefined1 *)(param_2 + 0x30) = 1;
     *(undefined4 *)(param_2 + 0x24) = *(undefined4 *)(param_2 + 0xc);

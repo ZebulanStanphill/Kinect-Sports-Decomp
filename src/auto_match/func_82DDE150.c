@@ -38,7 +38,7 @@ undefined8 fn_82DDE150(int param_1,undefined8 param_2,undefined8 param_3,undefin
   param_4[7] = uVar2;
   *(undefined4 *)(param_1 + 8) = uVar2;
   iVar1 = fn_82CE5410();
-  uVar2 = (**(code **)(**(int **)(iVar1 + 0x18) + 0xc))(*(int **)(iVar1 + 0x18),param_1 + 8,1);
+  uVar2 = (*(code *)(**(int **)(iVar1 + 0x18) + 0xc))(*(int **)(iVar1 + 0x18),param_1 + 8,1);
   param_4[6] = uVar2;
   param_4[2] = 1000;
   param_4[4] = 3;

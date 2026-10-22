@@ -38,10 +38,7 @@ int fn_82B1B2E8(undefined8 param_1,undefined8 param_2,int param_3,int param_4)
   undefined4 uVar2;
   
   iVar1 = fn_82B841E8(param_1,*(undefined4 *)(param_3 + 0x1c),0,0x3e,1,1);
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  uVar2 = fn_82AD1978(iVar1,param_4);
+  uVar2 = fn_82AD1978(iVar1, *(uint *)(param_4 + 0x10) != 0 ? fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc)) : param_4);
   *(undefined4 *)(iVar1 + 0x2c) = uVar2;
   fn_82AC6860(param_1,iVar1,param_2,param_3);
   return iVar1;

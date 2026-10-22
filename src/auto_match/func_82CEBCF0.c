@@ -44,8 +44,7 @@ undefined1 * fn_82CEBCF0(undefined1 *param_1,longlong param_2)
   if ((*pcVar1 != '\0') &&
      (pcVar1 = (char *)fn_82CE4EC0(&uStack_1f,param_2 + 0x10), *pcVar1 != '\0')) {
     pcVar1 = (char *)fn_82CE4EC0(auStack_1e,param_2 + 0x20);
-    uVar2 = 1;
-    if (*pcVar1 != '\0') goto LAB_82cebd58;
+    if (*pcVar1 != '\0') { uVar2 = 1; goto LAB_82cebd58; }
   }
   uVar2 = 0;
 LAB_82cebd58:

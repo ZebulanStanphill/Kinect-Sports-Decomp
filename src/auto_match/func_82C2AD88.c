@@ -37,7 +37,7 @@ void fn_82C2AD88(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 0x2c);
   iVar2 = fn_82C2A670();
-  if ((-1 < iVar2) && (iVar2 = fn_82C2A938(param_1), -1 < iVar2)) {
+  if ((iVar2 >= 0) && (iVar2 = fn_82C2A938(param_1), iVar2 >= 0)) {
     *(undefined8 *)(puVar1 + 0xe) = 0;
     *puVar1 = 1;
     puVar1[0x10] = 0;

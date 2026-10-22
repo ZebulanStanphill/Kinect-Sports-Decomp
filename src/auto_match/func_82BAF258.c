@@ -30,14 +30,14 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82BAF258(int param_1,int param_2)
 
 {
-  if (((((*(int *)(param_1 + 0x3a0) == *(int *)(param_2 + 0x3a0)) &&
-        (*(int *)(param_1 + 900) == *(int *)(param_2 + 900))) &&
-       (*(int *)(param_1 + 0x3a4) == *(int *)(param_2 + 0x3a4))) &&
-      ((*(int *)(param_1 + 0x38c) == *(int *)(param_2 + 0x38c) &&
-       (*(int *)(param_1 + 0x3a8) == *(int *)(param_2 + 0x3a8))))) &&
-     ((*(int *)(param_1 + 0x394) == *(int *)(param_2 + 0x394) &&
-      ((*(int *)(param_1 + 0x3ac) == *(int *)(param_2 + 0x3ac) &&
-       (*(int *)(param_1 + 0x39c) == *(int *)(param_2 + 0x39c))))))) {
+  if (((((*(uint *)(param_1 + 0x3a0) == *(uint *)(param_2 + 0x3a0)) &&
+        (*(uint *)(param_1 + 900) == *(uint *)(param_2 + 900))) &&
+       (*(uint *)(param_1 + 0x3a4) == *(uint *)(param_2 + 0x3a4))) &&
+      ((*(uint *)(param_1 + 0x38c) == *(uint *)(param_2 + 0x38c) &&
+       (*(uint *)(param_1 + 0x3a8) == *(uint *)(param_2 + 0x3a8))))) &&
+     ((*(uint *)(param_1 + 0x394) == *(uint *)(param_2 + 0x394) &&
+      ((*(uint *)(param_1 + 0x3ac) == *(uint *)(param_2 + 0x3ac) &&
+       (*(uint *)(param_1 + 0x39c) == *(uint *)(param_2 + 0x39c))))))) {
     return 0;
   }
   return 0xffffffffffffffff;
