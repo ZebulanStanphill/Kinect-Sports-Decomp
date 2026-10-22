@@ -1,52 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A44630();
+typedef struct Sub { char pad[0x1c]; int count; int total; } Sub;
+typedef struct Obj { char pad[0x34]; Sub *sub; char pad2[0x1c0 - 0x38]; int amount; } Obj;
+extern void fn_82A44630(Obj *o);
 
-
-void fn_82A49130(int param_1,int param_2)
-
+void fn_82A49130(Obj *o, int remove)
 {
-  int iVar1;
-  int iVar2;
-  
-  fn_82A44630();
-  iVar1 = *(int *)(param_1 + 0x34);
-  if (param_2 == 0) {
-    *(int *)(iVar1 + 0x1c) = *(int *)(iVar1 + 0x1c) + 1;
-    iVar1 = *(int *)(param_1 + 0x34);
-    iVar2 = *(int *)(param_1 + 0x1c0) + *(int *)(iVar1 + 0x20);
-  }
-  else {
-    *(int *)(iVar1 + 0x1c) = *(int *)(iVar1 + 0x1c) + -1;
-    iVar1 = *(int *)(param_1 + 0x34);
-    iVar2 = *(int *)(iVar1 + 0x20) - *(int *)(param_1 + 0x1c0);
-  }
-  *(int *)(iVar1 + 0x20) = iVar2;
-  return;
+    fn_82A44630(o);
+    if (remove == 0) {
+        o->sub->count++;
+        o->sub->total += o->amount;
+    } else {
+        o->sub->count--;
+        o->sub->total -= o->amount;
+    }
 }
-

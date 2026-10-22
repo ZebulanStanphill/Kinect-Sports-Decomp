@@ -29,20 +29,20 @@ extern int fn_822315A0();
 extern int fn_823F2E20();
 extern int fn_82517978();
 extern int fn_82517A50();
-extern int fn_827D9718();
+extern __int64 fn_827D9718(uint);
 extern int fn_827DDDD8();
 extern unsigned int iStack_4c;
 extern unsigned int uStack_50;
 
 
-void fn_8260C710(int param_1,undefined8 param_2,ulonglong param_3,int param_4,undefined4 *param_5,
+void fn_8260C710(int param_1,uint param_2,uint param_3,int param_4,undefined4 *param_5,
                   undefined8 param_6)
 
 {
-  longlong lVar1;
-  longlong lVar2;
-  longlong lVar3;
-  struct { undefined4 first; int second; } stack_pair_50;
+  uint lVar1;
+  __int64 lVar2;
+  __int64 lVar3;
+  struct { undefined4 first; uint second; } stack_pair_50;
 
   
   RtlEnterCriticalSection(param_1 + 0x1a0);
@@ -50,7 +50,7 @@ void fn_8260C710(int param_1,undefined8 param_2,ulonglong param_3,int param_4,un
   fn_82517A50(param_6,param_4);
   lVar1 = fn_827DDDD8(param_1 + 200,param_2);
   if (lVar1 == 0) goto LAB_8260c7d8;
-  if ((param_3 & 0xffffffff) != 0) {
+  if (param_3 != 0) {
     lVar2 = fn_827D9718(param_3);
     if (lVar2 == 0) goto LAB_8260c7d8;
     lVar2 = fn_827D9718(lVar1);
@@ -63,12 +63,12 @@ void fn_8260C710(int param_1,undefined8 param_2,ulonglong param_3,int param_4,un
   fn_82517978(&stack_pair_50.first,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),1);
   fn_823F2E20(param_6,&stack_pair_50.first);
   if (stack_pair_50.second != 0) {
-    fn_822315A0();
+    fn_822315A0(stack_pair_50.second);
   }
 LAB_8260c7d8:
   RtlLeaveCriticalSection(param_1 + 0x1a0);
-  if (*(int *)(param_4 + 4) != 0) {
-    fn_822315A0();
+  if (*(uint *)(param_4 + 4) != 0) {
+    fn_822315A0(*(uint *)(param_4 + 4));
   }
   return;
 }

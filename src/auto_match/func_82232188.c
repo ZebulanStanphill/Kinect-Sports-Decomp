@@ -1,49 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223B998();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82196A24;
-extern unsigned int lbl_82196A3C;
-extern unsigned int lbl_82197080;
+typedef struct M { void *vt; char rest[0x50]; } M;
+typedef struct S {
+    void *vt;
+    char pad[0x2e8 - 4];
+    M m2e8;
+    M m33c;
+    M m390;
+} S;
+extern void fn_8223B998(S *p);
+extern void fn_8289D4C0(M *m);
+extern char lbl_82196A24[];
+extern char lbl_82196A3C[];
+extern char lbl_82197080[];
 
-
-void fn_82232188(undefined4 *param_1)
-
+static void M_dtor(M *m)
 {
-  *param_1 = &lbl_82196A3C;
-  param_1[0xe4] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xe4);
-  param_1[0xcf] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xcf);
-  param_1[0xba] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xba);
-  *param_1 = &lbl_82196A24;
-  fn_8223B998(param_1);
-  return;
+    m->vt = lbl_82197080;
+    fn_8289D4C0(m);
 }
 
+static void Base_dtor(S *p)
+{
+    p->vt = lbl_82196A24;
+    fn_8223B998(p);
+}
+
+void fn_82232188(S *p)
+{
+    p->vt = lbl_82196A3C;
+    M_dtor(&p->m390);
+    M_dtor(&p->m33c);
+    M_dtor(&p->m2e8);
+    Base_dtor(p);
+}

@@ -1,44 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C5B18();
-extern int memcpy();
+typedef unsigned int size_t;
+void *memcpy(void *d, const void *s, size_t n);
+typedef struct Sub { int v[6]; } Sub;
+extern Sub *fn_822C5B18(Sub *d, Sub *s);
+typedef struct Blk { unsigned char a[0x200]; } Blk;
+typedef struct Obj { Blk a; Blk b; Sub c; Sub d; int x, y, z; } Obj;
 
-
-int fn_82285290(int param_1,int param_2)
-
+Obj *fn_82285290(Obj *d, Obj *s)
 {
-  memcpy(param_1,param_2,0x200);
-  memcpy(param_1 + 0x200,param_2 + 0x200,0x200);
-  fn_822C5B18(param_1 + 0x400,param_2 + 0x400);
-  fn_822C5B18(param_1 + 0x418,param_2 + 0x418);
-  *(undefined4 *)(param_1 + 0x430) = *(undefined4 *)(param_2 + 0x430);
-  *(undefined4 *)(param_1 + 0x434) = *(undefined4 *)(param_2 + 0x434);
-  *(undefined4 *)(param_1 + 0x438) = *(undefined4 *)(param_2 + 0x438);
-  return param_1;
+    d->a = s->a;
+    d->b = s->b;
+    fn_822C5B18(&d->c, &s->c);
+    fn_822C5B18(&d->d, &s->d);
+    d->x = s->x; d->y = s->y; d->z = s->z;
+    return d;
 }
-

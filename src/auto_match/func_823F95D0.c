@@ -1,47 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int memcpy();
+typedef struct Obj Obj;
+typedef struct ObjVt {
+    void *f0[5];
+    void (*get)(Obj *o, int k, void *out);
+} ObjVt;
+struct Obj { ObjVt *vt; };
 
+typedef struct B28 { unsigned char b[0x1c]; } B28;
 
-void fn_823F95D0(int param_1,undefined8 param_2,int param_3)
+typedef struct Self {
+    int pad0;
+    int pad4;
+    char *a;
+    char *b;
+    Obj *o1;
+    int pad14;
+    Obj *o2;
+} Self;
 
+void fn_823F95D0(Self *self, int param_2, unsigned int param_3)
 {
-  undefined4 auStack_50 [4];
-  undefined1 auStack_40 [32];
-  
-  (**(code **)(**(int **)(param_1 + 0x10) + 0x14))(*(int **)(param_1 + 0x10),param_2,auStack_50);
-  (**(code **)(**(int **)(param_1 + 0x18) + 0x14))(*(int **)(param_1 + 0x18),param_2,auStack_40);
-  if (param_3 != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 8) + param_3) = auStack_50[0];
-    memcpy(*(int *)(param_1 + 0xc) + param_3,auStack_40,0x1c);
-  }
-  return;
-}
+    int s50[4];
+    B28 s40;
 
+    self->o1->vt->get(self->o1, param_2, s50);
+    self->o2->vt->get(self->o2, param_2, &s40);
+    if (param_3 != 0) {
+        *(int *)(self->a + param_3) = s50[0];
+        *(B28 *)(self->b + param_3) = s40;
+    }
+}
