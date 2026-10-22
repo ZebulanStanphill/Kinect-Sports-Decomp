@@ -26,14 +26,14 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E968();
-extern int __u64tod();
-extern unsigned int lbl_82005F78;
+extern float __u64tod();
+extern double lbl_82005F78;
 
 
 double fn_8287C768(void)
 
 {
-  double dVar1;
+  float dVar1;
   longlong alStack_10;
   
   fn_82A1E968(&alStack_10);

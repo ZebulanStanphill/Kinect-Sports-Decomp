@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-double fn_82358D20(undefined8 param_1,uint param_2)
+float  fn_82358D20(undefined8 param_1,uint param_2)
 
 {
   return (double)param_2;
