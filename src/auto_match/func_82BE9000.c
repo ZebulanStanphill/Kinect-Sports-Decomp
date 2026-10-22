@@ -34,7 +34,7 @@ extern unsigned int lbl_8322B22C;
 undefined4 * fn_82BE9000(undefined4 *param_1)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820e9b7c);
+  fn_82BE51E8(param_1,"XMassiveRenderHelper");
   *param_1 = &lbl_820EBE90;
   fn_82BA02A8(param_1 + 6);
   fn_82BA02A8(param_1 + 0x16);

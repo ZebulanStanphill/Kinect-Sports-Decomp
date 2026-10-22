@@ -34,7 +34,7 @@ undefined1 * fn_828BF9C8(undefined1 *param_1)
   *(undefined4 *)(param_1 + 0x10) = 0;
   *(undefined4 *)(param_1 + 0x14) = 0xf;
   *param_1 = 0;
-  fn_82230360(param_1,0xffffffff82025c30,0x11);
+  fn_82230360(param_1,"Party QoS message",0x11);
   return param_1;
 }
 

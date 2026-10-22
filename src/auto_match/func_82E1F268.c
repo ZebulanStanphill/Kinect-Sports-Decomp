@@ -37,7 +37,7 @@ undefined8 fn_82E1F268(int param_1)
 {
   undefined1 auStack_20 [16];
   
-  fn_8251C390(auStack_20,0xffffffff8214ba04,0x376);
+  fn_8251C390(auStack_20,".\\LogWriter.cpp",0x376);
   fn_82E1EBB8(param_1);
   fn_82E1F010(param_1);
   *(undefined1 *)(param_1 + 0x5d) = 0;

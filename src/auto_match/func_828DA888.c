@@ -34,7 +34,7 @@ undefined1 * fn_828DA888(undefined1 *param_1)
   *(undefined4 *)(param_1 + 0x10) = 0;
   *(undefined4 *)(param_1 + 0x14) = 0xf;
   *param_1 = 0;
-  fn_82230360(param_1,0xffffffff82026e14,0xd);
+  fn_82230360(param_1,"SyncTimeMsg_c",0xd);
   return param_1;
 }
 

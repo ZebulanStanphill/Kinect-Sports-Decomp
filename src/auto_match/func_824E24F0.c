@@ -38,7 +38,7 @@ void fn_824E24F0(longlong param_1)
   undefined1 auStack_30 [32];
   
   fn_824D4BF0();
-  fn_82230110(auStack_30,0xffffffff821c11b8);
+  fn_82230110(auStack_30,"HasLanded");
   fn_82897DF8(param_1 + 0xa6c,param_1,auStack_30);
   fn_82230300(auStack_30,1,0);
   return;

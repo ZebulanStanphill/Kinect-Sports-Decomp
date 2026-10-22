@@ -38,7 +38,7 @@ void fn_823D5A28(longlong param_1)
   undefined1 auStack_30 [32];
   
   fn_8236DA90();
-  fn_82230110(auStack_30,0xffffffff821b653c);
+  fn_82230110(auStack_30,"Football State Controller");
   fn_822B1BE8(param_1 + 0xe4,param_1,auStack_30,0x16);
   fn_82230300(auStack_30,1,0);
   return;

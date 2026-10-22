@@ -36,7 +36,7 @@ void fn_826E92E8(undefined8 param_1,undefined8 param_2)
   undefined1 auStack_210 [512];
   
   fn_8268D968(param_2,auStack_210);
-  fn_826C8C70(param_1,0xffffffff821c4da8,auStack_210);
+  fn_826C8C70(param_1,"%s",auStack_210);
   return;
 }
 

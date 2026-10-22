@@ -36,7 +36,7 @@ void fn_82310E28(int param_1,undefined4 param_2)
   
   if (((*(int *)(param_1 + 0x148) == 0) && (iVar1 = fn_8230E260(), iVar1 != 0)) &&
      (iVar1 = fn_8230E260(param_1), iVar1 != 0)) {
-    fn_822C8C08(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x114),0xffffffff821aca8c);
+    fn_822C8C08(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x114),"idle");
   }
   *(undefined4 *)(param_1 + 0x148) = param_2;
   return;

@@ -32,7 +32,7 @@ extern unsigned int lbl_820EB10C;
 undefined4 * fn_82BEE260(undefined4 *param_1)
 
 {
-  fn_82BE5908(param_1,0x1023,0xffffffff820eb11c);
+  fn_82BE5908(param_1,0x1023,"RequestOpenSession");
   *(undefined8 *)(param_1 + 0x14) = 0;
   *param_1 = &lbl_820EB10C;
   *(undefined8 *)(param_1 + 0x16) = 0;

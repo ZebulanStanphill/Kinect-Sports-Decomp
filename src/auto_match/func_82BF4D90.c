@@ -32,7 +32,7 @@ extern unsigned int lbl_820EBA68;
 undefined4 * fn_82BF4D90(undefined4 *param_1)
 
 {
-  fn_82BE5908(param_1,0x1065,0xffffffff820eba78);
+  fn_82BE5908(param_1,0x1065,"RequestImpressionUpdate");
   *(undefined2 *)(param_1 + 0x14) = 0;
   *param_1 = &lbl_820EBA68;
   *(undefined2 *)((int)param_1 + 0x52) = 0;

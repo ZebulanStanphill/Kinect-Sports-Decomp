@@ -36,7 +36,7 @@ void fn_82516980(longlong param_1)
 {
   undefined1 auStack_30 [32];
   
-  fn_82230110(auStack_30,0xffffffff821c274c);
+  fn_82230110(auStack_30,"ContextAndPropertiesVar");
   fn_82897DF8(param_1 + 0x34,param_1,auStack_30);
   fn_82230300(auStack_30,1,0);
   return;

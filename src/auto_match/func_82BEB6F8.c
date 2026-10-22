@@ -32,7 +32,7 @@ extern unsigned int lbl_820E8968;
 undefined4 * fn_82BEB6F8(undefined4 *param_1)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820eaf00);
+  fn_82BE51E8(param_1,"CMassiveBenchMark");
   param_1[7] = 0;
   *param_1 = &lbl_820E8968;
   param_1[6] = 0;

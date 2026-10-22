@@ -33,7 +33,7 @@ void fn_822BE940(int param_1)
 
 {
   fn_822B6858();
-  fn_822C8C08(*(undefined4 *)(param_1 + 0x114),0xffffffff821acc3c);
+  fn_822C8C08(*(undefined4 *)(param_1 + 0x114),"drone");
   *(undefined4 *)(param_1 + 0x7b0) = 0;
   *(undefined4 *)(param_1 + 0x78c) = 0;
   *(undefined4 *)(param_1 + 0x790) = 0;

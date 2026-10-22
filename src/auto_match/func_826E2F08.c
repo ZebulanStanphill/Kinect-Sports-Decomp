@@ -39,7 +39,7 @@ void fn_826E2F08(int param_1)
   
   iVar1 = fn_826E1970();
   fn_826F6870(iVar1,param_1);
-  fn_826A9280(param_1 + 0x14,0xffffffff8200d0c8,*(undefined2 *)(iVar1 + 4),
+  fn_826A9280(param_1 + 0x14,"  RemoveObject(%d, %d)\n",*(undefined2 *)(iVar1 + 4),
                     *(undefined2 *)(iVar1 + 6));
   aiStack_20[0] = iVar1;
   fn_826AA460(*(int *)(param_1 + 0x2e8) * 0xc + param_1 + 0x2f0,aiStack_20);

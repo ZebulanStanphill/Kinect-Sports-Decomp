@@ -41,7 +41,7 @@ void fn_8281FF48(int param_1,undefined8 param_2)
       uVar1 = *(uint *)(param_1 + 0x10);
     }
   }
-  fn_8281FD48(param_1,0xffffffff8201eba8,param_2);
+  fn_8281FD48(param_1,".data",param_2);
   return;
 }
 

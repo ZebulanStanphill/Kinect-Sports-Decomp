@@ -32,7 +32,7 @@ extern unsigned int lbl_820E8968;
 undefined4 * fn_82BE1950(undefined4 *param_1)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820e896c);
+  fn_82BE51E8(param_1,"CMassiveTime");
   *(undefined8 *)(param_1 + 6) = 0;
   *param_1 = &lbl_820E8968;
   *(undefined8 *)(param_1 + 8) = 0;

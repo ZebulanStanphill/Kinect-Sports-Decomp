@@ -32,7 +32,7 @@ extern unsigned int lbl_820EAF64;
 undefined4 * fn_82BEBA68(undefined4 *param_1)
 
 {
-  fn_82BE5908(param_1,0x1073,0xffffffff820eaf74);
+  fn_82BE5908(param_1,0x1073,"RequestCloseSession");
   *param_1 = &lbl_820EAF64;
   return param_1;
 }

@@ -38,7 +38,7 @@ void fn_82420340(longlong param_1)
   undefined1 auStack_30 [32];
   
   fn_8236DA90();
-  fn_82230110(auStack_30,0xffffffff821b2648);
+  fn_82230110(auStack_30,"BowlingController");
   fn_822B1BE8(param_1 + 0xe4,param_1,auStack_30,1);
   fn_82230300(auStack_30,1,0);
   return;

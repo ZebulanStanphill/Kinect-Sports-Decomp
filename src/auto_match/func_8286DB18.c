@@ -31,7 +31,7 @@ extern int fn_82230110();
 undefined8 fn_8286DB18(undefined8 param_1)
 
 {
-  fn_82230110(param_1,0xffffffff820215b0);
+  fn_82230110(param_1,"NO SUPPORTED IN FINAL RELEASE");
   return param_1;
 }
 

@@ -36,7 +36,7 @@ void fn_82835EE8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   undefined4 auStack_20 [4];
   
   fn_82835968(param_1,param_2,auStack_20);
-  fn_82F64020(param_3,0x100,0xffffffff8201f308,auStack_20[0]);
+  fn_82F64020(param_3,0x100,"0x%x",auStack_20[0]);
   return;
 }
 
