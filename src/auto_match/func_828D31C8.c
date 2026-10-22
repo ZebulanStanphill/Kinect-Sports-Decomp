@@ -34,7 +34,7 @@ extern int fn_828EDEB8();
 void fn_828D31C8(int param_1,undefined8 param_2)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   if (((*(int *)(param_1 + 0xc) == 0) &&
       (cVar1 = fn_828ACCE8(*(undefined4 *)(param_1 + 8)), cVar1 != '\0')) &&

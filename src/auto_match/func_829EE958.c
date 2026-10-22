@@ -25,29 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_829EE958(int param_1,int param_2)
-
-{
-  float fVar1;
-  
-  if (*(float *)(param_1 + 0x84) < *(float *)((*(int *)(param_1 + 0x74) + 0x1e) * 4 + param_2)) {
-    return 5;
-  }
-  fVar1 = *(float *)((*(int *)(param_1 + 0x74) + 0x1c) * 4 + param_2);
-  if (fVar1 < *(float *)(param_2 + 0xac)) {
-    return 0;
-  }
-  if (fVar1 < *(float *)(param_2 + 0xb0)) {
-    return 1;
-  }
-  if (fVar1 < *(float *)(param_2 + 0xb4)) {
-    return 2;
-  }
-  if (*(float *)(param_2 + 0xb8) <= fVar1) {
-    return 4;
-  }
-  return 3;
+int fn_829EE958(int p,int q) {
+ int result=4;
+ if (*(float *)((*(int *)(p+0x74)+0x1e)*4+q)>*(float *)(p+0x84)) result=5;
+ else {
+  float f=*(float *)((*(int *)(p+0x74)+0x1c)*4+q);
+  if(f<*(float *)(q+0xac)) result=0;
+  else if(f<*(float *)(q+0xb0)) result=1;
+  else if(f<*(float *)(q+0xb4)) result=2;
+  else if(f<*(float *)(q+0xb8)) result=3;
+ }
+ return result;
 }
-

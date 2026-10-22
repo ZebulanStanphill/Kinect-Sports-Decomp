@@ -35,7 +35,7 @@ undefined8 fn_8282FC60(undefined8 param_1,int param_2)
 
 {
   uint uVar3;
-  longlong lVar1;
+  int lVar1;
   undefined8 uVar2;
   
   fn_82830110(*(undefined4 *)(param_2 + 0x388),*(undefined4 *)(param_2 + 0xa0));
@@ -43,7 +43,7 @@ undefined8 fn_8282FC60(undefined8 param_1,int param_2)
                        param_1);
   if (uVar3 < *(uint *)(param_2 + 0xa0)) {
     lVar1 = fn_82F6AB08();
-    fn_82F6CE40(lVar1 + 0x40,0xffffffff8201eec0);
+    fn_82F6CE40(lVar1 + 0x40,"sectionDb Error: Symbol file symbol data did not read correctly\n");
     uVar2 = 5;
   }
   else {

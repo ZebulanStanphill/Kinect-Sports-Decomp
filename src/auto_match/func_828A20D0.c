@@ -33,13 +33,15 @@ undefined4 * fn_828A20D0(undefined4 *param_1)
 {
   int *piVar1;
   undefined8 *puVar2;
+  struct Pair { int a,b; } z;
   
   *param_1 = 0;
   piVar1 = (int *)fn_825089A0();
-  puVar2 = (undefined8 *)(**(code **)(*piVar1 + 0x24))(piVar1,8,1);
+  puVar2 = (undefined8 *)(*(code *)(*piVar1 + 0x24))(piVar1,8,1);
+  z.a = 0; z.b = 0;
   *param_1 = puVar2;
   if (puVar2 != (undefined8 *)0x0) {
-    *puVar2 = 0;
+    *(struct Pair *)puVar2 = z;
   }
   *(undefined4 **)*param_1 = param_1;
   param_1[1] = 0;

@@ -36,15 +36,11 @@ void fn_82A48470(int param_1)
 
 {
   int iVar1;
-  ulonglong uVar2;
+  uint uVar2;
   
   fn_82A459A8();
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x134) != 0) {
-    do {
+  for (uVar2 = 0; uVar2 < *(uint *)(param_1 + 0x134); ++uVar2) {
       fn_82A45660(*(undefined4 *)(param_1 + 0x14c),uVar2);
-      uVar2 = uVar2 + 1;
-    } while ((uVar2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x134));
   }
   *(undefined4 *)(param_1 + 0x150) = 0;
   *(undefined4 *)(param_1 + 0x148) = 0;

@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82822E38();
+extern int fn_82822E38(aiStack_30);
 extern int fn_82823058();
 extern int fn_82823080();
 extern int fn_828230A8();
 
 
-void fn_8282D760(undefined8 param_1,undefined8 param_2,code *param_3)
+void fn_8282D760(undefined8 param_1,undefined8 param_2,code param_3)
 
 {
-  int aiStack_30;
+  uint aiStack_30;
   
   do {
     fn_82823080(param_2,&aiStack_30);
@@ -47,7 +47,7 @@ void fn_8282D760(undefined8 param_1,undefined8 param_2,code *param_3)
         }
       }
     }
-    fn_82822E38();
+    fn_82822E38(aiStack_30);
     (*param_3)(param_1,aiStack_30);
   } while( true );
 }

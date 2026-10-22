@@ -33,11 +33,11 @@ void fn_82A59BF0(int param_1)
 
 {
   RtlEnterCriticalSection(param_1 + 0x24);
-  if (*(int *)(param_1 + 0xc) != 0) {
+  if (*(void **)(param_1 + 0xc) != 0) {
     KeSetEvent(*(undefined4 *)(param_1 + 0x18),1,0);
     fn_82A1E650(*(undefined4 *)(param_1 + 0xc),0xffffffffffffffff);
-    if ((*(int *)(param_1 + 0xc) != 0) && (*(int *)(param_1 + 0xc) != -1)) {
-      fn_82A1E658();
+    if ((*(void **)(param_1 + 0xc) != 0) && (*(int *)(param_1 + 0xc) != -1)) {
+      fn_82A1E658(*(void **)(param_1 + 0xc));
       *(undefined4 *)(param_1 + 0xc) = 0;
     }
   }

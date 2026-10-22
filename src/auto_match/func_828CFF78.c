@@ -44,7 +44,7 @@ undefined4 * fn_828CFF78(undefined4 *param_1)
   param_1[0x21] = 0;
   param_1[0x22] = 0;
   piVar2 = (int *)fn_825089A0();
-  uVar1 = (**(code **)(*piVar2 + 0xc))();
+  uVar1 = (*(undefined8 (**)(int *))(*piVar2 + 0xc))(piVar2);
   *(undefined8 *)(param_1 + 0x24) = uVar1;
   param_1[0x12] = 0;
   param_1[0x13] = 0;

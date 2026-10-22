@@ -25,27 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C2B80();
-
-
-undefined8 fn_829B8840(int param_1)
-
-{
-  int iVar1;
-  undefined8 uVar2;
-  
-  if (((param_1 == 0) || (*(int *)(param_1 + 0x1c) == 0)) || (*(int *)(param_1 + 0x24) == 0)) {
-    uVar2 = 0xfffffffffffffffe;
-  }
-  else {
-    iVar1 = *(int *)(*(int *)(param_1 + 0x1c) + 0x14);
-    if (iVar1 != 0) {
-      fn_829C2B80(iVar1,param_1);
-    }
-    (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x1c));
-    uVar2 = 0;
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-  }
-  return uVar2;
+typedef struct Buffer { char pad[20]; void *owner; } Buffer;
+typedef struct State { char pad[28]; Buffer *buffer; unsigned x; void (*release)(void *,Buffer *); void *arg; } State;
+extern void fn_829C2B80(void *,State *);
+int fn_829B8840(State *s) {
+ if (!s || !s->buffer || !s->release) return -2;
+ if (s->buffer->owner) fn_829C2B80(s->buffer->owner,s);
+ s->release(s->arg,s->buffer);
+ s->buffer=0;
+ return 0;
 }
-

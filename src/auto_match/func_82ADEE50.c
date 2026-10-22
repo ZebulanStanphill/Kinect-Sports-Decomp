@@ -26,15 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82ADE018();
-extern int fn_82ADF598();
+extern unsigned char fn_82ADF598();
 
 
 void fn_82ADEE50(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,
                   undefined8 param_5)
 
 {
-  char cVar1;
-  ulonglong uVar2;
+  unsigned char cVar1;
+  uint uVar2;
   
   uVar2 = 0;
   if ((*(uint *)(param_2 + 0xc0) & 7) != 0) {
@@ -42,7 +42,7 @@ void fn_82ADEE50(undefined8 param_1,int param_2,undefined8 param_3,undefined8 pa
       cVar1 = fn_82ADF598(param_1,param_2,param_3,param_4,uVar2);
       if (cVar1 != '\0') break;
       uVar2 = uVar2 + 1;
-    } while ((uVar2 & 0xffffffff) < ((ulonglong)*(uint *)(param_2 + 0xc0) & 7));
+    } while (uVar2 < (*(uint *)(param_2 + 0xc0) & 7));
   }
   fn_82ADE018(param_1,param_2,param_3,param_4,uVar2,param_5);
   return;

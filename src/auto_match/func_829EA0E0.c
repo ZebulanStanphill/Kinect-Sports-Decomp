@@ -29,15 +29,15 @@ extern int fn_82A28E60();
 extern unsigned int lbl_832179FC;
 
 
-void fn_829EA0E0(int *param_1)
+void fn_829EA0E0(uint *param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   for (iVar1 = param_1[1]; iVar1 != param_1[2]; iVar1 = iVar1 + 2) {
   }
   if (*param_1 != 0) {
-    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0);
+    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0,*param_1);
   }
   param_1[3] = 0;
   param_1[1] = 0;

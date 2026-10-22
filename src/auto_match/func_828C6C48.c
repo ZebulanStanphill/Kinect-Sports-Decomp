@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8288B460();
+extern unsigned char fn_8288B460();
 extern int fn_8288F1E8();
 extern int fn_82890C30();
 
@@ -33,11 +33,11 @@ extern int fn_82890C30();
 undefined8 fn_828C6C48(int param_1)
 
 {
-  ulonglong uVar1;
-  char cVar2;
+  uint uVar1;
+  unsigned char cVar2;
   
   uVar1 = fn_8288F1E8(*(undefined4 *)(param_1 + 0x6c),param_1 + 0x80);
-  if ((uVar1 & 0xffffffff) != 0) {
+  if (uVar1 != 0) {
     cVar2 = fn_8288B460(uVar1,*(undefined1 *)(param_1 + 0xa0),0);
     if (cVar2 != '\0') {
       return 0;

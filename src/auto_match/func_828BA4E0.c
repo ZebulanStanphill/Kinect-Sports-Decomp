@@ -26,16 +26,16 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CA20();
-extern int fn_8265CAA0();
+extern void fn_8265CAA0(unsigned int);
 extern unsigned int lbl_82025404;
 
 
-undefined4 * fn_828BA4E0(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_828BA4E0(undefined4 *param_1,uint param_2)
 
 {
   *param_1 = &lbl_82025404;
-  if (((param_1[6] == 4) || (param_1[6] == 6)) && (param_1[5] != 0)) {
-    fn_8265CAA0();
+  if (((((int *)param_1)[6] == 4) || (((int *)param_1)[6] == 6)) && (param_1[5] != 0)) {
+    fn_8265CAA0(param_1[5]);
     param_1[4] = 0;
     param_1[5] = 0;
   }

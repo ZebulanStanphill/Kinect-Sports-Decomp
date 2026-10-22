@@ -25,21 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_823AA970();
-extern int fn_8240D928();
+extern uint fn_823AA970(int);
+extern uint fn_8240D928(int);
 extern int fn_828CCCC0();
 extern int fn_828DF3D0();
-extern int fn_828DF8D0();
+extern uint fn_828DF8D0(uint,uint);
 extern unsigned int lbl_82027454;
 
 
-undefined4 * fn_828E6EC0(undefined4 *param_1,undefined8 param_2,int *param_3)
+undefined4 * fn_828E6EC0(undefined4 *param_1,uint param_2,int *param_3)
 
 {
+  uint *sub;
   int iVar1;
   undefined4 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
+  uint uVar3;
+  uint uVar4;
   
   iVar1 = *param_3;
   uVar2 = *(undefined4 *)(iVar1 + 4);
@@ -48,9 +49,10 @@ undefined4 * fn_828E6EC0(undefined4 *param_1,undefined8 param_2,int *param_3)
   uVar3 = fn_828DF8D0(uVar4,uVar3);
   fn_828DF3D0(param_1,param_2,uVar3,uVar2);
   *param_1 = &lbl_82027454;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  fn_828CCCC0(param_1 + 4,*param_3,param_3[1],0);
+  sub = param_1 + 4;
+  sub[0] = 0;
+  sub[1] = 0;
+  fn_828CCCC0(sub,*param_3,param_3[1],0);
   return param_1;
 }
 

@@ -35,14 +35,12 @@ void fn_8291C8C0(ushort *param_1,ushort *param_2)
   *param_1 = *param_2 << 8 | *param_2 >> 8;
   uVar1 = *(uint *)(param_2 + 1);
   *(uint *)(param_1 + 1) =
-       (uVar1 >> 0x10 | uVar1 & 0xffff0000) >> 8 & 0xffff |
-       ((uVar1 << 0x10 | uVar1 & 0xffff) & 0xffff00) << 8;
+       (uVar1 >> 24) | ((uVar1 >> 8) & 0xff00) | ((uVar1 << 8) & 0xff0000) | (uVar1 << 24);
   param_1[3] = param_2[3] << 8 | param_2[3] >> 8;
   param_1[4] = param_2[4] << 8 | param_2[4] >> 8;
   uVar1 = *(uint *)(param_2 + 5);
   *(uint *)(param_1 + 5) =
-       (uVar1 >> 0x10 | uVar1 & 0xffff0000) >> 8 & 0xffff |
-       ((uVar1 << 0x10 | uVar1 & 0xffff) & 0xffff00) << 8;
+       (uVar1 >> 24) | ((uVar1 >> 8) & 0xff00) | ((uVar1 << 8) & 0xff0000) | (uVar1 << 24);
   return;
 }
 

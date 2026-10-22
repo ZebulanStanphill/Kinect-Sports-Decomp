@@ -31,10 +31,10 @@ extern int fn_829D3AB0();
 extern int fn_82A2B130();
 
 
-longlong fn_829D3C80(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+int fn_829D3C80(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   int iVar2;
   undefined4 auStack_a0 [4];
   undefined1 auStack_90 [120];
@@ -42,7 +42,7 @@ longlong fn_829D3C80(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   auStack_a0[0] = 0x78;
   lVar1 = fn_82A2B130(2,0x101,param_1,param_2,auStack_90,auStack_a0);
   if ((lVar1 < 0) || (iVar2 = fn_829D3AB0(auStack_90,param_3), iVar2 < 0)) {
-    lVar1 = fn_829D3AB0(0xffffffff82057468,param_3);
+    lVar1 = fn_829D3AB0("45,90,30,1,1,0,033333333333133,033333333133,0333,01",param_3);
   }
   return lVar1;
 }

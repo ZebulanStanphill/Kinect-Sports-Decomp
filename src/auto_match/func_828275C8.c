@@ -27,23 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82518FF0();
 extern int fn_828223C8();
-extern unsigned int iStack_40;
+extern char *iStack_40;
 
 
-void fn_828275C8(int param_1,int *param_2,int *param_3)
+static char *next(char *cursor) { char *out; fn_828223C8(cursor,&out); return out; }
+void fn_828275C8(char *param_1,int *param_2,int *param_3)
 
 {
   undefined4 *puVar1;
   int iVar2;
   int iVar3;
-  int iStack_40;
+  char *iStack_40;
   undefined4 * apuStack_3c;
   
   param_1 = param_1 + 0x2f4;
   iVar3 = 0;
   iVar2 = 0;
-  while (fn_828223C8(param_1,&iStack_40), param_1 = iStack_40, iStack_40 != 0) {
-    puVar1 = *(undefined4 **)(*(int *)(iStack_40 + 0x28) + 4);
+  while ((param_1=next(param_1)) != 0) {
+    puVar1 = *(undefined4 **)(*(int *)(param_1 + 0x28) + 4);
     apuStack_3c = (undefined4 *)*puVar1;
     while (apuStack_3c != puVar1) {
       iVar3 = (uint)*(ushort *)((int)apuStack_3c + 0x1e) + iVar3;

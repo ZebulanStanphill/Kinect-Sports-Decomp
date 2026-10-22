@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82967188(int param_1,int param_2,int *param_3,ulonglong param_4)
+void fn_82967188(int param_1,int param_2,int *param_3,uint param_4)
 
 {
   int iVar1;
   uint uVar2;
   
-  if ((ulonglong)*(uint *)(param_2 + 0x38) != (param_4 & 0xffffffff)) {
+  if (*(uint *)(param_2 + 0x38) != param_4) {
     *(int *)(param_2 + 0x38) = (int)param_4;
     uVar2 = 0;
     *param_3 = *param_3 + 1;
-    if (*(int *)(param_2 + 0x14) != 0) {
+    if (*(uint *)(param_2 + 0x14) > 0) {
       iVar1 = 0;
       do {
         fn_82967188(param_1,*(undefined4 *)

@@ -34,11 +34,10 @@ void fn_82AD6090(uint *param_1,uint param_2)
   uint *puVar1;
   uint uVar2;
   
-  if (param_2 < 0xb) {
-    param_2 = 10;
-  }
-  uVar2 = fn_82ABE940(param_1,(param_2 + 4) * 4);
-  *(uint *)(uVar2 + 0xc) = param_2;
+  uint count;
+  if (param_2 > 10) count = param_2; else count = 10;
+  uVar2 = fn_82ABE940(param_1,(count + 4) * 4);
+  *(uint *)(uVar2 + 0xc) = count;
   puVar1 = (uint *)(uVar2 & 0xfffffffe);
   *(undefined4 *)(uVar2 + 8) = 0;
   *puVar1 = *param_1;

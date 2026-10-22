@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83142E0C();
+extern void IoDeleteDevice(int);
 
 
-undefined8 fn_82A2C0F8(int param_1)
+int fn_82A2C0F8(int param_1)
 
 {
   int iVar1;
-  undefined8 uVar2;
+  int uVar2;
   
   iVar1 = *(int *)(param_1 + 0x18);
   KeEnterCriticalRegion();
@@ -46,11 +46,11 @@ undefined8 fn_82A2C0F8(int param_1)
     *(undefined4 *)(iVar1 + 0x34) = 0;
   }
   else {
-    uVar2 = 0xffffffffc000026e;
+    uVar2 = 0xc000026e;
   }
   RtlLeaveCriticalSection(iVar1);
-  if (-1 < (int)uVar2) {
-    fn_83142E0C(param_1);
+  if (uVar2 >= 0) {
+    IoDeleteDevice(param_1);
   }
   KeLeaveCriticalRegion();
   return uVar2;

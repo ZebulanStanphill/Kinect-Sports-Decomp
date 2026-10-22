@@ -36,15 +36,15 @@ void fn_82A4B708(int param_1)
   int *piVar2;
   
   piVar2 = (int *)(param_1 + 0x54);
-  (**(code **)(*(int *)(param_1 + 0x54) + 8))(piVar2);
-  if (*(int *)(param_1 + 0x14c) != 0) {
+  (*(code *)(*(int *)(param_1 + 0x54) + 8))(piVar2);
+  if (*(uint *)(param_1 + 0x14c) != 0) {
     do {
       piVar1 = (int *)fn_82A40AD8(param_1 + 0x78);
-      (**(code **)(*piVar1 + 4))(piVar1,0);
+      (*(code *)(*piVar1 + 4))(piVar1,0);
       fn_82A4F4E0();
-    } while (*(int *)(param_1 + 0x14c) != 0);
+    } while (*(uint *)(param_1 + 0x14c) != 0);
   }
-  (**(code **)(*piVar2 + 0x14))(piVar2);
+  (*(code *)(*piVar2 + 0x14))(piVar2);
   return;
 }
 

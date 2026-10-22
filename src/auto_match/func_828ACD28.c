@@ -37,18 +37,19 @@ char fn_828ACD28(int param_1)
   if (iVar1 == 0) {
     return '\0';
   }
-  if ((((iVar1 == 2) || (iVar1 == 3)) || (iVar1 == 1)) || (bVar2 = false, iVar1 == 4)) {
+  if ((((iVar1 == 2) || (iVar1 == 3)) || (iVar1 == 1)) || iVar1 == 4) {
     bVar2 = true;
-  }
+  } else { bVar2 = false; }
   if (bVar2) {
     return '\x01';
   }
   if (iVar1 == 5) {
     return '\x02';
   }
-  if ((iVar1 == 7) || (bVar2 = false, iVar1 == 6)) {
+  if ((iVar1 == 7) || iVar1 == 6) {
     bVar2 = true;
   }
+  else { bVar2 = false; }
   return !bVar2 + '\x03';
 }
 

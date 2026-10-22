@@ -26,6 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8282D640();
+extern void fn_82831910(void);
+extern void fn_828318B0(void);
 
 
 void fn_828319F8(int param_1,undefined4 param_2)
@@ -36,9 +38,9 @@ void fn_828319F8(int param_1,undefined4 param_2)
   *(undefined4 *)(param_1 + 0x2b8) = 0;
   *(undefined4 *)(param_1 + 0x2c8) = 1;
   *(undefined4 *)(param_1 + 700) = 0;
-  fn_8282D640(param_1,param_1 + 0x36c,0xffffffff82831910,0);
+  fn_8282D640(param_1,param_1 + 0x36c,fn_82831910,0);
   if (*(char *)(param_1 + 1000) == '\0') {
-    fn_8282D640(param_1,param_1 + 0x36c,0xffffffff828318b0,0);
+    fn_8282D640(param_1,param_1 + 0x36c,fn_828318B0,0);
   }
   return;
 }

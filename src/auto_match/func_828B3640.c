@@ -32,17 +32,17 @@ void fn_828B3640(int param_1)
 {
   undefined4 *puVar1;
   uint uVar3;
-  longlong lVar2;
+  int lVar2;
   
-  if (*(int *)(param_1 + 0x10) != 0) {
+  if (*(uint *)(param_1 + 0x10) != 0) {
     puVar1 = *(undefined4 **)(*(int *)(param_1 + 4) + *(int *)(param_1 + 0xc) * 4);
-    (**(code **)*puVar1)(puVar1,0);
+    (*(code *)*puVar1)(puVar1,0);
     uVar3 = *(int *)(param_1 + 0xc) + 1;
     *(uint *)(param_1 + 0xc) = uVar3;
     if (*(uint *)(param_1 + 8) <= uVar3) {
       *(undefined4 *)(param_1 + 0xc) = 0;
     }
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x10) - 1;
+    lVar2 = *(int *)(param_1 + 0x10) - 1;
     *(int *)(param_1 + 0x10) = (int)lVar2;
     if (lVar2 == 0) {
       *(undefined4 *)(param_1 + 0xc) = 0;

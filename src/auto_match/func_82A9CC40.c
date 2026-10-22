@@ -35,8 +35,8 @@ void fn_82A9CC40(int *param_1,int param_2)
   undefined4 *puVar2;
   longlong lVar3;
   
-  if ((uint)param_1[2] < param_1[1] + 1U) {
-    fn_82A9A428();
+  if (param_1[1] + 1U > (uint)param_1[2]) {
+    fn_82A9A428(param_1,param_1[1] + 1U);
   }
   puVar1 = (undefined4 *)(param_2 + -4);
   lVar3 = 5;

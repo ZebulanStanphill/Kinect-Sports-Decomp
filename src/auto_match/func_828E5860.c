@@ -25,28 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_828BDDA0();
-extern unsigned int lbl_82027360;
-extern unsigned int lbl_82027368;
-
-
-undefined4 * fn_828E5860(void)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x90);
-  if (puVar1 != (undefined4 *)0x0) {
-    fn_828BDDA0();
-    *puVar1 = &lbl_82027368;
-    puVar1[0x14] = &lbl_82027360;
-    puVar1[0x20] = 0;
-    puVar1[0x21] = 0;
-    puVar1[0x22] = 0;
-    puVar1[0x23] = 0;
-    return puVar1;
-  }
-  return (undefined4 *)0x0;
+extern void *fn_8265C9E0(unsigned);
+extern void fn_828BDDA0(void *);
+extern unsigned lbl_82027360, lbl_82027368;
+typedef struct { void *v; char pad[76]; void *v2; char pad2[44]; unsigned a,b,c,d; } Obj;
+typedef struct { unsigned a,b,c,d; } Tail;
+static void clear(Tail *p) { p->a=0;p->b=0;p->c=0;p->d=0; }
+Obj *fn_828E5860(void) {
+ Obj *p=fn_8265C9E0(0x90);
+ if(p) { fn_828BDDA0(p); p->v=&lbl_82027368; p->v2=&lbl_82027360; clear((Tail *)&p->a); return p; }
+ return 0;
 }
-

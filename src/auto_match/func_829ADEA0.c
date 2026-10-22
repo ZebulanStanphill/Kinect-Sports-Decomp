@@ -34,14 +34,14 @@ void fn_829ADEA0(int *param_1,int param_2)
   
   iVar1 = *param_1;
   if (param_2 < 0) {
-    if ((*(int *)(iVar1 + 0x6c) == 0) || (2 < *(int *)(iVar1 + 0x68))) {
-      (**(code **)(iVar1 + 8))();
+    if ((*(int *)(iVar1 + 0x6c) == 0) || (*(int *)(iVar1 + 0x68) >= 3)) {
+      (*(code *)(iVar1 + 8))();
     }
     *(int *)(iVar1 + 0x6c) = *(int *)(iVar1 + 0x6c) + 1;
     return;
   }
-  if (param_2 <= *(int *)(iVar1 + 0x68)) {
-    (**(code **)(iVar1 + 8))();
+  if (*(int *)(iVar1 + 0x68) >= param_2) {
+    (*(code *)(iVar1 + 8))();
   }
   return;
 }
