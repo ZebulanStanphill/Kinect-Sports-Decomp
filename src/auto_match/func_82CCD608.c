@@ -1,60 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CC9120();
-extern int fn_82CCAC90();
-extern int fn_82CCBA50();
+extern void fn_82CC9120(int a, int b, int c, int d, int e, int f);
+extern void fn_82CCAC90(int a, int b, int c, int d, int e, int f);
+extern void fn_82CCBA50(int a, int b, int c, int d, int e, int f);
 extern unsigned int lbl_8329F060;
 
-
-void fn_82CCD608(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined8 unused_arg_8, undefined8 unused_arg_9, undefined8 unused_arg_10, undefined8 unused_arg_11, int in_stack_0000006c)
-
+void fn_82CCD608(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, __int64 unused_arg_8, __int64 unused_arg_9, __int64 unused_arg_10, __int64 unused_arg_11, unsigned int fourcc)
 {
-
-  
-  lbl_8329F060 = (uint)(in_stack_0000006c == 0x31313450);
-  *(undefined4 *)(param_1 + 0x70) = param_5;
-  *(undefined4 *)(param_1 + 0x74) = param_6;
-  *(undefined4 *)(param_1 + 0x78) = param_7;
-  *(undefined4 *)(param_1 + 100) = param_2;
-  *(undefined4 *)(param_1 + 0x68) = param_3;
-  *(undefined4 *)(param_1 + 0x6c) = param_4;
-  if (in_stack_0000006c == 0x32595559) {
-    fn_82CCBA50();
+  lbl_8329F060 = (fourcc == 0x31313450);
+  *(int *)(param_1 + 0x70) = param_5;
+  *(int *)(param_1 + 0x74) = param_6;
+  *(int *)(param_1 + 0x78) = param_7;
+  *(int *)(param_1 + 100) = param_2;
+  *(int *)(param_1 + 0x68) = param_3;
+  *(int *)(param_1 + 0x6c) = param_4;
+  if (fourcc == 0x32595559) {
+    fn_82CCBA50(param_1, param_2, param_3, param_4, param_5, 1);
   }
-  else if (in_stack_0000006c == 0x59565955) {
-    fn_82CCBA50();
+  else if (fourcc == 0x59565955) {
+    fn_82CCBA50(param_1, param_2, param_3, param_4, param_5, 0);
   }
-  else if (in_stack_0000006c == 0) {
-    fn_82CCAC90();
+  else if (fourcc == 0) {
+    fn_82CCAC90(param_1, param_2, param_3, param_4, param_5, param_6);
   }
   else {
-    fn_82CC9120();
+    fn_82CC9120(param_1, param_2, param_3, param_4, param_5, param_6);
   }
-  return;
 }
-

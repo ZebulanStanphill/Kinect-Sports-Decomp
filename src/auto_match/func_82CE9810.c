@@ -25,40 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE96B0();
+typedef struct Ring {
+  __int64 *items;
+  int capacity;
+  int head;
+  int tail;
+  int count;
+} Ring;
 
+extern void fn_82CE96B0(Ring *r, int n);
 
-void fn_82CE9810(int *param_1,int param_2)
+void fn_82CE9810(Ring *r,__int64 *src)
 
 {
-  int iVar1;
-  int iVar2;
-  undefined8 *puVar3;
-  undefined8 *puVar4;
-  longlong lVar5;
-  
-  iVar1 = param_1[1];
-  if (iVar1 <= param_1[4]) {
-    iVar2 = 8;
-    if (iVar1 != 0) {
-      iVar2 = iVar1 << 1;
-    }
-    fn_82CE96B0(param_1,iVar2);
-  }
-  if (param_1[3] == param_1[1]) {
-    param_1[3] = 0;
-  }
-  puVar4 = (undefined8 *)(param_2 + -8);
-  lVar5 = 0x10;
-  puVar3 = (undefined8 *)(param_1[3] * 0x80 + *param_1 + -8);
-  do {
-    puVar4 = puVar4 + 1;
-    puVar3 = puVar3 + 1;
-    *puVar3 = *puVar4;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  param_1[3] = param_1[3] + 1;
-  param_1[4] = param_1[4] + 1;
-  return;
-}
+  int n;
+  __int64 *dst;
 
+  if (r->count >= r->capacity) {
+    if (r->capacity == 0) {
+      fn_82CE96B0(r,8);
+    } else {
+      fn_82CE96B0(r,r->capacity * 2);
+    }
+  }
+  if (r->tail == r->capacity) {
+    r->tail = 0;
+  }
+  dst = r->items + r->tail * 16;
+  for (n = 16; n != 0; n--) {
+    *dst++ = *src++;
+  }
+  r->tail++;
+  r->count++;
+}

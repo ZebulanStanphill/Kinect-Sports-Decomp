@@ -1,56 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10B28();
+extern int fn_82C10B28(void *ctx, int kind, void *p);
 
+typedef struct Sub {
+    int pad0;
+    void *p;
+} Sub;
 
-undefined8 fn_82C23A10(undefined8 param_1,int param_2,undefined8 param_3,int param_4)
+typedef struct Obj {
+    int pad0;
+    int type;
+    char *data;
+    char pad0c[0x10];
+    Sub *sub;
+} Obj;
 
+int fn_82C23A10(void *param_1, Obj *param_2, void *param_3, char *param_4)
 {
-  int iVar1;
-  longlong lVar2;
-  
-  if ((*(int *)(param_2 + 4) == 1) && ((ulonglong)*(uint *)(param_2 + 8) != 0)) {
-    lVar2 = (ulonglong)*(uint *)(param_2 + 8) + 0x14;
-  }
-  else {
-    if ((*(int *)(param_2 + 4) != 2) || ((ulonglong)*(uint *)(param_2 + 8) == 0)) goto LAB_82c23a80;
-    lVar2 = (ulonglong)*(uint *)(param_2 + 8) + 0x34;
-  }
-  fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,lVar2);
-  fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,param_2 + 8);
-LAB_82c23a80:
-  iVar1 = *(int *)(param_2 + 0x1c);
-  if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 4) != 0) {
-      fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,iVar1 + 4);
-    }
-    fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,param_2 + 0x1c);
-  }
-  return 0;
-}
+    char *p;
 
+    if (param_2->type == 1 && param_2->data != 0) {
+        p = param_2->data + 0x14;
+    } else {
+        if (param_2->type != 2 || param_2->data == 0) goto skip;
+        p = param_2->data + 0x34;
+    }
+    fn_82C10B28(*(void **)(param_4 + 0xe0), 0xb, p);
+    fn_82C10B28(*(void **)(param_4 + 0xe0), 0xb, &param_2->data);
+skip:
+    if (param_2->sub != 0) {
+        if (param_2->sub->p != 0) {
+            fn_82C10B28(*(void **)(param_4 + 0xe0), 0xb, &param_2->sub->p);
+        }
+        fn_82C10B28(*(void **)(param_4 + 0xe0), 0xb, &param_2->sub);
+    }
+    return 0;
+}

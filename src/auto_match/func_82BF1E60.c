@@ -1,54 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE51E8();
-extern unsigned int lbl_820EB5B4;
-extern unsigned int lbl_820EB5B8;
-extern unsigned int lbl_82197048;
+extern void fn_82BE51E8(void *p, const char *name);
+extern char lbl_820EB5B4[];
+extern char lbl_820EB5B8[];
+extern char lbl_82197048[];
 
+struct sub {
+  void *vt;
+  int pad[4];
+};
 
-undefined4 * fn_82BF1E60(undefined4 *param_1)
+struct obj {
+  void *vt;
+  int a;
+  int b;
+  struct sub s;
+  int f20, f24, f28, f2c, f30, f34, f38, f3c, f40;
+};
 
+struct obj *fn_82BF1E60(struct obj *o)
 {
-  param_1[1] = 0;
-  *param_1 = &lbl_82197048;
-  param_1[2] = 0;
-  fn_82BE51E8(param_1 + 3,0xffffffff820eb5c8);
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  *param_1 = &lbl_820EB5B8;
-  param_1[3] = &lbl_820EB5B4;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  return param_1;
+  o->a = 0;
+  o->vt = lbl_82197048;
+  o->b = 0;
+  fn_82BE51E8(&o->s, "TransactionHTTP");
+  o->f20 = 0;
+  o->f24 = 0;
+  o->f28 = 0;
+  o->vt = lbl_820EB5B8;
+  o->s.vt = lbl_820EB5B4;
+  o->f2c = 0;
+  o->f30 = 0;
+  o->f34 = 0;
+  o->f38 = 0;
+  o->f3c = 0;
+  o->f40 = 0;
+  return o;
 }
-

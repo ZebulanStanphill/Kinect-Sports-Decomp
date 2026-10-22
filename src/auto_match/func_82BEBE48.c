@@ -25,39 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82BE54C8();
-extern int fn_82BE6720();
-extern int fn_82BE6C60();
-extern int fn_82BE6E28();
-extern int fn_82BE8E38();
+extern int fn_82BE54C8(void *p, char *buf, int n);
+extern int fn_82BE6720(void *ctx, int tok, int z);
+extern int fn_82BE6C60(void *ctx, int a, int b, int c);
+extern int fn_82BE6E28(void *ctx, void *s, int z);
+extern void *fn_82BE8E38(void);
 
-
-undefined8 fn_82BEBE48(undefined8 param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82BEBE48(void *param_1, void *param_2, void *param_3)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined1 auStack_50 [48];
-  
-  iVar2 = fn_82BE6720(param_1,0x3d,0);
-  if ((((iVar2 == 0) || (iVar2 = fn_82BE6E28(param_1,param_2,0), iVar2 == 0)) ||
-      (iVar2 = fn_82BE6720(param_1,0x3e,0), iVar2 == 0)) ||
-     (iVar2 = fn_82BE6E28(param_1,param_3,0), iVar2 == 0)) {
-LAB_82bebf28:
-    uVar1 = 0;
-  }
-  else {
-    iVar2 = fn_82BE8E38();
-    if (iVar2 != 0) {
-      uVar1 = fn_82BE8E38();
-      iVar2 = fn_82BE54C8(uVar1,auStack_50,0x21);
-      if ((iVar2 != 0) &&
-         ((iVar2 = fn_82BE6720(param_1,0x1d,0), iVar2 == 0 ||
-          (iVar2 = fn_82BE6E28(param_1,auStack_50,0), iVar2 == 0)))) goto LAB_82bebf28;
-    }
-    uVar1 = fn_82BE6C60(param_1,0xc9,0,0);
-  }
-  return uVar1;
-}
+  char buf[48];
 
+  if (fn_82BE6720(param_1, 0x3d, 0) && fn_82BE6E28(param_1, param_2, 0) &&
+      fn_82BE6720(param_1, 0x3e, 0) && fn_82BE6E28(param_1, param_3, 0)) {
+    if (fn_82BE8E38() != 0 && fn_82BE54C8(fn_82BE8E38(), buf, 0x21)) {
+      if (!fn_82BE6720(param_1, 0x1d, 0) || !fn_82BE6E28(param_1, buf, 0)) {
+        return 0;
+      }
+    }
+    return fn_82BE6C60(param_1, 0xc9, 0, 0);
+  }
+  return 0;
+}

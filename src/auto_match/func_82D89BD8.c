@@ -1,54 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D80768();
-extern int fn_82D90920();
+typedef struct {
+  char pad[0x26];
+  unsigned char bits;
+} Info;
 
+typedef struct {
+  char pad[0x305];
+  unsigned char a, b, c;
+} Owner;
 
-void fn_82D89BD8(int param_1)
+typedef struct {
+  char pad0[8];
+  Owner *owner;
+  char pad1[0xcc - 0xc];
+  int info;
+  char pad2[0xe0 - 0xd0];
+  char sub[8];
+  unsigned char mode;
+  char pad3;
+  short x;
+  short y;
+} Self;
 
+extern void fn_82D80768(void *p, unsigned char a, unsigned char b, unsigned char c);
+extern void fn_82D90920(Owner *o, int i);
+
+static char GetState(int info)
 {
-  int iVar1;
-  byte bVar2;
-  
-  if (*(int *)(param_1 + 0xcc) == 0) {
-    bVar2 = 0;
-  }
-  else {
-    bVar2 = *(byte *)(*(int *)(param_1 + 0xcc) + 0x26) >> 4 & 3;
-  }
-  if (((bVar2 == 0) && (*(char *)(param_1 + 0xe8) != '\x05')) && (*(int *)(param_1 + 8) != 0)) {
-    *(undefined2 *)(param_1 + 0xea) = 0;
-    *(undefined2 *)(param_1 + 0xec) = 0;
-    fn_82D90920();
-    iVar1 = *(int *)(param_1 + 8);
-    fn_82D80768(param_1 + 0xe0,*(undefined1 *)(iVar1 + 0x305),*(undefined1 *)(iVar1 + 0x306),
-                 *(undefined1 *)(iVar1 + 0x307));
-  }
-  return;
+  if (info == 0)
+    return 0;
+  return (((Info *)info)->bits >> 4) & 3;
 }
 
+void fn_82D89BD8(Self *self)
+{
+  int info = self->info;
+
+  if (GetState(info) == 0 && self->mode != 5 && self->owner != 0) {
+    self->x = 0;
+    self->y = 0;
+    fn_82D90920(self->owner, info);
+    fn_82D80768(self->sub, self->owner->a, self->owner->b, self->owner->c);
+  }
+}

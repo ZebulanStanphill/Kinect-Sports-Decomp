@@ -25,38 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Iface Iface;
+typedef struct IfaceVtbl {
+  void *f0;
+  void *f4;
+  void (*Release)(Iface *, int, int);
+  void *fc;
+  void (*Free)(Iface *, int, int, int);
+} IfaceVtbl;
+struct Iface {
+  IfaceVtbl *vtbl;
+};
+typedef struct Ctx {
+  char pad[0x10];
+  Iface *alloc;
+} Ctx;
+extern Ctx *fn_82CE5410(void);
 
+typedef struct Array {
+  int *data;
+  int count;
+  int capacity;
+} Array;
 
-void fn_82D13EA0(int *param_1)
+void fn_82D13EA0(Array *a)
 
 {
-  int *piVar1;
-  undefined4 uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar4 = 0;
-  if (0 < param_1[1]) {
-    iVar5 = 0;
-    do {
-      uVar2 = *(undefined4 *)(iVar5 + *param_1);
-      iVar3 = fn_82CE5410();
-      (**(code **)(**(int **)(iVar3 + 0x10) + 8))(*(int **)(iVar3 + 0x10),uVar2,0x808);
-      iVar4 = iVar4 + 1;
-      iVar5 = iVar5 + 4;
-    } while (iVar4 < param_1[1]);
-  }
-  param_1[1] = 0;
-  iVar4 = fn_82CE5410();
-  piVar1 = *(int **)(iVar4 + 0x10);
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000U) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,4);
-  }
-  *param_1 = 0;
-  param_1[2] = -0x80000000;
-  return;
-}
+  Iface *it;
+  int i;
 
+  for (i = 0; i < a->count; i++) {
+    int v = a->data[i];
+    it = fn_82CE5410()->alloc;
+    it->vtbl->Release(it,v,0x808);
+  }
+  a->count = 0;
+  it = fn_82CE5410()->alloc;
+  a->count = 0;
+  if ((a->capacity & (1 << 31)) == 0) {
+    it->vtbl->Free(it,(int)a->data,a->capacity & 0x3fffffff,4);
+  }
+  a->data = 0;
+  a->capacity = 0x80000000;
+}

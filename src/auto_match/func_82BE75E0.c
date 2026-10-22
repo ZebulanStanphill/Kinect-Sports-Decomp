@@ -1,53 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BEB7A8();
-extern int fn_82BF2A00();
-extern unsigned int lbl_820E9974;
-extern unsigned int lbl_831751CC;
+typedef struct VObj {
+    void (**vtbl)(struct VObj *, int);
+} VObj;
 
+typedef struct Obj {
+    void *vtbl;
+    char pad4[0x30 - 0x4];
+    void *f30;
+    char pad34[0x8c - 0x34];
+    VObj *f8c;
+    char pad90[0xa0 - 0x90];
+    int fa0;
+} Obj;
 
-void fn_82BE75E0(undefined4 *param_1)
+extern void fn_82BEB7A8(Obj *);
+extern void fn_82BF2A00(int *);
+extern char lbl_820E9974[];
+extern void (*lbl_831751CC)(void *);
 
+void fn_82BE75E0(Obj *param_1)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)param_1[0x23];
-  *param_1 = &lbl_820E9974;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-    param_1[0x23] = 0;
-  }
-  if (param_1[0xc] != 0) {
-    (*(code *)lbl_831751CC)();
-    param_1[0xc] = 0;
-  }
-  fn_82BF2A00(param_1 + 0x28);
-  fn_82BEB7A8(param_1);
-  return;
-}
+    VObj *p = param_1->f8c;
 
+    param_1->vtbl = lbl_820E9974;
+    if (p != 0) {
+        (*p->vtbl[0])(p, 1);
+        param_1->f8c = 0;
+    }
+    if (param_1->f30 != 0) {
+        lbl_831751CC(param_1->f30);
+        param_1->f30 = 0;
+    }
+    fn_82BF2A00(&param_1->fa0);
+    fn_82BEB7A8(param_1);
+}

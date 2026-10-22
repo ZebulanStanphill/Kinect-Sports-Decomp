@@ -1,59 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int memcpy();
+typedef void *(*vfn)();
 
+typedef struct Str {
+  char *data;
+  int len;
+  int cap;
+} Str;
 
-int * fn_82CFCCC8(int *param_1,undefined4 *param_2,char param_3,undefined1 param_4,int param_5)
+extern int fn_82CE5410(void);
+extern void *memcpy(void *dst, const void *src, uint n);
 
+Str *fn_82CFCCC8(Str *param_1, Str *param_2, char param_3, char param_4, int param_5)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  uVar1 = param_2[1];
-  iVar2 = fn_82CE5410();
-  iVar2 = (**(code **)(**(int **)(iVar2 + 0x10) + 4))(*(int **)(iVar2 + 0x10),uVar1);
-  memcpy(iVar2,*param_2,param_2[1]);
-  iVar3 = 0;
-  if (0 < (longlong)((ulonglong)(uint)param_2[1] - 1)) {
-    do {
-      if ((*(char *)(iVar3 + iVar2) == param_3) &&
-         (*(undefined1 *)(iVar3 + iVar2) = param_4, param_5 == 0)) break;
-      iVar3 = iVar3 + 1;
-    } while (iVar3 < param_2[1] + -1);
+  int len;
+  int *alloc;
+  char *buf;
+  int i;
+
+  len = param_2->len;
+  alloc = *(int **)(fn_82CE5410() + 0x10);
+  buf = (char *)(*(vfn *)(*alloc + 4))(alloc, len);
+  memcpy(buf, param_2->data, param_2->len);
+  for (i = 0; i < param_2->len - 1; i++) {
+    if (buf[i] == param_3) {
+      buf[i] = param_4;
+      if (param_5 == 0) {
+        break;
+      }
+    }
   }
-  iVar3 = param_2[1];
-  *param_1 = iVar2;
-  *(undefined1 *)(iVar2 + iVar3 + -1) = 0;
-  iVar2 = param_2[1];
-  param_1[1] = iVar2;
-  param_1[2] = iVar2;
+  len = param_2->len;
+  param_1->data = buf;
+  buf[len - 1] = 0;
+  len = param_2->len;
+  param_1->len = len;
+  param_1->cap = len;
   return param_1;
 }
-

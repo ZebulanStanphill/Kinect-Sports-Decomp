@@ -1,57 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5908();
-extern unsigned int lbl_820EAFB0;
+typedef struct Sub {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+} Sub;
 
+typedef struct Obj {
+    void *vtbl;
+    char pad4[0x50 - 0x4];
+    Sub f50;
+    Sub f60;
+    __int64 f70;
+    short f78;
+    short f7a;
+    int f7c;
+    char f80;
+    int f84;
+    char f88;
+    int f8c;
+    char f90;
+    int f94;
+} Obj;
 
-undefined4 * fn_82BEBD00(undefined4 *param_1)
+extern void fn_82BE5908(Obj *, int, const char *);
+extern char lbl_820EAFB0[];
 
+static void Sub_init(Sub *s)
 {
-  fn_82BE5908(param_1,0x1011,0xffffffff820eafc0);
-  *param_1 = &lbl_820EAFB0;
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  param_1[0x16] = 0;
-  param_1[0x17] = 0;
-  param_1[0x18] = 0;
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  param_1[0x1b] = 0;
-  *(undefined8 *)(param_1 + 0x1c) = 0;
-  *(undefined2 *)(param_1 + 0x1e) = 0;
-  *(undefined2 *)((int)param_1 + 0x7a) = 0;
-  param_1[0x1f] = 0;
-  *(undefined1 *)(param_1 + 0x20) = 0;
-  param_1[0x21] = 0;
-  *(undefined1 *)(param_1 + 0x22) = 0;
-  param_1[0x23] = 0;
-  *(undefined1 *)(param_1 + 0x24) = 0;
-  param_1[0x25] = 0;
-  return param_1;
+    s->f0 = 0;
+    s->f4 = 0;
+    s->f8 = 0;
+    s->fc = 0;
 }
 
+Obj *fn_82BEBD00(Obj *param_1)
+{
+    fn_82BE5908(param_1, 0x1011, "RequestLocateService");
+    param_1->vtbl = lbl_820EAFB0;
+    Sub_init(&param_1->f50);
+    Sub_init(&param_1->f60);
+    param_1->f70 = 0;
+    param_1->f78 = 0;
+    param_1->f7a = 0;
+    param_1->f7c = 0;
+    param_1->f80 = 0;
+    param_1->f84 = 0;
+    param_1->f88 = 0;
+    param_1->f8c = 0;
+    param_1->f90 = 0;
+    param_1->f94 = 0;
+    return param_1;
+}

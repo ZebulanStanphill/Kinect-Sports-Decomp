@@ -1,47 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Heap Heap;
+typedef struct {
+  void *f0, *f4;
+  void (*Free)(Heap *h, void *p, int flags);
+} HeapVtbl;
+struct Heap { HeapVtbl *vt; };
 
+typedef struct {
+  char pad[0x10];
+  Heap *heap;
+} Ctx;
 
-int fn_82D89688(int param_1,ulonglong param_2)
+extern Ctx *fn_82CE5410(void);
 
+typedef struct {
+  char pad[0x64];
+  void *buf;
+} Self;
+
+Self *fn_82D89688(Self *self, unsigned int flags)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1 + 100) != 0) {
-    iVar1 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar1 + 0x10) + 8))
-              (*(int **)(iVar1 + 0x10),*(undefined4 *)(param_1 + 100),0x200);
+  if (self->buf != 0) {
+    Heap *h = fn_82CE5410()->heap;
+    h->vt->Free(h, self->buf, 0x200);
   }
-  if ((param_2 & 1) != 0) {
-    iVar1 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar1 + 0x10) + 8))(*(int **)(iVar1 + 0x10),param_1,0x80);
+  if (flags & 1) {
+    Heap *h = fn_82CE5410()->heap;
+    h->vt->Free(h, self, 0x80);
   }
-  return param_1;
+  return self;
 }
-

@@ -1,57 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CFC050();
+struct ctx {
+  int pad[3];
+  void *alloc;
+};
 
+struct str {
+  char *data;
+  int len;
+  unsigned int cap;
+  char buf[0x20];
+};
 
-int * fn_82D052F0(int *param_1,undefined8 param_2,int param_3)
+extern struct ctx *fn_82CE5410(void);
+extern void fn_82CE6310(void *alloc, struct str *s, int cap, int keep);
+extern void fn_82CFC050(char *dst, const char *src, int n);
 
+struct str *fn_82D052F0(struct str *s, const char *src, int n)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  *param_1 = (int)(param_1 + 3);
-  param_1[2] = -0x7fffffe0;
-  param_1[1] = 0;
-  iVar3 = param_3 + 1;
-  iVar1 = fn_82CE5410();
-  if ((int)(param_1[2] & 0x3fffffffU) < iVar3) {
-    iVar2 = (param_1[2] & 0x3fffffffU) << 1;
-    if (iVar2 <= iVar3) {
-      iVar2 = iVar3;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar1 + 0xc),param_1,iVar2,1);
-  }
-  param_1[1] = iVar3;
-  *(undefined1 *)(*param_1 + param_3) = 0;
-  fn_82CFC050(*param_1,param_2,param_3);
-  return param_1;
-}
+  int len;
+  void *alloc;
+  int cap;
+  int newcap;
 
+  s->data = s->buf;
+  s->cap = 0x80000020;
+  s->len = 0;
+  len = n + 1;
+  alloc = fn_82CE5410()->alloc;
+  cap = s->cap & 0x3fffffff;
+  if (cap < len) {
+    newcap = cap * 2;
+    fn_82CE6310(alloc, s, len < newcap ? newcap : len, 1);
+  }
+  s->len = len;
+  s->data[n] = 0;
+  fn_82CFC050(s->data, src, n);
+  return s;
+}

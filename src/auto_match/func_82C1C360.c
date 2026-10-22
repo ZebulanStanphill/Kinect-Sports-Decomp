@@ -1,62 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C2ECD8();
+extern void fn_82C2ECD8(void *a, int b, int c, int d, int *arr, int e, int n);
 
+typedef struct {
+    char pad0[0x10];
+    unsigned char *p10;
+} Sub;
 
-undefined8 fn_82C1C360(int param_1,int param_2)
+typedef struct {
+    char pad0[4];
+    int f4;
+    int *arr;
+    char padC[0x34];
+    int max;
+    char pad44[0x32];
+    short f76;
+    char pad78[0x130];
+    Sub *sub;
+    int f1AC;
+    int f1B0;
+    char pad1B4[8];
+    int f1BC;
+} B;
 
+typedef struct {
+    char pad0[0x130];
+    int n;
+} A;
+
+int fn_82C1C360(A *a, B *b)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  short sVar4;
-  
-  if (*(int *)(param_2 + 0x1bc) != 0) {
-    fn_82C2ECD8(param_1,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 0x1ac),
-                      *(undefined4 *)(param_2 + 0x1b0),*(undefined4 *)(param_2 + 8),
-                      *(undefined2 *)(param_2 + 0x76),*(undefined4 *)(param_1 + 0x130));
-    iVar2 = **(int **)(param_2 + 8);
-    if (1 < *(int *)(param_1 + 0x130)) {
-      iVar3 = 1;
-      iVar1 = 4;
-      do {
-        iVar1 = *(int *)(iVar1 + (int)*(int **)(param_2 + 8));
-        if (iVar2 < iVar1) {
-          iVar2 = iVar1;
+    if (b->f1BC != 0) {
+        int max;
+        short i;
+        fn_82C2ECD8(a, b->f4, b->f1AC, b->f1B0, b->arr, b->f76, a->n);
+        max = b->arr[0];
+        for (i = 1; i < a->n; i++) {
+            if (b->arr[i] > max) {
+                max = b->arr[i];
+            }
         }
-        sVar4 = (short)iVar3 + 1;
-        iVar3 = (int)sVar4;
-        iVar1 = iVar3 << 2;
-      } while ((int)sVar4 < *(int *)(param_1 + 0x130));
+        b->max = max;
+        *b->sub->p10 = 0;
     }
-    *(int *)(param_2 + 0x40) = iVar2;
-    **(undefined1 **)(*(int *)(param_2 + 0x1a8) + 0x10) = 0;
-  }
-  return 0;
+    return 0;
 }
-

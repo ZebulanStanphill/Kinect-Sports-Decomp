@@ -1,42 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Peer Peer;
+typedef struct {
+  void *f[12];
+  void (*f30)(Peer *p, int a, int b);
+} PeerVtbl;
+struct Peer { PeerVtbl *vt; };
 
+typedef struct Self Self;
+typedef struct {
+  void (*f0)(Self *s, int flag);
+} SelfVtbl;
+struct Self {
+  SelfVtbl *vt;
+  int f4;
+  int f8;
+  int a;
+  int b;
+  Peer *p1;
+  Peer *p2;
+  int s1;
+  int s2;
+};
 
-void fn_82D6A718(undefined4 *param_1)
-
+void fn_82D6A718(Self *self)
 {
-  if (param_1[7] == 0x1e) {
-    (**(code **)(*(int *)param_1[5] + 0x30))((int *)param_1[5],param_1[3],param_1[4]);
+  if (self->s1 == 0x1e) {
+    self->p1->vt->f30(self->p1, self->a, self->b);
   }
-  if (param_1[8] == 0x1e) {
-    (**(code **)(*(int *)param_1[6] + 0x30))((int *)param_1[6],param_1[4],param_1[3]);
+  if (self->s2 == 0x1e) {
+    self->p2->vt->f30(self->p2, self->b, self->a);
   }
-  (**(code **)*param_1)(param_1,1);
-  return;
+  self->vt->f0(self, 1);
 }
-

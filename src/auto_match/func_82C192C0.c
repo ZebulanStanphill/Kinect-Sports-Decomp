@@ -1,58 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C2EFF8();
+typedef struct Entry {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+    char pad10[0x88 - 0x10];
+    int f88;
+    int f8c;
+    int f90;
+    int f94;
+} Entry;
 
+typedef struct Ctx {
+    char pad0[0x22];
+    unsigned short f22;
+    char pad24[0x3c - 0x24];
+    int f3c;
+    char pad40[0x230 - 0x40];
+    int f230;
+    int f234;
+    char pad238[0x23c - 0x238];
+    int count;
+    Entry *entries;
+} Ctx;
 
-undefined8 fn_82C192C0(int *param_1)
+extern int fn_82C2EFF8(int, int, int, unsigned short, int, int, int);
 
+int fn_82C192C0(Ctx **param_1)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar1 = *param_1;
-  uVar2 = 0;
-  if ((2 < *(int *)(iVar1 + 0x3c)) && (iVar4 = 0, 0 < *(int *)(iVar1 + 0x23c))) {
-    iVar5 = 0;
-    do {
-      puVar3 = (undefined4 *)(*(int *)(iVar1 + 0x240) + iVar5);
-      if ((puVar3[3] == 0) &&
-         (uVar2 = fn_82C2EFF8(puVar3[0x22],puVar3[0x23],*puVar3,*(undefined2 *)(iVar1 + 0x22),
-                                  puVar3[0x25],*(undefined4 *)(iVar1 + 0x230),
-                                  *(undefined4 *)(iVar1 + 0x234)), (int)uVar2 < 0)) {
-        return uVar2;
-      }
-      iVar4 = iVar4 + 1;
-      iVar5 = iVar5 + 0x98;
-    } while (iVar4 < *(int *)(iVar1 + 0x23c));
-  }
-  return uVar2;
-}
+    Ctx *c = *param_1;
+    int r = 0;
+    int i;
 
+    if (c->f3c <= 2)
+        return 0;
+    for (i = 0; i < c->count; i++) {
+        Entry *e = &c->entries[i];
+        if (e->fc == 0) {
+            r = fn_82C2EFF8(e->f88, e->f8c, e->f0, c->f22, e->f94, c->f230, c->f234);
+            if (r < 0)
+                return r;
+        }
+    }
+    return r;
+}
