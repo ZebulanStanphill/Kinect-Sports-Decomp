@@ -29,10 +29,10 @@ extern int fn_82639380();
 extern int fn_82639528();
 
 
-void fn_826777B8(int param_1,longlong param_2)
+void fn_826777B8(int param_1,int param_2)
 
 {
-  bool bVar1;
+  unsigned int bVar1;
   
   if (*(int *)(param_1 + 0x1cc) != (int)param_2) {
     *(int *)(param_1 + 0x1cc) = (int)param_2;

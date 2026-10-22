@@ -17,7 +17,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_826A12A0(int param_1,uint param_2)
+void fn_826A12A0(int param_1,unsigned char param_2)
 
 {
   *(uint *)(param_1 + 0x8c) = (param_2 & 3) << 0x10 | *(uint *)(param_1 + 0x8c) & 0xfffcffff;

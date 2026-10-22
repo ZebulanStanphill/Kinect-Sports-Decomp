@@ -35,7 +35,7 @@ void fn_82693078(undefined4 *param_1,undefined8 param_2)
   
   uVar1 = param_1[1];
   param_1[1] = (int)((ulonglong)uVar1 - 1);
-  if ((ulonglong)uVar1 - 1 == 0) {
+  if ((unsigned int)uVar1 - 1 == 0) {
     fn_826914C8(param_2,*param_1,0x400,0x400);
     *param_1 = 0;
   }

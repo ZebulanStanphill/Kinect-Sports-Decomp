@@ -31,7 +31,7 @@ extern int fn_82A2A518();
 bool fn_8267B238(undefined8 param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82A2A518(param_2,0,0x8000);
   return lVar1 != 0;

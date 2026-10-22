@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8268B0C0();
-extern int fn_826BD598();
+extern __int64 fn_826BD598();
 extern int fn_826BD620();
 
 
-void fn_8268B190(uint *param_1,ulonglong param_2,undefined8 param_3)
+void fn_8268B190(uint *param_1,unsigned int param_2,undefined8 param_3)
 
 {
   uint uVar1;

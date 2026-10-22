@@ -29,10 +29,10 @@ extern int fn_826914D0();
 extern int fn_82692948();
 
 
-void fn_8267B7E0(int param_1,ulonglong param_2)
+void fn_8267B7E0(int param_1,unsigned int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   
   RtlEnterCriticalSection(param_1 + 0x48);

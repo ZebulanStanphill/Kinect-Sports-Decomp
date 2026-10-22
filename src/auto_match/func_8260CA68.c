@@ -33,7 +33,7 @@ extern int fn_827DDDD8();
 bool fn_8260CA68(longlong param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined4 auStack_30;
   
   RtlEnterCriticalSection(param_1 + 0x1a0);

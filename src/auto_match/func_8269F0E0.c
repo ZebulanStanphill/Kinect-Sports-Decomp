@@ -30,7 +30,7 @@ extern int fn_8267BE38();
 extern int fn_8269A990();
 
 
-int fn_8269F0E0(int param_1,ulonglong param_2)
+int fn_8269F0E0(int param_1,unsigned int param_2)
 
 {
   fn_8269A990(*(undefined4 *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0x14));

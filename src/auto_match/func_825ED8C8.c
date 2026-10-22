@@ -30,7 +30,7 @@ extern int fn_8265CA20();
 extern unsigned int lbl_821CA230;
 
 
-undefined4 * fn_825ED8C8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_825ED8C8(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_821CA230;

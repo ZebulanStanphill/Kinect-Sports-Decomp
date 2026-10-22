@@ -29,7 +29,7 @@ extern int fn_8267BE38();
 extern int fn_8269A990();
 
 
-undefined4 * fn_8269EC08(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_8269EC08(undefined4 *param_1,unsigned int param_2)
 
 {
   fn_8269A990(*param_1,param_1[1]);
