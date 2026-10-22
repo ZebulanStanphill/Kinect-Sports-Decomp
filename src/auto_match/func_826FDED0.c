@@ -34,7 +34,7 @@ undefined4 * fn_826FDED0(undefined4 *param_1,undefined8 param_2)
 {
   param_1[1] = 1;
   *param_1 = &lbl_8200DDC4;
-  fn_8268C3A8(param_1 + 2);
+  fn_8268C3A8(param_1 + 2,param_2);
   fn_8268C3A8(param_1 + 4,param_2);
   param_1[6] = 0;
   param_1[7] = 0;

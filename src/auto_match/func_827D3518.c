@@ -27,18 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_827D3518(int param_1)
+int fn_827D3518(unsigned int param_1)
 
 {
-  if (((param_1 != 0) && (*(int *)(param_1 + 0x1c) != 0)) &&
+  if (((param_1 != 0) && (*(void **)(param_1 + 0x1c) != 0)) &&
      (*(code **)(param_1 + 0x24) != (code *)0x0)) {
-    if (*(int *)(*(int *)(param_1 + 0x1c) + 0x34) != 0) {
-      (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28));
+    if (*(void **)(*(int *)(param_1 + 0x1c) + 0x34) != 0) {
+      (*(code *)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x34));
     }
-    (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x1c));
+    (*(code *)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x1c));
     *(undefined4 *)(param_1 + 0x1c) = 0;
     return 0;
   }
-  return 0xfffffffffffffffe;
+  return -2;
 }
 

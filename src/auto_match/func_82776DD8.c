@@ -1,56 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82775EB0();
-extern int fn_827B8018();
-
-
-void fn_82776DD8(int param_1)
-
-{
-  int iVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x3c);
-  while (iVar1 != param_1 + 0x38) {
-    puVar3 = (undefined4 *)(iVar1 + 8);
-    if (*(int *)(iVar1 + 8) != 0) {
-      fn_82775EB0(*(int *)(iVar1 + 8),1);
-    }
-    iVar1 = *(int *)(iVar1 + 4);
-    *puVar3 = 0;
-  }
-  fn_827B8018(param_1 + 0x40);
-  piVar2 = *(int **)(param_1 + 4);
-  if ((piVar2 != (int *)0x0) && (*(char *)(param_1 + 0x18) != '\0')) {
-    (**(code **)(*piVar2 + 0x88))(piVar2,param_1 + 0x10);
-    *(undefined4 *)(param_1 + 4) = 0;
-  }
-  return;
-}
-
+typedef struct Node { struct Node *prev,*next; void *value; } Node;
+typedef int (*Method)();
+typedef struct { int a; void *obj; char pad[0x10]; unsigned char flag; char pad2[0x1f]; Node root; } Obj;
+extern void fn_82775EB0(void *,int);
+extern void fn_827B8018(void *);
+void fn_82776DD8(Obj *o) { Node *n=o->root.next; while(n!=&o->root) { void **p=&n->value; if(*p) fn_82775EB0(*p,1); n=n->next; *p=0; } fn_827B8018((char*)o+0x40); if(o->obj && o->flag) { (*(Method *)((*(int*)o->obj)+0x88))(o->obj,(char*)o+0x10); o->obj=0; } }

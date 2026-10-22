@@ -33,7 +33,7 @@ void fn_8270EAD8(int param_1,undefined2 param_2,undefined1 param_3,undefined4 pa
 {
   uint uVar1;
   
-  if (99 < *(uint *)(param_1 + 0x648)) {
+  if (100 <= *(uint *)(param_1 + 0x648)) {
     return;
   }
   *(undefined2 *)(*(int *)(param_1 + 0x640) * 0x10 + param_1 + 4) = param_2;
@@ -43,7 +43,7 @@ void fn_8270EAD8(int param_1,undefined2 param_2,undefined1 param_3,undefined4 pa
   *(undefined1 *)(*(int *)(param_1 + 0x640) * 0x10 + param_1 + 0xd) = param_6;
   uVar1 = *(int *)(param_1 + 0x640) + 1;
   *(uint *)(param_1 + 0x640) = uVar1;
-  if (99 < uVar1) {
+  if (100 <= uVar1) {
     *(undefined4 *)(param_1 + 0x640) = 0;
   }
   *(int *)(param_1 + 0x648) = *(int *)(param_1 + 0x648) + 1;

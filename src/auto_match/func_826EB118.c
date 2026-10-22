@@ -15,7 +15,7 @@ typedef unsigned __int64 undefined8;
 typedef unsigned __int64 ulonglong;
 typedef unsigned __int64 qword;
 typedef __int64 longlong;
-typedef int (*code)();
+typedef unsigned char (*code)();
 typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
@@ -26,24 +26,24 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
-extern int fn_8267BED0();
-extern int fn_826EAF30();
+extern void *fn_8267BED0();
+extern void *fn_826EAF30();
 
 
-undefined8
-fn_826EB118(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5)
+void *
+fn_826EB118(void * param_1,int *param_2,void * param_3,void * param_4,
+             void * param_5)
 
 {
-  char cVar3;
-  ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned char cVar3;
+  void *uVar1;
+  void * uVar2;
   undefined4 auStack_40;
   
-  if ((param_2 != (int *)0x0) && (cVar3 = (**(code **)(*param_2 + 0xc))(param_2), cVar3 != '\0')) {
+  if ((param_2 != (int *)0x0) && (cVar3 = (*(code *)(*param_2 + 0xc))(param_2), cVar3 != '\0')) {
     auStack_40 = 2;
     uVar1 = fn_8267BED0(param_1,0x1f8,&auStack_40);
-    if ((uVar1 & 0xffffffff) != 0) {
+    if (uVar1 != 0) {
       uVar2 = fn_826EAF30(uVar1,param_2,param_3,param_4,param_5);
       return uVar2;
     }

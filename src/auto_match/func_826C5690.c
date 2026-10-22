@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_826C5690(int *param_1,undefined8 param_2)
+int fn_826C5690(int *param_1,int param_2)
 
 {
   int *piVar1;
-  char cVar3;
-  undefined8 uVar2;
+  unsigned char cVar3;
+  int uVar2;
   
-  if ((((((uint)param_1[0x23] >> 4 & 1) != 0) && (param_1[0x6a] < 0)) &&
-      (cVar3 = (**(code **)(*param_1 + 0x6c))(), cVar3 == '\0')) &&
+  if ((((((unsigned char)((struct Flags { unsigned pad:27; unsigned flag:1; unsigned rest:4; } *)(param_1 + 0x23))->flag) != 0) && (param_1[0x6a] < 0)) &&
+      (cVar3 = (*(unsigned char (**)(int *))(*param_1 + 0x6c))(param_1), cVar3 == '\0')) &&
      (piVar1 = (int *)param_1[8], piVar1 != (int *)0x0)) {
-    uVar2 = (**(code **)(*piVar1 + 0xe8))(piVar1,param_2);
+    uVar2 = (*(code *)(*piVar1 + 0xe8))(piVar1,param_2);
     return uVar2;
   }
   return 0;

@@ -1,50 +1,5 @@
-typedef unsigned char undefined1;
 typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8278CF00();
-
-
-void fn_8278D2E0(int param_1,byte param_2)
-
-{
-  byte bVar1;
-  
-  if (((*(ushort *)(param_1 + 0x2a) >> 0xb & 1) != 0) &&
-     ((*(byte *)(param_1 + 0x28) & 1) != param_2)) {
-    fn_8278CF00();
-  }
-  if (param_2 == 0) {
-    bVar1 = *(byte *)(param_1 + 0x28) & 0xfe;
-  }
-  else {
-    bVar1 = *(byte *)(param_1 + 0x28) | 1;
-  }
-  *(byte *)(param_1 + 0x28) = bVar1;
-  *(ushort *)(param_1 + 0x2a) = *(ushort *)(param_1 + 0x2a) | 0x10;
-  return;
-}
-
+typedef struct { unsigned short a:4; unsigned short active:1; unsigned short rest:11; } Flags;
+typedef struct { char pad[0x28]; byte state; byte spare; Flags flags; } Obj;
+extern void fn_8278CF00(Obj *);
+void fn_8278D2E0(Obj *o,byte b) { if((byte)o->flags.active && ((o->state&1)!=b)) fn_8278CF00(o); if(b) o->state|=1; else o->state&=~1; *(unsigned short *)&o->flags |= 0x10; }

@@ -37,14 +37,14 @@ extern int fn_826FA300();
 void fn_826E2CE8(int param_1)
 
 {
-  undefined8 uVar1;
-  longlong lVar2;
+  int uVar1;
+  int lVar2;
   int iVar3;
   undefined4 auStack_30;
   
-  fn_826A9280(param_1 + 0x14,0xffffffff8200d098);
+  fn_826A9280(param_1 + 0x14,"  PlaceObject\n");
   iVar3 = *(int *)(param_1 + 0x314);
-  if (iVar3 == 0) {
+  if ((void *)iVar3 == 0) {
     iVar3 = param_1 + 0x28;
   }
   uVar1 = fn_826FA300(iVar3);

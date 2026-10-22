@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8270AF50(undefined4 *param_1,int *param_2,int *param_3)
 
 {
-  int iVar1;
+  uint iVar1;
   undefined4 *puVar2;
   
   iVar1 = *param_2;
@@ -39,7 +39,7 @@ void fn_8270AF50(undefined4 *param_1,int *param_2,int *param_3)
       *param_1 = param_3;
     }
     else {
-      *(int **)((2 - (uint)(param_2 == *(int **)(iVar1 + 4))) * 4 + iVar1) = param_3;
+      *(int **)((1 + (uint)(*(int **)(iVar1 + 4) != param_2)) * 4 + iVar1) = param_3;
     }
     if (param_3 != (int *)0x0) {
       *param_3 = iVar1;

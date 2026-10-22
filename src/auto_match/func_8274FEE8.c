@@ -1,3 +1,4 @@
+extern char lbl_8201377C[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -43,7 +44,7 @@ undefined4 * fn_8274FEE8(undefined4 *param_1,undefined8 param_2)
   param_1[4] = &lbl_82013810;
   param_1[0xf] = &lbl_82013808;
   auStack_20[0] = 0;
-  fn_826BF638(param_1 + 0xf,param_1,param_2,0xffffffff8201377c,auStack_20);
+  fn_826BF638(param_1 + 0xf,param_1,param_2,lbl_8201377C,auStack_20);
   return param_1;
 }
 

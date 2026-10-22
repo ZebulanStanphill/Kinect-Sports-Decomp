@@ -34,11 +34,11 @@ void fn_826DFDD0(int param_1,int param_2)
 {
   int *piVar1;
   undefined4 uVar2;
-  int iVar3;
+  unsigned int iVar3;
   
   piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 0x24);
   if (piVar1 == (int *)0x0) {
-    fn_826DFA28(param_1 + 0x14,0xffffffff8200c940);
+    fn_826DFA28(param_1 + 0x14,"Error: Jpeg System is not installed - can't load jpeg image data\n");
   }
   else if (0 < *(int *)(param_2 + 8)) {
     iVar3 = *(int *)(param_1 + 0x314);
@@ -47,7 +47,7 @@ void fn_826DFDD0(int param_1,int param_2)
     }
     fn_826E7998(iVar3);
     *(undefined1 *)(iVar3 + 0x38) = 1;
-    uVar2 = (**(code **)(*piVar1 + 4))(piVar1,*(undefined4 *)(iVar3 + 0x10));
+    uVar2 = (*(code *)(*piVar1 + 4))(piVar1,*(undefined4 *)(iVar3 + 0x10));
     *(undefined4 *)(param_1 + 0x2b4) = uVar2;
   }
   return;

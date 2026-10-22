@@ -36,10 +36,7 @@ fn_827F4248(undefined4 *param_1,undefined4 param_2,undefined **param_3,undefined
 
 {
   *param_1 = &lbl_8201DD34;
-  if (param_3 == (undefined **)0x0) {
-    param_3 = &lbl_83156AB4;
-  }
-  param_1[1] = param_3;
+  param_1[1] = param_3 ? param_3 : &lbl_83156AB4;
   param_1[2] = param_2;
   param_1[3] = 0;
   param_1[4] = 0;

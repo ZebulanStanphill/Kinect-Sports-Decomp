@@ -27,8 +27,9 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82518FF0();
 extern int fn_828223C8();
-extern unsigned int iStack_40;
+extern unsigned unsigned int iStack_40;
 
+static unsigned int next(unsigned int p) { unsigned int n; fn_828223C8(p,&n); return n; }
 
 void fn_82827308(int param_1,int *param_2)
 
@@ -36,17 +37,17 @@ void fn_82827308(int param_1,int *param_2)
   undefined4 *puVar1;
   bool bVar2;
   int iVar3;
-  int iStack_40;
+  unsigned int iStack_40;
   undefined4 * apuStack_3c;
   
   iVar3 = *(int *)(param_1 + 0x28);
   param_1 = param_1 + 0x2f4;
-  while (fn_828223C8(param_1,&iStack_40), param_1 = iStack_40, iStack_40 != 0) {
+  while (param_1 = next(param_1), (unsigned int)param_1 != 0) {
     bVar2 = false;
-    puVar1 = *(undefined4 **)(*(int *)(iStack_40 + 0x28) + 4);
+    puVar1 = *(undefined4 **)(*(int *)(param_1 + 0x28) + 4);
     apuStack_3c = (undefined4 *)*puVar1;
     while (apuStack_3c != puVar1) {
-      if (apuStack_3c[5] != 0) {
+      if ((void *)apuStack_3c[5] != 0) {
         bVar2 = true;
       }
       fn_82518FF0(&apuStack_3c);

@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_8270C838(int param_1)
+int fn_8270C838(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if (*(int *)(param_1 + 0x10) == 1) {
-    lVar1 = ((*(ulonglong *)(param_1 + 0x20) & 0xffffffff) - (ulonglong)*(uint *)(param_1 + 0x18)) +
-            (ulonglong)*(uint *)(param_1 + 0x14);
+    lVar1 = ((uint)*(ulonglong *)(param_1 + 0x20) - *(uint *)(param_1 + 0x18)) +
+            *(uint *)(param_1 + 0x14);
   }
   else {
-    lVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x10))();
+    lVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x10))(*(int **)(param_1 + 8));
     if (((int)lVar1 != -1) && (*(int *)(param_1 + 0x10) == 2)) {
-      lVar1 = (ulonglong)*(uint *)(param_1 + 0x14) + lVar1;
+      lVar1 = *(uint *)(param_1 + 0x14) + lVar1;
     }
   }
   return lVar1;
