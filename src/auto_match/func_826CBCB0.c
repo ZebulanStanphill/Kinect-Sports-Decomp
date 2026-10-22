@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern int fn_8267B890();
 
 
-void fn_826CBCB0(undefined4 *param_1)
+undefined4 *fn_826CBCB0(undefined4 *param_1)
 
 {
   uint uVar1;
@@ -38,7 +38,10 @@ void fn_826CBCB0(undefined4 *param_1)
   undefined4 auStack_20 [2];
   
   puVar2 = (undefined4 *)param_1[3];
-  if (puVar2 == (undefined4 *)0x0) {
+  if (puVar2 != (undefined4 *)0) {
+    param_1[3] = *puVar2;
+  } else {
+
     uVar1 = param_1[2];
     if (uVar1 < 0x32) {
       iVar3 = uVar1 + 1;
@@ -47,25 +50,22 @@ void fn_826CBCB0(undefined4 *param_1)
     else {
       auStack_20[0] = 2;
       puVar2 = (undefined4 *)fn_8267B890(param_1[4],0xaf4,auStack_20);
-      puVar2[700] = 0;
-      if (param_1[1] == 0) {
-        *param_1 = puVar2;
-      }
-      else {
+      puVar2[0xaf0/4] = 0;
+      if (param_1[1] != 0) {
         *(undefined4 **)(param_1[1] + 0xaf0) = puVar2;
+      } else {
+        *param_1 = puVar2;
       }
       iVar3 = 1;
       param_1[1] = puVar2;
     }
     param_1[2] = iVar3;
-  }
-  else {
-    param_1[3] = *puVar2;
-  }
+    }
   if (puVar2 != (undefined4 *)0x0) {
     puVar2[2] = 0xffffffff;
-    puVar2[4] = 0;
-    puVar2[5] = 0;
+    { unsigned int *v = puVar2 + 4;
+      v[0] = 0;
+      v[1] = 0; }
     puVar2[6] = 0;
     puVar2[7] = 0;
     puVar2[8] = 0;
@@ -76,6 +76,6 @@ void fn_826CBCB0(undefined4 *param_1)
     *(undefined1 *)(puVar2 + 0xd) = 0xff;
     *(undefined1 *)((int)puVar2 + 0x35) = 0;
   }
-  return;
+  return puVar2;
 }
 

@@ -1,54 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj Obj;
+typedef struct Dev Dev;
+typedef struct Node Node;
 
+typedef struct DevVtbl {
+  void *pad0[11];
+  void (*f2c)(Dev *self, int a);
+  void (*f30)(Dev *self);
+  void *pad34[14];
+  void (*f6c)(Dev *self, int a);
+  void (*f70)(Dev *self);
+} DevVtbl;
+struct Dev {
+  DevVtbl *vtbl;
+};
 
-void fn_8270D570(int *param_1,int *param_2)
+typedef struct NodeVtbl {
+  void *pad0[3];
+  int (*f0c)(Node *self);
+  void *pad10[20];
+  void (*f60)(Node *self, Obj *o);
+} NodeVtbl;
+struct Node {
+  NodeVtbl *vtbl;
+};
 
+typedef struct Owner {
+  char pad[0xc];
+  Dev *dev;
+} Owner;
+
+struct Obj {
+  Owner *owner;
+  char pad4[0x48];
+  int x4c;
+  int x50;
+  unsigned int count;
+  Node *stack[0x40];
+};
+
+void fn_8270D570(Obj *o, Node *n)
 {
-  int *piVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  piVar1 = *(int **)(*param_1 + 0xc);
-  (**(code **)(*piVar1 + 0x6c))(piVar1,param_1[0x15] != 0);
-  if ((uint)param_1[0x15] < 0x40) {
-    param_1[param_1[0x15] + 0x16] = (int)param_2;
-  }
-  param_1[0x15] = param_1[0x15] + 1;
-  param_1[0x14] = param_1[0x14] + 1;
-  param_1[0x13] = param_1[0x13] + 1;
-  iVar2 = *piVar1;
-  uVar3 = (**(code **)(*param_2 + 0xc))(param_2);
-  (**(code **)(iVar2 + 0x2c))(piVar1,uVar3);
-  (**(code **)(*param_2 + 0x60))(param_2,param_1);
-  (**(code **)(*piVar1 + 0x30))(piVar1);
-  param_1[0x13] = param_1[0x13] + -1;
-  (**(code **)(*piVar1 + 0x70))(piVar1);
-  return;
-}
+  Dev *dev = o->owner->dev;
 
+  dev->vtbl->f6c(dev, o->count != 0);
+  if (o->count < 0x40) {
+    o->stack[o->count] = n;
+  }
+  o->count++;
+  o->x50++;
+  o->x4c++;
+  dev->vtbl->f2c(dev, n->vtbl->f0c(n));
+  n->vtbl->f60(n, o);
+  dev->vtbl->f30(dev);
+  o->x4c--;
+  dev->vtbl->f70(dev);
+}

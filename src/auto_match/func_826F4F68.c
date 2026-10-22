@@ -1,73 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826F4470();
+typedef struct Obj Obj;
+typedef void (*VFn)(Obj *, int);
+struct Obj { VFn *vt; };
+typedef struct { Obj **data; unsigned int size; unsigned int cap; } Vec;
+typedef struct {
+  char pad[0x2f0];
+  Vec a; /* 0x2f0 */
+  Vec b; /* 0x2fc */
+  Vec c; /* 0x308 */
+} Self;
+extern void fn_826F4470(Vec *v, int x);
 
-
-void fn_826F4F68(int param_1)
-
+void fn_826F4F68(Self *p)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x300) != 0) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + *(int *)(param_1 + 0x2fc));
-      (**(code **)*puVar1)(puVar1,0);
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < *(uint *)(param_1 + 0x300));
-  }
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x2f4) != 0) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + *(int *)(param_1 + 0x2f0));
-      (**(code **)*puVar1)(puVar1,0);
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < *(uint *)(param_1 + 0x2f4));
-  }
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x30c) != 0) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + *(int *)(param_1 + 0x308));
-      (**(code **)*puVar1)(puVar1,0);
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < *(uint *)(param_1 + 0x30c));
-  }
-  fn_826F4470(param_1 + 0x2fc,0);
-  fn_826F4470(param_1 + 0x2f0,0);
-  fn_826F4470(param_1 + 0x308,0);
-  return;
+  unsigned int i;
+  for (i = 0; i < p->b.size; i++)
+    p->b.data[i]->vt[0](p->b.data[i], 0);
+  for (i = 0; i < p->a.size; i++)
+    p->a.data[i]->vt[0](p->a.data[i], 0);
+  for (i = 0; i < p->c.size; i++)
+    p->c.data[i]->vt[0](p->c.data[i], 0);
+  fn_826F4470(&p->b, 0);
+  fn_826F4470(&p->a, 0);
+  fn_826F4470(&p->c, 0);
 }
-

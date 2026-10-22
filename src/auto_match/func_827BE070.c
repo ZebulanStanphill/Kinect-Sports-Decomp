@@ -1,80 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827BDB78();
-extern int fn_827C2580();
+typedef unsigned char boolean;
+typedef struct jpeg_decompress_struct *j_decompress_ptr;
 
+struct jpeg_error_mgr {
+    void (*error_exit)(j_decompress_ptr cinfo);
+    int pad4[4];
+    int msg_code;                       /* 0x14 */
+    union { int i[8]; } msg_parm;       /* 0x18 */
+};
 
-undefined8 fn_827BE070(int *param_1)
+struct jpeg_progress_mgr {
+    void (*progress_monitor)(j_decompress_ptr cinfo);
+    long pass_counter;
+    long pass_limit;
+};
 
+struct jpeg_input_controller {
+    int (*consume_input)(j_decompress_ptr cinfo);
+    int pad4[3];
+    boolean has_multiple_scans;         /* 0x10 */
+};
+
+struct jpeg_decompress_struct {
+    struct jpeg_error_mgr *err;         /* 0x00 */
+    int pad4;
+    struct jpeg_progress_mgr *progress; /* 0x08 */
+    int padc[2];
+    int global_state;                   /* 0x14 */
+    int pad18[10];
+    boolean buffered_image;             /* 0x40 */
+    int pad44[14];
+    int input_scan_number;              /* 0x7c */
+    int pad80;
+    int output_scan_number;             /* 0x84 */
+    int pad88[37];
+    unsigned int total_iMCU_rows;       /* 0x11c */
+    int pad120[28];
+    struct jpeg_input_controller *inputctl; /* 0x190 */
+};
+
+extern int fn_827BDB78(j_decompress_ptr cinfo);
+extern void fn_827C2580(j_decompress_ptr cinfo);
+
+int fn_827BE070(j_decompress_ptr cinfo)
 {
-  int iVar1;
-  int iVar3;
-  undefined8 uVar2;
-  int iVar4;
-  
-  if (param_1[5] == 0xca) {
-    fn_827C2580();
-    if (*(char *)(param_1 + 0x10) != '\0') {
-      param_1[5] = 0xcf;
-      return 1;
+    if (cinfo->global_state == 202) {
+        fn_827C2580(cinfo);
+        if (cinfo->buffered_image) {
+            cinfo->global_state = 207;
+            return 1;
+        }
+        cinfo->global_state = 203;
     }
-    param_1[5] = 0xcb;
-  }
-  if (param_1[5] == 0xcb) {
-    if (*(char *)(param_1[100] + 0x10) != '\0') {
-      while( true ) {
-        if ((undefined4 *)param_1[2] != (undefined4 *)0x0) {
-          (**(code **)param_1[2])(param_1);
+    if (cinfo->global_state == 203) {
+        if (cinfo->inputctl->has_multiple_scans) {
+            for (;;) {
+                int retcode;
+                if (cinfo->progress != 0)
+                    (*cinfo->progress->progress_monitor)(cinfo);
+                retcode = (*cinfo->inputctl->consume_input)(cinfo);
+                if (retcode == 0)
+                    return 0;
+                if (retcode == 2)
+                    break;
+                if (cinfo->progress != 0 &&
+                    (retcode == 3 || retcode == 1)) {
+                    if (++cinfo->progress->pass_counter >= cinfo->progress->pass_limit) {
+                        cinfo->progress->pass_limit += (long)cinfo->total_iMCU_rows;
+                    }
+                }
+            }
         }
-        iVar3 = (**(code **)param_1[100])(param_1);
-        if (iVar3 == 0) {
-          return 0;
-        }
-        if (iVar3 == 2) break;
-        iVar1 = param_1[2];
-        if ((iVar1 != 0) && ((iVar3 == 3 || (iVar3 == 1)))) {
-          iVar4 = *(int *)(iVar1 + 4) + 1;
-          *(int *)(iVar1 + 4) = iVar4;
-          iVar3 = *(int *)(param_1[2] + 8);
-          if (iVar3 <= iVar4) {
-            *(int *)(param_1[2] + 8) = param_1[0x47] + iVar3;
-          }
-        }
-      }
+        cinfo->output_scan_number = cinfo->input_scan_number;
+    } else if (cinfo->global_state != 204) {
+        cinfo->err->msg_code = 20;
+        cinfo->err->msg_parm.i[0] = cinfo->global_state;
+        (*cinfo->err->error_exit)(cinfo);
     }
-    param_1[0x21] = param_1[0x1f];
-  }
-  else if (param_1[5] != 0xcc) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)(param_1);
-  }
-  uVar2 = fn_827BDB78(param_1);
-  return uVar2;
+    return fn_827BDB78(cinfo);
 }
-

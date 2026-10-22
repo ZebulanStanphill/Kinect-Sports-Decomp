@@ -31,11 +31,13 @@ extern int fn_827A36C0();
 extern int fn_827AEE00();
 
 
-void fn_827A3960(int param_1,longlong param_2,ulonglong param_3,int param_4)
+typedef struct { unsigned a,b,c; unsigned char d; } Item;
+static void copy(Item *d,const Item *s) {d->a=s->a; d->b=s->b; d->c=s->c; d->d=s->d;}
+void fn_827A3960(int param_1,uint param_2,uint param_3,int param_4)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
+  uint uVar2;
   undefined4 *puVar3;
   int iVar4;
   
@@ -50,15 +52,12 @@ void fn_827A3960(int param_1,longlong param_2,ulonglong param_3,int param_4)
     puVar3[2] = (int)param_2;
     puVar3[1] = (int)param_3;
     *puVar3 = uVar1;
-    puVar3[6] = *(undefined4 *)(iVar4 + 0x44);
-    puVar3[7] = *(undefined4 *)(iVar4 + 0x48);
-    puVar3[8] = *(undefined4 *)(iVar4 + 0x4c);
-    *(undefined1 *)(puVar3 + 9) = *(undefined1 *)(iVar4 + 0x50);
+    copy((Item *)(puVar3+6),(const Item *)(iVar4+0x44));
     fn_82799C20(*(undefined4 *)(*(int *)(param_1 + 0xc) + 8),puVar3);
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_827A36C0(*(int *)(param_1 + 0xc),param_2 + param_3 + (ulonglong)*(uint *)(param_1 + 0x30)
+    if ((param_3) != 0) {
+      fn_827A36C0(*(int *)(param_1 + 0xc),param_2 + param_3 + *(uint *)(param_1 + 0x30)
                     ,0,*(byte *)(*(int *)(param_1 + 0xc) + 0x68) & 1);
-      fn_827A36C0(*(int *)(param_1 + 0xc),param_2 + (ulonglong)*(uint *)(param_1 + 0x30),0,
+      fn_827A36C0(*(int *)(param_1 + 0xc),param_2 + *(uint *)(param_1 + 0x30),0,
                     *(byte *)(*(int *)(param_1 + 0xc) + 0x68) & 1);
     }
   }

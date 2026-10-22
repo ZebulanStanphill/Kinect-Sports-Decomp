@@ -1,72 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8270C708();
+typedef struct Inner Inner;
+typedef struct InnerVtbl {
+  char pad[0x38];
+  int (*seek)(Inner *self, unsigned int offset, int origin);
+} InnerVtbl;
+struct Inner { InnerVtbl *vt; };
+typedef struct Stream {
+  int pad0;
+  int pad4;
+  Inner *inner;
+  int padc;
+  int mode;
+  unsigned int pos;
+  unsigned int len;
+  int pad1c;
+  unsigned __int64 filepos;
+} Stream;
+extern void fn_8270C708(Stream *s);
 
-
-ulonglong fn_8270CBA8(int param_1,ulonglong param_2,undefined8 param_3)
-
+unsigned int fn_8270CBA8(Stream *s, unsigned int offset, int origin)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  
-  if (*(int *)(param_1 + 0x10) == 1) {
-    if ((int)param_3 == 1) {
-      uVar1 = *(uint *)(param_1 + 0x14);
-      uVar3 = (ulonglong)*(uint *)(param_1 + 0x18);
-      uVar2 = uVar1 + param_2;
-      if ((uVar2 & 0xffffffff) <= uVar3) {
-        *(int *)(param_1 + 0x14) = (int)uVar2;
-        return ((*(ulonglong *)(param_1 + 0x20) & 0xffffffff) - uVar3) + uVar2;
+  unsigned int np;
+  unsigned int pos;
+  unsigned int len;
+  int r;
+
+  if (s->mode == 1) {
+    if (origin == 1) {
+      pos = s->pos;
+      len = s->len;
+      np = pos + offset;
+      if (np <= len) {
+        s->pos = np;
+        return (unsigned int)s->filepos - len + np;
       }
-      *(undefined4 *)(param_1 + 0x18) = 0;
-      param_3 = 0;
-      *(undefined4 *)(param_1 + 0x14) = 0;
-      param_2 = ((*(ulonglong *)(param_1 + 0x20) & 0xffffffff) - uVar3) + (ulonglong)uVar1 + param_2
-      ;
-      goto LAB_8270cc80;
+      s->len = 0;
+      origin = 0;
+      s->pos = 0;
+      offset = (unsigned int)s->filepos - len + pos + offset;
+      goto do_seek;
     }
-    if ((int)param_3 == 0) {
-      uVar1 = *(uint *)(param_1 + 0x18);
-      if (((param_2 & 0xffffffff) - *(longlong *)(param_1 + 0x20)) + (ulonglong)uVar1 <=
-          (ulonglong)uVar1) {
-        *(uint *)(param_1 + 0x14) = (uVar1 - (int)*(longlong *)(param_1 + 0x20)) + (int)param_2;
-        return param_2;
+    if (origin == 0) {
+      if (offset - s->filepos + s->len <= s->len) {
+        s->pos = s->len - (unsigned int)s->filepos + offset;
+        return offset;
       }
-      *(undefined4 *)(param_1 + 0x18) = 0;
-      *(undefined4 *)(param_1 + 0x14) = 0;
-      goto LAB_8270cc80;
+      s->len = 0;
+      s->pos = 0;
+      goto do_seek;
     }
   }
-  fn_8270C708(param_1);
-LAB_8270cc80:
-  uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x38))(*(int **)(param_1 + 8),param_2,param_3);
-  *(longlong *)(param_1 + 0x20) = (longlong)(int)uVar1;
-  return (ulonglong)uVar1;
+  fn_8270C708(s);
+do_seek:
+  r = s->inner->vt->seek(s->inner, offset, origin);
+  s->filepos = r;
+  return (unsigned int)s->filepos;
 }
-

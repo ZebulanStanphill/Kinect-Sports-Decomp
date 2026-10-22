@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+extern float lbl_82002AE0;
+
 
 
 void fn_82783FB8(int param_1,float *param_2,float *param_3,float *param_4,float *param_5)
@@ -39,11 +39,11 @@ void fn_82783FB8(int param_1,float *param_2,float *param_3,float *param_4,float 
   
   fVar1 = lbl_82002AE0;
   *param_2 = lbl_82002AE0;
-  fVar2 = lbl_821AAD20;
+  fVar2 = 0.0f;
   *param_3 = fVar1;
   *param_4 = fVar2;
   *param_5 = fVar2;
-  if (*(int *)(param_1 + 8) == 0) {
+  if (*(uint *)(param_1 + 8) == 0) {
     return;
   }
   uVar3 = 1;
@@ -53,7 +53,7 @@ void fn_82783FB8(int param_1,float *param_2,float *param_3,float *param_4,float 
   fVar1 = *(float *)(**(int **)(param_1 + 0x14) + 4);
   *param_5 = fVar1;
   *param_3 = fVar1;
-  if (*(uint *)(param_1 + 8) < 2) {
+  if (*(uint *)(param_1 + 8) <= 1) {
     return;
   }
   do {
@@ -65,10 +65,10 @@ void fn_82783FB8(int param_1,float *param_2,float *param_3,float *param_4,float 
     if (pfVar4[1] < *param_3) {
       *param_3 = pfVar4[1];
     }
-    if (*param_4 < *pfVar4) {
+    if (*pfVar4 > *param_4) {
       *param_4 = *pfVar4;
     }
-    if (*param_5 < pfVar4[1]) {
+    if (pfVar4[1] > *param_5) {
       *param_5 = pfVar4[1];
     }
     uVar3 = uVar3 + 1;

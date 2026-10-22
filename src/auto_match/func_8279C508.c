@@ -25,18 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern void fn_82799A98(void);
 extern int fn_8279A860();
-extern int fn_8279AD50();
+extern void *fn_8279AD50();
 extern int fn_8279C440();
-extern unsigned int iStack_20;
-extern unsigned int uStack_1c;
 
 
 void fn_8279C508(int param_1,int param_2)
 
 {
-  int iVar2;
-  undefined8 uVar1;
+  void *iVar2;
+  int uVar1;
   struct { int first; uint second; } stack_pair_20;
 
   
@@ -44,7 +43,7 @@ void fn_8279C508(int param_1,int param_2)
   if (iVar2 == 0) {
     stack_pair_20.second = (uint)*(byte *)(param_2 + 0x2c);
     stack_pair_20.first = param_2;
-    uVar1 = fn_8279A860(param_1,0,*(undefined4 *)(param_1 + 4),&stack_pair_20.first,0xffffffff82799a98);
+    uVar1 = fn_8279A860(param_1,0,*(undefined4 *)(param_1 + 4),&stack_pair_20.first,fn_82799A98);
     fn_8279C440(param_1,uVar1,param_2);
   }
   return;

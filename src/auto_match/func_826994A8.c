@@ -1,44 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82698C48();
+typedef struct Item { int pad[5]; int key; } Item;
+typedef struct Vec { Item **data; unsigned int count; } Vec;
+extern int fn_82698C28();
+extern unsigned int fn_82698C48(Vec *v, int lo, unsigned int hi, int *key, int (*cmp)());
 
-
-uint fn_826994A8(int *param_1,int param_2)
-
+unsigned int fn_826994A8(Vec *v, int key)
 {
-  uint uVar1;
-  int aiStack_20 [2];
-  
-  aiStack_20[0] = param_2;
-  uVar1 = fn_82698C48(param_1,0,param_1[1],aiStack_20,0xffffffff82698c28);
-  if (((uint)param_1[1] <= uVar1) || (*(int *)(*(int *)(uVar1 * 4 + *param_1) + 0x14) != param_2)) {
-    uVar1 = 0xffffffff;
-  }
-  return uVar1;
-}
+    unsigned int i;
+    int k = key;
 
+    i = fn_82698C48(v, 0, v->count, &k, fn_82698C28);
+    if (i >= v->count || v->data[i]->key != key) {
+        i = 0xffffffff;
+    }
+    return i;
+}

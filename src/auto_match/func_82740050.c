@@ -34,32 +34,32 @@ void fn_82740050(int param_1)
   undefined4 *puVar1;
   uint uVar2;
   
-  fn_826BE530();
+  fn_826BE530(param_1);
   puVar1 = *(undefined4 **)(param_1 + 0x38);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] - 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0x10000000) {
       puVar1[2] = uVar2 & 0x8fffffff | 0x10000000;
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
   }
   puVar1 = *(undefined4 **)(param_1 + 0x3c);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] - 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0x10000000) {
       puVar1[2] = uVar2 & 0x8fffffff | 0x10000000;
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
   }
   puVar1 = *(undefined4 **)(param_1 + 0x40);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] - 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0x10000000) {
       puVar1[2] = uVar2 & 0x8fffffff | 0x10000000;
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
   }
   return;

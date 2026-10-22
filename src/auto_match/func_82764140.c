@@ -1,51 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_826EB708();
-extern int fn_82758500();
-extern int fn_8275CEE0();
-extern int fn_8275D0F8();
-extern unsigned int lbl_820147E0;
-extern unsigned int lbl_820149E0;
+typedef struct Vec { int first; int last; int end; } Vec;
+typedef struct P {
+  void *vtable;
+  char pad[0x28 - 4];
+  char m28[0x44 - 0x28];
+  char m44[0x50 - 0x44];
+  Vec v50;
+  Vec v5c;
+} P;
+extern char lbl_820149E0[], lbl_820147E0[];
+extern void fn_82758500(int, int);
+extern void fn_8267BE38(int);
+extern void fn_826EB708(int, int);
+extern void fn_8275D0F8(void *);
+extern void fn_8275CEE0(void *);
 
+static void vec5c_dtor(Vec *v) { fn_82758500(v->first, v->last); fn_8267BE38(v->first); }
+static void vec50_dtor(Vec *v) { fn_826EB708(v->first, v->last); fn_8267BE38(v->first); }
 
-void fn_82764140(undefined4 *param_1)
-
+void fn_82764140(P *p)
 {
-  *param_1 = &lbl_820149E0;
-  fn_82758500(param_1[0x17],param_1[0x18]);
-  fn_8267BE38(param_1[0x17]);
-  fn_826EB708(param_1[0x14],param_1[0x15]);
-  fn_8267BE38(param_1[0x14]);
-  fn_8275D0F8(param_1 + 0x11);
-  fn_8275D0F8(param_1 + 10);
-  *param_1 = &lbl_820147E0;
-  fn_8275CEE0(param_1);
-  return;
+  p->vtable = lbl_820149E0;
+  vec5c_dtor(&p->v5c);
+  vec50_dtor(&p->v50);
+  fn_8275D0F8(p->m44);
+  fn_8275D0F8(p->m28);
+  p->vtable = lbl_820147E0;
+  fn_8275CEE0(p);
 }
-

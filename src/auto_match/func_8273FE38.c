@@ -36,30 +36,30 @@ void fn_8273FE38(int param_1)
   
   fn_826BE6C0();
   puVar1 = *(undefined4 **)(param_1 + 0x38);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] + 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0) {
       puVar1[2] = uVar2 & 0x8fffffff;
-      (**(code **)*puVar1)(puVar1,2);
+      (*(code *)*puVar1)(puVar1,2);
     }
   }
   puVar1 = *(undefined4 **)(param_1 + 0x3c);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] + 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0) {
       puVar1[2] = uVar2 & 0x8fffffff;
-      (**(code **)*puVar1)(puVar1,2);
+      (*(code *)*puVar1)(puVar1,2);
     }
   }
   puVar1 = *(undefined4 **)(param_1 + 0x40);
-  if (puVar1 != (undefined4 *)0x0) {
+  if ((int)puVar1 != 0) {
     uVar2 = puVar1[2] + 1;
     puVar1[2] = uVar2;
     if ((uVar2 & 0x70000000) != 0) {
       puVar1[2] = uVar2 & 0x8fffffff;
-      (**(code **)*puVar1)(puVar1,2);
+      (*(code *)*puVar1)(puVar1,2);
     }
   }
   return;

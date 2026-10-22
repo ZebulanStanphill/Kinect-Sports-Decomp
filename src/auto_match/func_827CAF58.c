@@ -1,75 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef int INT32;
+typedef struct jpeg_memory_mgr {
+    void *(*alloc_small)(void *cinfo, int pool_id, unsigned int sizeofobject);
+} jpeg_memory_mgr;
 
+typedef struct my_color_deconverter {
+    void *start_pass;
+    void *color_convert;
+    int pad8, padc;
+    int *Cr_r_tab;
+    int *Cb_b_tab;
+    INT32 *Cr_g_tab;
+    INT32 *Cb_g_tab;
+} my_color_deconverter;
 
-void fn_827CAF58(int param_1)
+typedef struct jpeg_decompress_struct {
+    void *err;
+    jpeg_memory_mgr *mem;
+    char pad[0x1a0 - 8];
+    my_color_deconverter *cconvert;
+} jpeg_decompress_struct;
 
+#define SCALEBITS 16
+#define ONE_HALF ((INT32) 1 << (SCALEBITS-1))
+#define FIX(x) ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
+#define RIGHT_SHIFT(x,shft) ((x) >> (shft))
+#define MAXJSAMPLE 255
+#define CENTERJSAMPLE 128
+#define JPOOL_IMAGE 1
+
+void fn_827CAF58(jpeg_decompress_struct *cinfo)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  longlong lVar10;
-  
-  iVar1 = *(int *)(param_1 + 0x1a0);
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x10) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x14) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x18) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x1c) = uVar4;
-  iVar9 = 0;
-  lVar10 = 0x100;
-  iVar6 = 0x5b6900;
-  iVar7 = -0xe25100;
-  iVar8 = -0xb2f480;
-  iVar5 = 0x2c8d00;
-  do {
-    iVar2 = iVar8 >> 0x10;
-    iVar3 = iVar7 >> 0x10;
-    iVar8 = iVar8 + 0x166e9;
-    *(int *)(iVar9 + *(int *)(iVar1 + 0x10)) = iVar2;
-    iVar7 = iVar7 + 0x1c5a2;
-    *(int *)(*(int *)(iVar1 + 0x14) + iVar9) = iVar3;
-    *(int *)(iVar9 + *(int *)(iVar1 + 0x18)) = iVar6;
-    iVar6 = iVar6 + -0xb6d2;
-    *(int *)(*(int *)(iVar1 + 0x1c) + iVar9) = iVar5;
-    iVar5 = iVar5 + -0x581a;
-    iVar9 = iVar9 + 4;
-    lVar10 = lVar10 + -1;
-  } while (lVar10 != 0);
-  return;
-}
+    my_color_deconverter *cconvert = cinfo->cconvert;
+    int i;
+    INT32 x;
 
+    cconvert->Cr_r_tab = (int *)
+        (*cinfo->mem->alloc_small)(cinfo, JPOOL_IMAGE, (MAXJSAMPLE + 1) * sizeof(int));
+    cconvert->Cb_b_tab = (int *)
+        (*cinfo->mem->alloc_small)(cinfo, JPOOL_IMAGE, (MAXJSAMPLE + 1) * sizeof(int));
+    cconvert->Cr_g_tab = (INT32 *)
+        (*cinfo->mem->alloc_small)(cinfo, JPOOL_IMAGE, (MAXJSAMPLE + 1) * sizeof(INT32));
+    cconvert->Cb_g_tab = (INT32 *)
+        (*cinfo->mem->alloc_small)(cinfo, JPOOL_IMAGE, (MAXJSAMPLE + 1) * sizeof(INT32));
+
+    for (i = 0, x = -CENTERJSAMPLE; i <= MAXJSAMPLE; i++, x++) {
+        cconvert->Cr_r_tab[i] = (int)
+            RIGHT_SHIFT(FIX(1.40200) * x + ONE_HALF, SCALEBITS);
+        cconvert->Cb_b_tab[i] = (int)
+            RIGHT_SHIFT(FIX(1.77200) * x + ONE_HALF, SCALEBITS);
+        cconvert->Cr_g_tab[i] = (- FIX(0.71414)) * x;
+        cconvert->Cb_g_tab[i] = (- FIX(0.34414)) * x + ONE_HALF;
+    }
+}

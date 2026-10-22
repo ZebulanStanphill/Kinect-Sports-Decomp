@@ -54,21 +54,21 @@ void fn_8279DA20(undefined4 *param_1)
     fn_8267BE38(puVar1);
   }
   if (param_1[0x4d] != 0) {
-    fn_8267C4F0();
+    fn_8267C4F0(param_1[0x4d]);
   }
   fn_8267C488(param_1 + 0x46);
   if (param_1[0x45] != 0) {
-    fn_8267C498();
+    fn_8267C498(param_1[0x45]);
   }
   fn_827ABBA0(param_1 + 9);
   if (param_1[4] != 0) {
-    fn_8267C498();
+    fn_8267C498(param_1[4]);
   }
   if (param_1[3] != 0) {
-    fn_8267C498();
+    fn_8267C498(param_1[3]);
   }
   if (param_1[2] != 0) {
-    fn_8267C498();
+    fn_8267C498(param_1[2]);
   }
   fn_8267C488(param_1);
   return;

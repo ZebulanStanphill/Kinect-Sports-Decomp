@@ -1,53 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_8272AE30();
+void fn_8272AE30(void *p);
+void fn_8267BE38(void *p);
 
+typedef struct S {
+    void *obj;
+    unsigned char active;
+} S;
 
-void fn_8272B180(int *param_1,int param_2,char param_3)
-
+void fn_8272B180(S *s, void *obj, unsigned char flag)
 {
-  int iVar1;
-  undefined1 uVar2;
-  
-  iVar1 = *param_1;
-  if (iVar1 != param_2) {
-    if ((iVar1 != 0) && (*(char *)(param_1 + 1) != '\0')) {
-      *(undefined1 *)(param_1 + 1) = 0;
-      fn_8272AE30(iVar1);
-      fn_8267BE38(iVar1);
+    void *cur = s->obj;
+    if (cur != obj) {
+        if (cur != 0 && s->active) {
+            s->active = 0;
+            fn_8272AE30(cur);
+            fn_8267BE38(cur);
+        }
+        s->obj = obj;
     }
-    *param_1 = param_2;
-  }
-  if ((param_2 == 0) || (uVar2 = 1, param_3 == '\0')) {
-    uVar2 = 0;
-  }
-  *(undefined1 *)(param_1 + 1) = uVar2;
-  return;
+    s->active = obj != 0 && flag;
 }
-

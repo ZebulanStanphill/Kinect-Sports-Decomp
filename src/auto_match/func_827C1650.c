@@ -1,87 +1,120 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C8EE0();
-extern int fn_827C8EF0();
+typedef unsigned int size_t;
+typedef unsigned char boolean;
 
+typedef struct jpeg_error_mgr {
+    void (*error_exit)(void *cinfo);
+    char pad[0x10];
+    int msg_code;
+    int msg_parm;
+} jpeg_error_mgr;
 
-void fn_827C1650(int *param_1,longlong param_2)
+typedef struct jpeg_common {
+    jpeg_error_mgr *err;
+    struct my_memory_mgr *mem;
+} jpeg_common, *j_common_ptr;
 
+typedef struct backing_store_info {
+    void (*read_backing_store)(void);
+    void (*write_backing_store)(void);
+    void (*close_backing_store)(j_common_ptr cinfo, struct backing_store_info *info);
+} backing_store_info;
+
+typedef struct jvirt_array_control {
+    char pad[0x22];
+    boolean b_s_open;
+    char pad23;
+    struct jvirt_array_control *next;
+    backing_store_info b_s_info;
+} jvirt_array_control, *jvirt_ptr;
+
+typedef union small_pool_struct *small_pool_ptr;
+typedef union small_pool_struct {
+    struct {
+        small_pool_ptr next;
+        size_t bytes_used;
+        size_t bytes_left;
+    } hdr;
+    double dummy;
+} small_pool_hdr;
+
+typedef union large_pool_struct *large_pool_ptr;
+typedef union large_pool_struct {
+    struct {
+        large_pool_ptr next;
+        size_t bytes_used;
+        size_t bytes_left;
+    } hdr;
+    double dummy;
+} large_pool_hdr;
+
+typedef struct my_memory_mgr {
+    char pub[0x34];
+    small_pool_ptr small_list[2];
+    large_pool_ptr large_list[2];
+    jvirt_ptr virt_sarray_list;
+    jvirt_ptr virt_barray_list;
+    long total_space_allocated;
+} my_memory_mgr, *my_mem_ptr;
+
+extern void fn_827C8EE0(j_common_ptr cinfo, void *object, size_t sizeofobject);
+extern void fn_827C8EF0(j_common_ptr cinfo, void *object, size_t sizeofobject);
+
+void fn_827C1650(j_common_ptr cinfo, int pool_id)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  longlong lVar5;
-  
-  iVar1 = param_1[1];
-  iVar4 = (int)param_2;
-  if ((iVar4 < 0) || (1 < iVar4)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xe;
-    *(int *)(*param_1 + 0x18) = iVar4;
-    (**(code **)*param_1)(param_1);
-  }
-  if (iVar4 == 1) {
-    for (iVar4 = *(int *)(iVar1 + 0x44); iVar4 != 0; iVar4 = *(int *)(iVar4 + 0x24)) {
-      if (*(char *)(iVar4 + 0x22) != '\0') {
-        *(undefined1 *)(iVar4 + 0x22) = 0;
-        (**(code **)(iVar4 + 0x30))(param_1,iVar4 + 0x28);
-      }
-    }
-    iVar4 = *(int *)(iVar1 + 0x48);
-    *(undefined4 *)(iVar1 + 0x44) = 0;
-    for (; iVar4 != 0; iVar4 = *(int *)(iVar4 + 0x24)) {
-      if (*(char *)(iVar4 + 0x22) != '\0') {
-        *(undefined1 *)(iVar4 + 0x22) = 0;
-        (**(code **)(iVar4 + 0x30))(param_1,iVar4 + 0x28);
-      }
-    }
-    *(undefined4 *)(iVar1 + 0x48) = 0;
-  }
-  iVar4 = (int)((param_2 + 0xfU & 0xffffffff) << 2);
-  puVar3 = *(undefined4 **)(iVar4 + iVar1);
-  *(undefined4 *)(iVar4 + iVar1) = 0;
-  while (puVar3 != (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)*puVar3;
-    lVar5 = (ulonglong)(uint)puVar3[2] + (ulonglong)(uint)puVar3[1] + 0x10;
-    fn_827C8EF0(param_1,puVar3,lVar5);
-    *(int *)(iVar1 + 0x4c) = *(int *)(iVar1 + 0x4c) - (int)lVar5;
-    puVar3 = puVar2;
-  }
-  iVar4 = (int)((param_2 + 0xdU & 0xffffffff) << 2);
-  puVar3 = *(undefined4 **)(iVar4 + iVar1);
-  *(undefined4 *)(iVar4 + iVar1) = 0;
-  while (puVar3 != (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)*puVar3;
-    lVar5 = (ulonglong)(uint)puVar3[2] + (ulonglong)(uint)puVar3[1] + 0x10;
-    fn_827C8EE0(param_1,puVar3,lVar5);
-    *(int *)(iVar1 + 0x4c) = *(int *)(iVar1 + 0x4c) - (int)lVar5;
-    puVar3 = puVar2;
-  }
-  return;
-}
+    my_mem_ptr mem = cinfo->mem;
+    small_pool_ptr shdr_ptr;
+    large_pool_ptr lhdr_ptr;
+    size_t space_freed;
 
+    if (pool_id < 0 || pool_id >= 2) {
+        cinfo->err->msg_code = 14;
+        cinfo->err->msg_parm = pool_id;
+        (*cinfo->err->error_exit)(cinfo);
+    }
+
+    if (pool_id == 1) {
+        jvirt_ptr sptr;
+        jvirt_ptr bptr;
+
+        for (sptr = mem->virt_sarray_list; sptr != 0; sptr = sptr->next) {
+            if (sptr->b_s_open) {
+                sptr->b_s_open = 0;
+                (*sptr->b_s_info.close_backing_store)(cinfo, &sptr->b_s_info);
+            }
+        }
+        mem->virt_sarray_list = 0;
+        for (bptr = mem->virt_barray_list; bptr != 0; bptr = bptr->next) {
+            if (bptr->b_s_open) {
+                bptr->b_s_open = 0;
+                (*bptr->b_s_info.close_backing_store)(cinfo, &bptr->b_s_info);
+            }
+        }
+        mem->virt_barray_list = 0;
+    }
+
+    lhdr_ptr = mem->large_list[pool_id];
+    mem->large_list[pool_id] = 0;
+
+    while (lhdr_ptr != 0) {
+        large_pool_ptr next_lhdr_ptr = lhdr_ptr->hdr.next;
+        space_freed = lhdr_ptr->hdr.bytes_used +
+                      lhdr_ptr->hdr.bytes_left +
+                      sizeof(large_pool_hdr);
+        fn_827C8EF0(cinfo, (void *)lhdr_ptr, space_freed);
+        mem->total_space_allocated -= space_freed;
+        lhdr_ptr = next_lhdr_ptr;
+    }
+
+    shdr_ptr = mem->small_list[pool_id];
+    mem->small_list[pool_id] = 0;
+
+    while (shdr_ptr != 0) {
+        small_pool_ptr next_shdr_ptr = shdr_ptr->hdr.next;
+        space_freed = shdr_ptr->hdr.bytes_used +
+                      shdr_ptr->hdr.bytes_left +
+                      sizeof(small_pool_hdr);
+        fn_827C8EE0(cinfo, (void *)shdr_ptr, space_freed);
+        mem->total_space_allocated -= space_freed;
+        shdr_ptr = next_shdr_ptr;
+    }
+}

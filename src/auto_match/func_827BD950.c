@@ -1,47 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct jpeg_common_struct *j_common_ptr;
 
+struct jpeg_error_mgr {
+    void (*error_exit)(j_common_ptr cinfo);
+    void (*emit_message)(j_common_ptr cinfo, int msg_level);
+    void (*output_message)(j_common_ptr cinfo);
+    void (*format_message)(j_common_ptr cinfo, char *buffer);
+    void (*reset_error_mgr)(j_common_ptr cinfo);
+    int msg_code;
+    char msg_parm[80];
+    int trace_level;
+    long num_warnings;
+};
 
-void fn_827BD950(int *param_1,int param_2)
+struct jpeg_common_struct {
+    struct jpeg_error_mgr *err;
+};
 
+void fn_827BD950(j_common_ptr cinfo, int msg_level)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  if (param_2 < 0) {
-    if ((*(int *)(iVar1 + 0x6c) == 0) || (2 < *(int *)(iVar1 + 0x68))) {
-      (**(code **)(iVar1 + 8))();
-    }
-    *(int *)(iVar1 + 0x6c) = *(int *)(iVar1 + 0x6c) + 1;
-  }
-  else if (param_2 <= *(int *)(iVar1 + 0x68)) {
-    (**(code **)(iVar1 + 8))();
-  }
-  return;
-}
+    struct jpeg_error_mgr *err = cinfo->err;
 
+    if (msg_level < 0) {
+        if (err->num_warnings == 0 || err->trace_level >= 3)
+            (*err->output_message)(cinfo);
+        err->num_warnings++;
+    } else {
+        if (err->trace_level >= msg_level)
+            (*err->output_message)(cinfo);
+    }
+}

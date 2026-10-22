@@ -32,38 +32,32 @@ extern int fn_827C8CE0();
 extern int fn_827C8D38();
 
 
-void fn_827C8DE8(int param_1,char param_2)
+void fn_827C8DE8(int param_1,unsigned char param_2)
 
 {
   undefined4 *puVar1;
   int iVar2;
   
-  puVar1 = (undefined4 *)(*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x20);
+  puVar1 = (undefined4 *)(*(code *)*(undefined4 *)(param_1 + 4))(param_1,1,0x20);
   *(undefined4 **)(param_1 + 0x13c) = puVar1;
   *puVar1 = fn_827C8A48;
   puVar1[1] = fn_827C8CE0;
   puVar1[2] = fn_827C8D38;
   *(undefined1 *)((int)puVar1 + 0xd) = 0;
   fn_827C7FC0(param_1);
-  if (*(int *)(param_1 + 0xac) == 0) {
+  if (*(unsigned int *)(param_1 + 0xac) != 0) {
+    fn_827C8250(param_1);
+  } else {
     *(undefined1 *)(param_1 + 0xd4) = 0;
     *(undefined4 *)(param_1 + 0xa8) = 1;
-  }
-  else {
-    fn_827C8250(param_1);
   }
   if (*(char *)(param_1 + 0xd4) != '\0') {
     *(undefined1 *)(param_1 + 0xb2) = 1;
   }
-  if (param_2 == '\0') {
-    puVar1[4] = 0;
-  }
-  else if (*(char *)(param_1 + 0xb2) == '\0') {
-    puVar1[4] = 2;
-  }
-  else {
-    puVar1[4] = 1;
-  }
+  if (param_2 != 0) {
+    if (*(unsigned char *)(param_1 + 0xb2) != 0) puVar1[4] = 1;
+    else puVar1[4] = 2;
+  } else puVar1[4] = 0;
   puVar1[7] = 0;
   puVar1[5] = 0;
   iVar2 = *(int *)(param_1 + 0xa8);

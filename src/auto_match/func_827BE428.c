@@ -29,23 +29,23 @@ extern int fn_827BF518();
 extern int fn_827C51F8();
 
 
-void fn_827BE428(int *param_1,char param_2)
+void fn_827BE428(int *param_1,unsigned char param_2)
 
 {
   if (param_1[5] != 100) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
+    (*(code *)*param_1)(param_1);
   }
   if (param_2 != '\0') {
     fn_827BF518(param_1,0);
   }
-  (**(code **)(*param_1 + 0x10))(param_1);
-  (**(code **)(param_1[6] + 8))(param_1);
+  (*(code *)(*param_1 + 0x10))(param_1);
+  (*(code *)(param_1[6] + 8))(param_1);
   fn_827C51F8(param_1);
-  (**(code **)param_1[0x4f])(param_1);
+  (*(code *)param_1[0x4f])(param_1);
   param_1[0x34] = 0;
-  param_1[5] = ((uint)LZCOUNT((uint)*(byte *)(param_1 + 0x2c)) >> 5 ^ 1) + 0x65;
+  param_1[5] = ((*(byte *)(param_1 + 0x2c) == 0) ^ 1) + 0x65;
   return;
 }
 

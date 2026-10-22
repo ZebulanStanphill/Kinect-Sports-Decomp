@@ -1,68 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4F0();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct { int id; unsigned char type; } Msg;
+typedef struct Item Item;
+typedef struct {
+    void *f0, *f4, *f8;
+    void (*fc)(Item *self, int id, Msg *m);
+    void *f10, *f14;
+    void (*f18)(Item *self, int id, Msg *m);
+} ItemVtbl;
+struct Item { ItemVtbl *vt; };
+typedef struct Mgr Mgr;
+typedef struct {
+    void *f0, *f4, *f8;
+    Item *(*get)(Mgr *self, int kind);
+} MgrVtbl;
+struct Mgr { MgrVtbl *vt; };
+typedef struct { int pad[2]; Mgr mgr; } Sys;
+typedef struct {
+    char pad[0x100];
+    Sys *sys;
+    char pad104[0x9e4 - 0x104];
+    int id;
+} Obj;
 
+extern void fn_8267C4F0(Item *p);
 
-void fn_826F6E98(int param_1)
-
+void fn_826F6E98(Obj *o)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  undefined4 uStack_30;
-  undefined1 uStack_2c;
-  
-  uStack_30 = *(undefined4 *)(param_1 + 0x9e4);
-  uStack_2c = 8;
-  piVar1 = (int *)(**(code **)(*(int *)(*(int *)(param_1 + 0x100) + 8) + 0xc))
-                            (*(int *)(param_1 + 0x100) + 8,0x1c);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,*(undefined4 *)(param_1 + 0x9e4),&uStack_30);
-  }
-  piVar2 = (int *)(**(code **)(*(int *)(*(int *)(param_1 + 0x100) + 8) + 0xc))
-                            (*(int *)(param_1 + 0x100) + 8,0x22);
-  if (piVar2 != (int *)0x0) {
-    (**(code **)(*piVar2 + 0xc))(piVar2,*(undefined4 *)(param_1 + 0x9e4),&uStack_30);
-  }
-  piVar3 = (int *)(**(code **)(*(int *)(*(int *)(param_1 + 0x100) + 8) + 0xc))
-                            (*(int *)(param_1 + 0x100) + 8,0x23);
-  if (piVar3 != (int *)0x0) {
-    (**(code **)(*piVar3 + 0x18))(piVar3,*(undefined4 *)(param_1 + 0x9e4),&uStack_30);
-    fn_8267C4F0(piVar3);
-  }
-  if (piVar2 != (int *)0x0) {
-    fn_8267C4F0(piVar2);
-  }
-  if (piVar1 != (int *)0x0) {
-    fn_8267C4F0(piVar1);
-  }
-  return;
-}
+    Msg m;
+    Item *a;
+    Item *b;
+    Item *c;
 
+    m.id = o->id;
+    m.type = 8;
+    a = o->sys->mgr.vt->get(&o->sys->mgr, 0x1c);
+    if (a != 0) {
+        a->vt->fc(a, o->id, &m);
+    }
+    b = o->sys->mgr.vt->get(&o->sys->mgr, 0x22);
+    if (b != 0) {
+        b->vt->fc(b, o->id, &m);
+    }
+    c = o->sys->mgr.vt->get(&o->sys->mgr, 0x23);
+    if (c != 0) {
+        c->vt->f18(c, o->id, &m);
+        fn_8267C4F0(c);
+    }
+    if (b != 0) {
+        fn_8267C4F0(b);
+    }
+    if (a != 0) {
+        fn_8267C4F0(a);
+    }
+}

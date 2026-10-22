@@ -27,8 +27,8 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern int fn_82681838();
-extern int fn_826953D8();
-extern int fn_82695520();
+extern void *fn_826953D8(void *,int);
+extern void *fn_82695520(void *,void *);
 extern int fn_82696330();
 
 
@@ -38,24 +38,19 @@ void fn_826BDD18(int param_1)
   undefined4 uVar1;
   bool bVar2;
   int iVar4;
-  undefined8 uVar3;
-  longlong lVar5;
+  void *uVar3;
+  void *lVar5;
   undefined1 auStack_30 [24];
   
-  iVar4 = (**(code **)(**(int **)(param_1 + 8) + 8))();
+  iVar4 = (*(code *)(**(int **)(param_1 + 8) + 8))(*(void **)(param_1 + 8));
   if (iVar4 == 0x17) {
-    lVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x78) + 0x148;
+    lVar5 = (char *)*(void **)(*(int *)(param_1 + 0x18) + 0x78) + 0x148;
   }
   else {
-    iVar4 = (**(code **)(**(int **)(param_1 + 8) + 8))();
-    if ((iVar4 < 2) || (bVar2 = true, 5 < iVar4)) {
-      bVar2 = false;
-    }
+    iVar4 = (*(code *)(**(int **)(param_1 + 8) + 8))(*(void **)(param_1 + 8));
+    bVar2 = iVar4 >= 2 && iVar4 <= 5;
     if (bVar2) {
-      lVar5 = (ulonglong)*(uint *)(param_1 + 8) - 0x68;
-      if ((ulonglong)*(uint *)(param_1 + 8) == 0) {
-        lVar5 = 0;
-      }
+      lVar5 = *(void **)(param_1+8) ? (char *)*(void **)(param_1+8)-0x68 : 0;
       uVar1 = *(undefined4 *)(param_1 + 0x18);
       uVar3 = fn_82695520(auStack_30,lVar5);
       uVar3 = fn_826953D8(uVar3,uVar1);
@@ -63,7 +58,7 @@ void fn_826BDD18(int param_1)
       fn_82696330(auStack_30);
       return;
     }
-    lVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x78) + 0x150;
+    lVar5 = (char *)*(void **)(*(int *)(param_1 + 0x18) + 0x78) + 0x150;
   }
   fn_82681838(*(undefined4 *)(param_1 + 4),lVar5);
   return;

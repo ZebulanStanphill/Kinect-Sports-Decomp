@@ -1,74 +1,82 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C5DD0();
-extern int fn_827C7058();
-extern int fn_827C7F50();
-extern int fn_827C8DE8();
-extern int fn_827CD968();
-extern int fn_827CE1D0();
-extern int fn_827CE8C8();
-extern int fn_827CEFA0();
-extern int fn_827CF990();
-extern int fn_827D0070();
+typedef unsigned char boolean;
+typedef struct jpeg_compress_struct *j_compress_ptr;
 
+struct jpeg_error_mgr {
+    void (*error_exit)(j_compress_ptr cinfo);
+    void *emit_message;
+    void *output_message;
+    void *format_message;
+    void *reset_error_mgr;
+    int msg_code;
+};
 
-void fn_827C51F8(int *param_1)
+struct jpeg_memory_mgr {
+    void *alloc_small;
+    void *alloc_large;
+    void *alloc_sarray;
+    void *alloc_barray;
+    void *request_virt_sarray;
+    void *request_virt_barray;
+    void (*realize_virt_arrays)(j_compress_ptr cinfo);
+};
 
+struct jpeg_marker_writer {
+    void (*write_file_header)(j_compress_ptr cinfo);
+};
+
+struct jpeg_compress_struct {
+    struct jpeg_error_mgr *err;
+    struct jpeg_memory_mgr *mem;
+    char pad8[0xa8 - 0x8];
+    int num_scans;
+    int padac;
+    boolean raw_data_in;
+    boolean arith_code;
+    boolean optimize_coding;
+    char padb3[0xd4 - 0xb3];
+    boolean progressive_mode;
+    char padd5[0x14c - 0xd5];
+    struct jpeg_marker_writer *marker;
+};
+
+extern void fn_827C8DE8(j_compress_ptr cinfo, boolean transcode_only);
+extern void fn_827D0070(j_compress_ptr cinfo);
+extern void fn_827CF990(j_compress_ptr cinfo);
+extern void fn_827CEFA0(j_compress_ptr cinfo, boolean need_full_buffer);
+extern void fn_827CE8C8(j_compress_ptr cinfo);
+extern void fn_827C7F50(j_compress_ptr cinfo);
+extern void fn_827C7058(j_compress_ptr cinfo);
+extern void fn_827CE1D0(j_compress_ptr cinfo, boolean need_full_buffer);
+extern void fn_827CD968(j_compress_ptr cinfo, boolean need_full_buffer);
+extern void fn_827C5DD0(j_compress_ptr cinfo);
+
+void fn_827C51F8(j_compress_ptr cinfo)
 {
-  undefined8 uVar1;
-  
-  fn_827C8DE8(param_1,0);
-  if (*(char *)(param_1 + 0x2c) == '\0') {
-    fn_827D0070(param_1);
-    fn_827CF990(param_1);
-    fn_827CEFA0(param_1,0);
-  }
-  fn_827CE8C8(param_1);
-  if (*(char *)((int)param_1 + 0xb1) == '\0') {
-    if (*(char *)(param_1 + 0x35) == '\0') {
-      fn_827C7058(param_1);
-    }
-    else {
-      fn_827C7F50();
-    }
-  }
-  else {
-    *(undefined4 *)(*param_1 + 0x14) = 1;
-    (**(code **)*param_1)(param_1);
-  }
-  if ((1 < param_1[0x2a]) || (uVar1 = 0, *(char *)((int)param_1 + 0xb2) != '\0')) {
-    uVar1 = 1;
-  }
-  fn_827CE1D0(param_1,uVar1);
-  fn_827CD968(param_1,0);
-  fn_827C5DD0(param_1);
-  (**(code **)(param_1[1] + 0x18))(param_1);
-  (**(code **)param_1[0x53])(param_1);
-  return;
-}
+    fn_827C8DE8(cinfo, 0);
 
+    if (!cinfo->raw_data_in) {
+        fn_827D0070(cinfo);
+        fn_827CF990(cinfo);
+        fn_827CEFA0(cinfo, 0);
+    }
+    fn_827CE8C8(cinfo);
+
+    if (cinfo->arith_code) {
+        cinfo->err->msg_code = 1;
+        (*cinfo->err->error_exit)(cinfo);
+    } else {
+        if (cinfo->progressive_mode)
+            fn_827C7F50(cinfo);
+        else
+            fn_827C7058(cinfo);
+    }
+
+    fn_827CE1D0(cinfo, (boolean)(cinfo->num_scans > 1 || cinfo->optimize_coding));
+    fn_827CD968(cinfo, 0);
+
+    fn_827C5DD0(cinfo);
+
+    (*cinfo->mem->realize_virt_arrays)(cinfo);
+
+    (*cinfo->marker->write_file_header)(cinfo);
+}
