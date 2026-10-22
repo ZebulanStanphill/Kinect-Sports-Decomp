@@ -1,51 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BA9020();
 
+typedef struct {
+    U32 a;
+    U32 b;
+} Pair;
 
-void fn_82BABBE0(int param_1,int param_2,undefined8 param_3,int param_4)
+typedef struct {
+    char pad0[0x8];
+    Pair *pairs;
+} Inner;
 
+typedef struct {
+    char pad0[0xab0];
+    Inner *inner;
+} Ctx;
+
+typedef struct {
+    char pad0[0xa8];
+    int idx;
+    int count;
+} Obj;
+
+typedef struct {
+    char pad0[0xc];
+    U32 f0c;
+    U32 f10;
+    U32 f14;
+    U32 f18;
+    U32 f1c;
+    U32 f20;
+    U32 f24;
+    U32 f28;
+    U32 f2c;
+    U8 f30;
+    char pad31[0x7];
+    U32 f38;
+    U32 f3c;
+} Item;
+
+extern void fn_82BA9020(Item *item, U32 delta);
+
+void fn_82BABBE0(Obj *param_1, Item *param_2, int param_3, Ctx *param_4)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(*(int *)(param_4 + 0xab0) + 8);
-  *(undefined4 *)(param_2 + 0x1c) = *(undefined4 *)(param_2 + 0x10);
-  *(undefined4 *)(param_2 + 0x28) = *(undefined4 *)(param_2 + 0x3c);
-  *(undefined4 *)(param_2 + 0x10) = *(undefined4 *)(*(int *)(param_1 + 0xa8) * 8 + iVar1);
-  if (5 < *(int *)(param_1 + 0xac)) {
-    fn_82BA9020(param_2,(ulonglong)*(uint *)(*(int *)(param_1 + 0xa8) * 8 + iVar1 + 4) -
-                          (ulonglong)*(uint *)(param_2 + 0x14));
-    *(undefined1 *)(param_2 + 0x30) = 1;
-    *(undefined4 *)(param_2 + 0x20) = *(undefined4 *)(param_2 + 0x18);
-    *(undefined4 *)(param_2 + 0x2c) = *(undefined4 *)(param_2 + 0x38);
-    *(undefined4 *)(param_2 + 0x24) = *(undefined4 *)(param_2 + 0xc);
-    *(undefined4 *)(param_2 + 0xc) = *(undefined4 *)(*(int *)(param_1 + 0xa8) * 8 + iVar1 + 4);
-  }
-  return;
-}
+    Pair *pairs;
 
+    pairs = param_4->inner->pairs;
+    param_2->f1c = param_2->f10;
+    param_2->f28 = param_2->f3c;
+    param_2->f10 = pairs[param_1->idx].a;
+    if (param_1->count >= 6) {
+        fn_82BA9020(param_2, pairs[param_1->idx].b - param_2->f14);
+        param_2->f30 = 1;
+        param_2->f2c = param_2->f38;
+        param_2->f20 = param_2->f18;
+        param_2->f24 = param_2->f0c;
+        param_2->f0c = pairs[param_1->idx].b;
+    }
+}

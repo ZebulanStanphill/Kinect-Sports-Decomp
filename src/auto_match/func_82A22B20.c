@@ -25,32 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A21DC0();
+typedef struct {
+  unsigned int a0;
+  unsigned int hi : 16;
+  unsigned int lo : 16;
+  unsigned int a8;
+  unsigned short ac;
+} T;
 
+typedef struct {
+  T **items;
+  unsigned int count;
+} L;
 
-int fn_82A22B20(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+extern int fn_82A21DC0(T *t, int b, int c, int d, int e);
 
+unsigned char *fn_82A22B20(L *l, int param_2, int param_3, int param_4)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  uVar3 = 0;
-  if (param_1[1] != 0) {
-    iVar4 = 0;
-    do {
-      iVar1 = *(int *)(*param_1 + iVar4);
-      iVar2 = fn_82A21DC0(iVar1,0,param_2,param_3,param_4);
-      if (iVar2 != -1) {
-        return (uint)*(byte *)((iVar2 - (uint)*(ushort *)(iVar1 + 0xc)) * 4 +
-                               (uint)*(ushort *)(iVar1 + 4) + iVar1) *
-               (*(uint *)(iVar1 + 4) & 0xffff) + iVar1 + 0x14;
-      }
-      uVar3 = uVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar3 < (uint)param_1[1]);
+  unsigned int i;
+  T *t;
+  int r;
+
+  for (i = 0; i < l->count; i++) {
+    t = l->items[i];
+    r = fn_82A21DC0(t, 0, param_2, param_3, param_4);
+    if (r != -1) {
+      return (unsigned char *)t + ((unsigned char *)t)[(r - t->ac) * 4 + t->hi] * t->lo + 0x14;
+    }
   }
   return 0;
 }
-

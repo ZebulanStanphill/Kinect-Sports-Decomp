@@ -1,62 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABDBE8();
+typedef struct node_82AD1328 node_82AD1328;
 
+typedef struct {
+    unsigned int pad0 : 19;
+    unsigned int swz : 8;
+    unsigned int kind : 4;
+    unsigned int pad31 : 1;
+    int pad4;
+    int pad8;
+    node_82AD1328 *node;
+} operand_82AD1328;
 
-void fn_82AD1328(undefined8 param_1,uint *param_2,uint *param_3)
+struct node_82AD1328 {
+    int pad0;
+    int pad4;
+    unsigned int pad8 : 8;
+    unsigned int flag : 1;
+    unsigned int pad9 : 9;
+    unsigned int op : 7;
+    unsigned int pad25 : 7;
+    int padc;
+    unsigned int pad10 : 16;
+    unsigned int reg : 16;
+    unsigned char pad14[0x18];
+    operand_82AD1328 *srcs[4];
+};
 
+static unsigned char node_is_flagged(node_82AD1328 *n)
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  char cVar4;
-  
-  uVar1 = *param_2;
-  if ((*(uint *)(uVar1 + 8) & 0x3f80) == 0x3700) {
-    puVar3 = *(uint **)(((*param_3 & 3) + 0xb) * 4 + uVar1);
-    uVar1 = puVar3[3];
-    *param_2 = uVar1;
-    *param_3 = *puVar3 >> 5 & 0xff;
-  }
-  if ((*(uint *)(uVar1 + 8) & 0x3f80) == 0x180) {
-    puVar3 = *(uint **)(uVar1 + 0x2c);
-    if ((*puVar3 & 0x1e) == 0) {
-      cVar4 = fn_82ABDBE8(puVar3,*(undefined4 *)(uVar1 + 0x30));
-      if (cVar4 != '\0') {
-        uVar2 = puVar3[3];
-        if (((*(uint *)(uVar2 + 8) >> 0x17 & 1) != 0) &&
-           (*(short *)(uVar2 + 0x12) == *(short *)(uVar1 + 0x12))) {
-          *param_2 = uVar2;
-          *param_3 = (*puVar3 >> 5 & 0xff) >> ((*param_3 & 3) << 1) & 3 | 0xe4;
-        }
-      }
-    }
-  }
-  return;
+    return n->flag;
 }
 
+extern unsigned char fn_82ABDBE8(operand_82AD1328 *op, operand_82AD1328 *other);
+
+void fn_82AD1328(void *param_1, node_82AD1328 **pnode, unsigned int *pswz)
+{
+    node_82AD1328 *node = *pnode;
+    operand_82AD1328 *src;
+    node_82AD1328 *n;
+
+    if (node->op == 0x6e) {
+        src = node->srcs[*pswz & 3];
+        node = src->node;
+        *pnode = node;
+        *pswz = src->swz;
+    }
+    if (node->op == 3) {
+        src = node->srcs[0];
+        if (src->kind == 0 && fn_82ABDBE8(src, node->srcs[1])) {
+            n = src->node;
+            if (node_is_flagged(n) && n->reg == node->reg) {
+                *pnode = n;
+                *pswz = (src->swz >> ((*pswz & 3) << 1)) & 3 | 0xe4;
+            }
+        }
+    }
+}

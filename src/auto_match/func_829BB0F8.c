@@ -1,54 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned int JDIMENSION;
+typedef int boolean;
+typedef void *JSAMPARRAY;
+typedef struct jpeg_decompress_struct *j_decompress_ptr;
 
+struct jpeg_d_coef_controller {
+    void *start_input_pass;
+    void *consume_data;
+    void *start_output_pass;
+    int (*decompress_data)(j_decompress_ptr cinfo, void *output_buf);
+};
 
-void fn_829BB0F8(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+struct jpeg_d_post_controller {
+    void *start_pass;
+    void (*post_process_data)(j_decompress_ptr cinfo, void *input_buf,
+                              JDIMENSION *in_row_group_ctr,
+                              JDIMENSION in_row_groups_avail,
+                              JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
+                              JDIMENSION out_rows_avail);
+};
 
+typedef struct {
+    char pub[0x8];
+    char buffer[0x28];
+    boolean buffer_full;
+    JDIMENSION rowgroup_ctr;
+} my_main_controller;
+
+struct jpeg_decompress_struct {
+    char pad0[0x140];
+    int min_DCT_scaled_size;
+    char pad144[0x68];
+    my_main_controller *main;
+    struct jpeg_d_coef_controller *coef;
+    struct jpeg_d_post_controller *post;
+};
+
+void fn_829BB0F8(j_decompress_ptr cinfo, JSAMPARRAY output_buf,
+                 JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x1ac);
-  if (*(int *)(iVar1 + 0x30) == 0) {
-    iVar3 = (**(code **)(*(int *)(param_1 + 0x1b0) + 0xc))(param_1,iVar1 + 8);
-    if (iVar3 == 0) {
-      return;
-    }
-    *(undefined4 *)(iVar1 + 0x30) = 1;
-  }
-  uVar2 = *(uint *)(param_1 + 0x140);
-  (**(code **)(*(int *)(param_1 + 0x1b4) + 4))
-            (param_1,iVar1 + 8,(undefined4 *)(iVar1 + 0x34),uVar2,param_2,param_3,param_4);
-  if (uVar2 <= *(uint *)(iVar1 + 0x34)) {
-    *(undefined4 *)(iVar1 + 0x30) = 0;
-    *(undefined4 *)(iVar1 + 0x34) = 0;
-  }
-  return;
-}
+    my_main_controller *main = cinfo->main;
+    JDIMENSION rowgroups_avail;
 
+    if (!main->buffer_full) {
+        if (!(*cinfo->coef->decompress_data)(cinfo, main->buffer))
+            return;
+        main->buffer_full = 1;
+    }
+
+    rowgroups_avail = (JDIMENSION)cinfo->min_DCT_scaled_size;
+
+    (*cinfo->post->post_process_data)(cinfo, main->buffer,
+                                      &main->rowgroup_ctr, rowgroups_avail,
+                                      output_buf, out_row_ctr, out_rows_avail);
+
+    if (main->rowgroup_ctr >= rowgroups_avail) {
+        main->buffer_full = 0;
+        main->rowgroup_ctr = 0;
+    }
+}

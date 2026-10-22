@@ -35,11 +35,11 @@ void fn_82A9E218(int param_1,uint param_2,undefined4 param_3)
   undefined4 *puVar2;
   uint uVar3;
   
-  if (-1 < *(int *)(param_1 + 0x90)) {
+  if (*(int *)(param_1 + 0x90) >= 0) {
     iVar1 = *(int *)(param_1 + 100);
     if (*(uint *)(iVar1 + 4) <= param_2) {
       uVar3 = param_2 + 1;
-      if (*(uint *)(iVar1 + 8) < uVar3) {
+      if (uVar3 > *(uint *)(iVar1 + 8)) {
         fn_82A9CF38(iVar1,uVar3,(int *)(param_1 + 0x90));
       }
       *(uint *)(iVar1 + 4) = uVar3;

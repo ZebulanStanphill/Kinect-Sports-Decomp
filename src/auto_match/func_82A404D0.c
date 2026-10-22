@@ -1,59 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A40238();
+typedef struct lock_82A404D0 lock_82A404D0;
+typedef struct {
+    void *pad0;
+    void *pad4;
+    void (*lock)(lock_82A404D0 *self);
+    void *padc;
+    void *pad10;
+    void (*unlock)(lock_82A404D0 *self);
+} lock_vt_82A404D0;
+struct lock_82A404D0 {
+    lock_vt_82A404D0 *vt;
+};
 
+typedef struct dev_82A404D0 dev_82A404D0;
+typedef struct {
+    void *pad[14];
+    int (*create)(dev_82A404D0 *self, int arg, void *out);
+} dev_vt_82A404D0;
+struct dev_82A404D0 {
+    dev_vt_82A404D0 *vt;
+};
 
-int fn_82A404D0(int param_1)
+typedef struct {
+    unsigned char pad[0x2c];
+    lock_82A404D0 lock_a;
+    unsigned char pad30[0x20];
+    lock_82A404D0 lock_b;
+    unsigned char pad54[0x50];
+    int created;
+    int state;
+    int out;
+    dev_82A404D0 *dev;
+    unsigned char padb4[0x104];
+    void *p1b8;
+    unsigned char pad1bc[0x58];
+    int arg;
+} obj_82A404D0;
 
+extern void fn_82A40238(int *hr);
+
+int fn_82A404D0(obj_82A404D0 *param_1)
 {
-  int *piVar1;
-  int *piVar2;
-  int aiStack_30;
-  
-  piVar2 = (int *)(param_1 + 0x2c);
-  (**(code **)(*(int *)(param_1 + 0x2c) + 8))(piVar2);
-  piVar1 = (int *)(param_1 + 0x50);
-  aiStack_30 = 0;
-  (**(code **)(*(int *)(param_1 + 0x50) + 8))(piVar1);
-  if (*(int *)(param_1 + 0xa4) == 0) {
-    if (*(int *)(param_1 + 0x1b8) != 0) {
-      aiStack_30 =
-           (**(code **)(**(int **)(param_1 + 0xb0) + 0x38))
-                     (*(int **)(param_1 + 0xb0),*(undefined4 *)(param_1 + 0x214),param_1 + 0xac);
-      if (aiStack_30 < 0) goto LAB_82a40568;
-      *(undefined4 *)(param_1 + 0xa8) = 2;
-    }
-    *(undefined4 *)(param_1 + 0xa4) = 1;
-  }
-LAB_82a40568:
-  (**(code **)(*piVar1 + 0x14))(piVar1);
-  (**(code **)(*piVar2 + 0x14))(piVar2);
-  fn_82A40238(&aiStack_30);
-  return aiStack_30;
-}
+    lock_82A404D0 *a = &param_1->lock_a;
+    lock_82A404D0 *b;
+    int hr;
 
+    a->vt->lock(a);
+    b = &param_1->lock_b;
+    hr = 0;
+    b->vt->lock(b);
+    if (param_1->created == 0) {
+        if (param_1->p1b8 != 0) {
+            hr = param_1->dev->vt->create(param_1->dev, param_1->arg, &param_1->out);
+            if (hr < 0) goto done;
+            param_1->state = 2;
+        }
+        param_1->created = 1;
+    }
+done:
+    b->vt->unlock(b);
+    a->vt->unlock(a);
+    fn_82A40238(&hr);
+    return hr;
+}

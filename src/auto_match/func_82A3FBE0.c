@@ -1,52 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_82A3F9B8();
 
+struct elem {
+  uint a;
+  uint b;
+};
 
-void fn_82A3FBE0(int *param_1,undefined8 param_2)
+struct arr {
+  struct elem *data;
+  uint cap;
+  uint count;
+};
 
+extern void fn_8265C990(void *p, uint tag);
+extern void fn_82A3F9B8(uint v, void *ctx);
+
+void fn_82A3FBE0(struct arr *a, void *ctx)
 {
-  int iVar1;
-  int iVar2;
-  
-  if (*param_1 != 0) {
-    while( true ) {
-      iVar1 = param_1[2];
-      iVar2 = iVar1 + -1;
-      param_1[2] = iVar2;
-      if (iVar1 == 0) break;
-      fn_82A3F9B8(*(undefined4 *)(iVar2 * 8 + *param_1),param_2);
-      fn_8265C990(*(undefined4 *)(param_1[2] * 8 + *param_1),0x24970000);
+  if (a->data != 0) {
+    while (a->count-- != 0) {
+      fn_82A3F9B8(a->data[a->count].a, ctx);
+      fn_8265C990((void *)a->data[a->count].a, 0x24970000);
     }
-    fn_8265C990(*param_1,0x24970000);
-    *param_1 = 0;
+    fn_8265C990(a->data, 0x24970000);
+    a->data = 0;
   }
-  return;
 }
-

@@ -1,77 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
 extern int fn_82A9A428();
 extern int fn_82A9D3D8();
 extern int fn_82A9ECB8();
 
+struct Vec { char *data; uint count; uint cap; };
+struct Obj { char pad[0x28]; int x28; };
+struct Node { char pad[8]; struct Obj *obj; struct Node *next; };
+struct Inner14 { char pad[0x18]; int x18; };
+struct Inner18 { char pad[0x2c]; struct Node *head; };
+struct B { char pad[0x14]; struct Inner14 *p14; struct Inner18 *p18; char pad2[0x28 - 0x1c]; int x28; };
+struct A { char pad[0x6c]; struct Vec *vec; char pad2[0x90 - 0x70]; int hr; };
+struct Entry { int a; int b; int c; };
 
-int fn_82A9F530(int param_1,uint param_2,int param_3)
-
+int fn_82A9F530(struct A *a, uint idx, struct B *b)
 {
-  undefined4 uVar1;
-  int *piVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  undefined4 auStack_40;
-  
-  piVar2 = (int *)(param_1 + 0x90);
-  iVar4 = *(int *)(param_1 + 0x90);
-  if (-1 < iVar4) {
-    iVar4 = *(int *)(param_1 + 0x6c);
-    if (*(uint *)(iVar4 + 4) <= param_2) {
-      uVar3 = param_2 + 1;
-      if (*(uint *)(iVar4 + 8) < uVar3) {
-        fn_82A9A428(iVar4,uVar3,piVar2);
-      }
-      *(uint *)(iVar4 + 4) = uVar3;
-      if (*piVar2 < 0) {
-        return *piVar2;
-      }
-    }
-    puVar5 = (undefined4 *)(param_2 * 0x14 + **(int **)(param_1 + 0x6c));
-    uVar1 = fn_82A9ECB8(param_1,*(undefined4 *)(*(int *)(param_3 + 0x14) + 0x18));
-    *puVar5 = uVar1;
-    puVar5[1] = *(undefined4 *)(param_3 + 0x28);
-    iVar4 = *(int *)(*(int *)(param_3 + 0x18) + 0x2c);
-    if (iVar4 != 0) {
-      do {
-        auStack_40 = *(undefined4 *)(*(int *)(iVar4 + 8) + 0x28);
-        fn_82A9D3D8(puVar5 + 2,&auStack_40,piVar2);
-        if (*piVar2 < 0) {
-          return *piVar2;
-        }
-        iVar4 = *(int *)(iVar4 + 0xc);
-      } while (iVar4 != 0);
-    }
-    iVar4 = *piVar2;
-  }
-  return iVar4;
-}
+  int *hr = &a->hr;
+  struct Entry *e;
+  struct Node *n;
+  int tmp;
 
+  if (*hr < 0) return *hr;
+  {
+    struct Vec *v = a->vec;
+    if (v->count <= idx) {
+      uint cnt = idx + 1;
+      if (cnt > v->cap) fn_82A9A428(v, cnt, hr);
+      v->count = cnt;
+      if (*hr < 0) return *hr;
+    }
+  }
+  e = (struct Entry *)(a->vec->data + idx * 0x14);
+  e->a = fn_82A9ECB8(a, b->p14->x18);
+  e->b = b->x28;
+  for (n = b->p18->head; n != 0; n = n->next) {
+    tmp = n->obj->x28;
+    fn_82A9D3D8(&e->c, &tmp, hr);
+    if (*hr < 0) return *hr;
+  }
+  return *hr;
+}

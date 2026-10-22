@@ -1,50 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC6860();
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Obj {
+    int f0;
+    int f4;
+    unsigned int pad0 : 15;
+    unsigned int kind : 3;
+    unsigned int pad1 : 14;
+    char padc[0x2c - 0xc];
+    int f2c;
+} Obj;
 
+typedef struct Src {
+    char pad0[0xc];
+    int fc;
+    void *f10;
+} Src;
 
-int fn_82AF80A8(undefined8 param_1,undefined8 param_2,int param_3,int param_4)
+typedef struct Arg3 {
+    char pad0[0x1c];
+    int f1c;
+} Arg3;
 
+extern void fn_82AC6860(int, Obj *, int, Arg3 *);
+extern Src *fn_82ACA920(int, Src *, int);
+extern int fn_82AD1978(Obj *, Src *);
+extern Obj *fn_82B841E8(int, int, int, int, int, int);
+
+Obj *fn_82AF80A8(int param_1, int param_2, Arg3 *param_3, Src *param_4)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = fn_82B841E8(param_1,*(undefined4 *)(param_3 + 0x1c),0,0x14,1,4);
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  uVar2 = fn_82AD1978(iVar1,param_4);
-  *(undefined4 *)(iVar1 + 0x2c) = uVar2;
-  *(uint *)(iVar1 + 8) = *(uint *)(iVar1 + 8) & 0xfffe3fff | 0x4000;
-  fn_82AC6860(param_1,iVar1,param_2,param_3);
-  return iVar1;
+    Obj *o;
+    Src *s;
+
+    o = fn_82B841E8(param_1, param_3->f1c, 0, 0x14, 1, 4);
+    if (param_4->f10 != 0) {
+        s = fn_82ACA920(param_1, param_4, param_4->fc);
+    } else {
+        s = param_4;
+    }
+    o->f2c = fn_82AD1978(o, s);
+    o->kind = 1;
+    fn_82AC6860(param_1, o, param_2, param_3);
+    return o;
 }
 

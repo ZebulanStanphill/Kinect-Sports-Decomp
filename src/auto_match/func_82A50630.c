@@ -1,44 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+void *memcpy(void *d, const void *s, uint n);
 
+typedef struct Lock Lock;
+typedef struct {
+  void *f0;
+  void *f4;
+  void (*lock)(Lock *);
+  void *fc;
+  void *f10;
+  void (*unlock)(Lock *);
+} LockVT;
+struct Lock { LockVT *vt; };
 
-longlong fn_82A50630(int *param_1,ulonglong param_2,undefined8 param_3,undefined8 param_4)
+typedef struct {
+  char pad[0x2c];
+  Lock lock;
+} Owner;
 
+typedef struct Obj Obj;
+typedef struct {
+  char pad[0x60];
+  int (*write)(Obj *, uint, void *, int);
+} ObjVT;
+
+struct Obj {
+  ObjVT *vt;
+  char pad[0x2c];
+  Owner *owner;
+  char pad2[0x18];
+  void *buf;
+};
+
+int fn_82A50630(Obj *p, uint n, void *src, int d)
 {
-  longlong lVar1;
-  
-  (**(code **)(*(int *)(param_1[0xc] + 0x2c) + 8))(param_1[0xc] + 0x2c);
-  lVar1 = (**(code **)(*param_1 + 0x60))(param_1,param_2,param_3,param_4);
-  if (-1 < lVar1) {
-    fn_82F68CC0(param_1[0x13],param_3,(param_2 & 0x3fffffff) << 2);
+  int hr;
+  p->owner->lock.vt->lock(&p->owner->lock);
+  hr = p->vt->write(p, n, src, d);
+  if (hr >= 0) {
+    memcpy(p->buf, src, n * 4);
   }
-  (**(code **)(*(int *)(param_1[0xc] + 0x2c) + 0x14))(param_1[0xc] + 0x2c);
-  return lVar1;
+  p->owner->lock.vt->unlock(&p->owner->lock);
+  return hr;
 }
-

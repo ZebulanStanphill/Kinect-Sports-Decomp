@@ -1,45 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1F2F8();
+extern int fn_82A1F2F8(void);
 
+typedef struct { uint a; int b; } S2;
+typedef struct { int base; S2 *s; } S1;
 
-void fn_829D4800(int *param_1)
-
+void fn_829D4800(S1 *p)
 {
-  int iVar1;
-  
-  if ((0x19999999 < *(uint *)param_1[1]) || (((uint *)param_1[1])[1] == 0xffffffff)) {
-    *(undefined4 *)param_1[1] = 0;
-    *(undefined4 *)(param_1[1] + 4) = 0;
+  if (p->s->a > 0x19999999 || p->s->b == -1) {
+    p->s->a = 0;
+    p->s->b = 0;
   }
-  *(int *)(param_1[1] + 4) = *(int *)(param_1[1] + 4) + 1;
-  iVar1 = fn_82A1F2F8();
-  *(int *)param_1[1] = iVar1 + (*(int *)param_1[1] - *param_1);
-  return;
+  p->s->b++;
+  p->s->a += fn_82A1F2F8() - p->base;
 }
-

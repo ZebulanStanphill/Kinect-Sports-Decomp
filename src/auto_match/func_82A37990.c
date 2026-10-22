@@ -1,62 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8265C990();
+typedef void *HANDLE;
+typedef long LONG;
+typedef char KPROCESSOR_MODE;
+typedef unsigned char BOOLEAN;
+typedef long NTSTATUS;
+typedef struct { __int64 QuadPart; } LARGE_INTEGER;
 
+typedef struct {
+    unsigned char raw[0x1c];
+} RTL_CRITICAL_SECTION;
 
-void fn_82A37990(undefined4 *param_1,ulonglong param_2)
+NTSTATUS KeDelayExecutionThread(KPROCESSOR_MODE WaitMode, BOOLEAN Alertable, LARGE_INTEGER *Interval);
+NTSTATUS NtSetEvent(HANDLE EventHandle, LONG *PreviousState);
+NTSTATUS NtWaitForSingleObjectEx(HANDLE Handle, KPROCESSOR_MODE WaitMode, BOOLEAN Alertable, LARGE_INTEGER *Timeout);
+NTSTATUS NtClose(HANDLE Handle);
+void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
 
+typedef struct {
+    int owner;
+    int pad4[2];
+    RTL_CRITICAL_SECTION cs;
+    HANDLE event;
+    int flag;
+    int busy;
+    int pad34[4];
+    int res;
+} obj_82A37990;
+
+extern void fn_8265C990(int owner, int flags);
+
+void fn_82A37990(obj_82A37990 *param_1, HANDLE thread)
 {
-  undefined4 uVar1;
-  undefined8 auStack_40;
-  
-  uVar1 = *param_1;
-  if (param_1[10] != 0) {
-    RtlEnterCriticalSection(param_1 + 3);
-    while (0 < (int)param_1[0xc]) {
-      auStack_40 = 0xfffffffffff0bdc0;
-      KeDelayExecutionThread(1,0,&auStack_40);
-    }
-    NtSetEvent(param_1[10],0);
-    if ((param_2 & 0xffffffff) != 0) {
-      auStack_40 = 0xfffffffffa0a1f00;
-      NtWaitForSingleObjectEx(param_2,1,0,&auStack_40);
-    }
-    *param_1 = 0;
-    param_1[0xb] = 0;
-    RtlLeaveCriticalSection(param_1 + 3);
-    NtClose(param_1[10]);
-    param_1[10] = 0;
-  }
-  if (param_1[0x11] != 0) {
-    fn_8265C990(uVar1,0x24830000);
-    param_1[0x11] = 0;
-  }
-  return;
-}
+    int owner = param_1->owner;
+    LARGE_INTEGER t;
 
+    if (param_1->event != 0) {
+        RtlEnterCriticalSection(&param_1->cs);
+        while (param_1->busy > 0) {
+            t.QuadPart = -1000000;
+            KeDelayExecutionThread(1, 0, &t);
+        }
+        NtSetEvent(param_1->event, 0);
+        if (thread != 0) {
+            t.QuadPart = -100000000;
+            NtWaitForSingleObjectEx(thread, 1, 0, &t);
+        }
+        param_1->owner = 0;
+        param_1->flag = 0;
+        RtlLeaveCriticalSection(&param_1->cs);
+        NtClose(param_1->event);
+        param_1->event = 0;
+    }
+    if (param_1->res != 0) {
+        fn_8265C990(owner, 0x24830000);
+        param_1->res = 0;
+    }
+}

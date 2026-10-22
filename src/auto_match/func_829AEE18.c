@@ -29,23 +29,23 @@ extern int fn_829AECC8();
 extern int fn_829B5070();
 
 
-void fn_829AEE18(int *param_1,int *param_2,int *param_3)
+void fn_829AEE18(void **param_1,void **param_2,void **param_3)
 
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
+  void *iVar1;
+  void *iVar2;
+  void *iVar3;
   
   iVar1 = 0;
   iVar3 = 0;
   iVar2 = 0;
-  if (param_1 != (int *)0x0) {
+  if (param_1 != 0) {
     iVar1 = *param_1;
   }
-  if (param_2 != (int *)0x0) {
+  if (param_2 != 0) {
     iVar3 = *param_2;
   }
-  if (param_3 != (int *)0x0) {
+  if (param_3 != 0) {
     iVar2 = *param_3;
   }
   if (iVar1 != 0) {

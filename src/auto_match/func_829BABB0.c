@@ -1,50 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F67CF8();
-extern int fn_82F6C060();
+typedef unsigned int size_t;
 
+struct jpeg_error_mgr {
+  void (*error_exit)(void *cinfo);
+  int pad[4];
+  int msg_code;
+};
 
-void fn_829BABB0(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,ulonglong param_5)
+struct jpeg_common {
+  struct jpeg_error_mgr *err;
+};
 
+struct backing_store {
+  int pad[3];
+  void *temp_file;
+};
+
+extern int fn_82F6C060(void *f, long off, int whence);
+extern size_t fn_82F67CF8(void *buf, size_t sz, size_t n, void *f);
+
+void fn_829BABB0(struct jpeg_common *cinfo, struct backing_store *info,
+                 void *buffer_address, long file_offset, long byte_count)
 {
-  int iVar2;
-  ulonglong uVar1;
-  
-  iVar2 = fn_82F6C060(*(undefined4 *)(param_2 + 0xc),param_4,0);
-  if (iVar2 != 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x41;
-    (**(code **)*param_1)(param_1);
+  if (fn_82F6C060(info->temp_file, file_offset, 0)) {
+    cinfo->err->msg_code = 0x41;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  uVar1 = fn_82F67CF8(param_3,1,param_5,*(undefined4 *)(param_2 + 0xc));
-  if ((uVar1 & 0xffffffff) != (param_5 & 0xffffffff)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x42;
-    (**(code **)*param_1)(param_1);
+  if (fn_82F67CF8(buffer_address, 1, byte_count, info->temp_file) != (size_t)byte_count) {
+    cinfo->err->msg_code = 0x42;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  return;
 }
-

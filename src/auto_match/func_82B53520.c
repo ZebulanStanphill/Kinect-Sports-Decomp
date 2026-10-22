@@ -1,73 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B47118();
-extern int fn_82B477E0();
-extern int fn_82B52FF8();
-extern int fn_82B53448();
-extern int fn_82B841E8();
-extern int fn_82B8F328();
+typedef struct Q {
+    char pad0[8];
+    unsigned int f8;
+} Q;
 
+typedef struct Node {
+    char pad0[0x20];
+    unsigned int f20;
+    unsigned int f24;
+} Node;
 
-int fn_82B53520(int param_1,int param_2,undefined8 param_3)
+typedef struct Info {
+    char pad0[0x10];
+    int f10;
+    char pad14[0x28 - 0x14];
+    void *f28;
+    char pad2c[0x38 - 0x2c];
+    int f38;
+} Info;
 
+typedef struct P2 {
+    int f0;
+    Info *f4;
+} P2;
+
+typedef struct T {
+    int f0;
+    unsigned int f4;
+    char pad8[0x28 - 8];
+    unsigned int f28;
+    unsigned int f2c;
+    char pad30[0x234 - 0x30];
+    Node *f234;
+} T;
+
+extern void fn_82B47118(T *t, Q *q, P2 *p);
+extern Node *fn_82B477E0(T *t);
+extern void fn_82B52FF8(T *t, int a, int b, int c, Q *q);
+extern void fn_82B53448(T *t, Info *info, int a, Q *q);
+extern Q *fn_82B841E8(T *t, Node *n, unsigned int *p, int a, int b, int c);
+extern void fn_82B8F328(Node *old, Node *n, T *t);
+
+Q *fn_82B53520(T *t, P2 *p, int a)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  
-  uVar1 = *(uint *)(param_1 + 0x234);
-  if ((*(uint *)(uVar1 + 0x24) & 1) == 0) {
-    uVar2 = *(uint *)(uVar1 + 0x20) & 0xfffffffe;
-    iVar4 = uVar2 - 0x28;
-    if ((iVar4 != 0) && ((*(uint *)(uVar2 - 0x20) & 0x3f80) == 0x2980)) goto LAB_82b5361c;
-  }
-  if ((*(uint *)(param_1 + 0x28) & 0x40000) == 0) {
-    if ((*(uint *)(param_1 + 0x2c) & 0x2000000) != 0) {
-      if (uVar1 == (-(uint)((*(uint *)(param_1 + 4) & 1) == 0) & *(uint *)(param_1 + 4)))
-      goto LAB_82b5359c;
-    }
-  }
-  else {
-LAB_82b5359c:
-    uVar3 = fn_82B477E0(param_1);
-    fn_82B8F328(*(undefined4 *)(param_1 + 0x234),uVar3,param_1);
-    *(int *)(param_1 + 0x234) = (int)uVar3;
-  }
-  iVar4 = fn_82B841E8(param_1,(ulonglong)*(uint *)(param_1 + 0x234),
-                            (ulonglong)*(uint *)(param_1 + 0x234) + 0x20,0x53,0,0);
-  if (*(int *)(*(int *)(param_2 + 4) + 0x28) != 0) {
-    fn_82B52FF8(param_1,param_3,*(undefined4 *)(*(int *)(param_2 + 4) + 0x10),
-                  *(undefined4 *)(*(int *)(param_2 + 4) + 0x38),iVar4);
-  }
-  fn_82B53448(param_1,*(undefined4 *)(param_2 + 4),param_3,iVar4);
-LAB_82b5361c:
-  fn_82B47118(param_1,iVar4,param_2);
-  return iVar4;
-}
+    Node *node;
+    Q *q;
 
+    node = t->f234;
+    if ((node->f24 & 1) == 0) {
+        q = (Q *)((node->f20 & ~1) - 0x28);
+        if (q != 0 && (q->f8 & 0x3f80) == 0x2980) {
+            goto done;
+        }
+    }
+    if ((t->f28 & 0x40000) != 0 ||
+        ((t->f2c & 0x2000000) != 0 && node == (Node *)((t->f4 & 1) ? 0 : t->f4))) {
+        node = fn_82B477E0(t);
+        fn_82B8F328(t->f234, node, t);
+        t->f234 = node;
+    }
+    q = fn_82B841E8(t, t->f234, &t->f234->f20, 0x53, 0, 0);
+    if (p->f4->f28 != 0) {
+        fn_82B52FF8(t, a, p->f4->f10, p->f4->f38, q);
+    }
+    fn_82B53448(t, p->f4, a, q);
+done:
+    fn_82B47118(t, q, p);
+    return q;
+}

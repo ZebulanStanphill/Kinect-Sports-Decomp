@@ -1,52 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829BAB18();
-extern int fn_829BABB0();
-extern int fn_829BAC48();
-extern int strncpy();
-extern int fn_82F6D428();
+typedef unsigned int size_t;
+char *strncpy(char *, const char *, size_t);
+extern char lbl_82196582[];
+extern void fn_829BAB18(void);
+extern void fn_829BABB0(void);
+extern void fn_829BAC48(void);
+extern void *fn_82F6D428(void);
 
+struct Cinfo;
+typedef struct {
+  void (*error_exit)(struct Cinfo *);
+  char pad[0x10];
+  int msg_code;
+  char s[80];
+} ErrMgr;
 
-void fn_829BAC50(uint *param_1,undefined4 *param_2)
+typedef struct Cinfo {
+  ErrMgr *err;
+} Cinfo;
 
+typedef struct {
+  void (*a)(void);
+  void (*b)(void);
+  void (*c)(void);
+  void *p;
+} Mgr;
+
+void fn_829BAC50(Cinfo *param_1, Mgr *param_2)
 {
-  int iVar1;
-  
-  iVar1 = fn_82F6D428();
-  param_2[3] = iVar1;
-  if (iVar1 == 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x3f;
-    strncpy((ulonglong)*param_1 + 0x18,0xffffffff82196582,0x50);
-    (**(code **)*param_1)(param_1);
-  }
-  *param_2 = fn_829BAB18;
-  param_2[1] = fn_829BABB0;
-  param_2[2] = fn_829BAC48;
-  return;
-}
+  void *p;
 
+  p = fn_82F6D428();
+  param_2->p = p;
+  if (p == 0) {
+    param_1->err->msg_code = 0x3f;
+    strncpy(param_1->err->s, lbl_82196582, 0x50);
+    param_1->err->error_exit(param_1);
+  }
+  param_2->a = fn_829BAB18;
+  param_2->b = fn_829BABB0;
+  param_2->c = fn_829BAC48;
+}

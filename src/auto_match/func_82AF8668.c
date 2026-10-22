@@ -43,11 +43,11 @@ void fn_82AF8668(uint *param_1,undefined4 param_2)
     *param_1 = (uint)(puVar1 + 1);
     param_1[3] = 0;
   }
-  else if ((param_1[1] & 1) == 0) {
-    uVar2 = (*param_1 & 0xfffffffe) - 4;
+  else if ((param_1[1] & 1) != 0) {
+    uVar2 = 0;
   }
   else {
-    uVar2 = 0;
+    uVar2 = (*param_1 & 0xfffffffe) - 4;
   }
   *(undefined4 *)((param_1[3] + 2) * 4 + uVar2) = param_2;
   param_1[3] = param_1[3] + 1;
