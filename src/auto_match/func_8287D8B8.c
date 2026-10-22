@@ -1,55 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825AD4B8();
-extern int fn_8265CA20();
+typedef struct {
+    void *begin;
+    void *end;
+    void *cap;
+} Vec;
 
+typedef struct {
+    void *data;
+    unsigned char pad[0x18];
+} Tbl;
 
-void fn_8287D8B8(int param_1)
+typedef struct {
+    int unk0;
+    Tbl t4;
+    Tbl t20;
+    Vec v3c;
+    int unk48;
+    Vec v4c;
+} Obj;
 
+extern void fn_825AD4B8(Tbl *t);
+extern void fn_8265CA20(void *p);
+
+static void Vec_Free(Vec *v)
 {
-  if (*(int *)(param_1 + 0x4c) != 0) {
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x4c) = 0;
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  if (*(int *)(param_1 + 0x3c) != 0) {
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x44) = 0;
-  fn_825AD4B8(param_1 + 0x20);
-  fn_8265CA20(*(undefined4 *)(param_1 + 0x20));
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  fn_825AD4B8(param_1 + 4);
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  *(undefined4 *)(param_1 + 4) = 0;
-  return;
+    if (v->begin != 0) {
+        fn_8265CA20(v->begin);
+    }
+    v->begin = 0;
+    v->end = 0;
+    v->cap = 0;
 }
 
+static void Tbl_Free(Tbl *t)
+{
+    fn_825AD4B8(t);
+    fn_8265CA20(t->data);
+    t->data = 0;
+}
+
+void fn_8287D8B8(Obj *o)
+{
+    Vec_Free(&o->v4c);
+    Vec_Free(&o->v3c);
+    Tbl_Free(&o->t20);
+    Tbl_Free(&o->t4);
+}

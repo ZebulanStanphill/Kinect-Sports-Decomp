@@ -25,31 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828B0DB8();
-extern int fn_828B0ED0();
-extern int fn_828C8058();
-extern int fn_828D8FD8();
-extern int fn_82A4AAA8();
-
+extern int *fn_828B0DB8(void);
+extern void *fn_828B0ED0(int a, int b, int c);
+extern int fn_828C8058(int a, int b);
+extern unsigned char fn_828D8FD8(int a, int b);
+extern int fn_82A4AAA8(void);
 
 void fn_828D9438(int param_1)
-
 {
-  int *piVar1;
+  int *obj;
   int iVar2;
-  int iVar3;
-  char cVar4;
-  
-  piVar1 = (int *)fn_828B0DB8();
-  if ((piVar1 != (int *)0x0) && (*(char *)((int)piVar1 + 0x26) == '\0')) {
-    iVar2 = (**(code **)(*piVar1 + 0xc))();
-    iVar3 = fn_82A4AAA8();
-    if ((iVar3 == 1) &&
-       ((iVar2 = fn_828B0ED0((ulonglong)*(uint *)(iVar2 + 0x4c) + 0x38,2,0), iVar2 != 0 &&
-        (cVar4 = fn_828D8FD8(param_1,1), cVar4 == '\0')))) {
-      fn_828C8058(*(undefined4 *)(param_1 + 0x14),0xb);
+
+  obj = fn_828B0DB8();
+  if (obj != 0 && *(unsigned char *)((int)obj + 0x26) == 0) {
+    iVar2 = (*(code *)(*obj + 0xc))(obj);
+    if (fn_82A4AAA8() == 1 &&
+        fn_828B0ED0(*(int *)(iVar2 + 0x4c) + 0x38, 2, 0) != 0 &&
+        fn_828D8FD8(param_1, 1) == 0) {
+      fn_828C8058(*(int *)(param_1 + 0x14), 0xb);
     }
   }
-  return;
 }
-

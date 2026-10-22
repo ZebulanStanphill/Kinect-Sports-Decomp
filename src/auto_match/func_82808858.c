@@ -1,59 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1DDC0();
+typedef struct {
+  char *base;
+  int stride;
+  unsigned char *idx;
+  char pad0c[0x32 - 0x0c];
+  unsigned short count;
+  char pad34[4];
+  int size;
+} Desc;
 
+typedef struct {
+  char pad[0x48];
+  unsigned short n;
+  char pad4a[6];
+  char *flags;
+  int src;
+  char pad58[0x64 - 0x58];
+  Desc *desc;
+} Obj;
 
-void fn_82808858(int param_1,int param_2,longlong param_3)
+extern void fn_82A1DDC0(char *, char *, int);
 
+void fn_82808858(Obj *param_1, int *param_2, char *param_3)
 {
-  ushort uVar1;
-  uint *puVar2;
-  longlong lVar3;
-  longlong lVar4;
-  uint uVar5;
-  
-  puVar2 = *(uint **)(param_1 + 100);
-  uVar1 = *(ushort *)((int)puVar2 + 0x32);
-  fn_82A1DDC0(param_3,(longlong)(int)(uint)*(byte *)(puVar2[2] + *(int *)(param_2 + 4)) *
-                            (longlong)(int)puVar2[1] + (ulonglong)*puVar2,puVar2[0xe]);
-  lVar4 = 0;
-  uVar5 = 0;
-  if (*(short *)(param_1 + 0x48) != 0) {
-    lVar3 = (ulonglong)uVar1 * 4;
-    do {
-      if ((*(int *)(param_1 + 0x50) != 0) && (*(char *)(*(int *)(param_1 + 0x50) + uVar5) == '\0'))
-      {
-        fn_82A1DDC0(lVar4 + param_3,*(undefined4 *)(param_1 + 0x54),lVar3);
-      }
-      uVar5 = uVar5 + 1;
-      lVar4 = lVar3 + lVar4;
-    } while (uVar5 < *(ushort *)(param_1 + 0x48));
-  }
-  return;
-}
+  Desc *d;
+  unsigned int cnt;
+  unsigned int i;
+  int off;
 
+  d = param_1->desc;
+  cnt = d->count;
+  fn_82A1DDC0(param_3, d->base + d->idx[param_2[1]] * d->stride, d->size);
+  off = 0;
+  for (i = 0; i < param_1->n; i++) {
+    if (param_1->flags != 0 && param_1->flags[i] == 0) {
+      fn_82A1DDC0(param_3 + off, (char *)param_1->src, cnt * 4);
+    }
+    off += cnt * 4;
+  }
+}

@@ -1,62 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230218();
-extern int fn_828CCCC0();
-extern int fn_828EA268();
+extern void fn_82230218(void *s, const char *str, int pos, int n);
+extern void fn_828CCCC0(void *p, int a, int b, int c);
+extern int fn_828EA268(unsigned int n);
 
+typedef struct {
+    char str[0x1c];
+    short f1c;
+    unsigned short f1e;
+    short f20;
+    short pad22;
+    int f24;
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    unsigned char f38;
+} Obj;
 
-undefined1 *
-fn_82890428(undefined1 *param_1, undefined8 param_2, undefined2 param_3, ushort param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 *param_8, undefined1 in_stack_00000057)
-
+Obj *fn_82890428(Obj *o, const char *name, short a, unsigned short b, int c, int d, int e, int *f, unsigned char g)
 {
-  undefined2 uVar1;
-  ulonglong uVar2;
-
-  
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0xf;
-  *param_1 = 0;
-  fn_82230218(param_1,param_2,0,0xffffffffffffffff);
-  uVar2 = (ulonglong)param_4;
-  *(undefined2 *)(param_1 + 0x1c) = param_3;
-  *(ushort *)(param_1 + 0x1e) = param_4;
-  if (1 < uVar2) {
-    uVar2 = uVar2 - 1;
-  }
-  uVar1 = fn_828EA268(uVar2);
-  *(undefined4 *)(param_1 + 0x24) = param_5;
-  *(undefined2 *)(param_1 + 0x20) = uVar1;
-  *(undefined4 *)(param_1 + 0x28) = param_6;
-  *(undefined4 *)(param_1 + 0x2c) = param_7;
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x34) = 0;
-  fn_828CCCC0(param_1 + 0x30,*param_8,param_8[1],0);
-  param_1[0x38] = in_stack_00000057;
-  return param_1;
+    *(int *)(o->str + 0x10) = 0;
+    *(int *)(o->str + 0x14) = 0xf;
+    o->str[0] = 0;
+    fn_82230218(o, name, 0, -1);
+    o->f1c = a;
+    o->f1e = b;
+    o->f20 = fn_828EA268(b < 2 ? b : b - 1);
+    o->f24 = c;
+    o->f28 = d;
+    o->f2c = e;
+    o->f30 = 0;
+    o->f34 = 0;
+    fn_828CCCC0(&o->f30, f[0], f[1], 0);
+    o->f38 = g;
+    return o;
 }
-

@@ -25,31 +25,51 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82822368();
-extern int fn_828235F0();
+typedef struct Item {
+  char pad[8];
+  unsigned char flag;
+} Item;
+extern void fn_82822368(Item *p);
+extern void fn_828235F0(Item *p);
 
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+  void *f0;
+  void *f4;
+  void *f8;
+  void (*fc)(Obj *, int);
+  void *f10;
+  void *f14;
+  void (*f18)(Obj *, int, Item **);
+} ObjVtbl;
+struct Obj {
+  char pad0[0xc];
+  unsigned int flags;
+  ObjVtbl *vt;
+  char pad14[0x68 - 0x14];
+  int count;
+  char pad6c[0x78 - 0x6c];
+  unsigned int base;
+};
 
-void fn_8281B738(int param_1,longlong param_2)
+void fn_8281B738(Obj *o,int pos_in)
 
 {
-  code *pcVar1;
-  int aiStack_20 [2];
-  
-  if ((*(uint *)(param_1 + 0xc) & 4) != 0) {
-    param_2 = param_2 - (ulonglong)*(uint *)(param_1 + 0x78);
+  Item *item;
+  int pos = pos_in;
+
+  if ((o->flags & 4) != 0) {
+    pos = pos_in - o->base;
   }
-  *(int *)(param_1 + 0x68) = *(int *)(param_1 + 0x68) + 1;
-  pcVar1 = *(code **)(*(int *)(param_1 + 0x10) + 0x18);
-  if (pcVar1 != (code *)0x0) {
-    (*pcVar1)(param_1,param_2,aiStack_20);
-    if (aiStack_20[0] != 0) {
-      if (*(char *)(aiStack_20[0] + 8) != '\0') {
-        fn_82822368();
+  o->count++;
+  if (o->vt->f18 != 0) {
+    o->vt->f18(o,pos,&item);
+    if (item != 0) {
+      if (item->flag != 0) {
+        fn_82822368(item);
       }
-      fn_828235F0(aiStack_20[0]);
+      fn_828235F0(item);
     }
   }
-  (**(code **)(*(int *)(param_1 + 0x10) + 0xc))(param_1,param_2);
-  return;
+  o->vt->fc(o,pos);
 }
-

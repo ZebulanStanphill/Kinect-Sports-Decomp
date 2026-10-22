@@ -31,6 +31,16 @@ extern int fn_828E9DB8();
 extern int fn_828E9F18();
 
 
+static void wb(undefined8 s, undefined4 v, int n)
+{
+  fn_8223C478(s,n,0);
+  fn_828E9DB8(s,v,n);
+}
+static void wb64(undefined8 s, undefined8 v, int n)
+{
+  fn_8223C478(s,n,0);
+  fn_828E9F18(s,v,n);
+}
 void fn_828DD470(int param_1,undefined8 param_2)
 
 {
@@ -39,18 +49,11 @@ void fn_828DD470(int param_1,undefined8 param_2)
   undefined8 uVar3;
   
   iVar2 = fn_8288A398();
-  uVar1 = *(undefined4 *)(iVar2 + 0x38);
-  fn_8223C478(param_2,0x20,0);
-  fn_828E9DB8(param_2,uVar1,0x20);
-  uVar3 = *(undefined8 *)(param_1 + 0x80);
-  fn_8223C478(param_2,0x40,0);
-  fn_828E9F18(param_2,uVar3,0x40);
-  uVar1 = *(undefined4 *)(param_1 + 0x88);
-  fn_8223C478(param_2,8,0);
-  fn_828E9DB8(param_2,uVar1,8);
-  uVar1 = *(undefined4 *)(param_1 + 0x8c);
-  fn_8223C478(param_2,8,0);
-  fn_828E9DB8(param_2,uVar1,8);
+  wb(param_2,*(undefined4 *)(iVar2 + 0x38),0x20);
+  wb64(param_2,*(undefined8 *)(param_1 + 0x80),0x40);
+  wb(param_2,*(undefined4 *)(param_1 + 0x88),8);
+  wb(param_2,*(undefined4 *)(param_1 + 0x8c),8);
+
   return;
 }
 

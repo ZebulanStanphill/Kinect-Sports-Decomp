@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8240D930();
-extern int fn_825B5568();
+extern unsigned char fn_825B5568();
 extern int fn_8265CA20();
 extern int fn_828B22F0();
 extern int fn_828B2BF8();
@@ -38,7 +38,7 @@ extern unsigned int lbl_82024E40;
 void fn_828B4958(undefined4 *param_1)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   int *piVar1;
   
   *param_1 = &lbl_82024E40;
@@ -48,7 +48,7 @@ void fn_828B4958(undefined4 *param_1)
     if (cVar2 != '\0') {
       fn_828B2BF8();
       piVar1 = (int *)fn_8240D930();
-      (**(code **)(*piVar1 + 0x2c))(piVar1,*(undefined8 *)(param_1 + 0xc));
+      (*(code *)(*piVar1 + 0x2c))(piVar1,*(undefined8 *)(param_1 + 0xc));
     }
     *(undefined1 *)(param_1 + 0xe) = 0;
   }

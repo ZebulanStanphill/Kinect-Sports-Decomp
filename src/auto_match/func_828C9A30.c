@@ -25,33 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828807A0();
+typedef struct Val { int first; __int64 second; } Val;
+typedef struct Node {
+  struct Node *left;
+  struct Node *parent;
+  struct Node *right;
+  int pad;
+  Val val;
+  char color;
+  char isnil;
+} Node;
+typedef struct Tree { int alloc; Node *head; int size; } Tree;
 
+extern Node *fn_828807A0(Tree *t);
 
-undefined4 * fn_828C9A30(int param_1,undefined4 *param_2,undefined4 param_3)
-
+Node *fn_828C9A30(Tree *t, Node *root, Node *where)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)param_2 + 0x21) == '\0') {
-    puVar1 = (undefined4 *)fn_828807A0();
-    if (puVar1 + 4 != (undefined4 *)0x0) {
-      puVar1[4] = param_2[4];
-      *(undefined8 *)(puVar1 + 6) = *(undefined8 *)(param_2 + 6);
-    }
-    puVar1[1] = param_3;
-    *(undefined1 *)(puVar1 + 8) = *(undefined1 *)(param_2 + 8);
-    if (*(char *)((int)puVar3 + 0x21) != '\0') {
-      puVar3 = puVar1;
-    }
-    uVar2 = fn_828C9A30(param_1,*param_2,puVar1);
-    *puVar1 = uVar2;
-    uVar2 = fn_828C9A30(param_1,param_2[2],puVar1);
-    puVar1[2] = uVar2;
-  }
-  return puVar3;
-}
+  Node *newroot;
+  Node *p;
+  Val *v;
 
+  newroot = t->head;
+  if (!root->isnil) {
+    p = fn_828807A0(t);
+    v = &p->val;
+    if (v != 0) {
+      v->first = root->val.first;
+      v->second = root->val.second;
+    }
+    p->parent = where;
+    p->color = root->color;
+    if (newroot->isnil) {
+      newroot = p;
+    }
+    p->left = fn_828C9A30(t, root->left, p);
+    p->right = fn_828C9A30(t, root->right, p);
+  }
+  return newroot;
+}

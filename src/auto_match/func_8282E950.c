@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828223C8();
-extern int fn_82827750();
+extern int fn_828223C8(void *p, void **out);
+extern unsigned char fn_82827750(char *p);
 extern int fn_82827980();
 extern int fn_828283F0();
 extern int fn_8282A570();
@@ -43,42 +43,36 @@ extern int fn_8282F380();
 extern int fn_828326A8();
 
 
-void fn_8282E950(int param_1)
-
+void fn_8282E950(char *param_1)
 {
-  int iVar1;
-  char cVar2;
-  int aiStack_20 [4];
-  
-  fn_82827980(param_1,0xffffffff8201ed5c,0);
-  fn_828283F0(param_1,1);
-  iVar1 = param_1 + 0x2fc;
+  void *p;
+  void *out;
+
+  fn_82827980(param_1, ".data", 0);
+  fn_828283F0(param_1, 1);
+  p = param_1 + 0x2fc;
   do {
-    fn_828223C8(iVar1,aiStack_20);
-    iVar1 = aiStack_20[0];
-  } while (aiStack_20[0] != 0);
+    fn_828223C8(p, &out);
+    p = out;
+  } while (out != 0);
   fn_8282B450(param_1);
-  cVar2 = fn_82827750(param_1);
-  if (cVar2 != '\0') {
+  if (fn_82827750(param_1)) {
     fn_8282B8C0(param_1);
   }
   fn_8282D858(param_1);
   fn_8282E5D8(param_1);
   fn_8282A570(param_1);
-  cVar2 = fn_82827750(param_1);
-  if (cVar2 != '\0') {
+  if (fn_82827750(param_1)) {
     fn_828326A8(param_1);
   }
-  if (*(int *)(param_1 + 0x3dc) != 0) {
+  if (*(void **)(param_1 + 0x3dc) != 0) {
     fn_8282E2D8(param_1);
     fn_8282F380(param_1);
   }
   fn_8282DF40(param_1);
   fn_8282DD18(param_1);
-  if (*(int *)(param_1 + 0x3dc) != 0) {
+  if (*(void **)(param_1 + 0x3dc) != 0) {
     fn_8282F2B0();
   }
   fn_8282E888(param_1);
-  return;
 }
-

@@ -1,65 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8282B528();
+typedef struct B {
+    char pad0[0x10];
+    unsigned int f10;
+    char pad14[8];
+    unsigned int f1c;
+    unsigned int f20;
+    unsigned int f24;
+} B;
 
+typedef struct A {
+    char pad0[0x2c];
+    int f2c;
+    unsigned int f30;
+    char pad34[0x2b8 - 0x34];
+    unsigned int f2b8;
+    unsigned int f2bc;
+    char pad2c0[8];
+    unsigned int f2c8;
+    unsigned int f2cc;
+    unsigned int f2d0;
+    unsigned int f2d4;
+    char pad2d8[0x3e8 - 0x2d8];
+    unsigned char f3e8;
+} A;
 
-void fn_8282B5F8(int param_1,int param_2)
+extern void fn_8282B528(A *a);
 
+void fn_8282B5F8(A *a, B *b)
 {
-  int iVar1;
-  
-  if (*(int *)(param_2 + 0x10) != 0) {
-    if ((((*(int *)(param_2 + 0x10) != *(int *)(param_1 + 0x2c8)) ||
-         (*(int *)(param_2 + 0x20) != *(int *)(param_1 + 0x2d0))) ||
-        (*(int *)(param_2 + 0x24) != *(int *)(param_1 + 0x2d4))) ||
-       (*(int *)(param_2 + 0x1c) != *(int *)(param_1 + 0x2cc))) {
-      if (*(int *)(param_1 + 0x2b8) != 0) {
-        *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + 1;
-        if (*(char *)(param_1 + 1000) == '\0') {
-          fn_8282B528(param_1);
+    if (b->f10 != 0) {
+        if (b->f10 != a->f2c8 || b->f20 != a->f2d0 || b->f24 != a->f2d4 || b->f1c != a->f2cc) {
+            if (a->f2b8 != 0) {
+                a->f2c++;
+                if (a->f3e8 == 0) {
+                    fn_8282B528(a);
+                }
+                a->f2b8 = 0;
+            }
+            a->f2c8 = b->f10;
+            a->f2d0 = b->f20;
+            a->f2d4 = b->f24;
+            a->f2cc = b->f1c;
         }
-        *(undefined4 *)(param_1 + 0x2b8) = 0;
-      }
-      *(undefined4 *)(param_1 + 0x2c8) = *(undefined4 *)(param_2 + 0x10);
-      *(undefined4 *)(param_1 + 0x2d0) = *(undefined4 *)(param_2 + 0x20);
-      *(undefined4 *)(param_1 + 0x2d4) = *(undefined4 *)(param_2 + 0x24);
-      *(undefined4 *)(param_1 + 0x2cc) = *(undefined4 *)(param_2 + 0x1c);
+        a->f2bc++;
+        a->f2b8++;
+        if (a->f2bc == a->f30) {
+            a->f2c++;
+            if (a->f3e8 == 0) {
+                fn_8282B528(a);
+            }
+        }
     }
-    iVar1 = *(int *)(param_1 + 700) + 1;
-    *(int *)(param_1 + 700) = iVar1;
-    *(int *)(param_1 + 0x2b8) = *(int *)(param_1 + 0x2b8) + 1;
-    if (iVar1 == *(int *)(param_1 + 0x30)) {
-      *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + 1;
-      if (*(char *)(param_1 + 1000) == '\0') {
-        fn_8282B528(param_1);
-      }
-    }
-  }
-  return;
 }
-

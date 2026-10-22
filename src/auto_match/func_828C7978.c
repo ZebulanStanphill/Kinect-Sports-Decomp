@@ -1,53 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C478();
-extern int fn_82891F28();
-extern int fn_828B5C88();
-extern int fn_828E9DB8();
+typedef struct {
+    char pad0[0x6c];
+    int f6c;
+    char pad70[0x80 - 0x70];
+    int sub80[2];
+    unsigned int f88;
+    unsigned int f8c;
+    int sub90[5];
+    unsigned char pada4;
+    unsigned char fa5;
+} Obj;
 
+extern void fn_8223C478(void *s, int n, int z);
+extern void fn_828E9DB8(void *s, unsigned int v, int n);
+extern void fn_82891F28(void *s, void *p);
+extern void fn_828B5C88(void *p, int a, void *s);
 
-void fn_828C7978(int param_1,undefined8 param_2)
-
+static void writeBits(void *s, unsigned int v, int n)
 {
-  char cVar1;
-  undefined4 uVar2;
-  
-  fn_828B5C88(param_1 + 0x80,*(undefined4 *)(param_1 + 0x6c),param_2);
-  cVar1 = *(char *)(param_1 + 0xa5);
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,cVar1 != '\0',1);
-  uVar2 = *(undefined4 *)(param_1 + 0x88);
-  fn_8223C478(param_2,8,0);
-  fn_828E9DB8(param_2,uVar2,8);
-  uVar2 = *(undefined4 *)(param_1 + 0x8c);
-  fn_8223C478(param_2,0x10,0);
-  fn_828E9DB8(param_2,uVar2,0x10);
-  fn_82891F28(param_2,param_1 + 0x90);
-  return;
+    fn_8223C478(s, n, 0);
+    fn_828E9DB8(s, v, n);
 }
 
+static void writeBool(void *s, unsigned char b)
+{
+    fn_8223C478(s, 1, 0);
+    fn_828E9DB8(s, b != 0, 1);
+}
+
+void fn_828C7978(Obj *o, void *s)
+{
+    fn_828B5C88(o->sub80, o->f6c, s);
+    writeBool(s, o->fa5);
+    writeBits(s, o->f88, 8);
+    writeBits(s, o->f8c, 16);
+    fn_82891F28(s, o->sub90);
+}

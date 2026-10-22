@@ -1,65 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82820EF8();
+typedef struct Elem {
+  int a;
+  int pad[3];
+  int b;
+} Elem;
 
+typedef struct Data {
+  char pad0[0x1c];
+  int f1c;
+  int f20;
+  int f24;
+  int f28;
+  int f2c;
+  int f30;
+  int f34;
+  int f38;
+  int f3c;
+  int f40;
+  int f44;
+  int f48;
+  int f4c;
+  unsigned char f50;
+  unsigned char f51;
+  char pad52[2];
+  int f54;
+  Elem arr[2];
+} Data;
+
+extern void fn_82820EF8(void *p, int size);
 
 void fn_82814D28(int param_1)
-
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x1c);
-  fn_82820EF8(uVar2 + 0x1c,4);
-  fn_82820EF8(uVar2 + 0x20,4);
-  fn_82820EF8(uVar2 + 0x24,4);
-  fn_82820EF8(uVar2 + 0x2c,4);
-  fn_82820EF8(uVar2 + 0x30,4);
-  fn_82820EF8(uVar2 + 0x3c,4);
-  fn_82820EF8(uVar2 + 0x40,4);
-  fn_82820EF8(uVar2 + 0x34,4);
-  fn_82820EF8(uVar2 + 0x38,4);
-  fn_82820EF8(uVar2 + 0x44,4);
-  fn_82820EF8(uVar2 + 0x48,4);
-  fn_82820EF8(uVar2 + 0x28,4);
-  fn_82820EF8(uVar2 + 0x51,1);
-  fn_82820EF8(uVar2 + 0x54,4);
-  lVar3 = uVar2 + 0x68;
-  lVar1 = 2;
-  do {
-    if ((*(byte *)(*(int *)(param_1 + 0x1c) + 0x50) & 1) != 1) {
-      fn_82820EF8(lVar3 + -0x10,4);
-      fn_82820EF8(lVar3,4);
-    }
-    lVar1 = lVar1 + -1;
-    lVar3 = lVar3 + 0x14;
-  } while (lVar1 != 0);
-  return;
-}
+  Data *d;
+  int i;
 
+  d = *(Data **)(param_1 + 0x1c);
+  fn_82820EF8(&d->f1c, 4);
+  fn_82820EF8(&d->f20, 4);
+  fn_82820EF8(&d->f24, 4);
+  fn_82820EF8(&d->f2c, 4);
+  fn_82820EF8(&d->f30, 4);
+  fn_82820EF8(&d->f3c, 4);
+  fn_82820EF8(&d->f40, 4);
+  fn_82820EF8(&d->f34, 4);
+  fn_82820EF8(&d->f38, 4);
+  fn_82820EF8(&d->f44, 4);
+  fn_82820EF8(&d->f48, 4);
+  fn_82820EF8(&d->f28, 4);
+  fn_82820EF8(&d->f51, 1);
+  fn_82820EF8(&d->f54, 4);
+  for (i = 0; i < 2; i++) {
+    if (((*(Data **)(param_1 + 0x1c))->f50 & 1) != 1) {
+      fn_82820EF8(&d->arr[i].a, 4);
+      fn_82820EF8(&d->arr[i].b, 4);
+    }
+  }
+}

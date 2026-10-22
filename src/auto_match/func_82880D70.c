@@ -25,34 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82880040();
-extern int fn_828EA790();
-extern int (*lbl_832129D0)();
-extern unsigned int *lbl_83212A04;
-
+typedef struct Node { struct Node *left, *parent, *right; int key; char *val; } Node;
+typedef struct { int alloc; Node *head; int size; } Tree;
+extern void fn_82880040(void *a, void *b);
+extern void fn_828EA790(Node **it);
+extern void (*lbl_832129D0)(void);
+extern Tree lbl_83212A00;
 
 void fn_82880D70(void)
-
 {
-  uint uVar1;
-  int *piVar2;
-  int *apiStack_20 [2];
-  
-  apiStack_20[0] = (int *)*lbl_83212A04;
-  piVar2 = lbl_83212A04;
-  if (apiStack_20[0] != lbl_83212A04) {
-    do {
-      uVar1 = apiStack_20[0][4];
-      if (uVar1 != 0) {
-        fn_82880040((ulonglong)uVar1 + 0xa4,(ulonglong)uVar1 + 0x98);
-        piVar2 = lbl_83212A04;
-      }
-      fn_828EA790(apiStack_20);
-    } while (apiStack_20[0] != piVar2);
+  Node *it;
+  Node *end;
+
+  end = lbl_83212A00.head;
+  it = end->left;
+  while (it != end) {
+    if (it->val != 0) {
+      fn_82880040(it->val + 0xa4, it->val + 0x98);
+      end = lbl_83212A00.head;
+    }
+    fn_828EA790(&it);
   }
-  if (lbl_832129D0 != (code *)0x0) {
+  if (lbl_832129D0 != 0) {
     (*lbl_832129D0)();
   }
-  return;
 }
-

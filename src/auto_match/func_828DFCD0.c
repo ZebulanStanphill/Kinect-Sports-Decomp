@@ -1,58 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8289EE00();
-extern int fn_828DF3F0();
-extern int fn_828DFA98();
-extern int fn_828E0270();
+typedef struct { int first; int second; } Pair;
+typedef struct Node {
+  struct Node *left;
+  struct Node *parent;
+  struct Node *right;
+  Pair kv;
+} Node;
+typedef struct { int f0; Node *head; int size; } Map;
+typedef struct { Node *node; } Iter;
 
+extern Node *fn_8289EE00(Map *m);
+extern Node *fn_828DF3F0(Map *m, int *key);
+extern void fn_828DFA98(Iter *out, Map *m, Node *where, Node *nn);
+extern unsigned char fn_828E0270(int *a, int *b);
 
-longlong fn_828DFCD0(int param_1,undefined4 *param_2)
-
+int *fn_828DFCD0(Map *param_1, int *param_2)
 {
-  undefined4 uVar1;
-  ulonglong uVar2;
-  char cVar4;
-  int iVar3;
-  uint auStack_30;
-  
-  uVar2 = fn_828DF3F0();
-  if (((uVar2 & 0xffffffff) == (ulonglong)*(uint *)(param_1 + 4)) ||
-     (cVar4 = fn_828E0270(param_2,uVar2 + 0xc), cVar4 != '\0')) {
-    uVar1 = *param_2;
-    iVar3 = fn_8289EE00(param_1);
-    if ((undefined4 *)(iVar3 + 0xc) != (undefined4 *)0x0) {
-      *(undefined4 *)(iVar3 + 0xc) = uVar1;
-      *(undefined4 *)(iVar3 + 0x10) = 0;
-    }
-    fn_828DFA98(&auStack_30,param_1,uVar2,iVar3);
-    uVar2 = (ulonglong)auStack_30;
-  }
-  return uVar2 + 0x10;
-}
+  Node *n;
+  Node *nn;
+  Pair *p;
+  int key;
+  Iter it;
 
+  n = fn_828DF3F0(param_1, param_2);
+  if (n == param_1->head || fn_828E0270(param_2, &n->kv.first)) {
+    key = *param_2;
+    nn = fn_8289EE00(param_1);
+    p = &nn->kv;
+    if (p != 0) {
+      p->first = key;
+      p->second = 0;
+    }
+    fn_828DFA98(&it, param_1, n, nn);
+    n = it.node;
+  }
+  return &n->kv.second;
+}

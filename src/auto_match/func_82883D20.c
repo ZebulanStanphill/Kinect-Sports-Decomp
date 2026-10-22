@@ -1,59 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+extern void fn_8265CA20(void *p);
 
+typedef struct Entry { void *p; int a; int b; } Entry;
+typedef struct Queue {
+  int f0;
+  Entry **items;
+  uint cap;
+  uint head;
+  uint count;
+} Queue;
 
-void fn_82883D20(int param_1)
-
+void fn_82883D20(Queue *q)
 {
-  int *piVar1;
-  uint uVar3;
-  longlong lVar2;
-  
-  if (*(int *)(param_1 + 0x10) != 0) {
-    piVar1 = *(int **)(*(int *)(param_1 + 4) + *(int *)(param_1 + 0xc) * 4);
-    if (*piVar1 != 0) {
-      fn_8265CA20();
+  Entry *e;
+
+  if (q->count != 0) {
+    e = q->items[q->head];
+    if (e->p != 0) {
+      fn_8265CA20(e->p);
     }
-    *piVar1 = 0;
-    piVar1[1] = 0;
-    piVar1[2] = 0;
-    uVar3 = *(int *)(param_1 + 0xc) + 1;
-    *(uint *)(param_1 + 0xc) = uVar3;
-    if (*(uint *)(param_1 + 8) <= uVar3) {
-      *(undefined4 *)(param_1 + 0xc) = 0;
+    e->p = 0;
+    e->a = 0;
+    e->b = 0;
+    q->head++;
+    if (q->cap <= q->head) {
+      q->head = 0;
     }
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x10) - 1;
-    *(int *)(param_1 + 0x10) = (int)lVar2;
-    if (lVar2 == 0) {
-      *(undefined4 *)(param_1 + 0xc) = 0;
+    q->count--;
+    if (q->count == 0) {
+      q->head = 0;
     }
   }
-  return;
 }
-

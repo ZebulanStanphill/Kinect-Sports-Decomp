@@ -34,22 +34,21 @@ void fn_828EE898(undefined4 *param_1)
 
 {
   *param_1 = &lbl_82027588;
-  if (param_1[2] == 1) {
+  if ((int)param_1[2] == 1) {
     *(undefined1 *)((int)param_1 + 0x441) = 1;
     if (param_1[5] == 0x3e5) {
       fn_82A1C0F0(param_1 + 5);
     }
     if (param_1[4] != 0) {
-      fn_8265CA20();
+      fn_8265CA20(param_1[4]);
       param_1[4] = 0;
     }
     param_1[2] = 0;
     *(undefined1 *)((int)param_1 + 0x441) = 0;
   }
   if (param_1[4] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[4]);
     param_1[4] = 0;
   }
   return;
 }
-

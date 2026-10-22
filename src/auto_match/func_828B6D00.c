@@ -1,60 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_828B8F58();
-extern int fn_828B8F60();
-extern int fn_828B8F68();
+typedef struct Ref {
+    void *a;
+    void *p;
+} Ref;
 
+typedef struct Entry {
+    void *a;
+    void *p;
+} Entry;
 
-undefined4 *
-fn_828B6D00(undefined4 *param_1,int param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5)
+typedef struct List {
+    int f0;
+    Entry *begin;
+    Entry *end;
+} List;
 
+extern unsigned char fn_828B8F60(void *a, void *k);
+extern unsigned char fn_828B8F68(void *a, void *k);
+extern unsigned char fn_828B8F58(void *a, void *k);
+extern void fn_82517978(Ref *r, void *a, void *b, int c);
+
+Ref *fn_828B6D00(Ref *out, List *list, void *k1, void *k2, void *k3)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = *(undefined4 **)(param_2 + 4);
-  if (puVar2 != *(undefined4 **)(param_2 + 8)) {
-    do {
-      cVar1 = fn_828B8F60(*puVar2,param_3);
-      if (((cVar1 != '\0') && (cVar1 = fn_828B8F68(*puVar2,param_4), cVar1 != '\0')) &&
-         (cVar1 = fn_828B8F58(*puVar2,param_5), cVar1 != '\0')) {
-        *param_1 = 0;
-        param_1[1] = 0;
-        fn_82517978(param_1,*puVar2,puVar2[1],0);
-        return param_1;
-      }
-      puVar2 = puVar2 + 2;
-    } while (puVar2 != *(undefined4 **)(param_2 + 8));
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  return param_1;
-}
+    Entry *e;
 
+    for (e = list->begin; e != list->end; e++) {
+        if (fn_828B8F60(e->a, k1) && fn_828B8F68(e->a, k2) && fn_828B8F58(e->a, k3)) {
+            out->a = 0;
+            out->p = 0;
+            fn_82517978(out, e->a, e->p, 0);
+            return out;
+        }
+    }
+    out->a = 0;
+    out->p = 0;
+    return out;
+}

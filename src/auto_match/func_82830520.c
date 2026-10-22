@@ -40,7 +40,7 @@ void fn_82830520(int param_1,int param_2)
   undefined1 uVar4;
   int iVar5;
   int iVar6;
-  int aiStack_30;
+  uint aiStack_30;
   
   uVar3 = fn_828252D0(*(undefined1 *)(param_2 + 0x51));
   *(undefined4 *)(param_1 + 0x3cc) = uVar3;
@@ -63,15 +63,14 @@ void fn_82830520(int param_1,int param_2)
   }
   puVar1 = (undefined4 *)**(int **)(param_2 + 0x2ec);
   for (puVar2 = (undefined4 *)*puVar1; puVar2 != puVar1; puVar2 = (undefined4 *)*puVar2) {
-    uVar3 = fn_82828720(param_1,puVar2 + 2);
-    *(undefined4 *)(puVar2[0x42] * 4 + *(int *)(param_1 + 0x3d0) + -4) = uVar3;
+    (*(int **)(param_1 + 0x3d0))[puVar2[0x42] - 1] = fn_82828720(param_1,puVar2 + 2);
   }
   iVar6 = 0;
   fn_828223C8(param_2 + 0x2fc,&aiStack_30);
   if (aiStack_30 != 0) {
     iVar5 = 0;
     do {
-      if (**(int **)(aiStack_30 + 0x40) == aiStack_30) {
+      if (**(uint **)(aiStack_30 + 0x40) == aiStack_30) {
         *(undefined4 *)(iVar5 + *(int *)(param_1 + 0x3d4)) = 0;
       }
       else {

@@ -25,33 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82820EF8();
-extern int fn_82826568();
-extern int fn_828295A8();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct {
+  char pad[0x10];
+  unsigned int *p10;
+  unsigned int a14;
+  unsigned int a18;
+  unsigned int a1c;
+  unsigned int a20;
+} S;
 
+extern int fn_82820EF8(unsigned int *p, int n);
+extern int fn_82826568(int a, unsigned int b, unsigned int *out);
+extern int fn_828295A8(unsigned int a, unsigned int *out);
 
-void fn_8282ADC8(undefined8 param_1,int param_2)
-
+void fn_8282ADC8(int param_1, S *s)
 {
-  longlong lVar1;
-  uint uStack_30;
-  undefined4 uStack_2c;
-  undefined4 auStack_28;
-  
-  if (*(int *)(param_2 + 0x14) != 0) {
-    fn_82826568(param_1,*(int *)(param_2 + 0x14),&uStack_2c);
-    fn_82826568(param_1,*(undefined4 *)(param_2 + 0x18),&auStack_28);
-    fn_828295A8(uStack_2c,&uStack_30);
-    lVar1 = (ulonglong)*(uint *)(param_2 + 0x1c) + (ulonglong)uStack_30;
-    *(int *)(param_2 + 0x10) = (int)lVar1;
-    fn_82820EF8(lVar1,4);
-    *(undefined4 *)(param_2 + 0x20) = **(undefined4 **)(param_2 + 0x10);
-    fn_828295A8(auStack_28,&uStack_30);
-    **(int **)(param_2 + 0x10) = **(int **)(param_2 + 0x10) + uStack_30;
-  }
-  return;
-}
+  unsigned int off;
+  unsigned int a;
+  unsigned int b;
 
+  if (s->a14 != 0) {
+    fn_82826568(param_1, s->a14, &a);
+    fn_82826568(param_1, s->a18, &b);
+    fn_828295A8(a, &off);
+    s->p10 = (unsigned int *)(s->a1c + off);
+    fn_82820EF8(s->p10, 4);
+    s->a20 = *s->p10;
+    fn_828295A8(b, &off);
+    *s->p10 += off;
+  }
+}

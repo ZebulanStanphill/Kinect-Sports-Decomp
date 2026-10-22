@@ -25,26 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82949AB0();
-extern int fn_82960240();
-
+extern int fn_82949AB0(int a, int b, const char *s, int c, int d);
+extern int fn_82960240(int a);
 
 void fn_8294A5B0(int param_1)
-
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(*(int *)((**(uint **)(param_1 + 0x104) & 0xfffff) * 4 +
-                           (*(uint **)(param_1 + 0x104))[2]) * 4 + *(int *)(param_1 + 0x14));
-  if ((*(uint *)(iVar1 + 0x3c) & 0x1f0000) == 0x80000) {
-    *(uint *)(iVar1 + 0x3c) = *(uint *)(iVar1 + 0x3c) & 0xfff7ffff;
-    fn_82949AB0(param_1,0,0xffffffff820359b4,0,0);
-    *(uint *)(iVar1 + 0x3c) = *(uint *)(iVar1 + 0x3c) | 0x80000;
+  unsigned int *t;
+  unsigned int *e;
+
+  t = *(unsigned int **)(param_1 + 0x104);
+  e = *(unsigned int **)(*(int *)(param_1 + 0x14) + ((int *)t[2])[t[0] & 0xfffff] * 4);
+  if ((e[0xf] & 0x1f0000) == 0x80000) {
+    e[0xf] &= ~0x80000;
+    fn_82949AB0(param_1, 0, "XMVectorSubtract", 0, 0);
+    e[0xf] |= 0x80000;
   }
   else {
-    fn_82949AB0(param_1,0,0xffffffff820359a8,0,0);
+    fn_82949AB0(param_1, 0, "XMVectorAdd", 0, 0);
   }
   fn_82960240(param_1);
-  return;
 }
-

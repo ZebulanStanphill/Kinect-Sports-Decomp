@@ -1,68 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Info {
+    unsigned char pad[0x44];
+    int count;
+} Info;
 
+typedef struct Ext {
+    unsigned char pad[0x44];
+    Info *info;
+} Ext;
 
-void fn_8285C968(int param_1,int param_2,int *param_3,int *param_4,int *param_5,int *param_6,
-                  int *param_7)
+typedef struct Node {
+    unsigned char pad0[0x1c];
+    unsigned char a[0xc];
+    unsigned char b[0xc];
+    struct Node *n34;
+    struct Node *n38;
+    unsigned char pad3c[4];
+    Ext *ext;
+} Node;
 
+void fn_8285C968(Node *self, Node *link, int *base, Node **other, unsigned char **side,
+                 int *first, int *total)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *param_3;
-  *param_7 = 0;
-  iVar2 = iVar1 + 1;
-  *param_6 = iVar1;
-  if (*(int *)(param_2 + 0x34) == param_1) {
-    *param_4 = *(int *)(param_2 + 0x38);
-    *param_5 = param_2 + 0x1c;
-    if (*(int *)(param_1 + 0x40) == 0) {
-      return;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x40) + 0x44) == 0) {
-      return;
-    }
-  }
-  else {
-    *param_4 = *(int *)(param_2 + 0x34);
-    *param_5 = param_2 + 0x28;
-    if (*(int *)(param_1 + 0x40) == 0) {
-      return;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x40) + 0x44) == 0) {
-      return;
-    }
-    iVar1 = *(int *)(*(int *)(*param_4 + 0x40) + 0x44);
-    if (iVar1 != 0) {
-      iVar2 = *(int *)(iVar1 + 0x44) + iVar2;
-    }
-  }
-  *param_7 = iVar2;
-  return;
-}
+    int v;
+    int n;
+    Info *info;
 
+    v = *base;
+    *total = 0;
+    n = v + 1;
+    *first = v;
+    if (link->n34 == self) {
+        *other = link->n38;
+        *side = link->a;
+        if (self->ext == 0) {
+            return;
+        }
+        if (*(int *)((unsigned char *)self->ext + 0x44) == 0) {
+            return;
+        }
+    } else {
+        *other = link->n34;
+        *side = link->b;
+        if (self->ext == 0) {
+            return;
+        }
+        if (*(int *)((unsigned char *)self->ext + 0x44) == 0) {
+            return;
+        }
+        info = (*other)->ext->info;
+        if (info != 0) {
+            n = info->count + n;
+        }
+    }
+    *total = n;
+}

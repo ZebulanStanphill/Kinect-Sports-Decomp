@@ -51,11 +51,11 @@ void fn_828CD3B0(undefined4 *param_1)
   if ((param_1[0x24] == 0) && (param_1[0x25] == 0)) {
     puVar1 = (undefined4 *)param_1[0x20];
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
   }
   if (param_1[0x2c] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[0x2c]);
   }
   param_1[0x2c] = 0;
   param_1[0x2d] = 0;

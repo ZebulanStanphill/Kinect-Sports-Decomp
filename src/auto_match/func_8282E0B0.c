@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_828184A8();
 extern int fn_82820EF8();
-extern int fn_82827750();
+extern unsigned char fn_82827750();
 extern int fn_8282DDD8();
 extern int fn_82F6E380();
 
@@ -35,9 +35,9 @@ extern int fn_82F6E380();
 void fn_8282E0B0(int param_1,undefined4 *param_2)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   undefined4 uVar1;
-  longlong lVar3;
+  int lVar3;
   int iVar4;
   
   *(undefined4 *)(param_1 + 0x1c) = 0x80;
@@ -58,13 +58,11 @@ void fn_8282E0B0(int param_1,undefined4 *param_2)
     fn_82820EF8(param_1 + 0x48,4);
     fn_82820EF8(param_1 + 0x54,4);
     iVar4 = param_1 + 0x68;
-    lVar3 = 2;
-    do {
+    for (lVar3 = 0; lVar3 < 2; lVar3++) {
       fn_82820EF8(iVar4 + -0x10,4);
       fn_82820EF8(iVar4,4);
-      lVar3 = lVar3 + -1;
       iVar4 = iVar4 + 0x14;
-    } while (lVar3 != 0);
+    }
     fn_82820EF8(param_1 + 0x14,8);
   }
   *(undefined4 *)(param_1 + 0x20) = 0;
@@ -74,7 +72,7 @@ void fn_8282E0B0(int param_1,undefined4 *param_2)
   if (cVar2 != '\0') {
     fn_82820EF8(param_1 + 0x20,4);
   }
-  (*(code *)param_2[2])(*param_2,0x80,param_1);
+  ((code)param_2[2])(*param_2,0x80,param_1);
   fn_8282DDD8(param_2,0);
   return;
 }
