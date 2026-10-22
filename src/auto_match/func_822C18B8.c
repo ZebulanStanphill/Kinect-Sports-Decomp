@@ -33,7 +33,7 @@ void fn_822C18B8(uint *param_1)
 
 {
   uint uVar1;
-  ulonglong uVar2;
+  unsigned int uVar2;
   
   uVar2 = (ulonglong)*param_1;
   if (uVar2 != 0) {
