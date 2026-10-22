@@ -31,8 +31,8 @@ extern int fn_8265C990();
 void fn_8306D168(int param_1)
 
 {
-  longlong lVar1;
-  int *piVar2;
+  int lVar1;
+  unsigned int *piVar2;
   
   piVar2 = (int *)(param_1 + 0x5990);
   lVar1 = 2;

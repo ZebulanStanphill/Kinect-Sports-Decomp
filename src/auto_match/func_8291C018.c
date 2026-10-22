@@ -32,13 +32,13 @@ extern int fn_8291AF98();
 longlong fn_8291C018(int param_1)
 
 {
-  uint uVar1;
+  unsigned __int64 uVar1;
   longlong lVar2;
   
   uVar1 = *(uint *)(param_1 + 4);
-  lVar2 = (ulonglong)uVar1 - 1;
+  lVar2 = uVar1 - 1;
   *(int *)(param_1 + 4) = (int)lVar2;
-  if ((ulonglong)uVar1 == 1) {
+  if ((unsigned int)uVar1 == 1) {
     fn_8291AF98();
     fn_8265C990(param_1,0x24810000);
   }

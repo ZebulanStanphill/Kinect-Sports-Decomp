@@ -29,12 +29,12 @@ extern int fn_826827F8();
 extern int fn_82696330();
 
 
-void fn_82683270(uint *param_1,longlong param_2)
+void fn_82683270(uint *param_1,int param_2)
 
 {
   uint uVar1;
   
-  if ((int)param_2 != 0) {
+  if ((unsigned int)param_2 != 0) {
     do {
       fn_82696330(*param_1);
       uVar1 = *param_1;

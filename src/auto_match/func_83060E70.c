@@ -34,8 +34,8 @@ extern int fn_83065E50();
 void fn_83060E70(undefined8 param_1,int param_2)
 
 {
-  int iVar1;
-  undefined8 uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   
   iVar1 = *(int *)(param_2 + 4);
   while( true ) {

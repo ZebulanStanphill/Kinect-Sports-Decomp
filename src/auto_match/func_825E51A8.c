@@ -32,8 +32,8 @@ extern int fn_8265CAA0();
 void fn_825E51A8(int param_1)
 
 {
-  int iVar1;
-  longlong lVar2;
+  unsigned int iVar1;
+  int lVar2;
   int *piVar3;
   
   piVar3 = (int *)(param_1 + 0x4a4);

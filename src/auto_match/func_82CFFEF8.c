@@ -33,8 +33,8 @@ int * fn_82CFFEF8(int *param_1,int *param_2,undefined8 param_3)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  int iVar3;
+  unsigned int uVar2;
+  unsigned int iVar3;
   
   uVar2 = fn_82CFD5A8(param_2[1]);
   iVar1 = *param_2;

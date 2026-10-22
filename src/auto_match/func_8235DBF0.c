@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82547C80();
 
 
-undefined8 fn_8235DBF0(uint *param_1,uint *param_2)
+undefined8 fn_8235DBF0(uint *param_1,int *param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if (((ulonglong)*param_1 != 0) && (lVar1 = (ulonglong)*param_1 + 0xd0, lVar1 != 0)) {
     fn_82547C80(lVar1,*param_2 & 0xff,0);

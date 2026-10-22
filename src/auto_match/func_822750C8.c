@@ -35,11 +35,11 @@ undefined4 fn_822750C8(void)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar3;
   
   iVar2 = fn_82275128();
-  uVar1 = fn_82F4EBC0(*(uint *)(iVar2 + 8) & 0xff);
+  uVar1 = fn_82F4EBC0(*(int *)(iVar2 + 8) & 0xff);
   iVar2 = fn_82F4DA20(2);
   iVar3 = fn_82F4ECF8(uVar1);
   return *(undefined4 *)(iVar3 * 0x1c0 + iVar2 + 0x34);

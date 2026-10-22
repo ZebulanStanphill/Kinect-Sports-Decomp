@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82E22E88(int param_1,int param_2)
+int  fn_82E22E88(int param_1,int param_2)
 
 {
   int iVar1;
   
   iVar1 = *(int *)(param_1 + 0x14) * 0x7d;
-  if (*(int *)(param_1 + 0x18) != 0xfe) {
+  if (*(unsigned int *)(param_1 + 0x18) != 0xfe) {
     iVar1 = iVar1 + 0x20c;
   }
   return (longlong)(param_2 + 1) * (longlong)iVar1;

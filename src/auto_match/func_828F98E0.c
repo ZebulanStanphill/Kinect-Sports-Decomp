@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C940();
 
 
-undefined8 fn_828F98E0(int param_1,undefined8 param_2)
+undefined8 fn_828F98E0(int param_1,unsigned int param_2)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   
   iVar2 = fn_8265C940(param_2,0x24810000);

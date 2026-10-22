@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F4DB48();
 
 
-void fn_82F510F0(int param_1,undefined8 param_2)
+void fn_82F510F0(int param_1,int param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   *(int *)(*(int *)(param_1 + 4) + 0x7d8) = (int)param_2;
-  if ((int)param_2 < 6) {
+  if (param_2 < 6) {
     iVar1 = *(int *)(*(int *)(param_1 + 4) + 8);
     iVar2 = fn_82F4DB48(param_2);
     if ((*(int *)(iVar1 + 0x28) != iVar2) && (iVar1 != iVar2)) {
@@ -45,7 +45,7 @@ void fn_82F510F0(int param_1,undefined8 param_2)
   }
   else {
     iVar1 = *(int *)(*(int *)(param_1 + 4) + 8);
-    if (*(int *)(iVar1 + 0x28) != 0) {
+    if (*(unsigned int *)(iVar1 + 0x28) != 0) {
       *(undefined4 *)(iVar1 + 0x28) = 0;
       *(undefined1 *)(iVar1 + 0x34) = 1;
     }

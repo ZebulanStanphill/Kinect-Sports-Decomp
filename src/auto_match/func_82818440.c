@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-short fn_82818440(char *param_1)
+unsigned short  fn_82818440(char *param_1)
 
 {
   char cVar1;
-  short sVar2;
-  short sVar3;
+  unsigned short sVar2;
+  int sVar3;
   
   cVar1 = *param_1;
   sVar3 = 0;

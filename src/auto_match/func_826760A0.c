@@ -31,8 +31,8 @@ extern int fn_8263C620();
 undefined8 fn_826760A0(int param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
-  int *piVar2;
+  int lVar1;
+  unsigned int *piVar2;
   
   fn_8263C620(*(undefined4 *)(param_1 + 0x28));
   piVar2 = (int *)(param_1 + 0x3c);

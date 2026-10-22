@@ -34,8 +34,8 @@ undefined8 fn_827FA1F8(int param_1,int param_2)
 
 {
   ushort uVar1;
-  int iVar2;
-  ulonglong uVar3;
+  unsigned int iVar2;
+  unsigned int uVar3;
   int iStack_30;
   undefined4 auStack_2c;
   

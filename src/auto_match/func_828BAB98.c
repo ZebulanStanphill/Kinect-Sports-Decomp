@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_828A1958();
 
 
-void fn_828BAB98(undefined8 param_1,longlong param_2)
+void fn_828BAB98(undefined8 param_1,int param_2)
 
 {
-  if ((int)param_2 != 0) {
+  if ((unsigned int)param_2 != 0) {
     do {
       fn_828A1958(param_1);
       param_2 = param_2 + -1;

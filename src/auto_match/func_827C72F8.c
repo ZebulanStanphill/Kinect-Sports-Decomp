@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827C7150();
 
 
-void fn_827C72F8(int param_1,int param_2,ulonglong param_3)
+void fn_827C72F8(int param_1,int param_2,unsigned int param_3)
 
 {
-  undefined1 *puVar1;
+  char *puVar1;
   
   if ((*(char *)(param_1 + 0xc) == '\0') && ((param_3 & 0xffffffff) != 0)) {
     puVar1 = (undefined1 *)(param_2 + -1);

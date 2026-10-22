@@ -38,8 +38,8 @@ extern unsigned int uStack_20;
 void fn_8253D108(int *param_1,int param_2)
 
 {
-  longlong lVar1;
-  int *piVar2;
+  int lVar1;
+  unsigned int *piVar2;
   struct { undefined4 first; undefined4 second; } stack_pair_20;
 
   

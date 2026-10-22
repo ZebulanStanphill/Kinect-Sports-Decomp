@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82B8F398(int param_1,int param_2)
+void fn_82B8F398(unsigned int param_1,int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   do {
     uVar1 = (ulonglong)*(uint *)(param_1 + 0x30) & 0x7ffff;

@@ -29,14 +29,14 @@ extern int fn_8267B890();
 extern int fn_82693D18();
 
 
-undefined4 * fn_82693D88(int param_1,ulonglong param_2)
+undefined4 * fn_82693D88(int param_1,unsigned int param_2)
 
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
   
   if ((param_2 & 0xffffffff) < 0xc) {
-    if (*(int *)(param_1 + 0x10) == 0) {
+    if (*(unsigned int *)(param_1 + 0x10) == 0) {
       fn_82693D18();
     }
     puVar1 = *(undefined4 **)(param_1 + 0x10);

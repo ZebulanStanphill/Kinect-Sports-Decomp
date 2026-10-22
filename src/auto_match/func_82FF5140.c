@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82FF5200();
 
 
-void fn_82FF5140(longlong param_1,ulonglong param_2)
+void fn_82FF5140(longlong param_1,unsigned int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if ((param_2 & 0xffffffff) != 0) {
     RtlEnterCriticalSection(param_1 + 0x88);

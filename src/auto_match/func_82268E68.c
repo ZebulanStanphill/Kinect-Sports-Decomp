@@ -28,13 +28,13 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_828B8F40();
 
 
-void fn_82268E68(int param_1,undefined8 param_2)
+void fn_82268E68(int param_1,unsigned int param_2)
 
 {
-  longlong *plVar1;
+  unsigned __int64 *plVar1;
   longlong lVar2;
   
-  if (((int)param_2 != 0) &&
+  if ((param_2 != 0) &&
      (lVar2 = **(longlong **)(param_1 + 4), plVar1 = (longlong *)fn_828B8F40(param_2),
      *plVar1 == lVar2)) {
     **(undefined4 **)(param_1 + 8) = 1;

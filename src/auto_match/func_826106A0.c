@@ -31,8 +31,8 @@ extern int fn_82555A88();
 void fn_826106A0(int param_1,undefined8 param_2,longlong param_3)
 
 {
-  int iVar1;
-  ulonglong uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   
   iVar1 = *(int *)(**(int **)(param_1 + 0x60) + 0x3e4);
   if (((iVar1 != 0) && (uVar2 = (ulonglong)*(uint *)(iVar1 + 0x8c0), uVar2 != 0)) &&

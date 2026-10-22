@@ -31,13 +31,13 @@ extern int fn_827A9C58();
 void fn_82799CA8(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)(uint)param_1[2];
   if (param_1[2] < 0) {
     uVar1 = 0xffffffffffffffff;
   }
-  if ((int)uVar1 == -1) {
+  if (uVar1 == -1) {
     uVar1 = (ulonglong)*(uint *)(*param_1 + 4);
   }
   fn_827A9C58(*param_1,uVar1,param_2,param_3,param_4);

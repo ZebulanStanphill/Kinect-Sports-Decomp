@@ -30,10 +30,10 @@ extern int fn_8265CA20();
 extern unsigned int lbl_821C097C;
 
 
-undefined4 * fn_824C3768(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_824C3768(undefined4 *param_1,unsigned int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[4];
   if (iVar1 != 0) {

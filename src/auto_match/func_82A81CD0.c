@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_1c;
 extern unsigned int *auStack_20;
-extern int fn_828E0268();
+extern __int64 fn_828E0268();
 extern int fn_82A83B90();
 
 
-undefined1 fn_82A81CD0(ulonglong param_1,int param_2)
+undefined1 fn_82A81CD0(unsigned int param_1,unsigned int param_2)
 
 {
   undefined8 uVar1;

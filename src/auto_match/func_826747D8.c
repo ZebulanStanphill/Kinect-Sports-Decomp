@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82674630();
 
 
-ulonglong fn_826747D8(int param_1,undefined8 param_2)
+unsigned int  fn_826747D8(int param_1,undefined8 param_2)
 
 {
-  ulonglong uVar1;
-  int iVar2;
+  unsigned int uVar1;
+  unsigned int iVar2;
   
   iVar2 = *(int *)(param_1 + 0x28);
   while( true ) {

@@ -29,12 +29,12 @@ extern int fn_82869890();
 extern int fn_82877318();
 
 
-undefined8 fn_82869CD0(int param_1)
+unsigned int  fn_82869CD0(int param_1)
 
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  unsigned int iVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   
   uVar2 = fn_82877318(param_1 + 8);
   if ((int)uVar2 == 1) {

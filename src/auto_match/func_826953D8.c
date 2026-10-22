@@ -32,10 +32,10 @@ extern int fn_826A7398();
 longlong fn_826953D8(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
-  int iVar2;
+  unsigned int uVar1;
+  unsigned int iVar2;
   
-  if (*(int *)(param_1 + 4) != 0) {
+  if (*(unsigned int *)(param_1 + 4) != 0) {
     uVar1 = fn_826A7398(param_2);
     iVar2 = fn_8269A678(*(undefined4 *)(param_1 + 4),uVar1);
     if (iVar2 != 0) {

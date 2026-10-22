@@ -30,10 +30,10 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A2C4A8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   int *piVar3;
-  longlong lVar4;
+  int lVar4;
   
   do {
     lVar4 = (ulonglong)*(uint *)(param_1 + 0x10) - 1;
@@ -48,7 +48,7 @@ void fn_82A2C4A8(int param_1)
       *piVar3 = iVar2;
       *(int **)(iVar2 + 4) = piVar3;
     }
-    if (*(int *)(param_1 + 0xc) != 0) {
+    if (*(unsigned int *)(param_1 + 0xc) != 0) {
       *(undefined4 *)(*(int *)(param_1 + 0xc) + 0xc) = 0;
     }
     ExFreePool();

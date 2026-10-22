@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82813498();
-extern unsigned int lbl_82002AE0;
+extern float lbl_82002AE0;
 extern unsigned int lbl_8320A4D4;
 extern unsigned int lbl_8320A63C;
 
@@ -35,12 +35,12 @@ void fn_8281FB48(void)
 
 {
   float fVar1;
-  int iVar2;
-  double dVar3;
+  unsigned int iVar2;
+  float dVar3;
   
   fVar1 = lbl_82002AE0;
   for (iVar2 = lbl_8320A63C; dVar3 = (double)fVar1, iVar2 != 0; iVar2 = *(int *)(iVar2 + 8)) {
-    fVar1 = (float)((double)*(float *)(iVar2 + 4) * dVar3);
+    fVar1 = (float)((float)*(float *)(iVar2 + 4) * dVar3);
   }
   iVar2 = lbl_8320A4D4;
   if (lbl_8320A4D4 == 0) {
