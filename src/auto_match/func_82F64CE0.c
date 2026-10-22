@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82F64CE0(short *param_1)
+int  fn_82F64CE0(short *param_1)
 
 {
   short sVar1;

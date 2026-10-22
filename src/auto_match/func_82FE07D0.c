@@ -31,7 +31,7 @@ extern int fn_82FE55F0();
 void fn_82FE07D0(longlong param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   param_1 = param_1 + 4;
   lVar1 = 4;

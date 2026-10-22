@@ -37,7 +37,7 @@ undefined8 fn_82F47F50(int param_1,longlong *param_2)
   }
   uVar1 = 0;
   if ((*(uint *)(param_1 + 0x28) & 1) != 0) {
-    uVar1 = (longlong)*(int *)(param_1 + 0x24) * (longlong)*(int *)(param_1 + 0x1c) & 0xffffffff;
+    uVar1 = (int)*(int *)(param_1 + 0x24) * (int)*(int *)(param_1 + 0x1c) & 0xffffffff;
   }
   *param_2 = *(uint *)(param_1 + 0x5c) + uVar1;
   return 0;

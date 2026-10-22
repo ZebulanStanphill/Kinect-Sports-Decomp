@@ -31,8 +31,8 @@ extern int _blkmov();
 uint * fn_830360F0(uint *param_1,int param_2,uint *param_3)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   
   uVar1 = (ulonglong)*param_3;
   uVar2 = (ulonglong)*(uint *)(param_2 + 4) - 0x18;

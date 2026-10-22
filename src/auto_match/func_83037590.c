@@ -38,7 +38,7 @@ void fn_83037590(undefined4 *param_1)
   for (uVar2 = param_1[1]; uVar2 != 0; uVar2 = uVar2 - 1 & uVar2) {
     iVar1 = iVar1 + 1;
   }
-  fn_82FEC850(((longlong)(int)(uint)*(ushort *)(param_1 + 3) * (longlong)iVar1 & 0x3fffffffU) << 2,
+  fn_82FEC850(((int)(int)(uint)*(ushort *)(param_1 + 3) * (int)iVar1 & 0x3fffffffU) << 2,
                *param_1);
   *param_1 = 0;
   *(undefined2 *)(param_1 + 3) = 0;

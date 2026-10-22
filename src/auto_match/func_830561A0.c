@@ -31,7 +31,7 @@ extern int fn_82A1E7D8();
 void fn_830561A0(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   RtlEnterCriticalSection(param_1 + 0x10);
   lVar1 = (ulonglong)*(uint *)(param_1 + 0x40) - 1;

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82F78FE0(ulonglong param_1)
+longlong fn_82F78FE0(unsigned int param_1)
 
 {
   if ((param_1 & 0x20) != 0) {

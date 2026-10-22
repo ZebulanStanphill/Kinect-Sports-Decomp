@@ -34,8 +34,8 @@ void fn_83067488(undefined8 param_1,undefined8 param_2)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  longlong lVar3;
+  unsigned int uVar1;
+  int lVar3;
   
   lVar3 = 0;
   iVar2 = fn_8305D680(param_2);

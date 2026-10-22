@@ -29,7 +29,7 @@ extern int fn_82F6FA78();
 extern unsigned int lbl_831BB900;
 
 
-void fn_82F6FB38(ulonglong param_1)
+void fn_82F6FB38(unsigned int param_1)
 
 {
   if (lbl_831BB900 != -1) {

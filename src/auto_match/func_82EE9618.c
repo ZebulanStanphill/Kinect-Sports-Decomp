@@ -31,7 +31,7 @@ extern int fn_82EE9DD8();
 extern unsigned int lbl_8215FF94;
 
 
-undefined4 * fn_82EE9618(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82EE9618(undefined4 *param_1,unsigned int param_2)
 
 {
   fn_82EE9DD8(param_1 + 0x1e);

@@ -34,7 +34,7 @@ undefined8 fn_82EEA068(int param_1)
 
 {
   undefined4 uVar1;
-  longlong lVar2;
+  int lVar2;
   int iVar3;
   
   iVar3 = param_1 + 4;

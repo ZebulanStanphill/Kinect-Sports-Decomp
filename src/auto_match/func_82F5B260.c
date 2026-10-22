@@ -29,7 +29,7 @@ extern int fn_82F5B210();
 extern int fn_8306CEA0();
 
 
-void fn_82F5B260(undefined4 *param_1,ulonglong param_2,ulonglong param_3)
+void fn_82F5B260(undefined4 *param_1,unsigned int param_2,unsigned int param_3)
 
 {
   int iVar1;

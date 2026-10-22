@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_8308AF38(int param_1)
+int  fn_8308AF38(int param_1)
 
 {
   ulonglong uVar1;

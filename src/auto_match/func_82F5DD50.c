@@ -32,7 +32,7 @@ extern int fn_82F5D948();
 void fn_82F5DD50(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82F4D9D8(2);
   if (lVar1 == 0) {

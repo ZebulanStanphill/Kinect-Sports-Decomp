@@ -31,7 +31,7 @@ extern int fn_82EEE500();
 extern int fn_82F40CA8();
 
 
-ulonglong fn_82EECC48(ulonglong param_1,ulonglong param_2)
+unsigned int  fn_82EECC48(unsigned int param_1,unsigned int param_2)
 
 {
   fn_82EEB880();

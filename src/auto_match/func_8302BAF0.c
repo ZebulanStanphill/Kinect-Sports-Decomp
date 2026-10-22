@@ -31,7 +31,7 @@ undefined8 fn_8302BAF0(undefined8 param_1,int *param_2)
 
 {
   uint uVar1;
-  ulonglong uVar2;
+  unsigned int uVar2;
   uint *puVar3;
   
   puVar3 = (uint *)*param_2 + 1;

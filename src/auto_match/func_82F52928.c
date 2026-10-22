@@ -31,7 +31,7 @@ extern int fn_82F50AB0();
 void fn_82F52928(longlong param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = 10;
   do {

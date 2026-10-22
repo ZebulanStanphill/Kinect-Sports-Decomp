@@ -34,8 +34,8 @@ extern unsigned int lbl_831BC770;
 undefined8 fn_8304A3A8(int param_1)
 
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar3;
   
   uVar1 = fn_8307DBA0(1,param_1 + 0x48);

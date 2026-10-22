@@ -29,10 +29,10 @@ extern int _amsg_exit();
 extern int _getptd_noexit();
 
 
-longlong _getptd(void)
+int  _getptd(void)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = _getptd_noexit();
   if (lVar1 == 0) {
