@@ -26,22 +26,22 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
-extern int fn_8223C610();
+extern unsigned int fn_8223C610();
 extern int fn_8223C680();
 
 
-void fn_822459B0(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+void fn_822459B0(undefined8 param_1,undefined8 param_2,undefined8 param_3,unsigned int param_4)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined1 auStack_30;
   
   iVar1 = fn_8223C610(param_3,1,0,0);
-  if (iVar1 == 0) {
-    auStack_30 = fn_8223C610(param_3,1,0,0);
+  if (iVar1 != 0) {
+    auStack_30 = 0;
   }
   else {
-    auStack_30 = 0;
+    auStack_30 = fn_8223C610(param_3,1,0,0);
   }
   if (param_4 != 0) {
     *(undefined4 *)(param_4 + 8) = 0;

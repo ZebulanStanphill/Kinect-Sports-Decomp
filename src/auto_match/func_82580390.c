@@ -30,14 +30,14 @@ extern unsigned int lbl_821AC4A4;
 extern unsigned int lbl_821C558C;
 
 
-undefined4 * fn_82580390(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82580390(undefined4 *param_1,uint param_2)
 
 {
   undefined4 *puVar1;
   
   puVar1 = (undefined4 *)param_1[3];
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   param_1[1] = &lbl_821AC4A4;
   *param_1 = &lbl_821C558C;

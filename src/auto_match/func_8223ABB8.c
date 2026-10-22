@@ -38,10 +38,10 @@ void fn_8223ABB8(longlong param_1)
   undefined1 auStack_50 [32];
   undefined1 auStack_30 [32];
   
-  fn_82230110(auStack_50,0xffffffff82196f68);
+  fn_82230110(auStack_50,"Migration state");
   fn_82897DF8(param_1 + 0x34,param_1,auStack_50);
   fn_82230300(auStack_50,1,0);
-  fn_82230110(auStack_30,0xffffffff82196f78);
+  fn_82230110(auStack_30,"Migration new session");
   fn_82897DF8(param_1 + 0x8c,param_1,auStack_30);
   fn_82230300(auStack_30,1,0);
   return;

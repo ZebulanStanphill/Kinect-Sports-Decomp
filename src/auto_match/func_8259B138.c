@@ -36,12 +36,13 @@ undefined8 fn_8259B138(int param_1,int *param_2,undefined8 param_3)
 
 {
   undefined4 *puVar1;
-  longlong lVar2;
+  int lVar2;
+  int lock = param_1 + 0x60;
   int iVar3;
   undefined4 *puVar4;
   
   lVar2 = fn_82A1BB18();
-  fn_8259C5D8(param_1 + 0x60,1,lVar2 + 1);
+  fn_8259C5D8(lock,1,lVar2 + 1);
   puVar4 = *(undefined4 **)(param_1 + 0x38);
   for (puVar1 = (undefined4 *)*puVar4; puVar1 != puVar4; puVar1 = (undefined4 *)*puVar1) {
     iVar3 = fn_827D9698(puVar1[3]);
@@ -51,7 +52,7 @@ undefined8 fn_8259B138(int param_1,int *param_2,undefined8 param_3)
     puVar4 = *(undefined4 **)(param_1 + 0x38);
   }
   fn_82A1BB18();
-  fn_8259C738(param_1 + 0x60);
+  fn_8259C738(lock);
   return 0;
 }
 

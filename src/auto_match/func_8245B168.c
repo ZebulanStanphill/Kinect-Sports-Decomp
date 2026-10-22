@@ -29,7 +29,7 @@ extern int fn_8245B1F0();
 extern int fn_82A1DD38();
 
 
-undefined8 fn_8245B168(int param_1,undefined8 param_2,longlong param_3)
+undefined8 fn_8245B168(int param_1,undefined8 param_2,unsigned int param_3)
 
 {
   uint *puVar1;
@@ -43,9 +43,9 @@ undefined8 fn_8245B168(int param_1,undefined8 param_2,longlong param_3)
     iVar3 = fn_8245B1F0(param_1);
     if (iVar3 != 0) {
       puVar1 = *(uint **)(param_1 + 0x20);
-      if (((ulonglong)puVar1[2] + param_3 & 0xffffffff) <= (ulonglong)puVar1[1]) {
-        fn_82A1DD38((ulonglong)*puVar1 + (ulonglong)puVar1[2],param_2,param_3);
-        puVar1[2] = (int)param_3 + puVar1[2];
+      if ((puVar1[2] + param_3) <= puVar1[1]) {
+        fn_82A1DD38(*puVar1 + puVar1[2],param_2,param_3);
+        puVar1[2] = param_3 + puVar1[2];
       }
     }
     uVar2 = 0;

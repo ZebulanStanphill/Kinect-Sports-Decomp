@@ -30,7 +30,7 @@ extern int fn_8265CA20();
 extern unsigned int lbl_821C0648;
 
 
-undefined4 * fn_824C2AA8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_824C2AA8(undefined4 *param_1,uint param_2)
 
 {
   undefined4 *puVar1;
@@ -38,7 +38,7 @@ undefined4 * fn_824C2AA8(undefined4 *param_1,ulonglong param_2)
   fn_82359C18(param_1 + 4);
   puVar1 = (undefined4 *)param_1[2];
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   *param_1 = &lbl_821C0648;
   if ((param_2 & 1) != 0) {

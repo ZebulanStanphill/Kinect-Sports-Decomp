@@ -30,26 +30,18 @@ extern int fn_8248D360();
 extern int fn_8265CA20();
 
 
-int fn_8248BC38(int param_1,ulonglong param_2)
-
-{
-  if (*(int *)(param_1 + 0x4c) != 0) {
-    fn_82231540(*(int *)(param_1 + 0x4c),*(undefined4 *)(param_1 + 0x50));
-    fn_8265CA20(*(undefined4 *)(param_1 + 0x4c));
-  }
-  *(undefined4 *)(param_1 + 0x4c) = 0;
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_8248D360(*(int *)(param_1 + 8),*(undefined4 *)(param_1 + 0xc));
-    fn_8265CA20(*(undefined4 *)(param_1 + 8));
-  }
-  *(undefined4 *)(param_1 + 8) = 0;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+typedef struct Vec { unsigned int data,count,end; } Vec;
+static void cleanup1(Vec *p) {
+ if(p->data) {fn_82231540(p->data,p->count);fn_8265CA20(p->data);}
+ p->data=0;p->count=0;p->end=0;
 }
-
+static void cleanup2(Vec *p) {
+ if(p->data) {fn_8248D360(p->data,p->count);fn_8265CA20(p->data);}
+ p->data=0;p->count=0;p->end=0;
+}
+int fn_8248BC38(int self,unsigned int flags) {
+ cleanup1((Vec*)(self+0x4c));
+ cleanup2((Vec*)(self+8));
+ if(flags&1) fn_8265CA20(self);
+ return self;
+}

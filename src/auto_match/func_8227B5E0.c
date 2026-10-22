@@ -30,24 +30,23 @@ extern int fn_822315A0();
 extern int fn_82279C58();
 extern int fn_82672C20();
 extern unsigned int iStack_1c;
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
 
 void fn_8227B5E0(int param_1)
 
 {
   undefined4 *puVar1;
-  undefined1 auStack_20 [4];
-  int iStack_1c;
+  struct { int value; void *owner; } local;
   
   if ((*(int *)(param_1 + 0xa48) != 5) && (*(int *)(param_1 + 0xa60) != 0)) {
-    puVar1 = (undefined4 *)fn_82279C58(auStack_20,param_1);
-    fn_82672C20(*puVar1,0xffffffff821a8498,0,0);
-    if (iStack_1c != 0) {
-      fn_822315A0();
+    puVar1 = (undefined4 *)fn_82279C58(&local,param_1);
+    fn_82672C20(*puVar1,"_root.mainCtrl.hide",0,0);
+    if (local.owner != 0) {
+      fn_822315A0(local.owner);
     }
     *(undefined4 *)(param_1 + 0xa48) = 5;
-    *(undefined4 *)(param_1 + 0xa4c) = lbl_821CC160;
+    *(float *)(param_1 + 0xa4c) = lbl_821CC160;
   }
   return;
 }

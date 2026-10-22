@@ -26,20 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822B17A8();
-extern int fn_822BD338();
+extern unsigned char fn_822BD338(void *,const char *);
 extern int fn_824CD030();
 
 
 void fn_823D2808(int param_1,uint *param_2)
 
 {
-  int iVar1;
-  char cVar3;
+  char *iVar1;
+  unsigned char cVar3;
   int iVar2;
   
-  cVar3 = fn_822BD338((ulonglong)*param_2 + 0x38,0xffffffff821b61d4);
+  cVar3 = fn_822BD338((char *)*param_2 + 0x38,"seagull");
   if (cVar3 != '\0') {
-    iVar1 = *(int *)(*(int *)(param_1 + 4) + 0x48c);
+    iVar1 = *(char **)(*(int *)(param_1 + 4) + 0x48c);
     if (((iVar1 != 0) && (*(int *)(iVar1 + 0x34) != 0)) &&
        (iVar2 = fn_824CD030(iVar1), iVar2 != 0)) {
       fn_822B17A8(*(undefined4 *)(iVar1 + 0x34),0x1c,0);

@@ -39,7 +39,7 @@ undefined4 * fn_822C6310(undefined4 *param_1,int param_2)
   undefined1 auStack_40 [40];
   
   *param_1 = &lbl_821AD578;
-  fn_82230110(auStack_40,0xffffffff821acfa4);
+  fn_82230110(auStack_40,"Mind State Machine");
   fn_822B4BB8(param_1 + 1,auStack_40);
   param_1[1] = &lbl_821AC980;
   fn_82230300(auStack_40,1,0);

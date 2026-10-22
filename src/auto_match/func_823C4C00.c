@@ -32,18 +32,20 @@ extern int fn_82508078();
 void fn_823C4C00(int param_1,int param_2)
 
 {
-  int *piVar1;
+  struct Vec { unsigned int *begin,*end; } *piVar1;
   undefined8 uVar2;
+  unsigned int target;
   
-  if (*(int *)(param_1 + 0x4c0) == 0) {
-    fn_82508078(*(undefined4 *)(param_1 + 0xa4),0xffffffff821b604c,0);
+  if (*(unsigned int *)(param_1 + 0x4c0) == 0) {
+    fn_82508078(*(undefined4 *)(param_1 + 0xa4),"interception",0);
   }
+  target = *(unsigned int *)(param_1 + 0x4b8);
   uVar2 = 0x10;
-  piVar1 = *(int **)(*(int *)(param_1 + 0x20) + param_2 * 4);
-  if (piVar1[1] - *piVar1 >> 2 == 0) {
+  piVar1 = *(struct Vec **)(*(int *)(param_1 + 0x20) + param_2 * 4);
+  if ((unsigned int)(piVar1->end - piVar1->begin) <= 0) {
     uVar2 = 0x22;
   }
-  fn_823CC298(*(undefined4 *)(param_1 + 0x4b8),uVar2);
+  fn_823CC298(target,uVar2);
   return;
 }
 

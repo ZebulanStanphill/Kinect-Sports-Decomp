@@ -30,23 +30,23 @@ extern int fn_826824B0();
 extern int fn_82682D30();
 extern int fn_826961B0();
 extern int fn_82696330();
-extern int fn_826B32D0();
+extern void *fn_826B32D0();
 
 
 void fn_826830C8(int param_1,undefined8 param_2)
 
 {
   int iVar2;
-  ulonglong uVar1;
+  void *uVar1;
   undefined1 auStack_40 [16];
   
-  iVar2 = (**(code **)(**(int **)(param_1 + 0x68) + 0x5c))();
+  iVar2 = (*(code *)(**(int **)(param_1 + 0x68) + 0x5c))(*(int *)(param_1 + 0x68));
   uVar1 = fn_826B32D0(iVar2,*(undefined4 *)(*(int *)(iVar2 + 0x78) + 0x2a0),
-                            *(int *)(iVar2 + 0x78) + 0x10,0,0xffffffffffffffff);
+                            *(int *)(iVar2 + 0x78) + 0x10,0,-1);
   fn_826961B0(auStack_40,uVar1);
   fn_82682D30(param_1,iVar2,auStack_40,param_2);
   fn_82696330(auStack_40);
-  if ((uVar1 & 0xffffffff) != 0) {
+  if (uVar1 != 0) {
     fn_826824B0(uVar1);
   }
   return;

@@ -30,27 +30,13 @@ extern int fn_8265C9E0();
 extern unsigned int lbl_821A8D8C;
 
 
-undefined4 *
-fn_822C5CB8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined4 *param_5)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x520);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821A8D8C;
-    puVar1[2] = 1;
-    if (puVar1 + 4 != (undefined4 *)0x0) {
-      fn_8230D230(puVar1 + 4,param_2,param_3,param_4,*param_5);
-    }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 4;
-  return param_1;
+static unsigned int *ctor(unsigned int *p,unsigned __int64 a,unsigned __int64 b,unsigned __int64 c,unsigned int *d) {
+ p[1]=1;p[0]=(unsigned int)&lbl_821A8D8C;p[2]=1;
+ if(p+4) fn_8230D230(p+4,a,b,c,*d);
+ return p;
 }
-
+unsigned int *fn_822C5CB8(unsigned int *out,unsigned __int64 a,unsigned __int64 b,unsigned __int64 c,unsigned int *d) {
+ unsigned int *p=(unsigned int*)fn_8265C9E0(0x520);
+ p=p?ctor(p,a,b,c,d):0;
+ out[1]=(unsigned int)p;out[0]=(unsigned int)(p+4);return out;
+}

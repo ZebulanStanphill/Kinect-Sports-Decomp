@@ -33,10 +33,10 @@ extern int fn_8266F6B8();
 extern unsigned int lbl_821BC360;
 
 
-undefined4 * fn_82469B90(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82469B90(undefined4 *param_1,uint param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   *param_1 = &lbl_821BC360;
   uVar1 = fn_8266F6B8();

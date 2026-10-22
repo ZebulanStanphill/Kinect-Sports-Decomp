@@ -34,19 +34,19 @@ undefined4 * fn_82688CA8(undefined4 *param_1)
 
 {
   undefined4 *puVar1;
+  unsigned int *allocated;
+
   
   param_1[1] = 1;
   *param_1 = &lbl_82005BAC;
   param_1[2] = 0x13;
-  puVar1 = (undefined4 *)fn_8267B890(lbl_831E7E64,0xc,0);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar1 = 0;
-    puVar1[1] = 0;
-    puVar1[2] = 0;
-  }
+  allocated = (undefined4 *)fn_8267B890(lbl_831E7E64,0xc,0);
+  if (allocated != 0) {
+    puVar1 = allocated;
+    allocated[0] = 0;
+    allocated[1] = 0;
+    allocated[2] = 0;
+  } else { puVar1 = 0; }
   param_1[3] = puVar1;
   return param_1;
 }

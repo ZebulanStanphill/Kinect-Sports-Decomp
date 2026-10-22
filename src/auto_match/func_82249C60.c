@@ -30,26 +30,14 @@ extern unsigned int lbl_82197924;
 extern unsigned int lbl_821AD588;
 
 
-undefined4 * fn_82249C60(undefined4 *param_1)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x14);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar1 + 3 != (undefined4 *)0x0) {
-      puVar1[4] = 0;
-      puVar1[3] = &lbl_82197924;
-    }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 3;
-  return param_1;
+static void inner(unsigned int *p) { p[1] = 0; p[0] = (unsigned int)&lbl_82197924; }
+static unsigned int *ctor(unsigned int *p) {
+ p[1]=1; p[0]=(unsigned int)&lbl_821AD588; p[2]=1;
+ if (p+3) inner(p+3);
+ return p;
 }
-
+unsigned int *fn_82249C60(unsigned int *out) {
+ unsigned int *p=(unsigned int*)fn_8265C9E0(0x14);
+ p=p?ctor(p):0;
+ out[1]=(unsigned int)p;out[0]=(unsigned int)(p+3);return out;
+}

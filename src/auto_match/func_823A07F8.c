@@ -36,10 +36,11 @@ extern unsigned int lbl_821B96A8;
 void fn_823A07F8(undefined4 *param_1)
 
 {
+  unsigned int *field = param_1 + 0x23;
   *param_1 = &lbl_821B5278;
   param_1[0x1a] = &lbl_821B52C8;
-  if (param_1[0x23] != 0) {
-    fn_822315A0();
+  if (*field != 0) {
+    fn_822315A0(*field);
   }
   *param_1 = &lbl_821B3080;
   param_1[0x1a] = &lbl_821B96A8;

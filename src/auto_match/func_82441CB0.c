@@ -28,22 +28,22 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82230300();
 extern int fn_82529320();
 extern int fn_8265CA20();
-extern unsigned int lbl_821B9978;
-extern unsigned int lbl_821B9980;
+extern code lbl_821B9978[];
+
 
 
 void fn_82441CB0(undefined4 *param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
-  *param_1 = &lbl_821B9978;
-  (*(code *)lbl_821B9980)();
-  if (*(int *)param_1[1] != 0) {
-    fn_82529320(*(int *)param_1[1],0);
+  *param_1 = (unsigned int)lbl_821B9978;
+  lbl_821B9978[2](param_1);
+  if (*(uint *)param_1[1] != 0) {
+    fn_82529320(*(uint *)param_1[1],0);
     *(undefined4 *)param_1[1] = 0;
   }
-  uVar1 = (ulonglong)(uint)param_1[1];
+  uVar1 = param_1[1];
   if (uVar1 != 0) {
     fn_82230300(uVar1 + 8,1,0);
     fn_8265CA20(uVar1);

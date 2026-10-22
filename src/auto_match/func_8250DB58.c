@@ -1,54 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_827F38B0();
-extern int fn_827F38B8();
+typedef struct { void *data; unsigned int size,cap; } Vec;
+typedef struct { void *vt; char pad[0xe4]; Vec a; int gap; Vec b; } Obj;
 extern unsigned int lbl_821C2378;
-
-
-void fn_8250DB58(undefined4 *param_1)
-
-{
-  *param_1 = &lbl_821C2378;
-  if (param_1[0x3e] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0x3f] = 0;
-  param_1[0x3e] = 0;
-  param_1[0x40] = 0;
-  if (param_1[0x3a] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0x3a] = 0;
-  param_1[0x3b] = 0;
-  param_1[0x3c] = 0;
-  fn_827F38B0(param_1 + 0x12);
-  fn_827F38B8(param_1);
-  return;
-}
-
+extern void fn_8265CA20(void *);
+extern void fn_827F38B0(void *);
+extern void fn_827F38B8(void *);
+static void clear(Vec *v) { if(v->data) fn_8265CA20(v->data); v->data=0; v->size=0; v->cap=0; }
+void fn_8250DB58(Obj *o) { o->vt=&lbl_821C2378; clear(&o->b); if(o->a.data) fn_8265CA20(o->a.data); o->a.data=0; o->a.size=0; o->a.cap=0; fn_827F38B0((char*)o+0x48); fn_827F38B8(o); }

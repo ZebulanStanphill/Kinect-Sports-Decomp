@@ -30,7 +30,7 @@ extern unsigned int lbl_821C7E88;
 extern unsigned int lbl_821C8494;
 
 
-undefined4 * fn_825B5A50(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_825B5A50(undefined4 *param_1,unsigned int param_2)
 
 {
   undefined4 *puVar1;
@@ -38,7 +38,7 @@ undefined4 * fn_825B5A50(undefined4 *param_1,ulonglong param_2)
   puVar1 = (undefined4 *)param_1[2];
   *param_1 = &lbl_821C8494;
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
     param_1[2] = 0;
   }
   *param_1 = &lbl_821C7E88;

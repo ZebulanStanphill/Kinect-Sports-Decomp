@@ -43,15 +43,16 @@ void fn_82494190(undefined4 *param_1)
   for (; piVar3 != piVar1; piVar3 = piVar3 + 1) {
     puVar2 = (undefined4 *)*piVar3;
     if (puVar2 != (undefined4 *)0x0) {
-      (**(code **)*puVar2)(puVar2,1);
+      (*(code *)*puVar2)(puVar2,1);
     }
   }
   if (param_1[1] != 0) {
-    fn_8248F8E8();
+    fn_8248F8E8(param_1[1]);
   }
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
+  {
+    unsigned int *v = param_1 + 1;
+    v[0] = 0; v[1] = 0; v[2] = 0;
+  }
   *param_1 = &lbl_821BED18;
   return;
 }

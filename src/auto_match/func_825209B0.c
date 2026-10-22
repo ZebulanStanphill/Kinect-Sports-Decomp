@@ -25,30 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_ac;
-extern unsigned int *auStack_b0;
+
+
 extern int fn_8223CFC0();
 extern int fn_8223DCC8();
-extern int fn_82240158();
+extern unsigned int fn_82240158();
 extern int fn_822403C8();
-extern int fn_82520AC8();
+extern unsigned int fn_82520AC8();
 
 
 undefined8 fn_825209B0(undefined8 param_1,int param_2)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [132];
+  unsigned int uVar2;
+  struct { unsigned int first; unsigned char rest[148]; } buf;
   
-  fn_8223CFC0(auStack_b0,2,1);
+  fn_8223CFC0(&buf,2,1);
   uVar1 = *(undefined4 *)(param_2 + 0x7d8);
-  uVar2 = fn_82240158(auStack_b0,0xffffffff821c2c68);
+  uVar2 = fn_82240158(&buf,"Live::Player::XAvatarMetadataNetVar - compressed size {");
   uVar2 = fn_82520AC8(uVar2,uVar1);
-  fn_82240158(uVar2,0xffffffff82196fb0);
-  fn_822403C8(param_1,auStack_ac);
-  fn_8223DCC8(auStack_b0);
+  fn_82240158(uVar2,"}");
+  fn_822403C8(param_1,buf.rest);
+  fn_8223DCC8(&buf);
   return param_1;
 }
 

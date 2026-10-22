@@ -31,7 +31,7 @@ extern int fn_82672C20();
 void fn_8236BCD8(int param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 0x4b0);
@@ -40,7 +40,7 @@ void fn_8236BCD8(int param_1)
         (iVar2 = *(int *)(iVar1 + 0x54), *(int *)(iVar2 + 0x34) != 0)) &&
        (*(int *)(iVar2 + 0x38) == 0)) {
       *(undefined4 *)(iVar2 + 0x38) = 1;
-      fn_82672C20(*(undefined4 *)(iVar2 + 0x3c),0xffffffff821a8498,0,0);
+      fn_82672C20(*(undefined4 *)(iVar2 + 0x3c),"_root.mainCtrl.hide",0,0);
     }
     *(undefined4 *)(iVar1 + 0x30) = 0;
   }

@@ -32,15 +32,15 @@ void fn_82282468(int param_1,undefined4 param_2)
 
 {
   int *piVar1;
-  undefined8 uVar2;
+  int uVar2;
   
   piVar1 = *(int **)(*(int *)(param_1 + 0xb4) + 0x1ac);
   if (piVar1 != (int *)0x0) {
-    uVar2 = (**(code **)(*piVar1 + 8))(piVar1);
-    (**(code **)(*piVar1 + 0xc))(piVar1,1);
+    uVar2 = (*(code *)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 0xc))(piVar1,1);
     *(undefined4 *)(param_1 + 0xdc) = param_2;
     fn_82278418(*(undefined4 *)(param_1 + 0xb0));
-    (**(code **)(*piVar1 + 0xc))(piVar1,uVar2);
+    (*(code *)(*piVar1 + 0xc))(piVar1,uVar2);
   }
   return;
 }
