@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82934160();
 
 
-void fn_82964180(int param_1)
+void fn_82964180(unsigned int param_1)
 
 {
   int iVar1;

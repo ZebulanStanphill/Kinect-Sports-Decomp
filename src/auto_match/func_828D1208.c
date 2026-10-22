@@ -32,7 +32,7 @@ extern int fn_828D1070();
 undefined4 * fn_828D1208(undefined4 *param_1,int *param_2)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   undefined4 uVar1;
   
   *param_1 = 0;

@@ -32,7 +32,7 @@ extern int fn_829E53B0();
 void fn_829E30F8(int param_1)
 
 {
-  if (*(int *)(param_1 + 4) != 0) {
+  if (*(unsigned int *)(param_1 + 4) != 0) {
     fn_829E4C60(*(int *)(param_1 + 4),1);
     *(undefined4 *)(param_1 + 4) = 0;
   }

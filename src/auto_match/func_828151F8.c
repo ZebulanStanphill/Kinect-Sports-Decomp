@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_828151F8(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
+void fn_828151F8(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
                   undefined4 param_5,undefined4 param_6)
 
 {

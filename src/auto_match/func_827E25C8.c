@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_827E25C8(int param_1)
 
 {
-  *(short *)(param_1 + 0x2c) = *(short *)(param_1 + 0x2c) + -1;
+  *(unsigned short *)(param_1 + 0x2c) = *(short *)(param_1 + 0x2c) + -1;
   return;
 }
 

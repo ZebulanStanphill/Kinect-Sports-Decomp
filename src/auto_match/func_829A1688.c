@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 ulonglong fn_829A1688(int param_1,ulonglong param_2)
 
 {
-  if (*(int *)(*(int *)(param_1 + 0x104) + 0x24) == 1) {
+  if (*(unsigned int *)(*(int *)(param_1 + 0x104) + 0x24) == 1) {
     return param_2 | 0x40000000;
   }
   return param_2;

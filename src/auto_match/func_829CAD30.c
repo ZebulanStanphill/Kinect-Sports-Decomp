@@ -31,20 +31,20 @@ void fn_829CAD30(int param_1,undefined4 *param_2,undefined4 *param_3)
 
 {
   if (param_2 != (undefined4 *)0x0) {
-    if (*(int *)(param_1 + 300) == 0) {
-      *(int *)(param_1 + 300) = *(int *)(param_1 + 0x15c) * 8 + param_1 + 0x13c;
+    if (*(unsigned int *)(param_1 + 300) == 0) {
+      *(unsigned int *)(param_1 + 300) = *(unsigned int *)(param_1 + 0x15c) * 8 + param_1 + 0x13c;
     }
     **(undefined4 **)(param_1 + 300) = *param_2;
-    *(undefined4 *)(*(int *)(param_1 + 300) + 4) = param_2[1];
+    *(undefined4 *)(*(unsigned int *)(param_1 + 300) + 4) = param_2[1];
   }
   if (param_3 == (undefined4 *)0x0) {
     return;
   }
-  if (*(int *)(param_1 + 0x130) == 0) {
-    *(int *)(param_1 + 0x130) = *(int *)(param_1 + 0x160) * 8 + param_1 + 0x14c;
+  if (*(unsigned int *)(param_1 + 0x130) == 0) {
+    *(unsigned int *)(param_1 + 0x130) = *(unsigned int *)(param_1 + 0x160) * 8 + param_1 + 0x14c;
   }
   **(undefined4 **)(param_1 + 0x130) = *param_3;
-  *(undefined4 *)(*(int *)(param_1 + 0x130) + 4) = param_3[1];
+  *(undefined4 *)(*(unsigned int *)(param_1 + 0x130) + 4) = param_3[1];
   return;
 }
 

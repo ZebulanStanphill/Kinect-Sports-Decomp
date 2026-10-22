@@ -33,7 +33,7 @@ void fn_827DD3F8(undefined8 param_1,int param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar1 = *(int *)(param_2 + 0x1c);
   iVar2 = *(int *)(iVar1 + 0x10);

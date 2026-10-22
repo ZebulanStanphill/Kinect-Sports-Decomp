@@ -32,7 +32,7 @@ undefined4 * fn_8287E520(undefined4 *param_1,int *param_2)
 
 {
   undefined4 *puVar1;
-  char cVar2;
+  unsigned char cVar2;
   undefined4 *puVar3;
   undefined4 *puVar4;
   

@@ -29,7 +29,7 @@ extern int fn_827E4050();
 extern int fn_827E4148();
 
 
-undefined8 fn_827E3BB0(longlong param_1,int *param_2)
+undefined8 fn_827E3BB0(longlong param_1,unsigned int *param_2)
 
 {
   fn_827E4050(param_1 + 4);

@@ -32,7 +32,7 @@ undefined8 fn_828B4308(int param_1,undefined8 param_2)
 
 {
   int *piVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   piVar1 = (int *)**(int **)(param_1 + 0x20);
   if (piVar1 != *(int **)(param_1 + 0x20)) {

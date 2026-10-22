@@ -33,10 +33,10 @@ extern int fn_8282D818();
 void fn_8282B710(undefined8 param_1,int param_2)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   undefined4 *apuStack_20 [2];
   
-  if (*(int *)(param_2 + 0x10) != 0) {
+  if (*(unsigned int *)(param_2 + 0x10) != 0) {
     fn_8282D818(param_1,apuStack_20,4,1);
     *apuStack_20[0] = *(undefined4 *)(param_2 + 0x14);
     cVar1 = fn_82827750(param_1);

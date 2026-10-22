@@ -36,7 +36,7 @@ undefined4 fn_8288DCC0(int param_1,undefined8 param_2)
   
   fn_8288CCB8(aiStack_20,param_1 + 4,param_2);
   uVar1 = 0;
-  if (aiStack_20[0] != *(int *)(param_1 + 8)) {
+  if (aiStack_20[0] != *(unsigned int *)(param_1 + 8)) {
     uVar1 = *(undefined4 *)(aiStack_20[0] + 0x14);
   }
   return uVar1;

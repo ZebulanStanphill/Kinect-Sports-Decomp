@@ -39,10 +39,10 @@ void fn_8282A638(int param_1)
   undefined4 uVar1;
   int *piVar2;
   int *piVar3;
-  char cVar5;
+  unsigned char cVar5;
   int iVar4;
   undefined4 *puStack_40;
-  int iStack_3c;
+  unsigned int iStack_3c;
   int * apiStack_38;
   
   iVar4 = param_1 + 0x2fc;

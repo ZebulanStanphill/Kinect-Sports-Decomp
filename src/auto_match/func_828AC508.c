@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_828AC508(int param_1,int param_2)
+void fn_828AC508(unsigned int param_1,int param_2)
 
 {
   if (param_1 == param_2) {

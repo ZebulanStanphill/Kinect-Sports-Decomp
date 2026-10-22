@@ -35,7 +35,7 @@ void fn_828D90D8(int param_1)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   cVar2 = fn_828B0528(*(undefined4 *)(param_1 + 0x14));
   if (cVar2 != '\0') {

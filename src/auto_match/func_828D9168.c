@@ -33,7 +33,7 @@ void fn_828D9168(int param_1)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   undefined8 uVar3;
   
   cVar2 = fn_828B0528(*(undefined4 *)(param_1 + 0x14));

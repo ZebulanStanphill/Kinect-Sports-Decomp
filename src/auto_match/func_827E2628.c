@@ -33,7 +33,7 @@ void fn_827E2628(int param_1)
 
 {
   fn_827DEE88(*(undefined4 *)(param_1 + 0x28));
-  *(char *)(param_1 + 0x2e) = *(char *)(param_1 + 0x2e) + -1;
+  *(unsigned char *)(param_1 + 0x2e) = *(char *)(param_1 + 0x2e) + -1;
   fn_827DEE90(*(undefined4 *)(param_1 + 0x28));
   return;
 }

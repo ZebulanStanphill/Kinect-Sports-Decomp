@@ -31,7 +31,7 @@ extern int fn_82811360();
 bool fn_828113D0(void)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   cVar1 = fn_82811360();
   return cVar1 == '\0';

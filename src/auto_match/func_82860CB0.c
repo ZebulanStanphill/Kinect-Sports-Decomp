@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82648F90();
 
 
-void fn_82860CB0(undefined4 *param_1)
+void fn_82860CB0(int *param_1)
 
 {
   if (param_1[1] == 2) {

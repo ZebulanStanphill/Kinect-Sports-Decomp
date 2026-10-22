@@ -30,7 +30,7 @@ extern int fn_8304EFA8();
 extern int fn_8304F7D8();
 
 
-void fn_828763C0(int param_1)
+void fn_828763C0(unsigned int param_1)
 
 {
   int iVar1;

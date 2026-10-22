@@ -32,7 +32,7 @@ extern int fn_828FCDD8();
 void fn_828FCD88(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   fn_8265C990(*param_1,0x24810000);
   iVar1 = param_1[8];

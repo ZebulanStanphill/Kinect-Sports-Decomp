@@ -31,7 +31,7 @@ extern int fn_827760B8();
 void fn_827A85C8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x10) != 0) {
+  if (*(unsigned int *)(param_1 + 0x10) != 0) {
     fn_827760B8(*(int *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0xc));
   }
   *(undefined4 *)(param_1 + 0xc) = 0;

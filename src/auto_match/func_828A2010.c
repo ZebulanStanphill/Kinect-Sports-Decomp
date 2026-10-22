@@ -32,7 +32,7 @@ extern int fn_828823E0();
 void fn_828A2010(undefined8 param_1)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   
   piVar1 = (int *)fn_82881DF0();
   if (*piVar1 != 0) {
