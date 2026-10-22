@@ -33,7 +33,7 @@ undefined8 fn_82C23BA8(undefined8 param_1,int param_2,undefined8 param_3,int par
 {
   if ((ulonglong)*(uint *)(param_2 + 0x48) != 0) {
     fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,
-                      (ulonglong)*(uint *)(param_2 + 0x48) + 0x10);
+                      (unsigned int)*(uint *)(param_2 + 0x48) + 0x10);
     fn_82C10B28(*(undefined4 *)(param_4 + 0xe0),0xb,param_2 + 0x48);
   }
   return 0;

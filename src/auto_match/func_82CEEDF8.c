@@ -30,7 +30,7 @@ extern int fn_82CEAC28();
 extern int fn_82CEED70();
 
 
-undefined1 * fn_82CEEDF8(undefined1 *param_1,ulonglong param_2)
+undefined1 * fn_82CEEDF8(undefined1 *param_1,unsigned int param_2)
 
 {
   char *pcVar1;

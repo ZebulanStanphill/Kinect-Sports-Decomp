@@ -30,10 +30,10 @@ extern int fn_82E7E7E0();
 extern int fn_82E7F0F8();
 
 
-longlong fn_82E44A88(longlong param_1,ulonglong param_2)
+int  fn_82E44A88(longlong param_1,unsigned int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if ((param_2 & 0xffffffff) == 0) {
     lVar1 = -0x7fffbffd;

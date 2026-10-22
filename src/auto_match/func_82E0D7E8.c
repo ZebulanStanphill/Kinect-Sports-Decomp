@@ -36,7 +36,7 @@ bool fn_82E0D7E8(int param_1,undefined8 param_2)
 {
   int iVar1;
   bool bVar2;
-  longlong lVar3;
+  int lVar3;
   
   iVar1 = fn_82E0B0D0(param_1,param_2,0);
   if ((iVar1 == 0) && (iVar1 = fn_82E0B220(param_1,param_2,0), iVar1 == 0)) {

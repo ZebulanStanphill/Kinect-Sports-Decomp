@@ -33,8 +33,8 @@ extern int fn_82D05808();
 int fn_82D04C78(int param_1,undefined8 param_2)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
   int iVar3;
   
   uVar2 = fn_82CFBE40(param_2);

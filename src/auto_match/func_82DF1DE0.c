@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82DF1DE0(int param_1,uint param_2,uint param_3)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   uint *puVar2;
   longlong lVar3;
   

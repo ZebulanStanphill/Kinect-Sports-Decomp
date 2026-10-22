@@ -29,10 +29,10 @@ extern int fn_82E7B958();
 extern int fn_82E7E7E0();
 
 
-longlong fn_82E44B40(longlong param_1,undefined8 param_2,undefined8 param_3)
+int  fn_82E44B40(longlong param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82E7B958(param_1 + 8,0,param_2,param_3);
   if (lVar1 < 0) {

@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82CFBBF0();
 
 
-longlong fn_82CEB138(int param_1,undefined8 param_2)
+int  fn_82CEB138(int param_1,undefined8 param_2)
 
 {
   int iVar1;
-  longlong lVar2;
+  int lVar2;
   int iVar3;
   
   lVar2 = 0;

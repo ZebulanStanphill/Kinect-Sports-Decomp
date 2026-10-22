@@ -33,7 +33,7 @@ void fn_82E00768(int param_1)
 {
   int iVar1;
   int iVar2;
-  ulonglong uVar3;
+  unsigned int uVar3;
   
   uVar3 = (ulonglong)*(uint *)(param_1 + 0x14);
   if (0 < (int)*(uint *)(param_1 + 0x14)) {

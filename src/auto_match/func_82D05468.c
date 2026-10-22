@@ -30,7 +30,7 @@ extern int fn_82CFBE40();
 extern int fn_82D05808();
 
 
-void fn_82D05468(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void fn_82D05468(undefined8 param_1,undefined8 param_2,unsigned int param_3)
 
 {
   int iVar1;

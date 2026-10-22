@@ -29,7 +29,7 @@ extern int fn_8265C990();
 extern int fn_82E23148();
 
 
-undefined8 fn_82E232F8(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82E232F8(undefined8 param_1,unsigned int param_2)
 
 {
   fn_82E23148();

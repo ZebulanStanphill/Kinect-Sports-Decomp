@@ -29,7 +29,7 @@ extern int fn_82E4FE40();
 extern int fn_82E55680();
 
 
-ulonglong fn_82E559F8(ulonglong param_1,ulonglong param_2)
+unsigned int  fn_82E559F8(unsigned int param_1,unsigned int param_2)
 
 {
   fn_82E55680();

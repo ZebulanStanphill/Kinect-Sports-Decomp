@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4A2D8();
+extern __int64 fn_82E4A2D8();
 extern int fn_82E50CB8();
 extern int fn_82E50F10();
 
 
-undefined8 fn_82E4A728(longlong param_1,ulonglong param_2,ulonglong param_3)
+undefined8 fn_82E4A728(longlong param_1,unsigned int param_2,unsigned int param_3)
 
 {
   undefined8 uVar1;

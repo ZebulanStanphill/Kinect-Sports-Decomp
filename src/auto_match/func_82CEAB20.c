@@ -32,7 +32,7 @@ extern int fn_82CEA7A8();
 undefined8 fn_82CEAB20(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_82CEA6F8();
   if ((int)uVar1 <= *(int *)(param_1 + 8)) {

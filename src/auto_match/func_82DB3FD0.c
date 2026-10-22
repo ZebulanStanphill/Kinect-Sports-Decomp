@@ -35,7 +35,7 @@ void fn_82DB3FD0(int param_1)
 
 {
   int iVar1;
-  longlong lVar2;
+  int lVar2;
   
   iVar1 = *(int *)(param_1 + 0x1c0);
   lVar2 = (ulonglong)*(uint *)(iVar1 + 0x10) - 1;

@@ -32,7 +32,7 @@ extern int fn_82D00310();
 undefined8 fn_82E14240(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 auStack_20 [4];
   
   uVar1 = fn_82D00310(param_1,param_2,auStack_20);

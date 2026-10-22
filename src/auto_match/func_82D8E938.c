@@ -34,7 +34,7 @@ extern int fn_82DBC148();
 undefined8 fn_82D8E938(int param_1,undefined8 param_2,int param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   *(int *)(param_1 + 0x94) = *(int *)(param_1 + 0x94) + 1;
   fn_82DBC148();
