@@ -1,95 +1,117 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E5A0();
+typedef struct ItemA {
+    char pad[0x40];
+    void *key;
+    char pad44[0x60 - 0x44];
+} ItemA;
 
+typedef struct ItemB {
+    char pad[0x40];
+    void *key;
+    char pad44[0x50 - 0x44];
+} ItemB;
 
-void fn_82572B80(int param_1,int param_2)
+typedef struct VecA {
+    ItemA *begin;
+    ItemA *end;
+    char pad8[8];
+    unsigned short n;
+} VecA;
 
+typedef struct VecB {
+    ItemB *begin;
+    ItemB *end;
+    char pad8[8];
+    unsigned short n;
+} VecB;
+
+typedef struct Slot {
+    void *key;
+    char pad4[0x1c];
+    unsigned char active;
+    char pad21[0x70 - 0x21];
+} Slot;
+
+typedef struct Mgr {
+    char pad0[4];
+    VecA a0;
+    VecA a1;
+    VecB b0;
+    VecB b1;
+    char pad54[0xa0 - 0x54];
+    Slot s0;
+    Slot s1;
+} Mgr;
+
+extern void fn_8251E5A0(void *vec, void *it);
+
+static void ClearA(VecA *v)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_2 == 0) {
-    *(undefined1 *)(param_1 + 0xc0) = 0;
-    *(undefined4 *)(param_1 + 0xa0) = 0;
-    *(undefined1 *)(param_1 + 0x130) = 0;
-    *(undefined4 *)(param_1 + 0x110) = 0;
-    *(undefined4 *)(param_1 + 8) = *(undefined4 *)(param_1 + 4);
-    *(undefined2 *)(param_1 + 0x14) = 0;
-    *(undefined4 *)(param_1 + 0x1c) = *(undefined4 *)(param_1 + 0x18);
-    *(undefined2 *)(param_1 + 0x28) = 0;
-    *(undefined4 *)(param_1 + 0x30) = *(undefined4 *)(param_1 + 0x2c);
-    *(undefined2 *)(param_1 + 0x3c) = 0;
-    *(undefined4 *)(param_1 + 0x44) = *(undefined4 *)(param_1 + 0x40);
-    *(undefined2 *)(param_1 + 0x50) = 0;
-  }
-  else {
-    if ((*(int *)(param_1 + 0xa0) != 0) && (*(int *)(param_1 + 0xa0) == param_2)) {
-      *(undefined1 *)(param_1 + 0xc0) = 0;
-      *(undefined4 *)(param_1 + 0xa0) = 0;
-    }
-    if ((*(int *)(param_1 + 0x110) != 0) && (*(int *)(param_1 + 0x110) == param_2)) {
-      *(undefined1 *)(param_1 + 0x130) = 0;
-      *(undefined4 *)(param_1 + 0x110) = 0;
-    }
-    uVar1 = *(uint *)(param_1 + 8);
-    for (uVar2 = *(uint *)(param_1 + 4); uVar2 < uVar1; uVar2 = uVar2 + 0x60) {
-      if (*(int *)(uVar2 + 0x40) == param_2) {
-        fn_8251E5A0(param_1 + 4,uVar2);
-        uVar2 = uVar2 - 0x60;
-        uVar1 = uVar1 - 0x60;
-      }
-    }
-    uVar1 = *(uint *)(param_1 + 0x1c);
-    for (uVar2 = *(uint *)(param_1 + 0x18); uVar2 < uVar1; uVar2 = uVar2 + 0x60) {
-      if (*(int *)(uVar2 + 0x40) == param_2) {
-        fn_8251E5A0(param_1 + 0x18,uVar2);
-        uVar2 = uVar2 - 0x60;
-        uVar1 = uVar1 - 0x60;
-      }
-    }
-    uVar1 = *(uint *)(param_1 + 0x30);
-    for (uVar2 = *(uint *)(param_1 + 0x2c); uVar2 < uVar1; uVar2 = uVar2 + 0x50) {
-      if (*(int *)(uVar2 + 0x40) == param_2) {
-        fn_8251E5A0(param_1 + 0x2c,uVar2);
-        uVar2 = uVar2 - 0x50;
-        uVar1 = uVar1 - 0x50;
-      }
-    }
-    uVar1 = *(uint *)(param_1 + 0x44);
-    for (uVar2 = *(uint *)(param_1 + 0x40); uVar2 < uVar1; uVar2 = uVar2 + 0x50) {
-      if (*(int *)(uVar2 + 0x40) == param_2) {
-        fn_8251E5A0(param_1 + 0x40,uVar2);
-        uVar2 = uVar2 - 0x50;
-        uVar1 = uVar1 - 0x50;
-      }
-    }
-  }
-  return;
+    v->end = v->begin;
+    v->n = 0;
 }
 
+static void ClearB(VecB *v)
+{
+    v->end = v->begin;
+    v->n = 0;
+}
+
+void fn_82572B80(Mgr *m, void *key)
+{
+    ItemA *ia;
+    ItemA *ea;
+    ItemB *ib;
+    ItemB *eb;
+
+    if (key == 0) {
+        m->s0.active = 0;
+        m->s0.key = 0;
+        m->s1.active = 0;
+        m->s1.key = 0;
+        ClearA(&m->a0);
+        ClearA(&m->a1);
+        ClearB(&m->b0);
+        ClearB(&m->b1);
+    } else {
+        if (m->s0.key != 0 && m->s0.key == key) {
+            m->s0.active = 0;
+            m->s0.key = 0;
+        }
+        if (m->s1.key != 0 && m->s1.key == key) {
+            m->s1.active = 0;
+            m->s1.key = 0;
+        }
+        ea = m->a0.end;
+        for (ia = m->a0.begin; ia < ea; ia++) {
+            if (ia->key == key) {
+                fn_8251E5A0(&m->a0, ia);
+                ia--;
+                ea--;
+            }
+        }
+        ea = m->a1.end;
+        for (ia = m->a1.begin; ia < ea; ia++) {
+            if (ia->key == key) {
+                fn_8251E5A0(&m->a1, ia);
+                ia--;
+                ea--;
+            }
+        }
+        eb = m->b0.end;
+        for (ib = m->b0.begin; ib < eb; ib++) {
+            if (ib->key == key) {
+                fn_8251E5A0(&m->b0, ib);
+                ib--;
+                eb--;
+            }
+        }
+        eb = m->b1.end;
+        for (ib = m->b1.begin; ib < eb; ib++) {
+            if (ib->key == key) {
+                fn_8251E5A0(&m->b1, ib);
+                ib--;
+                eb--;
+            }
+        }
+    }
+}

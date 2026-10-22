@@ -39,15 +39,15 @@ void fn_8252B8B0(int *param_1)
   
   piVar1 = (int *)param_1[0x230];
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1);
-    if ((param_1[99] == 0) && (iVar2 = (**(code **)(*piVar1 + 0x18))(piVar1), iVar2 != 0)) {
-      iVar2 = (**(code **)(*piVar1 + 0x4c))(piVar1);
+    (*(code *)(*piVar1 + 0xc))(piVar1);
+    if ((((uint *)param_1)[99] == 0) && (iVar2 = (*(code *)(*piVar1 + 0x18))(piVar1), iVar2 != 0)) {
+      iVar2 = (*(code *)(*piVar1 + 0x4c))(piVar1);
       param_1[99] = iVar2;
     }
-    if ((param_1[0x24b] == 0) && (iVar2 = (**(code **)(*piVar1 + 0x14))(piVar1), iVar2 != 0)) {
+    if ((param_1[0x24b] == 0) && (iVar2 = (*(code *)(*piVar1 + 0x14))(piVar1), iVar2 != 0)) {
       stack_pair_20.first = 0x40;
       stack_pair_20.second = 8;
-      (**(code **)(*param_1 + 0xc))(param_1,&stack_pair_20.first);
+      (*(code *)(*param_1 + 0xc))(param_1,&stack_pair_20.first);
       param_1[0x24b] = 1;
     }
   }

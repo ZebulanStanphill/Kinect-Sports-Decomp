@@ -1,51 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct {
+    int first;
+    int second;
+} Pair;
+typedef struct {
+    void *ptr;
+    void *rc;
+} Ref;
+typedef struct {
+    int pad[2];
+    void (*cb)(Pair *p, void *a, void *b);
+} Obj;
 
+extern void fn_82517978(Pair *out, void *ptr, void *rc, int c);
+extern void fn_822315A0(void *rc);
 
-void fn_825B3948(int param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_825B3948(Obj *o, Ref *r, void *a, void *b)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  
-  if (*(int *)(param_1 + 8) != 0) {
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    fn_82517978(&stack_pair_30.first,*param_2,param_2[1],0);
-    (**(code **)(param_1 + 8))(&stack_pair_30.first,param_3,param_4);
-  }
-  if (param_2[1] != 0) {
-    fn_822315A0();
-  }
-  return;
+    if (o->cb != 0) {
+        Pair tmp;
+        tmp.first = 0;
+        tmp.second = 0;
+        fn_82517978(&tmp, r->ptr, r->rc, 0);
+        o->cb(&tmp, a, b);
+    }
+    if (r->rc != 0)
+        fn_822315A0(r->rc);
 }
-

@@ -1,90 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Handler Handler;
+typedef struct HandlerVtbl {
+    void *pad[5];
+    unsigned char (*handle)(Handler *, void *);  /* 0x14 */
+} HandlerVtbl;
+struct Handler {
+    HandlerVtbl *vtbl;
+};
 
+typedef struct Node {
+    Handler *h;
+    struct Node *next;
+} Node;
 
-undefined8 fn_825774D0(int param_1,undefined8 param_2)
+typedef struct Dispatcher {
+    char pad[0x14];
+    Node *lists[5];     /* 0x14 */
+} Dispatcher;
 
+unsigned char fn_825774D0(Dispatcher *d, void *msg)
 {
-  int *piVar1;
-  int *piVar2;
-  char cVar3;
-  
-  piVar1 = *(int **)(param_1 + 0x14);
-  while( true ) {
-    if (piVar1 == (int *)0x0) {
-      piVar1 = *(int **)(param_1 + 0x18);
-      while( true ) {
-        if (piVar1 == (int *)0x0) {
-          piVar1 = *(int **)(param_1 + 0x1c);
-          while( true ) {
-            if (piVar1 == (int *)0x0) {
-              piVar1 = *(int **)(param_1 + 0x20);
-              while( true ) {
-                if (piVar1 == (int *)0x0) {
-                  piVar1 = *(int **)(param_1 + 0x24);
-                  while( true ) {
-                    if (piVar1 == (int *)0x0) {
-                      return 0;
-                    }
-                    piVar2 = (int *)*piVar1;
-                    if ((piVar2 != (int *)0x0) &&
-                       (cVar3 = (**(code **)(*piVar2 + 0x14))(piVar2,param_2), cVar3 != '\0'))
-                    break;
-                    piVar1 = (int *)piVar1[1];
-                  }
-                  return 1;
-                }
-                piVar2 = (int *)*piVar1;
-                if ((piVar2 != (int *)0x0) &&
-                   (cVar3 = (**(code **)(*piVar2 + 0x14))(piVar2,param_2), cVar3 != '\0')) break;
-                piVar1 = (int *)piVar1[1];
-              }
-              return 1;
-            }
-            piVar2 = (int *)*piVar1;
-            if ((piVar2 != (int *)0x0) &&
-               (cVar3 = (**(code **)(*piVar2 + 0x14))(piVar2,param_2), cVar3 != '\0')) break;
-            piVar1 = (int *)piVar1[1];
-          }
-          return 1;
-        }
-        piVar2 = (int *)*piVar1;
-        if ((piVar2 != (int *)0x0) &&
-           (cVar3 = (**(code **)(*piVar2 + 0x14))(piVar2,param_2), cVar3 != '\0')) break;
-        piVar1 = (int *)piVar1[1];
-      }
-      return 1;
-    }
-    piVar2 = (int *)*piVar1;
-    if ((piVar2 != (int *)0x0) &&
-       (cVar3 = (**(code **)(*piVar2 + 0x14))(piVar2,param_2), cVar3 != '\0')) break;
-    piVar1 = (int *)piVar1[1];
-  }
-  return 1;
-}
+    Node *n;
 
+    for (n = d->lists[0]; n != 0; n = n->next) {
+        if (n->h != 0 && n->h->vtbl->handle(n->h, msg))
+            return 1;
+    }
+    for (n = d->lists[1]; n != 0; n = n->next) {
+        if (n->h != 0 && n->h->vtbl->handle(n->h, msg))
+            return 1;
+    }
+    for (n = d->lists[2]; n != 0; n = n->next) {
+        if (n->h != 0 && n->h->vtbl->handle(n->h, msg))
+            return 1;
+    }
+    for (n = d->lists[3]; n != 0; n = n->next) {
+        if (n->h != 0 && n->h->vtbl->handle(n->h, msg))
+            return 1;
+    }
+    for (n = d->lists[4]; n != 0; n = n->next) {
+        if (n->h != 0 && n->h->vtbl->handle(n->h, msg))
+            return 1;
+    }
+    return 0;
+}

@@ -1,57 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826738F0();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
+typedef struct { int opaque[7]; } RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
 
+typedef struct {
+    void *first;
+    void *second;
+} Entry;
+typedef struct {
+    Entry *begin;
+    Entry *end;
+    Entry *cap;
+} Vec;
+typedef struct {
+    char pad[0x14];
+    Vec vec;
+    char pad2[0x124 - 0x20];
+    RTL_CRITICAL_SECTION cs;
+} Obj;
 
-void fn_82673A28(int param_1,undefined4 param_2,int param_3)
-
+extern void fn_826738F0(Vec *v, Entry *e);
+void fn_82673A28(Obj *o, void *a, void *b)
 {
-  int iVar1;
-  int iVar2;
-  struct { undefined4 first; int second; } stack_pair_30;
-
-  
-  iVar2 = param_1 + 0x124;
-  if (iVar2 != 0) {
-    RtlEnterCriticalSection(iVar2);
-  }
-  for (iVar1 = *(int *)(param_1 + 0x14); iVar1 != *(int *)(param_1 + 0x18); iVar1 = iVar1 + 8) {
-    if (*(int *)(iVar1 + 4) == param_3) goto LAB_82673a88;
-  }
-  stack_pair_30.first = param_2;
-  stack_pair_30.second = param_3;
-  fn_826738F0(param_1 + 0x14,&stack_pair_30.first);
-LAB_82673a88:
-  if (iVar2 != 0) {
-    RtlLeaveCriticalSection(iVar2);
-  }
-  return;
+    RTL_CRITICAL_SECTION *cs = &o->cs;
+    Entry *it;
+    if (cs != 0)
+        RtlEnterCriticalSection(cs);
+    for (it = o->vec.begin; it != o->vec.end; it++) {
+        if (it->second == b) {
+            if (cs != 0)
+                RtlLeaveCriticalSection(cs);
+            return;
+        }
+    }
+    {
+        Entry e;
+        e.first = a;
+        e.second = b;
+        fn_826738F0(&o->vec, &e);
+    }
+    if (cs != 0)
+        RtlLeaveCriticalSection(cs);
 }
-

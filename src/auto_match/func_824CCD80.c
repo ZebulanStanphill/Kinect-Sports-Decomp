@@ -1,50 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_8225F160();
-extern unsigned int lbl_832975B0;
+typedef struct A { int pad0; int pad4; int state; } A;
+typedef struct B { int pad0; unsigned char flag; } B;
 
+extern B *fn_82250A18(void);
+extern A *fn_8225F160(void);
+extern B *lbl_832975B0;
 
-bool fn_824CCD80(int param_1)
+static B *getB(void) { return lbl_832975B0 ? lbl_832975B0 : fn_82250A18(); }
 
+unsigned char fn_824CCD80(int p)
 {
-  int iVar1;
-  
-  iVar1 = fn_8225F160();
-  if (*(int *)(iVar1 + 8) != 2) {
-    iVar1 = lbl_832975B0;
-    if (lbl_832975B0 == 0) {
-      iVar1 = fn_82250A18();
-    }
-    if ((*(char *)(iVar1 + 4) == '\0') && (iVar1 = fn_8225F160(), *(int *)(iVar1 + 8) != 0)) {
-      return *(int *)(param_1 + 0x30) != 0;
-    }
-  }
-  return false;
+    if (fn_8225F160()->state == 2) return 0;
+    if (getB()->flag) return 0;
+    if (fn_8225F160()->state == 0) return 0;
+    return *(int *)(p + 0x30) != 0;
 }
-

@@ -1,50 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82691E98();
-extern int fn_8270BEF0();
+typedef struct Ent { int pad[4]; int ref; } Ent;
+typedef struct Tab { int pad[4]; unsigned int size; int map; } Tab;
+extern void fn_82691E98(Tab *t, int key, unsigned int n, unsigned char *ok);
+extern unsigned int fn_8270BEF0(int *map, int key, Ent **out);
 
-
-ulonglong fn_82691F08(int param_1,undefined8 param_2)
-
+unsigned int fn_82691F08(Tab *t, int key)
 {
-  ulonglong uVar1;
-  char acStack_30 [4];
-  int aiStack_2c;
-  
-  acStack_30[0] = '\0';
+  unsigned int r;
+  unsigned char ok;
+  Ent *e;
+
+  ok = 0;
   do {
-    uVar1 = fn_8270BEF0(param_1 + 0x14,param_2,&aiStack_2c);
-    if ((uVar1 & 0xffffffff) != 0) {
-      *(int *)(aiStack_2c + 0x10) = *(int *)(aiStack_2c + 0x10) + 1;
-      return uVar1;
+    r = fn_8270BEF0(&t->map, key, &e);
+    if (r != 0) {
+      e->ref++;
+      return r;
     }
-    fn_82691E98(param_1,param_2,(ulonglong)*(uint *)(param_1 + 0x10) + 1,acStack_30);
-  } while (acStack_30[0] != '\0');
+    fn_82691E98(t, key, t->size + 1, &ok);
+  } while (ok);
   return 0;
 }
-

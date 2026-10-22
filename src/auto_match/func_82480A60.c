@@ -41,11 +41,11 @@ extern int fn_8265CA20();
 void fn_82480A60(int param_1)
 
 {
-  int iVar1;
+  uint iVar1; uint object;
   
   fn_82485850((ulonglong)*(uint *)(param_1 + 0x48),
                     (ulonglong)*(uint *)(param_1 + 0x48) + 0x634);
-  if (*(int *)(param_1 + 0xac) != 0) {
+  if (*(uint *)(param_1 + 0xac) != 0) {
     *(int *)(*(int *)(param_1 + 0x48) + 4) = *(int *)(param_1 + 0xac);
   }
   iVar1 = *(int *)(param_1 + 0xa4);
@@ -61,13 +61,11 @@ void fn_82480A60(int param_1)
   fn_8247F240(param_1,1);
   fn_824809B0(param_1,param_1 + 0x2c);
   iVar1 = *(int *)(param_1 + 0x14);
-  if (*(int *)(iVar1 + 0x10) == 0) {
-    if (*(int *)(iVar1 + 8) != 0) {
-      fn_822819E0(iVar1,*(undefined4 *)(param_1 + 0x48));
-    }
-  }
-  else {
-    fn_82281868(iVar1,*(undefined4 *)(param_1 + 0x48),0);
+  object = *(uint *)(param_1 + 0x48);
+  if (*(uint *)(iVar1 + 0x10) != 0) {
+    fn_82281868(iVar1,object,0);
+  } else if (*(int *)(iVar1 + 8) != 0) {
+    fn_822819E0(iVar1,object);
   }
   *(undefined4 *)(param_1 + 0x100) = 1;
   return;

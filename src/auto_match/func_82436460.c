@@ -1,56 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82292268();
-extern int fn_8229A000();
-extern int fn_8229CFB8();
-extern int fn_8229F618();
-extern int fn_8242C1B8();
+typedef struct {
+  char pad0[0xc];
+  void *p0c;
+  char pad1[0x4c - 0x10];
+  void *p4c;
+  void *p50;
+  void *p54;
+  void *p58;
+  void *p5c;
+  void *p60;
+  void *p64;
+  char pad2[0x78 - 0x68];
+  void *p78;
+} Sub;
+typedef struct {
+  char pad[0xd4];
+  Sub *sub;
+} Inner;
+typedef struct {
+  char pad[0x40];
+  Inner **pinner;
+} Self;
+extern void fn_8229A000(void *p);
+extern void fn_82292268(Sub *s);
+extern void fn_8229F618(void *p);
+extern void fn_8229CFB8(void *p, int a, int b);
+extern char *fn_8242C1B8(Inner *in);
+extern void fn_82291C30(Sub *s, int a, int b, int c, void *d, int e);
 
-
-void fn_82436460(int param_1)
-
+void fn_82436460(Self *p)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(**(int **)(param_1 + 0x40) + 0xd4);
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x4c));
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x58));
-  iVar1 = *(int *)(**(int **)(param_1 + 0x40) + 0xd4);
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x50));
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x5c));
-  iVar1 = *(int *)(**(int **)(param_1 + 0x40) + 0xd4);
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x54));
-  fn_8229A000(*(undefined4 *)(iVar1 + 0x60));
-  fn_8229A000(*(undefined4 *)(*(int *)(**(int **)(param_1 + 0x40) + 0xd4) + 100));
-  fn_82292268(*(undefined4 *)(**(int **)(param_1 + 0x40) + 0xd4));
-  fn_8229F618(*(undefined4 *)(*(int *)(**(int **)(param_1 + 0x40) + 0xd4) + 0xc));
-  fn_8229CFB8(*(undefined4 *)(*(int *)(**(int **)(param_1 + 0x40) + 0xd4) + 0x78),0,0);
-                    /* WARNING: Subroutine does not return */
-  fn_8242C1B8(**(undefined4 **)(param_1 + 0x40));
+  Sub *s;
+  char *r;
+  s = (*p->pinner)->sub;
+  fn_8229A000(s->p4c);
+  fn_8229A000(s->p58);
+  s = (*p->pinner)->sub;
+  fn_8229A000(s->p50);
+  fn_8229A000(s->p5c);
+  s = (*p->pinner)->sub;
+  fn_8229A000(s->p54);
+  fn_8229A000(s->p60);
+  fn_8229A000((*p->pinner)->sub->p64);
+  fn_82292268((*p->pinner)->sub);
+  fn_8229F618((*p->pinner)->sub->p0c);
+  fn_8229CFB8((*p->pinner)->sub->p78, 0, 0);
+  r = fn_8242C1B8(*p->pinner);
+  fn_82291C30((*p->pinner)->sub, 0x29, 0, 1, r + 0x30, 1);
 }
-

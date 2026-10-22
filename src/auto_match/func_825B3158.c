@@ -31,7 +31,7 @@ extern int fn_82545950();
 extern int fn_82545A90();
 
 
-void fn_825B3158(int *param_1)
+void fn_825B3158(uint *param_1)
 
 {
   if (*param_1 != 0) {
@@ -53,7 +53,7 @@ void fn_825B3158(int *param_1)
     fn_82545A90(param_1 + 5);
   }
   if (param_1[7] != 0) {
-    fn_8251FA58();
+    fn_8251FA58(param_1[7]);
     param_1[7] = 0;
     param_1[8] = 0;
   }

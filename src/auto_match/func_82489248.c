@@ -31,7 +31,7 @@ extern int fn_825A24C0();
 void fn_82489248(int param_1,int *param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   undefined4 *puVar2;
   int *piVar3;
   undefined4 *puVar4;
@@ -40,21 +40,24 @@ void fn_82489248(int param_1,int *param_2)
   iVar1 = *(int *)(*(int *)(param_1 + 0xd54) + 0x14);
   if ((iVar1 != 0) && (*(int *)(*(int *)(param_1 + 0xd54) + 0x18) == 0)) {
     if (*(int **)(iVar1 + 0x18) != (int *)0x0) {
-      (**(code **)(**(int **)(iVar1 + 0x18) + 0x48))();
+      (*(code *)(**(int **)(iVar1 + 0x18) + 0x48))(*(int **)(iVar1 + 0x18));
     }
     iVar1 = *(int *)(iVar1 + 0x28);
     if (iVar1 != 0) {
+      puVar4 = *(undefined4 **)(iVar1 + 0x20);
       puVar2 = *(undefined4 **)(iVar1 + 0x24);
-      for (puVar4 = *(undefined4 **)(iVar1 + 0x20); puVar4 != puVar2; puVar4 = puVar4 + 1) {
-        (**(code **)(*(int *)*puVar4 + 0x1c))((int *)*puVar4,param_2);
+      for (; puVar4 != puVar2; puVar4 = puVar4 + 1) {
+        (*(code *)(*(int *)*puVar4 + 0x1c))((int *)*puVar4,param_2);
       }
     }
   }
-  if ((*param_2 == 0x44) && (iVar1 = *(int *)(param_1 + 2000), iVar1 != 0)) {
-    piVar3 = *(int **)(iVar1 + 8);
-    for (piVar5 = *(int **)(iVar1 + 4); piVar5 < piVar3; piVar5 = piVar5 + 1) {
-      if (*piVar5 == param_2[2]) {
-        fn_825A24C0(*(undefined4 *)(param_1 + 2000),piVar5);
+  param_1 += 0x7a4;
+  if ((*param_2 == 0x44) && (iVar1 = *(int *)(param_1 + 0x2c), iVar1 != 0)) {
+    piVar5 = *(int **)(*(uint *)(param_1 + 0x2c) + 4);
+    piVar3 = *(int **)(*(uint *)(param_1 + 0x2c) + 8);
+    for (; piVar5 < piVar3; piVar5 = piVar5 + 1) {
+      if ((uint)*piVar5 == (uint)param_2[2]) {
+        fn_825A24C0(*(undefined4 *)(param_1 + 0x2c),piVar5);
         piVar5 = piVar5 + -1;
         piVar3 = piVar3 + -1;
       }

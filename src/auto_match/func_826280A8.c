@@ -1,85 +1,71 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern int fn_8265C9E0();
-extern int fn_827D96A0();
-extern int fn_827DE858();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_821CBF20;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct SharedPtr {
+    void *ptr;
+    void *rc;
+} SharedPtr;
 
+typedef struct Item {
+    char pad0[0x20];
+    int refs;
+} Item;
 
-undefined4 * fn_826280A8(int param_1,ulonglong param_2)
+typedef struct Self {
+    int f0;
+    void *ptr;
+    void *rc;
+    char pad0[0x34 - 0xc];
+    Item **begin;
+    Item **end;
+} Self;
 
+extern char lbl_821CBF20[];
+extern void fn_822315A0(void *rc);
+extern void fn_82517978(SharedPtr *sp, void *ptr, void *rc, int flag);
+extern void *fn_8265C9E0(int size);
+extern unsigned int fn_827D96A0(void *p);
+extern void fn_827DE858(void *obj, SharedPtr *sp, char *src);
+
+static void **Create(Self *self, char *src)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined4 *puVar4;
-  int *piVar5;
-  struct { undefined4 first; int second; } stack_pair_40;
+    void **obj;
+    SharedPtr a;
+    SharedPtr b;
+    void *rc;
 
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
-
-
-  piVar5 = *(int **)(param_1 + 0x34);
-  if ((param_2 & 0xffffffff) != 0) {
-    if (piVar5 != *(int **)(param_1 + 0x38)) {
-      do {
-        uVar2 = fn_827D96A0(*piVar5);
-        uVar3 = fn_827D96A0(param_2 + 0x68);
-        if ((uVar2 & 0xffff) == uVar3) {
-          *(int *)(*piVar5 + 0x20) = *(int *)(*piVar5 + 0x20) + 1;
-          break;
+    obj = fn_8265C9E0(0x18);
+    if (obj != 0) {
+        a.ptr = 0;
+        a.rc = 0;
+        fn_82517978(&a, self->ptr, self->rc, 1);
+        rc = a.rc;
+        b.ptr = 0;
+        b.rc = 0;
+        fn_82517978(&b, a.ptr, rc, 0);
+        fn_827DE858(obj, &b, src);
+        *obj = lbl_821CBF20;
+        if (rc != 0) {
+            fn_822315A0(rc);
         }
-        piVar5 = piVar5 + 1;
-      } while (piVar5 != *(int **)(param_1 + 0x38));
+        return obj;
     }
-    puVar4 = (undefined4 *)fn_8265C9E0(0x18);
-    if (puVar4 != (undefined4 *)0x0) {
-      stack_pair_40.first = 0;
-      stack_pair_40.second = 0;
-      fn_82517978(&stack_pair_40.first,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),1);
-      iVar1 = stack_pair_40.second;
-      stack_pair_38.first = 0;
-      stack_pair_38.second = 0;
-      fn_82517978(&stack_pair_38.first,stack_pair_40.first,stack_pair_40.second,0);
-      fn_827DE858(puVar4,&stack_pair_38.first,param_2);
-      *puVar4 = &lbl_821CBF20;
-      if (iVar1 == 0) {
-        return puVar4;
-      }
-      fn_822315A0(iVar1);
-      return puVar4;
+    return 0;
+}
+
+void **fn_826280A8(Self *self, char *src)
+{
+    Item **it;
+    unsigned short id;
+
+    it = self->begin;
+    if (src != 0) {
+        for (; it != self->end; it++) {
+            id = fn_827D96A0(*it);
+            if (id == fn_827D96A0(src + 0x68)) {
+                Item *e = *it;
+                e->refs++;
+                break;
+            }
+        }
+        return Create(self, src);
     }
-  }
-  return (undefined4 *)0x0;
+    return 0;
 }

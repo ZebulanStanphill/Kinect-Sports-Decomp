@@ -25,18 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern unsigned int lbl_821CC160;
+extern int fn_82522ED8(void *);
+extern float lbl_821CC160;
 
 
 undefined8 fn_8262CC58(int param_1,int param_2)
 
 {
   int iVar1;
-  int iVar2;
+  uint iVar2;
   int *piVar3;
   
-  for (iVar1 = *(int *)(param_1 + 0x304); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
+  for (iVar1 = *(int *)(param_1 + 0x304); (uint)iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
     piVar3 = *(int **)(iVar1 + 8);
     if (*piVar3 == 0x6c) goto LAB_8262cc90;
   }
@@ -48,15 +48,12 @@ LAB_8262cc90:
         if (*(float *)(param_2 + 0x10) != lbl_821CC160) {
           return 0;
         }
-        if (piVar3[-2] != 0) {
-          *(int *)(piVar3[-2] + 4) = piVar3[-1];
+        { unsigned *node = (unsigned *)(piVar3-2);
+          if (node[0]) *(unsigned *)(node[0]+4)=node[1];
+          if (node[1]) *(unsigned *)node[1]=node[0];
+          node[0]=0; node[1]=0;
+          fn_82522ED8(node);
         }
-        if ((int *)piVar3[-1] != (int *)0x0) {
-          *(int *)piVar3[-1] = piVar3[-2];
-        }
-        piVar3[-2] = 0;
-        piVar3[-1] = 0;
-        fn_82522ED8();
         return 1;
       }
       iVar1 = *piVar3;
