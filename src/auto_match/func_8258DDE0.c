@@ -42,6 +42,6 @@ bool fn_8258DDE0(int param_1,undefined8 param_2)
   iVar1 = *(int *)(param_1 + 0x1b4);
   iVar2 = *piVar3;
   fn_82230300(param_2,1,0);
-  return iVar1 != iVar2;
+  return iVar2 != iVar1;
 }
 

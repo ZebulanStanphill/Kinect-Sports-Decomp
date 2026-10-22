@@ -65591,7 +65591,7 @@
       },
       "auto_match/func_8258DA70.c": "MISSING",
       "auto_match/func_8258DDE0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
