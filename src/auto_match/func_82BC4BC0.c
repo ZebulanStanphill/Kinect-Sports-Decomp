@@ -29,11 +29,11 @@ extern int fn_82B7BD28();
 extern int fn_82BBFE28();
 
 
-undefined4 * fn_82BC4BC0(undefined4 *param_1,longlong param_2)
+undefined4 * fn_82BC4BC0(undefined4 *param_1,int param_2)
 
 {
   int iVar1;
-  longlong lVar2;
+  int lVar2;
   undefined4 uVar3;
   
   param_1[8] = (int)param_2;

@@ -45,7 +45,7 @@ void fn_82F23F28(int param_1,longlong param_2,longlong param_3,longlong param_4,
     iVar2 = *(int *)(param_1 + 0x548) + 0x1f >> 5;
     do {
       iVar5 = 0;
-      lVar6 = ((longlong)*(int *)(param_1 + 0x564) * (longlong)iVar3 & 0x1fffffffU) * 8 + param_2;
+      lVar6 = ((int)*(int *)(param_1 + 0x564) * (int)iVar3 & 0x1fffffffU) * 8 + param_2;
       if (0 < iVar2) {
         do {
           pbVar4 = pbVar4 + 1;
@@ -69,7 +69,7 @@ void fn_82F23F28(int param_1,longlong param_2,longlong param_3,longlong param_4,
     iVar2 = *(int *)(param_1 + 0x554) + 0x1f >> 5;
     do {
       iVar5 = 0;
-      lVar6 = ((longlong)*(int *)(param_1 + 0x568) * (longlong)iVar3 & 0x1fffffffU) * 8 + param_3;
+      lVar6 = ((int)*(int *)(param_1 + 0x568) * (int)iVar3 & 0x1fffffffU) * 8 + param_3;
       if (0 < iVar2) {
         do {
           pbVar4 = pbVar4 + 1;
@@ -92,7 +92,7 @@ void fn_82F23F28(int param_1,longlong param_2,longlong param_3,longlong param_4,
     iVar2 = *(int *)(param_1 + 0x554) + 0x1f >> 5;
     do {
       iVar5 = 0;
-      lVar6 = ((longlong)*(int *)(param_1 + 0x568) * (longlong)iVar3 & 0x1fffffffU) * 8 + param_4;
+      lVar6 = ((int)*(int *)(param_1 + 0x568) * (int)iVar3 & 0x1fffffffU) * 8 + param_4;
       if (0 < iVar2) {
         do {
           pbVar4 = pbVar4 + 1;

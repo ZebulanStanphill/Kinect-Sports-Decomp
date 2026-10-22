@@ -28,12 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F081B8();
 
 
-void fn_82ED7E00(int param_1,ulonglong param_2,ulonglong param_3,longlong param_4,longlong param_5
+void fn_82ED7E00(int param_1,unsigned int param_2,unsigned int param_3,longlong param_4,longlong param_5
                   ,longlong param_6,longlong param_7)
 
 {
   uint uVar1;
-  longlong lVar2;
+  int lVar2;
   longlong lVar3;
   uint uVar4;
   

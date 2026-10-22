@@ -35,9 +35,9 @@ extern int fn_82D002F0();
 void fn_82E1ABA8(longlong param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   char acStack_40;
   
   uVar1 = fn_82CFFFC8(param_2);

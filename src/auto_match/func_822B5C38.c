@@ -36,11 +36,11 @@ extern int fn_8265CAA0();
 extern int fn_82A1DD38();
 
 
-undefined8 fn_822B5C38(int param_1,undefined8 param_2)
+unsigned int  fn_822B5C38(int param_1,undefined8 param_2)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar3;
   undefined4 auStack_40 [4];
   
