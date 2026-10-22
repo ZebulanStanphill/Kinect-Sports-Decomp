@@ -34,7 +34,7 @@ extern int fn_8305BB70();
 void fn_830587D8(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)*(uint *)(param_1 + 0x14);
   if (uVar1 != 0) {

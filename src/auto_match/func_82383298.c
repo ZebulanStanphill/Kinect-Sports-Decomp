@@ -33,7 +33,7 @@ extern int fn_8265CA20();
 void fn_82383298(uint *param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)*param_1;
   if (uVar1 != 0) {

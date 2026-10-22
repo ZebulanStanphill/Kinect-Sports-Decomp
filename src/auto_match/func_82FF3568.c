@@ -30,6 +30,7 @@ extern unsigned int uStack_10;
 extern unsigned int uStack_c;
 
 
+extern char lbl_831BC7D4[];
 char fn_82FF3568(undefined4 param_1,undefined4 param_2)
 
 {
@@ -39,7 +40,7 @@ char fn_82FF3568(undefined4 param_1,undefined4 param_2)
   
   stack_pair_10.first = param_1;
   stack_pair_10.second = param_2;
-  iVar1 = fn_82FF3CF0(0xffffffff831bc7d4,&stack_pair_10.first);
+  iVar1 = fn_82FF3CF0(lbl_831BC7D4,&stack_pair_10.first);
   return (iVar1 == 0) + '\x01';
 }
 

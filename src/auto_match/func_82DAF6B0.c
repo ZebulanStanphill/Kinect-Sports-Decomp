@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82DAF6B0(undefined8 param_1,int param_2,byte param_3)
+void fn_82DAF6B0(undefined8 param_1,int param_2,unsigned int param_3)
 
 {
   *(byte *)(*(int *)(param_2 + 0x30) + 0x12) = *(byte *)(*(int *)(param_2 + 0x30) + 0x12) | param_3;

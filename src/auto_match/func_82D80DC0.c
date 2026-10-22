@@ -31,7 +31,7 @@ extern int fn_82CEFB50();
 bool fn_82D80DC0(longlong param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   cVar1 = fn_82CEFB50(param_1 + 0xa8);
   return cVar1 == '\0';

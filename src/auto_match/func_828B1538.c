@@ -29,6 +29,8 @@ extern int fn_828B1000();
 extern int fn_828B1218();
 
 
+extern char lbl_821CC160[];
+extern char lbl_8202E370[];
 void fn_828B1538(int param_1)
 
 {
@@ -36,8 +38,8 @@ void fn_828B1538(int param_1)
   
   lVar1 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x4c) + 0x98;
   fn_828B1218(lVar1,0,0,0);
-  fn_828B1000(lVar1,1,0xffffffff821cc160,8);
-  fn_828B1000(lVar1,2,0xffffffff8202e370,0x10);
+  fn_828B1000(lVar1,1,lbl_821CC160,8);
+  fn_828B1000(lVar1,2,lbl_8202E370,0x10);
   return;
 }
 
