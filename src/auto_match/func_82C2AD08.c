@@ -37,13 +37,11 @@ void fn_82C2AD08(int param_1)
   int aiStack_20 [4];
   
   aiStack_20[0] = *(int *)(param_1 + 0x2c);
-  iVar1 = fn_82C2A670();
-  if ((-1 < iVar1) && (iVar1 = fn_82C2A938(param_1), -1 < iVar1)) {
-    iVar1 = fn_82C10B28(*(undefined4 *)(aiStack_20[0] + 0x30),0x1f,aiStack_20[0] + 0x10);
-    if (-1 < iVar1) {
-      fn_82C10B28(*(undefined4 *)(aiStack_20[0] + 0x30),0x1f,aiStack_20);
-    }
-  }
-  return;
+  iVar1 = fn_82C2A670(param_1);
+  if (iVar1 < 0) return;
+  iVar1 = fn_82C2A938(param_1);
+  if (iVar1 < 0) return;
+  iVar1 = fn_82C10B28(*(undefined4 *)(aiStack_20[0] + 0x30),0x1f,aiStack_20[0] + 0x10);
+  if (iVar1 < 0) return;
+  fn_82C10B28(*(undefined4 *)(aiStack_20[0] + 0x30),0x1f,aiStack_20);
 }
-

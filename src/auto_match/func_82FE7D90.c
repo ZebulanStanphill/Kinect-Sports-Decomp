@@ -27,8 +27,8 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA5538();
 extern unsigned int lbl_831BC768;
-extern unsigned int lbl_831BC7F8;
-extern unsigned int lbl_83264318;
+extern unsigned int lbl_831BC7F4[];
+extern unsigned int lbl_8326430C[];
 
 
 undefined8 fn_82FE7D90(void)
@@ -37,12 +37,12 @@ undefined8 fn_82FE7D90(void)
   uint uVar1;
   
   if (lbl_831BC768 == -1) {
-    uVar1 = lbl_83264318;
-    if (lbl_83264318 < 0x41) {
+    uVar1 = lbl_8326430C[3];
+    if (lbl_8326430C[3] <= 0x40) {
       uVar1 = 0x1000000;
     }
     lbl_831BC768 = fn_82FA5538(0,uVar1,0x40,3,0);
-    lbl_831BC7F8 = lbl_831BC768;
+    lbl_831BC7F4[1] = lbl_831BC768;
     if (lbl_831BC768 == -1) {
       return 0x34;
     }
