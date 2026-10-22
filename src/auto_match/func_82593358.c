@@ -1,67 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry {
+  unsigned short id;
+  char pad[0x42];
+} Entry;
 
+typedef struct Table {
+  int count;
+  Entry entries[1];
+} Table;
 
-undefined8 fn_82593358(int param_1,int *param_2,short param_3)
+typedef struct Inner {
+  char pad[0x10];
+  Table *table;
+} Inner;
 
+typedef struct Res {
+  char pad[0x10];
+  Inner *inner;
+} Res;
+
+typedef struct Mgr Mgr;
+typedef struct MgrVt {
+  void *f[7];
+  Res *(*get)(Mgr *m);
+} MgrVt;
+struct Mgr {
+  MgrVt *vt;
+};
+
+typedef struct Obj {
+  char pad[0x8c0];
+  Mgr *mgr;
+} Obj;
+
+int fn_82593358(Obj *o, Entry **it, unsigned short id)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  if (*(int **)(param_1 + 0x8c0) == (int *)0x0) {
-    iVar1 = 0;
-  }
-  else {
-    iVar1 = (**(code **)(**(int **)(param_1 + 0x8c0) + 0x1c))();
-  }
-  if (iVar1 == 0) {
-    piVar2 = (int *)0x0;
-  }
-  else {
-    piVar2 = *(int **)(*(int *)(iVar1 + 0x10) + 0x10);
-  }
-  if (piVar2 != (int *)0x0) {
-    if (*param_2 == 0) {
-      piVar3 = piVar2 + 1;
-      piVar2 = piVar3 + *piVar2 * 0x11;
+  Mgr *m;
+  Res *r;
+  Table *t;
+  Entry *e;
+  Entry *end;
+
+  m = o->mgr;
+  r = m ? m->vt->get(m) : 0;
+  t = r ? r->inner->table : 0;
+  if (t != 0) {
+    if (*it == 0) {
+      e = t->entries;
+      end = e + t->count;
+    } else {
+      e = *it + 1;
+      end = t->entries + t->count;
     }
-    else {
-      piVar3 = (int *)(*param_2 + 0x44);
-      piVar2 = piVar2 + *piVar2 * 0x11 + 1;
-    }
-    for (; piVar3 < piVar2; piVar3 = piVar3 + 0x11) {
-      if (*(short *)piVar3 == param_3) {
-        *param_2 = (int)piVar3;
+    for (; e < end; e++) {
+      if (e->id == id) {
+        *it = e;
         return 1;
       }
     }
   }
   return 0;
 }
-

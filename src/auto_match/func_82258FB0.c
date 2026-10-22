@@ -34,35 +34,27 @@ extern unsigned int lbl_82198450;
 extern unsigned int lbl_821B9610;
 
 
+static void destroy_82197080(uint *p) { *p = (uint)&lbl_82197080; fn_8289D4C0(p); }
+static void destroy_821983E8(uint *p) { *p = (uint)&lbl_821983E8; fn_8289D4C0(p); }
+static void destroy_82198348(uint *p) { *p = (uint)&lbl_82198348; fn_8289D4C0(p); }
+static void destroy_821B9610(uint *p) { *p = (uint)&lbl_821B9610; fn_8289D4C0(p); }
 void fn_82258FB0(undefined4 *param_1)
 
 {
   *param_1 = &lbl_82198450;
-  param_1[0x177] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x177);
-  param_1[0x162] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x162);
-  param_1[0x14d] = &lbl_821983E8;
-  fn_8289D4C0(param_1 + 0x14d);
+  destroy_82197080(param_1 + 0x177);
+  destroy_82197080(param_1 + 0x162);
+  destroy_821983E8(param_1 + 0x14d);
   fn_8289D4C0(param_1 + 0x138);
-  param_1[0x123] = &lbl_82198348;
-  fn_8289D4C0(param_1 + 0x123);
-  param_1[0x10e] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x10e);
-  param_1[0xf9] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xf9);
-  param_1[0xe4] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0xe4);
-  param_1[0xcf] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0xcf);
-  param_1[0xba] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0xba);
-  param_1[0xa5] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0xa5);
-  param_1[0x90] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x90);
-  param_1[0x7b] = &lbl_821983E8;
-  fn_8289D4C0(param_1 + 0x7b);
+  destroy_82198348(param_1 + 0x123);
+  destroy_82197080(param_1 + 0x10e);
+  destroy_82197080(param_1 + 0xf9);
+  destroy_821B9610(param_1 + 0xe4);
+  destroy_821B9610(param_1 + 0xcf);
+  destroy_821B9610(param_1 + 0xba);
+  destroy_821B9610(param_1 + 0xa5);
+  destroy_82197080(param_1 + 0x90);
+  destroy_821983E8(param_1 + 0x7b);
   fn_82233888(param_1);
   return;
 }

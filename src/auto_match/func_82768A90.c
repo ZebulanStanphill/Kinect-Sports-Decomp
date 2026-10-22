@@ -15,7 +15,7 @@ typedef unsigned __int64 undefined8;
 typedef unsigned __int64 ulonglong;
 typedef unsigned __int64 qword;
 typedef __int64 longlong;
-typedef int (*code)();
+typedef uint (*code)(int *);
 typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
@@ -36,7 +36,7 @@ extern unsigned int lbl_82014C60;
 undefined4 * fn_82768A90(undefined4 *param_1,int *param_2,undefined8 param_3)
 
 {
-  int iVar1;
+  uint iVar1;
   
   param_1[2] = 0;
   *param_1 = &lbl_82014C60;
@@ -49,20 +49,19 @@ undefined4 * fn_82768A90(undefined4 *param_1,int *param_2,undefined8 param_3)
     fn_8267C4C8(param_2);
   }
   if (param_1[3] != 0) {
-    fn_8267C4F0();
+    fn_8267C4F0(param_1[3]);
   }
   param_1[3] = param_2;
-  if (param_2 == (int *)0x0) {
+  if (param_2 != (int *)0x0) {
+    iVar1 = (*(code *)(*param_2 + 4))(param_2);
+  } else {
     iVar1 = 0;
-  }
-  else {
-    iVar1 = (**(code **)(*param_2 + 4))(param_2);
   }
   if (iVar1 != 0) {
     *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) + 1;
   }
   if (param_1[4] != 0) {
-    fn_8267C498();
+    fn_8267C498(param_1[4]);
   }
   param_1[4] = iVar1;
   *(undefined1 *)(param_1 + 8) = 0;
