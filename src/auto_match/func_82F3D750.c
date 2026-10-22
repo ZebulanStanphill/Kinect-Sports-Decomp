@@ -32,7 +32,7 @@ undefined8 fn_82F3D750(int param_1,ulonglong *param_2,ulonglong *param_3)
 {
   ulonglong uVar1;
   
-  if (*(int *)(param_1 + 0xc) == 0) {
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
     return 0xffffffffc00d36b6;
   }
   uVar1 = (ulonglong)*(uint *)(param_1 + 0x48) + 0x18 & 0xffffffff;

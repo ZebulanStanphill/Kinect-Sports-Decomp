@@ -33,7 +33,7 @@ undefined8 fn_830B3320(int param_1,undefined4 *param_2)
   if (param_2 == (undefined4 *)0x0) {
     return 0xffffffff80004003;
   }
-  if ((*(int *)(param_1 + 0xec) != 0) && (*(int *)(param_1 + 0xf0) != 0)) {
+  if ((*(unsigned int *)(param_1 + 0xec) != 0) && (*(unsigned int *)(param_1 + 0xf0) != 0)) {
     *param_2 = *(undefined4 *)(param_1 + 0xf8);
     return 0;
   }

@@ -31,7 +31,7 @@ extern int memset();
 undefined8 fn_82FB98B0(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x4c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x4c) != 0) {
                     /* WARNING: Subroutine does not return */
     memset(*(int *)(param_1 + 0x4c),0,
                  ((ulonglong)*(uint *)(param_1 + 0x44) +

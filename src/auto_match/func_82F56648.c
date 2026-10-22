@@ -32,7 +32,7 @@ extern int fn_82F54060();
 void fn_82F56648(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 + 0xc);
   if (iVar1 != 0) {

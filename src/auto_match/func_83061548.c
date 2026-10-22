@@ -29,7 +29,7 @@ extern int fn_83065C40();
 extern int fn_8306AB80();
 
 
-void fn_83061548(int param_1,char param_2)
+void fn_83061548(int param_1,unsigned char param_2)
 
 {
   int iVar1;

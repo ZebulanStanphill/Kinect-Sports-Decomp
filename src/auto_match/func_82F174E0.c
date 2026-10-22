@@ -29,7 +29,7 @@ extern int fn_8265C990();
 extern int fn_82BA02A8();
 
 
-undefined8 fn_82F174E0(int *param_1)
+undefined8 fn_82F174E0(unsigned int *param_1)
 
 {
   fn_82BA02A8();

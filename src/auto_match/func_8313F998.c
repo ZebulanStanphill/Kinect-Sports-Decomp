@@ -32,7 +32,7 @@ extern unsigned int lbl_83297014;
 void fn_8313F998(void)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = KeTlsGetValue(lbl_83297014);
   if (iVar1 != 0) {

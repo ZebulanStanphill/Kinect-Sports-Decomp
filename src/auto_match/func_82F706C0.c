@@ -32,7 +32,7 @@ extern int fn_82F70678();
 void _NMSG_WRITE(void)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_82F70678();
   if (iVar1 != 0) {

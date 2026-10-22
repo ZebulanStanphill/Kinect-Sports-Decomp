@@ -31,7 +31,7 @@ extern int fn_82FFE0F0();
 undefined1 fn_83015838(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if ((*(char *)(param_1 + 0x94) == '\0') && (iVar1 = fn_82FFE0F0(param_1 + 4), iVar1 != 0)) {
     return *(undefined1 *)(iVar1 + 0x20);

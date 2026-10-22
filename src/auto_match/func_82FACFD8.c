@@ -32,7 +32,7 @@ int fn_82FACFD8(int *param_1)
 
 {
   uint uVar1;
-  char cVar3;
+  unsigned char cVar3;
   int iVar2;
   
   uVar1 = param_1[1] - *param_1 >> 1;

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 int fn_82FAB9C0(int param_1,uint param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   RtlEnterCriticalSection();
   iVar1 = *(int *)((param_2 % 0xc1 + 7) * 4 + param_1);

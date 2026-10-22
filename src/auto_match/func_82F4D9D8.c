@@ -31,7 +31,7 @@ extern unsigned int lbl_8326183C;
 undefined4 fn_82F4D9D8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 * 0x14 + lbl_8326183C + 0x10);
   if (iVar1 != -1) {

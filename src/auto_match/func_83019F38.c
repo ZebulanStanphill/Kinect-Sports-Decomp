@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_83019F38(int *param_1,int param_2,int *param_3)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   int *piVar2;
   int *piVar3;
   

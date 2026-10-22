@@ -33,7 +33,7 @@ extern unsigned int uStack_20;
 undefined8 fn_82FA8618(int param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   undefined4 uStack_20;
   undefined4 auStack_1c;
   

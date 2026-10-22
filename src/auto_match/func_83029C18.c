@@ -33,7 +33,7 @@ void fn_83029C18(int param_1)
   undefined1 *puVar1;
   uint uVar2;
   
-  if (*(int *)(param_1 + 0xc) == 0) {
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
     return;
   }
   uVar2 = 0;

@@ -31,7 +31,7 @@ extern int fn_82A1E650();
 undefined8 fn_82F610B8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined8 uVar2;
   
   uVar2 = 0;

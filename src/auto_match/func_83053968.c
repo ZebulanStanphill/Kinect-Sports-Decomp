@@ -39,7 +39,7 @@ void fn_83053968(int param_1)
   
   iVar1 = param_1 + -0x40;
   RtlEnterCriticalSection(iVar1);
-  if ((*(int *)(param_1 + 0x30) == 0) && (*(int *)(param_1 + 0x34) == 0)) {
+  if ((*(unsigned int *)(param_1 + 0x30) == 0) && (*(unsigned int *)(param_1 + 0x34) == 0)) {
     fn_83050528(param_1 + -0x78,3);
     RtlLeaveCriticalSection(iVar1);
   }

@@ -34,7 +34,7 @@ undefined4 fn_82FF2608(int param_1)
 {
   undefined4 uVar1;
   
-  if (*(int *)(param_1 + 0x48) == 0) {
+  if (*(unsigned int *)(param_1 + 0x48) == 0) {
     uVar1 = fn_82FAB9C0((ulonglong)lbl_832642E0 + 0xfe0,*(undefined4 *)(param_1 + 8));
     *(undefined4 *)(param_1 + 0x48) = uVar1;
   }

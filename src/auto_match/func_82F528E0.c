@@ -34,7 +34,7 @@ extern int fn_82F52770();
 undefined8 fn_82F528E0(undefined8 param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   fn_82F4E770();
   cVar1 = fn_82F4D690();
