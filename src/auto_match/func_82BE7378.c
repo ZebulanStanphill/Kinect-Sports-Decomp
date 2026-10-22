@@ -29,7 +29,7 @@ extern int fn_82BE56C0();
 extern int fn_82BE7018();
 
 
-undefined8 fn_82BE7378(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82BE7378(undefined8 param_1,unsigned int param_2)
 
 {
   fn_82BE7018();

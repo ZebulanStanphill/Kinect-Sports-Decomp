@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82BB53C0(int param_1)
+unsigned int  fn_82BB53C0(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = 0;
   if (*(uint *)(param_1 + 4) != 0) {

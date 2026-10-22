@@ -34,7 +34,7 @@ void fn_82BD1078(int param_1)
   int iVar1;
   int *piVar2;
   int iVar3;
-  ulonglong uVar4;
+  unsigned int uVar4;
   
   uVar4 = 0;
   if (0 < *(int *)(param_1 + 0x10)) {

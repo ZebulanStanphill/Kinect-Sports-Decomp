@@ -31,7 +31,7 @@ extern unsigned int lbl_832179FC;
 void fn_829E03A0(void)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if ((ulonglong)lbl_832179FC != 0) {
     lVar1 = (ulonglong)lbl_832179FC + 0x8fd20;

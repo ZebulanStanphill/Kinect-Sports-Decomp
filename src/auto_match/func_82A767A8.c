@@ -29,7 +29,7 @@ extern int fn_82A4F4E0();
 extern int fn_82A819E0();
 
 
-undefined4 * fn_82A767A8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82A767A8(undefined4 *param_1,unsigned int param_2)
 
 {
   *(undefined4 *)(param_1[0x21] + 4) = 0;

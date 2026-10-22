@@ -30,7 +30,7 @@ extern int fn_829DDAF0();
 extern int fn_829DEE48();
 
 
-undefined8 fn_829E00C0(ulonglong param_1,ulonglong param_2)
+undefined8 fn_829E00C0(unsigned int param_1,unsigned int param_2)
 
 {
   undefined8 uVar1;

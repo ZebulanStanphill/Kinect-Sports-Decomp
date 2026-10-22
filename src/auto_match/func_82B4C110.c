@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82B47660();
 
 
-longlong fn_82B4C110(int *param_1,int param_2,longlong param_3)
+longlong fn_82B4C110(int *param_1,int param_2,int param_3)
 
 {
   int iVar1;
@@ -40,7 +40,7 @@ longlong fn_82B4C110(int *param_1,int param_2,longlong param_3)
   iVar1 = *param_1;
   uVar2 = *(undefined4 *)(iVar1 + 4);
   uVar3 = *(undefined4 *)(iVar1 + 8);
-  fn_82B47660(iVar1,(longlong)param_1[2] * (longlong)param_2 + param_3);
+  fn_82B47660(iVar1,(int)param_1[2] * (int)param_2 + param_3);
   uVar4 = *(uint *)(iVar1 + 8);
   uVar5 = *(uint *)(iVar1 + 4);
   *(undefined4 *)(iVar1 + 4) = uVar2;

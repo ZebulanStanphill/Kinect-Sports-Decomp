@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82B7BEB0();
 
 
-int fn_82BC6DC0(int param_1,ulonglong param_2)
+int fn_82BC6DC0(int param_1,unsigned int param_2)
 
 {
   fn_82B7BEB0(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 8));

@@ -32,11 +32,11 @@ extern int fn_82B4B1D8();
 extern int fn_82B4BEF8();
 
 
-void fn_82B4FFC0(undefined8 param_1,undefined8 param_2,ulonglong param_3)
+void fn_82B4FFC0(undefined8 param_1,undefined8 param_2,unsigned int param_3)
 
 {
   ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned int uVar2;
   undefined1 auStack_30 [24];
   
   fn_82B24700(auStack_30);

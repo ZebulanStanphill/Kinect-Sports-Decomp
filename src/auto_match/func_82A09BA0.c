@@ -34,7 +34,7 @@ void fn_82A09BA0(int param_1,undefined8 param_2)
 {
   int iVar1;
   int iVar2;
-  longlong lVar3;
+  int lVar3;
   int *piVar4;
   
   lVar3 = 0xe;

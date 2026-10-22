@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8322B22C;
 
 
-longlong fn_82BE93B0(void)
+int  fn_82BE93B0(void)
 
 {
   if ((ulonglong)lbl_8322B22C != 0) {

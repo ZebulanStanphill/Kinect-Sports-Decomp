@@ -29,7 +29,7 @@ extern int fn_82A28E60();
 extern unsigned int lbl_832179FC;
 
 
-ulonglong fn_829E2E80(ulonglong param_1,ulonglong param_2)
+unsigned int  fn_829E2E80(unsigned int param_1,unsigned int param_2)
 
 {
   if (((param_2 & 1) != 0) && ((param_1 & 0xffffffff) != 0)) {

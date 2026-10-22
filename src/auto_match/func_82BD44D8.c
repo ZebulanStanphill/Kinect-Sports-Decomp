@@ -30,10 +30,10 @@ extern int fn_82BD75C0();
 extern int fn_82BD8D78();
 
 
-longlong fn_82BD44D8(int param_1)
+int  fn_82BD44D8(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if ((*(int *)(param_1 + 0x18) == 0) && (*(int *)(param_1 + 0x24) == 1)) {
     fn_82BD8D78(*(undefined4 *)(param_1 + 0x4c));

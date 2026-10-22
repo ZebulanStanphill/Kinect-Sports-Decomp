@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82ABDA10(int param_1)
+unsigned char   fn_82ABDA10(int param_1)
 
 {
   uint uVar1;

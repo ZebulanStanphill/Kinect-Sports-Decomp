@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-bool fn_82BE8F88(void)
+unsigned int  fn_82BE8F88(void)
 
 {
   longlong lVar1;

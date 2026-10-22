@@ -33,7 +33,7 @@ void fn_82A9FCE8(longlong param_1,int param_2)
 {
   uint uVar1;
   uint uVar2;
-  ulonglong uVar3;
+  unsigned int uVar3;
   
   uVar2 = *(uint *)(param_2 + 0xc);
   uVar1 = *(uint *)(param_2 + 8);

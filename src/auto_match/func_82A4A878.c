@@ -29,7 +29,7 @@ extern int fn_82A4A828();
 extern int fn_82A4F4E0();
 
 
-undefined8 fn_82A4A878(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82A4A878(undefined8 param_1,unsigned int param_2)
 
 {
   fn_82A4A828();

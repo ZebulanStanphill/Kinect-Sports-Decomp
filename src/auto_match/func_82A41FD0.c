@@ -34,7 +34,7 @@ extern int fn_82A4F4E0();
 void fn_82A41FD0(undefined8 param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   while( true ) {
     uVar1 = fn_82A40AD8(param_1);

@@ -30,7 +30,7 @@ extern int fn_82A5C298();
 extern unsigned int lbl_8208DEC4;
 
 
-undefined4 * fn_82A5B6E8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82A5B6E8(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = 0;

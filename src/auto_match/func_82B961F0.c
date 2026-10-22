@@ -29,7 +29,7 @@ extern int fn_82B8FDD0();
 extern int memcpy();
 
 
-void fn_82B961F0(int param_1,int param_2,int param_3,undefined8 param_4)
+void fn_82B961F0(int param_1,int param_2,int param_3,unsigned int param_4)
 
 {
   if (*(int *)(param_1 + 0x10) != 0) {
