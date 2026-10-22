@@ -1,76 +1,79 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_8225F160();
-extern int fn_82372F88();
-extern int fn_824CCD80();
-extern int fn_825603C8();
-extern unsigned int lbl_832975B0;
+typedef struct Obj {
+    char pad[0x10];
+    int x10;
+    char pad2[0x20 - 0x14];
+    char x20[0x22c - 0x20];
+    int x22c;
+} Obj;
 
+typedef struct Holder {
+    char pad[8];
+    int obj;
+} Holder;
 
-void fn_82373428(int param_1,int param_2)
+typedef struct Sub {
+    char pad[0x40];
+    unsigned int x40;
+} Sub;
 
+typedef struct Flag {
+    char pad[4];
+    unsigned char b;
+} Flag;
+
+typedef struct Mgr {
+    char pad[0x40];
+    int x40;
+} Mgr;
+
+typedef struct Self {
+    char pad[0x30];
+    Holder *x30;
+    char pad2[0xa0 - 0x34];
+    int xa0;
+    char pad3[0x204 - 0xa4];
+    int x204;
+    char pad4[0x658 - 0x208];
+    int x658;
+    char pad5[0x9d8 - 0x65c];
+    int x9d8;
+    int x9dc;
+} Self;
+
+extern Flag *fn_82250A18(void);
+extern Mgr *fn_8225F160(void);
+extern int fn_82372F88(Self *s);
+extern void *fn_824CCD80(int a);
+extern void fn_825603C8(void *a, void *b, int c);
+extern Flag *lbl_832975B0;
+
+void fn_82373428(Self *s, int v)
 {
-  int iVar3;
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  if (*(int *)(param_1 + 0x9dc) != param_2) {
-    *(int *)(param_1 + 0x9dc) = param_2;
-    iVar3 = fn_8225F160();
-    if (((*(int *)(param_1 + 0x9d8) != 0) && (*(int *)(iVar3 + 0x40) == 1)) &&
-       (*(int *)(*(int *)(param_1 + 0x30) + 8) != 0)) {
-      iVar3 = lbl_832975B0;
-      if (lbl_832975B0 == 0) {
-        iVar3 = fn_82250A18();
-      }
-      if (*(char *)(iVar3 + 4) == '\0') {
-        if ((*(int *)(param_1 + 0xa0) != 0) && (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) == 1)) {
-          if (*(int *)(param_1 + 0x204) == 0) {
-            lVar1 = fn_82372F88(param_1);
-            iVar3 = (int)(lVar1 + 1) - ((int)lVar1 + (uint)(lVar1 + 1 == 0));
-          }
-          else {
-            iVar3 = *(int *)(param_1 + 0x658);
-          }
-          if (iVar3 != 0) {
-            return;
-          }
-        }
-        iVar3 = *(int *)(*(int *)(param_1 + 0x30) + 8);
-        if (*(int *)(iVar3 + 0x22c) != 1) {
-          uVar2 = fn_824CCD80(*(undefined4 *)(iVar3 + 0x10));
-          fn_825603C8(uVar2,iVar3 + 0x20,1);
-          *(undefined4 *)(iVar3 + 0x22c) = 1;
-        }
-      }
-    }
-  }
-  return;
-}
+    Mgr *m;
+    Flag *f;
+    Obj *o;
 
+    if (s->x9dc != v) {
+        s->x9dc = v;
+        m = fn_8225F160();
+        if (s->x9d8 != 0 && m->x40 == 1 && s->x30->obj != 0) {
+            f = lbl_832975B0 ? lbl_832975B0 : fn_82250A18();
+            if (!f->b) {
+                if (s->xa0 != 0 && ((Sub *)s->xa0)->x40 == 1) {
+                    int r;
+                    if (s->x204 == 0)
+                        r = fn_82372F88(s) != -1;
+                    else
+                        r = s->x658;
+                    if (r != 0)
+                        return;
+                }
+                o = (Obj *)s->x30->obj;
+                if (o->x22c != 1) {
+                    fn_825603C8(fn_824CCD80(o->x10), o->x20, 1);
+                    o->x22c = 1;
+                }
+            }
+        }
+    }
+}

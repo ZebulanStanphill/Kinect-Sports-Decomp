@@ -1,92 +1,87 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F160();
-extern int fn_8236C120();
-extern int fn_823DBA60();
-extern int fn_825275B0();
+typedef struct Item {
+    char pad0[0x2c];
+    int type;           /* 0x2c */
+    char pad30[0x120 - 0x30];
+    int active;         /* 0x120 */
+    char pad124[0x1ec - 0x124];
+    int x1ec;           /* 0x1ec */
+} Item;
 
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    char pad[0xc8];
+    int (*fnC8)(Obj *);
+} ObjVtbl;
 
-undefined8 fn_823693A0(int *param_1,int param_2)
+struct Obj {
+    ObjVtbl *vtbl;
+    char pad4[0x42c - 4];
+    int state;          /* 0x42c */
+    char pad430[0x4b0 - 0x430];
+    void *x4b0;         /* 0x4b0 */
+    char pad4b4[0x9a0 - 0x4b4];
+    Item *cur;          /* 0x9a0 */
+    Item *prev;         /* 0x9a4 */
+    int x9a8;           /* 0x9a8 */
+    int x9ac;           /* 0x9ac */
+    int curType;        /* 0x9b0 */
+    int prevType;       /* 0x9b4 */
+    char pad9b8[0x9e0 - 0x9b8];
+    int x9e0;           /* 0x9e0 */
+    int x9e4;           /* 0x9e4 */
+    char pad9e8[0xe10 - 0x9e8];
+    void *xe10;         /* 0xe10 */
+};
 
+typedef struct { char pad[8]; int x8; } Global;
+
+extern Global *fn_8225F160(void);
+extern void fn_8236C120(Obj *);
+extern void fn_823DBA60(void *, int);
+extern void fn_825275B0(void *);
+
+int fn_823693A0(Obj *o, Item *item)
 {
-  int iVar2;
-  int iVar3;
-  undefined8 uVar1;
-  longlong lVar4;
-  
-  iVar3 = param_1[0x268];
-  if ((iVar3 != 0) && (param_2 != iVar3)) {
-    iVar2 = param_1[0x10b];
-    if ((iVar2 == 3) || ((iVar2 == 5 || (iVar2 == 4)))) {
-      fn_825275B0(param_1[900]);
-    }
-    if (param_1[0x10b] != 0) {
-      fn_825275B0(param_1[900]);
-    }
-    param_1[0x10b] = 0;
-  }
-  if ((param_2 != 0) && (param_2 != iVar3)) {
-    fn_8236C120(param_1);
-  }
-  iVar2 = (**(code **)(*param_1 + 200))(param_1);
-  if ((((iVar2 == 0) && (param_2 != 0)) && (*(int *)(param_2 + 0x1ec) != 0)) &&
-     ((param_2 != iVar3 && (*(int *)(param_2 + 0x2c) == 1)))) {
-    iVar3 = fn_8225F160();
-    if (*(int *)(iVar3 + 8) == 0) {
-      lVar4 = 1 - (ulonglong)(uint)param_1[0x26b];
-    }
-    else {
-      lVar4 = 0;
-    }
-    fn_823DBA60(param_1[300],lVar4);
-    param_1[0x26a] = 0;
-  }
-  iVar3 = param_1[0x268];
-  uVar1 = 0;
-  if (iVar3 != param_2) {
-    param_1[0x278] = 0;
-    param_1[0x279] = 0;
-    if (iVar3 != 0) {
-      *(undefined4 *)(iVar3 + 0x120) = 0;
-      param_1[0x26d] = param_1[0x26c];
-      param_1[0x269] = param_1[0x268];
-    }
-    uVar1 = 1;
-  }
-  param_1[0x268] = param_2;
-  if (param_2 == 0) {
-    iVar3 = -1;
-  }
-  else {
-    *(undefined4 *)(param_2 + 0x120) = 1;
-    iVar3 = *(int *)(param_1[0x268] + 0x2c);
-  }
-  param_1[0x26c] = iVar3;
-  return uVar1;
-}
+    Item *old;
+    int changed;
+    int st;
 
+    old = o->cur;
+    if (old != 0 && item != old) {
+        st = o->state;
+        if (st == 3 || st == 5 || st == 4) {
+            fn_825275B0(o->xe10);
+        }
+        if (o->state != 0) {
+            fn_825275B0(o->xe10);
+        }
+        o->state = 0;
+    }
+    if (item != 0 && item != old) {
+        fn_8236C120(o);
+    }
+    if (o->vtbl->fnC8(o) == 0 && item != 0 && item->x1ec != 0 &&
+        item != old && item->type == 1) {
+        fn_823DBA60(o->x4b0, fn_8225F160()->x8 == 0 ? 1 - o->x9ac : 0);
+        o->x9a8 = 0;
+    }
+    changed = 0;
+    if (o->cur != item) {
+        o->x9e0 = 0;
+        o->x9e4 = 0;
+        if (o->cur != 0) {
+            o->cur->active = 0;
+            o->prev = o->cur;
+            o->prevType = o->curType;
+        }
+        changed = 1;
+    }
+    o->cur = item;
+    if (item != 0) {
+        item->active = 1;
+        o->curType = o->cur->type;
+    } else {
+        o->curType = -1;
+    }
+    return changed;
+}

@@ -1,68 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822709D0();
-extern int fn_82286E18();
-extern int fn_822A7B50();
-
-
-void fn_822A5A40(int param_1)
-
+typedef struct Obj Obj;
+typedef void (*VFn)(Obj *, int);
+struct Obj { VFn *vt; };
+typedef struct {
+  char pad0[0x504];
+  int flag504;
+  char pad1[0x550 - 0x508];
+  Obj *o550;
+  char pad2[0x5bc - 0x554];
+  int v5bc;
+  Obj *o5c0;
+  void *p5c4;
+  char pad3[0x5d0 - 0x5c8];
+  Obj *o5d0;
+} Self;
+extern void fn_822709D0(Obj *o);
+extern void fn_82286E18(void *p, int x);
+extern void fn_822A7B50(Self *p);
+void fn_822A5A40(Self *p)
 {
-  undefined4 *puVar1;
-  
-  if (*(int *)(param_1 + 0x504) != 0) {
-    fn_822709D0(*(undefined4 *)(param_1 + 0x550));
-    *(undefined4 *)(param_1 + 0x504) = 0;
+  Obj **pp = &p->o550;
+  if (p->flag504 != 0) {
+    fn_822709D0(p->o550);
+    p->flag504 = 0;
   }
-  (**(code **)(**(int **)(param_1 + 0x550) + 0x54))
-            (*(int **)(param_1 + 0x550),*(undefined4 *)(param_1 + 0x5bc));
-  puVar1 = *(undefined4 **)(param_1 + 0x5c0);
-  *(undefined4 *)(param_1 + 0x5bc) = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0x5d0);
-  *(undefined4 *)(param_1 + 0x5c0) = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  *(undefined4 *)(param_1 + 0x5d0) = 0;
-  (**(code **)(**(int **)(param_1 + 0x550) + 8))();
-  puVar1 = *(undefined4 **)(param_1 + 0x550);
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  *(undefined4 *)(param_1 + 0x550) = 0;
-  if (*(int *)(param_1 + 0x5c4) != 0) {
-    fn_82286E18(*(int *)(param_1 + 0x5c4),1);
-  }
-  *(undefined4 *)(param_1 + 0x5c4) = 0;
-  fn_822A7B50(param_1);
-  return;
+  p->o550->vt[0x54 / 4](p->o550, p->v5bc);
+  p->v5bc = 0;
+  if (p->o5c0 != 0)
+    p->o5c0->vt[0](p->o5c0, 1);
+  p->o5c0 = 0;
+  if (p->o5d0 != 0)
+    p->o5d0->vt[0](p->o5d0, 1);
+  p->o5d0 = 0;
+  ((void (*)(Obj *))(*pp)->vt[2])(*pp);
+  if (p->o550 != 0)
+    p->o550->vt[0](p->o550, 1);
+  p->o550 = 0;
+  if (p->p5c4 != 0)
+    fn_82286E18(p->p5c4, 1);
+  p->p5c4 = 0;
+  fn_822A7B50(p);
 }
-

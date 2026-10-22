@@ -1,3 +1,5 @@
+extern void fn_822A1100(void);
+extern void fn_822A1178(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -29,8 +31,8 @@ extern unsigned int *auStack_30;
 extern int fn_822315A0();
 extern int fn_82266D28();
 extern int fn_823F2E20();
-extern int fn_8266EC60();
-extern int fn_8266EF20();
+extern uint fn_8266EC60(void);
+extern uint fn_8266EF20(void *, uint, uint, int, int, uint);
 extern int fn_8266F628();
 extern int fn_8266F640();
 extern int fn_8266F658();
@@ -38,16 +40,15 @@ extern int fn_8266F660();
 extern int fn_82673A28();
 extern int fn_82673C58();
 extern unsigned int iStack_2c;
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
 
 undefined4 * fn_822A1018(undefined4 *param_1,undefined8 param_2)
 
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
+  float uVar1;
+  uint uVar2;
+  struct { uint first,second; } pair;
   
   *param_1 = 0;
   param_1[1] = 0;
@@ -55,20 +56,19 @@ undefined4 * fn_822A1018(undefined4 *param_1,undefined8 param_2)
   *(undefined1 *)(param_1 + 2) = 0;
   *(undefined1 *)((int)param_1 + 9) = 0;
   uVar1 = lbl_821CC160;
-  param_1[8] = lbl_821CC160;
-  param_1[9] = uVar1;
-  uVar2 = fn_8266EC60();
-  uVar2 = fn_8266EF20(auStack_30,uVar2,param_2,0,0,0x18280143);
+  ((float *)param_1)[8] = lbl_821CC160;
+  ((float *)param_1)[9] = uVar1;
+  uVar2 = fn_8266EF20(&pair,fn_8266EC60(),param_2,0,0,0x18280143);
   fn_823F2E20(param_1,uVar2);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  if (pair.second != 0) {
+    fn_822315A0(pair.second);
   }
   fn_8266F658(*param_1,1);
   fn_8266F660(*param_1,1);
   fn_8266F640(*param_1,1);
   fn_8266F628(*param_1,1);
-  fn_82673C58(*param_1,0xffffffff822a1100,param_1,0);
-  fn_82673A28(*param_1,0xffffffff822a1178,param_1);
+  fn_82673C58(*param_1,fn_822A1100,param_1,0);
+  fn_82673A28(*param_1,fn_822A1178,param_1);
   return param_1;
 }
 

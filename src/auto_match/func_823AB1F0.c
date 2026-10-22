@@ -1,82 +1,89 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8239D490();
-extern int fn_8239D8B0();
-extern unsigned int lbl_83276574;
+typedef struct Obj Obj;
 
+typedef struct ObjVtbl {
+  char pad0[0x6c];
+  int (*f6c)(Obj *o, int arg);
+  char pad1[0x7c - 0x70];
+  int (*f7c)(Obj *o, int arg);
+  char pad2[0x84 - 0x80];
+  int (*f84)(Obj *o, int arg);
+} ObjVtbl;
 
-undefined8 fn_823AB1F0(int *param_1,int param_2,undefined8 param_3,int param_4,int param_5)
+struct Obj {
+  ObjVtbl *vt;
+  int pad0[2];
+  int xc;
+  int pad1;
+  int x14;
+  int pad2[6];
+  int x30;
+  int pad3[12];
+  int x64;
+  int x68;
+  int x6c;
+  int x70;
+  int x74;
+  int pad4;
+  int x7c;
+};
 
+typedef struct Elem {
+  char pad[0x20];
+  float f;
+} Elem;
+
+typedef struct Tbl {
+  Elem **items;
+  int pad[3];
+  int cur;
+} Tbl;
+
+typedef struct Ctx {
+  int pad[2];
+  Tbl ***tbl;
+} Ctx;
+
+extern void fn_8239D490(Ctx *c, int a, int n);
+extern void fn_8239D8B0(Ctx *c, int n);
+extern int lbl_83276574;
+
+int fn_823AB1F0(Obj *param_1, Ctx *param_2, int param_3, int param_4, int param_5)
 {
-  int iVar1;
-  longlong lVar2;
-  
-  iVar1 = (**(code **)(*param_1 + 0x84))(param_1,param_3);
-  if (iVar1 == 0) {
+
+  int n;
+  Tbl *t;
+
+  if (param_1->vt->f84(param_1, param_3) == 0) {
     return 1;
   }
-  param_1[0x1f] = 1;
-  iVar1 = (**(code **)(*param_1 + 0x7c))(param_1,param_3);
-  if (param_4 == iVar1) {
-    if (param_1[0x19] == param_4) {
-      iVar1 = 7;
-LAB_823ab26c:
-      param_1[0x1a] = 1;
-      param_1[0x1b] = iVar1;
+  param_1->x7c = 1;
+  if (param_4 == param_1->vt->f7c(param_1, param_3)) {
+    if (param_1->x64 == param_4) {
+      param_1->x68 = 1;
+      param_1->x6c = 7;
       return 1;
     }
-  }
-  else {
-    iVar1 = (**(code **)(*param_1 + 0x6c))(param_1,param_3);
-    if (iVar1 == 0) {
-      if (param_1[0x19] == param_4) {
-        iVar1 = 0;
-        param_1[0x1c] = param_4;
-        param_1[0x1d] = param_5;
-        goto LAB_823ab26c;
-      }
+  } else if (param_1->vt->f6c(param_1, param_3) == 0) {
+    if (param_1->x64 == param_4) {
+      param_1->x70 = param_4;
+      param_1->x74 = param_5;
+      param_1->x68 = 1;
+      param_1->x6c = 0;
+      return 1;
     }
-    else {
-      if (param_1[0x19] == param_4) {
-        lVar2 = (ulonglong)
-                (uint)(int)*(float *)(*(int *)((*(int **)**(undefined4 **)(param_2 + 8))[4] * 4 +
-                                              **(int **)**(undefined4 **)(param_2 + 8)) + 0x20) + 1;
-        fn_8239D490(param_2,0,lVar2);
-        if (lbl_83276574 < (int)lVar2) {
-          lbl_83276574 = (int)lVar2;
-        }
-        fn_8239D8B0(param_2,lVar2);
+  } else {
+    if (param_1->x64 == param_4) {
+      t = **param_2->tbl;
+      n = (int)t->items[t->cur]->f + 1;
+      fn_8239D490(param_2, 0, n);
+      if (lbl_83276574 < n) {
+        lbl_83276574 = n;
       }
-      param_1[3] = param_4;
-      param_1[5] = param_5;
+      fn_8239D8B0(param_2, n);
     }
+    param_1->xc = param_4;
+    param_1->x14 = param_5;
   }
-  param_1[0xc] = 0;
+  param_1->x30 = 0;
   return 0;
 }
-

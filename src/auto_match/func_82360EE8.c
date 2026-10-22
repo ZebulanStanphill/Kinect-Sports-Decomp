@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_823BC1B8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821B28C4;
+extern uint *fn_8265C9E0(int);
+extern uint lbl_821B28C4;
 
+typedef struct {
+  uint a, b, c, d, e, f;
+} Zeroed;
 
-undefined4 * fn_82360EE8(undefined8 param_1)
-
+static void Zeroed_init(Zeroed *z)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x48);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_823BC1B8(puVar1,param_1);
-    *puVar1 = &lbl_821B28C4;
-    puVar1[0xc] = 0;
-    puVar1[0xd] = 0;
-    puVar1[0xe] = 0;
-    puVar1[0xf] = 0;
-    puVar1[0x10] = 0;
-    puVar1[0x11] = 0;
-  }
-  return puVar1;
+  z->a = 0;
+  z->b = 0;
+  z->c = 0;
+  z->d = 0;
+  z->e = 0;
+  z->f = 0;
 }
 
+uint *fn_82360EE8(uint *param_1)
+{
+  uint *p;
+  p = fn_8265C9E0(0x48);
+  if (p != 0) {
+    fn_823BC1B8(p, param_1);
+    *p = (uint)&lbl_821B28C4;
+    Zeroed_init((Zeroed *)(p + 12));
+    return p;
+  }
+  return 0;
+}

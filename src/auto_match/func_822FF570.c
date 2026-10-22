@@ -1,49 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82233888();
-extern int fn_822FF888();
-extern int fn_82359C18();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_821AEC2C;
-extern unsigned int lbl_821AECA0;
+extern void fn_82233888(void *p);
+extern void fn_822FF888(void *p);
+extern void fn_82359C18(void *p);
+extern void fn_8289D4C0(void *p);
+extern char lbl_82197100[];
+extern char lbl_821AEC2C[];
+extern char lbl_821AECA0[];
 
+typedef struct Inner {
+    void *vtbl;
+} Inner;
 
-void fn_822FF570(undefined4 *param_1)
+typedef struct Sub {
+    void *vtbl;
+    char pad4[0x14];
+    char m18[0x18];
+    Inner in;
+} Sub;
 
+typedef struct Obj {
+    void *vtbl;
+    char pad[0x1ec];
+    Sub sub;
+} Obj;
+
+void fn_822FF570(Obj *p)
 {
-  *param_1 = &lbl_821AECA0;
-  param_1[0x88] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x88);
-  param_1[0x7c] = &lbl_821AEC2C;
-  fn_82359C18(param_1 + 0x82);
-  fn_822FF888(param_1 + 0x7c);
-  fn_82233888(param_1);
-  return;
+    Sub *s;
+    p->vtbl = lbl_821AECA0;
+    s = &p->sub;
+    s->in.vtbl = lbl_82197100;
+    fn_8289D4C0(&s->in);
+    s->vtbl = lbl_821AEC2C;
+    fn_82359C18(s->m18);
+    fn_822FF888(s);
+    fn_82233888(p);
 }
-

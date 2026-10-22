@@ -38,10 +38,10 @@ void fn_8229AA08(undefined4 *param_1)
 
 {
   undefined4 *puVar1;
-  int iVar2;
+  uint iVar2;
   
   *param_1 = &lbl_821AADF4;
-  if (param_1[1] != 0) {
+  if ((int)param_1[1] != 0) {
     fn_82672660(param_1[1],param_1);
   }
   if (param_1[9] != 0) {
@@ -51,22 +51,22 @@ void fn_8229AA08(undefined4 *param_1)
     fn_82292450(param_1[8],1);
   }
   if (param_1[6] != 0) {
-    fn_8229AEF0();
+    fn_8229AEF0(param_1[6]);
   }
   puVar1 = (undefined4 *)param_1[5];
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   iVar2 = param_1[4];
   if (iVar2 != 0) {
-    if (*(int *)(iVar2 + 4) != 0) {
-      fn_822315A0();
+    if (*(uint *)(iVar2 + 4) != 0) {
+      fn_822315A0(*(uint *)(iVar2 + 4));
     }
     fn_8265CA20(iVar2);
   }
   fn_8229AE58(param_1 + 3);
   if (param_1[2] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[2]);
   }
   return;
 }

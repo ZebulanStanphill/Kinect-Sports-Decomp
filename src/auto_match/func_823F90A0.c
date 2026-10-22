@@ -1,53 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct VObj VObj;
+typedef struct {
+  void *s0;
+  void *s1;
+  void *s2;
+  void *s3;
+  void (*fn10)(VObj *, void *, char *);
+} VObjVt;
+struct VObj { VObjVt *vt; };
 
+typedef struct {
+  VObj *obj;
+  int pad;
+} Slot;
 
-void fn_823F90A0(int param_1,undefined8 param_2,longlong param_3)
+typedef struct {
+  int pad0;
+  int pad4;
+  unsigned int off[9];
+  Slot slot[9];
+} Obj;
 
+void fn_823F90A0(Obj *p, void *a, char *base)
 {
-  (**(code **)(**(int **)(param_1 + 0x2c) + 0x10))
-            (*(int **)(param_1 + 0x2c),param_2,(ulonglong)*(uint *)(param_1 + 8) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x34) + 0x10))
-            (*(int **)(param_1 + 0x34),param_2,(ulonglong)*(uint *)(param_1 + 0xc) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x3c) + 0x10))
-            (*(int **)(param_1 + 0x3c),param_2,(ulonglong)*(uint *)(param_1 + 0x10) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x44) + 0x10))
-            (*(int **)(param_1 + 0x44),param_2,(ulonglong)*(uint *)(param_1 + 0x14) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x4c) + 0x10))
-            (*(int **)(param_1 + 0x4c),param_2,(ulonglong)*(uint *)(param_1 + 0x18) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x54) + 0x10))
-            (*(int **)(param_1 + 0x54),param_2,(ulonglong)*(uint *)(param_1 + 0x1c) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x5c) + 0x10))
-            (*(int **)(param_1 + 0x5c),param_2,(ulonglong)*(uint *)(param_1 + 0x20) + param_3);
-  (**(code **)(**(int **)(param_1 + 100) + 0x10))
-            (*(int **)(param_1 + 100),param_2,(ulonglong)*(uint *)(param_1 + 0x24) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x6c) + 0x10))
-            (*(int **)(param_1 + 0x6c),param_2,(ulonglong)*(uint *)(param_1 + 0x28) + param_3);
-  return;
+  p->slot[0].obj->vt->fn10(p->slot[0].obj, a, p->off[0] + base);
+  p->slot[1].obj->vt->fn10(p->slot[1].obj, a, p->off[1] + base);
+  p->slot[2].obj->vt->fn10(p->slot[2].obj, a, p->off[2] + base);
+  p->slot[3].obj->vt->fn10(p->slot[3].obj, a, p->off[3] + base);
+  p->slot[4].obj->vt->fn10(p->slot[4].obj, a, p->off[4] + base);
+  p->slot[5].obj->vt->fn10(p->slot[5].obj, a, p->off[5] + base);
+  p->slot[6].obj->vt->fn10(p->slot[6].obj, a, p->off[6] + base);
+  p->slot[7].obj->vt->fn10(p->slot[7].obj, a, p->off[7] + base);
+  p->slot[8].obj->vt->fn10(p->slot[8].obj, a, p->off[8] + base);
 }
-

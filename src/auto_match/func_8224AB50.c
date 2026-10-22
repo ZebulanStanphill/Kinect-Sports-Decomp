@@ -1,56 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8224F398();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821C2AE8;
+extern void fn_8224F398(void *p);
+extern void *fn_8265C9E0(int size);
+extern char lbl_821C2AE8[];
 
+typedef struct Obj {
+    void *vtbl;
+    int owner;
+    unsigned char flag8;
+    int unkc;
+    char sub[0x40];
+    int unk50;
+    int unk54;
+    int unk58;
+    unsigned char flag5c;
+} Obj;
 
-undefined4 * fn_8224AB50(undefined4 *param_1,undefined4 param_2)
-
+static Obj *Obj_ctor(Obj *o, int owner)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(100);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = param_2;
-    *(undefined1 *)(puVar1 + 2) = 0;
-    *puVar1 = &lbl_821C2AE8;
-    puVar1[3] = 0;
-    fn_8224F398(puVar1 + 4);
-    *(undefined1 *)(puVar1 + 0x17) = 0;
-    puVar1[0x14] = 0xffffffff;
-    puVar1[0x16] = 0xffffffff;
-    puVar1[0x15] = 0;
-  }
-  *param_1 = puVar1;
-  return param_1;
+    o->owner = owner;
+    o->flag8 = 0;
+    o->vtbl = lbl_821C2AE8;
+    o->unkc = 0;
+    fn_8224F398(o->sub);
+    o->flag5c = 0;
+    o->unk50 = -1;
+    o->unk58 = -1;
+    o->unk54 = 0;
+    return o;
 }
 
+Obj **fn_8224AB50(Obj **out, int owner)
+{
+    Obj *m = (Obj *)fn_8265C9E0(100);
+    *out = m ? Obj_ctor(m, owner) : 0;
+    return out;
+}

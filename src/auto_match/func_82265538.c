@@ -1,91 +1,98 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82522ED8();
-extern int fn_82529320();
-extern int fn_82672C20();
-extern int fn_82A1C0F0();
-extern unsigned int lbl_831CEF4C;
+extern void fn_822315A0(void *p);
+extern void fn_82522ED8(void *p);
+extern void fn_82529320(void *p, int a);
+extern void fn_82672C20(int h, int id, int a, int b);
+extern void fn_82A1C0F0(void *p);
+extern int lbl_831CEF4C[];
 
+typedef struct Link {
+    struct Link *next;
+    struct Link *prev;
+} Link;
 
-void fn_82265538(int param_1)
+typedef struct Slot {
+    int a;
+    int b;
+    int c;
+    char pad[0x234 - 0xc];
+} Slot;
 
+typedef struct Mgr {
+    int handle;
+    char pad[0x20];
+    Slot slots[1];
+} Mgr;
+
+typedef struct Obj {
+    char pad0[0xdc];
+    void *xdc;
+    void *xe0;
+    void *xe4;
+    char pad1[0x104 - 0xe8];
+    unsigned int state;
+    char pad2[0x508 - 0x108];
+    void *x508;
+    char pad3[0x51c - 0x50c];
+    int active;
+    Mgr *mgr;
+    char pad4[0x528 - 0x524];
+    void *x528;
+    char pad5[0x540 - 0x52c];
+    int idx;
+    char pad6[0x628 - 0x544];
+    Link *link;
+} Obj;
+
+void fn_82265538(Obj *o)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  if (*(int *)(param_1 + 0x104) == 0x3e5) {
-    fn_82A1C0F0(param_1 + 0x104);
-  }
-  piVar1 = *(int **)(param_1 + 0x628);
-  if (piVar1 != (int *)0x0) {
-    if (*piVar1 != 0) {
-      *(int *)(*piVar1 + 4) = piVar1[1];
-    }
-    if ((int *)piVar1[1] != (int *)0x0) {
-      *(int *)piVar1[1] = *piVar1;
-    }
-    *piVar1 = 0;
-    piVar1[1] = 0;
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x628) = 0;
-  }
-  puVar2 = *(undefined4 **)(param_1 + 0x520);
-  if (puVar2 != (undefined4 *)0x0) {
-    if (*(int *)(param_1 + 0x51c) != 0) {
-      iVar3 = *(int *)(param_1 + 0x540);
-      fn_82672C20(*puVar2,(&lbl_831CEF4C)[iVar3],0,0);
-      puVar2[iVar3 * 0x8d + 10] = 0;
-      puVar2[iVar3 * 0x8d + 0xb] = 0;
-      *(undefined4 *)(*(int *)(param_1 + 0x540) * 0x234 + *(int *)(param_1 + 0x520) + 0x24) = 0;
-    }
-    *(undefined4 *)(param_1 + 0x520) = 0;
-  }
-  if (*(int *)(param_1 + 0xdc) != 0) {
-    fn_82529320(*(int *)(param_1 + 0xdc),0);
-    *(undefined4 *)(param_1 + 0xdc) = 0;
-  }
-  if (*(int *)(param_1 + 0xe4) != 0) {
-    fn_82529320(*(int *)(param_1 + 0xe4),0);
-    *(undefined4 *)(param_1 + 0xe4) = 0;
-  }
-  if (*(int *)(param_1 + 0xe0) != 0) {
-    fn_82529320(*(int *)(param_1 + 0xe0),0);
-    *(undefined4 *)(param_1 + 0xe0) = 0;
-  }
-  if (*(int *)(param_1 + 0x508) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x508) = 0;
-  }
-  if (*(int *)(param_1 + 0x528) != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    Link *l;
+    Mgr *m;
+    int idx;
 
+    if (o->state == 0x3e5) {
+        fn_82A1C0F0(&o->state);
+    }
+    l = o->link;
+    if (l != 0) {
+        if (l->next != 0) {
+            l->next->prev = l->prev;
+        }
+        if (l->prev != 0) {
+            l->prev->next = l->next;
+        }
+        l->next = 0;
+        l->prev = 0;
+        fn_82522ED8(l);
+        o->link = 0;
+    }
+    m = o->mgr;
+    if (m != 0) {
+        if (o->active != 0) {
+            idx = o->idx;
+            fn_82672C20(m->handle, lbl_831CEF4C[idx], 0, 0);
+            m->slots[idx].b = 0;
+            m->slots[idx].c = 0;
+            o->mgr->slots[o->idx].a = 0;
+        }
+        o->mgr = 0;
+    }
+    if (o->xdc != 0) {
+        fn_82529320(o->xdc, 0);
+        o->xdc = 0;
+    }
+    if (o->xe4 != 0) {
+        fn_82529320(o->xe4, 0);
+        o->xe4 = 0;
+    }
+    if (o->xe0 != 0) {
+        fn_82529320(o->xe0, 0);
+        o->xe0 = 0;
+    }
+    if (o->x508 != 0) {
+        fn_82522ED8(o->x508);
+        o->x508 = 0;
+    }
+    if (o->x528 != 0) {
+        fn_822315A0(o->x528);
+    }
+}

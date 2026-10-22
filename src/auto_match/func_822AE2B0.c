@@ -1,86 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AA508();
-extern int fn_8251FA58();
-extern int fn_8265CA20();
+extern void fn_822AA508(void *p);
+extern void fn_8251FA58(void *p);
+extern void fn_8265CA20(void *p);
 
+typedef struct {
+  void **begin;
+  void **end;
+  void **cap;
+  int pad[2];
+  void *b[8];
+} S;
 
-void fn_822AE2B0(int *param_1)
-
+void fn_822AE2B0(S *s)
 {
-  int iVar1;
-  int *piVar2;
-  
-  for (piVar2 = (int *)*param_1; piVar2 < (int *)param_1[1]; piVar2 = piVar2 + 1) {
-    iVar1 = *piVar2;
-    if (iVar1 != 0) {
-      fn_822AA508(iVar1);
-      fn_8265CA20(iVar1);
+  void **it;
+  void *p;
+
+  for (it = s->begin; it < s->end; it++) {
+    p = *it;
+    if (p != 0) {
+      fn_822AA508(p);
+      fn_8265CA20(p);
     }
   }
-  if (param_1[5] != 0) {
-    fn_8251FA58();
-    param_1[5] = 0;
+  if (s->b[0] != 0) { fn_8251FA58(s->b[0]); s->b[0] = 0; }
+  if (s->b[1] != 0) { fn_8251FA58(s->b[1]); s->b[1] = 0; }
+  if (s->b[2] != 0) { fn_8251FA58(s->b[2]); s->b[2] = 0; }
+  if (s->b[3] != 0) { fn_8251FA58(s->b[3]); s->b[3] = 0; }
+  if (s->b[4] != 0) { fn_8251FA58(s->b[4]); s->b[4] = 0; }
+  if (s->b[5] != 0) { fn_8251FA58(s->b[5]); s->b[5] = 0; }
+  if (s->b[6] != 0) { fn_8251FA58(s->b[6]); s->b[6] = 0; }
+  if (s->b[7] != 0) { fn_8251FA58(s->b[7]); s->b[7] = 0; }
+  if (s->begin != 0) {
+    fn_8265CA20(s->begin);
   }
-  if (param_1[6] != 0) {
-    fn_8251FA58();
-    param_1[6] = 0;
-  }
-  if (param_1[7] != 0) {
-    fn_8251FA58();
-    param_1[7] = 0;
-  }
-  if (param_1[8] != 0) {
-    fn_8251FA58();
-    param_1[8] = 0;
-  }
-  if (param_1[9] != 0) {
-    fn_8251FA58();
-    param_1[9] = 0;
-  }
-  if (param_1[10] != 0) {
-    fn_8251FA58();
-    param_1[10] = 0;
-  }
-  if (param_1[0xb] != 0) {
-    fn_8251FA58();
-    param_1[0xb] = 0;
-  }
-  if (param_1[0xc] != 0) {
-    fn_8251FA58();
-    param_1[0xc] = 0;
-  }
-  if (*param_1 != 0) {
-    fn_8265CA20();
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
+  s->begin = 0;
+  s->end = 0;
+  s->cap = 0;
 }
-

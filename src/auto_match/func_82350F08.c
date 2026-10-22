@@ -1,89 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_82517D50();
-extern int fn_8265C9E0();
-extern int fn_828904D8();
-extern int fn_828ACCE8();
-extern int fn_828AD740();
-extern unsigned int lbl_82197648;
-extern unsigned int lbl_82197688;
-extern unsigned int lbl_832975B0;
+typedef struct Mgr {
+    char pad0[4];
+    unsigned char enabled;
+} Mgr;
 
+typedef struct Obj {
+    void *vtbl;
+    char pad04[0x64];
+    void *vtbl2;
+    char pad6c[0x14];
+    struct Owner *owner;
+    char pad84[4];
+    unsigned __int64 f88;
+    int f90;
+    unsigned char f94;
+    unsigned char f95;
+    unsigned char f96;
+    unsigned char f97;
+    unsigned char f98;
+} Obj;
 
-void fn_82350F08(int param_1)
+typedef struct Owner {
+    char pad0[8];
+    int state;
+    int prevState;
+    char pad10[0x3e4];
+    Obj *obj;
+    char pad3f8[4];
+    void *dev;
+} Owner;
 
+extern Mgr *lbl_832975B0;
+extern Mgr *fn_82250A18(void);
+extern void fn_82517D50(Obj *o, void *dev, int n);
+extern void *fn_8265C9E0(int size);
+extern void fn_828904D8(Obj *o);
+extern unsigned char fn_828ACCE8(void *dev);
+extern unsigned char fn_828AD740(void *dev);
+extern char lbl_82197648[];
+extern char lbl_82197688[];
+
+static Mgr *GetMgr(void)
 {
-  int iVar1;
-  char cVar3;
-  undefined4 *puVar2;
-  
-  iVar1 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar1 = fn_82250A18();
-  }
-  if (*(char *)(iVar1 + 4) != '\0') {
-    cVar3 = fn_828ACCE8(*(undefined4 *)(param_1 + 0x3fc));
-    if ((cVar3 == '\0') ||
-       (cVar3 = fn_828AD740(*(undefined4 *)(param_1 + 0x3fc)), cVar3 == '\0')) {
-      if (*(int *)(param_1 + 0x3f4) == 0) {
-        return;
-      }
-    }
-    else {
-      if (*(int *)(param_1 + 0x3f4) != 0) {
-        return;
-      }
-      puVar2 = (undefined4 *)fn_8265C9E0(0xa0);
-      if (puVar2 == (undefined4 *)0x0) {
-        puVar2 = (undefined4 *)0x0;
-      }
-      else {
-        fn_82517D50(puVar2,*(undefined4 *)(param_1 + 0x3fc),3);
-        puVar2[0x20] = param_1;
-        *(undefined8 *)(puVar2 + 0x22) = 0;
-        *puVar2 = &lbl_82197648;
-        puVar2[0x1a] = &lbl_82197688;
-        puVar2[0x24] = 0;
-        *(undefined1 *)(puVar2 + 0x25) = 1;
-        *(undefined1 *)((int)puVar2 + 0x95) = 0;
-        *(undefined1 *)((int)puVar2 + 0x96) = 0;
-        *(undefined1 *)((int)puVar2 + 0x97) = 0;
-        *(undefined1 *)(puVar2 + 0x26) = 0;
-      }
-      *(undefined4 **)(param_1 + 0x3f4) = puVar2;
-      fn_828904D8();
-    }
-  }
-  if (*(int *)(param_1 + 8) != 2) {
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 8);
-    *(undefined4 *)(param_1 + 8) = 2;
-  }
-  return;
+    return lbl_832975B0 ? lbl_832975B0 : fn_82250A18();
 }
 
+static Obj *Obj_ctor(Obj *o, Owner *owner)
+{
+    fn_82517D50(o, owner->dev, 3);
+    o->owner = owner;
+    o->f88 = 0;
+    o->vtbl = lbl_82197648;
+    o->vtbl2 = lbl_82197688;
+    o->f90 = 0;
+    o->f94 = 1;
+    o->f95 = 0;
+    o->f96 = 0;
+    o->f97 = 0;
+    o->f98 = 0;
+    return o;
+}
+
+void fn_82350F08(Owner *p)
+{
+    if (GetMgr()->enabled) {
+        if (fn_828ACCE8(p->dev) && fn_828AD740(p->dev)) {
+            Obj *mem;
+            if (p->obj != 0) {
+                return;
+            }
+            mem = fn_8265C9E0(0xa0);
+            p->obj = mem ? Obj_ctor(mem, p) : 0;
+            fn_828904D8(p->obj);
+        } else {
+            if (p->obj == 0) {
+                return;
+            }
+        }
+    }
+    if (p->state != 2) {
+        p->prevState = p->state;
+        p->state = 2;
+    }
+}

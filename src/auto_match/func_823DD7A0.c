@@ -1,77 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F160();
-extern int fn_82359698();
-extern int fn_8236B578();
-extern int fn_823C43E8();
-extern int fn_823DD948();
-extern int fn_823DDB00();
-extern int fn_823DDC10();
-
-
-void fn_823DD7A0(int param_1)
-
+typedef struct Sub {
+  char pad0[0x88];
+  float f88;
+  char pad8c[0x94 - 0x8c];
+  float f94;
+  char pad98[0x11c - 0x98];
+  int f11c;
+} Sub;
+typedef struct Mgr { int pad[2]; int f8; } Mgr;
+typedef struct Obj {
+  int pad0[2];
+  void *owner;
+  char padc[0xd8 - 0xc];
+  int fd8;
+  int pad_dc;
+  int fe0;
+  Sub *sub;
+  char pad_e8[0x270 - 0xe8];
+  int f270;
+  int f274;
+} Obj;
+extern Mgr *fn_8225F160(void);
+extern void fn_82359698(void *o, int v);
+extern int fn_8236B578(void *o);
+extern void fn_823C43E8(void *o);
+extern void fn_823DD948(Obj *o, int v);
+extern void fn_823DDB00(Obj *o);
+extern int fn_823DDC10(Obj *o, int v);
+void fn_823DD7A0(Obj *o)
 {
-  undefined4 uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  
-  uVar1 = *(undefined4 *)(param_1 + 8);
-  if (*(int *)(param_1 + 0xd8) == 0) {
-    iVar3 = fn_8236B578(uVar1);
-    if (iVar3 != 0) {
-      iVar3 = fn_8225F160();
-      uVar2 = fn_823DDC10(param_1,*(int *)(iVar3 + 8) == 0);
-      *(int *)(param_1 + 0xe0) = (int)uVar2;
-      *(undefined4 *)(param_1 + 0x274) = 1;
-      fn_823DD948(param_1,uVar2);
-      fn_823C43E8(uVar1);
-      *(undefined4 *)(param_1 + 0xd8) = 1;
-    }
-  }
-  else {
-    iVar3 = *(int *)(param_1 + 0xe4);
-    if ((iVar3 == 0) || (*(int *)(param_1 + 0x270) != 0)) {
-      fn_823DDB00(param_1);
-      fn_82359698(uVar1,7);
-    }
-    else if ((*(int *)(iVar3 + 0x11c) == 0) &&
-            (*(float *)(iVar3 + 0x94) <= *(float *)(iVar3 + 0x88))) {
-      iVar3 = fn_8225F160();
-      if ((*(int *)(iVar3 + 8) == 0) && (*(int *)(param_1 + 0x274) != 0)) {
-        fn_823DD948(param_1,(ulonglong)*(uint *)(param_1 + 0xe0) + 1);
-        *(undefined4 *)(param_1 + 0x274) = 0;
-      }
-      else {
-        *(undefined4 *)(param_1 + 0x270) = 1;
-      }
-    }
-  }
-  return;
-}
+  Sub *sub;
+  int v;
 
+  if (o->fd8 == 0) {
+    void *owner = o->owner;
+    if (fn_8236B578(owner) != 0) {
+      Mgr *m = fn_8225F160();
+      v = fn_823DDC10(o, m->f8 == 0);
+      o->fe0 = v;
+      o->f274 = 1;
+      fn_823DD948(o, v);
+      fn_823C43E8(owner);
+      o->fd8 = 1;
+    }
+  } else {
+    void *owner = o->owner;
+    sub = o->sub;
+    if (sub == 0 || o->f270 != 0) {
+      fn_823DDB00(o);
+      fn_82359698(owner, 7);
+    } else if (sub->f11c == 0 && sub->f88 >= sub->f94) {
+      if (fn_8225F160()->f8 == 0 && o->f274 != 0) {
+        fn_823DD948(o, o->fe0 + 1);
+        o->f274 = 0;
+      } else {
+        o->f270 = 1;
+      }
+    }
+  }
+}

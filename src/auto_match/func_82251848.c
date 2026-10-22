@@ -1,50 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828E9D60();
-extern int fn_828E9D90();
+extern int fn_828E9D60(void *p, int t);
+extern int fn_828E9D90(void *p);
 
+typedef struct Node Node;
+typedef struct {
+  void *f[5];
+  void (*update)(Node *self, void *p, int z);
+} NodeVt;
+struct Node { NodeVt *vt; };
 
-longlong fn_82251848(int param_1,undefined8 param_2)
+typedef struct {
+  char pad[0x68];
+  Node *n0; int p0;
+  Node *n1; int p1;
+  Node *n2; int p2;
+  Node *n3; int p3;
+  Node *n4; int p4;
+  Node *n5; int p5;
+  Node *n6;
+} S;
 
+int fn_82251848(S *s, void *p)
 {
-  longlong lVar1;
-  longlong lVar2;
-  
-  lVar1 = fn_828E9D90(param_2);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x14))(*(int **)(param_1 + 0x78),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x14))(*(int **)(param_1 + 0x80),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x88) + 0x14))(*(int **)(param_1 + 0x88),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x90) + 0x14))(*(int **)(param_1 + 0x90),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x98) + 0x14))(*(int **)(param_1 + 0x98),param_2,0);
-  lVar2 = fn_828E9D90(param_2);
-  fn_828E9D60(param_2,lVar1);
-  return lVar2 - lVar1;
-}
+  int t0;
+  int d;
 
+  t0 = fn_828E9D90(p);
+  s->n0->vt->update(s->n0, p, 0);
+  s->n1->vt->update(s->n1, p, 0);
+  s->n2->vt->update(s->n2, p, 0);
+  s->n3->vt->update(s->n3, p, 0);
+  s->n4->vt->update(s->n4, p, 0);
+  s->n5->vt->update(s->n5, p, 0);
+  s->n6->vt->update(s->n6, p, 0);
+  d = fn_828E9D90(p) - t0;
+  fn_828E9D60(p, t0);
+  return d;
+}

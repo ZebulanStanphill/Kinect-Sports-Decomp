@@ -1,95 +1,95 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8223FE60();
-extern int fn_82240070();
-extern int fn_82296E38();
-extern int fn_82297CF0();
-extern int fn_82F64CE0();
+typedef unsigned short wchar;
+typedef __int64 streamsize;
+
+typedef struct Streambuf Streambuf;
+typedef struct {
+  char pad0[0x24];
+  streamsize (*xsputn)(Streambuf *, const wchar *, streamsize);
+} StreambufVtbl;
+struct Streambuf {
+  StreambufVtbl *vtbl;
+};
+
+typedef struct {
+  char pad0[0xc];
+  int state;          /* 0x0c */
+  int pad10;
+  int fmtfl;          /* 0x14 */
+  int pad18[2];
+  streamsize wide;    /* 0x20 */
+  char pad28[0x10];
+  Streambuf *strbuf;  /* 0x38 */
+  int pad3c;
+  wchar fill;         /* 0x40 */
+} Ios;
+
+typedef struct {
+  int *vbtbl;
+} Ostream;
+
+typedef struct {
+  Ostream *ostr;
+  unsigned char ok;
+} Sentry;
+
+#define IOS(o) ((Ios *)((char *)(o) + (o)->vbtbl[1]))
 
 
-int * fn_82296618(int *param_1,undefined8 param_2)
+extern void fn_8223FE60(Sentry *s);
+extern void fn_82240070(Ios *ios, int state, int reraise);
+extern wchar fn_82296E38(Streambuf *sb, wchar c);
+extern void fn_82297CF0(Sentry *s, Ostream *o);
+extern unsigned int fn_82F64CE0(const wchar *s);
 
+static void ios_clear(Ios *ios, int st, int reraise)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  short sVar5;
-  longlong lVar6;
-  uint uVar7;
-  longlong lVar8;
-  undefined1 auStack_40 [4];
-  char cStack_3c;
-  
-  uVar7 = 0;
-  uVar2 = fn_82F64CE0(param_2);
-  uVar2 = uVar2 & 0xffffffff;
-  lVar6 = *(longlong *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20);
-  if ((lVar6 < 1) || (lVar8 = lVar6 - uVar2, lVar6 <= (longlong)uVar2)) {
-    lVar8 = 0;
-  }
-  fn_82297CF0(auStack_40,param_1);
-  if (cStack_3c == '\0') {
-    uVar7 = 4;
-  }
-  else {
-    if ((*(uint *)((int)param_1 + *(int *)(*param_1 + 4) + 0x14) & 0x1c0) != 0x40) {
-      for (; 0 < lVar8; lVar8 = lVar8 + -1) {
-        sVar5 = fn_82296E38(*(undefined4 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                                *(undefined2 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (sVar5 == -1) goto LAB_82296704;
-      }
-    }
-    piVar1 = *(int **)((int)param_1 + *(int *)(*param_1 + 4) + 0x38);
-    uVar3 = (**(code **)(*piVar1 + 0x24))(piVar1,param_2,uVar2);
-    if (uVar3 == uVar2) {
-      for (; 0 < lVar8; lVar8 = lVar8 + -1) {
-        sVar5 = fn_82296E38(*(undefined4 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                                *(undefined2 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (sVar5 == -1) goto LAB_82296704;
-      }
-    }
-    else {
-LAB_82296704:
-      uVar7 = 4;
-    }
-    *(undefined8 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20) = 0;
-  }
-  iVar4 = *(int *)(*param_1 + 4) + (int)param_1;
-  if (uVar7 != 0) {
-    uVar7 = *(uint *)(iVar4 + 0xc) | uVar7;
-    if (*(int *)(iVar4 + 0x38) == 0) {
-      uVar7 = uVar7 | 4;
-    }
-    fn_82240070(iVar4,uVar7,0);
-  }
-  fn_8223FE60(auStack_40);
-  return param_1;
+  fn_82240070(ios, ios->strbuf == 0 ? st | 4 : st, reraise);
 }
 
+static void ios_setstate(Ios *ios, int st)
+{
+  if (st != 0)
+    ios_clear(ios, ios->state | st, 0);
+}
+
+
+Ostream * fn_82296618(Ostream *_Ostr,const wchar *_Val)
+
+{
+  int _State;
+  streamsize _Count;
+  streamsize _Pad;
+  Sentry _Ok;
+  
+  _State = 0;
+  _Count = fn_82F64CE0(_Val);
+  _Pad = IOS(_Ostr)->wide <= 0 || IOS(_Ostr)->wide <= _Count ? 0 : IOS(_Ostr)->wide - _Count;
+  fn_82297CF0(&_Ok,_Ostr);
+  if (!_Ok.ok) {
+    _State |= 4;
+  }
+  else {
+    if ((IOS(_Ostr)->fmtfl & 0x1c0) != 0x40) {
+      for (; 0 < _Pad; --_Pad) {
+        if (fn_82296E38(IOS(_Ostr)->strbuf, IOS(_Ostr)->fill) == 0xffff) {
+          _State |= 4;
+          break;
+        }
+      }
+    }
+    if (_State == 0 && IOS(_Ostr)->strbuf->vtbl->xsputn(IOS(_Ostr)->strbuf, _Val, _Count) != _Count)
+      _State |= 4;
+    if (_State == 0) {
+      for (; 0 < _Pad; --_Pad) {
+        if (fn_82296E38(IOS(_Ostr)->strbuf, IOS(_Ostr)->fill) == 0xffff) {
+          _State |= 4;
+          break;
+        }
+      }
+    }
+    IOS(_Ostr)->wide = 0;
+  }
+  ios_setstate(IOS(_Ostr), _State);
+  fn_8223FE60(&_Ok);
+  return _Ostr;
+}

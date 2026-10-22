@@ -1,82 +1,113 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
-extern int fn_8225F160();
-extern int fn_822883D0();
-extern int fn_82289670();
-extern int fn_8228ABB8();
-extern int fn_82484998();
-extern int fn_82486958();
-extern int memcpy();
-extern unsigned int uStack_40;
+typedef struct Blob {
+    unsigned char b[0x24];
+} Blob;
 
+typedef struct VObj VObj;
+typedef struct VObjVtbl {
+    void *pad[25];
+    int (*f64)(VObj *o);
+} VObjVtbl;
+struct VObj {
+    VObjVtbl *vt;
+};
 
-void fn_82289EC0(int *param_1)
+typedef struct Game {
+    char pad[0x8c0];
+    VObj *f8c0;
+    int f8c4;
+    int f8c8;
+} Game;
 
+typedef struct Mgr {
+    char pad[0x18b8];
+    int f18b8;
+} Mgr;
+
+typedef struct Slot {
+    int state;
+    char pad[0x18];
+    int f1c;
+    char pad2[0x20];
+} Slot;
+
+typedef struct Obj {
+    char pad0[0x604];
+    int f604;
+    char pad1[0x6a0 - 0x608];
+    int idx;
+    int pad6a4;
+    Slot slots[2];
+    char pad2[0x768 - 0x728];
+    int f768;
+    char pad3[0x11f0 - 0x76c];
+    Mgr *mgr;
+} Obj;
+
+typedef struct Entry {
+    Blob data;
+    int valid;
+} Entry;
+
+typedef struct Info {
+    char pad[0x12c];
+    Entry ents[4];
+} Info;
+
+typedef struct Param {
+    Game *g;
+    int x4;
+    Obj *o;
+    Blob *pc;
+} Param;
+
+extern Info *fn_8225F160(void);
+extern void fn_822883D0(Obj *o, int idx, Game *g);
+extern void fn_82289670(Obj *o, int idx);
+extern void fn_8228ABB8(Obj *o, int idx, int r, int *a, int *b);
+extern void fn_82484998(Mgr *m, int x);
+extern int fn_82486958(Mgr *m);
+
+static void call(Obj *o, int idx, int r, int a, int b)
 {
-  int iVar1;
-  undefined8 uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  undefined4 uStack_40;
-  undefined4 auStack_3c;
-  
-  iVar3 = param_1[1];
-  uVar2 = (**(code **)(**(int **)(*param_1 + 0x8c0) + 100))();
-  iVar1 = param_1[2];
-  fn_82289670(iVar1,*(undefined4 *)(iVar1 + 0x6a0));
-  *(undefined4 *)(*(int *)(iVar1 + 0x6a0) * 0x40 + iVar1 + 0x6a8) = 2;
-  *(int *)(*(int *)(iVar1 + 0x6a0) * 0x40 + iVar1 + 0x6c4) = iVar3;
-  if ((*(int *)(*(int *)(iVar1 + 0x11f0) + 0x18b8) == 1) && (*(int *)(iVar1 + 0x6a0) == 2)) {
-    *(undefined4 *)(iVar1 + 0x768) = 4;
-  }
-  uStack_40 = *(undefined4 *)(*param_1 + 0x8c4);
-  auStack_3c = *(undefined4 *)(*param_1 + 0x8c8);
-  fn_8228ABB8(iVar1,*(undefined4 *)(iVar1 + 0x6a0),uVar2,&uStack_40,&auStack_3c);
-  fn_822883D0(iVar1,*(undefined4 *)(iVar1 + 0x6a0),*param_1);
-  fn_82484998(*(undefined4 *)(iVar1 + 0x11f0),iVar3);
-  if (param_1[3] != 0) {
-    if (((*(int *)(*(int *)(iVar1 + 0x11f0) + 0x18b8) == 1) && (*(int *)(iVar1 + 0x6a0) == 2)) &&
-       (iVar3 = fn_82486958(), iVar3 == 3)) {
-      iVar3 = param_1[3];
-      iVar4 = fn_8225F160();
-      memcpy(iVar4 + 0x154,iVar3,0x24);
-      *(undefined4 *)(iVar4 + 0x178) = 1;
-    }
-    iVar3 = param_1[3];
-    iVar4 = *(int *)(iVar1 + 0x6a0);
-    iVar5 = fn_8225F160();
-    iVar5 = iVar4 * 0x28 + iVar5;
-    memcpy(iVar5 + 300,iVar3,0x24);
-    *(undefined4 *)(iVar5 + 0x150) = 1;
-  }
-  *(undefined4 *)(iVar1 + 0x604) = 1;
-  return;
+    int t[2];
+    t[0] = a;
+    t[1] = b;
+    fn_8228ABB8(o, idx, r, &t[0], &t[1]);
 }
 
+void fn_82289EC0(Param *p)
+{
+    int x4;
+    int r;
+    Obj *o;
+    Blob *src;
+    Info *info;
+    int idx;
+
+    x4 = p->x4;
+    r = p->g->f8c0->vt->f64(p->g->f8c0);
+    o = p->o;
+    fn_82289670(o, o->idx);
+    o->slots[o->idx].state = 2;
+    o->slots[o->idx].f1c = x4;
+    if (o->mgr->f18b8 == 1 && o->idx == 2) {
+        o->f768 = 4;
+    }
+    call(o, o->idx, r, p->g->f8c4, p->g->f8c8);
+    fn_822883D0(o, o->idx, p->g);
+    fn_82484998(o->mgr, x4);
+    if (p->pc != 0) {
+        if (o->mgr->f18b8 == 1 && o->idx == 2 && fn_82486958(o->mgr) == 3) {
+            src = p->pc;
+            info = fn_8225F160();
+            info->ents[1].data = *src;
+            info->ents[1].valid = 1;
+        }
+        src = p->pc;
+        idx = o->idx;
+        info = fn_8225F160();
+        info->ents[idx].data = *src;
+        info->ents[idx].valid = 1;
+    }
+    o->f604 = 1;
+}

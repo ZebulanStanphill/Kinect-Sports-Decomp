@@ -1,55 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void *pad[4];
+    void (*f10)(Obj *o, int a, int b);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vt;
+};
 
+typedef struct Item {
+    Obj *o;
+    int x;
+} Item;
 
-void fn_823FA450(int param_1,undefined8 param_2,longlong param_3)
+typedef struct P {
+    int pad[2];
+    int offs[10];
+    Item items[10];
+} P;
 
+void fn_823FA450(P *p, int a, int b)
 {
-  (**(code **)(**(int **)(param_1 + 0x30) + 0x10))
-            (*(int **)(param_1 + 0x30),param_2,(ulonglong)*(uint *)(param_1 + 8) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x38) + 0x10))
-            (*(int **)(param_1 + 0x38),param_2,(ulonglong)*(uint *)(param_1 + 0xc) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x40) + 0x10))
-            (*(int **)(param_1 + 0x40),param_2,(ulonglong)*(uint *)(param_1 + 0x10) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x48) + 0x10))
-            (*(int **)(param_1 + 0x48),param_2,(ulonglong)*(uint *)(param_1 + 0x14) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x50) + 0x10))
-            (*(int **)(param_1 + 0x50),param_2,(ulonglong)*(uint *)(param_1 + 0x18) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x58) + 0x10))
-            (*(int **)(param_1 + 0x58),param_2,(ulonglong)*(uint *)(param_1 + 0x1c) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x60) + 0x10))
-            (*(int **)(param_1 + 0x60),param_2,(ulonglong)*(uint *)(param_1 + 0x20) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
-            (*(int **)(param_1 + 0x68),param_2,(ulonglong)*(uint *)(param_1 + 0x24) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))
-            (*(int **)(param_1 + 0x70),param_2,(ulonglong)*(uint *)(param_1 + 0x28) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x10))
-            (*(int **)(param_1 + 0x78),param_2,(ulonglong)*(uint *)(param_1 + 0x2c) + param_3);
-  return;
+    p->items[0].o->vt->f10(p->items[0].o, a, p->offs[0] + b);
+    p->items[1].o->vt->f10(p->items[1].o, a, p->offs[1] + b);
+    p->items[2].o->vt->f10(p->items[2].o, a, p->offs[2] + b);
+    p->items[3].o->vt->f10(p->items[3].o, a, p->offs[3] + b);
+    p->items[4].o->vt->f10(p->items[4].o, a, p->offs[4] + b);
+    p->items[5].o->vt->f10(p->items[5].o, a, p->offs[5] + b);
+    p->items[6].o->vt->f10(p->items[6].o, a, p->offs[6] + b);
+    p->items[7].o->vt->f10(p->items[7].o, a, p->offs[7] + b);
+    p->items[8].o->vt->f10(p->items[8].o, a, p->offs[8] + b);
+    p->items[9].o->vt->f10(p->items[9].o, a, p->offs[9] + b);
 }
-

@@ -1,73 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82233720();
-extern int fn_82897D88();
-extern unsigned int lbl_821970C0;
-extern unsigned int lbl_821972BC;
-extern unsigned int lbl_82198390;
-extern unsigned int lbl_821983D0;
-extern unsigned int lbl_82198460;
+extern void fn_822315A0(void *p);
+extern void fn_82233720(void *p);
+extern void fn_82897D88(void *p);
+extern char lbl_821970C0[];
+extern char lbl_821972BC[];
+extern char lbl_82198390[];
+extern char lbl_821983D0[];
+extern char lbl_82198460[];
 
+typedef struct A {
+  void *vtbl;
+  char pad[0x54];
+} A;
 
-void fn_82258D88(undefined4 *param_1)
+typedef struct C { void *buf; } C;
+typedef struct B {
+  char pad[0x5c];
+  C c;
+} B;
+static void C_dtor(C *c) { if (c->buf != 0) { fn_822315A0(c->buf); } }
 
+typedef struct Obj {
+  void *vtbl;
+  char pad0[0x20c - 4];
+  A a20c;
+  A a264;
+  A a2bc;
+  A a314;
+  A a36c;
+  A a3c4;
+  A a41c;
+  A a474;
+  A a4cc;
+  B b524;
+  A a584;
+  A a5dc;
+  A a634;
+} Obj;
+
+static void B_dtor(B *b)
 {
-  *param_1 = &lbl_82198460;
-  param_1[0x18d] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x18d);
-  param_1[0x177] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x177);
-  param_1[0x161] = &lbl_821972BC;
-  fn_82897D88(param_1 + 0x161);
-  if (param_1[0x160] != 0) {
-    fn_822315A0();
-  }
-  fn_82897D88(param_1 + 0x149);
-  param_1[0x133] = &lbl_82198390;
-  fn_82897D88(param_1 + 0x133);
-  param_1[0x11d] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x11d);
-  param_1[0x107] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x107);
-  param_1[0xf1] = &lbl_821983D0;
-  fn_82897D88(param_1 + 0xf1);
-  param_1[0xdb] = &lbl_821983D0;
-  fn_82897D88(param_1 + 0xdb);
-  param_1[0xc5] = &lbl_821983D0;
-  fn_82897D88(param_1 + 0xc5);
-  param_1[0xaf] = &lbl_821983D0;
-  fn_82897D88(param_1 + 0xaf);
-  param_1[0x99] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x99);
-  param_1[0x83] = &lbl_821972BC;
-  fn_82897D88(param_1 + 0x83);
-  fn_82233720(param_1);
-  return;
+  C_dtor(&b->c);
+  fn_82897D88(b);
 }
 
+static void A1_dtor(A *a) { a->vtbl = lbl_821970C0; fn_82897D88(a); }
+static void A2_dtor(A *a) { a->vtbl = lbl_821972BC; fn_82897D88(a); }
+static void A3_dtor(A *a) { a->vtbl = lbl_82198390; fn_82897D88(a); }
+static void A4_dtor(A *a) { a->vtbl = lbl_821983D0; fn_82897D88(a); }
+
+void fn_82258D88(Obj *p)
+{
+  p->vtbl = lbl_82198460;
+  A1_dtor(&p->a634);
+  A1_dtor(&p->a5dc);
+  A2_dtor(&p->a584);
+  B_dtor(&p->b524);
+  A3_dtor(&p->a4cc);
+  A1_dtor(&p->a474);
+  A1_dtor(&p->a41c);
+  A4_dtor(&p->a3c4);
+  A4_dtor(&p->a36c);
+  A4_dtor(&p->a314);
+  A4_dtor(&p->a2bc);
+  A1_dtor(&p->a264);
+  A2_dtor(&p->a20c);
+  fn_82233720(p);
+}
