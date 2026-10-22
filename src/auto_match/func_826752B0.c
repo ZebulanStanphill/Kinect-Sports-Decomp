@@ -33,7 +33,7 @@ extern int fn_82675040();
 undefined8 fn_826752B0(undefined8 param_1,longlong param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_8251F340(param_2);
   fn_82674F10(param_2 + 0xd,lVar1 + 0xc,param_4);

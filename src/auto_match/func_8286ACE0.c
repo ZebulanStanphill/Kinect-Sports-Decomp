@@ -33,7 +33,7 @@ extern int fn_82864898();
 undefined4 * fn_8286ACE0(undefined4 *param_1,undefined4 *param_2,undefined8 param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_40 [40];
   
   uVar1 = fn_82292780(auStack_40,param_3);

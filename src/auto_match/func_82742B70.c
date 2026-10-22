@@ -38,7 +38,7 @@ extern unsigned int lbl_82012A64;
 undefined4 * fn_82742B70(undefined4 *param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_40 [16];
   
   fn_826C0B08();

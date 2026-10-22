@@ -35,7 +35,7 @@ extern int fn_82F73A48();
 undefined4 * fn_82F74398(undefined4 *param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 *puVar2;
   undefined1 auStack_20 [8];
   undefined1 auStack_18 [8];

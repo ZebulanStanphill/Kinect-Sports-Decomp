@@ -33,7 +33,7 @@ extern int fn_82F579A8();
 undefined8 fn_82F57B98(undefined8 param_1,longlong param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82F564F0(param_2);
   fn_82F56C08(param_2 + 0xd,lVar1 + 0x10,param_4);

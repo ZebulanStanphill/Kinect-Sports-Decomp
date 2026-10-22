@@ -35,7 +35,7 @@ extern int fn_828E9D90();
 void fn_828E5C70(int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_828E9D90(*(undefined4 *)(param_1 + 0x88));
   fn_828E9D40(*(undefined4 *)(param_1 + 0x88));

@@ -35,7 +35,7 @@ extern unsigned int lbl_82013488;
 undefined4 * fn_8274C6F8(undefined4 *param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   fn_826C0B08();
   *param_1 = &lbl_82012A64;

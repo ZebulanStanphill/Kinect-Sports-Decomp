@@ -33,7 +33,7 @@ extern int fn_83067128();
 void fn_8305E5E0(int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
   

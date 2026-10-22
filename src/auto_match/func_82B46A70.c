@@ -33,7 +33,7 @@ extern int fn_82B469D8();
 void fn_82B46A70(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   int iVar3;
   

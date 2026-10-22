@@ -35,7 +35,7 @@ void fn_828CF578(int param_1,undefined8 param_2,undefined8 param_3,int param_4,u
 {
   int iVar1;
   undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   
   iVar1 = *(int *)(param_1 + 8);
   if (0 < iVar1) {

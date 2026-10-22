@@ -32,7 +32,7 @@ extern int fn_826E8610();
 void fn_826E8FF0(int param_1,float *param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   *(undefined1 *)(param_1 + 0x15) = 0;

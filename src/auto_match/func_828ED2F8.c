@@ -29,7 +29,7 @@ extern unsigned int *auStack_10;
 extern int fn_82CE16D8();
 
 
-undefined8 fn_828ED2F8(int param_1,undefined4 param_2)
+unsigned int  fn_828ED2F8(int param_1,undefined4 param_2)
 
 {
   undefined8 uVar1;

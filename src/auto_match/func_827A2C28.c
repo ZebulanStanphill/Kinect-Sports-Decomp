@@ -33,7 +33,7 @@ extern int fn_827AEE00();
 void fn_827A2C28(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 *puVar2;
   undefined4 *puVar3;
   uint uVar4;

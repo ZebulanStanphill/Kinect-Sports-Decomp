@@ -30,7 +30,7 @@ extern int fn_82FAF930();
 extern unsigned int lbl_83264230;
 
 
-undefined8 fn_82FADC50(undefined8 param_1,int *param_2)
+unsigned int  fn_82FADC50(undefined8 param_1,int *param_2)
 
 {
   undefined8 uVar1;
