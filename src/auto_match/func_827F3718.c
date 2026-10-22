@@ -29,7 +29,7 @@ extern int fn_827F20D0();
 extern int fn_827F2BF0();
 
 
-undefined8 fn_827F3718(undefined8 param_1,ulonglong param_2)
+undefined8 fn_827F3718(undefined8 param_1,unsigned int param_2)
 
 {
   fn_827F2BF0();

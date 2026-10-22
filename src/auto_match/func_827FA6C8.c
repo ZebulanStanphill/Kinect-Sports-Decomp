@@ -30,7 +30,7 @@ extern int fn_827F38B8();
 extern int fn_827FA500();
 
 
-longlong fn_827FA6C8(longlong param_1,ulonglong param_2)
+longlong fn_827FA6C8(longlong param_1,unsigned int param_2)
 
 {
   fn_827F38B0(param_1 + 0x20);

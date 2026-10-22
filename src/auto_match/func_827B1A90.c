@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern int fn_827B19D8();
 
 
-void fn_827B1A90(undefined4 *param_1,undefined8 param_2)
+void fn_827B1A90(undefined4 *param_1,unsigned int param_2)
 
 {
   undefined1 auStack_20 [8];

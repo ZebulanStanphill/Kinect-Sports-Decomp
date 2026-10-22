@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82880B60();
-extern int fn_82882028();
+extern __int64 fn_82880B60();
+extern __int64 fn_82882028();
 
 
 longlong fn_82882110(undefined8 param_1)

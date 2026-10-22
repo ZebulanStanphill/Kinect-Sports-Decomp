@@ -29,7 +29,7 @@ extern int fn_8265C990();
 extern int fn_829648E8();
 
 
-undefined8 fn_82964C60(undefined8 param_1,ulonglong param_2)
+undefined8 fn_82964C60(undefined8 param_1,unsigned int param_2)
 
 {
   fn_829648E8();

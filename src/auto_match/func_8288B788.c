@@ -33,8 +33,8 @@ void fn_8288B788(int param_1,undefined8 param_2)
 
 {
   uint uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
+  unsigned int uVar2;
+  unsigned int uVar3;
   
   uVar3 = 0;
   uVar1 = *(uint *)(*(int *)(*(int *)(param_1 + 0x34) + 0x10) + 8);

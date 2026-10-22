@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82829F58(int param_1,int param_2)
+int  fn_82829F58(int param_1,int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = (ulonglong)*(uint *)(param_2 + 0x14) - (ulonglong)*(uint *)(param_1 + 0x14);
   if (lVar1 == 0) {

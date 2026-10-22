@@ -29,10 +29,10 @@ extern int fn_828B6A10();
 extern int fn_828B6A40();
 
 
-void fn_828B6288(uint *param_1,ulonglong param_2)
+void fn_828B6288(uint *param_1,unsigned int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)*param_1;
   if (uVar1 != (param_2 & 0xffffffff)) {

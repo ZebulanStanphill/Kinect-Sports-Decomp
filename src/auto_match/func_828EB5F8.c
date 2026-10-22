@@ -29,10 +29,10 @@ extern int fn_828EB138();
 extern int fn_828EB518();
 
 
-undefined8 fn_828EB5F8(undefined8 param_1,undefined8 param_2)
+unsigned int  fn_828EB5F8(undefined8 param_1,undefined8 param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined8 uVar2;
   
   uVar1 = fn_828EB518();

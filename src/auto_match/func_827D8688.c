@@ -31,7 +31,7 @@ extern int fn_827D8560();
 void fn_827D8688(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if (*(int *)(param_1 + 0x2c8) == 0) {
     *(undefined4 *)(param_1 + 0x2cc) = 1;

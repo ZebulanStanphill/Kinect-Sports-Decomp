@@ -29,7 +29,7 @@ extern int fn_8265C990();
 extern int fn_8291CAB8();
 
 
-undefined8 fn_8291CB48(undefined8 param_1,ulonglong param_2)
+undefined8 fn_8291CB48(undefined8 param_1,unsigned int param_2)
 
 {
   fn_8291CAB8();

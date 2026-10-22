@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_83156E7C;
 
 
-void fn_828225D8(uint param_1,uint param_2,uint param_3,uint param_4)
+void fn_828225D8(unsigned char param_1,uint param_2,uint param_3,uint param_4)
 
 {
   lbl_83156E7C = (((param_1 & 0xff) << 8 | param_2 & 0xff) << 8 | param_3 & 0xff) << 8 |

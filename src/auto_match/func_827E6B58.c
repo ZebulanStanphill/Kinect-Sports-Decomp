@@ -29,7 +29,7 @@ extern int fn_827E5E98();
 extern int fn_827E5F38();
 
 
-undefined8 fn_827E6B58(undefined8 param_1,ulonglong param_2)
+undefined8 fn_827E6B58(undefined8 param_1,unsigned int param_2)
 
 {
   fn_827E5F38();

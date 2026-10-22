@@ -30,10 +30,10 @@ extern int fn_8282D230();
 extern int fn_82830670();
 
 
-longlong fn_82830860(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+int  fn_82830860(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined4 auStack_30;
   
   lVar1 = fn_8282D230(param_2,&auStack_30);

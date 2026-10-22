@@ -32,7 +32,7 @@ extern int fn_8265C9E0();
 void fn_828A2C20(undefined8 param_1,int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   
   uVar1 = fn_8265C9E0(0xfc);

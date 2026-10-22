@@ -31,12 +31,12 @@ extern int fn_827D9ED0();
 extern int fn_82A29D80();
 
 
-undefined8 fn_827DD4F0(undefined8 param_1,undefined4 *param_2)
+unsigned int  fn_827DD4F0(undefined8 param_1,undefined4 *param_2)
 
 {
   undefined4 uVar1;
   int iVar3;
-  undefined8 uVar2;
+  unsigned int uVar2;
   
   uVar1 = *param_2;
   iVar3 = fn_827D9ED0(uVar1);

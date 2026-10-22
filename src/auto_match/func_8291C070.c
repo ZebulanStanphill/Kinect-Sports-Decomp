@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8291BB88();
 
 
-ulonglong fn_8291C070(undefined8 param_1,ulonglong param_2,undefined8 param_3)
+unsigned int  fn_8291C070(undefined8 param_1,ulonglong param_2,undefined8 param_3)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_8291BB88(~param_2,param_3);
   if ((uVar1 & 0xffffffff) != 0) {

@@ -32,7 +32,7 @@ extern int fn_828DE078();
 undefined8 fn_828DE128(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   if ((*(char *)(param_1 + 0xcc) != '\0') &&
      (uVar1 = fn_828A4ED0(*(undefined4 *)(param_1 + 0x88)), (uVar1 & 0xffffffff) != 0)) {

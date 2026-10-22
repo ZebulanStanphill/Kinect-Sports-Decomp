@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827F3C20();
-extern int fn_827F3C28();
+extern __int64 fn_827F3C28();
 extern int fn_827F3C48();
 extern int fn_827F4868();
 extern int fn_827FD9A0();
@@ -37,7 +37,7 @@ void fn_827F4C80(undefined8 param_1)
 {
   undefined8 uVar1;
   undefined8 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   
   fn_827F3C48(param_1,0);
   uVar1 = fn_827F3C28();

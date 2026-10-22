@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_827D5630(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = (ulonglong)*(uint *)(param_1 + 0x2c8) - 1;
   *(int *)(param_1 + 0x2c8) = (int)lVar1;

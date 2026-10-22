@@ -32,7 +32,7 @@ extern int fn_827D9DC0();
 undefined4 fn_827E7378(int param_1,int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   
   uVar2 = *(undefined4 *)(param_1 + 8);

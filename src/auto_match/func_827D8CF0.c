@@ -29,7 +29,7 @@ extern int fn_827D8B98();
 
 
 undefined4 *
-fn_827D8CF0(undefined4 *param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4)
+fn_827D8CF0(undefined4 *param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
 
 {
   if (((param_2 & 0xffffffff) != (param_3 & 0xffffffff)) &&

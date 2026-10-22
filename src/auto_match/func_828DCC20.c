@@ -33,8 +33,8 @@ extern int fn_828EA2D8();
 void fn_828DCC20(int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   
   uVar2 = (ulonglong)*(uint *)(param_1 + 0x88);
   if (uVar2 != *(uint *)(param_1 + 0x8c)) {
