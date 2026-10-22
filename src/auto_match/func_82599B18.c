@@ -34,7 +34,7 @@ extern int fn_825FC288();
 ulonglong fn_82599B18(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   ulonglong uVar2;
   undefined4 auStack_30;
   

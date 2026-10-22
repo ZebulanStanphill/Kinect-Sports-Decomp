@@ -32,7 +32,7 @@ extern int fn_82A1BB18();
 undefined4 * fn_82549610(undefined4 *param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   *param_1 = (int)param_2;
   lVar1 = fn_82A1BB18();

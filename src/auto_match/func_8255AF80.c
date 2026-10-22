@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8251FBA8();
 
 
-ulonglong fn_8255AF80(void)
+unsigned int  fn_8255AF80(void)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_8251FBA8();
   return (uVar1 & 0xffffffff) / 0x88;

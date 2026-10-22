@@ -29,7 +29,7 @@ extern int fn_8250DB58();
 extern int fn_827F4780();
 
 
-undefined8 fn_8250DB08(undefined8 param_1,ulonglong param_2)
+undefined8 fn_8250DB08(undefined8 param_1,unsigned int param_2)
 
 {
   fn_8250DB58();
