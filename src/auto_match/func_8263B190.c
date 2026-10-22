@@ -33,8 +33,8 @@ void fn_8263B190(int param_1,int *param_2,int *param_3,int *param_4)
   uint uVar1;
   int iVar2;
   
-  uVar1 = *(uint *)(param_1 + 0x14) >> 9 & 3;
   iVar2 = (*(uint *)(param_1 + 0xc) >> 0x1e & 2) + 1;
+  uVar1 = *(uint *)(param_1 + 0x14) >> 9 & 3;
   if (uVar1 == 0) {
     *param_2 = (*(uint *)(param_1 + 8) & 0xffffff) + iVar2;
     *param_3 = 1;

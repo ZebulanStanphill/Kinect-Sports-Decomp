@@ -1,59 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268E320();
-extern int fn_8268E570();
+typedef struct Block {
+    char pad0[0x20];
+    unsigned int tag;
+    unsigned int size;
+} Block;
 
+typedef struct Heap {
+    unsigned int shift;
+    int pad4[2];
+    char list1[4];
+    char list2[4];
+    unsigned int total;
+} Heap;
 
-void fn_8268E938(uint *param_1,int param_2,int param_3,int param_4)
+extern void fn_8268E570(void *list, Block *b);
+extern void fn_8268E320(void *list, Block *b);
 
+void fn_8268E938(Heap *heap, Block *blk, unsigned int start, unsigned int len)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = *(undefined4 *)(param_2 + 0x20);
-  uVar3 = (((*(int *)(param_2 + 0x24) << (*param_1 & 0x3f)) - param_3) - param_4) + param_2;
-  if (param_3 - param_2 != 0) {
-    uVar2 = (uint)(param_3 - param_2) >> (*param_1 & 0x3f);
-    *(uint *)(param_2 + 0x24) = uVar2;
-    fn_8268E570(param_1 + 3);
-    fn_8268E320(param_1 + 4,param_2);
-    param_1[5] = param_1[5] + uVar2;
-  }
-  if (uVar3 != 0) {
-    param_3 = param_3 + param_4;
-    uVar3 = uVar3 >> (*param_1 & 0x3f);
-    *(uint *)(param_3 + 0x24) = uVar3;
-    *(undefined4 *)(param_3 + 0x20) = uVar1;
-    fn_8268E570(param_1 + 3,param_3);
-    fn_8268E320(param_1 + 4,param_3);
-    param_1[5] = param_1[5] + uVar3;
-  }
-  return;
-}
+    unsigned int tag;
+    unsigned int n;
+    unsigned int rest;
+    Block *nb;
 
+    tag = blk->tag;
+    rest = (blk->size << heap->shift) - start - len + (unsigned int)blk;
+    if (start - (unsigned int)blk != 0) {
+        n = (start - (unsigned int)blk) >> heap->shift;
+        blk->size = n;
+        fn_8268E570(heap->list1, blk);
+        fn_8268E320(heap->list2, blk);
+        heap->total += n;
+    }
+    if (rest != 0) {
+        nb = (Block *)(start + len);
+        n = rest >> heap->shift;
+        nb->size = n;
+        nb->tag = tag;
+        fn_8268E570(heap->list1, nb);
+        fn_8268E320(heap->list2, nb);
+        heap->total += n;
+    }
+}

@@ -33,53 +33,64 @@ extern int fn_82543940();
 extern int fn_82639F78();
 
 
-void fn_82542F28(undefined4 *param_1,int param_2,int param_3,undefined8 param_4)
+typedef struct Entry {
+  int kind;
+  uint *range;
+  uint a;
+  uint b;
+  uint c;
+  int pad[3];
+} Entry;
+
+typedef struct Group {
+  int x0;
+  int x4;
+  uint count;
+  Entry *entries;
+} Group;
+
+typedef struct Slot {
+  Group *groups;
+  uint count;
+} Slot;
+
+typedef struct Ctx {
+  uint dev;
+  int pad[4];
+  uint a;
+  uint c;
+} Ctx;
+
+void fn_82542F28(Ctx *param_1,int param_2,int param_3,undefined8 param_4)
 
 {
-  int iVar1;
-  int *piVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  
-  piVar2 = (int *)(param_3 * 8 + *(int *)(param_2 + 0x14));
-  uVar4 = 0;
-  if (piVar2[1] != 0) {
-    iVar5 = 0;
-    do {
-      iVar6 = iVar5 + *piVar2;
-      iVar1 = fn_82543078(param_1,param_2,iVar6);
-      if ((iVar1 != 0) && (uVar3 = 0, *(int *)(iVar6 + 8) != 0)) {
-        iVar1 = 0;
-        do {
-          iVar7 = *(int *)(iVar6 + 0xc) + iVar1;
-          if (*(int *)(*(int *)(iVar6 + 0xc) + iVar1) == -1) {
-            if (param_1[6] != *(int *)(iVar7 + 0x10)) {
-              fn_825437D8(param_1,param_2,*(int *)(iVar7 + 0x10),param_3,param_4);
-              param_1[6] = *(undefined4 *)(iVar7 + 0x10);
-            }
-            if (param_1[5] != *(int *)(iVar7 + 8)) {
-              fn_82543308(param_1,param_2);
-              param_1[5] = *(undefined4 *)(iVar7 + 8);
-            }
-            fn_82639F78(*param_1,0,**(undefined4 **)(iVar7 + 4),0,
-                              (*(undefined4 **)(iVar7 + 4))[1],1);
-            fn_82543940(param_1,*(undefined4 *)(iVar7 + 0xc));
+  uint i;
+  uint j;
+  Group *g;
+  Entry *e;
+
+  for (i = 0; i < (*(Slot **)(param_2 + 0x14))[param_3].count; i++) {
+    g = &(*(Slot **)(param_2 + 0x14))[param_3].groups[i];
+    if (fn_82543078(param_1,param_2,g) != 0) {
+      for (j = 0; j < g->count; j++) {
+        e = &g->entries[j];
+        if (e->kind == -1) {
+          if (param_1->c != e->c) {
+            fn_825437D8(param_1,param_2,e->c,param_3,param_4);
+            param_1->c = e->c;
           }
-          else {
-            fn_82543198(param_1,param_2,iVar7,param_3);
+          if (param_1->a != e->a) {
+            fn_82543308(param_1,param_2,e->a);
+            param_1->a = e->a;
           }
-          uVar3 = uVar3 + 1;
-          iVar1 = iVar1 + 0x20;
-        } while (uVar3 < *(uint *)(iVar6 + 8));
+          fn_82639F78(param_1->dev,0,e->range[0],0,e->range[1],1);
+          fn_82543940(param_1,e->b);
+        }
+        else {
+          fn_82543198(param_1,param_2,e,param_3);
+        }
       }
-      uVar4 = uVar4 + 1;
-      iVar5 = iVar5 + 0x10;
-      piVar2 = (int *)(param_3 * 8 + *(int *)(param_2 + 0x14));
-    } while (uVar4 < (uint)piVar2[1]);
+    }
   }
   return;
 }
-

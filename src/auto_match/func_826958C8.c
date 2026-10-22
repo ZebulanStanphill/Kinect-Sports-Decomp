@@ -25,19 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
+extern int fn_826C31F0();
 
 
 void fn_826958C8(char *param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   undefined4 *puVar2;
   uint uVar3;
   
-  cVar1 = *param_1;
+  cVar1 = *(unsigned char *)param_1;
   if (cVar1 == '\b') {
-    fn_82F68B7C(param_1 + 4);
+    fn_826C31F0(param_1 + 4);
     return;
   }
   if (cVar1 == '\x06') {
@@ -51,7 +51,7 @@ void fn_826958C8(char *param_1)
       puVar2[2] = uVar3 & 0x8fffffff | 0x10000000;
                     /* WARNING: Could not recover jumptable at 0x8269592c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-      (**(code **)*puVar2)(puVar2,1);
+      (*(code *)*puVar2)(puVar2,1);
       return;
     }
   }
@@ -67,7 +67,7 @@ void fn_826958C8(char *param_1)
   puVar2[2] = uVar3 & 0x8fffffff | 0x10000000;
                     /* WARNING: Could not recover jumptable at 0x82695974. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)*puVar2)(puVar2,1);
+  (*(code *)*puVar2)(puVar2,1);
   return;
 }
 

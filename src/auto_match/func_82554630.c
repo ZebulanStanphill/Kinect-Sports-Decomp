@@ -25,44 +25,49 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_827F1080();
-extern int fn_82811438();
+typedef struct Obj Obj;
+typedef struct {
+  void (*Release)(Obj *, int);
+} ObjVtbl;
+struct Obj { ObjVtbl *vtbl; };
+
+typedef struct Mgr Mgr;
+typedef struct {
+  void *f0[6];
+  void (*Free)(Mgr *, void *, void *);
+} MgrVtbl;
+struct Mgr { MgrVtbl *vtbl; };
+
+typedef struct {
+  void *vtbl;
+  char pad[0x188];
+  unsigned int count;
+  Obj **a;
+  Obj **b;
+  Obj **c;
+} Self;
+
+extern void fn_827F1080(Self *self);
+extern void fn_82811438(void *out, void *in, int size);
 extern unsigned int lbl_821C4CB8;
-extern unsigned int *lbl_832823E0;
+extern Mgr *lbl_832823E0;
 
-
-void fn_82554630(undefined4 *param_1)
-
+void fn_82554630(Self *param_1)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
-  undefined4 auStack_50 [4];
-  undefined1 auStack_40 [32];
-  
-  uVar2 = 0;
-  *param_1 = &lbl_821C4CB8;
-  if (param_1[99] != 0) {
-    iVar3 = 0;
-    do {
-      if (uVar2 != 0) {
-        puVar1 = *(undefined4 **)(param_1[0x66] + iVar3 + -4);
-        (**(code **)*puVar1)(puVar1,0);
-      }
-      (**(code **)**(undefined4 **)(param_1[100] + iVar3))(*(undefined4 **)(param_1[100] + iVar3),0)
-      ;
-      (**(code **)**(undefined4 **)(iVar3 + param_1[0x65]))
-                (*(undefined4 **)(iVar3 + param_1[0x65]),0);
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < (uint)param_1[99]);
-  }
-  auStack_50[0] = 3;
-  fn_82811438(auStack_40,auStack_50,0x10);
-  (**(code **)(*lbl_832823E0 + 0x18))(lbl_832823E0,param_1[0x65],auStack_40);
-  fn_827F1080(param_1);
-  return;
-}
+  unsigned int i;
+  int desc[4];
+  char buf[32];
 
+  param_1->vtbl = &lbl_821C4CB8;
+  for (i = 0; i < param_1->count; i++) {
+    if (i != 0) {
+      param_1->c[i - 1]->vtbl->Release(param_1->c[i - 1], 0);
+    }
+    param_1->a[i]->vtbl->Release(param_1->a[i], 0);
+    param_1->b[i]->vtbl->Release(param_1->b[i], 0);
+  }
+  desc[0] = 3;
+  fn_82811438(buf, desc, 0x10);
+  lbl_832823E0->vtbl->Free(lbl_832823E0, param_1->b, buf);
+  fn_827F1080(param_1);
+}

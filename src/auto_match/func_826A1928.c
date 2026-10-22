@@ -25,24 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826BCE08();
+extern double fn_826BCE08(const char *s, char **end);
 
-
-undefined8 fn_826A1928(char *param_1,undefined8 *param_2)
-
+int fn_826A1928(char *param_1, double *param_2)
 {
-  char cVar1;
-  undefined8 uVar2;
-  char *apcStack_20 [4];
-  
-  if (((param_1 != (char *)0x0) && (cVar1 = *param_1, cVar1 != '\0')) &&
-     ((('/' < cVar1 && (cVar1 < ':')) || (((cVar1 == '+' || (cVar1 == '-')) || (cVar1 == '.')))))) {
-    uVar2 = fn_826BCE08(param_1,apcStack_20);
-    *param_2 = uVar2;
-    if ((apcStack_20[0] == (char *)0x0) || (*apcStack_20[0] == '\0')) {
+  char c;
+  char *end;
+
+  if (param_1 != 0 && (c = *param_1) != 0 &&
+      ((c >= '0' && c <= '9') || c == '+' || c == '-' || c == '.')) {
+    *param_2 = fn_826BCE08(param_1, &end);
+    if (end == 0 || *end == 0) {
       return 1;
     }
   }
   return 0;
 }
-

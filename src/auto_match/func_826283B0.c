@@ -1,72 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern int fn_8265C9E0();
-extern int fn_827D9630();
-extern int fn_827DE858();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_821CBF50;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct Ref Ref;
+extern void fn_822315A0(Ref *r);
+extern void fn_82517978(void *dst, void *a, Ref *b, int flag);
+extern void *fn_8265C9E0(int size);
+extern void fn_827D9630(void *p, int arg);
+extern void fn_827DE858(void *p, void *sp, int arg);
+extern char lbl_821CBF50[];
 
+typedef struct {
+    void *a;
+    Ref *b;
+} SPtr;
 
-undefined4 * fn_826283B0(int param_1,undefined8 param_2,undefined4 *param_3)
+typedef struct {
+    int pad0;
+    void *a;
+    Ref *b;
+} Src;
 
+void **fn_826283B0(Src *src, int arg, int *pv)
 {
-  undefined4 uVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  struct { undefined4 first; int second; } stack_pair_40;
-
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
-
-
-  puVar3 = (undefined4 *)fn_8265C9E0(0x38);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    stack_pair_40.first = 0;
-    stack_pair_40.second = 0;
-    fn_82517978(&stack_pair_40.first,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),1);
-    iVar2 = stack_pair_40.second;
-    stack_pair_38.first = 0;
-    stack_pair_38.second = 0;
-    uVar1 = *param_3;
-    fn_82517978(&stack_pair_38.first,stack_pair_40.first,stack_pair_40.second,0);
-    fn_827DE858(puVar3,&stack_pair_38.first,uVar1);
-    *puVar3 = &lbl_821CBF50;
-    fn_827D9630(puVar3 + 6,param_2);
-    if (iVar2 != 0) {
-      fn_822315A0(iVar2);
+    void **p = (void **)fn_8265C9E0(0x38);
+    if (p != 0) {
+        SPtr s1;
+        SPtr s2;
+        Ref *r;
+        int v;
+        s1.a = 0;
+        s1.b = 0;
+        fn_82517978(&s1, src->a, src->b, 1);
+        r = s1.b;
+        s2.a = 0;
+        s2.b = 0;
+        v = *pv;
+        fn_82517978(&s2, s1.a, s1.b, 0);
+        fn_827DE858(p, &s2, v);
+        *p = lbl_821CBF50;
+        fn_827D9630(p + 6, arg);
+        if (r != 0) {
+            fn_822315A0(r);
+        }
+        return p;
     }
-  }
-  return puVar3;
+    return 0;
 }

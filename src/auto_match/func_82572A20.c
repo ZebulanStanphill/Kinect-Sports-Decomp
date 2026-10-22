@@ -28,17 +28,17 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8251E5A0();
 
 
-void fn_82572A20(int param_1,int param_2)
+void fn_82572A20(int param_1,uint param_2)
 
 {
   uint uVar1;
   uint uVar2;
   
-  if ((*(int *)(param_1 + 0xa0) != 0) && (*(int *)(*(int *)(param_1 + 0xa0) + 0xc) == param_2)) {
+  if ((*(uint *)(param_1 + 0xa0) != 0) && (*(int *)(*(int *)(param_1 + 0xa0) + 0xc) == param_2)) {
     *(undefined4 *)(param_1 + 0xa0) = 0;
     *(undefined1 *)(param_1 + 0xc0) = 0;
   }
-  if ((*(int *)(param_1 + 0x110) != 0) && (*(int *)(*(int *)(param_1 + 0x110) + 0xc) == param_2)) {
+  if ((*(uint *)(param_1 + 0x110) != 0) && (*(int *)(*(int *)(param_1 + 0x110) + 0xc) == param_2)) {
     *(undefined4 *)(param_1 + 0x110) = 0;
     *(undefined1 *)(param_1 + 0x130) = 0;
   }

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_826341A0(char param_1,char param_2,undefined8 param_3,undefined8 param_4,uint *param_5,
+void fn_826341A0(unsigned char param_1,unsigned char param_2,undefined8 param_3,undefined8 param_4,uint *param_5,
                   uint *param_6)
 
 {
@@ -41,7 +41,7 @@ void fn_826341A0(char param_1,char param_2,undefined8 param_3,undefined8 param_4
   }
   if ((*param_5 & 0x8000) != 0) {
     uVar1 = *param_5 & 0x3f;
-    if (uVar1 < 4) {
+    if (uVar1 <= 3) {
       uVar1 = *param_6 & 0xfffffff0 | (1 << uVar1 | *param_6) & 0xf;
     }
     else {

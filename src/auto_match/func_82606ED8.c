@@ -1,52 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E370();
-extern int fn_82604E98();
-extern unsigned int lbl_821914B0;
-extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CA904;
+extern void fn_8251E370(void *p, int size, int kind);
+extern void fn_82604E98(void *self);
+extern char lbl_821CA904[];
+extern float lbl_821914A0[];
 
+typedef struct { float x, y; } Vec2;
 
-undefined4 * fn_82606ED8(undefined4 *param_1)
+typedef struct {
+  void *vtbl;
+  char pad4[0x9c];
+  char a0[0x1c0];
+  char b260[0x14];
+  char b274[0x14];
+  char b288[0x14];
+  char b29c[0x14];
+  float f2b0;
+  float f2b4;
+} Obj;
 
+Obj *fn_82606ED8(Obj *self)
 {
-  undefined4 uVar1;
-  
-  fn_82604E98();
-  *param_1 = &lbl_821CA904;
-  fn_8251E370(param_1 + 0x28,0x560,1);
-  fn_8251E370(param_1 + 0x98,0x30,2);
-  fn_8251E370(param_1 + 0x9d,0x30,2);
-  fn_8251E370(param_1 + 0xa2,0x30,2);
-  fn_8251E370(param_1 + 0xa7,0x30,4);
-  uVar1 = lbl_821914B0;
-  param_1[0xac] = lbl_82192480;
-  param_1[0xad] = uVar1;
-  return param_1;
+  fn_82604E98(self);
+  self->vtbl = lbl_821CA904;
+  fn_8251E370(self->a0, 0x560, 1);
+  fn_8251E370(self->b260, 0x30, 2);
+  fn_8251E370(self->b274, 0x30, 2);
+  fn_8251E370(self->b288, 0x30, 2);
+  fn_8251E370(self->b29c, 0x30, 4);
+  {
+    Vec2 v;
+    v.x = lbl_821914A0[0x3f8];
+    v.y = lbl_821914A0[4];
+    self->f2b0 = v.x;
+    self->f2b4 = v.y;
+  }
+  return self;
 }
 

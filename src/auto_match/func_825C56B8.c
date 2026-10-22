@@ -1,83 +1,81 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_82545950();
-extern int fn_82545A90();
-extern int fn_8262FEC8();
-extern unsigned int lbl_821C1424;
-extern unsigned int lbl_821C9048;
+typedef struct Obj Obj;
+typedef struct ObjVt {
+  void *f0;
+  void *f4;
+  void *f8;
+  void (*fc)(Obj *self, int a);
+} ObjVt;
+struct Obj {
+  ObjVt *vt;
+};
 
+typedef struct Node {
+  Obj *obj;
+  struct Node *next;
+} Node;
 
-void fn_825C56B8(undefined4 *param_1)
+typedef struct Self {
+  void *vt;
+  int f4;
+  Node *list;
+  void *fc;
+  void *f10;
+  void *f14;
+  void *f18;
+  void *f1c;
+  void *f20;
+  int f24;
+  void *f28;
+} Self;
 
+extern void fn_8251FA58(void *a);
+extern void fn_82522ED8(void *a);
+extern void fn_82545950(void *a);
+extern void fn_82545A90(void *a);
+extern void fn_8262FEC8(void *a);
+extern char lbl_821C1424[];
+extern char lbl_821C9048[];
+
+void fn_825C56B8(Self *self)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  *param_1 = &lbl_821C9048;
-  piVar2 = (int *)param_1[2];
-  while (piVar2 != (int *)0x0) {
-    piVar1 = (int *)*piVar2;
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,1);
-      *piVar2 = 0;
-    }
-    piVar1 = (int *)piVar2[1];
-    fn_82522ED8(piVar2);
-    piVar2 = piVar1;
-  }
-  param_1[2] = 0;
-  if (param_1[8] != 0) {
-    fn_8251FA58();
-    param_1[8] = 0;
-    param_1[9] = 0;
-  }
-  if (param_1[10] != 0) {
-    fn_8262FEC8();
-    param_1[10] = 0;
-  }
-  if (param_1[3] != 0) {
-    fn_82545950(param_1 + 3);
-  }
-  if (param_1[4] != 0) {
-    fn_82545950(param_1 + 4);
-  }
-  if (param_1[5] != 0) {
-    fn_82545A90(param_1 + 5);
-  }
-  if (param_1[6] != 0) {
-    fn_82545950(param_1 + 6);
-  }
-  if (param_1[7] != 0) {
-    fn_82545A90(param_1 + 7);
-  }
-  *param_1 = &lbl_821C1424;
-  return;
-}
+  Node *n;
+  Node *next;
 
+  self->vt = lbl_821C9048;
+  n = self->list;
+  while (n != 0) {
+    if (n->obj != 0) {
+      n->obj->vt->fc(n->obj, 1);
+      n->obj = 0;
+    }
+    next = n->next;
+    fn_82522ED8(n);
+    n = next;
+  }
+  self->list = 0;
+  if (self->f20 != 0) {
+    fn_8251FA58(self->f20);
+    self->f20 = 0;
+    self->f24 = 0;
+  }
+  if (self->f28 != 0) {
+    fn_8262FEC8(self->f28);
+    self->f28 = 0;
+  }
+  if (self->fc != 0) {
+    fn_82545950(&self->fc);
+  }
+  if (self->f10 != 0) {
+    fn_82545950(&self->f10);
+  }
+  if (self->f14 != 0) {
+    fn_82545A90(&self->f14);
+  }
+  if (self->f18 != 0) {
+    fn_82545950(&self->f18);
+  }
+  if (self->f1c != 0) {
+    fn_82545A90(&self->f1c);
+  }
+  self->vt = lbl_821C1424;
+}

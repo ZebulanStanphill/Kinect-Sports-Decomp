@@ -25,21 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826417C8();
+extern ulonglong fn_826417C8();
 extern int fn_82641B60();
 extern int fn_82641C20();
 extern int fn_82641DA0();
 extern int fn_82641EF8();
-extern int fn_82642F50();
+extern ulonglong fn_82642F50();
 extern int fn_82647258();
 
 
-void fn_8263E790(longlong *param_1)
+void fn_8263E790(ulonglong *param_1)
 
 {
   ulonglong uVar1;
   ulonglong uVar2;
-  longlong lVar3;
+  ulonglong lVar3;
   ulonglong uVar4;
   
   uVar1 = param_1[4];

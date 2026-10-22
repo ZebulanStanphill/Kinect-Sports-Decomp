@@ -1,76 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_823F2E20();
-extern int fn_82517978();
-extern int fn_82517A50();
-extern int fn_827D96A0();
-extern unsigned int iStack_4c;
-extern unsigned int uStack_50;
+typedef struct Ref {
+    void *a;
+    void *p;
+} Ref;
 
+typedef struct Obj {
+    int f0;
+    void *f4;
+    void *f8;
+    char pad[0x34 - 0xc];
+    void **begin;
+    void **end;
+} Obj;
 
-void fn_82627F00(int param_1,uint *param_2,int param_3,int param_4,int *param_5,undefined8 param_6
-                  )
+extern unsigned int fn_827D96A0(void *p);
+extern void fn_822315A0(void *p);
+extern void fn_82517978(Ref *r, void *a, void *b, int c);
+extern void fn_82517A50(void *dst, Ref *r);
+extern void fn_823F2E20(void *dst, Ref *r);
 
+void fn_82627F00(Obj *self, unsigned int *key, void *def, Ref *ref, void **out, void *dst)
 {
-  uint uVar1;
-  int *piVar2;
-  struct { undefined4 first; int second; } stack_pair_50;
+    void **it;
 
-  
-  piVar2 = *(int **)(param_1 + 0x34);
-  do {
-    if (piVar2 == *(int **)(param_1 + 0x38)) {
-LAB_82627f54:
-      *param_5 = param_3;
-      fn_82517A50(param_6,param_4);
-LAB_82627f64:
-      if (*(int *)(param_4 + 4) != 0) {
-        fn_822315A0();
-      }
-      return;
-    }
-    uVar1 = fn_827D96A0(*piVar2);
-    if ((uVar1 & 0xffff) == *param_2) {
-      if (*piVar2 != 0) {
-        *param_5 = *piVar2;
-        stack_pair_50.first = 0;
-        stack_pair_50.second = 0;
-        fn_82517978(&stack_pair_50.first,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),1);
-        fn_823F2E20(param_6,&stack_pair_50.first);
-        if (stack_pair_50.second != 0) {
-          fn_822315A0();
+    for (it = self->begin; it != self->end; it++) {
+        if ((unsigned short)fn_827D96A0(*it) == *key) {
+            if (*it != 0) {
+                Ref tmp;
+                *out = *it;
+                tmp.a = 0;
+                tmp.p = 0;
+                fn_82517978(&tmp, self->f4, self->f8, 1);
+                fn_823F2E20(dst, &tmp);
+                if (tmp.p)
+                    fn_822315A0(tmp.p);
+                goto done;
+            }
+            break;
         }
-        goto LAB_82627f64;
-      }
-      goto LAB_82627f54;
     }
-    piVar2 = piVar2 + 1;
-  } while( true );
+    *out = def;
+    fn_82517A50(dst, ref);
+done:
+    if (ref->p)
+        fn_822315A0(ref->p);
 }
-

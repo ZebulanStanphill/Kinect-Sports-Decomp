@@ -1,51 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CED628();
-extern int fn_82D82E28();
-extern int fn_82D85148();
-extern int fn_82D89BD8();
+extern void fn_82CED628(void *p, const char *s);
+extern void fn_82D82E28(int a, void *b);
+extern void fn_82D85148(int a, void *b, int c, int d);
+extern void fn_82D89BD8(void *p);
 
+typedef struct {
+    char pad0[8];
+    int h8;
+} Sub140;
 
-void fn_826038C8(int param_1)
+typedef struct {
+    char pad0[8];
+    int h8;
+    char padC[0x2c - 0xc];
+    int v2C;
+} Sub18;
 
+typedef struct {
+    char pad0[0x14];
+    char f14[4];
+    Sub18 *p18;
+    char pad1C[0x104 - 0x1c];
+    int f104;
+    char pad108[0x114 - 0x108];
+    int f114;
+    char pad118[4];
+    int f11C;
+    int f120;
+    char pad124[0x140 - 0x124];
+    Sub140 *p140;
+} Obj;
+
+void fn_826038C8(Obj *self)
 {
-  *(undefined4 *)(param_1 + 0x120) = 0;
-  *(undefined4 *)(param_1 + 0x104) = 1;
-  if (*(int *)(param_1 + 0x114) != 0) {
-    if (*(int *)(*(int *)(param_1 + 0x140) + 8) != 0) {
-      fn_82D82E28();
+    self->f120 = 0;
+    self->f104 = 1;
+    if (self->f114 != 0) {
+        Sub140 *s = self->p140;
+        if (s->h8 != 0) {
+            fn_82D82E28(s->h8, s);
+        }
+        self->f114 = 0;
+        self->p18->v2C = self->f11C;
+        fn_82D85148(self->p18->h8, self->p18, 0, 1);
+        fn_82D89BD8(self->p18);
     }
-    *(undefined4 *)(param_1 + 0x114) = 0;
-    *(undefined4 *)(*(int *)(param_1 + 0x18) + 0x2c) = *(undefined4 *)(param_1 + 0x11c);
-    fn_82D85148(*(undefined4 *)(*(int *)(param_1 + 0x18) + 8),*(int *)(param_1 + 0x18),0,1);
-    fn_82D89BD8(*(undefined4 *)(param_1 + 0x18));
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82CED628(param_1 + 0x14,0xffffffff821ca844);
+    fn_82CED628(self->f14, "Actuator (active)");
 }
-

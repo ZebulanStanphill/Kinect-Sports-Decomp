@@ -1,53 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E370();
-extern int fn_82604E98();
-extern unsigned int lbl_821914B0;
-extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CA924;
+extern void fn_8251E370(void *, int, int);
+extern void fn_82604E98(void *);
+extern char lbl_821CA924[];
+extern float lbl_821914A0[];
 
+typedef struct {
+  void *vt;
+  char pad[0x9c];
+  char a[0x1c0];
+  char b[0x14];
+  char c[0x14];
+  char d[0x14];
+  char e[0x14];
+  char f[0x14];
+  float x;
+  float y;
+} Self;
 
-undefined4 * fn_82607C28(undefined4 *param_1)
-
+Self *fn_82607C28(Self *param_1)
 {
-  undefined4 uVar1;
-  
-  fn_82604E98();
-  *param_1 = &lbl_821CA924;
-  fn_8251E370(param_1 + 0x28,0x560,1);
-  fn_8251E370(param_1 + 0x98,0x80,0xc);
-  fn_8251E370(param_1 + 0x9d,0x30,8);
-  fn_8251E370(param_1 + 0xa2,0x30,0xc);
-  fn_8251E370(param_1 + 0xa7,0x30,0xc);
-  fn_8251E370(param_1 + 0xac,0x30,8);
-  uVar1 = lbl_821914B0;
-  param_1[0xb1] = lbl_82192480;
-  param_1[0xb2] = uVar1;
+  fn_82604E98(param_1);
+  param_1->vt = lbl_821CA924;
+  fn_8251E370(param_1->a, 0x560, 1);
+  fn_8251E370(param_1->b, 0x80, 0xc);
+  fn_8251E370(param_1->c, 0x30, 8);
+  fn_8251E370(param_1->d, 0x30, 0xc);
+  fn_8251E370(param_1->e, 0x30, 0xc);
+  fn_8251E370(param_1->f, 0x30, 8);
+  {
+    float t[2];
+    t[0] = lbl_821914A0[0x3f8];
+    t[1] = lbl_821914A0[4];
+    param_1->x = t[0];
+    param_1->y = t[1];
+  }
   return param_1;
 }
-

@@ -25,41 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_825200F0();
-extern int fn_827D96A0();
-extern int fn_827DDDD8();
-extern int fn_827DDFB8();
-extern int fn_82A1E650();
+typedef struct Elem12 {
+    int a;
+    int b;
+    int c;
+} Elem12;
+
+typedef struct List {
+    int pad0;
+    int pad4;
+    unsigned int count;
+} List;
+
+extern int fn_825200F0(void *out, Elem12 *src);
+extern int fn_827D96A0(void *item);
+extern void *fn_827DDDD8(void *set, int *key);
+extern int fn_827DDFB8(void *set, void *item);
+extern unsigned int fn_82A1E650(int handle, int timeout);
 
 
-undefined8 fn_825BEF80(int param_1,int *param_2,undefined8 param_3)
-
+int fn_825BEF80(int param_1, int *param_2, void *param_3)
 {
-  int iVar1;
-  uint uVar2;
-  longlong lVar3;
-  undefined4 auStack_60 [4];
-  undefined1 auStack_50 [32];
-  
-  iVar1 = fn_82A1E650(*(undefined4 *)(param_1 + 0x1b4),0);
-  if ((iVar1 != 0x102) && (uVar2 = 0, *(int *)(*(int *)(param_1 + 0x5c) + 8) != 0)) {
-    lVar3 = 0;
-    do {
-      fn_825200F0(auStack_50,(ulonglong)*(uint *)(param_1 + 100) + lVar3);
-      iVar1 = (**(code **)(*param_2 + 4))(param_2,auStack_50);
-      if (iVar1 != 0) {
-        auStack_60[0] = fn_827D96A0(auStack_50);
-        iVar1 = fn_827DDDD8(param_3,auStack_60);
-        if (iVar1 == 0) {
-          fn_827DDFB8(param_3,auStack_50);
+  unsigned int i;
+  int key[4];
+  unsigned char buf[32];
+
+  if (fn_82A1E650(*(int *)(param_1 + 0x1b4), 0) != 0x102) {
+    for (i = 0; i < (*(List **)(param_1 + 0x5c))->count; i++) {
+      fn_825200F0(buf, &(*(Elem12 **)(param_1 + 100))[i]);
+      if ((*(code *)(*param_2 + 4))(param_2, buf) != 0) {
+        key[0] = fn_827D96A0(buf);
+        if (fn_827DDDD8(param_3, key) == 0) {
+          fn_827DDFB8(param_3, buf);
         }
       }
-      uVar2 = uVar2 + 1;
-      lVar3 = lVar3 + 0xc;
-    } while (uVar2 < *(uint *)(*(int *)(param_1 + 0x5c) + 8));
+    }
   }
   return 0;
 }
-

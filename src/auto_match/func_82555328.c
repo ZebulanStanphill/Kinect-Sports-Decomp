@@ -36,6 +36,7 @@ void fn_82555328(int param_1,int param_2,undefined8 param_3)
   uint uVar3;
   int iVar4;
   int iVar5;
+  uint *puVar;
   
   iVar4 = *(int *)(param_1 + 8) * 0x40;
   iVar5 = 0;
@@ -55,21 +56,12 @@ void fn_82555328(int param_1,int param_2,undefined8 param_3)
   *(int *)(param_2 + 0x20) = iVar2;
   iVar4 = *(int *)(param_1 + 0x10) * 4;
   *(uint *)(param_2 + 0x20) = (iVar2 - (iVar4 - 1U & 0xf)) + iVar4 + 0xf;
-  if (0 < *(int *)(param_1 + 4)) {
-    iVar4 = 0;
-    do {
-      iVar2 = *(int *)(*(int *)(param_1 + 0x1c) + iVar4) * 4;
-      uVar1 = *(uint *)(iVar2 + *(int *)(param_1 + 0x18));
-      uVar3 = uVar1 >> 0x18;
-      if (uVar1 == 0) {
-        uVar3 = 0x7a;
-      }
-      if (uVar3 == 4) {
-        fn_82549808(iVar2 + *(int *)(param_1 + 0x18),param_3,param_2);
-      }
-      iVar5 = iVar5 + 1;
-      iVar4 = iVar4 + 0x144;
-    } while (iVar5 < *(int *)(param_1 + 4));
+  for (iVar5 = 0; iVar5 < *(int *)(param_1 + 4); iVar5++) {
+    puVar = (uint *)(*(int *)(param_1 + 0x18) + *(int *)(*(int *)(param_1 + 0x1c) + iVar5 * 0x144) * 4);
+    iVar2 = *puVar != 0 ? *puVar >> 0x18 : 0x7a;
+    if (iVar2 == 4) {
+      fn_82549808(puVar,param_3,param_2);
+    }
   }
   return;
 }
