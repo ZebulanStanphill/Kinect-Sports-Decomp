@@ -33,7 +33,7 @@ void fn_828FA4E0(int param_1)
 {
   undefined4 uVar1;
   
-  while (*(int *)(param_1 + 0x10) != 0) {
+  while (*(unsigned int *)(param_1 + 0x10) != 0) {
     uVar1 = **(undefined4 **)(param_1 + 0x10);
     fn_8265C990(*(undefined4 **)(param_1 + 0x10),0x24810000);
     *(undefined4 *)(param_1 + 0x10) = uVar1;

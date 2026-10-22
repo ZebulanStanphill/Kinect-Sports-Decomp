@@ -31,7 +31,7 @@ extern int fn_828A4538();
 undefined4 * fn_828E3EF8(undefined4 *param_1,undefined4 *param_2,undefined8 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   undefined4 uVar3;
   

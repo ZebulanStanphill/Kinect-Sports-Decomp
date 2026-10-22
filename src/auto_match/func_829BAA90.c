@@ -32,7 +32,7 @@ uint fn_829BAA90(undefined8 param_1,longlong param_2)
 
 {
   uint uVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = fn_8265C940(param_2 + 0x10,0x24810000);
   if (iVar2 == 0) {

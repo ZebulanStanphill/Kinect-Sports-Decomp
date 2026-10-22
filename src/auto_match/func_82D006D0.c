@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E478();
 
 
-undefined1 fn_82D006D0(int *param_1)
+undefined1 fn_82D006D0(unsigned int *param_1)
 
 {
   int aiStack_10;

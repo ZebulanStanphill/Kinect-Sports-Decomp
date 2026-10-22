@@ -40,7 +40,7 @@ void fn_8282AD28(undefined8 param_1,int param_2)
   undefined4 uStack_2c;
   undefined4 auStack_28;
   
-  if (*(int *)(param_2 + 0x14) != 0) {
+  if (*(unsigned int *)(param_2 + 0x14) != 0) {
     fn_82826568(param_1,*(int *)(param_2 + 0x14),&uStack_2c);
     fn_82826568(param_1,*(undefined4 *)(param_2 + 0x18),&auStack_28);
     fn_828295A8(uStack_2c,&iStack_30);

@@ -30,7 +30,7 @@ extern int fn_82C06390();
 extern unsigned int lbl_820EC8D8;
 
 
-void fn_82C04E90(undefined4 *param_1)
+void fn_82C04E90(int *param_1)
 
 {
   *param_1 = &lbl_820EC8D8;

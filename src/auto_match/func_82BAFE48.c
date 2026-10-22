@@ -32,7 +32,7 @@ extern int fn_82BC0340();
 void fn_82BAFE48(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *(int *)(*(int *)(param_1 + 0x18) + 0xc) = (int)param_3;
   *(int *)(*(int *)(param_1 + 0x18) + 0x20) = (int)param_2;

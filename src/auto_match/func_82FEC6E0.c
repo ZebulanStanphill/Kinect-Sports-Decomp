@@ -29,7 +29,7 @@ extern int fn_83024968();
 extern unsigned int lbl_831BC774;
 
 
-void fn_82FEC6E0(int param_1,undefined1 param_2)
+void fn_82FEC6E0(unsigned int param_1,undefined1 param_2)
 
 {
   undefined4 *puVar1;

@@ -31,7 +31,7 @@ extern int fn_823AA970();
 void fn_828D3250(int param_1,undefined8 param_2,undefined1 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int *piVar2;
   
   if ((*(int *)(param_1 + 0xc) == 5) &&

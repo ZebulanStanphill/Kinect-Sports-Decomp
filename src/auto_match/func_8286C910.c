@@ -31,7 +31,7 @@ extern int fn_828106A0();
 undefined8 fn_8286C910(int param_1,int *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *param_2;
   if (iVar1 != 0) {

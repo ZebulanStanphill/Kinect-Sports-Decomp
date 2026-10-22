@@ -29,7 +29,7 @@ extern int fn_8265CA20();
 extern int fn_828782A8();
 
 
-void fn_82878300(int *param_1)
+void fn_82878300(unsigned int *param_1)
 
 {
   if (*param_1 != 0) {

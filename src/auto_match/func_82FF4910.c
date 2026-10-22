@@ -32,7 +32,7 @@ extern int fn_82FF5200();
 void fn_82FF4910(int param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   RtlEnterCriticalSection(param_1 + 0x88);
   iVar1 = fn_82FF5200(param_1 + 4,param_2);

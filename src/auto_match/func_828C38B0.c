@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8240D928();
 
 
-undefined8 fn_828C38B0(int param_1,int param_2)
+undefined8 fn_828C38B0(int param_1,unsigned int param_2)
 
 {
   int *piVar1;

@@ -33,7 +33,7 @@ extern int fn_8282D818();
 void fn_8282AFD0(int param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   undefined4 *apuStack_20 [4];
   
   fn_8282D818(param_1,apuStack_20,0xc,1);

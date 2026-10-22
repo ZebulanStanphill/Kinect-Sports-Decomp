@@ -30,7 +30,7 @@ extern int fn_8286A1E0();
 extern unsigned int uStack_20;
 
 
-void fn_8286A6F8(int *param_1)
+void fn_8286A6F8(unsigned int *param_1)
 
 {
   undefined1 uStack_20;

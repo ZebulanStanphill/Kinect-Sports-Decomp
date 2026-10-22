@@ -35,7 +35,7 @@ int fn_82B8A718(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefin
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   int iVar3;
   undefined4 *puVar4;
   

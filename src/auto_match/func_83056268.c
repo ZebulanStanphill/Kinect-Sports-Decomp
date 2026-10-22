@@ -31,7 +31,7 @@ extern int fn_82A1E810();
 void fn_83056268(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   RtlEnterCriticalSection(param_1 + 0x10);
   iVar1 = *(int *)(param_1 + 0x48) + -1;

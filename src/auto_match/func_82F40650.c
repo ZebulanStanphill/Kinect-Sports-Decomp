@@ -34,7 +34,7 @@ extern unsigned int lbl_82163010;
 extern unsigned int lbl_82163018;
 
 
-undefined4 * fn_82F40650(undefined4 *param_1,int param_2)
+undefined4 * fn_82F40650(undefined4 *param_1,unsigned int param_2)
 
 {
   if (param_2 != 0) {

@@ -33,7 +33,7 @@ undefined4 fn_82A8B620(int param_1)
 {
   undefined4 uVar1;
   
-  if ((*(int *)(param_1 + 4) == -0x7ffffff6) && (*(int *)(param_1 + 8) != 0x3e5)) {
+  if ((*(int *)(param_1 + 4) == -0x7ffffff6) && (*(unsigned int *)(param_1 + 8) != 0x3e5)) {
     uVar1 = fn_82A1C098(param_1 + 8);
     *(undefined4 *)(param_1 + 4) = uVar1;
   }

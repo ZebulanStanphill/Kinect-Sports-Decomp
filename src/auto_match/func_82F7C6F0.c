@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F641F8();
 
 
-void fn_82F7C6F0(undefined4 *param_1)
+void fn_82F7C6F0(int *param_1)
 
 {
   if (((param_1[3] & 0x83) != 0) && ((param_1[3] & 8) != 0)) {

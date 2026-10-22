@@ -31,7 +31,7 @@ extern int fn_82CEAFA8();
 void fn_82CFFC08(int *param_1,int param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *param_1 = 0;
   iVar1 = fn_82CEAFA8(param_3,param_4);

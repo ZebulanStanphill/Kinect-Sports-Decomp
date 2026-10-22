@@ -31,7 +31,7 @@ extern int fn_827E82F8();
 extern int fn_827E8720();
 
 
-longlong fn_827E8478(undefined4 *param_1,int param_2,undefined8 param_3)
+longlong fn_827E8478(undefined4 *param_1,unsigned int param_2,undefined8 param_3)
 
 {
   undefined4 *puVar1;

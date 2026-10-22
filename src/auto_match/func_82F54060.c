@@ -36,7 +36,7 @@ extern int fn_82F54000();
 void fn_82F54060(int *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined1 auStack_20 [8];
   
   fn_827E2B30(auStack_20,param_1 + 1,param_1[1],param_1[2]);

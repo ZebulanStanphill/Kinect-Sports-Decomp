@@ -30,7 +30,7 @@ extern int fn_828A2348();
 extern int fn_828A60D8();
 
 
-int fn_828C2E18(int param_1,int param_2)
+int fn_828C2E18(unsigned int param_1,int param_2)
 
 {
   undefined4 uVar1;

@@ -32,7 +32,7 @@ void fn_82897780(int param_1,undefined8 param_2)
 
 {
   uint uVar1;
-  int iVar2;
+  unsigned int iVar2;
   int iVar3;
   uint uVar4;
   

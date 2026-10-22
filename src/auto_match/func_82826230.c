@@ -33,7 +33,7 @@ extern int fn_82872E60();
 void fn_82826230(int *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(*param_1 + 0xc);
   if (iVar1 != 0) {

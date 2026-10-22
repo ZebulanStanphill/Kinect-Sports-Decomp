@@ -31,7 +31,7 @@ extern int fn_82ACA920();
 uint fn_82AD1978(uint *param_1,uint param_2)
 
 {
-  if (*(int *)(param_2 + 0x10) != 0) {
+  if (*(unsigned int *)(param_2 + 0x10) != 0) {
     param_2 = fn_82ACA920(*(undefined4 *)(*(int *)(param_2 & 0xfffff000) + 0x94),param_2,
                             *(undefined4 *)(param_2 + 0xc));
   }

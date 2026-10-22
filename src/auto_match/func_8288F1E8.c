@@ -39,7 +39,7 @@ undefined4 fn_8288F1E8(undefined8 param_1,undefined8 param_2)
   iVar1 = fn_828A12E8();
   fn_8288CCB8(aiStack_20,iVar1 + 4,param_2);
   uVar2 = 0;
-  if (aiStack_20[0] != *(int *)(iVar1 + 8)) {
+  if (aiStack_20[0] != *(unsigned int *)(iVar1 + 8)) {
     uVar2 = *(undefined4 *)(aiStack_20[0] + 0x14);
   }
   return uVar2;

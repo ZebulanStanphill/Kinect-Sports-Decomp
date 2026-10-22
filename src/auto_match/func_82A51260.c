@@ -32,7 +32,7 @@ extern int fn_82A68E28();
 void fn_82A51260(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 + 8);
   if (iVar1 != 0) {

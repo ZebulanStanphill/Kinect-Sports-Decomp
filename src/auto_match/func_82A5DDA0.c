@@ -32,7 +32,7 @@ void fn_82A5DDA0(int param_1)
 
 {
   *(undefined4 *)(param_1 + 0x18) = 0;
-  if (*(int *)(param_1 + 0xc) != 0) {
+  if (*(unsigned int *)(param_1 + 0xc) != 0) {
     fn_8265C990(*(int *)(param_1 + 0xc),0x20970000);
     *(undefined4 *)(param_1 + 0xc) = 0;
   }

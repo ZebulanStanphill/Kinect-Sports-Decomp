@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A2B748();
 
 
-void fn_82CE2380(uint param_1,uint *param_2,uint *param_3,int param_4)
+void fn_82CE2380(uint param_1,uint *param_2,uint *param_3,unsigned int param_4)
 
 {
   *param_2 = param_1;

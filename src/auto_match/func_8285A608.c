@@ -31,7 +31,7 @@ extern int fn_8285A1B8();
 void fn_8285A608(int param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   int iVar3;
   

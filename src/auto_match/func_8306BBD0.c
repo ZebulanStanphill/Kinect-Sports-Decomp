@@ -32,7 +32,7 @@ extern unsigned int lbl_832650B8;
 void fn_8306BBD0(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if (param_1 != &lbl_832650B8) {
     iVar1 = KeTlsGetValue(lbl_831BCA64);

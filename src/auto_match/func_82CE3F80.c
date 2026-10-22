@@ -33,7 +33,7 @@ void fn_82CE3F80(void)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar1 = lbl_8323A960;
   iVar2 = KeTlsGetValue(lbl_8323A964);

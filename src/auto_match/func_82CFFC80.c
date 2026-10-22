@@ -32,7 +32,7 @@ int * fn_82CFFC80(int *param_1,int *param_2,undefined8 param_3)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = param_2[1];
   iVar1 = *param_2;

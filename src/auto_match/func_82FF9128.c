@@ -32,7 +32,7 @@ extern unsigned int lbl_832642F0;
 void fn_82FF9128(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x2c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x2c) != 0) {
     fn_8300EE60((ulonglong)lbl_832642F0 + 0x4a4,*(int *)(param_1 + 0x2c),
                       *(undefined4 *)(param_1 + 0xc),1,*(undefined4 *)(param_1 + 0x18),
                       *(undefined4 *)(param_1 + 0x30));

@@ -39,7 +39,7 @@ undefined8 fn_82850680(int param_1,int param_2,undefined8 param_3,undefined4 *pa
   int iStack_1c;
   
   *param_4 = 0;
-  if ((*(int *)(param_1 + 0x144) != 0) &&
+  if ((*(unsigned int *)(param_1 + 0x144) != 0) &&
      (iVar1 = fn_828182C0(*(int *)(param_1 + 0x144),param_3,0,&uStack_20), iVar1 != 0)) {
     fn_82851858(uStack_20,&iStack_1c);
     *param_4 = *(undefined4 *)(iStack_1c + param_2);

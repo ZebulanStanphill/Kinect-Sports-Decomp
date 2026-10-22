@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82BD52C0(int param_1,longlong param_2,int param_3,undefined4 *param_4,undefined4 *param_5)
+void fn_82BD52C0(int param_1,unsigned __int64 param_2,int param_3,undefined4 *param_4,undefined4 *param_5)
 
 {
   undefined4 *puVar1;

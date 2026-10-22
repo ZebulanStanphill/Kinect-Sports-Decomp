@@ -34,7 +34,7 @@ extern unsigned int uStack_30;
 uint * fn_82829530(uint *param_1,int param_2,undefined4 *param_3)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   uint *puVar2;
   uint uStack_30;
   uint auStack_2c [1];

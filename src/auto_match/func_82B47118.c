@@ -37,7 +37,7 @@ void fn_82B47118(int param_1,undefined8 param_2,uint param_3)
   int iVar2;
   uint *puVar3;
   
-  if (*(int *)(param_1 + 0x2e8) != 0) {
+  if (*(unsigned int *)(param_1 + 0x2e8) != 0) {
     iVar1 = fn_82B841E8(param_1,(ulonglong)*(uint *)(param_1 + 0x234),
                               (ulonglong)*(uint *)(param_1 + 0x234) + 0x18,0x75,0,0);
     iVar2 = fn_82B841E8(param_1,(ulonglong)*(uint *)(param_1 + 0x234),

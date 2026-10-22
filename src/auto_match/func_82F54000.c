@@ -30,7 +30,7 @@ extern int fn_8265CA20();
 extern unsigned int uStack_20;
 
 
-void fn_82F54000(int *param_1)
+void fn_82F54000(unsigned int *param_1)
 
 {
   undefined1 uStack_20;

@@ -30,7 +30,7 @@ extern int fn_8224EE50();
 extern int fn_8224EEE0();
 
 
-int fn_82894B88(int param_1,int param_2)
+int fn_82894B88(unsigned int param_1,int param_2)
 
 {
   undefined4 uVar1;

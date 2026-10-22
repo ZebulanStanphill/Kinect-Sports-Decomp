@@ -33,7 +33,7 @@ void fn_82935258(int param_1)
 {
   undefined4 *puVar1;
   
-  while (*(int *)(param_1 + 8) != 0) {
+  while (*(unsigned int *)(param_1 + 8) != 0) {
     puVar1 = *(undefined4 **)(param_1 + 8);
     *(undefined4 *)(param_1 + 8) = puVar1[4];
     if (((puVar1[2] & 8) != 0) || ((puVar1[2] & 1) == 0)) {

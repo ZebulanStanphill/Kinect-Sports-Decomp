@@ -32,7 +32,7 @@ extern int fn_82F419B8();
 undefined8 fn_82F41B70(int param_1,ushort param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined8 uVar2;
   
   uVar2 = 0;

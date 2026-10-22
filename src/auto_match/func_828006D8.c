@@ -33,7 +33,7 @@ extern int fn_828005B0();
 void fn_828006D8(undefined4 param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 auStack_120 [4];
   undefined4 auStack_110 [64];
   
