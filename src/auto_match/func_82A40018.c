@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82089670;
 
 
-void fn_82A40018(undefined4 *param_1)
+void fn_82A40018(int *param_1)
 
 {
   *param_1 = &lbl_82089670;

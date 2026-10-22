@@ -31,7 +31,7 @@ void fn_82E01798(int param_1,undefined4 param_2)
 
 {
   *(undefined4 *)(param_1 + 0xc) = param_2;
-  if (*(int *)(param_1 + 0x10) == 0) {
+  if (*(unsigned int *)(param_1 + 0x10) == 0) {
     return;
   }
   *(undefined4 *)(*(int *)(param_1 + 0x10) + 0x2c) = param_2;

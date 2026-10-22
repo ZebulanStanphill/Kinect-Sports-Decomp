@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A214B0(undefined8 param_1,int param_2)
+void fn_82A214B0(undefined8 param_1,unsigned int param_2)
 
 {
   if (param_2 != 0) {
     RtlEnterCriticalSection();
-    *(short *)(param_2 + -2) = (short)*(undefined4 *)(param_2 + -4) + -1;
+    *(unsigned short *)(param_2 + -2) = (short)*(undefined4 *)(param_2 + -4) + -1;
     RtlLeaveCriticalSection(param_1);
   }
   return;

@@ -34,10 +34,10 @@ extern int fn_82A4F4E0();
 void fn_82A5C8F8(longlong param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   while (iVar1 = fn_82A40AD8(param_1 + 8), iVar1 != 0) {
-    if (*(int *)(iVar1 + 8) != 5) {
+    if (*(unsigned int *)(iVar1 + 8) != 5) {
       fn_82A4F4E0();
     }
   }

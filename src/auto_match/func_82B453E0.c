@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined4 fn_82B453E0(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if ((((*(int **)(param_1 + 0x18) != (int *)0x0) &&
        (iVar1 = **(int **)(param_1 + 0x18), iVar1 != 0)) &&

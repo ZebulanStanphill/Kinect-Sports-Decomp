@@ -31,9 +31,9 @@ extern int fn_82B7BEB0();
 void fn_82BC08D0(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
-  while (*(int *)(param_1 + 4) != 0) {
+  while (*(unsigned int *)(param_1 + 4) != 0) {
     iVar1 = *(int *)(param_1 + 4);
     if (iVar1 != 0) {
       *(undefined4 *)(param_1 + 4) = *(undefined4 *)(iVar1 + 8);

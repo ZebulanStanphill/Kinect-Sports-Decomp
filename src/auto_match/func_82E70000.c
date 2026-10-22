@@ -28,12 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 
 
 undefined8
-fn_82E70000(int param_1,undefined8 param_2,undefined8 param_3,int param_4,undefined4 *param_5)
+fn_82E70000(int param_1,undefined8 param_2,undefined8 param_3,unsigned int param_4,undefined4 *param_5)
 
 {
   if ((param_4 != 0) && (param_5 != (undefined4 *)0x0)) {
     *param_5 = 0;
-    if ((*(int *)(param_4 + 2) != 0) && (*(int *)(param_4 + 7) == 0)) {
+    if ((*(int *)(param_4 + 2) != 0) && (*(unsigned int *)(param_4 + 7) == 0)) {
       *(undefined8 *)(param_1 + 0x40) = param_2;
       *param_5 = 1;
     }

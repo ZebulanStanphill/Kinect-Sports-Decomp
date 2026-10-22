@@ -32,7 +32,7 @@ undefined8 fn_82E72BD8(int param_1,undefined8 *param_2,undefined8 *param_3)
 {
   undefined8 uVar1;
   
-  if (*(int *)(param_1 + 0xc) == 0) {
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
     return 0xffffffffc00d36b6;
   }
   uVar1 = *(undefined8 *)(param_1 + 0x20);

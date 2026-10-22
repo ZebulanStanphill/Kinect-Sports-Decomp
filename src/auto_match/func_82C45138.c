@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined4 fn_82C45138(int param_1)
+undefined4 fn_82C45138(unsigned int param_1)
 
 {
   if (param_1 == 0) {

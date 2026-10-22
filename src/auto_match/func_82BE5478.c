@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE5398();
 
 
-void fn_82BE5478(int *param_1)
+void fn_82BE5478(unsigned int *param_1)
 
 {
   while (*param_1 != 0) {

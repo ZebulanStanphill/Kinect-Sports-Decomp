@@ -29,10 +29,10 @@ extern int fn_82A2A518();
 extern int fn_82E4FE40();
 
 
-void fn_82E4A008(int *param_1)
+void fn_82E4A008(unsigned int *param_1)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   int iVar2;
   int *piVar3;
   

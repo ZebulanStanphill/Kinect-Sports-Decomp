@@ -29,10 +29,10 @@ extern int fn_82AA66A8();
 extern int fn_82B50AA8();
 
 
-undefined4 fn_82B50B00(int *param_1)
+undefined4 fn_82B50B00(unsigned int *param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   *(undefined1 *)(param_1 + 8) = 0;
   if ((param_1[1] == 0) && (cVar1 = fn_82B50AA8(), cVar1 == '\0')) {

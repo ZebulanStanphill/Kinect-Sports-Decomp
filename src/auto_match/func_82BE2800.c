@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82BE2800(int param_1)
 
 {
-  if (*(longlong *)(param_1 + 0xd0) != 0) {
+  if (*(unsigned __int64 *)(param_1 + 0xd0) != 0) {
     return 1;
   }
   return 0;

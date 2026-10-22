@@ -33,7 +33,7 @@ void fn_82AA6808(int param_1)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = *(int *)(param_1 + 0x84);
   while (iVar2 != 0) {

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82DA1EA8(int param_1,char param_2)
 
 {
-  *(char *)(param_1 + 0x9a) = (param_2 != '\0') << 4;
+  *(unsigned char *)(param_1 + 0x9a) = (param_2 != '\0') << 4;
   return;
 }
 

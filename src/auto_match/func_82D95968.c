@@ -32,9 +32,9 @@ void fn_82D95968(undefined1 *param_1,int param_2)
 {
   int iVar1;
   
-  if ((*(int *)(param_2 + 0x18) != 0) &&
-     ((iVar1 = *(int *)(*(int *)(param_2 + 0x14) + 8), iVar1 == 0 ||
-      (*(int *)(param_2 + 0x18) != *(int *)(iVar1 + 0x24))))) {
+  if ((*(unsigned int *)(param_2 + 0x18) != 0) &&
+     ((iVar1 = *(unsigned int *)(*(unsigned int *)(param_2 + 0x14) + 8), iVar1 == 0 ||
+      (*(unsigned int *)(param_2 + 0x18) != *(unsigned int *)(iVar1 + 0x24))))) {
     *param_1 = 0;
     return;
   }

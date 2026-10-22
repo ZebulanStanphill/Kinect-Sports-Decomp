@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82DB3EF8(int param_1,char param_2)
+void fn_82DB3EF8(int param_1,unsigned char param_2)
 
 {
   *(bool *)(param_1 + 0x20) = param_2 == '\0';

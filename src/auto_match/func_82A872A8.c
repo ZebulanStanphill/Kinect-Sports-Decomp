@@ -28,8 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A87148();
 
 
-void fn_82A872A8(undefined8 param_1,undefined2 *param_2,undefined8 param_3,undefined8 param_4,
-                  short *param_5)
+void fn_82A872A8(undefined8 param_1,undefined2 *param_2,undefined8 param_3,undefined8 param_4,unsigned short *param_5)
 
 {
   fn_82A87148(param_3,param_4,*param_2,param_5);

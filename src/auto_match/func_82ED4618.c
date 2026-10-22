@@ -32,12 +32,12 @@ extern int fn_82ED4510();
 void fn_82ED4618(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_82ED4510(*(int *)(param_1 + 0x18),3);
+  if (*(unsigned int *)(param_1 + 0x18) != 0) {
+    fn_82ED4510(*(unsigned int *)(param_1 + 0x18),3);
     *(undefined4 *)(param_1 + 0x18) = 0;
   }
-  if (*(int *)(param_1 + 0x20) != 0) {
-    fn_8265C990(*(int *)(param_1 + 0x20),0x248c8000);
+  if (*(unsigned int *)(param_1 + 0x20) != 0) {
+    fn_8265C990(*(unsigned int *)(param_1 + 0x20),0x248c8000);
     *(undefined4 *)(param_1 + 0x20) = 0;
   }
   *(undefined4 *)(param_1 + 0x18) = 0;

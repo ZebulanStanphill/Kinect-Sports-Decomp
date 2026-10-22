@@ -31,7 +31,7 @@ extern int fn_82B172B0();
 int fn_82B17340(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
   
   iVar1 = *(int *)(param_1 + 4);

@@ -31,7 +31,7 @@ extern int fn_82A1E108();
 undefined8 fn_82C01268(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 + 0x170);
   while (iVar1 != 0) {

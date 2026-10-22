@@ -32,7 +32,7 @@ undefined8 fn_82C2A438(undefined8 param_1,int param_2,undefined4 *param_3,undefi
 {
   *param_3 = 0;
   *param_4 = 0;
-  if (*(int *)(param_2 + 0x20) == 0) {
+  if (*(unsigned int *)(param_2 + 0x20) == 0) {
     return 0x500001;
   }
   *param_3 = *(undefined4 *)(param_2 + 0x2c);

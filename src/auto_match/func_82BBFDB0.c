@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82BBFDB0(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_2 + 8);
   *(int *)(param_1 + 8) = iVar1;

@@ -31,9 +31,9 @@ extern int fn_82AD1AC8();
 bool fn_82AE9F88(undefined8 param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   bool bVar2;
-  int iVar3;
+  unsigned int iVar3;
   
   bVar2 = false;
   iVar1 = *(int *)(*(int *)(param_2 + 0x2c) + 0xc);

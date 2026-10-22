@@ -31,7 +31,7 @@ extern int fn_82A89940();
 extern int fn_82A89F80();
 
 
-void fn_82A8A480(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+void fn_82A8A480(undefined8 param_1,undefined8 param_2,undefined8 param_3,unsigned int param_4)
 
 {
   undefined4 auStack_10;
