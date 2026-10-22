@@ -34,7 +34,7 @@ extern int fn_8225DA18();
 undefined8 fn_82289670(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   if ((*(int *)(*(int *)(param_1 + 0x11f0) + 0x18b8) != 1) || (param_2 != 3)) {

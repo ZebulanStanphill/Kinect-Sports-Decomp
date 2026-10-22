@@ -32,7 +32,7 @@ extern int fn_828B5608();
 extern int fn_828B57E8();
 
 
-void fn_828ABD40(int param_1,undefined8 param_2,ulonglong param_3)
+void fn_828ABD40(int param_1,undefined8 param_2,unsigned int param_3)
 
 {
   undefined1 auStack_30 [16];

@@ -35,7 +35,7 @@ extern int fn_82898220();
 void fn_8224F2B8(int param_1,int param_2,undefined8 param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_82897B18(param_3);
   fn_82897600(param_2,param_1,uVar1);

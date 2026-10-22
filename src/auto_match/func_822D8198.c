@@ -33,7 +33,7 @@ extern int fn_82365BD8();
 void fn_822D8198(longlong param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_20 [16];
   
   uVar1 = fn_82365BD8(auStack_20,param_1 + 0x78);

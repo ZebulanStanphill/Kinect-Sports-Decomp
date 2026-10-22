@@ -29,7 +29,7 @@ extern unsigned int *auStack_10;
 extern int fn_828008C0();
 
 
-bool fn_827F6A40(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+unsigned int  fn_827F6A40(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
   longlong lVar1;

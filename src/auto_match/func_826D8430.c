@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_826D8430(int param_1)
+int  fn_826D8430(int param_1)
 
 {
   return ((ulonglong)*(uint *)(*(int *)(*(int *)(*(int *)(param_1 + 0x1c) + 0xc) + 0x20) + 0x24) &

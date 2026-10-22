@@ -34,7 +34,7 @@ extern int fn_827DE530();
 undefined8 fn_827DDEE8(undefined8 param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_40 [16];
   undefined1 auStack_30 [32];
   

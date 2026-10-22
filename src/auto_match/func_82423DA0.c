@@ -32,7 +32,7 @@ extern int fn_824B9B90();
 void fn_82423DA0(undefined8 param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_824B8548();
   fn_824B9B90(uVar1,param_2);

@@ -30,7 +30,7 @@ extern int fn_8223B610();
 extern int fn_823A9880();
 
 
-void fn_823A97D8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
+void fn_823A97D8(undefined8 param_1,undefined8 param_2,unsigned int param_3)
 
 {
   undefined1 auStack_60 [80];

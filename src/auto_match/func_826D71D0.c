@@ -32,9 +32,9 @@ extern int fn_8270C6B0();
 undefined8 fn_826D71D0(undefined8 param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
-  uVar1 = fn_8270C6B0(((ulonglong)*(uint *)(*(int *)(param_2 + 0x10) + 0x24) & 0xfffffffc) + 8);
+  uVar1 = fn_8270C6B0(((unsigned int)*(uint *)(*(int *)(param_2 + 0x10) + 0x24) & 0xfffffffc) + 8);
   fn_8268C510(param_1,uVar1);
   return param_1;
 }

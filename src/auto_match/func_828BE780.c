@@ -31,7 +31,7 @@ extern unsigned int lbl_82025900;
 extern unsigned int lbl_82025908;
 
 
-undefined4 * fn_828BE780(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_828BE780(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_82025908;

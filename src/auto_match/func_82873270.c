@@ -32,7 +32,7 @@ extern int fn_8287AB90();
 undefined8 fn_82873270(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   uVar1 = fn_8287AB90();
   fn_82835208(param_3,uVar1);

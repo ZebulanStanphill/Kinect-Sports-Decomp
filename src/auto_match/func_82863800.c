@@ -32,7 +32,7 @@ extern int fn_828636B8();
 void fn_82863800(undefined8 param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   fn_828636B8();
   uVar1 = KeTlsGetValue();

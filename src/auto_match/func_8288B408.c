@@ -29,7 +29,7 @@ extern int fn_823AA970();
 extern int fn_82897BD0();
 
 
-void fn_8288B408(int param_1,undefined8 param_2)
+void fn_8288B408(int param_1,unsigned int param_2)
 
 {
   undefined4 uVar1;

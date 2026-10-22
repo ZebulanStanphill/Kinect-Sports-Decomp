@@ -32,7 +32,7 @@ extern int fn_82864898();
 extern unsigned int lbl_8327F878;
 
 
-bool fn_82534820(ulonglong param_1)
+bool fn_82534820(unsigned int param_1)
 
 {
   undefined4 uVar1;

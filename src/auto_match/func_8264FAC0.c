@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E968();
 
 
-longlong fn_8264FAC0(int param_1)
+int  fn_8264FAC0(int param_1)
 
 {
   longlong alStack_20 [2];

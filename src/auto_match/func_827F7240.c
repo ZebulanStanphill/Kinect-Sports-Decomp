@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827F7210();
 
 
-longlong fn_827F7240(void)
+int  fn_827F7240(void)
 
 {
   ulonglong uVar1;

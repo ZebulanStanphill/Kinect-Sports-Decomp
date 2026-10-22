@@ -30,7 +30,7 @@ extern int fn_827F68A0();
 extern int fn_827F7028();
 
 
-void fn_827F3B30(int param_1,ulonglong param_2)
+void fn_827F3B30(int param_1,unsigned int param_2)
 
 {
   ulonglong uVar1;

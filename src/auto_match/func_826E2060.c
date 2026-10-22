@@ -34,7 +34,7 @@ extern int fn_826FB010();
 void fn_826E2060(int param_1)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 auStack_20 [2];
   
   uVar1 = fn_826E1778();

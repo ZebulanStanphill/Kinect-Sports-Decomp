@@ -29,7 +29,7 @@ extern int fn_8226FDB8();
 extern int fn_82270B70();
 
 
-undefined8 fn_8226FE40(ulonglong param_1)
+undefined8 fn_8226FE40(unsigned int param_1)
 
 {
   int iVar2;

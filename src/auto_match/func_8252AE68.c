@@ -33,7 +33,7 @@ undefined8 fn_8252AE68(undefined8 param_1,undefined8 param_2)
 {
   int iVar1;
   undefined8 uVar2;
-  longlong lVar3;
+  int lVar3;
   
   uVar2 = 0;
   lVar3 = 0;

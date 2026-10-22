@@ -31,7 +31,7 @@ extern int fn_82522B10();
 extern unsigned int lbl_832767CC;
 
 
-void fn_82522E60(undefined8 param_1,ulonglong param_2)
+void fn_82522E60(undefined8 param_1,unsigned int param_2)
 
 {
   if (lbl_832767CC == 0) {

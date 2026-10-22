@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82825428();
-extern int fn_8282EA40();
+extern __int64 fn_8282EA40();
 
 
 undefined8 fn_8282EAA0(undefined8 param_1)
