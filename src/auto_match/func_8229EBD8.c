@@ -43,7 +43,7 @@ undefined4 * fn_8229EBD8(undefined4 *param_1)
   param_1[3] = 0;
   param_1[4] = 0;
   param_1[5] = 0;
-  fn_82520158(0xffffffff821aadc0,auStack_20,0);
+  fn_82520158("ui_replayscreen",auStack_20,0);
   fn_8229EF38(param_1,auStack_20);
   return param_1;
 }

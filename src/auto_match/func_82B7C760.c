@@ -37,7 +37,7 @@ void fn_82B7C760(int param_1)
   iVar1 = fn_82AB7940(*(undefined4 *)(param_1 + 4),
                             *(undefined4 *)(*(int *)(param_1 + 0x10) + 0x600));
   if (iVar1 != 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da8d4,0xffffffff820db408,0x2e3);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","sRet == E_SSM_OK","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\compiler.cpp",0x2e3);
   }
   return;
 }

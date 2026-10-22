@@ -31,6 +31,7 @@ extern int fn_82811080();
 extern int fn_82811438();
 
 
+extern char lbl_832116F8[];
 void fn_8306C118(undefined8 param_1,undefined8 param_2)
 
 {
@@ -39,7 +40,7 @@ void fn_8306C118(undefined8 param_1,undefined8 param_2)
   
   auStack_40[0] = 0;
   fn_82811438(auStack_30,auStack_40,0x10);
-  fn_82811080(0xffffffff832116f8,param_2,auStack_30);
+  fn_82811080(lbl_832116F8,param_2,auStack_30);
   return;
 }
 

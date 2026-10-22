@@ -31,7 +31,7 @@ extern int fn_8281C4B0();
 undefined8 fn_82818AB8(undefined8 param_1,undefined8 param_2)
 
 {
-  fn_8281C4B0(0xffffffff8201e6f8,param_1,param_2);
+  fn_8281C4B0("mm.alloc-failed: (%p %d)\n",param_1,param_2);
   return 0;
 }
 

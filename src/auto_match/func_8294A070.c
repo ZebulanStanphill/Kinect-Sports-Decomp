@@ -32,7 +32,7 @@ extern int fn_82960250();
 void fn_8294A070(undefined8 param_1)
 
 {
-  fn_82949AB0(param_1,0,0xffffffff820358f0,0,0);
+  fn_82949AB0(param_1,0,"__vmulfp",0,0);
   fn_82960250(param_1);
   return;
 }

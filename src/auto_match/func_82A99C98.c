@@ -32,8 +32,8 @@ void fn_82A99C98(int param_1,undefined8 param_2)
 
 {
   *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + -1;
-  fn_82A99B70(param_1,0xffffffff820d2850,param_2);
-  fn_82A99B70(param_1,0xffffffff821bab90);
+  fn_82A99B70(param_1,"</%s>",param_2);
+  fn_82A99B70(param_1,"\r\n");
   *(undefined4 *)(param_1 + 8) = 1;
   return;
 }

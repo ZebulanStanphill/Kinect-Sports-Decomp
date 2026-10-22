@@ -32,7 +32,7 @@ extern int fn_8295F3A0();
 void fn_8294A7C8(undefined8 param_1)
 
 {
-  fn_82949AB0(param_1,0,0xffffffff82035a08,0,0);
+  fn_82949AB0(param_1,0,"XMVector3Normalize",0,0);
   fn_8295F3A0(param_1);
   return;
 }

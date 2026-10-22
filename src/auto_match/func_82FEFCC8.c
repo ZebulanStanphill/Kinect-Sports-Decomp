@@ -27,10 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
+extern char lbl_83264558[];
 undefined8 fn_82FEFCC8(void)
 
 {
-  RtlLeaveCriticalSection(0xffffffff83264558);
+  RtlLeaveCriticalSection(lbl_83264558);
   return 1;
 }
 

@@ -31,8 +31,8 @@ extern int fn_82230110();
 longlong fn_82326CF8(longlong param_1)
 
 {
-  fn_82230110(param_1,0xffffffff821afeac);
-  fn_82230110(param_1 + 0x1c,0xffffffff821afe94);
+  fn_82230110(param_1,"humanknockdown");
+  fn_82230110(param_1 + 0x1c,"knockdownduringminigame");
   return param_1;
 }
 

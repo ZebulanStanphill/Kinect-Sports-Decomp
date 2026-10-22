@@ -28,10 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F5DEE0();
 
 
+extern char lbl_82167C28[];
 void fn_82F5D3D8(int param_1,undefined8 param_2)
 
 {
-  fn_82F5DEE0(param_2,0xffffffff82167c28);
+  fn_82F5DEE0(param_2,lbl_82167C28);
   *(undefined4 *)(param_1 + 0x114) = 1;
   return;
 }

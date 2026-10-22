@@ -32,7 +32,7 @@ extern int fn_82960188();
 void fn_82949DC0(undefined8 param_1)
 
 {
-  fn_82949AB0(param_1,0,0xffffffff820358a8,0,0);
+  fn_82949AB0(param_1,0,"__vexptefp",0,0);
   fn_82960188(param_1);
   return;
 }

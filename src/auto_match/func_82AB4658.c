@@ -32,7 +32,7 @@ undefined4 fn_82AB4658(undefined4 *param_1)
 
 {
   if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2ff0,0xffffffff820d3000,0xf1);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pAS_Object","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h",0xf1);
   }
   return *param_1;
 }

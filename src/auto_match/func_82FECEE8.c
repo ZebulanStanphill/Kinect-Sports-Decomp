@@ -29,6 +29,7 @@ extern int fn_82FEF328();
 extern unsigned int lbl_832643DC;
 
 
+extern char lbl_831BC794[];
 undefined8 fn_82FECEE8(undefined4 param_1,undefined4 param_2)
 
 {
@@ -36,7 +37,7 @@ undefined8 fn_82FECEE8(undefined4 param_1,undefined4 param_2)
   undefined4 *puVar3;
   undefined8 uVar2;
   
-  puVar3 = (undefined4 *)fn_82FEF328(0xffffffff831bc794);
+  puVar3 = (undefined4 *)fn_82FEF328(lbl_831BC794);
   if (puVar3 == (undefined4 *)0x0) {
     uVar2 = 2;
   }

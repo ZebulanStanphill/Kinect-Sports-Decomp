@@ -32,9 +32,9 @@ extern int fn_82AA2720();
 void fn_82AA4498(undefined8 param_1,undefined8 param_2)
 
 {
-  fn_82AA2720(param_1,0xffffffff821ce818);
-  fn_82AA1C90(param_1,0xffffffff821c4da8,param_2);
-  fn_82AA2720(param_1,0xffffffff821ce828);
+  fn_82AA2720(param_1,"\\cf2");
+  fn_82AA1C90(param_1,"%s",param_2);
+  fn_82AA2720(param_1,"\\cf3");
   return;
 }
 

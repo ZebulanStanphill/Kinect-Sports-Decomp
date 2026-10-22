@@ -33,7 +33,7 @@ extern unsigned int lbl_83175378;
 undefined4 * fn_82BEA180(undefined4 *param_1,char *param_2,undefined4 param_3)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820e9bac);
+  fn_82BE51E8(param_1,"MassiveCriticalSection");
   *param_1 = &lbl_820EBE90;
   RtlInitializeCriticalSection(param_1 + 5);
   if ((param_2 == (char *)0x0) || (*param_2 == '\0')) {

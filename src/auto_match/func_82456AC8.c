@@ -30,6 +30,8 @@ extern int fn_82535298();
 extern int fn_82536288();
 
 
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
 void fn_82456AC8(int param_1,undefined4 *param_2)
 
 {
@@ -37,8 +39,7 @@ void fn_82456AC8(int param_1,undefined4 *param_2)
   
   auStack_10 = *param_2;
   auStack_10 =
-       fn_82535298(&auStack_10,**(undefined4 **)(param_1 + 0x28),0xffffffff83296bc0,
-                         0xffffffff83296bd0);
+       fn_82535298(&auStack_10,**(undefined4 **)(param_1 + 0x28),lbl_83296BC0,lbl_83296BD0);
   fn_82536288(&auStack_10);
   return;
 }

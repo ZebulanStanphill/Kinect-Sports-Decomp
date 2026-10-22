@@ -32,7 +32,7 @@ extern int fn_8295F4B0();
 void fn_8294A810(undefined8 param_1)
 
 {
-  fn_82949AB0(param_1,0,0xffffffff82035a1c,0,0);
+  fn_82949AB0(param_1,0,"XMVectorMultiplyAdd",0,0);
   fn_8295F4B0(param_1);
   return;
 }

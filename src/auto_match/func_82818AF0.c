@@ -32,7 +32,7 @@ undefined8
 fn_82818AF0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  fn_8281C4B0(0xffffffff8201e714,param_4,param_1,param_2,param_3);
+  fn_8281C4B0("mm.realloc: %p (%p %p %d)\n",param_4,param_1,param_2,param_3);
   return param_4;
 }
 

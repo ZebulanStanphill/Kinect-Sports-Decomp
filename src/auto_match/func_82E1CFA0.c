@@ -31,7 +31,7 @@ extern int fn_82E1E5E0();
 undefined8 fn_82E1CFA0(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  fn_82E1E5E0(*(undefined4 *)(param_1 + 0xc),param_2,0xffffffff8214b748,param_3);
+  fn_82E1E5E0(*(undefined4 *)(param_1 + 0xc),param_2,"DWORD",param_3);
   return 0;
 }
 

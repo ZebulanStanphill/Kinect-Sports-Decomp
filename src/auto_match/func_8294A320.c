@@ -32,7 +32,7 @@ extern int fn_8295EF88();
 void fn_8294A320(undefined8 param_1)
 
 {
-  fn_82949AB0(param_1,0,0xffffffff82035920,0,0);
+  fn_82949AB0(param_1,0,"XMVectorNegate",0,0);
   fn_8295EF88(param_1);
   return;
 }

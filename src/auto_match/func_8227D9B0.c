@@ -38,7 +38,7 @@ void fn_8227D9B0(int param_1)
     *(undefined4 *)(param_1 + 0x38) = 0;
     fn_8266F640(*(undefined4 *)(param_1 + 0x3c),0);
     fn_8266F628(*(undefined4 *)(param_1 + 0x3c),0);
-    fn_82672C20(*(undefined4 *)(param_1 + 0x3c),0xffffffff821a8484,0,0);
+    fn_82672C20(*(undefined4 *)(param_1 + 0x3c),"_root.mainCtrl.show",0,0);
   }
   return;
 }

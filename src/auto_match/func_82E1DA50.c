@@ -31,7 +31,7 @@ extern int fn_82F64068();
 void fn_82E1DA50(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  fn_82F64068(param_1 + 0xc,0x80,0x7f,0xffffffff8214b840,param_2,param_3);
+  fn_82F64068(param_1 + 0xc,0x80,0x7f,"%s: %s",param_2,param_3);
   *(undefined1 *)(param_1 + 0x8b) = 0;
   return;
 }

@@ -36,7 +36,7 @@ void fn_82514DA8(undefined8 param_1)
 {
   undefined1 auStack_30 [32];
   
-  fn_82230110(auStack_30,0xffffffff821b6080);
+  fn_82230110(auStack_30,"Main");
   fn_828C3B70(param_1,0,auStack_30);
   fn_82230300(auStack_30,1,0);
   return;

@@ -39,7 +39,7 @@ void fn_825B0530(undefined8 param_1,undefined4 *param_2)
   undefined4 auStack_1c;
   
   if (param_2[2] != 0) {
-    iVar1 = strncmp(*param_2,0xffffffff821c81b4,9);
+    iVar1 = strncmp(*param_2,"AMID_BRS_",9);
     if (iVar1 == 0) {
       uStack_20 = param_2[3];
       auStack_1c = param_2[2];

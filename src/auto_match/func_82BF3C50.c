@@ -41,7 +41,7 @@ undefined4 * fn_82BF3C50(undefined4 *param_1)
   fn_82BFACA0(param_1 + 2);
   param_1[5] = 0;
   fn_82BEC770(param_1 + 6);
-  fn_82BFAB68(param_1 + 0xb,0xffffffff820eb788,1);
+  fn_82BFAB68(param_1 + 0xb,"CFileAsyncWorker Queue",1);
   fn_82BFA9C0(param_1 + 0x16);
   return param_1;
 }

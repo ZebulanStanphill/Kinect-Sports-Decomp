@@ -35,7 +35,7 @@ void fn_8229AAF8(int param_1)
   
   iVar1 = *(int *)(param_1 + 0x14);
   if ((*(int *)(iVar1 + 0x18) == 0) && (*(int *)(iVar1 + 0x14) != 0)) {
-    fn_82672C20(*(undefined4 *)(iVar1 + 4),0xffffffff821abb88,0,0);
+    fn_82672C20(*(undefined4 *)(iVar1 + 4),"_root.caption.HideCaption",0,0);
     *(undefined4 *)(iVar1 + 0x18) = 1;
   }
   return;

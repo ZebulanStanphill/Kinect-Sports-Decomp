@@ -31,8 +31,8 @@ extern int fn_82A99B70();
 void fn_82A9A810(int param_1)
 
 {
-  fn_82A99B70(param_1,0xffffffff820d28b8);
-  fn_82A99B70(param_1,0xffffffff821bab90);
+  fn_82A99B70(param_1," />");
+  fn_82A99B70(param_1,"\r\n");
   *(undefined4 *)(param_1 + 8) = 1;
   return;
 }

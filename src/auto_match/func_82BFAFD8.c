@@ -32,7 +32,7 @@ extern unsigned int lbl_820EBE90;
 undefined4 * fn_82BFAFD8(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  fn_82BE51E8(param_1,0xffffffff820ebe94);
+  fn_82BE51E8(param_1,"CMassiveOrder");
   param_1[5] = param_2;
   param_1[6] = param_3;
   param_1[7] = 0;

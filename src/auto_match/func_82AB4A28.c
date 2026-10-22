@@ -36,7 +36,7 @@ undefined4 * fn_82AB4A28(undefined4 param_1)
   
   puVar1 = (undefined4 *)fn_82B6B128();
   if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d68a4,0xffffffff820d68b0,0x49);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pNewItem","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp",0x49);
   }
   *puVar1 = param_1;
   puVar1[2] = 0;
