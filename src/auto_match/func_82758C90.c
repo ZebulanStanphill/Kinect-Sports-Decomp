@@ -32,7 +32,7 @@ extern int fn_82759900();
 void fn_82758C90(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_82758B68();
   if (iVar1 != 0) {

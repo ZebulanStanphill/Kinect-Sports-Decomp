@@ -31,7 +31,7 @@ extern int fn_8288B760();
 void fn_82594A30(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   
   iVar1 = *(int *)(param_1 + 0x80);

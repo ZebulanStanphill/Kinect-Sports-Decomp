@@ -30,13 +30,13 @@ typedef struct { U64 lo, hi; } V16;
 void fn_824BC5A0(int param_1)
 
 {
-  if (*(int *)(*(int *)(param_1 + 0x100) + 0x8e8) != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x8e8) = 0;
+  if (*(unsigned int *)(*(unsigned int *)(param_1 + 0x100) + 0x8e8) != 0) {
+    *(undefined4 *)(*(unsigned int *)(param_1 + 0x100) + 0x8e8) = 0;
   }
-  if (*(int *)(*(int *)(param_1 + 0x100) + 0x8e4) == 0) {
+  if (*(unsigned int *)(*(unsigned int *)(param_1 + 0x100) + 0x8e4) == 0) {
     return;
   }
-  *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x8e4) = 0;
+  *(undefined4 *)(*(unsigned int *)(param_1 + 0x100) + 0x8e4) = 0;
   return;
 }
 

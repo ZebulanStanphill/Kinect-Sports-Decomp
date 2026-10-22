@@ -39,11 +39,11 @@ undefined8 fn_82792C18(int param_1)
   if (*(int *)(param_1 + 4) == 2) {
     fn_82791A60();
     uVar1 = 1;
-    if (*(int *)(param_1 + 0x14) == 0x3e) {
+    if (*(unsigned int *)(param_1 + 0x14) == 0x3e) {
       *(undefined4 *)(param_1 + 4) = 0x8002;
       fn_82791560(param_1 + 8);
     }
-    else if (*(int *)(param_1 + 0x14) == 0x2f) {
+    else if (*(unsigned int *)(param_1 + 0x14) == 0x2f) {
       *(undefined4 *)(param_1 + 4) = 6;
     }
     else {

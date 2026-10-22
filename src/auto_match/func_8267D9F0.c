@@ -31,7 +31,7 @@ extern int fn_8267D8F0();
 bool fn_8267D9F0(int param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   cVar1 = fn_8267D8F0(*(undefined4 *)(param_1 + 4),param_1 + -0xc);
   return cVar1 == '\0';

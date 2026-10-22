@@ -32,7 +32,7 @@ extern int fn_8265CA20();
 void fn_824FB4B0(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 + 0x70);
   if (iVar1 != 0) {

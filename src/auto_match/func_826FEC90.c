@@ -33,7 +33,7 @@ extern unsigned int lbl_8200DBA8;
 void fn_826FEC90(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[4];
   *param_1 = &lbl_8200DBA8;

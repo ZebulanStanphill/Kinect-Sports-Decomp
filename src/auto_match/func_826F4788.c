@@ -29,7 +29,7 @@ extern int fn_826D64C8();
 extern int fn_826D74A0();
 
 
-void fn_826F4788(int param_1,char param_2)
+void fn_826F4788(int param_1,unsigned char param_2)
 
 {
   int iVar1;

@@ -31,7 +31,7 @@ extern int fn_825A23C0();
 void fn_825909E0(int param_1,undefined4 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
   
   iVar1 = *(int *)(*(int *)(param_1 + 0x30) * 0xc + param_1);

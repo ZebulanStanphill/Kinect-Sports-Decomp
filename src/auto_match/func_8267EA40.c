@@ -31,10 +31,10 @@ extern unsigned int lbl_8200568C;
 extern unsigned int lbl_831E7E64;
 
 
-undefined4 * fn_8267EA40(undefined4 *param_1,char param_2)
+undefined4 * fn_8267EA40(undefined4 *param_1,unsigned char param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
   
   param_1[1] = 1;

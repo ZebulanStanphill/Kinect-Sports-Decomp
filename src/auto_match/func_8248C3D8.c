@@ -36,12 +36,12 @@ void fn_8248C3D8(int param_1,int param_2)
   int iVar1;
   undefined1 auStack_20 [8];
   
-  iVar1 = *(int *)(param_1 + 0x30);
+  iVar1 = *(unsigned int *)(param_1 + 0x30);
   while( true ) {
-    if (iVar1 == *(int *)(param_1 + 0x34)) {
+    if (iVar1 == *(unsigned int *)(param_1 + 0x34)) {
       return;
     }
-    if (*(int *)(iVar1 + 0x18) == param_2) break;
+    if (*(unsigned int *)(iVar1 + 0x18) == param_2) break;
     iVar1 = iVar1 + 0x20;
   }
   fn_8248B7E0(iVar1);

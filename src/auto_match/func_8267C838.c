@@ -31,7 +31,7 @@ extern int fn_82A1E650();
 void fn_8267C838(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_82A1E650(*param_1,0xffffffffffffffff);
   if (iVar1 == 0) {

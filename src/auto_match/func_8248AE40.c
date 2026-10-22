@@ -31,7 +31,7 @@ extern int fn_82A1EFC0();
 undefined8 fn_8248AE40(int param_1)
 
 {
-  if (*(int *)(param_1 + 0xc) != 0) {
+  if (*(unsigned int *)(param_1 + 0xc) != 0) {
                     /* WARNING: Subroutine does not return */
     fn_82A1EFC0(*(int *)(param_1 + 0xc),0,*(undefined4 *)(param_1 + 0x10));
   }

@@ -31,7 +31,7 @@ extern int fn_82F626D0();
 extern unsigned int lbl_832632D8;
 
 
-int fn_8223EEC8(int *param_1)
+int fn_8223EEC8(unsigned int *param_1)
 
 {
   undefined1 auStack_20 [16];

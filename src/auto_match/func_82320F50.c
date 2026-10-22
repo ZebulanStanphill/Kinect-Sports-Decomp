@@ -30,7 +30,7 @@ extern int fn_823210A8();
 extern int fn_8265CA20();
 
 
-void fn_82320F50(int *param_1)
+void fn_82320F50(unsigned int *param_1)
 
 {
   if (param_1[0x24] != 0) {

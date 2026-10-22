@@ -31,7 +31,7 @@ extern int fn_822AF138();
 undefined8 fn_822B0E30(undefined8 param_1,int param_2)
 
 {
-  if (*(int *)(*(int *)(param_2 + 0x110) + 0x1c) != 8) {
+  if (*(unsigned int *)(*(int *)(param_2 + 0x110) + 0x1c) != 8) {
     fn_822AF138(*(int *)(param_2 + 0x110),0x1b);
   }
   return 1;

@@ -35,13 +35,13 @@ extern unsigned int lbl_821AD0F4;
 void fn_822CA390(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[0x2f];
   *param_1 = &lbl_821AD0A8;
   param_1[0x1a] = &lbl_821AD0F4;
   if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0x168) != 0) {
+    if (*(unsigned int *)(iVar1 + 0x168) != 0) {
       *(undefined4 *)(*(int *)(iVar1 + 0x168) + 0xbc) = 0;
     }
     *(undefined4 *)(iVar1 + 0x168) = 0;

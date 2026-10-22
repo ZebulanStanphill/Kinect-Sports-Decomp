@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8268DC30(undefined8 param_1,undefined8 *param_2,undefined4 *param_3,int param_4)
+void fn_8268DC30(undefined8 param_1,undefined8 *param_2,undefined4 *param_3,unsigned int param_4)
 
 {
   undefined8 uVar1;

@@ -31,11 +31,11 @@ extern int fn_82267AC0();
 void fn_8247D5D8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x54) != 0) {
-    fn_82267AC0(*(undefined4 *)(*(int *)(param_1 + 0x54) + 0x2cc));
+  if (*(unsigned int *)(param_1 + 0x54) != 0) {
+    fn_82267AC0(*(undefined4 *)(*(unsigned int *)(param_1 + 0x54) + 0x2cc));
   }
-  if (*(int *)(param_1 + 0x58) != 0) {
-    fn_82267AC0(*(undefined4 *)(*(int *)(param_1 + 0x58) + 0x80));
+  if (*(unsigned int *)(param_1 + 0x58) != 0) {
+    fn_82267AC0(*(undefined4 *)(*(unsigned int *)(param_1 + 0x58) + 0x80));
   }
   return;
 }

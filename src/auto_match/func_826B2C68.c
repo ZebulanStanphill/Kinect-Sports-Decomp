@@ -34,10 +34,10 @@ extern int fn_826B2BE8();
 void fn_826B2C68(int param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined1 auStack_30 [24];
   
-  if ((*(int *)(param_1 + 0xcc) != 0) &&
+  if ((*(unsigned int *)(param_1 + 0xcc) != 0) &&
      (*(int *)(*(int *)(param_1 + 0xcc) * 4 + *(int *)(param_1 + 200) + -4) != 0)) {
     iVar1 = fn_826B0F90();
     if (iVar1 == 0) {

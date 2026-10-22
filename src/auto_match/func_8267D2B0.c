@@ -32,7 +32,7 @@ extern int fn_8267CCD0();
 void fn_8267D2B0(int *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *param_1;
   if (iVar1 != 0) {

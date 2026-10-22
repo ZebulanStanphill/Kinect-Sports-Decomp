@@ -29,10 +29,10 @@ extern int fn_82695DA0();
 extern int fn_826C3378();
 
 
-int * fn_826C0080(int *param_1,int *param_2)
+int * fn_826C0080(int *param_1,unsigned int *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *(undefined1 *)(param_1 + 2) = 0;
   iVar1 = *param_2;
