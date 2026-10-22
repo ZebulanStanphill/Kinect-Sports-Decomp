@@ -31,7 +31,7 @@ extern int fn_8223C610();
 void fn_823ECC50(int param_1,undefined8 param_2,int *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_8223C610(param_2,*(undefined4 *)(param_1 + 8),0,0);
   if (iVar1 == 7) {

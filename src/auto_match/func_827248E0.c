@@ -32,7 +32,7 @@ int fn_827248E0(int param_1,undefined4 *param_2)
 
 {
   int *piVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   fn_8268C2D0(param_1,*param_2);
   piVar1 = (int *)param_2[1];

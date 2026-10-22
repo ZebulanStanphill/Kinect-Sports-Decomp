@@ -32,7 +32,7 @@ extern int fn_8243B6E8();
 undefined8 fn_8243AEE8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   fn_8243B6E8();
   iVar1 = *(int *)(*(int *)(param_1 + 0x40) + 0x2ac);

@@ -32,7 +32,7 @@ undefined1 fn_826DF4E8(int param_1)
 
 {
   undefined1 uVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = *(int *)(param_1 + 0x314);
   if (iVar2 == 0) {

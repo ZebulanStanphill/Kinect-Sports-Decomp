@@ -29,7 +29,7 @@ extern int fn_8265CA20();
 extern int fn_8266DB60();
 
 
-void fn_8266DF80(int *param_1)
+void fn_8266DF80(unsigned int *param_1)
 
 {
   if (*param_1 != 0) {

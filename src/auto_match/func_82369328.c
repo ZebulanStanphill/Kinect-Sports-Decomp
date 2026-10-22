@@ -39,7 +39,7 @@ undefined8 fn_82369328(int param_1)
   piVar2 = (int *)(*(int **)(param_1 + 0x20))[1];
   iVar3 = piVar1[1] - *piVar1 >> 2;
   iVar4 = piVar2[1] - *piVar2 >> 2;
-  if (*(int *)(param_1 + 0x4c0) != 0) {
+  if (*(unsigned int *)(param_1 + 0x4c0) != 0) {
     return 2;
   }
   if (iVar3 == 1) {

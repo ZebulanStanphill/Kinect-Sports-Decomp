@@ -35,7 +35,7 @@ void fn_82520890(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
   undefined4 uVar1;
-  int iVar2;
+  unsigned int iVar2;
   undefined4 uVar3;
   
   uVar3 = lbl_832961DC;

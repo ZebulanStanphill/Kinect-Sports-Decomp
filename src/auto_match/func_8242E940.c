@@ -36,7 +36,7 @@ extern unsigned int lbl_821B90FC;
 void fn_8242E940(int *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *param_1;
   if (iVar1 != 0) {

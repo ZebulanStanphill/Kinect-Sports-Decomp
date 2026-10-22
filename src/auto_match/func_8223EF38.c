@@ -31,7 +31,7 @@ extern int fn_82F62800();
 int fn_8223EF38(int *param_1,uint param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   
   iVar2 = *param_1;

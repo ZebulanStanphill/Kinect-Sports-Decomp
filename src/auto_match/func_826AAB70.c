@@ -29,7 +29,7 @@ extern int fn_826AAB20();
 extern int fn_827B5EA8();
 
 
-void fn_826AAB70(int *param_1)
+void fn_826AAB70(unsigned int *param_1)
 
 {
   fn_826AAB20();

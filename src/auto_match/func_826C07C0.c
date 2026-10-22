@@ -33,7 +33,7 @@ extern int fn_826C0110();
 void fn_826C07C0(int *param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   int iVar3;
   

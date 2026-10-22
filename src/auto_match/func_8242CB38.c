@@ -39,7 +39,7 @@ void fn_8242CB38(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 {
   uint uVar1;
   int iVar2;
-  int *piVar3;
+  unsigned int *piVar3;
   uint uVar4;
   struct { int first; uint second; } stack_pair_30;
 

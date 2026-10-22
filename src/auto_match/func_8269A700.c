@@ -32,7 +32,7 @@ extern int fn_826BD868();
 void fn_8269A700(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_826BD868(*(undefined4 *)(param_1 + 8));
   if (iVar1 == 0) {

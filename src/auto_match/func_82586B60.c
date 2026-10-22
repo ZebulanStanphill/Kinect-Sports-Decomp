@@ -38,7 +38,7 @@ undefined4 fn_82586B60(undefined8 param_1)
   int iVar1;
   undefined4 uVar2;
   undefined4 uStack_20;
-  int iStack_1c;
+  unsigned int iStack_1c;
   
   iVar1 = fn_82586CB0();
   uStack_20 = fn_8265BF48(param_1,0);

@@ -32,7 +32,7 @@ extern int fn_82850DC0();
 void fn_825B54F0(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 0xc);

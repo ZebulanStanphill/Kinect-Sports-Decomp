@@ -31,7 +31,7 @@ extern int fn_825A23C0();
 undefined4 * fn_825CD068(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
   
   iVar1 = *(int *)(param_1 + 8);

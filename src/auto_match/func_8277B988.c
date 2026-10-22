@@ -30,7 +30,7 @@ extern int fn_8277B4A0();
 extern int fn_8277B808();
 
 
-undefined4 * fn_8277B988(undefined4 *param_1,int param_2,undefined8 param_3,undefined8 param_4)
+undefined4 * fn_8277B988(undefined4 *param_1,unsigned int param_2,undefined8 param_3,undefined8 param_4)
 
 {
   undefined4 uVar1;

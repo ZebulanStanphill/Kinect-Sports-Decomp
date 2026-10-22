@@ -32,7 +32,7 @@ int fn_8273E568(int *param_1,uint *param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = *param_1;
   if ((iVar2 == 0) ||

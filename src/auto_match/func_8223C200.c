@@ -29,7 +29,7 @@ extern int fn_8223C478();
 extern int fn_828E9DB8();
 
 
-void fn_8223C200(undefined8 param_1,char param_2)
+void fn_8223C200(undefined8 param_1,unsigned char param_2)
 
 {
   fn_8223C478(param_1,1);

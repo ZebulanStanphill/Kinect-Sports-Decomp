@@ -32,7 +32,7 @@ extern int fn_82695DA0();
 undefined4 * fn_82696830(undefined4 *param_1,undefined4 param_2,char *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *param_1 = param_2;
   fn_82695DA0(param_1 + 2,param_3);

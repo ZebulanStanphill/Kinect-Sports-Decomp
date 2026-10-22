@@ -31,7 +31,7 @@ extern int fn_8255B400();
 void fn_82435F38(int param_1)
 
 {
-  if (*(int *)(*(int *)(param_1 + 0x40) + 0xf0) != 0) {
+  if (*(unsigned int *)(*(int *)(param_1 + 0x40) + 0xf0) != 0) {
     fn_8255B400(*(undefined4 *)
                        (*(int *)(*(int *)(**(int **)(param_1 + 0x40) + 0x174) + 0x9c) + 0x844),
                       (*(int **)(param_1 + 0x40))[0x3c]);

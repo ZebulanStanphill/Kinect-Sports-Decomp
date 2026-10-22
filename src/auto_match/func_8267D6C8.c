@@ -34,7 +34,7 @@ extern int fn_827B0A40();
 void fn_8267D6C8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = *(int *)(param_1 + 0x18);
   if (iVar1 != 0) {

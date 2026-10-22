@@ -36,7 +36,7 @@ void fn_827B1B10(undefined4 *param_1,undefined4 param_2)
   
   auStack_20[0] = (undefined1)param_2;
   fn_827B19D8(*param_1,auStack_20);
-  auStack_20[0] = (undefined1)((uint)param_2 >> 8);
+  auStack_20[0] = (undefined1)((int)param_2 >> 8);
   fn_827B19D8(*param_1,auStack_20);
   return;
 }

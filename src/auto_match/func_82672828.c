@@ -32,7 +32,7 @@ extern int fn_82671700();
 undefined8 fn_82672828(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined1 auStack_20 [8];
   
   iVar1 = param_1 + 0x140;

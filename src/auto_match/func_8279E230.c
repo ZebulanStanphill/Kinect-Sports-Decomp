@@ -33,7 +33,7 @@ extern int fn_8279E068();
 void fn_8279E230(int *param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   int iVar3;
   

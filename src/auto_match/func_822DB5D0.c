@@ -29,7 +29,7 @@ extern int fn_822DB718();
 extern int fn_8265CA20();
 
 
-void fn_822DB5D0(int *param_1)
+void fn_822DB5D0(unsigned int *param_1)
 
 {
   if (*param_1 != 0) {

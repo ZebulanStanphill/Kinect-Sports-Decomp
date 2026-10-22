@@ -31,7 +31,7 @@ extern int fn_826CBF70();
 void fn_826CD488(int *param_1,int *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int *piVar2;
   
   fn_826CBF70(param_1,param_1,(ulonglong)(uint)param_1[1] + 1);

@@ -32,7 +32,7 @@ void fn_8268E570(undefined8 param_1,int *param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   *param_2 = (int)param_2;
   param_2[1] = (int)param_2;

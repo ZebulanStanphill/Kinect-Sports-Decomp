@@ -33,7 +33,7 @@ extern int fn_826DACD8();
 void fn_826DAEE0(int *param_1,undefined8 param_2,int *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   int iVar3;
   

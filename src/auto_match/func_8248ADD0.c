@@ -34,7 +34,7 @@ undefined8 fn_8248ADD0(int param_1,undefined8 param_2,undefined8 param_3)
 {
   undefined4 uVar1;
   
-  if (*(int *)(param_1 + 0xc) == 0) {
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
     uVar1 = fn_8265CA60(param_3);
     *(undefined4 *)(param_1 + 0xc) = uVar1;
     *(int *)(param_1 + 0x10) = (int)param_3;

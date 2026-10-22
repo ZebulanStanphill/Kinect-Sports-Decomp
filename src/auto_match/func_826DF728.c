@@ -36,7 +36,7 @@ void fn_826DF728(int param_1,float *param_2)
   undefined4 uVar2;
   undefined4 auStack_20 [2];
   
-  if (*(int *)(param_1 + 0x2c) == 0) {
+  if (*(unsigned int *)(param_1 + 0x2c) == 0) {
     auStack_20[0] = 0x109;
     uVar2 = fn_8267BED0(param_1,0x10,auStack_20);
     *(undefined4 *)(param_1 + 0x2c) = uVar2;

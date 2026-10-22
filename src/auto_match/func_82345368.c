@@ -31,7 +31,7 @@ extern int fn_824CD030();
 undefined4 fn_82345368(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   undefined4 uVar3;
   

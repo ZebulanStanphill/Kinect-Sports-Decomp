@@ -35,7 +35,7 @@ void fn_825012C0(int param_1)
 {
   fn_827EF828(*(undefined4 *)(param_1 + 0xb64));
   fn_827EFFE8(*(undefined4 *)(param_1 + 0xb64));
-  if (*(int *)(param_1 + 0x8c0) != 0) {
+  if (*(unsigned int *)(param_1 + 0x8c0) != 0) {
     fn_827F0180(*(undefined4 *)(param_1 + 0xb64),
                       **(undefined4 **)
                         ((*(int *)(*(int *)(param_1 + 0x4c) + 0x44) + 0x20) * 4 +

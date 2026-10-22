@@ -29,7 +29,7 @@ extern int fn_825604A0();
 extern unsigned int lbl_821B2D1C;
 
 
-void fn_82366A98(undefined4 *param_1)
+void fn_82366A98(int *param_1)
 
 {
   *param_1 = &lbl_821B2D1C;

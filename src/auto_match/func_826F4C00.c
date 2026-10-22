@@ -31,7 +31,7 @@ extern int fn_826F45C0();
 void fn_826F4C00(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_826F45C0(*(undefined4 *)(param_1 + 0x20));
   if (iVar1 != 0) {

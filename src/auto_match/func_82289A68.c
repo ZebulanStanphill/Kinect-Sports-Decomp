@@ -33,7 +33,7 @@ void fn_82289A68(int param_1,int param_2)
 {
   if (param_1 == 0) {
     *(undefined4 *)(param_2 + 0x604) = 1;
-    if (*(int *)(param_2 + 0x11f8) != 0) {
+    if (*(unsigned int *)(param_2 + 0x11f8) != 0) {
       fn_8229E090(*(int *)(param_2 + 0x11f8),0,1);
       *(undefined4 *)(param_2 + 0x11f8) = 0;
     }

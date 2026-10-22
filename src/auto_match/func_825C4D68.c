@@ -31,7 +31,7 @@ extern int fn_82617BE8();
 void fn_825C4D68(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   
   for (piVar1 = *(int **)(param_1 + 0xc); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[2]) {
     *(undefined1 *)(*piVar1 + 0x10) = 0;

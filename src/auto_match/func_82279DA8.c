@@ -34,7 +34,7 @@ void fn_82279DA8(int param_1,undefined8 param_2)
   undefined4 *puVar1;
   undefined4 *puVar2;
   
-  if (*(int *)(param_1 + 0x9c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x9c) != 0) {
     puVar2 = *(undefined4 **)(param_1 + 0x10);
     for (puVar1 = (undefined4 *)*puVar2; puVar1 != puVar2; puVar1 = (undefined4 *)*puVar1) {
       fn_8227E4B0(*(undefined4 *)(param_1 + 0x9c),*(undefined4 *)(puVar1[2] + 0x10),param_2,0)

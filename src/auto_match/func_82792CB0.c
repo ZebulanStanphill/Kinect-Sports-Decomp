@@ -37,7 +37,7 @@ undefined8 fn_82792CB0(int param_1)
   uVar1 = 0;
   if (*(int *)(param_1 + 4) == 4) {
     fn_82791A60();
-    if (*(int *)(param_1 + 0x14) == 0x3e) {
+    if (*(unsigned int *)(param_1 + 0x14) == 0x3e) {
       *(undefined4 *)(param_1 + 4) = 0x8004;
       fn_82791560(param_1 + 8);
       uVar1 = 1;

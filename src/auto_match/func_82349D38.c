@@ -41,7 +41,7 @@ undefined8 fn_82349D38(int param_1)
       (iVar1 = fn_8242E460(*(undefined4 *)(*(int *)(**(int **)(param_1 + 0xc) + 0x1a0) + 0xc))
       , iVar1 == 0)) &&
      ((iVar1 = *(int *)(*(int *)(*(int *)(**(int **)(param_1 + 0xc) + 0x1a0) + 0xc) + 0xa0),
-      iVar1 == 0 || (*(int *)(iVar1 + 0x40) != 1)))) {
+      iVar1 == 0 || (*(unsigned int *)(iVar1 + 0x40) != 1)))) {
     iVar1 = lbl_832975B0;
     if (lbl_832975B0 == 0) {
       iVar1 = fn_82250A18();

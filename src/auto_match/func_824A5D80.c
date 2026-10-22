@@ -34,7 +34,7 @@ extern unsigned int lbl_821BF7A0;
 void fn_824A5D80(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[0xf];
   *param_1 = &lbl_821BF7A0;

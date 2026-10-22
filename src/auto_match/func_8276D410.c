@@ -32,7 +32,7 @@ int fn_8276D410(int *param_1,ushort *param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar2 = *param_1;
   if ((iVar2 == 0) ||
