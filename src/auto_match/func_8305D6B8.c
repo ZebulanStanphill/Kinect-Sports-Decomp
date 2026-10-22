@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_828106A0();
 extern int fn_82810868();
-extern int fn_82810A50();
-extern int fn_8305F7A0();
+extern void fn_82810A50(unsigned __int64,float);
+extern unsigned int fn_8305F7A0();
 
 
 void fn_8305D6B8(int param_1,undefined8 param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
@@ -55,7 +55,7 @@ void fn_8305D6B8(int param_1,undefined8 param_2)
     } while (iVar4 < iVar2);
   }
   alStack_40[0] = (longlong)iVar2;
-  fn_82810A50((double)alStack_40[0],param_2);
+  fn_82810A50(param_2,(float)alStack_40[0]);
   return;
 }
 

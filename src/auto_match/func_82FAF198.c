@@ -35,14 +35,14 @@ void fn_82FAF198(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
   int iVar2;
   
   iVar2 = *(int *)(param_1 + 0x7c);
-  if (iVar2 != *(int *)(param_1 + 0x80)) {
+  if ((uint)iVar2 != *(uint *)(param_1 + 0x80)) {
     do {
       piVar1 = *(int **)(iVar2 + 4);
       if ((*(short *)(piVar1 + 6) != 0) && ((*(byte *)((int)piVar1 + 0x3e) & 0x80) == 0)) {
-        (**(code **)(*piVar1 + 0x54))(piVar1,param_2,param_3,param_4,param_5);
+        (*(code *)(*piVar1 + 0x54))(piVar1,param_2,param_3,param_4,param_5);
       }
       iVar2 = iVar2 + 8;
-    } while (iVar2 != *(int *)(param_1 + 0x80));
+    } while ((uint)iVar2 != *(uint *)(param_1 + 0x80));
   }
   return;
 }

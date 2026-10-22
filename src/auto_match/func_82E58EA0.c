@@ -27,18 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82E58EA0(int param_1,int *param_2,undefined4 *param_3)
+int fn_82E58EA0(int param_1,int *param_2,undefined4 *param_3)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_3 != (undefined4 *)0x0) {
     *param_3 = *(undefined4 *)(param_1 + 0xc);
   }
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x10) + 0x14))(*(int **)(param_1 + 0x10),param_2,0);
-  if (-1 < (int)uVar1) {
+  uVar1 = (*(code *)(**(int **)(param_1 + 0x10) + 0x14))(*(int **)(param_1 + 0x10),param_2,0);
+  if (uVar1 >= 0) {
     if (param_2 != (int *)0x0) {
-      if (*param_2 != 0) {
+      if ((uint)*param_2 != 0) {
         *param_2 = *(int *)(param_1 + 0x14) + *param_2;
       }
     }

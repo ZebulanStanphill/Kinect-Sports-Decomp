@@ -34,16 +34,11 @@ undefined8 fn_82FEF398(undefined4 *param_1)
 {
   uint uVar1;
   
-  if (param_1[4] != 0) {
+  if (param_1[4] > 0) {
     fn_830133B8();
     if (param_1[6] != 0) {
-      uVar1 = 0;
-      if (param_1[3] != 0) {
-        do {
-          uVar1 = uVar1 + 1;
-        } while (uVar1 < (uint)param_1[3]);
-      }
-      fn_82FA5190(param_1[7]);
+      for (uVar1 = 0; uVar1 < param_1[3]; uVar1++) {}
+      fn_82FA5190(param_1[7],param_1[6]);
     }
     param_1[3] = 0;
     param_1[4] = 0;

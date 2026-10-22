@@ -29,13 +29,13 @@ extern unsigned int *auStack_20;
 extern int fn_82F728D0();
 extern int fn_82F73928();
 extern int fn_82F73A48();
-extern unsigned int *lbl_832635C0;
+extern signed char *lbl_832635C0;
 
 
-undefined8 fn_82F746F0(undefined8 param_1)
+int fn_82F746F0(int param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   undefined1 auStack_20 [16];
   
   if (*lbl_832635C0 == '\0') {

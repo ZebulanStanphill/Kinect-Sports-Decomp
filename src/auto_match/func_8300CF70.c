@@ -36,11 +36,11 @@ void fn_8300CF70(undefined4 *param_1)
 {
   *param_1 = &lbl_8217C330;
   if (param_1[9] != 0) {
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[9]);
   }
   if (param_1[6] != 0) {
     param_1[7] = param_1[6];
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[6]);
     param_1[6] = 0;
     param_1[7] = 0;
     param_1[8] = 0;

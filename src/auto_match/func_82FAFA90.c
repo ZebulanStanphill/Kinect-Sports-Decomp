@@ -32,15 +32,15 @@ extern unsigned int lbl_831BC768;
 void fn_82FAFA90(int param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   undefined4 *puVar2;
   undefined4 uVar3;
   
   iVar1 = *(int *)(param_1 + 0x9c);
   if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 4) != 0) {
-      *(int *)(iVar1 + 8) = *(int *)(iVar1 + 4);
-      fn_82FA5190(lbl_831BC768);
+    if (*(uint *)(iVar1 + 4) != 0) {
+      *(int *)(iVar1 + 8) = *(uint *)(iVar1 + 4);
+      fn_82FA5190(lbl_831BC768,*(uint *)(iVar1 + 4));
       *(undefined4 *)(iVar1 + 4) = 0;
       *(undefined4 *)(iVar1 + 8) = 0;
       *(undefined4 *)(iVar1 + 0xc) = 0;
@@ -48,7 +48,7 @@ void fn_82FAFA90(int param_1)
     uVar3 = lbl_831BC768;
     puVar2 = *(undefined4 **)(param_1 + 0x9c);
     if (puVar2 != (undefined4 *)0x0) {
-      (**(code **)*puVar2)(puVar2,0);
+      (*(code *)*puVar2)(puVar2,0);
       fn_82FA5190(uVar3,puVar2);
     }
     *(undefined4 *)(param_1 + 0x9c) = 0;

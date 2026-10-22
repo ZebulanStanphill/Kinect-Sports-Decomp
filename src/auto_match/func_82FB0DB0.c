@@ -41,14 +41,14 @@ void fn_82FB0DB0(undefined4 *param_1)
   fn_82FB0D28();
   if (param_1[0x22] != 0) {
     param_1[0x23] = param_1[0x22];
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[0x22]);
     param_1[0x22] = 0;
     param_1[0x23] = 0;
     param_1[0x24] = 0;
   }
   if (param_1[0x26] != 0) {
     param_1[0x27] = param_1[0x26];
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[0x26]);
     param_1[0x26] = 0;
     param_1[0x27] = 0;
     param_1[0x28] = 0;

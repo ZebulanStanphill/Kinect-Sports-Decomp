@@ -29,14 +29,14 @@ extern int fn_82FA5060();
 extern unsigned int lbl_831BC768;
 
 
-void fn_830058D8(int param_1,int param_2)
+void fn_830058D8(int param_1,unsigned int param_2)
 
 {
   undefined2 *puVar1;
-  int iVar2;
+  unsigned int iVar2;
   
-  if ((param_2 != 0) || (*(int *)(param_1 + 0x44) != 0)) {
-    iVar2 = *(int *)(param_1 + 0x44);
+  if ((param_2 != 0) || (*(uint *)(param_1 + 0x44) != 0)) {
+    iVar2 = *(uint *)(param_1 + 0x44);
     if (iVar2 == 0) {
       puVar1 = (undefined2 *)fn_82FA5060(lbl_831BC768,0xc);
       *(undefined2 **)(param_1 + 0x44) = puVar1;
@@ -44,7 +44,7 @@ void fn_830058D8(int param_1,int param_2)
         *puVar1 = 0;
         *(undefined4 *)(puVar1 + 2) = 0;
       }
-      iVar2 = *(int *)(param_1 + 0x44);
+      iVar2 = *(uint *)(param_1 + 0x44);
       if (iVar2 == 0) {
         return;
       }

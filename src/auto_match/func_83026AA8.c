@@ -33,9 +33,9 @@ extern unsigned int lbl_831BC770;
 void fn_83026AA8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x88) != 0) {
-    if (*(int *)(param_1 + 0x9c) != 0) {
-      fn_82FA5190(lbl_831BC770);
+  if (*(uint *)(param_1 + 0x88) != 0) {
+    if (*(uint *)(param_1 + 0x9c) != 0) {
+      fn_82FA5190(lbl_831BC770,*(uint *)(param_1 + 0x9c));
       *(undefined4 *)(param_1 + 0x9c) = 0;
     }
     fn_82FA5190(lbl_831BC770,*(undefined4 *)(param_1 + 0x88));
@@ -44,8 +44,8 @@ void fn_83026AA8(int param_1)
     *(undefined2 *)(param_1 + 0x96) = 0;
     *(undefined4 *)(param_1 + 0x8c) = 0;
   }
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_82FA5190(lbl_831BC770);
+  if (*(uint *)(param_1 + 0x74) != 0) {
+    fn_82FA5190(lbl_831BC770,*(uint *)(param_1 + 0x74));
     *(undefined4 *)(param_1 + 0x74) = 0;
     *(undefined2 *)(param_1 + 0x70) = 0;
   }

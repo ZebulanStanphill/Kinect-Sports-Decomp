@@ -32,16 +32,16 @@ extern unsigned int lbl_831BC768;
 extern unsigned int lbl_832642E0;
 
 
-ulonglong fn_83035A40(undefined8 param_1)
+uint fn_83035A40(uint param_1)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   
   uVar1 = fn_82FA5060(lbl_831BC768,0x2c);
   if ((uVar1 & 0xffffffff) != 0) {
     uVar1 = fn_83035338(uVar1,param_1);
     if ((uVar1 & 0xffffffff) != 0) {
-      fn_83015E68((ulonglong)lbl_832642E0 + 0xcbc,uVar1);
+      fn_83015E68((uint)lbl_832642E0 + 0xcbc,uVar1);
     }
     return uVar1;
   }

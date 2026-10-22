@@ -30,18 +30,18 @@ extern int fn_82F73228();
 extern int fn_82F735D8();
 extern int fn_82F73680();
 extern int fn_82F76E68();
-extern unsigned int *lbl_832635C0;
+extern unsigned char *lbl_832635C0;
 
 
 undefined4 * fn_82F738A0(undefined4 *param_1,undefined4 *param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   undefined1 auStack_20 [16];
   
   *param_1 = *param_2;
   param_1[1] = param_2[1];
-  fn_82F73680(param_1,0xffffffff82169da4);
+  fn_82F73680(param_1,"{for ");
   uVar1 = fn_82F76E68(auStack_20);
   fn_82F73228(param_1,uVar1);
   fn_82F735D8(param_1,0x7d);

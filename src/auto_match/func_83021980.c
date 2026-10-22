@@ -40,9 +40,9 @@ void fn_83021980(longlong param_1)
   if (piVar1 != (int *)0x0) {
     iVar2 = fn_83021C40(param_1 + 0x10,piVar1);
     if (iVar2 == 1) {
-      (**(code **)(*piVar1 + 8))(piVar1);
+      (*(code *)(*piVar1 + 8))(piVar1);
     }
-    (**(code **)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 8))(piVar1);
   }
   return;
 }

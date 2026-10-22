@@ -31,17 +31,17 @@ extern int fn_8265C990();
 void fn_82F17D48(int param_1)
 
 {
-  if (param_1 != 0) {
-    if (*(int *)(param_1 + 0x44) != 0) {
-      fn_8265C990(*(int *)(param_1 + 0x44),0x248c8000);
+  if ((uint)param_1 != 0) {
+    if (*(uint *)(param_1 + 0x44) != 0) {
+      fn_8265C990(*(uint *)(param_1 + 0x44),0x248c8000);
       *(undefined4 *)(param_1 + 0x44) = 0;
     }
-    if (*(int *)(param_1 + 0x5c) != 0) {
-      fn_8265C990(*(int *)(param_1 + 0x5c),0x248c8000);
+    if (*(uint *)(param_1 + 0x5c) != 0) {
+      fn_8265C990(*(uint *)(param_1 + 0x5c),0x248c8000);
       *(undefined4 *)(param_1 + 0x5c) = 0;
     }
-    if (*(int *)(param_1 + 0x74) != 0) {
-      fn_8265C990(*(int *)(param_1 + 0x74),0x248c8000);
+    if (*(uint *)(param_1 + 0x74) != 0) {
+      fn_8265C990(*(uint *)(param_1 + 0x74),0x248c8000);
       *(undefined4 *)(param_1 + 0x74) = 0;
     }
     *(undefined4 *)(param_1 + 0x40) = 0;

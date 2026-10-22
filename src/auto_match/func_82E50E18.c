@@ -32,7 +32,7 @@ void fn_82E50E18(int param_1,undefined4 *param_2,undefined4 *param_3)
 {
   int iVar1;
   
-  if (*(int *)(param_1 + 0x2c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x2c) > 0) {
     *param_2 = *(undefined4 *)(param_1 + 0x1c);
     *param_3 = 1;
     *(undefined4 *)(param_1 + 0x34) = 1;
@@ -40,12 +40,12 @@ void fn_82E50E18(int param_1,undefined4 *param_2,undefined4 *param_3)
     *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + -1;
     return;
   }
-  if (*(int *)(param_1 + 0x24) != 0) {
+  if (*(unsigned int *)(param_1 + 0x24) > 0) {
     *param_2 = *(undefined4 *)(param_1 + 0x20);
     *param_3 = *(undefined4 *)(param_1 + 0x24);
-    iVar1 = *(int *)(param_1 + 0x24);
+    iVar1 = *(int *)(param_1 + 0x28) + *(int *)(param_1 + 0x24);
     *(undefined4 *)(param_1 + 0x24) = 0;
-    *(int *)(param_1 + 0x28) = *(int *)(param_1 + 0x28) + iVar1;
+    *(int *)(param_1 + 0x28) = iVar1;
     return;
   }
   *param_2 = 0;

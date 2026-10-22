@@ -30,11 +30,11 @@ extern int fn_82E23588();
 extern int fn_82E23728();
 
 
-longlong fn_82E22EB0(int param_1,undefined4 param_2,undefined4 param_3,int param_4,
-                      undefined8 param_5)
+int fn_82E22EB0(int param_1,undefined4 param_2,undefined4 param_3,int param_4,
+                      unsigned int param_5)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined4 uVar2;
   
   lVar1 = fn_82E23728(param_1 + 0x30,param_1 + 0x20);

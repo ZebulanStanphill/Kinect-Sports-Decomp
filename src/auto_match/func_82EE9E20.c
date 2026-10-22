@@ -36,10 +36,10 @@ undefined4 fn_82EE9E20(int param_1,ulonglong param_2)
   undefined4 *puVar4;
   undefined4 *puVar5;
   
+  puVar5 = (undefined4 *)0;
   if (param_2 != 0) {
     iVar3 = ((int)(param_2 % 0x1f5) + 0x20d) * 4;
     puVar4 = *(undefined4 **)(iVar3 + param_1);
-    puVar5 = (undefined4 *)0x0;
     while (puVar2 = puVar4, puVar2 != (undefined4 *)0x0) {
       if (*(ulonglong *)(puVar2 + 8) == param_2) {
         if (puVar5 == (undefined4 *)0x0) {

@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83023568();
-extern int fn_830235F0();
+extern unsigned char fn_83023568();
+extern unsigned char fn_830235F0();
 extern int fn_83023608();
 extern int fn_83023618();
 extern unsigned int lbl_832643B0;
@@ -35,7 +35,7 @@ extern unsigned int lbl_832643B0;
 undefined2 fn_82FEBF78(void)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   undefined2 uVar1;
   
   RtlEnterCriticalSection((ulonglong)lbl_832643B0 + 8);

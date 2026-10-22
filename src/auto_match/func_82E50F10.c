@@ -34,15 +34,15 @@ extern unsigned int uStack_1c;
 undefined8 fn_82E50F10(int param_1)
 
 {
-  longlong lVar1;
-  int iVar2;
+  int lVar1;
+  uint iVar2;
   int iStack_20;
   undefined4 uStack_1c;
   
   iStack_20 = 0;
   uStack_1c = 0;
-  RtlEnterCriticalSection();
-  lVar1 = (ulonglong)*(uint *)(param_1 + 0x30) - 1;
+  RtlEnterCriticalSection(param_1);
+  lVar1 = *(int *)(param_1 + 0x30) - 1;
   *(int *)(param_1 + 0x30) = (int)lVar1;
   iVar2 = 0;
   if (lVar1 == 0) {

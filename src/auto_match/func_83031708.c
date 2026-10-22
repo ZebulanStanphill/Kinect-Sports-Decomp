@@ -1,59 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83031668();
+extern uint *fn_83031668(void *);
 
-
-int * fn_83031708(int *param_1,int param_2)
-
+static uint *find(uint **self, uint key)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  param_1 = (int *)*param_1;
-  do {
-    if (param_1 == (int *)0x0) {
-      piVar2 = (int *)0x0;
-LAB_83031758:
-      piVar1 = (int *)fn_83031668();
-      if (piVar1 != (int *)0x0) {
-        piVar2 = piVar1 + 1;
-        *piVar1 = param_2;
-      }
-      return piVar2;
+    uint *p = *self;
+    while (p) {
+        if (p[1] == key)
+            return p + 2;
+        p = (uint *)p[0];
     }
-    if (param_1[1] == param_2) {
-      piVar2 = param_1 + 2;
-      if (param_1 != (int *)0xfffffff8) {
-        return piVar2;
-      }
-      goto LAB_83031758;
-    }
-    param_1 = (int *)*param_1;
-  } while( true );
+    return 0;
 }
 
+uint *fn_83031708(uint **self, uint key)
+{
+    uint *found = find(self, key);
+    if (!found) {
+        uint *p = fn_83031668(self);
+        if (p) {
+            uint *result = p + 1;
+            result[-1] = key;
+            return result;
+        }
+    }
+    return found;
+}

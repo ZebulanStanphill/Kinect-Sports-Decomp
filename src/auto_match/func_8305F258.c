@@ -40,7 +40,7 @@ void fn_8305F258(undefined4 *param_1)
     fn_830615A8(param_1[10],param_1);
   }
   if (param_1[4] != 0) {
-    (**(code **)(*(int *)lbl_831BCA54 + 4))();
+    (*(code *)(*(int *)lbl_831BCA54 + 4))(lbl_831BCA54,param_1[4]);
   }
   *param_1 = &lbl_8217E8A8;
   if (param_1[3] != 0) {
