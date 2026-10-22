@@ -1,66 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82819398();
-extern int fn_8281A000();
-extern int fn_82822E38();
-extern int fn_82822F60();
-extern int fn_828233A0();
+typedef struct Entry {
+    char pad00[0x10];
+    char f10[0x10];
+    unsigned int base;
+    char pad24[0xc];
+    short prev;
+    short next;
+    char pad34[2];
+    unsigned char flags;
+    char pad37[5];
+    int offset;
+} Entry;
 
+typedef struct Obj {
+    char pad00[0x7c];
+    Entry *entries;
+    char pad80[4];
+    char f84[4];
+    char f88[0x50];
+    char fd8[0x30];
+    short head;
+} Obj;
 
-longlong fn_8281ACA8(int param_1,short *param_2,undefined8 param_3,ulonglong param_4,
-                      longlong param_5,longlong param_6)
+extern void fn_8281A000(Obj *o, short *idx, int p3, unsigned short align, int size);
+extern void fn_82819398(Entry *e, void *list, short idx);
+extern void fn_82822E38(void *p);
+extern void fn_82822F60(void *list, Entry *e, void (*cb)(void), int p4);
+extern void fn_828233A0(void *p);
+extern void fn_82819260(void);
 
+int fn_8281ACA8(Obj *o, short *idx, int p3, unsigned short align, int a, int b)
 {
-  short sVar1;
-  int iVar2;
-  int iVar3;
-  
-  fn_8281A000();
-  iVar2 = *(int *)(param_1 + 0x7c);
-  fn_82819398(iVar2,param_1 + 0x84,*param_2);
-  fn_82822E38(*param_2 * 0x40 + iVar2);
-  fn_82822E38(*param_2 * 0x40 + iVar2 + 0x10);
-  fn_828233A0(param_1 + 0xd8);
-  sVar1 = *param_2;
-  if (*(short *)(param_1 + 0x108) != -1) {
-    *(short *)(*(short *)(param_1 + 0x108) * 0x40 + iVar2 + 0x32) = sVar1;
-  }
-  iVar3 = sVar1 * 0x40 + iVar2;
-  *(undefined2 *)(iVar3 + 0x30) = *(undefined2 *)(param_1 + 0x108);
-  *(undefined2 *)(iVar3 + 0x32) = 0xffff;
-  *(short *)(param_1 + 0x108) = sVar1;
-  fn_82822F60(param_1 + 0x88,*param_2 * 0x40 + iVar2,0xffffffff82819260,0);
-  iVar3 = *param_2 * 0x40 + iVar2;
-  param_6 = (((ulonglong)*(uint *)(iVar3 + 0x20) + (param_4 & 0xffff) + param_5 + param_6) - 1 &
-            ~((param_4 & 0xffff) - 1)) - param_6;
-  *(int *)(iVar3 + 0x3c) = (int)param_6;
-  iVar2 = *param_2 * 0x40 + iVar2;
-  *(byte *)(iVar2 + 0x36) = *(byte *)(iVar2 + 0x36) | 1;
-  return param_6 - param_5;
-}
+    Entry *e;
+    short i;
+    int off;
 
+    fn_8281A000(o, idx, p3, align, a + b);
+    e = o->entries;
+    fn_82819398(e, o->f84, *idx);
+    fn_82822E38(&e[*idx]);
+    fn_82822E38(e[*idx].f10);
+    fn_828233A0(o->fd8);
+    i = *idx;
+    if (o->head != -1) {
+        e[o->head].next = i;
+    }
+    e[i].prev = o->head;
+    e[i].next = -1;
+    o->head = i;
+    fn_82822F60(o->f88, &e[*idx], fn_82819260, 0);
+    off = ((e[*idx].base + align + a + b - 1) & ~(align - 1)) - b;
+    e[*idx].offset = off;
+    e[*idx].flags |= 1;
+    return off - a;
+}

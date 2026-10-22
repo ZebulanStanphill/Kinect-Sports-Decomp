@@ -1,45 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82639F78();
-
-
-void fn_82853BC0(int param_1,int param_2,int param_3)
-
+typedef struct { int a; int b; } Pair;
+typedef struct Entry {
+    char pad[0x28];
+    int x28;
+    int pad2c;
+    Pair *x30;
+    int pad34;
+    int x38;
+} Entry;
+typedef struct { char pad[0x40]; Entry *entries; } Tbl;
+typedef struct { char pad[0x48]; Tbl *tbl; } P3;
+typedef struct { int x0; unsigned int n; int idx; int xc; int x10; } P2;
+typedef struct { int x0; int x4; } P1;
+extern void fn_82639F78(int a, unsigned int b, int c, int d, int e, U64 f);
+void fn_82853BC0(P1 *p1, P2 *p2, P3 *p3)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_2 + 8) * 0x3c + *(int *)(*(int *)(param_3 + 0x48) + 0x40);
-  fn_82639F78(*(undefined4 *)(param_1 + 4),(ulonglong)*(uint *)(param_2 + 4),
-                    *(undefined4 *)(*(int *)(iVar1 + 0x38) * 8 + *(int *)(iVar1 + 0x30)),
-                    *(undefined4 *)(param_2 + 0x10),*(undefined4 *)(iVar1 + 0x28),
-                    0x8000000000000000 >>
-                    ((((0x5f - (ulonglong)*(uint *)(param_2 + 4)) * 0x5556 & 0xffffffff) >> 0x10) +
-                     0x20 & 0x7f));
-  return;
+    Entry *entries = p3->tbl->entries;
+    int idx = p2->idx;
+    fn_82639F78(p1->x4, p2->n, entries[idx].x30[entries[idx].x38].a, p2->x10, entries[idx].x28,
+                0x8000000000000000ULL >> (((0x5f - p2->n) * 0x5556 >> 16) + 0x20));
 }
-

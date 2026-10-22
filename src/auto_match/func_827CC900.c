@@ -1,88 +1,103 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827CC638();
-extern int fn_827CC758();
-extern int fn_827CC8F0();
+typedef struct jpeg_decompress_struct *j_decompress_ptr;
 
+struct jpeg_error_mgr {
+  void (*error_exit)(j_decompress_ptr cinfo);
+  int pad[4];
+  int msg_code;
+  int msg_parm_i[8];
+};
 
-void fn_827CC900(int *param_1)
+struct jpeg_memory_mgr {
+  void *(*alloc_small)(j_decompress_ptr cinfo, int pool_id, unsigned int sizeofobject);
+  void *(*alloc_large)(j_decompress_ptr cinfo, int pool_id, unsigned int sizeofobject);
+  void **(*alloc_sarray)(j_decompress_ptr cinfo, int pool_id, unsigned int samplesperrow, unsigned int numrows);
+};
 
+struct jpeg_color_quantizer {
+  void (*start_pass)(j_decompress_ptr cinfo, int is_pre_scan);
+  void (*color_quantize)(j_decompress_ptr cinfo);
+  void (*finish_pass)(j_decompress_ptr cinfo);
+  void (*new_color_map)(j_decompress_ptr cinfo);
+};
+
+typedef struct {
+  struct jpeg_color_quantizer pub;
+  void **sv_colormap;
+  int desired;
+  void **histogram;
+  unsigned char needs_zeroed;
+  short *fserrors;
+  unsigned char on_odd_row;
+  int *error_limiter;
+} my_cquantizer;
+
+struct jpeg_decompress_struct {
+  struct jpeg_error_mgr *err;
+  struct jpeg_memory_mgr *mem;
+  char pad8[0x4c - 8];
+  int dither_mode;
+  char pad50[0x54 - 0x50];
+  int desired_number_of_colors;
+  char pad58[2];
+  unsigned char enable_2pass_quant;
+  char pad5b;
+  unsigned int output_width;
+  char pad60[0x64 - 0x60];
+  int out_color_components;
+  char pad68[0x1a8 - 0x68];
+  struct jpeg_color_quantizer *cquantize;
+};
+
+extern void fn_827CC638(j_decompress_ptr cinfo);
+extern void fn_827CC758(j_decompress_ptr cinfo, int is_pre_scan);
+extern void fn_827CC8F0(j_decompress_ptr cinfo);
+
+void fn_827CC900(j_decompress_ptr cinfo)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  puVar1 = (undefined4 *)(**(code **)param_1[1])(param_1,1,0x2c);
-  param_1[0x6a] = (int)puVar1;
-  puVar1[8] = 0;
-  *puVar1 = fn_827CC758;
-  puVar1[3] = fn_827CC8F0;
-  puVar1[10] = 0;
-  if (param_1[0x19] != 3) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x2f;
-    (**(code **)*param_1)(param_1);
-  }
-  uVar2 = (**(code **)param_1[1])(param_1,1,0x80);
-  puVar1[6] = uVar2;
-  iVar3 = 0;
-  do {
-    uVar2 = (**(code **)(param_1[1] + 4))(param_1,1,0x1000);
-    *(undefined4 *)(iVar3 + puVar1[6]) = uVar2;
-    iVar3 = iVar3 + 4;
-  } while (iVar3 < 0x80);
-  *(undefined1 *)(puVar1 + 7) = 1;
-  if (*(char *)((int)param_1 + 0x5a) == '\0') {
-    puVar1[4] = 0;
-  }
-  else {
-    iVar3 = param_1[0x15];
-    if (iVar3 < 8) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x38;
-      *(undefined4 *)(*param_1 + 0x18) = 8;
-      (**(code **)*param_1)(param_1);
-    }
-    if (0x100 < iVar3) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x39;
-      *(undefined4 *)(*param_1 + 0x18) = 0x100;
-      (**(code **)*param_1)(param_1);
-    }
-    uVar2 = (**(code **)(param_1[1] + 8))(param_1,1,iVar3,3);
-    puVar1[4] = uVar2;
-    puVar1[5] = iVar3;
-  }
-  if (param_1[0x13] != 0) {
-    param_1[0x13] = 2;
-  }
-  if (param_1[0x13] == 2) {
-    uVar2 = (**(code **)(param_1[1] + 4))(param_1,1,((ulonglong)(uint)param_1[0x17] + 2) * 6);
-    puVar1[8] = uVar2;
-    fn_827CC638(param_1);
-  }
-  return;
-}
+  my_cquantizer *cquantize;
+  int i;
 
+  cquantize = (my_cquantizer *)(*cinfo->mem->alloc_small)(cinfo, 1, sizeof(my_cquantizer));
+  cinfo->cquantize = (struct jpeg_color_quantizer *)cquantize;
+  cquantize->fserrors = 0;
+  cquantize->pub.start_pass = fn_827CC758;
+  cquantize->pub.new_color_map = fn_827CC8F0;
+  cquantize->error_limiter = 0;
+
+  if (cinfo->out_color_components != 3) {
+    cinfo->err->msg_code = 0x2f;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+
+  cquantize->histogram = (void **)(*cinfo->mem->alloc_small)(cinfo, 1, 32 * sizeof(void *));
+  for (i = 0; i < 32; i++) {
+    cquantize->histogram[i] = (*cinfo->mem->alloc_large)(cinfo, 1, 64 * 32 * sizeof(unsigned short));
+  }
+  cquantize->needs_zeroed = 1;
+
+  if (cinfo->enable_2pass_quant) {
+    int desired = cinfo->desired_number_of_colors;
+    if (desired < 8) {
+      cinfo->err->msg_code = 0x38;
+      cinfo->err->msg_parm_i[0] = 8;
+      (*cinfo->err->error_exit)(cinfo);
+    }
+    if (desired > 256) {
+      cinfo->err->msg_code = 0x39;
+      cinfo->err->msg_parm_i[0] = 256;
+      (*cinfo->err->error_exit)(cinfo);
+    }
+    cquantize->sv_colormap = (*cinfo->mem->alloc_sarray)(cinfo, 1, (unsigned int)desired, 3);
+    cquantize->desired = desired;
+  } else
+    cquantize->sv_colormap = 0;
+
+  if (cinfo->dither_mode != 0)
+    cinfo->dither_mode = 2;
+
+  if (cinfo->dither_mode == 2) {
+    cquantize->fserrors = (short *)(*cinfo->mem->alloc_large)(cinfo, 1,
+        (unsigned int)((cinfo->output_width + 2) * (3 * sizeof(short))));
+    fn_827CC638(cinfo);
+  }
+}

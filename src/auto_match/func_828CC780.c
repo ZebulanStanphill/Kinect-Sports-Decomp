@@ -1,51 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82240D08();
-extern int fn_82898968();
-extern int fn_828B55B0();
-extern int fn_828BDE70();
-extern unsigned int lbl_82023ABC;
-extern unsigned int lbl_82023AC0;
-extern unsigned int lbl_82023C3C;
+extern void fn_82240D08(void *p);
+extern void fn_82898968(void *a, void *b);
+extern void fn_828B55B0(void *p);
+extern void fn_828BDE70(void *p);
+extern char lbl_82023ABC[];
+extern char lbl_82023AC0[];
+extern char lbl_82023C3C[];
 
+typedef struct Sub {
+    void *vt;
+    int f4;
+    char m8[4];
+} Sub;
 
-void fn_828CC780(undefined4 *param_1)
+typedef struct Obj {
+    void *vt;
+    char pad4[0x4c];
+    void *vt50;
+    char pad54[0x30];
+    void *owner;
+    char m88[0x10];
+    Sub sub;
+} Obj;
 
+static void Sub_dtor(Sub *s)
 {
-  *param_1 = &lbl_82023AC0;
-  param_1[0x14] = &lbl_82023ABC;
-  if (param_1[0x21] != 0) {
-    fn_82898968(param_1[0x21],param_1);
-  }
-  param_1[0x26] = &lbl_82023C3C;
-  fn_828B55B0(param_1 + 0x28);
-  fn_82240D08(param_1 + 0x22);
-  fn_828BDE70(param_1);
-  return;
+    s->vt = lbl_82023C3C;
+    fn_828B55B0(s->m8);
 }
 
+void fn_828CC780(Obj *p)
+{
+    p->vt = lbl_82023AC0;
+    p->vt50 = lbl_82023ABC;
+    if (p->owner != 0) {
+        fn_82898968(p->owner, p);
+    }
+    Sub_dtor(&p->sub);
+    fn_82240D08(p->m88);
+    fn_828BDE70(p);
+}

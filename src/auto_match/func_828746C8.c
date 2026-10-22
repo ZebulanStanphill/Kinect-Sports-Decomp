@@ -42,8 +42,8 @@ undefined8 fn_828746C8(int param_1)
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
-  char cVar4;
-  undefined8 uVar3;
+  unsigned char cVar4;
+  void *uVar3;
   undefined4 auStack_90 [4];
   undefined1 auStack_80 [32];
   undefined1 auStack_60 [32];
@@ -52,16 +52,16 @@ undefined8 fn_828746C8(int param_1)
   puVar1 = *(undefined4 **)(param_1 + 4);
   puVar2 = (undefined4 *)*puVar1;
   while (puVar2 != puVar1) {
-    cVar4 = (*(code *)**(undefined4 **)puVar2[2])();
+    cVar4 = (*(unsigned char (**)(void *))*(int *)puVar2[2])((void *)puVar2[2]);
     if (cVar4 == '\0') {
-      uVar3 = (**(code **)(*(int *)puVar2[2] + 0x44))(auStack_40);
+      uVar3 = (*(void *(**)(void *, void *))(*(int *)puVar2[2] + 0x44))(auStack_40,(void *)puVar2[2]);
       fn_828648B8(auStack_80,uVar3);
       fn_82240378(auStack_60,auStack_80);
       fn_82230300(auStack_80,1,0);
       fn_82864898(auStack_40);
       auStack_90[0] = puVar2[2];
       puVar2 = (undefined4 *)*puVar2;
-      fn_82873AA0(param_1);
+      fn_82873AA0(param_1,auStack_90[0]);
       fn_82873A00(param_1,auStack_90);
       fn_82230300(auStack_60,1,0);
     }

@@ -1,52 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node {
+    char pad[0x1c];
+    unsigned int count;
+    unsigned int *children;
+    char pad2[4];
+    unsigned int mark;
+} Node;
 
-
-undefined8 fn_8294B608(undefined8 param_1,int param_2,int param_3,ulonglong param_4)
-
+int fn_8294B608(int a, Node **nodes, Node *n, unsigned int v)
 {
-  int iVar1;
-  uint uVar2;
-  
-  if ((ulonglong)*(uint *)(param_3 + 0x28) != (param_4 & 0xffffffff)) {
-    uVar2 = 0;
-    *(int *)(param_3 + 0x28) = (int)param_4;
-    if (*(int *)(param_3 + 0x1c) != 0) {
-      iVar1 = 0;
-      do {
-        fn_8294B608(param_1,param_2,
-                      *(undefined4 *)(*(int *)(*(int *)(param_3 + 0x20) + iVar1) * 4 + param_2),
-                      param_4);
-        uVar2 = uVar2 + 1;
-        iVar1 = iVar1 + 4;
-      } while (uVar2 < *(uint *)(param_3 + 0x1c));
+    unsigned int i;
+    if (n->mark != v) {
+        n->mark = v;
+        for (i = 0; i < n->count; i++)
+            fn_8294B608(a, nodes, nodes[n->children[i]], v);
     }
-  }
-  return 0;
+    return 0;
 }
-

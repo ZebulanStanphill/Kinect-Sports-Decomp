@@ -1,95 +1,87 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82904138();
-extern int fn_82909950();
-extern int fn_8290AAE0();
-extern int fn_82913308();
-extern int fn_82F68CC0();
+typedef unsigned int size_t;
+extern void *memcpy(void *d, const void *s, size_t n);
+extern void *fn_8265C940(int size, int tag);
+extern void fn_8265C990(void *p, int tag);
+extern void fn_82904138(void *o, int a, int b, void *buf);
+extern int fn_82909950(void *o, void *a, void *b, void *c, void *d, void *buf);
+extern int fn_8290AAE0(void *o, void *a, void *b, void *c, void *d, void *buf);
+extern int fn_82913308(void *o, void *a, int z);
 
+typedef struct { char pad[0x1c]; int count; } Info;
+typedef struct {
+    char pad0[8];
+    int a8;
+    int ac;
+    char pad10[0x5c - 0x10];
+    void *p5c;
+    char pad60[0x70 - 0x60];
+    unsigned int flags;
+} Desc;
+typedef struct {
+    int pad0;
+    Info *info;
+    Desc *desc;
+    char padc[0x18 - 0xc];
+    void *src;
+    char pad1c[0x4c - 0x1c];
+    int f4c;
+    int f50;
+    int f54;
+    int f58;
+    int f5c;
+    int f60;
+} Obj;
 
-uint fn_82913188(int param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4,
-                  ulonglong param_5)
-
+int fn_82913188(Obj *o, void *a, void *b, void *c, void *d)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  int iVar6;
-  uint uVar8;
-  longlong lVar7;
-  
-  if (((param_3 & 0xffffffff) != 0) &&
-     (((param_5 & 0xffffffff) != (param_3 & 0xffffffff) ||
-      ((*(uint *)(*(int *)(param_1 + 8) + 0x70) & 0x10000000) == 0)))) {
-    uVar8 = fn_82913308(param_1,param_3,0);
-    if ((int)uVar8 < 0) {
-      return uVar8;
-    }
-    if ((*(int *)(param_1 + 0x50) != 0) || (*(int *)(param_1 + 0x54) != 0)) {
-      return 0;
-    }
-    param_3 = 0;
-  }
-  uVar1 = *(undefined4 *)(*(int *)(param_1 + 8) + 8);
-  iVar6 = *(int *)(*(int *)(param_1 + 4) + 0x1c) << 2;
-  uVar2 = *(undefined4 *)(*(int *)(param_1 + 8) + 0xc);
-  lVar7 = fn_8265C940(iVar6,0x24810000);
-  if (lVar7 == 0) {
-    uVar8 = 0x8007000e;
-  }
-  else {
-    fn_82F68CC0(lVar7,*(undefined4 *)(param_1 + 0x18),iVar6);
-    if (*(int *)(*(int *)(param_1 + 8) + 0x5c) != 0) {
-      uVar3 = *(undefined4 *)(param_1 + 0x58);
-      uVar4 = *(undefined4 *)(param_1 + 0x5c);
-      uVar5 = *(undefined4 *)(param_1 + 0x60);
-      *(undefined4 *)(param_1 + 0x58) = 1;
-      *(undefined4 *)(param_1 + 0x5c) = 0;
-      *(undefined4 *)(param_1 + 0x60) = 0;
-      uVar8 = fn_82909950(param_1,param_2,param_3,param_4,param_5,lVar7);
-      *(undefined4 *)(param_1 + 0x58) = uVar3;
-      *(undefined4 *)(param_1 + 0x5c) = uVar4;
-      *(undefined4 *)(param_1 + 0x4c) = 0;
-      *(undefined4 *)(param_1 + 0x50) = 0;
-      *(undefined4 *)(param_1 + 0x54) = 0;
-      *(undefined4 *)(param_1 + 0x60) = uVar5;
-      if (-1 < (int)uVar8) goto LAB_829132f0;
-      fn_82904138(param_1,uVar1,uVar2,lVar7);
-    }
-    uVar8 = fn_8290AAE0(param_1,param_2,param_3,param_4,param_5,lVar7);
-    uVar8 = (int)uVar8 >> 0x1f & uVar8;
-  }
-LAB_829132f0:
-  fn_8265C990(lVar7,0x24810000);
-  return uVar8;
-}
+    int hr;
+    int sa;
+    int sb;
+    int size;
+    void *buf;
+    int s58, s5c, s60;
 
+    if (b != 0 && (d != b || (o->desc->flags & 0x10000000) == 0)) {
+        hr = fn_82913308(o, b, 0);
+        if (hr < 0) {
+            return hr;
+        }
+        if (o->f50 != 0 || o->f54 != 0) {
+            return 0;
+        }
+        b = 0;
+    }
+    sa = o->desc->a8;
+    size = o->info->count * 4;
+    sb = o->desc->ac;
+    buf = fn_8265C940(size, 0x24810000);
+    if (buf == 0) {
+        hr = 0x8007000e;
+    } else {
+        memcpy(buf, o->src, size);
+        if (o->desc->p5c != 0) {
+            s58 = o->f58;
+            s5c = o->f5c;
+            s60 = o->f60;
+            o->f58 = 1;
+            o->f5c = 0;
+            o->f60 = 0;
+            hr = fn_82909950(o, a, b, c, d, buf);
+            o->f58 = s58;
+            o->f5c = s5c;
+            o->f4c = 0;
+            o->f50 = 0;
+            o->f54 = 0;
+            o->f60 = s60;
+            if (hr >= 0) {
+                goto done;
+            }
+            fn_82904138(o, sa, sb, buf);
+        }
+        hr = fn_8290AAE0(o, a, b, c, d, buf);
+        hr = hr < 0 ? hr : 0;
+    }
+done:
+    fn_8265C990(buf, 0x24810000);
+    return hr;
+}

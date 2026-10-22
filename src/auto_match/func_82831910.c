@@ -26,39 +26,39 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82831868();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
 
 
 void fn_82831910(int param_1,int param_2)
 
 {
-  int iVar1;
-  int iStack_20;
-  int iStack_1c;
+  uint iVar1, a, b;
+  struct { uint a,b; } t;
   
-  if (*(int *)(param_2 + 0x14) != 0) {
-    iStack_20 = *(int *)(param_1 + 0x2c8);
-    if (*(int *)(param_2 + 0x14) != iStack_20) {
-      iStack_1c = *(int *)(param_1 + 0x2b8);
-      if (iStack_1c != 0) {
-        *(int *)(param_1 + 0xb0) = *(int *)(param_1 + 0xb0) + 1;
+  if (*(uint *)(param_2 + 0x14) != 0) {
+    a = *(uint *)(param_1 + 0x2c8);
+    if (*(uint *)(param_2 + 0x14) != a) {
+      b = *(uint *)(param_1 + 0x2b8);
+      if (b != 0) {
+        *(uint *)(param_1 + 0xb0) = *(uint *)(param_1 + 0xb0) + 1;
         if (*(char *)(param_1 + 1000) == '\0') {
-          fn_82831868(&iStack_20,*(undefined4 *)(param_1 + 0x3c0));
+          t.a = a;
+          t.b = b;
+          fn_82831868(&t.a,*(undefined4 *)(param_1 + 0x3c0));
         }
         *(undefined4 *)(param_1 + 0x2b8) = 0;
       }
       *(undefined4 *)(param_1 + 0x2c8) = *(undefined4 *)(param_2 + 0x14);
     }
-    iVar1 = *(int *)(param_1 + 700) + 1;
-    *(int *)(param_1 + 700) = iVar1;
-    iStack_1c = *(int *)(param_1 + 0x2b8) + 1;
-    *(int *)(param_1 + 0x2b8) = iStack_1c;
-    if (iVar1 == *(int *)(param_1 + 0xb4)) {
-      *(int *)(param_1 + 0xb0) = *(int *)(param_1 + 0xb0) + 1;
+    iVar1 = *(uint *)(param_1 + 700) + 1;
+    *(uint *)(param_1 + 700) = iVar1;
+    b = *(uint *)(param_1 + 0x2b8) + 1;
+    *(uint *)(param_1 + 0x2b8) = b;
+    if (iVar1 == *(uint *)(param_1 + 0xb4)) {
+      *(uint *)(param_1 + 0xb0) = *(uint *)(param_1 + 0xb0) + 1;
       if (*(char *)(param_1 + 1000) == '\0') {
-        iStack_20 = *(int *)(param_1 + 0x2c8);
-        fn_82831868(&iStack_20,*(undefined4 *)(param_1 + 0x3c0));
+        t.a = *(uint *)(param_1 + 0x2c8);
+        t.b = b;
+        fn_82831868(&t.a,*(undefined4 *)(param_1 + 0x3c0));
       }
     }
   }

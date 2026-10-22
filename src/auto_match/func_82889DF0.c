@@ -28,12 +28,17 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_825089A0();
 
 
+static void clear(unsigned *p) {
+ unsigned v = p[0];
+ if (v) { int *a = (int *)fn_825089A0(); (*(code *)(*a + 0x28))(a,v); }
+ p[0]=0; p[1]=0; p[2]=0;
+}
 void fn_82889DF0(int *param_1)
 
 {
   int *piVar1;
-  int iVar2;
-  int iVar3;
+  uint iVar2;
+  uint iVar3;
   int *piVar4;
   int *piVar5;
   
@@ -47,27 +52,13 @@ void fn_82889DF0(int *param_1)
       iVar2 = piVar5[2];
       piVar1 = (int *)*piVar5;
       if (iVar2 != 0) {
-        iVar3 = *(int *)(iVar2 + 0x14);
-        if (iVar3 != 0) {
-          piVar4 = (int *)fn_825089A0();
-          (**(code **)(*piVar4 + 0x28))(piVar4,iVar3);
-        }
-        *(undefined4 *)(iVar2 + 0x14) = 0;
-        *(undefined4 *)(iVar2 + 0x18) = 0;
-        *(undefined4 *)(iVar2 + 0x1c) = 0;
-        iVar3 = *(int *)(iVar2 + 4);
-        if (iVar3 != 0) {
-          piVar4 = (int *)fn_825089A0();
-          (**(code **)(*piVar4 + 0x28))(piVar4,iVar3);
-        }
-        *(undefined4 *)(iVar2 + 4) = 0;
-        *(undefined4 *)(iVar2 + 8) = 0;
-        *(undefined4 *)(iVar2 + 0xc) = 0;
+        clear((unsigned *)(iVar2+0x14));
+        clear((unsigned *)(iVar2+4));
         piVar4 = (int *)fn_825089A0();
-        (**(code **)(*piVar4 + 0x28))(piVar4,iVar2);
+        (*(code *)(*piVar4 + 0x28))(piVar4,iVar2);
       }
       piVar4 = (int *)fn_825089A0();
-      (**(code **)(*piVar4 + 0x28))(piVar4,piVar5);
+      (*(code *)(*piVar4 + 0x28))(piVar4,piVar5);
       piVar5 = piVar1;
     } while (piVar1 != (int *)*param_1);
   }

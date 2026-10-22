@@ -1,75 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void *f0;
+    void (*get)(Obj *, unsigned int, unsigned int, void *);
+    void (*set)(Obj *, unsigned int, unsigned int, void *);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vtbl;
+    char pad04[0xc];
+    int f10;
+    char pad14[0x54];
+    unsigned int w;
+    unsigned int h;
+    unsigned int d;
+};
+typedef struct Pair {
+    Obj *a;
+    Obj *b;
+} Pair;
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void fn_8265C990(void *p, unsigned int flags);
 
+static void *Alloc(unsigned int n) { return fn_8265C940(n, 0x24810000); }
 
-undefined8 fn_82920E80(int *param_1)
-
+int fn_82920E80(Pair *p)
 {
-  int iVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  int iVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  
-  iVar4 = *param_1;
-  iVar1 = param_1[1];
-  if ((((*(int *)(iVar1 + 0x68) == *(int *)(iVar4 + 0x68)) &&
-       (*(int *)(iVar1 + 0x6c) == *(int *)(iVar4 + 0x6c))) &&
-      (*(int *)(iVar1 + 0x70) == *(int *)(iVar4 + 0x70))) &&
-     (lVar2 = fn_8265C940(*(int *)(iVar1 + 0x68) << 4,0x24810000), lVar2 != 0)) {
-    if ((*(int *)(param_1[1] + 0x10) != 0) && (*(int *)(*param_1 + 0x10) != 0)) {
-      *(undefined4 *)(param_1[1] + 0x10) = 0;
-      *(undefined4 *)(*param_1 + 0x10) = 0;
-    }
-    iVar4 = param_1[1];
-    uVar5 = 0;
-    if (*(int *)(iVar4 + 0x70) != 0) {
-      uVar3 = (ulonglong)*(uint *)(iVar4 + 0x6c);
-      do {
-        uVar6 = 0;
-        if (uVar3 != 0) {
-          do {
-            (**(code **)(*(int *)*param_1 + 4))((int *)*param_1,uVar6,uVar5,lVar2);
-            (**(code **)(*(int *)param_1[1] + 8))((int *)param_1[1],uVar6,uVar5,lVar2);
-            iVar4 = param_1[1];
-            uVar6 = uVar6 + 1;
-            uVar3 = (ulonglong)*(uint *)(iVar4 + 0x6c);
-          } while ((uVar6 & 0xffffffff) < uVar3);
-        }
-        uVar5 = uVar5 + 1;
-      } while ((uVar5 & 0xffffffff) < (ulonglong)*(uint *)(iVar4 + 0x70));
-    }
-    fn_8265C990(lVar2,0x24810000);
-    return 0;
-  }
-  return 0xffffffff80004005;
-}
+    void *buf;
+    unsigned int x;
+    unsigned int y;
 
+    if (p->b->w == p->a->w && p->b->h == p->a->h && p->b->d == p->a->d) {
+        buf = Alloc(p->b->w << 4);
+        if (buf != 0) {
+            if (p->b->f10 != 0 && p->a->f10 != 0) {
+                p->b->f10 = 0;
+                p->a->f10 = 0;
+            }
+            for (y = 0; y < p->b->d; y++) {
+                for (x = 0; x < p->b->h; x++) {
+                    p->a->vtbl->get(p->a, x, y, buf);
+                    p->b->vtbl->set(p->b, x, y, buf);
+                }
+            }
+            fn_8265C990(buf, 0x24810000);
+            return 0;
+        }
+    }
+    return 0x80004005;
+}

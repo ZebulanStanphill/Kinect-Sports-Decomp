@@ -1,54 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_828252D0();
+extern void *fn_8265C9E0(int);
+extern void *fn_828252D0(int);
 
+typedef struct { int a, b, c; } Inner;
+typedef struct { int a, b, c; Inner *d; } Outer;
 
-void fn_828261B0(undefined4 param_1,undefined4 param_2,undefined4 param_3,int *param_4)
-
+static Inner *Inner_ctor(Inner *p)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_828252D0(0x10);
-  *param_4 = (int)puVar1;
-  *puVar1 = param_1;
-  *(undefined4 *)(*param_4 + 4) = param_2;
-  *(undefined4 *)(*param_4 + 8) = param_3;
-  puVar1 = (undefined4 *)fn_8265C9E0(0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar1 = 0;
-    puVar1[1] = 0;
-    puVar1[2] = 0;
-  }
-  *(undefined4 **)(*param_4 + 0xc) = puVar1;
-  return;
+  p->a = 0;
+  p->b = 0;
+  p->c = 0;
+  return p;
 }
 
+void fn_828261B0(int param_1, int param_2, int param_3, Outer **param_4)
+{
+  Inner *mem;
+
+  *param_4 = (Outer *)fn_828252D0(0x10);
+  (*param_4)->a = param_1;
+  (*param_4)->b = param_2;
+  (*param_4)->c = param_3;
+  mem = (Inner *)fn_8265C9E0(0x10);
+  (*param_4)->d = mem ? Inner_ctor(mem) : 0;
+}

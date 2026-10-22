@@ -27,24 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827F9A10();
 extern int fn_827F9AB0();
-extern int fn_827FA720();
+extern int fn_827FA720(int, unsigned char);
 extern int fn_827FACF0();
 
 
-void fn_827F9BA0(int *param_1,undefined8 param_2)
+void fn_827F9BA0(int *param_1,int param_2)
 
 {
-  int iVar1;
-  ulonglong uVar2;
+  char *iVar1;
+  ushort uVar2;
   byte bVar3;
   
   param_1[0x26] = (int)param_2;
   uVar2 = fn_827F9A10(param_2);
-  fn_827F9AB0(param_2,(uVar2 & 0xffff) - 1);
+  fn_827F9AB0(param_2,uVar2 - 1);
   bVar3 = 0;
-  iVar1 = *(int *)(*param_1 + 0x30);
+  iVar1 = *(char **)(*param_1 + 0x30);
   if (iVar1 != 0) {
-    bVar3 = *(char *)(iVar1 + 0x1f) != '\0';
+    if (*(char *)(iVar1 + 0x1f) != 0) bVar3 |= 1;
     if (*(char *)(iVar1 + 0x20) != '\0') {
       bVar3 = bVar3 | 2;
     }

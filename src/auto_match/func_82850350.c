@@ -38,27 +38,26 @@ extern unsigned int iStack_3c;
 void fn_82850350(int param_1,int param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   undefined4 uVar2;
   int iVar3;
-  longlong lVar4;
-  code *pcStack_40;
-  int iStack_3c;
+  int lVar4;
+  struct { code fn; int object; } callback;
   
   iVar1 = *(int *)(param_1 + 0x90);
-  if (iVar1 == 0) {
-    iVar3 = 0;
-  }
-  else {
+  if (iVar1 != 0) {
     iVar3 = *(int *)(param_2 + 4);
   }
-  uVar2 = *(undefined4 *)(iVar3 + 0x14);
-  if (*(int *)(iVar3 + 0x10) == 0) {
-    pcStack_40 = fn_8284F9B8;
-    iStack_3c = param_1;
-    fn_8285A8F8(iVar1,uVar2,&pcStack_40);
+  else {
+    iVar3 = 0;
   }
-  *(int *)(iVar3 + 0x10) = *(int *)(iVar3 + 0x10) + 1;
+  uVar2 = *(undefined4 *)(iVar3 + 0x14);
+  if (*(uint *)(iVar3 + 0x10) == 0) {
+    callback.fn = fn_8284F9B8;
+    callback.object = param_1;
+    fn_8285A8F8(iVar1,uVar2,&callback);
+  }
+  *(uint *)(iVar3 + 0x10) = *(uint *)(iVar3 + 0x10) + 1;
   fn_8284FBD0(iVar1,uVar2,param_1,param_2);
   lVar4 = 0;
   iVar3 = fn_8285A840(iVar1,uVar2);

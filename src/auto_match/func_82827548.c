@@ -1,58 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82518FF0();
-extern int fn_828223C8();
-extern unsigned int iStack_40;
-
-
-void fn_82827548(int param_1,int *param_2,int *param_3)
-
+typedef struct Node { struct Node *next; int pad[4]; int x14; } Node;
+typedef struct { int x0; Node *head; } List;
+typedef struct Item { char pad[0x28]; List *list; } Item;
+extern void fn_82518FF0(Node **it);
+extern void fn_828223C8(void *cur, Item **next);
+static Item *nextItem(void *cur) { Item *next; fn_828223C8(cur, &next); return next; }
+void fn_82827548(char *param_1, int *count, int *total)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  int iStack_40;
-  undefined4 * apuStack_3c;
-  
-  param_1 = param_1 + 0x2f4;
-  iVar3 = 0;
-  iVar2 = 0;
-  while (fn_828223C8(param_1,&iStack_40), param_1 = iStack_40, iStack_40 != 0) {
-    puVar1 = *(undefined4 **)(*(int *)(iStack_40 + 0x28) + 4);
-    apuStack_3c = (undefined4 *)*puVar1;
-    while (apuStack_3c != puVar1) {
-      iVar3 = iVar3 + 1;
-      iVar2 = apuStack_3c[5] + iVar2;
-      fn_82518FF0(&apuStack_3c);
-    }
-  }
-  *param_2 = iVar3;
-  *param_3 = iVar2;
-  return;
-}
+    Item *it;
+    Node *head;
+    Node *n;
+    int c = 0;
+    int s = 0;
 
+    it = (Item *)(param_1 + 0x2f4);
+    while ((it = nextItem(it)) != 0) {
+        head = it->list->head;
+        n = head->next;
+        while (n != head) {
+            c++;
+            s += n->x14;
+            fn_82518FF0(&n);
+        }
+    }
+    *count = c;
+    *total = s;
+}

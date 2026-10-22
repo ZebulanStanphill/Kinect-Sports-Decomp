@@ -34,11 +34,11 @@ fn_82862D20(float *param_1,float *param_2,float *param_3,float *param_4,float *p
 {
   float fVar1;
   
-  if ((((*param_3 <= *param_2) && (*param_1 <= *param_4)) && (param_3[1] <= param_2[1])) &&
-     (param_1[1] <= param_4[1])) {
+  if ((((*param_3 <= *param_2) && (*param_4 >= *param_1)) && (param_3[1] <= param_2[1])) &&
+     (param_4[1] >= param_1[1])) {
     *param_7 = 0;
     fVar1 = param_1[1];
-    if (fVar1 < param_3[1]) {
+    if (param_3[1] > fVar1) {
       *param_7 = 4;
       fVar1 = param_3[1];
     }
@@ -50,7 +50,7 @@ fn_82862D20(float *param_1,float *param_2,float *param_3,float *param_4,float *p
     }
     param_6[1] = fVar1;
     fVar1 = *param_1;
-    if (fVar1 < *param_3) {
+    if (*param_3 > fVar1) {
       *param_7 = *param_7 | 1;
       fVar1 = *param_3;
     }

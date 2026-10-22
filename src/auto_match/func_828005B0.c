@@ -28,18 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82817C98();
 extern int fn_828182C0();
 
-
-undefined8 fn_828005B0(int *param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+int fn_828005B0(void ***param_1, int param_2, int param_3, int param_4)
 {
-  int iVar1;
-  int aiStack_20 [4];
-  
-  if (((*param_1 != 0) && (iVar1 = *(int *)((param_2 + 0xe) * 4 + *param_1), iVar1 != 0)) &&
-     (fn_828182C0(iVar1,param_3,0,aiStack_20), aiStack_20[0] != 0)) {
-    fn_82817C98(aiStack_20[0],param_4);
-    return 1;
+  void *out;
+
+  if (*param_1 != 0 && (*param_1)[param_2 + 0xe] != 0) {
+    fn_828182C0((*param_1)[param_2 + 0xe], param_3, 0, &out);
+    if (out != 0) {
+      fn_82817C98(out, param_4);
+      return 1;
+    }
   }
   return 0;
 }
-
