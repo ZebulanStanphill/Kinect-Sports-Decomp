@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8234DA10(int param_1,int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if (*(int *)(param_2 + 8) == 0) {
     *(uint *)(param_1 + 200) = *(uint *)(param_1 + 200) + 1;

@@ -33,7 +33,7 @@ extern int fn_82508078();
 void fn_82370330(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   fn_82375E60();
   lVar1 = fn_8236FB68(0x17);
