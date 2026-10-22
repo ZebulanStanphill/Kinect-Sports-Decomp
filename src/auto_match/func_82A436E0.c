@@ -1,40 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct LockVtbl LockVtbl;
+typedef struct Lock { LockVtbl *vt; } Lock;
+struct LockVtbl {
+    void *s0;
+    void *s4;
+    void (*Enter)(Lock *l);
+    void *sc;
+    void *s10;
+    void (*Leave)(Lock *l);
+};
 
+typedef struct IfaceVtbl IfaceVtbl;
+typedef struct Iface { IfaceVtbl *vt; } Iface;
+struct IfaceVtbl {
+    void *s[8];
+    int (*Do)(Iface *i, int a);
+};
 
-undefined8 fn_82A436E0(int param_1)
+typedef struct Inner {
+    char pad0[0x2c];
+    Lock lock;
+} Inner;
 
+typedef struct Obj {
+    char pad0[0x34];
+    Inner *inner;
+    char pad38[0x90 - 0x38];
+    Iface *iface;
+} Obj;
+
+int fn_82A436E0(Obj *o)
 {
-  undefined8 uVar1;
-  
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 8))(*(int *)(param_1 + 0x34) + 0x2c);
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x90) + 0x20))(*(int **)(param_1 + 0x90),0);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c);
-  return uVar1;
-}
+    int r;
 
+    o->inner->lock.vt->Enter(&o->inner->lock);
+    r = o->iface->vt->Do(o->iface, 0);
+    o->inner->lock.vt->Leave(&o->inner->lock);
+    return r;
+}

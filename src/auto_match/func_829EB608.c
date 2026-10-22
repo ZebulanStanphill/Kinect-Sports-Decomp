@@ -1,48 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829E9CB0();
-extern int fn_829EAAD8();
-extern int fn_829EABB8();
-extern int fn_82A28E60();
-extern unsigned int lbl_832179FC;
+extern void fn_829E9CB0(void *p);
+extern void fn_829EAAD8(void *p);
+extern void fn_829EABB8(void *p);
+extern void fn_82A28E60(int h, int a, void *p);
+extern char *lbl_832179FC;
 
+typedef struct {
+  int a;
+  char m4[0x14];
+  char m18[0x10];
+} Sub;
 
-void fn_829EB608(int param_1)
+typedef struct {
+  int pad0;
+  void *p4;
+  int pad8;
+  Sub sub;
+  char m34[0x20];
+  char m54[0x18];
+  char m6c[0x18];
+} Obj;
 
+static void Sub_dtor(Sub *s)
 {
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0);
-  }
-  fn_829EAAD8(param_1 + 0x6c);
-  fn_829EAAD8(param_1 + 0x54);
-  fn_829EAAD8(param_1 + 0x34);
-  fn_829E9CB0(param_1 + 0x24);
-  fn_829EABB8(param_1 + 0x10);
-  return;
+  fn_829E9CB0(s->m18);
+  fn_829EABB8(s->m4);
 }
 
+void fn_829EB608(Obj *param_1)
+{
+  if (param_1->p4 != 0) {
+    fn_82A28E60(*(int *)(lbl_832179FC + 0x8f4cc), 0, param_1->p4);
+  }
+  fn_829EAAD8(param_1->m6c);
+  fn_829EAAD8(param_1->m54);
+  fn_829EAAD8(param_1->m34);
+  Sub_dtor(&param_1->sub);
+}

@@ -1,46 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829AB0F0();
-extern int fn_829AB128();
-extern int fn_829B9B60();
+typedef unsigned int png_uint_32;
+typedef struct png_struct_def {
+  char pad[0x558];
+  png_uint_32 mode;
+} png_struct;
+typedef png_struct *png_structp;
+typedef void *png_infop;
+extern void fn_829AB0F0(png_structp png_ptr, const char *msg);
+extern void fn_829AB128(png_structp png_ptr, const char *msg);
+extern int fn_829B9B60(png_structp png_ptr, png_uint_32 skip);
 
+#define PNG_HAVE_IHDR 0x01
+#define PNG_HAVE_IDAT 0x04
+#define PNG_AFTER_IDAT 0x08
+#define PNG_HAVE_IEND 0x10
 
-void fn_829BA0D8(int param_1,int param_2,ulonglong param_3)
-
+void fn_829BA0D8(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
-  if ((((*(uint *)(param_1 + 0x558) & 1) != 0) && ((*(uint *)(param_1 + 0x558) & 4) != 0)) ||
-     (fn_829AB0F0(param_1,0xffffffff82054dc4), param_2 != 0)) {
-    *(uint *)(param_1 + 0x558) = *(uint *)(param_1 + 0x558) | 0x18;
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_829AB128(param_1,0xffffffff82054da8);
-    }
-    fn_829B9B60(param_1,param_3);
-  }
-  return;
-}
+   if (!(png_ptr->mode & PNG_HAVE_IHDR) || !(png_ptr->mode & PNG_HAVE_IDAT))
+   {
+      fn_829AB0F0(png_ptr, "No image in file");
 
+      /* to quiet compiler warnings about unused info_ptr */
+      if (info_ptr == 0)
+         return;
+   }
+
+   png_ptr->mode |= (PNG_AFTER_IDAT | PNG_HAVE_IEND);
+
+   if (length != 0)
+   {
+      fn_829AB128(png_ptr, "Incorrect IEND chunk length");
+   }
+   fn_829B9B60(png_ptr, length);
+}

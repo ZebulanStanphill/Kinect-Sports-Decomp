@@ -1,66 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829B6CA8();
+typedef int boolean;
+typedef struct jpeg_decompress_struct *j_decompress_ptr;
 
+struct jpeg_error_mgr {
+    void (*error_exit)(j_decompress_ptr cinfo);
+    int pad4[4];
+    int msg_code;                       /* 0x14 */
+    union { int i[8]; } msg_parm;       /* 0x18 */
+};
 
-undefined8 fn_829AB850(int *param_1)
+struct jpeg_source_mgr {
+    int pad0[6];
+    void (*term_source)(j_decompress_ptr cinfo);   /* 0x18 */
+};
 
+struct jpeg_decomp_master {
+    void (*prepare_for_output_pass)(j_decompress_ptr cinfo);
+    void (*finish_output_pass)(j_decompress_ptr cinfo);
+};
+
+struct jpeg_input_controller {
+    int (*consume_input)(j_decompress_ptr cinfo);
+    int pad4[4];
+    boolean eoi_reached;                /* 0x14 */
+};
+
+struct jpeg_decompress_struct {
+    struct jpeg_error_mgr *err;         /* 0x00 */
+    int pad4[4];
+    int global_state;                   /* 0x14 */
+    struct jpeg_source_mgr *src;        /* 0x18 */
+    int pad1c[9];
+    boolean buffered_image;             /* 0x40 */
+    int pad44[12];
+    unsigned int output_height;         /* 0x74 */
+    int pad78[5];
+    unsigned int output_scanline;       /* 0x8c */
+    int pad90[70];
+    struct jpeg_decomp_master *master;  /* 0x1a8 */
+    int pad1ac[3];
+    struct jpeg_input_controller *inputctl; /* 0x1b8 */
+};
+
+extern void fn_829B6CA8(j_decompress_ptr cinfo);
+
+boolean fn_829AB850(j_decompress_ptr cinfo)
 {
-  int iVar1;
-  
-  iVar1 = param_1[5];
-  if (((iVar1 == 0xcd) || (iVar1 == 0xce)) && (param_1[0x10] == 0)) {
-    if ((uint)param_1[0x23] < (uint)param_1[0x1d]) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x43;
-      (**(code **)*param_1)(param_1);
+    if ((cinfo->global_state == 205 || cinfo->global_state == 206) &&
+        !cinfo->buffered_image) {
+        if (cinfo->output_scanline < cinfo->output_height) {
+            cinfo->err->msg_code = 67;
+            (*cinfo->err->error_exit)(cinfo);
+        }
+        (*cinfo->master->finish_output_pass)(cinfo);
+        cinfo->global_state = 210;
+    } else if (cinfo->global_state == 207) {
+        cinfo->global_state = 210;
+    } else if (cinfo->global_state != 210) {
+        cinfo->err->msg_code = 20;
+        cinfo->err->msg_parm.i[0] = cinfo->global_state;
+        (*cinfo->err->error_exit)(cinfo);
     }
-    (**(code **)(param_1[0x6a] + 4))(param_1);
-    param_1[5] = 0xd2;
-  }
-  else if (iVar1 == 0xcf) {
-    param_1[5] = 0xd2;
-  }
-  else if (iVar1 != 0xd2) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)(param_1);
-  }
-  iVar1 = *(int *)(param_1[0x6e] + 0x14);
-  while( true ) {
-    if (iVar1 != 0) {
-      (**(code **)(param_1[6] + 0x18))(param_1);
-      fn_829B6CA8(param_1);
-      return 1;
+    while (!cinfo->inputctl->eoi_reached) {
+        if ((*cinfo->inputctl->consume_input)(cinfo) == 0)
+            return 0;
     }
-    iVar1 = (**(code **)param_1[0x6e])(param_1);
-    if (iVar1 == 0) break;
-    iVar1 = *(int *)(param_1[0x6e] + 0x14);
-  }
-  return 0;
+    (*cinfo->src->term_source)(cinfo);
+    fn_829B6CA8(cinfo);
+    return 1;
 }
-

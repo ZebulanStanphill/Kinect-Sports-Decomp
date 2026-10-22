@@ -27,15 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A3FE48();
 extern int fn_82A5F3B8();
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned int);
+extern char lbl_8315E618[], lbl_83219D50[];
 extern unsigned int lbl_82089F20;
 extern unsigned int lbl_82089F34;
 
 
-void fn_82A4EAC8(undefined4 *param_1)
+undefined4 * fn_82A4EAC8(undefined4 *param_1)
 
 {
-  fn_82A5F3B8(param_1,0xffffffff8315e618);
+  fn_82A5F3B8(param_1,lbl_8315E618);
   param_1[0x2e] = 0;
   *param_1 = &lbl_82089F34;
   param_1[8] = &lbl_82089F20;
@@ -58,8 +59,11 @@ void fn_82A4EAC8(undefined4 *param_1)
   param_1[0x3f] = 0;
   param_1[0x40] = 0;
   param_1[0x41] = 0;
-  fn_82A3FE48(0xffffffff83219d50);
+  fn_82A3FE48(lbl_83219D50);
                     /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 0x13,0,0x24);
+  memset(param_1 + 0x13,0,0x24);
+  memset(param_1 + 9,0,0x28);
+  memset(param_1 + 0x1c,0,0x48);
+  return param_1;
 }
 

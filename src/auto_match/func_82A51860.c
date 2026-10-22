@@ -1,54 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A403E8();
-extern int fn_82A40BA8();
-extern int fn_82A47B28();
-extern int fn_82A4F4E0();
-extern int fn_82A51260();
+typedef struct Node { unsigned int value; struct Node *next; } Node;
+typedef struct List { char pad[0x18]; Node *head; } List;
+typedef struct Owner { char pad[0x50]; List list; } Owner;
+typedef struct Item { int pad; Owner *owner; int *data; } Item;
+typedef struct Self { char pad[8]; int queue; char pad2[0x30 - 0xc]; int ctx; } Self;
 
+extern void fn_82A403E8(int ctx, int v);
+extern Item *fn_82A40BA8(int *q);
+extern void fn_82A47B28(List *l, Node *n);
+extern void fn_82A4F4E0(Item *it);
+extern void fn_82A51260(Item *it);
 
-void fn_82A51860(int param_1)
-
+static Node *List_find(List *l, unsigned int v)
 {
-  int *piVar1;
-  int iVar2;
-  
-  while( true ) {
-    iVar2 = fn_82A40BA8(param_1 + 8);
-    if (iVar2 == 0) break;
-    for (piVar1 = *(int **)(*(int *)(iVar2 + 4) + 0x68);
-        (piVar1 != (int *)0x0 && (*piVar1 != param_1)); piVar1 = (int *)piVar1[1]) {
-    }
-    fn_82A47B28(*(int *)(iVar2 + 4) + 0x50,piVar1);
-    fn_82A403E8(*(undefined4 *)(param_1 + 0x30),**(undefined4 **)(iVar2 + 8));
-    fn_82A51260(iVar2);
-    fn_82A4F4E0(iVar2);
-  }
-  return;
+    Node *n;
+    for (n = l->head; n != 0; n = n->next)
+        if (n->value == v)
+            return n;
+    return 0;
 }
 
+static void List_removeValue(List *l, unsigned int v)
+{
+    fn_82A47B28(l, List_find(l, v));
+}
+
+void fn_82A51860(Self *self)
+{
+    Item *it;
+    while ((it = fn_82A40BA8(&self->queue)) != 0) {
+        List_removeValue(&it->owner->list, (unsigned int)self);
+        fn_82A403E8(self->ctx, *it->data);
+        fn_82A51260(it);
+        fn_82A4F4E0(it);
+    }
+}

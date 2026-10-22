@@ -1,58 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A42AB0();
-extern int fn_82A47B98();
+typedef struct Node {
+    unsigned int value;
+    struct Node *prev;
+    struct Node *next;
+} Node;
 
+typedef struct List {
+    char pad0[0x1c];
+    Node *head;
+    int count;
+} List;
 
-void fn_82A41140(int param_1,int param_2,undefined8 param_3)
+extern void fn_82A42AB0(List *l, unsigned int value);
+extern Node *fn_82A47B98(void);
 
+void fn_82A41140(List *l, Node *before, unsigned int value)
 {
-  undefined4 *puVar1;
-  
-  if (param_2 == 0) {
-    fn_82A42AB0(param_1,param_3);
-  }
-  else {
-    puVar1 = (undefined4 *)fn_82A47B98();
-    if (puVar1 != (undefined4 *)0x0) {
-      *puVar1 = (int)param_3;
-      puVar1[2] = param_2;
-      puVar1[1] = *(undefined4 *)(param_2 + 4);
-      if (*(int *)(param_2 + 4) == 0) {
-        *(undefined4 **)(param_1 + 0x1c) = puVar1;
-      }
-      else {
-        *(undefined4 **)(*(int *)(param_2 + 4) + 8) = puVar1;
-      }
-      *(undefined4 **)(param_2 + 4) = puVar1;
-      *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x20) + 1;
-    }
-  }
-  return;
-}
+    Node *n;
 
+    if (before == 0) {
+        fn_82A42AB0(l, value);
+    } else {
+        n = fn_82A47B98();
+        if (n != 0) {
+            n->value = value;
+            n->next = before;
+            n->prev = before->prev;
+            if (before->prev != 0) {
+                before->prev->next = n;
+            } else {
+                l->head = n;
+            }
+            before->prev = n;
+            l->count++;
+        }
+    }
+}

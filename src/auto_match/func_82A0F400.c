@@ -1,76 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_82A0F0D0();
-extern int fn_82A0F220();
-extern int fn_82A10100();
-extern int fn_82A19C80();
+typedef struct Self {
+    int owner;
+    void *impl;
+    int f8;
+    int fc;
+    int f10;
+    int f14;
+    char sub[0x7c - 0x18];
+    int f7c;
+} Self;
 
+extern void *fn_8265C940(int size, int flags);
+extern void fn_82A0F0D0(void *sub, int a, int b);
+extern void fn_82A0F220(Self *self);
+extern void fn_82A10100(void *impl);
+extern int fn_82A19C80(void *impl, int a2, int a3, int a4, int a5, int a6,
+                       int a9, int a10, int a7, int a8);
 
-undefined8
-fn_82A0F400(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+int fn_82A0F400(Self *self, int a2, int a3, int a4, int a5, int a6, int a7,
+                int a8, int a9, int a10)
 {
-  int iVar2;
-  undefined8 uVar1;
-  uint uVar3;
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
-  
-  *param_1 = (int)param_2;
-  uVar3 = 0;
-  iVar2 = fn_8265C940(0x2a28,0x249c0000);
-  if (iVar2 != 0) {
-    uVar3 = iVar2 + 0x10U & 0xfffffff0;
-    *(int *)(uVar3 - 4) = iVar2;
-  }
-  param_1[1] = uVar3;
-  if (uVar3 == 0) {
-    uVar1 = 0xffffffff8007000e;
-  }
-  else {
-    fn_82A10100(uVar3);
-    uVar1 = fn_82A19C80(param_1[1],param_2,param_3,param_4,param_5,param_6,in_stack_00000054,
-                            in_stack_0000005c);
-    if ((int)uVar1 < 0) {
-      fn_82A0F220(param_1);
-    }
-    else {
-      param_1[2] = (int)param_7;
-      param_1[3] = (int)param_8;
-      param_1[4] = in_stack_00000054;
-      param_1[5] = in_stack_0000005c;
-      fn_82A0F0D0(param_1 + 6,param_7,param_8);
-      uVar1 = 0;
-      param_1[0x1f] = 1;
-    }
-  }
-  return uVar1;
-}
+    void *raw;
+    void *impl;
+    int hr;
 
+    self->owner = a2;
+    impl = 0;
+    raw = fn_8265C940(0x2a28, 0x249c0000);
+    if (raw != 0) {
+        impl = (void *)(((unsigned int)raw + 0x10) & ~0xfu);
+        ((void **)impl)[-1] = raw;
+    }
+    self->impl = impl;
+    if (impl == 0) {
+        return 0x8007000e;
+    }
+    fn_82A10100(impl);
+    hr = fn_82A19C80(self->impl, a2, a3, a4, a5, a6, a9, a10, a7, a8);
+    if (hr < 0) {
+        fn_82A0F220(self);
+        return hr;
+    }
+    self->f8 = a7;
+    self->fc = a8;
+    self->f10 = a9;
+    self->f14 = a10;
+    fn_82A0F0D0(self->sub, a7, a8);
+    self->f7c = 1;
+    return 0;
+}

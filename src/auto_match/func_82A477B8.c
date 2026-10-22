@@ -1,40 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
+typedef struct Lock { code *vt; } Lock;
+typedef struct Obj2 { code *vt; } Obj2;
+typedef struct Inner { char pad[0x2c]; Lock lock; } Inner;
+typedef struct Outer { char pad[0x34]; Inner *inner; char pad2[0x90 - 0x38]; Obj2 *o; } Outer;
 
-undefined8 fn_82A477B8(int param_1)
-
+int fn_82A477B8(Outer *p)
 {
-  undefined8 uVar1;
-  
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 8))(*(int *)(param_1 + 0x34) + 0x2c);
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x90) + 0x34))(*(int **)(param_1 + 0x90),0x200);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c);
-  return uVar1;
+  int r;
+  p->inner->lock.vt[2](&p->inner->lock);
+  r = p->o->vt[13](p->o, 0x200);
+  p->inner->lock.vt[5](&p->inner->lock);
+  return r;
 }
-

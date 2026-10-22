@@ -1,85 +1,99 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned char png_byte;
+typedef unsigned short png_uint_16;
+typedef unsigned int png_uint_32;
 
+typedef struct png_info {
+  png_uint_32 width;          /* 0x00 */
+  png_uint_32 height;         /* 0x04 */
+  png_uint_32 valid;          /* 0x08 */
+  png_uint_32 rowbytes;       /* 0x0c */
+  void *palette;              /* 0x10 */
+  png_uint_16 num_palette;    /* 0x14 */
+  png_uint_16 num_trans;      /* 0x16 */
+  png_byte bit_depth;         /* 0x18 */
+  png_byte color_type;        /* 0x19 */
+  png_byte compression_type;  /* 0x1a */
+  png_byte filter_type;       /* 0x1b */
+  png_byte interlace_type;    /* 0x1c */
+  png_byte channels;          /* 0x1d */
+  png_byte pixel_depth;       /* 0x1e */
+  png_byte spare_byte;        /* 0x1f */
+  png_byte signature[8];      /* 0x20 */
+  float gamma;                /* 0x28 */
+} png_info;
 
-void fn_829AF340(int param_1,int *param_2)
+typedef struct png_struct {
+  char pad0[0x560];
+  png_uint_32 transformations; /* 0x560 */
+  char pad1[0x60a - 0x564];
+  png_uint_16 num_trans;       /* 0x60a */
+  char pad2[0x630 - 0x60c];
+  float gamma;                 /* 0x630 */
+  char pad3[0x674 - 0x634];
+  png_byte *palette_lookup;    /* 0x674 */
+} png_struct;
 
+void fn_829AF340(png_struct *png_ptr, png_info *info_ptr)
 {
-  short sVar1;
-  byte bVar2;
-  
-  if ((*(uint *)(param_1 + 0x560) & 0x1000) != 0) {
-    if (*(byte *)((int)param_2 + 0x19) == 3) {
-      sVar1 = *(short *)(param_1 + 0x60a);
-      *(undefined1 *)(param_2 + 6) = 8;
-      *(undefined2 *)((int)param_2 + 0x16) = 0;
-      *(byte *)((int)param_2 + 0x19) = (-(sVar1 != 0) & 4U) + 2;
-    }
-    else {
-      if (*(short *)(param_1 + 0x60a) != 0) {
-        *(byte *)((int)param_2 + 0x19) = *(byte *)((int)param_2 + 0x19) | 4;
+   if (png_ptr->transformations & 0x1000)
+   {
+      if (info_ptr->color_type == 3)
+      {
+         if (png_ptr->num_trans)
+            info_ptr->color_type = 6;
+         else
+            info_ptr->color_type = 2;
+         info_ptr->bit_depth = 8;
+         info_ptr->num_trans = 0;
       }
-      if (*(byte *)(param_2 + 6) < 8) {
-        *(undefined1 *)(param_2 + 6) = 8;
+      else
+      {
+         if (png_ptr->num_trans)
+            info_ptr->color_type |= 4;
+         if (info_ptr->bit_depth < 8)
+            info_ptr->bit_depth = 8;
+         info_ptr->num_trans = 0;
       }
-      *(undefined2 *)((int)param_2 + 0x16) = 0;
-    }
-  }
-  if ((*(uint *)(param_1 + 0x560) & 0x2000) != 0) {
-    param_2[10] = *(int *)(param_1 + 0x630);
-  }
-  if (((*(uint *)(param_1 + 0x560) & 0x400) != 0) && (*(char *)(param_2 + 6) == '\x10')) {
-    *(undefined1 *)(param_2 + 6) = 8;
-  }
-  if (((*(uint *)(param_1 + 0x560) & 0x40) != 0) &&
-     ((((*(char *)((int)param_2 + 0x19) == '\x02' || (*(char *)((int)param_2 + 0x19) == '\x06')) &&
-       (*(int *)(param_1 + 0x674) != 0)) && (*(char *)(param_2 + 6) == '\b')))) {
-    *(undefined1 *)((int)param_2 + 0x19) = 3;
-  }
-  if (((*(uint *)(param_1 + 0x560) & 4) != 0) && (*(byte *)(param_2 + 6) < 8)) {
-    *(undefined1 *)(param_2 + 6) = 8;
-  }
-  bVar2 = *(byte *)((int)param_2 + 0x19);
-  if ((bVar2 == 3) || ((bVar2 & 2) == 0)) {
-    *(undefined1 *)((int)param_2 + 0x1d) = 1;
-  }
-  else {
-    *(undefined1 *)((int)param_2 + 0x1d) = 3;
-  }
-  if ((bVar2 & 4) != 0) {
-    *(char *)((int)param_2 + 0x1d) = *(char *)((int)param_2 + 0x1d) + '\x01';
-  }
-  if (((*(uint *)(param_1 + 0x560) & 0x8000) != 0) && ((bVar2 == 2 || (bVar2 == 0)))) {
-    *(char *)((int)param_2 + 0x1d) = *(char *)((int)param_2 + 0x1d) + '\x01';
-  }
-  bVar2 = *(char *)(param_2 + 6) * *(char *)((int)param_2 + 0x1d);
-  *(byte *)((int)param_2 + 0x1e) = bVar2;
-  param_2[3] = (uint)bVar2 * *param_2 + 7 >> 3;
-  return;
-}
+   }
 
+   if (png_ptr->transformations & 0x2000)
+   {
+      info_ptr->gamma = png_ptr->gamma;
+   }
+
+   if ((png_ptr->transformations & 0x400) && (info_ptr->bit_depth == 16))
+      info_ptr->bit_depth = 8;
+
+   if (png_ptr->transformations & 0x40)
+   {
+      if (((info_ptr->color_type == 2) ||
+          (info_ptr->color_type == 6)) &&
+          png_ptr->palette_lookup && info_ptr->bit_depth == 8)
+      {
+         info_ptr->color_type = 3;
+      }
+   }
+
+   if ((png_ptr->transformations & 4) && (info_ptr->bit_depth < 8))
+      info_ptr->bit_depth = 8;
+
+   if (info_ptr->color_type == 3)
+      info_ptr->channels = 1;
+   else if (info_ptr->color_type & 2)
+      info_ptr->channels = 3;
+   else
+      info_ptr->channels = 1;
+
+   if (info_ptr->color_type & 4)
+      info_ptr->channels++;
+
+   if ((png_ptr->transformations & 0x8000) &&
+       ((info_ptr->color_type == 2) ||
+       (info_ptr->color_type == 0)))
+      info_ptr->channels++;
+
+   info_ptr->pixel_depth = (png_byte)(info_ptr->channels *
+      info_ptr->bit_depth);
+
+   info_ptr->rowbytes = ((info_ptr->width * (png_uint_32)info_ptr->pixel_depth + 7) >> 3);
+}

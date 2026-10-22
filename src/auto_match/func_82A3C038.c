@@ -1,51 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A39E18();
+typedef void (*WriteFn)(void *ctx, unsigned char *buf, int len, unsigned int n);
 
+typedef struct State {
+    char pad0[0x14];
+    int f14;
+    unsigned char f18;
+    char pad19[0x854 - 0x19];
+    unsigned char *start;
+    unsigned char *cur;
+    char pad85c[4];
+    unsigned int n;
+    char pad864[0x4330 - 0x864];
+    void *ctx;
+    char pad4334[0x4340 - 0x4334];
+    WriteFn write;
+} State;
 
-void fn_82A3C038(int param_1)
+extern void fn_82A39E18(State *s);
 
+void fn_82A3C038(State *s)
 {
-  longlong lVar1;
-  
-  if (*(int *)(param_1 + 0x860) != 0) {
-    fn_82A39E18();
-    lVar1 = (ulonglong)*(uint *)(param_1 + 0x858) - (ulonglong)*(uint *)(param_1 + 0x854);
-    if (0 < lVar1) {
-      (**(code **)(param_1 + 0x4340))
-                (*(undefined4 *)(param_1 + 0x4330),(ulonglong)*(uint *)(param_1 + 0x854),lVar1,
-                 *(undefined4 *)(param_1 + 0x860));
-    }
-  }
-  *(undefined4 *)(param_1 + 0x860) = 0;
-  *(undefined1 *)(param_1 + 0x18) = 0x20;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x858) = *(undefined4 *)(param_1 + 0x854);
-  return;
-}
+    int len;
 
+    if (s->n > 0) {
+        fn_82A39E18(s);
+        len = s->cur - s->start;
+        if (len > 0) {
+            s->write(s->ctx, s->start, len, s->n);
+        }
+    }
+    s->n = 0;
+    s->f18 = 0x20;
+    s->f14 = 0;
+    s->cur = s->start;
+}

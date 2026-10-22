@@ -1,56 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2B798();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct { unsigned int a; unsigned int b; } Msg;
+extern int XMsgStartIORequest(unsigned int svc, unsigned int msg, void *ov, void *buf, unsigned int cb);
+extern int fn_82A2B798(void);
 
-
-uint fn_82A1BDD0(undefined4 param_1,undefined4 param_2,ulonglong param_3)
-
+unsigned int fn_82A1BDD0(unsigned int a, unsigned int b, void *ov)
 {
-  int iVar1;
-  uint uVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    Msg m;
+    int hr;
 
-  
-  stack_pair_20.first = param_1;
-  stack_pair_20.second = param_2;
-  iVar1 = XMsgStartIORequest(0xfb,0xb0071,param_3,&stack_pair_20.first,8);
-  if (iVar1 < 0) {
-    uVar2 = 0x65b;
-  }
-  else if ((param_3 & 0xffffffff) == 0) {
-    iVar1 = fn_82A2B798();
-    uVar2 = iVar1 >> 0x1f & 0x65b;
-  }
-  else {
-    uVar2 = 0x3e5;
-  }
-  return uVar2;
+    m.a = a;
+    m.b = b;
+    hr = XMsgStartIORequest(0xfb, 0xb0071, ov, &m, 8);
+    if (hr < 0) {
+        return 0x65b;
+    }
+    if (ov == 0) {
+        hr = fn_82A2B798();
+        if (hr < 0) {
+            return 0x65b;
+        }
+        return 0;
+    }
+    return 0x3e5;
 }
-

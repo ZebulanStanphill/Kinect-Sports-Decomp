@@ -1,55 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2D670();
+typedef struct {
+    int a;
+    unsigned char busy;
+    unsigned char b5;
+    unsigned char next;
+    unsigned char flags;
+} Entry;
 
+typedef struct {
+    char pad0[0x30];
+    Entry *table;
+    char pad34[0xc9 - 0x34];
+    unsigned char cur;
+} Obj;
 
-undefined8 fn_82A2D810(int param_1)
+extern int fn_82A2D670(Obj *o, unsigned int i, Entry *e);
 
+int fn_82A2D810(Obj *o)
 {
-  byte bVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar2 = *(int *)(param_1 + 0x30);
-  iVar4 = (uint)*(byte *)(param_1 + 0xc9) * 8 + iVar2;
-  bVar1 = *(byte *)(iVar4 + 6);
-  while( true ) {
-    iVar5 = (uint)bVar1 * 8 + iVar2;
-    if ((((*(char *)(iVar5 + 4) == '\0') && ((*(byte *)(iVar5 + 7) & 0x40) != 0)) &&
-        ((*(byte *)(iVar5 + 7) & 8) != 0)) &&
-       (uVar3 = fn_82A2D670(param_1,(uint)bVar1,iVar5), (int)uVar3 < 0)) break;
-    if (iVar5 == iVar4) {
-      return 0;
+    Entry *table = o->table;
+    Entry *start = &table[o->cur];
+    unsigned int i = start->next;
+    for (;;) {
+        Entry *e = &table[i];
+        if (e->busy == 0 && (e->flags & 0x40) && (e->flags & 8)) {
+            int hr = fn_82A2D670(o, i, e);
+            if (hr < 0) {
+                return hr;
+            }
+        }
+        if (e == start) {
+            return 0;
+        }
+        i = e->next;
     }
-    bVar1 = *(byte *)(iVar5 + 6);
-  }
-  return uVar3;
 }
-
