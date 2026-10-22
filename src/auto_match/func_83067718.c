@@ -36,6 +36,6 @@ bool fn_83067718(undefined8 param_1,undefined8 param_2)
   
   iVar1 = fn_8305D7C0();
   iVar2 = fn_8305D7C0(param_2);
-  return iVar2 == iVar1;
+  return iVar1 == iVar2;
 }
 
