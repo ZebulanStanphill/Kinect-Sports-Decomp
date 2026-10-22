@@ -32,12 +32,12 @@ extern int fn_82F6D460();
 extern unsigned int lbl_820EB6F4;
 
 
-undefined4 * fn_82BF2DC8(undefined4 *param_1,ulonglong param_2,undefined1 param_3)
+undefined4 * fn_82BF2DC8(undefined4 *param_1,unsigned int param_2,undefined1 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
-  fn_82BE51E8(param_1,0xffffffff820eb6f8);
+  fn_82BE51E8(param_1,"CAddressIndexPair");
   *(undefined1 *)(param_1 + 5) = param_3;
   param_1[6] = 0;
   *param_1 = &lbl_820EB6F4;
@@ -45,7 +45,7 @@ undefined4 * fn_82BF2DC8(undefined4 *param_1,ulonglong param_2,undefined1 param_
     iVar1 = fn_82BE19A0(param_2);
     param_1[6] = iVar1;
     if (iVar1 == 0) {
-      fn_82BE5240(param_1,0x65,0xffffffff820eb6d8);
+      fn_82BE5240(param_1,0x65,"Server name in constructor");
       param_1[4] = 0;
     }
   }

@@ -36,11 +36,11 @@ extern int fn_826AA890();
 void fn_826AD880(int param_1,undefined4 *param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 auStack_20 [2];
   
-  fn_826A9280(param_1 + 0x14,0xffffffff82007490,*param_2);
-  fn_826A9318(param_1 + 0x14,0xffffffff82007478,*(undefined4 *)(*(int *)(param_1 + 0x20) + 0x78));
+  fn_826A9280(param_1 + 0x14,"tag %d: DoActionLoader\n",*param_2);
+  fn_826A9318(param_1 + 0x14,"-- actions in frame %d\n",*(undefined4 *)(*(int *)(param_1 + 0x20) + 0x78));
   uVar1 = fn_826A9CB8(param_1);
   fn_826AA890(uVar1,param_1);
   auStack_20[0] = (undefined4)uVar1;

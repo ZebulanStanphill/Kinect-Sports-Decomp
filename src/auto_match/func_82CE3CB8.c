@@ -30,16 +30,16 @@ extern int fn_82A1F3F0();
 extern int fn_82CE3C28();
 
 
-void fn_82CE3CB8(int *param_1)
+void fn_82CE3CB8(unsigned int *param_1)
 
 {
-  ulonglong uVar1;
-  int iVar2;
+  unsigned int uVar1;
+  unsigned int iVar2;
   
   param_1[6] = 0;
   *param_1 = 0;
   param_1[1] = 0;
-  uVar1 = fn_82A1F3F0(0xffffffff820886b4);
+  uVar1 = fn_82A1F3F0("xam.xex");
   param_1[6] = (int)uVar1;
   if ((uVar1 & 0xffffffff) != 0) {
     iVar2 = fn_82A1F380(uVar1,0xaff);

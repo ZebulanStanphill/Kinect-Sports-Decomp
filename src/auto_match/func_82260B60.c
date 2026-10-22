@@ -38,7 +38,7 @@ void fn_82260B60(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
 {
   char *pcVar1;
   int iVar2;
-  char cVar3;
+  unsigned char cVar3;
   
   pcVar1 = (char *)fn_8225F670();
   if (*pcVar1 == '\0') {
@@ -88,11 +88,11 @@ void fn_82260B60(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
     return;
   }
 LAB_82260c70:
-  fn_82E1CB88(0xffffffff821a6d50,param_2);
-  fn_82E1CB88(0xffffffff821a6b7c,param_3);
-  fn_82E1CB88(0xffffffff821a6d5c,param_4);
-  fn_82E1CB88(0xffffffff821a6d64,param_5);
-  fn_82E1CB88(0xffffffff821a69c0,param_6);
+  fn_82E1CB88("SessionId",param_2);
+  fn_82E1CB88("PentathlonId",param_3);
+  fn_82E1CB88("EventId",param_4);
+  fn_82E1CB88("RoundId",param_5);
+  fn_82E1CB88("PlayerId",param_6);
   fn_82E1CCA8();
   return;
 }

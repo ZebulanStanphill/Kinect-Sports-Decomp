@@ -34,16 +34,16 @@ void fn_82E20A98(int param_1)
 
 {
   undefined4 *puVar1;
-  longlong lVar2;
+  int lVar2;
   
   if ((*(char *)(param_1 + 2) == '\0') &&
-     (lVar2 = fn_82E20270(0xffffffff8214bbec,0xffffffff821ce364,1), lVar2 != 0)) {
-    fn_82F6CE40(lVar2,0xffffffff8214bbe8,*(undefined4 *)(param_1 + 4));
+     (lVar2 = fn_82E20270("UploadControl.dat","w",1), lVar2 != 0)) {
+    fn_82F6CE40(lVar2,"%d\n",*(undefined4 *)(param_1 + 4));
     for (puVar1 = *(undefined4 **)(param_1 + 0xc); puVar1 != (undefined4 *)0x0;
         puVar1 = (undefined4 *)*puVar1) {
-      fn_82F6CE40(lVar2,0xffffffff821cc884,puVar1[1]);
-      fn_82F6CE40(lVar2,0xffffffff821cc884,puVar1[2]);
-      fn_82F6CE40(lVar2,0xffffffff821cc884,puVar1[3]);
+      fn_82F6CE40(lVar2,"%s\n",puVar1[1]);
+      fn_82F6CE40(lVar2,"%s\n",puVar1[2]);
+      fn_82F6CE40(lVar2,"%s\n",puVar1[3]);
     }
     fn_82F67988(lVar2);
   }

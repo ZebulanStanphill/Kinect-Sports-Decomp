@@ -38,18 +38,18 @@ void fn_82262110(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
 {
   char *pcVar1;
   int iVar2;
-  char cVar3;
+  unsigned char cVar3;
   
   pcVar1 = (char *)fn_8225F670();
   if (*pcVar1 != '\0') {
     iVar2 = fn_8225FDE0(0x45,1);
     if ((iVar2 == 0) && (cVar3 = fn_82E1CAD0(0x45), cVar3 != '\0')) {
-      fn_82E1CB88(0xffffffff821a6fd0,param_1);
-      fn_82E1CB88(0xffffffff821a6fe4,param_2);
-      fn_82E1CB88(0xffffffff821a6eb4,param_3);
-      fn_82E1CB88(0xffffffff821a7010,param_4);
-      fn_82E1CB88(0xffffffff821a701c,param_5);
-      fn_82E1CB88(0xffffffff821a709c,param_6);
+      fn_82E1CB88("MatchId",param_1);
+      fn_82E1CB88("BowlId",param_2);
+      fn_82E1CB88("PlayerIndex",param_3);
+      fn_82E1CB88("FrameNumber",param_4);
+      fn_82E1CB88("SecondsSincePickedUp",param_5);
+      fn_82E1CB88("NumberOfAttempts",param_6);
       fn_82E1CCA8();
     }
   }
