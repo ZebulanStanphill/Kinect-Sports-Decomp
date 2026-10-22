@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82766860(int *param_1,uint param_2,uint *param_3)
 
 {
-  byte bVar1;
+  unsigned int bVar1;
   undefined8 uVar2;
   uint uVar3;
   

@@ -30,7 +30,7 @@ extern int fn_826C2EA0();
 extern unsigned int lbl_82015C38;
 
 
-int fn_827526E8(int param_1,ulonglong param_2)
+int fn_827526E8(int param_1,unsigned int param_2)
 
 {
   *(undefined ***)(param_1 + 0x34) = &lbl_82015C38;

@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82790270();
 
 
-ulonglong fn_82790E00(undefined4 *param_1,undefined4 *param_2)
+unsigned int  fn_82790E00(undefined4 *param_1,undefined4 *param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82790270(*param_2,*param_1,param_2[1]);
   return (-lVar1 & 0xffffffffU) >> 0x1f;

@@ -32,7 +32,7 @@ extern int fn_82772B00();
 void fn_82772CA0(uint *param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   fn_82772B00(param_1,param_1,(ulonglong)param_1[1] + 1);
   lVar1 = (ulonglong)param_1[1] * 0x24 + (ulonglong)*param_1 + -0x24;

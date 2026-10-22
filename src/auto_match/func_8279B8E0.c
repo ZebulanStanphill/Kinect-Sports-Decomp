@@ -39,7 +39,7 @@ void fn_8279B8E0(int param_1)
   if (puVar1 != (uint *)0x0) {
     uVar2 = *puVar1;
     *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((ulonglong)uVar2 - 1 == 0) {
+    if ((unsigned int)uVar2 - 1 == 0) {
       fn_826C6368(puVar1);
       fn_8267BE38(puVar1);
     }

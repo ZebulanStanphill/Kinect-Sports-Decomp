@@ -29,7 +29,7 @@ extern int fn_8267BE38();
 extern int fn_8274E398();
 
 
-undefined8 fn_8274E4D8(undefined8 param_1,ulonglong param_2)
+undefined8 fn_8274E4D8(undefined8 param_1,unsigned int param_2)
 
 {
   fn_8274E398();

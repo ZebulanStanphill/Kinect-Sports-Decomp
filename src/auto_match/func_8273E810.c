@@ -30,7 +30,7 @@ extern int fn_827B0A40();
 extern unsigned int lbl_8200C4D4;
 
 
-undefined4 * fn_8273E810(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_8273E810(undefined4 *param_1,unsigned int param_2)
 
 {
   fn_827B0A40(param_1 + 1);

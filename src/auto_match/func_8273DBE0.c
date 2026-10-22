@@ -29,7 +29,7 @@ extern int fn_8267BE38();
 extern int fn_8267C488();
 
 
-int fn_8273DBE0(int param_1,ulonglong param_2)
+int fn_8273DBE0(int param_1,unsigned int param_2)
 
 {
   fn_8267BE38(*(undefined4 *)(param_1 + 0x10));

@@ -32,11 +32,11 @@ extern int fn_827A7B80();
 extern unsigned int lbl_831E7E64;
 
 
-undefined8 fn_827A7D90(undefined8 param_1,undefined8 param_2,longlong param_3)
+unsigned int  fn_827A7D90(undefined8 param_1,undefined8 param_2,longlong param_3)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   
   uVar1 = fn_8267B890(lbl_831E7E64,(param_3 + 1U & 0x7fffffff) << 1,0);
   uVar2 = fn_826BD6B0(uVar1,param_2,param_3);

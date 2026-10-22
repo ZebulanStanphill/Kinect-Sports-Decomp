@@ -30,7 +30,7 @@ extern int fn_827954C0();
 extern int fn_82795918();
 
 
-void fn_82795A28(int param_1,longlong param_2,longlong param_3)
+void fn_82795A28(int param_1,int param_2,int param_3)
 
 {
   if ((int)param_3 == -1) {
