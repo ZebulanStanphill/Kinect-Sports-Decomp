@@ -36,9 +36,9 @@ extern int fn_828B1340();
 bool fn_828A0960(undefined8 param_1,undefined8 param_2)
 
 {
-  char cVar3;
-  int iVar2;
-  longlong lVar1;
+  unsigned char cVar3;
+  unsigned int iVar2;
+  int lVar1;
   bool bVar4;
   
   cVar3 = fn_828B1340();

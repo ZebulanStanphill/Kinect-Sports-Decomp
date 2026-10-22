@@ -35,10 +35,10 @@ extern unsigned int lbl_83223EC4;
 void fn_82BD19F8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int *piVar2;
   int iVar3;
-  ulonglong uVar4;
+  unsigned int uVar4;
   
   uVar4 = 0;
   if (0 < *(int *)(param_1 + 0x10)) {
@@ -60,7 +60,7 @@ void fn_82BD19F8(int param_1)
       iVar3 = iVar3 + 4;
     } while ((int)uVar4 < *(int *)(param_1 + 0x10));
   }
-  if (*(int *)(param_1 + 4) != 0) {
+  if (*(unsigned int *)(param_1 + 4) != 0) {
     fn_82BC6DC0(*(int *)(param_1 + 4),1);
   }
   fn_82B7BEB0(*(undefined4 *)(*(int *)(param_1 + 8) + 0x5b0),lbl_83223EC4);

@@ -25,13 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828865B0();
+extern __int64 fn_828865B0();
 
 
-void fn_8287FE88(int *param_1,int param_2)
+void fn_8287FE88(unsigned int *param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   longlong lVar2;
   longlong lVar3;
   
@@ -57,7 +57,7 @@ LAB_8287feec:
     lVar3 = fn_828865B0(param_2);
     if (lVar2 <= lVar3) {
       if (iVar1 != 0) {
-        if (*(int *)(iVar1 + 0x30) != 0) {
+        if (*(unsigned int *)(iVar1 + 0x30) != 0) {
           *(int *)(*(int *)(iVar1 + 0x30) + 0x34) = param_2;
         }
         *(undefined4 *)(param_2 + 0x30) = *(undefined4 *)(iVar1 + 0x30);

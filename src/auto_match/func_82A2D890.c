@@ -31,12 +31,12 @@ extern int fn_82A2D670();
 extern int fn_82A2D810();
 
 
-undefined8 fn_82A2D890(int param_1,uint *param_2,int *param_3)
+unsigned int  fn_82A2D890(int param_1,uint *param_2,int *param_3)
 
 {
-  byte bVar1;
-  undefined8 uVar2;
-  int iVar3;
+  unsigned int bVar1;
+  unsigned int uVar2;
+  unsigned int iVar3;
   uint uVar4;
   int iVar5;
   

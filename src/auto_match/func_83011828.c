@@ -29,13 +29,13 @@ extern int fn_83010770();
 extern int fn_83033048();
 
 
-void fn_83011828(int param_1,ulonglong param_2,int param_3)
+void fn_83011828(int param_1,unsigned int param_2,unsigned int param_3)
 
 {
   undefined4 *puVar1;
   int iVar2;
   int iVar3;
-  char cVar4;
+  unsigned char cVar4;
   
   for (puVar1 = *(undefined4 **)(param_1 + 0x50); puVar1 != (undefined4 *)0x0;
       puVar1 = (undefined4 *)*puVar1) {

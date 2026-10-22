@@ -34,14 +34,14 @@ extern unsigned int iStack_60;
 extern unsigned int lbl_83223EC4;
 
 
-void fn_82BD0A98(int *param_1,ulonglong param_2,int param_3)
+void fn_82BD0A98(int *param_1,unsigned int param_2,int param_3)
 
 {
   int iVar1;
   undefined4 uVar2;
-  int *piVar3;
-  char cVar4;
-  int iVar5;
+  unsigned int *piVar3;
+  unsigned char cVar4;
+  unsigned int iVar5;
   int iVar6;
   int iVar7;
   int iVar8;
