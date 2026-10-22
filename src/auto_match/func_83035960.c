@@ -1,68 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern int fn_83003300();
-extern unsigned int lbl_832642E0;
+typedef struct Res Res;
+typedef struct ResVtbl { void *f0; void *f4; void (*release)(Res *); } ResVtbl;
+struct Res { ResVtbl *vtbl; int x4; int x8; int xc; int x10; };
+typedef struct Info { char p0[0x20]; unsigned int x20; } Info;
+typedef struct Obj { void *x0; Res *x4; } Obj;
 
+extern Res *fn_82FAB9C0(void *, void *);
+extern int fn_83003300(Res *, Info *);
+extern char *lbl_832642E0;
 
-undefined8 fn_83035960(undefined4 *param_1,int param_2)
-
+static int Compare(Res *res, Info *info)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  
-  if (param_1[1] == 0) {
-    uVar1 = 1;
-    piVar2 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,*param_1);
-    if (piVar2 != (int *)0x0) {
-      uVar1 = 2;
-      if ((*(int *)(param_2 + 0x20) == 0) || (piVar2[4] == 0)) {
-        uVar1 = 3;
-      }
-      else if (piVar2[4] == *(int *)(param_2 + 0x20)) {
-        uVar1 = 1;
-      }
-      if ((int)uVar1 == 1) {
-        param_1[1] = piVar2;
-        uVar1 = fn_83003300(piVar2,param_2);
-        if ((int)uVar1 != 1) {
-          param_1[1] = 0;
-        }
-      }
-      else if ((int)uVar1 == 3) {
-        uVar1 = 1;
-      }
-      (**(code **)(*piVar2 + 8))(piVar2);
-    }
+  int r = 2;
+  if (info->x20 == 0 || res->x10 == 0) {
+    r = 3;
   }
-  else {
-    uVar1 = 1;
+  else if (res->x10 == info->x20) {
+    r = 1;
   }
-  return uVar1;
+  return r;
 }
 
+int fn_83035960(Obj *o, Info *info)
+{
+  int r;
+  Res *res;
+
+  if (o->x4 != 0) {
+    return 1;
+  }
+  r = 1;
+  res = fn_82FAB9C0(lbl_832642E0 + 4, o->x0);
+  if (res != 0) {
+    r = Compare(res, info);
+    if (r == 1) {
+      o->x4 = res;
+      r = fn_83003300(res, info);
+      if (r != 1) {
+        o->x4 = 0;
+      }
+    }
+    else if (r == 3) {
+      r = 1;
+    }
+    res->vtbl->release(res);
+  }
+  return r;
+}

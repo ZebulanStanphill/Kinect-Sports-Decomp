@@ -29,41 +29,33 @@ extern int fn_82CE4118();
 extern int fn_82CE5410();
 extern int fn_82CED5B8();
 
+typedef struct { int a; int b; void *p; } Elem;
+typedef struct { Elem *data; int count; int cap; } Vec;
 
-int * fn_82E08FA0(int *param_1,ulonglong param_2)
-
+Vec * fn_82E08FA0(Vec *v, uint flags)
 {
-  int *piVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int *piVar4;
-  
-  iVar2 = fn_82CE5410();
-  uVar3 = (ulonglong)(uint)param_1[1];
-  piVar1 = *(int **)(iVar2 + 0x10);
-  if (0 < param_1[1]) {
-    piVar4 = (int *)(*param_1 + 8);
-    do {
-      if (*piVar4 != 0) {
-        fn_82CE4118();
-      }
-      *piVar4 = 0;
-      fn_82CED5B8(piVar4 + -1);
-      fn_82CED5B8(piVar4 + -2);
-      uVar3 = uVar3 - 1;
-      piVar4 = piVar4 + 3;
-    } while (uVar3 != 0);
-  }
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000U) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,0xc);
-  }
-  *param_1 = 0;
-  param_1[2] = -0x80000000;
-  if ((param_2 & 1) != 0) {
-    iVar2 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),param_1,0xc);
-  }
-  return param_1;
-}
+  int *alloc;
+  int i, n, r; Elem *d;
 
+  r = fn_82CE5410();
+  n = v->count; d = v->data; alloc = *(int **)(r + 0x10);
+  for (i = 0; i < n; i++) {
+    if (d[i].p != 0) {
+      fn_82CE4118(d[i].p);
+    }
+    d[i].p = 0;
+    fn_82CED5B8(&d[i].b);
+    fn_82CED5B8(&d[i].a);
+  }
+  v->count = 0;
+  if ((v->cap & (int)0x80000000) == 0) {
+    (*(code *)(*alloc + 0x10))(alloc, v->data, v->cap & 0x3fffffff, 0xc);
+  }
+  v->data = 0;
+  v->cap = 0x80000000;
+  if ((flags & 1) != 0) {
+    alloc = *(int **)(fn_82CE5410() + 0x10);
+    (*(code *)(*alloc + 8))(alloc, v, 0xc);
+  }
+  return v;
+}

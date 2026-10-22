@@ -1,65 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
+typedef unsigned int size_t;
+extern void *memcpy(void *d, const void *s, size_t n);
 
+typedef struct { unsigned short quantval[64]; int sent_table; } JQUANT_TBL;
+typedef struct jpeg_decompress_struct *j_decompress_ptr;
+typedef struct jpeg_common_struct *j_common_ptr;
+struct jpeg_error_mgr {
+    void (*error_exit)(j_common_ptr cinfo);
+    void *emit_message;
+    void *output_message;
+    void *format_message;
+    void *reset_error_mgr;
+    int msg_code;
+    union { int i[8]; char s[80]; } msg_parm;
+};
+struct jpeg_memory_mgr {
+    void *(*alloc_small)(j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+};
+typedef struct {
+    int component_id;
+    int component_index;
+    int h_samp_factor;
+    int v_samp_factor;
+    int quant_tbl_no;
+    char pad[0x4c - 0x14];
+    JQUANT_TBL *quant_table;
+} jpeg_component_info;
+struct jpeg_decompress_struct {
+    struct jpeg_error_mgr *err;
+    struct jpeg_memory_mgr *mem;
+    char pad[0xa8 - 8];
+    JQUANT_TBL *quant_tbl_ptrs[4];
+    char pad2[0x14c - 0xb8];
+    int comps_in_scan;
+    jpeg_component_info *cur_comp_info[4];
+};
 
-void fn_829B56E8(int *param_1)
+#define ERREXIT1(cinfo,code,p1)  \
+  ((cinfo)->err->msg_code = (code), \
+   (cinfo)->err->msg_parm.i[0] = (p1), \
+   (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
 
+void fn_829B56E8(j_decompress_ptr cinfo)
 {
-  int iVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  int *piVar5;
-  
-  iVar4 = 0;
-  if (0 < param_1[0x53]) {
-    piVar5 = param_1 + 0x54;
-    do {
-      iVar1 = *piVar5;
-      if (*(int *)(iVar1 + 0x4c) == 0) {
-        uVar2 = *(uint *)(iVar1 + 0x10);
-        if ((((int)uVar2 < 0) || (3 < (int)uVar2)) ||
-           (*(int *)((int)(((ulonglong)uVar2 + 0x2a & 0xffffffff) << 2) + (int)param_1) == 0)) {
-          *(undefined4 *)(*param_1 + 0x14) = 0x34;
-          *(uint *)(*param_1 + 0x18) = uVar2;
-          (**(code **)*param_1)(param_1);
-        }
-        uVar3 = (**(code **)param_1[1])(param_1,1,0x84);
-        memcpy(uVar3,*(undefined4 *)
-                            ((int)(((ulonglong)uVar2 + 0x2a & 0xffffffff) << 2) + (int)param_1),0x84
-                    );
-        *(int *)(iVar1 + 0x4c) = (int)uVar3;
-      }
-      iVar4 = iVar4 + 1;
-      piVar5 = piVar5 + 1;
-    } while (iVar4 < param_1[0x53]);
-  }
-  return;
-}
+    int ci, qtblno;
+    jpeg_component_info *compptr;
+    JQUANT_TBL *qtbl;
 
+    for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+        compptr = cinfo->cur_comp_info[ci];
+        if (compptr->quant_table != 0)
+            continue;
+        qtblno = compptr->quant_tbl_no;
+        if (qtblno < 0 || qtblno >= 4 ||
+            cinfo->quant_tbl_ptrs[qtblno] == 0)
+            ERREXIT1(cinfo, 0x34, qtblno);
+        qtbl = (JQUANT_TBL *)
+            (*cinfo->mem->alloc_small)((j_common_ptr)cinfo, 1, sizeof(JQUANT_TBL));
+        memcpy((void *)qtbl, (const void *)cinfo->quant_tbl_ptrs[qtblno], (size_t)sizeof(JQUANT_TBL));
+        compptr->quant_table = qtbl;
+    }
+}

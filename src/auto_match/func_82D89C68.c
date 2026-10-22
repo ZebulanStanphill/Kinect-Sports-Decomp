@@ -1,78 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D907E8();
-extern int fn_82D92868();
-extern unsigned int lbl_82134508;
+extern void fn_82D907E8(int a, struct Node *n);
+extern void fn_82D92868(int a, struct Node *n);
+static const float lbl_82134508 = 3.40282e+38f;
 
+typedef struct Item {
+    char pad[0x1dc];
+    float a;
+    char pad2[0xc];
+    float b;
+} Item;
 
-void fn_82D89C68(int param_1)
+typedef struct Node {
+    char pad[0x25];
+    unsigned char f25a : 2;
+    unsigned char f25b : 2;
+    unsigned char f25c : 4;
+    unsigned char f26a : 2;
+    unsigned char mode : 2;
+    unsigned char f26c : 4;
+    char pad2[0x48 - 0x27];
+    Item **items;
+    int count;
+} Node;
 
+typedef struct Ctx {
+    char pad[8];
+    int owner;
+    char pad2[0xcc - 0xc];
+    Node *node;
+} Ctx;
+
+void fn_82D89C68(Ctx *c)
 {
-  int iVar1;
-  undefined4 uVar2;
-  int iVar3;
-  int *piVar4;
-  byte bVar5;
-  int iVar6;
-  
-  iVar1 = *(int *)(param_1 + 0xcc);
-  if (iVar1 == 0) {
-    bVar5 = 0;
-  }
-  else {
-    bVar5 = *(byte *)(iVar1 + 0x26) >> 4 & 3;
-  }
-  if (bVar5 != 0) {
-    if (((*(byte *)(iVar1 + 0x25) & 0x30) != 0) || ((*(byte *)(iVar1 + 0x25) & 0xc0) != 0)) {
-      uVar2 = *(undefined4 *)(*(int *)(param_1 + 8) + 0xb4);
-      *(undefined4 *)(*(int *)(param_1 + 8) + 0xb4) = 0;
-      *(byte *)(*(int *)(param_1 + 0xcc) + 0x25) = *(byte *)(*(int *)(param_1 + 0xcc) + 0x25) & 0xcf
-      ;
-      *(byte *)(*(int *)(param_1 + 0xcc) + 0x25) =
-           *(byte *)(*(int *)(param_1 + 0xcc) + 0x25) & 0x3f | 0x40;
-      fn_82D92868(*(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0xcc));
-      *(undefined4 *)(*(int *)(param_1 + 8) + 0xb4) = uVar2;
-    }
-    uVar2 = lbl_82134508;
-    iVar1 = *(int *)(param_1 + 0xcc);
-    iVar6 = 0;
-    if (0 < *(int *)(iVar1 + 0x4c)) {
-      piVar4 = (int *)(*(int *)(iVar1 + 0x48) + -4);
-      do {
-        piVar4 = piVar4 + 1;
-        iVar3 = *piVar4;
-        iVar6 = iVar6 + 1;
-        *(undefined4 *)(iVar3 + 0x1dc) = uVar2;
-        *(undefined4 *)(iVar3 + 0x1ec) = uVar2;
-      } while (iVar6 < *(int *)(iVar1 + 0x4c));
-    }
-    fn_82D907E8(*(undefined4 *)(param_1 + 8));
-  }
-  return;
-}
+    Node *n = c->node;
+    char mode;
+    int i;
 
+    if ((int)n == 0)
+        mode = 0;
+    else
+        mode = n->mode;
+    if (mode != 0) {
+        if (n->f25b != 0 || n->f25a != 0) {
+            int saved = *(int *)(c->owner + 0xb4);
+            *(int *)(c->owner + 0xb4) = 0;
+            c->node->f25b = 0;
+            c->node->f25a = 1;
+            fn_82D92868(c->owner, c->node);
+            *(int *)(c->owner + 0xb4) = saved;
+        }
+        n = c->node;
+        i = 0;
+        if (0 < n->count) {
+            Item **pp = n->items;
+
+            do {
+                Item *it = *pp++;
+                i++;
+                it->a = lbl_82134508;
+                it->b = lbl_82134508;
+            } while (i < n->count);
+        }
+        fn_82D907E8(c->owner, n);
+    }
+}

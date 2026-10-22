@@ -1,66 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x84]; unsigned int limit; } Sub;
+typedef struct {
+  char pad0[0x18];
+  char x18[8];
+  unsigned int x20;
+  char pad24[0x14];
+  char cs[0x28];
+  Sub *x60;
+  int pad64;
+  unsigned int x68;
+  unsigned int x6c;
+  int pad70;
+  unsigned int f74_0 : 4;
+  unsigned int f74_4 : 1;
+  unsigned int f74_5 : 2;
+  unsigned int f74_7 : 1;
+  unsigned int f74_8 : 24;
+  int pad78[2];
+  unsigned __int64 x80;
+  unsigned __int64 x88;
+  int pad90;
+  unsigned int x94;
+  int pad98;
+  unsigned int x9c;
+  unsigned char xa0;
+} Obj;
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
-
-undefined8 fn_830556C0(int param_1,int *param_2,undefined8 *param_3,uint *param_4)
-
+int fn_830556C0(Obj *o, void **out1, unsigned __int64 *out2, unsigned int *out3)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar4 = param_1 + 0x38;
-  *param_2 = param_1 + 0x18;
-  RtlEnterCriticalSection(iVar4);
-  if (((*(uint *)(param_1 + 0x74) & 0x8000000) == 0) &&
-     ((*(uint *)(param_1 + 0x74) >> 0x18 & 1) != 0)) {
-    uVar3 = *(int *)(param_1 + 0x68) - *(int *)(param_1 + 0x94);
-    *param_4 = uVar3;
-    uVar1 = *(uint *)(*(int *)(param_1 + 0x60) + 0x84);
-    if (uVar1 < uVar3) {
-      *param_4 = uVar1;
-    }
-    if ((*(uint *)(param_1 + 0x9c) & 0x1000000) != 0) {
-      *(uint *)(param_1 + 0x9c) = *(uint *)(param_1 + 0x9c) & 0xfeffffff;
-      *(ulonglong *)(param_1 + 0x80) =
-           ((longlong)*(int *)(param_1 + 0x6c) * (longlong)*(int *)(param_1 + 0x20) & 0xffffffffU) +
-           *(longlong *)(param_1 + 0x88);
-    }
-    *param_3 = *(undefined8 *)(param_1 + 0x80);
-    *(undefined1 *)(param_1 + 0xa0) = 1;
-    RtlLeaveCriticalSection(iVar4);
-    uVar2 = 1;
-  }
-  else {
-    RtlLeaveCriticalSection(iVar4);
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+  unsigned int n;
+  unsigned int lim;
 
+  *out1 = o->x18;
+  RtlEnterCriticalSection(o->cs);
+  if (!o->f74_4 && (unsigned char)o->f74_7) {
+    n = o->x68 - o->x94;
+    *out3 = n;
+    lim = o->x60->limit;
+    if (n > lim) *out3 = lim;
+    if (o->x9c & 0x1000000) {
+      o->x9c &= ~0x1000000;
+      o->x80 = (unsigned int)(o->x6c * o->x20) + o->x88;
+    }
+    *out2 = o->x80;
+    o->xa0 = 1;
+    RtlLeaveCriticalSection(o->cs);
+    return 1;
+  }
+  RtlLeaveCriticalSection(o->cs);
+  return 0;
+}

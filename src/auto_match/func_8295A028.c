@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_829533F0();
 extern int fn_82959E40();
-extern unsigned int lbl_8200E890;
+extern double lbl_8200E890;
 
 
-longlong fn_8295A028(int param_1)
+int fn_8295A028(int param_1)
 
 {
   int iVar1;
   undefined4 *puVar2;
-  longlong lVar3;
+  int lVar3;
   
   lVar3 = 1;
   if (((**(uint **)(param_1 + 0x104) & 0xfff00000) == 0x20500000) &&
@@ -43,7 +43,7 @@ longlong fn_8295A028(int param_1)
                                 (*(uint **)(param_1 + 0x104))[2]) * 4 + *(int *)(param_1 + 0x14)),
       (*(uint *)(*(int *)(*(int *)(iVar1 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x100) == 0 ||
       (*(double *)(iVar1 + 0x20) != lbl_8200E890)))) {
-    lVar3 = 1;
+    return 1;
   }
   else {
     puVar2 = (undefined4 *)

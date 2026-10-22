@@ -45,8 +45,8 @@ undefined4 * fn_82E451C8(undefined4 *param_1,int *param_2)
   fn_82E7B5F8(param_1 + 4);
   *param_1 = &lbl_82153124;
   param_1[1] = &lbl_82153114;
-  param_1[3] = &lbl_82153104;
   param_1[2] = &lbl_821530D8;
+  param_1[3] = &lbl_82153104;
   param_1[4] = &lbl_82153100;
   param_1[0xe] = 0;
   fn_82E50C30(param_1 + 0xf);
@@ -60,10 +60,10 @@ undefined4 * fn_82E451C8(undefined4 *param_1,int *param_2)
   param_1[0x41] = 0;
   iVar1 = fn_82E59E00(param_1 + 6);
   *param_2 = iVar1;
-  if (-1 < iVar1) {
-    iVar1 = (**(code **)(*(int *)param_1[6] + 0xc))();
+  if (iVar1 >= 0) {
+    iVar1 = (*(code *)(*(int *)param_1[6] + 0xc))(param_1[6]);
     *param_2 = iVar1;
-    if (-1 < iVar1) {
+    if (iVar1 >= 0) {
       iVar1 = fn_82E439A0(param_1);
       *param_2 = iVar1;
     }

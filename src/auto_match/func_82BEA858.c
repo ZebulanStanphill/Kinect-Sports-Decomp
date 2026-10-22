@@ -25,6 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern char lbl_82196582[];
 extern int fn_82BE5240();
 extern int fn_82BE5340();
 extern int fn_82BE5350();
@@ -33,33 +34,32 @@ extern int fn_82BEB8C0();
 extern int fn_82BF1138();
 
 
-undefined8 fn_82BEA858(int param_1)
+int fn_82BEA858(int param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int *piVar2;
   
-  fn_82BEB8C0();
-  if (*(int *)(param_1 + 0x40) == 0) {
-    fn_82BE5240(param_1,0x130,0xffffffff82196582);
+  fn_82BEB8C0(param_1);
+  if (*(void **)(param_1 + 0x40) == 0) {
+    fn_82BE5240(param_1,0x130,lbl_82196582);
     uVar1 = 0x130;
   }
   else {
-    fn_82BE5340();
+    fn_82BE5340(*(void **)(param_1 + 0x40));
     while (*(int *)(*(int *)(param_1 + 0x40) + 8) != 0) {
-      piVar2 = (int *)fn_82BE5378();
-      (**(code **)(*piVar2 + 0x14))();
+      piVar2 = (int *)fn_82BE5378(*(void **)(param_1 + 0x40));
+      (*(code *)(*piVar2 + 0x14))(piVar2);
       fn_82BE5350(*(undefined4 *)(param_1 + 0x40));
     }
-    if (*(int *)(param_1 + 0x44) == 0) {
-      fn_82BE5240(param_1,0x131,0xffffffff82196582);
+    if (*(void **)(param_1 + 0x44) == 0) {
+      fn_82BE5240(param_1,0x131,lbl_82196582);
       uVar1 = 0x131;
     }
     else {
-      fn_82BE5340();
+      fn_82BE5340(*(void **)(param_1 + 0x44));
       while (*(int *)(*(int *)(param_1 + 0x44) + 8) != 0) {
-        fn_82BE5378();
-        fn_82BF1138();
+        fn_82BF1138(fn_82BE5378(*(void **)(param_1 + 0x44)));
         fn_82BE5350(*(undefined4 *)(param_1 + 0x44));
       }
       uVar1 = 1;

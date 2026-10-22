@@ -1,66 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
-extern int fn_82F68CC0();
-
-
-undefined8 fn_82EF0F88(int param_1,undefined8 param_2,ulonglong param_3)
-
-{
-  longlong lVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  
-  if ((param_3 & 0xffffffff) != 0) {
-    uVar2 = *(uint *)(param_1 + 0xc) + param_3;
-    if ((ulonglong)*(uint *)(param_1 + 8) < (uVar2 & 0xffffffff)) {
-      lVar3 = uVar2 + 0x400;
-      lVar1 = fn_82E50BE8(lVar3,0,0,0,0);
-      if (lVar1 == 0) {
-        return 0xffffffff8007000e;
-      }
-      if (*(int *)(param_1 + 4) != 0) {
-        fn_82F68CC0(lVar1,*(int *)(param_1 + 4),*(undefined4 *)(param_1 + 0xc));
-      }
-      if (*(int *)(param_1 + 4) != 0) {
-        fn_82E4FE40();
-      }
-      *(int *)(param_1 + 4) = (int)lVar1;
-      *(int *)(param_1 + 8) = (int)lVar3;
-    }
-    uVar2 = (ulonglong)*(uint *)(param_1 + 0xc);
-    if ((uVar2 + param_3 & 0xffffffff) < uVar2) {
-      return 0xffffffffc00d36bb;
-    }
-    fn_82F68CC0(*(uint *)(param_1 + 4) + uVar2,param_2,param_3);
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + (int)param_3;
+extern void *fn_82E50BE8(uint,int,int,int,int);
+extern void fn_82E4FE40(void *);
+extern void *memcpy(void *,const void *,uint);
+typedef struct { int a; char *data; uint cap,len; } Buffer;
+int fn_82EF0F88(Buffer *p,const void *src,uint n){
+ if(n){
+  uint need=p->len+n;
+  if(need>p->cap){
+   uint cap=need+0x400;
+   char *data=fn_82E50BE8(cap,0,0,0,0);
+   if(!data)return 0x8007000e;
+   if(p->data)memcpy(data,p->data,p->len);
+   if(p->data)fn_82E4FE40(p->data);
+   p->data=data;p->cap=cap;
   }
-  return 0;
+  if(p->len>p->len+n)return 0xc00d36bb;
+  memcpy(p->data+p->len,src,n);
+  p->len+=n;
+ }
+ return 0;
 }
-

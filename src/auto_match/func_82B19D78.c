@@ -1,59 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B17848();
+typedef struct { unsigned int pad:18; unsigned int level:14; } NF;
+typedef struct Node { int x; struct Node *next; NF flags; } Node;
+typedef struct { char pad[0x30]; unsigned int id; } Obj;
+typedef struct { char pad[0x10]; Node *list; char pad2[0x8]; Obj *obj; } S;
+typedef struct { char pad[0x28]; unsigned int *bits; } T;
+typedef struct { char pad[8]; T *t; } C;
+typedef struct { unsigned int a:5; unsigned int level:14; unsigned int b:1; unsigned int c:12; } Out;
+extern unsigned char fn_82B17848(void *a, S *s, Node *n, Out *out);
 
-
-void fn_82B19D78(undefined8 param_1,int param_2,int param_3,uint *param_4)
-
+void fn_82B19D78(void *a, S *s, C *c, Out *out)
 {
-  uint uVar1;
-  char cVar2;
-  int *piVar3;
-  
-  piVar3 = *(int **)(param_2 + 0x10);
-  if (piVar3 != (int *)0x0) {
-    do {
-      if (*piVar3 == 0) break;
-      piVar3 = (int *)piVar3[1];
-    } while (piVar3 != (int *)0x0);
-    if (piVar3 != (int *)0x0) {
-      uVar1 = *(uint *)(*(int *)(param_2 + 0x1c) + 0x30);
-      if (((*(uint *)(((int)(((ulonglong)uVar1 & 0x7ffff) >> 5) + 1) * 4 +
-                     *(int *)(*(int *)(param_3 + 8) + 0x28)) & 1 << (uVar1 & 0x1f)) != 0) &&
-         (cVar2 = fn_82B17848(param_1,param_2,piVar3,param_4), cVar2 != '\0')) {
-        uVar1 = *param_4;
-        *param_4 = uVar1 | 0x1000;
-        if ((piVar3[2] & 0x3fffU) < (uVar1 >> 0xd & 0x3fff)) {
-          *param_4 = (piVar3[2] & 0x3fffU) << 0xd | uVar1 & 0xf8001fff | 0x1000;
-        }
-      }
+    Node *n;
+    unsigned int id;
+    for (n = s->list; n != 0; n = n->next) {
+        if (n->x == 0) break;
     }
-  }
-  return;
+    if (n != 0) {
+        id = s->obj->id & 0x7ffff;
+        if ((c->t->bits[(id >> 5) + 1] & (1 << (id & 31))) != 0 &&
+            fn_82B17848(a, s, n, out)) {
+            out->b = 1;
+            if (n->flags.level < out->level) {
+                out->level = n->flags.level;
+            }
+        }
+    }
 }
-

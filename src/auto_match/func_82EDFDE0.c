@@ -1,65 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EDF318();
+typedef struct Ctx {
+  char p0[0xc];
+  int mode0;
+  int mode1;
+  unsigned int x14;
+  unsigned int x18;
+  unsigned int x1c;
+  unsigned int x20;
+  unsigned int x24;
+  unsigned int x28;
+  unsigned int x2c;
+  unsigned int x30;
+  unsigned int x34;
+  unsigned int x38;
+  unsigned int x3c;
+  unsigned int x40;
+  unsigned int x44;
+  unsigned int x48;
+  unsigned int x4c;
+  char p50[0x38dc - 0x50];
+  unsigned int x38dc;
+} Ctx;
 
+extern void fn_82EDF318(Ctx *);
 
-undefined8 fn_82EDFDE0(int param_1,int param_2,int param_3,int param_4,int param_5)
-
+int fn_82EDFDE0(unsigned int base0, unsigned int base1, Ctx *c, unsigned int p4, unsigned int p5)
 {
-  if (*(int *)(param_3 + 0xc) == 0) {
-    *(int *)(param_3 + 0x14) = *(int *)(param_3 + 0x34) + param_1;
+  if (c->mode0 == 0) {
+    c->x14 = c->x34 + base0;
   }
-  else if (*(int *)(param_3 + 0xc) == 1) {
-    *(int *)(param_3 + 0x18) = *(int *)(param_3 + 0x38) + param_1;
-    if (param_4 == 0) {
-      *(int *)(param_3 + 0x1c) = *(int *)(param_3 + 0x3c) + param_1;
+  else if (c->mode0 == 1) {
+    c->x18 = c->x38 + base0;
+    if (p4 != 0) {
+      c->x1c = p4;
     }
     else {
-      *(int *)(param_3 + 0x1c) = param_4;
+      c->x1c = c->x3c + base0;
     }
-    if (param_5 == 0) {
-      *(int *)(param_3 + 0x20) = *(int *)(param_3 + 0x40) + param_1;
+    if (p5 != 0) {
+      c->x20 = p5;
     }
     else {
-      *(int *)(param_3 + 0x20) = param_5;
+      c->x20 = c->x40 + base0;
     }
   }
-  if (*(int *)(param_3 + 0x10) == 0) {
-    *(int *)(param_3 + 0x24) = *(int *)(param_3 + 0x44) + param_2;
+  if (c->mode1 == 0) {
+    c->x24 = c->x44 + base1;
   }
-  else if (*(int *)(param_3 + 0x10) == 1) {
-    *(int *)(param_3 + 0x28) = param_2;
-    *(int *)(param_3 + 0x2c) = *(int *)(param_3 + 0x48) + param_2;
-    *(int *)(param_3 + 0x30) = *(int *)(param_3 + 0x4c) + param_2;
+  else if (c->mode1 == 1) {
+    c->x28 = base1;
+    c->x2c = c->x48 + base1;
+    c->x30 = c->x4c + base1;
   }
-  if (*(int *)(param_3 + 0x38dc) == 1) {
-    fn_82EDF318(param_3);
+  if (c->x38dc == 1) {
+    fn_82EDF318(c);
   }
   return 0;
 }
-

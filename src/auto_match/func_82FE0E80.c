@@ -1,61 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FE0660();
-extern int fn_82FE06D0();
-extern int fn_82FE4220();
+typedef struct Alloc Alloc;
+typedef struct {
+  void *s0;
+  void *s4;
+  void (*free)(Alloc *a, void *p);
+} AllocVt;
+struct Alloc {
+  AllocVt *vt;
+};
 
+typedef struct { int v[3]; } E12;
+typedef struct { int v[4]; } E16;
 
-undefined8 fn_82FE0E80(undefined4 *param_1,int *param_2)
+typedef struct Obj Obj;
+typedef struct {
+  void (*dtor)(Obj *o, int flags);
+} ObjVt;
 
+struct Obj {
+  ObjVt *vt;
+  E16 arr[4];
+  char pad44[0x8c - 0x44];
+  E12 a8c;
+  E12 a98;
+  E12 aa4;
+  E12 ab0;
+  char padbc[0xd0 - 0xbc];
+  unsigned char flag;
+  char padd1[0xdc - 0xd1];
+  void *pdc;
+};
+
+extern int fn_82FE0660(Obj *o, Alloc *a);
+extern int fn_82FE06D0(Obj *o, Alloc *a);
+extern int fn_82FE4220(void *p, Alloc *a);
+
+int fn_82FE0E80(Obj *o, Alloc *a)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  
-  fn_82FE4220(param_1 + 0x23);
-  fn_82FE4220(param_1 + 0x26,param_2);
-  fn_82FE4220(param_1 + 0x29,param_2);
-  fn_82FE4220(param_1 + 0x2c,param_2);
-  if ((*(char *)(param_1 + 0x34) != '\0') && (param_1[0x37] != 0)) {
-    fn_82FE4220(param_1[0x37],param_2);
-    (**(code **)(*param_2 + 8))(param_2,param_1[0x37]);
-    param_1[0x37] = 0;
+  int i;
+
+  fn_82FE4220(&o->a8c, a);
+  fn_82FE4220(&o->a98, a);
+  fn_82FE4220(&o->aa4, a);
+  fn_82FE4220(&o->ab0, a);
+  if (o->flag != 0 && o->pdc != 0) {
+    fn_82FE4220(o->pdc, a);
+    a->vt->free(a, o->pdc);
+    o->pdc = 0;
   }
-  fn_82FE0660(param_1,param_2);
-  fn_82FE06D0(param_1,param_2);
-  puVar1 = param_1 + 1;
-  lVar2 = 4;
-  do {
-    fn_82FE4220(puVar1,param_2);
-    lVar2 = lVar2 + -1;
-    puVar1 = puVar1 + 4;
-  } while (lVar2 != 0);
-  (**(code **)*param_1)(param_1,1);
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+  fn_82FE0660(o, a);
+  fn_82FE06D0(o, a);
+  for (i = 0; i < 4; i++) {
+    fn_82FE4220(&o->arr[i], a);
+  }
+  o->vt->dtor(o, 1);
+  a->vt->free(a, o);
   return 1;
 }
-

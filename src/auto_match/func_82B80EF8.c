@@ -1,49 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B167E0();
-extern int fn_82B80CD0();
+typedef struct {
+    char pad[0x28];
+    unsigned int pad0 : 17;
+    unsigned int flag : 1;
+    unsigned int pad1 : 14;
+} Info;
 
+typedef struct {
+    char pad[0x94];
+    Info *info;
+} Owner;
 
-void fn_82B80EF8(uint param_1,uint param_2,undefined8 param_3)
+typedef struct {
+    Owner *owner;
+} PageHeader;
 
+typedef struct {
+    char pad[0x14];
+    unsigned int pad0 : 22;
+    unsigned int types : 8;
+    unsigned int pad1 : 2;
+} Obj;
+
+extern double fn_82B167E0(Obj *o, unsigned int idx);
+extern void fn_82B80CD0(double v, unsigned int type, int x);
+
+static unsigned int GetType(Obj *o, unsigned int idx)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  
-  if (((~(ulonglong)*(uint *)(*(int *)(*(int *)(param_1 & 0xfffff000) + 0x94) + 0x28) & 0xffffffff)
-       >> 0xe & 1) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = (*(uint *)(param_1 + 0x14) >> 2 & 0xff) >> ((param_2 & 0x1f) << 1) & 3;
-  }
-  uVar1 = fn_82B167E0();
-  fn_82B80CD0(uVar1,uVar2,param_3);
-  return;
+    if (!(unsigned char)!((PageHeader *)((unsigned int)o & 0xfffff000))->owner->info->flag) {
+        return 0;
+    }
+    return (o->types >> (idx * 2)) & 3;
 }
-
+void fn_82B80EF8(Obj *o, unsigned int idx, int x)
+{
+    unsigned int type = GetType(o, idx);
+    double v = fn_82B167E0(o, idx);
+    fn_82B80CD0(v, type, x);
+}

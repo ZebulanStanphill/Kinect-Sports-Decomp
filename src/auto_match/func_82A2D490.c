@@ -25,19 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2D360();
+extern unsigned int fn_82A2D360(void *, unsigned int, void *);
+extern int ObIsTitleObject(void);
+extern void *ExAllocatePoolTypeWithTag(unsigned int, unsigned int, unsigned int);
+extern void ExFreePool(void *);
 
 
-undefined8 fn_82A2D490(undefined8 param_1,ushort *param_2,undefined8 param_3,undefined4 *param_4)
+unsigned __int64 fn_82A2D490(unsigned int param_1,ushort *param_2,unsigned int param_3,undefined4 *param_4)
 
 {
-  int iVar2;
+  uint iVar2;
   undefined4 *puVar3;
-  undefined8 uVar1;
-  ulonglong uVar4;
-  longlong lVar5;
+  unsigned __int64 uVar1;
+  uint uVar4;
+  uint lVar5;
   
-  if (((param_2 == (ushort *)0x0) || (uVar4 = (ulonglong)*param_2, uVar4 == 0)) ||
+  if (((param_2 == (ushort *)0x0) || (uVar4 = (uint)*param_2, uVar4 == 0)) ||
      ((uVar4 == 1 && (**(char **)(param_2 + 2) == '*')))) {
     lVar5 = 0;
   }
@@ -46,25 +49,17 @@ undefined8 fn_82A2D490(undefined8 param_1,ushort *param_2,undefined8 param_3,und
   }
   iVar2 = ObIsTitleObject();
   puVar3 = (undefined4 *)ExAllocatePoolTypeWithTag(lVar5 + 0xc,0x65446f49,(iVar2 == 0) + '\x01');
-  if (puVar3 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffffc000009a;
-  }
-  else {
-    *puVar3 = 0;
-    puVar3[1] = 0;
-    puVar3[2] = 0;
-    if (lVar5 != 0) {
-      *(short *)((int)puVar3 + 6) = (short)lVar5;
-      puVar3[2] = puVar3 + 3;
-      iVar2 = fn_82A2D360(puVar3 + 1,param_3,param_2);
-      if (iVar2 == 0) {
-        ExFreePool(puVar3);
-        return 0xffffffffc000000d;
-      }
+  if (puVar3 == 0) return 0xffffffffc000009a;
+  { int i; for(i=0;i<3;i++) puVar3[i]=0; }
+  if (lVar5 != 0) {
+    *(short *)((int)puVar3 + 6) = (short)lVar5;
+    puVar3[2] = puVar3 + 3;
+    iVar2 = fn_82A2D360(puVar3 + 1,param_3,param_2);
+    if (iVar2 == 0) {
+      ExFreePool(puVar3);
+      return 0xffffffffc000000d;
     }
-    *param_4 = puVar3;
-    uVar1 = 0;
   }
-  return uVar1;
+  *param_4=puVar3;
+  return 0;
 }
-

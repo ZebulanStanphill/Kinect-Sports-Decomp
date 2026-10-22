@@ -39,9 +39,9 @@ int fn_82A23408(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,u
   int iVar5;
   int iVar6;
   
-  RtlEnterCriticalSection();
+  RtlEnterCriticalSection(param_1);
   uVar4 = 0;
-  if (*(int *)(param_1 + 0x20) != 0) {
+  if (*(uint *)(param_1 + 0x20) > 0) {
     iVar5 = 0;
     do {
       iVar2 = 0;
@@ -51,9 +51,8 @@ int fn_82A23408(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,u
                                 (uint)*(ushort *)(iVar1 + 4) + iVar1) *
                 (*(uint *)(iVar1 + 4) & 0xffff) + iVar1;
         iVar6 = iVar3 + 0x14;
-        if (((*(uint *)(iVar3 + 0x30) & 0x10) != 0) || (*(byte *)(iVar3 + 0x2d) == param_2)) {
-          fn_82A21458(param_1,iVar6);
-          goto LAB_82a234dc;
+        if (((*(uint *)(iVar6 + 0x1c) & 0x10) != 0) || (*(byte *)(iVar6 + 0x19) == param_2)) {
+          fn_82A21458(param_1,iVar6); RtlLeaveCriticalSection(param_1); return iVar6;
         }
         iVar2 = iVar2 + 1;
       }
@@ -62,7 +61,7 @@ int fn_82A23408(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,u
     } while (uVar4 < *(uint *)(param_1 + 0x20));
   }
   iVar6 = 0;
-LAB_82a234dc:
+
   RtlLeaveCriticalSection(param_1);
   return iVar6;
 }

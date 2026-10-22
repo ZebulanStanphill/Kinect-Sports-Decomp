@@ -1,57 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82A1C5E0();
-extern int memcpy();
+typedef struct Ops {
+    int (*f0)(void);
+    int (*f4)(void);
+    int (*f8)(void);
+    int (*ioctl)(int h, int code, void *buf);
+} Ops;
 
+typedef struct { char b[0x24]; } Blk;
 
-void fn_82A1CA50(int param_1,int param_2,int param_3)
+typedef struct Dev {
+    char pad0[0x14];
+    char sub[0x240 - 0x14];
+    Blk entries[(0x298 - 0x240) / 0x24];
+    char pad[0x298 - 0x240 - 2 * 0x24];
+    Ops *ops;
+} Dev;
 
+typedef struct Req {
+    char pad0[0x18];
+    void *file;
+    Blk data;
+    char pad40[0x48 - 0x40];
+    int handle;
+} Req;
+
+typedef struct { unsigned int status; unsigned int info; } IO_STATUS_BLOCK;
+
+extern void KeEnterCriticalRegion(void);
+extern void KeLeaveCriticalRegion(void);
+extern int NtFlushBuffersFile(void *file, IO_STATUS_BLOCK *iosb);
+extern void *memcpy(void *d, const void *s, unsigned int n);
+extern void fn_82A1C5E0(void *p);
+
+void fn_82A1CA50(int index, Dev *dev, Req *req)
 {
-  int iVar1;
-  int iVar2;
-  undefined1 auStack_30 [1];
-  
-  KeEnterCriticalRegion();
-  (**(code **)(*(int *)(param_2 + 0x298) + 0xc))(*(undefined4 *)(param_3 + 0x48),0,0);
-  iVar1 = (**(code **)(*(int *)(param_2 + 0x298) + 0xc))(*(undefined4 *)(param_3 + 0x48),2,0);
-  if (-1 < iVar1) {
-    iVar2 = param_3 + 0x1c;
-    iVar1 = (**(code **)(*(int *)(param_2 + 0x298) + 0xc))(*(undefined4 *)(param_3 + 0x48),3,iVar2);
-    if (-1 < iVar1) {
-      (**(code **)(*(int *)(param_2 + 0x298) + 0xc))(*(undefined4 *)(param_3 + 0x48),4,iVar2);
-      memcpy((param_1 + 0x10) * 0x24 + param_2,iVar2,0x24);
-      fn_82A1C5E0(param_2 + 0x14);
-      NtFlushBuffersFile(*(undefined4 *)(param_3 + 0x18),auStack_30);
-    }
-  }
-  (**(code **)(*(int *)(param_2 + 0x298) + 0xc))(*(undefined4 *)(param_3 + 0x48),1,0);
-  KeLeaveCriticalRegion();
-  return;
-}
+    IO_STATUS_BLOCK iosb;
+    void *data;
 
+    KeEnterCriticalRegion();
+    dev->ops->ioctl(req->handle, 0, 0);
+    if (dev->ops->ioctl(req->handle, 2, 0) >= 0) {
+        data = &req->data;
+        if (dev->ops->ioctl(req->handle, 3, data) >= 0) {
+            dev->ops->ioctl(req->handle, 4, data);
+            dev->entries[index] = req->data;
+            fn_82A1C5E0(dev->sub);
+            NtFlushBuffersFile(req->file, &iosb);
+        }
+    }
+    dev->ops->ioctl(req->handle, 1, 0);
+    KeLeaveCriticalRegion();
+}

@@ -1,67 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83217148;
-extern unsigned int lbl_832179FC;
+typedef struct Slot {
+  int state;
+  int x4;
+  int x8;
+  int xc;
+  int x10;
+  int x14;
+} Slot;
 
+typedef struct Info {
+  int value;
+  int flags;
+} Info;
 
-undefined8 fn_829DA960(uint param_1,int *param_2)
+extern int lbl_83215000[];
+extern char *lbl_832179FC;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+
+int fn_829DA960(unsigned int idx, Info *out)
 {
-  int iVar1;
-  undefined8 uVar2;
-  int *piVar3;
-  int iVar4;
-  
-  if ((param_1 < 8) && (param_2 != (int *)0x0)) {
-    if ((lbl_83217148 == 0) || (lbl_832179FC == 0)) {
-      uVar2 = 0xffffffff83010005;
-    }
-    else {
-      iVar4 = lbl_832179FC + 0x24980;
-      RtlEnterCriticalSection(iVar4);
-      piVar3 = (int *)(param_1 * 0x18 + lbl_832179FC);
-      param_2[1] = 0;
-      *param_2 = 0xfe;
-      if ((*piVar3 != 0) && (*piVar3 != 3)) {
-        iVar1 = piVar3[3];
-        param_2[1] = 1;
-        *param_2 = iVar1;
-        if (piVar3[2] == 0) {
-          param_2[1] = 0x40000001;
-        }
-      }
-      RtlLeaveCriticalSection(iVar4);
-      uVar2 = 0;
-    }
-  }
-  else {
-    uVar2 = 0xffffffff80070057;
-  }
-  return uVar2;
-}
+  void *cs;
+  Slot *s;
+  int v;
 
+  if (idx >= 8) {
+    return 0x80070057;
+  }
+  if (out == 0) {
+    return 0x80070057;
+  }
+  if (lbl_83215000[0x2148 / 4] == 0 || lbl_832179FC == 0) {
+    return 0x83010005;
+  }
+  cs = lbl_832179FC + 0x24980;
+  RtlEnterCriticalSection(cs);
+  s = (Slot *)(lbl_832179FC + idx * sizeof(Slot));
+  out->flags = 0;
+  out->value = 0xfe;
+  if (s->state != 0 && s->state != 3) {
+    v = s->xc;
+    out->flags = 1;
+    out->value = v;
+    if (s->x8 == 0) {
+      out->flags = 0x40000001;
+    }
+  }
+  RtlLeaveCriticalSection(cs);
+  return 0;
+}
