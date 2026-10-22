@@ -29,7 +29,7 @@ extern int fn_8223DCC8();
 extern int fn_8265CA20();
 
 
-longlong fn_8223D050(longlong param_1,ulonglong param_2)
+longlong fn_8223D050(longlong param_1,unsigned int param_2)
 
 {
   param_1 = param_1 + -0x50;

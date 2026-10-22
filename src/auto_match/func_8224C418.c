@@ -32,10 +32,10 @@ extern int fn_828B2BF8();
 extern unsigned int lbl_82197D98;
 
 
-undefined4 * fn_8224C418(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_8224C418(undefined4 *param_1,unsigned int param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   *param_1 = &lbl_82197D98;
   uVar1 = fn_828B2BF8();
