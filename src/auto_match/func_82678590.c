@@ -35,7 +35,7 @@ void fn_82678590(int param_1,undefined4 *param_2)
 {
   undefined4 *puVar1;
   undefined4 uStack_20;
-  undefined1 auStack_1c [12];
+  undefined1 auStack_1c [4];
   
   uStack_20 = *param_2;
   puVar1 = (undefined4 *)fn_8268D790(auStack_1c,param_1 + 0x134,&uStack_20);

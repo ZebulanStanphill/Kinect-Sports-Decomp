@@ -40,7 +40,7 @@ undefined8 fn_827C1B78(int param_1)
         ((iVar1 = *(int *)(param_1 + 0xc4), *(int *)(iVar1 + 8) == 2 &&
          (*(int *)(iVar1 + 0x5c) == 1)))))))) &&
      ((*(int *)(iVar1 + 0xb0) == 1 &&
-      (((((*(int *)(iVar1 + 0xc) < 3 && (*(int *)(iVar1 + 0x60) == 1)) &&
+      (((((*(int *)(iVar1 + 0xc) <= 2 && (*(int *)(iVar1 + 0x60) == 1)) &&
          (*(int *)(iVar1 + 0xb4) == 1)) &&
         ((iVar2 = *(int *)(param_1 + 0x118), *(int *)(iVar1 + 0x24) == iVar2 &&
          (*(int *)(iVar1 + 0x78) == iVar2)))) && (*(int *)(iVar1 + 0xcc) == iVar2)))))) {

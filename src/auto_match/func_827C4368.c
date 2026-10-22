@@ -1,53 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C3D60();
-extern int fn_827C41C0();
+extern void fn_827C3D60(void);
+extern void fn_827C41C0(void);
 
+typedef struct jpeg_memory_mgr {
+    void *(*alloc_small)(void *cinfo, int pool_id, unsigned int sizeofobject);
+} jpeg_memory_mgr;
 
-void fn_827C4368(int param_1)
+typedef struct huff_entropy_decoder {
+    void (*start_pass)(void);
+    void (*decode_mcu)(void);
+    char pad08[0x20];
+    void *dc_derived_tbls[4];
+    void *ac_derived_tbls[4];
+    char pad48[0xac - 0x48];
+} huff_entropy_decoder;
 
+typedef struct jpeg_decompress_struct {
+    void *err;
+    jpeg_memory_mgr *mem;
+    char pad08[0x198 - 0x8];
+    huff_entropy_decoder *entropy;
+} jpeg_decompress_struct;
+
+void fn_827C4368(jpeg_decompress_struct *cinfo)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  
-  puVar1 = (undefined4 *)(*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0xac);
-  *(undefined4 **)(param_1 + 0x198) = puVar1;
-  *puVar1 = fn_827C41C0;
-  lVar3 = 4;
-  puVar2 = puVar1 + 9;
-  puVar1[1] = fn_827C3D60;
-  do {
-    puVar2[5] = 0;
-    puVar2 = puVar2 + 1;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
-}
+    huff_entropy_decoder *entropy;
+    int i;
 
+    entropy = (huff_entropy_decoder *)(*cinfo->mem->alloc_small)(cinfo, 1, sizeof(huff_entropy_decoder));
+    cinfo->entropy = entropy;
+    entropy->start_pass = fn_827C41C0;
+    entropy->decode_mcu = fn_827C3D60;
+    for (i = 0; i < 4; i++) {
+        entropy->dc_derived_tbls[i] = entropy->ac_derived_tbls[i] = 0;
+    }
+}

@@ -35,18 +35,21 @@ extern int fn_82240378();
 extern int fn_822403C8();
 
 
+typedef struct {
+  undefined4 a;
+  undefined1 b[156];
+} S82871230;
+
 undefined8 fn_82871230(undefined8 param_1)
 
 {
   undefined1 auStack_d0 [32];
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [140];
+  S82871230 s;
   
-  fn_8223CFC0(auStack_b0,2,1);
-  fn_822403C8(auStack_d0,auStack_ac);
+  fn_8223CFC0(&s,2,1);
+  fn_822403C8(auStack_d0,s.b);
   fn_82240378(param_1,auStack_d0);
   fn_82230300(auStack_d0,1,0);
-  fn_8223DCC8(auStack_b0);
+  fn_8223DCC8(&s);
   return param_1;
 }
-

@@ -1,47 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
 extern int fn_827E0398();
 extern int fn_82811400();
 extern int memcpy();
-extern unsigned int uStack_40;
 
+typedef struct Rec {
+    unsigned int id;
+    unsigned char data[24];
+} Rec;
 
-undefined8 fn_827E04A0(undefined8 param_1,undefined4 *param_2)
-
+void *fn_827E04A0(void *param_1, Rec *param_2)
 {
-  undefined4 uStack_40;
-  undefined1 auStack_3c [20];
-  
-  fn_82811400(auStack_3c,0x10);
-  uStack_40 = *param_2;
-  memcpy(auStack_3c,param_2 + 1,0x18);
-  fn_827E0398(param_1,&uStack_40);
-  return param_1;
-}
+    Rec r;
 
+    fn_82811400(r.data, 0x10);
+    r.id = param_2->id;
+    memcpy(r.data, param_2->data, sizeof(r.data));
+    fn_827E0398(param_1, &r);
+    return param_1;
+}

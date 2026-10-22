@@ -50,13 +50,13 @@ void fn_82C83B78(int param_1,int param_2)
 
 {
   if (param_2 == 0) {
-    if (param_1 == 0) {
-      lbl_8329F15C = fn_82CCFD60;
-      lbl_8329F158 = fn_82CD1870;
-    }
-    else {
+    if (param_1 != 0) {
       lbl_8329F15C = fn_82CCDC08;
       lbl_8329F158 = fn_82CCF228;
+    }
+    else {
+      lbl_8329F15C = fn_82CCFD60;
+      lbl_8329F158 = fn_82CD1870;
     }
     lbl_8329F154 = fn_82C81D98;
     lbl_8329F150 = fn_82C81D50;

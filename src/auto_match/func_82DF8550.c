@@ -1,53 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern unsigned int *auStack_30;
-extern int fn_82BA02A8();
-extern int fn_82CE5410();
-extern int fn_82CEA4B8();
-extern int fn_82DF85B8();
-extern int fn_82DF87A0();
+extern void fn_82DF85B8(void *out, int *p, int q);
+extern void fn_82DF87A0(int a, int b, int c, void *d);
+extern int fn_82CE5410(void);
+extern void fn_82CEA4B8(void *out, int v);
+extern void fn_82BA02A8(void *p);
 
-
-void fn_82DF8550(undefined8 param_1,undefined8 param_2,int *param_3,undefined8 param_4)
-
+void fn_82DF8550(int param_1, int param_2, int *param_3, int param_4)
 {
-  undefined4 uVar1;
+  int uVar1;
   int iVar2;
-  undefined1 auStack_30 [4];
-  undefined1 auStack_2c [44];
-  
-  uVar1 = *(undefined4 *)(*param_3 + 8);
-  fn_82DF85B8(auStack_30,param_3,param_4);
-  fn_82DF87A0(param_1,param_2,uVar1,auStack_30);
-  iVar2 = fn_82CE5410();
-  fn_82CEA4B8(auStack_2c,*(undefined4 *)(iVar2 + 0x10));
-  fn_82BA02A8(auStack_2c);
-  return;
-}
+  int a;
+  int b;
 
+  uVar1 = *(int *)(*param_3 + 8);
+  fn_82DF85B8(&a, param_3, param_4);
+  fn_82DF87A0(param_1, param_2, uVar1, &a);
+  iVar2 = fn_82CE5410();
+  fn_82CEA4B8(&b, *(int *)(iVar2 + 0x10));
+  fn_82BA02A8(&b);
+}

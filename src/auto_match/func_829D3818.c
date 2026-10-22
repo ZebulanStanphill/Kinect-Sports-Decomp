@@ -47,7 +47,7 @@ void fn_829D3818(undefined4 *param_1,undefined8 *param_2,undefined8 *param_3,und
   param_1[0x19] = param_4[0x19];
   fn_829DB750(param_1 + 0xf,param_1 + 0x10,param_1 + 0x11,param_1 + 0x12,param_1 + 0x13,
                     param_1 + 0x14);
-  if (((uint)param_4[0x17] < 2) && (lbl_83217A00 != 0)) {
+  if (((uint)param_4[0x17] <= 1) && (lbl_83217A00 != 0)) {
     fn_829DB828(param_1 + 0x18,param_1 + 0x15,param_1 + 0x16,param_1 + 0x17);
   }
   return;

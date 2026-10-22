@@ -42,7 +42,7 @@ undefined1 * fn_82CF8A08(undefined1 *param_1,int param_2)
   iVar1 = *(int *)(param_2 + 0x208);
   iVar4 = 0;
   *param_1 = 1;
-  if (iVar1 < 1) {
+  if (iVar1 <= 0) {
 LAB_82cf8a8c:
     RtlLeaveCriticalSection(iVar2);
   }

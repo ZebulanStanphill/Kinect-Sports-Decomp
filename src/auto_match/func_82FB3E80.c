@@ -1,50 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FABD78();
-extern int fn_82FAD118();
-extern unsigned int lbl_8216CC7C;
-extern unsigned int lbl_8216D780;
-extern unsigned int lbl_8216D794;
-extern unsigned int lbl_8216D79C;
-extern unsigned int lbl_8216D7B4;
+extern char lbl_8216CC7C[];
+extern char lbl_8216D780[];
+extern char lbl_8216D794[];
+extern char lbl_8216D79C[];
+extern char lbl_8216D7B4[];
+void fn_82FABD78(void *p);
+void fn_82FAD118(void *p);
 
+typedef struct Obj {
+    void *vt0;      /* 0x00 */
+    void *vt1;      /* 0x04 */
+    int pad08[2];   /* 0x08 */
+    void *vt10;     /* 0x10 */
+    int pad14;      /* 0x14 */
+    void *vt18;     /* 0x18 */
+    int pad1c[9];   /* 0x1c */
+    void *vt40;     /* 0x40 */
+    int pad44[5];   /* 0x44 */
+    unsigned char flag; /* 0x58 */
+} Obj;
 
-undefined4 * fn_82FB3E80(undefined4 *param_1)
-
+Obj *fn_82FB3E80(Obj *this_)
 {
-  fn_82FABD78();
-  fn_82FAD118(param_1 + 0x10);
-  *param_1 = &lbl_8216D7B4;
-  param_1[1] = &lbl_8216D79C;
-  param_1[6] = &lbl_8216CC7C;
-  param_1[4] = &lbl_8216D794;
-  param_1[0x10] = &lbl_8216D780;
-  *(undefined1 *)(param_1 + 0x16) = 0;
-  return param_1;
+    fn_82FABD78(this_);
+    fn_82FAD118(&this_->vt40);
+    this_->vt0 = lbl_8216D7B4;
+    this_->vt1 = lbl_8216D79C;
+    this_->vt10 = lbl_8216D794;
+    this_->vt18 = lbl_8216CC7C;
+    this_->vt40 = lbl_8216D780;
+    this_->flag = 0;
+    return this_;
 }
-

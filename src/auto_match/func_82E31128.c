@@ -50,7 +50,7 @@ undefined4 * fn_82E31128(undefined4 *param_1,int *param_2)
   fn_82E5AEC8(param_1 + 0x5b);
   param_1[0x76] = 0;
   *(undefined8 *)(param_1 + 0x78) = 0;
-  if (-1 < *param_2) {
+  if (*param_2 >= 0) {
     fn_82E2FB40(param_1);
     iVar1 = fn_82E59E00(param_1 + 0x24);
     *param_2 = iVar1;

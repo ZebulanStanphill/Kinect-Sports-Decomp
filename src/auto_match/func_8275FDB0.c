@@ -25,29 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
 extern int fn_8275E498();
 
-
 int fn_8275FDB0(int *param_1)
-
 {
-  bool bVar1;
-  undefined1 auStack_30 [32];
-  
-  do {
-    if (*(byte *)(*param_1 + 0x20) == 1) {
-LAB_8275fde0:
-      bVar1 = true;
-    }
-    else {
-      bVar1 = false;
-      if ((*(byte *)(*param_1 + 0x20) & 0x80) == 0) goto LAB_8275fde0;
-    }
-    if (bVar1) {
-      return param_1[1];
-    }
-    fn_8275E498(param_1,auStack_30);
-  } while( true );
+  unsigned char buf[32];
+  bool b;
+  for (;;) {
+    unsigned char s = *(unsigned char *)(*param_1 + 0x20);
+    b = (s == 1) || !(s & 0x80);
+    if (b) return param_1[1];
+    fn_8275E498(param_1, buf);
+  }
 }
-
