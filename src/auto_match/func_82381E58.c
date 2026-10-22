@@ -1,57 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822FF888();
-extern int fn_82359C18();
-extern int fn_8265CA20();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82196B30;
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_821AEC2C;
+extern void fn_822FF888(void *p);
+extern void fn_82359C18(void *p);
+extern void fn_8265CA20(void *p);
+extern void fn_8289D4C0(void *p);
+extern char lbl_82196B30[];
+extern char lbl_82197100[];
+extern char lbl_821AEC2C[];
 
+typedef struct Sub {
+    void *vtbl;
+    char pad[0x50];
+} Sub;
 
-void fn_82381E58(undefined4 *param_1)
+typedef struct Vec {
+    int *begin;
+    int *last;
+    int *end;
+} Vec;
 
+typedef struct Obj {
+    void *vtbl;
+    char pad4[0x14];
+    char f18[0x18];
+    Sub f30;
+    Sub f84;
+    Sub fd8;
+    Vec v;
+} Obj;
+
+static void Vec_tidy(Vec *v)
 {
-  if (param_1[0x4b] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0x4b] = 0;
-  param_1[0x4c] = 0;
-  param_1[0x4d] = 0;
-  param_1[0x36] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x36);
-  param_1[0x21] = &lbl_82196B30;
-  fn_8289D4C0(param_1 + 0x21);
-  param_1[0xc] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0xc);
-  *param_1 = &lbl_821AEC2C;
-  fn_82359C18(param_1 + 6);
-  fn_822FF888(param_1);
-  return;
+    if (v->begin != 0) {
+        fn_8265CA20(v->begin);
+    }
+    v->begin = 0;
+    v->last = 0;
+    v->end = 0;
 }
 
+static void Sub_dtor(Sub *s, void *vt)
+{
+    s->vtbl = vt;
+    fn_8289D4C0(s);
+}
+
+void fn_82381E58(Obj *p)
+{
+    Vec_tidy(&p->v);
+    Sub_dtor(&p->fd8, lbl_82197100);
+    Sub_dtor(&p->f84, lbl_82196B30);
+    Sub_dtor(&p->f30, lbl_82197100);
+    p->vtbl = lbl_821AEC2C;
+    fn_82359C18(p->f18);
+    fn_822FF888(p);
+}

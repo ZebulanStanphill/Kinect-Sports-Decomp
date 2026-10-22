@@ -40,15 +40,16 @@ undefined4 * fn_822452C0(undefined4 *param_1)
 
 {
   undefined4 *puVar1;
-  longlong lVar2;
+  int lVar2;
   
   fn_8288B300(param_1,1);
   *param_1 = &lbl_82197738;
   fn_8223B930(param_1 + 0xd);
   fn_8223B8C8(param_1 + 0x27);
   fn_82240DB8(param_1 + 0x41,1);
-  param_1[0x57] = 0;
-  param_1[0x58] = 0;
+  puVar1 = param_1 + 0x57;
+  puVar1[0] = 0;
+  puVar1[1] = 0;
   param_1[0x41] = &lbl_82197740;
   fn_82240688(param_1 + 0x59);
   fn_82240688(param_1 + 0x6f);
@@ -64,16 +65,14 @@ undefined4 * fn_822452C0(undefined4 *param_1)
   param_1[0x9b] = &lbl_82197750;
   do {
     fn_8223B930(puVar1);
-    lVar2 = lVar2 + -1;
     puVar1 = puVar1 + 0x1a;
-  } while (-1 < lVar2);
+  } while (--lVar2 >= 0);
   puVar1 = param_1 + 0x239;
   lVar2 = 0xe;
   do {
     fn_82240688(puVar1);
-    lVar2 = lVar2 + -1;
     puVar1 = puVar1 + 0x16;
-  } while (-1 < lVar2);
+  } while (--lVar2 >= 0);
   return param_1;
 }
 

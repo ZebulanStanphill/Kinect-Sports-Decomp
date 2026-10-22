@@ -1,59 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517DC8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_82197648;
-extern unsigned int lbl_82197688;
+extern void fn_82517DC8(void *p, int a);
+extern void *fn_8265C9E0(int size);
+extern char lbl_82197648[];
+extern char lbl_82197688[];
 
+typedef struct Obj {
+    void *vtbl;
+    char pad4[0x30];
+    char *f34;
+    char pad38[0x30];
+    void *vtbl2;
+    char pad6c[0x14];
+    int f80;
+    int pad84;
+    __int64 f88;
+    int f90;
+    unsigned char f94;
+    unsigned char f95;
+    unsigned char f96;
+    unsigned char f97;
+    unsigned char f98;
+} Obj;
 
-undefined4 * fn_822386F8(undefined8 param_1)
-
+Obj *fn_822386F8(int a)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0xa0);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82517DC8(puVar1,param_1);
-    puVar1[0x20] = 0;
-    *(undefined8 *)(puVar1 + 0x22) = 0;
-    puVar1[0x24] = 0;
-    *(undefined1 *)((int)puVar1 + 0x95) = 0;
-    *(undefined1 *)((int)puVar1 + 0x96) = 0;
-    *(undefined1 *)((int)puVar1 + 0x97) = 0;
-    *(undefined1 *)(puVar1 + 0x26) = 0;
-    *puVar1 = &lbl_82197648;
-    puVar1[0x1a] = &lbl_82197688;
-    *(undefined1 *)(puVar1 + 0x25) = 1;
-    *(undefined4 **)(puVar1[0xd] + 0x148) = puVar1;
-  }
-  return puVar1;
-}
+    Obj *p;
 
+    p = (Obj *)fn_8265C9E0(0xa0);
+    if (p != 0) {
+        fn_82517DC8(p, a);
+        p->f80 = 0;
+        p->f88 = 0;
+        p->f90 = 0;
+        p->f95 = 0;
+        p->f96 = 0;
+        p->f97 = 0;
+        p->f98 = 0;
+        p->vtbl = lbl_82197648;
+        p->vtbl2 = lbl_82197688;
+        p->f94 = 1;
+        *(Obj **)(p->f34 + 0x148) = p;
+        return p;
+    }
+    return 0;
+}

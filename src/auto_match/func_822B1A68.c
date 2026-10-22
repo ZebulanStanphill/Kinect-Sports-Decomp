@@ -1,63 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B1B90();
+/* The XDK's ppcintrinsics.h defines __lwsync() as this __emit. */
+void __emit(unsigned int opcode);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Lock {
+    int pad[2];
+    int owner;
+} Lock;
 
-void fn_822B1A68(int *param_1,int *param_2)
+typedef struct Link {
+    struct Link *next;
+    struct Link *prev;
+} Link;
 
+typedef struct Target Target;
+typedef struct TargetVtbl {
+    void *f0;
+    void (*attach)(Target *t, void *p);
+} TargetVtbl;
+
+struct Target {
+    TargetVtbl *vtbl;
+    Link list;
+};
+
+typedef struct Node {
+    Link link;
+    Target *target;
+    int pad;
+    int data;
+} Node;
+
+extern void fn_822B1B90(Lock **out, Link *list);
+
+void fn_822B1A68(Node *n, Target *t)
 {
-  int iVar1;
-  int *piVar2;
-  int aiStack_30;
-  
-  piVar2 = (int *)param_1[2];
-  if (param_2 != piVar2) {
-    if (piVar2 != (int *)0x0) {
-      fn_822B1B90(&aiStack_30,piVar2 + 1);
-      *(int *)(*param_1 + 4) = param_1[1];
-      *(int *)param_1[1] = *param_1;
-      sync(1);
-      *(undefined4 *)(aiStack_30 + 8) = 0;
-    }
-    param_1[2] = (int)param_2;
-    if (param_2 != (int *)0x0) {
-      fn_822B1B90(&aiStack_30,param_2 + 1);
-      piVar2 = (int *)(param_1[2] + 4);
-      iVar1 = *piVar2;
-      param_1[1] = (int)piVar2;
-      *param_1 = iVar1;
-      *(int **)(*piVar2 + 4) = param_1;
-      *piVar2 = (int)param_1;
-      sync(1);
-      *(undefined4 *)(aiStack_30 + 8) = 0;
-    }
-  }
-  (**(code **)(*param_2 + 4))(param_2,param_1 + 4);
-  return;
-}
+    Lock *lock;
+    Link *head;
+    Link *next;
 
+    if (t != n->target) {
+        if (n->target != 0) {
+            fn_822B1B90(&lock, &n->target->list);
+            n->link.next->prev = n->link.prev;
+            n->link.prev->next = n->link.next;
+            __lwsync();
+            lock->owner = 0;
+        }
+        n->target = t;
+        if (t != 0) {
+            fn_822B1B90(&lock, &t->list);
+            head = &n->target->list;
+            next = head->next;
+            n->link.prev = head;
+            n->link.next = next;
+            head->next->prev = &n->link;
+            head->next = &n->link;
+            __lwsync();
+            lock->owner = 0;
+        }
+    }
+    t->vtbl->attach(t, &n->data);
+}

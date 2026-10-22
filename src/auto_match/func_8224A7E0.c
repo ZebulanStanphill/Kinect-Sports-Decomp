@@ -1,62 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Obj Obj;
+typedef struct ObjVtbl {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fc;
+    void *f10;
+    void (*f14)(Obj *self, int a, int *out);
+} ObjVtbl;
+struct Obj {
+    ObjVtbl *vt;
+};
 
+typedef struct S {
+    char pad0[8];
+    int off[6];
+    struct {
+        Obj *obj;
+        int pad;
+    } e[6];
+} S;
 
-void fn_8224A7E0(int param_1,undefined8 param_2,int param_3)
-
+void fn_8224A7E0(S *s, int a, char *dst)
 {
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 auStack_2c;
-  
-  (**(code **)(**(int **)(param_1 + 0x20) + 0x14))(*(int **)(param_1 + 0x20),param_2,&uStack_40);
-  (**(code **)(**(int **)(param_1 + 0x28) + 0x14))(*(int **)(param_1 + 0x28),param_2,&uStack_3c);
-  (**(code **)(**(int **)(param_1 + 0x30) + 0x14))(*(int **)(param_1 + 0x30),param_2,&uStack_38);
-  (**(code **)(**(int **)(param_1 + 0x38) + 0x14))(*(int **)(param_1 + 0x38),param_2,&uStack_34);
-  (**(code **)(**(int **)(param_1 + 0x40) + 0x14))(*(int **)(param_1 + 0x40),param_2,&uStack_30);
-  (**(code **)(**(int **)(param_1 + 0x48) + 0x14))(*(int **)(param_1 + 0x48),param_2,&auStack_2c);
-  if (param_3 != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 8) + param_3) = uStack_40;
-    *(undefined4 *)(*(int *)(param_1 + 0xc) + param_3) = uStack_3c;
-    *(undefined4 *)(*(int *)(param_1 + 0x10) + param_3) = uStack_38;
-    *(undefined4 *)(*(int *)(param_1 + 0x14) + param_3) = uStack_34;
-    *(undefined4 *)(*(int *)(param_1 + 0x18) + param_3) = uStack_30;
-    *(undefined4 *)(*(int *)(param_1 + 0x1c) + param_3) = auStack_2c;
-  }
-  return;
-}
+    int v[6];
 
+    s->e[0].obj->vt->f14(s->e[0].obj, a, &v[0]);
+    s->e[1].obj->vt->f14(s->e[1].obj, a, &v[1]);
+    s->e[2].obj->vt->f14(s->e[2].obj, a, &v[2]);
+    s->e[3].obj->vt->f14(s->e[3].obj, a, &v[3]);
+    s->e[4].obj->vt->f14(s->e[4].obj, a, &v[4]);
+    s->e[5].obj->vt->f14(s->e[5].obj, a, &v[5]);
+    if (dst != 0) {
+        *(int *)(dst + s->off[0]) = v[0];
+        *(int *)(dst + s->off[1]) = v[1];
+        *(int *)(dst + s->off[2]) = v[2];
+        *(int *)(dst + s->off[3]) = v[3];
+        *(int *)(dst + s->off[4]) = v[4];
+        *(int *)(dst + s->off[5]) = v[5];
+    }
+}

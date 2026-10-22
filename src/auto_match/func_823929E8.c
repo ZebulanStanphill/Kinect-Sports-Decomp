@@ -25,13 +25,9 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
 
 
-void fn_823929E8(int param_1,undefined8 param_2,int param_3)
+void fn_823929E8(int param_1,undefined8 param_2,unsigned int param_3)
 
 {
   undefined4 uStack_30;
@@ -39,10 +35,10 @@ void fn_823929E8(int param_1,undefined8 param_2,int param_3)
   undefined4 uStack_28;
   undefined4 auStack_24;
   
-  (**(code **)(**(int **)(param_1 + 0x18) + 0x14))(*(int **)(param_1 + 0x18),param_2,&uStack_30);
-  (**(code **)(**(int **)(param_1 + 0x20) + 0x14))(*(int **)(param_1 + 0x20),param_2,&uStack_2c);
-  (**(code **)(**(int **)(param_1 + 0x28) + 0x14))(*(int **)(param_1 + 0x28),param_2,&uStack_28);
-  (**(code **)(**(int **)(param_1 + 0x30) + 0x14))(*(int **)(param_1 + 0x30),param_2,&auStack_24);
+  (*(code *)(**(int **)(param_1 + 0x18) + 0x14))(*(int **)(param_1 + 0x18),param_2,&uStack_30);
+  (*(code *)(**(int **)(param_1 + 0x20) + 0x14))(*(int **)(param_1 + 0x20),param_2,&uStack_2c);
+  (*(code *)(**(int **)(param_1 + 0x28) + 0x14))(*(int **)(param_1 + 0x28),param_2,&uStack_28);
+  (*(code *)(**(int **)(param_1 + 0x30) + 0x14))(*(int **)(param_1 + 0x30),param_2,&auStack_24);
   if (param_3 != 0) {
     *(undefined4 *)(*(int *)(param_1 + 8) + param_3) = uStack_30;
     *(undefined4 *)(*(int *)(param_1 + 0xc) + param_3) = uStack_2c;

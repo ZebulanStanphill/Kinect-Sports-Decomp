@@ -1,64 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82279AF0();
-extern int fn_8227B968();
-extern int fn_822848B8();
-extern int fn_82359C18();
-extern int fn_82536590();
-extern int fn_828647D8();
-extern int fn_82864898();
-extern int fn_82864988();
-extern unsigned int lbl_821A86E8;
+typedef struct {
+    void *vtbl;
+    char pad4[0xa34];
+    int m_a38;
+    char pada3c[0x72c];
+    void *m_1168;
+    int pad116c;
+    char m_1170[4];
+} Self;
 
+typedef struct {
+    char buf[40];
+} Name;
 
-void fn_8227B1D0(undefined4 *param_1)
+extern void fn_82279AF0(Self *);
+extern void fn_8227B968(Self *);
+extern void fn_822848B8(void *);
+extern void fn_82359C18(void *);
+extern void fn_82536590(int *, int);
+extern int fn_828647D8(Name *);
+extern void fn_82864898(Name *);
+extern Name *fn_82864988(Name *, const char *);
+extern int lbl_821A86E8;
 
+void fn_8227B1D0(Self *self)
 {
-  undefined4 auStack_50 [4];
-  undefined1 auStack_40 [40];
-  
-  *param_1 = &lbl_821A86E8;
-  fn_8227B968();
-  if (param_1[0x45a] != 0) {
-    fn_822848B8();
-    param_1[0x45a] = 0;
-  }
-  if (param_1[0x28e] != 0) {
-    fn_82864988(auStack_40,0xffffffff821a83f8);
-    auStack_50[0] = fn_828647D8();
-    fn_82864898(auStack_40);
-    fn_82536590(auStack_50,0);
-    param_1[0x28e] = 0;
-  }
-  fn_82359C18(param_1 + 0x45c);
-  fn_82279AF0(param_1);
-  return;
-}
+    int h;
+    Name name;
 
+    self->vtbl = &lbl_821A86E8;
+    fn_8227B968(self);
+    if (self->m_1168 != 0) {
+        fn_822848B8(self->m_1168);
+        self->m_1168 = 0;
+    }
+    if (self->m_a38 != 0) {
+        h = fn_828647D8(fn_82864988(&name, "Stop_sfx_experience_counter_loop"));
+        fn_82864898(&name);
+        fn_82536590(&h, 0);
+        self->m_a38 = 0;
+    }
+    fn_82359C18(self->m_1170);
+    fn_82279AF0(self);
+}

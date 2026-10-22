@@ -1,75 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82265538();
-extern int fn_822746B8();
-extern int fn_824A7FF8();
-extern int fn_8265CA20();
+extern void fn_822315A0(void *);
+extern void fn_82265538(void *);
+extern void fn_822746B8(void *, int);
+extern void fn_824A7FF8(void *);
+extern void fn_8265CA20(void *);
 
+typedef struct Node { struct Node *next; struct Node *prev; void *item; } Node;
+typedef struct { Node *head; int a; int b; } List;
+typedef struct { int x0; void *x4; } Sub;
+typedef struct {
+  List l0;        /* 0x00 */
+  List l1;        /* 0x0c */
+  void *x18;      /* 0x18 */
+  char pad[0x50 - 0x1c];
+  int x50;        /* 0x50 */
+  char pad2[0x6c - 0x54];
+  Sub *x6c;       /* 0x6c */
+} Obj;
 
-undefined4 * fn_82267130(undefined4 *param_1)
-
+Obj *fn_82267130(Obj *p)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = (undefined4 *)*param_1;
-  for (puVar1 = (undefined4 *)*puVar3; puVar1 != puVar3; puVar1 = (undefined4 *)*puVar1) {
-    iVar2 = puVar1[2];
-    if (iVar2 != 0) {
-      fn_82265538(iVar2);
-      fn_8265CA20(iVar2);
-    }
-    puVar3 = (undefined4 *)*param_1;
-  }
-  puVar3 = (undefined4 *)param_1[3];
-  for (puVar1 = (undefined4 *)*puVar3; puVar1 != puVar3; puVar1 = (undefined4 *)*puVar1) {
-    iVar2 = puVar1[2];
-    if (iVar2 != 0) {
-      fn_82265538(iVar2);
-      fn_8265CA20(iVar2);
-    }
-    puVar3 = (undefined4 *)param_1[3];
-  }
-  fn_822746B8(param_1[6],param_1[0x14]);
-  param_1[6] = 0;
-  iVar2 = param_1[0x1b];
-  if (iVar2 != 0) {
-    if (*(int *)(iVar2 + 4) != 0) {
-      fn_822315A0();
-    }
-    fn_8265CA20(iVar2);
-    param_1[0x1b] = 0;
-  }
-  fn_824A7FF8(param_1 + 3);
-  fn_824A7FF8(param_1);
-  fn_8265CA20(param_1);
-  return param_1;
-}
+  Node *n;
+  void *it;
+  Sub *s;
 
+  for (n = p->l0.head->next; n != p->l0.head; n = n->next) {
+    it = n->item;
+    if (it != 0) {
+      fn_82265538(it);
+      fn_8265CA20(it);
+    }
+  }
+  for (n = p->l1.head->next; n != p->l1.head; n = n->next) {
+    it = n->item;
+    if (it != 0) {
+      fn_82265538(it);
+      fn_8265CA20(it);
+    }
+  }
+  fn_822746B8(p->x18, p->x50);
+  p->x18 = 0;
+  s = p->x6c;
+  if (s != 0) {
+    if (s->x4 != 0)
+      fn_822315A0(s->x4);
+    fn_8265CA20(s);
+    p->x6c = 0;
+  }
+  fn_824A7FF8(&p->l1);
+  fn_824A7FF8(&p->l0);
+  fn_8265CA20(p);
+  return p;
+}

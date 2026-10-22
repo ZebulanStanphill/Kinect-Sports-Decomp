@@ -1,53 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8236C6A0();
-extern int fn_823CC298();
+extern void fn_8236C6A0(void *, void *);
+extern void fn_823CC298(int, int);
+struct T { char pad[0xe0]; unsigned char flag; };
+struct C { char pad[0x24]; struct T *t; };
+struct D { char pad[0x4b8]; int h; };
+struct S { char pad[0xc]; struct C *c; struct D *d; char pad2[0x2a0 - 0x14]; unsigned char a0; unsigned char a1; char pad3[0x2d8 - 0x2a2]; int x; };
 
-
-void fn_8231A9D8(int param_1)
-
+void fn_8231A9D8(struct S *s)
 {
-  int iVar1;
-  bool bVar2;
-  
-  if (*(char *)(param_1 + 0x2a1) != '\0') {
-    bVar2 = false;
-    if (*(char *)(param_1 + 0x2a0) == '\0') goto LAB_8231aa0c;
+  struct T *t;
+  unsigned char b;
+  if (s->a1 == 0 || s->a0 != 0) b = 1; else b = 0;
+  if (b && (t = s->c->t) != 0) {
+    t->flag = b;
   }
-  bVar2 = true;
-LAB_8231aa0c:
-  if ((bVar2) && (iVar1 = *(int *)(*(int *)(param_1 + 0xc) + 0x24), iVar1 != 0)) {
-    *(undefined1 *)(iVar1 + 0xe0) = 1;
+  if (s->x != 0) {
+    fn_823CC298(s->d->h, 0x1b);
   }
-  if (*(int *)(param_1 + 0x2d8) != 0) {
-    fn_823CC298(*(undefined4 *)(*(int *)(param_1 + 0x10) + 0x4b8),0x1b);
-  }
-  fn_8236C6A0(*(undefined4 *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0xc));
-  return;
+  fn_8236C6A0(s->d, s->c);
 }
-

@@ -1,49 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822BF0B0();
-extern int fn_822BF738();
-extern int fn_822C09B0();
+typedef __declspec(passinreg) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct { __vector4 v; } Vec;
 
-void fn_8232E248(int param_1)
+extern Vec fn_822C09B0(int a, int b);
+extern void fn_822BF0B0(int a, int b, __vector4 v, int c);
+extern void fn_822BF738(int a, int b, int c, __vector4 v, int d, void *e);
 
+struct S { char pad[0x54]; int h; char pad2[0x94 - 0x58]; int a94; int a98; int a9c; int aa0; };
+
+void fn_8232E248(struct S *s)
 {
-  undefined4 uVar1;
-  undefined1 auStack_30 [24];
-  
-  fn_822C09B0(auStack_30,*(undefined4 *)(param_1 + 0x54),*(undefined4 *)(param_1 + 0x98));
-  fn_822BF0B0(*(undefined4 *)(param_1 + 0x54),*(undefined4 *)(param_1 + 0x94),
-                    *(undefined4 *)(param_1 + 0xa0));
-  uVar1 = *(undefined4 *)(param_1 + 0x98);
-  fn_822C09B0(auStack_30,*(undefined4 *)(param_1 + 0x54),uVar1);
-  fn_822BF738(*(undefined4 *)(param_1 + 0x54),*(undefined4 *)(param_1 + 0xa0),
-                    *(undefined4 *)(param_1 + 0x94),uVar1,param_1 + 0x9c);
-  return;
+  int t;
+  fn_822BF0B0(s->h, s->a94, fn_822C09B0(s->h, s->a98).v, s->aa0);
+  t = s->a98;
+  fn_822BF738(s->h, s->aa0, s->a94, fn_822C09B0(s->h, t).v, t, &s->a9c);
 }
-

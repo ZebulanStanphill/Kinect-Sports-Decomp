@@ -40,7 +40,7 @@ void fn_82260E68(int param_1,undefined8 param_2)
 {
   char *pcVar1;
   int iVar2;
-  char cVar3;
+  unsigned char cVar3;
   
   pcVar1 = (char *)fn_8225F670();
   if (*pcVar1 == '\0') goto code_r0x82260f8c;
@@ -76,7 +76,7 @@ code_r0x82260ec0:
   }
 code_r0x82260f70:
   fn_82E1CD30();
-  fn_82E1CB88(0xffffffff821a6d6c,param_2);
+  fn_82E1CB88("GameId",param_2);
   fn_82E1CCA8();
   fn_82E1CA30();
 code_r0x82260f8c:

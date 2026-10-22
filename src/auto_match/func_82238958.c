@@ -1,58 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82381C38();
-extern int fn_82381D68();
-extern int fn_8265C9E0();
-extern int fn_8289D6D0();
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_821B3AE4;
+extern int fn_82381C38(void *p, int a);
+extern int fn_82381D68(void *p, int a, int b);
+extern void *fn_8265C9E0(int n);
+extern int fn_8289D6D0(void *p, int n);
+extern char lbl_82197100[];
+extern char lbl_821B3AE4[];
 
-
-undefined4 * fn_82238958(undefined8 param_1)
-
+void **fn_82238958(int param_1)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x338);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82381C38(puVar1,param_1);
-    *puVar1 = &lbl_821B3AE4;
-    fn_8289D6D0(puVar1 + 0x3c,4);
-    puVar1[0x3c] = &lbl_82197100;
-    fn_8289D6D0(puVar1 + 0x51,4);
-    puVar1[0x51] = &lbl_82197100;
-    fn_8289D6D0(puVar1 + 0x66,4);
-    puVar1[0x66] = &lbl_82197100;
-    fn_82381D68(puVar1 + 0x7c,param_1,0);
-  }
-  return puVar1;
-}
+  void **p;
 
+  p = fn_8265C9E0(0x338);
+  if (p != 0) {
+    fn_82381C38(p, param_1);
+    p[0] = lbl_821B3AE4;
+    fn_8289D6D0(p + 0x3c, 4);
+    p[0x3c] = lbl_82197100;
+    fn_8289D6D0(p + 0x51, 4);
+    p[0x51] = lbl_82197100;
+    fn_8289D6D0(p + 0x66, 4);
+    p[0x66] = lbl_82197100;
+    fn_82381D68(p + 0x7c, param_1, 0);
+    return p;
+  }
+  return 0;
+}

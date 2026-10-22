@@ -1,61 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82554DA8();
-extern int fn_8266DB08();
-extern int fn_8266EC60();
-extern int fn_82BFEDD8();
-extern unsigned int lbl_832961C8;
+extern void fn_82554DA8(void *);
+extern void fn_8266DB08(void *, void *);
+extern void *fn_8266EC60(void);
+extern void fn_82BFEDD8(void *, int);
 
+struct G { char pad[0x128]; int count; };
+extern struct G lbl_832960A0;
 
-void fn_8228F078(int param_1)
+struct Inner { char pad[0x18]; void *p; };
+struct S { char pad[0x1c]; struct Inner *inner; char pad2[0x8c - 0x20]; int registered; void *res; };
 
+void fn_8228F078(struct S *s)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    if (*(int *)(param_1 + 0x8c) != 0) {
-      lbl_832961C8 = lbl_832961C8 + -1;
-      *(undefined4 *)(param_1 + 0x8c) = 0;
+  void *res;
+  if (s->inner != 0) {
+    if (s->registered != 0) {
+      lbl_832960A0.count--;
+      s->registered = 0;
     }
-    iVar1 = *(int *)(param_1 + 0x90);
-    if (iVar1 != 0) {
-      uVar2 = fn_8266EC60();
-      fn_8266DB08(uVar2,iVar1);
-      *(undefined4 *)(param_1 + 0x90) = 0;
+    res = s->res;
+    if (res != 0) {
+      fn_8266DB08(fn_8266EC60(), res);
+      s->res = 0;
     }
-    iVar1 = *(int *)(*(int *)(param_1 + 0x1c) + 0x18);
-    if (iVar1 != 0) {
-      fn_82BFEDD8(iVar1,0);
+    if (s->inner->p != 0) {
+      fn_82BFEDD8(s->inner->p, 0);
     }
-    fn_82554DA8(*(undefined4 *)(param_1 + 0x1c));
-    *(undefined4 *)(param_1 + 0x1c) = 0;
+    fn_82554DA8(s->inner);
+    s->inner = 0;
   }
-  return;
 }
-

@@ -1,51 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8236FDE0();
-extern int fn_823807F0();
-extern int fn_825114C8();
+typedef struct C {
+    char pad0[0xc];
+    struct B *m_c;
+    char pad10[4];
+    char m_14[4];
+} C;
 
+typedef struct B {
+    char pad0[0x118];
+    C *m_118;
+    char pad11c[0x158];
+    int m_274;
+} B;
 
-void fn_822D85E0(int param_1)
+typedef struct {
+    char pad0[0x4c];
+    float m_4c;
+} D;
 
+typedef struct {
+    char pad0[0x664];
+    void *m_664;
+} E;
+
+typedef struct {
+    char pad0[0x24];
+    D *m_24;
+    char pad28[0x2c];
+    B *m_54;
+    E *m_58;
+    char pad5c[0x20];
+    int m_7c;
+    int m_80;
+    char pad84[0x58];
+    float m_dc;
+} Self;
+
+extern int fn_8236FDE0(B *);
+extern void fn_823807F0(void *, int);
+extern void fn_825114C8(void *, int);
+
+void fn_822D85E0(Self *self)
 {
-  int iVar1;
-  
-  fn_825114C8((ulonglong)*(uint *)(*(int *)(param_1 + 0x54) + 0x118) + 0x14,0x17);
-  *(undefined4 *)(*(int *)(param_1 + 0x54) + 0x274) = 0;
-  iVar1 = *(int *)(*(int *)(*(int *)(param_1 + 0x54) + 0x118) + 0xc);
-  if (iVar1 != 0) {
-    *(undefined4 *)(iVar1 + 0x118) = 0;
-  }
-  *(undefined4 *)(*(int *)(param_1 + 0x24) + 0x4c) = *(undefined4 *)(param_1 + 0xdc);
-  if (((*(int *)(param_1 + 0x7c) != 0) && (*(int *)(param_1 + 0x80) == 0)) &&
-     (iVar1 = fn_8236FDE0(*(undefined4 *)(param_1 + 0x54)), iVar1 != 0)) {
-    fn_823807F0(*(undefined4 *)(*(int *)(param_1 + 0x58) + 0x664),0x18);
-  }
-  return;
-}
+    B *b;
 
+    fn_825114C8(self->m_54->m_118->m_14, 0x17);
+    self->m_54->m_274 = 0;
+    b = self->m_54->m_118->m_c;
+    if (b != 0) {
+        b->m_118 = 0;
+    }
+    self->m_24->m_4c = self->m_dc;
+    if (self->m_7c != 0 && self->m_80 == 0 && fn_8236FDE0(self->m_54) != 0) {
+        fn_823807F0(self->m_58->m_664, 0x18);
+    }
+}

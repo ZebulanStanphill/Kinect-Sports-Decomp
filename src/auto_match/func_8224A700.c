@@ -1,47 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Stream Stream;
+typedef struct StreamVtbl {
+    void *f00;
+    void *f04;
+    void *f08;
+    void *f0c;
+    void (*Set)(Stream *s, int a, unsigned int pos);
+} StreamVtbl;
+struct Stream {
+    StreamVtbl *vt;
+};
 
+typedef struct Slot {
+    Stream *s;
+    int pad;
+} Slot;
 
-void fn_8224A700(int param_1,undefined8 param_2,longlong param_3)
+typedef struct Obj {
+    char pad00[0x8];
+    unsigned int offs[6];
+    Slot slots[6];
+} Obj;
 
+void fn_8224A700(Obj *obj, int a, unsigned int pos)
 {
-  (**(code **)(**(int **)(param_1 + 0x20) + 0x10))
-            (*(int **)(param_1 + 0x20),param_2,(ulonglong)*(uint *)(param_1 + 8) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x28) + 0x10))
-            (*(int **)(param_1 + 0x28),param_2,(ulonglong)*(uint *)(param_1 + 0xc) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x30) + 0x10))
-            (*(int **)(param_1 + 0x30),param_2,(ulonglong)*(uint *)(param_1 + 0x10) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x38) + 0x10))
-            (*(int **)(param_1 + 0x38),param_2,(ulonglong)*(uint *)(param_1 + 0x14) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x40) + 0x10))
-            (*(int **)(param_1 + 0x40),param_2,(ulonglong)*(uint *)(param_1 + 0x18) + param_3);
-  (**(code **)(**(int **)(param_1 + 0x48) + 0x10))
-            (*(int **)(param_1 + 0x48),param_2,(ulonglong)*(uint *)(param_1 + 0x1c) + param_3);
-  return;
+    obj->slots[0].s->vt->Set(obj->slots[0].s, a, obj->offs[0] + pos);
+    obj->slots[1].s->vt->Set(obj->slots[1].s, a, obj->offs[1] + pos);
+    obj->slots[2].s->vt->Set(obj->slots[2].s, a, obj->offs[2] + pos);
+    obj->slots[3].s->vt->Set(obj->slots[3].s, a, obj->offs[3] + pos);
+    obj->slots[4].s->vt->Set(obj->slots[4].s, a, obj->offs[4] + pos);
+    obj->slots[5].s->vt->Set(obj->slots[5].s, a, obj->offs[5] + pos);
 }
-

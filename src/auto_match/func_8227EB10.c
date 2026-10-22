@@ -1,51 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Handler {
+    void (**vtbl)(struct Handler *, int, unsigned int);
+} Handler;
 
+typedef struct Entry {
+    int f0;
+    int f4;
+    void (*cb)(int, int, unsigned int);
+    int fc;
+    Handler *f10;
+    int f14;
+    char pad18[0x54];
+    unsigned int f6c;
+} Entry;
 
-void fn_8227EB10(int param_1,ulonglong param_2)
+typedef struct Mgr {
+    int f0;
+    int f4;
+    int f8;
+    Entry **entries;
+    char pad10[0x1c];
+    int cur;
+} Mgr;
 
+void fn_8227EB10(Mgr *m, unsigned int flag)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0x2c) != -1) {
-    iVar2 = *(int *)(*(int *)(param_1 + 0x2c) * 4 + *(int *)(param_1 + 0xc));
-    if (*(code **)(iVar2 + 8) != (code *)0x0) {
-      (**(code **)(iVar2 + 8))(*(undefined4 *)(iVar2 + 0x14),*(undefined4 *)(iVar2 + 0xc),param_2);
-    }
-    piVar1 = *(int **)(iVar2 + 0x10);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 8))(piVar1,*(undefined4 *)(iVar2 + 0x14),param_2);
-    }
-    if ((param_2 & 0xffffffff) != 0) {
-      *(uint *)(iVar2 + 0x6c) = *(uint *)(iVar2 + 0x6c) | 4;
-    }
-  }
-  return;
-}
+    Entry *e;
+    Handler *h;
 
+    if (m->cur != -1) {
+        e = m->entries[m->cur];
+        if (e->cb != 0) {
+            e->cb(e->f14, e->fc, flag);
+        }
+        h = e->f10;
+        if (h != 0) {
+            h->vtbl[2](h, e->f14, flag);
+        }
+        if (flag != 0) {
+            e->f6c |= 4;
+        }
+    }
+}

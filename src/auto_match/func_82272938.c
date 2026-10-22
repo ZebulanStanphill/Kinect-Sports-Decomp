@@ -1,58 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82837D98();
-extern unsigned int lbl_8326B394;
+extern void fn_82837D98(void *, int, void **);
 
+struct G { char pad[0x24]; void *def; };
+extern struct G lbl_8326B370;
 
-void fn_82272938(int *param_1,int param_2,int param_3)
+struct Obj { char pad[0x1a4]; void *tex; };
+struct Src { char pad[0x14]; void *h; };
+struct S { struct Obj *obj; int pad[0x35]; struct Src *src; int val; };
 
+void fn_82272938(struct S *s, struct Src *src, int val)
 {
-  int iVar1;
-  int aiStack_20 [2];
-  
-  iVar1 = *param_1;
-  if (iVar1 == 0) {
+  void *t;
+  struct Obj *obj = s->obj;
+  if (obj == 0) {
     return;
   }
-  if (param_1[0x36] == param_2) goto LAB_822729a8;
-  param_1[0x36] = param_2;
-  if (param_2 == 0) {
-LAB_82272998:
-    aiStack_20[0] = lbl_8326B394;
+  if (s->src != src) {
+    s->src = src;
+    if (src != 0) {
+      fn_82837D98(src->h, 0, &t);
+      obj = s->obj;
+    }
+    if (src == 0 || t == 0) {
+      t = lbl_8326B370.def;
+    }
+    obj->tex = t;
   }
-  else {
-    fn_82837D98(*(undefined4 *)(param_2 + 0x14),0,aiStack_20);
-    iVar1 = *param_1;
-    if (aiStack_20[0] == 0) goto LAB_82272998;
-  }
-  *(int *)(iVar1 + 0x1a4) = aiStack_20[0];
-LAB_822729a8:
-  param_1[0x37] = param_3;
-  return;
+  s->val = val;
 }
-
