@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82381CA8();
-extern int fn_82381E58();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82197080;
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_821B7C54;
+extern void fn_82381CA8(void *p);
+extern void fn_82381E58(void *p);
+extern void fn_8289D4C0(void *p);
+extern char lbl_82197080[];
+extern char lbl_82197100[];
+extern char lbl_821B7C54[];
 
+static void destroy_82197080(void **p) { *p = lbl_82197080; fn_8289D4C0(p); }
+static void destroy_82197100(void **p) { *p = lbl_82197100; fn_8289D4C0(p); }
 
-void fn_82403B68(undefined4 *param_1)
-
+void fn_82403B68(void **param_1)
 {
-  *param_1 = &lbl_821B7C54;
-  param_1[0xcd] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xcd);
-  param_1[0xb8] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0xb8);
-  param_1[0xa3] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0xa3);
-  param_1[0x8e] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x8e);
+  *param_1 = lbl_821B7C54;
+  destroy_82197080(param_1 + 0xcd);
+  destroy_82197080(param_1 + 0xb8);
+  destroy_82197100(param_1 + 0xa3);
+  destroy_82197100(param_1 + 0x8e);
   fn_82381E58(param_1 + 0x3c);
   fn_82381CA8(param_1);
-  return;
 }
-
