@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_8216CC40;
+extern double lbl_8216CC40;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -44,10 +44,9 @@ void fn_82FA94A0(int param_1,int param_2,undefined4 param_3,int param_4)
   *(undefined4 *)(param_1 + 0x3c) = param_3;
   *(int *)(param_1 + 0x34) = param_4;
   *(int *)(param_1 + 0x48) = param_4;
-  if (*(int *)(param_1 + 8) <= param_4) {
-    return;
+  if (param_4 < *(int *)(param_1 + 8)) {
+    *(int *)(param_1 + 8) = param_4;
   }
-  *(int *)(param_1 + 8) = param_4;
   return;
 }
 

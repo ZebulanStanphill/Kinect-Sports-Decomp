@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82F48680(int *param_1,undefined2 param_2)
+undefined8 fn_82F48680(unsigned int *param_1,undefined2 param_2)
 
 {
   int iVar1;
   undefined8 uVar2;
   
   uVar2 = 0;
-  iVar1 = (**(code **)(*param_1 + 0x50))();
+  iVar1 = (*(code *)(*param_1 + 0x50))();
   if (iVar1 == 0) {
     uVar2 = 0xffffffff80004001;
   }

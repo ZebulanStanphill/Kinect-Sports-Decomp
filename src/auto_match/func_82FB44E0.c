@@ -36,7 +36,7 @@ void fn_82FB44E0(int param_1,undefined8 param_2)
   if ((*(byte *)(param_1 + 0x30) & 0x80) == 0) {
     fn_82FA8938();
     iVar1 = *(int *)(*(int *)(*(int *)(param_1 + 0x70) + 4) + 0x1c);
-    (*(code *)**(undefined4 **)(iVar1 + 4))(iVar1 + 4,param_2);
+    (*(code *)*(undefined4 *)(iVar1 + 4))(iVar1 + 4,param_2);
   }
   return;
 }

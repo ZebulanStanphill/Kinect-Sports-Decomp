@@ -28,32 +28,35 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82FF9E88();
 extern int fn_8302B530();
 extern int fn_8302B540();
+void RtlEnterCriticalSection(void *cs);
+void RtlLeaveCriticalSection(void *cs);
 
+typedef struct Node { struct Node *next; uint key; int value[1]; } Node;
+typedef struct Map { char pad[0x50]; char cs[0x44]; Node *buckets[193]; } Map;
 
-undefined4 * fn_82FFA5E0(undefined4 *param_1,int param_2,uint param_3,undefined8 param_4)
+static int *find(Map *m, uint key)
+{
+  Node *n;
+  for (n = m->buckets[key % 0xc1]; n != 0; n = n->next) {
+    if (n->key == key) return n->value;
+  }
+  return 0;
+}
+
+undefined4 * fn_82FFA5E0(undefined4 *param_1,Map *param_2,uint param_3,int param_4)
 
 {
-  undefined4 *puVar1;
+  int *v;
   
   *param_1 = 0;
   param_1[1] = 0;
   fn_8302B530();
-  RtlEnterCriticalSection(param_2 + 0x50);
-  puVar1 = *(undefined4 **)((param_3 % 0xc1 + 0x25) * 4 + param_2);
-  do {
-    if (puVar1 == (undefined4 *)0x0) {
-LAB_82ffa678:
-      RtlLeaveCriticalSection(param_2 + 0x50);
-      fn_8302B540();
-      return param_1;
-    }
-    if (puVar1[1] == param_3) {
-      if (puVar1 + 2 != (undefined4 *)0x0) {
-        fn_82FF9E88(puVar1 + 2,param_1,param_4);
-      }
-      goto LAB_82ffa678;
-    }
-    puVar1 = (undefined4 *)*puVar1;
-  } while( true );
+  RtlEnterCriticalSection(param_2->cs);
+  v = find(param_2, param_3);
+  if (v != 0) {
+    fn_82FF9E88(v,param_1,param_4);
+  }
+  RtlLeaveCriticalSection(param_2->cs);
+  fn_8302B540();
+  return param_1;
 }
-

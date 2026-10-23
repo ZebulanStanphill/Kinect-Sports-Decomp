@@ -36,7 +36,7 @@ void fn_82FA9570(undefined4 *param_1)
   
   uVar1 = lbl_831BC768;
   if (param_1 != (undefined4 *)0x0) {
-    (**(code **)*param_1)(param_1,0);
+    (*(code *)*param_1)(param_1,0);
     fn_82FA5190(uVar1,param_1);
   }
   return;

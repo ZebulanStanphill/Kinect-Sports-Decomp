@@ -41,8 +41,8 @@ void fn_82FF9208(int param_1)
     fn_82A1E658(lbl_832645A0);
     lbl_832645A0 = 0;
   }
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    fn_82A1E658();
+  if (*(unsigned int *)(param_1 + 0x2c) != 0) {
+    fn_82A1E658(*(unsigned int *)(param_1 + 0x2c));
   }
   *(undefined4 *)(param_1 + 0x2c) = 0;
   return;

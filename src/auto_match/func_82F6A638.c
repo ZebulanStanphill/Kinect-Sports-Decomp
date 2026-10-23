@@ -33,13 +33,14 @@ extern int fn_82F6F8E0();
 extern int fn_82F6F8F0();
 extern int fn_82F6FA78();
 extern int fn_8306C3B8();
+extern int fn_82A1F470();
 
 
 undefined8 fn_82F6A638(undefined4 *param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 uVar3;
   
   fn_82D7E470();
@@ -49,7 +50,7 @@ undefined8 fn_82F6A638(undefined4 *param_1)
     uVar1 = fn_82F6F8E0();
     iVar2 = fn_82F6F8F0(uVar1,param_1);
     if (iVar2 == 0) {
-      thunk_FUN_82a2b798();
+      fn_82A1F470();
                     /* WARNING: Subroutine does not return */
       fn_8306C3B8();
     }

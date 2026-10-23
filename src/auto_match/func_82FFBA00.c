@@ -1,57 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82FF9B18();
-extern int fn_82FFDF28();
-extern int fn_82FFF348();
-extern int fn_8302B530();
-extern int fn_8302B540();
-extern unsigned int uStack_38;
+typedef struct { int v[8]; } CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(CRITICAL_SECTION *cs);
 
+typedef struct {
+    void *a;
+    void *b;
+    char *node;
+    void *d;
+} Iter;
 
-void fn_82FFBA00(longlong param_1,undefined8 param_2)
+extern void *fn_82FF9B18(void *p);
+extern void fn_82FFDF28(Iter *out, void *map, void *key);
+extern void fn_82FFF348(Iter *out, void *map, Iter *where);
+extern void fn_8302B530(void);
+extern void fn_8302B540(void);
 
+typedef struct {
+    char pad[0x50];
+    CRITICAL_SECTION cs;
+    char pad2[0x90 - 0x70];
+    char map[1];
+} Obj;
+
+void fn_82FFBA00(Obj *o, void *key)
 {
-  int iVar1;
-  undefined1 auStack_40 [8];
-  uint uStack_38;
-  undefined1 auStack_30 [16];
-  
-  fn_8302B530();
-  RtlEnterCriticalSection(param_1 + 0x50);
-  fn_82FFDF28(auStack_40,param_1 + 0x90,param_2);
-  if (((ulonglong)uStack_38 != 0) &&
-     (iVar1 = fn_82FF9B18((ulonglong)uStack_38 + 8), iVar1 == 0)) {
-    fn_82FFF348(auStack_30,param_1 + 0x90,auStack_40);
-  }
-  RtlLeaveCriticalSection(param_1 + 0x50);
-  fn_8302B540();
-  return;
-}
+    Iter it;
+    Iter res;
 
+    fn_8302B530();
+    RtlEnterCriticalSection(&o->cs);
+    fn_82FFDF28(&it, o->map, key);
+    if (it.node != 0 && fn_82FF9B18(it.node + 8) == 0) {
+        fn_82FFF348(&res, o->map, &it);
+    }
+    RtlLeaveCriticalSection(&o->cs);
+    fn_8302B540();
+}

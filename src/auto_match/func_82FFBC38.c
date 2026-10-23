@@ -1,53 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82FF9B18();
-extern int fn_82FFDF28();
-extern int fn_82FFF348();
-extern unsigned int uStack_38;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern unsigned int fn_82FF9B18(void *);
+extern void fn_82FFDF28(void *, void *, void *);
+extern void fn_82FFF348(void *, void *, void *);
 
+typedef struct { void *a; void *b; char *node; void *d; } Iter;
 
-void fn_82FFBC38(longlong param_1,undefined8 param_2)
-
+void fn_82FFBC38(char *self, void *key)
 {
-  int iVar1;
-  undefined1 auStack_40 [8];
-  uint uStack_38;
-  undefined1 auStack_30 [16];
-  
-  RtlEnterCriticalSection(param_1 + 0x50);
-  fn_82FFDF28(auStack_40,param_1 + 0x90,param_2);
-  if (((ulonglong)uStack_38 != 0) &&
-     (iVar1 = fn_82FF9B18((ulonglong)uStack_38 + 8), iVar1 == 0)) {
-    fn_82FFF348(auStack_30,param_1 + 0x90,auStack_40);
-  }
-  RtlLeaveCriticalSection(param_1 + 0x50);
-  return;
-}
+  Iter it;
+  char out[16];
 
+  RtlEnterCriticalSection(self + 0x50);
+  fn_82FFDF28(&it, self + 0x90, key);
+  if (it.node != 0 && fn_82FF9B18(it.node + 8) == 0) {
+    fn_82FFF348(out, self + 0x90, &it);
+  }
+  RtlLeaveCriticalSection(self + 0x50);
+}

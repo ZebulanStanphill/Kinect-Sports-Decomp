@@ -38,11 +38,11 @@ void fn_82FA8468(int param_1,uint param_2)
   
   iVar1 = param_1 + -0x188;
   fn_82FEFC98(iVar1);
-  if ((*(uint *)(param_1 + 0xc) == 0xffffffff) || (param_2 < *(uint *)(param_1 + 0xc))) {
+  if ((*(uint *)(param_1 + 0xc) == 0xffffffff) || (*(uint *)(param_1 + 0xc) > param_2)) {
     *(uint *)(param_1 + 0xc) = param_2;
   }
   if (((*(byte *)(param_1 + -0xae) & 0x80) == 0) &&
-     ((*(int *)(param_1 + -300) == 0 || ((*(byte *)(param_1 + -0x128) & 0x40) == 0)))) {
+     ((*(unsigned int *)(param_1 + -300) == 0 || ((*(byte *)(param_1 + -0x128) & 0x40) == 0)))) {
     *(byte *)(param_1 + -0xaf) = *(byte *)(param_1 + -0xaf) | 2;
     if (param_2 == 0xffffffff) {
       fn_82FEF488(iVar1);

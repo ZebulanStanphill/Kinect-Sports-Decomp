@@ -39,7 +39,7 @@ int * fn_82FEA6C0(undefined8 param_1)
     return (int *)0x0;
   }
   RtlEnterCriticalSection(piVar1 + 7);
-  (**(code **)(*piVar1 + 8))(piVar1);
+  (*(code *)(*piVar1 + 8))(piVar1);
   return piVar1 + 4;
 }
 

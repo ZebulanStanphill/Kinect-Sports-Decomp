@@ -1,55 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50F00();
-extern int fn_82E51028();
-extern int fn_82E63500();
+extern void fn_82E50F00(void *p, int n);
+extern void fn_82E51028(void *p, int n);
+extern void *fn_82E63500(void *p, void *q);
 
+typedef struct Obj {
+    struct ObjVtbl *vt;
+} Obj;
+typedef struct ObjVtbl {
+    void *f0;
+    void (*AddRef)(Obj *o);
+} ObjVtbl;
 
-undefined8 fn_82EE2930(longlong param_1,undefined8 param_2,int *param_3)
+typedef struct Item {
+    unsigned short type;
+    short pad;
+    int pad2;
+    Obj *obj;
+} Item;
 
+int fn_82EE2930(char *param_1, void *param_2, Obj *param_3)
 {
-  undefined2 *puVar1;
-  undefined8 uVar2;
-  
-  fn_82E50F00(param_1 + 4,1);
-  puVar1 = (undefined2 *)fn_82E63500(param_1,param_2);
-  uVar2 = 0;
-  if (puVar1 == (undefined2 *)0x0) {
-    uVar2 = 0xffffffff8007000e;
-  }
-  else {
-    *(int **)(puVar1 + 4) = param_3;
-    *puVar1 = 0xd;
-    if (param_3 != (int *)0x0) {
-      (**(code **)(*param_3 + 4))(param_3);
-    }
-  }
-  fn_82E51028(param_1 + 4,1);
-  return uVar2;
-}
+    Item *it;
+    int hr;
 
+    fn_82E50F00(param_1 + 4, 1);
+    it = (Item *)fn_82E63500(param_1, param_2);
+    hr = 0;
+    if (it == 0) {
+        hr = 0x8007000e;
+    } else {
+        it->obj = param_3;
+        it->type = 0xd;
+        if (param_3 != 0) {
+            param_3->vt->AddRef(param_3);
+        }
+    }
+    fn_82E51028(param_1 + 4, 1);
+    return hr;
+}

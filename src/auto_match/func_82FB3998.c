@@ -46,7 +46,7 @@ undefined4 * fn_82FB3998(undefined4 *param_1,int *param_2,undefined8 param_3)
   param_1[6] = &lbl_8216CC7C;
   param_1[0x10] = &lbl_8216D71C;
   if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 4))(param_2);
+    (*(code *)(*param_2 + 4))(param_2);
   }
   return param_1;
 }

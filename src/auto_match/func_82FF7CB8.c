@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_82FA7D18();
-extern int fn_82FB38A8();
-extern int fn_82FF6828();
-extern int fn_82FF7968();
-extern int fn_82FF7B98();
-extern unsigned int lbl_831BC768;
+typedef struct Obj {
+    int m0;
+    void *begin;
+    void *end;
+    void *cap;
+    char m10[0x30 - 0x10];
+    char m30[0x6c - 0x30];
+    char m6c[0xc];
+    char m78[0xc];
+} Obj;
 
+extern void fn_82FA5190(void *heap, void *p);
+extern void fn_82FA7D18(void *p);
+extern void fn_82FB38A8(void *p);
+extern void fn_82FF6828(Obj *p);
+extern void fn_82FF7968(Obj *p, void *q);
+extern void fn_82FF7B98(Obj *p, int a);
+extern void *lbl_831BC768;
 
-void fn_82FF7CB8(int param_1)
-
+void fn_82FF7CB8(Obj *p)
 {
-  fn_82FF6828();
-  fn_82FF7B98(param_1,0);
-  if (*(int *)(param_1 + 4) != 0) {
-    *(int *)(param_1 + 8) = *(int *)(param_1 + 4);
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 4) = 0;
-    *(undefined4 *)(param_1 + 8) = 0;
-    *(undefined4 *)(param_1 + 0xc) = 0;
-  }
-  fn_82FB38A8(param_1 + 0x10);
-  fn_82FA7D18(param_1 + 0x30);
-  fn_82FF7968(param_1,param_1 + 0x6c);
-  fn_82FF7968(param_1,param_1 + 0x78);
-  return;
+    fn_82FF6828(p);
+    fn_82FF7B98(p, 0);
+    if (p->begin != 0) {
+        p->end = p->begin;
+        fn_82FA5190(lbl_831BC768, p->begin);
+        p->begin = 0;
+        p->end = 0;
+        p->cap = 0;
+    }
+    fn_82FB38A8(p->m10);
+    fn_82FA7D18(p->m30);
+    fn_82FF7968(p, p->m6c);
+    fn_82FF7968(p, p->m78);
 }
-

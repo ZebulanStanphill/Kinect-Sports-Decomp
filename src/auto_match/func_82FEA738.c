@@ -40,7 +40,7 @@ undefined8 fn_82FEA738(undefined8 param_1)
     return 2;
   }
   fn_83014310(piVar1);
-  (**(code **)(*piVar1 + 8))(piVar1);
+  (*(code *)(*piVar1 + 8))(piVar1);
   return 1;
 }
 
