@@ -1,0 +1,50 @@
+// hkpShapeCollectionAgent::~hkpShapeCollectionAgent, the implicit destructor (Physics/Collide/Agent/
+// CompoundAgent/ShapeCollection/hkpShapeCollectionAgent.h), emitted out of line: the deleting destructor
+// (fn_82D55498) calls it; identical code also serves hkpMultiSphereAgent. It destroys the hkArray of
+// key/agent pairs at +0xC. The function at the end only makes the compiler emit the vtable.
+#include "havok/hkBase.h"
+
+class hkpCdBody;
+class hkpContactMgr;
+class hkpConstraintOwner;
+class hkpCdBodyPairCollector;
+class hkpCdPointCollector;
+typedef hkpConstraintOwner hkCollisionConstraintOwner;
+struct hkpCollisionInput;
+struct hkpLinearCastCollisionInput;
+struct hkpProcessCollisionInput;
+struct hkpProcessCollisionOutput;
+typedef hkUint32 hkpShapeKey;
+
+// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then
+// hkpContactMgr *m_contactMgr (+0x8). Vtable slots from func_82D60AC8.
+class hkpCollisionAgent : public hkReferencedObject {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
+    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
+    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                 hkpCdBodyPairCollector &collector);   // +0xC
+    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                  hkpCdPointCollector &collector);   // +0x10
+    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
+                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);   // +0x18
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
+
+    hkpContactMgr *m_contactMgr;   // +0x8
+};
+
+class hkpShapeCollectionAgent : public hkpCollisionAgent {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
+    struct KeyAgentPair {
+        hkpShapeKey m_key;
+        hkpCollisionAgent *m_agent;
+    };
+    hkpShapeCollectionAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr) {}
+
+    hkArray<KeyAgentPair> m_agents;   // +0xC
+};
+
+void emitVtable_82D55060(void *p) { new (p) hkpShapeCollectionAgent(0); }
