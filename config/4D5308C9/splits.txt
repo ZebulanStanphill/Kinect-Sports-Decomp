@@ -41787,7 +41787,7 @@ auto_match/func_8253C5E8.cpp:
 	.pdata      start:0x821EEC98 end:0x821EECA0
 	.text       start:0x8253C5E8 end:0x8253C62C
 
-auto_match/func_8253C630.c:
+auto_match/func_8253C630.cpp:
 	.pdata      start:0x821EECA0 end:0x821EECA8
 	.text       start:0x8253C630 end:0x8253C6B8
 
@@ -41879,7 +41879,7 @@ auto_match/func_8253E808.c:
 auto_match/func_8253E844.c:
 	.text       start:0x8253E844 end:0x8253E900
 
-auto_match/func_8253E900.c:
+auto_match/func_8253E900.cpp:
 	.pdata      start:0x821EED30 end:0x821EED38
 	.text       start:0x8253E900 end:0x8253E960
 
@@ -45140,7 +45140,7 @@ auto_match/func_8258F670.cpp:
 	.pdata      start:0x821F0450 end:0x821F0458
 	.text       start:0x8258F670 end:0x8258F6B4
 
-auto_match/func_8258F6B8.c:
+auto_match/func_8258F6B8.cpp:
 	.pdata      start:0x821F0458 end:0x821F0460
 	.text       start:0x8258F6B8 end:0x8258F748
 
@@ -45167,16 +45167,16 @@ auto_match/func_8258F940.c:
 	.pdata      start:0x821F0488 end:0x821F0490
 	.text       start:0x8258F940 end:0x8258FC14
 
-auto_match/func_8258FC18.c:
+auto_match/func_8258FC18.cpp:
 	.text       start:0x8258FC18 end:0x8258FC20
 
-auto_match/func_8258FC20.c:
+auto_match/func_8258FC20.cpp:
 	.text       start:0x8258FC20 end:0x8258FC28
 
-auto_match/func_8258FC28.c:
+auto_match/func_8258FC28.cpp:
 	.text       start:0x8258FC28 end:0x8258FC30
 
-auto_match/func_8258FC30.c:
+auto_match/func_8258FC30.cpp:
 	.text       start:0x8258FC30 end:0x8258FC38
 
 auto_match/func_8258FC38.c:
@@ -46110,7 +46110,7 @@ auto_match/func_825A6210.c:
 	.pdata      start:0x821F0B30 end:0x821F0B38
 	.text       start:0x825A6210 end:0x825A6314
 
-auto_match/func_825A6318.c:
+auto_match/func_825A6318.cpp:
 	.pdata      start:0x821F0B38 end:0x821F0B40
 	.text       start:0x825A6318 end:0x825A63C0
 
@@ -49241,7 +49241,7 @@ auto_match/func_826032C8.c:
 	.pdata      start:0x821F2178 end:0x821F2180
 	.text       start:0x826032C8 end:0x826034A0
 
-auto_match/func_826034A0.c:
+auto_match/func_826034A0.cpp:
 	.pdata      start:0x821F2180 end:0x821F2188
 	.text       start:0x826034A0 end:0x826035AC
 
@@ -140182,7 +140182,7 @@ auto_match/func_82CE6920.c:
 auto_match/func_82CE6970.c:
 	.text       start:0x82CE6970 end:0x82CE6974
 
-auto_match/func_82CE6978.c:
+auto_match/func_82CE6978.cpp:
 	.text       start:0x82CE6978 end:0x82CE6988
 
 auto_match/func_82CE6988.c:
@@ -140278,7 +140278,7 @@ auto_match/func_82CE7310.c:
 auto_match/func_82CE7320.c:
 	.text       start:0x82CE7320 end:0x82CE732C
 
-auto_match/func_82CE7330.c:
+auto_match/func_82CE7330.cpp:
 	.text       start:0x82CE7330 end:0x82CE7340
 
 auto_match/func_82CE7340.c:
@@ -140314,7 +140314,7 @@ auto_match/func_82CE7968.c:
 	.pdata      start:0x822157F8 end:0x82215800
 	.text       start:0x82CE7968 end:0x82CE7B00
 
-auto_match/func_82CE7B00.c:
+auto_match/func_82CE7B00.cpp:
 	.pdata      start:0x82215800 end:0x82215808
 	.text       start:0x82CE7B00 end:0x82CE7BFC
 
@@ -140341,7 +140341,7 @@ auto_match/func_82CE7EE0.c:
 	.pdata      start:0x82215828 end:0x82215830
 	.text       start:0x82CE7EE0 end:0x82CE7F7C
 
-auto_match/func_82CE7F80.c:
+auto_match/func_82CE7F80.cpp:
 	.pdata      start:0x82215830 end:0x82215838
 	.text       start:0x82CE7F80 end:0x82CE8084
 
@@ -140738,11 +140738,11 @@ auto_match/func_82CEBB90.c:
 	.pdata      start:0x822159E0 end:0x822159E8
 	.text       start:0x82CEBB90 end:0x82CEBC18
 
-auto_match/func_82CEBC18.c:
+auto_match/func_82CEBC18.cpp:
 	.pdata      start:0x822159E8 end:0x822159F0
 	.text       start:0x82CEBC18 end:0x82CEBC88
 
-auto_match/func_82CEBC88.c:
+auto_match/func_82CEBC88.cpp:
 	.pdata      start:0x822159F0 end:0x822159F8
 	.text       start:0x82CEBC88 end:0x82CEBCF0
 
@@ -140949,7 +140949,7 @@ auto_match/func_82CED900.cpp:
 	.pdata      start:0x82215AC0 end:0x82215AC8
 	.text       start:0x82CED900 end:0x82CED954
 
-auto_match/func_82CED958.c:
+auto_match/func_82CED958.cpp:
 	.pdata      start:0x82215AC8 end:0x82215AD0
 	.text       start:0x82CED958 end:0x82CED9A8
 
@@ -141083,7 +141083,7 @@ auto_match/func_82CEE700.c:
 	.pdata      start:0x82215BA8 end:0x82215BB0
 	.text       start:0x82CEE700 end:0x82CEE78C
 
-auto_match/func_82CEE790.c:
+auto_match/func_82CEE790.cpp:
 	.pdata      start:0x82215BB0 end:0x82215BB8
 	.text       start:0x82CEE790 end:0x82CEE7F8
 
@@ -141374,7 +141374,7 @@ auto_match/func_82CF1C18.c:
 	.pdata      start:0x82215D78 end:0x82215D80
 	.text       start:0x82CF1C18 end:0x82CF200C
 
-auto_match/func_82CF2010.c:
+auto_match/func_82CF2010.cpp:
 	.pdata      start:0x82215D80 end:0x82215D88
 	.text       start:0x82CF2010 end:0x82CF2270
 
@@ -142509,7 +142509,7 @@ auto_match/func_82CFE870.c:
 	.pdata      start:0x82216338 end:0x82216340
 	.text       start:0x82CFE870 end:0x82CFE8F4
 
-auto_match/func_82CFE8F8.c:
+auto_match/func_82CFE8F8.cpp:
 	.pdata      start:0x82216340 end:0x82216348
 	.text       start:0x82CFE8F8 end:0x82CFE9A8
 
@@ -143016,7 +143016,7 @@ auto_match/func_82D02838.cpp:
 auto_match/func_82D02880.c:
 	.text       start:0x82D02880 end:0x82D028F4
 
-auto_match/func_82D028F8.c:
+auto_match/func_82D028F8.cpp:
 	.pdata      start:0x82216570 end:0x82216578
 	.text       start:0x82D028F8 end:0x82D02960
 
@@ -143815,7 +143815,7 @@ auto_match/func_82D0D438.c:
 	.pdata      start:0x82216900 end:0x82216908
 	.text       start:0x82D0D438 end:0x82D0D63C
 
-auto_match/func_82D0D640.c:
+auto_match/func_82D0D640.cpp:
 	.pdata      start:0x82216908 end:0x82216910
 	.text       start:0x82D0D640 end:0x82D0D6E4
 
@@ -145067,7 +145067,7 @@ auto_match/func_82D393E0.c:
 auto_match/func_82D39410.c:
 	.text       start:0x82D39410 end:0x82D39418
 
-auto_match/func_82D39418.c:
+auto_match/func_82D39418.cpp:
 	.text       start:0x82D39418 end:0x82D39498
 
 auto_match/func_82D39498.c:
@@ -145196,7 +145196,7 @@ auto_match/func_82D39B78.cpp:
 	.pdata      start:0x82217168 end:0x82217170
 	.text       start:0x82D39B78 end:0x82D39BE8
 
-auto_match/func_82D39BE8.c:
+auto_match/func_82D39BE8.cpp:
 	.text       start:0x82D39BE8 end:0x82D39C68
 
 auto_match/func_82D39C68.c:
@@ -145383,22 +145383,22 @@ auto_match/func_82D3A4B0.c:
 	.pdata      start:0x822171D0 end:0x822171D8
 	.text       start:0x82D3A4B0 end:0x82D3A4DC
 
-auto_match/func_82D3A4E0.c:
+auto_match/func_82D3A4E0.cpp:
 	.text       start:0x82D3A4E0 end:0x82D3A560
 
-auto_match/func_82D3A560.c:
+auto_match/func_82D3A560.cpp:
 	.text       start:0x82D3A560 end:0x82D3A568
 
-auto_match/func_82D3A568.c:
+auto_match/func_82D3A568.cpp:
 	.text       start:0x82D3A568 end:0x82D3A570
 
-auto_match/func_82D3A570.c:
+auto_match/func_82D3A570.cpp:
 	.text       start:0x82D3A570 end:0x82D3A578
 
-auto_match/func_82D3A578.c:
+auto_match/func_82D3A578.cpp:
 	.text       start:0x82D3A578 end:0x82D3A580
 
-auto_match/func_82D3A580.c:
+auto_match/func_82D3A580.cpp:
 	.pdata      start:0x822171D8 end:0x822171E0
 	.text       start:0x82D3A580 end:0x82D3A5E8
 
@@ -145518,25 +145518,25 @@ auto_match/func_82D3AB18.c:
 	.pdata      start:0x82217218 end:0x82217220
 	.text       start:0x82D3AB18 end:0x82D3AB44
 
-auto_match/func_82D3AB48.c:
+auto_match/func_82D3AB48.cpp:
 	.text       start:0x82D3AB48 end:0x82D3ABC8
 
 auto_match/func_82D3ABC8.c:
 	.text       start:0x82D3ABC8 end:0x82D3ABD4
 
-auto_match/func_82D3ABD8.c:
+auto_match/func_82D3ABD8.cpp:
 	.text       start:0x82D3ABD8 end:0x82D3ABE0
 
-auto_match/func_82D3ABE0.c:
+auto_match/func_82D3ABE0.cpp:
 	.text       start:0x82D3ABE0 end:0x82D3ABE8
 
-auto_match/func_82D3ABE8.c:
+auto_match/func_82D3ABE8.cpp:
 	.text       start:0x82D3ABE8 end:0x82D3ABF0
 
-auto_match/func_82D3ABF0.c:
+auto_match/func_82D3ABF0.cpp:
 	.text       start:0x82D3ABF0 end:0x82D3ABF8
 
-auto_match/func_82D3ABF8.c:
+auto_match/func_82D3ABF8.cpp:
 	.pdata      start:0x82217220 end:0x82217228
 	.text       start:0x82D3ABF8 end:0x82D3AC60
 
@@ -145607,7 +145607,7 @@ auto_match/func_82D3AF90.c:
 	.pdata      start:0x82217240 end:0x82217248
 	.text       start:0x82D3AF90 end:0x82D3AFBC
 
-auto_match/func_82D3AFC0.c:
+auto_match/func_82D3AFC0.cpp:
 	.text       start:0x82D3AFC0 end:0x82D3B04C
 
 auto_match/func_82D3B050.c:
@@ -145771,7 +145771,7 @@ auto_match/func_82D3B7D0.c:
 	.pdata      start:0x82217298 end:0x822172A0
 	.text       start:0x82D3B7D0 end:0x82D3B7FC
 
-auto_match/func_82D3B800.c:
+auto_match/func_82D3B800.cpp:
 	.text       start:0x82D3B800 end:0x82D3B870
 
 auto_match/func_82D3B870.c:
@@ -145790,7 +145790,7 @@ auto_match/func_82D3B8C0.c:
 	.pdata      start:0x822172A0 end:0x822172A8
 	.text       start:0x82D3B8C0 end:0x82D3B8EC
 
-auto_match/func_82D3B8F0.c:
+auto_match/func_82D3B8F0.cpp:
 	.text       start:0x82D3B8F0 end:0x82D3B978
 
 auto_match/func_82D3B978.c:
@@ -146116,7 +146116,7 @@ auto_match/func_82D3E3F0.c:
 	.pdata      start:0x82217388 end:0x82217390
 	.text       start:0x82D3E3F0 end:0x82D3E4C4
 
-auto_match/func_82D3E4C8.c:
+auto_match/func_82D3E4C8.cpp:
 	.text       start:0x82D3E4C8 end:0x82D3E550
 
 auto_match/func_82D3E550.cpp:
@@ -146180,7 +146180,7 @@ auto_match/func_82D3F268.c:
 	.pdata      start:0x822173C0 end:0x822173C8
 	.text       start:0x82D3F268 end:0x82D3F334
 
-auto_match/func_82D3F338.c:
+auto_match/func_82D3F338.cpp:
 	.text       start:0x82D3F338 end:0x82D3F37C
 
 auto_match/func_82D3F380.cpp:
@@ -146643,7 +146643,7 @@ auto_match/func_82D45E48.c:
 	.pdata      start:0x82217650 end:0x82217658
 	.text       start:0x82D45E48 end:0x82D45F58
 
-auto_match/func_82D45F58.c:
+auto_match/func_82D45F58.cpp:
 	.text       start:0x82D45F58 end:0x82D45FF8
 
 auto_match/func_82D45FF8.c:
@@ -147230,7 +147230,7 @@ auto_match/func_82D4DBA8.c:
 auto_match/func_82D4DC40.c:
 	.text       start:0x82D4DC40 end:0x82D4DC6C
 
-auto_match/func_82D4DC70.c:
+auto_match/func_82D4DC70.cpp:
 	.text       start:0x82D4DC70 end:0x82D4DC80
 
 auto_match/func_82D4DC80.c:
@@ -147245,7 +147245,7 @@ auto_match/func_82D4DE48.c:
 	.pdata      start:0x82217990 end:0x82217998
 	.text       start:0x82D4DE48 end:0x82D4E2EC
 
-auto_match/func_82D4E2F0.c:
+auto_match/func_82D4E2F0.cpp:
 	.text       start:0x82D4E2F0 end:0x82D4E300
 
 auto_match/func_82D4E300.c:
@@ -147286,7 +147286,7 @@ auto_match/func_82D4F590.c:
 auto_match/func_82D4F5F8.c:
 	.text       start:0x82D4F5F8 end:0x82D4F624
 
-auto_match/func_82D4F628.c:
+auto_match/func_82D4F628.cpp:
 	.text       start:0x82D4F628 end:0x82D4F638
 
 auto_match/func_82D4F638.c:
@@ -147588,7 +147588,7 @@ auto_match/func_82D54900.c:
 	.pdata      start:0x82217B80 end:0x82217B88
 	.text       start:0x82D54900 end:0x82D54A38
 
-auto_match/func_82D54A38.c:
+auto_match/func_82D54A38.cpp:
 	.pdata      start:0x82217B88 end:0x82217B90
 	.text       start:0x82D54A38 end:0x82D54AA8
 
@@ -147608,11 +147608,11 @@ auto_match/func_82D54DA8.c:
 	.pdata      start:0x82217BA8 end:0x82217BB0
 	.text       start:0x82D54DA8 end:0x82D54E74
 
-auto_match/func_82D54E78.c:
+auto_match/func_82D54E78.cpp:
 	.pdata      start:0x82217BB0 end:0x82217BB8
 	.text       start:0x82D54E78 end:0x82D54EC0
 
-auto_match/func_82D54EC0.c:
+auto_match/func_82D54EC0.cpp:
 	.pdata      start:0x82217BB8 end:0x82217BC0
 	.text       start:0x82D54EC0 end:0x82D54F0C
 
@@ -147631,7 +147631,7 @@ auto_match/func_82D55060.cpp:
 auto_match/func_82D550D0.c:
 	.text       start:0x82D550D0 end:0x82D55158
 
-auto_match/func_82D55158.c:
+auto_match/func_82D55158.cpp:
 	.pdata      start:0x82217BD8 end:0x82217BE0
 	.text       start:0x82D55158 end:0x82D5519C
 
@@ -147645,11 +147645,11 @@ auto_match/func_82D551B0.c:
 auto_match/func_82D55268.c:
 	.text       start:0x82D55268 end:0x82D55278
 
-auto_match/func_82D55278.c:
+auto_match/func_82D55278.cpp:
 	.pdata      start:0x82217BE8 end:0x82217BF0
 	.text       start:0x82D55278 end:0x82D552C0
 
-auto_match/func_82D552C0.c:
+auto_match/func_82D552C0.cpp:
 	.pdata      start:0x82217BF0 end:0x82217BF8
 	.text       start:0x82D552C0 end:0x82D5530C
 
@@ -147688,11 +147688,11 @@ auto_match/func_82D558B0.cpp:
 auto_match/func_82D55930.c:
 	.text       start:0x82D55930 end:0x82D55940
 
-auto_match/func_82D55940.c:
+auto_match/func_82D55940.cpp:
 	.pdata      start:0x82217C38 end:0x82217C40
 	.text       start:0x82D55940 end:0x82D55988
 
-auto_match/func_82D55988.c:
+auto_match/func_82D55988.cpp:
 	.pdata      start:0x82217C40 end:0x82217C48
 	.text       start:0x82D55988 end:0x82D559D4
 
@@ -147789,7 +147789,7 @@ auto_match/func_82D583E8.c:
 	.pdata      start:0x82217CD0 end:0x82217CD8
 	.text       start:0x82D583E8 end:0x82D584B0
 
-auto_match/func_82D584B0.c:
+auto_match/func_82D584B0.cpp:
 	.pdata      start:0x82217CD8 end:0x82217CE0
 	.text       start:0x82D584B0 end:0x82D584F8
 
@@ -147899,7 +147899,7 @@ auto_match/func_82D5A7B0.c:
 auto_match/func_82D5A7C8.c:
 	.text       start:0x82D5A7C8 end:0x82D5A7DC
 
-auto_match/func_82D5A7E0.c:
+auto_match/func_82D5A7E0.cpp:
 	.pdata      start:0x82217D98 end:0x82217DA0
 	.text       start:0x82D5A7E0 end:0x82D5A850
 
@@ -147911,11 +147911,11 @@ auto_match/func_82D5A920.c:
 	.pdata      start:0x82217DA8 end:0x82217DB0
 	.text       start:0x82D5A920 end:0x82D5AA14
 
-auto_match/func_82D5AA18.c:
+auto_match/func_82D5AA18.cpp:
 	.pdata      start:0x82217DB0 end:0x82217DB8
 	.text       start:0x82D5AA18 end:0x82D5AA60
 
-auto_match/func_82D5AA60.c:
+auto_match/func_82D5AA60.cpp:
 	.pdata      start:0x82217DB8 end:0x82217DC0
 	.text       start:0x82D5AA60 end:0x82D5AAAC
 
@@ -147935,11 +147935,11 @@ auto_match/func_82D5AF08.c:
 	.pdata      start:0x82217DD8 end:0x82217DE0
 	.text       start:0x82D5AF08 end:0x82D5AFBC
 
-auto_match/func_82D5AFC0.c:
+auto_match/func_82D5AFC0.cpp:
 	.pdata      start:0x82217DE0 end:0x82217DE8
 	.text       start:0x82D5AFC0 end:0x82D5B004
 
-auto_match/func_82D5B008.c:
+auto_match/func_82D5B008.cpp:
 	.pdata      start:0x82217DE8 end:0x82217DF0
 	.text       start:0x82D5B008 end:0x82D5B050
 
@@ -148121,11 +148121,11 @@ auto_match/func_82D5D248.c:
 auto_match/func_82D5D268.c:
 	.text       start:0x82D5D268 end:0x82D5D284
 
-auto_match/func_82D5D288.c:
+auto_match/func_82D5D288.cpp:
 	.pdata      start:0x82217EB8 end:0x82217EC0
 	.text       start:0x82D5D288 end:0x82D5D2D0
 
-auto_match/func_82D5D2D0.c:
+auto_match/func_82D5D2D0.cpp:
 	.pdata      start:0x82217EC0 end:0x82217EC8
 	.text       start:0x82D5D2D0 end:0x82D5D31C
 
@@ -148141,11 +148141,11 @@ auto_match/func_82D5D450.cpp:
 	.pdata      start:0x82217ED8 end:0x82217EE0
 	.text       start:0x82D5D450 end:0x82D5D4B4
 
-auto_match/func_82D5D4B8.c:
+auto_match/func_82D5D4B8.cpp:
 	.pdata      start:0x82217EE0 end:0x82217EE8
 	.text       start:0x82D5D4B8 end:0x82D5D500
 
-auto_match/func_82D5D500.c:
+auto_match/func_82D5D500.cpp:
 	.pdata      start:0x82217EE8 end:0x82217EF0
 	.text       start:0x82D5D500 end:0x82D5D54C
 
@@ -148157,11 +148157,11 @@ auto_match/func_82D5D618.c:
 	.pdata      start:0x82217EF8 end:0x82217F00
 	.text       start:0x82D5D618 end:0x82D5D688
 
-auto_match/func_82D5D688.c:
+auto_match/func_82D5D688.cpp:
 	.pdata      start:0x82217F00 end:0x82217F08
 	.text       start:0x82D5D688 end:0x82D5D6CC
 
-auto_match/func_82D5D6D0.c:
+auto_match/func_82D5D6D0.cpp:
 	.pdata      start:0x82217F08 end:0x82217F10
 	.text       start:0x82D5D6D0 end:0x82D5D718
 
@@ -148236,21 +148236,21 @@ auto_match/func_82D5F798.c:
 	.pdata      start:0x82217F80 end:0x82217F88
 	.text       start:0x82D5F798 end:0x82D5F7FC
 
-auto_match/func_82D5F800.c:
+auto_match/func_82D5F800.cpp:
 	.pdata      start:0x82217F88 end:0x82217F90
 	.text       start:0x82D5F800 end:0x82D5F84C
 
 auto_match/func_82D5F850.c:
 	.text       start:0x82D5F850 end:0x82D5F854
 
-auto_match/func_82D5F858.c:
+auto_match/func_82D5F858.cpp:
 	.pdata      start:0x82217F90 end:0x82217F98
 	.text       start:0x82D5F858 end:0x82D5F8A0
 
 auto_match/func_82D5F8A0.c:
 	.text       start:0x82D5F8A0 end:0x82D5F8B8
 
-auto_match/func_82D5F8B8.c:
+auto_match/func_82D5F8B8.cpp:
 	.pdata      start:0x82217F98 end:0x82217FA0
 	.text       start:0x82D5F8B8 end:0x82D5F900
 
@@ -148258,7 +148258,7 @@ auto_match/func_82D5F900.c:
 	.pdata      start:0x82217FA0 end:0x82217FA8
 	.text       start:0x82D5F900 end:0x82D5FA7C
 
-auto_match/func_82D5FA80.c:
+auto_match/func_82D5FA80.cpp:
 	.pdata      start:0x82217FA8 end:0x82217FB0
 	.text       start:0x82D5FA80 end:0x82D5FAC4
 
@@ -148266,14 +148266,14 @@ auto_match/func_82D5FAC8.cpp:
 	.pdata      start:0x82217FB0 end:0x82217FB8
 	.text       start:0x82D5FAC8 end:0x82D5FB30
 
-auto_match/func_82D5FB30.c:
+auto_match/func_82D5FB30.cpp:
 	.pdata      start:0x82217FB8 end:0x82217FC0
 	.text       start:0x82D5FB30 end:0x82D5FBB4
 
 auto_match/func_82D5FBB8.c:
 	.text       start:0x82D5FBB8 end:0x82D5FBFC
 
-auto_match/func_82D5FC00.c:
+auto_match/func_82D5FC00.cpp:
 	.pdata      start:0x82217FC0 end:0x82217FC8
 	.text       start:0x82D5FC00 end:0x82D5FC90
 
@@ -148292,11 +148292,11 @@ auto_match/func_82D5FE18.c:
 	.pdata      start:0x82217FD8 end:0x82217FE0
 	.text       start:0x82D5FE18 end:0x82D5FE7C
 
-auto_match/func_82D5FE80.c:
+auto_match/func_82D5FE80.cpp:
 	.pdata      start:0x82217FE0 end:0x82217FE8
 	.text       start:0x82D5FE80 end:0x82D5FEDC
 
-auto_match/func_82D5FEE0.c:
+auto_match/func_82D5FEE0.cpp:
 	.pdata      start:0x82217FE8 end:0x82217FF0
 	.text       start:0x82D5FEE0 end:0x82D5FF38
 
@@ -148335,7 +148335,7 @@ auto_match/func_82D60928.c:
 	.pdata      start:0x82218028 end:0x82218030
 	.text       start:0x82D60928 end:0x82D60984
 
-auto_match/func_82D60988.c:
+auto_match/func_82D60988.cpp:
 	.pdata      start:0x82218030 end:0x82218038
 	.text       start:0x82D60988 end:0x82D609F8
 
@@ -148343,11 +148343,11 @@ auto_match/func_82D609F8.c:
 	.pdata      start:0x82218038 end:0x82218040
 	.text       start:0x82D609F8 end:0x82D60AC4
 
-auto_match/func_82D60AC8.c:
+auto_match/func_82D60AC8.cpp:
 	.pdata      start:0x82218040 end:0x82218048
 	.text       start:0x82D60AC8 end:0x82D60B10
 
-auto_match/func_82D60B10.c:
+auto_match/func_82D60B10.cpp:
 	.pdata      start:0x82218048 end:0x82218050
 	.text       start:0x82D60B10 end:0x82D60B5C
 
@@ -148359,11 +148359,11 @@ auto_match/func_82D60E30.c:
 	.pdata      start:0x82218058 end:0x82218060
 	.text       start:0x82D60E30 end:0x82D60EA0
 
-auto_match/func_82D60EA0.c:
+auto_match/func_82D60EA0.cpp:
 	.pdata      start:0x82218060 end:0x82218068
 	.text       start:0x82D60EA0 end:0x82D60EEC
 
-auto_match/func_82D60EF0.c:
+auto_match/func_82D60EF0.cpp:
 	.pdata      start:0x82218068 end:0x82218070
 	.text       start:0x82D60EF0 end:0x82D60F34
 
@@ -148375,7 +148375,7 @@ auto_match/func_82D60FF0.c:
 	.pdata      start:0x82218078 end:0x82218080
 	.text       start:0x82D60FF0 end:0x82D61058
 
-auto_match/func_82D61058.c:
+auto_match/func_82D61058.cpp:
 	.pdata      start:0x82218080 end:0x82218088
 	.text       start:0x82D61058 end:0x82D610E4
 
@@ -148383,7 +148383,7 @@ auto_match/func_82D610E8.c:
 	.pdata      start:0x82218088 end:0x82218090
 	.text       start:0x82D610E8 end:0x82D6115C
 
-auto_match/func_82D61160.c:
+auto_match/func_82D61160.cpp:
 	.pdata      start:0x82218090 end:0x82218098
 	.text       start:0x82D61160 end:0x82D611F8
 
@@ -148407,11 +148407,11 @@ auto_match/func_82D61940.c:
 	.pdata      start:0x822180B8 end:0x822180C0
 	.text       start:0x82D61940 end:0x82D61A0C
 
-auto_match/func_82D61A10.c:
+auto_match/func_82D61A10.cpp:
 	.pdata      start:0x822180C0 end:0x822180C8
 	.text       start:0x82D61A10 end:0x82D61A58
 
-auto_match/func_82D61A58.c:
+auto_match/func_82D61A58.cpp:
 	.pdata      start:0x822180C8 end:0x822180D0
 	.text       start:0x82D61A58 end:0x82D61AA0
 
@@ -148419,11 +148419,11 @@ auto_match/func_82D61AA0.c:
 	.pdata      start:0x822180D0 end:0x822180D8
 	.text       start:0x82D61AA0 end:0x82D61D54
 
-auto_match/func_82D61D58.c:
+auto_match/func_82D61D58.cpp:
 	.pdata      start:0x822180D8 end:0x822180E0
 	.text       start:0x82D61D58 end:0x82D61DA4
 
-auto_match/func_82D61DA8.c:
+auto_match/func_82D61DA8.cpp:
 	.pdata      start:0x822180E0 end:0x822180E8
 	.text       start:0x82D61DA8 end:0x82D61DF4
 
@@ -148463,7 +148463,7 @@ auto_match/func_82D62508.c:
 	.pdata      start:0x82218110 end:0x82218118
 	.text       start:0x82D62508 end:0x82D625AC
 
-auto_match/func_82D625B0.c:
+auto_match/func_82D625B0.cpp:
 	.pdata      start:0x82218118 end:0x82218120
 	.text       start:0x82D625B0 end:0x82D62634
 
@@ -148471,7 +148471,7 @@ auto_match/func_82D62638.c:
 	.pdata      start:0x82218120 end:0x82218128
 	.text       start:0x82D62638 end:0x82D626AC
 
-auto_match/func_82D626B0.c:
+auto_match/func_82D626B0.cpp:
 	.pdata      start:0x82218128 end:0x82218130
 	.text       start:0x82D626B0 end:0x82D62740
 
