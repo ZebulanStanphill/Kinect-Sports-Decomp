@@ -24,27 +24,33 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern int NtCreateEvent(void *h, void *attr, int type, unsigned char state);
+extern void RtlInitializeCriticalSection(void *cs);
 
+typedef struct {
+  unsigned int a, b, c;
+  unsigned int cs[7];
+  void *ev;
+  unsigned int p2;
+  unsigned int z30, z34, z38, z3c;
+  int m40;
+} S;
 
-longlong fn_82A37608(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
-
+int fn_82A37608(S *s, unsigned int param_2, unsigned int param_3)
 {
-  longlong lVar1;
-  
-  lVar1 = NtCreateEvent(param_1 + 10,0,1,0);
-  if (-1 < lVar1) {
-    *param_1 = param_3;
-    param_1[1] = param_3;
-    param_1[0xc] = 0;
-    param_1[2] = param_3;
-    param_1[0xb] = param_2;
-    param_1[0xd] = 0;
-    param_1[0xe] = 0;
-    param_1[0xf] = 0;
-    param_1[0x10] = 0xffffffff;
-    RtlInitializeCriticalSection(param_1 + 3);
-  }
-  return lVar1;
-}
+  int hr;
 
+  hr = NtCreateEvent(&s->ev, 0, 1, 0);
+  if (hr < 0) return hr;
+  s->a = param_3;
+  s->b = param_3;
+  s->z30 = 0;
+  s->c = param_3;
+  s->p2 = param_2;
+  s->z34 = 0;
+  s->z38 = 0;
+  s->z3c = 0;
+  s->m40 = -1;
+  RtlInitializeCriticalSection(s->cs);
+  return hr;
+}
