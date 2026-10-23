@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
+extern int fn_822315A0(iVar1);
 extern int fn_82517978();
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
@@ -34,7 +34,7 @@ extern unsigned int uStack_20;
 undefined4 * fn_82517A50(undefined4 *param_1,undefined4 *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   struct { undefined4 first; undefined4 second; } stack_pair_20;
 
   
@@ -45,7 +45,7 @@ undefined4 * fn_82517A50(undefined4 *param_1,undefined4 *param_2)
   param_1[1] = stack_pair_20.second;
   *param_1 = stack_pair_20.first;
   if (iVar1 != 0) {
-    fn_822315A0();
+    fn_822315A0(iVar1);
   }
   return param_1;
 }

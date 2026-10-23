@@ -41,7 +41,7 @@ void fn_824F6020(undefined4 *param_1)
   while (piVar2 != (int *)0x0) {
     piVar1 = (int *)*piVar2;
     if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,1);
+      (*(code *)(*piVar1 + 0xc))(piVar1,1);
       *piVar2 = 0;
     }
     piVar1 = (int *)piVar2[1];

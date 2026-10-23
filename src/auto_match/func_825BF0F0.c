@@ -35,7 +35,7 @@ extern unsigned int uStack_20;
 bool fn_825BF0F0(int param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   bool bVar2;
   undefined4 uStack_20;
   int iStack_1c;
@@ -47,7 +47,7 @@ bool fn_825BF0F0(int param_1,undefined8 param_2)
   else {
     uStack_20 = fn_827D96A0(param_2);
     fn_8259BB38(&iStack_1c,param_1 + 0x1c4,&uStack_20);
-    bVar2 = *(int *)(param_1 + 0x1c8) != iStack_1c;
+    bVar2 = iStack_1c != *(int *)(param_1 + 0x1c8);
   }
   return bVar2;
 }

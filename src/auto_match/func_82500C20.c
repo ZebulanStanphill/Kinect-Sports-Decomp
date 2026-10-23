@@ -35,13 +35,13 @@ void fn_82500C20(int param_1)
   undefined4 *puVar1;
   
   fn_82A1C0F0(param_1 + 0xf58);
-  if (*(int *)(param_1 + 0xb64) != 0) {
+  if (*(unsigned int *)(param_1 + 0xb64) != 0) {
     fn_8252D020(param_1,1);
     *(undefined4 *)(param_1 + 0xb64) = 0;
   }
   puVar1 = *(undefined4 **)(param_1 + 0xb60);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
     *(undefined4 *)(param_1 + 0xb60) = 0;
   }
   return;

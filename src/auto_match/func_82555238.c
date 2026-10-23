@@ -36,7 +36,7 @@ undefined8 fn_82555238(int param_1)
   undefined8 uVar1;
   int iVar2;
   
-  if (*(int *)(param_1 + 0x18) == 0) {
+  if (*(unsigned int *)(param_1 + 0x18) == 0) {
     uVar1 = 0;
   }
   else {
@@ -49,7 +49,7 @@ undefined8 fn_82555238(int param_1)
         fn_825463B0();
         fn_82546930();
       }
-    } while (((-1 < iVar2) && (iVar2 != 0x16660026)) && (*(int *)(param_1 + 0xc) == 0));
+    } while (((iVar2 >= 0) && (iVar2 != 0x16660026)) && (*(int *)(param_1 + 0xc) == 0));
     uVar1 = 1;
   }
   return uVar1;

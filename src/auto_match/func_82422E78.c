@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82191C98;
+extern unsigned char lbl_82191C98;
 
 
 void fn_82422E78(undefined8 param_1,int param_2,int param_3,int param_4)
@@ -37,7 +37,7 @@ void fn_82422E78(undefined8 param_1,int param_2,int param_3,int param_4)
   iVar2 = 0;
   do {
     iVar1 = *(int *)(&lbl_82191C98 + (param_2 * 6 + iVar2) * 4);
-    if (((-1 < iVar1) && (*(int *)(iVar1 * 4 + param_3) == 0)) &&
+    if (((iVar1 >= 0) && (*(int *)(iVar1 * 4 + param_3) == 0)) &&
        (*(int *)((iVar1 + 10) * 4 + param_4) != 0)) {
       *(undefined4 *)(iVar1 * 4 + param_3) = 1;
       fn_82422E78(param_1,iVar1,param_3,param_4);

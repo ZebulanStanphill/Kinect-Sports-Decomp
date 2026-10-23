@@ -1,55 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82230300();
-extern int fn_822B1B28();
-extern int fn_82359C18();
-extern int fn_82365580();
-extern int fn_8265CA20();
-extern unsigned int lbl_821B9368;
+typedef struct Node {
+    struct Node *next;
+} Node;
 
+typedef struct It {
+    Node *p;
+} It;
 
-void fn_82437DA8(undefined4 *param_1)
+typedef struct Obj {
+    void *vtbl;
+    int list;
+    Node *head;
+    int pad0c[4];
+    char m1c[0x3c - 0x1c];
+    char *m3c;
+} Obj;
 
+extern void fn_82230300(void *p, int a, int b);
+extern void fn_822B1B28(void *p);
+extern void fn_82359C18(void *p);
+extern void fn_82365580(void *out, void *list, It first, It last);
+extern void fn_8265CA20(void *p);
+extern char lbl_821B9368[];
+
+void fn_82437DA8(Obj *param_1)
 {
-  ulonglong uVar1;
-  undefined1 auStack_20 [8];
-  
-  uVar1 = (ulonglong)(uint)param_1[0xf];
-  *param_1 = &lbl_821B9368;
-  if (uVar1 != 0) {
-    fn_82359C18(uVar1 + 0x10);
-    fn_822B1B28(uVar1);
-    fn_8265CA20(uVar1);
-  }
-  fn_82230300(param_1 + 7,1,0);
-  fn_82365580(auStack_20,param_1 + 1,*(undefined4 *)param_1[2]);
-  fn_8265CA20(param_1[2]);
-  return;
-}
+    char *p;
+    It a, b;
+    char auStack_20[8];
 
+    p = param_1->m3c;
+    param_1->vtbl = lbl_821B9368;
+    if (p != 0) {
+        fn_82359C18(p + 0x10);
+        fn_822B1B28(p);
+        fn_8265CA20(p);
+    }
+    fn_82230300(param_1->m1c, 1, 0);
+    b.p = param_1->head;
+    a.p = param_1->head->next;
+    fn_82365580(auStack_20, &param_1->list, a, b);
+    fn_8265CA20(param_1->head);
+}

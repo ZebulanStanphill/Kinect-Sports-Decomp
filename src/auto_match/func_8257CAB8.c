@@ -1,54 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node {
+  struct Node *next;
+  int pad;
+  int *obj;
+} Node;
+typedef struct Link {
+  int pad;
+  struct Link *next;
+} Link;
+typedef struct {
+  int pad;
+  Link *first;
+  char pad2[0x28 - 8];
+  Node *head;
+} M;
 
-
-void fn_8257CAB8(int param_1,undefined8 param_2)
-
+void fn_8257CAB8(M *param_1, int param_2)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined4 *puVar4;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  while (iVar1 != 0) {
-    piVar3 = (int *)(iVar1 + -0x38);
-    iVar1 = *(int *)(iVar1 + 4);
-    (**(code **)(*piVar3 + 0x24))(piVar3,param_2);
-  }
-  puVar4 = *(undefined4 **)(param_1 + 0x28);
-  for (puVar2 = (undefined4 *)*puVar4; puVar2 != puVar4; puVar2 = (undefined4 *)*puVar2) {
-    piVar3 = (int *)puVar2[2];
-    if (piVar3[2] == 2) {
-      (**(code **)(*piVar3 + 0x28))(piVar3,param_2);
-    }
-    puVar4 = *(undefined4 **)(param_1 + 0x28);
-  }
-  return;
-}
+  Link *l;
+  Node *n;
+  int *o;
 
+  l = param_1->first;
+  while (l != 0) {
+    o = (int *)((char *)l - 0x38);
+    l = l->next;
+    (*(code *)(*o + 0x24))(o, param_2);
+  }
+  for (n = param_1->head->next; n != param_1->head; n = n->next) {
+    o = n->obj;
+    if (o[2] == 2) {
+      (*(code *)(*o + 0x28))(o, param_2);
+    }
+  }
+}

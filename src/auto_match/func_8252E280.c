@@ -1,56 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82580F90();
-extern unsigned int lbl_83281124;
+extern void fn_82580F90(void *, void *);
+extern void *lbl_83281124;
 
+typedef struct S {
+  unsigned char f0;
+  unsigned char active;
+  unsigned char pad2[2];
+  void *items[13];
+} S;
 
-void fn_8252E280(int param_1)
-
+void fn_8252E280(S *p)
 {
-  int iVar1;
-  
-  iVar1 = lbl_83281124;
-  if (lbl_83281124 != 0) {
-    fn_82580F90(lbl_83281124,*(undefined4 *)(param_1 + 4));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 8));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0xc));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x10));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x14));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x18));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x1c));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x20));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x24));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x28));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x2c));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x30));
-    fn_82580F90(iVar1,*(undefined4 *)(param_1 + 0x34));
+  void *m = lbl_83281124;
+  if (m) {
+    fn_82580F90(m, p->items[0]);
+    fn_82580F90(m, p->items[1]);
+    fn_82580F90(m, p->items[2]);
+    fn_82580F90(m, p->items[3]);
+    fn_82580F90(m, p->items[4]);
+    fn_82580F90(m, p->items[5]);
+    fn_82580F90(m, p->items[6]);
+    fn_82580F90(m, p->items[7]);
+    fn_82580F90(m, p->items[8]);
+    fn_82580F90(m, p->items[9]);
+    fn_82580F90(m, p->items[10]);
+    fn_82580F90(m, p->items[11]);
+    fn_82580F90(m, p->items[12]);
   }
-  *(undefined1 *)(param_1 + 1) = 0;
-  return;
+  p->active = 0;
 }
-

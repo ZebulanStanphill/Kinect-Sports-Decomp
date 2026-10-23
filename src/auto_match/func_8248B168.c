@@ -33,7 +33,7 @@ extern unsigned int lbl_821BEA4C;
 void fn_8248B168(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[3];
   *param_1 = &lbl_821BEA4C;
@@ -48,7 +48,7 @@ void fn_8248B168(undefined4 *param_1)
   }
   fn_8262FEC8(param_1[1]);
   if (param_1[2] != 0) {
-    fn_8262FEC8();
+    fn_8262FEC8(param_1[2]);
   }
   return;
 }

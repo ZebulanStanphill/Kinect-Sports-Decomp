@@ -1,67 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern int fn_825F19B0();
-extern unsigned int lbl_821C1424;
-extern unsigned int lbl_821C8F20;
+typedef struct VObj { void (**vt)(struct VObj *, int); } VObj;
+typedef struct NodeA { VObj *obj; int pad[4]; struct NodeA *next; } NodeA;
+typedef struct NodeB { void *obj; int pad; struct NodeB *next; } NodeB;
+typedef struct Mgr { void *vt; int pad; NodeA *a; NodeB *b; } Mgr;
+extern void fn_82522ED8(void *p);
+extern void fn_825F19B0(void *p);
+extern char lbl_821C1424[];
+extern char lbl_821C8F20[];
 
-
-void fn_825C4998(undefined4 *param_1)
-
+void fn_825C4998(Mgr *m)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  *param_1 = &lbl_821C8F20;
-  piVar1 = (int *)param_1[2];
-  while (piVar1 != (int *)0x0) {
-    piVar2 = (int *)*piVar1;
-    if (piVar2 != (int *)0x0) {
-      (**(code **)(*piVar2 + 0xc))(piVar2,1);
-      *piVar1 = 0;
-    }
-    piVar2 = (int *)piVar1[5];
-    fn_82522ED8(piVar1);
-    piVar1 = piVar2;
-  }
-  param_1[2] = 0;
-  piVar1 = (int *)param_1[3];
-  while (piVar1 != (int *)0x0) {
-    if (*piVar1 != 0) {
-      fn_825F19B0();
-      *piVar1 = 0;
-    }
-    piVar2 = (int *)piVar1[2];
-    fn_82522ED8(piVar1);
-    piVar1 = piVar2;
-  }
-  param_1[3] = 0;
-  *param_1 = &lbl_821C1424;
-  return;
-}
+  NodeA *a;
+  NodeA *an;
+  NodeB *b;
+  NodeB *bn;
 
+  m->vt = lbl_821C8F20;
+  a = m->a;
+  while (a != 0) {
+    if (a->obj != 0) {
+      a->obj->vt[3](a->obj, 1);
+      a->obj = 0;
+    }
+    an = a->next;
+    fn_82522ED8(a);
+    a = an;
+  }
+  m->a = 0;
+  b = m->b;
+  while (b != 0) {
+    if (b->obj != 0) {
+      fn_825F19B0(b->obj);
+      b->obj = 0;
+    }
+    bn = b->next;
+    fn_82522ED8(b);
+    b = bn;
+  }
+  m->b = 0;
+  m->vt = lbl_821C1424;
+}

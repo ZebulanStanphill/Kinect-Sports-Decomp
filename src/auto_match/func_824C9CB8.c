@@ -1,50 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82230300();
-extern int fn_82359C18();
-extern int fn_824CA518();
-extern int fn_824CAC50();
-extern int fn_8265CA20();
+typedef struct Node {
+    struct Node *left;
+    struct Node *parent;
+    struct Node *right;
+} Node;
 
+typedef struct {
+    Node *node;
+} Iter;
 
-void fn_824C9CB8(int param_1)
+typedef struct {
+    int alloc;
+    Node *head;
+    unsigned int size;
+} Tree;
 
+extern void fn_82230300(void *p, int a, int b);
+extern void fn_82359C18(void *p);
+extern void fn_824CA518(void *p);
+extern Iter *fn_824CAC50(Iter *out, Tree *t, Iter first, Iter last);
+extern void fn_8265CA20(void *p);
+
+typedef struct {
+    char m0[0x1c];
+    char m1c[0x1c];
+    Tree t38;
+    char pad44[4];
+    char m48[0x10];
+    char m58[0x18];
+    char m70[8];
+} Obj;
+
+void fn_824C9CB8(Obj *p)
 {
-  undefined1 auStack_20 [16];
-  
-  fn_82359C18(param_1 + 0x70);
-  fn_82359C18(param_1 + 0x58);
-  fn_824CA518(param_1 + 0x48);
-  fn_824CAC50(auStack_20,param_1 + 0x38,**(undefined4 **)(param_1 + 0x3c));
-  fn_8265CA20(*(undefined4 *)(param_1 + 0x3c));
-  fn_82230300(param_1 + 0x1c,1,0);
-  fn_82230300(param_1,1,0);
-  return;
-}
+    Iter buf;
+    Iter first;
+    Iter last;
 
+    fn_82359C18(p->m70);
+    fn_82359C18(p->m58);
+    fn_824CA518(p->m48);
+    last.node = p->t38.head;
+    first.node = p->t38.head->left;
+    fn_824CAC50(&buf, &p->t38, first, last);
+    fn_8265CA20(p->t38.head);
+    fn_82230300(p->m1c, 1, 0);
+    fn_82230300(p->m0, 1, 0);
+}

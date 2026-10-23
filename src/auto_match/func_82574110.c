@@ -43,7 +43,7 @@ void fn_82574110(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
   fn_82517978(&stack_pair_20.first,*param_1,param_1[1],0);
   fn_82573F30(&stack_pair_20.first,param_3);
   if (param_1[1] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[1]);
   }
   return;
 }

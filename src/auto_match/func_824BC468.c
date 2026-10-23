@@ -34,6 +34,7 @@ extern int fn_8245B050();
 extern int fn_8245B100();
 extern int fn_8245B168();
 extern int fn_8245B1F0();
+extern void fn_824B8538(void);
 
 
 bool fn_824BC468(undefined8 param_1,int param_2)
@@ -82,7 +83,7 @@ bool fn_824BC468(undefined8 param_1,int param_2)
     fn_8245B168(iVar8,&auStack_70,4);
     auStack_70 = uVar7;
     fn_8245B168(iVar8,&auStack_70,4);
-    iVar10 = fn_8245AFC0(iVar8,0xffffffff824b8538,param_1);
+    iVar10 = fn_8245AFC0(iVar8,fn_824B8538,param_1);
   }
   return iVar10 == 0;
 }

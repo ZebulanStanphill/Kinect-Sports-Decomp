@@ -1,72 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824B9EC0();
-extern int fn_82512508();
-extern int fn_828EA5F8();
-extern int fn_828EA610();
-extern unsigned int lbl_824BA208;
+typedef struct Obj Obj;
+struct Inner {
+    char pad[0x458];
+    unsigned int a458;
+    unsigned int a45c;
+};
+struct Obj {
+    char pad[0x100];
+    struct Inner *inner;
+};
+typedef struct Mgr {
+    char cs[0x1c];
+    Obj *obj;
+    int state;
+    int pad24;
+    int pad28;
+    void (*fn)(void);
+    int busy;
+    int failed;
+} Mgr;
+extern int fn_824B9EC0(Mgr *m, Obj *o);
+extern unsigned char fn_82512508(Obj *o);
+extern unsigned char fn_828EA5F8(Obj *o);
+extern unsigned char fn_828EA610(Obj *o);
+extern void fn_824BA208(void);
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
-
-void fn_824B9C60(int param_1,int param_2)
-
+void fn_824B9C60(Mgr *m, Obj *o)
 {
-  char cVar2;
-  int iVar1;
-  
-  if (param_2 != 0) {
-    cVar2 = fn_828EA610(param_2);
-    if (cVar2 == '\0') {
-      cVar2 = fn_828EA5F8(param_2);
-      if (cVar2 != '\0') {
-        if (*(int *)(*(int *)(param_2 + 0x100) + 0x458) != 1) {
-          *(undefined4 *)(*(int *)(param_2 + 0x100) + 0x458) = 1;
+    if (o != 0) {
+        if (!fn_828EA610(o)) {
+            if (fn_828EA5F8(o)) {
+                if (o->inner->a458 != 1) {
+                    o->inner->a458 = 1;
+                }
+                RtlEnterCriticalSection(m);
+                if (m->busy != 0) {
+                    m->failed = 1;
+                    RtlLeaveCriticalSection(m);
+                } else {
+                    RtlLeaveCriticalSection(m);
+                    if (fn_82512508(o) && fn_824B9EC0(m, o) != 0) {
+                        m->obj = o;
+                        m->busy = 1;
+                        m->state = 0x116;
+                        m->fn = fn_824BA208;
+                    } else {
+                        m->failed = 1;
+                    }
+                }
+            }
         }
-        RtlEnterCriticalSection(param_1);
-        if (*(int *)(param_1 + 0x30) == 0) {
-          RtlLeaveCriticalSection(param_1);
-          cVar2 = fn_82512508(param_2);
-          if ((cVar2 == '\0') || (iVar1 = fn_824B9EC0(param_1,param_2), iVar1 == 0)) {
-            *(undefined4 *)(param_1 + 0x34) = 1;
-          }
-          else {
-            *(int *)(param_1 + 0x1c) = param_2;
-            *(undefined4 *)(param_1 + 0x30) = 1;
-            *(undefined4 *)(param_1 + 0x20) = 0x116;
-            *(undefined **)(param_1 + 0x2c) = &lbl_824BA208;
-          }
-        }
-        else {
-          *(undefined4 *)(param_1 + 0x34) = 1;
-          RtlLeaveCriticalSection(param_1);
-        }
-      }
     }
-  }
-  return;
 }
-

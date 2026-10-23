@@ -30,11 +30,11 @@ extern int fn_82F51178();
 extern int fn_82F513F8();
 
 
-void fn_824CD0C0(int param_1,int param_2)
+void fn_824CD0C0(int param_1,unsigned int param_2)
 
 {
-  int iVar1;
-  int iVar2;
+  unsigned int iVar1;
+  unsigned int iVar2; int iVar3;
   
   iVar2 = *(int *)(param_1 + 0x14);
   if (iVar2 != 0) {
@@ -47,8 +47,8 @@ void fn_824CD0C0(int param_1,int param_2)
   *(int *)(param_1 + 0x14) = param_2;
   if (param_2 != 0) {
     *(int *)(param_2 + 0x80) = param_1;
-    iVar2 = fn_824CD030(param_1);
-    if (iVar2 == 0) {
+    iVar3 = fn_824CD030(param_1);
+    if (iVar3 == 0) {
       fn_82F51178(*(undefined4 *)(*(int *)(param_2 + 0x80) + 0x20),
                       *(undefined4 *)(param_2 + 0x94));
     }

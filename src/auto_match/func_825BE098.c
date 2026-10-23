@@ -41,6 +41,6 @@ bool fn_825BE098(int param_1,undefined8 param_2)
   fn_82A1E650(*(undefined4 *)(param_1 + 0x1d8),0xffffffffffffffff);
   uStack_20 = fn_827D96A0(param_2);
   fn_8259BB38(&iStack_1c,param_1 + 0x5c,&uStack_20);
-  return *(int *)(param_1 + 0x60) != iStack_1c;
+  return iStack_1c != *(int *)(param_1 + 0x60);
 }
 

@@ -35,9 +35,9 @@ void fn_8244C208(int param_1)
   
   fn_822B1A68(*(undefined4 *)(param_1 + 0x3c));
   piVar1 = *(int **)(*(int *)(param_1 + 0x3c) + 8);
-  (**(code **)(*piVar1 + 0x14))(piVar1,9);
+  (*(code *)(*piVar1 + 0x14))(piVar1,9);
   piVar1 = *(int **)(*(int *)(param_1 + 0x3c) + 8);
-  (**(code **)(*piVar1 + 0x14))(piVar1,0xe);
+  (*(code *)(*piVar1 + 0x14))(piVar1,0xe);
   return;
 }
 

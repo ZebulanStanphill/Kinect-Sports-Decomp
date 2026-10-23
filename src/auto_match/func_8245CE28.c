@@ -25,34 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_8265CAA0();
+typedef struct Item { void *p; int pad[7]; } Item;
+typedef struct Obj { void *vt; Item *items; int f8; int fc; unsigned int count; } Obj;
+extern int fn_8265CA20(void *p);
+extern int fn_8265CAA0(void *p);
 extern unsigned int lbl_821BAE9C;
 
-
-void fn_8245CE28(undefined4 *param_1)
-
+void fn_8245CE28(Obj *param_1)
 {
-  uint uVar1;
-  int iVar2;
-  
-  *param_1 = &lbl_821BAE9C;
-  if (param_1[1] != 0) {
-    uVar1 = 0;
-    if (param_1[4] != 0) {
-      iVar2 = 0;
-      do {
-        if (*(int *)(param_1[1] + iVar2) != 0) {
-          fn_8265CA20();
-          *(undefined4 *)(param_1[1] + iVar2) = 0;
-        }
-        uVar1 = uVar1 + 1;
-        iVar2 = iVar2 + 0x20;
-      } while (uVar1 < (uint)param_1[4]);
-    }
-    fn_8265CAA0(param_1[1]);
-    param_1[1] = 0;
-  }
-  return;
-}
+  unsigned int i;
 
+  param_1->vt = &lbl_821BAE9C;
+  if (param_1->items != 0) {
+    for (i = 0; i < param_1->count; i++) {
+      if (param_1->items[i].p != 0) {
+        fn_8265CA20(param_1->items[i].p);
+        param_1->items[i].p = 0;
+      }
+    }
+    fn_8265CAA0(param_1->items);
+    param_1->items = 0;
+  }
+}

@@ -37,7 +37,7 @@ extern unsigned int uStack_20;
 void fn_823BC038(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   struct { undefined4 first; undefined4 second; } stack_pair_20;
 
   struct { undefined4 first; undefined4 second; } stack_pair_18;
@@ -52,7 +52,7 @@ void fn_823BC038(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
     param_3[1] = stack_pair_20.second;
     *param_3 = stack_pair_20.first;
     if (iVar1 != 0) {
-      fn_822315A0();
+      fn_822315A0(iVar1);
     }
   }
   return;

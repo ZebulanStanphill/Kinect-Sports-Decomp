@@ -1,66 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
-extern unsigned int lbl_82197048;
+typedef struct {
+    int a;
+    void *p;
+} Ref;
 
+typedef struct {
+    void *vtbl;
+    char pad[0x28 - 4];
+    Ref r[8];
+} Obj;
 
-undefined4 * fn_82400D70(undefined4 *param_1,ulonglong param_2)
+extern void fn_822315A0(void *p);
+extern void fn_8265CA20(void *p);
+extern char lbl_82197048[];
 
+Obj *fn_82400D70(Obj *o, unsigned int flags)
 {
-  if (param_1[0x19] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x17] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x15] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x13] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x11] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0xf] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0xd] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0xb] != 0) {
-    fn_822315A0();
-  }
-  *param_1 = &lbl_82197048;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+    if (o->r[7].p != 0) fn_822315A0(o->r[7].p);
+    if (o->r[6].p != 0) fn_822315A0(o->r[6].p);
+    if (o->r[5].p != 0) fn_822315A0(o->r[5].p);
+    if (o->r[4].p != 0) fn_822315A0(o->r[4].p);
+    if (o->r[3].p != 0) fn_822315A0(o->r[3].p);
+    if (o->r[2].p != 0) fn_822315A0(o->r[2].p);
+    if (o->r[1].p != 0) fn_822315A0(o->r[1].p);
+    if (o->r[0].p != 0) fn_822315A0(o->r[0].p);
+    o->vtbl = lbl_82197048;
+    if (flags & 1)
+        fn_8265CA20(o);
+    return o;
 }
-

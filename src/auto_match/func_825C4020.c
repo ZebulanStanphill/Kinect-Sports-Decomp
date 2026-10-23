@@ -1,60 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern unsigned int lbl_821C1424;
-extern unsigned int lbl_821C8ED0;
+extern void fn_82522ED8(void *p);
+extern char lbl_821C1424[];
+extern char lbl_821C8ED0[];
 
+typedef struct Obj Obj;
+typedef struct ObjVt {
+    void *s0;
+    void *s1;
+    void *s2;
+    void (*Delete)(Obj *o, int flag);
+} ObjVt;
+struct Obj {
+    ObjVt *vt;
+};
 
-void fn_825C4020(undefined4 *param_1)
+typedef struct Node {
+    Obj *obj;
+    struct Node *next;
+} Node;
 
+typedef struct Triple {
+    int a, b, c;
+} Triple;
+
+typedef struct Self {
+    void *vt;
+    int f4;
+    Node *head;
+    Triple t;
+} Self;
+
+void fn_825C4020(Self *self)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  *param_1 = &lbl_821C8ED0;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    param_1[3] = 0;
-    param_1[4] = 0;
-    param_1[5] = 0;
-  }
-  piVar2 = (int *)param_1[2];
-  while (piVar2 != (int *)0x0) {
-    piVar1 = (int *)*piVar2;
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,1);
-      *piVar2 = 0;
-    }
-    piVar1 = (int *)piVar2[1];
-    fn_82522ED8(piVar2);
-    piVar2 = piVar1;
-  }
-  param_1[2] = 0;
-  *param_1 = &lbl_821C1424;
-  return;
-}
+    Triple *t;
+    Node *n;
+    Node *next;
 
+    self->vt = lbl_821C8ED0;
+    t = &self->t;
+    if (t != 0) {
+        t->a = 0;
+        t->b = 0;
+        t->c = 0;
+    }
+    n = self->head;
+    while (n != 0) {
+        if (n->obj != 0) {
+            n->obj->vt->Delete(n->obj, 1);
+            n->obj = 0;
+        }
+        next = n->next;
+        fn_82522ED8(n);
+        n = next;
+    }
+    self->head = 0;
+    self->vt = lbl_821C1424;
+}

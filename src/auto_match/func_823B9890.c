@@ -1,77 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823B9F98();
-extern unsigned int iStack_18;
-extern unsigned int iStack_28;
-extern unsigned int iStack_38;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Proxy Proxy;
+typedef struct Cont { Proxy *proxy; } Cont;
+struct Proxy { Cont *cont; };
+typedef struct Iter { Proxy *proxy; void *next; void *ptr; int pad; } Iter;
 
+extern void fn_823B9F98(void *ret, Iter *a, Iter *b, Iter *c);
 
-undefined8 fn_823B9890(undefined8 param_1,int *param_2,int *param_3,int *param_4)
-
+static Cont *Iter_getcont(const Iter *it)
 {
-  undefined4 *puVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+    return it->proxy == 0 ? 0 : it->proxy->cont;
+}
 
-  int iStack_38;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+static void Iter_adopt(Iter *it, const Cont *parent)
+{
+    if (parent != 0)
+        it->proxy = parent->proxy;
+}
 
-  int iStack_28;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+static void Iter_copy(Iter *it, const Iter *src)
+{
+    it->proxy = 0;
+    it->next = 0;
+    Iter_adopt(it, Iter_getcont(src));
+    it->ptr = src->ptr;
+}
 
-  int iStack_18;
+void *fn_823B9890(void *ret, Iter *a, Iter *b, Iter *c)
+{
+    Iter tc, tb, ta;
 
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  if (((int *)*param_4 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_4, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_40.first = *puVar1;
-  }
-  iStack_38 = param_4[2];
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  if (((int *)*param_3 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_3, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_30.first = *puVar1;
-  }
-  iStack_28 = param_3[2];
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  if (((int *)*param_2 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_2, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_20.first = *puVar1;
-  }
-  iStack_18 = param_2[2];
-  fn_823B9F98(param_1,&stack_pair_20.first,&stack_pair_30.first,&stack_pair_40.first);
-  return param_1;
+    Iter_copy(&tc, c);
+    Iter_copy(&tb, b);
+    Iter_copy(&ta, a);
+    fn_823B9F98(ret, &ta, &tb, &tc);
+    return ret;
 }
