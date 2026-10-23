@@ -1,0 +1,43 @@
+#include "havok/hkBase.h"
+extern "C" void fn_82CF2428(void *,const char *,int);
+extern "C" void fn_82CF4248(void *self) {
+ fn_82CF2428(self,"Physics",0xFF404040);
+ fn_82CF2428(self,"Narrowphase",0xFF6495ED);
+ fn_82CF2428(self,"Broadphase",0xFF0000FF);
+ fn_82CF2428(self,"3AxisSweep",0xFF191970);
+ fn_82CF2428(self,"WaitForExport",0xFF483D8B);
+ fn_82CF2428(self,"SplitIsle",0xFFA52A2A);
+ fn_82CF2428(self,"PostCollide",0xFFF5F5DC);
+ fn_82CF2428(self,"Maintenance",0xFFFFFF00);
+ fn_82CF2428(self,"InterIsland",0xFFFFFF00);
+ fn_82CF2428(self,"PendingOps",0xFFFFFF00);
+ fn_82CF2428(self,"ConstraintCallbacks",0xFFFFFF00);
+ fn_82CF2428(self,"SingleObj",0xFFD2B48C);
+ fn_82CF2428(self,"TOIs",0xFFFFD700);
+ fn_82CF2428(self,"PostSimCB",0xFFF5DEB3);
+ fn_82CF2428(self,"Integrate",0xFF008000);
+ fn_82CF2428(self,"Actions",0xFF00FF7F);
+ fn_82CF2428(self,"SetupJobs",0xFF32CD32);
+ fn_82CF2428(self,"BuildJacTask",0xFF2E8B57);
+ fn_82CF2428(self,"BuildAccumulators",0xFF808000);
+ fn_82CF2428(self,"BuildJacobians",0xFF228B22);
+ fn_82CF2428(self,"Solver",0xFF98FB98);
+ fn_82CF2428(self,"Solve",0xFF98FB98);
+ fn_82CF2428(self,"IntegrateMotions",0xFF90EE90);
+ fn_82CF2428(self,"SolverExport",0xFF8FBC8F);
+ fn_82CF2428(self,"GetNextJob",0xFF8B0000);
+ fn_82CF2428(self,"WaitForSignal",0xFF800000);
+ fn_82CF2428(self,"LockQueue",0xFFFF0000);
+ fn_82CF2428(self,"CriticalLock",0xFFDC143C);
+ fn_82CF2428(self,"AnimationJobs",0xFF800080);
+ fn_82CF2428(self,"SampComb",0xFFDA70D6);
+ fn_82CF2428(self,"Sample",0xFF48D1CC);
+ fn_82CF2428(self,"Combine",0xFFC71585);
+ fn_82CF2428(self,"Display Prepare",0xFF00008B);
+ fn_82CF2428(self,"Display Release",0xFF00008B);
+ fn_82CF2428(self,"Collide",0xFF006400);
+ fn_82CF2428(self,"hkSpuMoppRaycastQuery",0xFF9370DB);
+ fn_82CF2428(self,"KdBuildSetupJob",0xFF00008B);
+ fn_82CF2428(self,"KdBuildFastDist",0xFF191970);
+ fn_82CF2428(self,"KdBuildFastDistSub",0xFF6495ED);
+}
