@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
 extern int fn_8286D418();
 
 
@@ -36,15 +35,15 @@ undefined8 fn_8286D050(int param_1)
   undefined4 *puVar2;
   undefined1 auStack_20 [8];
   
-  if (*(int *)(param_1 + 0x1c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x1c) != 0) {
     puVar2 = (undefined4 *)(param_1 + 0x18);
     do {
-      piVar1 = *(int **)(*(int *)*puVar2 + 8);
-      if (piVar1 != (int *)0x0) {
-        (**(code **)(*piVar1 + 0x14))(piVar1,1);
+      piVar1 = *(int **)(*(unsigned int *)*puVar2 + 8);
+      if (piVar1 != (unsigned int *)0x0) {
+        (*(code *)(*piVar1 + 0x14))(piVar1,1);
       }
       fn_8286D418(auStack_20,puVar2,*(undefined4 *)*puVar2);
-    } while (*(int *)(param_1 + 0x1c) != 0);
+    } while (*(unsigned int *)(param_1 + 0x1c) != 0);
   }
   *(undefined4 *)(param_1 + 0x10) = 0;
   return 0x20310000;

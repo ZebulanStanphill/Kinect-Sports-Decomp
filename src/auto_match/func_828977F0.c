@@ -46,7 +46,7 @@ void fn_828977F0(int param_1,undefined8 param_2,undefined8 param_3)
       else {
         piVar2 = (int *)0x0;
       }
-      (**(code **)(*piVar2 + 4))(piVar2,param_2,param_3);
+      (*(code *)(*piVar2 + 4))(piVar2,param_2,param_3);
       uVar4 = uVar4 + 1;
       iVar3 = iVar3 + 4;
     } while (uVar4 < uVar1);

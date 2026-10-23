@@ -1,45 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+    char pad[0x1c];
+    char a;
+    char b;
+    char c;
+    char d;
+    char e;
+    char f;
+} Flags;
 
+typedef struct {
+    char pad[0x30];
+    Flags *flags;
+} Inner;
 
-char fn_827FF0D0(int *param_1)
-
+int fn_827FF0D0(Inner **param_1)
 {
-  int iVar1;
-  char cVar2;
-  
-  iVar1 = *(int *)(*param_1 + 0x30);
-  cVar2 = (*(char *)(iVar1 + 0x1e) != '\0') + (*(char *)(iVar1 + 0x1d) != '\0') +
-          (*(char *)(iVar1 + 0x1c) != '\0');
-  if (((*(char *)(iVar1 + 0x1f) == '\0') && (*(char *)(iVar1 + 0x20) == '\0')) &&
-     (*(char *)(iVar1 + 0x21) == '\0')) {
-    return cVar2;
-  }
-  return cVar2 + '\x04';
-}
+    Flags *fl;
+    int n;
 
+    fl = (*param_1)->flags;
+    n = (fl->c != 0) + (fl->b != 0) + (fl->a != 0);
+    if (fl->d == 0 && fl->e == 0 && fl->f == 0) {
+        return n;
+    }
+    return n + 4;
+}

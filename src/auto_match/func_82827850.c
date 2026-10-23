@@ -33,7 +33,7 @@ void fn_82827850(int param_1,int param_2,undefined8 param_3)
 
 {
   int iVar1;
-  int aiStack_20 [2];
+  unsigned int aiStack_20 [2];
   
   fn_82822330(param_3,param_1);
   iVar1 = *(int *)(param_2 + 0x28) + 1;

@@ -27,6 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82822F60();
 extern int fn_828252E8();
+extern void fn_8282B948(void);
 
 
 void fn_8282BBD0(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
@@ -42,7 +43,7 @@ void fn_8282BBD0(int param_1,undefined4 param_2,undefined4 param_3,undefined4 pa
   *(undefined4 *)(aiStack_50 + 0x14) = param_3;
   *(undefined4 *)(aiStack_50 + 0x1c) = param_6;
   *(undefined4 *)(aiStack_50 + 0x24) = param_7;
-  fn_82822F60(param_1 + 0x318,aiStack_50,0xffffffff8282b948,&aiStack_50);
+  fn_82822F60(param_1 + 0x318,aiStack_50,fn_8282B948,&aiStack_50);
   *(int *)(param_1 + 0x30) = *(int *)(param_1 + 0x30) + 1;
   return;
 }

@@ -32,13 +32,13 @@ void fn_82865B90(undefined4 *param_1,uint param_2)
 
 {
   uint uVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   uVar1 = param_1[4];
   if (((uVar1 <= param_2) && (param_1[5] != param_2)) &&
      (cVar2 = fn_822977A8(param_1,param_2,1), cVar2 != '\0')) {
     param_1[4] = uVar1;
-    if (7 < (uint)param_1[5]) {
+    if ((uint)param_1[5] >= 8) {
       param_1 = (undefined4 *)*param_1;
     }
     *(undefined2 *)(uVar1 * 2 + (int)param_1) = 0;

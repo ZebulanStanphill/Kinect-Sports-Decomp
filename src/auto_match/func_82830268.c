@@ -26,6 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82822F60();
+extern void fn_8282AF50(void);
 extern int fn_828252E8();
 
 
@@ -38,7 +39,7 @@ void fn_82830268(int param_1,undefined4 param_2,undefined4 param_3,undefined4 pa
   *(undefined4 *)(aiStack_30 + 0x14) = param_3;
   *(undefined4 *)(aiStack_30 + 0x18) = param_4;
   *(undefined4 *)(aiStack_30 + 0x1c) = param_2;
-  fn_82822F60(param_1 + 0x344,aiStack_30,0xffffffff8282af50,&aiStack_30);
+  fn_82822F60(param_1 + 0x344,aiStack_30,fn_8282AF50,&aiStack_30);
   *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x38) + 1;
   return;
 }

@@ -36,7 +36,7 @@ void fn_827EF888(undefined8 param_1,undefined8 param_2,undefined8 param_3,int pa
   
   puVar2 = (undefined4 *)((param_7 & 0xffff) * 8 + *(int *)(param_4 + 0x120));
   piVar1 = (int *)*puVar2;
-  (**(code **)(*piVar1 + 4))(piVar1,param_5,param_6,puVar2[1],param_1,param_2,param_3);
+  (*(code *)(*piVar1 + 4))(piVar1,param_5,param_6,puVar2[1],param_1,param_2,param_3);
   return;
 }
 

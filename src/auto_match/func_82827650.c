@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F672D8();
+char *strncpy(char *d, const char *s, unsigned int n);
 
 
 void fn_82827650(int param_1,int param_2,int param_3,int param_4)
 
 {
   int *piVar1;
-  int *piVar2;
+  unsigned int *piVar2;
   
   piVar1 = (int *)**(int **)(param_1 + 0x2ec);
   piVar2 = (int *)*piVar1;
@@ -42,7 +42,7 @@ void fn_82827650(int param_1,int param_2,int param_3,int param_4)
         if (piVar2 + 2 == (int *)0x0) {
           return;
         }
-        fn_82F672D8(param_3,piVar2 + 2,param_4);
+        strncpy((char *)param_3,(char *)(piVar2 + 2),param_4);
         *(undefined1 *)(param_3 + param_4 + -1) = 0;
         return;
       }

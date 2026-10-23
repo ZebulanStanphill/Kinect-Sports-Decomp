@@ -1,64 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827DC9B8();
-extern int fn_827E0250();
-extern int fn_827E0320();
-extern int fn_827E0D30();
+typedef struct Node {
+    struct Node *next;
+    struct Node *prev;
+    unsigned int key;
+} Node;
+typedef struct { Node *head; } List;
+typedef struct {
+    int pad0;
+    List list;
+    char pad8[0x44 - 8];
+    Node **vec;
+} Hash;
+typedef struct { Node *it; unsigned char ok; } Pairib;
+extern void fn_827DC9B8(Hash *h, Node *plist, Node *where, int bucket);
+extern int fn_827E0250(Hash *h, unsigned int *key);
+extern void fn_827E0320(List *list, Node *where, List *right, Node *first, Node *last, int n);
+extern void fn_827E0D30(Hash *h);
 
-
-undefined4 * fn_827E0FF0(undefined4 *param_1,int param_2,uint *param_3,undefined4 *param_4)
-
+Pairib *fn_827E0FF0(Pairib *ret, Hash *h, unsigned int *key, Node *plist)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int *piVar3;
-  undefined4 *puVar4;
-  
-  iVar2 = fn_827E0250(param_2,param_3);
-  puVar4 = *(undefined4 **)(param_2 + 4);
-  piVar3 = (int *)(iVar2 * 8 + *(int *)(param_2 + 0x44));
-  puVar1 = (undefined4 *)*piVar3;
-  if ((puVar4 != puVar1) && (puVar4 = *(undefined4 **)piVar3[1], puVar4 != puVar1)) {
-    do {
-      puVar4 = (undefined4 *)puVar4[1];
-      if ((uint)puVar4[2] <= *param_3) {
-        puVar4 = (undefined4 *)*puVar4;
-        break;
-      }
-    } while (puVar4 != puVar1);
-  }
-  if (puVar4 != (undefined4 *)*param_4) {
-    fn_827E0320(param_2 + 4,puVar4,param_2 + 4,param_4,(undefined4 *)*param_4,1);
-  }
-  fn_827DC9B8(param_2,param_4,puVar4,iVar2);
-  fn_827E0D30(param_2);
-  *param_1 = param_4;
-  *(undefined1 *)(param_1 + 1) = 1;
-  return param_1;
+    Node **vec;
+    Node *where;
+    int bucket = fn_827E0250(h, key);
+    vec = h->vec;
+    if (vec[2 * bucket] == h->list.head)
+        where = h->list.head;
+    else
+        where = vec[2 * bucket + 1]->next;
+    while (where != vec[2 * bucket]) {
+        where = where->prev;
+        if (!(*key < where->key)) {
+            where = where->next;
+            break;
+        }
+    }
+    if (where != plist->next)
+        fn_827E0320(&h->list, where, &h->list, plist, plist->next, 1);
+    fn_827DC9B8(h, plist, where, bucket);
+    fn_827E0D30(h);
+    ret->it = plist;
+    ret->ok = 1;
+    return ret;
 }
-

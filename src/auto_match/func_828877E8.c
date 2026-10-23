@@ -42,7 +42,7 @@ void fn_828877E8(undefined4 *param_1)
     *(undefined2 *)((int)param_1 + 0x26) = 0;
   }
   if (param_1[0xe] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[0xe]);
     param_1[0xe] = 0;
   }
   if (param_1[0xb] != 0) {
