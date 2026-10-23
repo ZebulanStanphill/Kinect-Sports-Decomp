@@ -33,7 +33,7 @@ void fn_826D0FE8(int param_1,undefined4 param_2)
 
 {
   *(undefined4 *)(param_1 + 0xb8) = param_2;
-  if ((-2 < *(int *)(param_1 + 0x14)) && ((*(byte *)(param_1 + 0x66) & 0x10) == 0)) {
+  if ((*(int *)(param_1 + 0x14) >= -1) && ((*(byte *)(param_1 + 0x66) & 0x10) == 0)) {
     fn_826CBFF0(param_1,*(undefined4 *)(param_1 + 0xa0));
   }
   if (*(int *)(param_1 + 0xb8) == 1) {

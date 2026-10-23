@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826FB298();
-extern int fn_82F63CA0();
+typedef unsigned int size_t;
+extern void *memmove(void *d, const void *s, size_t n);
+extern void fn_826FB298(void *a, int b, int c);
 
+typedef struct Vec {
+    int *data;
+    unsigned int count;
+    int pad8;
+    int fc;
+} Vec;
 
-void fn_826D0418(uint *param_1,ulonglong param_2)
-
+void fn_826D0418(Vec *param_1, unsigned int param_2)
 {
-  longlong lVar1;
-  
-  if ((ulonglong)param_1[1] == 1) {
-    fn_826FB298(param_1,param_1[3],0);
-  }
-  else {
-    lVar1 = (param_2 & 0x3fffffff) * 4 + (ulonglong)*param_1;
-    fn_82F63CA0(lVar1,lVar1 + 4,((param_1[1] - param_2) - 1 & 0x3fffffff) << 2);
-    param_1[1] = param_1[1] - 1;
-  }
-  return;
+    if (param_1->count == 1) {
+        fn_826FB298(param_1, param_1->fc, 0);
+    } else {
+        int *e = param_1->data + param_2;
+        memmove(e, e + 1, (param_1->count - param_2 - 1) * sizeof(int));
+        param_1->count = param_1->count - 1;
+    }
 }
-

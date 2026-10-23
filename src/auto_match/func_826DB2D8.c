@@ -45,7 +45,7 @@ void fn_826DB2D8(undefined4 *param_1)
   fn_826EA050(param_1 + 7);
   fn_826DAE08(param_1 + 6);
   if (param_1[5] != 0) {
-    fn_8267C4F0();
+    fn_8267C4F0(param_1[5]);
   }
   param_1[4] = &lbl_82005700;
   param_1[2] = &lbl_82005928;

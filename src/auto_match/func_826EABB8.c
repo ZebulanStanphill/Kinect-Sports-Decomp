@@ -1,59 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B8F0();
-extern int fn_826EA070();
-extern int fn_826EA350();
-extern int fn_826EA5C8();
-extern int fn_826EA608();
-extern int fn_827BDB08();
-extern unsigned int lbl_8200D84C;
-extern unsigned int lbl_831E7E64;
+typedef struct ErrMgr { void (*error_exit)(); } ErrMgr;
+typedef struct Cinfo { ErrMgr *err; } Cinfo;
+typedef struct Obj {
+  void *vtbl;
+  int f4;
+  Cinfo cinfo;
+  char pad[0x1b8 - 0xc];
+  ErrMgr jerr;
+  char pad2[0x304 - 0x1bc];
+  void *jmpbuf;
+  unsigned char b308;
+  unsigned char b309;
+} Obj;
+extern void *fn_8267B8F0(void *heap, int size, int align, int flags);
+extern int fn_826EA070(Cinfo *c, ErrMgr *e);
+extern void fn_826EA350(Cinfo *c, int a);
+extern void fn_826EA5C8();
+extern void fn_826EA608(Obj *o);
+extern ErrMgr *fn_827BDB08(ErrMgr *e);
+extern char lbl_8200D84C[];
+extern void *lbl_831E7E64;
 
-
-undefined4 * fn_826EABB8(undefined4 *param_1,undefined8 param_2)
-
+Obj *fn_826EABB8(Obj *o, int a)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  *param_1 = &lbl_8200D84C;
-  uVar1 = fn_8267B8F0(lbl_831E7E64,0x540,0x20,0);
-  param_1[0xc1] = uVar1;
-  *(undefined1 *)((int)param_1 + 0x309) = 0;
-  *(undefined1 *)(param_1 + 0xc2) = 0;
-  uVar1 = fn_827BDB08(param_1 + 0x6e);
-  param_1[0x6e] = fn_826EA5C8;
-  param_1[2] = uVar1;
-  iVar2 = fn_826EA070(param_1 + 2,param_1 + 0x6e);
-  if (iVar2 != 0) {
-    fn_826EA350(param_1 + 2,param_2);
-    fn_826EA608(param_1);
+  o->vtbl = lbl_8200D84C;
+  o->jmpbuf = fn_8267B8F0(lbl_831E7E64, 0x540, 0x20, 0);
+  o->b309 = 0;
+  o->b308 = 0;
+  { ErrMgr *e = &o->jerr; ErrMgr *r = fn_827BDB08(e); e->error_exit = fn_826EA5C8; o->cinfo.err = r; }
+  if (fn_826EA070(&o->cinfo, &o->jerr) != 0) {
+    fn_826EA350(&o->cinfo, a);
+    fn_826EA608(o);
   }
-  return param_1;
+  return o;
 }
-

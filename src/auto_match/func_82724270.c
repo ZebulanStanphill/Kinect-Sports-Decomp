@@ -26,22 +26,28 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C498();
-extern int fn_8278FDC8();
+extern __int64 fn_8278FDC8();
 
+typedef struct {
+  int a0;
+  int refs;
+} Obj;
 
 undefined8 fn_82724270(int param_1)
-
 {
   int iVar1;
+  Obj *o;
   undefined8 uVar2;
-  
+
   iVar1 = *(int *)(*(int *)(param_1 + 0xa0) + 0x114);
-  if ((iVar1 != 0) && (iVar1 = *(int *)(iVar1 + 0x14), iVar1 != 0)) {
-    *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) + 1;
-    uVar2 = fn_8278FDC8(iVar1 + 0x14);
-    fn_8267C498(iVar1);
-    return uVar2;
+  if (iVar1 != 0) {
+    o = *(Obj **)(iVar1 + 0x14);
+    if (o != 0) {
+      o->refs = o->refs + 1;
+      uVar2 = fn_8278FDC8((int)o + 0x14);
+      fn_8267C498(o);
+      return uVar2;
+    }
   }
   return 0;
 }
-

@@ -40,7 +40,7 @@ void fn_82719758(undefined4 *param_1)
   puVar1 = (undefined4 *)param_1[4];
   *param_1 = &lbl_8200F99C;
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   fn_8267BE38(param_1[0xc]);
   fn_82716F98(param_1[9],param_1[10]);

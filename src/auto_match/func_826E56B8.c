@@ -1,47 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4C8();
-extern int fn_826E4270();
-extern unsigned int lbl_8200D5A8;
+extern int fn_8267C4C8(void *p);
+extern int fn_826E4270(int a, void *b);
+extern char lbl_8200D5A8;
+typedef struct T { char pad[0x3c]; int x3c; } T;
+typedef struct { void *vtbl; int refs; int x8; int xc; T *obj; } Obj;
 
-
-undefined4 * fn_826E56B8(undefined4 *param_1,int param_2,undefined4 param_3)
-
+Obj *fn_826E56B8(Obj *param_1, T *param_2, int param_3)
 {
-  param_1[2] = param_3;
-  param_1[1] = 1;
-  *param_1 = &lbl_8200D5A8;
-  param_1[3] = 0;
-  if (param_2 != 0) {
-    fn_8267C4C8(param_2);
-  }
-  param_1[4] = param_2;
-  fn_826E4270(*(undefined4 *)(param_2 + 0x3c),param_1);
+  T **pp;
+  param_1->x8 = param_3;
+  param_1->refs = 1;
+  param_1->vtbl = &lbl_8200D5A8;
+  param_1->xc = 0;
+  if (param_2 != 0) fn_8267C4C8((void *)param_2);
+  param_1->obj = param_2;
+  pp = &param_1->obj; fn_826E4270((*pp)->x3c, param_1);
   return param_1;
 }
-

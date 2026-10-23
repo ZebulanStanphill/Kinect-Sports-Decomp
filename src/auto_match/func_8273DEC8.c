@@ -35,7 +35,7 @@ void fn_8273DEC8(int param_1)
   
   fn_8273D528(param_1 + 0x10,(ulonglong)*(uint *)(param_1 + 0x14) - 1);
   iVar1 = *(int *)(*(int *)(param_1 + 0x14) * 4 + *(int *)(param_1 + 0x10) + -4);
-  iVar1 = (**(code **)(*(int *)(iVar1 + 0x10) + 8))(iVar1 + 0x10);
+  iVar1 = (*(code *)(*(int *)(iVar1 + 0x10) + 8))(iVar1 + 0x10);
   *(bool *)(param_1 + 0x1c) = iVar1 == 7;
   return;
 }

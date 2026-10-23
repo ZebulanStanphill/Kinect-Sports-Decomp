@@ -42,7 +42,7 @@ void fn_827190A8(undefined4 *param_1)
   param_1[0x1a] = &lbl_8200F7F8;
   fn_8267BE38(param_1[0x28]);
   if (param_1[0x2f] != 0) {
-    fn_826824B0();
+    fn_826824B0(param_1[0x2f]);
   }
   fn_826DF960(param_1[0x29],param_1[0x2a]);
   fn_8267BE38(param_1[0x29]);

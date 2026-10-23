@@ -51,7 +51,7 @@ undefined4 * fn_826EAC58(undefined4 *param_1,undefined8 param_2,undefined8 param
   *(undefined1 *)(param_1 + 0xc2) = 0;
   uVar1 = fn_827BDB08(puVar4);
   puVar3 = param_1 + 2;
-  param_1[0x6e] = fn_826EA5C8;
+  *puVar4 = (undefined4)fn_826EA5C8;
   param_1[2] = uVar1;
   iVar2 = fn_826EA070(puVar3,puVar4);
   if (iVar2 != 0) {

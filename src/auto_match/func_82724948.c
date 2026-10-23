@@ -39,8 +39,8 @@ int fn_82724948(int param_1,int param_2)
   if (iVar1 != 0) {
     *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) + 1;
   }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_8267C498();
+  if (*(unsigned int *)(param_1 + 4) != 0) {
+    fn_8267C498(*(unsigned int *)(param_1 + 4));
   }
   *(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_2 + 4);
   return param_1;

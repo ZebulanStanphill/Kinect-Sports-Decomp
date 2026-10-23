@@ -1,50 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_8268BA10();
+extern void fn_8267C498(int *p);
+extern void fn_8268BA10(int p, int v);
 
+typedef struct Ref {
+    int pad0;
+    int count;
+} Ref;
 
-void fn_827247D0(int param_1,undefined4 *param_2)
+typedef struct Obj {
+    int pad0;
+    int *p4;
+} Obj;
 
+void fn_827247D0(Obj *param_1, int *param_2)
 {
-  int *piVar1;
-  int iVar2;
-  
-  fn_8268BA10(param_1,*param_2);
-  piVar1 = (int *)param_2[1];
-  iVar2 = *piVar1;
-  if (iVar2 != 0) {
-    *(int *)(iVar2 + 4) = *(int *)(iVar2 + 4) + 1;
-  }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_8267C498();
-  }
-  *(int *)(param_1 + 4) = *piVar1;
-  return;
-}
+    Ref **pp;
+    int r;
 
+    fn_8268BA10((int)param_1, *param_2);
+    pp = (Ref **)param_2[1];
+    r = (int)*pp;
+    if (r != 0) {
+        ((Ref *)r)->count = ((Ref *)r)->count + 1;
+    }
+    if (param_1->p4 != 0) {
+        fn_8267C498(param_1->p4);
+    }
+    param_1->p4 = (int *)*pp;
+}

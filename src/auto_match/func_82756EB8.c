@@ -41,7 +41,7 @@ void fn_82756EB8(undefined4 *param_1)
   fn_82759498(param_1 + 0x11);
   fn_8267BE38(param_1[10]);
   if (param_1[2] != 0) {
-    fn_82761DE8();
+    fn_82761DE8(param_1[2]);
   }
   fn_8267C488(param_1);
   return;

@@ -31,7 +31,7 @@ undefined8 fn_826C88F0(int param_1)
 
 {
   char cVar1;
-  int iVar2;
+  unsigned int iVar2;
   int iVar3;
   
   cVar1 = *(char *)(param_1 + 0x34);
@@ -41,7 +41,7 @@ undefined8 fn_826C88F0(int param_1)
       if (iVar2 == 0) {
         return 0;
       }
-      iVar3 = (**(code **)(*(int *)(*(int *)(param_1 + 0x14) + 0x10) + 8))
+      iVar3 = (*(code *)(*(int *)(*(int *)(param_1 + 0x14) + 0x10) + 8))
                         (*(int *)(param_1 + 0x14) + 0x10);
       if (iVar3 == 0xb) break;
       iVar2 = *(int *)(iVar2 + 0x14);

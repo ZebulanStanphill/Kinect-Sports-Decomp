@@ -1,47 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82685518();
+extern void fn_82685518(void *a, void *b);
 
+typedef struct Del Del;
+typedef struct DelVtbl {
+    void (*dtor)(Del *d, int flags);
+} DelVtbl;
+struct Del {
+    DelVtbl *vt;
+};
 
-void fn_8275CEE0(int param_1)
+typedef struct Obj {
+    char pad0[0x18];
+    void *p18;
+    int pad1c;
+    Del *p20;
+} Obj;
 
+void fn_8275CEE0(Obj *param_1)
 {
-  undefined4 *puVar1;
-  
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_82685518(*(int *)(param_1 + 0x18),param_1);
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0x20);
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  return;
-}
+    Del *d;
 
+    if (param_1->p18 != 0) {
+        fn_82685518(param_1->p18, param_1);
+    }
+    d = param_1->p20;
+    param_1->p18 = 0;
+    if (d != 0) {
+        d->vt->dtor(d, 1);
+    }
+    param_1->p20 = 0;
+}
