@@ -37726,9 +37726,10 @@
         ]
       },
       "auto_match/func_823F9378.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/QVMXReserve"
         ]
       },
       "auto_match/func_823F9468.c": {
