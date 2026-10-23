@@ -155733,9 +155733,9 @@
         ]
       },
       "auto_match/func_828DCB30.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_828DCC20.c": {

@@ -25,37 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C478();
-extern int fn_8240D930();
-extern int fn_828E9DB8();
+typedef struct { char pad[0x34]; } Elem;
+typedef struct {
+  char pad[0x80];
+  int a;
+  int b;
+  Elem *begin;
+  Elem *end;
+} Obj;
+
+extern void fn_8223C478(void *s, int n, int z);
+extern int fn_8240D930(Elem *e);
+extern void fn_828E9DB8(void *s, int v, int n);
 
 
-void fn_828DCB30(int param_1,undefined8 param_2)
-
+void fn_828DCB30(Obj *param_1, void *param_2)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x80);
-  fn_8223C478(param_2,2,0);
-  fn_828E9DB8(param_2,uVar1,2);
-  uVar1 = *(undefined4 *)(param_1 + 0x84);
-  fn_8223C478(param_2,2,0);
-  fn_828E9DB8(param_2,uVar1,2);
-  uVar3 = (ulonglong)*(uint *)(param_1 + 0x88);
-  if (uVar3 != *(uint *)(param_1 + 0x8c)) {
-    do {
-      fn_8223C478(param_2,1,0);
-      fn_828E9DB8(param_2,1,1);
-      uVar2 = fn_8240D930(uVar3);
-      fn_8223C478(param_2,2,0);
-      fn_828E9DB8(param_2,uVar2,2);
-      uVar3 = uVar3 + 0x34;
-    } while ((uVar3 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x8c));
-  }
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,0,1);
-  return;
-}
+  int a = param_1->a;
+  int v;
+  Elem *e;
 
+  fn_8223C478(param_2, 2, 0);
+  fn_828E9DB8(param_2, a, 2);
+  v = param_1->b;
+  fn_8223C478(param_2, 2, 0);
+  fn_828E9DB8(param_2, v, 2);
+  for (e = param_1->begin; e != param_1->end; e++) {
+    fn_8223C478(param_2, 1, 0);
+    fn_828E9DB8(param_2, 1, 1);
+    v = fn_8240D930(e);
+    fn_8223C478(param_2, 2, 0);
+    fn_828E9DB8(param_2, v, 2);
+  }
+  fn_8223C478(param_2, 1, 0);
+  fn_828E9DB8(param_2, 0, 1);
+}
