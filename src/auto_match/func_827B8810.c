@@ -38,7 +38,7 @@ void fn_827B8810(uint *param_1,undefined4 *param_2)
   undefined4 *puVar5;
   
   uVar4 = *param_1 >> 6;
-  if (param_1[1] <= uVar4) {
+  if (uVar4 >= param_1[1]) {
     fn_827B6080(param_1,uVar4);
   }
   uVar1 = param_2[1];

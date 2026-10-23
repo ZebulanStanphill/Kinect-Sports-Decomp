@@ -26,25 +26,25 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8277CB10();
+extern int fn_8277CB10();
 
+typedef struct { char pad[0x30]; uint idx; } Item;
+typedef struct {
+  char pad[0x8c];
+  Item **items;
+  uint count;
+  int pad94;
+  char sub[0x18];
+  uint *arr;
+} Obj;
 
-void fn_8277E2E0(int param_1)
-
+void fn_8277E2E0(Obj *o)
 {
-  int iVar1;
-  uint uVar2;
-  
-  fn_8277CB10(param_1 + 0x98,(int *)(param_1 + 0x8c));
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x90) != 0) {
-    iVar1 = 0;
-    do {
-      *(uint *)(*(int *)(iVar1 + *(int *)(param_1 + 0x8c)) + 0x30) = uVar2;
-      *(uint *)(*(int *)(param_1 + 0xb0) + iVar1) = uVar2;
-      uVar2 = uVar2 + 1;
-      iVar1 = iVar1 + 4;
-    } while (uVar2 < *(uint *)(param_1 + 0x90));
-  }
-  return;
-}
+  uint i;
 
+  fn_8277CB10(o->sub, &o->items);
+  for (i = 0; i < o->count; i++) {
+      o->items[i]->idx = i;
+      o->arr[i] = i;
+  }
+}

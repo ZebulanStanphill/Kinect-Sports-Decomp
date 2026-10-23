@@ -36,7 +36,7 @@ void fn_827C0800(int param_1)
 {
   undefined4 *puVar1;
   
-  puVar1 = (undefined4 *)(*(code *)**(undefined4 **)(param_1 + 4))(param_1,0,0x18);
+  puVar1 = (undefined4 *)(*(code *)*(undefined4 **)(param_1 + 4))(param_1,0,0x18);
   *(undefined4 **)(param_1 + 400) = puVar1;
   *puVar1 = fn_827C0658;
   puVar1[1] = fn_827C0768;

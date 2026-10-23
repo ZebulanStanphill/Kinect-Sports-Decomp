@@ -39,7 +39,7 @@ void fn_827CB520(int param_1)
   undefined4 *puVar1;
   undefined4 uVar2;
   
-  puVar1 = (undefined4 *)(*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x30);
+  puVar1 = (undefined4 *)(*(code *)*(undefined4 **)(param_1 + 4))(param_1,1,0x30);
   *(undefined4 **)(param_1 + 0x1a0) = puVar1;
   *(undefined1 *)(puVar1 + 2) = 0;
   *puVar1 = fn_827CB080;
@@ -47,7 +47,7 @@ void fn_827CB520(int param_1)
   if (*(int *)(param_1 + 0x114) == 2) {
     puVar1[1] = fn_827CB098;
     puVar1[3] = fn_827CB350;
-    uVar2 = (**(code **)(*(int *)(param_1 + 4) + 4))(param_1,1,puVar1[10]);
+    uVar2 = (*(code *)(*(int *)(param_1 + 4) + 4))(param_1,1,puVar1[10]);
     puVar1[8] = uVar2;
   }
   else {

@@ -1,57 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct ErrMgr {
+  void (*error_exit)(void *cinfo);
+  int pad[4];
+  int msg_code;
+  int msg_parm;
+} ErrMgr;
 
+typedef struct Master {
+  void (*prepare_for_output_pass)(void *cinfo);
+  void (*finish_output_pass)(void *cinfo);
+} Master;
 
-undefined8 fn_827BDF78(int *param_1)
+typedef struct InputCtl {
+  int (*consume_input)(void *cinfo);
+  int pad04[3];
+  unsigned char has_multiple_scans;
+  unsigned char eoi_reached;
+} InputCtl;
 
+typedef struct Dinfo {
+  ErrMgr *err;
+  int pad04[4];
+  int global_state;
+  int pad18[10];
+  unsigned char buffered_image;
+  int pad44[14];
+  int input_scan_number;
+  int pad80;
+  int output_scan_number;
+  int pad88[62];
+  Master *master;
+  int pad184[3];
+  InputCtl *inputctl;
+} Dinfo;
+
+int fn_827BDF78(Dinfo *cinfo)
 {
-  int iVar1;
-  
-  iVar1 = param_1[5];
-  if (((iVar1 == 0xcd) || (iVar1 == 0xce)) && (*(char *)(param_1 + 0x10) != '\0')) {
-    (**(code **)(param_1[0x60] + 4))(param_1);
-    param_1[5] = 0xd0;
+  if ((cinfo->global_state == 0xcd || cinfo->global_state == 0xce) && cinfo->buffered_image) {
+    (*cinfo->master->finish_output_pass)(cinfo);
+    cinfo->global_state = 0xd0;
+  } else if (cinfo->global_state != 0xd0) {
+    cinfo->err->msg_code = 0x14;
+    cinfo->err->msg_parm = cinfo->global_state;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  else if (iVar1 != 0xd0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)(param_1);
+  while (cinfo->input_scan_number <= cinfo->output_scan_number &&
+         !cinfo->inputctl->eoi_reached) {
+    if ((*cinfo->inputctl->consume_input)(cinfo) == 0)
+      return 0;
   }
-  if (param_1[0x1f] <= param_1[0x21]) {
-    do {
-      if (*(char *)(param_1[100] + 0x11) != '\0') break;
-      iVar1 = (**(code **)param_1[100])(param_1);
-      if (iVar1 == 0) {
-        return 0;
-      }
-    } while (param_1[0x1f] <= param_1[0x21]);
-  }
-  param_1[5] = 0xcf;
+  cinfo->global_state = 0xcf;
   return 1;
 }
-

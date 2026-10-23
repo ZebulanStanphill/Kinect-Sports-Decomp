@@ -39,7 +39,7 @@ void fn_827DDB88(undefined8 param_1,undefined8 param_2)
   
   auStack_40[0] = 0;
   fn_82811438(auStack_30,auStack_40,0x10);
-  (**(code **)(*(int *)lbl_83156AA0 + 4))(lbl_83156AA0,param_2,auStack_30,param_1);
+  (*(code *)(*(int *)lbl_83156AA0 + 4))(lbl_83156AA0,param_2,auStack_30,param_1);
   return;
 }
 

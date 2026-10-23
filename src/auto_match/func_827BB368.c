@@ -33,7 +33,7 @@ undefined1 fn_827BB368(int *param_1)
   if ((param_1[5] < 0xca) || (0xd2 < param_1[5])) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)(param_1);
+    (*(code *)*param_1)(param_1);
   }
   return *(undefined1 *)(param_1[100] + 0x10);
 }

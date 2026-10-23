@@ -26,13 +26,13 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8277F5D8();
-extern int fn_82F68CC0();
+void *memcpy(void *d, const void *s, unsigned int n);
 
 
 void fn_8277F650(int param_1,int param_2,int param_3)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   undefined4 *puVar2;
   undefined4 uVar3;
   
@@ -47,7 +47,7 @@ void fn_8277F650(int param_1,int param_2,int param_3)
     }
     else {
       uVar3 = fn_8277F5D8(param_1,param_3);
-      fn_82F68CC0(uVar3,*(undefined4 *)(param_2 + 4),0x18);
+      memcpy((void *)uVar3,*(void **)(param_2 + 4),0x18);
       puVar2 = *(undefined4 **)(param_2 + 4);
       *puVar2 = 0;
       puVar2[1] = 0xffffffff;

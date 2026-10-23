@@ -1,81 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827BE8A0();
-extern int fn_827BEA30();
-extern int fn_827BF240();
+typedef struct ErrMgr {
+  void (*error_exit)(void *cinfo);
+  int pad[4];
+  int msg_code;
+  int msg_parm;
+} ErrMgr;
 
+typedef struct MemMgr {
+  void *(*alloc_small)(void *cinfo, int pool_id, unsigned int size);
+} MemMgr;
 
-void fn_827BF2B8(int *param_1)
+typedef struct Cinfo {
+  ErrMgr *err;
+  MemMgr *mem;
+  int pad08[3];
+  int global_state;
+  int pad18[8];
+  int data_precision;
+  int pad3c[2];
+  void *comp_info;
+  int pad48[12];
+  unsigned char arith_dc_L[16];
+  unsigned char arith_dc_U[16];
+  unsigned char arith_ac_K[16];
+  int num_scans;
+  void *scan_info;
+  unsigned char raw_data_in;
+  unsigned char arith_code;
+  unsigned char optimize_coding;
+  unsigned char CCIR601_sampling;
+  int smoothing_factor;
+  int dct_method;
+  int restart_interval;
+  int restart_in_rows;
+  unsigned char write_JFIF_header;
+  unsigned char JFIF_major_version;
+  unsigned char JFIF_minor_version;
+  unsigned char density_unit;
+  unsigned short X_density;
+  unsigned short Y_density;
+} Cinfo;
 
+extern void fn_827BE8A0(Cinfo *, int, int);
+extern void fn_827BEA30(Cinfo *);
+extern void fn_827BF240(Cinfo *);
+
+void fn_827BF2B8(Cinfo *cinfo)
 {
-  int iVar1;
-  longlong lVar2;
-  
-  if (param_1[5] != 100) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
-  }
-  if (param_1[0x11] == 0) {
-    iVar1 = (**(code **)param_1[1])(param_1,0,0x348);
-    param_1[0x11] = iVar1;
-  }
-  param_1[0xe] = 8;
-  fn_827BE8A0(param_1,0x32,1);
-  fn_827BEA30(param_1);
-  iVar1 = 0;
-  lVar2 = 0x10;
-  do {
-    *(undefined1 *)((int)param_1 + iVar1 + 0x78) = 0;
-    *(undefined1 *)((int)param_1 + iVar1 + 0x88) = 1;
-    *(undefined1 *)((int)param_1 + iVar1 + 0x98) = 5;
-    iVar1 = iVar1 + 1;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  param_1[0x2b] = 0;
-  param_1[0x2a] = 0;
-  *(undefined1 *)(param_1 + 0x2c) = 0;
-  *(undefined1 *)((int)param_1 + 0xb1) = 0;
-  *(undefined1 *)((int)param_1 + 0xb2) = 0;
-  if (8 < param_1[0xe]) {
-    *(undefined1 *)((int)param_1 + 0xb2) = 1;
-  }
-  *(undefined1 *)((int)param_1 + 0xb3) = 0;
-  param_1[0x2d] = 0;
-  param_1[0x2e] = 0;
-  param_1[0x2f] = 0;
-  param_1[0x30] = 0;
-  *(undefined1 *)((int)param_1 + 0xc5) = 1;
-  *(undefined1 *)((int)param_1 + 0xc6) = 1;
-  *(undefined1 *)((int)param_1 + 199) = 0;
-  *(undefined2 *)(param_1 + 0x32) = 1;
-  *(undefined2 *)((int)param_1 + 0xca) = 1;
-  fn_827BF240(param_1);
-  return;
-}
+  int i;
 
+  if (cinfo->global_state != 100) {
+    cinfo->err->msg_code = 0x14;
+    cinfo->err->msg_parm = cinfo->global_state;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  if (cinfo->comp_info == 0)
+    cinfo->comp_info = (*cinfo->mem->alloc_small)(cinfo, 0, 0x348);
+  cinfo->data_precision = 8;
+  fn_827BE8A0(cinfo, 0x32, 1);
+  fn_827BEA30(cinfo);
+  for (i = 0; i < 16; i++) {
+    cinfo->arith_dc_L[i] = 0;
+    cinfo->arith_dc_U[i] = 1;
+    cinfo->arith_ac_K[i] = 5;
+  }
+  cinfo->scan_info = 0;
+  cinfo->num_scans = 0;
+  cinfo->raw_data_in = 0;
+  cinfo->arith_code = 0;
+  cinfo->optimize_coding = 0;
+  if (cinfo->data_precision > 8)
+    cinfo->optimize_coding = 1;
+  cinfo->CCIR601_sampling = 0;
+  cinfo->smoothing_factor = 0;
+  cinfo->dct_method = 0;
+  cinfo->restart_interval = 0;
+  cinfo->restart_in_rows = 0;
+  cinfo->JFIF_major_version = 1;
+  cinfo->JFIF_minor_version = 1;
+  cinfo->density_unit = 0;
+  cinfo->X_density = 1;
+  cinfo->Y_density = 1;
+  fn_827BF240(cinfo);
+}

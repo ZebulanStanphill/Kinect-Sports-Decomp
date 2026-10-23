@@ -34,7 +34,7 @@ void fn_827B19D8(uint *param_1,undefined1 *param_2)
   uint uVar1;
   
   uVar1 = *param_1 >> 0xc;
-  if (param_1[1] <= uVar1) {
+  if (uVar1 >= param_1[1]) {
     fn_827B0BF8(param_1,uVar1);
   }
   *(undefined1 *)(*(int *)(uVar1 * 4 + param_1[3]) + (*param_1 & 0xfff)) = *param_2;

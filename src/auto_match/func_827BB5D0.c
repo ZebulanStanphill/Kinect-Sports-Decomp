@@ -34,10 +34,10 @@ undefined8 fn_827BB5D0(int *param_1)
   longlong lVar2;
   
   *(undefined4 *)(*param_1 + 0x14) = 0x66;
-  (**(code **)(*param_1 + 4))(param_1,1);
+  (*(code *)(*param_1 + 4))(param_1,1);
   if (*(char *)(param_1[0x65] + 0xc) != '\0') {
     *(undefined4 *)(*param_1 + 0x14) = 0x3d;
-    (**(code **)*param_1)(param_1);
+    (*(code *)*param_1)(param_1);
   }
   iVar1 = 0;
   lVar2 = 0x10;

@@ -36,7 +36,7 @@ void fn_827BFC00(int *param_1,int param_2)
   iVar1 = param_1[0x52];
   if (param_2 != 2) {
     *(undefined4 *)(*param_1 + 0x14) = 4;
-    (**(code **)*param_1)();
+    (*(code *)*param_1)(param_1);
   }
   *(undefined4 *)(iVar1 + 8) = 0;
   fn_827BFBB0(param_1);

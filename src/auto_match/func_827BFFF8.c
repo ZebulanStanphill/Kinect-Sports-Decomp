@@ -29,20 +29,19 @@ extern int fn_827BF518();
 extern int fn_827BFF48();
 
 
-void fn_827BFFF8(int *param_1,undefined8 param_2)
+void fn_827BFFF8(int *param_1,int param_2)
 
 {
   if (param_1[5] != 100) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
+    (*(code *)*param_1)(param_1);
   }
   fn_827BF518(param_1,0);
-  (**(code **)(*param_1 + 0x10))(param_1);
-  (**(code **)(param_1[6] + 8))(param_1);
+  (*(code *)(*param_1 + 0x10))(param_1);
+  (*(code *)(param_1[6] + 8))(param_1);
   fn_827BFF48(param_1,param_2);
   param_1[0x34] = 0;
   param_1[5] = 0x67;
   return;
 }
-

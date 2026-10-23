@@ -46,13 +46,13 @@ void fn_827DA660(int param_1,undefined8 param_2,uint param_3)
       piVar1 = (int *)0x0;
     }
     if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0x14))(piVar1,param_2);
+      (*(code *)(*piVar1 + 0x14))(piVar1,param_2);
       return;
     }
   }
   auStack_40[0] = 3;
   fn_82811438(auStack_30,auStack_40,0x10);
-  (**(code **)(*(int *)lbl_83156AA0 + 0x18))(lbl_83156AA0,param_2,auStack_30);
+  (*(code *)(*(int *)lbl_83156AA0 + 0x18))(lbl_83156AA0,param_2,auStack_30);
   return;
 }
 

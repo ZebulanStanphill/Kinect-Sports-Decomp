@@ -29,12 +29,12 @@ extern int fn_8267BE38();
 extern int fn_8278BCF0();
 
 
-void fn_8278C0A8(int param_1,int *param_2)
+void fn_8278C0A8(int param_1,unsigned int *param_2)
 
 {
   ushort uVar1;
   
-  if ((param_2 == (int *)0x0) || (*param_2 == 0)) {
+  if ((param_2 == (int *)0x0) || (*param_2 <= 0)) {
     fn_8267BE38(*(undefined4 *)(param_1 + 8));
     *(undefined4 *)(param_1 + 8) = 0;
     uVar1 = *(ushort *)(param_1 + 0x16) & 0xffbf;

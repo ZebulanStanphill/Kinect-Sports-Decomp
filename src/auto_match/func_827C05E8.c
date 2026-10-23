@@ -32,10 +32,10 @@ extern int fn_827C0510();
 void fn_827C05E8(int param_1)
 
 {
-  fn_827C0328();
+  fn_827C0328(param_1);
   fn_827C0510(param_1);
-  (*(code *)**(undefined4 **)(param_1 + 0x198))(param_1);
-  (*(code *)**(undefined4 **)(param_1 + 0x188))(param_1);
+  (*(code *)*(undefined4 *)(param_1 + 0x198))(param_1);
+  (*(code *)*(undefined4 *)(param_1 + 0x188))(param_1);
   **(undefined4 **)(param_1 + 400) = *(undefined4 *)(*(int *)(param_1 + 0x188) + 4);
   return;
 }

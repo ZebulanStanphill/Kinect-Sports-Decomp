@@ -1,55 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82670230();
+typedef struct Obj Obj;
+typedef struct {
+  void *pad[12];
+  void (*release)(Obj *, void *);
+} ObjVtbl;
+struct Obj {
+  ObjVtbl *vt;
+};
 
+extern void fn_82670230(Obj *);
 
-void fn_827B7098(int param_1)
+typedef struct {
+  Obj *obj;
+  int data[3];
+  int x;
+} Entry;
 
+typedef struct {
+  int pad0[2];
+  unsigned int count;
+  int pad1[11];
+  Entry entries[1];
+} S;
+
+void fn_827B7098(S *s)
 {
-  int *piVar1;
-  uint uVar2;
-  int *piVar3;
-  
-  uVar2 = 0;
-  if (*(int *)(param_1 + 8) != 0) {
-    piVar3 = (int *)(param_1 + 0x38);
-    do {
-      piVar1 = (int *)*piVar3;
-      if (piVar1 != (int *)0x0) {
-        (**(code **)(*piVar1 + 0x30))(piVar1,piVar3 + 1);
-        fn_82670230(*piVar3);
-        *piVar3 = 0;
-      }
-      uVar2 = uVar2 + 1;
-      piVar3[4] = 0;
-      piVar3 = piVar3 + 5;
-    } while (uVar2 < *(uint *)(param_1 + 8));
-  }
-  return;
-}
+  unsigned int i;
 
+  for (i = 0; i < s->count; i++) {
+    Entry *e = &s->entries[i];
+    if (e->obj != 0) {
+      e->obj->vt->release(e->obj, e->data);
+      fn_82670230(e->obj);
+      e->obj = 0;
+    }
+    e->x = 0;
+  }
+}

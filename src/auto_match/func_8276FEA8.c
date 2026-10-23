@@ -34,7 +34,7 @@ void fn_8276FEA8(uint *param_1,undefined4 *param_2)
   uint uVar1;
   
   uVar1 = *param_1 >> 6;
-  if (param_1[1] <= uVar1) {
+  if (uVar1 >= param_1[1]) {
     fn_8276F858(param_1,uVar1);
   }
   *(undefined4 *)(*(int *)(uVar1 * 4 + param_1[3]) + (*param_1 & 0x3f) * 4) = *param_2;

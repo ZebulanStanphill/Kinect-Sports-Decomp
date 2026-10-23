@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_827BF7D8(int *param_1,undefined8 param_2,undefined8 param_3)
+void fn_827BF7D8(unsigned int *param_1,undefined8 param_2,undefined8 param_3)
 
 {
   int iVar1;
@@ -36,9 +36,9 @@ void fn_827BF7D8(int *param_1,undefined8 param_2,undefined8 param_3)
      (((iVar1 = param_1[5], iVar1 != 0x65 && (iVar1 != 0x66)) && (iVar1 != 0x67)))) {
     *(undefined4 *)(*param_1 + 0x14) = 0x14;
     *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)(param_1);
+    (*(code *)*param_1)(param_1);
   }
-  (**(code **)(param_1[0x53] + 0x14))(param_1,param_2,param_3);
+  (*(code *)(param_1[0x53] + 0x14))(param_1,param_2,param_3);
   return;
 }
 

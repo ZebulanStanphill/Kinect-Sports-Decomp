@@ -1,65 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827CCC80();
-extern int fn_827CCE10();
-extern int fn_827CD520();
-extern int fn_827CD590();
-extern int fn_827CD6E0();
-extern int fn_827CD6E8();
+typedef struct ErrMgr {
+  void (*error_exit)(void *cinfo);
+  int pad[4];
+  int msg_code;
+  int msg_parm;
+} ErrMgr;
 
+typedef struct MemMgr {
+  void *(*alloc_small)(void *cinfo, int pool_id, unsigned int size);
+} MemMgr;
 
-void fn_827CD708(int *param_1)
+typedef struct Cquantizer {
+  void (*start_pass)(void);
+  int pad04;
+  void (*finish_pass)(void);
+  void (*new_color_map)(void);
+  int pad10[9];
+  void *odither;
+  int pad38[3];
+  void *fserrors;
+} Cquantizer;
 
+typedef struct Dinfo {
+  ErrMgr *err;
+  MemMgr *mem;
+  int pad08[17];
+  int dither_mode;
+  int pad50;
+  int desired_number_of_colors;
+  int pad58[3];
+  int out_color_components;
+  int pad68[0x50];
+  Cquantizer *cquantize;
+} Dinfo;
+
+extern void fn_827CCC80(Dinfo *);
+extern void fn_827CCE10(Dinfo *);
+extern void fn_827CD520(Dinfo *);
+extern void fn_827CD590(void);
+extern void fn_827CD6E0(void);
+extern void fn_827CD6E8(void);
+
+void fn_827CD708(Dinfo *cinfo)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)(**(code **)param_1[1])(param_1,1,0x58);
-  param_1[0x6a] = (int)puVar1;
-  puVar1[0x11] = 0;
-  *puVar1 = fn_827CD590;
-  puVar1[2] = fn_827CD6E0;
-  puVar1[3] = fn_827CD6E8;
-  puVar1[0xd] = 0;
-  if (4 < param_1[0x19]) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x37;
-    *(undefined4 *)(*param_1 + 0x18) = 4;
-    (**(code **)*param_1)(param_1);
-  }
-  if (0x100 < param_1[0x15]) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x39;
-    *(undefined4 *)(*param_1 + 0x18) = 0x100;
-    (**(code **)*param_1)(param_1);
-  }
-  fn_827CCC80(param_1);
-  fn_827CCE10(param_1);
-  if (param_1[0x13] == 2) {
-    fn_827CD520(param_1);
-  }
-  return;
-}
+  Cquantizer *cquantize;
 
+  cquantize = (Cquantizer *)(*cinfo->mem->alloc_small)(cinfo, 1, 0x58);
+  cinfo->cquantize = cquantize;
+  cquantize->fserrors = 0;
+  cquantize->start_pass = fn_827CD590;
+  cquantize->finish_pass = fn_827CD6E0;
+  cquantize->new_color_map = fn_827CD6E8;
+  cquantize->odither = 0;
+  if (cinfo->out_color_components > 4) {
+    cinfo->err->msg_code = 0x37;
+    cinfo->err->msg_parm = 4;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  if (cinfo->desired_number_of_colors > 0x100) {
+    cinfo->err->msg_code = 0x39;
+    cinfo->err->msg_parm = 0x100;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  fn_827CCC80(cinfo);
+  fn_827CCE10(cinfo);
+  if (cinfo->dither_mode == 2)
+    fn_827CD520(cinfo);
+}
