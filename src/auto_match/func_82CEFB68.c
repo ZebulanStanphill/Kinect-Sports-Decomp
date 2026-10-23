@@ -38,7 +38,7 @@ void fn_82CEFB68(void)
   iVar1 = lbl_8323B46C;
   if (lbl_8323B46C != 0) {
     iVar2 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),iVar1,0x1c);
+    (*(code *)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),iVar1,0x1c);
     lbl_8323B46C = 0;
   }
   return;

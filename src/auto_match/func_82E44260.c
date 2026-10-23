@@ -34,14 +34,12 @@ void fn_82E44260(uint *param_1)
 
 {
   uint uVar1;
-  undefined8 uVar2;
   
   if ((*param_1 & 0x40000000) == 0) {
     uVar1 = *param_1 >> 0x1c & 3;
     if (uVar1 == 0) {
       uVar1 = param_1[3];
-      uVar2 = fn_82A2A360();
-      fn_82A28E60(uVar2,0,uVar1);
+      fn_82A28E60(fn_82A2A360(),0,uVar1);
     }
     else if (uVar1 == 1) {
       fn_82E4FE40(param_1[3]);
@@ -51,4 +49,3 @@ void fn_82E44260(uint *param_1)
   }
   return;
 }
-

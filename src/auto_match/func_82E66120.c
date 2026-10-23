@@ -40,15 +40,15 @@ undefined4 * fn_82E66120(undefined4 *param_1,int *param_2,int *param_3,int *para
   param_1[7] = 0;
   param_1[9] = 0;
   if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 4))(param_2);
+    (*(code *)(*param_2 + 4))(param_2);
   }
   param_1[0xc] = param_4;
   if (param_4 != (int *)0x0) {
-    (**(code **)(*param_4 + 4))(param_4);
+    (*(code *)(*param_4 + 4))(param_4);
   }
   param_1[6] = param_3;
   if (param_3 != (int *)0x0) {
-    (**(code **)(*param_3 + 4))(param_3);
+    (*(code *)(*param_3 + 4))(param_3);
   }
   param_1[1] = 0;
   param_1[2] = 0;

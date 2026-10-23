@@ -47,12 +47,12 @@ undefined4 * fn_82E53288(undefined4 *param_1,int *param_2,int *param_3)
   param_1[0x18] = 0;
   fn_82E50C30(param_1 + 0x19);
   fn_82E5AEC8(param_1 + 0x28);
-  if (-1 < *param_3) {
+  if (*param_3 >= 0) {
     fn_82E51480(param_1);
     *param_3 = 0;
     if (param_2 != (int *)0x0) {
       param_1[0x18] = param_2;
-      (**(code **)(*param_2 + 4))(param_2);
+      (*(code *)(*param_2 + 4))(param_2);
     }
   }
   return param_1;

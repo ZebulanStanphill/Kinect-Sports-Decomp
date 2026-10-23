@@ -39,12 +39,12 @@ undefined8 fn_82D1BCD8(undefined4 *param_1,undefined8 param_2)
 {
   undefined4 uVar1;
   undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   int iVar4;
   undefined1 auStack_50 [16];
   undefined1 auStack_40 [32];
   
-  if (3 < (int)param_1[1]) {
+  if ((int)param_1[1] >= 4) {
     fn_82D0D6E8(auStack_40);
     uVar1 = param_1[1];
     uVar2 = *param_1;

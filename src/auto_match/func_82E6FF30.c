@@ -38,7 +38,7 @@ void fn_82E6FF30(undefined4 *param_1)
   puVar1 = (undefined4 *)param_1[0x1a];
   *param_1 = &lbl_8215EE70;
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   param_1[0x1a] = 0;
   *param_1 = &lbl_8215EE30;

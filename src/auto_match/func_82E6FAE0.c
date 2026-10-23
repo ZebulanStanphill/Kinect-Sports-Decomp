@@ -41,7 +41,7 @@ fn_82E6FAE0(undefined4 *param_1, int *param_2, undefined8 param_3, undefined8 pa
   param_1[0x18] = 3000;
   *param_1 = &lbl_8215EDF0;
   if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 4))(param_2);
+    (*(code *)(*param_2 + 4))(param_2);
   }
   return param_1;
 }

@@ -1,53 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFBC28();
+typedef struct E { int key; int val; } E;
+typedef struct P { int x0; E *items; int count; } P;
+extern int fn_82CFBC28(void *a, int b);
 
-
-undefined8 fn_82CFE870(int param_1,undefined8 param_2,undefined4 *param_3)
-
+int fn_82CFE870(P *p, void *a, int *out)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 8)) {
-    iVar3 = 0;
-    do {
-      iVar1 = fn_82CFBC28(param_2,*(undefined4 *)(*(int *)(param_1 + 4) + iVar3 + 4));
-      if (iVar1 == 0) {
-        *param_3 = *(undefined4 *)(iVar2 * 8 + *(int *)(param_1 + 4));
-        return 0;
-      }
-      iVar2 = iVar2 + 1;
-      iVar3 = iVar3 + 8;
-    } while (iVar2 < *(int *)(param_1 + 8));
-  }
-  return 1;
+    int i;
+    for (i = 0; i < p->count; i++) {
+        if (fn_82CFBC28(a, p->items[i].val) == 0) {
+            *out = p->items[i].key;
+            return 0;
+        }
+    }
+    return 1;
 }
-

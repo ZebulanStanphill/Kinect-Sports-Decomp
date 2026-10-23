@@ -1,66 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8323A960;
+typedef struct {
+    char pad0[8];
+    int enabled;
+    int count;
+    char pad10[8];
+    char cs[0x1c];
+} Lock;
+
+typedef struct {
+    int pad0;
+    unsigned short active;
+    short refs;
+} Obj;
+
+extern void *KeTlsGetValue(unsigned int index);
+extern int KeTlsSetValue(unsigned int index, void *value);
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+
+extern Lock *lbl_8323A960;
 extern unsigned int lbl_8323A964;
 
+#define OWNER_TAG ((void *)0x23df4554)
 
-void fn_82CE4040(int param_1)
-
+static void Lock_Enter(Lock *l)
 {
-  int iVar1;
-  int iVar2;
-  longlong lVar3;
-  
-  iVar1 = lbl_8323A960;
-  if (*(short *)(param_1 + 4) != 0) {
-    if ((*(int *)(lbl_8323A960 + 8) == 1) &&
-       (iVar2 = KeTlsGetValue(lbl_8323A964), iVar2 != 0x23df4554)) {
-      iVar2 = KeTlsGetValue(lbl_8323A964);
-      if (iVar2 == 0x23df4554) {
-        *(int *)(iVar1 + 0xc) = *(int *)(iVar1 + 0xc) + 1;
-      }
-      else {
-        RtlEnterCriticalSection(iVar1 + 0x18);
-        *(undefined4 *)(iVar1 + 0xc) = 1;
-        KeTlsSetValue(lbl_8323A964,0x23df4554);
-      }
-      *(short *)(param_1 + 6) = *(short *)(param_1 + 6) + 1;
-      lVar3 = (ulonglong)*(uint *)(iVar1 + 0xc) - 1;
-      *(int *)(iVar1 + 0xc) = (int)lVar3;
-      if (lVar3 < 1) {
-        KeTlsSetValue(lbl_8323A964,0);
-        RtlLeaveCriticalSection(iVar1 + 0x18);
-      }
+    if (KeTlsGetValue(lbl_8323A964) == OWNER_TAG) {
+        l->count++;
+    } else {
+        RtlEnterCriticalSection(l->cs);
+        l->count = 1;
+        KeTlsSetValue(lbl_8323A964, OWNER_TAG);
     }
-    else {
-      *(short *)(param_1 + 6) = *(short *)(param_1 + 6) + 1;
-    }
-  }
-  return;
 }
 
+static void Lock_Leave(Lock *l)
+{
+    if (--l->count <= 0) {
+        KeTlsSetValue(lbl_8323A964, 0);
+        RtlLeaveCriticalSection(l->cs);
+    }
+}
+
+void fn_82CE4040(Obj *o)
+{
+    Lock *l;
+
+    if (o->active != 0) {
+        l = lbl_8323A960;
+        if (l->enabled == 1 && KeTlsGetValue(lbl_8323A964) != OWNER_TAG) {
+            Lock_Enter(l);
+            o->refs++;
+            Lock_Leave(l);
+        } else {
+            o->refs++;
+        }
+    }
+}

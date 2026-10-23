@@ -44,7 +44,7 @@ undefined8 fn_82E48CA8(longlong param_1,undefined8 param_2,int *param_3)
     *(int **)(puVar1 + 4) = param_3;
     *puVar1 = 0xd;
     if (param_3 != (int *)0x0) {
-      (**(code **)(*param_3 + 4))(param_3);
+      (*(code *)(*param_3 + 4))(param_3);
     }
   }
   RtlLeaveCriticalSection(param_1 + 4);

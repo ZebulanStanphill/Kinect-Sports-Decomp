@@ -31,11 +31,11 @@ extern int fn_82D00450();
 int fn_82E09328(longlong param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = fn_82D00450(param_1 + 8,param_3,0);
   if ((iVar1 != 0) && (*(code **)(iVar1 + 8) != (code *)0x0)) {
-    (**(code **)(iVar1 + 8))(param_2);
+    (*(code *)(iVar1 + 8))(param_2);
   }
   return iVar1;
 }

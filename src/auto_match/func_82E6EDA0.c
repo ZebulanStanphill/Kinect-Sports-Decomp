@@ -50,7 +50,7 @@ fn_82E6EDA0(undefined4 *param_1,undefined2 param_2,undefined4 *param_3,undefined
   *(undefined8 *)(param_1 + 0x12) = 0;
   *(undefined8 *)(param_1 + 0x14) = 0;
   if (param_5 != (int *)0x0) {
-    (**(code **)(*param_5 + 4))(param_5);
+    (*(code *)(*param_5 + 4))(param_5);
   }
   return param_1;
 }
