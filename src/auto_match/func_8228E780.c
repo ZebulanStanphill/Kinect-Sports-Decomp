@@ -1,14 +1,24 @@
-extern void fn_82681FE0(int, int *, unsigned int);
+typedef struct Bits {
+    unsigned int pad : 25;
+    unsigned int flag : 1;
+    unsigned int rest : 6;
+} Bits;
+typedef struct S {
+    int owner;
+    Bits bits;
+    long long data;
+} S;
+extern void fn_82681FE0(int, S *, unsigned int);
 
-int *fn_8228E780(int *param_1, int *param_2)
+S *fn_8228E780(S *dst, S *src)
 {
-    *param_1 = 0;
-    param_1[1] = param_2[1];
-    *(long long *)(param_1 + 2) = *(long long *)(param_2 + 2);
-    if (((unsigned int)param_2[1] >> 6 & 1) != 0) {
-        int value = *param_2;
-        *param_1 = value;
-        fn_82681FE0(value, param_1, param_1[2]);
+    dst->owner = 0;
+    dst->bits = src->bits;
+    dst->data = src->data;
+    if ((unsigned char)src->bits.flag) {
+        int value = src->owner;
+        dst->owner = value;
+        fn_82681FE0(value, dst, *(unsigned int *)&dst->data);
     }
-    return param_1;
+    return dst;
 }

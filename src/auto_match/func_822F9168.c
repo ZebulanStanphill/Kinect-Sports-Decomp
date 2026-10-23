@@ -40,8 +40,8 @@ fn_822F9168(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4
   param_1[3] = param_4;
   *param_1 = &lbl_821AE780;
   fn_82365BD8(param_1 + 4,param_5);
-  if (*(int *)(param_5 + 4) != 0) {
-    fn_822315A0();
+  if (*(unsigned int *)(param_5 + 4) != 0) {
+    fn_822315A0(*(unsigned int *)(param_5 + 4));
   }
   return param_1;
 }

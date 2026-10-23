@@ -40,9 +40,7 @@ fn_8226B4D0(undefined4 *param_1,undefined4 param_2,undefined4 *param_3,undefined
   param_1[1] = param_2;
   param_1[2] = param_6;
   *param_1 = &lbl_821A7E9C;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
+  { undefined4 *s = param_1 + 3; s[0] = 0; s[1] = 0; s[2] = 0; }
   param_1[0x10] = 0;
   param_1[0x11] = 0;
   param_1[0x12] = 0;
@@ -59,7 +57,7 @@ fn_8226B4D0(undefined4 *param_1,undefined4 param_2,undefined4 *param_3,undefined
   *(undefined1 *)((int)param_1 + 0x75) = 0;
   *(undefined1 *)(param_1 + 0x52) = 0;
   param_1[0x1c] = uVar1;
-  fn_8226B918();
+  fn_8226B918(param_1);
   uVar1 = fn_8265CA60(0x280);
   param_1[0x15] = uVar1;
   return param_1;

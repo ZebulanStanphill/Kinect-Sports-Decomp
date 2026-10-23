@@ -1,44 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822B6A58();
-extern int fn_823AFE00();
+typedef __declspec(passinreg) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
 
-void fn_822EFFC8(int param_1)
+extern void fn_822B6A58(__vector4 *out, int obj, int n);
+extern void fn_823AFE00(void *p, __vector4 v);
 
+typedef struct {
+    char pad00[0xc];
+    int obj;
+    char pad10[0x14];
+    void *target;
+} Self;
+
+void fn_822EFFC8(Self *self)
 {
-  undefined1 auStack_20 [16];
-  
-  if ((*(int *)(param_1 + 0x24) != 0) && (*(int *)(*(int *)(param_1 + 0xc) + 0x24) == 0)) {
-    fn_822B6A58(auStack_20,*(int *)(param_1 + 0xc),0x20);
-    fn_823AFE00(*(undefined4 *)(param_1 + 0x24));
-  }
-  return;
+    if (self->target != 0 && *(int *)(self->obj + 0x24) == 0) {
+        __vector4 v;
+        fn_822B6A58(&v, self->obj, 0x20);
+        fn_823AFE00(self->target, v);
+    }
 }
-

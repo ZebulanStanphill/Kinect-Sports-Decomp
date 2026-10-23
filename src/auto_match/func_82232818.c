@@ -1,72 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828974A8();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82196AE4;
-extern unsigned int lbl_82196B30;
-extern unsigned int lbl_82196B78;
-extern unsigned int lbl_82196D38;
-extern unsigned int lbl_82197070;
-extern unsigned int lbl_82197080;
-extern unsigned int lbl_82197100;
+typedef struct Sub {
+    void *vt;
+    int data[20];
+} Sub;
 
+typedef struct Obj {
+    void *vt;
+    int pad[17];
+    Sub m48;
+    Sub m9c;
+    Sub arr[20];
+    Sub m780;
+    Sub m7d4;
+    Sub m828;
+    Sub m87c;
+    Sub m8d0;
+} Obj;
 
-void fn_82232818(undefined4 *param_1)
+extern void fn_828974A8(Obj *o);
+extern void fn_8289D4C0(Sub *s);
+extern char lbl_82196AE4[];
+extern char lbl_82196B30[];
+extern char lbl_82196B78[];
+extern char lbl_82196D38[];
+extern char lbl_82197070[];
+extern char lbl_82197080[];
+extern char lbl_82197100[];
 
+static void dtorB78(Sub *s) { s->vt = lbl_82196B78; fn_8289D4C0(s); }
+static void dtor7100(Sub *s) { s->vt = lbl_82197100; fn_8289D4C0(s); }
+static void dtor7080(Sub *s) { s->vt = lbl_82197080; fn_8289D4C0(s); }
+static void dtorD38(Sub *s) { s->vt = lbl_82196D38; fn_8289D4C0(s); }
+static void dtorB30(Sub *s) { s->vt = lbl_82196B30; fn_8289D4C0(s); }
+
+static void arr_dtor(Sub *a, int count)
 {
-  longlong lVar1;
-  undefined4 *puVar2;
-  
-  *param_1 = &lbl_82196AE4;
-  param_1[0x234] = &lbl_82196B78;
-  fn_8289D4C0(param_1 + 0x234);
-  param_1[0x21f] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x21f);
-  param_1[0x20a] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x20a);
-  param_1[0x1f5] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x1f5);
-  param_1[0x1e0] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x1e0);
-  puVar2 = param_1 + 0x1e0;
-  lVar1 = 0x13;
-  do {
-    puVar2 = puVar2 + -0x15;
-    *puVar2 = &lbl_82196D38;
-    fn_8289D4C0(puVar2);
-    lVar1 = lVar1 + -1;
-  } while (-1 < lVar1);
-  param_1[0x27] = &lbl_82196B78;
-  fn_8289D4C0(param_1 + 0x27);
-  param_1[0x12] = &lbl_82196B30;
-  fn_8289D4C0(param_1 + 0x12);
-  *param_1 = &lbl_82197070;
-  fn_828974A8(param_1);
-  return;
+    Sub *p = a + count;
+    while (--count >= 0) {
+        p--;
+        dtorD38(p);
+    }
 }
 
+void fn_82232818(Obj *o)
+{
+    o->vt = lbl_82196AE4;
+    dtorB78(&o->m8d0);
+    dtor7100(&o->m87c);
+    dtor7100(&o->m828);
+    dtor7080(&o->m7d4);
+    dtor7080(&o->m780);
+    arr_dtor(o->arr, 20);
+    dtorB78(&o->m9c);
+    dtorB30(&o->m48);
+    o->vt = lbl_82197070;
+    fn_828974A8(o);
+}

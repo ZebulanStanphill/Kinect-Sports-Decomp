@@ -33,13 +33,13 @@ extern unsigned int lbl_821B1980;
 void fn_82343080(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = param_1[5];
   *param_1 = &lbl_821B1980;
   if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0x4c) != 0) {
-      fn_8265CA20();
+    if (*(unsigned int *)(iVar1 + 0x4c) != 0) {
+      fn_8265CA20(*(unsigned int *)(iVar1 + 0x4c));
     }
     *(undefined4 *)(iVar1 + 0x4c) = 0;
     *(undefined4 *)(iVar1 + 0x50) = 0;

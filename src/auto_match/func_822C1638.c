@@ -51,7 +51,7 @@ undefined4 * fn_822C1638(undefined4 *param_1,undefined8 param_2)
     puVar3 = puVar2;
   }
   if (param_1[1] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[1]);
   }
   param_1[1] = puVar3;
   *param_1 = uVar1;

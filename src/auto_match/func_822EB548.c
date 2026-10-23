@@ -37,7 +37,7 @@ void fn_822EB548(undefined4 *param_1)
   *param_1 = &lbl_821AE394;
   fn_82230300(param_1 + 10,1,0);
   if (param_1[7] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[7]);
   }
   *param_1 = &lbl_821AF1C8;
   return;

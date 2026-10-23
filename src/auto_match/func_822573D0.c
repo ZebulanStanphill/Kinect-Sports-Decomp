@@ -1,57 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828974A8();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82197070;
-extern unsigned int lbl_82197080;
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_82198288;
-extern unsigned int lbl_821B9610;
+extern void fn_828974A8(void *p);
+extern void fn_8289D4C0(void *p);
+extern char lbl_82197070[];
+extern char lbl_82197080[];
+extern char lbl_82197100[];
+extern char lbl_82198288[];
+extern char lbl_821B9610[];
 
+typedef struct M {
+    void *vt;
+    char pad[0x50];
+} M;
 
-void fn_822573D0(undefined4 *param_1)
+typedef struct Obj {
+    void *vt;
+    char pad4[0x44];
+    M m48;
+    M m9c;
+    M mf0;
+    M m144;
+    M m198;
+    M m1ec;
+} Obj;
 
+static void M_dtor(M *m, void *vt)
 {
-  *param_1 = &lbl_82198288;
-  param_1[0x7b] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x7b);
-  param_1[0x66] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x66);
-  param_1[0x51] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x51);
-  param_1[0x3c] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0x3c);
-  param_1[0x27] = &lbl_821B9610;
-  fn_8289D4C0(param_1 + 0x27);
-  param_1[0x12] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x12);
-  *param_1 = &lbl_82197070;
-  fn_828974A8(param_1);
-  return;
+    m->vt = vt;
+    fn_8289D4C0(m);
 }
 
+void fn_822573D0(Obj *o)
+{
+    o->vt = lbl_82198288;
+    M_dtor(&o->m1ec, lbl_82197100);
+    M_dtor(&o->m198, lbl_82197080);
+    M_dtor(&o->m144, lbl_82197080);
+    M_dtor(&o->mf0, lbl_821B9610);
+    M_dtor(&o->m9c, lbl_821B9610);
+    M_dtor(&o->m48, lbl_82197080);
+    o->vt = lbl_82197070;
+    fn_828974A8(o);
+}

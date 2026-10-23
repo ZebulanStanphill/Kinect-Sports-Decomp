@@ -1,51 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8288B338();
-extern int fn_82897D88();
-extern unsigned int lbl_82196884;
-extern unsigned int lbl_821970C0;
-extern unsigned int lbl_821970D0;
-extern unsigned int lbl_821972AC;
-extern unsigned int lbl_82197DF8;
+typedef struct M { void *vt; char rest[0x54]; } M;
+typedef struct S {
+    void *vt;
+    char pad[0x34 - 4];
+    M m34;
+    M m8c;
+    char pad3[0xec - 0x8c - sizeof(M)];
+    M mec;
+} S;
+extern void fn_8288B338(S *p);
+extern void fn_82897D88(M *m);
+extern char lbl_82196884[];
+extern char lbl_821970C0[];
+extern char lbl_821970D0[];
+extern char lbl_821972AC[];
+extern char lbl_82197DF8[];
 
-
-void fn_8224C0C0(undefined4 *param_1)
-
+static void M_dtor(M *m, void *vt)
 {
-  *param_1 = &lbl_82197DF8;
-  param_1[0x3b] = &lbl_821970C0;
-  fn_82897D88(param_1 + 0x3b);
-  param_1[0x23] = &lbl_821970D0;
-  fn_82897D88(param_1 + 0x23);
-  param_1[0xd] = &lbl_821972AC;
-  fn_82897D88(param_1 + 0xd);
-  *param_1 = &lbl_82196884;
-  fn_8288B338(param_1);
-  return;
+    m->vt = vt;
+    fn_82897D88(m);
 }
 
+static void Base_dtor(S *p)
+{
+    p->vt = lbl_82196884;
+    fn_8288B338(p);
+}
+
+void fn_8224C0C0(S *p)
+{
+    p->vt = lbl_82197DF8;
+    M_dtor(&p->mec, lbl_821970C0);
+    M_dtor(&p->m8c, lbl_821970D0);
+    M_dtor(&p->m34, lbl_821972AC);
+    Base_dtor(p);
+}

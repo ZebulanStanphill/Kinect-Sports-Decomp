@@ -45,8 +45,8 @@ fn_822D01E8(undefined4 *param_1,int param_2,undefined4 param_3,undefined4 param_
   param_1[2] = uVar1;
   param_1[5] = param_2;
   fn_82365BD8(param_1 + 6,param_5);
-  if (*(int *)(param_5 + 4) != 0) {
-    fn_822315A0();
+  if (*(unsigned int *)(param_5 + 4) != 0) {
+    fn_822315A0(*(unsigned int *)(param_5 + 4));
   }
   return param_1;
 }

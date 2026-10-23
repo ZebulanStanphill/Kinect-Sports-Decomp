@@ -33,11 +33,11 @@ void fn_8227F500(int param_1)
   int *piVar1;
   
   if (*(code **)(param_1 + 4) != (code *)0x0) {
-    (**(code **)(param_1 + 4))(*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0xc),1);
+    (*(code *)(param_1 + 4))(*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0xc),1);
   }
   piVar1 = *(int **)(param_1 + 0x10);
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))(piVar1,*(undefined4 *)(param_1 + 0x14),1);
+    (*(code *)(*piVar1 + 4))(piVar1,*(undefined4 *)(param_1 + 0x14),1);
   }
   *(uint *)(param_1 + 0x6c) = *(uint *)(param_1 + 0x6c) | 4;
   return;

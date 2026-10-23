@@ -24,29 +24,39 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C7F0();
-extern int fn_8223CC88();
-extern int fn_82240070();
-extern int fn_82F62EC0();
+extern void fn_8223C7F0(void *p);
+extern unsigned char fn_8223CC88(void *p, int c);
+extern void fn_82240070(void *p, int state, unsigned char reraise);
+extern void fn_82F62EC0(void *p);
 
+typedef struct {
+  unsigned char pad0[0xc];
+  int state;
+  unsigned char pad10[0x28];
+  void *sb;
+  void *tie;
+  unsigned char fill;
+} Ios;
 
-void fn_8223CD08(int param_1,undefined4 param_2,char param_3)
-
+static void Ios_clear(Ios *p, int state, unsigned char reraise)
 {
-  undefined1 uVar1;
-  
-  fn_8223C7F0();
-  *(undefined4 *)(param_1 + 0x38) = param_2;
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  uVar1 = fn_8223CC88(param_1,0x20);
-  *(undefined1 *)(param_1 + 0x40) = uVar1;
-  if (*(int *)(param_1 + 0x38) == 0) {
-    fn_82240070(param_1,*(uint *)(param_1 + 0xc) | 4,0);
-  }
-  if (param_3 != '\0') {
-    fn_82F62EC0(param_1);
-  }
-  return;
+  fn_82240070(p, p->sb == 0 ? state | 4 : state, reraise);
 }
 
+static void Ios_setstate(Ios *p, int state)
+{
+  if (state != 0)
+    Ios_clear(p, p->state | state, 0);
+}
+
+void fn_8223CD08(Ios *p, void *sb, unsigned char isstd)
+{
+  fn_8223C7F0(p);
+  p->sb = sb;
+  p->tie = 0;
+  p->fill = fn_8223CC88(p, 0x20);
+  if (p->sb == 0)
+    Ios_setstate(p, 4);
+  if (isstd)
+    fn_82F62EC0(p);
+}
