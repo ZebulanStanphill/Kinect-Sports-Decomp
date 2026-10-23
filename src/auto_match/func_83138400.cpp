@@ -1,0 +1,19 @@
+#include "havok/hkBase.h"
+class hkClassEnum;
+class hkClassMember;
+class hkCustomAttributes;
+extern "C" {
+extern hkClass lbl_8323FCDC;
+extern const hkClassMember lbl_8214A240[];
+void fn_82CEB3D8(hkClass *self, const char *name, const hkClass *parent,
+    int objectSize, const hkClass **interfaces, int numInterfaces,
+    const hkClassEnum *enums, int numEnums,
+    const hkClassMember *members, int numMembers, const void *defaults,
+    const hkCustomAttributes *attributes, unsigned int flags, int version);
+}
+
+extern "C" void fn_83138400()
+{
+    fn_82CEB3D8(&lbl_8323FCDC, "hkPackfileHeader", 0, 0x40,
+        0, 0, 0, 0, lbl_8214A240, 0xB, 0, 0, 0, 0);
+}
