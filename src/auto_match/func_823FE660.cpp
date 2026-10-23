@@ -1,0 +1,26 @@
+#include "stdext/xmemory.h"
+
+extern "C" {
+extern void *lbl_821B7504[];
+}
+
+struct Payload {
+    unsigned char data[0x48];
+};
+
+struct Impl {
+    void **vtbl;
+    unsigned char pad[0x8 - 4];
+    Payload value;
+};
+
+extern "C" Impl *fn_823FE660(Impl *self, void *where)
+{
+    Impl *p;
+    if (where == 0)
+        where = std::_Allocate(1, (Impl *)0);
+    p = (Impl *)where;
+    p->vtbl = lbl_821B7504;
+    p->value = self->value;
+    return p;
+}
