@@ -38,10 +38,10 @@ void fn_83029080(undefined4 *param_1)
 {
   *param_1 = &lbl_8217C620;
   param_1[7] = &lbl_8217C940;
-  fn_83029008();
+  fn_83029008(param_1);
   if (param_1[0x22] != 0) {
     param_1[0x23] = param_1[0x22];
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[0x22]);
     param_1[0x22] = 0;
     param_1[0x23] = 0;
     param_1[0x24] = 0;

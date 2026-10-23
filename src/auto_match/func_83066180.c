@@ -32,7 +32,7 @@ undefined4 * fn_83066180(undefined4 *param_1,undefined4 param_2,undefined4 *para
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   param_1[3] = param_3;
   param_1[2] = param_2;
@@ -40,9 +40,9 @@ undefined4 * fn_83066180(undefined4 *param_1,undefined4 param_2,undefined4 *para
   param_1[1] = 0;
   param_1[5] = 0;
   param_1[4] = 0;
-  iVar2 = (**(code **)*param_3)(param_3);
+  iVar2 = (*(code *)*param_3)(param_3);
   if (0 < iVar2) {
-    uVar1 = (**(code **)*param_3)(param_3);
+    uVar1 = (*(code *)*param_3)(param_3);
     fn_83065F58(param_1,uVar1);
   }
   return param_1;

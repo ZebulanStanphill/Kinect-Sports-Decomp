@@ -32,12 +32,12 @@ extern int fn_83037590();
 void fn_8304C838(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x14) != 0) {
+  if (*(unsigned int *)(param_1 + 0x14) != 0) {
     if ((*(uint *)(param_1 + 0x44) & 1) == 1) {
       fn_83037590((undefined4 *)(param_1 + 0x14));
       return;
     }
-    fn_82FEC850((*(uint *)(param_1 + 0x44) & 0xf8) << 7);
+    fn_82FEC850((*(uint *)(param_1 + 0x44) & 0xf8) << 7, *(unsigned int *)(param_1 + 0x14));
     *(undefined4 *)(param_1 + 0x14) = 0;
   }
   return;

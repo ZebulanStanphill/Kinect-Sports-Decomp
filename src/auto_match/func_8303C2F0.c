@@ -38,7 +38,7 @@ undefined8 fn_8303C2F0(int param_1)
   piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,*(undefined4 *)(param_1 + 0x10));
   if (piVar1 != (int *)0x0) {
     fn_83005000(piVar1,(*(uint *)(param_1 + 0x14) & 0xffffff00) == 0x1001000);
-    (**(code **)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 8))(piVar1);
   }
   return 1;
 }

@@ -1,56 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8217D040;
-
-
-void fn_83029C80(undefined4 *param_1)
-
+extern int lbl_8217D040[];
+typedef struct { int a, b, c; } Sub;
+typedef struct {
+  int *vt;        /* 0 */
+  int f4, f8, fc, f10; /* 4..10 */
+  short f14, f16;  /* 14,16 */
+  int f18;
+  int f1c;
+  unsigned char f20, f21; short f22;
+  Sub s24;        /* 24..2c */
+  unsigned char f30, f31; short f32;
+  int f34, f38, f3c, f40, f44, f48;
+  int pad[6];
+  int f64, f68;
+} T;
+static void Sub_init(Sub *s) { s->a = 0; s->b = 0; s->c = 0; }
+void fn_83029C80(T *p)
 {
-  *param_1 = &lbl_8217D040;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  *(undefined2 *)((int)param_1 + 0x16) = 0;
-  param_1[7] = 0;
-  *(undefined1 *)(param_1 + 8) = 0;
-  *(undefined1 *)((int)param_1 + 0x21) = 0;
-  *(undefined1 *)(param_1 + 0xc) = 0;
-  *(undefined1 *)((int)param_1 + 0x31) = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x12] = 0;
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  return;
+  p->vt = lbl_8217D040;
+  Sub_init(&p->s24);
+  p->f4 = 0; p->f8 = 0; p->fc = 0; p->f10 = 0;
+  p->f16 = 0;
+  p->f1c = 0;
+  p->f20 = 0; p->f21 = 0;
+  p->f30 = 0; p->f31 = 0;
+  p->f34 = 0; p->f38 = 0; p->f3c = 0;
+  p->f48 = 0;
+  p->f64 = 0; p->f68 = 0;
 }
-

@@ -1,57 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83008328();
-extern unsigned int lbl_8217C60C;
+typedef struct {
+  int a[15];
+} SubA;
+typedef struct {
+  int b[3];
+} SubB;
+typedef struct {
+  void *vt;
+  int pad[7];
+  SubA a;
+  int pad2[2];
+  SubB b;
+} T;
+extern void fn_83008328(T *t, int a);
+extern char lbl_8217C60C[];
 
-
-undefined4 * fn_83028948(undefined4 *param_1)
-
+static void SubA_init(SubA *s)
 {
-  fn_83008328();
-  *param_1 = &lbl_8217C60C;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  param_1[0x16] = 0;
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  param_1[0x1b] = 0;
-  return param_1;
+  s->a[0] = 0;
+  s->a[1] = 0;
+  s->a[2] = 0;
+  s->a[3] = 0;
+  s->a[4] = 0;
+  s->a[5] = 0;
+  s->a[6] = 0;
+  s->a[7] = 0;
+  s->a[8] = 0;
+  s->a[9] = 0;
+  s->a[10] = 0;
+  s->a[11] = 0;
+  s->a[12] = 0;
+  s->a[13] = 0;
+  s->a[14] = 0;
 }
 
+T *fn_83028948(T *t, int a)
+{
+  fn_83008328(t, a);
+  t->vt = lbl_8217C60C;
+  SubA_init(&t->a);
+  t->b.b[0] = 0;
+  t->b.b[1] = 0;
+  t->b.b[2] = 0;
+  return t;
+}

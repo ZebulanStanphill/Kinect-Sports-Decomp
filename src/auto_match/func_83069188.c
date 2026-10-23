@@ -40,7 +40,7 @@ void fn_83069188(undefined4 *param_1)
   puVar2 = (undefined4 *)param_1[4];
   while (puVar2 != (undefined4 *)0x0) {
     puVar1 = (undefined4 *)puVar2[1];
-    (**(code **)*puVar2)(puVar2,1);
+    (*(code *)*puVar2)(puVar2,1);
     puVar2 = puVar1;
   }
   for (puVar2 = (undefined4 *)param_1[8]; puVar2 != (undefined4 *)0x0;

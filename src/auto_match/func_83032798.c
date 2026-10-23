@@ -40,7 +40,7 @@ int * fn_83032798(void)
   piVar1 = lbl_83264EC4;
   lbl_83264EC4 = (int *)0x0;
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))(piVar1);
+    (*(code *)(*piVar1 + 4))(piVar1);
   }
   RtlLeaveCriticalSection(uVar2 + 4);
   return piVar1;

@@ -31,7 +31,7 @@ extern int fn_8307E218();
 undefined8 fn_83049EC0(int param_1,undefined8 param_2,int *param_3)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   uint uVar3;
   
@@ -43,7 +43,7 @@ undefined8 fn_83049EC0(int param_1,undefined8 param_2,int *param_3)
   else {
     uVar3 = *(int *)(param_1 + 0x5c) + iVar2;
     *(uint *)(param_1 + 0x5c) = uVar3;
-    if (*(uint *)(param_1 + 0x78) <= uVar3) {
+    if (uVar3 >= *(uint *)(param_1 + 0x78)) {
       *(uint *)(param_1 + 0x5c) = uVar3 - *(uint *)(param_1 + 0x78);
     }
     uVar1 = 0x2d;

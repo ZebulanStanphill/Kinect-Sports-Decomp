@@ -1,54 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FFFAF8();
-extern unsigned int lbl_8217C364;
+typedef struct { int v[7]; } CRITICAL_SECTION;
+extern void RtlInitializeCriticalSection(CRITICAL_SECTION *cs);
 
+typedef struct {
+    int a;
+    int b;
+    int c;
+} Vec;
 
-undefined4 * fn_83014568(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
+typedef struct {
+    void *vt;
+    int f4;
+    int f8;
+    int fC;
+    Vec v;
+    CRITICAL_SECTION cs;
+    int f38;
+    int f3C;
+    __int64 f40;
+    int f48;
+    int f4C;
+    int f50;
+    int f54;
+    unsigned char f58;
+    int f5C;
+    int f60;
+    int f64;
+    int f68;
+    int f6C;
+    int f70;
+    int f74;
+    int f78;
+    int f7C;
+} Obj;
 
+static void Vec_init(Vec *v) { v->a = 0; v->b = 0; v->c = 0; }
+extern void fn_82FFFAF8(Obj *self);
+extern char lbl_8217C364[];
+
+Obj *fn_83014568(Obj *self, int a2, int a3)
 {
-  fn_82FFFAF8();
-  *param_1 = &lbl_8217C364;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  RtlInitializeCriticalSection(param_1 + 7);
-  param_1[0x17] = param_3;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  *(undefined1 *)(param_1 + 0x16) = 0;
-  param_1[0x1e] = 0;
-  param_1[0x1f] = 0;
-  param_1[0x18] = 0;
-  param_1[0x1b] = 0;
-  *(undefined8 *)(param_1 + 0x10) = 0;
-  param_1[0x12] = 0;
-  param_1[0x14] = param_2;
-  return param_1;
+    fn_82FFFAF8(self);
+    self->vt = lbl_8217C364;
+    Vec_init(&self->v);
+    RtlInitializeCriticalSection(&self->cs);
+    self->f5C = a3;
+    self->f38 = 0;
+    self->f3C = 0;
+    self->f58 = 0;
+    self->f78 = 0;
+    self->f7C = 0;
+    self->f60 = 0;
+    self->f6C = 0;
+    self->f40 = 0;
+    self->f48 = 0;
+    self->f50 = a2;
+    return self;
 }
-

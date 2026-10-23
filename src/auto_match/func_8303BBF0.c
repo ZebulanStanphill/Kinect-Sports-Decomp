@@ -33,7 +33,7 @@ extern unsigned int lbl_832642E0;
 void fn_8303BBF0(int param_1,undefined4 *param_2)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   bool bVar2;
   int *piVar3;
   
@@ -56,7 +56,7 @@ void fn_8303BBF0(int param_1,undefined4 *param_2)
         if (!bVar2) {
           fn_83004FC0(piVar1,*(undefined4 *)(param_1 + 0x2c),0);
         }
-        (**(code **)(*piVar1 + 8))(piVar1);
+        (*(code *)(*piVar1 + 8))(piVar1);
       }
     }
   }

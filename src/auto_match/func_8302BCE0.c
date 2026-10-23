@@ -28,24 +28,24 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA5060();
 extern unsigned int lbl_831BC768;
 
+typedef struct { int a, b; } Pair;
+typedef struct { int a; Pair q; } Item;
+typedef struct { Item x; Item y; } Block;
+
+static void Pair_init(Pair *p) { p->a = 0; p->b = 0; }
+static void Item_init(Item *it) { it->a = 0; Pair_init(&it->q); }
 
 bool fn_8302BCE0(int param_1)
-
 {
-  undefined4 *puVar1;
-  
-  if (*(int *)(param_1 + 0x18) == 0) {
-    puVar1 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x18);
-    *(undefined4 **)(param_1 + 0x18) = puVar1;
-    if (puVar1 != (undefined4 *)0x0) {
-      *puVar1 = 0;
-      puVar1[1] = 0;
-      puVar1[2] = 0;
-      puVar1[3] = 0;
-      puVar1[4] = 0;
-      puVar1[5] = 0;
+  Block *t;
+
+  if (*(unsigned int *)(param_1 + 0x18) == 0) {
+    t = (Block *)fn_82FA5060(lbl_831BC768,0x18);
+    *(Block **)(param_1 + 0x18) = t;
+    if (t != 0) {
+      Item_init(&t->x);
+      Item_init(&t->y);
     }
   }
   return *(int *)(param_1 + 0x18) != 0;
 }
-

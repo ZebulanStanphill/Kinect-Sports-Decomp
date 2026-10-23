@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_830B3F50(int param_1,int param_2)
+undefined8 fn_830B3F50(int param_1,unsigned int param_2)
 
 {
   undefined4 *puVar1;
@@ -39,7 +39,7 @@ undefined8 fn_830B3F50(int param_1,int param_2)
   else {
     puVar1 = *(undefined4 **)(param_1 + 8);
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
       *(undefined4 *)(param_1 + 8) = 0;
     }
     *(int *)(param_1 + 8) = param_2;

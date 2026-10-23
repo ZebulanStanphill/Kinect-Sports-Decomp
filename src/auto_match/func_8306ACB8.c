@@ -37,7 +37,7 @@ void fn_8306ACB8(undefined4 *param_1)
   undefined4 *puVar1;
   
   if (param_1[0x26] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[0x26]);
   }
   param_1[0x26] = 0;
   param_1[0x27] = 0;

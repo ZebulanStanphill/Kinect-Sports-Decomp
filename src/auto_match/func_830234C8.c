@@ -1,48 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj Obj;
+typedef void (*VFn)(Obj *, int, int);
+struct Obj {
+    VFn *vtbl;
+};
 
+typedef struct Ctx {
+    char pad0[8];
+    char cs[0x2c];
+    Obj *obj;
+    int pad38;
+    short s3c;
+    short s3e;
+    int vals[2];
+    short s48;
+} Ctx;
 
-void fn_830234C8(int param_1)
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
+void fn_830234C8(Ctx *p)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 0x34);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x50))(piVar1,0,0);
-  }
-  RtlEnterCriticalSection(param_1 + 8);
-  *(undefined2 *)(param_1 + 0x3c) = 0;
-  *(undefined2 *)(param_1 + 0x3e) = 0;
-  *(undefined2 *)(param_1 + 0x48) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x44) = 0;
-  RtlLeaveCriticalSection(param_1 + 8);
-  return;
-}
+    Obj *o;
+    int i;
 
+    o = p->obj;
+    if (o != 0) {
+        o->vtbl[0x50 / 4](o, 0, 0);
+    }
+    RtlEnterCriticalSection(p->cs);
+    p->s3c = 0;
+    p->s3e = 0;
+    p->s48 = 0;
+    for (i = 0; i < 2; i++) {
+        p->vals[i] = 0;
+    }
+    RtlLeaveCriticalSection(p->cs);
+}

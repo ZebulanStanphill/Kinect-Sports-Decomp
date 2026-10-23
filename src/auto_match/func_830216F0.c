@@ -39,7 +39,7 @@ void fn_830216F0(undefined4 *param_1)
   fn_83021680();
   if (param_1[4] != 0) {
     param_1[5] = param_1[4];
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768, param_1[4]);
     param_1[4] = 0;
     param_1[5] = 0;
     param_1[6] = 0;

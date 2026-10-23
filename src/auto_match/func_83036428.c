@@ -30,15 +30,15 @@ extern int fn_8300BB00();
 extern unsigned int lbl_832642E0;
 
 
-undefined8 fn_83036428(int param_1)
+int fn_83036428(int param_1)
 
 {
   int *piVar1;
   
-  piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,*(undefined4 *)(param_1 + 0x10));
+  piVar1 = (int *)fn_82FAB9C0(lbl_832642E0 + 4,*(undefined4 *)(param_1 + 0x10));
   if (piVar1 != (int *)0x0) {
     fn_8300BB00();
-    (**(code **)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 8))(piVar1);
   }
   return 1;
 }
