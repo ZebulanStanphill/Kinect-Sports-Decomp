@@ -25,29 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8288C2E0();
-extern int fn_828B22F0();
-extern int fn_828C91C0();
-extern int fn_828CA3C8();
+typedef struct Node { struct Node *left; struct Node *parent; struct Node *right; } Node;
+typedef struct Tree { int alloc; Node *head; int size; } Tree;
+typedef struct Obj { void *vt; int f4; Tree tree; int f14; int sub[8]; int f38; } Obj;
+extern int fn_8288C2E0(int *p, void *a);
+extern int fn_828B22F0(int *p);
+extern int fn_828C91C0(Tree *t, void *a, void *b);
+extern int fn_828CA3C8(Tree *t, Node *n);
 extern unsigned int lbl_82026438;
 
-
-undefined4 * fn_828CAB48(undefined4 *param_1)
-
+static void Tree_clear(Tree *t)
 {
-  undefined1 auStack_30 [1];
-  
-  *param_1 = &lbl_82026438;
-  fn_828C91C0(param_1 + 2,auStack_30,auStack_30);
-  fn_8288C2E0(param_1 + 6,auStack_30);
-  param_1[0xe] = 0;
-  fn_828CA3C8(param_1 + 2,*(undefined4 *)(param_1[3] + 4));
-  *(undefined4 *)(param_1[3] + 4) = param_1[3];
-  *(undefined4 *)param_1[3] = param_1[3];
-  *(undefined4 *)(param_1[3] + 8) = param_1[3];
-  param_1[4] = 0;
-  fn_828B22F0(param_1 + 6);
-  return param_1;
+  fn_828CA3C8(t, t->head->parent);
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
 }
 
+Obj * fn_828CAB48(Obj *param_1)
+{
+  char auStack_30 [1];
+
+  param_1->vt = &lbl_82026438;
+  fn_828C91C0(&param_1->tree,auStack_30,auStack_30);
+  fn_8288C2E0(param_1->sub,auStack_30);
+  param_1->f38 = 0;
+  Tree_clear(&param_1->tree);
+  fn_828B22F0(param_1->sub);
+  return param_1;
+}

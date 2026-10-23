@@ -51,7 +51,7 @@ uint * fn_829E0C20(int *param_1,uint param_2)
       if (uVar1 == 0) break;
       iVar2 = (*puVar3 >> 3 & 0x7fe) + uVar1;
       uVar4 = iVar2 + uVar4;
-      if ((uint)param_1[2] <= uVar4) {
+      if (uVar4 >= (uint)param_1[2]) {
         return (uint *)0x0;
       }
       puVar3 = (uint *)(iVar2 + (int)puVar3);

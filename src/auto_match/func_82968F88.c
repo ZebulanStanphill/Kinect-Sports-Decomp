@@ -1,56 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node {
+    int pad0[2];
+    int child;      /* 0x08 */
+    int padc[2];
+    int next;       /* 0x14 */
+    int pad18[8];
+    int alias;      /* 0x38 */
+    int pad3c[6];
+    unsigned int value; /* 0x54 */
+} Node;
+typedef struct Tree {
+    int pad0[5];
+    Node **nodes;   /* 0x14 */
+} Tree;
 
-
-void fn_82968F88(int param_1,int param_2,uint param_3)
-
+void fn_82968F88(Tree *t, int i, unsigned int v)
 {
-  int iVar1;
-  
-  while( true ) {
-    if (param_3 == 0) {
-      return;
+    Node ***nodes = &t->nodes;
+    Node *n;
+    while (v != 0) {
+        if (i != -1 && (*nodes)[i]->alias != -1) i = (*nodes)[i]->alias;
+        n = (*nodes)[i];
+        if (n->value < v) n->value = v;
+        if (n->child != -1) fn_82968F88(t, n->child, n->value);
+        i = n->next;
+        if (i == -1) break;
+        v = n->value;
     }
-    if ((param_2 != -1) &&
-       (iVar1 = *(int *)(*(int *)(param_2 * 4 + *(int *)(param_1 + 0x14)) + 0x38), iVar1 != -1)) {
-      param_2 = iVar1;
-    }
-    iVar1 = *(int *)(param_2 * 4 + *(int *)(param_1 + 0x14));
-    if (*(uint *)(iVar1 + 0x54) < param_3) {
-      *(uint *)(iVar1 + 0x54) = param_3;
-    }
-    if (*(int *)(iVar1 + 8) != -1) {
-      fn_82968F88(param_1,*(int *)(iVar1 + 8),*(undefined4 *)(iVar1 + 0x54));
-    }
-    param_2 = *(int *)(iVar1 + 0x14);
-    if (param_2 == -1) break;
-    param_3 = *(uint *)(iVar1 + 0x54);
-  }
-  return;
 }
-

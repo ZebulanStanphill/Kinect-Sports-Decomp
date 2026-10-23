@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82005F78;
+extern double lbl_82005F78;
 
 
-void fn_82901E60(undefined4 *param_1,undefined4 param_2)
+void fn_82901E60(undefined4 *param_1,unsigned __int64 param_2)
 
 {
   param_1[0x23] = param_2;
-  *(undefined8 *)(param_1 + 0x2e) = lbl_82005F78;
+  *(double *)(param_1 + 0x2e) = lbl_82005F78;
   *param_1 = 0;
   param_1[1] = 0;
   param_1[2] = 0;

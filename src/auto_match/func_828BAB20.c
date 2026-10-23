@@ -48,7 +48,7 @@ undefined4 * fn_828BAB20(undefined4 *param_1,undefined4 param_2)
     puVar2 = puVar1;
   }
   if (param_1[1] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[1]);
   }
   param_1[1] = puVar2;
   *param_1 = param_2;

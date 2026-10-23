@@ -29,7 +29,7 @@ extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
 
-ulonglong fn_829C9120(undefined8 param_1)
+unsigned int  fn_829C9120(undefined8 param_1)
 
 {
   int iVar2;
@@ -39,7 +39,7 @@ ulonglong fn_829C9120(undefined8 param_1)
   
   stack_pair_20.first = (undefined4)param_1;
   iVar2 = XamXStudioRequest(0x1003,&stack_pair_20.first);
-  if (-1 < iVar2) {
+  if (iVar2 >= 0) {
     return (ulonglong)stack_pair_20.second;
   }
   uVar1 = PsCamDeviceRequest(param_1);

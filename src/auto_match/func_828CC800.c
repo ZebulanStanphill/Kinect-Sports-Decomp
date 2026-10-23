@@ -40,7 +40,7 @@ void fn_828CC800(int param_1,undefined8 param_2)
   uVar1 = *(undefined1 *)(param_1 + 0xac);
   fn_8223C478(param_2,8,0);
   fn_828E9DB8(param_2,uVar1,8);
-  (**(code **)(**(int **)(param_1 + 0x80) + 4))
+  (*(code *)(**(int **)(param_1 + 0x80) + 4))
             (*(int **)(param_1 + 0x80),*(undefined4 *)(param_1 + 0x6c),param_2,param_1 + 0x88);
   return;
 }

@@ -41,7 +41,7 @@ void fn_828C6408(int param_1,undefined4 *param_2,undefined8 param_3)
   uStack_20 = *param_2;
   piVar1 = (int *)fn_8289F160(auStack_1c,param_1 + 0xc,&uStack_20);
   fn_828C6260(param_1,*(int *)(*piVar1 + 0x10),param_3,
-                *(int *)(param_1 + 4) == *(int *)(*piVar1 + 0x10));
+                *(int *)(*piVar1 + 0x10) == *(int *)(param_1 + 4));
   return;
 }
 

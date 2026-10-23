@@ -1,58 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828AC428();
-extern int fn_828BDDA0();
-extern unsigned int lbl_820270D4;
-extern unsigned int lbl_820270D8;
+void *memset(void *d, int c, unsigned int n);
+extern void fn_828AC428(void *p);
+extern void fn_828BDDA0(void *p);
+extern char lbl_820270D4[];
+extern char lbl_820270D8[];
 
+typedef struct Vec {
+    int alloc;
+    void *first;
+    void *last;
+    void *end;
+} Vec;
 
-undefined4 * fn_828DEB88(undefined4 *param_1)
+typedef struct Obj {
+    void *vt;
+    char pad4[0x4c];
+    void *vt2;
+    char pad54[0x2c];
+    __int64 q80;
+    int d88;
+    int d8c;
+    char name[8];
+    char b98[0x10];
+    char ca8[0x24];
+    Vec v1;
+    Vec v2;
+    int pec;
+    char f0[4];
+} Obj;
 
+Obj *fn_828DEB88(Obj *o)
 {
-  fn_828BDDA0();
-  *(undefined8 *)(param_1 + 0x20) = 0;
-  *param_1 = &lbl_820270D8;
-  param_1[0x14] = &lbl_820270D4;
-  param_1[0x34] = 0;
-  param_1[0x35] = 0;
-  param_1[0x36] = 0;
-  param_1[0x38] = 0;
-  param_1[0x39] = 0;
-  param_1[0x3a] = 0;
-  fn_828AC428(param_1 + 0x3c);
-  *(undefined8 *)(param_1 + 0x24) = 0;
-  *(undefined8 *)(param_1 + 0x26) = 0;
-  *(undefined8 *)(param_1 + 0x28) = 0;
-  *(undefined8 *)(param_1 + 0x2a) = 0;
-  *(undefined8 *)(param_1 + 0x2c) = 0;
-  *(undefined8 *)(param_1 + 0x2e) = 0;
-  *(undefined8 *)(param_1 + 0x30) = 0;
-  param_1[0x32] = 0;
-  return param_1;
+    fn_828BDDA0(o);
+    o->q80 = 0;
+    o->vt = lbl_820270D8;
+    o->vt2 = lbl_820270D4;
+    o->v1.first = 0;
+    o->v1.last = 0;
+    o->v1.end = 0;
+    o->v2.first = 0;
+    o->v2.last = 0;
+    o->v2.end = 0;
+    fn_828AC428(o->f0);
+    memset(o->name, 0, sizeof(o->name));
+    memset(o->b98, 0, sizeof(o->b98));
+    memset(o->ca8, 0, sizeof(o->ca8));
+    return o;
 }
-

@@ -47,7 +47,7 @@ void fn_829EAC30(undefined4 *param_1)
   fn_829EAA68(param_1 + 0x2b);
   puVar1 = (undefined4 *)param_1[0x53];
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   param_1[0x53] = 0;
   fn_829E9CB0(param_1 + 0x54);

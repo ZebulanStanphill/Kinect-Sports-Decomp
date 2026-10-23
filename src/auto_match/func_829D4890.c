@@ -33,7 +33,7 @@ void fn_829D4890(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
 
 {
   if (lbl_83217A00 != (undefined4 *)0x0) {
-    (**(code **)*lbl_83217A00)(lbl_83217A00,param_1,param_2,param_3,param_4,param_5,param_6,param_7)
+    (*(code *)*lbl_83217A00)(lbl_83217A00,param_1,param_2,param_3,param_4,param_5,param_6,param_7)
     ;
   }
   return;

@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_82F691F0();
+typedef unsigned int size_t;
+extern void *memset(void *, int, size_t);
+extern void fn_8265C990(void *, int);
 
+typedef struct S {
+  int pad0[2];
+  void *a[7];
+  int pad24[3];
+  void *b[6];
+  int pad48;
+  void *c[4];
+} S;
 
-void fn_8296CE60(undefined8 param_1,int param_2)
-
+int fn_8296CE60(void *self, S *s)
 {
-  fn_8265C990(*(undefined4 *)(param_2 + 8),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0xc),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x10),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x14),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x18),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x1c),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x20),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x30),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x34),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x38),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x3c),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x40),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x44),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x4c),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x50),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x54),0x24810000);
-  fn_8265C990(*(undefined4 *)(param_2 + 0x58),0x24810000);
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_2,0,100);
+  fn_8265C990(s->a[0], 0x24810000);
+  fn_8265C990(s->a[1], 0x24810000);
+  fn_8265C990(s->a[2], 0x24810000);
+  fn_8265C990(s->a[3], 0x24810000);
+  fn_8265C990(s->a[4], 0x24810000);
+  fn_8265C990(s->a[5], 0x24810000);
+  fn_8265C990(s->a[6], 0x24810000);
+  fn_8265C990(s->b[0], 0x24810000);
+  fn_8265C990(s->b[1], 0x24810000);
+  fn_8265C990(s->b[2], 0x24810000);
+  fn_8265C990(s->b[3], 0x24810000);
+  fn_8265C990(s->b[4], 0x24810000);
+  fn_8265C990(s->b[5], 0x24810000);
+  fn_8265C990(s->c[0], 0x24810000);
+  fn_8265C990(s->c[1], 0x24810000);
+  fn_8265C990(s->c[2], 0x24810000);
+  fn_8265C990(s->c[3], 0x24810000);
+  memset(s, 0, 100);
+  return 0;
 }
-

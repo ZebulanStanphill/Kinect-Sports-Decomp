@@ -35,7 +35,7 @@ void fn_82903DB8(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 8);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   fn_8265C990(*(undefined4 *)(param_1 + 0x18),0x24810000);
   fn_8265C990(*(undefined4 *)(param_1 + 0x90),0x24810000);

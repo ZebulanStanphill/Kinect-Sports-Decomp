@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+void *memcpy(void *, const void *, unsigned int);
 
 
 void fn_829B7838(int param_1)
@@ -35,11 +35,11 @@ void fn_829B7838(int param_1)
   uint uVar2;
   
   uVar2 = *(uint *)(*(int *)(param_1 + 0x1c) + 0x14);
-  if (*(uint *)(param_1 + 0x10) < uVar2) {
+  if (uVar2 > *(uint *)(param_1 + 0x10)) {
     uVar2 = *(uint *)(param_1 + 0x10);
   }
   if (uVar2 != 0) {
-    fn_82F68CC0(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x10),
+    memcpy(*(void **)(param_1 + 0xc),*(void **)(*(int *)(param_1 + 0x1c) + 0x10),
                  uVar2);
     *(uint *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + uVar2;
     *(uint *)(*(int *)(param_1 + 0x1c) + 0x10) = *(int *)(*(int *)(param_1 + 0x1c) + 0x10) + uVar2;

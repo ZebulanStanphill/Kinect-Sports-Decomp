@@ -27,35 +27,36 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C990();
 extern int fn_82917D90();
+extern int fn_8265C990();
+extern int fn_82917D90();
 extern unsigned int lbl_8202E390;
 
+typedef struct Obj {
+    void *vtbl;
+    int pad4;
+    void *p8;
+    int padc[2];
+    void **items;   /* 0x14 */
+    unsigned int count; /* 0x18 */
+    void *p1c;
+} Obj;
 
-void fn_8291AF98(undefined4 *param_1)
-
+void fn_8291AF98(Obj *o)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  
-  *param_1 = &lbl_8202E390;
-  if (param_1[5] != 0) {
-    uVar2 = 0;
-    if (param_1[6] != 0) {
-      iVar3 = 0;
-      do {
-        iVar1 = *(int *)(param_1[5] + iVar3);
-        if (iVar1 != 0) {
-          fn_82917D90(iVar1);
-          fn_8265C990(iVar1,0x24810000);
-        }
-        uVar2 = uVar2 + 1;
-        iVar3 = iVar3 + 4;
-      } while (uVar2 < (uint)param_1[6]);
-    }
-    fn_8265C990(param_1[5],0x24810000);
-  }
-  fn_8265C990(param_1[2],0x24810000);
-  fn_8265C990(param_1[7],0x24810000);
-  return;
-}
+    unsigned int i;
+    void *it;
 
+    o->vtbl = &lbl_8202E390;
+    if (o->items != 0) {
+        for (i = 0; i < o->count; i++) {
+            it = o->items[i];
+            if (it != 0) {
+                fn_82917D90(it);
+                fn_8265C990(it, 0x24810000);
+            }
+        }
+        fn_8265C990(o->items, 0x24810000);
+    }
+    fn_8265C990(o->p8, 0x24810000);
+    fn_8265C990(o->p1c, 0x24810000);
+}

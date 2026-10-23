@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
 extern int fn_825089A0();
 extern int fn_828C01A0();
 extern int fn_828C10D0();
@@ -42,7 +41,7 @@ fn_828C1430(undefined4 *param_1,undefined8 param_2,undefined4 *param_3,undefined
   undefined1 auStack_50 [16];
   
   piVar1 = (int *)fn_825089A0();
-  puVar2 = (undefined4 *)(**(code **)(*piVar1 + 0x24))(piVar1,0x98,2);
+  puVar2 = (undefined4 *)(*(code *)(*piVar1 + 0x24))(piVar1,0x98,2);
   if (puVar2 != (undefined4 *)0x0) {
     puVar2[1] = 1;
     *puVar2 = &lbl_8202603C;

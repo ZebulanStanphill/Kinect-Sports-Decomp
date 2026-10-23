@@ -42,7 +42,7 @@ void fn_828DD740(undefined4 *param_1)
   if (*(char *)(param_1 + 0x24) == '\0') {
     puVar1 = (undefined4 *)param_1[0x22];
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
   }
   fn_828B55B0(param_1 + 0x20);

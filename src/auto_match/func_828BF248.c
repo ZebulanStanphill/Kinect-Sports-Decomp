@@ -31,7 +31,7 @@ void fn_828BF248(undefined4 *param_1,undefined4 *param_2)
 
 {
   for (; param_1 != param_2; param_1 = param_1 + 0xd) {
-    (**(code **)*param_1)(param_1,0);
+    (*(code *)*param_1)(param_1,0);
   }
   return;
 }
