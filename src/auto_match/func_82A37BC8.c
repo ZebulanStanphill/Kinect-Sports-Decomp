@@ -28,12 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A37B80();
 
 
-void fn_82A37BC8(int param_1,int param_2)
+void fn_82A37BC8(int param_1,unsigned int param_2)
 
 {
   int *piVar1;
   
-  if (*(int *)(param_1 + 0xc) != 0) {
+  if (*(unsigned int *)(param_1 + 0xc) > 0) {
     fn_82A37B80();
     for (piVar1 = *(int **)(param_1 + 4); (piVar1 != *(int **)(param_1 + 8) && (*piVar1 != param_2))
         ; piVar1 = piVar1 + *(ushort *)(piVar1 + 1)) {

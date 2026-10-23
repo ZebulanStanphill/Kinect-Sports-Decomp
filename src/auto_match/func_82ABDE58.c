@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82903B88();
+extern int fn_82903C70();
 extern int fn_82D7E470();
 
 
@@ -33,11 +33,11 @@ undefined8
 fn_82ABDE58(undefined8 param_1,undefined8 param_2,undefined4 *param_3,undefined4 *param_4)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   undefined8 uVar1;
   
   iVar2 = fn_82D7E470();
-  if ((iVar2 == 0) || (iVar2 = fn_82903B88(), iVar2 == 0)) {
+  if ((iVar2 == 0) || (iVar2 = fn_82903C70(), iVar2 == 0)) {
     uVar1 = 0;
   }
   else {

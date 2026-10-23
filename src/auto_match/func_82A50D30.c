@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
 extern int fn_82A40238();
 extern int fn_82A4FCA8();
 
@@ -35,10 +34,10 @@ undefined4 fn_82A50D30(int param_1,undefined8 param_2,undefined8 param_3,undefin
 {
   undefined4 auStack_30;
   
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
   auStack_30 = fn_82A4FCA8(*(undefined4 *)(param_1 + 0x34),param_2,param_3,param_4);
   fn_82A40238(&auStack_30);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
   return auStack_30;
 }
 

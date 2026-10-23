@@ -26,14 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C990();
+extern void fn_82C12D00(void *);
 extern unsigned int lbl_820ECD28;
 
 
-undefined4 * fn_82C09888(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82C09888(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_820ECD28;
-  thunk_FUN_82c06390();
+  fn_82C12D00(param_1);
   if ((param_2 & 1) != 0) {
     fn_8265C990(param_1,0x208c8038);
   }

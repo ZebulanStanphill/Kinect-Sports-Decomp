@@ -36,11 +36,11 @@ undefined8 fn_82A768D0(int param_1)
   *(undefined4 *)(param_1 + 0x8c) = 0;
   *(undefined4 *)(param_1 + 0x90) = 0;
   if (*(int *)(param_1 + 0x94) != 0) {
-    uVar1 = (**(code **)(**(int **)(param_1 + 0x84) + 0x14))
+    uVar1 = (*(code *)(**(int **)(param_1 + 0x84) + 0x14))
                       (*(int **)(param_1 + 0x84),*(undefined4 *)(param_1 + 0x80));
     *(undefined4 *)(param_1 + 0x88) = uVar1;
   }
-  (**(code **)(**(int **)(param_1 + 8) + 0x28))
+  (*(code *)(**(int **)(param_1 + 8) + 0x28))
             (*(int **)(param_1 + 8),1,(ulonglong)*(uint *)(param_1 + 0x78) + 0x38,1,param_1 + 0x88,1
             );
   fn_82A76730(param_1);

@@ -1,46 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A40BA8();
-extern int fn_82A4F4E0();
+typedef struct Obj Obj;
+typedef struct {
+  void *(*dtor)(Obj *, int);
+} ObjVtbl;
+struct Obj {
+  ObjVtbl *vt;
+};
 
+typedef struct {
+  int key;
+  Obj obj;
+} Item;
 
-void fn_82A4B788(int param_1)
+extern Item *fn_82A40BA8(void *);
+extern void fn_82A4F4E0(void *);
 
+typedef struct {
+  char pad0[0x154];
+  char queue[0x20];
+  unsigned int count;
+} S;
+
+void fn_82A4B788(S *s)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1 + 0x174) != 0) {
-    do {
-      iVar1 = fn_82A40BA8(param_1 + 0x154);
-      (*(code *)**(undefined4 **)(iVar1 + 4))(iVar1 + 4,0);
-      fn_82A4F4E0();
-    } while (*(int *)(param_1 + 0x174) != 0);
-  }
-  return;
-}
+  Item *it;
 
+  while (s->count != 0) {
+    it = fn_82A40BA8(s->queue);
+    fn_82A4F4E0(it->obj.vt->dtor(&it->obj, 0));
+  }
+}

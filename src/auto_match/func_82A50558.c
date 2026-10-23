@@ -34,10 +34,10 @@ void fn_82A50558(int param_1,undefined8 param_2,undefined8 param_3)
 {
   int iVar1;
   
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
   iVar1 = fn_82A50350(param_1,param_2);
   fn_82A50118(*(undefined4 *)(iVar1 + 8),param_3);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
   return;
 }
 

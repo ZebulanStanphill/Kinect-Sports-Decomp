@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A405A8(int param_1,int param_2)
 
 {
-  (**(code **)(*(int *)(param_1 + 0x2c) + 8))(param_1 + 0x2c);
-  (**(code **)(**(int **)(param_1 + 0xb0) + 0x4c))(*(int **)(param_1 + 0xb0),param_2);
+  (*(code *)(*(int *)(param_1 + 0x2c) + 8))(param_1 + 0x2c);
+  (*(code *)(**(int **)(param_1 + 0xb0) + 0x4c))(*(int **)(param_1 + 0xb0),param_2);
   *(undefined4 *)(param_2 + 0x24) = *(undefined4 *)(param_1 + 0x14);
   *(undefined4 *)(param_2 + 0x28) = *(undefined4 *)(param_1 + 400);
   *(undefined4 *)(param_2 + 0x2c) = *(undefined4 *)(param_1 + 0x18);
@@ -39,7 +39,7 @@ void fn_82A405A8(int param_1,int param_2)
   *(undefined4 *)(param_2 + 0x34) = *(undefined4 *)(param_1 + 0x28);
   *(undefined4 *)(param_2 + 0x38) = *(undefined4 *)(param_1 + 0x1c);
   *(undefined4 *)(param_2 + 0x3c) = *(undefined4 *)(param_1 + 0x20);
-  (**(code **)(*(int *)(param_1 + 0x2c) + 0x14))(param_1 + 0x2c);
+  (*(code *)(*(int *)(param_1 + 0x2c) + 0x14))(param_1 + 0x2c);
   return;
 }
 

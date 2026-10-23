@@ -1,41 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A4FB48();
+typedef struct Lock Lock;
+typedef void (*VFn)(Lock *);
+struct Lock { VFn *vt; };
+typedef struct { char pad[0x2c]; Lock lock; } Owner;
+typedef struct { char pad[0x30]; Owner *owner; int h; } Obj;
+extern int fn_82A4FB48(int, int, int);
 
-
-undefined8 fn_82A50B80(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82A50B80(Obj *param_1, int param_2, int param_3)
 {
-  undefined8 uVar1;
-  
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
-  uVar1 = fn_82A4FB48(*(undefined4 *)(param_1 + 0x34),param_2,param_3);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
-  return uVar1;
+  int r;
+  param_1->owner->lock.vt[2](&param_1->owner->lock);
+  r = fn_82A4FB48(param_1->h, param_2, param_3);
+  param_1->owner->lock.vt[5](&param_1->owner->lock);
+  return r;
 }
-

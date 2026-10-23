@@ -38,7 +38,7 @@ undefined8 fn_82A59D40(undefined4 *param_1)
   param_1[4] = uVar1;
   KeSetEvent(param_1[5],1,0);
   fn_82A59C80(param_1,0xffffffffffffffff);
-  (**(code **)*param_1)(param_1);
+  (*(code *)*param_1)(param_1);
   param_1[4] = 0;
   return 0;
 }

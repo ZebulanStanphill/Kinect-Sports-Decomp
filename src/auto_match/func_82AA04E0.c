@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82AA04E0(uint *param_1,int param_2,uint param_3,byte *param_4,int param_5)
+undefined8 fn_82AA04E0(uint *param_1,unsigned int param_2,uint param_3,byte *param_4,unsigned int param_5)
 
 {
   uint uVar1;
@@ -35,7 +35,7 @@ undefined8 fn_82AA04E0(uint *param_1,int param_2,uint param_3,byte *param_4,int 
   uint *puVar3;
   
   if (param_2 == 3) {
-    if (param_5 == 0) {
+    if (param_5 < 1) {
       return 0xffffffff80004005;
     }
     uVar2 = 0;

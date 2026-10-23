@@ -30,11 +30,11 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A502D0(int param_1,undefined4 *param_2)
 
 {
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
   *param_2 = *(undefined4 *)(param_1 + 0x38);
   param_2[1] = *(undefined4 *)(param_1 + 0x3c);
   param_2[2] = *(undefined4 *)(param_1 + 0x40);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
   return;
 }
 

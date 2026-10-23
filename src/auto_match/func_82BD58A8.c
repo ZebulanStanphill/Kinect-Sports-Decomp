@@ -38,7 +38,7 @@ undefined8 fn_82BD58A8(int param_1,int *param_2,int param_3)
   RtlEnterCriticalSection(param_1 + 0xf0);
   uVar1 = 0;
   *param_2 = 0;
-  if (*(int *)(param_1 + 8) != 0) {
+  if (*(unsigned int *)(param_1 + 8) > 0) {
     puVar3 = (undefined4 *)(param_1 + 0x60);
     puVar2 = (ulonglong *)(param_3 + -8);
     do {

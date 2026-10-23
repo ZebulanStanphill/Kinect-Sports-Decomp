@@ -1,50 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned int off; unsigned short a, b, c; unsigned short pad; unsigned int pad2; unsigned int off2; } Src;
 
-
-void fn_82AA0568(int *param_1,int param_2,int *param_3,ushort *param_4)
-
+void fn_82AA0568(unsigned int *d, unsigned int base, Src *s, unsigned short *q)
 {
-  *param_1 = *param_3 + param_2;
-  param_1[1] = (uint)*(ushort *)(param_3 + 1);
-  param_1[2] = (uint)*(ushort *)((int)param_3 + 6);
-  param_1[3] = (uint)*(ushort *)(param_3 + 2);
-  param_2 = param_3[4] + param_2;
-  if (param_3[4] == 0) {
-    param_2 = 0;
-  }
-  param_1[0xb] = param_2;
-  param_1[7] = (uint)param_4[3];
-  param_1[6] = (uint)param_4[2];
-  param_1[4] = (uint)*param_4;
-  param_1[5] = (uint)param_4[1];
-  param_1[8] = (uint)param_4[4];
-  param_1[9] = (uint)param_4[5];
-  return;
+  d[0] = s->off + base;
+  d[1] = s->a;
+  d[2] = s->b;
+  d[3] = s->c;
+  d[0xb] = s->off2 ? s->off2 + base : 0;
+  d[7] = q[3];
+  d[6] = q[2];
+  d[4] = q[0];
+  d[5] = q[1];
+  d[8] = q[4];
+  d[9] = q[5];
 }
-
