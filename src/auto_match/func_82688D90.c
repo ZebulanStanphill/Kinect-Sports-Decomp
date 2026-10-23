@@ -1,55 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82688AE0();
-extern int fn_8268AF70();
-extern int fn_8268BA10();
-extern int fn_826CC0E8();
+typedef struct Str { unsigned int len; int pad; char data[1]; } Str;
+typedef struct Entry { unsigned int *key; unsigned int *val; } Entry;
+typedef struct Slot { unsigned int *a; int b; int c; int d; } Slot;
+typedef struct Table { Slot *slots; } Table;
+extern unsigned int fn_8268AF70(char *s, unsigned int n, int seed);
+extern void fn_8268BA10(void *dst, unsigned int *key);
+extern int fn_826CC0E8(Table *t, Entry *e, unsigned int h);
+extern void fn_82688AE0(Table *t, int a, Entry *e, unsigned int h);
 
-
-void fn_82688D90(int *param_1,undefined8 param_2,undefined4 *param_3)
-
+void fn_82688D90(Table *t, int param_2, Entry *e)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int iVar3;
-  
-  uVar1 = fn_8268AF70(((ulonglong)*(uint *)*param_3 & 0xfffffffc) + 8,
-                       *(uint *)(*(uint *)*param_3 & 0xfffffffc) & 0x7fffffff,0x1505);
-  iVar3 = *param_1;
-  if ((iVar3 == 0) ||
-     (iVar2 = fn_826CC0E8(param_1,param_3,*(uint *)(iVar3 + 4) & uVar1), iVar2 < 0)) {
-    fn_82688AE0(param_1,param_2,param_3,uVar1);
-  }
-  else {
-    iVar3 = (iVar2 + 1) * 0x10 + iVar3;
-    fn_8268BA10(iVar3,*param_3);
-    fn_8268BA10(iVar3 + 4,param_3[1]);
-  }
-  return;
-}
+  unsigned int h;
+  Slot *s;
+  int i;
 
+  h = fn_8268AF70(((Str *)(*e->key & ~3u))->data, ((Str *)(*e->key & ~3u))->len & 0x7fffffff, 0x1505);
+  s = t->slots;
+  if (s == 0 || (i = fn_826CC0E8(t, e, s->b & h)) < 0) {
+    fn_82688AE0(t, param_2, e, h);
+  } else {
+    s = s + (i + 1);
+    fn_8268BA10(&s->a, e->key);
+    fn_8268BA10(&s->b, e->val);
+  }
+}

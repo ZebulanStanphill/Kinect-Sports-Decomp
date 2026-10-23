@@ -33,7 +33,7 @@ void fn_82681838(byte *param_1,int *param_2)
 {
   int iVar1;
   
-  if (4 < *param_1) {
+  if (*param_1 >= 5) {
     fn_826959C8();
   }
   *param_1 = 5;

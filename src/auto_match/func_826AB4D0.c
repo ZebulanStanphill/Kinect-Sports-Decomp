@@ -39,7 +39,7 @@ undefined4 * fn_826AB4D0(undefined4 *param_1,undefined4 *param_2)
     *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
   }
   if (param_1[1] != 0) {
-    fn_826824B0();
+    fn_826824B0(param_1[1]);
   }
   param_1[1] = param_2[1];
   return param_1;

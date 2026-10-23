@@ -1,58 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82693DF8();
+typedef struct Val { int a, b, c; unsigned int hash; } Val;
+typedef struct Entry { int next; Val *val; } Entry;
+typedef struct Hdr { int x; unsigned int mask; } Hdr;
+typedef struct Table { Entry *e; } Table;
+extern unsigned char fn_82693DF8(Val *v, int key);
 
-
-uint fn_82694138(int *param_1,undefined8 param_2,uint param_3)
-
+int fn_82694138(Table *t, int key, unsigned int bucket)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  uint *puVar5;
-  
-  iVar3 = *param_1;
-  iVar2 = (param_3 + 1) * 8;
-  puVar5 = (uint *)(iVar2 + iVar3);
-  if ((*(int *)(iVar2 + iVar3) != -2) &&
-     (uVar4 = param_3, (*(uint *)(puVar5[1] + 0xc) & *(uint *)(iVar3 + 4)) == param_3)) {
-    while( true ) {
-      if (((*(uint *)(puVar5[1] + 0xc) & *(uint *)(iVar3 + 4)) == param_3) &&
-         (cVar1 = fn_82693DF8(puVar5[1],param_2), cVar1 != '\0')) {
-        return uVar4;
-      }
-      uVar4 = *puVar5;
-      if (uVar4 == 0xffffffff) break;
-      iVar3 = *param_1;
-      puVar5 = (uint *)((uVar4 + 1) * 8 + iVar3);
+  Entry *base = t->e;
+  Entry *e = &base[bucket + 1];
+  int i = bucket;
+
+  if (e->next != -2 && (e->val->hash & ((Hdr *)base)->mask) == bucket) {
+    for (;;) {
+      if ((e->val->hash & ((Hdr *)base)->mask) == bucket && fn_82693DF8(e->val, key))
+        return i;
+      i = e->next;
+      if (i == -1) break;
+      base = t->e;
+      e = &base[i + 1];
     }
   }
-  return 0xffffffff;
+  return -1;
 }
-

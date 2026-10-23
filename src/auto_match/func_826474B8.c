@@ -31,20 +31,20 @@ extern int fn_82653160();
 extern int fn_82653408();
 
 
-undefined8 fn_826474B8(undefined8 param_1,longlong param_2)
+int fn_826474B8(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar2;
   
   uVar1 = fn_826458F8(param_1,param_2 + 0x48);
-  if ((int)uVar1 == 0) {
+  if (uVar1 == 0) {
     fn_82645688(param_1);
     fn_82653408(param_1);
     iVar2 = fn_82653160(param_1,param_2);
     if (iVar2 == 0) {
       fn_82653408(param_1);
-      uVar1 = 0xffffffff8007000e;
+      uVar1 = 0x8007000e;
     }
     else {
       uVar1 = 0;
@@ -52,4 +52,3 @@ undefined8 fn_826474B8(undefined8 param_1,longlong param_2)
   }
   return uVar1;
 }
-

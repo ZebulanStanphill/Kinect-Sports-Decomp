@@ -34,14 +34,14 @@ extern unsigned int lbl_821CB8A4;
 void fn_8262ACD0(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   *param_1 = &lbl_821CB8A4;
   if (param_1[0x14] != 0) {
     fn_82545810(param_1 + 0x14);
   }
   iVar1 = param_1[0x3832];
-  if ((iVar1 != 0) && (param_1[0x3833] != 0)) {
+  if ((iVar1 != 0) && (((int *)param_1)[0x3833] != 0)) {
     fn_82529320(iVar1,0);
     param_1[0x3832] = 0;
   }

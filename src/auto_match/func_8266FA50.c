@@ -24,27 +24,24 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
-
-undefined8 fn_8266FA50(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_8266FA50(int param_1, int param_2, int param_3)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
+  int r;
+  void *cs;
+
+  r = 0;
   if (*(int *)(param_1 + 0xf0) != 0) {
-    iVar2 = param_1 + 0x108;
-    if (iVar2 != 0) {
-      RtlEnterCriticalSection(iVar2);
+    cs = (void *)(param_1 + 0x108);
+    if (cs != 0) {
+      RtlEnterCriticalSection(cs);
     }
-    uVar1 = (**(code **)(**(int **)(param_1 + 0x10) + 0x44))
-                      (*(int **)(param_1 + 0x10),param_2,param_3);
-    if (iVar2 != 0) {
-      RtlLeaveCriticalSection(iVar2);
+    r = (*(code *)(**(int **)(param_1 + 0x10) + 0x44))(*(int **)(param_1 + 0x10), param_2, param_3);
+    if (cs != 0) {
+      RtlLeaveCriticalSection(cs);
     }
   }
-  return uVar1;
+  return r;
 }
-

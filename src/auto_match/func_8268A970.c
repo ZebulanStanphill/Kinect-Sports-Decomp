@@ -34,11 +34,11 @@ extern int fn_8268AF70();
 void fn_8268A970(int *param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  int iVar1;
-  ulonglong uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   int iVar3;
   
-  uVar2 = fn_8268AF70(((ulonglong)*(uint *)*param_3 & 0xfffffffc) + 8,
+  uVar2 = fn_8268AF70((char *)(*(uint *)*param_3 & 0xfffffffc) + 8,
                        *(uint *)(*(uint *)*param_3 & 0xfffffffc) & 0x7fffffff,0x1505);
   iVar1 = *param_1;
   if ((iVar1 == 0) ||

@@ -1,47 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267E980();
-extern int fn_82F63CA0();
+typedef struct { unsigned __int64 *data; unsigned int size; } Vec;
+extern void fn_8267E980(Vec *v, int n);
+void *memmove(void *d, const void *s, unsigned int n);
 
-
-void fn_8267EB30(uint *param_1,ulonglong param_2)
-
+void fn_8267EB30(Vec *v, unsigned int i)
 {
-  longlong lVar1;
-  
-  if ((ulonglong)param_1[1] == 1) {
-    fn_8267E980(param_1,0);
-  }
-  else {
-    lVar1 = (param_2 & 0x1fffffff) * 8 + (ulonglong)*param_1;
-    fn_82F63CA0(lVar1,lVar1 + 8,((param_1[1] - param_2) - 1 & 0x1fffffff) << 3);
-    param_1[1] = param_1[1] - 1;
-  }
-  return;
+    if (v->size == 1) {
+        fn_8267E980(v, 0);
+    } else {
+        unsigned __int64 *p = v->data + i;
+        memmove(p, p + 1, (v->size - i - 1) * sizeof(unsigned __int64));
+        v->size--;
+    }
 }
-

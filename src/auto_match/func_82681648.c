@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8267B890();
 extern int fn_82680978();
 extern int fn_8273D528();
-extern int fn_82F68CC0();
+void *memcpy(void *, const void *, unsigned int);
 extern unsigned int lbl_831E7E64;
 
 
 void fn_82681648(int param_1,undefined4 *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if (param_2[4] != 0) {
     iVar1 = fn_8267B890(lbl_831E7E64,param_2[5],0);
@@ -48,7 +48,7 @@ void fn_82681648(int param_1,undefined4 *param_2)
       *(undefined4 *)(param_1 + 0x14) = param_2[3];
       *(undefined4 *)(param_1 + 0x20) = param_2[6];
       fn_82680978(param_1 + 0x24,param_2 + 7);
-      fn_82F68CC0(*(undefined4 *)(param_1 + 0x18),param_2[4],param_2[5]);
+      memcpy(*(void **)(param_1 + 0x18),(void *)param_2[4],param_2[5]);
       return;
     }
   }

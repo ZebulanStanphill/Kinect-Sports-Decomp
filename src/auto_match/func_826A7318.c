@@ -38,7 +38,7 @@ void fn_826A7318(int param_1,int *param_2)
   *(byte *)(param_1 + 0xc6) = *(byte *)(param_1 + 0xc6) & 0xbf;
   uVar2 = fn_8269A418(param_2);
   *(undefined1 *)(param_1 + 0x7c) = uVar2;
-  uVar1 = (**(code **)(*param_2 + 0xb0))(param_2);
+  uVar1 = (*(code *)(*param_2 + 0xb0))(param_2);
   *(undefined4 *)(param_1 + 0x78) = uVar1;
   return;
 }

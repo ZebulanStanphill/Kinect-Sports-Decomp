@@ -41,7 +41,7 @@ void fn_826A28A0(undefined4 *param_1,undefined4 *param_2)
     *(uint *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1U & 0x8fffffff;
   }
   if (param_1[1] != 0) {
-    fn_826824B0();
+    fn_826824B0(param_1[1]);
   }
   param_1[1] = *piVar1;
   return;

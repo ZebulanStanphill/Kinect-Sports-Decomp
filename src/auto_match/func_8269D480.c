@@ -35,9 +35,9 @@ void fn_8269D480(int *param_1)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   
-  iVar1 = (**(code **)(*param_1 + 0x40))();
+  iVar1 = (*(code *)(*param_1 + 0x40))(param_1);
   fn_8269B8B8(param_1,iVar1);
   if (*(int **)(iVar1 + 0xa08) == param_1) {
     *(undefined4 *)(iVar1 + 0xa08) = 0;

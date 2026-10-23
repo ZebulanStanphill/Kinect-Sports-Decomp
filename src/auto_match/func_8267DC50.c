@@ -38,7 +38,7 @@ void fn_8267DC50(int *param_1)
     fn_8267D748();
     fn_8267D560(param_1 + 6,0xfffffffffffffff7);
   }
-  iVar1 = (**(code **)(*param_1 + 0xc))(param_1);
+  iVar1 = (*(code *)(*param_1 + 0xc))(param_1);
   param_1[0xc] = iVar1;
   return;
 }

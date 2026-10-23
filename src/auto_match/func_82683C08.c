@@ -32,9 +32,9 @@ void fn_82683C08(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
 {
   int *piVar1;
   
-  piVar1 = (int *)(**(code **)*param_1)();
+  piVar1 = (int *)(*(code *)*param_1)();
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 8))(piVar1,param_2,param_3);
+    (*(code *)(*piVar1 + 8))(piVar1,param_2,param_3);
   }
   return;
 }

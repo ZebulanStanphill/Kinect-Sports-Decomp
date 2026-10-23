@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
-extern int fn_826E7800();
-
-
-undefined2 fn_826A6A38(int param_1)
-
+typedef struct Stream {
+    char pad0[0x15];
+    unsigned char flag;
+    char pad16[0x2c - 0x16];
+    int pos;
+    int size;
+    char pad34[0x3c - 0x34];
+    unsigned char *data;
+} Stream;
+typedef struct Owner {
+    char pad0[0x28];
+    Stream local;
+    char padx[0x314 - 0x28 - sizeof(Stream)];
+    Stream *ext;
+} Owner;
+extern void fn_826E7800(Stream *s, int n);
+unsigned short fn_826A6A38(Owner *o)
 {
-  undefined1 uVar1;
-  undefined1 uVar2;
-  undefined1 *puVar3;
-  int iVar4;
-  
-  iVar4 = *(int *)(param_1 + 0x314);
-  if (iVar4 == 0) {
-    iVar4 = param_1 + 0x28;
-  }
-  *(undefined1 *)(iVar4 + 0x15) = 0;
-  if (*(int *)(iVar4 + 0x30) - *(int *)(iVar4 + 0x2c) < 2) {
-    fn_826E7800(iVar4,2);
-  }
-  puVar3 = (undefined1 *)(*(int *)(iVar4 + 0x3c) + *(int *)(iVar4 + 0x2c));
-  uVar1 = puVar3[1];
-  uVar2 = *puVar3;
-  *(int *)(iVar4 + 0x2c) = *(int *)(iVar4 + 0x2c) + 2;
-  return CONCAT11(uVar1,uVar2);
+    Stream *s;
+    unsigned char *b;
+    unsigned short r;
+    s = o->ext;
+    if (s == 0) {
+        s = &o->local;
+    }
+    s->flag = 0;
+    if (s->size - s->pos < 2) {
+        fn_826E7800(s, 2);
+    }
+    b = s->data + s->pos; r = (b[1] << 8) | b[0]; s->pos += 2; return r;
 }
-
