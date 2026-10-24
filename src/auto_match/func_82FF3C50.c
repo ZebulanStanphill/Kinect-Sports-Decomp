@@ -10,7 +10,6 @@ typedef struct {
 } Vec;
 
 extern unsigned char fn_82FF3940(Vec *v, int grow);
-extern float lbl_8200133C;
 
 Entry *fn_82FF3C50(Vec *v)
 {
@@ -22,7 +21,7 @@ Entry *fn_82FF3C50(Vec *v)
         e = v->end;
         if (e != 0) {
             e->id = -1;
-            e->val = lbl_8200133C;
+            e->val = -1.0f;
         }
         return v->end++;
     }

@@ -153620,7 +153620,7 @@ auto_match/func_82DA3170.c:
 auto_match/func_82DA3238.c:
 	.text       start:0x82DA3238 end:0x82DA3244
 
-auto_match/func_82DA3248.c:
+auto_match/func_82DA3248.cpp:
 	.text       start:0x82DA3248 end:0x82DA329C
 
 auto_match/func_82DA32A0.c:

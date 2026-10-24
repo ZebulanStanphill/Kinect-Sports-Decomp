@@ -351,9 +351,8 @@ public:
 // hkpGskBaseAgent -> hkpGskfAgent -> hkpPredGskfAgent (RTTI; Physics/Collide/Agent/ConvexAgent/Gjk).
 // hkpGskBaseAgent's constructor is out of line (fn_82D74A90): it sets up the GSK cache from the relative
 // transform (hkTransform::setMulInverseMul; hkpGskCache::initTriangle / init, fn_82DD9A10 / fn_82DD9828, which
-// keep their fn_ names), invalidates the separating normal (w and time = -1.0f, the game's
-// constant lbl_8200133C) and keeps the smaller allowed penetration depth of the two root collidables.
-extern "C" const float lbl_8200133C;   // -1.0f
+// keep their fn_ names), invalidates the separating normal (w and time = -1.0f) and keeps
+// the smaller allowed penetration depth of the two root collidables.
 extern "C" double __fsel(double a, double b, double c);   // PPC intrinsic
 
 class hkpGskCache;
@@ -395,7 +394,7 @@ hkpGskBaseAgent::hkpGskBaseAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
         m_cache.initTriangle(shapeA, shapeB, aTb);
     else
         m_cache.init(shapeA, shapeB, aTb);
-    hkReal invalid = lbl_8200133C;
+    hkReal invalid = -1.0f;
     m_separatingNormal.setZero4();
     m_separatingNormal(3) = invalid;
     m_timeOfSeparatingNormal = invalid;

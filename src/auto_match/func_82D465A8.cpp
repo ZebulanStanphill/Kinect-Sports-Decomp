@@ -20,7 +20,6 @@ float fn_8307F168();
 }
 
 static const float lbl_82002AE0 = 1.0f;
-extern "C" __declspec(selectany) const float lbl_8200133C = -1.0f;
 extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 union hkQuadRealUnion {
@@ -97,8 +96,8 @@ hkpSampledHeightFieldShape::hkpSampledHeightFieldShape(const hkpSampledHeightFie
 
     if (ci.m_minHeight > ci.m_maxHeight)
     {
-        m_heightCenter = lbl_8200133C;
-        m_extents(1) = lbl_8200133C;
+        m_heightCenter = -1.0f;
+        m_extents(1) = -1.0f;
     }
     else
     {

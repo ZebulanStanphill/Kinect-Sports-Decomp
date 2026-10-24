@@ -234749,10 +234749,10 @@
         ]
       },
       "auto_match/func_82DA3238.c": "MISSING",
-      "auto_match/func_82DA3248.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DA3248.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82DA32A0.c": {
