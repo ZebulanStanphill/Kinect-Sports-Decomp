@@ -44,6 +44,14 @@ The `R1::Soundscape` event handles in `include/R1/Soundscape/` are an example: t
 
 The compiler names floating-point constants after their bits, such as `__real@00000000` for `0.0f`, in C and C++ alike. When a constant in `symbols.txt` still has an `lbl_` name, renaming it to the `__real@` form lets source use the literal value instead of an `extern`.
 
+## Standard library code
+
+The game uses the Visual C++ 2010 standard library, built without exception handling (`_HAS_EXCEPTIONS=0`), so a failed allocation calls `stdext::bad_alloc(0)._Raise()`. A function that is a standard library template, such as `std::vector<T>::_Insert_n`, can include the real header and instantiate that member explicitly. Some of the generated code depends on exactly how the headers are written, so this can match where a hand-written copy cannot.
+
+The headers can't be distributed, so mark such a unit with `"vc_include": true` in `objects.json`; it is built only when `configure.py` gets `--vc-include` (see the [README](README.md)). To evaluate it, add `/D_HAS_EXCEPTIONS=0 /D_ALLOCA_S_MARKER_SIZE=8 /D_JBLEN=64 /D_JBTYPE=double /I<VC/include>` to `--cflags`. The last three defines stand in for x86-only parts of `malloc.h` and `setjmp.h`.
+
+The game was built with link-time code generation, which inlined some helpers into one caller but not another. When the original calls `operator new` directly where a normal build calls `std::_Allocate`, specialize `std::allocator<T>::allocate` and `std::_Allocate` for the element type as `__forceinline` in the unit. `src/auto_match/func_825870E0.cpp` shows how.
+
 ## Send the result
 
 Commit the source, and include any split or object configuration changes the function needs. Keep a partial result as `NonMatching`; mark it `Matching` after the object matches completely. In your pull request, give the address, compiler flags, objdiff result and any useful type or class findings. A compilable improvement is worth sharing even if it is not a full match.

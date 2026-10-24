@@ -44837,7 +44837,7 @@ auto_match/func_82587028.c:
 	.pdata      start:0x821F0228 end:0x821F0230
 	.text       start:0x82587028 end:0x825870DC
 
-auto_match/func_825870E0.c:
+auto_match/func_825870E0.cpp:
 	.pdata      start:0x821F0230 end:0x821F0238
 	.text       start:0x825870E0 end:0x825873DC
 

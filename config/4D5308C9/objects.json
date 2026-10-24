@@ -65296,11 +65296,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_825870E0.c": {
-        "status": "NonMatching",
+      "auto_match/func_825870E0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_825873E0.c": {
         "status": "NonMatching",
