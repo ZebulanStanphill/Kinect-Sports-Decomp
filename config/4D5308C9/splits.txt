@@ -205746,7 +205746,7 @@ auto_match/func_8312CFF0.cpp:
 auto_match/func_8312D068.c:
 	.text       start:0x8312D068 end:0x8312D08C
 
-auto_match/func_8312D090.c:
+auto_match/func_8312D090.cpp:
 	.pdata      start:0x8222B4A0 end:0x8222B4A8
 	.text       start:0x8312D090 end:0x8312D110
 
@@ -205782,7 +205782,7 @@ auto_match/func_8312D540.cpp:
 	.pdata      start:0x8222B4F0 end:0x8222B4F8
 	.text       start:0x8312D540 end:0x8312D5C0
 
-auto_match/func_8312D620.c:
+auto_match/func_8312D620.cpp:
 	.pdata      start:0x8222B500 end:0x8222B508
 	.text       start:0x8312D620 end:0x8312D69C
 
@@ -205841,7 +205841,7 @@ auto_match/func_8312DD38.cpp:
 auto_match/func_8312DDB8.c:
 	.text       start:0x8312DDB8 end:0x8312DDD0
 
-auto_match/func_8312DDD0.c:
+auto_match/func_8312DDD0.cpp:
 	.pdata      start:0x8222B580 end:0x8222B588
 	.text       start:0x8312DDD0 end:0x8312DE4C
 
@@ -205994,7 +205994,7 @@ auto_match/func_8312F2A8.cpp:
 auto_match/func_8312F310.c:
 	.text       start:0x8312F310 end:0x8312F328
 
-auto_match/func_8312F328.c:
+auto_match/func_8312F328.cpp:
 	.pdata      start:0x8222B6F0 end:0x8222B6F8
 	.text       start:0x8312F328 end:0x8312F3A0
 
@@ -206040,7 +206040,7 @@ auto_match/func_8312F748.cpp:
 auto_match/func_8312F7B0.c:
 	.text       start:0x8312F7B0 end:0x8312F7C8
 
-auto_match/func_8312F7C8.c:
+auto_match/func_8312F7C8.cpp:
 	.pdata      start:0x8222B740 end:0x8222B748
 	.text       start:0x8312F7C8 end:0x8312F844
 
@@ -206051,7 +206051,7 @@ auto_match/func_8312F848.cpp:
 auto_match/func_8312F8C8.c:
 	.text       start:0x8312F8C8 end:0x8312F8E0
 
-auto_match/func_8312F8E0.c:
+auto_match/func_8312F8E0.cpp:
 	.pdata      start:0x8222B750 end:0x8222B758
 	.text       start:0x8312F8E0 end:0x8312F95C
 
@@ -206144,7 +206144,7 @@ auto_match/func_83130570.cpp:
 	.pdata      start:0x8222B828 end:0x8222B830
 	.text       start:0x83130570 end:0x831305E0
 
-auto_match/func_831305E0.c:
+auto_match/func_831305E0.cpp:
 	.pdata      start:0x8222B830 end:0x8222B838
 	.text       start:0x831305E0 end:0x83130660
 
@@ -206326,14 +206326,14 @@ auto_match/func_83131D20.cpp:
 	.pdata      start:0x8222B9C8 end:0x8222B9D0
 	.text       start:0x83131D20 end:0x83131D9C
 
-auto_match/func_83131DA0.c:
+auto_match/func_83131DA0.cpp:
 	.pdata      start:0x8222B9D0 end:0x8222B9D8
 	.text       start:0x83131DA0 end:0x83131E20
 
 auto_match/func_83131E80.c:
 	.text       start:0x83131E80 end:0x83131EBC
 
-auto_match/func_83131EC0.c:
+auto_match/func_83131EC0.cpp:
 	.pdata      start:0x8222B9E0 end:0x8222B9E8
 	.text       start:0x83131EC0 end:0x83131F40
 
