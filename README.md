@@ -16,11 +16,11 @@ A decompilation of **Kinect Sports** for Xbox 360.
 | --- | ---: |
 | Function ranges indexed by Jeff | 57,731 |
 | Functions with Ghidra C | 57,614 |
-| Functions with matching code | 13,176 |
-| Matched code | 1,127,028 / 15,705,500 (7.17601%) |
-| Fully linked code | 1,121,388 / 15,705,500 (7.14010%) |
+| Functions with matching code | 13,375 |
+| Matched code | 1,181,568 / 15,705,500 (7.52328%) |
+| Fully linked code | 1,175,928 / 15,705,500 (7.48736%) |
 | Units with source | 52,856 |
-| Fuzzy match | 42.87277% |
+| Fuzzy match | 43.14658% |
 
 ## Building
 
