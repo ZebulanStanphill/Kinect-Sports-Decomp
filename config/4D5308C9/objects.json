@@ -220564,10 +220564,11 @@
           "/O1"
         ]
       },
-      "auto_match/func_82D27D00.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D27D00.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O2",
+          "/QVMXReserve"
         ]
       },
       "auto_match/func_82D27E90.cpp": {
@@ -231551,8 +231552,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D8AAA8.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D8AAA8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -231779,8 +231780,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82D8C258.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D8C258.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
