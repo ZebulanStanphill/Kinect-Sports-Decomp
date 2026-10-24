@@ -240389,10 +240389,10 @@
           "/O2"
         ]
       },
-      "auto_match/func_82DF5250.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DF5250.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82DF52C0.c": "MISSING",

@@ -157395,7 +157395,7 @@ auto_match/func_82DF51A8.cpp:
 	.pdata      start:0x8221AD40 end:0x8221AD48
 	.text       start:0x82DF51A8 end:0x82DF524C
 
-auto_match/func_82DF5250.c:
+auto_match/func_82DF5250.cpp:
 	.pdata      start:0x8221AD48 end:0x8221AD50
 	.text       start:0x82DF5250 end:0x82DF52BC
 
