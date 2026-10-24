@@ -244640,10 +244640,10 @@
           "/O1"
         ]
       },
-      "auto_match/func_82E0EBC0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82E0EBC0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82E0EC10.cpp": {
@@ -244706,10 +244706,10 @@
           "/O2"
         ]
       },
-      "auto_match/func_82E0F818.c": {
-        "status": "NonMatching",
+      "auto_match/func_82E0F818.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82E0FBA8.c": {
