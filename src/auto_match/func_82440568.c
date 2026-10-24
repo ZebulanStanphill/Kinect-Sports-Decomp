@@ -1,76 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_80;
-extern int memcpy();
+typedef struct S {
+    int x;
+    int pad[16];
+    unsigned int k;
+    int rest[5];
+} S;
 
-
-void fn_82440568(int *param_1,int *param_2,int *param_3)
-
+static unsigned char less(S *l, S *r)
 {
-  bool bVar1;
-  undefined1 auStack_80 [96];
-  
-  if (((uint)param_1[0x11] < (uint)param_2[0x11]) ||
-     ((param_2[0x11] == param_1[0x11] && (*param_2 < *param_1)))) {
-    bVar1 = true;
-  }
-  else {
-    bVar1 = false;
-  }
-  if (bVar1) {
-    memcpy(auStack_80,param_2,0x5c);
-    memcpy(param_2,param_1,0x5c);
-    memcpy(param_1,auStack_80,0x5c);
-  }
-  if (((uint)param_2[0x11] < (uint)param_3[0x11]) ||
-     ((param_3[0x11] == param_2[0x11] && (*param_3 < *param_2)))) {
-    bVar1 = true;
-  }
-  else {
-    bVar1 = false;
-  }
-  if (bVar1) {
-    memcpy(auStack_80,param_3,0x5c);
-    memcpy(param_3,param_2,0x5c);
-    memcpy(param_2,auStack_80,0x5c);
-  }
-  if (((uint)param_1[0x11] < (uint)param_2[0x11]) ||
-     ((param_2[0x11] == param_1[0x11] && (*param_2 < *param_1)))) {
-    bVar1 = true;
-  }
-  else {
-    bVar1 = false;
-  }
-  if (bVar1) {
-    memcpy(auStack_80,param_2,0x5c);
-    memcpy(param_2,param_1,0x5c);
-    memcpy(param_1,auStack_80,0x5c);
-  }
-  return;
+    return l->k > r->k || (l->k == r->k && l->x < r->x);
 }
 
+static void swap(S *a, S *b)
+{
+    S t = *a;
+    *a = *b;
+    *b = t;
+}
+
+void fn_82440568(S *first, S *mid, S *last)
+{
+    if (less(mid, first)) {
+        swap(mid, first);
+    }
+    if (less(last, mid)) {
+        swap(last, mid);
+    }
+    if (less(mid, first)) {
+        swap(mid, first);
+    }
+}
