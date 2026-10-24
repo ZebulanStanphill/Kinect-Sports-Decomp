@@ -240300,8 +240300,8 @@
         ]
       },
       "auto_match/func_82DF4BA8.c": "MISSING",
-      "auto_match/func_82DF4EF8.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DF4EF8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

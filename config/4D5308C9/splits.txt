@@ -157383,7 +157383,7 @@ auto_match/func_82DF4BA8.c:
 	.pdata      start:0x8221AD28 end:0x8221AD30
 	.text       start:0x82DF4BA8 end:0x82DF4EF4
 
-auto_match/func_82DF4EF8.c:
+auto_match/func_82DF4EF8.cpp:
 	.pdata      start:0x8221AD30 end:0x8221AD38
 	.text       start:0x82DF4EF8 end:0x82DF5074
 
