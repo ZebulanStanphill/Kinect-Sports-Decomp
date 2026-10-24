@@ -22,6 +22,10 @@ A decompilation of **Kinect Sports** for Xbox 360.
 | Units with source | 52,856 |
 | Fuzzy match | 43.15281% |
 
+*Matched code* counts the code of functions that compile to exactly the original instructions. *Fully linked code* counts only units in which every function matches, since only those are linked into the rebuilt game. *Fuzzy match* is objdiff's average similarity over all code, including unmatched functions.
+
+`scripts/update_progress.sh` generates these figures from a full build that includes the [Visual C++ 2010 headers](#visual-c-2010-headers). A build without them reports slightly lower figures, because the units that need them count as unmatched.
+
 ## Building
 
 Place `default.xex` from your copy of the game in `orig/4D5308C9/`. Install Python 3.10+ and Ninja, then run:
@@ -33,7 +37,13 @@ ninja
 
 On Linux, pass `--wrapper /path/to/wibo` to `configure.py` if Wibo is not already configured. On Windows, run `py configure.py`; the compiler runs without a wrapper. Run `python3 configure.py --help` for other tool paths.
 
-Some units use the Visual C++ 2010 standard library headers, which can't be distributed with the project. To build them, pass `--vc-include` with the `VC/include` directory of a Visual Studio 2010 installation (for example `"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include"`). Without it, those units use the original objects and count as unmatched.
+### Visual C++ 2010 headers
+
+The game was built with the Visual C++ 2010 standard library. Its containers, such as `std::vector` and `std::map`, are templates, so their code was compiled into the game's own functions. That code depends on exactly how the library's headers are written, down to the order in which their inline helpers expand. As a result, some of these functions only match when they are compiled from the real headers. The headers are Microsoft's code, so they can't be included in this repository.
+
+To build those units, pass `--vc-include` to `configure.py` with the `VC/include` directory of your own Visual Studio 2010 installation, for example `"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include"`. Only the headers are used; the code is still compiled with the Xbox 360 compiler. The project has been checked against the headers from the original release of Visual Studio 2010 (`_CPPLIB_VER` 520).
+
+Without `--vc-include`, `configure.py` prints how many units it skipped. Those units use the original objects and count as unmatched.
 
 ## Contributing
 

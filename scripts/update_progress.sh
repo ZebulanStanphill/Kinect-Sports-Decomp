@@ -2,6 +2,11 @@
 # Refresh the public objdiff report from a local build with the original game.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# The published figures include the units that need the Visual C++ 2010 headers.
+if ! sed -n '/^configure_args/,/^python/p' build.ninja | grep -q -- '--vc-include'; then
+    echo "Run configure.py with --vc-include first, so the report includes every unit." >&2
+    exit 1
+fi
 ninja -j "${NINJA_JOBS:-26}" build/4D5308C9/report.json
 python3 - <<'PY'
 import json
