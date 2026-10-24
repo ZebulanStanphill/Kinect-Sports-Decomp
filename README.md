@@ -33,6 +33,8 @@ ninja
 
 On Linux, pass `--wrapper /path/to/wibo` to `configure.py` if Wibo is not already configured. On Windows, run `py configure.py`; the compiler runs without a wrapper. Run `python3 configure.py --help` for other tool paths.
 
+Some units use the Visual C++ 2010 standard library headers, which can't be distributed with the project. To build them, pass `--vc-include` with the `VC/include` directory of a Visual Studio 2010 installation (for example `"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include"`). Without it, those units use the original objects and count as unmatched.
+
 ## Contributing
 
 Pick a function in `src/auto_match/` and compare changes with [objdiff](https://github.com/encounter/objdiff). See [CONTRIBUTING.md](CONTRIBUTING.md) for build and submission instructions.

@@ -110,6 +110,13 @@ parser.add_argument(
     help="path to ninja binary (optional)"
 )
 parser.add_argument(
+    "--vc-include",
+    metavar="DIR",
+    type=Path,
+    help="path to Visual C++ 2010's VC/include directory (optional; units that "
+    "use its standard library headers are only built with it)",
+)
+parser.add_argument(
     "--verbose",
     action="store_true",
     help="print verbose output",
@@ -256,6 +263,22 @@ def get_object_completed(status: str) -> bool:
 
     assert False, f"Invalid object status {status}"
 
+# Units marked "vc_include" use Visual C++ 2010's standard library headers, which
+# can't be distributed. They are built only when --vc-include points to a local
+# copy; otherwise the original object is linked in their place. The defines
+# stand in for the x86-only parts of malloc.h and setjmp.h, and the game was
+# built without exception handling.
+vc_cflags: list[str] = []
+if args.vc_include is not None:
+    vc_cflags = [
+        "/D_HAS_EXCEPTIONS=0",
+        "/D_ALLOCA_S_MARKER_SIZE=8",
+        "/D_JBLEN=64",
+        "/D_JBTYPE=double",
+        f'"/I{args.vc_include.resolve()}"',
+    ]
+vc_skipped = 0
+
 libs: list[dict] = []
 objects: dict[str, dict] = json.load(open(objects_path, "r", encoding="utf-8"))
 for (lib, lib_config) in objects.items():
@@ -276,6 +299,15 @@ for (lib, lib_config) in objects.items():
         else:
             completed = get_object_completed(obj_config["status"])
 
+            if obj_config.pop("vc_include", False):
+                if vc_cflags:
+                    obj_config["extra_cflags"] = [*obj_config.get("extra_cflags", []), *vc_cflags]
+                else:
+                    # no such file, so the unit is treated as having no source
+                    completed = NonMatching
+                    obj_config["source"] = f"{path}.needs-vc-include"
+                    vc_skipped += 1
+
             if "cflags" in obj_config:
                 object_cflags = obj_config["cflags"]
                 if isinstance(object_cflags, str):
@@ -292,6 +324,8 @@ for (lib, lib_config) in objects.items():
     })
 
 config.libs = libs
+if vc_skipped and args.mode == "configure":
+    print(f"{vc_skipped} units need --vc-include; using their original objects")
 
 # Progress tracking categories
 config.progress_categories = [ProgressCategory(name, desc) for (name, desc) in progress_categories.items()]
