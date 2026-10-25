@@ -1,0 +1,69 @@
+// std::_Tree<Traits>::_Insert(bool, _Nodeptr, _Nodeptr) from Visual C++ 2010's
+// <xtree>, which std::set and std::map share. It links a new node into the tree
+// and rebalances the tree. Element_82519678 is a placeholder for the game's
+// 88-byte value type, which is 8-byte aligned. It has a std::string at 0x8 and
+// a member at 0x40 whose destructor is fn_82359C18.
+//
+// The game was built with link-time code generation, which inlined more than
+// the compiler does by itself; /d2inlS1000 (in objects.json) lets it inline as
+// much. The tree's rotations stay calls to fn_82518EB0 and fn_82518F18, and
+// std::string's _Tidy to fn_82230300; they, operator delete and
+// std::_Xlength_error keep the names that C units use.
+
+// <xtree> calls std::_Xlength_error directly, so its name is replaced here.
+namespace std {
+extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
+}
+#define _Xlength_error fn_82F622A8
+#include <set>
+#include <string>
+#undef _Xlength_error
+
+extern "C" {
+void fn_82359C18(void *self);
+void fn_82230300(std::string *self, bool built, unsigned int newsize);
+}
+
+template <> __forceinline void std::string::_Tidy(bool built, std::string::size_type newsize)
+{
+    fn_82230300(this, built, newsize);
+}
+
+struct __declspec(align(8)) Element_82519678 {
+    int unk0[2];
+    struct Unk8 {
+        std::string unk0;
+        int unk1C[7];
+        struct Unk38 {
+            ~Unk38() { fn_82359C18(this); }
+            int data[6];
+        } unk38;
+    } unk8;
+};
+
+typedef std::set<Element_82519678> Set;
+typedef Set::_Mybase Tree;
+typedef Tree::_Node Node;
+
+extern "C" {
+void fn_8265CA20(void *ptr);
+void fn_82518EB0(Tree *self, Node *node);
+void fn_82518F18(Tree *self, Node *node);
+}
+
+template <> void std::allocator<Node>::deallocate(pointer ptr, size_type)
+{
+    fn_8265CA20(ptr);
+}
+
+template <> __forceinline void Tree::_Lrotate(_Nodeptr node)
+{
+    fn_82518EB0(this, node);
+}
+
+template <> __forceinline void Tree::_Rrotate(_Nodeptr node)
+{
+    fn_82518F18(this, node);
+}
+
+template Tree::iterator Tree::_Insert(bool, _Nodeptr, _Nodeptr);
