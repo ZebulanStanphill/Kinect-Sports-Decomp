@@ -52,6 +52,8 @@ The headers can't be distributed, so mark such a unit with `"vc_include": true` 
 
 The game was built with link-time code generation, which inlined some helpers into one caller but not another. When the original calls `operator new` directly where a normal build calls `std::_Allocate`, specialize `std::allocator<T>::allocate` and `std::_Allocate` for the element type as `__forceinline` in the unit. `src/auto_match/func_825870E0.cpp` shows how.
 
+Link-time code generation also inlined larger functions than the compiler does by itself, such as `std::vector<T>::_Reserve` into `push_back`. Adding the compiler's undocumented `/d2inlS1000` option to the unit's `extra_cflags` raises its inlining limit to match. Where the original calls a member out of line instead, declare that member's specialization without defining it. If the member's own unit isn't matched yet, define the specialization as `__forceinline` with a call to the member's `fn_` name instead. `src/auto_match/func_82269F20.cpp` is an example.
+
 ## Send the result
 
 Commit the source, and include any split or object configuration changes the function needs. Keep a partial result as `NonMatching`; mark it `Matching` after the object matches completely. In your pull request, give the address, compiler flags, objdiff result and any useful type or class findings. A compilable improvement is worth sharing even if it is not a full match.
