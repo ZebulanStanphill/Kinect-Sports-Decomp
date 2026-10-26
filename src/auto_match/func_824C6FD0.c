@@ -29,11 +29,9 @@ extern int fn_82359C18();
 extern int fn_82386340();
 
 
-void fn_824C6FD0(longlong param_1)
-
+void fn_824C6FD0(int param_1)
 {
-  fn_82386340(param_1 + 0x30);
-  fn_82359C18(param_1 + 0x18);
-  return;
+  int s = param_1 + 0x10;
+  fn_82386340(s + 0x20);
+  fn_82359C18(s + 8);
 }
-

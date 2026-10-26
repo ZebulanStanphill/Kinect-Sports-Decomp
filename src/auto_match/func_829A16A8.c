@@ -35,7 +35,7 @@ uint fn_829A16A8(int param_1)
   uint uVar1;
   
   uVar1 = fn_8295A330(param_1,*(undefined4 *)(param_1 + 200));
-  if (-1 < (int)uVar1) {
+  if ((int)uVar1 >= 0) {
     uVar1 = fn_829548C8(param_1);
     uVar1 = (int)uVar1 >> 0x1f & uVar1;
   }

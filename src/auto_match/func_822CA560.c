@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_822CA560(int *param_1,int param_2,undefined8 param_3,int param_4)
+void fn_822CA560(int *param_1,unsigned int param_2,undefined8 param_3,int param_4)
 
 {
   int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 8))();
+  iVar1 = (*(code *)(*param_1 + 8))();
   if ((param_4 == 1) && (param_2 == iVar1 + 0x144)) {
     *(undefined1 *)((int)param_1 + 0x83) = 1;
   }

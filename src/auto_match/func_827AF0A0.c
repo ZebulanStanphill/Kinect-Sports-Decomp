@@ -25,21 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct { float x, y, z; } V;
+typedef struct { V a, b, c; undefined1 k; } S;
+typedef struct { int pad[3]; S s; } P;
 
-
-void fn_827AF0A0(undefined4 *param_1,int param_2)
-
+void fn_827AF0A0(S *d, P *p)
 {
-  *param_1 = *(undefined4 *)(param_2 + 0xc);
-  param_1[1] = *(undefined4 *)(param_2 + 0x10);
-  param_1[2] = *(undefined4 *)(param_2 + 0x14);
-  param_1[3] = *(undefined4 *)(param_2 + 0x18);
-  param_1[4] = *(undefined4 *)(param_2 + 0x1c);
-  param_1[5] = *(undefined4 *)(param_2 + 0x20);
-  param_1[6] = *(undefined4 *)(param_2 + 0x24);
-  param_1[7] = *(undefined4 *)(param_2 + 0x28);
-  param_1[8] = *(undefined4 *)(param_2 + 0x2c);
-  *(undefined1 *)(param_1 + 9) = *(undefined1 *)(param_2 + 0x30);
-  return;
+  S *s = &p->s;
+  d->a = s->a;
+  d->b = s->b;
+  d->c = s->c;
+  d->k = s->k;
 }
-

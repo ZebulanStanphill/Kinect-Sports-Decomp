@@ -33,9 +33,9 @@ void fn_82D80820(int param_1)
 {
   int iVar1;
   
-  if (*(int *)(param_1 + 100) != 0) {
+  if (*(unsigned int *)(param_1 + 100) != 0) {
     iVar1 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar1 + 0x10) + 8))
+    (*(code *)(**(int **)(iVar1 + 0x10) + 8))
               (*(int **)(iVar1 + 0x10),*(undefined4 *)(param_1 + 100),0x200);
   }
   return;

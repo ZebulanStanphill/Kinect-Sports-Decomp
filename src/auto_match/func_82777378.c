@@ -26,20 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82776B48();
-extern unsigned int uStack_c;
 
+typedef struct { uint *p; undefined4 c; } Key;
 
 void fn_82777378(undefined8 param_1,uint *param_2,undefined4 param_3)
-
 {
-  uint *puStack_10;
-  undefined4 uStack_c;
-  
-  puStack_10 = param_2;
-  uStack_c = param_3;
-  fn_82776B48(param_1,param_1,&puStack_10,
+  Key k;
+  k.p = param_2;
+  k.c = param_3;
+  fn_82776B48(param_1,param_1,&k,
                 (uint)(*(byte *)((int)param_2 + 7) ^ *(byte *)((int)param_2 + 6)) ^
                 (uint)*(ushort *)(param_2 + 1) ^ *param_2 >> 6 ^ *param_2);
-  return;
 }
-

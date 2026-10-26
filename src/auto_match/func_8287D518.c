@@ -25,19 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8287D6D8();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
+extern void fn_8287D6D8();
 
-
-double fn_8287D518(longlong param_1,undefined4 param_2)
-
+float fn_8287D518(int param_1,undefined4 param_2)
 {
-  undefined4 uStack0000001c;
-  int aiStack_10;
-  
-  uStack0000001c = param_2;
-  fn_8287D6D8(&aiStack_10,param_1 + 0xf0,&stack0x0000001c);
-  return (double)*(float *)(aiStack_10 + 0x38);
+  int it;
+  fn_8287D6D8(&it,param_1 + 0xf0,&param_2);
+  return *(float *)(it + 0x38);
 }
-

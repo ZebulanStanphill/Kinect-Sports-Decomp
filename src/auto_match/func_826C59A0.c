@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_826C59A0(int *param_1)
+int fn_826C59A0(unsigned int *param_1)
 
 {
-  char cVar2;
+  unsigned char cVar2;
   int iVar1;
   
-  if ((param_1[0x6f] == 0) || (cVar2 = (**(code **)(*param_1 + 0xa0))(), cVar2 == '\0')) {
+  if ((param_1[0x6f] == 0) || (cVar2 = (*(code *)(*(int *)param_1 + 0xa0))(), cVar2 == '\0')) {
     iVar1 = 0;
   }
   else {

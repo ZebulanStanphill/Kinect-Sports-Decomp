@@ -30,9 +30,9 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82722AC0(int *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x40))();
+  iVar1 = (*(code *)(*param_1 + 0x40))();
   if (iVar1 != 0) {
     *(uint *)(iVar1 + 0xb00) = *(uint *)(iVar1 + 0xb00) | 0x400;
   }

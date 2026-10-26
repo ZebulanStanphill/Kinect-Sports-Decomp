@@ -1,43 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823D9FC0();
-extern unsigned int lbl_821AF1C8;
-extern unsigned int lbl_821AF47C;
-extern unsigned int lbl_821B6A4C;
+extern void fn_823D9FC0(void *);
+extern int lbl_821AF1C8, lbl_821AF47C, lbl_821B6A4C;
 
+typedef struct { int *vt; int x[7]; } Sub;
+typedef struct { int *vt; int pad[7]; Sub sub; } S;
 
-void fn_82311D48(undefined4 *param_1)
-
+static void Sub_dtor(Sub *s)
 {
-  *param_1 = &lbl_821AF47C;
-  param_1[8] = &lbl_821B6A4C;
-  fn_823D9FC0(param_1 + 8);
-  *param_1 = &lbl_821AF1C8;
-  return;
+  s->vt = &lbl_821B6A4C;
+  fn_823D9FC0(s);
 }
 
+void fn_82311D48(S *p)
+{
+  p->vt = &lbl_821AF47C;
+  Sub_dtor(&p->sub);
+  p->vt = &lbl_821AF1C8;
+}

@@ -29,20 +29,14 @@ extern int fn_82653918();
 extern int fn_8265C990();
 
 
-longlong fn_82647460(int param_1)
-
+int fn_82647460(int param_1)
 {
-  longlong lVar1;
-  
-  if ((ulonglong)*(uint *)(param_1 + 0x3c) == 1) {
+  uint n = *(uint *)(param_1 + 0x3c);
+  if (n == 1) {
     fn_82653918();
     fn_8265C990(*(undefined4 *)(param_1 + -4),0x24800000);
-    lVar1 = 0;
+    return 0;
   }
-  else {
-    lVar1 = (ulonglong)*(uint *)(param_1 + 0x3c) - 1;
-    *(int *)(param_1 + 0x3c) = (int)lVar1;
-  }
-  return lVar1;
+  *(uint *)(param_1 + 0x3c) = n - 1;
+  return n - 1;
 }
-

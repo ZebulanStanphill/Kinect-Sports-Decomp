@@ -27,19 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827D9ED0();
 extern int fn_82A29D80();
+extern unsigned int fn_82A1F470();
 
 
-undefined8 fn_827DD190(undefined8 param_1,undefined8 param_2,int *param_3)
+unsigned int  fn_827DD190(undefined8 param_1,undefined8 param_2,int *param_3)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   uVar1 = fn_827D9ED0(param_2);
   iVar2 = fn_82A29D80(uVar1,0);
   *param_3 = iVar2;
   if (iVar2 == -1) {
-    uVar1 = thunk_FUN_82a2b798();
+    uVar1 = fn_82A1F470();
   }
   else {
     uVar1 = 0;

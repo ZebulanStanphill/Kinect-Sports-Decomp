@@ -28,17 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8302BF38();
 
 
-longlong fn_8302BBA8(int param_1)
-
+int fn_8302BBA8(int param_1)
 {
-  uint *puVar1;
-  longlong lVar2;
-  
-  puVar1 = *(uint **)(param_1 + 0x18);
-  if (puVar1 != (uint *)0x0) {
-    lVar2 = fn_8302BF38(puVar1 + 1);
-    return lVar2 + (ulonglong)*puVar1;
+  uint *p = *(uint **)(param_1 + 0x18);
+  if (p != 0) {
+    return fn_8302BF38(p + 1) + *p;
   }
   return 0;
 }
-

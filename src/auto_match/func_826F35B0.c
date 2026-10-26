@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B78();
+extern int fn_826841C0();
 
 
 void fn_826F35B0(int param_1,undefined8 param_2,undefined8 param_3)
@@ -35,12 +35,12 @@ void fn_826F35B0(int param_1,undefined8 param_2,undefined8 param_3)
   
   piVar1 = *(int **)(*(int *)(param_1 + 8) + 0xc);
   if (piVar1 == (int *)0x0) {
-    fn_82F68B78(param_2,param_3);
+    fn_826841C0(param_2,param_3);
     return;
   }
                     /* WARNING: Could not recover jumptable at 0x826f35e0. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*piVar1 + 4))(piVar1,param_2);
+  (*(code *)(*piVar1 + 4))(piVar1,param_2);
   return;
 }
 

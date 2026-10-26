@@ -32,10 +32,10 @@ void fn_8252CAF8(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
   if (*(code **)(param_1 + 0x924) != (code *)0x0) {
-    (**(code **)(param_1 + 0x924))();
+    (*(code *)(param_1 + 0x924))();
   }
   if ((ulonglong)*(uint *)(param_1 + 0x8c0) != 0) {
-    fn_82547C80((ulonglong)*(uint *)(param_1 + 0x8c0) + 0xd0,param_2,param_3);
+    fn_82547C80((unsigned int)*(uint *)(param_1 + 0x8c0) + 0xd0,param_2,param_3);
   }
   return;
 }

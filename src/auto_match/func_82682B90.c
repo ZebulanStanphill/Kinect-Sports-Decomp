@@ -32,8 +32,8 @@ extern int fn_826C1328();
 void fn_82682B90(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x30) != 0) {
-    fn_8267C4F0();
+  if (*(unsigned int *)(param_1 + 0x30) != 0) {
+    fn_8267C4F0(*(unsigned int *)(param_1 + 0x30));
   }
   *(undefined4 *)(param_1 + 0x30) = 0;
   fn_826C1328(param_1);

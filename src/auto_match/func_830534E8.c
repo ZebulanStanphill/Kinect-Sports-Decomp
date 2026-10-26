@@ -28,15 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 
 
 longlong fn_830534E8(int param_1)
-
 {
-  if (*(longlong **)(param_1 + 0xb4) != (longlong *)0x0) {
-    return **(longlong **)(param_1 + 0xb4);
+  int p = *(int *)(param_1 + 0xb4);
+  if (p != 0) {
+    return *(longlong *)p;
   }
-  if ((uint)*(byte *)(param_1 + 0xa8) < *(uint *)(param_1 + 0xa4)) {
-    return (ulonglong)*(uint *)((int)*(longlong **)(param_1 + 0xa0) + 0xc) +
+  if (*(uint *)(param_1 + 0xa4) > (uint)*(byte *)(param_1 + 0xa8)) {
+    return (ulonglong)*(uint *)(*(int *)(param_1 + 0xa0) + 0xc) +
            **(longlong **)(param_1 + 0xa0);
   }
   return *(longlong *)(param_1 + 0x80);
 }
-

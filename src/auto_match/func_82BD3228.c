@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82BD3228(int param_1)
+typedef struct { uint pad : 25; uint flag : 1; uint rest : 6; } Bits;
 
+int fn_82BD3228(int param_1)
 {
-  if ((0 < *(int *)(param_1 + 0x10)) &&
-     (((*(uint *)(param_1 + 0xe4) >> 6 & 1) != 0 || (*(int *)(param_1 + 0x50) == 0x1f)))) {
+  if (0 < *(int *)(param_1 + 0x10) &&
+     ((unsigned char)((Bits *)(param_1 + 0xe4))->flag != 0 || *(int *)(param_1 + 0x50) == 0x1f)) {
     return 1;
   }
   return 0;
 }
-

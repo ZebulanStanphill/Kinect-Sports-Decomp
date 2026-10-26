@@ -30,9 +30,9 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82D3D9C0(int param_1,uint param_2)
 
 {
-  uint uVar1;
+  int uVar1;
   int iVar2;
-  uint uVar3;
+  int uVar3;
   
   iVar2 = ((param_2 >> 5) + 0x14) * 4;
   uVar1 = *(uint *)(iVar2 + param_1);
@@ -41,7 +41,7 @@ void fn_82D3D9C0(int param_1,uint param_2)
     return;
   }
   *(uint *)(iVar2 + param_1) = uVar3;
-  *(short *)(param_1 + 0x26) = *(short *)(param_1 + 0x26) + 1;
+  *(unsigned short *)(param_1 + 0x26) = *(short *)(param_1 + 0x26) + 1;
   return;
 }
 

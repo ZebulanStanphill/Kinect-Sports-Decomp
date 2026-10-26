@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8303CCB8(int *param_1,int param_2)
 
 {
-  int *piVar1;
+  unsigned int *piVar1;
   
   piVar1 = (int *)param_1[7];
   if (piVar1 != (int *)param_1[8]) {
@@ -43,7 +43,7 @@ void fn_8303CCB8(int *param_1,int param_2)
   }
                     /* WARNING: Could not recover jumptable at 0x8303ccf0. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*param_1 + 0x3c))();
+  (*(code *)(*param_1 + 0x3c))(param_1, param_2);
   return;
 }
 

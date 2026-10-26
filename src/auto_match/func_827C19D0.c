@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_827C19D0(int param_1)
 
 {
-  if (*(int *)(param_1 + 4) != 0) {
-    (**(code **)(*(int *)(param_1 + 4) + 0x28))();
+  if (*(unsigned int *)(param_1 + 4) != 0) {
+    (*(code *)(*(int *)(param_1 + 4) + 0x28))();
   }
   *(undefined4 *)(param_1 + 4) = 0;
   *(undefined4 *)(param_1 + 0x14) = 0;

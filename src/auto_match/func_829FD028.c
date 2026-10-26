@@ -26,20 +26,14 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BA02A8();
-
-
-void fn_829FD028(longlong param_1)
-
+void fn_829FD028(int param_1)
 {
-  longlong lVar1;
-  
-  lVar1 = 0x12bf;
-  param_1 = param_1 + 0x2eff0;
+  int n;
+  int p;
+  n = 0x12bf;
+  p = param_1 + 0x2eff0;
   do {
-    param_1 = param_1 + -0x10;
-    fn_82BA02A8(param_1);
-    lVar1 = lVar1 + -1;
-  } while (-1 < lVar1);
-  return;
+    p = p + -0x10;
+    fn_82BA02A8(p);
+  } while (--n >= 0);
 }
-
