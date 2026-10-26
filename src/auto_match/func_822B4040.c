@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82272D90();
-extern int fn_822B4378();
-extern int fn_8265CA20();
+typedef struct Node { struct Node *left; } Node;
+typedef struct { Node *node; } It;
+typedef struct { int a; Node *head; } Tree;
+extern void fn_82272D90(void *out, void *t, It first, It last);
+extern void fn_822B4378(void *out, void *t, It first, It last);
+extern void fn_8265CA20(Node *p);
+static It t_begin(Tree *t) { It i; i.node = t->head->left; return i; }
+static It t_end(Tree *t) { It i; i.node = t->head; return i; }
 
-
-void fn_822B4040(int param_1)
-
+void fn_822B4040(char *param_1)
 {
-  undefined1 auStack_20 [16];
-  
-  fn_82272D90(auStack_20,param_1 + 0x10,**(undefined4 **)(param_1 + 0x14));
-  fn_8265CA20(*(undefined4 *)(param_1 + 0x14));
-  fn_822B4378(auStack_20,param_1,**(undefined4 **)(param_1 + 4));
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
+  char buf[16];
+  Tree *t1 = (Tree *)(param_1 + 0x10);
+  Tree *t2 = (Tree *)param_1;
+  fn_82272D90(buf, t1, t_begin(t1), t_end(t1));
+  fn_8265CA20(t1->head);
+  fn_822B4378(buf, t2, t_begin(t2), t_end(t2));
+  fn_8265CA20(t2->head);
 }
-

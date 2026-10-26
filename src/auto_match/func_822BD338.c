@@ -1,47 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8260D428();
+/* std::operator==(const std::string &, const char *):
+   left.compare(0, left.size(), right, strlen(right)) == 0 */
+unsigned int strlen(const char *s);
 
+typedef struct String {
+    char buf[16];
+    unsigned int size;
+    unsigned int res;
+} String;
 
-bool fn_822BD338(int param_1,char *param_2)
+extern int fn_8260D428(const String *self, unsigned int off, unsigned int n0,
+                       const char *ptr, unsigned int count);
 
+int fn_822BD338(const String *left, const char *right)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  
-  pcVar3 = param_2;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  iVar2 = fn_8260D428(param_1,0,*(undefined4 *)(param_1 + 0x10),param_2,
-                       pcVar3 + (-1 - (int)param_2));
-  return iVar2 == 0;
+    return fn_8260D428(left, 0, left->size, right, strlen(right)) == 0;
 }
-

@@ -1,44 +1,71 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* The two dead addi (0x20, 0x4) come from nested inlined helpers whose inner
+   part has two or more stores (the format bitfields fold into one stw). */
+typedef struct {
+  unsigned hi : 15;
+  unsigned one : 1;
+  unsigned mid : 2;
+  unsigned two : 1;
+  unsigned rest : 13;
+} FmtBits;
 
+typedef struct {
+  int rate;
+  FmtBits bits;
+} Fmt;
 
-void fn_83008348(int param_1)
+typedef struct {
+  int c;
+  int d;
+  unsigned char e;
+} SubTail;
 
+typedef struct {
+  unsigned int a;
+  unsigned int b;
+  SubTail tail;
+} Sub;
+
+typedef struct {
+  int pad0;
+  Sub sub;          /* 0x4 */
+  int x18;
+  unsigned int x1c;
+  Fmt fmt;          /* 0x20 */
+} Obj;
+
+static void FmtBits_init(FmtBits *b)
 {
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  *(undefined4 *)(param_1 + 0x1c) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0x20) = 48000;
-  *(undefined4 *)(param_1 + 0x24) = 0x12020;
-  *(undefined4 *)(param_1 + 4) = 0xffffffff;
-  *(undefined4 *)(param_1 + 8) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined1 *)(param_1 + 0x14) = 0;
-  return;
+  b->hi = 0;
+  b->one = 1;
+  b->mid = 0;
+  b->two = 1;
+  b->rest = 0x20;
 }
 
+static void Fmt_init(Fmt *f)
+{
+  f->rate = 48000;
+  FmtBits_init(&f->bits);
+}
+
+static void SubTail_init(SubTail *t)
+{
+  t->c = 0;
+  t->d = 0;
+  t->e = 0;
+}
+
+static void Sub_init(Sub *s)
+{
+  s->a = 0xffffffff;
+  s->b = 0xffffffff;
+  SubTail_init(&s->tail);
+}
+
+void fn_83008348(Obj *o)
+{
+  o->x18 = 0;
+  o->x1c = 0xffffffff;
+  Fmt_init(&o->fmt);
+  Sub_init(&o->sub);
+}

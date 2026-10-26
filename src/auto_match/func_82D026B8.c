@@ -1,46 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+  int x0;
+  int x4;
+  char x8;
+  char buf[50];
+} Obj;
 
-
-void fn_82D026B8(int param_1)
-
+void fn_82D026B8(Obj *o)
 {
-  undefined1 *puVar1;
-  longlong lVar2;
-  
-  *(undefined4 *)(param_1 + 4) = 0;
-  puVar1 = (undefined1 *)(param_1 + 8);
-  lVar2 = 0x32;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  return;
+  char *p;
+  int i;
+  o->x4 = 0;
+  p = o->buf;
+  for (i = 50; i != 0; i--) {
+    *p++ = 0;
+  }
 }
-

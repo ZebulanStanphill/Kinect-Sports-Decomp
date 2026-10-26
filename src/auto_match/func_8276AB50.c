@@ -1,46 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8273D360();
+typedef struct { unsigned short a, b; } Elem;
+typedef struct { Elem *data; unsigned int size; } Vec;
+extern int fn_8273D360(Vec *v, Vec *v2, unsigned int n);
 
-
-void fn_8276AB50(int *param_1,undefined2 *param_2)
-
+void fn_8276AB50(Vec *v, Elem *src)
 {
-  int iVar1;
-  undefined2 *puVar2;
-  
-  fn_8273D360(param_1,param_1,(ulonglong)(uint)param_1[1] + 1);
-  iVar1 = param_1[1] * 4 + *param_1;
-  puVar2 = (undefined2 *)(iVar1 + -4);
-  if (puVar2 != (undefined2 *)0x0) {
-    *puVar2 = *param_2;
-    *(undefined2 *)(iVar1 + -2) = param_2[1];
-  }
-  return;
-}
+  Elem *e;
 
+  fn_8273D360(v, v, v->size + 1);
+  e = &v->data[v->size] - 1;
+  if (e != 0) {
+    e->a = src->a;
+    e->b = src->b;
+  }
+}

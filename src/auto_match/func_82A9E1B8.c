@@ -35,10 +35,10 @@ int fn_82A9E1B8(int param_1,uint param_2)
   int iVar2;
   
   iVar2 = *(int *)(param_1 + 0x90);
-  if (-1 < iVar2) {
+  if (iVar2 >= 0) {
     iVar1 = *(int *)(param_1 + 100);
     if (*(uint *)(iVar1 + 4) <= param_2) {
-      if (*(uint *)(iVar1 + 8) < param_2) {
+      if (param_2 > *(uint *)(iVar1 + 8)) {
         fn_82A9CF38(iVar1,param_2,(int *)(param_1 + 0x90));
       }
       *(uint *)(iVar1 + 4) = param_2;
