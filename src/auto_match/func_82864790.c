@@ -25,40 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82639EA8();
-extern unsigned int uStack_10;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_c;
+extern int fn_82864700();
 
 
-void fn_82864790(int param_1,undefined8 param_2)
+void fn_82864790(void)
 
 {
-  undefined4 uStack_2c;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  undefined4 uStack_14;
-  undefined4 uStack_10;
-  undefined4 uStack_c;
-  
-  uStack_2c = (undefined4)(longlong)*(float *)(param_1 + 0xec);
-  uStack_18 = uStack_2c;
-  uStack_24 = (undefined4)(longlong)*(float *)(param_1 + 0xf0);
-  uStack_14 = uStack_24;
-  uStack_2c = (undefined4)(longlong)*(float *)(param_1 + 0xe4);
-  uStack_24 = (undefined4)(longlong)*(float *)(param_1 + 0xe8);
-  uStack_10 = *(undefined4 *)(param_1 + 0xf4);
-  uStack_c = *(undefined4 *)(param_1 + 0xf8);
-  uStack_20 = uStack_2c;
-  uStack_1c = uStack_24;
-  fn_82639EA8(param_2,&uStack_20);
+  fn_82864700();
   return;
 }
-

@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int __imp__KeTimeStampBundle;
+extern unsigned int __imp_KeTimeStampBundle;
 
 
 undefined4 fn_82A1F2F8(void)
 
 {
-  return *(undefined4 *)(__imp__KeTimeStampBundle + 0x10);
+  return *(undefined4 *)(__imp_KeTimeStampBundle + 16);
 }
 

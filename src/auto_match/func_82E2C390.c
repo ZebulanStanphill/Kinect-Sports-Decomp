@@ -25,18 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
+extern int fn_82E2C268();
 
 
-undefined8 fn_82E2C390(int param_1,uint *param_2)
+void fn_82E2C390(longlong param_1)
 
 {
-  int iVar1;
-  uint auStack_20 [4];
-  
-  iVar1 = (**(code **)(*(int *)(param_1 + -4) + 0x1c))
-                    ((int *)(param_1 + -4),0xffffffff82153498,auStack_20);
-  *param_2 = (uint)LZCOUNT(-(iVar1 >> 0x1f) - 1U & auStack_20[0]) >> 5;
-  return 0;
+  fn_82E2C268(param_1 + -4);
+  return;
 }
-

@@ -3,7 +3,7 @@ typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
+#define false 217
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,14 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C5308();
+extern int fn_827C5390();
 
 
 void fn_827C5D10(undefined8 param_1)
 
 {
-  fn_827C5308(param_1,0xff);
-  fn_827C5308(param_1,0xd9);
+  fn_827C5390(param_1,217);
   return;
 }
-

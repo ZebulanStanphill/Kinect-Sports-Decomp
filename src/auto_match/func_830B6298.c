@@ -25,18 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82A1E228();
+extern int fn_82F6E380();
 
-
-/* WARNING: Removing unreachable block (ram,0x82f6e3e8) */
 
 void fn_830B6298(void)
 
 {
-  undefined8 auStack_20 [2];
-  
-  fn_82A1E228(auStack_20);
+  fn_82F6E380(0);
   return;
 }
-

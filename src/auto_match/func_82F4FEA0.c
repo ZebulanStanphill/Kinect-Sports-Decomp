@@ -31,6 +31,6 @@ extern unsigned int lbl_82165848;
 undefined4 fn_82F4FEA0(int param_1)
 
 {
-  return *(undefined4 *)(&lbl_82165848 + param_1 * 4);
+  return (&lbl_82165848)[param_1];
 }
 

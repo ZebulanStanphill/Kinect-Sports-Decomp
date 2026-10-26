@@ -25,43 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int strrchr();
 
 
-byte * fn_82CFBEB0(byte *param_1,uint param_2)
+void fn_82CFBEB0(void)
 
 {
-  bool bVar1;
-  byte *pbVar2;
-  uint uVar3;
-  byte *pbVar4;
-  
-  uVar3 = (uint)*param_1;
-  bVar1 = *param_1 == param_2;
-  if (param_2 == 0) {
-    while (!bVar1) {
-      param_1 = param_1 + 1;
-      bVar1 = *param_1 == 0;
-    }
-  }
-  else {
-    pbVar2 = (byte *)0x0;
-    pbVar4 = param_1;
-    while( true ) {
-      param_1 = pbVar2;
-      if (bVar1) {
-        do {
-          param_1 = pbVar4;
-          pbVar4 = param_1 + 1;
-          uVar3 = (uint)*pbVar4;
-        } while (param_2 == uVar3);
-      }
-      if (uVar3 == 0) break;
-      pbVar4 = pbVar4 + 1;
-      uVar3 = (uint)*pbVar4;
-      bVar1 = param_2 == uVar3;
-      pbVar2 = param_1;
-    }
-  }
-  return param_1;
+  strrchr();
+  return;
 }
-

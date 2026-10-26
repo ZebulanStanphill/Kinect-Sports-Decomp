@@ -25,30 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68BF0();
-extern int fn_82F691F0();
+extern int fn_82CBBCE0();
 
 
-/* WARNING: Removing unreachable block (ram,0x82cbbd20) */
-/* WARNING: Removing unreachable block (ram,0x82cbbd44) */
-
-undefined8 fn_82CBBD68(undefined4 *param_1,ulonglong param_2)
+void fn_82CBBD68(undefined8 param_1,undefined8 param_2)
 
 {
-  ulonglong uVar1;
-  
-  if (param_1 != (undefined4 *)0x0) {
-    if ((param_2 & 0xffffffff) < 0x10) {
-      param_2 = 0x10;
-    }
-    uVar1 = fn_82F68BF0((param_2 & 0x3fffffff) << 2);
-    *param_1 = (int)uVar1;
-    if ((uVar1 & 0xffffffff) != 0) {
-      param_1[1] = (int)param_2;
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar1,0,(param_2 & 0x3fffffff) << 2);
-    }
-  }
-  return 0;
+  fn_82CBBCE0(param_1,param_2,0);
+  return;
 }
-

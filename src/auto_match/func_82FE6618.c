@@ -25,28 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern int fn_82FFE5B8();
-extern unsigned int lbl_832645D8;
-extern unsigned int lbl_832645DC;
+extern int fn_83013618();
 
 
-char fn_82FE6618(uint param_1,int param_2,int param_3,int param_4,int param_5)
+void fn_82FE6618(void)
 
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = (param_3 * 0x1000 + param_2) * 0x10 + (param_1 & 0xf);
-  for (piVar2 = lbl_832645D8; (piVar2 != lbl_832645DC && (*piVar2 != iVar1)); piVar2 = piVar2 + 3) {
-  }
-  if ((-(uint)(lbl_832645DC != piVar2) & (uint)(piVar2 + 1)) == 0) {
-    if ((param_4 != 0) && (param_5 != 0)) {
-      iVar1 = fn_82FFE5B8(0xffffffff832645d8,iVar1,CONCAT44(param_4,param_5));
-      return (iVar1 == 0) + '\x01';
-    }
-    return '\x1f';
-  }
-  return '\x02';
+  fn_83013618();
+  return;
 }
-

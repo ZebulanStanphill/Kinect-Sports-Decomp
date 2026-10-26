@@ -25,42 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B58();
-extern unsigned int lbl_8320A898;
+extern int fn_82838650();
 
 
-void fn_82838738(int param_1,longlong param_2)
+void fn_82838738(void)
 
 {
-  int iVar1;
-  undefined4 uVar2;
-  ulonglong uVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (iVar1 == 0) {
-    uVar2 = *(undefined4 *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 2) {
-    uVar2 = *(undefined4 *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 3) {
-    uVar2 = *(undefined4 *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 4) {
-    uVar2 = **(undefined4 **)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else {
-    if (iVar1 != 5) {
-      return;
-    }
-    uVar2 = *(undefined4 *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  fn_82F68B58(lbl_8320A898,param_2,uVar2,uVar3);
+  fn_82838650();
   return;
 }
-

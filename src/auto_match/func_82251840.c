@@ -25,32 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_ac;
-extern int fn_82250C58();
-extern int fn_82F68B7C();
-extern unsigned int uStack_b0;
+extern int fn_82251DB0();
 
 
-void fn_82251840(int param_1,undefined8 param_2)
+void fn_82251840(longlong param_1,undefined8 param_2)
 
 {
-  int *piVar1;
-  int iVar2;
-  undefined4 uStack_b0;
-  undefined4 auStack_ac [3];
-  undefined1 auStack_a0 [160];
-  
-  param_1 = param_1 + 0x50;
-  iVar2 = fn_82F68B7C();
-  fn_82250C58(auStack_a0);
-  (**(code **)(**(int **)(iVar2 + 0x68) + 0x14))(*(int **)(iVar2 + 0x68),param_2,&uStack_b0);
-  (**(code **)(**(int **)(iVar2 + 0x70) + 0x14))(*(int **)(iVar2 + 0x70),param_2,auStack_ac);
-  (**(code **)(**(int **)(iVar2 + 0x78) + 0x14))(*(int **)(iVar2 + 0x78),param_2,auStack_a0);
-  piVar1 = *(int **)(param_1 + 0x10);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))(piVar1,uStack_b0,auStack_ac[0],auStack_a0);
-  }
+  fn_82251DB0(param_1,param_2,param_1 + 0x50);
   return;
 }
-

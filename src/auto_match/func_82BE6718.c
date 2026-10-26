@@ -3,7 +3,7 @@ typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
+#define false 16
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,32 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE1A10();
-extern int fn_82BE1FD8();
+extern int fn_82BE64E0();
 
 
-/* WARNING: Removing unreachable block (ram,0x82be6500) */
-/* WARNING: Removing unreachable block (ram,0x82be651c) */
-/* WARNING: Removing unreachable block (ram,0x82be6530) */
-
-void fn_82BE6718(int param_1)
+void fn_82BE6718(undefined8 param_1)
 
 {
-  longlong lVar1;
-  
-  *(undefined4 *)(param_1 + 0x18) = 0x10;
-  if (*(int *)(param_1 + 0x18) == 0x2000) {
-    lVar1 = 0;
-  }
-  else {
-    if (*(int *)(param_1 + 0x18) != 0x1000) {
-      return;
-    }
-    fn_82BE1A10();
-    lVar1 = fn_82BE1FD8();
-    lVar1 = lVar1 - *(longlong *)(param_1 + 0x38);
-  }
-  *(longlong *)(param_1 + 0x38) = lVar1;
+  fn_82BE64E0(param_1,16);
   return;
 }
-

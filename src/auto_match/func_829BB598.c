@@ -25,33 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_829BB528();
 
 
 void fn_829BB598(int param_1)
 
 {
-  int iVar1;
-  undefined4 uVar2;
-  
   *(undefined4 *)(param_1 + 0x98) = 0;
-  iVar1 = *(int *)(param_1 + 0x1b0);
-  if (1 < *(int *)(param_1 + 0x14c)) {
-    *(undefined4 *)(iVar1 + 0x1c) = 1;
-    *(undefined4 *)(iVar1 + 0x14) = 0;
-    *(undefined4 *)(iVar1 + 0x18) = 0;
-    return;
-  }
-  if (*(uint *)(param_1 + 0x98) < *(int *)(param_1 + 0x144) - 1U) {
-    uVar2 = *(undefined4 *)(*(int *)(param_1 + 0x150) + 0xc);
-    *(undefined4 *)(iVar1 + 0x14) = 0;
-    *(undefined4 *)(iVar1 + 0x18) = 0;
-    *(undefined4 *)(iVar1 + 0x1c) = uVar2;
-    return;
-  }
-  uVar2 = *(undefined4 *)(*(int *)(param_1 + 0x150) + 0x48);
-  *(undefined4 *)(iVar1 + 0x14) = 0;
-  *(undefined4 *)(iVar1 + 0x18) = 0;
-  *(undefined4 *)(iVar1 + 0x1c) = uVar2;
+  fn_829BB528();
   return;
 }
-

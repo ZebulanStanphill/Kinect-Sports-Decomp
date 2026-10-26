@@ -25,28 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230040();
-extern int fn_8265C9E0();
-extern unsigned int lbl_82002B04;
-extern unsigned int uStack_c;
+extern int fn_8223C258();
 
 
-ulonglong fn_8223C2C0(undefined8 param_1,ulonglong param_2)
+void fn_8223C2C0(undefined8 param_1,undefined8 param_2)
 
 {
-  ulonglong uVar1;
-  undefined **ppuStack_10;
-  undefined4 uStack_c;
-  
-  uVar1 = 0;
-  if (((param_2 & 0xffffffff) != 0) &&
-     ((0xffffffff < (param_2 & 0xffffffff) ||
-      (uVar1 = fn_8265C9E0(param_2,0), (uVar1 & 0xffffffff) == 0)))) {
-    uStack_c = 0;
-    ppuStack_10 = &lbl_82002B04;
-                    /* WARNING: Subroutine does not return */
-    fn_82230040(&ppuStack_10);
-  }
-  return uVar1;
+  fn_8223C258(param_2,0);
+  return;
 }
-

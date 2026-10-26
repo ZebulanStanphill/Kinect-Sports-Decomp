@@ -3,7 +3,7 @@ typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
+#define false 1
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,22 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
-extern int fn_8236BA88();
+extern int fn_822B0A98();
 
 
 void fn_822B0A38(int param_1)
 
 {
-  int *piVar1;
-  
   *(undefined4 *)(param_1 + 0x14) = 1;
-  piVar1 = *(int **)(param_1 + 0xc);
-  if (*(int *)(*(int *)(piVar1[4] * 4 + *piVar1) + 8) != 0) {
-    fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1));
-    return;
-  }
-  fn_8236BA88(piVar1,0);
+  fn_822B0A98();
   return;
 }
-

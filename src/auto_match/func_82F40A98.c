@@ -25,54 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82EED830();
+extern int fn_82F407E0();
 
 
-undefined8 fn_82F40A98(int param_1,undefined8 param_2,uint *param_3)
+void fn_82F40A98(int param_1)
 
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  
-  param_1 = param_1 - *(int *)(param_1 + -4);
-  if (((int)*(uint *)(param_1 + -0x14) < 0) || (param_3 == (uint *)0x0)) {
-    return 0xffffffff8000ffff;
-  }
-  uVar2 = (ulonglong)*param_3 - (ulonglong)*(uint *)(param_1 + -0x14);
-  if (((longlong)uVar2 < 0) || (4 < (int)uVar2)) {
-    uVar1 = fn_82EED830(*(int *)(*(int *)(param_1 + -0x18) + 8) + param_1 + -0x18);
-    return uVar1;
-  }
-  if ((uVar2 & 0xffffffff) == 0) {
-                    /* WARNING: Could not recover jumptable at 0x82f408a0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (*(code *)**(undefined4 **)(param_1 + -0x1c))();
-    return uVar1;
-  }
-  if ((uVar2 & 0xffffffff) == 1) {
-                    /* WARNING: Could not recover jumptable at 0x82f4088c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(code **)(*(int *)(param_1 + -0x1c) + 4))();
-    return uVar1;
-  }
-  if ((uVar2 & 0xffffffff) < 3) {
-                    /* WARNING: Could not recover jumptable at 0x82f40878. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(code **)(*(int *)(param_1 + -0x1c) + 8))();
-    return uVar1;
-  }
-  if ((uVar2 & 0xffffffff) != 3) {
-    if (4 < (uVar2 & 0xffffffff)) {
-      return 0xffffffff80004005;
-    }
-                    /* WARNING: Could not recover jumptable at 0x82f40850. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(code **)(*(int *)(param_1 + -0x1c) + 0x10))();
-    return uVar1;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82f40864. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(code **)(*(int *)(param_1 + -0x1c) + 0xc))();
-  return uVar1;
+  fn_82F407E0(param_1 - *(int *)(param_1 + -4));
+  return;
 }
-

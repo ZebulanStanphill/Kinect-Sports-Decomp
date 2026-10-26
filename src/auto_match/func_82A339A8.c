@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int __imp__ExLoadedCommandLine;
+extern unsigned int __imp_ExLoadedCommandLine;
 
 
 undefined4 GetCommandLineA(void)
 
 {
-  return __imp__ExLoadedCommandLine;
+  return __imp_ExLoadedCommandLine;
 }
 

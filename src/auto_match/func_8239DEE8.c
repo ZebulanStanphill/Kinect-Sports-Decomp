@@ -25,41 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_822C1A38();
-extern int fn_822DBD60();
-extern U64 storeWordConditionalIndexed();
+extern int fn_822C16B8();
 
 
-void fn_8239DEE8(int param_1)
+void fn_8239DEE8(longlong param_1)
 
 {
-  int *piVar1;
-  uint uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  longlong lVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  fn_822C1A38();
-  fn_822DBD60(param_1 + 0x18);
-  piVar1 = *(int **)(param_1 + 0x14);
-  if (ZEXT48(piVar1) != 0) {
-    lVar3 = ZEXT48(piVar1) + 8;
-    do {
-      puVar4 = (uint *)lVar3;
-      lVar5 = (ulonglong)*puVar4 - 1;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(lVar5,0,lVar3);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar5 == 0) {
-      (**(code **)(*piVar1 + 4))();
-    }
-  }
+  fn_822C16B8(param_1 + 0x10);
   return;
 }
-

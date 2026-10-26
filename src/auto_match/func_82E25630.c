@@ -25,35 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_82F691F0();
+extern int fn_82E254F8();
 
 
-/* WARNING: Removing unreachable block (ram,0x82e255a4) */
-/* WARNING: Removing unreachable block (ram,0x82e255b8) */
-/* WARNING: Removing unreachable block (ram,0x82e255d0) */
-/* WARNING: Removing unreachable block (ram,0x82e25614) */
-/* WARNING: Removing unreachable block (ram,0x82e255f4) */
-
-undefined8 fn_82E25630(int *param_1,int param_2,undefined8 param_3,undefined4 *param_4)
+void fn_82E25630(void)
 
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  if ((((*param_1 == 0) && ((param_1[1] == 0 || (param_1[2] == 0)))) ||
-      (param_4 == (undefined4 *)0x0)) || (param_2 == 0)) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    *param_4 = 0;
-    lVar1 = fn_8265C940(0x120,0x208c804d);
-    if (lVar1 != 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(lVar1,0,0x120);
-    }
-    uVar2 = 0xffffffff8007000e;
-  }
-  return uVar2;
+  fn_82E254F8();
+  return;
 }
-

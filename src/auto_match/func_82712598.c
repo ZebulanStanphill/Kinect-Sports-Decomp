@@ -25,6 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82681898();
 extern int fn_826957D0();
 extern int fn_826972E0();
 extern int fn_82F643F8();
@@ -34,12 +35,13 @@ void fn_82712598(int param_1)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar2;
   
   uVar1 = *(undefined4 *)(param_1 + 0x18);
   uVar2 = fn_826957D0(param_1,0);
   fn_826972E0(uVar2,uVar1);
-                    /* WARNING: Subroutine does not return */
   fn_82F643F8();
+  fn_82681898(*(undefined4 *)(param_1 + 4));
+  return;
 }
 

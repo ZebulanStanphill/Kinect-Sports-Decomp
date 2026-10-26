@@ -25,18 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_c0e;
-extern int fn_82F691F0();
+extern int fn_82478F70();
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void fn_824791B8(void)
 
 {
-  undefined1 auStack_c0e [3070];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(auStack_c0e,0,0x1fe);
+  fn_82478F70();
+  return;
 }
-

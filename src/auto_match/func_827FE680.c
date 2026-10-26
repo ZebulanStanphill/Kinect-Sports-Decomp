@@ -25,40 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827F7268();
-extern int fn_827F77A8();
-extern int fn_827F8190();
-extern int fn_827F87A0();
-extern int fn_827F8B30();
-extern int fn_827F9090();
+extern int fn_827F9300();
 
 
 void fn_827FE680(int param_1)
 
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x98);
-  if (*(int *)(iVar1 + 0x1c) == 0) {
-    if (*(int *)(iVar1 + 0x20) == 0) {
-      if ((*(int *)(iVar1 + 4) == 0) || (*(int *)(iVar1 + 0x90) != 0)) {
-        fn_827F87A0(iVar1,0);
-      }
-      else {
-        fn_827F77A8(iVar1,0);
-      }
-    }
-    else {
-      fn_827F8B30(iVar1,0);
-    }
-  }
-  else if ((*(int *)(iVar1 + 4) == 0) || (*(int *)(iVar1 + 0x90) != 0)) {
-    fn_827F9090(iVar1,0);
-  }
-  else {
-    fn_827F8190(iVar1,0);
-  }
-  fn_827F7268(iVar1);
+  fn_827F9300(*(undefined4 *)(param_1 + 0x98));
   return;
 }
-

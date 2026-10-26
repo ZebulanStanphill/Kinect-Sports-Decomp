@@ -25,14 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_829E6388();
 
 
 void fn_829E4DE8(int param_1)
 
 {
-                    /* WARNING: Could not recover jumptable at 0x829e6398. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*(int *)**(undefined4 **)(param_1 + 4) + 4))();
+  fn_829E6388(*(undefined4 *)(param_1 + 4));
   return;
 }
-

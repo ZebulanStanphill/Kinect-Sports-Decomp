@@ -25,28 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826308A0();
-extern int fn_82855AB0();
-extern int fn_82856218();
-extern int fn_828583D8();
+extern int fn_82857BA0();
 
 
-void fn_82857C30(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
+void fn_82857C30(void)
 
 {
-  ulonglong uVar1;
-  
-  uVar1 = (ulonglong)**(uint **)(param_2 + 0x120);
-  dataCacheBlockTouch(uVar1);
-  dataCacheBlockTouch(uVar1 + 0x80);
-  dataCacheBlockTouch(uVar1 + 0x100);
-  dataCacheBlockTouch(uVar1 + 0x180);
-  fn_82855AB0();
-  fn_828583D8(param_1);
-  fn_82856218(param_1,param_2,param_3,param_4);
-  if (*(int *)(param_1 + 0x6940) != 0) {
-    fn_826308A0(*(undefined4 *)(param_1 + 4),0,*(int *)(param_1 + 0x6940),0);
-  }
+  fn_82857BA0();
   return;
 }
-

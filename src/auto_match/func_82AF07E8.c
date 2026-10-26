@@ -25,39 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABDF50();
-extern int fn_82ABE8C8();
-extern int fn_82F691F0();
+extern int fn_82ABE9F0();
 
 
-ulonglong fn_82AF07E8(int param_1,ulonglong param_2)
+void fn_82AF07E8(undefined8 param_1,undefined8 param_2)
 
 {
-  undefined4 *puVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int iVar4;
-  
-  iVar4 = param_1 + 0x3cc;
-  if ((param_2 & 0xffffffff) < 0x85) {
-    uVar3 = (ulonglong)*(uint *)(param_1 + 0x45c);
-    if (((*(uint *)(param_1 + 0x458) - uVar3) + 0x1000 & 0xffffffff) < (param_2 & 0xffffffff)) {
-      iVar2 = (int)((((param_2 & 0xffffffff) >> 2) - 1 & 0xffffffff) << 2);
-      puVar1 = *(undefined4 **)(iVar2 + iVar4);
-      if (puVar1 != (undefined4 *)0x0) {
-        *(undefined4 *)(iVar2 + iVar4) = *puVar1;
-                    /* WARNING: Subroutine does not return */
-        fn_82F691F0(puVar1,0,param_2);
-      }
-      uVar3 = fn_82ABDF50(iVar4,param_2,0);
-    }
-    else {
-      *(uint *)(param_1 + 0x45c) = *(uint *)(param_1 + 0x45c) + (int)param_2;
-    }
-  }
-  else {
-    uVar3 = fn_82ABE8C8(iVar4);
-  }
-  return uVar3;
+  fn_82ABE9F0(param_1,param_2,0);
+  return;
 }
-

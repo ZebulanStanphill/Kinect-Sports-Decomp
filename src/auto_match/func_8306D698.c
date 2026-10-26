@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_83075D30();
 
 
-void fn_8306D698(undefined8 param_1,longlong param_2)
+undefined8 fn_8306D698(undefined8 param_1,longlong param_2)
 
 {
-                    /* WARNING: Subroutine does not return */
   fn_83075D30(param_1,param_2 + 0xa40);
+  return param_1;
 }
 

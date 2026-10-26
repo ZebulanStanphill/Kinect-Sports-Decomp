@@ -26,12 +26,17 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F53A20();
+extern unsigned int lbl_821C01E0;
 
 
-void fn_824B4310(void)
+undefined4 * fn_824B4310(undefined4 *param_1)
 
 {
-                    /* WARNING: Subroutine does not return */
   fn_82F53A20();
+  param_1[15] = 0;
+  *param_1 = &lbl_821C01E0;
+  param_1[16] = 0;
+  param_1[17] = 0;
+  return param_1;
 }
 

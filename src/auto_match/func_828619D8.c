@@ -25,30 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_8280AC48();
 
 
-void fn_828619D8(int param_1,undefined4 *param_2)
+void fn_828619D8(longlong param_1,undefined8 param_2)
 
 {
-  if (param_2 == (undefined4 *)(param_1 + 0x60)) {
-    return;
-  }
-  *(undefined4 *)(param_1 + 0x60) = *param_2;
-  *(undefined4 *)(param_1 + 0x70) = param_2[4];
-  *(undefined4 *)(param_1 + 0x80) = param_2[8];
-  *(undefined4 *)(param_1 + 0x90) = param_2[0xc];
-  *(undefined4 *)(param_1 + 100) = param_2[1];
-  *(undefined4 *)(param_1 + 0x74) = param_2[5];
-  *(undefined4 *)(param_1 + 0x84) = param_2[9];
-  *(undefined4 *)(param_1 + 0x94) = param_2[0xd];
-  *(undefined4 *)(param_1 + 0x68) = param_2[2];
-  *(undefined4 *)(param_1 + 0x78) = param_2[6];
-  *(undefined4 *)(param_1 + 0x88) = param_2[10];
-  *(undefined4 *)(param_1 + 0x98) = param_2[0xe];
-  *(undefined4 *)(param_1 + 0x6c) = param_2[3];
-  *(undefined4 *)(param_1 + 0x7c) = param_2[7];
-  *(undefined4 *)(param_1 + 0x8c) = param_2[0xb];
-  *(undefined4 *)(param_1 + 0x9c) = param_2[0xf];
+  fn_8280AC48(param_2,param_1 + 96);
   return;
 }
-

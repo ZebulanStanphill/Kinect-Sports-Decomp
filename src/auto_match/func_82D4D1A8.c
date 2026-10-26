@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D4D1A8(uint *param_1,int param_2)
+void fn_82D4D1A8(int param_1,int param_2)
 
 {
-  *param_1 = (uint)(byte)*param_1 | param_2 << 8;
+  *(uint *)(param_1 + 0x0) = (uint)*(byte *)(param_1 + 0x3) | param_2 << 8;
   return;
 }
 

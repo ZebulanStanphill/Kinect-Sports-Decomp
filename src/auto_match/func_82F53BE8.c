@@ -25,24 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_824B42A0();
-extern int fn_82F63108();
+extern int fn_82F53B80();
 
 
-void fn_82F53BE8(int param_1)
+void fn_82F53BE8(void)
 
 {
-  undefined8 uVar1;
-  
-  uVar1 = fn_824B42A0();
-  *(undefined8 *)(param_1 + 0x20) = uVar1;
-  if (*(int *)(param_1 + 0x18) != 0) {
-    if (*(int *)(param_1 + 0x18) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    (**(code **)(**(int **)(param_1 + 0x18) + 4))(*(int **)(param_1 + 0x18),param_1);
-  }
+  fn_82F53B80();
   return;
 }
-

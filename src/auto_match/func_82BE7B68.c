@@ -25,33 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_82BE5240();
-extern int fn_82BEE7D0();
-extern int fn_82BF2D50();
+extern int fn_82BE7AE0();
 
 
-undefined8 fn_82BE7B68(int param_1)
+void fn_82BE7B68(int param_1)
 
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 auStack_30 [4];
-  undefined1 auStack_20 [16];
-  
   *(undefined4 *)(param_1 + 0x80) = 0;
-  if (*(int *)(param_1 + 0x9c) != 0) {
-    auStack_30[0] = *(undefined4 *)(param_1 + 0x90);
-    fn_82BEE7D0(2,auStack_30,auStack_20,0x10);
-    iVar2 = fn_82BF2D50(param_1 + 0xa0);
-    *(undefined4 *)(param_1 + 0x9c) = 0;
-    *(undefined4 *)(param_1 + 0x90) = 0;
-    if (iVar2 == 0) {
-      uVar1 = fn_82BE5240(param_1,800,0xffffffff82196582);
-      return uVar1;
-    }
-  }
-  return 0;
+  fn_82BE7AE0();
+  return;
 }
-

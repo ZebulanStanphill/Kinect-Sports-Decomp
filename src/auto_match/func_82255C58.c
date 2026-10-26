@@ -25,68 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_8c;
-extern unsigned int fStack_90;
-extern int fn_828B5580();
-extern int fn_828B55B0();
-extern int fn_828B5608();
-extern int fn_82F63108();
-extern int fn_82F68B64();
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-extern unsigned int uStack_84;
-extern unsigned int uStack_88;
+extern int fn_82256048();
 
 
-void fn_82255C58(int param_1,undefined8 param_2)
+void fn_82255C58(longlong param_1,undefined8 param_2)
 
 {
-  int *piVar1;
-  int iVar4;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  double dVar5;
-  float fStack_90;
-  undefined1 auStack_8c [4];
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 auStack_78 [2];
-  undefined1 auStack_70 [8];
-  undefined1 auStack_68 [8];
-  undefined1 auStack_60 [96];
-  
-  param_1 = param_1 + 0x50;
-  iVar4 = fn_82F68B64();
-  fn_828B5608(auStack_70);
-  (**(code **)(**(int **)(iVar4 + 0x68) + 0x14))(*(int **)(iVar4 + 0x68),param_2,auStack_78);
-  (**(code **)(**(int **)(iVar4 + 0x70) + 0x14))(*(int **)(iVar4 + 0x70),param_2,&uStack_7c);
-  (**(code **)(**(int **)(iVar4 + 0x78) + 0x14))(*(int **)(iVar4 + 0x78),param_2,&uStack_80);
-  (**(code **)(**(int **)(iVar4 + 0x80) + 0x14))(*(int **)(iVar4 + 0x80),param_2,&uStack_84);
-  (**(code **)(**(int **)(iVar4 + 0x88) + 0x14))(*(int **)(iVar4 + 0x88),param_2,auStack_70);
-  (**(code **)(**(int **)(iVar4 + 0x90) + 0x14))(*(int **)(iVar4 + 0x90),param_2,&uStack_88);
-  (**(code **)(**(int **)(iVar4 + 0x98) + 0x14))(*(int **)(iVar4 + 0x98),param_2,&fStack_90);
-  (**(code **)(**(int **)(iVar4 + 0xa0) + 0x14))(*(int **)(iVar4 + 0xa0),param_2,auStack_8c);
-  if (*(int *)(param_1 + 0x10) != 0) {
-    dVar5 = (double)fStack_90;
-    uVar2 = fn_828B5580(auStack_68,auStack_70);
-    if (*(int *)(param_1 + 0x10) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    piVar1 = *(int **)(param_1 + 0x10);
-    iVar4 = *piVar1;
-    uVar3 = fn_828B5580(auStack_60,uVar2);
-    (**(code **)(iVar4 + 4))
-              (dVar5,piVar1,auStack_78[0],uStack_7c,uStack_80,uStack_84,uVar3,uStack_88);
-    fn_828B55B0(uVar2);
-  }
-  fn_828B55B0(auStack_70);
+  fn_82256048(param_1,param_2,param_1 + 0x50);
   return;
 }
-

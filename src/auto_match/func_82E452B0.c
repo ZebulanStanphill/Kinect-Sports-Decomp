@@ -25,30 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern U64 storeWordConditionalIndexed();
+extern int fn_82E435E0();
 
 
-ulonglong fn_82E452B0(longlong param_1)
+void fn_82E452B0(longlong param_1)
 
 {
-  uint uVar1;
-  ulonglong uVar2;
-  uint *puVar3;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  do {
-    puVar3 = (uint *)(param_1 + 0x34);
-    uVar2 = (ulonglong)*puVar3 - 1;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar2,0,param_1 + 0x34);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (((uVar2 & 0xffffffff) == 0) && ((param_1 - 4U & 0xffffffff) != 0)) {
-    (*(code *)**(undefined4 **)((int)param_1 + 0xc))(param_1 + 0xc,1);
-  }
-  return uVar2;
+  fn_82E435E0(param_1 + -4);
+  return;
 }
-

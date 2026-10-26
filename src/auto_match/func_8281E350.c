@@ -25,33 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_14;
-extern unsigned int fStack_18;
-extern unsigned int fStack_1c;
-extern unsigned int fStack_20;
-extern int fn_8280DED0();
+extern int fn_8280E618();
 
 
-bool fn_8281E350(double param_1,float *param_2,undefined8 param_3)
+void fn_8281E350(void)
 
 {
-  float *pfVar1;
-  float fStack_20;
-  float fStack_1c;
-  float fStack_18;
-  float fStack_14;
-  
-  if (param_2 != &fStack_20) {
-    fStack_20 = *param_2;
-    fStack_1c = param_2[1];
-    fStack_18 = param_2[2];
-    fStack_14 = param_2[3];
-  }
-  fn_8280DED0(param_2,param_3,&fStack_20);
-  pfVar1 = (float *)param_3;
-  return (double)((fStack_20 - *pfVar1) * (fStack_20 - *pfVar1) +
-                 (fStack_1c - pfVar1[1]) * (fStack_1c - pfVar1[1]) +
-                 (fStack_14 - pfVar1[3]) * (fStack_14 - pfVar1[3]) +
-                 (fStack_18 - pfVar1[2]) * (fStack_18 - pfVar1[2])) <= param_1;
+  fn_8280E618();
+  return;
 }
-

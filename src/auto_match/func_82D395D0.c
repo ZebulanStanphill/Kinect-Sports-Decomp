@@ -25,54 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82F68B74();
+extern int fn_82D395E0();
 
 
 void fn_82D395D0(void)
 
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = fn_82F68B74();
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  *(undefined4 *)(iVar2 + 0x38) = 0;
-  if ((*(uint *)(iVar2 + 0x3c) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(iVar2 + 0x34),*(uint *)(iVar2 + 0x3c) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(iVar2 + 0x34) = 0;
-  *(undefined4 *)(iVar2 + 0x3c) = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  *(undefined4 *)(iVar2 + 0x2c) = 0;
-  if ((*(uint *)(iVar2 + 0x30) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(iVar2 + 0x28),*(uint *)(iVar2 + 0x30) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(iVar2 + 0x28) = 0;
-  *(undefined4 *)(iVar2 + 0x30) = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  *(undefined4 *)(iVar2 + 0x20) = 0;
-  if ((*(uint *)(iVar2 + 0x24) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(iVar2 + 0x1c),*(uint *)(iVar2 + 0x24) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(iVar2 + 0x1c) = 0;
-  *(undefined4 *)(iVar2 + 0x24) = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  *(undefined4 *)(iVar2 + 0x14) = 0;
-  if ((*(uint *)(iVar2 + 0x18) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(iVar2 + 0x10),*(uint *)(iVar2 + 0x18) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(iVar2 + 0x10) = 0;
-  *(undefined4 *)(iVar2 + 0x18) = 0x80000000;
+  fn_82D395E0();
   return;
 }
-

@@ -25,15 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8315C3E8;
+extern int (*lbl_8315C3E8)();
 
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void fn_829C9BA0(void)
 
 {
-                    /* WARNING: Could not recover jumptable at 0x829c9bac. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*(code *)lbl_8315C3E8)();
+  (*lbl_8315C3E8)();
   return;
 }
 

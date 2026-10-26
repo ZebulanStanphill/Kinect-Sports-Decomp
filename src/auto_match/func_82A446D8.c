@@ -25,45 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern int fn_82A435F8();
 
 
-longlong fn_82A446D8(int *param_1,int param_2,byte *param_3,undefined8 param_4)
+void fn_82A446D8(longlong param_1)
 
 {
-  int iVar1;
-  longlong lVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  longlong lVar5;
-  
-  (**(code **)(*(int *)(param_1[0xc] + 0x2c) + 8))(param_1[0xc] + 0x2c);
-  param_2 = param_2 * 4;
-  pbVar3 = (byte *)param_1[0x13];
-  lVar5 = 0;
-  lVar2 = 0;
-  if (param_2 != 0) {
-    pbVar4 = param_3;
-    do {
-      lVar2 = (ulonglong)*pbVar4 - (ulonglong)*pbVar3;
-      if (lVar2 != 0) break;
-      pbVar4 = pbVar4 + 1;
-      pbVar3 = pbVar3 + 1;
-    } while (pbVar4 != param_3 + param_2);
-  }
-  if ((int)lVar2 != 0) {
-    if ((int *)param_1[0xd] == (int *)0x0) {
-      iVar1 = param_1[0xf];
-    }
-    else {
-      iVar1 = *(int *)param_1[0xd];
-    }
-    lVar5 = (**(code **)(*param_1 + 0x60))(param_1,iVar1,param_3,param_4);
-    if (-1 < lVar5) {
-      fn_82F68CC0(param_1[0x13],param_3,param_2);
-    }
-  }
-  (**(code **)(*(int *)(param_1[0xc] + 0x2c) + 0x14))(param_1[0xc] + 0x2c);
-  return lVar5;
+  fn_82A435F8(param_1 + -4);
+  return;
 }
-

@@ -25,15 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82BE56C0();
 extern unsigned int lbl_820E9264;
 
 
-undefined4 * fn_82BE5270(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82BE5270(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_820E9264;
   if ((param_2 & 1) != 0) {
-    thunk_FUN_82be5558();
+    fn_82BE56C0();
   }
   return param_1;
 }

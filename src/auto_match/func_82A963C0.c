@@ -25,20 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_8c;
-extern unsigned int *auStack_90;
-extern int fn_82AA75B8();
-extern int fn_82AA7C38();
+extern int fn_82A95CE8();
 
 
-void fn_82A963C0(longlong param_1)
+void fn_82A963C0(void)
 
 {
-  undefined1 auStack_90 [4];
-  undefined1 auStack_8c [116];
-  
-  fn_82AA7C38(auStack_90,param_1,0x20001,2,2);
-                    /* WARNING: Subroutine does not return */
-  fn_82AA75B8(auStack_8c,param_1 + 4,0x40001);
+  fn_82A95CE8();
+  return;
 }
-

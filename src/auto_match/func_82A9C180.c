@@ -25,42 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
+extern int fn_82A9A8B8();
 
 
-void fn_82A9C180(int param_1,char *param_2,undefined4 param_3)
+void fn_82A9C180(void)
 
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  
-  *(undefined4 *)(param_1 + 0x8c) = param_3;
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  *(undefined4 *)(param_1 + 0x90) = 0;
-  *(undefined4 *)(param_1 + 0x94) = 1;
-  pcVar3 = param_2;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  iVar2 = fn_8265C940((int)pcVar3 - (int)param_2,0x24870000);
-  *(int *)(param_1 + 0x84) = iVar2;
-  if (iVar2 == 0) {
-    *(undefined4 *)(param_1 + 0x90) = 0x80004005;
-  }
-  else {
-    param_2 = param_2 + -1;
-    pcVar3 = (char *)(iVar2 + -1);
-    do {
-      param_2 = param_2 + 1;
-      cVar1 = *param_2;
-      pcVar3 = pcVar3 + 1;
-      *pcVar3 = cVar1;
-    } while (cVar1 != '\0');
-  }
+  fn_82A9A8B8();
   return;
 }
-

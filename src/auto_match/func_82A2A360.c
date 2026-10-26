@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8329EB48;
+extern unsigned int XapiProcessHeap;
 
 
 undefined4 fn_82A2A360(void)
 
 {
-  return lbl_8329EB48;
+  return XapiProcessHeap;
 }
 

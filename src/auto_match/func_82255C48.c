@@ -25,38 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82255DB0();
 
 
-void fn_82255C48(int *param_1)
+void fn_82255C48(void)
 
 {
-  int *piVar1;
-  ulonglong uVar2;
-  int iVar3;
-  
-  uVar2 = (**(code **)(*param_1 + 0x3c))();
-  if ((uVar2 & 0xffffffff) < (ulonglong)(uint)param_1[0x16]) {
-    if (((uint)param_1[0x16] - uVar2 & 0xffffffff) <
-        ((ulonglong)*(uint *)(param_1[6] + 0x60) + 1 & 0xffffffff) >> 1) {
-      iVar3 = (**(code **)(*param_1 + 0x3c))(param_1);
-      param_1[0x16] = iVar3;
-    }
-  }
-  piVar1 = (int *)param_1[0x15];
-  if (piVar1 != (int *)0x0) {
-    iVar3 = (**(code **)(*piVar1 + 8))(piVar1);
-    if (param_1 == (int *)(iVar3 + 0x390)) {
-      piVar1[0x30] = 1;
-    }
-    else {
-      iVar3 = (**(code **)(*piVar1 + 8))(piVar1);
-      if (param_1 == (int *)(iVar3 + 0x3ec)) {
-        piVar1[0x31] = 1;
-      }
-    }
-  }
-  iVar3 = (**(code **)(*param_1 + 0x3c))(param_1);
-  param_1[0x16] = iVar3;
+  fn_82255DB0();
   return;
 }
-

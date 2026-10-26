@@ -25,23 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82A336E8();
 
 
-/* WARNING: Removing unreachable block (ram,0x82a33744) */
-
-byte fn_82A1E108(uint param_1)
+void fn_82A1E108(undefined8 param_1)
 
 {
-  longlong lVar1;
-  longlong lStack_20;
-  
-  if (param_1 == 0xffffffff) {
-    lStack_20 = -0x8000000000000000;
-  }
-  else {
-    lStack_20 = (ulonglong)param_1 * -10000;
-  }
-  lVar1 = KeDelayExecutionThread(1,0,&lStack_20);
-  return -(lVar1 == 0xc0) & 0xc0;
+  fn_82A336E8(param_1,0);
+  return;
 }
-

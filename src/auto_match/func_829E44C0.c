@@ -25,38 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829E5870();
-extern int fn_829E59A8();
-extern unsigned int lbl_82015BD8;
-extern unsigned int lbl_82057B5C;
+extern int fn_829E4030();
 
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-undefined8 fn_829E44C0(int param_1,ulonglong param_2)
+void fn_829E44C0(undefined8 param_1,undefined8 param_2)
 
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else if (*(int *)(param_1 + 0xac) == 0) {
-    uVar2 = fn_829E5870(param_1 + 8,param_2,0);
-    if ((-1 < (int)uVar2) && (uVar2 = fn_829E59A8(param_1 + 0x24,param_1 + 8), -1 < (int)uVar2))
-    {
-      *(int *)(param_1 + 4) = (int)param_2;
-      uVar2 = 0;
-      *(undefined4 *)(param_1 + 0xac) = 1;
-      uVar1 = lbl_82057B5C;
-      *(undefined4 *)(param_1 + 0xe0) = lbl_82015BD8;
-      *(undefined4 *)(param_1 + 0xe8) = uVar1;
-    }
-  }
-  else {
-    uVar2 = 0xffffffff8000ffff;
-  }
-  return uVar2;
+  fn_829E4030(param_1,param_2,0);
+  return;
 }
-

@@ -25,29 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_c;
-extern int fn_830214B8();
+extern int fn_83021C40();
 
 
-undefined8 fn_8303E690(int param_1,int param_2)
+void fn_8303E690(longlong param_1)
 
 {
-  int *piVar1;
-  int *piStack_10;
-  undefined1 auStack_c [12];
-  
-  piStack_10 = *(int **)(param_1 + 4);
-  piVar1 = *(int **)(param_1 + 8);
-  if (piStack_10 != piVar1) {
-    do {
-      if (*piStack_10 == param_2) break;
-      piStack_10 = piStack_10 + 1;
-    } while (piStack_10 != piVar1);
-    if (piStack_10 != piVar1) {
-      fn_830214B8(auStack_c,(int *)(param_1 + 4),&piStack_10);
-      return 1;
-    }
-  }
-  return 2;
+  fn_83021C40(param_1 + 4);
+  return;
 }
-

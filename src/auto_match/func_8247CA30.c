@@ -25,63 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225FDE0();
-extern int fn_82281530();
-extern int fn_82281868();
-extern int fn_822819E0();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB08();
-extern int fn_82E1CC60();
-extern int fn_82E1CCA8();
+extern int fn_8247BF00();
 
 
 void fn_8247CA30(int param_1)
 
 {
-  int iVar1;
-  char *pcVar2;
-  int iVar3;
-  char cVar4;
-  longlong lVar5;
-  uint uVar6;
-  double dVar7;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  dVar7 = (double)*(float *)(iVar1 + 0x7c);
-  pcVar2 = (char *)fn_8225F670();
-  if (*pcVar2 != '\0') {
-    iVar3 = fn_8225FDE0(0x6a,1);
-    if ((iVar3 == 0) && (cVar4 = fn_82E1CAD0(0x6a), cVar4 != '\0')) {
-      fn_82E1CC60(dVar7,0xffffffff821a7a04);
-      fn_82E1CB08(0xffffffff821a7a38,0xffffffff821bd500,0);
-      fn_82E1CCA8();
-    }
-  }
-  iVar3 = fn_82281530(*(undefined4 *)(iVar1 + 0x14));
-  if (iVar3 == 0) {
-    if (*(int *)(iVar1 + 0x30) == 0) {
-      *(undefined4 *)(iVar1 + 0x40) = 1;
-      *(undefined4 *)(iVar1 + 0x3c) = 1;
-    }
-    else {
-      uVar6 = *(int *)(iVar1 + 0x30) - 1;
-      *(uint *)(iVar1 + 0x30) = uVar6;
-      if (uVar6 == 2) {
-        *(undefined4 *)(iVar1 + 0x50) = 1;
-      }
-      iVar3 = *(int *)(iVar1 + 0x14);
-      lVar5 = ((ulonglong)uVar6 + 9 & 0x3fffffff) * 4 + (ulonglong)*(uint *)(iVar1 + 0x34);
-      if (*(int *)(iVar3 + 0x10) == 0) {
-        if (*(int *)(iVar3 + 8) != 0) {
-          fn_822819E0(iVar3,lVar5);
-        }
-      }
-      else {
-        fn_82281868(iVar3,lVar5,0);
-      }
-    }
-  }
+  fn_8247BF00(*(undefined4 *)(param_1 + 4));
   return;
 }
-

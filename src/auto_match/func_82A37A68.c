@@ -25,36 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8265C990();
+extern int fn_82A37990();
 
 
-/* WARNING: Removing unreachable block (ram,0x82a37a04) */
-
-void fn_82A37A68(undefined4 *param_1)
+void fn_82A37A68(undefined8 param_1)
 
 {
-  undefined4 uVar1;
-  undefined8 auStack_40 [8];
-  
-  uVar1 = *param_1;
-  if (param_1[10] != 0) {
-    RtlEnterCriticalSection(param_1 + 3);
-    while (0 < (int)param_1[0xc]) {
-      auStack_40[0] = 0xfffffffffff0bdc0;
-      KeDelayExecutionThread(1,0,auStack_40);
-    }
-    NtSetEvent(param_1[10],0);
-    *param_1 = 0;
-    param_1[0xb] = 0;
-    RtlLeaveCriticalSection(param_1 + 3);
-    NtClose(param_1[10]);
-    param_1[10] = 0;
-  }
-  if (param_1[0x11] != 0) {
-    fn_8265C990(uVar1,0x24830000);
-    param_1[0x11] = 0;
-  }
+  fn_82A37990(param_1,0);
   return;
 }
-

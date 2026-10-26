@@ -25,20 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82E85018();
 
 
-int fn_82E4B7F0(int param_1)
+void fn_82E4B7F0(int param_1)
 
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0xc);
-  if (*(int *)(iVar1 + 0x7b38) == 0) {
-    return *(int *)(iVar1 + 0xaf0);
-  }
-  if ((*(int *)(iVar1 + 0xaf4) != 0) && (*(int *)(iVar1 + 0xaf8) != 0)) {
-    return *(int *)(iVar1 + 0xaf4);
-  }
-  return 0;
+  fn_82E85018(*(undefined4 *)(param_1 + 0xc));
+  return;
 }
-

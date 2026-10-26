@@ -25,32 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8304D6F0();
+extern int fn_8304B7E0();
 
 
-longlong fn_8304B990(int param_1)
+void fn_8304B990(void)
 
 {
-  int iVar1;
-  ulonglong uVar2;
-  uint auStack_20 [4];
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if ((*(byte *)(iVar1 + 0xdb) & 0x80) != 0) {
-    fn_8304D6F0(param_1,((ulonglong)*(uint *)(*(int *)(iVar1 + 0x6c) + 0x20) *
-                         (ulonglong)*(uint *)(iVar1 + 0xd0)) / 48000 & 0xffffffff,auStack_20,
-                 param_1 + 0x1c);
-    iVar1 = *(int *)(param_1 + 8);
-    *(uint *)(iVar1 + 0xd0) = auStack_20[0] - (auStack_20[0] & 0xffffffc0);
-    *(byte *)(iVar1 + 0xdb) = *(byte *)(iVar1 + 0xdb) & 0x7f;
-    uVar2 = (longlong)(int)(uint)*(ushort *)(param_1 + 0x3c) * (longlong)(int)(auStack_20[0] >> 6) +
-            (ulonglong)*(uint *)(param_1 + 0x38);
-    *(int *)(param_1 + 0x28) = (int)uVar2;
-    return 2 - (ulonglong)
-               (uVar2 < (ulonglong)*(uint *)(param_1 + 0x34) + (ulonglong)*(uint *)(param_1 + 0x38))
-    ;
-  }
-  return 1;
+  fn_8304B7E0();
+  return;
 }
-

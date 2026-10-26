@@ -3,7 +3,7 @@ typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
+#define false 4294967295
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,24 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82D3E630();
 
 
-ulonglong fn_82D3E690(int param_1)
+void fn_82D3E690(undefined8 param_1)
 
 {
-  ulonglong uVar1;
-  
-  uVar1 = 0;
-  if (0 < *(int *)(param_1 + 0xc)) {
-    do {
-      if ((0xff < (uVar1 & 0xffffffff)) ||
-         ((1 << ((uint)uVar1 & 0x1f) &
-          *(uint *)(((int)((uVar1 & 0xffffffff) >> 5) + 0x10) * 4 + param_1)) != 0)) {
-        return uVar1;
-      }
-      uVar1 = uVar1 + 1;
-    } while ((int)uVar1 < *(int *)(param_1 + 0xc));
-  }
-  return 0xffffffffffffffff;
+  fn_82D3E630(param_1,4294967295);
+  return;
 }
-

@@ -25,51 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63BA0();
-extern int fn_82F68240();
+extern int fn_82F664B0();
 
 
-undefined4 fn_828277D8(int param_1,undefined1 *param_2,ulonglong param_3)
+void fn_828277D8(longlong param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  char cVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  char *pcVar4;
-  undefined4 uVar5;
-  
-  pcVar4 = (char *)(param_1 + 0xb8);
-  if ((param_2 == (undefined1 *)0x0) || ((param_3 & 0xffffffff) == 0)) {
-    puVar3 = (undefined4 *)fn_82F68240();
-    *puVar3 = 0x16;
-    fn_82F63BA0();
-    uVar5 = 0x16;
-  }
-  else {
-    if (pcVar4 == (char *)0x0) {
-      *param_2 = 0;
-      puVar3 = (undefined4 *)fn_82F68240();
-      uVar5 = 0x16;
-    }
-    else {
-      iVar2 = (int)param_2 - (int)pcVar4;
-      do {
-        cVar1 = *pcVar4;
-        pcVar4[iVar2] = cVar1;
-        pcVar4 = pcVar4 + 1;
-        if (cVar1 == '\0') break;
-        param_3 = param_3 - 1;
-      } while (param_3 != 0);
-      if ((param_3 & 0xffffffff) != 0) {
-        return 0;
-      }
-      *param_2 = 0;
-      puVar3 = (undefined4 *)fn_82F68240();
-      uVar5 = 0x22;
-    }
-    *puVar3 = uVar5;
-    fn_82F63BA0();
-  }
-  return uVar5;
+  fn_82F664B0(param_2,param_3,param_1 + 0xb8);
+  return;
 }
-

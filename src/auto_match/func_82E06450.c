@@ -25,46 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE63B0();
 extern int fn_82E061F8();
 
 
-undefined8 fn_82E06450(int param_1,int param_2,int *param_3)
+void fn_82E06450(int param_1)
 
 {
-  int iVar1;
-  int iVar3;
-  undefined8 uVar2;
-  int iVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x14);
-  iVar3 = fn_82CE5410();
-  if (param_3[1] == (param_3[2] & 0x3fffffffU)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82CE63B0(*(undefined4 *)(iVar3 + 0x10),param_3,4);
-  }
-  *(int *)(param_3[1] * 4 + *param_3) = iVar1;
-  param_3[1] = param_3[1] + 1;
-  if (iVar1 == param_2) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = 1;
-    iVar3 = 0;
-    if (0 < *(int *)(iVar1 + 0x2c)) {
-      iVar4 = 0;
-      do {
-        uVar2 = fn_82E061F8(*(undefined4 *)(*(int *)(iVar1 + 0x28) + iVar4),param_2,param_3);
-        if ((int)uVar2 == 0) {
-          return uVar2;
-        }
-        iVar3 = iVar3 + 1;
-        iVar4 = iVar4 + 4;
-      } while (iVar3 < *(int *)(iVar1 + 0x2c));
-    }
-    param_3[1] = param_3[1] + -1;
-  }
-  return uVar2;
+  fn_82E061F8(*(undefined4 *)(param_1 + 20));
+  return;
 }
-

@@ -25,63 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82A3CD78();
 
 
-longlong fn_82A3CF30(int param_1,uint param_2,int param_3,uint param_4)
+void fn_82A3CF30(void)
 
 {
-  longlong lVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  lVar1 = 0;
-  if (param_4 <= param_2) {
-    return lVar1;
-  }
-  iVar2 = param_4 - param_2;
-  param_3 = param_3 << 2;
-  do {
-    if ((1 << (param_2 & 7) & (uint)*(byte *)((param_2 >> 3) + *(int *)(param_1 + 0x2c))) == 0) {
-      lVar1 = lVar1 + 1;
-      iVar4 = (*(byte *)(*(int *)(param_1 + 0x28) + param_2) + 0x1474) * 2;
-      *(short *)(iVar4 + param_1) = *(short *)(iVar4 + param_1) + 1;
-    }
-    else {
-      uVar3 = *(uint *)(*(int *)(param_1 + 0x24) + param_3);
-      if (*(byte *)(*(int *)(param_1 + 0x28) + param_2) < 7) {
-        if (uVar3 < 0x400) {
-          uVar3 = (uint)*(byte *)(uVar3 + param_1 + 0x454);
-        }
-        else if (uVar3 < 0x80000) {
-          uVar3 = *(byte *)((uVar3 >> 9) + param_1 + 0x454) + 0x12;
-        }
-        else {
-          uVar3 = (uVar3 >> 0x11 & 0xff) + 0x22;
-        }
-        iVar4 = (uint)*(byte *)(*(int *)(param_1 + 0x28) + param_2) + uVar3 * 8 + 0x1574;
-      }
-      else {
-        if (uVar3 < 0x400) {
-          uVar3 = (uint)*(byte *)(*(int *)(*(int *)(param_1 + 0x24) + param_3) + param_1 + 0x454);
-        }
-        else if (uVar3 < 0x80000) {
-          uVar3 = *(byte *)((uVar3 >> 9) + param_1 + 0x454) + 0x12;
-        }
-        else {
-          uVar3 = (uVar3 >> 0x11 & 0xff) + 0x22;
-        }
-        iVar4 = uVar3 * 0x10 + param_1;
-        *(short *)(iVar4 + 0x2af6) = *(short *)(iVar4 + 0x2af6) + 1;
-        iVar4 = *(byte *)(*(int *)(param_1 + 0x28) + param_2) + 0x1e00;
-      }
-      param_3 = param_3 + 4;
-      *(short *)(iVar4 * 2 + param_1) = *(short *)(iVar4 * 2 + param_1) + 1;
-      lVar1 = (ulonglong)*(byte *)(*(int *)(param_1 + 0x28) + param_2) + lVar1 + 2;
-    }
-    param_2 = param_2 + 1;
-    iVar2 = iVar2 + -1;
-  } while (iVar2 != 0);
-  return lVar1;
+  fn_82A3CD78();
+  return;
 }
-

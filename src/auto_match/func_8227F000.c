@@ -2,8 +2,8 @@ typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
+#define true 0
+#define false 1
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,27 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8227E4B0();
-extern int fn_8227F7B8();
+extern int fn_8227E428();
 
 
-void fn_8227F000(int param_1)
+void fn_8227F000(undefined8 param_1)
 
 {
-  int *piVar1;
-  ulonglong uVar2;
-  int *piVar3;
-  
-  piVar1 = *(int **)(param_1 + 0x10);
-  for (piVar3 = *(int **)(param_1 + 0xc); piVar3 != piVar1; piVar3 = piVar3 + 1) {
-    fn_8227E4B0(param_1,*(undefined4 *)(*piVar3 + 0x14),0,1);
-  }
-  for (uVar2 = (ulonglong)*(uint *)(param_1 + 0x1c);
-      (uVar2 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x20); uVar2 = uVar2 + 8) {
-    if (*(int *)uVar2 == 0) {
-      fn_8227F7B8(((int *)uVar2)[1],0);
-    }
-  }
+  fn_8227E428(param_1,0,1);
   return;
 }
-

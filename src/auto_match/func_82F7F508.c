@@ -25,48 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831BBCA8;
+extern int fn_82F7F3C8();
 
 
-void fn_82F7F508(char *param_1)
+void fn_82F7F508(undefined8 param_1)
 
 {
-  char cVar1;
-  longlong lVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  lVar2 = (longlong)*param_1;
-  if (lVar2 != 0) {
-    do {
-      if ((int)lVar2 == (int)*(char *)**(undefined4 **)(lbl_831BBCA8 + 0xbc)) break;
-      param_1 = param_1 + 1;
-      lVar2 = (longlong)*param_1;
-    } while (lVar2 != 0);
-  }
-  param_1 = param_1 + 1;
-  if ((int)lVar2 != 0) {
-    cVar1 = *param_1;
-    while (((pcVar4 = param_1, cVar1 != '\0' && (cVar1 != 'e')) && (cVar1 != 'E'))) {
-      param_1 = param_1 + 1;
-      cVar1 = *param_1;
-    }
-    do {
-      pcVar3 = pcVar4;
-      pcVar4 = pcVar3 + -1;
-    } while (*pcVar4 == '0');
-    if (*pcVar4 == *(char *)**(undefined4 **)(lbl_831BBCA8 + 0xbc)) {
-      pcVar4 = pcVar3 + -2;
-    }
-    param_1 = param_1 + -1;
-    do {
-      param_1 = param_1 + 1;
-      cVar1 = *param_1;
-      pcVar4 = pcVar4 + 1;
-      *pcVar4 = cVar1;
-    } while (cVar1 != '\0');
-    return;
-  }
+  fn_82F7F3C8(param_1,0);
   return;
 }
-

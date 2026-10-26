@@ -1,24 +1,24 @@
-extern void *lbl_821BEA60;
+// Kinect Sports retail 4D5308C9, function 0x8248B778 (100 bytes).
+//
+// Publishes the object vtable, then runs the teardown tail: the member at
+// +0x8 is released through fn_822315A0 when present, and fn_8265CA20 runs when
+// bit 0 of the flags word is set. The vtable store and the member load touch the
+// same object, so both are volatile to keep the retail order (store, then load).
+extern unsigned int lbl_821BEA60;
+extern void fn_822315A0(unsigned int object);
+extern void fn_8265CA20(void *object);
 
-typedef unsigned long long u64;
-
-typedef struct Object {
-    void *vtable;
-    unsigned char padding[0x14];
-    void *member;
-} Object;
-
-void fn_822315A0(void *member);
-void fn_8265CA20(void *object);
-
-Object *fn_8248B778(Object *object, u64 flags)
+void *fn_8248B778(unsigned int *param_1, unsigned int param_2)
 {
-    object->vtable = &lbl_821BEA60;
-    if (object->member) {
-        fn_822315A0(object->member);
+    unsigned int object;
+
+    *(volatile unsigned int *)param_1 = (unsigned int)&lbl_821BEA60;
+    object = *(volatile unsigned int *)&param_1[5];
+    if (object != 0) {
+        fn_822315A0(object);
     }
-    if (flags & 1) {
-        fn_8265CA20(object);
+    if (param_2 & 1) {
+        fn_8265CA20((void *)param_1);
     }
-    return object;
+    return (void *)param_1;
 }

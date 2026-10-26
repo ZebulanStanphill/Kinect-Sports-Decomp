@@ -25,54 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int lbl_8201D108;
+extern int fn_827E27F0();
 extern unsigned int lbl_8201D160;
-extern U64 storeWordConditionalIndexed();
 
 
 void fn_827E2928(undefined4 *param_1)
 
 {
-  int *piVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  uint *puVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  
   *param_1 = &lbl_8201D160;
-  *param_1 = &lbl_8201D108;
-  piVar1 = (int *)param_1[4];
-  uVar3 = ZEXT48(piVar1);
-  if (uVar3 == 0) {
-    return;
-  }
-  do {
-    puVar5 = (uint *)(uVar3 + 4);
-    lVar4 = (ulonglong)*puVar5 - 1;
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(lVar4,0,uVar3 + 4);
-      *puVar5 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((int)lVar4 == 0) {
-    (**(code **)*piVar1)(uVar3);
-    do {
-      puVar5 = (uint *)(uVar3 + 8);
-      lVar4 = (ulonglong)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(lVar4,0,uVar3 + 8);
-        *puVar5 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar4 == 0) {
-      (**(code **)(*piVar1 + 4))(uVar3);
-    }
-  }
+  fn_827E27F0();
   return;
 }
-

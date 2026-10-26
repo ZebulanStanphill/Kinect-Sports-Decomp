@@ -25,31 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822AF200();
+extern int fn_82359698();
 
 
 void fn_8240D5E0(int param_1)
 
 {
-  int *piVar1;
-  int iVar2;
-  char cVar3;
-  undefined4 auStack_20 [2];
-  
-  iVar2 = *(int *)(param_1 + 4);
-  auStack_20[0] = 0;
-  fn_822AF200(iVar2 + 0x80,auStack_20);
-  piVar1 = *(int **)(*(int *)(iVar2 + 0x7c) + 8);
-  if (piVar1 == (int *)0x0) {
-    cVar3 = '\x01';
-  }
-  else {
-    cVar3 = (**(code **)(*piVar1 + 8))(piVar1,7);
-  }
-  if (cVar3 != '\0') {
-    *(undefined4 *)(iVar2 + 0x58) = 7;
-  }
+  fn_82359698(*(undefined4 *)(param_1 + 4),7);
   return;
 }
-

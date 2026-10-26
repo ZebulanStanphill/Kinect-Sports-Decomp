@@ -25,47 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82558B08();
-extern int fn_8259A230();
-extern int fn_827D55A0();
-extern int fn_82A1BB18();
-extern unsigned int lbl_83265A24;
-extern unsigned int lbl_832767A8;
-extern U64 storeWordConditionalIndexed();
+extern int fn_8251FA58();
 
 
-undefined4 fn_822C2028(int param_1)
+void fn_822C2028(int param_1)
 
 {
-  int iVar1;
-  ulonglong uVar2;
-  char in_RESERVE;
-  byte in_cr0;
-  byte bVar3;
-  undefined4 auStack_20 [2];
-  
-  do {
-    uVar2 = (ulonglong)lbl_832767A8;
-    if (in_RESERVE != '\0') {
-      lbl_832767A8 = storeWordConditionalIndexed(uVar2 + 1,0,0xffffffff832767a8);
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  auStack_20[0] = 0;
-  fn_827D55A0(lbl_83265A24,*(undefined4 *)(param_1 + 0xc),auStack_20);
-  fn_82A1BB18();
-  iVar1 = fn_8259A230();
-  bVar3 = (iVar1 == 0) << 1;
-  if ((iVar1 == 0) && ((int)(uVar2 + 1) == 1)) {
-    fn_82558B08();
-  }
-  do {
-    if (in_RESERVE != '\0') {
-      lbl_832767A8 = storeWordConditionalIndexed((ulonglong)lbl_832767A8 - 1,0,0xffffffff832767a8);
-      bVar3 = 2;
-    }
-  } while (!(bool)(bVar3 >> 1 & 1));
-  return auStack_20[0];
+  fn_8251FA58(*(undefined4 *)(param_1 + 0xc));
+  return;
 }
-

@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82A1F238();
 
 
 void fn_82599ED8(undefined8 param_1,undefined8 param_2)
 
 {
-  MmFreePhysicalMemory(0,param_2);
+  fn_82A1F238(param_2);
   return;
 }
-

@@ -25,22 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA96C8();
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
+extern int fn_82FAD280();
 
 
-void fn_82FB6F40(int param_1,longlong param_2,undefined4 param_3)
+void fn_82FB6F40(longlong param_1)
 
 {
-  int iVar1;
-  undefined4 uStack00000024;
-  
-  uStack00000024 = param_3;
-  for (iVar1 = *(int *)(param_1 + 0x44); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-    param_2 = (ulonglong)*(uint *)(iVar1 + 0xc) + param_2;
-    fn_82FA96C8(iVar1,param_2,&stack0x00000024,0);
-  }
+  fn_82FAD280(param_1 + 0x40);
   return;
 }
-

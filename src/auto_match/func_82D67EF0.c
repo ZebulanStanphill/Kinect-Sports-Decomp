@@ -25,27 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82D67E70();
 
 
-int fn_82D67EF0(int param_1,int param_2,int *param_3,undefined8 param_4)
+void fn_82D67EF0(void)
 
 {
-  short *psVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if (*(char *)(param_2 + 0x21) != '\0') {
-    psVar1 = (short *)(param_2 + 2);
-    do {
-      if (*psVar1 != -1) {
-        (**(code **)(*param_3 + 0x14))(param_3,*psVar1,param_4);
-      }
-      iVar2 = iVar2 + 1;
-      psVar1 = psVar1 + 2;
-    } while (iVar2 < (int)(uint)*(byte *)(param_2 + 0x21));
-  }
-  *(undefined1 *)(param_2 + 0x21) = 0;
-  *(undefined1 *)(param_1 + 2) = 0;
-  return param_2 + 0x40;
+  fn_82D67E70();
+  return;
 }
-

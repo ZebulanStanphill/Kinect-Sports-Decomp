@@ -25,15 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83265080;
+extern int fn_83065BA8();
 
 
 void fn_830692C8(undefined8 param_1,undefined8 param_2)
 
 {
-                    /* WARNING: Could not recover jumptable at 0x83065bb8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(lbl_83265080 + 4))(param_2);
+  fn_83065BA8(param_2);
   return;
 }
-

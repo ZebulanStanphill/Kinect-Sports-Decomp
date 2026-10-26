@@ -25,63 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_82E916B0();
-extern int fn_82F17D48();
+extern int fn_82E91820();
 
 
-void fn_82E91948(int param_1)
+void fn_82E91948(void)
 
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  
-  piVar1 = *(int **)(param_1 + 0xc);
-  if (piVar1 != (int *)0x0) {
-    if (0 < piVar1[4]) {
-      piVar2 = (int *)*piVar1;
-      iVar3 = *piVar2;
-      *piVar1 = iVar3;
-      if (iVar3 == 0) {
-        piVar1[1] = 0;
-      }
-      iVar3 = piVar2[1];
-      *piVar2 = piVar1[2];
-      piVar1[2] = (int)piVar2;
-      if (piVar1[3] == 0) {
-        piVar1[3] = (int)piVar2;
-      }
-      piVar1[4] = piVar1[4] + -1;
-      while (iVar3 != 0) {
-        fn_82F17D48(iVar3);
-        if (iVar3 != 0) {
-          fn_8265C990(iVar3,0x248c8000);
-        }
-        piVar1 = *(int **)(param_1 + 0xc);
-        if (piVar1[4] < 1) break;
-        piVar2 = (int *)*piVar1;
-        iVar3 = *piVar2;
-        *piVar1 = iVar3;
-        if (iVar3 == 0) {
-          piVar1[1] = 0;
-        }
-        iVar3 = piVar2[1];
-        *piVar2 = piVar1[2];
-        piVar1[2] = (int)piVar2;
-        if (piVar1[3] == 0) {
-          piVar1[3] = (int)piVar2;
-        }
-        piVar1[4] = piVar1[4] + -1;
-      }
-    }
-    iVar3 = *(int *)(param_1 + 0xc);
-    if (iVar3 != 0) {
-      fn_82E916B0(iVar3);
-      fn_8265C990(iVar3,0x248c8000);
-      *(undefined4 *)(param_1 + 0xc) = 0;
-    }
-  }
+  fn_82E91820();
   return;
 }
-

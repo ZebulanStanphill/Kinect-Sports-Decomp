@@ -25,34 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
-#define CONCAT21(h,l) ((U32)((((U16)(h)) << 8) | ((U8)(l))))
-#define CONCAT31(h,l) ((U32)((((U32)(h)) << 8) | ((U8)(l))))
+extern int fn_82A3BD18();
 
 
-void fn_82A3BD78(int param_1)
+void fn_82A3BD78(void)
 
 {
-  undefined1 uVar1;
-  undefined1 uVar2;
-  undefined1 uVar3;
-  undefined1 uVar4;
-  undefined1 *puVar5;
-  
-  if (*(int *)(param_1 + 0x2ed0) == 3) {
-    return;
-  }
-  puVar5 = *(undefined1 **)(param_1 + 0x2b04);
-  if (*(undefined1 **)(param_1 + 0x2b08) < puVar5 + 4) {
-    return;
-  }
-  uVar1 = puVar5[1];
-  uVar2 = *puVar5;
-  uVar3 = puVar5[3];
-  uVar4 = puVar5[2];
-  *(undefined1 **)(param_1 + 0x2b04) = puVar5 + 4;
-  *(undefined1 *)(param_1 + 0x2eb4) = 0x10;
-  *(uint *)(param_1 + 0x2eb0) = CONCAT31(CONCAT21(CONCAT11(uVar1,uVar2),uVar3),uVar4);
+  fn_82A3BD18();
   return;
 }
-

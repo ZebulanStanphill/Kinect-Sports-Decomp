@@ -25,19 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82F64CE0();
 
 
-longlong fn_82A1E1A0(short *param_1)
+void fn_82A1E1A0(void)
 
 {
-  short sVar1;
-  short *psVar2;
-  
-  psVar2 = param_1;
-  do {
-    sVar1 = *psVar2;
-    psVar2 = psVar2 + 1;
-  } while (sVar1 != 0);
-  return (longlong)((int)psVar2 - (int)param_1 >> 1) + -1;
+  fn_82F64CE0();
+  return;
 }
-

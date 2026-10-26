@@ -25,24 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68240();
-extern int fn_82F84120();
+extern int fn_82F6E1C8();
 
 
-longlong fn_828252D0(undefined8 param_1)
+void fn_828252D0(undefined8 param_1)
 
 {
-  longlong lVar1;
-  int iVar2;
-  int *piVar3;
-  int aiStack_20 [4];
-  
-  aiStack_20[0] = 0;
-  lVar1 = fn_82F84120(param_1,1,aiStack_20);
-  if (((lVar1 == 0) && (aiStack_20[0] != 0)) && (iVar2 = fn_82F68240(), iVar2 != 0)) {
-    piVar3 = (int *)fn_82F68240();
-    *piVar3 = aiStack_20[0];
-  }
-  return lVar1;
+  fn_82F6E1C8(param_1,1);
+  return;
 }
-

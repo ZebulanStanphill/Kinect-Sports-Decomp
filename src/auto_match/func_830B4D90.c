@@ -25,13 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8323B1B0;
+extern int fn_82CE5410();
 
 
 void fn_830B4D90(void)
 
 {
-  KeTlsGetValue(lbl_8323B1B0);
+  fn_82CE5410();
   return;
 }
-

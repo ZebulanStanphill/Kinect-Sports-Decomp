@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_8267ADA8();
 
 
-undefined8 fn_822306D8(undefined8 param_1)
+void fn_822306D8(undefined8 param_1)
 
 {
-  RtlInitializeCriticalSectionAndSpinCount(param_1,0);
-  return param_1;
+  fn_8267ADA8(param_1,0);
+  return;
 }
-

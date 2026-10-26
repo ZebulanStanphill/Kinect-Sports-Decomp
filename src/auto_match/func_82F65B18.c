@@ -2,8 +2,8 @@ typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
+#define true 0
+#define false 10
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,13 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B64();
+extern int fn_82F6A3E8();
 
 
 void fn_82F65B18(undefined8 param_1)
 
 {
-  fn_82F68B64(param_1,0,10,0);
+  fn_82F6A3E8(param_1,0,10);
   return;
 }
-

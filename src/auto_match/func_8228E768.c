@@ -25,28 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_162e;
-extern int fn_82F691F0();
-extern unsigned int lbl_832659CD;
+extern int fn_8228CF80();
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void fn_8228E768(int param_1)
 
 {
-  uint *puVar2;
-  ulonglong uVar1;
-  undefined1 auStack_162e [5678];
-  
-  puVar2 = (uint *)(*(int *)(param_1 + 4) + 0x180);
-  if (puVar2 != (uint *)0x0) {
-    uVar1 = (ulonglong)*puVar2;
-    if ((uVar1 != (uVar1 - 1) + (ulonglong)(uVar1 == 0)) && (lbl_832659CD != '\0')) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(auStack_162e,0,0x1fe);
-    }
-  }
+  fn_8228CF80(*(undefined4 *)(param_1 + 4));
   return;
 }
-

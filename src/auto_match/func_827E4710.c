@@ -1,45 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
+// Kinect Sports retail 4D5308C9, function 0x827E4710 (100 bytes).
+//
+// Publishes the object vtable, then runs the teardown tail: the member at
+// +0x8 is released through fn_822315A0 when present, and fn_8265CA20 runs when
+// bit 0 of the flags word is set. The vtable store and the member load touch the
+// same object, so both are volatile to keep the retail order (store, then load).
 extern unsigned int lbl_8201D5F4;
+extern void fn_822315A0(unsigned int object);
+extern void fn_8265CA20(void *object);
 
-
-undefined4 * fn_827E4710(undefined4 *param_1,ulonglong param_2)
-
+void *fn_827E4710(unsigned int *param_1, unsigned int param_2)
 {
-  *param_1 = &lbl_8201D5F4;
-  if (param_1[6] != 0) {
-    fn_822315A0();
-  }
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
-}
+    unsigned int object;
 
+    *(volatile unsigned int *)param_1 = (unsigned int)&lbl_8201D5F4;
+    object = *(volatile unsigned int *)&param_1[6];
+    if (object != 0) {
+        fn_822315A0(object);
+    }
+    if (param_2 & 1) {
+        fn_8265CA20((void *)param_1);
+    }
+    return (void *)param_1;
+}

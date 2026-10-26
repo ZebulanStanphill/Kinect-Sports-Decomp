@@ -25,62 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int memset();
 
 
-void fn_827C1B68(undefined4 *param_1,ulonglong param_2)
+void fn_827C1B68(undefined8 param_1,undefined8 param_2)
 
 {
-  longlong lVar1;
-  undefined4 *puVar2;
-  code *UNRECOVERED_JUMPTABLE_00;
-  ulonglong uVar3;
-  
-  lVar1 = param_2 + 1;
-  for (; lVar1 = lVar1 + -1, lVar1 != 0 && ((uint)param_1 & 3) != 0;
-      param_1 = (undefined4 *)((int)param_1 + 1)) {
-    param_2 = param_2 - 1;
-    *(undefined1 *)param_1 = 0;
-  }
-  for (uVar3 = (param_2 & 0xffffffff) >> 4; uVar3 != 0; uVar3 = uVar3 - 1) {
-    *param_1 = 0;
-    param_1[1] = 0;
-    param_1[2] = 0;
-    param_1[3] = 0;
-    param_1 = param_1 + 4;
-  }
-  uVar3 = (param_2 & 0xffffffff) >> 2 & 3;
-  puVar2 = param_1;
-  if (uVar3 != 0) {
-    *param_1 = 0;
-    puVar2 = param_1 + 1;
-    if (uVar3 != 1) {
-      *puVar2 = 0;
-      puVar2 = param_1 + 2;
-      if (uVar3 != 2) {
-        *puVar2 = 0;
-        puVar2 = param_1 + 3;
-      }
-    }
-  }
-  param_2 = param_2 & 3;
-  if (param_2 == 0) {
-    return;
-  }
-  *(undefined1 *)puVar2 = 0;
-                    /* WARNING: Could not recover jumptable at 0x82f6927c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  if (param_2 == 1) {
-    (*UNRECOVERED_JUMPTABLE_00)();
-    return;
-  }
-  *(undefined1 *)((int)puVar2 + 1) = 0;
-                    /* WARNING: Could not recover jumptable at 0x82f69284. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  if (param_2 == 2) {
-    (*UNRECOVERED_JUMPTABLE_00)();
-    return;
-  }
-  *(undefined1 *)((int)puVar2 + 2) = 0;
+  memset(param_1,0,param_2);
   return;
 }
-

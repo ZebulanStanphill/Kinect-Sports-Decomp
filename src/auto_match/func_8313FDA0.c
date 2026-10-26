@@ -1,4 +1,3 @@
-extern unsigned int **ppuRam831f12d0;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -27,11 +26,13 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8200DAE4;
+extern unsigned int lbl_831F12D0;
 
 
 void fn_8313FDA0(void)
 
 {
-  ppuRam831f12d0 = &lbl_8200DAE4;
+  lbl_831F12D0 = (undefined *)&lbl_8200DAE4;
   return;
 }
+

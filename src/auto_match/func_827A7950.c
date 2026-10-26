@@ -25,16 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8273D360();
+extern int fn_8273D528();
 
-
-/* WARNING: Removing unreachable block (ram,0x8273d558) */
-/* WARNING: Removing unreachable block (ram,0x8273d564) */
 
 void fn_827A7950(undefined8 param_1,undefined8 param_2)
 
 {
-  fn_8273D360(param_2,param_2,0);
+  fn_8273D528(param_2,0);
   return;
 }
-

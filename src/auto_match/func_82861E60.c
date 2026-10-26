@@ -25,26 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82809E58();
+extern int fn_82860DD0();
 
 
-void fn_82861E60(double param_1,double param_2,int param_3,int param_4,int param_5)
+void fn_82861E60(void)
 
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_82809E58((double)(float)((double)(longlong)param_4 /
-                                              (double)(longlong)*(int *)(param_3 + 8)));
-  *(float *)(param_3 + 0xec) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(longlong)*(int *)(param_3 + 0x10) * dVar1));
-  *(float *)(param_3 + 0xe4) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(longlong)param_5 /
-                                              (double)(longlong)*(int *)(param_3 + 0xc)));
-  *(float *)(param_3 + 0xf0) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(longlong)*(int *)(param_3 + 0x14) * dVar1));
-  *(float *)(param_3 + 0xe8) = (float)dVar1;
-  *(float *)(param_3 + 0xf4) = (float)param_1;
-  *(float *)(param_3 + 0xf8) = (float)param_2;
+  fn_82860DD0();
   return;
 }
-

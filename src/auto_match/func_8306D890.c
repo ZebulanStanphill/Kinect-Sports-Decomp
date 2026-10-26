@@ -25,19 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_8306FB20();
 
 
-void fn_8306D890(double param_1,double param_2,double param_3,double param_4,double param_5,
-                  int param_6)
+void fn_8306D890(longlong param_1)
 
 {
-  *(float *)(param_6 + 0x19dc) = (float)param_1;
-  *(float *)(param_6 + 0x19e0) = (float)param_2;
-  *(float *)(param_6 + 0x19e4) = (float)(param_1 + param_2);
-  *(float *)(param_6 + 0x19e8) = (float)param_3;
-  *(int *)(param_6 + 0x19f4) = *(int *)(param_6 + 0x19f4) + 1;
-  *(float *)(param_6 + 0x19ec) = (float)param_4;
-  *(float *)(param_6 + 0x19f0) = (float)param_5;
+  fn_8306FB20(param_1 + 3280);
   return;
 }
-

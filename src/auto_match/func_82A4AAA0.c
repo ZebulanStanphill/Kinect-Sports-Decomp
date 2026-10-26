@@ -25,43 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1BB18();
-extern int fn_82A403F0();
-extern int fn_82A406A0();
-extern int fn_82A41998();
-extern int fn_82A4F4E0();
+extern int fn_82A50A48();
 
 
-void fn_82A4AAA0(int param_1)
+void fn_82A4AAA0(longlong param_1)
 
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  piVar1 = (int *)(param_1 + 4);
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 8))(*(int *)(param_1 + 0x34) + 0x2c);
-  iVar3 = *(int *)(param_1 + 0x34);
-  iVar2 = fn_82A1BB18();
-  if ((iVar2 == *(int *)(iVar3 + 0xac)) || (*(int *)(param_1 + 0x74) != 0)) {
-    (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c)
-    ;
-  }
-  else {
-    iVar3 = (**(code **)(*piVar1 + 0x54))(piVar1);
-    if (iVar3 == 4) {
-      fn_82A406A0(*(undefined4 *)(param_1 + 0x34),1);
-    }
-    fn_82A41998(*(undefined4 *)(param_1 + 0x34),piVar1);
-    (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c)
-    ;
-    (**(code **)(**(int **)(*(int *)(param_1 + 0x34) + 0xb0) + 0x40))();
-    (**(code **)(*piVar1 + 0x50))(piVar1);
-    fn_82A403F0(*(undefined4 *)(param_1 + 0x34));
-    (**(code **)(**(int **)(*(int *)(param_1 + 0x34) + 0xb0) + 0x44))();
-    (**(code **)(*piVar1 + 0x4c))(piVar1,0);
-    fn_82A4F4E0();
-  }
+  fn_82A50A48(param_1 + 4);
   return;
 }
-

@@ -25,39 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
+extern int fn_82767020();
 
 
-ulonglong fn_82768830(int param_1,ushort param_2)
+void fn_82768830(longlong param_1)
 
 {
-  int iVar1;
-  ushort uVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  longlong lVar5;
-  uint uVar6;
-  
-  lVar4 = 0;
-  lVar5 = (ulonglong)*(uint *)(param_1 + 0x34) - 1;
-  if (-1 < lVar5) {
-    do {
-      uVar6 = (int)lVar4 + (int)lVar5;
-      uVar3 = (longlong)((int)uVar6 >> 1) + (ulonglong)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-      iVar1 = (int)((uVar3 & 0xffffffff) << 3) + *(int *)(param_1 + 0x38);
-      uVar2 = CONCAT11(*(undefined1 *)(**(int **)(param_1 + 0x30) + iVar1 + 1),
-                       *(undefined1 *)(**(int **)(param_1 + 0x30) + iVar1));
-      if (param_2 == uVar2) {
-        return uVar3;
-      }
-      if (param_2 < uVar2) {
-        lVar5 = uVar3 - 1;
-      }
-      else {
-        lVar4 = uVar3 + 1;
-      }
-    } while ((int)lVar4 <= (int)lVar5);
-  }
-  return 0xffffffffffffffff;
+  fn_82767020(param_1 + 0x28);
+  return;
 }
-

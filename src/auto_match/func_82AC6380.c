@@ -25,21 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_82F691F0();
+extern int fn_82AC6208();
 
 
-/* WARNING: Removing unreachable block (ram,0x82ac6350) */
-
-undefined8 fn_82AC6380(int param_1)
+void fn_82AC6380(undefined8 param_1)
 
 {
-  longlong lVar1;
-  
-  if ((param_1 != 0) && (lVar1 = fn_8265C940(0x100d0,0x24870000), lVar1 != 0)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(lVar1,0,0x100d0);
-  }
-  return 0;
+  fn_82AC6208(param_1,0);
+  return;
 }
-

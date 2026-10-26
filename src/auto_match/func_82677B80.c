@@ -25,45 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267A820();
-extern int fn_8267B890();
-extern unsigned int lbl_831E7E64;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
+extern int fn_8267A998();
 
 
-undefined8 fn_82677B80(int param_1,undefined4 param_2)
+void fn_82677B80(longlong param_1)
 
 {
-  undefined4 *puVar1;
-  undefined4 uStack0000001c;
-  int aiStack_20 [4];
-  
-  if (*(int *)(param_1 + 0x21e8) == 0) {
-    *(undefined4 *)(param_1 + 0x21e8) = param_2;
-  }
-  else {
-    uStack0000001c = param_2;
-    if (*(char *)(param_1 + 0x21e4) == '\0') {
-      aiStack_20[0] = *(int *)(param_1 + 0x21e8);
-      puVar1 = (undefined4 *)fn_8267B890(lbl_831E7E64,0xc,0);
-      if (puVar1 == (undefined4 *)0x0) {
-        puVar1 = (undefined4 *)0x0;
-      }
-      else {
-        *puVar1 = 0;
-        puVar1[1] = 0;
-        puVar1[2] = 0;
-      }
-      *(undefined4 **)(param_1 + 0x21e8) = puVar1;
-      if (puVar1 == (undefined4 *)0x0) {
-        return 0;
-      }
-      fn_8267A820(puVar1,aiStack_20);
-      *(char *)(param_1 + 0x21e4) = '\x01';
-    }
-    fn_8267A820(*(undefined4 *)(param_1 + 0x21e8),&stack0x0000001c);
-  }
-  return 1;
+  fn_8267A998(param_1 + 0x21e4);
+  return;
 }
-

@@ -25,45 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_8291AF98();
-extern int fn_8291BDB8();
-extern int fn_8291C2D8();
+extern int fn_828F0CE0();
 
 
-longlong fn_828F0DC8(uint *param_1,undefined4 *param_2)
+void fn_828F0DC8(void)
 
 {
-  uint uVar1;
-  int iVar3;
-  longlong lVar2;
-  ulonglong uVar4;
-  
-  uVar4 = 0;
-  if (param_2 != (undefined4 *)0x0) {
-    *param_2 = 0;
-  }
-  if ((param_1 == (uint *)0x0) || (param_2 == (undefined4 *)0x0)) {
-    return -0x7789f794;
-  }
-  if ((((*param_1 & 0xffffff00) == 0x102a1100) ||
-      (uVar1 = *param_1 & 0xffff0000, uVar1 == 0xfffe0000)) || (uVar1 == 0xffff0000)) {
-    iVar3 = fn_8265C940(0x20,0x24810000);
-    if (iVar3 != 0) {
-      uVar4 = fn_8291BDB8();
-    }
-    if ((uVar4 & 0xffffffff) == 0) {
-      return -0x7ff8fff2;
-    }
-    lVar2 = fn_8291C2D8(uVar4,param_1,0);
-    if (lVar2 < 0) {
-      fn_8291AF98(uVar4);
-      fn_8265C990(uVar4,0x24810000);
-      return lVar2;
-    }
-  }
-  *param_2 = (int)uVar4;
-  return 0;
+  fn_828F0CE0();
+  return;
 }
-

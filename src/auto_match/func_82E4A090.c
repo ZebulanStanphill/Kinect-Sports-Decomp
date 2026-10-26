@@ -25,39 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern unsigned int *auStack_30;
-extern int fn_82A29D80();
+extern int fn_82E498A0();
 
 
-ulonglong fn_82E4A090(int param_1,undefined8 *param_2)
+void fn_82E4A090(void)
 
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  uint auStack_30 [12];
-  
-  uVar3 = 0;
-  auStack_30[0] = 0;
-  if (param_2 == (undefined8 *)0x0) {
-    uVar3 = 0xffffffff80070057;
-  }
-  else if (*(int *)(param_1 + 0x9c) == -1) {
-    uVar3 = 0xffffffffc00d36b2;
-  }
-  else {
-    iVar1 = fn_82A29D80(*(int *)(param_1 + 0x9c),auStack_30);
-    if ((iVar1 == -1) && (iVar2 = thunk_FUN_82a2b798(), iVar2 != 0)) {
-      uVar3 = thunk_FUN_82a2b798();
-      if (0 < (int)uVar3) {
-        uVar3 = uVar3 & 0xffff | 0x80070000;
-      }
-    }
-    else {
-      *param_2 = CONCAT44(auStack_30[0],iVar1);
-    }
-  }
-  return uVar3;
+  fn_82E498A0();
+  return;
 }
-

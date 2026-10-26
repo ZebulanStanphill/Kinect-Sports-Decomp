@@ -25,30 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int strncmp();
 
 
-longlong fn_82CFBC20(byte *param_1,byte *param_2,longlong param_3)
+void fn_82CFBC20(void)
 
 {
-  longlong lVar1;
-  
-  if (param_3 < 1) {
-    return 0;
-  }
-  lVar1 = (ulonglong)*param_1 - (ulonglong)*param_2;
-  param_3 = param_3 + -1;
-  if (param_3 == 0 || *param_1 == 0) {
-    return lVar1;
-  }
-  do {
-    if (lVar1 != 0) {
-      return lVar1;
-    }
-    param_1 = param_1 + 1;
-    param_2 = param_2 + 1;
-    lVar1 = (ulonglong)*param_1 - (ulonglong)*param_2;
-    param_3 = param_3 + -1;
-  } while (param_3 != 0 && *param_1 != 0);
-  return lVar1;
+  strncmp();
+  return;
 }
-

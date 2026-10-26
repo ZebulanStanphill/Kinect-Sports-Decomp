@@ -25,28 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82679378();
-extern int fn_8267A1C0();
+extern int fn_826793F0();
 
 
-void fn_82679CE0(int param_1)
+void fn_82679CE0(void)
 
 {
-  longlong lVar1;
-  uint uVar2;
-  
-  RtlEnterCriticalSection(param_1 + 0x2204);
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x21fc) != 0) {
-    lVar1 = 0;
-    do {
-      fn_8267A1C0((ulonglong)*(uint *)(param_1 + 0x21f8) + lVar1);
-      uVar2 = uVar2 + 1;
-      lVar1 = lVar1 + 0xc;
-    } while (uVar2 < *(uint *)(param_1 + 0x21fc));
-  }
-  fn_82679378(param_1 + 0x21f8,0);
-  RtlLeaveCriticalSection(param_1 + 0x2204);
+  fn_826793F0();
   return;
 }
-
