@@ -26,19 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
+typedef struct Out { int a, b; unsigned int c; int pad[2]; unsigned char d; } Out;
+typedef struct Src { int pad[2]; int a; int p2[2]; unsigned int u; } Src;
 
-void fn_8268F7C8(int param_1,undefined4 *param_2)
-
+void fn_8268F7C8(Src *s, Out *o)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  
-  uVar1 = *(undefined4 *)(param_1 + 8);
-  param_2[1] = 0;
-  *param_2 = uVar1;
-  uVar2 = *(uint *)(param_1 + 0x14);
-  *(undefined1 *)(param_2 + 5) = 1;
-  param_2[2] = -(uint)(0x1000 < uVar2) & uVar2;
-  return;
+  unsigned int u;
+  o->a = s->a;
+  o->b = 0;
+  u = s->u;
+  o->d = 1;
+  o->c = u > 0x1000 ? u : 0;
 }
-

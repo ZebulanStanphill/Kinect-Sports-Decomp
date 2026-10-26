@@ -1,38 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8317ED88;
-extern unsigned int lbl_8317EE00;
+/* Havok reflection: lbl_8317EDB0[3] is a class-member table entry (hkInternalClassMember,
+   0x18 bytes); its enum pointer is set at static-init time. Havok code is /O2. */
+typedef struct {
+    const char *name;
+    const void *cls;
+    const void *enm;
+    unsigned char type, subtype;
+    short cArraySize;
+    unsigned short flags, offset;
+    const void *attributes;
+} ClassMember;
 
+extern const void *lbl_8317ED88;
+extern ClassMember lbl_8317EDB0[];
 
 void fn_8312BA98(void)
-
 {
-  lbl_8317EE00 = lbl_8317ED88;
-  return;
+    lbl_8317EDB0[3].enm = lbl_8317ED88;
 }
-

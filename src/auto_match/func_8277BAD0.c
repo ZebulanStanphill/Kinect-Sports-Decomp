@@ -26,19 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
+typedef struct P { int pad[2]; float x, y; } P;
 
-bool fn_8277BAD0(int param_1,int param_2)
-
+unsigned char fn_8277BAD0(P *a, P *b)
 {
-  float fVar1;
-  float fVar2;
-  
-  fVar1 = *(float *)(param_1 + 8);
-  fVar2 = *(float *)(param_2 + 8);
-  if (fVar1 == fVar2) {
-    fVar1 = *(float *)(param_1 + 0xc);
-    fVar2 = *(float *)(param_2 + 0xc);
-  }
-  return fVar1 < fVar2;
+  if (a->x != b->x)
+    return a->x < b->x;
+  return a->y < b->y;
 }
-

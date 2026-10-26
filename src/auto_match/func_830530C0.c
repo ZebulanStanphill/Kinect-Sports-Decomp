@@ -1,46 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef void (*vfn)(void *, int, __int64, int, int, int);
 
-
-void fn_830530C0(int param_1,undefined8 param_2)
-
+void fn_830530C0(unsigned int param_1, int param_2)
 {
-  int iVar1;
-  
+  int o;
+  int *obj;
   if (param_1 == 0) {
     return;
   }
-  iVar1 = *(int *)(param_1 + 0x18);
-                    /* WARNING: Could not recover jumptable at 0x830530ec. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(iVar1 + 8) + 0x1c))
-            (*(int **)(iVar1 + 8),iVar1,*(undefined8 *)(iVar1 + 0x10),*(undefined4 *)(iVar1 + 0x20),
-             *(undefined4 *)(iVar1 + 0x1c),param_2);
-  return;
+  o = *(int *)(param_1 + 0x18);
+  obj = *(int **)(o + 8);
+  (*(vfn *)(*obj + 0x1c))(obj, o, *(__int64 *)(o + 0x10), *(int *)(o + 0x20), *(int *)(o + 0x1c), param_2);
 }
-

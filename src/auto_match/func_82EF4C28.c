@@ -1,47 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+void *memset(void *dst, int c, unsigned int n);
 
+typedef struct {
+    unsigned int flags;
+    int a[6];
+    int pad[14];
+    int k; /* 0x54 */
+} S;
 
-void fn_82EF4C28(uint *param_1)
-
+void fn_82EF4C28(S *s)
 {
-  uint *puVar1;
-  longlong lVar2;
-  
-  lVar2 = 6;
-  puVar1 = param_1;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  param_1[0x15] = 3;
-  *param_1 = *param_1 & 0x1fffffff;
-  return;
+    memset(s->a, 0, sizeof s->a);
+    s->k = 3;
+    s->flags &= 0x1fffffff;
 }
-

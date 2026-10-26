@@ -1,49 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8219688C;
-extern unsigned int lbl_8315A31C;
+extern char lbl_8219688C[];
+extern int lbl_8315A31C;
 
+/* inlined std::string _Tidy: _Myres = 15, _Mysize = 0, _Buf[0] = 0 */
+typedef struct {
+  char buf[16];
+  int size;
+  int res;
+} Str;
 
-void fn_828E3508(undefined4 *param_1)
-
+static void Str_tidy(Str *s)
 {
-  undefined4 uVar1;
-  
-  param_1[1] = 0;
-  uVar1 = lbl_8315A31C;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  *param_1 = &lbl_8219688C;
-  param_1[9] = 0xf;
-  param_1[8] = 0;
-  *(undefined1 *)(param_1 + 4) = 0;
-  *(undefined1 *)(param_1 + 0xb) = 0;
-  param_1[0xc] = uVar1;
-  return;
+  s->res = 0xf;
+  s->size = 0;
+  s->buf[0] = 0;
 }
 
+void fn_828E3508(int *p)
+{
+  int v;
+  p[1] = 0;
+  v = lbl_8315A31C;
+  p[2] = 0;
+  p[3] = 0;
+  p[0] = (int)lbl_8219688C;
+  Str_tidy((Str *)(p + 4));
+  *(char *)(p + 0xb) = 0;
+  p[0xc] = v;
+}

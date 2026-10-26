@@ -32,12 +32,12 @@ longlong fn_82BC23E0(int *param_1)
 {
   int iVar1;
   longlong lVar2;
-  longlong lVar3;
+  int lVar3;
   
   lVar2 = 0;
   lVar3 = 0;
   do {
-    iVar1 = (**(code **)(*param_1 + 0x50))(param_1,0,lVar3);
+    iVar1 = (*(code *)(*param_1 + 0x50))(param_1,0,lVar3);
     if (iVar1 != 1) {
       lVar2 = lVar2 + 1;
     }

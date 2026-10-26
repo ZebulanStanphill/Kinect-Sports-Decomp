@@ -1,48 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A33C40();
-extern unsigned int uStack_10;
-extern unsigned int uStack_c;
-extern unsigned int uStack_e;
+typedef struct {
+  unsigned short Length;
+  unsigned short MaximumLength;
+  char *Buffer;
+} ANSI_STRING;
 
+extern void RtlInitAnsiString(ANSI_STRING *s, const char *src);
+extern void fn_82A33C40(ANSI_STRING *s);
 
-void fn_82A1F2B8(undefined8 param_1)
-
+void fn_82A1F2B8(const char *param_1)
 {
-  undefined2 uStack_10;
-  undefined2 uStack_e;
-  undefined4 uStack_c;
-  
-  uStack_10 = 0;
-  uStack_e = 0;
-  uStack_c = 0;
-  RtlInitAnsiString(&uStack_10,param_1);
-  fn_82A33C40(&uStack_10);
-  return;
+  ANSI_STRING s;
+  s.Length = 0;
+  s.MaximumLength = 0;
+  s.Buffer = 0;
+  RtlInitAnsiString(&s, param_1);
+  fn_82A33C40(&s);
 }
-
