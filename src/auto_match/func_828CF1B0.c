@@ -34,9 +34,9 @@ void fn_828CF1B0(int param_1,int *param_2)
   int *piVar1;
   undefined4 uVar2;
   
-  (**(code **)(*param_2 + 0x38))(param_2);
-  piVar1 = (int *)(**(code **)(*param_2 + 0x3c))(param_2);
-  (**(code **)(*piVar1 + 4))();
+  (*(code *)(*param_2 + 0x38))(param_2);
+  piVar1 = (int *)(*(code *)(*param_2 + 0x3c))(param_2);
+  (*(code *)(*piVar1 + 4))();
   uVar2 = fn_828EA268((ulonglong)(uint)piVar1[2] - 1);
   *(undefined4 *)(param_1 + 8) = uVar2;
   return;

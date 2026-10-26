@@ -33,7 +33,7 @@ undefined4 * fn_82FA4DE0(int *param_1)
 {
   undefined4 *puVar1;
   
-  puVar1 = (undefined4 *)(**(code **)(*param_1 + 4))(param_1,100);
+  puVar1 = (undefined4 *)(*(code *)(*param_1 + 4))(param_1,100);
   if (puVar1 != (undefined4 *)0x0) {
     *puVar1 = &lbl_8216CB38;
     return puVar1;

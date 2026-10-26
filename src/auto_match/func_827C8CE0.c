@@ -31,8 +31,8 @@ void fn_827C8CE0(int param_1)
 
 {
   *(undefined1 *)(*(int *)(param_1 + 0x13c) + 0xc) = 0;
-  (**(code **)(*(int *)(param_1 + 0x14c) + 4))();
-  (**(code **)(*(int *)(param_1 + 0x14c) + 8))(param_1);
+  (*(code *)(*(int *)(param_1 + 0x14c) + 4))();
+  (*(code *)(*(int *)(param_1 + 0x14c) + 8))(param_1);
   return;
 }
 

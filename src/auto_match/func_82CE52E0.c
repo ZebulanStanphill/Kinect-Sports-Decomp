@@ -32,7 +32,7 @@ undefined4 * fn_82CE52E0(int *param_1,longlong param_2)
 {
   undefined4 *puVar1;
   
-  puVar1 = (undefined4 *)(**(code **)(*param_1 + 4))(param_1,param_2 + 0x10);
+  puVar1 = (undefined4 *)(*(code *)(*param_1 + 4))(param_1,param_2 + 0x10);
   *puVar1 = param_1;
   puVar1[1] = (int)param_2;
   return puVar1 + 4;

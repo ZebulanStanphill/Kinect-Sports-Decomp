@@ -32,7 +32,7 @@ void fn_8273CBF0(undefined4 *param_1)
 
 {
   fn_826F8490(param_1 + 1,0);
-  (**(code **)(param_1[2] + 4))(param_1 + 2);
+  (*(code *)(param_1[2] + 4))(param_1 + 2);
   *param_1 = 0xfffffffe;
   return;
 }

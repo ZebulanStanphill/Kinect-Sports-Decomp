@@ -33,7 +33,7 @@ void fn_82429898(int param_1,undefined8 param_2,undefined4 *param_3)
 {
   undefined4 auStack_20 [4];
   
-  (**(code **)(*(int *)(param_1 + 8) + 0x14))(param_1 + 8,param_2,auStack_20);
+  (*(code *)(*(int *)(param_1 + 8) + 0x14))(param_1 + 8,param_2,auStack_20);
   if (param_3 != (undefined4 *)0x0) {
     *param_3 = auStack_20[0];
   }

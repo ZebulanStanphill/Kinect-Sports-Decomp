@@ -33,7 +33,7 @@ void fn_8291C7E8(int *param_1)
 {
   undefined1 auStack_d0 [192];
   
-  (**(code **)(*param_1 + 0xc))(param_1,auStack_d0);
+  (*(code *)(*param_1 + 0xc))(param_1,auStack_d0);
   return;
 }
 

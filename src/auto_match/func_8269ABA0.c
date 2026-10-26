@@ -32,7 +32,7 @@ uint fn_8269ABA0(int *param_1)
 {
   int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x40))();
+  iVar1 = (*(code *)(*param_1 + 0x40))();
   return *(uint *)(iVar1 + 0xb00) >> 2 & 1;
 }
 

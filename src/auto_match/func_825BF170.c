@@ -38,7 +38,7 @@ void fn_825BF170(int param_1,undefined4 *param_2)
   }
                     /* WARNING: Could not recover jumptable at 0x825bf19c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)*param_2)(param_2,1);
+  (*(code *)*param_2)(param_2,1);
   return;
 }
 

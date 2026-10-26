@@ -36,7 +36,7 @@ void fn_82897B50(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   
   piVar1 = (int *)fn_828A12F0(param_1,param_4);
   *param_5 = 0;
-  (**(code **)(*piVar1 + 0x24))(piVar1,param_1,param_2,param_3,param_5);
+  (*(code *)(*piVar1 + 0x24))(piVar1,param_1,param_2,param_3,param_5);
   return;
 }
 

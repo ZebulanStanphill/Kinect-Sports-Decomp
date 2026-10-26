@@ -37,10 +37,10 @@ void fn_83085238(undefined4 *param_1,ulonglong param_2)
   
   iVar1 = fn_82CE5410();
   lVar3 = (param_2 & 0xfffffff) << 4;
-  uVar2 = (**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),lVar3);
+  uVar2 = (*(code *)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),lVar3);
   *param_1 = uVar2;
   iVar1 = fn_82CE5410();
-  uVar2 = (**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),lVar3);
+  uVar2 = (*(code *)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),lVar3);
   param_1[1] = uVar2;
   return;
 }

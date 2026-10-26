@@ -35,7 +35,7 @@ void fn_82D74A18(undefined4 *param_1)
   }
                     /* WARNING: Could not recover jumptable at 0x82d74a30. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)*param_1)(param_1,1);
+  (*(code *)*param_1)(param_1,1);
   return;
 }
 

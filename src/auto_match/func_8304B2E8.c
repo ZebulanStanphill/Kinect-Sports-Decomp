@@ -32,7 +32,7 @@ void fn_8304B2E8(int *param_1)
 
 {
   param_1[0xe] = 0;
-  (**(code **)(*param_1 + 8))();
+  (*(code *)(*param_1 + 8))();
   fn_8304D648(param_1);
   return;
 }

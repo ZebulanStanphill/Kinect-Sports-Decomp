@@ -36,7 +36,7 @@ void fn_82BBFE98(int param_1)
   puVar2 = *(undefined4 **)(param_1 + 8);
   while (puVar2 != (undefined4 *)(param_1 + 0xc)) {
     puVar1 = (undefined4 *)puVar2[2];
-    (**(code **)*puVar2)(puVar2,1);
+    (*(code *)*puVar2)(puVar2,1);
     puVar2 = puVar1;
   }
   *(undefined4 **)(param_1 + 8) = (undefined4 *)(param_1 + 0xc);

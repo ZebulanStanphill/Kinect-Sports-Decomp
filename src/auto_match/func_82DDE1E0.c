@@ -38,7 +38,7 @@ void fn_82DDE1E0(int param_1,undefined8 param_2,undefined8 param_3,int param_4)
   uVar1 = *(undefined4 *)(param_1 + 8);
   uVar2 = *(undefined4 *)(param_4 + 0x18);
   iVar3 = fn_82CE5410();
-  (**(code **)(**(int **)(iVar3 + 0x18) + 0x10))(*(int **)(iVar3 + 0x18),uVar2,uVar1,1);
+  (*(code *)(**(int **)(iVar3 + 0x18) + 0x10))(*(int **)(iVar3 + 0x18),uVar2,uVar1,1);
   return;
 }
 

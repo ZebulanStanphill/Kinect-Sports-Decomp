@@ -32,7 +32,7 @@ void fn_8286BDB8(int param_1,undefined8 param_2)
 {
                     /* WARNING: Could not recover jumptable at 0x8286bdd4. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 4) + 0x18))(*(int **)(param_1 + 4),param_1,param_2);
+  (*(code *)(**(int **)(param_1 + 4) + 0x18))(*(int **)(param_1 + 4),param_1,param_2);
   return;
 }
 

@@ -34,7 +34,7 @@ void fn_82249900(int param_1,undefined8 param_2,undefined4 *param_3)
   undefined4 auStack_10;
   
   auStack_10 = *param_3;
-  (**(code **)(*(int *)(param_1 + 8) + 0x10))(param_1 + 8,param_2,&auStack_10);
+  (*(code *)(*(int *)(param_1 + 8) + 0x10))(param_1 + 8,param_2,&auStack_10);
   return;
 }
 

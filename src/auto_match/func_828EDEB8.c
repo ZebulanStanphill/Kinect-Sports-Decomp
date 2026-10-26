@@ -34,7 +34,7 @@ void fn_828EDEB8(int *param_1,undefined8 param_2)
   *(undefined1 *)(param_1 + 0x6a) = 1;
                     /* WARNING: Could not recover jumptable at 0x828eded0. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*param_1 + 4))();
+  (*(code *)(*param_1 + 4))();
   return;
 }
 

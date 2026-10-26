@@ -38,7 +38,7 @@ void fn_828E62C8(int param_1)
   }
                     /* WARNING: Could not recover jumptable at 0x828e62e4. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)*puVar1)(puVar1,1);
+  (*(code *)*puVar1)(puVar1,1);
   return;
 }
 

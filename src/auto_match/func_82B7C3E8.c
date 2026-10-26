@@ -32,7 +32,7 @@ void fn_82B7C3E8(int param_1,undefined8 param_2,int param_3)
 {
   undefined4 uVar1;
   
-  uVar1 = (**(code **)(param_1 + 0x5a0))(*(undefined4 *)(param_1 + 0x5a4));
+  uVar1 = (*(code *)(param_1 + 0x5a0))(*(undefined4 *)(param_1 + 0x5a4));
   *(undefined4 *)((param_3 + 0x195) * 4 + param_1) = uVar1;
   return;
 }

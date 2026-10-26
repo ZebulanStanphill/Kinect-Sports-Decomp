@@ -34,7 +34,7 @@ void fn_826F6C28(int *param_1,undefined4 *param_2)
   undefined4 auStack_20 [4];
   
   auStack_20[0] = *param_2;
-  (**(code **)(*param_1 + 0x98))(param_1,auStack_20);
+  (*(code *)(*param_1 + 0x98))(param_1,auStack_20);
   param_1[0x2c0] = param_1[0x2c0] | 0x20000;
   return;
 }

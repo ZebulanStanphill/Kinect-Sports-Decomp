@@ -34,7 +34,7 @@ void fn_82493E28(int param_1,undefined8 param_2,undefined8 param_3)
   
   for (puVar1 = *(undefined4 **)(param_1 + 4); puVar1 != *(undefined4 **)(param_1 + 8);
       puVar1 = puVar1 + 1) {
-    (**(code **)(*(int *)*puVar1 + 0x18))((int *)*puVar1,param_2,param_3);
+    (*(code *)(*(int *)*puVar1 + 0x18))((int *)*puVar1,param_2,param_3);
   }
   return;
 }

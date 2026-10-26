@@ -33,7 +33,7 @@ undefined1 * fn_82DBE718(undefined1 *param_1,int *param_2)
   undefined4 uVar1;
   undefined1 uVar2;
   
-  uVar1 = (**(code **)(*param_2 + 0x20))(param_2);
+  uVar1 = (*(code *)(*param_2 + 0x20))(param_2);
   switch(uVar1) {
   case 0:
   case 1:

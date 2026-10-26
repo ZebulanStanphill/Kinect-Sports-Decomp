@@ -38,7 +38,7 @@ void fn_82514860(int param_1)
   }
                     /* WARNING: Could not recover jumptable at 0x8251487c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*piVar1 + 4))(piVar1,1);
+  (*(code *)(*piVar1 + 4))(piVar1,1);
   return;
 }
 

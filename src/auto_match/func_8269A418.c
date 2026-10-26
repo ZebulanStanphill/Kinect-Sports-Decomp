@@ -32,8 +32,8 @@ void fn_8269A418(int *param_1)
 {
   int *piVar1;
   
-  piVar1 = (int *)(**(code **)(*param_1 + 0x48))();
-  (**(code **)(*piVar1 + 0x10))();
+  piVar1 = (int *)(*(code *)(*param_1 + 0x48))();
+  (*(code *)(*piVar1 + 0x10))();
   return;
 }
 

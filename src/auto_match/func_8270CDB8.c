@@ -32,7 +32,7 @@ void fn_8270CDB8(int param_1,undefined8 param_2)
 
 {
   fn_8270C708();
-  (**(code **)(**(int **)(param_1 + 8) + 0x40))(*(int **)(param_1 + 8),param_2);
+  (*(code *)(**(int **)(param_1 + 8) + 0x40))(*(int **)(param_1 + 8),param_2);
   return;
 }
 

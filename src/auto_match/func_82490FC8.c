@@ -34,7 +34,7 @@ void fn_82490FC8(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 0x1c);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
     *(undefined4 *)(param_1 + 0x1c) = 0;
   }
   return;

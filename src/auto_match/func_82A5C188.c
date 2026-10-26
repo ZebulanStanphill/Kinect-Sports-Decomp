@@ -30,9 +30,9 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A5C188(int param_1,int param_2)
 
 {
-  (**(code **)(**(int **)(param_1 + 4) + 0x14))
+  (*(code *)(**(int **)(param_1 + 4) + 0x14))
             (*(int **)(param_1 + 4),*(undefined4 *)(param_2 + 0x10));
-  (**(code **)(**(int **)(param_1 + 0xc) + 4))(*(int **)(param_1 + 0xc),0);
+  (*(code *)(**(int **)(param_1 + 0xc) + 4))(*(int **)(param_1 + 0xc),0);
   return;
 }
 

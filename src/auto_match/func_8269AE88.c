@@ -32,7 +32,7 @@ undefined4 fn_8269AE88(int *param_1)
 {
   int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x40))();
+  iVar1 = (*(code *)(*param_1 + 0x40))();
   return *(undefined4 *)(iVar1 + 0x9e4);
 }
 

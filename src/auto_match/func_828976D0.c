@@ -32,7 +32,7 @@ void fn_828976D0(int *param_1)
 
 {
   fn_82897648();
-  (**(code **)(*param_1 + 0xc))(param_1);
+  (*(code *)(*param_1 + 0xc))(param_1);
   return;
 }
 

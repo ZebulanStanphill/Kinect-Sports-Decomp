@@ -34,7 +34,7 @@ void fn_827D95E0(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   int *piVar1;
   
   piVar1 = (int *)fn_8262F6A8();
-  (**(code **)(*piVar1 + 0x18))(piVar1,param_2,param_3);
+  (*(code *)(*piVar1 + 0x18))(piVar1,param_2,param_3);
   return;
 }
 

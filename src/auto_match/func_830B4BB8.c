@@ -34,7 +34,7 @@ void fn_830B4BB8(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 8);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
     *(undefined4 *)(param_1 + 8) = 0;
   }
   return;

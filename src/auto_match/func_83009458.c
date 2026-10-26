@@ -32,7 +32,7 @@ void fn_83009458(int *param_1,undefined8 param_2,undefined8 param_3)
 {
                     /* WARNING: Could not recover jumptable at 0x83009470. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*param_1 + 200))(param_1,0,param_2,param_3);
+  (*(code *)(*param_1 + 200))(param_1,0,param_2,param_3);
   return;
 }
 

@@ -34,7 +34,7 @@ int * fn_82DBE7C8(int *param_1)
 {
   undefined4 uVar1;
   
-  uVar1 = (**(code **)(*param_1 + 0x20))();
+  uVar1 = (*(code *)(*param_1 + 0x20))();
   do {
     switch(uVar1) {
     case 0:
@@ -56,7 +56,7 @@ int * fn_82DBE7C8(int *param_1)
     case 0xd:
       param_1 = (int *)fn_82D98A88(param_1);
     }
-    uVar1 = (**(code **)(*param_1 + 0x20))(param_1);
+    uVar1 = (*(code *)(*param_1 + 0x20))(param_1);
   } while( true );
 }
 

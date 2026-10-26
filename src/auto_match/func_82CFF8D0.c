@@ -34,7 +34,7 @@ void fn_82CFF8D0(undefined8 param_1,undefined8 param_2)
   int iVar1;
   
   iVar1 = fn_82CE5410();
-  (**(code **)(**(int **)(iVar1 + 0x10) + 0x2c))(*(int **)(iVar1 + 0x10),param_1,param_2);
+  (*(code *)(**(int **)(iVar1 + 0x10) + 0x2c))(*(int **)(iVar1 + 0x10),param_1,param_2);
   return;
 }
 

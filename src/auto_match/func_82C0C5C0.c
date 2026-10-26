@@ -33,17 +33,17 @@ undefined8 fn_82C0C5C0(int *param_1)
   int iVar1;
   undefined8 uVar2;
   
-  (**(code **)(*param_1 + 0xc))();
-  iVar1 = (**(code **)(*param_1 + 0xf4))(param_1);
-  if ((iVar1 == 3) && (iVar1 = (**(code **)(*param_1 + 0xf8))(param_1), iVar1 == 3)) {
-    (**(code **)(*param_1 + 0x114))(param_1,1);
-    (**(code **)(*param_1 + 0x118))(param_1,1);
+  (*(code *)(*param_1 + 0xc))();
+  iVar1 = (*(code *)(*param_1 + 0xf4))(param_1);
+  if ((iVar1 == 3) && (iVar1 = (*(code *)(*param_1 + 0xf8))(param_1), iVar1 == 3)) {
+    (*(code *)(*param_1 + 0x114))(param_1,1);
+    (*(code *)(*param_1 + 0x118))(param_1,1);
     uVar2 = 0;
   }
   else {
     uVar2 = 0xffffffff80004005;
   }
-  (**(code **)(*param_1 + 0x14))(param_1);
+  (*(code *)(*param_1 + 0x14))(param_1);
   return uVar2;
 }
 

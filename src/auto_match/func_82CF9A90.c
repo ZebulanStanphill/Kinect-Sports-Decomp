@@ -36,7 +36,7 @@ void fn_82CF9A90(void)
   undefined4 *puVar2;
   
   iVar1 = fn_82CE5410();
-  puVar2 = (undefined4 *)(**(code **)(**(int **)(iVar1 + 0x14) + 4))(*(int **)(iVar1 + 0x14),0x14);
+  puVar2 = (undefined4 *)(*(code *)(**(int **)(iVar1 + 0x14) + 4))(*(int **)(iVar1 + 0x14),0x14);
   KeTlsSetValue(lbl_8323B4A0,puVar2);
   *(undefined1 *)(puVar2 + 4) = 0;
   *puVar2 = 0;

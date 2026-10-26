@@ -36,7 +36,7 @@ void fn_82875B68(undefined8 param_1,int param_2)
   piVar1 = (int *)fn_82869130();
   if (*(int **)(param_2 + 0x30) != piVar1) {
     *(int **)(param_2 + 0x30) = piVar1;
-    (**(code **)(*piVar1 + 8))(piVar1,param_2);
+    (*(code *)(*piVar1 + 8))(piVar1,param_2);
   }
   return;
 }

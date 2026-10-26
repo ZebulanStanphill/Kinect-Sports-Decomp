@@ -36,9 +36,9 @@ void fn_82FFF990(undefined8 param_1)
   
   piVar1 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,param_1);
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x8c))();
-    (**(code **)(*piVar1 + 8))(piVar1);
-    (**(code **)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 0x8c))();
+    (*(code *)(*piVar1 + 8))(piVar1);
+    (*(code *)(*piVar1 + 8))(piVar1);
   }
   return;
 }

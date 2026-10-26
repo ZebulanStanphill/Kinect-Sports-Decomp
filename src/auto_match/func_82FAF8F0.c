@@ -32,7 +32,7 @@ void fn_82FAF8F0(int *param_1)
 
 {
   fn_82FB0438();
-  (**(code **)(*param_1 + 0x168))(param_1);
+  (*(code *)(*param_1 + 0x168))(param_1);
   return;
 }
 

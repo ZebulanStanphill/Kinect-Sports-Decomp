@@ -36,7 +36,7 @@ void fn_829AB188(int param_1,undefined8 param_2)
   
   fn_829AAFE0(param_1,auStack_60,param_2);
   if (*(code **)(param_1 + 0x544) != (code *)0x0) {
-    (**(code **)(param_1 + 0x544))(param_1,auStack_60);
+    (*(code *)(param_1 + 0x544))(param_1,auStack_60);
   }
   return;
 }

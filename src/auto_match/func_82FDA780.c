@@ -31,9 +31,9 @@ undefined8 fn_82FDA780(undefined4 *param_1,int *param_2)
 
 {
   if (param_1 != (undefined4 *)0x0) {
-    (**(code **)*param_1)(param_1,1);
+    (*(code *)*param_1)(param_1,1);
   }
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+  (*(code *)(*param_2 + 8))(param_2,param_1);
   return 1;
 }
 

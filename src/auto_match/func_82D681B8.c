@@ -38,11 +38,11 @@ void fn_82D681B8(undefined4 *param_1,undefined8 param_2)
     puVar1 = (undefined2 *)((int)param_1 + 0xe);
     do {
       puVar1 = puVar1 + 2;
-      (**(code **)(*(int *)param_1[2] + 0x14))((int *)param_1[2],*puVar1,param_2);
+      (*(code *)(*(int *)param_1[2] + 0x14))((int *)param_1[2],*puVar1,param_2);
       iVar2 = iVar2 + 1;
     } while (iVar2 < (int)(uint)*(byte *)((int)param_1 + 0x31));
   }
-  (**(code **)*param_1)(param_1,1);
+  (*(code *)*param_1)(param_1,1);
   return;
 }
 
