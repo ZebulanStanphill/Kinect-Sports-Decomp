@@ -1,50 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE63B0();
+typedef struct { int a; int b; } Pair;
+typedef struct { Pair *data; int size; int capacityAndFlags; } PairArray;
+typedef struct { char pad[0xc]; int id; } Item;
+typedef struct { char pad[0x10]; void *heap; } Tls;
+extern Tls *fn_82CE5410(void);
+extern void fn_82CE63B0(void *heap, void *arr, int elemSize);
 
-
-void fn_8308B650(int param_1,int param_2,int *param_3)
-
+void fn_8308B650(Item *a, Item *b, PairArray *arr)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CE5410();
-  if (param_3[1] == (param_3[2] & 0x3fffffffU)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82CE63B0(*(undefined4 *)(iVar2 + 0x10),param_3,8);
+  Tls *t = fn_82CE5410();
+  Pair *e;
+  if (arr->size == (arr->capacityAndFlags & 0x3fffffff)) {
+    fn_82CE63B0(t->heap, arr, 8);
   }
-  iVar2 = *param_3;
-  iVar1 = param_3[1] * 8;
-  param_3[1] = param_3[1] + 1;
-  *(undefined4 *)(iVar1 + iVar2) = *(undefined4 *)(param_1 + 0xc);
-  *(undefined4 *)(iVar1 + iVar2 + 4) = *(undefined4 *)(param_2 + 0xc);
-  return;
+  e = &arr->data[arr->size++];
+  e->a = a->id;
+  e->b = b->id;
 }
-

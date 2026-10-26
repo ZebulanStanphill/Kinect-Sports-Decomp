@@ -32,9 +32,9 @@ extern int fn_8223AAC0();
 undefined4 * fn_82365BD8(undefined4 *param_1,undefined4 *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
-  char cVar3;
+  unsigned char cVar3;
   
   *param_1 = 0;
   param_1[1] = 0;
@@ -42,7 +42,7 @@ undefined4 * fn_82365BD8(undefined4 *param_1,undefined4 *param_2)
   uVar2 = *param_2;
   if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
     if (param_1[1] != 0) {
-      fn_822315A0();
+      fn_822315A0(param_1[1]);
     }
     param_1[1] = iVar1;
     *param_1 = uVar2;

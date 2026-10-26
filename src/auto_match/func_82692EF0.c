@@ -1,56 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef void (*code)(void *);
+typedef struct { char pad[4]; int ***obj; char pad2[8]; unsigned int min; unsigned int max; int total; } Obj;
 
-
-void fn_82692EF0(int param_1,int param_2,uint param_3,int *param_4,uint *param_5)
-
+void fn_82692EF0(Obj *o, int base, unsigned int size, int *out_base, unsigned int *out_size)
 {
-  uint uVar1;
-  
-  uVar1 = param_3;
-  if (param_3 < 0x1000) {
-    uVar1 = 0x1000;
-  }
-  if (param_3 < *(uint *)(param_1 + 0x10)) {
-    param_3 = *(uint *)(param_1 + 0x10);
-  }
-  if (*(uint *)(param_1 + 0x14) < param_3) {
-    param_3 = *(uint *)(param_1 + 0x14);
-  }
-  if (param_3 < uVar1) {
-    param_2 = uVar1 + param_2;
-  }
-  *param_4 = param_2;
-  *param_5 = param_3;
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + param_2;
-                    /* WARNING: Could not recover jumptable at 0x82692f54. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*(int *)**(undefined4 **)(param_1 + 4) + 4))();
-  return;
-}
+  unsigned int s;
 
+  s = size;
+  if (size < 0x1000) {
+    s = 0x1000;
+  }
+  if (size < o->min) {
+    size = o->min;
+  }
+  if (size > o->max) {
+    size = o->max;
+  }
+  if (size < s) {
+    base = s + base;
+  }
+  *out_base = base;
+  *out_size = size;
+  o->total = o->total + base;
+  (*(code *)(**o->obj + 1))(*o->obj);
+}

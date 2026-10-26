@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8277F5D8();
-extern int fn_82781FA0();
+typedef struct { char pad[0x28]; int idx; } Info;
+typedef struct { Info *info; int val; } Item;
+typedef struct { char pad[0x24]; unsigned char *flags; } Self;
+extern int fn_8277F5D8(Self *, int);
+extern void fn_82781FA0(Self *, Item *, int, int);
 
-
-void fn_82782008(int param_1,int *param_2,undefined8 param_3)
-
+void fn_82782008(Self *s, Item *it, int a)
 {
-  int iVar1;
-  
-  param_2[1] = 0;
-  if (*(char *)(*(int *)(param_1 + 0x24) + *(int *)(*param_2 + 0x28)) != '\0') {
-    iVar1 = fn_8277F5D8();
-    param_2[1] = iVar1;
-    fn_82781FA0(param_1,param_2,param_3,1);
+  int idx;
+  it->val = 0;
+  idx = it->info->idx;
+  if (s->flags[idx] != 0) {
+    it->val = fn_8277F5D8(s, idx);
+    fn_82781FA0(s, it, a, 1);
   }
-  return;
 }
-

@@ -1,30 +1,13 @@
-typedef unsigned char undefined1, byte, undefined, bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2, ushort, word;
-typedef unsigned int undefined4, uint, dword, ulong;
-typedef unsigned __int64 undefined8, ulonglong, qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x30]; void *res; char pad2[0x96 - 0x34]; unsigned char released; } Item;
+extern void fn_8253D5A0(void *list, void *owner, void *res);
+extern void fn_82CE4118(void *res);
 
-
-void fn_82627E18(longlong param_1,int param_2)
-
+void fn_82627E18(char *self, Item *item)
 {
-  if ((*(int *)(param_2 + 0x30) != 0) && (*(char *)(param_2 + 0x96) == '\0')) {
-    *(undefined1 *)(param_2 + 0x96) = 1;
-    Function_8253D5A0(param_1 + 0x1f0,param_1);
-    Function_82CE4118(*(undefined4 *)(param_2 + 0x30));
-    *(undefined4 *)(param_2 + 0x30) = 0;
-  }
-  return;
+    if (item->res != 0 && item->released == 0) {
+        item->released = 1;
+        fn_8253D5A0(self + 0x1f0, self, item->res);
+        fn_82CE4118(item->res);
+        item->res = 0;
+    }
 }

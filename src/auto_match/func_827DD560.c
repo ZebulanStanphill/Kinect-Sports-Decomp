@@ -26,17 +26,18 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827D50C0();
+extern unsigned int fn_82A1F470();
 extern int fn_827D9EB0();
 extern int fn_827D9ED0();
 extern int fn_82A1E658();
 
 
-undefined8 fn_827DD560(undefined8 param_1,undefined4 *param_2)
+unsigned int  fn_827DD560(undefined8 param_1,undefined4 *param_2)
 
 {
   undefined4 uVar1;
   int iVar3;
-  undefined8 uVar2;
+  unsigned int uVar2;
   
   uVar1 = *param_2;
   fn_827D9ED0(uVar1);
@@ -44,9 +45,9 @@ undefined8 fn_827DD560(undefined8 param_1,undefined4 *param_2)
   fn_827D9EB0(uVar1,0xffffffffcdcdcdcd);
   if (iVar3 == 0) {
     uVar1 = param_2[1];
-    uVar2 = thunk_FUN_82a2b798();
+    uVar2 = fn_82A1F470();
     fn_827D50C0(uVar1,uVar2);
-    uVar2 = thunk_FUN_82a2b798();
+    uVar2 = fn_82A1F470();
   }
   else {
     uVar2 = 0;

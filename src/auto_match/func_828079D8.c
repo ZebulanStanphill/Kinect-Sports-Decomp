@@ -33,7 +33,7 @@ void fn_828079D8(int param_1)
 {
   *(undefined4 *)(param_1 + 0x24) = 0;
   *(undefined4 *)(param_1 + 0x28) = 0;
-  *(undefined4 *)(param_1 + 0x40) = lbl_821AAD20;
+  *(float *)(param_1 + 0x40) = 0.0f;
   *(undefined4 *)(param_1 + 0x30) = 0;
   *(undefined4 *)(param_1 + 0x34) = 0;
   *(undefined4 *)(param_1 + 0x38) = 0;

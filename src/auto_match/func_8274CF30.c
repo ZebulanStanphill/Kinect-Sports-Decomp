@@ -1,45 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C0B08();
-extern int fn_8274CC38();
+extern void fn_826C0B08(void *p);
+extern void fn_8274CC38(void *p, int a);
 extern unsigned int lbl_82013530;
 extern unsigned int lbl_82013584;
 
+typedef struct B2 { void *vt; int pad[7]; } B2;
+typedef struct Z { int x30; int x34; } Z;
+typedef struct S {
+    void *vt;
+    int pad[3];
+    B2 b2;
+    Z z;
+} S;
 
-undefined4 * fn_8274CF30(undefined4 *param_1,undefined8 param_2)
-
+S *fn_8274CF30(S *p, int a)
 {
-  fn_826C0B08();
-  *param_1 = &lbl_82013584;
-  param_1[4] = &lbl_82013530;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  fn_8274CC38(param_1,param_2);
-  return param_1;
+    Z *z;
+    fn_826C0B08(p);
+    p->vt = &lbl_82013584;
+    p->b2.vt = &lbl_82013530;
+    z = &p->z;
+    z->x30 = 0;
+    z->x34 = 0;
+    fn_8274CC38(p, a);
+    return p;
 }
-

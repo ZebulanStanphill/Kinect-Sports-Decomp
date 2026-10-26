@@ -41,7 +41,7 @@ undefined8 fn_82E655B0(int param_1,int *param_2)
     piVar1 = *(int **)(param_1 + 8);
     *param_2 = (int)piVar1;
     if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 4))();
+      (*(code *)(*piVar1 + 4))(piVar1);
     }
   }
   return uVar2;

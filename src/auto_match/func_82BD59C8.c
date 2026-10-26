@@ -1,47 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD4D50();
-extern int fn_82BDA3E8();
+typedef struct { int v[7]; } CS;
+extern void RtlEnterCriticalSection(CS *cs);
+extern void RtlLeaveCriticalSection(CS *cs);
+extern void *fn_82BD4D50(void *p, int a);
+extern int fn_82BDA3E8(void *o);
+typedef struct { char pad[0xf0]; CS cs; } S;
 
-
-undefined8 fn_82BD59C8(longlong param_1,undefined8 param_2)
-
+int fn_82BD59C8(S *p, int a)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0;
-  RtlEnterCriticalSection(param_1 + 0xf0);
-  iVar1 = fn_82BD4D50(param_1,param_2);
-  if (iVar1 != 0) {
-    uVar2 = fn_82BDA3E8();
-  }
-  RtlLeaveCriticalSection(param_1 + 0xf0);
-  return uVar2;
+  int r = 0;
+  void *o;
+  RtlEnterCriticalSection(&p->cs);
+  o = fn_82BD4D50(p, a);
+  if (o != 0)
+    r = fn_82BDA3E8(o);
+  RtlLeaveCriticalSection(&p->cs);
+  return r;
 }
-

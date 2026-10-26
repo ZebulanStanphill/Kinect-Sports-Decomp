@@ -1,52 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8224ED20();
-extern int fn_8265CA20();
+typedef struct Node {
+  struct Node *left;
+  struct Node *parent;
+  struct Node *right;
+  int pad[1];
+  int val0;
+  struct Node *head;
+  int pad2[2];
+  char color;
+  char isnil;
+} Node;
+typedef struct { Node *ptr; } Iter;
+typedef struct { int v[4]; } Tmp;
+extern void fn_8224ED20(Tmp *, void *, Iter, Iter);
+extern void fn_8265CA20(void *);
 
-
-void fn_82896900(undefined8 param_1,int *param_2)
-
+void fn_82896900(void *self, Node *root)
 {
-  char cVar1;
-  int *piVar2;
-  undefined1 auStack_30 [16];
-  
-  cVar1 = *(char *)((int)param_2 + 0x21);
-  while (cVar1 == '\0') {
-    fn_82896900(param_1,param_2[2]);
-    piVar2 = (int *)*param_2;
-    fn_8224ED20(auStack_30,param_2 + 4,*(undefined4 *)param_2[5]);
-    fn_8265CA20(param_2[5]);
-    fn_8265CA20(param_2);
-    param_2 = piVar2;
-    cVar1 = *(char *)((int)piVar2 + 0x21);
-  }
-  return;
-}
+  Node *p;
+  Tmp t;
+  Iter first, last;
 
+  for (p = root; !p->isnil; root = p) {
+    fn_82896900(self, p->right);
+    p = p->left;
+    first.ptr = root->head->left;
+    last.ptr = root->head;
+    fn_8224ED20(&t, &root->val0, first, last);
+    fn_8265CA20(root->head);
+    fn_8265CA20(root);
+  }
+}

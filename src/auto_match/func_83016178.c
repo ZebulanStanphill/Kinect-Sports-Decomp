@@ -1,53 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Ent { int a; int b; } Ent;
+typedef struct Obj { char pad[0x1c]; Ent *begin; Ent *end; Ent *cap; } Obj;
+extern void fn_82FA5190(int heap, void *p);
+extern int lbl_831BC768;
 
-
-void fn_83016178(int param_1)
-
+void fn_83016178(Obj *p)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (iVar1 != *(int *)(param_1 + 0x20)) {
-    do {
-      fn_82FA5190(lbl_831BC768,*(undefined4 *)(iVar1 + 4));
-      iVar1 = iVar1 + 8;
-    } while (iVar1 != *(int *)(param_1 + 0x20));
-  }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x1c);
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-    *(undefined4 *)(param_1 + 0x20) = 0;
-    *(undefined4 *)(param_1 + 0x24) = 0;
-  }
-  return;
+    Ent *e;
+    for (e = p->begin; e != p->end; e++) {
+        fn_82FA5190(lbl_831BC768, (void *)e->b);
+    }
+    if (p->begin != 0) {
+        p->end = p->begin;
+        fn_82FA5190(lbl_831BC768, p->begin);
+        p->begin = 0;
+        p->end = 0;
+        p->cap = 0;
+    }
 }
-

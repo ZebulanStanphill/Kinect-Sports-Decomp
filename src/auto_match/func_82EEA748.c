@@ -1,54 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node { int data; struct Node *next; } Node;
+typedef struct Block { struct Block *next; Node nodes[8]; } Block;
+typedef struct { Node *free; Block *block; int arg; Block first; } Pool;
 
-
-void fn_82EEA748(int *param_1,int param_2)
-
+void fn_82EEA748(Pool *p, int arg)
 {
-  int iVar1;
-  int iVar2;
-  longlong lVar3;
-  
-  if (param_1[1] != 0) {
+  int i;
+  if (p->block != 0) {
     return;
   }
-  param_1[2] = param_2;
-  param_1[1] = (int)(param_1 + 3);
-  iVar2 = 0;
-  param_1[3] = 0;
-  lVar3 = 8;
-  do {
-    iVar1 = iVar2 + param_1[1];
-    iVar2 = iVar2 + 8;
-    *(int *)(iVar1 + 8) = *param_1;
-    *param_1 = iVar1 + 4;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
+  p->arg = arg;
+  p->block = &p->first;
+  p->first.next = 0;
+  for (i = 0; i < 8; i++) {
+    Node *n = &p->block->nodes[i];
+    n->next = p->free;
+    p->free = n;
+  }
 }
-

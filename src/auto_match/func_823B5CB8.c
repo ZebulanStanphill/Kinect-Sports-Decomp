@@ -35,10 +35,10 @@ void fn_823B5CB8(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 8);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_822315A0();
+  if (*(unsigned int *)(param_1 + 4) != 0) {
+    fn_822315A0(*(unsigned int *)(param_1 + 4));
   }
   return;
 }

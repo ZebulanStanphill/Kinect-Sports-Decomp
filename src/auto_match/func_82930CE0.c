@@ -1,46 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8202F104;
+extern char lbl_8202F104[];
 
+typedef struct {
+    void *vtbl;
+    int type;
+    int a;
+    int b;
+    int p2;
+    int p3;
+    int p4;
+    int p5;
+    int p6;
+} Obj;
 
-void fn_82930CE0(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5,undefined4 param_6)
-
+void fn_82930CE0(Obj *o, int p2, int p3, int p4, int p5, int p6)
 {
-  param_1[4] = param_2;
-  param_1[5] = param_3;
-  param_1[6] = param_4;
-  param_1[2] = 0;
-  param_1[1] = 5;
-  *param_1 = &lbl_8202F104;
-  param_1[3] = 0;
-  param_1[7] = param_5;
-  param_1[8] = param_6;
-  return;
+    o->p2 = p2;
+    o->p3 = p3;
+    o->p4 = p4;
+    o->type = 5;
+    o->a = 0;
+    o->vtbl = lbl_8202F104;
+    o->b = 0;
+    o->p5 = p5;
+    o->p6 = p6;
 }
-

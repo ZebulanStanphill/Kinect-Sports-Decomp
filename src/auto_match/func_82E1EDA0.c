@@ -36,13 +36,12 @@ extern int fn_82E218C0();
 void fn_82E1EDA0(int param_1)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   
   fn_82E218C0(*(undefined4 *)(param_1 + 0x48));
   uVar1 = fn_82E210B0(*(undefined4 *)(param_1 + 0x48));
-  uVar2 = fn_823AA2A8(*(undefined4 *)(param_1 + 0x48));
-  fn_82E1EC90(param_1,uVar2,uVar1);
+  fn_82E1EC90(param_1,fn_823AA2A8(*(undefined4 *)(param_1 + 0x48)),uVar1);
   fn_82E1D550();
   fn_82E1D230();
   if (*(char *)(param_1 + 0xe) != '\0') {

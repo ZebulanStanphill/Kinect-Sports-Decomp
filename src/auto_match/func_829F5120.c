@@ -1,50 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829F5370();
-extern int fn_829F7FA8();
-extern int fn_829F92C0();
-extern int iRam83218c38;
-
+extern void fn_829F5370(void *p);
+extern void fn_829F7FA8(void *p);
+extern void fn_829F92C0(void *p);
+extern void *lbl_83218C38;
 
 void fn_829F5120(void)
-
 {
-  int iVar1;
-  
-  if (iRam83218c38 != 0) {
-    fn_829F7FA8();
-    iVar1 = iRam83218c38;
-    if (iRam83218c38 != 0) {
-      fn_829F92C0(iRam83218c38);
-      fn_829F5370(iVar1);
+    void *p;
+    if (lbl_83218C38 != 0) {
+        fn_829F7FA8(lbl_83218C38);
+        p = lbl_83218C38;
+        if (lbl_83218C38 != 0) {
+            fn_829F92C0(p);
+            fn_829F5370(p);
+        }
+        lbl_83218C38 = 0;
     }
-    iRam83218c38 = 0;
-  }
-  return;
 }
-

@@ -1,19 +1,15 @@
-int fn_8234ADB8(int param_1, int param_2)
+typedef struct { char pad[0x10]; unsigned int a; int b; } State;
+typedef struct { char pad[0x14]; unsigned int f14; char pad2[0x1a0-0x18]; State *state; } Obj;
+typedef struct { char pad[0xc]; Obj **o; } P;
+extern void fn_8255E3A0(unsigned int, int, int);
+
+int fn_8234ADB8(int r, P *p)
 {
-    int state;
-    int value;
-
-    state = *(int *)(**(int **)(param_2 + 0x0c) + 0x1a0);
-    if (*(unsigned int *)(state + 0x10) != 0) {
-        value = 0x0b;
-        if (*(int *)(state + 0x14) == 0) {
-            goto choose_value;
-        }
-    }
-    value = 0x0a;
-
-choose_value:
-    fn_8255E3A0(*(unsigned int *)(**(int **)(param_2 + 0x0c) + 0x14),
-                 value, param_1);
-    return param_1;
+  Obj *o = *p->o;
+  State *s = o->state;
+  if (s->a != 0 && s->b == 0)
+    fn_8255E3A0(o->f14, 0xb, r);
+  else
+    fn_8255E3A0(o->f14, 0xa, r);
+  return r;
 }

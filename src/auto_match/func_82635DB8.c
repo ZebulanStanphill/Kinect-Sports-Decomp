@@ -1,45 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_82637238();
+typedef struct { unsigned int pad : 29; unsigned int flag : 1; unsigned int rest : 2; } Flags;
+typedef struct { char pad[0x4db4]; Flags f; } Dev;
+typedef struct {
+  Dev *dev;
+  char pad[0x4c];
+  char b[0xc8];
+  char a[0x26d0 - 0x118];
+} Elem;
+typedef struct { int index; int pad[3]; Elem e[1]; } S;
 
+extern void fn_82637238(void *a, unsigned int *v, void *b);
 
-void fn_82635DB8(int *param_1,uint param_2,uint param_3,uint param_4)
-
+void fn_82635DB8(S *p, unsigned int b, unsigned int c, unsigned int d)
 {
-  int iVar1;
-  uint auStack_10;
-  
-  iVar1 = *param_1;
-  if ((*(uint *)(param_1[iVar1 * 0x9b4 + 4] + 0x4db4) >> 2 & 1) == 0) {
-    auStack_10 = ((param_3 & 0xf) << 1 | param_2 & 1) << 8 | param_4 & 0xff;
-    fn_82637238(param_1 + iVar1 * 0x9b4 + 0x4a,&auStack_10,param_1 + iVar1 * 0x9b4 + 0x18);
+  Elem *e = &p->e[p->index];
+  unsigned int v;
+  if (!(unsigned char)e->dev->f.flag) {
+    v = (((c & 0xf) << 1 | (b & 1)) << 8) | (d & 0xff);
+    fn_82637238(e->a, &v, e->b);
   }
-  return;
 }
-

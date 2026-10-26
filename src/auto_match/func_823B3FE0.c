@@ -1,43 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823B3D90();
+extern void fn_823B3D90(int, int);
 
+typedef struct { int key; int val; int pad; } Entry;
+typedef struct { Entry *begin; Entry *end; } Vec;
 
-void fn_823B3FE0(undefined4 *param_1,int *param_2)
-
+void fn_823B3FE0(Vec *v, int *key)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  piVar1 = (int *)param_1[1];
-  for (piVar2 = (int *)*param_1; piVar2 != piVar1; piVar2 = piVar2 + 3) {
-    fn_823B3D90(piVar2[1],*param_2 == *piVar2);
+  Entry *p = v->begin;
+  Entry *end = v->end;
+  for (; p != end; p++) {
+    fn_823B3D90(p->val, p->key == *key);
   }
-  return;
 }
-

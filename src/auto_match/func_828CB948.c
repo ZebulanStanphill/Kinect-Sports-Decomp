@@ -1,50 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_828CB6C8();
-extern unsigned int lbl_82026780;
+typedef struct List { int size; struct List *next; struct List *prev; int count; } List;
+typedef struct { void *vtbl; List l; } Obj;
+extern void fn_8265CA20(Obj *p);
+extern void fn_828CB6C8(List *first, List *last);
+extern char lbl_82026780[];
 
-
-undefined4 * fn_828CB948(undefined4 *param_1,ulonglong param_2)
-
+static void List_dtor(List *l)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = param_1 + 1;
-  fn_828CB6C8(puVar1,puVar1);
-  param_1[2] = puVar1;
-  param_1[3] = puVar1;
-  param_1[1] = 0;
-  param_1[4] = 0;
-  *param_1 = &lbl_82026780;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+  fn_828CB6C8(l, l);
+  l->next = l;
+  l->prev = l;
+  l->size = 0;
+  l->count = 0;
 }
 
+static void Base_dtor(Obj *p)
+{
+  p->vtbl = lbl_82026780;
+}
+
+Obj *fn_828CB948(Obj *p, unsigned int flags)
+{
+  List_dtor(&p->l);
+  Base_dtor(p);
+  if ((flags & 1) != 0) {
+    fn_8265CA20(p);
+  }
+  return p;
+}

@@ -1,46 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82522ED8();
-extern int fn_8265CA20();
-extern int fn_82F57B10();
+typedef struct Node {
+    struct Node *left;
+} Node;
 
+typedef struct {
+    int pad;
+    Node *head;
+} Tree;
 
-int fn_82F57D98(int param_1,ulonglong param_2)
+typedef struct {
+    int vtbl;
+    Tree tree;
+} Owner;
 
+typedef struct {
+    Node *ptr;
+} Iter;
+
+extern void fn_824B4280(void *p);
+extern void fn_8265CA20(void *p);
+extern Iter *fn_82F57B10(Iter *ret, Tree *t, Iter first, Iter last);
+
+Owner *fn_82F57D98(Owner *o, unsigned int flags)
 {
-  undefined1 auStack_20 [8];
-  
-  fn_82F57B10(auStack_20,param_1 + 4,**(undefined4 **)(param_1 + 8));
-  fn_82522ED8(*(undefined4 *)(param_1 + 8));
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
-}
+    Iter tmp;
+    Iter first;
+    Iter last;
 
+    first.ptr = o->tree.head->left;
+    last.ptr = o->tree.head;
+    fn_82F57B10(&tmp, &o->tree, first, last);
+    fn_824B4280(o->tree.head);
+    if (flags & 1) {
+        fn_8265CA20(o);
+    }
+    return o;
+}

@@ -1,49 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82819398();
-extern int fn_8281A1A0();
-extern int fn_82822E38();
-extern int fn_828233A8();
+typedef struct {
+    int v[16];
+} Elem;
 
+typedef struct {
+    char pad[0x7c];
+    Elem *base;
+    char pad2[0x88 - 0x80];
+    char list[0x108 - 0x88];
+    char other[4];
+} Owner;
 
-void fn_8281ADC8(int param_1,undefined8 param_2)
+extern int fn_828192C8(void);
+extern void fn_828233A8(void *list, Elem **out, int (*pred)(void), int arg);
+extern void fn_82819398(Elem *base, void *other, int idx);
+extern void fn_82822E38(Elem *e);
+extern void fn_8281A1A0(Owner *o, int idx);
 
+void fn_8281ADC8(Owner *o, int arg)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  int aiStack_30;
-  
-  uVar1 = *(uint *)(param_1 + 0x7c);
-  fn_828233A8(param_1 + 0x88,&aiStack_30,0xffffffff828192c8,param_2);
-  uVar2 = (ulonglong)(short)((int)(aiStack_30 - uVar1) >> 6);
-  fn_82819398((ulonglong)uVar1,param_1 + 0x108,uVar2);
-  fn_82822E38((uVar2 & 0x3ffffff) * 0x40 + (ulonglong)uVar1);
-  fn_8281A1A0(param_1,uVar2);
-  return;
-}
+    Elem *base = o->base;
+    Elem *found;
+    short idx;
 
+    fn_828233A8(o->list, &found, fn_828192C8, arg);
+    idx = (short)(found - base);
+    fn_82819398(base, o->other, idx);
+    fn_82822E38(&base[idx]);
+    fn_8281A1A0(o, idx);
+}

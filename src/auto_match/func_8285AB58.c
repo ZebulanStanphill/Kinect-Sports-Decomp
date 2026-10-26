@@ -39,11 +39,11 @@ void fn_8285AB58(int param_1,int param_2,undefined4 param_3)
   iVar1 = param_2 + 0x10;
   *(undefined4 *)(param_2 + 0x94) = param_3;
   fn_8280AC48(iVar1,param_2 + 0x50);
-  if (*(int *)(param_2 + 0x94) == 0) {
-    fn_8280ACD8(iVar1);
+  if (*(unsigned int *)(param_2 + 0x94) != 0) {
+    fn_8280CED8(*(int *)(param_2 + 0x94),iVar1);
   }
   else {
-    fn_8280CED8(*(int *)(param_2 + 0x94),iVar1);
+    fn_8280ACD8(iVar1);
   }
   return;
 }

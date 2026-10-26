@@ -31,7 +31,7 @@ undefined4 fn_827641D0(int param_1,undefined4 *param_2)
 
 {
   *param_2 = *(undefined4 *)(param_1 + 0x54);
-  if (*(int *)(param_1 + 0x54) != 0) {
+  if (*(unsigned int *)(param_1 + 0x54) > 0) {
     return *(undefined4 *)(param_1 + 0x50);
   }
   return 0;

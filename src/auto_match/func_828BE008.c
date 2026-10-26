@@ -39,7 +39,7 @@ undefined4 * fn_828BE008(undefined4 *param_1,int param_2,int *param_3)
   piVar2 = (int *)param_3[4];
   *param_1 = *(undefined4 *)(iVar1 + 4);
   if (piVar2 != (int *)0x0) {
-    (**(code **)(*piVar2 + 0xc))(piVar2,param_3 != piVar2);
+    (*(code *)(*piVar2 + 0xc))(piVar2,piVar2 != param_3);
     param_3[4] = 0;
   }
   return param_1;

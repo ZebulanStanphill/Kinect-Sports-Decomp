@@ -1,11 +1,18 @@
-extern unsigned int lbl_821AE068;
-extern void fn_82D81240(unsigned char *);
-extern void fn_82CE4118(unsigned int *);
-typedef struct { unsigned int a; unsigned int b; } Child;
-typedef struct { unsigned int v; unsigned int unused; Child *child; } Obj;
+extern char lbl_821AE068[];
+typedef struct { int a; int b; void *c; } Child;
+typedef struct { void *vt; int unused; Child *child; } Obj;
+typedef struct { int v[4]; } Tmp;
+extern void fn_82D81240(Tmp *, void *, Child *);
+extern void fn_82CE4118(Child *);
 
-void fn_822E8378(Obj *p) {
- unsigned char s[16];
- p->v=(unsigned int)&lbl_821AE068;
- if(p->child!=0 && p->child->b!=0){fn_82D81240(s);fn_82CE4118((unsigned int *)p->child);p->child=0;}
+void fn_822E8378(Obj *p)
+{
+  Tmp s;
+  Child *c = p->child;
+  p->vt = lbl_821AE068;
+  if (c != 0 && c->c != 0) {
+    fn_82D81240(&s, c->c, c);
+    fn_82CE4118(p->child);
+    p->child = 0;
+  }
 }

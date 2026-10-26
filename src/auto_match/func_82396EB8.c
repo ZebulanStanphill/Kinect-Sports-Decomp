@@ -34,9 +34,9 @@ extern unsigned int uStack_30;
 undefined8 fn_82396EB8(int param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 uVar2;
-  char cVar3;
+  unsigned char cVar3;
   struct { undefined4 first; int second; } stack_pair_30;
 
   
@@ -45,8 +45,8 @@ undefined8 fn_82396EB8(int param_1,undefined8 param_2)
   stack_pair_30.first = 0;
   stack_pair_30.second = 0;
   if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    stack_pair_30.first = uVar2;
     stack_pair_30.second = iVar1;
+    stack_pair_30.first = uVar2;
   }
   fn_822E4330(param_2,*(undefined4 *)(param_1 + 4),&stack_pair_30.first,param_1 + 0x10,param_1 + 0x14,
                     *(undefined4 *)(param_1 + 0x18));

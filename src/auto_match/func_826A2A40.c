@@ -1,44 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826824B0();
+extern void fn_826824B0(void *o);
 
+typedef struct { void *a; void *b; unsigned char flags; } Pair;
+typedef struct { int x, y; Pair pair; } S;
 
-void fn_826A2A40(int param_1)
-
+void fn_826A2A40(S *p)
 {
-  if (((*(byte *)(param_1 + 0x10) & 2) == 0) && (*(int *)(param_1 + 8) != 0)) {
-    fn_826824B0();
-  }
-  *(int *)(param_1 + 8) = 0;
-  if (((*(byte *)(param_1 + 0x10) & 1) == 0) && (*(int *)(param_1 + 0xc) != 0)) {
-    fn_826824B0();
-  }
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  return;
+  Pair *q = &p->pair;
+  if ((q->flags & 2) == 0 && q->a != 0)
+    fn_826824B0(q->a);
+  q->a = 0;
+  if ((q->flags & 1) == 0 && q->b != 0)
+    fn_826824B0(q->b);
+  q->b = 0;
 }
-

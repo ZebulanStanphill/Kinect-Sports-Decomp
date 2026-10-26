@@ -1,41 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Elem { int a; float v; } Elem;
+typedef struct Deq { char pad[0x3c]; Elem **map; } Deq;
 
-
-bool fn_8277BFE8(int param_1,uint param_2,int param_3)
-
+unsigned char fn_8277BFE8(Deq *d, unsigned int i, int n)
 {
-  if (param_3 <= (int)param_2) {
-    return true;
-  }
-  return *(float *)(*(int *)((param_2 + 1 >> 8 & 0xfffffc) + *(int *)(param_1 + 0x3c)) +
-                    ((param_2 + 1) * 8 & 0x1ff8) + 4) <=
-         *(float *)(*(int *)((param_2 >> 8 & 0xfffffc) + *(int *)(param_1 + 0x3c)) +
-                    (param_2 & 0x3ff) * 8 + 4);
+    unsigned int j;
+    if ((int)i >= n) {
+        return 1;
+    }
+    j = i + 1;
+    return d->map[j >> 10][j & 0x3ff].v <= d->map[i >> 10][i & 0x3ff].v;
 }
-

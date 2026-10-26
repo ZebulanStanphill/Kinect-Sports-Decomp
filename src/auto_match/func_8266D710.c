@@ -1,49 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8266D270();
-extern int fn_8266D440();
+extern void fn_8266D270(void *c, void *e);
+extern void fn_8266D440(void *c);
 
+typedef struct { int a, b, c; } E;
+typedef struct { int a, b, c, d, e; } R;
 
-undefined4 * fn_8266D710(undefined4 *param_1,ulonglong param_2,ulonglong param_3,int param_4)
-
+R *fn_8266D710(R *out, E *first, E *last, char *c)
 {
-  undefined4 uVar1;
-  
-  for (; (param_2 & 0xffffffff) != (param_3 & 0xffffffff); param_2 = param_2 + 0xc) {
-    fn_8266D270(param_4,param_2);
-  }
-  uVar1 = *(undefined4 *)(param_4 + 0x10);
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = uVar1;
-  fn_8266D440(param_4);
-  return param_1;
+  int v;
+  for (; first != last; first++)
+    fn_8266D270(c, first);
+  v = *(int *)(c + 0x10);
+  out->a = 0;
+  out->b = 0;
+  out->c = 0;
+  out->d = 0;
+  out->e = v;
+  fn_8266D440(c);
+  return out;
 }
-

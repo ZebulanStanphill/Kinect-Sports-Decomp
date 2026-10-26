@@ -1,46 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Link Link;
+struct Link {
+    void *data;
+    Link *next;
+    Link *prev;
+};
 
+typedef struct {
+    char pad[0x20];
+    Link *head;
+    Link *tail;
+} List;
 
-void fn_8267C9C0(int param_1,int param_2)
-
+void fn_8267C9C0(List *l, Link *n)
 {
-  if (*(int *)(param_2 + 8) == 0) {
-    *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_2 + 4);
-  }
-  else {
-    *(undefined4 *)(*(int *)(param_2 + 8) + 4) = *(undefined4 *)(param_2 + 4);
-  }
-  if (*(int *)(param_2 + 4) != 0) {
-    *(undefined4 *)(*(int *)(param_2 + 4) + 8) = *(undefined4 *)(param_2 + 8);
-    return;
-  }
-  *(undefined4 *)(param_1 + 0x24) = *(undefined4 *)(param_2 + 8);
-  return;
+    if (n->prev != 0) {
+        n->prev->next = n->next;
+    } else {
+        l->head = n->next;
+    }
+    if (n->next != 0) {
+        n->next->prev = n->prev;
+    } else {
+        l->tail = n->prev;
+    }
 }
-

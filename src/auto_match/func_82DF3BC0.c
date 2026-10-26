@@ -1,45 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE4118();
+/* Havok: m_objects[index]->removeReference(); m_objects.removeAt(index);
+ * hkArray::removeAt copies the last element with hkMemUtil::memCpyOneAligned,
+ * a word loop (here one word). */
+typedef struct hkReferencedObject hkReferencedObject;
+extern void fn_82CE4118(hkReferencedObject *obj); /* removeReference */
 
+typedef struct {
+    hkReferencedObject **m_data;
+    int m_size;
+    int m_capacityAndFlags;
+} ObjArray;
 
-void fn_82DF3BC0(int param_1,int param_2)
+typedef struct {
+    char pad[0x44];
+    ObjArray objects;
+} Owner;
 
+static void memCpyOneAligned(void *dst, const void *src)
 {
-  int iVar1;
-  
-  fn_82CE4118(*(undefined4 *)(param_2 * 4 + *(int *)(param_1 + 0x44)));
-  iVar1 = *(int *)(param_1 + 0x48) + -1;
-  *(int *)(param_1 + 0x48) = iVar1;
-  if (iVar1 != param_2) {
-    *(undefined4 *)(*(int *)(param_1 + 0x44) + param_2 * 4) =
-         *(undefined4 *)(iVar1 * 4 + *(int *)(param_1 + 0x44));
-  }
-  return;
+    unsigned int k;
+    for (k = 0; k < 1; k++)
+        ((unsigned int *)dst)[k] = ((const unsigned int *)src)[k];
 }
 
+void fn_82DF3BC0(Owner *self, int index)
+{
+    fn_82CE4118(self->objects.m_data[index]);
+    self->objects.m_size--;
+    if (self->objects.m_size != index)
+        memCpyOneAligned(self->objects.m_data + index, self->objects.m_data + self->objects.m_size);
+}

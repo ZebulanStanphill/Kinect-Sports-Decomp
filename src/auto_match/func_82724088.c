@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827A3008();
+typedef struct Obj Obj;
+typedef char *(*GetFn)(Obj *o);
+struct Obj { char **vt; char pad[0x9c]; char *ctx; };
+extern void fn_827A3008(int v);
 
-
-void fn_82724088(int *param_1)
-
+void fn_82724088(Obj *p)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1[0x28] + 0x114) != 0) {
-    fn_827A3008();
-    iVar1 = (**(code **)(*param_1 + 0x40))(param_1);
-    if (iVar1 != 0) {
-      *(uint *)(iVar1 + 0xb00) = *(uint *)(iVar1 + 0xb00) | 0x400;
+    char *r;
+    if (*(int *)(p->ctx + 0x114) != 0) {
+        fn_827A3008(*(int *)(p->ctx + 0x114));
+        r = (*(GetFn *)((char *)p->vt + 0x40))(p);
+        if (r != 0) {
+            *(unsigned int *)(r + 0xb00) |= 0x400;
+        }
     }
-  }
-  return;
 }
-

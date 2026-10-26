@@ -1,58 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
+typedef struct {
+    char pad[0x1ec];
+    int value;
+} Target1;
 
+typedef struct {
+    char pad[0xd0];
+    int value;
+} Target2;
 
-void fn_82498BC8(int param_1)
+typedef struct {
+    char pad[0x1c];
+    Target1 *t1;
+    char pad2[0x34 - 0x20];
+    Target2 *t2;
+} Obj;
 
+typedef struct {
+    char pad[0x5c];
+    Obj *ptr;
+    void *rep;
+} Owner;
+
+extern unsigned char fn_8223AAC0(void *rep);
+extern void fn_822315A0(void *rep);
+
+void fn_82498BC8(Owner *o)
 {
-  int iVar1;
-  int iVar2;
-  char cVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar1 = *(int *)(param_1 + 0x60);
-  iVar2 = *(int *)(param_1 + 0x5c);
-  iVar5 = 0;
-  iVar4 = 0;
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    iVar5 = iVar2;
-    iVar4 = iVar1;
-  }
-  *(undefined4 *)(*(int *)(iVar5 + 0x1c) + 0x1ec) = 0;
-  if (*(int *)(iVar5 + 0x34) != 0) {
-    *(undefined4 *)(*(int *)(iVar5 + 0x34) + 0xd0) = 0;
-  }
-  if (iVar4 != 0) {
-    fn_822315A0(iVar4);
-  }
-  return;
-}
+    void *rep = o->rep;
+    Obj *ptr = o->ptr;
+    Obj *p = 0;
+    void *r = 0;
 
+    if (rep != 0 && fn_8223AAC0(rep)) {
+        r = rep;
+        p = ptr;
+    }
+    p->t1->value = 0;
+    if (p->t2 != 0) {
+        p->t2->value = 0;
+    }
+    if (r != 0) {
+        fn_822315A0(r);
+    }
+}

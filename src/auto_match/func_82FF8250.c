@@ -34,8 +34,8 @@ extern unsigned int iStack_20;
 void fn_82FF8250(int param_1,undefined8 param_2)
 
 {
-  int iStack_20;
-  undefined1 auStack_1c [12];
+  unsigned int iStack_20;
+  unsigned int auStack_1c[1];
   
   fn_82FF7EB0(&iStack_20,param_1,param_2);
   if (iStack_20 != *(int *)(param_1 + 4)) {
