@@ -1,44 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230110();
-extern int fn_82A1EFC0();
+extern char lbl_82196582[];
+extern void fn_82230110(void *p, const char *s);
+extern void fn_82A1EFC0(void *p, int v, int n);
+typedef struct S { int x0; int x4; int x8; char buf[0x3f8-0xc]; unsigned __int64 x3f8; char s400[0x1c]; unsigned char x41c; } S;
 
-
-void fn_82486B08(undefined4 *param_1)
-
+S *fn_82486B08(S *p)
 {
-  param_1[1] = 0;
-  *param_1 = 4;
-  param_1[2] = 0;
-  *(undefined8 *)(param_1 + 0xfe) = 0;
-  fn_82230110(param_1 + 0x100,0xffffffff82196582);
-  *(undefined1 *)(param_1 + 0x107) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 3,0,1000);
+    p->x4 = 0;
+    p->x0 = 4;
+    p->x8 = 0;
+    p->x3f8 = 0;
+    fn_82230110(p->s400, lbl_82196582);
+    p->x41c = 0;
+    fn_82A1EFC0(p->buf, 0, 1000);
+    return p;
 }
-

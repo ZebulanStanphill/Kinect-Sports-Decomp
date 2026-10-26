@@ -1,38 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C72E0();
+extern void fn_822C72E0(void *p, const char *s);
+typedef struct A { char pad[0x20]; void *x20; } A;
+typedef struct B { char pad[0x108]; float x108; } B;
+typedef struct S { int x0, x4; A *a; int xc, x10; B *b; char pad[0x50-0x18]; float x50; } S;
 
-
-void fn_822E0FF8(int param_1)
-
+void fn_822E0FF8(S *s)
 {
-  fn_822C72E0(*(undefined4 *)(*(int *)(param_1 + 8) + 0x20),0xffffffff821adbd8);
-  *(undefined4 *)(*(int *)(param_1 + 0x14) + 0x108) = *(undefined4 *)(param_1 + 0x50);
-  return;
+    fn_822C72E0(s->a->x20, "AnimAtEnd");
+    s->b->x108 = s->x50;
 }
-

@@ -29,10 +29,11 @@ extern int fn_82949AB0();
 extern int fn_8295EF88();
 
 
-void fn_82949CD0(undefined8 param_1)
+extern void fn_82940B98(void);
+void fn_82949CD0(void *param_1)
 
 {
-  fn_82949AB0(param_1,0xffffffff82940b98,0xffffffff820358a4,0,0);
+  fn_82949AB0(param_1,(int)fn_82940B98,"neg",0,0);
   fn_8295EF88(param_1);
   return;
 }

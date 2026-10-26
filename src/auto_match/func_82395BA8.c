@@ -1,43 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8239FF60();
-extern int fn_82508078();
+extern void fn_8239FF60(void *p, int n);
+extern void fn_82508078(void *p, const char *s, int n);
+typedef struct S { char pad[0xa4]; void *xa4; char p2[0x178-0xa8]; int x178; char p3[0x260-0x17c]; unsigned int flags; char p4[0x29c-0x264]; int x29c; char p5[0x2dc-0x2a0]; void *x2dc; } S;
 
-
-void fn_82395BA8(int param_1)
-
+void fn_82395BA8(S *p)
 {
-  *(undefined4 *)(param_1 + 0x29c) = 1;
-  if (*(int *)(param_1 + 0x178) == 0) {
-    fn_82508078(*(undefined4 *)(param_1 + 0xa4),0xffffffff821b502c,0);
-  }
-  *(uint *)(param_1 + 0x260) = *(uint *)(param_1 + 0x260) | 0x1000;
-  fn_8239FF60(*(undefined4 *)(param_1 + 0x2dc),0x13);
-  return;
+    unsigned int *f;
+    p->x29c = 1;
+    if (p->x178 == 0) {
+        fn_82508078(p->xa4, "prematch_before_match", 0);
+    }
+    f = &p->flags;
+    *f |= 0x1000;
+    fn_8239FF60(p->x2dc, 0x13);
 }
-

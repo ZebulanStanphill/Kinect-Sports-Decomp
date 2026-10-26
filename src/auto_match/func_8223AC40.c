@@ -1,42 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82240DB8();
-extern unsigned int lbl_82197144;
+typedef struct { int f8; int fc; int f10; } Sub;
+typedef struct { void *vt; int f4; Sub s; } Obj;
+extern void fn_82240DB8(Obj *o);
+extern char lbl_82197144[];
 
-
-undefined4 * fn_8223AC40(undefined4 *param_1)
-
+Obj *fn_8223AC40(Obj *o)
 {
-  fn_82240DB8();
-  *param_1 = &lbl_82197144;
-  param_1[2] = 7;
-  param_1[4] = 1;
-  param_1[3] = 0;
-  return param_1;
+    Sub *s;
+    fn_82240DB8(o);
+    s = &o->s;
+    o->vt = lbl_82197144;
+    s->f8 = 7;
+    s->f10 = 1;
+    s->fc = 0;
+    return o;
 }
-

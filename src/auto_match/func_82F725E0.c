@@ -1,41 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct A A;
+typedef struct AVt { void *f0; char (*f4)(A *a); } AVt;
+struct A { AVt *vt; };
+typedef struct B B;
+typedef struct BVt { void *f0; void (*f4)(B *b); } BVt;
+struct B { BVt *vt; };
+typedef struct S { int x0; B *b; A *a; } S;
 
-
-void fn_82F725E0(int param_1)
-
+void fn_82F725E0(S *s)
 {
-  char cVar1;
-  
-  cVar1 = (**(code **)(**(int **)(param_1 + 8) + 4))();
-  if (cVar1 == '\0') {
-    (**(code **)(**(int **)(param_1 + 4) + 4))();
-  }
-  return;
+    if (s->a->vt->f4(s->a) == 0) {
+        s->b->vt->f4(s->b);
+    }
 }
-

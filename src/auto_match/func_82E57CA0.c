@@ -1,53 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
-extern int fn_82E579E0();
+typedef struct Node { struct Node *next; struct Node *prev; } Node;
+typedef struct S { char pad[0xc]; unsigned int count; Node *first; } S;
+extern void fn_82E579E0(S *p);
+extern void fn_82E4FE40(void *p);
 
-
-void fn_82E57CA0(int param_1)
-
+void fn_82E57CA0(S *p)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  fn_82E579E0();
-  while (*(int *)(param_1 + 0xc) != 0) {
-    piVar1 = *(int **)(param_1 + 0x10);
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + -1;
-    iVar2 = *piVar1;
-    piVar3 = (int *)piVar1[1];
-    *piVar3 = iVar2;
-    *(int **)(iVar2 + 4) = piVar3;
-    if (piVar1 != (int *)0x0) {
-      fn_82E4FE40();
+    fn_82E579E0(p);
+    while (p->count != 0) {
+        Node *n, *next, *prev;
+        n = p->first;
+        p->count--;
+        next = p->first->next;
+        prev = p->first->prev;
+        prev->next = next;
+        next->prev = prev;
+        if (n != 0) {
+            fn_82E4FE40(n);
+        }
     }
-  }
-  return;
 }
-

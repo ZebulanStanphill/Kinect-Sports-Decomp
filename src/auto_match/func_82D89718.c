@@ -1,43 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Alloc Alloc;
+typedef struct AllocVt { void *f0, *f4; void (*blockFree)(Alloc *, void *, int); } AllocVt;
+struct Alloc { AllocVt *vt; };
+typedef struct Mem { char pad[0x10]; Alloc *alloc; } Mem;
+extern Mem *fn_82CE5410(void);
+typedef struct Buf { char pad[0x64]; void *data; } Buf;
+typedef struct Self { char pad[0x70]; Buf buf; } Self;
 
-
-void fn_82D89718(int param_1)
-
+void fn_82D89718(Self *self)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1 + 0xd4) != 0) {
-    iVar1 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar1 + 0x10) + 8))
-              (*(int **)(iVar1 + 0x10),*(undefined4 *)(param_1 + 0xd4),0x200);
+  Buf *b = &self->buf;
+  if (b->data) {
+    Alloc *a = fn_82CE5410()->alloc;
+    a->vt->blockFree(a, b->data, 0x200);
   }
-  return;
 }
-

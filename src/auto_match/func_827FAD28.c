@@ -1,47 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8262F6A8();
-extern int fn_82811400();
+typedef struct Obj Obj;
+typedef struct Vt { void *f0, *f4, *f8; void (*fc)(Obj *, void *, int); } Vt;
+struct Obj { Vt *vt; };
+extern Obj *fn_8262F6A8(void);
+extern int fn_82811400(void *buf, int n);
 
-
-void fn_827FAD28(undefined8 param_1)
-
+void fn_827FAD28(void *param_1)
 {
-  int iVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  undefined1 auStack_40 [32];
-  
-  piVar3 = (int *)fn_8262F6A8();
-  iVar1 = *piVar3;
-  uVar2 = fn_82811400(auStack_40,4);
-  (**(code **)(iVar1 + 0xc))(piVar3,param_1,uVar2);
-  return;
+  char buf[32];
+  Obj *o = fn_8262F6A8();
+  o->vt->fc(o, param_1, fn_82811400(buf, 4));
 }
-

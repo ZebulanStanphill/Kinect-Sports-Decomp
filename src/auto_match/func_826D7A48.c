@@ -1,39 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826D6238();
+typedef struct C { int v; } C;
+typedef struct Sub { int b; C c; } Sub;
+typedef struct T { int a; Sub sub; } T;
+extern void fn_826D6238(C *d, C *s);
 
-
-undefined4 * fn_826D7A48(undefined4 *param_1,undefined4 *param_2)
-
+T *fn_826D7A48(T *d, T *s)
 {
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  fn_826D6238(param_1 + 2,param_2 + 2);
-  return param_1;
+    Sub *ds = &d->sub;
+    Sub *ss = &s->sub;
+    d->a = s->a;
+    ds->b = ss->b;
+    fn_826D6238(&ds->c, &ss->c);
+    return d;
 }
-

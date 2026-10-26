@@ -1,40 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826D6238();
+typedef struct { int v[1]; } Sub;
+typedef struct { int x; Sub c; } Inner;
+typedef struct { int a; int b; Inner in; } Outer;
+extern void fn_826D6238(Sub *d, const Sub *s);
 
-
-undefined4 * fn_82769F00(undefined4 *param_1,undefined4 *param_2)
-
+static void Inner_copy(Inner *d, const Inner *s)
 {
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  param_1[2] = param_2[2];
-  fn_826D6238(param_1 + 3,param_2 + 3);
-  return param_1;
+  d->x = s->x;
+  fn_826D6238(&d->c, &s->c);
 }
 
+Outer *fn_82769F00(Outer *d, const Outer *s)
+{
+  d->a = s->a;
+  d->b = s->b;
+  Inner_copy(&d->in, &s->in);
+  return d;
+}

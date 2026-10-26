@@ -1,50 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A9C190();
-extern int fn_82F65AC0();
+int stricmp(const char *a, const char *b);
+typedef struct T { char pad[0x100]; int x100; } T;
+typedef struct S { char pad[0x80]; T *x80; char *x84; } S;
+extern void fn_82A9C190(S *s, T *t, int v);
 
-
-void fn_82A9D448(int param_1)
-
+void fn_82A9D448(S *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  if (((*(int *)(param_1 + 0x84) == 0) ||
-      (iVar1 = fn_82F65AC0(*(int *)(param_1 + 0x84),0xffffffff820d2b50), iVar1 == 0)) ||
-     (iVar1 = *(int *)(param_1 + 0x80), iVar1 == 0)) {
-    uVar2 = 0;
-    iVar1 = 0;
-  }
-  else {
-    uVar2 = *(undefined4 *)(iVar1 + 0x100);
-  }
-  fn_82A9C190(param_1,iVar1,uVar2);
-  return;
+    if (s->x84 != 0 && stricmp(s->x84, "FXL") != 0 && s->x80 != 0) {
+        fn_82A9C190(s, s->x80, s->x80->x100);
+    } else {
+        fn_82A9C190(s, 0, 0);
+    }
 }
-
