@@ -56,6 +56,8 @@ Link-time code generation also inlined larger functions than the compiler does b
 
 Some headers call a library function directly rather than through a member you can specialize, as `<xtree>` does with `std::_Xlength_error`. To keep the name that C units use, declare the `fn_` name with C linkage in namespace `std` and define the library name as a macro for it around the `#include`, as in `src/auto_match/func_8225EC58.cpp`.
 
+Many containers use one of the game's own allocators instead of `std::allocator`. Placeholder versions are in `include/game/`, named after an address because the classes have no names yet. With any allocator other than `std::allocator`, the library copies scalar elements one at a time instead of with `memmove`. Library helpers that the original calls out of line, such as `std::_Destroy_range` or `std::_Cons_val`, can be specialized as `__forceinline` functions that call their `fn_` names; write out the template arguments, or the compiler silently ignores the specialization.
+
 ## Send the result
 
 Commit the source, and include any split or object configuration changes the function needs. Keep a partial result as `NonMatching`; mark it `Matching` after the object matches completely. In your pull request, give the address, compiler flags, objdiff result and any useful type or class findings. A compilable improvement is worth sharing even if it is not a full match.
