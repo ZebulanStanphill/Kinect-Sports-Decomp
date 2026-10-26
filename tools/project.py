@@ -318,21 +318,22 @@ def check_path_case(path: Path):
         start = 0
 
     for part in parts[start:]:
-        if curr in _listdir_cache:
-            entries = _listdir_cache[curr]
-        else:
+        entries = _listdir_cache.get(curr)
+        if entries is None:
             try:
-                entries = os.listdir(curr)
+                listing = os.listdir(curr)
             except (FileNotFoundError, PermissionError):
                 sys.exit(f"Cannot access: {curr}")
+            # Map lowercased names to entries; the first entry wins, as in a linear scan.
+            entries = {}
+            for entry in listing:
+                entries.setdefault(entry.lower(), entry)
             _listdir_cache[curr] = entries
 
-        for entry in entries:
-            if entry.lower() == part.lower():
-                curr = curr / entry
-                break
-        else:
+        entry = entries.get(part.lower())
+        if entry is None:
             sys.exit(f"Cannot resolve: {path}")
+        curr = curr / entry
 
     if path != curr:
         print(f"⚠️  Case mismatch: expected={path} actual={curr}")
