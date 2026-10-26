@@ -1,38 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821327AC;
-extern unsigned int lbl_831D453C;
+// Kinect Sports retail 4D5308C9, function 0x8313F988 (12 bytes).
+// atexit destructor thunk: calls fn_82CE6978 on the static object lbl_831D453C.
 
+extern void fn_82CE6978(void *object);
+
+extern char lbl_831D453C[];
 
 void fn_8313F988(void)
-
 {
-  lbl_831D453C = (undefined *)&lbl_821327AC;
-  return;
+    fn_82CE6978(lbl_831D453C);
 }
-

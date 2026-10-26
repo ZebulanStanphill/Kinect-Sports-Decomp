@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83218800;
+// Kinect Sports retail 4D5308C9, function 0x83129690 (28 bytes).
+// Static initializer: copies the vector constant lbl_82079620 (words 0xFFFFFFFF, 0x00000000,
+// 0x00000000, 0x00000000) into lbl_83218800.
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+extern const __vector4 lbl_82079620;
+extern __vector4 lbl_83218800;
 
 void fn_83129690(void)
-
 {
-  undefined4 *puVar1;
-  int in_r0;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs43 [16];
-  undefined4 in_register_000103f0;
-  undefined4 in_register_000103f4;
-  undefined4 in_register_000103f8;
-  undefined4 in_vr63;
-  
-  altv207_13(in_vs32,in_vs43);
-  puVar1 = (undefined4 *)((uint)(&lbl_83218800 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  return;
+    lbl_83218800 = lbl_82079620;
 }
-
