@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_82236140();
-extern int fn_8223E0E0();
-
-
-undefined8 fn_8224E978(undefined8 param_1,undefined8 param_2)
-
+extern void fn_82230300(void *s, int a, int b);
+extern unsigned char *fn_82236140(void *x);
+extern void fn_8223E0E0(void *s, int n, unsigned char c);
+void *fn_8224E978(void *s, void *x)
 {
-  int iVar1;
-  uint uVar2;
-  
-  fn_82230300(param_1,0,0);
-  iVar1 = fn_82236140(param_2);
-  uVar2 = 0;
-  do {
-    if (*(char *)(uVar2 + iVar1) == '\0') {
-      return param_1;
-    }
-    fn_8223E0E0(param_1,1);
-    uVar2 = uVar2 + 1;
-  } while (uVar2 < 0x10);
-  return param_1;
+  unsigned char *b;
+  unsigned int i;
+  fn_82230300(s, 0, 0);
+  b = fn_82236140(x);
+  for (i = 0; i < 16; i++) {
+    if (b[i] == 0) break;
+    fn_8223E0E0(s, 1, b[i]);
+  }
+  return s;
 }
-

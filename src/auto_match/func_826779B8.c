@@ -1,48 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_826779B8(int param_1,undefined4 *param_2,char param_3)
-
+typedef struct { int v[4]; } Q;
+typedef struct { char pad[0x178]; Q q; } S;
+void fn_826779B8(S *s, Q *out, unsigned char clear)
 {
-  if (param_2 != (undefined4 *)0x0) {
-    *param_2 = *(undefined4 *)(param_1 + 0x178);
-    param_2[1] = *(undefined4 *)(param_1 + 0x17c);
-    param_2[2] = *(undefined4 *)(param_1 + 0x180);
-    param_2[3] = *(undefined4 *)(param_1 + 0x184);
-  }
-  if (param_3 == '\0') {
-    return;
-  }
-  *(undefined4 *)(param_1 + 0x178) = 0;
-  *(undefined4 *)(param_1 + 0x17c) = 0;
-  *(undefined4 *)(param_1 + 0x180) = 0;
-  *(undefined4 *)(param_1 + 0x184) = 0;
-  return;
+if (out) { Q *q = &s->q; *out = *q; } if (clear) { s->q.v[0] = 0; s->q.v[1] = 0; s->q.v[2] = 0; s->q.v[3] = 0; }
 }
-

@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82A774D8(int param_1)
 
 {
-  int *piVar1;
-  int iVar2;
+  unsigned int *piVar1;
+  unsigned int iVar2;
   int *piVar3;
   
   piVar1 = *(int **)(param_1 + 0xb8);
@@ -49,7 +49,7 @@ void fn_82A774D8(int param_1)
   }
                     /* WARNING: Could not recover jumptable at 0x82a77540. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*piVar3 + 0x24))(piVar3,piVar1[1],piVar1[2]);
+  (*(code *)(*piVar3 + 0x24))(piVar3,piVar1[1],piVar1[2]);
   return;
 }
 

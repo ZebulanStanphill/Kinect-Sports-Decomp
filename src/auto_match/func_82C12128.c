@@ -38,8 +38,8 @@ void fn_82C12128(int param_1)
   
   auStack_20[0] = 0;
   iVar1 = fn_82C10F40(*(undefined4 *)(param_1 + 0x48),*(undefined1 *)(param_1 + 0x10),auStack_20);
-  if ((-1 < iVar1) &&
-     (iVar1 = (**(code **)(*(int *)(param_1 + 4) + 0x10))(*(int *)(param_1 + 4)), -1 < iVar1)) {
+  if ((iVar1 >= 0) &&
+     (iVar1 = (*(code *)(*(int *)(param_1 + 4) + 0x10))(*(int *)(param_1 + 4)), iVar1 >= 0)) {
     fn_82C11EA8(param_1,auStack_20[0]);
   }
   return;

@@ -1,42 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_828A2468();
-extern int atexit();
-
+extern void fn_828A2468(void *a, void *b, void *c);
+extern int atexit(void (*f)(void));
+extern void fn_83141040(void);
+extern char lbl_83213F20[];
 
 void fn_83128AA0(void)
-
 {
-  undefined1 auStack_10 [1];
-  
-  fn_828A2468(0xffffffff83213f20,auStack_10,auStack_10);
-  atexit(0xffffffff83141040);
-  return;
-}
+    char tmp[1];
 
+    fn_828A2468(lbl_83213F20, tmp, tmp);
+    atexit(fn_83141040);
+}

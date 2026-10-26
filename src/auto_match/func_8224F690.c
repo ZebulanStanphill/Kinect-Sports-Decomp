@@ -1,49 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822315A0();
-extern int fn_8224FE78();
-extern int fn_8224FF20();
-extern int fn_8265CA20();
+typedef struct Node { struct Node *left; } Node;
+typedef struct { Node *ptr; } Iter;
+typedef struct { int a; Node *head; int size; } Tree;
+typedef struct { int vt; Tree t1; int pad; Tree t2; char pad2[0x18]; void *x38; } Obj;
+typedef struct { char b[16]; } Tmp;
+extern void fn_822315A0(void *p);
+extern void fn_8224FF20(Tmp *r, Tree *t, Iter first, Iter last);
+extern void fn_8224FE78(Tmp *r, Tree *t, Iter first, Iter last);
+extern void fn_8265CA20(void *p);
 
-
-void fn_8224F690(int param_1)
-
+void fn_8224F690(Obj *p)
 {
-  undefined1 auStack_20 [16];
-  
-  if (*(int *)(param_1 + 0x38) != 0) {
-    fn_822315A0();
-  }
-  fn_8224FF20(auStack_20,param_1 + 0x14,**(undefined4 **)(param_1 + 0x18));
-  fn_8265CA20(*(undefined4 *)(param_1 + 0x18));
-  fn_8224FE78(auStack_20,param_1 + 4,**(undefined4 **)(param_1 + 8));
-  fn_8265CA20(*(undefined4 *)(param_1 + 8));
-  return;
-}
+    Tmp tmp;
+    Iter first, last;
 
+    if (p->x38 != 0)
+        fn_822315A0(p->x38);
+    first.ptr = p->t2.head->left;
+    last.ptr = p->t2.head;
+    fn_8224FF20(&tmp, &p->t2, first, last);
+    fn_8265CA20(p->t2.head);
+    first.ptr = p->t1.head->left;
+    last.ptr = p->t1.head;
+    fn_8224FE78(&tmp, &p->t1, first, last);
+    fn_8265CA20(p->t1.head);
+}

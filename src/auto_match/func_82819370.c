@@ -1,38 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B70();
+typedef struct { char pad[0x10]; int x; char pad2[0x2c]; } E;
+typedef struct { char pad[0xd8]; int list; } S;
+extern void fn_82819288(void);
+extern void fn_82822F60(int *list, int *item, void (*cb)(void), int z);
 
-
-void fn_82819370(longlong param_1,longlong param_2,short param_3)
-
+void fn_82819370(S *s, E *items, short idx)
 {
-  fn_82F68B70(param_1 + 0xd8,((longlong)param_3 & 0x3ffffffU) * 0x40 + param_2 + 0x10,
-               0xffffffff82819288,0);
-  return;
+    fn_82822F60(&s->list, &items[idx].x, fn_82819288, 0);
 }
-

@@ -1,44 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct O O;
+typedef struct { void *s[35]; void (*f)(O *o); } OVt;
+struct O { OVt *vt; };
+typedef struct { int a; O *o; } E;
+typedef struct { char pad[0x7c]; E *first; E *last; } S;
 
-
-void fn_82FB0438(int param_1)
-
+void fn_82FB0438(S *s)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x7c);
-  if (iVar1 != *(int *)(param_1 + 0x80)) {
-    do {
-      (**(code **)(**(int **)(iVar1 + 4) + 0x8c))();
-      iVar1 = iVar1 + 8;
-    } while (iVar1 != *(int *)(param_1 + 0x80));
-  }
-  return;
-}
+    E *e;
 
+    for (e = s->first; e != s->last; e++)
+        e->o->vt->f(e->o);
+}

@@ -1,49 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern int fn_8265CA20();
+typedef struct { int a, b; } E;
+typedef struct { E *first; E *last; E *end; char pad[0x14]; int x20; } Vec;
+extern void fn_82359C18(void *p);
+extern void fn_8265CA20(void *p);
 
-
-void fn_824DEFB0(int *param_1)
-
+void fn_824DEFB0(Vec *v)
 {
-  int iVar1;
-  
-  fn_82359C18(param_1 + 8);
-  iVar1 = *param_1;
-  if (iVar1 != 0) {
-    for (; iVar1 != param_1[1]; iVar1 = iVar1 + 8) {
+    fn_82359C18(&v->x20);
+    if (v->first != 0) {
+        E *p;
+        for (p = v->first; p != v->last; p++)
+            ;
+        fn_8265CA20(v->first);
     }
-    fn_8265CA20();
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
 }
-
