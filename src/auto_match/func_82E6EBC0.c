@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82E6EBC0(int param_1,ulonglong param_2,ulonglong param_3)
 
 {
-  if (((*(int *)(param_1 + 0x38) != 0) && (*(ulonglong *)(param_1 + 0x30) <= param_2)) &&
+  if (((*(unsigned int *)(param_1 + 0x38) != 0) && (param_2 >= *(ulonglong *)(param_1 + 0x30))) &&
      ((param_3 & 0xffffffff) + param_2 <=
       (ulonglong)*(uint *)(param_1 + 0x28) + *(ulonglong *)(param_1 + 0x30))) {
     return 1;

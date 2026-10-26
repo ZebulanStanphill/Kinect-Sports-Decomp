@@ -25,10 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82A45900(uint *param_1,uint param_2)
-
 {
   uint uVar1;
   uint uVar2;
@@ -36,9 +33,7 @@ void fn_82A45900(uint *param_1,uint param_2)
   uint *puVar4;
   
   uVar2 = 0;
-  if (*param_1 == 0) {
-    return;
-  }
+  if (*param_1 > 0) {
   iVar3 = 0;
   do {
     puVar4 = (uint *)(param_1[2] + iVar3);
@@ -50,6 +45,5 @@ void fn_82A45900(uint *param_1,uint param_2)
     uVar2 = uVar2 + 1;
     iVar3 = iVar3 + 0x60;
   } while (uVar2 < *param_1);
-  return;
+  }
 }
-

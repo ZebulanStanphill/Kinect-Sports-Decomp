@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_8287BD10(int param_1)
 
 {
-  return *(int *)(param_1 + 8) != *(int *)(param_1 + 4);
+  return *(int *)(param_1 + 4) != *(int *)(param_1 + 8);
 }
 

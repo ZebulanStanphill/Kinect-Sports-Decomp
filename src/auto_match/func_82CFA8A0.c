@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82CFA8A0(int param_1)
 
 {
-  if (-1 < *(int *)(param_1 + 0x1c)) {
+  if (*(int *)(param_1 + 0x1c) >= 0) {
     *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x1c);
     return 0;
   }

@@ -34,6 +34,6 @@ bool fn_828759C0(int param_1)
   int iVar1;
   
   iVar1 = fn_82869130();
-  return iVar1 == *(int *)(param_1 + 0x30);
+  return *(int *)(param_1 + 0x30) == iVar1;
 }
 

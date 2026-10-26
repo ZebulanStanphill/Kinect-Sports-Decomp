@@ -35,7 +35,7 @@ void fn_82A4D678(undefined8 param_1,undefined8 param_2,int *param_3)
   int iVar1;
   
   iVar1 = fn_82A5ED20(param_1,1,param_3,1);
-  if (-1 < iVar1) {
+  if (iVar1 >= 0) {
     fn_82A4D510(param_1,*(undefined2 *)(*param_3 + 2));
   }
   return;

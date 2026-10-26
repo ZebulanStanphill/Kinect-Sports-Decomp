@@ -32,7 +32,7 @@ undefined8 fn_82B16998(int param_1,uint param_2,int param_3)
 {
   uint uVar1;
   
-  uVar1 = param_3 << ((param_2 & 0xf) << 2);
+  uVar1 = param_3 << (param_2 * 4);
   if ((*(uint *)(param_1 + 0xc) & uVar1 & 0xffff) == uVar1) {
     return 0;
   }

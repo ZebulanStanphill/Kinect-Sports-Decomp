@@ -33,7 +33,7 @@ undefined8 fn_82E25B78(undefined4 *param_1)
   if (param_1 == (undefined4 *)0x0) {
     return 1;
   }
-  (**(code **)*param_1)(param_1,1);
+  (*(code *)*param_1)(param_1,1);
   return 0;
 }
 

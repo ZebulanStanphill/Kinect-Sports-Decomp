@@ -32,12 +32,12 @@ undefined1 * fn_82F72CD0(int param_1,undefined1 *param_2,int param_3)
 {
   int iVar1;
   undefined1 *puVar2;
-  int iVar3;
+  unsigned int iVar3;
   int iVar4;
   
   iVar1 = *(int *)(param_1 + 4);
   iVar3 = *(int *)(param_1 + 8);
-  if (param_3 - (int)param_2 < *(int *)(param_1 + 8)) {
+  if (*(int *)(param_1 + 8) > param_3 - (int)param_2) {
     iVar3 = param_3 - (int)param_2;
   }
   if (iVar3 != 0) {

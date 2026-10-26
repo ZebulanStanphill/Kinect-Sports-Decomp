@@ -32,7 +32,7 @@ void fn_82A2D260(int param_1,int param_2)
 {
   *(int *)(param_1 + 0x88) = param_2;
   if ((param_2 < 0) && (*(code **)(param_1 + 0xd0) != (code *)0x0)) {
-    (**(code **)(param_1 + 0xd0))(*(undefined4 *)(param_1 + 0xd4));
+    (*(code *)(param_1 + 0xd0))(*(undefined4 *)(param_1 + 0xd4));
     *(undefined4 *)(param_1 + 0xd0) = 0;
   }
   return;

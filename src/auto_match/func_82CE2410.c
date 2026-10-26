@@ -38,7 +38,7 @@ void fn_82CE2410(undefined8 param_1,longlong param_2)
   
   auStack_20[0] = 2;
   iVar1 = fn_82CE38A0(param_1,param_2,auStack_20);
-  if (-1 < iVar1) {
+  if (iVar1 >= 0) {
     fn_82CE3870(param_1,param_2 + 2);
   }
   return;

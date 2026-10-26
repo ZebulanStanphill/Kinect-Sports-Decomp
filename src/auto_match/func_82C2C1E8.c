@@ -41,7 +41,7 @@ void fn_82C2C1E8(int param_1)
   }
   fn_82C2E310(param_1);
   iVar1 = fn_82C2E7C0(param_1);
-  if (-1 < iVar1) {
+  if (iVar1 >= 0) {
     fn_82C3F920(param_1);
   }
   return;

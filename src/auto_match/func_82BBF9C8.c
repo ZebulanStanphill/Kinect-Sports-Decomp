@@ -35,7 +35,7 @@ uint fn_82BBF9C8(undefined8 param_1,longlong param_2)
   uint uVar1;
   
   uVar1 = fn_82BBECA8(param_1,param_2 + 8);
-  if (-1 < (int)uVar1) {
+  if ((int)uVar1 >= 0) {
     uVar1 = fn_82BBEEF0(param_1,param_2);
     uVar1 = (int)uVar1 >> 0x1f & uVar1;
   }

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD62B0();
+extern __int64 fn_82BD62B0();
 
 
 undefined8 fn_82BD4A58(int param_1,int param_2)
@@ -35,8 +35,8 @@ undefined8 fn_82BD4A58(int param_1,int param_2)
   
   uVar1 = 0;
   RtlEnterCriticalSection(param_1 + 0xf0);
-  if (*(int *)((param_2 + 0x14) * 4 + param_1) != 0) {
-    uVar1 = fn_82BD62B0();
+  if (*(unsigned int *)((param_2 + 0x14) * 4 + param_1) != 0) {
+    uVar1 = fn_82BD62B0(*(unsigned int *)((param_2 + 0x14) * 4 + param_1));
   }
   RtlLeaveCriticalSection(param_1 + 0xf0);
   return uVar1;

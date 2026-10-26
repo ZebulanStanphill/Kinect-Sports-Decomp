@@ -37,7 +37,7 @@ undefined4 * fn_82E56F28(undefined4 *param_1,int *param_2)
   *param_1 = &lbl_8215494C;
   fn_82E50C30(param_1 + 2);
   fn_82E5AEC8(param_1 + 0x11);
-  if (-1 < *param_2) {
+  if (*param_2 >= 0) {
     *param_2 = 0;
   }
   return param_1;

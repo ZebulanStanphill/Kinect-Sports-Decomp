@@ -26,22 +26,17 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82FF8358();
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
 
 
 char fn_82FF7820(longlong param_1,undefined4 param_2,undefined4 param_3)
 
 {
   int iVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  undefined4 uStack_18;
+  struct { undefined4 first; undefined4 second; undefined4 third; } stack_pair_20;
   
   stack_pair_20.second = 0;
   stack_pair_20.first = param_2;
-  uStack_18 = param_3;
+  stack_pair_20.third = param_3;
   iVar1 = fn_82FF8358(param_1 + 0x30,&stack_pair_20.first);
   return (iVar1 == 0) + '\x01';
 }

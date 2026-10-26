@@ -31,7 +31,7 @@ extern int fn_822C8A18();
 undefined8 fn_822C89D0(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
 
 {
-  if (0xf < (uint)param_3[5]) {
+  if ((uint)param_3[5] >= 0x10) {
     param_3 = (undefined4 *)*param_3;
   }
   fn_822C8A18(param_1,param_2,param_3);

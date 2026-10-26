@@ -33,7 +33,7 @@ undefined8 fn_827FA2A0(int param_1,uint param_2,int *param_3)
   undefined8 uVar1;
   int iVar2;
   
-  if ((*(int *)(param_1 + 0x18) == 0) || (*(ushort *)(param_1 + 0x30) <= param_2)) {
+  if ((*(unsigned int *)(param_1 + 0x18) == 0) || (param_2 >= *(ushort *)(param_1 + 0x30))) {
     iVar2 = 0;
     uVar1 = 0;
   }

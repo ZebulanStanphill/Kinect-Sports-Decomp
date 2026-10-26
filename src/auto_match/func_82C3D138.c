@@ -38,7 +38,7 @@ void fn_82C3D138(int param_1)
   iVar1 = *(int *)(param_1 + 0x20);
   fn_82C4B350(*(undefined4 *)(iVar1 + 0x44));
   iVar2 = fn_82C3CD98();
-  if (-1 < iVar2) {
+  if (iVar2 >= 0) {
     *(undefined4 *)(iVar1 + 8) = 0;
     *(undefined4 *)(iVar1 + 0xc) = 0;
     *(undefined4 *)(iVar1 + 0x10) = 0;

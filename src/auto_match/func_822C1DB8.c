@@ -25,15 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822B7068();
 extern int fn_82529320();
+typedef struct { int a; int b; } Pair;
+typedef struct { int pad[3]; Pair p; } S;
+extern int fn_822B7068(int a, int b);
 
-
-void fn_822C1DB8(int param_1)
-
+void fn_822C1DB8(S *s)
 {
-  fn_822B7068(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x10));
-  fn_82529320(*(undefined4 *)(param_1 + 0x10),0);
-  return;
+  Pair *q = &s->p;
+  fn_822B7068(q->a, q->b);
+  fn_82529320(q->b, 0);
 }
-

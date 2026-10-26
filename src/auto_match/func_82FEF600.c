@@ -36,7 +36,7 @@ void fn_82FEF600(int param_1)
   *(byte *)(param_1 + 0xda) = *(byte *)(param_1 + 0xda) | 8;
                     /* WARNING: Could not recover jumptable at 0x82fef63c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x78))
+  (*(code *)(**(int **)(param_1 + 0x68) + 0x78))
             (*(int **)(param_1 + 0x68),*(undefined4 *)(param_1 + 0x70),3,0);
   return;
 }

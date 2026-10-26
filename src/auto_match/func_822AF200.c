@@ -38,7 +38,7 @@ int * fn_822AF200(int *param_1,int *param_2)
   *param_1 = iVar1;
   puVar2 = (undefined4 *)*param_2;
   if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+    (*(code *)*puVar2)(puVar2,1);
   }
   return param_1;
 }

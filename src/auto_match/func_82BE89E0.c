@@ -34,7 +34,7 @@ void fn_82BE89E0(void)
 
 {
   if (lbl_8322B224 != (undefined4 *)0x0) {
-    (**(code **)*lbl_8322B224)(lbl_8322B224,1);
+    (*(code *)*lbl_8322B224)(lbl_8322B224,1);
     lbl_8322B224 = (undefined4 *)0x0;
   }
   fn_82BF3F48();

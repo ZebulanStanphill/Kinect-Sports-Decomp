@@ -35,7 +35,7 @@ undefined8 fn_826A1158(undefined8 param_1,int *param_2)
   undefined1 auStack_30 [24];
   
   fn_8268CC00(auStack_30);
-  (**(code **)(*param_2 + 0x28))(param_1,param_2,auStack_30);
+  (*(code *)(*param_2 + 0x28))(param_1,param_2,auStack_30);
   return param_1;
 }
 

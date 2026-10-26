@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82FE7668(uint param_1,uint param_2)
+int fn_82FE7668(uint param_1,uint param_2)
 
 {
-  if ((((param_1 & 0x7ff) == 0) && (param_1 != 0)) && (0x17 < param_2)) {
+  if ((((param_1 & 0x7ff) == 0) && (param_1 != 0)) && (param_2 >= 0x18)) {
     return 1;
   }
   return 0x1f;

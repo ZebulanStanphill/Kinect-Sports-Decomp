@@ -34,7 +34,7 @@ void fn_8250B160(int param_1)
   undefined4 *puVar1;
   
   puVar1 = *(undefined4 **)(param_1 + 0xc);
-  (**(code **)*puVar1)(puVar1,0);
+  (*(code *)*puVar1)(puVar1,0);
   fn_82522ED8(puVar1);
   return;
 }

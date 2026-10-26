@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8215F3B8;
+extern int lbl_8215F3B8[];
 
 
-short fn_82E85220(undefined8 param_1,int param_2,int param_3)
+short fn_82E85220(int param_1,int param_2,int param_3)
 
 {
-  return (short)(*(int *)(&lbl_8215F3B8 + param_3 * 4) * param_2 + 0x20000 >> 0x12);
+  return (short)(lbl_8215F3B8[param_3] * param_2 + 0x20000 >> 0x12);
 }
 

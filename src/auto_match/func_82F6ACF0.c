@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F71CD0();
+extern void _lock(int n);
 
 
-void fn_82F6ACF0(longlong param_1,int param_2)
+void fn_82F6ACF0(int param_1,int param_2)
 
 {
   if ((int)param_1 < 0x14) {
-    fn_82F71CD0(param_1 + 0x10);
+    _lock(param_1 + 0x10);
     *(uint *)(param_2 + 0xc) = *(uint *)(param_2 + 0xc) | 0x8000;
   }
   else {

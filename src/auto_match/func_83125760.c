@@ -25,7 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63EC8();
+extern int atexit(void (*)(void));
+extern void fn_8313F998(void);
 extern unsigned int lbl_83297014;
 
 
@@ -33,7 +34,7 @@ void fn_83125760(void)
 
 {
   lbl_83297014 = KeTlsAlloc();
-  fn_82F63EC8(0xffffffff8313f998);
+  atexit(fn_8313F998);
   return;
 }
 

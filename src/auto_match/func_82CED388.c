@@ -38,7 +38,7 @@ int fn_82CED388(undefined8 param_1,int param_2)
   int iVar2;
   
   iVar1 = fn_82CFBE40();
-  if (param_2 < iVar1) {
+  if (iVar1 > param_2) {
     iVar1 = param_2;
   }
   iVar2 = fn_82CE5410();

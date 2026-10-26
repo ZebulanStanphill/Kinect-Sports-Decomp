@@ -33,7 +33,7 @@ void fn_82DAF730(int param_1,int param_2)
   int iVar1;
   
   iVar1 = *(int *)(param_2 + 8);
-  if (*(int *)(param_2 + 8) < *(int *)(param_1 + 8)) {
+  if (*(int *)(param_1 + 8) > *(int *)(param_2 + 8)) {
     iVar1 = *(int *)(param_1 + 8);
   }
   *(int *)(param_1 + 8) = iVar1;

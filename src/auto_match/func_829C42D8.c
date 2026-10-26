@@ -33,7 +33,7 @@ void fn_829C42D8(undefined1 param_1,undefined1 param_2,undefined4 param_3,undefi
 {
   undefined4 *puVar1;
   
-  puVar1 = (undefined4 *)(**(code **)(param_5 + 0x20))(*(undefined4 *)(param_5 + 0x28),1,0x1c);
+  puVar1 = (undefined4 *)(*(code *)(param_5 + 0x20))(*(undefined4 *)(param_5 + 0x28),1,0x1c);
   if (puVar1 != (undefined4 *)0x0) {
     puVar1[5] = param_3;
     puVar1[6] = param_4;

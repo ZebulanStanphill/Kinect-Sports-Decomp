@@ -31,7 +31,7 @@ extern int fn_826959C8();
 void fn_8269A1F0(byte *param_1,undefined4 param_2)
 
 {
-  if (4 < *param_1) {
+  if (*param_1 >= 5) {
     fn_826959C8();
   }
   *(undefined4 *)(param_1 + 8) = param_2;

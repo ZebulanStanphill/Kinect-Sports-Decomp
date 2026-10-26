@@ -34,7 +34,7 @@ undefined8 fn_82D51508(undefined8 param_1,int param_2,undefined8 param_3,undefin
   int *piVar1;
   
   piVar1 = (int *)fn_82D51E18(*(undefined4 *)(param_2 + 0x18));
-  (**(code **)(*piVar1 + 0x20))(param_1,piVar1,param_3,param_4);
+  (*(code *)(*piVar1 + 0x20))(param_1,piVar1,param_3,param_4);
   return param_1;
 }
 

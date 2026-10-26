@@ -32,7 +32,7 @@ void fn_82878E98(int param_1,undefined4 *param_2)
 
 {
   fn_82878E10(param_1,*param_2);
-  (**(code **)(*(int *)(param_1 + 0x44) + 0xc))(param_1 + 0x44,param_2,param_1);
+  (*(code *)(*(int *)(param_1 + 0x44) + 0xc))(param_1 + 0x44,param_2,param_1);
   return;
 }
 

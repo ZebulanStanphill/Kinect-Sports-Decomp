@@ -25,20 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8288AE70();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
-
-
-void fn_8288B020(longlong param_1,undefined4 param_2,undefined1 param_3)
-
+extern unsigned char *fn_8288AE70();
+void fn_8288B020(int param_1,undefined4 param_2,undefined1 param_3)
 {
-  undefined1 *puVar1;
-  undefined4 uStack0000001c;
-  
-  uStack0000001c = param_2;
-  puVar1 = (undefined1 *)fn_8288AE70(param_1 + 0x124,&stack0x0000001c);
-  *puVar1 = param_3;
-  return;
+  *fn_8288AE70(param_1 + 0x124,&param_2) = param_3;
 }
-

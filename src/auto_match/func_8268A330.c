@@ -1,42 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268A690();
-extern int fn_8268AF70();
+extern uint fn_8268AF70(const char *s, uint len, uint seed);
+extern void fn_8268A690(void *a, void *b, uint *c, uint h);
 
+static uint *str_rep(uint *s) { return (uint *)(*s & 0xfffffffc); }
+static const char *str_data(uint *s) { return (const char *)(str_rep(s) + 2); }
+static uint str_len(uint *s) { return *str_rep(s) & 0x7fffffff; }
 
-void fn_8268A330(undefined8 param_1,undefined8 param_2,uint *param_3)
-
+void fn_8268A330(void *param_1, void *param_2, uint *param_3)
 {
-  undefined8 uVar1;
-  
-  uVar1 = fn_8268AF70(((ulonglong)*param_3 & 0xfffffffc) + 8,
-                       *(uint *)(*param_3 & 0xfffffffc) & 0x7fffffff,0x1505);
-  fn_8268A690(param_1,param_2,param_3,uVar1);
-  return;
+  fn_8268A690(param_1, param_2, param_3, fn_8268AF70(str_data(param_3), str_len(param_3), 0x1505));
 }
-

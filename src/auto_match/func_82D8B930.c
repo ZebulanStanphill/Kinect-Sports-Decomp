@@ -34,7 +34,7 @@ void fn_82D8B930(int param_1)
 {
   undefined1 auStack_20 [16];
   
-  (**(code **)(*(int *)(param_1 + 0xe0) + 0x2c))(param_1 + 0xe0);
+  (*(code *)(*(int *)(param_1 + 0xe0) + 0x2c))(param_1 + 0xe0);
   fn_82D8B400(param_1,*(undefined4 *)(param_1 + 0x10),auStack_20);
   return;
 }

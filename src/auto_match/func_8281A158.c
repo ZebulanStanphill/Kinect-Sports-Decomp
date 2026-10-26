@@ -26,6 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_828233A8();
+extern void fn_828192C8(void);
 
 
 bool fn_8281A158(undefined8 param_1,longlong param_2)
@@ -33,7 +34,7 @@ bool fn_8281A158(undefined8 param_1,longlong param_2)
 {
   int aiStack_10;
   
-  fn_828233A8(param_2 + 0x88,&aiStack_10,0xffffffff828192c8,param_1);
+  fn_828233A8(param_2 + 0x88,&aiStack_10,fn_828192C8,param_1);
   return aiStack_10 != 0;
 }
 

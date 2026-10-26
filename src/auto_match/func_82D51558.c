@@ -34,7 +34,7 @@ void fn_82D51558(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
   int *piVar1;
   
   piVar1 = (int *)fn_82D51E18(*(undefined4 *)(param_1 + 0x18));
-  (**(code **)(*piVar1 + 0x24))(piVar1,param_2,param_3,param_4);
+  (*(code *)(*piVar1 + 0x24))(piVar1,param_2,param_3,param_4);
   return;
 }
 

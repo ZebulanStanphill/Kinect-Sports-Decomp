@@ -37,7 +37,7 @@ void fn_82F611D8(undefined4 *param_1,undefined4 *param_2)
   
   auStack_20[0] = 0;
   iVar1 = fn_82BFE8E0(*param_1,auStack_20);
-  if ((-1 < iVar1) && (param_2 != (undefined4 *)0x0)) {
+  if ((iVar1 >= 0) && (param_2 != (undefined4 *)0x0)) {
     *param_2 = auStack_20[0];
   }
   return;

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82F557A0(int *param_1)
 
 {
-  (**(code **)(*param_1 + 0xc))();
+  (*(code *)(*param_1 + 0xc))();
   param_1[1] = 1;
   return;
 }

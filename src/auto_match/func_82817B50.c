@@ -34,7 +34,7 @@ undefined8 fn_82817B50(uint *param_1,uint param_2,int *param_3)
   int iVar2;
   
   if ((((param_1 == (uint *)0x0) || (param_3 == (int *)0x0)) || ((int)param_2 < 0)) ||
-     (*param_1 <= param_2)) {
+     (param_2 >= *param_1)) {
     iVar2 = 0;
     uVar1 = 0;
   }

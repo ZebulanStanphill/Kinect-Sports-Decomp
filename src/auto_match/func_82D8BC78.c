@@ -31,7 +31,7 @@ extern int fn_82D8BA38();
 void fn_82D8BC78(int param_1)
 
 {
-  (**(code **)(*(int *)(param_1 + 0xe0) + 0x3c))(param_1 + 0xe0);
+  (*(code *)(*(int *)(param_1 + 0xe0) + 0x3c))(param_1 + 0xe0);
   fn_82D8BA38(param_1);
   return;
 }

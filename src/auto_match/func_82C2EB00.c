@@ -46,7 +46,7 @@ void fn_82C2EB00(uint param_1,uint param_2,short *param_3)
     if ((uVar2 & param_2) != 0) break;
     iVar1 = iVar1 + 1;
     uVar2 = uVar2 << 1;
-    if (0x1f < iVar1) {
+    if (iVar1 >= 0x20) {
       return;
     }
   }

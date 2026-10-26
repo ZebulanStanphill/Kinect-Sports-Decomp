@@ -39,7 +39,7 @@ void fn_8277BB20(int param_1,int param_2)
     if (uVar1 < *(uint *)(param_1 + 0xd8)) {
       *(uint *)(param_1 + 0xd8) = uVar1;
     }
-    if (*(uint *)(param_1 + 0xdc) < uVar1) {
+    if (uVar1 > *(uint *)(param_1 + 0xdc)) {
       *(uint *)(param_1 + 0xdc) = uVar1;
     }
   }

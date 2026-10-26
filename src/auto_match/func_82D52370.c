@@ -25,11 +25,4 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-uint fn_82D52370(uint param_1,int param_2)
-
-{
-  return (param_1 & 0xffff) >> (param_2 * 5 & 0x3fU) & 0x1f;
-}
-
+unsigned int fn_82D52370(unsigned short a, int b) { unsigned short sh = b * 5; return (a >> sh) & 0x1f; }

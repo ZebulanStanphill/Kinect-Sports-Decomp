@@ -35,7 +35,7 @@ void fn_82857EB8(int param_1,int param_2,uint param_3)
   iVar1 = (param_2 + 0x30) * 0x18;
   *(uint *)(iVar1 + param_1) = (param_3 & 7) << 0x10 | *(uint *)(iVar1 + param_1) & 0xfff8ffff;
   *(ulonglong *)(param_1 + 0x18) =
-       0x8000000000000000U >> (param_2 + 0x20U & 0x7f) | *(ulonglong *)(param_1 + 0x18);
+       0x8000000000000000U >> (param_2 + 0x20U) | *(ulonglong *)(param_1 + 0x18);
   return;
 }
 

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_8287A9E8(undefined8 param_1,int param_2)
 
 {
-  (**(code **)(*(int *)(param_2 + 4) + 0x44))(param_1,param_2 + 4);
+  (*(code *)(*(int *)(param_2 + 4) + 0x44))(param_1,param_2 + 4);
   return param_1;
 }
 

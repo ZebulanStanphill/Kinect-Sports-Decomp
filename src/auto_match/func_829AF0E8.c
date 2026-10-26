@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_829AF0E8(int param_1)
 
 {
-  if (7 < *(byte *)(param_1 + 0x617)) {
+  if (*(byte *)(param_1 + 0x617) >= 8) {
     return;
   }
   *(undefined1 *)(param_1 + 0x618) = 8;

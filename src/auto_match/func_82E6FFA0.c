@@ -34,7 +34,7 @@ undefined8 fn_82E6FFA0(int param_1,undefined4 param_2)
   
   puVar1 = *(undefined4 **)(param_1 + 0x68);
   if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+    (*(code *)*puVar1)(puVar1,1);
   }
   *(undefined4 *)(param_1 + 0x68) = param_2;
   return 0;

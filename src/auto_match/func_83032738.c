@@ -38,7 +38,7 @@ int * fn_83032738(void)
   uVar2 = (ulonglong)lbl_832642E0;
   RtlEnterCriticalSection(uVar2 + 4);
   if (lbl_83264EC4 != (int *)0x0) {
-    (**(code **)(*lbl_83264EC4 + 4))(lbl_83264EC4);
+    (*(code *)(*lbl_83264EC4 + 4))(lbl_83264EC4);
   }
   piVar1 = lbl_83264EC4;
   RtlLeaveCriticalSection(uVar2 + 4);

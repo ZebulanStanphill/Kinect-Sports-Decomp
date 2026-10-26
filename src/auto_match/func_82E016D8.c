@@ -34,7 +34,7 @@ void fn_82E016D8(int *param_1,undefined8 param_2)
 {
   undefined1 auStack_30 [32];
   
-  (**(code **)(*param_1 + 0x34))(param_1,param_2,auStack_30);
+  (*(code *)(*param_1 + 0x34))(param_1,param_2,auStack_30);
   fn_82D8CD68(param_1[4],auStack_30);
   return;
 }

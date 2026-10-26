@@ -25,20 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *d, const void *s, unsigned int n);
 
 
-undefined8 fn_8306CA88(longlong param_1,ulonglong param_2)
+int fn_8306CA88(int param_1,unsigned int param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   uVar1 = 0;
   if ((param_2 & 0xffffffff) == 0) {
-    uVar1 = 0xffffffff80070057;
+    uVar1 = 0x80070057;
   }
   else {
-    fn_82F68CC0(param_2,param_1 + 4,0x30);
+    memcpy((void *)param_2,(void *)(param_1 + 4),0x30);
   }
   return uVar1;
 }

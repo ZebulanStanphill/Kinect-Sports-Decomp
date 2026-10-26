@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8304A580(int param_1,ushort param_2,int param_3)
 
 {
-  if ((param_2 != 0) && (param_2 < 2)) {
+  if ((param_2 != 0) && (param_2 <= 1)) {
     *(undefined4 *)(param_3 + 4) = 0;
     *(undefined4 *)(param_3 + 8) = 0;
     return;

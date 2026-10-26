@@ -30,12 +30,12 @@ typedef struct { U64 lo, hi; } V16;
 int fn_830604F8(int param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 4);
   iVar2 = 0;
-  if (param_2 < 1) {
+  if (param_2 <= 0) {
     return iVar1;
   }
   do {

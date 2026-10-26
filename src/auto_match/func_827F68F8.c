@@ -36,7 +36,7 @@ void fn_827F68F8(int param_1,undefined4 param_2,undefined4 param_3,short *param_
   if ((param_4 != (short *)0x0) && (*param_4 != -1)) {
     iVar2 = 0;
     psVar1 = param_4;
-    if ((param_5 & 0xffff) != 0) {
+    if ((int)(param_5 & 0xffff) > 0) {
       do {
         if (psVar1[1] == -1) break;
         iVar2 = iVar2 + 1;

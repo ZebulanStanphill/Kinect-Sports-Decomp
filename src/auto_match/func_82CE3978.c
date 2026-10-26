@@ -33,7 +33,7 @@ undefined8 fn_82CE3978(int param_1,uint param_2,undefined4 *param_3)
   uint uVar1;
   uint *puVar2;
   
-  if (0x3f < param_2) {
+  if (param_2 >= 0x40) {
     return 0xffffffff80070057;
   }
   puVar2 = (uint *)(param_2 * 0x10 + param_1);

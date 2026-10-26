@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
 extern int fn_82BFE530();
 
 
@@ -38,7 +37,7 @@ void fn_82580D68(int param_1,undefined4 *param_2)
   auStack_20[0] = 0;
   *param_2 = 0;
   iVar1 = fn_82BFE530(*(undefined4 *)(param_1 + 4),auStack_20);
-  if (-1 < iVar1) {
+  if (iVar1 >= 0) {
     *param_2 = auStack_20[0];
   }
   return;

@@ -44,7 +44,7 @@ ushort * fn_82DBBD70(int param_1)
   do {
     puVar1 = puVar2;
     puVar2 = *(ushort **)(puVar2 + 10);
-  } while (0x16 < *puVar2);
+  } while (*puVar2 >= 0x17);
   return puVar1;
 }
 

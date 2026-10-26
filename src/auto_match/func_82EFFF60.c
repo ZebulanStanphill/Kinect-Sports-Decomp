@@ -31,7 +31,7 @@ void fn_82EFFF60(int param_1)
 
 {
   if (((*(int *)(param_1 + 0x350) != 3) && (*(int *)(param_1 + 0x350) != 4)) &&
-     ((*(uint *)(param_1 + 0x358) == 0 || (3 < *(uint *)(param_1 + 0x358))))) {
+     ((*(uint *)(param_1 + 0x358) < 1 || (3 < *(uint *)(param_1 + 0x358))))) {
     *(undefined4 *)(param_1 + 0x7784) = 0;
     return;
   }

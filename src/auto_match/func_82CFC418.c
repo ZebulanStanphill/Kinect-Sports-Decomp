@@ -35,7 +35,7 @@ void fn_82CFC418(undefined1 *param_1,int *param_2,char *param_3)
   iVar1 = 0;
   if (*param_3 != '\0') {
     do {
-      if ((param_2[1] + -1 <= iVar1) || (*(char *)(*param_2 + iVar1) != param_3[iVar1])) {
+      if ((iVar1 >= param_2[1] - 1) || (*(char *)(*param_2 + iVar1) != param_3[iVar1])) {
         *param_1 = 0;
         return;
       }
