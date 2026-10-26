@@ -1,48 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry { int a; int b; unsigned char flags; } Entry;
+typedef struct Node { struct Node *next; unsigned int key; Entry e; } Node;
+typedef struct Obj { char pad[0xe4]; Node *list; } Obj;
 
-
-byte fn_8302F4C0(int param_1,int param_2)
-
+static Entry *find(Obj *o, unsigned int key)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = *(undefined4 **)(param_1 + 0xe4);
-  while( true ) {
-    if (puVar1 == (undefined4 *)0x0) {
-      return 0;
-    }
-    if (puVar1[1] == param_2) break;
-    puVar1 = (undefined4 *)*puVar1;
+  Node *n;
+  for (n = o->list; n != 0; n = n->next) {
+    if (n->key == key) return &n->e;
   }
-  if (puVar1 == (undefined4 *)0xfffffff8) {
-    return 0;
-  }
-  return *(byte *)(puVar1 + 4) >> 5;
+  return 0;
 }
 
+unsigned char fn_8302F4C0(Obj *param_1, unsigned int param_2)
+{
+  Entry *e = find(param_1, param_2);
+  if (e != 0) return e->flags >> 5;
+  return 0;
+}

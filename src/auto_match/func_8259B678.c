@@ -31,12 +31,12 @@ extern int fn_827DE838();
 void fn_8259B678(undefined8 param_1,undefined8 param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   undefined4 *puVar2;
   
   iVar1 = fn_827DE838(param_2);
   if ((iVar1 != 0) && (puVar2 = (undefined4 *)fn_827DE838(param_2), puVar2 != (undefined4 *)0x0)) {
-    (**(code **)*puVar2)(puVar2,1);
+    (*(code *)*puVar2)(puVar2,1);
   }
   return;
 }

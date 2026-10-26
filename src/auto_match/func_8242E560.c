@@ -29,11 +29,11 @@ extern int fn_8242E3E0();
 extern int fn_8242E460();
 
 
-undefined8 fn_8242E560(int param_1)
+int fn_8242E560(int param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  int uVar1;
   
   iVar2 = fn_8242E3E0();
   if (((iVar2 != 0) || (uVar1 = fn_8242E460(param_1), (int)uVar1 != 0)) ||

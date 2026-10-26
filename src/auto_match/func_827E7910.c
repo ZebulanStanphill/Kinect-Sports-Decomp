@@ -1,43 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827D9DA0();
+extern int fn_827D9DA0(int a, int b);
 
-
-undefined4 fn_827E7910(int param_1,int param_2)
-
+int fn_827E7910(int *p1, int *p2)
 {
-  undefined8 uVar1;
-  
-  uVar1 = 0x80;
-  if (*(int *)(param_2 + 0x20) != 0) {
-    uVar1 = 0x100;
+  int n = 0x80;
+  int h = p1[2];
+  if (p2[8] != 0) {
+    n = 0x100;
   }
-  fn_827D9DA0(*(undefined4 *)(param_1 + 8),uVar1);
-  return *(undefined4 *)(param_2 + 0x20);
+  fn_827D9DA0(h, n);
+  return p2[8];
 }
-

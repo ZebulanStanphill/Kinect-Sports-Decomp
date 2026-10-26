@@ -31,8 +31,8 @@ extern int fn_82270B70();
 void fn_82270110(undefined4 param_1)
 
 {
-  int *piVar1;
-  int iVar2;
+  unsigned int *piVar1;
+  unsigned int iVar2;
   int iVar3;
   
   iVar3 = fn_82270B70();

@@ -35,7 +35,7 @@ extern unsigned int lbl_821B9BC8;
 void fn_8306CF50(undefined4 *param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   
   uVar1 = (ulonglong)(uint)param_1[0x6c8];
   *param_1 = &lbl_8217EB64;

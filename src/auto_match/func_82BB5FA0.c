@@ -30,14 +30,14 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82BB5FA0(int param_1,undefined8 param_2)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   int iVar2;
   undefined4 *puVar3;
   
   iVar2 = 0;
   puVar3 = (undefined4 *)(param_1 + 8);
   do {
-    cVar1 = (**(code **)(*(int *)*puVar3 + 4))((int *)*puVar3,param_2);
+    cVar1 = (*(code *)(*(int *)*puVar3 + 4))((int *)*puVar3,param_2);
     if (cVar1 == '\0') {
       return 0;
     }

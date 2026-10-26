@@ -1,10 +1,10 @@
-extern void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+/* The XDK's ppcintrinsics.h defines __lwsync() as this __emit. */
+void __emit(unsigned int opcode);
+#define __lwsync() __emit(0x7C2004AC)
 
-int fn_826D84D8(int param_1)
+int fn_826D84D8(char *p)
 {
-    int object = *(int *)(param_1 + 0x1c);
-    int result = *(int *)(object + 0x84);
-    _ReadWriteBarrier();
-    return result;
+    int v = *(int *)(*(char **)(p + 0x1c) + 0x84);
+    __lwsync();
+    return v;
 }

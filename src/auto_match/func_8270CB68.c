@@ -31,8 +31,10 @@ extern int fn_8270C708();
 void fn_8270CB68(int param_1)
 
 {
-  fn_8270C708();
-  (**(code **)(**(int **)(param_1 + 8) + 0x34))();
+  int *p;
+  fn_8270C708(param_1);
+  p = *(int **)(param_1 + 8);
+  (*(code *)(*p + 0x34))(p);
   return;
 }
 

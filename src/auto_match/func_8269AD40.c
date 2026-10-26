@@ -1,41 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node Node;
+struct Node { char pad[0x70]; Node *prev; Node *next; };
+typedef struct { Node *head; } Sub;
+typedef struct { char pad[0xaf4]; Sub s; char pad2[8]; unsigned int flags; } List;
 
-
-void fn_8269AD40(int param_1,int param_2)
-
+void fn_8269AD40(Node *n, List *l)
 {
-  if (*(int *)(param_2 + 0xaf4) != 0) {
-    *(int *)(*(int *)(param_2 + 0xaf4) + 0x74) = param_1;
-    *(undefined4 *)(param_1 + 0x70) = *(undefined4 *)(param_2 + 0xaf4);
-  }
-  *(int *)(param_2 + 0xaf4) = param_1;
-  *(uint *)(param_2 + 0xb00) = *(uint *)(param_2 + 0xb00) | 0x400;
-  return;
+    Sub *s = &l->s;
+    if (s->head) {
+        s->head->next = n;
+        n->prev = s->head;
+    }
+    s->head = n;
+    l->flags |= 0x400;
 }
-

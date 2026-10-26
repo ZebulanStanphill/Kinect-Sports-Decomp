@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *__imp__KeDebugMonitorData;
+extern unsigned int *__imp_KeDebugMonitorData;
 extern int XapiInitHeap();
 
 
@@ -36,8 +36,8 @@ void XapiInitProcess(void)
   
   iVar1 = XapiInitHeap();
   if (iVar1 == 0) {
-    if (*__imp__KeDebugMonitorData != 0) {
-      (**(code **)(*__imp__KeDebugMonitorData + 0x18))(2,0);
+    if (*__imp_KeDebugMonitorData != 0) {
+      (*(code *)(*__imp_KeDebugMonitorData + 0x18))(2,0);
     }
     HalReturnToFirmware(1);
   }

@@ -1,54 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int _getptd();
+typedef struct {
+    unsigned int ExceptionCode;
+    unsigned int ExceptionFlags;
+    void *ExceptionRecord;
+    void *ExceptionAddress;
+    unsigned int NumberParameters;
+    unsigned int magicNumber;
+    void *pExceptionObject;
+    void **pThrowInfo;
+} EHExceptionRecord;
 
+typedef struct FrameInfo {
+    void *pExceptionObject;
+    void *pThrowImageBase;
+    struct FrameInfo *pNext;
+} FrameInfo;
 
-int * _CreateFrameInfo(int *param_1,int *param_2)
+typedef struct {
+    char pad[0x94];
+    FrameInfo *pFrameInfoChain;
+} _tiddata;
 
+extern _tiddata *_getptd(void);
+
+FrameInfo *_CreateFrameInfo(FrameInfo *pFrameInfo, EHExceptionRecord *pExcept)
 {
-  int iVar1;
-  
-  if ((*param_2 == -0x1f928c9d) && (param_2[4] == 3)) {
-    iVar1 = param_2[5];
-    if ((iVar1 == 0x19930520) || ((iVar1 == 0x19930521 || (iVar1 == 0x19930522)))) {
-      *param_1 = param_2[6];
-      iVar1 = *(int *)(param_2[7] + 4);
-      goto code_r0x82f6982c;
-    }
-  }
-  iVar1 = 0;
-  *param_1 = 0;
-code_r0x82f6982c:
-  param_1[1] = iVar1;
-  iVar1 = _getptd();
-  param_1[2] = *(int *)(iVar1 + 0x94);
-  iVar1 = _getptd();
-  *(int **)(iVar1 + 0x94) = param_1;
-  return param_1;
-}
+    void *base;
 
+    if (pExcept->ExceptionCode == 0xe06d7363 && pExcept->NumberParameters == 3 &&
+        (pExcept->magicNumber == 0x19930520 || pExcept->magicNumber == 0x19930521 ||
+         pExcept->magicNumber == 0x19930522)) {
+        pFrameInfo->pExceptionObject = pExcept->pExceptionObject;
+        base = pExcept->pThrowInfo[1];
+    } else {
+        base = 0;
+        pFrameInfo->pExceptionObject = 0;
+    }
+    pFrameInfo->pThrowImageBase = base;
+    pFrameInfo->pNext = _getptd()->pFrameInfoChain;
+    _getptd()->pFrameInfoChain = pFrameInfo;
+    return pFrameInfo;
+}
