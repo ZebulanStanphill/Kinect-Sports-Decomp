@@ -1,79 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8287E5C0();
-extern unsigned int iStack_10;
-extern unsigned int iStack_20;
-extern unsigned int iStack_30;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct Pair_8287EC98 { unsigned int a; unsigned int b; } Pair_8287EC98;
+typedef struct Src_8287EC98 { unsigned int **p; int pad; int c; } Src_8287EC98;
+extern void fn_8287E5C0(int, Pair_8287EC98 *, Pair_8287EC98 *, Pair_8287EC98 *, unsigned char);
 
-
-void fn_8287EC98(undefined8 param_1,int *param_2,int *param_3,int *param_4)
-
+void fn_8287EC98(int param_1, Src_8287EC98 *p2, Src_8287EC98 *p3, Src_8287EC98 *p4)
 {
-  undefined4 *puVar1;
-  undefined1 uStack_40;
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
+  unsigned char flag;
+  struct { Pair_8287EC98 pr; int c; } i1, i2, i3;
+  unsigned int **q;
 
-  int iStack_30;
-  struct { undefined4 first; undefined4 second; } stack_pair_28;
-
-  int iStack_20;
-  struct { undefined4 first; undefined4 second; } stack_pair_18;
-
-  int iStack_10;
-
-  stack_pair_38.first = 0;
-  stack_pair_38.second = 0;
-  if (((int *)*param_4 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_4, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_38.first = *puVar1;
+  i3.pr.a = 0;
+  i3.pr.b = 0;
+  q = p4->p;
+  if (q != 0 && *q != 0) {
+    i3.pr.a = **q;
   }
-  iStack_30 = param_4[2];
-  stack_pair_28.first = 0;
-  stack_pair_28.second = 0;
-  if (((int *)*param_3 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_3, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_28.first = *puVar1;
+  i3.c = p4->c;
+  i2.pr.a = 0;
+  i2.pr.b = 0;
+  q = p3->p;
+  if (q != 0 && *q != 0) {
+    i2.pr.a = **q;
   }
-  iStack_20 = param_3[2];
-  stack_pair_18.first = 0;
-  stack_pair_18.second = 0;
-  if (((int *)*param_2 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_2, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_18.first = *puVar1;
+  i2.c = p3->c;
+  i1.pr.a = 0;
+  i1.pr.b = 0;
+  q = p2->p;
+  if (q != 0 && *q != 0) {
+    i1.pr.a = **q;
   }
-  iStack_10 = param_2[2];
-  fn_8287E5C0(param_1,&stack_pair_18.first,&stack_pair_28.first,&stack_pair_38.first,uStack_40);
-  return;
+  i1.c = p2->c;
+  fn_8287E5C0(param_1, &i1.pr, &i2.pr, &i3.pr, flag);
 }

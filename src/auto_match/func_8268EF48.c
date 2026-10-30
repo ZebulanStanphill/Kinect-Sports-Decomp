@@ -1,86 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268E320();
-extern int fn_8268E408();
-extern int fn_8268E490();
-extern int fn_8268E570();
-extern int fn_8268E5C8();
-extern int fn_8268E6F0();
+typedef struct Blk_8268EF48 {
+  struct Blk_8268EF48 *next;
+  struct Blk_8268EF48 *prev;
+  int pad[6];
+  unsigned int owner;
+  unsigned int units;
+} Blk_8268EF48;
+typedef struct Arena_8268EF48 {
+  unsigned int shift;
+  int pad[2];
+  char list[4];
+  char tbl[4];
+  int count;
+} Arena_8268EF48;
+typedef struct Owner_8268EF48 { char pad[0x14]; unsigned int used; } Owner_8268EF48;
+extern void fn_8268E320(void *, Blk_8268EF48 *);
+extern void fn_8268E408(void *, Blk_8268EF48 *);
+extern void fn_8268E490(void *, Blk_8268EF48 *, Blk_8268EF48 *);
+extern void fn_8268E570(void *, Blk_8268EF48 *);
+extern void fn_8268E5C8(void *, Blk_8268EF48 *);
+extern Blk_8268EF48 *fn_8268E6F0(void *, Blk_8268EF48 *);
 
-
-undefined8 fn_8268EF48(uint *param_1,int param_2,int *param_3)
-
+int fn_8268EF48(Arena_8268EF48 *a, Owner_8268EF48 *owner, Blk_8268EF48 *p)
 {
-  int *piVar1;
-  int *piVar2;
-  uint uVar3;
-  int iVar4;
-  int *piVar6;
-  undefined8 uVar5;
-  uint *puVar7;
-  uint *puVar8;
-  uint uVar9;
-  
-  puVar7 = param_1 + 4;
-  piVar6 = (int *)fn_8268E6F0(puVar7,param_3);
-  if ((((piVar6 == (int *)0x0) || (piVar6[8] != param_2)) || (param_3 < piVar6)) ||
-     ((int *)((piVar6[9] << (*param_1 & 0x3f)) + (int)piVar6) <= param_3)) {
-    uVar5 = 0;
-  }
-  else {
-    puVar8 = param_1 + 3;
-    param_1[5] = param_1[5] - piVar6[9];
-    piVar1 = (int *)*piVar6;
-    if (piVar1 == piVar6) {
-      fn_8268E490(puVar8,piVar6);
-    }
-    else {
-      piVar2 = (int *)piVar6[1];
-      *piVar2 = (int)piVar1;
-      piVar1[1] = (int)piVar2;
-      fn_8268E408(puVar8,piVar6);
-    }
-    fn_8268E5C8(puVar7,piVar6);
-    uVar3 = *param_1;
-    uVar9 = ((piVar6[9] << (uVar3 & 0x3f)) - (int)param_3) + (int)piVar6;
-    if (piVar6 < param_3) {
-      piVar6[8] = param_2;
-      iVar4 = (int)param_3 - (int)piVar6 >> (uVar3 & 0x3f);
-      piVar6[9] = iVar4;
-      fn_8268E570(puVar8,piVar6);
-      fn_8268E320(puVar7,piVar6);
-      param_1[5] = param_1[5] + iVar4;
-      param_3[8] = param_2;
-      param_3[9] = uVar9 >> (*param_1 & 0x3f);
-    }
-    uVar5 = 1;
-    *(uint *)(param_2 + 0x14) = *(int *)(param_2 + 0x14) - uVar9;
-  }
-  return uVar5;
-}
+  Blk_8268EF48 *blk;
+  Blk_8268EF48 *nx;
+  Blk_8268EF48 *pv;
+  unsigned int rest;
+  int n;
+  unsigned int sh;
 
+  blk = fn_8268E6F0(a->tbl, p);
+  if (blk == 0 || blk->owner != (unsigned int)owner || p < blk ||
+      p >= (Blk_8268EF48 *)((char *)blk + (blk->units << a->shift))) {
+    return 0;
+  }
+  a->count = a->count - blk->units;
+  nx = blk->next;
+  if (nx != blk) {
+    pv = blk->prev;
+    pv->next = nx;
+    nx->prev = pv;
+    fn_8268E408(a->list, blk);
+  } else {
+    fn_8268E490(a->list, blk, nx);
+  }
+  fn_8268E5C8(a->tbl, blk);
+  sh = a->shift;
+  rest = ((blk->units << sh) - (unsigned int)p) + (unsigned int)blk;
+  if (blk < p) {
+    blk->owner = (unsigned int)owner;
+    n = ((int)p - (int)blk) >> sh;
+    blk->units = n;
+    fn_8268E570(a->list, blk);
+    fn_8268E320(a->tbl, blk);
+    a->count = a->count + n;
+    p->owner = (unsigned int)owner;
+    p->units = rest >> a->shift;
+  }
+  owner->used = owner->used - rest;
+  return 1;
+}

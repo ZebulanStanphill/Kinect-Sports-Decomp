@@ -1,91 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_82687270();
-extern int fn_8268B8E8();
-extern int fn_826D6290();
-extern int fn_826DFC10();
-extern int fn_826F3CF0();
-extern int fn_826F47F0();
-extern unsigned int iStack_64;
-extern unsigned int iStack_68;
-extern unsigned int lbl_831E7E64;
-extern unsigned int uStack_5c;
+typedef struct Rec_826E0920 {
+  char pad[8]; unsigned id; void *f0c; int f10; unsigned short f14; unsigned short f16; int f18; int f1c;
+} Rec_826E0920;
+typedef struct Sub_826E0920 { char pad[0x4c]; unsigned f4c; } Sub_826E0920;
+typedef struct Ctx_826E0920 { char pad[0x20]; Sub_826E0920 *f20; } Ctx_826E0920;
+typedef struct VT_826E0920 { int f0, f4; void (*f8)(void *self, int a); } VT_826E0920;
+typedef struct Held_826E0920 { VT_826E0920 **p; int arg; } Held_826E0920;
+typedef struct Pair_826E0920 { int first; unsigned second; } Pair_826E0920;
+typedef struct Out_826E0920 { int a, b; } Out_826E0920;
+extern int lbl_831E7E64;
+extern void *fn_8267B890(int heap, int size, int z);
+extern void fn_8267C498(void *p);
+extern void fn_82687270(unsigned p);
+extern void fn_8268B8E8(void *dst, int src);
+extern void fn_826D6290(Out_826E0920 *o, void *v);
+extern Rec_826E0920 *fn_826DFC10(void *mem);
+extern void *fn_826F3CF0(Held_826E0920 *h, Rec_826E0920 *r);
+extern void *fn_826F47F0(Pair_826E0920 *p, Ctx_826E0920 *c, int *tmp, void *h);
 
-
-undefined4 *
-fn_826E0920(undefined4 *param_1,int param_2,uint *param_3,undefined8 param_4,undefined8 param_5,
-             uint param_6,undefined2 param_7,undefined2 param_8)
-
+Out_826E0920 *fn_826E0920(Out_826E0920 *out, Ctx_826E0920 *ctx, int *p3, int a, int b, unsigned c, unsigned short d, unsigned short e)
 {
-  int iVar1;
-  int iVar3;
-  int iVar4;
-  undefined8 uVar2;
-  uint auStack_70;
-  struct { int first; int second; } stack_pair_68;
-
-  int *piStack_60;
-  undefined4 uStack_5c;
-  
-  iVar4 = 0;
-  *param_1 = 0;
-  param_1[1] = 0;
-  iVar3 = fn_8267B890(lbl_831E7E64,0x20,0);
-  if (iVar3 != 0) {
-    iVar4 = fn_826DFC10();
+  Rec_826E0920 *r;
+  void *mem;
+  Sub_826E0920 *s;
+  int tmp;
+  Pair_826E0920 pair;
+  Held_826E0920 held;
+  r = 0;
+  out->a = 0;
+  out->b = 0;
+  mem = fn_8267B890(lbl_831E7E64, 0x20, 0);
+  if (mem != 0) r = fn_826DFC10(mem);
+  else r = 0;
+  if (r != 0) {
+    fn_8268B8E8(&r->f10, a);
+    fn_8268B8E8(&r->f1c, b);
+    s = ctx->f20;
+    r->f0c = s->f4c != 0 ? &s->f4c : 0;
+    r->id = c & 0xffff;
+    r->f14 = d;
+    r->f16 = e;
+    if ((*p3 & 0xfff0000) == 0x60000) r->f18 = 3;
+    tmp = *p3;
+    fn_826D6290(out, fn_826F47F0(&pair, ctx, &tmp, fn_826F3CF0(&held, r)));
+    if (pair.first == 0 && pair.second != 0) fn_82687270(pair.second);
+    if (held.p != 0) (*held.p)->f8(held.p, held.arg);
+    fn_8267C498(r);
   }
-  if (iVar4 != 0) {
-    fn_8268B8E8(iVar4 + 0x10,param_4);
-    fn_8268B8E8(iVar4 + 0x1c,param_5);
-    iVar3 = *(int *)(param_2 + 0x20);
-    iVar1 = *(int *)(iVar3 + 0x4c);
-    *(uint *)(iVar4 + 8) = param_6 & 0xffff;
-    *(undefined2 *)(iVar4 + 0x14) = param_7;
-    *(undefined2 *)(iVar4 + 0x16) = param_8;
-    *(uint *)(iVar4 + 0xc) = -(uint)(iVar1 != 0) & iVar3 + 0x4cU;
-    if ((*param_3 & 0xfff0000) == 0x60000) {
-      *(undefined4 *)(iVar4 + 0x18) = 3;
-    }
-    auStack_70 = *param_3;
-    uVar2 = fn_826F3CF0(&piStack_60,iVar4);
-    uVar2 = fn_826F47F0(&stack_pair_68.first,param_2,&auStack_70,uVar2);
-    fn_826D6290(param_1,uVar2);
-    if ((stack_pair_68.first == 0) && (stack_pair_68.second != 0)) {
-      fn_82687270();
-    }
-    if (piStack_60 != (int *)0x0) {
-      (**(code **)(*piStack_60 + 8))(piStack_60,uStack_5c);
-    }
-    fn_8267C498(iVar4);
-  }
-  return param_1;
+  return out;
 }
-

@@ -1,41 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D34E10();
+typedef struct Stk_82D351D8 { unsigned short *data; int n; } Stk_82D351D8;
+typedef struct Obj_82D351D8 { char *tab; int f4; int f8; Stk_82D351D8 stk; } Obj_82D351D8;
+extern void fn_82D34E10(Obj_82D351D8 *o, unsigned short a, int b, int c);
 
-
-longlong fn_82D351D8(uint *param_1,undefined8 param_2,undefined8 param_3,ushort *param_4)
-
+char *fn_82D351D8(Obj_82D351D8 *o, int a, int b, unsigned short *out)
 {
-  if (param_1[4] == 0) {
-    fn_82D34E10(param_1,param_1[1] + 0x80 & 0xffff,param_2,param_3);
-  }
-  *param_4 = *(ushort *)(param_1[4] * 2 + param_1[3] + -2);
-  param_1[4] = param_1[4] - 1;
-  return (ulonglong)*param_4 * 0x14 + (ulonglong)*param_1;
+  Stk_82D351D8 *s;
+  if (o->stk.n == 0) fn_82D34E10(o, (unsigned short)(o->f4 + 0x80), a, b);
+  s = &o->stk;
+  *out = s->data[s->n - 1];
+  s->n--;
+  return o->tab + *out * 0x14;
 }
-

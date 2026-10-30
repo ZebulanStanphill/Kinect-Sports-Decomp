@@ -1,101 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C53220();
-extern int fn_82C562F0();
-extern int fn_82CAADA0();
-extern int fn_82CAAFD8();
-extern int fn_82F691F0();
+extern char lbl_82196582[];
+extern void *memset(void *d, int c, unsigned n);
+extern void *fn_82C562F0(void *ctx, unsigned size, char *tag);
+extern int fn_82C53220(void *ctx, void *n, int a, int b, int c);
+extern int fn_82CAAFD8(void *pool, int n);
+extern void fn_82CAADA0(void *ctx, void *list);
 
+typedef struct Cell_82CAB0E0 { struct Cell_82CAB0E0 *next; void *item; } Cell_82CAB0E0;
+typedef struct Pool_82CAB0E0 {
+  Cell_82CAB0E0 *head; Cell_82CAB0E0 *tail; Cell_82CAB0E0 *free; Cell_82CAB0E0 *freetail; int count;
+} Pool_82CAB0E0;
+typedef struct List_82CAB0E0 { int f0; int f4; int f8; Pool_82CAB0E0 *pool; } List_82CAB0E0;
+typedef struct Item_82CAB0E0 { char pad[0x280]; int idx; int pad2; } Item_82CAB0E0;
 
-undefined8
-fn_82CAB0E0(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6)
-
+int fn_82CAB0E0(void *ctx, List_82CAB0E0 *l, int a, int b, int n, int c, int u9, int u10, int zero)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  ulonglong uVar4;
-  undefined8 uVar5;
-  int iVar6;
-  int iVar7;
-  int in_stack_00000054;
-  
-  *param_2 = 0;
-  param_2[2] = 0;
-  if (param_2[3] == 0) {
-    uVar4 = fn_82C562F0(param_1,0x18,0xffffffff82196582);
-    param_2[3] = (int)uVar4;
-    if ((uVar4 & 0xffffffff) == 0) {
-LAB_82cab238:
-      uVar5 = 0xfffffffffffffff7;
+  int err;
+  int i;
+  l->f0 = 0;
+  l->f8 = 0;
+  if (l->pool == 0) {
+    l->pool = (Pool_82CAB0E0 *)fn_82C562F0(ctx, 0x18, lbl_82196582);
+    if (l->pool == 0) {
+      err = -9;
+      goto fail;
     }
-    else {
-      uVar5 = fn_82CAAFD8(uVar4,param_5);
-      if ((int)uVar5 == 0) goto LAB_82cab150;
-    }
-LAB_82cab23c:
-    fn_82CAADA0(param_1,param_2);
+    err = fn_82CAAFD8(l->pool, n);
+    if (err != 0) goto fail;
   }
-  else {
-LAB_82cab150:
-    iVar7 = 0;
-    if (0 < (int)param_5) {
-      do {
-        iVar6 = fn_82C562F0(param_1,0x288,0xffffffff82196582);
-        if (iVar6 == 0) goto LAB_82cab238;
-        if (in_stack_00000054 != 0) {
-                    /* WARNING: Subroutine does not return */
-          fn_82F691F0(iVar6,0,0x288);
-        }
-        uVar5 = fn_82C53220(param_1,iVar6,param_3,param_4,param_6);
-        if ((int)uVar5 != 0) goto LAB_82cab23c;
-        *(int *)(iVar6 + 0x280) = iVar7;
-        piVar1 = (int *)param_2[3];
-        if ((piVar1 == (int *)0x0) || (piVar1[4] < 0)) goto LAB_82cab238;
-        piVar2 = (int *)piVar1[2];
-        iVar3 = *piVar2;
-        piVar1[2] = iVar3;
-        if (iVar3 == 0) {
-          piVar1[3] = 0;
-        }
-        piVar2[1] = iVar6;
-        *piVar2 = *piVar1;
-        *piVar1 = (int)piVar2;
-        if (piVar1[1] == 0) {
-          piVar1[1] = (int)piVar2;
-        }
-        iVar7 = iVar7 + 1;
-        piVar1[4] = piVar1[4] + 1;
-      } while (iVar7 < (int)param_5);
+  for (i = 0; i < n; i++) {
+    Item_82CAB0E0 *it = (Item_82CAB0E0 *)fn_82C562F0(ctx, 0x288, lbl_82196582);
+    Pool_82CAB0E0 *p;
+    Cell_82CAB0E0 *cell;
+    if (it == 0) { err = -9; goto fail; }
+    if (zero != 0) {
+      memset(it, 0, 0x288);
+      it->idx = -1;
+    } else {
+      err = fn_82C53220(ctx, it, a, b, c);
+      if (err != 0) goto fail;
     }
-    uVar5 = 0;
+    it->idx = i;
+    p = l->pool;
+    if (p == 0 || p->count < 0) { err = -9; goto fail; }
+    cell = p->free;
+    p->free = cell->next;
+    if (p->free == 0) p->freetail = 0;
+    cell->item = it;
+    cell->next = p->head;
+    p->head = cell;
+    if (p->tail == 0) p->tail = cell;
+    p->count = p->count + 1;
   }
-  return uVar5;
+  return 0;
+fail:
+  fn_82CAADA0(ctx, l);
+  return err;
 }
-

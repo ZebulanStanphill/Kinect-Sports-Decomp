@@ -1,65 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82930318();
-extern int fn_82935088();
+struct Obj_82935158;
+typedef struct VT_82935158 { int f0; struct Obj_82935158 *(*f4)(void *self); } VT_82935158;
+typedef struct Sub_82935158 { VT_82935158 *vt; } Sub_82935158;
+typedef struct Obj_82935158 {
+  char pad[0x10]; int f10, f14, f18, f1c, f20, f24; Sub_82935158 *f28;
+} Obj_82935158;
+extern void *fn_82930318(unsigned n);
+extern Obj_82935158 *fn_82935088(void *p);
 
-
-int fn_82935158(int param_1)
-
+Obj_82935158 *fn_82935158(Obj_82935158 *src)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = fn_82930318(0x2c);
-  if (iVar1 == 0) {
-    iVar1 = 0;
+  void *m = fn_82930318(0x2c);
+  Obj_82935158 *n;
+  if (m != 0) n = fn_82935088(m);
+  else n = 0;
+  if (n == 0) return 0;
+  n->f10 = src->f10;
+  n->f14 = src->f14;
+  n->f18 = src->f18;
+  n->f1c = src->f1c;
+  n->f20 = src->f20;
+  n->f24 = src->f24;
+  if (src->f28 != 0) {
+    n->f28 = (Sub_82935158 *)src->f28->vt->f4(src->f28);
+    if (n->f28 == 0) return 0;
   }
-  else {
-    iVar1 = fn_82935088();
-  }
-  if (iVar1 == 0) {
-    iVar1 = 0;
-  }
-  else {
-    *(undefined4 *)(iVar1 + 0x10) = *(undefined4 *)(param_1 + 0x10);
-    *(undefined4 *)(iVar1 + 0x14) = *(undefined4 *)(param_1 + 0x14);
-    *(undefined4 *)(iVar1 + 0x18) = *(undefined4 *)(param_1 + 0x18);
-    *(undefined4 *)(iVar1 + 0x1c) = *(undefined4 *)(param_1 + 0x1c);
-    *(undefined4 *)(iVar1 + 0x20) = *(undefined4 *)(param_1 + 0x20);
-    *(undefined4 *)(iVar1 + 0x24) = *(undefined4 *)(param_1 + 0x24);
-    if (*(int **)(param_1 + 0x28) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
-      *(int *)(iVar1 + 0x28) = iVar2;
-      if (iVar2 == 0) {
-        return 0;
-      }
-    }
-  }
-  return iVar1;
+  return n;
 }
-

@@ -1,80 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_8268B118();
-extern int fn_8268B1F0();
-extern int fn_826944C8();
-extern int fn_82696330();
-extern int fn_82696D38();
+typedef struct Str_826A1E40 { char *text; int f4; int rc; } Str_826A1E40;
+typedef struct Obj_826A1E40 { char pad[0x34]; void **items; unsigned count; } Obj_826A1E40;
+extern void fn_8268B118(void *sink);
+extern void fn_8268B1F0(void *sink, char *s, int n);
+extern void fn_826944C8(void *p);
+extern void fn_82696330(void *p);
+extern void fn_82696D38(Str_826A1E40 **out, void *src, void *ctx, int a, int b);
 
+static __inline void Release(Str_826A1E40 *p) { if (--p->rc == 0) fn_826944C8(p); }
 
-void fn_826A1E40(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_826A1E40(Obj_826A1E40 *o, void *ctx, void *sink, void *sep)
 {
-  uint uVar1;
-  int iVar3;
-  uint uVar4;
-  int iVar5;
-  undefined4 *puStack_60;
-  undefined4 * apuStack_5c;
-  undefined1 auStack_50 [16];
-  undefined4 *puVar2;
-  
-  fn_8268B118(param_3);
-  iVar5 = 0;
-  uVar4 = 0;
-  auStack_50[0] = 0;
-  if (*(int *)(param_1 + 0x38) != 0) {
-    do {
-      if (uVar4 != 0) {
-        fn_8268B1F0(param_3,param_4,0xffffffffffffffff);
-      }
-      iVar3 = *(int *)(*(int *)(param_1 + 0x34) + iVar5);
-      if (iVar3 == 0) {
-        fn_82696D38(&apuStack_5c,auStack_50,param_2,0xffffffffffffffff,0);
-        fn_8268B1F0(param_3,*apuStack_5c,0xffffffffffffffff);
-        puVar2 = apuStack_5c;
-      }
-      else {
-        fn_82696D38(&puStack_60,iVar3,param_2,0xffffffffffffffff,0);
-        fn_8268B1F0(param_3,*puStack_60,0xffffffffffffffff);
-        puVar2 = puStack_60;
-      }
-      uVar1 = puVar2[2];
-      puVar2[2] = (int)((ulonglong)uVar1 - 1);
-      if ((ulonglong)uVar1 - 1 == 0) {
-        fn_826944C8(puVar2);
-      }
-      uVar4 = uVar4 + 1;
-      iVar5 = iVar5 + 4;
-    } while (uVar4 < *(uint *)(param_1 + 0x38));
+  Str_826A1E40 *t1;
+  Str_826A1E40 *t2;
+  Str_826A1E40 *p;
+  unsigned char empty[16];
+  unsigned i;
+  fn_8268B118(sink);
+  empty[0] = 0;
+  for (i = 0; i < o->count; i++) {
+    if (i != 0) fn_8268B1F0(sink, sep, -1);
+    if (o->items[i] != 0) {
+      fn_82696D38(&t1, o->items[i], ctx, -1, 0);
+      fn_8268B1F0(sink, t1->text, -1);
+      p = t1;
+      Release(p);
+    } else {
+      fn_82696D38(&t2, empty, ctx, -1, 0);
+      fn_8268B1F0(sink, t2->text, -1);
+      p = t2;
+      Release(p);
+    }
   }
-  fn_82696330(auStack_50);
-  return;
+  fn_82696330(empty);
 }
-

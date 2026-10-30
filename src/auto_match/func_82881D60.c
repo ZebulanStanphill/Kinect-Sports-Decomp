@@ -1,55 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8288C540();
-extern int fn_8289F160();
-extern unsigned int lbl_83212A04;
-extern unsigned int uStack_20;
+typedef struct Node_82881D60 { struct Node_82881D60 *left; struct Node_82881D60 *parent; struct Node_82881D60 *right; } Node_82881D60;
+typedef struct Obj_82881D60 { char pad[0x14]; Node_82881D60 *head; int f18; } Obj_82881D60;
+typedef struct It_82881D60 { struct { int pad[4]; Obj_82881D60 *obj; } *p; } It_82881D60;
+extern struct Tree_82881D60 { int a; void *end; } lbl_83212A00;
+extern void fn_8289F160(void **, void *, unsigned int *);
+extern void fn_8288C540(void *, void *);
 
-
-void fn_82881D60(undefined4 param_1)
-
+void fn_82881D60(unsigned int param_1)
 {
-  int iVar1;
-  undefined4 uStack_20;
-  int aiStack_1c;
-  
-  uStack_20 = param_1;
-  fn_8289F160(&aiStack_1c,0xffffffff83212a00,&uStack_20);
-  if (aiStack_1c != lbl_83212A04) {
-    iVar1 = *(int *)(aiStack_1c + 0x10);
-    if (iVar1 != 0) {
-      fn_8288C540(iVar1 + 0x10,*(undefined4 *)(*(int *)(iVar1 + 0x14) + 4));
-      *(int *)(*(int *)(iVar1 + 0x14) + 4) = *(int *)(iVar1 + 0x14);
-      *(undefined4 *)*(undefined4 *)(iVar1 + 0x14) = *(undefined4 *)(iVar1 + 0x14);
-      *(int *)(*(int *)(iVar1 + 0x14) + 8) = *(int *)(iVar1 + 0x14);
-      *(undefined4 *)(iVar1 + 0x18) = 0;
+  unsigned int key;
+  struct { int pad[4]; Obj_82881D60 *obj; } *it;
+  Obj_82881D60 *o;
+  Node_82881D60 *h;
+  key = param_1;
+  fn_8289F160((void **)&it, &lbl_83212A00, &key);
+  if ((void *)it != lbl_83212A00.end) {
+    o = it->obj;
+    if (o != 0) {
+      fn_8288C540((char *)o + 0x10, o->head->parent);
+      o->head->parent = o->head;
+      o->head->left = o->head;
+      o->head->right = o->head;
+      o->f18 = 0;
     }
   }
-  return;
 }
-

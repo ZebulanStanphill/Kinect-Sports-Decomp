@@ -1,62 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8240D928();
-extern int fn_8288DF40();
+typedef struct Ref_8288DF40 { unsigned *a; unsigned b; } Ref_8288DF40;
+extern unsigned fn_8240D928(void *p);
+extern Ref_8288DF40 *fn_8288DF40(Ref_8288DF40 *out, void *v, unsigned pos);
 
+typedef struct VT_8288EBC8 { int f0, f4, f8; unsigned (*fc)(void *self); } VT_8288EBC8;
+typedef struct Obj_8288EBC8 { VT_8288EBC8 *vt; } Obj_8288EBC8;
+typedef struct Inner_8288EBC8 { char pad[0x26]; unsigned char f26; } Inner_8288EBC8;
+typedef struct Mid_8288EBC8 { char pad[0x38]; Inner_8288EBC8 *f38; } Mid_8288EBC8;
+typedef struct A_8288EBC8 { char pad[0x34]; Mid_8288EBC8 *f34; char pad2[4]; int f3c; } A_8288EBC8;
+typedef struct B_8288EBC8 { char pad[0x20]; Obj_8288EBC8 *f20; } B_8288EBC8;
 
-bool fn_8288EBC8(int param_1,int param_2,undefined8 param_3)
-
+unsigned char fn_8288EBC8(A_8288EBC8 *a, B_8288EBC8 *b, void *c)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 *puVar3;
-  char cVar4;
-  bool bVar5;
-  undefined1 auStack_20 [8];
-  
-  if ((*(int *)(param_1 + 0x34) == 0) ||
-     (iVar2 = *(int *)(*(int *)(param_1 + 0x34) + 0x38), iVar2 == 0)) {
-    cVar4 = '\0';
+  unsigned char f;
+  Ref_8288DF40 tmp;
+  Ref_8288DF40 *r;
+  if (a->f34 == 0 || a->f34->f38 == 0) f = 0;
+  else f = a->f34->f38->f26;
+  if (f == 0 && (b->f20 == 0 || b->f20->vt->fc(b->f20) == 0)) {
+    return 0;
+  } else {
+    r = fn_8288DF40(&tmp, &a->f3c, fn_8240D928(c));
+    return ((1 << r->b) & *r->a) != 0;
   }
-  else {
-    cVar4 = *(char *)(iVar2 + 0x26);
-  }
-  if ((cVar4 == '\0') &&
-     ((*(int **)(param_2 + 0x20) == (int *)0x0 ||
-      (iVar2 = (**(code **)(**(int **)(param_2 + 0x20) + 0xc))(), iVar2 == 0)))) {
-    bVar5 = false;
-  }
-  else {
-    uVar1 = fn_8240D928(param_3);
-    puVar3 = (undefined4 *)fn_8288DF40(auStack_20,param_1 + 0x3c,uVar1);
-    bVar5 = (1 << (puVar3[1] & 0x3f) & *(uint *)*puVar3) != 0;
-  }
-  return bVar5;
 }
-

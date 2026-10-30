@@ -1,89 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BB4FB0();
-extern int fn_82BB80E8();
-extern int fn_82BB8B88();
-extern int fn_82BB9428();
-extern int fn_82BBFD48();
-extern int fn_82BBFDD0();
-extern int fn_82BC5538();
+typedef struct Node_82BB9628 { char pad[8]; struct Node_82BB9628 *next; char pad2[0x1c]; struct Win_82BB9628 *w; } Node_82BB9628;
+typedef struct Win_82BB9628 { char pad[0xe4]; unsigned int flags; } Win_82BB9628;
+typedef struct Slots_82BB9628 { struct Slot_82BB9628 *e[2]; Node_82BB9628 *f10; } Slots_82BB9628;
+typedef struct Slot_82BB9628 { char pad[0x28]; Win_82BB9628 *w; } Slot_82BB9628;
+typedef struct Obj_82BB9628 {
+  char pad[0xc];
+  void *f0c;
+  void *f10;
+  char pad14[0xc];
+  Slot_82BB9628 **f20;
+} Obj_82BB9628;
+extern void fn_82BB4FB0(void *, Slot_82BB9628 **);
+extern void fn_82BB80E8(Obj_82BB9628 *);
+extern unsigned int fn_82BB8B88(Obj_82BB9628 *);
+extern void fn_82BB9428(Obj_82BB9628 *, unsigned int);
+extern unsigned char fn_82BBFD48(void *);
+extern void fn_82BBFDD0(Node_82BB9628 *);
+extern void fn_82BC5538(void *, Win_82BB9628 *);
 
-
-void fn_82BB9628(int param_1)
-
+void fn_82BB9628(Obj_82BB9628 *p)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  char cVar4;
-  int iVar5;
-  int iVar6;
-  
-  while (uVar3 = fn_82BB8B88(param_1), (uVar3 & 0xffffffff) != 0) {
-    fn_82BB9428(param_1,uVar3);
+  unsigned int x;
+  Win_82BB9628 *w;
+  Win_82BB9628 *t;
+  int off;
+  Node_82BB9628 *n;
+  Node_82BB9628 *nx;
+
+  while ((x = fn_82BB8B88(p)) != 0) {
+    fn_82BB9428(p, x);
   }
-  fn_82BB4FB0(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x20));
-  iVar5 = 0;
-  iVar6 = 0;
+  fn_82BB4FB0(p->f0c, p->f20);
+  w = 0;
+  off = 0;
   do {
-    if (*(int *)(*(int *)(param_1 + 0x20) + iVar6) != 0) {
-      iVar5 = *(int *)(*(int *)(*(int *)(param_1 + 0x20) + iVar6) + 0x28);
-      *(undefined4 *)(*(int *)(param_1 + 0x20) + iVar6) = 0;
-      fn_82BC5538(*(undefined4 *)(param_1 + 0x10),iVar5);
-      *(uint *)(iVar5 + 0xe4) = *(uint *)(iVar5 + 0xe4) | 4;
+    if (*(Slot_82BB9628 **)((char *)p->f20 + off) != 0) {
+      t = (*(Slot_82BB9628 **)((char *)p->f20 + off))->w;
+      *(Slot_82BB9628 **)((char *)p->f20 + off) = 0;
+      fn_82BC5538(p->f10, t);
+      t->flags = t->flags | 4;
+      w = t;
     }
-    iVar6 = iVar6 + 4;
-  } while (iVar6 < 8);
-  iVar6 = *(int *)(*(int *)(param_1 + 0x20) + 0x10);
-  iVar2 = *(int *)(iVar6 + 8);
-  while (iVar1 = iVar2, iVar1 != 0) {
-    iVar5 = *(int *)(iVar6 + 0x28);
-    fn_82BBFDD0();
-    fn_82BC5538(*(undefined4 *)(param_1 + 0x10),iVar5);
-    *(uint *)(iVar5 + 0xe4) = *(uint *)(iVar5 + 0xe4) | 4;
-    iVar6 = iVar1;
-    iVar2 = *(int *)(iVar1 + 8);
+    off += 4;
+  } while (off < 8);
+  n = *(Node_82BB9628 **)((char *)p->f20 + 0x10);
+  nx = n->next;
+  while (nx != 0) {
+    t = n->w;
+    fn_82BBFDD0(n);
+    fn_82BC5538(p->f10, t);
+    t->flags = t->flags | 4;
+    w = t;
+    n = nx;
+    nx = nx->next;
   }
-  if (iVar5 != 0) {
-    *(uint *)(iVar5 + 0xe4) = *(uint *)(iVar5 + 0xe4) & 0xfffffffb;
+  if (w != 0) {
+    w->flags = w->flags & 0xfffffffb;
   }
-  fn_82BB80E8(param_1);
-  cVar4 = fn_82BBFD48(param_1 + 0x24);
-  if (cVar4 != '\0') {
+  fn_82BB80E8(p);
+  if (fn_82BBFD48((char *)p + 0x24) != 0) {
     do {
-      cVar4 = fn_82BBFD48(param_1 + 0x3c);
-      if (cVar4 != '\0') {
+      if (fn_82BBFD48((char *)p + 0x3c) != 0) {
         return;
       }
-      fn_82BB80E8(param_1);
-      cVar4 = fn_82BBFD48(param_1 + 0x24);
-    } while (cVar4 != '\0');
+      fn_82BB80E8(p);
+    } while (fn_82BBFD48((char *)p + 0x24) != 0);
   }
-  return;
 }
-

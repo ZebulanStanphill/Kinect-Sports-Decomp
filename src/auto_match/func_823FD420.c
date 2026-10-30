@@ -1,72 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_821B7324;
+typedef struct SP_823FD420 { void *p; void *rc; } SP_823FD420;
+typedef struct Obj_823FD420 {
+  void *vt;
+  int f4;
+  int pad[4];
+  SP_823FD420 a;
+  SP_823FD420 b;
+  SP_823FD420 c;
+  SP_823FD420 d;
+} Obj_823FD420;
+extern char lbl_821B7324[];
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_82365BD8(SP_823FD420 *, SP_823FD420 *);
 
-
-undefined4 *
-fn_823FD420(undefined4 *param_1,int param_2,int param_3,undefined4 *param_4,int param_5)
-
+static __inline void Assign_823FD420(SP_823FD420 *dst, SP_823FD420 *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  
-  param_1[1] = 0;
-  *param_1 = &lbl_821B7324;
-  fn_82365BD8(param_1 + 6);
-  fn_82365BD8(param_1 + 8,param_3);
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  iVar1 = param_4[1];
-  uVar2 = *param_4;
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0xb] != 0) {
-      fn_822315A0();
+  void *rc;
+  void *ptr;
+  dst->p = 0;
+  dst->rc = 0;
+  rc = src->rc;
+  ptr = src->p;
+  if (rc != 0 && fn_8223AAC0(rc) != 0) {
+    if (dst->rc != 0) {
+      fn_822315A0(dst->rc);
     }
-    param_1[0xb] = iVar1;
-    param_1[10] = uVar2;
+    dst->rc = rc;
+    dst->p = ptr;
   }
-  fn_82365BD8(param_1 + 0xc,param_5);
-  if (*(int *)(param_2 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_3 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (param_4[1] != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_5 + 4) != 0) {
-    fn_822315A0();
-  }
-  return param_1;
 }
 
+Obj_823FD420 *fn_823FD420(Obj_823FD420 *self, SP_823FD420 *p2, SP_823FD420 *p3, SP_823FD420 *p4, SP_823FD420 *p5)
+{
+  self->f4 = 0;
+  self->vt = lbl_821B7324;
+  fn_82365BD8(&self->a, p2);
+  fn_82365BD8(&self->b, p3);
+  Assign_823FD420(&self->c, p4);
+  fn_82365BD8(&self->d, p5);
+  if (p2->rc != 0) {
+    fn_822315A0(p2->rc);
+  }
+  if (p3->rc != 0) {
+    fn_822315A0(p3->rc);
+  }
+  if (p4->rc != 0) {
+    fn_822315A0(p4->rc);
+  }
+  if (p5->rc != 0) {
+    fn_822315A0(p5->rc);
+  }
+  return self;
+}

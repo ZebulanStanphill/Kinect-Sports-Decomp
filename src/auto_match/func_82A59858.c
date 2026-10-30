@@ -1,58 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A47B28();
-extern int fn_82A76400();
+typedef struct Rec_82A59858 { char pad[0x30]; int key; } Rec_82A59858;
+typedef struct Node_82A59858 { Rec_82A59858 *val; struct Node_82A59858 *next; } Node_82A59858;
+typedef struct Bucket_82A59858 { char pad[8]; char sub[0x18]; Node_82A59858 *head; char pad2[4]; } Bucket_82A59858;
+typedef struct Obj_82A59858 { Bucket_82A59858 b[13]; char pad[0x210 - 13 * 0x28]; int count; } Obj_82A59858;
+extern void fn_82A47B28(void *, Node_82A59858 *);
+extern void fn_82A76400(Rec_82A59858 *);
 
-
-void fn_82A59858(int param_1,int param_2)
-
+void fn_82A59858(Obj_82A59858 *o, int key)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  int iVar4;
-  
-  iVar1 = (param_2 % 0xd) * 0x28 + param_1;
-  piVar3 = *(int **)(iVar1 + 0x20);
-  do {
-    piVar2 = piVar3;
-    if (piVar2 == (int *)0x0) {
-      iVar4 = 0;
-      piVar3 = piVar2;
-    }
-    else {
-      iVar4 = *piVar2;
-      piVar3 = (int *)piVar2[1];
-    }
-  } while (*(int *)(iVar4 + 0x30) != param_2);
-  fn_82A47B28(iVar1 + 8,piVar2);
-  fn_82A76400(iVar4);
-  *(int *)(param_1 + 0x210) = *(int *)(param_1 + 0x210) + -1;
-  return;
-}
+  Bucket_82A59858 *bk;
+  Node_82A59858 *n;
+  Node_82A59858 *p;
+  Rec_82A59858 *v;
+  Node_82A59858 *q;
 
+  bk = &o->b[key % 13];
+  n = bk->head;
+  do {
+    p = n;
+    q = p;
+    if (q != 0) {
+      n = q->next;
+      v = q->val;
+    } else {
+      v = 0;
+    }
+  } while (v->key != key);
+  fn_82A47B28(bk->sub, p);
+  fn_82A76400(v);
+  o->count = o->count - 1;
+}

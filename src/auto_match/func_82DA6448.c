@@ -1,63 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+struct Alloc_82DA6448;
+typedef struct VT_82DA6448 { int f0, f4, f8, fc; void (*f10)(struct Alloc_82DA6448 *, void *, unsigned, int); } VT_82DA6448;
+typedef struct Alloc_82DA6448 { VT_82DA6448 *vt; } Alloc_82DA6448;
+typedef struct Heap_82DA6448 { char pad[0x10]; Alloc_82DA6448 *alloc; } Heap_82DA6448;
+typedef struct Vec_82DA6448 { void *ptr; int size; int cap; } Vec_82DA6448;
+typedef struct Obj_82DA6448 { Vec_82DA6448 a; int padc; Vec_82DA6448 b; Vec_82DA6448 c; } Obj_82DA6448;
+extern Heap_82DA6448 *fn_82CE5410(void);
 
-
-void fn_82DA6448(undefined4 *param_1)
-
+static void Free(Vec_82DA6448 *v, int align)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[8] = 0;
-  if ((param_1[9] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[7],param_1[9] & 0x3fffffff,0x10);
+  Alloc_82DA6448 *al = fn_82CE5410()->alloc;
+  v->size = 0;
+  if ((v->cap & (int)0x80000000) == 0) {
+    al->vt->f10(al, v->ptr, v->cap & 0x3fffffff, align);
   }
-  param_1[7] = 0;
-  param_1[9] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[5] = 0;
-  if ((param_1[6] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[4],param_1[6] & 0x3fffffff,0x14);
-  }
-  param_1[4] = 0;
-  param_1[6] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,0x14);
-  }
-  *param_1 = 0;
-  param_1[2] = 0x80000000;
-  return;
+  v->ptr = 0;
+  v->cap = (int)0x80000000;
 }
 
+void fn_82DA6448(Obj_82DA6448 *o)
+{
+  Free(&o->c, 0x10);
+  Free(&o->b, 0x14);
+  Free(&o->a, 0x14);
+}

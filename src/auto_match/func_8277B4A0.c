@@ -1,56 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267BE38();
-extern int memcpy();
+extern void *fn_8267B890(void *a, unsigned n, int z);
+extern void fn_8267BE38(void *p);
+extern void *memcpy(void *d, const void *s, unsigned n);
 
+typedef struct Elem_8277B4A0 { int f0; unsigned size; } Elem_8277B4A0;
 
-void fn_8277B4A0(uint *param_1,uint param_2)
+typedef struct Vec_8277B4A0 {
+  unsigned count;
+  unsigned cap;
+  void *data;
+  Elem_8277B4A0 *desc;
+  void *alloc;
+} Vec_8277B4A0;
 
+void fn_8277B4A0(Vec_8277B4A0 *v, unsigned n)
 {
-  ulonglong uVar1;
-  
-  if ((param_2 != *param_1) && (*(int *)param_1[3] != 0)) {
-    if ((param_1[1] < param_2) && (*param_1 < param_2)) {
-      uVar1 = fn_8267B890(param_1[4],(longlong)((int *)param_1[3])[1] * (longlong)(int)param_2
-                                ,0);
-      if (param_1[2] != 0) {
-        if ((uVar1 & 0xffffffff) != 0) {
-          memcpy(uVar1,param_1[2],(longlong)*(int *)(param_1[3] + 4) * (longlong)(int)*param_1
-                      );
+  void *p;
+  if (n != v->count && v->desc->f0 != 0) {
+    if (n > v->cap && n > v->count) {
+      p = fn_8267B890(v->alloc, v->desc->size * n, 0);
+      if (v->data != 0) {
+        if (p != 0) {
+          memcpy(p, v->data, v->desc->size * v->count);
         }
-        fn_8267BE38(param_1[2]);
+        fn_8267BE38(v->data);
       }
-      param_1[1] = param_2;
-      param_1[2] = (uint)uVar1;
+      v->cap = n;
+      v->data = p;
     }
-    *param_1 = param_2;
+    v->count = n;
   }
-  return;
 }
-

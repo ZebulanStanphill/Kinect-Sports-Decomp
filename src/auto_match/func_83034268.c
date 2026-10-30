@@ -1,70 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83032D88();
+typedef struct Node_83034268 { struct Node_83034268 *next; int key; } Node_83034268;
+typedef struct List_83034268 {
+  Node_83034268 *head; Node_83034268 *tail; Node_83034268 *free; int f0c, f10; int count;
+} List_83034268;
+extern void fn_83032D88(void *key);
 
-
-void fn_83034268(int *param_1,int *param_2)
-
+void fn_83034268(List_83034268 *l, void **key)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  piVar1 = (int *)*param_1;
-  if (piVar1 != (int *)0x0) {
-    piVar2 = piVar1;
-    piVar3 = (int *)0x0;
+  Node_83034268 *head = l->head;
+  Node_83034268 *prev = 0;
+  Node_83034268 *n = head;
+  if (head != 0) {
     do {
-      piVar4 = piVar2;
-      if (piVar4[1] == *param_2) {
-        if (piVar4 == piVar1) {
-          *param_1 = *piVar4;
-        }
-        else {
-          *piVar3 = *piVar4;
-        }
-        if (piVar4 == (int *)param_1[1]) {
-          param_1[1] = (int)piVar3;
-        }
-        *piVar4 = param_1[2];
-        param_1[2] = (int)piVar4;
-        param_1[5] = param_1[5] + -1;
+      if (n->key == (int)*key) {
+        if (n == head) l->head = n->next;
+        else prev->next = n->next;
+        if (n == l->tail) l->tail = prev;
+        n->next = l->free;
+        l->free = n;
+        l->count--;
         break;
       }
-      piVar2 = (int *)*piVar4;
-      piVar3 = piVar4;
-    } while ((int *)*piVar4 != (int *)0x0);
+      prev = n;
+      n = n->next;
+    } while (n != 0);
   }
-  if (*param_2 != 0) {
-    fn_83032D88();
-    *param_2 = 0;
+  if (*key != 0) {
+    fn_83032D88(*key);
+    *key = 0;
   }
-  return;
 }
-

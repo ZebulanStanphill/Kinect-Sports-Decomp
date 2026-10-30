@@ -1,69 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5240();
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5398();
-extern int fn_830B4CB8();
+extern int fn_82BE5240(void *o, int code, const char *fmt, int z);
+extern void fn_82BE5340(void *p);
+extern void fn_82BE5350(void *p);
+extern unsigned fn_82BE5378(void *p);
+extern void fn_82BE5398(void *p, int a, int b);
+extern void fn_830B4CB8(unsigned a, int b);
 
+typedef struct Obj_82BEF890 {
+  char pad[0x10]; int f10; char pad2[8]; char f1c[8]; int f24; unsigned f28;
+  int f2c; int f30; int pad34; int f38; int f3c;
+} Obj_82BEF890;
 
-undefined8 fn_82BEF890(int param_1,ulonglong param_2)
-
+int fn_82BEF890(Obj_82BEF890 *o, unsigned id)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  int iVar3;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    uVar1 = fn_82BE5240(param_1,500,0xffffffff820eb28c,0);
+  void *l;
+  if (id == 0) {
+    return fn_82BE5240(o, 500, "Subscriber %s", 0);
   }
-  else {
-    iVar3 = param_1 + 0x1c;
-    fn_82BE5340(iVar3);
-    while (*(int *)(param_1 + 0x24) != 0) {
-      uVar2 = fn_82BE5378(iVar3);
-      if ((param_2 & 0xffffffff) == (uVar2 & 0xffffffff)) {
-        fn_830B4CB8(param_2,0);
-        fn_82BE5398(iVar3,*(undefined4 *)(param_1 + 0x24),1);
-        if (*(int *)(param_1 + 0x28) == 0) {
-          *(undefined4 *)(param_1 + 0x30) = 0;
-          *(undefined4 *)(param_1 + 0x2c) = 0;
-          *(undefined4 *)(param_1 + 0x3c) = 0;
-          *(undefined4 *)(param_1 + 0x10) = 1;
-          *(undefined4 *)(param_1 + 0x38) = 0;
-        }
-        break;
+  l = o->f1c;
+  fn_82BE5340(l);
+  while (o->f24 != 0) {
+    if (id == fn_82BE5378(l)) {
+      fn_830B4CB8(id, 0);
+      fn_82BE5398(l, o->f24, 1);
+      if (o->f28 == 0) {
+        o->f30 = 0;
+        o->f2c = 0;
+        o->f3c = 0;
+        o->f10 = 1;
+        o->f38 = 0;
       }
-      fn_82BE5350(iVar3);
+      break;
     }
-    uVar1 = 0;
+    fn_82BE5350(l);
   }
-  return uVar1;
+  return 0;
 }
-

@@ -1,52 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82817B08();
-extern int fn_82817B50();
-extern int fn_82851858();
-extern unsigned int uStack_30;
+typedef struct Obj_828507F8 { char pad[0x144]; void *f144; } Obj_828507F8;
+extern int fn_82817B08(void *p);
+extern void fn_82817B50(void *p, int idx, int *out);
+extern void fn_82851858(int a, int *out);
 
-
-undefined8 fn_828507F8(int param_1,int param_2,undefined8 param_3,undefined4 param_4)
-
+int fn_828507F8(Obj_828507F8 *o, int off, int idx, int val)
 {
-  int iVar1;
-  undefined4 uStack_30;
-  int aiStack_2c;
-  
-  if (*(int *)(param_1 + 0x144) != 0) {
-    iVar1 = fn_82817B08();
-    if ((-1 < (int)param_3) && ((int)param_3 < iVar1)) {
-      fn_82817B50(*(undefined4 *)(param_1 + 0x144),param_3,&uStack_30);
-      fn_82851858(uStack_30,&aiStack_2c);
-      *(undefined4 *)(aiStack_2c + param_2) = param_4;
+  int a, b;
+  if (o->f144 != 0) {
+    int n = fn_82817B08(o->f144);
+    if (idx >= 0 && idx < n) {
+      fn_82817B50(o->f144, idx, &a);
+      fn_82851858(a, &b);
+      *(int *)(b + off) = val;
       return 1;
     }
   }
   return 0;
 }
-
