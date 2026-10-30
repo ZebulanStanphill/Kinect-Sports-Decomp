@@ -6055,7 +6055,8 @@
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8223D178.c": {
         "status": "NonMatching",
@@ -6093,11 +6094,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_8223D8E0.c": {
+      "auto_match/func_8223D8E0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8223D998.c": {
         "status": "NonMatching",
@@ -6129,11 +6131,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_8223DBE8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8223DBE8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8223DC70.cpp": {
         "status": "Matching",
@@ -59168,11 +59171,12 @@
           "/O2"
         ]
       },
-      "auto_match/func_8251B8B8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8251B8B8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8251B970.c": {
         "status": "NonMatching",
@@ -82192,13 +82196,13 @@
           "/O1"
         ]
       },
-      "auto_match/func_82679E80.c": {
-        "status": "NonMatching",
+      "auto_match/func_82679E80.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
-      "auto_match/func_82679F58.c": {
+      "auto_match/func_82679F58.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -133020,11 +133024,12 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_828289F0.c": {
-        "status": "NonMatching",
+      "auto_match/func_828289F0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82828A70.cpp": {
         "status": "Matching",
