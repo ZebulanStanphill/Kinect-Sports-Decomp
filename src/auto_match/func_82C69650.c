@@ -25,32 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CAAF00();
+extern void fn_82CAAF00(int, int *, int);
 
-
-void fn_82C69650(int param_1,longlong param_2)
-
+void fn_82C69650(char *param_1, int param_2)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x6070);
-  iVar3 = (int)param_2;
-  if (0 < iVar3) {
-    piVar4 = (int *)(iVar1 + 0x46e0);
+  char *base = *(char **)(param_1 + 0x6070);
+  if (0 < param_2) {
+    int *p = (int *)(base + 0x46e0);
+    int n = param_2;
     do {
-      fn_82CAAF00(*(undefined4 *)(param_1 + 0x3ba4),piVar4,0xffffffffffffffff);
-      iVar2 = *piVar4;
-      param_2 = param_2 + -1;
-      piVar4[-0x41] = iVar2;
-      piVar4 = piVar4 + 1;
-      *(undefined4 *)(iVar2 + 0x26c) = 0xaaaaaaaa;
-    } while (param_2 != 0);
+      int v;
+      fn_82CAAF00(*(int *)(param_1 + 0x3ba4), p, -1);
+      v = *p;
+      n--;
+      p[-0x41] = v;
+      p++;
+      *(unsigned *)(v + 0x26c) = 0xaaaaaaaa;
+    } while (n != 0);
   }
-  *(int *)(iVar1 + 0x46dc) = iVar3;
-  *(int *)(iVar1 + 0x47e0) = iVar3;
-  return;
+  *(int *)(base + 0x47e0) = param_2;
+  *(int *)(base + 0x46dc) = param_2;
 }
-

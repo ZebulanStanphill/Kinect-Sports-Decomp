@@ -39,77 +39,70 @@ extern int fn_823A5108();
 extern int fn_8248F9F8();
 extern int fn_82536590();
 extern int fn_82A1E1A8();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82193AF0;
-extern unsigned int lbl_821CC160;
+extern float lbl_821916FC;
+extern float lbl_82193AD8[];
+extern float lbl_821CC160;
 
-
-void fn_823A19F0(double param_1,int param_2)
-
+typedef struct Ctx_823A19F0 Ctx_823A19F0;
+typedef struct Self_823A19F0 { char pad0[8]; Ctx_823A19F0 *ctx; float f0c; } Self_823A19F0;
+void fn_823A19F0(Self_823A19F0 *self, float delta)
 {
-  float fVar1;
+  int *obj;
   int iVar2;
-  uint *puVar3;
+  unsigned int *puVar3;
   int iVar4;
-  uint uVar5;
-  longlong lVar6;
-  
-  if (*(int *)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x178) == 1) {
-    fVar1 = (float)((double)*(float *)(param_2 + 0xc) - param_1);
-    *(float *)(param_2 + 0xc) = fVar1;
+  int uVar5;
+  unsigned int n;
+  float fVar1;
+
+#define OBJ(s) (*(int *)((char *)(*(int *)((char *)(s) + 8)) + 8))
+  if (*(int *)(OBJ(self) + 0x178) == 1) {
+    fVar1 = self->f0c - delta;
+    self->f0c = fVar1;
     if (fVar1 <= lbl_821CC160) {
       fn_82A1E1A8(2000);
-      *(undefined4 *)(param_2 + 0xc) = lbl_821916FC;
+      self->f0c = lbl_821916FC;
     }
   }
-  iVar4 = *(int *)(*(int *)(param_2 + 8) + 8);
-  iVar2 = *(int *)(iVar4 + 0x1e4);
-  iVar4 = fn_823970D0(iVar4,iVar2);
-  if (iVar4 != 0) {
-    iVar4 = *(int *)(*(int *)(param_2 + 8) + 8);
-    fn_82399218(iVar4,*(undefined4 *)(iVar4 + 0x1e4));
-    iVar4 = *(int *)(*(int *)(param_2 + 8) + 8);
-    fn_8239BD90(iVar4,*(undefined4 *)(iVar4 + 0x1e4));
-    puVar3 = *(uint **)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x94);
-    if ((puVar3 != (uint *)0x0) && (puVar3[7] != 0)) {
-      lVar6 = 0;
-      if ((ulonglong)*puVar3 != 0) {
-        lVar6 = (ulonglong)*puVar3 - 1;
-      }
-      fn_8248F9F8(puVar3[7],lVar6,0);
+  iVar2 = *(int *)(OBJ(self) + 0x1e4);
+  if (fn_823970D0(OBJ(self), iVar2) != 0) {
+    fn_82399218(OBJ(self), *(int *)(OBJ(self) + 0x1e4));
+    fn_8239BD90(OBJ(self), *(int *)(OBJ(self) + 0x1e4));
+    puVar3 = *(unsigned int **)(OBJ(self) + 0x94);
+    if (puVar3 != 0 && puVar3[7] != 0) {
+      n = 0;
+      if (*puVar3 != 0) n = *puVar3 - 1;
+      fn_8248F9F8(puVar3[7], n, 0);
     }
-    fn_8239B410(*(undefined4 *)(*(int *)(param_2 + 8) + 8));
-    fn_8239C4D8(*(undefined4 *)(*(int *)(param_2 + 8) + 8));
-    fn_823A5108(*(undefined4 *)(param_2 + 8),5);
-    if ((*(int *)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x1e4) != 0) &&
-       (iVar4 = fn_8239CE98(), iVar4 == 0)) {
-      iVar4 = *(int *)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x1e4);
-      *(float *)(iVar4 + 0x13c) = *(float *)(iVar4 + 0x13c) - lbl_82193AF0;
+    fn_8239B410(OBJ(self));
+    fn_8239C4D8(OBJ(self));
+    fn_823A5108(*(int *)((char *)self + 8), 5);
+    if (*(int *)(OBJ(self) + 0x1e4) != 0 && fn_8239CE98(OBJ(self)) == 0) {
+      iVar4 = *(int *)(OBJ(self) + 0x1e4);
+      *(float *)(iVar4 + 0x13c) = *(float *)(iVar4 + 0x13c) - lbl_82193AD8[6];
     }
-    iVar4 = fn_82399BA0(*(undefined4 *)(*(int *)(param_2 + 8) + 8));
-    if (iVar4 != 0) {
+    if (fn_82399BA0(OBJ(self)) != 0) {
       if (*(int *)(iVar2 + 0x188) != 0) {
-        iVar4 = (**(code **)(**(int **)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x2e0) + 0x18))();
-        uVar5 = (**(code **)(**(int **)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x2e0) + 0x34))();
-        if ((iVar4 == 0) == uVar5) {
-          fn_82374078(*(undefined4 *)(*(int *)(param_2 + 8) + 8),iVar4 == 0,0x24);
+        iVar4 = (*(code *)(**(int **)(OBJ(self) + 0x2e0) + 0x18))(*(int **)(OBJ(self) + 0x2e0));
+        iVar4 = iVar4 == 0;
+        uVar5 = (*(code *)(**(int **)(OBJ(self) + 0x2e0) + 0x34))(*(int **)(OBJ(self) + 0x2e0));
+        if (iVar4 == uVar5) {
+          fn_82374078(OBJ(self), iVar4, 0x24);
         }
       }
-      iVar4 = *(int *)(*(int *)(*(int *)(param_2 + 8) + 8) + 0x178);
+      iVar4 = *(int *)(OBJ(self) + 0x178);
       if (iVar4 == 0) {
-        fn_823A1C50(param_2);
+        fn_823A1C50(self);
       }
       else if (iVar4 == 1) {
-        fn_823A2098(param_2);
-        iVar4 = *(int *)(*(int *)(param_2 + 8) + 8);
-        if (((*(int *)(iVar4 + 0xa0) == 0) || (*(int *)(*(int *)(iVar4 + 0xa0) + 0x40) != 1)) &&
-           (*(int *)(iVar4 + 0xbd4) != 0)) {
-          fn_82536590(iVar4 + 0xbcc,0);
-          *(undefined4 *)(iVar4 + 0xbd4) = 0;
+        fn_823A2098(self);
+        iVar4 = OBJ(self);
+        if ((*(int *)(iVar4 + 0xa0) == 0 || *(unsigned int *)(*(int *)(iVar4 + 0xa0) + 0x40) != 1) && *(int *)(iVar4 + 0xbd4) != 0) {
+          fn_82536590(iVar4 + 0xbcc, 0);
+          *(int *)(iVar4 + 0xbd4) = 0;
         }
       }
     }
   }
-  return;
 }
 

@@ -25,36 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
-extern int fn_830310B8();
+extern void *memcpy(void *, const void *, unsigned);
+extern unsigned char fn_830310B8(void *);
 
+typedef struct Nd_83031170 { struct Nd_83031170 *next; int pad; } Nd_83031170;
+typedef struct Pool_83031170 { Nd_83031170 *head; Nd_83031170 *last; Nd_83031170 *free; int pad[2]; int count; } Pool_83031170;
 
-longlong fn_83031170(undefined4 *param_1,undefined8 param_2)
-
+void *fn_83031170(Pool_83031170 *param_1, unsigned char *param_2)
 {
-  undefined4 *puVar1;
-  char cVar2;
-  longlong lVar3;
-  
-  cVar2 = fn_830310B8();
-  if (cVar2 == '\0') {
-    lVar3 = 0;
-  }
-  else {
-    if ((undefined4 *)param_1[1] == (undefined4 *)0x0) {
-      *param_1 = param_1[2];
-    }
-    else {
-      *(undefined4 *)param_1[1] = param_1[2];
-    }
-    puVar1 = (undefined4 *)param_1[2];
-    param_1[1] = puVar1;
-    param_1[2] = *puVar1;
-    *puVar1 = 0;
-    param_1[5] = param_1[5] + 1;
-    lVar3 = (ulonglong)(uint)param_1[1] + 8;
-    memcpy(lVar3,param_2,0x68);
-  }
-  return lVar3;
-}
+  char *d;
 
+  if (fn_830310B8(param_1) != 0) {
+    if (param_1->last == 0) {
+      param_1->head = param_1->free;
+    } else {
+      param_1->last->next = param_1->free;
+    }
+    param_1->last = param_1->free;
+    param_1->free = param_1->last->next;
+    param_1->last->next = 0;
+    param_1->count = param_1->count + 1;
+    d = (char *)param_1->last + 8;
+    memcpy(d, param_2, 0x68);
+    return d;
+  }
+  return 0;
+}

@@ -29,34 +29,27 @@ extern int fn_82FA5190();
 extern int fn_8301A7B8();
 extern unsigned int lbl_831BC768;
 extern unsigned int lbl_832642EC;
+extern char lbl_8326434C[];
 
-
-undefined8 fn_82FEAF18(undefined8 param_1,uint *param_2)
-
+int fn_82FEAF18(int param_1, unsigned int *param_2)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined4 *puVar4;
-  undefined8 uVar3;
-  
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  puVar4 = (undefined4 *)fn_8301A7B8(lbl_832642EC,param_1);
-  if (puVar4 == (undefined4 *)0x0) {
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    uVar3 = 0xf;
-  }
-  else {
-    *param_2 = (uint)*(byte *)((int)puVar4 + 0x12);
-    uVar1 = puVar4[0x17];
-    puVar4[0x17] = (int)((ulonglong)uVar1 - 1);
-    uVar2 = lbl_831BC768;
-    if ((longlong)((ulonglong)uVar1 - 1) < 1) {
-      (**(code **)*puVar4)(puVar4,0);
-      fn_82FA5190(uVar2,puVar4);
-    }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    uVar3 = 1;
-  }
-  return uVar3;
-}
+  int *puVar4;
+  int refs;
 
+  RtlEnterCriticalSection(lbl_8326434C);
+  puVar4 = (int *)fn_8301A7B8(lbl_832642EC, param_1);
+  if (puVar4 == (int *)0) {
+    RtlLeaveCriticalSection(lbl_8326434C);
+    return 0xf;
+  }
+  *param_2 = (unsigned int)*(unsigned char *)((int)puVar4 + 0x12);
+  refs = puVar4[0x17] - 1;
+  puVar4[0x17] = refs;
+  if (refs <= 0) {
+    unsigned int g = lbl_831BC768;
+    (*(code *)*puVar4)(puVar4, 0);
+    fn_82FA5190(g, puVar4);
+  }
+  RtlLeaveCriticalSection(lbl_8326434C);
+  return 1;
+}

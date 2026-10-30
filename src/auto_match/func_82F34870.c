@@ -25,37 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
-extern unsigned int lbl_82162AA8;
+typedef struct VT_82F34870 { int pad[2]; void (*f8)(void *); } VT_82F34870;
+typedef struct Obj_82F34870 { VT_82F34870 *vt; } Obj_82F34870;
+typedef struct Hold_82F34870 { void *vt; Obj_82F34870 *f4; unsigned count; Obj_82F34870 **arr; } Hold_82F34870;
+extern void fn_82E4FE40(void *);
+extern int lbl_82162AA8;
 
-
-void fn_82F34870(undefined4 *param_1)
-
+void fn_82F34870(Hold_82F34870 *o)
 {
-  uint uVar1;
-  int iVar2;
-  
-  *param_1 = &lbl_82162AA8;
-  if ((int *)param_1[1] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[1] + 8))();
-    param_1[1] = 0;
+  unsigned i;
+  o->vt = &lbl_82162AA8;
+  if (o->f4 != 0) {
+    o->f4->vt->f8(o->f4);
+    o->f4 = 0;
   }
-  if ((param_1[3] != 0) && (param_1[2] != 0)) {
-    uVar1 = 0;
-    iVar2 = 0;
-    do {
-      if (*(int **)(param_1[3] + iVar2) != (int *)0x0) {
-        (**(code **)(**(int **)(param_1[3] + iVar2) + 8))();
-        *(undefined4 *)(param_1[3] + iVar2) = 0;
+  if (o->arr != 0 && o->count != 0) {
+    for (i = 0; i < o->count; i++) {
+      if (o->arr[i] != 0) {
+        o->arr[i]->vt->f8(o->arr[i]);
+        o->arr[i] = 0;
       }
-      uVar1 = uVar1 + 1;
-      iVar2 = iVar2 + 4;
-    } while (uVar1 < (uint)param_1[2]);
+    }
   }
-  if (param_1[3] != 0) {
-    fn_82E4FE40();
+  if (o->arr != 0) {
+    fn_82E4FE40(o->arr);
   }
-  param_1[3] = 0;
-  return;
+  o->arr = 0;
 }
-

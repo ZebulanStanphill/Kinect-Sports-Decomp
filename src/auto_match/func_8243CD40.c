@@ -25,46 +25,48 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82831208();
-extern int fn_83062700();
-
-
-undefined4 * fn_8243CD40(int param_1,uint *param_2)
-
+typedef struct Node_8243CD40 Node_8243CD40;
+struct Node_8243CD40 { Node_8243CD40 *left; Node_8243CD40 *parent; Node_8243CD40 *right; unsigned int key; unsigned int val; char color; char isnil; };
+typedef struct { int pad; Node_8243CD40 *head; } Tree_8243CD40;
+typedef struct { unsigned int key; unsigned int val; } Pair_8243CD40;
+extern Node_8243CD40 *fn_83062700(Tree_8243CD40 *);
+extern void fn_82831208(Node_8243CD40 **, Tree_8243CD40 *, Node_8243CD40 *, Node_8243CD40 *);
+unsigned int *fn_8243CD40(Tree_8243CD40 *t, unsigned int *k)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  undefined4 * apuStack_30;
-  
-  puVar5 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar5[1] + 0x15) == '\0') {
-    puVar1 = (undefined4 *)puVar5[1];
+  Node_8243CD40 *where;
+  Node_8243CD40 *node;
+  Node_8243CD40 *out;
+  Node_8243CD40 *pn;
+  Node_8243CD40 *ret;
+  Pair_8243CD40 *p;
+  unsigned int key;
+
+  where = t->head;
+  pn = t->head->parent;
+  if (!pn->isnil) {
     do {
-      if ((uint)puVar1[3] < *param_2) {
-        puVar2 = (undefined4 *)puVar1[2];
+      if (pn->key < *k) {
+        pn = pn->right;
+      } else {
+        where = pn;
+        pn = pn->left;
       }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar5 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x15) == '\0');
+    } while (!pn->isnil);
   }
-  if (puVar5 != *(undefined4 **)(param_1 + 4)) {
-    if ((uint)puVar5[3] <= *param_2) goto LAB_8243cde8;
+  ret = where;
+  if (where != t->head) {
+    if (*k >= where->key) goto done;
   }
-  uVar3 = *param_2;
-  iVar4 = fn_83062700(param_1);
-  if ((uint *)(iVar4 + 0xc) != (uint *)0x0) {
-    *(uint *)(iVar4 + 0xc) = uVar3;
-    *(undefined4 *)(iVar4 + 0x10) = 0;
+  key = *k;
+  node = fn_83062700(t);
+  p = (Pair_8243CD40 *)&node->key;
+  if (p != 0) {
+    p->key = key;
+    p->val = 0;
   }
-  fn_82831208(&apuStack_30,param_1,puVar5,iVar4);
-  puVar5 = apuStack_30;
-LAB_8243cde8:
-  return puVar5 + 4;
+  fn_82831208(&out, t, where, node);
+  ret = out;
+done:
+  return &ret->val;
 }
 

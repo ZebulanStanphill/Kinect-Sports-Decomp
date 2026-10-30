@@ -27,39 +27,37 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82954828(int param_1,int param_2,uint *param_3)
+typedef struct Desc_82954828 { int pad; unsigned flags; } Desc_82954828;
+typedef struct Item_82954828 { int pad; unsigned f4; int pad2; unsigned fc; unsigned f10; } Item_82954828;
+typedef struct Obj_82954828 { char pad[0x10]; Desc_82954828 **descs; Item_82954828 **items; } Obj_82954828;
+typedef struct Arg_82954828 { char pad[0x14]; int f14; int f18; } Arg_82954828;
 
+int fn_82954828(Obj_82954828 *param_1, Arg_82954828 *param_2, unsigned *param_3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar4 = 0;
-  if ((*(int *)(param_2 + 0x14) != -1) &&
-     (iVar2 = *(int *)(*(int *)(param_2 + 0x14) * 4 + *(int *)(param_1 + 0x14)),
-     (*(uint *)(*(int *)(*(int *)(iVar2 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 8) != 0)) {
-    uVar1 = *(uint *)(iVar2 + 0x10);
-    uVar3 = *(uint *)(iVar2 + 0xc) & 0x7ff;
-    uVar4 = uVar3 | 0xb0001000;
-    if (uVar1 != 0) {
-      if (uVar1 == 1) {
-        uVar4 = uVar3 | 0xb0551000;
+  unsigned uVar4 = 0;
+  Item_82954828 *it;
+  unsigned v;
+
+  if (param_2->f14 != -1) {
+    it = param_1->items[param_2->f14];
+    if ((param_1->descs[it->f4]->flags & 8) != 0) {
+      v = it->fc & 0x7ff;
+      uVar4 = v | 0xb0001000;
+      v = it->f10;
+      if (v >= 1) {
+        if (v != 1) {
+          if (v >= 3) {
+            if (v == 3) uVar4 = uVar4 | 0xff0000;
+          } else uVar4 = uVar4 | 0xaa0000;
+        } else uVar4 = uVar4 | 0x550000;
       }
-      else if (uVar1 < 3) {
-        uVar4 = uVar3 | 0xb0aa1000;
+      if (param_2->f18 == 0) {
+        uVar4 = uVar4 | 0xd000000;
       }
-      else if (uVar1 == 3) {
-        uVar4 = uVar3 | 0xb0ff1000;
-      }
-    }
-    if (*(int *)(param_2 + 0x18) == 0) {
-      uVar4 = uVar4 | 0xd000000;
     }
   }
-  if (param_3 != (uint *)0x0) {
+  if (param_3 != 0) {
     *param_3 = uVar4;
   }
   return 0;
 }
-

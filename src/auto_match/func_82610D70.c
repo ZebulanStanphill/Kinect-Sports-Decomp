@@ -28,19 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827DEA30();
 extern unsigned int lbl_821CB8D4;
 
-
-undefined4 * fn_82610D70(void)
-
+unsigned int *fn_82610D70(int a, int b, int c, unsigned int *p)
 {
-  undefined4 *in_r6;
-  
-  if (in_r6 == (undefined4 *)0x0) {
-    in_r6 = (undefined4 *)0x0;
+  if (p != (unsigned int *)0) {
+    fn_827DEA30(p);
+    *p = (unsigned int)&lbl_821CB8D4;
+    return p;
   }
-  else {
-    fn_827DEA30(in_r6);
-    *in_r6 = &lbl_821CB8D4;
-  }
-  return in_r6;
+  return (unsigned int *)0;
 }
-

@@ -27,33 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A043C8(int param_1,int param_2)
-
+int fn_82A043C8(unsigned int a, unsigned int b)
 {
-  if (param_2 == 0) {
-    switch(param_1) {
-    case 0x15:
-      return 0x16;
-    case 0x16:
-      return 0x15;
-    case 0x19:
-      return 0x1a;
-    case 0x1a:
-      return 0x19;
-    case 0x1d:
-      return 0x1e;
-    case 0x1e:
-      return 0x1d;
+  if (b == 0) {
+    switch (a) {
+    case 0x15: return 0x16;
+    case 0x16: return 0x15;
+    case 0x19: return 0x1a;
+    case 0x1a: return 0x19;
+    case 0x1d: return 0x1e;
+    case 0x1e: return 0x1d;
     }
-  }
-  else if (param_2 == 1) {
-    if (param_1 == 0x1d) {
-      return 0x1a;
-    }
-    if (param_1 == 0x1e) {
-      return 0x19;
+  } else if (b == 1) {
+    switch (a) {
+    case 0x1d: return 0x1a;
+    case 0x1e: return 0x19;
     }
   }
   return 0x1f;
 }
-

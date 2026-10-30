@@ -25,77 +25,54 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
-extern int fn_82FE1028();
-extern int fn_82FE1178();
-extern int fn_82FE11F8();
-extern int fn_82FE17C0();
-extern int fn_82FE2018();
+typedef struct { char b[0x50]; } Blob_82FE2850;
+typedef struct Pk_82FE2850 { int f0; unsigned f4; int f8; unsigned short fc, fe; } Pk_82FE2850;
+typedef struct Obj_82FE2850 {
+  char p0[0xbc]; unsigned fbc; char pc0[8]; unsigned fc8; char pcc[6]; unsigned char fd2, fd3;
+  char pd4[0x10]; float fe4; char pe8[0x50]; float f138;
+} Obj_82FE2850;
+extern void *memcpy(void *, const void *, unsigned);
+extern void fn_82FE1028(Obj_82FE2850 *);
+extern void fn_82FE1178(Obj_82FE2850 *, Pk_82FE2850 *, unsigned);
+extern void fn_82FE11F8(Obj_82FE2850 *, Pk_82FE2850 *);
+extern void fn_82FE17C0(Obj_82FE2850 *, Pk_82FE2850 *);
+extern void fn_82FE2018(Obj_82FE2850 *, Pk_82FE2850 *);
 extern float lbl_82006848;
 
-
-void fn_82FE2850(int param_1,int param_2)
-
+void fn_82FE2850(Obj_82FE2850 *param_1, Pk_82FE2850 *param_2)
 {
-  uint uVar1;
-  bool bVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  
-  fn_82FE1028();
-  bVar2 = *(int *)(param_2 + 8) == 0x11;
-  if (bVar2) {
-    if ((*(char *)(param_1 + 0xd3) != '\0') || (*(char *)(param_1 + 0xd2) == '\0')) {
-      *(int *)(param_1 + 0xbc) =
-           (int)(longlong)
-                ((*(float *)(param_1 + 0x138) * lbl_82006848 + *(float *)(param_1 + 0xe4)) *
-                (float)*(uint *)(param_1 + 200));
+  unsigned char f;
+  unsigned n, t, x;
+  fn_82FE1028(param_1);
+  f = param_2->f8 == 0x11;
+  if (f) {
+    if (param_1->fd3 != 0 || param_1->fd2 == 0) {
+      param_1->fbc = (unsigned)((param_1->f138 * lbl_82006848 + param_1->fe4) * (float)param_1->fc8);
     }
-    uVar1 = *(uint *)(param_1 + 0xbc);
-    uVar3 = (ulonglong)*(ushort *)(param_2 + 0xc) - (ulonglong)*(ushort *)(param_2 + 0xe);
-    if ((ulonglong)uVar1 < (uVar3 & 0xffffffff)) {
-      uVar3 = (ulonglong)uVar1;
+    n = param_1->fbc;
+    t = param_2->fc - param_2->fe;
+    if (n < t) {
+      t = n;
     }
-    *(uint *)(param_1 + 0xbc) = uVar1 - (int)uVar3;
-    lVar4 = (-(*(ushort *)(param_2 + 0xe) + uVar3) & 3) + uVar3;
-    fn_82FE1178(param_1,param_2,lVar4);
-    *(short *)(param_2 + 0xe) = *(short *)(param_2 + 0xe) + (short)lVar4;
-    if (*(int *)(param_1 + 0xbc) != 0) {
-      *(undefined4 *)(param_2 + 8) = 0x2d;
+    param_1->fbc = n - t;
+    x = ((unsigned)(-(param_2->fe + t)) & 3) + t;
+    fn_82FE1178(param_1, param_2, x);
+    param_2->fe = param_2->fe + x;
+    if (param_1->fbc > 0) {
+      param_2->f8 = 0x2d;
     }
   }
-  *(bool *)(param_1 + 0xd2) = bVar2;
-  uVar1 = *(uint *)(param_2 + 4);
-  if (0xf < uVar1) {
-    switch(uVar1) {
-    case 0x33:
-      goto LAB_82fe2a00;
-    case 0x37:
-    case 0x3b:
-    case 0x3f:
-      fn_82FE2018(param_1,param_2);
-    }
-    goto switchD_82f20fb0_default;
+  param_1->fd2 = f;
+  switch (param_2->f4) {
+  case 3: case 4: case 8: case 0xb: case 0xc:
+    fn_82FE11F8(param_1, param_2);
+    break;
+  case 7: case 0xf: case 0x33:
+    fn_82FE17C0(param_1, param_2);
+    break;
+  case 0x37: case 0x3b: case 0x3f:
+    fn_82FE2018(param_1, param_2);
+    break;
   }
-  if (uVar1 == 0xf) {
-LAB_82fe2a00:
-    fn_82FE17C0(param_1,param_2);
-  }
-  else {
-    switch(uVar1) {
-    case 3:
-    case 4:
-    case 8:
-    case 0xb:
-    case 0xc:
-      fn_82FE11F8(param_1,param_2);
-      break;
-    case 7:
-      goto LAB_82fe2a00;
-    }
-  }
-switchD_82f20fb0_default:
-  memcpy(param_1 + 0x1a4,param_1 + 0xe4,0x50);
-  return;
+  *(Blob_82FE2850 *)((char *)param_1 + 0x1a4) = *(Blob_82FE2850 *)((char *)param_1 + 0xe4);
 }
-

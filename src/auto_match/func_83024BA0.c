@@ -31,8 +31,8 @@ void fn_83024BA0(int param_1)
 
 {
   int *piVar1;
-  byte bVar2;
-  longlong lVar3;
+  unsigned int bVar2;
+  int lVar3;
   byte *pbVar4;
   
   if (*(int *)(param_1 + 0x74) == 1) {
@@ -44,10 +44,10 @@ void fn_83024BA0(int param_1)
         if (piVar1 != (int *)0x0) {
           bVar2 = *(byte *)(param_1 + 0x6c) | *pbVar4;
           if ((bVar2 & 0x80) == 0) {
-            (**(code **)(*piVar1 + 0x10))(piVar1,param_1 + 0x100);
+            (*(void (**)(int *, int))(*piVar1 + 0x10))(piVar1,param_1 + 0x100);
           }
           else if ((bVar2 & 0x40) == 0) {
-            (**(code **)(*piVar1 + 8))();
+            (*(void (**)(int *))(*piVar1 + 8))(piVar1);
           }
           *pbVar4 = *pbVar4 >> 1 & 0x40 | *pbVar4 & 0xbf;
         }

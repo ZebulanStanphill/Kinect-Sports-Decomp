@@ -25,32 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267BED0();
+typedef struct Rc_8267C5B0 { int cnt; struct Obj_8267C5B0 *owner; } Rc_8267C5B0;
+typedef struct Obj_8267C5B0 { char pad[8]; Rc_8267C5B0 *rc; } Obj_8267C5B0;
+extern Rc_8267C5B0 *fn_8267BED0(Obj_8267C5B0 *, int, int *);
 
-
-undefined4 fn_8267C5B0(int param_1)
-
+Rc_8267C5B0 *fn_8267C5B0(Obj_8267C5B0 *param_1)
 {
-  undefined4 *puVar1;
-  undefined4 auStack_20 [4];
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    auStack_20[0] = 2;
-    puVar1 = (undefined4 *)fn_8267BED0(param_1,8,auStack_20);
-    if (puVar1 == (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)0x0;
+  if (param_1->rc == 0) {
+    int a = 2;
+    Rc_8267C5B0 *t = fn_8267BED0(param_1, 8, &a);
+    Rc_8267C5B0 *n;
+    if (t != 0) {
+      t->owner = param_1;
+      t->cnt = 1;
+      n = t;
+    } else {
+      n = 0;
     }
-    else {
-      puVar1[1] = param_1;
-      *puVar1 = 1;
-    }
-    *(undefined4 **)(param_1 + 8) = puVar1;
-    if (puVar1 == (undefined4 *)0x0) {
+    param_1->rc = n;
+    if (n == 0) {
       return 0;
     }
   }
-  **(int **)(param_1 + 8) = **(int **)(param_1 + 8) + 1;
-  return *(undefined4 *)(param_1 + 8);
+  param_1->rc->cnt++;
+  return param_1->rc;
 }
-

@@ -25,45 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int _blkmov();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Ent_83028018 { int f0, f4, f8; int a, b; void *obj; int f18, f1c; } Ent_83028018;
+typedef struct Vec_83028018 { Ent_83028018 *begin, *end; } Vec_83028018;
+typedef struct Own_83028018 { char pad[0x64]; Vec_83028018 v; } Own_83028018;
+extern void _blkmov(void *dst, void *src, unsigned int n);
+extern void fn_82FA5190(void *heap, void *p);
+extern void *lbl_831BC768;
 
-
-void fn_83028018(int param_1,int param_2,int param_3)
-
+void fn_83028018(Own_83028018 *o, int key1, int key2)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  
-  uVar3 = (ulonglong)*(uint *)(param_1 + 100);
-  if (uVar3 != *(uint *)(param_1 + 0x68)) {
-    lVar4 = uVar3 + 0x1c;
+  Vec_83028018 *v = &o->v;
+  Ent_83028018 *q = v->begin;
+  int *pl;
+  if (q != v->end) {
+    pl = &q->f1c;
     do {
-      puVar1 = (undefined4 *)lVar4;
-      if ((puVar1[-4] == param_2) && (puVar1[-3] == param_3)) {
-        if (puVar1[-2] != 0) {
-          fn_82FA5190(lbl_831BC768);
-          puVar1[-2] = 0;
+      if (pl[-4] == key1 && (unsigned)pl[-3] == (unsigned)key2) {
+        if ((unsigned)pl[-2] != 0) {
+          fn_82FA5190(lbl_831BC768, (void *)pl[-2]);
+          pl[-2] = 0;
         }
-        puVar1[-1] = 0;
-        *puVar1 = 0;
-        uVar2 = (ulonglong)*(uint *)(param_1 + 0x68) - 0x20;
-        if ((uVar3 & 0xffffffff) < (uVar2 & 0xffffffff)) {
-          _blkmov(uVar3,lVar4 + 4,
-                       ((((uVar2 - uVar3) - 1 & 0xffffffff) >> 3 & 0x1ffffffc) + 4) * 8 & 0xffffffe0
-                      );
+        pl[-1] = 0;
+        *pl = 0;
+        {
+          Ent_83028018 *last = v->end - 1;
+          if (q < last) {
+            _blkmov(q, pl + 1, ((((((unsigned int)((char *)last - (char *)q) - 1) >> 3) & 0x1ffffffc) + 4) * 8) & 0xffffffe0);
+          }
         }
-        *(int *)(param_1 + 0x68) = *(int *)(param_1 + 0x68) + -0x20;
+        v->end--;
+      } else {
+        q++;
+        pl += 8;
       }
-      else {
-        uVar3 = uVar3 + 0x20;
-        lVar4 = lVar4 + 0x20;
-      }
-    } while ((uVar3 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x68));
+    } while (q != o->v.end);
   }
-  return;
 }
-

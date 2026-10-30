@@ -27,37 +27,30 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82BAF310(uint *param_1,int param_2)
-
+int fn_82BAF310(int *param_1, int param_2)
 {
-  longlong lVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int iVar4;
-  
-  lVar1 = 0;
-  iVar2 = 0;
+  int pos = 0;
+  int i = 0;
   if (0 < param_2) {
+    int *cur = param_1;
     do {
-      uVar3 = (ulonglong)*param_1;
-      if (*param_1 == 0) {
-        lVar1 = lVar1 + 0x20;
-      }
-      else {
-        iVar4 = 0;
+      unsigned v = *cur;
+      if (*cur == 0) {
+        pos += 0x20;
+      } else {
+        int b = 0;
         do {
-          if ((uVar3 & 1) == 1) {
-            return lVar1;
+          if ((v & 1) == 1) {
+            return pos;
           }
-          iVar4 = iVar4 + 1;
-          uVar3 = uVar3 >> 1;
-          lVar1 = lVar1 + 1;
-        } while (iVar4 < 0x20);
+          b++;
+          v >>= 1;
+          pos++;
+        } while (b < 0x20);
       }
-      iVar2 = iVar2 + 1;
-      param_1 = param_1 + 1;
-    } while (iVar2 < param_2);
+      i++;
+      cur++;
+    } while (i < param_2);
   }
   return -1;
 }
-

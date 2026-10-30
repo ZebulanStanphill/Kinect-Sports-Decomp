@@ -33,32 +33,31 @@ extern unsigned int lbl_820E4E10;
 extern unsigned int lbl_820E4E88;
 
 
-undefined4 * fn_82BC6678(undefined4 *param_1,int param_2,undefined4 param_3,int param_4)
-
+unsigned int *fn_82BC6678(unsigned int *param_1, int param_2, unsigned int param_3, int param_4)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  fn_82BC6268(param_1,param_4);
+  unsigned int uVar1;
+  unsigned int *puVar2;
+  unsigned int *puVar3;
+  unsigned int *res;
+
+  fn_82BC6268(param_1, param_4);
   param_1[0x22] = param_2;
-  *param_1 = &lbl_820E4E88;
-  fn_82BBFD90(param_2,param_1[0x1d]);
-  *(undefined4 **)(param_2 + 0x3b4) = param_1;
+  *param_1 = (unsigned int)&lbl_820E4E88;
+  fn_82BBFD90(param_2, param_1[0x1d]);
+  *(unsigned int **)(param_2 + 0x3b4) = param_1;
   param_1[0x27] = param_3;
-  uVar1 = *(undefined4 *)(param_4 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x90);
+  uVar1 = *(unsigned int *)(param_4 + 0x5ac);
+  puVar2 = (unsigned int *)fn_82B7BD28(uVar1, 0x90);
   puVar3 = puVar2 + 1;
   *puVar2 = uVar1;
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
+  if (puVar3 != (unsigned int *)0) {
+    fn_82BC5758(puVar3, param_4);
+    puVar3[0x22] = (unsigned int)param_1;
+    *puVar3 = (unsigned int)&lbl_820E4E10;
+    res = puVar3;
+  } else {
+    res = (unsigned int *)0;
   }
-  else {
-    fn_82BC5758(puVar3,param_4);
-    puVar2[0x23] = param_1;
-    *puVar3 = &lbl_820E4E10;
-  }
-  param_1[0x26] = puVar3;
+  param_1[0x26] = (unsigned int)res;
   return param_1;
 }
-

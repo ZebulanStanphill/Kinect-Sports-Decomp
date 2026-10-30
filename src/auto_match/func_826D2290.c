@@ -1,56 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_826D1C60();
+typedef struct Obj_826D2290 Obj_826D2290;
+struct Obj_826D2290Vt { int s[44]; void *(*fb0)(Obj_826D2290 *); };
+extern void *fn_8267B890(int, int, int);
+extern void fn_826824B0(void *);
+extern void *fn_826D1C60(void *, unsigned, void *);
 
+typedef struct Obj_826D2290 {
+  struct Obj_826D2290Vt *vt;
+  int pad[0x27];
+  int *f28;
+  int pad2[0x6c - 0x29];
+  int f1b0;
+} Obj_826D2290;
 
-int fn_826D2290(int *param_1)
-
+void *fn_826D2290(Obj_826D2290 *o)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  if (param_1[0x6c] == 0) {
-    lVar1 = fn_8267B890(*(undefined4 *)(param_1[0x28] + 0x14),0x38,0);
-    if (lVar1 == 0) {
-      iVar3 = 0;
+  void *p;
+  void *r;
+  unsigned u;
+  if (o->f1b0 == 0) {
+    p = fn_8267B890(((int *)o->f28)[5], 0x38, 0);
+    if (p != 0) {
+      r = fn_826D1C60(p, (unsigned)o->vt->fb0(o), o);
+    } else {
+      r = 0;
     }
-    else {
-      uVar2 = (**(code **)(*param_1 + 0xb0))(param_1);
-      iVar3 = fn_826D1C60(lVar1,uVar2,param_1);
-    }
-    if (param_1[0x6c] != 0) {
-      fn_826824B0();
-    }
-    param_1[0x6c] = iVar3;
+    if ((unsigned)o->f1b0 != 0) fn_826824B0((void *)o->f1b0);
+    o->f1b0 = (int)r;
   }
-  return param_1[0x6c];
+  return (void *)o->f1b0;
 }
-

@@ -25,48 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82EF1D58();
-extern int fn_82F64CE0();
-extern unsigned int iStack_40;
+typedef struct E_82EF23E0 { char pad[0x1c]; unsigned f1c; unsigned f20; } E_82EF23E0;
+typedef struct Obj_82EF23E0 { char pad[0xc]; unsigned fc; char pad2[0x10]; unsigned __int64 f20; char pad3[0x20]; unsigned f48; char pad4[4]; char f50[0x368]; unsigned f3b8; } Obj_82EF23E0;
+extern void fn_82EF1D58(void *, unsigned, E_82EF23E0 **);
+extern unsigned fn_82F64CE0(unsigned);
 
-
-undefined8 fn_82EF23E0(int param_1,longlong *param_2,longlong *param_3)
-
+int fn_82EF23E0(Obj_82EF23E0 *param_1, unsigned __int64 *param_2, unsigned __int64 *param_3)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  int iStack_40;
-  int aiStack_3c;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
+  unsigned __int64 size;
+  unsigned i;
+  E_82EF23E0 *a;
+  E_82EF23E0 *b;
+  if (param_1->fc == 0) {
+    return 0xc00d36b6;
   }
-  else {
-    lVar2 = 0x30;
-    if (*(int *)(param_1 + 0x48) != 0) {
-      lVar2 = fn_82F64CE0();
-      lVar2 = (lVar2 + 1U & 0x7fffffff) * 2 + 0x30;
-    }
-    uVar3 = 0;
-    if (*(int *)(param_1 + 0x3b8) != 0) {
-      do {
-        fn_82EF1D58(param_1 + 0x50,uVar3,&iStack_40);
-        fn_82EF1D58(param_1 + 0x50,uVar3,&aiStack_3c);
-        uVar3 = uVar3 + 1;
-        lVar2 = (((ulonglong)*(uint *)(iStack_40 + 0x1c) & 0x7fffffff) * 2 +
-                 (ulonglong)*(uint *)(aiStack_3c + 0x20) & 0xffffffff) + lVar2 + 0x1e;
-      } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x3b8));
-    }
-    if (param_2 != (longlong *)0x0) {
-      *param_2 = lVar2;
-    }
-    if (param_3 != (longlong *)0x0) {
-      *param_3 = lVar2;
-    }
-    *(longlong *)(param_1 + 0x20) = lVar2;
-    uVar1 = 0;
+  size = 0x30;
+  if (param_1->f48 != 0) {
+    size = (unsigned)(fn_82F64CE0(param_1->f48) + 1) * 2;
+    size += 0x30;
   }
-  return uVar1;
+  for (i = 0; i < param_1->f3b8; i++) {
+    fn_82EF1D58(param_1->f50, i, &a);
+    fn_82EF1D58(param_1->f50, i, &b);
+    size = (unsigned)(a->f1c * 2 + b->f20) + size + 0x1e;
+  }
+  if (param_2 != 0) {
+    *param_2 = size;
+  }
+  if (param_3 != 0) {
+    *param_3 = size;
+  }
+  param_1->f20 = size;
+  return 0;
 }
-

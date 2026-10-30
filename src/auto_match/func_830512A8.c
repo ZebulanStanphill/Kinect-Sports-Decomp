@@ -27,25 +27,39 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_830512A8(int param_1,int param_2)
+typedef struct {
+  ulonglong limit;
+  unsigned int stride;
+  char pad0[0x20 - 0xc];
+  char cs[0x40 - 0x20];
+  char pad1[0x54 - 0x40];
+  unsigned int count;
+  char pad2[0x60 - 0x58];
+  char sub[8];
+  longlong cur;
+  char pad3[0x24 - 0x10];
+  longlong **ptr;
+  char pad4[0x2c - 0x28];
+  unsigned int flag;
+} Obj_830512A8;
 
+ulonglong fn_830512A8(int param_1, unsigned int param_2)
 {
   longlong lVar1;
   ulonglong uVar2;
-  
+  Obj_830512A8 *o = (Obj_830512A8 *)(param_1 - 0x60);
+
   RtlEnterCriticalSection(param_1 + -0x40);
-  if (*(int *)(param_1 + 0x2c) == 0) {
-    lVar1 = *(longlong *)(param_1 + 8);
-  }
-  else {
+  if (*(unsigned int *)(param_1 + 0x2c) != 0) {
     lVar1 = **(longlong **)(param_1 + 0x24);
   }
-  uVar2 = lVar1 - ((longlong)*(int *)(param_1 + -0xc) * (longlong)*(int *)(param_1 + -0x58) &
-                  0xffffffffU);
+  else {
+    lVar1 = *(longlong *)(param_1 + 8);
+  }
+  uVar2 = lVar1 - (o->count * o->stride);
   if (param_2 != 0) {
-    *(bool *)param_2 = *(ulonglong *)(param_1 + -0x60) <= uVar2;
+    *(bool *)param_2 = uVar2 >= o->limit;
   }
   RtlLeaveCriticalSection(param_1 + -0x40);
   return uVar2;
 }
-

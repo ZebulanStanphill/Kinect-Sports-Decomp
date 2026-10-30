@@ -32,22 +32,22 @@ extern int fn_828A8008();
 extern int fn_828E38D8();
 
 
-void fn_828A80B0(undefined4 *param_1,int param_2)
+void fn_828A80B0(undefined4 *param_1,unsigned int param_2)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   undefined4 auStack_30;
   
   RtlEnterCriticalSection(param_1 + 3);
   if (*(int *)*param_1 == param_2) {
     if ((param_1[1] == 0) || (*(int *)(param_1[1] + 4) != 1)) {
       uVar1 = fn_8265C9E0(0x10);
-      if ((uVar1 & 0xffffffff) == 0) {
-        uVar2 = 0;
+      if (uVar1 != 0) {
+        uVar2 = fn_828A8008(uVar1,(undefined4 *)*param_1,*(undefined4 *)*param_1);
       }
       else {
-        uVar2 = fn_828A8008(uVar1,(undefined4 *)*param_1,*(undefined4 *)*param_1);
+        uVar2 = 0;
       }
       fn_828E38D8(param_1,uVar2);
     }

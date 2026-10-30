@@ -34,15 +34,15 @@ extern int fn_82711F20();
 void fn_826A2C40(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   int iVar2;
   
   uVar1 = (ulonglong)*(uint *)(param_1 + 0x38);
   if (uVar1 != 0) {
     iVar2 = 0;
     do {
-      if (*(int *)(iVar2 + *(int *)(param_1 + 0x34)) != 0) {
-        fn_82696348();
+      if (*(unsigned int *)(iVar2 + *(int *)(param_1 + 0x34)) != 0) {
+        fn_82696348(*(unsigned int *)(iVar2 + *(int *)(param_1 + 0x34)));
       }
       fn_8267BE38(*(undefined4 *)(iVar2 + *(int *)(param_1 + 0x34)));
       uVar1 = uVar1 - 1;

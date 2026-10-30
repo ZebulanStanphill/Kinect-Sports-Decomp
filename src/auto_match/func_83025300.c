@@ -25,35 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83018DD8();
-extern unsigned int lbl_832642FC;
+extern int fn_83018DD8(int, void *, int, int, int, int, int, int, int, int);
+extern void *zz;
+extern int lbl_832642FC;
 
+typedef struct Vt_83025300 { char pad[0xfc]; void *(*f)(void *); } Vt_83025300;
+typedef struct Obj_83025300 { Vt_83025300 *vt; } Obj_83025300;
+typedef struct Ent_83025300 { int a; unsigned id; int f8, fc, f10, f14, f18, f1c; } Ent_83025300;
+typedef struct Lst_83025300 { Ent_83025300 *first, *last; } Lst_83025300;
 
-undefined8 fn_83025300(int *param_1,ulonglong param_2,int param_3)
-
+int fn_83025300(Obj_83025300 **param_1, void *param_2, unsigned param_3)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  uVar2 = 1;
-  if (((int *)*param_1 == (int *)0x0) || ((param_2 & 0xffffffff) == 0)) {
-    uVar2 = 2;
-  }
-  else {
-    piVar1 = (int *)(**(code **)(*(int *)*param_1 + 0xfc))();
-    if ((piVar1 != (int *)0x0) && (iVar3 = *piVar1, iVar3 != piVar1[1])) {
-      do {
-        if (param_3 == *(int *)(iVar3 + 4)) {
-          uVar2 = fn_83018DD8(lbl_832642FC,param_2,*(undefined4 *)(iVar3 + 8),
-                                    *(undefined4 *)(iVar3 + 0xc),*(undefined4 *)(iVar3 + 0x10),
-                                    *(undefined4 *)(iVar3 + 0x1c),*(undefined4 *)(iVar3 + 0x14),
-                                    *(undefined4 *)(iVar3 + 0x18));
+  int r = 1;
+  if (*param_1 == 0 || param_2 == 0) {
+    r = 2;
+  } else {
+    Lst_83025300 *l = (Lst_83025300 *)(*param_1)->vt->f(*param_1);
+    if (l != 0) {
+      Ent_83025300 *e;
+      for (e = l->first; e != l->last; e++) {
+        if (param_3 == e->id) {
+          r = fn_83018DD8(lbl_832642FC, param_2, e->f8, e->fc, e->f10, e->f1c, e->f14, e->f18, 0, 0);
         }
-        iVar3 = iVar3 + 0x20;
-      } while (iVar3 != piVar1[1]);
+      }
     }
   }
-  return uVar2;
+  return r;
 }
-

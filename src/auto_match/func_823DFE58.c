@@ -25,44 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct Node_823DFE58 Node_823DFE58;
+struct Node_823DFE58 { Node_823DFE58 *left; Node_823DFE58 *parent; Node_823DFE58 *right; char pad[0x99]; char isnil; };
+typedef struct { int pad; Node_823DFE58 *head; int size; } Tree_823DFE58;
 extern int fn_823E14E8();
 extern int fn_8265CA20();
 extern int fn_8265CAA0();
 extern unsigned int lbl_821B6A48;
-
-
-void fn_823DFE58(undefined4 *param_1)
-
+static __forceinline void Clear_823DFE58(Tree_823DFE58 *t)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  *param_1 = &lbl_821B6A48;
-  puVar1 = *(undefined4 **)(param_1[2] + 4);
-  while (*(char *)((int)puVar1 + 0xa5) == '\0') {
-    fn_823E14E8(param_1 + 1,puVar1[2]);
-    puVar2 = (undefined4 *)*puVar1;
-    fn_8265CA20(puVar1);
-    puVar1 = puVar2;
+  Node_823DFE58 *n = t->head->parent;
+  Node_823DFE58 *next;
+  while (!n->isnil) {
+    fn_823E14E8(t, n->right);
+    next = n->left;
+    fn_8265CA20(n);
+    n = next;
   }
-  *(undefined4 *)(param_1[2] + 4) = param_1[2];
-  *(undefined4 *)param_1[2] = param_1[2];
-  *(undefined4 *)(param_1[2] + 8) = param_1[2];
-  param_1[3] = 0;
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+}
+void fn_823DFE58(unsigned int *param_1)
+{
+  Tree_823DFE58 *t = (Tree_823DFE58 *)(param_1 + 1);
+  *param_1 = (unsigned int)&lbl_821B6A48;
+  Clear_823DFE58(t);
   fn_8265CAA0(param_1[5]);
   fn_8265CAA0(param_1[6]);
-  puVar1 = *(undefined4 **)(param_1[2] + 4);
-  while (*(char *)((int)puVar1 + 0xa5) == '\0') {
-    fn_823E14E8(param_1 + 1,puVar1[2]);
-    puVar2 = (undefined4 *)*puVar1;
-    fn_8265CA20(puVar1);
-    puVar1 = puVar2;
-  }
-  *(undefined4 *)(param_1[2] + 4) = param_1[2];
-  *(undefined4 *)param_1[2] = param_1[2];
-  *(undefined4 *)(param_1[2] + 8) = param_1[2];
-  param_1[3] = 0;
-  fn_8265CA20(param_1[2]);
-  return;
+  Clear_823DFE58(t);
+  fn_8265CA20(t->head);
 }
 

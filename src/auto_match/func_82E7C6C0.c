@@ -25,38 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
 extern int fn_82EEF590();
-extern unsigned int iStack_2c;
+extern char lbl_82154B28[];
+extern char lbl_8214C120[];
 
-
-longlong fn_82E7C6C0(int param_1,int *param_2)
-
+int fn_82E7C6C0(int param_1, int *param_2)
 {
   int iVar1;
-  longlong lVar2;
+  int hr;
   int *piStack_30;
-  int iStack_2c;
-  undefined4 auStack_28;
-  
-  piStack_30 = (int *)0x0;
-  lVar2 = 0;
+  unsigned int iStack_2c;
+  int auStack_28;
+
+  piStack_30 = (int *)0;
+  hr = 0;
   auStack_28 = 0;
   iStack_2c = 0;
-  if (param_2 == (int *)0x0) {
-    lVar2 = -0x7fffbffd;
+  if (param_2 == (int *)0) {
+    hr = 0x80004003;
   }
   else {
-    iVar1 = (**(code **)(**(int **)(param_1 + 4) + 0x10))
-                      (*(int **)(param_1 + 4),0xffffffff82154b28,0,&piStack_30);
-    if (((-1 < iVar1) && (lVar2 = fn_82EEF590(piStack_30,&iStack_2c,&auStack_28), -1 < lVar2)) &&
-       (iStack_2c != 0)) {
-      lVar2 = (**(code **)(*param_2 + 0x68))(param_2,0xffffffff8214c120,auStack_28);
+    iVar1 = (*(code *)(**(int **)(param_1 + 4) + 0x10))(*(int **)(param_1 + 4), lbl_82154B28, 0, &piStack_30);
+    if (iVar1 >= 0 && (hr = fn_82EEF590(piStack_30, &iStack_2c, &auStack_28), hr >= 0) && iStack_2c != 0) {
+      hr = (*(code *)(*param_2 + 0x68))(param_2, lbl_8214C120, auStack_28, iStack_2c);
     }
-    if (piStack_30 != (int *)0x0) {
-      (**(code **)(*piStack_30 + 8))();
+    if (piStack_30 != (int *)0) {
+      (*(code *)(*piStack_30 + 8))(piStack_30);
     }
   }
-  return lVar2;
+  return hr;
 }
-

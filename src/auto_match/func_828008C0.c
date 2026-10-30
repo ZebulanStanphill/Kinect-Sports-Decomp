@@ -33,29 +33,31 @@ extern int fn_82817C98();
 extern unsigned int uStack_40;
 
 
-undefined8
-fn_828008C0(int param_1,int param_2,ulonglong param_3,undefined4 *param_4,undefined8 param_5)
+int
+fn_828008C0(int param_1,int param_2,unsigned int param_3,undefined4 *param_4,undefined8 param_5)
 
 {
   int iVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
+  unsigned int uVar2;
+  int uVar3;
   undefined4 uStack_40;
   undefined4 auStack_3c;
   
   iVar1 = (param_2 + 8) * 4;
   uVar2 = fn_82817B08(*(undefined4 *)(*(int *)(param_1 + 4) + iVar1));
-  if (((uVar2 & 0xffffffff) == 0) || ((uVar2 & 0xffffffff) <= (param_3 & 0xffffffff))) {
-    uVar3 = 0;
+  if (uVar2 == 0) {
+    return 0;
   }
-  else {
+  if (param_3 >= uVar2) {
+    return 0;
+  }
+  {
     uStack_40 = 0;
     fn_82817B50(*(undefined4 *)(*(int *)(param_1 + 4) + iVar1),param_3,&uStack_40);
     fn_82817BC8(uStack_40,&auStack_3c);
     *param_4 = auStack_3c;
     fn_82817C98(uStack_40,param_5);
-    uVar3 = 1;
+    return 1;
   }
-  return uVar3;
 }
 

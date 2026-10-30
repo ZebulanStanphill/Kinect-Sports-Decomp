@@ -27,25 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82E06078(int param_1)
+typedef struct N_82E06078 { char pad[0x28]; struct N_82E06078 **arr; int count; } N_82E06078;
 
+int fn_82E06078(N_82E06078 *o)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  int iVar3;
-  int iVar4;
-  
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x2c);
-  iVar4 = 0;
-  if (0 < (int)*(uint *)(param_1 + 0x2c)) {
-    iVar3 = 0;
-    do {
-      lVar1 = fn_82E06078(*(undefined4 *)(iVar3 + *(int *)(param_1 + 0x28)));
-      iVar4 = iVar4 + 1;
-      uVar2 = lVar1 + uVar2;
-      iVar3 = iVar3 + 4;
-    } while (iVar4 < *(int *)(param_1 + 0x2c));
+  int sum = o->count;
+  int i;
+  for (i = 0; i < o->count; i++) {
+    sum += fn_82E06078(o->arr[i]);
   }
-  return uVar2;
+  return sum;
 }
-

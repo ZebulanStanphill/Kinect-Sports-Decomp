@@ -25,43 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82687270();
-extern int fn_826A8E58();
-extern int fn_82766D88();
-extern int fn_82768DE0();
-extern int fn_82768F38();
-extern unsigned int iStack_24;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct It_82687628 { int **t; int idx; } It_82687628;
+typedef struct Loc_82687628 { int e0, e1; It_82687628 it; } Loc_82687628;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_82687270(int);
+extern unsigned char fn_826A8E58(It_82687628 *, void *);
+extern void fn_82766D88(It_82687628 *);
+extern void fn_82768DE0(It_82687628 *, unsigned);
+extern void fn_82768F38(unsigned);
 
-
-void fn_82687628(int param_1)
-
+void fn_82687628(char *param_1)
 {
-  char cVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  int *piStack_28;
-  int iStack_24;
-  
+  Loc_82687628 L;
   RtlEnterCriticalSection(param_1 + 0xc);
-  if ((ulonglong)*(uint *)(param_1 + 8) != 0) {
-    fn_82768DE0(&piStack_28,(ulonglong)*(uint *)(param_1 + 8) + 0xc);
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    cVar1 = fn_826A8E58(&piStack_28,&stack_pair_30.first);
-    if (cVar1 == '\0') {
-      stack_pair_30.first = 0;
-      stack_pair_30.second = 0;
+  if (*(unsigned *)(param_1 + 8) != 0) {
+    fn_82768DE0(&L.it, *(unsigned *)(param_1 + 8) + 0xc);
+    L.e0 = 0;
+    L.e1 = 0;
+    if (!fn_826A8E58(&L.it, &L)) {
+      L.e0 = 0;
+      L.e1 = 0;
       do {
-        fn_82687270(*(undefined4 *)(iStack_24 * 8 + *piStack_28 + 0xc));
-        fn_82766D88(&piStack_28);
-        cVar1 = fn_826A8E58(&piStack_28,&stack_pair_30.first);
-      } while (cVar1 == '\0');
+        fn_82687270(*(int *)((char *)*L.it.t + L.it.idx * 8 + 0xc));
+        fn_82766D88(&L.it);
+      } while (!fn_826A8E58(&L.it, &L));
     }
-    fn_82768F38((ulonglong)*(uint *)(param_1 + 8) + 0xc);
+    fn_82768F38(*(unsigned *)(param_1 + 8) + 0xc);
   }
   RtlLeaveCriticalSection(param_1 + 0xc);
-  return;
 }
-

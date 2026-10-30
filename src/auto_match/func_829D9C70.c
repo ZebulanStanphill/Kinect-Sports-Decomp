@@ -25,34 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_c0;
-extern int fn_829D4970();
-extern int fn_829D9970();
-extern unsigned int register0x0000000c;
+extern void fn_829D4970(void *, void *);
+extern void fn_829D9970(void *, int, void *);
+extern void *_alloca(unsigned);
 
-
-void fn_829D9C70(int param_1,undefined8 param_2,char param_3)
-
+void fn_829D9C70(char *param_1, void *param_2, unsigned char param_3)
 {
-  uint uVar1;
-  uint *puVar2;
-  uint uVar3;
-  undefined1 auStack_c0 [64];
-  undefined1 *puStack_80;
-  
-  puStack_80 = (undefined1 *)register0x0000000c;
-  if ((*(uint *)(param_1 + 0x9c90) == 0x14) && (param_3 != '\0')) {
-    fn_829D9970(param_1,0xd,auStack_c0);
-  }
-  fn_829D4970(param_1,param_2);
-  uVar1 = *(uint *)(param_1 + 0x9c90);
-  puVar2 = (uint *)(param_1 + 0x9c98);
-  uVar3 = *puVar2 + 1;
-  *puVar2 = uVar3;
-  if (uVar1 <= uVar3) {
-    uVar3 = uVar1;
-  }
-  *puVar2 = uVar3;
-  return;
-}
+  unsigned *p;
+  unsigned n;
+  unsigned lim;
 
+  if (*(unsigned *)(param_1 + 0x9c90) == 0x14 && param_3 != 0) {
+    fn_829D9970(param_1, 0xd, _alloca(0x40));
+  }
+  fn_829D4970(param_1, param_2);
+  lim = *(unsigned *)(param_1 + 0x9c90);
+  p = (unsigned *)(param_1 + 0x9c98);
+  n = *p + 1;
+  *p = n;
+  if (n >= lim) n = lim;
+  *p = n;
+}

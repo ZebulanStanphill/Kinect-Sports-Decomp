@@ -25,20 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct { int a, b, c, d, e; } Sub_82726348;
+typedef struct { void *vt; int f4; int f8; Sub_82726348 sub; } Obj_82726348;
 extern unsigned int lbl_82010CE4;
-
-
-void fn_82726348(undefined4 *param_1)
-
+void fn_82726348(Obj_82726348 *o)
 {
-  param_1[1] = 1;
-  *param_1 = &lbl_82010CE4;
-  param_1[2] = 0x18;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  return;
+  int i;
+  int *p = &o->sub.a;
+  o->f4 = 1;
+  o->vt = &lbl_82010CE4;
+  o->f8 = 0x18;
+  for (i = 0; i < 5; i++) p[i] = 0;
 }
-

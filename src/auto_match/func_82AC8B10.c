@@ -25,60 +25,56 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC87A0();
-extern int fn_82AE9340();
+static int nn_(void *p) { if (p) return 1; return 0; }
+typedef struct Ent_82AC8B10 { unsigned flags; struct Ent_82AC8B10 *next; int f8; struct Ent_82AC8B10 *fc; } Ent_82AC8B10;
+extern unsigned char fn_82AC87A0(int *, int *);
+extern unsigned char fn_82AE9340(int *);
 
-
-bool fn_82AC8B10(int *param_1,int *param_2)
-
+int fn_82AC8B10(int *param_1, int *param_2)
 {
-  uint *puVar1;
-  bool bVar2;
-  char cVar3;
-  uint uVar4;
-  int *piVar5;
-  
-  cVar3 = '\0';
-  uVar4 = 0;
-  piVar5 = param_1;
+  Ent_82AC8B10 *e;
+  unsigned char r = 0;
+  unsigned i = 0;
+  int *p = param_1 + 1;
+  unsigned char b;
+  unsigned v;
   do {
-    piVar5 = piVar5 + 1;
-    if (((int *)*piVar5 != (int *)0x0) && ((int *)*piVar5 != param_2)) {
-      cVar3 = fn_82AC87A0(param_1,param_2);
-      if (cVar3 != '\0') break;
+    if ((int *)*p != 0 && (int *)*p != param_2) {
+      r = fn_82AC87A0(param_1, param_2);
+      if (r != 0) break;
     }
-    uVar4 = uVar4 + 1;
-  } while (uVar4 < 7);
-  if (cVar3 == '\0') {
-    uVar4 = (uint)param_2[2] >> 7 & 0x7f;
-    if ((uVar4 < 0x20) || (bVar2 = true, 0x52 < uVar4)) {
-      bVar2 = false;
+    i++;
+    p++;
+  } while (i <= 6);
+  if (r == 0) {
+    v = (unsigned)param_2[2] >> 7 & 0x7f;
+    if (v < 0x20 || 0x52 < v) {
+      b = 0;
+    } else {
+      b = 1;
     }
-    if (((bVar2) && ((int *)param_1[7] != (int *)0x0)) && ((int *)param_1[7] != param_2)) {
-      cVar3 = '\x01';
+    if (b != 0 && param_1[7] != 0 && (int *)param_1[7] != param_2) {
+      r = 1;
     }
   }
-  if ((cVar3 == '\0') && (param_1[7] != 0)) {
-    cVar3 = fn_82AE9340(param_2);
+  if (r == 0 && param_1[7] != 0) {
+    r = fn_82AE9340(param_2);
   }
-  if (((cVar3 == '\0') && ((int *)param_1[5] != (int *)0x0)) &&
-     (((int *)param_1[5] != param_2 &&
-      (((param_2[2] & 0x3f80U) != 0x3000 || (cVar3 = '\x01', (param_2[2] & 0x380000U) == 0)))))) {
-    cVar3 = '\0';
+  if (r == 0 && param_1[5] != 0 && (int *)param_1[5] != param_2) {
+    r = (param_2[2] & 0x3f80U) == 0x3000 && (param_2[2] & 0x380000U) != 0;
   }
-  if (cVar3 == '\0') {
-    for (puVar1 = (uint *)*param_2; puVar1 != (uint *)0x0; puVar1 = (uint *)puVar1[1]) {
-      uVar4 = *puVar1;
-      if (((uVar4 & 0x40000000) == 0) || (bVar2 = true, (uVar4 & 0xe000000) != 0)) {
-        bVar2 = false;
+  if (r == 0) {
+    for (e = *(Ent_82AC8B10 **)param_2; nn_(e); e = e->next) {
+      v = e->flags;
+      b = (v & 0x40000000) != 0 && (v & 0xe000000) == 0;
+      if (b != 0) {
+        int *q = (int *)param_1[(v >> 13 & 0xfff) + 1];
+        if (q != 0 && q != param_2 && q != (int *)e->fc) {
+          r = 1;
+          break;
+        }
       }
-      if ((((bVar2) && (piVar5 = (int *)param_1[(uVar4 >> 0xd & 0xfff) + 1], piVar5 != (int *)0x0))
-          && (piVar5 != param_2)) && (piVar5 != (int *)puVar1[3])) {
-        cVar3 = '\x01';
-        break;
-      }
     }
   }
-  return cVar3 == '\0';
+  return r == 0;
 }
-

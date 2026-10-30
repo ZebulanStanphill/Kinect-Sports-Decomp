@@ -25,48 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8236D750();
-extern int fn_8251F718();
-extern int fn_8251FA58();
-extern int fn_82526B90();
-extern int fn_8255AF78();
-extern int fn_8255AF80();
-extern int fn_82674630();
-extern int fn_82BA02A8();
+extern unsigned int fn_8236D750(unsigned int);
+extern unsigned int fn_8251F718();
+extern void fn_8251FA58(unsigned int);
+extern int fn_82526B90(unsigned int, unsigned int);
+extern unsigned int fn_8255AF78(unsigned int);
+extern unsigned int fn_8255AF80(unsigned int);
+extern unsigned int fn_82674630(unsigned int, unsigned int, unsigned int);
+extern void fn_82BA02A8(unsigned int);
 
-
-undefined8 fn_82674698(int param_1,undefined8 param_2)
-
+unsigned int fn_82674698(unsigned int param_1, unsigned int param_2)
 {
-  int iVar2;
-  undefined8 uVar1;
-  uint uVar3;
-  uint uVar4;
-  ulonglong uVar5;
-  
-  uVar5 = (ulonglong)*(uint *)(param_1 + 0xc);
-  uVar4 = 0;
-  iVar2 = fn_8255AF80(uVar5);
-  if (iVar2 != 0) {
+  unsigned int cur = *(unsigned int *)(param_1 + 0xc);
+  unsigned int n = 0;
+  unsigned int cnt;
+  unsigned int r;
+  cnt = fn_8255AF80(cur);
+  if (cnt != 0) {
     do {
-      uVar1 = fn_8236D750(uVar5);
-      iVar2 = fn_82526B90(uVar1,param_2);
-      if (iVar2 == 0) {
-        if (*(int *)(param_1 + 0x24) != 0) {
-          fn_8251FA58();
-          *(undefined4 *)(param_1 + 0x24) = 0;
+      if (fn_82526B90(fn_8236D750(cur), param_2) == 0) {
+        if (*(unsigned int *)(param_1 + 0x24) != 0) {
+          fn_8251FA58(*(unsigned int *)(param_1 + 0x24));
+          *(unsigned int *)(param_1 + 0x24) = 0;
         }
-        fn_82BA02A8(uVar5);
-        uVar1 = fn_8251F718();
-        *(int *)(param_1 + 0x24) = (int)uVar1;
-        uVar1 = fn_82674630(param_1,param_2,uVar1);
-        return uVar1;
+        fn_82BA02A8(cur);
+        r = fn_8251F718();
+        *(unsigned int *)(param_1 + 0x24) = r;
+        return fn_82674630(param_1, param_2, r);
       }
-      uVar4 = uVar4 + 1;
-      uVar5 = fn_8255AF78(uVar5);
-      uVar3 = fn_8255AF80(*(undefined4 *)(param_1 + 0xc));
-    } while (uVar4 < uVar3);
+      n++;
+      cur = fn_8255AF78(cur);
+    } while (n < fn_8255AF80(*(unsigned int *)(param_1 + 0xc)));
   }
   return 0;
 }
-

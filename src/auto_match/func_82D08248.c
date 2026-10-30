@@ -27,24 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D08248(double param_1,int *param_2)
-
+typedef struct { float a, b, c, v; } E_82D08248;
+typedef struct { E_82D08248 *data; int n; } V_82D08248;
+void fn_82D08248(V_82D08248 *s, float d)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar1 = 0;
-  if (param_2[1] < 1) {
-    return;
-  }
-  iVar2 = 0;
+  int i = 0;
+  if (s->n <= 0) return;
   do {
-    iVar1 = iVar1 + 1;
-    iVar3 = *param_2 + iVar2;
-    iVar2 = iVar2 + 0x10;
-    *(float *)(iVar3 + 0xc) = (float)((double)*(float *)(iVar3 + 0xc) - param_1);
-  } while (iVar1 < param_2[1]);
-  return;
+    float *p = &s->data[i].v;
+    *p = *p - d;
+    i++;
+  } while (i < s->n);
 }
-
