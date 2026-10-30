@@ -153769,7 +153769,7 @@ auto_match/func_82DA5ED0.cpp:
 	.pdata      start:0x822198C0 end:0x822198C8
 	.text       start:0x82DA5ED0 end:0x82DA5F38
 
-auto_match/func_82DA5F38.c:
+auto_match/func_82DA5F38.cpp:
 	.pdata      start:0x822198C8 end:0x822198D0
 	.text       start:0x82DA5F38 end:0x82DA5F98
 
