@@ -1,15 +1,22 @@
+typedef struct B2_82240B10 { void *vt; int f4; void *self; } B2_82240B10;
+typedef struct Obj_82240B10 { void *vt; char pad[0x50]; B2_82240B10 b; } Obj_82240B10;
 extern void fn_8289D7E8(void *, unsigned int);
-extern unsigned int lbl_821B4200;
-extern unsigned int lbl_82197248;
-extern unsigned int lbl_82197290;
+extern char lbl_821B4200[];
+extern char lbl_82197248[];
+extern char lbl_82197290[];
 
-unsigned int * fn_82240B10(unsigned int *param_1)
+static __inline void B2_ctor(B2_82240B10 *b, void *self)
 {
-    fn_8289D7E8(param_1, 0x19);
-    param_1[0x17] = (unsigned int)param_1;
-    param_1[0x15] = (unsigned int)&lbl_821B4200;
-    param_1[0x16] = 0;
-    *param_1 = (unsigned int)&lbl_82197248;
-    param_1[0x15] = (unsigned int)&lbl_82197290;
-    return param_1;
+  b->self = self;
+  b->vt = lbl_821B4200;
+  b->f4 = 0;
+}
+
+Obj_82240B10 *fn_82240B10(Obj_82240B10 *o)
+{
+  fn_8289D7E8(o, 0x19);
+  B2_ctor(&o->b, o);
+  o->vt = lbl_82197248;
+  o->b.vt = lbl_82197290;
+  return o;
 }

@@ -1,58 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E30238();
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct Com_82E30918 Com_82E30918;
+typedef struct CVT_82E30918 { void *s0; void *s4; void (*f8)(Com_82E30918 *); } CVT_82E30918;
+struct Com_82E30918 { CVT_82E30918 *vt; };
+typedef struct Src_82E30918 Src_82E30918;
+typedef struct SVT_82E30918 { void *s[42]; int (*fa8)(Src_82E30918 *, Com_82E30918 **); } SVT_82E30918;
+struct Src_82E30918 { SVT_82E30918 *vt; };
+typedef struct Obj_82E30918 { char pad[0x54]; int cs[1]; } Obj_82E30918;
+extern int fn_82E30238(Obj_82E30918 *o, Com_82E30918 *c);
+extern void fn_82E50CB8(void *cs);
+extern void fn_82E50F10(void *cs);
 
-
-longlong fn_82E30918(longlong param_1,int *param_2)
-
+int fn_82E30918(Obj_82E30918 *o, Src_82E30918 *src)
 {
-  longlong lVar1;
-  int * apiStack_30;
-  
-  apiStack_30 = (int *)0x0;
-  if (param_2 == (int *)0x0) {
-    lVar1 = -0x7ff8ffa9;
+  int hr;
+  Com_82E30918 *c = 0;
+  if (src == 0) return (int)0x80070057;
+  fn_82E50CB8(o->cs);
+  hr = src->vt->fa8(src, &c);
+  if (hr >= 0) {
+    hr = fn_82E30238(o, c);
+    c = (Com_82E30918 *)((hr >> 31) & (unsigned int)c);
   }
-  else {
-    fn_82E50CB8(param_1 + 0x54);
-    lVar1 = (**(code **)(*param_2 + 0xa8))(param_2,&apiStack_30);
-    if (-1 < lVar1) {
-      lVar1 = fn_82E30238(param_1,apiStack_30);
-      apiStack_30 = (int *)((int)lVar1 >> 0x1f & (uint)apiStack_30);
-    }
-    if (apiStack_30 != (int *)0x0) {
-      (**(code **)(*apiStack_30 + 8))();
-      apiStack_30 = (int *)0x0;
-    }
-    fn_82E50F10(param_1 + 0x54);
+  if (c != 0) {
+    c->vt->f8(c);
+    c = 0;
   }
-  return lVar1;
+  fn_82E50F10(o->cs);
+  return hr;
 }
-

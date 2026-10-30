@@ -1,61 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Bits_82807E08 {
+  unsigned int *p[4];
+  unsigned int out[4];
+  unsigned char bit[4];
+  char pad[0x23];
+  unsigned char mask;
+} Bits_82807E08;
 
-
-void fn_82807E08(int *param_1,uint param_2,int param_3)
-
+void fn_82807E08(Bits_82807E08 *s, unsigned char n, unsigned int skip)
 {
-  byte bVar1;
-  uint *puVar2;
-  uint uVar3;
-  uint uVar4;
-  int *piVar5;
-  longlong lVar6;
-  
-  uVar4 = 0;
-  lVar6 = 4;
-  piVar5 = param_1;
-  do {
-    puVar2 = (uint *)*piVar5;
-    if (puVar2 != (uint *)0x0) {
-      if ((param_3 == 0) && (((uint)*(byte *)((int)param_1 + 0x47) & 1 << (uVar4 & 0x3f)) != 0)) {
-        bVar1 = *(byte *)((int)param_1 + uVar4 + 0x20);
-        piVar5[4] = ((puVar2[1] << 1) << (0x1f - bVar1 & 0x3f) | *puVar2 >> (bVar1 & 0x3f)) &
-                    (1 << (param_2 & 0x3f)) - 1U;
+  int i;
+  for (i = 0; i < 4; i++) {
+    unsigned int *w = s->p[i];
+    if (w != 0) {
+      unsigned char t;
+      if (skip == 0 && (s->mask & (1 << i)) != 0) {
+        unsigned char b = s->bit[i];
+        s->out[i] = (((w[1] << 1) << (31 - b)) | (w[0] >> b)) & ((1 << n) - 1);
       }
-      uVar3 = (uint)*(byte *)((int)param_1 + uVar4 + 0x20) + (param_2 & 0xff);
-      *(byte *)((int)param_1 + uVar4 + 0x20) = (byte)uVar3 & 0x1f;
-      *piVar5 = ((uVar3 & 0xff) >> 3 & 0x1c) + *piVar5;
+      t = s->bit[i] + n;
+      s->bit[i] = t & 0x1f;
+      s->p[i] = (unsigned int *)((int)s->p[i] + ((t >> 3) & 0x1c));
     }
-    uVar4 = uVar4 + 1;
-    piVar5 = piVar5 + 1;
-    lVar6 = lVar6 + -1;
-  } while (lVar6 != 0);
-  return;
+  }
 }
-

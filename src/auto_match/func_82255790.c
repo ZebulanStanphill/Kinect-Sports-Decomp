@@ -1,65 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82359C18();
-extern int fn_828E32A0();
+extern void fn_822315A0(void *rc);
+extern void fn_82359C18(void *p);
+extern void fn_828E32A0(void *p);
 
+#define W(p, o) (*(void **)((char *)(p) + (o)))
 
-void fn_82255790(int param_1)
-
+void fn_82255790(void *self)
 {
-  if (*(int *)(param_1 + 0xa4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x9c) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x94) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x8c) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x84) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x7c) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x6c) != 0) {
-    fn_822315A0();
-  }
-  fn_82359C18(param_1 + 0x50);
-  fn_82359C18(param_1 + 0x38);
-  fn_828E32A0(param_1);
-  return;
+  if (W(self, 0xa4) != 0) fn_822315A0(W(self, 0xa4));
+  if (W(self, 0x9c) != 0) fn_822315A0(W(self, 0x9c));
+  if (W(self, 0x94) != 0) fn_822315A0(W(self, 0x94));
+  if (W(self, 0x8c) != 0) fn_822315A0(W(self, 0x8c));
+  if (W(self, 0x84) != 0) fn_822315A0(W(self, 0x84));
+  if (W(self, 0x7c) != 0) fn_822315A0(W(self, 0x7c));
+  if (W(self, 0x74) != 0) fn_822315A0(W(self, 0x74));
+  if (W(self, 0x6c) != 0) fn_822315A0(W(self, 0x6c));
+  fn_82359C18((char *)self + 0x50);
+  fn_82359C18((char *)self + 0x38);
+  fn_828E32A0(self);
 }
-

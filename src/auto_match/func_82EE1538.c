@@ -25,44 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82EE1048();
+typedef struct Obj_82EE1538 Obj_82EE1538;
+typedef struct { void *f0[12]; __int64 (*f30)(Obj_82EE1538 *, unsigned); } Vt_82EE1538;
+struct Obj_82EE1538 {
+  Vt_82EE1538 *vt;
+  int f4, f8;
+  unsigned fc;
+  int f10[4];
+  __int64 f20;
+  char pad28[0x48 - 0x28];
+  char sub[0x254 - 0x48];
+  unsigned count;
+};
+extern int fn_82EE1048(void *sub, unsigned i, unsigned *out);
 
-
-undefined8 fn_82EE1538(int *param_1,longlong *param_2,longlong *param_3)
-
+int fn_82EE1538(Obj_82EE1538 *o, __int64 *out1, __int64 *out2)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  ulonglong uVar5;
-  uint auStack_40;
-  
-  if (param_1[3] == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else {
-    lVar4 = 0x1a;
-    uVar5 = 0;
-    if (param_1[0x95] != 0) {
-      do {
-        uVar2 = fn_82EE1048(param_1 + 0x12,uVar5,&auStack_40);
-        lVar3 = (**(code **)(*param_1 + 0x30))
-                          (param_1,((uVar2 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)auStack_40);
-        uVar5 = uVar5 + 1;
-        lVar4 = lVar3 + lVar4;
-      } while ((uVar5 & 0xffffffff) < (ulonglong)(uint)param_1[0x95]);
-    }
-    if (param_2 != (longlong *)0x0) {
-      *param_2 = lVar4;
-    }
-    if (param_3 != (longlong *)0x0) {
-      *param_3 = lVar4;
-    }
-    *(longlong *)(param_1 + 8) = lVar4;
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+  unsigned i;
+  unsigned v;
+  __int64 total;
 
+  if (o->fc == 0) {
+    return 0xc00d36b6;
+  }
+  total = 0x1a;
+  for (i = 0; i < o->count; i++) {
+    int hr = fn_82EE1048(o->sub, i, &v);
+    total += o->vt->f30(o, hr >= 0 ? v : 0);
+  }
+  if (out1 != 0) {
+    *out1 = total;
+  }
+  if (out2 != 0) {
+    *out2 = total;
+  }
+  o->f20 = total;
+  return 0;
+}

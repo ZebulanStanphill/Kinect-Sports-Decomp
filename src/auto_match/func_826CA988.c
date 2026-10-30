@@ -1,63 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_826C8590();
-extern int fn_827583E8();
-extern int fn_827586A8();
-extern int fn_82758A28();
+typedef struct Sub_826CA988 Sub_826CA988;
+typedef struct Obj_826CA988 { char pad0[0xa0]; struct { char pad[0x14]; void *heap; } *f_a0; char pad1[0x1b8 - 0xa4]; int f1b8; } Obj_826CA988;
+extern void *fn_8267B890(void *heap, int size, int c);
+extern void fn_8267C498(Sub_826CA988 *s);
+extern void fn_826C8590(Obj_826CA988 *o, int a);
+extern void fn_827583E8(Sub_826CA988 *s);
+extern unsigned char fn_827586A8(Sub_826CA988 *s);
+extern Sub_826CA988 *fn_82758A28(void *mem);
 
-
-void fn_826CA988(int param_1)
-
+void fn_826CA988(Obj_826CA988 *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  
-  if (*(int *)(param_1 + 0x1b8) == 0) {
-    iVar1 = fn_8267B890(*(undefined4 *)(*(int *)(param_1 + 0xa0) + 0x14),0x88,0);
-    if (iVar1 == 0) {
-      uVar2 = 0;
+  void *mem;
+  Sub_826CA988 *s;
+  if (o->f1b8 == 0) {
+    mem = fn_8267B890(o->f_a0->heap, 0x88, 0);
+    if (mem != 0) {
+      s = fn_82758A28(mem);
+    } else {
+      s = 0;
     }
-    else {
-      uVar2 = fn_82758A28();
-    }
-    if (*(int *)(param_1 + 0x1b8) != 0) {
-      fn_8267C498();
-    }
-    *(undefined4 *)(param_1 + 0x1b8) = uVar2;
+    if ((Sub_826CA988 *)o->f1b8 != 0) fn_8267C498((Sub_826CA988 *)o->f1b8);
+    o->f1b8 = (int)s;
   }
-  cVar3 = fn_827586A8(*(undefined4 *)(param_1 + 0x1b8));
-  if (cVar3 == '\0') {
-    fn_826C8590(param_1,0);
-    fn_827583E8(*(undefined4 *)(param_1 + 0x1b8));
+  if (fn_827586A8((Sub_826CA988 *)o->f1b8) == 0) {
+    fn_826C8590(o, 0);
+    fn_827583E8((Sub_826CA988 *)o->f1b8);
   }
-  return;
 }
-

@@ -1,85 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
-extern int fn_8267BED0();
-extern int fn_826D8050();
-extern int fn_827626A0();
-extern unsigned int lbl_820148F8;
-extern unsigned int lbl_82015278;
-extern unsigned int uStack_40;
+typedef struct Node_82772D08 { void *vt; char pad[0x24]; int f28; } Node_82772D08;
+typedef struct Obj_82772D08 { void *vt; char pad[0x88]; Node_82772D08 *f8c; Node_82772D08 *f90; int f94, f98, f9c, fa0, fa4, fa8, fac, fb0, fb4, fb8, fbc, fc0, fc4, fc8, fcc; } Obj_82772D08;
+extern void fn_826D8050(Obj_82772D08 *o);
+extern Node_82772D08 *fn_8267BED0(Obj_82772D08 *o, int size, int *flags);
+extern void fn_827626A0(Node_82772D08 *n);
+extern char lbl_820148F8[];
+extern char lbl_82015278[];
 
-
-undefined4 * fn_82772D08(undefined4 *param_1)
-
+Obj_82772D08 *fn_82772D08(Obj_82772D08 *o)
 {
-  undefined4 *puVar1;
-  undefined4 uStack_40;
-  undefined4 auStack_3c;
-  
-  fn_826D8050();
-  *param_1 = &lbl_82015278;
-  param_1[0x25] = 0;
-  param_1[0x26] = 0;
-  param_1[0x27] = 0;
-  param_1[0x28] = 0;
-  param_1[0x29] = 0;
-  param_1[0x2a] = 0;
-  param_1[0x2b] = 0;
-  param_1[0x2c] = 0;
-  param_1[0x2d] = 0;
-  param_1[0x2e] = 0;
-  param_1[0x2f] = 0;
-  param_1[0x30] = 0;
-  param_1[0x31] = 0;
-  param_1[0x32] = 0;
-  param_1[0x33] = 0;
-  uStack_40 = 0x102;
-  puVar1 = (undefined4 *)fn_8267BED0(param_1,0x2c,&uStack_40);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  Node_82772D08 *n;
+  int a, b;
+  Node_82772D08 *m;
+  fn_826D8050(o);
+  o->vt = lbl_82015278;
+  { int *z = &o->f94; z[0]=0; z[1]=0; z[2]=0; z[3]=0; z[4]=0; z[5]=0; z[6]=0; z[7]=0; z[8]=0; z[9]=0; z[10]=0; z[11]=0; z[12]=0; z[13]=0; z[14]=0; }
+  a = 0x102;
+  m = fn_8267BED0(o, 0x2c, &a);
+  if (m != 0) {
+    fn_827626A0(m);
+    m->vt = lbl_820148F8;
+    m->f28 = 0;
+    n = m;
+  } else {
+    n = 0;
   }
-  else {
-    fn_827626A0(puVar1);
-    *puVar1 = &lbl_820148F8;
-    puVar1[10] = 0;
+  o->f8c = n;
+  b = 0x102;
+  m = fn_8267BED0(o, 0x2c, &b);
+  if (m != 0) {
+    fn_827626A0(m);
+    m->vt = lbl_820148F8;
+    m->f28 = 0;
+    n = m;
+  } else {
+    n = 0;
   }
-  param_1[0x23] = puVar1;
-  auStack_3c = 0x102;
-  puVar1 = (undefined4 *)fn_8267BED0(param_1,0x2c,&auStack_3c);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_827626A0(puVar1);
-    *puVar1 = &lbl_820148F8;
-    puVar1[10] = 0;
-  }
-  param_1[0x24] = puVar1;
-  return param_1;
+  o->f90 = n;
+  return o;
 }
-

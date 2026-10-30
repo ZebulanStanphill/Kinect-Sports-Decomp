@@ -25,42 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A29A38();
-extern int fn_82EE9FF0();
-extern int fn_82EEA6E8();
+typedef struct Elem_82EEA798 Elem_82EEA798;
+typedef struct { void (*dtor)(Elem_82EEA798 *, int); void *f4; void (*f8)(Elem_82EEA798 *); } Vt_82EEA798;
+struct Elem_82EEA798 { Vt_82EEA798 *vt; };
+typedef struct { char pad[0x4c]; int f4c; Elem_82EEA798 *list; char cs[1]; } Obj_82EEA798;
 
+extern void fn_82A29A38(void);
+extern void fn_82EE9FF0(Obj_82EEA798 *o);
+extern int fn_82EEA6E8(Elem_82EEA798 *list, Elem_82EEA798 **out);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-void fn_82EEA798(int param_1)
-
+void fn_82EEA798(Obj_82EEA798 *o)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int * apiStack_30;
-  
-  if (*(int *)(param_1 + 0x4c) == 0) {
-    RtlEnterCriticalSection(param_1 + 0x54);
-    iVar2 = *(int *)(param_1 + 0x50);
-    if (iVar2 != 0) {
-      apiStack_30 = (int *)0x0;
-      while (iVar2 = fn_82EEA6E8(iVar2,&apiStack_30), iVar2 != 0) {
-        if (apiStack_30 != (int *)0x0) {
-          (**(code **)(*apiStack_30 + 8))();
-          apiStack_30 = (int *)0x0;
-        }
-        iVar2 = *(int *)(param_1 + 0x50);
-      }
-      puVar1 = *(undefined4 **)(param_1 + 0x50);
-      if (puVar1 != (undefined4 *)0x0) {
-        (**(code **)*puVar1)(puVar1,1);
-      }
-      *(undefined4 *)(param_1 + 0x50) = 0;
-      RtlLeaveCriticalSection(param_1 + 0x54);
-    }
-    fn_82EE9FF0(param_1);
-  }
-  else {
-    fn_82A29A38();
-  }
-  return;
-}
+  Elem_82EEA798 *e;
 
+  if (o->f4c != 0) {
+    fn_82A29A38();
+  } else {
+    RtlEnterCriticalSection(o->cs);
+    if (o->list != 0) {
+      e = 0;
+      while (fn_82EEA6E8(o->list, &e) != 0) {
+        if (e != 0) {
+          e->vt->f8(e);
+          e = 0;
+        }
+      }
+      if (o->list != 0) {
+        o->list->vt->dtor(o->list, 1);
+      }
+      o->list = 0;
+      RtlLeaveCriticalSection(o->cs);
+    }
+    fn_82EE9FF0(o);
+  }
+}

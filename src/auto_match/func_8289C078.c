@@ -1,46 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8289BD98();
+typedef struct Inner_8289C078 Inner_8289C078;
+typedef struct IVT_8289C078 { void *s0; unsigned int (*f4)(Inner_8289C078 *); void *s8; void *sc; void *s10; unsigned int (*f14)(Inner_8289C078 *); } IVT_8289C078;
+struct Inner_8289C078 { IVT_8289C078 *vt; };
+typedef struct Res_8289C078 Res_8289C078;
+typedef struct RVT_8289C078 { void (*f0)(Res_8289C078 *, int); } RVT_8289C078;
+struct Res_8289C078 { RVT_8289C078 *vt; };
+typedef struct Obj_8289C078 { char pad[0x20]; Inner_8289C078 *f20; } Obj_8289C078;
+extern Res_8289C078 *fn_8289BD98(Obj_8289C078 *o, int a);
 
-
-void fn_8289C078(int param_1,undefined8 param_2)
-
+void fn_8289C078(Obj_8289C078 *o, int a)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  if ((((*(int **)(param_1 + 0x20) != (int *)0x0) &&
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 4))(), iVar1 != 0)) ||
-      ((*(int **)(param_1 + 0x20) != (int *)0x0 &&
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))(), iVar1 != 0)))) &&
-     (puVar2 = (undefined4 *)fn_8289BD98(param_1,param_2), puVar2 != (undefined4 *)0x0)) {
-    (**(code **)*puVar2)(puVar2,1);
+  Res_8289C078 *r;
+  if (((o->f20 != 0 && o->f20->vt->f4(o->f20) != 0) ||
+       (o->f20 != 0 && o->f20->vt->f14(o->f20) != 0)) &&
+      (r = fn_8289BD98(o, a)) != 0) {
+    r->vt->f0(r, 1);
   }
-  return;
 }
-

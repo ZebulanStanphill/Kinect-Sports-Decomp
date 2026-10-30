@@ -25,41 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_83017558();
-extern int fn_8301A7B8();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642EC;
-extern unsigned int lbl_832642FC;
+typedef struct Obj_82FEB1D0 Obj_82FEB1D0;
+typedef struct { void (*dtor)(Obj_82FEB1D0 *, int); } Vt_82FEB1D0;
+struct Obj_82FEB1D0 { Vt_82FEB1D0 *vt; char pad[0x5c - 4]; int refs; };
 
+extern void fn_82FA5190(void *heap, void *p);
+extern int fn_83017558(void *a, int b, Obj_82FEB1D0 *o);
+extern Obj_82FEB1D0 *fn_8301A7B8(void *a, int b);
+extern void *lbl_831BC768;
+extern void *lbl_832642EC;
+extern void *lbl_832642FC;
+extern char lbl_8326434C[];
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-undefined8 fn_82FEB1D0(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
-
+int fn_82FEB1D0(int a, int b, int *out)
 {
-  uint uVar1;
-  undefined4 *puVar3;
-  undefined8 uVar2;
-  undefined4 uVar4;
-  
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  puVar3 = (undefined4 *)fn_8301A7B8(lbl_832642EC,param_2);
-  if (puVar3 == (undefined4 *)0x0) {
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    uVar2 = 0xf;
-  }
-  else {
-    uVar4 = fn_83017558(lbl_832642FC,param_1,puVar3);
-    *param_3 = uVar4;
-    uVar1 = puVar3[0x17];
-    puVar3[0x17] = (int)((ulonglong)uVar1 - 1);
-    uVar4 = lbl_831BC768;
-    if ((longlong)((ulonglong)uVar1 - 1) < 1) {
-      (**(code **)*puVar3)(puVar3,0);
-      fn_82FA5190(uVar4,puVar3);
-    }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    uVar2 = 1;
-  }
-  return uVar2;
-}
+  Obj_82FEB1D0 *o;
 
+  RtlEnterCriticalSection(lbl_8326434C);
+  o = fn_8301A7B8(lbl_832642EC, b);
+  if (o == 0) {
+    RtlLeaveCriticalSection(lbl_8326434C);
+    return 0xf;
+  }
+  *out = fn_83017558(lbl_832642FC, a, o);
+  if (--o->refs <= 0) {
+    void *heap = lbl_831BC768;
+    o->vt->dtor(o, 0);
+    fn_82FA5190(heap, o);
+  }
+  RtlLeaveCriticalSection(lbl_8326434C);
+  return 1;
+}

@@ -1,49 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82681728();
-extern int fn_826944C8();
+typedef struct Rep_826A1CC8 { int a; int b; int rc; } Rep_826A1CC8;
+typedef struct Obj_826A1CC8 Obj_826A1CC8;
+typedef struct VT_826A1CC8 { void *s[10]; int (*f28)(Obj_826A1CC8 *, unsigned int *, Rep_826A1CC8 **, int, int); } VT_826A1CC8;
+struct Obj_826A1CC8 { VT_826A1CC8 *vt; };
+extern void fn_82681728(Rep_826A1CC8 **out, unsigned int v);
+extern void fn_826944C8(Rep_826A1CC8 *r);
 
-
-undefined8
-fn_826A1CC8(int *param_1,uint *param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5)
-
+int fn_826A1CC8(Obj_826A1CC8 *self, unsigned int *p2, int unused, int a, int b)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  int aiStack_30;
-  
-  fn_82681728(&aiStack_30,(ulonglong)*param_2 + 0x254);
-  uVar1 = (**(code **)(*param_1 + 0x28))(param_1,param_2,&aiStack_30,param_4,param_5);
-  lVar2 = (ulonglong)*(uint *)(aiStack_30 + 8) - 1;
-  *(int *)(aiStack_30 + 8) = (int)lVar2;
-  if (lVar2 == 0) {
-    fn_826944C8(aiStack_30);
-  }
-  return uVar1;
+  int r;
+  Rep_826A1CC8 *rep;
+  Rep_826A1CC8 *t;
+  fn_82681728(&rep, *p2 + 0x254);
+  r = self->vt->f28(self, p2, &rep, a, b);
+  t = rep;
+  if (--t->rc == 0) fn_826944C8(t);
+  return r;
 }
-

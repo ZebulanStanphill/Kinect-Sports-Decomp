@@ -25,30 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
+typedef struct Node_82FFE7A0 { struct Node_82FFE7A0 *next; unsigned int key; int value; } Node_82FFE7A0;
+typedef struct Hash_82FFE7A0 { int heap; Node_82FFE7A0 *buckets[193]; int count; } Hash_82FFE7A0;
+extern int *fn_82FFE528(Hash_82FFE7A0 *h, unsigned int key, unsigned int index);
 
-
-undefined4 * fn_82FFE7A0(int param_1,uint param_2,undefined1 *param_3)
-
+int *fn_82FFE7A0(Hash_82FFE7A0 *h, unsigned int key, unsigned char *found)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = *(undefined4 **)((param_2 % 0xc1 + 1) * 4 + param_1);
-  do {
-    if (puVar1 == (undefined4 *)0x0) {
-LAB_82ffe7e8:
-      *param_3 = 0;
-      puVar1 = (undefined4 *)fn_82F68B7C();
-      return puVar1;
-    }
-    if (puVar1[1] == param_2) {
-      if (puVar1 != (undefined4 *)0xfffffff8) {
-        *param_3 = 1;
-        return puVar1 + 2;
-      }
-      goto LAB_82ffe7e8;
-    }
-    puVar1 = (undefined4 *)*puVar1;
-  } while( true );
-}
+  unsigned int i = key % 193;
+  Node_82FFE7A0 *n;
+  int *v;
 
+  for (n = h->buckets[i]; n != 0; n = n->next) {
+    if (n->key == key) {
+      break;
+    }
+  }
+  v = n ? &n->value : 0;
+  if (v != 0) {
+    *found = 1;
+    return v;
+  }
+  *found = 0;
+  return fn_82FFE528(h, key, i);
+}

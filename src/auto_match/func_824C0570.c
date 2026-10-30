@@ -1,72 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_824C0998();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
+typedef struct Obj_824C0570 Obj_824C0570;
+typedef struct VT_824C0570 { void *s0[3]; void (*fc)(Obj_824C0570 *); void (*f10)(Obj_824C0570 *, void *); void (*f14)(Obj_824C0570 *); } VT_824C0570;
+struct Obj_824C0570 { VT_824C0570 *vt; };
+typedef struct SP_824C0570 { Obj_824C0570 *p; void *rc; } SP_824C0570;
+typedef struct Mgr_824C0570 { char pad[0x40]; unsigned int f40; } Mgr_824C0570;
+extern SP_824C0570 *fn_824C0998(SP_824C0570 *out, Mgr_824C0570 *m, int key);
+extern void fn_822315A0(void *rc);
 
-
-void fn_824C0570(int param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_824C0570(Mgr_824C0570 *m, int a, int b)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_40 [4];
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  if ((int)param_2 != 0) {
-    puVar1 = (undefined4 *)fn_824C0998(auStack_40,param_1,param_2);
-    (**(code **)(*(int *)*puVar1 + 0x14))();
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
+  SP_824C0570 t1, t2, t3;
+  SP_824C0570 *r;
+  void *rc;
+  if (a != 0) {
+    r = fn_824C0998(&t1, m, a);
+    r->p->vt->f14(r->p);
+    if (t1.rc != 0) fn_822315A0(t1.rc);
   }
-  if ((int)param_3 != 0) {
-    if (*(int *)(param_1 + 0x40) == 0) {
-      puVar1 = (undefined4 *)fn_824C0998(auStack_38,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 0xc))();
+  if (b != 0) {
+    if (m->f40 == 0) {
+      r = fn_824C0998(&t2, m, b);
+      r->p->vt->fc(r->p);
+      rc = t2.rc;
+    } else {
+      r = fn_824C0998(&t3, m, b);
+      r->p->vt->f10(r->p, &m->f40);
+      rc = t3.rc;
     }
-    else {
-      puVar1 = (undefined4 *)fn_824C0998(auStack_30,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 0x10))((int *)*puVar1,param_1 + 0x40);
-      iStack_34 = iStack_2c;
-    }
-    if (iStack_34 != 0) {
-      fn_822315A0();
-    }
+    if (rc != 0) fn_822315A0(rc);
   }
-  return;
 }
-

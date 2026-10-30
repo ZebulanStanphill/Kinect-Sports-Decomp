@@ -27,15 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82CE0BF0(int param_1,int param_2)
+typedef struct { int type; int pad; longlong val; } Ent_82CE0BF0;
+typedef struct { Ent_82CE0BF0 e[32]; int count; } Obj_82CE0BF0;
 
+int fn_82CE0BF0(Obj_82CE0BF0 *o, int v)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)(*(int *)(param_1 + 0x200) * 0x10 + param_1);
-  *puVar1 = 4;
-  *(longlong *)(puVar1 + 2) = (longlong)param_2;
-  *(int *)(param_1 + 0x200) = *(int *)(param_1 + 0x200) + 1;
-  return;
+  Ent_82CE0BF0 *e = &o->e[o->count];
+  e->type = 4;
+  e->val = v;
+  return o->count++;
 }
-

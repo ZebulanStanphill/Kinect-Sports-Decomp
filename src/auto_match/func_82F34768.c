@@ -1,51 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Com_82F34768 Com_82F34768;
+typedef struct CVT_82F34768 { void *s0; void (*f4)(Com_82F34768 *); void (*f8)(Com_82F34768 *); } CVT_82F34768;
+struct Com_82F34768 { CVT_82F34768 *vt; };
+typedef struct Obj_82F34768 Obj_82F34768;
+typedef struct OVT_82F34768 { void *s[9]; int (*f24)(Obj_82F34768 *, Com_82F34768 *); } OVT_82F34768;
+struct Obj_82F34768 { OVT_82F34768 *vt; Com_82F34768 *f4; };
 
-
-longlong fn_82F34768(int *param_1,int *param_2)
-
+int fn_82F34768(Obj_82F34768 *o, Com_82F34768 *c)
 {
-  longlong lVar1;
-  
-  if (param_2 == (int *)0x0) {
-    lVar1 = -0x7fffbffd;
-  }
-  else {
-    lVar1 = (**(code **)(*param_1 + 0x24))(param_1,param_2);
-    if (-1 < lVar1) {
-      if ((int *)param_1[1] != (int *)0x0) {
-        (**(code **)(*(int *)param_1[1] + 8))();
-        param_1[1] = 0;
+  int hr;
+  if (c == 0) {
+    hr = (int)0x80004003;
+  } else {
+    hr = o->vt->f24(o, c);
+    if (hr >= 0) {
+      if (o->f4 != 0) {
+        o->f4->vt->f8(o->f4);
+        o->f4 = 0;
       }
-      param_1[1] = (int)param_2;
-      (**(code **)(*param_2 + 4))(param_2);
+      o->f4 = c;
+      c->vt->f4(c);
     }
   }
-  return lVar1;
+  return hr;
 }
-
