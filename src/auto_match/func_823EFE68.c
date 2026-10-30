@@ -24,246 +24,274 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82329730();
-extern int fn_82359C18();
-extern int fn_82383300();
-extern int fn_823F2E90();
-extern int fn_823F2F20();
-extern unsigned int uStack_30;
+typedef struct Impl_823EFE68 Impl_823EFE68;
+typedef struct ImplVT_823EFE68 {
+  void *s0, *s4, *s8;
+  void (*fc)(Impl_823EFE68 *, int);
+} ImplVT_823EFE68;
+struct Impl_823EFE68 {
+  ImplVT_823EFE68 *vt;
+};
+typedef struct Fn_823EFE68 {
+  int w[4];
+  Impl_823EFE68 *impl;
+} Fn_823EFE68;
 
+extern void fn_82359C18(Fn_823EFE68 *);
+extern void fn_82329730(void *, Fn_823EFE68 *);
+extern void fn_823F2E90(void *, Fn_823EFE68 *);
+extern void fn_823F2F20(void *, Fn_823EFE68 *);
+extern void fn_82383300(void *, Fn_823EFE68 *);
 
-void fn_823EFE68(int param_1)
-
+void fn_823EFE68(char *p)
 {
-  int *piVar1;
-  int aiStack_40 [4];
-  undefined4 uStack_30;
-  
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x60) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x70);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x60) != piVar1);
-      *(undefined4 *)(param_1 + 0x70) = 0;
+  Fn_823EFE68 tmp;
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x60);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x70) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x28,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xa8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xa8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x158) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x168);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x158) != piVar1);
-      *(undefined4 *)(param_1 + 0x168) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x28, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xa8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xa8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x158);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x168) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x120,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x1c8) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x1d8);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x1c8) != piVar1);
-      *(undefined4 *)(param_1 + 0x1d8) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x120, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x1c8);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x1d8) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 400,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x270,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x270,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x2e8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x2e8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x360,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x360,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x3d8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x3d8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x238) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x248);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x238) != piVar1);
-      *(undefined4 *)(param_1 + 0x248) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x190, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x270, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x270, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x2e8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x2e8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x360, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x360, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x3d8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x3d8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x238);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x248) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x200,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x450,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x450,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x4c8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x4c8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x578) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x588);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x578) != piVar1);
-      *(undefined4 *)(param_1 + 0x588) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x200, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x450, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x450, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x4c8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x4c8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x578);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x588) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x540,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2E90(param_1 + 0x5b0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82383300(param_1 + 0x5b0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x618,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x618,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x690,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x690,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2E90(param_1 + 0x710,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82383300(param_1 + 0x710,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x7b0) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x7c0);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x7b0) != piVar1);
-      *(undefined4 *)(param_1 + 0x7c0) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x540, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2E90(p + 0x5b0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82383300(p + 0x5b0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x618, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x618, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x690, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x690, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2E90(p + 0x710, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82383300(p + 0x710, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x7b0);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x7c0) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x778,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x828) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x838);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x828) != piVar1);
-      *(undefined4 *)(param_1 + 0x838) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x778, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x828);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x838) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x7f0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x890,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x890,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  if ((int *)(param_1 + 0x968) != aiStack_40) {
-    piVar1 = *(int **)(param_1 + 0x978);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,(int *)(param_1 + 0x968) != piVar1);
-      *(undefined4 *)(param_1 + 0x978) = 0;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x7f0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x890, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x890, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  {
+    Fn_823EFE68 *m = (Fn_823EFE68 *)(p + 0x968);
+    if (m != &tmp) {
+      Impl_823EFE68 *i = m->impl;
+      if (i != 0) {
+        i->vt->fc(i, (void *)i != (void *)m);
+        m->impl = 0;
+      }
+      m->impl = 0;
     }
-    *(undefined4 *)(param_1 + 0x978) = 0;
   }
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x930,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0x9c0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0x9c0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xa58,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xa58,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xaf8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xaf8,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xb98,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xb98,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xc38,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xc38,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xcd0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xcd0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xd40,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xd40,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_823F2F20(param_1 + 0xdb0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  uStack_30 = 0;
-  fn_82329730(param_1 + 0xdb0,aiStack_40);
-  fn_82359C18(aiStack_40);
-  return;
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x930, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0x9c0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0x9c0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xa58, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xa58, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xaf8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xaf8, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xb98, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xb98, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xc38, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xc38, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xcd0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xcd0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xd40, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xd40, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_823F2F20(p + 0xdb0, &tmp);
+  fn_82359C18(&tmp);
+  tmp.impl = 0;
+  fn_82329730(p + 0xdb0, &tmp);
+  fn_82359C18(&tmp);
 }
-

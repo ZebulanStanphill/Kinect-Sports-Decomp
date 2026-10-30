@@ -24,39 +24,35 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int memcpy();
+extern unsigned strlen(const char *);
+extern void *memcpy(void *, const void *, unsigned);
 
+typedef struct Ctx_82CFC990 {
+  char pad[0x10];
+  void *heap;
+} Ctx_82CFC990;
 
-int * fn_82CFC990(int *param_1,char *param_2)
+extern Ctx_82CFC990 *fn_82CE5410();
+extern void fn_82CE6310(void *, void *, int, int);
 
+typedef struct Str_82CFC990 {
+  char *data;
+  int len;
+  unsigned cap;
+} Str_82CFC990;
+
+Str_82CFC990 *fn_82CFC990(Str_82CFC990 *s, const char *src)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  char *pcVar4;
-  int iVar5;
-  int iVar6;
-  
-  iVar2 = param_1[1];
-  pcVar4 = param_2;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  iVar5 = ((int)pcVar4 - (int)param_2) + iVar2 + -1;
-  iVar3 = fn_82CE5410();
-  if ((int)(param_1[2] & 0x3fffffffU) < iVar5) {
-    iVar6 = (param_1[2] & 0x3fffffffU) << 1;
-    if (iVar6 <= iVar5) {
-      iVar6 = iVar5;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar3 + 0x10),param_1,iVar6,1);
+  int old = s->len - 1;
+  int n = strlen(src);
+  int newlen = n + old + 1;
+  void *h = fn_82CE5410()->heap;
+  int cap = s->cap & 0x3fffffff;
+  if (cap < newlen) {
+    int nc = newlen < (cap << 1) ? (cap << 1) : newlen;
+    fn_82CE6310(h, s, nc, 1);
   }
-  param_1[1] = iVar5;
-  memcpy(*param_1 + iVar2 + -1,param_2,(int)pcVar4 - (int)param_2);
-  return param_1;
+  s->len = newlen;
+  memcpy(s->data + old, src, n + 1);
+  return s;
 }
-

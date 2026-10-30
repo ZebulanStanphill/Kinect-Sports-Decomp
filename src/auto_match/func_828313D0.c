@@ -24,41 +24,59 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_18;
-extern unsigned int *auStack_20;
-extern int fn_82831370();
+typedef struct Node_828313D0 {
+  struct Node_828313D0 *left;
+  struct Node_828313D0 *parent;
+  struct Node_828313D0 *right;
+  unsigned key;
+  int value;
+  char color;
+  char isnil;
+} Node_828313D0;
 
+typedef struct Tree_828313D0 {
+  int pad;
+  Node_828313D0 *head;
+} Tree_828313D0;
 
-undefined4 * fn_828313D0(int param_1,uint *param_2)
+typedef struct Tree2_828313D0 {
+  int pad;
+  Node_828313D0 *head;
+} Tree2_828313D0;
 
+typedef struct Pair_828313D0 {
+  unsigned key;
+  int value;
+} Pair_828313D0;
+
+typedef struct Iter_828313D0 {
+  Node_828313D0 *node;
+  int pad;
+} Iter_828313D0;
+
+extern Iter_828313D0 *fn_82831370(Iter_828313D0 *, Tree_828313D0 *, Node_828313D0 *, Pair_828313D0 *);
+
+int *fn_828313D0(Tree_828313D0 *t, unsigned *k)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined1 auStack_20 [8];
-  uint auStack_18 [2];
-  
-  puVar3 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar3[1] + 0x15) == '\0') {
-    puVar1 = (undefined4 *)puVar3[1];
+  Node_828313D0 *where = t->head;
+  Node_828313D0 *p = t->head->parent;
+  Node_828313D0 *res;
+  if (p->isnil == 0) {
     do {
-      if ((uint)puVar1[3] < *param_2) {
-        puVar2 = (undefined4 *)puVar1[2];
+      if (p->key < *k) {
+        p = p->right;
+      } else {
+        where = p;
+        p = p->left;
       }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar3 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x15) == '\0');
+    } while (p->isnil == 0);
   }
-  if ((puVar3 == *(undefined4 **)(param_1 + 4)) || (*param_2 < (uint)puVar3[3])) {
-    auStack_18[0] = *param_2;
-    auStack_18[1] = 0;
-    puVar3 = (undefined4 *)fn_82831370(auStack_20,param_1,puVar3,auStack_18);
-    puVar3 = (undefined4 *)*puVar3;
+  res = where;
+  if (where == t->head || *k < where->key) {
+    struct { Iter_828313D0 ret; Pair_828313D0 pr; } l;
+    l.pr.key = *k;
+    l.pr.value = 0;
+    res = fn_82831370(&l.ret, t, where, &l.pr)->node;
   }
-  return puVar3 + 4;
+  return &res->value;
 }
-

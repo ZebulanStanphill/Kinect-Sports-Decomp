@@ -24,44 +24,55 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267A0E0();
+struct Obj_82675E20;
+typedef struct VT_82675E20 {
+  void *s[0x11];
+  void (*f44)(struct Obj_82675E20 *);
+} VT_82675E20;
 
+typedef struct Res_82675E20 {
+  char pad[0xd8];
+  void *fd8;
+} Res_82675E20;
 
-undefined8
-fn_82675E20(int *param_1,undefined8 param_2,undefined8 param_3,int param_4,longlong param_5)
+typedef struct Obj_82675E20 {
+  VT_82675E20 *vt;
+  char pad4[0x18];
+  Res_82675E20 *res;
+  int a, b;
+  int f28[5];
+  int f3c[5];
+  int f50;
+} Obj_82675E20;
 
+extern int fn_8267A0E0(int, int, int, int, int, void *);
+
+int fn_82675E20(char *o, int a, int b, int mode, int n)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  if ((param_1[7] != 0) && (*(int *)(param_1[7] + 0xd8) != 0)) {
-    (**(code **)(*param_1 + 0x44))();
-    param_1[8] = (int)param_2;
-    param_1[9] = (int)param_3;
-    param_5 = param_5 + 1;
-    uVar3 = fn_8267A0E0(param_2,param_3,param_5,0,0x4900002,param_1 + 10);
-    iVar1 = (int)param_3 >> 1;
-    iVar2 = (int)param_2 >> 1;
-    uVar4 = fn_8267A0E0(iVar2,iVar1,param_5,0,0x4900002,param_1 + 0xf);
-    uVar5 = fn_8267A0E0(iVar2,iVar1,param_5,0,0x4900002,param_1 + 0x12);
-    uVar5 = uVar5 | uVar4 | uVar3;
-    if (param_4 == 1) {
-      *(undefined1 *)(param_1 + 0xe) = 1;
-      uVar3 = fn_8267A0E0(param_2,param_3,param_5,0,0x4900002,param_1 + 0x15);
-      uVar5 = uVar3 | uVar5;
+  Obj_82675E20 *p = (Obj_82675E20 *)o;
+  if (p->res != 0 && p->res->fd8 != 0) {
+    int r1, r2, r3, ra, rb;
+    p->vt->f44(p);
+    *(int *)(o + 0x20) = a;
+    *(int *)(o + 0x24) = b;
+    n = n + 1;
+    r1 = fn_8267A0E0(a, b, n, 0, 0x4900002, o + 0x28);
+    rb = b >> 1;
+    ra = a >> 1;
+    r1 |= fn_8267A0E0(ra, rb, n, 0, 0x4900002, o + 0x3c);
+    r1 |= fn_8267A0E0(ra, rb, n, 0, 0x4900002, o + 0x48);
+    r3 = r1;
+    if (mode == 1) {
+      *(char *)(o + 0x38) = 1;
+      r3 |= fn_8267A0E0(a, b, n, 0, 0x4900002, o + 0x54);
+    } else {
+      *(char *)(o + 0x38) = 0;
     }
-    else {
-      *(undefined1 *)(param_1 + 0xe) = 0;
+    if (r3 != 0) {
+      p->vt->f44(p);
+      return 0;
     }
-    if (uVar5 == 0) {
-      return 1;
-    }
-    (**(code **)(*param_1 + 0x44))(param_1);
+    return 1;
   }
   return 0;
 }
-

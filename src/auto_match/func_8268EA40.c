@@ -24,31 +24,42 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268E490();
-extern int fn_8268E490();
-extern int fn_8268E5C8();
+typedef struct Link_8268EA40 {
+  struct Link_8268EA40 *next;
+  struct Link_8268EA40 *prev;
+  char pad[0x1c];
+  int count;
+} Link_8268EA40;
 
+typedef struct Sub_8268EA40 {
+  int pad0;
+  int pad4;
+  int count;
+} Sub_8268EA40;
 
-void fn_8268EA40(int param_1,int param_2)
+typedef struct Obj_8268EA40 {
+  char pad[0xc];
+  Sub_8268EA40 sub;
+} Obj_8268EA40;
 
+extern void fn_8268E408(void *, void *, void *);
+extern void fn_8268E490(void *, void *);
+extern void fn_8268E5C8(void *, void *);
+
+void fn_8268EA40(Obj_8268EA40 *o, char *x)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-
-  piVar1 = *(int **)(param_2 + 0x10);
-  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) - piVar1[9];
-  piVar2 = (int *)*piVar1;
-  if (piVar2 == piVar1) {
-    fn_8268E490(param_1 + 0xc,piVar1);
+  Link_8268EA40 *n = *(Link_8268EA40 **)(x + 0x10);
+  Sub_8268EA40 *s = &o->sub;
+  Link_8268EA40 *nx;
+  s->count = s->count - n->count;
+  nx = n->next;
+  if (nx != n) {
+    Link_8268EA40 *pv = n->prev;
+    pv->next = nx;
+    nx->prev = pv;
+    fn_8268E408(s, n, nx);
+  } else {
+    fn_8268E490(s, n);
   }
-  else {
-    piVar3 = (int *)piVar1[1];
-    *piVar3 = (int)piVar2;
-    piVar2[1] = (int)piVar3;
-    fn_8268E490(param_1 + 0xc,piVar1);
-  }
-  fn_8268E5C8(param_1 + 0x10,piVar1);
-  return;
+  fn_8268E5C8((char *)o + 0x10, n);
 }

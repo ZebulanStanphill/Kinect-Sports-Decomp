@@ -24,19 +24,29 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8272F9D8();
+struct Obj_8272FBE8;
+typedef struct VT_8272FBE8 {
+  void *s[16];
+  int (*f40)(struct Obj_8272FBE8 *);
+} VT_8272FBE8;
 
+typedef struct Obj_8272FBE8 {
+  VT_8272FBE8 *vt;
+  char pad[0x88];
+  struct {
+    unsigned a : 14;
+    unsigned f : 2;
+    unsigned b : 16;
+  } w8c;
+  char pad90[0xc8 - 0x90];
+  unsigned short flags;
+} Obj_8272FBE8;
 
-void fn_8272FBE8(int *param_1,uint param_2)
+extern void fn_8272F9D8(Obj_8272FBE8 *, int);
 
+void fn_8272FBE8(Obj_8272FBE8 *o, unsigned char v)
 {
-  undefined8 uVar1;
-  
-  param_1[0x23] = (param_2 & 3) << 0x10 | param_1[0x23] & 0xfffcffffU;
-  *(ushort *)(param_1 + 0x32) = *(ushort *)(param_1 + 0x32) | 0x4000;
-  uVar1 = (**(code **)(*param_1 + 0x40))();
-  fn_8272F9D8(param_1,uVar1);
-  return;
+  o->w8c.f = v;
+  o->flags |= 0x4000;
+  fn_8272F9D8(o, o->vt->f40(o));
 }
-

@@ -24,33 +24,33 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825165E0();
-extern int fn_8265C9E0();
-extern int fn_828A8C08();
-extern unsigned int lbl_821969CC;
+extern char lbl_821969CC[];
+extern void *fn_8265C9E0(int);
+extern void fn_828A8C08(void *, void *);
+extern void fn_825165E0(void *);
 
+typedef struct Obj_825176E0 {
+  void *vt;
+  char pad[0x64];
+  int f68, f6c, f70, f74, f78, f7c, f80, f84;
+} Obj_825176E0;
 
-undefined4 * fn_825176E0(undefined8 param_1)
-
+Obj_825176E0 *fn_825176E0(void *a)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x88);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  Obj_825176E0 *p = (Obj_825176E0 *)fn_8265C9E0(0x88);
+  int *z;
+  if (p != 0) {
+    fn_828A8C08(p, a);
+    p->vt = lbl_821969CC;
+    z = &p->f68;
+    z[0] = 0;
+    z[1] = 0;
+    z[2] = 0;
+    z[4] = 0;
+    z[5] = 0;
+    z[6] = 0;
+    fn_825165E0(p);
+    return p;
   }
-  else {
-    fn_828A8C08(puVar1,param_1);
-    *puVar1 = &lbl_821969CC;
-    puVar1[0x1a] = 0;
-    puVar1[0x1b] = 0;
-    puVar1[0x1c] = 0;
-    puVar1[0x1e] = 0;
-    puVar1[0x1f] = 0;
-    puVar1[0x20] = 0;
-    fn_825165E0(puVar1);
-  }
-  return puVar1;
+  return 0;
 }
-

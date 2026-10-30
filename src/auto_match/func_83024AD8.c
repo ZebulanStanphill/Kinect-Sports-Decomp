@@ -25,24 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
+extern void *fn_82A1EFC0(void *, int, unsigned);
 
+typedef struct Obj_83024AD8 {
+  char pad0[0x74];
+  int f74;
+  char pad78[0x100 - 0x78];
+  void *f100;
+  char pad104[4];
+  int f108;
+  char pad10c[2];
+  short f10e;
+  char pad110[0x168 - 0x110];
+  unsigned f168;
+} Obj_83024AD8;
 
-void fn_83024AD8(int param_1)
-
+void fn_83024AD8(Obj_83024AD8 *o)
 {
-  undefined4 uVar1;
-  
-  if (*(int *)(param_1 + 0x100) != 0) {
-    uVar1 = 4;
-    if (*(int *)(param_1 + 0x108) != 0x11) {
-      uVar1 = 1;
-    }
-    *(undefined4 *)(param_1 + 0x74) = uVar1;
-    *(undefined4 *)(param_1 + 0x108) = 0x11;
-    *(undefined2 *)(param_1 + 0x10e) = 0;
+  if (o->f100 != 0) {
+    if (o->f108 == 0x11) o->f74 = 4; else o->f74 = 1;
+    o->f108 = 0x11;
+    o->f10e = 0;
   }
-  fn_82F68B7C(*(int *)(param_1 + 0x100),0,*(undefined4 *)(param_1 + 0x168));
-  return;
+  fn_82A1EFC0(o->f100, 0, o->f168);
 }
-

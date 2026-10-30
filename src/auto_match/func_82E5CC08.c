@@ -24,38 +24,28 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
-extern int fn_82F68CC0();
+extern void fn_82E4FE40(void *);
+extern void *fn_82E50BE8(unsigned, int, int, int, int);
+extern void *memcpy(void *, const void *, unsigned);
 
+typedef struct Obj_82E5CC08 {
+  char pad[0x78];
+  void *data;
+  unsigned size;
+} Obj_82E5CC08;
 
-undefined8 fn_82E5CC08(int param_1,ulonglong param_2,ulonglong param_3)
-
+int fn_82E5CC08(Obj_82E5CC08 *o, void *src, unsigned n)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  
-  if (((param_2 & 0xffffffff) == 0) && ((param_3 & 0xffffffff) != 0)) {
-    uVar1 = 0xffffffff80070057;
+  if (src == 0 && n != 0) return 0x80070057;
+  if (o->data != 0) fn_82E4FE40(o->data);
+  o->data = 0;
+  o->size = 0;
+  if (src != 0) {
+    o->data = fn_82E50BE8(n, 0, 0, 0, 0);
+    if (o->data == 0) return 0x8007000e;
+    memcpy(o->data, src, n);
+    o->size = n;
   }
-  else {
-    if (*(int *)(param_1 + 0x78) != 0) {
-      fn_82E4FE40();
-    }
-    *(undefined4 *)(param_1 + 0x78) = 0;
-    *(undefined4 *)(param_1 + 0x7c) = 0;
-    if ((param_2 & 0xffffffff) != 0) {
-      uVar2 = fn_82E50BE8(param_3,0,0,0,0);
-      *(int *)(param_1 + 0x78) = (int)uVar2;
-      if ((uVar2 & 0xffffffff) == 0) {
-        return 0xffffffff8007000e;
-      }
-      fn_82F68CC0(uVar2,param_2,param_3);
-      *(int *)(param_1 + 0x7c) = (int)param_3;
-    }
-    uVar1 = 0;
-  }
-  return uVar1;
+  return 0;
 }
 

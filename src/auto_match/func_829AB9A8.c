@@ -24,33 +24,51 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829AB710();
-extern int fn_829B6CA8();
+struct jpeg_common_829AB9A8;
+struct jpeg_error_mgr_829AB9A8 {
+  void (*error_exit)(struct jpeg_common_829AB9A8 *);
+  void *emit_message;
+  void *output_message;
+  void *format_message;
+  void *reset_error_mgr;
+  int msg_code;
+  union {
+    int i[8];
+    char s[80];
+  } msg_parm;
+};
+struct jpeg_common_829AB9A8 {
+  struct jpeg_error_mgr_829AB9A8 *err;
+  char pad[0x10];
+  int global_state;
+};
 
+extern int fn_829AB710(struct jpeg_common_829AB9A8 *);
+extern void fn_829B6CA8(struct jpeg_common_829AB9A8 *);
 
-undefined8 fn_829AB9A8(int *param_1,int param_2)
-
+int fn_829AB9A8(struct jpeg_common_829AB9A8 *cinfo, int require_image)
 {
-  undefined8 uVar1;
-  
-  if ((param_1[5] != 200) && (param_1[5] != 0xc9)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
+  int retcode;
+  if (cinfo->global_state != 200 && cinfo->global_state != 201) {
+    cinfo->err->msg_code = 20;
+    cinfo->err->msg_parm.i[0] = cinfo->global_state;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  uVar1 = fn_829AB710(param_1);
-  if ((int)uVar1 == 1) {
-    uVar1 = 1;
-  }
-  else if ((int)uVar1 == 2) {
-    if (param_2 != 0) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x33;
-      (**(code **)*param_1)(param_1);
+  retcode = fn_829AB710(cinfo);
+  switch (retcode) {
+  case 1:
+    retcode = 1;
+    break;
+  case 2:
+    if (require_image) {
+      cinfo->err->msg_code = 51;
+      (*cinfo->err->error_exit)(cinfo);
     }
-    fn_829B6CA8(param_1);
-    uVar1 = 2;
+    fn_829B6CA8(cinfo);
+    retcode = 2;
+    break;
+  case 0:
+    break;
   }
-  return uVar1;
+  return retcode;
 }
-

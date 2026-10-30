@@ -24,65 +24,71 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8323A960;
 extern unsigned int lbl_8323A964;
+extern unsigned int KeTlsGetValue();
+extern int KeTlsSetValue();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
+typedef struct VT_82CE4338 {
+  void (*f0)(void *, int);
+} VT_82CE4338;
 
-void fn_82CE4338(int *param_1,longlong param_2,int param_3)
+typedef struct Obj_82CE4338 {
+  VT_82CE4338 *vt;
+  short a;
+  short rc;
+} Obj_82CE4338;
 
+typedef struct Lock_82CE4338 {
+  int pad[2];
+  int enabled;
+  int count;
+  int pad10[2];
+  char cs[1];
+} Lock_82CE4338;
+
+void fn_82CE4338(char *p, int n, int stride)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  short sVar4;
-  longlong lVar5;
-  
-  iVar2 = lbl_8323A960;
-  if ((*(int *)(lbl_8323A960 + 8) == 0) ||
-     (iVar3 = KeTlsGetValue(lbl_8323A964), iVar3 == 0x23df4554)) {
-    if (0 < (int)param_2) {
+  Lock_82CE4338 *l = (Lock_82CE4338 *)lbl_8323A960;
+  if (l->enabled == 0 || KeTlsGetValue(lbl_8323A964) == 0x23df4554) {
+    if (n > 0) {
+      int i = n;
       do {
-        puVar1 = (undefined4 *)*param_1;
-        if ((*(short *)(puVar1 + 1) != 0) &&
-           (sVar4 = *(short *)((int)puVar1 + 6) + -1, *(short *)((int)puVar1 + 6) = sVar4,
-           sVar4 == 0)) {
-          (**(code **)*puVar1)(puVar1,1);
+        Obj_82CE4338 *o = *(Obj_82CE4338 **)p;
+        if (o->a != 0) {
+          o->rc = o->rc - 1;
+          if (o->rc == 0) o->vt->f0(o, 1);
         }
-        param_2 = param_2 + -1;
-        param_1 = (int *)((int)param_1 + param_3);
-      } while (param_2 != 0);
+        i--;
+        p += stride;
+      } while (i != 0);
+    }
+  } else {
+    if (KeTlsGetValue(lbl_8323A964) == 0x23df4554) {
+      l->count = l->count + 1;
+    } else {
+      RtlEnterCriticalSection(l->cs);
+      l->count = 1;
+      KeTlsSetValue(lbl_8323A964, 0x23df4554);
+    }
+    if (n > 0) {
+      int i = n;
+      do {
+        Obj_82CE4338 *o = *(Obj_82CE4338 **)p;
+        if (o->a != 0) {
+          o->rc = o->rc - 1;
+          if (o->rc == 0) o->vt->f0(o, 1);
+        }
+        i--;
+        p += stride;
+      } while (i != 0);
+    }
+    l->count = l->count - 1;
+    if (l->count <= 0) {
+      KeTlsSetValue(lbl_8323A964, 0);
+      RtlLeaveCriticalSection(l->cs);
     }
   }
-  else {
-    iVar3 = KeTlsGetValue(lbl_8323A964);
-    if (iVar3 == 0x23df4554) {
-      *(int *)(iVar2 + 0xc) = *(int *)(iVar2 + 0xc) + 1;
-    }
-    else {
-      RtlEnterCriticalSection(iVar2 + 0x18);
-      *(undefined4 *)(iVar2 + 0xc) = 1;
-      KeTlsSetValue(lbl_8323A964,0x23df4554);
-    }
-    if (0 < (int)param_2) {
-      do {
-        puVar1 = (undefined4 *)*param_1;
-        if ((*(short *)(puVar1 + 1) != 0) &&
-           (sVar4 = *(short *)((int)puVar1 + 6) + -1, *(short *)((int)puVar1 + 6) = sVar4,
-           sVar4 == 0)) {
-          (**(code **)*puVar1)(puVar1,1);
-        }
-        param_2 = param_2 + -1;
-        param_1 = (int *)((int)param_1 + param_3);
-      } while (param_2 != 0);
-    }
-    lVar5 = (ulonglong)*(uint *)(iVar2 + 0xc) - 1;
-    *(int *)(iVar2 + 0xc) = (int)lVar5;
-    if (lVar5 < 1) {
-      KeTlsSetValue(lbl_8323A964,0);
-      RtlLeaveCriticalSection(iVar2 + 0x18);
-    }
-  }
-  return;
 }
-

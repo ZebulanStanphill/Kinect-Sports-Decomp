@@ -24,30 +24,19 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
+extern void fn_8267BE38(int *);
 
-
-int * fn_826F8818(int *param_1,int *param_2)
-
+int *fn_826F8818(int *a, int *b)
 {
-  int *piVar1;
-  uint *puVar2;
-  uint uVar3;
-  
-  piVar1 = (int *)*param_2;
-  if (piVar1 != (int *)0x0) {
-    *piVar1 = *piVar1 + 1;
+  int rb = *b;
+  int *ra;
+  if (rb != 0) {
+    *(int *)rb = *(int *)rb + 1;
   }
-  puVar2 = (uint *)*param_1;
-  if (puVar2 != (uint *)0x0) {
-    uVar3 = *puVar2;
-    *puVar2 = (uint)((ulonglong)uVar3 - 1);
-    if ((ulonglong)uVar3 - 1 == 0) {
-      fn_8267BE38();
-    }
+  ra = (int *)*a;
+  if (ra != 0) {
+    if (--*ra == 0) fn_8267BE38(ra);
   }
-  *param_1 = *param_2;
-  return param_1;
+  *a = *b;
+  return a;
 }
-

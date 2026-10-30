@@ -24,29 +24,20 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82917B48();
+typedef struct Obj_82917D28 {
+  char pad[0x14];
+  void **items;
+  unsigned count;
+} Obj_82917D28;
 
+extern int fn_82917B48(void *, int, int);
 
-undefined8 fn_82917D28(int param_1,undefined8 param_2)
-
+int fn_82917D28(Obj_82917D28 *o, int a)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x18) != 0) {
-    iVar3 = 0;
-    do {
-      uVar1 = fn_82917B48(*(undefined4 *)(*(int *)(param_1 + 0x14) + iVar3),param_2,0);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < *(uint *)(param_1 + 0x18));
+  unsigned i;
+  for (i = 0; i < o->count; i++) {
+    int hr = fn_82917B48(o->items[i], a, 0);
+    if (hr < 0) return hr;
   }
   return 0;
 }
-

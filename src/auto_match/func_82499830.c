@@ -24,37 +24,31 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82491E88();
-extern int fn_82492818();
-extern int fn_82499730();
-extern int fn_82499E30();
-extern unsigned int lbl_821BEBB8;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern char lbl_821BEBB8[];
+typedef struct Obj_82499830 {
+  void *vt;
+  char pad[0x4c];
+  char sub[0x30];
+} Obj_82499830;
+extern void *fn_82492818(void *, void *, int, void *, void *, int, int, __vector4);
+extern void *fn_82499E30(void *, int *);
+extern void fn_82499730(void *, void *);
+extern void fn_82491E88(void *);
 
-void fn_82499830(int param_1,undefined8 param_2,undefined4 param_3,int param_4)
-
+void fn_82499830(char *p, int unused, int v, int flag)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined4 uStack00000024;
-  undefined **appuStack_a0 [20];
-  undefined1 auStack_50 [56];
-  
-  if (param_4 != 0) {
-    iVar1 = *(int *)(*(int *)(param_1 + 0xc0) + 0x118);
-    uStack00000024 = param_3;
-    uVar2 = fn_82492818(appuStack_a0,iVar1 + 0x36c,param_3,iVar1 + 0x160,iVar1 + 0x1e0,
-                              *(undefined4 *)(iVar1 + 0xb4),*(undefined4 *)(iVar1 + 0x2ec));
-    uVar3 = fn_82499E30(param_1 + 0x90,&stack0x00000024);
-    fn_82499730(uVar3,uVar2);
-    appuStack_a0[0] = &lbl_821BEBB8;
-    fn_82491E88(auStack_50);
+  if (flag != 0) {
+    Obj_82499830 buf;
+    char *q = *(char **)(*(char **)(p + 0xc0) + 0x118);
+    void *r = fn_82492818(&buf, q + 0x36c, v, q + 0x160, q + 0x1e0, *(int *)(q + 0xb4),
+                          *(int *)(q + 0x2ec), *(__vector4 *)(q + 0xa0));
+    void *t = fn_82499E30(p + 0x90, &v);
+    fn_82499730(t, r);
+    buf.vt = lbl_821BEBB8;
+    fn_82491E88(buf.sub);
   }
-  return;
 }
-
