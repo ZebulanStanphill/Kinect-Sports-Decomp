@@ -1,64 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
 extern int fn_822315A0();
 extern int fn_82273C88();
 extern int fn_82273CD8();
-extern int fn_82279C58();
+extern unsigned int *fn_82279C58();
 extern int fn_8227BA18();
 extern int fn_82672C20();
-extern unsigned int iStack_18;
-extern unsigned int iStack_2c;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
 
+typedef struct { int ptr; unsigned int rep; int pad[2]; int a; int b; int c; } Frame;
 
-void fn_822A3370(undefined8 param_1)
-
+void fn_822A3370(int param_1)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  int iStack_18;
-  
+  Frame f;
+  unsigned int *p;
   fn_8227BA18();
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  fn_82273CD8(&stack_pair_20.first,5);
-  iStack_18 = (int)param_1 + 0x1188;
-  puVar1 = (undefined4 *)fn_82279C58(auStack_30,param_1);
-  fn_82672C20(*puVar1,0xffffffff821abff8,&stack_pair_20.first,1);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  f.a = 0;
+  f.b = 0;
+  fn_82273CD8(&f.a, 5);
+  f.c = param_1 + 0x1188;
+  p = fn_82279C58(&f, param_1);
+  fn_82672C20(*p, "_root.mainCtrl.setVerdict", &f.a, 1);
+  if (f.rep != 0) {
+    fn_822315A0(f.rep);
   }
-  fn_82273C88(&stack_pair_20.first);
-  return;
+  fn_82273C88(&f.a);
 }
-

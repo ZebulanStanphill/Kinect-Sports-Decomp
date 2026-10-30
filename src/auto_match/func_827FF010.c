@@ -1,50 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char p[0x1c]; unsigned char f[4]; } Flags;
+typedef struct { char p[0x30]; Flags *fl; } Inner;
+typedef struct { Inner *in; } Obj;
 
-
-double fn_827FF010(int *param_1,float *param_2)
-
+float fn_827FF010(Obj *o, float *param_2)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(*param_1 + 0x30);
-  if (*(char *)(iVar1 + 0x1c) != '\0') {
-    param_2 = param_2 + 1;
-  }
-  if (*(char *)(iVar1 + 0x1d) != '\0') {
-    param_2 = param_2 + 1;
-  }
-  if (*(char *)(iVar1 + 0x1e) != '\0') {
-    param_2 = param_2 + 1;
-  }
-  if (*(char *)(iVar1 + 0x1f) != '\0') {
-    param_2 = param_2 + 1;
-  }
-  return (double)*param_2;
+  Flags *fl = o->in->fl;
+  float *p = param_2;
+  if (fl->f[0] != 0) p++;
+  if (fl->f[1] != 0) p++;
+  if (fl->f[2] != 0) p++;
+  if (fl->f[3] != 0) p++;
+  return *p;
 }
-

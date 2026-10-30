@@ -1,52 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82020F10;
+extern float lbl_82020F10;
 
+typedef struct { int p0; int a4; int a8; int ac; int a10; int p14; int a18; int a1c; int a20; float a24; int a28; int a2c; } Obj;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-undefined8
-fn_828661C8(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 in_stack_00000054, undefined4 in_stack_0000005c)
-
+int fn_828661C8(Obj *o, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int s54, int s5c)
 {
-
-
-  
-  *(undefined4 *)(param_1 + 0x24) = lbl_82020F10;
-  *(undefined4 *)(param_1 + 4) = param_2;
-  *(undefined4 *)(param_1 + 8) = param_3;
-  *(undefined4 *)(param_1 + 0xc) = param_4;
-  *(undefined4 *)(param_1 + 0x10) = param_5;
-  *(undefined4 *)(param_1 + 0x18) = param_6;
-  *(undefined4 *)(param_1 + 0x1c) = param_7;
-  *(undefined4 *)(param_1 + 0x20) = param_8;
-  *(undefined4 *)(param_1 + 0x28) = in_stack_00000054;
-  *(undefined4 *)(param_1 + 0x2c) = in_stack_0000005c;
+  o->a24 = lbl_82020F10;
+  o->a4 = p2;
+  o->a8 = p3;
+  o->ac = p4;
+  o->a10 = p5;
+  o->a18 = p6;
+  o->a1c = p7;
+  o->a20 = p8;
+  o->a28 = s54;
+  o->a2c = s5c;
   return 0;
 }
-

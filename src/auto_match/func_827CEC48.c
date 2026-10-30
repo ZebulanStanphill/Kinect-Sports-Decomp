@@ -1,126 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_827C1AF8();
 extern int fn_827CEA30();
 
+typedef struct jci jci;
+typedef struct { void *pad; void (*color_convert)(jci *, void *, void *, unsigned int, int); } Conv;
+typedef struct { void *pad; void (*downsample)(jci *, void *, unsigned int, void *, unsigned int); } Down;
+typedef struct {
+  char p0[8];
+  void *color_buf[10];
+  unsigned int rows_to_go;
+  int next_buf_row;
+  int this_row_group;
+  int next_buf_stop;
+} Prep;
+struct jci {
+  char p0[0x1c];
+  unsigned int image_width;
+  unsigned int image_height;
+  char p24[0x3c - 0x24];
+  int num_components;
+  char p40[0xdc - 0x40];
+  int max_v_samp_factor;
+  char pe0[0x144 - 0xe0];
+  Prep *prep;
+  char p148[0x150 - 0x148];
+  Conv *cconvert;
+  Down *downsample;
+};
 
-void fn_827CEC48(int param_1,longlong param_2,uint *param_3,ulonglong param_4,undefined8 param_5,
-                  uint *param_6,uint param_7)
-
+void fn_827CEC48(jci *cinfo, void **input_buf, unsigned int *in_row_ctr, unsigned int in_rows_avail,
+                 void *output_buf, unsigned int *out_row_group_ctr, unsigned int out_row_groups_avail)
 {
-  uint uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  longlong lVar7;
-  int iVar8;
-  undefined4 *puVar9;
-  ulonglong uVar10;
-  
-  uVar1 = *param_6;
-  iVar2 = *(int *)(param_1 + 0x144);
-  iVar6 = *(int *)(param_1 + 0xdc) * 3;
-  do {
-    if (param_7 <= uVar1) {
-      return;
-    }
-    uVar1 = *param_3;
-    if ((ulonglong)uVar1 < (param_4 & 0xffffffff)) {
-      uVar3 = param_4 - uVar1;
-      uVar10 = (ulonglong)*(uint *)(iVar2 + 0x3c) - (ulonglong)*(uint *)(iVar2 + 0x34);
-      if ((uVar3 & 0xffffffff) <= (uVar10 & 0xffffffff)) {
-        uVar10 = uVar3;
-      }
-      puVar9 = (undefined4 *)(iVar2 + 8);
-      (**(code **)(*(int *)(param_1 + 0x150) + 4))
-                (param_1,((ulonglong)uVar1 & 0x3fffffff) * 4 + param_2,puVar9,
-                 (ulonglong)*(uint *)(iVar2 + 0x34),uVar10);
-      if ((*(int *)(iVar2 + 0x30) == *(int *)(param_1 + 0x20)) &&
-         (iVar5 = 0, 0 < *(int *)(param_1 + 0x3c))) {
-        iVar4 = *(int *)(param_1 + 0xdc);
-        do {
-          iVar8 = 1;
-          if (0 < iVar4) {
-            lVar7 = -1;
-            do {
-              fn_827C1AF8(*puVar9,0,*puVar9,lVar7,1,*(undefined4 *)(param_1 + 0x1c));
-              iVar4 = *(int *)(param_1 + 0xdc);
-              iVar8 = iVar8 + 1;
-              lVar7 = lVar7 + -1;
-            } while (iVar8 <= iVar4);
-          }
-          iVar5 = iVar5 + 1;
-          puVar9 = puVar9 + 1;
-        } while (iVar5 < *(int *)(param_1 + 0x3c));
-      }
-      iVar4 = (int)uVar10;
-      *param_3 = *param_3 + iVar4;
-      iVar5 = *(int *)(iVar2 + 0x34) + iVar4;
-      *(int *)(iVar2 + 0x30) = *(int *)(iVar2 + 0x30) - iVar4;
-LAB_827cedd0:
-      *(int *)(iVar2 + 0x34) = iVar5;
-    }
-    else {
-      if (*(int *)(iVar2 + 0x30) != 0) {
-        return;
-      }
-      if (*(int *)(iVar2 + 0x34) < *(int *)(iVar2 + 0x3c)) {
-        iVar5 = 0;
-        if (0 < *(int *)(param_1 + 0x3c)) {
-          puVar9 = (undefined4 *)(iVar2 + 4);
-          do {
-            puVar9 = puVar9 + 1;
-            fn_827CEA30(*puVar9,*(undefined4 *)(param_1 + 0x1c),*(undefined4 *)(iVar2 + 0x34),
-                          *(undefined4 *)(iVar2 + 0x3c));
-            iVar5 = iVar5 + 1;
-          } while (iVar5 < *(int *)(param_1 + 0x3c));
-        }
-        iVar5 = *(int *)(iVar2 + 0x3c);
-        goto LAB_827cedd0;
-      }
-    }
-    if (*(int *)(iVar2 + 0x34) == *(int *)(iVar2 + 0x3c)) {
-      (**(code **)(*(int *)(param_1 + 0x154) + 4))
-                (param_1,iVar2 + 8,*(undefined4 *)(iVar2 + 0x38),param_5,*param_6);
-      *param_6 = *param_6 + 1;
-      iVar5 = *(int *)(param_1 + 0xdc) + *(int *)(iVar2 + 0x38);
-      *(int *)(iVar2 + 0x38) = iVar5;
-      if (iVar6 <= iVar5) {
-        *(undefined4 *)(iVar2 + 0x38) = 0;
-      }
-      if (iVar6 <= *(int *)(iVar2 + 0x34)) {
-        *(undefined4 *)(iVar2 + 0x34) = 0;
-      }
-      *(int *)(iVar2 + 0x3c) = *(int *)(param_1 + 0xdc) + *(int *)(iVar2 + 0x34);
-    }
-    uVar1 = *param_6;
-  } while( true );
-}
+  Prep *prep = cinfo->prep;
+  int numrows, ci, i;
+  unsigned int inrows;
+  int buf_height = cinfo->max_v_samp_factor * 3;
 
+  while (*out_row_group_ctr < out_row_groups_avail) {
+    if (*in_row_ctr < in_rows_avail) {
+      inrows = in_rows_avail - *in_row_ctr;
+      numrows = prep->next_buf_stop - prep->next_buf_row;
+      numrows = (unsigned int)numrows < inrows ? numrows : inrows;
+      (*cinfo->cconvert->color_convert)(cinfo, input_buf + *in_row_ctr, prep->color_buf, prep->next_buf_row, numrows);
+      if (prep->rows_to_go == cinfo->image_height) {
+        for (ci = 0; ci < cinfo->num_components; ci++) {
+          for (i = 1; i <= cinfo->max_v_samp_factor; i++) {
+            fn_827C1AF8(prep->color_buf[ci], 0, prep->color_buf[ci], -i, 1, cinfo->image_width);
+          }
+        }
+      }
+      *in_row_ctr += numrows;
+      prep->next_buf_row += numrows;
+      prep->rows_to_go -= numrows;
+    } else {
+      if (prep->rows_to_go != 0) return;
+      if (prep->next_buf_row < prep->next_buf_stop) {
+        for (ci = 0; ci < cinfo->num_components; ci++) {
+          fn_827CEA30(prep->color_buf[ci], cinfo->image_width, prep->next_buf_row, prep->next_buf_stop);
+        }
+        prep->next_buf_row = prep->next_buf_stop;
+      }
+    }
+    if (prep->next_buf_row == prep->next_buf_stop) {
+      (*cinfo->downsample->downsample)(cinfo, prep->color_buf, prep->this_row_group, output_buf, *out_row_group_ctr);
+      (*out_row_group_ctr)++;
+      prep->this_row_group += cinfo->max_v_samp_factor;
+      if (prep->this_row_group >= buf_height) prep->this_row_group = 0;
+      if (prep->next_buf_row >= buf_height) prep->next_buf_row = 0;
+      prep->next_buf_stop = prep->next_buf_row + cinfo->max_v_samp_factor;
+    }
+  }
+}

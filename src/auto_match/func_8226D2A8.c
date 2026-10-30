@@ -1,52 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82356F98();
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
+typedef struct { char p0[8]; int a8; int ac; float a10; int a14; int a18; int a1c; int a20; int a24; short a28; char p2a[0x828 - 0x2a]; short a828; char p82a[0x1028 - 0x82a]; char a1028; } Obj;
 
-int fn_8226D2A8(int param_1)
-
+Obj *fn_8226D2A8(Obj *o)
 {
-  undefined4 uVar1;
-  
+  float f;
   fn_82356F98();
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 8) = 1;
-  uVar1 = lbl_821CC160;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x10) = uVar1;
-  *(undefined4 *)(param_1 + 0x18) = 1;
-  *(undefined4 *)(param_1 + 0x1c) = 3;
-  *(undefined4 *)(param_1 + 0x20) = 3;
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  *(undefined2 *)(param_1 + 0x28) = 0;
-  *(undefined2 *)(param_1 + 0x828) = 0;
-  *(undefined1 *)(param_1 + 0x1028) = 0;
-  return param_1;
+  o->ac = 0;
+  o->a8 = 1;
+  f = lbl_821CC160;
+  o->a14 = 0;
+  o->a10 = f;
+  o->a18 = 1;
+  o->a1c = 3;
+  o->a20 = 3;
+  o->a24 = 0;
+  o->a28 = 0;
+  o->a828 = 0;
+  o->a1028 = 0;
+  return o;
 }
-

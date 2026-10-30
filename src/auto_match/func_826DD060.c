@@ -35,20 +35,18 @@ void fn_826DD060(int *param_1,undefined8 param_2,int *param_3)
 {
   undefined4 *puVar1;
   int iVar2;
-  int iVar3;
+  unsigned int iVar3;
   undefined4 *puVar4;
-  ulonglong uVar5;
+  unsigned int uVar5;
   longlong lVar6;
   
   puVar1 = (undefined4 *)*param_3;
   iVar3 = 4;
   uVar5 = 0x1505;
-  lVar6 = 4;
   do {
-    iVar3 = iVar3 + -1;
-    uVar5 = (ulonglong)*(byte *)((int)puVar1 + iVar3) + (longlong)(int)uVar5 * 0x1003f;
-    lVar6 = lVar6 + -1;
-  } while (lVar6 != 0);
+    iVar3 = iVar3 - 1;
+    uVar5 = (*(unsigned char **)param_3)[iVar3] + uVar5 * 0x1003f;
+  } while (iVar3 != 0);
   iVar3 = *param_1;
   if ((iVar3 == 0) ||
      (iVar2 = fn_826D8938(param_1,param_3,*(uint *)(iVar3 + 4) & uVar5), iVar2 < 0)) {

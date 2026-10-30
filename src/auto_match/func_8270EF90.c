@@ -1,63 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826C3378();
 
+typedef struct { int pad[2]; unsigned int rc; } Rc;
+typedef struct { Rc *a0; unsigned int a4; char a8; int ac; int a10; Rc *a14; int a18; int a1c; int a20; int a24; __int64 a28; int a30; int a34; char a38; char a39; } Obj;
+typedef struct { Rc *a0; unsigned int a4; unsigned char a8; } Src;
+typedef struct { int pad[2]; Rc *rc; } In;
+typedef struct { In *p; } Ref;
 
-int * fn_8270EF90(int *param_1,int *param_2,int *param_3)
-
+Obj *fn_8270EF90(Obj *o, Src *s, Ref *r)
 {
-  int iVar1;
-  
-  *(undefined1 *)(param_1 + 2) = 0;
-  iVar1 = *param_2;
-  *param_1 = iVar1;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
+  Rc *rc;
+  Rc *p;
+  o->a8 = 0;
+  p = s->a0;
+  o->a0 = p;
+  if (p != 0) {
+    p->rc = (p->rc + 1) & 0x8fffffff;
   }
-  param_1[1] = 0;
-  if (param_2[1] != 0) {
-    fn_826C3378(param_1,param_2[1],*(byte *)(param_2 + 2) & 1);
+  o->a4 = 0;
+  if (s->a4 != 0) {
+    fn_826C3378(o, s->a4, s->a8 & 1);
   }
-  param_1[3] = 0;
-  param_1[4] = 0;
-  iVar1 = *(int *)(*param_3 + 8);
-  param_1[5] = iVar1;
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  *(undefined1 *)(param_1 + 0xe) = 1;
-  *(undefined1 *)((int)param_1 + 0x39) = 0;
-  return param_1;
+  o->a10 = 0;
+  o->ac = 0;
+  rc = r->p->rc;
+  o->a14 = rc;
+  rc->rc = rc->rc + 1;
+  o->a18 = 0;
+  o->a1c = 0;
+  o->a20 = 0;
+  o->a24 = 0;
+  o->a28 = 0;
+  o->a30 = 0;
+  o->a34 = 0;
+  o->a38 = 1;
+  o->a39 = 0;
+  return o;
 }
-
