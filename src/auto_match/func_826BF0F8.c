@@ -23,26 +23,22 @@ typedef unsigned __int64 U64;
 typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826AA6A8();
 
-
-undefined4 * fn_826BF0F8(undefined4 *param_1,int *param_2,int *param_3)
-
+unsigned int *fn_826BF0F8(unsigned int *param_1, unsigned int **param_2, unsigned int **param_3)
 {
-  longlong lVar1;
-  
-  if ((*param_2 == 0) ||
-     (lVar1 = fn_826AA6A8(param_2,param_3,*(uint *)(*param_3 + 0xc) & *(uint *)(*param_2 + 4)),
-     lVar1 < 0)) {
-    lVar1 = 0;
-    *param_1 = 0;
+  int r;
+  if (*param_2 != 0) {
+    unsigned int n = (*param_2)[1];
+    r = fn_826AA6A8(param_2, param_3, n & (*param_3)[3]);
+    if (r >= 0) {
+      param_1[0] = (unsigned int)param_2;
+      param_1[1] = r;
+      return param_1;
+    }
   }
-  else {
-    *param_1 = param_2;
-  }
-  param_1[1] = (int)lVar1;
+  r = 0;
+  param_1[0] = 0;
+  param_1[1] = r;
   return param_1;
 }
-

@@ -25,39 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82695FA0();
-extern int fn_826A8E58();
-extern int fn_826C0FB8();
+
+typedef struct { unsigned int **p; unsigned int idx; } It826C;
+typedef struct { int **key; int *val; } Pr826C;
+extern void fn_826C0FB8(It826C *, void *, int *);
 extern int fn_826C23D0();
 extern int fn_826C3768();
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
+extern int fn_82695FA0();
+extern unsigned char fn_826A8E58();
 
-
-void fn_826C2BA8(undefined8 param_1,int *param_2,longlong param_3)
-
+void fn_826C2BA8(void *self, int *key, int *val)
 {
-  char cVar1;
-  longlong lVar2;
-  uint *puStack_30;
-  uint uStack_2c;
-  int *piStack_28;
-  undefined4 uStack_24;
-  
-  fn_826C0FB8(&puStack_30,param_1,param_2);
-  piStack_28 = (int *)0x0;
-  uStack_24 = 0;
-  cVar1 = fn_826A8E58(&puStack_30,&piStack_28);
-  if (cVar1 == '\0') {
-    lVar2 = (ulonglong)uStack_2c * 0x30 + (ulonglong)*puStack_30;
-    fn_826C3768(lVar2 + 0x18,param_3);
-    fn_82695FA0(lVar2 + 0x28,param_3 + 0x10);
+  struct { It826C it; Pr826C k; } L;
+  char *e;
+  fn_826C0FB8(&L.it, self, key);
+  L.k.key = 0;
+  L.k.val = 0;
+  if (fn_826A8E58(&L.it, &L.k) == 0) {
+    e = (char *)(L.it.idx * 0x30 + (unsigned)*L.it.p) + 0x18;
+    fn_826C3768(e, val);
+    fn_82695FA0(e + 0x10, val + 4);
+  } else {
+    L.k.key = (int **)key;
+    L.k.val = val;
+    fn_826C23D0(self, self, &L.k, *(int *)(*key + 0xc));
   }
-  else {
-    uStack_24 = (undefined4)param_3;
-    piStack_28 = param_2;
-    fn_826C23D0(param_1,param_1,&piStack_28,*(undefined4 *)(*param_2 + 0xc));
-  }
-  return;
 }
-

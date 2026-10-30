@@ -25,27 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B4B410();
-
-
-int fn_82B503A8(uint *param_1)
-
+typedef struct N_82B503A8 { int a, b; int count; unsigned cap; char data[1]; } N_82B503A8;
+extern N_82B503A8 *fn_82B4B410(unsigned *p, int x);
+char *fn_82B503A8(unsigned *p)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  
-  if ((param_1[1] & 1) == 0) {
-    uVar2 = *param_1 & 0xfffffffe;
-    iVar3 = uVar2 - 4;
-    if (iVar3 != 0) {
-      if (*(int *)(uVar2 + 4) + 1U <= *(uint *)(uVar2 + 8)) goto LAB_82b503f0;
-    }
+  N_82B503A8 *n;
+  char *e;
+  if ((p[1] & 1) == 0) {
+    n = (N_82B503A8 *)((*p & 0xfffffffe) - 4);
+    if (n != 0 && (unsigned)(n->count + 1) <= n->cap) goto ok;
   }
-  iVar3 = fn_82B4B410(param_1,1);
-LAB_82b503f0:
-  iVar1 = *(int *)(iVar3 + 8);
-  *(int *)(iVar3 + 8) = iVar1 + 1;
-  return iVar1 * 0xc + iVar3 + 0x10;
+  n = fn_82B4B410(p, 1);
+ok:
+  e = n->data + n->count * 12;
+  n->count++;
+  return e;
 }
-

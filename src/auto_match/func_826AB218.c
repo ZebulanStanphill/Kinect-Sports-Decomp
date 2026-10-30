@@ -25,24 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826A9D30();
 
+typedef struct A_826AB218 { int p0; unsigned mask; } A_826AB218;
+typedef struct B_826AB218 { char p0[0xc]; unsigned m; } B_826AB218;
+typedef struct R_826AB218 { void *obj; int hr; } R_826AB218;
+extern int fn_826A9D30(void *, void *, unsigned);
 
-undefined4 * fn_826AB218(undefined4 *param_1,int *param_2,int *param_3)
-
+R_826AB218 *fn_826AB218(R_826AB218 *r, A_826AB218 **a, B_826AB218 **b)
 {
-  longlong lVar1;
-  
-  if ((*param_2 == 0) ||
-     (lVar1 = fn_826A9D30(param_2,param_3,*(uint *)(*param_3 + 0xc) & *(uint *)(*param_2 + 4)),
-     lVar1 < 0)) {
-    lVar1 = 0;
-    *param_1 = 0;
+  int hr;
+  if (*a != 0) {
+    { unsigned am = (*a)->mask; unsigned bm = (*b)->m; hr = fn_826A9D30(a, b, am & bm); }
+    if (hr >= 0) { r->obj = a; r->hr = hr; return r; }
   }
-  else {
-    *param_1 = param_2;
-  }
-  param_1[1] = (int)lVar1;
-  return param_1;
+  r->obj = 0;
+  r->hr = 0;
+  return r;
 }
-

@@ -25,33 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822A0C98();
-extern int fn_82396230();
-extern unsigned int lbl_821917B0;
 
+extern int fn_822A0C98(int);
+extern void fn_82396230();
+extern float lbl_821917A8[];
+typedef struct { char q[0x40]; unsigned st; } Sub;
+typedef struct { char p0[0xa0]; int a0; char p1[0xd4-0xa4]; int d4; char p2[0x178-0xd8]; int m178; char p3[0xbc4-0x17c]; float m_bc4; } Obj;
 
-undefined8 fn_823969B0(double param_1,int param_2)
-
+int fn_823969B0(Obj *o, float dt)
 {
-  int iVar1;
-  
-  *(float *)(param_2 + 0xbc4) = (float)(param_1 + (double)*(float *)(param_2 + 0xbc4));
+  o->m_bc4 += dt;
   fn_82396230();
-  if ((*(int *)(param_2 + 0xa0) == 0) || (*(int *)(*(int *)(param_2 + 0xa0) + 0x40) != 1)) {
-    if (*(int *)(param_2 + 0x178) == 0) {
-      iVar1 = fn_822A0C98(*(undefined4 *)(param_2 + 0xd4));
-      if (iVar1 != 0) {
-        return 0;
-      }
-      return 1;
-    }
+  if (o->a0 != 0 && ((Sub*)o->a0)->st == 1) {
+    if (fn_822A0C98(o->d4) == 0 && o->m_bc4 > lbl_821917A8[2]) return 1;
+  } else {
+    if (o->m178 != 0) return 1;
+    if (fn_822A0C98(o->d4) == 0) return 1;
   }
-  else {
-    iVar1 = fn_822A0C98(*(undefined4 *)(param_2 + 0xd4));
-    if ((iVar1 != 0) || (*(float *)(param_2 + 0xbc4) <= lbl_821917B0)) {
-      return 0;
-    }
-  }
-  return 1;
+  return 0;
 }
-

@@ -21,40 +21,32 @@ typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
 typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char p0[0x10]; unsigned flags; } Flg_82814480;
+typedef struct { char p0[0x51]; unsigned char count; char p1[10]; void *a5c; char p2[0x10]; void *a70; } Inner_82814480;
+typedef struct {
+  char p0[0x10]; unsigned flags; char p1[0x8];
+  Inner_82814480 *inner; Flg_82814480 *f20; char p2[0xc]; char *tab;
+} Obj_82814480;
 
-
-void fn_82814480(int param_1,code *param_2)
-
+void fn_82814480(Obj_82814480 *o, void (*cb)(void *))
 {
-  uint uVar1;
-  
-  if ((*(int *)(param_1 + 0x20) != 0) &&
-     ((*(uint *)(*(int *)(param_1 + 0x20) + 0x10) & 0x4000) != 0)) {
-    (*param_2)();
+  unsigned i; void *v; Flg_82814480 *f;
+  f = o->f20;
+  if (f != 0 && (f->flags & 0x4000) != 0) {
+    cb(f);
   }
-  if (((*(uint *)(param_1 + 0x10) & 0x100) != 0) &&
-     (*(char *)(*(int *)(param_1 + 0x1c) + 0x51) != '\0')) {
-    uVar1 = 0;
+  if ((o->flags & 0x100) != 0 && o->inner->count != 0) {
+    i = 0;
     do {
-      if (*(int *)(uVar1 * 0x21 + *(int *)(param_1 + 0x30) + 0xd) != 0) {
-        (*param_2)();
-      }
-      uVar1 = uVar1 + 1 & 0xff;
-    } while (uVar1 < *(byte *)(*(int *)(param_1 + 0x1c) + 0x51));
+      v = *(void **)(i * 0x21 + o->tab + 0xd);
+      if (v != 0) cb(v);
+      i = (i + 1) & 0xff;
+    } while (i < o->inner->count);
   }
-  if ((*(uint *)(param_1 + 0x10) & 0x20) != 0) {
-    (*param_2)(*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x5c));
-    if (*(int *)(*(int *)(param_1 + 0x1c) + 0x70) != 0) {
-      (*param_2)();
-    }
+  if ((o->flags & 0x20) != 0) {
+    cb(o->inner->a5c);
+    v = o->inner->a70;
+    if (v != 0) cb(v);
   }
-  if ((*(uint *)(param_1 + 0x10) & 0x10) != 0) {
-    (*param_2)(param_1);
-  }
-  return;
+  if ((o->flags & 0x10) != 0) cb(o);
 }
-

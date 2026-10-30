@@ -25,40 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A28568();
-extern int fn_82A2A360();
 
 
-undefined8 fn_82E2DD28(int *param_1,int *param_2)
-
+typedef struct Node_82E2DD28 { int pad0; int pad1; struct Node_82E2DD28 *next; int pad3; } Node_82E2DD28;
+typedef struct Block_82E2DD28 { struct Block_82E2DD28 *next; Node_82E2DD28 nodes[1]; } Block_82E2DD28;
+typedef struct Pool_82E2DD28 { Node_82E2DD28 *free; Block_82E2DD28 *blocks; unsigned count; } Pool_82E2DD28;
+extern void *fn_82A2A360(void);
+extern void *fn_82A28568(void *, int, unsigned);
+static __forceinline unsigned pcount(Pool_82E2DD28 *p) { return p->count; }
+int fn_82E2DD28(Pool_82E2DD28 *pool, Node_82E2DD28 **out)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  uint uVar3;
-  int *piVar4;
-  
-  if (*param_1 == 0) {
-    uVar3 = param_1[2];
-    uVar1 = fn_82A2A360();
-    piVar2 = (int *)fn_82A28568(uVar1,0,((ulonglong)uVar3 - 1 & 0xfffffff) * 0x10 + 0x14);
-    if (piVar2 == (int *)0x0) {
-      return 0xffffffff8007000e;
+  Block_82E2DD28 *blk;
+  Node_82E2DD28 *n;
+  unsigned i;
+  if (pool->free == 0) {
+    unsigned cnt = pool->count;
+    blk = (Block_82E2DD28 *)fn_82A28568(fn_82A2A360(), 0, (cnt - 1) * 16 + 0x14);
+    if (blk == 0) return (int)0x8007000e;
+    for (i = 0; i < pcount(pool); i++) {
+      n = blk->nodes + i;
+      n->next = pool->free;
+      pool->free = n;
     }
-    uVar3 = 0;
-    if (param_1[2] != 0) {
-      piVar4 = piVar2 + 1;
-      do {
-        uVar3 = uVar3 + 1;
-        piVar4[2] = *param_1;
-        *param_1 = (int)piVar4;
-        piVar4 = piVar4 + 4;
-      } while (uVar3 < (uint)param_1[2]);
-    }
-    *piVar2 = param_1[1];
-    param_1[1] = (int)piVar2;
+    blk->next = pool->blocks;
+    pool->blocks = blk;
   }
-  *param_2 = *param_1;
-  *param_1 = *(int *)(*param_1 + 8);
+  *out = pool->free;
+  pool->free = pool->free->next;
   return 0;
 }
-

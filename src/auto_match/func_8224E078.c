@@ -25,125 +25,103 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_100;
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_140;
-extern unsigned int *auStack_160;
-extern unsigned int *auStack_180;
-extern unsigned int *auStack_1a0;
-extern unsigned int *auStack_1c0;
-extern unsigned int *auStack_1e0;
-extern unsigned int *auStack_200;
-extern unsigned int *auStack_220;
-extern unsigned int *auStack_240;
-extern unsigned int *auStack_260;
-extern unsigned int *auStack_dc;
-extern unsigned int *auStack_e0;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_8223CFC0();
-extern int fn_8223DCC8();
-extern int fn_82240158();
-extern int fn_822403C8();
-extern int fn_82520AC8();
-extern int fn_82897DF8();
-extern int fn_828A9C98();
-extern int fn_828EA268();
 
+typedef struct Str_8224E078 { char b[32]; } Str_8224E078;
+typedef struct SS_8224E078 { int pad4; char buf[156]; } SS_8224E078;
+extern void fn_828A9C98(void);
+extern void fn_82230110(Str_8224E078 *s, const char *text);
+extern void fn_82230300(Str_8224E078 *s, int built, unsigned int new_size);
+extern void fn_82897DF8(void *, void *, void *);
+extern void fn_8223CFC0(void *ss, int mode, int x);
+extern void *fn_82240158(void *os, const char *s);
+extern void *fn_82520AC8(void *os, int c);
+extern void fn_822403C8(void *out, void *buf);
+extern void fn_8223DCC8(void *ss);
+extern int fn_828EA268(unsigned);
 
-void fn_8224E078(int param_1)
-
+static __forceinline void Ini1(char *s, unsigned v)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  ulonglong uVar3;
-  undefined1 *puVar4;
-  undefined1 auStack_260 [32];
-  undefined1 auStack_240 [32];
-  undefined1 auStack_220 [32];
-  undefined1 auStack_200 [32];
-  undefined1 auStack_1e0 [32];
-  undefined1 auStack_1c0 [32];
-  undefined1 auStack_1a0 [32];
-  undefined1 auStack_180 [32];
-  undefined1 auStack_160 [32];
-  undefined1 auStack_140 [32];
-  undefined1 auStack_120 [32];
-  undefined1 auStack_100 [32];
-  undefined1 auStack_e0 [4];
-  undefined1 auStack_dc [220];
-  
-  fn_828A9C98();
-  fn_82230110(auStack_240,0xffffffff82197ba4);
-  fn_82897DF8(param_1 + 0x354,param_1,auStack_240);
-  fn_82230300(auStack_240,1,0);
-  fn_82230110(auStack_180,0xffffffff82197ba4);
-  fn_82897DF8(param_1 + 0x854,param_1,auStack_180);
-  fn_82230300(auStack_180,1,0);
-  puVar4 = (undefined1 *)(param_1 + 0x404);
-  uVar3 = 0;
-  do {
-    fn_8223CFC0(auStack_e0,2,1);
-    uVar1 = fn_82240158(auStack_e0,0xffffffff82197bb4);
-    fn_82520AC8(uVar1,uVar3);
-    fn_822403C8(auStack_200,auStack_dc);
-    *(undefined4 *)(puVar4 + -0x4c) = 0;
-    *puVar4 = 1;
-    *(undefined4 *)(puVar4 + 4) = 0;
-    *(undefined4 *)(puVar4 + 8) = 0xffffffff;
-    uVar2 = fn_828EA268(0xffffffffffffffff);
-    *(undefined4 *)(puVar4 + 0xc) = uVar2;
-    fn_82897DF8(puVar4 + -0x58,param_1,auStack_200);
-    fn_82230300(auStack_200,1,0);
-    fn_822403C8(auStack_100,auStack_dc);
-    *(undefined4 *)(puVar4 + 0x4b4) = 0;
-    puVar4[0x500] = 1;
-    *(undefined4 *)(puVar4 + 0x504) = 0;
-    *(undefined4 *)(puVar4 + 0x508) = 0xffffffff;
-    uVar2 = fn_828EA268(0xffffffffffffffff);
-    *(undefined4 *)(puVar4 + 0x50c) = uVar2;
-    fn_82897DF8(puVar4 + 0x4a8,param_1,auStack_100);
-    fn_82230300(auStack_100,1,0);
-    fn_8223DCC8(auStack_e0);
-    uVar3 = uVar3 + 1;
-    puVar4 = puVar4 + 0x68;
-  } while ((uVar3 & 0xffffffff) < 8);
-  fn_82230110(auStack_1c0,0xffffffff82197bc4);
-  fn_82897DF8(param_1 + 0x2fc,param_1,auStack_1c0);
-  fn_82230300(auStack_1c0,1,0);
-  fn_82230110(auStack_140,0xffffffff82197bd8);
-  fn_82897DF8(param_1 + 0x6ec,param_1,auStack_140);
-  fn_82230300(auStack_140,1,0);
-  fn_82230110(auStack_260,0xffffffff82197bf8);
-  fn_82897DF8(param_1 + 0x744,param_1,auStack_260);
-  fn_82230300(auStack_260,1,0);
-  fn_82230110(auStack_220,0xffffffff82197c08);
-  fn_82897DF8(param_1 + 0x79c,param_1,auStack_220);
-  fn_82230300(auStack_220,1,0);
-  fn_82230110(auStack_1e0,0xffffffff82197c14);
-  *(undefined1 *)(param_1 + 0x800) = 0;
-  *(undefined1 *)(param_1 + 0x84c) = 0;
-  *(undefined1 *)(param_1 + 0x84d) = 0xff;
-  uVar2 = fn_828EA268(0xff);
-  *(undefined4 *)(param_1 + 0x850) = uVar2;
-  fn_82897DF8(param_1 + 0x7f4,param_1,auStack_1e0);
-  fn_82230300(auStack_1e0,1,0);
-  fn_82230110(auStack_1a0,0xffffffff82197c24);
-  *(undefined1 *)(param_1 + 0xbf8) = 0;
-  fn_82897DF8(param_1 + 0xbec,param_1,auStack_1a0);
-  fn_82230300(auStack_1a0,1,0);
-  fn_82230110(auStack_160,0xffffffff82197c40);
-  *(undefined1 *)(param_1 + 0xc9c) = 0;
-  *(undefined1 *)(param_1 + 0xc50) = 2;
-  *(undefined1 *)(param_1 + 0xc9d) = 3;
-  uVar2 = fn_828EA268(3);
-  *(undefined4 *)(param_1 + 0xca0) = uVar2;
-  fn_82897DF8(param_1 + 0xc44,param_1,auStack_160);
-  fn_82230300(auStack_160,1,0);
-  fn_82230110(auStack_120,0xffffffff82197c50);
-  *(undefined1 *)(param_1 + 0xcb0) = 0;
-  fn_82897DF8(param_1 + 0xca4,param_1,auStack_120);
-  fn_82230300(auStack_120,1,0);
-  return;
+    *(int *)(s + 0xc) = 0;
+    *(unsigned char *)(s + 0x58) = 1;
+    *(int *)(s + 0x5c) = 0;
+    *(unsigned *)(s + 0x60) = v;
+    *(int *)(s + 0x64) = fn_828EA268(v);
 }
+static __forceinline void Ini2(char *s, int v)
+{
+  s[0xc] = 0;
+  s[0x58] = 0;
+  *(unsigned char *)(s + 0x59) = v;
+  *(int *)(s + 0x5c) = fn_828EA268(v);
+}
+static __forceinline void Ini3(char *s, int a, int v)
+{
+  s[0x58] = 0;
+  s[0xc] = a;
+  s[0x59] = v;
+  *(int *)(s + 0x5c) = fn_828EA268(v);
+}
+static __forceinline void Ini4(char *s)
+{
+  s[0xc] = 0;
+}
+void fn_8224E078(char *o)
+{
+  Str_8224E078 s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, sa, sb;
+  SS_8224E078 ss;
+  char *p;
+  unsigned i;
 
+  fn_828A9C98();
+  fn_82230110(&s0, "ProfileFlags");
+  fn_82897DF8(o + 0x354, o, &s0);
+  fn_82230300(&s0, 1, 0);
+  fn_82230110(&s1, "ProfileFlags");
+  fn_82897DF8(o + 0x854, o, &s1);
+  fn_82230300(&s1, 1, 0);
+  p = o + 0x404;
+  i = 0;
+  do {
+    fn_8223CFC0(&ss, 2, 1);
+    fn_82520AC8(fn_82240158(&ss, "ProfileCounter"), i);
+    fn_822403C8(&s2, ss.buf);
+    Ini1(p - 0x58, 0xffffffff);
+    fn_82897DF8(p - 0x58, o, &s2);
+    fn_82230300(&s2, 1, 0);
+    fn_822403C8(&s3, ss.buf);
+    Ini1(p + 0x4a8, 0xffffffff);
+    fn_82897DF8(p + 0x4a8, o, &s3);
+    fn_82230300(&s3, 1, 0);
+    fn_8223DCC8(&ss);
+    i++;
+    p += 0x68;
+  } while (i < 8);
+  fn_82230110(&s4, "XAvatar Metadata");
+  fn_82897DF8(o + 0x2fc, o, &s4);
+  fn_82230300(&s4, 1, 0);
+  fn_82230110(&s5, "XAvatar Metadata For Player 2");
+  fn_82897DF8(o + 0x6ec, o, &s5);
+  fn_82230300(&s5, 1, 0);
+  fn_82230110(&s6, "XUID Player 2");
+  fn_82897DF8(o + 0x744, o, &s6);
+  fn_82230300(&s6, 1, 0);
+  fn_82230110(&s7, "Gamertag 2");
+  fn_82897DF8(o + 0x79c, o, &s7);
+  fn_82230300(&s7, 1, 0);
+  fn_82230110(&s8, "User Index 2");
+  Ini2(o + 0x7f4, 0xff);
+  fn_82897DF8(o + 0x7f4, o, &s8);
+  fn_82230300(&s8, 1, 0);
+  fn_82230110(&s9, "All 2nd Profile vars sent");
+  { char *q = o + 0xbec; Ini4(q);
+  fn_82897DF8(q, o, &s9); }
+  fn_82230300(&s9, 1, 0);
+  fn_82230110(&sa, "Voice Privilege");
+  Ini3(o + 0xc44, 2, 3);
+  fn_82897DF8(o + 0xc44, o, &sa);
+  fn_82230300(&sa, 1, 0);
+  fn_82230110(&sb, "Global Mute");
+  { char *q = o + 0xca4; Ini4(q);
+  fn_82897DF8(q, o, &sb); }
+  fn_82230300(&sb, 1, 0);
+}

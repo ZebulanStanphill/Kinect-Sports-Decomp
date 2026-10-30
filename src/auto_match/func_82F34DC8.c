@@ -27,26 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82F34DC8(int *param_1,int param_2)
+struct O_82F34DC8;
+typedef struct VT_82F34DC8 { char p0[0x40]; int (*f40)(struct O_82F34DC8 *, int, unsigned); } VT_82F34DC8;
+typedef struct O_82F34DC8 { VT_82F34DC8 *vt; char p4[8]; void *f0c; char p10[0x12c]; int cnt; } O_82F34DC8;
 
+int fn_82F34DC8(O_82F34DC8 *o, unsigned p)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  if (param_1[3] == 0) {
-    uVar2 = 0xffffffffc00d36b6;
+  int hr;
+  if (o->f0c == 0) {
+    hr = 0xC00D36B6;
+  } else if (p == 0) {
+    hr = 0x80070057;
+  } else {
+    int n = o->cnt + 1; o->cnt = n; hr = o->vt->f40(o, n - 1, p);
+    if (hr < 0) { o->cnt = o->cnt - 1; }
   }
-  else if (param_2 == 0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    iVar1 = param_1[0x4f];
-    param_1[0x4f] = iVar1 + 1;
-    uVar2 = (**(code **)(*param_1 + 0x40))(param_1,iVar1);
-    if ((int)uVar2 < 0) {
-      param_1[0x4f] = param_1[0x4f] + -1;
-    }
-  }
-  return uVar2;
+  return hr;
 }
-

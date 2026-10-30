@@ -27,57 +27,35 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82DB4B60(int *param_1,int *param_2,int param_3)
 
+typedef struct Type_82DB4B60 { char p[0xe8]; unsigned char kind; } Type_82DB4B60;
+typedef struct Pair_82DB4B60 { int p0; Type_82DB4B60 *a; Type_82DB4B60 *b; } Pair_82DB4B60;
+typedef struct Item_82DB4B60 { char p[0x30]; Pair_82DB4B60 *pair; } Item_82DB4B60;
+typedef struct E_82DB4B60 { Item_82DB4B60 *item; int b, c; } E_82DB4B60;
+typedef struct V_82DB4B60 { E_82DB4B60 *data; int size; } V_82DB4B60;
+
+static char is45(unsigned char t) { if (t == 5 || t == 4) return 1; return 0; }
+
+void fn_82DB4B60(V_82DB4B60 *v, int *cnt, int n)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  bool bVar7;
-  int iVar8;
-  int iVar9;
-  undefined4 *puVar10;
-  
-  param_3 = param_1[1] - param_3;
-  if (param_3 < param_1[1]) {
-    iVar8 = param_3 * 0xc;
-    do {
-      iVar2 = *(int *)(*(int *)(*param_1 + iVar8) + 0x30);
-      cVar1 = *(char *)(*(int *)(iVar2 + 4) + 0xe8);
-      if ((cVar1 == '\x05') || (bVar7 = false, cVar1 == '\x04')) {
-        bVar7 = true;
-      }
-      if (bVar7) {
-code_r0x82db4be8:
-        iVar2 = *param_2;
-        *param_2 = iVar2 + 1;
-        iVar3 = *param_1;
-        iVar9 = iVar8 + iVar3;
-        puVar10 = (undefined4 *)(iVar2 * 0xc + iVar3);
-        uVar4 = puVar10[2];
-        uVar5 = *puVar10;
-        *puVar10 = *(undefined4 *)(iVar8 + iVar3);
-        uVar6 = puVar10[1];
-        puVar10[1] = *(undefined4 *)(iVar9 + 4);
-        puVar10[2] = *(undefined4 *)(iVar9 + 8);
-        *(undefined4 *)(iVar8 + iVar3) = uVar5;
-        *(undefined4 *)(iVar9 + 4) = uVar6;
-        *(undefined4 *)(iVar9 + 8) = uVar4;
-      }
-      else {
-        cVar1 = *(char *)(*(int *)(iVar2 + 8) + 0xe8);
-        if ((cVar1 == '\x05') || (bVar7 = false, cVar1 == '\x04')) {
-          bVar7 = true;
-        }
-        if (bVar7) goto code_r0x82db4be8;
-      }
-      param_3 = param_3 + 1;
-      iVar8 = iVar8 + 0xc;
-    } while (param_3 < param_1[1]);
+  int i;
+  for (i = v->size - n; i < v->size; i++) {
+    Pair_82DB4B60 *m = v->data[i].item->pair;
+    if (is45(m->a->kind) || is45(m->b->kind)) {
+      int k = (*cnt)++;
+      E_82DB4B60 *e;
+      E_82DB4B60 *g;
+      Item_82DB4B60 *a;
+      int b, c;
+      e = v->data + k;
+      g = v->data + i;
+      c = e->c;
+      a = e->item;
+      e->item = g->item;
+      b = e->b;
+      e->b = g->b;
+      e->c = g->c;
+      g->item = a; g->b = b; g->c = c;
+    }
   }
-  return;
 }
-

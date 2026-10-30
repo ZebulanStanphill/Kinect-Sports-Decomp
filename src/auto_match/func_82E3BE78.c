@@ -25,40 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A28568();
-extern int fn_82A2A360();
 
+typedef struct Cell_82E3BE78 { struct Cell_82E3BE78 *a; struct Cell_82E3BE78 *next; } Cell_82E3BE78;
+typedef struct Blk_82E3BE78 { struct Blk_82E3BE78 *link; Cell_82E3BE78 cells[1]; } Blk_82E3BE78;
+typedef struct Pool_82E3BE78 { Cell_82E3BE78 *free; Blk_82E3BE78 *blocks; unsigned count; } Pool_82E3BE78;
+extern void *fn_82A2A360(void);
+extern Blk_82E3BE78 *fn_82A28568(void *, int, unsigned);
 
-undefined8 fn_82E3BE78(int *param_1,int *param_2)
-
+int fn_82E3BE78(Pool_82E3BE78 *p, Cell_82E3BE78 **out)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  uint uVar3;
-  int *piVar4;
-  
-  if (*param_1 == 0) {
-    uVar3 = param_1[2];
-    uVar1 = fn_82A2A360();
-    piVar2 = (int *)fn_82A28568(uVar1,0,((ulonglong)uVar3 - 1 & 0x1fffffff) * 8 + 0xc);
-    if (piVar2 == (int *)0x0) {
-      return 0xffffffff8007000e;
-    }
-    uVar3 = 0;
-    if (param_1[2] != 0) {
-      piVar4 = piVar2 + 1;
+  Blk_82E3BE78 *blk; Cell_82E3BE78 *c; unsigned *pc = &p->count;
+  unsigned i;
+  if (p->free == 0) {
+    unsigned n = p->count;
+    blk = fn_82A28568(fn_82A2A360(), 0, (n - 1) * 8 + 0xc);
+    if (blk == 0) return 0x8007000e;
+    i = 0;
+    if (p->count > 0) {
+      c = blk->cells;
       do {
-        uVar3 = uVar3 + 1;
-        piVar4[1] = *param_1;
-        *param_1 = (int)piVar4;
-        piVar4 = piVar4 + 2;
-      } while (uVar3 < (uint)param_1[2]);
+        i++;
+        c->next = p->free;
+        p->free = c;
+        c++;
+      } while (i < *pc);
     }
-    *piVar2 = param_1[1];
-    param_1[1] = (int)piVar2;
+    blk->link = p->blocks;
+    p->blocks = blk;
   }
-  *param_2 = *param_1;
-  *param_1 = *(int *)(*param_1 + 4);
+  *out = p->free;
+  p->free = p->free->next;
   return 0;
 }
-

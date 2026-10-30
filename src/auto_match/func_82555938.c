@@ -25,69 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_82557888();
-extern int fn_82A1F238();
 
+struct Obj8255;
+typedef struct { void *(*dtor)(struct Obj8255 *, int); int p1; void (*f8)(struct Obj8255 *); int pad[0x12]; void (*f54)(struct Obj8255 *, void *); } VT8255;
+typedef struct Obj8255 { VT8255 *vt; } Obj8255;
+typedef struct { Obj8255 *obj; int f4; char pad8[0x138]; void *f140; Obj8255 *f144; int p148; int f14c; char pad150[0x48]; void *f198; char pad19c[4]; } E8255;
+typedef struct { E8255 *items; int count; char pad[0x24]; void *p2c; void *p30; void *p34; } C8255;
+extern void fn_8251FA58(void *);
+extern void fn_82522ED8(void *);
+extern void fn_82557888(E8255 *);
+extern void fn_82A1F238(void *);
 
-void fn_82555938(int *param_1)
-
+void fn_82555938(C8255 *c)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  
-  if (param_1[1] != 0) {
-    iVar2 = 0;
-    if (0 < param_1[1]) {
-      iVar3 = 0;
-      do {
-        piVar4 = (int *)(iVar3 + *param_1);
-        if (piVar4[0x50] != 0) {
-          if (piVar4[0x53] < 0) {
-            (**(code **)(*(int *)*piVar4 + 0x54))();
-          }
-          else {
-            piVar4[0x53] = -1;
-          }
-          piVar4[0x50] = 0;
-        }
-        if (piVar4[1] == 0) {
-          (**(code **)(*(int *)*piVar4 + 8))();
-        }
-        puVar1 = (undefined4 *)piVar4[0x51];
-        if (puVar1 != (undefined4 *)0x0) {
-          (**(code **)*puVar1)(puVar1,1);
-        }
-        piVar4[0x51] = 0;
-        if (piVar4[0x66] != 0) {
-          fn_8251FA58();
-          piVar4[0x66] = 0;
-        }
-        puVar1 = (undefined4 *)*piVar4;
-        if (puVar1 != (undefined4 *)0x0) {
-          if (piVar4[1] == 0) {
-            (**(code **)*puVar1)(puVar1,1);
-          }
-          *piVar4 = 0;
-        }
-        fn_82557888(piVar4);
-        iVar2 = iVar2 + 1;
-        iVar3 = iVar3 + 0x1a0;
-      } while (iVar2 < param_1[1]);
+  int i;
+  E8255 *e;
+  if (c->count != 0) {
+    for (i = 0; i < c->count; i++) {
+      e = &c->items[i];
+      if (e->f140 != 0) {
+        if (e->f14c > -1) e->f14c = -1;
+        else e->obj->vt->f54(e->obj, e->f140);
+        e->f140 = 0;
+      }
+      if (e->f4 == 0) e->obj->vt->f8(e->obj);
+      if (e->f144 != 0) e->f144->vt->dtor(e->f144, 1);
+      e->f144 = 0;
+      if (e->f198 != 0) { fn_8251FA58(e->f198); e->f198 = 0; }
+      if (e->obj != 0) {
+        if (e->f4 == 0) e->obj->vt->dtor(e->obj, 1);
+        e->obj = 0;
+      }
+      fn_82557888(e);
     }
   }
-  if (param_1[0xb] != 0) {
-    fn_82522ED8();
-  }
-  if (param_1[0xc] != 0) {
-    fn_82A1F238();
-  }
-  if (param_1[0xd] != 0) {
-    fn_82A1F238();
-  }
-  return;
+  if (c->p2c != 0) fn_82522ED8(c->p2c);
+  if (c->p30 != 0) fn_82A1F238(c->p30);
+  if (c->p34 != 0) fn_82A1F238(c->p34);
 }
-

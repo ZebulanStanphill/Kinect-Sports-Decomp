@@ -25,33 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BC0088();
 
 
-void fn_82BA9590(undefined4 *param_1,undefined8 param_2)
+typedef struct VT_82BA9590 { void (*f0)(void *, unsigned, unsigned); } VT_82BA9590;
+typedef struct Obj_82BA9590 { VT_82BA9590 *vt; } Obj_82BA9590;
+typedef struct List_82BA9590 { int a; unsigned count; Obj_82BA9590 **data; } List_82BA9590;
+typedef struct Owner_82BA9590 { unsigned first; int pad[0x16]; List_82BA9590 *list; } Owner_82BA9590;
+extern Obj_82BA9590 **fn_82BC0088(List_82BA9590 *, unsigned);
 
+static __forceinline unsigned sz(List_82BA9590 *l) { return l->count; }
+static __forceinline Obj_82BA9590 **at(List_82BA9590 *l, unsigned i) { if (i < l->count) return l->data + i; return fn_82BC0088(l, i); }
+void fn_82BA9590(Owner_82BA9590 *self, unsigned arg)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  ulonglong uVar4;
-  
-  iVar1 = param_1[0x17];
-  if ((iVar1 != 0) && (uVar4 = 0, *(int *)(iVar1 + 4) != 0)) {
-    iVar3 = 0;
-    do {
-      if ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 4)) {
-        puVar2 = (undefined4 *)(*(int *)(iVar1 + 8) + iVar3);
-      }
-      else {
-        puVar2 = (undefined4 *)fn_82BC0088(iVar1,uVar4);
-      }
-      (*(code *)**(undefined4 **)*puVar2)((undefined4 *)*puVar2,param_2,*param_1);
-      iVar1 = param_1[0x17];
-      uVar4 = uVar4 + 1;
-      iVar3 = iVar3 + 4;
-    } while ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 4));
+  unsigned i;
+  Obj_82BA9590 *o;
+  if (self->list != 0) {
+    for (i = 0; i < sz(self->list); i++) {
+      o = *at(self->list, i);
+      o->vt->f0(o, arg, self->first);
+    }
   }
-  return;
 }
-

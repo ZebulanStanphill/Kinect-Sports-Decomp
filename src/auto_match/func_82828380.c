@@ -25,30 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_12c;
-extern int fn_82829530();
-extern int strncpy();
-
-
-undefined4 fn_82828380(int param_1,undefined8 param_2)
-
+extern unsigned *fn_82829530(void *out, int map, char **key);
+extern int strncpy(char *, char *, int);
+int fn_82828380(int param_1, char *param_2)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  undefined1 *puStack_130;
-  undefined1 auStack_12c [12];
-  undefined1 auStack_120 [256];
-  
-  strncpy(auStack_120,param_2,0xff);
-  puStack_130 = auStack_120;
-  piVar1 = (int *)fn_82829530(auStack_12c,*(undefined4 *)(param_1 + 0x2f0),&puStack_130);
-  if (*piVar1 == *(int *)(*(int *)(param_1 + 0x2f0) + 4)) {
-    uVar2 = 0;
+  unsigned *piVar1;
+  struct { char *p; unsigned it[3]; } L;
+  char buf[264];
+  strncpy(buf, param_2, 0xff);
+  L.p = buf;
+  piVar1 = fn_82829530(L.it, *(int *)(param_1 + 0x2f0), &L.p);
+  if (*piVar1 != *(unsigned *)(*(int *)(param_1 + 0x2f0) + 4)) {
+    return *(int *)(*(int *)(*piVar1 + 0xc) + 0x100);
   }
-  else {
-    uVar2 = *(undefined4 *)(*(int *)(*piVar1 + 0xc) + 0x100);
-  }
-  return uVar2;
+  return 0;
 }
-

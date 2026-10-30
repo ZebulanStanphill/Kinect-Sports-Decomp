@@ -25,36 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82822510();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
 
+extern char lbl_8320A5DC[];
+extern int fn_8281B4E0(void);
+extern void fn_82822510(void *list, int (*fn)(void), unsigned arg, void *out);
+typedef struct VT { char p[0x18]; void (*f18)(void *, unsigned, void *); } VT;
+typedef struct Obj { char p[0xc]; unsigned flags; VT *vt; char q[0x78-0x14]; unsigned off; } Obj;
+typedef struct Ent { char p[0x10]; unsigned char b[4]; unsigned pad; unsigned w[4]; } Ent;
 
-undefined8 fn_8281BBB0(longlong param_1,undefined1 *param_2)
-
+int fn_8281BBB0(unsigned key, unsigned char *out)
 {
-  int iStack_20;
-  int iStack_1c;
-  
-  fn_82822510(0xffffffff8320a5dc,0xffffffff8281b4e0,param_1,&iStack_1c);
-  if (iStack_1c != 0) {
-    if ((*(uint *)(iStack_1c + 0xc) & 4) != 0) {
-      param_1 = param_1 - (ulonglong)*(uint *)(iStack_1c + 0x78);
-    }
-    iStack_20 = 0;
-    (**(code **)(*(int *)(iStack_1c + 0x10) + 0x18))(iStack_1c,param_1,&iStack_20);
-    if (iStack_20 != 0) {
-      *param_2 = *(undefined1 *)(iStack_20 + 0x10);
-      param_2[1] = *(undefined1 *)(iStack_20 + 0x11);
-      param_2[2] = *(undefined1 *)(iStack_20 + 0x12);
-      param_2[3] = *(undefined1 *)(iStack_20 + 0x13);
-      *(undefined4 *)(param_2 + 4) = *(undefined4 *)(iStack_20 + 0x18);
-      *(undefined4 *)(param_2 + 8) = *(undefined4 *)(iStack_20 + 0x1c);
-      *(undefined4 *)(param_2 + 0xc) = *(undefined4 *)(iStack_20 + 0x20);
-      *(undefined4 *)(param_2 + 0x10) = *(undefined4 *)(iStack_20 + 0x24);
+  Obj *o;
+  Ent *e; unsigned k;
+  fn_82822510(lbl_8320A5DC, fn_8281B4E0, key, &o);
+  if (o != 0) {
+    k = key; if (o->flags & 4) k = key - o->off;
+    e = 0;
+    o->vt->f18(o, k, &e);
+    if (e != 0) {
+      out[0] = e->b[0]; out[1] = e->b[1]; out[2]=e->b[2]; out[3]=e->b[3];
+      *(unsigned*)(out+4) = e->w[0];
+      *(unsigned*)(out+8) = e->w[1];
+      *(unsigned*)(out+12) = e->w[2];
+      *(unsigned*)(out+16) = e->w[3];
       return 1;
     }
   }
   return 0;
 }
-

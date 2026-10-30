@@ -25,73 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10AD0();
-extern int fn_82C10B28();
-extern int fn_82C27AC8();
-extern int fn_82C27B90();
 
+typedef unsigned __int64 u64;
+typedef struct Req_82C27F48 { int p0; unsigned len; u64 pos; } Req_82C27F48;
+typedef struct Blk_82C27F48 { Req_82C27F48 *req; int cnt; int a, b; } Blk_82C27F48;
+typedef struct Ctx_82C27F48 { char p0[0x20]; u64 pos20; char pq[8]; u64 pos30; int f38; char p1[0x48-0x3c]; void *h48; char p2[0x5c-0x4c]; unsigned rem; u64 pos60; } Ctx_82C27F48;
+typedef struct Obj_82C27F48 { char p0[0x2c]; Ctx_82C27F48 *ctx; } Obj_82C27F48;
+extern int fn_82C10AD0(void *, int, int, Blk_82C27F48 **);
+extern int fn_82C10B28(void *, int, Blk_82C27F48 **);
+extern int fn_82C27AC8(Obj_82C27F48 *, Blk_82C27F48 *);
+extern int fn_82C27B90(Obj_82C27F48 *, Blk_82C27F48 *);
 
-undefined8 fn_82C27F48(int param_1,int param_2)
-
+int fn_82C27F48(Obj_82C27F48 *o, Req_82C27F48 *req)
 {
-  int iVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  int * apiStack_40;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  apiStack_40 = (int *)0x0;
-  if (((*(longlong *)(param_2 + 8) != *(longlong *)(iVar1 + 0x20)) && (*(int *)(iVar1 + 0x38) != 0))
-     && (*(longlong *)(param_2 + 8) != *(longlong *)(iVar1 + 0x30))) {
-    return 0xffffffff80500007;
-  }
-  uVar3 = fn_82C10AD0(*(undefined4 *)(iVar1 + 0x48),0x1d,0x10,&apiStack_40);
-  if (-1 < (int)uVar3) {
-    *apiStack_40 = 0;
-    apiStack_40[1] = 0;
-    apiStack_40[2] = 0;
-    apiStack_40[3] = 0;
-    *apiStack_40 = param_2;
-    if (*(uint *)(iVar1 + 0x5c) <= *(uint *)(param_2 + 4)) {
-      apiStack_40[1] = apiStack_40[1] + 1;
-    }
-    if (*(longlong *)(param_2 + 8) == *(longlong *)(iVar1 + 0x20)) {
-      uVar3 = fn_82C27AC8();
-      if (-1 < (int)uVar3) {
-        uVar2 = *(uint *)(iVar1 + 0x5c);
-        uVar4 = (ulonglong)*(uint *)(param_2 + 4) + *(longlong *)(iVar1 + 0x20);
-        *(ulonglong *)(iVar1 + 0x20) = uVar4;
-        if (uVar2 == 0) {
-          return uVar3;
-        }
-        uVar5 = *(ulonglong *)(iVar1 + 0x60);
-        if (uVar4 <= uVar5) {
-          return uVar3;
-        }
-        if (uVar2 <= *(uint *)(param_2 + 4)) {
-          *(undefined4 *)(iVar1 + 0x5c) = 0;
-          *(ulonglong *)(iVar1 + 0x60) = uVar2 + uVar5;
-          return uVar3;
-        }
-        *(ulonglong *)(iVar1 + 0x60) = *(uint *)(param_2 + 4) + uVar5;
-        *(uint *)(iVar1 + 0x5c) = uVar2 - *(int *)(param_2 + 4);
-        return uVar3;
+  Ctx_82C27F48 *c = o->ctx;
+  Blk_82C27F48 *b = 0;
+  int hr;
+  if (req->pos != c->pos20 && c->f38 != 0 && req->pos != c->pos30) return 0x80500007;
+  hr = fn_82C10AD0(c->h48, 0x1d, 0x10, &b);
+  if (hr >= 0) {
+    { Blk_82C27F48 *q = b; q->req = 0; q->cnt = 0; q->a = 0; q->b = 0; }
+    b->req = req;
+    if (c->rem <= req->len) b->cnt++;
+    if (req->pos == c->pos20) {
+      hr = fn_82C27AC8(o, b);
+      if (hr >= 0) {
+        unsigned rem = c->rem;
+        u64 np = req->len + c->pos20;
+        c->pos20 = np;
+        if (rem == 0) return hr;
+        if (np <= c->pos60) return hr;
+        if (rem <= req->len) { c->rem = 0; c->pos60 = rem + c->pos60; return hr; }
+        c->pos60 = req->len + c->pos60;
+        c->rem = rem - req->len;
+        return hr;
       }
-    }
-    else {
-      uVar3 = fn_82C27B90(param_1,apiStack_40);
-      if (-1 < (int)uVar3) {
-        *(ulonglong *)(iVar1 + 0x30) =
-             (ulonglong)*(uint *)(param_2 + 4) + *(longlong *)(iVar1 + 0x30);
-        return uVar3;
-      }
+    } else {
+      hr = fn_82C27B90(o, b);
+      if (hr >= 0) { c->pos30 = req->len + c->pos30; return hr; }
     }
   }
-  if (apiStack_40 != (int *)0x0) {
-    fn_82C10B28(*(undefined4 *)(iVar1 + 0x48),0x1d,&apiStack_40);
-  }
-  return uVar3;
+  if (b != 0) fn_82C10B28(c->h48, 0x1d, &b);
+  return hr;
 }
-

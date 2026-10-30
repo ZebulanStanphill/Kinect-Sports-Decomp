@@ -25,31 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_82E245F8();
+extern int fn_8265C990(void *, unsigned);
+extern int fn_82E245F8(void *);
 
+typedef struct { unsigned magic; } G;
 
-undefined8 fn_82E24BB8(int *param_1)
-
+int fn_82E24BB8(G **p)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  
-  if (param_1 == (int *)0x0) {
-    uVar2 = 0xffffffff80004005;
-  }
+  int hr = 0; G *q;
+  if (p == 0) hr = 0x80004005;
   else {
-    piVar1 = (int *)*param_1;
-    if ((piVar1 == (int *)0x0) || (*piVar1 != 0x476f6f64)) {
-      uVar2 = 0xffffffff8000ffff;
-    }
-    else {
-      uVar2 = 0;
-      fn_82E245F8(piVar1);
-      fn_8265C990(piVar1,0x208c804d);
-      *param_1 = 0;
-    }
+    q = *p;
+    hr = (q == 0 || q->magic != 0x476f6f64) ? 0x8000ffff : 0;
+    if (hr == 0) { fn_82E245F8(q); fn_8265C990(q, 0x208c804d); *p = 0; }
   }
-  return uVar2;
+  return hr;
 }
-

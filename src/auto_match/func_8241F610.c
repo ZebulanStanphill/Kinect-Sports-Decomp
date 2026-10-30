@@ -25,38 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_823608F8();
+extern void fn_823608F8(void *, int, int);
 
-
-void fn_8241F610(undefined4 *param_1)
-
+typedef struct { int key; char pad[0x1a8]; } E8241;
+typedef struct { E8241 *begin; E8241 *end; } V8241;
+typedef struct { void *ctx; int x; V8241 v; int p[2]; unsigned sel; } O8241;
+void fn_8241F610(O8241 *o)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int iVar4;
-  uint uVar5;
-  
-  iVar1 = param_1[2];
-  uVar5 = 0;
-  if ((param_1[3] - iVar1) / 0x1ac != 0) {
-    iVar4 = 0;
-    do {
-      if (uVar5 == param_1[6]) {
-LAB_8241f66c:
-        uVar3 = 0;
-      }
-      else {
-        iVar2 = param_1[2];
-        uVar3 = 1;
-        if (*(int *)(iVar4 + iVar2) == *(int *)(param_1[6] * 0x1ac + iVar2)) goto LAB_8241f66c;
-      }
-      fn_823608F8(*param_1,*(undefined4 *)(iVar4 + iVar1),uVar3);
-      iVar1 = param_1[2];
-      uVar5 = uVar5 + 1;
-      iVar4 = iVar4 + 0x1ac;
-    } while (uVar5 < (uint)((param_1[3] - iVar1) / 0x1ac));
+  unsigned i;
+  V8241 *v = &o->v;
+  for (i = 0; i < (unsigned)((*v).end - (*v).begin); i++) {
+    int f;
+    if (i == o->sel || o->v.begin[i].key == o->v.begin[o->sel].key) f = 0; else f = 1;
+    fn_823608F8(o->ctx, (*v).begin[i].key, f);
   }
-  return;
 }
-

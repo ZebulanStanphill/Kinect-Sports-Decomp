@@ -25,43 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829CFB48();
-extern int fn_829CFC20();
-extern int fn_829D2868();
-extern unsigned int lbl_832178A8;
 
+extern void fn_829CFB48(int, void *);
+extern void fn_829CFC20(int);
+extern void fn_829D2868(int);
+extern char lbl_83215000[];
 
-void fn_829C9680(int *param_1)
-
+void fn_829C9680(unsigned **p)
 {
-  if (param_1[5] != 0) {
-    fn_829CFB48(0);
-    fn_829CFC20(0);
-  }
-  if (param_1[3] != 0) {
-    fn_829CFB48(1);
-    fn_829CFC20(1);
-  }
-  if (param_1[4] != 0) {
-    fn_829CFB48(0);
-    fn_829CFC20(0);
-  }
-  if (param_1[1] != 0) {
-    fn_829CFB48(2);
-    fn_829CFC20(2);
-  }
-  if (param_1[2] != 0) {
-    fn_829CFB48(5);
-    fn_829CFC20(5);
-  }
-  if (*param_1 != 0) {
-    fn_829CFB48(3);
-    fn_829CFC20(3);
-  }
-  if (param_1[0xd] == 0) {
-    fn_829D2868(0);
-  }
-  *(undefined4 *)(&lbl_832178A8 + ((int)(param_1 + 0x1f37a20f) / 0x4c) * 4) = 0;
-  return;
+  unsigned *t;
+  t = p[5]; if (t != 0) { fn_829CFB48(0, t); fn_829CFC20(0); }
+  t = p[3]; if (t != 0) { fn_829CFB48(1, t); fn_829CFC20(1); }
+  t = p[4]; if (t != 0) { fn_829CFB48(0, t); fn_829CFC20(0); }
+  t = p[1]; if (t != 0) { fn_829CFB48(2, t); fn_829CFC20(2); }
+  t = p[2]; if (t != 0) { fn_829CFB48(5, t); fn_829CFC20(5); }
+  t = p[0]; if (t != 0) { fn_829CFB48(3, t); fn_829CFC20(3); }
+  if (p[0xd] == 0) fn_829D2868(0);
+  ((int *)(lbl_83215000 + 0x28a8))[((char *)p - (lbl_83215000 + 0x27c4)) / 0x4c] = 0;
 }
-

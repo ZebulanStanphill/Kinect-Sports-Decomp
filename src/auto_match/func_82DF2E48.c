@@ -25,60 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82D899A0();
-extern int fn_82D94470();
-extern int fn_82D94918();
 
+typedef struct S_82DF2E48 { int p0, p1; unsigned *data; int count; char pad[0x30]; unsigned char flag; } S_82DF2E48;
+extern char *fn_82D899A0(void *, unsigned);
+extern void fn_82D94918(S_82DF2E48 *, unsigned);
+extern void fn_82D94470(S_82DF2E48 *, int);
 
-void fn_82DF2E48(int param_1,int param_2,ulonglong param_3)
-
+static int find(S_82DF2E48 *s, unsigned k)
 {
-  char *pcVar1;
-  uint *puVar2;
-  int iVar3;
-  longlong lVar4;
-  undefined1 uVar5;
-  undefined1 auStack_30 [1];
-  
-  lVar4 = 0;
-  if (0 < *(int *)(param_1 + 0xc)) {
-    puVar2 = *(uint **)(param_1 + 8);
-    do {
-      if ((ulonglong)*puVar2 == (param_3 & 0xffffffff)) goto LAB_82df2e94;
-      lVar4 = lVar4 + 1;
-      puVar2 = puVar2 + 1;
-    } while ((int)lVar4 < *(int *)(param_1 + 0xc));
-  }
-  lVar4 = -1;
-LAB_82df2e94:
-  iVar3 = 0;
-  if (0 < *(int *)(param_2 + 0xc)) {
-    puVar2 = *(uint **)(param_2 + 8);
-    do {
-      if ((ulonglong)*puVar2 == (param_3 & 0xffffffff)) {
-        if (iVar3 != -1) {
-          return;
-        }
-        break;
-      }
-      iVar3 = iVar3 + 1;
-      puVar2 = puVar2 + 1;
-    } while (iVar3 < *(int *)(param_2 + 0xc));
-  }
-  if ((int)lVar4 == -1) {
-    return;
-  }
-  if (*(char *)(param_2 + 0x40) == '\0') {
-    pcVar1 = (char *)fn_82D899A0(auStack_30,param_3);
-    uVar5 = 0;
-    if (*pcVar1 == '\0') goto LAB_82df2f0c;
-  }
-  uVar5 = 1;
-LAB_82df2f0c:
-  *(undefined1 *)(param_2 + 0x40) = uVar5;
-  fn_82D94918(param_2,param_3);
-  fn_82D94470(param_1,lVar4);
-  return;
+  int i = 0; unsigned *p;
+  if (0 < s->count) { p = s->data; do { if (*p == k) return i; i++; p++; } while (i < s->count); }
+  return -1;
 }
-
+void fn_82DF2E48(S_82DF2E48 *a, S_82DF2E48 *b, unsigned k)
+{
+  char tmp[4];
+  int ia = find(a, k);
+  if (find(b, k) != -1) return;
+  if (ia == -1) return;
+  b->flag = b->flag || *fn_82D899A0(tmp, k);
+  fn_82D94918(b, k);
+  fn_82D94470(a, ia);
+}

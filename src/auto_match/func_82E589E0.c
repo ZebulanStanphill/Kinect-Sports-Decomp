@@ -27,38 +27,30 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A28568();
 extern int fn_82A2A360();
+typedef struct E589 { int a; struct E589 *next; int c; } E589;
+typedef struct Blk589 { struct Blk589 *next; E589 elems[1]; } Blk589;
+typedef struct Pool589 { E589 *free; Blk589 *blocks; unsigned int count; } Pool589;
 
-
-undefined8 fn_82E589E0(int *param_1,int *param_2)
-
+int fn_82E589E0(Pool589 *param_1, E589 **param_2)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  uint uVar3;
-  int *piVar4;
-  
-  if (*param_1 == 0) {
-    uVar3 = param_1[2];
-    uVar1 = fn_82A2A360();
-    piVar2 = (int *)fn_82A28568(uVar1,0,((ulonglong)uVar3 - 1) * 0xc + 0x10);
-    if (piVar2 == (int *)0x0) {
-      return 0xffffffff8007000e;
+  if (param_1->free == 0) {
+    unsigned int n = param_1->count;
+    unsigned int i;
+    Blk589 *blk;
+    E589 *e;
+    blk = (Blk589 *)fn_82A28568(fn_82A2A360(), 0, (n - 1) * 0xc + 0x10);
+    if (blk == 0) {
+      return 0x8007000e;
     }
-    uVar3 = 0;
-    if (param_1[2] != 0) {
-      piVar4 = piVar2 + 1;
-      do {
-        uVar3 = uVar3 + 1;
-        piVar4[1] = *param_1;
-        *param_1 = (int)piVar4;
-        piVar4 = piVar4 + 3;
-      } while (uVar3 < (uint)param_1[2]);
+    for (i = 0; i < param_1->count; i++) {
+      e = &blk->elems[i];
+      e->next = param_1->free;
+      param_1->free = e;
     }
-    *piVar2 = param_1[1];
-    param_1[1] = (int)piVar2;
+    blk->next = param_1->blocks;
+    param_1->blocks = blk;
   }
-  *param_2 = *param_1;
-  *param_1 = *(int *)(*param_1 + 4);
+  *param_2 = param_1->free;
+  param_1->free = param_1->free->next;
   return 0;
 }
-
