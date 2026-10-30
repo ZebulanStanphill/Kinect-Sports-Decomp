@@ -1,75 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_826824B0();
-extern int fn_82696330();
-extern int fn_82696958();
-extern int fn_826B14D8();
+typedef struct { unsigned char type; unsigned char pad[7]; } Value_826B1560;
+typedef struct Obj_826B1560 Obj_826B1560;
+typedef struct Iface_826B1560 Iface_826B1560;
+struct Iface_826B1560 {
+    struct VT_826B1560 *vt;
+};
+struct VT_826B1560 {
+    void *s[11];
+    unsigned char (*f2c)(Iface_826B1560 *, int, int, Value_826B1560 *);
+};
+struct Obj_826B1560 {
+    int pad0[2];
+    unsigned refs;
+    int padc;
+    Iface_826B1560 iface;
+};
+typedef struct {
+    int pad[0xa8];
+    struct { int pad[4]; Iface_826B1560 iface; } *f2a0;
+} Ctx_826B1560;
+extern Obj_826B1560 *fn_826B14D8(Ctx_826B1560 *c, int idx);
+extern Obj_826B1560 *fn_82696958(Value_826B1560 *v, int o);
+extern void fn_82696330(Value_826B1560 *v);
+extern void fn_826824B0(Obj_826B1560 *o);
 
-
-int fn_826B1560(int param_1,longlong param_2,int param_3)
-
+Obj_826B1560 *fn_826B1560(Ctx_826B1560 *c, int o, int idx)
 {
-  int iVar1;
-  int *piVar2;
-  char cVar5;
-  int iVar3;
-  int iVar4;
-  undefined1 auStack_40 [64];
-  
-  iVar1 = fn_826B14D8(param_1,param_3);
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  piVar2 = (int *)(*(int *)(param_1 + 0x2a0) + 0x10);
-  auStack_40[0] = 0;
-  cVar5 = (**(code **)(*piVar2 + 0x2c))
-                    (piVar2,param_2 + 0x78,(param_3 + 2) * 4 + param_1,auStack_40);
-  iVar4 = iVar1;
-  if ((cVar5 != '\0') && (iVar3 = fn_82696958(auStack_40,param_2), iVar3 != 0)) {
-    *(uint *)(iVar3 + 8) = *(int *)(iVar3 + 8) + 1U & 0x8fffffff;
-    cVar5 = (**(code **)(*(int *)(iVar3 + 0x10) + 0x2c))
-                      (iVar3 + 0x10,param_2 + 0x78,param_1 + 0x130,auStack_40);
-    if (cVar5 != '\0') {
-      iVar4 = fn_82696958(auStack_40,param_2);
-      if (iVar4 != 0) {
-        *(uint *)(iVar4 + 8) = *(int *)(iVar4 + 8) + 1U & 0x8fffffff;
-      }
-      if (iVar1 != 0) {
-        fn_826824B0(iVar1);
-      }
-    }
-    fn_826824B0(iVar3);
-  }
-  fn_82696330(auStack_40);
-  if (iVar4 != 0) {
-    fn_826824B0(iVar4);
-  }
-  return iVar4;
-}
+    Obj_826B1560 *a;
+    Obj_826B1560 *b;
+    Obj_826B1560 *n, *n2;
+    Value_826B1560 v;
+    Iface_826B1560 *i;
+    unsigned char ok;
 
+    a = fn_826B14D8(c, idx);
+    if (a != 0)
+        a->refs = (a->refs + 1) & 0x8fffffff;
+    n = a;
+    i = &c->f2a0->iface;
+    v.type = 0;
+    ok = i->vt->f2c(i, o + 0x78, (int)c + (idx + 2) * 4, &v);
+    if (ok != 0) {
+        b = fn_82696958(&v, o);
+        if (b != 0) {
+            b->refs = (b->refs + 1) & 0x8fffffff;
+            i = &b->iface;
+            ok = i->vt->f2c(i, o + 0x78, (int)c + 0x130, &v);
+            if (ok != 0) {
+                n2 = fn_82696958(&v, o);
+                if (n2 != 0)
+                    n2->refs = (n2->refs + 1) & 0x8fffffff;
+                if (a != 0)
+                    fn_826824B0(a);
+                n = n2;
+            }
+            fn_826824B0(b);
+        }
+    }
+    fn_82696330(&v);
+    if (n != 0)
+        fn_826824B0(n);
+    return n;
+}

@@ -28,24 +28,24 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C563B8();
 
 
-void fn_82C4ED60(undefined8 param_1,int param_2)
+void fn_82C4ED60(undefined8 param_1,unsigned int param_2)
 
 {
   if (param_2 != 0) {
-    if (*(int *)(param_2 + 0xc) != 0) {
-      fn_82C563B8();
+    if (*(unsigned int *)(param_2 + 0xc) != 0) {
+      fn_82C563B8(param_1,*(unsigned int *)(param_2 + 0xc));
       *(undefined4 *)(param_2 + 0xc) = 0;
     }
-    if (*(int *)(param_2 + 0x10) != 0) {
-      fn_82C563B8(param_1);
+    if (*(unsigned int *)(param_2 + 0x10) != 0) {
+      fn_82C563B8(param_1,*(unsigned int *)(param_2 + 0x10));
       *(undefined4 *)(param_2 + 0x10) = 0;
     }
-    if (*(int *)(param_2 + 0x14) != 0) {
-      fn_82C563B8(param_1);
+    if (*(unsigned int *)(param_2 + 0x14) != 0) {
+      fn_82C563B8(param_1,*(unsigned int *)(param_2 + 0x14));
       *(undefined4 *)(param_2 + 0x14) = 0;
     }
-    if (*(int *)(param_2 + 0x270) != 0) {
-      fn_82C563B8(param_1);
+    if (*(unsigned int *)(param_2 + 0x270) != 0) {
+      fn_82C563B8(param_1,*(unsigned int *)(param_2 + 0x270));
       *(undefined4 *)(param_2 + 0x270) = 0;
     }
   }

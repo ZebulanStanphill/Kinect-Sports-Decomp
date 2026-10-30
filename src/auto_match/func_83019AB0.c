@@ -1,58 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
+typedef struct { int f0; int f4; int f8; int f0c; int f10; int f14; int f18; int f1c; int f20; int f24; int f28; int f2c; int f30; } Val_83019AB0;
+typedef struct Node_83019AB0 Node_83019AB0;
+struct Node_83019AB0 { Node_83019AB0 *next; Val_83019AB0 v; };
+typedef struct {
+    int pad0[2];
+    Node_83019AB0 *head;
+    int pad0c;
+    unsigned cap;
+    unsigned count;
+    int pad18;
+    void *heap;
+} Pool_83019AB0;
+extern Node_83019AB0 *fn_82FA5060(void *heap, int size);
 
-
-undefined8 fn_83019AB0(int param_1)
-
+int fn_83019AB0(Pool_83019AB0 *p)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  
-  if (*(int *)(param_1 + 8) != 0) {
-    return 1;
-  }
-  if ((*(uint *)(param_1 + 0x14) < *(uint *)(param_1 + 0x10)) &&
-     (uVar2 = fn_82FA5060(*(undefined4 *)(param_1 + 0x1c),0x38), (uVar2 & 0xffffffff) != 0)) {
-    puVar1 = (undefined4 *)uVar2;
-    if (uVar2 != 0xfffffffffffffffc) {
-      puVar1[3] = 0;
-      puVar1[4] = 0;
-      puVar1[5] = 0;
-      puVar1[9] = 0;
-      puVar1[10] = 0;
-      puVar1[0xb] = 0;
-      puVar1[0xd] = 0xffffffff;
-    }
-    *puVar1 = *(undefined4 *)(param_1 + 8);
-    *(undefined4 **)(param_1 + 8) = puVar1;
-    return 1;
-  }
-  return 0;
-}
+    Node_83019AB0 *n;
+    Val_83019AB0 *v;
 
+    if (p->head != 0)
+        return 1;
+    if (p->count < p->cap && (n = fn_82FA5060(p->heap, 0x38)) != 0) {
+        v = &n->v;
+        if (v != 0) {
+            v->f8 = 0;
+            v->f0c = 0;
+            v->f10 = 0;
+            v->f20 = 0;
+            v->f24 = 0;
+            v->f28 = 0;
+            v->f30 = -1;
+        }
+        n->next = p->head;
+        p->head = n;
+        return 1;
+    }
+    return 0;
+}

@@ -1,50 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+typedef struct {
+    int f0;
+    unsigned char name[0x20];
+    int f24;
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+    int f50;
+} Out_82C48E60;
+typedef struct {
+    char pad0[0x9c];
+    int f9c;
+    int fa0;
+    char pad[0x39f4 - 0xa4];
+    int f39f4;
+    char pad2[0x5580 - 0x39f8];
+    int f5580;
+    char pad3[0x5598 - 0x5584];
+    int f5598;
+    int f559c;
+    int f55a0;
+    int f55a4;
+    int f55a8;
+    char pad4[0x5634 - 0x55ac];
+    int f5634;
+    int f5638;
+    int f563c;
+    int f5640;
+} In_82C48E60;
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-void fn_82C48E60(undefined4 *param_1,int param_2,undefined8 param_3)
-
+void fn_82C48E60(Out_82C48E60 *o, In_82C48E60 *in, const unsigned char *name)
 {
-  *param_1 = *(undefined4 *)(param_2 + 0x5598);
-  fn_82F68CC0(param_1 + 1,param_3,0x20);
-  param_1[9] = (uint)(*(int *)(param_2 + 0x5580) != 0);
-  param_1[10] = *(undefined4 *)(param_2 + 0x9c);
-  param_1[0xb] = *(undefined4 *)(param_2 + 0xa0);
-  param_1[0x10] = (-*(uint *)(param_2 + 0x39f4) & ~*(uint *)(param_2 + 0x39f4)) >> 0x1f;
-  param_1[0xc] = *(undefined4 *)(param_2 + 0x5634);
-  param_1[0xd] = *(undefined4 *)(param_2 + 0x5638);
-  param_1[0xe] = *(undefined4 *)(param_2 + 0x563c);
-  param_1[0xf] = *(undefined4 *)(param_2 + 0x5640);
-  param_1[0x11] = *(undefined4 *)(param_2 + 0x559c);
-  param_1[0x12] = *(undefined4 *)(param_2 + 0x55a4);
-  param_1[0x13] = *(undefined4 *)(param_2 + 0x55a0);
-  param_1[0x14] = *(undefined4 *)(param_2 + 0x55a8);
-  return;
+    o->f0 = in->f5598;
+    memcpy(o->name, name, 0x20);
+    o->f24 = in->f5580 != 0;
+    o->f28 = in->f9c;
+    o->f2c = in->fa0;
+    o->f40 = in->f39f4 > 0;
+    o->f30 = in->f5634;
+    o->f34 = in->f5638;
+    o->f38 = in->f563c;
+    o->f3c = in->f5640;
+    o->f44 = in->f559c;
+    o->f48 = in->f55a4;
+    o->f4c = in->f55a0;
+    o->f50 = in->f55a8;
 }
-

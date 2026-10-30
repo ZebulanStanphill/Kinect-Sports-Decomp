@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { int pad0[10]; int cnt; int pad2c[0x88 / 4 - 11]; } Stat_82374FA0;
+typedef struct { Stat_82374FA0 e[8]; } Tab_82374FA0;
+typedef struct {
+    char pad0[0xa4];
+    int h;
+    char pada8[0x204 - 0xa8];
+    int f204;
+    char pad208[0x7dc - 0x208];
+    int *f7dc;
+    char pad7e0[0xa14 - 0x7e0];
+    Tab_82374FA0 tab;
+} Ctx_82374FA0;
+typedef struct { int pad0[9]; int f24; int f28; int f2c; } Res_82374FA0;
+typedef struct { int pad[1]; void *f4; } Ref_82374FA0;
 extern int fn_822315A0();
 extern int fn_8236FB68();
 extern int fn_82508078();
 
-
-void fn_82374FA0(int param_1,int param_2,int param_3,int param_4,int param_5)
-
+void fn_82374FA0(Ctx_82374FA0 *c, Ref_82374FA0 *r, Res_82374FA0 *a, Res_82374FA0 *b, int k)
 {
-  longlong lVar1;
-  int iVar2;
-  
-  if (((*(int *)(param_3 + 0x2c) == *(int *)(param_4 + 0x2c)) && (param_5 == 4)) &&
-     (lVar1 = fn_8236FB68(0xf), lVar1 != 0)) {
-    fn_82508078(*(undefined4 *)(param_1 + 0xa4),lVar1,0);
-  }
-  if (*(int *)(param_3 + 0x24) != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 0x7dc) + 0x1c) = 1;
-  }
-  if (*(int *)(param_1 + 0x204) == 0) {
-    iVar2 = (*(int *)(param_3 + 0x2c) * 2 + *(int *)(param_3 + 0x28)) * 0x88 + param_1 + 0xa14;
-    *(int *)(iVar2 + 0x28) = *(int *)(iVar2 + 0x28) + 1;
-  }
-  if (*(int *)(param_2 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    int v;
 
+    if (a->f2c == b->f2c && k == 4 && (v = fn_8236FB68(0xf)) != 0)
+        fn_82508078(c->h, v, 0);
+    if (a->f24 != 0)
+        c->f7dc[7] = 1;
+    if (c->f204 == 0) {
+        Tab_82374FA0 *t = &c->tab;
+        int i2 = a->f2c;
+        int i1 = a->f28;
+        t->e[i2 * 2 + i1].cnt++;
+    }
+    if (r->f4 != 0)
+        fn_822315A0(r->f4);
+}

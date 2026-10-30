@@ -31,12 +31,12 @@ extern unsigned int lbl_8217BB44;
 extern unsigned int lbl_831BC768;
 
 
-undefined4 * fn_82FF2330(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_82FF2330(undefined4 *param_1,unsigned int param_2)
 
 {
   *param_1 = &lbl_8217BB44;
   if (param_1[1] != 0) {
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768,param_1[1]);
     param_1[1] = 0;
     *(undefined2 *)(param_1 + 2) = 0;
   }
