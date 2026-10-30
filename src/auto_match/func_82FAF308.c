@@ -27,37 +27,40 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82FAF308(int param_1,uint *param_2,int param_3,uint *param_4,longlong param_5)
+typedef struct Child_82FAF308 Child_82FAF308;
+typedef struct ChildVt_82FAF308 { char pad[0x70]; int (*visit)(Child_82FAF308 *self, unsigned int *limit, int out, unsigned int *count, int depth); } ChildVt_82FAF308;
+struct Child_82FAF308 { ChildVt_82FAF308 *vt; };
+typedef struct Info_82FAF308 { char pad[0xc]; int id; } Info_82FAF308;
+typedef struct Inner_82FAF308 { char pad[0x10]; Info_82FAF308 *info; } Inner_82FAF308;
+typedef struct Slot_82FAF308 { int key; Child_82FAF308 *child; } Slot_82FAF308;
+typedef struct Out_82FAF308 { int key; int id; int depth; } Out_82FAF308;
+typedef struct Owner_82FAF308 {
+  char pad[0x7c];
+  Slot_82FAF308 *begin;
+  Slot_82FAF308 *end;
+} Owner_82FAF308;
 
+int fn_82FAF308(Owner_82FAF308 *param_1, unsigned int *param_2, Out_82FAF308 *param_3, unsigned int *param_4, int param_5)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = *(undefined4 **)(param_1 + 0x7c);
-  uVar2 = 1;
-  if (puVar3 != *(undefined4 **)(param_1 + 0x80)) {
+  Slot_82FAF308 *s = param_1->begin;
+  int r = 1;
+
+  if (s != param_1->end) {
     do {
       if (*param_2 != 0) {
-        *(undefined4 *)(*param_4 * 0xc + param_3) = *puVar3;
-        *(undefined4 *)(*param_4 * 0xc + param_3 + 4) =
-             *(undefined4 *)(*(int *)(puVar3[1] + 0x10) + 0xc);
-        *(int *)(*param_4 * 0xc + param_3 + 8) = (int)param_5;
+        param_3[*param_4].key = s->key;
+        param_3[*param_4].id = ((Inner_82FAF308 *)s->child)->info->id;
+        param_3[*param_4].depth = param_5;
       }
-      uVar1 = *param_4;
-      *param_4 = uVar1 + 1;
-      if ((*param_2 != 0) && (*param_2 <= uVar1 + 1)) {
-        return uVar2;
-      }
+      *param_4 = *param_4 + 1;
+      if (*param_2 != 0 && *param_4 >= *param_2)
+        break;
       param_5 = param_5 + 1;
-      uVar2 = (**(code **)(*(int *)puVar3[1] + 0x70))
-                        ((int *)puVar3[1],param_2,param_3,param_4,param_5);
-      if ((int)uVar2 != 1) {
-        return uVar2;
-      }
-      puVar3 = puVar3 + 2;
-    } while (puVar3 != *(undefined4 **)(param_1 + 0x80));
+      r = s->child->vt->visit(s->child, param_2, (int)param_3, param_4, param_5);
+      if (r != 1)
+        break;
+      s++;
+    } while (s != param_1->end);
   }
-  return uVar2;
+  return r;
 }
-

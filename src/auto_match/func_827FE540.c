@@ -25,35 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_827F9450();
-extern int fn_827F94C8();
-extern int fn_827F98C8();
-extern int fn_82800E88();
-extern unsigned int iStack_40;
-extern unsigned int uStack_3c;
+typedef struct Vec3_827FE540 { float x, y, z; } Vec3_827FE540;
+typedef struct Entity_827FE540 { char pad[0x30]; Vec3_827FE540 pos; } Entity_827FE540;
 
+extern void fn_82800E88(unsigned int a, int *out);
+extern void fn_827F9450(int h, unsigned int id, Entity_827FE540 **out);
+extern void fn_827F98C8(int h, unsigned int id, int *out);
+extern void fn_827F94C8(int a, Entity_827FE540 *e, Vec3_827FE540 *out);
 
-void fn_827FE540(undefined8 param_1,undefined2 param_2,float *param_3)
-
+void fn_827FE540(unsigned int param_1, unsigned short param_2, Vec3_827FE540 *param_3)
 {
-  int iStack_40;
-  undefined4 uStack_3c;
-  undefined4 auStack_38;
-  struct { float first; float second; } stack_pair_30;
+  Entity_827FE540 *e;
+  int h;
+  int other;
+  Vec3_827FE540 v;
 
-  float fStack_28;
-  
-  fn_82800E88(param_1,&uStack_3c);
-  fn_827F9450(uStack_3c,param_2,&iStack_40);
-  fn_827F98C8(uStack_3c,param_2,&auStack_38);
-  fn_827F94C8(auStack_38,iStack_40,&stack_pair_30.first);
-  *(float *)(iStack_40 + 0x30) = *param_3 - stack_pair_30.first;
-  *(float *)(iStack_40 + 0x34) = param_3[1] - stack_pair_30.second;
-  *(float *)(iStack_40 + 0x38) = param_3[2] - fStack_28;
-  return;
+  fn_82800E88(param_1, &h);
+  fn_827F9450(h, param_2, &e);
+  fn_827F98C8(h, param_2, &other);
+  fn_827F94C8(other, e, &v);
+  e->pos.x = param_3->x - v.x;
+  e->pos.y = param_3->y - v.y;
+  e->pos.z = param_3->z - v.z;
 }
-

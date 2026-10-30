@@ -1,50 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
+typedef struct Iface_82DEFE78 Iface_82DEFE78;
+typedef struct { void *f0; char *(*get)(unsigned char *out, Iface_82DEFE78 *self); } VT_82DEFE78;
+struct Iface_82DEFE78 { VT_82DEFE78 *vt; };
+typedef struct { char pad[0x14]; Iface_82DEFE78 sub; } Mid_82DEFE78;
+typedef struct { char pad[0x20]; Mid_82DEFE78 *mid; } Obj_82DEFE78;
 
-
-undefined1 * fn_82DEFE78(undefined1 *param_1,int param_2)
-
+unsigned char *fn_82DEFE78(unsigned char *out, Obj_82DEFE78 *self)
 {
-  int iVar1;
-  char *pcVar2;
-  undefined1 uVar3;
-  undefined1 auStack_20 [16];
-  
-  iVar1 = *(int *)(param_2 + 0x20);
-  if (iVar1 != 0) {
-    pcVar2 = (char *)(**(code **)(*(int *)(iVar1 + 0x14) + 4))(auStack_20,iVar1 + 0x14);
-    uVar3 = 0;
-    if (*pcVar2 == '\0') goto LAB_82defec8;
-  }
-  uVar3 = 1;
-LAB_82defec8:
-  *param_1 = uVar3;
-  return param_1;
+    unsigned char buf[16];
+    unsigned char v;
+    if (self->mid != 0) {
+        char *p = self->mid->sub.vt->get(buf, &self->mid->sub);
+        v = 0;
+        if (*p == 0) goto done;
+    }
+    v = 1;
+done:
+    *out = v;
+    return out;
 }
-

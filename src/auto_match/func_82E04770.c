@@ -1,68 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE4040();
-extern int fn_82CE4118();
-extern int fn_82E077A0();
-extern int fn_83082568();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Obj_82E04770 Obj_82E04770;
+typedef struct Pair_82E04770 { int first; int second; } Pair_82E04770;
+typedef struct Entry_82E04770 { int d[4]; } Entry_82E04770;
+typedef struct Array_82E04770 {
+  int pad0[2];
+  Entry_82E04770 *entries;
+  int count;
+} Array_82E04770;
 
+extern void fn_82CE4040(Obj_82E04770 *o);
+extern void fn_82CE4118(Obj_82E04770 *o);
+extern void fn_82E077A0(Obj_82E04770 **out, Entry_82E04770 *e, unsigned int key);
+extern void fn_83082568(Obj_82E04770 **out, Pair_82E04770 *p);
 
-int * fn_82E04770(int *param_1,int param_2,ulonglong param_3)
-
+Obj_82E04770 **fn_82E04770(Obj_82E04770 **out, Array_82E04770 *a, unsigned int key)
 {
-  int iVar1;
-  longlong lVar2;
-  int aiStack_50;
-  struct { undefined4 first; undefined4 second; } stack_pair_48;
-
-  
-  if (((param_3 & 0xffffffff) != 0) && (iVar1 = 0, 0 < *(int *)(param_2 + 0xc))) {
-    lVar2 = 0;
-    do {
-      fn_82E077A0(&aiStack_50,(ulonglong)*(uint *)(param_2 + 8) + lVar2,param_3);
-      if (aiStack_50 != 0) {
-        fn_82CE4040();
-        *param_1 = aiStack_50;
-        if (aiStack_50 == 0) {
-          return param_1;
+  Obj_82E04770 *found;
+  Pair_82E04770 pair;
+  int i;
+  if (key != 0) {
+    for (i = 0; i < a->count; i++) {
+      fn_82E077A0(&found, a->entries + i, key);
+      if (found != 0) {
+        fn_82CE4040(found);
+        *out = found;
+        if (found != 0) {
+          fn_82CE4118(found);
         }
-        fn_82CE4118();
-        return param_1;
+        return out;
       }
-      iVar1 = iVar1 + 1;
-      lVar2 = lVar2 + 0x10;
-      aiStack_50 = 0;
-    } while (iVar1 < *(int *)(param_2 + 0xc));
+      found = 0;
+    }
   }
-  stack_pair_48.first = 0;
-  stack_pair_48.second = 0;
-  fn_83082568(param_1,&stack_pair_48.first);
-  return param_1;
+  pair.first = 0;
+  pair.second = 0;
+  fn_83082568(out, &pair);
+  return out;
 }
-

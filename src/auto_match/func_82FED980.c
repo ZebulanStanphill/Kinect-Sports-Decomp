@@ -1,59 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FED0C0();
-extern int fn_82FED378();
-extern unsigned int lbl_832643F4;
-extern unsigned int *lbl_832643F8;
-
+typedef struct { char pad[8]; unsigned int v; char pad2[0x84 - 0xc]; int state; } Item_82FED980;
+typedef struct { Item_82FED980 **first; Item_82FED980 **last; } Vec_82FED980;
+extern Vec_82FED980 lbl_832643F4;
+extern void fn_82FED378(Item_82FED980 *);
+extern void fn_82FED0C0(Item_82FED980 *);
 
 void fn_82FED980(void)
-
 {
-  int iVar1;
-  int *piVar2;
-  
-  piVar2 = lbl_832643F4;
-  if (lbl_832643F4 != lbl_832643F8) {
-    do {
-      iVar1 = *piVar2;
-      fn_82FED378(iVar1);
-      if ((*(int *)(iVar1 + 0x84) == 1) || (*(int *)(iVar1 + 8) != 0)) {
-        piVar2 = piVar2 + 1;
-      }
-      else {
-        fn_82FED0C0(iVar1);
-        if (1 < (uint)((int)lbl_832643F8 - (int)lbl_832643F4 >> 2)) {
-          *piVar2 = lbl_832643F8[-1];
-        }
-        lbl_832643F8 = lbl_832643F8 + -1;
-      }
-    } while (piVar2 != lbl_832643F8);
-  }
-  return;
+    Item_82FED980 **p = lbl_832643F4.first;
+    Item_82FED980 *item;
+    if (lbl_832643F4.first != lbl_832643F4.last) {
+        do {
+            item = *p;
+            fn_82FED378(item);
+            if (item->state == 1 || item->v != 0) {
+                p = p + 1;
+            } else {
+                fn_82FED0C0(item);
+                if ((unsigned int)(lbl_832643F4.last - lbl_832643F4.first) > 1) {
+                    *p = lbl_832643F4.last[-1];
+                }
+                lbl_832643F4.last = lbl_832643F4.last - 1;
+            }
+        } while (p != lbl_832643F4.last);
+    }
 }
-

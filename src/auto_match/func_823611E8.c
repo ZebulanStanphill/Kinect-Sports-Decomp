@@ -1,55 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern unsigned int lbl_821A8D8C;
-extern unsigned int lbl_821B9BC8;
+typedef struct { void *vt; int val; } Sub_823611E8;
+typedef struct {
+    void *vt;
+    int uses;
+    int weaks;
+    int pad;
+    Sub_823611E8 sub;
+} Blk_823611E8;
+extern Blk_823611E8 *fn_8265C9E0(unsigned int);
+extern char lbl_821A8D8C[];
+extern char lbl_821B9BC8[];
 
-
-undefined4 * fn_823611E8(undefined4 *param_1,undefined8 param_2,undefined4 param_3)
-
+void **fn_823611E8(void **out, void *unused, int param_3)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x80);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821A8D8C;
-    puVar1[2] = 1;
-    if (puVar1 + 4 != (undefined4 *)0x0) {
-      puVar1[5] = param_3;
-      puVar1[4] = &lbl_821B9BC8;
+    Blk_823611E8 *p = fn_8265C9E0(0x80);
+    if (p != 0) {
+        Sub_823611E8 *s;
+        p->uses = 1;
+        p->vt = lbl_821A8D8C;
+        p->weaks = 1;
+        s = &p->sub;
+        if (s != 0) {
+            s->val = param_3;
+            s->vt = lbl_821B9BC8;
+        }
+    } else {
+        p = 0;
     }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 4;
-  return param_1;
+    out[1] = p;
+    out[0] = &p->sub;
+    return out;
 }
-

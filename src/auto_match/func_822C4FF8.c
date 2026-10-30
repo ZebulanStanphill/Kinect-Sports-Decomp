@@ -1,48 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Child_822C4FF8 Child_822C4FF8;
+typedef struct { void *f0; void *f1; void (*f2)(Child_822C4FF8 *); } ChildVT_822C4FF8;
+struct Child_822C4FF8 { ChildVT_822C4FF8 *vt; };
 
+typedef struct Tgt_822C4FF8 Tgt_822C4FF8;
+typedef struct {
+    void *f[9];
+    void (*f9)(Tgt_822C4FF8 *, int);
+} TgtVT_822C4FF8;
+typedef struct { char pad[0x90]; int v; } Sub_822C4FF8;
+typedef struct { char pad[0x8c0]; Sub_822C4FF8 *sub; } Ctx_822C4FF8;
+struct Tgt_822C4FF8 {
+    TgtVT_822C4FF8 *vt;
+    int pad0[4];
+    Ctx_822C4FF8 *ctx;
+    int pad1[3];
+    Child_822C4FF8 *w24;
+};
+typedef struct {
+    int pad0;
+    Tgt_822C4FF8 *cur;
+    Child_822C4FF8 *child;
+    int flag;
+} Obj_822C4FF8;
 
-undefined8 fn_822C4FF8(int param_1,int *param_2)
-
+int fn_822C4FF8(Obj_822C4FF8 *o, Tgt_822C4FF8 *t)
 {
-  if ((param_2[9] == *(int *)(param_1 + 8)) || (*(int *)(param_1 + 0xc) != 0)) {
-    if ((param_2 == *(int **)(param_1 + 4)) && (*(int *)(param_1 + 0xc) == 0)) {
-      return 0;
+    if (t->w24 == o->child || o->flag != 0) {
+        if (t == o->cur && o->flag == 0) {
+            return 0;
+        }
+        if (o->child != 0) {
+            o->child->vt->f2(o->child);
+        }
+        if (t->w24 != 0) {
+            t->w24 = 0;
+            *(int *)((char *)t->ctx->sub + 0x90) = 0;
+            t->vt->f9(t, 0);
+        }
     }
-    if (*(int *)(param_1 + 8) != 0) {
-      (**(code **)(**(int **)(param_1 + 8) + 8))();
-    }
-    if (param_2[9] != 0) {
-      param_2[9] = 0;
-      *(undefined4 *)(*(int *)(param_2[5] + 0x8c0) + 0x90) = 0;
-      (**(code **)(*param_2 + 0x24))(param_2,0);
-    }
-  }
-  return 1;
+    return 1;
 }
-

@@ -1,46 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char buf[16]; unsigned int size; unsigned int res; } Str_828D2040;
+typedef struct {
+    void *vt0;
+    char pad0[0x4c];
+    void *vt1;
+    char pad1[0x2c];
+    unsigned int a;
+    char pad2[0x28];
+    unsigned int b;
+    char pad3[8];
+    Str_828D2040 s;
+} Obj_828D2040;
 extern int fn_828BDDA0();
-extern unsigned int lbl_82025A10;
-extern unsigned int lbl_82025A18;
+extern char lbl_82025A10[];
+extern char lbl_82025A18[];
 
-
-undefined4 * fn_828D2040(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
-
+static void Str_init(Str_828D2040 *s)
 {
-  fn_828BDDA0();
-  param_1[0x20] = param_2;
-  param_1[0x2b] = param_3;
-  *param_1 = &lbl_82025A18;
-  param_1[0x14] = &lbl_82025A10;
-  param_1[0x32] = 0;
-  param_1[0x33] = 0xf;
-  *(undefined1 *)(param_1 + 0x2e) = 0;
-  return param_1;
+    s->size = 0;
+    s->res = 0xf;
+    s->buf[0] = 0;
 }
 
+Obj_828D2040 *fn_828D2040(Obj_828D2040 *p, unsigned int a, unsigned int b)
+{
+    fn_828BDDA0();
+    p->a = a;
+    p->b = b;
+    p->vt0 = lbl_82025A18;
+    p->vt1 = lbl_82025A10;
+    Str_init(&p->s);
+    return p;
+}

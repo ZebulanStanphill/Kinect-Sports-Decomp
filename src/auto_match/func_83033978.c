@@ -1,45 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8303EA10();
 extern unsigned int lbl_8217C940;
 extern unsigned int lbl_8217D070;
+extern void fn_8303EA10(void *p);
 
+typedef struct Tail_83033978 {
+  int a;
+  int b;
+  int c;
+  int pad;
+  int d;
+} Tail_83033978;
 
-undefined4 * fn_83033978(undefined4 *param_1)
+typedef struct Obj_83033978 {
+  void *vt;
+  int pad04[6];
+  void *vt1c;
+  int pad20[0x25 - 8];
+  Tail_83033978 tail;   /* 0x94 */
+} Obj_83033978;
 
+Obj_83033978 *fn_83033978(Obj_83033978 *o)
 {
-  fn_8303EA10();
-  *param_1 = &lbl_8217D070;
-  param_1[7] = &lbl_8217C940;
-  param_1[0x25] = 0;
-  param_1[0x26] = 0;
-  param_1[0x27] = 0;
-  param_1[0x29] = 0xffffffff;
-  return param_1;
+  Tail_83033978 *t;
+  fn_8303EA10(o);
+  o->vt = &lbl_8217D070;
+  o->vt1c = &lbl_8217C940;
+  t = &o->tail;
+  t->a = 0;
+  t->b = 0;
+  t->c = 0;
+  t->d = -1;
+  return o;
 }
-

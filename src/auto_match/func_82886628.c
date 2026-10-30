@@ -1,50 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x74]; int head; int tail; } Q_82886628;
+typedef struct { char pad[0x38]; Q_82886628 *q; } Obj_82886628;
 
-
-void fn_82886628(int param_1,undefined4 param_2)
-
+void fn_82886628(Obj_82886628 *o, int value)
 {
-  int iVar1;
-  
-  *(int *)(*(int *)(param_1 + 0x38) + 0x78) = *(int *)(*(int *)(param_1 + 0x38) + 0x78) + 1;
-  if (0x13 < *(int *)(*(int *)(param_1 + 0x38) + 0x78)) {
-    *(undefined4 *)(*(int *)(param_1 + 0x38) + 0x78) = 0;
-  }
-  iVar1 = *(int *)(param_1 + 0x38);
-  if ((*(int *)(iVar1 + 0x78) == *(int *)(iVar1 + 0x74)) || (*(int *)(iVar1 + 0x74) < 0)) {
-    *(int *)(*(int *)(param_1 + 0x38) + 0x74) = *(int *)(*(int *)(param_1 + 0x38) + 0x74) + 1;
-    if (0x13 < *(int *)(*(int *)(param_1 + 0x38) + 0x74)) {
-      *(undefined4 *)(*(int *)(param_1 + 0x38) + 0x74) = 0;
+    Q_82886628 *q;
+    o->q->tail = o->q->tail + 1;
+    if (o->q->tail >= 0x14) {
+        o->q->tail = 0;
     }
-  }
-  *(undefined4 *)((*(int *)(*(int *)(param_1 + 0x38) + 0x78) + 9) * 4 + *(int *)(param_1 + 0x38)) =
-       param_2;
-  return;
+    q = o->q;
+    if (o->q->tail == o->q->head || o->q->head < 0) {
+        o->q->head = o->q->head + 1;
+        if (o->q->head >= 0x14) {
+            o->q->head = 0;
+        }
+    }
+    *(int *)((o->q->tail + 9) * 4 + (int)o->q) = value;
 }
-

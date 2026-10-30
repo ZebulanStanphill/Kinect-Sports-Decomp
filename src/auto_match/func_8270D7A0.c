@@ -1,63 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8200E81C;
+extern unsigned char lbl_8200E81C[];
 
+typedef struct Quad_8270D7A0 {
+  float m00, m01, m02;
+  float m10, m11, m12;
+} Quad_8270D7A0;
 
-void fn_8270D7A0(int param_1,float *param_2,float *param_3)
+typedef struct Map_8270D7A0 {
+  char pad0[0x30];
+  Quad_8270D7A0 pre;       /* 0x30 */
+  char pad48[0x18];
+  float xmin, ymin;        /* 0x60, 0x64 */
+  float xmax, ymax;        /* 0x68, 0x6c */
+  Quad_8270D7A0 post;      /* 0x70 */
+  Quad_8270D7A0 region[1]; /* 0x88 */
+} Map_8270D7A0;
 
+void fn_8270D7A0(Map_8270D7A0 *m, float *px, float *py)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  
-  fVar1 = *param_2;
-  fVar2 = *param_3;
-  *param_2 = *(float *)(param_1 + 0x34) * fVar2 + *(float *)(param_1 + 0x30) * fVar1 +
-             *(float *)(param_1 + 0x38);
-  fVar2 = *(float *)(param_1 + 0x40) * fVar2 + *(float *)(param_1 + 0x3c) * fVar1 +
-          *(float *)(param_1 + 0x44);
-  *param_3 = fVar2;
-  fVar1 = *param_2;
-  iVar3 = (uint)(byte)(&lbl_8200E81C)
-                      [(((uint)(fVar2 < *(float *)(param_1 + 100)) << 1 |
-                        (uint)(fVar1 < *(float *)(param_1 + 0x60))) << 1 |
-                       (uint)(*(float *)(param_1 + 0x6c) < fVar2)) << 1 |
-                       (uint)(*(float *)(param_1 + 0x68) < fVar1)] * 0x18 + param_1;
-  *param_2 = *(float *)(iVar3 + 0x8c) * fVar2 + *(float *)(iVar3 + 0x88) * fVar1 +
-             *(float *)(iVar3 + 0x90);
-  fVar2 = *(float *)(iVar3 + 0x98) * fVar2 + *(float *)(iVar3 + 0x94) * fVar1 +
-          *(float *)(iVar3 + 0x9c);
-  *param_3 = fVar2;
-  fVar1 = *param_2;
-  *param_2 = *(float *)(param_1 + 0x74) * fVar2 + *(float *)(param_1 + 0x70) * fVar1 +
-             *(float *)(param_1 + 0x78);
-  *param_3 = *(float *)(param_1 + 0x80) * fVar2 + *(float *)(param_1 + 0x7c) * fVar1 +
-             *(float *)(param_1 + 0x84);
-  return;
+  float x = *px;
+  float y = *py;
+  Quad_8270D7A0 *q;
+  int code, fx, fy, fxm, fym;
+  *px = m->pre.m01 * y + m->pre.m00 * x + m->pre.m02;
+  y = m->pre.m11 * y + m->pre.m10 * x + m->pre.m12;
+  *py = y;
+  x = *px;
+  fx = x > m->xmax;
+  fy = y > m->ymax;
+  fxm = x < m->xmin;
+  fym = y < m->ymin;
+  code = ((fym << 1 | fxm) << 1 | fy) << 1 | fx;
+  q = &m->region[lbl_8200E81C[code]];
+  *px = q->m01 * y + q->m00 * x + q->m02;
+  y = q->m11 * y + q->m10 * x + q->m12;
+  *py = y;
+  x = *px;
+  *px = m->post.m01 * y + m->post.m00 * x + m->post.m02;
+  *py = m->post.m11 * y + m->post.m10 * x + m->post.m12;
 }
-

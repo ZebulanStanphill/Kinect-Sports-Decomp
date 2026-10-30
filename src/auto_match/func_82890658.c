@@ -1,82 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82230110();
-extern int fn_82230180();
-extern int fn_8265CA20();
-extern int fn_8288CCB8();
-extern int fn_8288F180();
-extern int fn_828A12E8();
-extern int fn_828B55B0();
-extern int fn_828BDE70();
+extern void fn_82230110(void *s, const char *text);
+extern void fn_82230180(void *s);
+extern void fn_8265CA20(void *p);
+extern void fn_8288CCB8(void *out, void *a, void *b);
+extern void fn_8288F180(void *a, void *b, void *s);
+extern unsigned int *fn_828A12E8(void *a);
+extern void fn_828B55B0(void *p);
+extern void fn_828BDE70(void *p);
 extern unsigned int lbl_82023640;
 extern unsigned int lbl_82023648;
 
+typedef struct VObj_82890658 {
+  void (**vt)(struct VObj_82890658 *, int);
+} VObj_82890658;
 
-void fn_82890658(undefined4 *param_1)
+typedef struct Mgr_82890658 {
+  unsigned int *vt;
+  char pad04[0x4c];
+  unsigned int *vt50;
+  char pad54[0x18];
+  void *e6c;
+  char pad70[0x10];
+  char sub80[8];
+  void *e88;
+  VObj_82890658 **begin;
+  VObj_82890658 **end;
+  void *cap;
+  char pad98[0x4];
+  char flag;
+} Mgr_82890658;
 
+void fn_82890658(Mgr_82890658 *m)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int *piVar3;
-  int aiStack_50 [4];
-  undefined1 auStack_40 [40];
-  
-  *param_1 = &lbl_82023648;
-  param_1[0x14] = &lbl_82023640;
-  if (*(char *)(param_1 + 0x27) != '\0') {
-    iVar2 = fn_828A12E8(param_1[0x1b]);
-    fn_8288CCB8(aiStack_50,iVar2 + 4,param_1 + 0x20);
-    if ((aiStack_50[0] != *(int *)(iVar2 + 8)) &&
-       (iVar2 = *(int *)(aiStack_50[0] + 0x14), iVar2 != 0)) {
-      fn_82230110(auStack_40,0xffffffff82023750);
-      fn_8288F180(iVar2,param_1[0x22],auStack_40);
-      fn_82230180(auStack_40);
+  VObj_82890658 **it;
+  m->vt = &lbl_82023648;
+  m->vt50 = &lbl_82023640;
+  if (m->flag != 0) {
+    unsigned int *r = fn_828A12E8(m->e6c);
+    unsigned int found;
+    fn_8288CCB8(&found, r + 1, m->sub80);
+    if (found != r[2]) {
+      unsigned int *n = *(unsigned int **)(found + 0x14);
+      if (n != 0) {
+        char s[40];
+        fn_82230110(s, "Create net obj msg destruct");
+        fn_8288F180(n, m->e88, s);
+        fn_82230180(s);
+      }
     }
   }
-  piVar3 = (int *)param_1[0x23];
-  if (piVar3 != (int *)param_1[0x24]) {
+  it = m->begin;
+  if (it != m->end) {
     do {
-      puVar1 = (undefined4 *)*piVar3;
-      if (puVar1 != (undefined4 *)0x0) {
-        (**(code **)*puVar1)(puVar1,1);
+      VObj_82890658 *o = *it;
+      if (o != 0) {
+        (*(void (*)(VObj_82890658 *, int))*(unsigned int *)o->vt)(o, 1);
       }
-      piVar3 = piVar3 + 1;
-    } while (piVar3 != (int *)param_1[0x24]);
+      it++;
+    } while (it != m->end);
   }
-  if (param_1[0x23] != 0) {
-    fn_8265CA20();
+  if (m->begin != 0) {
+    fn_8265CA20(m->begin);
   }
-  param_1[0x23] = 0;
-  param_1[0x24] = 0;
-  param_1[0x25] = 0;
-  fn_828B55B0(param_1 + 0x20);
-  fn_828BDE70(param_1);
-  return;
+  m->begin = 0;
+  m->end = 0;
+  m->cap = 0;
+  fn_828B55B0(m->sub80);
+  fn_828BDE70(m);
 }
-

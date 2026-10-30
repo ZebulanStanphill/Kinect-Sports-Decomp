@@ -1,68 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827D9E18();
-extern int fn_827D9E40();
-extern int fn_827DCBF8();
-extern int fn_827E0250();
-extern int fn_827E0438();
-extern int fn_827E0658();
-extern int fn_827E8720();
-extern unsigned int uStack_40;
+typedef struct Item_827DC520 Item_827DC520;
+typedef struct { void *f0; void *f1; void *f2; void *f3; int (*getkey)(Item_827DC520 *); } VT_827DC520;
+struct Item_827DC520 { VT_827DC520 *vt; };
+typedef struct Node_827DC520 Node_827DC520;
+struct Node_827DC520 { Node_827DC520 *next; int pad; int val8; Item_827DC520 *item; };
+typedef struct { int pad; Node_827DC520 *head; } Cont_827DC520;
+typedef struct {
+    char pad0[0xb5c];
+    Cont_827DC520 c;
+    char pad1[0xbd4 - 0xb64];
+    int x;
+    char pad2[0xbfc - 0xbd8];
+    int cs;
+} Obj_827DC520;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_827D9E18(Item_827DC520 *);
+extern int fn_827D9E40(Item_827DC520 *);
+extern void fn_827E0658(Node_827DC520 **, Cont_827DC520 *, int *);
+extern int fn_827E0250(Cont_827DC520 *, int *);
+extern void fn_827E0438(Cont_827DC520 *, Node_827DC520 *, int);
+extern void fn_827E8720(int *, Node_827DC520 **, Node_827DC520 *);
+extern void fn_827DCBF8(int *, Node_827DC520 **);
 
-
-void fn_827DC520(int param_1,int *param_2)
-
+void fn_827DC520(Obj_827DC520 *o, Item_827DC520 *item)
 {
-  int *piVar1;
-  int iVar3;
-  undefined8 uVar2;
-  undefined4 uStack_40;
-  int *apiStack_3c [15];
-  
-  RtlEnterCriticalSection(param_1 + 0xbfc);
-  fn_827D9E18(param_2);
-  iVar3 = fn_827D9E40(param_2);
-  if (iVar3 == 0) {
-    uStack_40 = (**(code **)(*param_2 + 0x10))(param_2);
-    iVar3 = param_1 + 0xb5c;
-    fn_827E0658(apiStack_3c,iVar3,&uStack_40);
-    for (piVar1 = apiStack_3c[0]; piVar1 != *(int **)(param_1 + 0xb60); piVar1 = (int *)*piVar1) {
-      apiStack_3c[0] = (int *)piVar1[3];
-      if (apiStack_3c[0] == param_2) {
-        uVar2 = fn_827E0250(iVar3,piVar1 + 2);
-        fn_827E0438(iVar3,piVar1,uVar2);
-        fn_827E8720(&uStack_40,param_1 + 0xb60,piVar1);
-        fn_827DCBF8(param_1 + 0xbd4,apiStack_3c);
-        break;
-      }
-    }
-  }
-  RtlLeaveCriticalSection(param_1 + 0xbfc);
-  return;
-}
+    Node_827DC520 *n;
+    struct { int key; Node_827DC520 *it; } l;
+    Cont_827DC520 *c;
 
+    RtlEnterCriticalSection(&o->cs);
+    fn_827D9E18(item);
+    if (fn_827D9E40(item) == 0) {
+        l.key = item->vt->getkey(item);
+        c = &o->c;
+        fn_827E0658(&l.it, c, &l.key);
+        for (n = l.it; n != o->c.head; n = n->next) {
+            l.it = (Node_827DC520 *)n->item;
+            if (l.it == (Node_827DC520 *)item) {
+                int r = fn_827E0250(c, &n->val8);
+                fn_827E0438(c, n, r);
+                fn_827E8720(&l.key, &c->head, n);
+                fn_827DCBF8(&o->x, &l.it);
+                break;
+            }
+        }
+    }
+    RtlLeaveCriticalSection(&o->cs);
+}

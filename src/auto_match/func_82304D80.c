@@ -36,8 +36,8 @@ void fn_82304D80(int *param_1)
 {
   undefined1 auStack_30 [32];
   
-  (**(code **)(*param_1 + 0x1c))();
-  fn_82230110(auStack_30,0xffffffff821accc4);
+  (*(code *)(*param_1 + 0x1c))(param_1);
+  fn_82230110(auStack_30,"idleset_default");
   fn_822FB198(*(undefined4 *)(*(int *)(param_1[3] + 0x114) + 0xc0),auStack_30);
   fn_82230300(auStack_30,1,0);
   return;

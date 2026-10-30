@@ -32,11 +32,11 @@ void fn_82E22968(int *param_1,int param_2)
 {
   undefined4 uVar1;
   
-  uVar1 = (**(code **)(*param_1 + 0x28))();
-  *(byte *)(param_2 + 0x1d) = *(byte *)(param_2 + 10) ^ (byte)uVar1;
-  *(byte *)(param_2 + 0x39) = (byte)((uint)uVar1 >> 8) ^ *(byte *)(param_2 + 0x14);
-  *(byte *)(param_2 + 0x2d) = (byte)((uint)uVar1 >> 0x10) ^ *(byte *)(param_2 + 0x1f);
-  *(byte *)(param_2 + 0x3e) = (byte)((uint)uVar1 >> 0x18) ^ *(byte *)(param_2 + 3);
+  uVar1 = (*(code *)(*param_1 + 0x28))(param_1);
+  *(char *)(param_2 + 0x1d) = *(char *)(param_2 + 10) ^ (byte)uVar1;
+  *(char *)(param_2 + 0x39) = (byte)((uint)uVar1 >> 8) ^ *(char *)(param_2 + 0x14);
+  *(char *)(param_2 + 0x2d) = (byte)((uint)uVar1 >> 0x10) ^ *(char *)(param_2 + 0x1f);
+  *(char *)(param_2 + 0x3e) = (byte)((uint)uVar1 >> 0x18) ^ *(char *)(param_2 + 3);
   return;
 }
 

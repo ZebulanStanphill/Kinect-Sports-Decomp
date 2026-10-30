@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct Obj_82E51248 { void **vt; } Obj_82E51248;
+typedef struct Lock_82E51248 { char b[1]; } Lock_82E51248;
+typedef struct Holder_82E51248 {
+  char pad0[0x60];
+  Obj_82E51248 *obj;   /* 0x60 */
+  Lock_82E51248 lock;  /* 0x64 */
+} Holder_82E51248;
 
+extern void fn_82E50CB8(Lock_82E51248 *l);
+extern void fn_82E50F10(Lock_82E51248 *l);
 
-undefined8 fn_82E51248(int param_1,undefined8 param_2)
-
+int fn_82E51248(Holder_82E51248 *h, void *arg)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0xffffffffc00d36b2;
-  fn_82E50CB8(param_1 + 100);
-  piVar1 = *(int **)(param_1 + 0x60);
-  if (piVar1 != (int *)0x0) {
-    uVar2 = (**(code **)(*piVar1 + 0x84))(piVar1,param_2);
+  int r = (int)0xc00d36b2;
+  fn_82E50CB8(&h->lock);
+  if (h->obj != 0) {
+    r = (*(int (*)(Obj_82E51248 *, void *))h->obj->vt[0x84 / 4])(h->obj, arg);
   }
-  fn_82E50F10(param_1 + 100);
-  return uVar2;
+  fn_82E50F10(&h->lock);
+  return r;
 }
-

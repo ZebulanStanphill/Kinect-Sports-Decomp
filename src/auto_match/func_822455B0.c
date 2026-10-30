@@ -25,51 +25,57 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828974A8();
-extern int fn_8289D4C0();
-extern unsigned int lbl_82197070;
-extern unsigned int lbl_82197080;
-extern unsigned int lbl_82197100;
-extern unsigned int lbl_82197728;
+extern void fn_828974A8(void *self);
+extern void fn_8289D4C0(void *self);
+extern char lbl_82197070[];
+extern char lbl_82197080[];
+extern char lbl_82197100[];
+extern char lbl_82197728[];
 
+typedef struct Elem_822455B0 { void *vt; char pad[0x50]; } Elem_822455B0;
+typedef struct Obj_822455B0 {
+  void *vt;
+  char pad0[0x44];
+  Elem_822455B0 m[7];     /* +0x48 */
+  Elem_822455B0 b[15];    /* +0x294 */
+  Elem_822455B0 a[15];    /* +0x780 */
+} Obj_822455B0;
 
-void fn_822455B0(undefined4 *param_1)
-
+void fn_822455B0(Obj_822455B0 *param_1)
 {
-  longlong lVar1;
-  undefined4 *puVar2;
-  
-  *param_1 = &lbl_82197728;
-  puVar2 = param_1 + 0x31b;
-  lVar1 = 0xe;
-  do {
-    puVar2 = puVar2 + -0x15;
-    *puVar2 = &lbl_82197080;
-    fn_8289D4C0(puVar2);
-    lVar1 = lVar1 + -1;
-  } while (-1 < lVar1);
-  puVar2 = param_1 + 0x1e0;
-  lVar1 = 0xe;
-  do {
-    puVar2 = puVar2 + -0x15;
-    *puVar2 = &lbl_82197100;
-    fn_8289D4C0(puVar2);
-    lVar1 = lVar1 + -1;
-  } while (-1 < lVar1);
-  fn_8289D4C0(param_1 + 0x90);
-  param_1[0x7b] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x7b);
-  param_1[0x66] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x66);
-  param_1[0x51] = &lbl_82197080;
-  fn_8289D4C0(param_1 + 0x51);
-  fn_8289D4C0(param_1 + 0x3c);
-  param_1[0x27] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x27);
-  param_1[0x12] = &lbl_82197100;
-  fn_8289D4C0(param_1 + 0x12);
-  *param_1 = &lbl_82197070;
-  fn_828974A8(param_1);
-  return;
-}
+  int i;
+  char *e = (char *)param_1 + 0x4ec;
+  Elem_822455B0 *p;
 
+  param_1->vt = lbl_82197728;
+  p = (Elem_822455B0 *)(e + 0x780);
+  i = 14;
+  do {
+    p--;
+    p->vt = lbl_82197080;
+    fn_8289D4C0(p);
+    i--;
+  } while (i >= 0);
+  p = (Elem_822455B0 *)(e + 0x294);
+  i = 14;
+  do {
+    p--;
+    p->vt = lbl_82197100;
+    fn_8289D4C0(p);
+    i--;
+  } while (i >= 0);
+  fn_8289D4C0(&param_1->m[6]);
+  param_1->m[5].vt = lbl_82197080;
+  fn_8289D4C0(&param_1->m[5]);
+  param_1->m[4].vt = lbl_82197080;
+  fn_8289D4C0(&param_1->m[4]);
+  param_1->m[3].vt = lbl_82197080;
+  fn_8289D4C0(&param_1->m[3]);
+  fn_8289D4C0(&param_1->m[2]);
+  param_1->m[1].vt = lbl_82197100;
+  fn_8289D4C0(&param_1->m[1]);
+  param_1->m[0].vt = lbl_82197100;
+  fn_8289D4C0(&param_1->m[0]);
+  param_1->vt = lbl_82197070;
+  fn_828974A8(param_1);
+}

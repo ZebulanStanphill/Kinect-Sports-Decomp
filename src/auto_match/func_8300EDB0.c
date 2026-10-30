@@ -1,55 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8301B2D0();
+typedef struct { uint key; uint cnt; uint pad; } E_8300EDB0;
+typedef struct { E_8300EDB0 *begin; E_8300EDB0 *end; int pad; int cs[1]; } Obj_8300EDB0;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_8301B2D0(Obj_8300EDB0 *, uint);
 
+static __inline int Found(Obj_8300EDB0 *m, E_8300EDB0 *p) { return p != m->end; }
+static __inline uint *Get(Obj_8300EDB0 *m, E_8300EDB0 *p) { return Found(m, p) ? &p->cnt : 0; }
 
-void fn_8300EDB0(undefined4 *param_1,ulonglong param_2)
-
+void fn_8300EDB0(Obj_8300EDB0 *o, uint key)
 {
-  uint *puVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = param_1 + 3;
-  RtlEnterCriticalSection(puVar2);
-  for (puVar1 = (uint *)*param_1;
-      (puVar1 != (uint *)param_1[1] && ((ulonglong)*puVar1 != (param_2 & 0xffffffff)));
-      puVar1 = puVar1 + 3) {
-  }
-  puVar1 = (uint *)(-(uint)((uint *)param_1[1] != puVar1) & (uint)(puVar1 + 1));
-  if (puVar1 != (uint *)0x0) {
-    if (*puVar1 < 2) {
-      fn_8301B2D0(param_1,param_2);
-      RtlLeaveCriticalSection(puVar2);
-      return;
+    E_8300EDB0 *e;
+    uint *cnt;
+    void *cs = o->cs;
+    RtlEnterCriticalSection(cs);
+    for (e = o->begin; e != o->end && e->key != key; e++) {
     }
-    *puVar1 = *puVar1 - 1;
-  }
-  RtlLeaveCriticalSection(puVar2);
-  return;
+    cnt = Get(o, e);
+    if (cnt != 0) {
+        if (*cnt <= 1) {
+            fn_8301B2D0(o, key);
+            RtlLeaveCriticalSection(cs);
+            return;
+        }
+        *cnt = *cnt - 1;
+    }
+    RtlLeaveCriticalSection(cs);
 }
-

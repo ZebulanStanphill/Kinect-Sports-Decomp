@@ -1,44 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char buf[16]; unsigned int size; unsigned int res; } Str_828A2AE8;
+typedef struct {
+    void *vt0;
+    char pad0[0x4c];
+    void *vt1;
+    char pad1[0x54];
+    Str_828A2AE8 s;
+} Obj_828A2AE8;
 extern int fn_828BDDA0();
-extern unsigned int lbl_82024190;
-extern unsigned int lbl_82024198;
+extern char lbl_82024190[];
+extern char lbl_82024198[];
 
-
-undefined4 * fn_828A2AE8(undefined4 *param_1)
-
+static void Str_init(Str_828A2AE8 *s)
 {
-  fn_828BDDA0();
-  *param_1 = &lbl_82024198;
-  param_1[0x14] = &lbl_82024190;
-  param_1[0x2e] = 0;
-  param_1[0x2f] = 0xf;
-  *(undefined1 *)(param_1 + 0x2a) = 0;
-  return param_1;
+    s->size = 0;
+    s->res = 0xf;
+    s->buf[0] = 0;
 }
 
+Obj_828A2AE8 *fn_828A2AE8(Obj_828A2AE8 *p)
+{
+    fn_828BDDA0();
+    p->vt0 = lbl_82024198;
+    p->vt1 = lbl_82024190;
+    Str_init(&p->s);
+    return p;
+}

@@ -1,52 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE63B0();
+typedef struct { int a, b, c; } E_82E0E320;
+typedef struct { E_82E0E320 *data; int count; unsigned int cap; } Vec_82E0E320;
+typedef struct { char pad[0x40]; Vec_82E0E320 v; } Obj_82E0E320;
+typedef struct { char pad[0x10]; void *heap; } Ctx_82E0E320;
+extern Ctx_82E0E320 *fn_82CE5410();
+extern void fn_82CE63B0(void *, Vec_82E0E320 *, int);
 
-
-void fn_82E0E320(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
-
+void fn_82E0E320(Obj_82E0E320 *o, int a, int b, int c)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  iVar1 = fn_82CE5410();
-  if (*(uint *)(param_1 + 0x44) == (*(uint *)(param_1 + 0x48) & 0x3fffffff)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82CE63B0(*(undefined4 *)(iVar1 + 0x10),(int *)(param_1 + 0x40),0xc);
-  }
-  puVar2 = (undefined4 *)(*(int *)(param_1 + 0x44) * 0xc + *(int *)(param_1 + 0x40));
-  if (puVar2 != (undefined4 *)0x0) {
-    *puVar2 = param_2;
-    puVar2[1] = param_3;
-    puVar2[2] = param_4;
-  }
-  *(int *)(param_1 + 0x44) = *(int *)(param_1 + 0x44) + 1;
-  return;
+    Vec_82E0E320 *v = &o->v;
+    E_82E0E320 *e;
+    Ctx_82E0E320 *ctx = fn_82CE5410();
+    if (v->count == (int)(v->cap & 0x3fffffff)) {
+        fn_82CE63B0(ctx->heap, v, 0xc);
+    }
+    e = v->data + v->count;
+    if (e != 0) {
+        e->a = a;
+        e->b = b;
+        e->c = c;
+    }
+    v->count = v->count + 1;
 }
-

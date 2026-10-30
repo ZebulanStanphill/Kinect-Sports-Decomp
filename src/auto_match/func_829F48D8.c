@@ -1,51 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829F3428();
-extern int fn_829F3E78();
-extern int fn_829F4290();
+typedef struct { int x, y, z; } V3_829F48D8;
+typedef struct { char pad0[0x4c]; V3_829F48D8 a; int bx; int by; char pad1[0x30]; int flag; } O_829F48D8;
+extern void fn_829F3E78();
+extern void fn_829F4290(void *, void *, void *, O_829F48D8 *);
+extern void fn_829F3428(void *, void *, void *, O_829F48D8 *, void *);
 
-
-void fn_829F48D8(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4,
-                  undefined8 param_5)
-
+void fn_829F48D8(void *a, void *b, void *c, O_829F48D8 *o, void *e)
 {
-  int iVar1;
-  int iVar2;
-  
-  fn_829F3E78();
-  if (*(int *)(param_4 + 0x90) == 0) {
-    iVar1 = *(int *)(param_4 + 0x4c) - *(int *)(param_4 + 0x58);
-    iVar2 = *(int *)(param_4 + 0x50) - *(int *)(param_4 + 0x5c);
-    if ((iVar1 * iVar1 + iVar2 * iVar2 < 0xf) ||
-       (fn_829F4290(param_1,param_2,param_3,param_4), *(int *)(param_4 + 0x90) == 0)) {
-      fn_829F3428(param_1,param_2,param_3,param_4,param_5);
+    V3_829F48D8 v;
+    int dx, dz;
+    fn_829F3E78();
+    if (o->flag == 0) {
+        v = o->a;
+        dz = v.y - o->by;
+        dx = v.x - o->bx;
+        if (dx * dx + dz * dz <= 0xe || (fn_829F4290(a, b, c, o), o->flag == 0)) {
+            fn_829F3428(a, b, c, o, e);
+        }
     }
-  }
-  return;
 }
-
