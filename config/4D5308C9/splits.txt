@@ -66800,7 +66800,7 @@ auto_match/func_82704368.c:
 	.pdata      start:0x821F9270 end:0x821F9278
 	.text       start:0x82704368 end:0x827043BC
 
-auto_match/func_827043C0.c:
+auto_match/func_827043C0.cpp:
 	.pdata      start:0x821F9278 end:0x821F9280
 	.text       start:0x827043C0 end:0x82704528
 
