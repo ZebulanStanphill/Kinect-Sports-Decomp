@@ -21712,7 +21712,7 @@ auto_match/func_823A1C50.c:
 	.pdata      start:0x821E6528 end:0x821E6530
 	.text       start:0x823A1C50 end:0x823A2098
 
-auto_match/func_823A2098.c:
+auto_match/func_823A2098.cpp:
 	.text       start:0x823A2098 end:0x823A214C
 
 auto_match/func_823A2150.c:
@@ -57533,7 +57533,7 @@ auto_match/func_82686500.c:
 	.pdata      start:0x821F5580 end:0x821F5588
 	.text       start:0x82686500 end:0x82686608
 
-auto_match/func_82686608.c:
+auto_match/func_82686608.cpp:
 	.pdata      start:0x821F5588 end:0x821F5590
 	.text       start:0x82686608 end:0x82686758
 
@@ -59840,7 +59840,7 @@ auto_match/func_826A11E8.cpp:
 	.pdata      start:0x821F6330 end:0x821F6338
 	.text       start:0x826A11E8 end:0x826A1244
 
-auto_match/func_826A1248.c:
+auto_match/func_826A1248.cpp:
 	.pdata      start:0x821F6338 end:0x821F6340
 	.text       start:0x826A1248 end:0x826A129C
 
@@ -79205,7 +79205,7 @@ auto_match/func_827D8AB8.c:
 	.pdata      start:0x821FE640 end:0x821FE650
 	.text       start:0x827D8AB8 end:0x827D8B38
 
-auto_match/func_827D8B38.c:
+auto_match/func_827D8B38.cpp:
 	.pdata      start:0x821FE650 end:0x821FE658
 	.text       start:0x827D8B38 end:0x827D8B98
 
@@ -99837,7 +99837,7 @@ auto_match/func_828BD100.c:
 	.pdata      start:0x822054E0 end:0x822054E8
 	.text       start:0x828BD100 end:0x828BD150
 
-auto_match/func_828BD150.c:
+auto_match/func_828BD150.cpp:
 	.pdata      start:0x822054E8 end:0x822054F0
 	.text       start:0x828BD150 end:0x828BD22C
 
@@ -137972,7 +137972,7 @@ auto_match/func_82CD1870.c:
 auto_match/func_82CD2570.c:
 	.text       start:0x82CD2570 end:0x82CD269C
 
-auto_match/func_82CD26A0.c:
+auto_match/func_82CD26A0.cpp:
 	.pdata      start:0x82215218 end:0x82215220
 	.text       start:0x82CD26A0 end:0x82CD2818
 
@@ -138731,7 +138731,7 @@ auto_match/func_82CE4040.c:
 	.pdata      start:0x82215618 end:0x82215620
 	.text       start:0x82CE4040 end:0x82CE4114
 
-auto_match/func_82CE4118.c:
+auto_match/func_82CE4118.cpp:
 	.pdata      start:0x82215620 end:0x82215628
 	.text       start:0x82CE4118 end:0x82CE421C
 
@@ -167353,7 +167353,7 @@ auto_match/func_82EDD9F0.c:
 	.pdata      start:0x8221ECC8 end:0x8221ECD0
 	.text       start:0x82EDD9F0 end:0x82EDDA54
 
-auto_match/func_82EDDF88.c:
+auto_match/func_82EDDF88.cpp:
 	.pdata      start:0x8221ECD8 end:0x8221ECE0
 	.text       start:0x82EDDF88 end:0x82EDE100
 
