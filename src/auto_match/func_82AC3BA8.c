@@ -1,109 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Rec_82AC3BA8 { unsigned int w0; unsigned int w1; unsigned char b8; char pad[3]; } Rec_82AC3BA8;
+typedef struct Ctx_82AC3BA8 { char pad[0x28]; char f28; } Ctx_82AC3BA8;
 
-
-undefined8 fn_82AC3BA8(int param_1,int param_2,char param_3,int param_4)
-
+int fn_82AC3BA8(Rec_82AC3BA8 *recs, int idx, unsigned char need, Ctx_82AC3BA8 *ctx)
 {
-  byte bVar1;
-  uint uVar2;
-  bool bVar3;
-  uint uVar4;
-  uint uVar5;
-  uint *puVar6;
-  
-  puVar6 = (uint *)(param_2 * 0xc + param_1);
-  uVar5 = 0;
-  uVar4 = 0;
-  bVar3 = false;
-  bVar1 = *(byte *)(puVar6 + 2) & 0x1f;
-  if (bVar1 < 0x1c) {
-    if (bVar1 < 0x18) {
-      if (0x13 < bVar1) {
-        if (0x17 < bVar1) {
-          return 0xffffffff80004005;
+    Rec_82AC3BA8 *r = &recs[idx];
+    int a = 0, b = 0;
+    unsigned char c = 0;
+    unsigned int k = r->b8 & 0x1f;
+    unsigned int t;
+    unsigned int k2, t2;
+    if (k <= 0x1b) {
+        if (k < 0x18) {
+            if (k >= 0x14) {
+                k2 = r->b8 & 0x1f;
+                if (k2 >= 0x18)
+                    goto fail;
+                a = 1;
+                c = 1;
+            }
+        } else {
+            if (ctx->f28 == 0)
+                goto fail;
+            a = 1;
         }
-        uVar5 = 1;
-        bVar3 = true;
-      }
+    } else if (k != 0x1c) {
+        if (k != 0x1d)
+            goto fail;
+        b = 1;
     }
-    else {
-      if (*(char *)(param_4 + 0x28) == '\0') {
-        return 0xffffffff80004005;
-      }
-      uVar5 = 1;
-    }
-  }
-  else if (bVar1 != 0x1c) {
-    if (bVar1 != 0x1d) {
-      return 0xffffffff80004005;
-    }
-    uVar4 = 1;
-  }
-  uVar2 = *puVar6 >> 0x1a;
-  if (uVar2 < 0x23) {
-    if (uVar2 < 0x1b) {
-      if (0x16 < uVar2) {
-        if (uVar2 < 0x19) {
-          uVar4 = uVar4 + 1;
+    t = r->w0 >> 26;
+    if (t <= 0x22) {
+        if (t < 0x1b) {
+            if (t >= 0x17) {
+                if (t >= 0x19) {
+                    t2 = r->w0 >> 26;
+                    if (t2 >= 0x1b)
+                        goto fail;
+                } else
+                    b = b + 1;
+            }
+            goto check;
         }
-        else if (0x1a < uVar2) {
-          return 0xffffffff80004005;
+        c = 1;
+    } else {
+        t2 = r->w0 >> 26;
+        if (t2 < 0x23)
+            goto fail;
+        if (t > 0x27) {
+            if (t != 0x28) {
+                if (t <= 0x29)
+                    goto fail;
+                if (t > 0x32)
+                    goto fail;
+            }
+            goto check;
         }
-      }
-      goto LAB_82ac3ca0;
+        if (ctx->f28 == 0)
+            goto fail;
     }
-    bVar3 = true;
-  }
-  else {
-    if (uVar2 < 0x23) {
-      return 0xffffffff80004005;
-    }
-    if (0x27 < uVar2) {
-      if (uVar2 != 0x28) {
-        if (uVar2 < 0x2a) {
-          return 0xffffffff80004005;
-        }
-        if (0x32 < uVar2) {
-          return 0xffffffff80004005;
-        }
-      }
-      goto LAB_82ac3ca0;
-    }
-    if (*(char *)(param_4 + 0x28) == '\0') {
-      return 0xffffffff80004005;
-    }
-  }
-  uVar5 = uVar5 + 1;
-LAB_82ac3ca0:
-  if (((uVar5 < 2) && (uVar4 < 2)) && ((!bVar3 || (param_3 != '\0')))) {
-    return 0;
-  }
-  return 0xffffffff80004005;
+    a = a + 1;
+check:
+    if (a <= 1 && b <= 1 && (c == 0 || need != 0))
+        return 0;
+fail:
+    return 0x80004005;
 }
-

@@ -38,25 +38,25 @@ extern int fn_82930180();
 void fn_828F5C88(int param_1)
 
 {
-  int iVar1;
-  longlong lVar2;
-  int *piVar3;
+  unsigned int iVar1;
+  int lVar2;
+  unsigned int *piVar3;
   
-  if (*(int *)(param_1 + 0x40) != 0) {
-    fn_828F5B10(*(int *)(param_1 + 0x40),1);
+  if (*(unsigned int *)(param_1 + 0x40) != 0) {
+    fn_828F5B10(*(unsigned int *)(param_1 + 0x40),1);
   }
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_828F5B70(*(int *)(param_1 + 0x74),1);
+  if (*(unsigned int *)(param_1 + 0x74) != 0) {
+    fn_828F5B70(*(unsigned int *)(param_1 + 0x74),1);
   }
-  iVar1 = *(int *)(param_1 + 0x274);
+  iVar1 = *(unsigned int *)(param_1 + 0x274);
   if (iVar1 != 0) {
     fn_828F5A30(iVar1);
     fn_8265C990(iVar1,0x24810000);
   }
-  if (*(int *)(param_1 + 0x44) != 0) {
-    fn_828F5B70(*(int *)(param_1 + 0x44),1);
+  if (*(unsigned int *)(param_1 + 0x44) != 0) {
+    fn_828F5B70(*(unsigned int *)(param_1 + 0x44),1);
   }
-  piVar3 = (int *)(param_1 + 0x78);
+  piVar3 = (unsigned int *)(param_1 + 0x78);
   lVar2 = 0x7f;
   do {
     if (*piVar3 != 0) {

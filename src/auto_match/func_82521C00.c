@@ -1,70 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern int fn_82F63CA0();
+struct Obj_82521C00;
+typedef struct VT_82521C00 { void (*f0)(struct Obj_82521C00 *, void *); } VT_82521C00;
+typedef struct Rc_82521C00 { char pad[0xc]; int refs; } Rc_82521C00;
+typedef struct Item_82521C00 { void *a; Rc_82521C00 *rc; } Item_82521C00;
+typedef struct Vec_82521C00 { Item_82521C00 **begin; Item_82521C00 **end; } Vec_82521C00;
+typedef struct Obj_82521C00 { VT_82521C00 *vt; char cs[0x1c]; Vec_82521C00 v; } Obj_82521C00;
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82522ED8(void *p);
+extern void *memmove(void *d, const void *s, unsigned int n);
 
-
-void fn_82521C00(undefined4 *param_1,undefined4 *param_2)
-
+void fn_82521C00(Obj_82521C00 *o, Item_82521C00 *key)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  longlong lVar3;
-  int *piVar4;
-  int *piVar5;
-  
-  RtlEnterCriticalSection(param_1 + 1);
-  piVar5 = (int *)param_1[8];
-  if (piVar5 != (int *)param_1[9]) {
-    piVar4 = piVar5 + 1;
+    Vec_82521C00 *v;
+    Item_82521C00 **it, **nx;
+    Item_82521C00 *item;
+    Rc_82521C00 *rc;
+    RtlEnterCriticalSection(o->cs);
+    it = o->v.begin;
+if (it != o->v.end) {
+    nx = it + 1;
     do {
-      puVar1 = (undefined4 *)*piVar5;
-      if (param_2 == puVar1) {
-        (**(code **)*param_1)(param_1,*puVar1);
-        iVar2 = puVar1[1];
-        if (iVar2 != 0) {
-          lVar3 = (ulonglong)*(uint *)(iVar2 + 0xc) - 1;
-          *(int *)(iVar2 + 0xc) = (int)lVar3;
-          if (lVar3 < 1) {
-            fn_82522ED8();
-          }
-        }
-        fn_82522ED8(puVar1);
-        fn_82F63CA0(piVar5,piVar4,(param_1[9] - (int)piVar4 >> 2) << 2);
-        param_1[9] = param_1[9] + -4;
-      }
-      else {
-        piVar5 = piVar5 + 1;
-        piVar4 = piVar4 + 1;
-      }
-    } while (piVar5 != (int *)param_1[9]);
-  }
-  RtlLeaveCriticalSection(param_1 + 1);
-  return;
+        item = *it;
+        if (key == item) {
+            o->vt->f0(o, item->a);
+            rc = item->rc;
+            if (rc != 0) { if (--rc->refs <= 0) fn_82522ED8(rc); }
+            fn_82522ED8(item);
+            v = &o->v;
+            memmove(it, nx, (v->end - nx) * sizeof(Item_82521C00 *));
+            v->end--;
+        } else { it++; nx++; }
+    } while (it != o->v.end);
 }
 
+    RtlLeaveCriticalSection(o->cs);
+}

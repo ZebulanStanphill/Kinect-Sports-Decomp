@@ -1,52 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E658();
+struct Iface_82E65EF8;
+typedef struct IfaceVt_82E65EF8 {
+  void *f0[2];
+  void (*release)(struct Iface_82E65EF8 *);
+} IfaceVt_82E65EF8;
+typedef struct Iface_82E65EF8 { IfaceVt_82E65EF8 *vt; } Iface_82E65EF8;
+typedef struct Obj_82E65EF8 {
+  char pad0[0x18];
+  Iface_82E65EF8 *f18;
+  char pad1c[8];
+  void *f24;
+  char pad28[4];
+  Iface_82E65EF8 *f2c;
+  Iface_82E65EF8 *f30;
+} Obj_82E65EF8;
+extern void fn_82A1E658(void *);
 
-
-void fn_82E65EF8(int param_1)
-
+void fn_82E65EF8(Obj_82E65EF8 *o)
 {
-  if (*(int **)(param_1 + 0x18) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x18) + 8))();
-    *(undefined4 *)(param_1 + 0x18) = 0;
+  if (o->f18 != 0) {
+    o->f18->vt->release(o->f18);
+    o->f18 = 0;
   }
-  if (*(int **)(param_1 + 0x2c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x2c) + 8))();
-    *(undefined4 *)(param_1 + 0x2c) = 0;
+  if (o->f2c != 0) {
+    o->f2c->vt->release(o->f2c);
+    o->f2c = 0;
   }
-  if (*(int **)(param_1 + 0x30) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x30) + 8))();
-    *(undefined4 *)(param_1 + 0x30) = 0;
+  if (o->f30 != 0) {
+    o->f30->vt->release(o->f30);
+    o->f30 = 0;
   }
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_82A1E658();
-    *(undefined4 *)(param_1 + 0x24) = 0;
+  if (o->f24 != 0) {
+    fn_82A1E658(o->f24);
+    o->f24 = 0;
   }
-  return;
 }
-

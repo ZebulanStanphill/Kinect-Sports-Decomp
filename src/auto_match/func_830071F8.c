@@ -1,66 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF7D48();
-extern int fn_8302AE48();
+struct Iface_830071F8;
+typedef struct IfaceVt_830071F8 {
+  void *f0[2];
+  void (*f8)(struct Iface_830071F8 *);
+} IfaceVt_830071F8;
+typedef struct Iface_830071F8 { IfaceVt_830071F8 *vt; } Iface_830071F8;
+typedef struct Val_830071F8 {
+  Iface_830071F8 *obj;
+  int pad4;
+  unsigned char flags;
+} Val_830071F8;
+typedef struct Ent_830071F8 {
+  unsigned int id;
+  Val_830071F8 val;
+} Ent_830071F8;
+typedef struct Map_830071F8 {
+  Ent_830071F8 *begin;
+  Ent_830071F8 *end;
+} Map_830071F8;
+typedef struct Cont_830071F8 {
+  char pad[0x24];
+  Map_830071F8 map;
+} Cont_830071F8;
+struct Obj_830071F8;
+typedef struct ObjVt_830071F8 {
+  char pad[0xdc];
+  void (*fdc)(struct Obj_830071F8 *);
+} ObjVt_830071F8;
+typedef struct Obj_830071F8 {
+  ObjVt_830071F8 *vt;
+  char pad[0x1c];
+  Cont_830071F8 *cont;
+} Obj_830071F8;
+extern void fn_8302AE48(Iface_830071F8 *);
+extern void fn_82FF7D48(void *, unsigned int);
 
+static __inline int Found(Map_830071F8 *m, Ent_830071F8 *p) { return p != m->end; }
+static __inline Val_830071F8 *Get(Map_830071F8 *m, Ent_830071F8 *p) { return Found(m, p) ? &p->val : 0; }
 
-undefined8 fn_830071F8(int *param_1,ulonglong param_2,undefined8 param_3)
-
+unsigned int fn_830071F8(Obj_830071F8 *o, unsigned int id)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint *puVar4;
-  undefined8 uVar5;
-  undefined4 *puVar6;
-  
-  iVar1 = param_1[8];
-  uVar5 = 1;
-  if (iVar1 != 0) {
-    for (puVar4 = *(uint **)(iVar1 + 0x24);
-        (puVar4 != *(uint **)(iVar1 + 0x28) && ((ulonglong)*puVar4 != (param_2 & 0xffffffff)));
-        puVar4 = puVar4 + 4) {
+  unsigned int ret = 1;
+  Ent_830071F8 *e;
+  Val_830071F8 *v;
+  if (o->cont != 0) {
+    for (e = o->cont->map.begin; e != o->cont->map.end && e->id != id; e++) {
     }
-    uVar2 = (uint)(*(uint **)(iVar1 + 0x28) != puVar4);
-    uVar3 = -(uint)(uVar2 != 0);
-    puVar6 = (undefined4 *)(uVar3 & (uint)(puVar4 + 1));
-    if (puVar6 == (undefined4 *)0x0) {
-      uVar5 = 0xf;
-    }
-    else {
-      if ((*(byte *)(puVar6 + 2) & 0x80) == 0) {
-        fn_8302AE48(*puVar6,uVar3,param_3,-uVar2);
-        (**(code **)(*(int *)*puVar6 + 8))();
+    v = Get(&o->cont->map, e);
+    if (v == 0) {
+      ret = 0xf;
+    } else {
+      if ((v->flags & 0x80) == 0) {
+        fn_8302AE48(v->obj);
+        v->obj->vt->f8(v->obj);
       }
-      fn_82FF7D48((ulonglong)(uint)param_1[8] + 0x24,param_2);
+      fn_82FF7D48(&o->cont->map, id);
     }
-    (**(code **)(*param_1 + 0xdc))(param_1);
+    o->vt->fdc(o);
   }
-  return uVar5;
+  return ret;
 }
-

@@ -1,69 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63BA0();
-extern int fn_82F641F8();
-extern int fn_82F68240();
-extern int fn_82F6BB98();
-extern int fn_82F7C468();
-extern int fn_82F7C590();
-extern int fn_82F7C6F0();
+typedef struct File_82F678E0 { char pad[0xc]; int flag; char pad10[0xc]; void *tmpname; } File_82F678E0;
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern int fn_82F6BB98(File_82F678E0 *f);
+extern void fn_82F641F8(void *p);
+extern void fn_82F7C6F0(File_82F678E0 *f);
+extern int fn_82F7C468(File_82F678E0 *f);
+extern int fn_82F7C590(int fd);
 
-
-undefined8 fn_82F678E0(int param_1)
-
+int fn_82F678E0(File_82F678E0 *f)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  uVar3 = 0xffffffffffffffff;
-  if (param_1 == 0) {
-    puVar1 = (undefined4 *)fn_82F68240();
-    *puVar1 = 0x16;
-    fn_82F63BA0();
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-    if ((*(uint *)(param_1 + 0xc) & 0x83) != 0) {
-      uVar3 = fn_82F6BB98(param_1);
-      fn_82F7C6F0(param_1);
-      fn_82F7C468(param_1);
-      iVar2 = fn_82F7C590();
-      if (iVar2 < 0) {
-        uVar3 = 0xffffffffffffffff;
-      }
-      else if (*(int *)(param_1 + 0x1c) != 0) {
-        fn_82F641F8();
-        *(undefined4 *)(param_1 + 0x1c) = 0;
-      }
+    int r = -1;
+    if (f == 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return -1;
     }
-    *(undefined4 *)(param_1 + 0xc) = 0;
-  }
-  return uVar3;
+    if ((f->flag & 0x83) != 0) {
+        r = fn_82F6BB98(f);
+        fn_82F7C6F0(f);
+        if (fn_82F7C590(fn_82F7C468(f)) < 0) {
+            r = -1;
+        } else if (f->tmpname != 0) {
+            fn_82F641F8(f->tmpname);
+            f->tmpname = 0;
+        }
+    }
+    f->flag = 0;
+    return r;
 }
-

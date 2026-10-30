@@ -1,74 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82476DA0();
-extern int fn_82476E30();
-extern int fn_82573530();
-extern int fn_825764F0();
-extern int fn_82F63F40();
+typedef struct Vt_82476B88 { void *f[2]; void (*f8)(void *, int, int); } Vt_82476B88;
+typedef struct Node_82476B88 { char pad[0x1b0]; struct { Vt_82476B88 *vt; } *comp; } Node_82476B88;
+typedef struct Mgr_82476B88 { char pad[0x8c0]; unsigned int f8c0; } Mgr_82476B88;
+typedef struct Ctx_82476B88 { char pad[0x3e4]; Mgr_82476B88 *f3e4; char pad2[0x93c - 0x3e8]; int f93c; } Ctx_82476B88;
+typedef struct Obj_82476B88 { char pad[0x15c]; Ctx_82476B88 *ctx; } Obj_82476B88;
+extern int fn_82F63F40(char *, const char *, int);
+extern Node_82476B88 *fn_82573530(unsigned int, char *);
+extern Node_82476B88 *fn_825764F0(unsigned int, char *, Node_82476B88 *);
+extern void fn_82476E30(Obj_82476B88 *, int, int);
+extern void fn_82476DA0(Obj_82476B88 *, int);
 
-
-void fn_82476B88(int param_1)
-
+void fn_82476B88(Obj_82476B88 *o)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  undefined1 auStack_50 [80];
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 0x15c) + 0x3e4);
-  if (iVar1 != 0) {
-    uVar2 = (ulonglong)*(uint *)(iVar1 + 0x8c0);
-    if ((*(int *)(*(int *)(param_1 + 0x15c) + 0x93c) != 0) && (uVar2 != 0)) {
-      lVar4 = uVar2 + 0x128;
-      fn_82476E30(param_1,0,1);
-      lVar3 = 4;
-      do {
-        fn_82F63F40(auStack_50,0xffffffff821bcf30,lVar3);
-        for (iVar1 = fn_82573530(lVar4,auStack_50); iVar1 != 0;
-            iVar1 = fn_825764F0(lVar4,auStack_50,iVar1)) {
-          (**(code **)(**(int **)(iVar1 + 0x1b0) + 8))(*(int **)(iVar1 + 0x1b0),0,0);
+  Mgr_82476B88 *m = o->ctx->f3e4;
+  if (m != 0) {
+    unsigned int f = m->f8c0;
+    if (o->ctx->f93c != 0 && f != 0) {
+      unsigned int list = f + 0x128;
+      char buf[32];
+      int i;
+      Node_82476B88 *n;
+      fn_82476E30(o, 0, 1);
+      for (i = 4; i <= 0x18; i++) {
+        fn_82F63F40(buf, "effectLocator%d", i);
+        for (n = fn_82573530(list, buf); n != 0; n = fn_825764F0(list, buf, n)) {
+          n->comp->vt->f8(n->comp, 0, 0);
         }
-        lVar3 = lVar3 + 1;
-      } while ((int)lVar3 < 0x19);
-      lVar3 = 0x1e;
-      do {
-        fn_82F63F40(auStack_50,0xffffffff821bcf30,lVar3);
-        for (iVar1 = fn_82573530(lVar4,auStack_50); iVar1 != 0;
-            iVar1 = fn_825764F0(lVar4,auStack_50,iVar1)) {
-          (**(code **)(**(int **)(iVar1 + 0x1b0) + 8))(*(int **)(iVar1 + 0x1b0),0,0);
+      }
+      for (i = 0x1e; i <= 0x22; i++) {
+        fn_82F63F40(buf, "effectLocator%d", i);
+        for (n = fn_82573530(list, buf); n != 0; n = fn_825764F0(list, buf, n)) {
+          n->comp->vt->f8(n->comp, 0, 0);
         }
-        lVar3 = lVar3 + 1;
-      } while ((int)lVar3 < 0x23);
+      }
     }
-    fn_82476DA0(param_1,2);
+    fn_82476DA0(o, 2);
   }
-  return;
 }
-

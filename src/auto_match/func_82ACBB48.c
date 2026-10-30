@@ -25,38 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AA6648();
-extern int fn_82ABE940();
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
+extern void fn_82AA6648(unsigned int *, unsigned int *, unsigned int);
+extern unsigned int *fn_82ABE940(unsigned int *, unsigned int);
 
-
-void fn_82ACBB48(uint *param_1,uint param_2)
-
+void fn_82ACBB48(unsigned int *param_1, unsigned int param_2)
 {
-  int *piVar1;
-  uint *puVar2;
-  uint uVar3;
-  
-  if ((~*param_1 & 1) == 0) {
-    uVar3 = 0x1f;
-  }
-  else {
-    uVar3 = *(int *)*param_1 * 0x20 - 1;
-  }
-  if (uVar3 < param_2) {
-    uVar3 = param_2 + 0x20 >> 5;
-    puVar2 = (uint *)fn_82ABE940(param_1,(uVar3 + 1) * 4);
-    *puVar2 = uVar3;
-    piVar1 = (int *)*param_1;
-    if ((~(uint)piVar1 & 1) == 0) {
-      puVar2[1] = (uint)piVar1 & 0xfffffffe;
-    }
-    else {
-      fn_82F68CC0(puVar2 + 1,piVar1 + 1,*piVar1 << 2);
-      fn_82AA6648(param_1,(uint *)*param_1,((ulonglong)*(uint *)*param_1 + 1 & 0x3fffffff) << 2);
-    }
-    *param_1 = (uint)puVar2;
-  }
-  return;
-}
+  unsigned int *puVar2;
+  unsigned int *piVar1;
+  unsigned int uVar3;
+  unsigned int cap;
 
+  if ((~*param_1 & 1) == 0) {
+    cap = 0x1f;
+  } else {
+    cap = *(unsigned int *)*param_1 * 0x20 - 1;
+  }
+  if (param_2 > cap) {
+    uVar3 = (param_2 + 0x20) >> 5;
+    puVar2 = fn_82ABE940(param_1, (uVar3 + 1) * 4);
+    *puVar2 = uVar3;
+    piVar1 = (unsigned int *)*param_1;
+    if ((~(unsigned int)piVar1 & 1) != 0) {
+      memcpy(puVar2 + 1, piVar1 + 1, *piVar1 << 2);
+      fn_82AA6648(param_1, (unsigned int *)*param_1, (*(unsigned int *)*param_1 + 1) << 2);
+    } else {
+      puVar2[1] = (unsigned int)piVar1 & 0xfffffffe;
+    }
+    *param_1 = (unsigned int)puVar2;
+  }
+}

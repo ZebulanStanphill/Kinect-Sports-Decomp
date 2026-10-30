@@ -1,85 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_83013B98();
-extern int fn_83036628();
-extern int fn_83036C28();
-extern int fn_83036C30();
+struct Item_8300DB40;
+typedef struct ItemVt_8300DB40 {
+  void *f[14];
+  unsigned int (*f38)(struct Item_8300DB40 *);
+} ItemVt_8300DB40;
+typedef struct Item_8300DB40 { ItemVt_8300DB40 *vt; } Item_8300DB40;
+typedef struct Ent_8300DB40 { unsigned int key; Item_8300DB40 *item; } Ent_8300DB40;
+typedef struct Vec_8300DB40 { Ent_8300DB40 *begin; Ent_8300DB40 *end; Ent_8300DB40 *cap; } Vec_8300DB40;
+typedef struct Obj_8300DB40 {
+  Vec_8300DB40 v[6];
+  char pad48[5];
+  unsigned char n;
+} Obj_8300DB40;
+static Item_8300DB40 **sel_(int c, Item_8300DB40 **p) { return c ? p : 0; }
 extern unsigned int lbl_831BC770;
+extern unsigned int fn_82FA5060(unsigned int, unsigned int);
+extern void fn_82FA5190(unsigned int, unsigned int);
+extern void fn_83036628(void);
+extern unsigned int fn_83013B98(Obj_8300DB40 *, unsigned int, unsigned int);
+extern void fn_83036C28(unsigned int);
+extern void fn_83036C30(unsigned int, unsigned int, unsigned int, unsigned int);
 
-
-ulonglong fn_8300DB40(undefined4 *param_1,ulonglong param_2,undefined8 param_3)
-
+unsigned int fn_8300DB40(Obj_8300DB40 *o, unsigned int key)
 {
-  ulonglong uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  uint *puVar4;
-  uint uVar5;
-  undefined4 *puVar6;
-  
-  for (puVar4 = (uint *)*param_1;
-      (puVar4 != (uint *)param_1[1] && ((ulonglong)*puVar4 != (param_2 & 0xffffffff)));
-      puVar4 = puVar4 + 2) {
-  }
-  uVar5 = (uint)((uint *)param_1[1] != puVar4);
-  puVar4 = (uint *)(-(uint)(uVar5 != 0) & (uint)(puVar4 + 1));
-  if (puVar4 == (uint *)0x0) {
-    uVar1 = fn_82FA5060(lbl_831BC770,0x10,param_3,-uVar5);
-    if ((uVar1 & 0xffffffff) != 0) {
-      fn_83036628();
-      iVar3 = fn_83013B98(param_1,param_2,uVar1);
-      if (iVar3 != 0) goto LAB_8300dbfc;
-      fn_83036C28(uVar1);
-      fn_82FA5190(lbl_831BC770,uVar1);
-    }
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = (ulonglong)*puVar4;
-LAB_8300dbfc:
-    uVar5 = 0;
-    if (*(char *)((int)param_1 + 0x4d) != '\0') {
-      do {
-        iVar3 = uVar5 + 1;
-        puVar6 = (undefined4 *)param_1[iVar3 * 3];
-        if (puVar6 != (undefined4 *)param_1[iVar3 * 3 + 1]) {
-          do {
-            uVar2 = (**(code **)(*(int *)puVar6[1] + 0x38))();
-            fn_83036C30(uVar1,uVar5,*puVar6,uVar2);
-            puVar6 = puVar6 + 2;
-          } while (puVar6 != (undefined4 *)param_1[iVar3 * 3 + 1]);
-        }
-        uVar5 = uVar5 + 1 & 0xff;
-      } while (uVar5 < *(byte *)((int)param_1 + 0x4d));
-    }
-  }
-  return uVar1;
-}
+  Ent_8300DB40 *e;
+  Item_8300DB40 **found;
+  unsigned int res;
+  unsigned int i;
+  unsigned int k;
+  unsigned int flag;
+  Ent_8300DB40 *p;
 
+  for (e = o->v[0].begin; e != o->v[0].end && e->key != key; e++) {
+  }
+  flag = ((unsigned int)o->v[0].end - (unsigned int)e) != 0;
+  found = sel_(flag, &e->item);
+  if (found == 0) {
+    res = fn_82FA5060(lbl_831BC770, 0x10);
+    if (res != 0) {
+      fn_83036628();
+      if (fn_83013B98(o, key, res) != 0) goto fill;
+      fn_83036C28(res);
+      fn_82FA5190(lbl_831BC770, res);
+    }
+    return 0;
+  } else {
+    res = (unsigned int)*found;
+fill:
+    i = 0;
+    if (o->n != 0) {
+      k = 0;
+      do {
+        Vec_8300DB40 *v = &o->v[k + 1];
+        for (p = v->begin; p != v->end; p++) {
+          fn_83036C30(res, i, p->key, p->item->vt->f38(p->item));
+        }
+        i = (k + 1) & 0xff;
+        k = i;
+      } while (i < o->n);
+    }
+  }
+  return res;
+}

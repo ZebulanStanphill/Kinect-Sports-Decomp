@@ -1,53 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Sub_8240CF70;
+typedef struct Info_8240CF70 { char pad[0x7a0]; int f7a0; } Info_8240CF70;
+typedef struct VT_8240CF70 { void *f0; Info_8240CF70 *(*f4)(struct Sub_8240CF70 *); Info_8240CF70 *(*f8)(struct Sub_8240CF70 *); } VT_8240CF70;
+typedef struct Sub_8240CF70 { VT_8240CF70 *vt; } Sub_8240CF70;
+typedef struct Obj_8240CF70 { char pad[0x44]; Sub_8240CF70 sub; char pad2[0x58 - 0x48]; int f58; char pad3[0x70 - 0x5c]; int f70; char pad4[0xf8 - 0x74]; int ff8; } Obj_8240CF70;
 
-
-undefined8 fn_8240CF70(int param_1)
-
+int fn_8240CF70(Obj_8240CF70 *o)
 {
-  bool bVar1;
-  bool bVar2;
-  int iVar4;
-  undefined8 uVar3;
-  int *piVar5;
-  
-  piVar5 = (int *)(param_1 + 0x44);
-  iVar4 = (**(code **)(*(int *)(param_1 + 0x44) + 4))(piVar5);
-  if ((*(int *)(iVar4 + 0x7a0) != 0) || (bVar1 = false, *(int *)(param_1 + 0x58) != 0)) {
-    bVar1 = true;
-  }
-  iVar4 = (**(code **)(*piVar5 + 8))(piVar5);
-  if ((*(int *)(iVar4 + 0x7a0) != 0) || (bVar2 = false, *(int *)(param_1 + 0x70) != 0)) {
-    bVar2 = true;
-  }
-  if (((bVar1) || (bVar2)) || (uVar3 = 1, *(int *)(param_1 + 0xf8) == 0)) {
-    uVar3 = 0;
-  }
-  return uVar3;
+    int a, b;
+    Sub_8240CF70 *s = &o->sub;
+    a = (s->vt->f4(s)->f7a0 != 0) || (o->f58 != 0);
+    b = (s->vt->f8(s)->f7a0 != 0) || (o->f70 != 0);
+    if (a || b || o->ff8 == 0) return 0;
+    return 1;
 }
-

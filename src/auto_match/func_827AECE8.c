@@ -1,60 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Ent_827AECE8 { unsigned int start; unsigned int len; char pad[0x20]; } Ent_827AECE8;
+typedef struct Tab_827AECE8 { Ent_827AECE8 *data; unsigned int count; } Tab_827AECE8;
 
-
-undefined8 fn_827AECE8(int *param_1,uint param_2,uint param_3)
-
+int fn_827AECE8(Tab_827AECE8 *t, unsigned int a, unsigned int b)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  if (param_1[1] != 0) {
-    iVar3 = 0;
-    do {
-      uVar1 = *(uint *)(iVar3 + *param_1);
-      if (param_2 < uVar1) {
-code_r0x827aed28:
-        if (uVar1 < param_3) {
-          return 1;
-        }
-      }
-      else {
-        if (param_2 < *(int *)(iVar3 + *param_1 + 4) + uVar1) {
-          return 1;
-        }
-        if (param_2 <= uVar1) goto code_r0x827aed28;
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 0x28;
-    } while (uVar2 < (uint)param_1[1]);
-  }
-  return 0;
+    unsigned int i;
+    for (i = 0; i < t->count; i++) {
+    unsigned int s = t->data[i].start;
+    if (s <= a) { if (a < s + t->data[i].len) return 1; if (s >= a && s < b) return 1; }
+    else if (s < b) return 1;
 }
 
+    return 0;
+}

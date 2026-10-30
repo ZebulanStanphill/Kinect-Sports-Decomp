@@ -31,19 +31,20 @@ extern int fn_82535298();
 extern int fn_82536288();
 
 
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
 void fn_8228F478(int param_1)
 
 {
   undefined4 *puVar1;
   undefined4 auStack_20 [4];
   
-  if (*(int *)(param_1 + 0x34) != 0) {
-    puVar1 = (undefined4 *)fn_82507908();
+  if (*(unsigned int *)(param_1 + 0x34) != 0) {
+    puVar1 = (undefined4 *)fn_82507908(*(unsigned int *)(param_1 + 0x34));
     if (puVar1 != (undefined4 *)0x0) {
       auStack_20[0] = *puVar1;
       auStack_20[0] =
-           fn_82535298(auStack_20,*(undefined4 *)(*(int *)(param_1 + 0x10) + 0x84c),
-                             0xffffffff83296bc0,0xffffffff83296bd0);
+           fn_82535298(auStack_20,*(undefined4 *)(*(int *)(param_1 + 0x10) + 0x84c),lbl_83296BC0,lbl_83296BD0);
       fn_82536288(auStack_20);
     }
   }

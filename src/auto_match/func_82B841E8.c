@@ -1,53 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABDD90();
-extern int fn_82AC6560();
-extern int fn_82B83B68();
+typedef struct Link_82B841E8 { unsigned int f0; unsigned int f4; } Link_82B841E8;
+typedef struct Obj_82B841E8 { unsigned int first; char pad[0x20]; Link_82B841E8 link; } Obj_82B841E8;
+extern unsigned int fn_82ABDD90(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+extern unsigned int fn_82AC6560(unsigned int a, unsigned int b, int c);
+extern void fn_82B83B68(unsigned int r, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e);
 
-
-undefined8
-fn_82B841E8(undefined8 param_1,undefined8 param_2,uint *param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6)
-
+unsigned int fn_82B841E8(unsigned int a, unsigned int b, Link_82B841E8 *head, unsigned int c, unsigned int d, unsigned int e)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  
-  uVar2 = fn_82ABDD90(param_1,param_4,param_5,param_6);
-  uVar2 = fn_82AC6560(param_1,uVar2,0x23);
-  fn_82B83B68(uVar2,param_1,param_2,param_4,param_5,param_6);
-  if (param_3 != (uint *)0x0) {
-    uVar1 = (uint)uVar2 & 0xfffffffe;
-    *(uint *)(uVar1 + 0x24) = *param_3;
-    *(uint *)(*param_3 & 0xfffffffe) = uVar1;
-    *(uint *)(uVar1 + 0x28) = (uint)(param_3 + -9) | 1;
-    *param_3 = uVar1 + 0x28;
-  }
-  return uVar2;
+    unsigned int r;
+    Link_82B841E8 *lk;
+    r = fn_82ABDD90(a, c, d, e);
+    r = fn_82AC6560(a, r, 0x23);
+    fn_82B83B68(r, a, b, c, d, e);
+    if (head != 0) {
+        lk = &((Obj_82B841E8 *)(r & ~1u))->link;
+        lk->f0 = head->f0;
+        ((Obj_82B841E8 *)(head->f0 & ~1u))->first = (unsigned int)lk - 0x24;
+        lk->f4 = ((unsigned int)head - 0x24) | 1;
+        head->f0 = (unsigned int)&lk->f4;
+    }
+    return r;
 }
-

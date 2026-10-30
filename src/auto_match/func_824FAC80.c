@@ -1,70 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8255FA88();
-extern int fn_82563688();
-extern int fn_827EF828();
-extern int fn_827EFFE8();
-extern int fn_827F0180();
-extern unsigned int lbl_8218E690;
+typedef struct Ent_824FAC80 { int a; int b; unsigned int id; } Ent_824FAC80;
+typedef struct Hdr_824FAC80 { unsigned short size; unsigned short pad[5]; unsigned short kind; } Hdr_824FAC80;
+typedef struct Vt_824FAC80 { unsigned int *w; } Vt_824FAC80;
+typedef struct Sub_824FAC80 { char pad[0x44]; int idx; } Sub_824FAC80;
+typedef struct Self_824FAC80 { char pad[0x30]; Sub_824FAC80 *sub; } Self_824FAC80;
+typedef struct Ctx_824FAC80 {
+  unsigned int **tab;
+  void *h;
+  void *owner;
+  Hdr_824FAC80 *list;
+} Ctx_824FAC80;
+extern Ent_824FAC80 lbl_8218E688[];
+extern void fn_824FAD78(void *);
+extern void fn_827EF828(void *);
+extern void fn_827EFFE8(void *);
+extern void fn_827F0180(void *, unsigned int, int, int, int);
+extern void fn_82563688(void *, int, void *, void (*)(void *), int);
+extern int fn_8255FA88(void *);
 
-
-undefined8 fn_824FAC80(int param_1,undefined8 param_2,int *param_3)
-
+int fn_824FAC80(Self_824FAC80 *self, int unused, Ctx_824FAC80 *c)
 {
-  ushort uVar1;
-  int iVar2;
-  uint uVar3;
-  undefined8 uVar4;
-  ushort *puVar5;
-  
-  fn_827EF828(param_3[1]);
-  fn_827EFFE8(param_3[1]);
-  fn_827F0180(param_3[1],
-                    **(undefined4 **)
-                      ((*(int *)(*(int *)(param_1 + 0x30) + 0x44) + 0x20) * 4 + *param_3),1,0,0);
-  puVar5 = (ushort *)param_3[3];
-  if (puVar5 != (ushort *)0x0) {
-    iVar2 = param_3[2];
-    uVar1 = puVar5[6];
-    while (uVar3 = (uint)uVar1, uVar3 != 0) {
-      if ((0x31 < uVar3) || (*(uint *)(&lbl_8218E690 + uVar3 * 0xc) == (uint)*puVar5)) {
-        fn_82563688(iVar2,0,puVar5,0xffffffff824fad78,0);
+  Hdr_824FAC80 *p;
+  int r;
+  fn_827EF828(c->h);
+  fn_827EFFE8(c->h);
+  fn_827F0180(c->h, *c->tab[self->sub->idx + 0x20], 1, 0, 0);
+  p = c->list;
+  if (p != 0) {
+    void *owner = c->owner;
+    if (fn_824FAD78 != 0) {
+      while (p->kind != 0) {
+        if (p->kind >= 0x32 || lbl_8218E688[p->kind].id == p->size) {
+          fn_82563688(owner, 0, p, fn_824FAD78, 0);
+        }
+        p = (Hdr_824FAC80 *)((char *)p + p->size);
       }
-      puVar5 = (ushort *)((uint)*puVar5 + (int)puVar5);
-      uVar1 = puVar5[6];
     }
   }
-  if (param_3[2] == 0) {
-    uVar4 = 1;
+  if (c->owner != 0) {
+    r = fn_8255FA88(c->owner);
+  } else {
+    r = 1;
   }
-  else {
-    uVar4 = fn_8255FA88();
-  }
-  return uVar4;
+  return r;
 }
-

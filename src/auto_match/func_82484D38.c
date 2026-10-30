@@ -1,74 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F160();
-extern int fn_82485850();
+typedef struct Obj_82484D38 {
+    char pad0[0xc];
+    int fc;
+    char pad10[0xc];
+    unsigned int f1c;
+    char pad20[0x14];
+    char name[0x100];
+    char name2[0x100];
+    char pad234[0x200];
+    char src1[0x100];
+    char src2[0x100];
+    char src3[0x100];
+} Obj_82484D38;
+extern void fn_82485850(Obj_82484D38 *o, char *p);
+extern int *fn_8225F160(void);
 
-
-void fn_82484D38(int param_1)
-
+static void CopyStr(char *d, const char *s)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  char *pcVar4;
-  
-  pcVar4 = (char *)(param_1 + 0x34);
-  iVar3 = (param_1 + 0x434) - (int)pcVar4;
-  do {
-    if ((char *)(param_1 + 0x134) <= pcVar4) break;
-    cVar1 = pcVar4[iVar3];
-    *pcVar4 = cVar1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  if (pcVar4 == (char *)(param_1 + 0x134)) {
-    pcVar4[-1] = '\0';
-  }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0x1c);
-  }
-  pcVar4 = (char *)(param_1 + 0x134);
-  iVar3 = (param_1 + 0x534) - (int)pcVar4;
-  do {
-    if ((char *)(param_1 + 0x234) <= pcVar4) break;
-    cVar1 = pcVar4[iVar3];
-    *pcVar4 = cVar1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  if (pcVar4 == (char *)(param_1 + 0x234)) {
-    pcVar4[-1] = '\0';
-  }
-  fn_82485850(param_1,param_1 + 0x634);
-  puVar2 = (undefined4 *)fn_8225F160();
-  *puVar2 = 0;
-  puVar2[7] = 0;
-  puVar2[8] = 0;
-  puVar2[9] = 0;
-  puVar2[10] = 4;
-  return;
+    char *e = d + 0x100; char c;
+do { if (d >= e) break; c = *s++; *d++ = c; } while (c != 0);
+if (d == e) d[-1] = 0;
+
 }
 
+void fn_82484D38(Obj_82484D38 *o)
+{
+    int *r;
+    CopyStr(o->name, o->src1);
+    if (o->f1c != 0)
+        o->fc = o->f1c;
+    CopyStr(o->name2, o->src2);
+    fn_82485850(o, o->src3);
+    r = fn_8225F160();
+    r[0] = 0;
+    r[7] = 0;
+    r[8] = 0;
+    r[9] = 0;
+    r[10] = 4;
+}

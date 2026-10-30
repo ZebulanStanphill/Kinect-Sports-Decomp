@@ -1,83 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F1B020();
-extern int fn_82F2A168();
-extern int fn_82F2A338();
-extern int fn_82F2A508();
-extern int fn_82F2A6D8();
-extern int fn_82F2AAD0();
+typedef struct Ctx_82F2BB70 {
+    char pad[0x1ebc];
+    unsigned int f1ebc;
+    char pad2[0x4e50 - 0x1ec0];
+    int f4e50;
+    int f4e54;
+    char pad3[0x6f98 - 0x4e58];
+    int f6f98;
+} Ctx_82F2BB70;
+extern void fn_82F1B020(Ctx_82F2BB70 *c, short *a, short *b, unsigned int p5, int i, int one);
+extern void fn_82F2A168(Ctx_82F2BB70 *c, unsigned int u, int a, int b);
+extern void fn_82F2A338(Ctx_82F2BB70 *c, unsigned int u, int a, int b);
+extern void fn_82F2A508(Ctx_82F2BB70 *c, unsigned int u, int a, int b);
+extern void fn_82F2A6D8(Ctx_82F2BB70 *c, unsigned int u, int a, int b);
+extern void fn_82F2AAD0(Ctx_82F2BB70 *c, unsigned int u, int a, int b, int k, unsigned int p5);
 
-
-void fn_82F2BB70(int param_1,int param_2,int param_3,int param_4,undefined8 param_5)
-
+void fn_82F2BB70(Ctx_82F2BB70 *c, short *tab, short *cnt, int i, unsigned int p5)
 {
-  undefined4 uVar1;
-  undefined2 *puVar2;
-  undefined2 *puVar3;
-  short *psVar4;
-  int iVar5;
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x1ebc);
-  puVar2 = (undefined2 *)(param_4 * 0x100 + param_2);
-  psVar4 = (short *)(param_4 * 2 + param_3);
-  if (*(int *)(param_1 + 0x6f98) != 0) {
-    fn_82F1B020(param_1,puVar2,psVar4,param_5,param_4,1);
-  }
-  if (param_4 < 4) {
-    fn_82F2AAD0(param_1,uVar1,*puVar2,*(undefined4 *)(param_1 + 0x4e50),0x77,param_5);
-    if (2 < *psVar4) {
-      iVar5 = 2;
-      puVar3 = puVar2;
-      if (2 < *psVar4 + -2) {
-        do {
-          fn_82F2A508(param_1,uVar1,puVar3[3],puVar3[2]);
-          iVar5 = iVar5 + 2;
-          puVar3 = puVar3 + 2;
-        } while (iVar5 < *psVar4 + -2);
-      }
-      fn_82F2A6D8(param_1,uVar1,(puVar2 + iVar5)[1],puVar2[iVar5]);
+    unsigned int u = c->f1ebc;
+    short *p = tab + i * 128;
+    short *n = cnt + i;
+    short *q;
+    int k;
+    if (c->f6f98 != 0)
+        fn_82F1B020(c, p, n, p5, i, 1);
+    if (i < 4) {
+        fn_82F2AAD0(c, u, *p, c->f4e50, 0x77, p5);
+        if (*n > 2) {
+            k = 2;
+            q = p;
+            if (*n - 2 > 2) {
+                do {
+                    fn_82F2A508(c, u, q[3], q[2]);
+                    k += 2;
+                    q += 2;
+                } while (k < *n - 2);
+            }
+            fn_82F2A6D8(c, u, p[k + 1], p[k]);
+        }
+    } else {
+        fn_82F2AAD0(c, u, *p, c->f4e54, 0x77, p5);
+        if (*n > 2) {
+            k = 2;
+            q = p;
+            if (*n - 2 > 2) {
+                do {
+                    fn_82F2A168(c, u, q[3], q[2]);
+                    k += 2;
+                    q += 2;
+                } while (k < *n - 2);
+            }
+            fn_82F2A338(c, u, p[k + 1], p[k]);
+        }
     }
-  }
-  else {
-    fn_82F2AAD0(param_1,uVar1,*puVar2,*(undefined4 *)(param_1 + 0x4e54),0x77,param_5);
-    if (2 < *psVar4) {
-      iVar5 = 2;
-      puVar3 = puVar2;
-      if (2 < *psVar4 + -2) {
-        do {
-          fn_82F2A168(param_1,uVar1,puVar3[3],puVar3[2]);
-          iVar5 = iVar5 + 2;
-          puVar3 = puVar3 + 2;
-        } while (iVar5 < *psVar4 + -2);
-      }
-      fn_82F2A338(param_1,uVar1,(puVar2 + iVar5)[1],puVar2[iVar5]);
-    }
-  }
-  return;
 }
-

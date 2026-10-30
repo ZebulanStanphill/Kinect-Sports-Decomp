@@ -1,50 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8232C528();
-extern int fn_8232C828();
+typedef struct Inner_8232D878 Inner_8232D878;
+typedef struct {
+    void *f0[5];
+    void (*set)(Inner_8232D878 *p, int old, int now);
+} InnerVt_8232D878;
+struct Inner_8232D878 {
+    InnerVt_8232D878 *vt;
+    int pad4;
+    int state;
+};
 
+typedef struct {
+    int pad0[2];
+    char *data;
+    Inner_8232D878 *inner;
+    int pad10[4];
+    char sub[4];
+} Obj_8232D878;
 
-void fn_8232D878(int param_1,int param_2,undefined8 param_3)
+extern int fn_8232C828(Obj_8232D878 *o, int a, void *sub, float f);
+extern void fn_8232C528(Inner_8232D878 *p, int x);
 
+void fn_8232D878(Obj_8232D878 *o, int b, int c)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if ((*(int *)(*(int *)(param_1 + 0xc) + 8) == 2) &&
-     (iVar2 = fn_8232C828((double)(*(float *)(*(int *)(param_1 + 8) + 0x4e8) /
-                                    *(float *)(*(int *)(param_1 + 8) + 0x4e0)),param_1,param_3,
-                            param_1 + 0x20), iVar2 != 0)) {
-    piVar1 = *(int **)(param_1 + 0xc);
-    iVar2 = piVar1[2];
-    piVar1[2] = (uint)(param_2 == 0);
-    (**(code **)(*piVar1 + 0x14))(piVar1,iVar2);
-    fn_8232C528(*(undefined4 *)(param_1 + 0xc),1);
-  }
-  return;
-}
+    Inner_8232D878 *p;
+    int old;
 
+    if (o->inner->state == 2 &&
+        fn_8232C828(o, c, o->sub, *(float *)(o->data + 0x4e8) / *(float *)(o->data + 0x4e0)) != 0) {
+        p = o->inner;
+        old = p->state;
+        p->state = b == 0;
+        p->vt->set(p, old, b == 0);
+        fn_8232C528(o->inner, 1);
+    }
+}
