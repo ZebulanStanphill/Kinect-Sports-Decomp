@@ -31,13 +31,6 @@ undefined8 fn_82BBD1C0(undefined4 param_1)
 
 {
   switch(param_1) {
-  case 2:
-  case 8:
-  case 9:
-  case 0x18:
-  case 0x1e:
-  case 0x24:
-    return 1;
   case 3:
   case 6:
   case 7:
@@ -57,8 +50,14 @@ undefined8 fn_82BBD1C0(undefined4 param_1)
   case 0x1f:
   case 0x25:
     return 2;
+  case 2:
+  case 8:
+  case 9:
+  case 0x18:
+  case 0x1e:
+  case 0x24:
+    return 1;
   default:
     return 0;
   }
 }
-

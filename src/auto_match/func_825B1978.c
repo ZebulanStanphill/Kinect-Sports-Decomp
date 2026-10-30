@@ -27,11 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_825B1978(undefined8 param_1)
+int fn_825B1978(uint param_1)
 
 {
-  switch((uint)((ulonglong)param_1 >> 0x18) & 0xf) {
-  default:
+  switch((param_1 >> 0x18) & 0xf) {
+  case 0:
+    return 4;
+  case 1:
+    return 4;
+  case 2:
     return 4;
   case 3:
     return 8;
@@ -59,6 +63,7 @@ undefined8 fn_825B1978(undefined8 param_1)
     return 0x4000;
   case 0xf:
     return 0x8000;
+  default:
+    return 4;
   }
 }
-

@@ -24,56 +24,32 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230110();
-extern int fn_8288ACA0();
+extern void fn_82230110(int, const char *);
+extern void fn_8288ACA0(int);
+extern char lbl_82196582[];
 
-
-undefined8 fn_82515390(undefined8 param_1,undefined8 param_2,uint param_3)
-
+int fn_82515390(int param_1, int param_2, unsigned int param_3)
 {
-  undefined8 uVar1;
-  
+  const char *s;
+
   if (param_3 < 0x17) {
-    fn_8288ACA0();
+    fn_8288ACA0(param_1);
   }
   else {
-    switch(param_3) {
-    case 0x17:
-      uVar1 = 0xffffffff821c2600;
-      break;
-    case 0x18:
-      uVar1 = 0xffffffff821c2614;
-      break;
-    case 0x19:
-      uVar1 = 0xffffffff821c2624;
-      break;
-    case 0x1a:
-      uVar1 = 0xffffffff821c2634;
-      break;
-    case 0x1b:
-      uVar1 = 0xffffffff821c2648;
-      break;
-    case 0x1c:
-      uVar1 = 0xffffffff821c2670;
-      break;
-    case 0x1d:
-      uVar1 = 0xffffffff821c26d0;
-      break;
-    case 0x1e:
-      uVar1 = 0xffffffff821c2690;
-      break;
-    case 0x1f:
-      uVar1 = 0xffffffff821c26a4;
-      break;
-    case 0x20:
-      uVar1 = 0xffffffff821c26f4;
-      break;
-    default:
-      uVar1 = 0xffffffff82196582;
+    switch (param_3) {
+    case 0x17: s = "liveMainRelease()"; break;
+    case 0x18: s = "Jumping scene"; break;
+    case 0x19: s = "Invalid profile"; break;
+    case 0x1a: s = "Profiles changed"; break;
+    case 0x1b: s = "Profile not gold or connected to live"; break;
+    case 0x1c: s = "Migration during arbitration"; break;
+    case 0x1e: s = "Matchmaking stop"; break;
+    case 0x1f: s = "User requested to change session parameters"; break;
+    case 0x1d: s = "Manual left game from pause screen"; break;
+    case 0x20: s = "Left session with scene lifetime because the scene was killed"; break;
+    default: s = lbl_82196582;
     }
-    fn_82230110(param_1,uVar1);
+    fn_82230110(param_1, s);
   }
   return param_1;
 }
-
