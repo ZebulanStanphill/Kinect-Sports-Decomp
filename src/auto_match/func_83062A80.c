@@ -1,45 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83062700();
-extern int fn_83062810();
+typedef struct Pair_83062A80 { int first; int second; } Pair_83062A80;
+typedef struct Node_83062A80 { int f0; int f4; int f8; Pair_83062A80 val; } Node_83062A80;
+extern Node_83062A80 *fn_83062700();
+extern void fn_83062810();
 
-
-undefined8 fn_83062A80(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
-
+void *fn_83062A80(void *ret, void *tree, Pair_83062A80 *v)
 {
-  int iVar1;
-  
-  iVar1 = fn_83062700(param_2);
-  if ((undefined4 *)(iVar1 + 0xc) != (undefined4 *)0x0) {
-    *(undefined4 *)(iVar1 + 0xc) = *param_3;
-    *(undefined4 *)(iVar1 + 0x10) = param_3[1];
+  Node_83062A80 *n = fn_83062700(tree);
+  Pair_83062A80 *p = &n->val;
+  if (p != 0) {
+    *p = *v;
   }
-  fn_83062810(param_1,param_2,iVar1,0);
-  return param_1;
+  fn_83062810(ret, tree, n, 0);
+  return ret;
 }
-

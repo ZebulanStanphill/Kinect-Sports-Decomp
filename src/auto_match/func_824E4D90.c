@@ -25,72 +25,76 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82545950();
-extern int fn_82545A90();
-extern unsigned int lbl_821C1424;
-extern unsigned int lbl_821C164C;
+extern void fn_8251FA58(void *);
+extern void fn_82545950(void *);
+extern void fn_82545A90(void *);
+extern char lbl_821C1424[];
+extern char lbl_821C164C[];
 
+typedef struct {
+  void *vtbl;
+  int pad4, pad8;
+  void *a;
+  void *b;
+  void *p[12];
+} Obj_824E4D90;
 
-void fn_824E4D90(undefined4 *param_1)
-
+void fn_824E4D90(Obj_824E4D90 *o)
 {
-  *param_1 = &lbl_821C164C;
-  if (param_1[3] != 0) {
-    fn_82545950(param_1 + 3);
+  o->vtbl = lbl_821C164C;
+  if (o->a != 0) {
+    fn_82545950(&o->a);
   }
-  if (param_1[4] != 0) {
-    fn_82545A90(param_1 + 4);
+  if (o->b != 0) {
+    fn_82545A90(&o->b);
   }
-  if (param_1[5] != 0) {
-    fn_8251FA58();
-    param_1[5] = 0;
+  if (o->p[0] != 0) {
+    fn_8251FA58(o->p[0]);
+    o->p[0] = 0;
   }
-  if (param_1[6] != 0) {
-    fn_8251FA58();
-    param_1[6] = 0;
+  if (o->p[1] != 0) {
+    fn_8251FA58(o->p[1]);
+    o->p[1] = 0;
   }
-  if (param_1[7] != 0) {
-    fn_8251FA58();
-    param_1[7] = 0;
+  if (o->p[2] != 0) {
+    fn_8251FA58(o->p[2]);
+    o->p[2] = 0;
   }
-  if (param_1[8] != 0) {
-    fn_8251FA58();
-    param_1[8] = 0;
+  if (o->p[3] != 0) {
+    fn_8251FA58(o->p[3]);
+    o->p[3] = 0;
   }
-  if (param_1[9] != 0) {
-    fn_8251FA58();
-    param_1[9] = 0;
+  if (o->p[4] != 0) {
+    fn_8251FA58(o->p[4]);
+    o->p[4] = 0;
   }
-  if (param_1[10] != 0) {
-    fn_8251FA58();
-    param_1[10] = 0;
+  if (o->p[5] != 0) {
+    fn_8251FA58(o->p[5]);
+    o->p[5] = 0;
   }
-  if (param_1[0xb] != 0) {
-    fn_8251FA58();
-    param_1[0xb] = 0;
+  if (o->p[6] != 0) {
+    fn_8251FA58(o->p[6]);
+    o->p[6] = 0;
   }
-  if (param_1[0xc] != 0) {
-    fn_8251FA58();
-    param_1[0xc] = 0;
+  if (o->p[7] != 0) {
+    fn_8251FA58(o->p[7]);
+    o->p[7] = 0;
   }
-  if (param_1[0xd] != 0) {
-    fn_8251FA58();
-    param_1[0xd] = 0;
+  if (o->p[8] != 0) {
+    fn_8251FA58(o->p[8]);
+    o->p[8] = 0;
   }
-  if (param_1[0xe] != 0) {
-    fn_8251FA58();
-    param_1[0xe] = 0;
+  if (o->p[9] != 0) {
+    fn_8251FA58(o->p[9]);
+    o->p[9] = 0;
   }
-  if (param_1[0xf] != 0) {
-    fn_8251FA58();
-    param_1[0xf] = 0;
+  if (o->p[10] != 0) {
+    fn_8251FA58(o->p[10]);
+    o->p[10] = 0;
   }
-  if (param_1[0x10] != 0) {
-    fn_8251FA58();
-    param_1[0x10] = 0;
+  if (o->p[11] != 0) {
+    fn_8251FA58(o->p[11]);
+    o->p[11] = 0;
   }
-  *param_1 = &lbl_821C1424;
-  return;
+  o->vtbl = lbl_821C1424;
 }
-

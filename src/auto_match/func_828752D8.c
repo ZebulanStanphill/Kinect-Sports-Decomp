@@ -1,46 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+void *memcpy(void *, const void *, unsigned int);
 extern int fn_822924C0();
-extern int memcpy();
 
+typedef struct Obj_828752D8 {
+  int f0;
+  char sub[0x24];
+  unsigned char b28;
+  int f2c;
+  unsigned char arr[0x24];
+  int f54;
+  int f58;
+  int f5c;
+  int f60;
+  int f64;
+  int f68;
+} Obj_828752D8;
 
-int fn_828752D8(int param_1,int param_2)
-
+Obj_828752D8 *fn_828752D8(Obj_828752D8 *d, Obj_828752D8 *s)
 {
-  fn_822924C0(param_1 + 4,param_2 + 4);
-  *(undefined1 *)(param_1 + 0x28) = *(undefined1 *)(param_2 + 0x28);
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(param_2 + 0x2c);
-  memcpy(param_1 + 0x30,param_2 + 0x30,0x24);
-  *(undefined4 *)(param_1 + 0x54) = *(undefined4 *)(param_2 + 0x54);
-  *(undefined4 *)(param_1 + 0x58) = *(undefined4 *)(param_2 + 0x58);
-  *(undefined4 *)(param_1 + 0x5c) = *(undefined4 *)(param_2 + 0x5c);
-  *(undefined4 *)(param_1 + 100) = *(undefined4 *)(param_2 + 100);
-  *(undefined4 *)(param_1 + 0x68) = *(undefined4 *)(param_2 + 0x68);
-  return param_1;
+  fn_822924C0((int)d + 4, (int)s + 4);
+  d->b28 = s->b28;
+  d->f2c = s->f2c;
+  memcpy((char *)d + 0x30, (char *)s + 0x30, 0x24);
+  d->f54 = s->f54;
+  d->f58 = s->f58;
+  d->f5c = s->f5c;
+  d->f64 = s->f64;
+  d->f68 = s->f68;
+  return d;
 }
-

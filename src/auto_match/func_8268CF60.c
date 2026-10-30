@@ -1,48 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8268CF60(float *param_1,float *param_2)
-
+/* p = m * p for 2x3 affine matrices stored as two rows of three floats. */
+void fn_8268CF60(float *p, float *m)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  
-  fVar1 = *param_1;
-  fVar2 = param_1[1];
-  fVar3 = param_1[2];
-  *param_1 = param_2[1] * param_1[3] + *param_2 * fVar1;
-  param_1[3] = param_2[4] * param_1[3] + param_2[3] * fVar1;
-  param_1[1] = param_2[1] * param_1[4] + *param_2 * fVar2;
-  param_1[4] = param_2[4] * param_1[4] + param_2[3] * fVar2;
-  param_1[2] = param_2[1] * param_1[5] + *param_2 * fVar3 + param_2[2];
-  param_1[5] = param_2[4] * param_1[5] + param_2[3] * fVar3 + param_2[5];
-  return;
+  float a = p[0];
+  float b = p[1];
+  float c = p[2];
+  float d = p[3];
+  float e = p[4];
+  float f = p[5];
+  p[0] = m[0] * a + m[1] * d;
+  p[3] = m[3] * a + m[4] * d;
+  p[1] = m[0] * b + m[1] * e;
+  p[4] = m[3] * b + m[4] * e;
+  p[2] = m[0] * c + m[1] * f + m[2];
+  p[5] = m[3] * c + m[4] * f + m[5];
 }
-

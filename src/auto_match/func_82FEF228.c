@@ -1,63 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82FEF228 { struct Node_82FEF228 *next; } Node_82FEF228;
+typedef struct List_82FEF228 { Node_82FEF228 *head; Node_82FEF228 *tail; int count; } List_82FEF228;
 
-
-undefined8 fn_82FEF228(int *param_1,int *param_2)
-
+static Node_82FEF228 *List_find(List_82FEF228 *l, Node_82FEF228 *x, Node_82FEF228 **prev)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)*param_1;
-  piVar2 = (int *)0x0;
-  while( true ) {
-    piVar1 = piVar3;
-    if (piVar1 == (int *)0x0) {
-      return 2;
-    }
-    if (piVar1 == param_2) break;
-    piVar3 = (int *)*piVar1;
-    piVar2 = piVar1;
+  Node_82FEF228 *n;
+  *prev = 0;
+  for (n = l->head; n != 0; n = n->next) {
+    if (n == x) return n;
+    *prev = n;
   }
-  if (piVar1 == (int *)0x0) {
-    return 2;
-  }
-  if (piVar1 == (int *)*param_1) {
-    *param_1 = *piVar1;
-  }
-  else {
-    *piVar2 = *piVar1;
-  }
-  if (piVar1 == (int *)param_1[1]) {
-    param_1[1] = (int)piVar2;
-  }
-  param_1[2] = param_1[2] + -1;
-  return 1;
+  return 0;
 }
 
+static int List_remove(List_82FEF228 *l, Node_82FEF228 *x)
+{
+  Node_82FEF228 *prev;
+  Node_82FEF228 *n = List_find(l, x, &prev);
+  if (n != 0) {
+    if (n == l->head) l->head = n->next; else prev->next = n->next;
+    if (n == l->tail) l->tail = prev;
+    l->count--;
+    return 1;
+  }
+  return 2;
+}
+
+int fn_82FEF228(List_82FEF228 *l, Node_82FEF228 *x)
+{
+  return List_remove(l, x);
+}

@@ -1,48 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828EC900();
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
+extern void fn_828EC900(void *);
 
-
-void fn_828ECF48(int param_1,undefined4 param_2,undefined8 param_3,undefined1 param_4,
-                  undefined1 param_5)
-
+void fn_828ECF48(char *p, unsigned int a, void *src, unsigned char b, unsigned char c)
 {
-  *(undefined4 *)(param_1 + 0x1e4) = param_2;
-  *(undefined1 *)(param_1 + 0x1e1) = 1;
-  *(undefined1 *)(param_1 + 0x1e2) = 0;
-  *(undefined4 *)(param_1 + 0x224) = 2;
-  fn_82F68CC0(param_1 + 0x200,param_3,0x24);
-  *(undefined1 *)(param_1 + 0x228) = param_4;
-  *(undefined4 *)(param_1 + 0x150) = 0x10;
-  *(undefined4 *)(param_1 + 0x154) = 0;
-  *(undefined1 *)(param_1 + 0x229) = param_5;
-  fn_828EC900(param_1);
-  return;
+  *(unsigned int *)(p + 0x1e4) = a;
+  p[0x1e1] = 1;
+  p[0x1e2] = 0;
+  *(unsigned int *)(p + 0x224) = 2;
+  memcpy(p + 0x200, src, 0x24);
+  p[0x228] = b;
+  *(unsigned int *)(p + 0x150) = 0x10;
+  *(unsigned int *)(p + 0x154) = 0;
+  p[0x229] = c;
+  fn_828EC900(p);
 }
-

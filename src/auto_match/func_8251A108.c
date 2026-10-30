@@ -1,116 +1,112 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8224FE78();
-extern int fn_8224FF20();
 extern int fn_82517A50();
-extern int fn_8251BA68();
-extern int fn_8251BB70();
+extern struct NodeA_8251A108 *fn_8251BA68();
+extern struct NodeB_8251A108 *fn_8251BB70();
 
+typedef struct NodeA_8251A108 {
+  struct NodeA_8251A108 *left;
+  struct NodeA_8251A108 *parent;
+  struct NodeA_8251A108 *right;
+  unsigned char pad[0x29];
+  char isnil;
+} NodeA_8251A108;
+typedef struct NodeB_8251A108 {
+  struct NodeB_8251A108 *left;
+  struct NodeB_8251A108 *parent;
+  struct NodeB_8251A108 *right;
+  unsigned char pad[0x3d];
+  char isnil;
+} NodeB_8251A108;
+typedef struct TreeA_8251A108 {
+  int al;
+  NodeA_8251A108 *head;
+  int size;
+} TreeA_8251A108;
+typedef struct TreeB_8251A108 {
+  int al;
+  NodeB_8251A108 *head;
+  int size;
+} TreeB_8251A108;
+typedef struct { NodeA_8251A108 *p; } ItA_8251A108;
+typedef struct { NodeB_8251A108 *p; } ItB_8251A108;
+extern void fn_8224FE78(ItA_8251A108 *ret, TreeA_8251A108 *t, ItA_8251A108 first, ItA_8251A108 last);
+extern void fn_8224FF20(ItB_8251A108 *ret, TreeB_8251A108 *t, ItB_8251A108 first, ItB_8251A108 last);
+static ItA_8251A108 TreeA_begin(TreeA_8251A108 *t) { ItA_8251A108 i; i.p = t->head->left; return i; }
+static ItA_8251A108 TreeA_end(TreeA_8251A108 *t) { ItA_8251A108 i; i.p = t->head; return i; }
+static ItB_8251A108 TreeB_begin(TreeB_8251A108 *t) { ItB_8251A108 i; i.p = t->head->left; return i; }
+static ItB_8251A108 TreeB_end(TreeB_8251A108 *t) { ItB_8251A108 i; i.p = t->head; return i; }
+typedef struct Obj_8251A108 {
+  int f0;
+  TreeA_8251A108 a;
+  int f10;
+  TreeB_8251A108 b;
+  int f20;
+  int f24;
+  int f28;
+  int f2c;
+  int f30;
+  int f34[2];
+  int f3c;
+} Obj_8251A108;
 
-undefined4 * fn_8251A108(undefined4 *param_1,undefined4 *param_2)
-
+static void TreeA_assign(TreeA_8251A108 *d, TreeA_8251A108 *s)
 {
-  int iVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  int iVar6;
-  undefined4 uVar7;
-  undefined4 *puVar8;
-  undefined1 auStack_40 [64];
-  
-  puVar8 = param_1 + 1;
-  *param_1 = *param_2;
-  if (puVar8 != param_2 + 1) {
-    fn_8224FE78(auStack_40,puVar8,*(undefined4 *)param_1[2]);
-    iVar1 = param_1[2];
-    uVar7 = fn_8251BA68(puVar8,*(undefined4 *)(param_2[2] + 4),iVar1);
-    *(undefined4 *)(iVar1 + 4) = uVar7;
-    piVar2 = (int *)param_1[2];
-    param_1[3] = param_2[3];
-    puVar8 = (undefined4 *)piVar2[1];
-    if (*(char *)((int)puVar8 + 0x35) == '\0') {
-      puVar5 = (undefined4 *)*puVar8;
-      while (puVar3 = puVar5, *(char *)((int)puVar3 + 0x35) == '\0') {
-        puVar8 = puVar3;
-        puVar5 = (undefined4 *)*puVar3;
-      }
-      *piVar2 = (int)puVar8;
-      iVar1 = *(int *)(param_1[2] + 4);
-      iVar6 = *(int *)(iVar1 + 8);
-      while (iVar4 = iVar6, *(char *)(iVar4 + 0x35) == '\0') {
-        iVar1 = iVar4;
-        iVar6 = *(int *)(iVar4 + 8);
-      }
-      *(int *)(param_1[2] + 8) = iVar1;
-    }
-    else {
-      *piVar2 = (int)piVar2;
-      *(undefined4 *)(param_1[2] + 8) = param_1[2];
+  ItA_8251A108 it;
+  NodeA_8251A108 *head;
+  NodeA_8251A108 *n;
+  if (d != s) {
+    fn_8224FE78(&it, d, TreeA_begin(d), TreeA_end(d));
+    head = d->head;
+    head->parent = fn_8251BA68(d, s->head->parent, head);
+    head = d->head;
+    d->size = s->size;
+    n = head->parent;
+    if (!n->isnil) {
+      while (!n->left->isnil) n = n->left;
+      head->left = n;
+      n = d->head->parent;
+      while (!n->right->isnil) n = n->right;
+      d->head->right = n;
+    } else {
+      head->left = head;
+      d->head->right = d->head;
     }
   }
-  puVar8 = param_1 + 5;
-  if (puVar8 != param_2 + 5) {
-    fn_8224FF20(auStack_40,puVar8,*(undefined4 *)param_1[6]);
-    iVar1 = param_1[6];
-    uVar7 = fn_8251BB70(puVar8,*(undefined4 *)(param_2[6] + 4),iVar1);
-    *(undefined4 *)(iVar1 + 4) = uVar7;
-    piVar2 = (int *)param_1[6];
-    param_1[7] = param_2[7];
-    puVar8 = (undefined4 *)piVar2[1];
-    if (*(char *)((int)puVar8 + 0x49) == '\0') {
-      puVar5 = (undefined4 *)*puVar8;
-      while (puVar3 = puVar5, *(char *)((int)puVar3 + 0x49) == '\0') {
-        puVar8 = puVar3;
-        puVar5 = (undefined4 *)*puVar3;
-      }
-      *piVar2 = (int)puVar8;
-      iVar1 = *(int *)(param_1[6] + 4);
-      iVar6 = *(int *)(iVar1 + 8);
-      while (iVar4 = iVar6, *(char *)(iVar4 + 0x49) == '\0') {
-        iVar1 = iVar4;
-        iVar6 = *(int *)(iVar4 + 8);
-      }
-      *(int *)(param_1[6] + 8) = iVar1;
-    }
-    else {
-      *piVar2 = (int)piVar2;
-      *(undefined4 *)(param_1[6] + 8) = param_1[6];
+}
+static void TreeB_assign(TreeB_8251A108 *d, TreeB_8251A108 *s)
+{
+  ItB_8251A108 it;
+  NodeB_8251A108 *head;
+  NodeB_8251A108 *n;
+  if (d != s) {
+    fn_8224FF20(&it, d, TreeB_begin(d), TreeB_end(d));
+    head = d->head;
+    head->parent = fn_8251BB70(d, s->head->parent, head);
+    head = d->head;
+    d->size = s->size;
+    n = head->parent;
+    if (!n->isnil) {
+      while (!n->left->isnil) n = n->left;
+      head->left = n;
+      n = d->head->parent;
+      while (!n->right->isnil) n = n->right;
+      d->head->right = n;
+    } else {
+      head->left = head;
+      d->head->right = d->head;
     }
   }
-  param_1[9] = param_2[9];
-  param_1[10] = param_2[10];
-  param_1[0xb] = param_2[0xb];
-  param_1[0xc] = param_2[0xc];
-  fn_82517A50(param_1 + 0xd,param_2 + 0xd);
-  param_1[0xf] = param_2[0xf];
-  return param_1;
 }
 
+Obj_8251A108 *fn_8251A108(Obj_8251A108 *d, Obj_8251A108 *s)
+{
+  d->f0 = s->f0;
+  TreeA_assign(&d->a, &s->a);
+  TreeB_assign(&d->b, &s->b);
+  d->f24 = s->f24;
+  d->f28 = s->f28;
+  d->f2c = s->f2c;
+  d->f30 = s->f30;
+  fn_82517A50(d->f34, s->f34);
+  d->f3c = s->f3c;
+  return d;
+}

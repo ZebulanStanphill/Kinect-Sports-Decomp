@@ -44,10 +44,10 @@ void fn_82FA8F70(undefined4 *param_1)
   param_1[4] = &lbl_8216CBF8;
   param_1[6] = &lbl_8216CC7C;
   if (param_1[7] != 0) {
-    fn_82FF53C0(lbl_832642F4);
+    fn_82FF53C0(lbl_832642F4, param_1[7]);
   }
   if (param_1[8] != 0) {
-    fn_82FF53C0(lbl_832642F4);
+    fn_82FF53C0(lbl_832642F4, param_1[8]);
   }
   param_1[10] = 0;
   param_1[4] = &lbl_8216CBE4;

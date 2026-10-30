@@ -1,55 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Cell_82372ED8 { char pad[0x20]; float pos; } Cell_82372ED8;
+typedef struct Track_82372ED8 { Cell_82372ED8 **cells; int pad[3]; int cur; } Track_82372ED8;
+typedef struct Grid_82372ED8 { char pad[0x148]; int w; int span; int h; } Grid_82372ED8;
 
-
-undefined8 fn_82372ED8(int param_1)
-
+static int iabs(int x) { return x < 0 ? -x : x; }
+int fn_82372ED8(int param_1)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  int *piVar5;
-  uint uVar6;
-  int iVar7;
-  
-  iVar3 = *(int *)(param_1 + 0x260);
-  iVar7 = *(int *)(iVar3 + 0x150) + -1;
-  piVar4 = *(int **)**(int **)(param_1 + 8);
-  piVar5 = (int *)((int *)**(int **)(param_1 + 8))[1];
-  iVar1 = (int)*(float *)(*(int *)(piVar4[4] * 4 + *piVar4) + 0x20);
-  iVar2 = (int)*(float *)(*(int *)(piVar5[4] * 4 + *piVar5) + 0x20);
-  if ((((iVar1 != iVar7) && (iVar2 != iVar7)) &&
-      ((iVar7 = *(int *)(iVar3 + 0x148) + -1, iVar7 <= iVar1 || (iVar7 <= iVar2)))) &&
-     (uVar6 = iVar1 - iVar2 >> 0x1f,
-     (int)((iVar1 - iVar2 ^ uVar6) - uVar6) < *(int *)(iVar3 + 0x14c) + -1)) {
+  Grid_82372ED8 *g = *(Grid_82372ED8 **)(param_1 + 0x260);
+  int last = g->h - 1;
+  Track_82372ED8 **t = **(Track_82372ED8 ****)(param_1 + 8);
+  int a = (int)t[0]->cells[t[0]->cur]->pos;
+  int b = (int)t[1]->cells[t[1]->cur]->pos;
+  if (a != last && b != last && (a >= g->w - 1 || b >= g->w - 1) && iabs(a - b) < g->span - 1) {
     return 1;
   }
   return 0;
 }
-

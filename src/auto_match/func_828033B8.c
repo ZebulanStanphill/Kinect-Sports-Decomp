@@ -1,50 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_828033B8(int *param_1, int *param_2, int *param_3, int *param_4, uint *param_5, uint *param_6, uint *param_7, uint *param_8, int in_stack_00000054)
-
+void fn_828033B8(unsigned int *w1, unsigned int *w2, unsigned int *w3, unsigned int *w4,
+                 unsigned int *b1, unsigned int *b2, unsigned int *b3, unsigned int *b4,
+                 unsigned int n)
 {
-  uint uVar1;
+  unsigned int v;
 
-  
-  uVar1 = *param_5;
-  *param_5 = uVar1 + in_stack_00000054 & 0x1f;
-  *param_1 = (uVar1 + in_stack_00000054 >> 3 & 0x1ffffffc) + *param_1;
-  uVar1 = *param_6;
-  *param_6 = uVar1 + in_stack_00000054 & 0x1f;
-  *param_2 = (uVar1 + in_stack_00000054 >> 3 & 0x1ffffffc) + *param_2;
-  uVar1 = *param_7;
-  *param_7 = uVar1 + in_stack_00000054 & 0x1f;
-  *param_3 = (uVar1 + in_stack_00000054 >> 3 & 0x1ffffffc) + *param_3;
-  uVar1 = *param_8;
-  *param_8 = uVar1 + in_stack_00000054 & 0x1f;
-  *param_4 = (uVar1 + in_stack_00000054 >> 3 & 0x1ffffffc) + *param_4;
-  return;
+  v = *b1 + n;
+  *b1 = v & 0x1f;
+  *w1 = ((v >> 3) & 0x1ffffffc) + *w1;
+  v = *b2 + n;
+  *b2 = v & 0x1f;
+  *w2 = ((v >> 3) & 0x1ffffffc) + *w2;
+  v = *b3 + n;
+  *b3 = v & 0x1f;
+  *w3 = *w3 + ((v >> 3) & 0x1ffffffc);
+  v = *b4 + n;
+  *b4 = v & 0x1f;
+  *w4 = *w4 + ((v >> 3) & 0x1ffffffc);
 }
-
