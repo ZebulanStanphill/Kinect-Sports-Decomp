@@ -1,59 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_80;
-extern int fn_82933030();
-extern int fn_82AC6560();
-extern int fn_82B468D0();
-extern int fn_82B46928();
+typedef struct { unsigned int w[20]; } Tmp_82B46AC8;
+typedef struct { char pad[0xc]; unsigned int *tab; } Self_82B46AC8;
+extern unsigned int fn_82B468D0(Self_82B46AC8 *, int, unsigned int);
+extern unsigned int *fn_82AC6560(Self_82B46AC8 *, int, int);
+extern void fn_82933030(Tmp_82B46AC8 *);
+extern unsigned int fn_82B46928(Self_82B46AC8 *, unsigned int, unsigned int);
 
-
-undefined4 * fn_82B46AC8(int param_1,int param_2,undefined8 param_3)
-
+unsigned int *fn_82B46AC8(Self_82B46AC8 *self, int idx, unsigned int arg)
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  int iVar4;
-  undefined4 auStack_80 [20];
-  
-  iVar4 = param_2 * 0x28;
-  uVar1 = fn_82B468D0(param_1,param_2,*(uint *)(*(int *)(param_1 + 0xc) + iVar4) >> 3 & 0x3fff);
-  puVar2 = (undefined4 *)fn_82AC6560(param_1,0x50,10);
-  fn_82933030(auStack_80);
-  puVar2[1] = 0xe;
-  puVar2[5] = 1;
-  *puVar2 = auStack_80[0];
-  puVar2[6] = *(uint *)(*(int *)(param_1 + 0xc) + iVar4) >> 3 & 0x3fff;
-  puVar2[7] = 0x13;
-  uVar3 = fn_82B46928(param_1,uVar1,*(uint *)(*(int *)(param_1 + 0xc) + iVar4) >> 3 & 0x3fff);
-  puVar2[8] = uVar3;
-  uVar3 = fn_82B46928(param_1,param_3,*(uint *)(*(int *)(param_1 + 0xc) + iVar4) >> 3 & 0x3fff);
-  puVar2[9] = uVar3;
-  return puVar2;
+  Tmp_82B46AC8 t;
+  unsigned int v;
+  unsigned int *o;
+  unsigned int a;
+  int off = idx * 0x28;
+  a = fn_82B468D0(self, idx, (*(unsigned int *)((char *)self->tab + off) >> 3) & 0x3fff);
+  o = fn_82AC6560(self, 0x50, 10);
+  fn_82933030(&t);
+  v = t.w[0];
+  o[1] = 0xe;
+  o[5] = 1;
+  o[0] = v;
+  o[6] = (*(unsigned int *)((char *)self->tab + off) >> 3) & 0x3fff;
+  o[7] = 0x13;
+  o[8] = fn_82B46928(self, a, (*(unsigned int *)((char *)self->tab + off) >> 3) & 0x3fff);
+  o[9] = fn_82B46928(self, arg, (*(unsigned int *)((char *)self->tab + off) >> 3) & 0x3fff);
+  return o;
 }
-

@@ -1,62 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct S_8245F280 { char pad0[0x90]; int a[6]; int a8; int ac; int b0; int b4; int b8; int bc; int c0; char pad[0x544-0xc4]; int f544; int f548; } S_8245F280;
+typedef struct Q_8245F280 { char pad[0x180]; int f180; } Q_8245F280;
+typedef struct P_8245F280 { char pad[0xa0]; Q_8245F280 *p; char pad2[0x24]; S_8245F280 *s; } P_8245F280;
 extern int fn_825603C8();
-
-
-void fn_8245F280(int param_1)
-
+void fn_8245F280(P_8245F280 *param_1)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  
-  iVar1 = *(int *)(param_1 + 0xa0);
-  if (*(int *)(iVar1 + 0x180) == 0) {
-    fn_825603C8(0,iVar1,1);
-    *(undefined4 *)(iVar1 + 0x180) = 1;
-  }
-  iVar1 = *(int *)(param_1 + 200);
-  *(undefined4 *)(iVar1 + 0x548) = 0;
-  *(undefined4 *)(iVar1 + 0x544) = 1;
-  lVar3 = 6;
-  *(undefined4 *)(iVar1 + 0xb8) = 3;
-  puVar2 = (undefined4 *)(iVar1 + 0x8c);
-  *(undefined4 *)(iVar1 + 0xac) = 0xc;
-  *(undefined4 *)(iVar1 + 0xb4) = 4;
-  *(undefined4 *)(iVar1 + 0xa8) = 6;
-  *(undefined4 *)(iVar1 + 0xc0) = 4;
-  *(undefined4 *)(iVar1 + 0xbc) = 0;
-  do {
-    puVar2 = puVar2 + 1;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  *(undefined4 *)(iVar1 + 0xb0) = 0;
-  return;
-}
+  S_8245F280 *s; Q_8245F280 *q;
+  int i;
+  q = param_1->p;
+  if (q->f180 == 0) { fn_825603C8(0, q, 1); q->f180 = 1; }
+  s = param_1->s;
+  s->f548 = 0; s->f544 = 1; s->b8 = 3; s->ac = 0xc; s->b4 = 4; s->a8 = 6; s->c0 = 4; s->bc = 0;
+  for (i = 0; i < 6; i++) s->a[i] = 0;
+  s->b0 = 0;
 
+}

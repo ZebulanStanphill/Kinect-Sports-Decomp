@@ -1,134 +1,116 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD6378();
-extern int fn_82BD7EF8();
-extern int fn_82BDA7C0();
-extern int fn_82BDC1F0();
-extern int fn_8314309C();
+struct Pkt_82BD6D20;
+typedef struct Node_82BD6D20 { struct Pkt_82BD6D20 *pkt; struct Node_82BD6D20 *next; } Node_82BD6D20;
+typedef struct Pkt_82BD6D20 { int status; int f4; int f8; unsigned int fc; int f10; int f14; } Pkt_82BD6D20;
+typedef struct { Node_82BD6D20 *head; Node_82BD6D20 *tail; } Q_82BD6D20;
+struct Obj_82BD6D20;
+typedef struct { void *s[4]; void (*m10)(struct Obj_82BD6D20 *); } VT_82BD6D20;
+typedef struct Obj_82BD6D20 { VT_82BD6D20 *vt; } Obj_82BD6D20;
+typedef struct {
+  char pad0[4]; int state; void *f8; void *fc; Obj_82BD6D20 *objs[1];
+  char pad1[0x40 - 0x14]; Q_82BD6D20 qa; Q_82BD6D20 qb; int lock; int pad2; Q_82BD6D20 qc;
+} Self_82BD6D20;
+extern void fn_82BD6378();
+extern unsigned int fn_82BD7EF8(Q_82BD6D20 *);
+extern void fn_82BDA7C0(int, int, int, unsigned int, void *);
+extern int fn_82BDC1F0(void *);
+extern unsigned int KfAcquireSpinLock(void *);
+extern void KfReleaseSpinLock(void *, unsigned int);
+extern int XamVoiceSubmitPacket(void *, int, void *);
 
+#define SELF_OBJ(s, i) (*(Obj_82BD6D20 **)((char *)(s) + 0xc + (i) * 4))
+#define QA(s) ((Q_82BD6D20 *)((char *)(s) + 0x40))
+#define QB(s) ((Q_82BD6D20 *)((char *)(s) + 0x48))
+#define LOCK(s) ((void *)((char *)(s) + 0x50))
+#define QC(s) ((Q_82BD6D20 *)((char *)(s) + 0x58))
+#define COUNT(s) (*(unsigned int *)((char *)(s) + 0x2c))
 
-longlong fn_82BD6D20(int param_1)
-
+int fn_82BD6D20(Self_82BD6D20 *s)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  longlong lVar3;
-  undefined8 uVar4;
-  int iVar5;
-  uint uVar6;
-  int *piVar7;
-  int *piVar8;
-  int iVar9;
-  undefined4 *puVar10;
-  
+  Node_82BD6D20 *n;
+  Node_82BD6D20 *h;
+  Q_82BD6D20 *qc;
+  Q_82BD6D20 *qb;
+  unsigned int lk;
+  unsigned int i;
+  int hr;
   fn_82BD6378();
-  if (*(int *)(param_1 + 4) == 1) {
-    lVar3 = 0;
+  if (s->state == 1)
+    return 0;
+  qc = &s->qc;
+  n = s->qc.head;
+  while (n != 0 && n->pkt->status != 0x103) {
+    h = qc->head;
+    if (h != 0) {
+      if (h == qc->tail)
+        qc->tail = 0;
+      qc->head = h->next;
+      h->next = 0;
+    }
+    if (n->pkt->f14 == 1) {
+      n->pkt->fc = n->pkt->fc << 2;
+      n->pkt->f14 = 0;
+    }
+    n->pkt->f4 = 0;
+    lk = KfAcquireSpinLock(LOCK(s));
+    n->next = 0;
+    {
+      Q_82BD6D20 *q = &s->qa;
+      Node_82BD6D20 *t = q->tail;
+      if (t != 0)
+        t->next = n;
+      else
+        q->head = n;
+      q->tail = n;
+    }
+    KfReleaseSpinLock(LOCK(s), lk);
+    n = s->qc.head;
   }
-  else {
-    piVar8 = (int *)(param_1 + 0x58);
-    piVar1 = *(int **)(param_1 + 0x58);
-    while ((piVar1 != (int *)0x0 && (*(int *)*piVar1 != 0x103))) {
-      iVar5 = *piVar8;
-      if (iVar5 != 0) {
-        if (iVar5 == *(int *)(param_1 + 0x5c)) {
-          *(undefined4 *)(param_1 + 0x5c) = 0;
-        }
-        *piVar8 = *(int *)(iVar5 + 4);
-        *(undefined4 *)(iVar5 + 4) = 0;
-      }
-      iVar5 = *piVar1;
-      if (*(int *)(iVar5 + 0x14) == 1) {
-        *(int *)(iVar5 + 0xc) = *(int *)(iVar5 + 0xc) << 2;
-        *(undefined4 *)(*piVar1 + 0x14) = 0;
-      }
-      *(undefined4 *)(*piVar1 + 4) = 0;
-      uVar4 = KfAcquireSpinLock(param_1 + 0x50);
-      piVar1[1] = 0;
-      if (*(int *)(param_1 + 0x44) == 0) {
-        *(int **)(param_1 + 0x40) = piVar1;
-      }
-      else {
-        *(int **)(*(int *)(param_1 + 0x44) + 4) = piVar1;
-      }
-      *(int **)(param_1 + 0x44) = piVar1;
-      KfReleaseSpinLock(param_1 + 0x50,uVar4);
-      piVar1 = (int *)*piVar8;
+  qb = QB(s);
+  n = qb->head;
+  while (n != 0) {
+    if (n->pkt->fc - n->pkt->f4 != 0)
+      break;
+    lk = KfAcquireSpinLock(LOCK(s));
+    if (fn_82BD7EF8(qc) == 0 && fn_82BD7EF8(qb) <= 1) {
+      KfReleaseSpinLock(LOCK(s), lk);
+      break;
     }
-    piVar1 = *(int **)(param_1 + 0x48);
-    piVar7 = (int *)(param_1 + 0x48);
-    while( true ) {
-      if ((piVar1 == (int *)0x0) || (*(int *)(*piVar1 + 0xc) != *(int *)(*piVar1 + 4)))
-      goto LAB_82bd6f24;
-      iVar9 = param_1 + 0x50;
-      uVar4 = KfAcquireSpinLock(iVar9);
-      iVar5 = fn_82BD7EF8(piVar8);
-      if ((iVar5 == 0) && (uVar6 = fn_82BD7EF8(piVar7), uVar6 < 2)) break;
-      iVar5 = *piVar7;
-      if (iVar5 != 0) {
-        if (iVar5 == *(int *)(param_1 + 0x4c)) {
-          *(undefined4 *)(param_1 + 0x4c) = 0;
-        }
-        *piVar7 = *(int *)(iVar5 + 4);
-        *(undefined4 *)(iVar5 + 4) = 0;
-      }
-      KfReleaseSpinLock(iVar9,uVar4);
-      piVar1[1] = 0;
-      if (*(int *)(param_1 + 0x5c) == 0) {
-        *piVar8 = (int)piVar1;
-      }
-      else {
-        *(int **)(*(int *)(param_1 + 0x5c) + 4) = piVar1;
-      }
-      *(int **)(param_1 + 0x5c) = piVar1;
-      uVar2 = *(undefined4 *)(*piVar1 + 8);
-      fn_82BDA7C0(0,uVar2,uVar2,*(uint *)(*piVar1 + 0xc) >> 1,param_1 + 0x60);
-      *(uint *)(*piVar1 + 0xc) = *(uint *)(*piVar1 + 0xc) >> 2;
-      *(undefined4 *)(*piVar1 + 0x14) = 1;
-      iVar5 = fn_8314309C(*(undefined4 *)(param_1 + 0xc),0,*piVar1);
-      if (iVar5 < 0) {
-        *(undefined4 *)*piVar1 = 0;
-        goto LAB_82bd6f24;
-      }
-      piVar1 = (int *)*piVar7;
+    h = qb->head;
+    if (h != 0) {
+      if (h == qb->tail)
+        qb->tail = 0;
+      qb->head = h->next;
+      h->next = 0;
     }
-    KfReleaseSpinLock(iVar9,uVar4);
-LAB_82bd6f24:
-    lVar3 = fn_82BDC1F0(*(undefined4 *)(param_1 + 8));
-    if ((-1 < lVar3) && (uVar6 = 0, *(int *)(param_1 + 0x2c) != 0)) {
-      puVar10 = (undefined4 *)(param_1 + 0xc);
+    KfReleaseSpinLock(LOCK(s), lk);
+    n->next = 0;
+    if (qc->tail != 0)
+      qc->tail->next = n;
+    else
+      qc->head = n;
+    qc->tail = n;
+    fn_82BDA7C0(0, n->pkt->f8, n->pkt->f8, n->pkt->fc >> 1, (char *)s + 0x60);
+    n->pkt->fc = n->pkt->fc >> 2;
+    n->pkt->f14 = 1;
+    if (XamVoiceSubmitPacket(s->fc, 0, n->pkt) < 0) {
+      n->pkt->status = 0;
+      break;
+    }
+    n = qb->head;
+  }
+  hr = fn_82BDC1F0(s->f8);
+  if (hr >= 0) {
+    i = 0;
+    if (COUNT(s) > 0) {
+      Obj_82BD6D20 **p = (Obj_82BD6D20 **)((char *)s + 0xc);
       do {
-        puVar10 = puVar10 + 1;
-        (**(code **)(*(int *)*puVar10 + 0x10))();
-        uVar6 = uVar6 + 1;
-      } while (uVar6 < *(uint *)(param_1 + 0x2c));
+        Obj_82BD6D20 *o;
+        p++;
+        o = *p;
+        o->vt->m10(o);
+        i++;
+      } while (i < COUNT(s));
     }
   }
-  return lVar3;
+  return hr;
 }
-

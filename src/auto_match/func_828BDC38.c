@@ -1,57 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+struct Impl_828BDC38;
+typedef struct VT_828BDC38 { void *s0, *s1, *s2; void (*del)(struct Impl_828BDC38 *, int); } VT_828BDC38;
+typedef struct Impl_828BDC38 { VT_828BDC38 *vt; } Impl_828BDC38;
+typedef struct Func_828BDC38 { double align[2]; Impl_828BDC38 *impl; } Func_828BDC38;
+typedef struct Node_828BDC38 { struct Node_828BDC38 *next, *prev; Func_828BDC38 f; } Node_828BDC38;
+typedef struct List_828BDC38 { Node_828BDC38 *head; unsigned int size; } List_828BDC38;
+extern void fn_8265CA20(void *p);
 
-
-void fn_828BDC38(int *param_1)
-
+static void Tidy(Func_828BDC38 *f)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar1 = (int *)*param_1;
-  piVar2 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*param_1 + 4) = *param_1;
-  param_1[1] = 0;
-  if (piVar2 != (int *)*param_1) {
-    do {
-      piVar1 = (int *)piVar2[6];
-      piVar3 = (int *)*piVar2;
-      if (piVar1 != (int *)0x0) {
-        (**(code **)(*piVar1 + 0xc))(piVar1,piVar2 + 2 != piVar1);
-        piVar2[6] = 0;
-      }
-      fn_8265CA20(piVar2);
-      piVar2 = piVar3;
-    } while (piVar3 != (int *)*param_1);
-  }
-  return;
+    Impl_828BDC38 *i = f->impl;
+    if (i != 0) {
+        i->vt->del(i, i != (Impl_828BDC38 *)f);
+        f->impl = 0;
+    }
 }
 
+void fn_828BDC38(List_828BDC38 *l)
+{
+    Node_828BDC38 *h = l->head;
+    Node_828BDC38 *p = h->next;
+    h->next = h;
+    l->head->prev = l->head;
+    l->size = 0;
+    while (p != l->head) {
+        Node_828BDC38 *n = p->next;
+        Tidy(&p->f);
+        fn_8265CA20(p);
+        p = n;
+    }
+}

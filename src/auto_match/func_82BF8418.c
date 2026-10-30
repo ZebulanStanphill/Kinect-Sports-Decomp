@@ -1,130 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_82BA02A8();
+typedef struct P_82BF8418 { int pad0[2]; int f8; int pad1; long long f10; int f18; int f1c; int f20; int f24; int f28; const char *s2c; const char *s30; } P_82BF8418;
+typedef struct W_82BF8418 { int pad[3]; unsigned f0c; } W_82BF8418;
+extern long long fn_82BA02A8(long long);
 extern int fn_82BF6FC0();
 extern int fn_82BF7098();
-extern unsigned int iStack_3c;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+extern unsigned strlen(const char *);
 
-
-bool fn_82BF8418(int param_1,int param_2)
-
+int fn_82BF8418(P_82BF8418 *p, W_82BF8418 *w)
 {
-  char cVar1;
-  uint uVar2;
-  char *pcVar3;
-  int iVar5;
-  longlong lVar4;
-  char *pcVar6;
-  char *pcVar7;
-  char *pcVar8;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_48;
-  char *pcStack_44;
-  char *pcStack_40;
-  int iStack_3c;
-  undefined8 auStack_38;
-  
-  if (param_2 != 0) {
-    uStack_60 = *(undefined4 *)(param_1 + 8);
-    pcVar8 = (char *)0x0;
-    uStack_5c = 0;
-    uVar2 = *(uint *)(param_2 + 0xc);
-    auStack_38 = fn_82BA02A8(*(undefined8 *)(param_1 + 0x10));
-    uStack_58 = *(undefined4 *)(param_1 + 0x18);
-    uStack_54 = *(undefined4 *)(param_1 + 0x1c);
-    uStack_50 = *(undefined4 *)(param_1 + 0x20);
-    uStack_4c = *(undefined4 *)(param_1 + 0x24);
-    uStack_48 = *(undefined4 *)(param_1 + 0x28);
-    pcVar3 = *(char **)(param_1 + 0x2c);
-    if ((pcVar3 == (char *)0x0) || (pcVar6 = pcVar3, *pcVar3 == '\0')) {
-      pcVar6 = (char *)0x0;
-    }
-    else {
-      do {
-        cVar1 = *pcVar6;
-        pcVar6 = pcVar6 + 1;
-      } while (cVar1 != '\0');
-      pcVar6 = pcVar6 + (-1 - (int)pcVar3);
-    }
-    if (pcVar6 < (char *)0x7d1) {
-      pcVar3 = *(char **)(param_1 + 0x30);
-      if ((pcVar3 != (char *)0x0) && (pcVar7 = pcVar3, *pcVar3 != '\0')) {
-        do {
-          cVar1 = *pcVar7;
-          pcVar7 = pcVar7 + 1;
-        } while (cVar1 != '\0');
-        pcVar8 = pcVar7 + (-1 - (int)pcVar3);
-      }
-      if (((((((pcVar8 < (char *)0x7d1) &&
-              (pcStack_44 = pcVar6, pcStack_40 = pcVar8,
-              iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_5c,4), iVar5 != 0
-              )) && (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_60,4),
-                    iVar5 != 0)) &&
-            ((iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_60,4), iVar5 != 0
-             && (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&auStack_38,8),
-                iVar5 != 0)))) &&
-           ((iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_58,4), iVar5 != 0
-            && ((iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_54,4),
-                iVar5 != 0 &&
-                (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_50,4),
-                iVar5 != 0)))))) &&
-          (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_4c,4), iVar5 != 0))
-         && ((((iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&uStack_48,4),
-               iVar5 != 0 &&
-               (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&pcStack_44,4),
-               iVar5 != 0)) &&
-              ((pcVar6 == (char *)0x0 ||
-               (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),
-                                      *(undefined4 *)(param_1 + 0x2c),pcVar6), iVar5 != 0)))) &&
-             ((iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),&pcStack_40,4),
-              iVar5 != 0 &&
-              ((pcVar8 == (char *)0x0 ||
-               (iVar5 = fn_82BF6FC0(param_2,*(undefined4 *)(param_2 + 0xc),
-                                      *(undefined4 *)(param_1 + 0x30),pcVar8), iVar5 != 0)))))))) {
-        iStack_3c = *(int *)(param_2 + 0xc) - uVar2;
-        lVar4 = fn_82BF7098(param_2,(ulonglong)uVar2 + 4,&iStack_3c,4);
-        return lVar4 != 0;
-      }
-    }
-  }
-  return false;
-}
+  int a50, a54, a58, a5c, a60, a64, a68, a6c, a70, a74;
+  long long a78;
+  unsigned start, len1, len2;
+  const char *s;
 
+  if (w != 0) {
+    a50 = p->f8;
+    a54 = 0;
+    start = w->f0c;
+    a78 = fn_82BA02A8(p->f10);
+    a58 = p->f18;
+    a5c = p->f1c;
+    a60 = p->f20;
+    a64 = p->f24;
+    a68 = p->f28;
+    s = p->s2c;
+  if (s == 0 || *s == 0) len1 = 0; else len1 = strlen(p->s2c);
+    if (len1 <= 0x7d0) {
+      s = p->s30;
+  if (s == 0 || *s == 0) len2 = 0; else len2 = strlen(p->s30);
+      if (len2 <= 0x7d0) {
+        a6c = len1;
+        a70 = len2;
+        if (fn_82BF6FC0(w, w->f0c, &a54, 4) && fn_82BF6FC0(w, w->f0c, &a50, 4) && fn_82BF6FC0(w, w->f0c, &a50, 4) &&
+            fn_82BF6FC0(w, w->f0c, &a78, 8) && fn_82BF6FC0(w, w->f0c, &a58, 4) && fn_82BF6FC0(w, w->f0c, &a5c, 4) &&
+            fn_82BF6FC0(w, w->f0c, &a60, 4) && fn_82BF6FC0(w, w->f0c, &a64, 4) && fn_82BF6FC0(w, w->f0c, &a68, 4) &&
+            fn_82BF6FC0(w, w->f0c, &a6c, 4) && (len1 == 0 || fn_82BF6FC0(w, w->f0c, p->s2c, len1)) &&
+            fn_82BF6FC0(w, w->f0c, &a70, 4) && (len2 == 0 || fn_82BF6FC0(w, w->f0c, p->s30, len2))) {
+          a74 = w->f0c - start;
+          return fn_82BF7098(w, start + 4, &a74, 4) != 0;
+        }
+      }
+    }
+
+  }
+  return 0;
+}

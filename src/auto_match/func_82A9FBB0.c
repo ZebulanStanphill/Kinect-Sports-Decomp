@@ -33,8 +33,8 @@ void fn_82A9FBB0(int param_1,uint param_2)
 {
   int iVar1;
   
-  if (7 < param_2 >> 5) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2ec4,0xffffffff820d2f00,0x328);
+  if (param_2 >> 5 >= 8) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","dwOffset < sizeof(usedConstants) / sizeof(usedConstants[0])","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\driver\\r500assembler.cpp",0x328);
   }
   iVar1 = (param_2 >> 5) * 4;
   *(uint *)(iVar1 + param_1) = 1 << (param_2 & 0x1f) | *(uint *)(iVar1 + param_1);

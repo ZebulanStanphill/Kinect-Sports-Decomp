@@ -1,56 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern unsigned int *auStack_30;
-extern int fn_82517978();
-extern int fn_828A2240();
-extern int fn_828E3548();
-extern unsigned int lbl_8202725C;
+typedef struct { void *s0, *s1, *s2; unsigned int (*m)(void *); } VT_828E4988;
+typedef struct { VT_828E4988 *vt; int f4; } Obj_828E4988;
+typedef struct { Obj_828E4988 *obj; int arg; } Arg_828E4988;
+typedef struct { void *vt; int f4; int f8; int fc; int f10; int f14; } Self_828E4988;
+extern void *lbl_8202725C;
+extern void fn_82517978(void *, Obj_828E4988 *, int, int);
+extern void fn_828A2240(void *, void *, void *);
+extern void fn_828E3548(void *, unsigned int, void *);
 
-
-undefined4 * fn_828E4988(undefined4 *param_1,int *param_2)
-
+Self_828E4988 *fn_828E4988(Self_828E4988 *self, Arg_828E4988 *a)
 {
-  undefined8 uVar1;
-  undefined1 auStack_30 [4];
-  undefined4 auStack_2c;
-  
-  param_1[1] = *(undefined4 *)(*param_2 + 4);
-  param_1[2] = 0;
-  param_1[3] = 0;
-  *param_1 = &lbl_8202725C;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  fn_82517978(param_1 + 4,*param_2,param_2[1],0);
-  fn_828A2240(param_1 + 6,auStack_30,auStack_30);
-  auStack_2c = 0;
-  uVar1 = (**(code **)(*(int *)*param_2 + 0xc))();
-  fn_828E3548(param_1 + 10,uVar1,&auStack_2c);
-  return param_1;
+  char t[4];
+  int *p = &self->f4;
+  int z;
+  unsigned int n;
+  *p = a->obj->f4;
+  self->f8 = 0;
+  self->fc = 0;
+  self->vt = &lbl_8202725C;
+  self->f10 = 0;
+  self->f14 = 0;
+  fn_82517978(&self->f10, a->obj, a->arg, 0);
+  fn_828A2240((char *)self + 0x18, t, t);
+  z = 0;
+  n = a->obj->vt->m(a->obj);
+  fn_828E3548((char *)self + 0x28, n, &z);
+  return self;
 }
-

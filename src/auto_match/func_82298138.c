@@ -1,86 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82297DB0();
-extern int fn_822980B0();
-extern int fn_82299308();
-extern int fn_8229E090();
-extern int fn_82536288();
-extern int fn_8265CA20();
+extern void fn_822315A0(void *);
+extern void fn_82297DB0(void *, int, int);
+extern void fn_822980B0(void *);
+extern void fn_82299308(void *, void *);
+extern void fn_8229E090(void *, int, int);
+extern void fn_82536288(void *);
+extern void fn_8265CA20(void *);
 extern int fn_8266F6B8();
-extern int fn_826728E8();
+extern void fn_826728E8(int, char *, int);
+typedef struct RcObj RcObj;
+typedef struct { unsigned char (*slot0)(RcObj *); unsigned char (*slot1)(RcObj *); } RcVT;
+struct RcObj { RcVT *vt; };
+typedef struct TNode { struct TNode *left; struct TNode *parent; struct TNode *right; int pad; unsigned char str[0x1c]; unsigned char pad2[1]; unsigned char isnil; } TNode;
+typedef struct { int pad; TNode *head; unsigned size; } Tree;
+typedef struct {
+  int f0;
+  void *f4;
 
+  Tree tree;
+  int pad14;
+  char vec18[0x10];
+  char vec28[0x10];
+  char vec38[0x10];
+  char pad48[0x60 - 0x48];
+  void *f60;
+  char str64[0x84 - 0x64];
+  RcObj *f84;
+} Obj_82298138;
 
-void fn_82298138(undefined4 *param_1)
-
+void fn_82298138(Obj_82298138 *p)
 {
-  undefined4 uVar1;
-  int *piVar2;
-  int *piVar3;
-  undefined8 uVar4;
-  char cVar5;
-  
-  uVar1 = *param_1;
-  uVar4 = fn_8266F6B8();
-  fn_826728E8(uVar1,0xffffffff821aa9b8,uVar4);
-  if (param_1[0x18] != 0) {
-    fn_8229E090(param_1[0x18],0,1);
-    param_1[0x18] = 0;
+  TNode *n, *nx;
+  int a = p->f0;
+  int b = fn_8266F6B8();
+  fn_826728E8(a, "OOBEReacquisitionTexture", b);
+  if (p->f60 != 0) {
+    fn_8229E090(p->f60, 0, 1);
+    p->f60 = 0;
   }
-  if ((int *)param_1[0x21] != (int *)0x0) {
-    cVar5 = (**(code **)(*(int *)param_1[0x21] + 4))();
-    if (cVar5 == '\0') {
-      (*(code *)**(undefined4 **)param_1[0x21])();
+  if (p->f84 != 0) {
+    if (p->f84->vt->slot1(p->f84) == 0) {
+      p->f84->vt->slot0(p->f84);
     }
-    fn_82536288(param_1 + 0x21);
+    fn_82536288(&p->f84);
   }
-  fn_82297DB0(param_1 + 0x19,1,0);
-  fn_822980B0(param_1 + 0xe);
-  fn_822980B0(param_1 + 10);
-  fn_822980B0(param_1 + 6);
-  cVar5 = *(char *)((int)*(int **)(param_1[3] + 4) + 0x2d);
-  piVar3 = *(int **)(param_1[3] + 4);
-  while (cVar5 == '\0') {
-    fn_82299308(param_1 + 2,piVar3[2]);
-    piVar2 = (int *)*piVar3;
-    fn_82297DB0(piVar3 + 4,1,0);
-    fn_8265CA20(piVar3);
-    piVar3 = piVar2;
-    cVar5 = *(char *)((int)piVar2 + 0x2d);
+  fn_82297DB0(p->str64, 1, 0);
+  fn_822980B0(p->vec38);
+  fn_822980B0(p->vec28);
+  fn_822980B0(p->vec18);
+  {
+  Tree *t = &p->tree;
+  n = t->head->parent;
+  nx = n;
+  while (nx->isnil == 0) {
+    fn_82299308(t, nx->right);
+    nx = nx->left;
+    fn_82297DB0(n->str, 1, 0);
+    fn_8265CA20(n);
+    n = nx;
   }
-  *(undefined4 *)(param_1[3] + 4) = param_1[3];
-  *(undefined4 *)param_1[3] = param_1[3];
-  *(undefined4 *)(param_1[3] + 8) = param_1[3];
-  param_1[4] = 0;
-  fn_8265CA20(param_1[3]);
-  if (param_1[1] != 0) {
-    fn_822315A0();
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+  fn_8265CA20(t->head);
   }
-  return;
+  if (p->f4 != 0) {
+    fn_822315A0(p->f4);
+  }
 }
-

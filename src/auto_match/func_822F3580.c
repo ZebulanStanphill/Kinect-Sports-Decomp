@@ -1,61 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_822C16B8();
-extern int fn_8265CA20();
-extern unsigned int lbl_821AE6B4;
-extern unsigned int lbl_821AF1C8;
+typedef struct Ref_822F3580 { void *ref; } Ref_822F3580;
+typedef struct Obj_822F3580 {
+  void *vt; char pad[0x18]; Ref_822F3580 f1c; char pad1[0xc]; Ref_822F3580 f2c; unsigned f30; char pad2[4]; Ref_822F3580 f38; char pad3[4]; Ref_822F3580 f40;
+} Obj_822F3580;
+extern int fn_822315A0(void *);
+extern int fn_822C16B8(unsigned);
+extern int fn_8265CA20(unsigned);
+extern char lbl_821AE6B4[];
+extern char lbl_821AF1C8[];
 
-
-void fn_822F3580(undefined4 *param_1)
-
+void fn_822F3580(Obj_822F3580 *p)
 {
-  ulonglong uVar1;
-  
-  *param_1 = &lbl_821AE6B4;
-  if (param_1[0x10] != 0) {
-    fn_822315A0();
+  unsigned u;
+  Ref_822F3580 *r;
+  p->vt = lbl_821AE6B4;
+  r = &p->f40;
+  if (r->ref != 0) fn_822315A0(r->ref);
+  r = &p->f38;
+  if (r->ref != 0) fn_822315A0(r->ref);
+  u = p->f30;
+  if (u != 0) {
+    fn_822C16B8(u + 8);
+    fn_8265CA20(u);
   }
-  if (param_1[0xe] != 0) {
-    fn_822315A0();
-  }
-  uVar1 = (ulonglong)(uint)param_1[0xc];
-  if (uVar1 != 0) {
-    fn_822C16B8(uVar1 + 8);
-    fn_8265CA20(uVar1);
-  }
-  if (param_1[0xb] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[7] != 0) {
-    fn_822315A0();
-  }
-  *param_1 = &lbl_821AF1C8;
-  return;
+  r = &p->f2c;
+  if (r->ref != 0) fn_822315A0(r->ref);
+  r = &p->f1c;
+  if (r->ref != 0) fn_822315A0(r->ref);
+  p->vt = lbl_821AF1C8;
 }
-

@@ -1,108 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Obj_828AB150;
+typedef struct VT_828AB150 {
+  void *s0;
+  unsigned int (*m4)(struct Obj_828AB150 *);
+  void *s8;
+  unsigned int (*mc)(struct Obj_828AB150 *);
+  unsigned char *(*m10)(struct Obj_828AB150 *);
+} VT_828AB150;
+typedef struct Obj_828AB150 { VT_828AB150 *vt; } Obj_828AB150;
+typedef struct { char pad[0x58]; unsigned char lo; unsigned char hi; } Cfg_828AB150;
+typedef struct { char pad[0xc]; unsigned char f0c; char pad1[0xb]; Cfg_828AB150 *cfg; char pad2[4]; Obj_828AB150 *obj; char pad3[4]; void *f28; } Self_828AB150;
 extern int fn_8240D928();
-extern int fn_82897BA8();
-extern int fn_828996C8();
-extern int fn_8289AC08();
-extern int fn_8289D8D0();
-extern int fn_828A1318();
-extern int fn_82BA02A8();
+extern unsigned char fn_82897BA8(Cfg_828AB150 *);
+extern void fn_828996C8(Self_828AB150 *, int);
+extern void fn_8289AC08(Self_828AB150 *, int, int, int, int);
+extern void fn_8289D8D0(void *);
+extern void fn_828A1318(void *, Self_828AB150 *);
+extern void fn_82BA02A8(Self_828AB150 *);
 
-
-void fn_828AB150(int param_1,byte param_2)
-
+void fn_828AB150(Self_828AB150 *s, unsigned char v)
 {
-  int iVar1;
-  char cVar3;
-  int iVar2;
-  
-  if (param_2 < *(byte *)(*(int *)(param_1 + 0x18) + 0x58)) {
+  unsigned char *p;
+  int off;
+  if (v < s->cfg->lo)
     return;
-  }
-  if (*(byte *)(*(int *)(param_1 + 0x18) + 0x59) < param_2) {
+  if (v > s->cfg->hi)
     return;
-  }
-  if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-     (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 4))(), iVar1 == 0)) {
-    if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0xc))(), iVar1 == 0)) {
-      if (*(int **)(param_1 + 0x20) == (int *)0x0) {
+  if (s->obj == 0 || s->obj->vt->m4(s->obj) == 0) {
+    if (s->obj == 0 || s->obj->vt->mc(s->obj) == 0) {
+      if (s->obj == 0)
         return;
-      }
-      iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))();
-      if (iVar1 == 0) {
+      if (s->obj->vt->m10(s->obj) == 0)
         return;
-      }
-      if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))();
-      }
-      fn_8289D8D0(*(undefined4 *)(param_1 + 0x28));
-      iVar2 = fn_8240D928();
-      iVar2 = (iVar2 + 4) * 4;
-      if (param_2 == *(byte *)(iVar2 + iVar1)) {
+      if (s->obj != 0)
+        p = s->obj->vt->m10(s->obj);
+      else
+        p = 0;
+      fn_8289D8D0(s->f28);
+      off = (fn_8240D928() + 4) * 4;
+      if (v == p[off])
         return;
-      }
-      fn_8289AC08(param_1,1,0,1,0);
-      fn_82BA02A8(param_1);
-      *(byte *)(iVar2 + iVar1) = param_2;
+      fn_8289AC08(s, 1, 0, 1, 0);
+      fn_82BA02A8(s);
+      p[off] = v;
+    } else {
+      if (v == s->f0c)
+        return;
+      fn_8289AC08(s, 1, 0, 1, 0);
+      fn_82BA02A8(s);
+      s->f0c = v;
     }
-    else {
-      if (param_2 == *(byte *)(param_1 + 0xc)) {
-        return;
-      }
-      fn_8289AC08(param_1,1,0,1,0);
-      fn_82BA02A8(param_1);
-      *(byte *)(param_1 + 0xc) = param_2;
-    }
-    fn_8289AC08(param_1,1,1,1,0);
-    cVar3 = fn_82897BA8(*(undefined4 *)(param_1 + 0x18));
-    if (cVar3 != '\0') {
+    fn_8289AC08(s, 1, 1, 1, 0);
+    if (fn_82897BA8(s->cfg) != 0)
+      return;
+  } else {
+    if (v == s->f0c)
+      return;
+    fn_8289AC08(s, 1, 0, 1, 0);
+    fn_82BA02A8(s);
+    s->f0c = v;
+    fn_8289AC08(s, 1, 1, 1, 0);
+    if (fn_82897BA8(s->cfg) != 0) {
+      fn_828996C8(s, -1);
       return;
     }
   }
-  else {
-    if (param_2 == *(byte *)(param_1 + 0xc)) {
-      return;
-    }
-    fn_8289AC08(param_1,1,0,1,0);
-    fn_82BA02A8(param_1);
-    *(byte *)(param_1 + 0xc) = param_2;
-    fn_8289AC08(param_1,1,1,1,0);
-    cVar3 = fn_82897BA8(*(undefined4 *)(param_1 + 0x18));
-    if (cVar3 != '\0') {
-      fn_828996C8(param_1,0xffffffffffffffff);
-      return;
-    }
-  }
-  fn_828A1318(*(undefined4 *)(param_1 + 0x28),param_1);
-  return;
+  fn_828A1318(s->f28, s);
 }
-
