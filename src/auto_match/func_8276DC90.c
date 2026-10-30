@@ -1,55 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826E1E10();
-extern int fn_826E1F68();
-extern int fn_827683E8();
+extern void fn_826E1E10(void *p, unsigned int n);
+extern void fn_826E1F68(void *a, void *b, unsigned int n);
+extern void fn_827683E8(void *dst, void *src);
 
+typedef struct { char b[0x28]; } Elem_8276DC90;
+typedef struct { Elem_8276DC90 *data; unsigned int count; } Vec_8276DC90;
+typedef struct { char pad[0x18]; Vec_8276DC90 v; } Obj_8276DC90;
 
-void fn_8276DC90(int param_1,ulonglong param_2,undefined8 param_3)
-
+void fn_8276DC90(Obj_8276DC90 *o, unsigned int idx, void *val)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  uint *puVar3;
-  
-  if ((ulonglong)*(uint *)(param_1 + 0x1c) <= (param_2 & 0xffffffff)) {
-    puVar3 = (uint *)(param_1 + 0x18);
-    uVar2 = param_2 + 1;
-    uVar1 = (ulonglong)*(uint *)(param_1 + 0x1c);
-    fn_826E1F68(puVar3,puVar3,uVar2);
-    if (uVar1 < (uVar2 & 0xffffffff)) {
-      fn_826E1E10(uVar1 * 0x28 + (ulonglong)*puVar3,uVar2 - uVar1);
+  if (o->v.count <= idx) {
+    Vec_8276DC90 *v = &o->v;
+    unsigned int n = idx + 1;
+    unsigned int old = v->count;
+    fn_826E1F68(v, v, n);
+    if (n > old) {
+      fn_826E1E10(v->data + old, n - old);
     }
-    if ((ulonglong)*(uint *)(param_1 + 0x1c) <= (param_2 & 0xffffffff)) {
+    if (o->v.count <= idx) {
       return;
     }
   }
-  fn_827683E8(param_2 * 0x28 + (ulonglong)*(uint *)(param_1 + 0x18),param_3);
-  return;
+  fn_827683E8(o->v.data + idx, val);
 }
-

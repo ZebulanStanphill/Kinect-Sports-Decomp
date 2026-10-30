@@ -29,10 +29,11 @@ extern int fn_83007620();
 extern int fn_83008F08();
 
 
-undefined8 fn_83007DF0(int param_1,undefined8 param_2,undefined8 param_3,char param_4)
+undefined8 fn_83007DF0(int param_1,undefined8 param_2,undefined8 param_3,unsigned char param_4)
 
 {
-  char cVar1;
+  unsigned char cVar1;
+  int next;
   
   cVar1 = fn_83007620();
   while( true ) {
@@ -46,8 +47,9 @@ undefined8 fn_83007DF0(int param_1,undefined8 param_2,undefined8 param_3,char pa
         return 1;
       }
     }
-    param_1 = *(int *)(param_1 + 0x10);
-    if (param_1 == 0) break;
+    next = *(int *)(param_1 + 0x10);
+    if (next == 0) break;
+    param_1 = next;
     cVar1 = fn_83007620(param_1,param_2,param_3);
   }
   return 0;

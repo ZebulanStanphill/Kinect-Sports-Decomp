@@ -24,59 +24,61 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef void *JSAMPROW_T;
+typedef struct { char data[0x54]; } CompInfo_827CA100;
+typedef struct Cinfo_827CA100 Cinfo_827CA100;
+typedef struct {
+  char pub[0xc];
+  void **color_buf[10];
+  void (*methods[10])(Cinfo_827CA100 *, CompInfo_827CA100 *, void **, void ***);
+  int next_row_out;
+  unsigned rows_to_go;
+  int rowgroup_height[10];
+} Upsample_827CA100;
+typedef struct {
+  void (*start_pass)(Cinfo_827CA100 *);
+  void (*color_convert)(Cinfo_827CA100 *, void ***, unsigned, void **, int);
+} Cconvert_827CA100;
+struct Cinfo_827CA100 {
+  char pad0[0x24];
+  int num_components;
+  char pad1[0xc4 - 0x28];
+  CompInfo_827CA100 *comp_info;
+  char pad2[0x114 - 0xc8];
+  int max_v_samp_factor;
+  char pad3[0x1a0 - 0x118];
+  Upsample_827CA100 *upsample;
+  Cconvert_827CA100 *cconvert;
+};
 
-
-void fn_827CA100(int param_1,int param_2,int *param_3,undefined8 param_4,longlong param_5,
-                  uint *param_6,longlong param_7)
-
+void fn_827CA100(Cinfo_827CA100 *cinfo, void ***input_buf, unsigned *in_row_group_ctr,
+                 unsigned in_row_groups_avail, void **output_buf, unsigned *out_row_ctr,
+                 unsigned out_rows_avail)
 {
-  int iVar1;
-  ulonglong uVar2;
-  int iVar3;
-  uint *puVar4;
-  ulonglong uVar5;
-  int iVar6;
-  
-  iVar1 = *(int *)(param_1 + 0x1a0);
-  if (*(int *)(param_1 + 0x114) <= *(int *)(iVar1 + 0x5c)) {
-    iVar6 = 0;
-    uVar5 = (ulonglong)*(uint *)(param_1 + 0xc4);
-    if (0 < *(int *)(param_1 + 0x24)) {
-      puVar4 = (uint *)(param_2 + -4);
-      iVar3 = iVar1 + 0xc;
-      do {
-        puVar4 = puVar4 + 1;
-        (**(code **)(iVar3 + 0x28))
-                  (param_1,uVar5,
-                   ((longlong)*(int *)(iVar3 + 0x58) * (longlong)*param_3 & 0x3fffffffU) * 4 +
-                   (ulonglong)*puVar4,iVar3);
-        iVar6 = iVar6 + 1;
-        iVar3 = iVar3 + 4;
-        uVar5 = uVar5 + 0x54;
-      } while (iVar6 < *(int *)(param_1 + 0x24));
-    }
-    *(undefined4 *)(iVar1 + 0x5c) = 0;
-  }
-  uVar5 = (ulonglong)*(uint *)(param_1 + 0x114) - (ulonglong)*(uint *)(iVar1 + 0x5c);
-  if ((ulonglong)*(uint *)(iVar1 + 0x60) < (uVar5 & 0xffffffff)) {
-    uVar5 = (ulonglong)*(uint *)(iVar1 + 0x60);
-  }
-  uVar2 = param_7 - (ulonglong)*param_6;
-  if ((uVar2 & 0xffffffff) < (uVar5 & 0xffffffff)) {
-    uVar5 = uVar2;
-  }
-  (**(code **)(*(int *)(param_1 + 0x1a4) + 4))
-            (param_1,iVar1 + 0xc,(ulonglong)*(uint *)(iVar1 + 0x5c),
-             ((ulonglong)*param_6 & 0x3fffffff) * 4 + param_5,uVar5);
-  iVar6 = (int)uVar5;
-  *param_6 = *param_6 + iVar6;
-  iVar3 = iVar6 + *(int *)(iVar1 + 0x5c);
-  *(int *)(iVar1 + 0x5c) = iVar3;
-  *(int *)(iVar1 + 0x60) = *(int *)(iVar1 + 0x60) - iVar6;
-  if (*(int *)(param_1 + 0x114) <= iVar3) {
-    *param_3 = *param_3 + 1;
-  }
-  return;
-}
+  Upsample_827CA100 *upsample = cinfo->upsample;
+  int ci;
+  CompInfo_827CA100 *compptr;
+  unsigned num_rows;
 
+  if (upsample->next_row_out >= cinfo->max_v_samp_factor) {
+    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+      (*upsample->methods[ci])(cinfo, compptr,
+                               input_buf[ci] + (*in_row_group_ctr * upsample->rowgroup_height[ci]),
+                               &upsample->color_buf[ci]);
+    }
+    upsample->next_row_out = 0;
+  }
+  num_rows = (unsigned)(cinfo->max_v_samp_factor - upsample->next_row_out);
+  if (num_rows > upsample->rows_to_go)
+    num_rows = upsample->rows_to_go;
+  out_rows_avail -= *out_row_ctr;
+  if (num_rows > out_rows_avail)
+    num_rows = out_rows_avail;
+  (*cinfo->cconvert->color_convert)(cinfo, upsample->color_buf, (unsigned)upsample->next_row_out,
+                                    output_buf + *out_row_ctr, (int)num_rows);
+  *out_row_ctr += num_rows;
+  upsample->rows_to_go -= num_rows;
+  upsample->next_row_out += num_rows;
+  if (upsample->next_row_out >= cinfo->max_v_samp_factor)
+    (*in_row_group_ctr)++;
+}

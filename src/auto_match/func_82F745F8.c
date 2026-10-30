@@ -24,49 +24,42 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82F728D0();
-extern int fn_82F72F40();
-extern int fn_82F73A48();
-extern unsigned int *lbl_832635C0;
-extern unsigned int uStack_30;
+extern void fn_82F72F40(void *);
+extern void fn_82F728D0(void *, int);
+extern void fn_82F73A48(void *, int);
+extern char *lbl_832635C0;
 
+typedef struct { int v; char a; char b; short c; } DN_82F745F8;
 
-undefined8 * fn_82F745F8(undefined8 *param_1)
-
+DN_82F745F8 *fn_82F745F8(DN_82F745F8 *param_1)
 {
-  char *pcVar1;
-  char cVar2;
-  undefined8 uStack_30;
-  undefined1 auStack_28 [16];
-  
-  fn_82F72F40(&uStack_30);
-  pcVar1 = lbl_832635C0 + 1;
-  if ((*lbl_832635C0 == '@') && (pcVar1 = lbl_832635C0 + 2, lbl_832635C0[1] == '_')) {
-    lbl_832635C0 = lbl_832635C0 + 3;
-    fn_82F73A48(auStack_28,0);
-    fn_82F73A48(auStack_28,0);
-    cVar2 = *lbl_832635C0;
-    while ((cVar2 != '\0' && (cVar2 != '@'))) {
-      lbl_832635C0 = lbl_832635C0 + 1;
-      cVar2 = *lbl_832635C0;
+  char c;
+  struct { DN_82F745F8 t; DN_82F745F8 u; } L;
+
+  fn_82F72F40(&L.t);
+  if (*lbl_832635C0++ == '@' && *lbl_832635C0++ == '_') {
+    lbl_832635C0++;
+    fn_82F73A48(&L.u, 0);
+    fn_82F73A48(&L.u, 0);
+    c = *lbl_832635C0;
+    while (c != '\0' && c != '@') {
+      lbl_832635C0++;
+      c = *lbl_832635C0;
     }
-    if (cVar2 == '\0') {
-      lbl_832635C0 = lbl_832635C0 + -1;
-      fn_82F728D0(param_1,1);
+    if (c == '\0') {
+      lbl_832635C0--;
+      fn_82F728D0(param_1, 1);
     }
     else {
-      lbl_832635C0 = lbl_832635C0 + 1;
-      *param_1 = uStack_30;
+      lbl_832635C0++;
+      *param_1 = L.t;
+      return param_1;
     }
   }
   else {
-    lbl_832635C0 = pcVar1;
-    *(undefined1 *)((int)param_1 + 5) = 0;
-    *(undefined1 *)((int)param_1 + 4) = 2;
-    *(undefined4 *)param_1 = 0;
+    param_1->b = 0;
+    param_1->a = 2;
+    param_1->v = 0;
   }
   return param_1;
 }
-

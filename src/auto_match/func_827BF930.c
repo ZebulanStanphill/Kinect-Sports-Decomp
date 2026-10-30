@@ -1,129 +1,159 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827BEAC8();
-extern int fn_827BF2B8();
-extern int fn_827C1A20();
-extern int fn_82F68CC0();
+extern void *memcpy(void *d, const void *s, unsigned int n);
+extern void fn_827BEAC8(void *cinfo, int cs);
+extern void fn_827BF2B8(void *cinfo);
+extern void *fn_827C1A20(void *cinfo);
 
+typedef struct jpeg_common_struct_827BF930 *j_common_ptr_827BF930;
+struct jpeg_error_mgr_827BF930 {
+  void (*error_exit)(j_common_ptr_827BF930 cinfo);
+  void (*emit_message)(void);
+  void (*output_message)(void);
+  void (*format_message)(void);
+  void (*reset_error_mgr)(void);
+  int msg_code;
+  union { int i[8]; char s[80]; } msg_parm;
+};
+struct jpeg_common_struct_827BF930 {
+  struct jpeg_error_mgr_827BF930 *err;
+  char pad0[0x10];
+  int global_state;
+};
 
-void fn_827BF930(int param_1,int *param_2)
+typedef struct { unsigned short quantval[64]; unsigned char sent_table; } JQUANT_TBL_827BF930;
 
+typedef struct {
+  int component_id;
+  int component_index;
+  int h_samp_factor;
+  int v_samp_factor;
+  int quant_tbl_no;
+  char pad[0x38];
+  JQUANT_TBL_827BF930 *quant_table;
+  char pad2[4];
+} jpeg_component_info_827BF930;
+
+typedef struct {
+  struct jpeg_error_mgr_827BF930 *err;
+  char pad0[0x10];
+  int global_state;
+  char pad1[4];
+  unsigned int image_width;
+  unsigned int image_height;
+  int input_components;
+  int in_color_space;
+  char pad2[0xc];
+  int data_precision;
+  int num_components;
+  int jpeg_color_space;
+  jpeg_component_info_827BF930 *comp_info;
+  JQUANT_TBL_827BF930 *quant_tbl_ptrs[4];
+  char pad3[0x5b];
+  unsigned char CCIR601_sampling;
+  char pad4[0x11];
+  unsigned char JFIF_major_version;
+  unsigned char JFIF_minor_version;
+  unsigned char density_unit;
+  unsigned short X_density;
+  unsigned short Y_density;
+} jpeg_compress_struct_827BF930;
+
+typedef struct {
+  struct jpeg_error_mgr_827BF930 *err;
+  char pad0[0x10];
+  int global_state;
+  char pad1[4];
+  unsigned int image_width;
+  unsigned int image_height;
+  int num_components;
+  int jpeg_color_space;
+  char pad2[0x64];
+  JQUANT_TBL_827BF930 *quant_tbl_ptrs[4];
+  char pad3[0x20];
+  int data_precision;
+  jpeg_component_info_827BF930 *comp_info;
+  char pad4[0x38];
+  unsigned char saw_JFIF_marker;
+  unsigned char JFIF_major_version;
+  unsigned char JFIF_minor_version;
+  unsigned char density_unit;
+  unsigned short X_density;
+  unsigned short Y_density;
+  char pad5[2];
+  unsigned char CCIR601_sampling;
+} jpeg_decompress_struct_827BF930;
+
+void fn_827BF930(jpeg_decompress_struct_827BF930 *srcinfo, jpeg_compress_struct_827BF930 *dstinfo)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  longlong lVar5;
-  short *psVar6;
-  int *piVar7;
-  int *piVar8;
-  undefined4 *puVar9;
-  
-  if (param_2[5] != 100) {
-    *(undefined4 *)(*param_2 + 0x14) = 0x14;
-    *(int *)(*param_2 + 0x18) = param_2[5];
-    (**(code **)*param_2)(param_2);
-  }
-  param_2[7] = *(int *)(param_1 + 0x1c);
-  param_2[8] = *(int *)(param_1 + 0x20);
-  param_2[9] = *(int *)(param_1 + 0x24);
-  param_2[10] = *(int *)(param_1 + 0x28);
-  fn_827BF2B8(param_2);
-  fn_827BEAC8(param_2,*(undefined4 *)(param_1 + 0x28));
-  piVar7 = (int *)(param_1 + 0x90);
-  piVar8 = param_2 + 0x12;
-  lVar5 = 4;
-  iVar3 = 0;
-  param_2[0xe] = *(int *)(param_1 + 0xc0);
-  *(undefined1 *)((int)param_2 + 0xb3) = *(undefined1 *)(param_1 + 0x10a);
-  do {
-    if (*piVar7 != 0) {
-      if (*piVar8 == 0) {
-        iVar2 = fn_827C1A20(param_2);
-        *piVar8 = iVar2;
-      }
-      fn_82F68CC0(*piVar8,*piVar7,0x80);
-      *(undefined1 *)(*piVar8 + 0x80) = 0;
-    }
-    lVar5 = lVar5 + -1;
-    piVar8 = piVar8 + 1;
-    piVar7 = piVar7 + 1;
-  } while (lVar5 != 0);
-  iVar2 = *(int *)(param_1 + 0x24);
-  param_2[0xf] = iVar2;
-  if ((iVar2 < 1) || (10 < iVar2)) {
-    *(undefined4 *)(*param_2 + 0x14) = 0x1a;
-    *(int *)(*param_2 + 0x18) = param_2[0xf];
-    *(undefined4 *)(*param_2 + 0x1c) = 10;
-    (**(code **)*param_2)(param_2);
-  }
-  puVar9 = *(undefined4 **)(param_1 + 0xc4);
-  puVar4 = (undefined4 *)param_2[0x11];
-  if (0 < param_2[0xf]) {
-    do {
-      *puVar4 = *puVar9;
-      puVar4[2] = puVar9[2];
-      puVar4[3] = puVar9[3];
-      iVar2 = puVar9[4];
-      puVar4[4] = iVar2;
-      if (((iVar2 < 0) || (3 < iVar2)) || (*(int *)((iVar2 + 0x24) * 4 + param_1) == 0)) {
-        *(undefined4 *)(*param_2 + 0x14) = 0x34;
-        *(int *)(*param_2 + 0x18) = iVar2;
-        (**(code **)*param_2)(param_2);
-      }
-      psVar6 = *(short **)((iVar2 + 0x24) * 4 + param_1);
-      if (puVar9[0x13] != 0) {
-        iVar1 = puVar9[0x13] - (int)psVar6;
-        lVar5 = 0x40;
-        do {
-          if (*(short *)(iVar1 + (int)psVar6) != *psVar6) {
-            *(undefined4 *)(*param_2 + 0x14) = 0x2c;
-            *(int *)(*param_2 + 0x18) = iVar2;
-            (**(code **)*param_2)(param_2);
-          }
-          lVar5 = lVar5 + -1;
-          psVar6 = psVar6 + 1;
-        } while (lVar5 != 0);
-      }
-      iVar3 = iVar3 + 1;
-      puVar9 = puVar9 + 0x15;
-      puVar4 = puVar4 + 0x15;
-    } while (iVar3 < param_2[0xf]);
-  }
-  if (*(char *)(param_1 + 0x100) != '\0') {
-    if (*(char *)(param_1 + 0x101) == '\x01') {
-      *(undefined1 *)((int)param_2 + 0xc5) = 1;
-      *(undefined1 *)((int)param_2 + 0xc6) = *(undefined1 *)(param_1 + 0x102);
-    }
-    *(undefined1 *)((int)param_2 + 199) = *(undefined1 *)(param_1 + 0x103);
-    *(undefined2 *)(param_2 + 0x32) = *(undefined2 *)(param_1 + 0x104);
-    *(undefined2 *)((int)param_2 + 0xca) = *(undefined2 *)(param_1 + 0x106);
-  }
-  return;
-}
+  JQUANT_TBL_827BF930 **qtblptr;
+  jpeg_component_info_827BF930 *incomp;
+  jpeg_component_info_827BF930 *outcomp;
+  JQUANT_TBL_827BF930 *c_quant;
+  JQUANT_TBL_827BF930 *slot_quant;
+  int tblno;
+  int ci;
+  int coefi;
 
+  if (dstinfo->global_state != 100) {
+    dstinfo->err->msg_code = 20;
+    dstinfo->err->msg_parm.i[0] = dstinfo->global_state;
+    (*dstinfo->err->error_exit)((j_common_ptr_827BF930)dstinfo);
+  }
+  dstinfo->image_width = srcinfo->image_width;
+  dstinfo->image_height = srcinfo->image_height;
+  dstinfo->input_components = srcinfo->num_components;
+  dstinfo->in_color_space = srcinfo->jpeg_color_space;
+  fn_827BF2B8(dstinfo);
+  fn_827BEAC8(dstinfo, srcinfo->jpeg_color_space);
+  dstinfo->data_precision = srcinfo->data_precision;
+  dstinfo->CCIR601_sampling = srcinfo->CCIR601_sampling;
+  for (tblno = 0; tblno < 4; tblno++) {
+    if (srcinfo->quant_tbl_ptrs[tblno] != 0) {
+      qtblptr = &dstinfo->quant_tbl_ptrs[tblno];
+      if (*qtblptr == 0) {
+        *qtblptr = (JQUANT_TBL_827BF930 *)fn_827C1A20(dstinfo);
+      }
+      memcpy((*qtblptr)->quantval, srcinfo->quant_tbl_ptrs[tblno]->quantval, 0x80);
+      (*qtblptr)->sent_table = 0;
+    }
+  }
+  dstinfo->num_components = srcinfo->num_components;
+  if (dstinfo->num_components < 1 || dstinfo->num_components > 10) {
+    dstinfo->err->msg_code = 26;
+    dstinfo->err->msg_parm.i[0] = dstinfo->num_components;
+    dstinfo->err->msg_parm.i[1] = 10;
+    (*dstinfo->err->error_exit)((j_common_ptr_827BF930)dstinfo);
+  }
+  for (ci = 0, incomp = srcinfo->comp_info, outcomp = dstinfo->comp_info;
+       ci < dstinfo->num_components; ci++, incomp++, outcomp++) {
+    outcomp->component_id = incomp->component_id;
+    outcomp->h_samp_factor = incomp->h_samp_factor;
+    outcomp->v_samp_factor = incomp->v_samp_factor;
+    outcomp->quant_tbl_no = incomp->quant_tbl_no;
+    tblno = outcomp->quant_tbl_no;
+    if (tblno < 0 || tblno >= 4 || srcinfo->quant_tbl_ptrs[tblno] == 0) {
+      dstinfo->err->msg_code = 52;
+      dstinfo->err->msg_parm.i[0] = tblno;
+      (*dstinfo->err->error_exit)((j_common_ptr_827BF930)dstinfo);
+    }
+    slot_quant = srcinfo->quant_tbl_ptrs[tblno];
+    c_quant = incomp->quant_table;
+    if (c_quant != 0) {
+      for (coefi = 0; coefi < 64; coefi++) {
+        if (c_quant->quantval[coefi] != slot_quant->quantval[coefi]) {
+          dstinfo->err->msg_code = 44;
+          dstinfo->err->msg_parm.i[0] = tblno;
+          (*dstinfo->err->error_exit)((j_common_ptr_827BF930)dstinfo);
+        }
+      }
+    }
+  }
+  if (srcinfo->saw_JFIF_marker) {
+    if (srcinfo->JFIF_major_version == 1) {
+      dstinfo->JFIF_major_version = srcinfo->JFIF_major_version;
+      dstinfo->JFIF_minor_version = srcinfo->JFIF_minor_version;
+    }
+    dstinfo->density_unit = srcinfo->density_unit;
+    dstinfo->X_density = srcinfo->X_density;
+    dstinfo->Y_density = srcinfo->Y_density;
+  }
+}

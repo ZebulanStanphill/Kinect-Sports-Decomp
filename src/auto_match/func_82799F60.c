@@ -1,45 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827977F8();
-extern int fn_827999F0();
+extern void fn_827977F8(void *o);
+extern int fn_826BCDE8(int a);
+extern void fn_827999F0(void *o, int a, int b, int c, int d, int e, int f, int g, int h);
 
+typedef struct Obj_82799F60 Obj_82799F60;
+typedef struct { void *pad; void (*f4)(Obj_82799F60 *, int); } VT_82799F60;
+struct Obj_82799F60 {
+  VT_82799F60 *vt;
+  int pad4;
+  void *sub;
+  char pad[0x131];
+  unsigned char flags;
+};
 
-void fn_82799F60(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7)
-
+void fn_82799F60(Obj_82799F60 *p, int a, int b, int c, int d, int e, int f, int g)
 {
-  fn_827977F8(param_1[2]);
-  if ((int)param_3 == -1) {
-    param_3 = thunk_FUN_82f64ce0(param_2);
+  fn_827977F8(p->sub);
+  if (b == -1) {
+    b = fn_826BCDE8(a);
   }
-  fn_827999F0(param_1[2],param_2,param_3,param_5,*(byte *)((int)param_1 + 0x13d) >> 2 & 1,param_4,
-                param_6,param_7);
-  (**(code **)(*param_1 + 4))(param_1,0x106);
-  return;
+  fn_827999F0(p->sub, a, b, d, (p->flags >> 2) & 1, c, e, f, g);
+  p->vt->f4(p, 0x106);
 }
-

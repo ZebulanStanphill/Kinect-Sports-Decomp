@@ -24,87 +24,72 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BA02A8();
-extern int fn_82C53970();
-extern int fn_82C563B0();
-extern int fn_82CBBD70();
-extern int fn_82F641F8();
-extern int memset();
+extern int fn_82BA02A8(unsigned, void *);
+extern int fn_82C53970(unsigned);
+extern int fn_82C563B0(unsigned, unsigned);
+extern int fn_82CBBD70(void *);
+extern int fn_82F641F8(void *);
+extern void *memset(void *, int, unsigned);
 
+typedef struct { unsigned *data; unsigned cap; unsigned n; } Stk_82C54F48;
+typedef struct {
+  unsigned f0;
+  Stk_82C54F48 a;
+  Stk_82C54F48 b;
+  int f1c;
+  unsigned f20;
+  unsigned ctx;
+} Obj_82C54F48;
 
-void fn_82C54F48(int *param_1)
-
+static unsigned popb_82C54F48(Stk_82C54F48 *s)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  if (param_1 != (int *)0x0) {
-    if (param_1[7] != -1) {
-      if (param_1[3] == 0) {
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = param_1[3] + -1;
-        iVar1 = param_1[1];
-        iVar5 = iVar3 * 4;
-        param_1[3] = iVar3;
-        iVar3 = *(int *)(iVar5 + iVar1);
-        *(undefined4 *)(iVar5 + iVar1) = 0;
-      }
-      if (param_1[6] == 0) {
-        uVar2 = 0;
-      }
-      else {
-        iVar4 = param_1[6] + -1;
-        iVar1 = param_1[4];
-        iVar5 = iVar4 * 4;
-        param_1[6] = iVar4;
-        uVar2 = *(uint *)(iVar5 + iVar1);
-        *(undefined4 *)(iVar5 + iVar1) = 0;
-      }
-      while (iVar3 != 0) {
-        if ((uVar2 & 1) != 0) {
-                    /* WARNING: Subroutine does not return */
-          memset(iVar3,0,0xb330);
-        }
-        fn_82C563B0((ulonglong)(uint)param_1[9] + 8,iVar3);
-        if (param_1[3] == 0) {
-          iVar3 = 0;
-        }
-        else {
-          iVar5 = param_1[3] + -1;
-          iVar1 = param_1[1];
-          param_1[3] = iVar5;
-          iVar5 = iVar5 * 4;
-          iVar3 = *(int *)(iVar5 + iVar1);
-          *(undefined4 *)(iVar5 + iVar1) = 0;
-        }
-        if (param_1[6] == 0) {
-          uVar2 = 0;
-        }
-        else {
-          iVar5 = param_1[6] + -1;
-          iVar1 = param_1[4];
-          param_1[6] = iVar5;
-          iVar5 = iVar5 * 4;
-          uVar2 = *(uint *)(iVar5 + iVar1);
-          *(undefined4 *)(iVar5 + iVar1) = 0;
-        }
-      }
-    }
-    fn_82CBBD70(param_1 + 1);
-    fn_82CBBD70(param_1 + 4);
-    if (*param_1 != 0) {
-      fn_82C53970();
-      *param_1 = 0;
-    }
-    fn_82BA02A8((ulonglong)(uint)param_1[9] + 8,param_1);
-    fn_82F641F8(param_1);
-  }
-  return;
+  unsigned n;
+  unsigned v;
+  if (s->n == 0) return 0;
+  n = s->n - 1;
+  s->n = n;
+  v = s->data[n];
+  s->data[n] = 0;
+  return v;
 }
 
+static unsigned pop_82C54F48(Stk_82C54F48 *s)
+{
+  unsigned n;
+  unsigned v;
+  if (s->n == 0) return 0;
+  n = s->n - 1;
+  s->n = n;
+  v = s->data[n];
+  s->data[n] = 0;
+  return v;
+}
+
+void fn_82C54F48(Obj_82C54F48 *p)
+{
+  unsigned item;
+  char flag;
+
+  if (p != 0) {
+    if (p->f1c != -1) {
+      item = pop_82C54F48(&p->a);
+      flag = (char)popb_82C54F48(&p->b);
+      while (item != 0) {
+        if ((flag & 1) != 0) {
+          memset((void *)item, 0, 0xb330);
+        }
+        fn_82C563B0(p->ctx + 8, item);
+        item = pop_82C54F48(&p->a);
+        flag = (char)popb_82C54F48(&p->b);
+      }
+    }
+    fn_82CBBD70(&p->a);
+    fn_82CBBD70(&p->b);
+    if (p->f0 != 0) {
+      fn_82C53970(p->f0);
+      p->f0 = 0;
+    }
+    fn_82BA02A8(p->ctx + 8, p);
+    fn_82F641F8(p);
+  }
+}

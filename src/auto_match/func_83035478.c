@@ -24,22 +24,34 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83001F78();
+extern void fn_83001F78(unsigned, void *);
 
+typedef struct { unsigned key; unsigned f4; unsigned f8; unsigned fc; unsigned f10; unsigned f14; } Elem_83035478;
+typedef struct { Elem_83035478 *first; Elem_83035478 *last; } Vec_83035478;
+typedef struct { char pad[0x10]; Vec_83035478 v; } Obj_83035478;
 
-void fn_83035478(int param_1,int param_2)
-
+static void find_83035478(Vec_83035478 *v, Elem_83035478 **out, unsigned key)
 {
-  int *piVar1;
-  
-  for (piVar1 = *(int **)(param_1 + 0x10);
-      (piVar1 != *(int **)(param_1 + 0x14) && (*piVar1 != param_2)); piVar1 = piVar1 + 6) {
+  Elem_83035478 *e;
+  for (e = v->first; e != v->last; e++) {
+    if (e->key == key) break;
   }
-  if ((piVar1 != *(int **)(param_1 + 0x14)) && (piVar1[2] != 0)) {
-    fn_83001F78(piVar1[2],param_1);
-    piVar1[2] = 0;
-  }
-  return;
+  *out = e;
 }
 
+void fn_83035478(Obj_83035478 *param_1, unsigned param_2)
+{
+  Elem_83035478 *e;
+  unsigned *q;
+  unsigned t;
+
+  find_83035478(&param_1->v, &e, param_2);
+  if (e != param_1->v.last) {
+    q = &e->f4;
+    t = q[1];
+    if (t != 0) {
+      fn_83001F78(t, param_1);
+      q[1] = 0;
+    }
+  }
+}

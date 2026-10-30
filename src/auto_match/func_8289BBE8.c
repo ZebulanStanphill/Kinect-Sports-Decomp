@@ -24,33 +24,24 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern int fn_8289B6F8();
-extern int fn_828E5F60();
-extern unsigned int iStack_30;
+extern void fn_8289B6F8(void *, int, unsigned);
+extern void fn_828E5F60(unsigned *);
 
-
-void fn_8289BBE8(undefined8 param_1,int *param_2,int *param_3)
-
+void fn_8289BBE8(int param_1, unsigned *param_2, unsigned *param_3)
 {
-  int iVar1;
-  int iStack_30;
-  undefined1 auStack_2c [44];
-  
-  iStack_30 = *param_2;
-  if (iStack_30 != *param_3) {
-    do {
-      iVar1 = iStack_30;
-      if (*(int *)(iStack_30 + 0x18) == 0) {
-        fn_828E5F60(&iStack_30);
-        fn_8289B6F8(auStack_2c,param_1,iVar1);
-      }
-      else {
-        fn_828E5F60(&iStack_30);
-      }
-    } while (iStack_30 != *param_3);
-  }
-  return;
-}
+  unsigned it;
+  unsigned n;
+  unsigned tmp;
 
+  it = *param_2;
+  while (it != *param_3) {
+    if (*(int *)(it + 0x18) == 0) {
+      n = it;
+      fn_828E5F60(&it);
+      fn_8289B6F8(&tmp, param_1, n);
+    }
+    else {
+      fn_828E5F60(&it);
+    }
+  }
+}

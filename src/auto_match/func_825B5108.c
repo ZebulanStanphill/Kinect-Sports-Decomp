@@ -1,71 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_825B51E8();
-extern int fn_827D5738();
-extern int fn_828515E8();
-extern unsigned int lbl_83265A24;
+extern void fn_8251FA58(void *p);
+extern void fn_825B51E8(void *o, void *a, unsigned int i);
+extern void *fn_827D5738(void *g, void *p);
+extern void fn_828515E8(void *p);
+extern void *lbl_83265A24;
 
+typedef struct { int f0; void *f4; int f8; void *fc; char pad[0x10]; } Ent_825B5108;
+typedef struct {
+  char pad0[0x1c];
+  unsigned int n1;
+  char pad1[0x108];
+  Ent_825B5108 *ents;
+  unsigned int n2;
+} Inner_825B5108;
+typedef struct { Inner_825B5108 *in; } Obj_825B5108;
 
-void fn_825B5108(int *param_1,undefined8 param_2)
-
+void fn_825B5108(Obj_825B5108 *o, void *a)
 {
-  int iVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  
-  iVar1 = *param_1;
-  uVar3 = 0;
-  if (*(int *)(iVar1 + 0x1c) != 0) {
+  Inner_825B5108 *in = o->in;
+  unsigned int i = 0;
+  unsigned int j;
+  int off;
+  if (in->n1 > 0) {
     do {
-      fn_825B51E8(param_1,param_2,uVar3);
-      iVar1 = *param_1;
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 0x1c));
+      fn_825B51E8(o, a, i);
+      in = o->in;
+      i = i + 1;
+    } while (i < in->n1);
   }
-  uVar2 = 0;
-  if (*(int *)(iVar1 + 300) != 0) {
-    iVar4 = 0;
+  j = 0;
+  if (in->n2 > 0) {
+    off = 0;
     do {
-      if ((*(int *)(*(int *)(iVar1 + 0x128) + iVar4 + 4) != 0) &&
-         (iVar1 = fn_827D5738(lbl_83265A24), iVar1 != 0)) {
-        fn_8251FA58(*(undefined4 *)(*(int *)(*param_1 + 0x128) + iVar4 + 4));
+      void *t = *(void **)((char *)in->ents + off + 4);
+      void *u;
+      if (t != 0 && fn_827D5738(lbl_83265A24, t) != 0) {
+        fn_8251FA58(*(void **)((char *)o->in->ents + off + 4));
       }
-      if (*(int *)(*(int *)(*param_1 + 0x128) + iVar4 + 0xc) != 0) {
-        fn_8251FA58();
+      u = *(void **)((char *)o->in->ents + off + 0xc);
+      if (u != 0) {
+        fn_8251FA58(u);
       }
-      iVar1 = *param_1;
-      uVar2 = uVar2 + 1;
-      iVar4 = iVar4 + 0x20;
-    } while (uVar2 < *(uint *)(iVar1 + 300));
+      in = o->in;
+      j = j + 1;
+      off = off + 0x20;
+    } while (j < in->n2);
   }
-  fn_828515E8();
-  return;
+  fn_828515E8(in);
 }
-

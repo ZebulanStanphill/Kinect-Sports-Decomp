@@ -39,9 +39,9 @@ void fn_826AF178(int param_1,int *param_2)
   
   iVar1 = *(int *)(param_1 + 4);
   puVar4 = (uint *)(iVar1 + 8);
-  uVar3 = *(int *)(iVar1 + 8) + 0x10;
+  uVar3 = *puVar4 + 0x10;
   *puVar4 = uVar3;
-  if (*(uint *)(iVar1 + 0x10) <= uVar3) {
+  if (uVar3 >= puVar4[2]) {
     fn_826826A8(puVar4);
   }
   puVar2 = (undefined1 *)*puVar4;
@@ -51,8 +51,8 @@ void fn_826AF178(int param_1,int *param_2)
     *(int *)(puVar2 + 4) = iVar1;
     *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
   }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_826A9138(*(int *)(param_1 + 8),0xffffffff82007730,*(undefined4 *)*param_2);
+  if (*(unsigned int *)(param_1 + 8) != 0) {
+    fn_826A9138(*(int *)(param_1 + 8),"---enumerate - Push: %s\n",*(undefined4 *)*param_2);
   }
   return;
 }

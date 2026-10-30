@@ -24,31 +24,23 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831BB4E0;
+typedef struct { unsigned int code; int value; } Map_82F681D0;
+extern Map_82F681D0 lbl_831BB4E0[];
 
-
-undefined4 fn_82F681D0(uint param_1)
-
+int fn_82F681D0(unsigned int param_1)
 {
-  uint *puVar1;
-  uint uVar2;
-  
-  uVar2 = 0;
-  puVar1 = &lbl_831BB4E0;
-  do {
-    if (param_1 == *puVar1) {
-      return *(undefined4 *)(uVar2 * 8 + -0x7ce44b1c);
+  unsigned int i;
+
+  for (i = 0; i < 0x2d; i++) {
+    if (param_1 == lbl_831BB4E0[i].code) {
+      return lbl_831BB4E0[i].value;
     }
-    uVar2 = uVar2 + 1;
-    puVar1 = puVar1 + 2;
-  } while (uVar2 < 0x2d);
-  if ((0x12 < param_1) && (param_1 < 0x25)) {
+  }
+  if (param_1 >= 0x13 && param_1 <= 0x24) {
     return 0xd;
   }
-  if ((0xbb < param_1) && (param_1 < 0xcb)) {
+  if (param_1 >= 0xbc && param_1 <= 0xca) {
     return 8;
   }
   return 0x16;
 }
-

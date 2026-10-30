@@ -24,49 +24,48 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82F63CA0();
+extern void fn_82E50CB8(void *);
+extern void fn_82E50F10(void *);
+extern void *memmove(void *, const void *, unsigned int);
 
+typedef struct {
+  char pad[0x5c];
+  unsigned count;
+  int f60;
+  unsigned short *data;
+} Obj_82E56078;
 
-undefined8 fn_82E56078(int param_1,short param_2)
-
+int fn_82E56078(Obj_82E56078 *param_1, unsigned short param_2)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  undefined8 uVar4;
-  
-  uVar4 = 0;
-  if (*(int *)(param_1 + 0x5c) == 0) {
-    uVar4 = 0xffffffff80070057;
-  }
-  else {
-    fn_82E50CB8(param_1 + 8);
-    iVar3 = *(int *)(param_1 + 0x5c);
-    uVar2 = 0;
-    if (iVar3 != 0) {
-      iVar1 = 0;
-      do {
-        if (param_2 == *(short *)(iVar1 + *(int *)(param_1 + 100))) {
-          if (uVar2 < iVar3 - 1U) {
-            iVar1 = uVar2 * 2 + *(int *)(param_1 + 100);
-            fn_82F63CA0(iVar1,iVar1 + 2,(iVar3 - uVar2) - 1 & 0x7fffffff);
-          }
-          iVar3 = *(int *)(param_1 + 0x5c) + -1;
-          *(int *)(param_1 + 0x5c) = iVar3;
-          *(undefined2 *)(iVar3 * 2 + *(int *)(param_1 + 100)) = 0;
-          goto LAB_82e560f8;
-        }
-        uVar2 = uVar2 + 1;
-        iVar1 = iVar1 + 2;
-      } while (uVar2 < *(uint *)(param_1 + 0x5c));
-    }
-    uVar4 = 0xffffffff80070057;
-LAB_82e560f8:
-    fn_82E50F10(param_1 + 8);
-  }
-  return uVar4;
-}
+  unsigned i;
+  int hr;
+  unsigned n;
+  unsigned short *p;
+  unsigned *pc = &param_1->count;
 
+  hr = 0;
+  if (param_1->count == 0) {
+    return 0x80070057;
+  }
+  fn_82E50CB8((char *)param_1 + 8);
+  n = param_1->count;
+  i = 0;
+  if (param_1->count != 0) {
+    do {
+      if (param_2 == param_1->data[i]) {
+        if (n - 1 > i) {
+          p = param_1->data + i;
+          memmove(p, p + 1, (n - i - 1) * 2);
+        }
+        param_1->count = param_1->count - 1;
+        param_1->data[param_1->count] = 0;
+        goto done;
+      }
+      i = i + 1;
+    } while (i < *pc);
+  }
+  hr = 0x80070057;
+done:
+  fn_82E50F10((char *)param_1 + 8);
+  return hr;
+}
