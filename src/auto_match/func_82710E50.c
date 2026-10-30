@@ -1,58 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_8267B890();
-extern int fn_82696330();
-extern int fn_827108A8();
+struct Sub_82710E50;
+typedef struct { void *s0[10]; void (*f28)(struct Sub_82710E50 *, void *, unsigned int, unsigned char *, unsigned char *); } Vt_82710E50;
+typedef struct Sub_82710E50 { Vt_82710E50 *vt; } Sub_82710E50;
+typedef struct { char pad[0x10]; Sub_82710E50 sub; } Obj_82710E50;
+typedef struct { char pad[0x288]; int f288; } Inner_82710E50;
+typedef struct { char pad[0x78]; unsigned int *f78; } Ctx_82710E50;
+extern void *fn_8267B890(int, int, int);
+extern void fn_82696330(void *);
+extern Obj_82710E50 *fn_827108A8(void *, void *);
 
-
-int fn_82710E50(undefined8 param_1,int param_2)
-
+Obj_82710E50 *fn_82710E50(void *unused, Ctx_82710E50 *ctx)
 {
-  ulonglong uVar1;
-  int iVar2;
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [24];
-  
-  uVar1 = fn_8267B890(*(undefined4 *)(*(int *)(param_2 + 0x78) + 0x288),0x34,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_827108A8(uVar1,param_2);
-  }
-  auStack_30[0] = 10;
-  auStack_40[0] = 0;
-  (**(code **)(*(int *)(iVar2 + 0x10) + 0x28))
-            (iVar2 + 0x10,(uint *)(param_2 + 0x78),(ulonglong)*(uint *)(param_2 + 0x78) + 0x250,
-             auStack_30,auStack_40);
-  fn_82696330(auStack_30);
-  return iVar2;
+  Obj_82710E50 *o;
+  void *m;
+  unsigned char a[16];
+  unsigned char b[24];
+  m = fn_8267B890(*(int *)((char *)*(void **)((char *)ctx + 0x78) + 0x288), 0x34, 0);
+  if (m != 0) o = fn_827108A8(m, ctx);
+  else o = 0;
+  b[0] = 10;
+  a[0] = 0;
+  o->sub.vt->f28(&o->sub, (char *)ctx + 0x78, (*(unsigned int *)((char *)ctx + 0x78)) + 0x250, b, a);
+  fn_82696330(b);
+  return o;
 }
-

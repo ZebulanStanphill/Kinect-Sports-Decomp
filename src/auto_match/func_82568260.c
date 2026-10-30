@@ -1,53 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825BCB58();
+typedef struct { char pad[0x10]; unsigned int f10; unsigned int f14; unsigned int f18; unsigned int f1c; unsigned int f20; unsigned int f24; char pad28[8]; } Rec_82568260;
+typedef struct { char pad[0x60]; unsigned int *f60; char pad64[0x70]; int idx; Rec_82568260 *recs; } Obj_82568260;
+typedef struct { char pad[0x18]; int f18; } Arg_82568260;
+extern unsigned int fn_825BCB58(unsigned int, int);
 
-
-void fn_82568260(int param_1,int param_2)
-
+void fn_82568260(Obj_82568260 *o, Arg_82568260 *a)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  if (*(undefined4 **)(param_1 + 0x60) == (undefined4 *)0x0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = **(undefined4 **)(param_1 + 0x60);
-  }
-  uVar1 = fn_825BCB58(uVar1,*(undefined4 *)(param_2 + 0x18));
-  iVar2 = *(int *)(param_1 + 0xd4) * 0x30;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x20) = 1;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x24) = 1;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x10) = uVar1;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x14) = 0;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x18) = 0;
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0xd8) + 0x1c) = 0;
-  return;
+  unsigned int v;
+  int i;
+  v = o->f60 ? *o->f60 : 0;
+  v = fn_825BCB58(v, a->f18);
+  i = o->idx;
+  o->recs[i].f20 = 1;
+  o->recs[i].f24 = 1;
+  o->recs[i].f10 = v;
+  o->recs[i].f14 = 0;
+  o->recs[i].f18 = 0;
+  o->recs[i].f1c = 0;
 }
-

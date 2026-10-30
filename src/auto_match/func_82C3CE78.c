@@ -1,146 +1,116 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int memcpy();
-extern unsigned int iStack_80;
+typedef struct {
+  int c50;
+  int c54;
+  int c58;
+  int c5c;
+  __int64 c60;
+} Loc_82C3CE78;
+struct St_82C3CE78;
+typedef int (*Cb_82C3CE78)(void *ctx, void *buf, void *len, int *a, __int64 *b, int *c, int *d, int *e);
+typedef struct St_82C3CE78 {
+  Cb_82C3CE78 cb;
+  void *ctx;
+  int pad8;
+  unsigned total;
+  unsigned avail;
+  unsigned char *ptr;
+  char pad18[0x30];
+  __int64 f48;
+  int pad50[1];
+  int f54;
+  unsigned short f58;
+  char pad5a[0x16];
+  int f70;
+  unsigned char buf[1];
+} St_82C3CE78;
+typedef struct { char pad[0x20]; int st; } Obj_82C3CE78;
+extern void *memcpy(void *, const void *, unsigned);
 
-
-/* WARNING: Type propagation algorithm not settling */
-
-undefined8
-fn_82C3CE78(int param_1,int param_2,uint *param_3,undefined8 param_4,uint *param_5,
-             undefined4 *param_6)
-
+int fn_82C3CE78(Obj_82C3CE78 *o, unsigned off, unsigned *outp, int unused, unsigned *outn, unsigned *outf)
 {
-  undefined4 *puVar1;
-  code *pcVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  int iStack_80;
-  int aiStack_7c [3];
-  undefined8 auStack_70;
-  
-  aiStack_7c[0] = 0;
-  auStack_70 = 0;
-  iStack_80 = 0;
-  aiStack_7c[2] = 0;
-  aiStack_7c[1] = 0;
-  if (*(int *)(param_1 + 0x20) != 0) {
-    if (param_3 == (uint *)0x0) goto LAB_82c3d114;
-    if ((param_5 != (uint *)0x0) && (param_6 != (undefined4 *)0x0)) {
-      *param_3 = 0;
-      *param_5 = 0;
-      *param_6 = 1;
-      puVar1 = *(undefined4 **)(param_1 + 0x20);
-      pcVar2 = (code *)*puVar1;
-      uVar3 = puVar1[1];
-      if (puVar1[0x14] != 0) {
-        *param_3 = puVar1[0x15];
-        *param_5 = (uint)*(ushort *)(puVar1 + 0x16);
-        *param_6 = 0;
+  Loc_82C3CE78 L;
+  St_82C3CE78 *s;
+  Cb_82C3CE78 cb;
+  void *ctx;
+  unsigned n;
+  unsigned left;
+  L.c54 = 0;
+  L.c60 = 0;
+  L.c50 = 0;
+  L.c5c = 0;
+  L.c58 = 0;
+  if (o->st != 0) {
+    if (outp == 0) goto clear_n;
+    if (outn != 0 && outf != 0) {
+      *outp = 0;
+      *outn = 0;
+      *outf = 1;
+      s = (St_82C3CE78 *)o->st;
+      cb = s->cb;
+      ctx = s->ctx;
+      if (s->pad50[0] != 0) {
+        *outp = s->f54;
+        *outn = s->f58;
+        *outf = 0;
         return 6;
       }
-      if (puVar1[4] == 0) {
-        iVar4 = (*pcVar2)(uVar3,puVar1 + 5,puVar1 + 3,aiStack_7c,&auStack_70,&iStack_80,
-                          aiStack_7c + 2,aiStack_7c + 1);
-        if (iVar4 < 0) goto LAB_82c3cf58;
-        if (iStack_80 != 0) {
-          *(undefined8 *)(puVar1 + 0x12) = auStack_70;
+      if (s->avail == 0) {
+        if (cb(ctx, &s->ptr, &s->total, &L.c54, &L.c60, &L.c50, &L.c5c, &L.c58) < 0) {
+          *outp = 0;
+          *outn = 0;
+          *outf = 1;
+          return 6;
         }
-        if (aiStack_7c[0] != 0) {
-          puVar1[0x1c] = 1;
-        }
-        puVar1[4] = puVar1[3];
+        if (L.c50 != 0) s->f48 = L.c60;
+        if (L.c54 != 0) s->f70 = 1;
+        s->avail = s->total;
       }
-      if (((param_2 == 0) && (uVar5 = puVar1[4], 3 < uVar5)) && ((puVar1[5] & 3) == 0)) {
-        *param_3 = puVar1[5];
-        *param_5 = uVar5;
-      }
-      else {
-        uVar5 = puVar1[4];
-        if (0x1000 < uVar5) {
-          uVar5 = 0x1000;
-        }
-        memcpy((int)puVar1 + param_2 + 0x74,puVar1[5],uVar5);
-        if ((uVar5 < 4) && (puVar1[0x1c] == 0)) {
-          iVar4 = (*pcVar2)(uVar3,puVar1 + 5,puVar1 + 3,aiStack_7c,&auStack_70,&iStack_80,
-                            aiStack_7c + 2,aiStack_7c + 1);
-          if (iVar4 < 0) {
-LAB_82c3cf58:
-            *param_3 = 0;
-            *param_5 = 0;
-            *param_6 = 1;
+      if (off == 0 && (n = s->avail) >= 4 && ((unsigned)s->ptr & 3) == 0) {
+        *outp = (unsigned)s->ptr;
+        *outn = n;
+      } else {
+        n = s->avail;
+        if (n > 0x1000) n = 0x1000;
+        memcpy(s->buf + off, s->ptr, n);
+        if (n < 4 && s->f70 == 0) {
+          unsigned k = n;
+          if (cb(ctx, &s->ptr, &s->total, &L.c54, &L.c60, &L.c50, &L.c5c, &L.c58) < 0) {
+            *outp = 0;
+            *outn = 0;
+            *outf = 1;
             return 6;
           }
-          if (iStack_80 != 0) {
-            *(undefined8 *)(puVar1 + 0x12) = auStack_70;
-          }
-          if (aiStack_7c[0] != 0) {
-            puVar1[0x1c] = 1;
-          }
-          uVar6 = puVar1[3];
-          puVar1[4] = uVar6;
-          if (0x1000 < uVar6) {
-            uVar6 = 0x1000;
-          }
-          memcpy((int)puVar1 + param_2 + uVar5 + 0x74,puVar1[5],uVar6);
-          *param_3 = (uint)(puVar1 + 0x1d);
-          *param_5 = uVar5 + uVar6 + param_2;
-          uVar5 = uVar6;
-        }
-        else {
-          *param_3 = (uint)(puVar1 + 0x1d);
-          *param_5 = uVar5 + param_2;
+          if (L.c50 != 0) s->f48 = L.c60;
+          if (L.c54 != 0) s->f70 = 1;
+          n = s->total;
+          s->avail = n;
+          if (n > 0x1000) n = 0x1000;
+          memcpy(s->buf + off + k, s->ptr, n);
+          *outp = (unsigned)s->buf;
+          *outn = k + n + off;
+        } else {
+          *outp = (unsigned)s->buf;
+          *outn = n + off;
         }
       }
-      iVar4 = puVar1[4];
-      puVar1[4] = iVar4 - uVar5;
-      puVar1[5] = puVar1[5] + uVar5;
-      if ((puVar1[0x1c] != 0) && (iVar4 - uVar5 == 0)) {
-        *param_6 = 0;
-        puVar1[0x1c] = 0;
+      left = s->avail;
+      s->avail = left - n;
+      s->ptr = s->ptr + n;
+      if (s->f70 != 0 && left - n == 0) {
+        *outf = 0;
+        s->f70 = 0;
         return 6;
       }
       return 0;
     }
   }
-  if (param_3 != (uint *)0x0) {
-    *param_3 = 0;
+  if (outp != 0) {
+    *outp = 0;
   }
-LAB_82c3d114:
-  if (param_5 != (uint *)0x0) {
-    *param_5 = 0;
-  }
-  if (param_6 != (undefined4 *)0x0) {
-    *param_6 = 0;
-  }
-  return 0xfffffffffffffffd;
+clear_n:
+  if (outn != 0)
+    *outn = 0;
+  if (outf != 0)
+    *outf = 0;
+  return -3;
 }
-

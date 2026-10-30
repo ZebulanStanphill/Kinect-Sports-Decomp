@@ -1,57 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8276FE30();
-extern int fn_8276FEA8();
-extern unsigned int stack0x0000002c;
-extern unsigned int uStack0000002c;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct { unsigned a; unsigned b; int c; } Key_827700E8;
+extern void fn_8276FE30(void *, Key_827700E8 *);
+extern void fn_8276FEA8(void *, int *);
 
-
-void fn_827700E8(uint *param_1,uint param_2,uint param_3,undefined4 param_4)
-
+void fn_827700E8(unsigned *p, unsigned a, unsigned b, int c)
 {
-  undefined4 uStack0000002c;
-  struct { uint first; uint second; } stack_pair_20;
-
-  undefined4 uStack_18;
-  
-  uStack0000002c = param_4;
-  if ((((param_2 == 0) || (param_3 == 0)) || (*param_1 < param_2)) || (param_1[1] < param_3)) {
-    fn_8276FEA8(param_1 + 0x15,&stack0x0000002c);
+  Key_827700E8 t;
+  if (a == 0 || b == 0 || a > p[0] || b > p[1]) {
+    fn_8276FEA8(p + 0x15, &c);
+  } else {
+    t.a = a;
+    t.b = b;
+    t.c = c;
+    fn_8276FE30(p + 5, &t);
   }
-  else {
-    stack_pair_20.first = param_2;
-    stack_pair_20.second = param_3;
-    uStack_18 = param_4;
-    fn_8276FE30(param_1 + 5,&stack_pair_20.first);
-  }
-  return;
 }
-

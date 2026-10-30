@@ -1,67 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82AB15D0();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
+struct Ob_82BAAB88;
+typedef struct { void *pad[16]; unsigned char (*f40)(struct Ob_82BAAB88 *); } Vt_82BAAB88;
+typedef struct Ob_82BAAB88 {
+  Vt_82BAAB88 *vt;
+  char pad4[0x4c];
+  int f50;
+  char pad54[0x35c];
+  unsigned f3b0;
+} Ob_82BAAB88;
+typedef struct { int pad[0x20]; unsigned regs[1]; } Obj_82BAAB88;
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
 
-
-void fn_82BAAB88(int param_1,int param_2)
-
+void fn_82BAAB88(char *self, int idx)
 {
-  int *piVar1;
-  int iVar2;
-  char cVar3;
-  int iVar4;
-  longlong lVar5;
-  struct { undefined4 first; int second; } stack_pair_30;
-
-  undefined4 auStack_28 [10];
-  
-  piVar1 = *(int **)((param_2 + 0x3a) * 4 + param_1);
-  if (piVar1 == (int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820df3a8,0xffffffff820df268,0x867);
+  Ob_82BAAB88 *p = *(Ob_82BAAB88 **)(self + (idx + 0x3a) * 4);
+  unsigned *slot;
+  struct { struct { unsigned first; unsigned second; } t; unsigned out; } L;
+  int i;
+  if (p == 0)
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "parm", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\asm\\asm.cpp", 0x867);
+  if (p->vt->f40(p) && p->f50 == 0xb) {
+    slot = (unsigned *)(self + (idx + 0x20) * 4);
+    L.t.second = p->f3b0;
+    L.t.first = *slot;
+    {
+      unsigned char *pi = (unsigned char *)&L.t.first;
+      unsigned char *pt = (unsigned char *)&L.t.second;
+      unsigned char *po = (unsigned char *)&L.out;
+      i = 0;
+      do {
+        *po++ = pt[*pi++];
+        i++;
+      } while (i < 4);
+    }
+    *slot = L.out;
   }
-  cVar3 = (**(code **)(*piVar1 + 0x40))(piVar1);
-  if ((cVar3 != '\0') && (piVar1[0x14] == 0xb)) {
-    iVar2 = (param_2 + 0x20) * 4;
-    iVar4 = 0;
-    stack_pair_30.second = piVar1[0xec];
-    lVar5 = 4;
-    stack_pair_30.first = *(undefined4 *)(iVar2 + param_1);
-    do {
-      *(undefined1 *)((int)auStack_28 + iVar4) =
-           *(undefined1 *)((int)auStack_28 + (*(byte *)((int)&stack_pair_30.first + iVar4) - 4));
-      iVar4 = iVar4 + 1;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    *(undefined4 *)(iVar2 + param_1) = auStack_28[0];
-  }
-  return;
 }
-

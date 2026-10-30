@@ -1,77 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823BA308();
-extern unsigned int iStack_18;
-extern unsigned int iStack_28;
-extern unsigned int iStack_38;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct { int first; int second; int third; int pad; } Pair_823BA248;
+typedef struct { int **p; int pad; int c; } Src_823BA248;
+extern void fn_823BA308(int, Pair_823BA248 *, Pair_823BA248 *, Pair_823BA248 *);
 
-
-void fn_823BA248(undefined8 param_1,int *param_2,int *param_3,int *param_4)
-
+static void Make(Pair_823BA248 *d, Src_823BA248 *s)
 {
-  undefined4 *puVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  int *q;
+  d->first = 0;
+  d->second = 0;
+  if (s->p != 0 && (q = *s->p) != 0)
+    d->first = *q;
+  d->third = s->c;
+}
 
-  int iStack_38;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  int iStack_28;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  int iStack_18;
-
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  if (((int *)*param_4 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_4, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_40.first = *puVar1;
-  }
-  iStack_38 = param_4[2];
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  if (((int *)*param_3 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_3, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_30.first = *puVar1;
-  }
-  iStack_28 = param_3[2];
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  if (((int *)*param_2 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_2, puVar1 != (undefined4 *)0x0)) {
-    stack_pair_20.first = *puVar1;
-  }
-  iStack_18 = param_2[2];
-  fn_823BA308(param_1,&stack_pair_20.first,&stack_pair_30.first,&stack_pair_40.first);
-  return;
+void fn_823BA248(int p1, Src_823BA248 *a, Src_823BA248 *b, Src_823BA248 *c)
+{
+  Pair_823BA248 ta, tb, tc;
+  Make(&tc, c);
+  Make(&tb, b);
+  Make(&ta, a);
+  fn_823BA308(p1, &ta, &tb, &tc);
 }

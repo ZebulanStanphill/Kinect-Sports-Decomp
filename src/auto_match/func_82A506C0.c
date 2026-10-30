@@ -1,49 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+struct Lock_82A506C0;
+typedef struct {
+  void *pad[2];
+  void (*f8)(struct Lock_82A506C0 *);
+  void *padc[2];
+  void (*f14)(struct Lock_82A506C0 *);
+} LockVt_82A506C0;
+typedef struct Lock_82A506C0 { LockVt_82A506C0 *vt; } Lock_82A506C0;
+typedef struct { char pad[0x2c]; Lock_82A506C0 lock; } Owner_82A506C0;
+typedef struct {
+  char pad[0x30];
+  Owner_82A506C0 *owner;
+  unsigned *f34;
+  char pad38[4];
+  unsigned f3c;
+  char pad40[0xc];
+  void *f4c;
+} Obj_82A506C0;
+extern void *memcpy(void *, const void *, unsigned);
 
-
-void fn_82A506C0(int param_1,ulonglong param_2,undefined8 param_3)
-
+void fn_82A506C0(Obj_82A506C0 *o, unsigned n, void *dst)
 {
-  uint uVar1;
-  
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 8))(*(int *)(param_1 + 0x30) + 0x2c);
-  if (*(uint **)(param_1 + 0x34) == (uint *)0x0) {
-    uVar1 = *(uint *)(param_1 + 0x3c);
-  }
-  else {
-    uVar1 = **(uint **)(param_1 + 0x34);
-  }
-  if ((param_2 & 0xffffffff) == (ulonglong)uVar1) {
-    fn_82F68CC0(param_3,*(undefined4 *)(param_1 + 0x4c),(param_2 & 0x3fffffff) << 2);
-  }
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x30) + 0x2c) + 0x14))(*(int *)(param_1 + 0x30) + 0x2c);
-  return;
+  unsigned cur;
+  o->owner->lock.vt->f8(&o->owner->lock);
+  cur = o->f34 != 0 ? *o->f34 : o->f3c;
+  if (n == cur)
+    memcpy(dst, o->f4c, n * 4);
+  o->owner->lock.vt->f14(&o->owner->lock);
 }
-

@@ -1,63 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE4040();
-extern int fn_82CE5410();
-extern int fn_82CE6310();
+typedef struct { int f0; int f4; char pad[0x58]; } Elem_82E00C10;
+typedef struct { Elem_82E00C10 *data; int size; int cap; } Arr_82E00C10;
+typedef struct { char pad[0x10]; Arr_82E00C10 arr; } Obj_82E00C10;
+typedef struct { char pad[0x1c]; struct { char pad[0x20]; unsigned char n; } *info; } Src_82E00C10;
+typedef struct { char pad[0x10]; void *alloc; } Alloc_82E00C10;
+extern Alloc_82E00C10 *fn_82CE5410(void);
+extern void fn_82CE6310(void *, Arr_82E00C10 *, int, int);
+extern void fn_82CE4040(int);
 
-
-void fn_82E00C10(int param_1,int param_2,int *param_3)
-
+void fn_82E00C10(Obj_82E00C10 *o, Src_82E00C10 *s, int **items)
 {
-  byte bVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  bVar1 = *(byte *)(*(int *)(param_2 + 0x1c) + 0x20);
-  iVar2 = fn_82CE5410();
-  if ((*(uint *)(param_1 + 0x18) & 0x3fffffff) < (uint)bVar1) {
-    uVar3 = (*(uint *)(param_1 + 0x18) & 0x3fffffff) << 1;
-    if (uVar3 <= bVar1) {
-      uVar3 = (uint)bVar1;
+  Arr_82E00C10 *a = &o->arr;
+  int n = s->info->n;
+  void *al = fn_82CE5410()->alloc;
+  int cap = a->cap & 0x3fffffff;
+  unsigned char i;
+  if (cap < n) {
+    fn_82CE6310(al, a, n < cap * 2 ? cap * 2 : n, 0x60);
+  }
+  a->size = n;
+  if (n > 0) {
+    for (i = 0; i < n; i++) {
+      a->data[i].f4 = (*items)[i];
+      fn_82CE4040((*items)[i]);
     }
-    fn_82CE6310(*(undefined4 *)(iVar2 + 0x10),(int *)(param_1 + 0x10),uVar3,0x60);
   }
-  uVar3 = (uint)bVar1;
-  *(uint *)(param_1 + 0x14) = uVar3;
-  if (uVar3 != 0) {
-    uVar4 = 0;
-    do {
-      *(undefined4 *)(uVar4 * 0x60 + *(int *)(param_1 + 0x10) + 4) =
-           *(undefined4 *)(uVar4 * 4 + *param_3);
-      fn_82CE4040(*(undefined4 *)(uVar4 * 4 + *param_3));
-      uVar4 = uVar4 + 1 & 0xff;
-    } while (uVar4 < uVar3);
-  }
-  return;
 }
-
