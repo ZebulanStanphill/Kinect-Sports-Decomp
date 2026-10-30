@@ -1,58 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Out_82E32108 {
+  int pad[4];
+  int f10;
+  unsigned int f14;
+  int f18;
+} Out_82E32108;
+typedef struct Buf_82E32108 {
+  int pad0[0x2e];
+  int *data;
+  int pad1[6];
+  int flag;
+} Buf_82E32108;
+typedef struct Ctx_82E32108 {
+  int pad[0x2b];
+  Buf_82E32108 *buf;
+} Ctx_82E32108;
+typedef struct Reader_82E32108 {
+  Out_82E32108 *out;
+  int pad[0x41cd];
+  int pos;
+} Reader_82E32108;
 
-
-undefined8 fn_82E32108(int *param_1,int param_2)
-
+int fn_82E32108(Reader_82E32108 *r, Ctx_82E32108 *c)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = *(int *)(param_2 + 0xac);
-  iVar2 = *param_1;
-  if (*(int *)(iVar1 + 0xd4) == 0) {
-    param_1[0x41ce] = *(int *)(*(int *)(iVar1 + 0xb8) + -4);
+  Buf_82E32108 *b = c->buf;
+  Out_82E32108 *o = r->out;
+  int *pos;
+  int n;
+  int end;
+  if (b->flag == 0) {
+    r->pos = b->data[-1];
   }
-  param_1 = param_1 + 0x41ce;
-  iVar3 = *param_1;
-  iVar4 = *(int *)(*(int *)(iVar1 + 0xb8) + -4);
-  if (iVar3 == iVar4) {
-    *(undefined4 *)(iVar2 + 0x10) = 0;
-    return 0;
-  }
-  if (iVar3 < iVar4) {
-    *(undefined4 *)(iVar2 + 0x10) = *(undefined4 *)(iVar3 * 4 + *(int *)(iVar1 + 0xb8));
-    *(uint *)(iVar2 + 0x14) = *(uint *)((*param_1 + 1) * 4 + *(int *)(iVar1 + 0xb8)) & 0x7fffffff;
-    *(int *)(iVar2 + 0x18) = -1 - (*(int *)((*param_1 + 1) * 4 + *(int *)(iVar1 + 0xb8)) >> 0x1f);
-    *param_1 = *param_1 + 2;
+  pos = &r->pos;
+  n = *pos;
+  end = b->data[-1];
+  if (n == end) {
+    o->f10 = 0;
+  } else if (n < end) {
+    o->f10 = b->data[n];
+    o->f14 = (unsigned int)b->data[*pos + 1] & 0x7fffffff;
+    o->f18 = ((unsigned int)b->data[*pos + 1] >> 31) - 1;
+    *pos = *pos + 2;
   }
   return 0;
 }
-

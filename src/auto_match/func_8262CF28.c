@@ -1,72 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern unsigned int lbl_821CC160;
+struct Node_8262CF28;
+typedef struct { int kind; int pad; int key; } Body_8262CF28;
+typedef struct Node_8262CF28 { struct Node_8262CF28 *prev; struct Node_8262CF28 *next; Body_8262CF28 *data; } Node_8262CF28;
+typedef struct { Node_8262CF28 *prev; Node_8262CF28 *next; Body_8262CF28 body; } Link_8262CF28;
+typedef struct { char pad[0x304]; Node_8262CF28 *head; } Owner_8262CF28;
+typedef struct { int pad0; int pad1; int flag; int key; int pad2; float val; } Req_8262CF28;
+extern int fn_82522ED8(l);
+extern float lbl_821CC160;
 
-
-char fn_8262CF28(int param_1,int param_2)
-
+char fn_8262CF28(Owner_8262CF28 *o, Req_8262CF28 *r)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  for (iVar1 = *(int *)(param_1 + 0x304); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-    piVar3 = *(int **)(iVar1 + 8);
-    if (*piVar3 == 0x6d) goto LAB_8262cf68;
+  Node_8262CF28 *n;
+  Body_8262CF28 *b;
+  for (n = o->head; n != 0; n = n->next) {
+    b = n->data;
+    if (b->kind == 0x6d) goto found;
   }
-  piVar3 = (int *)0x0;
-LAB_8262cf68:
-  if (piVar3 != (int *)0x0) {
-    do {
-      if (piVar3[2] == *(int *)(param_2 + 0xc)) {
-        if (*(float *)(param_2 + 0x14) != lbl_821CC160) {
-          return '\0';
-        }
-        if (piVar3[-2] != 0) {
-          *(int *)(piVar3[-2] + 4) = piVar3[-1];
-        }
-        if ((int *)piVar3[-1] != (int *)0x0) {
-          *(int *)piVar3[-1] = piVar3[-2];
-        }
-        piVar3[-2] = 0;
-        piVar3[-1] = 0;
-        fn_82522ED8();
-        return (*(int *)(param_2 + 8) == 0) + '\x01';
+  b = 0;
+found:
+  while (b != 0) {
+    if (b->key == r->key) {
+      Link_8262CF28 *l;
+      if (r->val != lbl_821CC160) return 0;
+      l = (Link_8262CF28 *)((char *)b - 8);
+      if (l->prev != 0) l->prev->next = l->next;
+      if (l->next != 0) l->next->prev = l->prev;
+      l->prev = 0;
+      l->next = 0;
+      fn_82522ED8(l);
+      return (r->flag == 0) + 1;
+    }
+    {
+      int kind = b->kind;
+      Link_8262CF28 *l = (Link_8262CF28 *)((char *)b - 8);
+      for (n = l->next; n != 0; n = n->next) {
+        b = n->data;
+        if (b->kind == kind) goto next;
       }
-      iVar1 = *piVar3;
-      for (iVar2 = piVar3[-1]; iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-        piVar3 = *(int **)(iVar2 + 8);
-        if (*piVar3 == iVar1) goto LAB_8262cfac;
-      }
-      piVar3 = (int *)0x0;
-LAB_8262cfac:;} while (piVar3 != (int *)0x0);
+      b = 0;
+    }
+next: ;
   }
-  return '\0';
+  return 0;
 }
-

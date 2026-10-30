@@ -32,20 +32,18 @@ extern int fn_82C10B70();
 extern unsigned int uStack_20;
 
 
-undefined4 fn_82C088D8(undefined8 param_1)
 
+undefined4 fn_82C088D8(undefined8 param_1)
 {
-  int iVar1;
+  int hr;
   undefined4 uStack_20;
   undefined4 auStack_1c;
-  
   auStack_1c = 0;
   uStack_20 = 0;
-  iVar1 = fn_82C10580(&uStack_20);
-  if ((-1 < iVar1) && (iVar1 = fn_82C080A0(&auStack_1c,param_1,uStack_20), -1 < iVar1)) {
-    return auStack_1c;
+  hr = fn_82C10580(&uStack_20);
+  if (hr >= 0) {
+    hr = fn_82C080A0(&auStack_1c,param_1,uStack_20);
   }
-  fn_82C10B70(uStack_20);
-  return 0;
+  if (hr < 0) { fn_82C10B70(uStack_20); return 0; }
+  return auStack_1c;
 }
-

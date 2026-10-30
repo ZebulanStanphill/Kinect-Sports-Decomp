@@ -25,9 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_bc;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_e0;
 extern int fn_82230300();
 extern int fn_8223B728();
 extern int fn_8223CFC0();
@@ -42,22 +39,20 @@ undefined8 fn_825AC948(undefined8 param_1,int param_2,undefined8 param_3)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined1 auStack_e0 [32];
-  undefined1 auStack_c0 [4];
-  undefined1 auStack_bc [140];
+  unsigned int uVar2;
+  unsigned int uVar3;
+  struct { undefined1 e0[32]; undefined1 c0[4]; undefined1 bc[148]; } L;
   
-  fn_8223CFC0(auStack_c0,2,1);
-  uVar2 = fn_828B5B28(auStack_e0,param_2 + 0x84,param_3);
+  fn_8223CFC0(L.c0,2,1);
+  uVar2 = fn_828B5B28(L.e0,param_2 + 0x84,param_3);
   uVar1 = *(undefined4 *)(param_2 + 0x80);
-  uVar3 = fn_82240158(auStack_c0,0xffffffff821c8084);
+  uVar3 = fn_82240158(L.c0,"ActuatorTeleportMsg - Time:");
   uVar3 = fn_82520AC8(uVar3,uVar1);
-  uVar3 = fn_82240158(uVar3,0xffffffff821c8078);
+  uVar3 = fn_82240158(uVar3,", Object:");
   fn_8223B728(uVar3,uVar2);
-  fn_82230300(auStack_e0,1,0);
-  fn_822403C8(param_1,auStack_bc);
-  fn_8223DCC8(auStack_c0);
+  fn_82230300(L.e0,1,0);
+  fn_822403C8(param_1,L.bc);
+  fn_8223DCC8(L.c0);
   return param_1;
 }
 

@@ -1,61 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82CE5410();
 
+typedef struct Vt_82D9A670 { char pad[0x10]; void (*f10)(void *, void *, unsigned int, int); } Vt_82D9A670;
+typedef struct Heap_82D9A670 { Vt_82D9A670 *vt; } Heap_82D9A670;
+typedef struct Mgr_82D9A670 { char pad[0x10]; Heap_82D9A670 *heap; } Mgr_82D9A670;
+typedef struct Buf_82D9A670 { void *ptr; int f4; int cap; } Buf_82D9A670;
+typedef struct Obj_82D9A670 { char pad[0x8c]; Buf_82D9A670 a; Buf_82D9A670 b; } Obj_82D9A670;
 
-void fn_82D9A670(int param_1)
-
+void fn_82D9A670(Obj_82D9A670 *param_1)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0x90) == 0) {
-    iVar2 = fn_82CE5410();
-    piVar1 = *(int **)(iVar2 + 0x10);
-    *(undefined4 *)(param_1 + 0x90) = 0;
-    if ((*(uint *)(param_1 + 0x94) & 0x80000000) == 0) {
-      (**(code **)(*piVar1 + 0x10))
-                (piVar1,*(undefined4 *)(param_1 + 0x8c),*(uint *)(param_1 + 0x94) & 0x3fffffff,4);
+  Heap_82D9A670 *h;
+  Buf_82D9A670 *s;
+  if (param_1->a.f4 == 0) {
+    s = &param_1->a;
+    h = ((Mgr_82D9A670 *)fn_82CE5410())->heap;
+    s->f4 = 0;
+    if ((s->cap & (int)0x80000000) == 0) {
+      h->vt->f10(h, s->ptr, s->cap & 0x3fffffff, 4);
     }
-    *(undefined4 *)(param_1 + 0x8c) = 0;
-    *(undefined4 *)(param_1 + 0x94) = 0x80000000;
+    s->ptr = 0;
+    s->cap = (int)0x80000000;
   }
-  if (*(int *)(param_1 + 0x9c) == 0) {
-    iVar2 = fn_82CE5410();
-    piVar1 = *(int **)(iVar2 + 0x10);
-    *(undefined4 *)(param_1 + 0x9c) = 0;
-    if ((*(uint *)(param_1 + 0xa0) & 0x80000000) == 0) {
-      (**(code **)(*piVar1 + 0x10))
-                (piVar1,*(undefined4 *)(param_1 + 0x98),*(uint *)(param_1 + 0xa0) & 0x3fffffff,4);
+  if (param_1->b.f4 == 0) {
+    s = &param_1->b;
+    h = ((Mgr_82D9A670 *)fn_82CE5410())->heap;
+    s->f4 = 0;
+    if ((s->cap & (int)0x80000000) == 0) {
+      h->vt->f10(h, s->ptr, s->cap & 0x3fffffff, 4);
     }
-    *(undefined4 *)(param_1 + 0x98) = 0;
-    *(undefined4 *)(param_1 + 0xa0) = 0x80000000;
+    s->ptr = 0;
+    s->cap = (int)0x80000000;
   }
-  return;
 }
-

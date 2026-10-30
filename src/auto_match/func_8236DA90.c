@@ -1,51 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_82897DF8();
+extern void fn_82230110(void *, const char *);
+extern void fn_82230300(void *, int, int);
+extern void fn_82897DF8(void *, void *, void *);
 
-
-void fn_8236DA90(int param_1)
-
+typedef struct Str_8236DA90 { int w[8]; } Str_8236DA90;
+typedef struct Def_8236DA90 { int w[3]; char flag; } Def_8236DA90;
+void fn_8236DA90(char *p)
 {
-  undefined1 auStack_60 [32];
-  undefined1 auStack_40 [40];
-  
-  fn_82230110(auStack_60,0xffffffff821b3050);
-  *(undefined1 *)(param_1 + 0x40) = 0;
-  fn_82897DF8(param_1 + 0x34,param_1,auStack_60);
-  fn_82230300(auStack_60,1,0);
-  fn_82230110(auStack_40,0xffffffff821b3064);
-  *(undefined1 *)(param_1 + 0x98) = 0;
-  fn_82897DF8(param_1 + 0x8c,param_1,auStack_40);
-  fn_82230300(auStack_40,1,0);
-  return;
+  Str_8236DA90 a;
+  Str_8236DA90 b;
+  Def_8236DA90 *d;
+  fn_82230110(&a, "m_playerReadyDef");
+  d = (Def_8236DA90 *)(p + 0x34);
+  d->flag = 0;
+  fn_82897DF8(d, p, &a);
+  fn_82230300(&a, 1, 0);
+  fn_82230110(&b, "m_allPlayersReadyDef");
+  d = (Def_8236DA90 *)(p + 0x8c);
+  d->flag = 0;
+  fn_82897DF8(d, p, &b);
+  fn_82230300(&b, 1, 0);
 }
-

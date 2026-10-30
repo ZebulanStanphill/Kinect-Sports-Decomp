@@ -25,19 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern unsigned int lbl_8215F960;
-extern unsigned int lbl_8215F980;
+extern unsigned int *fn_8265C940(unsigned int, unsigned int);
+extern char lbl_8215F960[];
+extern char lbl_8215F980[];
 extern unsigned int *lbl_83248EC4;
 
 
-undefined4 * fn_82ED4A28(undefined4 *param_1,undefined4 param_2)
-
+unsigned int *fn_82ED4A28(unsigned int *param_1, unsigned int param_2)
 {
+  unsigned int *p;
   param_1[0xe] = param_2;
   param_1[6] = 0;
   param_1[7] = 0;
-  *param_1 = &lbl_8215F980;
+  *param_1 = (unsigned int)lbl_8215F980;
   param_1[0xb] = 0xffffffff;
   param_1[0xc] = 0xffffffff;
   param_1[9] = 0;
@@ -48,15 +48,14 @@ undefined4 * fn_82ED4A28(undefined4 *param_1,undefined4 param_2)
   param_1[0x13] = 0;
   param_1[0x12] = 0xe;
   param_1[0x11] = 1;
-  if (lbl_83248EC4 == (undefined4 *)0x0) {
-    lbl_83248EC4 = (undefined4 *)fn_8265C940(4,0x248c8000);
-    if (lbl_83248EC4 == (undefined4 *)0x0) {
-      lbl_83248EC4 = (undefined4 *)0x0;
-    }
-    else {
-      *lbl_83248EC4 = &lbl_8215F960;
+  if (lbl_83248EC4 == 0) {
+    p = fn_8265C940(4, 0x248c8000);
+    if (p != 0) {
+      *p = (unsigned int)lbl_8215F960;
+      lbl_83248EC4 = p;
+    } else {
+      lbl_83248EC4 = 0;
     }
   }
   return param_1;
 }
-

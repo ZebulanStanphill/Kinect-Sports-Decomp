@@ -33,33 +33,33 @@ void fn_8282BDD0(int param_1)
 
 {
   uint uVar2;
-  longlong lVar1;
+  int lVar1;
   int iVar3;
-  int *piVar4;
+  unsigned int *piVar4;
   
   if ((*(byte *)(param_1 + 0x134) & 4) != 0) {
     uVar2 = 0;
     if (*(char *)(param_1 + 0x51) != '\0') {
       iVar3 = 0;
       do {
-        fn_828252D8(*(undefined4 *)(*(int *)(param_1 + 0x114) + iVar3 + 0xd));
+        fn_828252D8(*(undefined4 *)(*(unsigned int *)(param_1 + 0x114) + iVar3 + 0xd));
         uVar2 = uVar2 + 1;
         iVar3 = iVar3 + 0x21;
       } while (uVar2 < *(byte *)(param_1 + 0x51));
     }
   }
-  if (*(int *)(param_1 + 0x120) != 0) {
-    fn_828252D8();
+  if (*(unsigned int *)(param_1 + 0x120) != 0) {
+    fn_828252D8(*(unsigned int *)(param_1 + 0x120));
   }
-  if (*(int *)(param_1 + 300) != 0) {
-    fn_828252D8();
+  if (*(unsigned int *)(param_1 + 300) != 0) {
+    fn_828252D8(*(unsigned int *)(param_1 + 300));
   }
   fn_82F641F8(*(undefined4 *)(param_1 + 0xcc));
-  piVar4 = (int *)(param_1 + 0xb8);
+  piVar4 = (unsigned int *)(param_1 + 0xb8);
   lVar1 = 3;
   do {
     if (*piVar4 != 0) {
-      fn_828252D8();
+      fn_828252D8(*piVar4);
     }
     lVar1 = lVar1 + -1;
     piVar4 = piVar4 + 1;

@@ -25,29 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
 extern int fn_8268CC00();
 extern int fn_826E7BF8();
 
+typedef struct { int a; int b; unsigned int c; unsigned int d; } St_826F6638;
 
-void fn_826F6638(int param_1,longlong param_2)
-
+void fn_826F6638(int param_1, unsigned int param_2)
 {
-  int aiStack_50 [4];
+  St_826F6638 s;
   undefined1 auStack_40 [32];
-  
-  aiStack_50[0] = param_1 + 5;
-  aiStack_50[2] = 0;
-  aiStack_50[1] = 0xffffffff;
-  aiStack_50[3] = 0;
-  fn_8268CC00(auStack_40);
-  if (aiStack_50[3] != 0) {
-    aiStack_50[2] = aiStack_50[2] + 1;
-  }
-  aiStack_50[2] = aiStack_50[2] + 4;
-  aiStack_50[3] = 0;
-  fn_826E7BF8(aiStack_50,auStack_40);
-  *(byte *)(param_1 + 4) = -((ulonglong)(uint)aiStack_50[2] < param_2 - 1U) & 1;
-  return;
-}
 
+  s.a = param_1 + 5;
+  s.c = 0;
+  s.b = -1;
+  s.d = 0;
+  fn_8268CC00(auStack_40);
+  if (s.d != 0) {
+    s.c = s.c + 1;
+  }
+  s.c = s.c + 4;
+  s.d = 0;
+  fn_826E7BF8(&s, auStack_40);
+  *(unsigned char *)(param_1 + 4) = s.c < param_2 - 1;
+}

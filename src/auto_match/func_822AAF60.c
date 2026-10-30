@@ -1,71 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_822C5B18();
-extern int fn_82359C18();
-extern int fn_82381BC0();
-extern int fn_82F63108();
+__declspec(noreturn) extern void fn_82F63108(void);
+extern void *fn_822C5B18(void *, void *);
+extern void fn_82359C18(void *);
+extern void fn_82381BC0(void *);
 
+struct Sink_822AAF60;
+typedef struct SinkVt_822AAF60 {
+  int pad;
+  void (*f4)(struct Sink_822AAF60 *, unsigned int);
+} SinkVt_822AAF60;
+typedef struct Sink_822AAF60 {
+  SinkVt_822AAF60 *vt;
+} Sink_822AAF60;
+typedef struct Wrap_822AAF60 {
+  int pad[4];
+  Sink_822AAF60 *sink;
+} Wrap_822AAF60;
+typedef struct LNode_822AAF60 {
+  struct LNode_822AAF60 *next;
+  struct LNode_822AAF60 *prev;
+  int pad[2];
+  unsigned int value;
+} LNode_822AAF60;
+typedef struct Group_822AAF60 {
+  int pad;
+  LNode_822AAF60 *list;
+} Group_822AAF60;
+typedef struct It_822AAF60 {
+  LNode_822AAF60 *p;
+} It_822AAF60;
+typedef struct Vec_822AAF60 {
+  Group_822AAF60 **first;
+  Group_822AAF60 **last;
+} Vec_822AAF60;
 
-void fn_822AAF60(undefined4 *param_1,undefined8 param_2)
-
+void fn_822AAF60(Vec_822AAF60 *v, void *arg)
 {
-  int *piVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  int iVar5;
-  int *piVar6;
-  undefined4 *apuStack_60 [4];
-  undefined1 auStack_50 [80];
-  
-  piVar6 = (int *)*param_1;
-  piVar1 = (int *)param_1[1];
-  do {
-    if (piVar6 == piVar1) {
-      fn_82359C18(param_2);
-      return;
-    }
-    iVar2 = *piVar6;
-    iVar5 = fn_822C5B18(auStack_50,param_2);
-    puVar3 = *(undefined4 **)(iVar2 + 4);
-    apuStack_60[0] = (undefined4 *)*puVar3;
-    while (apuStack_60[0] != puVar3) {
-      piVar4 = *(int **)(iVar5 + 0x10);
-      if (piVar4 == (int *)0x0) {
-                    /* WARNING: Subroutine does not return */
+  Group_822AAF60 **g;
+  Group_822AAF60 **end;
+  Wrap_822AAF60 *w;
+  LNode_822AAF60 *head;
+  It_822AAF60 it;
+  char buf[0x20];
+  g = v->first;
+  end = v->last;
+  for (; g != end; g++) {
+    Group_822AAF60 *grp = *g;
+    w = (Wrap_822AAF60 *)fn_822C5B18(buf, arg);
+    head = grp->list;
+    for (it.p = head->next; it.p != head; fn_82381BC0(&it)) {
+      if (w->sink == 0) {
         fn_82F63108();
       }
-      (**(code **)(*piVar4 + 4))(piVar4,apuStack_60[0][4]);
-      fn_82381BC0(apuStack_60);
+      w->sink->vt->f4(w->sink, it.p->value);
     }
-    fn_82359C18(iVar5);
-    piVar6 = piVar6 + 1;
-  } while( true );
+    fn_82359C18(w);
+  }
+  fn_82359C18(arg);
 }
-

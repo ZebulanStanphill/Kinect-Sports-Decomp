@@ -29,28 +29,22 @@ extern int fn_82CEA220();
 extern int fn_82CEA358();
 
 
+typedef struct { int v; int next; } N_82E17300;
 void fn_82E17300(int *param_1)
-
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar4 = fn_82CEA220(param_1 + 3);
-  iVar1 = *(int *)(iVar4 * 8 + param_1[3] + 4);
-  fn_82CEA358(param_1 + 3,iVar4);
-  if (iVar1 != -1) {
-    iVar4 = *param_1;
-    iVar3 = iVar1 * 8;
-    iVar2 = *(int *)(iVar3 + iVar4 + 4);
-    while (iVar2 != -1) {
-      iVar3 = *(int *)(iVar4 + iVar3 + 4) * 8;
-      iVar2 = *(int *)(iVar4 + iVar3 + 4);
+  int first;
+  int idx;
+  int i;
+  N_82E17300 *nodes;
+  i = fn_82CEA220(param_1 + 3);
+  first = ((N_82E17300 *)param_1[3])[i].next;
+  fn_82CEA358(param_1 + 3, i);
+  if (first != -1) {
+    idx = first;
+    while (((N_82E17300 *)*param_1)[idx].next != -1) {
+      idx = ((N_82E17300 *)*param_1)[idx].next;
     }
-    *(int *)(iVar4 + iVar3 + 4) = param_1[6];
-    param_1[6] = iVar1;
+    ((N_82E17300 *)*param_1)[idx].next = param_1[6];
+    param_1[6] = first;
   }
-  return;
 }
-

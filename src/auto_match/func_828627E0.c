@@ -27,34 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_828627E0(int param_1,int param_2,int param_3)
-
+typedef struct { int w[4]; } Q16_828627E0;
+typedef struct { float f; Q16_828627E0 *q; unsigned short h; } Rec_828627E0;
+typedef struct { char pad[8]; unsigned short n; char pad2[0x28-0xa]; int off; } Cfg_828627E0;
+typedef struct { char pad[8]; char *base; } Buf_828627E0;
+void fn_828627E0(Cfg_828627E0 *c, Buf_828627E0 *a, Buf_828627E0 *b)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  int iVar5;
-  int iVar6;
-  
-  iVar5 = 0;
-  puVar4 = (undefined4 *)(*(int *)(param_2 + 8) + *(int *)(param_1 + 0x28));
-  puVar3 = (undefined4 *)(*(int *)(param_3 + 8) + *(int *)(param_1 + 0x28));
-  *puVar3 = *puVar4;
-  if ((ulonglong)*(ushort *)(param_1 + 8) != 0xfffffffffffffffe) {
-    iVar6 = 0;
-    do {
-      iVar5 = iVar5 + 1;
-      puVar1 = (undefined4 *)(puVar4[1] + iVar6);
-      puVar2 = (undefined4 *)(puVar3[1] + iVar6);
-      iVar6 = iVar6 + 0x10;
-      *puVar2 = *puVar1;
-      puVar2[1] = puVar1[1];
-      puVar2[2] = puVar1[2];
-      puVar2[3] = puVar1[3];
-    } while (iVar5 < (int)(*(ushort *)(param_1 + 8) + 2));
+  Rec_828627E0 *s = (Rec_828627E0 *)(a->base + c->off);
+  Rec_828627E0 *d = (Rec_828627E0 *)(b->base + c->off);
+  int i;
+  d->f = s->f;
+  for (i = 0; i < c->n + 2; i++) {
+    d->q[i] = s->q[i];
   }
-  *(undefined2 *)(puVar3 + 2) = *(undefined2 *)(puVar4 + 2);
-  return;
+  d->h = s->h;
 }
-

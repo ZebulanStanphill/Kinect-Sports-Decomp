@@ -1,126 +1,107 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern int fn_829D3EC8();
-extern int fn_82A2B418();
-extern unsigned int iStack_80;
-extern unsigned int uStack_7c;
+extern unsigned char fn_829D3EC8(unsigned int *, unsigned int *, unsigned int *, unsigned int *);
+extern int fn_82A2B418(void *, void *);
 
+typedef struct Hdr_829D53F0 {
+  unsigned int pad;
+  unsigned int count;
+} Hdr_829D53F0;
+typedef struct Out_829D53F0 {
+  unsigned int count;
+  unsigned int a;
+  unsigned int b;
+  unsigned int c;
+  void *data;
+  void *chunk;
+} Out_829D53F0;
 
-undefined8 fn_829D53F0(uint param_1,uint param_2,int *param_3,uint *param_4,int param_5)
-
+int fn_829D53F0(unsigned int base, unsigned int size, unsigned int *total, unsigned int *count, Out_829D53F0 *out)
 {
-  uint uVar1;
-  char cVar3;
-  int iVar2;
-  uint uVar4;
-  uint *puVar5;
-  int iVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  undefined4 *puVar10;
-  uint *puVar11;
-  int iStack_80;
-  undefined4 uStack_7c;
-  undefined4 auStack_78 [2];
-  undefined1 auStack_70 [16];
-  
-  uVar9 = 0x18 - ((0x17 < param_2) + 0x18) & param_1;
-  if (((0x32000 < param_2) || (iVar6 = 0x32000 - param_2, uVar9 == 0)) ||
-     (0x66 < *(uint *)(uVar9 + 4))) {
+  Hdr_829D53F0 *hdr;
+  unsigned int *e;
+  unsigned int *p;
+  unsigned int a;
+  unsigned int b[2];
+  unsigned int c;
+  unsigned int esz;
+  unsigned int n;
+  unsigned int nn;
+  unsigned int sum;
+  unsigned int i;
+  unsigned int avail;
+  unsigned int used;
+  unsigned int need;
+  unsigned char ok;
+  char buf[16];
+
+  hdr = (Hdr_829D53F0 *)(size >= 0x18 ? base : 0);
+  if (size > 0x32000) {
     return 0;
   }
-  if (param_4 != (uint *)0x0) {
-    *param_4 = *(uint *)(uVar9 + 4);
+  avail = 0x32000 - size;
+  if (hdr == 0) {
+    return 0;
   }
-  uVar7 = 0;
-  puVar11 = (uint *)(uVar9 + 8);
-  uVar8 = 0;
-  if (*(int *)(uVar9 + 4) != 0) {
-    puVar10 = (undefined4 *)(param_5 + 0x14);
-    do {
-      if (param_2 < (int)puVar11 + (0x10 - param_1)) {
-        return 0;
-      }
-      if (puVar11 == (uint *)0x0) {
-        return 0;
-      }
-      uVar4 = *puVar11;
-      if (uVar4 == 0) {
-        return 0;
-      }
-      uVar1 = puVar11[1];
-      if (uVar1 == 0) {
-        return 0;
-      }
-      if (uVar4 < (uVar1 + 5) * 8) {
-        return 0;
-      }
-      if (param_2 < (uVar4 - param_1) + (int)puVar11) {
-        return 0;
-      }
-      cVar3 = fn_829D3EC8(puVar11,&uStack_7c,auStack_78,&iStack_80);
-      if (cVar3 == '\0') {
-        return 0;
-      }
-      puVar5 = puVar11 + (uVar1 + 1) * 2;
-      uVar1 = puVar5[6];
-      uVar4 = (int)puVar11 + (uVar4 - (int)puVar5) + -0x1c;
-      if (uVar4 < uVar1 * iStack_80) {
-        return 0;
-      }
-      uVar7 = uVar1 + uVar7;
-      if (0x66 < uVar7) {
-        return 0;
-      }
-      if (puVar10 != (undefined4 *)0x14) {
-        puVar10[-5] = uVar1;
-        puVar10[-1] = puVar5 + 7;
-        *puVar10 = puVar5;
-        puVar10[-3] = uStack_7c;
-        puVar10[-2] = auStack_78[0];
-        puVar10[-4] = iStack_80;
-        puVar10 = puVar10 + 6;
-      }
-      iVar6 = uVar4 + iVar6;
-      iVar2 = fn_82A2B418((int)puVar5 + 6,auStack_70);
-      if (iVar2 == 0) {
-        return 0;
-      }
-      uVar8 = uVar8 + 1;
-      puVar11 = (uint *)(*puVar11 + (int)puVar11);
-    } while (uVar8 < *(uint *)(uVar9 + 4));
+  if (hdr->count > 0x66) {
+    return 0;
   }
-  if (param_3 != (int *)0x0) {
-    *param_3 = iVar6;
+  if (count != 0) {
+    *count = hdr->count;
+  }
+  sum = 0;
+  e = (unsigned int *)hdr + 2;
+  i = 0;
+  for (i = 0; i < hdr->count; i++) {
+    if ((unsigned int)e - base + 0x10 > size) {
+      return 0;
+    }
+    if (e == 0) {
+      return 0;
+    }
+    esz = e[0];
+    if (esz == 0) {
+      return 0;
+    }
+    n = e[1];
+    if (n == 0) {
+      return 0;
+    }
+    if (esz < (n + 5) * 8) {
+      return 0;
+    }
+    if (esz - base + (unsigned int)e > size) {
+      return 0;
+    }
+    ok = fn_829D3EC8(e, &a, b, &c);
+    if (ok == 0) {
+      return 0;
+    }
+    p = e + (n + 1) * 2;
+    nn = p[6];
+    used = (unsigned int)e + (esz - (unsigned int)p) - 0x1c;
+    if (c * nn > used) {
+      return 0;
+    }
+    sum += nn;
+    if (sum > 0x66) {
+      return 0;
+    }
+    if (out != 0) {
+      out->count = nn;
+      out->data = p + 7;
+      out->chunk = p;
+      out->b = a;
+      out->c = b[0];
+      out->a = c;
+      out++;
+    }
+    avail = used + avail;
+    if (fn_82A2B418((char *)p + 6, buf) == 0) {
+      return 0;
+    }
+    e = (unsigned int *)(*e + (unsigned int)e);
+  }
+  if (total != 0) {
+    *total = avail;
   }
   return 1;
 }
-

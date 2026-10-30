@@ -1,51 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B5F90();
+extern void fn_822B5F90(void *, float);
 extern int fn_82381BC0();
 
+typedef struct Ent_822AE3C0 { char pad[0x24]; int f24; } Ent_822AE3C0;
+typedef struct Link_822AE3C0 { struct Link_822AE3C0 *next; struct Link_822AE3C0 *prev; int pad; int pad2; Ent_822AE3C0 *ent; } Link_822AE3C0;
+typedef struct Head_822AE3C0 { Link_822AE3C0 *next; } Head_822AE3C0;
+typedef struct Inner_822AE3C0 { char pad[4]; Head_822AE3C0 *h; } Inner_822AE3C0;
+typedef struct Slot_822AE3C0 { Inner_822AE3C0 **tab; int pad[3]; int idx; } Slot_822AE3C0;
+typedef struct Vec_822AE3C0 { Slot_822AE3C0 **first; Slot_822AE3C0 **last; } Vec_822AE3C0;
 
-void fn_822AE3C0(undefined8 param_1,undefined4 *param_2,undefined8 param_3,char param_4)
-
+void fn_822AE3C0(Vec_822AE3C0 *param_2, float param_1, unsigned char param_4)
 {
-  int *piVar1;
-  int *piVar2;
-  int *apiStack_40 [16];
-  
-  for (piVar2 = (int *)*param_2; piVar2 < (int *)param_2[1]; piVar2 = piVar2 + 1) {
-    piVar1 = *(int **)(*(int *)(((int *)*piVar2)[4] * 4 + *(int *)*piVar2) + 4);
-    apiStack_40[0] = (int *)*piVar1;
-    while (apiStack_40[0] != piVar1) {
-      if ((bool)param_4 == (*(int *)(apiStack_40[0][4] + 0x24) != 0)) {
-        fn_822B5F90(param_1);
+  Slot_822AE3C0 **piVar2;
+  Head_822AE3C0 *piVar1;
+  Link_822AE3C0 *apiStack_40[1];
+
+  for (piVar2 = param_2->first; piVar2 < param_2->last; piVar2 = piVar2 + 1) {
+    piVar1 = (*piVar2)->tab[(*piVar2)->idx]->h;
+    apiStack_40[0] = piVar1->next;
+    while (apiStack_40[0] != (Link_822AE3C0 *)piVar1) {
+      Ent_822AE3C0 *e = apiStack_40[0]->ent;
+      if (param_4 == (e->f24 != 0)) {
+        fn_822B5F90(e, param_1);
       }
       fn_82381BC0(apiStack_40);
     }
   }
-  return;
 }
-

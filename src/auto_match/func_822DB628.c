@@ -25,50 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_822DB770();
-extern int fn_822DBA58();
-extern int fn_8265CAA0();
-extern unsigned int uStack_34;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Str_822DB628 { void *p; int pad; unsigned cap; int extra; } Str_822DB628;
+extern Str_822DB628 *fn_822DB770(Str_822DB628 *, Str_822DB628 *);
+extern long fn_822DBA58(void *, void *, Str_822DB628 *);
+extern void fn_8265CAA0(void *);
 
-
-undefined8 fn_822DB628(undefined8 param_1,undefined8 param_2,int *param_3)
-
+long fn_822DB628(void *param_1, void *param_2, Str_822DB628 *param_3)
 {
-  int *piVar2;
-  int *piVar3;
-  undefined8 uVar1;
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [16];
-  int aiStack_50 [2];
-  uint uStack_48;
-  undefined4 uStack_44;
-  undefined1 auStack_40 [12];
-  undefined4 uStack_34;
-  
-  piVar2 = (int *)fn_822DB770(auStack_70,param_3);
-  piVar3 = (int *)fn_822DB770(auStack_60,piVar2);
-  fn_822DB770(aiStack_50,piVar3);
-  uStack_44 = 1;
-  if ((8 < (uint)piVar3[2]) && (*piVar3 != 0)) {
-    fn_8265CAA0();
-  }
-  fn_822DB770(auStack_40,aiStack_50);
-  uStack_34 = uStack_44;
-  if ((8 < uStack_48) && (aiStack_50[0] != 0)) {
-    fn_8265CAA0();
-  }
-  if ((8 < (uint)piVar2[2]) && (*piVar2 != 0)) {
-    fn_8265CAA0();
-  }
-  uVar1 = fn_822DBA58(param_1,param_2,auStack_40);
-  if ((8 < (uint)param_3[2]) && (*param_3 != 0)) {
-    fn_8265CAA0();
-  }
-  return uVar1;
+  struct { Str_822DB628 a, b, c, d; } L;
+  Str_822DB628 *pa, *pb;
+  long r;
+  pa = fn_822DB770(&L.a, param_3);
+  pb = fn_822DB770(&L.b, pa);
+  fn_822DB770(&L.c, pb);
+  L.c.extra = 1;
+  if (pb->cap > 8 && pb->p != 0) fn_8265CAA0(pb->p);
+  fn_822DB770(&L.d, &L.c);
+  L.d.extra = L.c.extra;
+  if (L.c.cap > 8 && L.c.p != 0) fn_8265CAA0(L.c.p);
+  if (pa->cap > 8 && pa->p != 0) fn_8265CAA0(pa->p);
+  r = fn_822DBA58(param_1, param_2, &L.d);
+  if (param_3->cap > 8 && param_3->p != 0) fn_8265CAA0(param_3->p);
+  return r;
 }
-

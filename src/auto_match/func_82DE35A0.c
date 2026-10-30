@@ -28,30 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 
 
 void fn_82DE35A0(int param_1)
-
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 0x10)) {
-    puVar1 = (undefined4 *)(param_1 + 0xf64);
-    do {
-      iVar2 = iVar2 + 1;
-      puVar1 = puVar1 + 0x14;
-      *puVar1 = 0;
-    } while (iVar2 < *(int *)(param_1 + 0x10));
+  int i;
+  for (i = 0; i < *(int *)(param_1 + 0x10); i++) {
+    *(int *)(param_1 + 0xfb4 + i * 0x50) = 0;
   }
-  iVar2 = 0;
-  if (*(int *)(param_1 + 8) < 1) {
-    return;
+  for (i = 0; i < *(int *)(param_1 + 8); i++) {
+    *(int *)(param_1 + 0x50 + i * 0x40) = 0;
   }
-  puVar1 = (undefined4 *)(param_1 + 0x10);
-  do {
-    puVar1 = puVar1 + 0x10;
-    *puVar1 = 0;
-    iVar2 = iVar2 + 1;
-  } while (iVar2 < *(int *)(param_1 + 8));
-  return;
 }
-

@@ -1,101 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_80;
-extern int fn_82BD3880();
-extern int fn_82BD38E8();
-extern int fn_82BD62B8();
-extern int fn_82BD6F78();
+extern int fn_82BD3880(void);
+extern int fn_82BD38E8(void *, void *);
+extern unsigned int fn_82BD62B8(void *);
+extern int fn_82BD6F78(void *, unsigned int, void *, unsigned int *, void *);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 extern unsigned int lbl_820E8684;
-extern unsigned int uStack_84;
 
+typedef struct Dev_82BD5B08 {
+  int pad[3];
+  void *f0c;
+} Dev_82BD5B08;
+typedef struct Pair_82BD5B08 {
+  float a;
+  float b;
+} Pair_82BD5B08;
+typedef struct Mgr_82BD5B08 {
+  int pad0[0x14];
+  Dev_82BD5B08 *slot[4];
+  int pad1[0x24];
+  char cs[1];
+} Mgr_82BD5B08;
 
-undefined8
-fn_82BD5B08(int param_1,ulonglong param_2,int *param_3,undefined8 param_4,undefined4 *param_5,
-             uint *param_6)
-
+int fn_82BD5B08(Mgr_82BD5B08 *m, void *p2, unsigned int *p3, void *p4, Pair_82BD5B08 *out, unsigned int *cnt)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  undefined8 uVar6;
-  uint uVar7;
-  int *piVar8;
-  undefined4 uStack_84;
-  undefined1 auStack_80 [16];
-  
-  uVar6 = 0xffffffff8007048f;
-  iVar3 = fn_82BD3880();
-  if (iVar3 != 1) {
-    return 0xffffffff8007048f;
+  int hr = (int)0x8007048f;
+  Dev_82BD5B08 *dev;
+  Pair_82BD5B08 buf[4];
+  unsigned int i;
+  unsigned int j;
+  if (fn_82BD3880() != 1) {
+    return hr;
   }
-  RtlEnterCriticalSection(param_1 + 0xf0);
-  piVar8 = (int *)(param_1 + 0x50);
-  uVar7 = 0;
-  while (((iVar3 = *piVar8, iVar3 == 0 || (iVar4 = fn_82BD62B8(iVar3), iVar4 != 0x70000000))
-         || (*(int *)(iVar3 + 0xc) == 0))) {
-    uVar7 = uVar7 + 1;
-    piVar8 = piVar8 + 1;
-    if (3 < uVar7) goto LAB_82bd5c50;
+  RtlEnterCriticalSection(m->cs);
+  i = 0;
+  while ((dev = m->slot[i]) == 0 || fn_82BD62B8(dev) != 0x70000000 || dev->f0c == 0) {
+    i++;
+    if (i >= 4) goto leave;
   }
-  if ((param_5 == (undefined4 *)0x0) || (*param_6 == 0)) {
-    uVar6 = 0;
-    *param_6 = 0;
-  }
-  else {
-    uVar6 = fn_82BD38E8(*(int *)(iVar3 + 0xc),auStack_80);
-    if (1 < *param_6) {
-      *param_6 = 1;
+  if (out == 0 || *cnt == 0) {
+    hr = 0;
+    *cnt = 0;
+  } else {
+    hr = fn_82BD38E8(dev->f0c, buf);
+    if (*cnt > 1) {
+      *cnt = 1;
     }
-    uVar7 = 0;
-    if (*param_6 != 0) {
-      puVar5 = &uStack_84;
-      do {
-        puVar2 = puVar5 + 1;
-        uVar7 = uVar7 + 1;
-        puVar5 = puVar5 + 2;
-        uVar1 = *puVar5;
-        *param_5 = *puVar2;
-        param_5[1] = uVar1;
-      } while (uVar7 < *param_6);
+    for (j = 0; j < *cnt; j++) {
+      out->a = buf[j].a;
+      out->b = buf[j].b;
     }
   }
-  if (-1 < (int)uVar6) {
-    if (((param_2 & 0xffffffff) == 0) || (*param_3 == 0)) {
-      *param_3 = 0;
-    }
-    else {
-      uVar6 = fn_82BD6F78(iVar3,lbl_820E8684,param_2,param_3,param_4);
+  if (hr >= 0) {
+    if (p2 == 0 || *p3 == 0) {
+      *p3 = 0;
+    } else {
+      hr = fn_82BD6F78(dev, lbl_820E8684, p2, p3, p4);
     }
   }
-LAB_82bd5c50:
-  RtlLeaveCriticalSection(param_1 + 0xf0);
-  return uVar6;
+leave:
+  RtlLeaveCriticalSection(m->cs);
+  return hr;
 }
-

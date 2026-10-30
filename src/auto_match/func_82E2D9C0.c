@@ -25,33 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A28E60();
-extern int fn_82A2A360();
-
-
-void fn_82E2D9C0(int param_1)
-
+extern void fn_82A28E60(unsigned int, int, unsigned int);
+extern unsigned int fn_82A2A360(void);
+typedef struct { int pad; unsigned int *head; unsigned int cnt; unsigned int inl; } L_82E2D9C0;
+void fn_82E2D9C0(L_82E2D9C0 *p)
 {
-  int iVar1;
-  undefined8 uVar2;
-  uint uVar3;
-  
-  uVar2 = fn_82A2A360();
-  if (*(int *)(param_1 + 4) != 0) {
-    do {
-      iVar1 = **(int **)(param_1 + 4);
-      if (*(int **)(param_1 + 4) != (int *)(param_1 + 0xc)) {
-        uVar3 = 0;
-        if (*(uint *)(param_1 + 8) != 0) {
-          do {
-            uVar3 = uVar3 + 1;
-          } while (uVar3 < *(uint *)(param_1 + 8));
+  unsigned int heap = fn_82A2A360();
+  unsigned int next;
+  while (p->head != 0) {
+      next = *p->head;
+      if (p->head != &p->inl) {
+        unsigned int i;
+        for (i = 0; i < p->cnt; i++) {
         }
-        fn_82A28E60(uVar2,0);
+        fn_82A28E60(heap, 0, (unsigned int)p->head);
       }
-      *(int *)(param_1 + 4) = iVar1;
-    } while (iVar1 != 0);
+      p->head = (unsigned int *)next;
   }
-  return;
 }
-

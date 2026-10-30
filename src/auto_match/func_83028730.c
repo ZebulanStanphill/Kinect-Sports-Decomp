@@ -20,46 +20,40 @@ typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_83008310();
-extern int fn_830280E8();
-extern unsigned int lbl_8217C60C;
-extern unsigned int lbl_831BC768;
+extern void fn_82FA5190(void *, void *);
+extern void fn_83008310(void *);
+extern void fn_830280E8(void);
+extern void *lbl_8217C60C;
+extern void *lbl_831BC768;
 
+typedef struct Ent_83028730 { void *a; int b; int c; } Ent_83028730;
+typedef struct Obj_83028730 {
+  void *vt; char pad[0x1c];
+  Ent_83028730 e[5];
+  int pad2[2]; void *p; void *q; int r;
+} Obj_83028730;
 
-void fn_83028730(undefined4 *param_1)
-
-{
-  longlong lVar1;
-  int *piVar2;
-  
-  *param_1 = &lbl_8217C60C;
-  fn_830280E8();
-  if (param_1[0x19] != 0) {
-    param_1[0x1a] = param_1[0x19];
-    fn_82FA5190(lbl_831BC768);
-    param_1[0x19] = 0;
-    param_1[0x1a] = 0;
-    param_1[0x1b] = 0;
-  }
-  piVar2 = param_1 + 8;
-  lVar1 = 5;
-  do {
-    if (*piVar2 != 0) {
-      fn_82FA5190(lbl_831BC768);
-      *piVar2 = 0;
+static void clr(Ent_83028730 *e) {
+    if (e->a != 0) {
+      fn_82FA5190(lbl_831BC768, e->a);
+      e->a = 0;
     }
-    piVar2[1] = 0;
-    lVar1 = lVar1 + -1;
-    piVar2[2] = 0;
-    piVar2 = piVar2 + 3;
-  } while (lVar1 != 0);
-  fn_83008310(param_1);
-  return;
+    e->b = 0;
+    e->c = 0;
 }
-
+void fn_83028730(Obj_83028730 *o)
+{
+  Ent_83028730 *e;
+  int i;
+  o->vt = &lbl_8217C60C;
+  fn_830280E8();
+  if (o->p != 0) {
+    o->q = o->p;
+    fn_82FA5190(lbl_831BC768, o->p);
+    o->p = 0;
+    o->q = 0;
+    o->r = 0;
+  }
+  for (i = 0; i < 5; i++) clr(&o->e[i]);
+  fn_83008310(o);
+}

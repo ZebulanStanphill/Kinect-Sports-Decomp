@@ -1,76 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_14c;
-extern unsigned int *auStack_150;
-extern unsigned int *auStack_170;
-extern unsigned int *auStack_ac;
-extern unsigned int *auStack_b0;
-extern int fn_82230300();
-extern int fn_8223B728();
-extern int fn_8223CFC0();
-extern int fn_8223DCC8();
-extern int fn_8223FBB0();
-extern int fn_82240158();
-extern int fn_822403C8();
-extern int fn_82F644D8();
+typedef struct { int hdr; char buf[0x94]; } SS_82259D90;
+typedef struct { int a[8]; } Str_82259D90;
 
+extern void fn_82230300(void *, int, int);
+extern void *fn_8223B728(void *, void *);
+extern void fn_8223CFC0(void *, int, int);
+extern void fn_8223DCC8(void *);
+extern void fn_8223FBB0(void *, unsigned int);
+extern void *fn_82240158(void *, const void *);
+extern void fn_822403C8(void *, void *);
+extern void *fn_82F644D8(void *, void *);
+extern char lbl_831D7480[];
+extern char lbl_8326338C[];
 
-undefined8 fn_82259D90(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
-
+void *fn_82259D90(void *param_1, void *param_2, void *param_3, int *param_4)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  undefined1 auStack_170 [1];
-  undefined1 auStack_150 [4];
-  undefined1 auStack_14c [156];
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [148];
+  SS_82259D90 ss1;
+  SS_82259D90 ss2;
+  Str_82259D90 str;
+  unsigned int *puVar3;
+  void *name;
+  void *t;
 
-  fn_8223CFC0(auStack_b0,2,1);
-  if (*(uint *)(param_4 + 0xc) < 5) {
-    puVar3 = (undefined4 *)(param_4 + 8);
+  fn_8223CFC0(&ss1, 2, 1);
+  if ((unsigned int)param_4[3] <= 4) {
+    puVar3 = (unsigned int *)(param_4 + 2);
   }
   else {
-    puVar3 = *(undefined4 **)(param_4 + 8);
+    puVar3 = (unsigned int *)param_4[2];
   }
-  fn_8223CFC0(auStack_150,2,1);
-  fn_8223FBB0(auStack_150,*puVar3);
-  fn_822403C8(auStack_170,auStack_14c);
-  fn_8223DCC8(auStack_150);
-  uVar1 = fn_82F644D8(0xffffffff831d7480,0xffffffff8326338c);
-  uVar2 = fn_82240158(auStack_b0,0xffffffff821976d0);
-  uVar1 = fn_82240158(uVar2,uVar1);
-  uVar1 = fn_82240158(uVar1,0xffffffff821976c8);
-  uVar1 = fn_8223B728(uVar1,auStack_170);
-  fn_82240158(uVar1,0xffffffff82196fb0);
-  fn_82230300(auStack_170,1,0);
-  fn_822403C8(param_1,auStack_ac);
-  fn_8223DCC8(auStack_b0);
+  fn_8223CFC0(&ss2, 2, 1);
+  fn_8223FBB0(&ss2, *puVar3);
+  fn_822403C8(&str, ss2.buf);
+  fn_8223DCC8(&ss2);
+  name = fn_82F644D8(lbl_831D7480, lbl_8326338C);
+  t = fn_82240158(&ss1, "NetDefTyped_c< ");
+  t = fn_82240158(t, name);
+  t = fn_82240158(t, " > - {");
+  t = fn_8223B728(t, &str);
+  fn_82240158(t, "}");
+  fn_82230300(&str, 1, 0);
+  fn_822403C8(param_1, ss1.buf);
+  fn_8223DCC8(&ss1);
   return param_1;
 }

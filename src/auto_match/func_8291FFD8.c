@@ -1,51 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8291C8C0();
-extern int fn_8291D9A8();
-extern int fn_82F68CC0();
-extern unsigned int uStack_2e;
+typedef struct { unsigned char b[14]; } Hdr_8291FFD8;
+extern void fn_8291C8C0(void *, void *);
+extern int fn_8291D9A8(void *, void *, unsigned int);
 
-
-undefined8 fn_8291FFD8(undefined8 param_1,longlong param_2,ulonglong param_3)
-
+int fn_8291FFD8(void *param_1, unsigned char *param_2, unsigned int param_3)
 {
-  undefined8 uVar1;
-  short sStack_30;
-  uint uStack_2e;
-  
-  if (0xd < (param_3 & 0xffffffff)) {
-    fn_82F68CC0(&sStack_30,param_2,0xe);
-    fn_8291C8C0(&sStack_30,&sStack_30);
-    if ((sStack_30 == 0x4d42) && ((ulonglong)uStack_2e <= (param_3 & 0xffffffff))) {
-      uVar1 = fn_8291D9A8(param_1,param_2 + 0xe,param_3 - 0xe);
-      return uVar1;
+  Hdr_8291FFD8 hdr;
+
+  if (param_3 >= 0xe) {
+    hdr = *(Hdr_8291FFD8 *)param_2;
+    fn_8291C8C0(&hdr, &hdr);
+    if (*(unsigned short *)&hdr == 0x4d42 && *(unsigned int *)(hdr.b + 2) <= param_3) {
+      return fn_8291D9A8(param_1, param_2 + 0xe, param_3 - 0xe);
     }
   }
-  return 0xffffffff80004005;
+  return 0x80004005;
 }
-

@@ -1,59 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFF8D0();
-extern int fn_82D48E18();
-
-
-void fn_82D4DA80(int param_1,int *param_2)
-
+struct Wr_82D4DA80;
+struct WrVt_82D4DA80 { void *s0[5]; void (*put)(struct Wr_82D4DA80 *, int, const char *, void *, int, int); };
+struct Wr_82D4DA80 { struct WrVt_82D4DA80 *vt; };
+typedef struct {
+  char pad0[0x18]; void *vert; int vcount; int vflags;
+  void *tri; int tcount; int tflags;
+  void *mat; int mcount; int mflags;
+} Obj_82D4DA80;
+extern int fn_82CFF8D0(void *, unsigned int);
+extern void fn_82D48E18(void *, void *, char *);
+extern char lbl_8323C614[];
+void fn_82D4DA80(Obj_82D4DA80 *o, struct Wr_82D4DA80 *w)
 {
-  undefined8 uVar1;
-  
-  if ((*(uint *)(param_1 + 0x20) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x18),*(uint *)(param_1 + 0x20) << 4);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff82015538,*(undefined4 *)(param_1 + 0x18),
-               *(int *)(param_1 + 0x1c) << 4,uVar1);
+  if ((o->vflags & (int)0x80000000) == 0) {
+    int h = fn_82CFF8D0(o->vert, o->vflags << 4);
+    w->vt->put(w, 3, "Vertices", o->vert, o->vcount << 4, h);
   }
-  if ((*(uint *)(param_1 + 0x2c) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x24),*(uint *)(param_1 + 0x2c) << 4);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821388a0,*(undefined4 *)(param_1 + 0x24),
-               *(int *)(param_1 + 0x28) << 4,uVar1);
+  if ((o->tflags & (int)0x80000000) == 0) {
+    int h = fn_82CFF8D0(o->tri, o->tflags << 4);
+    w->vt->put(w, 3, "Triangles", o->tri, o->tcount << 4, h);
   }
-  if ((*(uint *)(param_1 + 0x38) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x30),*(uint *)(param_1 + 0x38) & 0x3fffffff
-                             );
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff82138894,*(undefined4 *)(param_1 + 0x30),
-               *(undefined4 *)(param_1 + 0x34),uVar1);
+  if ((o->mflags & (int)0x80000000) == 0) {
+    int h = fn_82CFF8D0(o->mat, o->mflags & 0x3fffffff);
+    w->vt->put(w, 3, "MaterialIds", o->mat, o->mcount, h);
   }
-  fn_82D48E18(param_1,param_2,0xffffffff8323c614);
-  return;
+  fn_82D48E18(o, w, lbl_8323C614);
 }
-

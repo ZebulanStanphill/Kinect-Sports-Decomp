@@ -1,55 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82522ED8();
+extern void fn_8251FA58(void *);
+extern void fn_82522ED8(void *);
 
+struct Obj_825D1EC8;
+typedef struct Vt_825D1EC8 {
+  void *(*f0)(struct Obj_825D1EC8 *, int);
+  void *pad;
+  void (*f8)(struct Obj_825D1EC8 *);
+} Vt_825D1EC8;
+typedef struct Obj_825D1EC8 {
+  Vt_825D1EC8 *vt;
+} Obj_825D1EC8;
+typedef struct Owner_825D1EC8 {
+  int pad0[0x22];
+  Obj_825D1EC8 *obj;
+  void *f8c;
+  void *f90;
+  void *f94;
+  int pad1[0x19];
+  void *ffc;
+} Owner_825D1EC8;
 
-void fn_825D1EC8(int param_1)
-
+void fn_825D1EC8(Owner_825D1EC8 *p)
 {
-  undefined4 *puVar1;
-  
-  if (*(int **)(param_1 + 0x88) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x88) + 8))();
-    puVar1 = *(undefined4 **)(param_1 + 0x88);
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+  Obj_825D1EC8 *o;
+  if (p->obj != 0) {
+    p->obj->vt->f8(p->obj);
+    o = p->obj;
+    if (o != 0) {
+      o->vt->f0(o, 1);
     }
   }
-  if (*(int *)(param_1 + 0x8c) != 0) {
-    fn_8251FA58();
+  if (p->f8c != 0) {
+    fn_8251FA58(p->f8c);
   }
-  if (*(int *)(param_1 + 0x94) != 0) {
-    fn_8251FA58();
+  if (p->f94 != 0) {
+    fn_8251FA58(p->f94);
   }
-  if (*(int *)(param_1 + 0xfc) != 0) {
-    fn_82522ED8();
+  if (p->ffc != 0) {
+    fn_82522ED8(p->ffc);
   }
-  return;
 }
-

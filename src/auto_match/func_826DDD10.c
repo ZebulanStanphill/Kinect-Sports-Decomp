@@ -25,32 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826DBE10();
+extern int fn_826DBE10(void *, void *, void *, unsigned);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+typedef struct { unsigned a; unsigned b; } Res_826DDD10;
+typedef struct { char pad[0x74]; int lv; char pad2[0xa8-0x78]; unsigned cnt; char cs[0x1c]; char tab[1]; } Map_826DDD10;
+typedef struct { unsigned *key; Res_826DDD10 *out; } Args_826DDD10;
 
-
-undefined4 * fn_826DDD10(undefined4 *param_1,int param_2,uint *param_3)
-
+Res_826DDD10 *fn_826DDD10(Res_826DDD10 *out, Map_826DDD10 *m, unsigned *key)
 {
-  undefined4 uVar1;
-  int iVar2;
-  uint *puStack_30;
-  undefined4 *puStack_2c;
-  
-  uVar1 = *(undefined4 *)(param_2 + 0xa8);
-  *param_1 = 1;
-  param_1[1] = uVar1;
-  *(int *)(param_2 + 0xa8) = *(int *)(param_2 + 0xa8) + 1;
-  iVar2 = 0;
-  if (*(int *)(param_2 + 0x74) < 2) {
-    RtlEnterCriticalSection(param_2 + 0xac);
-    iVar2 = param_2;
+  Map_826DDD10 *locked = 0;
+  Args_826DDD10 a;
+  unsigned c = m->cnt;
+  out->a = 1;
+  out->b = c;
+  m->cnt = m->cnt + 1;
+  if (m->lv < 2) {
+    locked = m;
+    RtlEnterCriticalSection(m->cs);
   }
-  puStack_30 = param_3;
-  puStack_2c = param_1;
-  fn_826DBE10(param_2 + 200,param_2 + 200,&puStack_30,*param_3 >> 8 ^ *param_3);
-  if (iVar2 != 0) {
-    RtlLeaveCriticalSection(iVar2 + 0xac);
+  a.key = key;
+  a.out = out;
+  fn_826DBE10(m->tab, m->tab, &a, (*key >> 8) ^ *key);
+  if (locked != 0) {
+    RtlLeaveCriticalSection(locked->cs);
   }
-  return param_1;
+  return out;
 }
-

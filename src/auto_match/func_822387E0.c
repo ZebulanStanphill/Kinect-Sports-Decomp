@@ -25,59 +25,54 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8223B8C8();
-extern int fn_8223B930();
-extern int fn_82240DB8();
-extern int fn_8265C9E0();
-extern int fn_8288B300();
-extern unsigned int lbl_82196AAC;
-extern unsigned int lbl_821970C0;
-extern unsigned int lbl_821AD588;
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_8223B8C8(void *);
+extern void fn_8223B930(void *);
+extern void fn_82240DB8(void *, int);
+extern void *fn_8265C9E0(unsigned int);
+extern void fn_8288B300(void *, int);
+extern char lbl_82196AAC[];
+extern char lbl_821970C0[];
+extern char lbl_821AD588[];
 
-
-undefined4 * fn_822387E0(undefined4 *param_1)
-
+unsigned int *fn_822387E0(unsigned int *param_1)
 {
-  undefined4 *puVar1;
-  char cVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x1d0);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar3 = puVar1 + 3;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar3 != (undefined4 *)0x0) {
-      fn_8288B300(puVar3,1);
-      *puVar3 = &lbl_82196AAC;
-      fn_8223B930(puVar1 + 0x10);
-      fn_8223B8C8(puVar1 + 0x2a);
-      fn_8223B930(puVar1 + 0x44);
-      fn_82240DB8(puVar1 + 0x5e,2);
-      puVar1[0x60] = 0;
-      *(undefined1 *)(puVar1 + 0x61) = 0;
-      puVar1[0x5e] = &lbl_821970C0;
+  unsigned int *o;
+  unsigned int *vb;
+
+  o = (unsigned int *)fn_8265C9E0(0x1d0);
+  if (o != 0) {
+    o[1] = 1;
+    *o = (unsigned int)lbl_821AD588;
+    o[2] = 1;
+    vb = o + 3;
+    if (vb != 0) {
+      fn_8288B300(vb, 1);
+      *vb = (unsigned int)lbl_82196AAC;
+      fn_8223B930(vb + 0xd);
+      fn_8223B8C8(vb + 0x27);
+      fn_8223B930(vb + 0x41);
+      fn_82240DB8(vb + 0x5b, 2);
+      vb[0x5d] = 0;
+      *(unsigned char *)(vb + 0x5e) = 0;
+      vb[0x5b] = (unsigned int)lbl_821970C0;
     }
+  } else {
+    o = 0;
   }
+  vb = o + 3;
   *param_1 = 0;
   param_1[1] = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    cVar2 = fn_8223AAC0(puVar1);
-    if (cVar2 != '\0') {
+  if (o != 0) {
+    if (fn_8223AAC0(o) != 0) {
       if (param_1[1] != 0) {
-        fn_822315A0();
+        fn_822315A0((void *)param_1[1]);
       }
-      param_1[1] = puVar1;
-      *param_1 = puVar1 + 3;
+      param_1[1] = (unsigned int)o;
+      *param_1 = (unsigned int)vb;
     }
-    fn_822315A0(puVar1);
+    fn_822315A0(o);
   }
   return param_1;
 }
-

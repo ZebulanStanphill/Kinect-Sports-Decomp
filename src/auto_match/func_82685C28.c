@@ -1,73 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267BED0();
+extern void *fn_8267BED0(int, int, int *);
 
+typedef struct Node_82685C28 { struct Node_82685C28 *next; int pad[1]; int f8; int fc; void *f10; void *f14; void *f18; void *f1c; } Node_82685C28;
+typedef struct Chunk_82685C28 { char pad[0x13d8]; struct Chunk_82685C28 *next; } Chunk_82685C28;
+typedef struct Pool_82685C28 { Chunk_82685C28 *first; Chunk_82685C28 *cur; unsigned int used; Node_82685C28 *freelist; int heap; } Pool_82685C28;
 
-void fn_82685C28(undefined4 *param_1)
-
+void fn_82685C28(Pool_82685C28 *param_1)
 {
-  uint uVar1;
-  undefined4 *puVar2;
+  unsigned int uVar1;
+  Node_82685C28 *puVar2;
   int iVar3;
-  undefined4 auStack_20 [2];
-  
-  puVar2 = (undefined4 *)param_1[3];
-  if (puVar2 == (undefined4 *)0x0) {
-    uVar1 = param_1[2];
-    if (uVar1 < 0x7f) {
-      iVar3 = uVar1 + 1;
-      puVar2 = (undefined4 *)(uVar1 * 0x28 + param_1[1]);
-    }
-    else {
-      auStack_20[0] = 0x8a;
-      puVar2 = (undefined4 *)fn_8267BED0(param_1[4],0x13dc,auStack_20);
-      puVar2[0x4f6] = 0;
-      if (param_1[1] == 0) {
-        *param_1 = puVar2;
-      }
-      else {
-        *(undefined4 **)(param_1[1] + 0x13d8) = puVar2;
-      }
-      iVar3 = 1;
-      param_1[1] = puVar2;
-    }
-    param_1[2] = iVar3;
+  int sz;
+
+  puVar2 = param_1->freelist;
+  if (puVar2 != 0) {
+    param_1->freelist = puVar2->next;
   }
   else {
-    param_1[3] = *puVar2;
+    uVar1 = param_1->used;
+    if (uVar1 < 0x7f) {
+      iVar3 = uVar1 + 1;
+      puVar2 = (Node_82685C28 *)((char *)param_1->cur + uVar1 * 0x28);
+    }
+    else {
+      sz = 0x8a;
+      puVar2 = (Node_82685C28 *)fn_8267BED0(param_1->heap, 0x13dc, &sz);
+      ((Chunk_82685C28 *)puVar2)->next = 0;
+      if (param_1->cur != 0) {
+        param_1->cur->next = (Chunk_82685C28 *)puVar2;
+      }
+      else {
+        param_1->first = (Chunk_82685C28 *)puVar2;
+      }
+      iVar3 = 1;
+      param_1->cur = (Chunk_82685C28 *)puVar2;
+    }
+    param_1->used = iVar3;
   }
-  if (puVar2 != (undefined4 *)0x0) {
-    puVar2[2] = 0;
-    puVar2[3] = 0;
-    puVar2[6] = puVar2 + 4;
-    puVar2[7] = puVar2 + 4;
+  if (puVar2 != 0) {
+    puVar2->f8 = 0;
+    puVar2->fc = 0;
+    puVar2->f18 = &puVar2->f10;
+    puVar2->f1c = &puVar2->f10;
   }
-  return;
 }
-

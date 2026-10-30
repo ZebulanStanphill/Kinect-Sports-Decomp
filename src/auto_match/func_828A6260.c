@@ -25,95 +25,90 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_8289DEB8();
-extern int fn_8289E0B0();
-extern int fn_82F622A8();
+extern void fn_82197E58(void);
+typedef struct Node_828A6260 {
+  struct Node_828A6260 *left;
+  struct Node_828A6260 *parent;
+  struct Node_828A6260 *right;
+  int pad[4];
+  char color;
+  char isnil;
+} Node_828A6260;
+typedef struct { int pad; Node_828A6260 *head; unsigned int size; } Tree_828A6260;
+extern void fn_8265CA20(void *);
+extern void fn_8289DEB8(Tree_828A6260 *, Node_828A6260 *);
+extern void fn_8289E0B0(Tree_828A6260 *, Node_828A6260 *);
+extern __declspec(noreturn) void fn_82F622A8(const char *);
 
-
-undefined4 *
-fn_828A6260(undefined4 *param_1,int param_2,char param_3,undefined4 *param_4,int *param_5)
-
+Node_828A6260 **fn_828A6260(Node_828A6260 **out, Tree_828A6260 *tree, unsigned char addleft, Node_828A6260 *where, Node_828A6260 *node)
 {
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  int iVar4;
-  int *piVar5;
-  
-  if (0xffffffd < *(uint *)(param_2 + 8)) {
-    if (*(char *)(param_5 + 4) != '\0') {
-      *(undefined1 *)(param_5 + 4) = 0;
+  Node_828A6260 *x;
+  Node_828A6260 *p;
+  Node_828A6260 *g;
+  Node_828A6260 *u;
+  if (tree->size >= 0xffffffe) {
+    if (*((char *)node + 0x10) != 0) {
+      *((char *)node + 0x10) = 0;
     }
-    fn_8265CA20(param_5);
-                    /* WARNING: Subroutine does not return */
-    fn_82F622A8(0xffffffff82197e58);
+    fn_8265CA20(node);
+    fn_82F622A8("map/set<T> too long");
   }
-  *(uint *)(param_2 + 8) = *(uint *)(param_2 + 8) + 1;
-  param_5[1] = (int)param_4;
-  if (param_4 == *(undefined4 **)(param_2 + 4)) {
-    (*(undefined4 **)(param_2 + 4))[1] = param_5;
-    **(undefined4 **)(param_2 + 4) = param_5;
-    *(int **)(*(int *)(param_2 + 4) + 8) = param_5;
-  }
-  else if (param_3 == '\0') {
-    param_4[2] = param_5;
-    if (param_4 == *(undefined4 **)(*(int *)(param_2 + 4) + 8)) {
-      *(int **)(*(int *)(param_2 + 4) + 8) = param_5;
+  tree->size = tree->size + 1;
+  node->parent = where;
+  if (where == tree->head) {
+    tree->head->parent = node;
+    tree->head->left = node;
+    tree->head->right = node;
+  } else if (addleft) {
+    where->left = node;
+    if (where == tree->head->left) {
+      tree->head->left = node;
     }
-  }
-  else {
-    *param_4 = param_5;
-    if (param_4 == (undefined4 *)**(int **)(param_2 + 4)) {
-      **(int **)(param_2 + 4) = (int)param_5;
+  } else {
+    where->right = node;
+    if (where == tree->head->right) {
+      tree->head->right = node;
     }
   }
-  cVar1 = *(char *)(param_5[1] + 0x1c);
-  piVar5 = param_5;
-  while (cVar1 == '\0') {
-    piVar2 = (int *)piVar5[1];
-    piVar3 = (int *)piVar2[1];
-    if (piVar2 == (int *)*piVar3) {
-      iVar4 = piVar3[2];
-      if (*(char *)(iVar4 + 0x1c) == '\0') {
-        *(undefined1 *)(piVar2 + 7) = 1;
-        *(undefined1 *)(iVar4 + 0x1c) = 1;
-        *(undefined1 *)(*(int *)(piVar5[1] + 4) + 0x1c) = 0;
-        piVar5 = *(int **)(piVar5[1] + 4);
-      }
-      else {
-        if (piVar5 == (int *)piVar2[2]) {
-          fn_8289E0B0(param_2);
-          piVar5 = piVar2;
+  x = node;
+  while (x->parent->color == 0) {
+    p = x->parent;
+    if (p == p->parent->left) {
+      u = p->parent->right;
+      if (u->color == 0) {
+        x->parent->color = 1;
+        u->color = 1;
+        x->parent->parent->color = 0;
+        x = x->parent->parent;
+      } else {
+        if (x == p->right) {
+          x = p;
+          fn_8289E0B0(tree, x);
         }
-        *(undefined1 *)(piVar5[1] + 0x1c) = 1;
-        *(undefined1 *)(*(int *)(piVar5[1] + 4) + 0x1c) = 0;
-        fn_8289DEB8(param_2,*(undefined4 *)(piVar5[1] + 4));
+        x->parent->color = 1;
+        x->parent->parent->color = 0;
+        fn_8289DEB8(tree, x->parent->parent);
       }
-    }
-    else {
-      iVar4 = *piVar3;
-      if (*(char *)(iVar4 + 0x1c) == '\0') {
-        *(undefined1 *)(piVar5[1] + 0x1c) = 1;
-        *(undefined1 *)(iVar4 + 0x1c) = 1;
-        *(undefined1 *)(*(int *)(piVar5[1] + 4) + 0x1c) = 0;
-        piVar5 = *(int **)(piVar5[1] + 4);
-      }
-      else {
-        if (piVar5 == (int *)*piVar2) {
-          fn_8289DEB8(param_2);
-          piVar5 = piVar2;
+    } else {
+      u = p->parent->left;
+      if (u->color == 0) {
+        x->parent->color = 1;
+        u->color = 1;
+        x->parent->parent->color = 0;
+        x = x->parent->parent;
+      } else {
+        if (x == p->left) {
+          x = p;
+          fn_8289DEB8(tree, x);
         }
-        *(undefined1 *)(piVar5[1] + 0x1c) = 1;
-        *(undefined1 *)(*(int *)(piVar5[1] + 4) + 0x1c) = 0;
-        fn_8289E0B0(param_2,*(undefined4 *)(piVar5[1] + 4));
+        x->parent->color = 1;
+        x->parent->parent->color = 0;
+        fn_8289E0B0(tree, x->parent->parent);
       }
     }
-    cVar1 = *(char *)(piVar5[1] + 0x1c);
   }
-  iVar4 = *(int *)(param_2 + 4);
-  *param_1 = param_5;
-  *(undefined1 *)(*(int *)(iVar4 + 4) + 0x1c) = 1;
-  return param_1;
+  u = tree->head;
+  *out = node;
+  u->parent->color = 1;
+  return out;
 }
-

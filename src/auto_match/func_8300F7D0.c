@@ -25,22 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_83032FE8();
+extern unsigned char fn_83032FE8(void *);
 
+typedef struct Vt_8300F7D0 { char pad[0x28]; void (*f28)(void *, void *); } Vt_8300F7D0;
+typedef struct Obj_8300F7D0 { Vt_8300F7D0 *vt; char pad[0x10]; unsigned flags; } Obj_8300F7D0;
+typedef struct Ctx_8300F7D0 { char pad[8]; Obj_8300F7D0 *obj; } Ctx_8300F7D0;
 
-void fn_8300F7D0(undefined8 param_1,int param_2)
-
+void fn_8300F7D0(void *param_1, Ctx_8300F7D0 *ctx)
 {
-  uint uVar1;
-  char cVar2;
-  undefined4 auStack_60 [20];
-  
-  auStack_60[0] = 0;
-  uVar1 = *(uint *)(*(int *)(param_2 + 8) + 0x14) >> 8;
-  if ((uVar1 == 0x4011) || ((uVar1 == 0x5011 && (cVar2 = fn_83032FE8(), cVar2 != '\0')))) {
-    (**(code **)(**(int **)(param_2 + 8) + 0x28))(*(int **)(param_2 + 8),auStack_60);
+  unsigned buf[20];
+  int v;
+  buf[0] = 0;
+  v = ctx->obj->flags >> 8;
+  if (v == 0x4011 || (v == 0x5011 && fn_83032FE8(ctx->obj) != 0)) {
+    ctx->obj->vt->f28(ctx->obj, buf);
   }
-  return;
 }
-

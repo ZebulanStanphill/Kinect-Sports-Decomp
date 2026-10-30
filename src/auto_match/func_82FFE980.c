@@ -1,74 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern int fn_82FF86A8();
-extern int fn_82FF8ED8();
-extern int fn_830080D8();
-extern int fn_8302D378();
-extern int fn_8302E548();
+struct Obj_82FFE980;
+typedef struct ObjVt_82FFE980 {
+  int pad[2];
+  void (*f8)(struct Obj_82FFE980 *);
+} ObjVt_82FFE980;
+typedef struct Obj_82FFE980 {
+  ObjVt_82FFE980 *vt;
+} Obj_82FFE980;
+typedef struct Key_82FFE980 {
+  unsigned int id;
+} Key_82FFE980;
+typedef struct Src_82FFE980 {
+  int pad;
+  int key;
+} Src_82FFE980;
+typedef struct Dst_82FFE980 {
+  int pad[0xd];
+  char tbl[1];
+} Dst_82FFE980;
 
+extern Key_82FFE980 *fn_82FF8ED8(void *, int);
+extern Obj_82FFE980 *fn_82FAB9C0(void *, unsigned int);
+extern Obj_82FFE980 *fn_8302D378(unsigned int, int);
+extern int fn_8302E548(Obj_82FFE980 *, Key_82FFE980 *, int);
+extern Obj_82FFE980 **fn_830080D8(void *);
+extern void fn_82FF86A8(void *);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern char lbl_8326434C[];
 
-undefined8 fn_82FFE980(longlong param_1,int param_2,longlong param_3,undefined8 param_4)
-
+int fn_82FFE980(char *self, Src_82FFE980 *src, Dst_82FFE980 *dst, void *ctx)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined8 uVar4;
-  
-  uVar4 = 1;
-  puVar2 = (undefined4 *)fn_82FF8ED8(param_1 + 4,*(undefined4 *)(param_2 + 4));
-  if (puVar2 == (undefined4 *)0x0) {
+  int r = 1;
+  Key_82FFE980 *k;
+  Obj_82FFE980 *o;
+  Obj_82FFE980 **slot;
+  unsigned int id;
+  k = fn_82FF8ED8(self + 4, src->key);
+  if (k == 0) {
     return 2;
   }
-  uVar1 = *puVar2;
-  piVar3 = (int *)fn_82FAB9C0(param_4,uVar1);
-  if (piVar3 == (int *)0x0) {
-    RtlEnterCriticalSection(0xffffffff8326434c);
-    piVar3 = (int *)fn_8302D378(uVar1,1);
-    if (piVar3 == (int *)0x0) {
-      uVar4 = 2;
-    }
-    else {
-      uVar4 = fn_8302E548(piVar3,puVar2,*(undefined4 *)(param_2 + 4));
-      if ((int)uVar4 != 1) {
-        (**(code **)(*piVar3 + 8))(piVar3);
+  id = k->id;
+  o = fn_82FAB9C0(ctx, id);
+  if (o == 0) {
+    RtlEnterCriticalSection(lbl_8326434C);
+    o = fn_8302D378(id, 1);
+    if (o == 0) {
+      r = 2;
+    } else {
+      r = fn_8302E548(o, k, src->key);
+      if (r != 1) {
+        o->vt->f8(o);
       }
     }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    if ((int)uVar4 != 1) goto LAB_82ffea64;
+    RtlLeaveCriticalSection(lbl_8326434C);
+    if (r != 1) goto done;
   }
-  puVar2 = (undefined4 *)fn_830080D8(param_3 + 0x34);
-  if (puVar2 != (undefined4 *)0x0) {
-    *puVar2 = piVar3;
+  slot = fn_830080D8(dst->tbl);
+  if (slot != 0) {
+    *slot = o;
   }
-LAB_82ffea64:
-  fn_82FF86A8(param_1 + 4);
-  return uVar4;
+done:
+  fn_82FF86A8(self + 4);
+  return r;
 }
-

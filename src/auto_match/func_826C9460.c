@@ -25,42 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_826957D0();
-extern int fn_82696AD0();
-extern int fn_826BD928();
-extern unsigned int iStack_28;
-extern unsigned int lbl_8200BDA0;
-extern unsigned int lbl_8200C4D4;
-extern unsigned int uStack_2c;
+typedef struct { int pad; int count; } RC_826C9460;
+typedef struct { char pad[8]; unsigned f8; char pad2[0x18 - 0xc]; unsigned f18; } Self_826C9460;
+typedef struct { void *vt; unsigned id; RC_826C9460 *rc; } Arg_826C9460;
+typedef struct { int pad[8]; void (*f20)(void *, unsigned, void *, int, int); } VT_826C9460;
+typedef struct { VT_826C9460 *vt; } Tgt_826C9460;
+extern void fn_8267C498(RC_826C9460 *);
+extern int fn_826957D0(void *, int);
+extern Tgt_826C9460 *fn_82696AD0(int, unsigned);
+extern RC_826C9460 *fn_826BD928(unsigned);
+extern char lbl_8200BDA0[];
+extern char lbl_8200C4D4[];
 
-
-void fn_826C9460(int param_1)
-
+void fn_826C9460(Self_826C9460 *self)
 {
-  undefined4 uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  int *piVar4;
-  undefined **ppuStack_30;
-  uint uStack_2c;
-  int iStack_28;
-  
-  iVar3 = fn_826BD928(*(undefined4 *)(param_1 + 8));
-  if (iVar3 != 0) {
-    *(int *)(iVar3 + 4) = *(int *)(iVar3 + 4) + 1;
+  RC_826C9460 *rc;
+  Tgt_826C9460 *t;
+  Arg_826C9460 a;
+  rc = fn_826BD928(self->f8);
+  if (rc != 0) {
+    rc->count = rc->count + 1;
   }
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  uVar2 = fn_826957D0(param_1,0);
-  piVar4 = (int *)fn_82696AD0(uVar2,uVar1);
-  uStack_2c = *(uint *)(param_1 + 0x18);
-  ppuStack_30 = (undefined **)&lbl_8200BDA0;
-  iStack_28 = iVar3;
-  (**(code **)(*piVar4 + 0x20))(piVar4,(ulonglong)uStack_2c + 0x78,&ppuStack_30,0,0);
-  ppuStack_30 = &lbl_8200C4D4;
-  if (iVar3 != 0) {
-    fn_8267C498(iVar3);
+  t = fn_82696AD0(fn_826957D0(self, 0), self->f18);
+  a.vt = lbl_8200BDA0;
+  a.id = self->f18;
+  a.rc = rc;
+  t->vt->f20(t, self->f18 + 0x78, &a, 0, 0);
+  a.vt = lbl_8200C4D4;
+  if (rc != 0) {
+    fn_8267C498(rc);
   }
-  return;
 }
-

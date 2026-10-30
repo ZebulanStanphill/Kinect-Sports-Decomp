@@ -1,66 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Alloc_82D029B8;
+typedef struct AllocVt_82D029B8 {
+  int pad[4];
+  void (*free)(struct Alloc_82D029B8 *, void *, unsigned int);
+} AllocVt_82D029B8;
+typedef struct Alloc_82D029B8 {
+  AllocVt_82D029B8 *vt;
+} Alloc_82D029B8;
+typedef struct Node_82D029B8 {
+  struct Node_82D029B8 *next;
+  struct Node_82D029B8 *prev;
+  int pad;
+  unsigned int size;
+} Node_82D029B8;
+typedef struct Cont_82D029B8 {
+  int pad0[2];
+  int f8;
+  int fc;
+  int *f10;
+  int b[0x21];
+  Alloc_82D029B8 *alloc;
+  int f9c;
+  int fa0;
+  Node_82D029B8 head;
+  int pad1[2];
+  int fbc;
+  int fc0;
+} Cont_82D029B8;
 
-
-void fn_82D029B8(int param_1)
-
+void fn_82D029B8(Cont_82D029B8 *p)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  longlong lVar5;
-  
-  iVar4 = param_1 + 0xa4;
-  iVar2 = *(int *)(param_1 + 0xa8);
-  while (iVar2 != iVar4) {
-    iVar1 = *(int *)(iVar2 + 4);
-    (**(code **)(**(int **)(param_1 + 0x98) + 0x10))
-              (*(int **)(param_1 + 0x98),iVar2,*(undefined4 *)(iVar2 + 0xc));
-    iVar2 = iVar1;
+  Node_82D029B8 *end = &p->head;
+  Node_82D029B8 *n = p->head.prev;
+  int i;
+  while (n != end) {
+    Node_82D029B8 *next = n->prev;
+    p->alloc->vt->free(p->alloc, n, n->size);
+    n = next;
   }
-  *(undefined4 *)(param_1 + 0xc0) = 0;
-  *(undefined4 *)(param_1 + 0xbc) = 0;
-  puVar3 = (undefined4 *)(param_1 + 0x14);
-  *(undefined4 *)(param_1 + 8) = 0;
-  lVar5 = 0x20;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  do {
-    puVar3 = puVar3 + 1;
-    *puVar3 = 0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  *(int *)(param_1 + 0xa8) = iVar4;
-  *(int *)iVar4 = iVar4;
-  *(undefined4 *)(param_1 + 0xa0) = 3;
-  *(int *)(param_1 + 0x10) = param_1 + 0x9c;
-  *(undefined4 *)(param_1 + 0x9c) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  return;
+  p->fc0 = 0;
+  p->fbc = 0;
+  p->f8 = 0;
+  p->fc = 0;
+  for (i = 0; i < 0x20; i++) p->b[i + 1] = 0;
+  p->head.prev = end;
+  end->next = end;
+  p->fa0 = 3;
+  p->f10 = &p->f9c;
+  p->f9c = 0;
+  p->b[0] = 0;
 }
-

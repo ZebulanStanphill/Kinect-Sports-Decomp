@@ -25,27 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82EF75C0();
-
-
-longlong fn_82EF7EA8(longlong param_1,ulonglong param_2,longlong param_3,ulonglong param_4,
-                      int param_5)
-
+extern int fn_82EF75C0(int, int, int, int);
+int fn_82EF7EA8(int a, int n, int b, int m, int k)
 {
-  longlong lVar1;
-  longlong lVar2;
-  longlong lVar3;
-  
-  lVar1 = fn_82EF75C0();
-  lVar2 = fn_82EF75C0(param_1 + 8,param_2,param_3 + 8,param_4);
-  lVar2 = lVar2 + lVar1;
-  if (8 < param_5) {
-    param_1 = (param_2 & 0x1fffffff) * 8 + param_1;
-    param_3 = (param_4 & 0x1fffffff) * 8 + param_3;
-    lVar1 = fn_82EF75C0(param_1 + 8,param_2,param_3 + 8,param_4);
-    lVar3 = fn_82EF75C0(param_1,param_2,param_3,param_4);
-    lVar2 = lVar3 + lVar1 + lVar2;
+  int r;
+  r = fn_82EF75C0(a, n, b, m);
+  r += fn_82EF75C0(a + 8, n, b + 8, m);
+  if (k > 8) {
+    a = a + n * 8;
+    b = b + m * 8;
+    r += fn_82EF75C0(a + 8, n, b + 8, m);
+    r += fn_82EF75C0(a, n, b, m);
   }
-  return lVar2;
+  return r;
 }
-

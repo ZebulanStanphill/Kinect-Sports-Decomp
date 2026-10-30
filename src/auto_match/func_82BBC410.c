@@ -28,19 +28,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
 
-undefined8 fn_82BBC410(int param_1,int param_2)
 
+typedef struct { int a; } Z;
+unsigned char fn_82BBC410(char *p, int idx)
 {
-  undefined8 uVar1;
-  
-  if (*(char *)(param_1 + 0x750) == '\0') {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0d2c,0xffffffff820e0d48,0x6b);
+  char *e;
+  int r;
+  if (p[0x750] == 0) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","has_required_assignments","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\LinkageInfo.hpp",0x6b);
   }
-  if ((((*(int *)((param_2 + 8) * 0x10 + param_1) != 0) ||
-       (param_1 = param_2 * 0x10 + param_1, *(int *)(param_1 + 0x84) != 0)) ||
-      (*(int *)(param_1 + 0x88) != 0)) || (uVar1 = 0, *(int *)(param_1 + 0x8c) != 0)) {
-    uVar1 = 1;
-  }
-  return uVar1;
+  if (*(int *)(p + (idx + 8) * 16) != 0 || (e = p + idx * 16, *(int *)(e + 0x84) != 0) || *(int *)(e + 0x88) != 0 || *(int *)(e + 0x8c) != 0)
+    r = 1;
+  else
+    r = 0;
+  return r;
 }
-

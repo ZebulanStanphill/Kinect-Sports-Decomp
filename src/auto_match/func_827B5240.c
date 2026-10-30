@@ -1,64 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827B50C8();
+extern void fn_827B50C8(void *, unsigned int, void *);
 
+typedef struct A_827B5240 {
+  unsigned int f0;
+  unsigned int f4;
+  unsigned int f8;
+  unsigned int fc;
+  unsigned int f10;
+  unsigned int f14;
+  unsigned int f18;
+} A_827B5240;
+typedef struct B_827B5240 {
+  unsigned int f0;
+  unsigned int f4;
+  unsigned int f8;
+} B_827B5240;
+typedef struct Obj_827B5240 {
+  int pad0[2];
+  int f8;
+  unsigned int fc;
+  unsigned int f10;
+  unsigned int f14;
+  int pad1[2];
+  unsigned int *pagesB;
+  int pad2[0xb];
+  unsigned int *pagesA;
+} Obj_827B5240;
 
-void fn_827B5240(int param_1,uint param_2,ulonglong param_3)
-
+void fn_827B5240(Obj_827B5240 *o, unsigned int a, unsigned int b)
 {
-  uint *puVar1;
-  int iVar2;
-  longlong lVar3;
-  
-  iVar2 = *(int *)((param_2 >> 6 & 0x3fffffc) + *(int *)(param_1 + 0x50));
-  while( true ) {
-    iVar2 = iVar2 + (param_2 & 0xff) * 0x1c;
-    if ((*(uint *)(iVar2 + 8) < *(uint *)(param_1 + 0xc)) ||
-       (*(uint *)(iVar2 + 0xc) < *(uint *)(param_1 + 0x10))) break;
-    while( true ) {
-      if ((ulonglong)*(uint *)(param_1 + 0x14) <= (param_3 & 0xffffffff)) {
+  A_827B5240 *n;
+  B_827B5240 *e;
+  unsigned int j;
+  n = (A_827B5240 *)(o->pagesA[a >> 8] + (a & 0xff) * 0x1c);
+  while (n->f8 >= o->fc && n->fc >= o->f10) {
+    j = b;
+    for (;;) {
+      if (j >= o->f14) {
         return;
       }
-      lVar3 = (ulonglong)
-              *(uint *)(((uint)((param_3 & 0xffffffff) >> 6) & 0x3fffffc) + *(int *)(param_1 + 0x20)
-                       ) + (param_3 & 0xff) * 0xc;
-      puVar1 = (uint *)lVar3;
-      if ((((puVar1[2] & 0x80000000) == 0) && (*puVar1 <= *(uint *)(iVar2 + 8))) &&
-         (puVar1[1] <= *(uint *)(iVar2 + 0xc))) break;
-      param_3 = param_3 + 1;
+      e = (B_827B5240 *)(o->pagesB[j >> 8] + (j & 0xff) * 0xc);
+      if ((e->f8 & 0x80000000) == 0 && e->f0 <= n->f8 && e->f4 <= n->fc) {
+        break;
+      }
+      j++;
     }
-    fn_827B50C8(param_1,param_2,lVar3);
-    puVar1[2] = puVar1[2] | 0x80000000;
-    *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + 1;
-    fn_827B5240(param_1,*(undefined4 *)(iVar2 + 0x14),param_3);
-    param_2 = *(uint *)(iVar2 + 0x18);
-    iVar2 = *(int *)((param_2 >> 6 & 0x3fffffc) + *(int *)(param_1 + 0x50));
+    fn_827B50C8(o, a, e);
+    e->f8 |= 0x80000000;
+    o->f8++;
+    fn_827B5240(o, n->f14, j);
+    b = j;
+    a = n->f18;
+    n = (A_827B5240 *)(o->pagesA[a >> 8] + (a & 0xff) * 0x1c);
   }
-  return;
 }
-

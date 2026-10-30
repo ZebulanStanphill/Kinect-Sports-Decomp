@@ -1,89 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_70;
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern int fn_823FD088();
-extern unsigned int iStack_74;
-extern unsigned int iStack_7c;
-extern unsigned int lbl_821AD588;
-extern unsigned int uStack_78;
-extern unsigned int uStack_80;
+typedef struct SP_823FC038 {
+  void *ptr;
+  void *rc;
+} SP_823FC038;
+typedef struct Self_823FC038 {
+  void *vt;
+  int f4;
+  int f8;
+  char body[1];
+} Self_823FC038;
 
+extern unsigned char fn_8223AAC0(void *);
+extern void *fn_82365BD8(void *, void *);
+extern void fn_823FD088(void *, void *, SP_823FC038 *, void *, void *, SP_823FC038 *);
+extern char lbl_821AD588[];
 
-undefined4 *
-fn_823FC038(undefined4 *param_1,undefined8 param_2,undefined4 *param_3,undefined8 param_4,
-             undefined8 param_5,undefined4 *param_6)
-
+Self_823FC038 *fn_823FC038(Self_823FC038 *self, void *a, SP_823FC038 *w3, void *b, void *c, SP_823FC038 *w6)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar6;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  undefined8 uVar5;
-  struct { undefined4 first; int second; } stack_pair_80;
-
-  struct { undefined4 first; int second; } stack_pair_78;
-
-  undefined1 auStack_70 [8];
-  undefined1 auStack_68 [8];
-  undefined1 auStack_60 [16];
-
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    iVar1 = param_6[1];
-    uVar2 = *param_6;
-    stack_pair_78.first = 0;
-    stack_pair_78.second = 0;
-    if (iVar1 != 0) {
-      cVar6 = fn_8223AAC0(iVar1);
-      if (cVar6 != '\0') {
-        stack_pair_78.first = uVar2;
-        stack_pair_78.second = iVar1;
+  struct {
+    SP_823FC038 p3;
+    SP_823FC038 p6;
+    char t1[8];
+    char t2[8];
+    char t3[8];
+  } L;
+  void *rc;
+  void *ptr;
+  self->f4 = 1;
+  self->vt = lbl_821AD588;
+  self->f8 = 1;
+  if (self->body != 0) {
+    rc = w6->rc;
+    ptr = w6->ptr;
+    L.p6.ptr = 0;
+    L.p6.rc = 0;
+    if (rc != 0) {
+      if (fn_8223AAC0(rc) != 0) {
+        L.p6.rc = rc;
+        L.p6.ptr = ptr;
       }
     }
-    iVar1 = param_3[1];
-    uVar2 = *param_3;
-    stack_pair_80.first = 0;
-    stack_pair_80.second = 0;
-    if ((iVar1 != 0) && (cVar6 = fn_8223AAC0(iVar1), cVar6 != '\0')) {
-      stack_pair_80.first = uVar2;
-      stack_pair_80.second = iVar1;
+    rc = w3->rc;
+    ptr = w3->ptr;
+    L.p3.ptr = 0;
+    L.p3.rc = 0;
+    if (rc != 0) {
+      if (fn_8223AAC0(rc) != 0) {
+        L.p3.rc = rc;
+        L.p3.ptr = ptr;
+      }
     }
-    uVar3 = fn_82365BD8(auStack_70,param_5);
-    uVar4 = fn_82365BD8(auStack_68,param_4);
-    uVar5 = fn_82365BD8(auStack_60,param_2);
-    fn_823FD088(param_1 + 3,uVar5,&stack_pair_80.first,uVar4,uVar3,&stack_pair_78.first);
+    fn_823FD088(self->body, fn_82365BD8(L.t3, a), &L.p3, fn_82365BD8(L.t2, b), fn_82365BD8(L.t1, c), &L.p6);
   }
-  return param_1;
+  return self;
 }

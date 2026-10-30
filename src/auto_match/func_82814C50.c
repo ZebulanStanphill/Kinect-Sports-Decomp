@@ -1,63 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_828142D8();
 
+typedef struct { char pad[0x14]; unsigned int (*f14)(int, unsigned int, unsigned int, int); } Cb_82814C50;
+typedef struct { char pad[0x51]; unsigned char cnt; } Cfg_82814C50;
+typedef struct {
+  char pad0[0xc]; unsigned int f0c; char pad1[8]; int f18; Cfg_82814C50 *f1c; char pad2[0x10]; unsigned char *f30; unsigned int f34;
+} Obj_82814C50;
 
-void fn_82814C50(int param_1)
-
+void fn_82814C50(Obj_82814C50 *param_1)
 {
-  int iVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  longlong lVar4;
-  int iVar5;
-  int aiStack_40;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (*(char *)(iVar1 + 0x51) != '\0') {
-    uVar3 = 0;
-    do {
-      iVar5 = uVar3 * 0x21 + *(int *)(param_1 + 0x30);
-      fn_828142D8((ulonglong)*(uint *)(param_1 + 0x34) +
-                    (ulonglong)*(uint *)(uVar3 * 0x21 + *(int *)(param_1 + 0x30)),&aiStack_40);
-      if (*(int *)(aiStack_40 + 0x14) != 0) {
-        lVar4 = (ulonglong)*(uint *)(iVar5 + 0x11) + (ulonglong)*(uint *)(iVar5 + 9);
-        uVar2 = (**(code **)(aiStack_40 + 0x14))
-                          (*(undefined4 *)(param_1 + 0x18),*(undefined4 *)(iVar5 + 0xd),lVar4,4);
-        *(undefined4 *)(iVar5 + 0xd) = uVar2;
-        *(int *)(iVar5 + 9) = (int)lVar4;
-      }
-      if (*(int *)(iVar5 + 0xd) == 0) {
-        *(uint *)(param_1 + 0xc) = *(uint *)(param_1 + 0xc) | 4;
-      }
-      uVar3 = uVar3 + 1 & 0xff;
-    } while (uVar3 < *(byte *)(iVar1 + 0x51));
-  }
-  return;
-}
+  Cfg_82814C50 *cfg;
+  Cb_82814C50 *cb;
+  unsigned char *e;
+  unsigned int sum;
+  unsigned char i;
 
+  cfg = param_1->f1c;
+  if (cfg->cnt != 0) {
+    i = 0;
+    do {
+      e = param_1->f30 + i * 0x21;
+      fn_828142D8(param_1->f34 + *(unsigned int *)e, &cb);
+      if (cb->f14 != 0) {
+        sum = *(unsigned int *)(e + 0x11) + *(unsigned int *)(e + 9);
+        *(unsigned int *)(e + 0xd) = cb->f14(param_1->f18, *(unsigned int *)(e + 0xd), sum, 4);
+        *(unsigned int *)(e + 9) = sum;
+      }
+      if (*(unsigned int *)(e + 0xd) == 0) {
+        param_1->f0c = param_1->f0c | 4;
+      }
+      i = i + 1;
+    } while (i < cfg->cnt);
+  }
+}

@@ -1,62 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CF68D0();
-extern int fn_82CFBE40();
+typedef struct { char *s; int len; unsigned cap; } Str_82D04F70;
+typedef struct { int pad[3]; void *alloc; } Ctx_82D04F70;
+extern Ctx_82D04F70 *fn_82CE5410();
+extern int fn_82CE6310(void *, void *, int, int);
+extern int fn_82CF68D0(char *, const char *, int);
+extern int fn_82CFBE40(const char *);
 
-
-void fn_82D04F70(int *param_1,undefined8 param_2,int param_3)
-
+void fn_82D04F70(Str_82D04F70 *p, const char *src, int n)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  if (param_3 < 0) {
-    param_3 = fn_82CFBE40(param_2);
+  int base, end, newlen, cap;
+  void *a;
+  if (n < 0) {
+    n = fn_82CFBE40(src);
   }
-  iVar1 = param_1[1];
-  iVar4 = iVar1 + -1 + param_3;
-  iVar5 = iVar4 + 1;
-  iVar2 = fn_82CE5410();
-  if ((int)(param_1[2] & 0x3fffffffU) < iVar5) {
-    iVar3 = (param_1[2] & 0x3fffffffU) << 1;
-    if (iVar3 <= iVar5) {
-      iVar3 = iVar5;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar2 + 0xc),param_1,iVar3,1);
+  base = p->len - 1;
+  end = base + n;
+  newlen = end + 1;
+  a = fn_82CE5410()->alloc;
+  cap = p->cap & 0x3fffffff;
+  if (cap < newlen) {
+    int g = cap << 1;
+    fn_82CE6310(a, p, newlen < g ? g : newlen, 1);
   }
-  param_1[1] = iVar5;
-  *(undefined1 *)(*param_1 + iVar4) = 0;
-  fn_82CF68D0(*param_1 + iVar1 + -1,param_2,param_3);
-  return;
+  p->len = newlen;
+  p->s[end] = 0;
+  fn_82CF68D0(p->s + base, src, n);
 }
-
