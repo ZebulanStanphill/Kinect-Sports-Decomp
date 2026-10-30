@@ -1,53 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824CD030();
-extern unsigned int lbl_821CC160;
+typedef struct Vt_824E1468 { char pad[0x24]; void (*f24)(struct Ob_824E1468 *); } Vt_824E1468;
+typedef struct Ob_824E1468 { Vt_824E1468 *vt; } Ob_824E1468;
+typedef struct S_824E1468 {
+  Ob_824E1468 *p0; char pad4[8];
+  Ob_824E1468 *pc; Ob_824E1468 *p10; Ob_824E1468 *p14; Ob_824E1468 *p18; Ob_824E1468 *p1c; Ob_824E1468 *p20; Ob_824E1468 *p24; Ob_824E1468 *p28; Ob_824E1468 *p2c;
+  char pad30[0x30]; float f60;
+} S_824E1468;
+typedef struct Owner_824E1468 { char pad[0xfc]; S_824E1468 *s; } Owner_824E1468;
+extern int fn_824CD030(void);
+extern float lbl_821CC160;
 
-
-void fn_824E1468(int param_1)
-
+void fn_824E1468(Owner_824E1468 *o)
 {
-  int iVar1;
-  
-  *(undefined4 *)(*(int *)(param_1 + 0xfc) + 0x60) = lbl_821CC160;
-  iVar1 = fn_824CD030();
-  if (iVar1 != 0) {
-    (**(code **)(*(int *)**(undefined4 **)(param_1 + 0xfc) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0xc) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x10) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x14) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x18) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x1c) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x20) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x24) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x28) + 0x24))();
-    (**(code **)(**(int **)(*(int *)(param_1 + 0xfc) + 0x2c) + 0x24))();
+  o->s->f60 = lbl_821CC160;
+  if (fn_824CD030() != 0) {
+    o->s->p0->vt->f24(o->s->p0);
+    o->s->pc->vt->f24(o->s->pc);
+    o->s->p10->vt->f24(o->s->p10);
+    o->s->p14->vt->f24(o->s->p14);
+    o->s->p18->vt->f24(o->s->p18);
+    o->s->p1c->vt->f24(o->s->p1c);
+    o->s->p20->vt->f24(o->s->p20);
+    o->s->p24->vt->f24(o->s->p24);
+    o->s->p28->vt->f24(o->s->p28);
+    o->s->p2c->vt->f24(o->s->p2c);
   }
-  return;
 }
-

@@ -1,68 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACC5D8();
-extern int fn_82ACD310();
+typedef struct Node_82ACD8D8 Node_82ACD8D8;
+typedef struct Link_82ACD8D8 { unsigned prev; Node_82ACD8D8 *next; } Link_82ACD8D8;
+struct Node_82ACD8D8 {
+  char pad0[8];
+  unsigned pad5 : 5;
+  unsigned flag : 1;
+  unsigned rest : 26;
+  unsigned padc;
+  unsigned pad6 : 6;
+  unsigned flag2 : 1;
+  unsigned rest2 : 25;
+  char pad14[0x10];
+  Link_82ACD8D8 link;
+};
+typedef struct Head_82ACD8D8 { unsigned f0; Node_82ACD8D8 *first; } Head_82ACD8D8;
+typedef struct Aux_82ACD8D8 { char pad[0x10]; unsigned f10; } Aux_82ACD8D8;
+typedef struct Owner_82ACD8D8 {
+  Head_82ACD8D8 *head;
+  char pad4[0x34];
+  Aux_82ACD8D8 *f38;
+  Node_82ACD8D8 *f3c;
+  unsigned f40;
+  unsigned f44;
+  unsigned char f48;
+  unsigned char f49;
+} Owner_82ACD8D8;
+typedef struct Src_82ACD8D8 { char pad[0xc]; Node_82ACD8D8 *f0c; Node_82ACD8D8 *f10; unsigned f14; } Src_82ACD8D8;
+extern void fn_82ACC5D8(Owner_82ACD8D8 *, Node_82ACD8D8 *, int);
+extern Node_82ACD8D8 *fn_82ACD310(Owner_82ACD8D8 *, unsigned, Node_82ACD8D8 *);
 
+#define NODE(p) ((Node_82ACD8D8 *)((unsigned)(p) & 0xfffffffe))
 
-void fn_82ACD8D8(int *param_1,int param_2)
-
+static __inline Node_82ACD8D8 *Clean_82ACD8D8(Node_82ACD8D8 *x)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  uint uVar5;
-  
-  uVar1 = *(uint *)(param_2 + 0x10);
-  if (param_1[0xf] == 0) {
-    uVar5 = *(uint *)(*param_1 + 4);
-  }
-  else {
-    uVar5 = *(uint *)((param_1[0xf] & 0xfffffffeU) + 0x28);
-  }
-  uVar5 = -(uint)((uVar5 & 1) == 0) & uVar5;
-  while (uVar3 = uVar5, uVar3 != uVar1) {
-    uVar2 = uVar3 & 0xfffffffe;
-    uVar5 = -(uint)((*(uint *)(uVar2 + 0x28) & 1) == 0) & *(uint *)(uVar2 + 0x28);
-    fn_82ACC5D8(param_1,uVar3,1);
-    if ((*(uint *)(uVar3 + 8) >> 0x1a & 1) != 0) {
-      *(undefined4 *)((*(uint *)(uVar2 + 0x28) & 0xfffffffe) + 0x24) = *(undefined4 *)(uVar2 + 0x24)
-      ;
-      *(undefined4 *)(*(uint *)(uVar2 + 0x24) & 0xfffffffe) = *(undefined4 *)(uVar2 + 0x28);
-      *(uint *)(uVar3 + 0x10) = *(uint *)(uVar3 + 0x10) & 0xfdffffff;
-    }
-  }
-  param_1[0xf] = *(int *)(param_2 + 0xc);
-  *(undefined4 *)(param_1[0xe] + 0x10) = *(undefined4 *)(param_2 + 0x14);
-  if (((*(char *)(param_1 + 0x12) != '\0') && (*(char *)((int)param_1 + 0x49) == '\0')) &&
-     (iVar4 = fn_82ACD310(param_1,param_1[0x11],param_1[0xf]), iVar4 == param_1[0xf])) {
-    *(undefined1 *)(param_1 + 0x12) = 0;
-  }
-  return;
+  return ((unsigned)x & 1) ? 0 : x;
 }
 
+static __inline void Unlink_82ACD8D8(Link_82ACD8D8 *l)
+{
+  NODE(l->next)->link.prev = l->prev;
+  *(Node_82ACD8D8 **)(l->prev & 0xfffffffe) = l->next;
+}
+
+void fn_82ACD8D8(Owner_82ACD8D8 *o, Src_82ACD8D8 *s)
+{
+  Node_82ACD8D8 *end = s->f10;
+  Node_82ACD8D8 *cur, *next;
+  if (o->f3c != 0)
+    cur = NODE(o->f3c)->link.next;
+  else
+    cur = o->head->first;
+  cur = Clean_82ACD8D8(cur);
+  while (cur != end) {
+    Node_82ACD8D8 *n = NODE(cur);
+    next = Clean_82ACD8D8(n->link.next);
+    fn_82ACC5D8(o, cur, 1);
+    if ((unsigned char)cur->flag != 0) {
+      Unlink_82ACD8D8(&n->link);
+      cur->flag2 = 0;
+    }
+    cur = next;
+  }
+  o->f3c = s->f0c;
+  o->f38->f10 = s->f14;
+  if (o->f48 != 0 && o->f49 == 0 && fn_82ACD310(o, o->f44, o->f3c) == o->f3c)
+    o->f48 = 0;
+}

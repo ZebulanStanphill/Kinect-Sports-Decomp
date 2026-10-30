@@ -25,25 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D00450();
+struct Obj_82E174C8;
+typedef struct VT_82E174C8 {
+  int pad[4];
+  unsigned int (*f10)(struct Obj_82E174C8 *, int);
+} VT_82E174C8;
+typedef struct Obj_82E174C8 {
+  VT_82E174C8 *vt;
+} Obj_82E174C8;
+typedef struct Host_82E174C8 {
+  char pad[0x1c];
+  Obj_82E174C8 *f1c;
+} Host_82E174C8;
+extern unsigned int fn_82D00450(void *, int, int);
 
-
-ulonglong fn_82E174C8(int param_1,undefined8 param_2)
-
+unsigned int fn_82E174C8(Host_82E174C8 *h, int a)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  
-  uVar2 = fn_82D00450(param_1 + 0xc,param_2,0);
-  if ((uVar2 & 0xffffffff) == 0) {
-    piVar1 = *(int **)(param_1 + 0x1c);
-    if (piVar1 == (int *)0x0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = (**(code **)(*piVar1 + 0x10))(piVar1,param_2);
+  unsigned int r;
+
+  r = fn_82D00450((char *)h + 0xc, a, 0);
+  if (r == 0) {
+    if (h->f1c != 0) {
+      r = h->f1c->vt->f10(h->f1c, a);
+    } else {
+      r = 0;
     }
   }
-  return uVar2;
+  return r;
 }
-

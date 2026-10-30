@@ -25,37 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8294D308();
-extern int fn_82959138();
+typedef struct Leaf_82959828 {
+  int f0;
+  unsigned int flags;
+} Leaf_82959828;
+typedef struct Mid_82959828 {
+  int f0;
+  int idx;
+} Mid_82959828;
+typedef struct List_82959828 {
+  int f0;
+  unsigned int count;
+  unsigned int *items;
+} List_82959828;
+typedef struct Obj_82959828 {
+  char pad0[0x10];
+  Leaf_82959828 **leafs;
+  Mid_82959828 **mids;
+  char pad18[0x104 - 0x18];
+  List_82959828 *list;
+  char pad108[0x160 - 0x108];
+  int f160;
+} Obj_82959828;
+extern int fn_8294D308(Obj_82959828 *);
+extern int fn_82959138(Obj_82959828 *, int, int, unsigned int *, int, int, int);
 
-
-undefined8 fn_82959828(int param_1)
-
+int fn_82959828(Obj_82959828 *o)
 {
-  int iVar1;
-  undefined8 uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x104);
-  uVar3 = 0;
-  if (*(int *)(iVar1 + 4) != 0) {
-    iVar4 = 0;
-    do {
-      if ((*(uint *)(*(int *)(*(int *)(*(int *)(*(int *)(*(int *)(iVar1 + 8) + iVar4) * 4 +
-                                               *(int *)(param_1 + 0x14)) + 4) * 4 +
-                             *(int *)(param_1 + 0x10)) + 4) & 0x200) != 0) {
+  List_82959828 *l = o->list;
+  unsigned int i;
+  int r;
+
+  for (i = 0; i < o->list->count; i++) {
+      if ((o->leafs[o->mids[o->list->items[i]]->idx]->flags & 0x200) != 0) {
         return 1;
       }
-      uVar3 = uVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar3 < *(uint *)(*(int *)(param_1 + 0x104) + 4));
   }
-  *(undefined4 *)(param_1 + 0x160) = 0;
-  uVar2 = fn_82959138(param_1,0x100000,0,*(undefined4 *)(iVar1 + 8),0x100000,0,0);
-  if (-1 < (int)uVar2) {
-    uVar2 = fn_8294D308(param_1);
+  o->f160 = 0;
+  r = fn_82959138(o, 0x100000, 0, l->items, 0x100000, 0, 0);
+  if (r >= 0) {
+    r = fn_8294D308(o);
   }
-  return uVar2;
+  return r;
 }
-

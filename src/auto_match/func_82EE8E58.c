@@ -25,25 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82EE88B0();
+struct Obj_82EE8E58;
+typedef struct VT_82EE8E58 {
+  int pad[5];
+  int (*f14)(struct Obj_82EE8E58 *, int);
+  int pad2[3];
+  int (*f24)(struct Obj_82EE8E58 *, __int64, int, int);
+} VT_82EE8E58;
+typedef struct Obj_82EE8E58 {
+  VT_82EE8E58 *vt;
+} Obj_82EE8E58;
+typedef struct Host_82EE8E58 {
+  char pad[0x98];
+  int f98;
+  int pad9c;
+  Obj_82EE8E58 *fa0;
+} Host_82EE8E58;
+extern int fn_82EE88B0(void);
 
-
-longlong fn_82EE8E58(int param_1,undefined8 param_2,longlong param_3,undefined8 param_4)
-
+int fn_82EE8E58(Host_82EE8E58 *h, int a, __int64 b, int c)
 {
-  int *piVar1;
-  longlong lVar2;
-  
-  lVar2 = 0;
-  if ((*(int *)(param_1 + 0x98) != 0) || (lVar2 = fn_82EE88B0(), -1 < lVar2)) {
-    piVar1 = *(int **)(param_1 + 0xa0);
-    if (param_3 == 0) {
-      (**(code **)(*piVar1 + 0x14))(piVar1,param_2);
-    }
-    else {
-      lVar2 = (**(code **)(*piVar1 + 0x24))(piVar1,param_3,param_2,param_4);
+  int r = 0;
+
+  if (h->f98 != 0 || (r = fn_82EE88B0()) >= 0) {
+    if (b == 0) {
+      h->fa0->vt->f14(h->fa0, a);
+    } else {
+      r = h->fa0->vt->f24(h->fa0, b, a, c);
     }
   }
-  return lVar2;
+  return r;
 }
-

@@ -25,39 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8251CF80();
-extern int fn_8251FA58();
-extern int fn_82520158();
-extern int fn_82544F40();
-extern unsigned int lbl_83276741;
+extern void fn_8251CF80(void *, int, void *);
+extern void fn_8251FA58(unsigned int);
+extern void fn_82520158(const char *, void *, int);
+extern void fn_82544F40(void);
+extern unsigned char lbl_83276741;
 extern unsigned int lbl_832810F0;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-
 
 void fn_82489570(void)
-
 {
-  undefined1 auStack_40 [16];
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  struct { char buf[16]; struct {int a; int b; int c;} v; } L;
 
-  undefined4 uStack_28;
-  
   if (lbl_832810F0 != 0) {
     fn_82544F40();
     fn_8251FA58(lbl_832810F0);
     lbl_832810F0 = 0;
   }
-  if (lbl_83276741 == '\0') {
-    lbl_83276741 = '\x01';
+  if (lbl_83276741 == 0) {
+    lbl_83276741 = 1;
   }
-  fn_82520158(0xffffffff821c2274,auStack_40,0);
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  uStack_28 = 0;
-  fn_8251CF80(auStack_40,0,&stack_pair_30.first);
-  return;
+  fn_82520158("first_scene", L.buf, 0);
+  L.v.a = 0;
+  L.v.b = 0;
+  L.v.c = 0;
+  fn_8251CF80(L.buf, 0, &L.v);
 }
-

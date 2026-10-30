@@ -25,75 +25,89 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_90;
-extern int fn_8268B330();
-extern int fn_8268B400();
-extern int fn_826BD078();
-extern int fn_827AED50();
-extern int fn_827AF0A0();
-extern int fn_827AF0F8();
-extern int fn_827AF528();
-extern unsigned int iStack_bc;
-extern unsigned int uStack_c0;
+typedef struct Ent_82755978 {
+  struct Src_82755978 *src;
+  int len;
+} Ent_82755978;
+typedef struct Src_82755978 {
+  char pad[0x154];
+  void *f154;
+} Src_82755978;
+typedef struct List_82755978 {
+  Ent_82755978 *ents;
+  unsigned int count;
+  int pad8;
+  unsigned int fc;
+} List_82755978;
+typedef struct Range_82755978 {
+  unsigned int first;
+  int len;
+} Range_82755978;
+extern void fn_8268B330(void *);
+extern void fn_8268B400(void *, unsigned int);
+extern unsigned int fn_826BD078(unsigned int *);
+extern unsigned char fn_827AED50(void *);
+extern void fn_827AF0A0(Range_82755978 *, void *);
+extern void fn_827AF0F8(void *, int);
+extern void fn_827AF528(void *, void *, int, int);
 
-
-undefined8 fn_82755978(undefined8 param_1,int *param_2,char param_3)
-
+void *fn_82755978(void *out, List_82755978 *l, unsigned char flag)
 {
-  uint uVar1;
-  int iVar3;
-  ulonglong uVar2;
-  char cVar4;
-  uint uVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  uint uVar9;
-  int aiStack_d0;
-  struct { uint first; int second; } stack_pair_c0;
+  struct {
+    unsigned int cur;
+    int pad[3];
+    Range_82755978 r;
+    int pad2[10];
+    char it[48];
+  } L;
+  int base;
+  unsigned int pos;
+  unsigned int i;
+  unsigned int hi, k, c;
+  void *f;
 
-  undefined1 auStack_90 [96];
-
-  fn_8268B330();
-  iVar7 = 0;
-  uVar9 = 0;
-  uVar5 = 0;
-  aiStack_d0 = (param_2[3] & 0xfffffffcU) + 8;
-  if (param_2[1] != 0) {
-    iVar6 = 0;
+  fn_8268B330(out);
+  base = 0;
+  pos = 0;
+  i = 0;
+  L.cur = (l->fc & 0xfffffffc) + 8;
+  if (l->count != 0) {
     do {
-      iVar3 = *(int *)(*(int *)(iVar6 + *param_2) + 0x154);
-      if (iVar3 != 0) {
-        fn_827AF528(auStack_90,iVar3,0,0xffffffffffffffff);
-        while (cVar4 = fn_827AED50(auStack_90), cVar4 == '\0') {
-          fn_827AF0A0(&stack_pair_c0.first,auStack_90);
-          stack_pair_c0.first = stack_pair_c0.first + iVar7;
-          uVar8 = stack_pair_c0.second + stack_pair_c0.first;
-          if (uVar9 < uVar8) {
-            for (; uVar1 = uVar9, uVar9 < stack_pair_c0.first; uVar9 = uVar9 + 1) {
-              iVar3 = fn_826BD078(&aiStack_d0);
-              if (iVar3 == 10) {
-                uVar9 = uVar9 - 1;
+      f = l->ents[i].src->f154;
+      if (f != 0) {
+        fn_827AF528(L.it, f, 0, -1);
+        while (fn_827AED50(L.it) == 0) {
+          fn_827AF0A0(&L.r, L.it);
+          L.r.first = L.r.first + base;
+          hi = L.r.len + L.r.first;
+          if (hi > pos) {
+            for (; pos < L.r.first; pos++) {
+              if (fn_826BD078(&L.cur) == 10) {
+                pos--;
               }
             }
-            for (; uVar9 = uVar8, uVar1 < uVar8; uVar1 = uVar1 + 1) {
+            k = pos;
+            if (k < hi) {
               do {
-                uVar2 = fn_826BD078(&aiStack_d0);
-                if (param_3 != '\0') {
-                  if ((uVar2 & 0xffffffff) != 10) break;
-                  fn_8268B400(param_1,10);
+              do {
+                c = fn_826BD078(&L.cur);
+                if (flag != 0) {
+                  if (c != 10) break;
+                  fn_8268B400(out, 10);
                 }
-              } while ((uVar2 & 0xffffffff) == 10);
-              fn_8268B400(param_1,uVar2);
+              } while (c == 10);
+              fn_8268B400(out, c);
+                k++;
+              } while (k < hi);
             }
+            pos = hi;
           }
-          fn_827AF0F8(auStack_90,0);
+          fn_827AF0F8(L.it, 0);
         }
-        iVar7 = *(int *)(iVar6 + *param_2 + 4) + iVar7;
+        base = l->ents[i].len + base;
       }
-      uVar5 = uVar5 + 1;
-      iVar6 = iVar6 + 8;
-    } while (uVar5 < (uint)param_2[1]);
+      i++;
+    } while (i < l->count);
   }
-  return param_1;
+  return out;
 }

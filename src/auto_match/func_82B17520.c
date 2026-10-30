@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AA65B0();
-extern int fn_82ABDD90();
+typedef struct Src_82B17520 {
+  char pad[8];
+  unsigned p10 : 10;
+  unsigned a : 3;
+  unsigned p2 : 2;
+  unsigned b : 3;
+  unsigned c : 7;
+  unsigned rest : 7;
+} Src_82B17520;
+typedef union W_82B17520 {
+  unsigned raw;
+  struct { unsigned p23 : 23; unsigned a6 : 6; unsigned b3 : 3; } w;
+  struct { unsigned p24 : 24; unsigned bit7 : 1; unsigned p1 : 1; unsigned e : 4; unsigned lo : 2; } r;
+} W_82B17520;
+typedef struct Tgt_82B17520 { char pad[8]; W_82B17520 w; } Tgt_82B17520;
+extern int fn_82ABDD90(void *, unsigned, unsigned, unsigned);
+extern void fn_82AA65B0(void *, int);
 
-
-void fn_82B17520(undefined8 param_1,int param_2)
-
+static __inline unsigned char Chk_82B17520(Tgt_82B17520 *t)
 {
-  uint uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  uVar1 = *(uint *)(param_2 + 8);
-  iVar2 = fn_82ABDD90(param_1,uVar1 >> 7 & 0x7f,uVar1 >> 0x13 & 7,uVar1 >> 0xe & 7);
-  iVar2 = iVar2 + param_2 + -0x10;
-  uVar1 = *(uint *)(iVar2 + 8);
-  if ((uVar1 & 3) == 0) {
-    uVar3 = (~(ulonglong)uVar1 & 0xffffffff) >> 7 & 1;
-  }
-  else {
-    uVar3 = 1;
-  }
-  if (((uVar3 != 0) && ((uVar1 & 3) == 0)) && ((uVar1 >> 2 & 0xf) == 5)) {
-    fn_82AA65B0(param_1,0xe01);
-  }
-  *(uint *)(iVar2 + 8) = *(uint *)(iVar2 + 8) & 0xfffffe00 | 0xd8;
-  return;
+  if (t->w.r.lo != 0)
+    return 1;
+  return t->w.r.bit7 == 0;
 }
 
+void fn_82B17520(void *ctx, Src_82B17520 *s)
+{
+  Tgt_82B17520 *t;
+  int off = fn_82ABDD90(ctx, s->c, s->a, s->b);
+  t = (Tgt_82B17520 *)(off + ((int)s - 0x10));
+  if (Chk_82B17520(t) && t->w.r.lo == 0 && (char)t->w.r.e == 5)
+    fn_82AA65B0(ctx, 0xe01);
+  t->w.w.a6 = 0x1b;
+  t->w.w.b3 = 0;
+}

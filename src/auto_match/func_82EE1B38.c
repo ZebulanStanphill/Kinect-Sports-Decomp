@@ -25,44 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82EE1048();
-extern int fn_82EE17C8();
+typedef struct Host_82EE1B38 {
+  char pad[0x48];
+  char sub[0x254 - 0x48];
+  unsigned int count;
+} Host_82EE1B38;
+extern int fn_82EE1048(void *, unsigned int, unsigned int *);
+extern int fn_82EE17C8(Host_82EE1B38 *, unsigned int, unsigned int);
 
-
-undefined8 fn_82EE1B38(int param_1,short *param_2,short *param_3,short param_4,undefined8 param_5)
-
+int fn_82EE1B38(Host_82EE1B38 *h, unsigned short *a, unsigned short *b, unsigned short n, unsigned int out)
 {
-  short *psVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  short sVar4;
-  ulonglong uVar5;
-  uint auStack_50;
-  
-  if ((int)param_5 != 0) {
-    sVar4 = 0;
-    uVar5 = 0;
-    if (*(int *)(param_1 + 0x254) != 0) {
+  unsigned short seen;
+  unsigned int i;
+  unsigned int tmp;
+  int hr;
+  unsigned short *e;
+
+  if (out != 0) {
+    seen = 0;
+    i = 0;
+    if (h->count > 0) {
       do {
-        uVar2 = fn_82EE1048(param_1 + 0x48,uVar5,&auStack_50);
-        uVar2 = ((uVar2 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)auStack_50;
-        if (uVar2 == 0) {
-          return 0xffffffffc00d36bb;
+        hr = fn_82EE1048(h->sub, i, &tmp);
+        e = (hr >= 0) ? (unsigned short *)tmp : 0;
+        if (e == 0) {
+          return (int)0xc00d36bb;
         }
-        psVar1 = (short *)uVar2;
-        if (((param_2 == (short *)0x0) || (*param_2 == psVar1[1])) &&
-           ((param_3 == (short *)0x0 || (*param_3 == *psVar1)))) {
-          if (sVar4 == param_4) {
-            uVar3 = fn_82EE17C8(param_1,uVar5 & 0xffff,param_5);
-            return uVar3;
+        if ((a == 0 || *a == e[1]) && (b == 0 || *b == e[0])) {
+          if (seen == n) {
+            return fn_82EE17C8(h, i & 0xffff, out);
           }
-          sVar4 = sVar4 + 1;
+          seen = seen + 1;
         }
-        uVar5 = uVar5 + 1;
-      } while ((uVar5 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x254));
+        i++;
+      } while (i < h->count);
     }
   }
-  return 0xffffffff80070057;
+  return (int)0x80070057;
 }
-

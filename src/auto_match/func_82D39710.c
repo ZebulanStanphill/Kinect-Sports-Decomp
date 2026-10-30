@@ -25,42 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+struct Alloc_82D39710;
+typedef struct AVT_82D39710 {
+  int pad[4];
+  void (*dealloc)(struct Alloc_82D39710 *, void *, unsigned int, int);
+} AVT_82D39710;
+typedef struct Alloc_82D39710 {
+  AVT_82D39710 *vt;
+} Alloc_82D39710;
+typedef struct Router_82D39710 {
+  char pad[0x10];
+  Alloc_82D39710 *alloc;
+} Router_82D39710;
+typedef struct Arr_82D39710 {
+  void *data;
+  int size;
+  int capFlags;
+} Arr_82D39710;
+typedef struct Obj_82D39710 {
+  char pad[0x10];
+  Arr_82D39710 a;
+  Arr_82D39710 b;
+  Arr_82D39710 c;
+} Obj_82D39710;
+extern Router_82D39710 *fn_82CE5410(void);
 
-
-void fn_82D39710(int param_1)
-
+static void Clear(Arr_82D39710 *a, int kind)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  if ((*(uint *)(param_1 + 0x30) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x28),*(uint *)(param_1 + 0x30) & 0x3fffffff,2);
+  Alloc_82D39710 *al = fn_82CE5410()->alloc;
+  a->size = 0;
+  if ((a->capFlags & (int)0x80000000) == 0) {
+    al->vt->dealloc(al, a->data, a->capFlags & 0x3fffffff, kind);
   }
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  *(undefined4 *)(param_1 + 0x30) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  if ((*(uint *)(param_1 + 0x24) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x1c),*(uint *)(param_1 + 0x24) & 0x3fffffff,1);
-  }
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  if ((*(uint *)(param_1 + 0x18) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x10),*(uint *)(param_1 + 0x18) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0x80000000;
-  return;
+  a->data = 0;
+  a->capFlags = (int)0x80000000;
 }
 
+void fn_82D39710(Obj_82D39710 *o)
+{
+  Clear(&o->c, 2);
+  Clear(&o->b, 1);
+  Clear(&o->a, 2);
+}

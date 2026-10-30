@@ -25,37 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B6EA60();
+typedef struct Node_82B6EAE8 {
+  unsigned int id;
+  unsigned int a;
+  unsigned int b;
+  struct Node_82B6EAE8 *next;
+} Node_82B6EAE8;
+typedef struct List_82B6EAE8 {
+  Node_82B6EAE8 *head;
+  Node_82B6EAE8 *tail;
+  int count;
+} List_82B6EAE8;
+typedef struct Alloc_82B6EAE8 {
+  void *heap;
+  void *(*alloc)(void *, int);
+} Alloc_82B6EAE8;
+extern unsigned int fn_82B6EA60(Alloc_82B6EAE8 *);
 
-
-ulonglong fn_82B6EAE8(undefined4 *param_1,int *param_2,uint param_3,uint param_4)
-
+unsigned int fn_82B6EAE8(Alloc_82B6EAE8 *al, List_82B6EAE8 *l, unsigned int a, unsigned int b)
 {
-  uint *puVar1;
-  undefined4 *puVar3;
-  ulonglong uVar2;
-  
-  puVar1 = (uint *)*param_2;
-  while( true ) {
-    if (puVar1 == (uint *)0x0) {
-      puVar3 = (undefined4 *)(*(code *)param_1[1])(*param_1,0x10);
-      uVar2 = fn_82B6EA60(param_1);
-      puVar3[1] = param_3;
-      *puVar3 = (int)uVar2;
-      puVar3[2] = param_4;
-      if (*param_2 == 0) {
-        *param_2 = (int)puVar3;
-      }
-      else {
-        *(undefined4 **)(param_2[1] + 0xc) = puVar3;
-      }
-      param_2[1] = (int)puVar3;
-      param_2[2] = param_2[2] + 1;
-      return uVar2;
-    }
-    if ((puVar1[1] == param_3) && (puVar1[2] == param_4)) break;
-    puVar1 = (uint *)puVar1[3];
-  }
-  return (ulonglong)*puVar1;
-}
+  Node_82B6EAE8 *p;
+  Node_82B6EAE8 *n;
+  unsigned int id;
 
+  for (p = l->head; p != 0; p = p->next) {
+    if (p->a == a && p->b == b) {
+      return p->id;
+    }
+  }
+  n = (Node_82B6EAE8 *)al->alloc(al->heap, 0x10);
+  id = fn_82B6EA60(al);
+  n->a = a;
+  n->id = id;
+  n->b = b;
+  if (l->head == 0) {
+    l->head = n;
+  } else {
+    l->tail->next = n;
+  }
+  l->tail = n;
+  l->count = l->count + 1;
+  return id;
+}

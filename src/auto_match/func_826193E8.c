@@ -25,26 +25,42 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82553980();
-extern unsigned int lbl_821CAD0C;
+typedef struct Obj_826193E8 {
+  void *vt;
+  struct Ctx_826193E8 *ctx;
+  char pad[0xfd0 - 8];
+  int fd0;
+  void *fd4;
+  void *fd8;
+} Obj_826193E8;
+typedef struct Ctx_826193E8 {
+  char pad[0x1ac];
+  struct Ctx2_826193E8 *f1ac;
+} Ctx_826193E8;
+typedef struct Ctx2_826193E8 {
+  int pad;
+  struct Ctx3_826193E8 **f4;
+} Ctx2_826193E8;
+typedef struct Ctx3_826193E8 {
+  char pad[0x1a8];
+  int f1a8;
+} Ctx3_826193E8;
+extern void fn_8251FA58(void *);
+extern void fn_82553980(int, int);
+extern char lbl_821CAD0C[];
 
-
-void fn_826193E8(undefined4 *param_1)
-
+void fn_826193E8(Obj_826193E8 *o)
 {
-  *param_1 = &lbl_821CAD0C;
-  if (param_1[0x3f5] != 0) {
-    fn_8251FA58();
-    param_1[0x3f5] = 0;
+  o->vt = lbl_821CAD0C;
+  if (o->fd4 != 0) {
+    fn_8251FA58(o->fd4);
+    o->fd4 = 0;
   }
-  if (param_1[0x3f6] != 0) {
-    fn_8251FA58();
-    param_1[0x3f6] = 0;
+  if (o->fd8 != 0) {
+    fn_8251FA58(o->fd8);
+    o->fd8 = 0;
   }
-  if (param_1[0x3f4] != -1) {
-    fn_82553980(*(undefined4 *)(**(int **)(*(int *)(param_1[1] + 0x1ac) + 4) + 0x1a8));
+  if (o->fd0 != -1) {
+    fn_82553980((*o->ctx->f1ac->f4)->f1a8, o->fd0);
   }
-  return;
 }
-

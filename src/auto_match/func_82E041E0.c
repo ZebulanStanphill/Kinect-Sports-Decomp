@@ -1,79 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Alloc_82E041E0 { struct AllocVt_82E041E0 *vt; } Alloc_82E041E0;
+typedef struct AllocVt_82E041E0 { char pad[0x10]; void (*free_)(Alloc_82E041E0 *, void *, unsigned, int); } AllocVt_82E041E0;
+typedef struct Ctx_82E041E0 { char pad[0x10]; Alloc_82E041E0 *alloc; } Ctx_82E041E0;
+typedef struct Vec_82E041E0 { void *data; int size; int cap; } Vec_82E041E0;
+typedef struct Obj_82E041E0 { Vec_82E041E0 v[5]; } Obj_82E041E0;
+extern Ctx_82E041E0 *fn_82CE5410(void);
 
-
-void fn_82E041E0(undefined4 *param_1)
-
+static __inline void Clear_82E041E0(Vec_82E041E0 *v, int esz)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[0xd] = 0;
-  if ((param_1[0xe] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[0xc],param_1[0xe] & 0x3fffffff,1);
-  }
-  param_1[0xc] = 0;
-  param_1[0xe] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[10] = 0;
-  if ((param_1[0xb] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[9],param_1[0xb] & 0x3fffffff,2);
-  }
-  param_1[9] = 0;
-  param_1[0xb] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[7] = 0;
-  if ((param_1[8] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[6],param_1[8] & 0x3fffffff,4);
-  }
-  param_1[6] = 0;
-  param_1[8] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[4] = 0;
-  if ((param_1[5] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[3],param_1[5] & 0x3fffffff,4);
-  }
-  param_1[3] = 0;
-  param_1[5] = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,0x10);
-  }
-  *param_1 = 0;
-  param_1[2] = 0x80000000;
-  return;
+  Alloc_82E041E0 *a = fn_82CE5410()->alloc;
+  v->size = 0;
+  if ((v->cap & (int)0x80000000) == 0)
+    a->vt->free_(a, v->data, v->cap & 0x3fffffff, esz);
+  v->data = 0;
+  v->cap = 0x80000000;
 }
 
+void fn_82E041E0(Obj_82E041E0 *o)
+{
+  Clear_82E041E0(&o->v[4], 1);
+  Clear_82E041E0(&o->v[3], 2);
+  Clear_82E041E0(&o->v[2], 4);
+  Clear_82E041E0(&o->v[1], 4);
+  Clear_82E041E0(&o->v[0], 0x10);
+}

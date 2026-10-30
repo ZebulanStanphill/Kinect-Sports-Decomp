@@ -25,52 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC39C0();
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Ent_82AC3AA0 {
+  unsigned int a;
+  unsigned int b;
+  unsigned int c;
+} Ent_82AC3AA0;
+typedef struct Ctx_82AC3AA0 {
+  char pad[0x20];
+  unsigned int limit;
+} Ctx_82AC3AA0;
+extern int fn_82AC39C0(Ent_82AC3AA0 *, int, Ctx_82AC3AA0 *);
 
-
-uint fn_82AC3AA0(int param_1,int param_2,int param_3,int param_4)
-
+int fn_82AC3AA0(Ent_82AC3AA0 *tbl, int idx, int flag, Ctx_82AC3AA0 *ctx)
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  int iVar4;
-  struct { uint first; uint second; } stack_pair_30;
+  Ent_82AC3AA0 *e = tbl + idx;
+  unsigned int a = e->a;
+  unsigned int b;
+  unsigned int f[4];
+  unsigned int *p;
+  int i;
+  int r;
 
-  uint uStack_28;
-  uint uStack_24;
-  
-  iVar4 = param_2 * 0xc + param_1;
-  uVar2 = *(uint *)(param_2 * 0xc + param_1);
-  if (((((uVar2 & 0x40000) == 0) && ((uVar2 & 0x800) == 0)) &&
-      ((uVar2 >> 0xc & 0x3f) <= *(uint *)(param_4 + 0x20))) &&
-     ((uVar2 >> 5 & 0x3f) <= *(uint *)(param_4 + 0x20))) {
-    uVar1 = *(uint *)(iVar4 + 4);
-    stack_pair_30.first = uVar1 & 7;
-    stack_pair_30.second = uVar1 >> 3 & 7;
-    uStack_28 = uVar1 >> 6 & 7;
-    uStack_24 = uVar1 >> 9 & 7;
-    if ((((uVar2 & 0x80000) != 0) && (uVar1 = *(uint *)(iVar4 + 4), (uVar1 & 0x4000) == 0)) &&
-       ((uVar1 & 0xc00000) == 0)) {
-      iVar4 = 0;
-      puVar3 = &stack_pair_30.first;
-      do {
-        if (*puVar3 == 6) {
-          return 0x80004005;
+  if ((a & 0x40000) == 0 && (a & 0x800) == 0 &&
+      ((a >> 12) & 0x3f) <= ctx->limit && ((a >> 5) & 0x3f) <= ctx->limit) {
+    b = e->b;
+    f[0] = b & 7;
+    f[1] = (b >> 3) & 7;
+    f[2] = (b >> 6) & 7;
+    f[3] = (b >> 9) & 7;
+    if ((a & 0x80000) != 0 && ((b = tbl[idx].b) & 0x4000) == 0 && (b & 0xc00000) == 0) {
+      for (i = 0, p = f; i < 4; i++, p++) {
+        if (*p == 6) {
+          return (int)0x80004005;
         }
-        iVar4 = iVar4 + 1;
-        puVar3 = puVar3 + 1;
-      } while (iVar4 < 4);
-      if (((uVar2 & 0x6000000) != 0x6000000) && (((uVar1 & 0x40000000) == 0 || (param_3 != 0)))) {
-        uVar2 = fn_82AC39C0(param_1,param_2,param_4);
-        return (int)uVar2 >> 0x1f & uVar2;
+      }
+      if ((a & 0x6000000) != 0x6000000 && ((b & 0x40000000) == 0 || flag != 0)) {
+        r = fn_82AC39C0(tbl, idx, ctx);
+        return (r >> 31) & r;
       }
     }
   }
-  return 0x80004005;
+  return (int)0x80004005;
 }
-

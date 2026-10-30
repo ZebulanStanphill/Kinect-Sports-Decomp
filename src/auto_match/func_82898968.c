@@ -1,55 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82898770();
-extern int fn_82898878();
+typedef struct Iface_82898968 { struct IfaceVt_82898968 *vt; } Iface_82898968;
+typedef struct IfaceVt_82898968 {
+  char pad[4];
+  unsigned (*s4)(Iface_82898968 *);
+  char pad8[4];
+  unsigned (*sc)(Iface_82898968 *);
+  char pad10[4];
+  unsigned (*s14)(Iface_82898968 *);
+} IfaceVt_82898968;
+typedef struct Obj_82898968 { char pad[0x20]; unsigned f20; } Obj_82898968;
+typedef struct Arg_82898968 { char pad[0xb0]; unsigned fb0; } Arg_82898968;
+extern void fn_82898770(Obj_82898968 *, unsigned, int);
+extern void fn_82898878(Obj_82898968 *, int);
 
+#define C(o) ((Iface_82898968 *)(o)->f20)
 
-void fn_82898968(int param_1,int param_2)
-
+void fn_82898968(Obj_82898968 *o, Arg_82898968 *a)
 {
-  int iVar1;
-  
-  if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-     (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 4))(), iVar1 == 0)) {
-    if ((*(int **)(param_1 + 0x20) != (int *)0x0) &&
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0xc))(), iVar1 != 0)) {
-      fn_82898878(param_1,0);
+  if (o->f20 == 0 || C(o)->vt->s4(C(o)) == 0) {
+    if (o->f20 != 0 && C(o)->vt->sc(C(o)) != 0) {
+      fn_82898878(o, 0);
       return;
     }
-    if (*(int **)(param_1 + 0x20) == (int *)0x0) {
+    if (o->f20 == 0)
       return;
-    }
-    iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))();
-    if (iVar1 == 0) {
+    if (C(o)->vt->s14(C(o)) == 0)
       return;
-    }
   }
-  fn_82898770(param_1,*(undefined4 *)(param_2 + 0xb0),0);
-  return;
+  fn_82898770(o, a->fb0, 0);
 }
-

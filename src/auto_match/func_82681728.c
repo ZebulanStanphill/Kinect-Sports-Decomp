@@ -25,24 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82694548();
+typedef struct Str_82681728 {
+  int pad[2];
+  int refs;
+} Str_82681728;
+extern unsigned int strlen(const char *);
+extern Str_82681728 *fn_82694548(int, const char *, unsigned int, int);
 
-
-int * fn_82681728(int *param_1,undefined8 param_2,char *param_3)
-
+Str_82681728 **fn_82681728(Str_82681728 **out, int a, const char *s)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  
-  pcVar3 = param_3;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  iVar2 = fn_82694548(param_2,param_3,pcVar3 + (-1 - (int)param_3),0);
-  *param_1 = iVar2;
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  return param_1;
+  Str_82681728 *p = fn_82694548(a, s, strlen(s), 0);
+  *out = p;
+  p->refs = p->refs + 1;
+  return out;
 }
-

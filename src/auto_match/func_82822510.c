@@ -27,24 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82822510(int *param_1,code *param_2,undefined8 param_3,undefined4 *param_4)
+typedef int (*Pred_82822510)(void *, int);
+typedef struct Node_82822510 {
+  struct Node_82822510 *first;
+  struct Node_82822510 *next;
+} Node_82822510;
 
+void fn_82822510(Node_82822510 *h, Pred_82822510 pred, int arg, Node_82822510 **out)
 {
-  int iVar1;
-  
-  if (*param_1 == 0) {
-    param_1 = (int *)param_1[1];
+  Node_82822510 *n = h;
+  if (h->first == 0) {
+    n = h->next;
   }
-  *param_4 = 0;
-  while( true ) {
-    if (param_1 == (int *)0x0) {
+  *out = 0;
+  while (n != 0) {
+    if (pred(n, arg) != 0) {
+      *out = n;
       return;
     }
-    iVar1 = (*param_2)(param_1,param_3);
-    if (iVar1 != 0) break;
-    param_1 = (int *)param_1[1];
+    n = n->next;
   }
-  *param_4 = param_1;
-  return;
 }
-

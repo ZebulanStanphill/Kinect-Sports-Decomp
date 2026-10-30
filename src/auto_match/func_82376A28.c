@@ -25,51 +25,69 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
-extern unsigned int lbl_821B445C;
-extern unsigned int lbl_821CC160;
+typedef struct Obj_82376A28 {
+  void *vt;
+  int f4;
+  int f8;
+  float fc;
+  float f10;
+  int f14, f18, f1c, f20, f24, f28, f2c, f30, f34, f38, f3c, f40, f44;
+  int f48;
+  int f4c;
+} Obj_82376A28;
+typedef struct Block_82376A28 {
+  void *vt;
+  int uses;
+  int weaks;
+  Obj_82376A28 obj;
+} Block_82376A28;
+typedef struct Ptr_82376A28 {
+  Obj_82376A28 *p;
+  Block_82376A28 *blk;
+} Ptr_82376A28;
+extern void *fn_8265C9E0(unsigned int);
+extern char lbl_821AD588[];
+extern char lbl_821B445C[];
+extern float lbl_821CC160;
 
-
-undefined4 * fn_82376A28(undefined4 *param_1,undefined4 param_2)
-
+Ptr_82376A28 *fn_82376A28(Ptr_82376A28 *out, int a)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)fn_8265C9E0(0x5c);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    puVar2[1] = 1;
-    *puVar2 = &lbl_821AD588;
-    puVar2[2] = 1;
-    if (puVar2 + 3 != (undefined4 *)0x0) {
-      puVar2[5] = param_2;
-      puVar2[8] = 0;
-      uVar1 = lbl_821CC160;
-      puVar2[4] = 0xf;
-      puVar2[6] = uVar1;
-      puVar2[3] = &lbl_821B445C;
-      puVar2[7] = uVar1;
-      puVar2[9] = 0;
-      puVar2[10] = 0;
-      puVar2[0xb] = 0;
-      puVar2[0xc] = 0;
-      puVar2[0xd] = 0;
-      puVar2[0xe] = 0;
-      puVar2[0xf] = 0;
-      puVar2[0x10] = 0;
-      puVar2[0x11] = 0;
-      puVar2[0x12] = 0;
-      puVar2[0x13] = 0;
-      puVar2[0x14] = 0;
-      puVar2[0x16] = 0;
-    }
-  }
-  param_1[1] = puVar2;
-  *param_1 = puVar2 + 3;
-  return param_1;
-}
+  Block_82376A28 *blk;
+  Obj_82376A28 *b;
+  float g;
 
+  blk = (Block_82376A28 *)fn_8265C9E0(0x5c);
+  if (blk != 0) {
+    blk->uses = 1;
+    blk->vt = lbl_821AD588;
+    blk->weaks = 1;
+    b = &blk->obj;
+    if (b != 0) {
+      b->f8 = a;
+      b->f14 = 0;
+      g = lbl_821CC160;
+      b->f4 = 0xf;
+      b->fc = g;
+      b->vt = lbl_821B445C;
+      b->f10 = g;
+      b->f18 = 0;
+      b->f1c = 0;
+      b->f20 = 0;
+      b->f24 = 0;
+      b->f28 = 0;
+      b->f2c = 0;
+      b->f30 = 0;
+      b->f34 = 0;
+      b->f38 = 0;
+      b->f3c = 0;
+      b->f40 = 0;
+      b->f44 = 0;
+      b->f4c = 0;
+    }
+  } else {
+    blk = 0;
+  }
+  out->blk = blk;
+  out->p = &blk->obj;
+  return out;
+}

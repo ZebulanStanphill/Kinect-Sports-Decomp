@@ -25,44 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C8EE8();
+typedef struct jerr_827C0A70 {
+  void (*error_exit)(void *);
+  void *emit_message;
+  void *output_message;
+  void *format_message;
+  void *reset_error_mgr;
+  int msg_code;
+  union { int i[8]; char s[80]; } msg_parm;
+} jerr_827C0A70;
+typedef struct large_hdr_827C0A70 {
+  struct large_hdr_827C0A70 *next;
+  unsigned int bytes_used;
+  unsigned int bytes_left;
+  unsigned int pad;
+} large_hdr_827C0A70;
+typedef struct jmem_827C0A70 {
+  char pad[0x3c];
+  large_hdr_827C0A70 *large_list[2];
+  char pad2[0x4c - 0x44];
+  unsigned int total_space_allocated;
+} jmem_827C0A70;
+typedef struct jcommon_827C0A70 {
+  jerr_827C0A70 *err;
+  jmem_827C0A70 *mem;
+} jcommon_827C0A70;
+extern void *fn_827C8EE8(jcommon_827C0A70 *, unsigned int);
 
+#define ERREXIT1(cinfo, code, p1) \
+  ((cinfo)->err->msg_code = (code), (cinfo)->err->msg_parm.i[0] = (p1), \
+   (*(cinfo)->err->error_exit)((cinfo)))
 
-undefined4 * fn_827C0A70(int *param_1,int param_2,ulonglong param_3)
-
+static void out_of_memory(jcommon_827C0A70 *cinfo, int which)
 {
-  int iVar1;
-  undefined4 uVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  
-  iVar1 = param_1[1];
-  if (0x3b9ac9f0 < (uint)param_3) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x36;
-    *(undefined4 *)(*param_1 + 0x18) = 3;
-    (**(code **)*param_1)();
-  }
-  if ((param_3 & 7) != 0) {
-    param_3 = (param_3 - (param_3 & 7)) + 8;
-  }
-  if ((param_2 < 0) || (1 < param_2)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xe;
-    *(int *)(*param_1 + 0x18) = param_2;
-    (**(code **)*param_1)(param_1);
-  }
-  puVar4 = (undefined4 *)fn_827C8EE8(param_1,param_3 + 0x10);
-  if (puVar4 == (undefined4 *)0x0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x36;
-    *(undefined4 *)(*param_1 + 0x18) = 4;
-    (**(code **)*param_1)(param_1);
-  }
-  iVar3 = (param_2 + 0xf) * 4;
-  *(int *)(iVar1 + 0x4c) = (int)param_3 + *(int *)(iVar1 + 0x4c) + 0x10;
-  uVar2 = *(undefined4 *)(iVar3 + iVar1);
-  puVar4[1] = (int)param_3;
-  puVar4[2] = 0;
-  *puVar4 = uVar2;
-  *(undefined4 **)(iVar3 + iVar1) = puVar4;
-  return puVar4 + 4;
+  ERREXIT1(cinfo, 0x36, which);
 }
 
+void *fn_827C0A70(jcommon_827C0A70 *cinfo, int pool_id, unsigned int sizeofobject)
+{
+  jmem_827C0A70 *mem = cinfo->mem;
+  large_hdr_827C0A70 *hdr_ptr;
+  unsigned int odd_bytes;
+
+  if (sizeofobject > 1000000000 - 16)
+    out_of_memory(cinfo, 3);
+  odd_bytes = sizeofobject % 8;
+  if (odd_bytes > 0)
+    sizeofobject += 8 - odd_bytes;
+  if (pool_id < 0 || pool_id >= 2)
+    ERREXIT1(cinfo, 14, pool_id);
+  hdr_ptr = (large_hdr_827C0A70 *)fn_827C8EE8(cinfo, sizeofobject + 16);
+  if (hdr_ptr == 0)
+    out_of_memory(cinfo, 4);
+  mem->total_space_allocated += sizeofobject + 16;
+  hdr_ptr->next = mem->large_list[pool_id];
+  hdr_ptr->bytes_used = sizeofobject;
+  hdr_ptr->bytes_left = 0;
+  mem->large_list[pool_id] = hdr_ptr;
+  return (void *)(hdr_ptr + 1);
+}

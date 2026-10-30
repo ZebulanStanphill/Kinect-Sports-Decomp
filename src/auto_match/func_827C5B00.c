@@ -25,75 +25,69 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C5428();
-extern int fn_827C5690();
+typedef unsigned char boolean;
+typedef struct jerr_827C5B00 {
+  void *error_exit;
+  void (*emit_message)(void *, int);
+  void *output_message;
+  void *format_message;
+  void *reset_error_mgr;
+  int msg_code;
+} jerr_827C5B00;
+typedef struct comp_827C5B00 {
+  char pad0[0x10];
+  int quant_tbl_no;
+  int dc_tbl_no;
+  int ac_tbl_no;
+  char pad1[0x54 - 0x1c];
+} comp_827C5B00;
+typedef struct jcompress_827C5B00 {
+  jerr_827C5B00 *err;
+  char pad4[0x38 - 4];
+  int data_precision;
+  int num_components;
+  char pad40[0x44 - 0x40];
+  comp_827C5B00 *comp_info;
+  char pad48[0xb1 - 0x48];
+  boolean arith_code;
+  char padb2[0xd4 - 0xb2];
+  boolean progressive_mode;
+} jcompress_827C5B00;
+extern int fn_827C5428(jcompress_827C5B00 *, int);
+extern void fn_827C5690(jcompress_827C5B00 *, int);
 
-
-void fn_827C5B00(int *param_1)
-
+void fn_827C5B00(jcompress_827C5B00 *cinfo)
 {
-  bool bVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  undefined4 *puVar7;
-  int iVar8;
-  
-  iVar5 = param_1[0xf];
-  iVar6 = 0;
-  iVar8 = 0;
-  if (0 < iVar5) {
-    puVar7 = (undefined4 *)(param_1[0x11] + -0x44);
-    iVar6 = 0;
-    do {
-      puVar7 = puVar7 + 0x15;
-      iVar2 = fn_827C5428(param_1,*puVar7);
-      iVar5 = param_1[0xf];
-      iVar8 = iVar8 + 1;
-      iVar6 = iVar2 + iVar6;
-    } while (iVar8 < iVar5);
-  }
-  if (*(char *)((int)param_1 + 0xb1) == '\0') {
-    if ((*(char *)(param_1 + 0x35) == '\0') && (param_1[0xe] == 8)) {
-      bVar1 = true;
-      iVar8 = 0;
-      if (0 < iVar5) {
-        piVar4 = (int *)(param_1[0x11] + 0x18);
-        do {
-          if ((1 < piVar4[-1]) || (1 < *piVar4)) {
-            bVar1 = false;
-          }
-          iVar8 = iVar8 + 1;
-          piVar4 = piVar4 + 0x15;
-        } while (iVar8 < iVar5);
-      }
-      if ((iVar6 != 0) && (bVar1)) {
-        bVar1 = false;
-        *(undefined4 *)(*param_1 + 0x14) = 0x4b;
-        (**(code **)(*param_1 + 4))(param_1,0);
-      }
-      goto LAB_827c5bf4;
-    }
-  }
-  bVar1 = false;
-LAB_827c5bf4:
-  if (*(char *)((int)param_1 + 0xb1) == '\0') {
-    if (*(char *)(param_1 + 0x35) == '\0') {
-      uVar3 = 0xc0;
-      if (!bVar1) {
-        uVar3 = 0xc1;
-      }
-    }
-    else {
-      uVar3 = 0xc2;
-    }
-  }
-  else {
-    uVar3 = 0xc9;
-  }
-  fn_827C5690(param_1,uVar3);
-  return;
-}
+  int ci, prec;
+  boolean is_baseline;
+  comp_827C5B00 *compptr;
 
+  prec = 0;
+  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+    prec += fn_827C5428(cinfo, compptr->quant_tbl_no);
+  }
+  if (cinfo->arith_code || cinfo->progressive_mode || cinfo->data_precision != 8) {
+    is_baseline = 0;
+  } else {
+    is_baseline = 1;
+    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+      if (compptr->dc_tbl_no > 1 || compptr->ac_tbl_no > 1)
+        is_baseline = 0;
+    }
+    if (prec && is_baseline) {
+      is_baseline = 0;
+      cinfo->err->msg_code = 75;
+      (*cinfo->err->emit_message)(cinfo, 0);
+    }
+  }
+  if (cinfo->arith_code) {
+    fn_827C5690(cinfo, 0xc9);
+  } else {
+    if (cinfo->progressive_mode)
+      fn_827C5690(cinfo, 0xc2);
+    else if (is_baseline)
+      fn_827C5690(cinfo, 0xc0);
+    else
+      fn_827C5690(cinfo, 0xc1);
+  }
+}

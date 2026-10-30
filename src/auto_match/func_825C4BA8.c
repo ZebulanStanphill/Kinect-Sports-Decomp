@@ -1,69 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
+typedef struct Info_825C4BA8 { unsigned id; } Info_825C4BA8;
+typedef struct Obj_825C4BA8 { struct ObjVt_825C4BA8 *vt; Info_825C4BA8 *info; } Obj_825C4BA8;
+typedef struct ObjVt_825C4BA8 { void *s0, *s4, *s8; void (*sc)(Obj_825C4BA8 *, int); } ObjVt_825C4BA8;
+typedef struct Ref_825C4BA8 { int pad; int count; } Ref_825C4BA8;
+typedef struct Node_825C4BA8 { Obj_825C4BA8 *obj; char pad[0xc]; Ref_825C4BA8 *ref; struct Node_825C4BA8 *next; } Node_825C4BA8;
+typedef struct Owner_825C4BA8 { char pad[8]; Node_825C4BA8 *head; } Owner_825C4BA8;
+extern void fn_82522ED8(Node_825C4BA8 *);
 
-
-undefined8 fn_825C4BA8(int param_1,int *param_2)
-
+int fn_825C4BA8(Owner_825C4BA8 *o, unsigned *key)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-    piVar1 = *(int **)(param_1 + 8);
-    piVar3 = (int *)0x0;
-    do {
-      piVar4 = piVar1;
-      if (**(int **)(*piVar4 + 4) == *param_2) {
-        if (piVar3 == (int *)0x0) {
-          *(int *)(param_1 + 8) = piVar4[5];
-        }
-        else {
-          piVar3[5] = piVar4[5];
-        }
-        piVar1 = (int *)*piVar4;
-        if (piVar1 != (int *)0x0) {
-          (**(code **)(*piVar1 + 0xc))(piVar1,1);
-        }
-        iVar2 = piVar4[4];
-        if (iVar2 != 0) {
-          *(int *)(iVar2 + 4) = *(int *)(iVar2 + 4) + -1;
-          piVar4[4] = 0;
-        }
-        fn_82522ED8(piVar4);
-        return 1;
+  Node_825C4BA8 *cur, *prev;
+  prev = 0;
+  for (cur = o->head; cur != 0; prev = cur, cur = cur->next) {
+    if (cur->obj->info->id == *key) {
+      Obj_825C4BA8 *obj;
+      Ref_825C4BA8 *ref;
+      if (prev != 0)
+        prev->next = cur->next;
+      else
+        o->head = cur->next;
+      obj = cur->obj;
+      if (obj != 0)
+        obj->vt->sc(obj, 1);
+      ref = cur->ref;
+      if (ref != 0) {
+        ref->count--;
+        cur->ref = 0;
       }
-      piVar1 = (int *)piVar4[5];
-      piVar3 = piVar4;
-    } while ((int *)piVar4[5] != (int *)0x0);
+      fn_82522ED8(cur);
+      return 1;
+    }
   }
   return 0;
 }
-

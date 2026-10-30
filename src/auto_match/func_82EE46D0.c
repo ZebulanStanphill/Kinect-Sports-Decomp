@@ -1,75 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E3C5F8();
-extern int fn_82EE3360();
-extern int fn_82EE3630();
+typedef struct Elem_82EE46D0 { char pad[0x40]; unsigned count; } Elem_82EE46D0;
+typedef struct Obj_82EE46D0 { char pad[0xc]; unsigned fc; char pad10[0x38]; char c48[0x68]; unsigned fb0; } Obj_82EE46D0;
+extern int fn_82E3C5F8(void *, unsigned, unsigned short **);
+extern int fn_82EE3360(Elem_82EE46D0 *, unsigned);
+extern void fn_82EE3630(void *, unsigned, void *);
 
-
-undefined8 fn_82EE46D0(int param_1,uint param_2,short param_3)
-
+int fn_82EE46D0(Obj_82EE46D0 *o, unsigned idx, unsigned short key)
 {
-  int iVar1;
-  undefined8 uVar2;
-  int iVar3;
-  ulonglong uVar4;
-  int *piStack_40;
-  undefined4 *puStack_3c;
-  int *apiStack_38 [2];
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar2 = 0xffffffffc00d36b6;
-  }
-  else {
-    param_2 = param_2 & 0xffff;
-    if (param_2 < *(uint *)(param_1 + 0xb0)) {
-      param_1 = param_1 + 0x48;
-      uVar4 = 0;
-      fn_82EE3630(param_1,param_2,&piStack_40);
-      if (*(int *)(*piStack_40 + 0x40) != 0) {
-        do {
-          fn_82EE3630(param_1,param_2,&puStack_3c);
-          fn_82E3C5F8(*puStack_3c,uVar4,apiStack_38);
-          if (*(short *)apiStack_38[0] == param_3) {
-            fn_82EE3630(param_1,param_2,apiStack_38);
-            iVar1 = *apiStack_38[0];
-            if (((uVar4 + 1 & 0xffffffff) <= (ulonglong)*(uint *)(iVar1 + 0x40)) &&
-               (iVar3 = fn_82EE3360(iVar1,uVar4), -1 < iVar3)) {
-              *(int *)(iVar1 + 0x40) = *(int *)(iVar1 + 0x40) + -1;
-            }
-            return 0;
+  struct { Elem_82EE46D0 **p1; Elem_82EE46D0 **p2; union { unsigned short *s; Elem_82EE46D0 **p; } q; } l;
+  Elem_82EE46D0 *e;
+  unsigned i, n;
+  void *c;
+  if (o->fc == 0)
+    return 0xc00d36b6;
+  idx = idx & 0xffff;
+  if (idx < o->fb0) {
+    c = o->c48;
+    i = 0;
+    fn_82EE3630(c, idx, &l.p1);
+    if ((*l.p1)->count > 0) {
+      do {
+        fn_82EE3630(c, idx, &l.p2);
+        fn_82E3C5F8(*l.p2, i, &l.q.s);
+        if (*l.q.s == key) {
+          fn_82EE3630(c, idx, &l.q);
+          e = *l.q.p;
+          if (i + 1 <= e->count) {
+            n = 0;
+            do {
+              if ((int)fn_82EE3360(e, i) < 0)
+                break;
+              e->count--;
+              n++;
+            } while (n < 1);
           }
-          uVar4 = uVar4 + 1;
-          fn_82EE3630(param_1,param_2,&piStack_40);
-        } while ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(*piStack_40 + 0x40));
-      }
+          return 0;
+        }
+        i++;
+        fn_82EE3630(c, idx, &l.p1);
+      } while (i < (*l.p1)->count);
     }
-    uVar2 = 0xffffffffc00d36d5;
   }
-  return uVar2;
+  return 0xc00d36d5;
 }
-

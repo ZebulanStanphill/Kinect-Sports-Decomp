@@ -25,57 +25,60 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82230300();
-extern int fn_82230360();
-extern int fn_82240378();
+typedef struct SB_822403C8 {
+  char pad0[0x10];
+  unsigned int *f10;
+  unsigned int *f14;
+  char pad18[0x20 - 0x18];
+  int *f20;
+  int *f24;
+  char pad28[0x30 - 0x28];
+  unsigned int *f30;
+  char pad34[0x3c - 0x34];
+  unsigned int f3c;
+  unsigned int state;
+} SB_822403C8;
+extern void fn_82230300(void *, int, int);
+extern void fn_82230360(void *, unsigned int, unsigned int);
+extern void fn_82240378(void *, void *);
 
-
-undefined8 fn_822403C8(undefined8 param_1,int param_2)
-
+void *fn_822403C8(void *ret, SB_822403C8 *sb)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined1 *puVar4;
-  ulonglong uVar5;
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [32];
-  undefined1 auStack_40 [64];
-  
-  if ((*(uint *)(param_2 + 0x40) & 2) == 0) {
-    uVar1 = **(uint **)(param_2 + 0x24);
-    if (uVar1 != 0) {
-      uVar5 = (ulonglong)uVar1;
-      if ((ulonglong)uVar1 <= (ulonglong)*(uint *)(param_2 + 0x3c)) {
-        uVar5 = (ulonglong)*(uint *)(param_2 + 0x3c);
+  char s1[32];
+  char s2[32];
+  char s3[32];
+  char *s;
+  int p;
+  unsigned int end, base, hi, lo;
+
+  if ((sb->state & 2) == 0) {
+    p = *sb->f24;
+    if (p != 0) {
+      end = p;
+      if (sb->f3c >= (unsigned int)p) {
+        end = sb->f3c;
       }
-      uVar1 = **(uint **)(param_2 + 0x14);
-      fn_82230300(auStack_80,0,0);
-      fn_82230360(auStack_80,(ulonglong)uVar1,uVar5 - uVar1);
-      fn_82240378(param_1,auStack_80);
-      puVar4 = auStack_80;
-      goto LAB_822404c8;
+      base = *sb->f14;
+      fn_82230300(s1, 0, 0);
+      fn_82230360(s1, base, end - base);
+      fn_82240378(ret, s1);
+      s = s1;
+      goto done;
     }
   }
-  if (((*(uint *)(param_2 + 0x40) & 4) == 0) && (uVar1 = **(uint **)(param_2 + 0x20), uVar1 != 0)) {
-    uVar2 = **(uint **)(param_2 + 0x10);
-    uVar3 = **(uint **)(param_2 + 0x30);
-    fn_82230300(auStack_60,0,0);
-    fn_82230360(auStack_60,(ulonglong)uVar2,
-                      ((ulonglong)uVar3 - (ulonglong)uVar2) + (ulonglong)uVar1);
-    fn_82240378(param_1,auStack_60);
-    puVar4 = auStack_60;
+  if ((sb->state & 4) == 0 && (p = *sb->f20) != 0) {
+    lo = *sb->f10;
+    hi = (*sb->f30 - lo) + p;
+    fn_82230300(s2, 0, 0);
+    fn_82230360(s2, lo, hi);
+    fn_82240378(ret, s2);
+    s = s2;
+  } else {
+    fn_82230300(s3, 0, 0);
+    fn_82240378(ret, s3);
+    s = s3;
   }
-  else {
-    fn_82230300(auStack_40,0,0);
-    fn_82240378(param_1,auStack_40);
-    puVar4 = auStack_40;
-  }
-LAB_822404c8:
-  fn_82230300(puVar4,1,0);
-  return param_1;
+done:
+  fn_82230300(s, 1, 0);
+  return ret;
 }
-

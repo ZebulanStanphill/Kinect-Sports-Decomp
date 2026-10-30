@@ -25,36 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEAC20();
-extern int fn_82CFBBF0();
-extern int fn_82E0F0E0();
+typedef struct Find_82E16040 {
+  int f0, f4, f8;
+  unsigned int *list;
+  int f10;
+  int init;
+} Find_82E16040;
+extern int fn_82CEAC20(unsigned int);
+extern int fn_82CFBBF0(int, int);
+extern void fn_82E0F0E0(unsigned int *, int);
 
-
-undefined4 fn_82E16040(int param_1,undefined8 param_2)
-
+unsigned int fn_82E16040(Find_82E16040 *o, int key)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x14) == 0) {
-    fn_82E0F0E0(*(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x10));
-    *(undefined4 *)(param_1 + 0x14) = 1;
+  int i;
+  if (o->init == 0) {
+    fn_82E0F0E0(o->list, o->f10);
+    o->init = 1;
   }
-  iVar3 = 0;
-  if (**(int **)(param_1 + 0xc) != 0) {
-    iVar4 = 0;
-    do {
-      uVar1 = fn_82CEAC20(*(undefined4 *)(*(int *)(param_1 + 0xc) + iVar4));
-      iVar2 = fn_82CFBBF0(param_2,uVar1);
-      if (iVar2 == 0) {
-        return *(undefined4 *)(*(int *)(param_1 + 0xc) + iVar4);
-      }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar3 * 4;
-    } while (*(int *)(*(int *)(param_1 + 0xc) + iVar4) != 0);
+  for (i = 0; o->list[i] != 0; i++) {
+    if (fn_82CFBBF0(key, fn_82CEAC20(o->list[i])) == 0) {
+      return o->list[i];
+    }
   }
   return 0;
 }
-

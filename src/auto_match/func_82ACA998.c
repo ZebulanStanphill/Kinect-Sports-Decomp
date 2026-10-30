@@ -25,61 +25,65 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC8910();
-extern int fn_82ADD198();
-extern int fn_82ADD590();
-extern int fn_82ADD600();
+typedef struct Rec_82ACA998 {
+  char pad[0xc0];
+  unsigned int fc0;
+} Rec_82ACA998;
+typedef struct Host_82ACA998 {
+  char pad[0x29c];
+  unsigned int count;
+  unsigned int f2a0;
+  char pad2a4[0x2c4 - 0x2a4];
+  void **items;
+} Host_82ACA998;
+typedef struct A_82ACA998 {
+  char pad[0x58];
+  unsigned int f58;
+} A_82ACA998;
+typedef struct B_82ACA998 {
+  char pad[0x12];
+  unsigned short f12;
+} B_82ACA998;
+extern unsigned int fn_82ADD198(Host_82ACA998 *, unsigned int);
+extern unsigned int fn_82AC8910(unsigned int, unsigned int, unsigned int);
+extern Rec_82ACA998 *fn_82ADD600(Host_82ACA998 *, unsigned int);
+extern unsigned int fn_82ADD590(Host_82ACA998 *, unsigned int);
 
-
-uint fn_82ACA998(int param_1,int param_2,int param_3)
-
+unsigned int fn_82ACA998(Host_82ACA998 *h, A_82ACA998 *a, B_82ACA998 *b)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  int iVar7;
-  uint uVar8;
-  
-  uVar6 = 0;
-  if ((*(int *)(param_2 + 0x58) != 0) &&
-     (uVar8 = (uint)*(ushort *)(param_3 + 0x12), uVar8 < *(uint *)(param_1 + 0x29c))) {
-    iVar7 = uVar8 << 2;
+  unsigned int r = 0;
+  unsigned int i, j, k, n;
+  void *e;
+  Rec_82ACA998 *rec;
+
+  if (a->f58 != 0 && (i = b->f12) < h->count) {
     do {
-      iVar4 = *(int *)(iVar7 + *(int *)(param_1 + 0x2c4));
-      if (iVar4 != 0) {
-        if (iVar4 != param_3) {
-          return uVar6;
+      e = h->items[i];
+      if (e != 0) {
+        if (e != b) {
+          return r;
         }
-        uVar1 = fn_82ADD198(param_1,uVar8);
-        uVar2 = fn_82AC8910(*(undefined4 *)(param_2 + 0x58),0,*(undefined4 *)(param_1 + 0x2a0));
-        if ((uVar2 & 0xffffffff) <= (ulonglong)(*(int *)(param_1 + 0x29c) - 1)) {
+        k = fn_82ADD198(h, i);
+        j = fn_82AC8910(a->f58, 0, h->f2a0);
+        if (j <= h->count - 1) {
           do {
-            uVar3 = fn_82ADD198(param_1,uVar2);
-            if ((uVar3 & 0xffffffff) == (uVar1 & 0xffffffff)) {
-              iVar4 = fn_82ADD600(param_1,uVar1);
-              uVar5 = fn_82ADD590(param_1,uVar1);
-              uVar6 = 1 << ((*(uint *)(iVar4 + 0xc0) >> 0xe & 0xff) >> ((uVar5 & 0x1f) << 1) & 3) |
-                      uVar6;
+            if (fn_82ADD198(h, j) == k) {
+              rec = fn_82ADD600(h, k);
+              n = fn_82ADD590(h, k);
+              r = (1 << (((rec->fc0 >> 14) & 0xff) >> (n << 1) & 3)) | r;
               break;
             }
-            uVar5 = *(int *)(param_1 + 0x29c) - 1;
-            if ((uVar2 & 0xffffffff) == (ulonglong)uVar5) {
-              uVar2 = 0xffffffffffffffff;
+            n = h->count - 1;
+            if (j == n) {
+              j = (unsigned int)-1;
+            } else {
+              j = fn_82AC8910(a->f58, j + 1, h->f2a0);
             }
-            else {
-              uVar2 = fn_82AC8910(*(undefined4 *)(param_2 + 0x58),uVar2 + 1,
-                                   *(undefined4 *)(param_1 + 0x2a0));
-            }
-          } while ((uVar2 & 0xffffffff) <= (ulonglong)uVar5);
+          } while (j <= n);
         }
       }
-      uVar8 = uVar8 + 1;
-      iVar7 = iVar7 + 4;
-    } while (uVar8 < *(uint *)(param_1 + 0x29c));
+      i++;
+    } while (i < h->count);
   }
-  return uVar6;
+  return r;
 }
-

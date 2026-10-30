@@ -1,143 +1,103 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C25F0();
-extern unsigned int uStack_64;
+typedef unsigned char boolean;
+typedef unsigned JDIMENSION;
+typedef short JCOEF;
+typedef JCOEF JBLOCK[64];
+typedef JBLOCK *JBLOCKROW;
+typedef JBLOCKROW *JBLOCKARRAY;
+typedef struct jdinfo_827C2880 *j_decompress_ptr;
+typedef struct jdinfo_827C2880 *j_common_ptr;
+typedef struct jvirt_82 *jvirt_barray_ptr;
+struct jmem_827C2880 {
+  char pad[0x20];
+  JBLOCKARRAY (*access_virt_barray)(j_common_ptr, jvirt_barray_ptr, JDIMENSION, JDIMENSION, boolean);
+};
+struct jcomp_827C2880 {
+  char pad0[4];
+  int component_index;
+  char pad8[4];
+  int v_samp_factor;
+  char pad10[0x24];
+  int MCU_width;
+  int MCU_height;
+};
+struct jentropy_827C2880 {
+  void *start_pass;
+  boolean (*decode_mcu)(j_decompress_ptr, JBLOCKROW *);
+};
+struct jinputctl_827C2880 {
+  void *consume_input;
+  void *reset_input_controller;
+  void *start_input_pass;
+  void (*finish_input_pass)(j_decompress_ptr);
+};
+struct coef_827C2880 {
+  char pub[0x14];
+  JDIMENSION MCU_ctr;
+  int MCU_vert_offset;
+  int MCU_rows_per_iMCU_row;
+  JBLOCKROW MCU_buffer[10];
+  jvirt_barray_ptr whole_image[4];
+};
+struct jdinfo_827C2880 {
+  void *err;
+  struct jmem_827C2880 *mem;
+  char pad8[0x78];
+  JDIMENSION input_iMCU_row;
+  char pad84[0x98];
+  JDIMENSION total_iMCU_rows;
+  char pad120[4];
+  int comps_in_scan;
+  struct jcomp_827C2880 *cur_comp_info[4];
+  JDIMENSION MCUs_per_row;
+  char pad13c[0x4c];
+  struct coef_827C2880 *coef;
+  void *p18c;
+  struct jinputctl_827C2880 *inputctl;
+  void *p194;
+  struct jentropy_827C2880 *entropy;
+};
+extern void fn_827C25F0(j_decompress_ptr);
 
-
-undefined8 fn_827C2880(int param_1)
-
+int fn_827C2880(j_decompress_ptr cinfo)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar4;
-  char cVar5;
-  undefined8 uVar3;
-  int iVar6;
-  int *piVar7;
-  int *piVar8;
-  int iVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  int iVar13;
-  int iVar14;
-  undefined4 *puVar15;
-  uint uVar16;
-  int *piVar17;
-  int iVar18;
-  int iVar19;
-  int *piVar20;
-  undefined4 uStack_64;
-  int aiStack_60 [24];
-  
-  iVar1 = *(int *)(param_1 + 0x188);
-  iVar19 = 0;
-  if (0 < *(int *)(param_1 + 0x124)) {
-    piVar17 = (int *)(param_1 + 0x124);
-    puVar15 = &uStack_64;
-    do {
-      piVar17 = piVar17 + 1;
-      iVar13 = *(int *)(*piVar17 + 0xc);
-      uVar4 = (**(code **)(*(int *)(param_1 + 4) + 0x20))
-                        (param_1,*(undefined4 *)((*(int *)(*piVar17 + 4) + 0x12) * 4 + iVar1),
-                         (longlong)*(int *)(param_1 + 0x80) * (longlong)iVar13,iVar13,1);
-      iVar13 = *(int *)(param_1 + 0x124);
-      puVar15 = puVar15 + 1;
-      *puVar15 = uVar4;
-      iVar19 = iVar19 + 1;
-    } while (iVar19 < iVar13);
-  }
-  iVar19 = *(int *)(iVar1 + 0x18);
-  if (iVar19 < *(int *)(iVar1 + 0x1c)) {
-    iVar13 = iVar19 << 2;
-    do {
-      uVar16 = *(uint *)(iVar1 + 0x14);
-      if (uVar16 < *(uint *)(param_1 + 0x138)) {
-        do {
-          iVar18 = 0;
-          iVar14 = 0;
-          if (0 < *(int *)(param_1 + 0x124)) {
-            piVar20 = aiStack_60;
-            piVar17 = (int *)(param_1 + 0x128);
-            do {
-              iVar2 = *piVar17;
-              iVar6 = 0;
-              iVar12 = *(int *)(iVar2 + 0x34);
-              iVar10 = iVar12 * uVar16;
-              if (0 < *(int *)(iVar2 + 0x38)) {
-                piVar7 = (int *)(iVar13 + *piVar20);
-                do {
-                  iVar11 = 0;
-                  iVar9 = *piVar7 + iVar10 * 0x80;
-                  if (0 < iVar12) {
-                    piVar8 = (int *)((iVar18 + 7) * 4 + iVar1);
-                    do {
-                      iVar11 = iVar11 + 1;
-                      piVar8 = piVar8 + 1;
-                      *piVar8 = iVar9;
-                      iVar12 = *(int *)(iVar2 + 0x34);
-                      iVar18 = iVar18 + 1;
-                      iVar9 = iVar9 + 0x80;
-                    } while (iVar11 < iVar12);
-                  }
-                  iVar6 = iVar6 + 1;
-                  piVar7 = piVar7 + 1;
-                } while (iVar6 < *(int *)(iVar2 + 0x38));
-              }
-              iVar14 = iVar14 + 1;
-              piVar17 = piVar17 + 1;
-              piVar20 = piVar20 + 1;
-            } while (iVar14 < *(int *)(param_1 + 0x124));
-          }
-          cVar5 = (**(code **)(*(int *)(param_1 + 0x198) + 4))(param_1,iVar1 + 0x20);
-          if (cVar5 == '\0') {
-            *(int *)(iVar1 + 0x18) = iVar19;
-            *(uint *)(iVar1 + 0x14) = uVar16;
-            return 0;
-          }
-          uVar16 = uVar16 + 1;
-        } while (uVar16 < *(uint *)(param_1 + 0x138));
-      }
-      iVar19 = iVar19 + 1;
-      *(undefined4 *)(iVar1 + 0x14) = 0;
-      iVar13 = iVar13 + 4;
-    } while (iVar19 < *(int *)(iVar1 + 0x1c));
-  }
-  uVar16 = *(int *)(param_1 + 0x80) + 1;
-  *(uint *)(param_1 + 0x80) = uVar16;
-  if (uVar16 < *(uint *)(param_1 + 0x11c)) {
-    fn_827C25F0(param_1);
-    uVar3 = 3;
-  }
-  else {
-    (**(code **)(*(int *)(param_1 + 400) + 0xc))(param_1);
-    uVar3 = 4;
-  }
-  return uVar3;
-}
+  struct coef_827C2880 *coef = cinfo->coef;
+  JDIMENSION MCU_col_num;
+  int blkn, ci, xindex, yindex, yoffset;
+  JDIMENSION start_col;
+  JBLOCKARRAY buffer[4];
+  JBLOCKROW buffer_ptr;
+  struct jcomp_827C2880 *compptr;
 
+  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+    compptr = cinfo->cur_comp_info[ci];
+    buffer[ci] = (*cinfo->mem->access_virt_barray)(cinfo, coef->whole_image[compptr->component_index],
+        cinfo->input_iMCU_row * compptr->v_samp_factor, (JDIMENSION)compptr->v_samp_factor, 1);
+  }
+  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row; yoffset++) {
+    for (MCU_col_num = coef->MCU_ctr; MCU_col_num < cinfo->MCUs_per_row; MCU_col_num++) {
+      blkn = 0;
+      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+        compptr = cinfo->cur_comp_info[ci];
+        start_col = MCU_col_num * compptr->MCU_width;
+        for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
+          buffer_ptr = buffer[ci][yindex + yoffset] + start_col;
+          for (xindex = 0; xindex < compptr->MCU_width; xindex++) {
+            coef->MCU_buffer[blkn++] = buffer_ptr++;
+          }
+        }
+      }
+      if (!(*cinfo->entropy->decode_mcu)(cinfo, coef->MCU_buffer)) {
+        coef->MCU_vert_offset = yoffset;
+        coef->MCU_ctr = MCU_col_num;
+        return 0;
+      }
+    }
+    coef->MCU_ctr = 0;
+  }
+  if (++(cinfo->input_iMCU_row) < cinfo->total_iMCU_rows) {
+    fn_827C25F0(cinfo);
+    return 3;
+  }
+  (*cinfo->inputctl->finish_input_pass)(cinfo);
+  return 4;
+}

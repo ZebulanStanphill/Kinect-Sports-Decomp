@@ -1,48 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
 typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82DA0180();
-
-
-ulonglong fn_82DA0238(ushort *param_1,undefined8 param_2,undefined8 param_3)
-
+typedef struct Node_82DA0238 { unsigned short type; char pad[0x12]; struct Node_82DA0238 *next; } Node_82DA0238;
+extern ulonglong fn_82DA0180(Node_82DA0238 *, unsigned, unsigned);
+ulonglong fn_82DA0238(Node_82DA0238 *p, unsigned a, unsigned b)
 {
-  ushort uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  
-  uVar3 = 0;
-  uVar1 = *param_1;
-  while (0x16 < uVar1) {
-    uVar2 = fn_82DA0180(param_1,param_2,param_3);
-    param_1 = *(ushort **)(param_1 + 10);
-    uVar3 = uVar2 | uVar3;
-    uVar1 = *param_1;
+  ulonglong r = 0;
+  Node_82DA0238 *q = p;
+  while (q->type >= 0x17) {
+    r |= fn_82DA0180(q, a, b);
+    q = q->next;
   }
-  return uVar3;
+  return r;
 }
-

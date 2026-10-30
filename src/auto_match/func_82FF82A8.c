@@ -25,38 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83019A10();
+typedef struct Node_82FF82A8 {
+  struct Node_82FF82A8 *next;
+  int a, b;
+} Node_82FF82A8;
+typedef struct List_82FF82A8 {
+  Node_82FF82A8 *head;
+  Node_82FF82A8 *tail;
+  Node_82FF82A8 *free_;
+  int pad[2];
+  int count;
+} List_82FF82A8;
+extern unsigned char fn_83019A10(void);
 
-
-int fn_82FF82A8(undefined4 *param_1,undefined4 *param_2)
-
+int *fn_82FF82A8(List_82FF82A8 *l, int *v)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  char cVar4;
-  int iVar3;
-  
-  cVar4 = fn_83019A10();
-  if (cVar4 == '\0') {
-    iVar3 = 0;
-  }
-  else {
-    if ((undefined4 *)param_1[1] == (undefined4 *)0x0) {
-      *param_1 = param_1[2];
+  Node_82FF82A8 *n;
+  if (fn_83019A10() != 0) {
+    if (l->tail == 0) {
+      l->head = l->free_;
+    } else {
+      l->tail->next = l->free_;
     }
-    else {
-      *(undefined4 *)param_1[1] = param_1[2];
-    }
-    puVar1 = (undefined4 *)param_1[2];
-    param_1[1] = puVar1;
-    param_1[2] = *puVar1;
-    *puVar1 = 0;
-    iVar2 = param_1[1];
-    param_1[5] = param_1[5] + 1;
-    iVar3 = iVar2 + 4;
-    *(undefined4 *)(iVar2 + 4) = *param_2;
-    *(undefined4 *)(iVar2 + 8) = param_2[1];
+    l->tail = l->free_;
+    l->free_ = l->free_->next;
+    l->tail->next = 0;
+    n = l->tail;
+    l->count = l->count + 1;
+    n->a = v[0];
+    n->b = v[1];
+    return &n->a;
   }
-  return iVar3;
+  return 0;
 }
-

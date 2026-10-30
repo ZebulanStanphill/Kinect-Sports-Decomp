@@ -1,58 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_8265CA20();
+typedef struct Obj_82C0BB48 { struct ObjVt_82C0BB48 *vt; } Obj_82C0BB48;
+typedef struct ObjVt_82C0BB48 { void (*dtor)(Obj_82C0BB48 *, int); } ObjVt_82C0BB48;
+typedef struct Owner_82C0BB48 {
+  char pad[0x2c];
+  unsigned f2c;
+  unsigned f30;
+  unsigned f34;
+  unsigned f38;
+  unsigned f3c;
+  unsigned f40;
+  unsigned f44;
+} Owner_82C0BB48;
+extern void fn_8265C990(unsigned, int);
+extern void fn_8265CA20(void *);
 
-
-undefined8 fn_82C0BB48(int param_1)
-
+int fn_82C0BB48(Owner_82C0BB48 *o)
 {
-  undefined4 *puVar1;
-  
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    fn_8265C990(*(int *)(param_1 + 0x2c),0x208c800e);
+  Obj_82C0BB48 *p;
+  if (o->f2c != 0)
+    fn_8265C990(o->f2c, 0x208c800e);
+  p = (Obj_82C0BB48 *)o->f30;
+  if (p != 0) {
+    if (((int *)p)[-1] != 0)
+      p->vt->dtor(p, 3);
+    else
+      fn_8265CA20((int *)p - 1);
   }
-  puVar1 = *(undefined4 **)(param_1 + 0x30);
-  if (puVar1 != (undefined4 *)0x0) {
-    if (puVar1[-1] == 0) {
-      fn_8265CA20(puVar1 + -1);
-    }
-    else {
-      (**(code **)*puVar1)(puVar1,3);
-    }
-  }
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x34) = 0;
-  *(undefined4 *)(param_1 + 0x44) = 0;
+  o->f38 = 0;
+  o->f3c = 0;
+  o->f40 = 0;
+  o->f2c = 0;
+  o->f30 = 0;
+  o->f34 = 0;
+  o->f44 = 0;
   return 0;
 }
-

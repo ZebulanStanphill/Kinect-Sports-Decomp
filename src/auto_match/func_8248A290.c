@@ -1,73 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_8265CA20();
+typedef struct Obj_8248A290 { struct ObjVt_8248A290 *vt; } Obj_8248A290;
+typedef struct ObjVt_8248A290 { void (*dtor)(Obj_8248A290 *, int); } ObjVt_8248A290;
+typedef struct Vec_8248A290 { unsigned begin; unsigned end; unsigned cap; } Vec_8248A290;
+typedef struct Owner_8248A290 {
+  Vec_8248A290 a;
+  char pad0c[0x14];
+  Vec_8248A290 b;
+  char pad2c[8];
+  char sub[0x1c];
+  Vec_8248A290 c;
+} Owner_8248A290;
+extern void fn_82230300(void *, int, int);
+extern void fn_8265CA20(void *);
 
-
-int * fn_8248A290(int *param_1)
-
+static __inline void Clr_8248A290(Vec_8248A290 *v)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  if (param_1[1] - *param_1 >> 2 != 0) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + *param_1);
-      if (puVar1 != (undefined4 *)0x0) {
-        (**(code **)*puVar1)(puVar1,1);
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < (uint)(param_1[1] - *param_1 >> 2));
-  }
-  if (param_1[0x14] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  param_1[0x16] = 0;
-  fn_82230300(param_1 + 0xd,1,0);
-  if (param_1[8] != 0) {
-    fn_8265CA20();
-  }
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  if (*param_1 != 0) {
-    fn_8265CA20();
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  fn_8265CA20(param_1);
-  return param_1;
+  v->begin = 0;
+  v->end = 0;
+  v->cap = 0;
 }
 
+Owner_8248A290 *fn_8248A290(Owner_8248A290 *o)
+{
+  unsigned i;
+  for (i = 0; i < (unsigned)((int)(o->a.end - o->a.begin) >> 2); i++) {
+    Obj_8248A290 *p = *(Obj_8248A290 **)(i * 4 + o->a.begin);
+    if (p != 0)
+      p->vt->dtor(p, 1);
+  }
+  if (o->c.begin != 0)
+    fn_8265CA20((void *)o->c.begin);
+  o->c.begin = 0;
+  o->c.end = 0;
+  o->c.cap = 0;
+  fn_82230300(o->sub, 1, 0);
+  if (o->b.begin != 0)
+    fn_8265CA20((void *)o->b.begin);
+  Clr_8248A290(&o->b);
+  if (o->a.begin != 0)
+    fn_8265CA20((void *)o->a.begin);
+  o->a.begin = 0;
+  o->a.end = 0;
+  o->a.cap = 0;
+  fn_8265CA20(o);
+  return o;
+}

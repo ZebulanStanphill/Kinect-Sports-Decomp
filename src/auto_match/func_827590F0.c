@@ -27,30 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint fn_827590F0(int param_1)
+typedef struct Ent_827590F0 {
+  unsigned char b;
+  unsigned char pad[3];
+  unsigned int w;
+} Ent_827590F0;
+typedef struct Obj_827590F0 {
+  char pad[9];
+  unsigned char seed;
+  unsigned short count;
+  Ent_827590F0 *ents;
+} Obj_827590F0;
 
+unsigned int fn_827590F0(Obj_827590F0 *o)
 {
-  uint uVar1;
-  byte *pbVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  int iVar6;
-  
-  uVar4 = (uint)*(byte *)(param_1 + 9);
-  uVar5 = 0;
-  if (*(ushort *)(param_1 + 10) == 0) {
-    return uVar4;
+  unsigned int h = o->seed;
+  unsigned int i;
+  for (i = 0; i < o->count; i++) {
+    h = (o->ents[i].w >> 16) ^ o->ents[i].b ^ o->ents[i].w ^ h;
   }
-  iVar6 = 0;
-  do {
-    iVar3 = iVar6 + *(int *)(param_1 + 0xc);
-    pbVar2 = (byte *)(iVar6 + *(int *)(param_1 + 0xc));
-    uVar5 = uVar5 + 1;
-    iVar6 = iVar6 + 8;
-    uVar1 = *(uint *)(iVar3 + 4);
-    uVar4 = uVar1 >> 0x10 ^ (uint)*pbVar2 ^ uVar1 ^ uVar4;
-  } while (uVar5 < *(ushort *)(param_1 + 10));
-  return uVar4;
+  return h;
 }
-

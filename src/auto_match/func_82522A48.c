@@ -25,48 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522838();
-extern int fn_82522CF8();
-extern int fn_82558B08();
-extern int fn_8259A230();
-extern int fn_8259C458();
-extern int fn_8259C5D8();
-extern int fn_8259C738();
-extern int fn_82A1BB18();
-extern int iRam832767d0;
-extern unsigned int lbl_8326B7D0;
-extern unsigned int lbl_832767CC;
+typedef struct G_832767CC {
+  char *obj;
+  int counter;
+} G_832767CC;
+extern void fn_82522838(void);
+extern unsigned int fn_82522CF8(unsigned int, int);
+extern void fn_82558B08(void);
+extern unsigned int fn_8259A230(void);
+extern unsigned int fn_8259C458(unsigned int);
+extern void fn_8259C5D8(int *, int, int);
+extern void fn_8259C738(int *);
+extern int fn_82A1BB18(void);
+extern unsigned int lbl_8326B7D0[];
+extern G_832767CC lbl_832767CC;
 
-
-undefined8 fn_82522A48(int *param_1,undefined8 param_2)
-
+unsigned int fn_82522A48(int *param_1, int param_2)
 {
-  int iVar3;
-  longlong lVar1;
-  undefined8 uVar2;
-  
+  unsigned int r;
+  unsigned int idx;
+  int n;
+
   if (*param_1 == 0) {
     fn_82522838();
   }
-  if (lbl_832767CC == 0) {
+  if (lbl_832767CC.obj == 0) {
     fn_82522838();
   }
-  if (*(char *)(lbl_832767CC + 0xfc) != '\0') {
+  if (lbl_832767CC.obj[0xfc] != 0) {
     fn_82A1BB18();
-    iVar3 = fn_8259A230();
-    if (iVar3 == 0) {
+    if (fn_8259A230() == 0) {
       fn_82558B08();
     }
   }
-  lVar1 = fn_82A1BB18();
-  fn_8259C5D8(param_1 + 2,1,lVar1 + 1);
-  iRam832767d0 = iRam832767d0 + 1;
+  param_1 += 2;
+  fn_8259C5D8(param_1, 1, fn_82A1BB18() + 1);
+  lbl_832767CC.counter = lbl_832767CC.counter + 1;
   fn_82A1BB18();
-  iVar3 = fn_8259A230();
-  uVar2 = fn_8259C458(*(undefined4 *)(&lbl_8326B7D0 + iVar3 * 4));
-  uVar2 = fn_82522CF8(uVar2,param_2);
+  idx = fn_8259A230();
+  r = fn_82522CF8(fn_8259C458(lbl_8326B7D0[idx]), param_2);
   fn_82A1BB18();
-  fn_8259C738(param_1 + 2);
-  return uVar2;
+  fn_8259C738(param_1);
+  return r;
 }
-

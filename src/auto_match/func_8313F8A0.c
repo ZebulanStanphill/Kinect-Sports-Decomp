@@ -25,21 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern unsigned int lbl_83296FE4;
-extern unsigned int lbl_83296FE8;
-extern unsigned int lbl_83296FEC;
-
+typedef struct Vec_8313F8A0 {
+  void *first;
+  void *last;
+  void *end;
+} Vec_8313F8A0;
+extern void fn_8265CA20(void *);
+extern Vec_8313F8A0 lbl_83296FE4;
 
 void fn_8313F8A0(void)
-
 {
-  if (lbl_83296FE4 != 0) {
-    fn_8265CA20();
+  if (lbl_83296FE4.first != 0) {
+    fn_8265CA20(lbl_83296FE4.first);
   }
-  lbl_83296FE4 = 0;
-  lbl_83296FE8 = 0;
-  lbl_83296FEC = 0;
-  return;
+  lbl_83296FE4.first = 0;
+  lbl_83296FE4.last = 0;
+  lbl_83296FE4.end = 0;
 }
-

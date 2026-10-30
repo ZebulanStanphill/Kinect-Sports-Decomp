@@ -25,65 +25,80 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACA548();
-extern int fn_82ACA638();
+typedef struct Flags_82ACA7C0 {
+  unsigned int a : 1;
+  unsigned int b : 1;
+  unsigned int c : 2;
+  unsigned int m : 3;
+  unsigned int rest : 25;
+} Flags_82ACA7C0;
+typedef struct Node_82ACA7C0 {
+  Flags_82ACA7C0 fl;
+  unsigned int pad4;
+  struct Node_82ACA7C0 *next;
+} Node_82ACA7C0;
+typedef struct Obj_82ACA7C0 {
+  int pad0;
+  Node_82ACA7C0 *head;
+  unsigned int f8;
+  char padc[0x14 - 0xc];
+  unsigned int f14;
+} Obj_82ACA7C0;
+extern unsigned char fn_82ACA548(Obj_82ACA7C0 *);
+extern unsigned char fn_82ACA638(Obj_82ACA7C0 *);
+extern unsigned char lbl_820DBD58[];
 
-
-void fn_82ACA7C0(undefined8 param_1,int param_2)
-
+static int notNull(Node_82ACA7C0 *p)
 {
-  uint uVar1;
-  bool bVar2;
-  uint uVar3;
-  char cVar4;
-  uint uVar5;
-  uint *puVar6;
-  uint *puVar7;
-  uint uVar8;
-  
-  puVar6 = *(uint **)(param_2 + 4);
-  for (puVar7 = puVar6; puVar7 != (uint *)0x0; puVar7 = (uint *)puVar7[2]) {
-    if ((*puVar7 & 0xe000000) != 0) {
-      bVar2 = true;
-      if ((*puVar7 >> 0x1e & 1) != 0) goto LAB_82aca804;
+  if (p) return 1;
+  return 0;
+}
+
+#define W(n) (*(unsigned int *)&(n)->fl)
+
+void fn_82ACA7C0(void *unused, Obj_82ACA7C0 *o)
+{
+  Node_82ACA7C0 *head = o->head;
+  Node_82ACA7C0 *n;
+  unsigned char found;
+  unsigned int v, a, b, f, x;
+  unsigned char ok;
+
+  for (n = head; notNull(n); n = n->next) {
+    if (n->fl.m != 0) {
+      if ((unsigned char)n->fl.b != 0) { found = 1; goto have; }
       break;
     }
   }
-  bVar2 = false;
-LAB_82aca804:
-  if ((!bVar2) || (cVar4 = fn_82ACA548(param_2), cVar4 != '\0')) goto LAB_82aca908;
-  uVar8 = 0xe4;
-  cVar4 = fn_82ACA638(param_2);
-  if (cVar4 == '\0') {
-    uVar1 = *(uint *)(param_2 + 8) >> 7 & 0x7f;
-    if ((uVar1 < 0x20) || (bVar2 = true, 0x52 < uVar1)) {
-      bVar2 = false;
-    }
-    if (bVar2) goto LAB_82aca858;
-  }
-  else {
-LAB_82aca858:
-    uVar1 = *(uint *)(param_2 + 8);
-    uVar3 = uVar1 >> 1 & 0xf;
-    uVar5 = (1 << (uVar1 >> 0xe & 7)) - 1;
-    if (uVar3 != uVar5) {
-      uVar8 = (uint)(byte)"SV_Depth"[uVar3 + 0xb];
-      *(uint *)(param_2 + 8) = uVar5 * 2 & 0x1e | uVar1 & 0xffffffe1;
+  found = 0;
+have:
+  if (!found || fn_82ACA548(o) != 0) goto end;
+  v = 0xe4;
+  if (fn_82ACA638(o) == 0) {
+    x = (o->f8 >> 7) & 0x7f;
+    ok = !(x < 0x20 || x > 0x52);
+    if (ok) goto L858;
+  } else {
+L858:
+    f = o->f8;
+    a = (f >> 1) & 0xf;
+    b = (1 << ((f >> 14) & 7)) - 1;
+    if (a != b) {
+      v = lbl_820DBD58[a - 1];
+      o->f8 = ((b * 2) & 0x1e) | (f & 0xffffffe1);
     }
   }
-  for (; puVar6 != (uint *)0x0; puVar6 = (uint *)puVar6[2]) {
-    uVar1 = *puVar6;
-    if ((uVar1 & 0xe000000) != 0) {
-      if (uVar8 != 0xe4) {
-        *puVar6 = ((((uVar8 >> (uVar1 >> 10 & 6) & 3) << 2 | uVar8 >> (uVar1 >> 8 & 6) & 3) << 2 |
-                   uVar8 >> (uVar1 >> 6 & 6) & 3) << 2 | uVar8 >> (uVar1 >> 4 & 6) & 3) << 5 |
-                  uVar1 & 0xffffe01f;
+  for (n = head; notNull(n); n = n->next) {
+    f = W(n);
+    if ((f & 0xe000000) != 0) {
+      if (v != 0xe4) {
+        W(n) = ((((v >> ((f >> 10) & 6) & 3) << 2 | (v >> ((f >> 8) & 6) & 3)) << 2 |
+                 (v >> ((f >> 6) & 6) & 3)) << 2 | (v >> ((f >> 4) & 6) & 3)) << 5 |
+               (f & 0xffffe01f);
       }
-      *puVar6 = *puVar6 & 0xbe001fff;
+      W(n) = W(n) & 0xbe001fff;
     }
   }
-LAB_82aca908:
-  *(uint *)(param_2 + 0x14) = *(uint *)(param_2 + 0x14) & 0xfe001fff;
-  return;
+end:
+  o->f14 = o->f14 & 0xfe001fff;
 }
-

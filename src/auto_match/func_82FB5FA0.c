@@ -25,43 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FB48E8();
-extern int fn_82FB5D80();
+typedef struct Sub_82FB5FA0 {
+  char pad0[0xc];
+  unsigned int c;
+  char pad10[0x74 - 0x10];
+  int *p74;
+} Sub_82FB5FA0;
+typedef struct Cls_82FB5FA0 {
+  int pad[2];
+  void *vt;
+} Cls_82FB5FA0;
+typedef struct Obj_82FB5FA0 {
+  char pad0[0x8];
+  unsigned int f8;
+  int fc;
+  unsigned int f10;
+} Obj_82FB5FA0;
+extern unsigned char fn_82FB48E8(unsigned int);
+extern void fn_82FB5D80(void *, unsigned int);
 
-
-void fn_82FB5FA0(int param_1,ulonglong param_2,int param_3)
-
+void fn_82FB5FA0(Obj_82FB5FA0 *o, unsigned int a, unsigned int b)
 {
-  int iVar1;
-  char cVar2;
-  
-  if ((param_3 != *(int *)(*(int *)(param_1 + -8) + 0x28)) && (*(int *)(param_1 + 0xc) != 1)) {
-    return;
-  }
-  if ((ulonglong)*(uint *)(param_1 + 8) == (param_2 & 0xffffffff)) {
-    return;
-  }
-  iVar1 = *(int *)(param_1 + -0x34);
-  if (iVar1 != 0) {
-    if (**(int **)(iVar1 + 0x74) == 0) {
-      if (*(int *)(iVar1 + 0xc) == 0) {
-        cVar2 = '\0';
-      }
-      else {
-        cVar2 = fn_82FB48E8();
-      }
-    }
-    else {
-      cVar2 = '\x01';
-    }
-    if (cVar2 != '\0') {
-      *(int *)(param_1 + 0x10) = (int)param_2;
-      goto LAB_82fb6040;
-    }
-  }
-  fn_82FB5D80(param_1 + -0x40,param_2);
-LAB_82fb6040:
-  *(int *)(param_1 + 8) = (int)param_2;
-  return;
-}
+  Sub_82FB5FA0 *s;
+  unsigned char ok;
 
+  if (b != *(unsigned int *)(*(int *)((char *)o - 8) + 0x28) && o->fc != 1) {
+    return;
+  }
+  if (o->f8 == a) {
+    return;
+  }
+  s = *(Sub_82FB5FA0 **)((char *)o - 0x34);
+  if (s != 0) {
+    if (*s->p74 != 0) ok = 1;
+    else { if (s->c != 0) ok = fn_82FB48E8(s->c); else ok = 0; }
+    if (ok != 0) {
+      o->f10 = a;
+      goto done;
+    }
+  }
+  fn_82FB5D80((char *)o - 0x40, a);
+done:
+  o->f8 = a;
+}
