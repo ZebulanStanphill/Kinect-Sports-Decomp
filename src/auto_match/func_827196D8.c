@@ -1,51 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82716F98();
-extern int fn_82719640();
+typedef struct { char *data; unsigned size; unsigned cap; } Vec_827196D8;
+extern void fn_82716F98(void *p, unsigned n);
+extern void fn_82719640(Vec_827196D8 *v, int a, unsigned n);
 
-
-void fn_827196D8(uint *param_1,undefined8 param_2,ulonglong param_3)
-
+void fn_827196D8(Vec_827196D8 *v, int a, unsigned n)
 {
-  ulonglong uVar1;
-  
-  if ((param_3 & 0xffffffff) < (ulonglong)param_1[1]) {
-    fn_82716F98((param_3 & 0xfffffff) * 0x10 + (ulonglong)*param_1,param_1[1] - param_3);
-    uVar1 = param_3;
-    if ((ulonglong)(param_1[2] >> 1) <= (param_3 & 0xffffffff)) goto LAB_82719748;
+  unsigned m;
+  if (n < v->size) {
+    fn_82716F98(v->data + (n << 4), v->size - n);
+    if (n >= (v->cap >> 1)) goto done;
+    m = n;
+  } else {
+    if (n < v->cap) goto done;
+    m = (n >> 2) + n;
   }
-  else {
-    if ((param_3 & 0xffffffff) < (ulonglong)param_1[2]) goto LAB_82719748;
-    uVar1 = ((param_3 & 0xffffffff) >> 2) + param_3;
-  }
-  fn_82719640(param_1,param_2,uVar1);
-LAB_82719748:
-  param_1[1] = (uint)param_3;
-  return;
+  fn_82719640(v, a, m);
+done:
+  v->size = n;
 }
-

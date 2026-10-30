@@ -1,77 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829D47B0();
-extern int fn_829D6C98();
-extern int fn_82A28E60();
-extern int fn_82A2B218();
-extern int fn_82A2B288();
-extern int XamReadBiometricData();
-extern unsigned int lbl_832179FC;
-extern unsigned int uStack_50;
+extern unsigned __int64 fn_829D6C98(void *p);
+extern void fn_829D47B0(unsigned *out, unsigned n);
+extern int fn_82A2B218(unsigned __int64 h, unsigned __int64 *a, int b, unsigned *c, int d);
+extern unsigned XamReadBiometricData(unsigned __int64 h, unsigned *buf, unsigned data, unsigned *size, int x);
+extern void fn_82A2B288(unsigned __int64 h, unsigned __int64 a, unsigned data, unsigned size, int b);
+extern void fn_82A28E60(int a, int b, unsigned c);
+extern char *lbl_832179FC;
 
-
-/* WARNING: Type propagation algorithm not settling */
+static __inline unsigned Alloc_829D8DE8(unsigned n)
+{
+  unsigned out;
+  fn_829D47B0(&out, n);
+  return out;
+}
 
 void fn_829D8DE8(void)
-
 {
-  int iVar1;
-  longlong lVar2;
-  int iVar3;
-  int iVar4;
-  undefined4 uStack_50;
-  int aiStack_4c [2];
-  longlong alStack_40;
+  unsigned __int64 h;
+  unsigned data;
+  void *p;
 
-  iVar4 = lbl_832179FC + 0x8f4e0;
-  *(undefined4 *)(lbl_832179FC + 0x8f500) = 0;
-  lVar2 = fn_829D6C98(iVar4);
-  fn_829D47B0(aiStack_4c,0x32000);
-  iVar1 = aiStack_4c[0];
-  if (aiStack_4c[0] != 0) {
-    while (lVar2 != 0) {
-      alStack_40 = 0;
-      uStack_50 = 0;
-      aiStack_4c[1] = 0;
-      aiStack_4c[0] = 0;
-      iVar3 = fn_82A2B218(lVar2,&alStack_40,0,aiStack_4c + 1,0);
-      if ((iVar3 < 0) || (alStack_40 == 0)) {
-        uStack_50 = 0x32000;
-        iVar3 = XamReadBiometricData(lVar2,aiStack_4c,iVar1,&uStack_50,0);
-        if ((iVar3 != 0) || (aiStack_4c[0] == 0)) {
-          aiStack_4c[0] = -0x80000000;
-          uStack_50 = 1;
+  p = lbl_832179FC + 0x8f4e0;
+  *(int *)((char *)p + 0x20) = 0;
+  h = fn_829D6C98(p);
+  data = Alloc_829D8DE8(0x32000);
+  if (data != 0) {
+    unsigned __int64 v;
+      unsigned size, buf, x;
+
+    while (h != 0) {
+      v = 0;
+      size = 0;
+      x = 0;
+      buf = 0;
+      if (fn_82A2B218(h, &v, 0, &x, 0) < 0 || v == 0) {
+        size = 0x32000;
+        if (XamReadBiometricData(h, &buf, data, &size, 0) != 0 || buf == 0) {
+          buf = 0x80000000;
+          size = 1;
         }
-        fn_82A2B288(lVar2,aiStack_4c[0],iVar1,uStack_50,0);
+        fn_82A2B288(h, buf, data, size, 0);
       }
-      lVar2 = fn_829D6C98(iVar4);
+      h = fn_829D6C98(p);
     }
-    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0,iVar1);
+    fn_82A28E60(*(int *)(lbl_832179FC + 0x8f4cc), 0, data);
   }
-  return;
 }

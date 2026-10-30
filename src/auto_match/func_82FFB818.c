@@ -1,79 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82FA52E0();
-extern int fn_82FFDF28();
-extern int fn_82FFE400();
-extern int fn_82FFF348();
-extern unsigned int iStack_68;
-extern unsigned int lbl_832645A4;
+typedef struct Sub_82FFB818 { unsigned f0; int f4; int f8; int fc; int f10; unsigned rc; } Sub_82FFB818;
+typedef struct Node_82FFB818 { int f0; int f4; Sub_82FFB818 sub; } Node_82FFB818;
+typedef struct Res_82FFB818 { int a; int b; Node_82FFB818 *node; } Res_82FFB818;
+typedef struct Item_82FFB818 { int key; int b; int c; } Item_82FFB818;
+typedef struct List_82FFB818 { char pad0[0x20]; unsigned count; char pad1[4]; Item_82FFB818 *items; } List_82FFB818;
+typedef struct Owner_82FFB818 { char pad0[0x50]; char cs[0x40]; char map[1]; } Owner_82FFB818;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_82FFDF28(Res_82FFB818 *r, void *map, int key);
+extern void fn_82FFE400(void *p, List_82FFB818 *l);
+extern void fn_82FA52E0(int a, unsigned b);
+extern void fn_82FFF348(void *out, void *map, Res_82FFB818 *r);
+extern int lbl_832645A4;
 
-
-void fn_82FFB818(longlong param_1,int param_2)
-
+void fn_82FFB818(Owner_82FFB818 *o, List_82FFB818 *l)
 {
-  int iVar1;
-  longlong lVar2;
-  uint uVar3;
-  int iVar4;
-  int *piVar5;
-  undefined1 auStack_70 [8];
-  int iStack_68;
-  undefined1 auStack_60 [16];
-
-  if (*(int *)(param_2 + 0x28) != 0) {
-    RtlEnterCriticalSection(param_1 + 0x50);
-    uVar3 = 0;
-    if (*(int *)(param_2 + 0x20) != 0) {
-      iVar4 = 0;
-      do {
-        fn_82FFDF28(auStack_70,param_1 + 0x90,*(undefined4 *)(iVar4 + *(int *)(param_2 + 0x28)));
-        iVar1 = iStack_68;
-        if (iStack_68 != 0) {
-          piVar5 = (int *)(iStack_68 + 8);
-          fn_82FFE400(iStack_68 + 0x10,param_2);
-          lVar2 = (ulonglong)*(uint *)(iVar1 + 0x1c) - 1;
-          *(int *)(iVar1 + 0x1c) = (int)lVar2;
-          if ((lVar2 == 0) && (*piVar5 != 0)) {
-            fn_82FA52E0(lbl_832645A4);
-            *piVar5 = 0;
-            *(undefined4 *)(iVar1 + 0xc) = 0;
-          }
-          if (*(int *)(iVar1 + 0x1c) == 0) {
-            fn_82FFF348(auStack_60,param_1 + 0x90,auStack_70);
-          }
+  Res_82FFB818 res;
+  char buf[16];
+  unsigned i;
+  Sub_82FFB818 *s;
+  if (l->items != 0) {
+    RtlEnterCriticalSection(o->cs);
+    for (i = 0; i < l->count; i++) {
+      fn_82FFDF28(&res, o->map, l->items[i].key);
+      if (res.node != 0) {
+        s = &res.node->sub;
+        fn_82FFE400(&s->f8, l);
+        if (--s->rc == 0 && s->f0 != 0) {
+          fn_82FA52E0(lbl_832645A4, s->f0);
+          s->f0 = 0;
+          s->f4 = 0;
         }
-        uVar3 = uVar3 + 1;
-        iVar4 = iVar4 + 0xc;
-      } while (uVar3 < *(uint *)(param_2 + 0x20));
+        if (s->rc == 0) fn_82FFF348(buf, o->map, &res);
+      }
     }
-    RtlLeaveCriticalSection(param_1 + 0x50);
+    RtlLeaveCriticalSection(o->cs);
   }
-  return;
 }

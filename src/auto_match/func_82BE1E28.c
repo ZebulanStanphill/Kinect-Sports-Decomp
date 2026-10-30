@@ -1,61 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5320();
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5398();
+typedef struct Elem_82BE1E28 { struct EVT_82BE1E28 *vt; int pad[3]; int f10; } Elem_82BE1E28;
+typedef struct EVT_82BE1E28 { void (*dtor)(Elem_82BE1E28 *, int); } EVT_82BE1E28;
+typedef struct Obj_82BE1E28 {
+  char pad[0x170];
+  char list[8];
+  int f178;
+  int pad2;
+  Elem_82BE1E28 *f180;
+} Obj_82BE1E28;
+extern void fn_82BE5340(void *);
+extern Elem_82BE1E28 *fn_82BE5378(void *);
+extern void *fn_82BE5320(void *, void *);
+extern void fn_82BE5350(void *);
+extern void fn_82BE5398(void *, void *, int);
 
-
-undefined8 fn_82BE1E28(int param_1)
-
+int fn_82BE1E28(Obj_82BE1E28 *o)
 {
-  undefined4 *puVar2;
-  undefined8 uVar1;
-  int iVar3;
-  
-  iVar3 = param_1 + 0x170;
-  fn_82BE5340(iVar3);
-  while (*(int *)(param_1 + 0x178) != 0) {
-    puVar2 = (undefined4 *)fn_82BE5378(iVar3);
-    if ((puVar2[4] == 4) || (puVar2[4] == 0)) {
-      if (puVar2 == *(undefined4 **)(param_1 + 0x180)) {
-        *(undefined4 *)(param_1 + 0x180) = 0;
-      }
-      uVar1 = fn_82BE5378(iVar3);
-      uVar1 = fn_82BE5320(iVar3,uVar1);
-      fn_82BE5398(iVar3,uVar1,1);
-      (**(code **)*puVar2)(puVar2,1);
-    }
-    else {
-      fn_82BE5350(iVar3);
+  void *l = o->list;
+  fn_82BE5340(l);
+  while (o->f178 != 0) {
+    Elem_82BE1E28 *e = fn_82BE5378(l);
+    if (e->f10 == 4 || e->f10 == 0) {
+      if (e == o->f180) o->f180 = 0;
+      fn_82BE5398(l, fn_82BE5320(l, fn_82BE5378(l)), 1);
+      e->vt->dtor(e, 1);
+    } else {
+      fn_82BE5350(l);
     }
   }
   return 0;
 }
-

@@ -1,117 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_8256D3A8();
-extern int fn_8256D798();
-extern int fn_8256DBA0();
-extern int fn_827D9630();
-extern int fn_827D96A0();
-extern int fn_827D9720();
-extern int fn_827D9FB0();
-extern int fn_82811400();
-extern unsigned int lbl_821CAC50;
-extern unsigned int lbl_83156AA0;
-extern unsigned int uStack_94;
-extern unsigned int uStack_98;
+typedef struct Item_825BDCE8 { int f0; int f4; int f8; int fc; int f10; int f14; int f18; } Item_825BDCE8;
+typedef struct Node_825BDCE8 { struct Node_825BDCE8 *next; struct Node_825BDCE8 *prev; unsigned key; Item_825BDCE8 *val; } Node_825BDCE8;
+typedef struct Bucket_825BDCE8 { Node_825BDCE8 *first; Node_825BDCE8 *last; } Bucket_825BDCE8;
+typedef struct Map_825BDCE8 {
+  int f0; Node_825BDCE8 *head; int f8; int fc; Bucket_825BDCE8 *buckets; int f14; int f18; int f1c;
+  unsigned mask; unsigned nb; int f28; int f2c; int f30;
+} Map_825BDCE8;
+typedef struct Self_825BDCE8 { char pad[0x5c]; Map_825BDCE8 m; } Self_825BDCE8;
+typedef struct Alloc_825BDCE8 { struct { int f0, f4, f8; void *(*alloc)(void *self, int sz, int al); } *vt; } Alloc_825BDCE8;
+typedef struct Obj_825BDCE8 { void *vt; char pad[0x64]; int f68[6]; int f80; } Obj_825BDCE8;
+extern unsigned fn_827D96A0(void *a);
+extern unsigned fn_8256DBA0(Map_825BDCE8 *m, void *key);
+extern void fn_827D9720(Item_825BDCE8 *v, unsigned n);
+extern int fn_82811400(void *buf, int n);
+extern void fn_8256D3A8(void *buf, const char *s);
+extern void fn_8256D798(void *buf, int a, int b);
+extern void fn_827D9FB0(Obj_825BDCE8 *o, void *a, int *b, int *c, int *d, Node_825BDCE8 **e, Node_825BDCE8 **f);
+extern void fn_827D9630(void *d, Item_825BDCE8 *s);
+extern Alloc_825BDCE8 *lbl_83156AA0;
+extern char lbl_821CAC50[];
+extern char lbl_82196582[];
 
-
-undefined4 * fn_825BDCE8(int param_1,undefined8 param_2)
-
+Obj_825BDCE8 *fn_825BDCE8(Self_825BDCE8 *s, void *arg)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar5;
-  uint uVar6;
-  undefined8 uVar4;
-  undefined4 *puVar7;
-  undefined4 **ppuVar8;
-  undefined4 *puVar9;
-  undefined4 *puStack_a0;
-  undefined4 *puStack_9c;
-  undefined4 uStack_98;
-  undefined4 uStack_94;
-  undefined4 auStack_90 [4];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [96];
-  
-  puVar5 = (undefined4 *)fn_827D96A0(param_2);
-  uVar1 = *(uint *)(param_1 + 0x7c);
-  puStack_a0 = puVar5;
-  uVar6 = fn_8256DBA0(param_1 + 0x5c,&puStack_a0);
-  uVar6 = uVar6 & uVar1;
-  if (*(uint *)(param_1 + 0x80) <= uVar6) {
-    uVar6 = (uVar6 - (uVar1 >> 1)) - 1;
-  }
-  puVar9 = *(undefined4 **)(param_1 + 0x60);
-  puVar3 = *(undefined4 **)(uVar6 * 8 + *(int *)(param_1 + 0x6c));
-  puStack_a0 = puVar3;
-  while( true ) {
-    puVar7 = puVar9;
-    if (puVar3 != puVar9) {
-      puVar7 = (undefined4 *)**(undefined4 **)(uVar6 * 8 + *(int *)(param_1 + 0x6c) + 4);
-    }
-    if (puStack_a0 == puVar7) goto LAB_825bdda0;
-    if (puVar5 <= (undefined4 *)puStack_a0[2]) break;
-    puStack_a0 = (undefined4 *)*puStack_a0;
-  }
-  if (puVar5 < (undefined4 *)puStack_a0[2]) {
-    ppuVar8 = &puStack_9c;
-    puStack_9c = puVar9;
-  }
-  else {
-    ppuVar8 = &puStack_a0;
-  }
-  puVar9 = *ppuVar8;
-LAB_825bdda0:
-  if (puVar9 != *(undefined4 **)(param_1 + 0x60)) {
-    fn_827D9720(puVar9[3],(ulonglong)*(uint *)(param_1 + 0x8c) + 8);
-    iVar2 = *(int *)lbl_83156AA0;
-    uVar4 = fn_82811400(auStack_80,4);
-    puVar5 = (undefined4 *)(**(code **)(iVar2 + 0xc))(lbl_83156AA0,0x88,uVar4);
-    if (puVar5 != (undefined4 *)0x0) {
-      iVar2 = puVar9[3];
-      puStack_9c = (undefined4 *)0x0;
-      puStack_a0 = (undefined4 *)0x0;
-      uStack_98 = fn_827D96A0(iVar2);
-      uStack_94 = 1;
-      auStack_90[0] = 0;
-      fn_8256D3A8(auStack_60,0xffffffff82196582);
-      fn_827D9FB0(puVar5,auStack_60,auStack_90,&uStack_94,&uStack_98,&puStack_a0,&puStack_9c);
-      fn_8256D798(auStack_60,1,0);
-      *puVar5 = &lbl_821CAC50;
-      fn_827D9630(puVar5 + 0x1a,iVar2);
-      puVar5[0x20] = *(undefined4 *)(iVar2 + 0x18);
-      return puVar5;
-    }
-  }
-  return (undefined4 *)0x0;
-}
+  Map_825BDCE8 *m;
+  Node_825BDCE8 *first;
+  unsigned key;
+  unsigned mask;
+  unsigned idx;
+  Node_825BDCE8 *head;
+  struct { Node_825BDCE8 *it; Node_825BDCE8 *it2; int a0; int a1; int a2; } L;
+  Node_825BDCE8 **pp;
+  Node_825BDCE8 *end;
+  Bucket_825BDCE8 *b;
+  Node_825BDCE8 *found;
+  Obj_825BDCE8 *o;
+  Item_825BDCE8 *v;
+  char tmp1[32];
+  char tmp2[0x30];
 
+  key = fn_827D96A0(arg);
+  m = &s->m;
+  mask = m->mask;
+  L.it = (Node_825BDCE8 *)key;
+  idx = fn_8256DBA0(m, &L.it) & mask;
+  if (m->nb <= idx) idx = idx - (mask >> 1) - 1;
+  head = m->head;
+  b = &m->buckets[idx];
+  first = b->first;
+  L.it = first;
+  for (;;) {
+    if (first == head) end = head; else end = b->last->next;
+    if (L.it == end) break;
+    if (key <= L.it->key) {
+      if (key < L.it->key) { L.it2 = head; pp = &L.it2; } else pp = &L.it;
+      head = *pp;
+      break;
+    }
+    L.it = L.it->next;
+  }
+  if (head != s->m.head) {
+    fn_827D9720(head->val, s->m.f30 + 8);
+    o = (Obj_825BDCE8 *)lbl_83156AA0->vt->alloc(lbl_83156AA0, 0x88, fn_82811400(tmp1, 4));
+    if (o != 0) {
+      v = head->val;
+      L.it2 = 0; L.it = 0;
+      L.a0 = fn_827D96A0(v);
+      L.a1 = 1;
+      L.a2 = 0;
+      fn_8256D3A8(tmp2, lbl_82196582);
+      fn_827D9FB0(o, tmp2, &L.a2, &L.a1, &L.a0, &L.it, &L.it2);
+      fn_8256D798(tmp2, 1, 0);
+      *(char **)o = lbl_821CAC50;
+      fn_827D9630(&o->f68[0], v);
+      o->f80 = v->f18;
+      return o;
+    }
+  }
+  return 0;
+}

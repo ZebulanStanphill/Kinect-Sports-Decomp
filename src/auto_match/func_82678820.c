@@ -1,48 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82640058();
-extern int fn_82677F48();
-extern int fn_82678428();
-
-
-void fn_82678820(int param_1,ulonglong param_2,longlong param_3)
-
+typedef struct Obj_82678820 {
+  char pad[0x10]; unsigned char f10;
+  char pad1[0xd8 - 0x11]; void *fd8;
+  char pad2[0x11c - 0xdc]; char f11c[0x17c - 0x11c];
+  int f17c; int f180;
+  char pad3[0x1a8 - 0x184]; int f1a8;
+  char pad4[4]; int f1b0;
+  char pad5[0x1bc - 0x1b4]; int *f1bc;
+  char pad6[0x2294 - 0x1c0]; char f2294[1];
+} Obj_82678820;
+extern void fn_82640058(void *, int, int, void *, int);
+extern void fn_82677F48(void *, void *);
+extern void fn_82678428(void *, void *);
+void fn_82678820(Obj_82678820 *o, unsigned idx, int n)
 {
-  if ((*(char *)(param_1 + 0x10) != '\0') && (*(int *)(param_1 + 0x1bc) != 0)) {
-    fn_82677F48(param_1 + 0x2294,param_1);
-    fn_82678428(param_1,param_1 + 0x11c);
-    fn_82640058(*(undefined4 *)(param_1 + 0xd8),3,param_3 + 1,
-                      (param_2 & 0x3fffffff) * 4 + (ulonglong)*(uint *)(param_1 + 0x1bc),4);
-    *(int *)(param_1 + 0x180) = *(int *)(param_1 + 0x180) + 1;
-    *(int *)(param_1 + 0x17c) = *(int *)(param_1 + 0x17c) + (int)param_3;
-    *(int *)(param_1 + 0x1b0) = *(int *)(param_1 + 0x1b0) + (int)param_3;
-    *(int *)(param_1 + 0x1a8) = *(int *)(param_1 + 0x1a8) + 1;
+  if (o->f10 != 0 && o->f1bc != 0) {
+    fn_82677F48(o->f2294, o);
+    fn_82678428(o, o->f11c);
+    fn_82640058(o->fd8, 3, n + 1, o->f1bc + idx, 4);
+    o->f17c = o->f17c + n;
+    o->f180 = o->f180 + 1;
+    { int *q = &o->f1b0; q[0] += n; o->f1a8++; }
   }
-  return;
 }
-

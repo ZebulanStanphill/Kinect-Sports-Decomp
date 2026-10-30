@@ -1,56 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Alloc_82DF06C0 { struct { void *f0; void *(*alloc)(struct Alloc_82DF06C0 *, int); } *vt; } Alloc_82DF06C0;
+typedef struct Heap_82DF06C0 { char pad[0x10]; Alloc_82DF06C0 *al; } Heap_82DF06C0;
+typedef struct Blk_82DF06C0 { int a; unsigned short b; unsigned short c; int d; unsigned short e; unsigned short f; } Blk_82DF06C0;
+typedef struct Obj_82DF06C0 { char pad[0x214]; Blk_82DF06C0 *blk; } Obj_82DF06C0;
+extern Heap_82DF06C0 *fn_82CE5410(void);
 
-
-longlong fn_82DF06C0(int param_1)
-
+char *fn_82DF06C0(Obj_82DF06C0 *o)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  if (*(int *)(param_1 + 0x214) == 0) {
-    iVar1 = fn_82CE5410();
-    puVar2 = (undefined4 *)(**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0x10)
-    ;
-    if (puVar2 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar2 = 0;
-      *(undefined2 *)((int)puVar2 + 6) = 0x8000;
-      *(undefined2 *)(puVar2 + 1) = 0;
-      puVar2[2] = 0;
-      *(undefined2 *)(puVar2 + 3) = 0;
-      *(undefined2 *)((int)puVar2 + 0xe) = 0x8000;
-    }
-    *(undefined4 **)(param_1 + 0x214) = puVar2;
+  Blk_82DF06C0 *p;
+  Blk_82DF06C0 *mem;
+  if (o->blk == 0) {
+    Heap_82DF06C0 *h = fn_82CE5410();
+    mem = (Blk_82DF06C0 *)h->al->vt->alloc(h->al, 0x10);
+    if (mem != 0) {
+      p = mem;
+      p->a = 0;
+      p->c = 0x8000;
+      p->b = 0;
+      p->d = 0;
+      p->e = 0;
+      p->f = 0x8000;
+    } else p = 0;
+    o->blk = p;
   }
-  return (ulonglong)*(uint *)(param_1 + 0x214) + 8;
+  return (char *)o->blk + 8;
 }
-

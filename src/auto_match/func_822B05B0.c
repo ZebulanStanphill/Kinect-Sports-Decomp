@@ -1,58 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
+typedef struct Obj_822B05B0 {
+  char pad[0x2c]; int f2c;
+  char pad2[0x110 - 0x30]; void *f110;
+  char pad3[0x2b0 - 0x114]; int f2b0;
+  char pad4[0x2e0 - 0x2b4]; int f2e0;
+} Obj_822B05B0;
+extern void fn_822AF138(void *, int);
 
-
-undefined8 fn_822B05B0(undefined8 param_1,int param_2)
-
+int fn_822B05B0(void *unused, Obj_822B05B0 *o)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  
-  if (*(int *)(param_2 + 0x2c) == 1) {
-    if (0x17 < *(int *)(param_2 + 0x2e0)) {
-      uVar1 = *(undefined4 *)(param_2 + 0x110);
-      if (*(int *)(param_2 + 0x2b0) == 0) {
-        uVar2 = 3;
-      }
-      else {
-        uVar2 = 4;
-      }
-      goto LAB_822b0608;
+  if (o->f2c == 1) {
+    if (o->f2e0 < 0x18) {
+      fn_822AF138(o->f110, 2);
+      return 1;
     }
-    uVar2 = 2;
+    if (o->f2b0 != 0) { fn_822AF138(o->f110, 4); return 1; }
+    fn_822AF138(o->f110, 3);
+    return 1;
   }
-  else {
-    uVar2 = 1;
-  }
-  uVar1 = *(undefined4 *)(param_2 + 0x110);
-LAB_822b0608:
-  fn_822AF138(uVar1,uVar2);
+  fn_822AF138(o->f110, 1);
   return 1;
 }
-

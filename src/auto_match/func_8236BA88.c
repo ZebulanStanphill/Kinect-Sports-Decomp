@@ -1,56 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
+typedef struct Sub_8236BA88 { struct SubVT_8236BA88 *vt; } Sub_8236BA88;
+typedef struct SubVT_8236BA88 { void *s0; void *s1; void (*f8)(Sub_8236BA88 *); } SubVT_8236BA88;
+typedef struct Owner_8236BA88 { char pad[0x8c0]; char pad2[0x90]; } Owner_8236BA88;
+typedef struct Mgr_8236BA88 { char pad[0x8c0]; struct { char pad[0x90]; int f90; } *f8c0; } Mgr_8236BA88;
+typedef struct Item_8236BA88 {
+  struct ItemVT_8236BA88 *vt;
+  char pad[0x10];
+  Mgr_8236BA88 *f14;
+  char pad2[0x24 - 0x18];
+  Sub_8236BA88 *f24;
+} Item_8236BA88;
+typedef struct ItemVT_8236BA88 { char pad[0x24]; void (*f24)(Item_8236BA88 *, int); } ItemVT_8236BA88;
+typedef struct List_8236BA88 { unsigned pad[2]; unsigned count; } List_8236BA88;
+typedef struct Owner2_8236BA88 { void **items; int pad[3]; int cur; } Owner2_8236BA88;
+extern Item_8236BA88 *fn_822ABA88(void *list, unsigned idx);
 
-
-void fn_8236BA88(int *param_1)
-
+void fn_8236BA88(Owner2_8236BA88 *o)
 {
-  uint uVar1;
-  int *piVar2;
-  ulonglong uVar3;
-  
-  uVar3 = 0;
-  uVar1 = *(uint *)(*(int *)(param_1[4] * 4 + *param_1) + 8);
-  if (uVar1 != 0) {
+  unsigned i = 0;
+  unsigned n = ((List_8236BA88 *)o->items[o->cur])->count;
+  if (n != 0) {
     do {
-      piVar2 = (int *)fn_822ABA88(*(undefined4 *)(param_1[4] * 4 + *param_1),uVar3);
-      if ((int *)piVar2[9] != (int *)0x0) {
-        (**(code **)(*(int *)piVar2[9] + 8))();
+      Item_8236BA88 *it = fn_822ABA88(o->items[o->cur], i);
+      if (it->f24 != 0) it->f24->vt->f8(it->f24);
+      if (it->f24 != 0) {
+        it->f24 = 0;
+        it->f14->f8c0->f90 = 0;
+        ((ItemVT_8236BA88 *)it->vt)->f24(it, 0);
       }
-      if (piVar2[9] != 0) {
-        piVar2[9] = 0;
-        *(undefined4 *)(*(int *)(piVar2[5] + 0x8c0) + 0x90) = 0;
-        (**(code **)(*piVar2 + 0x24))(piVar2,0);
-      }
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)uVar1);
+      i++;
+    } while (i < n);
   }
-  return;
 }
-
