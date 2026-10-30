@@ -1,43 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern unsigned int lbl_821AF318;
-extern unsigned int lbl_821C0A44;
+extern void fn_822315A0(void *);
+extern unsigned int lbl_821C0A44, lbl_821AF318;
+typedef struct { void *ref; } Ref;
+typedef struct { void *vtable; int pad[2]; Ref member; } Obj;
 
-
-void fn_824C7100(undefined4 *param_1)
-
-{
-  *param_1 = &lbl_821C0A44;
-  if (param_1[3] != 0) {
-    fn_822315A0();
-  }
-  *param_1 = &lbl_821AF318;
-  return;
-}
-
+void fn_824C7100(Obj *p) { p->vtable=&lbl_821C0A44; {Ref *inline_destroy_0=(&p->member); if (inline_destroy_0->ref) fn_822315A0(inline_destroy_0->ref); } p->vtable=&lbl_821AF318; }

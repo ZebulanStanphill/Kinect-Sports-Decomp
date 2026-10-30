@@ -1,45 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_822C71C8();
-extern unsigned int lbl_821ADA54;
+extern char lbl_821ADA54[]; extern void fn_822315A0(void *); extern void fn_82230300(void *,int,int); extern void fn_822C71C8(void *);
+typedef struct { void *ptr,*count; } Shared; typedef struct { void *v; char pad[116]; Shared shared; } Obj;
 
-
-void fn_822D8080(undefined4 *param_1)
-
-{
-  *param_1 = &lbl_821ADA54;
-  if (param_1[0x1f] != 0) {
-    fn_822315A0();
-  }
-  fn_82230300(param_1 + 0x17,1,0);
-  fn_822C71C8(param_1);
-  return;
-}
-
+void fn_822D8080(Obj *p) { p->v=lbl_821ADA54; {Shared *inline_release_0=(&p->shared); if(inline_release_0->count) fn_822315A0(inline_release_0->count); } fn_82230300((char *)p+92,1,0); fn_822C71C8(p); }

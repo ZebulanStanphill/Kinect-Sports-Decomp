@@ -1,0 +1,1 @@
+extern "C" void fn_8267BE38(void *),fn_8273CBF0(void *);struct E {int a,b,c,d;};extern "C" void fn_8273CEF0(char **owner) {if(*owner){int i=0;unsigned n=*(unsigned *)(*owner+4)+1;do{char *base=*owner;int offset=i*16;E *element=(E *)(base+offset);if(element->c!=-2)fn_8273CBF0(&element->c);++i;}while(--n);fn_8267BE38(*owner);*owner=0;}}

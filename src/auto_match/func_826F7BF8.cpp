@@ -1,0 +1,1 @@
+struct Bits {unsigned padding:21;unsigned bit:1;unsigned rest:10;};struct Object {char padding[0xb00];Bits flags;};extern "C" unsigned fn_826F7BF8(Object *object,bool reset) {unsigned value=object->flags.bit;if(reset){Bits *flags=&object->flags;flags->bit=0;}return value;}

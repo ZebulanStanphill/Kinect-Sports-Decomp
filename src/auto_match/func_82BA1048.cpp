@@ -1,0 +1,1 @@
+struct Node {char padding[8];Node *next;};extern "C" bool fn_82BC56D0(Node *);extern "C" bool fn_82BA1048(char *object) {Node *node=*(Node **)(object+0x88);while((int)node->next){if(!fn_82BC56D0(node))return false;node=node->next;}return true;}

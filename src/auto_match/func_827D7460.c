@@ -1,45 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827D6C60();
-
-
-void fn_827D7460(undefined8 param_1,undefined8 param_2,undefined8 param_3,int *param_4,
-                  undefined4 *param_5)
-
-{
-  undefined4 uVar1;
-  
-  fn_827D6C60();
-  param_4 = (int *)*param_4;
-  if (param_4 != (int *)0x0) {
-    uVar1 = (**(code **)(*param_4 + 0x5c))(param_4,param_2);
-    *param_5 = uVar1;
-  }
-  return;
-}
-
+extern void fn_827D6C60(void *,void *,int,void *,void *,unsigned char);
+typedef struct Obj Obj;
+typedef struct { void *pad[23]; int (*f)(Obj *,void *); } VT;
+struct Obj { VT *v; };
+void fn_827D7460(void *p,void *x,int a,int *handle,int *out,void *b,unsigned char c) { fn_827D6C60(p,x,a,handle,b,c); if(*handle) *out=((Obj *)*handle)->v->f((Obj *)*handle,x); }

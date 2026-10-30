@@ -1,0 +1,1 @@
+extern "C" void *fn_8304CC68(void *,unsigned int,void *); extern "C" int lbl_8217D5E0; struct V {float v[3]; }; struct S {void *vt; char pad[36]; V v; int n;}; extern "C" S *fn_8303D710(S *p,unsigned int flags,void *input) {fn_8304CC68(p,flags,input); p->vt=&lbl_8217D5E0; {V *member=&p->v;member->v[0]=0;float *q=member->v+1;for(int i=2;i>0;i--) *q++=0;} p->n=2; return p;}

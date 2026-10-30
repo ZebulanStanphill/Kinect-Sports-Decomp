@@ -1,0 +1,1 @@
+extern "C" void *fn_82F724D8(int);struct S {void *p;unsigned char type,other;};extern "C" S *fn_82F728D0(S *object,int x) {int value=0;object->other=0;{int input=x;if(input==2||input==3)value=input;else value=0;}object->p=0;object->type=value;if(x==1){object->p=fn_82F724D8(1);if(!object->p)object->type=3;}return object;}

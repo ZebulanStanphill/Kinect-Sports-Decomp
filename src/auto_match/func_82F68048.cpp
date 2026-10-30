@@ -1,0 +1,1 @@
+extern "C" int *fn_82F7F1A8(void);extern "C" unsigned int *fn_82F7F1B8(void);extern "C" unsigned int fn_82F68048(int index) {if(index<0||index>=*fn_82F7F1A8())index=*fn_82F7F1A8();return fn_82F7F1B8()[index];}

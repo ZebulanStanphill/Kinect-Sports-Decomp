@@ -1,0 +1,1 @@
+struct Node {unsigned int padding[2],flags;};struct Record {Node *node;int key;};extern "C" bool fn_82B16D20(Record *a,Record *b) {Node *x=a->node,*y=b->node;int k=(x->flags>>7)&127,l=(y->flags>>7)&127;return k<l||((unsigned)k==(unsigned)l&&x<y)||(x==y&&a->key<b->key);}

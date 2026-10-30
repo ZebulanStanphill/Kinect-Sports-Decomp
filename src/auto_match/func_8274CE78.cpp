@@ -1,0 +1,1 @@
+extern "C" void fn_82687270(void *);extern "C" void fn_826C1328(void *);struct Ref {void *p;};extern "C" void fn_8274CE78(char *object) {{Ref *ref=(Ref *)(object+0x30);if(ref->p)fn_82687270(ref->p);ref->p=0;}{Ref *ref=(Ref *)(object+0x34);if(ref->p)fn_82687270(ref->p);ref->p=0;}fn_826C1328(object);}

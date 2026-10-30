@@ -1,0 +1,1 @@
+extern "C" unsigned lbl_832960A0[];struct P {int reserved;P *next;};struct Holder {P *p;};extern "C" unsigned char fn_82514AA8() {Holder *holder=(Holder *)&lbl_832960A0[0x3b];return (holder->p?holder->p->next:0)!=0;}

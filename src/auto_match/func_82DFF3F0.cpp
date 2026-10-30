@@ -1,0 +1,1 @@
+extern "C" void fn_82DFC8F8(void *); struct S { char pad[8]; void **data; int count;  }; extern "C" void fn_82DFF3F0(S *self) { unsigned int n=self->count; if ((int)n>0) { int i=0; do { fn_82DFC8F8(self->data[i++]); } while (--n); } }

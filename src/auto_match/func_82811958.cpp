@@ -1,0 +1,1 @@
+struct FloatPair_82811958 {float x,y;};extern "C" FloatPair_82811958 &fn_82811958(FloatPair_82811958 *p,const FloatPair_82811958 *q){float source=q->x;float destination=p->x;p->x=destination+source;p->y=p->y+q->y;return *p;}

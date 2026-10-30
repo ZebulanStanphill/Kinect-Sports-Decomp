@@ -1,0 +1,1 @@
+extern "C" void *lbl_821AEBEC[];extern "C" void fn_822315A0(void *);extern "C" void fn_822C87C8(void *);struct Ref {void *ptr;};extern "C" void fn_822FDFD8(void **object) {*object=lbl_821AEBEC;{Ref *ref=(Ref *)(object+0x31);if(ref->ptr)fn_822315A0(ref->ptr);}fn_822C87C8(object);}

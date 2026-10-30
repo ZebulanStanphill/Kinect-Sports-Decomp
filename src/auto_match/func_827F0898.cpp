@@ -1,0 +1,1 @@
+typedef void (*Delete)(void *,int);extern "C" void fn_827F0898(char *object,unsigned n) {unsigned i=(unsigned short)n;char *base=object;unsigned word=(unsigned short)n>>4;unsigned short value=((unsigned short *)base)[word+0x76];if((value>>(n&15))&1){void *child=*(void **)(object+(i+0x28)*4);if(child)((Delete *)*(void **)child)[0](child,1);}}

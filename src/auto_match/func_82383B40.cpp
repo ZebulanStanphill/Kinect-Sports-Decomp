@@ -1,0 +1,1 @@
+extern "C" void *lbl_821B3BB4[];extern "C" void fn_82672660(void *,void *);extern "C" void fn_822315A0(void *);struct Sub {char padding[0x3c];void *value;};struct Ref {void *ptr;};extern "C" void fn_82383B40(void **object) {*object=lbl_821B3BB4;{Sub *sub=(Sub *)(object+0x1c);fn_82672660(sub->value,sub);}{Ref *ref=(Ref *)(object+0x2c);if(ref->ptr)fn_822315A0(ref->ptr);}}

@@ -1,0 +1,1 @@
+struct Node {unsigned __int64 value;unsigned int index;Node *next;};extern "C" bool fn_82E738D0(Node **head,int count,unsigned __int64 *out,unsigned int *index) {Node *node=*head;int i=0;if(count>0){do{if(!node)break;i++;node=node->next;}while(i<count);}if(!node)return false;*out=node->value;*index=node->index;return true;}

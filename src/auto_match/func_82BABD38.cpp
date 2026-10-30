@@ -1,0 +1,1 @@
+typedef unsigned char (*Method)(void *);extern "C" unsigned char fn_82BABC88(void *);struct Flags {unsigned padding:30;unsigned bit:1;unsigned padding2:1;};extern "C" bool fn_82BABD38(char *object) {return ((Method *)*(void **)object)[0x4c/4](object)&&fn_82BABC88(object)&&!(bool)((Flags *)(object+0xe4))->bit;}
