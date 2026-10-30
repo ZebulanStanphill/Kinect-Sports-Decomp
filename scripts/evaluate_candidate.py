@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -24,6 +25,17 @@ def symbol_name(address: int) -> str:
     return f"fn_{address:08X}"
 
 
+def grouped_object(address: int):
+    """Original object of the grouped unit (auto_match/file_*.c) whose .text range
+    contains the address, if any."""
+    text = (ROOT / "config/4D5308C9/splits.txt").read_text(encoding="utf-8")
+    for match in re.finditer(r"(?m)^auto_match/(file_[0-9A-F]+)\.(?:c|cpp):\n((?:\t.*\n)+)", text):
+        rng = re.search(r"\.text\s+start:0x([0-9A-Fa-f]+)\s+end:0x([0-9A-Fa-f]+)", match.group(2))
+        if rng and int(rng.group(1), 16) <= address < int(rng.group(2), 16):
+            return ROOT / "build/4D5308C9/obj/auto_match" / f"{match.group(1)}.obj"
+    return None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("address", help="Jeff function start, for example 0x82400E48")
@@ -39,6 +51,10 @@ def main() -> int:
     original = ROOT / "build/4D5308C9/obj/auto_match" / f"func_{stem}.obj"
     if address == 0x82FA5958:
         original = ROOT / "build/4D5308C9/obj/compiler_probe/add.obj"
+    if not original.is_file():
+        # a function grouped with the rest of its source file: pass the whole
+        # grouped source (src/auto_match/file_*.c) as the candidate
+        original = grouped_object(address) or original
     if not original.is_file():
         parser.error(f"Missing isolated original object: {original}; run scripts/isolate_functions.py first")
     source = args.source.resolve(strict=True)
