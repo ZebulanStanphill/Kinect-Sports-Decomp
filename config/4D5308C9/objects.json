@@ -217831,10 +217831,10 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CFFA88.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CFFA88.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82CFFB00.c": {
@@ -263729,8 +263729,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82F3C920.c": {
-        "status": "NonMatching",
+      "auto_match/func_82F3C920.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]

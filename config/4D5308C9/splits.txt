@@ -141761,7 +141761,7 @@ auto_match/func_82CFFA08.c:
 	.pdata      start:0x82216400 end:0x82216408
 	.text       start:0x82CFFA08 end:0x82CFFA88
 
-auto_match/func_82CFFA88.c:
+auto_match/func_82CFFA88.cpp:
 	.pdata      start:0x82216408 end:0x82216410
 	.text       start:0x82CFFA88 end:0x82CFFB00
 
@@ -171152,7 +171152,7 @@ auto_match/func_82F3C768.c:
 	.pdata      start:0x82220478 end:0x82220480
 	.text       start:0x82F3C768 end:0x82F3C91C
 
-auto_match/func_82F3C920.c:
+auto_match/func_82F3C920.cpp:
 	.pdata      start:0x82220480 end:0x82220488
 	.text       start:0x82F3C920 end:0x82F3CA70
 
