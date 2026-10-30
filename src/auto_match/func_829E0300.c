@@ -25,32 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82A28E60();
-extern int XamXlfsUninitializeUploadQueue();
-extern unsigned int lbl_832179FC;
+typedef struct Req_829E0300 {
+  int size;
+  int pad;
+} Req_829E0300;
+typedef struct Obj_829E0300 {
+  unsigned char f0;
+  char pad1[3];
+  int f4;
+  void *f8;
+  int fc;
+  void *f10;
+  void *f14;
+} Obj_829E0300;
+typedef struct Sys_829E0300 {
+  char pad[0x8f4cc];
+  void *heap;
+} Sys_829E0300;
+extern void XamXlfsUninitializeUploadQueue(void *h, Req_829E0300 *r);
+extern void fn_82A28E60(void *heap, int a, void *p);
+extern Sys_829E0300 *lbl_832179FC;
 
+extern void *memset(void *, int, unsigned);
 
-void fn_829E0300(undefined1 *param_1)
-
+void fn_829E0300(Obj_829E0300 *o)
 {
-  undefined1 auStack_30 [1];
-  
-  if (*(int *)(param_1 + 0x14) != 0) {
-    XamXlfsUninitializeUploadQueue(*(int *)(param_1 + 0x14),auStack_30);
-    *(undefined4 *)(param_1 + 0x14) = 0;
+  if (o->f14 != 0) {
+    Req_829E0300 r;
+    memset(&r, 0, 8);
+    r.size = 8;
+    XamXlfsUninitializeUploadQueue(o->f14, &r);
+    o->f14 = 0;
   }
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0);
-    *(undefined4 *)(param_1 + 0x10) = 0;
+  if (o->f10 != 0) {
+    fn_82A28E60(lbl_832179FC->heap, 0, o->f10);
+    o->f10 = 0;
   }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82A28E60(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0);
-    *(undefined4 *)(param_1 + 8) = 0;
+  if (o->f8 != 0) {
+    fn_82A28E60(lbl_832179FC->heap, 0, o->f8);
+    o->f8 = 0;
   }
-  *param_1 = 0;
-  *(undefined4 *)(param_1 + 4) = 0;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  return;
+  o->f0 = 0;
+  o->f4 = 0;
+  o->fc = 0;
 }
-

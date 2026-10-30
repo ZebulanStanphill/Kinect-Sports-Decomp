@@ -25,96 +25,72 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_824BF8A8();
-extern unsigned int uStack_4c;
+typedef struct Evt_82404B90 {
+  const char *name;
+  int kind;
+} Evt_82404B90;
+typedef struct Obj_82404B90 {
+  unsigned flags;
+  char pad[0x58];
+  int f5c;
+} Obj_82404B90;
+extern void fn_824BF8A8(void *ctx, Evt_82404B90 *e);
+extern char lbl_821B7C80[];
 
-
-void fn_82404B90(uint *param_1,undefined8 param_2)
-
+static void post(void *ctx, const char *name, int kind)
 {
-  char *pcStack_50;
-  undefined4 uStack_4c;
-  
-  if ((*param_1 & 2) != 0) {
-    pcStack_50 = (char *)0x0;
-    uStack_4c = 1;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 8) != 0) {
-    pcStack_50 = "box";
-    param_1[0x17] = 1;
-    uStack_4c = 4;
-    fn_824BF8A8(param_2,&pcStack_50);
-    pcStack_50 = "block";
-    uStack_4c = 4;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x10) != 0) {
-    pcStack_50 = "box";
-    param_1[0x17] = 0;
-    uStack_4c = 5;
-    fn_824BF8A8(param_2,&pcStack_50);
-    pcStack_50 = "block";
-    uStack_4c = 5;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 4) != 0) {
-    pcStack_50 = (char *)0x0;
-    uStack_4c = 2;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x800) != 0) {
-    uStack_4c = 7;
-    pcStack_50 = "showvideo_fighting";
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 1) != 0) {
-    uStack_4c = 7;
-    pcStack_50 = "getready";
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (((*param_1 & 1) != 0) || ((*param_1 & 0x400) != 0)) {
-    pcStack_50 = "box";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x20) != 0) {
-    pcStack_50 = "box";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x100) != 0) {
-    pcStack_50 = "box";
-    uStack_4c = 9;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x40) != 0) {
-    pcStack_50 = "block";
-    uStack_4c = 9;
-    fn_824BF8A8(param_2,&pcStack_50);
-    pcStack_50 = "block";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x80) != 0) {
-    pcStack_50 = "block";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x100) != 0) {
-    pcStack_50 = "ko";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-    uStack_4c = 7;
-    pcStack_50 = "showvideo_knockdown";
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if ((*param_1 & 0x200) != 0) {
-    pcStack_50 = "ko";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  *param_1 = 0;
-  return;
+  Evt_82404B90 e;
+  e.name = name;
+  e.kind = kind;
+  fn_824BF8A8(ctx, &e);
 }
 
+void fn_82404B90(Obj_82404B90 *o, void *ctx)
+{
+  if ((o->flags & 2) != 0) {
+    post(ctx, 0, 1);
+  }
+  if ((o->flags & 8) != 0) {
+    o->f5c = 1;
+    post(ctx, lbl_821B7C80, 4);
+    post(ctx, "block", 4);
+  }
+  if ((o->flags & 0x10) != 0) {
+    o->f5c = 0;
+    post(ctx, lbl_821B7C80, 5);
+    post(ctx, "block", 5);
+  }
+  if ((o->flags & 4) != 0) {
+    post(ctx, 0, 2);
+  }
+  if ((o->flags & 0x800) != 0) {
+    post(ctx, "showvideo_fighting", 7);
+  }
+  if ((o->flags & 1) != 0) {
+    post(ctx, "getready", 7);
+  }
+  if ((o->flags & 1) != 0 || (o->flags & 0x400) != 0) {
+    post(ctx, lbl_821B7C80, 7);
+  }
+  if ((o->flags & 0x20) != 0) {
+    post(ctx, lbl_821B7C80, 8);
+  }
+  if ((o->flags & 0x100) != 0) {
+    post(ctx, lbl_821B7C80, 9);
+  }
+  if ((o->flags & 0x40) != 0) {
+    post(ctx, "block", 9);
+    post(ctx, "block", 7);
+  }
+  if ((o->flags & 0x80) != 0) {
+    post(ctx, "block", 8);
+  }
+  if ((o->flags & 0x100) != 0) {
+    post(ctx, "ko", 7);
+    post(ctx, "showvideo_knockdown", 7);
+  }
+  if ((o->flags & 0x200) != 0) {
+    post(ctx, "ko", 8);
+  }
+  o->flags = 0;
+}

@@ -25,28 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B78();
+typedef struct Vec_8305E840 { char pad[0x2c]; int *data; int count; } Vec_8305E840;
+extern void fn_8305E3E8(Vec_8305E840 *, int);
 
-
-void fn_8305E840(int param_1,int param_2)
-
+void fn_8305E840(Vec_8305E840 *v, int pos)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  
-  uVar1 = *(uint *)(param_1 + 0x30);
-  if (param_2 < (int)uVar1) {
-    iVar2 = param_2 << 2;
-    do {
-      param_2 = param_2 + 1;
-      puVar3 = (undefined4 *)(iVar2 + *(int *)(param_1 + 0x2c));
-      iVar2 = iVar2 + 4;
-      *puVar3 = puVar3[1];
-      uVar1 = *(uint *)(param_1 + 0x30);
-    } while (param_2 < (int)uVar1);
-  }
-  fn_82F68B78(param_1,(ulonglong)uVar1 - 1);
-  return;
-}
+  int i;
 
+  for (i = pos; i < v->count; i++) {
+    v->data[i] = v->data[i + 1];
+  }
+  fn_8305E3E8(v, v->count - 1);
+}

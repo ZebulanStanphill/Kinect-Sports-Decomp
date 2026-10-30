@@ -25,41 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826944C8();
-extern int fn_82694700();
+typedef struct RC_826A7AD0 { int a; int b; int rc; } RC_826A7AD0;
+typedef struct Mid_826A7AD0 { char pad[8]; RC_826A7AD0 *f8; char pad2[0x254 - 0xc]; char tab[1]; } Mid_826A7AD0;
+typedef struct Ctx_826A7AD0 { char pad[0x78]; Mid_826A7AD0 *f78; } Ctx_826A7AD0;
+extern void fn_826944C8(RC_826A7AD0 *);
+extern RC_826A7AD0 *fn_82694700(char *, unsigned char *);
 
-
-int * fn_826A7AD0(int *param_1,undefined4 *param_2,int param_3)
-
+RC_826A7AD0 **fn_826A7AD0(RC_826A7AD0 **out, unsigned char **in, Ctx_826A7AD0 *c)
 {
-  byte bVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  longlong lVar5;
-  
-  iVar2 = *(int *)(*(int *)(param_3 + 0x78) + 8);
-  iVar4 = *(int *)(iVar2 + 8);
-  *param_1 = iVar2;
-  *(int *)(iVar2 + 8) = iVar4 + 1;
-  bVar1 = *(byte *)*param_2;
-  if (((bVar1 & 1) != 0) && ((bVar1 & 4) == 0)) {
-    iVar4 = fn_82694700((ulonglong)*(uint *)(param_3 + 0x78) + 0x254,(byte *)*param_2 + 7);
-    iVar2 = *param_1;
-    *(int *)(iVar4 + 8) = *(int *)(iVar4 + 8) + 2;
-    lVar5 = (ulonglong)*(uint *)(iVar2 + 8) - 1;
-    *(int *)(iVar2 + 8) = (int)lVar5;
-    if (lVar5 == 0) {
-      fn_826944C8();
+  RC_826A7AD0 *p;
+  RC_826A7AD0 *q;
+  unsigned char b;
+  int n;
+
+  n = c->f78->f8->rc;
+  p = c->f78->f8;
+  *out = p;
+  p->rc = n + 1;
+  b = **in;
+  if ((b & 1) != 0 && (b & 4) == 0) {
+    q = fn_82694700(c->f78->tab, *in + 7);
+    p = *out;
+    q->rc = q->rc + 2;
+    n = p->rc - 1;
+    p->rc = n;
+    if (n == 0) {
+      fn_826944C8(p);
     }
-    uVar3 = *(uint *)(iVar4 + 8);
-    *param_1 = iVar4;
-    lVar5 = (ulonglong)uVar3 - 1;
-    *(int *)(iVar4 + 8) = (int)lVar5;
-    if (lVar5 == 0) {
-      fn_826944C8(iVar4);
+    n = q->rc;
+    *out = q;
+    n = n - 1;
+    q->rc = n;
+    if (n == 0) {
+      fn_826944C8(q);
     }
   }
-  return param_1;
+  return out;
 }
-

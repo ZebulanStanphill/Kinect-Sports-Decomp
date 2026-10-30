@@ -25,77 +25,104 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82381BC0();
-extern int fn_8265CA20();
-extern int fn_8288EE68();
-extern int fn_82891FE0();
-extern int fn_828926B8();
-extern int fn_828A12E8();
-extern int fn_828B55B0();
-extern int fn_828C9840();
-extern int fn_828CB310();
-extern int fn_82A4AAA8();
-extern unsigned int lbl_82023898;
-extern unsigned int lbl_82023C3C;
+typedef struct Node_82893C48 { struct Node_82893C48 *next; int pad[3]; void *val; } Node_82893C48;
+typedef struct Owner_82893C48 {
+  char pad[0x8c];
+  int cnt;
+  char pad2[0x230 - 0x90];
+  Node_82893C48 *list;
+} Owner_82893C48;
+typedef struct Inner_82893C48 { char pad[0x26]; unsigned char f26; } Inner_82893C48;
+typedef struct Child_82893C48 {
+  void **vt;
+  char pad[0x34];
+  Inner_82893C48 *inner;
+} Child_82893C48;
+typedef struct Obj_82893C48 {
+  void **vt;
+  int f4, f8;
+  void *rc;
+  Owner_82893C48 *owner;
+  char sub14[0xc];
+  struct S20_82893C48 { void **vt; int f24; char sub[0xc]; } s20;
+  Child_82893C48 *child;
+  int f38;
+  void *f3c;
+  int f40, f44, f48, f4c;
+  char pad50[0xd];
+  unsigned char f5d, f5e;
+} Obj_82893C48;
+extern void fn_822315A0(void *rc);
+extern void fn_82381BC0(Node_82893C48 **it);
+extern void fn_8265CA20(void *p);
+extern void fn_8288EE68(Obj_82893C48 *o, void *v);
+extern void fn_82891FE0(Owner_82893C48 *ow, Obj_82893C48 *o);
+extern void fn_828926B8(Obj_82893C48 *o, Owner_82893C48 *ow);
+extern Owner_82893C48 *fn_828A12E8(Owner_82893C48 *ow);
+extern void fn_828B55B0(void *sub);
+extern void fn_828C9840(void *a, Obj_82893C48 *o);
+extern void *fn_828CB310(void);
+extern int fn_82A4AAA8(void *v);
+extern void *lbl_82023898[];
+extern void *lbl_82023C3C[];
 
-
-void fn_82893C48(undefined4 *param_1)
-
+void fn_82893C48(Obj_82893C48 *o)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined8 uVar3;
-  int iVar4;
-  char cVar5;
-  int aiStack_30;
-  
-  *param_1 = &lbl_82023898;
-  uVar3 = fn_828CB310();
-  fn_828C9840(uVar3,param_1);
-  iVar4 = fn_828A12E8(param_1[4]);
-  *(int *)(iVar4 + 0x8c) = *(int *)(iVar4 + 0x8c) + -1;
-  if ((param_1[0xd] == 0) || (iVar4 = *(int *)(param_1[0xd] + 0x38), iVar4 == 0)) {
-    cVar5 = '\0';
+  Owner_82893C48 *ow;
+  Inner_82893C48 *in;
+  Node_82893C48 *it;
+  unsigned char flag;
+  void *v;
+  Child_82893C48 *c;
+  Child_82893C48 **pc;
+  struct S20_82893C48 *s;
+  Node_82893C48 *l;
+
+  o->vt = lbl_82023898;
+  fn_828C9840(fn_828CB310(), o);
+  ow = fn_828A12E8(o->owner);
+  ow->cnt = ow->cnt - 1;
+  if (o->child == 0 || (in = o->child->inner) == 0) {
+    flag = 0;
+  } else {
+    flag = in->f26;
   }
-  else {
-    cVar5 = *(char *)(iVar4 + 0x26);
-  }
-  if ((cVar5 != '\0') && (*(char *)((int)param_1 + 0x5e) != '\0')) {
-    aiStack_30 = **(int **)(param_1[4] + 0x230);
-    if ((int *)aiStack_30 != *(int **)(param_1[4] + 0x230)) {
+  if (flag != 0 && o->f5e != 0) {
+    l = o->owner->list;
+    it = l->next;
+    if (it != l) {
       do {
-        uVar1 = *(undefined4 *)(aiStack_30 + 0x10);
-        iVar4 = fn_82A4AAA8(uVar1);
-        if (iVar4 == 1) {
-          fn_8288EE68(param_1,uVar1);
+        v = it->val;
+        if (fn_82A4AAA8(v) == 1) {
+          fn_8288EE68(o, v);
         }
-        fn_82381BC0(&aiStack_30);
-      } while (aiStack_30 != *(int *)(param_1[4] + 0x230));
+        fn_82381BC0(&it);
+      } while (it != o->owner->list);
     }
   }
-  *(undefined1 *)((int)param_1 + 0x5d) = 0;
-  uVar3 = fn_828A12E8(param_1[4]);
-  fn_82891FE0(uVar3,param_1);
-  fn_828926B8(param_1,param_1[4]);
-  puVar2 = (undefined4 *)param_1[0xd];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  o->f5d = 0;
+  fn_82891FE0(fn_828A12E8(o->owner), o);
+  fn_828926B8(o, o->owner);
+  pc = &o->child;
+  c = *pc;
+  if (c != 0) {
+    ((void (*)(Child_82893C48 *, int))c->vt[0])(c, 1);
   }
-  param_1[0xd] = 0;
-  param_1[0x13] = 0;
-  if (param_1[0xf] != 0) {
-    fn_8265CA20();
+  *pc = 0;
+  if (o->f3c != 0) {
+    o->f4c = 0;
+    fn_8265CA20(o->f3c);
+  } else {
+    o->f4c = 0;
   }
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[8] = &lbl_82023C3C;
-  fn_828B55B0(param_1 + 10);
-  fn_828B55B0(param_1 + 5);
-  if (param_1[3] != 0) {
-    fn_822315A0();
+  o->f3c = 0;
+  o->f40 = 0;
+  o->f44 = 0;
+  s = &o->s20;
+  s->vt = lbl_82023C3C;
+  fn_828B55B0(s->sub);
+  fn_828B55B0(o->sub14);
+  if (o->rc != 0) {
+    fn_822315A0(o->rc);
   }
-  return;
 }
-

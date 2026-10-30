@@ -25,45 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+typedef struct A_824D03B8 { char pad[0x138]; float f138; char pad1[0x204 - 0x13c]; int f204; float f208; char pad2[0x254 - 0x20c]; float f254; } A_824D03B8;
+typedef struct B_824D03B8 { char pad[0x90]; int f90; float f94; char pad1[0xb8 - 0x98]; int fb8; } B_824D03B8;
+typedef struct Slot_824D03B8 {
+  char pad[0x344]; float f344; float f348; char pad1[0x394 - 0x34c]; int f394; float f398; float f39c; float f3a0; int f3a4; int f3a8; float f3ac;
+  char pad2[0x1c10 - 0x3b0];
+} Slot_824D03B8;
+typedef struct Obj_824D03B8 { char pad[0x3a00]; A_824D03B8 *f3a00; int f3a04; B_824D03B8 *f3a08; } Obj_824D03B8;
+extern float lbl_821CC160;
 
-
-void fn_824D03B8(double param_1,int param_2,int param_3,int param_4)
-
+void fn_824D03B8(Obj_824D03B8 *o, int idx, int on, float t)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar4 = *(int *)(param_2 + 0x3a00);
-  if ((((iVar4 != 0) && (*(int *)(iVar4 + 0x204) != 0)) && (param_4 != 0)) &&
-     (iVar3 = param_3 * 0x1c10 + param_2, *(int *)(iVar3 + 0x394) == 0)) {
-    iVar2 = *(int *)(param_2 + 0x3a08);
-    if (*(int *)(iVar2 + 0xb8) != 0) {
-      if (*(int *)(iVar2 + 0x90) == 0) {
-        uVar1 = *(undefined4 *)(iVar4 + 0x208);
-      }
-      else {
-        uVar1 = *(undefined4 *)(iVar2 + 0x94);
-      }
-      *(undefined4 *)(iVar3 + 0x3a0) = uVar1;
-      *(undefined4 *)(iVar3 + 0x3a8) = 1;
-      *(float *)(iVar3 + 0x3ac) =
-           *(float *)(iVar3 + 0x348) + *(float *)(*(int *)(param_2 + 0x3a00) + 0x254);
-    }
-    *(undefined4 *)(iVar3 + 0x344) = lbl_821CC160;
-  }
-  iVar4 = param_3 * 0x1c10 + param_2;
-  *(int *)(iVar4 + 0x394) = param_4;
-  *(float *)(iVar4 + 0x398) = (float)param_1;
-  if (*(int *)(param_2 + 0x3a00) == 0) {
-    return;
-  }
-  if (param_4 == 0) {
-    return;
-  }
-  *(undefined4 *)(iVar4 + 0x39c) = *(undefined4 *)(*(int *)(param_2 + 0x3a00) + 0x138);
-  return;
-}
+  A_824D03B8 *a;
+  B_824D03B8 *b;
+  Slot_824D03B8 *s;
 
+  a = o->f3a00;
+  if (a != 0 && a->f204 != 0 && on != 0 && (s = &((Slot_824D03B8 *)o)[idx], s->f394 == 0)) {
+    b = o->f3a08;
+    if (b->fb8 != 0) {
+      if (b->f90 != 0) {
+        s->f3a0 = b->f94;
+      } else {
+        s->f3a0 = a->f208;
+      }
+      s->f3a8 = 1;
+      s->f3ac = s->f348 + o->f3a00->f254;
+    }
+    s->f344 = lbl_821CC160;
+  }
+  s = &((Slot_824D03B8 *)o)[idx];
+  s->f394 = on;
+  s->f398 = t;
+  if (o->f3a00 == 0) {
+    return;
+  }
+  if (on == 0) {
+    return;
+  }
+  s->f39c = o->f3a00->f138;
+}

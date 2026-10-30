@@ -25,17 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *lbl_8327F868;
+typedef struct VtS_82536008 { int (*stop)(void *); } VtS_82536008;
+typedef struct Snd_82536008 { VtS_82536008 *vt; } Snd_82536008;
+typedef struct VtL_82536008 { void *pad[2]; void (*log)(void *, const char *, int, const char *); } VtL_82536008;
+typedef struct Log_82536008 { VtL_82536008 *vt; } Log_82536008;
+extern Log_82536008 *lbl_8327F868;
 
-
-void fn_82536008(undefined4 *param_1)
-
+void fn_82536008(Snd_82536008 *s)
 {
-  int iVar1;
-  
-  if ((param_1 != (undefined4 *)0x0) && (iVar1 = (**(code **)*param_1)(), iVar1 < 0)) {
-    (**(code **)(*lbl_8327F868 + 8))(lbl_8327F868,0xffffffff821c3b18,0x7ea,0xffffffff821c3dcc);
+  if (s != 0 && s->vt->stop(s) < 0) {
+    lbl_8327F868->vt->log(lbl_8327F868, "D:\\Work\\R1SDK\\Olympus_testing\\red\\Ghoulies\\game\\audio\\audio_main.cpp", 0x7ea, "Stop failed\n");
   }
-  return;
 }
-

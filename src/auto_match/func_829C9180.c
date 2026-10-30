@@ -25,20 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1c;
-extern int fn_82A1F228();
-extern int fn_82A94FE8();
-extern unsigned int uStack_20;
+extern int fn_82A94FE8(void *, int *, int *, int, int, int, int, int, int, int, int);
+extern void fn_82A1F228(int, int, void *);
 
-
-void fn_829C9180(undefined8 param_1,undefined8 param_2)
-
+void fn_829C9180(void *a, void *b)
 {
-  undefined4 uStack_20;
-  undefined4 auStack_1c [3];
-  
-  fn_82A94FE8(param_1,auStack_1c,&uStack_20,0,0,0,0,0);
-  fn_82A1F228(auStack_1c[0],uStack_20,param_2);
-  return;
-}
+  int x;
+  int y;
 
+  fn_82A94FE8(a, &y, &x, 0, 0, 0, 0, 0, 0, 0, 0);
+  fn_82A1F228(y, x, b);
+}

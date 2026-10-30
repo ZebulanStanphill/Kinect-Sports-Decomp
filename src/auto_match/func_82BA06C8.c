@@ -25,37 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BBFFC8();
-extern int fn_82BC0088();
+typedef struct Vec_82BA06C8 {
+  int pad0;
+  unsigned size;
+  unsigned *data;
+} Vec_82BA06C8;
+typedef struct Obj_82BA06C8 {
+  char pad[0x814];
+  Vec_82BA06C8 *vec;
+} Obj_82BA06C8;
+extern void fn_82BBFFC8(Vec_82BA06C8 *v, unsigned i);
+extern unsigned *fn_82BC0088(Vec_82BA06C8 *v, unsigned i);
 
-
-void fn_82BA06C8(int param_1,int param_2)
-
+void fn_82BA06C8(Obj_82BA06C8 *o, unsigned key)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  ulonglong uVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x814);
-  uVar4 = 0;
-  if (*(int *)(iVar1 + 4) != 0) {
-    iVar3 = 0;
-    do {
-      if ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 4)) {
-        piVar2 = (int *)(*(int *)(iVar1 + 8) + iVar3);
-      }
-      else {
-        piVar2 = (int *)fn_82BC0088(iVar1,uVar4);
-      }
-      if (*piVar2 == param_2) {
-        fn_82BBFFC8(*(undefined4 *)(param_1 + 0x814),uVar4);
-      }
-      iVar1 = *(int *)(param_1 + 0x814);
-      uVar4 = uVar4 + 1;
-      iVar3 = iVar3 + 4;
-    } while ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 4));
-  }
-  return;
-}
+  unsigned *e;
+  unsigned i;
+  Vec_82BA06C8 *v;
 
+  for (i = 0; i < o->vec->size; i++) {
+    v = o->vec;
+    if (i < v->size) {
+      e = &v->data[i];
+    } else {
+      e = fn_82BC0088(v, i);
+    }
+    if (*e == key) {
+      fn_82BBFFC8(o->vec, i);
+    }
+  }
+}

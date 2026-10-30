@@ -29,23 +29,27 @@ extern int fn_8267C4F0();
 extern int fn_82683F88();
 
 
-int * fn_82684D98(int *param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4,
-                   undefined8 param_5)
+struct Stream_82684D98;
+typedef struct VtS_82684D98 { char pad[0x20]; int (*check)(struct Stream_82684D98 *); } VtS_82684D98;
+typedef struct Stream_82684D98 { VtS_82684D98 *vt; } Stream_82684D98;
+struct Fs_82684D98;
+typedef struct VtF_82684D98 { int pad; Stream_82684D98 *(*open)(struct Fs_82684D98 *, const char *, int, int); } VtF_82684D98;
+typedef struct Fs_82684D98 { VtF_82684D98 *vt; } Fs_82684D98;
+typedef struct Loader_82684D98 { char pad[0xc]; char log[1]; } Loader_82684D98;
 
+Stream_82684D98 *fn_82684D98(Fs_82684D98 *fs, const char *name, Loader_82684D98 *ld, int a, int b)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = (int *)(**(code **)(*param_1 + 4))(param_1,param_2,param_4,param_5);
-  if ((piVar1 == (int *)0x0) || (iVar2 = (**(code **)(*piVar1 + 0x20))(piVar1), iVar2 != 0)) {
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_82683F88(param_3 + 0xc,0xffffffff82005ad8,param_2);
-    }
-    if (piVar1 != (int *)0x0) {
-      fn_8267C4F0(piVar1);
-    }
-    piVar1 = (int *)0x0;
-  }
-  return piVar1;
-}
+  Stream_82684D98 *p;
 
+  p = fs->vt->open(fs, name, a, b);
+  if (p != 0 && p->vt->check(p) == 0) {
+    return p;
+  }
+  if (ld != 0) {
+    fn_82683F88(ld->log, "Error: GFxLoader failed to open '%s'\n", name);
+  }
+  if (p != 0) {
+    fn_8267C4F0(p);
+  }
+  return 0;
+}

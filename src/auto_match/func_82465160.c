@@ -25,20 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int (*lbl_83276778)();
+typedef struct { int a; void (*assertFn)(int, int, int, const char *, const char *, int); } Glob_83276774;
+extern Glob_83276774 lbl_83276774;
+typedef struct { int f0; int state; int f8; int fc; float f10; float f14; int f18; } Obj_82465160;
 
-
-void fn_82465160(int param_1,int param_2)
-
+void fn_82465160(Obj_82465160 *o, int state)
 {
-  if (param_2 == 0xb) {
-    *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(param_1 + 0x14);
-    if (lbl_83276778 != (code *)0x0) {
-      (*lbl_83276778)(0,0,1,0xffffffff821bbfd0,0xffffffff821bbef0,0x4a);
+  if (state == 0xb) {
+    o->f10 = o->f14;
+    if (lbl_83276774.assertFn != 0) {
+      lbl_83276774.assertFn(0,0,1,"PlayerCalibration::Wipe::SetState","D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\scenecontroller\\scenecontroller_playercalibration\\scenecontroller_playercalibration_effect\\scenecontroller_playercalibration_effect_wipe.cpp",0x4a);
     }
-    *(undefined4 *)(param_1 + 0x18) = 1;
+    o->f18 = 1;
   }
-  *(int *)(param_1 + 4) = param_2;
-  return;
+  o->state = state;
 }
-

@@ -28,31 +28,33 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_829B0F38();
 
 
-bool fn_829B8FB8(int param_1)
+typedef struct Obj_829B8FB8 {
+  char pad[0x55c];
+  unsigned f55c;
+  char pad2[0x600 - 0x560];
+  unsigned f600;
+  char pad3[0x60c - 0x604];
+  unsigned char f60c;
+} Obj_829B8FB8;
 
+unsigned int fn_829B8FB8(Obj_829B8FB8 *o)
 {
-  bool bVar1;
-  byte bStack_20;
-  byte bStack_1f;
-  byte bStack_1e;
-  byte bStack_1d;
-  
-  bVar1 = true;
-  if ((*(byte *)(param_1 + 0x60c) & 0x20) == 0) {
-    bVar1 = (*(uint *)(param_1 + 0x55c) & 0x800) == 0;
-  }
-  else if ((*(uint *)(param_1 + 0x55c) & 0x300) == 0x300) {
-    bVar1 = false;
-  }
-  fn_829B0F38(param_1,&bStack_20,4);
-  if (bVar1) {
-    bVar1 = *(int *)(param_1 + 0x600) !=
-            (((uint)bStack_20 * 0x100 + (uint)bStack_1f) * 0x100 + (uint)bStack_1e) * 0x100 +
-            (uint)bStack_1d;
-  }
-  else {
-    bVar1 = false;
-  }
-  return bVar1;
-}
+  int on;
+  unsigned char b[4];
 
+  on = 1;
+  if ((o->f60c & 0x20) != 0) {
+    if ((o->f55c & 0x300) == 0x300) {
+      on = 0;
+    }
+  } else {
+    on = (o->f55c & 0x800) ? 0 : on;
+  }
+  fn_829B0F38(o, b, 4);
+  if (on) {
+    on = (((b[0] * 0x100 + b[1]) * 0x100 + b[2]) * 0x100 + b[3]) != o->f600;
+  } else {
+    on = 0;
+  }
+  return on;
+}

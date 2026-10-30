@@ -25,88 +25,80 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_58;
-extern unsigned int *auStack_60;
-extern int fn_822315A0();
-extern int fn_823AB158();
-extern int fn_825200F0();
-extern int fn_82522ED8();
-extern int fn_82529A38();
-extern int fn_8255BB98();
-extern int fn_8255C2E8();
-extern int fn_8255C3D8();
-extern int fn_82564348();
-extern int fn_82587AC0();
-extern int fn_825B6CE0();
-extern int fn_827D6968();
-extern int fn_8288F9A0();
-extern int fn_828A12E8();
-extern unsigned int iStack_54;
-extern unsigned int iStack_5c;
-extern unsigned int lbl_83265A24;
+typedef struct Pair_825BA600 { int *p; void *rc; } Pair_825BA600;
+typedef struct Ref_825BA600 { int f0; int f4; int f8; int fc; int f10; int f14; } Ref_825BA600;
+typedef struct Ptr_825BA600 { Ref_825BA600 *p; void *rc; } Ptr_825BA600;
+typedef struct Info_825BA600 { char pad[4]; int *f4; } Info_825BA600;
+typedef struct Dst_825BA600 { char pad[0xb30]; int fb30; } Dst_825BA600;
+typedef struct Sub_825BA600 { int f0; } Sub_825BA600;
+typedef struct A_825BA600 {
+  char pad[4]; char f4[6]; unsigned short fa; char pad1[0x13 - 0xc]; unsigned char f13; char pad2[0x34 - 0x14];
+  void *f34; int f38;
+} A_825BA600;
+typedef struct B_825BA600 { char pad[0xd48]; int fd48; } B_825BA600;
+extern void fn_822315A0(void *);
+extern int fn_823AB158(int);
+extern void fn_825200F0(void *, void *);
+extern void fn_82522ED8(void *);
+extern Dst_825BA600 *fn_82529A38(void *, void *, int);
+extern Ptr_825BA600 *fn_8255BB98(void *, int);
+extern unsigned char fn_8255C2E8(A_825BA600 *, B_825BA600 *, void *);
+extern void *fn_8255C3D8(void *, void *, B_825BA600 *);
+extern void fn_82564348(void *);
+extern void *fn_82587AC0(void *);
+extern void *fn_825B6CE0(void *);
+extern unsigned char fn_827D6968(void *, void *, int);
+extern void *fn_8288F9A0(void *, int);
+extern void *fn_828A12E8(int);
+extern void *lbl_83265A24;
 
-
-void fn_825BA600(int param_1,int param_2)
-
+void fn_825BA600(A_825BA600 *a, B_825BA600 *b)
 {
-  char cVar8;
-  longlong lVar1;
-  undefined8 uVar2;
-  int iVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  undefined4 uVar7;
-  undefined1 auStack_60 [4];
-  int iStack_5c;
-  undefined1 auStack_58 [4];
-  int iStack_54;
-  undefined1 auStack_50 [16];
-  
-  uVar7 = *(undefined4 *)(param_2 + 0xd48);
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_825200F0(auStack_50,param_1 + 0x34);
-    cVar8 = fn_827D6968(lbl_83265A24,auStack_50,0xffffffffffffffff);
-    if (cVar8 != '\0') {
-      lVar1 = fn_825B6CE0(param_1 + 0x34);
-      uVar2 = fn_8255C3D8(lVar1,param_1 + 4,param_2);
-      cVar8 = fn_8255C2E8(param_1,param_2,uVar2);
-      if (cVar8 != '\0') {
-        uVar2 = fn_82587AC0(lVar1 + 0x4b);
-        iVar3 = fn_82529A38(uVar2,lVar1,0);
-        if (iVar3 != 0) {
-          if (*(short *)(param_1 + 10) == 0) {
-            piVar4 = (int *)fn_8255BB98(auStack_60,uVar7);
-            iVar5 = *piVar4;
-            if (iStack_5c != 0) {
-              fn_822315A0(iStack_5c);
+  int h;
+  char buf[16];
+  Ptr_825BA600 hold1;
+  Ptr_825BA600 hold2;
+  unsigned char has;
+  void *n;
+  Dst_825BA600 *d;
+  unsigned e;
+  int x;
+  Info_825BA600 *t;
+  void *t3;
+
+  h = b->fd48;
+  if (a->f34 != 0) {
+    fn_825200F0(buf, &a->f34);
+    if (fn_827D6968(lbl_83265A24, buf, -1) != 0) {
+      n = fn_825B6CE0(&a->f34);
+      if (fn_8255C2E8(a, b, fn_8255C3D8(n, &a->f4, b)) != 0) {
+        t3 = fn_82587AC0((char *)n + 0x4b);
+        d = fn_82529A38(t3, n, 0);
+        if (d != 0) {
+          if (a->fa == 0) {
+            has = fn_8255BB98(&hold1, h)->p != 0;
+            if (hold1.rc != 0) {
+              fn_822315A0(hold1.rc);
             }
-            if (iVar5 != 0) {
-              piVar4 = (int *)fn_8255BB98(auStack_58,uVar7);
-              uVar7 = *(undefined4 *)(*piVar4 + 8);
-              uVar2 = fn_828A12E8(uVar7);
-              iVar5 = fn_8288F9A0(uVar2,1);
-              iVar5 = **(int **)(iVar5 + 4);
-              if (iStack_54 != 0) {
-                fn_822315A0(iStack_54);
+            if (has) {
+              x = fn_8255BB98(&hold2, h)->p->f8;
+              t = fn_8288F9A0(fn_828A12E8(x), 1);
+              e = *t->f4;
+              if (hold2.rc != 0) {
+                fn_822315A0(hold2.rc);
               }
-              uVar2 = fn_828A12E8(uVar7);
-              iVar6 = fn_8288F9A0(uVar2,1);
-              if (iVar5 != *(int *)(iVar6 + 4)) {
-                uVar7 = fn_823AB158(*(undefined4 *)(iVar5 + 0x14));
-                *(undefined4 *)(iVar3 + 0xb30) = uVar7;
+              t = fn_8288F9A0(fn_828A12E8(x), 1);
+              if (e != (unsigned)t->f4) {
+                d->fb30 = fn_823AB158(*(int *)(e + 0x14));
               }
             }
           }
-          if ((*(char *)(param_1 + 0x13) != '\0') || (*(int *)(param_1 + 0x38) != 0)) {
-            fn_82564348(iVar3);
+          if (a->f13 != 0 || a->f38 != 0) {
+            fn_82564348(d);
           }
         }
       }
-      fn_82522ED8(lVar1);
+      fn_82522ED8(n);
     }
   }
-  return;
 }
-

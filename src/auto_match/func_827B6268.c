@@ -26,42 +26,52 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_20;
-extern int fn_8267BED0();
+extern void *fn_8267BED0(void *, int, unsigned *);
 
 
-undefined4 * fn_827B6268(undefined4 *param_1)
+typedef struct Elem_827B6268 { unsigned v[10]; } Elem_827B6268;
+typedef struct Block_827B6268 {
+  Elem_827B6268 e[0x7f];
+  struct Block_827B6268 *next;
+} Block_827B6268;
+typedef struct Pool_827B6268 {
+  Block_827B6268 *head;
+  Block_827B6268 *cur;
+  unsigned used;
+  Elem_827B6268 *freelist;
+  void *heap;
+} Pool_827B6268;
 
+Elem_827B6268 *fn_827B6268(Pool_827B6268 *p)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 auStack_20 [4];
-  
-  puVar2 = (undefined4 *)param_1[3];
-  if (puVar2 == (undefined4 *)0x0) {
-    uVar1 = param_1[2];
-    if (uVar1 < 0x7f) {
-      iVar3 = uVar1 + 1;
-      puVar2 = (undefined4 *)(uVar1 * 0x28 + param_1[1]);
-    }
-    else {
-      auStack_20[0] = 0xc3;
-      puVar2 = (undefined4 *)fn_8267BED0(param_1[4],0x13dc,auStack_20);
-      puVar2[0x4f6] = 0;
-      if (param_1[1] == 0) {
-        *param_1 = puVar2;
-      }
-      else {
-        *(undefined4 **)(param_1[1] + 0x13d8) = puVar2;
-      }
-      iVar3 = 1;
-      param_1[1] = puVar2;
-    }
-    param_1[2] = iVar3;
-  }
-  else {
-    param_1[3] = *puVar2;
-  }
-  return puVar2;
-}
+  Elem_827B6268 *r;
+  unsigned n;
+  int k;
+  unsigned id[4];
+  Block_827B6268 *b;
 
+  r = p->freelist;
+  if (r != 0) {
+    p->freelist = *(Elem_827B6268 **)r;
+  } else {
+    n = p->used;
+    if (n < 0x7f) {
+      k = n + 1;
+      r = &p->cur->e[n];
+    } else {
+      id[0] = 0xc3;
+      b = (Block_827B6268 *)fn_8267BED0(p->heap, 0x13dc, id);
+      b->next = 0;
+      if (p->cur != 0) {
+        p->cur->next = b;
+      } else {
+        p->head = b;
+      }
+      r = (Elem_827B6268 *)b;
+      p->cur = b;
+      k = 1;
+    }
+    p->used = k;
+  }
+  return r;
+}

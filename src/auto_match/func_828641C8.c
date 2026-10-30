@@ -25,26 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern unsigned int fStack_4c;
-extern int fn_82863D58();
-extern int fn_82863DE0();
-extern int fn_82864158();
+extern void fn_82863D58(void *a, void *b, void *c, float *d, void *e, unsigned char *f);
+extern void fn_82863DE0(void *b, void *c, float x, void *e);
+extern void fn_82864158(void *a, void *b, void *e, unsigned char f, int g);
 
-
-void fn_828641C8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_828641C8(void *param_1, void *param_2, int param_3)
 {
-  undefined1 auStack_50;
-  float fStack_4c;
-  undefined1 auStack_48 [16];
-  undefined1 auStack_38 [56];
-  
-  fn_82863D58(param_1,param_2,auStack_38,&fStack_4c,auStack_48,&auStack_50);
-  fn_82863DE0((double)fStack_4c,param_2,auStack_38);
-  fn_82864158(param_1,param_2,auStack_48,auStack_50,param_3);
-  return;
-}
+  unsigned char f;
+  float x;
+  struct { int v[3]; } e;
+  struct { int v[3]; } c;
 
+  fn_82863D58(param_1, param_2, &c, &x, &e, &f);
+  fn_82863DE0(param_2, &c, x, &e);
+  fn_82864158(param_1, param_2, &e, f, param_3);
+}

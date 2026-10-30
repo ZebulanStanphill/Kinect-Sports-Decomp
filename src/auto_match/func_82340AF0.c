@@ -25,41 +25,74 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_823400C8();
-extern int fn_828EA608();
+typedef struct Elem_82340AF0 {
+  int key;
+  int f4, f8, fc, f10;
+  int f14;
+  unsigned f18;
+} Elem_82340AF0;
+typedef struct Tgt_82340AF0 {
+  char pad[0x100];
+  unsigned *table;
+} Tgt_82340AF0;
+typedef struct D_82340AF0 { char pad[0x40]; unsigned f40; } D_82340AF0;
+typedef struct C_82340AF0 { char pad[0xa0]; D_82340AF0 *d; } C_82340AF0;
+typedef struct B_82340AF0 { char pad[0xc]; C_82340AF0 *c; } B_82340AF0;
+typedef struct Sub_82340AF0 {
+  char pad[0x74];
+  Tgt_82340AF0 *f74;
+  char pad2[0x1a0 - 0x78];
+  B_82340AF0 *f1a0;
+} Sub_82340AF0;
+typedef struct Ctx_82340AF0 {
+  Elem_82340AF0 *begin;
+  Elem_82340AF0 *end;
+  char pad[8];
+  Sub_82340AF0 *sub;
+  char pad2[8];
+  int f1c;
+} Ctx_82340AF0;
+typedef struct Self_82340AF0 { Ctx_82340AF0 *ctx; } Self_82340AF0;
 
+extern int fn_823400C8(Elem_82340AF0 *e);
+extern unsigned char fn_828EA608(Tgt_82340AF0 *t);
 
-void fn_82340AF0(int *param_1,int param_2,int param_3)
-
+static Tgt_82340AF0 *check_(Tgt_82340AF0 *t)
 {
-  char cVar2;
-  int iVar1;
-  int iVar3;
-  int *piVar4;
-  
-  iVar3 = *(int *)(*(int *)(*(int *)(*(int *)(*param_1 + 0x10) + 0x1a0) + 0xc) + 0xa0);
-  if ((iVar3 == 0) || (*(int *)(iVar3 + 0x40) != 1)) {
-    iVar3 = *(int *)(*(int *)(*param_1 + 0x10) + 0x74);
-    if ((iVar3 == 0) || (cVar2 = fn_828EA608(iVar3), cVar2 == '\0')) {
-      iVar3 = 0;
-    }
-    if (iVar3 != 0) {
-      for (piVar4 = *(int **)*param_1;
-          (piVar4 != (int *)((undefined4 *)*param_1)[1] && (*piVar4 != param_2));
-          piVar4 = piVar4 + 7) {
+  if (t != 0 && fn_828EA608(t) != 0) {
+    return t;
+  }
+  return 0;
+}
+
+void fn_82340AF0(Self_82340AF0 *p, int key, int add)
+{
+  int d;
+  Tgt_82340AF0 *t;
+  Elem_82340AF0 *e;
+  int idx;
+  unsigned *tbl;
+  Elem_82340AF0 *end;
+  Ctx_82340AF0 *c;
+
+  c = p->ctx;
+  d = (int)c->sub->f1a0->c->d;
+  if (d == 0 || ((D_82340AF0 *)d)->f40 != 1) {
+    t = check_(p->ctx->sub->f74);
+    if (t != 0) {
+      end = p->ctx->end;
+      for (e = p->ctx->begin; e != end && e->key != key; e++) {
       }
-      piVar4[6] = piVar4[6] + param_3;
-      if (*(int *)(*param_1 + 0x1c) == 0) {
-        iVar1 = fn_823400C8(piVar4);
+      e->f18 = e->f18 + add;
+      if (p->ctx->f1c != 0) {
+        idx = e->f14;
+      } else {
+        idx = fn_823400C8(e);
       }
-      else {
-        iVar1 = piVar4[5];
-      }
-      if (*(int *)(iVar1 * 4 + *(int *)(iVar3 + 0x100)) != piVar4[6]) {
-        *(int *)(iVar1 * 4 + *(int *)(iVar3 + 0x100)) = piVar4[6];
+      tbl = t->table;
+      if (tbl[idx] != e->f18) {
+        tbl[idx] = e->f18;
       }
     }
   }
-  return;
 }
-

@@ -1,51 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E21200();
-extern int fn_82E212B0();
+extern void fn_82E21200(char *p, const char *s);
+extern void fn_82E212B0(char *p, const unsigned short *s);
 
-
-undefined8 fn_82E21A00(char *param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82E21A00(char *p, const char *name, const char *value)
 {
-  if (*param_1 == '\0') {
-    fn_82E21200(param_1,0xffffffff8214be1c);
-    fn_82E21200(param_1,param_2);
-    fn_82E21200(param_1,0xffffffff8214be10);
-    fn_82E21200(param_1,param_3);
-    fn_82E21200(param_1,0xffffffff8214be04);
-  }
-  else {
-    fn_82E212B0(param_1,0xffffffff8214be5c);
-    fn_82E21200(param_1,param_2);
-    fn_82E212B0(param_1,0xffffffff8214be48);
-    fn_82E21200(param_1,param_3);
-    fn_82E212B0(param_1,0xffffffff8214be34);
+  if (*p != 0) {
+    fn_82E212B0(p, L"   <Parameter Name=\"");
+    fn_82E21200(p, name);
+    fn_82E212B0(p, L"\" Type=\"");
+    fn_82E21200(p, value);
+    fn_82E212B0(p, L"\" Value=\"");
+  } else {
+    fn_82E21200(p, "   <Parameter Name=\"");
+    fn_82E21200(p, name);
+    fn_82E21200(p, "\" Type=\"");
+    fn_82E21200(p, value);
+    fn_82E21200(p, "\" Value=\"");
   }
   return 1;
 }
-

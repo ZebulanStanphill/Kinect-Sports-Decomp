@@ -1,60 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82671620();
+typedef struct Ent_82671C38 { int a; unsigned key; } Ent_82671C38;
+typedef struct Obj_82671C38 {
+  char pad[0x24];
+  Ent_82671C38 *begin;
+  Ent_82671C38 *end;
+  char pad2[0x140 - 0x2c];
+  char cs[1];
+} Obj_82671C38;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void *fn_82671620(void *, void *, void *);
 
-
-undefined8 fn_82671C38(int param_1,int param_2)
-
+int fn_82671C38(Obj_82671C38 *o, unsigned key)
 {
-  int iVar1;
-  int iVar2;
-  undefined1 auStack_30 [16];
-  
-  iVar2 = param_1 + 0x140;
-  if (iVar2 != 0) {
-    RtlEnterCriticalSection(iVar2);
-  }
-  iVar1 = *(int *)(param_1 + 0x24);
-  while( true ) {
-    if (iVar1 == *(int *)(param_1 + 0x28)) {
-      if (iVar2 != 0) {
-        RtlLeaveCriticalSection(iVar2);
-      }
-      return 0;
-    }
-    if (*(int *)(iVar1 + 4) == param_2) break;
-    iVar1 = iVar1 + 8;
-  }
-  fn_82671620(auStack_30,param_1 + 0x24);
-  if (iVar2 != 0) {
-    RtlLeaveCriticalSection(iVar2);
-  }
-  return 1;
-}
+  char buf[16];
+  char *cs;
+  Ent_82671C38 *it;
+  Ent_82671C38 *end;
 
+  cs = o->cs;
+  if (cs != 0) {
+    RtlEnterCriticalSection(cs);
+  }
+  end = o->end;
+  for (it = o->begin; it != end; it++) {
+    if (it->key == key) {
+      fn_82671620(buf, &o->begin, it);
+      if (cs != 0) {
+        RtlLeaveCriticalSection(cs);
+      }
+      return 1;
+    }
+  }
+  if (cs != 0) {
+    RtlLeaveCriticalSection(cs);
+  }
+  return 0;
+}

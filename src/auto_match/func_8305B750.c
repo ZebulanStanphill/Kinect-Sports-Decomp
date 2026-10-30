@@ -27,18 +27,29 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8305B750(int *param_1)
+typedef struct VT_8305B750 {
+  void *s[5];
+  void (*f14)(void *, void *);
+  void (*f18)(void *, void *);
+  void (*f1c)(void *, void *);
+} VT_8305B750;
+typedef struct Obj_8305B750 {
+  VT_8305B750 *vt;
+  int f4;
+  void *f8;
+  void *fc;
+  void *f10;
+} Obj_8305B750;
 
+void fn_8305B750(Obj_8305B750 *o)
 {
-  if (param_1[2] != 0) {
-    (**(code **)(*param_1 + 0x14))();
+  if (o->f8 != 0) {
+    o->vt->f14(o, o->f8);
   }
-  if (param_1[3] != 0) {
-    (**(code **)(*param_1 + 0x18))(param_1);
+  if (o->fc != 0) {
+    o->vt->f18(o, o->fc);
   }
-  if (param_1[4] != 0) {
-    (**(code **)(*param_1 + 0x1c))(param_1);
+  if (o->f10 != 0) {
+    o->vt->f1c(o, o->f10);
   }
-  return;
 }
-

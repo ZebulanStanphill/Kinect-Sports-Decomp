@@ -25,56 +25,54 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern unsigned int *auStack_30;
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_82520158();
-extern int fn_8262FEC8();
-extern int fn_82631488();
+typedef struct Src_824F5A20 { int f0; } Src_824F5A20;
+typedef struct Obj_824F5A20 {
+  void *vt; Src_824F5A20 *src; int f8; int fc; int f10; int f14;
+  unsigned char f18; unsigned char f19; float f1c; float f20;
+} Obj_824F5A20;
+extern char lbl_821C1E80[];
+extern float lbl_821CC160;
+extern void fn_82520158(const char *, int *, int);
+extern void *fn_8251F720(int *, int);
+extern void fn_8251FA58(void *);
 extern int fn_82631830();
-extern int fn_82631BF8();
-extern int fn_826438C0();
-extern unsigned int lbl_821C1E80;
-extern unsigned int lbl_821CC160;
+extern int fn_82631488();
+extern void *fn_82631BF8(const char *);
+extern void fn_826438C0(int, int, void *, int *, int);
+extern void fn_8262FEC8(void *);
+extern char lbl_831C31B8[];
 
-
-undefined4 * fn_824F5A20(undefined4 *param_1,undefined4 *param_2)
-
+Obj_824F5A20 *fn_824F5A20(Obj_824F5A20 *o, Src_824F5A20 *src)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  undefined1 auStack_30 [4];
-  undefined4 auStack_2c;
-  
-  param_1[1] = param_2;
-  *param_1 = &lbl_821C1E80;
-  if (param_2 == (undefined4 *)0x0) {
-    param_1[2] = 0;
-  }
-  else {
-    param_1[2] = *param_2;
-  }
-  *(undefined1 *)(param_1 + 6) = 0;
-  *(undefined1 *)((int)param_1 + 0x19) = 0;
-  uVar2 = lbl_821CC160;
-  param_1[7] = lbl_821CC160;
-  param_1[8] = uVar2;
-  fn_82520158(0xffffffff821c1e50,auStack_30,0);
-  fn_82520158(0xffffffff821c1e68,&auStack_2c,0);
-  uVar1 = fn_8251F720(auStack_30,0);
-  uVar2 = fn_82631830();
-  param_1[3] = uVar2;
-  fn_8251FA58(uVar1);
-  uVar1 = fn_8251F720(&auStack_2c,0);
-  uVar2 = fn_82631488();
-  param_1[4] = uVar2;
-  fn_8251FA58(uVar1);
-  uVar1 = fn_82631BF8(0xffffffff831c31b8);
-  auStack_2c = 8;
-  fn_826438C0(param_1[3],0,uVar1,&auStack_2c,0);
-  fn_8262FEC8(uVar1);
-  param_1[5] = 0;
-  return param_1;
-}
+  struct { int a; int b; } l;
+  float t;
+  void *h;
+  void *g;
 
+  o->src = src;
+  o->vt = lbl_821C1E80;
+  if (src != 0) {
+    o->f8 = src->f0;
+  } else {
+    o->f8 = 0;
+  }
+  o->f18 = 0;
+  o->f19 = 0;
+  t = lbl_821CC160;
+  o->f1c = t;
+  o->f20 = t;
+  fn_82520158("fxCrossFadeVertexShader", &l.a, 0);
+  fn_82520158("fxCrossFadePixelShader", &l.b, 0);
+  h = fn_8251F720(&l.a, 0);
+  o->fc = fn_82631830();
+  fn_8251FA58(h);
+  h = fn_8251F720(&l.b, 0);
+  o->f10 = fn_82631488();
+  fn_8251FA58(h);
+  g = fn_82631BF8(lbl_831C31B8);
+  l.b = 8;
+  fn_826438C0(o->fc, 0, g, &l.b, 0);
+  fn_8262FEC8(g);
+  o->f14 = 0;
+  return o;
+}

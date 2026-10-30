@@ -27,35 +27,28 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D49AC0(int param_1,int *param_2)
+typedef struct Sub_82D49AC0 {
+  char pad[8]; int *f8; char pad1[0x14 - 0xc]; int *f14; int f18; char pad2[0x24 - 0x1c]; int f24;
+} Sub_82D49AC0;
+typedef struct Obj_82D49AC0 { char pad[0x18]; Sub_82D49AC0 *f18; } Obj_82D49AC0;
+typedef struct Stats_82D49AC0 { int sum; int cnt; float avg; int max; } Stats_82D49AC0;
 
+void fn_82D49AC0(Obj_82D49AC0 *o, Stats_82D49AC0 *s)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar1 = 0;
-  *param_2 = *(int *)(*(int *)(param_1 + 0x18) + 0x24) + *param_2;
-  param_2[1] = *(int *)(*(int *)(param_1 + 0x18) + 0x24) + param_2[1];
-  iVar3 = *(int *)(*(int *)(param_1 + 0x18) + 0x18);
-  if (0 < iVar3) {
-    iVar2 = 0;
-    do {
-      iVar3 = *(int *)(*(int *)(*(int *)(*(int *)(param_1 + 0x18) + 0x14) + iVar2) * 4 +
-                      *(int *)(*(int *)(param_1 + 0x18) + 8));
-      *param_2 = *param_2 + iVar3;
-      if (iVar3 < param_2[3]) {
-        iVar3 = param_2[3];
-      }
-      param_2[3] = iVar3;
-      iVar1 = iVar1 + 1;
-      iVar2 = iVar2 + 4;
-      iVar3 = *(int *)(*(int *)(param_1 + 0x18) + 0x18);
-    } while (iVar1 < iVar3);
-  }
-  iVar1 = param_2[1];
-  param_2[1] = iVar1 + iVar3;
-  param_2[2] = (int)((float)(longlong)*param_2 / (float)(longlong)(iVar1 + iVar3));
-  return;
-}
+  int i = 0;
+  int v;
+  int n;
 
+  s->sum = o->f18->f24 + s->sum;
+  s->cnt = o->f18->f24 + s->cnt;
+  n = o->f18->f18;
+  while (i < n) {
+    v = o->f18->f8[o->f18->f14[i]];
+    s->sum += v;
+    s->max = s->max > v ? s->max : v;
+    i++;
+    n = o->f18->f18;
+  }
+  s->cnt += n;
+  s->avg = (float)s->sum / (float)s->cnt;
+}

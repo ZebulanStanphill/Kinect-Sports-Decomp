@@ -25,36 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82532F98();
-extern int fn_8255EBE0();
-extern int fn_8255EDD0();
-extern int fn_827F0180();
+typedef struct Sub_822B8030 { struct { char pad[0x18]; void (*f18)(void *); } *vt; } Sub_822B8030;
+typedef struct Dev2_822B8030 {
+  struct { char pad[0xac]; int (*fac)(void *); } *vt;
+  char pad[0x1b4 - 4];
+  Sub_822B8030 *f1b4;
+} Dev2_822B8030;
+typedef struct X_822B8030 { char pad[0x44]; int idx; } X_822B8030;
+typedef struct Ctx_822B8030 { char pad[0x4c]; X_822B8030 *f4c; char pad2[0x8c0 - 0x50]; Dev2_822B8030 *f8c0; } Ctx_822B8030;
+typedef struct Obj_822B8030 { Ctx_822B8030 *ctx; int f4; char pad[0x368 - 8]; int f368; char f36c[1]; } Obj_822B8030;
+extern void fn_82532F98(int *, char *);
+extern void fn_8255EBE0(int, char *);
+extern void fn_8255EDD0(int, char *);
+extern void fn_827F0180(int, int, int, int, int);
+extern char lbl_82190260[];
 
-
-void fn_822B8030(int *param_1)
-
+void fn_822B8030(Obj_822B8030 *o)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  if (param_1[0xda] == 0) {
-    fn_8255EBE0(param_1[1],param_1 + 0xdb);
-  }
-  else {
-    fn_8255EDD0();
-  }
-  piVar1 = *(int **)(*param_1 + 0x8c0);
-  puVar2 = (undefined4 *)piVar1[*(int *)(*(int *)(*param_1 + 0x4c) + 0x44) + 0x20];
-  iVar3 = (**(code **)(*piVar1 + 0xac))(piVar1);
-  if (iVar3 == 0) {
-    fn_827F0180(param_1[1],*puVar2,1,0,0);
-  }
-  else {
-    fn_827F0180(param_1[1],puVar2[1],1,0,0);
-    (**(code **)(*(int *)piVar1[0x6d] + 0x18))();
-    fn_82532F98(puVar2,0xffffffff82190260);
-  }
-  return;
-}
+  Dev2_822B8030 *d;
+  int *e;
 
+  if (o->f368 != 0) {
+    fn_8255EDD0(o->f4, o->f36c);
+  } else {
+    fn_8255EBE0(o->f4, o->f36c);
+  }
+  d = o->ctx->f8c0;
+  e = ((int **)d)[o->ctx->f4c->idx + 0x20];
+  if (d->vt->fac(d) == 0) {
+    fn_827F0180(o->f4, e[0], 1, 0, 0);
+  } else {
+    fn_827F0180(o->f4, e[1], 1, 0, 0);
+    d->f1b4->vt->f18(d->f1b4);
+    fn_82532F98(e, lbl_82190260);
+  }
+}

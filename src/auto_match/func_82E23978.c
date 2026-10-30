@@ -25,28 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E23588();
-extern int fn_82E23670();
+typedef struct Buf_82E23978 { int f0; int f4; int f8; int fc; } Buf_82E23978;
+typedef struct Obj_82E23978 {
+  char pad[0x74];
+  Buf_82E23978 bufs[2];
+  int ptrs[2];
+  unsigned char cur;
+  char pad2[3];
+  char cs[1];
+} Obj_82E23978;
+typedef struct Item_82E23978 { int f0; int f4; int f8; } Item_82E23978;
+extern __int64 fn_82E23588(Buf_82E23978 *, Item_82E23978 *, __int64);
+extern int fn_82E23670(Buf_82E23978 *, int, int, int);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-undefined8
-fn_82E23978(int param_1,undefined4 param_2,undefined4 param_3,int param_4,undefined8 param_5)
-
+__int64 fn_82E23978(Obj_82E23978 *o, int a, int b, Item_82E23978 *item, __int64 c)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  *(undefined4 *)(param_4 + 8) = param_2;
-  RtlEnterCriticalSection(param_1 + 0xa0);
-  iVar2 = (-(uint)*(byte *)(param_1 + 0x9c) + 1) * 0x10 + param_1;
-  iVar3 = iVar2 + 0x74;
-  *(undefined4 *)((-(uint)*(byte *)(param_1 + 0x9c) + 0x26) * 4 + param_1) = param_3;
-  if (*(int *)(iVar2 + 0x74) != 0) {
-    fn_82E23670(iVar3,0,0,0);
-  }
-  uVar1 = fn_82E23588(iVar3,param_4,param_5);
-  RtlLeaveCriticalSection(param_1 + 0xa0);
-  return uVar1;
-}
+  int idx;
+  Buf_82E23978 *buf;
+  __int64 r;
 
+  item->f8 = a;
+  RtlEnterCriticalSection(o->cs);
+  idx = 1 - o->cur;
+  buf = &o->bufs[idx];
+  o->ptrs[idx] = b;
+  if (buf->f0 != 0) {
+    fn_82E23670(buf, 0, 0, 0);
+  }
+  r = fn_82E23588(buf, item, c);
+  RtlLeaveCriticalSection(o->cs);
+  return r;
+}
