@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821064D0;
+extern unsigned char lbl_821064D0[];
 
 
-void fn_82CABDC8(int param_1,int param_2,uint param_3,int param_4,char param_5)
+void fn_82CABDC8(int param_1,int param_2,uint param_3,int param_4,int param_5)
 
 {
   *(byte *)(*(int *)(param_1 + 4) * (param_3 & 1) + *(int *)(param_1 + 0xc) + param_2) =
-       param_5 << 2 | (&lbl_821064D0)[param_4] & 3;
+       param_5 << 2 | lbl_821064D0[param_4] & 3;
   return;
 }
 

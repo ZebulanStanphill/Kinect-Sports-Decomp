@@ -1,3 +1,4 @@
+extern void fn_828278F8(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -36,7 +37,7 @@ void fn_82826690(longlong param_1,undefined4 param_2,undefined4 *param_3)
   int aiStack_1c;
   
   uStack_20 = param_2;
-  fn_82822510(param_1 + 0x2fc,0xffffffff828278f8,&uStack_20,&aiStack_1c);
+  fn_82822510(param_1 + 0x2fc,fn_828278F8,&uStack_20,&aiStack_1c);
   *param_3 = *(undefined4 *)(aiStack_1c + 0x14);
   return;
 }

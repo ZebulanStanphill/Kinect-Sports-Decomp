@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A37A90(undefined4 *param_1,undefined4 param_2,undefined4 param_3,int param_4)
+int fn_82A37A90(undefined4 *param_1,undefined4 param_2,undefined4 param_3,unsigned int param_4)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_4 != 0) {
     uVar1 = NtCreateEvent(param_1 + 0xb,0,0,1);

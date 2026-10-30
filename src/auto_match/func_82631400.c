@@ -41,7 +41,7 @@ void fn_82631400(uint *param_1,undefined4 *param_2)
   uVar2 = param_1[1];
   *param_2 = param_1;
   param_2[2] = uVar2 + (int)param_1;
-  param_2[1] = (-(uint)((uVar1 & 1) != 0) & 0x340) + 0x28 + uVar2;
+  param_2[1] = ((uVar1 & 1) ? 0x368 : 0x28) + uVar2;
   param_2[3] = param_1[2];
   return;
 }

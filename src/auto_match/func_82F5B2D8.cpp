@@ -1,0 +1,1 @@
+extern "C" bool fn_82F5B2D8(void **p){return p[1]!=0 && p[0]!=0;}

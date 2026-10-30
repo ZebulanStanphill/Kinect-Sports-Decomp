@@ -32,7 +32,7 @@ extern int fn_82850AA0();
 void fn_8284F9B8(int param_1,int param_2,undefined8 param_3)
 
 {
-  int aiStack_20 [2];
+  unsigned int aiStack_20 [2];
   
   fn_8284D780(*(undefined4 *)(param_1 + 4),aiStack_20);
   if (aiStack_20[0] != 0) {

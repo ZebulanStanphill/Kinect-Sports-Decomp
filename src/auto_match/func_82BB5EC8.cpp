@@ -1,0 +1,1 @@
+extern "C" bool fn_82BB5EC8(char *p){return *(int *)(p+4)==0 || *(int *)(p+4)==1;}

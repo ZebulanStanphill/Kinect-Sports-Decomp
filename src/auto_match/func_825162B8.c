@@ -36,13 +36,11 @@ undefined4 * fn_825162B8(undefined8 param_1,undefined8 param_2,undefined8 param_
   undefined4 *puVar1;
   
   puVar1 = (undefined4 *)fn_8265C9E0(0x308);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar1 != (undefined4 *)0x0) {
     fn_828A82B8(puVar1,param_1,param_2,param_3);
     *puVar1 = &lbl_821968A8;
+    return puVar1;
   }
-  return puVar1;
+  return 0;
 }
 

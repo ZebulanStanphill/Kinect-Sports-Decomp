@@ -1,0 +1,1 @@
+extern "C" bool fn_828ACD00(char *p){return *(int *)(p+0xb8)==7 || *(int *)(p+0xb8)==6;}

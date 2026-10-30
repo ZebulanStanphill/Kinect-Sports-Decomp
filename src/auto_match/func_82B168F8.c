@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 ushort fn_82B168F8(int param_1,uint param_2)
 
 {
-  return *(ushort *)(param_1 + 0xe) >> ((param_2 & 0xf) << 2) & 0xf;
+  return *(ushort *)(param_1 + 0xe) >> ((param_2 & 0x3fff) << 2) & 0xf;
 }
 

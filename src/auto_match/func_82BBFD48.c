@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_82BBFD48(int param_1)
 
 {
-  return param_1 + 0xc == *(int *)(param_1 + 8);
+  return *(int *)(param_1 + 8) == param_1 + 0xc;
 }
 

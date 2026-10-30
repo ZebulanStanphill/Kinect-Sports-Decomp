@@ -1,39 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82CF9978(int param_1,undefined8 param_2,int param_3)
-
-{
-  *(int *)(param_1 + 8) = *(int *)(param_1 + 8) - param_3;
-                    /* WARNING: Could not recover jumptable at 0x82cf9994. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 0x10) + 8))();
-  return;
-}
-
+typedef struct Obj Obj;
+struct Obj { struct VT *v; };
+struct VT { void *a, *b; void (*f)(Obj *, void *, int); };
+typedef struct { char pad[8]; int count; int pad2; Obj *o; } P;
+void fn_82CF9978(P *p, void *a, int n) { p->count -= n; p->o->v->f(p->o, a, n); }

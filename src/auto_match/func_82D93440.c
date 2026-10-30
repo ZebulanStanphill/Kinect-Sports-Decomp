@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D93440(int param_1,int param_2,undefined8 param_3)
+void fn_82D93440(int param_1,unsigned int param_2,undefined8 param_3)
 
 {
   int *piVar1;
   int iVar2;
   
   iVar2 = 0;
-  if (*(int *)(param_1 + 0x7c) < 1) {
+  if (*(int *)(param_1 + 0x7c) <= 0) {
     return;
   }
   piVar1 = *(int **)(param_1 + 0x78);

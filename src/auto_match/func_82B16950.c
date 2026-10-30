@@ -33,8 +33,8 @@ undefined8 fn_82B16950(int param_1,int param_2,int param_3)
   uint uVar1;
   uint uVar2;
   
-  uVar1 = param_3 << (param_2 << 2 & 0x3cU);
-  uVar2 = 0xf << (param_2 << 2 & 0x3cU);
+  uVar1 = param_3 << (param_2 << 2);
+  uVar2 = 0xf << (param_2 << 2);
   if ((*(uint *)(param_1 + 0xc) & uVar2 & 0xffff) == uVar1) {
     return 0;
   }

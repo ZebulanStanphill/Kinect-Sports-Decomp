@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_82827770(int param_1)
 
 {
-  return (~*(byte *)(param_1 + 0x50) & 1) == *(byte *)(param_1 + 0x135);
+  return *(byte *)(param_1 + 0x135) == (~*(byte *)(param_1 + 0x50) & 1);
 }
 

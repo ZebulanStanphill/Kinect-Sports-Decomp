@@ -30,9 +30,10 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82CFF278(undefined4 *param_1,undefined4 param_2)
 
 {
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0x80000000;
+  { unsigned int *p = param_1 + 2;
+  p[0] = 0;
+  p[1] = 0;
+  p[2] = 0x80000000; }
   param_1[1] = param_2;
   *param_1 = param_2;
   return;

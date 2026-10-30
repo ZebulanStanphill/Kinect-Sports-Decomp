@@ -1,0 +1,2 @@
+struct Obj { virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual int f(unsigned short, unsigned char, unsigned int, unsigned int *); };
+extern "C" unsigned char fn_82E731F8(char *p, char *q) { unsigned int out=0; Obj *o=*(Obj **)(p+0x1d8); int r=o->f(*(unsigned short *)(q+0x20),*(unsigned char *)(q+0x22),*(unsigned int *)(q+0x34),&out); if (r < 0) return 1; return out < 17; }

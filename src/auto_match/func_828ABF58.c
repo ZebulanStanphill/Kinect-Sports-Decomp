@@ -29,16 +29,17 @@ extern int fn_828EA268();
 extern unsigned int lbl_82024534;
 
 
-undefined4 * fn_828ABF58(undefined4 *param_1,undefined1 param_2,longlong param_3,longlong param_4)
+undefined4 * fn_828ABF58(undefined4 *param_1,undefined1 param_2,int param_3,int param_4)
 
 {
   undefined4 uVar1;
   
   param_1[1] = 0;
   *param_1 = &lbl_82024534;
-  *(undefined1 *)(param_1 + 2) = param_2;
+  { undefined1 *p = (undefined1 *)(param_1 + 2);
+  *p = param_2;
   param_1[3] = (int)param_3;
-  param_1[4] = (int)param_4;
+  param_1[4] = (int)param_4; }
   uVar1 = fn_828EA268(param_4 - param_3);
   param_1[5] = uVar1;
   return param_1;

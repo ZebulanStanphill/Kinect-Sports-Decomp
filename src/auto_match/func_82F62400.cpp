@@ -1,0 +1,1 @@
+struct S{int value;void *ptr;}; extern "C" bool fn_82F62400(void *a,int b, S *p){return a==p->ptr && p->value==b;}

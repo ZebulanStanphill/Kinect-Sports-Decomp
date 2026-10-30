@@ -35,7 +35,7 @@ undefined8 fn_82B16D80(int param_1,int param_2)
   
   uVar1 = *(uint *)(param_1 + 8) >> 7 & 0x7f;
   uVar2 = *(uint *)(param_2 + 8) >> 7 & 0x7f;
-  if (uVar2 < uVar1) {
+  if ((int)uVar1 > (int)uVar2) {
     if (uVar1 == 0x7d) {
       return 1;
     }

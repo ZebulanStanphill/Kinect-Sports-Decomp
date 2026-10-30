@@ -25,14 +25,9 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-
-
-double fn_82811B88(float *param_1,float *param_2)
-
-{
-  return (double)SQRT((param_1[1] - param_2[1]) * (param_1[1] - param_2[1]) +
-                      (*param_1 - *param_2) * (*param_1 - *param_2));
+extern float fn_82809558(float);
+float fn_82811B88(float *a, float *b) {
+ float x = a[0] - b[0];
+ float y = a[1] - b[1];
+ return fn_82809558(x*x + y*y);
 }
-

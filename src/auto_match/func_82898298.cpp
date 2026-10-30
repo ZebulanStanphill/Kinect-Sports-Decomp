@@ -1,0 +1,1 @@
+extern "C" bool fn_82898298(char *p){return *(void **)(p+0x30)!=0 || *(void **)(p+0x34)!=0;}

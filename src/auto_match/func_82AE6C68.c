@@ -30,10 +30,10 @@ extern int fn_82AE5550();
 extern int fn_82AE6018();
 
 
-longlong fn_82AE6C68(undefined4 *param_1,longlong param_2)
+int fn_82AE6C68(undefined4 *param_1,int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_82AE6018(param_1,0,param_2);
   if ((int)lVar1 == -1) {

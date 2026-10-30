@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_829DDD98(uint param_1)
 
 {
-  if ((param_1 != 0) && (param_1 < 3)) {
+  if ((param_1 >= 1) && (param_1 < 3)) {
     return 0x780;
   }
   return 0;

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82BE8B10(int param_1,int param_2)
 
 {
-  if (2 < param_2) {
+  if (param_2 >= 3) {
     return;
   }
   if (*(int *)(param_1 + 0x58) == param_2) {

@@ -34,13 +34,11 @@ undefined8 fn_82866690(longlong param_1,undefined4 *param_2)
   int iVar2;
   undefined8 uVar1;
   
-  if (0xf < (uint)param_2[5]) {
+  if ((uint)param_2[5] >= 0x10) {
     param_2 = (undefined4 *)*param_2;
   }
   iVar2 = fn_82869CD0(param_1 + 100,param_2);
-  if ((iVar2 == 1) || (uVar1 = 0xffffffffa00a0000, iVar2 == 0x16)) {
-    uVar1 = 0x200a0000;
-  }
-  return uVar1;
+  if (iVar2 == 1 || iVar2 == 0x16) return 0x200a0000;
+  return 0xffffffffa00a0000;
 }
 

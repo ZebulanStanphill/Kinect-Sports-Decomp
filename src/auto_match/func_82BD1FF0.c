@@ -41,11 +41,10 @@ undefined4 * fn_82BD1FF0(undefined4 *param_1,int param_2)
   puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x14);
   puVar3 = puVar2 + 1;
   *puVar2 = uVar1;
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar3 != (undefined4 *)0x0) {
     fn_82BA03B8(puVar3,*(undefined4 *)(param_2 + 0x5b0));
+  } else {
+    puVar3 = (undefined4 *)0x0;
   }
   param_1[1] = puVar3;
   return param_1;
