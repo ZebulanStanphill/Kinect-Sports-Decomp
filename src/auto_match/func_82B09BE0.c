@@ -1,49 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AF4A80();
-extern int fn_82B00048();
+// Runs the fn_82AF4A80 check, then forwards to fn_82B00048; returns 3 if the check fails.
+// fn_82AF4A80 bumps a counter at +0x224 and fails once it reaches a configured limit.
+// Its four callers pass the constants 0x315, 0x319, 0x329 and 0x330 as a second
+// argument that it never reads, which looks like a call-site tag such as __LINE__.
+extern unsigned char fn_82AF4A80(void *ctx, int site);
+extern int fn_82B00048(void *ctx, void *a, void *b, void 
+*c, void *d, int e);
 
-
-undefined8
-fn_82B09BE0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5)
-
+int fn_82B09BE0(void *ctx, void *a, void *b, void *c, void *d)
 {
-  char cVar2;
-  undefined8 uVar1;
-  
-  cVar2 = fn_82AF4A80(param_1,0x319);
-  if (cVar2 == '\0') {
-    uVar1 = 3;
-  }
-  else {
-    uVar1 = fn_82B00048(param_1,param_2,param_3,param_4,param_5,0);
-  }
-  return uVar1;
+    if (fn_82AF4A80(ctx, 0x319))
+        return fn_82B00048(ctx, a, b, c, d, 0);
+    return 3;
 }
-

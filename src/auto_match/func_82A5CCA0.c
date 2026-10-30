@@ -1,43 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A5C480();
+// Calls fn_82A5C480 on the object at +4 between slots 2 and 5 of the object at +0xc
+// (probably a lock), with 0 and the last three arguments; returns its result. Same
+// object layout as fn_82A5B558. The second argument is unused.
+typedef struct Lock_82A5B558 Lock_82A5B558;
 
+typedef struct {
+    void *f0[2];
+    void (*fn8)(Lock_82A5B558 *self);
+    void *fc[2];
+    void (*fn14)(Lock_82A5B558 *self);
+} LockVtbl_82A5B558;
 
-undefined8
-fn_82A5CCA0(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5)
+struct Lock_82A5B558 { LockVtbl_82A5B558 *vt; };
 
+typedef struct {
+    void *vt;
+    char inner[8];
+    Lock_82A5B558 *lock;
+} Obj_82A5B558;
+
+extern int fn_82A5C480(void *inner, int arg, int a, int b, int c);
+
+int fn_82A5CCA0(Obj_82A5B558 *self, int arg, int a, int b, int c)
 {
-  undefined8 uVar1;
-  
-  (**(code **)(**(int **)(param_1 + 0xc) + 8))();
-  uVar1 = fn_82A5C480(param_1 + 4,0,param_3,param_4,param_5);
-  (**(code **)(**(int **)(param_1 + 0xc) + 0x14))(*(int **)(param_1 + 0xc));
-  return uVar1;
-}
+    int r;
 
+    self->lock->vt->fn8(self->lock);
+    r = fn_82A5C480(self->inner, 0, a, b, c);
+    self->lock->vt->fn14(self->lock);
+    return r;
+}

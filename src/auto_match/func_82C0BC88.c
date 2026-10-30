@@ -1,42 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+// Forwards to slot 0x48 of the current element (elems[idx], 0x3c bytes each). One
+// implementation of that slot, fn_82C04E00, takes an unsigned int, so this does too.
+typedef struct Elem_82C0BC88 Elem_82C0BC88;
 
+typedef struct {
+    void *f[18];
+    void (*fn48)(Elem_82C0BC88 *self, unsigned int a);
+} ElemVtbl_82C0BC88;
 
-void fn_82C0BC88(int param_1)
+struct Elem_82C0BC88 {
+    ElemVtbl_82C0BC88 *vt;
+    char pad[0x38];
+};
 
+typedef struct {
+    char pad[0x30];
+    Elem_82C0BC88 *elems;
+    char pad2[0xc];
+    int idx;
+} Obj_82C0BC88;
+
+void fn_82C0BC88(Obj_82C0BC88 *p, unsigned int a)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x40) * 0x3c;
-                    /* WARNING: Could not recover jumptable at 0x82c0bca4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*(int *)(iVar1 + *(int *)(param_1 + 0x30)) + 0x48))(iVar1 + *(int *)(param_1 + 0x30))
-  ;
-  return;
-}
+    Elem_82C0BC88 *e = &p->elems[p->idx];
 
+    e->vt->fn48(e, a);
+}
