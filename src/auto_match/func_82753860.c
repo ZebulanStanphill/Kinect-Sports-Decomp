@@ -1,50 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C4C8();
 extern int fn_8268C2D0();
 
+typedef struct {
+  int f0;
+  int f4;
+  int f8;
+  int fc;
+  float f10;
+  void *f14;
+  void *f18;
+} Obj_82753860;
 
-undefined4 * fn_82753860(undefined4 *param_1,int param_2)
-
+Obj_82753860 *fn_82753860(Obj_82753860 *d, Obj_82753860 *s)
 {
-  *param_1 = 1;
-  param_1[1] = *(undefined4 *)(param_2 + 4);
-  param_1[2] = *(undefined4 *)(param_2 + 8);
-  fn_8268C2D0(param_1 + 3,param_2 + 0xc);
-  param_1[4] = *(undefined4 *)(param_2 + 0x10);
-  if (*(int *)(param_2 + 0x14) != 0) {
-    fn_8267C4C8();
+  d->f0 = 1;
+  d->f4 = s->f4;
+  d->f8 = s->f8;
+  fn_8268C2D0(&d->fc, &s->fc);
+  d->f10 = s->f10;
+  if (s->f14 != 0) {
+    fn_8267C4C8(s->f14);
   }
-  param_1[5] = *(undefined4 *)(param_2 + 0x14);
-  if (*(int *)(param_2 + 0x18) != 0) {
-    fn_8267C4C8();
+  d->f14 = s->f14;
+  if (s->f18 != 0) {
+    fn_8267C4C8(s->f18);
   }
-  param_1[6] = *(undefined4 *)(param_2 + 0x18);
-  return param_1;
+  d->f18 = s->f18;
+  return d;
 }
-

@@ -1,53 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822CA248();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821B1618;
-extern unsigned int lbl_821B166C;
-
-
-undefined4 * fn_82339018(undefined8 param_1,undefined8 param_2)
-
+typedef struct { int a, b, c; } Vec_82339018;
+typedef struct { void *vt; char pad[0x64]; void *vt2; char pad2[0x54]; Vec_82339018 v; } O_82339018;
+extern void fn_822CA248(O_82339018 *, int);
+extern O_82339018 *fn_8265C9E0(unsigned);
+extern char lbl_821B1618[];
+extern char lbl_821B166C[];
+O_82339018 *fn_82339018(int param_1, int param_2)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0xd0);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  O_82339018 *p = fn_8265C9E0(0xd0);
+  if (p != 0) {
+    fn_822CA248(p, param_2);
+    p->vt = lbl_821B1618;
+    p->vt2 = lbl_821B166C;
+    { Vec_82339018 *v = &p->v; v->a = 0; v->b = 0; v->c = 0; }
+    return p;
   }
-  else {
-    fn_822CA248(puVar1,param_2);
-    *puVar1 = &lbl_821B1618;
-    puVar1[0x1a] = &lbl_821B166C;
-    puVar1[0x30] = 0;
-    puVar1[0x31] = 0;
-    puVar1[0x32] = 0;
-  }
-  return puVar1;
+  return 0;
 }
-

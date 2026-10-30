@@ -1,72 +1,66 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_827B7AE0();
 
+typedef struct Node_827B7BF8 {
+  struct Node_827B7BF8 *next;
+  struct Node_827B7BF8 *prev;
+  unsigned *blk;
+  struct Node_827B7BF8 *a;
+  struct Node_827B7BF8 *b;
+  struct Node_827B7BF8 *c;
+  struct Node_827B7BF8 *d;
+  int pad1c;
+  unsigned short flags;
+  unsigned short pad22;
+  unsigned short f24;
+} Node_827B7BF8;
 
-void fn_827B7BF8(int param_1,int *param_2,int *param_3,undefined2 param_4)
+typedef struct { char pad[0xc]; unsigned *head; } Pool_827B7BF8;
+typedef struct { Node_827B7BF8 *next; Node_827B7BF8 *prev; } Sent_827B7BF8;
+typedef struct {
+  char pad0[0x1c];
+  Pool_827B7BF8 p1c;
+  char pad2c[0x30 - 0x2c];
+  Sent_827B7BF8 s30;
+  int f38;
+  char pad3c[0x64 - 0x3c];
+  Pool_827B7BF8 p64;
+} Obj_827B7BF8;
 
+static void push_(Pool_827B7BF8 *p, unsigned *blk) { *blk = (unsigned)p->head; p->head = blk; }
+
+void fn_827B7BF8(Obj_827B7BF8 *o, Node_827B7BF8 *first, Node_827B7BF8 *last, int v)
 {
-  bool bVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  
-  piVar4 = param_2;
-  do {
-    piVar2 = (int *)piVar4[4];
-    fn_827B7AE0(param_1,piVar4);
-    if (piVar4 != param_2) {
-      puVar3 = (undefined4 *)piVar4[2];
-      *puVar3 = *(undefined4 *)(param_1 + 0x70);
-      *(undefined4 **)(param_1 + 0x70) = puVar3;
-      *(int *)(*piVar4 + 4) = piVar4[1];
-      *(int *)piVar4[1] = *piVar4;
-      *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x38) + -1;
-      if ((*(ushort *)(piVar4 + 8) & 0x4000) == 0) {
-        *(int *)(piVar4[5] + 0x18) = piVar4[6];
-        *(int *)(piVar4[6] + 0x14) = piVar4[5];
+  Node_827B7BF8 *n = first;
+  Node_827B7BF8 *nx;
+  unsigned *blk;
+  Sent_827B7BF8 *sp;
+  for (;;) {
+    nx = n->b;
+    fn_827B7AE0(o, n);
+    if (n != first) {
+      blk = n->blk;
+      push_(&o->p64, blk);
+      n->next->prev = n->prev;
+      n->prev->next = n->next;
+      o->f38 = o->f38 - 1;
+      if ((n->flags & 0x4000) == 0) {
+        n->c->d = n->d;
+        n->d->c = n->c;
       }
-      *(int *)(piVar4[3] + 0x10) = piVar4[4];
-      *(int *)(piVar4[4] + 0xc) = piVar4[3];
-      *piVar4 = *(int *)(param_1 + 0x28);
-      *(int **)(param_1 + 0x28) = piVar4;
+      n->a->b = n->b;
+      n->b->a = n->a;
+      push_(&o->p1c, (unsigned *)n);
     }
-    bVar1 = piVar4 != param_3;
-    piVar4 = piVar2;
-  } while (bVar1);
-  *(undefined2 *)(param_2 + 9) = param_4;
-  *(undefined2 *)(param_2[2] + 0x1c) = param_4;
-  *(int *)(*param_2 + 4) = param_2[1];
-  *(int *)param_2[1] = *param_2;
-  param_2[1] = *(int *)(param_1 + 0x34);
-  *param_2 = param_1 + 0x30;
-  **(undefined4 **)(param_1 + 0x34) = param_2;
-  *(int **)(param_1 + 0x34) = param_2;
-  return;
+    if (n == last) break;
+    n = nx;
+  }
+  sp = &o->s30;
+  first->f24 = v;
+  *(unsigned short *)((char *)first->blk + 0x1c) = v;
+  first->next->prev = first->prev;
+  first->prev->next = first->next;
+  first->prev = sp->prev;
+  first->next = (Node_827B7BF8 *)sp;
+  sp->prev->next = first;
+  sp->prev = first;
 }
-

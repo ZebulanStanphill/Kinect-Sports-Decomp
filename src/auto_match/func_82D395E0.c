@@ -1,75 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+extern int *fn_82CE5410();
 
+typedef struct { void **vt; } Heap_82D395E0;
+typedef struct { void *p; int cnt; unsigned flags; } Buf_82D395E0;
+typedef struct { char pad[0x10]; Buf_82D395E0 b0; Buf_82D395E0 b1; Buf_82D395E0 b2; Buf_82D395E0 b3; } Obj_82D395E0;
 
-void fn_82D395E0(int param_1)
-
+static __forceinline void rel_(Buf_82D395E0 *b)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  if ((*(uint *)(param_1 + 0x3c) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x34),*(uint *)(param_1 + 0x3c) & 0x3fffffff,2);
+  Heap_82D395E0 *h = (Heap_82D395E0 *)fn_82CE5410()[4];
+  b->cnt = 0;
+  if (((int)b->flags & (int)0x80000000) == 0) {
+    ((void (*)(void *, void *, unsigned, int))h->vt[0x10 / 4])(h, b->p, b->flags & 0x3fffffff, 2);
   }
-  *(undefined4 *)(param_1 + 0x34) = 0;
-  *(undefined4 *)(param_1 + 0x3c) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  if ((*(uint *)(param_1 + 0x30) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x28),*(uint *)(param_1 + 0x30) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  *(undefined4 *)(param_1 + 0x30) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  if ((*(uint *)(param_1 + 0x24) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x1c),*(uint *)(param_1 + 0x24) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  piVar1 = *(int **)(iVar2 + 0x10);
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  if ((*(uint *)(param_1 + 0x18) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x10),*(uint *)(param_1 + 0x18) & 0x3fffffff,2);
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0x80000000;
-  return;
+  b->p = 0;
+  b->flags = 0x80000000;
 }
 
+void fn_82D395E0(Obj_82D395E0 *o)
+{
+  rel_(&o->b3);
+  rel_(&o->b2);
+  rel_(&o->b1);
+  rel_(&o->b0);
+}

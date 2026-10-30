@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82A5BC10 { void (**vt)(struct Obj_82A5BC10 *); } Obj_82A5BC10;
 extern int fn_82A3FF60();
-extern int fn_82A4F4E0();
+extern void fn_82A4F4E0(void *);
 extern int fn_82A5C760();
-extern int fn_82A77490();
-
-
-longlong fn_82A5BC10(int param_1)
-
+extern void fn_82A77490(int);
+extern char lbl_83219D50[];
+int fn_82A5BC10(int param_1)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  
-  (**(code **)(**(int **)(param_1 + 0xc) + 8))();
+  int *puVar1;
+  int lVar2;
+  Obj_82A5BC10 *o = *(Obj_82A5BC10 **)(param_1 + 0xc);
+
+  o->vt[2](o);
   lVar2 = 0;
-  if (*(int *)(param_1 + 0x18) == 0) {
-    fn_82A77490(*(undefined4 *)(param_1 + 0x94));
+  if (*(unsigned int *)(param_1 + 0x18) == 0) {
+    fn_82A77490(*(int *)(param_1 + 0x94));
   }
   else {
-    puVar1 = (undefined4 *)fn_82A3FF60(0xffffffff83219d50,0x10,0x20970006,0);
-    if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (int *)fn_82A3FF60(lbl_83219D50,0x10,0x20970006,0);
+    if (puVar1 == 0) {
       lVar2 = -0x7ff8fff2;
     }
     else {
@@ -52,13 +25,13 @@ longlong fn_82A5BC10(int param_1)
       puVar1[1] = 0;
       puVar1[2] = 9;
       puVar1[3] = param_1 + 4;
-      lVar2 = fn_82A5C760(*(undefined4 *)(param_1 + 0x14),puVar1);
+      lVar2 = fn_82A5C760(*(int *)(param_1 + 0x14),puVar1);
       if (lVar2 < 0) {
         fn_82A4F4E0(puVar1);
       }
     }
   }
-  (**(code **)(**(int **)(param_1 + 0xc) + 0x14))();
+  o = *(Obj_82A5BC10 **)(param_1 + 0xc);
+  o->vt[5](o);
   return lVar2;
 }
-

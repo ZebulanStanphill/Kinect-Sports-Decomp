@@ -1,53 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAF408();
+typedef struct { void **vt; } VObj_83032960;
+typedef struct { unsigned key; VObj_83032960 *val; } Ent_83032960;
+typedef struct Host_83032960 Host_83032960;
+typedef struct { Ent_83032960 *begin; Ent_83032960 *end; } Vec_83032960;
+struct Host_83032960 {
+  void (**vt)(void *);
+  char pad[0x48 - 4];
+  Vec_83032960 v;
+};
+extern int fn_82FAF408(Vec_83032960 *v, unsigned key);
+static VObj_83032960 **get_(Ent_83032960 *it, Ent_83032960 *end) { int f = it != end; return f ? &it->val : 0; }
 
-
-undefined8 fn_83032960(int *param_1,ulonglong param_2,undefined8 param_3)
-
+int fn_83032960(Host_83032960 *self, unsigned key)
 {
-  int *piVar1;
-  uint uVar2;
-  uint *puVar3;
-  undefined4 *puVar4;
-  
-  for (puVar3 = (uint *)param_1[0x12];
-      (puVar3 != (uint *)param_1[0x13] && ((ulonglong)*puVar3 != (param_2 & 0xffffffff)));
-      puVar3 = puVar3 + 2) {
+  Vec_83032960 *v = &self->v;
+  Ent_83032960 *e;
+  VObj_83032960 **slot;
+  for (e = v->begin; e != v->end && e->key != key; e++) {
   }
-  uVar2 = (uint)((uint *)param_1[0x13] != puVar3);
-  puVar4 = (undefined4 *)(-(uint)(uVar2 != 0) & (uint)(puVar3 + 1));
-  if (puVar4 != (undefined4 *)0x0) {
-    piVar1 = (int *)*puVar4;
-    (**(code **)(*piVar1 + 0x110))(piVar1,0,param_3,-uVar2);
-    fn_82FAF408(param_1 + 0x12,param_2);
-    (**(code **)(*param_1 + 8))(param_1);
+  slot = get_(e, v->end);
+  if (slot != 0) {
+    VObj_83032960 *o = *slot;
+    ((void (*)(void *, int))o->vt[0x110 / 4])(o, 0);
+    fn_82FAF408(v, key);
+    self->vt[2](self);
   }
   return 1;
 }
-

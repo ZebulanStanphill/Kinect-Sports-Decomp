@@ -1,57 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int memcpy();
-
-
-int * fn_82CFCAB8(int *param_1,undefined4 *param_2,char *param_3)
-
+typedef struct Alloc_82CFCAB8 { struct AVt_82CFCAB8 *vt; } Alloc_82CFCAB8;
+struct AVt_82CFCAB8 { void *s0; char *(*alloc)(Alloc_82CFCAB8 *, int); };
+typedef struct { char *data; int size; int cap; } Str_82CFCAB8;
+typedef struct { char pad[0x10]; Alloc_82CFCAB8 *alloc; } Ctx_82CFCAB8;
+extern Ctx_82CFCAB8 *fn_82CE5410();
+extern void *memcpy(void *, const void *, unsigned int);
+extern unsigned int strlen(const char *);
+Str_82CFCAB8 *fn_82CFCAB8(Str_82CFCAB8 *param_1, Str_82CFCAB8 *param_2, const char *param_3)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar4 = param_2[1] + -1;
-  pcVar3 = param_3;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  iVar5 = ((int)pcVar3 - (int)param_3) + iVar4;
-  iVar2 = fn_82CE5410();
-  iVar2 = (**(code **)(**(int **)(iVar2 + 0x10) + 4))(*(int **)(iVar2 + 0x10),iVar5);
-  memcpy(iVar2,*param_2,iVar4);
-  memcpy(iVar2 + iVar4,param_3,(int)pcVar3 - (int)param_3);
-  *param_1 = iVar2;
-  param_1[1] = iVar5;
-  param_1[2] = iVar5;
+  int old = param_2->size - 1;
+  unsigned len = strlen(param_3);
+  int n = len + old;
+  Alloc_82CFCAB8 *al = fn_82CE5410()->alloc;
+  char *buf = al->vt->alloc(al, n + 1);
+  memcpy(buf, param_2->data, old);
+  memcpy(buf + old, param_3, len + 1);
+  param_1->data = buf;
+  param_1->size = n + 1;
+  param_1->cap = n + 1;
   return param_1;
 }
-

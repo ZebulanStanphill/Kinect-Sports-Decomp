@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
+typedef struct { unsigned a; unsigned bits; } Ent_82636080;
+typedef struct { char pad[0x4db4]; unsigned flags; } Dev_82636080;
+typedef struct { int idx; int pad4[3]; Dev_82636080 *dev; char pad14[0x7c-0x14]; Ent_82636080 *ents; unsigned n; int pad84; int f88; } Ctx_82636080;
 int fn_82636080(int *param_1)
-
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *param_1;
-  if ((((((~(ulonglong)*(uint *)(param_1[iVar1 * 0x9b4 + 4] + 0x4db4) & 0xffffffff) >> 4 & 1) != 0)
-       && (param_1[iVar1 * 0x9b4 + 0x20] != 0)) &&
-      (iVar2 = param_1[iVar1 * 0x9b4 + 0x1f] + param_1[iVar1 * 0x9b4 + 0x20] * 8, iVar2 != 8)) &&
-     ((1 << (*(uint *)(iVar2 + -4) >> 0xc & 0xf) & 0x607eU) != 0)) {
-    param_1[iVar1 * 0x9b4 + 0x22] = 1;
+  Ctx_82636080 *c = (Ctx_82636080 *)((char *)param_1 + *param_1 * 0x26d0);
+  unsigned char fl = (unsigned char)((~c->dev->flags >> 4) & 1);
+  if (fl) {
+    unsigned n = c->n;
+    if (n != 0) {
+      Ent_82636080 *e = c->ents + n - 1;
+      if (e != 0 && ((1u << ((e->bits >> 12) & 0xf)) & 0x607eu) != 0) c->f88 = 1;
+    }
   }
-  return param_1[iVar1 * 0x9b4 + 0x20];
+  return c->n;
 }
-

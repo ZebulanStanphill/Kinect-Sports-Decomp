@@ -1,51 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
 extern int fn_8265CA20();
 extern int fn_8289F270();
 
+typedef struct { char pad[0x50]; unsigned n; void *data; void *f58; } Sub_828A44B8;
+typedef struct { char flag; char pad[3]; Sub_828A44B8 s; } Obj_828A44B8;
 
-void fn_828A44B8(char *param_1)
-
+void fn_828A44B8(Obj_828A44B8 *o)
 {
-  undefined1 auStack_20 [8];
-  
-  if (*(int *)(param_1 + 0x58) != 0) {
-    if (*(int *)(param_1 + 0x5c) != 0) {
-      fn_8289F270(param_1 + 4,*(int *)(param_1 + 0x5c),auStack_20);
+  char buf[8];
+  Sub_828A44B8 *s = &o->s;
+  if (o->s.data != 0) {
+    if (s->f58 != 0) {
+      fn_8289F270(s, s->f58, buf);
     }
-    if (10 < *(uint *)(param_1 + 0x54)) {
-      fn_8265CA20(*(undefined4 *)(param_1 + 0x58));
+    if (s->n > 10) {
+      fn_8265CA20(s->data);
     }
   }
-  if (*param_1 != '\0') {
-    *param_1 = '\0';
+  if (o->flag != 0) {
+    o->flag = 0;
   }
-  return;
 }
-

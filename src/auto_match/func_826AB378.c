@@ -1,49 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826A9E60();
+typedef struct { void *p; int hr; } Res_func_826AB378;
+typedef struct { int pad; uint **x; } A;
 
-
-undefined4 * fn_826AB378(undefined4 *param_1,int *param_2,undefined4 *param_3)
-
+Res_func_826AB378 * fn_826AB378(Res_func_826AB378 *out, unsigned int *it, int **arg)
 {
-  longlong lVar1;
-  
-  if ((*param_2 == 0) ||
-     (lVar1 = fn_826A9E60(param_2,param_3,
-                            *(uint *)(*(int *)*param_3 + 0xc) & *(uint *)(*param_2 + 4)), lVar1 < 0)
-     ) {
-    lVar1 = 0;
-    *param_1 = 0;
+  int hr;
+  if (*it != 0) {
+    hr = fn_826A9E60(it, arg, *(uint *)(**arg + 0xc) & *(uint *)(*it + 4));
+    if (hr >= 0) {
+      out->p = it;
+      out->hr = hr;
+      return out;
+    }
   }
-  else {
-    *param_1 = param_2;
-  }
-  param_1[1] = (int)lVar1;
-  return param_1;
+  hr = 0;
+  out->p = 0;
+  out->hr = hr;
+  return out;
 }
-
