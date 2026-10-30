@@ -24,38 +24,36 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8269D260();
 extern int fn_8269DDA0();
 extern int fn_826A0DD8();
+typedef struct Key_826A0F98 { uint a; uint b; uint c; uint d; } Key_826A0F98;
+typedef struct Slot_826A0F98 { Key_826A0F98 key; int val; } Slot_826A0F98;
+typedef struct Ent_826A0F98 { uint pad[4]; Slot_826A0F98 s; } Ent_826A0F98;
+typedef struct Tab_826A0F98 { Ent_826A0F98 *ents; } Tab_826A0F98;
 
-
-void fn_826A0F98(int *param_1,undefined8 param_2,int *param_3)
-
+void fn_826A0F98(Tab_826A0F98 *param_1,undefined8 param_2,int *param_3)
 {
-  uint *puVar1;
-  int iVar2;
-  int iVar3;
-  ulonglong uVar4;
-  
-  puVar1 = (uint *)*param_3;
-  uVar4 = (ulonglong)puVar1[1];
-  if ((*puVar1 & 0x20000) != 0) {
-    uVar4 = (longlong)*(short *)(puVar1 + 2) ^ uVar4;
+  Key_826A0F98 *k;
+  Ent_826A0F98 *ents;
+  int idx;
+  ulonglong h;
+
+  k = (Key_826A0F98 *)*param_3;
+  h = (ulonglong)k->b;
+  if ((k->a & 0x20000) != 0) {
+    h = (longlong)*(short *)&k->c ^ h;
   }
-  iVar3 = *param_1;
-  if ((iVar3 == 0) ||
-     (iVar2 = fn_8269D260(param_1,param_3,*(uint *)(iVar3 + 4) & uVar4), iVar2 < 0)) {
-    fn_826A0DD8(param_1,param_2,param_3,uVar4);
+  ents = param_1->ents;
+  if (ents == 0 || (idx = fn_8269D260(param_1, param_3, *(uint *)((char *)ents + 4) & h), idx < 0)) {
+    fn_826A0DD8(param_1, param_2, param_3, h);
   }
   else {
-    iVar3 = iVar2 * 0x24 + iVar3;
-    *(uint *)(iVar3 + 0x10) = *puVar1;
-    *(uint *)(iVar3 + 0x14) = puVar1[1];
-    *(uint *)(iVar3 + 0x18) = puVar1[2];
-    *(uint *)(iVar3 + 0x1c) = puVar1[3];
-    fn_8269DDA0(iVar3 + 0x20,param_3[1]);
+    Slot_826A0F98 *s = &ents[idx].s;
+    s->key.a = k->a;
+    s->key.b = k->b;
+    s->key.c = k->c;
+    s->key.d = k->d;
+    fn_8269DDA0(&s->val, param_3[1]);
   }
-  return;
 }
-

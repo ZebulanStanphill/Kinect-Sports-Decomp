@@ -1,57 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D02C78();
+extern unsigned int fn_82D02C78(void *);
 
+typedef struct Heap_82D030F0 {
+    char pad0[8];
+    unsigned int f8;
+    char pad1[4];
+    char *top;
+    unsigned int topsize;
+    char pad18[0xbc - 0x18];
+    unsigned int fbc;
+    unsigned int fc0;
+} Heap_82D030F0;
 
-int fn_82D030F0(int param_1,uint param_2)
-
+unsigned int fn_82D030F0(Heap_82D030F0 *h, unsigned int nb)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  if ((*(int *)(param_1 + 8) == 0) || (iVar2 = fn_82D02C78(), iVar2 == 0)) {
-    if (param_2 + 0x100 < *(uint *)(param_1 + 0x14)) {
-      uVar3 = *(uint *)(param_1 + 0x14) - param_2;
-      iVar1 = *(int *)(param_1 + 0x10);
-      *(uint *)(param_1 + 0x14) = uVar3;
-      *(uint *)(param_1 + 0x10) = iVar1 + param_2;
-      *(uint *)(param_1 + 0xc0) = *(int *)(param_1 + 0xc0) + param_2 + -0x10;
-      *(uint *)(param_1 + 0xbc) = *(int *)(param_1 + 0xbc) + param_2;
-      iVar2 = iVar1 + 0x10;
-      *(uint *)(iVar1 + param_2 + 4) = uVar3 | 1;
-      *(uint *)(iVar1 + param_2) = param_2;
-      *(uint *)(iVar1 + 4) = param_2 | 3;
+    unsigned int mem;
+    char *p;
+    unsigned int rsize;
+    if (h->f8 == 0 || (mem = fn_82D02C78(h), mem == 0)) {
+        if (nb + 0x100 < h->topsize) {
+            rsize = h->topsize - nb;
+            p = h->top;
+            h->topsize = rsize;
+            h->top = p + nb;
+            h->fbc = h->fbc + nb;
+            h->fc0 = h->fc0 + nb - 0x10;
+            mem = (unsigned int)(p + 0x10);
+            *(unsigned int *)(p + nb + 4) = rsize | 1;
+            *(unsigned int *)(p + nb) = nb;
+            *(unsigned int *)(p + 4) = nb | 3;
+        } else {
+            mem = 0;
+        }
     }
-    else {
-      iVar2 = 0;
-    }
-  }
-  return iVar2;
+    return mem;
 }
-

@@ -1,56 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82D81240();
+extern void fn_82D81240(void *, int, int);
 
+typedef struct Ref_825A86A8 {
+    char pad[8];
+    int target;
+} Ref_825A86A8;
 
-void fn_825A86A8(int param_1,int param_2)
+typedef struct A_825A86A8 {
+    char pad0[4];
+    Ref_825A86A8 *ref;
+    unsigned int key;
+    char pad1[4];
+} A_825A86A8;
 
+typedef struct B_825A86A8 {
+    char pad0[0xd4];
+    Ref_825A86A8 *ref;
+    char pad1[0xe4 - 0xd8];
+    unsigned int key;
+    char pad2[0x3f0 - 0xe8];
+} B_825A86A8;
+
+typedef struct Owner_825A86A8 {
+    char pad[0x744];
+    A_825A86A8 *abegin;
+    A_825A86A8 *aend;
+    char pad2[0x758 - 0x74c];
+    B_825A86A8 *bbegin;
+    B_825A86A8 *bend;
+} Owner_825A86A8;
+
+void fn_825A86A8(Owner_825A86A8 *o, unsigned int key)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined1 auStack_30 [1];
-  
-  uVar1 = *(uint *)(param_1 + 0x748);
-  for (uVar2 = *(uint *)(param_1 + 0x744); uVar2 < uVar1; uVar2 = uVar2 + 0x10) {
-    if (((*(int *)(uVar2 + 8) == param_2) && (*(int *)(uVar2 + 4) != 0)) &&
-       (*(int *)(*(int *)(uVar2 + 4) + 8) != 0)) {
-      fn_82D81240(auStack_30,*(undefined4 *)(*(int *)(uVar2 + 4) + 8),*(int *)(uVar2 + 4));
+    A_825A86A8 *a;
+    A_825A86A8 *aend;
+    B_825A86A8 *b;
+    B_825A86A8 *bend;
+    char buf[1];
+    a = o->abegin;
+    aend = o->aend;
+    for (; a < aend; a++) {
+        if (a->key == key && a->ref != 0 && a->ref->target != 0)
+            fn_82D81240(buf, a->ref->target, (int)a->ref);
     }
-  }
-  uVar1 = *(uint *)(param_1 + 0x75c);
-  for (uVar2 = *(uint *)(param_1 + 0x758); uVar2 < uVar1; uVar2 = uVar2 + 0x3f0) {
-    if (((*(int *)(uVar2 + 0xe4) == param_2) && (*(int *)(uVar2 + 0xd4) != 0)) &&
-       (*(int *)(*(int *)(uVar2 + 0xd4) + 8) != 0)) {
-      fn_82D81240(auStack_30,*(undefined4 *)(*(int *)(uVar2 + 0xd4) + 8),
-                        *(int *)(uVar2 + 0xd4));
+    b = o->bbegin;
+    bend = o->bend;
+    for (; b < bend; b++) {
+        if (b->key == key && b->ref != 0 && b->ref->target != 0)
+            fn_82D81240(buf, b->ref->target, (int)b->ref);
     }
-  }
-  return;
 }
-

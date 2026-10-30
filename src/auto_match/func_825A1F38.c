@@ -1,64 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_825A24C0();
-extern int fn_8265CA20();
-extern int fn_82CE4118();
+typedef struct Vt_825A1F38 { void *s0, *s1, *s2, *s3; void (*slot4)(void *self); } Vt_825A1F38;
+typedef struct Item_825A1F38 { Vt_825A1F38 *vt; short flags; short refs; } Item_825A1F38;
+typedef struct Vec_825A1F38 { int pad0; Item_825A1F38 **first; Item_825A1F38 **last; } Vec_825A1F38;
+typedef struct Mgr_825A1F38 { char pad[0x14]; Vec_825A1F38 *vec; } Mgr_825A1F38;
+typedef struct Obj_825A1F38 { int *p0; char pad[0x358 - 4]; Mgr_825A1F38 *mgr; } Obj_825A1F38;
+extern void fn_8251FA58(Mgr_825A1F38 *m);
+extern void fn_82522ED8(int *p);
+extern void fn_825A24C0(Vec_825A1F38 *v, Item_825A1F38 **it);
+extern void fn_8265CA20(void *p);
+extern void fn_82CE4118(void *p);
 
-
-undefined4 * fn_825A1F38(undefined4 *param_1)
-
+Obj_825A1F38 *fn_825A1F38(Obj_825A1F38 *o)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  iVar1 = param_1[0xd6];
-  if (iVar1 != 0) {
-    piVar2 = *(int **)(*(int *)(iVar1 + 0x14) + 8);
-    for (piVar3 = *(int **)(*(int *)(iVar1 + 0x14) + 4); piVar3 < piVar2; piVar3 = piVar3 + 1) {
-      if (*(short *)(*piVar3 + 6) == 1) {
-        (**(code **)(*(int *)*piVar3 + 0x10))();
-      }
-    }
-    for (piVar3 = *(int **)(*(int *)(iVar1 + 0x14) + 4); piVar3 < piVar2; piVar3 = piVar3 + 1) {
-      if (*(short *)(*piVar3 + 6) == 1) {
-        fn_82CE4118();
-        fn_825A24C0(*(undefined4 *)(iVar1 + 0x14),piVar3);
-        piVar3 = piVar3 + -1;
-      }
-    }
-    fn_8251FA58(param_1[0xd6]);
-    param_1[0xd6] = 0;
-  }
-  fn_82522ED8(*param_1);
-  fn_8265CA20(param_1);
-  return param_1;
-}
+  Mgr_825A1F38 *m;
+  Item_825A1F38 **it;
+  Item_825A1F38 **end;
 
+  m = o->mgr;
+  if (m != 0) {
+    it = m->vec->first;
+    end = m->vec->last;
+    for (; it < end; it++) {
+      if ((*it)->refs == 1) {
+        (*it)->vt->slot4(*it);
+      }
+    }
+    for (it = m->vec->first; it < end; it++) {
+      if ((*it)->refs == 1) {
+        fn_82CE4118(*it);
+        fn_825A24C0(m->vec, it);
+        it--;
+      }
+    }
+    fn_8251FA58(o->mgr);
+    o->mgr = 0;
+  }
+  fn_82522ED8(o->p0);
+  fn_8265CA20(o);
+  return o;
+}

@@ -1,65 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4C8();
+extern void fn_8267C4C8(int);
 
+typedef struct Vt_82753128 {
+    void *s0, *s1, *s2;
+    int (*get)(void *);
+} Vt_82753128;
 
-ulonglong fn_82753128(int param_1,int param_2)
+typedef struct Holder_82753128 {
+    int pad0;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    struct { Vt_82753128 *vt; } *f14;
+} Holder_82753128;
 
+int fn_82753128(Holder_82753128 *o, int id)
 {
-  ulonglong uVar1;
-  
-  if (param_2 == 0x13) {
-    if (*(int *)(param_1 + 4) != 0) {
-      fn_8267C4C8();
+    if (id == 0x13) {
+        if (o->f4 != 0) fn_8267C4C8(o->f4);
+        return o->f4;
+    } else if (id == 0x15) {
+        if (o->f8 != 0) fn_8267C4C8(o->f8);
+        return o->f8;
+    } else if (id == 0x14) {
+        if (o->fc != 0) fn_8267C4C8(o->fc);
+        return o->fc;
+    } else if (id == 3) {
+        if (o->f10 != 0) fn_8267C4C8(o->f10);
+        return o->f10;
     }
-    uVar1 = (ulonglong)*(uint *)(param_1 + 4);
-  }
-  else if (param_2 == 0x15) {
-    if (*(int *)(param_1 + 8) != 0) {
-      fn_8267C4C8();
-    }
-    uVar1 = (ulonglong)*(uint *)(param_1 + 8);
-  }
-  else if (param_2 == 0x14) {
-    if (*(int *)(param_1 + 0xc) != 0) {
-      fn_8267C4C8();
-    }
-    uVar1 = (ulonglong)*(uint *)(param_1 + 0xc);
-  }
-  else if (param_2 == 3) {
-    if (*(int *)(param_1 + 0x10) != 0) {
-      fn_8267C4C8();
-    }
-    uVar1 = (ulonglong)*(uint *)(param_1 + 0x10);
-  }
-  else {
-    uVar1 = (**(code **)(**(int **)(param_1 + 0x14) + 0xc))();
-  }
-  return uVar1;
+    return o->f14->vt->get(o->f14);
 }
-

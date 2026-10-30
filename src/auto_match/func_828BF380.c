@@ -1,51 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_828BDDA0();
+typedef struct Str_828BF380 { char buf[16]; unsigned int size; unsigned int res; } Str_828BF380;
+typedef struct Obj_828BF380 {
+  unsigned int *vt;
+  char pad4[0x50 - 4];
+  unsigned int *vt50;
+  char pad54[0xa8 - 0x54];
+  Str_828BF380 str;
+} Obj_828BF380;
+extern void *fn_8265C9E0(unsigned int n);
+extern void fn_828BDDA0(Obj_828BF380 *o);
 extern unsigned int lbl_82024190;
 extern unsigned int lbl_82024198;
 
-
-undefined4 * fn_828BF380(void)
-
+Obj_828BF380 *fn_828BF380(void)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(200);
-  if (puVar1 != (undefined4 *)0x0) {
-    fn_828BDDA0();
-    *puVar1 = &lbl_82024198;
-    puVar1[0x14] = &lbl_82024190;
-    puVar1[0x2e] = 0;
-    puVar1[0x2f] = 0xf;
-    *(undefined1 *)(puVar1 + 0x2a) = 0;
-    return puVar1;
+  Obj_828BF380 *p = (Obj_828BF380 *)fn_8265C9E0(200);
+  if (p != 0) {
+    Str_828BF380 *s;
+    fn_828BDDA0(p);
+    p->vt = &lbl_82024198;
+    p->vt50 = &lbl_82024190;
+    s = &p->str;
+    s->size = 0;
+    s->res = 15;
+    s->buf[0] = 0;
+    return p;
   }
-  return (undefined4 *)0x0;
+  return 0;
 }
-

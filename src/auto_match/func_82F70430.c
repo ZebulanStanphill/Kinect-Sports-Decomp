@@ -27,13 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82F70430(undefined8 param_1,char *param_2)
-
+const char *fn_82F70430(void *param_1,const char *param_2)
 {
-  if (((param_2 != (char *)0x0) && (*param_2 != '\0')) &&
-     ((*param_2 != 'C' || (param_2[1] != '\0')))) {
+  if (param_2 != 0 && *param_2 != '\0' && (*param_2 != 'C' || param_2[1] != '\0')) {
     return 0;
   }
-  return 0xffffffff831bb90c;
+  return "C";
 }
-

@@ -28,14 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 
 
 undefined8
-fn_8299BF68(int param_1,int *param_2,int *param_3,int *param_4,uint param_5,int param_6)
+fn_8299BF68(int param_1,uint *param_2,uint *param_3,uint *param_4,uint param_5,uint param_6)
 
 {
   uint *puVar1;
   int iVar2;
   int iVar3;
   uint uVar4;
-  int *piVar5;
+  uint *piVar5;
+  uint *p4;
   uint uVar6;
   
   if (param_6 == 0) {
@@ -44,23 +45,23 @@ fn_8299BF68(int param_1,int *param_2,int *param_3,int *param_4,uint param_5,int 
       do {
         puVar1 = (uint *)*param_4;
         if (((*puVar1 & 0xfff00000) != 0x11000000) && ((*puVar1 & 0xfff00000) != 0x72100000)) {
-          iVar2 = *(int *)puVar1[2];
+          iVar2 = *(uint *)puVar1[2];
           iVar3 = *(int *)(iVar2 * 4 + *(int *)(param_1 + 0x14));
           if ((*(uint *)(*(int *)(*(int *)(iVar3 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x840)
               != 0) {
             uVar4 = *(uint *)(iVar3 + 0xc);
-            if ((5 < uVar4) || (param_2[uVar4] != 0)) {
+            if ((uVar4 >= 6) || (param_2[uVar4] != 0)) {
               return 0;
             }
-            if (param_3[uVar4] == -1) {
+            if (param_3[uVar4] == 0xffffffff) {
               param_3[uVar4] = iVar2;
             }
             else if (param_3[uVar4] != iVar2) {
               return 0;
             }
-            param_2[uVar4] = (int)puVar1;
+            param_2[uVar4] = (uint)puVar1;
             *param_4 = 0;
-            param_3[uVar4] = *(int *)puVar1[2];
+            param_3[uVar4] = *(uint *)puVar1[2];
           }
         }
         uVar6 = uVar6 + 1;
@@ -71,33 +72,35 @@ fn_8299BF68(int param_1,int *param_2,int *param_3,int *param_4,uint param_5,int 
   else if (param_6 == 1) {
     uVar6 = 0;
     if (param_5 != 0) {
+      p4 = param_4;
       do {
-        puVar1 = (uint *)*param_4;
+        puVar1 = (uint *)*p4;
         if (((puVar1 != (uint *)0x0) && ((*puVar1 & 0xfff00000) != 0x11000000)) &&
            ((*puVar1 & 0xfff00000) != 0x72100000)) {
           uVar4 = 0;
           piVar5 = param_3;
           do {
-            if ((*(int *)(((int)param_2 - (int)param_3) + (int)piVar5) == 0) &&
-               ((*piVar5 == *(int *)puVar1[2] || (*piVar5 == -1)))) break;
+            if ((*(uint *)(((int)param_2 - (int)param_3) + (int)piVar5) == 0) &&
+               ((*piVar5 == *(uint *)puVar1[2] || (*piVar5 == 0xffffffff)))) break;
             uVar4 = uVar4 + 1;
             piVar5 = piVar5 + 1;
           } while (uVar4 < 6);
           if (uVar4 == 6) {
             return 0;
           }
-          param_3[uVar4] = *(int *)puVar1[2];
-          param_2[uVar4] = (int)puVar1;
-          *param_4 = 0;
+          param_3[uVar4] = *(uint *)puVar1[2];
+          param_2[uVar4] = (uint)puVar1;
+          *p4 = 0;
         }
         uVar6 = uVar6 + 1;
-        param_4 = param_4 + 1;
+        p4 = p4 + 1;
       } while (uVar6 < param_5);
     }
   }
   else if ((param_6 == 2) && (uVar6 = 0, param_5 != 0)) {
+    p4 = param_4;
     do {
-      puVar1 = (uint *)*param_4;
+      puVar1 = (uint *)*p4;
       if ((puVar1 != (uint *)0x0) &&
          (((*puVar1 & 0xfff00000) == 0x11000000 || ((*puVar1 & 0xfff00000) == 0x72100000)))) {
         uVar4 = 0;
@@ -110,12 +113,12 @@ fn_8299BF68(int param_1,int *param_2,int *param_3,int *param_4,uint param_5,int 
         if (uVar4 == 6) {
           return 0;
         }
-        param_3[uVar4] = *(int *)puVar1[2];
-        param_2[uVar4] = (int)puVar1;
-        *param_4 = 0;
+        param_3[uVar4] = *(uint *)puVar1[2];
+        param_2[uVar4] = (uint)puVar1;
+        *p4 = 0;
       }
       uVar6 = uVar6 + 1;
-      param_4 = param_4 + 1;
+      p4 = p4 + 1;
     } while (uVar6 < param_5);
   }
   return 1;

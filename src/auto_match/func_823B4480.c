@@ -25,8 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_ac;
-extern unsigned int *auStack_b0;
 extern int fn_8223CFC0();
 extern int fn_8223DCC8();
 extern int fn_82240158();
@@ -36,13 +34,12 @@ extern int fn_822403C8();
 undefined8 fn_823B4480(undefined8 param_1)
 
 {
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [140];
+  struct { undefined1 a [4]; undefined1 b [156]; } s;
   
-  fn_8223CFC0(auStack_b0,2,1);
-  fn_82240158(auStack_b0,0xffffffff821b5a9c);
-  fn_822403C8(param_1,auStack_ac);
-  fn_8223DCC8(auStack_b0);
+  fn_8223CFC0(s.a,2,1);
+  fn_82240158(s.a,"SpectatorNetworkFrameMsg - ");
+  fn_822403C8(param_1,s.b);
+  fn_8223DCC8(s.a);
   return param_1;
 }
 

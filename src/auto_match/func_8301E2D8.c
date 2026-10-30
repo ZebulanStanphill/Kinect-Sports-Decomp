@@ -1,44 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8301E2D8(float *param_1,float *param_2,float *param_3)
-
+void fn_8301E2D8(float *a, float *b, float *o)
 {
-  *param_3 = param_2[6] * param_1[2] + *param_1 * *param_2 + param_1[1] * param_2[3];
-  param_3[1] = param_2[1] * *param_1 + param_1[1] * param_2[4] + param_2[7] * param_1[2];
-  param_3[2] = param_2[2] * *param_1 + param_1[1] * param_2[5] + param_2[8] * param_1[2];
-  param_3[3] = param_1[5] * param_2[6] + param_1[4] * param_2[3] + param_1[3] * *param_2;
-  param_3[4] = param_1[3] * param_2[1] + param_1[5] * param_2[7] + param_1[4] * param_2[4];
-  param_3[5] = param_1[3] * param_2[2] + param_1[5] * param_2[8] + param_1[4] * param_2[5];
-  param_3[6] = param_1[7] * param_2[3] + param_1[6] * *param_2 + param_2[6] * param_1[8];
-  param_3[7] = param_2[1] * param_1[6] + param_2[7] * param_1[8] + param_2[4] * param_1[7];
-  param_3[8] = param_2[2] * param_1[6] + param_2[8] * param_1[8] + param_2[5] * param_1[7];
-  return;
+  o[0] = a[0] * b[0] + a[1] * b[3] + a[2] * b[6];
+  o[1] = a[0] * b[1] + a[1] * b[4] + a[2] * b[7];
+  o[2] = a[0] * b[2] + a[1] * b[5] + a[2] * b[8];
+  o[3] = a[3] * b[0] + a[4] * b[3] + a[5] * b[6];
+  o[4] = a[3] * b[1] + a[4] * b[4] + a[5] * b[7];
+  o[5] = a[3] * b[2] + a[4] * b[5] + a[5] * b[8];
+  o[6] = a[6] * b[0] + a[7] * b[3] + a[8] * b[6];
+  o[7] = a[6] * b[1] + a[7] * b[4] + a[8] * b[7];
+  o[8] = a[6] * b[2] + a[7] * b[5] + a[8] * b[8];
 }
-

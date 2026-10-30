@@ -24,38 +24,30 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
-
-
+extern void *memcpy(void *, const void *, unsigned int);
+typedef struct B_8281C620 { char pad[0x4]; unsigned int f4; } B_8281C620;
 void fn_8281C620(int param_1,int *param_2,uint *param_3)
-
 {
-  int iVar1;
-  ulonglong uVar2;
-  uint uVar3;
-  
-  if (*(int *)(param_1 + 0x20) == 0) {
-    uVar2 = (ulonglong)*(uint *)(*(int *)(param_1 + 0xc) + 0x1c);
+  unsigned int iVar1;
+  unsigned int base;
+  uint n;
+
+  if (*(unsigned int *)(param_1 + 0x20) == 0) {
+    base = *(uint *)(*(int *)(param_1 + 0xc) + 0x1c);
   }
   else {
     iVar1 = *(int *)(param_1 + 0x1c);
     if (iVar1 == 0) {
-      uVar2 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x20) + 4);
+      base = *(uint *)(*(int *)(param_1 + 0x20) + 4);
     }
     else {
-      uVar2 = (ulonglong)*(uint *)(iVar1 + 0x11) + (ulonglong)*(uint *)(iVar1 + 0xd);
+      base = *(uint *)(iVar1 + 0x11) + *(uint *)(iVar1 + 0xd);
     }
   }
-  uVar3 = *(uint *)(param_1 + 0x24);
-  if (*param_3 <= *(uint *)(param_1 + 0x24)) {
-    uVar3 = *param_3;
-  }
-  fn_82F68CC0(uVar2 + *(uint *)(param_1 + 0x10),*param_2,uVar3);
-  *(uint *)(param_1 + 0x10) = uVar3 + *(int *)(param_1 + 0x10);
-  *(uint *)(param_1 + 0x24) = *(int *)(param_1 + 0x24) - uVar3;
-  *param_2 = *param_2 + uVar3;
-  *param_3 = *param_3 - uVar3;
-  return;
+  n = *(uint *)(param_1 + 0x24) < *param_3 ? *(uint *)(param_1 + 0x24) : *param_3;
+  memcpy((void *)(base + *(uint *)(param_1 + 0x10)), (void *)*param_2, n);
+  *(uint *)(param_1 + 0x10) = n + *(int *)(param_1 + 0x10);
+  *(uint *)(param_1 + 0x24) = *(int *)(param_1 + 0x24) - n;
+  *param_2 = *param_2 + n;
+  *param_3 = *param_3 - n;
 }
-

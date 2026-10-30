@@ -1,59 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Range_82C295B0 { int pad0; unsigned int size; unsigned __int64 start; } Range_82C295B0;
+typedef struct Node_82C295B0 { Range_82C295B0 *r; int hits; struct Node_82C295B0 *next; } Node_82C295B0;
+typedef struct List_82C295B0 { int pad[2]; Node_82C295B0 *first; } List_82C295B0;
+typedef struct Mid_82C295B0 { int pad[4]; List_82C295B0 *list; } Mid_82C295B0;
+typedef struct Obj_82C295B0 { char pad[0x2c]; Mid_82C295B0 *mid; } Obj_82C295B0;
 
-
-undefined8 fn_82C295B0(int param_1,ulonglong param_2,ulonglong param_3)
-
+int fn_82C295B0(Obj_82C295B0 *o, unsigned __int64 a, unsigned int len)
 {
-  int *piVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  
-  piVar1 = *(int **)(*(int *)(*(int *)(param_1 + 0x2c) + 0x10) + 8);
-  do {
-    if (piVar1 == (int *)0x0) {
-      return 0;
-    }
-    uVar2 = *(uint *)(*piVar1 + 4);
-    uVar3 = *(ulonglong *)(*piVar1 + 8);
-    if (uVar2 != 0) {
-      if (uVar3 < param_2) {
-        if (param_2 < uVar2 + uVar3) goto code_r0x82c29608;
-      }
-      else if (uVar3 < (param_3 & 0xffffffff) + param_2) {
-code_r0x82c29608:
-        piVar1[1] = piVar1[1] + 1;
-      }
-    }
-    if (uVar2 + uVar3 < param_2) {
-      return 0;
-    }
-    piVar1 = (int *)piVar1[2];
-  } while( true );
-}
+  Node_82C295B0 *n;
+  Node_82C295B0 *first;
+  unsigned int size;
+  unsigned __int64 start;
 
+  first = o->mid->list->first;
+  if (first == 0) return 0;
+  n = first;
+  do {
+    size = n->r->size;
+    start = n->r->start;
+    if (size != 0) {
+      if (start >= a) {
+        if (start < len + a) goto hit;
+      } else if (size + start > a) {
+hit:
+        n->hits = n->hits + 1;
+      }
+    }
+    if (size + start < a) {
+      return 0;
+    }
+    n = n->next;
+  } while (n != 0);
+  return 0;
+}

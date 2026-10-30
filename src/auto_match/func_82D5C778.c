@@ -24,28 +24,22 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D70F30();
-extern int fn_82DD77B0();
-extern unsigned int lbl_821AAD20;
+extern int fn_82D70F30(void *);
+extern int fn_82DD77B0(void *, int, undefined8);
+typedef struct Sub_82D5C778 { int a; int b; unsigned int c; } Sub_82D5C778;
+typedef struct Ob_82D5C778 { char pad0[8]; int f8; char pad1[0x24]; Sub_82D5C778 sub; float f3c; char pad2[0x44]; char c84; char pad3; short s86; } Ob_82D5C778;
 
-
-void fn_82D5C778(int param_1,undefined8 param_2)
-
+void fn_82D5C778(Ob_82D5C778 *p,undefined8 param_2)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)(param_1 + 0x30);
-  fn_82DD77B0(puVar1,*(undefined4 *)(param_1 + 8),param_2);
-  *(undefined1 *)(param_1 + 0x84) = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    *puVar1 = 0;
-    *(undefined4 *)(param_1 + 0x34) = 0;
-    *(undefined4 *)(param_1 + 0x38) = 0x80000000;
+  Sub_82D5C778 *s = &p->sub;
+  fn_82DD77B0(s, p->f8, param_2);
+  p->c84 = 0;
+  if (s != 0) {
+    s->a = 0;
+    s->b = 0;
+    s->c = 0x80000000;
   }
-  fn_82D70F30(puVar1);
-  *(undefined2 *)(param_1 + 0x86) = 0x19;
-  *(undefined4 *)(param_1 + 0x3c) = lbl_821AAD20;
-  return;
+  fn_82D70F30(s);
+  p->s86 = 0x19;
+  p->f3c = 0.0f;
 }
-

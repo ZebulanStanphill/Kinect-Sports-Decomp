@@ -1,56 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE50B0();
-extern int fn_82F68CC0();
+typedef struct Rec { char pad[0xc]; int f0c; char pad1[4]; unsigned int f14; } Rec;
+typedef struct Owner { char pad[0x60]; int state; } Owner;
+typedef struct Hdr { char pad[8]; Owner *owner; } Hdr;
+typedef struct Par { char pad[0x5a]; unsigned short s5a; } Par;
+typedef struct Obj { char pad[0x2c]; Par *par; char pad1[0x2c]; unsigned short s5c; } Obj;
+extern void *memcpy(void *d, const void *s, unsigned int n);
+extern Rec *fn_82BE50B0(Owner *o, int n);
 
-
-undefined8 fn_82BEFC38(int param_1,int param_2,int param_3)
-
+int fn_82BEFC38(Obj *obj, Hdr *h, Rec *dst)
 {
-  ushort uVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = *(int *)(param_2 + 8);
-  iVar3 = fn_82BE50B0(iVar2,1);
-  if (*(int *)(param_1 + 0x2c) == 0) {
-    uVar1 = *(ushort *)(param_1 + 0x5c);
+  Owner *o = h->owner;
+  Rec *r = fn_82BE50B0(o, 1);
+  unsigned short lim;
+  if (obj->par != 0) {
+    lim = obj->par->s5a;
+  } else {
+    lim = obj->s5c;
   }
-  else {
-    uVar1 = *(ushort *)(*(int *)(param_1 + 0x2c) + 0x5a);
-  }
-  *(undefined4 *)(iVar2 + 0x60) = 3;
-  if ((((iVar3 != 0) && (*(int *)(iVar3 + 0xc) != 0)) &&
-      (*(undefined4 *)(iVar2 + 0x60) = 1, *(uint *)(param_3 + 0x14) < *(uint *)(iVar3 + 0x14))) &&
-     (fn_82F68CC0(param_3,iVar3,0x24), (uint)uVar1 <= *(uint *)(iVar3 + 0x14))) {
-    *(undefined4 *)(iVar2 + 0x60) = 2;
-    return 1;
+  o->state = 3;
+  if (r != 0 && r->f0c != 0) {
+    o->state = 1;
+    if (r->f14 > dst->f14) {
+      memcpy(dst, r, 0x24);
+      if (r->f14 >= lim) {
+        o->state = 2;
+        return 1;
+      }
+    }
   }
   return 0;
 }
-

@@ -24,33 +24,26 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_83050528();
 extern int fn_830543B8();
 extern int fn_83055CF0();
 extern int fn_83055EE8();
-
-
-void fn_830539F8(int param_1)
-
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+void fn_830539F8(char *param_1)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = param_1 + -0x40;
-  RtlEnterCriticalSection(iVar1);
-  iVar2 = param_1 + -0x78;
-  *(uint *)(param_1 + -4) = *(uint *)(param_1 + -4) & 0xf6ffffff | 0x8000000;
-  fn_83050528(iVar2,3);
-  if ((*(int *)(param_1 + 0x30) == 0) && (*(int *)(param_1 + 0x34) == 0)) {
-    RtlLeaveCriticalSection(iVar1);
+  char *o;
+  RtlEnterCriticalSection(param_1 - 0x40);
+  o = param_1 - 0x78;
+  *(unsigned int *)(o + 0x74) = *(unsigned int *)(o + 0x74) & 0xf6ffffff | 0x8000000;
+  fn_83050528(o, 3);
+  if (*(unsigned int *)(param_1 + 0x30) == 0 && *(unsigned int *)(param_1 + 0x34) == 0) {
+    RtlLeaveCriticalSection(param_1 - 0x40);
   }
   else {
-    fn_83055CF0(iVar2);
-    fn_830543B8(iVar2,0);
-    RtlLeaveCriticalSection(iVar1);
-    fn_83055EE8(*(undefined4 *)(param_1 + -0x18),iVar2);
+    fn_83055CF0(o);
+    fn_830543B8(o, 0);
+    RtlLeaveCriticalSection(param_1 - 0x40);
+    fn_83055EE8(*(void **)(param_1 - 0x18), o);
   }
-  return;
 }
-

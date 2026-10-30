@@ -24,15 +24,16 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82BD7AE8();
-
+typedef struct Nd_82BD8860 { struct Nd_82BD8860 *p0; struct Nd_82BD8860 *next; } Nd_82BD8860;
+typedef struct Q_82BD8860 { Nd_82BD8860 *head; Nd_82BD8860 *tail; } Q_82BD8860;
 
 void fn_82BD8860(int param_1,int *param_2)
-
 {
   int iVar1;
   int iVar2;
+  Q_82BD8860 *q;
+  Nd_82BD8860 *n = (Nd_82BD8860 *)param_2;
   
   iVar1 = *param_2;
   *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 2;
@@ -43,15 +44,14 @@ void fn_82BD8860(int param_1,int *param_2)
     *(int *)(iVar1 + 0xc) = *(int *)(iVar1 + 0xc) + 2;
   }
   else {
-    param_2[1] = 0;
-    if (*(int *)(param_1 + 0x194) == 0) {
-      *(int **)(param_1 + 400) = param_2;
+    q = (Q_82BD8860 *)(param_1 + 0x190);
+    n->next = 0;
+    if (q->tail != 0) {
+      q->tail->next = n;
     }
     else {
-      *(int **)(*(int *)(param_1 + 0x194) + 4) = param_2;
+      q->head = n;
     }
-    *(int **)(param_1 + 0x194) = param_2;
+    q->tail = n;
   }
-  return;
 }
-

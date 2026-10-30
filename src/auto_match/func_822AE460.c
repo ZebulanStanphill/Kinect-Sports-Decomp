@@ -1,67 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82381BC0();
-extern int fn_8288B760();
-extern int fn_8288D868();
+extern unsigned char fn_8288B760(unsigned int);
+extern unsigned char fn_8288D868(unsigned int);
+extern void fn_82381BC0(void *);
 
+typedef struct Elem_822AE460 {
+    unsigned int pad[0x168 / 4];
+    unsigned int f168;
+} Elem_822AE460;
 
-ulonglong fn_822AE460(undefined4 *param_1)
+typedef struct LNode_822AE460 {
+    struct LNode_822AE460 *next;
+    struct LNode_822AE460 *prev;
+    int pad[2];
+    Elem_822AE460 *val;
+} LNode_822AE460;
 
+typedef struct Slot_822AE460 {
+    int pad[1];
+    LNode_822AE460 *list;
+} Slot_822AE460;
+
+typedef struct Table_822AE460 {
+    Slot_822AE460 **slots;
+    char pad[0x10 - 4];
+    int index;
+} Table_822AE460;
+
+typedef struct Vec_822AE460 {
+    Table_822AE460 **begin;
+    Table_822AE460 **end;
+} Vec_822AE460;
+
+int fn_822AE460(Vec_822AE460 *v)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  char cVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  int *piVar6;
-  undefined4 * apuStack_40;
-  
-  piVar6 = (int *)*param_1;
-  uVar4 = 1;
-  do {
-    if ((int *)param_1[1] <= piVar6) {
-      return uVar4;
+    Table_822AE460 **p;
+    int result = 1;
+    for (p = v->begin; p < v->end; p++) {
+        int ok = 1;
+        LNode_822AE460 *head = (*p)->slots[(*p)->index]->list;
+        LNode_822AE460 *it = head->next;
+        while (it != head) {
+            Elem_822AE460 *e = it->val;
+            if (e->f168 == 0 || (fn_8288B760(e->f168) != 0 && fn_8288D868(e->f168) == 0)) {
+                ok = 0;
+                break;
+            }
+            fn_82381BC0(&it);
+        }
+        result = ok & result;
     }
-    uVar5 = 1;
-    puVar1 = *(undefined4 **)(*(int *)(((int *)*piVar6)[4] * 4 + *(int *)*piVar6) + 4);
-    apuStack_40 = (undefined4 *)*puVar1;
-    while (apuStack_40 != puVar1) {
-      iVar2 = apuStack_40[4];
-      if ((*(int *)(iVar2 + 0x168) == 0) ||
-         ((cVar3 = fn_8288B760(), cVar3 != '\0' &&
-          (cVar3 = fn_8288D868(*(undefined4 *)(iVar2 + 0x168)), cVar3 == '\0')))) {
-        uVar5 = 0;
-        break;
-      }
-      fn_82381BC0(&apuStack_40);
-    }
-    piVar6 = piVar6 + 1;
-    uVar4 = uVar5 & uVar4;
-  } while( true );
+    return result;
 }
-

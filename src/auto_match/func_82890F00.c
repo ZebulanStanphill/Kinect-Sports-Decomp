@@ -1,59 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
-extern int fn_8288C978();
-extern int fn_8289EE00();
-extern int fn_828B5580();
-extern int fn_828B55B0();
-extern int fn_828B55F8();
+typedef struct Y { char pad[0x14]; unsigned char flag; } Y;
+typedef struct X { char pad[0x10]; Y *y; } X;
+typedef struct Obj Obj;
+typedef struct VT { void *s0; void *s1; X *(*get)(Obj *o); } VT;
+struct Obj { VT *vt; int pad[4]; int member; };
+typedef struct Node { int a, b, c; int v; Obj *o; } Node;
+typedef struct Tmp { int a, b; } Tmp;
+typedef struct Out { int a[2]; } Out;
+extern void fn_828B5580(Tmp *t, int *m);
+extern int fn_828B55F8(Tmp *t);
+extern Node *fn_8289EE00(void *list);
+extern void fn_8288C978(Out *out, void *list, Node *n, int z);
+extern void fn_828B55B0(Tmp *t);
 
-
-void fn_82890F00(longlong param_1,int *param_2)
-
+void fn_82890F00(char *self, Obj *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined1 auStack_30 [8];
-  undefined1 auStack_28 [40];
-  
-  iVar1 = (**(code **)(*param_2 + 8))(param_2);
-  if (*(char *)(*(int *)(iVar1 + 0x10) + 0x14) != '\0') {
-    fn_828B5580(auStack_30,param_2 + 5);
-    uVar2 = fn_828B55F8(auStack_30);
-    iVar1 = fn_8289EE00(param_1 + 0x6c);
-    if ((undefined4 *)(iVar1 + 0xc) != (undefined4 *)0x0) {
-      *(undefined4 *)(iVar1 + 0xc) = uVar2;
-      *(int **)(iVar1 + 0x10) = param_2;
+  X *x = o->vt->get(o);
+  if (x->y->flag != 0) {
+    struct { Tmp t; Out out; } L;
+    int *pv;
+    Node *n;
+    int v;
+    fn_828B5580(&L.t, &o->member);
+    v = fn_828B55F8(&L.t);
+    n = fn_8289EE00(self + 0x6c);
+    pv = &n->v;
+    if (pv != 0) {
+      pv[0] = v;
+      pv[1] = (int)o;
     }
-    fn_8288C978(auStack_28,param_1 + 0x6c,iVar1,0);
-    fn_828B55B0(auStack_30);
+    fn_8288C978(&L.out, self + 0x6c, n, 0);
+    fn_828B55B0(&L.t);
   }
-  return;
 }
-

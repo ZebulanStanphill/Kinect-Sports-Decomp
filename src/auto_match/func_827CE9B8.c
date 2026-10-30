@@ -24,25 +24,19 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
+typedef struct Err_827CE9B8 { void (*error_exit)(void *); int pad[4]; int msg_code; } Err_827CE9B8;
+typedef struct Mst_827CE9B8 { int pad[12]; int a; int b; int c; int d; } Mst_827CE9B8;
 void fn_827CE9B8(int *param_1,int param_2)
-
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = param_1[0x51];
+  int v;
+  Mst_827CE9B8 *m = (Mst_827CE9B8 *)param_1[0x51];
   if (param_2 != 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 4;
-    (**(code **)*param_1)();
+    (*(Err_827CE9B8 **)param_1)->msg_code = 4;
+    (*(*(Err_827CE9B8 **)param_1)->error_exit)(param_1);
   }
-  iVar2 = param_1[8];
-  *(undefined4 *)(iVar1 + 0x34) = 0;
-  *(undefined4 *)(iVar1 + 0x38) = 0;
-  *(int *)(iVar1 + 0x30) = iVar2;
-  *(int *)(iVar1 + 0x3c) = param_1[0x37] << 1;
-  return;
+  v = param_1[8];
+  m->c = 0;
+  m->b = 0;
+  m->a = v;
+  m->d = param_1[0x37] << 1;
 }
-

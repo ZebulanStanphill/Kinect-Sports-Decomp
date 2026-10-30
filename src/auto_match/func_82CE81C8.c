@@ -1,48 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFBB08();
+typedef struct Obj_82CE81C8 {
+  int pad0[6];
+  int v18;
+  short pad1c[3];
+  unsigned short cnt[16];
+} Obj_82CE81C8;
+typedef struct Self_82CE81C8 {
+  int pad0[7];
+  Obj_82CE81C8 *obj;
+  int pad20[0x78 / 4 - 8];
+  void *slots[9];
+  char pad9c[0xd0 - 0x9c];
+  signed char cur;
+} Self_82CE81C8;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_82CFBB08(void *p, int a);
 
-
-void fn_82CE81C8(int param_1,undefined4 param_2)
-
+void fn_82CE81C8(Self_82CE81C8 *s, int v)
 {
-  int iVar1;
-  int iVar2;
-  
-  RtlEnterCriticalSection();
-  iVar1 = *(int *)(param_1 + 0x1c);
-  *(undefined4 *)(iVar1 + 0x18) = param_2;
-  if (*(short *)((*(char *)(param_1 + 0xd0) + 0x11) * 2 + iVar1) != 0) {
-    iVar2 = (*(char *)(param_1 + 0xd0) + 0x11) * 2;
-    *(short *)(iVar2 + iVar1) = *(short *)(iVar2 + iVar1) + -1;
-    fn_82CFBB08(*(undefined4 *)((*(char *)(param_1 + 0xd0) + 0x1e) * 4 + param_1),1);
+  Obj_82CE81C8 *o;
+  RtlEnterCriticalSection(s);
+  o = s->obj;
+  o->v18 = v;
+  if (o->cnt[s->cur] != 0) {
+    o->cnt[s->cur] = o->cnt[s->cur] - 1;
+    fn_82CFBB08(s->slots[s->cur], 1);
   }
-  RtlLeaveCriticalSection(param_1);
-  return;
+  RtlLeaveCriticalSection(s);
 }
-

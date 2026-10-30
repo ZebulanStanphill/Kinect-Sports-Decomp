@@ -26,8 +26,9 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
+extern unsigned int RtlCompareMemoryUlong(void *, unsigned int, unsigned int);
 
-ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
+ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,uint param_4)
 
 {
   byte bVar1;
@@ -35,12 +36,12 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
   undefined4 *puVar3;
   undefined4 *puVar4;
   int iVar5;
-  ulonglong uVar6;
+  uint uVar6;
   ushort *puVar7;
   
   puVar7 = param_2 + (uint)param_2[1] * -8;
   if (puVar7 != param_2) {
-    if (((*(byte *)((int)puVar7 + 5) & 1) == 0) && ((uint)*puVar7 + *param_3 < 0xf001)) {
+    if (((*(byte *)((int)puVar7 + 5) & 1) == 0) && ((uint)*puVar7 + *param_3 <= 0xf000)) {
       if (param_4 != 0) {
         puVar3 = *(undefined4 **)(param_2 + 6);
         puVar4 = *(undefined4 **)(param_2 + 4);
@@ -56,11 +57,11 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
           }
         }
         if ((*(byte *)((int)param_2 + 5) & 4) != 0) {
-          uVar6 = (ulonglong)*param_2 * 0x10 - 0x18;
-          if (((*(byte *)((int)param_2 + 5) & 2) != 0) && (4 < (uVar6 & 0xffffffff))) {
-            uVar6 = (ulonglong)*param_2 * 0x10 - 0x1c;
+          uVar6 = (uint)*param_2 * 0x10 - 0x18;
+          if (((*(byte *)((int)param_2 + 5) & 2) != 0) && (uVar6 > 4)) {
+            uVar6 = uVar6 - 4;
           }
-          RtlCompareMemoryUlong(param_2 + 0xc,uVar6,0xfffffffffeeefeee);
+          RtlCompareMemoryUlong(param_2 + 0xc,uVar6,0xfeeefeee);
         }
         param_4 = 0;
         *(uint *)(param_1 + 0x30) = *(int *)(param_1 + 0x30) - (uint)*param_2;
@@ -79,11 +80,11 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
         }
       }
       if ((*(byte *)((int)puVar7 + 5) & 4) != 0) {
-        uVar6 = (ulonglong)*puVar7 * 0x10 - 0x18;
-        if (((*(byte *)((int)puVar7 + 5) & 2) != 0) && (4 < (uVar6 & 0xffffffff))) {
-          uVar6 = (ulonglong)*puVar7 * 0x10 - 0x1c;
+        uVar6 = (uint)*puVar7 * 0x10 - 0x18;
+        if (((*(byte *)((int)puVar7 + 5) & 2) != 0) && (uVar6 > 4)) {
+          uVar6 = uVar6 - 4;
         }
-        RtlCompareMemoryUlong(puVar7 + 0xc,uVar6,0xfffffffffeeefeee);
+        RtlCompareMemoryUlong(puVar7 + 0xc,uVar6,0xfeeefeee);
       }
       bVar1 = *(byte *)((int)param_2 + 5);
       *(byte *)((int)puVar7 + 5) = bVar1 & 0x10;
@@ -101,7 +102,7 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
   }
   if ((*(byte *)((int)param_2 + 5) & 0x10) == 0) {
     puVar7 = param_2 + *param_3 * 8;
-    if (((*(byte *)((int)puVar7 + 5) & 1) == 0) && ((uint)*puVar7 + *param_3 < 0xf001)) {
+    if (((*(byte *)((int)puVar7 + 5) & 1) == 0) && ((uint)*puVar7 + *param_3 <= 0xf000)) {
       if (param_4 != 0) {
         puVar3 = *(undefined4 **)(param_2 + 6);
         puVar4 = *(undefined4 **)(param_2 + 4);
@@ -117,11 +118,11 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
           }
         }
         if ((*(byte *)((int)param_2 + 5) & 4) != 0) {
-          uVar6 = (ulonglong)*param_2 * 0x10 - 0x18;
-          if (((*(byte *)((int)param_2 + 5) & 2) != 0) && (4 < (uVar6 & 0xffffffff))) {
-            uVar6 = (ulonglong)*param_2 * 0x10 - 0x1c;
+          uVar6 = (uint)*param_2 * 0x10 - 0x18;
+          if (((*(byte *)((int)param_2 + 5) & 2) != 0) && (uVar6 > 4)) {
+            uVar6 = uVar6 - 4;
           }
-          RtlCompareMemoryUlong(param_2 + 0xc,uVar6,0xfffffffffeeefeee);
+          RtlCompareMemoryUlong(param_2 + 0xc,uVar6,0xfeeefeee);
         }
         *(uint *)(param_1 + 0x30) = *(int *)(param_1 + 0x30) - (uint)*param_2;
       }
@@ -144,11 +145,11 @@ ushort * fn_82A26C08(int param_1,ushort *param_2,int *param_3,int param_4)
         }
       }
       if ((*(byte *)((int)puVar7 + 5) & 4) != 0) {
-        uVar6 = (ulonglong)*puVar7 * 0x10 - 0x18;
-        if (((*(byte *)((int)puVar7 + 5) & 2) != 0) && (4 < (uVar6 & 0xffffffff))) {
-          uVar6 = (ulonglong)*puVar7 * 0x10 - 0x1c;
+        uVar6 = (uint)*puVar7 * 0x10 - 0x18;
+        if (((*(byte *)((int)puVar7 + 5) & 2) != 0) && (uVar6 > 4)) {
+          uVar6 = uVar6 - 4;
         }
-        RtlCompareMemoryUlong(puVar7 + 0xc,uVar6,0xfffffffffeeefeee);
+        RtlCompareMemoryUlong(puVar7 + 0xc,uVar6,0xfeeefeee);
       }
       *param_3 = (uint)*puVar7 + *param_3;
       *(uint *)(param_1 + 0x30) = *(int *)(param_1 + 0x30) - (uint)*puVar7;

@@ -1,69 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_827D96A0();
-extern int fn_827DDDA0();
-extern int fn_827DDDD8();
-extern int fn_827DDFB8();
-extern int fn_827DEA98();
-extern int fn_827DEAA8();
-extern int fn_827DEB38();
-extern int fn_827DEB60();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_827DDDA0(void *, void *);
+extern void fn_827DEB38(void *);
+extern unsigned char fn_827DEB60(void *);
+extern int fn_827DEAA8(void *);
+extern void fn_827DEA98(void *);
+extern int fn_827D96A0(int);
+extern void *fn_827DDDD8(void *, void *);
+extern void fn_827DDFB8(void *, int);
 
+typedef struct Vt_8260C8F8 {
+    void *s0;
+    int (*test)(void *, int);
+} Vt_8260C8F8;
 
-undefined8 fn_8260C8F8(longlong param_1,int *param_2,undefined8 param_3)
+typedef struct Iface_8260C8F8 {
+    Vt_8260C8F8 *vt;
+} Iface_8260C8F8;
 
+typedef struct Owner_8260C8F8 {
+    char pad[0xc8];
+    char set[0x1a0 - 0xc8];
+    char crit[1];
+} Owner_8260C8F8;
+
+int fn_8260C8F8(Owner_8260C8F8 *o, Iface_8260C8F8 *f, void *out)
 {
-  undefined8 uVar1;
-  int iVar2;
-  char cVar3;
-  undefined4 auStack_40 [2];
-  undefined1 auStack_38 [56];
-  
-  RtlEnterCriticalSection(param_1 + 0x1a0);
-  fn_827DDDA0(auStack_38,param_1 + 200);
-  fn_827DEB38(auStack_38);
-  while( true ) {
-    cVar3 = fn_827DEB60(auStack_38);
-    if (cVar3 != '\0') break;
-    uVar1 = fn_827DEAA8(auStack_38);
-    iVar2 = (**(code **)(*param_2 + 4))(param_2,uVar1);
-    if (iVar2 != 0) {
-      auStack_40[0] = fn_827D96A0(uVar1);
-      iVar2 = fn_827DDDD8(param_3,auStack_40);
-      if (iVar2 == 0) {
-        fn_827DDFB8(param_3,uVar1);
-      }
+    struct { int key; union { char b[8]; __int64 a[1]; } it; } L;
+    int v;
+    RtlEnterCriticalSection(o->crit);
+    fn_827DDDA0(L.it.b, o->set);
+    fn_827DEB38(L.it.b);
+    while (fn_827DEB60(L.it.b) == 0) {
+        v = fn_827DEAA8(L.it.b);
+        if (f->vt->test(f, v) != 0) {
+            L.key = fn_827D96A0(v);
+            if (fn_827DDDD8(out, &L.key) == 0) {
+                fn_827DDFB8(out, v);
+            }
+        }
+        fn_827DEA98(L.it.b);
     }
-    fn_827DEA98(auStack_38);
-  }
-  RtlLeaveCriticalSection(param_1 + 0x1a0);
-  return 0;
+    RtlLeaveCriticalSection(o->crit);
+    return 0;
 }
-

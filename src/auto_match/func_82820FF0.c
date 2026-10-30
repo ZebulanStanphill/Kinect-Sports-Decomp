@@ -1,13 +1,8 @@
-void fn_82820FF0(volatile unsigned int *param_1)
+typedef unsigned int uint;
+static void sw(uint *p) { uint v = *p; *p = (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24); }
+void fn_82820FF0(uint *d)
 {
-    unsigned int uVar1;
-    
-    uVar1 = param_1[0];
-    param_1[0] = ((uVar1 >> 16 | uVar1 & 0xFFFF0000) >> 8 & 0xFFFF) | (((uVar1 << 16 | uVar1 & 0xFFFF) & 0xFFFF00) << 8);
-    
-    uVar1 = param_1[1];
-    param_1[1] = ((uVar1 >> 16 | uVar1 & 0xFFFF0000) >> 8 & 0xFFFF) | (((uVar1 << 16 | uVar1 & 0xFFFF) & 0xFFFF00) << 8);
-    
-    uVar1 = param_1[2];
-    param_1[2] = ((uVar1 >> 16 | uVar1 & 0xFFFF0000) >> 8 & 0xFFFF) | (((uVar1 << 16 | uVar1 & 0xFFFF) & 0xFFFF00) << 8);
+  sw(d);
+  sw(d + 1);
+  sw(d + 2);
 }

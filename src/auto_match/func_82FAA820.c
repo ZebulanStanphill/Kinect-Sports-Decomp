@@ -24,55 +24,50 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA9DC8();
-extern int fn_8301A4F8();
+extern unsigned char fn_8301A4F8();
+typedef struct T_82FAA820 { char pad[0x14]; unsigned int f14; } T_82FAA820;
+typedef struct E_82FAA820 { int key; int a; T_82FAA820 *b; } E_82FAA820;
+typedef struct V_82FAA820 { E_82FAA820 *first; E_82FAA820 *last; unsigned int cap; } V_82FAA820;
+typedef struct O_82FAA820 { char pad[0xc]; unsigned int f0c; int pad2; V_82FAA820 v; } O_82FAA820;
 
-
-void fn_82FAA820(int param_1,int *param_2,int param_3)
-
+static void Erase_82FAA820(V_82FAA820 *v, E_82FAA820 *e)
 {
-  uint uVar1;
-  int *piVar2;
-  int iVar3;
-  char cVar4;
-  bool bVar5;
-  int *piVar6;
-  
-  piVar6 = *(int **)(param_1 + 0x14);
-  bVar5 = false;
-  if (piVar6 != *(int **)(param_1 + 0x18)) {
-    do {
-      if ((param_3 < *piVar6) &&
-         ((piVar6[1] != 0 || ((*(uint *)(piVar6[2] + 0x14) & 0x80000000) == 0)))) {
-        uVar1 = (param_2[1] - *param_2) / 0xc;
-        if (((uVar1 < (uint)param_2[2]) || (cVar4 = fn_8301A4F8(param_2,5), cVar4 != '\0')) &&
-           (uVar1 < (uint)param_2[2])) {
-          piVar2 = (int *)param_2[1];
-          param_2[1] = (int)(piVar2 + 3);
-          if (piVar2 != (int *)0x0) {
-            *piVar2 = *piVar6;
-            piVar2[1] = piVar6[1];
-            piVar2[2] = piVar6[2];
-          }
-        }
-        iVar3 = *(int *)(param_1 + 0x18);
-        if (1 < (uint)((iVar3 - *(int *)(param_1 + 0x14)) / 0xc)) {
-          *piVar6 = *(int *)(iVar3 + -0xc);
-          piVar6[1] = *(int *)(iVar3 + -8);
-          piVar6[2] = *(int *)(iVar3 + -4);
-        }
-        bVar5 = true;
-        *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + -0xc;
-      }
-      else {
-        piVar6 = piVar6 + 3;
-      }
-    } while (piVar6 != *(int **)(param_1 + 0x18));
+  if ((unsigned int)(v->last - v->first) > 1) {
+    *e = v->last[-1];
   }
-  if (bVar5) {
-    fn_82FA9DC8(param_1,-(ulonglong)*(uint *)(param_1 + 0xc));
-  }
-  return;
+  v->last = v->last - 1;
 }
 
+void fn_82FAA820(O_82FAA820 *self, V_82FAA820 *out, int limit)
+{
+  E_82FAA820 *e;
+  unsigned int n;
+  unsigned char any = 0;
+
+  e = self->v.first;
+  if (e != self->v.last) {
+    do {
+      if (e->key > limit && (e->a != 0 || (e->b->f14 & 0x80000000) == 0)) {
+        n = out->last - out->first;
+        if (n < out->cap || fn_8301A4F8(out, 5)) {
+          if (n < out->cap) {
+            E_82FAA820 *d = out->last;
+            out->last = d + 1;
+            if (d != 0) {
+              *d = *e;
+            }
+          }
+        }
+        Erase_82FAA820(&self->v, e);
+        any = 1;
+      }
+      else {
+        e = e + 1;
+      }
+    } while (e != self->v.last);
+  }
+  if (any) {
+    fn_82FA9DC8(self, -(int)self->f0c);
+  }
+}

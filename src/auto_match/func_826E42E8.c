@@ -1,53 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void fn_8267BE38(void *);
 
+typedef struct Node_826E42E8 {
+    struct Node_826E42E8 *prev;
+    struct Node_826E42E8 *next;
+    unsigned int key;
+} Node_826E42E8;
 
-void fn_826E42E8(int param_1,int param_2)
+typedef struct List_826E42E8 {
+    char pad0[0x1c];
+    struct { Node_826E42E8 *prev; Node_826E42E8 *next; } head;
+    char crit[1];
+} List_826E42E8;
 
+void fn_826E42E8(List_826E42E8 *l, unsigned int key)
 {
-  int *piVar1;
-  
-  RtlEnterCriticalSection(param_1 + 0x24);
-  piVar1 = *(int **)(param_1 + 0x20);
-  do {
-    if (piVar1 == (int *)(param_1 + 0x1c)) {
-LAB_826e434c:
-      RtlLeaveCriticalSection(param_1 + 0x24);
-      return;
+    Node_826E42E8 *n;
+    RtlEnterCriticalSection(l->crit);
+    for (n = l->head.next; n != (Node_826E42E8 *)&l->head; n = n->next) {
+        if (n->key == key) {
+            n->prev->next = n->next;
+            n->next->prev = n->prev;
+            fn_8267BE38(n);
+            break;
+        }
     }
-    if (piVar1[2] == param_2) {
-      *(int *)(*piVar1 + 4) = piVar1[1];
-      *(int *)piVar1[1] = *piVar1;
-      fn_8267BE38();
-      goto LAB_826e434c;
-    }
-    piVar1 = (int *)piVar1[1];
-  } while( true );
+    RtlLeaveCriticalSection(l->crit);
 }
-

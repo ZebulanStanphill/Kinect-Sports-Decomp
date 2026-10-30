@@ -24,32 +24,23 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef int (*Fn_82C107F8)(int, int, int, int *, int *);
+typedef struct Ent_82C107F8 { int used; Fn_82C107F8 fn; int ctx; } Ent_82C107F8;
 
-
-undefined8 fn_82C107F8(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+int fn_82C107F8(Ent_82C107F8 *tbl, int idx, int a, int b)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  undefined4 auStack_30 [4];
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  int one = 0;
+  struct { int first; int second; int third; int fourth; } pair;
+  Ent_82C107F8 *e;
 
-  
-  auStack_30[0] = 0;
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  if ((-1 < param_2) && (param_2 < 0x7f)) {
-    piVar2 = (int *)(param_2 * 0xc + param_1);
-    if (*piVar2 == 0) {
-      return 0xffffffff805000b6;
+  pair.first = 0;
+  pair.second = 0;
+  if (idx >= 0 && idx < 0x7f) {
+    e = &tbl[idx];
+    if (e->used == 0) {
+      return (int)0x805000b6;
     }
-    uVar1 = (*(code *)piVar2[1])(piVar2[2],param_3,param_4,auStack_30,&stack_pair_20.first);
-    return uVar1;
+    return e->fn(e->ctx, a, b, &one, &pair.first);
   }
-  return 0xffffffff80070057;
+  return (int)0x80070057;
 }
-

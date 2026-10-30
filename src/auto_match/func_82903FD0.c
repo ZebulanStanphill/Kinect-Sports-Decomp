@@ -24,39 +24,38 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
+extern void *fn_8265C940(unsigned int, unsigned int);
+typedef struct Blk_82903FD0 { struct Blk_82903FD0 *next; int size; } Blk_82903FD0;
+typedef struct Arena_82903FD0 { char pad[0x90]; Blk_82903FD0 *cur; unsigned int left; } Arena_82903FD0;
 
-
-undefined4 * fn_82903FD0(int param_1,int param_2)
-
+Blk_82903FD0 *fn_82903FD0(Arena_82903FD0 *a, int n)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = param_2 + 2;
-  if (*(uint *)(param_1 + 0x94) < uVar3) {
-    uVar2 = uVar3;
-    if (uVar3 < 0x2000) {
-      uVar2 = 0x2000;
+  Blk_82903FD0 *b;
+  Blk_82903FD0 *m;
+  unsigned int total = n + 2;
+  unsigned int cap;
+
+  if (a->left < total) {
+    cap = total;
+    if (total < 0x2000) {
+      cap = 0x2000;
     }
-    puVar1 = (undefined4 *)fn_8265C940(uVar2 << 2,0x24810000);
-    if (puVar1 == (undefined4 *)0x0) {
-      return (undefined4 *)0x0;
+    m = (Blk_82903FD0 *)fn_8265C940(cap << 2, 0x24810000);
+    if (m == 0) {
+      return 0;
     }
-    *puVar1 = *(undefined4 *)(param_1 + 0x90);
-    puVar1[1] = -*(int *)(param_1 + 0x94);
-    *(undefined4 **)(param_1 + 0x90) = puVar1;
-    *(uint *)(param_1 + 0x94) = uVar2;
+    b = m;
+    b->next = a->cur;
+    b->size = -a->left;
+    a->cur = b;
+    a->left = cap;
   }
   else {
-    puVar1 = *(undefined4 **)(param_1 + 0x90);
-    *puVar1 = puVar1;
-    puVar1[1] = *(undefined4 *)(param_1 + 0x94);
+    b = a->cur;
+    b->next = b;
+    b->size = a->left;
   }
-  *(uint *)(param_1 + 0x90) = uVar3 * 4 + *(int *)(param_1 + 0x90);
-  *(uint *)(param_1 + 0x94) = *(int *)(param_1 + 0x94) - uVar3;
-  return puVar1 + 2;
+  a->cur = (Blk_82903FD0 *)((char *)a->cur + total * 4);
+  a->left = a->left - total;
+  return b + 1;
 }
-
