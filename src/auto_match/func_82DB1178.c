@@ -25,45 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D35890();
-extern int fn_82D93438();
+extern int fn_82DB0B68();
 
 
-void fn_82DB1178(int param_1,int param_2)
+void fn_82DB1178(longlong param_1)
 
 {
-  short sVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  if (*(char *)(param_1 + 0xc) != '\0') {
-    sVar1 = fn_82D93438((int)*(char *)(param_2 + 0x20) + param_2 + 0x10);
-    iVar4 = 0;
-    if (0 < *(int *)(param_1 + 0x30)) {
-      piVar2 = *(int **)(param_1 + 0x2c);
-      do {
-        if (*piVar2 == param_2 + 0x10) {
-          if (iVar4 != -1) {
-            iVar3 = *(int *)(param_1 + 0x30) + -1;
-            *(int *)(param_1 + 0x30) = iVar3;
-            if (iVar3 == iVar4) {
-              return;
-            }
-            *(undefined4 *)(iVar4 * 4 + *(int *)(param_1 + 0x2c)) =
-                 *(undefined4 *)(iVar3 * 4 + *(int *)(param_1 + 0x2c));
-            return;
-          }
-          break;
-        }
-        iVar4 = iVar4 + 1;
-        piVar2 = piVar2 + 1;
-      } while (iVar4 < *(int *)(param_1 + 0x30));
-    }
-    if (sVar1 != -1) {
-      fn_82D35890(*(undefined4 *)(param_1 + -0xc));
-    }
-  }
+  fn_82DB0B68(param_1 + -24);
   return;
 }
-

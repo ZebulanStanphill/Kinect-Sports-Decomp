@@ -1,3 +1,11 @@
+typedef char *va_list;
+typedef struct Compiler {
+  int unk0;
+  char *ctx;
+  char pad8[0x48 - 0x8];
+  int failed;
+  int fatal;
+} Compiler;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -25,36 +33,135 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82937278();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define SQRT(x) sqrt(x)
+typedef struct { char pad[0xbd8]; void *log; } Owner_82937A10;
 
+typedef struct { unsigned int pad0 : 20; unsigned int m : 2; unsigned int low : 10; } Bits_829843D0;
+typedef struct {
+  unsigned int f0;
+  struct { char pad[0x3c]; unsigned int f3c; } *f4;
+} Ctx_829843D0;
+typedef struct {
+  char pad0[4];
+  int kind;
+  char pad1[8];
+  int dim;
+  char pad2[0x10];
+  Bits_829843D0 bits;
+} Node_829843D0;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern void __cdecl __va_start(va_list *, ...);
+extern int fn_828F5960(char *buf, unsigned int size, const char *fmt, va_list ap);
+extern void fn_828FA8D8(void *log, int a, int b, const char *fmt, ...);
+extern void fn_828FAB00(void *log, int a, int b, const char *fmt, ...);
+extern void __cdecl __va_start(va_list *, ...);
+extern int fn_828F5960(char *buf, unsigned int size, const char *fmt, va_list ap);
+extern void fn_828FA8D8(void *log, int a, int b, const char *fmt, ...);
+extern void fn_828FAB00(void *log, int a, int b, const char *fmt, ...);
+extern void __cdecl __va_start(va_list *, ...);
+extern int fn_828F5960(char *buf, unsigned int size, const char *fmt, va_list ap);
+extern void fn_828FA8D8(void *log, int a, int b, const char *fmt, ...);
+extern void fn_828FAB00(void *log, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(int p, int a, int b, const char *msg, ...);
+extern int fn_829301D0();
+extern int fn_82930318();
+extern int fn_82930CE0();
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern int memcpy();
+extern int fn_8297F280();
+extern void fn_82980D00(int, int, int, const char *, ...);
+extern int fn_82930318();
+extern int fn_82930430();
+extern int fn_82930458();
+extern int fn_829304E0();
+extern int fn_8297F280();
+extern int fn_8297F4D8();
+extern void fn_82980C18(Compiler *c, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern int fn_82930318();
+extern int fn_82930458();
+extern int fn_829304E0();
+extern int fn_82930FC0();
+extern void fn_82980C18(Compiler *c, int a, int b, const char *fmt, ...);
+extern int fn_82981050();
+extern int fn_82930318();
+extern int fn_829304E0();
+extern int fn_82930FC0();
+extern int fn_82981050();
+extern int fn_82930318();
+extern int fn_829304E0();
+extern void * fn_82980D80();
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern int fn_828F6FA8();
+extern int fn_82981598();
+extern longlong fn_82981738();
+extern int fn_82F68CC0();
+extern unsigned int stack0x00000000;
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern longlong fn_82981738();
+extern void fn_82980C18(uint *p, void *loc, int code, const char *fmt, ...);
+extern double sqrt(double);
+extern int fn_8265C940();
+extern int fn_8265C990();
+extern int fn_8297FBF0();
+extern int fn_829803A8();
+extern longlong fn_829860E0();
+extern int fn_82F64318();
+extern int fn_82F643F8();
+extern int fn_82F64A40();
+extern int fn_82F64F30();
+extern int fn_82F65018();
+extern int fn_82F655D8();
+extern int fn_82F65D50();
+extern int fn_82F65E18();
+extern int fn_82F65E20();
+extern int fn_82F67DE8();
+extern int fn_82F68918();
+extern int fn_82F6A548();
+extern int fn_82F6A594();
+extern int fn_82F6A7A0();
+extern int fn_82F6B2A8();
+extern int fn_82F6DFB0();
+extern int fn_82F6DFD0();
+extern int fn_82F6E018();
+extern int fn_82F6EF10();
+extern int fn_82F6F010();
+extern int fn_82F6F278();
+extern int iRam00000010;
+extern unsigned int lbl_82002C40;
+extern unsigned int lbl_82005710;
+extern unsigned int lbl_82005730;
+extern unsigned int lbl_82005758;
+extern unsigned int lbl_8200E890;
+extern unsigned int lbl_820105A0;
+extern unsigned int lbl_82015618;
+extern float lbl_8202DDF8;
+extern unsigned int lbl_8202DE58;
+extern unsigned int lbl_8202DE60;
+extern unsigned int uRam00000014;
+extern unsigned int uRam00000018;
+extern unsigned int uStack_a8;
+extern unsigned int uStack_b0;
+extern unsigned int uStack_b4;
+extern longlong fn_82981738();
+extern int fn_828F6FA8();
+extern int fn_829301D0();
+extern int fn_82930318();
+extern int fn_82930940();
+extern int fn_828F6FA8();
+extern int fn_829301D0();
+extern int fn_82930318();
+extern int fn_82930940();
+extern void __cdecl __va_start(va_list *, ...);
+extern void fn_82937278(void *log, const char *fmt, va_list ap);
 
-void fn_82937A10(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+void fn_82937A10(Owner_82937A10 *o, const char *fmt, ...)
 {
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  fn_82937278(*(undefined4 *)(param_1 + 0xbd8),param_2,&stack0x00000020);
-  return;
+  va_list ap;
+  __va_start(&ap, fmt);
+  fn_82937278(o->log, fmt, ap);
 }
-

@@ -25,48 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82529320();
-extern int fn_82575DF0();
-extern int fn_8265CA20();
+extern int fn_82376BE0();
 
 
-int * fn_82376CC8(int param_1)
+void fn_82376CC8(int param_1)
 
 {
-  undefined4 *puVar1;
-  int *piVar2;
-  longlong lVar3;
-  int *piVar4;
-  
-  piVar2 = *(int **)(param_1 + 0xc);
-  if (piVar2 != (int *)0x0) {
-    piVar4 = piVar2 + 0x74;
-    lVar3 = 3;
-    do {
-      if (*piVar4 != 0) {
-        fn_82575DF0(*(undefined4 *)(*(int *)(*piVar2 + 0x4c) + 0x93c));
-        *piVar4 = 0;
-      }
-      lVar3 = lVar3 + -1;
-      piVar4 = piVar4 + 1;
-    } while (lVar3 != 0);
-    if (*piVar2 != 0) {
-      fn_82529320(*piVar2,0);
-      *piVar2 = 0;
-    }
-    puVar1 = (undefined4 *)piVar2[0x834];
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
-    }
-    piVar2[0x834] = 0;
-    piVar4 = (int *)piVar2[0x858];
-    if (piVar4 != (int *)0x0) {
-      (**(code **)(*piVar4 + 0xc))(piVar4,piVar2 + 0x854 != piVar4);
-      piVar2[0x858] = 0;
-    }
-    fn_8265CA20(piVar2);
-    return piVar2;
+  if (*(unsigned int *)(param_1 + 0xc) == 0) {
+    return;
   }
-  return (int *)0x0;
+  fn_82376BE0(*(int *)(param_1 + 0xc),1);
+  return;
 }
 

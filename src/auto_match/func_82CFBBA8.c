@@ -1,3 +1,4 @@
+typedef char *va_list;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -25,36 +26,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6E1B8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef struct { char pad[0x14]; unsigned int mod; } Operand_8293B8F8;
+#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { uint lo : 7; uint f : 5; uint rest : 20; } X;
+typedef struct Sh_8293E2D0 { char pad0[0x48]; int f48; char pad1[0xc]; int f58; char pad2[4]; unsigned flags; char pad3[0xd0]; int f134; char pad4[4]; int f13c; } Sh_8293E2D0;
+typedef struct Dc_8293E2D0 { char pad[0x50]; int f50; } Dc_8293E2D0;
+#define NAN(x) ((x) != (x))
+typedef struct { char pad0[0x34]; int f34; char pad1[0x28]; unsigned f60; char pad2[0xbc]; unsigned f120; unsigned f124; unsigned f128; char pad3[0xc]; void *f138; } Obj_8293DD48;
 
+extern void __cdecl __va_start(va_list *, ...);
+extern void fn_82F6E1B8(void *self, const char *fmt, va_list ap);
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void fn_82CFBBA8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+void fn_82CFBBA8(void *self, const char *fmt, ...)
 {
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  fn_82F6E1B8(param_1,param_2,&stack0x00000020);
-  return;
+  va_list ap;
+  __va_start(&ap, fmt);
+  fn_82F6E1B8(self, fmt, ap);
 }
-

@@ -3,7 +3,7 @@ typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
+#define false 255
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -28,21 +28,9 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827F9920();
 
 
-void fn_827F9980(int param_1,uint param_2)
+void fn_827F9980(undefined8 param_1,undefined8 param_2)
 
 {
-  short sVar1;
-  int iVar2;
-  
-  do {
-    iVar2 = param_2 * 0x34 + *(int *)(param_1 + 8);
-    *(undefined1 *)(*(int *)(param_1 + 0x1c) + param_2) = 0xff;
-    sVar1 = *(short *)(iVar2 + 0x2a);
-    if (sVar1 != -1) {
-      fn_827F9920(param_1,sVar1,0xff);
-    }
-    param_2 = (uint)*(ushort *)(iVar2 + 0x2c);
-  } while (param_2 != 0xffff);
+  fn_827F9920(param_1,param_2,255);
   return;
 }
-
