@@ -28,36 +28,36 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C53970();
 
 
-void fn_82C6FA00(int param_1)
+void fn_82C6FA00(unsigned int param_1)
 
 {
   if (param_1 != 0) {
-    if (*(int *)(param_1 + 0x14) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x14) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x14));
       *(undefined4 *)(param_1 + 0x14) = 0;
     }
-    if (*(int *)(param_1 + 0x18) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x18) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x18));
       *(undefined4 *)(param_1 + 0x18) = 0;
     }
-    if (*(int *)(param_1 + 0x1c) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x1c) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x1c));
       *(undefined4 *)(param_1 + 0x1c) = 0;
     }
-    if (*(int *)(param_1 + 0x20) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x20) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x20));
       *(undefined4 *)(param_1 + 0x20) = 0;
     }
-    if (*(int *)(param_1 + 0x3c) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x3c) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x3c));
       *(undefined4 *)(param_1 + 0x3c) = 0;
     }
-    if (*(int *)(param_1 + 0x40) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x40) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x40));
       *(undefined4 *)(param_1 + 0x40) = 0;
     }
-    if (*(int *)(param_1 + 0x44) != 0) {
-      fn_82C53970();
+    if (*(unsigned int *)(param_1 + 0x44) != 0) {
+      fn_82C53970(*(unsigned int *)(param_1 + 0x44));
       *(undefined4 *)(param_1 + 0x44) = 0;
     }
     fn_82C53970(param_1);

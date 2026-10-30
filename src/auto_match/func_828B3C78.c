@@ -1,48 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Item_828B3C78 Item_828B3C78;
+typedef struct Query_828B3C78 Query_828B3C78;
+typedef struct {
+    char pad[0x3c];
+    unsigned char (*f3c)(Query_828B3C78 *, Item_828B3C78 *);
+} VT_828B3C78;
+typedef struct {
+    char pad[0x28];
+    unsigned int key;
+} Key_828B3C78;
+struct Query_828B3C78 {
+    VT_828B3C78 *vt;
+    char pad[0xc];
+    Key_828B3C78 *k;
+};
+struct Item_828B3C78 {
+    char pad[0x10];
+    Key_828B3C78 *k;
+};
+typedef struct Node_828B3C78 Node_828B3C78;
+struct Node_828B3C78 {
+    Node_828B3C78 *next;
+    int pad;
+    Item_828B3C78 *item;
+};
+typedef struct {
+    char pad[0x20];
+    Node_828B3C78 *head;
+} Owner_828B3C78;
 
-
-undefined8 fn_828B3C78(int param_1,int *param_2)
-
+int fn_828B3C78(Owner_828B3C78 *self, Query_828B3C78 *q)
 {
-  int *piVar1;
-  char cVar2;
-  
-  piVar1 = (int *)**(int **)(param_1 + 0x20);
-  if (piVar1 != *(int **)(param_1 + 0x20)) {
-    do {
-      if ((*(int *)(param_2[4] + 0x28) == *(int *)(*(int *)(piVar1[2] + 0x10) + 0x28)) &&
-         (cVar2 = (**(code **)(*param_2 + 0x3c))(param_2), cVar2 == '\x01')) {
-        return 1;
-      }
-      piVar1 = (int *)*piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 0x20));
-  }
-  return 0;
+    Node_828B3C78 *n = self->head->next;
+    if (n != self->head) {
+        do {
+            Item_828B3C78 *it = n->item;
+            if (q->k->key == it->k->key && q->vt->f3c(q, it) == 1) {
+                return 1;
+            }
+            n = n->next;
+        } while (n != self->head);
+    }
+    return 0;
 }
-

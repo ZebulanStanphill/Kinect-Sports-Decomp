@@ -37,25 +37,18 @@ extern unsigned int uStack_48;
 extern unsigned int uStack_50;
 
 
-undefined4 *
-fn_826282E8(int param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4,
-             undefined4 *param_5)
-
+undefined4 *fn_826282E8(int param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4,undefined4 *param_5)
 {
   undefined4 uVar1;
-  int iVar2;
+  unsigned int iVar2;
   undefined4 *puVar3;
+  undefined4 *res;
+  undefined4 *Z;
   struct { undefined4 first; int second; } stack_pair_50;
-
   struct { undefined4 first; undefined4 second; } stack_pair_48;
-
-
   *param_5 = 0;
   puVar3 = (undefined4 *)fn_8265C9E0(0x38);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar3 != 0) {
     stack_pair_50.first = 0;
     stack_pair_50.second = 0;
     fn_82517978(&stack_pair_50.first,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),1);
@@ -71,6 +64,9 @@ fn_826282E8(int param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4
     if (iVar2 != 0) {
       fn_822315A0(iVar2);
     }
+    res = puVar3;
+  } else {
+    res = 0;
   }
-  return puVar3;
+  return res;
 }

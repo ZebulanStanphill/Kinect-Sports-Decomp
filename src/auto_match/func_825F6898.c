@@ -35,29 +35,29 @@ void fn_825F6898(int param_1)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
-  if (*(int *)(param_1 + 8) != 0) {
+  if (*(unsigned int *)(param_1 + 8) != 0) {
     fn_82545950(param_1 + 8);
   }
-  if (*(int *)(param_1 + 0xc) != 0) {
+  if (*(unsigned int *)(param_1 + 0xc) != 0) {
     fn_82545A90(param_1 + 0xc);
   }
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_8251FA58();
+  if (*(unsigned int *)(param_1 + 0x18) != 0) {
+    fn_8251FA58(*(unsigned int *)(param_1 + 0x18));
     *(undefined4 *)(param_1 + 0x18) = 0;
     *(undefined4 *)(param_1 + 0x10) = 0;
   }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8251FA58();
+  if (*(unsigned int *)(param_1 + 0x1c) != 0) {
+    fn_8251FA58(*(unsigned int *)(param_1 + 0x1c));
     *(undefined4 *)(param_1 + 0x1c) = 0;
     *(undefined4 *)(param_1 + 0x14) = 0;
   }
-  iVar2 = *(int *)(param_1 + 4);
+  iVar2 = *(unsigned int *)(param_1 + 4);
   while (iVar2 != 0) {
-    iVar1 = *(int *)(iVar2 + 0x84);
+    iVar1 = *(unsigned int *)(iVar2 + 0x84);
     *(undefined4 *)(iVar2 + 0x84) = 0;
-    fn_82522ED8();
+    fn_82522ED8(iVar2);
     iVar2 = iVar1;
   }
   *(undefined4 *)(param_1 + 0x24) = 0;

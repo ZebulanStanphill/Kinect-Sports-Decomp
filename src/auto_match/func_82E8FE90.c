@@ -26,8 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E8EF60();
-extern float lbl_82015408;
-extern float lbl_8215F710;
+extern double lbl_82015408;
+extern double lbl_8215F710;
 
 
 void fn_82E8FE90(int param_1)
@@ -56,29 +56,24 @@ void fn_82E8FE90(int param_1)
   }
   *(int *)(param_1 + 0x78d0) = iVar1;
   fn_82E8EF60(param_1,1);
-  *(undefined4 *)(param_1 + 0x1fec) = 1;
-  if ((((*(int *)(param_1 + 0x1a6c) == 0) ||
-       (*(undefined4 *)(param_1 + 0x1a6c) = 0, *(int *)(param_1 + 4) != 8)) ||
-      (*(int *)(param_1 + 0xaf0) != 0)) ||
-     ((int)(*(uint *)(param_1 + 0x2d4) >> 1) <= *(int *)(param_1 + 0x1a58))) {
-    *(undefined4 *)(param_1 + 0x1a54) = 0;
-  }
-  else {
-    *(undefined4 *)(param_1 + 0x1a54) = 1;
+  *(int *)(param_1 + 0x1fec) = 1;
+  if (*(int *)(param_1 + 0x1a6c) != 0) {
+    *(int *)(param_1 + 0x1a6c) = 0;
+    if (*(int *)(param_1 + 4) == 8 && *(int *)(param_1 + 0xaf0) == 0 && *(int *)(param_1 + 0x1a58) < (int)(*(uint *)(param_1 + 0x2d4) >> 1)) {
+      *(int *)(param_1 + 0x1a54) = 1;
+    } else {
+      *(int *)(param_1 + 0x1a54) = 0;
+    }
+  } else {
+    *(int *)(param_1 + 0x1a54) = 0;
   }
   if (*(int *)(param_1 + 0x1a54) == 0) {
-    if (*(int *)(param_1 + 0x1a60) <
-        (int)((double)(longlong)*(int *)(param_1 + 0x1a4c) * lbl_8215F710)) {
-      iVar1 = 1;
-    }
-    else {
-      iVar1 = 2;
-      if ((int)((double)(longlong)*(int *)(param_1 + 0x1a4c) * lbl_82015408) <=
-          *(int *)(param_1 + 0x1a60)) {
-        iVar1 = 3;
-      }
-    }
-    if (*(int *)(param_1 + 0x1fa8) < 2) {
+    int cur;
+    int n = *(int *)(param_1 + 0x1a4c);
+    cur = *(int *)(param_1 + 0x1a60);
+    if (cur < (int)((double)(float)n * lbl_8215F710)) iVar1 = 1;
+    else iVar1 = (cur < (int)((double)(float)n * lbl_82015408)) ? 2 : 3;
+    if (*(int *)(param_1 + 0x1fa8) <= 1) {
       iVar1 = iVar1 + 1;
     }
     iVar1 = *(int *)(param_1 + 0x2a4) + iVar1;

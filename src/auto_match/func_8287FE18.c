@@ -1,58 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_8287FE18 Node_8287FE18;
+struct Node_8287FE18 {
+  char pad[0x2c];
+  struct List_8287FE18 *list;
+  Node_8287FE18 *next;
+  Node_8287FE18 *prev;
+};
+typedef struct List_8287FE18 {
+  Node_8287FE18 *head;
+  Node_8287FE18 *tail;
+  int count;
+} List_8287FE18;
 
-
-void fn_8287FE18(int *param_1,int param_2)
-
+void fn_8287FE18(List_8287FE18 *l, Node_8287FE18 *n)
 {
-  int iVar1;
-  
-  iVar1 = param_1[1];
-  if (iVar1 == 0) {
-    if (*param_1 != 0) {
-      *(int *)(*param_1 + 0x34) = param_2;
+  Node_8287FE18 *t = l->tail;
+  if (t != 0) {
+    if (t->next != 0) {
+      t->next->prev = n;
     }
-    *(int *)(param_2 + 0x30) = *param_1;
-    *param_1 = param_2;
-  }
-  else {
-    if (*(int *)(iVar1 + 0x30) != 0) {
-      *(int *)(*(int *)(iVar1 + 0x30) + 0x34) = param_2;
+    n->next = t->next;
+    t->next = n;
+  } else {
+    if (l->head != 0) {
+      l->head->prev = n;
     }
-    *(undefined4 *)(param_2 + 0x30) = *(undefined4 *)(iVar1 + 0x30);
-    *(int *)(iVar1 + 0x30) = param_2;
+    n->next = l->head;
+    l->head = n;
   }
-  *(int *)(param_2 + 0x34) = iVar1;
-  if (param_1[1] == iVar1) {
-    param_1[1] = param_2;
+  n->prev = t;
+  if (l->tail == t) {
+    l->tail = n;
   }
-  param_1[2] = param_1[2] + 1;
-  *(int **)(param_2 + 0x2c) = param_1;
-  return;
+  l->count = l->count + 1;
+  n->list = l;
 }
-

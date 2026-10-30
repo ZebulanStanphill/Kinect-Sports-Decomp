@@ -25,36 +25,52 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82637398();
-extern int fn_82643B08();
+extern int fn_82637398(void *, int);
+extern unsigned int *fn_82643B08(void *);
 extern int fn_82645110();
-extern int fn_8264F1D8();
+extern int fn_8264F1D8(void *, unsigned int);
 
+typedef struct {
+    char pad[0xc];
+    unsigned int *wp;
+    unsigned int *wend;
+} Buf_82646DB8;
 
-undefined8 fn_82646DB8(int param_1)
-
+static unsigned int *Next_82646DB8(Buf_82646DB8 *b)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  *(byte *)(param_1 + 0x2abd) = *(byte *)(param_1 + 0x2abd) & 0x7f;
-  fn_82645110();
-  puVar1 = *(undefined4 **)(param_1 + 0x350c);
-  if (*(undefined4 **)(param_1 + 0x3510) < puVar1 + 1) {
-    puVar1 = (undefined4 *)fn_82643B08(param_1 + 0x3500);
-  }
-  *puVar1 = 0x85000000;
-  *(undefined4 **)(param_1 + 0x350c) = puVar1 + 1;
-  if ((*(byte *)(param_1 + 0x2abc) & 0x20) == 0) {
-    iVar2 = fn_8264F1D8(param_1,0x1000000 << (*(uint *)(param_1 + 0x2c3c) & 0x3f));
-    if (iVar2 != 0) {
-      fn_82637398(param_1,0);
-      return 0xffffffff8007000e;
+    unsigned int *p = b->wp;
+    if (p + 1 > b->wend) {
+        p = fn_82643B08(b);
     }
-    if ((*(byte *)(param_1 + 0x2abd) & 0x40) == 0) {
-      fn_82637398(param_1,0);
-    }
-  }
-  return 0;
+    return p;
 }
 
+typedef struct {
+    char pad0[0x2abc];
+    unsigned char flags_a;
+    unsigned char flags_b;
+    char pad1[0x2c3c - 0x2abe];
+    unsigned int shift;
+    char pad2[0x3500 - 0x2c40];
+    Buf_82646DB8 buf;
+} Ctx_82646DB8;
+
+int fn_82646DB8(Ctx_82646DB8 *c)
+{
+    unsigned int *p;
+    c->flags_b = c->flags_b & 0x7f;
+    fn_82645110();
+    p = Next_82646DB8(&c->buf);
+    *p = 0x85000000;
+    c->buf.wp = p + 1;
+    if ((c->flags_a & 0x20) == 0) {
+        if (fn_8264F1D8(c, 0x1000000 << c->shift) != 0) {
+            fn_82637398(c, 0);
+            return 0x8007000e;
+        }
+        if ((c->flags_b & 0x40) == 0) {
+            fn_82637398(c, 0);
+        }
+    }
+    return 0;
+}

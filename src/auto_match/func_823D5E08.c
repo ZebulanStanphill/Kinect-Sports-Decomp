@@ -1,58 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern int fn_823D6298();
-extern int fn_8265CA20();
+typedef struct { int a[6]; } Elem_823D5E08;
+typedef struct {
+    Elem_823D5E08 first;
+    Elem_823D5E08 second;
+} Val_823D5E08;
+typedef struct Node_823D5E08 Node_823D5E08;
+struct Node_823D5E08 {
+    Node_823D5E08 *left;
+    Node_823D5E08 *parent;
+    Node_823D5E08 *right;
+    int pad[3];
+    Val_823D5E08 val;
+    char color;
+    char isnil;
+};
+typedef struct {
+    int pad;
+    Node_823D5E08 *head;
+    int size;
+} Tree_823D5E08;
 
+extern void fn_823D6298(Tree_823D5E08 *, Node_823D5E08 *);
+extern void fn_82359C18(Elem_823D5E08 *);
+extern void fn_8265CA20(void *);
 
-void fn_823D5E08(int param_1)
-
+void fn_823D5E08(Tree_823D5E08 *t)
 {
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar2 = *(int **)(*(int *)(param_1 + 4) + 4);
-  cVar1 = *(char *)((int)piVar2 + 0x49);
-  while (cVar1 == '\0') {
-    fn_823D6298(param_1,piVar2[2]);
-    piVar3 = (int *)*piVar2;
-    fn_82359C18(piVar2 + 0xc);
-    fn_82359C18(piVar2 + 6);
-    fn_8265CA20(piVar2);
-    piVar2 = piVar3;
-    cVar1 = *(char *)((int)piVar3 + 0x49);
-  }
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)*(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_1 + 4);
-  *(int *)(*(int *)(param_1 + 4) + 8) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
+    Node_823D5E08 *root = t->head->parent;
+    Node_823D5E08 *p = root;
+    for (; p->isnil == 0; root = p) {
+        Val_823D5E08 *v;
+        fn_823D6298(t, p->right);
+        p = p->left;
+        v = &root->val;
+        fn_82359C18(&v->second);
+        fn_82359C18(&v->first);
+        fn_8265CA20(root);
+    }
+    t->head->parent = t->head;
+    t->head->left = t->head;
+    t->head->right = t->head;
+    t->size = 0;
+    fn_8265CA20(t->head);
 }
-

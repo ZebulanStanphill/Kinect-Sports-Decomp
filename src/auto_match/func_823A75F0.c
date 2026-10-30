@@ -1,89 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
+typedef struct Rep_823A75F0 Rep_823A75F0;
+typedef struct Node_823A75F0 Node_823A75F0;
+struct Node_823A75F0 {
+    Node_823A75F0 *next;
+    Node_823A75F0 *prev;
+    int pad;
+    Rep_823A75F0 *rep;
+};
+typedef struct { int a, b, c, d; } Z_823A75F0;
+typedef struct {
+    int pad0;
+    Node_823A75F0 *head_a;
+    int size_a;
+    int padc;
+    Node_823A75F0 *head_b;
+    int size_b;
+    int pad18;
+    Node_823A75F0 *head_c;
+    int size_c;
+    char pad24[0x38 - 0x24];
+    struct { int z38, z3c, z40, z44; } z;
+} Obj_823A75F0;
 
+extern void fn_822315A0(Rep_823A75F0 *);
+extern void fn_8265CA20(void *);
 
-void fn_823A75F0(int param_1)
+#define CLEAR_LIST(HEAD, SIZE) \
+    n1 = o->HEAD; \
+    n2 = n1->next; \
+    n1->next = n1; \
+    o->HEAD->prev = o->HEAD; \
+    o->SIZE = 0; \
+    if (n2 != o->HEAD) { \
+        do { \
+            n1 = n2->next; \
+            if (n2->rep != 0) { \
+                fn_822315A0(n2->rep); \
+            } \
+            fn_8265CA20(n2); \
+            n2 = n1; \
+        } while (n1 != o->HEAD); \
+    }
 
+void fn_823A75F0(Obj_823A75F0 *o)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x44) = 0;
-  piVar1 = *(int **)(param_1 + 4);
-  piVar2 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  if (piVar2 != *(int **)(param_1 + 4)) {
-    do {
-      piVar1 = (int *)*piVar2;
-      if (piVar2[3] != 0) {
-        fn_822315A0();
-      }
-      fn_8265CA20(piVar2);
-      piVar2 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 4));
-  }
-  piVar1 = *(int **)(param_1 + 0x10);
-  piVar2 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 0x10) + 4) = *(int *)(param_1 + 0x10);
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  if (piVar2 != *(int **)(param_1 + 0x10)) {
-    do {
-      piVar1 = (int *)*piVar2;
-      if (piVar2[3] != 0) {
-        fn_822315A0();
-      }
-      fn_8265CA20(piVar2);
-      piVar2 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 0x10));
-  }
-  piVar1 = *(int **)(param_1 + 0x1c);
-  piVar2 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 0x1c) + 4) = *(int *)(param_1 + 0x1c);
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  if (piVar2 != *(int **)(param_1 + 0x1c)) {
-    do {
-      piVar1 = (int *)*piVar2;
-      if (piVar2[3] != 0) {
-        fn_822315A0();
-      }
-      fn_8265CA20(piVar2);
-      piVar2 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 0x1c));
-  }
-  return;
-}
+    Node_823A75F0 *n1;
+    Node_823A75F0 *n2;
 
+    Z_823A75F0 *z = (Z_823A75F0 *)&o->z;
+    z->a = 0;
+    z->b = 0;
+    z->c = 0;
+    z->d = 0;
+    CLEAR_LIST(head_a, size_a)
+    CLEAR_LIST(head_b, size_b)
+    CLEAR_LIST(head_c, size_c)
+}

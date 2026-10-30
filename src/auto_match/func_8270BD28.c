@@ -1,52 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-uint fn_8270BD28(int param_1,uint param_2)
-
+static unsigned int Get2(unsigned int *a, unsigned int i)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)((param_2 >> 2 & 0x3ffffffc) + param_1) >> ((param_2 & 0xf) << 1) & 3;
-  if (uVar1 < 3) {
-    return uVar1;
-  }
-  uVar1 = *(uint *)((param_2 + 1 >> 2 & 0x3ffffffc) + param_1) >> ((param_2 + 1) * 2 & 0x1e) & 3;
-  if (uVar1 < 3) {
-    return uVar1 + 3;
-  }
-  uVar1 = *(uint *)((param_2 + 2 >> 2 & 0x3ffffffc) + param_1) >> ((param_2 + 2) * 2 & 0x1e);
-  if ((uVar1 & 3) < 3) {
-    return (((uVar1 & 3) << 2 |
-            *(uint *)((param_2 + 3 >> 2 & 0x3ffffffc) + param_1) >> ((param_2 + 3) * 2 & 0x1e) & 3)
-            << 2 | *(uint *)((param_2 + 4 >> 2 & 0x3ffffffc) + param_1) >>
-                   ((param_2 + 4) * 2 & 0x1e) & 3) + 6;
-  }
-  return *(uint *)((param_2 * 2 + 0x25 >> 3 & 0x1ffffffc) + param_1);
+  return (a[i >> 4] >> ((i & 15) * 2)) & 3;
 }
 
+unsigned int fn_8270BD28(unsigned int *a, unsigned int i)
+{
+  unsigned int k = i * 2;
+  unsigned int v = (a[i >> 4] >> (k & 0x1e)) & 3;
+  unsigned int w;
+  if (v < 3) {
+    return v;
+  }
+  v = Get2(a, i + 1);
+  if (v < 3) {
+    return v + 3;
+  }
+  v = Get2(a, i + 2);
+  if (v < 3) {
+    w = Get2(a, i + 3);
+    return (((v << 2) | w) << 2 | Get2(a, i + 4)) + 6;
+  }
+  return a[(k + 0x25) >> 5];
+}

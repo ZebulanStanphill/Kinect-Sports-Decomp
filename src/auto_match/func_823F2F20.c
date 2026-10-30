@@ -1,59 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Fn_823F2F20;
+typedef struct Impl_823F2F20 { struct IVT_823F2F20 *vt; } Impl_823F2F20;
+typedef struct IVT_823F2F20 {
+  Impl_823F2F20 *(*move)(Impl_823F2F20 *, struct Fn_823F2F20 *);
+  void *s1; void *s2;
+  void (*del)(Impl_823F2F20 *, unsigned char);
+} IVT_823F2F20;
+typedef struct Fn_823F2F20 { char pad[0x10]; Impl_823F2F20 *impl; } Fn_823F2F20;
+typedef struct Obj_823F2F20 { char pad[0x38]; Fn_823F2F20 f; } Obj_823F2F20;
 
-
-void fn_823F2F20(int param_1,int *param_2)
-
+void fn_823F2F20(Obj_823F2F20 *param_1, Fn_823F2F20 *param_2)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)(param_1 + 0x38);
-  if (piVar3 != param_2) {
-    piVar1 = *(int **)(param_1 + 0x48);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,piVar3 != piVar1);
-      *(undefined4 *)(param_1 + 0x48) = 0;
+  Fn_823F2F20 *self = &param_1->f;
+  Impl_823F2F20 *i;
+  if (self != param_2) {
+    i = self->impl;
+    if (i != 0) {
+      i->vt->del(i, (unsigned char)((Fn_823F2F20 *)i != self));
+      self->impl = 0;
     }
-    piVar1 = (int *)param_2[4];
-    if (piVar1 == (int *)0x0) {
-      *(undefined4 *)(param_1 + 0x48) = 0;
-    }
-    else if (piVar1 == param_2) {
-      uVar2 = (**(code **)*piVar1)(piVar1,piVar3);
-      *(undefined4 *)(param_1 + 0x48) = uVar2;
-    }
-    else {
-      *(int **)(param_1 + 0x48) = piVar1;
-      param_2[4] = 0;
+    i = param_2->impl;
+    if (i == 0) {
+      self->impl = 0;
+    } else if ((Fn_823F2F20 *)i == param_2) {
+      self->impl = i->vt->move(i, self);
+    } else {
+      self->impl = i;
+      param_2->impl = 0;
     }
   }
-  return;
 }
-

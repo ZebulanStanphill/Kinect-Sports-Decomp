@@ -36,8 +36,8 @@ extern int fn_82C7B620();
 extern int fn_82CAD6A8();
 extern int fn_82CADA48();
 extern int fn_82CADE98();
-extern unsigned int lbl_82CAE220;
-extern unsigned int lbl_82CAE568;
+extern int fn_82CAE220();
+extern int fn_82CAE568();
 
 
 void fn_82C53370(int param_1)
@@ -55,12 +55,12 @@ void fn_82C53370(int param_1)
     *(code **)(param_1 + 0xc88) = fn_82C7B3C0;
   }
   if (*(int *)(param_1 + 0x700) != 0) {
+    *(undefined4 *)(param_1 + 0x708) = 1;
     *(code **)(param_1 + 0xc7c) = fn_82CADA48;
     *(code **)(param_1 + 0xc80) = fn_82CAD6A8;
     *(code **)(param_1 + 0xc84) = fn_82CADE98;
-    *(undefined **)(param_1 + 0xc88) = &lbl_82CAE220;
-    *(undefined **)(param_1 + 0xc8c) = &lbl_82CAE568;
-    *(undefined4 *)(param_1 + 0x708) = 1;
+    *(code **)(param_1 + 0xc88) = fn_82CAE220;
+    *(code **)(param_1 + 0xc8c) = fn_82CAE568;
     *(code **)(param_1 + 0xc90) = fn_82CAD6A8;
   }
   if (*(int *)(param_1 + 0x708) != 0) {

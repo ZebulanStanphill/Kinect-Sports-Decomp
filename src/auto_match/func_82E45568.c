@@ -1,36 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82E43898();
-extern int fn_82E44F90();
-extern int fn_82E50EA0();
-extern int fn_82E569B0();
-extern int fn_82E7B648();
+extern int fn_82E43898(void *);
+extern int fn_82E44F90(void *, unsigned int, unsigned int *);
+extern int fn_82E50EA0(void *);
+extern int fn_82E569B0(void *, int);
+extern int fn_82E7B648(void *);
 extern unsigned int lbl_821530D8;
 extern unsigned int lbl_82153100;
 extern unsigned int lbl_82153104;
@@ -38,59 +11,61 @@ extern unsigned int lbl_82153114;
 extern unsigned int lbl_82153124;
 extern unsigned int lbl_82154D80;
 
+typedef struct Unk_82E45568 { struct VT_82E45568 *vt; } Unk_82E45568;
+typedef struct VT_82E45568 {
+  void *s0; void *s1;
+  void (*Release)(Unk_82E45568 *);
+  void *s3;
+  void (*f4)(Unk_82E45568 *);
+} VT_82E45568;
 
-void fn_82E45568(undefined4 *param_1)
-
+static Unk_82E45568 *Get_82E45568(int ok, unsigned int v) { return (Unk_82E45568 *)(ok ? v : 0); }
+static Unk_82E45568 *Get2_82E45568(int ok, unsigned int *v) { return ok ? (Unk_82E45568 *)*v : 0; }
+void fn_82E45568(unsigned int *param_1)
 {
-  longlong lVar1;
-  int *piVar2;
-  ulonglong uVar3;
-  uint auStack_40;
-  
-  *param_1 = &lbl_82153124;
-  param_1[1] = &lbl_82153114;
-  param_1[2] = &lbl_821530D8;
-  param_1[3] = &lbl_82153104;
-  param_1[4] = &lbl_82153100;
+  unsigned int i;
+  Unk_82E45568 *o;
+  unsigned int out;
+  *param_1 = (unsigned int)&lbl_82153124;
+  param_1[1] = (unsigned int)&lbl_82153114;
+  param_1[2] = (unsigned int)&lbl_821530D8;
+  param_1[3] = (unsigned int)&lbl_82153104;
+  param_1[4] = (unsigned int)&lbl_82153100;
   if (param_1[6] != 0) {
-    fn_82E43898();
-    (**(code **)(*(int *)param_1[6] + 0x10))();
+    fn_82E43898(param_1);
+    ((Unk_82E45568 *)param_1[6])->vt->f4((Unk_82E45568 *)param_1[6]);
   }
-  if ((int *)param_1[0x1e] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x1e] + 8))();
+  if (param_1[0x1e] != 0) {
+    ((Unk_82E45568 *)param_1[0x1e])->vt->Release((Unk_82E45568 *)param_1[0x1e]);
     param_1[0x1e] = 0;
   }
-  if ((int *)param_1[0x1f] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x1f] + 8))();
+  if (param_1[0x1f] != 0) {
+    ((Unk_82E45568 *)param_1[0x1f])->vt->Release((Unk_82E45568 *)param_1[0x1f]);
     param_1[0x1f] = 0;
   }
-  if ((int *)param_1[0x20] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x20] + 8))();
+  if (param_1[0x20] != 0) {
+    ((Unk_82E45568 *)param_1[0x20])->vt->Release((Unk_82E45568 *)param_1[0x20]);
     param_1[0x20] = 0;
   }
-  if ((int *)param_1[6] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[6] + 8))();
+  if (param_1[6] != 0) {
+    ((Unk_82E45568 *)param_1[6])->vt->Release((Unk_82E45568 *)param_1[6]);
     param_1[6] = 0;
   }
-  uVar3 = 0;
-  if (param_1[0x3b] != 0) {
+  i = 0;
+  if (param_1[0x3b] > 0) {
     do {
-      lVar1 = fn_82E44F90(param_1 + 0x21,uVar3,&auStack_40);
-      piVar2 = (int *)(-(uint)(lVar1 != 0) & auStack_40);
-      if (piVar2 != (int *)0x0) {
-        (**(code **)(*piVar2 + 8))();
-      }
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)(uint)param_1[0x3b]);
+      int ok = fn_82E44F90(param_1 + 0x21, i, &out);
+      o = Get_82E45568(ok, out);
+      if (o != 0) { o->vt->Release(o); }
+      i++;
+    } while (i < param_1[0x3b]);
   }
-  fn_82E569B0(param_1 + 0x21,0);
+  fn_82E569B0(param_1 + 0x21, 0);
   param_1[0x3b] = 0;
-  param_1[0x21] = &lbl_82154D80;
+  param_1[0x21] = (unsigned int)&lbl_82154D80;
   if (param_1[0x22] == 0) {
-    fn_82E569B0(param_1 + 0x21,0);
+    fn_82E569B0(param_1 + 0x21, 0);
   }
   fn_82E50EA0(param_1 + 0xf);
   fn_82E7B648(param_1 + 4);
-  return;
 }
-

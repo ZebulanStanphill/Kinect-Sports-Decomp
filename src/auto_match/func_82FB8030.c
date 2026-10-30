@@ -1,62 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
+extern int fn_82FA5190(unsigned int, unsigned int);
 extern int fn_82FB7F40();
 extern unsigned int lbl_831BC768;
 
+typedef struct VT_82FB8030 { void *s[1]; void (*f4)(void *); } VT_82FB8030;
+typedef struct Elem_82FB8030 { int a; struct { VT_82FB8030 *vt; } *obj; } Elem_82FB8030;
+typedef struct Obj_82FB8030 {
+  int pad0; unsigned int b0; unsigned int b1; unsigned int b2;
+  int pad1[3];
+  Elem_82FB8030 *e0; Elem_82FB8030 *e1; unsigned int e2;
+} Obj_82FB8030;
 
-void fn_82FB8030(int param_1)
-
+void fn_82FB8030(Obj_82FB8030 *param_1)
 {
-  int iVar1;
-  
+  Elem_82FB8030 *e;
   fn_82FB7F40();
-  if (*(int *)(param_1 + 4) != 0) {
-    *(int *)(param_1 + 8) = *(int *)(param_1 + 4);
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 4) = 0;
-    *(undefined4 *)(param_1 + 8) = 0;
-    *(undefined4 *)(param_1 + 0xc) = 0;
+  if (param_1->b0 != 0) {
+    param_1->b1 = param_1->b0;
+    fn_82FA5190(lbl_831BC768, param_1->b0);
+    param_1->b0 = 0;
+    param_1->b1 = 0;
+    param_1->b2 = 0;
   }
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (iVar1 != *(int *)(param_1 + 0x20)) {
+  e = param_1->e0;
+  if (e != param_1->e1) {
     do {
-      (**(code **)(**(int **)(iVar1 + 4) + 4))();
-      iVar1 = iVar1 + 8;
-    } while (iVar1 != *(int *)(param_1 + 0x20));
+      e->obj->vt->f4(e->obj);
+      e++;
+    } while (e != param_1->e1);
   }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x1c);
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-    *(undefined4 *)(param_1 + 0x20) = 0;
-    *(undefined4 *)(param_1 + 0x24) = 0;
+  if (param_1->e0 != 0) {
+    param_1->e1 = param_1->e0;
+    fn_82FA5190(lbl_831BC768, (unsigned int)param_1->e0);
+    param_1->e0 = 0;
+    param_1->e1 = 0;
+    param_1->e2 = 0;
   }
-  return;
 }
-

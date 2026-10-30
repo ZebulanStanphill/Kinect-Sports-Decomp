@@ -1,51 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_828BDE70();
-extern unsigned int lbl_820236C8;
-extern unsigned int lbl_820236D0;
+typedef struct Buf_8288E8B0 {
+  void *p;
+  unsigned int size;
+  unsigned int cap;
+} Buf_8288E8B0;
+typedef struct Obj_8288E8B0 {
+  void *vt0;
+  char pad04[0x4c];
+  void *vt50;
+  char pad54[0x4ac - 0x54];
+  Buf_8288E8B0 buf;
+} Obj_8288E8B0;
 
-
-undefined4 * fn_8288E8B0(undefined4 *param_1,ulonglong param_2)
-
+extern char lbl_820236C8[];
+extern char lbl_820236D0[];
+extern void fn_8265CA20(void *p);
+extern void fn_828BDE70(Obj_8288E8B0 *o);
+static void Clear(Buf_8288E8B0 *b)
 {
-  *param_1 = &lbl_820236D0;
-  param_1[0x14] = &lbl_820236C8;
-  if (param_1[299] != 0) {
-    fn_8265CA20();
+  if (b->p != 0) {
+    fn_8265CA20(b->p);
   }
-  param_1[299] = 0;
-  param_1[300] = 0;
-  param_1[0x12d] = 0;
-  fn_828BDE70(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+  b->p = 0;
+  b->size = 0;
+  b->cap = 0;
 }
-
+Obj_8288E8B0 *fn_8288E8B0(Obj_8288E8B0 *self, unsigned int flags)
+{
+  self->vt0 = lbl_820236D0;
+  self->vt50 = lbl_820236C8;
+  Clear(&self->buf);
+  fn_828BDE70(self);
+  if (flags & 1) {
+    fn_8265CA20(self);
+  }
+  return self;
+}
