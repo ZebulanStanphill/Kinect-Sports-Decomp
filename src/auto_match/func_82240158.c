@@ -25,74 +25,71 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8223FD30();
-extern int fn_8223FE60();
-extern int fn_8223FFB8();
-extern int fn_82240070();
+struct Buf_82240158;
+typedef struct {
+  char pad[0x24];
+  __int64 (*sputn)(struct Buf_82240158 *, const char *, __int64);
+} BufVt_82240158;
+typedef struct Buf_82240158 { BufVt_82240158 *vt; } Buf_82240158;
+typedef struct {
+  int pad0;
+  int pad1;
+  char pad2[4];
+  int iostate;
+  char pad3[4];
+  int flags;
+  char pad4[0x20 - 0x18];
+  __int64 width;
+  char pad5[0x38 - 0x28];
+  Buf_82240158 *rdbuf;
+  char pad6[4];
+  char fill;
+} Ios_82240158;
+typedef struct { int *vbtab; } Ostr_82240158;
+typedef struct { int os; unsigned char ok; } Sentry_82240158;
+extern void fn_8223FD30(Sentry_82240158 *, Ostr_82240158 *);
+extern void fn_8223FE60(Sentry_82240158 *);
+extern int fn_8223FFB8(Buf_82240158 *, char);
+extern void fn_82240070(Ios_82240158 *, int, int);
 
+#define IOS(o) ((Ios_82240158 *)((char *)(o) + (o)->vbtab[1]))
 
-int * fn_82240158(int *param_1,longlong param_2)
-
+extern unsigned strlen(const char *);
+Ostr_82240158 *fn_82240158(Ostr_82240158 *os, const char *s)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  char *pcVar6;
-  longlong lVar5;
-  uint uVar7;
-  longlong lVar8;
-  undefined1 auStack_40 [4];
-  char cStack_3c;
-  
-  uVar7 = 0;
-  lVar5 = param_2;
-  do {
-    pcVar6 = (char *)lVar5;
-    lVar5 = lVar5 + 1;
-  } while (*pcVar6 != '\0');
-  uVar2 = (lVar5 - param_2) - 1U & 0xffffffff;
-  lVar5 = *(longlong *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20);
-  if ((lVar5 < 1) || (lVar8 = lVar5 - uVar2, lVar5 <= (longlong)uVar2)) {
-    lVar8 = 0;
-  }
-  fn_8223FD30(auStack_40,param_1);
-  if (cStack_3c == '\0') {
-    uVar7 = 4;
-  }
-  else {
-    if ((*(uint *)((int)param_1 + *(int *)(*param_1 + 4) + 0x14) & 0x1c0) != 0x40) {
-      for (; 0 < lVar8; lVar8 = lVar8 + -1) {
-        iVar4 = fn_8223FFB8(*(undefined4 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                              *(undefined1 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (iVar4 == -1) goto LAB_82240254;
+  int state = 0;
+  const char *p;
+  __int64 len, pad, w;
+  Sentry_82240158 se;
+  Ios_82240158 *ios;
+  len = strlen(s);
+  w = IOS(os)->width;
+  if (w <= 0 || w <= len) pad = 0;
+  else pad = w - len;
+  fn_8223FD30(&se, os);
+  if (se.ok == 0) {
+    state = 4;
+  } else {
+    if ((IOS(os)->flags & 0x1c0) != 0x40) {
+      for (; 0 < pad; pad--) {
+        if (fn_8223FFB8(IOS(os)->rdbuf, IOS(os)->fill) == -1) goto fail;
       }
     }
-    piVar1 = *(int **)((int)param_1 + *(int *)(*param_1 + 4) + 0x38);
-    uVar3 = (**(code **)(*piVar1 + 0x24))(piVar1,param_2,uVar2);
-    if (uVar3 == uVar2) {
-      for (; 0 < lVar8; lVar8 = lVar8 + -1) {
-        iVar4 = fn_8223FFB8(*(undefined4 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                              *(undefined1 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (iVar4 == -1) goto LAB_82240254;
+    if (IOS(os)->rdbuf->vt->sputn(IOS(os)->rdbuf, s, len) == len) {
+      for (; 0 < pad; pad--) {
+        if (fn_8223FFB8(IOS(os)->rdbuf, IOS(os)->fill) == -1) goto fail;
       }
+    } else {
+fail:
+      state = 4;
     }
-    else {
-LAB_82240254:
-      uVar7 = 4;
-    }
-    *(undefined8 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20) = 0;
+    IOS(os)->width = 0;
   }
-  iVar4 = *(int *)(*param_1 + 4) + (int)param_1;
-  if (uVar7 != 0) {
-    uVar7 = *(uint *)(iVar4 + 0xc) | uVar7;
-    if (*(int *)(iVar4 + 0x38) == 0) {
-      uVar7 = uVar7 | 4;
-    }
-    fn_82240070(iVar4,uVar7,0);
+  ios = IOS(os);
+  if (state != 0) {
+    int st2 = ios->iostate | state;
+    fn_82240070(ios, ios->rdbuf == 0 ? (st2 | 4) : st2, 0);
   }
-  fn_8223FE60(auStack_40);
-  return param_1;
+  fn_8223FE60(&se);
+  return os;
 }
-

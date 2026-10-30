@@ -25,88 +25,86 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230110();
+extern void *fn_82230110(void *, const char *);
+extern char lbl_82196582[];
 
-
-undefined8 fn_8288ACA0(undefined8 param_1,undefined8 param_2,undefined4 param_3)
-
+void *fn_8288ACA0(void *self, int unused, unsigned int reason)
 {
-  undefined8 uVar1;
-  
-  switch(param_3) {
+  const char *s;
+  switch (reason) {
   case 0:
-    uVar1 = 0xffffffff82023530;
+    s = "Unknown leave reason";
     break;
   case 1:
-    uVar1 = 0xffffffff82023510;
+    s = "We are not leaving a session!";
     break;
   case 2:
-    uVar1 = 0xffffffff820234d8;
+    s = "Session create failed - probably given bad parameters";
     break;
   case 3:
-    uVar1 = 0xffffffff82023488;
+    s = "Asked to create machine with a slotId which we already know about but not MUID";
     break;
   case 4:
-    uVar1 = 0xffffffff82023440;
+    s = "asked to create a machine with a MUID which is known but bad slotId";
     break;
   case 5:
-    uVar1 = 0xffffffff82023400;
+    s = "party system: connected in state 'PARTY_JOIN_SUB_STATE_LEAVE'";
     break;
   case 6:
-    uVar1 = 0xffffffff820233e8;
+    s = "party system: bad vars";
     break;
   case 7:
-    uVar1 = 0xffffffff820233bc;
+    s = "connectOk==false in XOMATCH_STATE_CREATED";
     break;
   case 8:
-    uVar1 = 0xffffffff82023390;
+    s = "connectOk==false in XOMATCH_STATE_JOINED";
     break;
   case 9:
-    uVar1 = 0xffffffff82023338;
+    s = "owner leave and can't migrate as we weren't joined properly (or we've started to leave)";
     break;
   case 10:
-    uVar1 = 0xffffffff82023314;
+    s = "migration failed during tick";
     break;
-  case 0xb:
-    uVar1 = 0xffffffff820232f0;
+  case 11:
+    s = "failure to force start migration";
     break;
-  case 0xc:
-    uVar1 = 0xffffffff820232b0;
+  case 12:
+    s = "we want to migrate but we're not in a valid state to start it";
     break;
-  case 0xd:
-    uVar1 = 0xffffffff82023258;
+  case 13:
+    s = "bad local state to start migration - probably not joined properly or already migrating";
     break;
-  case 0xe:
-    uVar1 = 0xffffffff82023220;
+  case 14:
+    s = "The global netobj timed out before anyone claimed it";
     break;
-  case 0xf:
-    uVar1 = 0xffffffff820231f0;
+  case 15:
+    s = "We've been asked to delete the global netobj";
     break;
-  case 0x10:
-    uVar1 = 0xffffffff820231dc;
+  case 16:
+    s = "arbitration: failed";
     break;
-  case 0x11:
-    uVar1 = 0xffffffff820231b0;
+  case 17:
+    s = "rejected from match in join reply message";
     break;
-  case 0x12:
-    uVar1 = 0xffffffff82023194;
+  case 18:
+    s = "timeout connecting to owner";
     break;
-  case 0x13:
-    uVar1 = 0xffffffff82023174;
+  case 19:
+    s = "timeout connecting to others";
     break;
-  case 0x14:
-    uVar1 = 0xffffffff82023144;
+  case 20:
+    s = "Timed out waiting for global net obj on join";
     break;
-  case 0x15:
-    uVar1 = 0xffffffff820230f0;
+  case 21:
+    s = "leaving current session as we're joining a party session and game says this is ok";
     break;
-  case 0x16:
-    uVar1 = 0xffffffff820230d8;
+  case 22:
+    s = "Connection failure";
     break;
   default:
-    uVar1 = 0xffffffff82196582;
+    s = lbl_82196582;
+    break;
   }
-  fn_82230110(param_1,uVar1);
-  return param_1;
+  fn_82230110(self, s);
+  return self;
 }
-

@@ -25,28 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_82FA5190();
+extern int fn_82FA5190(unsigned int, unsigned int);
 extern int fn_8302BA30();
 extern unsigned int lbl_8217D914;
 extern unsigned int lbl_831BC768;
 
 
-undefined4 * fn_8303F328(undefined4 *param_1,ulonglong param_2)
+typedef struct Obj_8303F328 { void *vt; int pad[6]; unsigned first; unsigned last; unsigned end; } Obj_8303F328;
+extern void fn_8265CA20(void *);
 
+Obj_8303F328 *fn_8303F328(Obj_8303F328 *o, unsigned int flags)
 {
-  *param_1 = &lbl_8217D914;
-  if (param_1[7] != 0) {
-    param_1[8] = param_1[7];
-    fn_82FA5190(lbl_831BC768);
-    param_1[7] = 0;
-    param_1[8] = 0;
-    param_1[9] = 0;
+  unsigned f;
+  { Obj_8303F328 **sub = &o; (*sub)->vt = &lbl_8217D914; }
+  f = o->first;
+  if (f != 0) {
+    o->last = f;
+    fn_82FA5190(lbl_831BC768, f);
+    o->first = 0;
+    o->last = 0;
+    o->end = 0;
   }
-  fn_8302BA30(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
+  fn_8302BA30(o);
+  if ((flags & 1) != 0) {
+    fn_8265CA20(o);
   }
-  return param_1;
+  return o;
 }
-

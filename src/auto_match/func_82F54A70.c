@@ -25,38 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
-extern int fn_82F54838();
+typedef struct {
+  int pad0;
+  unsigned char **map;
+  unsigned mapsize;
+  unsigned off;
+  unsigned size;
+} Deque_82F54A70;
+extern unsigned char *fn_825B1970(unsigned int);
+extern void fn_82F54838(Deque_82F54A70 *, int);
 
-
-void fn_82F54A70(int param_1,undefined1 *param_2)
-
+void fn_82F54A70(Deque_82F54A70 *d, unsigned char *v)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  
-  if ((*(int *)(param_1 + 0xc) + *(int *)(param_1 + 0x10) & 0xfU) == 0) {
-    if (*(uint *)(param_1 + 8) <= *(int *)(param_1 + 0x10) + 0x10U >> 4) {
-      fn_82F54838(param_1,1);
-    }
+  unsigned off, idx;
+  unsigned char *p;
+  if (((d->off + d->size) & 0xf) == 0) {
+    if (d->mapsize <= (d->size + 0x10) >> 4) fn_82F54838(d, 1);
   }
-  uVar4 = (ulonglong)*(uint *)(param_1 + 0xc) + (ulonglong)*(uint *)(param_1 + 0x10);
-  uVar2 = (uVar4 & 0xffffffff) >> 4;
-  if (*(uint *)(param_1 + 8) <= uVar2) {
-    uVar2 = uVar2 - *(uint *)(param_1 + 8);
-  }
-  iVar1 = (int)((uVar2 & 0xffffffff) << 2);
-  if (*(int *)(*(int *)(param_1 + 4) + iVar1) == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82522D98(0x10);
-  }
-  lVar3 = (ulonglong)*(uint *)(*(int *)(param_1 + 4) + iVar1) + (uVar4 & 0xf);
-  if (lVar3 != 0) {
-    *(undefined1 *)lVar3 = *param_2;
-  }
-  *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + 1;
-  return;
+  off = d->off + d->size;
+  idx = off >> 4;
+  if (d->mapsize <= idx) idx -= d->mapsize;
+  if (d->map[idx] == 0) d->map[idx] = fn_825B1970(0x10);
+  p = d->map[idx] + (off & 0xf);
+  if (p != 0) *p = *v;
+  d->size++;
 }
-

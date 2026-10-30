@@ -27,23 +27,29 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_82BC30C0(int param_1)
+struct N_82BC30C0;
+typedef struct { char pad[0x44]; unsigned char (*f44)(struct N_82BC30C0 *); } Vt_82BC30C0;
+typedef struct N_82BC30C0 {
+  Vt_82BC30C0 *vt;
+  char pad[0xb4 - 4];
+  int cache;
+  char pad2[0xec - 0xb8];
+  int next;
+} N_82BC30C0;
 
+int fn_82BC30C0(N_82BC30C0 *o)
 {
-  int iVar1;
-  char cVar2;
-  
-  iVar1 = *(int *)(param_1 + 0xb4);
-  if (iVar1 == 0) {
-    iVar1 = *(int *)(param_1 + 0xec);
-    while( true ) {
-      if (*(int **)(iVar1 + 0xec) == (int *)0x0) break;
-      cVar2 = (**(code **)(**(int **)(iVar1 + 0xec) + 0x44))();
-      if (cVar2 == '\0') break;
-      iVar1 = *(int *)(*(int *)(iVar1 + 0xec) + 0xec);
+  int c, nx;
+  if (o->cache == 0) {
+    c = o->next;
+    nx = ((N_82BC30C0 *)c)->next;
+    while (nx != 0) {
+      if (((N_82BC30C0 *)nx)->vt->f44((N_82BC30C0 *)nx) == 0) break;
+      c = ((N_82BC30C0 *)((N_82BC30C0 *)c)->next)->next;
+      nx = ((N_82BC30C0 *)c)->next;
     }
-    *(int *)(param_1 + 0xb4) = iVar1;
+    o->cache = c;
+    return c;
   }
-  return iVar1;
+  return o->cache;
 }
-

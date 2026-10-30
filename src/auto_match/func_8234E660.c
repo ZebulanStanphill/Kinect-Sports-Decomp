@@ -25,26 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8250E5E0();
-extern int fn_827F21F0();
-extern int fn_827F2220();
-extern unsigned int lbl_821917B4;
+struct Pl_8234E660;
+typedef struct { char pad[0x14]; void (*f14)(struct Pl_8234E660 *, int); } Vt_8234E660;
+typedef struct Pl_8234E660 { Vt_8234E660 *vt; char pad[0x180]; float f184; } Pl_8234E660;
+typedef struct { int pad; int f4; int pad8; Pl_8234E660 *pl; } In_8234E660;
+typedef struct { char pad[8]; In_8234E660 *in; } Obj_8234E660;
+extern float lbl_821917A8[];
+extern int fn_8250E5E0(void *, int);
+extern void fn_827F21F0(Pl_8234E660 *);
+extern void fn_827F2220(Pl_8234E660 *);
 
-
-void fn_8234E660(int param_1)
-
+void fn_8234E660(Obj_8234E660 *o)
 {
-  int iVar1;
-  int *piVar2;
-  undefined8 uVar3;
-  
-  uVar3 = fn_8250E5E0(param_1 + 0xc,*(undefined4 *)(*(int *)(param_1 + 8) + 4));
-  iVar1 = *(int *)(param_1 + 8);
-  piVar2 = *(int **)(iVar1 + 0xc);
-  piVar2[0x61] = lbl_821917B4;
-  (**(code **)(*piVar2 + 0x14))(piVar2,uVar3);
-  fn_827F21F0(*(undefined4 *)(iVar1 + 0xc));
-  fn_827F2220(*(undefined4 *)(iVar1 + 0xc));
-  return;
+  int r;
+  In_8234E660 *in;
+  Pl_8234E660 *pl;
+  r = fn_8250E5E0((char *)o + 0xc, o->in->f4);
+  in = o->in;
+  pl = in->pl;
+  pl->f184 = lbl_821917A8[3];
+  pl->vt->f14(pl, r);
+  fn_827F21F0(in->pl);
+  fn_827F2220(in->pl);
 }
-

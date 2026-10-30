@@ -25,24 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_828C2308();
+typedef struct { char pad[0x28]; unsigned a; unsigned b; } Node_828C2670;
+typedef struct { int pad; Node_828C2670 *head; } Cont_828C2670;
+typedef struct { Node_828C2670 *p; } It_828C2670;
+typedef struct { int pad; Cont_828C2670 *c; } Src_828C2670;
+typedef struct { unsigned a; unsigned b; } Out_828C2670;
+extern void fn_828C2308(It_828C2670 *, Cont_828C2670 *);
+extern void fn_82517978(Out_828C2670 *, unsigned, unsigned, int);
 
-
-undefined4 * fn_828C2670(undefined4 *param_1,int param_2)
-
+Out_828C2670 *fn_828C2670(Out_828C2670 *out, Src_828C2670 *src)
 {
-  int iVar1;
-  int aiStack_20 [2];
-  
-  fn_828C2308(aiStack_20,*(undefined4 *)(param_2 + 4));
-  iVar1 = *(int *)(*(int *)(param_2 + 4) + 4);
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (aiStack_20[0] != iVar1) {
-    fn_82517978(param_1,*(undefined4 *)(aiStack_20[0] + 0x28),
-                      *(undefined4 *)(aiStack_20[0] + 0x2c),0);
+  It_828C2670 it;
+  fn_828C2308(&it, src->c);
+  if (it.p != src->c->head) {
+    out->a = 0;
+    out->b = 0;
+    fn_82517978(out, it.p->a, it.p->b, 0);
+  } else {
+    out->a = 0;
+    out->b = 0;
   }
-  return param_1;
+  return out;
 }
-

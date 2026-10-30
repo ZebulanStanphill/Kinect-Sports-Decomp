@@ -27,49 +27,37 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829BF260(int param_1)
+struct Cinfo_829BF260;
+typedef struct {
+  void *(*alloc_small)(struct Cinfo_829BF260 *, int, unsigned);
+} Mem_829BF260;
+typedef struct {
+  void *start_pass;
+  void *color_convert;
+  int *Cr_r_tab;
+  int *Cb_b_tab;
+  int *Cr_g_tab;
+  int *Cb_g_tab;
+} Cconv_829BF260;
+typedef struct Cinfo_829BF260 {
+  void *err;
+  Mem_829BF260 *mem;
+  char pad[0x1cc - 8];
+  Cconv_829BF260 *cconvert;
+} Cinfo_829BF260;
 
+void fn_829BF260(Cinfo_829BF260 *cinfo)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  longlong lVar10;
-  
-  iVar1 = *(int *)(param_1 + 0x1cc);
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 8) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0xc) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x10) = uVar4;
-  uVar4 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x400);
-  *(undefined4 *)(iVar1 + 0x14) = uVar4;
-  lVar10 = 0x100;
-  iVar9 = 0;
-  iVar6 = 0x5b6900;
-  iVar7 = -0xe25100;
-  iVar8 = -0xb2f480;
-  iVar5 = 0x2c8d00;
-  do {
-    iVar2 = iVar8 >> 0x10;
-    iVar3 = iVar7 >> 0x10;
-    iVar8 = iVar8 + 0x166e9;
-    iVar7 = iVar7 + 0x1c5a2;
-    *(int *)(iVar9 + *(int *)(iVar1 + 8)) = iVar2;
-    *(int *)(*(int *)(iVar1 + 0xc) + iVar9) = iVar3;
-    *(int *)(iVar9 + *(int *)(iVar1 + 0x10)) = iVar6;
-    iVar6 = iVar6 + -0xb6d2;
-    *(int *)(*(int *)(iVar1 + 0x14) + iVar9) = iVar5;
-    iVar5 = iVar5 + -0x581a;
-    iVar9 = iVar9 + 4;
-    lVar10 = lVar10 + -1;
-  } while (lVar10 != 0);
-  return;
+  Cconv_829BF260 *c = cinfo->cconvert;
+  int i, x;
+  c->Cr_r_tab = (int *)cinfo->mem->alloc_small(cinfo, 1, 256 * sizeof(int));
+  c->Cb_b_tab = (int *)cinfo->mem->alloc_small(cinfo, 1, 256 * sizeof(int));
+  c->Cr_g_tab = (int *)cinfo->mem->alloc_small(cinfo, 1, 256 * sizeof(int));
+  c->Cb_g_tab = (int *)cinfo->mem->alloc_small(cinfo, 1, 256 * sizeof(int));
+  for (i = 0, x = -128; i <= 255; i++, x++) {
+    c->Cr_r_tab[i] = (int)((91881 * x + 32768) >> 16);
+    c->Cb_b_tab[i] = (int)((116130 * x + 32768) >> 16);
+    c->Cr_g_tab[i] = (-46802) * x;
+    c->Cb_g_tab[i] = (-22554) * x + 32768;
+  }
 }
-

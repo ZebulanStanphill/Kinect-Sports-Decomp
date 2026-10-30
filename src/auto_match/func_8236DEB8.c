@@ -25,48 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_82359DB8();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
+struct Obj_8236DEB8;
+typedef struct {
+  char pad[4];
+  void (*f10)(struct Obj_8236DEB8 *);
+  void (*f14)(struct Obj_8236DEB8 *, void *);
+  char padc[8];
+  void (*f18)(struct Obj_8236DEB8 *);
+} Vt_8236DEB8;
+typedef struct Obj_8236DEB8 { Vt_8236DEB8 *vt; } Obj_8236DEB8;
+typedef struct { Obj_8236DEB8 *p; void *rc; } SP_8236DEB8;
+typedef struct { char pad[0x40]; unsigned f40; } Self_8236DEB8;
+extern SP_8236DEB8 *fn_82359DB8(SP_8236DEB8 *, Self_8236DEB8 *, unsigned);
+extern void fn_822315A0(void *);
 
-
-void fn_8236DEB8(int param_1,ulonglong param_2,ulonglong param_3)
-
+void fn_8236DEB8(Self_8236DEB8 *s, unsigned a, unsigned b)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_40 [4];
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  if ((param_2 & 0xffffffff) != 0) {
-    puVar1 = (undefined4 *)fn_82359DB8(auStack_40,param_1,param_2);
-    (**(code **)(*(int *)*puVar1 + 0x14))();
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
+  SP_8236DEB8 t1, t2, t3;
+  void *rc;
+  if (a != 0) {
+    SP_8236DEB8 *r = fn_82359DB8(&t1, s, a);
+    r->p->vt->f18(r->p);
+    if (t1.rc != 0) fn_822315A0(t1.rc);
   }
-  if ((param_3 & 0xffffffff) != 0) {
-    if (*(int *)(param_1 + 0x40) == 0) {
-      puVar1 = (undefined4 *)fn_82359DB8(auStack_38,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 4))();
+  if (b != 0) {
+    if (s->f40 == 0) {
+      SP_8236DEB8 *r = fn_82359DB8(&t2, s, b);
+      r->p->vt->f10(r->p);
+      rc = t2.rc;
+    } else {
+      SP_8236DEB8 *r = fn_82359DB8(&t3, s, b);
+      r->p->vt->f14(r->p, &s->f40);
+      rc = t3.rc;
     }
-    else {
-      puVar1 = (undefined4 *)fn_82359DB8(auStack_30,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 8))((int *)*puVar1,param_1 + 0x40);
-      iStack_34 = iStack_2c;
-    }
-    if (iStack_34 != 0) {
-      fn_822315A0();
-    }
+    if (rc != 0) fn_822315A0(rc);
   }
-  return;
 }
-

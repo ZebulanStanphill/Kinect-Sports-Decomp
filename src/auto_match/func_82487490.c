@@ -25,48 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8247B210();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
+struct Obj_82487490;
+typedef struct {
+  char pad[12];
+  void (*f10)(struct Obj_82487490 *);
+  void (*f14)(struct Obj_82487490 *, void *);
+  void (*f18)(struct Obj_82487490 *);
+} Vt_82487490;
+typedef struct Obj_82487490 { Vt_82487490 *vt; } Obj_82487490;
+typedef struct { Obj_82487490 *p; void *rc; } SP_82487490;
+typedef struct { char pad[0x40]; unsigned f40; } Self_82487490;
+extern SP_82487490 *fn_8247B210(SP_82487490 *, Self_82487490 *, unsigned);
+extern void fn_822315A0(void *);
 
-
-void fn_82487490(int param_1,ulonglong param_2,ulonglong param_3)
-
+void fn_82487490(Self_82487490 *s, unsigned a, unsigned b)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_40 [4];
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  if ((param_2 & 0xffffffff) != 0) {
-    puVar1 = (undefined4 *)fn_8247B210(auStack_40,param_1,param_2);
-    (**(code **)(*(int *)*puVar1 + 0x14))();
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
+  SP_82487490 t1, t2, t3;
+  void *rc;
+  if (a != 0) {
+    SP_82487490 *r = fn_8247B210(&t1, s, a);
+    r->p->vt->f18(r->p);
+    if (t1.rc != 0) fn_822315A0(t1.rc);
   }
-  if ((param_3 & 0xffffffff) != 0) {
-    if (*(int *)(param_1 + 0x40) == 0) {
-      puVar1 = (undefined4 *)fn_8247B210(auStack_38,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 0xc))();
+  if (b != 0) {
+    if (s->f40 == 0) {
+      SP_82487490 *r = fn_8247B210(&t2, s, b);
+      r->p->vt->f10(r->p);
+      rc = t2.rc;
+    } else {
+      SP_82487490 *r = fn_8247B210(&t3, s, b);
+      r->p->vt->f14(r->p, &s->f40);
+      rc = t3.rc;
     }
-    else {
-      puVar1 = (undefined4 *)fn_8247B210(auStack_30,param_1,param_3);
-      (**(code **)(*(int *)*puVar1 + 0x10))((int *)*puVar1,param_1 + 0x40);
-      iStack_34 = iStack_2c;
-    }
-    if (iStack_34 != 0) {
-      fn_822315A0();
-    }
+    if (rc != 0) fn_822315A0(rc);
   }
-  return;
 }
-
