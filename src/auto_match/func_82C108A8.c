@@ -25,36 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10710();
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+extern int fn_82C10710(void *, void *, void *, void *, void *, void *, void *, int);
 
-
-undefined8
-fn_82C108A8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined4 param_5,int param_6,undefined8 param_7)
-
+int fn_82C108A8(void *a1, void *a2, void *a3, void *a4, int a5, int a6, void *a7)
 {
-  undefined4 uStack_70;
-  undefined4 uStack_6c;
-  undefined4 uStack_68;
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
-
-  
-  uStack_70 = 0;
-  stack_pair_60.first = 0;
-  stack_pair_60.second = 0;
-  uStack_6c = fn_82C10710(param_1,param_2,param_7,param_3,param_4,&uStack_70,&stack_pair_60.first,1);
-  if (param_6 != 0) {
-    uStack_70 = 1;
-    stack_pair_60.first = 0;
-    stack_pair_60.second = 0;
-    uStack_68 = param_5;
-    fn_82C10710(param_1,param_7,param_2,param_3,param_4,&uStack_70,&stack_pair_60.first,1);
+  struct { int flag; int ret; int v; int pad; int b0; int b1; int pad2[2]; } L;
+  int r;
+  L.flag = 0;
+  L.b0 = 0;
+  L.b1 = 0;
+  r = fn_82C10710(a1, a2, a7, a3, a4, &L.flag, &L.b0, 1);
+  if (a6 != 0) {
+    L.ret = r;
+    L.flag = 1;
+    L.b0 = 0;
+    L.b1 = 0;
+    L.v = a5;
+    fn_82C10710(a1, a7, a2, a3, a4, &L.flag, &L.b0, 1);
   }
   return 0;
 }
-

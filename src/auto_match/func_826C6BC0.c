@@ -27,42 +27,28 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_826C6BC0(int param_1,undefined8 param_2)
+typedef struct Item_826C6BC0 { int pad[2]; int c; } Item_826C6BC0;
+typedef struct Holder_826C6BC0 { int pad[2]; Item_826C6BC0 **items; unsigned int n; } Holder_826C6BC0;
+typedef struct Elem_826C6BC0 { char pad[0x66]; unsigned char flags; } Elem_826C6BC0;
+typedef struct Obj_826C6BC0 {
+  char pad[0xa8]; Elem_826C6BC0 **arr; unsigned int narr; char pad2[0x1b4 - 0xb0]; Holder_826C6BC0 *h;
+} Obj_826C6BC0;
 
+void fn_826C6BC0(Obj_826C6BC0 *o, void *param_2)
 {
-  int *piVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar2 = *(int *)(param_1 + 0x1b4);
-  if (iVar2 != 0) {
-    uVar3 = 0;
-    if (*(int *)(iVar2 + 0xc) != 0) {
-      iVar4 = 0;
-      do {
-        piVar1 = *(int **)(*(int *)(*(int *)(iVar2 + 8) + iVar4) + 8);
-        if (piVar1 != (int *)0x0) {
-          (**(code **)(*piVar1 + 0x10))(piVar1,param_2);
-        }
-        iVar2 = *(int *)(param_1 + 0x1b4);
-        uVar3 = uVar3 + 1;
-        iVar4 = iVar4 + 4;
-      } while (uVar3 < *(uint *)(iVar2 + 0xc));
+  unsigned int i;
+  if (o->h != 0) {
+    for (i = 0; i < o->h->n; i++) {
+      int c = o->h->items[i]->c;
+      if (c != 0) {
+        (*(code *)(*(int *)c + 0x10))((void *)c, param_2);
+      }
     }
   }
-  uVar3 = 0;
-  if (*(int *)(param_1 + 0xac) != 0) {
-    iVar2 = 0;
-    do {
-      piVar1 = *(int **)(*(int *)(param_1 + 0xa8) + iVar2);
-      if ((*(byte *)((int)piVar1 + 0x66) & 0x80) != 0) {
-        (**(code **)(*piVar1 + 0xdc))(piVar1,param_2);
-      }
-      uVar3 = uVar3 + 1;
-      iVar2 = iVar2 + 4;
-    } while (uVar3 < *(uint *)(param_1 + 0xac));
+  for (i = 0; i < o->narr; i++) {
+    Elem_826C6BC0 *e = o->arr[i];
+    if ((e->flags & 0x80) != 0) {
+      (*(code *)(*(int *)e + 0xdc))(e, param_2);
+    }
   }
-  return;
 }
-

@@ -26,53 +26,48 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82A33D80();
-extern int fn_82A381F0();
+typedef struct Obj_82A38AD8 Obj_82A38AD8;
+typedef struct VT_82A38AD8 {
+  void *s[8];
+  int (*f20)(unsigned int, int, void *, int, int);
+  int (*f24)(unsigned int, int, __int64 *, int, int);
+} VT_82A38AD8;
+struct Obj_82A38AD8 { VT_82A38AD8 *vt; char pad[0x4c]; char sub[4]; };
+typedef struct Node_82A38AD8 { int pad0; unsigned int h; char pad[0x28]; __int64 v; } Node_82A38AD8;
+extern int fn_82A33D80(Obj_82A38AD8 *, Node_82A38AD8 *, unsigned int, int);
+extern Node_82A38AD8 *fn_82A381F0(void *, unsigned int, int);
+extern Obj_82A38AD8 *lbl_83219598;
 
-
-undefined8
-fn_82A38AD8(ulonglong param_1,undefined8 param_2,ulonglong *param_3,undefined8 param_4,
-             undefined8 param_5)
-
+int fn_82A38AD8(unsigned int param_1, int param_2, __int64 *param_3, int param_4, int op)
 {
-  int *piVar1;
-  int iVar3;
-  int iVar4;
-  undefined8 uVar2;
-  ulonglong uVar5;
-  ulonglong auStack_50;
-
-  piVar1 = piRam83219598;
-  iVar3 = fn_82A381F0(piRam83219598 + 0x14,param_1,0);
-  if (iVar3 != 0) {
-    iVar4 = (int)param_5;
-    if (iVar4 == 0xe) {
-      uVar5 = *param_3;
-      iVar4 = fn_82A33D80(piVar1,iVar3,uVar5 & 0xffffffff,0);
-      if (iVar4 == 0) {
-        return 0xffffffffc000000d;
+  Obj_82A38AD8 *o = lbl_83219598;
+  Node_82A38AD8 *n;
+  __int64 t;
+  int r;
+  n = fn_82A381F0(o->sub, param_1, 0);
+  if (n != 0) {
+    if (op == 0xe) {
+      __int64 v = *param_3;
+      if (fn_82A33D80(o, n, (unsigned int)v, 0) == 0) {
+        return 0xc000000d;
       }
-      *(ulonglong *)(iVar3 + 0x30) = uVar5;
+      n->v = v;
       return 0;
     }
-    if ((((iVar4 != 0x13) && (iVar4 != 0x14)) && (iVar4 != 0x1c)) &&
-       ((iVar4 == 5 || (iVar4 == 0x22)))) {
-      uVar2 = (**(code **)(*piVar1 + 0x20))(*(undefined4 *)(iVar3 + 4),param_2,&auStack_50,8,0x13);
-      if ((int)uVar2 < 0) {
-        return uVar2;
+    if (op != 0x13 && op != 0x14 && op != 0x1c && (op == 5 || op == 0x22)) {
+      r = o->vt->f20(n->h, param_2, &t, 8, 0x13);
+      if (r < 0) {
+        return r;
       }
-      if (iVar4 == 5) {
-        *param_3 = auStack_50;
-        param_3[1] = auStack_50;
-      }
-      else if (iVar4 == 0x22) {
-        param_3[4] = auStack_50;
-        param_3[5] = auStack_50;
+      if (op == 5) {
+        param_3[0] = t;
+        param_3[1] = t;
+      } else if (op == 0x22) {
+        param_3[4] = t;
+        param_3[5] = t;
       }
     }
-    param_1 = (ulonglong)*(uint *)(iVar3 + 4);
+    param_1 = n->h;
   }
-  uVar2 = (**(code **)(*piVar1 + 0x24))(param_1,param_2,param_3,param_4,param_5);
-  return uVar2;
+  return o->vt->f24(param_1, param_2, param_3, param_4, op);
 }

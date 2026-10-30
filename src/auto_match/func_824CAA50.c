@@ -25,35 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_824C9CB8();
-extern int fn_824CB6A0();
-extern int fn_8265CA20();
+extern void fn_82230300(void *, int, int);
+extern void fn_824C9CB8(void *);
+extern void fn_824CB6A0(void *, void *);
+extern void fn_8265CA20(void *);
 
+typedef struct Pair_824CAA50 { char key[0x20]; char val[0x88]; } Pair_824CAA50;
+typedef struct Node_824CAA50 {
+  struct Node_824CAA50 *left; struct Node_824CAA50 *parent; struct Node_824CAA50 *right;
+  int pad; Pair_824CAA50 value; char color; char isnil;
+} Node_824CAA50;
+typedef struct Tree_824CAA50 { int pad; Node_824CAA50 *head; int size; } Tree_824CAA50;
 
-void fn_824CAA50(int param_1)
-
+void fn_824CAA50(Tree_824CAA50 *t)
 {
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar2 = *(int **)(*(int *)(param_1 + 4) + 4);
-  cVar1 = *(char *)((int)piVar2 + 0xb9);
-  while (cVar1 == '\0') {
-    fn_824CB6A0(param_1,piVar2[2]);
-    piVar3 = (int *)*piVar2;
-    fn_824C9CB8(piVar2 + 0xc);
-    fn_82230300(piVar2 + 4,1,0);
-    fn_8265CA20(piVar2);
-    piVar2 = piVar3;
-    cVar1 = *(char *)((int)piVar3 + 0xb9);
+  Node_824CAA50 *root = t->head->parent;
+  Node_824CAA50 *p;
+  for (p = root; !p->isnil; root = p) {
+    fn_824CB6A0(t, p->right);
+    p = p->left;
+    {
+      Pair_824CAA50 *v = &root->value;
+      fn_824C9CB8(v->val);
+      fn_82230300(v->key, 1, 0);
+    }
+    fn_8265CA20(root);
   }
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)*(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_1 + 4);
-  *(int *)(*(int *)(param_1 + 4) + 8) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+  fn_8265CA20(t->head);
 }
-

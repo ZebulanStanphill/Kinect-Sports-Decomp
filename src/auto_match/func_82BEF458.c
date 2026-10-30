@@ -1,67 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BEB230();
+typedef struct Sub_82BEF458 {
+    char pad0[0x14];
+    int f14;
+    unsigned int f18;
+    unsigned int f1c;
+    unsigned int f20;
+} Sub_82BEF458;
+typedef struct A_82BEF458 {
+    char pad0[0x4c];
+    Sub_82BEF458 *sub;
+    unsigned int f50;
+} A_82BEF458;
+typedef struct B_82BEF458 {
+    char pad0[0xd8];
+    unsigned short sd8;
+} B_82BEF458;
+typedef struct Obj_82BEF458 {
+    char pad0[0x10];
+    int kind;
+    int f14;
+    int f18;
+    char pad1c[0x2c - 0x1c];
+    A_82BEF458 *a;
+    char pad30[0x34 - 0x30];
+    int f34;
+    int pad38;
+    B_82BEF458 *b;
+    char pad40[0x58 - 0x40];
+    unsigned int f58;
+} Obj_82BEF458;
+extern void fn_82BEB230(int a, int b);
 
-
-int fn_82BEF458(int param_1)
-
+int fn_82BEF458(Obj_82BEF458 *param_1)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  if ((((*(int *)(param_1 + 0x34) == 2) || (iVar1 = *(int *)(param_1 + 0x2c), iVar1 == 0)) ||
-      (*(int *)(param_1 + 0x3c) == 0)) || (*(short *)(*(int *)(param_1 + 0x3c) + 0xd8) == 0)) {
-    return 0;
-  }
-  iVar2 = *(int *)(param_1 + 0x10);
-  iVar4 = 0;
-  iVar3 = *(int *)(iVar1 + 0x4c);
-  if (iVar2 == 2) {
-    if ((1 < *(uint *)(param_1 + 0x58)) && (*(uint *)(iVar1 + 0x50) < *(uint *)(iVar3 + 0x1c))) {
-      iVar4 = 1;
-    }
-  }
-  else {
-    iVar4 = 0;
-    if (((iVar2 != 0x11) && (iVar2 != 0x12)) && (iVar2 != 0x13)) goto LAB_82bef544;
-  }
-  if (((((1 < *(uint *)(param_1 + 0x58)) || (*(int *)(param_1 + 0x34) == 0x10)) && (iVar3 != 0)) &&
-      ((*(uint *)(iVar3 + 0x18) != 0 && (*(uint *)(iVar3 + 0x18) < *(uint *)(iVar3 + 0x20))))) &&
-     (fn_82BEB230(*(undefined4 *)(param_1 + 0x18),*(undefined4 *)(iVar3 + 0x14)),
-     *(int *)(param_1 + 0x10) == 2)) {
-    iVar4 = 1;
-  }
-LAB_82bef544:
-  if (iVar4 != 0) {
-    *(undefined4 *)(param_1 + 0x10) = 0x14;
-  }
-  return iVar4;
-}
+    A_82BEF458 *a;
+    Sub_82BEF458 *sub;
+    int kind;
+    int r;
 
+    if (param_1->f34 == 2 || (a = param_1->a) == 0 || param_1->b == 0 || param_1->b->sd8 == 0) {
+        return 0;
+    }
+    kind = param_1->kind;
+    r = 0;
+    sub = a->sub;
+    if (kind == 2) {
+        if (param_1->f58 > 1 && sub->f1c > a->f50) {
+            r = 1;
+        }
+    }
+    if (param_1->kind == 2 || param_1->kind == 0x11 || param_1->kind == 0x12 || param_1->kind == 0x13) {
+        if ((param_1->f58 > 1 || param_1->f34 == 0x10) && sub != 0 && sub->f18 != 0 && sub->f20 > sub->f18) {
+            fn_82BEB230(param_1->f18, sub->f14);
+            if (param_1->kind == 2) {
+                r = 1;
+            }
+        }
+    }
+    if (r != 0) {
+        param_1->kind = 0x14;
+    }
+    return r;
+}

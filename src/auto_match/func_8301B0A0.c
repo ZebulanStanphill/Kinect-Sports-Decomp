@@ -25,52 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83016CE8();
-extern int fn_8301A5D0();
-extern unsigned int iStack_50;
-extern unsigned int uStack_4c;
+typedef struct Val_8301B0A0 { char pad[0x5c]; int f5c; } Val_8301B0A0;
+typedef struct Node_8301B0A0 { struct Node_8301B0A0 *next; unsigned int key; Val_8301B0A0 *val; } Node_8301B0A0;
+typedef struct It_8301B0A0 { Node_8301B0A0 **buckets; unsigned int idx; Node_8301B0A0 *node; } It_8301B0A0;
+typedef struct Vec_8301B0A0 { unsigned int *first; unsigned int *last; unsigned int *end; } Vec_8301B0A0;
+extern void fn_83016CE8(It_8301B0A0 *, void *);
+extern unsigned char fn_8301A5D0(Vec_8301B0A0 *, int);
 
-
-undefined8 fn_8301B0A0(longlong param_1,int *param_2)
-
+int fn_8301B0A0(char *param_1, Vec_8301B0A0 *v)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  char cVar5;
-  undefined8 uVar4;
-  struct { int first; uint second; } stack_pair_50;
-
-  undefined4 *puStack_48;
-  
-  fn_83016CE8(&stack_pair_50.first,param_1 + 0x24);
-joined_r0x8301b0c4:
-  if (puStack_48 == (undefined4 *)0x0) {
-    uVar4 = 1;
+  It_8301B0A0 it;
+  It_8301B0A0 j;
+  unsigned int key;
+  unsigned int size;
+  unsigned int *p;
+  fn_83016CE8(&it, param_1 + 0x24);
+  j.node = it.node;
+  if (j.node == 0) return 1;
+  j.buckets = it.buckets;
+  j.idx = it.idx;
+joined:
+  if (j.node == 0) {
+    return 1;
   }
-  else {
-    while (*(int *)(puStack_48[2] + 0x5c) < 2) {
-LAB_8301b13c:
-      puStack_48 = (undefined4 *)*puStack_48;
-      while (puStack_48 == (undefined4 *)0x0) {
-        stack_pair_50.second = stack_pair_50.second + 1;
-        if (0xc0 < stack_pair_50.second) goto joined_r0x8301b0c4;
-        puStack_48 = *(undefined4 **)(stack_pair_50.second * 4 + stack_pair_50.first);
-      }
+  while (j.node->val->f5c <= 1) {
+next:
+    j.node = j.node->next;
+    while (j.node == 0) {
+      j.idx++;
+      if (j.idx >= 0xc1) goto joined;
+      j.node = j.buckets[j.idx];
     }
-    uVar1 = puStack_48[1];
-    uVar3 = param_2[1] - *param_2 >> 2;
-    if (((uVar3 < (uint)param_2[2]) || (cVar5 = fn_8301A5D0(param_2,0x20), cVar5 != '\0')) &&
-       (uVar3 < (uint)param_2[2])) {
-      puVar2 = (undefined4 *)param_2[1];
-      param_2[1] = (int)(puVar2 + 1);
-      if (puVar2 != (undefined4 *)0x0) {
-        *puVar2 = uVar1;
-        goto LAB_8301b13c;
-      }
-    }
-    uVar4 = 0x34;
   }
-  return uVar4;
+  key = j.node->key;
+  size = v->last - v->first;
+  if ((size < (unsigned int)v->end || fn_8301A5D0(v, 0x20) != 0) && size < (unsigned int)v->end) {
+    p = v->last;
+    v->last = p + 1;
+    if (p != 0) {
+      *p = key;
+      goto next;
+    }
+  }
+  return 0x34;
 }
-

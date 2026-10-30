@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82EF1068(int *param_1,int param_2)
+void fn_82EF1068(unsigned int *param_1,int param_2)
 
 {
   int iVar1;
@@ -44,11 +44,11 @@ void fn_82EF1068(int *param_1,int param_2)
   lVar3 = 8;
   do {
     iVar2 = iVar1 + param_1[1] + 4;
-    if (iVar2 == 0) {
-      iVar2 = 0;
+    if (iVar2 != 0) {
+      *(undefined4 *)(iVar2 + 8) = 0;
     }
     else {
-      *(undefined4 *)(iVar1 + param_1[1] + 0xc) = 0;
+      iVar2 = 0;
     }
     iVar1 = iVar1 + 0xc;
     *(int *)(iVar2 + 8) = *param_1;

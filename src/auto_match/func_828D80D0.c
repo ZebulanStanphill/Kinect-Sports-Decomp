@@ -1,53 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_828B3E88();
+extern void fn_8265CA20(void *);
+extern void fn_828B3E88(void *);
 
+typedef struct E_828D80D0 { int a; void *p; int pad[5]; } E_828D80D0;
+typedef struct Vec_828D80D0 { E_828D80D0 *first; E_828D80D0 *last; E_828D80D0 *end; } Vec_828D80D0;
 
-void fn_828D80D0(int *param_1)
-
+static void Destroy(E_828D80D0 *f, E_828D80D0 *l)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = *param_1;
-  if (iVar2 != 0) {
-    iVar1 = param_1[1];
-    for (; iVar2 != iVar1; iVar2 = iVar2 + 0x1c) {
-      fn_828B3E88(iVar2 + 4);
-      fn_8265CA20(*(undefined4 *)(iVar2 + 4));
-      *(undefined4 *)(iVar2 + 4) = 0;
-    }
-    fn_8265CA20(*param_1);
+  for (; f != l; f++) {
+    fn_828B3E88(&f->p);
+    fn_8265CA20(f->p);
+    f->p = 0;
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
 }
 
+void fn_828D80D0(Vec_828D80D0 *v)
+{
+  if (v->first != 0) {
+    Destroy(v->first, v->last);
+    fn_8265CA20(v->first);
+  }
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
+}

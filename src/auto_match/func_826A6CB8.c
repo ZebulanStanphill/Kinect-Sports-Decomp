@@ -1,77 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_82697610();
-extern int fn_826C6748();
+typedef struct VT_826A6CB8 {
+    void *s[2];
+    int (*kind)(struct Obj8_826A6CB8 *);
+} VT_826A6CB8;
+typedef struct Obj8_826A6CB8 {
+    VT_826A6CB8 *vt;
+} Obj8_826A6CB8;
+typedef struct Flag_826A6CB8 {
+    unsigned char a;
+    unsigned char pad1[3];
+    unsigned char b;
+} Flag_826A6CB8;
+typedef struct Ctx_826A6CB8 {
+    char pad[0x74];
+    void *f74;
+} Ctx_826A6CB8;
+typedef struct Obj_826A6CB8 {
+    int pad0;
+    Flag_826A6CB8 *flag;
+    Obj8_826A6CB8 *sub;
+    int pad[3];
+    Ctx_826A6CB8 *ctx;
+    int count;
+} Obj_826A6CB8;
+extern void fn_826959C8(Flag_826A6CB8 *f);
+extern int fn_826957D0(Obj_826A6CB8 *o, int a);
+extern int fn_82697610(int a, Ctx_826A6CB8 *c);
+extern int fn_826C6748(void *p);
 
-
-void fn_826A6CB8(int param_1)
-
+void fn_826A6CB8(Obj_826A6CB8 *param_1)
 {
-  undefined1 *puVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  int iVar5;
-  ulonglong uVar6;
-  
-  if (0 < *(int *)(param_1 + 0x1c)) {
-    puVar1 = *(undefined1 **)(param_1 + 4);
-    fn_826959C8(puVar1);
-    uVar6 = 0;
-    *puVar1 = 2;
-    puVar1[4] = 0;
-    if (*(int **)(param_1 + 8) == (int *)0x0) {
-      uVar6 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x74);
-    }
-    else {
-      iVar4 = (**(code **)(**(int **)(param_1 + 8) + 8))();
-      if (iVar4 != 2) {
-        return;
-      }
-      if ((ulonglong)*(uint *)(param_1 + 8) != 0) {
-        uVar6 = (ulonglong)*(uint *)(param_1 + 8) - 0x68;
-      }
-    }
-    if ((uVar6 & 0xffffffff) != 0) {
-      uVar2 = *(undefined4 *)(param_1 + 0x18);
-      uVar3 = fn_826957D0(param_1,0);
-      iVar4 = fn_82697610(uVar3,uVar2);
-      iVar5 = fn_826C6748(uVar6);
-      if (iVar4 < iVar5) {
-        puVar1 = *(undefined1 **)(param_1 + 4);
-        fn_826959C8(puVar1);
-        *puVar1 = 2;
-        puVar1[4] = 1;
-      }
-    }
-  }
-  return;
-}
+    Flag_826A6CB8 *f;
+    unsigned int x;
+    Obj8_826A6CB8 *sub;
+    int a;
+    int b;
 
+    if (param_1->count >= 1) {
+        f = param_1->flag;
+        fn_826959C8(f);
+        x = 0;
+        f->a = 2;
+        f->b = 0;
+        sub = param_1->sub;
+        if (sub == 0) {
+            x = (unsigned int)param_1->ctx->f74;
+        } else {
+            if (sub->vt->kind(sub) != 2) {
+                return;
+            }
+            if (param_1->sub != 0) {
+                x = (unsigned int)param_1->sub - 0x68;
+            } else {
+                x = 0;
+            }
+        }
+        if (x != 0) {
+            a = fn_82697610(fn_826957D0(param_1, 0), param_1->ctx);
+            b = fn_826C6748((void *)x);
+            if (a < b) {
+                f = param_1->flag;
+                fn_826959C8(f);
+                f->a = 2;
+                f->b = 1;
+            }
+        }
+    }
+}

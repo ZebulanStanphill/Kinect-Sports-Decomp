@@ -1,93 +1,99 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8226D6A0();
-extern int fn_822746B8();
-extern int fn_822820E0();
-extern int fn_822848B8();
-extern int fn_82356F98();
-extern int fn_823F2E20();
-extern int fn_8247DD58();
-extern int fn_824801F8();
-extern int fn_8265CA20();
-extern int fn_82672C20();
-extern unsigned int iStack_34;
-extern unsigned int lbl_8327F844;
+typedef struct Ref_82480298 {
+    void *p;
+    unsigned int *rc;
+} Ref_82480298;
+typedef struct Elem_82480298 {
+    void *a;
+    char b[8];
+} Elem_82480298;
+typedef struct Vec_82480298 {
+    Elem_82480298 *begin;
+    Elem_82480298 *end;
+} Vec_82480298;
+typedef struct Mgr_82480298 {
+    char pad[0x14];
+    Vec_82480298 vec;
+} Mgr_82480298;
+typedef struct Obj_82480298 {
+    char pad0[0x14];
+    Mgr_82480298 *mgr;
+    char pad18[0x4c - 0x18];
+    int f4c;
+    char pad50[0x78 - 0x50];
+    void *f78;
+    char pad7c[0xa4 - 0x7c];
+    void *fa4;
+    char pada8[0xc8 - 0xa8];
+    void **fc8;
+    char padcc[0xec - 0xcc];
+    void *fec;
+    int ff0;
+} Obj_82480298;
+typedef struct Global_82480298 {
+    char pad[0xf0];
+    int f0;
+    int f4;
+} Global_82480298;
+extern Global_82480298 *lbl_8327F844;
+extern void fn_824801F8(Obj_82480298 *o);
+extern void fn_8226D6A0(void *p);
+extern void fn_82356F98(Ref_82480298 *r);
+extern void fn_823F2E20(void *dst, Ref_82480298 *r);
+extern void fn_822315A0(unsigned int *rc);
+extern Elem_82480298 **fn_822820E0(void *out, Vec_82480298 *v, Elem_82480298 *it);
+extern void fn_822848B8(void *p);
+extern void fn_822746B8(void *p, int a);
+extern void fn_82672C20(void *a, const char *s, int b, int c);
+extern void fn_8247DD58(void *p);
+extern void fn_8265CA20(void *p);
 
-
-void fn_82480298(int param_1)
-
+static void clear(Global_82480298 *g)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined1 auStack_40 [8];
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  
-  fn_824801F8();
-  if (*(int *)(param_1 + 0x4c) == 0) {
-    iVar1 = *(int *)(param_1 + 0x14);
-    for (puVar2 = *(undefined4 **)(iVar1 + 0x14); puVar2 < *(undefined4 **)(iVar1 + 0x18);
-        puVar2 = (undefined4 *)*puVar2) {
-      fn_8226D6A0(*puVar2);
-      fn_82356F98(auStack_38);
-      fn_823F2E20(puVar2 + 1,auStack_38);
-      if (iStack_34 != 0) {
-        fn_822315A0();
-      }
-      puVar2 = (undefined4 *)fn_822820E0(auStack_40,iVar1 + 0x14,puVar2);
+    if (g != 0) {
+        g->f0 = 0;
+        g->f4 = 0;
     }
-    if (*(int *)(param_1 + 0x78) != 0) {
-      fn_822848B8();
-      *(undefined4 *)(param_1 + 0x78) = 0;
-    }
-    if (*(int *)(param_1 + 0xec) != 0) {
-      fn_822746B8(*(int *)(param_1 + 0xec),0);
-      *(undefined4 *)(param_1 + 0xec) = 0;
-    }
-  }
-  if (*(undefined4 **)(param_1 + 200) != (undefined4 *)0x0) {
-    fn_82672C20(**(undefined4 **)(param_1 + 200),0xffffffff821a8c24,0,0);
-    *(undefined4 *)(param_1 + 0xf0) = 0;
-  }
-  iVar1 = *(int *)(param_1 + 0xa4);
-  if (iVar1 != 0) {
-    fn_8247DD58(iVar1);
-    fn_8265CA20(iVar1);
-    *(undefined4 *)(param_1 + 0xa4) = 0;
-  }
-  iVar1 = lbl_8327F844;
-  if (lbl_8327F844 != 0) {
-    *(undefined4 *)(lbl_8327F844 + 0xf0) = 0;
-    *(undefined4 *)(iVar1 + 0xf4) = 0;
-  }
-  return;
 }
 
+void fn_82480298(Obj_82480298 *param_1)
+{
+    Mgr_82480298 *m;
+    Elem_82480298 *p;
+    struct {
+        char out[8];
+        Ref_82480298 ref;
+    } L;
+    void *q;
+
+    fn_824801F8(param_1);
+    if (param_1->f4c == 0) {
+        m = param_1->mgr;
+        for (p = m->vec.begin; p < m->vec.end; p = *fn_822820E0(L.out, &m->vec, p)) {
+            fn_8226D6A0(p->a);
+            fn_82356F98(&L.ref);
+            fn_823F2E20(p->b, &L.ref);
+            if (L.ref.rc != 0) {
+                fn_822315A0(L.ref.rc);
+            }
+        }
+        if (param_1->f78 != 0) {
+            fn_822848B8(param_1->f78);
+            param_1->f78 = 0;
+        }
+        if (param_1->fec != 0) {
+            fn_822746B8(param_1->fec, 0);
+            param_1->fec = 0;
+        }
+    }
+    if (param_1->fc8 != 0) {
+        fn_82672C20(*param_1->fc8, "HideAllAvatarTagsImmediately", 0, 0);
+        param_1->ff0 = 0;
+    }
+    q = param_1->fa4;
+    if (q != 0) {
+        fn_8247DD58(q);
+        fn_8265CA20(q);
+        param_1->fa4 = 0;
+    }
+    clear(lbl_8327F844);
+}

@@ -25,41 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_82A2AA90();
-extern int fn_82A2AA98();
-extern int fn_82A2AAA0();
-extern unsigned int uStack_78;
-extern unsigned int uStack_80;
-extern unsigned int uStack_84;
-extern unsigned int uStack_88;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
+extern void *memset(void *, int, unsigned int);
+extern void fn_82A2AA90(void *);
+extern void fn_82A2AA98(void *, void *, int);
+extern void fn_82A2AAA0(void *, void *);
 
-
-uint fn_82880270(undefined8 param_1)
-
+unsigned int fn_82880270(void *param_1)
 {
-  undefined8 *puVar1;
-  longlong lVar2;
-  struct { uint first; uint second; } stack_pair_90;
-
-  uint uStack_88;
-  uint uStack_84;
-  uint uStack_80;
-  undefined8 uStack_78;
-  undefined1 auStack_70 [96];
-  
-  puVar1 = &uStack_78;
-  lVar2 = 0xb;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  fn_82A2AA90(auStack_70);
-  fn_82A2AA98(auStack_70,param_1,0x24);
-  fn_82A2AAA0(auStack_70,&stack_pair_90.first);
-  return stack_pair_90.first ^ stack_pair_90.second ^ uStack_88 ^ uStack_84 ^ uStack_80;
+  unsigned char ctx[0x60];
+  unsigned int d[5];
+  memset(ctx, 0, 0x58);
+  fn_82A2AA90(ctx);
+  fn_82A2AA98(ctx, param_1, 0x24);
+  fn_82A2AAA0(ctx, d);
+  return d[4] ^ d[3] ^ d[2] ^ d[1] ^ d[0];
 }
-

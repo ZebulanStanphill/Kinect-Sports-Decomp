@@ -25,68 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82811500();
-extern int fn_82F691F0();
+extern void fn_82811500(void *, int);
+extern void *memset(void *, int, unsigned int);
 
+typedef struct E_82850DC0 { int pad[2]; int v; } E_82850DC0;
+typedef struct B_82850DC0 { int pad[2]; unsigned int n; E_82850DC0 **elems; } B_82850DC0;
+typedef struct A_82850DC0 { unsigned int n; B_82850DC0 *b; int pad[3]; } A_82850DC0;
+typedef struct Obj_82850DC0 {
+  char pad[0x2c]; unsigned int *sz; char pad2[0x178 - 0x30]; unsigned int n; A_82850DC0 *a;
+} Obj_82850DC0;
 
-void fn_82850DC0(int param_1,int param_2,int param_3)
-
+void fn_82850DC0(Obj_82850DC0 *o, void **ctx, int idx)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  int iVar9;
-  
-  if (*(int *)(param_1 + 0x178) != 0) {
-    iVar3 = *(int *)(param_1 + 0x17c);
-    uVar4 = 0;
-    iVar6 = 0;
-    do {
-      uVar5 = 0;
-      if (*(int *)(iVar6 + iVar3) != 0) {
-        iVar2 = *(int *)(iVar6 + iVar3 + 4);
-        iVar7 = 0;
-        do {
-          iVar1 = iVar7 + iVar2;
-          uVar8 = 0;
-          if (*(int *)(iVar1 + 8) != 0) {
-            iVar9 = 0;
-            do {
-              fn_82811500(*(undefined4 *)((param_3 + 2) * 4 + param_2),
-                           *(undefined4 *)(*(int *)(*(int *)(iVar1 + 0xc) + iVar9) + 8));
-              iVar3 = *(int *)(param_1 + 0x17c);
-              uVar8 = uVar8 + 1;
-              iVar9 = iVar9 + 4;
-              iVar2 = *(int *)(iVar6 + iVar3 + 4);
-              iVar1 = iVar2 + iVar7;
-            } while (uVar8 < *(uint *)(iVar1 + 8));
-          }
-          uVar5 = uVar5 + 1;
-          iVar7 = iVar7 + 0x10;
-        } while (uVar5 < *(uint *)(iVar6 + iVar3));
+  unsigned int i, j, k;
+  if (o->n != 0) {
+    for (i = 0; i < o->n; i++) {
+      for (j = 0; j < o->a[i].n; j++) {
+        for (k = 0; k < o->a[i].b[j].n; k++) {
+          fn_82811500(ctx[idx + 2], o->a[i].b[j].elems[k]->v);
+        }
       }
-      uVar4 = uVar4 + 1;
-      iVar6 = iVar6 + 0x14;
-    } while (uVar4 < *(uint *)(param_1 + 0x178));
-    uVar4 = 0;
-    if (*(uint *)(param_1 + 0x178) != 0) {
-      iVar3 = 0;
-      do {
-        uVar4 = uVar4 + 1;
-        *(undefined4 *)(*(int *)((param_3 + 0x10) * 4 + param_2) + iVar3) = 0xffffffff;
-        iVar3 = iVar3 + 4;
-      } while (uVar4 < *(uint *)(param_1 + 0x178));
     }
-    if ((*(int **)(param_1 + 0x2c) != (int *)0x0) && (**(int **)(param_1 + 0x2c) != 0)) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(*(undefined4 *)((param_3 + 4) * 4 + param_2),0);
+    i = 0;
+    if (o->n != 0) {
+      int off = 0;
+      do {
+        i++;
+        *(int *)((char *)ctx[idx + 0x10] + off) = -1;
+        off += 4;
+      } while (i < o->n);
+    }
+    if (o->sz != 0 && *o->sz != 0) {
+      memset(ctx[idx + 4], 0, *o->sz);
     }
   }
-  return;
 }
-

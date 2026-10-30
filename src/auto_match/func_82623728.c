@@ -25,37 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
+extern void fn_82522ED8(void *);
+typedef struct Node_82623728 { struct Node_82623728 *prev; struct Node_82623728 *next; } Node_82623728;
+typedef struct Obj_82623728 { int pad; Node_82623728 *head; int f8; void *buf; void *bufend; char pad2[0xc]; struct Obj_82623728 *self; } Obj_82623728;
 
-
-void fn_82623728(int param_1)
-
+static void unlink(Node_82623728 *n)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(param_1 + 0xc);
-  piVar2 = *(int **)(param_1 + 4);
-  while (piVar2 != (int *)0x0) {
-    piVar1 = (int *)piVar2[1];
-    if (*piVar2 != 0) {
-      *(int **)(*piVar2 + 4) = piVar1;
-    }
-    if ((int *)piVar2[1] != (int *)0x0) {
-      *(int *)piVar2[1] = *piVar2;
-    }
-    *piVar2 = 0;
-    piVar2[1] = 0;
-    fn_82522ED8();
-    piVar2 = piVar1;
+  Node_82623728 *nx = n->next;
+  if (n->prev != 0) {
+    n->prev->next = nx;
   }
-  *(int *)(param_1 + 0x20) = param_1;
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_82522ED8();
+  if (n->next != 0) {
+    n->next->prev = n->prev;
   }
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 8) = 0;
-  return;
+  n->prev = 0;
+  n->next = 0;
 }
 
+void fn_82623728(Obj_82623728 *o)
+{
+  Node_82623728 *n;
+  Node_82623728 *next;
+  o->bufend = o->buf;
+  for (n = o->head; n != 0; n = next) {
+    next = n->next;
+    unlink(n);
+    fn_82522ED8(n);
+  }
+  o->self = o;
+  if (o->buf != 0) {
+    fn_82522ED8(o->buf);
+  }
+  o->buf = 0;
+  o->bufend = 0;
+  o->f8 = 0;
+}

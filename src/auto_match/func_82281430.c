@@ -25,69 +25,64 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8226D6A0();
-extern int fn_8227FFA8();
-extern int fn_822820E0();
-extern int fn_82356F98();
-extern int fn_82359C18();
-extern int fn_823F2E20();
-extern int fn_8265CA20();
-extern unsigned int iStack_34;
+extern void fn_822315A0(void *);
+extern void fn_8226D6A0(void *);
+extern void fn_8227FFA8(void *);
+extern void *fn_822820E0(void *, void *, void *);
+extern void fn_82356F98(void *);
+extern void fn_82359C18(void *);
+extern void fn_823F2E20(void *, void *);
+extern void fn_8265CA20(void *);
 extern unsigned int lbl_821A8A08;
 
+typedef struct Ref_82281430 { void *p; void *c; } Ref_82281430;
+typedef struct Node_82281430 { struct Node_82281430 *next; int a; int b; } Node_82281430;
+typedef struct Elem_82281430 { int a; int b; void *c; } Elem_82281430;
+typedef struct Vec_82281430 { Elem_82281430 *first; Elem_82281430 *last; Elem_82281430 *end; } Vec_82281430;
+typedef struct Obj_82281430 {
+  void *vt; char pad[0xc]; void *f10; Vec_82281430 v; char pad2[0x40 - 0x20]; int f40; char pad3[4]; char sub[4];
+} Obj_82281430;
 
-void fn_82281430(undefined4 *param_1)
-
+void fn_82281430(Obj_82281430 *o)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  int *piVar4;
-  int iVar5;
-  undefined1 auStack_40 [8];
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  
-  iVar5 = param_1[4];
-  *param_1 = &lbl_821A8A08;
-  if (iVar5 != 0) {
-    fn_8227FFA8(iVar5);
-    fn_8265CA20(iVar5);
+  void *f = o->f10;
+  Node_82281430 *n;
+  Elem_82281430 *e;
+  void **pc;
+  Vec_82281430 *v;
+  struct { void *it; int pad; Ref_82281430 tmp; } L;
+  o->vt = &lbl_821A8A08;
+  if (f != 0) {
+    fn_8227FFA8(f);
+    fn_8265CA20(f);
   }
-  piVar3 = param_1 + 5;
-  for (puVar2 = (undefined4 *)param_1[5]; puVar2 < (undefined4 *)param_1[6];
-      puVar2 = (undefined4 *)*puVar2) {
-    fn_8226D6A0(*puVar2);
-    fn_82356F98(auStack_38);
-    fn_823F2E20(puVar2 + 1,auStack_38);
-    if (iStack_34 != 0) {
-      fn_822315A0();
+  v = &o->v;
+  for (n = (Node_82281430 *)o->v.first; (Elem_82281430 *)n < o->v.last; n = *(Node_82281430 **)fn_822820E0(&L.it, v, n)) {
+    fn_8226D6A0((void *)n->next);
+    fn_82356F98(&L.tmp);
+    fn_823F2E20(&n->a, &L.tmp);
+    if (L.tmp.c != 0) {
+      fn_822315A0(L.tmp.c);
     }
-    puVar2 = (undefined4 *)fn_822820E0(auStack_40,piVar3,puVar2);
   }
-  param_1[0x10] = 0;
-  fn_82359C18(param_1 + 0x12);
-  iVar5 = *piVar3;
-  if (iVar5 != 0) {
-    iVar1 = param_1[6];
-    if (iVar5 != iVar1) {
-      piVar4 = (int *)(iVar5 + 8);
+  o->f40 = 0;
+  fn_82359C18(o->sub);
+  if (v->first != 0) {
+    Elem_82281430 *last = v->last;
+    e = v->first;
+    if (e != last) {
+      pc = &e->c;
       do {
-        if (*piVar4 != 0) {
-          fn_822315A0();
+        if (*pc != 0) {
+          fn_822315A0(*pc);
         }
-        iVar5 = iVar5 + 0xc;
-        piVar4 = piVar4 + 3;
-      } while (iVar5 != iVar1);
+        e++;
+        pc = (void **)((char *)pc + 0xc);
+      } while (e != last);
     }
-    fn_8265CA20(*piVar3);
+    fn_8265CA20(v->first);
   }
-  *piVar3 = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  return;
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
 }
-

@@ -25,32 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82414950();
-extern int fn_82536590();
+extern void fn_82414950(void *, int, int);
+extern void fn_82536590(void *, int);
+typedef struct Vec_82425060 { int pad[2]; char *first; char *last; } Vec_82425060;
+typedef struct Obj_82425060 { char pad[0xc0c]; int f0c0c; char pad2[0xe2c - 0xc10]; char e2c[8]; char e34[0x2b20 - 0xe34]; Vec_82425060 *cur; char pad4[0x2b50 - 0x2b24]; void *h; } Obj_82425060;
+typedef struct Hdr_82425060 { int pad; Vec_82425060 *vec; Obj_82425060 *obj; } Hdr_82425060;
 
-
-void fn_82425060(int param_1)
-
+void fn_82425060(Hdr_82425060 *p)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  iVar2 = *(int *)(param_1 + 8);
-  if ((*(int *)(iVar1 + 0xc) - *(int *)(iVar1 + 8)) / 0x1ac == 1) {
-    if ((iVar1 == *(int *)(iVar2 + 0x2b20)) && (*(int *)(iVar2 + 0xc0c) != 0)) {
-      fn_82536590(iVar2 + 0xe2c,0);
+  Vec_82425060 *vec = p->vec;
+  int id;
+  if ((vec->last - vec->first) / 0x1ac == 1) {
+    if (vec == p->obj->cur && p->obj->f0c0c != 0) {
+      fn_82536590(p->obj->e2c, 0);
     }
-    uVar3 = 0x1a;
-  }
-  else {
-    if ((iVar1 == *(int *)(iVar2 + 0x2b20)) && (*(int *)(iVar2 + 0xc0c) != 0)) {
-      fn_82536590(iVar2 + 0xe34,0);
+    id = 0x1a;
+  } else {
+    if (vec == p->obj->cur && p->obj->f0c0c != 0) {
+      fn_82536590(p->obj->e34, 0);
     }
-    uVar3 = 0x1b;
+    id = 0x1b;
   }
-  fn_82414950(*(undefined4 *)(*(int *)(param_1 + 8) + 0x2b50),0,uVar3);
-  return;
+  fn_82414950(p->obj->h, 0, id);
 }
-

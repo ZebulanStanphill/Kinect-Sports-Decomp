@@ -1,59 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82A86CB0();
-extern int fn_82A8C620();
+struct Obj_82A87490;
+typedef struct VT_82A87490 {
+    void *s0;
+    unsigned char (*check)(struct Obj_82A87490 *);
+    void *s2;
+    void *s3;
+    unsigned char (*read)(struct Obj_82A87490 *, void *buf, int n, void *ctx);
+} VT_82A87490;
+typedef struct Obj_82A87490 {
+    VT_82A87490 *vt;
+} Obj_82A87490;
+extern void fn_82A86CB0(void *dst, void *src, int n);
+extern void fn_82A8C620(void *buf, int off, int n, unsigned int *out);
 
-
-undefined8 fn_82A87490(int *param_1,undefined4 *param_2,undefined4 *param_3)
-
+int fn_82A87490(Obj_82A87490 *param_1, unsigned int *param_2, unsigned int *param_3)
 {
-  char cVar2;
-  undefined8 uVar1;
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [48];
-  undefined1 auStack_50 [80];
-  
-  *param_3 = 0;
-  *param_2 = 0;
-  cVar2 = (**(code **)(*param_1 + 4))();
-  if ((cVar2 == '\0') ||
-     (cVar2 = (**(code **)(*param_1 + 0x10))(param_1,auStack_50,0x30,auStack_90), cVar2 == '\0')) {
-    uVar1 = 0;
-  }
-  else {
-    fn_82A86CB0(auStack_80,auStack_50,0x30);
-    fn_82A8C620(auStack_80,0,0x20,param_2);
-    fn_82A8C620(auStack_80,0x20,0x20,param_3);
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    char ctx[16];
+    char work[0x30];
+    char buf[0x30];
 
+    *param_3 = 0;
+    *param_2 = 0;
+    if (param_1->vt->check(param_1) && param_1->vt->read(param_1, buf, 0x30, ctx)) {
+        fn_82A86CB0(work, buf, 0x30);
+        fn_82A8C620(work, 0, 0x20, param_2);
+        fn_82A8C620(work, 0x20, 0x20, param_3);
+        return 1;
+    }
+    return 0;
+}

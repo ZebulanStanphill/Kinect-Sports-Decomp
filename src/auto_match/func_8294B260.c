@@ -1,60 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Range_8294B260 {
+    int pad0[8];
+    unsigned int lo;
+    unsigned int hi;
+} Range_8294B260;
+typedef struct Item_8294B260 {
+    int pad0;
+    unsigned int kind;
+    char pad8[0x60];
+    Range_8294B260 *range;
+} Item_8294B260;
+typedef struct Kind_8294B260 {
+    int pad0;
+    unsigned int flags;
+} Kind_8294B260;
+typedef struct Set_8294B260 {
+    int pad0[2];
+    unsigned int count;
+    int pad1[1];
+    Kind_8294B260 **kinds;
+    Item_8294B260 **items;
+} Set_8294B260;
 
-
-undefined8 fn_8294B260(int param_1,int *param_2)
-
+int fn_8294B260(Set_8294B260 *param_1, unsigned int *param_2)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  uint uVar5;
-  int iVar6;
-  
-  uVar5 = *param_2 + 1;
-  iVar6 = uVar5 * 4;
-  piVar4 = (int *)(*(int *)(param_1 + 0x14) + iVar6);
-  if (uVar5 < *(uint *)(param_1 + 8)) {
-    while( true ) {
-      iVar3 = *(int *)(iVar6 + *(int *)(param_1 + 0x14));
-      uVar1 = *(uint *)(*(int *)(*(int *)(iVar3 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4);
-      if ((((uVar1 & 0x10) == 0) || ((uVar1 & 0x200) != 0)) && ((uVar1 & 0x20) == 0)) break;
-      iVar2 = *(int *)(*piVar4 + 0x68);
-      iVar3 = *(int *)(iVar3 + 0x68);
-      if ((*(int *)(iVar2 + 0x24) != *(int *)(iVar3 + 0x24)) ||
-         (*(int *)(iVar2 + 0x20) != *(int *)(iVar3 + 0x20))) break;
-      uVar5 = uVar5 + 1;
-      iVar6 = iVar6 + 4;
-      if (*(uint *)(param_1 + 8) <= uVar5) break;
-    }
-  }
-  *param_2 = uVar5 - 1;
-  return 0;
-}
+    unsigned int i;
+    unsigned int flags;
+    Item_8294B260 *first;
+    Item_8294B260 *it;
+    Range_8294B260 *a;
+    Range_8294B260 *b;
 
+    i = *param_2 + 1;
+    first = param_1->items[i];
+    if (i < param_1->count) {
+        do {
+            it = param_1->items[i];
+            flags = param_1->kinds[it->kind]->flags;
+            if (((flags & 0x10) == 0 || (flags & 0x200) != 0) && (flags & 0x20) == 0) {
+                break;
+            }
+            a = first->range;
+            b = it->range;
+            if (a->hi != b->hi || a->lo != b->lo) {
+                break;
+            }
+            i++;
+        } while (i < param_1->count);
+    }
+    *param_2 = i - 1;
+    return 0;
+}

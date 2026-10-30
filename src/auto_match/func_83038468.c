@@ -25,31 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
-
-
-void fn_83038468(int param_1,undefined8 param_2)
-
+extern void *memcpy(void *, const void *, unsigned int);
+typedef struct Obj_83038468 { char pad[0x18c]; unsigned int cur; char pad2[0x40]; unsigned int mask; } Obj_83038468;
+void fn_83038468(Obj_83038468 *o, void *src)
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  bool bVar4;
-  
-  puVar3 = (uint *)(param_1 + 0x18c);
-  fn_82F68CC0(puVar3,param_2,0x48);
-  if (*(int *)(param_1 + 0x18c) != 0) {
+  unsigned int *p = &o->cur;
+  unsigned int n;
+  unsigned char hit;
+  memcpy(p, src, 0x48);
+  if (o->cur != 0) {
     do {
-      uVar1 = *puVar3;
-      uVar2 = uVar1 - 1;
-      if (uVar2 < 0x20) {
-        bVar4 = (*(uint *)(param_1 + 0x1d0) & 1 << (uVar2 & 0x3f)) != 0;
+      n = *p - 1;
+      if (n < 0x20) {
+        hit = (o->mask & (1 << n)) != 0;
+      } else {
+        hit = 0;
       }
-      else {
-        bVar4 = false;
-      }
-    } while ((!bVar4) && (*puVar3 = uVar2, uVar1 != 1));
+    } while (!hit && (*p = n, o->cur != 0));
   }
-  return;
 }
-

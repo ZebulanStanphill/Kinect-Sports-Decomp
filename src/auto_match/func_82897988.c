@@ -35,17 +35,17 @@ void fn_82897988(undefined8 param_1,undefined8 param_2,undefined8 param_3,int pa
 {
   int *piVar1;
   undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   int iVar4;
   
   piVar1 = *(int **)(param_4 + 8);
   fn_8288A398();
-  uVar3 = (**(code **)(*piVar1 + 8))(piVar1);
+  uVar3 = (*(code *)(*piVar1 + 8))(piVar1);
   iVar4 = fn_8288A398();
   uVar2 = *(undefined4 *)(iVar4 + 0x3c);
   fn_8223C478(param_3,uVar2,0);
   fn_828E9DB8(param_3,uVar3,uVar2);
-  (**(code **)*piVar1)(piVar1,param_2,param_3);
+  (*(code *)*piVar1)(piVar1,param_2,param_3);
   return;
 }
 

@@ -31,8 +31,8 @@ extern int fn_82AB15D0();
 void fn_82BC2958(int param_1,int param_2,int param_3)
 
 {
-  if (5 < param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e3c14,0xffffffff820e3b18,0xfb);
+  if (param_2 >= 6) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","arg < (5 + 1)","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\irinst.cpp",0xfb);
   }
   *(undefined4 *)((param_2 + 0x14) * 4 + param_1) = *(undefined4 *)(param_3 + 0x20);
   *(undefined4 *)((param_2 + 0xe) * 4 + param_1) = *(undefined4 *)(param_3 + 0xc);

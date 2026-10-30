@@ -1,53 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern unsigned int *lbl_83283E30;
-extern unsigned int lbl_83283E34;
-
+typedef struct Node_8313B5B0 {
+    struct Node_8313B5B0 *next;
+    struct Node_8313B5B0 *prev;
+} Node_8313B5B0;
+typedef struct List_8313B5B0 {
+    Node_8313B5B0 *head;
+    int size;
+} List_8313B5B0;
+extern List_8313B5B0 lbl_83283E30;
+extern void fn_8265CA20(void *p);
 
 void fn_8313B5B0(void)
-
 {
-  int *piVar1;
-  int *piVar2;
-  
-  piVar2 = (int *)*lbl_83283E30;
-  *lbl_83283E30 = (int)lbl_83283E30;
-  lbl_83283E30[1] = (int)lbl_83283E30;
-  lbl_83283E34 = 0;
-  if (piVar2 != lbl_83283E30) {
-    do {
-      piVar1 = (int *)*piVar2;
-      fn_8265CA20(piVar2);
-      piVar2 = piVar1;
-    } while (piVar1 != lbl_83283E30);
-  }
-  fn_8265CA20();
-  return;
-}
+    Node_8313B5B0 *p;
+    Node_8313B5B0 *n;
 
+    p = lbl_83283E30.head->next;
+    lbl_83283E30.head->next = lbl_83283E30.head;
+    lbl_83283E30.head->prev = lbl_83283E30.head;
+    lbl_83283E30.size = 0;
+    while (p != lbl_83283E30.head) {
+        n = p->next;
+        fn_8265CA20(p);
+        p = n;
+    }
+    fn_8265CA20(lbl_83283E30.head);
+}

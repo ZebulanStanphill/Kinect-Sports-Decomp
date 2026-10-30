@@ -27,31 +27,26 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D8ED88(int param_1,int param_2)
+typedef struct E_82D8ED88 { char pad[0x20]; unsigned short idx; unsigned short link; char pad2[2]; unsigned char flags; } E_82D8ED88;
+typedef struct Vec_82D8ED88 { E_82D8ED88 **data; int size; } Vec_82D8ED88;
+typedef struct Obj_82D8ED88 { char pad[0x28]; Vec_82D8ED88 a; char pad1[4]; Vec_82D8ED88 b; char pad2[4]; E_82D8ED88 **links; } Obj_82D8ED88;
 
+static void Remove(Vec_82D8ED88 *v, E_82D8ED88 *e)
 {
-  int iVar1;
-  
-  iVar1 = (uint)*(ushort *)(param_2 + 0x20) * 4;
-  if ((*(byte *)(param_2 + 0x26) & 0xc0) == 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x34)) =
-         *(undefined4 *)(*(int *)(param_1 + 0x38) * 4 + *(int *)(param_1 + 0x34) + -4);
-    *(ushort *)(*(int *)((uint)*(ushort *)(param_2 + 0x20) * 4 + *(int *)(param_1 + 0x34)) + 0x20) =
-         *(ushort *)(param_2 + 0x20);
-    *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x38) + -1;
-  }
-  else {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x28)) =
-         *(undefined4 *)(*(int *)(param_1 + 0x2c) * 4 + *(int *)(param_1 + 0x28) + -4);
-    *(ushort *)(*(int *)((uint)*(ushort *)(param_2 + 0x20) * 4 + *(int *)(param_1 + 0x28)) + 0x20) =
-         *(ushort *)(param_2 + 0x20);
-    *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + -1;
-  }
-  if (*(ushort *)(param_2 + 0x22) == 0xffff) {
-    return;
-  }
-  *(undefined4 *)((uint)*(ushort *)(param_2 + 0x22) * 4 + *(int *)(param_1 + 0x40)) = 0;
-  *(undefined2 *)(param_2 + 0x22) = 0xffff;
-  return;
+  v->data[e->idx] = v->data[v->size - 1];
+  v->data[e->idx]->idx = e->idx;
+  v->size--;
 }
 
+void fn_82D8ED88(Obj_82D8ED88 *o, E_82D8ED88 *e)
+{
+  if ((e->flags & 0xc0) == 0) {
+    Remove(&o->b, e);
+  } else {
+    Remove(&o->a, e);
+  }
+  if (e->link != 0xffff) {
+    o->links[e->link] = 0;
+    e->link = 0xffff;
+  }
+}

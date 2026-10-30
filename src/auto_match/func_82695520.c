@@ -1,52 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8269F500();
+typedef struct Src_82695520 {
+    char pad[0x80];
+    int *ref;
+} Src_82695520;
+typedef struct Dst_82695520 {
+    unsigned char kind;
+    int *ref;
+} Dst_82695520;
+extern int *fn_8269F500(Src_82695520 *s);
 
-
-undefined1 * fn_82695520(undefined1 *param_1,int param_2)
-
+Dst_82695520 *fn_82695520(Dst_82695520 *param_1, Src_82695520 *param_2)
 {
-  int *piVar1;
-  
-  *param_1 = 7;
-  if (param_2 == 0) {
-    *(undefined4 *)(param_1 + 4) = 0;
-  }
-  else {
-    piVar1 = *(int **)(param_2 + 0x80);
-    if (piVar1 == (int *)0x0) {
-      piVar1 = (int *)fn_8269F500(param_2);
-    }
-    *(int **)(param_1 + 4) = piVar1;
-    if (piVar1 != (int *)0x0) {
-      *piVar1 = *piVar1 + 1;
-    }
-  }
-  return param_1;
-}
+    int v;
 
+    param_1->kind = 7;
+    if (param_2 == 0) {
+        param_1->ref = 0;
+    } else {
+        if ((int)param_2->ref == 0) {
+            v = (int)fn_8269F500(param_2);
+        } else {
+            v = (int)param_2->ref;
+        }
+        param_1->ref = (int *)v;
+        if ((int *)v != 0) {
+            (*(int *)v)++;
+        }
+    }
+    return param_1;
+}

@@ -25,43 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
+typedef struct Buf_8299B488 { int pad; unsigned int n1; void *p1; unsigned int n2; void *p2; } Buf_8299B488;
+typedef struct Dst_8299B488 { int pad[2]; void *p1; int pad2; void *p2; } Dst_8299B488;
+typedef struct Ent_8299B488 { char pad[0x38]; int v; } Ent_8299B488;
+typedef struct Obj_8299B488 {
+  char pad[0x14]; Ent_8299B488 **ents; Buf_8299B488 **dst; char pad2[0x29c]; Buf_8299B488 **src; Ent_8299B488 **sents; unsigned int nents; unsigned int nbufs;
+} Obj_8299B488;
 
-
-undefined8 fn_8299B488(int param_1)
-
+int fn_8299B488(Obj_8299B488 *o)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  uint uVar4;
-  int iVar5;
-  
-  uVar4 = 0;
-  if (*(int *)(param_1 + 0x2c4) != 0) {
-    iVar5 = 0;
-    do {
-      iVar1 = *(int *)(iVar5 + *(int *)(param_1 + 0x2b8));
-      fn_82F68CC0(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0x18) + iVar5) + 8),
-                   *(undefined4 *)(iVar1 + 8),*(int *)(iVar1 + 4) << 2);
-      iVar1 = *(int *)(iVar5 + *(int *)(param_1 + 0x2b8));
-      fn_82F68CC0(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0x18) + iVar5) + 0x10),
-                   *(undefined4 *)(iVar1 + 0x10),*(int *)(iVar1 + 0xc) << 2);
-      uVar4 = uVar4 + 1;
-      iVar5 = iVar5 + 4;
-    } while (uVar4 < *(uint *)(param_1 + 0x2c4));
+  unsigned int i;
+  for (i = 0; i < o->nbufs; i++) {
+    memcpy(o->dst[i]->p1, o->src[i]->p1, o->src[i]->n1 << 2);
+    memcpy(o->dst[i]->p2, o->src[i]->p2, o->src[i]->n2 << 2);
   }
-  uVar4 = 0;
-  if (*(int *)(param_1 + 0x2c0) != 0) {
-    iVar5 = 0;
-    do {
-      uVar4 = uVar4 + 1;
-      piVar2 = (int *)(iVar5 + *(int *)(param_1 + 700));
-      piVar3 = (int *)(iVar5 + *(int *)(param_1 + 0x14));
-      iVar5 = iVar5 + 4;
-      *(undefined4 *)(*piVar3 + 0x38) = *(undefined4 *)(*piVar2 + 0x38);
-    } while (uVar4 < *(uint *)(param_1 + 0x2c0));
+  for (i = 0; i < o->nents; i++) {
+    Ent_8299B488 *s = o->sents[i];
+    Ent_8299B488 *d = o->ents[i];
+    d->v = s->v;
   }
   return 0;
 }
-

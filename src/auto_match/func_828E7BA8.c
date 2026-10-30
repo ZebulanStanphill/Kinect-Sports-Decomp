@@ -25,34 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_58;
-extern unsigned int *auStack_60;
-extern int fn_828E6358();
-extern int fn_828E6658();
-extern int fn_828E68F8();
+typedef struct Fn_828E7BA8 { unsigned int m; int pad; char buf[0x18]; } Fn_828E7BA8;
+typedef void (*Mgr_828E7BA8)(void *, void *, int);
+extern void fn_828E6358(Fn_828E7BA8 *);
+extern void fn_828E6658(Fn_828E7BA8 *, Fn_828E7BA8 *);
+extern void fn_828E68F8(Fn_828E7BA8 *);
 
-
-uint * fn_828E7BA8(uint *param_1)
-
+Fn_828E7BA8 *fn_828E7BA8(Fn_828E7BA8 *param_1)
 {
-  uint auStack_60 [2];
-  undefined1 auStack_58 [24];
-  undefined4 auStack_40 [6];
-  
-  auStack_60[0] = 0;
-  fn_828E68F8(auStack_60);
-  if (param_1 != auStack_60) {
-    auStack_40[0] = 0;
-    fn_828E6658(auStack_40,auStack_60);
-    fn_828E6658(auStack_60,param_1);
-    fn_828E6658(param_1,auStack_40);
-    fn_828E6358(auStack_40);
+  Fn_828E7BA8 a;
+  Fn_828E7BA8 b;
+  a.m = 0;
+  fn_828E68F8(&a);
+  if (param_1 != &a) {
+    b.m = 0;
+    fn_828E6658(&b, &a);
+    fn_828E6658(&a, param_1);
+    fn_828E6658(param_1, &b);
+    fn_828E6358(&b);
   }
-  if (((auStack_60[0] != 0) && ((auStack_60[0] & 1) == 0)) &&
-     (*(code **)(auStack_60[0] & 0xfffffffe) != (code *)0x0)) {
-    (**(code **)(auStack_60[0] & 0xfffffffe))(auStack_58,auStack_58,2);
+  if (a.m != 0 && (a.m & 1) == 0) {
+    Mgr_828E7BA8 f = *(Mgr_828E7BA8 *)(a.m & 0xfffffffe);
+    if (f != 0) {
+      f(a.buf, a.buf, 2);
+    }
   }
   return param_1;
 }
-
