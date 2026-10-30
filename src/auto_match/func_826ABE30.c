@@ -1,90 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826AACB0();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
-extern unsigned int uStack_118;
-extern unsigned int uStack_120;
+// Logger printf: optionally prefixes the message, then forwards to the sink's
+// print slot with level 0x20.
 
+#ifndef _VA_LIST_DEFINED
+typedef char *va_list;
+#define _VA_LIST_DEFINED
+#endif
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+struct LogSink_826ABE30;
+typedef struct {
+    void *f0;
+    void (*print)(struct LogSink_826ABE30 *sink, int level, const char *fmt,
+                  va_list ap);
+} LogSinkVtbl_826ABE30;
+typedef struct LogSink_826ABE30 {
+    LogSinkVtbl_826ABE30 *vtbl;
+} LogSink_826ABE30;
 
-void fn_826ABE30(int param_1,char *param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
+typedef struct {
+    int f0;
+    LogSink_826ABE30 *sink;
+    char f8[2];
+    unsigned char prefix;
+    char fb;
+    char fc[4];
+} Logger_826ABE30;
 
+typedef struct {
+    const char *text;
+    unsigned int len;
+} LogText_826ABE30;
+
+typedef struct {
+    int kind;
+    char *buf;
+    int size;
+} LogBuffer_826ABE30;
+
+void __cdecl __va_start(va_list *ap, ...);
+unsigned int strlen(const char *s);
+void fn_826AACB0(LogBuffer_826ABE30 *out, const char *fmt,
+                 LogText_826ABE30 *text, char *arg);
+
+void fn_826ABE30(Logger_826ABE30 *log, const char *fmt, ...)
 {
-  char cVar1;
-  char *pcVar2;
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  char *pcStack_128;
-  char *pcStack_124;
-  undefined4 uStack_120;
-  char *pcStack_11c;
-  undefined4 uStack_118;
-  char acStack_110 [256];
-  
-  if (*(int *)(param_1 + 4) != 0) {
-    uStack00000020 = param_3;
-    uStack00000028 = param_4;
-    uStack00000030 = param_5;
-    uStack00000038 = param_6;
-    uStack00000040 = param_7;
-    uStack00000048 = param_8;
-    pcVar2 = param_2;
-    if (*(char *)(param_1 + 10) != '\0') {
-      do {
-        cVar1 = *pcVar2;
-        pcVar2 = pcVar2 + 1;
-      } while (cVar1 != '\0');
-      pcStack_124 = pcVar2 + (-1 - (int)param_2);
-      if (param_2[(int)(pcStack_124 + -1)] == '\n') {
-        pcStack_124 = pcVar2 + (-2 - (int)param_2);
-      }
-      pcStack_11c = acStack_110;
-      uStack_120 = 2;
-      uStack_118 = 0x100;
-      pcStack_128 = param_2;
-      fn_826AACB0(&uStack_120,0xffffffff82007394,&pcStack_128,param_1 + 0xc);
-      param_2 = acStack_110;
+    va_list ap;
+    __va_start(&ap, fmt);
+    if (log->sink != 0) {
+        if (log->prefix) {
+            LogText_826ABE30 text;
+            LogBuffer_826ABE30 out;
+            char buf[0x100];
+            unsigned int len = strlen(fmt);
+            if (fmt[len - 1] == '\n')
+                len--;
+            text.text = fmt;
+            text.len = len;
+            out.kind = 2;
+            out.buf = buf;
+            out.size = 0x100;
+            fn_826AACB0(&out, "{0} : {1}\n", &text, log->fc);
+            fmt = buf;
+        }
+        log->sink->vtbl->print(log->sink, 0x20, fmt, ap);
     }
-    (**(code **)(**(int **)(param_1 + 4) + 4))(*(int **)(param_1 + 4),0x20,param_2,&stack0x00000020)
-    ;
-  }
-  return;
 }
 
