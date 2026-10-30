@@ -1,50 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826A18A8();
-extern int fn_826C0330();
-extern int fn_826C1620();
+typedef struct Obj_827354B0 { char *base; unsigned char level; } Obj_827354B0;
+extern int fn_826A18A8(char *p, int a, int flag);
+extern void fn_826C0330(char *self, Obj_827354B0 *o, int a, int b);
+extern void fn_826C1620(char *p, char *q, Obj_827354B0 *o, int a, int b, int c);
 
-
-void fn_827354B0(longlong param_1,uint *param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_827354B0(char *self, Obj_827354B0 *o, int a, int b)
 {
-  ulonglong uVar1;
-  char cVar2;
-  
-  uVar1 = fn_826A18A8((ulonglong)*param_2 + 0x13c,param_3,-(6 < *(byte *)(param_2 + 1)) & 1);
-  if (((uVar1 & 0xff) == 0) &&
-     (cVar2 = fn_826A18A8((ulonglong)*param_2 + 0x138,param_3,
-                                -(6 < *(byte *)(param_2 + 1)) & 1), cVar2 == '\0')) {
-    fn_826C0330(param_1,param_2,param_3,param_4);
+  int r = fn_826A18A8(o->base + 0x13c, a, o->level > 6);
+  if ((unsigned char)r == 0 && (unsigned char)fn_826A18A8(o->base + 0x138, a, o->level > 6) == 0) {
+    fn_826C0330(self, o, a, b);
+  } else {
+    fn_826C1620(self + 0x64, self - 0x10, o, a, b, r);
   }
-  else {
-    fn_826C1620(param_1 + 100,param_1 + -0x10,param_2,param_3,param_4,uVar1);
-  }
-  return;
 }
-

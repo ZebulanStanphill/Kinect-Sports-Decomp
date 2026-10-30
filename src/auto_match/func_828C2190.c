@@ -25,47 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_828A1958();
+extern int fn_822315A0(void *);
 
-
-undefined4 * fn_828C2190(undefined4 *param_1,int param_2,int param_3)
-
+undefined4 * fn_828C2190(undefined4 *param_1,int param_2,unsigned int param_3)
 {
   undefined4 *puVar1;
-  int iVar2;
-  undefined4 uVar3;
-  char cVar4;
-  undefined4 * apuStack_30;
+  unsigned int iVar2;
+  char *uVar3;
+  unsigned char cVar4;
+  undefined4 * it;
   
   puVar1 = *(undefined4 **)(param_2 + 0xdc);
-  apuStack_30 = (undefined4 *)*puVar1;
-  while( true ) {
-    if (apuStack_30 == puVar1) {
+  it = (undefined4 *)*puVar1;
+  while (it != puVar1) {
+    if (*(int *)(it[10] + 8) == param_3) {
+      iVar2 = it[0xb];
+      uVar3 = it[10];
       *param_1 = 0;
       param_1[1] = 0;
+      if (iVar2 != 0) {
+        cVar4 = fn_8223AAC0(iVar2);
+        if (cVar4 != 0) {
+        if (param_1[1] != 0) fn_822315A0(param_1[1]);
+        param_1[1] = iVar2;
+        *param_1 = uVar3;
+        }
+      }
       return param_1;
     }
-    if (*(int *)(apuStack_30[10] + 8) == param_3) break;
-    fn_828A1958(&apuStack_30);
+    fn_828A1958(&it);
   }
-  iVar2 = apuStack_30[0xb];
-  uVar3 = apuStack_30[10];
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (iVar2 == 0) {
-    return param_1;
-  }
-  cVar4 = fn_8223AAC0(iVar2);
-  if (cVar4 == '\0') {
-    return param_1;
-  }
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  param_1[1] = iVar2;
-  *param_1 = uVar3;
+  *param_1 = 0; param_1[1] = 0;
   return param_1;
 }
-

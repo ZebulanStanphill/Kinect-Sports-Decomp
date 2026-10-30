@@ -1,64 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_828E26F0 {
+    struct Node_828E26F0 *left;
+    struct Node_828E26F0 *parent;
+    struct Node_828E26F0 *right;
+    char val[0x18];
+    char color;
+    char isnil;
+} Node_828E26F0;
 
+typedef struct Iter_828E26F0 {
+    Node_828E26F0 *ptr;
+} Iter_828E26F0;
 
-void fn_828E26F0(int *param_1)
-
+void fn_828E26F0(Iter_828E26F0 *it)
 {
-  char cVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  iVar2 = *param_1;
-  if (*(char *)(iVar2 + 0x25) != '\0') {
-    return;
-  }
-  piVar3 = *(int **)(iVar2 + 8);
-  if (*(char *)((int)piVar3 + 0x25) != '\0') {
-    iVar2 = *(int *)(iVar2 + 4);
-    cVar1 = *(char *)(iVar2 + 0x25);
-    while ((cVar1 == '\0' && (*param_1 == *(int *)(iVar2 + 8)))) {
-      *param_1 = iVar2;
-      iVar2 = *(int *)(iVar2 + 4);
-      cVar1 = *(char *)(iVar2 + 0x25);
+    Node_828E26F0 *n;
+    Node_828E26F0 *p;
+    if (it->ptr->isnil) {
+        return;
     }
-    *param_1 = iVar2;
-    return;
-  }
-  cVar1 = *(char *)(*piVar3 + 0x25);
-  piVar4 = (int *)*piVar3;
-  while (cVar1 == '\0') {
-    cVar1 = *(char *)(*piVar4 + 0x25);
-    piVar3 = piVar4;
-    piVar4 = (int *)*piVar4;
-  }
-  *param_1 = (int)piVar3;
-  return;
+    if (!it->ptr->right->isnil) {
+        n = it->ptr->right;
+        while (!n->left->isnil) {
+            n = n->left;
+        }
+        it->ptr = n;
+    } else {
+        while (!(p = it->ptr->parent)->isnil && it->ptr == p->right) {
+            it->ptr = p;
+        }
+        it->ptr = p;
+    }
 }
-

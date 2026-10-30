@@ -1,55 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82230110();
-extern int fn_82235C80();
-extern int fn_8265CA20();
-extern int atexit();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct {
+  union { char buf[16]; void *ptr; } u;
+  unsigned size;
+  unsigned cap;
+  char alloc;
+} Str_83109198;
 
+extern void fn_82230110(Str_83109198 *, const char *);
+extern void fn_82235C80(void *, Str_83109198 *, int);
+extern void fn_8265CA20(void *);
+extern void fn_8313AB98(void);
+extern int atexit(void (*)(void));
+extern char lbl_83283138[];
 
 void fn_83109198(void)
-
 {
-  uint auStack_30;
-  undefined4 uStack_20;
-  uint uStack_1c;
-  
-  fn_82230110(&auStack_30,0xffffffff821967ac);
-  fn_82235C80(0xffffffff83283138,&auStack_30,5);
-  if (0xf < uStack_1c) {
-    fn_8265CA20(auStack_30);
+  Str_83109198 s;
+  fn_82230110(&s, "Match Manager");
+  fn_82235C80(lbl_83283138, &s, 5);
+  if (s.cap >= 16) {
+    fn_8265CA20(s.u.ptr);
   }
-  uStack_20 = 0;
-  uStack_1c = 0xf;
-  auStack_30 = auStack_30 & 0xffffff;
-  atexit(0xffffffff8313ab98);
-  return;
+  s.size = 0;
+  s.cap = 15;
+  s.u.buf[0] = 0;
+  atexit(fn_8313AB98);
 }
-

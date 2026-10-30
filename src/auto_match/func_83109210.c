@@ -1,75 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82230110();
-extern int fn_82253158();
-extern int fn_82359C18();
-extern int fn_82517C10();
-extern int fn_82518120();
-extern int fn_82518248();
-extern int fn_8265CA20();
-extern int fn_82F63EC8();
-extern unsigned int lbl_82196E7C;
-extern unsigned int lbl_832831E0;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct {
+  union { char buf[16]; void *ptr; } u;
+  unsigned size;
+  unsigned cap;
+  char alloc;
+} Str_83109210;
 
+typedef struct {
+  void *vt;
+  void (*f)(void);
+} Impl_83109210;
 
-/* WARNING: Removing unreachable block (ram,0x83109248) */
+typedef struct {
+  Impl_83109210 impl;
+  int pad[2];
+  Impl_83109210 *mgr;
+} Fn_83109210;
+
+extern void fn_82230110(Str_83109210 *, const char *);
+extern void fn_82517C10(void *, Str_83109210 *, int, int, void (*)(void), void (*)(void), void (*)(void), void (*)(void), Fn_83109210 *);
+extern void fn_82359C18(Fn_83109210 *);
+extern int fn_82518120(void);
+extern void fn_82518248(int, int, void *);
+extern void fn_8265CA20(void *);
+extern void fn_82253158(void);
+extern void fn_822529F8(void);
+extern void fn_8251C5A0(void);
+extern void fn_82252A78(void);
+extern void fn_82252AF0(void);
+extern void fn_8313ABA8(void);
+extern int atexit(void (*)(void));
+extern int lbl_83283190[];
+extern char lbl_82196E7C[];
 
 void fn_83109210(void)
-
 {
-  undefined8 uVar1;
-  undefined **ppuStack_60;
-  code *pcStack_5c;
-  undefined ***pppuStack_50;
-  uint auStack_40 [4];
-  undefined4 uStack_30;
-  uint uStack_2c;
-  
-  fn_82230110(auStack_40,0xffffffff82197e78);
-  pcStack_5c = fn_82253158;
-  pppuStack_50 = &ppuStack_60;
-  ppuStack_60 = &lbl_82196E7C;
-  fn_82517C10(0xffffffff83283190,auStack_40,9,1,0xffffffff822529f8,0xffffffff8251c5a0,
-                    0xffffffff82252a78,0xffffffff82252af0);
-  fn_82359C18(&ppuStack_60);
-  lbl_832831E0 = 5;
-  uVar1 = fn_82518120();
-  fn_82518248(uVar1,5,0xffffffff83283190);
-  if (0xf < uStack_2c) {
-    fn_8265CA20(auStack_40[0]);
+  Str_83109210 s;
+  Fn_83109210 f;
+  int r;
+  void (*p)(void);
+  fn_82230110(&s, "Football Controller");
+  p = fn_82253158;
+  if (p == 0) {
+    f.mgr = 0;
+  } else {
+    f.impl.f = p;
+    f.mgr = &f.impl;
+    f.impl.vt = lbl_82196E7C;
   }
-  uStack_30 = 0;
-  auStack_40[0] = auStack_40[0] & 0xffffff;
-  uStack_2c = 0xf;
-  fn_82F63EC8(0xffffffff8313aba8);
-  return;
+  fn_82517C10(lbl_83283190, &s, 9, 1, fn_822529F8, fn_8251C5A0, fn_82252A78, fn_82252AF0, &f);
+  fn_82359C18(&f);
+  lbl_83283190[20] = 5;
+  r = fn_82518120();
+  fn_82518248(r, 5, lbl_83283190);
+  if (s.cap >= 16) {
+    fn_8265CA20(s.u.ptr);
+  }
+  s.size = 0;
+  s.cap = 15;
+  s.u.buf[0] = 0;
+  atexit(fn_8313ABA8);
 }
-

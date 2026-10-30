@@ -1,65 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83188890;
+extern unsigned char lbl_83188890[];
 
+typedef struct Block_82E56BD0 {
+    unsigned pad0;
+    unsigned base;
+    unsigned flags;
+    unsigned deflt;
+    unsigned char bits[4];
+    unsigned vals[0x14];
+    struct Block_82E56BD0 *next;
+} Block_82E56BD0;
 
-undefined8 fn_82E56BD0(int param_1,uint param_2,undefined4 *param_3)
-
+int fn_82E56BD0(Block_82E56BD0 *head, unsigned key, unsigned *out)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  if (param_3 == (undefined4 *)0x0) {
-    return 0xffffffff80070057;
-  }
-  iVar2 = param_1;
-  if (param_1 == 0) {
-    return 0xffffffff8000ffff;
-  }
-  while ((uVar1 = *(uint *)(iVar2 + 4), param_2 < uVar1 || (uVar1 + 0x14 <= param_2))) {
-    iVar2 = *(int *)(iVar2 + 100);
-    if (iVar2 == 0) {
-LAB_82e56c20:
-      if ((*(uint *)(param_1 + 8) & 1) == 0) {
-        return 0xffffffff80004005;
-      }
-      uVar3 = *(undefined4 *)(param_1 + 0xc);
-LAB_82e56c30:
-      *param_3 = uVar3;
-      return 0;
+    Block_82E56BD0 *n;
+    unsigned base;
+    unsigned idx;
+    unsigned v;
+    int found;
+    int hr;
+    if (out == 0) {
+        return 0x80070057;
     }
-  }
-  param_2 = param_2 - uVar1;
-  if ((*(byte *)((param_2 >> 3) + iVar2 + 0x10) & (&lbl_83188890)[param_2 & 7]) != 0) {
-    uVar3 = *(undefined4 *)((param_2 + 5) * 4 + iVar2);
-    goto LAB_82e56c30;
-  }
-  goto LAB_82e56c20;
+    hr = 0x80004005;
+    n = head;
+    if (n != 0) {
+        found = 0;
+        for (; n != 0; n = n->next) {
+            base = n->base;
+            if (key >= base && key < base + 0x14) {
+                idx = key - base;
+                if (n->bits[idx >> 3] & lbl_83188890[idx & 7]) {
+                    v = n->vals[idx];
+                    found = 1;
+                }
+                break;
+            }
+        }
+        if (!found && (head->flags & 1)) {
+            v = head->deflt;
+            found = 1;
+        }
+        if (found) {
+            *out = v;
+            hr = 0;
+        }
+    } else {
+        hr = 0x8000ffff;
+    }
+    return hr;
 }
-

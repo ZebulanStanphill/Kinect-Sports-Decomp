@@ -1,47 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B7998();
-extern int fn_8235A170();
-extern int fn_82F63EC8();
-extern unsigned int lbl_83284CE0;
-extern unsigned int lbl_83284CE4;
-
+extern int fn_8235A170(void);
+extern void fn_822B7998(int, const char *, void (*)(void), int);
+extern void fn_822AF2C8(void);
+extern void fn_8313BB38(void);
+extern int atexit(void (*)(void));
+extern int lbl_83284CE0[];
 
 void fn_8310C6B8(void)
-
 {
-  undefined8 uVar1;
-  
-  uVar1 = fn_8235A170();
-  lbl_83284CE0 = (undefined4)uVar1;
-  lbl_83284CE4 = "BowlingTeamTacticStateMan";
-  fn_822B7998(uVar1,0xffffffff821ac580,0xffffffff822af2c8,0x30);
-  fn_82F63EC8(0xffffffff8313bb38);
-  return;
+  int x = fn_8235A170();
+  lbl_83284CE0[0] = x;
+  lbl_83284CE0[1] = (int)"BowlingTeamTacticStateMan";
+  fn_822B7998(x, "BowlingTeamTacticStateMan", fn_822AF2C8, 0x30);
+  atexit(fn_8313BB38);
 }
-

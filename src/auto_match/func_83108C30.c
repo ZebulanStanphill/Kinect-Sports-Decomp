@@ -1,70 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82359C18();
-extern int fn_82517C10();
-extern int fn_82518120();
-extern int fn_82518248();
-extern int fn_8265CA20();
-extern int fn_82F63EC8();
-extern unsigned int lbl_83282EE0;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_50;
+typedef struct {
+  union { char buf[16]; void *ptr; } u;
+  unsigned size;
+  unsigned cap;
+  char alloc;
+} Str_83108C30;
 
+typedef struct {
+  int pad[4];
+  void *mgr;
+} Fn_83108C30;
+
+extern void fn_82230110(Str_83108C30 *, const char *);
+extern void fn_82517C10(void *, Str_83108C30 *, int, int, void (*)(void), void (*)(void), void (*)(void), void (*)(void), Fn_83108C30 *);
+extern void fn_82359C18(Fn_83108C30 *);
+extern int fn_82518120(void);
+extern void fn_82518248(int, int, void *);
+extern void fn_8265CA20(void *);
+extern void fn_8224F040(void);
+extern void fn_8251C5A0(void);
+extern void fn_8224F0B0(void);
+extern void fn_8224F160(void);
+extern void fn_8313A9A0(void);
+extern int atexit(void (*)(void));
+extern int lbl_83282E90[];
 
 void fn_83108C30(void)
-
 {
-  undefined8 uVar1;
-  undefined1 auStack_60 [16];
-  undefined4 uStack_50;
-  uint auStack_40 [4];
-  undefined4 uStack_30;
-  uint uStack_2c;
-  
-  fn_82230110(auStack_40,0xffffffff82197b88);
-  uStack_50 = 0;
-  fn_82517C10(0xffffffff83282e90,auStack_40,2,1,0xffffffff8224f040,0xffffffff8251c5a0,
-                    0xffffffff8224f0b0,0xffffffff8224f160);
-  fn_82359C18(auStack_60);
-  lbl_83282EE0 = 1;
-  uVar1 = fn_82518120();
-  fn_82518248(uVar1,1,0xffffffff83282e90);
-  if (0xf < uStack_2c) {
-    fn_8265CA20(auStack_40[0]);
+  Str_83108C30 s;
+  Fn_83108C30 f;
+  int r;
+  fn_82230110(&s, "OlympusVoicePlayerHack");
+  f.mgr = 0;
+  fn_82517C10(lbl_83282E90, &s, 0x2, 1, fn_8224F040, fn_8251C5A0, fn_8224F0B0, fn_8224F160, &f);
+  fn_82359C18(&f);
+  lbl_83282E90[20] = 1;
+  r = fn_82518120();
+  fn_82518248(r, 1, lbl_83282E90);
+  if (s.cap >= 16) {
+    fn_8265CA20(s.u.ptr);
   }
-  uStack_30 = 0;
-  auStack_40[0] = auStack_40[0] & 0xffffff;
-  uStack_2c = 0xf;
-  fn_82F63EC8(0xffffffff8313a9a0);
-  return;
+  s.size = 0;
+  s.cap = 15;
+  s.u.buf[0] = 0;
+  atexit(fn_8313A9A0);
 }
-

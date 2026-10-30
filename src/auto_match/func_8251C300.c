@@ -1,64 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_8251C300 {
+    struct Node_8251C300 *left;
+    struct Node_8251C300 *parent;
+    struct Node_8251C300 *right;
+    char val[0x28];
+    char color;
+    char isnil;
+} Node_8251C300;
 
+typedef struct Iter_8251C300 {
+    Node_8251C300 *ptr;
+} Iter_8251C300;
 
-void fn_8251C300(int *param_1)
-
+void fn_8251C300(Iter_8251C300 *it)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  
-  piVar4 = (int *)*param_1;
-  if (*(char *)((int)piVar4 + 0x35) == '\0') {
-    iVar1 = *piVar4;
-    if (*(char *)(iVar1 + 0x35) == '\0') {
-      iVar3 = *(int *)(iVar1 + 8);
-      while (iVar2 = iVar3, *(char *)(iVar2 + 0x35) == '\0') {
-        iVar1 = iVar2;
-        iVar3 = *(int *)(iVar2 + 8);
-      }
-      *param_1 = iVar1;
-      return;
+    Node_8251C300 *n;
+    Node_8251C300 *p;
+    if (it->ptr->isnil) {
+        it->ptr = it->ptr->right;
+    } else if (!it->ptr->left->isnil) {
+        n = it->ptr->left;
+        while (!n->right->isnil) {
+            n = n->right;
+        }
+        it->ptr = n;
+    } else {
+        while (!(p = it->ptr->parent)->isnil && it->ptr == p->left) {
+            it->ptr = p;
+        }
+        if (!it->ptr->isnil) {
+            it->ptr = p;
+        }
     }
-    while ((piVar4 = (int *)piVar4[1], *(char *)((int)piVar4 + 0x35) == '\0' &&
-           (*param_1 == *piVar4))) {
-      *param_1 = (int)piVar4;
-    }
-    if (*(char *)(*param_1 + 0x35) != '\0') {
-      return;
-    }
-  }
-  else {
-    piVar4 = (int *)piVar4[2];
-  }
-  *param_1 = (int)piVar4;
-  return;
 }
-

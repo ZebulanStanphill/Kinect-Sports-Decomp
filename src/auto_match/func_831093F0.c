@@ -1,70 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82359C18();
-extern int fn_82517C10();
-extern int fn_82518120();
-extern int fn_82518248();
-extern int fn_8265CA20();
-extern int fn_82F63EC8();
-extern unsigned int lbl_83283290;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_50;
+typedef struct {
+  union { char buf[16]; void *ptr; } u;
+  unsigned size;
+  unsigned cap;
+  char alloc;
+} Str_831093F0;
 
+typedef struct {
+  int pad[4];
+  void *mgr;
+} Fn_831093F0;
+
+extern void fn_82230110(Str_831093F0 *, const char *);
+extern void fn_82517C10(void *, Str_831093F0 *, int, int, void (*)(void), void (*)(void), void (*)(void), void (*)(void), Fn_831093F0 *);
+extern void fn_82359C18(Fn_831093F0 *);
+extern int fn_82518120(void);
+extern void fn_82518248(int, int, void *);
+extern void fn_8265CA20(void *);
+extern void fn_82252D78(void);
+extern void fn_8251C5A0(void);
+extern void fn_82252E20(void);
+extern void fn_82252E68(void);
+extern void fn_8313AC68(void);
+extern int atexit(void (*)(void));
+extern int lbl_83283240[];
 
 void fn_831093F0(void)
-
 {
-  undefined8 uVar1;
-  undefined1 auStack_60 [16];
-  undefined4 uStack_50;
-  uint auStack_40 [4];
-  undefined4 uStack_30;
-  uint uStack_2c;
-  
-  fn_82230110(auStack_40,0xffffffff82197ea0);
-  uStack_50 = 0;
-  fn_82517C10(0xffffffff83283240,auStack_40,6,4,0xffffffff82252d78,0xffffffff8251c5a0,
-                    0xffffffff82252e20,0xffffffff82252e68);
-  fn_82359C18(auStack_60);
-  lbl_83283290 = 5;
-  uVar1 = fn_82518120();
-  fn_82518248(uVar1,5,0xffffffff83283240);
-  if (0xf < uStack_2c) {
-    fn_8265CA20(auStack_40[0]);
+  Str_831093F0 s;
+  Fn_831093F0 f;
+  int r;
+  fn_82230110(&s, "HumanControl");
+  f.mgr = 0;
+  fn_82517C10(lbl_83283240, &s, 0x6, 4, fn_82252D78, fn_8251C5A0, fn_82252E20, fn_82252E68, &f);
+  fn_82359C18(&f);
+  lbl_83283240[20] = 5;
+  r = fn_82518120();
+  fn_82518248(r, 5, lbl_83283240);
+  if (s.cap >= 16) {
+    fn_8265CA20(s.u.ptr);
   }
-  uStack_30 = 0;
-  auStack_40[0] = auStack_40[0] & 0xffffff;
-  uStack_2c = 0xf;
-  fn_82F63EC8(0xffffffff8313ac68);
-  return;
+  s.size = 0;
+  s.cap = 15;
+  s.u.buf[0] = 0;
+  atexit(fn_8313AC68);
 }
-

@@ -1,68 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_828887B0 {
+    struct Node_828887B0 *left;
+    struct Node_828887B0 *parent;
+    struct Node_828887B0 *right;
+    char val[0x54];
+    char color;
+    char isnil;
+} Node_828887B0;
 
+typedef struct Iter_828887B0 {
+    Node_828887B0 *ptr;
+} Iter_828887B0;
 
-void fn_828887B0(int *param_1)
-
+void fn_828887B0(Iter_828887B0 *it)
 {
-  char cVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  piVar2 = (int *)*param_1;
-  if (*(char *)((int)piVar2 + 0x61) != '\0') {
-    *param_1 = piVar2[2];
-    return;
-  }
-  iVar3 = *piVar2;
-  if (*(char *)(iVar3 + 0x61) != '\0') {
-    piVar2 = (int *)piVar2[1];
-    cVar1 = *(char *)((int)piVar2 + 0x61);
-    while ((cVar1 == '\0' && (*param_1 == *piVar2))) {
-      *param_1 = (int)piVar2;
-      piVar2 = (int *)piVar2[1];
-      cVar1 = *(char *)((int)piVar2 + 0x61);
+    Node_828887B0 *n;
+    Node_828887B0 *p;
+    if (it->ptr->isnil) {
+        it->ptr = it->ptr->right;
+    } else if (!it->ptr->left->isnil) {
+        n = it->ptr->left;
+        while (!n->right->isnil) {
+            n = n->right;
+        }
+        it->ptr = n;
+    } else {
+        while (!(p = it->ptr->parent)->isnil && it->ptr == p->left) {
+            it->ptr = p;
+        }
+        if (!it->ptr->isnil) {
+            it->ptr = p;
+        }
     }
-    if (*(char *)(*param_1 + 0x61) == '\0') {
-      *param_1 = (int)piVar2;
-      return;
-    }
-    return;
-  }
-  cVar1 = *(char *)(*(int *)(iVar3 + 8) + 0x61);
-  iVar4 = *(int *)(iVar3 + 8);
-  while (cVar1 == '\0') {
-    cVar1 = *(char *)(*(int *)(iVar4 + 8) + 0x61);
-    iVar3 = iVar4;
-    iVar4 = *(int *)(iVar4 + 8);
-  }
-  *param_1 = iVar3;
-  return;
 }
-
