@@ -1,73 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_826F06A8(int param_1)
-
+typedef unsigned char U8; typedef unsigned short U16;
+typedef struct { U8 a[5]; U8 b; U8 c[2]; } Data;
+typedef struct { int tag; Data d; } Entry;
+typedef struct { unsigned count; Entry *heap; int pad[2]; Entry inl[16]; } Arr;
+typedef struct { char p0[5]; U8 key; char p6[2]; U16 idx; char pa[6]; int sel; char p14[0x10]; Arr arr; } Obj;
+int fn_826F06A8(Obj *o)
 {
-  bool bVar1;
-  uint uVar2;
-  int iVar3;
-  int *piVar4;
-  char cStack_b;
-  
-  uVar2 = (uint)*(ushort *)(param_1 + 8);
-  bVar1 = true;
-  *(undefined4 *)(param_1 + 0x10) = 0xffffffff;
-  if (uVar2 < *(uint *)(param_1 + 0x24)) {
-    iVar3 = uVar2 * 0xc;
+  unsigned i = o->idx;
+  Arr *a = &o->arr;
+  unsigned n = a->count;
+  unsigned char first = 1;
+  int off;
+  o->sel = -1;
+  if (i < n) {
+    off = i * 0xc;
     do {
-      if (uVar2 < 0x10) {
-        piVar4 = (int *)(iVar3 + param_1 + 0x34);
-      }
-      else {
-        piVar4 = (int *)(*(int *)(param_1 + 0x28) + iVar3 + -0xc0);
-      }
-      if (*piVar4 == 1) {
-        cStack_b = (char)((ulonglong)*(undefined8 *)(piVar4 + 1) >> 0x10);
-        if (cStack_b == *(char *)(param_1 + 5)) {
-          if (bVar1) {
-            *(short *)(param_1 + 8) = *(short *)(param_1 + 8) + 1;
-          }
-          *(uint *)(param_1 + 0x10) = uVar2;
+      Entry *e;
+      if (i < 0x10) e = (Entry *)(off + (int)a + 0x10); else e = (Entry *)((int)a->heap + off - 0xc0);
+      if (e->tag == 1) {
+        Data d = e->d;
+        if (d.b == o->key) {
+          if (first) o->idx++;
+          o->sel = i;
           return 1;
         }
-        if (bVar1) {
-          bVar1 = false;
-        }
+        if (first) first = 0;
+      } else if (first) {
+        o->idx++;
       }
-      else if (bVar1) {
-        *(short *)(param_1 + 8) = *(short *)(param_1 + 8) + 1;
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 0xc;
-    } while (uVar2 < *(uint *)(param_1 + 0x24));
+      i++;
+      off += 0xc;
+    } while (i < n);
   }
   return 0;
 }
-

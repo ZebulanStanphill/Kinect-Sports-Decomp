@@ -25,51 +25,51 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82522ED8();
-extern int fn_82598E80();
-extern int fn_8259A230();
-extern int fn_82A1BB18();
-extern int fn_82BFE460();
-extern int fn_82BFE530();
-extern unsigned int lbl_83296E18;
-
+extern void __emit(unsigned int opcode);
+#define __lwsync() __emit(0x7C2004AC)
+extern void fn_82A1BB18(void);
+extern int fn_8259A230(void);
+extern void fn_82522ED8(unsigned int);
+extern void fn_82598E80(unsigned int);
+extern int fn_82BFE530(unsigned int, unsigned int *);
+extern int fn_82BFE460(unsigned int);
+extern unsigned int lbl_83296E18[];
 
 void fn_82599020(void)
-
 {
-  int iVar1;
-  ulonglong uVar2;
-  uint auStack_20 [2];
-  
-  uVar2 = 0;
+  unsigned int msg;
+  unsigned int buf;
+  int hr;
+  int done;
+  int idx;
+  unsigned int h;
+
+  msg = 0;
   fn_82A1BB18();
   fn_8259A230();
   do {
-    if (uVar2 != 0) {
-      fn_82522ED8(uVar2);
+    if (msg != 0) {
+      fn_82522ED8(msg);
     }
     fn_82A1BB18();
-    iVar1 = fn_8259A230();
-    auStack_20[0] = 0;
-    uVar2 = fn_82BFE530((&lbl_83296E18)[iVar1],auStack_20);
-    uVar2 = ((uVar2 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)auStack_20[0];
-    if (uVar2 != 0) {
-      sync(1);
-      fn_82598E80(uVar2);
+    idx = fn_8259A230();
+    buf = 0;
+    hr = fn_82BFE530(lbl_83296E18[idx], &buf);
+    msg = hr >= 0 ? buf : 0;
+    if (msg != 0) {
+      __lwsync();
+      fn_82598E80(msg);
     }
     fn_82A1BB18();
-    iVar1 = fn_8259A230();
-    if ((&lbl_83296E18)[iVar1] == 0) {
-      iVar1 = 1;
+    idx = fn_8259A230();
+    h = lbl_83296E18[idx];
+    if (h != 0) {
+      done = fn_82BFE460(h);
+    } else {
+      done = 1;
     }
-    else {
-      iVar1 = fn_82BFE460();
-    }
-  } while (iVar1 == 0);
-  if (uVar2 != 0) {
-    fn_82522ED8(uVar2);
+  } while (done == 0);
+  if (msg != 0) {
+    fn_82522ED8(msg);
   }
-  return;
 }
-

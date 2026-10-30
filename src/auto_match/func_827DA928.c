@@ -25,28 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827E38C0();
+extern __int64 fn_827E38C0();
 
 
 longlong fn_827DA928(int param_1)
-
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  longlong lVar3;
-  undefined4 *puVar4;
-  
-  puVar1 = *(undefined4 **)(param_1 + 8);
-  lVar3 = 0;
-  for (puVar4 = *(undefined4 **)(param_1 + 4); puVar4 != puVar1; puVar4 = puVar4 + 1) {
-    lVar2 = fn_827E38C0(*puVar4);
-    lVar3 = lVar2 + lVar3;
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0x30);
-  for (puVar4 = *(undefined4 **)(param_1 + 0x2c); puVar4 != puVar1; puVar4 = puVar4 + 1) {
-    lVar2 = fn_827E38C0(*puVar4);
-    lVar3 = lVar2 + lVar3;
-  }
-  return lVar3;
-}
+  unsigned int *p;
+  unsigned int *e;
+  longlong sum = 0;
 
+  p = *(unsigned int **)(param_1 + 4);
+  e = *(unsigned int **)(param_1 + 8);
+  for (; p != e; p++) {
+    sum = fn_827E38C0(*p) + sum;
+  }
+  p = *(unsigned int **)(param_1 + 0x2c);
+  e = *(unsigned int **)(param_1 + 0x30);
+  for (; p != e; p++) {
+    sum = fn_827E38C0(*p) + sum;
+  }
+  return sum;
+}

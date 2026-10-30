@@ -1,56 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Heap_82F9ABC8;
+typedef struct HeapVT_82F9ABC8 { void *pad0[2]; void (*free)(struct Heap_82F9ABC8 *, void *); } HeapVT_82F9ABC8;
+typedef struct Heap_82F9ABC8 { HeapVT_82F9ABC8 *vt; } Heap_82F9ABC8;
+struct Obj_82F9ABC8;
+typedef struct ObjVT_82F9ABC8 { void (*dtor)(struct Obj_82F9ABC8 *, int); } ObjVT_82F9ABC8;
+typedef struct Obj_82F9ABC8 {
+  ObjVT_82F9ABC8 *vt;
+  char pad0[0x10];
+  unsigned int size;
+  char pad1[0xf8];
+  void *slots[1];
+} Obj_82F9ABC8;
 
-
-undefined8 fn_82F9ABC8(undefined4 *param_1,int *param_2)
-
+int fn_82F9ABC8(Obj_82F9ABC8 *p, Heap_82F9ABC8 *h)
 {
-  uint uVar1;
-  int *piVar2;
-  
-  uVar1 = 0;
-  if ((param_1[5] & 0xfffffffc) != 0) {
-    piVar2 = param_1 + 0x44;
+  unsigned int i = 0;
+  void **s;
+
+  if ((p->size & ~3u) != 0) {
+    s = &p->slots[0];
     do {
-      if (*piVar2 != 0) {
-        (**(code **)(*param_2 + 8))(param_2);
-        *piVar2 = 0;
+      if (*s != 0) {
+        h->vt->free(h, *s);
+        *s = 0;
       }
-      uVar1 = uVar1 + 1;
-      piVar2 = piVar2 + 1;
-    } while (uVar1 < (uint)param_1[5] >> 2);
+      i++;
+      s++;
+    } while (i < p->size >> 2);
   }
-  if (param_1[0x1d] != 0) {
-    (**(code **)(*param_2 + 8))(param_2);
-    param_1[0x1d] = 0;
+  if (((void **)p)[0x1d] != 0) {
+    h->vt->free(h, ((void **)p)[0x1d]);
+    ((void **)p)[0x1d] = 0;
   }
-  (**(code **)*param_1)(param_1,1);
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+  p->vt->dtor(p, 1);
+  h->vt->free(h, p);
   return 1;
 }
-

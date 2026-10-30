@@ -33,7 +33,7 @@ extern int fn_827C53D8();
 void fn_827C5958(int param_1)
 
 {
-  undefined8 uVar1;
+  
   
   fn_827C5390(param_1,0xee);
   fn_827C53D8(param_1,0xe);
@@ -45,16 +45,6 @@ void fn_827C5958(int param_1)
   fn_827C53D8(param_1,100);
   fn_827C53D8(param_1,0);
   fn_827C53D8(param_1,0);
-  if (*(int *)(param_1 + 0x40) == 3) {
-    uVar1 = 1;
-  }
-  else if (*(int *)(param_1 + 0x40) == 5) {
-    uVar1 = 2;
-  }
-  else {
-    uVar1 = 0;
-  }
-  fn_827C5308(param_1,uVar1);
+  switch (*(int *)(param_1 + 0x40)) { case 3: fn_827C5308(param_1, 1); break; case 5: fn_827C5308(param_1, 2); break; default: fn_827C5308(param_1, 0); break; }
   return;
 }
-

@@ -27,24 +27,35 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82E8D418(int param_1)
+typedef struct S_82E8D418 {
+  char pad0[0x7814];
+  int f7814;
+  int f7818;
+  int f781c;
+  int f7820;
+  int f7824;
+  int f7828;
+  int f782c;
+  char pad7830[0x10];
+  int f7840;
+  int f7844;
+  int f7848;
+  int f784c;
+} S_82E8D418;
 
+void fn_82E8D418(S_82E8D418 *s)
 {
-  undefined4 uVar1;
-  
-  if ((*(int *)(param_1 + 0x7848) == *(int *)(param_1 + 0x7840)) &&
-     (*(int *)(param_1 + 0x784c) == *(int *)(param_1 + 0x7844))) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 1;
-    *(undefined4 *)(param_1 + 0x7818) = 1;
-  }
-  *(undefined4 *)(param_1 + 0x7814) = uVar1;
-  *(int *)(param_1 + 0x7848) = *(int *)(param_1 + 0x7840);
-  *(undefined4 *)(param_1 + 0x7828) = *(undefined4 *)(param_1 + 0x7820);
-  *(undefined4 *)(param_1 + 0x782c) = *(undefined4 *)(param_1 + 0x7824);
-  *(undefined4 *)(param_1 + 0x784c) = *(undefined4 *)(param_1 + 0x7844);
-  return;
-}
+  int v;
+  int t[3];
 
+  if (s->f7848 == s->f7840 && s->f784c == s->f7844) {
+    s->f7814 = 0;
+  } else {
+    s->f7814 = 1;
+    s->f7818 = 1;
+  }
+  s->f7848 = s->f7840;
+  s->f7828 = s->f7820;
+  s->f782c = s->f7824;
+  s->f784c = s->f7844;
+}

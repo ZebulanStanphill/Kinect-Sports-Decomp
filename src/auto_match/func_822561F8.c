@@ -25,30 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82232B50();
-extern int fn_8265C9E0();
-extern int fn_8289D6D0();
-extern unsigned int lbl_82197080;
-extern unsigned int lbl_82198094;
+extern void *fn_8265C9E0(unsigned int);
+extern void fn_82232B50(void *, void *);
+extern void fn_8289D6D0(void *, int);
+extern char lbl_82197080[];
+extern char lbl_82198094[];
 
+typedef struct Obj_822561F8 {
+  void *vtbl;
+  char pad4[0x9c8];
+  void *vtbl9cc;
+  char pad9d0[0x50];
+  void *vtbla20;
+} Obj_822561F8;
 
-undefined4 * fn_822561F8(undefined8 param_1)
-
+Obj_822561F8 *fn_822561F8(void *param_1)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0xa74);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82232B50(puVar1,param_1);
-    *puVar1 = &lbl_82198094;
-    fn_8289D6D0(puVar1 + 0x273,0);
-    puVar1[0x273] = &lbl_82197080;
-    fn_8289D6D0(puVar1 + 0x288,0);
-    puVar1[0x288] = &lbl_82197080;
-  }
-  return puVar1;
-}
+  Obj_822561F8 *o;
 
+  o = (Obj_822561F8 *)fn_8265C9E0(0xa74);
+  if (o != 0) {
+    fn_82232B50(o, param_1);
+    o->vtbl = lbl_82198094;
+    fn_8289D6D0(&o->vtbl9cc, 0);
+    o->vtbl9cc = lbl_82197080;
+    fn_8289D6D0(&o->vtbla20, 0);
+    o->vtbla20 = lbl_82197080;
+    return o;
+  }
+  return 0;
+}

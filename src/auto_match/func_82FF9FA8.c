@@ -1,63 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+struct Obj_82FF9FA8;
+typedef struct VT_82FF9FA8 { void *pad[2]; void (*f8)(struct Obj_82FF9FA8 *); } VT_82FF9FA8;
+typedef struct Obj_82FF9FA8 { VT_82FF9FA8 *vt; } Obj_82FF9FA8;
+typedef struct Mgr_82FF9FA8 {
+  char pad[0x34];
+  Obj_82FF9FA8 **begin;
+  Obj_82FF9FA8 **end;
+  Obj_82FF9FA8 **cap;
+} Mgr_82FF9FA8;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82FA5190(void *heap, void *p);
+extern void *lbl_831BC768;
+extern char lbl_8326434C[];
 
-void fn_82FF9FA8(int param_1)
-
+void fn_82FF9FA8(Mgr_82FF9FA8 *m)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = *(undefined4 **)(param_1 + 0x34);
-  if (puVar2 != *(undefined4 **)(param_1 + 0x38)) {
-    do {
-      cVar1 = '\x01';
-      RtlEnterCriticalSection(0xffffffff8326434c);
-      if (puVar2 != *(undefined4 **)(param_1 + 0x38)) {
-        do {
-          if (cVar1 == '\0') break;
-          (**(code **)(*(int *)*puVar2 + 8))();
-          puVar2 = puVar2 + 1;
-          cVar1 = cVar1 + '\x01';
-        } while (puVar2 != *(undefined4 **)(param_1 + 0x38));
-      }
-      RtlLeaveCriticalSection(0xffffffff8326434c);
-    } while (puVar2 != *(undefined4 **)(param_1 + 0x38));
-  }
-  if (*(int *)(param_1 + 0x34) != 0) {
-    *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x34);
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 0x34) = 0;
-    *(undefined4 *)(param_1 + 0x38) = 0;
-    *(undefined4 *)(param_1 + 0x3c) = 0;
-  }
-  return;
-}
+  unsigned short n;
+  Obj_82FF9FA8 **it;
 
+  it = m->begin;
+  if (it != m->end) {
+    do {
+      n = 1;
+      RtlEnterCriticalSection(lbl_8326434C);
+      if (it != m->end) {
+        do {
+          if ((n & 0xff) == 0) break;
+          (*it)->vt->f8(*it);
+          it++;
+          n++;
+        } while (it != m->end);
+      }
+      RtlLeaveCriticalSection(lbl_8326434C);
+    } while (it != m->end);
+  }
+  if (m->begin != 0) {
+    m->end = m->begin;
+    fn_82FA5190(lbl_831BC768, m->begin);
+    m->begin = 0;
+    m->end = 0;
+    m->cap = 0;
+  }
+}

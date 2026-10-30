@@ -1,38 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Obj_8289DFD8;
+typedef struct VT_8289DFD8 { void *pad[2]; void (*f8)(struct Obj_8289DFD8 *); void (*fc)(struct Obj_8289DFD8 *); } VT_8289DFD8;
+typedef struct Sub_8289DFD8 { unsigned char flag; } Sub_8289DFD8;
+typedef struct Obj_8289DFD8 { VT_8289DFD8 *vt; Sub_8289DFD8 s; } Obj_8289DFD8;
 
-
-void fn_8289DFD8(int *param_1)
-
+void fn_8289DFD8(Obj_8289DFD8 *o)
 {
-  (**(code **)(*param_1 + 8))();
-  *(undefined1 *)(param_1 + 1) = 0;
-  (**(code **)(*param_1 + 0xc))(param_1);
-  return;
+  Sub_8289DFD8 *s;
+  o->vt->f8(o);
+  s = &o->s;
+  s->flag = 0;
+  o->vt->fc(o);
 }
-

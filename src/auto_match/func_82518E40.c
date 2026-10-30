@@ -1,51 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_82359C18();
-extern int fn_8265CA20();
+typedef struct Pair_82518E40 {
+  char first[0x38];
+  char second[0x18];
+} Pair_82518E40;
+typedef struct Node_82518E40 {
+  struct Node_82518E40 *left;
+  struct Node_82518E40 *parent;
+  struct Node_82518E40 *right;
+  int pad[3];
+  Pair_82518E40 value;
+  char color;
+  char isnil;
+} Node_82518E40;
+extern void fn_82230300(void *s, int a, int b);
+extern void fn_82359C18(void *v);
+extern void fn_8265CA20(void *p);
 
-
-void fn_82518E40(undefined8 param_1,int *param_2)
-
+void fn_82518E40(void *tree, Node_82518E40 *root)
 {
-  char cVar1;
-  int *piVar2;
-  
-  cVar1 = *(char *)((int)param_2 + 0x69);
-  while (cVar1 == '\0') {
-    fn_82518E40(param_1,param_2[2]);
-    piVar2 = (int *)*param_2;
-    fn_82359C18(param_2 + 0x14);
-    fn_82230300(param_2 + 6,1,0);
-    fn_8265CA20(param_2);
-    param_2 = piVar2;
-    cVar1 = *(char *)((int)piVar2 + 0x69);
-  }
-  return;
-}
+  Node_82518E40 *p;
+  Pair_82518E40 *v;
 
+  for (p = root; p->isnil == 0; root = p) {
+    fn_82518E40(tree, p->right);
+    p = p->left;
+    v = &root->value;
+    fn_82359C18(v->second);
+    fn_82230300(v->first, 1, 0);
+    fn_8265CA20(root);
+  }
+}

@@ -34,7 +34,7 @@ void fn_82A1EB30(uint param_1,int param_2,int param_3)
   ushort uVar1;
   uint uVar2;
   ushort *puVar3;
-  uint uVar4;
+  unsigned short uVar4;
   uint uVar5;
   ushort *puVar6;
   
@@ -46,9 +46,10 @@ void fn_82A1EB30(uint param_1,int param_2,int param_3)
     if (uVar2 == param_1) {
       uVar5 = 0;
       if (uVar4 != 0) {
+        uint lim = param_3 - 1U;
         puVar3 = (ushort *)(param_2 + -2);
         do {
-          if (param_3 - 1U <= uVar5) break;
+          if (uVar5 >= lim) break;
           uVar1 = *puVar6;
           uVar5 = uVar5 + 1;
           puVar6 = puVar6 + 1;

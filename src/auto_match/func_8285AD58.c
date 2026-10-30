@@ -25,58 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_58;
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern unsigned int fStack_68;
-extern unsigned int fStack_6c;
-extern unsigned int fStack_70;
-extern int fn_8280AD30();
-extern int fn_82810360();
+extern void fn_8280AD30(int, float *, float *);
+extern void fn_82810360(int *, float *);
 
+typedef struct V4_8285AD58 { float x, y, z, w; } V4_8285AD58;
 
-ulonglong fn_8285AD58(int param_1,int param_2,float *param_3)
-
+int fn_8285AD58(int param_1, int param_2, float *param_3)
 {
   int *piVar1;
-  ulonglong uVar2;
-  int iVar3;
-  int iVar4;
-  float fStack_70;
-  float fStack_6c;
-  float fStack_68;
-  float fStack_60;
-  float fStack_5c;
-  float fStack_58;
-  float afStack_50 [8];
-  
+  unsigned int count;
+  int i;
+  float *p;
+  V4_8285AD58 lo;
+  V4_8285AD58 hi;
+  float afStack_50[4];
+
   param_2 = *(int *)(param_1 + 100) + param_2;
-  uVar2 = 0;
-  if (*(int *)(param_2 + 0x94) != 0) {
-    fn_8280AD30(param_2 + 0x10,param_3,afStack_50);
-    param_3 = afStack_50;
+  count = 0;
+  if (*(unsigned int *)(param_2 + 0x94) != 0) {
+    fn_8280AD30(param_2 + 0x10, param_3, afStack_50);
+    p = afStack_50;
+  } else {
+    p = param_3;
   }
-  iVar3 = 0;
-  if (*(short *)(param_1 + 0x44) != 0) {
-    iVar4 = 0;
+  i = 0;
+  if (*(unsigned short *)(param_1 + 0x44) != 0) {
     do {
-      piVar1 = *(int **)(*(int *)(param_1 + 0x40) + iVar4);
+      piVar1 = *(int **)(*(int *)(param_1 + 0x40) + i * 4);
       if (*piVar1 != -1) {
-        fn_82810360(piVar1 + 1,&fStack_70);
-        fn_82810360(piVar1 + 4,&fStack_60);
-        if (((((fStack_70 <= *param_3) && (*param_3 <= fStack_60)) && (fStack_6c <= param_3[1])) &&
-            ((param_3[1] <= fStack_5c && (fStack_68 <= param_3[2])))) && (param_3[2] <= fStack_58))
-        {
-          uVar2 = uVar2 + 1;
+        fn_82810360(piVar1 + 1, &lo.x);
+        fn_82810360(piVar1 + 4, &hi.x);
+        if (p[0] >= lo.x && p[0] <= hi.x && p[1] >= lo.y &&
+            p[1] <= hi.y && p[2] >= lo.z && p[2] <= hi.z) {
+          count = count + 1;
         }
       }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < (int)(uint)*(ushort *)(param_1 + 0x44));
+      i = i + 1;
+    } while (i < (int)*(unsigned short *)(param_1 + 0x44));
   }
-  if ((*(int *)(param_2 + 0x90) != 0) && ((uVar2 & 0xffffffff) == 0)) {
-    uVar2 = 1;
+  if (*(unsigned int *)(param_2 + 0x90) != 0 && count == 0) {
+    count = 1;
   }
-  return uVar2;
+  return count;
 }
-

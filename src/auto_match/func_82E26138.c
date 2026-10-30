@@ -1,70 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83187510;
-
-
-undefined8 fn_82E26138(int param_1,undefined4 *param_2)
-
+typedef struct { unsigned id; char pad[0x20]; } E;
+extern unsigned lbl_8214C3F0[];
+extern E lbl_83187510[];
+int fn_82E26138(unsigned x, unsigned *out)
 {
-  ulonglong uVar1;
-  int *piVar2;
-  undefined4 uVar3;
-  
-  uVar1 = 0;
-  piVar2 = (int *)0x8214c3f0;
-  do {
-    if (param_1 == *piVar2) {
-      if (param_2 == (undefined4 *)0x0) {
-        return 0;
-      }
-      uVar3 = 1;
-      goto LAB_82e26194;
-    }
-    uVar1 = uVar1 + 4;
-    piVar2 = piVar2 + 1;
-  } while ((uVar1 & 0xffffffff) != 0xc);
-  uVar1 = 0;
-  piVar2 = &lbl_83187510;
-  do {
-    if (param_1 == *piVar2) {
-      if (param_2 != (undefined4 *)0x0) {
-        *param_2 = 1;
-      }
-      return 1;
-    }
-    uVar1 = uVar1 + 0x24;
-    piVar2 = piVar2 + 9;
-  } while ((uVar1 & 0xffffffff) != 0x804);
-  if (param_2 != (undefined4 *)0x0) {
-    uVar3 = 0;
-LAB_82e26194:
-    *param_2 = uVar3;
+  unsigned *p = lbl_8214C3F0;
+  unsigned i = 0;
+  unsigned v;
+  for (; i != 0xc; i += 4, p++) if (x == *p) { if (out == 0) return 0; v = 1; goto L; }
+  {
+  E *q = lbl_83187510;
+  unsigned j = 0;
+  for (; j != 0x804; j += 0x24, q++) if (x == q->id) { if (out != 0) *out = 1; return 1; }
+  }
+  if (out != 0) {
+    v = 0;
+L:
+    *out = v;
   }
   return 0;
 }
-

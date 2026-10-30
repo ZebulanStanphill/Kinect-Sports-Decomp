@@ -1,79 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82FA5190();
-extern int fn_82FFDF28();
-extern int fn_82FFF348();
-extern unsigned int iStack_68;
-extern unsigned int lbl_832645A4;
+typedef struct Sub_82FFB900 { void *a; int b; int pad1[3]; unsigned int count; } Sub_82FFB900;
+typedef struct Node_82FFB900 { int pad0[2]; Sub_82FFB900 s; } Node_82FFB900;
+typedef struct Ent_82FFB900 { int pad[2]; Node_82FFB900 *node; } Ent_82FFB900;
+typedef struct Item_82FFB900 { int key; int pad[2]; } Item_82FFB900;
+typedef struct Set_82FFB900 {
+  char pad0[0x20];
+  unsigned int n;
+  int pad1;
+  Item_82FFB900 *items;
+  char pad2[0x1c];
+  unsigned char flags;
+} Set_82FFB900;
+typedef struct Ctx_82FFB900 {
+  char pad0[0x50];
+  int cs[0x10];
+  char tbl[1];
+} Ctx_82FFB900;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82FFDF28(Ent_82FFB900 *out, void *tbl, int key);
+extern void fn_82FFF348(void *out, void *tbl, Ent_82FFB900 *e);
+extern void fn_82FA52E0(void *heap, void *p);
+extern void *lbl_832645A4;
 
-void fn_82FFB900(longlong param_1,int param_2)
-
+void fn_82FFB900(Ctx_82FFB900 *c, Set_82FFB900 *s)
 {
-  int iVar1;
-  longlong lVar2;
-  uint uVar3;
-  int iVar4;
-  int *piVar5;
-  undefined1 auStack_70 [8];
-  int iStack_68;
-  undefined1 auStack_60 [16];
-  
-  if (((*(byte *)(param_2 + 0x48) & 0x20) != 0) && (*(int *)(param_2 + 0x28) != 0)) {
-    RtlEnterCriticalSection(param_1 + 0x50);
-    uVar3 = 0;
-    if (*(int *)(param_2 + 0x20) != 0) {
-      iVar4 = 0;
-      do {
-        fn_82FFDF28(auStack_70,param_1 + 0x90,*(undefined4 *)(iVar4 + *(int *)(param_2 + 0x28)));
-        iVar1 = iStack_68;
-        if (iStack_68 != 0) {
-          piVar5 = (int *)(iStack_68 + 8);
-          lVar2 = (ulonglong)*(uint *)(iStack_68 + 0x1c) - 1;
-          *(int *)(iStack_68 + 0x1c) = (int)lVar2;
-          if ((lVar2 == 0) && (*piVar5 != 0)) {
-            fn_82FA5190(lbl_832645A4);
-            *piVar5 = 0;
-            *(undefined4 *)(iVar1 + 0xc) = 0;
-          }
-          if (*(int *)(iVar1 + 0x1c) == 0) {
-            fn_82FFF348(auStack_60,param_1 + 0x90,auStack_70);
-          }
-        }
-        uVar3 = uVar3 + 1;
-        iVar4 = iVar4 + 0xc;
-      } while (uVar3 < *(uint *)(param_2 + 0x20));
-    }
-    RtlLeaveCriticalSection(param_1 + 0x50);
-    *(byte *)(param_2 + 0x48) = *(byte *)(param_2 + 0x48) & 0xdf;
-  }
-  return;
-}
+  Ent_82FFB900 e;
+  char out[16];
+  unsigned int i;
+  Node_82FFB900 *n;
+  Sub_82FFB900 *r;
 
+  if ((s->flags & 0x20) != 0 && s->items != 0) {
+    RtlEnterCriticalSection(c->cs);
+    for (i = 0; i < s->n; i++) {
+      fn_82FFDF28(&e, c->tbl, s->items[i].key);
+      n = e.node;
+      if (n != 0) {
+        r = &n->s;
+        r->count = r->count - 1;
+        if (r->count == 0 && r->a != 0) {
+          fn_82FA52E0(lbl_832645A4, r->a);
+          r->a = 0;
+          r->b = 0;
+        }
+        if (r->count == 0) {
+          fn_82FFF348(out, c->tbl, &e);
+        }
+      }
+    }
+    RtlLeaveCriticalSection(c->cs);
+    s->flags = s->flags & 0xdf;
+  }
+}

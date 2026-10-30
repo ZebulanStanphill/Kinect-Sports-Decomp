@@ -25,30 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1030;
-extern unsigned int *auStack_830;
-extern int fn_82299E90();
-extern int fn_822A0AD8();
-extern int fn_82358FD8();
-extern unsigned int lbl_82193880;
-extern unsigned int lbl_82193898;
+extern void fn_82299E90(int, int, void *, void *);
+extern void fn_822A0AD8(int, int, float);
+extern void fn_82358FD8(int, void *, int, unsigned int);
+extern unsigned int lbl_82193880[];
+extern unsigned int lbl_82193898[];
 
 
-void fn_822A0BC8(double param_1,int param_2,int param_3,undefined8 param_4,undefined8 param_5)
+void fn_822A0BC8(int param_2,int param_3,int param_4,int param_5,float param_1)
 
 {
   int iVar1;
   undefined1 auStack_1030 [2048];
   undefined1 auStack_830 [2048];
   
-  if ((param_3 < 1) || (5 < param_3)) {
-    fn_822A0AD8(param_1,param_2,param_3);
+  if ((param_3 <= 0) || (param_3 > 5)) {
+    fn_822A0AD8(param_2,param_3,param_1);
   }
   else {
     fn_82358FD8(*(undefined4 *)(param_2 + 0x1c),auStack_830,0x400,
-                      (&lbl_82193880)[param_3]);
+                      lbl_82193880[param_3]);
     fn_82358FD8(*(undefined4 *)(param_2 + 0x1c),auStack_1030,0x400,
-                      (&lbl_82193898)[param_3]);
+                      lbl_82193898[param_3]);
     if ((param_3 == 1) || (param_3 == 2)) {
       iVar1 = *(int *)(param_2 + 0x3c);
     }

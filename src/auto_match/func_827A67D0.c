@@ -25,63 +25,52 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8278B1D8();
-extern int fn_82790270();
+extern void fn_8278B1D8(int, int);
+extern int fn_82790270(const char *, const char *, unsigned int);
+extern char lbl_821C53CC[];
+extern char lbl_8201173C[];
 
+typedef struct Tok_827A67D0 {
+  int type;
+  const char *str;
+  unsigned int len;
+} Tok_827A67D0;
+typedef struct TokList_827A67D0 {
+  Tok_827A67D0 *toks;
+  unsigned int n;
+} TokList_827A67D0;
+typedef struct ObjList_827A67D0 {
+  int *data;
+  unsigned int count;
+} ObjList_827A67D0;
 
-void fn_827A67D0(undefined8 param_1,int *param_2,int *param_3)
-
+void fn_827A67D0(void *param_1, ObjList_827A67D0 *list, TokList_827A67D0 *tl)
 {
-  int iVar1;
-  ulonglong uVar2;
-  int *piVar3;
-  ulonglong uVar4;
-  uint uVar5;
-  ulonglong uVar6;
-  
-  iVar1 = 0;
-  if ((*(int *)*param_3 != 2) || (iVar1 = 1, 1 < (uint)param_3[1])) {
-    piVar3 = (int *)*param_3 + iVar1 * 3;
-    iVar1 = *piVar3;
-    if ((iVar1 == 0) || ((iVar1 == 1 && (2 < (uint)piVar3[2])))) {
-      uVar4 = (ulonglong)(uint)piVar3[1];
-      uVar6 = (ulonglong)(uint)piVar3[2];
-      if (iVar1 == 1) {
-        uVar4 = uVar4 + 2;
-        uVar6 = uVar6 - 2;
+  int idx;
+  Tok_827A67D0 *t;
+  const char *s;
+  unsigned int len, n;
+  unsigned int i;
+
+  idx = 0;
+  if (tl->toks[0].type != 2 || (idx = 1, tl->n >= 2)) {
+    t = tl->toks + idx;
+    if (t->type == 0 || (t->type == 1 && t->len > 2)) {
+      s = t->str;
+      len = t->len;
+      if (t->type == 1) {
+        s = s + 2;
+        len = len - 2;
       }
-      uVar2 = uVar6;
-      if (3 < (uVar6 & 0xffffffff)) {
-        uVar2 = 4;
-      }
-      iVar1 = fn_82790270(uVar4,0xffffffff821c53cc,uVar2);
-      if (iVar1 == 0) {
-        uVar5 = 0;
-        if (param_2[1] != 0) {
-          iVar1 = 0;
-          do {
-            fn_8278B1D8(*(undefined4 *)(iVar1 + *param_2),0);
-            uVar5 = uVar5 + 1;
-            iVar1 = iVar1 + 4;
-          } while (uVar5 < (uint)param_2[1]);
-        }
-      }
-      else {
-        if (8 < (uVar6 & 0xffffffff)) {
-          uVar6 = 9;
-        }
-        iVar1 = fn_82790270(uVar4,0xffffffff8201173c,uVar6);
-        if ((iVar1 == 0) && (uVar5 = 0, param_2[1] != 0)) {
-          iVar1 = 0;
-          do {
-            fn_8278B1D8(*(undefined4 *)(iVar1 + *param_2),1);
-            uVar5 = uVar5 + 1;
-            iVar1 = iVar1 + 4;
-          } while (uVar5 < (uint)param_2[1]);
+      n = len < 4 ? len : 4;
+      if (fn_82790270(s, lbl_821C53CC, n) == 0) {
+        for (i = 0; i < list->count; i++) fn_8278B1D8(list->data[i], 0);
+      } else {
+        n = len < 9 ? len : 9;
+        if (fn_82790270(s, lbl_8201173C, n) == 0) {
+          for (i = 0; i < list->count; i++) fn_8278B1D8(list->data[i], 1);
         }
       }
     }
   }
-  return;
 }
-

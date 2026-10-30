@@ -34,10 +34,10 @@ undefined8 fn_82877D00(int param_1,undefined8 param_2)
 
 {
   uint uVar1;
-  char cVar3;
+  unsigned char cVar3;
   undefined8 uVar2;
-  ulonglong uVar4;
-  undefined1 auStack_40 [64];
+  unsigned int uVar4;
+  undefined1 auStack_40 [16];
   
   uVar1 = *(uint *)(param_1 + 8);
   for (uVar4 = (ulonglong)*(uint *)(param_1 + 4); (uVar4 & 0xffffffff) != (ulonglong)uVar1;

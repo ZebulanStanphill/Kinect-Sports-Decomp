@@ -27,30 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82BCF9F0(uint *param_1,int param_2,int param_3)
+typedef struct Bits_82BCF9F0 {
+  unsigned int count;
+  unsigned int pad;
+  unsigned int w[1];
+} Bits_82BCF9F0;
 
+int fn_82BCF9F0(Bits_82BCF9F0 *a, Bits_82BCF9F0 *dst, Bits_82BCF9F0 *mask)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint *puVar4;
-  
-  uVar1 = 0;
-  uVar2 = 0;
-  if (*param_1 == 0) {
-    return uVar1;
-  }
-  puVar4 = (uint *)(param_2 + 8);
-  do {
-    uVar3 = *(uint *)(((int)param_1 - param_2) + (int)puVar4) &
-            ~*(uint *)((int)puVar4 + (param_3 - (int)param_1) + ((int)param_1 - param_2)) | *puVar4;
-    if (uVar3 != *puVar4) {
-      *puVar4 = uVar3;
-      uVar1 = 1;
+  int changed = 0;
+  unsigned int i;
+  for (i = 0; i < a->count; i++) {
+    unsigned int v = (a->w[i] & ~mask->w[i]) | dst->w[i];
+    if (v != dst->w[i]) {
+      dst->w[i] = v;
+      changed = 1;
     }
-    uVar2 = uVar2 + 1;
-    puVar4 = puVar4 + 1;
-  } while (uVar2 < *param_1);
-  return uVar1;
+  }
+  return changed;
 }
-
