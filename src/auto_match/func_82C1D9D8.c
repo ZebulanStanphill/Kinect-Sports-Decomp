@@ -28,28 +28,21 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C10F40();
 
 
-ulonglong fn_82C1D9D8(undefined8 param_1,undefined8 param_2,int *param_3)
-
+typedef struct { char pad[0x4a]; unsigned short n; char pad2[4]; char *tab; } T_82C1D9D8;
+unsigned int fn_82C1D9D8(undefined8 param_1,undefined8 param_2,int *param_3)
 {
-  int iVar1;
-  ulonglong uVar2;
-  uint uVar3;
-  int aiStack_20 [2];
-  
-  aiStack_20[0] = 0;
+  unsigned int hr;
+  unsigned short i;
+  T_82C1D9D8 *t = 0;
   *param_3 = 0;
-  uVar2 = fn_82C10F40(param_1,param_2,aiStack_20);
-  if ((uVar2 & 0xffffffff) == 0x80500016) {
-    uVar2 = 0;
-  }
-  else if (*(short *)(aiStack_20[0] + 0x4a) != 0) {
-    uVar3 = 0;
+  hr = fn_82C10F40(param_1,param_2,&t);
+  if (hr == 0x80500016) return 0;
+  if (t->n != 0) {
+    i = 0;
     do {
-      iVar1 = uVar3 * 0x1c;
-      uVar3 = uVar3 + 1 & 0xffff;
-      *param_3 = (uint)*(ushort *)(iVar1 + *(int *)(aiStack_20[0] + 0x50) + 0x10) + *param_3;
-    } while (uVar3 < *(ushort *)(aiStack_20[0] + 0x4a));
+      *param_3 += *(unsigned short *)(t->tab + i * 0x1c + 0x10);
+      i++;
+    } while (i < t->n);
   }
-  return uVar2;
+  return hr;
 }
-

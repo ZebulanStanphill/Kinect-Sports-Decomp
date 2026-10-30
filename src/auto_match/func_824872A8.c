@@ -25,53 +25,54 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_822B1B28();
-extern int fn_82359C18();
-extern int fn_823B9360();
-extern int fn_8265CA20();
-extern unsigned int lbl_821BE8A4;
+extern void fn_82230300(void *, int, int);
+extern void fn_822315A0(void *);
+extern void fn_822B1B28(void *);
+extern void fn_82359C18(void *);
+extern void fn_823B9360(void *, void *);
+extern void fn_8265CA20(void *);
+extern unsigned int lbl_821BE8A4[];
+typedef struct DV_824872A8 { struct { void (*dtor)(struct DV_824872A8 *, int); } *vt; } DV_824872A8;
+typedef struct TNode_824872A8 { struct TNode_824872A8 *left; struct TNode_824872A8 *parent; struct TNode_824872A8 *right; int pad[2]; void *ptr; unsigned char color; unsigned char isnil; } TNode_824872A8;
+typedef struct { int pad; TNode_824872A8 *head; unsigned size; } Tree_824872A8;
+typedef struct {
+  void *vt;
+  Tree_824872A8 tree;
+  char pad10[0x1c - 0x10];
+  char str[0x20];
+  void *owner;
+  DV_824872A8 *del;
+} Obj_824872A8;
 
-
-void fn_824872A8(undefined4 *param_1)
-
+void fn_824872A8(Obj_824872A8 *p)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  int *piVar4;
-  ulonglong uVar5;
-  
-  puVar2 = (undefined4 *)param_1[0x10];
-  *param_1 = &lbl_821BE8A4;
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  TNode_824872A8 *n, *nx;
+  Tree_824872A8 *t;
+  void *o;
+  p->vt = lbl_821BE8A4;
+  if (p->del != 0) {
+    p->del->vt->dtor(p->del, 1);
   }
-  uVar5 = (ulonglong)(uint)param_1[0xf];
-  if (uVar5 != 0) {
-    fn_82359C18(uVar5 + 0x10);
-    fn_822B1B28(uVar5);
-    fn_8265CA20(uVar5);
+  o = p->owner;
+  if (o != 0) {
+    fn_82359C18((char *)o + 0x10);
+    fn_822B1B28(o);
+    fn_8265CA20(o);
   }
-  fn_82230300(param_1 + 7,1,0);
-  cVar1 = *(char *)((int)*(int **)(param_1[2] + 4) + 0x19);
-  piVar4 = *(int **)(param_1[2] + 4);
-  while (cVar1 == '\0') {
-    fn_823B9360(param_1 + 1,piVar4[2]);
-    piVar3 = (int *)*piVar4;
-    if (piVar4[5] != 0) {
-      fn_822315A0();
-    }
-    fn_8265CA20(piVar4);
-    piVar4 = piVar3;
-    cVar1 = *(char *)((int)piVar3 + 0x19);
+  fn_82230300(p->str, 1, 0);
+  t = &p->tree;
+  n = t->head->parent;
+  nx = n;
+  while (nx->isnil == 0) {
+    fn_823B9360(t, nx->right);
+    nx = nx->left;
+    if (n->ptr != 0) fn_822315A0(n->ptr);
+    fn_8265CA20(n);
+    n = nx;
   }
-  *(undefined4 *)(param_1[2] + 4) = param_1[2];
-  *(undefined4 *)param_1[2] = param_1[2];
-  *(undefined4 *)(param_1[2] + 8) = param_1[2];
-  param_1[3] = 0;
-  fn_8265CA20(param_1[2]);
-  return;
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+  fn_8265CA20(t->head);
 }
-

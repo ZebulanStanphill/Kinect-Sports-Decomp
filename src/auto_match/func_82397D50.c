@@ -25,41 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82359DB8();
-extern int fn_82522588();
-extern unsigned int iStack_14;
-extern unsigned int iStack_18;
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
+typedef struct { char pad[4]; unsigned type; char pad2[0x18]; unsigned kind; } O_82397D50;
+typedef struct { O_82397D50 *first; void *second; } P_82397D50;
+extern void fn_822315A0(void *);
+extern void fn_82359DB8(P_82397D50 *, void *, unsigned);
+extern void fn_82522588(P_82397D50 *, P_82397D50 *);
 
-
-undefined8 fn_82397D50(int param_1)
-
+int fn_82397D50(int param_1)
 {
-  struct { int first; int second; } stack_pair_20;
-
-  struct { int first; int second; } stack_pair_18;
-
-
-  fn_82359DB8(&stack_pair_20.first,param_1 + 0x40,*(undefined4 *)(param_1 + 0x54));
-  if ((stack_pair_20.first != 0) && (*(int *)(stack_pair_20.first + 4) == 5)) {
-    fn_82522588(&stack_pair_18.first,&stack_pair_20.first);
-    if ((*(int *)(stack_pair_18.first + 0x20) == 1) || (*(int *)(stack_pair_18.first + 0x20) == 2)) {
-      if (stack_pair_18.second != 0) {
-        fn_822315A0();
-      }
-      if (stack_pair_20.second != 0) {
-        fn_822315A0();
-      }
+  P_82397D50 a, b;
+  fn_82359DB8(&a, (void *)(param_1 + 0x40), *(unsigned *)(param_1 + 0x54));
+  if (a.first != 0 && a.first->type == 5) {
+    fn_82522588(&b, &a);
+    if (b.first->kind == 1 || b.first->kind == 2) {
+      if (b.second != 0) fn_822315A0(b.second);
+      if (a.second != 0) fn_822315A0(a.second);
       return 1;
     }
-    if (stack_pair_18.second != 0) {
-      fn_822315A0();
-    }
+    if (b.second != 0) fn_822315A0(b.second);
   }
-  if (stack_pair_20.second != 0) {
-    fn_822315A0();
-  }
+  if (a.second != 0) fn_822315A0(a.second);
   return 0;
 }

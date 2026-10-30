@@ -25,30 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_828E6590();
-extern int fn_828E8BE8();
-extern int fn_828E9528();
-extern int fn_82BA02A8();
+extern void *fn_8265C9E0(unsigned);
+extern void fn_828E6590(void *, void *);
+extern void *fn_828E8BE8(void *, void *);
+extern void fn_828E9528(void *);
+extern void fn_82BA02A8(void *, void *, void *);
 
-
-undefined4 * fn_828E95E8(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+void *fn_828E95E8(void **param_1, void *param_2, void *param_3)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
+  void *mem;
+  void *o;
   fn_828E9528(param_2);
-  uVar1 = fn_8265C9E0(0x70);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_828E8BE8(uVar1,param_3);
-  }
-  *param_1 = (int)uVar2;
-  fn_828E6590(param_1 + 1,uVar2);
-  fn_82BA02A8(param_1,uVar2,uVar2);
+  mem = fn_8265C9E0(0x70);
+  o = mem ? fn_828E8BE8(mem, param_3) : 0;
+  *param_1 = o;
+  fn_828E6590(param_1 + 1, o);
+  fn_82BA02A8(param_1, o, o);
   return param_1;
 }
-

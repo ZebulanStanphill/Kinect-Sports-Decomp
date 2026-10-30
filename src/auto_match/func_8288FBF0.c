@@ -1,68 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8288E150();
-extern unsigned int iStack_18;
-extern unsigned int iStack_28;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct { int ****p; int pad; int idx; } P_8288FBF0;
+typedef struct { int first; int second; int idx; } It_8288FBF0;
+extern void fn_8288E150(void *, void *, It_8288FBF0 *, It_8288FBF0 *);
 
-
-undefined8 fn_8288FBF0(undefined8 param_1,undefined8 param_2,int *param_3)
-
+void *fn_8288FBF0(void *self, void *unused, P_8288FBF0 *P)
 {
-  int *piVar1;
-  int *piVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  int iStack_28;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  int iStack_18;
-
-  piVar1 = (int *)*param_3;
-  piVar2 = (int *)0x0;
-  if ((piVar1 != (int *)0x0) && ((undefined4 *)*piVar1 != (undefined4 *)0x0)) {
-    piVar2 = *(int **)*piVar1;
+  int ****p1 = P->p;
+  int **p2 = 0;
+  It_8288FBF0 a, b;
+  int i, j;
+  if (p1 != 0 && *p1 != 0) {
+    p2 = **p1;
   }
-  iStack_18 = param_3[2];
-  stack_pair_30.first = 0;
-  iStack_28 = iStack_18 + 1;
-  stack_pair_30.second = 0;
-  if ((piVar2 != (int *)0x0) && ((undefined4 *)*piVar2 != (undefined4 *)0x0)) {
-    stack_pair_30.first = *(undefined4 *)*piVar2;
+  i = P->idx;
+  j = i + 1;
+  b.first = 0;
+  b.second = 0;
+  if (p2 != 0 && *p2 != 0) {
+    b.first = **p2;
   }
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  if ((piVar1 != (int *)0x0) && ((undefined4 *)*piVar1 != (undefined4 *)0x0)) {
-    stack_pair_20.first = *(undefined4 *)*piVar1;
+  b.idx = j;
+  a.first = 0;
+  a.second = 0;
+  if (p1 != 0 && *p1 != 0) {
+    a.first = (int)**p1;
   }
-  fn_8288E150(param_1,param_2,&stack_pair_20.first,&stack_pair_30.first);
-  return param_1;
+  a.idx = i;
+  fn_8288E150(self, unused, &a, &b);
+  return self;
 }

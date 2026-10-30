@@ -25,57 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828ACC40();
-extern int fn_828AE818();
+extern unsigned char fn_828ACC40(unsigned);
+extern void fn_828AE818(unsigned, int);
+typedef struct { int pad0; int *ctx; unsigned char flag; char pad1[7]; unsigned state; char pad2[0x3c]; unsigned a50; unsigned st54; unsigned a58; unsigned char b5c; } O_8251A808;
 
-
-void fn_8251A808(int param_1)
-
+void fn_8251A808(O_8251A808 *p)
 {
-  uint uVar1;
-  int iVar2;
-  char cVar3;
-  undefined4 uVar4;
-  
-  if ((*(int *)(param_1 + 0x58) == *(int *)(param_1 + 0x50)) && (*(char *)(param_1 + 0x5c) != '\0'))
-  {
-    *(undefined1 *)(param_1 + 8) = 0;
+  unsigned v;
+  if (p->a58 == p->a50 && p->b5c != 0) {
+    p->flag = 0;
     return;
   }
-  if (*(char *)(param_1 + 8) == '\0') {
+  if (p->flag == 0) return;
+  switch (p->state) {
+  case 0: case 1: case 3:
+    fn_828AE818(p->ctx[2], 0x1e);
+    if (fn_828ACC40(p->ctx[2]) == 0) return;
+    switch (p->state) {
+    case 0: v = 3; break;
+    case 1: v = 4; break;
+    case 3: v = 5; break;
+    default: return;
+    }
+    p->st54 = v;
+    return;
+  case 2:
+    p->st54 = 3;
+    return;
+  default:
     return;
   }
-  uVar1 = *(uint *)(param_1 + 0x10);
-  if (uVar1 < 2) {
-LAB_8251a868:
-    fn_828AE818(*(undefined4 *)(*(int *)(param_1 + 4) + 8),0x1e);
-    cVar3 = fn_828ACC40(*(undefined4 *)(*(int *)(param_1 + 4) + 8));
-    if (cVar3 == '\0') {
-      return;
-    }
-    iVar2 = *(int *)(param_1 + 0x10);
-    if (iVar2 != 0) {
-      if (iVar2 == 1) {
-        uVar4 = 4;
-      }
-      else {
-        if (iVar2 != 3) {
-          return;
-        }
-        uVar4 = 5;
-      }
-      goto LAB_8251a8b8;
-    }
-  }
-  else if (uVar1 != 2) {
-    if (3 < uVar1) {
-      return;
-    }
-    goto LAB_8251a868;
-  }
-  uVar4 = 3;
-LAB_8251a8b8:
-  *(undefined4 *)(param_1 + 0x54) = uVar4;
-  return;
 }
-

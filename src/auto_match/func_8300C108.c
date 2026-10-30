@@ -30,24 +30,21 @@ extern unsigned int lbl_8217C070;
 
 
 undefined8 fn_8300C108(int param_1)
-
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  
-  if (*(int *)(param_1 + 8) != 0) {
+  unsigned *p;
+  unsigned q;
+  if (*(unsigned int *)(param_1 + 8) != 0) {
     return 1;
   }
   if ((*(uint *)(param_1 + 0x14) < *(uint *)(param_1 + 0x10)) &&
-     (uVar2 = fn_82FA5060(*(undefined4 *)(param_1 + 0x1c),0x18), (uVar2 & 0xffffffff) != 0)) {
-    puVar1 = (undefined4 *)uVar2;
-    if (uVar2 != 0xfffffffffffffffc) {
-      puVar1[2] = &lbl_8217C070;
+     ((p = (unsigned *)fn_82FA5060(*(undefined4 *)(param_1 + 0x1c),0x18)) != 0)) {
+    q = (unsigned)p + 4;
+    if (q != 0) {
+      *(void **)(q + 4) = &lbl_8217C070;
     }
-    *puVar1 = *(undefined4 *)(param_1 + 8);
-    *(undefined4 **)(param_1 + 8) = puVar1;
+    *p = *(unsigned int *)(param_1 + 8);
+    *(unsigned **)(param_1 + 8) = p;
     return 1;
   }
   return 0;
 }
-

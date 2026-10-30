@@ -1,57 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82517608(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
-
+typedef struct P_82517608 { unsigned a; unsigned b; } P_82517608;
+typedef struct Q_82517608 { P_82517608 p; P_82517608 q; } Q_82517608;
+static void SwapU(unsigned *x, unsigned *y) { unsigned t = *x; *x = *y; *y = t; }
+void fn_82517608(Q_82517608 *self, P_82517608 *o1, P_82517608 *o2)
 {
-  undefined4 uVar1;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (param_1 != param_2) {
-    param_1[1] = param_2[1];
-    param_2[1] = 0;
-    uVar1 = *param_1;
-    *param_1 = *param_2;
-    *param_2 = uVar1;
+  P_82517608 *q;
+  self->p.a = 0;
+  self->p.b = 0;
+  if (&self->p != o1) {
+    SwapU(&self->p.b, &o1->b);
+    SwapU(&self->p.a, &o1->a);
   }
-  param_1[2] = 0;
-  param_1[3] = 0;
-  if (param_1 + 2 == param_3) {
-    return;
+  q = &self->q;
+  q->a = 0;
+  q->b = 0;
+  if (q != o2) {
+    SwapU(&q->b, &o2->b);
+    SwapU(&q->a, &o2->a);
   }
-  uVar1 = param_1[3];
-  param_1[3] = param_3[1];
-  param_3[1] = uVar1;
-  uVar1 = param_1[2];
-  param_1[2] = *param_3;
-  *param_3 = uVar1;
-  return;
 }
-

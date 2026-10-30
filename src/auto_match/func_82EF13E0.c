@@ -25,41 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_82EF1198();
-extern int fn_82EF1220();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+typedef struct { int v; int w; } It_82EF13E0;
+extern int fn_82EF1198(int, int *, It_82EF13E0 *, It_82EF13E0 *);
+extern void fn_82EF1220(int, void *, void *);
 
-
-undefined8 fn_82EF13E0(int param_1,int param_2,int *param_3)
-
+int fn_82EF13E0(int param_1, unsigned param_2, int *param_3)
 {
   int iVar2;
-  undefined8 uVar1;
   int *piVar3;
-  int iStack0000001c;
-  int aiStack_40 [2];
-  undefined1 auStack_38 [56];
-  
-  if ((param_2 == 0) || (param_3 == (int *)0x0)) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    piVar3 = (int *)(param_1 + 4);
-    iStack0000001c = param_2;
-    while( true ) {
-      iVar2 = fn_82EF1198(param_1 + 8,piVar3,aiStack_40,auStack_38);
-      if (iVar2 == 0) break;
-      *piVar3 = *piVar3 + 1;
-    }
-    iVar2 = *piVar3;
-    aiStack_40[0] = iVar2;
-    fn_82EF1220(param_1 + 8,aiStack_40,&stack0x0000001c);
-    fn_82EF1220(param_1 + 0x94,&stack0x0000001c,aiStack_40);
-    *param_3 = iVar2;
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+  It_82EF13E0 it;
+  It_82EF13E0 it2;
 
+  if (param_2 == 0 || param_3 == 0) {
+    return 0x80070057;
+  }
+  piVar3 = (int *)(param_1 + 4);
+  while (1) {
+    iVar2 = fn_82EF1198(param_1 + 8, piVar3, &it, &it2);
+    if (iVar2 == 0) break;
+    *piVar3 = *piVar3 + 1;
+  }
+  iVar2 = *piVar3;
+  it.v = iVar2;
+  fn_82EF1220(param_1 + 8, &it, &param_2);
+  fn_82EF1220(param_1 + 0x94, &param_2, &it);
+  *param_3 = iVar2;
+  return 0;
+}

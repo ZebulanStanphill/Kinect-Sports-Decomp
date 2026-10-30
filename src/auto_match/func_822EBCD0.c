@@ -25,43 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822DB5D0();
-extern int fn_822EC058();
-extern int fn_822EC698();
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-
-
-void fn_822EBCD0(undefined8 param_1)
-
+typedef struct { int a, b, c; } V3_822EBCD0;
+typedef struct { char c[32]; } B32_822EBCD0;
+extern void fn_822EC698(V3_822EBCD0 *, B32_822EBCD0 *);
+extern void fn_822EC058(void *, V3_822EBCD0 *);
+extern void fn_822DB5D0(V3_822EBCD0 *);
+extern void fn_82230110(B32_822EBCD0 *, const char *);
+extern void fn_82230300(B32_822EBCD0 *, int, int);
+void fn_822EBCD0(void *param_1)
 {
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  undefined1 auStack_70 [32];
-  undefined1 auStack_50 [32];
-  undefined1 auStack_30 [32];
-  
-  uStack_80 = 0;
-  uStack_7c = 0;
-  uStack_78 = 0;
-  fn_82230110(auStack_70,0xffffffff821ae2b8);
-  fn_822EC698(&uStack_80,auStack_70);
-  fn_82230300(auStack_70,1,0);
-  fn_82230110(auStack_50,0xffffffff821ae2c0);
-  fn_822EC698(&uStack_80,auStack_50);
-  fn_82230300(auStack_50,1,0);
-  fn_82230110(auStack_30,0xffffffff821ae2c8);
-  fn_822EC698(&uStack_80,auStack_30);
-  fn_82230300(auStack_30,1,0);
-  fn_822EC058(param_1,&uStack_80);
-  fn_822DB5D0(&uStack_80);
-  return;
+  V3_822EBCD0 v;
+  B32_822EBCD0 a, b, c;
+  v.a = 0; v.b = 0; v.c = 0;
+  fn_82230110(&a,"_tired_");
+  fn_822EC698(&v,&a);
+  fn_82230300(&a,1,0);
+  fn_82230110(&b,"_short_");
+  fn_822EC698(&v,&b);
+  fn_82230300(&b,1,0);
+  fn_82230110(&c,"_freestanding_");
+  fn_822EC698(&v,&c);
+  fn_82230300(&c,1,0);
+  fn_822EC058(param_1,&v);
+  fn_822DB5D0(&v);
 }
-

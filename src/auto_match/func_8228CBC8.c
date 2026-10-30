@@ -25,89 +25,59 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_82279AF0();
-extern int fn_82279C58();
-extern int fn_82279CA0();
-extern int fn_822848B8();
-extern int fn_8229E090();
-extern int fn_82359C18();
-extern int fn_8266F6B8();
-extern int fn_826728E8();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_24;
-extern unsigned int iStack_2c;
-extern unsigned int lbl_821A998C;
-extern unsigned int lbl_832975B0;
+typedef struct { int *a; void *ref; } Pr_8228CBC8;
+extern void *fn_82279C58(Pr_8228CBC8 *, void *);
+extern void fn_822315A0(void *);
+extern int fn_8266F6B8(void);
+extern void fn_826728E8(unsigned, const char *, int);
+extern void fn_8229E090(unsigned, int, int);
+extern void fn_82279CA0(void *, int);
+extern void fn_822848B8(unsigned);
+extern unsigned fn_82250A18(void);
+extern void fn_82359C18(void *);
+extern void fn_82279AF0(void *);
+extern unsigned lbl_832975B0;
+extern unsigned lbl_821A998C[];
 
-
-void fn_8228CBC8(undefined4 *param_1)
-
+void fn_8228CBC8(unsigned *self)
 {
-  undefined4 uVar1;
-  int *piVar3;
-  undefined4 *puVar4;
-  undefined8 uVar2;
-  int iVar5;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  undefined1 auStack_28 [4];
-  int iStack_24;
-  undefined1 auStack_20 [4];
-  int iStack_1c;
-  
-  *param_1 = &lbl_821A998C;
-  piVar3 = (int *)fn_82279C58(auStack_30,param_1);
-  iVar5 = *piVar3;
-  if (iStack_2c != 0) {
-    fn_822315A0(iStack_2c);
+  Pr_8228CBC8 p1, p2, p3;
+  unsigned char b;
+  int *g;
+  unsigned t;
+  self[0] = (unsigned)lbl_821A998C;
+  b = *(int *)fn_82279C58(&p1, self) != 0;
+  if (p1.ref != 0) fn_822315A0(p1.ref);
+  if (b) {
+    unsigned a = *(unsigned *)fn_82279C58(&p2, self);
+    fn_826728E8(a, "videoArea", fn_8266F6B8());
+    if (p2.ref != 0) fn_822315A0(p2.ref);
+    a = *(unsigned *)fn_82279C58(&p3, self);
+    fn_826728E8(a, "tex_background", fn_8266F6B8());
+    if (p3.ref != 0) fn_822315A0(p3.ref);
   }
-  if (iVar5 != 0) {
-    puVar4 = (undefined4 *)fn_82279C58(auStack_28,param_1);
-    uVar1 = *puVar4;
-    uVar2 = fn_8266F6B8();
-    fn_826728E8(uVar1,0xffffffff821a9828,uVar2);
-    if (iStack_24 != 0) {
-      fn_822315A0();
-    }
-    puVar4 = (undefined4 *)fn_82279C58(auStack_20,param_1);
-    uVar1 = *puVar4;
-    uVar2 = fn_8266F6B8();
-    fn_826728E8(uVar1,0xffffffff821a84fc,uVar2);
-    if (iStack_1c != 0) {
-      fn_822315A0();
-    }
+  if (self[0x5e] != 0) {
+    fn_8229E090(self[0x5e], 0, 1);
+    self[0x5e] = 0;
   }
-  if (param_1[0x5e] != 0) {
-    fn_8229E090(param_1[0x5e],0,1);
-    param_1[0x5e] = 0;
+  self[0x62] = 0;
+  self[100] = 0;
+  fn_82279CA0(self, 1);
+  if (self[0x51] != 0) {
+    fn_822848B8(self[0x51]);
+    self[0x51] = 0;
   }
-  param_1[0x62] = 0;
-  param_1[100] = 0;
-  fn_82279CA0(param_1,1);
-  if (param_1[0x51] != 0) {
-    fn_822848B8();
-    param_1[0x51] = 0;
+  if (self[0x5e] != 0) {
+    fn_8229E090(self[0x5e], 0, 0);
+    self[0x5e] = 0;
   }
-  if (param_1[0x5e] != 0) {
-    fn_8229E090(param_1[0x5e],0,0);
-    param_1[0x5e] = 0;
+  if (self[0x5f] != 0) {
+    fn_8229E090(self[0x5f], 0, 0);
+    self[0x5f] = 0;
   }
-  if (param_1[0x5f] != 0) {
-    fn_8229E090(param_1[0x5f],0,0);
-    param_1[0x5f] = 0;
-  }
-  iVar5 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar5 = fn_82250A18();
-  }
-  *(undefined4 *)(iVar5 + 0x60) = 0;
-  fn_82359C18(param_1 + 0x52);
-  fn_82279AF0(param_1);
-  return;
+  t = lbl_832975B0;
+  if (lbl_832975B0 == 0) t = fn_82250A18();
+  *(int *)(t + 0x60) = 0;
+  fn_82359C18(self + 0x52);
+  fn_82279AF0(self);
 }
-

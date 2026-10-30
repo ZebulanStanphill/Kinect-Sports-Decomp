@@ -1,48 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828AC4E8();
-
-
-void fn_828CFA88(int param_1)
-
+typedef struct Sub_828CFA88 {
+  unsigned char a, b, c, d;
+  unsigned short e; short e2;
+  int sub[6];
+  unsigned char f78;
+} Sub_828CFA88;
+typedef struct Obj_828CFA88 {
+  char pad[0x58];
+  Sub_828CFA88 s;
+  int f7c, f80, f84;
+  char pad2[0x10];
+  unsigned long long f98, fa0, fa8;
+} Obj_828CFA88;
+extern void fn_828AC4E8(void *);
+void fn_828CFA88(Obj_828CFA88 *o)
 {
-  *(undefined4 *)(param_1 + 0x80) = 0;
-  *(undefined4 *)(param_1 + 0x7c) = 1;
-  *(undefined1 *)(param_1 + 0x58) = 0;
-  *(undefined1 *)(param_1 + 0x59) = 0;
-  *(undefined1 *)(param_1 + 0x5a) = 0;
-  fn_828AC4E8(param_1 + 0x60);
-  *(undefined2 *)(param_1 + 0x5c) = 0xffff;
-  *(undefined1 *)(param_1 + 0x78) = 0xff;
-  *(undefined4 *)(param_1 + 0x84) = 0;
-  *(undefined8 *)(param_1 + 0x98) = 0;
-  *(undefined8 *)(param_1 + 0xa0) = 0;
-  *(undefined8 *)(param_1 + 0xa8) = 0;
-  return;
+  Sub_828CFA88 *p;
+  o->f80 = 0;
+  p = &o->s;
+  o->f7c = 1;
+  p->a = 0;
+  p->b = 0;
+  p->c = 0;
+  fn_828AC4E8(p->sub);
+  p->e = 0xffff;
+  p->f78 = 0xff;
+  o->f84 = 0;
+  o->f98 = 0;
+  o->fa0 = 0;
+  o->fa8 = 0;
 }
-

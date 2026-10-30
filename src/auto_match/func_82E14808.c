@@ -1,65 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFBBF0();
+typedef struct Ent_82E14808 { int f0; int f4; unsigned f8; } Ent_82E14808;
+typedef struct Obj_82E14808 { char pad[0x1c]; Ent_82E14808 **arr; int count; } Obj_82E14808;
+extern int fn_82CFBBF0(void *, unsigned);
 
-
-int fn_82E14808(int param_1,ulonglong param_2,int param_3)
-
+Ent_82E14808 *fn_82E14808(Obj_82E14808 *o, void *key, Ent_82E14808 *item)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar5 = 0;
-  iVar4 = 0;
+  int i = 0;
+  int j;
+  int off = 0;
+  Ent_82E14808 **p;
+  Ent_82E14808 *e;
   do {
-    if ((param_3 == 0) || (*(int *)(param_1 + 0x20) <= iVar5)) break;
-    iVar5 = iVar5 + 1;
-    piVar3 = (int *)(*(int *)(param_1 + 0x1c) + iVar4);
-    iVar4 = iVar4 + 4;
-  } while (*piVar3 != param_3);
-  if (iVar5 < *(int *)(param_1 + 0x20)) {
-    iVar4 = iVar5 << 2;
+    if (item == 0 || i >= o->count) break;
+    i++;
+    p = (Ent_82E14808 **)((char *)o->arr + off);
+    off += 4;
+  } while (*p != item);
+  j = i;
+  if (j < o->count) {
+    off = j << 2;
     do {
-      iVar1 = *(int *)(*(int *)(param_1 + 0x1c) + iVar4);
-      if ((param_2 & 0xffffffff) == 0) {
-        return iVar1;
-      }
-      iVar2 = fn_82CFBBF0(param_2,*(uint *)(iVar1 + 8) & 0xfffffffe);
-      if (iVar2 == 0) {
-        return iVar1;
-      }
-      iVar5 = iVar5 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar5 < *(int *)(param_1 + 0x20));
+      e = *(Ent_82E14808 **)((char *)o->arr + off);
+      if (key == 0) return e;
+      if (fn_82CFBBF0(key, e->f8 & 0xfffffffe) == 0) return e;
+      j++;
+      off += 4;
+    } while (j < o->count);
   }
   return 0;
 }
-

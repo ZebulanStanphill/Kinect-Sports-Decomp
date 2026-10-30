@@ -25,37 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826D9530();
-extern int fn_826DD060();
-extern int fn_826DEF90();
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int uStack_50;
+typedef struct { unsigned first; int second; } P_826DF328;
+typedef struct { int *p; int idx; } I_826DF328;
+typedef struct { P_826DF328 pr; I_826DF328 it; } L_826DF328;
+extern void fn_826D9530(I_826DF328 *, int, P_826DF328 *);
+extern void fn_826DD060(int, int, P_826DF328 *);
+extern void fn_826DEF90(int, unsigned, unsigned);
+extern void RtlEnterCriticalSection(int);
+extern void RtlLeaveCriticalSection(int);
 
-
-void fn_826DF328(int param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4)
-
+void fn_826DF328(int param_1,unsigned param_2,unsigned param_3,unsigned param_4)
 {
-  int iVar1;
-  struct { undefined4 first; int second; } stack_pair_50;
-
-  int *piStack_48;
-  int iStack_44;
+  unsigned iVar1;
+  L_826DF328 l;
   
   iVar1 = 0;
   if (*(int *)(param_1 + 0x74) < 2) {
-    RtlEnterCriticalSection(param_1 + 0xac);
     iVar1 = param_1;
+    RtlEnterCriticalSection(param_1 + 0xac);
   }
   fn_826DEF90(param_1 + 0xcc,param_2,param_4);
-  stack_pair_50.first = (undefined4)param_2;
-  fn_826D9530(&piStack_48,param_1 + 0xcc,&stack_pair_50.first);
-  stack_pair_50.second = iStack_44 * 0x14 + *piStack_48 + 0x10;
-  stack_pair_50.first = param_3;
-  fn_826DD060(param_1 + 0xd0,param_1 + 0xd0,&stack_pair_50.first);
+  l.pr.first = param_2;
+  fn_826D9530(&l.it,param_1 + 0xcc,&l.pr);
+  l.pr.first = param_3;
+  l.pr.second = l.it.idx * 0x14 + *l.it.p + 0x10;
+  fn_826DD060(param_1 + 0xd0,param_1 + 0xd0,&l.pr);
   if (iVar1 != 0) {
     RtlLeaveCriticalSection(iVar1 + 0xac);
   }
-  return;
 }
-

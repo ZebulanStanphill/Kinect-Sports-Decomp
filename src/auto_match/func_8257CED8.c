@@ -25,38 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+struct O_8257CED8;
+typedef struct VT_8257CED8 { void *pad[3]; void (*f3)(struct O_8257CED8 *, void *); } VT_8257CED8;
+typedef struct O_8257CED8 { VT_8257CED8 *vt; int pad4; int state; } O_8257CED8;
+typedef struct L1_8257CED8 { char pad[4]; struct L1_8257CED8 *next; } L1_8257CED8;
+typedef struct L2_8257CED8 { struct L2_8257CED8 *next; int pad; O_8257CED8 *obj; } L2_8257CED8;
+typedef struct { int a, b; } Pr_8257CED8;
+typedef struct { char pad[0x1c]; int list1; char pad2[8]; L2_8257CED8 *list2; } S_8257CED8;
 
-
-void fn_8257CED8(int param_1)
-
+void fn_8257CED8(S_8257CED8 *s)
 {
-  undefined4 *puVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  
-  iVar4 = *(int *)(param_1 + 0x1c);
-  if (iVar4 != 0) {
-    stack_pair_20.first = 0x45;
-    stack_pair_20.second = 8;
+  L1_8257CED8 *n1;
+  int iv;
+  L2_8257CED8 *n2;
+  O_8257CED8 *o;
+  Pr_8257CED8 pr;
+  iv = s->list1;
+  if (iv != 0) {
+    n1 = (L1_8257CED8 *)iv;
+    pr.a = 0x45;
+    pr.b = 8;
     do {
-      (**(code **)(*(int *)(iVar4 + -0x40) + 0xc))(iVar4 + -0x40,&stack_pair_20.first);
-      iVar4 = *(int *)(iVar4 + 4);
-    } while (iVar4 != 0);
+      O_8257CED8 *it = (O_8257CED8 *)((char *)n1 - 0x40);
+      it->vt->f3(it, &pr);
+      n1 = n1->next;
+    } while (n1 != 0);
   }
-  puVar3 = *(undefined4 **)(param_1 + 0x28);
-  for (puVar1 = (undefined4 *)*puVar3; puVar1 != puVar3; puVar1 = (undefined4 *)*puVar1) {
-    piVar2 = (int *)puVar1[2];
-    if (piVar2[2] == 1) {
-      piVar2[2] = 2;
-      (**(code **)(*piVar2 + 0xc))();
+  for (n2 = s->list2->next; n2 != s->list2; n2 = n2->next) {
+    o = n2->obj;
+    if (o->state == 1) {
+      o->state = 2;
+      ((void (*)(O_8257CED8 *))o->vt->f3)(o);
     }
-    puVar3 = *(undefined4 **)(param_1 + 0x28);
   }
-  return;
 }
-
