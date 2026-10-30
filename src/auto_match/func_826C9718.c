@@ -1,87 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8269F500();
-extern int fn_826C8D00();
-extern int fn_826F5D70();
-extern int fn_82704760();
-extern unsigned int iStack_38;
-extern unsigned int uStack_34;
+struct E_826C9718;
+typedef struct EVT_826C9718 {
+  int pad0;
+  void (*f4)(struct E_826C9718 *, void *);
+  int pad8, padc;
+  unsigned char (*f10)(struct E_826C9718 *);
+} EVT_826C9718;
+typedef struct E_826C9718 { EVT_826C9718 *vt; } E_826C9718;
+typedef struct Pair_826C9718 { E_826C9718 **first; unsigned int second; } Pair_826C9718;
+struct X_826C9718;
+typedef struct XVT_826C9718 {
+  char pad[0x28];
+  unsigned int (*f28)(struct X_826C9718 *);
+  void (*f2c)(Pair_826C9718 *, struct X_826C9718 *, unsigned int);
+} XVT_826C9718;
+typedef struct X_826C9718 { XVT_826C9718 *vt; } X_826C9718;
+typedef struct Z_826C9718 { char pad[0x10]; unsigned int count; char pad14[4]; char flag; } Z_826C9718;
+typedef struct B_826C9718 { char pad[0xc]; int *p; } B_826C9718;
+typedef struct Y_826C9718 { char pad[0xa7c]; unsigned int f7c; } Y_826C9718;
+typedef struct A_826C9718 {
+  char pad0[0xc];
+  char sub[0x80 - 0xc];
+  B_826C9718 *b;
+  char pad84[0x9c - 0x84];
+  X_826C9718 *x;
+  Y_826C9718 *y;
+  char pada4[0x1ac - 0xa4];
+  Z_826C9718 *z;
+} A_826C9718;
+extern unsigned int fn_826F5D70(char *, unsigned int *);
+extern void fn_82704760(Y_826C9718 *, unsigned int);
+extern B_826C9718 *fn_8269F500(A_826C9718 *);
+extern void fn_826C8D00(char *, const char *, int, unsigned int);
 
-
-void fn_826C9718(int param_1,ulonglong param_2)
-
+void fn_826C9718(A_826C9718 *a, unsigned int idx)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  char cVar5;
-  int iVar4;
-  uint uVar6;
-  undefined4 auStack_40;
-  struct { int first; uint second; } stack_pair_38;
-
-  
-  if ((int)param_2 != -1) {
-    iVar4 = *(int *)(param_1 + 0x1ac);
-    if ((iVar4 == 0) || (*(char *)(iVar4 + 0x18) != '\0')) {
-      uVar2 = (**(code **)(**(int **)(param_1 + 0x9c) + 0x28))();
+  unsigned int n;
+  if ((int)idx != -1) {
+    Z_826C9718 *z = a->z;
+    if (z == 0 || z->flag != 0) {
+      n = a->x->vt->f28(a->x);
+    } else {
+      n = z->count;
     }
-    else {
-      uVar2 = (ulonglong)*(uint *)(iVar4 + 0x10);
-    }
-    if ((param_2 & 0xffffffff) < (uVar2 & 0xffffffff)) {
-      uVar3 = fn_826F5D70((ulonglong)*(uint *)(param_1 + 0xa0) + 0xa2c,&auStack_40);
-      (**(code **)(**(int **)(param_1 + 0x9c) + 0x2c))(&stack_pair_38.first,*(int **)(param_1 + 0x9c),param_2)
-      ;
-      uVar6 = 0;
-      if (stack_pair_38.second != 0) {
-        iVar4 = 0;
-        do {
-          piVar1 = *(int **)(iVar4 + stack_pair_38.first);
-          cVar5 = (**(code **)(*piVar1 + 0x10))(piVar1);
-          if (cVar5 != '\0') {
-            (**(code **)(*piVar1 + 4))(piVar1,param_1);
-          }
-          uVar6 = uVar6 + 1;
-          iVar4 = iVar4 + 4;
-        } while (uVar6 < stack_pair_38.second);
+    if (idx < n) {
+      unsigned int h;
+      unsigned int saved;
+      Pair_826C9718 pr;
+      unsigned int i;
+      h = fn_826F5D70((char *)a->y + 0xa2c, &saved);
+      a->x->vt->f2c(&pr, a->x, idx);
+      for (i = 0; i < pr.second; i++) {
+        E_826C9718 *e = pr.first[i];
+        if (e->vt->f10(e) != 0) {
+          e->vt->f4(e, a);
+        }
       }
-      *(undefined4 *)(*(int *)(param_1 + 0xa0) + 0xa7c) = auStack_40;
-      fn_82704760(*(undefined4 *)(param_1 + 0xa0),uVar3);
+      a->y->f7c = saved;
+      fn_82704760(a->y, h);
       return;
     }
   }
-  iVar4 = *(int *)(param_1 + 0x80);
-  if (iVar4 == 0) {
-    iVar4 = fn_8269F500(param_1);
+  {
+    int b = (int)a->b;
+    if (b == 0) b = (int)fn_8269F500(a);
+    fn_826C8D00(a->sub, "Error: %s, CallFrame('%d') - unknown frame\n", *((B_826C9718 *)b)->p, idx);
   }
-  fn_826C8D00(param_1 + 0xc,0xffffffff8200be48,**(undefined4 **)(iVar4 + 0xc),param_2);
-  return;
 }
-

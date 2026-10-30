@@ -1,59 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82883118();
-extern int fn_828A1C98();
-extern int fn_828A1E60();
-extern unsigned int iStack_1c;
-extern unsigned int stack0x00000014;
-extern unsigned int uStack00000014;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_20;
+typedef struct Pair_828A4ED0 { unsigned int first; unsigned int second; } Pair_828A4ED0;
+extern char lbl_83213F00[];
+extern void fn_828A1C98(Pair_828A4ED0 *, char *, unsigned int *);
+extern void fn_828A1E60(unsigned int, unsigned int, unsigned int *, unsigned char);
+extern unsigned int *fn_82883118(char *, unsigned int *);
 
-
-undefined4 fn_828A4ED0(undefined4 param_1)
-
+unsigned int fn_828A4ED0(unsigned int key)
 {
-  undefined4 *puVar1;
-  undefined4 uStack00000014;
-  undefined1 uStack_20;
-  int iStack_1c;
-  struct { undefined4 first; undefined4 second; } stack_pair_18;
-
-  
-  uStack00000014 = param_1;
-  fn_828A1C98(&stack_pair_18.first,0xffffffff83213f00,&stack0x00000014);
-  iStack_1c = 0;
-  fn_828A1E60(stack_pair_18.first,stack_pair_18.second,&iStack_1c,uStack_20);
-  if (iStack_1c == 0) {
+  Pair_828A4ED0 pr;
+  unsigned int found;
+  unsigned char c;
+  fn_828A1C98(&pr, lbl_83213F00, &key);
+  found = 0;
+  fn_828A1E60(pr.first, pr.second, &found, c);
+  if (found == 0) {
     return 0;
   }
-  puVar1 = (undefined4 *)fn_82883118(0xffffffff83213f00,&stack0x00000014);
-  return *puVar1;
+  return *fn_82883118(lbl_83213F00, &key);
 }
-

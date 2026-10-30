@@ -1,45 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223FDB8();
+typedef struct Buf_8223FE60 { struct BVT_8223FE60 *vt; } Buf_8223FE60;
+typedef struct BVT_8223FE60 { int pad[2]; void (*f8)(Buf_8223FE60 *); } BVT_8223FE60;
+typedef struct Ios_8223FE60 { char pad[0x14]; unsigned int flags; char pad2[0x38 - 0x18]; int rdbuf; } Ios_8223FE60;
+typedef struct Str_8223FE60 { int *vbtab; } Str_8223FE60;
+extern void fn_8223FDB8(Str_8223FE60 *);
 
-
-void fn_8223FE60(int *param_1)
-
+void fn_8223FE60(Str_8223FE60 **pp)
 {
-  int *piVar1;
-  
-  if ((*(uint *)(*param_1 + *(int *)(*(int *)*param_1 + 4) + 0x14) & 2) != 0) {
-    fn_8223FDB8();
+  Str_8223FE60 *s = *pp;
+  Ios_8223FE60 *ios;
+  int b;
+  if ((((Ios_8223FE60 *)((char *)s + s->vbtab[1]))->flags & 2) != 0) {
+    fn_8223FDB8(s);
   }
-  piVar1 = *(int **)(*param_1 + *(int *)(*(int *)*param_1 + 4) + 0x38);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 8))();
+  s = *pp;
+  b = ((Ios_8223FE60 *)((char *)s + s->vbtab[1]))->rdbuf;
+  if (b != 0) {
+    ((Buf_8223FE60 *)b)->vt->f8((Buf_8223FE60 *)b);
   }
-  return;
 }
-

@@ -1,44 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
-extern int (*lbl_8320A4F8)();
-
-
-void fn_82814BF0(int param_1)
-
+extern void *memset(void *, int, unsigned int);
+extern void (*lbl_8320A4E8[])(void *, void *);
+typedef struct Sub_82814BF0 { int f0; void *f4; int pad[3]; } Sub;
+typedef struct In_82814BF0 { char pad[0x6c]; Sub sub; } In;
+typedef struct Self_82814BF0 { char pad[0x18]; void *f18; In *f1c; } Self;
+void fn_82814BF0(Self *s)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (*(int *)(iVar1 + 0x70) != 0) {
-    (*lbl_8320A4F8)(*(undefined4 *)(param_1 + 0x18));
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(iVar1 + 0x6c,0,0x14);
+  In *in = s->f1c;
+  Sub *sub = &in->sub;
+  if (sub->f4 != 0) lbl_8320A4E8[4](s->f18, sub->f4);
+  memset(sub, 0, 0x14);
 }
-

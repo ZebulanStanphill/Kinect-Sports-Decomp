@@ -1,61 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826944C8();
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_82696D38();
+typedef struct RC_826BD980 { int pad0, pad4; int refs; } RC_826BD980;
+typedef struct Tgt_826BD980 { struct TVT_826BD980 *vt; } Tgt_826BD980;
+typedef struct TVT_826BD980 {
+  char pad[0x24];
+  unsigned char (*f24)(Tgt_826BD980 *, unsigned int, RC_826BD980 **, int);
+} TVT_826BD980;
+typedef struct Obj_826BD980 {
+  int pad0;
+  unsigned char *state;
+  Tgt_826BD980 *tgt;
+  char padc[0xc];
+  unsigned int f18;
+} Obj_826BD980;
+extern void fn_826944C8(RC_826BD980 *);
+extern unsigned int fn_826957D0(Obj_826BD980 *, int);
+extern void fn_826959C8(unsigned char *);
+extern void fn_82696D38(RC_826BD980 **, unsigned int, unsigned int, int, int);
 
-
-void fn_826BD980(int param_1)
-
+void fn_826BD980(Obj_826BD980 *o)
 {
-  undefined4 uVar1;
-  undefined1 *puVar2;
-  undefined8 uVar3;
-  undefined1 uVar4;
-  longlong lVar5;
-  int aiStack_20 [2];
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  uVar3 = fn_826957D0(param_1,0);
-  fn_82696D38(aiStack_20,uVar3,uVar1,0xffffffffffffffff,0);
-  uVar4 = (**(code **)(**(int **)(param_1 + 8) + 0x24))
-                    (*(int **)(param_1 + 8),(ulonglong)*(uint *)(param_1 + 0x18) + 0x78,aiStack_20,0
-                    );
-  puVar2 = *(undefined1 **)(param_1 + 4);
-  fn_826959C8(puVar2);
-  puVar2[4] = uVar4;
-  *puVar2 = 2;
-  lVar5 = (ulonglong)*(uint *)(aiStack_20[0] + 8) - 1;
-  *(int *)(aiStack_20[0] + 8) = (int)lVar5;
-  if (lVar5 == 0) {
-    fn_826944C8(aiStack_20[0]);
+  unsigned int a, u;
+  unsigned char r;
+  unsigned char *st;
+  RC_826BD980 *rc;
+  RC_826BD980 *L;
+  a = o->f18;
+  u = fn_826957D0(o, 0);
+  fn_82696D38(&L, u, a, -1, 0);
+  r = o->tgt->vt->f24(o->tgt, o->f18 + 0x78, &L, 0);
+  st = o->state;
+  fn_826959C8(st);
+  st[4] = r;
+  st[0] = 2;
+  rc = L;
+  if (--rc->refs == 0) {
+    fn_826944C8(rc);
   }
-  return;
 }
-

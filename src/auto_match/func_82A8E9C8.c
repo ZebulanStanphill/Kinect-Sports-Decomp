@@ -1,66 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82A86CB0();
-extern int fn_82A8C620();
-extern int fn_82A8DB80();
-extern unsigned int uStack_8c;
+struct O_82A8E9C8;
+typedef struct VT_82A8E9C8 {
+  int pad0;
+  unsigned char (*f4)(struct O_82A8E9C8 *);
+  int pad8, padc;
+  unsigned char (*f10)(struct O_82A8E9C8 *, void *, int, void *);
+} VT_82A8E9C8;
+typedef struct O_82A8E9C8 { VT_82A8E9C8 *vt; } O_82A8E9C8;
+typedef struct Def_82A8E9C8 { int pad; int v; int p2, p3; } Def_82A8E9C8;
+extern void fn_82A86CB0(void *, void *, int);
+extern void fn_82A8C620(void *, int, int, int *);
+extern void fn_82A8DB80(void *, int *, void *, int);
 
-
-undefined8 fn_82A8E9C8(int *param_1,int *param_2,longlong param_3)
-
+int fn_82A8E9C8(Def_82A8E9C8 **pp, O_82A8E9C8 *o, int *key)
 {
-  char cVar2;
-  undefined8 uVar1;
-  undefined1 *puVar3;
-  undefined1 auStack_90 [4];
-  undefined4 uStack_8c;
-  undefined1 auStack_80 [48];
-  undefined1 auStack_50 [48];
-  
-  puVar3 = (undefined1 *)*param_1;
-  uStack_8c = 5;
-  if (puVar3 == (undefined1 *)0x0) {
-    puVar3 = auStack_90;
+  struct { Def_82A8E9C8 def; char b60[0x30]; char b90[0x30]; } L;
+  Def_82A8E9C8 *p, *t;
+  t = *pp;
+  L.def.v = 5;
+  p = t ? t : &L.def;
+  if (o->vt->f4(o) && o->vt->f10(o, L.b90, 0x30, &L.def)) {
+    fn_82A86CB0(L.b60, L.b90, 0x30);
+    fn_82A8C620(L.b60, 0, 0x20, key);
+    fn_82A8DB80(p, key + 1, L.b60, 0x20);
+    return 1;
   }
-  cVar2 = (**(code **)(*param_2 + 4))(param_2);
-  if ((cVar2 == '\0') ||
-     (cVar2 = (**(code **)(*param_2 + 0x10))(param_2,auStack_50,0x30,auStack_90), cVar2 == '\0')) {
-    uVar1 = 0;
-  }
-  else {
-    fn_82A86CB0(auStack_80,auStack_50,0x30);
-    fn_82A8C620(auStack_80,0,0x20,param_3);
-    fn_82A8DB80(puVar3,param_3 + 4,auStack_80,0x20);
-    uVar1 = 1;
-  }
-  return uVar1;
+  return 0;
 }
-

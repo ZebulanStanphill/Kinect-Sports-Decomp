@@ -1,87 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267ADA8();
-extern int fn_8267B890();
-extern int fn_8267C4C8();
-extern int fn_8267C4F0();
-extern int fn_826D8C80();
-extern int fn_826F3030();
-extern unsigned int lbl_8200C69C;
-extern unsigned int lbl_831E7E64;
+struct Tgt_826DB810;
+typedef struct TgtVT_826DB810 { char pad[0x40]; void *(*f40)(struct Tgt_826DB810 *); } TgtVT_826DB810;
+typedef struct Tgt_826DB810 { TgtVT_826DB810 *vt; char pad[0x1c]; struct { char pad[0x28]; int f28; } *f20; } Tgt_826DB810;
+typedef struct Sub_826DB810 { char a[0xc]; char cs[0x20]; } Sub_826DB810;
+typedef struct Tail_826DB810 { int f7c; void *f80; void *f84; int f88; unsigned char f8c; } Tail_826DB810;
+typedef struct Head_826DB810 { struct Tgt_826DB810 *fc; int f10; } Head_826DB810;
+typedef struct Obj_826DB810 {
+  void *vt;
+  int ref;
+  void *f8;
+  Tgt_826DB810 *fc;
+  int f10;
+  int f14;
+  Sub_826DB810 s18;
+  int f44;
+  int f48, f4c, f50;
+  char sub54[0x1c];
+  int f70, f74, f78, f7c;
+  void *f80;
+  void *f84;
+  int f88;
+  unsigned char f8c;
+} Obj_826DB810;
+extern char lbl_8200C69C[];
+extern char *lbl_831E7E64;
+extern void fn_8267C4C8(void *);
+extern void fn_8267C4F0(void *);
+extern void fn_826F3030(void *, void *);
+extern void fn_8267ADA8(void *, int);
+extern void *fn_8267B890(char *, int, int);
+extern void *fn_826D8C80(void);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-undefined4 *
-fn_826DB810(undefined4 *param_1,undefined8 param_2,ulonglong param_3,undefined4 param_4,
-             undefined4 param_5,char param_6)
-
+Obj_826DB810 *fn_826DB810(Obj_826DB810 *o, void *a, Tgt_826DB810 *b, int c, int d, unsigned char flag)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  param_1[2] = (int)param_2;
-  param_1[1] = 1;
-  *param_1 = &lbl_8200C69C;
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_8267C4C8(param_3);
+  void *r;
+  Sub_826DB810 *sp;
+  Head_826DB810 *h = (Head_826DB810 *)&o->fc;
+  Tail_826DB810 *t = (Tail_826DB810 *)&o->f7c;
+  o->f8 = a;
+  o->ref = 1;
+  o->vt = lbl_8200C69C;
+  if (b != 0) {
+    fn_8267C4C8(b);
   }
-  param_1[3] = (int)param_3;
-  param_1[4] = param_4;
-  fn_826F3030(param_1 + 6,param_2);
-  uVar2 = 0;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  fn_8267ADA8(param_1 + 0x15,0);
-  param_1[0x1c] = 0;
-  param_1[0x1d] = 0;
-  param_1[0x1e] = 0;
-  param_1[0x20] = 0;
-  RtlEnterCriticalSection(param_1 + 9);
-  param_1[0x11] = param_4;
-  RtlLeaveCriticalSection(param_1 + 9);
-  *(undefined1 *)(param_1 + 0x23) = 0;
-  param_1[0x21] = 0;
-  param_1[0x22] = 0;
-  param_1[5] = param_5;
-  param_1[0x1f] = 0;
-  iVar1 = fn_8267B890(lbl_831E7E64,0x24,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_826D8C80();
+  h->fc = b;
+  h->f10 = c;
+  sp = &o->s18;
+  fn_826F3030(sp, a);
+  r = 0;
+  o->f48 = 0;
+  o->f4c = 0;
+  o->f50 = 0;
+  fn_8267ADA8(o->sub54, 0);
+  o->f70 = 0;
+  o->f74 = 0;
+  o->f78 = 0;
+  o->f80 = 0;
+  RtlEnterCriticalSection(sp->cs);
+  o->f44 = c;
+  RtlLeaveCriticalSection(sp->cs);
+  t->f8c = 0;
+  t->f84 = 0;
+  t->f88 = 0;
+  o->f14 = d;
+  t->f7c = 0;
+  if (fn_8267B890(lbl_831E7E64, 0x24, 0) != 0) {
+    r = fn_826D8C80();
   }
-  if (param_1[0x20] != 0) {
-    fn_8267C4F0();
+  if (o->f80 != 0) {
+    fn_8267C4F0(o->f80);
   }
-  param_1[0x20] = uVar2;
-  if (param_6 != '\0') {
-    uVar2 = (**(code **)(*(int *)param_1[3] + 0x40))();
-    param_1[0x21] = uVar2;
-    param_1[0x22] = *(undefined4 *)(*(int *)(param_1[3] + 0x20) + 0x28);
+  o->f80 = r;
+  if (flag != 0) {
+    o->f84 = o->fc->vt->f40(o->fc);
+    o->f88 = o->fc->f20->f28;
   }
-  return param_1;
+  return o;
 }
-

@@ -1,145 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern unsigned int lbl_82197A84;
-
-
-undefined4 *
-fn_8224B7A0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
-             undefined4 *param_5,undefined4 *param_6,undefined4 *param_7)
-
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern char lbl_82197A84[];
+typedef struct SP_8224B7A0 { void *first; void *second; } SP;
+typedef struct Obj_8224B7A0 { void *vt; int f4; char pad[0x18]; SP a, b, c, d, e, f; } Obj;
+static __forceinline void Assign(SP *dst, SP *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  
-  param_1[1] = 0;
-  *param_1 = &lbl_82197A84;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  iVar1 = param_2[1];
-  uVar2 = *param_2;
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[9] != 0) {
-        fn_822315A0();
-      }
-      param_1[9] = iVar1;
-      param_1[8] = uVar2;
-    }
+  void *rc, *p;
+  dst->first = 0;
+  dst->second = 0;
+  rc = src->second;
+  p = src->first;
+  if (rc != 0 && fn_8223AAC0(rc) != 0) {
+    if (dst->second != 0) fn_822315A0(dst->second);
+    dst->second = rc;
+    dst->first = p;
   }
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  iVar1 = param_3[1];
-  uVar2 = *param_3;
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0xb] != 0) {
-        fn_822315A0();
-      }
-      param_1[0xb] = iVar1;
-      param_1[10] = uVar2;
-    }
-  }
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  iVar1 = param_4[1];
-  uVar2 = *param_4;
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0xd] != 0) {
-        fn_822315A0();
-      }
-      param_1[0xd] = iVar1;
-      param_1[0xc] = uVar2;
-    }
-  }
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  uVar2 = *param_5;
-  iVar1 = param_5[1];
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0xf] != 0) {
-        fn_822315A0();
-      }
-      param_1[0xf] = iVar1;
-      param_1[0xe] = uVar2;
-    }
-  }
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  iVar1 = param_6[1];
-  uVar2 = *param_6;
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x11] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x11] = iVar1;
-      param_1[0x10] = uVar2;
-    }
-  }
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  iVar1 = param_7[1];
-  uVar2 = *param_7;
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x13] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x13] = iVar1;
-    param_1[0x12] = uVar2;
-  }
-  if (param_2[1] != 0) {
-    fn_822315A0();
-  }
-  if (param_3[1] != 0) {
-    fn_822315A0();
-  }
-  if (param_4[1] != 0) {
-    fn_822315A0();
-  }
-  if (param_5[1] != 0) {
-    fn_822315A0();
-  }
-  if (param_6[1] != 0) {
-    fn_822315A0();
-  }
-  if (param_7[1] != 0) {
-    fn_822315A0();
-  }
-  return param_1;
 }
-
+Obj * fn_8224B7A0(Obj *o, SP *a, SP *b, SP *c, SP *d, SP *e, SP *f)
+{
+  o->f4 = 0;
+  o->vt = lbl_82197A84;
+  Assign(&o->a, a);
+  Assign(&o->b, b);
+  Assign(&o->c, c);
+  Assign(&o->d, d);
+  Assign(&o->e, e);
+  Assign(&o->f, f);
+  if (a->second != 0) fn_822315A0(a->second);
+  if (b->second != 0) fn_822315A0(b->second);
+  if (c->second != 0) fn_822315A0(c->second);
+  if (d->second != 0) fn_822315A0(d->second);
+  if (e->second != 0) fn_822315A0(e->second);
+  if (f->second != 0) fn_822315A0(f->second);
+  return o;
+}

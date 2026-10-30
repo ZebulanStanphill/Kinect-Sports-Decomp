@@ -1,77 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82232540();
-extern int fn_8223AAC0();
-extern int fn_8223B930();
-extern int fn_8265C9E0();
-extern unsigned int lbl_82196BD0;
-extern unsigned int lbl_8219732C;
-extern unsigned int lbl_821AD588;
-
-
-undefined4 * fn_82257E20(undefined4 *param_1)
-
+extern void fn_822315A0(void *);
+extern void fn_82232540(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_8223B930(void *);
+extern void *fn_8265C9E0(unsigned int);
+extern char lbl_82196BD0[];
+extern char lbl_8219732C[];
+extern char lbl_821AD588[];
+typedef struct Sub_82257E20 { void *vt; char pad[0x998]; char f99c[0x68]; char fa04[1]; } Sub;
+typedef struct Blk_82257E20 { void *vt; int f4; int f8; Sub sub; } Blk;
+typedef struct SP_82257E20 { Sub *first; Blk *second; } SP;
+SP * fn_82257E20(SP *out)
 {
-  undefined4 *puVar1;
-  char cVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0xa78);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar3 = puVar1 + 3;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar3 != (undefined4 *)0x0) {
-      fn_82232540(puVar3);
-      *puVar3 = &lbl_82196BD0;
-      fn_8223B930(puVar1 + 0x26a);
-      fn_8223B930(puVar1 + 0x284);
-      *puVar3 = &lbl_8219732C;
+  Blk *b;
+  Sub *s2;
+  Blk *mem = (Blk *)fn_8265C9E0(0xa78);
+  if (mem != 0) {
+    Sub *s;
+    mem->f4 = 1;
+    mem->vt = lbl_821AD588;
+    mem->f8 = 1;
+    s = &mem->sub;
+    if (s != 0) {
+      fn_82232540(s);
+      s->vt = lbl_82196BD0;
+      fn_8223B930(s->f99c);
+      fn_8223B930(s->fa04);
+      s->vt = lbl_8219732C;
     }
+    b = mem;
+  } else {
+    b = 0;
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (puVar1 != (undefined4 *)0x0) {
-    cVar2 = fn_8223AAC0(puVar1);
-    if (cVar2 != '\0') {
-      if (param_1[1] != 0) {
-        fn_822315A0();
-      }
-      param_1[1] = puVar1;
-      *param_1 = puVar1 + 3;
+  s2 = &b->sub;
+  out->first = 0;
+  out->second = 0;
+  if (b != 0) {
+    if (fn_8223AAC0(b) != 0) {
+      if (out->second != 0) fn_822315A0(out->second);
+      out->second = b;
+      out->first = s2;
     }
-    fn_822315A0(puVar1);
+    fn_822315A0(b);
   }
-  return param_1;
+  return out;
 }
-

@@ -1,64 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C2B590();
-
-
-void fn_82A52068(int *param_1,int param_2)
-
+extern void fn_82C2B590(void *);
+typedef struct Inner_82A52068 { int f0; void *f4; } Inner;
+typedef struct Item_82A52068 { char pad[0x1a8]; Inner *f1a8; } Item;
+typedef struct Info_82A52068 { char pad[0x22]; unsigned short count; } Info;
+typedef struct Self_82A52068 { Info *info; int f4; void *f8; } Self;
+void fn_82A52068(Self *s, char *arr)
 {
-  int iVar1;
-  short sVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = *param_1;
-  if (param_1[2] != 0) {
-    fn_82C2B590();
-    param_1[2] = 0;
+  Info *info = s->info;
+  if (s->f8 != 0) {
+    fn_82C2B590(s->f8);
+    s->f8 = 0;
   }
-  if (((iVar1 != 0) && (param_2 != 0)) && (*(short *)(iVar1 + 0x22) != 0)) {
-    iVar3 = 0;
+  if (info != 0 && arr != 0 && info->count != 0) {
+    short i = 0;
     do {
-      iVar4 = iVar3 * 0x6f0 + param_2;
-      if (iVar4 != 0) {
-        if ((*(int *)(iVar4 + 0x1a8) != 0) && (*(int *)(*(int *)(iVar4 + 0x1a8) + 4) != 0)) {
-          fn_82C2B590();
-          *(undefined4 *)(*(int *)(iVar4 + 0x1a8) + 4) = 0;
+      Item *it = (Item *)(arr + i * 0x6f0);
+      if (it != 0) {
+        if (it->f1a8 != 0 && it->f1a8->f4 != 0) {
+          fn_82C2B590(it->f1a8->f4);
+          it->f1a8->f4 = 0;
         }
-        if (*(int *)(iVar4 + 0x1a8) != 0) {
-          fn_82C2B590();
-          *(undefined4 *)(iVar4 + 0x1a8) = 0;
+        if (it->f1a8 != 0) {
+          fn_82C2B590(it->f1a8);
+          it->f1a8 = 0;
         }
       }
-      sVar2 = (short)iVar3 + 1;
-      iVar3 = (int)sVar2;
-    } while ((int)sVar2 < (int)(uint)*(ushort *)(iVar1 + 0x22));
+      i = i + 1;
+    } while (i < info->count);
   }
-  return;
 }
-

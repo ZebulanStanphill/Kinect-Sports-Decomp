@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
-
-
-void fn_8255BAF8(int param_1,int param_2)
-
+extern void fn_822315A0(unsigned int);
+extern void fn_8265CA20(void *);
+typedef struct Key_8255BAF8 { int f0; unsigned int key; } Key;
+typedef struct Node_8255BAF8 { struct Node_8255BAF8 *next; struct Node_8255BAF8 *prev; Key *k; unsigned int f0c; } Node;
+typedef struct List_8255BAF8 { Node *head; int size; } List;
+typedef struct Self_8255BAF8 { int f0; List l; } Self;
+void fn_8255BAF8(Self *s, unsigned int key)
 {
-  int *piVar1;
-  
-  piVar1 = (int *)**(int **)(param_1 + 4);
-  while ((piVar1 != *(int **)(param_1 + 4) && (*(int *)(piVar1[2] + 4) != param_2))) {
-    piVar1 = (int *)*piVar1;
+  List *l = &s->l;
+  Node *head = l->head;
+  Node *n = head->next;
+  while (n != head && n->k->key != key) n = n->next;
+  if (n != s->l.head) {
+    n->prev->next = n->next;
+    n->next->prev = n->prev;
+    if (n->f0c != 0) fn_822315A0(n->f0c);
+    fn_8265CA20(n);
+    l->size = l->size - 1;
   }
-  if (piVar1 != *(int **)(param_1 + 4)) {
-    *(int *)piVar1[1] = *piVar1;
-    *(int *)(*piVar1 + 4) = piVar1[1];
-    if (piVar1[3] != 0) {
-      fn_822315A0();
-    }
-    fn_8265CA20(piVar1);
-    *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + -1;
-  }
-  return;
 }
-

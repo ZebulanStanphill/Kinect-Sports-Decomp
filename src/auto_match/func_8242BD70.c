@@ -1,61 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8242BD70(int param_1)
-
+typedef struct Vt_8242BD70 { char pad[0x30]; void (*f30)(void *); } Vt;
+typedef struct Item_8242BD70 { Vt *vt; } Item;
+typedef struct Mgr_8242BD70 { char pad[0x1c4]; Item **arr; char pad2[0x0c]; int cur; } Mgr;
+typedef struct Sub_8242BD70 { int f0[5]; int f14; int f18; int pad[9]; Mgr *f40; } Sub;
+typedef struct Self_8242BD70 { char pad[0x174]; char *f174; } Self;
+void fn_8242BD70(Self *self)
 {
-  int iVar1;
-  int *piVar2;
-  bool bVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x174);
-  if (*(int *)(*(int *)(iVar1 + 0x5c) + 0x1d4) == -1) {
-    return;
-  }
-  piVar2 = *(int **)(*(int *)(*(int *)(iVar1 + 0x5c) + 0x1d4) * 4 +
-                    *(int *)(*(int *)(iVar1 + 0x5c) + 0x1c4));
-  if (piVar2 == (int *)0x0) {
-    return;
-  }
-  if ((*(int *)(iVar1 + 0x34) == *(int *)(iVar1 + 0x30)) ||
-     (bVar3 = true, *(int *)(iVar1 + 0x34) == 0)) {
-    bVar3 = false;
-  }
-  if (bVar3) {
-    return;
-  }
-  if (*(int *)(iVar1 + 0x30) != 2) {
-    return;
-  }
-                    /* WARNING: Could not recover jumptable at 0x8242bde0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*piVar2 + 0x30))();
-  return;
+  Sub *s = (Sub *)(self->f174 + 0x1c);
+  unsigned char b;
+  Item *it;
+  if (s->f40->cur == -1) return;
+  it = s->f40->arr[s->f40->cur];
+  if (it == 0) return;
+  if (s->f18 == s->f14 || s->f18 == 0) b = 0; else b = 1;
+  if (b) return;
+  if (s->f14 != 2) return;
+  it->vt->f30(it);
 }
-

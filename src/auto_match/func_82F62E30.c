@@ -1,54 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+typedef struct Node_82F62E30 {
+  struct Node_82F62E30 *next;
+  void *arg;
+  void (*fn)(int, void *, void *);
+} Node_82F62E30;
+typedef struct Owner_82F62E30 {
+  char pad[0x28];
+  Node_82F62E30 *a;
+  Node_82F62E30 *b;
+} Owner_82F62E30;
+extern void fn_8265CA20(void *);
 
-
-void fn_82F62E30(int param_1)
-
+void fn_82F62E30(Owner_82F62E30 *o)
 {
-  undefined4 *puVar1;
-  
-  for (puVar1 = *(undefined4 **)(param_1 + 0x2c); puVar1 != (undefined4 *)0x0;
-      puVar1 = (undefined4 *)*puVar1) {
-    (*(code *)puVar1[2])(0,param_1,puVar1[1]);
+  Node_82F62E30 *p, *n;
+  for (p = o->b; p != 0; p = p->next) {
+    p->fn(0, o, p->arg);
   }
-  puVar1 = *(undefined4 **)(param_1 + 0x28);
-  while (puVar1 != (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)*puVar1;
-    fn_8265CA20();
+  p = o->a;
+  while (p != 0) {
+    n = p->next;
+    fn_8265CA20(p);
+    p = n;
   }
-  puVar1 = *(undefined4 **)(param_1 + 0x2c);
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  while (puVar1 != (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)*puVar1;
-    fn_8265CA20();
+  p = o->b;
+  o->a = 0;
+  while (p != 0) {
+    n = p->next;
+    fn_8265CA20(p);
+    p = n;
   }
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  return;
+  o->b = 0;
 }
-
