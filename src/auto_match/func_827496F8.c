@@ -1,3 +1,4 @@
+extern void fn_82749478(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -33,7 +34,7 @@ extern unsigned int lbl_82013278;
 undefined4 * fn_827496F8(undefined4 *param_1,undefined8 param_2)
 
 {
-  fn_826C35B8(param_1,param_2,0xffffffff82749478);
+  fn_826C35B8(param_1,param_2,fn_82749478);
   *param_1 = &lbl_82012D10;
   param_1[4] = &lbl_82013278;
   return param_1;

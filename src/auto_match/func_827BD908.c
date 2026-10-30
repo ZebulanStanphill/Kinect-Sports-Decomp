@@ -33,12 +33,11 @@ extern int fn_82F6CE40();
 void fn_827BD908(int *param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined1 auStack_d0 [192];
   
-  (**(code **)(*param_1 + 0xc))(param_1,auStack_d0);
-  lVar1 = fn_82F6AB08();
-  fn_82F6CE40(lVar1 + 0x40,0xffffffff821cc884,auStack_d0);
+  (*(code *)(*param_1 + 0xc))(param_1,auStack_d0);
+  fn_82F6CE40(fn_82F6AB08() + 0x40,"%s\n",auStack_d0);
   return;
 }
 

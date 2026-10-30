@@ -37,9 +37,8 @@ bool fn_828155D0(int param_1,undefined8 param_2,undefined8 param_3,int *param_4)
   uVar2 = (ulonglong)*(uint *)(param_1 + 0x80);
   iVar1 = fn_82821678(param_3,param_2,uVar2 + 0x20,uVar2,uVar2 + 0x10);
   *param_4 = iVar1;
-  if (iVar1 < 0) {
-    *param_4 = 0;
-  }
-  return iVar1 >= 0;
+  if (iVar1 >= 0) return 1;
+  *param_4 = 0;
+  return 0;
 }
 

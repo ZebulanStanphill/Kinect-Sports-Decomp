@@ -34,7 +34,7 @@ void fn_82FA9428(int param_1,undefined4 param_2,undefined4 param_3,undefined4 pa
   *(undefined4 *)(param_1 + 0x28) = param_3;
   *(undefined4 *)(param_1 + 0x2c) = param_4;
   *(int *)(param_1 + 0x20) = param_5;
-  if (*(int *)(param_1 + 8) <= param_5) {
+  if (param_5 >= *(int *)(param_1 + 8)) {
     return;
   }
   *(int *)(param_1 + 8) = param_5;

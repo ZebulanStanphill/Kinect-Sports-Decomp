@@ -1,39 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828E9D28();
-extern int fn_82F63EC8();
-
-
-void fn_831285B0(void)
-
-{
-  fn_828E9D28(0xffffffff83159a24,0xffffffff832119c8,0x800);
-  fn_82F63EC8(0xffffffff83140780);
-  return;
-}
-
+extern char lbl_832119C8[], lbl_83159A24[];
+extern void fn_83140780(void);
+extern void fn_828E9D28(void *, void *, int);
+extern int atexit(void (*)(void));
+void fn_831285B0(void) { fn_828E9D28(lbl_83159A24, lbl_832119C8, 0x800); atexit(fn_83140780); }

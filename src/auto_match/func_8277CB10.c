@@ -26,20 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8277CB68();
-extern int fn_82F63CA0();
+extern void *memmove(void *, const void *, unsigned int);
 
 
 undefined4 * fn_8277CB10(undefined4 *param_1,undefined4 *param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   if (param_2 != param_1) {
     iVar1 = param_2[1];
     fn_8277CB68(param_1,iVar1,0);
     param_1[1] = iVar1;
     if (iVar1 != 0) {
-      fn_82F63CA0(*param_1,*param_2,iVar1 << 2);
+      memmove((void *)*param_1,(void *)*param_2,iVar1 << 2);
     }
   }
   return param_1;

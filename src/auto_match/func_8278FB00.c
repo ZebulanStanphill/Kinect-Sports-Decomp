@@ -33,7 +33,7 @@ uint fn_8278FB00(int param_1,uint param_2)
   uint uVar1;
   
   uVar1 = *(uint *)(param_1 + 0x1c);
-  if ((param_2 < uVar1) || (*(int *)(param_1 + 4) + uVar1 <= param_2)) {
+  if ((param_2 < uVar1) || (param_2 >= *(int *)(param_1 + 4) + uVar1)) {
     uVar1 = uVar1 - param_2;
   }
   else {

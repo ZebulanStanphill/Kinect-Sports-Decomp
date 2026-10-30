@@ -28,16 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_828632A8();
 
 
-undefined8 fn_8285CE08(int *param_1)
+unsigned char   fn_8285CE08(int *param_1)
 
 {
   int iVar1;
   undefined8 uVar2;
   
-  iVar1 = fn_828632A8();
-  if ((iVar1 == 0) || (uVar2 = 1, *param_1 != -1)) {
-    uVar2 = 0;
-  }
-  return uVar2;
+  return fn_828632A8() != 0 && *param_1 == -1;
 }
-

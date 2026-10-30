@@ -32,8 +32,8 @@ extern unsigned int lbl_831BC768;
 void fn_8302A570(int param_1)
 
 {
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_82FA5190(lbl_831BC768);
+  if (*(unsigned int *)(param_1 + 4) != 0) {
+    fn_82FA5190(lbl_831BC768, *(unsigned int *)(param_1 + 4));
     *(undefined4 *)(param_1 + 4) = 0;
   }
   return;

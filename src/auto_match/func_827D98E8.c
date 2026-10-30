@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_827D98E8(int param_1,int *param_2)
 
 {
-  return *param_2 == param_1;
+  return param_1 == *param_2;
 }
 

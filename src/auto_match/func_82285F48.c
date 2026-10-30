@@ -35,8 +35,8 @@ void fn_82285F48(int param_1)
   int iVar1;
   
   iVar1 = *(int *)(param_1 + 4);
-  if (*(int *)(iVar1 + 0x14c) != 0) {
-    fn_8226D6A0();
+  if (*(unsigned int *)(iVar1 + 0x14c) != 0) {
+    fn_8226D6A0(*(unsigned int *)(iVar1 + 0x14c));
     *(undefined4 *)(iVar1 + 0x14c) = 0;
   }
   fn_82279CA0(iVar1,0);

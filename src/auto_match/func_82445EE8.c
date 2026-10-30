@@ -28,16 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82441CB0();
 extern int fn_82529320();
 extern int fn_8265CA20();
-extern unsigned int lbl_821B9B48;
+extern int lbl_821B9B48[];
 extern unsigned int lbl_821B9B50;
 
 
 void fn_82445EE8(undefined4 *param_1)
 
 {
-  *param_1 = &lbl_821B9B48;
-  (*(code *)lbl_821B9B50)();
-  if (*(int *)param_1[1] != 0) {
+  *param_1 = lbl_821B9B48;
+  ((code)lbl_821B9B48[2])(param_1);
+  if (*(unsigned int *)param_1[1] != 0) {
     fn_82529320(*(int *)param_1[1],0);
     *(undefined4 *)param_1[1] = 0;
   }

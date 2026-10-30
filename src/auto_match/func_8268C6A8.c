@@ -26,17 +26,17 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8268B368();
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
 extern unsigned int lbl_831E7E64;
 
 
-undefined4 * fn_8268C6A8(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
+undefined4 * fn_8268C6A8(undefined4 *param_1,const void *param_2,unsigned int param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   lVar1 = fn_8268B368(param_1,lbl_831E7E64,param_3,0);
-  fn_82F68CC0(lVar1 + 8,param_2,param_3);
+  memcpy((void *)(lVar1 + 8),param_2,param_3);
   *param_1 = (int)lVar1;
   return param_1;
 }

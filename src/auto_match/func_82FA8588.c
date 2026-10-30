@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82FA8588(int param_1,uint param_2)
 
 {
-  if ((*(uint *)(param_1 + 0x194) == 0xffffffff) || (param_2 < *(uint *)(param_1 + 0x194))) {
+  if ((*(uint *)(param_1 + 0x194) == 0xffffffff) || (*(uint *)(param_1 + 0x194) > param_2)) {
     *(uint *)(param_1 + 0x194) = param_2;
   }
   *(undefined1 *)(param_1 + 0x19c) = 1;

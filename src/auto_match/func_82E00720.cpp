@@ -1,0 +1,1 @@
+extern "C" int fn_82D83B68(int,unsigned); struct E { unsigned v; char pad[92]; }; struct S { int pad[4]; E *data; int count; E *base(){return data;} void apply(int q); }; void S::apply(int q) { int n=count; if(n>0) { int i=0; do { fn_82D83B68(q, data[i].v); ++i; --n; } while(n != 0); } }

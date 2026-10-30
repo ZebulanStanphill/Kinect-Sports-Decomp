@@ -30,17 +30,17 @@ extern int fn_8267BE38();
 extern int fn_8269A608();
 
 
-int * fn_8273FF18(int *param_1,ulonglong param_2)
+int * fn_8273FF18(int *param_1,uint param_2)
 
 {
-  uint *puVar1;
-  uint uVar2;
+  int *puVar1;
+  int uVar2;
   
-  puVar1 = (uint *)*param_1;
-  if (puVar1 != (uint *)0x0) {
+  puVar1 = (int *)*param_1;
+  if (puVar1 != (int *)0x0) {
     uVar2 = *puVar1;
-    *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((longlong)((ulonglong)uVar2 - 1) < 1) {
+    *puVar1 = uVar2 - 1;
+    if (uVar2 - 1 <= 0) {
       fn_8269A608(puVar1);
       fn_8267BE38(puVar1);
     }

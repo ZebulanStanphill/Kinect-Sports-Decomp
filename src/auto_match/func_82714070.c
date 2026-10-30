@@ -26,6 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_826C35B8();
+extern void fn_82713D18(void);
 extern unsigned int lbl_8200F390;
 extern unsigned int lbl_82013278;
 
@@ -33,7 +34,7 @@ extern unsigned int lbl_82013278;
 undefined4 * fn_82714070(undefined4 *param_1,undefined8 param_2)
 
 {
-  fn_826C35B8(param_1,param_2,0xffffffff82713d18);
+  fn_826C35B8(param_1,param_2,fn_82713D18);
   *param_1 = &lbl_8200F390;
   param_1[4] = &lbl_82013278;
   return param_1;

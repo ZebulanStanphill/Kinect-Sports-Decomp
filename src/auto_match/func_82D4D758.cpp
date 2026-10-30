@@ -1,0 +1,1 @@
+struct E { char pad[12]; short v; char tail[2]; }; struct S { char pad[36]; E *data; void get(int i, short v); }; void S::get(int i, short v) { data[i].v=v; }

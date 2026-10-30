@@ -33,7 +33,7 @@ longlong fn_8267B320(int param_1,uint param_2)
   int iVar1;
   
   iVar1 = *(int *)(param_1 + 0xc);
-  if (*(uint *)(iVar1 + 0x19c) <= param_2) {
+  if (param_2 >= *(uint *)(iVar1 + 0x19c)) {
     return 0;
   }
   return ((ulonglong)*(uint *)(param_2 * 0xc + iVar1 + 0x1c) - (ulonglong)*(uint *)(iVar1 + 8)) +

@@ -34,19 +34,16 @@ undefined8 fn_82673220(int param_1)
   undefined8 uVar1;
   undefined4 *puVar2;
   
-  if (*(int *)(*(int *)(param_1 + 4) + 0xf0) == 0) {
-    uVar1 = 1;
-  }
-  else {
+  if (*(int *)(*(int *)(param_1 + 4) + 0xf0) != 0) {
     puVar2 = (undefined4 *)(param_1 + 0x14);
-    if (0xf < *(uint *)(param_1 + 0x28)) {
+    if (*(uint *)(param_1 + 0x28) >= 0x10) {
       puVar2 = (undefined4 *)*puVar2;
     }
     fn_82672F30(*(int *)(param_1 + 4),puVar2,*(undefined4 *)(param_1 + 0x30),
                   *(undefined4 *)(param_1 + 0x34),*(undefined4 *)(param_1 + 0x38),
                   *(undefined4 *)(param_1 + 0x3c));
     uVar1 = 0;
-  }
+  } else { uVar1 = 1; }
   return uVar1;
 }
 

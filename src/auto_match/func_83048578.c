@@ -33,8 +33,8 @@ extern unsigned int lbl_831BC770;
 void fn_83048578(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x5c) != 0) {
-    fn_82FA5190(lbl_831BC770);
+  if (*(unsigned int *)(param_1 + 0x5c) != 0) {
+    fn_82FA5190(lbl_831BC770, *(unsigned int *)(param_1 + 0x5c));
     *(undefined4 *)(param_1 + 0x5c) = 0;
     *(undefined2 *)(param_1 + 0x60) = 0;
   }

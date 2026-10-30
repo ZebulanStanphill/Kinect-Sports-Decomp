@@ -37,12 +37,7 @@ undefined8 fn_82E2B280(longlong param_1,undefined8 param_2,uint *param_3)
   uVar2 = 0;
   RtlEnterCriticalSection(param_1 + 8);
   puVar1 = (ushort *)fn_82E2AC98(param_1,param_2);
-  if (puVar1 == (ushort *)0x0) {
-    uVar2 = 0xffffffffc00d36e6;
-  }
-  else {
-    *param_3 = (uint)*puVar1;
-  }
+  if (puVar1 != 0) { *param_3 = *puVar1; } else { uVar2 = 0xffffffffc00d36e6; }
   RtlLeaveCriticalSection(param_1 + 8);
   return uVar2;
 }

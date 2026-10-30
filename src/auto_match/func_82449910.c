@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_82449910(int param_1,int param_2)
 
 {
-  return **(float **)(param_1 + 0x48) < **(float **)(param_2 + 0x1a0);
+  return **(float **)(param_2 + 0x1a0) > **(float **)(param_1 + 0x48);
 }
 

@@ -36,7 +36,7 @@ void fn_8278B268(int param_1,uint param_2,uint param_3)
   if (puVar1 == (uint *)0x0) {
     return;
   }
-  if (*puVar1 <= param_2) {
+  if (param_2 >= *puVar1) {
     return;
   }
   puVar1[param_2 + 1] = param_3;

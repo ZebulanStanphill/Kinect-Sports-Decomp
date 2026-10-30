@@ -36,13 +36,12 @@ void fn_8229E410(undefined4 *param_1)
 
 {
   undefined4 *puVar1;
-  undefined1 auStack_10 [4];
-  int iStack_c;
+  struct { unsigned int first, second; } temp;
   
-  puVar1 = (undefined4 *)fn_82279C58(auStack_10,*param_1);
+  puVar1 = (undefined4 *)fn_82279C58(&temp,*param_1);
   fn_8266F678(*puVar1,1);
-  if (iStack_c != 0) {
-    fn_822315A0();
+  if (temp.second != 0) {
+    fn_822315A0(temp.second);
   }
   return;
 }

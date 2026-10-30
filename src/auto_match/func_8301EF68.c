@@ -29,12 +29,12 @@ extern unsigned int lbl_831BC868;
 extern unsigned int lbl_83264604;
 
 
-void fn_8301EF68(uint param_1,char param_2,char param_3)
+void fn_8301EF68(uint param_1,unsigned char param_2,unsigned char param_3)
 
 {
   uint uVar1;
   
-  uVar1 = 1 << (param_1 & 0x3f);
+  uVar1 = 1 << param_1;
   lbl_831BC868 = ~uVar1 & lbl_831BC868;
   if (param_2 != '\0') {
     lbl_831BC868 = lbl_831BC868 | uVar1;

@@ -1,50 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Dev {
+    char pad[0x10];
+    unsigned __int64 flags;
+    char pad2[0x2ed8 - 0x18];
+    int x2ed8;
+} Dev;
 
+typedef struct Obj {
+    Dev *dev;
+    int x4, x8, xc;
+    int x10, x14, x18, x1c, x20, x24, x28, x2c;
+    unsigned int x30;
+    int pad[0x2014 - 13];
+    int x8050;
+} Obj;
 
-void fn_82542ED0(int *param_1)
-
+void fn_82542ED0(Obj *p)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = -1;
-  param_1[6] = -1;
-  param_1[0x2014] = -1;
-  *(undefined4 *)(iVar1 + 0x2ed8) = 0;
-  *(ulonglong *)(iVar1 + 0x10) = *(ulonglong *)(iVar1 + 0x10) | 0x80000;
-  return;
+    Dev *d = p->dev;
+    unsigned __int64 *f = &d->flags;
+    p->x10 = 0;
+    p->x14 = 0;
+    p->x1c = 0;
+    p->x20 = 0;
+    p->x24 = 0;
+    p->x28 = 0;
+    p->x2c = 0;
+    p->x30 = -1;
+    p->x18 = -1;
+    p->x8050 = -1;
+    d->x2ed8 = 0;
+    *f |= 0x80000;
 }
-

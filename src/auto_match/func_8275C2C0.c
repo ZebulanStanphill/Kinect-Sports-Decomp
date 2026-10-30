@@ -32,14 +32,12 @@ extern int fn_8269A608();
 void fn_8275C2C0(int param_1)
 
 {
-  uint *puVar1;
+  int *puVar1;
   uint uVar2;
   
   puVar1 = *(uint **)(param_1 + 0x38);
-  if (puVar1 != (uint *)0x0) {
-    uVar2 = *puVar1;
-    *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((longlong)((ulonglong)uVar2 - 1) < 1) {
+  if (puVar1 != (int *)0x0) {
+    if (--*puVar1 <= 0) {
       fn_8269A608(puVar1);
       fn_8267BE38(puVar1);
     }

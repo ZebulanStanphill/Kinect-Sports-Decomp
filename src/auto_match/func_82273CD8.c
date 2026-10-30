@@ -31,7 +31,7 @@ extern int fn_82682748();
 void fn_82273CD8(undefined4 *param_1,undefined4 param_2)
 
 {
-  if (((uint)param_1[1] >> 6 & 1) != 0) {
+  if ((unsigned char)((struct { unsigned int pad:25; unsigned int flag:1; unsigned int rest:6; } *)&param_1[1])->flag) {
     fn_82682748(*param_1,param_1,param_1[2]);
     *param_1 = 0;
   }

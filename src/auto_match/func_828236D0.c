@@ -1,43 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8281C360();
-extern int fn_82822510();
+extern char lbl_8320A5DC[];
+extern void fn_82823440(void);
+extern void fn_82822510(void *table, void (*cb)(void), void *arg, void **out);
+extern void fn_8281C360(void *obj, void *arg);
 
-
-void fn_828236D0(undefined8 param_1)
-
+void fn_828236D0(void *arg)
 {
-  int aiStack_20 [4];
-  
-  fn_82822510(0xffffffff8320a5dc,0xffffffff82823440,param_1,aiStack_20);
-  if (aiStack_20[0] != 0) {
-    fn_8281C360(aiStack_20[0],param_1);
-  }
-  return;
+    void *obj;
+    fn_82822510(lbl_8320A5DC, fn_82823440, arg, &obj);
+    if (obj != 0)
+        fn_8281C360(obj, arg);
 }
-

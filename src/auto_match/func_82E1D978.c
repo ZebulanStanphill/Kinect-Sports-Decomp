@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F65AC0();
+extern int stricmp();
 
 
 undefined4 * fn_82E1D978(int param_1,undefined8 param_2)
@@ -35,14 +35,9 @@ undefined4 * fn_82E1D978(int param_1,undefined8 param_2)
   int iVar2;
   
   puVar1 = *(undefined4 **)(param_1 + 4);
-  while( true ) {
-    if (puVar1 == (undefined4 *)0x0) {
-      return (undefined4 *)0x0;
-    }
-    iVar2 = fn_82F65AC0(param_2,*puVar1);
-    if (iVar2 == 0) break;
+  while (puVar1) {
+    if (stricmp(param_2, *puVar1) == 0) return puVar1;
     puVar1 = (undefined4 *)puVar1[2];
   }
-  return puVar1;
+  return 0;
 }
-

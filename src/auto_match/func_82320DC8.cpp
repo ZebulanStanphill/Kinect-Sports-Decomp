@@ -1,0 +1,2 @@
+struct V { virtual void f0(); virtual void f1(); virtual void call(int,int*); };
+extern "C" void fn_82320DC8(char*p,char*q){int *d=*(int**)(p+4); int z=d[11]; int x=d[10]; V *o=*(V**)(q+0x1b0);o->call(z?25:26,&x);}

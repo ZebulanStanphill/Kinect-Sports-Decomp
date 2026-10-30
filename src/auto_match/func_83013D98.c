@@ -32,9 +32,9 @@ extern unsigned int lbl_831BC768;
 undefined8 fn_83013D98(int param_1)
 
 {
-  if (*(int *)(param_1 + 4) != 0) {
+  if (*(unsigned int *)(param_1 + 4) != 0) {
     *(int *)(param_1 + 8) = *(int *)(param_1 + 4);
-    fn_82FA5190(lbl_831BC768);
+    fn_82FA5190(lbl_831BC768, *(unsigned int *)(param_1 + 4));
     *(undefined4 *)(param_1 + 4) = 0;
     *(undefined4 *)(param_1 + 8) = 0;
     *(undefined4 *)(param_1 + 0xc) = 0;

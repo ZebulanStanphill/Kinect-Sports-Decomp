@@ -33,9 +33,9 @@ void fn_826D6420(int param_1)
 {
   undefined4 uVar1;
   
-  while (*(int *)(param_1 + 8) != 0) {
+  while (*(unsigned int *)(param_1 + 8) != 0) {
     uVar1 = **(undefined4 **)(param_1 + 8);
-    fn_8267BE38();
+    fn_8267BE38(*(unsigned int *)(param_1 + 8));
     *(undefined4 *)(param_1 + 8) = uVar1;
   }
   return;

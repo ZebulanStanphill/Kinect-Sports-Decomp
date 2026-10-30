@@ -1,55 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82A70AA8(undefined4 *param_1)
-
+void *memset(void *, int, unsigned int);
+typedef struct Obj {
+  int a; int b; unsigned __int64 c; unsigned __int64 d;
+  int e, f, g, h, i, j;
+} Obj;
+typedef struct Raw { unsigned __int64 q[6]; } Raw;
+typedef struct E8 { int x, y; } E8;
+void fn_82A70AA8(Obj *o)
 {
-  undefined8 *puVar1;
-  longlong lVar2;
-  
-  puVar1 = (undefined8 *)(param_1 + -2);
-  lVar2 = 6;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  param_1[1] = 0;
-  *param_1 = 0;
-  *(undefined8 *)(param_1 + 2) = 0;
-  *(undefined8 *)(param_1 + 4) = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  return;
+memset(o, 0, sizeof(Raw));
+  o->b = 0;
+  o->a = 0;
+  o->c = 0;
+  o->d = 0;
+  o->e = 0;
+  o->f = 0;
+  o->g = 0;
+  o->h = 0;
+  o->i = 0;
+  o->j = 0;
 }
-

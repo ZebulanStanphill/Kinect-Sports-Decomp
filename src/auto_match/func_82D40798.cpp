@@ -1,0 +1,1 @@
+struct Node { int a,b,c; Node *next; }; struct Part { Node *z; int w; }; struct Out { int a; char b; char pad[3]; Node *x; int y; Part p; }; extern "C" void fn_82D40798(Out *p,Node *a,Node *b) { Node *n=a,*t=a->next; while(t) { n=t;t=t->next; } p->x=n;p->y=a->b;n=b;t=b->next;while(t) { n=t;t=t->next; } Part *q=&p->p; q->z=n;q->w=b->b;p->b=1;}

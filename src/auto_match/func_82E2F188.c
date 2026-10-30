@@ -39,11 +39,11 @@ undefined8 fn_82E2F188(longlong param_1,undefined8 param_2,uint *param_3)
   uVar2 = 0;
   fn_82E50F00(param_1 + 4,1);
   puVar1 = (ushort *)fn_82E52428(param_1,param_2);
-  if (puVar1 == (ushort *)0x0) {
-    uVar2 = 0xffffffffc00d36e6;
+  if (puVar1 != (ushort *)0x0) {
+    *param_3 = (uint)*puVar1;
   }
   else {
-    *param_3 = (uint)*puVar1;
+    uVar2 = 0xffffffffc00d36e6;
   }
   fn_82E51028(param_1 + 4,1);
   return uVar2;

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern float lbl_82057B54;
 
 
-void fn_82FD3CC0(float *param_1,float *param_2)
+float fn_82FD3CC0(float *param_1,float *param_2)
 
 {
   float fVar1;
@@ -38,6 +38,6 @@ void fn_82FD3CC0(float *param_1,float *param_2)
   fVar2 = *param_2;
   *param_2 = fVar1;
   param_2[1] = (fVar1 - param_2[1]) * lbl_82057B54 + fVar2;
-  return;
+  return param_2[1];
 }
 

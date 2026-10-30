@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8245D418(int param_1,uint param_2,undefined4 param_3)
 
 {
-  if (*(uint *)(param_1 + 0x10) <= param_2) {
+  if (param_2 >= *(uint *)(param_1 + 0x10)) {
     return;
   }
   *(undefined4 *)(*(int *)(param_1 + 4) + param_2 * 0x20 + 0x18) = 1;

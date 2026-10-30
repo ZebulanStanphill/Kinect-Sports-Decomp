@@ -30,8 +30,8 @@ typedef struct { U64 lo, hi; } V16;
 void fn_83037A88(int param_1,int param_2)
 
 {
+  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + param_2;
   *(undefined1 *)(param_1 + 0x20) = 0;
-  *(int *)(param_1 + 0x14) = param_2 + *(int *)(param_1 + 0x14);
   return;
 }
 

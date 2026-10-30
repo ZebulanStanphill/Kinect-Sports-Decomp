@@ -1,0 +1,2 @@
+struct Bits { unsigned int bits; }; struct Flags { char pad[0xb00]; Bits part; }; struct I { virtual void a0(); virtual void a1(); virtual void a2(); virtual void a3(); virtual void a4(); virtual void a5(); virtual void a6(); virtual void a7(); virtual void a8(); virtual void a9(); virtual void a10(); virtual void a11(); virtual void a12(); virtual void a13(); virtual void a14(); virtual void a15(); virtual Flags *get(); }; struct Obj { char pad[0x74]; I *q; };
+extern "C" void fn_826A8788(Obj *p) { if(p->q) { Flags *f=p->q->get(); Bits *b=&f->part; b->bits |= 0x80000; } }

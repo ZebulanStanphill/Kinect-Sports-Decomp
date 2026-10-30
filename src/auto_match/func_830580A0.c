@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8305BB28();
+extern int fn_8305BB28(void *, double);
 
 
 void fn_830580A0(uint *param_1)
@@ -33,8 +33,9 @@ void fn_830580A0(uint *param_1)
 {
   int iVar1;
   
-  iVar1 = fn_8305BB28((double)*param_1,param_1 + 3);
-  *(float *)(param_1[2] + 0x1c) = (float)(longlong)(iVar1 + 1);
+  iVar1 = fn_8305BB28(param_1 + 3,(double)*param_1);
+  { float f = (float)(iVar1 + 1);
+    *(float *)(param_1[2] + 0x1c) = f; }
   return;
 }
 

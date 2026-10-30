@@ -26,12 +26,12 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_831BB8F0;
-extern unsigned int uRam832633f0;
+extern unsigned int lbl_832633F0;
 
 
 bool fn_82F6E8A0(void)
 
 {
-  return (lbl_831BB8F0 | 1) == uRam832633f0;
+  return lbl_832633F0 == (lbl_831BB8F0 | 1);
 }
 

@@ -34,7 +34,7 @@ void fn_82625300(undefined4 *param_1)
 
 {
   *param_1 = &lbl_821CADB0;
-  if ((param_1[0x14] != 0) && (param_1[0x16] == 0)) {
+  if ((param_1[0x14] != 0) && ((int)param_1[0x16] == 0)) {
     fn_82625080(param_1[0x14],1);
   }
   fn_825D50C0(param_1);

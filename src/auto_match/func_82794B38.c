@@ -35,8 +35,8 @@ void fn_82794B38(int param_1)
 {
   fn_827906D0(*(undefined4 *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0x14));
   fn_8267BE38(*(undefined4 *)(param_1 + 0x10));
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_8267C498();
+  if (*(unsigned int *)(param_1 + 0xc) != 0) {
+    fn_8267C498(*(unsigned int *)(param_1 + 0xc));
   }
   return;
 }

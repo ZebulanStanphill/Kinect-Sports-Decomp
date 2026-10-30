@@ -1,0 +1,1 @@
+struct Row { unsigned char b[4]; }; struct S { Row row[1]; unsigned char get(int i,int j); }; unsigned char S::get(int i,int j) { return row[i+32].b[j]; }

@@ -31,8 +31,9 @@ extern unsigned int lbl_8217D040;
 void fn_82FF55A8(undefined4 *param_1)
 
 {
+  undefined4 *sub = param_1 + 2;
   *param_1 = &lbl_8217D040;
-  param_1[2] = 0;
+  sub[0] = 0;
   param_1[3] = 0;
   param_1[4] = 0;
   param_1[5] = 0;

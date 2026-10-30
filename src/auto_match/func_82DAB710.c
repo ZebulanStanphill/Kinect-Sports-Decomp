@@ -30,9 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82DAB710(int param_1,int param_2)
 
 {
-  if ((int)(*(ushort *)(*(int *)(param_1 + 0x3c) + 0xc) - 2) <
-      (int)((uint)*(ushort *)(*(int *)(param_1 + 0x3c) + 4) + (uint)*(ushort *)(param_1 + 0x10) +
-           param_2)) {
+  if ((int)((uint)*(ushort *)(*(int *)(param_1 + 0x3c) + 4) + (uint)*(ushort *)(param_1 + 0x10) + param_2) > (int)(*(ushort *)(*(int *)(param_1 + 0x3c) + 0xc) - 2)) {
     return 1;
   }
   *(ushort *)(param_1 + 0x10) = *(ushort *)(param_1 + 0x10) + (short)param_2 & 0xff;

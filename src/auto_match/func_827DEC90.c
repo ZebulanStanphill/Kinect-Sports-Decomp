@@ -31,8 +31,8 @@ extern int fn_827DC520();
 void fn_827DEC90(int param_1)
 
 {
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_827DC520(*(undefined4 *)(param_1 + 0xc));
+  if (*(unsigned int *)(param_1 + 8) != 0) {
+    fn_827DC520(*(undefined4 *)(param_1 + 0xc), *(undefined4 *)(param_1 + 8));
     *(undefined4 *)(param_1 + 8) = 0;
   }
   return;

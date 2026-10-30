@@ -33,7 +33,7 @@ longlong fn_83055A00(int param_1)
   if ((*(byte *)(param_1 + 0xb8) & 0x80) != 0) {
     return *(longlong *)(param_1 + 0xb0);
   }
-  if ((uint)*(byte *)(param_1 + 0xa8) < *(uint *)(param_1 + 0xa4)) {
+  if (*(uint *)(param_1 + 0xa4) > (uint)*(byte *)(param_1 + 0xa8)) {
     return (ulonglong)*(uint *)((int)*(longlong **)(param_1 + 0xa0) + 0xc) +
            **(longlong **)(param_1 + 0xa0);
   }

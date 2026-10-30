@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined4 fn_82FF9460(int param_1,uint param_2)
 
 {
-  if (0x17 < param_2) {
+  if (param_2 >= 0x18) {
     return *(undefined4 *)(param_1 + 0xc);
   }
   return 0;

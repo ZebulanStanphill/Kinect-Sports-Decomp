@@ -34,7 +34,7 @@ extern unsigned int uStack_20;
 void fn_82F56EA0(undefined4 *param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   struct { undefined4 first; undefined4 second; } stack_pair_20;
 
   
@@ -45,7 +45,7 @@ void fn_82F56EA0(undefined4 *param_1)
   param_1[1] = stack_pair_20.second;
   *param_1 = stack_pair_20.first;
   if (iVar1 != 0) {
-    fn_822315A0();
+    fn_822315A0(iVar1);
   }
   return;
 }

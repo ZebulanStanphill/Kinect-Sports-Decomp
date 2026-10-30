@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 undefined8 fn_82E6E210(int param_1,ulonglong param_2)
 
 {
-  if (*(ulonglong *)(param_1 + 0x20) < param_2) {
+  if (param_2 > *(ulonglong *)(param_1 + 0x20)) {
     return 0xffffffff80070057;
   }
   *(ulonglong *)(param_1 + 0x18) = param_2;

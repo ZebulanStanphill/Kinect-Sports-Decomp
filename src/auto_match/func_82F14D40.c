@@ -35,13 +35,13 @@ void fn_82F14D40(int param_1)
   int *piVar3;
   
   iVar2 = 0;
-  if (*(int *)(param_1 + 0xc) < 1) {
+  if (*(int *)(param_1 + 0xc) <= 0) {
     return;
   }
   piVar3 = (int *)(param_1 + 0x28);
   do {
     iVar1 = *piVar3;
-    if ((*(int *)(iVar1 + 0x34) != 0) || (*(int *)(*(int *)(iVar1 + 0x48) + 8) != 0)) {
+    if ((*(unsigned int *)(iVar1 + 0x34) != 0) || (*(int *)(*(int *)(iVar1 + 0x48) + 8) != 0)) {
       *(undefined4 *)(iVar1 + 0x40) = *(undefined4 *)(iVar1 + 0x28);
     }
     iVar2 = iVar2 + 1;

@@ -28,21 +28,21 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_823598B0();
 extern int fn_82359928();
 extern int fn_8239C468();
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
 
 void fn_823A5E90(int param_1)
 
 {
   int iVar1;
-  undefined4 uVar2;
+  float uVar2;
   
   uVar2 = lbl_821CC160;
   iVar1 = *(int *)(param_1 + 8);
   *(undefined4 *)(iVar1 + 0xbc) = 0;
-  *(undefined4 *)(iVar1 + 200) = uVar2;
+  *(float *)(iVar1 + 200) = uVar2;
   *(undefined4 *)(iVar1 + 0xc0) = 0xffffffff;
-  *(undefined4 *)(iVar1 + 0xc4) = uVar2;
+  *(float *)(iVar1 + 0xc4) = uVar2;
   fn_823598B0(*(undefined4 *)(param_1 + 8),0);
   fn_82359928(*(undefined4 *)(param_1 + 8),0);
   fn_8239C468(*(undefined4 *)(param_1 + 8),1);

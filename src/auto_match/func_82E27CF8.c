@@ -35,7 +35,7 @@ undefined8 fn_82E27CF8(int param_1)
   longlong lVar2;
   
   uVar1 = 0;
-  if (*(int *)(param_1 + 0x2c) != 0) {
+  if (*(unsigned int *)(param_1 + 0x2c) > 0) {
     lVar2 = 0;
     do {
       fn_82E50330((ulonglong)*(uint *)(param_1 + 0x24) + lVar2 + 0x10);

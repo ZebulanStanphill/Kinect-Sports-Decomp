@@ -34,7 +34,7 @@ void fn_83055378(int param_1,ulonglong param_2)
     return;
   }
   if ((*(ulonglong *)(*(int *)(param_1 + 0x60) + 0x98) < param_2) &&
-     (param_2 <= *(ulonglong *)(param_1 + 0xb0))) {
+     (*(ulonglong *)(param_1 + 0xb0) >= param_2)) {
     return;
   }
   *(byte *)(param_1 + 0xb8) = *(byte *)(param_1 + 0xb8) & 0x7f;

@@ -32,7 +32,7 @@ undefined4 * fn_8223F560(undefined4 *param_1,int param_2)
 
 {
   *param_1 = **(undefined4 **)(param_2 + 0x30);
-  fn_8223F508();
+  fn_8223F508(*param_1);
   return param_1;
 }
 

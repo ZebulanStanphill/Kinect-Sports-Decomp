@@ -33,8 +33,8 @@ void fn_826E77B0(int param_1)
 
 {
   fn_8268BEA8(param_1 + 0x18);
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_8267C4F0();
+  if (*(unsigned int *)(param_1 + 0x10) != 0) {
+    fn_8267C4F0(*(unsigned int *)(param_1 + 0x10));
   }
   *(undefined4 *)(param_1 + 0x10) = 0;
   *(undefined4 *)(param_1 + 4) = 0;

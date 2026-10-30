@@ -35,8 +35,8 @@ void fn_82DA1070(int param_1,int param_2,int param_3)
   iVar1 = *(int *)(*(int *)(param_1 + 0xc) + 0x1c) * 0x30 +
           *(int *)(*(int *)(param_1 + 0x30) + 0x1c);
   *(byte *)(iVar1 + param_2) =
-       *(byte *)(iVar1 + param_2) & ~(byte)(3 << (param_3 << 1 & 0x3eU)) |
-       (byte)(2 << (param_3 << 1 & 0x3eU));
+       *(byte *)(iVar1 + param_2) & ~(byte)(3 << (param_3 << 1)) |
+       (byte)(2 << (param_3 << 1));
   return;
 }
 

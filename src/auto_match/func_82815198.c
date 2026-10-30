@@ -34,8 +34,8 @@ void fn_82815198(int param_1)
 
 {
   fn_82815130(param_1 + 0x20);
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_8265CA20();
+  if (*(unsigned int *)(param_1 + 0x10) != 0) {
+    fn_8265CA20(*(unsigned int *)(param_1 + 0x10));
   }
   *(undefined4 *)(param_1 + 0x10) = 0;
   *(undefined4 *)(param_1 + 0x14) = 0;

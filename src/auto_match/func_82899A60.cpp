@@ -1,0 +1,1 @@
+struct S { char x[6]; void clear(int i); }; void S::clear(int i) { ((S *)((char *)this+i))->x[5]=0; }

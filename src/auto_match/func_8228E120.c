@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 void fn_8228E120(uint param_1,int param_2)
 
 {
-  if (1 < param_1) {
+  if (param_1 >= 2) {
     return;
   }
   *(undefined4 *)(param_2 + 0x188) = 0;

@@ -28,10 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82682748();
 
 
+typedef struct { unsigned int pad:25; unsigned int flag:1; unsigned int rest:6; } Flags;
 void fn_82273C88(undefined4 *param_1)
 
 {
-  if (((uint)param_1[1] >> 6 & 1) != 0) {
+  if ((unsigned char)((Flags *)&param_1[1])->flag) {
     fn_82682748(*param_1,param_1,param_1[2]);
     *param_1 = 0;
   }

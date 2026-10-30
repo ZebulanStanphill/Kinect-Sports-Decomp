@@ -29,16 +29,16 @@ extern int fn_8268FBD0();
 extern int fn_8268FF28();
 
 
-undefined8 fn_826901C0(int param_1,undefined8 param_2,longlong param_3,ulonglong param_4)
+undefined8 fn_826901C0(int param_1,undefined8 param_2,unsigned int param_3,unsigned int param_4)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   
-  if ((param_4 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 8)) {
-    param_4 = (ulonglong)*(uint *)(param_1 + 8);
+  if (param_4 < *(uint *)(param_1 + 8)) {
+    param_4 = *(uint *)(param_1 + 8);
   }
   uVar1 = fn_8268FF28(param_1,param_2,(param_3 + param_4) - 1 & ~(param_4 - 1));
-  if (*(int *)(((int)uVar1 + 3) * 0xc + param_1) == 0) {
+  if (*(unsigned int *)(((int)uVar1 + 3) * 0xc + param_1) == 0) {
     fn_8268FBD0(param_1,uVar1);
   }
   return 1;
