@@ -1,68 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828807A0();
-extern int fn_82880FB8();
+typedef struct Node_828831D8 {
+  struct Node_828831D8 *left, *parent, *right;
+  int pad0;
+  unsigned key;
+  unsigned __int64 val;
+  char color;
+  unsigned char isnil;
+} Node_828831D8;
+typedef struct { int pad; Node_828831D8 *head; } Tree_828831D8;
+extern Node_828831D8 *fn_828807A0(Tree_828831D8 *);
+extern void fn_82880FB8(Node_828831D8 **, Tree_828831D8 *, Node_828831D8 *, Node_828831D8 *);
 
-
-undefined4 * fn_828831D8(int param_1,uint *param_2)
-
+unsigned __int64 *fn_828831D8(Tree_828831D8 *t, unsigned *key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  undefined4 * apuStack_30;
-  
-  puVar5 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar5[1] + 0x21) == '\0') {
-    puVar1 = (undefined4 *)puVar5[1];
-    do {
-      if ((uint)puVar1[4] < *param_2) {
-        puVar2 = (undefined4 *)puVar1[2];
-      }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar5 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x21) == '\0');
-  }
-  if ((puVar5 == *(undefined4 **)(param_1 + 4)) || (*param_2 < (uint)puVar5[4])) {
-    uVar3 = *param_2;
-    iVar4 = fn_828807A0(param_1);
-    if ((uint *)(iVar4 + 0x10) != (uint *)0x0) {
-      *(uint *)(iVar4 + 0x10) = uVar3;
-      *(undefined8 *)(iVar4 + 0x18) = 0;
+  Node_828831D8 *where = t->head;
+  Node_828831D8 *n = t->head->parent;
+  Node_828831D8 *out;
+  while (n->isnil == 0) {
+    if (n->key < *key) {
+      n = n->right;
+    } else {
+      where = n;
+      n = n->left;
     }
-    fn_82880FB8(&apuStack_30,param_1,puVar5,iVar4);
-    puVar5 = apuStack_30;
   }
-  return puVar5 + 6;
+  if (where == t->head || *key < where->key) {
+    unsigned k = *key;
+    Node_828831D8 *nn = fn_828807A0(t);
+    unsigned q = (unsigned)nn + 0x10;
+    if (q != 0) {
+      *(unsigned *)q = k;
+      *(unsigned __int64 *)(q + 8) = 0;
+    }
+    fn_82880FB8(&out, t, where, nn);
+    where = out;
+  }
+  return &where->val;
 }
-

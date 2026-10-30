@@ -1,66 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern unsigned int iStack_1c;
-
-
-undefined4 * fn_82383000(undefined4 *param_1,int param_2)
-
+struct SP_82383000 { int p; unsigned rc; };
+struct E_82383000 { char p0[0xd4]; int f; };
+struct V_82383000 { char p0[0x184]; struct SP_82383000 *begin; struct SP_82383000 *end; };
+struct O_82383000 { char p0[0x80]; struct V_82383000 *v; };
+extern struct SP_82383000 *fn_82365BD8(void *, struct SP_82383000 *);
+extern void fn_822315A0(unsigned);
+struct SP_82383000 *fn_82383000(struct SP_82383000 *out, struct O_82383000 *o)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined1 auStack_20 [4];
-  int iStack_1c;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  piVar3 = *(int **)(*(int *)(param_2 + 0x80) + 0x184);
-  while( true ) {
-    if (piVar3 == *(int **)(*(int *)(param_2 + 0x80) + 0x188)) {
-      return param_1;
+  struct SP_82383000 *it, *end, *t;
+  struct { struct SP_82383000 sp; } l;
+  int a;
+  unsigned b;
+  out->p = 0;
+  out->rc = 0;
+  end = o->v->end;
+  it = o->v->begin;
+  while (it != end) {
+    if (((struct E_82383000 *)it->p)->f == 0) {
+      t = fn_82365BD8(&l.sp, it);
+      { int *pa = (int *)&t->rc; int *pb = (int *)&out->rc; int tt = *pa; *pa = *pb; *pb = tt; }
+      { int *pa = &t->p; int *pb = &out->p; int tt = *pa; *pa = *pb; *pb = tt; }
+      if (l.sp.rc != 0) fn_822315A0(l.sp.rc);
+      return out;
     }
-    if (*(int *)(*piVar3 + 0xd4) == 0) break;
-    piVar3 = piVar3 + 2;
+    it++;
   }
-  puVar2 = (undefined4 *)fn_82365BD8(auStack_20);
-  uVar1 = puVar2[1];
-  puVar2[1] = param_1[1];
-  param_1[1] = uVar1;
-  uVar1 = *puVar2;
-  *puVar2 = *param_1;
-  *param_1 = uVar1;
-  if (iStack_1c == 0) {
-    return param_1;
-  }
-  fn_822315A0();
-  return param_1;
+  return out;
 }
-

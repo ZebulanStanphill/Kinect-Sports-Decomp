@@ -1,60 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230360();
-extern int fn_8265CA60();
-extern int fn_8265CAA0();
-extern int fn_82F64020();
-
-
-undefined1 * fn_8287C960(undefined1 *param_1,undefined4 *param_2)
-
+typedef struct WStr_8287C960 { union { unsigned short buf[8]; unsigned short *ptr; } u; unsigned size; unsigned res; } WStr_8287C960;
+typedef struct Str_8287C960 { union { char buf[16]; char *ptr; } u; unsigned size; unsigned res; } Str_8287C960;
+extern char *fn_8265CA60(unsigned);
+extern void fn_8265CAA0(void *);
+extern int fn_82F64020(char *, unsigned, const char *, ...);
+extern void fn_82230360(Str_8287C960 *, const char *, unsigned);
+Str_8287C960 *fn_8287C960(Str_8287C960 *dst, WStr_8287C960 *src)
 {
-  char cVar1;
-  uint uVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  uVar2 = param_2[4];
-  pcVar3 = (char *)fn_8265CA60((ulonglong)uVar2 + 1);
-  if (7 < (uint)param_2[5]) {
-    param_2 = (undefined4 *)*param_2;
-  }
-  fn_82F64020(pcVar3,(ulonglong)uVar2 + 1,0xffffffff82022f80,param_2);
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0xf;
-  *param_1 = 0;
-  pcVar4 = pcVar3;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  fn_82230360(param_1,pcVar3,pcVar4 + (-1 - (int)pcVar3));
-  fn_8265CAA0(pcVar3);
-  return param_1;
+  unsigned n = src->size;
+  char *buf = fn_8265CA60(n + 1);
+  const unsigned short *p = src->res >= 8 ? src->u.ptr : src->u.buf;
+  const char *e;
+  unsigned len;
+  fn_82F64020(buf, n + 1, "%S", p);
+  dst->size = 0;
+  dst->res = 15;
+  dst->u.buf[0] = 0;
+  len = strlen(buf);
+  fn_82230360(dst, buf, len);
+  fn_8265CAA0(buf);
+  return dst;
 }
-

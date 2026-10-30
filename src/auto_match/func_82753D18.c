@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_320;
-extern int fn_826AA628();
-extern int fn_826F1A90();
-extern int fn_826F2588();
-extern int fn_826F29B8();
-extern int fn_826F2AD8();
-extern unsigned int uStack_314;
-
-
-undefined4
-fn_82753D18(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+struct L_82753D18 { char p0[0xc]; unsigned r; char rest[0x2f0]; };
+extern void fn_826F29B8(struct L_82753D18 *, void *);
+extern void fn_826F2AD8(struct L_82753D18 *, void *);
+extern void fn_826AA628(struct L_82753D18 *, void *);
+extern void fn_826AA628(struct L_82753D18 *, void *);
+extern void fn_826F1A90(struct L_82753D18 *);
+extern void fn_826F2588(struct L_82753D18 *);
+unsigned fn_82753D18(void *a, void *b, void *c, void *d)
 {
-  undefined1 auStack_320 [12];
-  undefined4 uStack_314;
-  
-  fn_826F29B8(auStack_320,param_1);
-  fn_826F2AD8(auStack_320,param_2);
-  fn_826AA628(auStack_320,param_3);
-  fn_826AA628(auStack_320,param_4);
-  fn_826F1A90(auStack_320);
-  fn_826F2588(auStack_320);
-  return uStack_314;
+  struct L_82753D18 l;
+  unsigned r;
+  fn_826F29B8(&l, a);
+  fn_826F2AD8(&l, b);
+  fn_826AA628(&l, c);
+  fn_826AA628(&l, d);
+  fn_826F1A90(&l);
+  r = l.r;
+  fn_826F2588(&l);
+  return r;
 }
-

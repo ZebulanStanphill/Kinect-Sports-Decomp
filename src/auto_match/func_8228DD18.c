@@ -1,79 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_822315A0();
-extern int fn_82279C58();
-extern int fn_82279CA0();
-extern int fn_822848B8();
-extern int fn_824BF8A8();
-extern int fn_82672C20();
-extern unsigned int iStack_34;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct { int kind; int val; } Msg_8228DD18;
+typedef struct { void *ptr; void *rep; } SP_8228DD18;
+typedef struct Item_8228DD18 { char pad[0x14]; int id; } Item_8228DD18;
+typedef struct List_8228DD18 { char pad[0xc]; Item_8228DD18 **begin; Item_8228DD18 **end; char pad2[0x8]; char sub[1]; } List_8228DD18;
+typedef struct Obj_8228DD18 {
+  char pad[0x9c]; List_8228DD18 *list; char pad2[0xa4]; void *f144; char pad3[0x48]; int f190; int f194;
+} Obj_8228DD18;
+extern void fn_82279CA0(Obj_8228DD18 *, int);
+extern void fn_822848B8(void *);
+extern void fn_824BF8A8(void *, Msg_8228DD18 *);
+extern void **fn_82279C58(SP_8228DD18 *, Obj_8228DD18 *);
+extern void fn_82672C20(void *, const char *, int, int);
+extern void fn_822315A0(void *);
 
-
-void fn_8228DD18(int param_1)
-
+void fn_8228DD18(Obj_8228DD18 *o)
 {
-  int iVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  
-  *(undefined4 *)(param_1 + 400) = 0;
-  fn_82279CA0(param_1,1);
-  if (*(int *)(param_1 + 0x144) != 0) {
-    fn_822848B8();
-    *(undefined4 *)(param_1 + 0x144) = 0;
+  List_8228DD18 *l;
+  SP_8228DD18 sp;
+  o->f190 = 0;
+  fn_82279CA0(o, 1);
+  if (o->f144 != 0) {
+    fn_822848B8(o->f144);
+    o->f144 = 0;
   }
-  iVar1 = *(int *)(param_1 + 0x9c);
-  if (iVar1 != 0) {
-    piVar4 = *(int **)(iVar1 + 0xc);
-    piVar2 = *(int **)(iVar1 + 0x10);
-    if (piVar4 != piVar2) {
+  l = o->list;
+  if (l != 0) {
+    Item_8228DD18 **it = l->begin;
+    Item_8228DD18 **e = l->end;
+    if (it != e) {
       do {
-        stack_pair_40.first = 3;
-        stack_pair_40.second = *(undefined4 *)(*piVar4 + 0x14);
-        fn_824BF8A8(iVar1 + 0x1c,&stack_pair_40.first);
-        piVar4 = piVar4 + 1;
-      } while (piVar4 != piVar2);
+        Msg_8228DD18 m;
+        m.kind = 3;
+        m.val = (*it)->id;
+        fn_824BF8A8(l->sub, &m);
+        it++;
+      } while (it != e);
     }
   }
-  puVar3 = (undefined4 *)fn_82279C58(auStack_38,param_1);
-  fn_82672C20(*puVar3,0xffffffff821a994c,0,0);
-  if (iStack_34 != 0) {
-    fn_822315A0();
-  }
-  *(undefined4 *)(param_1 + 0x194) = 0;
-  return;
+  fn_82672C20(*fn_82279C58(&sp, o), "_root.hideButtons", 0, 0);
+  if (sp.rep != 0)
+    fn_822315A0(sp.rep);
+  o->f194 = 0;
 }
-

@@ -1,105 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82359C18();
-extern int fn_82392C68();
-extern int fn_823F84C8();
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_70;
+typedef struct { char pad[0x10]; int f10; int f14; } X_823F05B8;
+typedef struct { unsigned first; int second; } Key_823F05B8;
+typedef struct { X_823F05B8 a; X_823F05B8 b; } Val_823F05B8;
+typedef struct { Key_823F05B8 key; Val_823F05B8 v; } Pair_823F05B8;
+typedef struct Node_823F05B8 {
+  struct Node_823F05B8 *left, *parent, *right;
+  int padA;
+  Key_823F05B8 key;
+  X_823F05B8 a, b;
+  char color;
+  unsigned char isnil;
+} Node_823F05B8;
+typedef struct { int pad; Node_823F05B8 *head; } Tree_823F05B8;
+typedef struct { Node_823F05B8 *it; int pad[3]; } Res_823F05B8;
+extern void fn_82392C68(X_823F05B8 *, X_823F05B8 *);
+extern void fn_82359C18(X_823F05B8 *);
+extern Res_823F05B8 *fn_823F84C8(Res_823F05B8 *, Tree_823F05B8 *, Node_823F05B8 *, Pair_823F05B8 *);
 
-
-undefined4 * fn_823F05B8(int param_1,uint *param_2)
-
+static unsigned char less(Key_823F05B8 *a, Key_823F05B8 *b)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  bool bVar3;
-  undefined4 *puVar4;
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [16];
-  undefined4 uStack_70;
-  undefined1 auStack_68 [16];
-  undefined4 uStack_58;
-  struct { uint first; uint second; } stack_pair_50;
-
-  undefined1 auStack_48 [24];
-  undefined1 auStack_30 [24];
-  
-  puVar4 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar4[1] + 0x49) == '\0') {
-    puVar1 = (undefined4 *)puVar4[1];
-    do {
-      if (((uint)puVar1[4] < *param_2) ||
-         (((uint)puVar1[4] <= *param_2 && ((int)puVar1[5] < (int)param_2[1])))) {
-        bVar3 = true;
-      }
-      else {
-        bVar3 = false;
-      }
-      if (bVar3) {
-        puVar2 = (undefined4 *)puVar1[2];
-      }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar4 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x49) == '\0');
-  }
-  if (puVar4 != *(undefined4 **)(param_1 + 4)) {
-    if ((*param_2 < (uint)puVar4[4]) ||
-       ((*param_2 <= (uint)puVar4[4] && ((int)param_2[1] < (int)puVar4[5])))) {
-      bVar3 = true;
-    }
-    else {
-      bVar3 = false;
-    }
-    if (!bVar3) goto code_r0x823f06ec;
-  }
-  stack_pair_50.first = *param_2;
-  stack_pair_50.second = param_2[1];
-  uStack_70 = 0;
-  uStack_58 = 0;
-  fn_82392C68(auStack_48,auStack_80);
-  fn_82392C68(auStack_30,auStack_68);
-  puVar4 = (undefined4 *)fn_823F84C8(auStack_90,param_1,puVar4,&stack_pair_50.first);
-  puVar4 = (undefined4 *)*puVar4;
-  fn_82359C18(auStack_30);
-  fn_82359C18(auStack_48);
-  fn_82359C18(auStack_68);
-  fn_82359C18(auStack_80);
-code_r0x823f06ec:
-  return puVar4 + 6;
+  return b->first > a->first || (b->first >= a->first && a->second < b->second);
 }
 
+X_823F05B8 *fn_823F05B8(Tree_823F05B8 *t, Key_823F05B8 *key)
+{
+  Node_823F05B8 *where = t->head;
+  Node_823F05B8 *n = t->head->parent;
+  while (n->isnil == 0) {
+    if (less(&n->key, key))
+      n = n->right;
+    else {
+      where = n;
+      n = n->left;
+    }
+  }
+  if (where == t->head || less(key, &where->key)) {
+    Val_823F05B8 tmp;
+    Pair_823F05B8 p;
+    Res_823F05B8 res;
+    tmp.a.f10 = 0;
+    tmp.b.f10 = 0;
+    p.key.first = key->first;
+    p.key.second = key->second;
+    fn_82392C68(&p.v.a, &tmp.a);
+    fn_82392C68(&p.v.b, &tmp.b);
+    where = fn_823F84C8(&res, t, where, &p)->it;
+    fn_82359C18(&p.v.b);
+    fn_82359C18(&p.v.a);
+    fn_82359C18(&tmp.b);
+    fn_82359C18(&tmp.a);
+  }
+  return &where->a;
+}

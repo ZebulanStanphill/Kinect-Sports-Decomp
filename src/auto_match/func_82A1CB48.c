@@ -1,64 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-
-
-longlong fn_82A1CB48(undefined4 param_1,int param_2)
-
+struct OA_82A1CB48 { int root; int name; int attr; };
+struct FS_82A1CB48 { int p0[4]; unsigned spau; unsigned bps; };
+extern int NtOpenFile(void *, unsigned, struct OA_82A1CB48 *, void *, unsigned, unsigned);
+extern int NtQueryVolumeInformationFile(void *, void *, void *, unsigned, unsigned);
+extern int NtClose(void *);
+int fn_82A1CB48(int name, unsigned size)
 {
-  longlong lVar1;
-  undefined4 auStack_50;
-  undefined1 auStack_48 [8];
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  undefined1 auStack_30 [16];
-  int iStack_20;
-  int iStack_1c;
-  
-  stack_pair_40.first = 0;
-  uStack_38 = 0x40;
-  stack_pair_40.second = param_1;
-  lVar1 = NtOpenFile(&auStack_50,0x100001,&stack_pair_40.first,auStack_48,3,0x800021);
-  if (-1 < lVar1) {
-    lVar1 = NtQueryVolumeInformationFile(auStack_50,auStack_48,auStack_30,0x18,3);
-    NtClose(auStack_50);
-    if ((-1 < (int)lVar1) && (iStack_20 * iStack_1c != param_2)) {
-      lVar1 = -0x3ffffeb1;
-    }
+  void *h;
+  int iosb[2];
+  struct OA_82A1CB48 oa;
+  struct FS_82A1CB48 info;
+  int r;
+  oa.root = 0;
+  oa.name = name;
+  oa.attr = 0x40;
+  r = NtOpenFile(&h, 0x100001, &oa, iosb, 3, 0x800021);
+  if (r >= 0) {
+    r = NtQueryVolumeInformationFile(h, iosb, &info, 0x18, 3);
+    NtClose(h);
+    if (r >= 0 && info.bps * info.spau != size) r = 0xc000014f;
   }
-  return lVar1;
+  return r;
 }
-

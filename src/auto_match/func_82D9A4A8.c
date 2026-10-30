@@ -1,52 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFF8D0();
-extern int fn_82D93550();
+typedef struct Obj_82D9A4A8 {
+  char pad0[0x8c];
+  void * a8c;
+  int a90;
+  int a94;
+  void * a98;
+  int a9c;
+  int aa0;
+} Obj_82D9A4A8;
+typedef struct Wr_82D9A4A8 Wr_82D9A4A8;
+typedef struct Vt_82D9A4A8 { char pad[0x14]; void (*field)(Wr_82D9A4A8 *, int, const char *, void *, int, int); } Vt_82D9A4A8;
+struct Wr_82D9A4A8 { Vt_82D9A4A8 *vt; };
+extern int fn_82CFF8D0(void *, int);
+extern void fn_82D93550(Obj_82D9A4A8 *, Wr_82D9A4A8 *, char *);
+extern char lbl_8323E200[];
 
-
-void fn_82D9A4A8(int param_1,int *param_2)
-
+void fn_82D9A4A8(Obj_82D9A4A8 *o, Wr_82D9A4A8 *w)
 {
-  undefined8 uVar1;
-  
-  fn_82D93550(param_1,param_2,0xffffffff8323e200);
-  if ((*(uint *)(param_1 + 0x94) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x8c),*(uint *)(param_1 + 0x94) << 2);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821417dc,*(undefined4 *)(param_1 + 0x8c),
-               *(int *)(param_1 + 0x90) << 2,uVar1);
+  fn_82D93550(o, w, lbl_8323E200);
+  if ((o->a94 & (int)0x80000000) == 0) {
+    int h = fn_82CFF8D0(o->a8c, o->a94 << 2);
+    w->vt->field(w, 3, "OvrlapLisPtr", o->a8c, o->a90 << 2, h);
   }
-  if ((*(uint *)(param_1 + 0xa0) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x98),*(uint *)(param_1 + 0xa0) << 2);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821417cc,*(undefined4 *)(param_1 + 0x98),
-               *(int *)(param_1 + 0x9c) << 2,uVar1);
+  if ((o->aa0 & (int)0x80000000) == 0) {
+    int h = fn_82CFF8D0(o->a98, o->aa0 << 2);
+    w->vt->field(w, 3, "PhantmLisPtr", o->a98, o->a9c << 2, h);
   }
-  return;
 }
-

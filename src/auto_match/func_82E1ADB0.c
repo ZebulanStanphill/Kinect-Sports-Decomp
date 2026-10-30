@@ -1,82 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEA280();
-extern int fn_82E17300();
+typedef struct { int key; int val; } Ent_82E1ADB0;
+typedef struct { Ent_82E1ADB0 *e; int pad; int n; } Tbl_82E1ADB0;
+extern int fn_82CEA280(int *, int, unsigned);
+extern void fn_82E17300(int *, int);
 
-
-void fn_82E1ADB0(int *param_1,int *param_2)
-
+static int skip(Tbl_82E1ADB0 *t, int i)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  int iVar3;
-  int iVar4;
-  int *piVar5;
-  int iVar6;
-  undefined4 *puVar7;
-  
-  iVar4 = param_2[2];
-  iVar6 = 0;
-  if (-1 < iVar4) {
-    piVar5 = (int *)*param_2;
+  int n = t->n;
+  if (i <= n) {
+    Ent_82E1ADB0 *p = &t->e[i];
     do {
-      if (*piVar5 != -1) break;
-      iVar6 = iVar6 + 1;
-      piVar5 = piVar5 + 2;
-    } while (iVar6 <= iVar4);
+      if (p->key != -1) break;
+      i++;
+      p++;
+    } while (i <= n);
   }
-  if (iVar6 <= iVar4) {
-    do {
-      puVar7 = (undefined4 *)(iVar6 * 8 + *param_2);
-      uVar1 = *puVar7;
-      uVar2 = puVar7[1];
-      iVar4 = fn_82CEA280(param_1 + 3,uVar1,0xffffffffffffffff);
-      if (iVar4 != -1) {
-        iVar3 = *param_1;
-        do {
-          **(undefined4 **)(iVar3 + iVar4 * 8) = uVar2;
-          iVar3 = *param_1;
-          iVar4 = *(int *)(iVar3 + iVar4 * 8 + 4);
-        } while (iVar4 != -1);
-      }
-      fn_82E17300(param_1,uVar1);
-      iVar4 = param_2[2];
-      iVar6 = iVar6 + 1;
-      if (iVar6 <= iVar4) {
-        piVar5 = (int *)(iVar6 * 8 + *param_2);
-        do {
-          if (*piVar5 != -1) break;
-          iVar6 = iVar6 + 1;
-          piVar5 = piVar5 + 2;
-        } while (iVar6 <= iVar4);
-      }
-    } while (iVar6 <= iVar4);
-  }
-  return;
+  return i;
 }
 
+void fn_82E1ADB0(int *self, Tbl_82E1ADB0 *t)
+{
+  int none = -1;
+  int i = skip(t, 0);
+  while (i <= t->n) {
+    Ent_82E1ADB0 *p = &t->e[i];
+    int key = p->key;
+    int val = p->val;
+    int k = fn_82CEA280(self + 3, key, none);
+    if (k != none) {
+      do {
+        Ent_82E1ADB0 *e = (Ent_82E1ADB0 *)*self + k;
+        *(int *)e->key = val;
+        e = (Ent_82E1ADB0 *)*self + k;
+        k = e->val;
+      } while (k != none);
+    }
+    fn_82E17300(self, key);
+    i = skip(t, i + 1);
+  }
+}

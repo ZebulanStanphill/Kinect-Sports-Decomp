@@ -1,48 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826EA110();
+typedef struct { int pos; int avail; } Buf_826EA1E8;
+typedef struct { char pad[0x18]; Buf_826EA1E8 *buf; } Obj_826EA1E8;
+extern void fn_826EA110(Obj_826EA1E8 *);
 
-
-void fn_826EA1E8(int param_1,int param_2)
-
+void fn_826EA1E8(Obj_826EA1E8 *o, int n)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = *(int **)(param_1 + 0x18);
-  if (0 < param_2) {
-    for (; piVar1[1] < param_2; param_2 = param_2 - iVar2) {
-      iVar2 = piVar1[1];
-      fn_826EA110(param_1);
+  Buf_826EA1E8 *b = o->buf;
+  if (n > 0) {
+    while (n > b->avail) {
+      n -= b->avail;
+      fn_826EA110(o);
     }
-    *piVar1 = *piVar1 + param_2;
-    piVar1[1] = piVar1[1] - param_2;
+    b->pos += n;
+    b->avail -= n;
   }
-  return;
 }
-
