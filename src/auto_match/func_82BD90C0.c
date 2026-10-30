@@ -25,32 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct Desc_82BD90C0 { short f0; short kind; unsigned id; } Desc_82BD90C0;
+typedef struct Item_82BD90C0 { Desc_82BD90C0 *desc; unsigned n; } Item_82BD90C0;
 extern int fn_82A5ED20();
 
-
-undefined8
-fn_82BD90C0(undefined8 param_1,undefined8 param_2,int *param_3,undefined8 param_4,int *param_5)
-
+int fn_82BD90C0(int a, int b, Item_82BD90C0 *x, int d, Item_82BD90C0 *y)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = fn_82A5ED20();
-  if (-1 < (int)uVar1) {
-    uVar2 = 0xffffffff88970001;
-    if ((*(short *)(*param_3 + 2) != 4) || (*(short *)(*param_5 + 2) != 4)) {
-      uVar1 = uVar2;
-    }
-    if (-1 < (int)uVar1) {
-      if (param_3[1] != param_5[1]) {
-        uVar1 = uVar2;
-      }
-      if ((-1 < (int)uVar1) &&
-         ((*(int *)(*param_3 + 4) != 0x3efd || (*(int *)(*param_5 + 4) != 0x3efd)))) {
-        uVar1 = uVar2;
-      }
+  int hr;
+  int err;
+
+  hr = fn_82A5ED20();
+  if (hr >= 0) {
+    err = (int)0x88970001;
+    if (x->desc->kind != 4 || y->desc->kind != 4) hr = err;
+    if (hr >= 0) {
+      if (x->n != y->n) hr = err;
+      if (hr >= 0 && (x->desc->id != 0x3efd || y->desc->id != 0x3efd)) hr = err;
     }
   }
-  return uVar1;
+  return hr;
 }
-

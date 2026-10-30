@@ -25,47 +25,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
+typedef struct SP_823B0C20 { void *ptr; void *rc; } SP_823B0C20;
+typedef struct Obj_823B0C20 {
+  char p0[0xa8]; int fa8;
+  char p1[0xd0 - 0xac]; int fd0, fd4, fd8, fdc, fe0, fe4;
+  char p2[0xf8 - 0xe8]; int ff8, ffc, f100, f104, f108, f10c, f110;
+  char p3[0x154 - 0x114]; int f154;
+  char p4[0x18c - 0x158]; int f18c;
+  char p5[0x1e4 - 0x190]; SP_823B0C20 s1e4;
+  char p6[0x240 - 0x1ec]; int f240;
+  char p7[0x2b0 - 0x244]; int f2b0; SP_823B0C20 s2b4; int f2bc;
+} Obj_823B0C20;
+extern void fn_822315A0(void *);
 
-
-void fn_823B0C20(int param_1,int param_2)
-
+static void reset_(SP_823B0C20 *s)
 {
-  int iVar1;
-  
-  if (param_2 != 0) {
-    *(undefined4 *)(param_1 + 0x240) = 0;
-    *(undefined4 *)(param_1 + 0x18c) = 0;
-  }
-  *(undefined4 *)(param_1 + 0xa8) = 0;
-  *(undefined4 *)(param_1 + 0xd0) = 0;
-  *(undefined4 *)(param_1 + 0xd4) = 0;
-  *(undefined4 *)(param_1 + 0xd8) = 0;
-  *(undefined4 *)(param_1 + 0xdc) = 0;
-  *(undefined4 *)(param_1 + 0xe0) = 0;
-  *(undefined4 *)(param_1 + 0xe4) = 0;
-  *(undefined4 *)(param_1 + 0xf8) = 0;
-  *(undefined4 *)(param_1 + 0xfc) = 0;
-  *(undefined4 *)(param_1 + 0x100) = 0;
-  *(undefined4 *)(param_1 + 0x104) = 0;
-  *(undefined4 *)(param_1 + 0x108) = 0;
-  *(undefined4 *)(param_1 + 0x10c) = 0;
-  *(undefined4 *)(param_1 + 0x110) = 0;
-  iVar1 = *(int *)(param_1 + 0x1e8);
-  *(undefined4 *)(param_1 + 0x1e8) = 0;
-  *(undefined4 *)(param_1 + 0x1e4) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  iVar1 = *(int *)(param_1 + 0x2b8);
-  *(undefined4 *)(param_1 + 0x2b8) = 0;
-  *(undefined4 *)(param_1 + 0x2b4) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  *(undefined4 *)(param_1 + 700) = 0;
-  *(undefined4 *)(param_1 + 0x2b0) = 0;
-  *(undefined4 *)(param_1 + 0x154) = 1;
-  return;
+  void *rc = s->rc;
+  s->rc = 0;
+  s->ptr = 0;
+  if (rc != 0) fn_822315A0(rc);
 }
 
+void fn_823B0C20(Obj_823B0C20 *o, int flag)
+{
+  if (flag != 0) {
+    o->f240 = 0;
+    o->f18c = 0;
+  }
+  o->fa8 = 0;
+  o->fd0 = 0;
+  o->fd4 = 0;
+  o->fd8 = 0;
+  o->fdc = 0;
+  o->fe0 = 0;
+  o->fe4 = 0;
+  o->ff8 = 0;
+  o->ffc = 0;
+  o->f100 = 0;
+  o->f104 = 0;
+  o->f108 = 0;
+  o->f10c = 0;
+  o->f110 = 0;
+  reset_(&o->s1e4);
+  reset_(&o->s2b4);
+  o->f2bc = 0;
+  o->f2b0 = 0;
+  o->f154 = 1;
+}

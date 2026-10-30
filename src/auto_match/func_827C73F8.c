@@ -25,53 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C70D0();
-extern int fn_827C7150();
-extern int fn_827C7348();
+typedef struct Ctx_827C73F8 { char pad[0xe4]; int count; char pad2[0x44]; int flag; } Ctx_827C73F8;
+typedef struct Obj_827C73F8 {
+  int p0, p1, p2;
+  unsigned char started;
+  unsigned char *next;
+  unsigned free;
+  int f18;
+  int f1c;
+  Ctx_827C73F8 *ctx;
+  int arr[7];
+} Obj_827C73F8;
+extern void fn_827C70D0(Obj_827C73F8 *);
+extern void fn_827C7150(Obj_827C73F8 *, int, int);
+extern void fn_827C7348(void);
 
-
-void fn_827C73F8(int param_1,char param_2)
-
+void fn_827C73F8(Obj_827C73F8 *o, int c)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  int iVar3;
-  
   fn_827C7348();
-  if (*(char *)(param_1 + 0xc) == '\0') {
-    fn_827C7150(param_1,0x7f,7);
-    *(undefined4 *)(param_1 + 0x18) = 0;
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-    **(undefined1 **)(param_1 + 0x10) = 0xff;
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x14) - 1;
-    *(int *)(param_1 + 0x14) = (int)lVar2;
-    *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + 1;
-    if (lVar2 == 0) {
-      fn_827C70D0(param_1);
-    }
-    **(char **)(param_1 + 0x10) = param_2 + -0x30;
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x14) - 1;
-    *(int *)(param_1 + 0x14) = (int)lVar2;
-    *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + 1;
-    if (lVar2 == 0) {
-      fn_827C70D0(param_1);
-    }
+  if (o->started == 0) {
+    fn_827C7150(o, 0x7f, 7);
+    o->f18 = 0;
+    o->f1c = 0;
+    *o->next = 0xff;
+    o->next++;
+    if (--o->free == 0) fn_827C70D0(o);
+    *o->next = (unsigned char)(c - 0x30);
+    o->next++;
+    if (--o->free == 0) fn_827C70D0(o);
   }
-  if (*(int *)(*(int *)(param_1 + 0x20) + 300) == 0) {
-    iVar3 = 0;
-    if (0 < *(int *)(*(int *)(param_1 + 0x20) + 0xe4)) {
-      puVar1 = (undefined4 *)(param_1 + 0x20);
-      do {
-        puVar1 = puVar1 + 1;
-        *puVar1 = 0;
-        iVar3 = iVar3 + 1;
-      } while (iVar3 < *(int *)(*(int *)(param_1 + 0x20) + 0xe4));
-    }
+  if (o->ctx->flag == 0) {
+    int i;
+    for (i = 0; i < o->ctx->count; i++) o->arr[i] = 0;
+  } else {
+    o->arr[5] = 0;
+    o->arr[6] = 0;
   }
-  else {
-    *(undefined4 *)(param_1 + 0x38) = 0;
-    *(undefined4 *)(param_1 + 0x3c) = 0;
-  }
-  return;
 }
-

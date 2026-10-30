@@ -25,35 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_830198B8();
-
-
-int fn_83019B78(undefined4 *param_1,undefined4 param_2)
-
+typedef struct Node_83019B78 { unsigned next; int value; } Node_83019B78;
+typedef struct List_83019B78 { unsigned head; unsigned tail; unsigned free; int f0c; int f10; int count; } List_83019B78;
+extern unsigned char fn_830198B8(List_83019B78 *);
+#define NP(x) ((Node_83019B78 *)(x))
+int *fn_83019B78(List_83019B78 *l, int v)
 {
-  undefined4 *puVar1;
-  char cVar3;
-  int iVar2;
-  
-  cVar3 = fn_830198B8();
-  if (cVar3 == '\0') {
-    iVar2 = 0;
+  Node_83019B78 *n;
+  int *r;
+  if (fn_830198B8(l) != 0) {
+    if (l->tail == 0) l->head = l->free;
+    else NP(l->tail)->next = l->free;
+    n = NP(l->free);
+    l->tail = l->free;
+    l->free = n->next;
+    NP(l->tail)->next = 0;
+    l->count = l->count + 1;
+    r = &NP(l->tail)->value;
+    NP(l->tail)->value = v;
+  } else {
+    r = 0;
   }
-  else {
-    if ((undefined4 *)param_1[1] == (undefined4 *)0x0) {
-      *param_1 = param_1[2];
-    }
-    else {
-      *(undefined4 *)param_1[1] = param_1[2];
-    }
-    puVar1 = (undefined4 *)param_1[2];
-    param_1[1] = puVar1;
-    param_1[2] = *puVar1;
-    *puVar1 = 0;
-    param_1[5] = param_1[5] + 1;
-    iVar2 = param_1[1] + 4;
-    *(undefined4 *)(param_1[1] + 4) = param_2;
-  }
-  return iVar2;
+  return r;
 }
-

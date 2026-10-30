@@ -25,39 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C488();
-extern int fn_8267C4F0();
+extern void fn_8267C488(void *);
+extern void fn_8267C4F0(void *);
 
 
-void fn_826881F0(int param_1)
+void fn_826881F0(char *param_1)
 
 {
-  if (*(int *)(param_1 + 0x28) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x28) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x28));
   }
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x24) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x24));
   }
-  if (*(int *)(param_1 + 0x20) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x20) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x20));
   }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x1c) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x1c));
   }
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x18) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x18));
   }
-  if (*(int *)(param_1 + 0x14) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x14) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x14));
   }
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0x10) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0x10));
   }
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 0xc) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 0xc));
   }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_8267C4F0();
+  if (*(void **)(param_1 + 8) != 0) {
+    fn_8267C4F0(*(void **)(param_1 + 8));
   }
   fn_8267C488(param_1);
   return;

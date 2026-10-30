@@ -27,28 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82FAD390(int param_1)
+typedef struct Node_82FAD390 { int f0; struct Node_82FAD390 *next; int f8; int fc; } Node_82FAD390;
+typedef struct Head_82FAD390 { int f0; Node_82FAD390 *first; int f8; } Head_82FAD390;
+typedef struct Obj_82FAD390 { int f0; Head_82FAD390 *h; } Obj_82FAD390;
 
-{
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar4 = 0;
-  iVar3 = *(int *)(*(int *)(param_1 + 4) + 4);
-  iVar1 = -*(int *)(*(int *)(param_1 + 4) + 8);
-  if (iVar3 == 0) {
-    return;
-  }
+int fn_82FAD390(Obj_82FAD390 *o){ Head_82FAD390 *h = o->h; int acc = 0; int mx = -h->f8; Node_82FAD390 *n = h->first;
+  if (n == 0) return mx;
   do {
-    iVar4 = *(int *)(iVar3 + 0xc) + iVar4;
-    iVar2 = -(*(int *)(iVar3 + 8) + iVar4);
-    if (iVar1 < iVar2) {
-      iVar1 = iVar2;
-    }
-    iVar3 = *(int *)(iVar3 + 4);
-  } while (iVar3 != 0);
-  return;
-}
-
+    int t;
+    acc = n->fc + acc;
+    t = -(n->f8 + acc);
+    if (t > mx) mx = t;
+    n = n->next;
+  } while (n != 0);
+  return mx; }

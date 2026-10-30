@@ -25,62 +25,56 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82791070();
-extern int fn_827A0BD0();
-extern unsigned int iStack_34;
+typedef struct Item_827A16D8 {
+  unsigned big : 1;
+  unsigned pad : 31;
+  int f4;
+  unsigned f8;
+  char pad2[0x14];
+  unsigned f20;
+} Item_827A16D8;
+typedef struct Vec_827A16D8 { Item_827A16D8 **data; unsigned size; } Vec_827A16D8;
+typedef struct Dat_827A16D8 { unsigned **data; int size; } Dat_827A16D8;
+typedef struct Iter_827A16D8 { Dat_827A16D8 *v; int i; } Iter_827A16D8;
+typedef struct Obj_827A16D8 { char pad[8]; int f8; char pad2[0x18]; Vec_827A16D8 vec; } Obj_827A16D8;
+extern void fn_82791070(Iter_827A16D8 *, int, unsigned, unsigned *);
+extern void fn_827A0BD0(Obj_827A16D8 *);
 
-
-longlong fn_827A16D8(int param_1,uint param_2,uint *param_3)
-
+unsigned fn_827A16D8(Obj_827A16D8 *o, int idx, unsigned *out)
 {
-  int *piVar1;
-  bool bVar2;
-  ulonglong uVar3;
-  uint uVar4;
-  int *piVar5;
-  uint auStack_40;
-  int *piStack_38;
-  int iStack_34;
-  
-  if (param_3 != (uint *)0x0) {
-    fn_827A0BD0();
-    piVar5 = (int *)(param_1 + 0x24);
-    if (((piVar5 == (int *)0x0) || (*(uint *)(param_1 + 0x28) <= param_2)) ||
-       (bVar2 = false, (int)param_2 < 0)) {
-      bVar2 = true;
-    }
-    if (!bVar2) {
-      piVar1 = *(int **)(*piVar5 + param_2 * 4);
-      if (*piVar1 < 0) {
-        uVar3 = (ulonglong)(uint)piVar1[2] & 0xffffff;
-        if (uVar3 == 0xffffff) {
-          uVar3 = 0xffffffffffffffff;
-        }
+  Vec_827A16D8 *v;
+  unsigned char bad;
+  Item_827A16D8 *it;
+  unsigned key;
+  unsigned extra;
+  Iter_827A16D8 r;
+
+  if (out != 0) {
+    fn_827A0BD0(o);
+    v = &o->vec;
+    bad = v == 0 || (unsigned)idx >= v->size || idx < 0;
+    if (!bad) {
+      it = v->data[idx];
+      if ((unsigned char)it->big) {
+        key = it->f8 & 0xffffff;
+        if (key == 0xffffff) key = 0xffffffff;
+      } else {
+        key = it->f8;
       }
-      else {
-        uVar3 = (ulonglong)(uint)piVar1[2];
-      }
-      auStack_40 = 0;
-      fn_82791070(&piStack_38,*(undefined4 *)(param_1 + 8),uVar3,&auStack_40);
-      if (((piStack_38 == (int *)0x0) || (iStack_34 < 0)) ||
-         (bVar2 = false, piStack_38[1] <= iStack_34)) {
-        bVar2 = true;
-      }
-      if (!bVar2) {
-        piVar5 = *(int **)(*piVar5 + param_2 * 4);
-        if (*piVar5 < 0) {
-          uVar4 = (uint)*(byte *)(piVar5 + 2);
+      extra = 0;
+      fn_82791070(&r, o->f8, key, &extra);
+      bad = r.v == 0 || r.i < 0 || r.i >= r.v->size;
+      if (!bad) {
+        it = v->data[idx];
+        if ((unsigned char)it->big) {
+          key = *(unsigned char *)&it->f8;
+        } else {
+          key = it->f20;
         }
-        else {
-          uVar4 = piVar5[8];
-        }
-        *param_3 = uVar4;
-        return (ulonglong)**(uint **)(iStack_34 * 4 + *piStack_38) +
-               ((ulonglong)auStack_40 & 0x7fffffff) * 2;
+        *out = key;
+        return *r.v->data[r.i] + ((extra & 0x7fffffff) << 1);
       }
     }
   }
   return 0;
 }
-

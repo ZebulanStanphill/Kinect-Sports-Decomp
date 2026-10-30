@@ -25,28 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_82A2B760();
+extern int ExCreateThread(void **, unsigned, unsigned *, void *, void *, void *, unsigned);
+extern void fn_82A37050(void);
+extern void fn_82A2B760(void);
 
-
-undefined4
-fn_82A33490(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             ulonglong param_5,uint param_6,undefined8 param_7)
-
+void *fn_82A33490(int unused, unsigned stack, void *start, void *ctx, unsigned flags, int prio, unsigned *tid)
 {
-  int iVar1;
-  ulonglong uVar2;
-  undefined4 auStack_10;
-  
-  uVar2 = (param_5 & 0xffffffff) >> 2 & 1;
-  if (param_6 != 0xffffffff) {
-    uVar2 = ((ulonglong)(uint)(1 << (param_6 & 0x3f)) & 0xff) << 0x18 | uVar2;
+  void *handle;
+  unsigned f = (flags >> 2) & 1;
+  if (prio != -1) {
+    f = ((1 << prio) << 24) | f;
   }
-  iVar1 = ExCreateThread(&auStack_10,param_2,param_7,0xffffffff82a37050,param_3,param_4,uVar2);
-  if (iVar1 < 0) {
+  if (ExCreateThread(&handle, stack, tid, (void *)fn_82A37050, start, ctx, f) < 0) {
     fn_82A2B760();
-    auStack_10 = 0;
+    handle = 0;
   }
-  return auStack_10;
+  return handle;
 }
-

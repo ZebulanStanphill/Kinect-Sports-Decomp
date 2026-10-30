@@ -25,32 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Alloc_82D01108 { struct AllocVt_82D01108 *vt; } Alloc_82D01108;
+typedef struct AllocVt_82D01108 { void *s0; void *s1; void (*dealloc)(Alloc_82D01108 *, void *, int); } AllocVt_82D01108;
+typedef struct Ctx_82D01108 { char pad[0x14]; Alloc_82D01108 *alloc; } Ctx_82D01108;
+extern Ctx_82D01108 *fn_82CE5410(void);
 
+typedef struct Arr_82D01108 { void *a; void *b; int n; } Arr_82D01108;
 
-void fn_82D01108(int *param_1)
-
+void fn_82D01108(Arr_82D01108 *p)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = *param_1;
-  if (iVar1 != 0) {
-    iVar4 = param_1[2];
-    iVar3 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar3 + 0x14) + 8))(*(int **)(iVar3 + 0x14),iVar1,iVar4 << 2);
-    uVar2 = param_1[2];
-    iVar1 = param_1[1];
-    iVar4 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar4 + 0x14) + 8))
-              (*(int **)(iVar4 + 0x14),iVar1,
-               ((ulonglong)uVar2 + ((ulonglong)uVar2 & 0x1fffffff) * 8 & 0x1fffffff) << 3);
+  void *a = p->a;
+  if (a != 0) {
+    int n = p->n;
+    void *b;
+    Alloc_82D01108 *al1;
+    Alloc_82D01108 *al2;
+    al1 = fn_82CE5410()->alloc;
+    al1->vt->dealloc(al1, a, n * 4);
+    n = p->n;
+    b = p->b;
+    al2 = fn_82CE5410()->alloc;
+    al2->vt->dealloc(al2, b, n * 72);
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
+  p->a = 0; p->b = 0; p->n = 0;
 }
-

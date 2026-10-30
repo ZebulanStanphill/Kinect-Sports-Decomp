@@ -25,45 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82573530();
-extern int fn_825764F0();
-extern int fn_82F63F40();
+typedef struct Vt_82476E30 { void *s0; void *s1; void (*f8)(void *, int, int); } Vt_82476E30;
+typedef struct Item_82476E30 { char pad[0x1b0]; struct Eff_82476E30 *f1b0; } Item_82476E30;
+typedef struct Eff_82476E30 { Vt_82476E30 *vt; } Eff_82476E30;
+typedef struct A_82476E30 { char pad[0x3e4]; struct B_82476E30 *f3e4; char pad2[0x93c - 0x3e8]; int f93c; } A_82476E30;
+typedef struct B_82476E30 { char pad[0x8c0]; char *f8c0; } B_82476E30;
+typedef struct Obj_82476E30 { char pad[0x15c]; A_82476E30 *f15c; } Obj_82476E30;
+extern int fn_82F63F40(char *, const char *, int);
+extern Item_82476E30 *fn_82573530(void *, char *);
+extern Item_82476E30 *fn_825764F0(void *, char *, Item_82476E30 *);
 
-
-void fn_82476E30(int param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82476E30(Obj_82476E30 *o, int a, int b)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  undefined1 auStack_50 [80];
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 0x15c) + 0x3e4);
-  if (((iVar1 != 0) &&
-      (uVar2 = (ulonglong)*(uint *)(iVar1 + 0x8c0), *(int *)(*(int *)(param_1 + 0x15c) + 0x93c) != 0
-      )) && (uVar2 != 0)) {
-    lVar4 = uVar2 + 0x128;
-    lVar3 = 1;
-    do {
-      fn_82F63F40(auStack_50,0xffffffff821bcf30,lVar3);
-      for (iVar1 = fn_82573530(lVar4,auStack_50); iVar1 != 0;
-          iVar1 = fn_825764F0(lVar4,auStack_50,iVar1)) {
-        (**(code **)(**(int **)(iVar1 + 0x1b0) + 8))(*(int **)(iVar1 + 0x1b0),0,param_2);
+  char buf[20];
+  B_82476E30 *bb = o->f15c->f3e4;
+  char *coll;
+  Item_82476E30 *it;
+  int i;
+  if (bb != 0 && (coll = bb->f8c0, o->f15c->f93c != 0) && coll != 0) {
+    coll = coll + 0x128;
+    for (i = 1; i <= 3; i++) {
+      fn_82F63F40(buf, "effectLocator%d", i);
+      for (it = fn_82573530(coll, buf); it != 0; it = fn_825764F0(coll, buf, it)) {
+        it->f1b0->vt->f8(it->f1b0, 0, a);
       }
-      lVar3 = lVar3 + 1;
-    } while ((int)lVar3 < 4);
-    lVar3 = 100;
-    do {
-      fn_82F63F40(auStack_50,0xffffffff821bcf30,lVar3);
-      for (iVar1 = fn_82573530(lVar4,auStack_50); iVar1 != 0;
-          iVar1 = fn_825764F0(lVar4,auStack_50,iVar1)) {
-        (**(code **)(**(int **)(iVar1 + 0x1b0) + 8))(*(int **)(iVar1 + 0x1b0),0,param_3);
+    }
+    for (i = 100; i <= 102; i++) {
+      fn_82F63F40(buf, "effectLocator%d", i);
+      for (it = fn_82573530(coll, buf); it != 0; it = fn_825764F0(coll, buf, it)) {
+        it->f1b0->vt->f8(it->f1b0, 0, b);
       }
-      lVar3 = lVar3 + 1;
-    } while ((int)lVar3 < 0x67);
+    }
   }
-  return;
 }
-

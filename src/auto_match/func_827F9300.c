@@ -25,37 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827F7268();
-extern int fn_827F77A8();
-extern int fn_827F8190();
-extern int fn_827F87A0();
-extern int fn_827F8B30();
-extern int fn_827F9090();
+typedef struct Obj_827F9300 { int p0; void *f4; char pad[0x14]; unsigned f1c; unsigned f20; char pad2[0x6c]; int f90; } Obj_827F9300;
+extern void fn_827F7268(Obj_827F9300 *);
+extern void fn_827F77A8(Obj_827F9300 *, int);
+extern void fn_827F8190(Obj_827F9300 *, int);
+extern void fn_827F87A0(Obj_827F9300 *, int);
+extern void fn_827F8B30(Obj_827F9300 *, int);
+extern void fn_827F9090(Obj_827F9300 *, int);
 
-
-void fn_827F9300(int param_1)
-
+void fn_827F9300(Obj_827F9300 *o)
 {
-  if (*(int *)(param_1 + 0x1c) == 0) {
-    if (*(int *)(param_1 + 0x20) == 0) {
-      if ((*(int *)(param_1 + 4) == 0) || (*(int *)(param_1 + 0x90) != 0)) {
-        fn_827F87A0(param_1,0);
-      }
-      else {
-        fn_827F77A8(param_1,0);
-      }
+  if (o->f1c != 0) {
+    if (o->f4 != 0 && o->f90 == 0) {
+      fn_827F8190(o, 0);
+    } else {
+      fn_827F9090(o, 0);
     }
-    else {
-      fn_827F8B30(param_1,0);
-    }
+  } else if (o->f20 != 0) {
+    fn_827F8B30(o, 0);
+  } else if (o->f4 != 0 && o->f90 == 0) {
+    fn_827F77A8(o, 0);
+  } else {
+    fn_827F87A0(o, 0);
   }
-  else if ((*(int *)(param_1 + 4) == 0) || (*(int *)(param_1 + 0x90) != 0)) {
-    fn_827F9090(param_1,0);
-  }
-  else {
-    fn_827F8190(param_1,0);
-  }
-  fn_827F7268(param_1);
-  return;
+  fn_827F7268(o);
 }
-

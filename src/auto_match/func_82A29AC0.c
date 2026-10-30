@@ -25,38 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E650();
-extern int fn_82A2B760();
+typedef struct Obj_82A29AC0 { unsigned status; int val; int f8; int fc; unsigned f10; } Obj_82A29AC0;
+extern unsigned fn_82A1E650(unsigned, int);
+extern void fn_82A2A370(int);
+extern void fn_82A2B760(unsigned);
 
-
-undefined8 fn_82A29AC0(ulonglong param_1,int *param_2,int *param_3,int param_4)
-
+int fn_82A29AC0(unsigned a, Obj_82A29AC0 *o, int *out, int flag)
 {
-  int iVar1;
-  
-  if (*param_2 == 0x103) {
-    if (param_4 == 0) {
-      iVar1 = 0x102;
+  unsigned r;
+  if (o->status == 0x103) {
+    if (flag != 0) {
+      if (o->f10 != 0) a = o->f10;
+      r = fn_82A1E650(a, -1);
+    } else {
+      r = 0x102;
     }
-    else {
-      if ((ulonglong)(uint)param_2[4] != 0) {
-        param_1 = (ulonglong)(uint)param_2[4];
-      }
-      iVar1 = fn_82A1E650(param_1,0xffffffffffffffff);
-    }
-    if (iVar1 == 0x102) {
-      thunk_FUN_82a2b748(0x3e4);
+    if (r == 0x102) {
+      fn_82A2A370(0x3e4);
       return 0;
     }
-    if (iVar1 != 0) {
-      return 0;
-    }
+    if (r != 0) return 0;
   }
-  *param_3 = param_2[1];
-  if (*param_2 < 0) {
-    fn_82A2B760();
-    return 0;
+  *out = o->val;
+  r = o->status;
+  if ((int)r >= 0) {
+    return 1;
   }
-  return 1;
+  fn_82A2B760(r);
+  return 0;
 }
-

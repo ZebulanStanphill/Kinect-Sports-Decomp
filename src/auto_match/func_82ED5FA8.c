@@ -25,42 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F07E00();
+typedef struct Obj_82ED5FA8 {
+  char pad[0x1fa4];
+  void (*f1fa4)(void *, int, void *);
+  char pad1[0x1fc0 - 0x1fa8];
+  void (*f1fc0)(struct Obj_82ED5FA8 *, int *, void *, int, int);
+  char pad2[0x203c - 0x1fc4];
+  int f203c;
+} Obj_82ED5FA8;
+extern void fn_82F07E00(Obj_82ED5FA8 *, short *, int, void *, int, int);
 
-
-void fn_82ED5FA8(int param_1, longlong param_2, undefined8 param_3, undefined8 param_4, longlong param_5, short *param_6, ulonglong param_7, ulonglong param_8, undefined4 in_stack_00000054)
-
+void fn_82ED5FA8(Obj_82ED5FA8 *o, int *a2, void *a3, void *a4, short *a5, short *a6, signed char mask, int a8, int a9)
 {
-
-  
-  if ((param_7 & 8) != 0) {
-    fn_82F07E00(param_1,param_5,*param_6,param_4,*(undefined4 *)(param_1 + 0x203c),
-                      in_stack_00000054);
-    (**(code **)(param_1 + 0x1fa4))(param_3,8,param_4);
-    (**(code **)(param_1 + 0x1fc0))(param_1,param_2,param_3,param_8,8);
-    param_5 = ((longlong)*param_6 & 0x7fffffffU) * 2 + param_5;
+  if ((mask & 8) != 0) {
+    fn_82F07E00(o, a5, a6[0], a4, o->f203c, a9);
+    o->f1fa4(a3, 8, a4);
+    o->f1fc0(o, a2, a3, a8, 8);
+    a5 = a5 + a6[0];
   }
-  if ((param_7 & 4) != 0) {
-    fn_82F07E00(param_1,param_5,param_6[1],param_4,*(undefined4 *)(param_1 + 0x203c),
-                      in_stack_00000054);
-    (**(code **)(param_1 + 0x1fa4))(param_3,8,param_4);
-    (**(code **)(param_1 + 0x1fc0))(param_1,param_2 + 4,param_3,param_8,8);
-    param_5 = ((longlong)param_6[1] & 0x7fffffffU) * 2 + param_5;
+  if ((mask & 4) != 0) {
+    fn_82F07E00(o, a5, a6[1], a4, o->f203c, a9);
+    o->f1fa4(a3, 8, a4);
+    o->f1fc0(o, a2 + 1, a3, a8, 8);
+    a5 = a5 + a6[1];
   }
-  if ((param_7 & 2) != 0) {
-    fn_82F07E00(param_1,param_5,param_6[2],param_4,*(undefined4 *)(param_1 + 0x203c),
-                      in_stack_00000054);
-    (**(code **)(param_1 + 0x1fa4))(param_3,8,param_4);
-    (**(code **)(param_1 + 0x1fc0))(param_1,(param_8 & 0x3fffffff) * 4 + param_2,param_3,param_8,8);
-    param_5 = ((longlong)param_6[2] & 0x7fffffffU) * 2 + param_5;
+  if ((mask & 2) != 0) {
+    fn_82F07E00(o, a5, a6[2], a4, o->f203c, a9);
+    o->f1fa4(a3, 8, a4);
+    o->f1fc0(o, a2 + a8, a3, a8, 8);
+    a5 = a5 + a6[2];
   }
-  if ((param_7 & 1) != 0) {
-    fn_82F07E00(param_1,param_5,param_6[3],param_4,*(undefined4 *)(param_1 + 0x203c),
-                      in_stack_00000054);
-    (**(code **)(param_1 + 0x1fa4))(param_3,8,param_4);
-    (**(code **)(param_1 + 0x1fc0))
-              (param_1,(param_8 + 1 & 0x3fffffff) * 4 + param_2,param_3,param_8,8);
+  if ((mask & 1) != 0) {
+    fn_82F07E00(o, a5, a6[3], a4, o->f203c, a9);
+    o->f1fa4(a3, 8, a4);
+    o->f1fc0(o, a2 + (a8 + 1), a3, a8, 8);
   }
-  return;
 }
-

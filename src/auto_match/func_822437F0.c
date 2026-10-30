@@ -25,30 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82243668();
-extern int fn_82243728();
-extern int fn_828AC670();
-extern int fn_82F691F0();
+extern int fn_82243728(void *, int);
+extern void fn_82243668(void *, int, void *, int);
+extern void fn_828AC670(void *, int, int);
+extern void fn_828AC4E8(void *);
+extern void *memset(void *, int, unsigned);
 
-
-undefined1 fn_822437F0(undefined8 param_1,longlong param_2,undefined8 param_3)
-
+unsigned char fn_822437F0(void *a, char *buf, void *c)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  
-  lVar1 = fn_82243728(param_1,0);
-  if (lVar1 != 0) {
-    fn_82243668(param_1,1,param_2,8);
-    fn_82243668(param_1,2,param_2 + 0x2c,0x10);
-    fn_82243668(param_1,3,param_2 + 8,0x24);
-    uVar2 = fn_82243728(param_1,4);
-    uVar3 = fn_82243728(param_1,5);
-    fn_828AC670(param_3,uVar2,uVar3);
-    return 1;
+  unsigned char ok = fn_82243728(a, 0) != 0;
+  if (ok) {
+    int lo, hi;
+    fn_82243668(a, 1, buf, 8);
+    fn_82243668(a, 2, buf + 0x2c, 0x10);
+    fn_82243668(a, 3, buf + 8, 0x24);
+    lo = fn_82243728(a, 4);
+    hi = fn_82243728(a, 5);
+    fn_828AC670(c, lo, hi);
+  } else {
+    memset(buf, 0, 0x3c);
+    fn_828AC4E8(c);
   }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_2,0,0x3c);
+  return ok;
 }
-

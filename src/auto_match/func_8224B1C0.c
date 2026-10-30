@@ -25,97 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8223AAC0();
-extern int fn_8224B5B8();
-extern unsigned int iStack_5c;
-extern unsigned int iStack_64;
-extern unsigned int iStack_6c;
-extern unsigned int iStack_74;
-extern unsigned int iStack_7c;
+typedef struct SP_8224B1C0 { void *ptr; void *rc; } SP_8224B1C0;
+typedef struct Obj_8224B1C0 { void *vt; int uses; int weaks; char body[1]; } Obj_8224B1C0;
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_8224B5B8(void *, SP_8224B1C0 *, SP_8224B1C0 *, SP_8224B1C0 *, SP_8224B1C0 *, SP_8224B1C0 *);
 extern unsigned int lbl_821AD588;
-extern unsigned int uStack_60;
-extern unsigned int uStack_68;
-extern unsigned int uStack_70;
-extern unsigned int uStack_78;
-extern unsigned int uStack_80;
 
-
-undefined4 *
-fn_8224B1C0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
-             undefined4 *param_5,undefined4 *param_6)
-
+static void mk_(SP_8224B1C0 *dst, SP_8224B1C0 *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  struct { undefined4 first; int second; } stack_pair_80;
-
-  undefined4 uStack_78;
-  int iStack_74;
-  undefined4 uStack_70;
-  int iStack_6c;
-  struct { undefined4 first; int second; } stack_pair_68;
-
-  struct { undefined4 first; int second; } stack_pair_60;
-
-
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    iVar1 = param_6[1];
-    uVar2 = *param_6;
-    stack_pair_80.first = 0;
-    stack_pair_80.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_80.first = uVar2;
-        stack_pair_80.second = iVar1;
-      }
-    }
-    iVar1 = param_5[1];
-    uVar2 = *param_5;
-    uStack_78 = 0;
-    iStack_74 = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        uStack_78 = uVar2;
-        iStack_74 = iVar1;
-      }
-    }
-    iVar1 = param_4[1];
-    uVar2 = *param_4;
-    uStack_70 = 0;
-    iStack_6c = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        uStack_70 = uVar2;
-        iStack_6c = iVar1;
-      }
-    }
-    iVar1 = param_3[1];
-    uVar2 = *param_3;
-    stack_pair_68.first = 0;
-    stack_pair_68.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_68.first = uVar2;
-        stack_pair_68.second = iVar1;
-      }
-    }
-    iVar1 = param_2[1];
-    uVar2 = *param_2;
-    stack_pair_60.first = 0;
-    stack_pair_60.second = 0;
-    if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-      stack_pair_60.first = uVar2;
-      stack_pair_60.second = iVar1;
-    }
-    fn_8224B5B8(param_1 + 3,&stack_pair_60.first,&stack_pair_68.first,&uStack_70,&uStack_78,&stack_pair_80.first);
+  void *rc = src->rc;
+  void *ptr = src->ptr;
+  dst->ptr = 0;
+  dst->rc = 0;
+  if (rc != 0 && fn_8223AAC0(rc) != 0) {
+    dst->rc = rc;
+    dst->ptr = ptr;
   }
-  return param_1;
+}
+
+Obj_8224B1C0 *fn_8224B1C0(Obj_8224B1C0 *o, SP_8224B1C0 *a2, SP_8224B1C0 *a3, SP_8224B1C0 *a4, SP_8224B1C0 *a5, SP_8224B1C0 *a6)
+{
+  struct { SP_8224B1C0 p6, p5, p4, p3, p2; } L;
+  o->uses = 1;
+  o->vt = &lbl_821AD588;
+  o->weaks = 1;
+  if (o->body != 0) {
+    mk_(&L.p6, a6);
+    mk_(&L.p5, a5);
+    mk_(&L.p4, a4);
+    mk_(&L.p3, a3);
+    mk_(&L.p2, a2);
+    fn_8224B5B8(o->body, &L.p2, &L.p3, &L.p4, &L.p5, &L.p6);
+  }
+  return o;
 }
