@@ -55821,7 +55821,7 @@ auto_match/func_82675A40.c:
 	.pdata      start:0x821F4A30 end:0x821F4A38
 	.text       start:0x82675A40 end:0x82675A98
 
-auto_match/func_82675A98.c:
+auto_match/func_82675A98.cpp:
 	.pdata      start:0x821F4A38 end:0x821F4A40
 	.text       start:0x82675A98 end:0x82675AF8
 

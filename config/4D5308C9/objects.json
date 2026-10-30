@@ -81688,8 +81688,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82675A98.c": {
-        "status": "NonMatching",
+      "auto_match/func_82675A98.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
