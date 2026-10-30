@@ -1,82 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_ac;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_8223B688();
-extern int fn_828647D8();
-extern int fn_828648B8();
-extern int fn_82868378();
-extern int fn_8286A080();
-extern int fn_8286A2D0();
-extern int fn_8286DA10();
-extern unsigned int uStack_b0;
+typedef struct Str_82867210 { int v[8]; } Str_82867210;
+typedef struct Obj_82867210 { char pad[0x64]; int sub; char pad2[0x44c]; int tree; unsigned end; } Obj_82867210;
+extern void fn_828648B8(Str_82867210 *);
+extern Str_82867210 *fn_8223B688(Str_82867210 *, Str_82867210 *);
+extern void fn_82230300(Str_82867210 *, int, int);
+extern unsigned fn_828647D8(void *);
+extern unsigned *fn_8286A2D0(void *, void *, unsigned *);
+extern int fn_8286A080(void *, unsigned);
+extern void fn_82230110(Str_82867210 *, const char *);
+extern void *fn_82868378(void);
+extern void fn_8286DA10(void *, Str_82867210 *, int);
 
-
-undefined8 fn_82867210(int param_1,undefined8 param_2)
-
+unsigned fn_82867210(Obj_82867210 *o, void *name)
 {
-  uint *puVar4;
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined4 uStack_b0;
-  undefined1 auStack_ac [1];
-  undefined1 auStack_a0 [32];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [32];
-  undefined1 auStack_40 [40];
-  
-  fn_828648B8(auStack_a0);
-  fn_8223B688(auStack_60,auStack_a0);
-  fn_82230300(auStack_a0,1,0);
-  uStack_b0 = fn_828647D8(param_2);
-  puVar4 = (uint *)fn_8286A2D0(auStack_ac,param_1 + 0x4b4,&uStack_b0);
-  if ((ulonglong)*puVar4 != (ulonglong)*(uint *)(param_1 + 0x4b8)) {
-    uVar1 = fn_828647D8((ulonglong)*puVar4 + 0x10);
-    uVar1 = fn_8286A080(param_1 + 100,uVar1);
-    if ((int)uVar1 == 1) {
-      uVar1 = 0x200a0000;
-      goto code_r0x828672e0;
+  Str_82867210 d, b, c, a;
+  unsigned itbuf;
+  unsigned key;
+  unsigned *it;
+  unsigned v;
+  int r;
+  unsigned res;
+  Str_82867210 *p;
+  void *q;
+  fn_828648B8(&a);
+  fn_8223B688(&b, &a);
+  fn_82230300(&a, 1, 0);
+  key = fn_828647D8(name);
+  it = fn_8286A2D0(&itbuf, &o->tree, &key);
+  if (*it != o->end) {
+    v = fn_828647D8((char *)*it + 0x10);
+    r = fn_8286A080(&o->sub, v);
+    if (r != 1) {
+      fn_82230110(&c, "m_lowLevelIOSystem.UnloadFilePackage(...)");
+      p = fn_8223B688(&d, &c);
+      fn_8286DA10(fn_82868378(), p, r);
+      fn_82230300(&c, 1, 0);
+    } else {
+      goto done;
     }
-    fn_82230110(auStack_80,0xffffffff82020e7c);
-    uVar2 = fn_8223B688(auStack_40,auStack_80);
-    uVar3 = fn_82868378();
-    fn_8286DA10(uVar3,uVar2,uVar1);
-    fn_82230300(auStack_80,1,0);
   }
-  uVar1 = 0xffffffffa00a0000;
-code_r0x828672e0:
-  fn_82230300(auStack_60,1,0);
-  return uVar1;
+  res = 0xa00a0000;
+  goto out;
+done:
+  res = 0x200a0000;
+out:
+  fn_82230300(&b, 1, 0);
+  return res;
 }
-

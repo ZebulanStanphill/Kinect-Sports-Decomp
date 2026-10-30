@@ -1,66 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct N_82822470 N_82822470;
+struct N_82822470 {
+  N_82822470 *prev;
+  N_82822470 *next;
+};
 
-
-void fn_82822470(undefined4 *param_1,undefined4 *param_2,code *param_3,undefined8 param_4)
-
+void fn_82822470(N_82822470 *head, N_82822470 *node, int (*cmp)(N_82822470 *, N_82822470 *, int), int arg)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  puVar1 = (undefined4 *)*param_1;
-  while (puVar2 = puVar1, puVar2 != (undefined4 *)0x0) {
-    param_1 = puVar2;
-    puVar1 = (undefined4 *)*puVar2;
-  }
-  puVar1 = (undefined4 *)param_1[1];
-  if (puVar1 != (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)puVar1[1];
-    param_1 = puVar1;
-    while( true ) {
-      puVar1 = puVar2;
-      iVar3 = (*param_3)(param_1,param_2,param_4);
-      if (0 < iVar3) break;
-      if (puVar1 == (undefined4 *)0x0) goto LAB_828224ec;
-      puVar2 = (undefined4 *)puVar1[1];
-      param_1 = puVar1;
-    }
-    param_1 = (undefined4 *)*param_1;
-  }
-LAB_828224ec:
-  puVar1 = (undefined4 *)param_1[1];
-  param_1[1] = param_2;
-  *param_2 = param_1;
-  param_2[1] = puVar1;
-  if (puVar1 != (undefined4 *)0x0) {
-    *puVar1 = param_2;
-  }
-  return;
-}
+  N_82822470 *p;
+  N_82822470 *nx;
+  N_82822470 *after;
 
+  N_82822470 *h = head;
+  p = h->prev;
+  while (p != 0) {
+    h = p;
+    p = p->prev;
+  }
+  head = h;
+  p = head->next;
+  if (p != 0) {
+    nx = p->next;
+    head = p;
+    while (cmp(head, node, arg) <= 0) {
+      if (nx == 0) goto done;
+      head = nx;
+      nx = nx->next;
+    }
+    head = head->prev;
+  }
+done:
+  after = head->next;
+  head->next = node;
+  node->prev = head;
+  node->next = after;
+  if (after != 0) {
+    after->prev = node;
+  }
+}

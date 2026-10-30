@@ -1,70 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C563B0();
-extern int fn_82CAD2B0();
+typedef struct {
+  char pad0[0x28];
+  void *f28;
+  void *f2c;
+  void *f30;
+} Ent_82CAD058;
 
+typedef struct {
+  char pad0[0xc];
+  Ent_82CAD058 *ents[1];
+  char pad10[0x40 - 0x10];
+  int count;
+} Set_82CAD058;
 
-void fn_82CAD058(int param_1,int param_2)
+typedef struct {
+  char pad0[0x6070];
+  char *pool;
+} Obj_82CAD058;
 
+extern void fn_82CAD2B0(Obj_82CAD058 *, void *);
+extern void fn_82C563B0(char *, void *);
+
+void fn_82CAD058(Obj_82CAD058 *self, Set_82CAD058 *set)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  longlong lVar5;
-  
-  uVar1 = *(uint *)(param_1 + 0x6070);
-  if (param_2 != 0) {
-    iVar3 = 0;
-    if (0 < *(int *)(param_2 + 0x40)) {
-      piVar4 = (int *)(param_2 + 0xc);
-      do {
-        iVar2 = *piVar4;
-        lVar5 = (ulonglong)*(uint *)(param_1 + 0x6070) + 8;
-        if (iVar2 != 0) {
-          fn_82CAD2B0(param_1,*(undefined4 *)(iVar2 + 0x2c));
-          if (*(int *)(iVar2 + 0x2c) != 0) {
-            fn_82C563B0(lVar5);
-          }
-          if (*(int *)(iVar2 + 0x30) != 0) {
-            fn_82C563B0(lVar5);
-          }
-          if (*(int *)(iVar2 + 0x28) != 0) {
-            fn_82C563B0(lVar5);
-          }
-          fn_82C563B0(lVar5,iVar2);
-        }
-        iVar3 = iVar3 + 1;
-        piVar4 = piVar4 + 1;
-      } while (iVar3 < *(int *)(param_2 + 0x40));
-    }
-    fn_82C563B0((ulonglong)uVar1 + 8,param_2);
-  }
-  return;
-}
+  char *pool0;
+  char *pool;
+  int i;
+  Ent_82CAD058 **pp;
+  Ent_82CAD058 *e;
 
+  pool0 = self->pool + 8;
+  if (set != 0) {
+    i = 0;
+    if (set->count > 0) {
+      pp = set->ents;
+      do {
+        e = *pp;
+        pool = self->pool + 8;
+        if (e != 0) {
+          fn_82CAD2B0(self, e->f2c);
+          if (e->f2c != 0) fn_82C563B0(pool, e->f2c);
+          if (e->f30 != 0) fn_82C563B0(pool, e->f30);
+          if (e->f28 != 0) fn_82C563B0(pool, e->f28);
+          fn_82C563B0(pool, e);
+        }
+        i++;
+        pp++;
+      } while (i < set->count);
+    }
+    fn_82C563B0(pool0, set);
+  }
+}

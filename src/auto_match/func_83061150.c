@@ -1,106 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83060438();
-extern int fn_830677A0();
-extern int fn_830678C8();
-extern int fn_830679A8();
+typedef struct Key_83061150 { int v; } Key_83061150;
+typedef struct Ent_83061150 { Key_83061150 *p; int x; } Ent_83061150;
+typedef struct Vec_83061150 { int pad; Ent_83061150 *begin; Ent_83061150 *end; int pad2[3]; } Vec_83061150;
+typedef struct Obj_83061150 { char pad[0x18]; int count; char pad2[0x10]; Vec_83061150 *vecs; } Obj_83061150;
+extern void fn_83060438(Vec_83061150 *);
+extern void fn_830677A0(void *, int, const char *);
+extern void fn_830678C8(void *);
+extern void fn_830679A8(void *);
 
-
-bool fn_83061150(int param_1,uint *param_2,ulonglong param_3)
-
+int fn_83061150(Obj_83061150 *o, int *errs, void *ctx)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  bool bVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int *piStack_50;
-  
-  bVar4 = false;
-  if (param_2 != (uint *)0x0) {
-    *param_2 = 0;
+  unsigned char bad;
+  int i, j, n, run;
+  Vec_83061150 *vp;
+  Ent_83061150 e;
+  int key;
+  bad = 0;
+  if (errs != 0) {
+    *errs = 0;
   }
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_830677A0(param_3,*(undefined4 *)(param_1 + 0x18),0xffffffff8217e6dc);
+  if (ctx != 0) {
+    fn_830677A0(ctx, o->count, "Verifying closed volume");
   }
-  iVar8 = 0;
-  iVar9 = *(int *)(param_1 + 0x2c);
-  if (0 < *(int *)(param_1 + 0x18)) {
+  i = 0;
+  vp = o->vecs;
+  if (0 < o->count) {
     do {
-      iVar2 = *(int *)(iVar9 + 8) - *(int *)(iVar9 + 4) >> 3;
-      fn_83060438(iVar9);
-      iVar7 = 0;
-      if (0 < iVar2) {
+      n = vp->end - vp->begin;
+      fn_83060438(vp);
+      j = 0;
+      if (0 < n) {
         do {
-          iVar3 = iVar7 * 8;
-          iVar7 = iVar7 + 1;
-          iVar5 = 1;
-          piStack_50 = (int *)((ulonglong)*(undefined8 *)(iVar3 + *(int *)(iVar9 + 4)) >> 0x20);
-          iVar3 = *piStack_50;
-          if (iVar7 < iVar2) {
-            iVar6 = iVar7 * 8;
+          e = vp->begin[j];
+          j++;
+          run = 1;
+          key = e.p->v;
+          if (j < n) {
             do {
-              piStack_50 = (int *)((ulonglong)*(undefined8 *)(iVar6 + *(int *)(iVar9 + 4)) >> 0x20);
-              if (*piStack_50 != iVar3) break;
-              iVar7 = iVar7 + 1;
-              iVar5 = iVar5 + 1;
-              iVar6 = iVar6 + 8;
-            } while (iVar7 < iVar2);
-            if (iVar5 != 2) goto LAB_83061230;
-          }
-          else {
-LAB_83061230:
-            bVar4 = true;
-            if (param_2 == (uint *)0x0) {
-              return false;
+              e = vp->begin[j];
+              if (e.p->v != key) break;
+              run++;
+              j++;
+            } while (j < n);
+            if (run != 2) goto bad_;
+          } else {
+bad_:
+            bad = 1;
+            if (errs == 0) {
+              return 0;
             }
-            *param_2 = *param_2 + 1;
+            *errs = *errs + 1;
           }
-        } while (iVar7 < iVar2);
+        } while (j < n);
       }
-      if ((param_3 & 0xffffffff) != 0) {
-        fn_830679A8(param_3);
+      if (ctx != 0) {
+        fn_830679A8(ctx);
       }
-      iVar8 = iVar8 + 1;
-      iVar9 = iVar9 + 0x18;
-    } while (iVar8 < *(int *)(param_1 + 0x18));
+      i++;
+      vp++;
+    } while (i < o->count);
   }
-  if (param_2 != (uint *)0x0) {
-    uVar1 = *param_2;
-    *param_2 = ((int)uVar1 >> 1) + (uint)((int)uVar1 < 0 && (uVar1 & 1) != 0);
+  if (errs != 0) {
+    *errs = *errs / 2;
   }
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_830678C8(param_3);
+  if (ctx != 0) {
+    fn_830678C8(ctx);
   }
-  return !bVar4;
+  return !bad;
 }
-

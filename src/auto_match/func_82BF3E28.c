@@ -1,65 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE8D28();
-extern int fn_82BE8D50();
-extern int fn_82BF6BC0();
-extern int fn_82BFAAA8();
-extern int fn_82BFABD8();
-extern int fn_82BFABE0();
+typedef struct Obj_82BF3E28 Obj_82BF3E28;
+typedef struct {
+  char pad0[4];
+  void (*f4)(Obj_82BF3E28 *);
+} VT_82BF3E28;
+struct Obj_82BF3E28 {
+  VT_82BF3E28 *vt;
+};
 
+typedef struct {
+  char pad0[0x10];
+  int f10;
+} Item_82BF3E28;
 
-undefined8 fn_82BF3E28(int param_1)
+typedef struct {
+  char pad0[0x14];
+  int f14;
+  char pad18[8];
+  Item_82BF3E28 *f20;
+} Worker_82BF3E28;
 
+extern int fn_82BFAAA8(void *, int);
+extern void fn_82BFABD8(void *, const char *);
+extern void fn_82BFABE0(void *, const char *);
+extern void fn_82BE8D28(void *);
+extern void fn_82BE8D50(void *);
+extern void fn_82BF6BC0(void *, void *);
+
+int fn_82BF3E28(Worker_82BF3E28 *self)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = fn_82BFAAA8(param_1 + 0x58,0xffffffffffffffff);
-  while ((iVar2 != 0 && (*(int *)(param_1 + 0x14) == 0))) {
-    fn_82BFABD8(param_1 + 0x2c,0xffffffff820eb7cc);
-    piVar3 = (int *)0x0;
-    iVar2 = *(int *)(param_1 + 0x20);
-    if (iVar2 != 0) {
-      piVar1 = *(int **)(iVar2 + 0x10);
-      if (piVar1 != (int *)0x0) {
-        fn_82BE8D28();
-        piVar3 = piVar1;
+  Obj_82BF3E28 *o;
+  Item_82BF3E28 *it;
+
+  while (fn_82BFAAA8((char *)self + 0x58, -1) != 0 && self->f14 == 0) {
+    fn_82BFABD8((char *)self + 0x2c, "CFileAsyncWorker::ThreadProc");
+    o = 0;
+    it = self->f20;
+    if (it != 0) {
+      if (it->f10 != 0) {
+        o = (Obj_82BF3E28 *)it->f10;
+        fn_82BE8D28(o);
       }
-      fn_82BF6BC0(param_1 + 0x18,iVar2);
+      fn_82BF6BC0((char *)self + 0x18, it);
     }
-    fn_82BFABE0(param_1 + 0x2c,0xffffffff820eb7cc);
-    if (piVar3 != (int *)0x0) {
-      (**(code **)(*piVar3 + 4))(piVar3);
-      fn_82BE8D50(piVar3);
+    fn_82BFABE0((char *)self + 0x2c, "CFileAsyncWorker::ThreadProc");
+    if (o != 0) {
+      o->vt->f4(o);
+      fn_82BE8D50(o);
     }
-    iVar2 = fn_82BFAAA8(param_1 + 0x58,0xffffffffffffffff);
   }
   return 0;
 }
-

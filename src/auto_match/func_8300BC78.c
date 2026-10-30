@@ -1,50 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_83007708();
-extern unsigned int lbl_8217C078;
-extern unsigned int lbl_8217C940;
-extern unsigned int lbl_831BC768;
+typedef struct { char *beg; char *end; char *cap; } Vec_8300BC78;
+typedef struct {
+  void *vt0; int pad[6]; void *vt1; int pad2[10]; Vec_8300BC78 vec;
+} Obj_8300BC78;
+extern void fn_82FA5190(void *, void *);
+extern void fn_83007708(Obj_8300BC78 *);
+extern char lbl_8217C078[];
+extern char lbl_8217C940[];
+extern void *lbl_831BC768;
 
-
-void fn_8300BC78(undefined4 *param_1)
-
+static void Destroy(Vec_8300BC78 *v)
 {
-  *param_1 = &lbl_8217C078;
-  param_1[7] = &lbl_8217C940;
-  if (param_1[0x12] != 0) {
-    param_1[0x13] = param_1[0x12];
-    fn_82FA5190(lbl_831BC768);
-    param_1[0x12] = 0;
-    param_1[0x13] = 0;
-    param_1[0x14] = 0;
+  if (v->beg != 0) {
+    v->end = v->beg;
+    fn_82FA5190(lbl_831BC768, v->beg);
+    v->beg = 0;
+    v->end = 0;
+    v->cap = 0;
   }
-  fn_83007708(param_1);
-  return;
 }
-
+void fn_8300BC78(Obj_8300BC78 *o)
+{
+  o->vt0 = lbl_8217C078;
+  o->vt1 = lbl_8217C940;
+  Destroy(&o->vec);
+  fn_83007708(o);
+}

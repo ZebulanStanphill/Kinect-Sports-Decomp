@@ -1,60 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D58908();
+extern void fn_82D58908(void *, void *, int, int, int, int, int, int, int);
 
+typedef struct { int v[5]; } Rec_82D59158;
+extern void *memcpy(void *, const void *, unsigned int);
 
-void fn_82D59158(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
+typedef struct {
+  char pad0[0x190];
+  int count;
+  char pad194[0x1a0 - 0x194];
+  char t1a0[0x400];
+  char t5a0[0x9a0 - 0x5a0];
+  Rec_82D59158 recs[1];
+  char pad2[0xeb0 - 0x9a0 - 0x14];
+  char teb0[0x400];
+  char t12b0[0x1e30 - 0x12b0];
+  int f1e30;
+  int f1e34;
+  int f1e38;
+  int f1e3c;
+} Obj_82D59158;
 
+void fn_82D59158(Obj_82D59158 *self, Rec_82D59158 *src, int a, int b)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  
-  lVar3 = 5;
-  puVar1 = (undefined4 *)(param_2 + -4);
-  puVar2 = (undefined4 *)(*(int *)(param_1 + 400) * 0x14 + param_1 + 0x99c);
-  do {
-    puVar1 = puVar1 + 1;
-    puVar2 = puVar2 + 1;
-    *puVar2 = *puVar1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  fn_82D58908(param_1,param_1 + 0xeb0,1,param_3,param_4,param_3,param_4,
-                *(undefined4 *)(param_1 + 0x1e38));
-  fn_82D58908(param_1,param_1 + 0x1a0,*(undefined4 *)(param_1 + 400),param_3,param_4,param_3,
-                param_4,*(undefined4 *)(param_1 + 0x1e30));
-  if (*(char *)(param_2 + 0x11) != '\0') {
-    fn_82D58908(param_1,param_1 + 0x12b0,1,param_3,param_4,param_3,param_4,
-                  *(undefined4 *)(param_1 + 0x1e3c));
-    fn_82D58908(param_1,param_1 + 0x5a0,*(undefined4 *)(param_1 + 400),param_3,param_4,param_3,
-                  param_4,*(undefined4 *)(param_1 + 0x1e34));
+  { Rec_82D59158 *d = &self->recs[self->count]; *d = *src; }
+  fn_82D58908(self, self->teb0, 1, a, b, a, b, self->f1e38, 0);
+  fn_82D58908(self, self->t1a0, self->count, a, b, a, b, self->f1e30, 0);
+  if (((char *)src)[0x11] != 0) {
+    fn_82D58908(self, self->t12b0, 1, a, b, a, b, self->f1e3c, 0);
+    fn_82D58908(self, self->t5a0, self->count, a, b, a, b, self->f1e34, 0);
   }
-  *(int *)(param_1 + 400) = *(int *)(param_1 + 400) + 1;
-  return;
+  self->count = self->count + 1;
 }
-

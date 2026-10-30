@@ -1,50 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4F0();
-extern unsigned int lbl_82010E7C;
+typedef struct Q_82725328 {
+  char pad0[0xc];
+  unsigned int fc;
+} Q_82725328;
 
+typedef struct X_82725328 X_82725328;
+typedef struct {
+  char padc[0xc];
+  Q_82725328 *(*fc)(X_82725328 *, int);
+} VT2_82725328;
+struct X_82725328 {
+  VT2_82725328 *vt;
+};
 
-undefined4 * fn_82725328(undefined4 *param_1)
+typedef struct {
+  char pad0[8];
+  X_82725328 x;
+} R_82725328;
 
+typedef struct B1_82725328 B1_82725328;
+typedef struct {
+  char pad0[0x40];
+  R_82725328 *(*f40)(B1_82725328 *);
+} VT1_82725328;
+struct B1_82725328 {
+  VT1_82725328 *vt;
+};
+
+typedef struct {
+  void *vt;
+  int f4;
+  unsigned char f8;
+} Obj_82725328;
+
+extern char lbl_82010E7C[];
+extern void fn_8267C4F0(void *);
+
+Obj_82725328 *fn_82725328(Obj_82725328 *self)
 {
-  int iVar1;
-  
-  param_1[1] = 1;
-  *param_1 = &lbl_82010E7C;
-  *(undefined1 *)(param_1 + 2) = 0xe;
-  iVar1 = (**(code **)(param_1[-0x36] + 0x40))(param_1 + -0x36);
-  iVar1 = (**(code **)(*(int *)(iVar1 + 8) + 0xc))((int *)(iVar1 + 8),3);
-  if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0xc) != 0) {
-      *(byte *)(param_1 + 2) = *(byte *)(param_1 + 2) | 1;
-    }
-    fn_8267C4F0();
-  }
-  return param_1;
-}
+  B1_82725328 *base;
+  R_82725328 *r;
+  X_82725328 *x;
+  Q_82725328 *q;
 
+  self->f4 = 1;
+  self->vt = lbl_82010E7C;
+  self->f8 = 0xe;
+  base = (B1_82725328 *)((char *)self - 0xd8);
+  r = base->vt->f40(base);
+  x = &r->x;
+  q = x->vt->fc(x, 3);
+  if (q != 0) {
+    if (q->fc != 0) {
+      self->f8 = self->f8 | 1;
+    }
+    fn_8267C4F0(q);
+  }
+  return self;
+}

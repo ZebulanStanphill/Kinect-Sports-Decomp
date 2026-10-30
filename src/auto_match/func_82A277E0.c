@@ -1,53 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern void *_ReturnAddress(void);
+extern int KeGetCurrentProcessType(void);
+extern void KeBugCheckEx(unsigned int, void *, void *, unsigned int, void *);
 
-
-longlong fn_82A277E0(int param_1,undefined8 param_2,int param_3)
-
+int fn_82A277E0(char *p1, int unused, unsigned char *p3)
 {
-  uint uVar2;
-  longlong lVar1;
-  undefined4 in_LR;
-  
-  if (((*(uint *)(param_1 + 0x14) & 0x40000) != 0) &&
-     (uVar2 = KeGetCurrentProcessType(), *(byte *)(param_1 + 0x17b) != uVar2)) {
-    KeBugCheckEx(0xf4,param_1,in_LR,0x1444,param_3);
+  if ((*(unsigned int *)(p1 + 0x14) & 0x40000) != 0 && ((unsigned char *)p1)[0x17b] != KeGetCurrentProcessType()) {
+    KeBugCheckEx(0xf4, p1, _ReturnAddress(), 0x1444, p3);
   }
-  if ((*(byte *)(param_3 + -0xb) & 1) == 0) {
-    lVar1 = -1;
+  if ((p3[-0xb] & 1) == 0) {
+    return -1;
   }
-  else if ((*(byte *)(param_3 + -0xb) & 8) == 0) {
-    lVar1 = (ulonglong)*(ushort *)(param_3 + -0x10) * 0x10 - (ulonglong)*(byte *)(param_3 + -10);
+  if ((p3[-0xb] & 8) != 0) {
+    return *(unsigned int *)(p3 - 0x18) - *(unsigned short *)(p3 - 0x10) - 0x30;
   }
-  else {
-    lVar1 = ((ulonglong)*(uint *)(param_3 + -0x18) - (ulonglong)*(ushort *)(param_3 + -0x10)) +
-            -0x30;
-  }
-  return lVar1;
+  return *(unsigned short *)(p3 - 0x10) * 16 - p3[-10];
 }
-

@@ -1,65 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_82512610();
-extern int fn_828EBF50();
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_832659B4;
-extern unsigned int lbl_832659CC;
+typedef struct {
+  unsigned int slot[4];
+  char pad10[0x2c - 0x10];
+  int handle[5];
+  char pad40[4];
+  unsigned char flag;
+} Tab_82512568;
 
+extern Tab_82512568 lbl_83265988;
+extern int lbl_832659CC;
+extern void fn_82230110(void *);
+extern void fn_82230300(void *, int, int);
+extern int fn_828EBF50(void *, void *);
+extern void fn_82512610(int, unsigned int, int, int);
 
-undefined4 fn_82512568(undefined8 param_1,undefined8 param_2,char param_3)
-
+int fn_82512568(void *a, int b, unsigned char c)
 {
-  undefined4 uVar1;
-  int *piVar2;
-  uint uVar3;
-  undefined1 auStack_60 [96];
-  
-  piVar2 = &lbl_83265988;
-  uVar3 = 0;
-  do {
-    if (*piVar2 == 0) goto LAB_825125ac;
-    uVar3 = uVar3 + 1;
-    piVar2 = piVar2 + 1;
-  } while (uVar3 < 4);
-  uVar3 = 4;
-LAB_825125ac:
-  fn_82230110(auStack_60);
-  uVar1 = fn_828EBF50(auStack_60,param_1);
-  (&lbl_832659B4)[uVar3] = uVar1;
-  fn_82230300(auStack_60,1,0);
-  fn_82512610((&lbl_832659B4)[uVar3],uVar3,0,0);
-  if (param_3 == '\0') {
-    lbl_832659CC = 1;
-  }
-  return (&lbl_832659B4)[uVar3];
-}
+  char buf[0x20];
+  unsigned int i;
 
+  unsigned int *p = lbl_83265988.slot;
+  unsigned int n = 0;
+  for (;;) {
+    if (n >= 4) { i = 4; break; }
+    if (*p == 0) { i = n; break; }
+    n++;
+    p++;
+  }
+
+  fn_82230110(buf);
+  lbl_83265988.handle[i] = fn_828EBF50(buf, a);
+  fn_82230300(buf, 1, 0);
+  fn_82512610(lbl_83265988.handle[i], i, 0, 0);
+  if (c == 0) {
+    lbl_83265988.flag = 1;
+  }
+  return lbl_83265988.handle[i];
+}

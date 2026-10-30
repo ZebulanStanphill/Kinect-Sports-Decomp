@@ -1,53 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+  int count;
+  int mask;
+} Tab_8269B3A0;
 
+typedef struct {
+  Tab_8269B3A0 *tab;
+} Hash_8269B3A0;
 
-void fn_8269B3A0(undefined4 *param_1)
+typedef struct {
+  int next;
+  char pad4[0x20];
+} Ent_8269B3A0;
 
+typedef struct {
+  Hash_8269B3A0 *hash;
+  int index;
+} It_8269B3A0;
+
+#define E(t, i) (((Ent_8269B3A0 *)((t) + 1))[i])
+
+void fn_8269B3A0(It_8269B3A0 *it)
 {
-  int *piVar1;
-  uint uVar2;
-  
-  piVar1 = (int *)*param_1;
-  if (*(int *)(*piVar1 + 4) < (int)param_1[1]) {
-    return;
-  }
-  uVar2 = param_1[1] + 1;
-  param_1[1] = uVar2;
-  if (*(uint *)(*piVar1 + 4) < uVar2) {
-    return;
-  }
-  do {
-    if (*(int *)(param_1[1] * 0x24 + *piVar1 + 8) != -2) {
-      return;
-    }
-    param_1[1] = param_1[1] + 1;
-  } while ((uint)param_1[1] <= *(uint *)(*(int *)*param_1 + 4));
-  return;
-}
+  Hash_8269B3A0 *h = it->hash;
 
+  if (it->index <= h->tab->mask) {
+    it->index++;
+    while ((unsigned int)it->index <= (unsigned int)it->hash->tab->mask) {
+      if (E(it->hash->tab, it->index).next != -2) break;
+      it->index++;
+    }
+  }
+}
