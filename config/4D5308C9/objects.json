@@ -19199,10 +19199,10 @@
           "/O1"
         ]
       },
-      "auto_match/func_822D53F8.c": {
-        "status": "NonMatching",
+      "auto_match/func_822D53F8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
         ]
       },
       "auto_match/func_822D54A8.c": {
@@ -39847,8 +39847,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_824053F8.c": {
-        "status": "NonMatching",
+      "auto_match/func_824053F8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -88638,8 +88638,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_826A3200.c": {
-        "status": "NonMatching",
+      "auto_match/func_826A3200.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -192985,8 +192985,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82B51F48.c": {
-        "status": "NonMatching",
+      "auto_match/func_82B51F48.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -216329,8 +216329,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CED9E8.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CED9E8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -216359,20 +216359,20 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CEDC20.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CEDC20.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CEDC88.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CEDC88.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CEDCF0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CEDCF0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -216383,14 +216383,14 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CEDDC0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CEDDC0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CEDE28.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CEDE28.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -232595,8 +232595,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D88E60.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D88E60.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -282367,8 +282367,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82FF6778.c": {
-        "status": "NonMatching",
+      "auto_match/func_82FF6778.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -284290,8 +284290,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_830066E0.c": {
-        "status": "NonMatching",
+      "auto_match/func_830066E0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -285910,8 +285910,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_8300F3D0.c": {
-        "status": "NonMatching",
+      "auto_match/func_8300F3D0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -287005,8 +287005,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_83019958.c": {
-        "status": "NonMatching",
+      "auto_match/func_83019958.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -290373,8 +290373,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_830312C0.c": {
-        "status": "NonMatching",
+      "auto_match/func_830312C0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
