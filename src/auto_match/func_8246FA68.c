@@ -25,34 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82356F98();
-extern int fn_823F2E20();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_832766D4;
+typedef struct { int ptr; unsigned int rc; } SPtr_8246FA68;
+extern void fn_822315A0(unsigned int);
+extern void fn_82356F98(SPtr_8246FA68 *);
+extern void fn_823F2E20(char *, SPtr_8246FA68 *);
+extern char *lbl_832766D4;
 
-
-undefined4 fn_8246FA68(undefined4 *param_1)
-
+int fn_8246FA68(int *param_1)
 {
-  undefined4 uVar1;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  uVar1 = *(undefined4 *)(lbl_832766D4 + 0x308);
-  *(undefined4 *)(lbl_832766D4 + 0x308) = 0;
-  fn_82356F98(auStack_30);
-  fn_823F2E20(lbl_832766D4 + 0x300,auStack_30);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  int uVar1;
+  SPtr_8246FA68 sp;
+
+  uVar1 = *(int *)(lbl_832766D4 + 0x308);
+  *(int *)(lbl_832766D4 + 0x308) = 0;
+  fn_82356F98(&sp);
+  fn_823F2E20(lbl_832766D4 + 0x300,&sp);
+  if (sp.rc != 0) {
+    fn_822315A0(sp.rc);
   }
-  fn_82356F98(auStack_30);
-  fn_823F2E20(lbl_832766D4 + 0x310,auStack_30);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  fn_82356F98(&sp);
+  fn_823F2E20(lbl_832766D4 + 0x310,&sp);
+  if (sp.rc != 0) {
+    fn_822315A0(sp.rc);
   }
   *param_1 = 1;
   return uVar1;
 }
-

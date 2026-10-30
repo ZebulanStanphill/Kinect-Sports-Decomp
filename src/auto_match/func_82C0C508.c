@@ -27,17 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82C0C508(int param_1,int *param_2)
-
+typedef struct { int pad[0xb]; int *p; } Obj_82C0C508;
+int fn_82C0C508(Obj_82C0C508 *param_1, int *param_2)
 {
-  if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 4))(param_2);
+  if (param_2 != 0) {
+    (*(code *)(*param_2 + 4))(param_2);
   }
-  if (*(int **)(param_1 + 0x2c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x2c) + 8))();
-    *(undefined4 *)(param_1 + 0x2c) = 0;
+  if (param_1->p != 0) {
+    (*(code *)(*param_1->p + 8))(param_1->p);
+    param_1->p = 0;
   }
-  *(int **)(param_1 + 0x2c) = param_2;
+  param_1->p = param_2;
   return 0;
 }
-

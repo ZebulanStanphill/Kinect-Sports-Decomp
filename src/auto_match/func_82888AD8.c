@@ -25,26 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82881168();
+typedef struct { int v[4]; } Member_82888AD8;
+typedef struct { int f[6]; Member_82888AD8 m; } Sub_82888AD8;
+typedef struct { int a; Sub_82888AD8 sub; int g0, g1, g2; unsigned char c0, c1; char pad[6]; __int64 q; } Obj_82888AD8;
+extern void fn_82881168(Member_82888AD8 *, Member_82888AD8 *);
 
-
-undefined4 * fn_82888AD8(undefined4 *param_1,undefined4 *param_2)
-
+Obj_82888AD8 * fn_82888AD8(Obj_82888AD8 *param_1, Obj_82888AD8 *param_2)
 {
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  param_1[2] = param_2[2];
-  param_1[3] = param_2[3];
-  param_1[4] = param_2[4];
-  param_1[5] = param_2[5];
-  param_1[6] = param_2[6];
-  fn_82881168(param_1 + 7,param_2 + 7);
-  param_1[0xb] = param_2[0xb];
-  param_1[0xc] = param_2[0xc];
-  param_1[0xd] = param_2[0xd];
-  *(undefined1 *)(param_1 + 0xe) = *(undefined1 *)(param_2 + 0xe);
-  *(undefined1 *)((int)param_1 + 0x39) = *(undefined1 *)((int)param_2 + 0x39);
-  *(undefined8 *)(param_1 + 0x10) = *(undefined8 *)(param_2 + 0x10);
+  Sub_82888AD8 *d = &param_1->sub;
+  Sub_82888AD8 *s = &param_2->sub;
+  param_1->a = param_2->a;
+  d->f[0] = s->f[0];
+  d->f[1] = s->f[1];
+  d->f[2] = s->f[2];
+  d->f[3] = s->f[3];
+  d->f[4] = s->f[4];
+  d->f[5] = s->f[5];
+  fn_82881168(&d->m, &s->m);
+  param_1->g0 = param_2->g0;
+  param_1->g1 = param_2->g1;
+  param_1->g2 = param_2->g2;
+  param_1->c0 = param_2->c0;
+  param_1->c1 = param_2->c1;
+  param_1->q = param_2->q;
   return param_1;
 }
-

@@ -25,34 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826A8E58();
-extern int fn_826D9590();
-extern int fn_826DD1C0();
-extern unsigned int uStack_2c;
+typedef struct { int *first; int second; } Pair_826DF0B0;
+extern unsigned char fn_826A8E58(void *, void *);
+extern void fn_826D9590(void *, int, void *);
+extern void fn_826DD1C0(int, int, void *);
 
 
-void fn_826DF0B0(undefined8 param_1,int *param_2,undefined1 *param_3)
-
+void fn_826DF0B0(int param_1, int *param_2, unsigned char *param_3)
 {
-  char cVar1;
-  int *piStack_30;
-  undefined4 uStack_2c;
-  int *piStack_28;
-  undefined1 *puStack_24;
-  
-  piStack_30 = param_2;
-  fn_826D9590(&piStack_28,param_1,&piStack_30);
-  piStack_30 = (int *)0x0;
-  uStack_2c = 0;
-  cVar1 = fn_826A8E58(&piStack_28,&piStack_30);
-  if (cVar1 == '\0') {
-    *(undefined1 *)((int)puStack_24 * 0x10 + *piStack_28 + 0x14) = *param_3;
+  struct { Pair_826DF0B0 key; Pair_826DF0B0 it; } L;
+  L.key.first = param_2;
+  fn_826D9590(&L.it, param_1, &L.key);
+  L.key.first = 0;
+  L.key.second = 0;
+  if (fn_826A8E58(&L.it, &L.key) == 0) {
+    *(unsigned char *)(L.it.second * 0x10 + *L.it.first + 0x14) = *param_3;
   }
   else {
-    piStack_28 = param_2;
-    puStack_24 = param_3;
-    fn_826DD1C0(param_1,param_1,&piStack_28);
+    L.it.first = param_2;
+    L.it.second = (int)param_3;
+    fn_826DD1C0(param_1, param_1, &L.it);
   }
-  return;
 }
-

@@ -27,32 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_8279A8D8(int param_1)
-
+typedef struct { char pad0[0xc]; struct Item_8279A8D8 **items; unsigned int count; } Mgr_8279A8D8;
+typedef struct { char pad[8]; Mgr_8279A8D8 *mgr; } Obj_8279A8D8;
+typedef struct { char pad[0x16]; unsigned short flags; } Inner_8279A8D8;
+typedef struct Item_8279A8D8 { char pad[0xc]; Inner_8279A8D8 *inner; } Item_8279A8D8;
+int fn_8279A8D8(Obj_8279A8D8 *param_1)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  
-  uVar2 = 0;
-  uVar1 = *(uint *)(*(int *)(param_1 + 8) + 0x10);
-  if (uVar1 != 0) {
-    iVar4 = 0;
-    do {
-      if (uVar2 < uVar1) {
-        iVar3 = *(int *)(*(int *)(*(int *)(param_1 + 8) + 0xc) + iVar4);
-      }
-      else {
-        iVar3 = 0;
-      }
-      if ((*(ushort *)(*(int *)(iVar3 + 0xc) + 0x16) & 0x600) != 0) {
-        return 1;
-      }
-      uVar2 = uVar2 + 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar2 < uVar1);
-  }
+  Mgr_8279A8D8 *m = param_1->mgr;
+  unsigned int n = m->count;
+  unsigned int i = 0;
+  Item_8279A8D8 *it;
+  if (m->count == 0) return 0;
+  do {
+    if (i < m->count) it = m->items[i]; else it = 0;
+    if (it->inner->flags & 0x600) return 1;
+    i++;
+  } while (i < n);
   return 0;
 }
-

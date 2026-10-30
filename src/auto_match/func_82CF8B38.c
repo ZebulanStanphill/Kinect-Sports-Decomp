@@ -1,56 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Sub_82CF8B38;
+typedef struct VT_82CF8B38 { void *s[2]; void (*f8)(struct Sub_82CF8B38 *self, void *p); } VT_82CF8B38;
+typedef struct Sub_82CF8B38 { VT_82CF8B38 *vt; } Sub_82CF8B38;
+typedef struct Blk_82CF8B38 { struct Blk_82CF8B38 *next; } Blk_82CF8B38;
+typedef struct Cls_82CF8B38 { Blk_82CF8B38 *head; int size; int pad[8]; int cnt; } Cls_82CF8B38;
+typedef struct {
+  int pad0;
+  int cs;
+  char pad1[0x20 - 8];
+  int total;
+  char pad2[0x2c - 0x24];
+  Sub_82CF8B38 big;
+  char pad3[0x3c * 4 - 0x30];
+  Cls_82CF8B38 *cls[1];
+} Heap_82CF8B38;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_82CF8B38(int param_1,undefined4 *param_2,int param_3)
-
+void fn_82CF8B38(Heap_82CF8B38 *h, Blk_82CF8B38 *p, int n)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  if (param_2 != (undefined4 *)0x0) {
-    iVar3 = param_1 + 4;
-    RtlEnterCriticalSection(iVar3);
-    if (param_3 < 0x221) {
-      puVar2 = *(undefined4 **)(((param_3 + 0xf >> 4) + 0x3c) * 4 + param_1);
-      iVar1 = puVar2[10];
-      puVar2[10] = iVar1 + 1;
-      *param_2 = *puVar2;
-      *puVar2 = param_2;
-      *(int *)(param_1 + 0x20) = (puVar2[10] - iVar1) * puVar2[1] + *(int *)(param_1 + 0x20);
-      RtlLeaveCriticalSection(iVar3);
+  Cls_82CF8B38 *c;
+  int old;
+  if (p != 0) {
+    RtlEnterCriticalSection(&h->cs);
+    if (n <= 0x220) {
+      c = h->cls[(n + 0xf) >> 4];
+      old = c->cnt;
+      c->cnt = old + 1;
+      p->next = c->head;
+      c->head = p;
+      h->total = (c->cnt - old) * c->size + h->total;
+    } else {
+      h->big.vt->f8(&h->big, p);
     }
-    else {
-      (**(code **)(*(int *)(param_1 + 0x2c) + 8))(param_1 + 0x2c,param_2);
-      RtlLeaveCriticalSection(iVar3);
-    }
+    RtlLeaveCriticalSection(&h->cs);
   }
-  return;
 }
-

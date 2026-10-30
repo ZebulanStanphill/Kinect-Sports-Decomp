@@ -27,25 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82BEEBC0(float *param_1,float *param_2,float *param_3)
-
+void fn_82BEEBC0(float *o, float *a, float *b)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  
-  fVar1 = param_3[1];
-  fVar2 = param_2[2];
-  fVar3 = param_2[1];
-  fVar4 = *param_3;
-  fVar5 = param_3[2];
-  fVar6 = *param_2;
-  *param_1 = fVar3 * fVar5 - fVar2 * fVar1;
-  param_1[2] = fVar6 * fVar1 - fVar4 * fVar3;
-  param_1[1] = fVar4 * fVar2 - fVar6 * fVar5;
-  return;
+  float b2 = b[2];
+  float a1 = a[1];
+  float b1 = b[1];
+  float a2 = a[2];
+  float b0 = b[0];
+  float a0 = a[0];
+  float x = a1 * b2 - a2 * b1;
+  float z = a0 * b1 - b0 * a1;
+  float y = b0 * a2 - a0 * b2;
+  o[0] = x;
+  o[2] = z;
+  o[1] = y;
 }
-

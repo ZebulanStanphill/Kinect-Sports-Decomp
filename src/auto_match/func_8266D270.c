@@ -25,31 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8256E1D8();
-extern int fn_8266CB08();
+typedef struct { int a; int b; int c; } Elem_8266D270;
+extern void fn_8256E1D8(Elem_8266D270 *, int, int);
+extern void fn_8266CB08(Elem_8266D270 *, Elem_8266D270 *);
 
 
-int fn_8266D270(int param_1,undefined4 *param_2)
+typedef struct { Elem_8266D270 *first; Elem_8266D270 *last; Elem_8266D270 *end; } Vec_8266D270;
+typedef struct { char pad[0x10]; Vec_8266D270 *vec; } Obj_8266D270;
 
+Obj_8266D270 *fn_8266D270(Obj_8266D270 *self, Elem_8266D270 *src)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = *(int *)(param_1 + 0x10);
-  if (*(uint *)(*(int *)(param_1 + 0x10) + 4) < *(uint *)(*(int *)(param_1 + 0x10) + 8)) {
-    iVar1 = *(int *)(iVar2 + 4);
-    *(int *)(iVar2 + 4) = iVar1 + 0xc;
-    fn_8256E1D8(iVar1,*param_2,param_2[1]);
-    *(undefined4 *)(iVar1 + 8) = param_2[2];
+  Elem_8266D270 *p;
+  Elem_8266D270 *t;
+  if (self->vec->last < self->vec->end) {
+    p = self->vec->last;
+    self->vec->last = p + 1;
+    fn_8256E1D8(p, src->a, src->b);
+    p->c = src->c;
   }
   else {
-    if (*(int *)(iVar2 + 4) != 0) {
-      fn_8266CB08(*(int *)(iVar2 + 4),param_2);
+    if (self->vec->last != 0) {
+      fn_8266CB08(self->vec->last, src);
     }
-    iVar2 = *(int *)(*(int *)(param_1 + 0x10) + 4) + 0xc;
-    *(int *)(*(int *)(param_1 + 0x10) + 4) = iVar2;
-    *(int *)(*(int *)(param_1 + 0x10) + 8) = iVar2;
+    t = self->vec->last + 1;
+    self->vec->last = t;
+    self->vec->end = t;
   }
-  return param_1;
+  return self;
 }
-

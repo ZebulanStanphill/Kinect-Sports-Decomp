@@ -27,19 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82C07428();
 extern int fn_82C07C18();
-
-
-undefined8 fn_82C09700(int param_1,ushort param_2)
-
+unsigned int fn_82C09700(unsigned int param_1, unsigned short param_2)
 {
-  undefined8 uVar1;
-  
-  if ((((param_1 != 0) && (param_2 != 0)) && (param_2 < 0x80)) && (*(int *)(param_1 + 0x210) != 0))
-  {
-    fn_82C07428(param_1,param_2 & 0xff,1);
-    uVar1 = fn_82C07C18();
-    return uVar1;
+  if (param_1 != 0 && param_2 >= 1 && param_2 <= 0x7f && *(int *)(param_1 + 0x210) != 0) {
+    fn_82C07428(param_1, (unsigned char)param_2, 1);
+    return fn_82C07C18();
   }
   return 4;
 }
-

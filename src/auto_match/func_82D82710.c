@@ -25,28 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D82658();
+extern void fn_82D82658(int, int);
 
 
-void fn_82D82710(int param_1,undefined8 param_2)
-
+typedef struct { int *data; int size; } Arr_82D82710;
+typedef struct { char pad[0x28]; Arr_82D82710 a; int pad2; Arr_82D82710 b; } Obj_82D82710;
+static void Each_82D82710(Arr_82D82710 *a, int x)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = *(undefined4 **)(param_1 + 0x28);
-  if (puVar1 != puVar1 + *(int *)(param_1 + 0x2c)) {
-    do {
-      fn_82D82658(*puVar1,param_2);
-      puVar1 = puVar1 + 1;
-    } while (puVar1 != (undefined4 *)(*(int *)(param_1 + 0x2c) * 4 + *(int *)(param_1 + 0x28)));
+  int *p;
+  for (p = a->data; p != a->data + a->size; p++) {
+    fn_82D82658(*p, x);
   }
-  puVar1 = *(undefined4 **)(param_1 + 0x34);
-  if (puVar1 != puVar1 + *(int *)(param_1 + 0x38)) {
-    do {
-      fn_82D82658(*puVar1,param_2);
-      puVar1 = puVar1 + 1;
-    } while (puVar1 != (undefined4 *)(*(int *)(param_1 + 0x38) * 4 + *(int *)(param_1 + 0x34)));
-  }
-  return;
 }
-
+void fn_82D82710(Obj_82D82710 *param_1, int param_2)
+{
+  Each_82D82710(&param_1->a, param_2);
+  Each_82D82710(&param_1->b, param_2);
+}

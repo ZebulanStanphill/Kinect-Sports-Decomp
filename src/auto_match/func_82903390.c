@@ -25,30 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct { int pad0[2]; unsigned int count; int pad1[2]; int *items; } Mgr_82903390;
+typedef struct { char pad[8]; Mgr_82903390 *mgr; } Obj_82903390;
+typedef struct { char pad[0x68]; void *f68; } Item_82903390;
 
-
-undefined8 fn_82903390(int param_1,uint *param_2,uint param_3)
-
+int fn_82903390(Obj_82903390 *param_1,unsigned int *param_2,unsigned int param_3)
 {
-  uint uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  if (param_3 != 0) {
-    do {
-      if (*param_2 < *(uint *)(*(int *)(param_1 + 8) + 8)) {
-        iVar2 = *(int *)(*param_2 * 4 + *(int *)(*(int *)(param_1 + 8) + 0x14));
-      }
-      else {
-        iVar2 = 0;
-      }
-      if ((iVar2 == 0) || (*(int *)(iVar2 + 0x68) == 0)) {
-        return 0;
-      }
-      uVar1 = uVar1 + 1;
-      param_2 = param_2 + 1;
-    } while (uVar1 < param_3);
+  unsigned int i;
+  for (i = 0; i < param_3; i++) {
+    Mgr_82903390 *m = param_1->mgr; unsigned int idx = param_2[i]; Item_82903390 *it = idx < m->count ? (Item_82903390 *)m->items[idx] : 0;
+    if (it == 0 || it->f68 == 0) return 0;
   }
   return 1;
 }
-

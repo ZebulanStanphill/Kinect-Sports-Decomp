@@ -25,24 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E968();
+typedef struct { __int64 start; double scale; __int64 now; __int64 off; char pad[0x1c]; int flag; } Timer_829F9818;
+extern void fn_82A1E968(__int64 *);
 
-
-double fn_829F9818(longlong *param_1,int param_2)
-
+double fn_829F9818(Timer_829F9818 *p, int n)
 {
-  double dVar1;
-  longlong alStack_28 [2];
-  
-  if (*(int *)((int)param_1 + 0x3c) == 0) {
-    fn_82A1E968(alStack_28);
-    dVar1 = (double)((alStack_28[0] - param_1[3]) - *param_1) * (double)param_1[1] *
-            (double)(longlong)param_2;
+  __int64 t;
+  if (p->flag == 0) {
+    fn_82A1E968(&t);
+    return (double)((t - p->off) - p->start) * p->scale * (double)(__int64)n;
   }
-  else {
-    dVar1 = (double)((param_1[2] - param_1[3]) - *param_1) * (double)param_1[1] *
-            (double)(longlong)param_2;
-  }
-  return dVar1;
+  return (double)((p->now - p->off) - p->start) * p->scale * (double)(__int64)n;
 }
-

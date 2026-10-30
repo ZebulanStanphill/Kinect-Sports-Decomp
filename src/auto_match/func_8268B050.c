@@ -25,27 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267BDA8();
+extern int fn_8267B890(int, unsigned int, int);
+extern int fn_8267BDA8(unsigned int, unsigned int);
 
 
-void fn_8268B050(int *param_1,ulonglong param_2)
-
+typedef struct { unsigned int h; int pad; unsigned int f8; unsigned int fc; int pad2; int f14; } Obj_8268B050;
+void fn_8268B050(Obj_8268B050 *p, unsigned int n)
 {
-  int iVar1;
-  ulonglong uVar2;
-  
-  if ((ulonglong)(uint)param_1[2] <= (param_2 & 0xffffffff)) {
-    uVar2 = (uint)param_1[3] + param_2 & ~((ulonglong)(uint)param_1[3] - 1);
-    param_1[2] = (int)uVar2;
-    if (*param_1 == 0) {
-      iVar1 = fn_8267B890(param_1[5],uVar2,0);
+  unsigned int sz;
+  int r;
+  if (n >= p->f8) {
+    sz = (p->fc + n) & ~(p->fc - 1);
+    p->f8 = sz;
+    if (p->h == 0) {
+      r = fn_8267B890(p->f14, sz, 0);
     }
     else {
-      iVar1 = fn_8267BDA8();
+      r = fn_8267BDA8(p->h, sz);
     }
-    *param_1 = iVar1;
+    p->h = r;
   }
-  return;
 }
-

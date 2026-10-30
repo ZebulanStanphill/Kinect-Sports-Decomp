@@ -1,93 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A6D090();
-extern int fn_82A74B48();
-extern unsigned int lbl_820A9330;
-extern unsigned int lbl_820A96E8;
-extern unsigned int lbl_820A9B10;
-extern unsigned int lbl_820A9CF8;
-extern unsigned int lbl_820A9EE0;
-extern unsigned int lbl_820AA100;
+extern int fn_82A6D090(void *, int, int *);
+extern void fn_82A74B48(void *, void *);
+extern char lbl_820A9330[];
+extern char lbl_820A9B10[];
+extern char lbl_820A9CF8[];
+extern char lbl_820A96E8[];
+extern char lbl_820A9EE0[];
+extern char lbl_820AA100[];
+typedef struct {
+  int f0; char p4[8]; int fc; int f10; char p14[0x38 - 0x14]; int f38; int f3c; int f40;
+  char p44[0x54 - 0x44]; int a[4]; int b[4]; char p74[0x84 - 0x74]; int f84;
+} S_82A750D0;
+typedef struct { char pad[0x1e4]; void (*cb)(void *, void *); char pad2[0x330 - 0x1e8]; int f330; } H_82A750D0;
+typedef struct { void **vt; char p[0xdc]; char dec[1]; } X_82A750D0;
+typedef struct { void *hdr; char p4[0xdc]; char dec[0x28]; char pad[0x204 - 0x108]; } T_82A750D0;
 
-
-void fn_82A750D0(int *param_1,int param_2)
-
+void fn_82A750D0(int *param_1, int *param_2)
 {
-  int iVar1;
-  int iVar2;
-  undefined2 uVar3;
-  undefined *puVar4;
-  undefined *puVar5;
-  undefined *puVar6;
-  int *piVar7;
-  longlong lVar8;
-  int aiStack_30;
-  
-  iVar1 = *param_1;
-  if (*(int *)(iVar1 + 0x330) == 0) {
-    iVar2 = fn_82A6D090(param_1 + 0x38,1,&aiStack_30);
-    if (iVar2 < 0) {
-      return;
+  int i;
+  int mode;
+  int r;
+  H_82A750D0 *hdrp = (H_82A750D0 *)*param_1;
+  S_82A750D0 *s = (S_82A750D0 *)((char *)param_1 + 0x204);
+  void (*fp)(void *, void *);
+  if (hdrp->f330 == 0) {
+    r = fn_82A6D090(param_1 + 0x38, 1, &mode);
+    if (r < 0) return;
+    if (mode == 1) {
+      param_2[6] = (int)lbl_820A9330; param_2[7] = (int)lbl_820A9B10; param_2[8] = (int)lbl_820A9CF8;
+      *(short *)((char *)param_1 + 0x13a) = 0x34;
+    } else {
+      param_2[6] = (int)lbl_820A96E8; param_2[7] = (int)lbl_820A9EE0; param_2[8] = (int)lbl_820AA100;
+      *(short *)((char *)param_1 + 0x13a) = 0x1c;
     }
-    if (aiStack_30 == 1) {
-      puVar6 = &lbl_820A9330;
-      puVar5 = &lbl_820A9B10;
-      puVar4 = &lbl_820A9CF8;
-      uVar3 = 0x34;
-    }
-    else {
-      puVar6 = &lbl_820A96E8;
-      puVar5 = &lbl_820A9EE0;
-      puVar4 = &lbl_820AA100;
-      uVar3 = 0x1c;
-    }
-    *(undefined **)(param_2 + 0x18) = puVar6;
-    *(undefined **)(param_2 + 0x1c) = puVar5;
-    *(undefined **)(param_2 + 0x20) = puVar4;
-    *(undefined2 *)((int)param_1 + 0x13a) = uVar3;
   }
-  param_1[0x85] = 0;
-  piVar7 = param_1 + 0x99;
-  param_1[0x81] = 1;
-  param_1[0x84] = 0;
-  lVar8 = 4;
-  param_1[0x8f] = 0;
-  param_1[0x90] = 0;
-  param_1[0x91] = 0;
-  param_1[0xa2] = 0;
-  do {
-    piVar7[-3] = 0;
-    piVar7 = piVar7 + 1;
-    *piVar7 = 0;
-    lVar8 = lVar8 + -1;
-  } while (lVar8 != 0);
-  *(code **)(iVar1 + 0x1e4) = fn_82A74B48;
-  fn_82A74B48(param_1,param_2);
-  return;
+  s->f10 = 0;
+  s->f0 = 1;
+  s->fc = 0;
+  s->f38 = 0; s->f3c = 0; s->f40 = 0;
+  s->f84 = 0;
+  for (i = 0; i < 4; i++) { s->a[i] = 0; s->b[i] = 0; }
+  hdrp->cb = fn_82A74B48;
+  hdrp->cb(param_1, param_2);
 }
-

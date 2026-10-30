@@ -25,32 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82924628();
-extern int fn_82B8FDD0();
-extern int fn_82B98678();
-extern int fn_82F68CC0();
+extern unsigned int fn_82924628(void *, unsigned int);
+extern unsigned int fn_82B8FDD0(void *, unsigned int);
+extern int fn_82B98678(void *, unsigned int, unsigned int, int);
+void *memcpy(void *d, const void *s, unsigned int n);
 
 
-void fn_82B98AD0(int param_1,longlong param_2,longlong param_3,undefined8 param_4)
-
+typedef struct {
+  char p0[0x10]; int f10; char p14[0x3c - 0x14]; unsigned int f3c; unsigned int f40; char p44[0x4c - 0x44]; unsigned int f4c;
+  char p50[4]; unsigned int f54; char p58[0x68 - 0x58]; int f68; char p6c[0x80 - 0x6c]; unsigned int f80; unsigned int f84; char p88[0x9c - 0x88]; int f9c; int fa0;
+} P_82B98AD0;
+void fn_82B98AD0(P_82B98AD0 *p, int a, int b, unsigned int src)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1 + 0x54) != 0) {
-    param_4 = fn_82924628(param_1,param_4);
+  int r;
+  if (p->f54 != 0) {
+    src = fn_82924628(p, src);
   }
-  if (*(int *)(param_1 + 0x10) != 0) {
-    param_4 = fn_82B8FDD0(param_1,param_4);
+  if (p->f10 != 0) {
+    src = fn_82B8FDD0(p, src);
   }
-  iVar1 = fn_82B98678(param_1,(ulonglong)*(uint *)(param_1 + 0x40) + param_2,
-                        (ulonglong)*(uint *)(param_1 + 0x4c) + param_3,
-                        *(int *)(param_1 + 0x68) != *(int *)(param_1 + 0x9c));
-  if (-1 < iVar1) {
-    fn_82F68CC0(((ulonglong)*(uint *)(param_1 + 0x3c) - (ulonglong)*(uint *)(param_1 + 0x84) &
-                 0xfffffff) * 0x10 + (ulonglong)*(uint *)(param_1 + 0x80),param_4,
-                 *(int *)(param_1 + 0x68) << 4);
-    *(undefined4 *)(param_1 + 0xa0) = 1;
+  { unsigned int x = p->f40 + a; unsigned int y = p->f4c + b; r = fn_82B98678(p, x, y, p->f9c != p->f68); }
+  if (r >= 0) {
+    memcpy((void *)(((p->f3c - p->f84) & 0xfffffff) * 0x10 + p->f80), (void *)src, p->f68 << 4);
+    p->fa0 = 1;
   }
-  return;
 }
-

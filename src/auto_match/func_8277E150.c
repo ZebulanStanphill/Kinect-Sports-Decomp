@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8277CA30();
-extern int fn_82F63CA0();
+void *memmove(void *d, const void *s, unsigned int n);
 
 
 undefined4 * fn_8277E150(undefined4 *param_1,undefined4 *param_2)
@@ -39,7 +39,7 @@ undefined4 * fn_8277E150(undefined4 *param_1,undefined4 *param_2)
     fn_8277CA30(param_1,(ulonglong)uVar1,0);
     param_1[1] = uVar1;
     if (uVar1 != 0) {
-      fn_82F63CA0(*param_1,*param_2,(ulonglong)uVar1 * 0xc);
+      memmove(*param_1,*param_2,uVar1 * 0xc);
     }
   }
   return param_1;

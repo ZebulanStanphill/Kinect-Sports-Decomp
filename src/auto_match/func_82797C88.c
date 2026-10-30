@@ -1,53 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_82796410();
+typedef struct VT_82797C88 { int s[5]; void (*f)(void *self, void *a); } VT_82797C88;
+typedef struct { VT_82797C88 *vt; } Obj_82797C88;
+typedef struct { int size1; int size; } Arr_82797C88;
+typedef struct { Arr_82797C88 *a; int idx; } Ref_82797C88;
+typedef struct { int a, b, c; } Out_82797C88;
+extern int fn_8267BE38(int x);
+extern int fn_82796410(Arr_82797C88 *a, int i);
 
-
-void fn_82797C88(int *param_1,int *param_2,undefined4 *param_3)
-
+void fn_82797C88(Obj_82797C88 *self, Ref_82797C88 *ref, Out_82797C88 *out)
 {
-  int iVar1;
-  bool bVar2;
-  
-  (**(code **)(*param_1 + 0x14))(param_1,param_3);
-  fn_8267BE38(*param_3);
-  bVar2 = false;
-  *param_3 = 0;
-  param_3[2] = 0;
-  param_3[1] = 0;
-  iVar1 = *param_2;
-  if (((iVar1 == 0) || (param_2[1] < 0)) || (*(int *)(iVar1 + 4) <= param_2[1])) {
-    bVar2 = true;
-  }
-  if (!bVar2) {
-    fn_82796410(iVar1,param_2[1]);
-  }
-  return;
+  unsigned char bad;
+    Arr_82797C88 *a;
+  self->vt->f(self, out);
+  fn_8267BE38(out->a);
+  out->a = 0;
+  out->c = 0;
+  out->b = 0;
+  a = ref->a;
+  bad = a == 0 || ref->idx < 0 || ref->idx >= a->size;
+  if (!bad) fn_82796410(a, ref->idx);
 }
-

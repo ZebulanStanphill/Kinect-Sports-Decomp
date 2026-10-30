@@ -31,15 +31,15 @@ extern int fn_8247E368();
 extern int fn_8265CA20();
 extern unsigned int lbl_821BD718;
 extern unsigned int lbl_821C2CCC;
-extern int (*lbl_8327677C)();
+extern void (*lbl_83276774[])(const char *, const char *, int);
 
 
 void fn_8247DDC8(undefined4 *param_1)
 
 {
   *param_1 = &lbl_821BD718;
-  if (lbl_8327677C != (code *)0x0) {
-    (*lbl_8327677C)(0xffffffff821bd6c8,0xffffffff821bd5f0,0x56);
+  if (lbl_83276774[2]) {
+    lbl_83276774[2]("olympus::invite::SceneControllerReceivedInvite::~SceneControllerReceivedInvite","D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\scenecontroller\\scenecontroller_frontend\\scenecontroller_frontend_receivedinvite.cpp",0x56);
   }
   fn_8247DD58(param_1 + 0x12);
   fn_8247E368(param_1 + 10);

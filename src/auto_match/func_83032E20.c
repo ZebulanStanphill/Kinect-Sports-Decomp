@@ -27,24 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_83032E20(undefined4 *param_1)
+typedef struct { int *a; int *b; int pad[3]; } Ent_83032E20;
+typedef struct { Ent_83032E20 *begin; Ent_83032E20 *end; } Vec_83032E20;
 
+void fn_83032E20(Vec_83032E20 *param_1)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  piVar1 = (int *)param_1[1];
-  for (piVar2 = (int *)*param_1; piVar2 != piVar1; piVar2 = piVar2 + 5) {
-    if ((int *)piVar2[1] != (int *)0x0) {
-      (**(code **)(*(int *)piVar2[1] + 4))();
-      piVar2[1] = 0;
+  Ent_83032E20 *e;
+  Ent_83032E20 *end = param_1->end;
+  for (e = param_1->begin; e != end; e++) {
+    if (e->b != 0) {
+      (*(code *)(*(int *)e->b + 4))(e->b);
+      e->b = 0;
     }
-    if ((int *)*piVar2 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar2 + 8))();
-      *piVar2 = 0;
+    if (e->a != 0) {
+      (*(code *)(*(int *)e->a + 8))(e->a);
+      e->a = 0;
     }
   }
-  param_1[1] = *param_1;
-  return;
+  param_1->end = param_1->begin;
 }
-
