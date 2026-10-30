@@ -1,57 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_822315A0();
-extern int fn_8229AE10();
-extern int fn_8229F5A8();
-extern int fn_82672C20();
-extern unsigned int iStack_c;
+extern int fn_822315A0(void *);
+extern int *fn_8229AE10(void *, int);
+extern int fn_8229F5A8(int);
+extern int fn_82672C20(int, const char *, int, int);
+typedef struct { int ptr; void *rep; } Ref;
 
-
-void fn_823605C0(int param_1,int param_2)
-
+void fn_823605C0(int param_1, int param_2)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_10 [4];
-  int iStack_c;
-  
-  if (-1 < param_2) {
+  Ref ref;
+  if (param_2 >= 0) {
     if (*(int *)(*(int *)(param_1 + 0xd4) + 0x183c) == 0) {
-      puVar1 = (undefined4 *)fn_8229AE10(auStack_10);
-      fn_82672C20(*puVar1,0xffffffff821aa728,0,0);
-      if (iStack_c != 0) {
-        fn_822315A0();
+      fn_82672C20(*fn_8229AE10(&ref, *(int *)(param_1 + 0xd4)), "_root.scorecardCtrl.show", 0, 0);
+      if (ref.rep != 0) {
+        fn_822315A0(ref.rep);
       }
     }
     else {
-      fn_8229F5A8(*(undefined4 *)(*(int *)(param_1 + 0xd4) + 0xc));
+      fn_8229F5A8(*(int *)(*(int *)(param_1 + 0xd4) + 0xc));
     }
   }
-  return;
 }
-

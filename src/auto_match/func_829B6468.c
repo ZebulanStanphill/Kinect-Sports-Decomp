@@ -1,101 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829B62A8();
-extern int fn_829B7828();
+typedef unsigned int JDIMENSION;
+typedef int boolean;
+typedef struct Cinfo *j_common_ptr;
+typedef struct Err {
+    void (*error_exit)(j_common_ptr);
+    void *emit_message;
+    void *output_message;
+    void *format_message;
+    void *reset_error_mgr;
+    int msg_code;
+} Err;
+struct Cinfo { Err *err; };
+typedef struct Vsa {
+    void **mem_buffer;
+    JDIMENSION rows_in_array;
+    JDIMENSION samplesperrow;
+    JDIMENSION maxaccess;
+    JDIMENSION rows_in_mem;
+    JDIMENSION rowsperchunk;
+    JDIMENSION cur_start_row;
+    JDIMENSION first_undef_row;
+    boolean pre_zero;
+    boolean dirty;
+    boolean b_s_open;
+} Vsa;
+extern void fn_829B62A8(j_common_ptr, Vsa *, boolean);
+extern void fn_829B7828(void *, unsigned int);
 
-
-int fn_829B6468(int *param_1,int *param_2,uint param_3,uint param_4,int param_5)
-
+void **fn_829B6468(j_common_ptr cinfo, Vsa *ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  
-  uVar2 = param_3 + param_4;
-  if ((((uint)param_2[1] < uVar2) || ((uint)param_2[3] < param_4)) || (*param_2 == 0)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x16;
-    (**(code **)*param_1)(param_1);
-  }
-  if ((param_3 < (uint)param_2[6]) || ((uint)(param_2[4] + param_2[6]) < uVar2)) {
-    if (param_2[10] == 0) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x45;
-      (**(code **)*param_1)(param_1);
-    }
-    if (param_2[9] != 0) {
-      fn_829B62A8(param_1,param_2,1);
-      param_2[9] = 0;
-    }
-    if ((uint)param_2[6] < param_3) {
-      param_2[6] = param_3;
-    }
-    else {
-      param_2[6] = -((int)(uVar2 - param_2[4]) >> 0x1f) - 1U & uVar2 - param_2[4];
-    }
-    fn_829B62A8(param_1,param_2,0);
-  }
-  uVar3 = param_2[7];
-  if (uVar3 < uVar2) {
-    if ((uVar3 < param_3) && (uVar3 = param_3, param_5 != 0)) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x16;
-      (**(code **)*param_1)(param_1);
-    }
-    if (param_5 != 0) {
-      param_2[7] = uVar2;
-    }
-    if (param_2[8] != 0) {
-      iVar1 = param_2[2];
-      uVar3 = uVar3 - param_2[6];
-      uVar2 = uVar2 - param_2[6];
-      if (uVar3 < uVar2) {
-        iVar4 = uVar3 * 4;
-        iVar5 = uVar2 - uVar3;
-        do {
-          fn_829B7828(*(undefined4 *)(*param_2 + iVar4),iVar1);
-          iVar5 = iVar5 + -1;
-          iVar4 = iVar4 + 4;
-        } while (iVar5 != 0);
-      }
-      goto LAB_829b6604;
-    }
-    if (param_5 == 0) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x16;
-      (**(code **)*param_1)(param_1);
-      goto LAB_829b6614;
-    }
-  }
-  else {
-LAB_829b6604:
-    if (param_5 == 0) goto LAB_829b6614;
-  }
-  param_2[9] = 1;
-LAB_829b6614:
-  return (param_3 - param_2[6]) * 4 + *param_2;
-}
+  JDIMENSION end_row = start_row + num_rows;
+  JDIMENSION undef_row;
 
+  if (end_row > ptr->rows_in_array || num_rows > ptr->maxaccess || ptr->mem_buffer == 0) {
+    cinfo->err->msg_code = 0x16;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  if (start_row < ptr->cur_start_row || end_row > ptr->cur_start_row + ptr->rows_in_mem) {
+    if (!ptr->b_s_open) {
+      cinfo->err->msg_code = 0x45;
+      (*cinfo->err->error_exit)(cinfo);
+    }
+    if (ptr->dirty) {
+      fn_829B62A8(cinfo, ptr, 1);
+      ptr->dirty = 0;
+    }
+    if (start_row > ptr->cur_start_row) {
+      ptr->cur_start_row = start_row;
+    } else {
+      long ltemp = (long)end_row - (long)ptr->rows_in_mem;
+      if (ltemp < 0) ltemp = 0;
+      ptr->cur_start_row = (JDIMENSION)ltemp;
+    }
+    fn_829B62A8(cinfo, ptr, 0);
+  }
+  if (ptr->first_undef_row < end_row) {
+    if (ptr->first_undef_row < start_row) {
+      if (writable) {
+        cinfo->err->msg_code = 0x16;
+        (*cinfo->err->error_exit)(cinfo);
+      }
+      undef_row = start_row;
+    } else {
+      undef_row = ptr->first_undef_row;
+    }
+    if (writable) ptr->first_undef_row = end_row;
+    if (ptr->pre_zero) {
+      unsigned int bytesperrow = ptr->samplesperrow;
+      undef_row -= ptr->cur_start_row;
+      end_row -= ptr->cur_start_row;
+      while (undef_row < end_row) {
+        fn_829B7828(ptr->mem_buffer[undef_row], bytesperrow);
+        undef_row++;
+      }
+    } else {
+      if (!writable) {
+        cinfo->err->msg_code = 0x16;
+        (*cinfo->err->error_exit)(cinfo);
+      }
+    }
+  }
+  if (writable) ptr->dirty = 1;
+  return ptr->mem_buffer + (start_row - ptr->cur_start_row);
+}

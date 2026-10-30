@@ -1,79 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83037EB8();
+typedef struct Ent_82FB2380 { unsigned int key; unsigned int val; } Ent_82FB2380;
+typedef struct Vec_82FB2380 { Ent_82FB2380 *first; Ent_82FB2380 *last; unsigned int cap; } Vec_82FB2380;
+typedef struct Obj_82FB2380 { char pad[0xb8]; Vec_82FB2380 v; } Obj_82FB2380;
+extern unsigned char fn_83037EB8(Vec_82FB2380 *, int);
 
+static unsigned int *get(Ent_82FB2380 *it, Ent_82FB2380 *end) { int f = it != end; return f ? &it->val : 0; }
 
-undefined8 fn_82FB2380(int param_1,uint param_2,int param_3)
-
+int fn_82FB2380(Obj_82FB2380 *param_1, unsigned int param_2, Ent_82FB2380 *param_3)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  uint uVar4;
-  char cVar5;
-  int *piVar6;
-  uint uVar7;
-  int *piVar8;
-  
-  uVar7 = 0;
-  *(undefined4 *)(param_1 + 0xbc) = *(undefined4 *)(param_1 + 0xb8);
+  unsigned int *pi;
+  unsigned int i = 0;
+  Vec_82FB2380 *v = &param_1->v;
+  unsigned int *slot;
+  unsigned int key;
+  unsigned int idx;
+  Ent_82FB2380 *n;
+  Ent_82FB2380 *first;
+  Ent_82FB2380 *last;
+
+  v->last = v->first;
   if (param_2 != 0) {
-    piVar8 = (int *)(param_3 + -4);
+    pi = (unsigned int *)param_3 - 1;
     do {
-      piVar2 = *(int **)(param_1 + 0xbc);
-      iVar3 = piVar8[1];
-      piVar1 = *(int **)(param_1 + 0xb8);
-      for (piVar6 = piVar1; (piVar6 != piVar2 && (*piVar6 != iVar3)); piVar6 = piVar6 + 2) {
+      first = v->first;
+      last = v->last;
+      key = pi[1];
+      {
+        Ent_82FB2380 *e;
+        for (e = first; e != last && e->key != key; e++) {
+        }
+        slot = get(e, last);
       }
-      piVar6 = (int *)(-(uint)(piVar2 != piVar6) & (uint)(piVar6 + 1));
-      if (piVar6 == (int *)0x0) {
-        uVar4 = (int)piVar2 - (int)piVar1 >> 3;
-        if (((*(uint *)(param_1 + 0xc0) <= uVar4) &&
-            (cVar5 = fn_83037EB8((int *)(param_1 + 0xb8),8), cVar5 == '\0')) ||
-           (*(uint *)(param_1 + 0xc0) <= uVar4)) {
+      if (slot == 0) {
+        idx = last - first;
+        if ((!(idx < v->cap) && fn_83037EB8(v, 8) == 0) || !(idx < v->cap)) {
           return 2;
         }
-        piVar1 = *(int **)(param_1 + 0xbc);
-        *(int **)(param_1 + 0xbc) = piVar1 + 2;
-        if (piVar1 == (int *)0x0) {
+        n = v->last;
+        v->last = n + 1;
+        if (n == 0) {
           return 2;
         }
-        piVar6 = piVar1 + 1;
-        *piVar1 = iVar3;
-        if (piVar6 == (int *)0x0) {
+        slot = &n->val;
+        n->key = key;
+        if (slot == 0) {
           return 2;
         }
       }
-      piVar8 = piVar8 + 2;
-      uVar7 = uVar7 + 1;
-      *piVar6 = *piVar8;
-    } while (uVar7 < param_2);
+      pi += 2;
+      i++;
+      *slot = *pi;
+    } while (i < param_2);
   }
   return 1;
 }
-

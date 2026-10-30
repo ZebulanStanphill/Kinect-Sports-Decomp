@@ -1,118 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_8225F160();
-extern int fn_823AB478();
-extern int fn_8245AE18();
-extern int fn_8245AF50();
-extern int fn_8245AFC0();
-extern int fn_8245B050();
-extern int fn_8245B100();
-extern int fn_8245B168();
-extern int fn_8245B1F0();
-extern int fn_824B70F0();
-extern int fn_82512508();
-extern int fn_828EA5F8();
-extern int fn_828EA610();
+typedef struct Pkt_824B7500 { char pad[0x14]; int f14; int f18; int f1c; int f20; int f24; int f28; } Pkt_824B7500;
+extern Pkt_824B7500 *fn_8225F160(void);
+extern int fn_823AB478(int);
+extern void *fn_8245AE18(void);
+extern void fn_8245AF50(void *, int);
+extern void fn_8245AFC0(void *, int, int);
+extern void fn_8245B050(void *, int, int);
+extern void fn_8245B100(void *);
+extern void fn_8245B168(void *, short *, int);
+extern int fn_8245B1F0(void);
+extern void fn_824B70F0(void);
+extern unsigned char fn_82512508(int);
+extern unsigned char fn_828EA5F8(int);
+extern unsigned char fn_828EA610(int);
 
-
-void fn_824B7500(undefined8 param_1, uint param_2, uint param_3, undefined4 param_4, undefined2 param_5, undefined2 param_6, undefined2 param_7, undefined2 param_8, undefined2 in_stack_00000056, undefined2 in_stack_0000005e, undefined2 in_stack_00000066, undefined2 in_stack_0000006e, undefined2 in_stack_00000076, undefined2 in_stack_0000007e, undefined2 in_stack_00000086)
-
+void fn_824B7500(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6,
+                 int param_7, int param_8, int s54, int s5c, int s64, int s6c, int s74, int s7c, int s84)
 {
-  int iVar1;
-  char cVar3;
-  int iVar2;
-  undefined1 uVar4;
-  uint uVar5;
+  Pkt_824B7500 *iVar1;
+  Pkt_824B7500 *pk;
+  int uVar5;
+  short buf;
 
-
-
-
-
-
-
-  undefined2 auStack_60;
-  
-  uVar5 = 4;
-  if ((int)param_3 < 2) {
-    uVar5 = param_2;
-  }
-  iVar1 = fn_8225F160();
-  *(undefined4 *)(iVar1 + 0x18) = 2;
-  *(undefined4 *)(iVar1 + 0x1c) = 0;
-  *(uint *)(iVar1 + 0x28) = uVar5;
-  *(undefined4 *)(iVar1 + 0x20) = param_4;
-  *(undefined4 *)(iVar1 + 0x24) = 0;
-  cVar3 = fn_828EA610(param_1);
-  if (cVar3 == '\0') {
-    cVar3 = fn_828EA5F8(param_1);
-    if ((cVar3 != '\0') && (cVar3 = fn_82512508(param_1), cVar3 != '\0')) {
-      iVar1 = fn_8245AE18();
-      iVar2 = fn_8245B1F0();
-      if (iVar2 != 0) {
-        fn_8245AF50(iVar1,0x1a);
-        if (*(int *)(iVar1 + 0x14) == 0) {
-          *(undefined4 *)(iVar1 + 0x14) = 1;
+  uVar5 = param_3 > 1 ? 4 : param_2;
+  pk = fn_8225F160();
+  pk->f18 = 2;
+  pk->f1c = 0;
+  pk->f28 = uVar5;
+  pk->f20 = param_4;
+  pk->f24 = 0;
+  if (fn_828EA610(param_1) == 0) {
+    if (fn_828EA5F8(param_1) != 0 && fn_82512508(param_1) != 0) {
+      iVar1 = (Pkt_824B7500 *)fn_8245AE18();
+      if (fn_8245B1F0() != 0) {
+        fn_8245AF50(iVar1, 0x1a);
+        if (iVar1->f14 == 0) {
+          iVar1->f14 = 1;
         }
-        uVar4 = fn_823AB478(param_1);
-        fn_8245B050(iVar1,uVar4,4);
-        fn_8245B050(iVar1,uVar5 & 0xff,4);
-        fn_8245B050(iVar1,param_3 & 0xff,4);
+        { unsigned char tid = fn_823AB478(param_1); fn_8245B050(iVar1, tid, 4); }
+        fn_8245B050(iVar1, (unsigned char)uVar5, 4);
+        fn_8245B050(iVar1, (unsigned char)param_3, 4);
         fn_8245B100(iVar1);
-        auStack_60 = param_6;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = param_8;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_0000007e;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_0000005e;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_0000006e;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = (undefined2)param_4;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = param_7;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_00000056;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_00000086;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_00000066;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = in_stack_00000076;
-        fn_8245B168(iVar1,&auStack_60,2);
-        auStack_60 = param_5;
-        fn_8245B168(iVar1,&auStack_60,2);
+        buf = param_6; fn_8245B168(iVar1, &buf, 2);
+        buf = param_8; fn_8245B168(iVar1, &buf, 2);
+        buf = s7c; fn_8245B168(iVar1, &buf, 2);
+        buf = s5c; fn_8245B168(iVar1, &buf, 2);
+        buf = s6c; fn_8245B168(iVar1, &buf, 2);
+        buf = param_4; fn_8245B168(iVar1, &buf, 2);
+        buf = param_7; fn_8245B168(iVar1, &buf, 2);
+        buf = s54; fn_8245B168(iVar1, &buf, 2);
+        buf = s84; fn_8245B168(iVar1, &buf, 2);
+        buf = s64; fn_8245B168(iVar1, &buf, 2);
+        buf = s74; fn_8245B168(iVar1, &buf, 2);
+        buf = param_5; fn_8245B168(iVar1, &buf, 2);
         fn_824B70F0();
-        fn_8245AFC0(iVar1,0,0);
+        fn_8245AFC0(iVar1, 0, 0);
       }
     }
   }
-  return;
 }
-

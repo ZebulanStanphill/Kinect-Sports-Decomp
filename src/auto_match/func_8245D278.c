@@ -1,65 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_8245D278(int param_1,uint param_2)
-
+typedef struct E { int f0; int f4; int f8; int fc; int f10; int f14; int f18; int f1c; } E;
+typedef struct S { int f0; E *items; int f8; int fc; unsigned int count; } S;
+int fn_8245D278(S *p, unsigned int idx)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (*(uint *)(param_1 + 0x10) <= param_2) {
-    return 0;
-  }
-  iVar2 = param_2 * 0x20;
-  uVar1 = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 4) = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 0xc) = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 0x10) = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 0x14) = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 0x18) = 0;
-  *(undefined4 *)(*(int *)(param_1 + 4) + iVar2 + 0x1c) = 0;
-  if (*(int *)(param_1 + 0x10) != 0) {
-    iVar2 = 0;
-    do {
-      iVar3 = *(int *)(param_1 + 4) + iVar2;
-      if (uVar1 == param_2) {
-        *(undefined4 *)(iVar3 + 8) = 0;
+  unsigned int i;
+  if (idx >= p->count) return 0;
+  p->items[idx].f4 = 0; p->items[idx].fc = 0; p->items[idx].f10 = 0; p->items[idx].f14 = 0; p->items[idx].f18 = 0; p->items[idx].f1c = 0;
+  for (i = 0; i < p->count; i++) {
+      if (i == idx) {
+        p->items[i].f8 = 0;
+      } else if (p->items[i].fc != 0) {
+        p->items[i].f8 = p->items[i].f8 + 1;
       }
-      else if (*(int *)(iVar3 + 0xc) != 0) {
-        iVar3 = *(int *)(param_1 + 4) + iVar2;
-        *(int *)(iVar3 + 8) = *(int *)(iVar3 + 8) + 1;
-      }
-      uVar1 = uVar1 + 1;
-      iVar2 = iVar2 + 0x20;
-    } while (uVar1 < *(uint *)(param_1 + 0x10));
   }
   return 1;
 }
-

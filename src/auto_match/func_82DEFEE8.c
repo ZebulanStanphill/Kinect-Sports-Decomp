@@ -1,45 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D7C120();
-extern int fn_82DB06D0();
+struct Iface_82DEFEE8;
+typedef struct VT_82DEFEE8 {
+  void *s[8];
+  int (*get)(struct Iface_82DEFEE8 *);
+} VT_82DEFEE8;
+typedef struct Iface_82DEFEE8 { VT_82DEFEE8 *vt; } Iface_82DEFEE8;
+typedef struct Obj_82DEFEE8 {
+  char pad[0xc];
+  Iface_82DEFEE8 *iface;
+  char pad2[4];
+  char *a;
+  char *b;
+} Obj_82DEFEE8;
+extern unsigned int fn_82D7C120(char *, char *);
+extern void fn_82DB06D0(void);
 
-
-void fn_82DEFEE8(undefined8 param_1,int param_2)
-
+void fn_82DEFEE8(int param_1, Obj_82DEFEE8 *param_2)
 {
-  int iVar1;
-  
-  iVar1 = (**(code **)(**(int **)(param_2 + 0xc) + 0x20))();
-  if ((iVar1 != 0xb) &&
-     (iVar1 = fn_82D7C120((ulonglong)*(uint *)(param_2 + 0x14) + 0x10,
-                           (ulonglong)*(uint *)(param_2 + 0x18) + 0x10), iVar1 != 0)) {
+  char *x; char *y; unsigned int r;
+  if (param_2->iface->vt->get(param_2->iface) != 0xb) {
+    y = param_2->b; x = param_2->a;
+    r = fn_82D7C120(x + 0x10, y + 0x10);
+    if (r != 0)
     fn_82DB06D0();
   }
-  return;
 }
-

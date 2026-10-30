@@ -1,56 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826957D0();
 extern int fn_826959C8();
 extern int fn_82697700();
 
+struct Dev;
+typedef struct DevVT { int pad[16]; struct Dev *(*f40)(struct Dev *); } DevVT;
+typedef struct Sub { int p0; int p4; int p8; unsigned int flags; } Sub;
+typedef struct Dev { DevVT *vt; char pad[0x940]; Sub sub; } Dev;
+typedef struct Owner { char pad[0x74]; Dev *dev; } Owner;
+typedef struct Out { unsigned char kind; char pad[3]; unsigned char ok; } Out;
+typedef struct Obj { int p0; Out *out; int p8; int pc; int p10; int p14; Owner *owner; int cnt; } Obj;
 
-void fn_826A7B88(int param_1)
-
+void fn_826A7B88(Obj *param_1)
 {
-  undefined4 uVar1;
-  undefined1 *puVar2;
-  uint uVar3;
-  undefined8 uVar4;
-  uint uVar5;
-  int iVar6;
-  
-  if (0 < *(int *)(param_1 + 0x1c)) {
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    uVar4 = fn_826957D0(param_1,0);
-    uVar5 = fn_82697700(uVar4,uVar1);
-    iVar6 = (**(code **)(**(int **)(*(int *)(param_1 + 0x18) + 0x74) + 0x40))();
-    puVar2 = *(undefined1 **)(param_1 + 4);
-    uVar3 = *(uint *)(iVar6 + 0x950);
-    fn_826959C8(puVar2);
-    *puVar2 = 2;
-    puVar2[4] = uVar5 == (uVar3 & uVar5);
+  if (1 <= param_1->cnt) {
+    Owner *uVar1 = param_1->owner;
+    unsigned int uVar4;
+    unsigned int uVar5;
+    Dev *d;
+    Out *o;
+    Sub *s;
+    unsigned int uVar3;
+    uVar4 = fn_826957D0(param_1, 0);
+    uVar5 = fn_82697700(uVar4, uVar1);
+    d = param_1->owner->dev;
+    d = d->vt->f40(d);
+    s = &d->sub;
+    o = param_1->out;
+    uVar3 = s->flags;
+    fn_826959C8(o);
+    o->kind = 2;
+    o->ok = (uVar3 & uVar5) == uVar5;
   }
-  return;
 }
-

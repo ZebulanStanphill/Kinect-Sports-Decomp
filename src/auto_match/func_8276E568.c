@@ -1,55 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82687270();
-extern int fn_826D6290();
-extern int fn_8276DD70();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
-extern unsigned int uStack_28;
+extern void fn_82687270(unsigned int);
+extern void fn_826D6290(void *, int);
+extern void fn_8276DD70(void *, void *, void *);
+typedef struct Pair_8276E568 { int first; unsigned int second; } Pair_8276E568;
+typedef struct Arg_8276E568 { int a; Pair_8276E568 *p; } Arg_8276E568;
+typedef struct Loc_8276E568 { Pair_8276E568 pair; Arg_8276E568 arg; } Loc_8276E568;
 
-
-void fn_8276E568(longlong param_1,undefined4 param_2,undefined8 param_3)
-
+void fn_8276E568(char *param_1, int param_2, int param_3)
 {
-  struct { int first; int second; } stack_pair_30;
-
-  undefined4 uStack_28;
-  int *piStack_24;
-  
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_826D6290(&stack_pair_30.first,param_3);
-  piStack_24 = &stack_pair_30.first;
-  uStack_28 = param_2;
-  fn_8276DD70(param_1 + 0x24,param_1 + 0x24,&uStack_28);
-  if ((stack_pair_30.first == 0) && (stack_pair_30.second != 0)) {
-    fn_82687270();
+  Loc_8276E568 l;
+  l.pair.first = 0;
+  l.pair.second = 0;
+  fn_826D6290(&l.pair, param_3);
+  l.arg.p = &l.pair;
+  l.arg.a = param_2;
+  fn_8276DD70(param_1 + 0x24, param_1 + 0x24, &l.arg);
+  if (l.pair.first == 0 && l.pair.second != 0) {
+    fn_82687270(l.pair.second);
   }
-  return;
 }
-

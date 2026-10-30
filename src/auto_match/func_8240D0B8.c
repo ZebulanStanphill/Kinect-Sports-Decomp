@@ -1,76 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
+extern void *memcpy(void *, const void *, unsigned int);
 extern unsigned int lbl_821AD588;
 extern unsigned int lbl_821B7E04;
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
+typedef struct Buf { unsigned char d[0x2c]; } Buf;
+typedef struct Sub {
+  void *vt;      /* 0x00 */
+  int f4;
+  int f8;
+  int fc;
+  int f10;
+  int f14;
+  int f18;
+  Buf buf;
+  int f48;
+  int f4c;
+  int f50;
+  int f54;
+  int f58;
+  int f5c;
+  int f60;
+  int f64;
+  float f68;
+  int f6c;
+  int f70;
+  int f74;
+  int f78;
+} Sub;
+typedef struct Obj { void *vt; int f4; int f8; Sub s; } Obj;
+typedef struct Src { int s0; int s1; int s2; int s3; int s4; int s5; void *s6; int s7; int s8; int s9; int s10; } Src;
 
-undefined4 * fn_8240D0B8(undefined4 *param_1,undefined4 *param_2)
-
+Obj *fn_8240D0B8(Obj *param_1, Src *param_2)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    uVar1 = param_2[3];
-    uVar2 = *param_2;
-    uVar3 = param_2[2];
-    uVar4 = param_2[1];
-    param_1[4] = 5;
-    param_1[6] = uVar1;
-    param_1[5] = uVar2;
-    param_1[8] = uVar3;
-    param_1[7] = uVar4;
-    param_1[3] = &lbl_821B7E04;
-    param_1[9] = 0;
-    memcpy(param_1 + 10,param_2[6],0x2c);
-    uVar2 = lbl_821CC160;
-    param_1[0x15] = 0;
-    param_1[0x16] = 0;
-    param_1[0x17] = param_2[7];
-    param_1[0x18] = param_2[8];
-    param_1[0x19] = param_2[4];
-    param_1[0x1a] = param_2[5];
-    param_1[0x1b] = param_2[9];
-    uVar1 = param_2[10];
-    param_1[0x1d] = uVar2;
-    param_1[0x1c] = uVar1;
-    param_1[0x1e] = 0;
-    param_1[0x1f] = 0;
-    param_1[0x20] = 0;
-    param_1[0x21] = 0;
+  Sub *s;
+  float fv;
+  param_1->f4 = 1;
+  param_1->vt = &lbl_821AD588;
+  param_1->f8 = 1;
+  s = &param_1->s;
+  if (s != 0) {
+    int a = param_2->s3;
+    int b = param_2->s0;
+    int c = param_2->s2;
+    int d = param_2->s1;
+    s->f4 = 5;
+    s->fc = a;
+    s->f8 = b;
+    s->f14 = c;
+    s->f10 = d;
+    s->vt = &lbl_821B7E04;
+    s->f18 = 0;
+    s->buf = *(Buf *)param_2->s6;
+    fv = lbl_821CC160;
+    s->f48 = 0;
+    s->f4c = 0;
+    s->f50 = param_2->s7;
+    s->f54 = param_2->s8;
+    s->f58 = param_2->s4;
+    s->f5c = param_2->s5;
+    s->f60 = param_2->s9;
+    s->f64 = param_2->s10;
+    s->f68 = fv;
+    s->f6c = 0;
+    s->f70 = 0;
+    s->f74 = 0;
+    s->f78 = 0;
   }
   return param_1;
 }
-

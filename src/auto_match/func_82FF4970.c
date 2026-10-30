@@ -1,71 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E7D8();
 extern int fn_82A1E810();
 extern int fn_82FF52D8();
 extern int fn_830140E8();
-extern unsigned int iStack_24;
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
 extern unsigned int lbl_83264308;
-extern unsigned int uStack_28;
+extern void RtlLeaveCriticalSection(void *);
+typedef struct Ev { int a; int b; int c; int d; } Ev;
+typedef struct Msg { int f0; int f4; int f8; int fc; int f10; int f14; int f18; int f1c; void (*f20)(int, Ev *); int f24; unsigned int f28; } Msg;
+typedef struct Host { char pad[4]; char pad4[0x80]; char cs[0x1c]; int f_a4; } Host;
 
-
-void fn_82FF4970(int param_1,undefined8 param_2,int *param_3)
-
+void fn_82FF4970(char *param_1, int param_2, Msg *param_3)
 {
-  code *pcVar1;
-  uint uVar2;
-  struct { int first; int second; } stack_pair_30;
-
-  undefined4 uStack_28;
-  int iStack_24;
-  
-  if ((*param_3 == 0) && (param_3[1] == 0)) {
-    if ((param_3[10] & 0x10000U) != 0) {
+  void (*cb)(int, Ev *);
+  unsigned int flags;
+  Ev ev;
+  if (param_3->f0 == 0 && param_3->f4 == 0) {
+    if ((param_3->f28 & 0x10000) != 0) {
       fn_830140E8(lbl_83264308);
     }
-    stack_pair_30.first = param_3[9];
-    stack_pair_30.second = param_3[3];
-    iStack_24 = param_3[2];
-    uStack_28 = (undefined4)param_2;
-    pcVar1 = (code *)param_3[8];
-    uVar2 = param_3[10];
-    fn_82FF52D8(param_1 + 4,param_2);
-    if ((uVar2 & 1) != 0) {
-      fn_82A1E7D8(*(undefined4 *)(param_1 + 0xa4));
+    ev.a = param_3->f24;
+    ev.b = param_3->fc;
+    ev.d = param_3->f8;
+    ev.c = param_2;
+    cb = param_3->f20;
+    flags = param_3->f28;
+    fn_82FF52D8(param_1 + 4, param_2);
+    if ((flags & 1) != 0) {
+      fn_82A1E7D8(*(unsigned int *)(param_1 + 0xa4));
       RtlLeaveCriticalSection(param_1 + 0x88);
-      (*pcVar1)(1,&stack_pair_30.first);
-      fn_82A1E810(*(undefined4 *)(param_1 + 0xa4));
+      cb(1, &ev);
+      fn_82A1E810(*(unsigned int *)(param_1 + 0xa4));
       return;
     }
   }
   RtlLeaveCriticalSection(param_1 + 0x88);
-  return;
 }
-
