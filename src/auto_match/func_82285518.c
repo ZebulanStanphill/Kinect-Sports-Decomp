@@ -1,94 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225FDE0();
-extern int fn_8226D6A0();
-extern int fn_82276BC8();
-extern int fn_82279AF0();
-extern int fn_82279CA0();
-extern int fn_822848B8();
-extern int fn_82359C18();
-extern int fn_8265CA20();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB88();
-extern int fn_82E1CC60();
-extern int fn_82E1CCA8();
-extern unsigned int lbl_821A8D84;
+typedef struct {
+  void *vt;
+  char pad4[0x144 - 4];
+  void *f144;
+  void *f148;
+  void *f14c;
+  char f150[4];
+  char pad154[0x168 - 0x154];
+  void *f168;
+  void *f16c;
+  char pad170[0x174 - 0x170];
+  float f174;
+  int f178;
+} Obj_82285518;
+extern char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern void fn_8226D6A0(void *);
+extern void fn_82276BC8(void *);
+extern void fn_82279AF0(Obj_82285518 *);
+extern void fn_82279CA0(Obj_82285518 *, int);
+extern void fn_822848B8(void *);
+extern void fn_82359C18(void *);
+extern void fn_8265CA20(void *);
+extern unsigned char fn_82E1CAD0(int);
+extern void fn_82E1CB88(const char *, int);
+extern void fn_82E1CC60(const char *, double);
+extern void fn_82E1CCA8(void);
+extern char lbl_821A8D84[];
 
-
-void fn_82285518(undefined4 *param_1)
-
+void fn_82285518(Obj_82285518 *o)
 {
-  undefined4 uVar1;
-  char *pcVar2;
-  int iVar3;
-  char cVar4;
-  double dVar5;
-  
-  *param_1 = &lbl_821A8D84;
-  if (param_1[0x51] != 0) {
-    fn_8226D6A0();
-    param_1[0x51] = 0;
+  void *p;
+  int n;
+  float d;
+  o->vt = lbl_821A8D84;
+  if (o->f144 != 0) {
+    fn_8226D6A0(o->f144);
+    o->f144 = 0;
   }
-  fn_82279CA0(param_1,0);
-  if (param_1[0x53] != 0) {
-    fn_8226D6A0();
-    param_1[0x53] = 0;
+  fn_82279CA0(o, 0);
+  if (o->f14c != 0) {
+    fn_8226D6A0(o->f14c);
+    o->f14c = 0;
   }
-  fn_82279CA0(param_1,0);
-  if (param_1[0x52] != 0) {
-    fn_8226D6A0();
-    param_1[0x52] = 0;
+  fn_82279CA0(o, 0);
+  if (o->f148 != 0) {
+    fn_8226D6A0(o->f148);
+    o->f148 = 0;
   }
-  fn_82279CA0(param_1,0);
-  iVar3 = param_1[0x5a];
-  if (iVar3 != 0) {
-    fn_82276BC8(iVar3);
-    fn_8265CA20(iVar3);
+  fn_82279CA0(o, 0);
+  p = o->f168;
+  if (p != 0) {
+    fn_82276BC8(p);
+    fn_8265CA20(p);
   }
-  param_1[0x5a] = 0;
-  if (param_1[0x5b] != 0) {
-    fn_822848B8();
-    param_1[0x5b] = 0;
+  o->f168 = 0;
+  if (o->f16c != 0) {
+    fn_822848B8(o->f16c);
+    o->f16c = 0;
   }
-  uVar1 = param_1[0x5e];
-  dVar5 = (double)(float)param_1[0x5d];
-  pcVar2 = (char *)fn_8225F670();
-  if (*pcVar2 != '\0') {
-    iVar3 = fn_8225FDE0(0x66,1);
-    if ((iVar3 == 0) && (cVar4 = fn_82E1CAD0(0x66), cVar4 != '\0')) {
-      fn_82E1CC60(dVar5,0xffffffff821a6d44);
-      fn_82E1CB88(0xffffffff821a79ec,uVar1);
+  n = o->f178;
+  d = o->f174;
+  if (*fn_8225F670() != 0) {
+    if (fn_8225FDE0(0x66, 1) == 0 && fn_82E1CAD0(0x66) != 0) {
+      fn_82E1CC60("Duration", d);
+      fn_82E1CB88("NumberOfOptionsSelected", n);
       fn_82E1CCA8();
     }
   }
-  fn_82359C18(param_1 + 0x54);
-  fn_82279AF0(param_1);
-  return;
+  fn_82359C18(o->f150);
+  fn_82279AF0(o);
 }
-

@@ -1,63 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_823223C0 {
+  struct Node_823223C0 *left, *parent, *right;
+  int key;
+  int val[2];
+  char color, isnil;
+} Node_823223C0;
+typedef struct { int pad; Node_823223C0 *head; } Tree_823223C0;
+typedef struct { Node_823223C0 *p; } It_823223C0;
 
-
-void fn_823223C0(undefined4 *param_1,int param_2,int *param_3)
-
+static void LowerBound_823223C0(Tree_823223C0 *t, It_823223C0 *res, int *key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 **ppuVar3;
-  undefined4 *puStack_10;
-  undefined4 *apuStack_c [3];
-  
-  puStack_10 = *(undefined4 **)(param_2 + 4);
-  if (*(char *)((int)puStack_10[1] + 0x19) == '\0') {
-    puVar1 = (undefined4 *)puStack_10[1];
-    do {
-      if ((int)puVar1[3] < *param_3) {
-        puVar2 = (undefined4 *)puVar1[2];
-      }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puStack_10 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x19) == '\0');
+  Node_823223C0 *x = t->head->parent;
+  Node_823223C0 *w = t->head;
+  while (x->isnil == 0) {
+    if (x->key < *key) {
+      x = x->right;
+    } else {
+      w = x;
+      x = x->left;
+    }
   }
-  if ((puStack_10 == *(undefined4 **)(param_2 + 4)) || (*param_3 < (int)puStack_10[3])) {
-    apuStack_c[0] = *(undefined4 **)(param_2 + 4);
-    ppuVar3 = apuStack_c;
-  }
-  else {
-    ppuVar3 = &puStack_10;
-  }
-  *param_1 = *ppuVar3;
-  return;
+  res->p = w;
 }
 
+void fn_823223C0(It_823223C0 *out, Tree_823223C0 *t, int *key)
+{
+  It_823223C0 where, end;
+  It_823223C0 *r;
+  LowerBound_823223C0(t, &where, key);
+  if (where.p == t->head || *key < where.p->key) {
+    end.p = t->head;
+    r = &end;
+  } else {
+    r = &where;
+  }
+  out->p = r->p;
+}

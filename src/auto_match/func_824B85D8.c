@@ -1,64 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828EA608();
+typedef struct { char pad[0x100]; unsigned *tab; } Inner_824B85D8;
+typedef struct {
+  char cs[0x1c];
+  Inner_824B85D8 *f1c;
+  unsigned f20;
+  int f24;
+  int f28;
+  void (*f2c)(Inner_824B85D8 *, int, int);
+  int f30;
+  int f34;
+} Obj_824B85D8;
+extern unsigned char fn_828EA608(Inner_824B85D8 *);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_824B85D8(int param_1,int param_2)
-
+void fn_824B85D8(Obj_824B85D8 *o, int k)
 {
-  int iVar1;
-  int iVar2;
-  char cVar3;
-  
-  if ((((param_2 == 0xb) && (*(int *)(param_1 + 0x1c) != 0)) &&
-      (cVar3 = fn_828EA608(), cVar3 != '\0')) && (*(int *)(param_1 + 0x20) != 0)) {
-    iVar2 = *(int *)(param_1 + 0x20) * 4;
-    iVar1 = *(int *)(*(int *)(param_1 + 0x1c) + 0x100);
-    if (*(int *)(iVar1 + iVar2) != 0) {
-      *(undefined4 *)(iVar1 + iVar2) = 0;
-    }
-    if (*(code **)(param_1 + 0x2c) != (code *)0x0) {
-      (**(code **)(param_1 + 0x2c))
-                (*(undefined4 *)(param_1 + 0x1c),*(undefined4 *)(param_1 + 0x24),
-                 *(undefined4 *)(param_1 + 0x28));
-    }
+  if (k == 0xb && o->f1c != 0 && fn_828EA608(o->f1c) != 0 && o->f20 != 0) {
+    { if (o->f1c->tab[o->f20] != 0) o->f1c->tab[o->f20] = 0; }
+    if (o->f2c != 0) o->f2c(o->f1c, o->f24, o->f28);
   }
-  RtlEnterCriticalSection(param_1);
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 4;
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  if (param_2 != 0xb) {
-    *(undefined4 *)(param_1 + 0x34) = 1;
-  }
-  RtlLeaveCriticalSection(param_1);
-  return;
+  RtlEnterCriticalSection(o);
+  o->f30 = 0;
+  o->f1c = 0;
+  o->f20 = 0;
+  o->f24 = 4;
+  o->f28 = 0;
+  o->f2c = 0;
+  if (k != 0xb) o->f34 = 1;
+  RtlLeaveCriticalSection(o);
 }
-

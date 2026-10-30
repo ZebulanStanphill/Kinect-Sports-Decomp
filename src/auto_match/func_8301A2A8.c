@@ -1,70 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_830133B8();
+typedef struct Node_8301A2A8 { struct Node_8301A2A8 *next; int a[7]; } Node_8301A2A8;
+typedef struct {
+  Node_8301A2A8 *f0;
+  int f4;
+  Node_8301A2A8 *head;
+  unsigned count;
+  unsigned used;
+  int f14;
+  Node_8301A2A8 *base;
+  void *alloc;
+} Pool_8301A2A8;
+extern void fn_830133B8(Pool_8301A2A8 *);
+extern void fn_82FA5190(void *, void *);
 
-
-undefined8 fn_8301A2A8(undefined4 *param_1)
-
+int fn_8301A2A8(Pool_8301A2A8 *p)
 {
-  undefined4 *puVar1;
-  bool bVar2;
-  undefined4 *puVar3;
-  uint uVar4;
-  
-  if (param_1[4] != 0) {
-    fn_830133B8();
-    puVar3 = (undefined4 *)param_1[2];
-    while (puVar3 != (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)*puVar3;
-      if ((puVar3 < (undefined4 *)param_1[6]) ||
-         (bVar2 = false, (undefined4 *)param_1[6] + param_1[3] * 8 <= puVar3)) {
-        bVar2 = true;
-      }
-      puVar3 = puVar1;
-      if (bVar2) {
-        fn_82FA5190(param_1[7]);
-      }
+  if (p->used > 0) {
+    Node_8301A2A8 *n;
+    unsigned i;
+    fn_830133B8(p);
+    n = p->head;
+    while (n != 0) {
+      Node_8301A2A8 *next = n->next;
+      unsigned char outside;
+      if (n < p->base || n >= p->base + p->count) outside = 1; else outside = 0;
+      if (outside) fn_82FA5190(p->alloc, n);
+      n = next;
     }
-    if (param_1[6] != 0) {
-      uVar4 = 0;
-      if (param_1[3] != 0) {
-        do {
-          uVar4 = uVar4 + 1;
-        } while (uVar4 < (uint)param_1[3]);
-      }
-      fn_82FA5190(param_1[7]);
+    if (p->base != 0) {
+      for (i = 0; i < p->count; i++) ;
+      fn_82FA5190(p->alloc, p->base);
     }
-    param_1[3] = 0;
-    param_1[4] = 0;
-    *param_1 = 0;
-    param_1[1] = 0;
+    p->count = 0;
+    p->used = 0;
+    p->f0 = 0;
+    p->f4 = 0;
   }
   return 1;
 }
-

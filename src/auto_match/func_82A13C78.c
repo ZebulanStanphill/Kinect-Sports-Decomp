@@ -25,35 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
 extern int fn_8263C620();
-extern int fn_829F5000();
+extern int fn_829F5000(int, void *, int);
 
+typedef struct L_82A13C78 { int a; int b; } L_82A13C78;
+extern void *memset(void *, int, unsigned);
 
-void fn_82A13C78(int param_1)
-
+void fn_82A13C78(char *o)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  undefined1 auStack_30 [16];
-  
-  fn_829F5000(3,auStack_30,8);
-  uVar1 = 0;
+  unsigned i, j;
+  L_82A13C78 l;
+  memset(&l, 0, 8);
+  l.a = 0;
+  l.b = *(int *)(o + 0x1ab4);
+  fn_829F5000(3, &l, 8);
+  i = 0;
   do {
-    if (uVar1 == 0) {
-      fn_8263C620(*(int *)(param_1 + 0x1ab4) * 0x38 + param_1 + 0xc28,0);
-    }
-    else {
-      uVar2 = 0;
+    if (i == 0) {
+      fn_8263C620(*(int *)(o + 0x1ab4) * 0x38 + o + 0xc28, 0);
+    } else {
+      j = 0;
       do {
-        fn_8263C620((*(int *)(param_1 + 0x1ab4) * 8 + uVar1) * 0x38 + param_1 + 0xcd0,uVar2,0);
-        uVar2 = uVar2 + 1;
-      } while ((uVar2 & 0xffffffff) < 4);
+        fn_8263C620((*(int *)(o + 0x1ab4) * 8 + i) * 0x38 + o + 0xcd0, j, 0);
+        j++;
+      } while (j < 4);
     }
-    fn_8263C620((*(int *)(param_1 + 0x1ab4) * 8 + uVar1) * 0x38 + param_1 + 0x1290,0);
-    uVar1 = uVar1 + 1;
-  } while (uVar1 < 8);
-  *(undefined4 *)(param_1 + 0x1ab4) = 0xffffffff;
-  return;
+    fn_8263C620((*(int *)(o + 0x1ab4) * 8 + i) * 0x38 + o + 0x1290, 0);
+    i++;
+  } while (i < 8);
+  *(int *)(o + 0x1ab4) = -1;
 }
-

@@ -25,32 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE96B0();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern int fn_82CE96B0(int, int);
 
-
-void fn_82CE89A8(int param_1,longlong param_2,undefined8 param_3)
-
+void fn_82CE89A8(char *param_1, int param_2, int param_3)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  byte *pbVar3;
+  int uVar1;
+  unsigned char *pbVar3;
   int iVar4;
-  
-  RtlEnterCriticalSection();
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x34) + param_2;
-  uVar1 = *(uint *)(param_1 + 0x1c);
-  fn_82CE96B0((uVar2 + (uVar2 & 0x3fffffff) * 4 & 0x3fffffff) * 4 + (ulonglong)uVar1 + 0x2c,
-                    param_3);
+
+  RtlEnterCriticalSection(param_1);
+  uVar1 = *(int *)(param_1 + 0x1c);
+  fn_82CE96B0((*(int *)(param_1 + 0x34) + param_2) * 0x14 + uVar1 + 0x2c, param_3);
   iVar4 = 0;
   if (0 < *(int *)(param_1 + 0x4c)) {
-    pbVar3 = (byte *)(param_1 + 0x39);
+    pbVar3 = (unsigned char *)(param_1 + 0x39);
     do {
       pbVar3 = pbVar3 + 8;
-      fn_82CE96B0((ulonglong)*pbVar3 * 0x14 + (ulonglong)uVar1 + 0x2c,param_3);
+      fn_82CE96B0(*pbVar3 * 0x14 + uVar1 + 0x2c, param_3);
       iVar4 = iVar4 + 1;
     } while (iVar4 < *(int *)(param_1 + 0x4c));
   }
   RtlLeaveCriticalSection(param_1);
-  return;
 }
-

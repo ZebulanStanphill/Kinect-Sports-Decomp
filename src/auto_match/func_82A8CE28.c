@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A8CE28(int param_1)
+struct If_82A8CE28;
+typedef struct VT_82A8CE28 {
+  void *s0;
+  unsigned char (*f4)(struct If_82A8CE28 *);
+  void *s8;
+  unsigned char (*fc)(struct If_82A8CE28 *, int);
+} VT_82A8CE28;
+typedef struct If_82A8CE28 { VT_82A8CE28 *vt; } If_82A8CE28;
+typedef struct Obj_82A8CE28 { int f0; If_82A8CE28 *f4; int f8; } Obj_82A8CE28;
 
+unsigned char fn_82A8CE28(Obj_82A8CE28 *o)
 {
-  char cVar1;
-  
-  cVar1 = (**(code **)(**(int **)(param_1 + 4) + 4))();
-  if ((cVar1 != '\0') &&
-     (cVar1 = (**(code **)(**(int **)(param_1 + 4) + 0xc))
-                        (*(int **)(param_1 + 4),*(undefined4 *)(param_1 + 8)), cVar1 != '\0')) {
-    return 1;
-  }
-  return 0;
+  return o->f4->vt->f4(o->f4) && o->f4->vt->fc(o->f4, o->f8);
 }
-

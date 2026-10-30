@@ -1,45 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F71CD0();
-extern unsigned int lbl_831BB660;
-extern unsigned int lbl_831BB8C0;
+typedef struct { char pad[0xc]; unsigned flag; char pad2[0x10]; char cs[0]; } File_82F6AC80;
+typedef struct { char b[0x20]; } Slot_82F6AC80;
+extern Slot_82F6AC80 lbl_831BB660[];
+extern void _lock(int);
+extern void RtlEnterCriticalSection(void *);
 
-
-void fn_82F6AC80(undefined *param_1)
-
+void fn_82F6AC80(File_82F6AC80 *f)
 {
-  if ((param_1 < &lbl_831BB660) || (&lbl_831BB8C0 < param_1)) {
-    RtlEnterCriticalSection(param_1 + 0x20);
+  if ((Slot_82F6AC80 *)f < lbl_831BB660 || (Slot_82F6AC80 *)f > &lbl_831BB660[19]) {
+    RtlEnterCriticalSection(f->cs);
+  } else {
+    _lock((int)((Slot_82F6AC80 *)f - lbl_831BB660) + 0x10);
+    f->flag |= 0x8000;
   }
-  else {
-    fn_82F71CD0((longlong)((int)(param_1 + 0x7ce449a0) >> 5) + 0x10);
-    *(uint *)(param_1 + 0xc) = *(uint *)(param_1 + 0xc) | 0x8000;
-  }
-  return;
 }
-

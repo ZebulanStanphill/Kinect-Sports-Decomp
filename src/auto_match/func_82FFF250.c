@@ -1,52 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Node_82FFF250 { struct Node_82FFF250 *next; int f4, f8, fc; void *f10; void *f14; void *f18; } Node_82FFF250;
+typedef struct { void *alloc; Node_82FFF250 *bucket[0xc1]; int count; } Tab_82FFF250;
+extern void fn_82FA5190(void *, void *);
+extern void *lbl_831BC768;
 
-
-void fn_82FFF250(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4 *param_4)
-
+void fn_82FFF250(Tab_82FFF250 *t, int idx, Node_82FFF250 *n, Node_82FFF250 *prev)
 {
-  if (param_4 == (undefined4 *)0x0) {
-    param_1[param_2 + 1] = *param_3;
+  if (prev != 0) {
+    prev->next = n->next;
+  } else {
+    t->bucket[idx] = n->next;
   }
-  else {
-    *param_4 = *param_3;
+  if (n->f10 != 0) {
+    n->f14 = n->f10;
+    fn_82FA5190(lbl_831BC768, n->f10);
+    n->f10 = 0;
+    n->f14 = 0;
+    n->f18 = 0;
   }
-  if (param_3[4] != 0) {
-    param_3[5] = param_3[4];
-    fn_82FA5190(lbl_831BC768);
-    param_3[4] = 0;
-    param_3[5] = 0;
-    param_3[6] = 0;
-  }
-  fn_82FA5190(*param_1,param_3);
-  param_1[0xc2] = param_1[0xc2] + -1;
-  return;
+  fn_82FA5190(t->alloc, n);
+  t->count = t->count - 1;
 }
-

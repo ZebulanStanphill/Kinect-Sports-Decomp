@@ -25,68 +25,85 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82BB5A58();
-extern int fn_82BB5AC0();
-extern int fn_82BBFDD0();
-extern unsigned int uRam00000000;
+typedef struct Node_82BB80E8 { int f0, f4; struct Node_82BB80E8 *next; int fc, f10; int key; } Node_82BB80E8;
+struct VT_82BB80E8;
+typedef struct If_82BB80E8 { struct VT_82BB80E8 *vt; } If_82BB80E8;
+typedef struct VT_82BB80E8 { void *s0, *s4, *s8; void (*fc)(If_82BB80E8 *); } VT_82BB80E8;
+typedef struct Sz_82BB80E8 { int f0; int f4; } Sz_82BB80E8;
+typedef struct Obj_82BB80E8 {
+  int f0, f4;
+  If_82BB80E8 *f8;
+  char pad0[0x18 - 0xc];
+  Sz_82BB80E8 *f18;
+  int f1c;
+  char pad1[0x2c - 0x20];
+  Node_82BB80E8 *f2c;
+  char pad2[0x44 - 0x30];
+  Node_82BB80E8 *f44;
+  char pad3[0x5c - 0x48];
+  Node_82BB80E8 *f5c;
+  char pad4[0x6c - 0x60];
+  int f6c;
+} Obj_82BB80E8;
 
+extern int fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern int fn_82BB5A58(void *, void *);
+extern unsigned char fn_82BB5AC0(void *, void *);
+extern int fn_82BBFDD0(void *);
 
-void fn_82BB80E8(int param_1)
-
+void fn_82BB80E8(Obj_82BB80E8 *o)
 {
-  int iVar1;
-  char cVar2;
+  Node_82BB80E8 *p;
+  Node_82BB80E8 *nx;
   int iVar3;
   int iVar4;
   int iVar5;
-  
-  (**(code **)(**(int **)(param_1 + 8) + 0xc))();
-  iVar3 = *(int *)(param_1 + 0x1c) + 1;
-  *(int *)(param_1 + 0x1c) = iVar3;
-  if (*(int *)(*(int *)(param_1 + 0x18) + 4) << 1 < iVar3) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e05c4,0xffffffff820e0168,0x6cb);
+  int iVar1;
+
+  o->f8->vt->fc(o->f8);
+  iVar3 = o->f1c + 1;
+  o->f1c = iVar3;
+  if (iVar3 > o->f18->f4 << 1) {
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "cur_cycle <= (int)(2 * local_nodes->Size())",
+                "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\opt\\sched.cpp", 0x6cb);
   }
-  if (*(int *)(*(int *)(param_1 + 0x18) + 4) << 1 < *(int *)(param_1 + 0x1c)) {
-    uRam00000000 = 0xd;
+  if (o->f1c > o->f18->f4 << 1) {
+    *(unsigned char *)0 = 0xd;
   }
   iVar4 = 0;
-  iVar5 = *(int *)(*(int *)(param_1 + 0x2c) + 8);
-  iVar3 = *(int *)(param_1 + 0x2c);
-  while (iVar1 = iVar5, iVar1 != 0) {
-    if (iVar4 < *(int *)(iVar3 + 0x14)) {
-      iVar4 = *(int *)(iVar3 + 0x14);
-    }
-    iVar3 = iVar1;
-    iVar5 = *(int *)(iVar1 + 8);
-  }
-  iVar3 = *(int *)(*(int *)(param_1 + 0x5c) + 8);
-  iVar5 = *(int *)(param_1 + 0x5c);
-  while (iVar1 = iVar3, iVar1 != 0) {
+  iVar5 = *(int *)((char *)o + 0x2c);
+  iVar1 = *(int *)(iVar5 + 8);
+  while (iVar1 != 0) {
     if (iVar4 < *(int *)(iVar5 + 0x14)) {
       iVar4 = *(int *)(iVar5 + 0x14);
     }
-    fn_82BBFDD0(iVar5);
-    fn_82BB5A58(param_1,iVar5);
     iVar5 = iVar1;
-    iVar3 = *(int *)(iVar1 + 8);
+    iVar1 = *(int *)(iVar1 + 8);
   }
-  *(int *)(param_1 + 0x6c) = iVar4;
-  iVar3 = *(int *)(*(int *)(param_1 + 0x44) + 8);
-  iVar5 = *(int *)(param_1 + 0x44);
-  while (iVar1 = iVar3, iVar1 != 0) {
-    if (iVar4 < *(int *)(iVar5 + 0x14)) {
-      iVar4 = *(int *)(iVar5 + 0x14);
+  p = o->f5c;
+  nx = p->next;
+  while (nx != 0) {
+    if (iVar4 < p->key) {
+      iVar4 = p->key;
     }
-    cVar2 = fn_82BB5AC0(param_1,iVar5);
-    if (cVar2 != '\0') {
-      fn_82BBFDD0(iVar5);
-      fn_82BB5A58(param_1,iVar5);
-    }
-    iVar5 = iVar1;
-    iVar3 = *(int *)(iVar1 + 8);
+    fn_82BBFDD0(p);
+    fn_82BB5A58(o, p);
+    p = nx;
+    nx = nx->next;
   }
-  *(int *)(param_1 + 0x6c) = iVar4;
-  return;
+  o->f6c = iVar4;
+  p = o->f44;
+  nx = p->next;
+  while (nx != 0) {
+    if (iVar4 < p->key) {
+      iVar4 = p->key;
+    }
+    if (fn_82BB5AC0(o, p)) {
+      fn_82BBFDD0(p);
+      fn_82BB5A58(o, p);
+    }
+    p = nx;
+    nx = nx->next;
+  }
+  o->f6c = iVar4;
 }
-

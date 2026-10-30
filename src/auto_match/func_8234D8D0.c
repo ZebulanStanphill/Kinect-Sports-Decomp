@@ -1,57 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82359C18();
-extern int fn_8265CA20();
-extern unsigned int lbl_821C7FB8;
+typedef struct { int f0; unsigned f4; } Ent_8234D8D0;
+typedef struct { void *vt; char f4[4]; char f8[4]; } Sub_8234D8D0;
+typedef struct {
+  char pad0[0x14];
+  Ent_8234D8D0 *first;
+  Ent_8234D8D0 *last;
+  Ent_8234D8D0 *end;
+  char pad20[0xa8 - 0x20];
+  Sub_8234D8D0 sub;
+} Obj_8234D8D0;
+extern void fn_822315A0(unsigned);
+extern void fn_82359C18(void *);
+extern void fn_8265CA20(void *);
+extern char lbl_821C7FB8[];
 
-
-void fn_8234D8D0(int param_1)
-
+static __inline void Destroy(Ent_8234D8D0 *p, Ent_8234D8D0 *e)
 {
-  int iVar1;
-  int iVar2;
-  
-  fn_82359C18(param_1 + 0xb0);
-  *(undefined ***)(param_1 + 0xa8) = &lbl_821C7FB8;
-  iVar2 = *(int *)(param_1 + 0x14);
-  if (iVar2 != 0) {
-    iVar1 = *(int *)(param_1 + 0x18);
-    for (; iVar2 != iVar1; iVar2 = iVar2 + 8) {
-      if (*(int *)(iVar2 + 4) != 0) {
-        fn_822315A0();
-      }
-    }
-    fn_8265CA20(*(undefined4 *)(param_1 + 0x14));
+  for (; p != e; p++) {
+    if (p->f4 != 0) fn_822315A0(p->f4);
   }
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  return;
 }
 
+void fn_8234D8D0(Obj_8234D8D0 *o)
+{
+  Sub_8234D8D0 *s = &o->sub;
+  fn_82359C18(s->f8);
+  s->vt = lbl_821C7FB8;
+  if (o->first != 0) {
+    Destroy(o->first, o->last);
+    fn_8265CA20(o->first);
+  }
+  o->first = 0;
+  o->last = 0;
+  o->end = 0;
+}

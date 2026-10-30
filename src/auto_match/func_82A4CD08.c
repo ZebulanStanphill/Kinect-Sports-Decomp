@@ -25,30 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A4F4E0();
+extern int fn_82A4F4E0(void *);
 extern int fn_82A5DDA0();
-extern int fn_82F691F0();
-extern unsigned int lbl_821AAD20;
+extern void *memset(void *, int, unsigned);
 
+typedef struct Obj_82A4CD08 {
+  char pad0[0x28];
+  char f28[8];
+  void *f30;
+  char pad1[0x50 - 0x34];
+  int f50, f54;
+  float f58, f5c, f60, f64;
+} Obj_82A4CD08;
 
-void fn_82A4CD08(int param_1)
-
+void fn_82A4CD08(Obj_82A4CD08 *o)
 {
   fn_82A5DDA0();
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  *(undefined4 *)(param_1 + 0x58) = lbl_821AAD20;
-  if (*(float *)(param_1 + 100) < *(float *)(param_1 + 0x5c)) {
-    *(float *)(param_1 + 100) = *(float *)(param_1 + 0x5c);
+  o->f50 = 0;
+  o->f54 = 0;
+  o->f58 = 0.0f;
+  if (o->f64 < o->f5c) {
+    o->f64 = o->f5c;
   }
-  if (*(float *)(param_1 + 0x60) < *(float *)(param_1 + 100)) {
-    *(float *)(param_1 + 100) = *(float *)(param_1 + 0x60);
+  if (o->f64 > o->f60) {
+    o->f64 = o->f60;
   }
-  if (*(int *)(param_1 + 0x30) != 0) {
-    fn_82A4F4E0();
-    *(undefined4 *)(param_1 + 0x30) = 0;
+  if (o->f30 != 0) {
+    fn_82A4F4E0(o->f30);
+    o->f30 = 0;
   }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 0x28,0,0x28);
+  memset((char *)o + 0x28, 0, 0x28);
 }
-

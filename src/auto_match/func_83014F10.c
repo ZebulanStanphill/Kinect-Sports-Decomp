@@ -28,18 +28,13 @@ typedef struct { U64 lo, hi; } V16;
 extern int _blkmov();
 
 
-void fn_83014F10(uint *param_1,ulonglong param_2)
-
+void fn_83014F10(uint *param_1,unsigned int param_2)
 {
-  ulonglong uVar1;
-  
-  uVar1 = (param_2 + (param_2 & 0x7fffffff) * 2 & 0x3fffffff) * 4 + (ulonglong)*param_1;
-  if ((uVar1 & 0xffffffff) < ((ulonglong)param_1[1] - 0xc & 0xffffffff)) {
-    _blkmov(uVar1,uVar1 + 0xc,
-                 (((((ulonglong)param_1[1] - 0xc) - uVar1) - 1 & 0xffffffff) / 0xc + 1) * 0xc &
-                 0xfffffffc);
+  unsigned int p, e;
+  p = (param_2 * 3) * 4 + (unsigned int)*param_1;
+  e = param_1[1] - 0xc;
+  if (p < e) {
+    _blkmov(p, p + 0xc, ((e - p - 1) / 0xc + 1) * 0xc);
   }
   param_1[1] = param_1[1] - 0xc;
-  return;
 }
-

@@ -26,47 +26,44 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
-extern int fn_825174B8();
-extern int fn_828BAB98();
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9FF8();
-extern int fn_828EA268();
+extern int fn_825174B8(int, int, int);
+extern int fn_828BAB98(void *, int);
+extern int fn_828E9D90(int);
+extern int fn_828E9DA8(int);
+extern int fn_828E9FF8(int, int);
+extern int fn_828EA268(int);
 
-
-undefined8 fn_828C2568(undefined8 param_1,int param_2,undefined8 param_3)
-
+int fn_828C2568(int param_1, int param_2, int param_3)
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar2;
   int iVar3;
   int *piVar4;
-  uint auStack_40;
-  
-  uVar1 = fn_828EA268((ulonglong)*(uint *)(param_2 + 0xe0) - 1);
+  unsigned auStack_40;
+
+  uVar1 = fn_828EA268(*(int *)(param_2 + 0xe0) - 1);
   iVar2 = fn_828E9DA8(param_3);
   iVar3 = fn_828E9D90(param_3);
-  if (iVar2 - iVar3 < (int)uVar1) {
-    uVar1 = 0;
+  if (uVar1 <= iVar2 - iVar3) {
+    uVar1 = fn_828E9FF8(param_3, uVar1);
   }
   else {
-    uVar1 = fn_828E9FF8(param_3,uVar1);
+    uVar1 = 0;
   }
-  auStack_40 = **(uint **)(param_2 + 0xdc);
-  fn_828BAB98(&auStack_40,uVar1);
+  auStack_40 = **(unsigned **)(param_2 + 0xdc);
+  fn_828BAB98(&auStack_40, uVar1);
   piVar4 = (int *)(auStack_40 + 0x28);
-  uVar1 = fn_828EA268((ulonglong)*(uint *)(*(int *)(*piVar4 + 4) + 8) - 1);
+  uVar1 = fn_828EA268(*(int *)(*(int *)(*piVar4 + 4) + 8) - 1);
   iVar2 = fn_828E9DA8(param_3);
   iVar3 = fn_828E9D90(param_3);
-  if (iVar2 - iVar3 < (int)uVar1) {
-    uVar1 = 0;
+  if (uVar1 <= iVar2 - iVar3) {
+    uVar1 = fn_828E9FF8(param_3, uVar1);
   }
   else {
-    uVar1 = fn_828E9FF8(param_3,uVar1);
+    uVar1 = 0;
   }
-  auStack_40 = **(uint **)(*(int *)(*piVar4 + 4) + 4);
-  fn_828BAB98(&auStack_40,uVar1);
-  fn_825174B8(param_1,piVar4,(ulonglong)auStack_40 + 0x28);
+  auStack_40 = **(unsigned **)(*(int *)(*piVar4 + 4) + 4);
+  fn_828BAB98(&auStack_40, uVar1);
+  fn_825174B8(param_1, (int)piVar4, auStack_40 + 0x28);
   return param_1;
 }
-
