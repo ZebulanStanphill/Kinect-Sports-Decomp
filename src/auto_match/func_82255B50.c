@@ -25,48 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_ac;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_c0;
-extern int fn_8223CFC0();
-extern int fn_8223DCC8();
-extern int fn_8223FBB0();
-extern int fn_8223FCD8();
-extern int fn_82240158();
-extern int fn_822403C8();
-extern int fn_82520AC8();
-extern int fn_82F62578();
+extern int fn_8223CFC0(void *, int, int);
+extern void *fn_8223DCC8(void *);
+extern void *fn_8223FBB0(void *, int);
+extern void *fn_8223FCD8(void *, void *);
+extern void *fn_82240158(void *, const char *);
+extern void *fn_822403C8(void *, void *);
+extern void *fn_82520AC8(void *, int);
+extern void *fn_82F62578(void *, int);
 
+typedef struct Str_82255B50 { char pad[8]; union { char buf[4]; char *ptr; } u; unsigned int n; } Str_82255B50;
+typedef struct Ios_82255B50 { int *vt; char pad[0x10]; unsigned int flags; } Ios_82255B50;
+typedef struct Strm_82255B50 { int a; char b[0x94]; } Strm_82255B50;
 
-undefined8 fn_82255B50(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+typedef struct IosB_82255B50 { char pad[0x14]; unsigned int flags; char pad2[0x28]; char fill; } IosB_82255B50;
+static void setfill_82255B50(int *p, char c) { IosB_82255B50 *i = (IosB_82255B50 *)((int)p + *(int *)(*p + 4)); i->fill = c; }
+static void setf_82255B50(int *p) { IosB_82255B50 *i = (IosB_82255B50 *)((int)p + *(int *)(*p + 4)); i->flags = (i->flags & 0xfffff1ff) | 0x800; }
 
+void *fn_82255B50(void *param_1,int param_2,int param_3,Str_82255B50 *param_4)
 {
-  undefined8 uVar1;
+  void *r;
   int *piVar2;
-  undefined1 *puVar3;
-  undefined1 auStack_c0 [16];
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [132];
-  
-  fn_8223CFC0(auStack_b0,2,1);
-  if (*(uint *)(param_4 + 0xc) < 5) {
-    puVar3 = (undefined1 *)(param_4 + 8);
+  unsigned char *puVar3;
+  char tmp[16];
+  Strm_82255B50 s;
+
+  fn_8223CFC0(&s,2,1);
+  if (param_4->n <= 4) {
+    puVar3 = (unsigned char *)param_4->u.buf;
   }
   else {
-    puVar3 = *(undefined1 **)(param_4 + 8);
+    puVar3 = (unsigned char *)param_4->u.ptr;
   }
-  uVar1 = fn_82240158(auStack_b0,0xffffffff82196fc4);
-  uVar1 = fn_82520AC8(uVar1,3);
-  fn_82240158(uVar1,0xffffffff82196fbc);
-  uVar1 = fn_82F62578(auStack_c0,2);
-  piVar2 = (int *)fn_8223FCD8(auStack_b0,uVar1);
-  *(undefined1 *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x40) = 0x30;
-  *(uint *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x14) =
-       *(uint *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x14) & 0xfffff1ff | 0x800;
+  r = fn_82240158(&s,"NetDefBits_c<");
+  r = fn_82520AC8(r,3);
+  fn_82240158(r,"> - {0x");
+  piVar2 = (int *)fn_8223FCD8(&s,fn_82F62578(tmp,2));
+  setfill_82255B50(piVar2, 0x30);
+  setf_82255B50(piVar2);
   fn_8223FBB0(piVar2,*puVar3);
-  fn_82240158(auStack_b0,0xffffffff82196fb0);
-  fn_822403C8(param_1,auStack_ac);
-  fn_8223DCC8(auStack_b0);
+  fn_82240158(&s,"}");
+  fn_822403C8(param_1,s.b);
+  fn_8223DCC8(&s);
   return param_1;
 }
-

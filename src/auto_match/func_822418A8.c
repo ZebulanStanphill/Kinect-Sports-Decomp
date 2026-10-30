@@ -1,72 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_ac;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_c0;
-extern int fn_8223CFC0();
-extern int fn_8223DCC8();
-extern int fn_8223FBB0();
-extern int fn_8223FCD8();
-extern int fn_82240158();
-extern int fn_822403C8();
-extern int fn_82520AC8();
-extern int fn_82F62578();
+typedef struct Ios_822418A8 {
+  char pad0[0x14];
+  unsigned int flags;
+  char pad1[0x28];
+  char fill;
+} Ios_822418A8;
 
+typedef struct Str_822418A8 {
+  char pad[8];
+  union { unsigned char buf[4]; unsigned char *ptr; } u;
+  unsigned int cap;
+} Str_822418A8;
 
-undefined8 fn_822418A8(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+typedef struct SS_822418A8 {
+  int pad4;
+  char buf[140];
+} SS_822418A8;
 
+extern void fn_8223CFC0(void *ss, int mode, int x);
+extern void fn_8223DCC8(void *ss);
+extern void *fn_8223FBB0(void *os, unsigned char c);
+extern void *fn_8223FCD8(void *os, void *m);
+extern void *fn_82240158(void *os, const char *s);
+extern void fn_822403C8(void *out, void *buf);
+extern void *fn_82520AC8(void *os, int c);
+extern void *fn_82F62578(void *tmp, int x);
+
+static const unsigned char *Myptr(Str_822418A8 *s)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  undefined1 *puVar3;
-  undefined1 auStack_c0 [16];
-  undefined1 auStack_b0 [4];
-  undefined1 auStack_ac [132];
-  
-  fn_8223CFC0(auStack_b0,2,1);
-  if (*(uint *)(param_4 + 0xc) < 5) {
-    puVar3 = (undefined1 *)(param_4 + 8);
-  }
-  else {
-    puVar3 = *(undefined1 **)(param_4 + 8);
-  }
-  uVar1 = fn_82240158(auStack_b0,0xffffffff82196fc4);
-  uVar1 = fn_82520AC8(uVar1,2);
-  fn_82240158(uVar1,0xffffffff82196fbc);
-  uVar1 = fn_82F62578(auStack_c0,2);
-  piVar2 = (int *)fn_8223FCD8(auStack_b0,uVar1);
-  *(undefined1 *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x40) = 0x30;
-  *(uint *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x14) =
-       *(uint *)((int)piVar2 + *(int *)(*piVar2 + 4) + 0x14) & 0xfffff1ff | 0x800;
-  fn_8223FBB0(piVar2,*puVar3);
-  fn_82240158(auStack_b0,0xffffffff82196fb0);
-  fn_822403C8(param_1,auStack_ac);
-  fn_8223DCC8(auStack_b0);
-  return param_1;
+  const unsigned char *r;
+  if (s->cap <= 4) r = s->u.buf; else r = s->u.ptr;
+  return r;
 }
+void *fn_822418A8(void *out, int a, int b, Str_822418A8 *s)
+{
+  SS_822418A8 ss;
+  char tmp[16];
+  const unsigned char *d;
+  void *os;
 
+  fn_8223CFC0(&ss, 2, 1);
+  d = Myptr(s);
+  fn_82240158(fn_82520AC8(fn_82240158(&ss, "NetDefBits_c<"), 2), "> - {0x");
+  os = fn_8223FCD8(&ss, fn_82F62578(tmp, 2));
+  ((Ios_822418A8 *)((char *)os + *(int *)(*(int *)os + 4)))->fill = 0x30;
+  {
+    Ios_822418A8 *io = (Ios_822418A8 *)((char *)os + *(int *)(*(int *)os + 4));
+    io->flags = (io->flags & 0xfffff1ff) | 0x800;
+  }
+  fn_8223FBB0(os, d[0]);
+  fn_82240158(&ss, "}");
+  fn_822403C8(out, ss.buf);
+  fn_8223DCC8(&ss);
+  return out;
+}

@@ -33,23 +33,18 @@ extern int fn_8236C6A0();
 void fn_823156C8(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   bool bVar2;
-  char cVar3;
+  unsigned char cVar3;
   
-  if ((*(int *)(param_1 + 0x660) == 2) && (*(char *)(param_1 + 0x5d5) != '\0')) {
-    bVar2 = false;
-    if (*(char *)(param_1 + 0x5d4) == '\0') goto LAB_82315708;
-  }
-  bVar2 = true;
-LAB_82315708:
+  bVar2 = (*(int *)(param_1 + 0x660) != 2) || (*(char *)(param_1 + 0x5d5) == 0) || (*(char *)(param_1 + 0x5d4) != 0);
   if ((bVar2) && (iVar1 = *(int *)(*(int *)(param_1 + 0xc) + 0x24), iVar1 != 0)) {
     *(undefined1 *)(iVar1 + 0xe0) = 1;
   }
   cVar3 = fn_822BD338((ulonglong)*(uint *)(*(int *)(*(int *)(param_1 + 0xc) + 0x114) + 0x20) +
-                            4,0xffffffff821aeee4);
+                            4,"pass_locomotion");
   if (cVar3 != '\0') {
-    fn_822C8C08(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x114),0xffffffff821aca8c);
+    fn_822C8C08(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x114),"idle");
   }
   fn_8236C6A0(*(undefined4 *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0xc));
   return;

@@ -25,43 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
 extern int fn_822315A0();
 extern int fn_82356F98();
 extern int fn_82365BD8();
 extern int fn_823F2E20();
 extern int fn_8246E850();
 extern int fn_824713F8();
-extern unsigned int iStack_24;
-extern unsigned int iStack_2c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
-extern unsigned int uStack_30;
 
+typedef struct Ref_8246EAC8 { int p; unsigned int rep; } Ref_8246EAC8;
 
-void fn_8246EAC8(undefined8 param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4)
-
+void fn_8246EAC8(int param_1,int param_2,int param_3,int param_4)
 {
-  undefined8 uVar1;
-  undefined4 uStack00000024;
-  undefined4 uStack_30;
-  int iStack_2c;
-  undefined1 auStack_28 [4];
-  int iStack_24;
-  
-  uStack_30 = 0;
-  uStack00000024 = param_3;
-  fn_824713F8(auStack_28,param_2,&uStack_30,&stack0x00000024);
-  uVar1 = fn_82365BD8(&uStack_30,auStack_28);
-  fn_8246E850(param_1,uVar1,0,0,0,param_4);
-  fn_82356F98(&uStack_30);
-  fn_823F2E20(auStack_28,&uStack_30);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  Ref_8246EAC8 a;
+  Ref_8246EAC8 b;
+  int v;
+  a.p = 0;
+  fn_824713F8(&b,param_2,&a,&param_3);
+  fn_8246E850(param_1,fn_82365BD8(&a,&b),0,0,0,param_4);
+  fn_82356F98(&a);
+  fn_823F2E20(&b,&a);
+  if (a.rep != 0) {
+    fn_822315A0(a.rep);
   }
-  if (iStack_24 != 0) {
-    fn_822315A0();
+  if (b.rep != 0) {
+    fn_822315A0(b.rep);
   }
-  return;
 }
-

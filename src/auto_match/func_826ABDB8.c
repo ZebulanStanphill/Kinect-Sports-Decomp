@@ -29,24 +29,23 @@ extern int fn_826944C8();
 extern int fn_826AA3E0();
 
 
-int fn_826ABDB8(int param_1,undefined4 param_2,int *param_3)
+typedef struct E_826ABDB8 { int a; int *b; } E_826ABDB8;
+typedef struct V_826ABDB8 { char pad[0x50]; E_826ABDB8 *data; unsigned int n; } V_826ABDB8;
 
+E_826ABDB8 *fn_826ABDB8(V_826ABDB8 *v,int param_2,int **param_3)
 {
-  int iVar1;
-  int iVar3;
-  longlong lVar2;
-  
-  fn_826AA3E0(param_1 + 0x50,(ulonglong)*(uint *)(param_1 + 0x54) + 1);
-  iVar3 = *(int *)(param_1 + 0x54) * 8 + *(int *)(param_1 + 0x50);
-  *(undefined4 *)(iVar3 + -8) = param_2;
-  iVar1 = *param_3;
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  lVar2 = (ulonglong)*(uint *)(*(int *)(iVar3 + -4) + 8) - 1;
-  *(int *)(*(int *)(iVar3 + -4) + 8) = (int)lVar2;
-  if (lVar2 == 0) {
-    fn_826944C8();
+  E_826ABDB8 *p;
+  int *r;
+  int *q;
+  fn_826AA3E0(&v->data, v->n + 1);
+  p = v->data + v->n - 1;
+  p->a = param_2;
+  r = *param_3;
+  r[2] = r[2] + 1;
+  q = p->b;
+  if (--q[2] == 0) {
+    fn_826944C8(q);
   }
-  *(int *)(iVar3 + -4) = iVar1;
-  return iVar3 + -8;
+  p->b = r;
+  return p;
 }
-

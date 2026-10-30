@@ -28,29 +28,29 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8287CBD0();
 
 
-undefined4 * fn_828A2988(undefined4 *param_1,int param_2,int param_3,int *param_4)
+typedef struct It_828A2988 { unsigned int *p; unsigned int b; unsigned int n; } It_828A2988;
 
+It_828A2988 *fn_828A2988(It_828A2988 *param_1,It_828A2988 *param_2,It_828A2988 *param_3,It_828A2988 *param_4)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  if (*(int *)(param_2 + 8) != *(int *)(param_3 + 8)) {
-    do {
-      *(int *)(param_3 + 8) = *(int *)(param_3 + 8) + -1;
-      puVar2 = (undefined4 *)fn_8287CBD0(param_3);
-      param_4[2] = param_4[2] + -1;
-      puVar3 = (undefined4 *)fn_8287CBD0(param_4);
-      *puVar3 = *puVar2;
-    } while (*(int *)(param_2 + 8) != *(int *)(param_3 + 8));
+  unsigned int *pa;
+  unsigned int *pb;
+  unsigned int **pp;
+  unsigned int *q;
+  {
+    while (param_2->n != param_3->n) {
+      param_3->n = param_3->n - 1;
+      pa = (unsigned int *)fn_8287CBD0(param_3);
+      param_4->n = param_4->n - 1;
+      pb = (unsigned int *)fn_8287CBD0(param_4);
+      *pb = *pa;
+    }
   }
-  piVar1 = (int *)*param_4;
-  *param_1 = 0;
-  param_1[1] = 0;
-  if ((piVar1 != (int *)0x0) && (puVar2 = (undefined4 *)*piVar1, puVar2 != (undefined4 *)0x0)) {
-    *param_1 = *puVar2;
+  pp = (unsigned int **)param_4->p;
+  param_1->p = 0;
+  param_1->b = 0;
+  if (pp != 0 && (q = *pp, q != 0)) {
+    param_1->p = (unsigned int *)*q;
   }
-  param_1[2] = param_4[2];
+  param_1->n = param_4->n;
   return param_1;
 }
-

@@ -1,71 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82266D28();
-extern int fn_823F2E20();
-extern int fn_82520158();
-extern int fn_8266EC60();
-extern int fn_8266EE08();
-extern int fn_8266F628();
-extern int fn_8266F640();
-extern int fn_8266F658();
-extern int fn_8266F660();
-extern int fn_82673A28();
-extern unsigned int iStack_24;
+typedef struct { int a; void *rc; } SP_822A1210;
+typedef struct { int a; int b; } L8_822A1210;
+extern void fn_822315A0(void *);
+extern void fn_82266D28(void *, int);
+extern void fn_823F2E20(void *, void *);
+extern void fn_82520158(const char *, L8_822A1210 *, int);
+extern void *fn_8266EC60(void);
+extern void *fn_8266EE08(SP_822A1210 *, void *, L8_822A1210 *, int, int, int);
+extern void fn_8266F628(void *, int);
+extern void fn_8266F640(void *, int);
+extern void fn_8266F658(void *, int);
+extern void fn_8266F660(void *, int);
+extern void fn_82673A28(void *, void (*)(void), void *);
+extern void fn_822A13C8(void);
 
-
-undefined4 * fn_822A1210(undefined4 *param_1)
-
+void *fn_822A1210(void **p)
 {
-  undefined8 uVar1;
-  undefined1 auStack_30 [8];
-  undefined1 auStack_28 [4];
-  int iStack_24;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  fn_82266D28(param_1,0);
-  param_1[2] = 0;
-  param_1[3] = 0;
-  fn_82520158(0xffffffff821abd6c,auStack_30,0);
-  uVar1 = fn_8266EC60();
-  uVar1 = fn_8266EE08(auStack_28,uVar1,auStack_30,0,1,0);
-  fn_823F2E20(param_1,uVar1);
-  if (iStack_24 != 0) {
-    fn_822315A0();
-  }
-  fn_8266F660(*param_1,1);
-  fn_8266F658(*param_1,1);
-  fn_8266F640(*param_1,1);
-  fn_8266F628(*param_1,1);
-  fn_82673A28(*param_1,0xffffffff822a13c8,param_1);
-  return param_1;
+  L8_822A1210 name;
+  SP_822A1210 ref;
+  p[0] = 0;
+  p[1] = 0;
+  fn_82266D28(p, 0);
+  p[2] = 0;
+  p[3] = 0;
+  fn_82520158("ui_topmessage", &name, 0);
+  fn_823F2E20(p, fn_8266EE08(&ref, fn_8266EC60(), &name, 0, 1, 0));
+  if (ref.rc != 0) fn_822315A0(ref.rc);
+  fn_8266F660(p[0], 1);
+  fn_8266F658(p[0], 1);
+  fn_8266F640(p[0], 1);
+  fn_8266F628(p[0], 1);
+  fn_82673A28(p[0], fn_822A13C8, p);
+  return p;
 }
-

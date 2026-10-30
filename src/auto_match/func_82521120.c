@@ -1,63 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82511928();
-extern int fn_82513D20();
-extern int fn_8255BAF8();
+typedef struct { int p; void *rc; } Ref_82521120;
+typedef struct { int pad[0xd48 / 4]; void *x; } Sub_82521120;
+typedef struct {
+  char pad0[8];
+  void *f8;
+  char pad1[0x44];
+  Sub_82521120 *f50;
+  char pad2[4];
+  Ref_82521120 ref;
+} Obj_82521120;
+extern void fn_822315A0(void *);
+extern unsigned int fn_82511928(void);
+extern void fn_82513D20(unsigned int, int, int);
+extern void fn_8255BAF8(void *, void *);
 extern unsigned int lbl_83297810;
 
-
-void fn_82521120(int param_1)
-
+void fn_82521120(Obj_82521120 *o)
 {
-  undefined4 uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  if (*(int *)(param_1 + 0x58) != 0) {
-    if (*(int *)(param_1 + 0x50) != 0) {
-      fn_8255BAF8(*(undefined4 *)(*(int *)(param_1 + 0x50) + 0xd48),*(undefined4 *)(param_1 + 8)
-                     );
-      *(undefined4 *)(param_1 + 0x50) = 0;
+  Ref_82521120 *r = &o->ref;
+  void *c;
+  unsigned int g;
+  if (r->p != 0) {
+    if (o->f50 != 0) {
+      fn_8255BAF8(o->f50->x, o->f8);
+      o->f50 = 0;
     }
-    uVar3 = (ulonglong)lbl_83297810;
-    uVar1 = *(undefined4 *)(*(int *)(param_1 + 0x58) + 4);
-    if (uVar3 == 0) {
-      uVar3 = fn_82511928();
+    {
+      int v = ((int *)r->p)[1];
+      fn_82513D20(lbl_83297810 == 0 ? fn_82511928() : lbl_83297810, v, 0x1d);
     }
-    fn_82513D20(uVar3,uVar1,0x1d);
-    iVar2 = *(int *)(param_1 + 0x5c);
-    *(undefined4 *)(param_1 + 0x5c) = 0;
-    *(int *)(param_1 + 0x58) = 0;
-    if (iVar2 != 0) {
-      fn_822315A0();
-    }
+    c = r->rc;
+    r->rc = 0;
+    o->ref.p = 0;
+    if (c != 0) fn_822315A0(c);
   }
-  return;
 }
-

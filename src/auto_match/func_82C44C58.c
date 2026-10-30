@@ -1,64 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C54F48();
-extern int fn_82C550F0();
-extern int fn_82C55220();
+typedef struct {
+  void *a7c;
+  void *a80;
+  char pad[0x1c];
+  void *aa0;
+  void *aa4;
+  void *aa8;
+  void *aac;
+} Sub_82C44C58;
+typedef struct {
+  char pad[0x7c];
+  Sub_82C44C58 s;
+  char pad2[0x2c8 - 0x7c - sizeof(Sub_82C44C58)];
+  int f2c8;
+} Obj_82C44C58;
+extern void fn_82C54F48(void *);
+extern void fn_82C550F0(void *);
+extern void fn_82C55220(void *);
 
-
-void fn_82C44C58(int param_1)
-
+void fn_82C44C58(Obj_82C44C58 *o)
 {
-  if (*(int *)(param_1 + 0x2c8) != 0) {
-    if (*(int *)(param_1 + 0x7c) != 0) {
-      fn_82C54F48();
-      *(int *)(param_1 + 0x7c) = 0;
-    }
-    if (*(int *)(param_1 + 0x80) != 0) {
-      fn_82C550F0();
-      *(undefined4 *)(param_1 + 0x80) = 0;
-    }
-    if (*(int *)(param_1 + 0xa0) != 0) {
-      fn_82C55220();
-      *(undefined4 *)(param_1 + 0xa0) = 0;
-    }
-    if (*(int *)(param_1 + 0xa4) != 0) {
-      fn_82C550F0();
-      *(undefined4 *)(param_1 + 0xa4) = 0;
-    }
-    if (*(int *)(param_1 + 0xa8) != 0) {
-      fn_82C550F0();
-      *(undefined4 *)(param_1 + 0xa8) = 0;
-    }
-    if (*(int *)(param_1 + 0xac) != 0) {
-      fn_82C55220();
-      *(undefined4 *)(param_1 + 0xac) = 0;
-    }
+  Sub_82C44C58 *s = &o->s;
+  if (o->f2c8 != 0) {
+    if (s->a7c != 0) { fn_82C54F48(s->a7c); s->a7c = 0; }
+    if (s->a80 != 0) { fn_82C550F0(s->a80); s->a80 = 0; }
+    if (s->aa0 != 0) { fn_82C55220(s->aa0); s->aa0 = 0; }
+    if (s->aa4 != 0) { fn_82C550F0(s->aa4); s->aa4 = 0; }
+    if (s->aa8 != 0) { fn_82C550F0(s->aa8); s->aa8 = 0; }
+    if (s->aac != 0) { fn_82C55220(s->aac); s->aac = 0; }
   }
-  return;
 }
-

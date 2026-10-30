@@ -1,60 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8276FE30();
-extern unsigned int iStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-
-
-void fn_827B51A8(int param_1)
-
+typedef struct { int a; int b; int c; } Key_827B51A8;
+typedef struct { int a; int b; int pad; int pad2; int c; int d; int e; } Ent_827B51A8;
+typedef struct {
+  char pad0[0x24];
+  char sub[0x20];
+  unsigned int n;
+  char pad1[0x8];
+  Ent_827B51A8 **pages;
+} Obj_827B51A8;
+extern void fn_8276FE30(void *, Key_827B51A8 *);
+static void Visit(Obj_827B51A8 *o, Ent_827B51A8 *e)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  int iStack_28;
-  
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x44) != 0) {
-    do {
-      puVar1 = (undefined4 *)
-               (*(int *)((uVar2 >> 6 & 0x3fffffc) + *(int *)(param_1 + 0x50)) +
-               (uVar2 & 0xff) * 0x1c);
-      iStack_28 = puVar1[4];
-      if (iStack_28 != -1) {
-        uStack_30 = *puVar1;
-        uStack_2c = puVar1[1];
-        fn_8276FE30(param_1 + 0x24,&uStack_30);
-      }
-      uVar2 = uVar2 + 1;
-    } while (uVar2 < *(uint *)(param_1 + 0x44));
+  Key_827B51A8 k;
+  int c = e->c;
+  if (c != -1) {
+    int a = e->a;
+    int b = e->b;
+    k.c = c;
+    k.a = a;
+    k.b = b;
+    fn_8276FE30(&o->sub, &k);
   }
-  return;
 }
-
+void fn_827B51A8(Obj_827B51A8 *o)
+{
+  unsigned int i;
+  for (i = 0; i < o->n; i++) {
+    Visit(o, &o->pages[i >> 8][i & 0xff]);
+  }
+}

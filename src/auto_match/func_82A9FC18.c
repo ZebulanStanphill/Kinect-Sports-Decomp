@@ -31,8 +31,8 @@ extern int fn_82AB15D0();
 bool fn_82A9FC18(int param_1,uint param_2)
 
 {
-  if (7 < param_2 >> 5) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2ec4,0xffffffff820d2f00,0x32e);
+  if (!((param_2 >> 5) < 8)) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","dwOffset < sizeof(usedConstants) / sizeof(usedConstants[0])","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\driver\\r500assembler.cpp",0x32e);
   }
   return (1 << (param_2 & 0x1f) & *(uint *)((param_2 >> 5) * 4 + param_1)) != 0;
 }

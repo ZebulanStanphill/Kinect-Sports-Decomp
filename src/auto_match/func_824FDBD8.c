@@ -25,41 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8249ABC0();
+typedef struct B_824FDBD8 { char pad[0x20]; int v; } B_824FDBD8;
+typedef struct A_824FDBD8 { char pad[0x14]; B_824FDBD8 *p14; B_824FDBD8 *p18; char pad2[0xf8]; unsigned int f114; } A_824FDBD8;
+extern A_824FDBD8 *fn_8249ABC0();
 
-
-uint fn_824FDBD8(int param_1)
-
+unsigned int fn_824FDBD8(int param_1)
 {
-  uint uVar1;
-  int iVar2;
-  
+  A_824FDBD8 *a;
+  int x;
+
   if (param_1 == 0) {
-    iVar2 = fn_8249ABC0();
-    if (*(uint *)(iVar2 + 0x114) != 0xffffffff) {
-      return *(uint *)(iVar2 + 0x114);
+    a = fn_8249ABC0();
+    if (a->f114 != 0xffffffff) {
+      return a->f114;
     }
-    iVar2 = fn_8249ABC0();
-    uVar1 = *(uint *)(*(int *)(iVar2 + 0x14) + 0x20);
-    if (-1 < (int)uVar1) {
-      return uVar1;
-    }
-    iVar2 = *(int *)(*(int *)(iVar2 + 0x18) + 0x20);
-    if (iVar2 < 0) {
-      return 0;
+    a = fn_8249ABC0();
+    x = a->p14->v;
+    if (x < 0) {
+      x = a->p18->v;
+      if (x < 0) {
+        x = 0;
+      }
+      else {
+        x = x == 0;
+      }
     }
   }
   else {
-    iVar2 = fn_8249ABC0();
-    uVar1 = *(uint *)(*(int *)(iVar2 + 0x18) + 0x20);
-    if (-1 < (int)uVar1) {
-      return uVar1;
-    }
-    iVar2 = *(int *)(*(int *)(iVar2 + 0x14) + 0x20);
-    if (iVar2 < 0) {
-      return 1;
+    a = fn_8249ABC0();
+    x = a->p18->v;
+    if (x < 0) {
+      x = a->p14->v;
+      if (x < 0) {
+        x = 1;
+      }
+      else {
+        x = x == 0;
+      }
     }
   }
-  return (uint)(iVar2 == 0);
+  return x;
 }
-

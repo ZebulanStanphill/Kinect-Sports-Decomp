@@ -1,77 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C5308();
-extern int fn_827C5390();
-extern int fn_827C53D8();
-extern unsigned int lbl_82017AE8;
+typedef struct { void (*error_exit)(void *); char pad[0x10]; int msg_code; int msg_parm_i0; } Err_827C5428;
+typedef struct { unsigned short quantval[64]; unsigned char sent_table; } Qtbl_827C5428;
+typedef struct {
+  Err_827C5428 *err;
+  char pad[0x44];
+  Qtbl_827C5428 *quant_tbl_ptrs[4];
+} Cinfo_827C5428;
+extern int lbl_82017AE8[];
+extern void fn_827C5308(void *, int);
+extern void fn_827C5390(void *, int);
+extern void fn_827C53D8(void *, int);
 
-
-int fn_827C5428(int *param_1,int param_2)
-
+int fn_827C5428(Cinfo_827C5428 *cinfo, int index)
 {
-  ushort uVar1;
-  ushort *puVar2;
-  ushort *puVar3;
-  int iVar4;
-  int *piVar5;
-  longlong lVar6;
-  
-  puVar2 = (ushort *)param_1[param_2 + 0x12];
-  if (puVar2 == (ushort *)0x0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x34;
-    *(int *)(*param_1 + 0x18) = param_2;
-    (**(code **)*param_1)();
+  Qtbl_827C5428 *qtbl;
+  int prec;
+  int i;
+  qtbl = cinfo->quant_tbl_ptrs[index];
+  if (qtbl == 0) {
+    cinfo->err->msg_code = 0x34;
+    cinfo->err->msg_parm_i0 = index;
+    (*cinfo->err->error_exit)(cinfo);
   }
-  iVar4 = 0;
-  lVar6 = 0x40;
-  puVar3 = puVar2;
-  do {
-    if (0xff < *puVar3) {
-      iVar4 = 1;
+  prec = 0;
+  for (i = 0; i < 64; i++) {
+    if (qtbl->quantval[i] > 255) prec = 1;
+  }
+  if (!qtbl->sent_table) {
+    fn_827C5390(cinfo, 0xdb);
+    fn_827C53D8(cinfo, prec ? 64 * 2 + 1 + 2 : 64 + 1 + 2);
+    fn_827C5308(cinfo, index + (prec << 4));
+    for (i = 0; i < 64; i++) {
+      unsigned int qval = qtbl->quantval[lbl_82017AE8[i]];
+      if (prec) fn_827C5308(cinfo, (int)(qval >> 8));
+      fn_827C5308(cinfo, (int)(qval & 0xFF));
     }
-    puVar3 = puVar3 + 1;
-    lVar6 = lVar6 + -1;
-  } while (lVar6 != 0);
-  if (*(char *)(puVar2 + 0x40) == '\0') {
-    fn_827C5390(param_1,0xdb);
-    fn_827C53D8(param_1,(-(iVar4 != 0) & 0x40U) + 0x43);
-    fn_827C5308(param_1,iVar4 * 0x10 + param_2);
-    piVar5 = (int *)&lbl_82017AE8;
-    do {
-      uVar1 = puVar2[*piVar5];
-      if (iVar4 != 0) {
-        fn_827C5308(param_1,uVar1 >> 8);
-      }
-      fn_827C5308(param_1,uVar1 & 0xff);
-      piVar5 = piVar5 + 1;
-    } while ((int)piVar5 < -0x7dfe8418);
-    *(undefined1 *)(puVar2 + 0x40) = 1;
+    qtbl->sent_table = 1;
   }
-  return iVar4;
+  return prec;
 }
-

@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { void **vt; } Obj_830249F0;
+typedef struct {
+  int a;
+  int b;
+  Obj_830249F0 *obj;
+  int c;
+  unsigned char flags;
+  char pad[3];
+} Ent_830249F0;
+typedef struct {
+  char pad0[0x1c];
+  Ent_830249F0 e[1];
+} Mgr_830249F0;
+typedef void (*Fn1)(void *, void *);
+typedef void (*Fn0)(void *);
 
-
-void fn_830249F0(int param_1,int param_2)
-
+void fn_830249F0(char *p, int i)
 {
-  int *piVar1;
-  byte bVar2;
-  int iVar3;
-  
-  if (*(int *)(param_1 + 0x74) == 1) {
-    iVar3 = param_2 * 0x14 + param_1;
-    piVar1 = *(int **)(iVar3 + 0x24);
-    if (piVar1 != (int *)0x0) {
-      bVar2 = *(byte *)(param_1 + 0x6c) | *(byte *)(iVar3 + 0x2c);
-      if ((bVar2 & 0x80) == 0) {
-        (**(code **)(*piVar1 + 0x10))(piVar1,param_1 + 0x100);
+  if (*(int *)(p + 0x74) == 1) {
+    Ent_830249F0 *e = (Ent_830249F0 *)(p + 0x1c) + i;
+    if (e->obj != 0) {
+      unsigned f = ((unsigned char *)p)[0x6c] | e->flags;
+      if ((f & 0x80) == 0) {
+        ((Fn1)e->obj->vt[4])(e->obj, p + 0x100);
+      } else if ((f & 0x40) == 0) {
+        ((Fn0)e->obj->vt[2])(e->obj);
       }
-      else if ((bVar2 & 0x40) == 0) {
-        (**(code **)(*piVar1 + 8))();
-      }
-      *(byte *)(iVar3 + 0x2c) = *(byte *)(iVar3 + 0x2c) >> 1 & 0x40 | *(byte *)(iVar3 + 0x2c) & 0xbf
-      ;
+      e->flags = (e->flags >> 1 & 0x40) | (e->flags & 0xbf);
     }
   }
-  return;
 }
-
