@@ -1,53 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Itf_82C04450;
+typedef struct { void *f0; void (*AddRef)(struct Itf_82C04450 *); } Vt_82C04450;
+typedef struct Itf_82C04450 { Vt_82C04450 *vt; } Itf_82C04450;
+typedef struct { char pad[0x38]; Itf_82C04450 *a; Itf_82C04450 *b; Itf_82C04450 *c; } Obj_82C04450;
 
-
-undefined8 fn_82C04450(int param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4)
-
+int fn_82C04450(Obj_82C04450 *o, Itf_82C04450 **pa, Itf_82C04450 **pb, Itf_82C04450 **pc)
 {
-  if (param_2 != (undefined4 *)0x0) {
-    if (*(int **)(param_1 + 0x38) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x38) + 4))();
-    }
-    *param_2 = *(undefined4 *)(param_1 + 0x38);
+  if (pa != 0) {
+    if (o->a != 0) o->a->vt->AddRef(o->a);
+    *pa = o->a;
   }
-  if (param_3 != (undefined4 *)0x0) {
-    if (*(int **)(param_1 + 0x3c) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x3c) + 4))();
-    }
-    *param_3 = *(undefined4 *)(param_1 + 0x3c);
+  if (pb != 0) {
+    if (o->b != 0) o->b->vt->AddRef(o->b);
+    *pb = o->b;
   }
-  if (param_4 != (undefined4 *)0x0) {
-    if (*(int **)(param_1 + 0x40) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x40) + 4))();
-    }
-    *param_4 = *(undefined4 *)(param_1 + 0x40);
+  if (pc != 0) {
+    if (o->c != 0) o->c->vt->AddRef(o->c);
+    *pc = o->c;
   }
   return 0;
 }
-

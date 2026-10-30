@@ -1,111 +1,88 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_822733C8();
-extern int fn_8259BA48();
-extern int fn_8259C558();
-extern int fn_825BF428();
-extern int fn_8265CA20();
-extern int fn_827D55A0();
-extern int fn_827D9A90();
-extern int memmove();
-extern unsigned int lbl_821C7BA0;
+typedef struct LNode_8259A698 { struct LNode_8259A698 *next; struct LNode_8259A698 *prev; int v8; void *ptr; } LNode_8259A698;
+typedef struct { int pad; LNode_8259A698 *head; int size; } List_8259A698;
+typedef struct TNode_8259A698 { struct TNode_8259A698 *left; struct TNode_8259A698 *parent; struct TNode_8259A698 *right; int v; char color; char isnil; } TNode_8259A698;
+typedef struct { int pad; TNode_8259A698 *head; int size; } Tree_8259A698;
+typedef struct { int v0; int v4; int v8; int vc; int v10; } Elem_8259A698;
+typedef struct { void **begin; void **end; void **cap; } PVec_8259A698;
+typedef struct { Elem_8259A698 *begin; Elem_8259A698 *end; Elem_8259A698 *cap; } EVec_8259A698;
+typedef struct {
+  void *vt; char pad0[0x30]; List_8259A698 list; char pad1[0x60 - 0x40]; char sub60[0x74 - 0x60];
+  int f74; EVec_8259A698 ev; char pad2[0x9c - 0x84]; Tree_8259A698 tree; char pad3[0xac - 0xa8]; PVec_8259A698 pv;
+} Obj_8259A698;
 
+extern void fn_822315A0(void *p);
+extern void fn_822733C8(void *t, void *n);
+extern LNode_8259A698 **fn_8259BA48(void *out, List_8259A698 *l, LNode_8259A698 *n);
+extern void fn_8259C558(void *p);
+extern void fn_825BF428(void *p);
+extern void fn_8265CA20(void *p);
+extern void fn_827D55A0(int a, void *b, int c);
+extern void fn_827D9A90(void *p);
+extern void *memmove(void *d, const void *s, unsigned n);
+extern char lbl_821C7BA0[];
 
-void fn_8259A698(undefined4 *param_1)
-
+void fn_8259A698(Obj_8259A698 *o)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  int *piVar4;
-  int iVar5;
-  undefined1 auStack_40 [16];
-  
-  puVar1 = (undefined4 *)param_1[0x2b];
-  *param_1 = &lbl_821C7BA0;
-  if (puVar1 != (undefined4 *)param_1[0x2c]) {
-    do {
-      fn_827D55A0(param_1[0x1d],*puVar1,0);
-      memmove(puVar1,puVar1 + 1,(param_1[0x2c] - (int)(puVar1 + 1) >> 2) << 2);
-      param_1[0x2c] = param_1[0x2c] + -4;
-    } while (puVar1 != (undefined4 *)param_1[0x2c]);
-  }
-  piVar4 = *(int **)param_1[0xe];
-  if (piVar4 != (int *)param_1[0xe]) {
-    do {
-      if (*(int *)((int)piVar4 + 0xc) != 0) {
-        fn_8265CA20();
-      }
-      piVar4 = (int *)fn_8259BA48(auStack_40,param_1 + 0xd,piVar4);
-      piVar4 = (int *)*piVar4;
-    } while (piVar4 != (int *)param_1[0xe]);
-  }
-  fn_8259C558(param_1 + 0x18);
-  if (param_1[0x2b] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0x2b] = 0;
-  param_1[0x2c] = 0;
-  param_1[0x2d] = 0;
-  puVar1 = *(undefined4 **)(param_1[0x28] + 4);
-  while (*(char *)((int)puVar1 + 0x11) == '\0') {
-    fn_822733C8(param_1 + 0x27,puVar1[2]);
-    puVar2 = (undefined4 *)*puVar1;
-    fn_8265CA20(puVar1);
-    puVar1 = puVar2;
-  }
-  *(undefined4 *)(param_1[0x28] + 4) = param_1[0x28];
-  *(undefined4 *)param_1[0x28] = param_1[0x28];
-  *(undefined4 *)(param_1[0x28] + 8) = param_1[0x28];
-  param_1[0x29] = 0;
-  fn_8265CA20(param_1[0x28]);
-  iVar5 = param_1[0x1e];
-  if (iVar5 != 0) {
-    iVar3 = param_1[0x1f];
-    if (iVar5 != iVar3) {
-      piVar4 = (int *)(iVar5 + 8);
-      do {
-        if (*piVar4 != 0) {
-          fn_822315A0();
-        }
-        iVar5 = iVar5 + 0x14;
-        piVar4 = piVar4 + 5;
-      } while (iVar5 != iVar3);
-    }
-    fn_8265CA20(param_1[0x1e]);
-  }
-  param_1[0x1e] = 0;
-  param_1[0x1f] = 0;
-  param_1[0x20] = 0;
-  fn_825BF428(param_1 + 0xd);
-  fn_827D9A90(param_1);
-  return;
-}
+  void **it;
+  LNode_8259A698 *ln;
+  PVec_8259A698 *pv;
+  Tree_8259A698 *t;
+  TNode_8259A698 *tn;
+  char tmp[16];
 
+  it = o->pv.begin;
+  o->vt = lbl_821C7BA0;
+  pv = &o->pv;
+  if (it != o->pv.end) {
+    do {
+      void **next = it + 1;
+      fn_827D55A0(o->f74, *it, 0);
+      memmove(it, next, (pv->end - next) * 4);
+      pv->end = pv->end - 1;
+    } while (it != o->pv.end);
+  }
+  ln = o->list.head->next;
+  if (ln != o->list.head) {
+    do {
+      if (ln->ptr != 0) fn_8265CA20(ln->ptr);
+      ln = *fn_8259BA48(tmp, &o->list, ln);
+    } while (ln != o->list.head);
+  }
+  fn_8259C558(o->sub60);
+  if (pv->begin != 0) fn_8265CA20(pv->begin);
+  pv->begin = 0;
+  pv->end = 0;
+  pv->cap = 0;
+  t = &o->tree;
+  tn = t->head->parent;
+  while (tn->isnil == 0) {
+    TNode_8259A698 *nx;
+    fn_822733C8(t, tn->right);
+    nx = tn->left;
+    fn_8265CA20(tn);
+    tn = nx;
+  }
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+  fn_8265CA20(t->head);
+  if (o->ev.begin != 0) {
+    Elem_8259A698 *e = o->ev.begin;
+    Elem_8259A698 *end = o->ev.end;
+    if (e != end) {
+      void **q = (void **)&e->v8;
+      do {
+        if (*q != 0) fn_822315A0(*q);
+        e++;
+        q += 5;
+      } while (e != end);
+    }
+    fn_8265CA20(o->ev.begin);
+  }
+  o->ev.begin = 0;
+  o->ev.end = 0;
+  o->ev.cap = 0;
+  fn_825BF428(&o->list);
+  fn_827D9A90(o);
+}

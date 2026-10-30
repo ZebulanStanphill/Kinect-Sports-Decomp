@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { short a; unsigned short v; int pad; } Ent_82D69910;
+typedef struct { short h; unsigned char count; char h2; Ent_82D69910 e[1]; } Sub_82D69910;
+typedef struct { char pad[0xc]; Sub_82D69910 s; } Obj_82D69910;
 
-
-void fn_82D69910(undefined8 param_1,int param_2,undefined2 param_3)
-
+void fn_82D69910(void *unused, Obj_82D69910 *o, unsigned short val)
 {
-  short *psVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if (*(byte *)(param_2 + 0xe) == 0) {
-    return;
-  }
-  psVar1 = (short *)(param_2 + 0x12);
-  do {
-    if (*psVar1 == -1) {
-      *(undefined2 *)(iVar2 * 8 + param_2 + 0x12) = param_3;
+  int i;
+  Sub_82D69910 *s = &o->s;
+  for (i = 0; i < s->count; i++) {
+    if (s->e[i].v == 0xffff) {
+      s->e[i].v = val;
       return;
     }
-    iVar2 = iVar2 + 1;
-    psVar1 = psVar1 + 4;
-  } while (iVar2 < (int)(uint)*(byte *)(param_2 + 0xe));
-  return;
+  }
 }
-

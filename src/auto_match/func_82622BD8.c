@@ -1,62 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8262FEC8();
-extern int fn_82647460();
-extern int fn_8265CA20();
-extern int fn_82A1BB18();
+typedef struct Elem_82622BD8 { int a, b, c; } Elem_82622BD8;
+typedef struct Vec_82622BD8 { Elem_82622BD8 *first; Elem_82622BD8 *last; Elem_82622BD8 *end; } Vec_82622BD8;
+typedef struct Sys_82622BD8 { char pad[0x2a88]; void *h; } Sys_82622BD8;
+typedef struct Obj_82622BD8 {
+  Sys_82622BD8 *sys;
+  void *p4;
+  int pad8[2];
+  Vec_82622BD8 v;
+} Obj_82622BD8;
+extern void fn_8262FEC8(void *);
+extern void fn_82647460(Sys_82622BD8 *);
+extern void fn_8265CA20(void *);
+extern void *fn_82A1BB18(void);
 
-
-int * fn_82622BD8(int *param_1)
-
+Obj_82622BD8 *fn_82622BD8(Obj_82622BD8 *o)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  fn_8262FEC8(param_1[1]);
-  param_1[1] = 0;
-  iVar2 = *param_1;
-  if (*(int *)(iVar2 + 0x2a88) != 0) {
+  Sys_82622BD8 *s;
+  Vec_82622BD8 *v;
+  Elem_82622BD8 *e;
+  fn_8262FEC8(o->p4);
+  o->p4 = 0;
+  s = o->sys;
+  if (s->h != 0) {
     fn_82A1BB18();
   }
-  uVar1 = fn_82A1BB18();
-  *(undefined4 *)(iVar2 + 0x2a88) = uVar1;
-  fn_82647460(*param_1);
-  *param_1 = 0;
-  iVar2 = param_1[4];
-  if (iVar2 != 0) {
-    for (; iVar2 != param_1[5]; iVar2 = iVar2 + 0xc) {
+  s->h = fn_82A1BB18();
+  fn_82647460(o->sys);
+  o->sys = 0;
+  v = &o->v;
+  if (v->first != 0) {
+    for (e = v->first; e != v->last; e++) {
     }
-    fn_8265CA20();
+    fn_8265CA20(v->first);
   }
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  fn_8265CA20(param_1);
-  return param_1;
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
+  fn_8265CA20(o);
+  return o;
 }
-

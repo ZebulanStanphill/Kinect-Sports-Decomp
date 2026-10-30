@@ -1,56 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD4970();
-extern int fn_82BD6B68();
-extern unsigned int lbl_83223F40;
-
+typedef struct Ent_82BD3788 { int active; unsigned v; char a[8]; char b[8]; } Ent_82BD3788;
+typedef struct Mgr_82BD3788 {
+  char pad[0x50];
+  void *h[4];
+  char pad2[0xf0 - 0x60];
+  char cs[1];
+} Mgr_82BD3788;
+extern Ent_82BD3788 lbl_8329F000[];
+extern Mgr_82BD3788 *lbl_83223F40;
+extern int fn_82BD4970(Mgr_82BD3788 *, int);
+extern void fn_82BD6B68(void *, void *, void *, unsigned);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
 void fn_82BD3788(void)
-
 {
-  int iVar1;
-  longlong lVar2;
-  uint uVar3;
-  undefined4 *puVar4;
-  
-  lVar2 = 0;
-  uVar3 = 0x50;
-  puVar4 = (undefined4 *)0x8329f004;
-  do {
-    if ((puVar4[-1] != 0) && (iVar1 = fn_82BD4970(lbl_83223F40,lVar2), -1 < iVar1)) {
-      RtlEnterCriticalSection(lbl_83223F40 + 0xf0);
-      fn_82BD6B68(*(undefined4 *)(uVar3 + lbl_83223F40),puVar4 + 1,puVar4 + 3,*puVar4);
-      RtlLeaveCriticalSection(lbl_83223F40 + 0xf0);
+  unsigned i;
+  for (i = 0; i < 4; i++) {
+    if (lbl_8329F000[i].active != 0 && fn_82BD4970(lbl_83223F40, i) >= 0) {
+      RtlEnterCriticalSection(lbl_83223F40->cs);
+      fn_82BD6B68(lbl_83223F40->h[i], lbl_8329F000[i].a, lbl_8329F000[i].b, lbl_8329F000[i].v);
+      RtlLeaveCriticalSection(lbl_83223F40->cs);
     }
-    uVar3 = uVar3 + 4;
-    lVar2 = lVar2 + 1;
-    puVar4 = puVar4 + 6;
-  } while (uVar3 < 0x60);
-  return;
+  }
 }
-

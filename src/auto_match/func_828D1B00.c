@@ -1,110 +1,74 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C478();
-extern int fn_8224BF30();
-extern int fn_828E9DB8();
-extern int fn_828EA2D8();
+extern void fn_8223C478(void *bs, int a, int b);
+extern void fn_828E9DB8(void *bs, int v, int n);
+extern void fn_828EA2D8(void *bs, void *p, int n);
+extern void fn_8224BF30(void *bs, const char *s, int n);
+typedef struct { union { char buf[16]; char *ptr; } u; unsigned size; unsigned res; } Str_828D1B00;
+typedef struct { char pad0[0x84]; int f84; unsigned f88; unsigned f8c; unsigned f90; char pad1[4]; char f98[8]; int fa0; int fa4; Str_828D1B00 str; int fc0; unsigned char fc4; unsigned char fc5; unsigned char fc6; } Obj_828D1B00;
 
-
-void fn_828D1B00(int param_1,undefined8 param_2)
-
+static const char *CStr(Str_828D1B00 *s) { return s->res >= 16 ? s->u.ptr : s->u.buf; }
+void fn_828D1B00(Obj_828D1B00 *o, void *bs)
 {
-  undefined1 uVar1;
-  char cVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  undefined4 *puVar5;
-  bool bVar6;
-  
-  uVar3 = *(undefined4 *)(param_1 + 0x84);
-  fn_8223C478(param_2,0x10,0);
-  fn_828E9DB8(param_2,uVar3,0x10);
-  fn_8223C478(param_2,0x40,0);
-  fn_828EA2D8(param_2,param_1 + 0x98,8);
-  bVar6 = 1 < *(uint *)(param_1 + 0x88);
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    uVar4 = *(uint *)(param_1 + 0x88);
-    fn_8223C478(param_2,2,0);
-    fn_828E9DB8(param_2,(ulonglong)uVar4 - 1,2);
+  int v = o->f84;
+  unsigned char b;
+  fn_8223C478(bs, 0x10, 0);
+  fn_828E9DB8(bs, v, 0x10);
+  fn_8223C478(bs, 0x40, 0);
+  fn_828EA2D8(bs, o->f98, 8);
+  b = 1 < o->f88;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    v = o->f88 - 1;
+    fn_8223C478(bs, 2, 0);
+    fn_828E9DB8(bs, v, 2);
   }
-  bVar6 = *(int *)(param_1 + 0x88) != *(int *)(param_1 + 0x8c);
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    uVar4 = *(uint *)(param_1 + 0x8c);
-    fn_8223C478(param_2,2,0);
-    fn_828E9DB8(param_2,(ulonglong)uVar4 - 1,2);
+  b = o->f8c != o->f88;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    v = o->f8c - 1;
+    fn_8223C478(bs, 2, 0);
+    fn_828E9DB8(bs, v, 2);
   }
-  bVar6 = *(int *)(param_1 + 0x90) != 0;
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    uVar3 = *(undefined4 *)(param_1 + 0x90);
-    fn_8223C478(param_2,4,0);
-    fn_828E9DB8(param_2,uVar3,4);
+  b = o->f90 != 0;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    v = o->f90;
+    fn_8223C478(bs, 4, 0);
+    fn_828E9DB8(bs, v, 4);
   }
-  uVar3 = *(undefined4 *)(param_1 + 0xa0);
-  fn_8223C478(param_2,8,0);
-  fn_828E9DB8(param_2,uVar3,8);
-  uVar3 = *(undefined4 *)(param_1 + 0xa4);
-  fn_8223C478(param_2,8,0);
-  fn_828E9DB8(param_2,uVar3,8);
-  bVar6 = *(char *)(param_1 + 0xc4) != '\0';
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    uVar1 = *(undefined1 *)(param_1 + 0xc4);
-    fn_8223C478(param_2,8,0);
-    fn_828E9DB8(param_2,uVar1,8);
+  { int v2 = o->fa0;
+  fn_8223C478(bs, 8, 0);
+  fn_828E9DB8(bs, v2, 8); }
+  v = o->fa4;
+  fn_8223C478(bs, 8, 0);
+  fn_828E9DB8(bs, v, 8);
+  b = o->fc4 != 0;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    v = o->fc4;
+    fn_8223C478(bs, 8, 0);
+    fn_828E9DB8(bs, v, 8);
   }
-  bVar6 = *(char *)(param_1 + 0xc5) != '\0';
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    uVar1 = *(undefined1 *)(param_1 + 0xc5);
-    fn_8223C478(param_2,8,0);
-    fn_828E9DB8(param_2,uVar1,8);
+  b = o->fc5 != 0;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    v = o->fc5;
+    fn_8223C478(bs, 8, 0);
+    fn_828E9DB8(bs, v, 8);
   }
-  bVar6 = *(int *)(param_1 + 0xb8) != 0;
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,bVar6,1);
-  if (bVar6) {
-    puVar5 = (undefined4 *)(param_1 + 0xa8);
-    if (0xf < *(uint *)(param_1 + 0xbc)) {
-      puVar5 = (undefined4 *)*puVar5;
-    }
-    fn_8224BF30(param_2,puVar5,0);
+  b = o->str.size != 0;
+  fn_8223C478(bs, 1, 0);
+  fn_828E9DB8(bs, b != 0, 1);
+  if (b != 0) {
+    fn_8224BF30(bs, CStr(&o->str), 0);
   }
-  cVar2 = *(char *)(param_1 + 0xc6);
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,cVar2 != '\0',1);
-  return;
+  {
+    unsigned char c = o->fc6;
+    fn_8223C478(bs, 1, 0);
+    fn_828E9DB8(bs, c != 0, 1);
+  }
 }
-

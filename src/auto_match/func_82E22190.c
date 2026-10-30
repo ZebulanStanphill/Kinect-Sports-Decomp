@@ -1,61 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_82E22050();
+typedef struct { int pad0; char *data; unsigned count; int pad1; unsigned live; } Obj_82E22190;
+extern void fn_8265CA20(void *p);
+extern void fn_82E22050(void *p);
 
-
-void fn_82E22190(int param_1)
-
+void fn_82E22190(Obj_82E22190 *o)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  while (*(int *)(param_1 + 0x10) != 0) {
-    fn_82E22050(param_1);
+  unsigned n;
+  while (o->live != 0) {
+    fn_82E22050(o);
   }
-  iVar2 = *(int *)(param_1 + 8);
-  if (iVar2 != 0) {
-    iVar3 = iVar2 << 2;
+  n = o->count;
+  if (n != 0) {
+    int i = n << 2;
     do {
-      iVar3 = iVar3 + -4;
-      iVar2 = iVar2 + -1;
-      iVar1 = *(int *)(*(int *)(param_1 + 4) + iVar3);
-      if (iVar1 != 0) {
-        fn_8265CA20(iVar1);
-      }
-    } while (iVar2 != 0);
+      i -= 4;
+      n--;
+      if (*(unsigned *)(o->data + i) != 0) fn_8265CA20(*(void **)(o->data + i));
+    } while (n != 0);
   }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 8) = 0;
-  *(undefined4 *)(param_1 + 4) = 0;
-  return;
+  if (o->data != 0) fn_8265CA20(o->data);
+  o->count = 0;
+  o->data = 0;
 }
-

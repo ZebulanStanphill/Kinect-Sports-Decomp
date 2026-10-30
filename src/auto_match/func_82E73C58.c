@@ -1,57 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E58BE8();
-
-
-undefined8 fn_82E73C58(longlong param_1,undefined4 *param_2)
-
+typedef struct Vt_82E73C58 { void *pad0; void (*addref)(void *); void (*release)(void *); } Vt_82E73C58;
+typedef struct Iface_82E73C58 { Vt_82E73C58 *vt; } Iface_82E73C58;
+extern int fn_82E58BE8(char *, Iface_82E73C58 **);
+int fn_82E73C58(char *self, Iface_82E73C58 **out)
 {
-  int iVar1;
-  int *apiStack_20 [4];
-  
-  if (param_2 != (undefined4 *)0x0) {
-    *param_2 = 0;
+  Iface_82E73C58 *p;
+  if (out != 0) {
+    *out = 0;
   }
-  apiStack_20[0] = (int *)0x0;
-  iVar1 = fn_82E58BE8(param_1 + 0x44,apiStack_20);
-  if (iVar1 != 0) {
-    if (param_2 != (undefined4 *)0x0) {
-      *param_2 = apiStack_20[0];
-      if (apiStack_20[0] == (int *)0x0) {
-        return 0;
+  p = 0;
+  if (fn_82E58BE8(self + 0x44, &p) != 0) {
+    if (out != 0) {
+      *out = p;
+      if (p == 0) {
+        goto done;
       }
-      (**(code **)(*apiStack_20[0] + 4))();
+      p->vt->addref(p);
     }
-    if (apiStack_20[0] != (int *)0x0) {
-      (**(code **)(*apiStack_20[0] + 8))();
+    if (p != 0) {
+      p->vt->release(p);
     }
+done:
     return 0;
   }
-  return 0xffffffffc00d36b2;
+  return 0xc00d36b2;
 }
-

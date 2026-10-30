@@ -1,63 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E73080();
-extern int fn_82E74190();
+struct Rc_82E74768;
+typedef struct { void *f0; void (*AddRef)(struct Rc_82E74768 *); } RcVt_82E74768;
+typedef struct Rc_82E74768 { RcVt_82E74768 *vt; } Rc_82E74768;
+typedef struct { int a, b, c, d, e, f, g; } Sub_82E74768;
+typedef struct {
+  int f0, f4, f8, fc;
+  Sub_82E74768 s;
+  char pad[0x1d0 - 0x2c];
+  unsigned __int64 q1d0; Rc_82E74768 *rc; unsigned __int64 q1e0; unsigned __int64 q1e8; int f1f0; unsigned __int64 q1f8, q200, q208;
+} Obj_82E74768;
+extern void fn_82E73080(void *p);
+extern void fn_82E74190(void *p, int n);
 
-
-undefined4 *
-fn_82E74768(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-             int *param_5,undefined4 param_6)
-
+static void Sub_init(Sub_82E74768 *s)
 {
-  *param_1 = param_2;
-  param_1[1] = param_3;
-  param_1[2] = param_4;
-  param_1[3] = param_6;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[6] = 0;
-  param_1[5] = 0;
-  param_1[4] = 0;
-  param_1[7] = 0;
-  *(undefined8 *)(param_1 + 0x74) = 0;
-  param_1[0x76] = param_5;
-  *(undefined8 *)(param_1 + 0x78) = 0;
-  *(undefined8 *)(param_1 + 0x7a) = 0;
-  param_1[0x7c] = 0;
-  *(undefined8 *)(param_1 + 0x7e) = 0;
-  *(undefined8 *)(param_1 + 0x80) = 0;
-  *(undefined8 *)(param_1 + 0x82) = 0;
-  if (param_5 != (int *)0x0) {
-    (**(code **)(*param_5 + 4))(param_5);
-  }
-  fn_82E74190(param_1 + 8,0x10);
-  fn_82E73080(param_1);
-  return param_1;
+  s->e = 0;
+  s->f = 0;
+  s->g = 0;
+  { int *t = &s->c; t[0] = 0; t[-1] = 0; t[-2] = 0; t[1] = 0; }
 }
 
+Obj_82E74768 *fn_82E74768(Obj_82E74768 *p, int a, int b, int c, Rc_82E74768 *rc, int d)
+{
+  p->f0 = a;
+  p->f4 = b;
+  p->f8 = c;
+  p->fc = d;
+  Sub_init(&p->s);
+  p->q1d0 = 0;
+  p->rc = rc;
+  p->q1e0 = 0;
+  p->q1e8 = 0;
+  p->f1f0 = 0;
+  p->q1f8 = 0;
+  p->q200 = 0;
+  p->q208 = 0;
+  if (rc != 0) rc->vt->AddRef(rc);
+  fn_82E74190(&p->s.e, 0x10);
+  fn_82E73080(p);
+  return p;
+}

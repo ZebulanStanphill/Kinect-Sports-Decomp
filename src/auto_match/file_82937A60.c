@@ -46,6 +46,7 @@ typedef struct { uint lo : 7; uint f : 5; uint rest : 20; } X;
 typedef struct Sh_8293E2D0 { char pad0[0x48]; int f48; char pad1[0xc]; int f58; char pad2[4]; unsigned flags; char pad3[0xd0]; int f134; char pad4[4]; int f13c; } Sh_8293E2D0;
 typedef struct Dc_8293E2D0 { char pad[0x50]; int f50; } Dc_8293E2D0;
 #define NAN(x) ((x) != (x))
+typedef struct { char pad0[0x34]; int f34; char pad1[0x28]; unsigned f60; char pad2[0xbc]; unsigned f120; unsigned f124; unsigned f128; char pad3[0xc]; void *f138; } Obj_8293DD48;
 
 /* @@ end of shared declarations */
 
@@ -3808,56 +3809,36 @@ LAB_8293dcf0:
 /* @@ end fn_8293D760 */
 
 /* @@ begin fn_8293DD48 */
-extern int fn_82635A70();
+extern void fn_8293D620(Obj_8293DD48 *o);
 extern void fn_82937A60(void *self, const char *fmt, ...);
-extern int fn_8293C408();
-extern void fn_8293D620();
+extern unsigned fn_8293C408(Obj_8293DD48 *o, int a);
+extern void fn_82635A70(unsigned a, unsigned b, unsigned c);
 
-
-undefined8 fn_8293DD48(int param_1)
-
+int fn_8293DD48(Obj_8293DD48 *o)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  
-  if (*(int *)(param_1 + 0x138) == 0) {
-    uVar2 = 0xffffffff8007000e;
+  if (o->f138 == 0) return 0x8007000e;
+  fn_8293D620(o);
+  if ((o->f60 & 0x80) == 0) {
+    if ((o->f128 & 4) != 0) fn_82937A60(o, "You must config AutoResource=false in order to config VsResource");
+    if ((o->f128 & 8) != 0) fn_82937A60(o, "You must config AutoResource=false in order to config PsResource");
+    if ((o->f128 & 0x10000) != 0) fn_82937A60(o, "You must config AutoResource=false in order to config TxCacheSelect");
   }
-  else {
-    fn_8293D620(param_1);
-    if ((*(uint *)(param_1 + 0x60) & 0x80) == 0) {
-      if ((*(uint *)(param_1 + 0x128) & 4) != 0) {
-        fn_82937A60(param_1,0xffffffff82033e88);
-      }
-      if ((*(uint *)(param_1 + 0x128) & 8) != 0) {
-        fn_82937A60(param_1,0xffffffff82033e40);
-      }
-      if ((*(uint *)(param_1 + 0x128) & 0x10000) != 0) {
-        fn_82937A60(param_1,0xffffffff82033df8);
-      }
-    }
-    uVar1 = *(uint *)(param_1 + 0x128);
-    if ((uVar1 & 0x2000) != 0) {
-      *(uint *)(param_1 + 0x120) = *(uint *)(param_1 + 0x120) | 0x40000;
-    }
-    if ((uVar1 & 0x2000) == 0) {
-      if (((uVar1 & 0x20) != 0) && ((*(uint *)(param_1 + 0x120) & 0x80000) != 0)) {
-        fn_82937A60(param_1,0xffffffff82033db4);
-      }
-      if (((*(uint *)(param_1 + 0x128) & 0x1000) != 0) && ((*(uint *)(param_1 + 0x124) & 2) != 0)) {
-        fn_82937A60(param_1,0xffffffff82033d70);
-      }
-    }
-    if (*(int *)(param_1 + 0x34) == 0) {
-      uVar2 = fn_8293C408(param_1,1);
-      fn_82635A70(uVar2,*(undefined4 *)(param_1 + 0x120),*(undefined4 *)(param_1 + 0x124));
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = 0xffffffff88760b59;
+  {
+    unsigned f = o->f128;
+    if ((f & 0x2000) != 0) o->f120 = o->f120 | 0x40000;
+    if ((f & 0x2000) == 0) {
+      if ((f & 0x20) != 0 && (o->f120 & 0x80000) != 0)
+        fn_82937A60(o, "You must specify PsParamGenReg if you set PsGenIndex to true.");
+      if ((o->f128 & 0x1000) != 0 && (o->f124 & 2) != 0)
+        fn_82937A60(o, "You must specify PsParamGenReg if you set PsGenScreenXY to true.");
     }
   }
-  return uVar2;
+  if (o->f34 != 0) return 0x88760b59;
+  {
+    unsigned r = fn_8293C408(o, 1);
+    fn_82635A70(r, o->f120, o->f124);
+  }
+  return 0;
 }
 /* @@ end fn_8293DD48 */
 
@@ -3879,7 +3860,7 @@ extern int fn_828FAB00();
 extern int fn_82936358();
 extern void fn_82937A60(void *self, const char *fmt, ...);
 extern int fn_8293C408();
-extern undefined8 fn_8293DD48();
+extern int fn_8293DD48();
 extern int fn_82A2A288();
 extern int fn_82A9A238();
 extern int fn_82A9EDA0();
@@ -4027,7 +4008,7 @@ extern void fn_829370D8(Sh_8293E2D0 *);
 extern void fn_82937A60(Sh_8293E2D0 *, const char *, ...);
 extern undefined4 fn_8293C408();
 extern void fn_8293D550(Sh_8293E2D0 *);
-extern undefined8 fn_8293DD48();
+extern int fn_8293DD48();
 extern void fn_82F54250(int, unsigned);
 
 int fn_8293E2D0(Sh_8293E2D0 *s, Dc_8293E2D0 *d)
