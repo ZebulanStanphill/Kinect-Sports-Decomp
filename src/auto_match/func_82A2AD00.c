@@ -25,18 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *__imp__KeDebugMonitorData;
+extern unsigned int *__imp_KeDebugMonitorData;
 
 
-undefined8 fn_82A2AD00(void)
+int fn_82A2AD00(void)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
-  if (*__imp__KeDebugMonitorData != 0) {
+  if (*__imp_KeDebugMonitorData != 0) {
                     /* WARNING: Could not recover jumptable at 0x82a2ad24. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(code **)(*__imp__KeDebugMonitorData + 0x18))(0x44,0);
+    uVar1 = (*(code *)(*__imp_KeDebugMonitorData + 0x18))(0x44,0);
     return uVar1;
   }
   return 0;

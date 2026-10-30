@@ -28,16 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82BEA420();
 
 
-longlong fn_82BE2790(int param_1,int *param_2)
+int fn_82BE2790(int param_1,int *param_2)
 
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
+  int uVar1;
+  uint uVar2;
   
-  if ((param_2 != (int *)0x0) && (*(int *)(param_1 + 0x150) != 0)) {
-    uVar1 = (**(code **)(*param_2 + 4))(param_2);
+  if ((param_2 != (int *)0x0) && (*(uint *)(param_1 + 0x150) != 0)) {
+    uVar1 = (*(code *)(*param_2 + 4))(param_2);
     uVar2 = fn_82BEA420(*(undefined4 *)(param_1 + 0x150),uVar1);
-    if ((uVar2 & 0xffffffff) != 0) {
+    if (uVar2 != 0) {
       return uVar2 + 0x2c;
     }
   }

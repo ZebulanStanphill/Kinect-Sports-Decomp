@@ -30,10 +30,10 @@ typedef struct { U64 lo, hi; } V16;
 int fn_826F6968(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   
-  if (*(int *)(param_1 + 0x7d4) == 100) {
+  if (*(unsigned int *)(param_1 + 0x7d4) == 100) {
     iVar1 = *(int *)(param_1 + 2000) + 1;
     *(undefined4 *)(param_1 + 0x7d4) = 99;
     *(int *)(param_1 + 2000) = iVar1;
@@ -42,7 +42,7 @@ int fn_826F6968(int param_1)
     }
   }
   uVar2 = *(int *)(param_1 + 2000) + *(int *)(param_1 + 0x7d4);
-  if (99 < uVar2) {
+  if (uVar2 >= 100) {
     uVar2 = uVar2 - 100;
   }
   *(int *)(param_1 + 0x7d4) = *(int *)(param_1 + 0x7d4) + 1;

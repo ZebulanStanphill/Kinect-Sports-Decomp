@@ -31,11 +31,11 @@ extern int fn_822315A0();
 void fn_8223A888(int param_1)
 
 {
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_822315A0();
+  if (*(uint *)(param_1 + 0xc) != 0) {
+    fn_822315A0(*(int *)(param_1 + 0xc));
   }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_822315A0();
+  if (*(uint *)(param_1 + 4) != 0) {
+    fn_822315A0(*(uint *)(param_1 + 4));
   }
   return;
 }

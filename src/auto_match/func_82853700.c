@@ -30,12 +30,14 @@ extern int fn_82631920();
 extern int fn_82631AF0();
 
 
+extern int fn_82838B88();
+
 void fn_82853700(int param_1,int param_2,longlong param_3)
 
 {
   undefined1 auStack_220 [520];
   
-  thunk_FUN_82838b18(auStack_220,(ulonglong)*(uint *)(param_2 + 0x14) + param_3,param_1 + 0xa4,
+  fn_82838B88(auStack_220,*(uint *)(param_2 + 0x14) + param_3,param_1 + 0xa4,
                      *(undefined2 *)(param_2 + 0x1a),*(undefined2 *)(param_2 + 0x1c));
   fn_82631AF0(*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_2 + 0x20));
   fn_82631920(*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_2 + 0x24));

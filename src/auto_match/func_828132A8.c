@@ -32,17 +32,17 @@ void fn_828132A8(int *param_1)
 
 {
   char cVar1;
-  longlong lVar2;
+  int lVar2;
   
   lVar2 = KeTlsGetValue(*(undefined4 *)(param_1[3] + 0xd8));
   KeTlsSetValue(*(undefined4 *)(param_1[3] + 0xd8),lVar2 + 1);
-  (**(code **)(*param_1 + 4))(param_1);
+  (*(code *)(*param_1 + 4))(param_1);
   lVar2 = KeTlsGetValue(*(undefined4 *)(param_1[3] + 0xd8));
   KeTlsSetValue(*(undefined4 *)(param_1[3] + 0xd8),lVar2 + -1);
   cVar1 = *(char *)(param_1 + 5);
   fn_8281F2F0(param_1);
   if (cVar1 != '\0') {
-    (**(code **)*param_1)(param_1,1);
+    (*(code *)*param_1)(param_1,1);
   }
   return;
 }

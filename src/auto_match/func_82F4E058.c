@@ -32,16 +32,18 @@ extern int fn_82A1E508();
 extern unsigned int lbl_8326183C;
 
 
+extern int fn_82F4D7D8();
+
 void fn_82F4E058(void)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   undefined4 auStack_20 [4];
   
-  if (*(int *)(lbl_8326183C + 0x2b00) == 0) {
+  if (*(uint *)(lbl_8326183C + 0x2b00) == 0) {
     auStack_20[0] = 0;
-    uVar1 = fn_82A1E0C0(0,0,0xffffffff82f4d7d8,0,4,auStack_20);
-    *(int *)(lbl_8326183C + 0x2b00) = (int)uVar1;
+    uVar1 = fn_82A1E0C0(0,0,fn_82F4D7D8,0,4,auStack_20);
+    *(int *)(lbl_8326183C + 0x2b00) = uVar1;
     fn_82A1E508(uVar1,3);
     fn_82A1E2C0(*(undefined4 *)(lbl_8326183C + 0x2b00));
   }

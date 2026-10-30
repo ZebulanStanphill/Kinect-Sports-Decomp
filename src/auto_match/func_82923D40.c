@@ -29,13 +29,13 @@ extern int fn_8262FEC8();
 extern int fn_8263CB30();
 
 
-undefined8 fn_82923D40(int *param_1)
+undefined8 fn_82923D40(uint *param_1)
 
 {
   if (*param_1 != 0) {
-    fn_8263CB30();
+    fn_8263CB30(*param_1);
     if (*param_1 != 0) {
-      fn_8262FEC8();
+      fn_8262FEC8(*param_1);
       *param_1 = 0;
     }
   }

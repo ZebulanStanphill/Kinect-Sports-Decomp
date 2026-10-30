@@ -1,46 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82784220();
-extern int fn_82F68CC0();
+extern void *memcpy(void *d, const void *s, unsigned int n);
+extern void fn_82784220(void *self, unsigned int block);
 
+typedef struct { unsigned int count; unsigned int nblocks; int x8; char **blocks; } Self;
 
-void fn_827845D8(uint *param_1,undefined8 param_2)
-
+void fn_827845D8(Self *self, const void *item)
 {
-  uint uVar1;
-  
-  uVar1 = *param_1 >> 6;
-  if (param_1[1] <= uVar1) {
-    fn_82784220(param_1,uVar1);
-  }
-  fn_82F68CC0((ulonglong)*(uint *)(uVar1 * 4 + param_1[3]) + ((ulonglong)*param_1 & 0x3f) * 0x18,
-               param_2,0x18);
-  *param_1 = *param_1 + 1;
-  return;
+    unsigned int block = self->count >> 6;
+    if (block >= self->nblocks) {
+        fn_82784220(self, block);
+    }
+    memcpy(self->blocks[block] + (self->count & 0x3f) * 0x18, item, 0x18);
+    self->count = self->count + 1;
 }
-

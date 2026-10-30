@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82A439A8(int param_1,ulonglong param_2)
+int fn_82A439A8(int param_1,uint param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 8))(*(int *)(param_1 + 0x34) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 8))(*(int *)(param_1 + 0x34) + 0x2c);
   lVar1 = 0;
-  if (((param_2 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0xd4)) &&
-     (lVar1 = (**(code **)(**(int **)(param_1 + 0x90) + 0x30))(*(int **)(param_1 + 0x90),param_2),
-     -1 < lVar1)) {
-    *(int *)(param_1 + 0xd4) = (int)param_2;
+  if ((param_2 != *(uint *)(param_1 + 0xd4)) &&
+     (lVar1 = (*(code *)(**(int **)(param_1 + 0x90) + 0x30))(*(int **)(param_1 + 0x90),param_2),
+     lVar1 >= 0)) {
+    *(int *)(param_1 + 0xd4) = param_2;
   }
-  (**(code **)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c);
+  (*(code *)(*(int *)(*(int *)(param_1 + 0x34) + 0x2c) + 0x14))(*(int *)(param_1 + 0x34) + 0x2c);
   return lVar1;
 }
 

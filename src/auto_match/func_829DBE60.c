@@ -28,9 +28,9 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_832179FC;
 
 
-longlong fn_829DBE60(void)
+int fn_829DBE60(void)
 
 {
-  return (ulonglong)lbl_832179FC + 0x8f0e0;
+  return lbl_832179FC + 0x8f0e0;
 }
 

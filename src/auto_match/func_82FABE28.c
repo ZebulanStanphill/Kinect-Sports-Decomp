@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82FAD888();
 
 
-undefined8 fn_82FABE28(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+int fn_82FABE28(int *param_1,int param_2,int param_3,int param_4)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  uint uVar1;
+  int uVar2;
   
-  uVar1 = (**(code **)(*param_1 + 0x18))();
-  if ((uVar1 & 0xffffffff) == 0) {
+  uVar1 = (*(code *)(*param_1 + 0x18))();
+  if (uVar1 == 0) {
     uVar2 = 2;
   }
   else {

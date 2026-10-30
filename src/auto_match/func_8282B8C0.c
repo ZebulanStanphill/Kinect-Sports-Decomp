@@ -28,12 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8282D640();
 
 
+extern int fn_8282B828();
+
+extern int fn_8282B8A0();
+
 void fn_8282B8C0(int param_1)
 
 {
   *(undefined1 *)(param_1 + 0x3e9) = 1;
-  fn_8282D640(param_1,param_1 + 0x318,0xffffffff8282b828,0);
-  fn_8282D640(param_1,param_1 + 0x344,0xffffffff8282b8a0,0);
+  fn_8282D640(param_1,param_1 + 0x318,fn_8282B828,0);
+  fn_8282D640(param_1,param_1 + 0x344,fn_8282B8A0,0);
   return;
 }
 

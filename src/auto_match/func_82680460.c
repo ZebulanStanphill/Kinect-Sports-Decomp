@@ -27,28 +27,28 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82680460(ulonglong param_1)
+uint fn_82680460(uint param_1)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   
   uVar1 = 0;
-  if ((param_1 & 0xffffffff) == 0) {
+  if (param_1 == 0) {
     return param_1;
   }
   if ((param_1 & 0xffffff) == 0) {
-    param_1 = (param_1 & 0xffffffff) >> 0x18;
+    param_1 = param_1 >> 0x18;
     uVar1 = 0x18;
   }
   else if ((param_1 & 0xffff) == 0) {
-    param_1 = (param_1 & 0xffffffff) >> 0x10;
+    param_1 = param_1 >> 0x10;
     uVar1 = 0x10;
   }
   else if ((param_1 & 0xff) == 0) {
-    param_1 = (param_1 & 0xffffffff) >> 8;
+    param_1 = param_1 >> 8;
     uVar1 = 8;
   }
-  for (; (param_1 & 1) == 0; param_1 = (param_1 & 0xffffffff) >> 1) {
+  for (; (param_1 & 1) == 0; param_1 = param_1 >> 1) {
     uVar1 = uVar1 + 1;
   }
   return uVar1 & 0xff;

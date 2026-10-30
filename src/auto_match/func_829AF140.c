@@ -1,56 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct S {
+    char pad[0x55c];
+    unsigned int f55c;
+    unsigned int f560;
+    char pad2[0x616 - 0x564];
+    unsigned char state;
+    unsigned char level;
+    char pad3[3];
+    unsigned char mode;
+    char pad4[2];
+    unsigned short val;
+} S;
 
-
-void fn_829AF140(int param_1,ushort param_2,int param_3)
-
+void fn_829AF140(S *p, unsigned short v, int on)
 {
-  uint uVar1;
-  
-  *(ushort *)(param_1 + 0x61e) = param_2 & 0xff;
-  *(uint *)(param_1 + 0x560) = *(uint *)(param_1 + 0x560) | 0x8000;
-  if (param_3 == 1) {
-    uVar1 = *(uint *)(param_1 + 0x55c) | 0x80;
-  }
-  else {
-    uVar1 = *(uint *)(param_1 + 0x55c) & 0xffffff7f;
-  }
-  *(uint *)(param_1 + 0x55c) = uVar1;
-  if (*(char *)(param_1 + 0x616) == '\x02') {
-    *(undefined1 *)(param_1 + 0x61b) = 4;
-  }
-  if (*(char *)(param_1 + 0x616) != '\0') {
-    return;
-  }
-  if (*(byte *)(param_1 + 0x617) < 8) {
-    return;
-  }
-  *(undefined1 *)(param_1 + 0x61b) = 2;
-  return;
+    p->val = v & 0xff;
+    p->f560 |= 0x8000;
+    if (on == 1) {
+        p->f55c |= 0x80;
+    } else {
+        p->f55c &= ~0x80;
+    }
+    if (p->state == 2) {
+        p->mode = 4;
+    }
+    if (p->state == 0 && p->level >= 8) {
+        p->mode = 2;
+    }
 }
-

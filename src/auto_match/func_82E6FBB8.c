@@ -27,21 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82E6FBB8(int param_1,undefined4 *param_2)
+int fn_82E6FBB8(int param_1,undefined4 *param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_2 == (undefined4 *)0x0) {
-    return 0xffffffff80004003;
+    return 0x80004003;
   }
   *param_2 = 0;
-  if (*(int *)(param_1 + 0x58) == 0) {
-    return 0xffffffffc00d36bb;
+  if (*(uint *)(param_1 + 0x58) == 0) {
+    return 0xc00d36bb;
   }
                     /* WARNING: Could not recover jumptable at 0x82e6fbfc. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x58) + 0x2c))();
+  uVar1 = (*(code *)(**(int **)(param_1 + 0x58) + 0x2c))(*(int **)(param_1 + 0x58));
   return uVar1;
 }
 

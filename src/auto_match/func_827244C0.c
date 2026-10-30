@@ -31,13 +31,15 @@ extern unsigned int lbl_82010C98;
 extern unsigned int lbl_82013278;
 
 
+extern void fn_826EA050(void);
+extern char lbl_820108E0[];
 undefined4 * fn_827244C0(undefined4 *param_1,undefined8 param_2)
 
 {
-  fn_826C35B8(param_1,param_2,0xffffffff826ea050);
+  fn_826C35B8(param_1,param_2,(int)fn_826EA050);
   *param_1 = &lbl_82010C98;
   param_1[4] = &lbl_82013278;
-  fn_826B1688(param_1 + 4,param_2,0xffffffff820108e0,7);
+  fn_826B1688(param_1 + 4,param_2,lbl_820108E0,7);
   return param_1;
 }
 

@@ -1,44 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE40();
+typedef struct Obj Obj;
+typedef struct {
+    void *a, *b;
+    void (*release)(Obj *self);
+} ObjVT;
+struct Obj { ObjVT *vt; };
 
+typedef struct {
+    char pad[0x3c];
+    Obj *obj;
+    int pad40;
+    void *mem;
+} Ctx;
 
-undefined8 fn_82E2C908(void)
+extern void fn_82E4FE40(void *p);
 
+int fn_82E2C908(int a, int b, int c, Ctx *ctx)
 {
-  int in_r6;
-  
-  if (*(int **)(in_r6 + 0x3c) != (int *)0x0) {
-    (**(code **)(**(int **)(in_r6 + 0x3c) + 8))();
-    *(undefined4 *)(in_r6 + 0x3c) = 0;
-  }
-  fn_82E4FE40(*(undefined4 *)(in_r6 + 0x44));
-  fn_82E4FE40(in_r6);
-  return 0;
+    if (ctx->obj != 0) {
+        ctx->obj->vt->release(ctx->obj);
+        ctx->obj = 0;
+    }
+    fn_82E4FE40(ctx->mem);
+    fn_82E4FE40(ctx);
+    return 0;
 }
-

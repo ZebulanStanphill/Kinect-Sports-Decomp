@@ -36,14 +36,14 @@ void fn_82A76548(int param_1,undefined4 *param_2)
   undefined4 uVar3;
   uint auStack_30;
   
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x84) + 0x28))();
-  iVar2 = (**(code **)(**(int **)(param_1 + 0x84) + 0x20))(*(int **)(param_1 + 0x84),&auStack_30);
-  if ((-1 < iVar2) && (*param_2 = 1, *(int *)(param_1 + 0x94) != 0)) {
-    if (uVar1 < *(int *)(param_1 + 0x80) + auStack_30) {
+  uVar1 = (*(code *)(**(int **)(param_1 + 0x84) + 0x28))(*(int **)(param_1 + 0x84));
+  iVar2 = (*(code *)(**(int **)(param_1 + 0x84) + 0x20))(*(int **)(param_1 + 0x84),&auStack_30);
+  if ((iVar2 >= 0) && (*param_2 = 1, *(int *)(param_1 + 0x94) != 0)) {
+    if (*(int *)(param_1 + 0x80) + auStack_30 > uVar1) {
       uVar3 = 0;
     }
     else {
-      if (uVar1 < *(int *)(param_1 + 0x80) * 2 + auStack_30) {
+      if (*(int *)(param_1 + 0x80) * 2 + auStack_30 > uVar1) {
         return;
       }
       uVar3 = 2;

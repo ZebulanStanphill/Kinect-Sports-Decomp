@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_83053048(int param_1,undefined8 param_2,int *param_3,char param_4,undefined1 *param_5)
+void fn_83053048(int param_1,undefined8 param_2,int *param_3,unsigned char param_4,undefined1 *param_5)
 
 {
   if (param_4 != '\0') {
     if ((*(uint *)(param_1 + 0x30) & 0x10000000) == 0) {
-      (**(code **)(*param_3 + 0x18))(param_3,param_2,param_1 + 0x10,param_5);
+      (*(code *)(*param_3 + 0x18))(param_3,param_2,param_1 + 0x10,param_5);
     }
     else {
       *param_5 = 0;

@@ -1,56 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828782A8();
-extern int fn_82878468();
+typedef struct { char data[0x2c]; } Elem_828785B0;
 
+typedef struct {
+    Elem_828785B0 *first;
+    Elem_828785B0 *last;
+    Elem_828785B0 *end;
+    char alloc[4];
+} Vec_828785B0;
 
-undefined4 * fn_828785B0(undefined4 *param_1,int param_2,longlong param_3)
+extern void fn_828782A8(Elem_828785B0 *first, Elem_828785B0 *last, void *alloc);
+extern Elem_828785B0 *fn_82878468(Elem_828785B0 *dst, Elem_828785B0 *src);
 
+Elem_828785B0 **fn_828785B0(Elem_828785B0 **ret, Vec_828785B0 *v, Elem_828785B0 *where)
 {
-  uint uVar1;
-  int iVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  
-  uVar1 = *(uint *)(param_2 + 4);
-  uVar4 = param_3 + 0x2c;
-  if ((uVar4 & 0xffffffff) != (ulonglong)uVar1) {
-    lVar3 = param_3 - uVar4;
-    do {
-      fn_82878468(lVar3 + uVar4,uVar4);
-      uVar4 = uVar4 + 0x2c;
-    } while ((uVar4 & 0xffffffff) != (ulonglong)uVar1);
-  }
-  fn_828782A8((ulonglong)*(uint *)(param_2 + 4) - 0x2c,(ulonglong)*(uint *)(param_2 + 4),
-                param_2 + 0xc);
-  iVar2 = *(int *)(param_2 + 4);
-  *param_1 = (int)param_3;
-  *(int *)(param_2 + 4) = iVar2 + -0x2c;
-  return param_1;
+    Elem_828785B0 *last = v->last;
+    Elem_828785B0 *src = where + 1;
+    Elem_828785B0 *dst = where;
+    for (; src != last; ++dst, ++src) {
+        fn_82878468(dst, src);
+    }
+    fn_828782A8(v->last - 1, v->last, v->alloc);
+    last = v->last;
+    *ret = where;
+    v->last = last - 1;
+    return ret;
 }
-

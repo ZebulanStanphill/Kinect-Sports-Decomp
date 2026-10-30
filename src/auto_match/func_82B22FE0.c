@@ -1,47 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B20868();
+typedef struct {
+    char pad[8];
+    unsigned int flags;
+} Info_82B22FE0;
 
+typedef struct {
+    char pad[0x10];
+    Info_82B22FE0 *info;
+} Target_82B22FE0;
 
-bool fn_82B22FE0(undefined8 param_1,int param_2)
+typedef struct {
+    int unk0;
+    unsigned int ref;
+} Node_82B22FE0;
 
+extern unsigned char fn_82B20868(Node_82B22FE0 *n);
+
+unsigned char fn_82B22FE0(void *self, Node_82B22FE0 *n)
 {
-  char cVar1;
-  bool bVar2;
-  
-  cVar1 = fn_82B20868(param_2);
-  if (cVar1 == '\0') {
-    bVar2 = false;
-  }
-  else {
-    bVar2 = (*(uint *)(*(int *)((-(uint)((*(uint *)(param_2 + 4) & 1) == 0) & *(uint *)(param_2 + 4)
-                                ) + 0x10) + 8) & 0x3f80) == 16000;
-  }
-  return bVar2;
-}
+    Target_82B22FE0 *t;
 
+    if (!fn_82B20868(n)) {
+        return 0;
+    }
+    t = (Target_82B22FE0 *)((n->ref & 1) ? 0 : n->ref);
+    return (t->info->flags & 0x3f80) == 16000;
+}

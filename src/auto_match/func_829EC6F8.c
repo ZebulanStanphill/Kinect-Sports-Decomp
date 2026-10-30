@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_10;
 
 
-ulonglong fn_829EC6F8(int *param_1)
+uint fn_829EC6F8(int *param_1)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   uint auStack_10;
   
   auStack_10 = 0;
-  uVar1 = (**(code **)(*param_1 + 4))(param_1,&auStack_10);
-  return ((uVar1 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)auStack_10;
+  uVar1 = (*(code *)(*param_1 + 4))(param_1,&auStack_10);
+  return (uVar1 >> 0x1f) - 1 & auStack_10;
 }
 

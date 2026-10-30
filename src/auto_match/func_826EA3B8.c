@@ -29,11 +29,11 @@ extern int fn_8267BE38();
 extern int fn_8267C4F0();
 
 
-int fn_826EA3B8(int param_1,ulonglong param_2)
+int fn_826EA3B8(int param_1,uint param_2)
 
 {
-  if (*(int *)(param_1 + 0x14) != 0) {
-    fn_8267C4F0();
+  if (*(uint *)(param_1 + 0x14) != 0) {
+    fn_8267C4F0(*(int *)(param_1 + 0x14));
   }
   if ((param_2 & 1) != 0) {
     fn_8267BE38(param_1);

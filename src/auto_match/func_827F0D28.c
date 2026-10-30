@@ -32,10 +32,10 @@ extern int fn_827F3980();
 void fn_827F0D28(int param_1)
 
 {
-  ulonglong uVar1;
+  int uVar1;
   
-  uVar1 = (ulonglong)*(ushort *)(param_1 + 0xe8);
-  while (uVar1 = uVar1 - 1, -1 < (longlong)uVar1) {
+  uVar1 = *(ushort *)(param_1 + 0xe8);
+  while (uVar1 = uVar1 - 1, uVar1 >= 0) {
     fn_827F0898(param_1,uVar1 & 0xffff);
   }
   *(undefined2 *)(param_1 + 0xe8) = 0;

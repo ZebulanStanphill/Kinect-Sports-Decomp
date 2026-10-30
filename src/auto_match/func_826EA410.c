@@ -33,14 +33,14 @@ void fn_826EA410(int param_1)
 {
   int iVar1;
   int iVar2;
-  longlong lVar3;
+  int lVar3;
   int iVar4;
   
   iVar1 = *(int *)(param_1 + 0x18);
   lVar3 = 0x800 - (ulonglong)*(uint *)(iVar1 + 4);
   iVar4 = (int)lVar3;
-  if ((iVar4 < 1) ||
-     (iVar2 = (**(code **)(**(int **)(iVar1 + 0x14) + 0x24))
+  if ((iVar4 <= 0) ||
+     (iVar2 = (*(code *)(**(int **)(iVar1 + 0x14) + 0x24))
                         (*(int **)(iVar1 + 0x14),iVar1 + 0x18,lVar3), iVar2 == iVar4)) {
     fn_826EA3B8(iVar1,1);
     *(undefined4 *)(param_1 + 0x18) = 0;

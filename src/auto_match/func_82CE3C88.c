@@ -28,10 +28,10 @@ typedef struct { U64 lo, hi; } V16;
 extern int (*lbl_8323A940)();
 
 
-undefined8 fn_82CE3C88(undefined8 param_1)
+int fn_82CE3C88(int param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (lbl_8323A940 != (code *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x82ce3ca8. Too many branches */
@@ -39,6 +39,6 @@ undefined8 fn_82CE3C88(undefined8 param_1)
     uVar1 = (*lbl_8323A940)(1,param_1);
     return uVar1;
   }
-  return 0xffffffff80004001;
+  return 0x80004001;
 }
 

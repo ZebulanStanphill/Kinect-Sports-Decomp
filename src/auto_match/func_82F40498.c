@@ -28,20 +28,20 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F3BBD8();
 
 
-undefined8 fn_82F40498(int param_1,int param_2)
+int fn_82F40498(int param_1,uint param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_2 == 0) {
-    uVar1 = 0xffffffff80070057;
+    uVar1 = 0x80070057;
   }
   else {
     uVar1 = fn_82F3BBD8(param_1);
-    if (-1 < (int)uVar1) {
+    if (uVar1 >= 0) {
       uVar1 = 0;
-      if (*(int *)(param_1 + 8) == 0) {
-        uVar1 = 0xffffffffc00d36b6;
+      if (*(uint *)(param_1 + 8) == 0) {
+        uVar1 = 0xc00d36b6;
       }
       else {
         *(undefined8 *)(param_1 + 0x1c) = 0x2e;

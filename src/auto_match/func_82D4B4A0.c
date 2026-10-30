@@ -27,22 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D4B4A0(int param_1,ulonglong param_2,ulonglong param_3)
+void fn_82D4B4A0(int param_1,uint param_2,uint param_3)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   uint *puVar2;
-  longlong lVar3;
+  int lVar3;
   
   uVar1 = 1;
   puVar2 = (uint *)(param_1 + 0x34);
   lVar3 = 0x20;
   do {
     if ((uVar1 & param_2) != 0) {
-      *puVar2 = *puVar2 | (uint)param_3;
+      *puVar2 = *puVar2 | param_3;
     }
     if ((uVar1 & param_3) != 0) {
-      *puVar2 = *puVar2 | (uint)param_2;
+      *puVar2 = *puVar2 | param_2;
     }
     puVar2 = puVar2 + 1;
     uVar1 = (uVar1 & 0x7fffffff) << 1 | uVar1 >> 0x1f;

@@ -1,43 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8265CA20();
-extern int fn_82825F40();
-extern unsigned int *lbl_83296FF8;
+typedef struct Tree {
+    int comp;
+    int *head;
+} Tree;
 
+extern Tree lbl_83296FF4;
+extern void fn_82825F40(void *out, Tree *t, int first, int *last);
+extern void fn_8265CA20(void *p);
 
 void fn_8313F8F8(void)
-
 {
-  undefined1 auStack_20 [16];
-  
-  fn_82825F40(auStack_20,0xffffffff83296ff4,*lbl_83296FF8);
-  fn_8265CA20(lbl_83296FF8);
-  return;
+    unsigned char it[16];
+    fn_82825F40(it, &lbl_83296FF4, *lbl_83296FF4.head, lbl_83296FF4.head);
+    fn_8265CA20(lbl_83296FF4.head);
 }
-

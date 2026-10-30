@@ -1,40 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8264BDD8();
+void __emit(unsigned int);
+/* XDK ppcintrinsics.h: __eieio() is __emit(0x7C0006AC). */
+#define __eieio() __emit(0x7C0006AC)
 
+typedef struct D { char pad[0x2a88]; int busy; } D;
+typedef struct S { D *dev; int pad; int done; } S;
+extern void fn_8264BDD8(D *d);
 
-void fn_82623338(int *param_1)
-
+void fn_82623338(S *s)
 {
-  fn_8264BDD8(*param_1);
-  enforceInOrderExecutionIO();
-  *(undefined4 *)(*param_1 + 0x2a88) = 0;
-  param_1[2] = 1;
-  return;
+    D *d;
+    fn_8264BDD8(s->dev);
+    d = s->dev;
+    __eieio();
+    d->busy = 0;
+    s->done = 1;
 }
-

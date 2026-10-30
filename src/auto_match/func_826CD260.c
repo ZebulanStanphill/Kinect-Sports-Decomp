@@ -28,16 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_826CBE10();
 
 
-void fn_826CD260(int *param_1,ulonglong param_2)
+void fn_826CD260(int *param_1,uint param_2)
 
 {
   uint uVar1;
-  ulonglong uVar2;
+  uint uVar2;
   undefined4 *puVar3;
   
   uVar1 = param_1[1];
   fn_826CBE10(param_1,param_1,param_2);
-  if ((ulonglong)uVar1 < (param_2 & 0xffffffff)) {
+  if (param_2 > uVar1) {
     puVar3 = (undefined4 *)(uVar1 * 8 + *param_1);
     param_2 = param_2 - uVar1;
     uVar2 = 0;
@@ -49,7 +49,7 @@ void fn_826CD260(int *param_1,ulonglong param_2)
         }
         uVar2 = uVar2 + 1;
         puVar3 = puVar3 + 2;
-      } while ((uVar2 & 0xffffffff) < (param_2 & 0xffffffff));
+      } while (uVar2 < param_2);
     }
   }
   return;

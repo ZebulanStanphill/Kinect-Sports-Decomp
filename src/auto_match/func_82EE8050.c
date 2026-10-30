@@ -26,20 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E4FE40();
-extern int fn_82EEB4D8();
+extern int fn_82EEB538();
 
 
-void fn_82EE8050(int *param_1)
+void fn_82EE8050(uint *param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   if (*param_1 != 0) {
-    fn_82E4FE40();
+    fn_82E4FE40(*param_1);
   }
   iVar1 = param_1[6];
   if (iVar1 != 0) {
-    fn_82EEB4D8(iVar1);
+    fn_82EEB538(iVar1);
     fn_82E4FE40(iVar1);
   }
   return;

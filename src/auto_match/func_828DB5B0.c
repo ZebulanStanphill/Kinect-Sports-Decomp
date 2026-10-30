@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63CA0();
+extern int memmove();
 
 
-longlong fn_828DB5B0(undefined8 param_1,int param_2,longlong param_3)
+int fn_828DB5B0(int param_1,int param_2,int param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   
-  lVar1 = ((ulonglong)(uint)(param_2 - (int)param_1 >> 2) & 0x3fffffff) * 4;
-  fn_82F63CA0(param_3,param_1,lVar1);
+  lVar1 = ((ulonglong)(uint)(param_2 - param_1 >> 2) & 0x3fffffff) * 4;
+  memmove(param_3,param_1,lVar1);
   return lVar1 + param_3;
 }
 

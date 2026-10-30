@@ -1,49 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BEB0();
-extern int fn_82BC6DC0();
+extern void fn_82B7BEB0(void *heap, void *p);
+extern void fn_82BC6DC0(void *p, int flag);
 
+typedef struct Node { char pad[0x1c]; struct Node *next; } Node;
+typedef struct { int x0, x4; Node *head; int xc; void *x10; } Self;
 
-void fn_82BD12E8(int param_1)
-
+void fn_82BD12E8(Self *s)
 {
-  int iVar1;
-  
-  while (*(int *)(param_1 + 8) != 0) {
-    iVar1 = *(int *)(param_1 + 8);
-    *(undefined4 *)(param_1 + 8) = *(undefined4 *)(iVar1 + 0x1c);
-    if (iVar1 != 0) {
-      fn_82B7BEB0(*(undefined4 *)(iVar1 + -4),iVar1 + -4);
+    Node *n;
+    while (s->head != 0) {
+        n = s->head;
+        s->head = s->head->next;
+        if (n != 0) {
+            void **blk = (void **)n - 1;
+            fn_82B7BEB0(*blk, blk);
+        }
     }
-  }
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_82BC6DC0(*(int *)(param_1 + 0x10),1);
-  }
-  return;
+    if (s->x10 != 0) {
+        fn_82BC6DC0(s->x10, 1);
+    }
 }
-

@@ -32,13 +32,15 @@ extern int fn_830080D8();
 extern int fn_83032458();
 
 
-undefined8 fn_82FFEF50(longlong param_1,int param_2,longlong param_3,undefined8 param_4)
+extern unsigned int lbl_8326434C;
+
+int fn_82FFEF50(int param_1,int param_2,int param_3,int param_4)
 
 {
   undefined4 uVar1;
   undefined4 *puVar2;
   int *piVar3;
-  undefined8 uVar4;
+  int uVar4;
   
   uVar4 = 1;
   puVar2 = (undefined4 *)fn_82FF8ED8(param_1 + 4,*(undefined4 *)(param_2 + 4));
@@ -48,19 +50,19 @@ undefined8 fn_82FFEF50(longlong param_1,int param_2,longlong param_3,undefined8 
   uVar1 = *puVar2;
   piVar3 = (int *)fn_82FAB9C0(param_4,uVar1);
   if (piVar3 == (int *)0x0) {
-    RtlEnterCriticalSection(0xffffffff8326434c);
+    RtlEnterCriticalSection(&lbl_8326434C);
     piVar3 = (int *)fn_83032458(uVar1);
     if (piVar3 == (int *)0x0) {
       uVar4 = 2;
     }
     else {
-      uVar4 = (**(code **)(*piVar3 + 0x154))(piVar3,puVar2,*(undefined4 *)(param_2 + 4));
-      if ((int)uVar4 != 1) {
-        (**(code **)(*piVar3 + 8))(piVar3);
+      uVar4 = (*(code *)(*piVar3 + 0x154))(piVar3,puVar2,*(undefined4 *)(param_2 + 4));
+      if (uVar4 != 1) {
+        (*(code *)(*piVar3 + 8))(piVar3);
       }
     }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    if ((int)uVar4 != 1) goto LAB_82fff03c;
+    RtlLeaveCriticalSection(&lbl_8326434C);
+    if (uVar4 != 1) goto LAB_82fff03c;
   }
   puVar2 = (undefined4 *)fn_830080D8(param_3 + 0x34);
   if (puVar2 != (undefined4 *)0x0) {

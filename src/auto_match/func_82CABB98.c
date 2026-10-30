@@ -28,18 +28,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C53970();
 
 
-void fn_82CABB98(int *param_1)
+void fn_82CABB98(uint *param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   if ((param_1 != (int *)0x0) && (iVar1 = *param_1, iVar1 != 0)) {
-    if (*(int *)(iVar1 + 0xc) != 0) {
-      fn_82C53970();
+    if (*(uint *)(iVar1 + 0xc) != 0) {
+      fn_82C53970(*(int *)(iVar1 + 0xc));
       *(undefined4 *)(iVar1 + 0xc) = 0;
     }
     if (*param_1 != 0) {
-      fn_82C53970();
+      fn_82C53970(*param_1);
       *param_1 = 0;
     }
   }

@@ -30,15 +30,15 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82DAF400(int param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   iVar1 = *(int *)(*(int *)(param_1 + 8) + 0x28);
   if ((iVar1 == 0) || (iVar1 == 2)) {
-    (**(code **)(**(int **)(param_1 + 8) + 0x14))();
+    (*(code *)(**(int **)(param_1 + 8) + 0x14))(*(int **)(param_1 + 8));
   }
   iVar1 = *(int *)(*(int *)(param_1 + 8) + 0x28);
   if ((iVar1 == 0) || (iVar1 == 3)) {
-    (**(code **)(**(int **)(param_1 + 8) + 0x18))();
+    (*(code *)(**(int **)(param_1 + 8) + 0x18))(*(int **)(param_1 + 8));
   }
   return;
 }

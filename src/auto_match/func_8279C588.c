@@ -1,53 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267BED0();
-extern int fn_8279C4B8();
+typedef struct O O;
+typedef struct S { char pad[0x14]; O *o; } S;
+typedef struct Tag { int id; } Tag;
+extern void *fn_8267BED0(S *s, int size, Tag *tag);
+extern O *fn_8279C4B8(void *mem);
 
-
-undefined4 fn_8279C588(int param_1)
-
+O *fn_8279C588(S *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 auStack_20 [4];
-  
-  if (*(int *)(param_1 + 0x14) == 0) {
-    auStack_20[0] = 0x144;
-    iVar1 = fn_8267BED0(param_1,0xb0,auStack_20);
-    if (iVar1 == 0) {
-      uVar2 = 0;
+    if (s->o == 0) {
+        Tag t;
+        void *mem;
+        t.id = 0x144;
+        mem = fn_8267BED0(s, 0xb0, &t);
+        s->o = mem ? fn_8279C4B8(mem) : 0;
     }
-    else {
-      uVar2 = fn_8279C4B8();
-    }
-    *(undefined4 *)(param_1 + 0x14) = uVar2;
-  }
-  return *(undefined4 *)(param_1 + 0x14);
+    return s->o;
 }
-

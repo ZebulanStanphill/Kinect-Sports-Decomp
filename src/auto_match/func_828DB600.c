@@ -1,45 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828BDDA0();
-extern unsigned int lbl_82025BAC;
-extern unsigned int lbl_82025BB0;
-
-
-undefined4 * fn_828DB600(undefined4 *param_1,undefined4 param_2)
-
+typedef struct Vec { int a, b, c; } Vec;
+typedef struct P { void *vt; char pad[0x4c]; void *vt50; char pad2[0x2c]; int x80; Vec v; } P;
+extern void fn_828BDDA0(P *p);
+extern char lbl_82025BB0[], lbl_82025BAC[];
+static void vinit(Vec *q) { q->a = 0; q->b = 0; q->c = 0; }
+P *fn_828DB600(P *p, int a)
 {
-  fn_828BDDA0();
-  param_1[0x20] = param_2;
-  *param_1 = &lbl_82025BB0;
-  param_1[0x14] = &lbl_82025BAC;
-  param_1[0x21] = 0;
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  return param_1;
+  fn_828BDDA0(p); p->x80 = a; p->vt = lbl_82025BB0; p->vt50 = lbl_82025BAC; { Vec *q = &p->v; q->a = 0; q->b = 0; q->c = 0; }
+  return p;
 }
-

@@ -27,22 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82CFB7E0(int param_1,longlong param_2,longlong param_3)
+int fn_82CFB7E0(int param_1,int param_2,int param_3)
 
 {
-  longlong lVar1;
-  longlong lVar2;
+  int lVar1;
+  int lVar2;
   
   lVar2 = 0;
-  if (0 < (int)param_3) {
+  if (0 < param_3) {
     do {
-      lVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x14))
+      lVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x14))
                         (*(int **)(param_1 + 8),lVar2 + param_2,param_3 - lVar2);
       lVar2 = lVar1 + lVar2;
-      if ((int)lVar1 == 0) {
+      if (lVar1 == 0) {
         return lVar2;
       }
-    } while ((int)lVar2 < (int)param_3);
+    } while (lVar2 < param_3);
   }
   return param_3;
 }

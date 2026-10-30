@@ -27,9 +27,9 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_827F4940(longlong param_1)
+int fn_827F4940(int param_1)
 
 {
-  return param_1 + (longlong)((int)param_1 / 6) * -6;
+  return param_1 + (longlong)(param_1 / 6) * -6;
 }
 

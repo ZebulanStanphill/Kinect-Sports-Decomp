@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A4FB90(int param_1,ulonglong param_2)
+void fn_82A4FB90(int param_1,uint param_2)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   undefined4 *puVar2;
   
-  if ((param_2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x34)) {
+  if (param_2 < *(uint *)(param_1 + 0x34)) {
     puVar2 = *(undefined4 **)(param_1 + 0x2c);
     uVar1 = param_2 & 0xffffffff;
     while (uVar1 != 0) {
@@ -48,7 +48,7 @@ void fn_82A4FB90(int param_1,ulonglong param_2)
   }
                     /* WARNING: Could not recover jumptable at 0x82a4fbd4. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*(int *)*puVar2 + 0x14))((int *)*puVar2,0);
+  (*(code *)(*(int *)*puVar2 + 0x14))((int *)*puVar2,0);
   return;
 }
 

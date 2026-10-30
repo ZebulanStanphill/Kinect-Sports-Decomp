@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82574268();
 
 
-void fn_82569A68(int param_1,undefined8 param_2)
+void fn_82569A68(int param_1,int param_2)
 
 {
-  int iVar2;
-  undefined8 uVar1;
+  uint iVar2;
+  int uVar1;
   int iVar3;
   int iVar4;
   undefined4 *puVar5;
@@ -45,9 +45,9 @@ void fn_82569A68(int param_1,undefined8 param_2)
       if ((iVar2 != 0) && (iVar2 = *(int *)(iVar2 + 0x8c0), iVar2 != 0)) {
         puVar5 = (undefined4 *)(iVar2 + 0x198);
         if (puVar5 != (undefined4 *)0x0) {
-          iVar2 = (**(code **)(*(int *)*puVar5 + 0x1c))();
+          iVar2 = (*(code *)(*(int *)*puVar5 + 0x1c))(*puVar5);
           if (iVar2 != 0) {
-            uVar1 = (**(code **)(*(int *)*puVar5 + 0x1c))();
+            uVar1 = (*(code *)(*(int *)*puVar5 + 0x1c))(*puVar5);
             fn_82574268(uVar1,param_2);
           }
         }

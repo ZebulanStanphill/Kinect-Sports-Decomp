@@ -34,15 +34,15 @@ undefined8 fn_83056868(undefined4 *param_1,int *param_2)
   undefined4 *puVar1;
   
   if (param_1[2] != 0) {
-    fn_83056B10();
+    fn_83056B10(param_1[2]);
     puVar1 = (undefined4 *)param_1[2];
     if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+      (*(code *)*puVar1)(puVar1,1);
     }
     param_1[2] = 0;
   }
-  (**(code **)*param_1)(param_1,1);
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+  (*(code *)*param_1)(param_1,1);
+  (*(code *)(*param_2 + 8))(param_2,param_1);
   return 1;
 }
 

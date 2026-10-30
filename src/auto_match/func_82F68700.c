@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82F68700(ulonglong param_1)
+uint fn_82F68700(uint param_1)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
+  uint uVar1;
+  uint uVar2;
   
   uVar1 = param_1 & 3;
   uVar2 = 0;

@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C498();
 
 
-void fn_82698CC0(int *param_1,int param_2)
+void fn_82698CC0(unsigned int *param_1,unsigned int param_2)
 
 {
   if (*param_1 != 0) {
-    fn_8267C498();
+    fn_8267C498(*param_1);
   }
   *param_1 = param_2;
   if (param_2 != 0) {

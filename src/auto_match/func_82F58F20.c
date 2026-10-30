@@ -31,10 +31,10 @@ extern int fn_82F5CB50();
 void fn_82F58F20(int param_1,uint param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   undefined4 *puVar2;
   
-  if (((int)param_2 < 0) || (1 < param_2)) {
+  if (((int)param_2 < 0) || (param_2 >= 2)) {
     puVar2 = (undefined4 *)(param_1 + -4);
     lVar1 = 2;
     do {

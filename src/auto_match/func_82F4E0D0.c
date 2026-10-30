@@ -1,50 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1DD38();
-extern int fn_82F4D528();
-extern int fn_82F4DE98();
-extern unsigned int lbl_8326183C;
+typedef struct E { char d[0x30]; } E;
+typedef struct G {
+    char pad[0x2b28];
+    unsigned int f0 : 30;
+    unsigned int flag : 1;
+    unsigned int f31 : 1;
+    char pad2[0x2b58 - 0x2b2c];
+    E e[6];
+} G;
+extern G *lbl_8326183C;
+extern char lbl_83261840[];
+extern void fn_824B4298(void *dst, void *src, int n);
+extern void fn_82F4D528(void);
+extern void fn_82F4DE98(E *e);
 
-
-void fn_82F4E0D0(undefined8 param_1)
-
+void fn_82F4E0D0(void *src)
 {
-  int iVar1;
-  
-  fn_82A1DD38(0xffffffff83261840,param_1,0xab0);
-  if ((*(uint *)(lbl_8326183C + 0x2b28) >> 1 & 1) != 0) {
-    fn_82F4D528();
-  }
-  iVar1 = 0;
-  do {
-    fn_82F4DE98(iVar1 + lbl_8326183C + 0x2b58);
-    iVar1 = iVar1 + 0x30;
-  } while (iVar1 < 0x120);
-  return;
+    int i;
+    fn_824B4298(lbl_83261840, src, 0xab0);
+    if ((unsigned char)lbl_8326183C->flag)
+        fn_82F4D528();
+    for (i = 0; i < 6; i++)
+        fn_82F4DE98(&lbl_8326183C->e[i]);
 }
-

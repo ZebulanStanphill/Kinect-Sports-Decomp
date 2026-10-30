@@ -32,17 +32,17 @@ double fn_83099BC0(int param_1,int *param_2)
 
 {
   float fVar1;
-  int iVar2;
+  uint iVar2;
   char *pcVar3;
   undefined1 auStack_30 [16];
   
   iVar2 = *param_2;
   if ((iVar2 != 0) && (*(int **)(param_1 + 0x20) != param_2)) {
-    pcVar3 = (char *)(**(code **)(*(int *)(*(int *)(param_1 + 0x18) + 8) + 4))
+    pcVar3 = (char *)(*(code *)(*(int *)(*(int *)(param_1 + 0x18) + 8) + 4))
                                (auStack_30,*(int *)(param_1 + 0x18) + 8,*(int **)(param_1 + 0x20),
                                 param_2);
     if (*pcVar3 != '\0') {
-      (**(code **)((uint)*(byte *)((*(int *)(param_1 + 0x24) + 0xd) * 0x20 + *(int *)(iVar2 + 0xc) +
+      (*(code *)((uint)*(byte *)((*(int *)(param_1 + 0x24) + 0xd) * 0x20 + *(int *)(iVar2 + 0xc) +
                                   *(int *)(param_1 + 0x30)) * 0x14 + *(int *)(param_1 + 0x30) +
                   0x9ac))(*(undefined4 *)(param_1 + 0x20),param_2,param_1 + 0x30,
                           *(undefined4 *)(param_1 + 0x1c),0);

@@ -38,7 +38,7 @@ undefined4 * fn_8224EF38(int param_1,undefined4 *param_2,undefined4 param_3)
   
   puVar3 = *(undefined4 **)(param_1 + 4);
   if (*(char *)((int)param_2 + 0x19) == '\0') {
-    puVar1 = (undefined4 *)fn_8224EFC8();
+    puVar1 = (undefined4 *)fn_8224EFC8(param_1);
     fn_8224F250(param_1 + 0xd,puVar1 + 3,param_2 + 3);
     puVar1[1] = param_3;
     *(undefined1 *)(puVar1 + 6) = *(undefined1 *)(param_2 + 6);

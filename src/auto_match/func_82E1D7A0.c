@@ -28,17 +28,17 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CA20();
 
 
-void fn_82E1D7A0(int *param_1)
+void fn_82E1D7A0(uint *param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   if (*param_1 != 0) {
-    fn_8265CA20();
+    fn_8265CA20(*param_1);
     *param_1 = 0;
   }
   if (param_1[1] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[1]);
     param_1[1] = 0;
   }
   while (param_1[3] != 0) {

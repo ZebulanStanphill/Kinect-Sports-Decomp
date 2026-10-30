@@ -31,14 +31,14 @@ extern int fn_8265CA20();
 extern int fn_828E32A0();
 
 
-int fn_82254050(int param_1,ulonglong param_2)
+int fn_82254050(int param_1,int param_2)
 
 {
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_822315A0();
+  if (*(uint *)(param_1 + 0x74) != 0) {
+    fn_822315A0(*(int *)(param_1 + 0x74));
   }
-  if (*(int *)(param_1 + 0x6c) != 0) {
-    fn_822315A0();
+  if (*(uint *)(param_1 + 0x6c) != 0) {
+    fn_822315A0(*(uint *)(param_1 + 0x6c));
   }
   fn_82359C18(param_1 + 0x50);
   fn_82359C18(param_1 + 0x38);

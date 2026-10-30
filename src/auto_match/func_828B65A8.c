@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_828B65A8(int *param_1)
+int fn_828B65A8(int *param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (param_1[8] != 0) {
     param_1[8] = 3;
@@ -38,7 +38,7 @@ undefined8 fn_828B65A8(int *param_1)
   }
                     /* WARNING: Could not recover jumptable at 0x828b65d8. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(code **)(*param_1 + 0x24))(param_1);
+  uVar1 = (*(code *)(*param_1 + 0x24))(param_1);
   return uVar1;
 }
 

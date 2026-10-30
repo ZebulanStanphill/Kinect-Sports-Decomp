@@ -37,7 +37,7 @@ void fn_82A819E0(undefined4 *param_1)
 {
   *param_1 = &lbl_820AA970;
   if ((int *)param_1[2] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[2] + 0x24))();
+    (*(code *)(*(int *)param_1[2] + 0x24))(param_1[2]);
   }
   if (param_1[0xc] != 0) {
     do {

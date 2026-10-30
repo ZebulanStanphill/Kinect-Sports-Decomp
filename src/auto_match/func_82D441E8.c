@@ -27,20 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82D441E8(int *param_1)
+int fn_82D441E8(int *param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar2;
-  longlong lVar3;
+  int lVar3;
   
   lVar3 = 0;
-  uVar1 = (**(code **)(*param_1 + 8))();
-  iVar2 = (int)uVar1;
+  uVar1 = (*(code *)(*param_1 + 8))();
+  iVar2 = uVar1;
   while (iVar2 != -1) {
     lVar3 = lVar3 + 1;
-    uVar1 = (**(code **)(*param_1 + 0xc))(param_1,uVar1);
-    iVar2 = (int)uVar1;
+    uVar1 = (*(code *)(*param_1 + 0xc))(param_1,uVar1);
+    iVar2 = uVar1;
   }
   return lVar3;
 }

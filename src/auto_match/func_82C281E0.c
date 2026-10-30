@@ -38,8 +38,8 @@ void fn_82C281E0(int param_1)
   
   puVar1 = *(undefined4 **)(param_1 + 0x2c);
   iVar2 = fn_82C279A8();
-  if (((-1 < iVar2) && (iVar2 = fn_82C27E48(param_1), -1 < iVar2)) &&
-     (iVar2 = fn_82C27D50(param_1,1), -1 < iVar2)) {
+  if (((iVar2 >= 0) && (iVar2 = fn_82C27E48(param_1), iVar2 >= 0)) &&
+     (iVar2 = fn_82C27D50(param_1,1), iVar2 >= 0)) {
     *(undefined8 *)(puVar1 + 0x14) = 0;
     *puVar1 = 1;
     puVar1[0x16] = 0;

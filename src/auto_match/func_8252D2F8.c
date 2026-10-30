@@ -29,15 +29,15 @@ extern int fn_8252D108();
 extern int fn_82554860();
 
 
-undefined8 fn_8252D2F8(int param_1,undefined8 param_2,int param_3,undefined8 param_4)
+int fn_8252D2F8(int param_1,undefined8 param_2,int param_3,undefined8 param_4)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
-  uVar1 = (**(code **)(**(int **)(param_1 + 0x8c0) + 0x14))();
-  if ((int)uVar1 != 0) {
+  uVar1 = (*(code *)(**(int **)(param_1 + 0x8c0) + 0x14))(*(int **)(param_1 + 0x8c0));
+  if (uVar1 != 0) {
     if (*(int *)(param_1 + 400) == 0) {
-      *(int *)(param_1 + 0x1a4) = (int)param_2 + 1;
+      *(int *)(param_1 + 0x1a4) = param_2 + 1;
     }
     uVar1 = fn_8252D108(param_1);
     *(undefined4 *)(param_3 + 0x38) = 1;

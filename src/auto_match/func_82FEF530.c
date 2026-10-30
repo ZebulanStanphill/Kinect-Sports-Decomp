@@ -27,26 +27,26 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82FEF530(int param_1,ulonglong param_2,ulonglong param_3)
+void fn_82FEF530(int param_1,uint param_2,uint param_3)
 
 {
   if ((param_3 & 1) != 0) {
     *(byte *)(param_1 + 0xf4) = (byte)param_2 & 1;
   }
   if ((param_3 & 2) != 0) {
-    *(byte *)(param_1 + 0x104) = (byte)((param_2 & 0xffffffff) >> 1) & 1;
+    *(byte *)(param_1 + 0x104) = (byte)(param_2 >> 1) & 1;
   }
   if ((param_3 & 4) != 0) {
-    *(byte *)(param_1 + 0x114) = (byte)((param_2 & 0xffffffff) >> 2) & 1;
+    *(byte *)(param_1 + 0x114) = (byte)(param_2 >> 2) & 1;
   }
   if ((param_3 & 8) != 0) {
-    *(byte *)(param_1 + 0x124) = (byte)((param_2 & 0xffffffff) >> 3) & 1;
+    *(byte *)(param_1 + 0x124) = (byte)(param_2 >> 3) & 1;
   }
   if ((param_3 & 0x10) == 0) {
     return;
   }
   *(byte *)(param_1 + 0xda) =
-       (byte)((param_2 & 0xffffffff) >> 4) & 1 | *(byte *)(param_1 + 0xda) & 0xfe;
+       (byte)(param_2 >> 4) & 1 | *(byte *)(param_1 + 0xda) & 0xfe;
   return;
 }
 

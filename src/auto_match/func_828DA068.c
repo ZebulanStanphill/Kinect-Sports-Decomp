@@ -30,11 +30,11 @@ extern int fn_828D9DC8();
 extern int fn_828E9DB8();
 
 
-void fn_828DA068(int param_1,undefined8 param_2)
+void fn_828DA068(int param_1,int param_2)
 
 {
   undefined4 uVar1;
-  ulonglong uVar2;
+  uint uVar2;
   
   uVar1 = *(undefined4 *)(param_1 + 0x80);
   fn_8223C478(param_2,1,0);
@@ -43,14 +43,14 @@ void fn_828DA068(int param_1,undefined8 param_2)
     uVar1 = *(undefined4 *)(param_1 + 0x94);
     fn_8223C478(param_2,7,0);
     fn_828E9DB8(param_2,uVar1,7);
-    uVar2 = (ulonglong)*(uint *)(param_1 + 0x84);
+    uVar2 = *(uint *)(param_1 + 0x84);
     if (uVar2 != *(uint *)(param_1 + 0x88)) {
       do {
         fn_8223C478(param_2,1,0);
         fn_828E9DB8(param_2,1,1);
         fn_828D9DC8(uVar2,param_2);
         uVar2 = uVar2 + 0xc;
-      } while ((uVar2 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x88));
+      } while (uVar2 != *(uint *)(param_1 + 0x88));
     }
     fn_8223C478(param_2,1,0);
     fn_828E9DB8(param_2,0,1);

@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8251F720();
 extern int fn_8251FA58();
-extern unsigned int lbl_821CAB38;
+extern char lbl_821CAB38[];
 
 
-void fn_825BC908(int param_1)
+void fn_825BC908(uint param_1)
 
 {
-  short sVar1;
-  int iVar2;
+  ushort sVar1;
+  uint iVar2;
   
   do {
     if ((param_1 == 0) || (sVar1 = *(short *)(param_1 + 0xc), sVar1 == 0)) {
@@ -52,7 +52,7 @@ LAB_825bc978:
       iVar2 = param_1 + 0x14;
       goto LAB_825bc978;
     }
-    param_1 = *(int *)(&lbl_821CAB38 + (uint)*(ushort *)(param_1 + 0xc) * 4) + param_1;
+    param_1 = *(int *)(lbl_821CAB38 + (uint)*(ushort *)(param_1 + 0xc) * 4) + param_1;
   } while( true );
 }
 

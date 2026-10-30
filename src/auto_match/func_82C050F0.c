@@ -33,14 +33,14 @@ void fn_82C050F0(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,
 {
   int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x30))();
-  if (-1 < iVar1) {
+  iVar1 = (*(code *)(*param_1 + 0x30))();
+  if (iVar1 >= 0) {
     param_1[0xb] = param_2;
     *(undefined8 *)(param_1 + 0xe) = param_3;
     *(undefined8 *)(param_1 + 0x16) = param_3;
     param_1[0x1e] = param_1[0x1e] | 4;
     *(undefined8 *)(param_1 + 0x10) = param_4;
-    (**(code **)(*param_1 + 0x74))(param_1,param_5,param_6,param_7,param_8);
+    (*(code *)(*param_1 + 0x74))(param_1,param_5,param_6,param_7,param_8);
   }
   return;
 }

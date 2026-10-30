@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82FF6258(int param_1,int param_2)
+void fn_82FF6258(int param_1,uint param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   undefined4 *puVar2;
-  int iVar3;
+  uint iVar3;
   
   iVar3 = *(int *)(param_1 + 4);
   if (iVar3 != *(int *)(param_1 + 8)) {
@@ -46,7 +46,7 @@ void fn_82FF6258(int param_1,int param_2)
     }
     for (puVar2 = *(undefined4 **)(*(int *)(iVar3 + 4) + 0x1c); puVar2 != (undefined4 *)0x0;
         puVar2 = (undefined4 *)*puVar2) {
-      (**(code **)(*(int *)puVar2[1] + 0xdc))();
+      (*(code *)(*(int *)puVar2[1] + 0xdc))(puVar2[1]);
     }
   }
   return;

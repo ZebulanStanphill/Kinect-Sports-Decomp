@@ -27,17 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82861EE8(double param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,int param_7)
+void fn_82861EE8(int param_1,float param_2,float param_3,float param_4,float param_5,float param_6,float param_7)
 
 {
-  *(float *)(param_7 + 0xfc) = (float)param_1;
-  *(float *)(param_7 + 0x100) = (float)param_2;
-  *(float *)(param_7 + 0x104) = (float)param_3;
-  *(float *)(param_7 + 0x108) = (float)param_4;
-  *(byte *)(param_7 + 0x18) = *(byte *)(param_7 + 0x18) & 0xfc | 1;
-  *(float *)(param_7 + 0x10c) = (float)param_5;
-  *(float *)(param_7 + 0x110) = (float)param_6;
+  *(float *)(param_1 + 0xfc) = (float)param_2;
+  *(float *)(param_1 + 0x100) = (float)param_3;
+  *(float *)(param_1 + 0x104) = (float)param_4;
+  *(float *)(param_1 + 0x108) = (float)param_5;
+  *(byte *)(param_1 + 0x18) = *(byte *)(param_1 + 0x18) & 0xfc | 1;
+  *(float *)(param_1 + 0x10c) = (float)param_6;
+  *(float *)(param_1 + 0x110) = (float)param_7;
   return;
 }
 

@@ -29,20 +29,22 @@ extern unsigned int *auStack_20;
 extern int fn_82EEBD40();
 
 
-ulonglong fn_82EEBD90(int param_1)
+extern unsigned int lbl_82154A38;
+
+uint fn_82EEBD90(int param_1)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   uint auStack_20 [2];
   
   uVar1 = fn_82EEBD40();
   auStack_20[0] = 0;
   if (uVar1 == 0) {
-    (**(code **)(**(int **)(param_1 + 0x38) + 0x1c))
-              (*(int **)(param_1 + 0x38),0xffffffff82154a38,auStack_20);
+    (*(code *)(**(int **)(param_1 + 0x38) + 0x1c))
+              (*(int **)(param_1 + 0x38),&lbl_82154A38,auStack_20);
     if (auStack_20[0] != 0) {
-      (**(code **)(**(int **)(param_1 + 0x3c) + 0x14))(*(int **)(param_1 + 0x3c),auStack_20[0],0);
-      uVar1 = (ulonglong)auStack_20[0];
+      (*(code *)(**(int **)(param_1 + 0x3c) + 0x14))(*(int **)(param_1 + 0x3c),auStack_20[0],0);
+      uVar1 = auStack_20[0];
     }
   }
   return uVar1;

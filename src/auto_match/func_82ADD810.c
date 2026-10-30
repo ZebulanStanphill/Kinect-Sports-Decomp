@@ -33,12 +33,12 @@ undefined4 fn_82ADD810(int param_1,int param_2)
 {
   uint uVar1;
   int iVar2;
-  ulonglong uVar3;
+  int uVar3;
   
-  uVar3 = (ulonglong)*(uint *)(param_2 + 0x10) & 0xffff;
+  uVar3 = *(uint *)(param_2 + 0x10) & 0xffff;
   if ((*(uint *)(param_2 + 0x10) & 0x70000) != 0) {
     uVar1 = *(uint *)(param_2 + 8) >> 1 & 0xf;
-    uVar3 = (uVar3 - LZCOUNT(uVar1 & ~(uVar1 - 1))) + 0x1f;
+    uVar3 = (uVar3 - _CountLeadingZeros(uVar1 & ~(uVar1 - 1))) + 0x1f;
   }
   iVar2 = fn_82ADD198(param_1,uVar3);
   return *(undefined4 *)(*(int *)(param_1 + 0x2b0) + iVar2 * 4);

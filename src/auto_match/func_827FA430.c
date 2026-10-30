@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_827FA430(int param_1)
+uint fn_827FA430(int param_1)
 
 {
-  longlong lVar1;
+  uint lVar1;
   
-  lVar1 = (ulonglong)*(ushort *)(param_1 + 0x1e) + (ulonglong)*(ushort *)(param_1 + 0x1c);
-  return ((ulonglong)*(ushort *)(param_1 + 0x1a) * 0xc + lVar1) * 4 +
+  lVar1 = *(ushort *)(param_1 + 0x1e) + *(ushort *)(param_1 + 0x1c);
+  return (*(ushort *)(param_1 + 0x1a) * 0xc + lVar1) * 4 +
          (longlong)((int)(*(ushort *)(param_1 + 0x1a) + 7) >> 3) + (lVar1 + 7U >> 3);
 }
 

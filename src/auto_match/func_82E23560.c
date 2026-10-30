@@ -30,12 +30,12 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82E23560(undefined4 *param_1)
 
 {
-  if ((code *)param_1[4] == (code *)0x0) {
+  if ((code)param_1[4] == (code)0x0) {
     return;
   }
                     /* WARNING: Could not recover jumptable at 0x82e2357c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (*(code *)param_1[4])(*param_1,param_1[1],param_1);
+  ((code)param_1[4])(*param_1,param_1[1],param_1);
   return;
 }
 

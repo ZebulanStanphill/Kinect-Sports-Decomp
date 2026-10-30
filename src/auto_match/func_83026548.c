@@ -28,6 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_83037590();
 
 
+extern char lbl_831BC7FC[];
 void fn_83026548(int param_1)
 
 {
@@ -35,7 +36,7 @@ void fn_83026548(int param_1)
   
   piVar1 = *(int **)(param_1 + 0xc);
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))(piVar1,0xffffffff831bc7fc);
+    (*(code *)(*piVar1 + 4))(piVar1,lbl_831BC7FC);
     *(undefined4 *)(param_1 + 0xc) = 0;
   }
   if (*(char *)(param_1 + 0x16) != '\0') {

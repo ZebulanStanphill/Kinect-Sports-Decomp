@@ -30,18 +30,18 @@ extern int fn_827912D8();
 extern int fn_827A5000();
 
 
-void fn_8272CC50(int *param_1,ulonglong param_2,ulonglong param_3)
+void fn_8272CC50(int *param_1,uint param_2,uint param_3)
 
 {
-  ulonglong uVar1;
-  int iVar2;
+  uint uVar1;
+  uint iVar2;
   
   if (*(int *)(param_1[0x28] + 0x114) == 0) {
     fn_82722B00();
   }
   if (*(int *)(param_1[0x28] + 0x114) != 0) {
-    param_2 = ((param_2 & 0xffffffff) >> 0x1f) - 1 & param_2;
-    param_3 = ((param_3 & 0xffffffff) >> 0x1f) - 1 & param_3;
+    param_2 = (param_2 >> 0x1f) - 1 & param_2;
+    param_3 = (param_3 >> 0x1f) - 1 & param_3;
     uVar1 = fn_827912D8(*(undefined4 *)(param_1[0x28] + 8));
     if ((int)uVar1 < (int)param_2) {
       param_2 = uVar1;
@@ -50,7 +50,7 @@ void fn_8272CC50(int *param_1,ulonglong param_2,ulonglong param_3)
       param_3 = uVar1;
     }
     fn_827A5000(*(undefined4 *)(param_1[0x28] + 0x114),param_2,param_3);
-    iVar2 = (**(code **)(*param_1 + 0x40))(param_1);
+    iVar2 = (*(code *)(*param_1 + 0x40))(param_1);
     if (iVar2 != 0) {
       *(uint *)(iVar2 + 0xb00) = *(uint *)(iVar2 + 0xb00) | 0x400;
     }

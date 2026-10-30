@@ -34,7 +34,7 @@ void fn_83029008(int param_1)
 {
   undefined4 *puVar1;
   undefined4 uVar2;
-  int iVar3;
+  unsigned int iVar3;
   
   iVar3 = *(int *)(param_1 + 0x88);
   if (iVar3 != *(int *)(param_1 + 0x8c)) {
@@ -42,7 +42,7 @@ void fn_83029008(int param_1)
       uVar2 = lbl_831BC768;
       puVar1 = *(undefined4 **)(iVar3 + 4);
       if (puVar1 != (undefined4 *)0x0) {
-        (**(code **)*puVar1)(puVar1,0);
+        (*(code *)*puVar1)(puVar1,0);
         fn_82FA5190(uVar2,puVar1);
       }
       iVar3 = iVar3 + 8;

@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F641F8();
 extern int fn_82F68BF0();
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
 undefined4 * fn_82F62A28(undefined4 *param_1,char *param_2)
 
 {
   char cVar1;
-  ulonglong uVar2;
+  int uVar2;
   char *pcVar3;
   
   if ((char *)*param_1 != param_2) {
     if ((char *)*param_1 != (char *)0x0) {
-      fn_82F641F8();
+      fn_82F641F8((char *)*param_1);
     }
     *param_1 = 0;
     if (param_2 != (char *)0x0) {
@@ -50,9 +50,9 @@ undefined4 * fn_82F62A28(undefined4 *param_1,char *param_2)
         cVar1 = *pcVar3;
       }
       uVar2 = fn_82F68BF0(pcVar3 + (1 - (int)param_2));
-      *param_1 = (int)uVar2;
+      *param_1 = uVar2;
       if ((uVar2 & 0xffffffff) != 0) {
-        fn_82F68CC0(uVar2,param_2,pcVar3 + (1 - (int)param_2));
+        memcpy(uVar2,param_2,pcVar3 + (1 - (int)param_2));
       }
     }
   }

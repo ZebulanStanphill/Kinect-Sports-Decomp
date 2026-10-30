@@ -31,7 +31,7 @@ extern int fn_83033EA8();
 extern int fn_83034268();
 
 
-undefined8 fn_83033D28(longlong param_1,ulonglong param_2)
+int fn_83033D28(int param_1,uint param_2)
 
 {
   uint *puVar1;
@@ -40,14 +40,14 @@ undefined8 fn_83033D28(longlong param_1,ulonglong param_2)
   
   uVar2 = (undefined4)param_2;
   auStack_20[0] = uVar2;
-  if ((param_2 & 0xffffffff) != 0) {
+  if (param_2 != 0) {
     fn_83032B08(param_2);
   }
   puVar1 = (uint *)fn_83033EA8(param_1 + 0x88,auStack_20);
   if (puVar1 != (uint *)0x0) {
-    if (*puVar1 < 2) {
+    if (*puVar1 <= 1) {
       auStack_20[0] = uVar2;
-      if ((param_2 & 0xffffffff) != 0) {
+      if (param_2 != 0) {
         fn_83032B08(param_2);
       }
       fn_83034268(param_1 + 0x88,auStack_20);

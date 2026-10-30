@@ -28,17 +28,17 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827196D8();
 
 
-void fn_827197F8(int *param_1,ulonglong param_2)
+void fn_827197F8(int *param_1,uint param_2)
 
 {
   uint uVar1;
   undefined4 *puVar2;
-  ulonglong uVar3;
-  int iVar4;
+  uint uVar3;
+  uint iVar4;
   
   uVar1 = param_1[1];
   fn_827196D8(param_1,param_1,param_2);
-  if ((ulonglong)uVar1 < (param_2 & 0xffffffff)) {
+  if (param_2 > uVar1) {
     iVar4 = uVar1 * 0x10 + *param_1;
     param_2 = param_2 - uVar1;
     uVar3 = 0;
@@ -53,7 +53,7 @@ void fn_827197F8(int *param_1,ulonglong param_2)
         uVar3 = uVar3 + 1;
         iVar4 = iVar4 + 0x10;
         puVar2 = puVar2 + 4;
-      } while ((uVar3 & 0xffffffff) < (param_2 & 0xffffffff));
+      } while (uVar3 < param_2);
     }
   }
   return;

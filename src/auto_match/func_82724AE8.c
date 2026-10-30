@@ -33,11 +33,11 @@ extern int fn_82761DE8();
 void fn_82724AE8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_8267C498();
+  if (*(uint *)(param_1 + 0xc) != 0) {
+    fn_8267C498(*(int *)(param_1 + 0xc));
   }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82761DE8();
+  if (*(uint *)(param_1 + 8) != 0) {
+    fn_82761DE8(*(uint *)(param_1 + 8));
   }
   fn_8267C488(param_1);
   return;

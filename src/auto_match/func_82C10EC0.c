@@ -28,20 +28,20 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C10B28();
 
 
-void fn_82C10EC0(longlong param_1,ulonglong param_2)
+void fn_82C10EC0(int param_1,uint param_2)
 
 {
   int iVar1;
   
-  iVar1 = (int)param_1;
-  if (*(code **)(iVar1 + 0x208) != (code *)0x0) {
-    (**(code **)(iVar1 + 0x208))
-              (param_1,*(undefined4 *)(((uint)((param_2 & 0xffffffff) << 2) & 0x3fc) + iVar1),
+  iVar1 = param_1;
+  if (*(code *)(iVar1 + 0x208) != (code)0x0) {
+    (*(code *)(iVar1 + 0x208))
+              (param_1,*(undefined4 *)(((uint)(param_2 << 2) & 0x3fc) + iVar1),
                param_2,*(undefined4 *)(iVar1 + 0x20c));
   }
   param_1 = (param_2 & 0xff) * 4 + param_1;
   iVar1 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x1fc),2,param_1);
-  if (-1 < iVar1) {
+  if (iVar1 >= 0) {
     *(undefined4 *)param_1 = 0;
   }
   return;

@@ -26,29 +26,21 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A2B760();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x00000014;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack00000014;
 
 
-undefined8 fn_82A2A518(undefined4 param_1,int param_2,ulonglong param_3)
+int fn_82A2A518(undefined4 param_1,uint param_2,uint param_3)
 
 {
-  undefined8 uVar1;
-  undefined4 uStack00000014;
-  int iStack0000001c;
+  int uVar1;
   
-  uStack00000014 = param_1;
-  iStack0000001c = param_2;
   if (((param_3 & 0x8000) == 0) || (param_2 == 0)) {
-    uVar1 = NtFreeVirtualMemory(&stack0x00000014,&stack0x0000001c,param_3,0);
-    if (-1 < (int)uVar1) {
+    uVar1 = NtFreeVirtualMemory(&param_1,&param_2,param_3,0);
+    if (uVar1 >= 0) {
       return 1;
     }
   }
   else {
-    uVar1 = 0xffffffffc000000d;
+    uVar1 = 0xc000000d;
   }
   fn_82A2B760(uVar1);
   return 0;

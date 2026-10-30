@@ -32,10 +32,10 @@ extern int fn_826959C8();
 void fn_826968B8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_8267C498();
+  if (*(unsigned int *)(param_1 + 0x18) != 0) {
+    fn_8267C498(*(unsigned int *)(param_1 + 0x18));
   }
-  if (4 < *(byte *)(param_1 + 8)) {
+  if (*(byte *)(param_1 + 8) >= 5) {
     fn_826959C8(param_1 + 8);
   }
   return;

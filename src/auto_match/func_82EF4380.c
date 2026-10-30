@@ -38,19 +38,19 @@ void fn_82EF4380(undefined4 *param_1)
   *param_1 = &lbl_821605A0;
   param_1[1] = &lbl_8215FDD0;
   if (param_1[0x12] != 0) {
-    fn_82E4FE40();
+    fn_82E4FE40(param_1[0x12]);
   }
   param_1[0x12] = 0;
   if (param_1[0x13] != 0) {
-    fn_82E4FE40();
+    fn_82E4FE40(param_1[0x13]);
   }
   param_1[0x13] = 0;
   if (param_1[0x14] != 0) {
-    fn_82E4FE40();
+    fn_82E4FE40(param_1[0x14]);
   }
   param_1[0x14] = 0;
   if (param_1[0x16] != 0) {
-    fn_82E4FE40();
+    fn_82E4FE40(param_1[0x16]);
   }
   param_1[0x16] = 0;
   fn_82F3E1E0(param_1 + 1);

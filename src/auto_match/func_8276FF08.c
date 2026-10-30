@@ -1,44 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8276F8F0();
-
-
-longlong fn_8276FF08(uint *param_1,uint *param_2)
-
+typedef struct Key { unsigned int a; unsigned int b; unsigned int c; } Key;
+typedef struct Entry { int v[6]; } Entry;
+typedef struct Tab { int x0; unsigned int mask; int x8; int xc; Entry e[1]; } Tab;
+typedef struct Map { Tab *tab; } Map;
+extern int fn_8276F8F0(Map *m, Key *k, unsigned int h);
+Entry *fn_8276FF08(Map *m, Key *k)
 {
-  longlong lVar1;
-  
-  if ((*param_1 != 0) &&
-     (lVar1 = fn_8276F8F0(param_1,param_2,
-                            (*param_2 >> 6 ^ param_2[2] ^ *param_2) & *(uint *)(*param_1 + 4)),
-     -1 < (int)lVar1)) {
-    return lVar1 * 0x18 + (ulonglong)*param_1 + 0x10;
-  }
-  return 0;
+    if (m->tab != 0) {
+        unsigned int h = ((k->a >> 6) ^ k->c ^ k->a) & m->tab->mask;
+        int i = fn_8276F8F0(m, k, h);
+        if (i >= 0) {
+            return &m->tab->e[i];
+        }
+    }
+    return 0;
 }
-

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82D6F6A0(int param_1,longlong param_2)
+int fn_82D6F6A0(int param_1,int param_2)
 
 {
   if ((int)(param_2 + 1) < *(int *)(param_1 + 0x14)) {

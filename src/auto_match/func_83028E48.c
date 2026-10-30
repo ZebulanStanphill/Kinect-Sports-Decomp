@@ -28,19 +28,19 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_830085B8();
 
 
-undefined8 fn_83028E48(int param_1)
+int fn_83028E48(int param_1)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  int iVar3;
+  int uVar1;
+  int uVar2;
+  uint iVar3;
   
   iVar3 = *(int *)(param_1 + 0x88);
   uVar2 = 1;
   if (iVar3 != *(int *)(param_1 + 0x8c)) {
     do {
       uVar1 = fn_830085B8(*(undefined4 *)(iVar3 + 4));
-      if ((int)uVar1 != 1) {
+      if (uVar1 != 1) {
         uVar2 = uVar1;
       }
       iVar3 = iVar3 + 8;

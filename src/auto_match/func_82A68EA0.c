@@ -32,20 +32,20 @@ extern int fn_8265C990();
 uint fn_82A68EA0(uint param_1,uint param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   uint uVar2;
   uint uVar3;
   
-  if (((-1 < (int)param_2) && (param_1 <= 0xffffffff - param_2)) &&
+  if ((((int)param_2 >= 0) && (param_1 <= 0xffffffff - param_2)) &&
      (iVar1 = fn_8265C940(param_1 + param_2,0x248c8000), iVar1 != 0)) {
-    if (3 < (int)param_2) {
+    if ((int)param_2 >= 4) {
       uVar3 = 0;
       uVar2 = param_2;
       while (1 < uVar2) {
         uVar3 = uVar3 + 1;
-        uVar2 = param_2 >> (uVar3 & 0x3f);
+        uVar2 = param_2 >> uVar3;
       }
-      uVar2 = iVar1 + param_2 & -1 << (uVar3 & 0x3f);
+      uVar2 = iVar1 + param_2 & -1 << uVar3;
       *(char *)(uVar2 - 1) = (char)uVar2 - (char)iVar1;
       return uVar2;
     }

@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_827B0C90(int *param_1,uint param_2,undefined8 param_3)
+void fn_827B0C90(int *param_1,uint param_2,uint param_3)
 
 {
   *(char *)(*(int *)((param_2 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) + (param_2 & 0xfff)) =
        (char)param_3;
   *(char *)(*(int *)((param_2 + 1 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) +
-           (param_2 + 1 & 0xfff)) = (char)((ulonglong)param_3 >> 8);
+           (param_2 + 1 & 0xfff)) = (char)(param_3 >> 8);
   *(char *)(*(int *)((param_2 + 2 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) +
-           (param_2 + 2 & 0xfff)) = (char)((ulonglong)param_3 >> 0x10);
+           (param_2 + 2 & 0xfff)) = (char)(param_3 >> 0x10);
   *(char *)(*(int *)((param_2 + 3 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) +
-           (param_2 + 3 & 0xfff)) = (char)((ulonglong)param_3 >> 0x18);
+           (param_2 + 3 & 0xfff)) = (char)(param_3 >> 0x18);
   return;
 }
 

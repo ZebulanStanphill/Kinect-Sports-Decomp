@@ -31,10 +31,10 @@ extern int fn_82CF9B00();
 extern unsigned int lbl_8323B4A0;
 
 
-undefined8 fn_82CE78C0(void)
+int fn_82CE78C0(void)
 
 {
-  int iVar1;
+  uint iVar1;
   
   iVar1 = KeTlsGetValue(lbl_8323B4A0);
   if (iVar1 != 0) {

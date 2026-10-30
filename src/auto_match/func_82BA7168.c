@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82BA7168(int *param_1,longlong param_2)
+void fn_82BA7168(int *param_1,int param_2)
 
 {
   int *piVar1;
   int iVar2;
   int iVar3;
   
-  if ((int)param_2 < 0x2fd8) {
+  if (param_2 < 0x2fd8) {
     param_2 = 0x2fd8;
   }
   iVar2 = param_1[1];
-  piVar1 = (int *)(**(code **)(*param_1 + 0x5a0))(*(undefined4 *)(*param_1 + 0x5a4),param_2 + 8);
-  param_1[1] = (int)piVar1;
+  piVar1 = (int *)(*(code *)(*param_1 + 0x5a0))(*(undefined4 *)(*param_1 + 0x5a4),param_2 + 8);
+  param_1[1] = piVar1;
   *piVar1 = iVar2;
   iVar3 = (int)(param_2 + 8);
   *(int *)(param_1[1] + 4) = iVar3;

@@ -32,15 +32,15 @@ extern int fn_827D5E00();
 extern int fn_827E8720();
 
 
-longlong fn_827D6880(int param_1)
+int fn_827D6880(int param_1)
 
 {
   undefined4 *puVar1;
   int *piVar2;
-  undefined8 uVar3;
+  int uVar3;
   int iVar4;
   undefined4 *puVar5;
-  longlong lVar6;
+  int lVar6;
   int iVar7;
   undefined1 auStack_50 [16];
   
@@ -53,10 +53,10 @@ longlong fn_827D6880(int param_1)
     RtlLeaveCriticalSection(iVar7);
     lVar6 = lVar6 + 1;
     piVar2 = (int *)puVar5[2];
-    uVar3 = (**(code **)(*piVar2 + 8))(piVar2,param_1);
+    uVar3 = (*(code *)(*piVar2 + 8))(piVar2,param_1);
     fn_827D50C0(piVar2[3],uVar3);
     iVar4 = fn_827D5100(piVar2[3]);
-    if ((((int)uVar3 == 0x3e5) || ((int)uVar3 == 0x3e4)) || (iVar4 == 1)) {
+    if (((uVar3 == 0x3e5) || (uVar3 == 0x3e4)) || (iVar4 == 1)) {
       RtlEnterCriticalSection(iVar7);
       puVar5 = (undefined4 *)*puVar5;
     }

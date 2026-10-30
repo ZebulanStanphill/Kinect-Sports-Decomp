@@ -27,18 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82AAC750();
 extern int fn_82AAC760();
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
-void fn_82A9A428(int *param_1,ulonglong param_2,undefined4 *param_3)
+void fn_82A9A428(uint *param_1,uint param_2,undefined4 *param_3)
 
 {
-  longlong lVar1;
-  ulonglong uVar2;
+  int lVar1;
+  uint uVar2;
   
-  if ((ulonglong)(uint)param_1[2] < (param_2 & 0xffffffff)) {
-    uVar2 = ((ulonglong)(uint)param_1[2] & 0x7fffffff) << 1;
-    if (uVar2 < (param_2 & 0xffffffff)) {
+  if (param_2 > param_1[2]) {
+    uVar2 = (param_1[2] & 0x7fffffff) << 1;
+    if (uVar2 < param_2) {
       uVar2 = param_2;
     }
     lVar1 = fn_82AAC750(param_1,uVar2 * 0x14);
@@ -48,7 +48,7 @@ void fn_82A9A428(int *param_1,ulonglong param_2,undefined4 *param_3)
     else {
       param_1[2] = (int)uVar2;
       if (*param_1 != 0) {
-        fn_82F68CC0(lVar1,*param_1,(ulonglong)(uint)param_1[1] * 0x14);
+        memcpy(lVar1,*param_1,(ulonglong)(uint)param_1[1] * 0x14);
         fn_82AAC760(param_1,*param_1);
       }
       *param_1 = (int)lVar1;

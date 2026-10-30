@@ -33,10 +33,10 @@ void fn_82C03C38(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 p
 {
   int iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x28))();
-  if ((-1 < iVar1) &&
-     (iVar1 = (**(code **)(*param_1 + 0x30))(param_1,param_2,param_4,param_6), -1 < iVar1)) {
-    (**(code **)(*param_1 + 0x34))(param_1,param_3,param_5,param_7);
+  iVar1 = (*(code *)(*param_1 + 0x28))();
+  if ((iVar1 >= 0) &&
+     (iVar1 = (*(code *)(*param_1 + 0x30))(param_1,param_2,param_4,param_6), iVar1 >= 0)) {
+    (*(code *)(*param_1 + 0x34))(param_1,param_3,param_5,param_7);
   }
   return;
 }

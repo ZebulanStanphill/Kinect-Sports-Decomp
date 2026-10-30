@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827B4B30();
-extern int memcpy();
+typedef struct Elem { unsigned char b[0x1c]; } Elem;
+typedef struct Deq {
+    unsigned int count;
+    unsigned int mapsize;
+    int x8;
+    Elem **map;
+} Deq;
+extern void fn_827B4B30(Deq *d, unsigned int blk);
+extern void *memcpy(void *d, const void *s, unsigned int n);
 
-
-void fn_827B4FF0(uint *param_1,undefined8 param_2)
-
+void fn_827B4FF0(Deq *d, const Elem *src)
 {
-  uint uVar1;
-  
-  uVar1 = *param_1 >> 8;
-  if (param_1[1] <= uVar1) {
-    fn_827B4B30(param_1,uVar1);
-  }
-  memcpy((ulonglong)*(uint *)(uVar1 * 4 + param_1[3]) + ((ulonglong)*param_1 & 0xff) * 0x1c,
-               param_2,0x1c);
-  *param_1 = *param_1 + 1;
-  return;
+    unsigned int blk = d->count >> 8;
+    if (blk >= d->mapsize) {
+        fn_827B4B30(d, blk);
+    }
+    memcpy(&d->map[blk][d->count & 255], src, sizeof(Elem));
+    d->count++;
 }
-

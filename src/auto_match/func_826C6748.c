@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_826C6748(int param_1)
+uint fn_826C6748(int param_1)
 
 {
-  int iVar1;
-  ulonglong uVar2;
+  uint iVar1;
+  uint uVar2;
   
   iVar1 = *(int *)(param_1 + 0x1ac);
   if ((iVar1 != 0) && (*(char *)(iVar1 + 0x18) == '\0')) {
-    return (ulonglong)*(uint *)(iVar1 + 0x10);
+    return *(uint *)(iVar1 + 0x10);
   }
                     /* WARNING: Could not recover jumptable at 0x826c6778. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar2 = (**(code **)(**(int **)(param_1 + 0x9c) + 0x28))();
+  uVar2 = (*(code *)(**(int **)(param_1 + 0x9c) + 0x28))(*(int **)(param_1 + 0x9c));
   return uVar2;
 }
 

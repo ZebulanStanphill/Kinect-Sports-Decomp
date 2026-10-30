@@ -35,7 +35,7 @@ int fn_8246D108(int param_1)
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
-  longlong lVar3;
+  int lVar3;
   undefined4 *puVar4;
   int iVar5;
   
@@ -45,15 +45,15 @@ int fn_8246D108(int param_1)
     puVar2 = (undefined4 *)*puVar4;
     for (puVar1 = (undefined4 *)*puVar2; puVar1 != puVar2; puVar1 = (undefined4 *)*puVar1) {
       if (puVar1[3] != 0) {
-        fn_8251FA58();
+        fn_8251FA58(puVar1[3]);
         puVar1[3] = 0;
       }
       if (puVar1[5] != 0) {
-        fn_8251FA58();
+        fn_8251FA58(puVar1[5]);
         puVar1[5] = 0;
       }
       if (puVar1[7] != 0) {
-        fn_8251FA58();
+        fn_8251FA58(puVar1[7]);
         puVar1[7] = 0;
       }
       puVar2 = (undefined4 *)*puVar4;
@@ -67,7 +67,7 @@ int fn_8246D108(int param_1)
     iVar5 = iVar5 + -0x14;
     fn_8246BAF8(iVar5);
     lVar3 = lVar3 + -1;
-  } while (-1 < lVar3);
+  } while (lVar3 >= 0);
   fn_8265CA20(param_1);
   return param_1;
 }

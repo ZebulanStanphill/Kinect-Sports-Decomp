@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82B6B0C8(int param_1)
+void fn_82B6B0C8(uint param_1)
 
 {
   int iVar1;
   
   while (param_1 != 0) {
-    (**(code **)(param_1 + 4))(*(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0xc));
+    (*(code *)(param_1 + 4))(*(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0xc));
     iVar1 = *(int *)(param_1 + 0x1c);
-    (**(code **)(param_1 + 4))(*(undefined4 *)(param_1 + 8),param_1);
+    (*(code *)(param_1 + 4))(*(undefined4 *)(param_1 + 8),param_1);
     param_1 = iVar1;
   }
   return;

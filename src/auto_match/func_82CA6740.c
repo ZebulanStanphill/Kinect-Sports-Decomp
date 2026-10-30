@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82CA6740(longlong param_1,longlong param_2)
+int fn_82CA6740(int param_1,int param_2)
 
 {
-  if ((-1 < (int)param_1) && ((int)param_2 == 0)) {
+  if ((param_1 >= 0) && (param_2 == 0)) {
     return 0;
   }
   do {
     param_1 = param_1 - param_2;
-  } while (-1 < param_1);
+  } while (param_1 >= 0);
   return param_1 + param_2;
 }
 

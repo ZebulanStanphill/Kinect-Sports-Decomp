@@ -32,7 +32,7 @@ void fn_82CF74E8(int param_1)
 
 {
   int *piVar1;
-  longlong lVar2;
+  int lVar2;
   
   lVar2 = 0x10;
   piVar1 = (int *)(param_1 + 0x90);
@@ -42,7 +42,7 @@ void fn_82CF74E8(int param_1)
     }
     lVar2 = lVar2 + -1;
     piVar1 = piVar1 + -2;
-  } while (-1 < lVar2);
+  } while (lVar2 >= 0);
   return;
 }
 

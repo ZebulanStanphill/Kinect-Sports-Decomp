@@ -26,17 +26,13 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827DCBF8();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
 
 
 void fn_827DF5F8(longlong param_1,undefined4 param_2)
 
 {
-  undefined4 uStack0000001c;
   
-  uStack0000001c = param_2;
-  fn_827DCBF8(param_1 + 0x168,&stack0x0000001c);
+  fn_827DCBF8(param_1 + 0x168,&param_2);
   return;
 }
 

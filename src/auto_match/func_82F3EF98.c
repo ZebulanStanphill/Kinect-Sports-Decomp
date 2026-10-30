@@ -27,33 +27,33 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E4FE40();
 extern int fn_82E50BE8();
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
-undefined8 fn_82F3EF98(int param_1,ulonglong param_2,ulonglong param_3)
+int fn_82F3EF98(int param_1,uint param_2,uint param_3)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  uint uVar1;
+  int uVar2;
   
   uVar2 = 0;
-  if (*(int *)(param_1 + 0x4c) != 0) {
-    fn_82E4FE40();
+  if (*(uint *)(param_1 + 0x4c) != 0) {
+    fn_82E4FE40(*(int *)(param_1 + 0x4c));
   }
   *(undefined4 *)(param_1 + 0x4c) = 0;
   *(int *)(param_1 + 0x58) = (int)param_2;
-  if ((param_2 & 0xffffffff) != 0) {
-    if ((param_3 & 0xffffffff) == 0) {
-      uVar2 = 0xffffffff80070057;
+  if (param_2 != 0) {
+    if (param_3 == 0) {
+      uVar2 = 0x80070057;
     }
-    else if ((param_2 & 0xffffffff) != 0) {
+    else if (param_2 > 0) {
       uVar1 = fn_82E50BE8(param_2,0,0,0,0);
       *(int *)(param_1 + 0x4c) = (int)uVar1;
-      if ((uVar1 & 0xffffffff) == 0) {
-        uVar2 = 0xffffffff8007000e;
+      if (uVar1 == 0) {
+        uVar2 = 0x8007000e;
       }
       else {
-        fn_82F68CC0(uVar1,param_3,*(undefined4 *)(param_1 + 0x58));
+        memcpy(uVar1,param_3,*(undefined4 *)(param_1 + 0x58));
       }
     }
   }

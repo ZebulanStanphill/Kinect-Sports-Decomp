@@ -1,49 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6A080();
+typedef struct { unsigned int Data1; unsigned short Data2, Data3; unsigned char Data4[8]; } GUID;
+typedef struct {
+  unsigned short wFormatTag, nChannels;
+  unsigned int nSamplesPerSec, nAvgBytesPerSec;
+  unsigned short nBlockAlign, wBitsPerSample, cbSize;
+  unsigned short wValidBitsPerSample;
+  unsigned int dwChannelMask;
+  GUID SubFormat;
+} WAVEFORMATEXTENSIBLE;
+extern GUID lbl_8208E050;
+int memcmp(const void *a, const void *b, unsigned int n);
 
-
-uint fn_82A5DAC0(ushort *param_1)
-
+unsigned int fn_82A5DAC0(WAVEFORMATEXTENSIBLE *w)
 {
-  uint uVar1;
-  int iVar2;
-  
-  uVar1 = (uint)*param_1;
-  if (uVar1 == 0xfffe) {
-    iVar2 = fn_82F6A080(param_1 + 0xe,0xffffffff8208e054,0xc);
-    if (iVar2 == 0) {
-      uVar1 = *(uint *)(param_1 + 0xc) & 0xffff;
-    }
-    else {
-      uVar1 = 0;
+  unsigned int tag = w->wFormatTag;
+  if (tag == 0xfffe) {
+    if (memcmp(&w->SubFormat.Data2, &lbl_8208E050.Data2, 0xc) == 0) {
+      tag = (unsigned short)w->SubFormat.Data1;
+    } else {
+      tag = 0;
     }
   }
-  return uVar1;
+  return tag;
 }
-

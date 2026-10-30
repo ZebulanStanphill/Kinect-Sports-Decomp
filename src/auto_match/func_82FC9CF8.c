@@ -25,19 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned int);
 
 
 void fn_82FC9CF8(int param_1)
 
 {
-  if (*(int *)(param_1 + 8) != 0) {
+  if (*(unsigned int *)(param_1 + 8) != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82F691F0(*(int *)(param_1 + 8),0,*(undefined4 *)(param_1 + 0xc));
+    memset(*(unsigned int *)(param_1 + 8),0,*(undefined4 *)(param_1 + 0xc));
   }
-  if (*(int *)(param_1 + 0xe0) != 0) {
+  if (*(unsigned int *)(param_1 + 0xe0) != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82F691F0(*(int *)(param_1 + 0xe0),0,*(undefined4 *)(param_1 + 0xe4));
+    memset(*(unsigned int *)(param_1 + 0xe0),0,*(undefined4 *)(param_1 + 0xe4));
   }
   return;
 }

@@ -32,14 +32,14 @@ extern int fn_8280ACD8();
 void fn_82800A00(int param_1)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
+  uint uVar1;
+  uint uVar2;
   
-  uVar1 = fn_827F7210();
+  uVar1 = fn_827F7210(param_1);
   if ((uVar1 & 0xffff) != 0) {
     uVar2 = 0;
     do {
-      fn_8280ACD8(uVar2 * 0x40 + (ulonglong)*(uint *)(param_1 + 0x10));
+      fn_8280ACD8(uVar2 * 0x40 + *(uint *)(param_1 + 0x10));
       uVar2 = uVar2 + 1 & 0xffff;
     } while (uVar2 < (uVar1 & 0xffff));
   }

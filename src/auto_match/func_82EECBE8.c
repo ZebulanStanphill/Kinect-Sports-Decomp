@@ -31,12 +31,12 @@ extern int fn_82E4FE40();
 undefined8 fn_82EECBE8(undefined8 param_1,int param_2)
 
 {
-  if (*(int *)(param_2 + 0xc) != 0) {
-    fn_82E4FE40();
+  if (*(unsigned int *)(param_2 + 0xc) != 0) {
+    fn_82E4FE40(*(unsigned int *)(param_2 + 0xc));
   }
   *(undefined4 *)(param_2 + 0xc) = 0;
-  if (*(int *)(param_2 + 0x14) != 0) {
-    fn_82E4FE40();
+  if (*(unsigned int *)(param_2 + 0x14) != 0) {
+    fn_82E4FE40(*(unsigned int *)(param_2 + 0x14));
   }
   *(undefined4 *)(param_2 + 0x14) = 0;
   return 0;

@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82690258(longlong param_1,ulonglong param_2)
+uint fn_82690258(int param_1,uint param_2)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
+  uint uVar1;
+  uint uVar2;
   
   uVar1 = param_1 + param_2 & ~param_2;
-  for (uVar2 = uVar1 - param_1; (uVar2 != 0 && ((uVar2 & 0xffffffff) < 0x10));
+  for (uVar2 = uVar1 - param_1; (uVar2 != 0 && (uVar2 < 0x10));
       uVar2 = param_2 + 1 + uVar2) {
     uVar1 = param_2 + 1 + uVar1;
   }

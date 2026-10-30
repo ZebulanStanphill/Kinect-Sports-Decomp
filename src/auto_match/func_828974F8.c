@@ -29,12 +29,12 @@ extern int fn_8265CA20();
 extern unsigned int lbl_82023970;
 
 
-undefined4 * fn_828974F8(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_828974F8(undefined4 *param_1,uint param_2)
 
 {
   *param_1 = &lbl_82023970;
   if (param_1[2] != 0) {
-    fn_8265CA20();
+    fn_8265CA20(param_1[2]);
     param_1[2] = 0;
   }
   if ((param_2 & 1) != 0) {

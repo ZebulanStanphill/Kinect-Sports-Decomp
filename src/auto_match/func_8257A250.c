@@ -34,27 +34,29 @@ extern int fn_82A1F438();
 extern unsigned int iStack_230;
 
 
-ulonglong fn_8257A250(undefined8 param_1,undefined8 param_2)
+extern int fn_82A1F470();
+
+uint fn_8257A250(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar3;
-  ulonglong uVar2;
-  int iStack_230;
-  int aiStack_22c;
+  uint uVar2;
+  uint iStack_230;
+  uint aiStack_22c;
   undefined1 auStack_220 [520];
   
   fn_82579C28();
   uVar1 = fn_82A1F308(0);
   iVar3 = fn_82A1F438(uVar1,param_2,&aiStack_22c,&iStack_230);
   if (iVar3 == 0) {
-    uVar2 = thunk_FUN_82a2b798();
+    uVar2 = fn_82A1F470();
     if (0 < (int)uVar2) {
       uVar2 = uVar2 & 0xffff | 0x80070000;
     }
   }
   else if ((aiStack_22c == 0) || (iStack_230 == 0)) {
-    uVar2 = 0xffffffff80070057;
+    uVar2 = 0x80070057;
   }
   else {
     do {

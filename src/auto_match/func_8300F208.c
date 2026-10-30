@@ -30,10 +30,10 @@ extern int fn_83037648();
 extern int fn_83037D58();
 
 
-undefined8 fn_8300F208(int param_1,undefined2 *param_2,undefined8 param_3)
+int fn_8300F208(int param_1,undefined2 *param_2,int param_3)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar2;
   
   *param_2 = (short)param_3;
@@ -41,16 +41,16 @@ undefined8 fn_8300F208(int param_1,undefined2 *param_2,undefined8 param_3)
   RtlEnterCriticalSection(iVar2);
   uVar1 = fn_83037D58(param_1 + 0x20,param_2,param_3);
   RtlLeaveCriticalSection(iVar2);
-  if ((int)uVar1 == 0x34) {
+  if (uVar1 == 0x34) {
     do {
       *(undefined1 *)(param_1 + 0x44) = 1;
       *(int *)(param_1 + 0x94) = *(int *)(param_1 + 0x94) + 1;
       fn_83037648(param_1 + 0x9c);
-      fn_82A1E650(*(undefined4 *)(param_1 + 0xb0),0xffffffffffffffff);
+      fn_82A1E650(*(undefined4 *)(param_1 + 0xb0),0xffffffff);
       RtlEnterCriticalSection(iVar2);
       uVar1 = fn_83037D58(param_1 + 0x20,param_2,param_3);
       RtlLeaveCriticalSection(iVar2);
-    } while ((int)uVar1 == 0x34);
+    } while (uVar1 == 0x34);
   }
   return uVar1;
 }

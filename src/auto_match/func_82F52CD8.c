@@ -30,22 +30,22 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82F52CD8(int param_1)
 
 {
-  int iVar2;
+  uint iVar2;
   int *piVar3;
-  ulonglong uVar1;
-  ulonglong uVar4;
+  uint uVar1;
+  uint uVar4;
   
   uVar4 = 0;
-  iVar2 = (**(code **)(**(int **)(param_1 + 8) + 0x20))();
+  iVar2 = (*(code *)(**(int **)(param_1 + 8) + 0x20))(*(int **)(param_1 + 8));
   if (iVar2 != 0) {
     do {
-      piVar3 = (int *)(**(code **)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),uVar4);
+      piVar3 = (int *)(*(code *)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),uVar4);
       if (piVar3 != (int *)0x0) {
-        (**(code **)(*piVar3 + 0x24))();
+        (*(code *)(*piVar3 + 0x24))();
       }
       uVar4 = uVar4 + 1;
-      uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x20))();
-    } while ((uVar4 & 0xffffffff) < (uVar1 & 0xffffffff));
+      uVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x20))(*(int **)(param_1 + 8));
+    } while (uVar4 < uVar1);
   }
   return;
 }

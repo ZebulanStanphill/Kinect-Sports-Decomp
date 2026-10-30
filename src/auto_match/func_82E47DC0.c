@@ -30,13 +30,13 @@ extern int fn_82E4FE40();
 extern int fn_82E50BE8();
 
 
-longlong fn_82E47DC0(ulonglong param_1,ulonglong param_2,undefined8 param_3)
+int fn_82E47DC0(uint param_1,uint param_2,int param_3)
 
 {
-  longlong lVar1;
-  longlong lVar2;
+  int lVar1;
+  int lVar2;
   
-  if ((param_1 + param_2 & 0xffffffff) < (param_1 & 0xffffffff)) {
+  if ((param_1 + param_2 & 0xffffffff) < param_1) {
     lVar2 = -0x7fffbffb;
   }
   else {

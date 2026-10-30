@@ -26,22 +26,18 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8257A9F0();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
 
 
-void fn_822B25A0(int param_1,int param_2)
+void fn_822B25A0(int param_1,uint param_2)
 
 {
   int *piVar1;
-  int iStack0000001c;
   
   for (piVar1 = *(int **)(param_1 + 300);
       (piVar1 != *(int **)(param_1 + 0x130) && (*piVar1 != param_2)); piVar1 = piVar1 + 1) {
   }
   if (piVar1 == *(int **)(param_1 + 0x130)) {
-    iStack0000001c = param_2;
-    fn_8257A9F0(param_1 + 300,&stack0x0000001c);
+    fn_8257A9F0(param_1 + 300,&param_2);
   }
   return;
 }

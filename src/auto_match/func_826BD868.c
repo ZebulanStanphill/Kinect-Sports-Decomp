@@ -1,46 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-int * fn_826BD868(int *param_1)
-
-{
-  bool bVar1;
-  int iVar2;
-  
-  iVar2 = (**(code **)(*param_1 + 8))();
-  if ((iVar2 < 2) || (bVar1 = true, 5 < iVar2)) {
-    bVar1 = false;
-  }
-  param_1 = param_1 + -0x1a;
-  if (!bVar1) {
-    param_1 = (int *)0x0;
-  }
-  return param_1;
+typedef int (*F)(void *);
+int *fn_826BD868(int *p) {
+ int v = (*(F *)(*p + 8))(p);
+ unsigned char b;
+ if (v < 2 || v > 5) b = 0; else b = 1;
+ if (b) return p - 0x1a;
+ return 0;
 }
-

@@ -1,6 +1,6 @@
-extern char *pcRam8325f86c;
-extern char *pcRam8325f870;
-extern char *pcRam8325f87c;
+extern char *lbl_8325F86C;
+extern char *lbl_8325F870;
+extern char *lbl_8325F87C;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -43,10 +43,10 @@ void fn_82F260A8(void)
 
 {
   lbl_8325F880 = fn_82F25D98;
-  pcRam8325f87c = fn_82F25920;
+  lbl_8325F87C = fn_82F25920;
   lbl_8325F878 = fn_82F24B68;
   lbl_8325F874 = fn_82F25510;
-  pcRam8325f870 = fn_82F25038;
-  pcRam8325f86c = fn_82F24A58;
+  lbl_8325F870 = fn_82F25038;
+  lbl_8325F86C = fn_82F24A58;
   return;
 }

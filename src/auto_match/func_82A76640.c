@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A76640(int param_1,int param_2)
+int fn_82A76640(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   uVar1 = 0;
   if (((*(int *)(param_1 + 0x94) == 0) ||
-      (uVar1 = (**(code **)(**(int **)(param_1 + 0x84) + 0x10))(), -1 < (int)uVar1)) &&
+      (uVar1 = (*(code *)(**(int **)(param_1 + 0x84) + 0x10))(*(int **)(param_1 + 0x84)), uVar1 >= 0)) &&
      (*(undefined4 *)(param_1 + 0x94) = 0, param_2 == 0)) {
     *(undefined4 *)(param_1 + 0x98) = 0;
   }

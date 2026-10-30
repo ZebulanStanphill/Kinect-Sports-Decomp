@@ -28,16 +28,16 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827FA1E8();
 
 
-longlong fn_827F7028(int param_1)
+uint fn_827F7028(int param_1)
 
 {
   ushort uVar1;
-  longlong lVar2;
+  uint lVar2;
   
   uVar1 = *(ushort *)(param_1 + 0x2e);
   lVar2 = fn_827FA1E8();
-  lVar2 = lVar2 + (ulonglong)uVar1;
-  return ((ulonglong)*(ushort *)(param_1 + 0x32) * 0xc + lVar2 & 0x3fffffff) * 4 +
+  lVar2 = lVar2 + uVar1;
+  return (*(ushort *)(param_1 + 0x32) * 0xc + lVar2 & 0x3fffffff) * 4 +
          (longlong)((int)(*(ushort *)(param_1 + 0x32) + 7) >> 3) + ((lVar2 + 7U & 0xffffffff) >> 3);
 }
 

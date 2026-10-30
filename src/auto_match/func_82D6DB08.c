@@ -32,13 +32,13 @@ void fn_82D6DB08(undefined4 *param_1,undefined8 param_2)
 {
   int *piVar1;
   
-  (**(code **)(*(int *)param_1[3] + 0x1c))();
+  (*(code *)(*(int *)param_1[3] + 0x1c))(param_1[3]);
   piVar1 = (int *)param_1[4];
   if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x1c))(piVar1,param_2);
+    (*(code *)(*piVar1 + 0x1c))(piVar1,param_2);
     param_1[4] = 0;
   }
-  (**(code **)*param_1)(param_1,1);
+  (*(code *)*param_1)(param_1,1);
   return;
 }
 

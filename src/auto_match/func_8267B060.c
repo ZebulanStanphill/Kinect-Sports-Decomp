@@ -1,52 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Ent { unsigned int v[8]; } Ent;
+typedef struct Obj { int x0; int x4; unsigned int count; int pad[13]; Ent e[1]; } Obj;
 
-
-void fn_8267B060(int param_1)
-
+unsigned int fn_8267B060(Obj *o)
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  
-  uVar1 = 0xffffffff;
-  uVar2 = 0;
-  if (*(uint *)(param_1 + 8) == 0) {
-    return;
-  }
-  puVar3 = (uint *)(param_1 + 0x40);
-  do {
-    if (*puVar3 < uVar1) {
-      uVar1 = *puVar3;
+    unsigned int best = 0xffffffff;
+    unsigned int i;
+    for (i = 0; i < o->count; i++) {
+        if (o->e[i].v[0] < best) {
+            best = o->e[i].v[0];
+        }
     }
-    uVar2 = uVar2 + 1;
-    puVar3 = puVar3 + 8;
-  } while (uVar2 < *(uint *)(param_1 + 8));
-  return;
+    return best;
 }
-

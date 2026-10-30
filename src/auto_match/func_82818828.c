@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82818828(int param_1)
+int fn_82818828(int param_1)
 
 {
-  code *UNRECOVERED_JUMPTABLE;
-  undefined8 uVar1;
+  code UNRECOVERED_JUMPTABLE;
+  int uVar1;
   
-  UNRECOVERED_JUMPTABLE = *(code **)(*(int *)(param_1 + 0x10) + 0x24);
-  if (UNRECOVERED_JUMPTABLE != (code *)0x0) {
+  UNRECOVERED_JUMPTABLE = *(code *)(*(int *)(param_1 + 0x10) + 0x24);
+  if (UNRECOVERED_JUMPTABLE != (code)0x0) {
                     /* WARNING: Could not recover jumptable at 0x8281883c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
     uVar1 = (*UNRECOVERED_JUMPTABLE)();

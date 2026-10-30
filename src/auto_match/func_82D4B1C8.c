@@ -27,18 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82D4B1C8(int param_1,uint param_2)
+int fn_82D4B1C8(int param_1,uint param_2)
 
 {
-  int iVar1;
+  uint iVar1;
   int iVar2;
   uint uVar3;
   int iVar4;
   
-  iVar4 = (param_2 >> (0x20 - *(uint *)(param_1 + 0x30) & 0x3f)) * 0x38 + *(int *)(param_1 + 0x34);
+  iVar4 = (param_2 >> (0x20 - *(uint *)(param_1 + 0x30))) * 0x38 + *(int *)(param_1 + 0x34);
   iVar1 = *(int *)(iVar4 + 0x20);
   if (iVar1 != 0) {
-    iVar2 = (0xffffffffU >> (*(uint *)(param_1 + 0x30) & 0x3f) & param_2) * *(int *)(iVar4 + 0x24);
+    iVar2 = (0xffffffffU >> (*(uint *)(param_1 + 0x30)) & param_2) * *(int *)(iVar4 + 0x24);
     if (*(char *)(iVar4 + 0x11) == '\x01') {
       uVar3 = (uint)*(byte *)(iVar2 + iVar1);
     }
@@ -46,8 +46,8 @@ longlong fn_82D4B1C8(int param_1,uint param_2)
       uVar3 = (uint)*(ushort *)(iVar2 + iVar1);
     }
     if (uVar3 != 0xffffffff) {
-      return (longlong)*(int *)(iVar4 + 0x2c) * (longlong)(int)uVar3 +
-             (ulonglong)*(uint *)(iVar4 + 0x28);
+      return *(int *)(iVar4 + 0x2c) * uVar3 +
+             *(uint *)(iVar4 + 0x28);
     }
   }
   return 0;

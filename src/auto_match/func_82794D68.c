@@ -30,16 +30,16 @@ extern int fn_8278E8D0();
 extern int fn_82794B88();
 
 
-void fn_82794D68(int param_1,undefined8 param_2)
+void fn_82794D68(int param_1,int param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   undefined4 uVar2;
   
   uVar1 = fn_82794B88();
   uVar2 = fn_8278E8D0(uVar1,param_2);
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_8267C498();
+  if (*(uint *)(param_1 + 0x18) != 0) {
+    fn_8267C498(*(int *)(param_1 + 0x18));
   }
   *(undefined4 *)(param_1 + 0x18) = uVar2;
   return;

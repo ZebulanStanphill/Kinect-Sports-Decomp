@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8270D668(int *param_1)
+void fn_8270D668(uint *param_1)
 
 {
   uint uVar1;
   
   uVar1 = param_1[0x15];
-  param_1[0x15] = (int)((ulonglong)uVar1 - 1);
-  if ((ulonglong)uVar1 - 1 == 0) {
-    (**(code **)(**(int **)(*param_1 + 0xc) + 0x74))();
+  param_1[0x15] = (int)(uVar1 - 1);
+  if (uVar1 - 1 == 0) {
+    (*(code *)(**(int **)(*param_1 + 0xc) + 0x74))(*(int **)(*param_1 + 0xc));
     param_1[0x14] = 0;
   }
   return;

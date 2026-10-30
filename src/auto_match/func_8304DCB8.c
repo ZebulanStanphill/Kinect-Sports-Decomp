@@ -1,42 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8304D648();
+typedef struct Rel Rel;
+typedef struct {
+    void (*slot0)(Rel *r);
+    void (*release)(Rel *r);
+} RelVtbl;
+struct Rel {
+    RelVtbl *vt;
+};
 
+typedef struct {
+    char pad0[0x28];
+    Rel *rel;
+    char pad2c[0x41 - 0x2c];
+    unsigned char x41;
+} Obj;
 
-void fn_8304DCB8(int param_1)
+extern void fn_8304D648(Obj *o);
 
+void fn_8304DCB8(Obj *o)
 {
-  if (*(int **)(param_1 + 0x28) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x28) + 4))();
-    *(undefined4 *)(param_1 + 0x28) = 0;
-  }
-  *(undefined1 *)(param_1 + 0x41) = 0;
-  fn_8304D648(param_1);
-  return;
+    if (o->rel != 0) {
+        o->rel->vt->release(o->rel);
+        o->rel = 0;
+    }
+    o->x41 = 0;
+    fn_8304D648(o);
 }
-

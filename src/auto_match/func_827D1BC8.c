@@ -27,20 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_827D1BC8(int param_1,uint param_2,uint param_3)
+undefined8 fn_827D1BC8(uint param_1,uint param_2,uint param_3)
 
 {
-  int iVar1;
+  uint iVar1;
   uint uVar2;
   uint uVar3;
   
-  if (((param_1 != 0) && (iVar1 = *(int *)(param_1 + 0x1c), iVar1 != 0)) && ((int)param_2 < 0x11)) {
+  if (((param_1 != 0) && (iVar1 = *(int *)(param_1 + 0x1c), iVar1 != 0)) && ((int)param_2 <= 0x10)) {
     uVar2 = *(uint *)(iVar1 + 0x3c);
     uVar3 = uVar2 + param_2;
-    if (uVar3 < 0x21) {
+    if (uVar3 <= 0x20) {
       *(uint *)(iVar1 + 0x3c) = uVar3;
       *(uint *)(iVar1 + 0x38) =
-           (((1 << (param_2 & 0x3f)) - 1U & param_3) << (uVar2 & 0x3f)) + *(int *)(iVar1 + 0x38);
+           (((1 << param_2) - 1U & param_3) << uVar2) + *(int *)(iVar1 + 0x38);
       return 0;
     }
   }

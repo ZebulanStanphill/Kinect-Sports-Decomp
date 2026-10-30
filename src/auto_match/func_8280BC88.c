@@ -27,23 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8280BC88(double param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,double param_7,double param_8,double param_9,double param_10,
-                  double param_11,double param_12,float *param_13)
+void fn_8280BC88(float *param_1,float param_2,float param_3,float param_4,float param_5,float param_6,float param_7,float param_8,float param_9,float param_10,float param_11,float param_12,float param_13)
 
 {
-  *param_13 = (float)param_1;
-  param_13[4] = (float)param_2;
-  param_13[8] = (float)param_3;
-  param_13[0xc] = (float)param_4;
-  param_13[1] = (float)param_5;
-  param_13[5] = (float)param_6;
-  param_13[9] = (float)param_7;
-  param_13[0xd] = (float)param_8;
-  param_13[2] = (float)param_9;
-  param_13[6] = (float)param_10;
-  param_13[10] = (float)param_11;
-  param_13[0xe] = (float)param_12;
+  *param_1 = (float)param_2;
+  param_1[4] = (float)param_3;
+  param_1[8] = (float)param_4;
+  param_1[0xc] = (float)param_5;
+  param_1[1] = (float)param_6;
+  param_1[5] = (float)param_7;
+  param_1[9] = (float)param_8;
+  param_1[0xd] = (float)param_9;
+  param_1[2] = (float)param_10;
+  param_1[6] = (float)param_11;
+  param_1[10] = (float)param_12;
+  param_1[0xe] = (float)param_13;
   return;
 }
 

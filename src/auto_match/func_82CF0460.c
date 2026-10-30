@@ -44,7 +44,7 @@ void fn_82CF0460(int param_1,int param_2,int param_3)
     lVar5 = 7;
     piVar4 = (int *)(puVar1 + 0x18);
     do {
-      if ((*piVar4 << (uVar2 & 0x3f) & 0xf0000000U) != 0) {
+      if ((*piVar4 << uVar2 & 0xf0000000U) != 0) {
         *puVar3 = 0xff000000;
       }
       piVar4 = piVar4 + -1;

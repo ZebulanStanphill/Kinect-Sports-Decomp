@@ -32,7 +32,7 @@ void fn_8302AE30(int param_1,undefined4 param_2)
 {
   *(undefined4 *)(param_1 + 0x24) = param_2;
   *(uint *)(param_1 + 0x28) =
-       (uint)(LZCOUNT(param_2) << 0x1a) & 0x80000000 | *(uint *)(param_1 + 0x28) & 0x7fffffff;
+       (uint)(_CountLeadingZeros(param_2) << 0x1a) & 0x80000000 | *(uint *)(param_1 + 0x28) & 0x7fffffff;
   return;
 }
 

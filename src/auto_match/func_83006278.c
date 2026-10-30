@@ -29,19 +29,19 @@ extern int fn_82FA5060();
 extern unsigned int lbl_831BC768;
 
 
-undefined8 fn_83006278(int *param_1,ulonglong param_2,undefined8 param_3)
+int fn_83006278(int *param_1,uint param_2,int param_3)
 
 {
   undefined4 *puVar1;
-  int iVar2;
+  uint iVar2;
   
   iVar2 = param_1[10];
   if (iVar2 == 0) {
-    if ((param_2 & 0xffffffff) == 0) {
+    if (param_2 == 0) {
       return 1;
     }
     puVar1 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x40);
-    param_1[10] = (int)puVar1;
+    param_1[10] = puVar1;
     if (puVar1 != (undefined4 *)0x0) {
       *puVar1 = 0;
       puVar1[1] = 0;
@@ -66,9 +66,9 @@ undefined8 fn_83006278(int *param_1,ulonglong param_2,undefined8 param_3)
     }
   }
   *(byte *)(iVar2 + 0x3c) = *(byte *)(iVar2 + 0x3c) & ~(byte)param_3 | (byte)param_2;
-  (**(code **)(*param_1 + 0x14))(param_1);
-  (**(code **)(*param_1 + 0xe4))(param_1,param_2,param_3);
-  (**(code **)(*param_1 + 0x54))(param_1,param_2,param_3,0,0);
+  (*(code *)(*param_1 + 0x14))(param_1);
+  (*(code *)(*param_1 + 0xe4))(param_1,param_2,param_3);
+  (*(code *)(*param_1 + 0x54))(param_1,param_2,param_3,0,0);
   return 1;
 }
 

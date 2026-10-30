@@ -1,16 +1,11 @@
-typedef int (*vtable_entry_fn)();
+typedef struct Iface Iface;
+struct Iface { int (**vt)(Iface *); };
+typedef struct { char pad[0x20]; Iface *obj; char pad2[0xd4 - 0x24]; int d4; } Obj;
 
-int fn_824CCFC8(void *param_1)
+int fn_824CCFC8(Obj *p)
 {
-    void *field_20;
-    void **vtable;
-
-    field_20 = *(void **)((char *)param_1 + 0x20);
-    if (field_20 != 0) {
-        vtable = *(void ***)field_20;
-        if (((vtable_entry_fn)vtable[1])() != 0) {
-            return *(int *)((char *)param_1 + 0xd4) != 0;
-        }
+    if (p->obj && p->obj->vt[1](p->obj) && p->d4) {
+        return 1;
     }
     return 0;
 }

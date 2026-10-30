@@ -28,15 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_828A0B00();
 
 
-void fn_828BDA48(int *param_1,undefined8 param_2)
+void fn_828BDA48(uint *param_1,int param_2)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   
-  param_1[6] = (int)param_2;
-  if (((-1 < (int)param_2) && (uVar1 = fn_828A0B00(param_2), (uVar1 & 0xffffffff) != 0)) &&
+  param_1[6] = param_2;
+  if (((param_2 >= 0) && (uVar1 = fn_828A0B00(param_2), uVar1 != 0)) &&
      (param_1[0x1b] == 0)) {
-    (**(code **)(*param_1 + 0x7c))(param_1,uVar1);
+    (*(code *)(*param_1 + 0x7c))(param_1,uVar1);
   }
   return;
 }

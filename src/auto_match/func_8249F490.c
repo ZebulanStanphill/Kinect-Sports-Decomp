@@ -1,42 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+typedef struct { float x0, y0, x1, y1; } Rect;
 
-
-undefined8 fn_8249F490(float *param_1)
-
+int fn_8249F490(Rect *r, __vector4 v)
 {
-  float in_register_00010010;
-  float in_register_00010018;
-  
-  if ((((*param_1 <= in_register_00010010) && (param_1[1] <= in_register_00010018)) &&
-      (in_register_00010010 <= param_1[2])) && (in_register_00010018 <= param_1[3])) {
-    return 1;
-  }
-  return 0;
+    if (r->x0 <= v.f[0] && r->y0 <= v.f[2] && r->x1 >= v.f[0] && r->y1 >= v.f[2])
+        return 1;
+    return 0;
 }
-

@@ -30,23 +30,25 @@ extern int fn_82A4F4E0();
 extern int fn_82A5C760();
 
 
-longlong fn_82A5C308(uint param_1,ulonglong param_2)
+extern unsigned int lbl_83219D50;
+
+int fn_82A5C308(uint param_1,uint param_2)
 
 {
   uint *puVar1;
-  longlong lVar2;
+  int lVar2;
   
   lVar2 = 0;
-  if ((*(int *)(param_1 + 0x14) == 0) && ((param_2 & 0xffffffff) == 0)) {
-    (**(code **)(**(int **)(param_1 + 4) + 0x10))();
+  if ((*(uint *)(param_1 + 0x14) == 0) && (param_2 == 0)) {
+    (*(code *)(**(int **)(param_1 + 4) + 0x10))(*(int **)(param_1 + 4));
   }
   else {
-    puVar1 = (uint *)fn_82A3FF60(0xffffffff83219d50,0x10,0x20970006,0);
+    puVar1 = (uint *)fn_82A3FF60(&lbl_83219D50,0x10,0x20970006,0);
     if (puVar1 == (uint *)0x0) {
       lVar2 = -0x7ff8fff2;
     }
     else {
-      puVar1[1] = (uint)param_2;
+      puVar1[1] = param_2;
       puVar1[3] = param_1;
       puVar1[2] = 0;
       *puVar1 = (uint)(param_2 != 0);

@@ -34,8 +34,8 @@ void fn_8239B5B8(int param_1,longlong param_2)
   undefined4 uVar1;
   int iVar2;
   
-  iVar2 = (**(code **)(**(int **)(param_1 + 0x2e0) + 0x18))();
-  uVar1 = *(undefined4 *)(((uint)((ulonglong)LZCOUNT(iVar2) >> 3) & 4) + **(int **)(param_1 + 8));
+  iVar2 = (*(code *)(**(int **)(param_1 + 0x2e0) + 0x18))(*(int **)(param_1 + 0x2e0));
+  uVar1 = *(undefined4 *)(((uint)(_CountLeadingZeros(iVar2) >> 3) & 4) + **(int **)(param_1 + 8));
   fn_8239B628(param_1,*(undefined4 *)(iVar2 * 4 + **(int **)(param_1 + 8)),param_2);
   fn_8239B628(param_1,uVar1,param_2 + 0x2c);
   return;

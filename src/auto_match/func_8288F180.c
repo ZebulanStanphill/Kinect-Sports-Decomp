@@ -34,8 +34,8 @@ extern int fn_8289F350();
 void fn_8288F180(int param_1)
 
 {
-  int iVar2;
-  undefined8 uVar1;
+  uint iVar2;
+  int uVar1;
   undefined4 *puVar3;
   undefined1 auStack_20 [16];
   
@@ -43,7 +43,7 @@ void fn_8288F180(int param_1)
   if (iVar2 != 0) {
     uVar1 = fn_8240D928();
     puVar3 = (undefined4 *)fn_8288DF40(auStack_20,param_1 + 0x3c,uVar1);
-    *(uint *)*puVar3 = 1 << (puVar3[1] & 0x3f) | *(uint *)*puVar3;
+    *(uint *)*puVar3 = 1 << puVar3[1] | *(uint *)*puVar3;
   }
   return;
 }

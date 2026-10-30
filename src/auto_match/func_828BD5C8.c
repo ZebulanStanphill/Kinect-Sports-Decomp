@@ -32,24 +32,24 @@ extern int fn_828B5C88();
 extern int fn_828BEFD0();
 
 
-void fn_828BD5C8(int *param_1,undefined8 param_2)
+void fn_828BD5C8(int *param_1,int param_2)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  char cVar3;
+  int uVar2;
+  byte cVar3;
   undefined1 auStack_30 [16];
   
-  uVar2 = (**(code **)(*param_1 + 4))();
+  uVar2 = (*(code *)(*param_1 + 4))();
   fn_828BEFD0(uVar2,param_2);
-  cVar3 = (**(code **)(*param_1 + 0x70))(param_1);
+  cVar3 = (*(code *)(*param_1 + 0x70))(param_1);
   if (cVar3 != '\0') {
     iVar1 = param_1[0x1b];
     fn_828B5580(auStack_30,param_1 + 0x18);
     fn_828B5C88(auStack_30,iVar1,param_2);
     fn_828B55B0(auStack_30);
   }
-  (**(code **)(*param_1 + 0x50))(param_1,param_2);
+  (*(code *)(*param_1 + 0x50))(param_1,param_2);
   return;
 }
 

@@ -32,20 +32,20 @@ extern int fn_82FB6808();
 extern unsigned int lbl_831BC768;
 
 
-undefined8 fn_82FB6A10(undefined8 param_1,int *param_2)
+int fn_82FB6A10(int param_1,int *param_2)
 
 {
   undefined1 uVar1;
   undefined2 uVar2;
   undefined4 uVar3;
-  undefined8 uVar4;
-  int iVar5;
+  int uVar4;
+  uint iVar5;
   undefined1 *puVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
+  uint uVar7;
+  uint uVar8;
   
-  uVar4 = fn_82FAFE40();
-  uVar7 = (ulonglong)*(uint *)*param_2;
+  uVar4 = fn_82FAFE40(param_1);
+  uVar7 = *(uint *)*param_2;
   *param_2 = (int)((uint *)*param_2 + 1);
   if (uVar7 != 0) {
     iVar5 = fn_82FA5060(lbl_831BC768,uVar7 * 0x54);
@@ -53,7 +53,7 @@ undefined8 fn_82FB6A10(undefined8 param_1,int *param_2)
       uVar4 = 2;
     }
     else {
-      if (uVar7 != 0) {
+      if (uVar7 > 0) {
         puVar6 = (undefined1 *)(iVar5 + -3);
         uVar8 = uVar7;
         do {

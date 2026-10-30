@@ -34,13 +34,13 @@ extern int fn_82C49BB0();
 void fn_82C3D190(undefined4 *param_1)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar2;
-  int aiStack_30;
+  uint aiStack_30;
   
   aiStack_30 = param_1[8];
   uVar1 = fn_82C49BB0(*(undefined4 *)(aiStack_30 + 0x44));
-  if (*(int *)(aiStack_30 + 0x54) != 0) {
+  if (*(uint *)(aiStack_30 + 0x54) != 0) {
     fn_82C10B28(*(undefined4 *)(aiStack_30 + 0x1084),0x19,aiStack_30 + 0x54);
   }
   *(undefined4 *)(aiStack_30 + 0x54) = 0;
@@ -49,7 +49,7 @@ void fn_82C3D190(undefined4 *param_1)
     fn_82C10B28(*(undefined4 *)(aiStack_30 + 0x1084),0x19,&aiStack_30);
   }
   iVar2 = fn_82C3CD98(uVar1);
-  if (-1 < iVar2) {
+  if (iVar2 >= 0) {
     *param_1 = 0;
     param_1[1] = 0;
     param_1[2] = 0;

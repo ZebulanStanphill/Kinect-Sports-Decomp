@@ -28,25 +28,25 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_831BC8E8;
 
 
-undefined8 fn_83039F30(int param_1,int param_2,int param_3,ulonglong param_4)
+int fn_83039F30(int param_1,int param_2,int param_3,uint param_4)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
   if (*(short *)(param_2 + 0xe) == 0) {
     uVar1 = 0x11;
   }
   else {
     do {
-      uVar1 = (*(code *)(&lbl_831BC8E8)
+      uVar1 = ((code)(&lbl_831BC8E8)
                         [*(int *)(param_1 + 0x40) * 0xc + (uint)*(byte *)(param_1 + 0x4c)])
                         (param_2,param_3,param_4,param_1);
-      if ((*(int *)(param_1 + 0x40) == 2) && (0x3ff < *(uint *)(param_1 + 0x2c))) {
+      if ((*(int *)(param_1 + 0x40) == 2) && (*(uint *)(param_1 + 0x2c) >= 0x400)) {
         *(undefined4 *)(param_1 + 0x40) = 1;
         *(undefined4 *)(param_1 + 0x24) = *(undefined4 *)(param_1 + 0x28);
       }
     } while ((*(short *)(param_2 + 0xe) != 0) &&
-            ((ulonglong)*(ushort *)(param_3 + 0xe) < (param_4 & 0xffffffff)));
+            (*(ushort *)(param_3 + 0xe) < param_4));
   }
   return uVar1;
 }

@@ -26,18 +26,18 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
-undefined4 * fn_82E21B08(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
+undefined4 * fn_82E21B08(undefined4 *param_1,int param_2,int param_3)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
-  *param_1 = (int)param_3;
+  *param_1 = param_3;
   uVar1 = fn_8265C9E0(param_3);
-  param_1[1] = (int)uVar1;
-  fn_82F68CC0(uVar1,param_2,param_3);
+  param_1[1] = uVar1;
+  memcpy(uVar1,param_2,param_3);
   param_1[2] = 0;
   return param_1;
 }

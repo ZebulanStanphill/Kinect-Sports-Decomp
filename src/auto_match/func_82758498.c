@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82763FE8();
 
 
-void fn_82758498(double param_1,double param_2,double param_3,double param_4,int param_5)
+void fn_82758498(int param_1,float param_2,float param_3,float param_4,float param_5)
 
 {
-  fn_82763FE8(param_5 + 0xc,(int)param_1,(int)param_2,(int)param_3,(int)param_4);
-  *(undefined1 *)(param_5 + 0x85) = 0;
+  fn_82763FE8(param_1 + 0xc,(int)param_2,(int)param_3,(int)param_4,(int)param_5);
+  *(undefined1 *)(param_1 + 0x85) = 0;
   return;
 }
 

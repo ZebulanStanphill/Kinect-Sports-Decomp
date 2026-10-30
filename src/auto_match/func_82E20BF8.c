@@ -35,19 +35,19 @@ extern int fn_82E22450();
 void fn_82E20BF8(int param_1)
 
 {
-  int iVar1;
+  uint iVar1;
   
   fn_82E20B48();
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82E21DA0();
+  if (*(uint *)(param_1 + 8) != 0) {
+    fn_82E21DA0(*(uint *)(param_1 + 8));
     iVar1 = *(int *)(param_1 + 8);
     if (iVar1 != 0) {
       fn_82E22450(iVar1);
       fn_8265CA20(iVar1);
     }
   }
-  if (*(int *)(param_1 + 0x14) != 0) {
-    fn_8265CAA0();
+  if (*(uint *)(param_1 + 0x14) != 0) {
+    fn_8265CAA0(*(int *)(param_1 + 0x14));
     *(undefined4 *)(param_1 + 0x14) = 0;
   }
   return;

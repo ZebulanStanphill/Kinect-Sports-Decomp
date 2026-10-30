@@ -34,13 +34,13 @@ extern int fn_82712008();
 void fn_8272D028(int *param_1)
 
 {
-  int iVar2;
-  longlong lVar1;
-  char cVar3;
+  uint iVar2;
+  int lVar1;
+  byte cVar3;
   
-  iVar2 = (**(code **)(*param_1 + 0x40))();
+  iVar2 = (*(code *)(*param_1 + 0x40))();
   if (iVar2 != 0) {
-    lVar1 = (**(code **)(*(int *)(iVar2 + 8) + 0xc))(iVar2 + 8,0x1b);
+    lVar1 = (*(code *)(*(int *)(iVar2 + 8) + 0xc))(iVar2 + 8,0x1b);
     if (lVar1 != 0) {
       cVar3 = fn_82712008(lVar1,param_1);
       if (cVar3 != '\0') {
@@ -49,7 +49,7 @@ void fn_8272D028(int *param_1)
       fn_8267C4F0(lVar1);
     }
   }
-  iVar2 = (**(code **)(*param_1 + 0x40))(param_1);
+  iVar2 = (*(code *)(*param_1 + 0x40))(param_1);
   if (iVar2 != 0) {
     *(uint *)(iVar2 + 0xb00) = *(uint *)(iVar2 + 0xb00) | 0x400;
   }

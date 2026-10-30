@@ -31,11 +31,11 @@ extern int fn_82CE4040();
 void fn_830B2FC8(int param_1)
 
 {
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_82CE4040();
+  if (*(uint *)(param_1 + 0x18) != 0) {
+    fn_82CE4040(*(int *)(param_1 + 0x18));
   }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_82CE4040();
+  if (*(uint *)(param_1 + 0x1c) != 0) {
+    fn_82CE4040(*(uint *)(param_1 + 0x1c));
   }
   return;
 }

@@ -1,46 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_826944C8();
+typedef struct {
+    char pad[8];
+    int refs;
+} Ref_8272FFB0;
 
+typedef struct {
+    char pad0[4];
+    Ref_8272FFB0 *ref;
+    void *b;
+    char padc[8];
+    void *a;
+} Obj_8272FFB0;
 
-void fn_8272FFB0(int param_1)
+extern void fn_8267BE38(void *p);
+extern void fn_826944C8(Ref_8272FFB0 *p);
 
+void fn_8272FFB0(Obj_8272FFB0 *o)
 {
-  longlong lVar1;
-  
-  fn_8267BE38(*(undefined4 *)(param_1 + 0x14));
-  fn_8267BE38(*(undefined4 *)(param_1 + 8));
-  lVar1 = (ulonglong)*(uint *)(*(int *)(param_1 + 4) + 8) - 1;
-  *(int *)(*(int *)(param_1 + 4) + 8) = (int)lVar1;
-  if (lVar1 == 0) {
-    fn_826944C8();
-  }
-  return;
-}
+    Ref_8272FFB0 *r;
 
+    fn_8267BE38(o->a);
+    fn_8267BE38(o->b);
+    r = o->ref;
+    if (--r->refs == 0) {
+        fn_826944C8(r);
+    }
+}

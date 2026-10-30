@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_830C6770(int param_1,int param_2)
+uint fn_830C6770(int param_1,int param_2)
 
 {
-  return ((longlong)(int)(param_2 >> 8 & 0xfffffe00) * (longlong)*(int *)(param_1 + 0x5b0) &
-         0xfffe0000U) + ((ulonglong)*(uint *)(param_1 + 0x558) & 0x7fff) * -0x20000 + 0x10000 |
+  return ((longlong)(int)(param_2 >> 8 & 0xfffffe00) * *(int *)(param_1 + 0x5b0) &
+         0xfffe0000U) + (*(uint *)(param_1 + 0x558) & 0x7fff) * -0x20000 + 0x10000 |
          (ulonglong)(uint)((int)(short)param_2 * *(int *)(param_1 + 0x5b0) >> 8) & 0xffff;
 }
 

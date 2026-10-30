@@ -25,17 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B70();
+extern int fn_82BC0340();
 
 
-void fn_82BAF508(int param_1,int param_2,longlong param_3)
+void fn_82BAF508(int param_1,int param_2,int param_3)
 
 {
   *(undefined4 *)(*(int *)(param_1 + 0x18) + 0xc) =
        *(undefined4 *)((int)((param_3 + 0xeU & 0xffffffff) << 2) + param_2);
   *(undefined4 *)(*(int *)(param_1 + 0x18) + 0x20) =
        *(undefined4 *)((int)((param_3 + 0x14U & 0xffffffff) << 2) + param_2);
-  fn_82F68B70(*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 0x18));
+  fn_82BC0340(*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 0x18));
   return;
 }
 

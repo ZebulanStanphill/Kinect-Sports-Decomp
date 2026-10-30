@@ -28,21 +28,21 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8302D408();
 
 
-undefined8 fn_8302DF40(int param_1,undefined8 param_2,ulonglong param_3)
+int fn_8302DF40(int param_1,int param_2,uint param_3)
 
 {
-  char cVar2;
-  undefined8 uVar1;
+  byte cVar2;
+  int uVar1;
   
   if ((param_3 & 0xff) != 0x32) {
     *(byte *)(param_1 + 0x11f) = *(byte *)(param_1 + 0x11f) | 0x10;
   }
   if (((*(byte *)(param_1 + 0x11f) & 0xe0) == 0x20) ||
-     (cVar2 = (**(code **)(**(int **)(param_1 + 0x88) + 0x20))(*(int **)(param_1 + 0x88),param_2),
+     (cVar2 = (*(code *)(**(int **)(param_1 + 0x88) + 0x20))(*(int **)(param_1 + 0x88),param_2),
      cVar2 == '\0')) {
-    uVar1 = (**(code **)(**(int **)(param_1 + 0x88) + 0x14))
+    uVar1 = (*(code *)(**(int **)(param_1 + 0x88) + 0x14))
                       (*(int **)(param_1 + 0x88),param_2,param_3);
-    if ((int)uVar1 == 1) {
+    if (uVar1 == 1) {
       fn_8302D408(param_1);
     }
   }

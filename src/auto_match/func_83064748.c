@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_83063FB8();
 
 
-void fn_83064748(double param_1,int param_2)
+void fn_83064748(int param_1,float param_2)
 
 {
   fn_83063FB8();
-  *(float *)(param_2 + 0x30) = (float)param_1;
+  *(float *)(param_1 + 0x30) = (float)param_2;
   return;
 }
 

@@ -1,41 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83022188();
-extern int fn_830221F8();
+typedef struct { char pad[0xc]; float f; } Cfg;
+typedef struct { void *v; } Item;
+typedef struct { char pad[8]; Cfg *cfg; char sub[1]; } Obj;
 
+extern void fn_830221F8(void *sub, float f);
+extern void fn_83022188(void *sub, Item *it);
 
-void fn_830222D0(int param_1,int *param_2)
-
+void fn_830222D0(Obj *p, Item *it)
 {
-  fn_830221F8((double)*(float *)(*(int *)(param_1 + 8) + 0xc),param_1 + 0xc);
-  if (*param_2 != 0) {
-    fn_83022188(param_1 + 0xc,param_2);
-  }
-  return;
+    fn_830221F8(p->sub, p->cfg->f);
+    if (it->v) {
+        fn_83022188(p->sub, it);
+    }
 }
-

@@ -27,21 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_828055D0(double param_1,int *param_2,int param_3)
+void fn_828055D0(int *param_1,int param_2,float param_3)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
   
-  param_3 = param_3 * 4;
-  iVar1 = param_2[1];
-  iVar2 = param_2[2];
-  iVar3 = param_2[3];
-  *(float *)(*param_2 + param_3) = (float)param_1;
-  *(float *)(iVar1 + param_3) = (float)param_1;
-  *(float *)(iVar2 + param_3) = (float)param_1;
-  *(float *)(iVar3 + param_3) = (float)param_1;
+  param_2 = param_2 * 4;
+  iVar1 = param_1[1];
+  iVar2 = param_1[2];
+  iVar3 = param_1[3];
+  *(float *)(*param_1 + param_2) = (float)param_3;
+  *(float *)(iVar1 + param_2) = (float)param_3;
+  *(float *)(iVar2 + param_2) = (float)param_3;
+  *(float *)(iVar3 + param_2) = (float)param_3;
   return;
 }
 

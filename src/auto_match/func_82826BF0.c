@@ -26,23 +26,19 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8282D0E0();
-extern int fn_82F672D8();
-extern unsigned int iStack00000014;
-extern unsigned int stack0x00000014;
+extern int strncpy();
 
 
 void fn_82826BF0(int param_1,uint param_2,int param_3,int param_4)
 
 {
-  int iStack00000014;
   
-  iStack00000014 = param_1;
   if ((*(byte *)(param_1 + 0x134) & 0x20) == 0) {
-    fn_8282D0E0(*(undefined4 *)(param_1 + 0xcc),1,&stack0x00000014);
+    fn_8282D0E0(*(undefined4 *)(param_1 + 0xcc),1,&param_1);
   }
-  fn_82F672D8(param_3,(ulonglong)
-                       *(uint *)((param_2 & 0xff) * 0x21 + *(int *)(iStack00000014 + 0x114) + -0x21)
-                       + (ulonglong)*(uint *)(iStack00000014 + 200),param_4);
+  strncpy(param_3,
+                       *(uint *)((param_2 & 0xff) * 0x21 + *(int *)(param_1 + 0x114) + -0x21)
+                       + *(uint *)(param_1 + 200),param_4);
   *(undefined1 *)(param_3 + param_4 + -1) = 0;
   return;
 }

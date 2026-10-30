@@ -1,39 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
+typedef struct V { float x, y, z; } V;
+extern float fn_82809558(float x);  /* sqrtf */
 
-
-double fn_82810B40(float *param_1,float *param_2)
-
+float fn_82810B40(V *a, V *b)
 {
-  return (double)SQRT((*param_1 - *param_2) * (*param_1 - *param_2) +
-                      (param_1[2] - param_2[2]) * (param_1[2] - param_2[2]) +
-                      (param_1[1] - param_2[1]) * (param_1[1] - param_2[1]));
+    V d;
+    d.x = a->x - b->x;
+    d.y = a->y - b->y;
+    d.z = a->z - b->z;
+    return fn_82809558(d.x * d.x + d.y * d.y + d.z * d.z);
 }
-

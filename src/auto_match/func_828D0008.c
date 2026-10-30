@@ -31,12 +31,12 @@ extern int fn_82CE07C8();
 extern unsigned int lbl_82026788;
 
 
-undefined4 * fn_828D0008(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_828D0008(undefined4 *param_1,uint param_2)
 
 {
   *param_1 = &lbl_82026788;
   if (param_1[0x21] != 0) {
-    fn_82CE07C8();
+    fn_82CE07C8(param_1[0x21]);
     param_1[0x21] = 0;
   }
   fn_828AC488(param_1 + 0x18);

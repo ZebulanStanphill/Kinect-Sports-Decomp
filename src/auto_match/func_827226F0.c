@@ -32,8 +32,8 @@ extern int fn_82722690();
 void fn_827226F0(int param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8267C498();
+  if (*(uint *)(param_1 + 0x1c) != 0) {
+    fn_8267C498(*(int *)(param_1 + 0x1c));
     *(undefined4 *)(param_1 + 0x1c) = 0;
   }
   fn_82722690(param_1,param_2,param_3);

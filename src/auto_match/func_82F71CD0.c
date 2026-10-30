@@ -1,44 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int _amsg_exit();
-extern int fn_82F71B90();
-extern unsigned int lbl_831BB940;
+typedef struct { void *lock; int kind; } LockEntry;
+extern LockEntry lbl_831BB940[];
+extern int fn_82F71B90(int);
+extern void _amsg_exit(int);
+extern void RtlEnterCriticalSection(void *);
 
-
-void _lock(int param_1)
-
+void _lock(int locknum)
 {
-  int iVar1;
-  
-  if (((&lbl_831BB940)[param_1 * 2] == 0) && (iVar1 = fn_82F71B90(), iVar1 == 0)) {
-    _amsg_exit(0x11);
-  }
-  RtlEnterCriticalSection((&lbl_831BB940)[param_1 * 2]);
-  return;
+    if (lbl_831BB940[locknum].lock == 0) {
+        if (!fn_82F71B90(locknum))
+            _amsg_exit(0x11);
+    }
+    RtlEnterCriticalSection(lbl_831BB940[locknum].lock);
 }
-

@@ -1,45 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+    int id;
+    int a;
+    int b;
+    unsigned char flag;
+} Info_83025208;
 
+typedef struct Inner_83025208 Inner_83025208;
+typedef struct {
+    void *f[58];
+    void (*query)(Inner_83025208 *self, int key, Info_83025208 *out, int flags);
+} InnerVt_83025208;
+struct Inner_83025208 { InnerVt_83025208 *vt; };
 
-void fn_83025208(int *param_1,undefined8 param_2,undefined4 *param_3)
+typedef struct {
+    Inner_83025208 *inner;
+} Obj_83025208;
 
+void fn_83025208(Obj_83025208 *o, int key, Info_83025208 *out)
 {
-  if ((int *)*param_1 != (int *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x83025224. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(code **)(*(int *)*param_1 + 0xe8))();
-    return;
-  }
-  param_3[1] = 0;
-  *param_3 = 0xffffffff;
-  param_3[2] = 0;
-  *(undefined1 *)(param_3 + 3) = 0;
-  return;
+    Inner_83025208 *in = o->inner;
+    if (in != 0) {
+        in->vt->query(in, key, out, 0);
+        return;
+    }
+    out->a = 0;
+    out->id = -1;
+    out->b = 0;
+    out->flag = 0;
 }
-

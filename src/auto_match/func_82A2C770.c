@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A2C770(int param_1,ulonglong param_2,uint param_3,ulonglong param_4)
+int fn_82A2C770(int param_1,uint param_2,uint param_3,uint param_4)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   
   if (((((*(uint *)(param_1 + 0x24) & param_4) == 0) &&
-       ((*(uint *)(param_1 + 0x24) & param_2 & 0xfff) == 0)) && (0xfff < param_3)) &&
+       ((*(uint *)(param_1 + 0x24) & param_2 & 0xfff) == 0)) && (param_3 >= 0x1000)) &&
      ((((param_3 + param_4 ^ param_4 + 0xfff) & 0xfffff000) != 0 &&
       (uVar1 = MmQueryAddressProtect(param_2), (uVar1 & 0x600) == 0)))) {
     return 0;

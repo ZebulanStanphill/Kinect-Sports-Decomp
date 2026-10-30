@@ -36,7 +36,7 @@ void fn_82689F38(int param_1,undefined4 *param_2)
   fn_8268BA10(param_1,*param_2);
   iVar1 = param_2[1];
   fn_8268BA10(param_1 + 4,iVar1);
-  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(iVar1 + 4);
+  *(float *)(param_1 + 8) = *(float *)(iVar1 + 4);
   *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(iVar1 + 8);
   return;
 }

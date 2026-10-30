@@ -32,12 +32,12 @@ extern int fn_827F38B8();
 extern unsigned int lbl_821CAA48;
 
 
-undefined4 * fn_8260B200(undefined4 *param_1,ulonglong param_2)
+undefined4 * fn_8260B200(undefined4 *param_1,int param_2)
 
 {
   *param_1 = &lbl_821CAA48;
   if (param_1[0x2f] != 0) {
-    fn_8265CAA0();
+    fn_8265CAA0(param_1[0x2f]);
   }
   fn_827F38B0(param_1 + 8);
   fn_827F38B8(param_1);

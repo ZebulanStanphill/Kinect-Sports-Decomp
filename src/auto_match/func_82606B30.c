@@ -1,47 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82D95638();
-extern unsigned int lbl_821CA8E4;
+extern char lbl_821CA8E4[];
+extern void fn_82D95638(void *p);
+extern void *fn_82CE5410(void);
 
+typedef struct Alloc Alloc;
+struct AllocVt { void *f0; void *f4; void (*free)(Alloc *, void *, unsigned short); };
+struct Alloc { struct AllocVt *vt; };
+typedef struct { void *vt; unsigned short size; } Obj;
 
-undefined4 * fn_82606B30(undefined4 *param_1,ulonglong param_2)
-
+Obj *fn_82606B30(Obj *p, unsigned int flags)
 {
-  int iVar1;
-  
-  *param_1 = &lbl_821CA8E4;
-  fn_82D95638();
-  if ((param_2 & 1) != 0) {
-    iVar1 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar1 + 0x10) + 8))
-              (*(int **)(iVar1 + 0x10),param_1,*(undefined2 *)(param_1 + 1));
-  }
-  return param_1;
+    p->vt = lbl_821CA8E4;
+    fn_82D95638(p);
+    if (flags & 1) {
+        Alloc *a = *(Alloc **)((char *)fn_82CE5410() + 0x10);
+        a->vt->free(a, p, p->size);
+    }
+    return p;
 }
-

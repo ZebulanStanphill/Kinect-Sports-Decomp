@@ -1,54 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2B760();
+extern int NtSetTimerEx(void *h, void *due, void *apc, int mode, void *ctx, unsigned char resume, int period, void *prev);
+extern void fn_82A2B760(int st);   /* set last error from NTSTATUS */
+extern void fn_82A2A370(int err);  /* SetLastError */
 
-
-undefined8
-fn_8306C348(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined1 param_6)
-
+int fn_8306C348(void *h, void *due, int period, void *apc, void *ctx, int resume)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  iVar2 = NtSetTimerEx(param_1,param_2,param_4,1,param_5,param_6,param_3,0);
-  if (iVar2 < 0) {
-    fn_82A2B760();
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 0x32;
-    if (iVar2 != 0x40000025) {
-      uVar1 = 0;
+    int st = NtSetTimerEx(h, due, apc, 1, ctx, resume, period, 0);
+    if (st < 0) {
+        fn_82A2B760(st);
+        return 0;
     }
-    thunk_FUN_82a2b748(uVar1);
-    uVar1 = 1;
-  }
-  return uVar1;
+    if (st == 0x40000025)
+        fn_82A2A370(0x32);
+    else
+        fn_82A2A370(0);
+    return 1;
 }
-

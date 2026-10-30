@@ -1,49 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BBDD18();
-extern int fn_82BBECA8();
-extern int fn_82BBEF70();
+extern int fn_82BBDD18(void *p);
+extern int fn_82BBECA8(void *p);
+extern int fn_82BBEF70(void *p);
 
-
-uint fn_82BBFA78(undefined8 param_1)
-
+int fn_82BBFA78(void *p)
 {
-  uint uVar1;
-  
-  uVar1 = fn_82BBECA8();
-  if (-1 < (int)uVar1) {
-    uVar1 = fn_82BBEF70(param_1);
-    uVar1 = (int)uVar1 >> 0x1f & uVar1;
+  int result;
+  int hr = fn_82BBECA8(p);
+  if (hr >= 0) {
+    int r = fn_82BBEF70(p);
+    result = r < 0 ? r : 0;
+  } else {
+    result = hr;
   }
-  if (-1 < (int)uVar1) {
-    uVar1 = fn_82BBDD18(param_1);
-    uVar1 = (int)uVar1 >> 0x1f & uVar1;
+  if (result >= 0) {
+    int r = fn_82BBDD18(p);
+    result = r < 0 ? r : 0;
   }
-  return uVar1;
+  return result;
 }
-

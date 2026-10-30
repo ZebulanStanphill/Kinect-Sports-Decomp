@@ -28,14 +28,13 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82CFF8D0();
 
 
-void fn_82CFF998(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5)
+void fn_82CFF998(int *param_1,undefined8 param_2,undefined8 param_3,int param_4,int param_5)
 
 {
-  if ((0 < (int)param_4) && ((int)param_5 == 0)) {
+  if ((0 < (__int64)param_4) && ((__int64)param_5 == 0)) {
     param_5 = fn_82CFF8D0(param_3,param_4);
   }
-  (**(code **)(*param_1 + 0x14))(param_1,0,param_2,param_3,param_4,param_5);
+  (*(code *)(*param_1 + 0x14))(param_1,0,param_2,param_3,param_4,param_5);
   return;
 }
 

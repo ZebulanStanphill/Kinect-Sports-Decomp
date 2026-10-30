@@ -35,8 +35,8 @@ undefined4 fn_82ADD610(int param_1,int param_2)
   int iVar2;
   
   uVar1 = *(uint *)(param_2 + 8) >> 1 & 0xf;
-  iVar2 = fn_82ADD198(param_1,((ulonglong)*(ushort *)(param_2 + 0x12) -
-                                LZCOUNT(uVar1 & ~(uVar1 - 1))) + 0x1f);
+  iVar2 = fn_82ADD198(param_1,(*(ushort *)(param_2 + 0x12) -
+                                _CountLeadingZeros(uVar1 & ~(uVar1 - 1))) + 0x1f);
   return *(undefined4 *)(*(int *)(param_1 + 0x2b0) + iVar2 * 4);
 }
 

@@ -28,18 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8288C540();
 extern int fn_828B22F0();
 extern int fn_828CA8B8();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
 
 
 int fn_828CAAC8(longlong param_1,undefined4 param_2)
 
 {
   int iVar1;
-  undefined4 uStack0000001c;
   
-  uStack0000001c = param_2;
-  iVar1 = fn_828CA8B8(param_1 + 8,&stack0x0000001c);
+  iVar1 = fn_828CA8B8(param_1 + 8,&param_2);
   fn_8288C540(iVar1,*(undefined4 *)(*(int *)(iVar1 + 4) + 4));
   *(int *)(*(int *)(iVar1 + 4) + 4) = *(int *)(iVar1 + 4);
   *(undefined4 *)*(undefined4 *)(iVar1 + 4) = *(undefined4 *)(iVar1 + 4);

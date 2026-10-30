@@ -31,9 +31,9 @@ extern unsigned int lbl_831751D0;
 void fn_82BF71A0(int *param_1,int param_2,int param_3)
 
 {
-  int iVar1;
+  uint iVar1;
   
-  iVar1 = (*(code *)lbl_831751D0)((longlong)param_2 * (longlong)param_3 + 0xc);
+  iVar1 = ((code)lbl_831751D0)(param_2 * param_3 + 0xc);
   if (iVar1 != 0) {
     *(int *)(iVar1 + 8) = *param_1;
     *param_1 = iVar1;

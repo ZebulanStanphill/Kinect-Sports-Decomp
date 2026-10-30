@@ -28,18 +28,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_826C8A18();
 
 
-void fn_826CBE10(int param_1,undefined8 param_2,ulonglong param_3)
+void fn_826CBE10(int param_1,int param_2,uint param_3)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   
-  if ((param_3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 4)) {
+  if (param_3 < *(uint *)(param_1 + 4)) {
     uVar1 = param_3;
-    if ((ulonglong)(*(uint *)(param_1 + 8) >> 1) <= (param_3 & 0xffffffff)) goto LAB_826cbe64;
+    if (param_3 >= (ulonglong)(*(uint *)(param_1 + 8) >> 1)) goto LAB_826cbe64;
   }
   else {
-    if ((param_3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 8)) goto LAB_826cbe64;
-    uVar1 = ((param_3 & 0xffffffff) >> 2) + param_3;
+    if (param_3 < *(uint *)(param_1 + 8)) goto LAB_826cbe64;
+    uVar1 = (param_3 >> 2) + param_3;
   }
   fn_826C8A18(param_1,param_2,uVar1);
 LAB_826cbe64:

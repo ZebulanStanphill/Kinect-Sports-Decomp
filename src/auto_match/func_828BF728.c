@@ -1,49 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828B5608();
-extern int fn_828BDDA0();
-extern unsigned int lbl_82023640;
-extern unsigned int lbl_82023648;
+typedef struct { int a, b; unsigned int flags; } Sub;
+typedef struct {
+    void *vt;
+    char pad[0x4c];
+    void *vt2;
+    char pad2[0x2c];
+    Sub sub;
+    int x8c, x90, x94;
+    int pad98;
+    unsigned char b9c, pad9d, b9e;
+} T;
 
+extern char lbl_82023648[];
+extern char lbl_82023640[];
+extern void fn_828BDDA0(T *p);
+extern void fn_828B5608(Sub *s);
 
-undefined4 * fn_828BF728(undefined4 *param_1)
-
+T *fn_828BF728(T *p)
 {
-  fn_828BDDA0();
-  *param_1 = &lbl_82023648;
-  param_1[0x14] = &lbl_82023640;
-  fn_828B5608(param_1 + 0x20);
-  param_1[0x22] = 0x8000000;
-  param_1[0x23] = 0;
-  param_1[0x24] = 0;
-  param_1[0x25] = 0;
-  *(undefined1 *)(param_1 + 0x27) = 0;
-  *(undefined1 *)((int)param_1 + 0x9e) = 0;
-  return param_1;
+    Sub *s;
+    fn_828BDDA0(p);
+    p->vt = lbl_82023648;
+    p->vt2 = lbl_82023640;
+    s = &p->sub;
+    fn_828B5608(s);
+    s->flags = 0x8000000;
+    p->x8c = 0;
+    p->x90 = 0;
+    p->x94 = 0;
+    p->b9c = 0;
+    p->b9e = 0;
+    return p;
 }
-

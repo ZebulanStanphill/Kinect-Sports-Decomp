@@ -28,15 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8270BDE0();
 
 
-longlong fn_8270C668(uint *param_1,int param_2,int param_3,uint param_4)
+int fn_8270C668(uint *param_1,int param_2,int param_3,uint param_4)
 
 {
   uint uVar1;
-  longlong lVar2;
+  int lVar2;
   
   uVar1 = *param_1;
-  lVar2 = fn_8270BDE0(param_2 + 0x20,param_3 - *(int *)(param_2 + 0x1c) >> (uVar1 & 0x3f),
-                        param_4 >> (uVar1 & 0x3f));
-  return lVar2 + (ulonglong)uVar1;
+  lVar2 = fn_8270BDE0(param_2 + 0x20,param_3 - *(int *)(param_2 + 0x1c) >> uVar1,
+                        param_4 >> uVar1);
+  return lVar2 + uVar1;
 }
 

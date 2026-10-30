@@ -32,17 +32,25 @@ extern int fn_82FE7CC0();
 extern int fn_82FE7CD0();
 
 
+extern int fn_82FA7340();
+
+extern int fn_82FA7610();
+
+extern int fn_82FAC4B8();
+
+extern int fn_82FA6E98();
+
 undefined8 fn_82FA7B00(void)
 
 {
-  int iVar1;
+  uint iVar1;
   
   iVar1 = fn_82FA79C0();
   if (iVar1 != 0) {
-    fn_82FE7CA0(0xffffffff82fa7340);
-    fn_82FE7CB0(0xffffffff82fa7610);
-    fn_82FE7CC0(0xffffffff82fac4b8);
-    fn_82FE7CD0(0xffffffff82fa6e98);
+    fn_82FE7CA0(fn_82FA7340);
+    fn_82FE7CB0(fn_82FA7610);
+    fn_82FE7CC0(fn_82FAC4B8);
+    fn_82FE7CD0(fn_82FA6E98);
     return 1;
   }
   return 2;

@@ -1,48 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FABF68();
-extern int fn_82FAD100();
-extern int fn_82FAE140();
-extern int fn_82FB3AE8();
-
-
-void fn_82FB3CE0(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+typedef struct { char pad[0x40]; int sub; char pad2[0x14]; int x; } S;
+extern int fn_82FABF68(S *p, int a, int b);
+extern void fn_82FAD100(void *p);
+extern int fn_82FAE140(int x);
+extern void fn_82FB3AE8(S *p, int a, int b, int n, int d);
+void fn_82FB3CE0(S *p, int a, int b, int d)
 {
-  int iVar2;
-  longlong lVar1;
-  
-  fn_82FAD100(param_1 + 0x40);
-  iVar2 = fn_82FABF68(param_1,param_2,param_3);
-  if (iVar2 == 1) {
-    lVar1 = fn_82FAE140(*(undefined4 *)(param_1 + 0x58));
-    fn_82FB3AE8(param_1,param_2,param_3,-lVar1,param_4);
-  }
-  return;
+    fn_82FAD100(&p->sub);
+    if (fn_82FABF68(p, a, b) == 1)
+        fn_82FB3AE8(p, a, b, -fn_82FAE140(p->x), d);
 }
-

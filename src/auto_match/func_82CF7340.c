@@ -27,24 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82CF7340(int param_1,undefined8 param_2,ulonglong param_3)
+void fn_82CF7340(int param_1,int param_2,uint param_3)
 
 {
   int iVar1;
   
-  iVar1 = (int)param_3;
-  if (iVar1 < 0x2001) {
-    if (iVar1 < 0x221) {
+  iVar1 = param_3;
+  if (iVar1 <= 0x2000) {
+    if (iVar1 <= 0x220) {
       iVar1 = (int)*(char *)((iVar1 + 0xf >> 4) + param_1 + 0xd8);
     }
     else {
       iVar1 = *(int *)(((iVar1 + -1 >> 10) + 0x3f) * 4 + param_1);
     }
-    param_3 = (ulonglong)*(uint *)((iVar1 + 0x25) * 4 + param_1);
+    param_3 = *(uint *)((iVar1 + 0x25) * 4 + param_1);
   }
                     /* WARNING: Could not recover jumptable at 0x82cf7398. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 4) + 0x2c))(*(int **)(param_1 + 4),param_2,param_3);
+  (*(code *)(**(int **)(param_1 + 4) + 0x2c))(*(int **)(param_1 + 4),param_2,param_3);
   return;
 }
 

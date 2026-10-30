@@ -1,50 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E75568();
-extern int fn_82E75AC8();
-extern unsigned int lbl_8215EFE8;
+typedef struct {
+    void *vt;
+    char pad[0x64];
+    unsigned __int64 x68;
+    int x70;
+    int x74;
+} T;
 
+extern char lbl_8215EFE8[];
+extern void fn_82E75AC8(T *p);
+extern int fn_82E75568(T *p, int arg);
 
-undefined4 * fn_82E76168(undefined4 *param_1,undefined8 param_2)
-
+T *fn_82E76168(T *p, int arg, int a5, int a6, int a7, int a8, int *phr)
 {
-  int iVar1;
-  int *in_r9;
-  
-  fn_82E75AC8();
-  *(undefined8 *)(param_1 + 0x1a) = 0;
-  *param_1 = &lbl_8215EFE8;
-  param_1[0x1c] = 0;
-  param_1[0x1d] = 0;
-  if (((in_r9 == (int *)0x0) || (-1 < *in_r9)) &&
-     (iVar1 = fn_82E75568(param_1,param_2), in_r9 != (int *)0x0)) {
-    *in_r9 = iVar1;
-  }
-  return param_1;
+    fn_82E75AC8(p);
+    p->x68 = 0;
+    p->vt = lbl_8215EFE8;
+    p->x70 = 0;
+    p->x74 = 0;
+    if (phr == 0 || *phr >= 0) {
+        int hr = fn_82E75568(p, arg);
+        if (phr != 0)
+            *phr = hr;
+    }
+    return p;
 }
-

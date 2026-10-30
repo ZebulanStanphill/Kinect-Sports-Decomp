@@ -27,16 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_8282B948(int param_1,int param_2)
+int fn_8282B948(int param_1,int param_2)
 
 {
-  longlong lVar1;
+  int lVar1;
   
-  lVar1 = (ulonglong)*(uint *)(param_2 + 0x10) - (ulonglong)*(uint *)(param_1 + 0x10);
+  lVar1 = *(uint *)(param_2 + 0x10) - *(uint *)(param_1 + 0x10);
   if (lVar1 == 0) {
-    lVar1 = (ulonglong)*(uint *)(param_2 + 0x20) - (ulonglong)*(uint *)(param_1 + 0x20);
+    lVar1 = *(uint *)(param_2 + 0x20) - *(uint *)(param_1 + 0x20);
     if (lVar1 == 0) {
-      lVar1 = (ulonglong)*(uint *)(param_2 + 0x24) - (ulonglong)*(uint *)(param_1 + 0x24);
+      lVar1 = *(uint *)(param_2 + 0x24) - *(uint *)(param_1 + 0x24);
       if ((lVar1 == 0) &&
          (lVar1 = (ulonglong)*(uint *)(param_2 + 0x1c) - (ulonglong)*(uint *)(param_1 + 0x1c),
          lVar1 == 0)) {

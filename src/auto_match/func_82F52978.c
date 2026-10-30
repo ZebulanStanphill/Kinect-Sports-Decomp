@@ -33,7 +33,7 @@ void fn_82F52978(undefined4 *param_1)
 {
   *param_1 = &lbl_82165B70;
   if ((int *)param_1[2] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[2] + 0x28))();
+    (*(code *)(*(int *)param_1[2] + 0x28))(param_1[2]);
     param_1[2] = 0;
   }
   return;

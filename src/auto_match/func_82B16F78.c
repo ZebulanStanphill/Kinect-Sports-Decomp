@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82B16F78(int *param_1,int *param_2)
+int fn_82B16F78(int *param_1,int *param_2)
 
 {
   return (longlong)(int)(*(uint *)(*(int *)(*param_2 + 4) + 0x44) & 0xfffffff) *
-         (longlong)*(int *)(*param_2 + 0x30) -
+         *(int *)(*param_2 + 0x30) -
          (longlong)(int)(*(uint *)(*(int *)(*param_1 + 4) + 0x44) & 0xfffffff) *
-         (longlong)*(int *)(*param_1 + 0x30);
+         *(int *)(*param_1 + 0x30);
 }
 

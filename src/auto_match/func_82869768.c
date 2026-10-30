@@ -1,53 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82876910();
+typedef struct { int pad; int x4; unsigned __int64 key; int x10; } Entry;
+typedef struct { unsigned __int64 key; int x8; int xc; int x10; int x14; int x18; } Out;
+extern Entry *fn_82876910(void *tbl, int a, int b);
 
-
-undefined8
-fn_82869768(int param_1,int param_2,undefined8 param_3,undefined8 param_4,undefined8 *param_5)
-
+int fn_82869768(char *self, char *src, int a, int b, Out *out)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  iVar2 = fn_82876910(param_2 + 8,param_3,param_4);
-  if (iVar2 == 0) {
-    uVar1 = 0x42;
-  }
-  else {
-    uVar1 = 1;
-    *(undefined4 *)(param_5 + 3) = *(undefined4 *)(param_1 + 0x41c);
-    *(undefined4 *)((int)param_5 + 0x14) = *(undefined4 *)(param_2 + 0x1c);
-    *param_5 = *(undefined8 *)(iVar2 + 8);
-    *(undefined4 *)(param_5 + 1) = *(undefined4 *)(iVar2 + 0x10);
-    *(undefined4 *)(param_5 + 2) = 0;
-    *(undefined4 *)((int)param_5 + 0xc) = *(undefined4 *)(iVar2 + 4);
-  }
-  return uVar1;
+    Entry *e = fn_82876910(src + 8, a, b);
+    if (e != 0) {
+        out->x18 = *(int *)(self + 0x41c);
+        out->x14 = *(int *)(src + 0x1c);
+        out->key = e->key;
+        out->x8 = e->x10;
+        out->x10 = 0;
+        out->xc = e->x4;
+        return 1;
+    }
+    return 0x42;
 }
-

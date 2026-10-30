@@ -28,18 +28,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_83068418();
 
 
-void fn_83065890(int *param_1,ulonglong param_2)
+void fn_83065890(int *param_1,uint param_2)
 
 {
-  char cVar2;
+  byte cVar2;
   int iVar1;
   
-  param_1[1] = (int)param_2;
-  if ((param_2 & 0xffffffff) != 0) {
+  param_1[1] = param_2;
+  if (param_2 != 0) {
     cVar2 = fn_83068418(param_2);
-    param_1[2] = (int)param_2;
+    param_1[2] = param_2;
     if (cVar2 == '\0') {
-      iVar1 = (**(code **)(*param_1 + 4))(param_1,param_2);
+      iVar1 = (*(code *)(*param_1 + 4))(param_1,param_2);
       param_1[2] = iVar1;
     }
   }

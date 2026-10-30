@@ -1,60 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x58]; unsigned int n; char pad2[0x6e - 0x5c]; unsigned short fmt; } Src;
+typedef struct { char pad[0xc]; unsigned int fmt; } Req;
+typedef struct { Src *src; char pad[0x164 - 4]; int conv; char pad2[0x170 - 0x168]; unsigned int n; char pad3[0x18c - 0x174]; unsigned short fmt; } P;
 
-
-void fn_82A527B8(int *param_1,int param_2)
-
+void fn_82A527B8(P *p, Req *r)
 {
-  int iVar1;
-  uint uVar2;
-  
-  iVar1 = *param_1;
-  param_1[0x59] = 0;
-  param_1[0x5c] = *(int *)(iVar1 + 0x58);
-  *(undefined2 *)(param_1 + 99) = *(undefined2 *)(iVar1 + 0x6e);
-  if (*(short *)(iVar1 + 0x6e) == 0x10) {
-    return;
-  }
-  if (*(int *)(param_2 + 0xc) != 0x10) {
-    return;
-  }
-  *(undefined2 *)(param_1 + 99) = 0x10;
-  param_1[0x59] = 1;
-  uVar2 = *(uint *)(iVar1 + 0x58);
-  if (2 < uVar2) {
-    uVar2 = 2;
-  }
-  param_1[0x5c] = uVar2;
-  if (uVar2 != *(uint *)(iVar1 + 0x58)) {
-    return;
-  }
-  param_1[0x59] = 0;
-  *(undefined2 *)(param_1 + 99) = *(undefined2 *)(iVar1 + 0x6e);
-  return;
+    Src *s = p->src;
+    p->conv = 0;
+    p->n = s->n;
+    p->fmt = s->fmt;
+    if (s->fmt == 0x10)
+        return;
+    if (r->fmt != 0x10)
+        return;
+    p->conv = 1;
+    p->fmt = 0x10;
+    p->n = s->n > 2 ? 2 : s->n;
+    if (p->n != s->n)
+        return;
+    p->conv = 0;
+    p->fmt = s->fmt;
 }
-

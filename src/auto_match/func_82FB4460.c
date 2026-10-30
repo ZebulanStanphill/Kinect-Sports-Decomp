@@ -1,43 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj { struct ObjVt *vt; } Obj;
+typedef struct ObjVt { void (*f0)(Obj *); void (*f4)(Obj *); } ObjVt;
+typedef struct Inner { char pad[0x1c]; int o; } Inner;
+typedef struct Node { struct Node *next; Inner *in; } Node;
+typedef struct S { char pad[0x54]; Node *head; } S;
 
-
-void fn_82FB4460(int param_1)
-
+void fn_82FB4460(S *s)
 {
-  undefined4 *puVar1;
-  
-  for (puVar1 = *(undefined4 **)(param_1 + 0x54); puVar1 != (undefined4 *)0x0;
-      puVar1 = (undefined4 *)*puVar1) {
-    if (*(int **)(puVar1[1] + 0x1c) != (int *)0x0) {
-      (**(code **)(**(int **)(puVar1[1] + 0x1c) + 4))();
+    Node *n;
+    for (n = s->head; n != 0; n = n->next) {
+        int o = n->in->o;
+        if (o != 0)
+            ((Obj *)o)->vt->f4((Obj *)o);
     }
-  }
-  return;
 }
-

@@ -29,11 +29,11 @@ extern int fn_8265CA20();
 extern int fn_826824B0();
 
 
-int fn_826A2918(int param_1,ulonglong param_2)
+int fn_826A2918(int param_1,uint param_2)
 
 {
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_826824B0();
+  if (*(uint *)(param_1 + 4) != 0) {
+    fn_826824B0(*(int *)(param_1 + 4));
   }
   if ((param_2 & 1) != 0) {
     fn_8265CA20(param_1);

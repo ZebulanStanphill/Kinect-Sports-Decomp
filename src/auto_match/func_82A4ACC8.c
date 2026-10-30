@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A59A90();
 
 
-undefined8 fn_82A4ACC8(int param_1,undefined8 param_2,undefined8 param_3)
+int fn_82A4ACC8(int param_1,int param_2,int param_3)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
-  (**(code **)(*(int *)(param_1 + 0x1c) + 8))(param_1 + 0x1c);
+  (*(code *)(*(int *)(param_1 + 0x1c) + 8))(param_1 + 0x1c);
   uVar1 = fn_82A59A90(*(undefined4 *)(param_1 + 0x44),param_2,param_3);
-  (**(code **)(*(int *)(param_1 + 0x1c) + 0x14))(param_1 + 0x1c);
+  (*(code *)(*(int *)(param_1 + 0x1c) + 0x14))(param_1 + 0x1c);
   return uVar1;
 }
 

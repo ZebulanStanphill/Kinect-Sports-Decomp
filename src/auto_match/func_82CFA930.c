@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82CFA930(int param_1)
+int fn_82CFA930(int param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
-  lVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x2c))();
-  if (-1 < (int)lVar1) {
-    return ((ulonglong)*(uint *)(param_1 + 0x10) - (ulonglong)*(uint *)(param_1 + 0x14)) + lVar1;
+  lVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x2c))(*(int **)(param_1 + 8));
+  if (lVar1 >= 0) {
+    return (*(uint *)(param_1 + 0x10) - *(uint *)(param_1 + 0x14)) + lVar1;
   }
   return -1;
 }

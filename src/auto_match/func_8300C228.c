@@ -31,17 +31,17 @@ void fn_8300C228(int param_1,undefined8 param_2)
 
 {
   int *piVar1;
-  char cVar2;
-  int iVar3;
+  byte cVar2;
+  uint iVar3;
   
   iVar3 = *(int *)(param_1 + 0x48);
   if (iVar3 != *(int *)(param_1 + 0x4c)) {
     do {
-      cVar2 = (**(code **)(**(int **)(iVar3 + 4) + 0x90))();
+      cVar2 = (*(code *)(**(int **)(iVar3 + 4) + 0x90))(*(int **)(iVar3 + 4));
       if (cVar2 == '\0') {
         piVar1 = *(int **)(iVar3 + 4);
         if (*(short *)(piVar1 + 6) != 0) {
-          (**(code **)(*piVar1 + 0x38))(piVar1,param_2);
+          (*(code *)(*piVar1 + 0x38))(piVar1,param_2);
         }
       }
       iVar3 = iVar3 + 8;

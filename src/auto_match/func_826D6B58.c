@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_826D6B58(ulonglong param_1)
+int fn_826D6B58(uint param_1)
 
 {
-  if ((param_1 & 0xffffffff) != 0) {
+  if (param_1 != 0) {
     return param_1 + 0x10;
   }
   return 0;

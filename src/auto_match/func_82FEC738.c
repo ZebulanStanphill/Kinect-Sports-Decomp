@@ -1,53 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83025190();
-extern unsigned int lbl_832643F4;
-extern unsigned int lbl_832643F8;
+typedef struct Obj { char pad[0x80]; int key; int state; } Obj;
+typedef struct Vec { Obj **first; Obj **last; } Vec;
+extern Vec lbl_832643F4;
+extern unsigned int fn_83025190(int *k);
 
-
-void fn_82FEC738(int param_1)
-
+void fn_82FEC738(unsigned int id)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  piVar3 = lbl_832643F4;
-  if (lbl_832643F4 != lbl_832643F8) {
-    do {
-      iVar1 = *piVar3;
-      iVar2 = fn_83025190(iVar1 + 0x80);
-      if (iVar2 == param_1) {
-        *(undefined4 *)(iVar1 + 0x84) = 2;
-      }
-      piVar3 = piVar3 + 1;
-    } while (piVar3 != lbl_832643F8);
-  }
-  return;
+    Obj **it;
+    for (it = lbl_832643F4.first; it != lbl_832643F4.last; it++) {
+        Obj *o = *it;
+        if (fn_83025190(&o->key) == id) {
+            o->state = 2;
+        }
+    }
 }
-

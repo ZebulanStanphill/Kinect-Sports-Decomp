@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82E4FE40();
 
 
-int fn_82E810B0(int param_1,ulonglong param_2)
+int fn_82E810B0(int param_1,uint param_2)
 
 {
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82E4FE40();
+  if (*(uint *)(param_1 + 8) != 0) {
+    fn_82E4FE40(*(int *)(param_1 + 8));
   }
   if ((param_2 & 1) != 0) {
     fn_82E4FE40(param_1);

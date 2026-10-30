@@ -27,24 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82FB04A0();
 extern int fn_83007AE8();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
 
 
 void fn_830320D0(undefined8 param_1,int param_2,undefined4 param_3)
 
 {
   int iVar1;
-  int iStack0000001c;
-  undefined4 uStack00000024;
   
-  iStack0000001c = param_2 + 4;
-  uStack00000024 = param_3;
-  iVar1 = fn_83007AE8(param_1,&stack0x0000001c,&stack0x00000024,0);
+  param_2 = param_2 + 4;
+  iVar1 = fn_83007AE8(param_1,&param_2,&param_3,0);
   if (iVar1 == 1) {
-    fn_82FB04A0(param_1,&stack0x0000001c,&stack0x00000024);
+    fn_82FB04A0(param_1,&param_2,&param_3);
   }
   return;
 }

@@ -26,19 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8282D0E0();
-extern unsigned int iStack00000014;
-extern unsigned int stack0x00000014;
 
 
 void fn_82826A40(int param_1,int param_2,undefined4 *param_3)
 
 {
-  int iStack00000014;
   
   if ((*(byte *)(param_1 + 0x134) & 0x10) == 0) {
-    iStack00000014 = param_1;
-    fn_8282D0E0(*(undefined4 *)(param_1 + 0xcc),2,&stack0x00000014);
-    param_1 = iStack00000014;
+    fn_8282D0E0(*(undefined4 *)(param_1 + 0xcc),2,&param_1);
+    param_1 = param_1;
   }
   *param_3 = *(undefined4 *)(*(int *)(param_1 + 0xe8) + param_2 * 0xe + -0xe);
   return;

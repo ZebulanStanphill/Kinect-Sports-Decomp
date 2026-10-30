@@ -27,20 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_83004F10(int *param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4)
+void fn_83004F10(int *param_1,int param_2,int param_3,uint param_4)
 
 {
-  int iVar1;
+  uint iVar1;
   
-  iVar1 = (**(code **)(*param_1 + 0x134))(param_1,param_4);
+  iVar1 = (*(code *)(*param_1 + 0x134))(param_1,param_4);
   if (iVar1 != 0) {
     *(byte *)(iVar1 + 0x3d) = *(byte *)(iVar1 + 0x3d) & ~(byte)param_3 | (byte)param_2;
   }
-  (**(code **)(*param_1 + 0x14))(param_1);
-  if ((param_4 & 0xffffffff) == 0) {
-    (**(code **)(*param_1 + 0xe4))(param_1,param_2,param_3);
+  (*(code *)(*param_1 + 0x14))(param_1);
+  if (param_4 == 0) {
+    (*(code *)(*param_1 + 0xe4))(param_1,param_2,param_3);
   }
-  (**(code **)(*param_1 + 0x54))(param_1,param_2,param_3,param_4,0);
+  (*(code *)(*param_1 + 0x54))(param_1,param_2,param_3,param_4,0);
   return;
 }
 

@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82E65700(int param_1,ulonglong param_2)
+int fn_82E65700(int param_1,uint param_2)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   
-  if ((ulonglong)*(uint *)(param_1 + 0x10) < (param_2 & 0xffffffff)) {
-    return 0xffffffff80070057;
+  if (param_2 > *(uint *)(param_1 + 0x10)) {
+    return 0x80070057;
   }
                     /* WARNING: Could not recover jumptable at 0x82e65734. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x18))
+  uVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x18))
                     (*(int **)(param_1 + 8),*(uint *)(param_1 + 0x14) + param_2);
   return uVar1;
 }

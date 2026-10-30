@@ -26,20 +26,16 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA96C8();
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
 
 
 void fn_82FAD280(int param_1,longlong param_2,undefined4 param_3)
 
 {
-  int iVar1;
-  undefined4 uStack00000024;
+  uint iVar1;
   
-  uStack00000024 = param_3;
   for (iVar1 = *(int *)(param_1 + 4); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-    param_2 = (ulonglong)*(uint *)(iVar1 + 0xc) + param_2;
-    fn_82FA96C8(iVar1,param_2,&stack0x00000024,0);
+    param_2 = *(uint *)(iVar1 + 0xc) + param_2;
+    fn_82FA96C8(iVar1,param_2,&param_3,0);
   }
   return;
 }

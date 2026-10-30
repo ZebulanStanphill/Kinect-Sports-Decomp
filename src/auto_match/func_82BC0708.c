@@ -25,21 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
 
 
 undefined4 fn_82BC0708(int param_1,undefined4 param_2)
 
 {
   int iVar1;
-  undefined4 uStack0000001c;
   
-  uStack0000001c = param_2;
   iVar1 = 0;
   do {
-    if (*(char *)((int)&stack0x0000001c + iVar1) == '\0') {
-      (**(code **)(**(int **)(param_1 + 0x30) + 0x54))(*(int **)(param_1 + 0x30),0,iVar1,0);
+    if (*(char *)((int)&param_2 + iVar1) == '\0') {
+      (*(code *)(**(int **)(param_1 + 0x30) + 0x54))(*(int **)(param_1 + 0x30),0,iVar1,0);
     }
     iVar1 = iVar1 + 1;
   } while (iVar1 < 4);

@@ -28,15 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82693078();
 
 
-void fn_826931A8(longlong param_1,ulonglong param_2,longlong param_3)
+void fn_826931A8(int param_1,uint param_2,int param_3)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  longlong lVar4;
+  uint uVar1;
+  uint uVar2;
+  int lVar3;
+  int lVar4;
   
-  uVar1 = (param_2 & 0xffffffff) >> 0x14;
+  uVar1 = param_2 >> 0x14;
   uVar2 = ((param_2 + param_3) - 1 & 0xffffffff) >> 0x14;
   if (uVar1 <= uVar2) {
     lVar4 = (uVar2 - uVar1) + 1;

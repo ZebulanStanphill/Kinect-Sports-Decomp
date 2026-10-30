@@ -30,11 +30,11 @@ extern int fn_8267C488();
 extern int fn_8267C4F0();
 
 
-int fn_82693720(int param_1,ulonglong param_2)
+int fn_82693720(int param_1,uint param_2)
 
 {
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_8267C4F0();
+  if (*(uint *)(param_1 + 8) != 0) {
+    fn_8267C4F0(*(int *)(param_1 + 8));
   }
   fn_8267C488(param_1);
   if ((param_2 & 1) != 0) {

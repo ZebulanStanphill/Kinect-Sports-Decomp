@@ -31,12 +31,12 @@ extern unsigned int lbl_83264234;
 extern unsigned int uStack_40;
 
 
-longlong fn_82FA73C8(undefined8 param_1,int *param_2,undefined4 *param_3,undefined4 *param_4)
+int fn_82FA73C8(int param_1,uint *param_2,undefined4 *param_3,undefined4 *param_4)
 
 {
-  int iVar1;
-  longlong lVar2;
-  longlong lVar3;
+  uint iVar1;
+  int lVar2;
+  int lVar3;
   undefined4 uStack_40;
   undefined4 auStack_3c;
   
@@ -45,7 +45,7 @@ longlong fn_82FA73C8(undefined8 param_1,int *param_2,undefined4 *param_3,undefin
   for (iVar1 = lbl_83264234; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x3c)) {
     if (((*(byte *)(iVar1 + 0x34) & 0x80) != 0) &&
        ((lVar2 = fn_82FAAF98(*(undefined4 *)(iVar1 + 0x38),param_1,&auStack_3c,&uStack_40),
-        *param_2 == 0 || ((int)lVar2 < (int)lVar3)))) {
+        *param_2 == 0 || (lVar2 < lVar3)))) {
       *param_3 = uStack_40;
       *param_4 = auStack_3c;
       *param_2 = iVar1;

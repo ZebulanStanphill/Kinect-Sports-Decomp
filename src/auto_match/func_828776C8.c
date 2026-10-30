@@ -27,13 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_828776C8(double param_1,int param_2)
+undefined8 fn_828776C8(int param_1,float param_2)
 
 {
-  if (param_1 != (double)*(float *)(param_2 + 8)) {
-    *(undefined1 *)(param_2 + 0xc) = 1;
+  if (param_2 != (double)*(float *)(param_1 + 8)) {
+    *(undefined1 *)(param_1 + 0xc) = 1;
   }
-  *(float *)(param_2 + 8) = (float)param_1;
+  *(float *)(param_1 + 8) = (float)param_2;
   return 0x20340000;
 }
 

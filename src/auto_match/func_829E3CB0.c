@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-bool fn_829E3CB0(int param_1,ulonglong param_2,int param_3)
+bool fn_829E3CB0(int param_1,int param_2,int param_3)
 
 {
   if (*(int *)(param_1 + 0x8c) != 0) {
@@ -41,6 +41,6 @@ bool fn_829E3CB0(int param_1,ulonglong param_2,int param_3)
     *(undefined4 *)(param_1 + 0x90) = 0;
     return true;
   }
-  return *(uint *)(param_1 + 0xfc) != param_2;
+  return param_2 != *(uint *)(param_1 + 0xfc);
 }
 

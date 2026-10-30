@@ -1,47 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8284F6F8();
-extern int fn_82859808();
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
+extern void fn_8284F6F8(void);
+typedef struct { void (*fn)(void); int a; int b; } Job;
+extern void fn_82859808(Job *j);
 
-
-void fn_8284F7A8(undefined4 param_1,undefined4 param_2)
-
+void fn_8284F7A8(int a, int b)
 {
-  code *pcStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  
-  pcStack_20 = fn_8284F6F8;
-  uStack_1c = param_1;
-  uStack_18 = param_2;
-  fn_82859808(&pcStack_20);
-  return;
+    Job j;
+    j.fn = fn_8284F6F8;
+    j.a = a;
+    j.b = b;
+    fn_82859808(&j);
 }
-

@@ -25,22 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
-ulonglong fn_828D1070(ulonglong param_1,ulonglong param_2,ulonglong param_3)
+uint fn_828D1070(uint param_1,uint param_2,uint param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   
-  if ((param_1 & 0xffffffff) != (param_2 & 0xffffffff)) {
+  if (param_1 != param_2) {
     lVar1 = param_1 - param_3;
     do {
-      if ((param_3 & 0xffffffff) != 0) {
-        fn_82F68CC0(param_3,lVar1 + param_3,0xc4);
+      if (param_3 != 0) {
+        memcpy(param_3,lVar1 + param_3,0xc4);
       }
       param_3 = param_3 + 0xc4;
-    } while ((lVar1 + param_3 & 0xffffffff) != (param_2 & 0xffffffff));
+    } while ((lVar1 + param_3 & 0xffffffff) != param_2);
   }
   return param_3;
 }

@@ -1,46 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822FB198();
-extern unsigned int lbl_821CA460;
+typedef struct String {
+    char buf[16];
+    unsigned int size;
+    unsigned int res;
+} String;
 
+typedef struct Inner {
+    unsigned char pad[0xc0];
+    void *target;
+} Inner;
 
-void fn_82314B08(int param_1)
+typedef struct State {
+    unsigned char pad0[0x114];
+    Inner *inner;
+    unsigned char pad118[0xdc];
+    float value;
+} State;
 
+typedef struct Obj {
+    unsigned char pad[0xc];
+    State *state;
+} Obj;
+
+extern float lbl_821CA45C[];
+extern void fn_82230110(String *s, const char *text);
+extern void fn_822FB198(void *target, String *s);
+extern void fn_82230300(String *s, unsigned char built, unsigned int newsize);
+
+void fn_82314B08(Obj *o)
 {
-  undefined1 auStack_30 [32];
-  
-  fn_82230110(auStack_30,0xffffffff821accc4);
-  fn_822FB198(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0xc) + 0x114) + 0xc0),auStack_30);
-  fn_82230300(auStack_30,1,0);
-  *(undefined4 *)(*(int *)(param_1 + 0xc) + 500) = lbl_821CA460;
-  return;
+    String s;
+    fn_82230110(&s, "idleset_default");
+    fn_822FB198(o->state->inner->target, &s);
+    fn_82230300(&s, 1, 0);
+    o->state->value = lbl_821CA45C[1];
 }
-

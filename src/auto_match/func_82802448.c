@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint fn_82802448(int param_1,ulonglong param_2,uint param_3)
+uint fn_82802448(int param_1,int param_2,uint param_3)
 
 {
   uint *puVar1;
   uint uVar2;
   
-  uVar2 = (uint)param_2 & 0x1f;
+  uVar2 = param_2 & 0x1f;
   puVar1 = (uint *)(((uint)((param_2 & 0xffffffff) >> 3) & 0x1ffffffc) + param_1);
-  return ((puVar1[1] << 1) << (0x1f - uVar2 & 0x3f) | *puVar1 >> uVar2) &
-         (1 << (param_3 & 0x3f)) - 1U;
+  return ((puVar1[1] << 1) << (0x1f - uVar2) | *puVar1 >> uVar2) &
+         (1 << param_3) - 1U;
 }
 

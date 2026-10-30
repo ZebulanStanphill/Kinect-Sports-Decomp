@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+    char pad[0x30];
+    int eof;
+    int x34;
+    unsigned __int64 start;
+    unsigned __int64 length;
+    char pad2[0x58 - 0x48];
+    unsigned __int64 pos;
+} Obj_82C057E8;
 
-
-undefined8 fn_82C057E8(int param_1,longlong param_2)
-
+int fn_82C057E8(Obj_82C057E8 *o, __int64 delta)
 {
-  undefined4 uVar1;
-  ulonglong uVar2;
-  
-  uVar2 = *(longlong *)(param_1 + 0x58) + param_2;
-  if ((*(longlong *)(param_1 + 0x40) + *(ulonglong *)(param_1 + 0x38) < uVar2) ||
-     (uVar1 = 0, uVar2 < *(ulonglong *)(param_1 + 0x38))) {
-    uVar1 = 1;
-  }
-  *(undefined4 *)(param_1 + 0x30) = uVar1;
-  *(ulonglong *)(param_1 + 0x58) = uVar2;
-  return 0;
+    o->eof = (o->pos + delta > o->length + o->start || o->pos + delta < o->start) ? 1 : 0;
+    o->pos += delta;
+    return 0;
 }
-

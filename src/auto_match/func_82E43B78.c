@@ -1,49 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Iface_82E43B78 Iface_82E43B78;
+typedef struct {
+    void *f[12];
+    int (*getValue)(Iface_82E43B78 *self, unsigned __int64 *out);
+} Vt_82E43B78;
+struct Iface_82E43B78 { Vt_82E43B78 *vt; };
 
+typedef struct {
+    char pad[0x80];
+    Iface_82E43B78 *obj;
+} Self_82E43B78;
 
-undefined8 fn_82E43B78(int param_1)
-
+int fn_82E43B78(Self_82E43B78 *self)
 {
-  int *piVar1;
-  int iVar2;
-  undefined8 uVar3;
-  longlong alStack_20 [2];
-  
-  piVar1 = *(int **)(param_1 + 0x80);
-  uVar3 = 0;
-  if (piVar1 != (int *)0x0) {
-    alStack_20[0] = 0;
-    iVar2 = (**(code **)(*piVar1 + 0x30))(piVar1,alStack_20);
-    if ((-1 < iVar2) && (alStack_20[0] != 0)) {
-      uVar3 = 1;
+    int result = 0;
+    if (self->obj != 0) {
+        unsigned __int64 v = 0;
+        if (self->obj->vt->getValue(self->obj, &v) >= 0 && v > 0) {
+            result = 1;
+        }
     }
-  }
-  return uVar3;
+    return result;
 }
-

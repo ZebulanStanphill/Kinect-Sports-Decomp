@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int abort();
-extern int _set_abort_behavior();
-extern int _NMSG_WRITE();
-extern int (*lbl_83263400)();
-
+typedef void (*_purecall_handler)(void);
+extern _purecall_handler __pPurecall;
+extern void _NMSG_WRITE(int);
+extern unsigned int _set_abort_behavior(unsigned int, unsigned int);
+extern void abort(void);
 
 void _purecall(void)
-
 {
-  if (lbl_83263400 != (code *)0x0) {
-    (*lbl_83263400)();
-  }
-  _NMSG_WRITE(0x19);
-  _set_abort_behavior(0,1);
-  abort();
-  return;
+    _purecall_handler purecall = __pPurecall;
+    if (purecall != 0) {
+        purecall();
+    }
+    _NMSG_WRITE(0x19);
+    _set_abort_behavior(0, 1);
+    abort();
 }
-

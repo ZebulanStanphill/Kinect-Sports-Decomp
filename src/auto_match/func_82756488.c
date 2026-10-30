@@ -36,14 +36,14 @@ void fn_82756488(int param_1)
   uint *puVar1;
   uint uVar2;
   
-  if (*(int *)(param_1 + 0x50) != 0) {
-    fn_8267C498();
+  if (*(uint *)(param_1 + 0x50) != 0) {
+    fn_8267C498(*(int *)(param_1 + 0x50));
   }
   puVar1 = *(uint **)(param_1 + 0x4c);
   if (puVar1 != (uint *)0x0) {
     uVar2 = *puVar1;
-    *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((ulonglong)uVar2 - 1 == 0) {
+    *puVar1 = (uint)(uVar2 - 1);
+    if (uVar2 - 1 == 0) {
       fn_826C6368(puVar1);
       fn_8267BE38(puVar1);
     }

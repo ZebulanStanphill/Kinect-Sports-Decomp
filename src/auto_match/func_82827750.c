@@ -30,6 +30,6 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_82827750(int param_1)
 
 {
-  return (uint)LZCOUNT((uint)*(byte *)(param_1 + 0x3ed)) >> 5 == (uint)*(byte *)(param_1 + 0x3ee);
+  return (uint)*(byte *)(param_1 + 0x3ee) == ((uint)*(byte *)(param_1 + 0x3ed) == 0);
 }
 

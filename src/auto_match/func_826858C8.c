@@ -30,22 +30,22 @@ extern int fn_8267B7E0();
 extern int fn_82685798();
 
 
-undefined8 fn_826858C8(int param_1,int param_2,longlong param_3)
+int fn_826858C8(int param_1,int param_2,int param_3)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
+  uint uVar1;
+  uint uVar2;
+  uint uVar3;
   
   uVar1 = fn_8267B750(param_2);
   do {
     uVar2 = fn_8267B750(param_2);
     fn_82685798(*(undefined4 *)(param_1 + 4));
     uVar3 = fn_8267B750(param_2);
-    if ((uVar2 & 0xffffffff) <= (uVar3 & 0xffffffff)) break;
-  } while ((uVar1 & 0xffffffff) < (uVar3 + param_3 & 0xffffffff));
-  if ((uVar1 & 0xffffffff) < (uVar3 + param_3 & 0xffffffff)) {
-    fn_8267B7E0(param_2,(ulonglong)*(uint *)(param_2 + 0x2c) + param_3);
+    if (uVar3 >= uVar2) break;
+  } while ((uVar3 + param_3 & 0xffffffff) > uVar1);
+  if ((uVar3 + param_3 & 0xffffffff) > uVar1) {
+    fn_8267B7E0(param_2,*(uint *)(param_2 + 0x2c) + param_3);
   }
   return 1;
 }

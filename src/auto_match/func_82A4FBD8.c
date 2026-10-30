@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A4FBD8(int param_1,ulonglong param_2,undefined4 *param_3)
+void fn_82A4FBD8(int param_1,uint param_2,undefined4 *param_3)
 
 {
-  ulonglong uVar1;
+  uint uVar1;
   undefined4 uVar2;
   undefined4 *puVar3;
   
-  if ((param_2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x34)) {
+  if (param_2 < *(uint *)(param_1 + 0x34)) {
     puVar3 = *(undefined4 **)(param_1 + 0x2c);
     uVar1 = param_2 & 0xffffffff;
     while (uVar1 != 0) {
@@ -47,7 +47,7 @@ void fn_82A4FBD8(int param_1,ulonglong param_2,undefined4 *param_3)
   else {
     puVar3 = (undefined4 *)0x0;
   }
-  uVar2 = (**(code **)(*(int *)*puVar3 + 0x18))((int *)*puVar3,0);
+  uVar2 = (*(code *)(*(int *)*puVar3 + 0x18))((int *)*puVar3,0);
   *param_3 = uVar2;
   return;
 }

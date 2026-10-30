@@ -31,13 +31,13 @@ undefined4 fn_82ADD158(int param_1,int param_2)
 
 {
   uint uVar1;
-  ulonglong uVar2;
+  uint uVar2;
   
-  uVar2 = (ulonglong)*(uint *)(param_2 + 0x10) & 0xffff;
+  uVar2 = *(uint *)(param_2 + 0x10) & 0xffff;
   if ((*(uint *)(param_2 + 0x10) & 0x70000) != 0) {
     uVar1 = *(uint *)(param_2 + 8) >> 1 & 0xf;
-    uVar2 = (uVar2 - LZCOUNT(uVar1 & ~(uVar1 - 1))) + 0x1f;
+    uVar2 = (uVar2 - _CountLeadingZeros(uVar1 & ~(uVar1 - 1))) + 0x1f;
   }
-  return *(undefined4 *)(*(int *)(param_1 + 0x2c4) + (int)((uVar2 & 0xffffffff) << 2));
+  return *(undefined4 *)(*(int *)(param_1 + 0x2c4) + (int)(uVar2 << 2));
 }
 

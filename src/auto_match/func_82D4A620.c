@@ -31,9 +31,9 @@ void fn_82D4A620(int param_1,uint param_2,undefined2 param_3)
 
 {
   *(undefined2 *)
-   ((*(int *)((param_2 >> (0x20 - *(uint *)(param_1 + 0x30) & 0x3f)) * 0x38 +
+   ((*(int *)((param_2 >> (0x20 - *(uint *)(param_1 + 0x30))) * 0x38 +
               *(int *)(param_1 + 0x34) + 0x34) +
-    (0xffffffffU >> (*(uint *)(param_1 + 0x30) & 0x3f) & param_2)) * 2 + *(int *)(param_1 + 0x40)) =
+    (0xffffffffU >> (*(uint *)(param_1 + 0x30)) & param_2)) * 2 + *(int *)(param_1 + 0x40)) =
        param_3;
   return;
 }

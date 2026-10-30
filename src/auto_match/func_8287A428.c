@@ -27,12 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8287A428(double param_1,double param_2,int param_3)
+void fn_8287A428(int param_1,float param_2,float param_3)
 
 {
-  *(float *)(param_3 + 0x20) = (float)param_1;
-  *(float *)(param_3 + 0x24) = (float)param_2;
-  *(undefined1 *)(param_3 + 0x28) = 1;
+  *(float *)(param_1 + 0x20) = (float)param_2;
+  *(float *)(param_1 + 0x24) = (float)param_3;
+  *(undefined1 *)(param_1 + 0x28) = 1;
   return;
 }
 

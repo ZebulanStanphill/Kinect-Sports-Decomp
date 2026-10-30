@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_8306E850(undefined8 param_1,undefined8 param_2)
+int fn_8306E850(int param_1,int param_2)
 
 {
-  if ((int)param_1 < (int)param_2) {
+  if (param_1 < param_2) {
     return param_1;
   }
   return param_2;

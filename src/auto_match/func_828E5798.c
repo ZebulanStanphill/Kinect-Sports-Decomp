@@ -34,8 +34,8 @@ undefined8 fn_828E5798(int param_1)
   int *piVar1;
   
   fn_828E9D40(*(undefined4 *)(param_1 + 0x88));
-  piVar1 = (int *)(**(code **)(**(int **)(param_1 + 0x80) + 0x1c))();
-  (**(code **)(*piVar1 + 8))(piVar1,*(undefined4 *)(param_1 + 0x88));
+  piVar1 = (int *)(*(code *)(**(int **)(param_1 + 0x80) + 0x1c))(*(int **)(param_1 + 0x80));
+  (*(code *)(*piVar1 + 8))(piVar1,*(undefined4 *)(param_1 + 0x88));
   return 1;
 }
 

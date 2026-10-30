@@ -26,16 +26,16 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82637300();
-extern int fn_82F68CC0();
+extern int memcpy();
 
 
-void fn_82635CC8(int param_1,undefined8 param_2,longlong param_3)
+void fn_82635CC8(int param_1,int param_2,int param_3)
 
 {
   fn_82637300((undefined4 *)(param_1 + 0x4dc4),(param_3 + 3U & 0xffffffff) >> 2,
                     param_1 + 0x4dbc);
-  if (-1 < *(int *)(param_1 + 0x4dbc)) {
-    fn_82F68CC0(*(undefined4 *)(param_1 + 0x4dc4),param_2,param_3);
+  if (*(int *)(param_1 + 0x4dbc) >= 0) {
+    memcpy(*(undefined4 *)(param_1 + 0x4dc4),param_2,param_3);
   }
   return;
 }

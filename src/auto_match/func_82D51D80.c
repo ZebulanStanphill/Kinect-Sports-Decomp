@@ -27,16 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82D51D80(int param_1,undefined8 param_2,longlong param_3)
+int fn_82D51D80(uint param_1,int param_2,int param_3)
 
 {
-  longlong lVar1;
+  int lVar1;
   int iVar2;
   
-  lVar1 = (**(code **)(**(int **)(param_1 + 0x18) + 0x18))
+  lVar1 = (*(code *)(**(int **)(param_1 + 0x18) + 0x18))
                     (*(int **)(param_1 + 0x18),param_2,param_3 + -0x40);
-  iVar2 = (int)lVar1;
-  if ((iVar2 < 0) || ((int)(param_3 + -0x40) < iVar2)) {
+  iVar2 = lVar1;
+  if ((iVar2 < 0) || (iVar2 > (int)(param_3 + -0x40))) {
     lVar1 = -1;
   }
   else if (*(int *)(param_1 + 0x18) == param_1 + 0x40) {

@@ -1,53 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { void *p; unsigned char status; unsigned char x5; } Result;
+typedef union { Result r; int w[2]; } ResultWords;
+typedef struct { int count; ResultWords *items[10]; } Table;
 
-
-void fn_82F72BA8(undefined4 *param_1,int *param_2,int param_3)
-
+void fn_82F72BA8(ResultWords *out, Table *t, int i)
 {
-  undefined4 uVar1;
-  undefined1 uVar2;
-  
-  if ((param_3 < 0) || (9 < param_3)) {
-    uVar2 = 3;
-  }
-  else {
-    if ((*param_2 != -1) && (param_3 <= *param_2)) {
-      uVar1 = ((undefined4 *)param_2[param_3 + 1])[1];
-      *param_1 = *(undefined4 *)param_2[param_3 + 1];
-      param_1[1] = uVar1;
-      return;
+    unsigned char st;
+    if (i < 0 || i > 9) {
+        st = 3;
+    } else {
+        if (t->count != -1 && i <= t->count) {
+            int tmp[2];
+            ResultWords *e = t->items[i];
+            tmp[0] = e->w[0];
+            tmp[1] = e->w[1];
+            out->w[0] = tmp[0];
+            out->w[1] = tmp[1];
+            return;
+        }
+        st = 2;
     }
-    uVar2 = 2;
-  }
-  *(undefined1 *)(param_1 + 1) = uVar2;
-  *param_1 = 0;
-  *(undefined1 *)((int)param_1 + 5) = 0;
-  return;
+    out->r.status = st;
+    out->r.p = 0;
+    out->r.x5 = 0;
 }
-

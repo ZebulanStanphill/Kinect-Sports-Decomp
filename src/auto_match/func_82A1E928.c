@@ -25,21 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int iStack00000014;
-extern unsigned int stack0x00000014;
 
 
-void fn_82A1E928(int param_1,ulonglong param_2)
+void fn_82A1E928(uint param_1,ulonglong param_2)
 
 {
-  int iStack00000014;
   
-  iStack00000014 = param_1;
   if (param_1 == 0xff) {
     param_2 = param_2 | 0x40000000;
-    iStack00000014 = 0;
+    param_1 = 0;
   }
-  XamInputGetKeystrokeEx(&stack0x00000014,param_2);
+  XamInputGetKeystrokeEx(&param_1,param_2);
   return;
 }
 

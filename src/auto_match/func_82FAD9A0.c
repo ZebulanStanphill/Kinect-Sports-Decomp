@@ -34,8 +34,8 @@ extern int fn_82FA9B98();
 void fn_82FAD9A0(undefined4 *param_1,int param_2)
 
 {
-  int iVar1;
-  char cVar2;
+  uint iVar1;
+  byte cVar2;
   undefined1 auStack_20 [8];
   
   iVar1 = param_1[1];
@@ -52,7 +52,7 @@ void fn_82FAD9A0(undefined4 *param_1,int param_2)
       cVar2 = fn_82FA9B68(iVar1);
       if (cVar2 != '\0') {
         if (iVar1 == param_1[5]) {
-          (**(code **)*param_1)(param_1,auStack_20);
+          (*(code *)*param_1)(param_1,auStack_20);
         }
         fn_82FA9B98(iVar1);
       }

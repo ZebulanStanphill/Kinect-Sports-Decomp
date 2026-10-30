@@ -28,14 +28,14 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_826820F0();
 
 
-void fn_826C3448(int *param_1)
+void fn_826C3448(uint *param_1)
 
 {
   if (*param_1 != 0) {
-    fn_826820F0();
+    fn_826820F0(*param_1);
   }
   if (param_1[1] != 0) {
-    fn_826820F0();
+    fn_826820F0(param_1[1]);
   }
   return;
 }

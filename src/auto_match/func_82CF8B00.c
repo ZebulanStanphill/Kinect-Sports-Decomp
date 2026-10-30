@@ -25,17 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
 
 
 void fn_82CF8B00(int *param_1,undefined4 param_2)
 
 {
-  undefined4 uStack0000001c;
   
-  uStack0000001c = param_2;
-  (**(code **)(*param_1 + 0xc))(param_1,&stack0x0000001c,1);
+  (*(code *)(*param_1 + 0xc))(param_1,&param_2,1);
   return;
 }
 
