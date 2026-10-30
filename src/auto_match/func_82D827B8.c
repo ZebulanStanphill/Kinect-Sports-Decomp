@@ -1,73 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D94AC8();
+typedef struct { void **data; int count; } Sub_82D827B8;
+typedef struct { char pad[0x38]; Sub_82D827B8 sub; } Item_82D827B8;
+typedef struct { Item_82D827B8 **data; int count; } Vec_82D827B8;
+typedef struct { char pad[0x28]; Vec_82D827B8 a; int gap; Vec_82D827B8 b; } Obj_82D827B8;
+extern void fn_82D94AC8(void *, void *);
 
-
-void fn_82D827B8(int param_1,undefined8 param_2)
-
+void fn_82D827B8(Obj_82D827B8 *o, void *ctx)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  piVar2 = *(int **)(param_1 + 0x28);
-  if (piVar2 != piVar2 + *(int *)(param_1 + 0x2c)) {
-    do {
-      iVar1 = *piVar2;
-      iVar4 = 0;
-      if (0 < *(int *)(iVar1 + 0x3c)) {
-        iVar3 = 0;
+    Vec_82D827B8 *v = &o->a;
+    Item_82D827B8 **it = v->data;
+    if (it != v->data + v->count) {
         do {
-          fn_82D94AC8(param_2,*(undefined4 *)(*(int *)(iVar1 + 0x38) + iVar3));
-          iVar4 = iVar4 + 1;
-          iVar3 = iVar3 + 4;
-        } while (iVar4 < *(int *)(iVar1 + 0x3c));
-      }
-      piVar2 = piVar2 + 1;
-    } while (piVar2 != (int *)(*(int *)(param_1 + 0x2c) * 4 + *(int *)(param_1 + 0x28)));
-  }
-  piVar2 = *(int **)(param_1 + 0x34);
-  if (piVar2 != piVar2 + *(int *)(param_1 + 0x38)) {
-    do {
-      iVar1 = *piVar2;
-      iVar4 = 0;
-      if (0 < *(int *)(iVar1 + 0x3c)) {
-        iVar3 = 0;
+            Sub_82D827B8 *s = &(*it)->sub;
+            int i = 0;
+            if (0 < s->count) {
+                int off = 0;
+                do {
+                    fn_82D94AC8(ctx, *(void **)((char *)s->data + off));
+                    i++;
+                    off += 4;
+                } while (i < s->count);
+            }
+            it++;
+        } while (it != v->data + v->count);
+    }
+    v = &o->b;
+    it = v->data;
+    if (it != v->data + v->count) {
         do {
-          fn_82D94AC8(param_2,*(undefined4 *)(iVar3 + *(int *)(iVar1 + 0x38)));
-          iVar4 = iVar4 + 1;
-          iVar3 = iVar3 + 4;
-        } while (iVar4 < *(int *)(iVar1 + 0x3c));
-      }
-      piVar2 = piVar2 + 1;
-    } while (piVar2 != (int *)(*(int *)(param_1 + 0x38) * 4 + *(int *)(param_1 + 0x34)));
-  }
-  return;
+            Sub_82D827B8 *s = &(*it)->sub;
+            int i = 0;
+            if (0 < s->count) {
+                int off = 0;
+                do {
+                    fn_82D94AC8(ctx, *(void **)(off + (int)s->data));
+                    i++;
+                    off += 4;
+                } while (i < s->count);
+            }
+            it++;
+        } while (it != v->data + v->count);
+    }
 }
-

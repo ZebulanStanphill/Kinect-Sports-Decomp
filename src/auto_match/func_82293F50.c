@@ -1,52 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8229A230();
-extern int fn_8229AA08();
-extern int fn_82672660();
+typedef struct { void *ptr; void *rep; } SP;
+typedef struct {
+    void *vt;
+    char pad0[0x68 - 4];
+    SP a;
+    char pad1[0x129c - 0x70];
+    SP b;
+} Obj;
 extern unsigned int lbl_821AA90C;
-
-
-void fn_82293F50(undefined4 *param_1)
-
+extern void fn_822315A0(void *);
+extern void fn_8229A230(SP *);
+extern void fn_8229AA08(void *);
+extern void fn_82672660(void *, SP *);
+void fn_82293F50(Obj *p)
 {
-  *param_1 = &lbl_821AA90C;
-  fn_82672660(param_1[0x4a7],param_1 + 0x4a7);
-  fn_8229A230(param_1 + 0x4a7);
-  if (param_1[0x4a8] != 0) {
-    fn_822315A0();
-  }
-  fn_82672660(param_1[0x1a],param_1 + 0x1a);
-  fn_8229A230(param_1 + 0x1a);
-  if (param_1[0x1b] != 0) {
-    fn_822315A0();
-  }
-  fn_8229AA08(param_1);
-  return;
-}
+    p->vt = &lbl_821AA90C;
+    { SP *s = &p->b;
+    fn_82672660(s->ptr, s);
+    fn_8229A230(s);
+    if (s->rep != 0)
+        fn_822315A0(s->rep); }
+    { SP *s = &p->a;
+    fn_82672660(s->ptr, s);
+    fn_8229A230(s);
+    if (s->rep != 0)
+        fn_822315A0(s->rep); }
+    fn_8229AA08(p);
 
+}

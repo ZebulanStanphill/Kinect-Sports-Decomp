@@ -1,49 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E3C5F8();
-extern int fn_82E74AE8();
+struct VObj_82E42C10;
+typedef struct VT_82E42C10 {
+  void *s[11];
+  void (*f2c)(struct VObj_82E42C10 *);
+} VT_82E42C10;
+typedef struct VObj_82E42C10 { VT_82E42C10 *vt; } VObj_82E42C10;
 
+typedef struct Obj_82E42C10 {
+  char pad0[0x6c];
+  VObj_82E42C10 *slots[1];
+} Obj_82E42C10;
 
-void fn_82E42C10(int param_1)
+extern void fn_82E3C5F8(void *, unsigned int, unsigned short ***);
+extern void fn_82E74AE8(unsigned int);
 
+void fn_82E42C10(char *p)
 {
-  ulonglong uVar1;
-  ushort * apuStack_30;
-  
-  uVar1 = 0;
-  if (*(int *)(param_1 + 0x2ac) != 0) {
-    do {
-      fn_82E3C5F8(param_1 + 0x26c,uVar1,&apuStack_30);
-      (**(code **)(**(int **)((*apuStack_30 + 0x1b) * 4 + param_1) + 0x2c))();
-      uVar1 = uVar1 + 1;
-    } while ((uVar1 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x2ac));
-  }
-  fn_82E74AE8(*(undefined4 *)(param_1 + 0x4b0));
-  return;
-}
+  unsigned int i;
+  unsigned short *e;
+  unsigned int n = *(unsigned int *)(p + 0x2ac);
 
+  for (i = 0; i < n; i++) {
+    fn_82E3C5F8(p + 0x26c, i, (unsigned short ***)&e);
+    {
+      VObj_82E42C10 *o = *(VObj_82E42C10 **)(p + (*e + 0x1b) * 4);
+      o->vt->f2c(o);
+    }
+    n = *(unsigned int *)(p + 0x2ac);
+  }
+  fn_82E74AE8(*(unsigned int *)(p + 0x4b0));
+}

@@ -1,54 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAF810();
-extern int fn_82FFF990();
-
-
-void fn_82FB6690(int param_1)
-
+typedef struct { char pad[0x34]; } Item;
+typedef struct { Item *first; Item *last; } Vec;
+typedef struct { char pad[0xa0]; Vec v; } Obj;
+extern void fn_82FAF810(void *);
+extern void fn_82FFF990(int *);
+void fn_82FB6690(Obj *o)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  if ((*(int *)(param_1 + 0xa4) - *(int *)(param_1 + 0xa0)) / 0x34 != 0) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + *(int *)(param_1 + 0xa0) + 0x30);
-      if (puVar1 != (undefined4 *)0x0) {
-        fn_82FFF990(*puVar1);
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 0x34;
-    } while (uVar2 < (uint)((*(int *)(param_1 + 0xa4) - *(int *)(param_1 + 0xa0)) / 0x34));
-  }
-  fn_82FAF810(param_1);
-  return;
+    Vec *v;
+    unsigned int i = 0;
+    int off;
+    v = &o->v;
+    {
+    Item *f0 = v->first;
+    Item *l0 = v->last;
+    if (l0 - f0 != 0) {
+        off = 0;
+        do {
+            int **q = *(int ***)(off + (int)o->v.first + 0x30);
+            if (q != 0)
+                fn_82FFF990(*q);
+            i++;
+            off += 0x34;
+        } while (i < (unsigned int)(v->last - v->first));
+    }
+    }
+    fn_82FAF810(o);
 }
-

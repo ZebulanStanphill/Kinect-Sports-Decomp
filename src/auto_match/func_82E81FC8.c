@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6FA38();
-extern unsigned int lbl_83248EAC;
+extern void fn_82F65320(int);
+extern int lbl_83248EAC;
 
 
 void fn_82E81FC8(int param_1)
@@ -49,7 +49,7 @@ void fn_82E81FC8(int param_1)
     *(uint *)(param_1 + 0x64c) = (uint)(*(int *)(param_1 + 0x790c) == 1);
   }
   if (*(int *)(param_1 + 0x7910) != 2) {
-    *(uint *)(param_1 + 0x978) = (uint)LZCOUNT(*(int *)(param_1 + 0x7910) + -1) >> 5;
+    *(uint *)(param_1 + 0x978) = (uint)(*(int *)(param_1 + 0x7910) == 1);
     if (*(int *)(param_1 + 0x7914) == 4) {
       *(undefined4 *)(param_1 + 0x978) = 2;
     }
@@ -178,8 +178,7 @@ LAB_82e821b0:
       return;
     }
   }
-  iVar3 = fn_82F6FA38();
-  *(undefined4 *)(iVar3 + 0x14) = 0x3db;
+  fn_82F65320(0x3db);
   return;
 }
 

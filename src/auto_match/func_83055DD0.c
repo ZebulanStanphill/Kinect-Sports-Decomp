@@ -1,66 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E650();
-extern int fn_82A1E658();
-extern int fn_82A1E810();
+extern void fn_82A1E650(void *, int);
+extern void fn_82A1E658(void *);
+extern void fn_82A1E810(void *);
 
+typedef struct {
+    char pad0[0xc];
+    void *f0c;
+    char pad1[0x1c];
+    void *f2c;
+    void *f30;
+    void *f34;
+    void *f38;
+    int f3c;
+    int f40;
+} Obj_83055DD0;
 
-void fn_83055DD0(int param_1)
-
+void fn_83055DD0(Obj_83055DD0 *o)
 {
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    fn_82A1E810();
-    if (*(int *)(param_1 + 0xc) != 0) {
-      fn_82A1E650(*(int *)(param_1 + 0xc),0xffffffffffffffff);
-      fn_82A1E658(*(undefined4 *)(param_1 + 0xc));
-      *(undefined4 *)(param_1 + 0xc) = 0;
+    if (o->f2c != 0) {
+        fn_82A1E810(o->f2c);
+        if (o->f0c != 0) {
+            fn_82A1E650(o->f0c, -1);
+            fn_82A1E658(o->f0c);
+            o->f0c = 0;
+        }
+        fn_82A1E658(o->f2c);
+        o->f2c = 0;
     }
-    fn_82A1E658(*(undefined4 *)(param_1 + 0x2c));
-    *(undefined4 *)(param_1 + 0x2c) = 0;
-  }
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_82A1E658();
-    *(undefined4 *)(param_1 + 0xc) = 0;
-  }
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_82A1E658();
-    *(undefined4 *)(param_1 + 0x34) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  if (*(int *)(param_1 + 0x38) != 0) {
-    fn_82A1E658();
-    *(undefined4 *)(param_1 + 0x38) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  if (*(int *)(param_1 + 0x30) != 0) {
-    fn_82A1E658();
-    *(undefined4 *)(param_1 + 0x30) = 0;
-  }
-  return;
+    if (o->f0c != 0) {
+        fn_82A1E658(o->f0c);
+        o->f0c = 0;
+    }
+    if (o->f34 != 0) {
+        fn_82A1E658(o->f34);
+        o->f34 = 0;
+    }
+    o->f3c = 0;
+    if (o->f38 != 0) {
+        fn_82A1E658(o->f38);
+        o->f38 = 0;
+    }
+    o->f40 = 0;
+    if (o->f30 != 0) {
+        fn_82A1E658(o->f30);
+        o->f30 = 0;
+    }
 }
-

@@ -1,54 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8202F1A0;
 
+typedef struct Iface_82933428 { void *f0; struct Iface_82933428 *(*f4)(struct Iface_82933428 *); } Iface_82933428;
+typedef struct VT_82933428 { Iface_82933428 *(*f0)(void); Iface_82933428 *(*f4)(Iface_82933428 *); } VT_82933428;
+typedef struct Obj_82933428 { VT_82933428 *vt; } Obj_82933428;
+typedef struct A_82933428 { unsigned __int64 v[2]; } A_82933428;
+typedef struct B_82933428 { unsigned __int64 v[4]; } B_82933428;
+typedef struct Self_82933428 {
+  void *vt;
+  int f4;
+  int f8;
+  int fc;
+  A_82933428 a;
+  B_82933428 b;
+} Self_82933428;
 
-undefined4 * fn_82933428(undefined4 *param_1,undefined8 *param_2,undefined8 *param_3)
-
+Self_82933428 *fn_82933428(Self_82933428 *s, A_82933428 *a, B_82933428 *b)
 {
-  undefined4 uVar1;
-  
-  param_1[2] = 0;
-  *param_1 = &lbl_8202F1A0;
-  param_1[1] = 0xf;
-  param_1[3] = 0;
-  *(undefined8 *)(param_1 + 4) = *param_2;
-  *(undefined8 *)(param_1 + 6) = param_2[1];
-  *(undefined8 *)(param_1 + 8) = *param_3;
-  *(undefined8 *)(param_1 + 10) = param_3[1];
-  *(undefined8 *)(param_1 + 0xc) = param_3[2];
-  *(undefined8 *)(param_1 + 0xe) = param_3[3];
-  if (param_1[4] == 4) {
-    if ((int *)param_1[6] != (int *)0x0) {
-      uVar1 = (**(code **)(*(int *)param_1[6] + 4))();
-      param_1[6] = uVar1;
+  s->vt = &lbl_8202F1A0;
+  s->f4 = 0xf;
+  s->f8 = 0;
+  s->fc = 0;
+  s->a = *a;
+  s->b = *b;
+  if (*(int *)&s->a == 4) {
+    Obj_82933428 *o = *(Obj_82933428 **)((char *)s + 0x18);
+    if (o != 0) {
+      *(void **)((char *)s + 0x18) = o->vt->f4((Iface_82933428 *)o);
     }
   }
-  return param_1;
+  return s;
 }
-

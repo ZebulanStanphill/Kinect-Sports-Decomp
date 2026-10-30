@@ -1,59 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828AC5E0();
-extern int fn_828ED218();
-extern int fn_828ED288();
-extern int fn_828ED2F8();
-extern int fn_828ED350();
+typedef struct {
+    unsigned __int64 val;
+    unsigned int ptr;
+    unsigned char c;
+    unsigned char d;
+    unsigned char e;
+} Arg_828A94B0;
+typedef struct { char pad0[0x60]; char sub[0x2c]; unsigned int h; } Obj_828A94B0;
+extern void fn_828AC5E0();
+extern void fn_828ED218();
+extern void fn_828ED288();
+extern void fn_828ED2F8();
+extern void fn_828ED350();
 
-
-void fn_828A94B0(int param_1,undefined8 *param_2)
-
+void fn_828A94B0(Obj_828A94B0 *o, Arg_828A94B0 *a)
 {
-  undefined4 uVar1;
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x8c);
-  if (*(char *)((int)param_2 + 0xd) == '\0') {
-    if (*(char *)((int)param_2 + 0xc) == '\0') {
-      fn_828ED350(uVar1,*param_2);
+    unsigned int h = o->h;
+    if (a->d) {
+        if (a->c)
+            fn_828ED218(h, a->ptr, a->e);
+        else
+            fn_828ED288(h, a->val, a->e);
+    } else {
+        if (a->c)
+            fn_828ED2F8(h, a->ptr);
+        else
+            fn_828ED350(h, a->val);
     }
-    else {
-      fn_828ED2F8(uVar1,*(undefined4 *)(param_2 + 1));
-    }
-  }
-  else if (*(char *)((int)param_2 + 0xc) == '\0') {
-    fn_828ED288(uVar1,*param_2,*(undefined1 *)((int)param_2 + 0xe));
-  }
-  else {
-    fn_828ED218(uVar1,*(undefined4 *)(param_2 + 1));
-  }
-  fn_828AC5E0(param_1 + 0x60,*(undefined1 *)((int)param_2 + 0xd),
-               *(undefined1 *)((int)param_2 + 0xc),*(undefined1 *)((int)param_2 + 0xe));
-  return;
+    fn_828AC5E0(o->sub, a->d, a->c, a->e);
 }
-

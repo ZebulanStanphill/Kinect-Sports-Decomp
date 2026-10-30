@@ -1,59 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_82897DF8();
-extern int fn_828A9C98();
-
-
-void fn_8224E7E8(int param_1)
-
+extern void fn_828A9C98(void);
+extern void fn_82230110(void *, const char *);
+extern void fn_82230300(void *, int, int);
+typedef struct Btn_82897DF8 { char pad[0xc]; unsigned char f; char pad2[0x4b]; } Btn_82897DF8;
+extern void fn_82897DF8(Btn_82897DF8 *, void *, void *);
+void fn_8224E7E8(char *p)
 {
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [32];
-  undefined1 auStack_40 [40];
-  
+  char s0[32]; char s1[32]; char s2[40];
+  Btn_82897DF8 *b;
   fn_828A9C98();
-  fn_82230110(auStack_80,0xffffffff82197c5c);
-  *(undefined1 *)(param_1 + 0x308) = 0;
-  fn_82897DF8(param_1 + 0x2fc,param_1,auStack_80);
-  fn_82230300(auStack_80,1,0);
-  fn_82230110(auStack_60,0xffffffff82197c68);
-  *(undefined1 *)(param_1 + 0x360) = 0;
-  fn_82897DF8(param_1 + 0x354,param_1,auStack_60);
-  fn_82230300(auStack_60,1,0);
-  fn_82230110(auStack_40,0xffffffff82197c78);
-  *(undefined1 *)(param_1 + 0x3b8) = 0;
-  fn_82897DF8(param_1 + 0x3ac,param_1,auStack_40);
-  fn_82230300(auStack_40,1,0);
-  return;
+  fn_82230110(s0, "Play Again");
+  b = (Btn_82897DF8 *)(p + 0x2fc);
+  b->f = 0;
+  fn_82897DF8(b, p, s0);
+  fn_82230300(s0, 1, 0);
+  fn_82230110(s1, "Uploading Video");
+  b = (Btn_82897DF8 *)(p + 0x354);
+  b->f = 0;
+  fn_82897DF8(b, p, s1);
+  fn_82230300(s1, 1, 0);
+  fn_82230110(s2, "Return to menu");
+  b = (Btn_82897DF8 *)(p + 0x3ac);
+  b->f = 0;
+  fn_82897DF8(b, p, s2);
+  fn_82230300(s2, 1, 0);
 }
-

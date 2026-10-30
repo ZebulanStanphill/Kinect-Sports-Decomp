@@ -1,48 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_826AE958(int *param_1,undefined4 *param_2)
-
+typedef struct Cnt_826AE958 { int a; int b; int rc; } Cnt_826AE958;
+typedef struct P2_826AE958 { Cnt_826AE958 *p; } P2_826AE958;
+typedef struct P1_826AE958 { Cnt_826AE958 *p; } P1_826AE958;
+typedef struct Pair_826AE958 { int x; P2_826AE958 y; } Pair_826AE958;
+typedef struct Dst_826AE958 { P1_826AE958 a; Pair_826AE958 b; } Dst_826AE958;
+typedef struct Src_826AE958 { P1_826AE958 *a; Pair_826AE958 *b; } Src_826AE958;
+void fn_826AE958(Dst_826AE958 *d, Src_826AE958 *s)
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = *(int *)*param_2;
-  *param_1 = iVar1;
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  piVar2 = (int *)param_2[1];
-  param_1[1] = *piVar2;
-  iVar1 = piVar2[1];
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  param_1[2] = piVar2[1];
-  return;
+  Cnt_826AE958 *c;
+  Pair_826AE958 *t, *o;
+  P2_826AE958 *ty;
+  P1_826AE958 *o1 = s->a;
+  d->a.p = o1->p;
+  d->a.p->rc = d->a.p->rc + 1;
+  t = &d->b;
+  o = s->b;
+  t->x = o->x;
+  ty = &t->y;
+  c = o->y.p;
+  if (c != 0) c->rc = (c->rc + 1) & 0x8fffffff;
+  ty->p = o->y.p;
 }
-

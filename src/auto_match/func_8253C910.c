@@ -1,90 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
+extern unsigned int lbl_821C7F7C;
 extern int fn_8251E370();
 extern int fn_8251F720();
 extern int fn_82520158();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821C7F7C;
-
-
-void fn_8253C910(undefined4 *param_1)
-
+extern void *fn_8265C9E0();
+typedef struct {
+    int f0; int *f4; char pad0[0x24 - 8]; int f24, f28, f2c, f30, f34, f38; char pad1[0x44 - 0x3c]; int f44; char pad2[0x50 - 0x48];
+    char a[8][0x14]; char pad3[0xf4 - 0xf0]; int ff4;
+} Obj;
+void fn_8253C910(Obj *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined1 auStack_20 [8];
-  
-  fn_8251E370(param_1 + 0x14,4,0);
-  fn_8251E370(param_1 + 0x19,4,0);
-  fn_8251E370(param_1 + 0x1e,4,0);
-  fn_8251E370(param_1 + 0x23,4,0);
-  fn_8251E370(param_1 + 0x28,4,0);
-  fn_8251E370(param_1 + 0x2d,4,0);
-  fn_8251E370(param_1 + 0x32,4,0);
-  fn_8251E370(param_1 + 0x37,4,0);
-  iVar1 = fn_82520158(0xffffffff821c4074,auStack_20,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_8251F720(auStack_20,0);
-    param_1[9] = uVar2;
-  }
-  iVar1 = fn_82520158(0xffffffff821c4084,auStack_20,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_8251F720(auStack_20,0);
-    param_1[10] = uVar2;
-  }
-  iVar1 = fn_82520158(0xffffffff821c4098,auStack_20,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_8251F720(auStack_20,0);
-    param_1[0xb] = uVar2;
-  }
-  iVar1 = fn_82520158(0xffffffff821c40a4,auStack_20,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_8251F720(auStack_20,0);
-    param_1[0xc] = uVar2;
-  }
-  iVar1 = fn_82520158(0xffffffff821c40b0,auStack_20,0);
-  if (iVar1 != 0) {
-    uVar2 = fn_8251F720(auStack_20,0);
-    param_1[0xe] = uVar2;
-  }
-  param_1[0x11] = 0;
-  *param_1 = 0;
-  puVar3 = (undefined4 *)fn_8265C9E0(4);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar3 = &lbl_821C7F7C;
-  }
-  param_1[1] = puVar3;
-  param_1[0x3d] = 0;
-  return;
-}
+    char buf[8];
+    int *p;
+    int i;
+    fn_8251E370(o->a[0], 4, 0);
+    fn_8251E370(o->a[1], 4, 0);
+    fn_8251E370(o->a[2], 4, 0);
+    fn_8251E370(o->a[3], 4, 0);
+    fn_8251E370(o->a[4], 4, 0);
+    fn_8251E370(o->a[5], 4, 0);
+    fn_8251E370(o->a[6], 4, 0);
+    fn_8251E370(o->a[7], 4, 0);
+    if (fn_82520158("friction_table", buf, 0) != 0)
+        o->f24 = fn_8251F720(buf, 0);
+    if (fn_82520158("wheelmarks_table", buf, 0) != 0)
+        o->f28 = fn_8251F720(buf, 0);
+    if (fn_82520158("surface_sfx", buf, 0) != 0)
+        o->f2c = fn_8251F720(buf, 0);
+    if (fn_82520158("surface_fx", buf, 0) != 0)
+        o->f30 = fn_8251F720(buf, 0);
+    if (fn_82520158("physicsfx_settings", buf, 0) != 0)
+        o->f38 = fn_8251F720(buf, 0);
+    o->f44 = 0;
+    o->f0 = 0;
 
+    p = fn_8265C9E0(4);
+    o->f4 = p ? (*p = (int)&lbl_821C7F7C, p) : 0;
+    o->ff4 = 0;
+
+}

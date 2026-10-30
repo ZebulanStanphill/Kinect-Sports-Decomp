@@ -1,65 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern unsigned int iStack_30;
-extern unsigned int uStack_2c;
+struct Cb_826C6E68;
+typedef struct VT_826C6E68 { void *pad0; void (*f4)(struct Cb_826C6E68 *, void *); } VT_826C6E68;
+typedef struct Cb_826C6E68 { VT_826C6E68 *vt; } Cb_826C6E68;
+struct Src_826C6E68;
+typedef struct SVT_826C6E68 { void *pad[12]; unsigned char (*f30)(struct Src_826C6E68 *, void *, int); } SVT_826C6E68;
+typedef struct Src_826C6E68 { SVT_826C6E68 *vt; } Src_826C6E68;
+typedef struct { char pad0[4]; int cnt; char pad1[0x94]; Src_826C6E68 *src; char pad2[0x20]; unsigned char *flags; } Obj_826C6E68;
+typedef struct { Cb_826C6E68 **p; unsigned int n; } Vec_826C6E68;
+extern void fn_8267C498(void *);
 
-
-void fn_826C6E68(int param_1,int param_2)
-
+void fn_826C6E68(Obj_826C6E68 *o, int idx)
 {
-  char cVar1;
-  uint uVar2;
-  int iVar3;
-  struct { int first; uint second; } stack_pair_30;
-
-  
-  if (*(char *)(param_2 + *(int *)(param_1 + 0xc0)) == '\0') {
-    iVar3 = 0;
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + 1;
-    cVar1 = (**(code **)(**(int **)(param_1 + 0x9c) + 0x30))
-                      (*(int **)(param_1 + 0x9c),&stack_pair_30.first,param_2);
-    if ((cVar1 != '\0') && (stack_pair_30.second != 0)) {
-      uVar2 = 0;
-      do {
-        (**(code **)(**(int **)(iVar3 + stack_pair_30.first) + 4))(*(int **)(iVar3 + stack_pair_30.first),param_1);
-        uVar2 = uVar2 + 1;
-        iVar3 = iVar3 + 4;
-      } while (uVar2 < stack_pair_30.second);
-      iVar3 = 1;
+    if (o->flags[idx] == 0) {
+        unsigned char ok = 0;
+        Vec_826C6E68 v;
+        v.p = 0;
+        v.n = 0;
+        o->cnt++;
+        if (o->src->vt->f30(o->src, &v, idx) && v.n != 0) {
+            unsigned int i;
+            for (i = 0; i < v.n; i++)
+                v.p[i]->vt->f4(v.p[i], o);
+            ok = 1;
+        }
+        if (ok)
+            o->flags[idx] = 1;
+        fn_8267C498(o);
     }
-    if (iVar3 != 0) {
-      *(undefined1 *)(param_2 + *(int *)(param_1 + 0xc0)) = 1;
-    }
-    fn_8267C498(param_1);
-  }
-  return;
 }
-

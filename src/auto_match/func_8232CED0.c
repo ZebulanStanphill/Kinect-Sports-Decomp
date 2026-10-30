@@ -1,60 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8232C528();
-extern int fn_82520780();
+struct Cb_8232CED0;
+typedef struct VT_8232CED0 { void *pad[5]; void (*f14)(struct Cb_8232CED0 *, int, int); } VT_8232CED0;
+typedef struct Cb_8232CED0 { VT_8232CED0 *vt; int a; int b; } Cb_8232CED0;
+typedef struct { char pad[0x27c]; struct { char pad[0x7a4]; int v; } *p; } Sub_8232CED0;
+typedef struct { char pad0[0x4e0]; float f4e0; char pad1[4]; float f4e8; } Cfg_8232CED0;
+typedef struct { char pad0[8]; Cfg_8232CED0 *cfg; Cb_8232CED0 *cb; char pad1[8]; float f18; float f1c; } Obj_8232CED0;
+extern char lbl_83265A28[];
+extern int fn_82520780(const char *, double);
+extern void fn_8232C528(Cb_8232CED0 *, int);
 
-
-void fn_8232CED0(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,int param_5)
-
+void fn_8232CED0(Obj_8232CED0 *o, unsigned int st, int a2, int a3, int flag)
 {
-  int *piVar1;
-  bool bVar2;
-  int iVar3;
-  
-  if (param_5 == 0) {
-    if ((param_2 < 3) || ((5 < param_2 && (param_2 == 6)))) {
-      bVar2 = true;
+    if (flag == 0) {
+        int b;
+        int old;
+        Cb_8232CED0 *cb;
+        if (st < 3 || (st >= 6 && st == 6))
+            b = 1;
+        else
+            b = 0;
+        if (fn_82520780(lbl_83265A28, (o->f18 - o->f1c) / o->cfg->f4e0 * o->cfg->f4e8 + o->f1c) != 0
+            && ((Sub_8232CED0 *)o->cfg)->p->v == 0) {
+            cb = o->cb;
+            old = cb->b;
+            cb->b = !b;
+            cb->vt->f14(cb, old, cb->b);
+            fn_8232C528(o->cb, 1);
+        }
     }
-    else {
-      bVar2 = false;
-    }
-    iVar3 = fn_82520780((double)(((*(float *)(param_1 + 0x18) - *(float *)(param_1 + 0x1c)) /
-                                  *(float *)(*(int *)(param_1 + 8) + 0x4e0)) *
-                                  *(float *)(*(int *)(param_1 + 8) + 0x4e8) +
-                                 *(float *)(param_1 + 0x1c)),0xffffffff83265a28);
-    if ((iVar3 != 0) && (*(int *)(*(int *)(*(int *)(param_1 + 8) + 0x27c) + 0x7a4) == 0)) {
-      piVar1 = *(int **)(param_1 + 0xc);
-      iVar3 = piVar1[2];
-      piVar1[2] = (uint)!bVar2;
-      (**(code **)(*piVar1 + 0x14))(piVar1,iVar3);
-      fn_8232C528(*(undefined4 *)(param_1 + 0xc),1);
-    }
-  }
-  return;
 }
-

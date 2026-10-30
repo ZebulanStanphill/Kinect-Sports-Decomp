@@ -1,55 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FB9430();
+typedef struct Sub_82FB9630 { short a; unsigned char top : 2; unsigned char rest : 6; int c; } Sub_82FB9630;
+typedef struct Elem_82FB9630 { int pad; Sub_82FB9630 s; } Elem_82FB9630;
+typedef struct Vec_82FB9630 { Elem_82FB9630 *begin; Elem_82FB9630 *end; unsigned int cap; } Vec_82FB9630;
+extern unsigned char fn_82FB9430(Vec_82FB9630 *, int);
 
-
-int fn_82FB9630(int *param_1)
-
+Elem_82FB9630 *fn_82FB9630(Vec_82FB9630 *v)
 {
-  uint uVar1;
-  char cVar3;
-  int iVar2;
-  
-  uVar1 = (param_1[1] - *param_1) / 0xc;
-  if (((uVar1 < (uint)param_1[2]) || (cVar3 = fn_82FB9430(param_1,5), cVar3 != '\0')) &&
-     (uVar1 < (uint)param_1[2])) {
-    iVar2 = param_1[1];
-    if (iVar2 != 0) {
-      *(undefined2 *)(iVar2 + 4) = 0;
-      *(byte *)(iVar2 + 6) = *(byte *)(iVar2 + 6) & 0x3f;
-      *(undefined4 *)(iVar2 + 8) = 0;
-    }
-    iVar2 = param_1[1];
-    param_1[1] = iVar2 + 0xc;
-  }
-  else {
-    iVar2 = 0;
-  }
-  return iVar2;
-}
+  unsigned int n;
+  unsigned char ok;
+  Elem_82FB9630 *e;
+  Sub_82FB9630 *s;
 
+  n = v->end - v->begin;
+  if ((n < v->cap || (ok = fn_82FB9430(v, 5)) != 0) && n < v->cap) {
+    e = v->end;
+    if (e != 0) {
+      s = &e->s;
+      s->a = 0;
+      s->top = 0;
+      e->s.c = 0;
+    }
+    e = v->end;
+    v->end = e + 1;
+    return e;
+  }
+  return 0;
+}
