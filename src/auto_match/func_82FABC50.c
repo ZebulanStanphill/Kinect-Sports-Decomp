@@ -25,61 +25,74 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_82FA9208();
-extern int fn_82FABA50();
+struct Node_82FABC50;
+typedef struct Node_82FABC50 {
+  struct Node_82FABC50 *next;
+  int pad[4];
+  void *f14;
+  int pad18;
+} Node_82FABC50;
+typedef struct {
+  Node_82FABC50 *head;
+  int f4;
+  Node_82FABC50 *list;
+  unsigned count;
+  unsigned f10;
+  int f14;
+  Node_82FABC50 *arr;
+  void *heap;
+} Obj_82FABC50;
+extern void fn_82FA5190(void *, void *);
+extern void fn_82FA9208(void *);
+extern void fn_82FABA50(Obj_82FABC50 *, Node_82FABC50 *, int);
 
-
-undefined8 fn_82FABC50(int *param_1)
-
+int fn_82FABC50(Obj_82FABC50 *o)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  bool bVar3;
-  undefined4 *puVar4;
-  uint uVar5;
-  int iVar6;
-  
-  if (param_1[4] != 0) {
-    while (*param_1 != 0) {
-      fn_82FABA50(param_1,*param_1,0);
-    }
-    puVar1 = (undefined4 *)param_1[2];
-    while (puVar4 = puVar1, puVar4 != (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)*puVar4;
-      if ((puVar4 < (undefined4 *)param_1[6]) ||
-         (bVar3 = false, (undefined4 *)param_1[6] + param_1[3] * 7 <= puVar4)) {
-        bVar3 = true;
-      }
-      if (bVar3) {
-        if (puVar4[5] != 0) {
-          fn_82FA9208();
-          puVar4[5] = 0;
+  Node_82FABC50 *n;
+  Node_82FABC50 *nx;
+  unsigned char out;
+  unsigned i;
+  unsigned off;
+  Node_82FABC50 *e;
+
+  if (o->f10 > 0) {
+    do {
+      n = o->head;
+      if (n != 0) fn_82FABA50(o, n, 0);
+    } while (n != 0);
+    n = o->list;
+    while (n != 0) {
+      nx = n->next;
+      if (n < o->arr || n >= o->arr + o->count) out = 1; else out = 0;
+      if (out) {
+        if (n->f14 != 0) {
+          fn_82FA9208(n->f14);
+          n->f14 = 0;
         }
-        fn_82FA5190(param_1[7],puVar4);
+        fn_82FA5190(o->heap, n);
       }
+      n = nx;
     }
-    if (param_1[6] != 0) {
-      uVar5 = 0;
-      if (param_1[3] != 0) {
-        iVar6 = 0;
+    if (o->arr != 0) {
+      i = 0;
+      if (o->count > 0) {
+        off = 0;
         do {
-          iVar2 = param_1[6];
-          if (*(int *)(iVar2 + iVar6 + 0x14) != 0) {
-            fn_82FA9208();
-            *(undefined4 *)(iVar2 + iVar6 + 0x14) = 0;
+          e = (Node_82FABC50 *)((char *)o->arr + off);
+          if (e->f14 != 0) {
+            fn_82FA9208(e->f14);
+            e->f14 = 0;
           }
-          uVar5 = uVar5 + 1;
-          iVar6 = iVar6 + 0x1c;
-        } while (uVar5 < (uint)param_1[3]);
+          i++;
+          off += 0x1c;
+        } while (i < o->count);
       }
-      fn_82FA5190(param_1[7],param_1[6]);
+      fn_82FA5190(o->heap, o->arr);
     }
-    param_1[3] = 0;
-    param_1[4] = 0;
-    *param_1 = 0;
-    param_1[1] = 0;
+    o->count = 0;
+    o->f10 = 0;
+    o->head = 0;
+    o->f4 = 0;
   }
   return 1;
 }
-

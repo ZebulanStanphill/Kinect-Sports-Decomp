@@ -25,34 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8266F628();
-extern int fn_8266F640();
-extern int fn_82672C20();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct { int first; int second; int third; } Pair_8229EC50;
+typedef struct { void *f0; int f4; int f8; int fc; } Obj_8229EC50;
+extern void fn_82273C88(Pair_8229EC50 *);
+extern void fn_82273CD8(Pair_8229EC50 *, int);
+extern void fn_8266F628(void *, int);
+extern void fn_8266F640(void *, int);
+extern void fn_82672C20(void *, const char *, Pair_8229EC50 *, int);
 
-
-void fn_8229EC50(undefined4 *param_1,undefined4 param_2)
-
+void fn_8229EC50(Obj_8229EC50 *o, int param_2)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  Pair_8229EC50 st;
 
-  undefined4 uStack_28;
-  
-  if (param_1[3] == 0) {
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    fn_82273CD8(&stack_pair_30.first,5);
-    uStack_28 = param_2;
-    fn_8266F640(*param_1,0);
-    fn_8266F628(*param_1,0);
-    fn_82672C20(*param_1,0xffffffff821ab5dc,&stack_pair_30.first,1);
-    param_1[3] = 1;
-    fn_82273C88(&stack_pair_30.first);
+  if (o->fc == 0) {
+    st.first = 0;
+    st.second = 0;
+    fn_82273CD8(&st, 5);
+    st.third = param_2;
+    fn_8266F640(o->f0, 0);
+    fn_8266F628(o->f0, 0);
+    fn_82672C20(o->f0, "_root.mc_replaycaption.displayCaption", &st, 1);
+    o->fc = 1;
+    fn_82273C88(&st);
   }
-  return;
 }
-

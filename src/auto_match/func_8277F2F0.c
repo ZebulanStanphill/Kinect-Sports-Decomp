@@ -28,14 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8277E590();
 
 
-longlong fn_8277F2F0(int param_1,float *param_2)
+typedef struct { int a; int b; } Pair_8277F2F0;
+typedef struct { char pad[0x104]; int cnt; char pad2[0xc]; int x; int y; } Obj_8277F2F0;
 
+int fn_8277F2F0(Obj_8277F2F0 *o, float *p)
 {
-  if ((*(float *)(param_1 + 0x118) < param_2[1]) || (*(float *)(param_1 + 0x114) < *param_2)) {
-    *(float *)(param_1 + 0x114) = *param_2;
-    *(float *)(param_1 + 0x118) = param_2[1];
-    fn_8277E590(param_1 + 0x104,param_1 + 0x114);
+  if (p[1] > *(float *)&o->y || p[0] > *(float *)&o->x) {
+    o->x = *(int *)&p[0];
+    o->y = *(int *)&p[1];
+    fn_8277E590(&o->cnt, &o->x);
   }
-  return (ulonglong)*(uint *)(param_1 + 0x104) - 1;
+  return o->cnt - 1;
 }
-

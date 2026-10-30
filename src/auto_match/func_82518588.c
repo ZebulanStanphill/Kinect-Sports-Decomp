@@ -25,63 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825159C8();
-extern int fn_825188C8();
+typedef struct N_82518588 {
+  struct N_82518588 *left;
+  struct N_82518588 *parent;
+  struct N_82518588 *right;
+  int pad;
+  unsigned key;
+  char pad2[0x69 - 0x14];
+  char isnil;
+} N_82518588;
+typedef struct { int pad; N_82518588 *head; } T_82518588;
+extern void fn_825159C8(N_82518588 **);
+extern void fn_825188C8(N_82518588 **, T_82518588 *, N_82518588 *, N_82518588 *);
 
-
-longlong fn_82518588(int param_1,uint *param_2)
-
+int fn_82518588(T_82518588 *t, unsigned *key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  longlong lVar5;
-  undefined4 * apuStack_30;
-  
-  puVar4 = *(undefined4 **)(param_1 + 4);
-  puVar3 = puVar4;
-  if (*(char *)((int)puVar4[1] + 0x69) == '\0') {
-    puVar2 = (undefined4 *)puVar4[1];
-    do {
-      if ((uint)puVar2[4] < *param_2) {
-        puVar1 = (undefined4 *)puVar2[2];
-      }
-      else {
-        if ((*(char *)((int)puVar3 + 0x69) != '\0') && (*param_2 < (uint)puVar2[4])) {
-          puVar3 = puVar2;
-        }
-        puVar1 = (undefined4 *)*puVar2;
-        puVar4 = puVar2;
-      }
-      puVar2 = puVar1;
-    } while (*(char *)((int)puVar1 + 0x69) == '\0');
-  }
-  if (*(char *)((int)puVar3 + 0x69) == '\0') {
-    puVar2 = (undefined4 *)*puVar3;
-  }
-  else {
-    puVar2 = *(undefined4 **)(*(int *)(param_1 + 4) + 4);
-  }
-  if (*(char *)((int)puVar2 + 0x69) == '\0') {
-    do {
-      if (*param_2 < (uint)puVar2[4]) {
-        puVar1 = (undefined4 *)*puVar2;
-        puVar3 = puVar2;
-      }
-      else {
-        puVar1 = (undefined4 *)puVar2[2];
-      }
-      puVar2 = puVar1;
-    } while (*(char *)((int)puVar1 + 0x69) == '\0');
-  }
-  lVar5 = 0;
-  apuStack_30 = puVar4;
-  while (apuStack_30 != puVar3) {
-    lVar5 = lVar5 + 1;
-    fn_825159C8(&apuStack_30);
-  }
-  fn_825188C8(&apuStack_30,param_1,puVar4,puVar3);
-  return lVar5;
-}
+  N_82518588 *lo;
+  N_82518588 *hi;
+  N_82518588 *p;
+  N_82518588 *it;
+  int n;
 
+  lo = t->head;
+  hi = t->head;
+  p = lo->parent;
+  if (p->isnil == 0) {
+    do {
+      if (p->key < *key) {
+        p = p->right;
+      } else {
+        if (hi->isnil != 0 && *key < p->key) hi = p;
+        lo = p;
+        p = p->left;
+      }
+    } while (p->isnil == 0);
+  }
+  if (hi->isnil != 0) {
+    p = t->head->parent;
+  } else {
+    p = hi->left;
+  }
+  if (p->isnil == 0) {
+    do {
+      if (*key < p->key) {
+        hi = p;
+        p = p->left;
+      } else {
+        p = p->right;
+      }
+    } while (p->isnil == 0);
+  }
+  n = 0;
+  it = lo;
+  while (it != hi) {
+    n++;
+    fn_825159C8(&it);
+  }
+  fn_825188C8(&it, t, lo, hi);
+  return n;
+}

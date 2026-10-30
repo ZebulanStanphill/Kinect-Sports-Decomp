@@ -1,56 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8305F7A0();
-extern int fn_83066788();
+extern int fn_8305F7A0(int, int);
+extern int fn_83066788(void *, int, float);
 
+typedef struct Obj_8305DF90 { char pad[0x28]; int f28; int *f2c; int cnt; } Obj_8305DF90;
 
-undefined8 fn_8305DF90(undefined8 param_1,int param_2,undefined8 param_3)
-
+int fn_8305DF90(Obj_8305DF90 *o, void *ctx, float f)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = 0;
-  if (0 < *(int *)(param_2 + 0x30)) {
-    iVar4 = 0;
+  int i = 0;
+  if (0 < o->cnt) {
+    int off = 0;
     do {
-      uVar1 = fn_8305F7A0(*(undefined4 *)(param_2 + 0x28),
-                           *(undefined4 *)(*(int *)(param_2 + 0x2c) + iVar4));
-      iVar2 = fn_83066788(param_1,param_3,uVar1);
-      if (iVar2 != 2) {
+      int *p = o->f2c;
+      int v = fn_8305F7A0(o->f28, *(int *)((char *)p + off));
+      if (fn_83066788(ctx, v, f) != 2) {
         return 0;
       }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < *(int *)(param_2 + 0x30));
+      i++;
+      off += 4;
+    } while (i < o->cnt);
   }
   return 1;
 }
-

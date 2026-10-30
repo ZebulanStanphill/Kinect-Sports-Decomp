@@ -29,27 +29,26 @@ extern int fn_822B4148();
 extern int fn_8265BF48();
 
 
-undefined8 fn_823D9828(int param_1,int *param_2,uint param_3,undefined8 param_4)
-
+int fn_823D9828(int param_1, unsigned *param_2, unsigned param_3, int param_4)
 {
-  ulonglong uVar1;
+  unsigned uVar1;
   int iVar2;
-  uint uVar3;
-  
-  uVar1 = fn_822B4148(*(undefined4 *)(*(int *)(param_1 + 0x1c) + 8),param_4);
-  if ((uVar1 & 0xffffffff) != 0) {
-    iVar2 = fn_8265BF48(uVar1,0);
+  unsigned uVar3;
+
+  uVar1 = fn_822B4148(*(int *)(*(int *)(param_1 + 0x1c) + 8), param_4);
+  if (uVar1 != 0) {
+    iVar2 = fn_8265BF48(uVar1, 0);
     uVar3 = 0;
     if (param_3 != 0) {
+      unsigned *p = param_2;
       do {
-        if (*param_2 == iVar2) {
+        if (*p == iVar2) {
           return 1;
         }
-        uVar3 = uVar3 + 1;
-        param_2 = param_2 + 1;
+        uVar3++;
+        p++;
       } while (uVar3 < param_3);
     }
   }
   return 0;
 }
-

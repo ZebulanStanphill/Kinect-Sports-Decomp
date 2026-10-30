@@ -25,61 +25,56 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_8302AA50();
-extern int fn_8302ABC0();
-extern unsigned int lbl_831BC768;
+typedef struct VT_82FF57E0 { void (*dtor)(void *, int); } VT_82FF57E0;
+typedef struct Item_82FF57E0 {
+  VT_82FF57E0 *vt; char pad[0x14]; float f18; char pad2[8]; unsigned f24; char pad3[0xc]; int state;
+} Item_82FF57E0;
+typedef struct Vec_82FF57E0 { Item_82FF57E0 **begin; Item_82FF57E0 **end; } Vec_82FF57E0;
 
+extern void fn_82FA5190(void *, void *);
+extern unsigned char fn_8302AA50(Item_82FF57E0 *, unsigned);
+extern void fn_8302ABC0(Item_82FF57E0 *);
+extern void *lbl_831BC768;
 
-void fn_82FF57E0(undefined8 param_1,longlong param_2,int *param_3)
-
+void fn_82FF57E0(void *param_1, unsigned now, Vec_82FF57E0 *v)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 uVar3;
-  char cVar4;
-  int *piVar5;
-  
-  piVar5 = (int *)*param_3;
-  if (piVar5 != (int *)param_3[1]) {
+  Item_82FF57E0 **cur = v->begin;
+  if (cur != v->end) {
     do {
-      puVar1 = (undefined4 *)*piVar5;
-      iVar2 = puVar1[0xd];
-      if (iVar2 == 6) {
-        fn_8302ABC0(puVar1);
-        uVar3 = lbl_831BC768;
-        (**(code **)*puVar1)(puVar1,0);
-        fn_82FA5190(uVar3,puVar1);
-        if (1 < (uint)(param_3[1] - *param_3 >> 2)) {
-          *piVar5 = *(int *)(param_3[1] + -4);
+      Item_82FF57E0 *it = *cur;
+      void *heap;
+      if (it->state == 6) {
+        fn_8302ABC0(it);
+        heap = lbl_831BC768;
+        it->vt->dtor(it, 0);
+        fn_82FA5190(heap, it);
+        if (1 < (unsigned)(v->end - v->begin)) {
+          *cur = v->end[-1];
         }
-        param_3[1] = param_3[1] + -4;
-      }
-      else {
-        if (iVar2 == 2) {
-          puVar1[9] = (int)param_2;
-          puVar1[0xd] = 3;
-        }
-        else if (iVar2 == 4) {
-          puVar1[0xd] = 1;
-          puVar1[6] = (float)(param_2 - (ulonglong)(uint)puVar1[9] & 0xffffffff) + (float)puVar1[6];
-        }
-        if ((puVar1[0xd] == 1) && (cVar4 = fn_8302AA50(puVar1,param_2), cVar4 != '\0')) {
-          fn_8302ABC0(puVar1);
-          if (1 < (uint)(param_3[1] - *param_3 >> 2)) {
-            *piVar5 = *(int *)(param_3[1] + -4);
+        v->end = v->end - 1;
+      } else {
+        if (it->state != 2) {
+          if (it->state == 4) {
+            it->state = 1;
+            it->f18 = (float)(now - it->f24) + it->f18;
           }
-          param_3[1] = param_3[1] + -4;
-          uVar3 = lbl_831BC768;
-          (**(code **)*puVar1)(puVar1,0);
-          fn_82FA5190(uVar3,puVar1);
+        } else {
+          it->f24 = now;
+          it->state = 3;
         }
-        else {
-          piVar5 = piVar5 + 1;
+        if (it->state == 1 && fn_8302AA50(it, now)) {
+          fn_8302ABC0(it);
+          if (1 < (unsigned)(v->end - v->begin)) {
+            *cur = v->end[-1];
+          }
+          v->end = v->end - 1;
+          heap = lbl_831BC768;
+          it->vt->dtor(it, 0);
+          fn_82FA5190(heap, it);
+        } else {
+          cur++;
         }
       }
-    } while (piVar5 != (int *)param_3[1]);
+    } while (cur != v->end);
   }
-  return;
 }
-

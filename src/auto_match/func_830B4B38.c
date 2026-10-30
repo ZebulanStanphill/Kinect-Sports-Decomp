@@ -25,30 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82E1BFA0();
-extern int fn_82E1C280();
-extern int fn_830B4CB0();
+extern void *fn_8265C9E0(int);
+extern void *fn_82E1BFA0(void *);
+extern void fn_82E1C280(void *, const char *);
+extern void fn_830B4CB0(void *, int);
 
+typedef struct Obj_830B4B38 { int pad; int f4; void *f8; } Obj_830B4B38;
 
-undefined4 fn_830B4B38(int param_1)
-
+void *fn_830B4B38(Obj_830B4B38 *o)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    iVar2 = fn_8265C9E0(0x80);
-    if (iVar2 == 0) {
-      uVar1 = 0;
+  if (o->f8 == 0) {
+    void *mem = fn_8265C9E0(0x80);
+    void *n;
+    if (mem != 0) {
+      n = fn_82E1BFA0(mem);
+    } else {
+      n = 0;
     }
-    else {
-      uVar1 = fn_82E1BFA0();
-    }
-    fn_830B4CB0(uVar1,*(undefined4 *)(param_1 + 4));
-    fn_82E1C280(uVar1,0xffffffff821882d0);
-    *(int *)(param_1 + 8) = (int)uVar1;
+    fn_830B4CB0(n, o->f4);
+    fn_82E1C280(n, "VINCE");
+    o->f8 = n;
   }
-  return *(undefined4 *)(param_1 + 8);
+  return o->f8;
 }
-

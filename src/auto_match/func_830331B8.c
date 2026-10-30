@@ -25,40 +25,59 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83032B08();
-extern int fn_8303D878();
-extern unsigned int lbl_8217D044;
+typedef struct {
+  void *vt;
+  char pad0[0x20 - 4];
+  struct { int a; int b; unsigned char c; } sub;
+  int f2c;
+  int f30;
+  unsigned f34;
+  int f38;
+  char pad2[0x7c - 0x3c];
+  int f7c;
+  int f80;
+  int f84;
+  int f88;
+  int f8c;
+  unsigned char f90;
+  unsigned char f91;
+  char pad3[2];
+  int f94;
+  int f98;
+  int f9c;
+  int fa0;
+} Obj_830331B8;
+extern void fn_8303D878(Obj_830331B8 *);
+extern void fn_83032B08(int);
+extern char lbl_8217D044[];
 
-
-undefined4 * fn_830331B8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,int *param_4)
-
+Obj_830331B8 *fn_830331B8(Obj_830331B8 *o, int a, int b, int *p)
 {
-  int iVar1;
-  
-  fn_8303D878();
-  *param_1 = &lbl_8217D044;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  *(byte *)(param_1 + 10) = *(byte *)(param_1 + 10) & 0x3f;
-  iVar1 = *param_4;
-  param_1[0xd] = iVar1;
-  if (iVar1 != 0) {
-    fn_83032B08();
-  }
-  param_1[0x1f] = 0;
-  param_1[0x20] = 0;
-  param_1[0x21] = 0;
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  *(undefined1 *)(param_1 + 0x24) = 1;
-  *(undefined1 *)((int)param_1 + 0x91) = 0;
-  param_1[0x25] = 0;
-  param_1[0x26] = 0;
-  param_1[0x27] = 0;
-  param_1[0x28] = 0;
-  param_1[0xe] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  return param_1;
-}
+  unsigned v;
+  struct { int a; int b; unsigned char c; } *s;
 
+  fn_8303D878(o);
+  o->vt = lbl_8217D044;
+  s = &o->sub;
+  s->a = 0;
+  s->b = 0;
+  s->c = s->c & 0x3f;
+  v = *p;
+  o->f34 = v;
+  if (v != 0) fn_83032B08(v);
+  o->f7c = 0;
+  o->f80 = 0;
+  o->f84 = 0;
+  o->f88 = 0;
+  o->f8c = 0;
+  o->f90 = 1;
+  o->f91 = 0;
+  o->f94 = 0;
+  o->f98 = 0;
+  o->f9c = 0;
+  o->fa0 = 0;
+  o->f38 = 0;
+  o->f2c = 0;
+  o->f30 = 0;
+  return o;
+}

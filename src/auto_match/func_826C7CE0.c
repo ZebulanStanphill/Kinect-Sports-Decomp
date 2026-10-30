@@ -25,31 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826C59F8();
-
+typedef int (*Fn_826C7CE0)();
+typedef struct { Fn_826C7CE0 *vt; } Sub_826C7CE0;
+typedef struct { char pad[0x10]; int f10; int pad2; char f18; } Cur_826C7CE0;
+typedef struct {
+  Fn_826C7CE0 *vt;
+  char pad[0x9c - 4];
+  Sub_826C7CE0 *f9c;
+  char pad2[0x1ac - 0xa0];
+  Cur_826C7CE0 *f1ac;
+} Obj_826C7CE0;
+extern Obj_826C7CE0 *fn_826C59F8(void);
 
 void fn_826C7CE0(void)
-
 {
-  int *piVar2;
-  int iVar3;
-  longlong lVar1;
-  
-  piVar2 = (int *)fn_826C59F8();
-  if (piVar2 != (int *)0x0) {
-    iVar3 = piVar2[0x6b];
-    if ((iVar3 == 0) || (*(char *)(iVar3 + 0x18) != '\0')) {
-      iVar3 = (**(code **)(*(int *)piVar2[0x27] + 0x28))();
-    }
-    else {
-      iVar3 = *(int *)(iVar3 + 0x10);
-    }
-    lVar1 = (**(code **)(*piVar2 + 0x118))(piVar2);
-    if ((int)lVar1 < iVar3) {
-      (**(code **)(*piVar2 + 0x120))(piVar2,lVar1 + 1);
-    }
-    (**(code **)(*piVar2 + 0x124))(piVar2,1);
-  }
-  return;
-}
+  Obj_826C7CE0 *o;
+  Cur_826C7CE0 *c;
+  int limit;
+  int cur;
 
+  o = fn_826C59F8();
+  if (o != 0) {
+    c = o->f1ac;
+    if (c == 0 || c->f18 != 0) {
+      limit = o->f9c->vt[0x28 / 4](o->f9c);
+    } else {
+      limit = c->f10;
+    }
+    cur = o->vt[0x118 / 4](o);
+    if (cur < limit) {
+      o->vt[0x120 / 4](o, cur + 1);
+    }
+    o->vt[0x124 / 4](o, 1);
+  }
+}

@@ -29,25 +29,26 @@ extern int fn_8265C9E0();
 extern unsigned int lbl_82024528;
 
 
-int * fn_828AC010(int *param_1,undefined4 *param_2)
+typedef struct VT_828AC010 { void (*del)(void *, int); } VT_828AC010;
+typedef struct Obj_828AC010 { VT_828AC010 *vt; int val; } Obj_828AC010;
 
+Obj_828AC010 **fn_828AC010(Obj_828AC010 **param_1, int *param_2)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)fn_8265C9E0(8);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
+  Obj_828AC010 *n, *mem;
+  Obj_828AC010 *old;
+
+  mem = (Obj_828AC010 *)fn_8265C9E0(8);
+  if (mem != 0) {
+    n = mem;
+    n->vt = (VT_828AC010 *)&lbl_82024528;
+    n->val = *param_2;
+  } else {
+    n = 0;
   }
-  else {
-    *puVar2 = &lbl_82024528;
-    puVar2[1] = *param_2;
-  }
-  puVar1 = (undefined4 *)*param_1;
-  *param_1 = (int)puVar2;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+  old = *param_1;
+  *param_1 = n;
+  if (old != 0) {
+    old->vt->del(old, 1);
   }
   return param_1;
 }
-

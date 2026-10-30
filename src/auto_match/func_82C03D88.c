@@ -27,33 +27,36 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82C03D88(int param_1,int *param_2,int *param_3,int *param_4)
+struct If_82C03D88;
+typedef struct { void *s0; void (*addref)(struct If_82C03D88 *); void (*release)(struct If_82C03D88 *); } IfVt_82C03D88;
+typedef struct If_82C03D88 { IfVt_82C03D88 *vt; } If_82C03D88;
+typedef struct { char pad[0x2c]; If_82C03D88 *a; If_82C03D88 *b; If_82C03D88 *c; } Obj_82C03D88;
 
+int fn_82C03D88(Obj_82C03D88 *o, If_82C03D88 *a, If_82C03D88 *b, If_82C03D88 *c)
 {
-  if (*(int **)(param_1 + 0x2c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x2c) + 8))();
-    *(undefined4 *)(param_1 + 0x2c) = 0;
+  if (o->a != 0) {
+    o->a->vt->release(o->a);
+    o->a = 0;
   }
-  if (*(int **)(param_1 + 0x30) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x30) + 8))();
-    *(undefined4 *)(param_1 + 0x30) = 0;
+  if (o->b != 0) {
+    o->b->vt->release(o->b);
+    o->b = 0;
   }
-  if (*(int **)(param_1 + 0x34) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x34) + 8))();
-    *(undefined4 *)(param_1 + 0x34) = 0;
+  if (o->c != 0) {
+    o->c->vt->release(o->c);
+    o->c = 0;
   }
-  if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 4))(param_2);
-    *(int **)(param_1 + 0x2c) = param_2;
+  if (a != 0) {
+    a->vt->addref(a);
+    o->a = a;
   }
-  if (param_3 != (int *)0x0) {
-    (**(code **)(*param_3 + 4))(param_3);
-    *(int **)(param_1 + 0x30) = param_3;
+  if (b != 0) {
+    b->vt->addref(b);
+    o->b = b;
   }
-  if (param_4 != (int *)0x0) {
-    (**(code **)(*param_4 + 4))(param_4);
-    *(int **)(param_1 + 0x34) = param_4;
+  if (c != 0) {
+    c->vt->addref(c);
+    o->c = c;
   }
   return 0;
 }
-

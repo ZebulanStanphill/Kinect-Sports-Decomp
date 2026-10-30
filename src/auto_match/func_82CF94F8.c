@@ -1,132 +1,73 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_82D00FB0();
-extern int fn_82D019B8();
-extern int fn_82D020E8();
-extern int fn_82D03A60();
-extern int fn_82D03AA8();
+typedef struct Link_82CF94F8 { struct Link_82CF94F8 *next; } Link_82CF94F8;
+typedef struct Bucket_82CF94F8 { char pad[0xc]; Link_82CF94F8 *a; Link_82CF94F8 *b; } Bucket_82CF94F8;
+typedef struct Node_82CF94F8 { char pad[4]; unsigned word; char pad2[8]; int payload; } Node_82CF94F8;
+typedef struct AVT_82CF94F8 { char pad[0x24]; void *(*alloc)(void *, unsigned); void (*free)(void *, void *, unsigned); } AVT_82CF94F8;
+typedef struct Alloc_82CF94F8 { AVT_82CF94F8 *vt; } Alloc_82CF94F8;
+typedef struct Obj_82CF94F8 {
+  char pad[0x28]; Alloc_82CF94F8 *alloc; char map[0x150]; Bucket_82CF94F8 *buckets[1]; char pad2[0x88]; int nbuckets;
+} Obj_82CF94F8;
+typedef void (*Cb_82CF94F8)(void *, unsigned, unsigned, int, void *);
 
+extern int fn_82D00FB0(void *, int, int, void *);
+extern void fn_82D019B8(Bucket_82CF94F8 *, void *, int);
+extern void fn_82D020E8(Bucket_82CF94F8 *, Cb_82CF94F8, int, void *);
+extern void fn_82D03A60(Node_82CF94F8 **, void *);
+extern void fn_82D03AA8(void *, void *, Node_82CF94F8 **);
+extern void fn_82D01418(void);
 
-undefined8 fn_82CF94F8(int param_1,code *param_2,undefined8 param_3)
-
+int fn_82CF94F8(Obj_82CF94F8 *o, Cb_82CF94F8 cb, void *arg)
 {
-  int iVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  longlong lVar4;
-  int iVar5;
-  longlong lVar6;
-  ulonglong uVar7;
-  int iVar8;
-  ulonglong uVar9;
-  int iVar10;
-  int *piVar11;
-  undefined4 *puVar12;
-  int *piVar13;
-  undefined1 auStack_70 [8];
-  int aiStack_68;
-  
-  uVar7 = (ulonglong)*(uint *)(param_1 + 0x208);
-  uVar9 = 0;
-  if (0 < (int)*(uint *)(param_1 + 0x208)) {
-    piVar3 = (int *)(param_1 + 0x17c);
-    do {
-      lVar4 = 0;
-      for (puVar12 = *(undefined4 **)(*piVar3 + 0x10); puVar12 != (undefined4 *)0x0;
-          puVar12 = (undefined4 *)*puVar12) {
-        lVar4 = lVar4 + 1;
-      }
-      lVar6 = 0;
-      for (puVar12 = *(undefined4 **)(*piVar3 + 0xc); puVar12 != (undefined4 *)0x0;
-          puVar12 = (undefined4 *)*puVar12) {
-        lVar6 = lVar6 + 1;
-      }
-      piVar3 = piVar3 + 1;
-      uVar9 = lVar6 + lVar4 + uVar9;
-      uVar7 = uVar7 - 1;
-    } while (uVar7 != 0);
-  }
-  lVar4 = (uVar9 & 0x3fffffff) << 2;
-  piVar3 = (int *)(**(code **)(**(int **)(param_1 + 0x28) + 0x24))(*(int **)(param_1 + 0x28),lVar4);
-  if (piVar3 == (int *)0x0) {
-    uVar2 = 1;
-  }
-  else {
-    iVar10 = 0;
-    if (0 < *(int *)(param_1 + 0x208)) {
-      piVar11 = (int *)(param_1 + 0x17c);
-      piVar13 = piVar3;
-      do {
-        iVar1 = *piVar11;
-        iVar5 = 0;
-        for (puVar12 = *(undefined4 **)(iVar1 + 0x10); puVar12 != (undefined4 *)0x0;
-            puVar12 = (undefined4 *)*puVar12) {
-          iVar5 = iVar5 + 1;
-        }
-        iVar8 = 0;
-        for (puVar12 = *(undefined4 **)(iVar1 + 0xc); puVar12 != (undefined4 *)0x0;
-            puVar12 = (undefined4 *)*puVar12) {
-          iVar8 = iVar8 + 1;
-        }
-        fn_82D019B8(iVar1,piVar13,iVar8 + iVar5);
-        iVar10 = iVar10 + 1;
-        piVar13 = piVar13 + iVar8 + iVar5;
-        piVar11 = piVar11 + 1;
-      } while (iVar10 < *(int *)(param_1 + 0x208));
-    }
-    if (1 < (int)uVar9) {
-      fn_82D00FB0(piVar3,0,uVar9 - 1,0xffffffff82d01418);
-    }
-    fn_82D03A60(&aiStack_68,param_1 + 0x2c);
-    piVar13 = piVar3;
-    while (aiStack_68 != 0) {
-      if (aiStack_68 + 0x10 == *piVar13) {
-        piVar13 = piVar13 + 1;
-      }
-      else {
-        (*param_2)(aiStack_68 + 0x10,*(uint *)(aiStack_68 + 4) & 0xfffffffc,
-                   *(uint *)(aiStack_68 + 4) >> 1 & 1,0,param_3);
-      }
-      fn_82D03AA8(auStack_70,param_1 + 0x2c,&aiStack_68);
-    }
-    (**(code **)(**(int **)(param_1 + 0x28) + 0x28))(*(int **)(param_1 + 0x28),piVar3,lVar4);
-    lVar4 = 0;
-    if (0 < *(int *)(param_1 + 0x208)) {
-      puVar12 = (undefined4 *)(param_1 + 0x178);
-      do {
-        lVar4 = lVar4 + 1;
-        puVar12 = puVar12 + 1;
-        fn_82D020E8(*puVar12,param_2,lVar4,param_3);
-      } while ((int)lVar4 < *(int *)(param_1 + 0x208));
-    }
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+  int total = 0;
+  int i;
+  int *buf;
+  int *p;
+  unsigned bytes;
+  struct { char tmp[8]; Node_82CF94F8 *node; } L;
 
+  for (i = 0; i < o->nbuckets; i++) {
+    Bucket_82CF94F8 *b = o->buckets[i];
+    int n1 = 0, n2;
+    Link_82CF94F8 *x;
+    for (x = b->b; x != 0; x = x->next) n1++;
+    x = b->a;
+    n2 = 0;
+    for (; x != 0; x = x->next) n2++;
+    total += n2 + n1;
+  }
+  bytes = total * 4;
+  buf = (int *)o->alloc->vt->alloc(o->alloc, bytes);
+  if (buf == 0) {
+    return 1;
+  }
+  p = buf;
+  for (i = 0; i < o->nbuckets; i++) {
+    Bucket_82CF94F8 *b = o->buckets[i];
+    int n1 = 0, n2, n;
+    Link_82CF94F8 *x;
+    for (x = b->b; x != 0; x = x->next) n1++;
+    x = b->a;
+    n2 = 0;
+    for (; x != 0; x = x->next) n2++;
+    n = n2 + n1;
+    fn_82D019B8(b, p, n);
+    p = p + n;
+  }
+  if (total > 1) {
+    fn_82D00FB0(buf, 0, total - 1, fn_82D01418);
+  }
+  p = buf;
+  fn_82D03A60(&L.node, o->map);
+  while (L.node != 0) {
+    if ((int *)&L.node->payload == (int *)*p) {
+      p++;
+    } else {
+      cb(&L.node->payload, L.node->word & 0xfffffffc, L.node->word >> 1 & 1, 0, arg);
+    }
+    fn_82D03AA8(L.tmp, o->map, &L.node);
+  }
+  o->alloc->vt->free(o->alloc, buf, bytes);
+  for (i = 0; i < o->nbuckets; i++) {
+    fn_82D020E8(o->buckets[i], cb, i + 1, arg);
+  }
+  return 0;
+}

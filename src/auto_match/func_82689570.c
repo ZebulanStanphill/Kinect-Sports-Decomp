@@ -25,22 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82670230();
+extern int fn_82670230(int);
 
 
-void fn_82689570(uint param_1,undefined8 param_2,int param_3)
+typedef struct VT_82689570 { int pad[12]; void (*f30)(void *, void *); } VT_82689570;
+typedef struct Inner_82689570 { VT_82689570 *vt; } Inner_82689570;
+typedef struct Obj_82689570 { int pad; int inner; } Obj_82689570;
 
+static Obj_82689570 *sel_(int c, Obj_82689570 *p) { return c ? p : 0; }
+
+void fn_82689570(Obj_82689570 *param_1, void *param_2, int param_3)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 4);
-  if ((piVar1 != (int *)0x0) && (param_3 == 2)) {
-    (**(code **)(*piVar1 + 0x30))(piVar1,-(uint)(param_1 != 8) & param_1);
-    if (*(int *)(param_1 + 4) != 0) {
-      fn_82670230();
+  int p = param_1->inner;
+  if (p != 0 && param_3 == 2) {
+    ((Inner_82689570 *)p)->vt->f30((void *)p, sel_((unsigned)param_1 - 8 != 0, param_1));
+    if ((unsigned)param_1->inner != 0) {
+      fn_82670230(param_1->inner);
     }
-    *(undefined4 *)(param_1 + 4) = 0;
+    param_1->inner = 0;
   }
-  return;
 }
-

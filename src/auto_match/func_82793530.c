@@ -25,74 +25,51 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_c0;
-extern int fn_8267BF50();
-extern int fn_8267C4F0();
-extern int fn_826FDED0();
-extern int fn_826FDF58();
-extern int fn_82726AB8();
-extern int fn_8278CD58();
-extern int fn_8278D688();
-extern int fn_82791BD8();
-extern int fn_82791CF0();
-extern int fn_82791DF0();
-extern unsigned int iStack_a4;
-extern unsigned int iStack_b4;
-extern unsigned int uStack_a0;
+typedef struct { char pad[4]; unsigned count; } Cont_82793530;
+typedef struct { char pad[0xc]; void *rc; char pad2[0x6c - 0x50 - 0x10]; Cont_82793530 *cont; unsigned idx; } It_82793530;
+typedef struct { char pad[0x8]; unsigned len; unsigned elem; } Elem_82793530;
+typedef struct { char pad[8]; unsigned f08; int f0c; } Item_82793530;
+typedef struct { char b[0x30]; } Str_82793530;
+extern void *fn_8267BF50(void *);
+extern void fn_8267C4F0(void *);
+extern void fn_826FDED0(Str_82793530 *, void *);
+extern void fn_826FDF58(Str_82793530 *);
+extern void fn_82726AB8(Str_82793530 *, ...);
+extern void fn_8278CD58(void *, Str_82793530 *, int);
+extern void *fn_8278D688(Str_82793530 *, int, Str_82793530 *);
+extern void fn_82791BD8(It_82793530 *, void *, void *, unsigned);
+extern Item_82793530 *fn_82791CF0(It_82793530 *);
+extern void fn_82791DF0(It_82793530 *);
 
-
-undefined8 fn_82793530(undefined8 param_1,longlong param_2,ulonglong param_3,ulonglong param_4)
-
+void *fn_82793530(void *out, char *src, unsigned start, unsigned end)
 {
-  bool bVar1;
-  undefined8 uVar2;
-  int iVar3;
-  int iVar4;
-  longlong lVar5;
-  undefined1 auStack_c0 [12];
-  int iStack_b4;
-  int iStack_a4;
-  uint uStack_a0;
-  undefined1 auStack_90 [48];
-  undefined1 auStack_60 [96];
-  
-  fn_82791BD8(auStack_c0,param_2 + 0x10,param_2,param_3);
-  if ((param_4 & 0xffffffff) < (param_3 & 0xffffffff)) {
-    param_4 = param_3;
-  }
-  if ((int)param_4 == -1) {
-    lVar5 = 0x7fffffff;
-  }
-  else {
-    lVar5 = param_4 - param_3;
-  }
-  uVar2 = fn_8267BF50(param_2);
-  fn_826FDED0(auStack_90,uVar2);
-  iVar4 = 0;
-  while ((0 < (int)lVar5 && (uStack_a0 < *(uint *)(iStack_a4 + 4)))) {
-    iVar3 = fn_82791CF0(auStack_c0);
-    if (*(int *)(iVar3 + 0xc) != 0) {
-      bVar1 = iVar4 == 0;
-      iVar4 = iVar4 + 1;
-      if (bVar1) {
-        fn_82726AB8(auStack_90);
-      }
-      else {
-        uVar2 = fn_8278D688(auStack_60,*(int *)(iVar3 + 0xc),auStack_90);
-        fn_82726AB8(auStack_90,uVar2);
-        fn_826FDF58(auStack_60);
+  It_82793530 it;
+  Str_82793530 str;
+  Str_82793530 tmp;
+  Item_82793530 *e;
+  int n;
+  unsigned cnt;
+
+  fn_82791BD8(&it, src + 0x10, src, start);
+  if (end < start) end = start;
+  if ((int)end == -1) n = 0x7fffffff; else n = end - start;
+  fn_826FDED0(&str, fn_8267BF50(src));
+  cnt = 0;
+  while (n > 0 && it.idx < it.cont->count) {
+    e = fn_82791CF0(&it);
+    if (e->f0c != 0) {
+      if (cnt++ == 0) {
+        fn_82726AB8(&str, e->f0c);
+      } else {
+        fn_82726AB8(&str, fn_8278D688(&tmp, e->f0c, &str));
+        fn_826FDF58(&tmp);
       }
     }
-    lVar5 = lVar5 - (ulonglong)*(uint *)(iVar3 + 8);
-    fn_82791DF0(auStack_c0);
+    n = n - e->f08;
+    fn_82791DF0(&it);
   }
-  fn_8278CD58(param_1,auStack_90,0);
-  fn_826FDF58(auStack_90);
-  if (iStack_b4 != 0) {
-    fn_8267C4F0();
-  }
-  return param_1;
+  fn_8278CD58(out, &str, 0);
+  fn_826FDF58(&str);
+  if (it.rc != 0) fn_8267C4F0(it.rc);
+  return out;
 }
-

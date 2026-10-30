@@ -25,29 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_18;
-extern unsigned int *auStack_20;
-extern int fn_82A1F2B8();
-extern unsigned int lbl_82196582;
+typedef struct { unsigned short len; unsigned short max; char *buf; } Ansi_82A2B528;
+typedef struct { unsigned short len; unsigned short max; unsigned short *buf; } Uni_82A2B528;
+extern int fn_82A1F2B8(char *);
+extern char lbl_82196582[];
 
-
-void fn_82A2B528(undefined8 param_1)
-
+void fn_82A2B528(unsigned short *param_1)
 {
-  longlong lVar1;
-  undefined1 auStack_20 [4];
-  undefined1 *puStack_1c;
-  undefined1 auStack_18 [8];
-  
-  RtlInitUnicodeString(auStack_18,param_1);
-  lVar1 = RtlUnicodeStringToAnsiString(auStack_20,auStack_18,1);
-  if (lVar1 < 0) {
-    puStack_1c = &lbl_82196582;
-  }
-  fn_82A1F2B8(puStack_1c);
-  if (-1 < (int)lVar1) {
-    RtlFreeAnsiString(auStack_20);
-  }
-  return;
-}
+  int st;
+  Ansi_82A2B528 as;
+  Uni_82A2B528 us;
 
+  RtlInitUnicodeString(&us, param_1);
+  st = RtlUnicodeStringToAnsiString(&as, &us, 1);
+  if (st < 0) {
+    as.buf = lbl_82196582;
+  }
+  fn_82A1F2B8(as.buf);
+  if (st >= 0) {
+    RtlFreeAnsiString(&as);
+  }
+}

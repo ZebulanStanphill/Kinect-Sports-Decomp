@@ -27,35 +27,38 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_82B172B0(int *param_1,int param_2)
+typedef struct N_82B172B0 {
+  char pad[0x34];
+  struct N_82B172B0 *parent;
+  struct N_82B172B0 *f38;
+  struct N_82B172B0 *f3c;
+} N_82B172B0;
+typedef struct { N_82B172B0 *head; int pad; unsigned char flag; } It_82B172B0;
 
+N_82B172B0 *fn_82B172B0(It_82B172B0 *it, N_82B172B0 *n)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if ((*(char *)(param_1 + 2) != '\0') && (iVar2 = *(int *)(param_2 + 0x3c), iVar2 == 0)) {
-    *(undefined1 *)(param_1 + 2) = 0;
-    param_2 = *(int *)(*(int *)(param_2 + 0x34) + 0x38);
-  }
-  if (*(char *)(param_1 + 2) == '\0') {
-    iVar2 = *(int *)(param_2 + 0x38);
-    if (iVar2 == 0) {
-      do {
-        while( true ) {
-          if (param_2 == *param_1) {
-            return 0;
-          }
-          iVar1 = *(int *)(param_2 + 0x3c);
-          if (iVar1 != 0) break;
-          param_2 = *(int *)(param_2 + 0x34);
-        }
-        iVar2 = *(int *)(iVar1 + 0x38);
-        param_2 = iVar1;
-      } while (iVar2 == 0);
-    }
-    *(undefined1 *)(param_1 + 2) = 1;
-  }
-  return iVar2;
-}
+  N_82B172B0 *r;
 
+  r = 0;
+  if (it->flag != 0 && (r = n->f3c, r == 0)) {
+    it->flag = 0;
+    n = n->parent->f38;
+  }
+  if (it->flag == 0) {
+    r = n->f38;
+    if (r == 0) {
+      do {
+        while (1) {
+          if (n == it->head) return 0;
+          r = n->f3c;
+          if (r != 0) break;
+          n = n->parent;
+        }
+        n = r;
+        r = r->f38;
+      } while (r == 0);
+    }
+    it->flag = 1;
+  }
+  return r;
+}

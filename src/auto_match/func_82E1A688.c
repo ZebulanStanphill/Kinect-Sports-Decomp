@@ -25,57 +25,48 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82D003F0();
-extern int fn_82E1A7F0();
+struct Al_82E1A688;
+typedef struct {
+  void *p0;
+  void *p4;
+  void (*f8)(struct Al_82E1A688 *, void *, int);
+  void *pc;
+  void (*f10)(struct Al_82E1A688 *, void *, unsigned, int);
+} AlVt_82E1A688;
+typedef struct Al_82E1A688 { AlVt_82E1A688 *vt; } Al_82E1A688;
+typedef struct { char pad[0x10]; Al_82E1A688 *al; } Heap_82E1A688;
+typedef struct { void *data; int size; unsigned cap; } Vec_82E1A688;
+typedef struct {
+  Vec_82E1A688 v[4];
+  void *obj;
+} Obj_82E1A688;
+extern Heap_82E1A688 *fn_82CE5410(void);
+extern void fn_82D003F0(void *);
+extern void fn_82E1A7F0(void *);
 
-
-void fn_82E1A688(undefined4 *param_1)
-
+static void Free_82E1A688(Vec_82E1A688 *v, int align)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = param_1[0xc];
-  if (iVar3 != 0) {
-    fn_82E1A7F0(iVar3);
-    fn_82D003F0(iVar3);
-    iVar2 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar2 + 0x10) + 8))(*(int **)(iVar2 + 0x10),iVar3,0x10);
+  Al_82E1A688 *al = fn_82CE5410()->al;
+  v->size = 0;
+  if (((int)v->cap & (int)0x80000000) == 0) {
+    al->vt->f10(al, v->data, v->cap & 0x3fffffff, align);
   }
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  param_1[10] = 0;
-  if ((param_1[0xb] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[9],param_1[0xb] & 0x3fffffff,8);
-  }
-  param_1[9] = 0;
-  param_1[0xb] = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  param_1[7] = 0;
-  if ((param_1[8] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[6],param_1[8] & 0x3fffffff,8);
-  }
-  param_1[6] = 0;
-  param_1[8] = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  param_1[4] = 0;
-  if ((param_1[5] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,param_1[3],param_1[5] & 0x3fffffff,0x10);
-  }
-  param_1[3] = 0;
-  param_1[5] = 0x80000000;
-  iVar3 = fn_82CE5410();
-  piVar1 = *(int **)(iVar3 + 0x10);
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,8);
-  }
-  *param_1 = 0;
-  param_1[2] = 0x80000000;
-  return;
+  v->data = 0;
+  v->cap = 0x80000000;
 }
 
+void fn_82E1A688(Obj_82E1A688 *o)
+{
+  void *p = o->obj;
+  if (p != 0) {
+    Al_82E1A688 *al;
+    fn_82E1A7F0(p);
+    fn_82D003F0(p);
+    al = fn_82CE5410()->al;
+    al->vt->f8(al, p, 0x10);
+  }
+  Free_82E1A688(&o->v[3], 8);
+  Free_82E1A688(&o->v[2], 8);
+  Free_82E1A688(&o->v[1], 0x10);
+  Free_82E1A688(&o->v[0], 8);
+}

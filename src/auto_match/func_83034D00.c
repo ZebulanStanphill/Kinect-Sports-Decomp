@@ -32,11 +32,11 @@ extern unsigned int lbl_831BC768;
 bool fn_83034D00(int param_1)
 
 {
-  undefined4 *puVar1;
+  int *puVar1;
   undefined4 uVar2;
-  int iVar3;
+  unsigned int iVar3;
   
-  if (*(int *)(param_1 + 4) == 0) {
+  if (*(unsigned int *)(param_1 + 4) == 0) {
     iVar3 = fn_82FA5060(lbl_831BC768,0x20);
     *(int *)(param_1 + 4) = iVar3;
     if (iVar3 != 0) {
@@ -45,9 +45,9 @@ bool fn_83034D00(int param_1)
       *(undefined4 *)(iVar3 + 0x14) = 0;
       *(undefined4 *)(iVar3 + 0x1c) = 0xffffffff;
     }
-    uVar2 = lbl_831BC768;
     puVar1 = *(undefined4 **)(param_1 + 4);
     if (puVar1 != (undefined4 *)0x0) {
+      uVar2 = lbl_831BC768;
       puVar1[5] = 0;
       puVar1[3] = 0;
       puVar1[4] = 0xffffffff;

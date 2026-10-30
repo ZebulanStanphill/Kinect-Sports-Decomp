@@ -1,48 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_828C2308();
+typedef struct Node_func_828BB690 { char pad[0x28]; int a; int b; } Node_func_828BB690;
+typedef struct Res_func_828BB690 { int x; int y; } Res_func_828BB690;
+extern void fn_828C2308(Node_func_828BB690 **it, void *list);
+extern void fn_82517978(Res_func_828BB690 *out, int a, int b, int c);
 
-
-undefined4 * fn_828BB690(undefined4 *param_1,int param_2)
-
+Res_func_828BB690 *fn_828BB690(Res_func_828BB690 *out, char *self)
 {
-  int iVar1;
-  int aiStack_20 [2];
-  
-  fn_828C2308(aiStack_20,param_2 + 0xf8);
-  iVar1 = *(int *)(param_2 + 0xfc);
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (aiStack_20[0] != iVar1) {
-    fn_82517978(param_1,*(undefined4 *)(aiStack_20[0] + 0x28),
-                      *(undefined4 *)(aiStack_20[0] + 0x2c),0);
+  Node_func_828BB690 *it;
+  Node_func_828BB690 *end;
+  fn_828C2308(&it, self + 0xf8);
+  end = *(Node_func_828BB690 **)(self + 0xfc);
+  if (it != end) {
+    out->x = 0;
+    out->y = 0;
+    fn_82517978(out, it->a, it->b, 0);
+  } else {
+    out->x = 0;
+    out->y = 0;
   }
-  return param_1;
+  return out;
 }
-

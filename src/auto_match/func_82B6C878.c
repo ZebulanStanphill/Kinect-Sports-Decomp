@@ -25,53 +25,52 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB5FE0();
-extern int fn_82AB6498();
-extern int fn_82AB6770();
-extern int fn_82AB67A8();
-extern int fn_82AB6BC8();
-extern int fn_82B6B0C8();
-extern int fn_82B6B230();
-extern int fn_82B9F808();
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern int fn_82AB5FE0(int);
+extern int fn_82AB6498(int);
+extern int fn_82AB6770(int);
+extern int fn_82AB67A8(int);
+extern int fn_82AB6BC8(int);
+extern int fn_82B6B0C8(unsigned);
+extern int fn_82B6B230(int, void *);
+extern int fn_82B9F808(unsigned);
 
+typedef struct SR_82B6C878 {
+  int f0; int f4; void (*f8)(int, void *); char pad[8]; unsigned f14; unsigned f18; unsigned f1c;
+} SR_82B6C878;
 
-undefined8 fn_82B6C878(undefined4 *param_1)
-
+int fn_82B6C878(SR_82B6C878 *param_1)
 {
-  undefined8 uVar1;
-  undefined4 *puVar4;
-  longlong lVar2;
-  longlong lVar3;
-  int iVar5;
-  
-  if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9c10,0xffffffff820d9c18,0x11d);
+  if (param_1 == 0) {
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pSR",
+                "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\shaderrecycler.cpp",
+                0x11d);
   }
-  iVar5 = param_1[6];
-  if (iVar5 != 0) {
-    while (lVar3 = fn_82AB6498(iVar5), lVar3 != 0) {
-      uVar1 = fn_82AB67A8(lVar3);
-      while (lVar2 = fn_82AB6498(uVar1), lVar2 != 0) {
-        puVar4 = (undefined4 *)fn_82AB67A8(lVar2);
-        fn_82AB6BC8(*puVar4);
-        fn_82AB6BC8(puVar4[1]);
-        fn_82B6B230(param_1[7],puVar4);
-        fn_82AB6770(lVar2);
+  if (param_1->f18 != 0) {
+    int a;
+    int b;
+    int iVar5 = param_1->f18;
+    while ((a = fn_82AB6498(iVar5)) != 0) {
+      int uVar1 = fn_82AB67A8(a);
+      while ((b = fn_82AB6498(uVar1)) != 0) {
+        int *e = (int *)fn_82AB67A8(b);
+        fn_82AB6BC8(e[0]);
+        fn_82AB6BC8(e[1]);
+        fn_82B6B230(param_1->f1c, e);
+        fn_82AB6770(b);
       }
       fn_82AB5FE0(uVar1);
-      fn_82AB6770(lVar3);
-      iVar5 = param_1[6];
+      fn_82AB6770(a);
+      iVar5 = param_1->f18;
     }
-    fn_82AB5FE0(param_1[6]);
+    fn_82AB5FE0(param_1->f18);
   }
-  if (param_1[5] != 0) {
-    fn_82B9F808();
+  if (param_1->f14 != 0) {
+    fn_82B9F808(param_1->f14);
   }
-  if (param_1[7] != 0) {
-    fn_82B6B0C8();
+  if (param_1->f1c != 0) {
+    fn_82B6B0C8(param_1->f1c);
   }
-  (*(code *)param_1[2])(*param_1,param_1);
+  param_1->f8(param_1->f0, param_1);
   return 0;
 }
-

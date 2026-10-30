@@ -25,110 +25,63 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6F960();
+typedef struct { unsigned code; int sig; void (*act)(); } Ent_82F814E8;
+typedef struct {
+  char pad[0x5c];
+  Ent_82F814E8 *tab;
+  int f60;
+  int f64;
+} Ptd_82F814E8;
+extern Ptd_82F814E8 *_getptd_noexit(void);
 
-
-undefined8 fn_82F814E8(int param_1,undefined4 param_2)
-
+int fn_82F814E8(unsigned code, int info)
 {
-  int *piVar1;
-  code *pcVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int *piVar8;
-  undefined4 uVar9;
-  longlong lVar10;
-  
-  iVar5 = fn_82F6F960();
-  if (iVar5 == 0) {
-    return 0;
-  }
-  piVar1 = *(int **)(iVar5 + 0x5c);
-  piVar8 = piVar1;
+  Ptd_82F814E8 *ptd;
+  Ent_82F814E8 *tab;
+  Ent_82F814E8 *e;
+  void (*act)();
+  int saved;
+  int savedf64;
+  int i;
+
+  ptd = _getptd_noexit();
+  if (ptd == 0) return 0;
+  tab = ptd->tab;
+  e = tab;
   do {
-    if (*piVar8 == param_1) break;
-    piVar8 = piVar8 + 3;
-  } while (piVar8 < piVar1 + 0x24);
-  if ((piVar1 + 0x24 <= piVar8) || (*piVar8 != param_1)) {
-    piVar8 = (int *)0x0;
-  }
-  if (piVar8 == (int *)0x0) {
-    return 0;
-  }
-  pcVar2 = (code *)piVar8[2];
-  if (pcVar2 == (code *)0x0) {
-    return 0;
-  }
-  if (pcVar2 == (code *)0x5) {
-    piVar8[2] = 0;
+    if (e->code == code) break;
+    e++;
+  } while (e < tab + 12);
+  if (e >= tab + 12 || e->code != code) e = 0;
+  if (e == 0) return 0;
+  act = e->act;
+  if (act == 0) return 0;
+  if ((unsigned)act == 5) {
+    e->act = 0;
     return 1;
   }
-  if (pcVar2 == (code *)0x1) {
-    return 0xffffffffffffffff;
+  if ((unsigned)act == 1) return -1;
+  saved = ptd->f60;
+  ptd->f60 = info;
+  if (e->sig == 8) {
+    for (i = 3; i < 12; i++) ptd->tab[i].act = 0;
+    savedf64 = ptd->f64;
+    code = e->code;
+    if (code == 0xc000008e) ptd->f64 = 0x83;
+    else if (code == 0xc0000090) ptd->f64 = 0x81;
+    else if (code == 0xc0000091) ptd->f64 = 0x84;
+    else if (code == 0xc0000093) ptd->f64 = 0x85;
+    else if (code == 0xc000008d) ptd->f64 = 0x82;
+    else if (code == 0xc000008f) ptd->f64 = 0x86;
+    else if (code == 0xc0000092) ptd->f64 = 0x8a;
+    else if (code == 0xc00002b5) ptd->f64 = 0x8d;
+    else if (code == 0xc00002b4) ptd->f64 = 0x8e;
+    act(8, ptd->f64);
+    ptd->f64 = savedf64;
+  } else {
+    e->act = 0;
+    act(e->sig);
   }
-  uVar3 = *(undefined4 *)(iVar5 + 0x60);
-  *(undefined4 *)(iVar5 + 0x60) = param_2;
-  if (piVar8[1] != 8) {
-    piVar8[2] = 0;
-    (*pcVar2)();
-    goto LAB_82f816bc;
-  }
-  iVar7 = 0x24;
-  lVar10 = 9;
-  do {
-    iVar6 = iVar7 + *(int *)(iVar5 + 0x5c);
-    iVar7 = iVar7 + 0xc;
-    *(undefined4 *)(iVar6 + 8) = 0;
-    lVar10 = lVar10 + -1;
-  } while (lVar10 != 0);
-  iVar7 = *piVar8;
-  uVar4 = *(undefined4 *)(iVar5 + 100);
-  if (iVar7 == -0x3fffff72) {
-    uVar9 = 0x83;
-LAB_82f81694:
-    *(undefined4 *)(iVar5 + 100) = uVar9;
-  }
-  else {
-    if (iVar7 == -0x3fffff70) {
-      uVar9 = 0x81;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3fffff6f) {
-      uVar9 = 0x84;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3fffff6d) {
-      uVar9 = 0x85;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3fffff73) {
-      uVar9 = 0x82;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3fffff71) {
-      uVar9 = 0x86;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3fffff6e) {
-      uVar9 = 0x8a;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3ffffd4b) {
-      uVar9 = 0x8d;
-      goto LAB_82f81694;
-    }
-    if (iVar7 == -0x3ffffd4c) {
-      uVar9 = 0x8e;
-      goto LAB_82f81694;
-    }
-  }
-  (*pcVar2)(8,*(undefined4 *)(iVar5 + 100));
-  *(undefined4 *)(iVar5 + 100) = uVar4;
-LAB_82f816bc:
-  *(undefined4 *)(iVar5 + 0x60) = uVar3;
-  return 0xffffffffffffffff;
+  ptd->f60 = saved;
+  return -1;
 }
-
