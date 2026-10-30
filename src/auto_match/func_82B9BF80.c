@@ -1,68 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB71F0();
-extern int fn_82AB7550();
-extern unsigned int lbl_8316E53C;
+typedef void (*Cb_82B9BF80)(void *ctx, const char *fmt, int a, int b, int c, int d);
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern unsigned int fn_82AB71F0(void *obj, int op, int arg);
+extern void fn_82AB7550(void *p, int a, int b, int c);
+extern int lbl_8316E480[];
 
-
-undefined8
-fn_82B9BF80(ulonglong param_1,undefined8 param_2,ulonglong param_3,code *param_4,ulonglong param_5
-             )
-
+int fn_82B9BF80(void *obj, int arg, void *out, Cb_82B9BF80 cb, void *ctx)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(param_1,0xffffffff820d2ea4,0xffffffff820d2ff0,0xffffffff820ddb08,0x836);
+  if (obj == 0) {
+    fn_82AB15D0(obj, "Assertion failed: %s (%s:%u)", "pAS_Object", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compilertossm.cpp", 0x836);
   }
-  iVar2 = fn_82AB71F0(param_1,0x17,param_2);
-  if (iVar2 == 1) {
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_82AB7550(param_3,0x1c,0,1);
+  if (fn_82AB71F0(obj, 0x17, arg) == 1) {
+    if (out != 0) {
+      fn_82AB7550(out, 0x1c, 0, 1);
     }
-    if ((param_4 != (code *)0x0) && ((param_5 & 0xffffffff) != 0)) {
-      (*param_4)(param_5,0xffffffff820ddb70,lbl_8316E53C,0x2f,
-                 param_2,1);
+    if (cb != 0 && ctx != 0) {
+      cb(ctx, "%s (%d) %d : %d\n", lbl_8316E480[47], 0x2f, arg, 1);
     }
-    uVar1 = 1;
+    return 1;
+  } else {
+    if (out != 0) {
+      fn_82AB7550(out, 0x1c, 0, 0);
+    }
+    if (cb != 0 && ctx != 0) {
+      cb(ctx, "%s (%d) %d : %d\n", lbl_8316E480[47], 0x2f, arg, 0);
+    }
+    return 0;
   }
-  else {
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_82AB7550(param_3,0x1c,0,0);
-    }
-    if ((param_4 != (code *)0x0) && ((param_5 & 0xffffffff) != 0)) {
-      (*param_4)(param_5,0xffffffff820ddb70,lbl_8316E53C,0x2f,
-                 param_2,0);
-    }
-    uVar1 = 0;
-  }
-  return uVar1;
 }
-
