@@ -81019,8 +81019,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82671120.c": {
-        "status": "NonMatching",
+      "auto_match/func_82671120.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -82840,8 +82840,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_8267C540.c": {
-        "status": "NonMatching",
+      "auto_match/func_8267C540.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -219053,8 +219053,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82CFF478.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CFF478.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -233428,8 +233428,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D8F6B0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D8F6B0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -233482,8 +233482,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D90920.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D90920.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -238442,8 +238442,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82DC1848.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DC1848.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -238478,8 +238478,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82DC1E58.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DC1E58.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -238556,8 +238556,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82DC2F30.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DC2F30.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
