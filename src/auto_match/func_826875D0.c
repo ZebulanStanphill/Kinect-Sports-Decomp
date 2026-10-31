@@ -1,3 +1,5 @@
+// Built with link-time code generation together with its "ltcg_units" (objects.json):
+// its instruction order depends on LTCG having compiled fn_826867E8 first.
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -25,24 +27,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826867E8();
-extern int fn_82687270();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
+extern int fn_826867E8(unsigned, int *);
+extern int fn_82687270(int);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_826875D0(int param_1,undefined8 param_2)
-
+void fn_826875D0(char *param_1, int param_2)
 {
-  undefined4 uStack0000001c;
-  
-  uStack0000001c = (undefined4)param_2;
-  RtlEnterCriticalSection(param_1 + 0xc);
-  if ((ulonglong)*(uint *)(param_1 + 8) != 0) {
-    fn_826867E8((ulonglong)*(uint *)(param_1 + 8) + 0xc,&stack0x0000001c);
-    fn_82687270(param_2);
+  void *cs = param_1 + 0xc;
+  int v = param_2;
+  RtlEnterCriticalSection(cs);
+  if (*(unsigned *)(param_1 + 8) != 0) {
+    fn_826867E8(*(unsigned *)(param_1 + 8) + 0xc, &param_2);
+    fn_82687270(v);
   }
-  RtlLeaveCriticalSection(param_1 + 0xc);
-  return;
+  RtlLeaveCriticalSection(cs);
 }
-

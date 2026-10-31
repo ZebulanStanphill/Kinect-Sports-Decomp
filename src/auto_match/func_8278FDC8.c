@@ -1,43 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8278FD18();
-
-
-ulonglong fn_8278FDC8(int param_1)
-
-{
-  char cVar1;
-  ulonglong uVar2;
-  
-  uVar2 = (ulonglong)*(uint *)(param_1 + 4);
-  if ((uVar2 != 0) && (cVar1 = fn_8278FD18(), cVar1 != '\0')) {
-    uVar2 = uVar2 - 1;
-  }
-  return uVar2;
+// Built with link-time code generation together with its "ltcg_units" (objects.json):
+// n stays in volatile r8 across fn_8278FD18, which LTCG knows leaves it alone.
+extern unsigned char fn_8278FD18(void *);
+unsigned int fn_8278FDC8(unsigned int *p) {
+ unsigned int n = p[1];
+ if (n && fn_8278FD18(p)) --n;
+ return n;
 }
-

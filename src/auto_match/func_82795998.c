@@ -1,3 +1,5 @@
+// Built with link-time code generation together with its "ltcg_units" (objects.json):
+// n stays in volatile r4 across fn_8278FD18, which LTCG knows leaves it alone.
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -25,27 +27,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8278FD18();
-extern int fn_827954C0();
+extern unsigned char fn_8278FD18(unsigned int *v);
+extern void fn_827954C0(unsigned int *p, unsigned int n, int flag);
 
-
-void fn_82795998(int *param_1)
-
+void fn_82795998(unsigned int *param_1)
 {
-  int iVar1;
-  char cVar2;
-  
-  cVar2 = fn_8278FD18();
-  if (cVar2 != '\0') {
-    if (param_1[1] != 0) {
-      fn_8278FD18(param_1);
+  unsigned int n;
+
+  if (fn_8278FD18(param_1)) {
+    n = param_1[1];
+    if (n != 0 && fn_8278FD18(param_1)) {
+      n = n - 1;
     }
-    fn_827954C0(param_1 + 4);
-    iVar1 = param_1[1];
-    if ((iVar1 != 0) && (*(short *)(iVar1 * 2 + *param_1 + -2) == 0)) {
-      param_1[1] = iVar1 + -1;
+    fn_827954C0(param_1 + 4, n, 1);
+    n = param_1[1];
+    if (n != 0 && *(short *)(n * 2 + *param_1 - 2) == 0) {
+      param_1[1] = n - 1;
     }
   }
-  return;
 }
-

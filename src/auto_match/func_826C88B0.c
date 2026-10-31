@@ -1,42 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C5FD0();
+// Built with link-time code generation together with its "ltcg_units" (objects.json):
+// p stays in volatile r8 across fn_826C5FD0, which LTCG knows leaves it alone.
+extern unsigned char fn_826C5FD0(void *, void *);
 
-
-void fn_826C88B0(int param_1)
-
+void fn_826C88B0(char *p, void *item)
 {
-  char cVar1;
-  
-  cVar1 = fn_826C5FD0(*(undefined4 *)(param_1 + 8));
-  if (cVar1 != '\0') {
-    *(undefined1 *)(*(int *)(param_1 + 4) + 0x35) = 1;
+  if (fn_826C5FD0(*(void **)(p + 8), item)) {
+    *(char *)(*(char **)(p + 4) + 0x35) = 1;
   }
-  return;
 }
-

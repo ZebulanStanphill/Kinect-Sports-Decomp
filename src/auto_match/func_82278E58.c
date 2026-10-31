@@ -1,3 +1,5 @@
+// Built with link-time code generation together with its "ltcg_units" (objects.json):
+// the frame reserves the 8*(n+8) outgoing area LTCG gives calls to a compiled variadic function.
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -24,35 +26,26 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_b0;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82526C70();
-extern int fn_8266F600();
-extern int fn_82672C20();
-extern unsigned int uStack_bc;
-extern unsigned int uStack_c0;
+extern void fn_82273C88(void *);
+extern void fn_82273CD8(void *, int);
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+extern void fn_8266F600(int, int, char *, int);
+extern void fn_82672C20(int, char *, void *, int);
 
+typedef struct { int first; int second; char *p; } Pair_82278E58;
 
-void fn_82278E58(int param_1,undefined8 param_2)
-
+void fn_82278E58(int param_1, int param_2)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_c0;
+  Pair_82278E58 h;
+  char b0[32];
+  char b90[128];
 
-  undefined1 *puStack_b8;
-  undefined1 auStack_b0 [32];
-  undefined1 auStack_90 [128];
-  
-  fn_8266F600(*(undefined4 *)(param_1 + 8),param_2,auStack_b0,0x20);
-  stack_pair_c0.first = 0;
-  stack_pair_c0.second = 0;
-  fn_82273CD8(&stack_pair_c0.first,4);
-  puStack_b8 = auStack_b0;
-  fn_82526C70(auStack_90,0x80,0xffffffff821a8180,param_1 + 0x18);
-  fn_82672C20(*(undefined4 *)(param_1 + 8),auStack_90,&stack_pair_c0.first,1);
-  fn_82273C88(&stack_pair_c0.first);
-  return;
+  fn_8266F600(*(int *)(param_1 + 8), param_2, b0, 0x20);
+  h.first = 0;
+  h.second = 0;
+  fn_82273CD8(&h, 4);
+  h.p = b0;
+  fn_82526C70(b90, 0x80, "%s.SetIcon", param_1 + 0x18);
+  fn_82672C20(*(int *)(param_1 + 8), b90, &h, 1);
+  fn_82273C88(&h);
 }
-
