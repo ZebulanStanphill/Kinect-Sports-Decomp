@@ -16,7 +16,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from tools.project import (
     Object,
@@ -26,6 +26,8 @@ from tools.project import (
     generate_build,
     is_windows,
 )
+
+from tools.ltcg_obj import probe as ltcg_probe
 
 from tools.defines_common import (
     cflags_includes,
@@ -84,6 +86,14 @@ if not is_windows():
         metavar="BINARY",
         type=Path,
         help="path to wibo or wine (optional)",
+    )
+    parser.add_argument(
+        "--wibo-ltcg",
+        metavar="BINARY",
+        type=Path,
+        help="path to a wibo that can run link.exe /LTCG, for units with "
+        "\"ltcg_units\" (optional; defaults to --wrapper; without one they are "
+        "built without link-time code generation)",
     )
 parser.add_argument(
     "--dtk",
@@ -326,6 +336,65 @@ for (lib, lib_config) in objects.items():
 config.libs = libs
 if vc_skipped and args.mode == "configure":
     print(f"{vc_skipped} units need --vc-include; using their original objects")
+
+# Units with "ltcg_units" are built with link-time code generation, together
+# with the units listed (see tools/ltcg_obj.py). That needs a link.exe that
+# runs /LTCG, which wibo only does with fixes not yet released, so the tools
+# are tried once (the result is cached in the build directory). Without them,
+# such units are built like any other and are not counted as complete.
+ltcg_wrapper: Optional[Path] = None
+if not is_windows():
+    ltcg_wrapper = args.wibo_ltcg or args.wrapper
+config.ltcg_wrapper = ltcg_wrapper
+
+
+def ltcg_supported() -> Tuple[bool, str]:
+    if not is_windows() and ltcg_wrapper is None:
+        return False, "no --wibo-ltcg or --wrapper was given"
+    tools_dir = config.compilers() / str(config.linker_version)
+    cl, link = tools_dir / "cl.exe", tools_dir / "link.exe"
+    for tool in (ltcg_wrapper, cl, link):
+        if tool is not None and not tool.is_file():
+            return False, f"{tool} does not exist yet"
+    key = [f"{tool.resolve()}:{tool.stat().st_size}:{tool.stat().st_mtime_ns}"
+           for tool in (ltcg_wrapper, link) if tool is not None]
+    cache = config.build_dir / "ltcg_probe.json"
+    try:
+        cached = json.loads(cache.read_text(encoding="utf-8"))
+        if cached["key"] == key:
+            return cached["ok"], cached["message"]
+    except (OSError, ValueError, KeyError):
+        pass
+    ok, message = ltcg_probe(str(ltcg_wrapper) if ltcg_wrapper else None, str(cl), str(link),
+                             config.build_dir / "ltcg_probe")
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps({"key": key, "ok": ok, "message": message}), encoding="utf-8")
+    return ok, message
+
+
+all_objects = {obj.name: obj for lib in libs for obj in lib["objects"]}
+ltcg_objects = [obj for obj in all_objects.values() if obj.options.get("ltcg_units") is not None]
+if ltcg_objects:
+    ltcg_ok, ltcg_reason = ltcg_supported()
+    ltcg_skipped = []
+    for obj in ltcg_objects:
+        for name in obj.options["ltcg_units"]:
+            if name not in all_objects:
+                sys.exit(f"{obj.name}: ltcg_units names {name}, which is not in {objects_path}")
+            other = all_objects[name]
+            if not (Path(other.options.get("src_dir") or config.src_dir) / other.options["source"]).is_file():
+                ltcg_skipped.append(obj.name)
+                break
+        else:
+            if ltcg_ok:
+                continue
+            ltcg_skipped.append(obj.name)
+        obj.options["ltcg_units"] = None
+        obj.completed = NonMatching
+    if ltcg_skipped and args.mode == "configure":
+        why = ltcg_reason if not ltcg_ok else "a unit they need has no source in this configuration"
+        print(f"{len(ltcg_skipped)} units need link-time code generation ({why}); building them "
+              "without it. Pass --wibo-ltcg with a wibo that can run link.exe /LTCG (see CONTRIBUTING.md).")
 
 # Progress tracking categories
 config.progress_categories = [ProgressCategory(name, desc) for (name, desc) in progress_categories.items()]

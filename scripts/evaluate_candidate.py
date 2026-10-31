@@ -13,6 +13,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 from lab_paths import LAB as DEFAULT_LAB
+sys.path.insert(0, str(ROOT / "tools"))
+import ltcg_obj  # noqa: E402
+
+VC_DEFINES = ["/D_HAS_EXCEPTIONS=0", "/D_ALLOCA_S_MARKER_SIZE=8", "/D_JBLEN=64", "/D_JBTYPE=double"]
 
 
 def symbol_name(address: int) -> str:
@@ -36,6 +40,60 @@ def grouped_object(address: int):
     return None
 
 
+def unit_config(name: str) -> dict:
+    """The objects.json entry of a unit, such as auto_match/func_82526C70.c."""
+    objects = json.loads((ROOT / "config/4D5308C9/objects.json").read_text(encoding="utf-8"))
+    for lib in objects.values():
+        entry = lib["objects"].get(name)
+        if entry is not None:
+            return {"status": entry} if isinstance(entry, str) else entry
+    raise SystemExit(f"{name} is not a unit in config/4D5308C9/objects.json")
+
+
+def ltcg_compile(args, source: Path, compiler: Path, stem: str, work: Path):
+    """Build candidate.obj with link-time code generation, as the build does for a
+    unit with "ltcg_units" (tools/ltcg_obj.py)."""
+    units = args.ltcg
+    if not units:
+        # default to the function's own configured list
+        for suffix in (".c", ".cpp"):
+            try:
+                units = unit_config(f"auto_match/func_{stem}{suffix}").get("ltcg_units", [])
+                break
+            except SystemExit:
+                continue
+    others = []
+    for name in units or []:
+        entry = unit_config(name)
+        flags = ["/nologo", "/c", "/TP" if name.endswith(".cpp") else "/TC", *entry.get("extra_cflags", []),
+                 f"/I{ROOT / 'include'}"]
+        if entry.get("vc_include"):
+            if args.vc_include is None:
+                raise SystemExit(f"{name} needs the Visual C++ 2010 headers; pass --vc-include")
+            flags += [*VC_DEFINES, f"/I{args.vc_include.resolve()}"]
+        others.append({"name": name, "source": str(ROOT / "src" / name), "cflags": flags})
+    wrapper = None
+    if sys.platform != "win32":
+        wrapper = str(args.wibo_ltcg or os.environ.get("WIBO_LTCG") or os.environ.get("WIBO")
+                      or shutil.which("wibo") or "wibo")
+    spec = {
+        "wrapper": wrapper,
+        "cl": str(compiler),
+        "link": str(compiler.with_name("link.exe")),
+        "out": str(work / "candidate.obj"),
+        "work": str(work / "ltcg"),
+        "unit": {"name": source.name, "source": str(work / f"candidate{source.suffix}"),
+                 "cflags": [*args.cflags, f"/I{ROOT / 'include'}", f"/I{source.parent}"]},
+        "others": others,
+    }
+    names = [other["name"] for other in others]
+    try:
+        ltcg_obj.build(spec)
+        return subprocess.CompletedProcess([], 0, stdout=""), names
+    except ltcg_obj.LtcgError as error:
+        return subprocess.CompletedProcess([], 1, stdout=str(error)), names
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("address", help="Jeff function start, for example 0x82400E48")
@@ -44,6 +102,13 @@ def main() -> int:
     parser.add_argument("--compiler", type=Path,
                         help="path to the Xbox 360 cl.exe (defaults to the local lab compiler)")
     parser.add_argument("--cflags", nargs="+", default=["/nologo", "/c", "/TC", "/O2"])
+    parser.add_argument("--ltcg", nargs="*", metavar="UNIT",
+                        help="build with link-time code generation together with these units (objects.json "
+                        "names, as in ltcg_units); with none, the function's configured ltcg_units")
+    parser.add_argument("--wibo-ltcg", type=Path,
+                        help="wibo that can run link.exe /LTCG (default: $WIBO_LTCG, then as for the compiler)")
+    parser.add_argument("--vc-include", type=Path,
+                        help="Visual C++ 2010 VC/include, for --ltcg units marked vc_include")
     args = parser.parse_args()
     address = int(args.address, 16)
     stem = f"{address:08X}"
@@ -79,10 +144,13 @@ def main() -> int:
         "compiler": str(compiler),
         "cflags": args.cflags,
     }
-    result = subprocess.run(
-        command,
-        cwd=work, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-    )
+    if args.ltcg is not None:
+        result, report["ltcg_units"] = ltcg_compile(args, source, compiler, stem, work)
+    else:
+        result = subprocess.run(
+            command,
+            cwd=work, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        )
     report["compile_exit_code"] = result.returncode
     report["compiler_output"] = result.stdout[-4000:]
     if result.returncode == 0:

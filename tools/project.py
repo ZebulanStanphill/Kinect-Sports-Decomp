@@ -15,6 +15,7 @@ import json
 import math
 import os
 import platform
+import shlex
 import sys
 from pathlib import Path
 from typing import (
@@ -59,6 +60,10 @@ class Object:
             "extra_cflags": [],
             "extra_clang_flags": [],
             "lib": None,
+            # Units whose definitions link-time code generation made visible to
+            # this unit; if set (even to []), the unit is built with /GL and
+            # link.exe /LTCG by tools/ltcg_obj.py
+            "ltcg_units": None,
             "mw_version": None,
             "progress_category": None,
             "scratch_preset_id": None,
@@ -149,6 +154,7 @@ class ProjectConfig:
         self.compilers_path: Optional[Path] = None  # If None, download
         self.wibo_tag: Optional[str] = None  # Git tag
         self.wrapper: Optional[Path] = None  # If None, download wibo on Linux
+        self.ltcg_wrapper: Optional[Path] = None  # Wrapper that can run link.exe /LTCG (units with ltcg_units)
         self.sjiswrap_tag: Optional[str] = None  # Git tag
         self.sjiswrap_path: Optional[Path] = None  # If None, download
         self.ninja_path: Optional[Path] = None  # If None, use system PATH
@@ -720,6 +726,29 @@ def generate_build_ninja(
     )
     n.newline()
 
+    # Units built with link-time code generation (objects.json "ltcg_units"):
+    # tools/ltcg_obj.py compiles the unit and its listed units with /GL, links
+    # them with link.exe /LTCG and converts the code generated for the unit
+    # into its object. The JSON build description goes in the response file.
+    ltcg_tool = config.tools_dir / "ltcg_obj.py"
+    ltcg_implicit: List[Optional[Path]] = [
+        ltcg_tool,
+        compilers_implicit or compilers / str(config.linker_version) / "link.exe",
+        config.ltcg_wrapper,
+        transform_dep,
+    ]
+    if any(obj.options.get("ltcg_units") is not None for obj in objects.values()):
+        n.comment("MSVC build with link-time code generation")
+        n.rule(
+            name="ltcg",
+            command=f"$python {ltcg_tool} $out.rsp",
+            description="LTCG $out",
+            rspfile="$out.rsp",
+            rspfile_content="$ltcg_spec",
+            deps="msvc",
+        )
+        n.newline()
+
     # n.comment("MWCC build (with UTF-8 to Shift JIS wrapper)")
     # n.rule(
     #     name="mwcc_sjis",
@@ -961,14 +990,17 @@ def generate_build_ninja(
                 build_implcit = mwcc_extab_implicit
                 variables["extab_padding"] = "".join(f"{i:02x}" for i in obj.options["extab_padding"])
             n.comment(f"{obj.name}: {lib_name} (linked {obj.completed})")
-            n.build(
-                outputs=obj.src_obj_path,
-                rule=build_rule,
-                inputs=src_path,
-                variables=variables,
-                implicit=build_implcit,
-                order_only="pre-compile",
-            )
+            if obj.options["ltcg_units"] is not None:
+                ltcg_build(obj, src_path, all_cflags)
+            else:
+                n.build(
+                    outputs=obj.src_obj_path,
+                    rule=build_rule,
+                    inputs=src_path,
+                    variables=variables,
+                    implicit=build_implcit,
+                    order_only="pre-compile",
+                )
 
             # Add ctx build rule
             if obj.ctx_path is not None:
@@ -996,6 +1028,61 @@ def generate_build_ninja(
                 source_inputs.append(obj.src_obj_path)
 
             return obj.src_obj_path
+
+        def unit_cflags(obj: Object) -> List[str]:
+            # The flags c_build compiles a unit with, as a list of arguments
+            cflags = list(obj.options["cflags"])
+            extra_cflags = list(obj.options["extra_cflags"])
+            lang_flags = ("/TP", "/TC", "/Tp", "/Tc")
+            if not any(f.startswith("-lang") or f in lang_flags for f in cflags + extra_cflags):
+                extra_cflags.insert(0, "/TP" if file_is_cpp(obj.src_path) else "/TC")
+            return [arg for flag in cflags + extra_cflags for arg in split_flag(flag)]
+
+        def split_flag(flag: str) -> List[str]:
+            # Flags are written for a shell (quoted paths); the spec wants arguments
+            if is_windows():
+                return [flag[1:-1] if len(flag) > 1 and flag[0] == flag[-1] == '"' else flag]
+            return shlex.split(flag)
+
+        def ltcg_build(obj: Object, src_path: Path, all_cflags: List[str]) -> None:
+            assert obj.src_obj_path is not None
+            others = []
+            implicit: List[Optional[Path]] = [*ltcg_implicit, compilers_implicit or compiler_path / "cl.exe"]
+            for name in obj.options["ltcg_units"]:
+                other = objects.get(name)
+                if other is None or other.src_path is None or not other.src_path.exists():
+                    sys.exit(f"{obj.name}: ltcg_units names {name}, which has no source")
+                others.append({
+                    "name": name,
+                    "source": other.src_path.as_posix(),
+                    "cflags": unit_cflags(other),
+                })
+                implicit.append(other.src_path)
+            compilers_dir = config.compilers()
+            spec = {
+                "wrapper": str(config.ltcg_wrapper) if config.ltcg_wrapper else None,
+                "cl": str(compilers_dir / obj.options["mw_version"] / "cl.exe"),
+                "link": str(compilers_dir / str(config.linker_version) / "link.exe"),
+                "out": obj.src_obj_path.as_posix(),
+                "work": (build_path / "ltcg" / Path(obj.name).with_suffix("")).as_posix(),
+                "unit": {
+                    "name": obj.name,
+                    "source": src_path.as_posix(),
+                    "cflags": [arg for flag in all_cflags for arg in split_flag(flag)],
+                },
+                "others": others,
+            }
+            n.build(
+                outputs=obj.src_obj_path,
+                rule="ltcg",
+                inputs=src_path,
+                variables={
+                    "mw_version": Path(obj.options["mw_version"]),
+                    "ltcg_spec": ninja_syntax.escape(json.dumps(spec)),
+                },
+                implicit=implicit,
+                order_only="pre-compile",
+            )
 
         def asm_build(
             obj: Object, src_path: Path, obj_path: Optional[Path]
