@@ -4,9 +4,15 @@
 // The class name comes from RTTI. Its layout is taken from its constructor
 // (func_82875CE8) and from how the states use it; the class itself is not
 // converted yet, so this only declares what the states touch.
+//
+// unk04 is an AudioVariant_c (see AudioVariant.h), which the
+// constructor copies from its argument (r4 is passed straight to the copy
+// constructor fn_82292780) and the destructor (func_828757D0) destroys.
 
 #ifndef R1_SOUNDSCAPE_BANKENTRYCONTEXT_H
 #define R1_SOUNDSCAPE_BANKENTRYCONTEXT_H
+
+#include "R1/Soundscape/AudioVariant.h"
 
 namespace R1 {
 namespace Soundscape {
@@ -15,7 +21,7 @@ class BankEntryState_i;
 
 class BankEntryContext_c {
 public:
-    BankEntryContext_c();
+    BankEntryContext_c(const AudioVariant_c &variant);
     virtual unsigned int vf00();
     virtual unsigned int vf04();
     virtual ~BankEntryContext_c();
@@ -28,7 +34,7 @@ public:
     bool fn_82875980();
     bool fn_828759C0();
 
-    char unk04[0x24]; // Constructed by fn_82292780
+    AudioVariant_c unk04;
     unsigned char unk28;
     unsigned char unk29;
     unsigned char unk2A;
