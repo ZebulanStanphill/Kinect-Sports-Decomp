@@ -1,60 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Val_82B106A0 { char pad[0xc]; int w0c; void *w10; } Val_82B106A0;
+typedef struct Src_82B106A0 { unsigned pad : 4; unsigned f : 3; } Src_82B106A0;
+typedef struct Lnk_82B106A0 { unsigned next; unsigned prev; } Lnk_82B106A0;
+typedef struct Entry_82B106A0 {
+  char pad0[8];
+  unsigned a : 15;
+  unsigned f : 3;
+  unsigned b : 14;
+  char pad1[0x20];
+  Src_82B106A0 *src;
+  int w30;
+} Entry_82B106A0;
+typedef struct Ctx_82B106A0 Ctx_82B106A0;
+extern Entry_82B106A0 *fn_82B841E8(Ctx_82B106A0 *c, char *heap, int a, int b, int c2, int d);
+extern Val_82B106A0 *fn_82ACA920(Ctx_82B106A0 *c, Val_82B106A0 *v, int w);
+extern int fn_82B4BAA8(Ctx_82B106A0 *c, void *v);
+extern int fn_82AD17B0(Ctx_82B106A0 *c, int v);
+extern int fn_82AD1978(Entry_82B106A0 *e, void *v);
 
-
-uint fn_82B106A0(undefined8 param_1,int param_2,int param_3,int param_4)
-
+Entry_82B106A0 *fn_82B106A0(Ctx_82B106A0 *c, char *heap, Val_82B106A0 *q0, Val_82B106A0 *q1)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  uVar2 = fn_82B841E8(param_1,param_2,0,3,2,4);
-  if (*(int *)(param_3 + 0x10) != 0) {
-    param_3 = fn_82ACA920(param_1,param_3,*(undefined4 *)(param_3 + 0xc));
-  }
-  uVar3 = fn_82AD1978(uVar2,param_3);
-  *(undefined4 *)(uVar2 + 0x2c) = uVar3;
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  uVar3 = fn_82AD1978(uVar2,param_4);
-  *(undefined4 *)(uVar2 + 0x30) = uVar3;
-  uVar1 = uVar2 & 0xfffffffe;
-  *(uint *)(uVar2 + 8) =
-       (**(uint **)(uVar2 + 0x2c) >> 0x19 & 7) << 0xe | *(uint *)(uVar2 + 8) & 0xfffe3fff;
-  *(undefined4 *)(uVar1 + 0x24) = *(undefined4 *)(param_2 + 0x18);
-  *(uint *)(*(uint *)(param_2 + 0x18) & 0xfffffffe) = uVar1;
-  *(uint *)(uVar1 + 0x28) = param_2 - 0xcU | 1;
-  *(uint *)(param_2 + 0x18) = uVar1 + 0x28;
-  return uVar2;
+  Entry_82B106A0 *e = fn_82B841E8(c, heap, 0,3,2,4);
+  Lnk_82B106A0 *l;
+  unsigned *head;
+  e->src = (Src_82B106A0 *)fn_82AD1978(e, q0->w10 != 0 ? fn_82ACA920(c, q0, q0->w0c) : q0);
+  e->w30 = fn_82AD1978(e, q1->w10 != 0 ? fn_82ACA920(c, q1, q1->w0c) : q1);
+  e->f = e->src->f ? e->src->f : 0;
+  head = (unsigned *)(heap + 0x18);
+  l = (Lnk_82B106A0 *)(((unsigned)e & 0xfffffffe) + 0x24);
+  l->next = *head;
+  *(unsigned *)(*head & 0xfffffffe) = (unsigned)l - 0x24;
+  l->prev = ((unsigned)head - 0x24) | 1;
+  *head = (unsigned)&l->prev;
+  return e;
 }
-

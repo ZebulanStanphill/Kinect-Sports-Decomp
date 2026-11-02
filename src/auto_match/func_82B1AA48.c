@@ -1,50 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC6860();
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Val_82B1AA48 { char pad[0xc]; int w0c; void *w10; } Val_82B1AA48;
+typedef struct Src_82B1AA48 { unsigned pad : 4; unsigned f : 3; } Src_82B1AA48;
+typedef struct Entry_82B1AA48 {
+  char pad0[8];
+  unsigned a : 15;
+  unsigned f : 3;
+  unsigned b : 14;
+  char pad1[0x20];
+  Src_82B1AA48 *src;
+} Entry_82B1AA48;
+typedef struct Ctx_82B1AA48 { char pad[0x1c]; char *heap; } Ctx_82B1AA48;
+extern Entry_82B1AA48 *fn_82B841E8(void *c, char *heap, int a, int b, int c2, int d);
+extern Val_82B1AA48 *fn_82ACA920(void *c, Val_82B1AA48 *v, int w);
+extern int fn_82AD17B0(void *c, int v);
+extern int fn_82AD1978(Entry_82B1AA48 *e, void *v);
+extern void fn_82AC6860(void *c, Entry_82B1AA48 *e, int a, Ctx_82B1AA48 *b);
 
-
-int fn_82B1AA48(undefined8 param_1,undefined8 param_2,int param_3,int param_4)
-
+Entry_82B1AA48 *fn_82B1AA48(void *c, int a, Ctx_82B1AA48 *b, Val_82B1AA48 *q0)
 {
-  int iVar1;
-  uint *puVar2;
-  
-  iVar1 = fn_82B841E8(param_1,*(undefined4 *)(param_3 + 0x1c),0,10,1,4);
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  puVar2 = (uint *)fn_82AD1978(iVar1,param_4);
-  *(uint **)(iVar1 + 0x2c) = puVar2;
-  *(uint *)(iVar1 + 8) = (*puVar2 >> 0x19 & 7) << 0xe | *(uint *)(iVar1 + 8) & 0xfffe3fff;
-  fn_82AC6860(param_1,iVar1,param_2,param_3);
-  return iVar1;
+  Entry_82B1AA48 *e = fn_82B841E8(c, b->heap, 0,10,1,4);
+  e->src = (Src_82B1AA48 *)fn_82AD1978(e, q0->w10 != 0 ? fn_82ACA920(c, q0, q0->w0c) : q0);
+  e->f = e->src->f ? e->src->f : 0;
+  fn_82AC6860(c, e, a, b);
+  return e;
 }
-
