@@ -1,64 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82587028();
-extern int fn_825873E0();
-
-
-void fn_825877A0(int param_1)
-
+typedef struct Node_825877A0 { struct Node_825877A0 *next; struct Node_825877A0 *prev; U32 key; } Node_825877A0;
+typedef struct { int pad0; Node_825877A0 *head; U32 size; int pad[6]; U32 buckets; float maxload; } Map_825877A0;
+extern void fn_82587028(Map_825877A0 *, U32);
+extern void fn_825873E0(void *, Map_825877A0 *, void *, Node_825877A0 *);
+void fn_825877A0(Map_825877A0 *m)
 {
-  int *piVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  ulonglong auStack_30;
-  
-  auStack_30 = (ulonglong)*(uint *)(param_1 + 0x24);
-  if (*(float *)(param_1 + 0x28) < (float)((double)*(uint *)(param_1 + 8) / (double)auStack_30))
-  {
-    iVar4 = 0;
-    uVar3 = auStack_30;
+  U32 n = m->buckets;
+  __int64 tmp;
+  if (m->maxload < (float)m->size / (float)n) {
+    int i = 0;
     do {
-      if (0x1ffffffe < uVar3) break;
-      iVar4 = iVar4 + 1;
-      uVar3 = (uVar3 & 0x7fffffff) << 1;
-    } while (iVar4 < 3);
-    fn_82587028(param_1);
-    piVar1 = *(int **)(param_1 + 4);
-    if ((int *)*piVar1 != piVar1) {
-      uVar2 = piVar1[1];
+      if (n >= 0x1fffffff) break;
+      i = i + 1;
+      n = n << 1;
+    } while (i < 3);
+    fn_82587028(m, n);
+    if (m->head->next != m->head) {
+      Node_825877A0 *last = m->head->prev;
+      Node_825877A0 *node;
       do {
-        uVar3 = (ulonglong)**(uint **)(param_1 + 4);
-        fn_825873E0(&auStack_30,param_1,uVar3 + 8,uVar3);
-      } while (uVar3 != uVar2);
+        node = m->head->next;
+        fn_825873E0(&tmp, m, &node->key, node);
+      } while (node != last);
     }
   }
-  return;
 }
-

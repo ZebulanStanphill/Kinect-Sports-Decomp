@@ -117159,7 +117159,7 @@ auto_match/func_82A5BE78.c:
 	.pdata      start:0x8220C920 end:0x8220C928
 	.text       start:0x82A5BE78 end:0x82A5BF2C
 
-auto_match/func_82A5BF30.c:
+auto_match/func_82A5BF30.cpp:
 	.pdata      start:0x8220C928 end:0x8220C930
 	.text       start:0x82A5BF30 end:0x82A5C00C
 
@@ -117310,7 +117310,7 @@ auto_match/func_82A5CF28.c:
 	.pdata      start:0x8220CA00 end:0x8220CA08
 	.text       start:0x82A5CF28 end:0x82A5CF84
 
-auto_match/func_82A5CF88.c:
+auto_match/func_82A5CF88.cpp:
 	.pdata      start:0x8220CA08 end:0x8220CA10
 	.text       start:0x82A5CF88 end:0x82A5D064
 
