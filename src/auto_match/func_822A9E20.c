@@ -1,65 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82292780();
-extern int fn_822A9EF0();
+typedef struct { char b[0x24]; } Elem_822A9E20;
+typedef struct { Elem_822A9E20 *first, *last, *end; } Vec_822A9E20;
+extern void fn_82292780(Elem_822A9E20 *, Elem_822A9E20 *);
+extern void fn_822A9EF0(Vec_822A9E20 *);
 
-
-void fn_822A9E20(uint *param_1,ulonglong param_2)
-
+void fn_822A9E20(Vec_822A9E20 *v, Elem_822A9E20 *val)
 {
-  uint uVar1;
-  bool bVar2;
-  uint uVar3;
-  
-  uVar3 = param_1[1];
-  if (((ulonglong)uVar3 <= (param_2 & 0xffffffff)) ||
-     (bVar2 = true, (param_2 & 0xffffffff) < (ulonglong)*param_1)) {
-    bVar2 = false;
+  Elem_822A9E20 *l = v->last;
+  unsigned char inside;
+  if (val < l && v->first <= val)
+    inside = 1;
+  else
+    inside = 0;
+  if (inside) {
+    int idx = val - v->first;
+    if (l == v->end)
+      fn_822A9EF0(v);
+    if (v->last != 0)
+      fn_82292780(v->last, v->first + idx);
+  } else {
+    if (l == v->end)
+      fn_822A9EF0(v);
+    if (v->last != 0)
+      fn_82292780(v->last, val);
   }
-  if (bVar2) {
-    uVar1 = *param_1;
-    if (uVar3 == param_1[2]) {
-      fn_822A9EF0(param_1);
-    }
-    uVar3 = param_1[1];
-    if (uVar3 == 0) goto LAB_822a9ecc;
-    param_2 = (longlong)((int)((int)param_2 - uVar1) / 0x24) * 0x24 + (ulonglong)*param_1;
-  }
-  else {
-    if (uVar3 == param_1[2]) {
-      fn_822A9EF0(param_1);
-    }
-    uVar3 = param_1[1];
-    if (uVar3 == 0) goto LAB_822a9ecc;
-  }
-  fn_82292780(uVar3,param_2);
-LAB_822a9ecc:
-  param_1[1] = param_1[1] + 0x24;
-  return;
+  v->last = v->last + 1;
 }
-

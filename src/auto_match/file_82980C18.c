@@ -64,6 +64,10 @@ typedef struct {
   char pad2[0x10];
   Bits_829843D0 bits;
 } Node_829843D0;
+typedef struct Obj_82985E60 { char pad[0x10]; unsigned int f10; char pad2[0xc]; struct Sub_82985E60 *f20; } Obj_82985E60;
+typedef struct Sub_82985E60 { char pad[0x18]; unsigned int f18; } Sub_82985E60;
+typedef struct Obj_82985FA0 { char pad[0x10]; unsigned int f10; char pad2[0xc]; struct Sub_82985FA0 *f20; } Obj_82985FA0;
+typedef struct Sub_82985FA0 { char pad[0x18]; unsigned int f18; } Sub_82985FA0;
 
 /* @@ end of shared declarations */
 
@@ -4286,141 +4290,231 @@ LAB_82985d50:
 
 /* @@ begin fn_82985E60 */
 extern int fn_82930318();
+extern int fn_82933088();
+extern int fn_82931D88();
+extern int fn_829334D8();
 extern int fn_82930458();
 extern int fn_829304E0();
-extern int fn_82931D88();
-extern int fn_82933088();
-extern int fn_829334D8();
-extern void fn_82983380();
+extern void fn_82983380(int, void *);
 
-
-int fn_82985E60(longlong param_1,ulonglong param_2)
-
+int fn_82985E60(int c, unsigned int p)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  uVar1 = fn_82930318(0x50);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
+  unsigned int mem;
+  Obj_82985E60 *o;
+  unsigned int a;
+  Sub_82985E60 *s;
+  mem = fn_82930318(0x50);
+  if (mem != 0)
+    o = (Obj_82985E60 *)fn_82933088(mem, 0, 0, 0, 0, 1, c + 0x28);
+  else
+    o = 0;
+  if (o == 0)
+    return 0;
+  mem = fn_82930318(0x28);
+  if (mem != 0)
+    a = fn_82931D88(mem, 3, 0x21, 0, 1, 1, 0x200);
+  else
+    a = 0;
+  o->f10 = a;
+  if (a == 0)
+    return 0;
+  mem = fn_82930318(0x40);
+  if (mem != 0)
+    s = (Sub_82985E60 *)fn_829334D8(mem, 4, 0, c + 0x28);
+  else
+    s = 0;
+  if (s == 0)
+    return 0;
+  o->f20 = s;
+  if (p != 0) {
+    s->f18 = fn_82930458(p);
+    if (s->f18 == 0)
+      return 0;
   }
-  else {
-    iVar2 = fn_82933088(uVar1,0,0,0,0,1,param_1 + 0x28);
-  }
-  if (iVar2 != 0) {
-    uVar1 = fn_82930318(0x28);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = fn_82931D88(uVar1,3,0x21,0,1,1,0x200);
-    }
-    *(int *)(iVar2 + 0x10) = iVar3;
-    if (iVar3 != 0) {
-      uVar1 = fn_82930318(0x40);
-      if ((uVar1 & 0xffffffff) == 0) {
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = fn_829334D8(uVar1,4,0,param_1 + 0x28);
-      }
-      if (iVar3 != 0) {
-        *(int *)(iVar2 + 0x20) = iVar3;
-        if ((param_2 & 0xffffffff) != 0) {
-          iVar4 = fn_82930458(param_2);
-          *(int *)(iVar3 + 0x18) = iVar4;
-          if (iVar4 == 0) {
-            return 0;
-          }
-        }
-        uVar1 = fn_82930318(0x14);
-        if ((uVar1 & 0xffffffff) == 0) {
-          iVar3 = 0;
-        }
-        else {
-          iVar3 = fn_829304E0(uVar1,*(undefined4 *)(iVar2 + 0x20),0,0xffffffff8204e390);
-        }
-        if (iVar3 != 0) {
-          *(int *)(iVar2 + 0x20) = iVar3;
-          fn_82983380(param_1,iVar2);
-          return iVar2;
-        }
-      }
-    }
-  }
-  return 0;
+  mem = fn_82930318(0x14);
+  if (mem != 0)
+    s = (Sub_82985E60 *)fn_829304E0(mem, o->f20, 0, "Value");
+  else
+    s = 0;
+  if (s == 0)
+    return 0;
+  o->f20 = s;
+  fn_82983380(c, o);
+  return (int)o;
 }
 /* @@ end fn_82985E60 */
 
 /* @@ begin fn_82985FA0 */
+extern void __cdecl __va_start(va_list *, ...);
+extern int fn_828F5960(char *buf, unsigned int size, const char *fmt, va_list ap);
+extern void fn_828FA8D8(void *log, int a, int b, const char *fmt, ...);
+extern void fn_828FAB00(void *log, int a, int b, const char *fmt, ...);
+extern void fn_82980D00(int p, int a, int b, const char *msg, ...);
+extern int fn_829301D0();
 extern int fn_82930318();
+extern int fn_82930CE0();
+extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
+extern int memcpy();
+extern int fn_8297F280();
+extern void fn_82980D00(int, int, int, const char *, ...);
+extern int fn_82930430();
 extern int fn_82930458();
 extern int fn_829304E0();
+extern int fn_8297F4D8();
+extern void fn_82980C18(Compiler *c, int a, int b, const char *fmt, ...);
+extern int fn_82930FC0();
+extern int fn_82981050();
+extern void * fn_82980D80();
+extern int fn_828F6FA8();
+extern int fn_82981598();
+extern longlong fn_82981738();
+extern int fn_82F68CC0();
+extern unsigned int stack0x00000000;
+extern void fn_82980C18(uint *p, void *loc, int code, const char *fmt, ...);
+extern double sqrt(double);
+extern int fn_8265C940();
+extern int fn_8265C990();
+extern int fn_8297FBF0();
+extern int fn_829803A8();
+extern longlong fn_829860E0();
+extern int fn_82F64318();
+extern int fn_82F643F8();
+extern int fn_82F64A40();
+extern int fn_82F64F30();
+extern int fn_82F65018();
+extern int fn_82F655D8();
+extern int fn_82F65D50();
+extern int fn_82F65E18();
+extern int fn_82F65E20();
+extern int fn_82F67DE8();
+extern int fn_82F68918();
+extern int fn_82F6A548();
+extern int fn_82F6A594();
+extern int fn_82F6A7A0();
+extern int fn_82F6B2A8();
+extern int fn_82F6DFB0();
+extern int fn_82F6DFD0();
+extern int fn_82F6E018();
+extern int fn_82F6EF10();
+extern int fn_82F6F010();
+extern int fn_82F6F278();
+extern int iRam00000010;
+extern unsigned int lbl_82002C40;
+extern unsigned int lbl_82005710;
+extern unsigned int lbl_82005730;
+extern unsigned int lbl_82005758;
+extern unsigned int lbl_8200E890;
+extern unsigned int lbl_820105A0;
+extern unsigned int lbl_82015618;
+extern float lbl_8202DDF8;
+extern unsigned int lbl_8202DE58;
+extern unsigned int lbl_8202DE60;
+extern unsigned int uRam00000014;
+extern unsigned int uRam00000018;
+extern unsigned int uStack_a8;
+extern unsigned int uStack_b0;
+extern unsigned int uStack_b4;
+extern int fn_82930940();
+extern void fn_82980A08(void *log, const char *fmt, va_list ap);
+extern unsigned int *auStack_120;
+extern unsigned int *auStack_160;
+extern unsigned int *auStack_f0;
+extern int fn_82931D48();
+extern int fn_82931F90();
+extern int fn_82932548();
+extern int fn_829334D8();
+extern int fn_8297F458();
+extern int fn_8297F800();
+extern undefined8 fn_82981C40();
+extern unsigned int iStack00000034;
+extern unsigned int iStack_10c;
+extern unsigned int uStack_144;
+extern unsigned int uStack_164;
+extern unsigned int uStack_184;
+extern unsigned int uStack_dc;
+extern unsigned int *auStack_80;
+extern unsigned int *auStack_b0;
+extern unsigned int *auStack_c0;
+extern int fn_8297F548();
+extern int fn_8297F6B8();
+extern unsigned int uStack_6c;
+extern unsigned int uStack_9c;
+extern void fn_82980C18(void *p, void *q, int code, const char *msg);
+extern undefined8 fn_829814B0(void *p, void *q, int x);
+extern void fn_829836D0(void *log, const char *fmt, ...);
+extern unsigned int *auStack_70;
+extern unsigned int *auStack_a0;
+extern undefined8 fn_82981668();
+extern unsigned int uStack_50;
+extern unsigned int uStack_54;
+extern unsigned int uStack_60;
+extern unsigned int uStack_80;
+extern unsigned int uStack_84;
+extern unsigned int uStack_90;
+extern unsigned int *auStack_150;
+extern unsigned int *auStack_250;
+extern unsigned int *auStack_280;
+extern unsigned int *auStack_2b0;
+extern char * fn_82981820();
+extern bool fn_829846B0();
+extern unsigned int uStack_260;
+extern unsigned int uStack_264;
+extern unsigned int uStack_270;
+extern unsigned int uStack_290;
+extern unsigned int uStack_294;
+extern unsigned int uStack_2a0;
+extern undefined8 fn_829814B0();
 extern int fn_82931D88();
 extern int fn_82933088();
-extern int fn_829334D8();
+extern int fn_82933528();
 extern void fn_82983380();
+extern int fn_82933578();
+extern void fn_82983380(int, void *);
 
-
-int fn_82985FA0(longlong param_1,ulonglong param_2)
-
+int fn_82985FA0(int c, unsigned int p)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  uVar1 = fn_82930318(0x50);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
+  unsigned int mem;
+  Obj_82985FA0 *o;
+  unsigned int a;
+  Sub_82985FA0 *s;
+  mem = fn_82930318(0x50);
+  if (mem != 0)
+    o = (Obj_82985FA0 *)fn_82933088(mem, 0, 0, 0, 0, 1, c + 0x28);
+  else
+    o = 0;
+  if (o == 0)
+    return 0;
+  mem = fn_82930318(0x28);
+  if (mem != 0)
+    a = fn_82931D88(mem, 3, 0x2f, 0, 1, 1, 0x200);
+  else
+    a = 0;
+  o->f10 = a;
+  if (a == 0)
+    return 0;
+  mem = fn_82930318(0x40);
+  if (mem != 0)
+    s = (Sub_82985FA0 *)fn_829334D8(mem, 4, 0, c + 0x28);
+  else
+    s = 0;
+  if (s == 0)
+    return 0;
+  o->f20 = s;
+  if (p != 0) {
+    s->f18 = fn_82930458(p);
+    if (s->f18 == 0)
+      return 0;
   }
-  else {
-    iVar2 = fn_82933088(uVar1,0,0,0,0,1,param_1 + 0x28);
-  }
-  if (iVar2 != 0) {
-    uVar1 = fn_82930318(0x28);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = fn_82931D88(uVar1,3,0x2f,0,1,1,0x200);
-    }
-    *(int *)(iVar2 + 0x10) = iVar3;
-    if (iVar3 != 0) {
-      uVar1 = fn_82930318(0x40);
-      if ((uVar1 & 0xffffffff) == 0) {
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = fn_829334D8(uVar1,4,0,param_1 + 0x28);
-      }
-      if (iVar3 != 0) {
-        *(int *)(iVar2 + 0x20) = iVar3;
-        if ((param_2 & 0xffffffff) != 0) {
-          iVar4 = fn_82930458(param_2);
-          *(int *)(iVar3 + 0x18) = iVar4;
-          if (iVar4 == 0) {
-            return 0;
-          }
-        }
-        uVar1 = fn_82930318(0x14);
-        if ((uVar1 & 0xffffffff) == 0) {
-          iVar3 = 0;
-        }
-        else {
-          iVar3 = fn_829304E0(uVar1,*(undefined4 *)(iVar2 + 0x20),0,0xffffffff8204e390);
-        }
-        if (iVar3 != 0) {
-          *(int *)(iVar2 + 0x20) = iVar3;
-          fn_82983380(param_1,iVar2);
-          return iVar2;
-        }
-      }
-    }
-  }
-  return 0;
+  mem = fn_82930318(0x14);
+  if (mem != 0)
+    s = (Sub_82985FA0 *)fn_829304E0(mem, o->f20, 0, "Value");
+  else
+    s = 0;
+  if (s == 0)
+    return 0;
+  o->f20 = s;
+  fn_82983380(c, o);
+  return (int)o;
 }
 /* @@ end fn_82985FA0 */
 

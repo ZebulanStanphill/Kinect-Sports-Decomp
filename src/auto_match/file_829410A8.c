@@ -50,6 +50,8 @@ typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
 typedef struct Obj { char pad[0x608]; int depth; } Obj;
 #define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+typedef struct Emitter_82944DF8 { char pad[0x718]; unsigned int count; } Emitter_82944DF8;
+typedef struct Emitter_82946338 { char pad[0x718]; unsigned int count; } Emitter_82946338;
 
 /* @@ end of shared declarations */
 
@@ -2432,58 +2434,44 @@ undefined8 fn_82944908(int *param_1,undefined8 param_2,undefined8 param_3)
 /* @@ end fn_82944908 */
 
 /* @@ begin fn_82944DF8 */
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_a0;
-extern int fn_828F6FA8();
-extern int fn_829410A8();
-extern int fn_82941178();
+extern int fn_82941178(void *);
+extern int fn_828F6FA8(char *, int, const char *, ...);
+extern int fn_829410A8(void *, const char *, ...);
 
-
-undefined8 fn_82944DF8(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82944DF8(Emitter_82944DF8 *e, const char *a, const char *b)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  undefined1 auStack_a0 [32];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [96];
-  
-  uVar3 = 0;
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x718) != 0) {
+  char s0[32];
+  char s1[32];
+  char s2[32];
+  unsigned int i = 0;
+  int hr;
+  if (e->count != 0) {
     do {
-      uVar1 = fn_82941178(param_1);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      fn_828F6FA8(auStack_80,0x20,param_3,uVar3,uVar3);
-      fn_828F6FA8(auStack_a0,0x20,0xffffffff820347e8,uVar3);
-      uVar1 = fn_829410A8(param_1,0xffffffff82034e10,auStack_a0,auStack_80);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      uVar2 = *(uint *)(param_1 + 0x718);
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)uVar2);
+      hr = fn_82941178(e);
+      if (hr < 0)
+        return hr;
+      fn_828F6FA8(s1, 0x20, b, i, i);
+      fn_828F6FA8(s0, 0x20, "p->xSR1[%d]", i);
+      hr = fn_829410A8(e, "%s = __vrfim(%s);\r\n", s0, s1);
+      if (hr < 0)
+        return hr;
+      i++;
+    } while (i < e->count);
   }
-  uVar3 = 0;
-  if (uVar2 != 0) {
+  i = 0;
+  if (e->count != 0) {
     do {
-      uVar1 = fn_82941178(param_1);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      fn_828F6FA8(auStack_60,0x20,param_2,uVar3,uVar3);
-      fn_828F6FA8(auStack_80,0x20,param_3,uVar3,uVar3);
-      fn_828F6FA8(auStack_a0,0x20,0xffffffff820347e8,uVar3);
-      uVar1 = fn_829410A8(param_1,0xffffffff82034df4,auStack_60,auStack_80,auStack_a0);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x718));
+      hr = fn_82941178(e);
+      if (hr < 0)
+        return hr;
+      fn_828F6FA8(s2, 0x20, a, i, i);
+      fn_828F6FA8(s1, 0x20, b, i, i);
+      fn_828F6FA8(s0, 0x20, "p->xSR1[%d]", i);
+      hr = fn_829410A8(e, "%s = __vsubfp(%s, %s);\r\n", s2, s1, s0);
+      if (hr < 0)
+        return hr;
+      i++;
+    } while (i < e->count);
   }
   return 0;
 }
@@ -3287,58 +3275,86 @@ void fn_82946310(void *param_1)
 /* @@ end fn_82946310 */
 
 /* @@ begin fn_82946338 */
-extern unsigned int *auStack_60;
+extern void __cdecl __va_start(va_list *, ...);
+extern int fn_828F5960(char *buf, unsigned int size, const char *fmt, va_list ap);
+extern int fn_82940C38(Emitter *e, unsigned int size);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern unsigned int strlen(const char *s);
+extern int fn_829410A8(Emitter *e, const char *fmt, ...);
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_a0;
+extern unsigned int *auStack_c0;
 extern int fn_828F6FA8();
 extern int fn_829410A8();
 extern int fn_82941178();
+extern int fn_828F5960();
+extern unsigned int lbl_8315B5D8;
+extern unsigned int lbl_8315B5E4;
+extern unsigned int lbl_8315B610;
+extern unsigned int lbl_8315B624;
+extern unsigned int stack0x00000028;
+extern unsigned int uStack00000028;
+extern unsigned int uStack00000030;
+extern unsigned int uStack00000040;
+extern unsigned int uStack00000048;
+extern unsigned int *auStack_60;
+extern unsigned int *auStack_90;
+extern unsigned int *auStack_b0;
+extern unsigned int *auStack_d0;
+extern unsigned int *auStack_f0;
+extern unsigned int *auStack_70;
+extern int fn_8295EBC8();
+extern int fn_8295EEB8();
+extern int fn_8295EF20();
+extern int fn_8295D9B8();
+extern int fn_8295DA20();
+extern int fn_8295DA88();
+extern int fn_82936290();
+extern unsigned int *auStack_110;
+extern int fn_82F65390();
+extern unsigned int *auStack_100;
+extern unsigned int *auStack_e0;
+extern undefined8 fn_82941320();
+extern int fn_8295D6A8();
+extern int fn_829410A8(void *e, const char *fmt, ...);
+extern int fn_82941178(void *);
+extern int fn_828F6FA8(char *, int, const char *, ...);
+extern int fn_829410A8(void *, const char *, ...);
 
-
-undefined8 fn_82946338(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82946338(Emitter_82946338 *e, const char *a, const char *b)
 {
-  undefined8 uVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  undefined1 auStack_a0 [32];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [96];
-  
-  uVar3 = 0;
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x718) != 0) {
+  char s0[32];
+  char s1[32];
+  char s2[32];
+  unsigned int i = 0;
+  int hr;
+  if (e->count != 0) {
     do {
-      uVar1 = fn_82941178(param_1);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      fn_828F6FA8(auStack_80,0x20,param_3,uVar3,uVar3);
-      fn_828F6FA8(auStack_a0,0x20,0xffffffff820347e8,uVar3);
-      uVar1 = fn_829410A8(param_1,0xffffffff8203529c,auStack_a0,auStack_80);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      uVar2 = *(uint *)(param_1 + 0x718);
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)uVar2);
+      hr = fn_82941178(e);
+      if (hr < 0)
+        return hr;
+      fn_828F6FA8(s1, 0x20, b, i, i);
+      fn_828F6FA8(s0, 0x20, "p->xSR1[%d]", i);
+      hr = fn_829410A8(e, "%s = XMVectorFloor(%s);\r\n", s0, s1);
+      if (hr < 0)
+        return hr;
+      i++;
+    } while (i < e->count);
   }
-  uVar3 = 0;
-  if (uVar2 != 0) {
+  i = 0;
+  if (e->count != 0) {
     do {
-      uVar1 = fn_82941178(param_1);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      fn_828F6FA8(auStack_60,0x20,param_2,uVar3,uVar3);
-      fn_828F6FA8(auStack_80,0x20,param_3,uVar3,uVar3);
-      fn_828F6FA8(auStack_a0,0x20,0xffffffff820347e8,uVar3);
-      uVar1 = fn_829410A8(param_1,0xffffffff82035278,auStack_60,auStack_80,auStack_a0);
-      if ((int)uVar1 < 0) {
-        return uVar1;
-      }
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x718));
+      hr = fn_82941178(e);
+      if (hr < 0)
+        return hr;
+      fn_828F6FA8(s2, 0x20, a, i, i);
+      fn_828F6FA8(s1, 0x20, b, i, i);
+      fn_828F6FA8(s0, 0x20, "p->xSR1[%d]", i);
+      hr = fn_829410A8(e, "%s = XMVectorSubtract(%s, %s);\r\n", s2, s1, s0);
+      if (hr < 0)
+        return hr;
+      i++;
+    } while (i < e->count);
   }
   return 0;
 }

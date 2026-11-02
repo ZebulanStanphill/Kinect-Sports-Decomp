@@ -1,63 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern void fn_82A95A58(void);
+extern void fn_82A95AA8(void);
+extern void fn_82A95B28(void);
+extern void fn_82A95BC8(void);
+extern void fn_82A95C48(void);
+extern unsigned int _CountLeadingZeros(unsigned int);
+extern void __debugbreak(void);
 
-
-undefined8 fn_82A969B8(int *param_1)
-
+void *fn_82A969B8(int *p)
 {
-  int iVar1;
-  undefined8 in_r0;
-  
-  iVar1 = param_1[2];
-  if (iVar1 == 8) {
-    return 0xffffffff82a95a58;
-  }
-  if (iVar1 == 0x10) {
-    if ((*param_1 == 1) &&
-       ((((LZCOUNT((uint)param_1[7] >> (param_1[0xb] & 0x3fU)) == 0x10 ||
-          (LZCOUNT((uint)param_1[8] >> (param_1[0xc] & 0x3fU)) == 0x10)) ||
-         (LZCOUNT((uint)param_1[9] >> (param_1[0xd] & 0x3fU)) == 0x10)) ||
-        (LZCOUNT((uint)param_1[10] >> (param_1[0xe] & 0x3fU)) == 0x10)))) {
-      return 0xffffffff82a95b28;
-    }
-    return 0xffffffff82a95aa8;
-  }
-  if (iVar1 != 0x20) {
-    trapWord(0x1f,in_r0,0x16);
+  switch ((unsigned int)p[2]) {
+  case 8:
+    return (void *)fn_82A95A58;
+  case 0x10:
+    if (p[0] == 1 &&
+        (_CountLeadingZeros((unsigned int)p[7] >> p[0xb]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[8] >> p[0xc]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[9] >> p[0xd]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[10] >> p[0xe]) == 0x10))
+      return (void *)fn_82A95B28;
+    return (void *)fn_82A95AA8;
+  case 0x20:
+    if (p[0] == 1 &&
+        (_CountLeadingZeros((unsigned int)p[7] >> p[0xb]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[8] >> p[0xc]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[9] >> p[0xd]) == 0x10 ||
+         _CountLeadingZeros((unsigned int)p[10] >> p[0xe]) == 0x10))
+      return (void *)fn_82A95C48;
+    return (void *)fn_82A95BC8;
+  default:
+    __debugbreak();
     return 0;
   }
-  if ((*param_1 == 1) &&
-     (((LZCOUNT((uint)param_1[7] >> (param_1[0xb] & 0x3fU)) == 0x10 ||
-       (LZCOUNT((uint)param_1[8] >> (param_1[0xc] & 0x3fU)) == 0x10)) ||
-      ((LZCOUNT((uint)param_1[9] >> (param_1[0xd] & 0x3fU)) == 0x10 ||
-       (LZCOUNT((uint)param_1[10] >> (param_1[0xe] & 0x3fU)) == 0x10)))))) {
-    return 0xffffffff82a95c48;
-  }
-  return 0xffffffff82a95bc8;
 }
-
