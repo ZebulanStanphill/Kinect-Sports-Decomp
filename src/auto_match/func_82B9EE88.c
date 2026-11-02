@@ -1,77 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB6EC0();
-extern int fn_82AB71F0();
-extern int fn_82AB7550();
-extern unsigned int lbl_8316E484;
+typedef void (*Cb_82B9EE88)(void *ctx, const char *fmt, int a, int b, int c, int d);
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern unsigned fn_82AB6EC0(void *obj, int k);
+extern unsigned fn_82AB71F0(void *obj, int k, int stage);
+extern void fn_82AB7550(void *p, int a, int stage, int v);
+extern int lbl_8316E480[];
 
-
-undefined8
-fn_82B9EE88(ulonglong param_1,undefined8 param_2,ulonglong param_3,code *param_4,ulonglong param_5
-             )
-
+int fn_82B9EE88(void *obj, int stage, void *p, Cb_82B9EE88 cb, void *ctx)
 {
-  int iVar2;
-  int iVar3;
-  undefined8 uVar1;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2ff0,0xffffffff820ddb08,0x231);
-  }
-  if (0xf < (int)param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dddac,0xffffffff820ddb08,0x232);
-  }
-  if ((int)param_2 < 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820ddda0,0xffffffff820ddb08,0x233);
-  }
-  iVar2 = fn_82AB6EC0(param_1,0x87);
-  iVar3 = fn_82AB71F0(param_1,0xc,param_2);
-  if ((iVar3 == 1) && (iVar2 == 0)) {
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_82AB7550(param_3,1,param_2,1);
+    unsigned a;
+    unsigned b;
+    if (obj == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pAS_Object", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compilertossm.cpp", 0x231);
     }
-    if ((param_4 != (code *)0x0) && ((param_5 & 0xffffffff) != 0)) {
-      (*param_4)(param_5,0xffffffff820ddb70,lbl_8316E484,1,
-                 param_2,1);
+    if (stage >= 16) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "stage < 16", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compilertossm.cpp", 0x232);
     }
-    uVar1 = 1;
-  }
-  else {
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_82AB7550(param_3,1,param_2,0);
+    if (stage < 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "stage >= 0", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compilertossm.cpp", 0x233);
     }
-    if ((param_4 != (code *)0x0) && ((param_5 & 0xffffffff) != 0)) {
-      (*param_4)(param_5,0xffffffff820ddb70,lbl_8316E484,1,
-                 param_2,0);
+    a = fn_82AB6EC0(obj, 0x87);
+    b = fn_82AB71F0(obj, 0xc, stage);
+    if (b == 1 && a == 0) {
+        if (p != 0)
+            fn_82AB7550(p, 1, stage, 1);
+        if (cb != 0 && ctx != 0)
+            cb(ctx, "%s (%d) %d : %d\n", lbl_8316E480[1], 1, stage, 1);
+        return 1;
+    } else {
+        if (p != 0)
+            fn_82AB7550(p, 1, stage, 0);
+        if (cb != 0 && ctx != 0)
+            cb(ctx, "%s (%d) %d : %d\n", lbl_8316E480[1], 1, stage, 0);
+        return 0;
     }
-    uVar1 = 0;
-  }
-  return uVar1;
 }
-

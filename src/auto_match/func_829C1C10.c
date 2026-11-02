@@ -1,98 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned char Byte;
+typedef unsigned char uch;
+typedef unsigned short ush;
+typedef unsigned long ulg;
+typedef struct {
+    char pad0[8];
+    Byte *pending_buf;
+    char pad1[8];
+    unsigned long pending;
+    char pad2[0x1694];
+    int last_eob_len;
+    ush bi_buf;
+    char pad3[2];
+    int bi_valid;
+} deflate_state_829C1C10;
 
-
-void fn_829C1C10(int param_1,int param_2,ulonglong param_3,uint param_4)
-
-{
-  undefined1 *puVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = *(uint *)(param_1 + 0x16b4);
-  if ((int)uVar2 < 0xe) {
-    iVar3 = uVar2 + 3;
-    *(ushort *)(param_1 + 0x16b0) =
-         (ushort)(param_4 << (uVar2 & 0x3f)) | *(ushort *)(param_1 + 0x16b0);
-  }
-  else {
-    uVar2 = param_4 << (uVar2 & 0x3f) | (uint)*(ushort *)(param_1 + 0x16b0);
-    *(short *)(param_1 + 0x16b0) = (short)uVar2;
-    *(char *)(*(int *)(param_1 + 8) + *(int *)(param_1 + 0x14)) = (char)uVar2;
-    iVar3 = *(int *)(param_1 + 0x14) + 1;
-    *(int *)(param_1 + 0x14) = iVar3;
-    *(undefined1 *)(*(int *)(param_1 + 8) + iVar3) = *(undefined1 *)(param_1 + 0x16b0);
-    iVar3 = *(int *)(param_1 + 0x16b4) + -0xd;
-    *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 1;
-    *(short *)(param_1 + 0x16b0) =
-         (short)((param_4 & 0xffff) >> (0x10U - *(int *)(param_1 + 0x16b4) & 0x3f));
-  }
-  *(int *)(param_1 + 0x16b4) = iVar3;
-  if (iVar3 < 9) {
-    if (iVar3 < 1) goto code_r0x829c1cf0;
-    *(char *)(*(int *)(param_1 + 8) + *(int *)(param_1 + 0x14)) =
-         (char)*(undefined2 *)(param_1 + 0x16b0);
-  }
-  else {
-    *(char *)(*(int *)(param_1 + 8) + *(int *)(param_1 + 0x14)) =
-         (char)*(undefined2 *)(param_1 + 0x16b0);
-    iVar3 = *(int *)(param_1 + 0x14) + 1;
-    *(int *)(param_1 + 0x14) = iVar3;
-    *(undefined1 *)(*(int *)(param_1 + 8) + iVar3) = *(undefined1 *)(param_1 + 0x16b0);
-  }
-  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 1;
-code_r0x829c1cf0:
-  *(undefined2 *)(param_1 + 0x16b0) = 0;
-  *(undefined4 *)(param_1 + 0x16b4) = 0;
-  *(undefined4 *)(param_1 + 0x16ac) = 8;
-  *(char *)(*(int *)(param_1 + 8) + *(int *)(param_1 + 0x14)) = (char)param_3;
-  iVar3 = *(int *)(param_1 + 0x14) + 1;
-  *(int *)(param_1 + 0x14) = iVar3;
-  *(char *)(*(int *)(param_1 + 8) + iVar3) = (char)(param_3 >> 8);
-  iVar3 = *(int *)(param_1 + 0x14) + 1;
-  *(int *)(param_1 + 0x14) = iVar3;
-  *(char *)(*(int *)(param_1 + 8) + iVar3) = (char)~param_3;
-  iVar3 = *(int *)(param_1 + 0x14) + 1;
-  *(int *)(param_1 + 0x14) = iVar3;
-  *(char *)(*(int *)(param_1 + 8) + iVar3) = (char)(~param_3 >> 8);
-  iVar3 = *(int *)(param_1 + 0x14) + 1;
-  *(int *)(param_1 + 0x14) = iVar3;
-  if ((int)param_3 == 0) {
-    return;
-  }
-  puVar1 = (undefined1 *)(param_2 + -1);
-  do {
-    puVar1 = puVar1 + 1;
-    *(undefined1 *)(*(int *)(param_1 + 8) + iVar3) = *puVar1;
-    iVar3 = *(int *)(param_1 + 0x14) + 1;
-    *(int *)(param_1 + 0x14) = iVar3;
-    param_3 = param_3 - 1;
-  } while (param_3 != 0);
-  return;
+#define Buf_size 16
+#define put_byte(s, c) { s->pending_buf[s->pending++] = (Byte)(c); }
+#define put_short(s, w) { put_byte(s, (uch)((w) & 0xff)); put_byte(s, (uch)((ush)(w) >> 8)); }
+#define send_bits(s, value, length) \
+{ int len = length; \
+  if (s->bi_valid > (int)Buf_size - len) { \
+    int val = value; \
+    s->bi_buf |= (val << s->bi_valid); \
+    put_short(s, s->bi_buf); \
+    s->bi_buf = (ush)val >> (Buf_size - s->bi_valid); \
+    s->bi_valid += len - Buf_size; \
+  } else { \
+    s->bi_buf |= (value) << s->bi_valid; \
+    s->bi_valid += len; \
+  } \
 }
 
+static __forceinline void bi_windup(deflate_state_829C1C10 *s)
+{
+    if (s->bi_valid > 8) {
+        put_short(s, s->bi_buf);
+    } else if (s->bi_valid > 0) {
+        put_byte(s, s->bi_buf);
+    }
+    s->bi_buf = 0;
+    s->bi_valid = 0;
+}
+
+static __forceinline void copy_block(deflate_state_829C1C10 *s, Byte *buf, unsigned len, int header)
+{
+    bi_windup(s);
+    s->last_eob_len = 8;
+    if (header) {
+        put_short(s, (ush)len);
+        put_short(s, (ush)~len);
+    }
+    while (len--) {
+        put_byte(s, *buf++);
+    }
+}
+
+void fn_829C1C10(deflate_state_829C1C10 *s, Byte *buf, ulg stored_len, int last)
+{
+    send_bits(s, (0 << 1) + last, 3);
+    copy_block(s, buf, (unsigned)stored_len, 1);
+}
