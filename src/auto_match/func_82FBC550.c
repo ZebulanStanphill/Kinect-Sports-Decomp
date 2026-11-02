@@ -1,74 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F655D8();
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_82015618;
+typedef struct Obj_82FBC550 {
+    int pad0;
+    float f4, f8, fc, f10, f14;
+    unsigned char b18, b19;
+} Obj_82FBC550;
 
+extern double fn_82F655D8(double, double);
+extern double lbl_82015618;
 
-undefined8 fn_82FBC550(int param_1,ushort param_2,float *param_3)
-
+int fn_82FBC550(Obj_82FBC550 *o, short id, void *v)
 {
-  undefined8 uVar1;
-  double dVar2;
-  
-  if (param_3 == (float *)0x0) {
-    uVar1 = 0x1f;
-  }
-  else {
-    uVar1 = 1;
-    if (param_2 < 7) {
-      if (param_2 == 1) {
-        *(float *)(param_1 + 8) = *param_3;
-      }
-      else if (param_2 == 2) {
-        *(float *)(param_1 + 0xc) = *param_3;
-      }
-      else if (param_2 == 3) {
-        *(float *)(param_1 + 0x10) = *param_3;
-      }
-      else if (param_2 == 4) {
-        dVar2 = (double)fn_82F655D8(lbl_82015618,(double)(*param_3 * lbl_82005718));
-        *(float *)(param_1 + 0x14) = (float)dVar2;
-      }
-      else if (param_2 == 5) {
-        *(undefined1 *)(param_1 + 0x18) = *(undefined1 *)param_3;
-      }
-      else if (param_2 == 0) {
-        *(float *)(param_1 + 4) = *param_3;
-      }
-      else {
-        *(undefined1 *)(param_1 + 0x19) = *(undefined1 *)param_3;
-      }
+    int r;
+    if (v == 0)
+        return 0x1f;
+    r = 1;
+    switch (id) {
+    case 0:
+        o->f4 = *(float *)v;
+        break;
+    case 1:
+        o->f8 = *(float *)v;
+        break;
+    case 2:
+        o->fc = *(float *)v;
+        break;
+    case 3:
+        o->f10 = *(float *)v;
+        break;
+    case 4:
+        o->f14 = (float)fn_82F655D8(lbl_82015618, *(float *)v * 0.05f);
+        break;
+    case 5:
+        o->b18 = *(unsigned char *)v;
+        break;
+    case 6:
+        o->b19 = *(unsigned char *)v;
+        break;
+    default:
+        r = 0x1f;
+        break;
     }
-    else {
-      uVar1 = 0x1f;
-    }
-  }
-  return uVar1;
+    return r;
 }
-

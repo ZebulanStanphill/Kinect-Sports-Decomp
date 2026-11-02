@@ -1,88 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82695608();
-extern int fn_826957D0();
-extern int fn_82697700();
-extern int fn_827A29D0();
-
-
-void fn_82723E80(int param_1)
-
+typedef struct Vt_82723E80 { void *pad0[2]; int (*f8)(void *); } Vt_82723E80;
+typedef struct Vt2_82723E80 { char pad[0x40]; void *(*f40)(void *); } Vt2_82723E80;
+typedef struct Range_82723E80 { char pad[0x1c]; unsigned lo, hi; } Range_82723E80;
+typedef struct Comp_82723E80 { char pad[8]; Range_82723E80 *range; char pad2[0x68 - 0xc]; unsigned short flags; } Comp_82723E80;
+typedef struct Info_82723E80 { char pad[0x114]; int comp; } Info_82723E80;
+typedef struct Owner_82723E80 { Vt2_82723E80 *vt; char pad[0xa0 - 4]; Info_82723E80 *info; } Owner_82723E80;
+typedef struct Child_82723E80 { Vt_82723E80 *vt; } Child_82723E80;
+typedef struct Obj_82723E80 { char pad[8]; Child_82723E80 *child; char pad2[0x18 - 0xc]; int args; int argc; } Obj_82723E80;
+extern void *fn_826957D0(Obj_82723E80 *, int);
+extern unsigned fn_82695608(void *, int);
+extern unsigned fn_82697700(void *, int);
+extern void fn_827A29D0(int, unsigned, unsigned, unsigned);
+static unsigned RMin(Range_82723E80 *r) { unsigned b = r->hi; unsigned a = r->lo; return a < b ? a : b; }
+static unsigned RMax(Range_82723E80 *r) { return r->hi < r->lo ? r->lo : r->hi; }
+#define COMP ((Comp_82723E80 *)comp)
+void fn_82723E80(Obj_82723E80 *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  int iVar6;
-  undefined8 uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  int *piVar7;
-  ulonglong uVar8;
-  
-  if ((*(int **)(param_1 + 8) != (int *)0x0) &&
-     (iVar6 = (**(code **)(**(int **)(param_1 + 8) + 8))(), iVar6 == 4)) {
-    piVar7 = (int *)(*(int *)(param_1 + 8) + -0x68);
-    if (*(int *)(param_1 + 8) == 0) {
-      piVar7 = (int *)0x0;
+    if (o->child != 0 && o->child->vt->f8(o->child) == 4) {
+        Owner_82723E80 *owner = o->child != 0 ? (Owner_82723E80 *)((char *)o->child - 0x68) : 0;
+        int comp = owner->info->comp;
+        if (comp != 0) {
+            unsigned bit;
+            unsigned lo;
+            unsigned hi;
+            void *res;
+            bit = COMP->flags >> 2 & 1;
+            lo = RMin(COMP->range);
+            hi = RMax(COMP->range);
+            if (o->argc >= 1)
+                bit = fn_82695608(fn_826957D0(o, 0), o->args);
+            if (o->argc >= 2)
+                lo = fn_82697700(fn_826957D0(o, 1), o->args);
+            if (o->argc >= 3)
+                hi = fn_82697700(fn_826957D0(o, 2), o->args);
+            fn_827A29D0(comp, lo, hi, bit);
+            res = owner->vt->f40(owner);
+            if (res != 0)
+                *(unsigned *)((char *)res + 0xb00) |= 0x400;
+        }
     }
-    iVar6 = *(int *)(piVar7[0x28] + 0x114);
-    if (iVar6 != 0) {
-      iVar1 = *(int *)(iVar6 + 8);
-      uVar8 = (ulonglong)(*(ushort *)(iVar6 + 0x68) >> 2) & 1;
-      uVar4 = (ulonglong)*(uint *)(iVar1 + 0x1c);
-      if ((ulonglong)*(uint *)(iVar1 + 0x20) <= (ulonglong)*(uint *)(iVar1 + 0x1c)) {
-        uVar4 = (ulonglong)*(uint *)(iVar1 + 0x20);
-      }
-      uVar5 = (ulonglong)*(uint *)(iVar1 + 0x1c);
-      if ((ulonglong)*(uint *)(iVar1 + 0x1c) <= (ulonglong)*(uint *)(iVar1 + 0x20)) {
-        uVar5 = (ulonglong)*(uint *)(iVar1 + 0x20);
-      }
-      if (0 < *(int *)(param_1 + 0x1c)) {
-        uVar2 = *(undefined4 *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,0);
-        uVar8 = fn_82695608(uVar3,uVar2);
-      }
-      if (1 < *(int *)(param_1 + 0x1c)) {
-        uVar2 = *(undefined4 *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,1);
-        uVar4 = fn_82697700(uVar3,uVar2);
-      }
-      if (2 < *(int *)(param_1 + 0x1c)) {
-        uVar2 = *(undefined4 *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,2);
-        uVar5 = fn_82697700(uVar3,uVar2);
-      }
-      fn_827A29D0(iVar6,uVar4,uVar5,uVar8);
-      iVar6 = (**(code **)(*piVar7 + 0x40))(piVar7);
-      if (iVar6 != 0) {
-        *(uint *)(iVar6 + 0xb00) = *(uint *)(iVar6 + 0xb00) | 0x400;
-      }
-    }
-  }
-  return;
 }
-

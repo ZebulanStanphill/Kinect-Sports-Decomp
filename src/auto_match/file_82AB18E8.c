@@ -50,6 +50,31 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 struct Obj_82AB2168 { int pad[2]; unsigned int flags; };
 struct Obj_82AB21D8 { int pad[2]; unsigned int flags; };
+typedef struct Instr {
+  unsigned int w0;
+  unsigned int w4;
+  unsigned char b8;
+} Instr;
+#define ZEXT48(x) ((U64)((U32)(x)))
+
+typedef struct { int a; int b; unsigned int flags; } P;
+typedef struct Log {
+  int unk0;
+  int unk4;
+  unsigned int flags;
+  int unkC;
+  int unk10;
+  int unk14;
+  unsigned int used[0x800];
+  int (*write)(void *ctx, const char *s, int n);
+  void *ctx;
+  int unk2020;
+  int unk2024;
+  unsigned char busy;
+  unsigned char cr;
+  int hr;
+} Log;
+typedef struct Log_82AB28A0 Log_82AB28A0;
 
 /* @@ end of shared declarations */
 
@@ -880,41 +905,32 @@ void fn_82AB25E0(undefined8 param_1,uint param_2,ulonglong param_3,byte param_4,
 /* @@ end fn_82AB25E0 */
 
 /* @@ begin fn_82AB28A0 */
-extern void fn_82AB18E8(Printer *p, const char *fmt, ...);
+extern void fn_82AB18E8(Log *l, const char *fmt, ...);
+extern unsigned int lbl_821CE368;
+extern unsigned int uStack_6c;
 extern unsigned int lbl_821CE37C;
-extern unsigned int lbl_821CE390;
-extern unsigned int lbl_821CE398;
-extern unsigned int lbl_821CE3A0;
+extern void fn_82AB18E8(Log_82AB28A0 *, const char *, ...);
+extern char lbl_821AA634[];
+extern char lbl_82196582[];
 
-
-void fn_82AB28A0(undefined8 param_1,uint param_2,int param_3,uint param_4)
-
+void fn_82AB28A0(Log_82AB28A0 *l, int v, int neg, int swz)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = (int)param_2 >> 7 & 1;
-  if (param_3 != 0) {
-    fn_82AB18E8(param_1,0xffffffff821aa634);
-  }
-  uVar2 = 0xffffffff821ce384;
-  if (uVar1 != 0) {
-    fn_82AB18E8(param_1,0xffffffff821ce384);
-  }
-  fn_82AB18E8(param_1,0xffffffff821ce388,param_2 & 0x3f);
-  fn_82AB18E8(param_1,0xffffffff821c27b4);
-  if (param_4 != 0) {
-    fn_82AB18E8(param_1,0xffffffff821c7f2c);
-    fn_82AB18E8(param_1,0xffffffff821ce318,(&lbl_821CE37C)[param_4 & 3]);
-    fn_82AB18E8(param_1,0xffffffff821ce318,(&lbl_821CE390)[(int)param_4 >> 2 & 3]);
-    fn_82AB18E8(param_1,0xffffffff821ce318,(&lbl_821CE398)[(int)param_4 >> 4 & 3]);
-    fn_82AB18E8(param_1,0xffffffff821ce318,(&lbl_821CE3A0)[(int)param_4 >> 6 & 3]);
-  }
-  if (uVar1 == 0) {
-    uVar2 = 0xffffffff82196582;
-  }
-  fn_82AB18E8(param_1,uVar2);
-  return;
+    int abs = v >> 7 & 1;
+    int idx = v & 0x3f;
+    if (neg != 0)
+        fn_82AB18E8(l, lbl_821AA634);
+    if (abs != 0)
+        fn_82AB18E8(l, "|");
+    fn_82AB18E8(l, "k[%d", idx);
+    fn_82AB18E8(l, "]");
+    if (swz != 0) {
+        fn_82AB18E8(l, ".");
+        fn_82AB18E8(l, "%c", "xyzw"[swz & 3]);
+        fn_82AB18E8(l, "%c", "yzwx"[swz >> 2 & 3]);
+        fn_82AB18E8(l, "%c", "zwxy"[swz >> 4 & 3]);
+        fn_82AB18E8(l, "%c", "wxyz"[swz >> 6 & 3]);
+    }
+    fn_82AB18E8(l, abs != 0 ? "|" : lbl_82196582);
 }
 /* @@ end fn_82AB28A0 */
 

@@ -1,87 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265D5A8();
-extern int fn_82F92208();
-extern int fn_82F953A8();
-extern int fn_82F953B8();
-extern int fn_82F95A20();
+typedef struct Node_82F96148 Node_82F96148;
+typedef struct Iter_82F96148 {
+    void *cont;
+    Node_82F96148 *ptr;
+} Iter_82F96148;
 
+extern char *fn_82F953A8(Node_82F96148 *);
+extern Node_82F96148 **fn_82F953B8(Node_82F96148 *);
+extern Node_82F96148 **fn_8265D5A8(Node_82F96148 *);
+extern Node_82F96148 **fn_82F92208(Node_82F96148 *);
+extern Node_82F96148 *fn_82F95A20(Node_82F96148 *);
+extern void __debugbreak(void);
 
-void fn_82F96148(int *param_1)
-
+void fn_82F96148(Iter_82F96148 *it)
 {
-  undefined8 in_r0;
-  char *pcVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  int *piVar5;
-  int *piStack00000014;
-  
-  if (*param_1 == 0) {
-    trapWord(0x1f,in_r0,0x16);
-  }
-  piStack00000014 = param_1;
-  pcVar1 = (char *)fn_82F953A8(param_1[1]);
-  if (*pcVar1 == '\0') {
-    puVar3 = (undefined4 *)fn_8265D5A8(piStack00000014[1]);
-    pcVar1 = (char *)fn_82F953A8(*puVar3);
-    if (*pcVar1 == '\0') {
-      puVar3 = (undefined4 *)fn_8265D5A8(piStack00000014[1]);
-      iVar4 = fn_82F95A20(*puVar3);
-      piStack00000014[1] = iVar4;
+    if (it->cont == 0)
+        __debugbreak();
+    if (*fn_82F953A8(it->ptr) != 0) {
+        it->ptr = *fn_82F953B8(it->ptr);
+        if (*fn_82F953A8(it->ptr) != 0)
+            __debugbreak();
+    } else if (*fn_82F953A8(*fn_8265D5A8(it->ptr)) == 0) {
+        it->ptr = fn_82F95A20(*fn_8265D5A8(it->ptr));
+    } else {
+        Node_82F96148 *pnode;
+    again:
+        pnode = *fn_82F92208(it->ptr);
+        if (*fn_82F953A8(pnode) == 0) {
+            if (it->ptr == *fn_8265D5A8(pnode)) {
+                it->ptr = pnode;
+                goto again;
+            }
+        }
+        if (*fn_82F953A8(it->ptr) != 0)
+            __debugbreak();
+        else
+            it->ptr = pnode;
     }
-    else {
-      while( true ) {
-        piVar2 = (int *)fn_82F92208(piStack00000014[1]);
-        iVar4 = *piVar2;
-        pcVar1 = (char *)fn_82F953A8(iVar4);
-        piVar2 = piStack00000014;
-        if ((*pcVar1 != '\0') || (piVar5 = (int *)fn_8265D5A8(iVar4), piVar2[1] != *piVar5)) break;
-        piStack00000014[1] = iVar4;
-      }
-      pcVar1 = (char *)fn_82F953A8(piStack00000014[1]);
-      if (*pcVar1 == '\0') {
-        piStack00000014[1] = iVar4;
-      }
-      else {
-        trapWord(0x1f,in_r0,0x16);
-      }
-    }
-  }
-  else {
-    piVar2 = (int *)fn_82F953B8(piStack00000014[1]);
-    piStack00000014[1] = *piVar2;
-    pcVar1 = (char *)fn_82F953A8(piStack00000014[1]);
-    if (*pcVar1 != '\0') {
-      trapWord(0x1f,in_r0,0x16);
-    }
-  }
-  return;
 }
-
