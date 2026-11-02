@@ -28,58 +28,50 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1DDC0();
 
 
-undefined8 fn_83046770(int *param_1,uint *param_2,int param_3,int param_4)
+typedef struct { float *data; unsigned int mask; int pad; unsigned short stride; unsigned short count; } Buf_83046770;
+typedef struct { float last[6]; int rdOff; int wrOff; int f20; } State_83046770;
+
+int fn_83046770(Buf_83046770 *param_1, Buf_83046770 *param_2, int param_3, State_83046770 *param_4)
 
 {
-  undefined8 uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  undefined4 *puVar8;
-  
-  uVar5 = (uint)*(ushort *)((int)param_1 + 0xe);
-  uVar4 = param_3 - *(int *)(param_4 + 0x1c);
-  uVar6 = uVar4;
-  if (uVar5 <= uVar4) {
-    uVar6 = uVar5;
-  }
-  uVar7 = 0;
-  for (uVar2 = param_1[1]; uVar2 != 0; uVar2 = uVar2 - 1 & uVar2) {
-    uVar7 = uVar7 + 1;
-  }
-  uVar2 = 0;
-  if (uVar7 != 0) {
-    puVar8 = (undefined4 *)(param_4 + -4);
-    do {
-      iVar3 = (*(ushort *)(param_1 + 3) * uVar2 + *(int *)(param_4 + 0x18)) * 4 + *param_1;
-      fn_82A1DDC0(((longlong)(int)(uint)*(ushort *)(param_2 + 3) * (longlong)(int)uVar2 +
-                         (ulonglong)*(uint *)(param_4 + 0x1c) & 0x3fffffff) * 4 +
-                        (ulonglong)*param_2,iVar3,uVar6 & 0x3fffffff);
-      uVar2 = uVar2 + 1;
-      puVar8 = puVar8 + 1;
-      *puVar8 = *(undefined4 *)((uVar6 - 1) * 4 + iVar3);
-    } while (uVar2 < uVar7);
-  }
-  *(short *)((int)param_1 + 0xe) = *(short *)((int)param_1 + 0xe) - (short)uVar6;
-  *(short *)((int)param_2 + 0xe) = (short)uVar6 + (short)*(undefined4 *)(param_4 + 0x1c);
-  *(undefined4 *)(param_4 + 0x20) = 0x10000;
-  if (uVar6 == uVar5) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = uVar6 + *(int *)(param_4 + 0x18);
-  }
-  *(int *)(param_4 + 0x18) = iVar3;
-  if (uVar6 == uVar4) {
-    uVar1 = 0x2d;
-  }
-  else {
-    uVar1 = 0x2b;
-    *(uint *)(param_4 + 0x1c) = uVar6 + *(int *)(param_4 + 0x1c);
-  }
-  return uVar1;
-}
+  unsigned int avail;
+  unsigned int diff;
+  unsigned int m;
+  unsigned int cnt;
+  unsigned int i;
+  unsigned int v;
+  unsigned int lastIdx;
+  float *src;
 
+  avail = param_1->count;
+  diff = param_3 - param_4->wrOff;
+  m = diff < avail ? diff : avail;
+  lastIdx = m - 1;
+  cnt = 0;
+  for (v = param_1->mask; v != 0; v = (v - 1) & v) {
+    cnt = cnt + 1;
+  }
+  i = 0;
+  if (cnt != 0) {
+    do {
+      src = param_1->data + (param_1->stride * i + param_4->rdOff);
+      fn_82A1DDC0(param_2->data + (param_2->stride * i + param_4->wrOff), src, m * 4);
+      param_4->last[i] = src[lastIdx];
+      i = i + 1;
+    } while (i < cnt);
+  }
+  param_1->count = param_1->count - m;
+  param_2->count = m + param_4->wrOff;
+  param_4->f20 = 0x10000;
+  if (m == avail) {
+    param_4->rdOff = 0;
+  }
+  else {
+    param_4->rdOff = m + param_4->rdOff;
+  }
+  if (m == diff) {
+    return 0x2d;
+  }
+  param_4->wrOff = m + param_4->wrOff;
+  return 0x2b;
+}

@@ -29,27 +29,25 @@ extern int fn_82A1F2F8();
 extern int fn_82E1FE58();
 
 
-undefined8 fn_82E1FF60(int param_1)
+int fn_82E1FF60(int param_1)
 
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  if (*(char *)(param_1 + 0x15) == '\0') {
-    uVar1 = 0xffffffff80004005;
+  int r;
+  int now;
+
+  if (*(char *)(param_1 + 0x15) == 0) {
+    return 0x80004005;
   }
-  else if (*(int *)(param_1 + 0x10) == 0) {
-    uVar1 = 0;
+  if (*(unsigned int *)(param_1 + 0x10) == 0) {
+    return 0;
   }
-  else {
-    uVar1 = 0;
-    if ((*(char *)(param_1 + 0x14) == '\0') &&
-       (iVar2 = fn_82A1F2F8(), *(uint *)(param_1 + 0x10) < (uint)(iVar2 - *(int *)(param_1 + 4))))
-    {
-      uVar1 = fn_82E1FE58(param_1);
-      *(int *)(param_1 + 4) = iVar2;
+  r = 0;
+  if (*(char *)(param_1 + 0x14) == 0) {
+    now = fn_82A1F2F8();
+    if ((unsigned int)(now - *(int *)(param_1 + 4)) > *(unsigned int *)(param_1 + 0x10)) {
+      r = fn_82E1FE58(param_1);
+      *(int *)(param_1 + 4) = now;
     }
   }
-  return uVar1;
+  return r;
 }
-

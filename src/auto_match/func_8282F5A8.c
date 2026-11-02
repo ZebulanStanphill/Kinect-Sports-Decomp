@@ -34,66 +34,60 @@ extern int fn_828295A8();
 extern int fn_82F678C8();
 extern int fn_82F6AB08();
 extern int fn_82F6CE40();
-extern unsigned int iStack_60;
-extern unsigned int uStack_5c;
+extern void fn_82829F30(void);
 
-
-undefined8 fn_8282F5A8(undefined8 param_1,int param_2)
+int fn_8282F5A8(int param_1, char *param_2)
 
 {
-  ulonglong uVar1;
-  int iVar2;
+  unsigned int nbytes;
+  int buf;
   int iVar3;
-  uint uVar4;
-  uint uVar5;
-  undefined4 *puVar6;
-  uint uVar7;
-  longlong lVar8;
-  uint *puVar9;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int *puVar6;
+  unsigned int uVar7;
+  unsigned int *puVar9;
+  char *lst;
   int iStack_60;
-  undefined4 uStack_5c;
+  int uStack_5c;
   int aiStack_58;
-  
-  uVar1 = (ulonglong)*(uint *)(param_2 + 0xb4) +
-          ((ulonglong)*(uint *)(param_2 + 0xb0) & 0x7fffffff) * 2 & 0x3fffffff;
-  lVar8 = uVar1 << 2;
-  if (uVar1 != 0) {
-    iVar2 = fn_828252D0(lVar8);
-    iVar3 = fn_82F678C8(iVar2,lVar8,1,param_1);
-    if (iVar3 != 1) {
-      lVar8 = fn_82F6AB08();
-      fn_82F6CE40(lVar8 + 0x40,0xffffffff8201efe0);
+
+  nbytes = (*(unsigned int *)(param_2 + 0xb4) + *(unsigned int *)(param_2 + 0xb0) * 2) * 4;
+  if (nbytes != 0) {
+    buf = fn_828252D0(nbytes);
+    if ((unsigned int)fn_82F678C8(buf, nbytes, 1, param_1) != 1) {
+      fn_82F6CE40(fn_82F6AB08() + 0x40, "sectionDb Error: Symbol file non-relocation\t\t\t\t\tdata did not read correctly\n");
       return 5;
     }
     uVar5 = 0;
-    iVar3 = *(int *)(param_2 + 0xb0) * 8 + iVar2;
-    if (*(int *)(param_2 + 0xb0) != 0) {
-      puVar9 = (uint *)(iVar2 + 4);
+    iVar3 = *(int *)(param_2 + 0xb0) * 8 + buf;
+    if (*(unsigned int *)(param_2 + 0xb0) != 0) {
+      puVar9 = (unsigned int *)(buf + 4);
       do {
         uVar7 = 0;
-        uVar4 = 0;
-        if (*puVar9 != 0) {
-          puVar6 = (undefined4 *)(iVar3 + -4);
+        uVar4 = *puVar9;
+        if (uVar4 != 0) {
+          lst = param_2 + 0x36c;
+          puVar6 = (unsigned int *)(iVar3 + -4);
           do {
-            iStack_60 = fn_828252E8(param_2,0x1c);
-            *(uint *)(iStack_60 + 0x14) = puVar9[-1];
+            iStack_60 = fn_828252E8(param_2, 0x1c);
+            *(unsigned int *)(iStack_60 + 0x14) = puVar9[-1];
             puVar6 = puVar6 + 1;
-            *(undefined4 *)(iStack_60 + 0x18) = *puVar6;
-            fn_82826568(param_2,*(undefined4 *)(iStack_60 + 0x14),&uStack_5c);
-            fn_828295A8(uStack_5c,&aiStack_58);
+            *(unsigned int *)(iStack_60 + 0x18) = *puVar6;
+            fn_82826568(param_2, *(unsigned int *)(iStack_60 + 0x14), &uStack_5c);
+            fn_828295A8(uStack_5c, &aiStack_58);
             *(int *)(iStack_60 + 0x10) = *(int *)(iStack_60 + 0x18) + aiStack_58;
-            fn_82822F60(param_2 + 0x36c,iStack_60,0xffffffff82829f30,&iStack_60);
+            fn_82822F60(lst, iStack_60, fn_82829F30, &iStack_60);
             uVar4 = *puVar9;
             uVar7 = uVar7 + 1;
           } while (uVar7 < uVar4);
         }
-        uVar5 = uVar5 + 1;
         iVar3 = uVar4 * 4 + iVar3;
+        uVar5 = uVar5 + 1;
         puVar9 = puVar9 + 2;
-      } while (uVar5 < *(uint *)(param_2 + 0xb0));
+      } while (uVar5 < *(unsigned int *)(param_2 + 0xb0));
     }
-    fn_828252D8(iVar2);
+    fn_828252D8(buf);
   }
   return 0;
 }
-

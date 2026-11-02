@@ -26,25 +26,27 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E47918();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
+typedef struct { short type; short pad[3]; double value; } Entry_82E48A18;
 
-undefined8 fn_82E48A18(undefined8 param_1,longlong param_2,undefined8 param_3)
+int fn_82E48A18(char *param_2, int param_3, double param_1)
 
 {
-  undefined2 *puVar1;
-  undefined8 uVar2;
-  
+  Entry_82E48A18 *e;
+  int r;
+
   RtlEnterCriticalSection(param_2 + 4);
-  puVar1 = (undefined2 *)fn_82E47918(param_2,param_3);
-  uVar2 = 0;
-  if (puVar1 == (undefined2 *)0x0) {
-    uVar2 = 0xffffffff8007000e;
+  e = (Entry_82E48A18 *)fn_82E47918(param_2, param_3);
+  r = 0;
+  if (e == 0) {
+    r = 0x8007000e;
   }
   else {
-    *(undefined8 *)(puVar1 + 4) = param_1;
-    *puVar1 = 5;
+    e->value = param_1;
+    e->type = 5;
   }
   RtlLeaveCriticalSection(param_2 + 4);
-  return uVar2;
+  return r;
 }
-

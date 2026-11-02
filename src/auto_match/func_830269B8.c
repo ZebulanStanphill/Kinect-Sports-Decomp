@@ -27,33 +27,34 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA5190();
 extern int fn_8303A1F0();
-extern unsigned int lbl_82002AE0;
+extern float lbl_82002AE0;
 extern unsigned int lbl_831BC770;
 
 
 void fn_830269B8(int param_1)
 
 {
-  undefined4 uVar1;
-  
-  (**(code **)(**(int **)(param_1 + 4) + 8))();
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_82FA5190(lbl_831BC770);
-  }
-  *(undefined4 *)(param_1 + 0x60) = 0;
-  *(undefined2 *)(param_1 + 0x6e) = 0;
-  uVar1 = lbl_82002AE0;
-  *(undefined2 *)(param_1 + 0x6c) = 0;
-  *(undefined4 *)(param_1 + 0x7c) = uVar1;
-  *(undefined4 *)(param_1 + 0x68) = 0x2b;
-  *(undefined2 *)(param_1 + 0x70) = 0;
-  *(undefined4 *)(param_1 + 0x74) = 0;
-  *(undefined4 *)(param_1 + 0x78) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0x80) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0x84) = 1;
-  fn_8303A1F0(param_1 + 0x10);
-  *(undefined1 *)(param_1 + 0xb8) = 0;
-  (**(code **)(**(int **)(param_1 + 4) + 0x18))();
-  return;
-}
+  float uVar1;
 
+  (*(void (**)(int))(**(int **)(param_1 + 4) + 8))(*(int *)(param_1 + 4));
+  if (*(unsigned int *)(param_1 + 0x74) != 0) {
+    fn_82FA5190(lbl_831BC770, *(unsigned int *)(param_1 + 0x74));
+  }
+  *(int *)(param_1 + 0x60) = 0;
+  *(short *)(param_1 + 0x6e) = 0;
+  uVar1 = lbl_82002AE0;
+  *(short *)(param_1 + 0x6c) = 0;
+  *(float *)(param_1 + 0x7c) = uVar1;
+  *(int *)(param_1 + 0x68) = 0x2b;
+  *(short *)(param_1 + 0x70) = 0;
+  *(int *)(param_1 + 0x74) = 0;
+  *(int *)(param_1 + 0x78) = 0xffffffff;
+  *(int *)(param_1 + 0x80) = 0xffffffff;
+  *(int *)(param_1 + 0x84) = 1;
+  fn_8303A1F0(param_1 + 0x10);
+  {
+    char *c = (char *)(param_1 + 0xb8);
+    *c = 0;
+  }
+  (*(void (**)(int))(**(int **)(param_1 + 4) + 0x18))(*(int *)(param_1 + 4));
+}

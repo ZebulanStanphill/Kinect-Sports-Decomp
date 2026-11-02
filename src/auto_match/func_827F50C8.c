@@ -26,63 +26,60 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827F3980();
-extern int fn_827F3C30();
-extern int fn_827F3C48();
-extern int fn_827F4868();
-extern unsigned int lbl_82196280;
-extern unsigned int lbl_82196288;
+extern unsigned short fn_827F3C30();
+extern unsigned int fn_827F3C48();
+extern float fn_827F4868();
+extern float lbl_82196280;
+extern float lbl_82196288;
 
-
-void fn_827F50C8(double param_1,int param_2)
+void fn_827F50C8(char *param_2, float param_1)
 
 {
-  byte bVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  short sVar5;
-  int iVar4;
-  int *piVar6;
-  double dVar7;
-  
-  *(float *)(param_2 + 0x30) = (float)(param_1 + (double)*(float *)(param_2 + 0x30));
-  dVar7 = (double)fn_827F4868();
-  if (dVar7 == (double)lbl_82196288) {
-    bVar1 = *(byte *)(param_2 + 0xdc);
+  unsigned char bVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned short sVar5;
+  unsigned int iVar4;
+  unsigned int *piVar6;
+  float dVar7;
+  unsigned char eq;
+
+  *(float *)(param_2 + 0x30) = param_1 + *(float *)(param_2 + 0x30);
+  dVar7 = fn_827F4868(param_2);
+  if (dVar7 == lbl_82196288) {
+    bVar1 = *(unsigned char *)(param_2 + 0xdc);
     if ((((bVar1 & 1) == 0) || ((bVar1 & 2) == 0)) && (((bVar1 & 4) == 0 || ((bVar1 & 8) == 0)))) {
-      piVar6 = (int *)(param_2 + 0xe0);
+      piVar6 = (unsigned int *)(param_2 + 0xe0);
 LAB_827f5190:
-      if (piVar6 != (int *)0x0) {
+      if (piVar6 != (unsigned int *)0x0) {
         sVar5 = fn_827F3C30(param_2);
         if ((sVar5 != 1) || (iVar4 = fn_827F3C48(param_2,0), iVar4 != *piVar6)) {
-          uVar2 = *(undefined4 *)(param_2 + 0xe0);
-          uVar3 = *(undefined4 *)(param_2 + 0xe4);
+          uVar2 = *(unsigned int *)(param_2 + 0xe0);
+          uVar3 = *(unsigned int *)(param_2 + 0xe4);
           fn_827F3980(param_2,1,piVar6);
-          *(undefined4 *)(param_2 + 0xe0) = uVar2;
-          *(undefined4 *)(param_2 + 0xe4) = uVar3;
+          *(unsigned int *)(param_2 + 0xe0) = uVar2;
+          *(unsigned int *)(param_2 + 0xe4) = uVar3;
         }
         goto LAB_827f521c;
       }
     }
   }
-  else if ((((dVar7 == (double)lbl_82196280) &&
-            ((bVar1 = *(byte *)(param_2 + 0xdc), (bVar1 & 1) == 0 || ((bVar1 & 2) != 0)))) &&
+  else if ((((dVar7 == lbl_82196280) &&
+            ((bVar1 = *(unsigned char *)(param_2 + 0xdc), (bVar1 & 1) == 0 || ((bVar1 & 2) != 0)))) &&
            (((bVar1 & 4) == 0 || ((bVar1 & 8) != 0)))) &&
-          (((*(int *)(param_2 + 0x40) == 0 && (*(short *)(param_2 + 0x20) == 0)) ||
-           (((bVar1 & 0x40) != 0 && (*(short *)(param_2 + 0x20) == 2)))))) {
-    piVar6 = (int *)(param_2 + 0xe4);
+          (((*(unsigned int *)(param_2 + 0x40) == 0 && (*(unsigned short *)(param_2 + 0x20) == 0)) ||
+           (((bVar1 & 0x40) != 0 && (*(unsigned short *)(param_2 + 0x20) == 2)))))) {
+    piVar6 = (unsigned int *)(param_2 + 0xe4);
     goto LAB_827f5190;
   }
   sVar5 = fn_827F3C30(param_2);
   if (sVar5 != 2) {
-    uVar2 = *(undefined4 *)(param_2 + 0xe0);
-    uVar3 = *(undefined4 *)(param_2 + 0xe4);
+    uVar2 = *(unsigned int *)(param_2 + 0xe0);
+    uVar3 = *(unsigned int *)(param_2 + 0xe4);
     fn_827F3980(param_2,2,param_2 + 0xe0);
-    *(undefined4 *)(param_2 + 0xe0) = uVar2;
-    *(undefined4 *)(param_2 + 0xe4) = uVar3;
+    *(unsigned int *)(param_2 + 0xe0) = uVar2;
+    *(unsigned int *)(param_2 + 0xe4) = uVar3;
   }
 LAB_827f521c:
-  *(byte *)(param_2 + 0xdc) =
-       *(byte *)(param_2 + 0xdc) & 0xdf | (dVar7 == (double)*(float *)(param_2 + 0x24)) << 5;
-  return;
+  *(unsigned char *)(param_2 + 0xdc) = *(unsigned char *)(param_2 + 0xdc) & 0xdf | ((unsigned char)(dVar7 == *(float *)(param_2 + 0x24)) << 5);
 }
-

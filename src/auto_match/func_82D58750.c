@@ -29,19 +29,13 @@ extern int fn_82CE4040();
 extern int fn_82CE4118();
 
 
-void fn_82D58750(int param_1,undefined8 param_2,ulonglong param_3,ulonglong param_4)
+void fn_82D58750(unsigned int *param_1,unsigned int param_2,int param_3,int param_4)
 
 {
-  int iVar1;
-  
   fn_82CE4040(param_2);
-  iVar1 = (int)(((param_4 & 0x1fffffff) * 8 + param_3 + 3 & 0xffffffff) << 2);
-  fn_82CE4118(*(undefined4 *)(iVar1 + param_1));
-  *(int *)(iVar1 + param_1) = (int)param_2;
+  fn_82CE4118(param_1[param_4 * 8 + param_3 + 3]);
+  param_1[param_4 * 8 + param_3 + 3] = param_2;
   fn_82CE4040(param_2);
-  iVar1 = (int)(((param_3 & 0x1fffffff) * 8 + param_4 + 3 & 0xffffffff) << 2);
-  fn_82CE4118(*(undefined4 *)(iVar1 + param_1));
-  *(int *)(iVar1 + param_1) = (int)param_2;
-  return;
+  fn_82CE4118(param_1[param_3 * 8 + param_4 + 3]);
+  param_1[param_3 * 8 + param_4 + 3] = param_2;
 }
-

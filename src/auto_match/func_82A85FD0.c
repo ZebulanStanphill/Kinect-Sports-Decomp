@@ -28,66 +28,67 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8262FEC8();
 
 
+typedef struct { int **vt; } Iface_82A85FD0;
+
 void fn_82A85FD0(int param_1)
 
 {
-  longlong lVar1;
-  int *piVar2;
-  
-  if (*(int **)(param_1 + 700) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 700) + 4))();
-    *(undefined4 *)(param_1 + 700) = 0;
-  }
-  lVar1 = 6;
-  piVar2 = (int *)(param_1 + 0x2d8);
-  do {
-    if ((int *)*piVar2 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar2 + 4))();
-      *piVar2 = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + -1;
-  } while (-1 < lVar1);
-  lVar1 = 3;
-  piVar2 = (int *)(param_1 + 0x2f8);
-  do {
-    if ((int *)piVar2[-1] != (int *)0x0) {
-      (**(code **)(*(int *)piVar2[-1] + 4))();
-      piVar2[-1] = 0;
-    }
-    if ((int *)*piVar2 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar2 + 4))();
-      *piVar2 = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + -2;
-  } while (-1 < lVar1);
-  if (*(int *)(param_1 + 0x50) != 0) {
-    fn_8262FEC8();
-    *(undefined4 *)(param_1 + 0x50) = 0;
-  }
-  lVar1 = 4;
-  piVar2 = (int *)(param_1 + 0x48);
-  do {
-    if (piVar2[-2] != 0) {
-      fn_8262FEC8();
-      piVar2[-2] = 0;
-    }
-    if (piVar2[-1] != 0) {
-      fn_8262FEC8();
-      piVar2[-1] = 0;
-    }
-    if (*piVar2 != 0) {
-      fn_8262FEC8();
-      *piVar2 = 0;
-    }
-    if (piVar2[1] != 0) {
-      fn_8262FEC8();
-      piVar2[1] = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + -4;
-  } while (-1 < lVar1);
-  return;
-}
+  int i;
+  Iface_82A85FD0 **pp;
+  unsigned int *pu;
 
+  if (*(Iface_82A85FD0 **)(param_1 + 700) != 0) {
+    ((void (*)(Iface_82A85FD0 *))(*(Iface_82A85FD0 **)(param_1 + 700))->vt[1])(*(Iface_82A85FD0 **)(param_1 + 700));
+    *(unsigned int *)(param_1 + 700) = 0;
+  }
+  i = 6;
+  pp = (Iface_82A85FD0 **)(param_1 + 0x2d8);
+  do {
+    if (*pp != 0) {
+      ((void (*)(Iface_82A85FD0 *))(*pp)->vt[1])(*pp);
+      *pp = 0;
+    }
+    i--;
+    pp--;
+  } while (i >= 0);
+  i = 3;
+  pp = (Iface_82A85FD0 **)(param_1 + 0x2f8);
+  do {
+    if (pp[-1] != 0) {
+      ((void (*)(Iface_82A85FD0 *))pp[-1]->vt[1])(pp[-1]);
+      pp[-1] = 0;
+    }
+    if (*pp != 0) {
+      ((void (*)(Iface_82A85FD0 *))(*pp)->vt[1])(*pp);
+      *pp = 0;
+    }
+    i--;
+    pp -= 2;
+  } while (i >= 0);
+  if (*(unsigned int *)(param_1 + 0x50) != 0) {
+    fn_8262FEC8(*(unsigned int *)(param_1 + 0x50));
+    *(unsigned int *)(param_1 + 0x50) = 0;
+  }
+  i = 4;
+  pu = (unsigned int *)(param_1 + 0x48);
+  do {
+    if (pu[-2] != 0) {
+      fn_8262FEC8(pu[-2]);
+      pu[-2] = 0;
+    }
+    if (pu[-1] != 0) {
+      fn_8262FEC8(pu[-1]);
+      pu[-1] = 0;
+    }
+    if (*pu != 0) {
+      fn_8262FEC8(*pu);
+      *pu = 0;
+    }
+    if (pu[1] != 0) {
+      fn_8262FEC8(pu[1]);
+      pu[1] = 0;
+    }
+    i--;
+    pu -= 4;
+  } while (i >= 0);
+}

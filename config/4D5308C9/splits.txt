@@ -101745,7 +101745,7 @@ auto_match/func_828D3A40.cpp:
 auto_match/func_828D3C10.cpp:
 	.text       start:0x828D3C10 end:0x828D3C88
 
-auto_match/func_828D3C88.c:
+auto_match/func_828D3C88.cpp:
 	.pdata      start:0x82206140 end:0x82206148
 	.text       start:0x828D3C88 end:0x828D3D6C
 

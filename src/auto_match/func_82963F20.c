@@ -27,13 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8
-fn_82963F20(undefined8 param_1,undefined4 *param_2,undefined4 param_3,undefined4 param_4,
-             undefined4 param_5)
+int fn_82963F20(unsigned int *param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5,double param_1)
 
 {
-  *(undefined8 *)(param_2 + 8) = param_1;
-  *(undefined8 *)(param_2 + 10) = param_1;
+  *(double *)(param_2 + 8) = param_1;
+  *(double *)(param_2 + 10) = param_1;
   param_2[1] = param_3;
   param_2[2] = 0xffffffff;
   param_2[3] = param_4;

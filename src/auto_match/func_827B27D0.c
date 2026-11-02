@@ -1,63 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82015F4C;
+extern char lbl_82015F4C[];
 
-
-void fn_827B27D0(undefined4 *param_1,undefined4 param_2)
-
-{
-  param_1[1] = 1;
-  *param_1 = &lbl_82015F4C;
-  param_1[2] = param_2;
-  param_1[3] = param_2;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  param_1[0x16] = 0;
-  param_1[0x17] = 0;
-  param_1[0x18] = 0;
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  return;
+typedef struct { int a, b; int z[23]; } In;
+typedef struct { void *vt; int rc; In in; } O;
+void fn_827B27D0(O *p, int x) {
+ In *q = &p->in;
+p->rc = 1;
+p->vt = lbl_82015F4C;
+q->a = x;
+p->in.b = x;
+q->z[0] = 0;q->z[1] = 0;
+q->z[2] = 0;q->z[3] = 0;q->z[4] = 0;q->z[5] = 0;q->z[6] = 0;q->z[7] = 0;q->z[8] = 0;q->z[9] = 0;q->z[10] = 0;q->z[11] = 0;q->z[12] = 0;q->z[13] = 0;q->z[14] = 0;q->z[15] = 0;q->z[16] = 0;q->z[17] = 0;q->z[18] = 0;q->z[19] = 0;q->z[20] = 0;q->z[21] = 0;q->z[22] = 0;
 }
-
