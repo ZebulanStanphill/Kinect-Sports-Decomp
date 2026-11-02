@@ -1,55 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821C531C;
-
-
-void fn_8256BE68(undefined4 *param_1,undefined4 param_2)
-
+typedef struct { void *vt; U32 uses; U32 weak; U32 val; } Rep_8256BE68;
+typedef struct { U32 val; Rep_8256BE68 *rep; } Ptr_8256BE68;
+extern void fn_822315A0(Rep_8256BE68 *);
+extern void *fn_8265C9E0(U32);
+extern char lbl_821C531C[];
+void fn_8256BE68(Ptr_8256BE68 *s, U32 v)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[3] = param_2;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821C531C;
-    puVar1[2] = 1;
-  }
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  param_1[1] = puVar1;
-  *param_1 = param_2;
-  return;
+  Rep_8256BE68 *mem = fn_8265C9E0(0x10); Rep_8256BE68 *r;
+  if (mem != 0) { mem->val = v; mem->uses = 1; mem->vt = lbl_821C531C; mem->weak = 1; r = mem; } else r = 0;
+  if (s->rep != 0) fn_822315A0(s->rep);
+  s->rep = r; s->val = v;
 }
-
