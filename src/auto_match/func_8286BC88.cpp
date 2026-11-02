@@ -1,17 +1,13 @@
-// R1::Soundscape::WwiseEventContext_c constructor taking the id stored at +4.
+#include "R1/Soundscape/WwiseEventContext.h"
+
 namespace R1 {
-    namespace Soundscape {
-        class WwiseEventContext_c {
-        public:
-            WwiseEventContext_c(unsigned int id);
-            virtual ~WwiseEventContext_c();
+namespace Soundscape {
 
-            unsigned int m_4;
-        };
-
-        WwiseEventContext_c::WwiseEventContext_c(unsigned int id)
-            : m_4(id)
-        {
-        }
-    }
+// WwiseEmitter_c's constructor passes the WwiseEventInitialising_c singleton.
+WwiseEventContext_c::WwiseEventContext_c(WwiseEventState_c *state)
+    : state(state)
+{
 }
+
+} // namespace Soundscape
+} // namespace R1

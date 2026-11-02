@@ -92901,25 +92901,25 @@ auto_match/func_8286BCA0.cpp:
 auto_match/func_8286BCB8.cpp:
 	.text       start:0x8286BCB8 end:0x8286BCC8
 
-auto_match/func_8286BCC8.c:
+auto_match/func_8286BCC8.cpp:
 	.text       start:0x8286BCC8 end:0x8286BCEC
 
-auto_match/func_8286BCF0.c:
+auto_match/func_8286BCF0.cpp:
 	.text       start:0x8286BCF0 end:0x8286BD18
 
-auto_match/func_8286BD18.c:
+auto_match/func_8286BD18.cpp:
 	.text       start:0x8286BD18 end:0x8286BD3C
 
-auto_match/func_8286BD40.c:
+auto_match/func_8286BD40.cpp:
 	.text       start:0x8286BD40 end:0x8286BD64
 
-auto_match/func_8286BD68.c:
+auto_match/func_8286BD68.cpp:
 	.text       start:0x8286BD68 end:0x8286BD90
 
-auto_match/func_8286BD90.c:
+auto_match/func_8286BD90.cpp:
 	.text       start:0x8286BD90 end:0x8286BDB4
 
-auto_match/func_8286BDB8.c:
+auto_match/func_8286BDB8.cpp:
 	.text       start:0x8286BDB8 end:0x8286BDD8
 
 auto_match/func_8286BDD8.c:
@@ -94970,25 +94970,25 @@ auto_match/func_8287BCF8.c:
 auto_match/func_8287BD00.cpp:
 	.text       start:0x8287BD00 end:0x8287BD10
 
-auto_match/func_8287BD10.c:
+auto_match/func_8287BD10.cpp:
 	.text       start:0x8287BD10 end:0x8287BD28
 
 auto_match/func_8287BD28.c:
 	.pdata      start:0x822035E8 end:0x822035F0
 	.text       start:0x8287BD28 end:0x8287BD88
 
-auto_match/func_8287BD88.c:
+auto_match/func_8287BD88.cpp:
 	.pdata      start:0x822035F0 end:0x822035F8
 	.text       start:0x8287BD88 end:0x8287BDEC
 
 auto_match/func_8287BDF0.cpp:
 	.text       start:0x8287BDF0 end:0x8287BE10
 
-auto_match/func_8287BE10.c:
+auto_match/func_8287BE10.cpp:
 	.pdata      start:0x822035F8 end:0x82203600
 	.text       start:0x8287BE10 end:0x8287BE7C
 
-auto_match/func_8287BE80.c:
+auto_match/func_8287BE80.cpp:
 	.pdata      start:0x82203600 end:0x82203608
 	.text       start:0x8287BE80 end:0x8287BEB0
 
@@ -94996,7 +94996,7 @@ auto_match/func_8287BEB0.cpp:
 	.pdata      start:0x82203608 end:0x82203610
 	.text       start:0x8287BEB0 end:0x8287BF10
 
-auto_match/func_8287BF10.c:
+auto_match/func_8287BF10.cpp:
 	.text       start:0x8287BF10 end:0x8287BF74
 
 auto_match/func_8287BF78.c:

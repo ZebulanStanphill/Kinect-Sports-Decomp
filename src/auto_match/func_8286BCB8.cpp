@@ -1,17 +1,11 @@
-// R1::Soundscape::WwiseEventContext_c::~WwiseEventContext_c(): stores WwiseEventContext_c's
-// vtable.
-// The class is declared from its vtable's name; its scalar deleting destructor is in the vtable,
-// so the destructor is virtual.
+#include "R1/Soundscape/WwiseEventContext.h"
 
 namespace R1 {
-    namespace Soundscape {
-        class WwiseEventContext_c {
-        public:
-            virtual ~WwiseEventContext_c();
-        };
-    }
-}
+namespace Soundscape {
 
-R1::Soundscape::WwiseEventContext_c::~WwiseEventContext_c()
+WwiseEventContext_c::~WwiseEventContext_c()
 {
 }
+
+} // namespace Soundscape
+} // namespace R1
