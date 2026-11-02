@@ -1,101 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_5c;
-extern unsigned int *auStack_60;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_82695750();
-extern int fn_82696330();
-extern int fn_826A5E30();
-extern int fn_826B14D8();
-extern int fn_8271D4A8();
-extern int fn_8271DC30();
-extern unsigned int iStack_50;
-extern unsigned int uStack_4c;
+typedef struct Ctx_8271E2F8 Ctx_8271E2F8;
+typedef struct Args_8271E2F8 { Ctx_8271E2F8 *ctx; unsigned char kind; } Args_8271E2F8;
+typedef struct Res_8271E2F8 { void *p; int q; unsigned char b; } Res_8271E2F8;
+typedef struct Obj_8271E2F8 { int pad[2]; unsigned rc; } Obj_8271E2F8;
+typedef struct Tmp_8271E2F8 { char data[16]; } Tmp_8271E2F8;
+typedef struct Vt_8271E2F8 {
+    char pad[0x28];
+    void (*f28)(void *, Args_8271E2F8 *, void *, Tmp_8271E2F8 *, unsigned char *);
+} Vt_8271E2F8;
+typedef struct Sub_8271E2F8 { int pad[4]; Vt_8271E2F8 *vt; } Sub_8271E2F8;
+struct Ctx_8271E2F8 {
+    char pad[0x50];
+    char f50[0x278 - 0x50];
+    char f278[0x284 - 0x278];
+    int f284;
+    void *heap;
+    char pad2[0x2a0 - 0x28c];
+    Sub_8271E2F8 *f2a0;
+};
 
+extern void *fn_8267B890(void *, int, int);
+extern void fn_826824B0(void *);
+extern Tmp_8271E2F8 *fn_82695750(Tmp_8271E2F8 *, Res_8271E2F8 *);
+extern void fn_82696330(Tmp_8271E2F8 *);
+extern void fn_826A5E30(void *, int *, Obj_8271E2F8 **);
+extern int fn_826B14D8(Ctx_8271E2F8 *, int);
+extern void *fn_8271D4A8(void *, Args_8271E2F8 *, int);
+extern Obj_8271E2F8 *fn_8271DC30(void *, Args_8271E2F8 *, int, Res_8271E2F8 *);
 
-/* WARNING: Type propagation algorithm not settling */
-
-undefined4 * fn_8271E2F8(undefined4 *param_1,int param_2)
-
+Res_8271E2F8 *fn_8271E2F8(Res_8271E2F8 *res, Ctx_8271E2F8 *ctx)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  undefined4 uVar6;
-  longlong lVar4;
-  undefined8 uVar5;
-  uint uVar7;
-  undefined1 auStack_60;
-  uint auStack_5c [3];
-  int iStack_50;
-  undefined1 uStack_4c;
-  undefined1 auStack_40 [16];
-  
-  uStack_4c = 8;
-  iStack_50 = param_2;
-  uVar3 = fn_8267B890(*(undefined4 *)(param_2 + 0x288),0x38,0);
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar6 = 0;
-  }
-  else {
-    uVar6 = fn_8271D4A8(uVar3,&iStack_50,*(undefined4 *)(param_2 + 0x284));
-  }
-  *param_1 = uVar6;
-  *(undefined1 *)(param_1 + 2) = 0;
-  param_1[1] = 0;
-  lVar4 = fn_8267B890(*(undefined4 *)(param_2 + 0x288),0x50,0);
-  if (lVar4 == 0) {
-    uVar7 = 0;
-  }
-  else {
-    uVar5 = fn_826B14D8(param_2,1);
-    uVar7 = fn_8271DC30(lVar4,&iStack_50,uVar5,param_1);
-  }
-  if (uVar7 != 0) {
-    *(uint *)(uVar7 + 8) = *(int *)(uVar7 + 8) + 1U & 0x8fffffff;
-  }
-  auStack_5c[1] = 0x12;
-  auStack_5c[0] = uVar7;
-  fn_826A5E30(param_2 + 0x278,auStack_5c + 1,auStack_5c);
-  if (auStack_5c[0] != 0) {
-    fn_826824B0();
-  }
-  auStack_60 = 0;
-  iVar1 = *(int *)(param_2 + 0x2a0);
-  iVar2 = *(int *)(iVar1 + 0x10);
-  uVar5 = fn_82695750(auStack_40,param_1);
-  (**(code **)(iVar2 + 0x28))(iVar1 + 0x10,&iStack_50,param_2 + 0x50,uVar5,&auStack_60);
-  fn_82696330(auStack_40);
-  if (uVar7 != 0) {
-    fn_826824B0(uVar7);
-  }
-  return param_1;
+    Args_8271E2F8 a;
+    void *m;
+    void *m2;
+    Obj_8271E2F8 *o;
+    Obj_8271E2F8 *tp;
+    int tk;
+    unsigned char flag;
+    Tmp_8271E2F8 buf;
+    a.ctx = ctx;
+    a.kind = 8;
+    m = fn_8267B890(ctx->heap, 0x38, 0);
+    res->p = m != 0 ? fn_8271D4A8(m, &a, ctx->f284) : 0;
+    res->b = 0;
+    res->q = 0;
+    m2 = fn_8267B890(ctx->heap, 0x50, 0);
+    o = m2 != 0 ? fn_8271DC30(m2, &a, fn_826B14D8(ctx, 1), res) : 0;
+    if (o != 0)
+        o->rc = o->rc + 1 & 0x8fffffff;
+    tp = o;
+    tk = 0x12;
+    fn_826A5E30(ctx->f278, &tk, &tp);
+    if (tp != 0)
+        fn_826824B0(tp);
+    flag = 0;
+    {
+        Sub_8271E2F8 *s = ctx->f2a0;
+        Vt_8271E2F8 *vt = s->vt;
+        vt->f28((char *)s + 0x10, &a, ctx->f50, fn_82695750(&buf, res), &flag);
+    }
+    fn_82696330(&buf);
+    if (o != 0)
+        fn_826824B0(o);
+    return res;
 }
-

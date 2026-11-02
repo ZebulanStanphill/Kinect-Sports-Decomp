@@ -64,6 +64,7 @@ typedef struct Log {
   int hr;
 } Log;
 typedef char *va_list;
+typedef struct Log_82658940 Log_82658940;
 
 /* @@ end of shared declarations */
 
@@ -345,41 +346,28 @@ LAB_826587f8:
 /* @@ end fn_82658670 */
 
 /* @@ begin fn_82658940 */
-extern void fn_8265B200(Log *l, const char *fmt, ...);
-extern unsigned int lbl_821CE37C;
-extern unsigned int lbl_821CE390;
-extern unsigned int lbl_821CE398;
-extern unsigned int lbl_821CE3A0;
+extern void fn_8265B200(Log_82658940 *, const char *, ...);
+extern char lbl_821AA634[];
+extern char lbl_82196582[];
 
-
-void fn_82658940(undefined8 param_1,uint param_2,int param_3,uint param_4)
-
+void fn_82658940(Log_82658940 *l, int v, int neg, int swz)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = (int)param_2 >> 7 & 1;
-  if (param_3 != 0) {
-    fn_8265B200(param_1,0xffffffff821aa634);
-  }
-  uVar2 = 0xffffffff821ce384;
-  if (uVar1 != 0) {
-    fn_8265B200(param_1,0xffffffff821ce384);
-  }
-  fn_8265B200(param_1,0xffffffff821ce388,param_2 & 0x3f);
-  fn_8265B200(param_1,0xffffffff821c27b4);
-  if (param_4 != 0) {
-    fn_8265B200(param_1,0xffffffff821c7f2c);
-    fn_8265B200(param_1,0xffffffff821ce318,(&lbl_821CE37C)[param_4 & 3]);
-    fn_8265B200(param_1,0xffffffff821ce318,(&lbl_821CE390)[(int)param_4 >> 2 & 3]);
-    fn_8265B200(param_1,0xffffffff821ce318,(&lbl_821CE398)[(int)param_4 >> 4 & 3]);
-    fn_8265B200(param_1,0xffffffff821ce318,(&lbl_821CE3A0)[(int)param_4 >> 6 & 3]);
-  }
-  if (uVar1 == 0) {
-    uVar2 = 0xffffffff82196582;
-  }
-  fn_8265B200(param_1,uVar2);
-  return;
+    int abs = v >> 7 & 1;
+    int idx = v & 0x3f;
+    if (neg != 0)
+        fn_8265B200(l, lbl_821AA634);
+    if (abs != 0)
+        fn_8265B200(l, "|");
+    fn_8265B200(l, "k[%d", idx);
+    fn_8265B200(l, "]");
+    if (swz != 0) {
+        fn_8265B200(l, ".");
+        fn_8265B200(l, "%c", "xyzw"[swz & 3]);
+        fn_8265B200(l, "%c", "yzwx"[swz >> 2 & 3]);
+        fn_8265B200(l, "%c", "zwxy"[swz >> 4 & 3]);
+        fn_8265B200(l, "%c", "wxyz"[swz >> 6 & 3]);
+    }
+    fn_8265B200(l, abs != 0 ? "|" : lbl_82196582);
 }
 /* @@ end fn_82658940 */
 
