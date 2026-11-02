@@ -8,6 +8,7 @@
 #define R1_SOUNDSCAPE_EVENTHANDLECONTEXT_H
 
 #include "R1/Soundscape/Heap.h"
+#include "game/String_82230110.h"
 
 namespace R1 {
 namespace Soundscape {
@@ -24,8 +25,8 @@ public:
     // return 0, so whether EventHandle_i or EventHandleContext_i defines it is
     // unknown.
     virtual unsigned int vf10() { return 0; }
-    // Returns an object by value; its type is unknown.
-    virtual void vf14() = 0;
+    // Returns a string (empty in EventHandleContext_c); what it is for is unknown.
+    virtual String_82230110 vf14() = 0;
     virtual unsigned int vf18() = 0;
     virtual unsigned int vf1C() = 0;
 };
@@ -47,7 +48,7 @@ public:
     virtual bool vf04();
     virtual float vf08();
     virtual bool vf0C();
-    virtual void vf14();
+    virtual String_82230110 vf14();
     virtual unsigned int vf18();
     virtual unsigned int vf1C();
     virtual unsigned int vf24(EventHandleState_i *state);

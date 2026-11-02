@@ -1,15 +1,8 @@
+#include "R1/Soundscape/BankEntryState.h"
 #include "R1/Soundscape/EventHandleState.h"
 
 extern "C" {
 void *fn_82868378();
-void *fn_82868EF0();
-void *fn_82868F50();
-void *fn_82868FB0();
-void *fn_82869010();
-void *fn_82869070();
-void *fn_828690D0();
-void *fn_82869130();
-void *fn_82869190();
 void *fn_82868568();
 void *fn_828684F8();
 void *fn_82869448();
@@ -38,14 +31,14 @@ void *fn_82865100();
 extern "C" unsigned int fn_82867780()
 {
     fn_82868378();
-    fn_82868EF0();
-    fn_82868F50();
-    fn_82868FB0();
-    fn_82869010();
-    fn_82869070();
-    fn_828690D0();
-    fn_82869130();
-    fn_82869190();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_TRIGGER_LOAD_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_WAITING_FOR_LOAD_TO_COMPLETE_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_LOADED_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_LOAD_FAILED_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_TRIGGER_UNLOAD_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_UNLOADED_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::BankEntry_UNLOAD_FAILED_c>::GetInstance();
     fn_82868568();
     R1::Soundscape::Singleton_c<R1::Soundscape::EventHandle_EMITTER_INVALIDATED_c>::GetInstance();
     R1::Soundscape::Singleton_c<R1::Soundscape::EventHandle_STOPPED_c>::GetInstance();

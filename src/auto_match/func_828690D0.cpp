@@ -1,18 +1,9 @@
-namespace R1 { namespace Soundscape { class BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c { public: virtual ~BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c(); }; } }
-typedef R1::Soundscape::BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c C;
-inline void *operator new(unsigned int, void *p) throw() { return p; }
-extern "C" C *fn_8265C9E0(unsigned int);
-extern "C" C *lbl_83211740;
-extern "C" C *fn_828690D0(void)
-{
-    if (lbl_83211740 == 0) {
-        C *p = fn_8265C9E0(4);
-        if (p != 0) {
-            new (p) C;
-        } else {
-            p = 0;
-        }
-        lbl_83211740 = p;
-    }
-    return lbl_83211740;
-}
+#include "R1/Soundscape/BankEntryState.h"
+
+namespace R1 {
+namespace Soundscape {
+
+template BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c *Singleton_c<BankEntry_WAITING_FOR_UNLOAD_TO_COMPLETE_c>::GetInstance();
+
+} // namespace Soundscape
+} // namespace R1

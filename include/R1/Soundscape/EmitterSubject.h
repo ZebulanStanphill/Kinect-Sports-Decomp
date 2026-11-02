@@ -12,19 +12,13 @@
 
 #include <vector>
 
+#include "R1/Soundscape/EmitterObserver.h"
 #include "R1/Soundscape/Heap.h"
 
 namespace R1 {
 namespace Soundscape {
 
 class EmitterSubject_i;
-
-class EmitterObserver_i {
-public:
-    // Called by EmitterSubject_c::vf08 with the subject.
-    virtual void vf00(EmitterSubject_i *subject) = 0;
-    virtual ~EmitterObserver_i() {}
-};
 
 class EmitterSubject_i {
 public:

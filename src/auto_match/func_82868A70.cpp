@@ -1,9 +1,3 @@
-extern "C" void fn_8265CA20(void *p);
-namespace R1 { namespace Soundscape { class BankEntry_UNLOAD_FAILED_c { public: virtual ~BankEntry_UNLOAD_FAILED_c() {} }; } } 
-extern "C" R1::Soundscape::BankEntry_UNLOAD_FAILED_c *fn_82868A70(R1::Soundscape::BankEntry_UNLOAD_FAILED_c *self, unsigned int flags)
-{
-    self->R1::Soundscape::BankEntry_UNLOAD_FAILED_c::~BankEntry_UNLOAD_FAILED_c();
-    if (flags & 1)
-        fn_8265CA20(self);
-    return self;
-}
+// The compiler generates the deleting destructor where it emits the vtable,
+// which the constructor inlined into GetInstance does.
+#include "func_82869190.cpp"
