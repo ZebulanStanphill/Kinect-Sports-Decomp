@@ -25,33 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC6860();
-extern int fn_82AD17B0();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Src_82B1C278 { unsigned pad : 4; unsigned x : 3; unsigned rest : 25; } Src_82B1C278;
+typedef struct Dst_82B1C278 {
+  char pad0[8];
+  unsigned pad : 15; unsigned t : 3; unsigned rest : 14;
+  char pad1[0x20];
+  Src_82B1C278 *f2c; void *f30; void *f34;
+} Dst_82B1C278;
+extern void *fn_82AD17B0(void *, void *);
+extern void *fn_82AD1978(Dst_82B1C278 *, void *);
+extern Dst_82B1C278 *fn_82B841E8(void *, int, int, int, int, int);
+extern void fn_82AC6860(void *, Dst_82B1C278 *, void *, void *);
 
-
-int fn_82B1C278(undefined8 param_1,undefined8 param_2,int param_3,undefined8 param_4,
-                 undefined8 param_5,undefined8 param_6)
-
+Dst_82B1C278 *fn_82B1C278(void *param_1, void *param_2, char *param_3, void *param_4, void *param_5, void *param_6)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 uVar3;
-  
-  iVar2 = fn_82B841E8(param_1,*(undefined4 *)(param_3 + 0x1c),0,0xd,3,4);
-  uVar1 = fn_82AD17B0(param_1,param_4);
-  uVar3 = fn_82AD1978(iVar2,uVar1);
-  *(undefined4 *)(iVar2 + 0x2c) = uVar3;
-  uVar1 = fn_82AD17B0(param_1,param_5);
-  uVar3 = fn_82AD1978(iVar2,uVar1);
-  *(undefined4 *)(iVar2 + 0x30) = uVar3;
-  uVar1 = fn_82AD17B0(param_1,param_6);
-  uVar3 = fn_82AD1978(iVar2,uVar1);
-  *(undefined4 *)(iVar2 + 0x34) = uVar3;
-  *(uint *)(iVar2 + 8) =
-       (**(uint **)(iVar2 + 0x2c) >> 0x19 & 7) << 0xe | *(uint *)(iVar2 + 8) & 0xfffe3fff;
-  fn_82AC6860(param_1,iVar2,param_2,param_3);
-  return iVar2;
+  Dst_82B1C278 *d = fn_82B841E8(param_1, *(int *)(param_3 + 0x1c), 0, 0xd, 3, 4);
+  d->f2c = (Src_82B1C278 *)fn_82AD1978(d, fn_82AD17B0(param_1, param_4));
+  d->f30 = fn_82AD1978(d, fn_82AD17B0(param_1, param_5));
+  d->f34 = fn_82AD1978(d, fn_82AD17B0(param_1, param_6));
+  d->t = d->f2c->x ? d->f2c->x : 0;
+  fn_82AC6860(param_1, d, param_2, param_3);
+  return d;
 }
-

@@ -1,68 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B4BAA8();
-extern int fn_82B841E8();
-extern unsigned int stack0x00000018;
-extern unsigned int uStack00000018;
+typedef struct { unsigned prev; unsigned tag; } Link_82B4C580;
+typedef struct { unsigned : 4; unsigned g : 3; unsigned : 25; } Src_82B4C580;
+typedef struct { unsigned : 15; unsigned f : 3; unsigned : 14; } Dst_82B4C580;
+typedef struct { char pad[0xc]; int m0c; unsigned m10; } Val_82B4C580;
+extern unsigned fn_82B841E8(void *, void *, int, int, int, int);
+extern Val_82B4C580 *fn_82ACA920(void *, Val_82B4C580 *, int);
+extern unsigned fn_82AD17B0(void *, void *);
+extern unsigned fn_82B4BAA8(void *, void *);
+extern unsigned fn_82AD1978(unsigned, void *);
 
-
-uint fn_82B4C580(int param_1,undefined8 param_2,int param_3)
-
+static __forceinline void linkInsert(unsigned *h, unsigned r)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar4;
-  undefined8 uVar3;
-  undefined4 uVar5;
-  uint *puVar6;
-  undefined8 uStack00000018;
-  
-  uStack00000018 = param_2;
-  uVar4 = fn_82B841E8(param_1,*(undefined4 *)(param_1 + 0x234),0,6,2,4);
-  uVar3 = fn_82B4BAA8(param_1,&stack0x00000018);
-  uVar5 = fn_82AD1978(uVar4,uVar3);
-  *(undefined4 *)(uVar4 + 0x2c) = uVar5;
-  if (*(int *)(param_3 + 0x10) != 0) {
-    param_3 = fn_82ACA920(param_1,param_3,*(undefined4 *)(param_3 + 0xc));
-  }
-  uVar5 = fn_82AD1978(uVar4,param_3);
-  *(undefined4 *)(uVar4 + 0x30) = uVar5;
-  uVar2 = uVar4 & 0xfffffffe;
-  *(uint *)(uVar4 + 8) =
-       (**(uint **)(uVar4 + 0x2c) >> 0x19 & 7) << 0xe | *(uint *)(uVar4 + 8) & 0xfffe3fff;
-  iVar1 = *(int *)(param_1 + 0x234);
-  puVar6 = (uint *)(iVar1 + 0x18);
-  *(uint *)(uVar2 + 0x24) = *puVar6;
-  *(uint *)(*puVar6 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar2 + 0x28) = iVar1 - 0xcU | 1;
-  *puVar6 = uVar2 + 0x28;
-  return uVar4;
+  Link_82B4C580 *l = (Link_82B4C580 *)((r & 0xfffffffe) + 0x24);
+  l->prev = *h;
+  *(unsigned *)(*h & 0xfffffffe) = (unsigned)l - 0x24;
+  l->tag = ((unsigned)h - 0x24) | 1;
+  *h = (unsigned)&l->tag;
 }
 
+typedef struct { int a, b; } Pair_82B4C580;
+unsigned fn_82B4C580(char *c, Pair_82B4C580 v1, Val_82B4C580 *v2)
+{
+  unsigned r = fn_82B841E8(c, *(char **)(c + 0x234), 0, 6, 2, 4);
+  *(unsigned *)(r + 0x2c) = fn_82AD1978(r, fn_82B4BAA8(c, &v1));
+  *(unsigned *)(r + 0x30) = fn_82AD1978(r, v2->m10 != 0 ? fn_82ACA920(c, v2, v2->m0c) : v2);
+  ((Dst_82B4C580 *)(r + 8))->f = (*(Src_82B4C580 **)(r + 0x2c))->g ? (*(Src_82B4C580 **)(r + 0x2c))->g : 0;
+  linkInsert((unsigned *)(*(char **)(c + 0x234) + 0x18), r);
+  return r;
+}
