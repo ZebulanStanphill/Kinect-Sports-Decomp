@@ -25,8 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
 extern int fn_822315A0();
 extern int fn_82292450();
 extern int fn_8229AA08();
@@ -35,50 +33,49 @@ extern int fn_82526C70();
 extern int fn_8265CA20();
 extern int fn_8266F6B8();
 extern int fn_826728E8();
-extern unsigned int iStack_5c;
 extern unsigned int lbl_821AA7BC;
 
+typedef struct { int a; unsigned int b; int c; int d; } Tmp_82293568;
 
-undefined4 * fn_82293568(undefined4 *param_1,ulonglong param_2)
+unsigned int *fn_82293568(unsigned int *param_1, unsigned int param_2)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined4 *puVar4;
-  undefined8 uVar3;
-  longlong lVar5;
-  undefined1 auStack_60 [4];
-  int iStack_5c;
-  undefined1 auStack_50 [80];
-  
-  *param_1 = &lbl_821AA7BC;
-  lVar5 = 0;
+  unsigned int *iVar3;
+  unsigned int *puVar4;
+  int i;
+  char buf[0x20];
+  Tmp_82293568 tmp;
+
+  *param_1 = (unsigned int)&lbl_821AA7BC;
+  i = 0;
   do {
-    fn_82526C70(auStack_50,0x20,0xffffffff821aa618,lVar5);
-    puVar4 = (undefined4 *)fn_8229AE10(auStack_60,param_1);
+    fn_82526C70(buf, 0x20, "avatar_head_team%d", i);
+    puVar4 = (unsigned int *)fn_8229AE10(&tmp, param_1);
     uVar1 = *puVar4;
-    uVar3 = fn_8266F6B8();
-    fn_826728E8(uVar1,auStack_50,uVar3);
-    if (iStack_5c != 0) {
-      fn_822315A0();
+    iVar2 = fn_8266F6B8();
+    fn_826728E8(uVar1, buf, iVar2);
+    if (tmp.b != 0) {
+      fn_822315A0(tmp.b);
     }
-    lVar5 = lVar5 + 1;
-  } while ((int)lVar5 < 8);
-  iVar2 = param_1[0x615];
-  if (iVar2 != 0) {
-    if (*(int *)(iVar2 + 0xc) != 0) {
-      fn_822315A0();
+    i++;
+  } while (i < 8);
+  iVar3 = (unsigned int *)param_1[0x615];
+  if (iVar3 != 0) {
+    if (iVar3[3] != 0) {
+      fn_822315A0(iVar3[3]);
     }
-    fn_8265CA20(iVar2);
+    fn_8265CA20(iVar3);
   }
   if (param_1[0x613] != 0) {
-    fn_82292450(param_1[0x613],1);
+    fn_82292450(param_1[0x613], 1);
   }
   if (param_1[0x612] != 0) {
-    fn_82292450(param_1[0x612],1);
+    fn_82292450(param_1[0x612], 1);
   }
   if (param_1[0x611] != 0) {
-    fn_82292450(param_1[0x611],1);
+    fn_82292450(param_1[0x611], 1);
   }
   fn_8229AA08(param_1);
   if ((param_2 & 1) != 0) {
@@ -86,4 +83,3 @@ undefined4 * fn_82293568(undefined4 *param_1,ulonglong param_2)
   }
   return param_1;
 }
-
