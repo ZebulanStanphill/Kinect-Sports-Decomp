@@ -4,7 +4,12 @@
 // inside the loop as in the original.
 struct Key_826AE718 { char pad[0xc]; unsigned int hash; };
 struct Value_826AE718 { Key_826AE718 *key; char rest[20]; };
-extern "C" void fn_826AA728(void *m, void *a, int n);
+// The table resize, defined by func_826AA728.cpp as a member of a placeholder
+// class (the real Scaleform template is unknown).
+struct Hash_826AA728 {
+  void *pTable;
+  void setRawCapacity(void *heap, unsigned int n);
+};
 extern "C" void fn_826A78C8(void *dst, const void *src);
 extern "C" void fn_826A9578(void *dst, const void *src);
 extern "C" void fn_826A94C8(void *dst, const void *src);
@@ -26,7 +31,7 @@ struct Table_826AE718 { unsigned int EntryCount; unsigned int SizeMask; };
 struct Hash_826AE718 {
   Table_826AE718 *pTable;
   Entry_826AE718 &E(unsigned int index) { return ((Entry_826AE718 *)(pTable + 1))[index]; }
-  void setRawCapacity(void *a, unsigned int n) { fn_826AA728(this, a, n); }
+  void setRawCapacity(void *a, unsigned int n) { ((Hash_826AA728 *)this)->setRawCapacity(a, n); }
   void CheckExpand(void *a) {
     if (pTable == 0)
       setRawCapacity(a, 8);

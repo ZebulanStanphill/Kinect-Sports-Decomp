@@ -60792,7 +60792,7 @@ auto_match/func_826AA628.c:
 auto_match/func_826AA6A8.cpp:
 	.text       start:0x826AA6A8 end:0x826AA724
 
-auto_match/func_826AA728.c:
+auto_match/func_826AA728.cpp:
 	.pdata      start:0x821F6958 end:0x821F6960
 	.text       start:0x826AA728 end:0x826AA890
 
