@@ -144281,7 +144281,7 @@ auto_match/func_82D393E0.c:
 	.pdata      start:0x82217120 end:0x82217128
 	.text       start:0x82D393E0 end:0x82D3940C
 
-auto_match/func_82D39410.c:
+auto_match/func_82D39410.cpp:
 	.text       start:0x82D39410 end:0x82D39418
 
 auto_match/func_82D39418.cpp:
