@@ -23,7 +23,7 @@ unsigned int fn_82874908(void);
 int fn_82FE6850(unsigned int id, unsigned int name);
 void *fn_8286A3D8(void *s, int pos, const char *p, int n);
 void *fn_8223DFF0(void *s, const char *p, int n);
-void fn_82240378(void *out, void *s);
+void fn_82240378(void *out, const void *s);
 void *fn_82868378(void);
 void fn_8286DA10(void *a, void *b, int hr);
 void fn_82360F68(void *vec, unsigned int n);

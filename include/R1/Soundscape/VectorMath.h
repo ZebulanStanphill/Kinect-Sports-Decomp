@@ -5,6 +5,8 @@
 #ifndef R1_SOUNDSCAPE_VECTORMATH_H
 #define R1_SOUNDSCAPE_VECTORMATH_H
 
+#include <vector>
+
 // A 3-float vector. The name is a placeholder that std::vector instantiations
 // already use (?reserve@?$vector@UElement_82834F10@@...).
 struct Element_82834F10 {
@@ -20,6 +22,9 @@ struct Element_828729F8 {
 
 
 extern "C" {
+// std::vector<T>::~vector for 12-byte elements. The linker folded the identical
+// instantiations (6 calling units), so it keeps its name; see the specialisations below.
+void fn_82872E60(void *vec);
 // *out = *a + *b
 Element_82834F10 *fn_82810830(Element_82834F10 *out, const Element_82834F10 *a, const Element_82834F10 *b);
 // *out = *a - *b
@@ -32,6 +37,18 @@ Element_82834F10 *fn_82810A28(Element_82834F10 *out, const Element_82834F10 *v, 
 void fn_82810B78(const Element_82834F10 *v, Element_82834F10 *out);
 // length of *v
 float fn_82810BE8(const Element_82834F10 *v);
+}
+
+template <>
+__forceinline std::vector<Element_82834F10>::~vector()
+{
+    fn_82872E60(this);
+}
+
+template <>
+__forceinline std::vector<Element_828729F8>::~vector()
+{
+    fn_82872E60(this);
 }
 
 static __forceinline Element_82834F10 operator+(const Element_82834F10 &a, const Element_82834F10 &b)

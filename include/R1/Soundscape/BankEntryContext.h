@@ -13,6 +13,7 @@
 #define R1_SOUNDSCAPE_BANKENTRYCONTEXT_H
 
 #include "R1/Soundscape/AudioVariant.h"
+#include "game/String_82230110.h"
 
 namespace R1 {
 namespace Soundscape {
@@ -22,8 +23,8 @@ class BankEntryState_i;
 class BankEntryContext_c {
 public:
     BankEntryContext_c(const AudioVariant_c &variant);
-    virtual unsigned int vf00();
-    virtual unsigned int vf04();
+    virtual String_82230110 vf00(); // a name, built with an output string stream (as EventHandleContext_c::vf14)
+    virtual unsigned int vf04();    // returns 0x20360000
     virtual ~BankEntryContext_c();
 
     // Makes `next` the current state and tells it, unless it already is.

@@ -10,8 +10,6 @@
 // Method and field names are placeholders named after their vtable or field
 // offset.
 //
-// Slot functions that are still C keep their fn_ names; callers
-// in converted units reach them through extern "C" declarations.
 
 #ifndef R1_SOUNDSCAPE_WWISEEMITTERPOSITIONABLE_H
 #define R1_SOUNDSCAPE_WWISEEMITTERPOSITIONABLE_H
@@ -19,8 +17,6 @@
 #include "R1/Soundscape/Heap.h"
 #include "R1/Soundscape/VectorMath.h"
 #include "R1/Soundscape/WwiseEmitter.h"
-
-extern "C" int fn_8287AA80(void *self, const Element_82834F10 *v); // WwiseEmitterPositionable_c::vf78
 
 namespace R1 {
 namespace Soundscape {
@@ -46,34 +42,7 @@ public:
                                const Element_82834F10 &position);
     virtual ~WwiseEmitterPositionable_c();
     // Slots 0x00-0x6C forward to the embedded WwiseEmitter_c.
-    virtual void evf00();
-    virtual void evf04();
-    virtual void evf08();
-    virtual void evf0C();
-    virtual void evf10();
-    virtual void evf14();
-    virtual void evf18();
-    virtual void evf1C();
-    virtual void evf20();
-    virtual void evf24();
-    virtual void evf28();
-    virtual void evf2C();
-    virtual void evf30();
-    virtual void evf34();
-    virtual void evf38();
-    virtual void evf3C();
-    virtual void evf40();
-    virtual void evf44();
-    virtual void evf48();
-    virtual void evf4C();
-    virtual void evf50();
-    virtual void evf54();
-    virtual void evf58();
-    virtual void evf5C();
-    virtual void evf60();
-    virtual void evf64();
-    virtual void evf68();
-    virtual void evf6C();
+    R1_SOUNDSCAPE_EMITTER_SLOTS
     virtual int vf74(Element_82834F10 *out);     // copies unkB8 out
     virtual int vf78(const Element_82834F10 &v); // sets unkB8 (previous to unkC4)
     virtual int vf7C(Element_82834F10 *out);     // copies the position out
@@ -99,21 +68,20 @@ public:
 // also vf78). Their constructors take the WwiseEmitterPositionable_c
 // arguments first.
 #define R1_SOUNDSCAPE_WWISEEMITTER_SHAPE_SLOTS(Name)                           \
-    virtual ~Name();                                                           \
-    virtual void evf3C();                                                      \
-    virtual void evf40();                                                      \
+    virtual ~Name() {}                                                         \
+    virtual int evf3C();                                                       \
+    virtual int evf40();                                                       \
     virtual int vf8C(const Element_82834F10 &listener, std::vector<Element_82834F10> *points);
 
 class WwiseEmitter_Point_c : public WwiseEmitterPositionable_c {
 public:
     // Inlined into WwiseEmitterFactory_c::vf10 (func_828721E0).
-    // fn_8287AA80 is WwiseEmitterPositionable_c::vf78 (still C), called
-    // non-virtually.
+    // WwiseEmitterPositionable_c::vf78 is called non-virtually.
     __forceinline WwiseEmitter_Point_c(const AudioVariant_c &variant, unsigned int unk,
                                        const Element_82834F10 &position, const Element_82834F10 &v)
         : WwiseEmitterPositionable_c(variant, unk, position)
     {
-        fn_8287AA80(this, &v);
+        WwiseEmitterPositionable_c::vf78(v);
     }
     R1_SOUNDSCAPE_WWISEEMITTER_SHAPE_SLOTS(WwiseEmitter_Point_c)
     virtual int vf78(const Element_82834F10 &v);

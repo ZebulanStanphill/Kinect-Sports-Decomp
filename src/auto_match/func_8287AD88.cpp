@@ -1,43 +1,16 @@
-extern "C" {
-void fn_82879C20(void *);
-void fn_82872E60(void *);
-}
+// R1::Soundscape::WwiseEmitterPositionable_c destructor: the points vector (the folded
+// vector destructor fn_82872E60, see VectorMath.h), then the embedded WwiseEmitter_c. The
+// deleting destructor (func_8287B288) is generated with it.
+#include <vector>
 
-struct Part_82879C20 {
-    int data[4];
-    ~Part_82879C20() { fn_82879C20(this); }
-};
-
-struct VecC {
-    void *first;
-    void *last;
-    void *end;
-    int al;
-    ~VecC() { fn_82872E60(this); }
-};
+#include "R1/Soundscape/WwiseEmitterPositionable.h"
 
 namespace R1 {
 namespace Soundscape {
-class Emitter_i {
-public:
-    virtual ~Emitter_i() {}
-};
 
-class WwiseEmitterPositionable_c : public Emitter_i {
-public:
-    virtual __forceinline ~WwiseEmitterPositionable_c();
-    Part_82879C20 part;
-    int pad[37];
-    VecC c;
-};
-
-__forceinline WwiseEmitterPositionable_c::~WwiseEmitterPositionable_c()
+WwiseEmitterPositionable_c::~WwiseEmitterPositionable_c()
 {
 }
-}
-}
 
-extern "C" void fn_8287AD88(R1::Soundscape::WwiseEmitterPositionable_c *self)
-{
-    self->R1::Soundscape::WwiseEmitterPositionable_c::~WwiseEmitterPositionable_c();
-}
+} // namespace Soundscape
+} // namespace R1
