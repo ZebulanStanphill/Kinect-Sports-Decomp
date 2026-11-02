@@ -1,42 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_81e;
-extern int fn_82F691F0();
+typedef struct G_82480FA0 { int pad0; int pad4; int h8; } G_82480FA0;
+typedef struct Obj_82480FA0 { char pad[0xbc]; void *m_b8; } Obj_82480FA0;
+typedef struct New_82480FA0 { char pad[0x41c]; void *vt; char pad2[0x14]; } New_82480FA0;
+extern unsigned short lbl_820E975C;
+extern G_82480FA0 lbl_83276728;
+extern char lbl_821A8C90[];
+extern void fn_82528BF8(int, const char *, void *, int, int, int);
+extern void *fn_8265C9E0(int);
+extern void fn_82481178(void);
+extern void fn_8229DCA8(void *, void *, void *, void *, void *, void (*)(void), void *, int, int);
+extern void *memset(void *, int, unsigned);
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_82480FA0(void)
-
+void fn_82480FA0(Obj_82480FA0 *p)
 {
-  undefined1 auStack_81e [2078];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(auStack_81e,0,0x7fe);
+  unsigned short b0[0x400] = { lbl_820E975C };
+  unsigned short b1[0x20] = { lbl_820E975C };
+  unsigned short b2[0x20] = { lbl_820E975C };
+  New_82480FA0 *n;
+  fn_82528BF8(lbl_83276728.h8, "quitSureShort", b0, 0x400, 0, 1);
+  fn_82528BF8(lbl_83276728.h8, "yes", b1, 0x20, 0, 1);
+  fn_82528BF8(lbl_83276728.h8, "no", b2, 0x20, 0, 1);
+  n = (New_82480FA0 *)fn_8265C9E0(0x434);
+  if (n != 0) {
+    n->vt = lbl_821A8C90;
+    fn_8229DCA8(n, &lbl_820E975C, b0, b1, b2, fn_82481178, p, 1, 0);
+  } else {
+    n = 0;
+  }
+  p->m_b8 = n;
 }
-
