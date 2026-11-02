@@ -1,104 +1,88 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned char Byte;
+typedef Byte Bytef;
+typedef unsigned short ush;
+typedef ush Posf;
+typedef unsigned int uInt;
+typedef unsigned IPos;
 
+typedef struct deflate_state_829B78F8 {
+    char pad0[0x24];
+    uInt w_size;
+    uInt w_bits;
+    uInt w_mask;
+    Bytef *window;
+    unsigned long window_size;
+    Posf *prev;
+    Posf *head;
+    uInt ins_h;
+    uInt hash_size;
+    uInt hash_bits;
+    uInt hash_mask;
+    uInt hash_shift;
+    long block_start;
+    uInt match_length;
+    IPos prev_match;
+    int match_available;
+    uInt strstart;
+    uInt match_start;
+    uInt lookahead;
+    uInt prev_length;
+    uInt max_chain_length;
+    uInt max_lazy_match;
+    int level;
+    int strategy;
+    uInt good_match;
+    int nice_match;
+} deflate_state;
 
-char * fn_829B78F8(int param_1,uint param_2)
+#define MIN_LOOKAHEAD (258 + 3 + 1)
+#define MAX_DIST(s) ((s)->w_size - MIN_LOOKAHEAD)
 
+uInt fn_829B78F8(deflate_state *s, IPos cur_match)
 {
-  uint uVar1;
-  char *pcVar2;
-  char *pcVar3;
-  char cVar4;
-  char *pcVar5;
-  char *pcVar6;
-  char *pcVar7;
-  char *pcVar8;
-  uint uVar9;
-  ulonglong uVar10;
-  char *pcVar11;
-  char cVar12;
-  
-  uVar9 = *(uint *)(param_1 + 100);
-  pcVar3 = *(char **)(param_1 + 0x70);
-  uVar1 = *(uint *)(param_1 + 0x74);
-  pcVar6 = (char *)(*(int *)(param_1 + 0x30) + uVar9);
-  if (*(int *)(param_1 + 0x24) - 0x106U < uVar9) {
-    uVar9 = (uVar9 - *(int *)(param_1 + 0x24)) + 0x106;
-  }
-  else {
-    uVar9 = 0;
-  }
-  cVar4 = pcVar6[(int)pcVar3];
-  cVar12 = pcVar6[(int)(pcVar3 + -1)];
-  if (*(char **)(param_1 + 0x84) <= pcVar3) {
-    uVar1 = uVar1 >> 2;
-  }
-  uVar10 = (ulonglong)uVar1;
-  pcVar2 = *(char **)(param_1 + 0x6c);
-  pcVar11 = *(char **)(param_1 + 0x88);
-  if (pcVar2 < *(char **)(param_1 + 0x88)) {
-    pcVar11 = pcVar2;
-  }
-  do {
-    pcVar5 = (char *)(*(int *)(param_1 + 0x30) + param_2);
-    if ((((pcVar5[(int)pcVar3] == cVar4) && (pcVar5[(int)(pcVar3 + -1)] == cVar12)) &&
-        (*pcVar5 == *pcVar6)) && (pcVar5[1] == pcVar6[1])) {
-      pcVar7 = pcVar6 + 2;
-      pcVar5 = pcVar5 + 2;
-      while (((((pcVar8 = pcVar7 + 1, pcVar7[1] == pcVar5[1] &&
-                (pcVar8 = pcVar7 + 2, pcVar7[2] == pcVar5[2])) &&
-               ((pcVar8 = pcVar7 + 3, pcVar7[3] == pcVar5[3] &&
-                ((pcVar8 = pcVar7 + 4, pcVar7[4] == pcVar5[4] &&
-                 (pcVar8 = pcVar7 + 5, pcVar7[5] == pcVar5[5])))))) &&
-              (pcVar8 = pcVar7 + 6, pcVar7[6] == pcVar5[6])) &&
-             (pcVar8 = pcVar7 + 7, pcVar7[7] == pcVar5[7]))) {
-        pcVar5 = pcVar5 + 8;
-        pcVar7 = pcVar7 + 8;
-        pcVar8 = pcVar7;
-        if ((*pcVar7 != *pcVar5) || (pcVar6 + 0x102 <= pcVar7)) break;
-      }
-      pcVar8 = pcVar8 + (0x102 - (int)(pcVar6 + 0x102));
-      if ((int)pcVar3 < (int)pcVar8) {
-        *(uint *)(param_1 + 0x68) = param_2;
-        pcVar3 = pcVar8;
-        if ((int)pcVar11 <= (int)pcVar8) break;
-        cVar4 = pcVar6[(int)pcVar8];
-        cVar12 = pcVar6[(int)(pcVar8 + -1)];
-      }
-    }
-    param_2 = (uint)*(ushort *)
-                     ((*(uint *)(param_1 + 0x2c) & param_2) * 2 + *(int *)(param_1 + 0x38));
-    if (param_2 <= uVar9) break;
-    uVar10 = uVar10 - 1;
-  } while (uVar10 != 0);
-  if (pcVar3 <= pcVar2) {
-    pcVar2 = pcVar3;
-  }
-  return pcVar2;
-}
+    unsigned chain_length = s->max_chain_length;
+    register Bytef *scan = s->window + s->strstart;
+    register Bytef *match;
+    register int len;
+    int best_len = s->prev_length;
+    int nice_match = s->nice_match;
+    IPos limit = s->strstart > (IPos)MAX_DIST(s) ? s->strstart - (IPos)MAX_DIST(s) : 0;
+    Posf *prev = s->prev;
+    uInt wmask = s->w_mask;
+    register Bytef *strend = s->window + s->strstart + 258;
+    register Byte scan_end1 = scan[best_len-1];
+    register Byte scan_end = scan[best_len];
 
+    if (s->prev_length >= s->good_match) {
+        chain_length >>= 2;
+    }
+    if ((uInt)nice_match > s->lookahead) nice_match = s->lookahead;
+
+    do {
+        match = s->window + cur_match;
+        if (match[best_len] != scan_end ||
+            match[best_len-1] != scan_end1 ||
+            *match != *scan ||
+            *++match != scan[1]) continue;
+        scan += 2, match++;
+        do {
+        } while (*++scan == *++match && *++scan == *++match &&
+                 *++scan == *++match && *++scan == *++match &&
+                 *++scan == *++match && *++scan == *++match &&
+                 *++scan == *++match && *++scan == *++match &&
+                 scan < strend);
+        len = 258 - (int)(strend - scan);
+        scan = strend - 258;
+        if (len > best_len) {
+            s->match_start = cur_match;
+            best_len = len;
+            if (len >= nice_match) break;
+            scan_end1 = scan[best_len-1];
+            scan_end = scan[best_len];
+        }
+    } while ((cur_match = prev[cur_match & wmask]) > limit
+             && --chain_length != 0);
+
+    if ((uInt)best_len <= s->lookahead) return (uInt)best_len;
+    return s->lookahead;
+}

@@ -1,45 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_54;
-extern unsigned int *auStack_5c;
-extern int fn_827F6950();
-extern int fn_827F6950();
-extern int fn_827F6950();
+typedef struct Mat_827FBAC0 { float f[12]; } Mat_827FBAC0;
+typedef struct Obj_827FBAC0 { char pad[0x32]; unsigned short cnt; } Obj_827FBAC0;
+typedef struct It_827FBAC0 { Mat_827FBAC0 *pc; Mat_827FBAC0 *pa; Mat_827FBAC0 *pb; unsigned char *flags; } It_827FBAC0;
+extern unsigned short fn_827F7210(Obj_827FBAC0 *);
+extern void fn_827F6960(Obj_827FBAC0 *, unsigned char **);
+extern void fn_827F6950(Obj_827FBAC0 *, Mat_827FBAC0 **);
+extern int fn_828116B8(unsigned char *, unsigned);
+extern void fn_8280D8E0(Mat_827FBAC0 *, Mat_827FBAC0 *, void *);
+extern void fn_8280E180(Mat_827FBAC0 *, void *, Mat_827FBAC0 *, float);
+extern float lbl_82002AE0;
 
-
-void fn_827FBAC0(undefined8 param_1,undefined8 param_2)
-
+void fn_827FBAC0(Obj_827FBAC0 *a, Obj_827FBAC0 *b, Obj_827FBAC0 *c, float t)
 {
-  undefined1 auStack_5c [8];
-  undefined1 auStack_54 [52];
+  It_827FBAC0 I;
+  char tmp[0x10];
+  unsigned short n;
+  unsigned short i;
+  unsigned short j;
+  Mat_827FBAC0 *qa, *qb, *qc;
+  float one;
 
-  fn_827F6950();
-  fn_827F6950(param_2,auStack_54);
-                    /* WARNING: Subroutine does not return */
-  fn_827F6950(param_1,auStack_5c);
+  n = fn_827F7210(a);
+  fn_827F6960(b, &I.flags);
+  fn_827F6950(a, &I.pa);
+  fn_827F6950(b, &I.pb);
+  fn_827F6950(c, &I.pc);
+  if (n != 0) {
+    one = lbl_82002AE0;
+    i = 0;
+    do {
+      if (fn_828116B8(I.flags, i) != 0) {
+        qa = I.pa;
+        qb = I.pb;
+        qc = I.pc;
+        fn_8280D8E0(qa, qb, tmp);
+        fn_8280E180(qa, tmp, qc, t);
+        qc->f[4] = qb->f[4] * t + qa->f[4];
+        qc->f[5] = qb->f[5] * t + qa->f[5];
+        qc->f[6] = qb->f[6] * t + qa->f[6];
+        qc->f[8] = ((qb->f[8] - one) * t + one) * qa->f[8];
+        qc->f[9] = ((qb->f[9] - one) * t + one) * qa->f[9];
+        qc->f[10] = ((qb->f[10] - one) * t + one) * qa->f[10];
+        qc->f[11] = ((qb->f[11] - one) * t + one) * qa->f[11];
+        I.pc++;
+        I.pa++;
+        I.pb++;
+      } else {
+        for (j = 0; j < 12; j++) {
+          I.pc->f[j] = I.pa->f[j];
+        }
+        I.pc++;
+        I.pa++;
+        I.pb++;
+      }
+      i = i + 1;
+    } while (i < n);
+  }
 }

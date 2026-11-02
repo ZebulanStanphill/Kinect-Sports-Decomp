@@ -1,119 +1,94 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829B7838();
-extern int fn_829B7AB0();
-extern int fn_829C1D98();
+typedef unsigned char Byte;
+typedef Byte Bytef;
+typedef unsigned short ush;
+typedef ush Posf;
+typedef unsigned int uInt;
+typedef unsigned IPos;
+
+typedef struct z_stream_829B7CB8 { char pad0[0x10]; uInt avail_out; } z_stream;
+typedef unsigned long ulg;
+typedef char charf;
+typedef struct deflate_state_829B7CB8 {
+    z_stream *strm;
+    int status;
+    Bytef *pending_buf;
+    ulg pending_buf_size;
+    char pad10[0x24 - 0x10];
+    uInt w_size;
+    uInt w_bits;
+    uInt w_mask;
+    Bytef *window;
+    unsigned long window_size;
+    Posf *prev;
+    Posf *head;
+    uInt ins_h;
+    uInt hash_size;
+    uInt hash_bits;
+    uInt hash_mask;
+    uInt hash_shift;
+    long block_start;
+    uInt match_length;
+    IPos prev_match;
+    int match_available;
+    uInt strstart;
+    uInt match_start;
+    uInt lookahead;
+    uInt prev_length;
+    uInt max_chain_length;
+    uInt max_lazy_match;
+    int level;
+    int strategy;
+    uInt good_match;
+    int nice_match;
+} deflate_state;
+
+#define MIN_LOOKAHEAD (258 + 3 + 1)
+#define MAX_DIST(s) ((s)->w_size - MIN_LOOKAHEAD)
 
 
-byte fn_829B7CB8(int *param_1,longlong param_2)
+extern void fn_829B7AB0(deflate_state *);
+extern void fn_829B7838(z_stream *);
+extern void fn_829C1D98(deflate_state *, charf *, ulg, int);
 
-{
-  uint uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  int iVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  
-  uVar7 = 0xffff;
-  if (((ulonglong)(uint)param_1[3] - 5 & 0xffffffff) < 0xffff) {
-    uVar7 = (ulonglong)(uint)param_1[3] - 5;
-  }
-  do {
-    uVar4 = (ulonglong)(uint)param_1[0x1b];
-    if (uVar4 < 2) {
-      fn_829B7AB0(param_1);
-      uVar4 = (ulonglong)(uint)param_1[0x1b];
-      if (uVar4 == 0) {
-        iVar5 = (int)param_2;
-        if (iVar5 == 0) {
-          return 0;
-        }
-        uVar1 = param_1[0x15];
-        if ((int)uVar1 < 0) {
-          lVar2 = 0;
-        }
-        else {
-          lVar2 = (ulonglong)(uint)param_1[0xc] + (ulonglong)uVar1;
-        }
-        fn_829C1D98(param_1,lVar2,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar1,iVar5 == 4
-                         );
-        param_1[0x15] = param_1[0x19];
-        fn_829B7838(*param_1);
-        if (*(int *)(*param_1 + 0x10) != 0) {
-          if (iVar5 != 4) {
-            return 1;
-          }
-          return 3;
-        }
-        return -(param_2 == 4) & 2;
-      }
-    }
-    uVar1 = param_1[0x19];
-    uVar6 = (ulonglong)(uint)param_1[0x15];
-    param_1[0x1b] = 0;
-    uVar3 = uVar6 + uVar7;
-    iVar5 = (int)(uVar4 + uVar1);
-    param_1[0x19] = iVar5;
-    uVar4 = uVar4 + uVar1 & 0xffffffff;
-    if ((uVar4 == 0) || ((uVar3 & 0xffffffff) <= uVar4)) {
-      param_1[0x19] = (int)uVar3;
-      param_1[0x1b] = iVar5 - (int)uVar3;
-      if (param_1[0x15] < 0) {
-        lVar2 = 0;
-      }
-      else {
-        lVar2 = (uint)param_1[0xc] + uVar6;
-      }
-      fn_829C1D98(param_1,lVar2,uVar3 - uVar6,0);
-      param_1[0x15] = param_1[0x19];
-      fn_829B7838(*param_1);
-      if (*(int *)(*param_1 + 0x10) == 0) {
-        return 0;
-      }
-    }
-    uVar1 = param_1[0x15];
-    uVar4 = (ulonglong)(uint)param_1[0x19] - (ulonglong)uVar1;
-    if (((ulonglong)(uint)param_1[9] - 0x106 & 0xffffffff) <= (uVar4 & 0xffffffff)) {
-      if ((int)uVar1 < 0) {
-        lVar2 = 0;
-      }
-      else {
-        lVar2 = (ulonglong)(uint)param_1[0xc] + (ulonglong)uVar1;
-      }
-      fn_829C1D98(param_1,lVar2,uVar4,0);
-      param_1[0x15] = param_1[0x19];
-      fn_829B7838(*param_1);
-      if (*(int *)(*param_1 + 0x10) == 0) {
-        return 0;
-      }
-    }
-  } while( true );
+#define FLUSH_BLOCK_ONLY(s, eof) { \
+   fn_829C1D98(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), \
+                (ulg)((long)s->strstart - s->block_start), (eof)); \
+   s->block_start = s->strstart; \
+   fn_829B7838(s->strm); \
+}
+#define FLUSH_BLOCK(s, eof) { \
+   FLUSH_BLOCK_ONLY(s, eof); \
+   if (s->strm->avail_out == 0) return (eof) ? 2 : 0; \
 }
 
+int fn_829B7CB8(deflate_state *s, int flush)
+{
+    ulg max_block_size = 0xffff;
+    ulg max_start;
+
+    if (max_block_size > s->pending_buf_size - 5) {
+        max_block_size = s->pending_buf_size - 5;
+    }
+
+    for (;;) {
+        if (s->lookahead <= 1) {
+            fn_829B7AB0(s);
+            if (s->lookahead == 0 && flush == 0) return 0;
+            if (s->lookahead == 0) break;
+        }
+        s->strstart += s->lookahead;
+        s->lookahead = 0;
+
+        max_start = s->block_start + max_block_size;
+        if (s->strstart == 0 || (ulg)s->strstart >= max_start) {
+            s->lookahead = (uInt)(s->strstart - max_start);
+            s->strstart = (uInt)max_start;
+            FLUSH_BLOCK(s, 0);
+        }
+        if (s->strstart - (uInt)s->block_start >= MAX_DIST(s)) {
+            FLUSH_BLOCK(s, 0);
+        }
+    }
+    FLUSH_BLOCK(s, flush == 4);
+    return flush == 4 ? 3 : 1;
+}
