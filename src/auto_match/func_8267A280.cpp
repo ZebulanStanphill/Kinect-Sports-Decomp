@@ -1,11 +1,6 @@
 // ScaleformAllocator constructor: stores the vtable.
-class ScaleformAllocator {
-public:
-    virtual void f0();
-    __forceinline ScaleformAllocator() {}
-};
+#include "Scaleform/ScaleformAllocator.h"
 
-extern "C" void fn_8267A280(ScaleformAllocator *p)
+ScaleformAllocator::ScaleformAllocator()
 {
-    p->ScaleformAllocator::ScaleformAllocator();
 }

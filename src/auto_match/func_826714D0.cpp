@@ -1,23 +1,7 @@
-// ScaleformMovieView::ScaleformCommandSetDrawModelTexturesSetDynamicTexture constructor: ScaleformCommand base constructor
-// (fn_82670F48), the vtable, then the texture pointer at +0x14.
-class ScaleformMovieView {
-public:
-    class ScaleformCommand {
-    public:
-        ScaleformCommand(const void *view);
-        virtual ~ScaleformCommand();
-        char pad[0x10];
-    };
-    class ScaleformCommandSetDrawModelTexturesSetDynamicTexture : public ScaleformCommand {
-    public:
-        virtual ~ScaleformCommandSetDrawModelTexturesSetDynamicTexture();
-        void *texture;
-        __forceinline ScaleformCommandSetDrawModelTexturesSetDynamicTexture(const void *view, void *tex) : ScaleformCommand(view), texture(tex) {}
-    };
-};
+// ScaleformCommandSetDrawModelTexturesSetDynamicTexture constructor: ScaleformCommand base, vtable, texture.
+#include "Scaleform/ScaleformMovieView.h"
 
-extern "C" ScaleformMovieView::ScaleformCommandSetDrawModelTexturesSetDynamicTexture *fn_826714D0(ScaleformMovieView::ScaleformCommandSetDrawModelTexturesSetDynamicTexture *p, const void *view, void *tex)
+ScaleformMovieView::ScaleformCommandSetDrawModelTexturesSetDynamicTexture::ScaleformCommandSetDrawModelTexturesSetDynamicTexture(const void *view, void *texture)
+    : ScaleformCommand(view), unk14(texture)
 {
-    p->ScaleformMovieView::ScaleformCommandSetDrawModelTexturesSetDynamicTexture::ScaleformCommandSetDrawModelTexturesSetDynamicTexture(view, tex);
-    return p;
 }
