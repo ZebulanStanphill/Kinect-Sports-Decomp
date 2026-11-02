@@ -1,8 +1,4 @@
-// Adjustor thunk for a scalar deleting destructor in a secondary vtable:
-// subtracts 0xc from this and jumps to fn_8267F4A8 (which keeps its fn_ name).
-extern "C" void *fn_8267F4A8(char *self, unsigned int flags);
-
-extern "C" void *fn_8267FC50(char *self, unsigned int flags)
-{
-    return fn_8267F4A8(self - 0xc, flags);
-}
+// Wrapper_8267EF68's vector deleting destructor, adjustor thunk for the
+// GAcquireInterface vtable (this -= 0xC). Generated with the vtable, in the
+// destructor's unit.
+#include "func_8267EF68.cpp"

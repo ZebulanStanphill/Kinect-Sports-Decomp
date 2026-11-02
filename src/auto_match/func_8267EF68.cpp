@@ -1,42 +1,16 @@
-// Destructor of Wrapper_8267EF68 (two polymorphic bases: Base_8267EE90 and GAcquireInterface at +0xc):
-// stores its two vtables, destroys the owned object (fn_8267D2B0) and the Node_8267D248 member
-// (fn_8267D248) in reverse order, then the inline ~GAcquireInterface and the out-of-line base
-// destructor (fn_8267EE90).
-extern "C" {
-void fn_8267D248(void *self);
-void fn_8267D2B0(void *self);
-void fn_8267EE90(void *self);
-}
-
-class GAcquireInterface {
-public:
-    virtual ~GAcquireInterface() {}
-};
-
-class __declspec(novtable) Base_8267EE90 {
-public:
-    virtual __forceinline ~Base_8267EE90() { fn_8267EE90(this); }
-    char pad[8];
-};
-
-struct Node_8267D248 {
-    void *bytes[5];
-    __forceinline ~Node_8267D248() { fn_8267D248(this); }
-};
-
-struct Owned_8267D2B0 {
-    void *p;
-    __forceinline ~Owned_8267D2B0() { fn_8267D2B0(this); }
-};
-
-class Wrapper_8267EF68 : public Base_8267EE90, public GAcquireInterface {
-public:
-    virtual ~Wrapper_8267EF68();
-    int m_10;
-    Node_8267D248 node;
-    Owned_8267D2B0 owned;
-};
+// Destructor of Wrapper_8267EF68: destroys the owned object (fn_8267D2B0) and
+// the Node_8267D248 member in reverse order, then the bases.
+// On the shared header (~Node_8267D248 is the real
+// ??1Node_8267D248@@UAA@XZ, renamed from fn_8267D248). As for Node_8267D248,
+// NewArray makes the compiler generate the real vector deleting destructor
+// (func_8267F4A8) and its thunk (func_8267FC50), which include this unit.
+#include "game/Node_8267D248.h"
 
 Wrapper_8267EF68::~Wrapper_8267EF68()
 {
+}
+
+inline Wrapper_8267EF68 *NewArray(unsigned int count)
+{
+    return new Wrapper_8267EF68[count];
 }

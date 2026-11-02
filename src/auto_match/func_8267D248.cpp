@@ -1,44 +1,20 @@
-// Destructor of a class with two polymorphic bases (Node_8267D248 : Base_8267EE90, GAcquireInterface
-// at +0xc): stores its two vtables, deletes the Inner_8267D248 at +0x10 (inline destructor and
-// the heap free fn_8267BE38), then the inline ~GAcquireInterface and the out-of-line base
-// destructor (fn_8267EE90).
-extern "C" {
-void fn_8267BE38(void *p);
-int fn_82A1E658(void *p);
-void fn_8267EE90(void *self);
-}
+// Node_8267D248 destructor: deletes the Inner_8267D248, then the bases
+// (GAcquireInterface inline, Base_8267EE90 through fn_8267EE90).
+// The real ~Node_8267D248 on the shared header, instead of
+// an extern "C" fn_8267D248 wrapper. The vector deleting destructor
+// (func_8267D458) and its adjustor thunk (func_8267D600) include this unit.
+// The compiler generates a real vector deleting destructor (??_E, with the
+// array loop) only in a unit that creates arrays of the class; otherwise ??_E
+// is an alternate name for the scalar ??_G. NewArray is that use (inline and
+// never called, so it adds no code).
+#include "game/Node_8267D248.h"
 
-class GAcquireInterface {
-public:
-    virtual ~GAcquireInterface() {}
-};
-
-class __declspec(novtable) Base_8267EE90 {
-public:
-    virtual __forceinline ~Base_8267EE90() { fn_8267EE90(this); }
-    char pad[8];
-};
-
-struct Inner_8267D248 {
-    void *handle;
-    char pad[8];
-    GAcquireInterface acquire;
-    ~Inner_8267D248() { fn_82A1E658(handle); }
-    static void operator delete(void *p) { fn_8267BE38(p); }
-};
-
-class Node_8267D248 : public Base_8267EE90, public GAcquireInterface {
-public:
-    virtual __forceinline ~Node_8267D248();
-    Inner_8267D248 *inner;
-};
-
-__forceinline Node_8267D248::~Node_8267D248()
+Node_8267D248::~Node_8267D248()
 {
     delete inner;
 }
 
-extern "C" void fn_8267D248(Node_8267D248 *self)
+inline Node_8267D248 *NewArray(unsigned int count)
 {
-    self->Node_8267D248::~Node_8267D248();
+    return new Node_8267D248[count];
 }
