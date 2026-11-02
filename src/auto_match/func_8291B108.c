@@ -25,24 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82918A68();
+typedef struct Node_8291B108 { int pad[9]; struct Node_8291B108 *next; } Node_8291B108;
+extern int fn_82918A68(Node_8291B108 *, int, int, int, int);
 
 
-undefined8
-fn_8291B108(undefined8 param_1,undefined8 param_2,uint param_3,undefined8 param_4,
-             undefined8 param_5)
-
+static int notNull(Node_8291B108 *p) { if (p) return 1; return 0; }
+int fn_8291B108(int a, int b, unsigned c, int d, int e)
 {
-  undefined8 uVar1;
-  
-  param_3 = ~param_3;
-  do {
-    uVar1 = fn_82918A68(param_3,param_2,param_4,param_5,0);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    param_3 = *(uint *)(param_3 + 0x24);
-  } while (param_3 != 0);
+  Node_8291B108 *p = (Node_8291B108 *)~c;
+  int r;
+  for (;;) {
+    r = fn_82918A68(p, b, d, e, 0);
+    if (r < 0) return r;
+    p = p->next;
+    if (!notNull(p)) break;
+  }
   return 0;
 }
-
