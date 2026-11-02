@@ -1,56 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD1978();
-extern int fn_82B4BAA8();
-extern int fn_82B841E8();
+typedef struct Link_82B4C9E0 {
+    unsigned a;
+    unsigned b;
+} Link_82B4C9E0;
 
+typedef struct Arena_82B4C9E0 {
+    char pad[0x18];
+    unsigned list;
+} Arena_82B4C9E0;
 
-uint fn_82B4C9E0(int param_1,undefined8 param_2)
+typedef struct Ctx_82B4C9E0 {
+    char pad[0x234];
+    Arena_82B4C9E0 *arena;
+} Ctx_82B4C9E0;
 
+extern unsigned fn_82B841E8(Ctx_82B4C9E0 *s, Arena_82B4C9E0 *arena, int a, int b, int c, int d);
+extern unsigned fn_82B4BAA8(Ctx_82B4C9E0 *s, unsigned v);
+extern unsigned fn_82AD1978(unsigned c, unsigned v);
+
+unsigned fn_82B4C9E0(Ctx_82B4C9E0 *s, unsigned v)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar4;
-  undefined8 uVar3;
-  undefined4 uVar5;
-  uint *puVar6;
-  
-  uVar4 = fn_82B841E8(param_1,*(undefined4 *)(param_1 + 0x234),0,0x30,1,1);
-  uVar3 = fn_82B4BAA8(param_1,param_2);
-  uVar5 = fn_82AD1978(uVar4,uVar3);
-  *(undefined4 *)(uVar4 + 0x2c) = uVar5;
-  iVar1 = *(int *)(param_1 + 0x234);
-  puVar6 = (uint *)(iVar1 + 0x18);
-  uVar2 = uVar4 & 0xfffffffe;
-  *(uint *)(uVar2 + 0x24) = *puVar6;
-  *(uint *)(*puVar6 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar2 + 0x28) = iVar1 - 0xcU | 1;
-  *puVar6 = uVar2 + 0x28;
-  return uVar4;
-}
+    unsigned c;
+    Arena_82B4C9E0 *arena;
+    unsigned *list;
+    Link_82B4C9E0 *n;
 
+    c = fn_82B841E8(s, s->arena, 0, 0x30, 1, 1);
+    v = fn_82B4BAA8(s, v);
+    *(unsigned *)(c + 0x2c) = fn_82AD1978(c, v);
+    arena = s->arena;
+    list = &arena->list;
+    n = (Link_82B4C9E0 *)((c & 0xfffffffe) + 0x24);
+    n->a = *list;
+    *(unsigned *)(*list & 0xfffffffe) = (unsigned)n - 0x24;
+    n->b = ((unsigned)list - 0x24) | 1;
+    *list = (unsigned)&n->b;
+    return c;
+}

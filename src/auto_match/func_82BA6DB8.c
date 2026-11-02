@@ -1,50 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
+typedef struct { void **vt; } Iface;
+typedef struct { int pad[0x174]; Iface *dev; } Ctx;
+typedef struct { int a; Ctx *ctx; int b; } Self;
+extern char lbl_82196F10[];
+extern int fn_82B7C800();
 extern int fn_82B9BA20();
-extern int fn_82BA5B98();
+extern void fn_82BA5B98();
+extern void fn_82AB15D0();
+typedef int (*Fn)(Iface *);
 
-
-void fn_82BA6DB8(int param_1)
-
+void fn_82BA6DB8(int *self)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  iVar2 = *(int *)(param_1 + 0xc);
-  uVar1 = (**(code **)(**(int **)(iVar2 + 0x5d0) + 0x1c))();
-  iVar2 = fn_82B9BA20(*(undefined4 *)(param_1 + 0x10),0,uVar1,0xffffffff82b7c800,iVar2);
-  if (iVar2 == 1) {
-    fn_82BA5B98(param_1);
+  char *ctx = *(char **)(self + 3);
+  Iface *d = *(Iface **)(ctx + 0x5d0);
+  int r = fn_82B9BA20(self[4], 0, ((Fn)d->vt[7])(d), (void *)fn_82B7C800, ctx);
+  switch (r) {
+  case 1: fn_82BA5B98(self); break;
+  case 3: fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", lbl_82196F10, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\cfg.cpp", 0x886); break;
   }
-  else if (iVar2 == 3) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff82196f10,0xffffffff820deb50,0x886);
-  }
-  return;
 }
-

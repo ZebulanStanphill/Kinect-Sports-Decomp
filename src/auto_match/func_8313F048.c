@@ -1,47 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_82237B78();
-extern unsigned int lbl_83295E98;
-extern unsigned int uRam83295e9c;
-extern unsigned int uRam83295ea0;
-
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern void fn_82230300(void *p, int a, int b);
+extern void fn_82237B78(void *p);
+extern int lbl_83295E98[];
 
 void fn_8313F048(void)
-
 {
-  fn_82230300(0xffffffff83295ebc,1,0);
-  fn_82237B78(0xffffffff83295e98);
-  lbl_83295E98 = 0;
-  uRam83295e9c = 0;
-  uRam83295ea0 = 0;
-  return;
+    fn_82230300(lbl_83295E98 + 9, 1, 0);
+    fn_82237B78(lbl_83295E98);
+    lbl_83295E98[0] = 0;
+    lbl_83295E98[1] = 0;
+    lbl_83295E98[2] = 0;
 }
-

@@ -1,58 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_83000C58 Obj_83000C58;
+typedef struct {
+    char pad[0x104];
+    void (*f)(Obj_83000C58 *self, int a, int b, float x, int c, int d);
+} VT_83000C58;
+typedef struct { int pad0[3]; int fc; char pad1[0x28]; float f28; } Item_83000C58;
+typedef struct { int unk; Item_83000C58 *item; } Ent_83000C58;
+typedef struct { Ent_83000C58 *begin, *end; } Vec_83000C58;
+struct Obj_83000C58 {
+    VT_83000C58 *vt;
+    char pad4[0x20];
+    void *f24;
+    char pad28[0x2c];
+    Vec_83000C58 *vec;
+};
 
-
-void fn_83000C58(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_83000C58(Obj_83000C58 *o, int p2, int p3)
 {
-  int *piVar1;
-  int iVar2;
-  double dVar3;
-  
-  piVar1 = (int *)param_1[0x15];
-  dVar3 = (double)lbl_821AAD20;
-  if (piVar1 != (int *)0x0) {
-    iVar2 = *piVar1;
-    if (iVar2 != piVar1[1]) {
-      do {
-        if ((double)*(float *)(*(int *)(iVar2 + 4) + 0x38) != dVar3) {
-          (**(code **)(*param_1 + 0x104))
-                    (dVar3,param_1,*(undefined4 *)(*(int *)(iVar2 + 4) + 0xc),0,param_4,param_2,
-                     param_3);
+    float zero = 0.0f;
+    Vec_83000C58 *v = o->vec;
+    if (v != 0) {
+        Ent_83000C58 *e = v->begin;
+        if (e != v->end) {
+            do {
+                if (e->item->f28 != zero)
+                    o->vt->f(o, e->item->fc, 0, zero, p2, p3);
+                e++;
+            } while (e != o->vec->end);
         }
-        iVar2 = iVar2 + 8;
-      } while (iVar2 != *(int *)(param_1[0x15] + 4));
     }
-  }
-  if (param_1[9] != 0) {
-    (**(code **)(*param_1 + 0x104))(dVar3,param_1,0,0,param_4,param_2,param_3);
-  }
-  return;
+    if (o->f24 != 0)
+        o->vt->f(o, 0, 0, zero, p2, p3);
 }
-

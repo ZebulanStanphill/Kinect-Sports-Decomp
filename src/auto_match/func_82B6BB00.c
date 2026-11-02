@@ -1,78 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB5DE0();
-extern int fn_82AB5E50();
-extern int fn_82B6B4E8();
+typedef void *(*Alloc_82B6BB00)(void *, int);
 
+typedef struct Fac_82B6BB00 {
+    void *a;
+    Alloc_82B6BB00 alloc;
+    void *c;
+    int d;
+    void *e;
+    void *f;
+} Fac_82B6BB00;
 
-undefined4 *
-fn_82B6BB00(undefined8 param_1,code *param_2,ulonglong param_3,ulonglong param_4,ulonglong param_5
-             )
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *fn_82AB5DE0(void *a, Alloc_82B6BB00 b, void *c, void *d);
+extern void *fn_82AB5E50(void *a, Alloc_82B6BB00 b, void *c, void *d);
+extern void fn_82B6B4E8(Fac_82B6BB00 *f);
 
+Fac_82B6BB00 *fn_82B6BB00(void *a, Alloc_82B6BB00 alloc, void *c, void *d, void *e)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d97e8,0x138);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d97e8,0x139);
-  }
-  if ((param_4 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9960,0xffffffff820d97e8,0x13a);
-  }
-  if ((param_5 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d994c,0xffffffff820d97e8,0x13b);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0x18);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9940,0xffffffff820d97e8,0x142);
-  }
-  else {
-    *puVar1 = (int)param_1;
-    puVar1[1] = param_2;
-    puVar1[2] = (int)param_3;
-    puVar1[3] = 0;
-    uVar2 = fn_82AB5DE0(param_1,param_2,param_3,param_4);
-    puVar1[4] = uVar2;
-    iVar3 = fn_82AB5E50(param_1,param_2,param_3,param_5);
-    puVar1[5] = iVar3;
-    if ((iVar3 == 0) || (puVar1[4] == 0)) {
-      if ((iVar3 == 0) || (puVar1[4] == 0)) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9908,0xffffffff820d97e8,0x15d);
-      }
-      fn_82B6B4E8(puVar1);
-      puVar1 = (undefined4 *)0x0;
-    }
-  }
-  return puVar1;
-}
+    Fac_82B6BB00 *f;
+    void *x;
 
+    if (alloc == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "AllocateSysMem", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x138);
+    }
+    if (c == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "FreeSysMem", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x139);
+    }
+    if (d == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "initNumLists > 0", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x13a);
+    }
+    if (e == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "initNumItems > 0", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x13b);
+    }
+    f = (Fac_82B6BB00 *)alloc(a, 0x18);
+    if (f == 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pNewFactory", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x142);
+    } else {
+        f->a = a;
+        f->alloc = alloc;
+        f->c = c;
+        f->d = 0;
+        f->e = fn_82AB5DE0(a, alloc, c, d);
+        x = fn_82AB5E50(a, alloc, c, e);
+        f->f = x;
+        if (x == 0 || f->e == 0) {
+            if (f->f == 0 || f->e == 0) {
+                fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pNewFactory->pItemMemMgr && pNewFactory->pListMemMgr", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0x15d);
+            }
+            fn_82B6B4E8(f);
+            f = 0;
+        }
+    }
+    return f;
+}

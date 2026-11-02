@@ -1,57 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Req_82B48C48 {
+    int pad0[3];
+    unsigned f0c;
+    unsigned f10;
+} Req_82B48C48;
 
+typedef struct Link_82B48C48 {
+    unsigned a;
+    unsigned b;
+} Link_82B48C48;
 
-uint fn_82B48C48(int param_1,int param_2)
+typedef struct Arena_82B48C48 {
+    char pad[0x18];
+    unsigned list;
+} Arena_82B48C48;
 
+typedef struct Ctx_82B48C48 {
+    char pad[0x234];
+    Arena_82B48C48 *arena;
+} Ctx_82B48C48;
+
+extern unsigned fn_82B841E8(Ctx_82B48C48 *s, Arena_82B48C48 *arena, int a, int b, int c, int d);
+extern Req_82B48C48 *fn_82ACA920(Ctx_82B48C48 *s, Req_82B48C48 *r, unsigned v);
+extern unsigned fn_82AD1978(unsigned c, Req_82B48C48 *r);
+
+unsigned fn_82B48C48(Ctx_82B48C48 *s, Req_82B48C48 *r)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint *puVar5;
-  
-  uVar3 = fn_82B841E8(param_1,*(undefined4 *)(param_1 + 0x234),0,0x50,1,1);
-  if (*(int *)(param_2 + 0x10) != 0) {
-    param_2 = fn_82ACA920(param_1,param_2,*(undefined4 *)(param_2 + 0xc));
-  }
-  uVar4 = fn_82AD1978(uVar3,param_2);
-  *(undefined4 *)(uVar3 + 0x2c) = uVar4;
-  iVar1 = *(int *)(param_1 + 0x234);
-  puVar5 = (uint *)(iVar1 + 0x18);
-  uVar2 = uVar3 & 0xfffffffe;
-  *(uint *)(uVar2 + 0x24) = *puVar5;
-  *(uint *)(*puVar5 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar2 + 0x28) = iVar1 - 0xcU | 1;
-  *puVar5 = uVar2 + 0x28;
-  return uVar3;
-}
+    unsigned c;
+    Arena_82B48C48 *arena;
+    unsigned *list;
+    Link_82B48C48 *n;
+    Req_82B48C48 *x;
 
+    c = fn_82B841E8(s, s->arena, 0, 0x50, 1, 1);
+    x = r;
+    if (r->f10 != 0) {
+        x = fn_82ACA920(s, r, r->f0c);
+    }
+    *(unsigned *)(c + 0x2c) = fn_82AD1978(c, x);
+    arena = s->arena;
+    list = &arena->list;
+    n = (Link_82B48C48 *)((c & 0xfffffffe) + 0x24);
+    n->a = *list;
+    *(unsigned *)(*list & 0xfffffffe) = (unsigned)n - 0x24;
+    n->b = ((unsigned)list - 0x24) | 1;
+    *list = (unsigned)&n->b;
+    return c;
+}

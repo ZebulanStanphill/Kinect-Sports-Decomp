@@ -1,78 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82930318();
-extern int fn_829304E0();
-extern int fn_82932B38();
-extern int fn_82933088();
+typedef struct { char pad[0x1c]; int f1c; } Sub_82980608;
+typedef struct {
+    char pad0[0x20];
+    void *f20;
+    char pad1[4];
+    char f28[0x48];
+    int f70;
+    char pad2[4];
+    Sub_82980608 *f78;
+} Obj_82980608;
+typedef struct { char pad[0x10]; int f10; char pad1[4]; void *f18; char pad2[0x14]; int f30; } Node_82980608;
+extern void *fn_82930318(int n);
+extern Node_82980608 *fn_82932B38(void *p);
+extern void *fn_82933088(void *p, int a, int b, int c, int d, int e, void *f);
+extern void *fn_829304E0(void *p, void *a, int b, const char *s);
 
-
-ulonglong fn_82980608(int param_1)
-
+void *fn_82980608(Obj_82980608 *o)
 {
-  int iVar2;
-  ulonglong uVar1;
-  int iVar3;
-  
-  *(undefined4 *)(*(int *)(param_1 + 0x78) + 0x1c) = 1;
-  if (*(int *)(param_1 + 0x20) != 0) {
-    iVar2 = fn_82930318(0x34);
-    if (iVar2 == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = fn_82932B38();
-    }
-    if (iVar2 != 0) {
-      *(undefined4 *)(iVar2 + 0x10) = 0xb;
-      *(undefined4 *)(iVar2 + 0x30) = *(undefined4 *)(param_1 + 0x70);
-      *(int *)(param_1 + 0x70) = *(int *)(param_1 + 0x70) + 1;
-      uVar1 = fn_82930318(0x50);
-      if ((uVar1 & 0xffffffff) == 0) {
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = fn_82933088(uVar1,0,0,0,0,1,param_1 + 0x28);
-      }
-      if (iVar3 != 0) {
-        *(int *)(iVar2 + 0x18) = iVar3;
-        uVar1 = fn_82930318(0x14);
-        if ((uVar1 & 0xffffffff) == 0) {
-          uVar1 = 0;
+    Node_82980608 *n;
+    void *m;
+    void *r;
+    void *p;
+    o->f78->f1c = 1;
+    if (o->f20 != 0) {
+        p = fn_82930318(0x34);
+        if (p != 0)
+            n = fn_82932B38(p);
+        else
+            n = 0;
+        if (n != 0) {
+            n->f10 = 11;
+            n->f30 = o->f70;
+            o->f70 = o->f70 + 1;
+            p = fn_82930318(0x50);
+            if (p != 0)
+                m = fn_82933088(p, 0, 0, 0, 0, 1, o->f28);
+            else
+                m = 0;
+            if (m != 0) {
+                n->f18 = m;
+                p = fn_82930318(0x14);
+                if (p != 0)
+                    r = fn_829304E0(p, n, 0, "Stmts");
+                else
+                    r = 0;
+                if (r != 0)
+                    return r;
+            }
         }
-        else {
-          uVar1 = fn_829304E0(uVar1,iVar2,0,0xffffffff8202df2c);
-        }
-        if ((uVar1 & 0xffffffff) != 0) {
-          return uVar1;
-        }
-      }
     }
-  }
-  return 0;
+    return 0;
 }
-

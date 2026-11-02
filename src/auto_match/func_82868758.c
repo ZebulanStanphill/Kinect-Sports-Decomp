@@ -1,54 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82811080();
-extern int fn_82811400();
-extern int fn_82874FC8();
-extern unsigned int lbl_83211724;
+extern void *fn_82811080(char *heap, int size, void *p);
+extern void *fn_82811400(void *buf, int n);
+extern void *fn_82874FC8(void);
+extern void *lbl_83211724;
+extern char lbl_832116F8[];
 
-
-void fn_82868758(void)
-
+void *fn_82868758(void)
 {
-  undefined8 uVar1;
-  int iVar2;
-  undefined1 auStack_30 [32];
-  
-  if (lbl_83211724 == 0) {
-    uVar1 = fn_82811400(auStack_30,4);
-    iVar2 = fn_82811080(0xffffffff832116f8,0x2c,uVar1);
-    if (iVar2 == 0) {
-      lbl_83211724 = 0;
+    unsigned char buf[32];
+    if (lbl_83211724 == 0) {
+        void *a = fn_82811400(buf, 4);
+        void *r = fn_82811080(lbl_832116F8, 0x2c, a);
+        lbl_83211724 = r != 0 ? fn_82874FC8() : 0;
     }
-    else {
-      lbl_83211724 = fn_82874FC8();
-    }
-  }
-  return;
+    return lbl_83211724;
 }
-

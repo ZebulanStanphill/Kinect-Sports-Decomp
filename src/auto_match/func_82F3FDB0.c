@@ -1,83 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3F758();
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
+extern void fn_82E4FE40(void *);
+extern void *fn_82E50BE8(unsigned, int, int, int, int);
+extern int fn_82A3F758(void *, unsigned, const unsigned short *);
 
-
-undefined8 fn_82F3FDB0(int param_1,short *param_2)
-
+static int Length(const unsigned short *p, unsigned *out)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  short *psVar4;
-  ulonglong uVar5;
-  
-  uVar5 = 0;
-  if (*(int *)(param_1 + 0x54) != 0) {
-    fn_82E4FE40();
+  int hr = 0;
+  unsigned n = 0x7fffffff;
+  while (n != 0 && *p != 0) {
+    p++;
+    n--;
   }
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  if (param_2 == (short *)0x0) {
-LAB_82f3fe80:
-    uVar3 = 0;
-    *(short *)(param_1 + 0x62) = (short)uVar5;
+  if (n == 0) {
+    hr = 0x80070057;
+  } else {
+    *out = 0x7fffffff - n;
   }
-  else {
-    uVar5 = 0x7fffffff;
-    psVar4 = param_2;
-    do {
-      if (*psVar4 == 0) break;
-      uVar5 = uVar5 - 1;
-      psVar4 = psVar4 + 1;
-    } while (uVar5 != 0);
-    if ((uVar5 & 0xffffffff) != 0) {
-      uVar5 = 0x80000000 - uVar5;
-      lVar1 = (uVar5 & 0x7fffffff) << 1;
-      if (0x7fffffff < (uVar5 & 0xffffffff)) {
-        lVar1 = -1;
-      }
-      uVar2 = fn_82E50BE8(lVar1,0,0,0,0);
-      *(int *)(param_1 + 0x54) = (int)uVar2;
-      if ((uVar2 & 0xffffffff) == 0) {
-        return 0xffffffff8007000e;
-      }
-      if ((uVar5 & 0xffffffff) < 0x80000000) {
-        uVar3 = fn_82A3F758(uVar2,uVar5,param_2);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        goto LAB_82f3fe80;
-      }
-    }
-    uVar3 = 0xffffffff80070057;
-  }
-  return uVar3;
+  return hr;
 }
 
+int fn_82F3FDB0(char *o, const unsigned short *s)
+{
+  unsigned len = 0;
+  void *buf;
+  int hr;
+  if (*(void **)(o + 0x54) != 0) {
+    fn_82E4FE40(*(void **)(o + 0x54));
+  }
+  *(void **)(o + 0x54) = 0;
+  if (s != 0) {
+    hr = Length(s, &len);
+    if (hr < 0) return hr;
+    len++;
+    buf = fn_82E50BE8(len <= 0x7fffffff ? len * 2 : 0xffffffff, 0, 0, 0, 0);
+    *(void **)(o + 0x54) = buf;
+    if (buf == 0) return 0x8007000e;
+    if (len > 0x7fffffff) return 0x80070057;
+    hr = fn_82A3F758(buf, len, s);
+    if (hr < 0) return hr;
+  }
+  *(short *)(o + 0x62) = (short)len;
+  return 0;
+}

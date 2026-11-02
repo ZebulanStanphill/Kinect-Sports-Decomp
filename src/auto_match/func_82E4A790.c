@@ -1,90 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A29FE0();
-extern int fn_82E49568();
-extern int fn_82E49CA8();
-extern int fn_82E4A178();
-extern int fn_82E4A2D8();
-extern int fn_82E50BE8();
-extern int fn_82E65FD0();
+typedef struct Obj_82E4A790 Obj_82E4A790;
+typedef struct {
+    void *f0;
+    void (*addref)(Obj_82E4A790 *self);
+    void (*release)(Obj_82E4A790 *self);
+} VT_82E4A790;
+struct Obj_82E4A790 {
+    VT_82E4A790 *vt;
+    int f4;
+    char pad[0x38];
+    unsigned f40;
+    char pad2[4];
+    int f48, f4c;
+};
+typedef struct {
+    char pad[0x9c];
+    int f9c;
+    char pad2[0x28];
+    unsigned __int64 fc8;
+} Ctx_82E4A790;
+extern void *fn_82E50BE8(int n, int a, int b, int c, int d);
+extern Obj_82E4A790 *fn_82E49568(void *m, int a, int b, int c, int d);
+extern int fn_82E4A178(Ctx_82E4A790 *c, void *a, void *b, void *d, Obj_82E4A790 *o);
+extern void fn_82E65FD0(Obj_82E4A790 *o);
+extern int fn_82A29FE0(int a, int b, int c, int d, void *e);
+extern int fn_82A1F470(void);
+extern void fn_82E49CA8(Obj_82E4A790 *o, int v);
+extern int fn_82E4A2D8(Ctx_82E4A790 *c, void *d, Obj_82E4A790 *o);
 
-
-ulonglong fn_82E4A790(int param_1,ulonglong param_2,undefined8 param_3,ulonglong param_4)
-
+int fn_82E4A790(Ctx_82E4A790 *c, void *a, void *b, void *d)
 {
-  ulonglong uVar1;
-  int *piVar2;
-  int iVar3;
-  
-  if (((param_2 & 0xffffffff) == 0) || ((param_4 & 0xffffffff) == 0)) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else if (*(int *)(param_1 + 0x9c) == -1) {
-    uVar1 = 0xffffffffc00d36b2;
-  }
-  else {
-    uVar1 = fn_82E50BE8(100,0,0,0,0);
-    if ((uVar1 & 0xffffffff) == 0) {
-      piVar2 = (int *)0x0;
-    }
-    else {
-      piVar2 = (int *)fn_82E49568(uVar1,2,0,0,0);
-    }
-    if (piVar2 == (int *)0x0) {
-      uVar1 = 0xffffffff8007000e;
-    }
-    else {
-      (**(code **)(*piVar2 + 4))(piVar2);
-      uVar1 = fn_82E4A178(param_1,param_2,param_3,param_4,piVar2);
-      if (-1 < (longlong)uVar1) {
-        (**(code **)(*piVar2 + 4))(piVar2);
-        fn_82E65FD0(piVar2);
-        iVar3 = fn_82A29FE0(*(undefined4 *)(param_1 + 0x9c),piVar2[0x12],piVar2[0x13],0,
-                                  piVar2 + 1);
-        if ((iVar3 == 0) && (iVar3 = thunk_FUN_82a2b798(), iVar3 != 0x3e5)) {
-          (**(code **)(*piVar2 + 8))(piVar2);
-          uVar1 = thunk_FUN_82a2b798();
-          if (0 < (int)uVar1) {
-            uVar1 = uVar1 & 0xffff | 0x80070000;
-          }
+    int hr;
+    int err;
+    void *m;
+    Obj_82E4A790 *o;
+    if (a == 0 || d == 0)
+        return 0x80070057;
+    if (c->f9c == -1)
+        return 0xc00d36b2;
+    {
+        m = fn_82E50BE8(100, 0, 0, 0, 0);
+        if (m != 0)
+            o = fn_82E49568(m, 2, 0, 0, 0);
+        else
+            o = 0;
+        if (o == 0) {
+            hr = 0x8007000e;
+        } else {
+            o->vt->addref(o);
+            hr = fn_82E4A178(c, a, b, d, o);
+            if (hr >= 0) {
+                o->vt->addref(o);
+                fn_82E65FD0(o);
+                if (fn_82A29FE0(c->f9c, o->f48, o->f4c, 0, &o->f4) == 0 && (unsigned)fn_82A1F470() != 0x3e5) {
+                    o->vt->release(o);
+                    err = fn_82A1F470();
+                    if (err <= 0)
+                        hr = err;
+                    else
+                        hr = (err & 0xffff) | 0x80070000;
+                } else {
+                    fn_82E49CA8(o, -1);
+                    hr = fn_82E4A2D8(c, d, o);
+                    if (hr >= 0)
+                        c->fc8 += o->f40;
+                }
+            }
+            o->vt->release(o);
         }
-        else {
-          fn_82E49CA8(piVar2,0xffffffffffffffff);
-          uVar1 = fn_82E4A2D8(param_1,param_4,piVar2);
-          if (-1 < (longlong)uVar1) {
-            *(ulonglong *)(param_1 + 200) =
-                 (ulonglong)(uint)piVar2[0x10] + *(longlong *)(param_1 + 200);
-          }
-        }
-      }
-      (**(code **)(*piVar2 + 8))(piVar2);
     }
-  }
-  return uVar1;
+    return hr;
 }
-
