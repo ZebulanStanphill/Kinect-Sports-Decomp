@@ -1,62 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC6860();
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct { unsigned a, b, c, d; unsigned e; } Arg;
+typedef struct { unsigned pad:4; unsigned g:3; unsigned rest:25; } W;
+typedef struct { int p0; int p1; struct { unsigned pad:15; unsigned f:3; unsigned rest:14; } w; char pad[0x20]; W *r2c; unsigned r30; unsigned r34; } Node;
+extern Node *fn_82B841E8();
+extern Arg *fn_82ACA920();
+extern unsigned fn_82AD1978();
+extern void fn_82AC6860();
 
-
-int fn_82AF06E8(undefined8 param_1,undefined8 param_2,int param_3,int param_4,int param_5,
-                 int param_6)
-
+Node *fn_82AF06E8(void *p1, void *p2, char *p3, Arg *a, Arg *b, Arg *c)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = fn_82B841E8(param_1,*(undefined4 *)(param_3 + 0x1c),0,0xc,3,4);
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  uVar2 = fn_82AD1978(iVar1,param_4);
-  *(undefined4 *)(iVar1 + 0x2c) = uVar2;
-  if (*(int *)(param_5 + 0x10) != 0) {
-    param_5 = fn_82ACA920(param_1,param_5,*(undefined4 *)(param_5 + 0xc));
-  }
-  uVar2 = fn_82AD1978(iVar1,param_5);
-  *(undefined4 *)(iVar1 + 0x30) = uVar2;
-  if (*(int *)(param_6 + 0x10) != 0) {
-    param_6 = fn_82ACA920(param_1,param_6,*(undefined4 *)(param_6 + 0xc));
-  }
-  uVar2 = fn_82AD1978(iVar1,param_6);
-  *(undefined4 *)(iVar1 + 0x34) = uVar2;
-  *(uint *)(iVar1 + 8) =
-       (**(uint **)(iVar1 + 0x2c) >> 0x19 & 7) << 0xe | *(uint *)(iVar1 + 8) & 0xfffe3fff;
-  fn_82AC6860(param_1,iVar1,param_2,param_3);
-  return iVar1;
+  Node *n;
+  n = fn_82B841E8(p1, *(void **)(p3 + 0x1c), 0, 0xc, 3, 4);
+  n->r2c = (W *)fn_82AD1978(n, a->e != 0 ? fn_82ACA920(p1, a, a->d) : a);
+  n->r30 = fn_82AD1978(n, b->e != 0 ? fn_82ACA920(p1, b, b->d) : b);
+  n->r34 = fn_82AD1978(n, c->e != 0 ? fn_82ACA920(p1, c, c->d) : c);
+  n->w.f = n->r2c->g ? n->r2c->g : 0;
+  fn_82AC6860(p1, n, p2, p3);
+  return n;
 }
-

@@ -1,66 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD17B0();
-extern int fn_82AD1978();
-extern int fn_82B4BAA8();
-extern int fn_82B841E8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
+typedef struct { unsigned int pad : 4; unsigned int v : 3; unsigned int rest : 25; } Src_82B4D170;
+typedef struct { unsigned int pad : 15; unsigned int v : 3; unsigned int rest : 14; } Dst_82B4D170;
+extern unsigned int fn_82AD17B0(int, int);
+extern unsigned int fn_82AD1978(unsigned int, unsigned int);
+extern unsigned int fn_82B4BAA8(int, __int64 *);
+extern unsigned int fn_82B841E8(int, int, int, int, int, int);
 
-
-uint fn_82B4D170(int param_1,undefined8 param_2,undefined8 param_3)
-
+unsigned int fn_82B4D170(int ctx, int a2, __int64 a3)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar4;
-  undefined8 uVar3;
-  undefined4 uVar5;
-  uint *puVar6;
-  undefined8 uStack00000020;
-  
-  uStack00000020 = param_3;
-  uVar4 = fn_82B841E8(param_1,*(undefined4 *)(param_1 + 0x234),0,1,2,4);
-  uVar3 = fn_82AD17B0(param_1,param_2);
-  uVar5 = fn_82AD1978(uVar4,uVar3);
-  *(undefined4 *)(uVar4 + 0x2c) = uVar5;
-  uVar3 = fn_82B4BAA8(param_1,&stack0x00000020);
-  uVar5 = fn_82AD1978(uVar4,uVar3);
-  *(undefined4 *)(uVar4 + 0x30) = uVar5;
-  uVar2 = uVar4 & 0xfffffffe;
-  *(uint *)(uVar4 + 8) =
-       (**(uint **)(uVar4 + 0x2c) >> 0x19 & 7) << 0xe | *(uint *)(uVar4 + 8) & 0xfffe3fff;
-  iVar1 = *(int *)(param_1 + 0x234);
-  puVar6 = (uint *)(iVar1 + 0x18);
-  *(uint *)(uVar2 + 0x24) = *puVar6;
-  *(uint *)(*puVar6 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar2 + 0x28) = iVar1 - 0xcU | 1;
-  *puVar6 = uVar2 + 0x28;
-  return uVar4;
-}
+  unsigned int obj;
+  unsigned int *l;
+  unsigned int *head;
+  int h;
 
+  obj = fn_82B841E8(ctx, *(int *)(ctx + 0x234), 0, 1, 2, 4);
+  *(unsigned int *)(obj + 0x2c) = fn_82AD1978(obj, fn_82AD17B0(ctx, a2));
+  *(unsigned int *)(obj + 0x30) = fn_82AD1978(obj, fn_82B4BAA8(ctx, &a3));
+  ((Dst_82B4D170 *)(obj + 8))->v = (*(Src_82B4D170 **)(obj + 0x2c))->v ? (*(Src_82B4D170 **)(obj + 0x2c))->v : 0;
+  h = *(int *)(ctx + 0x234);
+  head = (unsigned int *)(h + 0x18);
+  l = (unsigned int *)((obj & 0xfffffffe) + 0x24);
+  l[0] = *head;
+  *(unsigned int *)(*head & 0xfffffffe) = (unsigned int)l - 0x24;
+  l[1] = ((unsigned int)head - 0x24) | 1;
+  *head = (unsigned int)&l[1];
+  return obj;
+}
