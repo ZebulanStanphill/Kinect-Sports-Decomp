@@ -1,5 +1,6 @@
 #include "R1/Soundscape/BankEntryState.h"
 #include "R1/Soundscape/EventHandleState.h"
+#include "R1/Soundscape/WwiseEventStates.h"
 
 extern "C" {
 void *fn_82868378();
@@ -16,11 +17,6 @@ void *fn_82868698();
 void *fn_82868758();
 void *fn_828682B8();
 void *fn_82868E78();
-void *fn_828691F0();
-void *fn_82869268();
-void *fn_828692E0();
-void *fn_82869358();
-void *fn_828693D0();
 void *fn_828681F8();
 void *fn_8286B080();
 void *fn_82865100();
@@ -56,11 +52,11 @@ extern "C" unsigned int fn_82867780()
     fn_82868758();
     fn_828682B8();
     fn_82868E78();
-    fn_828691F0();
-    fn_82869268();
-    fn_828692E0();
-    fn_82869358();
-    fn_828693D0();
+    R1::Soundscape::Singleton_c<R1::Soundscape::WwiseEventInitialising_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::WwiseEventRunning_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::WwiseEventPendingDestruction_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::WwiseEventPausedAndInitialised_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::WwiseEventPausedAndRunning_c>::GetInstance();
     fn_828681F8();
     fn_8286B080();
     fn_82865100();

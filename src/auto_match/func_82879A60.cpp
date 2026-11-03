@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "R1/Soundscape/WwiseEmitter.h"
+#include "R1/Soundscape/WwiseEventStates.h"
 
 extern "C" {
 void fn_828648B8(void *out, const void *variant);
@@ -27,7 +28,6 @@ void fn_82240378(void *out, const void *s);
 void *fn_82868378(void);
 void fn_8286DA10(void *a, void *b, int hr);
 void fn_82360F68(void *vec, unsigned int n);
-void *fn_828691F0(void);
 void *fn_828681F8(void);
 void *fn_8286CD88(void *mgr);
 }
@@ -43,7 +43,7 @@ namespace R1 {
 namespace Soundscape {
 
 WwiseEmitter_c::WwiseEmitter_c(const AudioVariant_c &v, unsigned int unk)
-    : variant(v), unk3C(0xFFFFFFFF), context((WwiseEventState_c *)fn_828691F0()),
+    : variant(v), unk3C(0xFFFFFFFF), context(Singleton_c<WwiseEventInitialising_c>::GetInstance()),
       unk50(fn_8286CD88(fn_828681F8())), unk54(0), unk78(0)
 {
     char t90[0x20];

@@ -92622,23 +92622,23 @@ auto_match/func_82869190.cpp:
 	.pdata      start:0x822028F8 end:0x82202900
 	.text       start:0x82869190 end:0x828691EC
 
-auto_match/func_828691F0.c:
+auto_match/func_828691F0.cpp:
 	.pdata      start:0x82202900 end:0x82202908
 	.text       start:0x828691F0 end:0x82869264
 
-auto_match/func_82869268.c:
+auto_match/func_82869268.cpp:
 	.pdata      start:0x82202908 end:0x82202910
 	.text       start:0x82869268 end:0x828692DC
 
-auto_match/func_828692E0.c:
+auto_match/func_828692E0.cpp:
 	.pdata      start:0x82202910 end:0x82202918
 	.text       start:0x828692E0 end:0x82869354
 
-auto_match/func_82869358.c:
+auto_match/func_82869358.cpp:
 	.pdata      start:0x82202918 end:0x82202920
 	.text       start:0x82869358 end:0x828693CC
 
-auto_match/func_828693D0.c:
+auto_match/func_828693D0.cpp:
 	.pdata      start:0x82202920 end:0x82202928
 	.text       start:0x828693D0 end:0x82869444
 

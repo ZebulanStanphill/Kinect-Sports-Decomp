@@ -17,7 +17,9 @@ namespace Soundscape {
 
 class WwiseEventContext_c;
 
-class WwiseEventState_c {
+// No vtable of its own exists in the game (novtable); the destructor is inline
+// and empty (the states' deleting destructors store only their own vtable).
+class __declspec(novtable) WwiseEventState_c {
 public:
     virtual int vf00(WwiseEventContext_c *context, unsigned int unk1, unsigned int unk2,
                      unsigned int unk3);
@@ -28,7 +30,7 @@ public:
                      unsigned int unk3);
     virtual int vf14(WwiseEventContext_c *context, unsigned int unk1, unsigned int unk2);
     virtual int vf18(WwiseEventContext_c *context, unsigned int unk1);
-    virtual ~WwiseEventState_c();
+    virtual ~WwiseEventState_c() {}
 };
 
 } // namespace Soundscape
