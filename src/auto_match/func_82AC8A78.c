@@ -25,23 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABE190();
-
-
-undefined8 fn_82AC8A78(int param_1,uint param_2)
-
+extern unsigned char fn_82ABE190(unsigned int *);
+int fn_82AC8A78(int param_1, unsigned int param_2)
 {
-  uint *puVar1;
-  char cVar2;
-  
-  if ((*(uint *)(param_1 + 8) >> 1 & param_2 & 0xf) != 0) {
-    for (puVar1 = *(uint **)(param_1 + 4); puVar1 != (uint *)0x0; puVar1 = (uint *)puVar1[2]) {
-      if (((puVar1[4] != 0) && (cVar2 = fn_82ABE190(puVar1), cVar2 != '\0')) &&
-         (((*puVar1 >> 0xd & 0xff0 ^ param_2) & 0xfffffff0) == 0)) {
+  unsigned int *p;
+  if ((*(unsigned int *)(param_1 + 8) >> 1 & param_2 & 0xf) != 0) {
+    p = *(unsigned int **)(param_1 + 4);
+    for (;;) {
+      int ok;
+      if (p != 0) ok = 1; else ok = 0;
+      if (!ok) break;
+      if (p[4] != 0 && fn_82ABE190(p) != 0 &&
+          (((*p >> 0xd & 0xff0) ^ param_2) & 0xfffffff0) == 0) {
         return 1;
       }
+      p = (unsigned int *)p[2];
     }
   }
   return 0;
 }
-

@@ -25,40 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+struct Obj;
+typedef struct VT { void *f0, *f1, *f2, *f3, *f4, *f5; int (*f6)(struct Obj *, char *, int); } VT;
+typedef struct Obj { VT *vt; } Obj;
+typedef struct Ent { Obj *obj; int b; int c; int d; } Ent;
+typedef struct S { char pad[0x18]; Ent *ents; int count; } S;
 
-
-undefined8 fn_82D3DC18(int param_1,char *param_2)
-
+int fn_82D3DC18(S *s, char *name)
 {
-  int iVar1;
-  int *piVar2;
-  undefined8 uVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  
-  if (((*param_2 == '\0') || (*(int *)(param_1 + 0x1c) < 0xfd)) &&
-     (*(int *)(param_1 + 0x1c) < 0xfff)) {
-    iVar5 = 0;
-    if (0 < *(int *)(param_1 + 0x1c)) {
-      iVar6 = 0;
-      do {
-        iVar1 = *(int *)(param_1 + 0x18);
-        piVar2 = *(int **)(iVar1 + iVar6);
-        uVar4 = (**(code **)(*piVar2 + 0x18))(piVar2,param_2,0x100);
-        *(undefined4 *)(iVar1 + iVar6 + 8) = uVar4;
-        *(undefined4 *)(*(int *)(param_1 + 0x18) + iVar6 + 0xc) = *(undefined4 *)(param_1 + 0x1c);
-        if (*(int *)(*(int *)(param_1 + 0x18) + iVar6 + 8) == -1) goto LAB_82d3dc44;
-        iVar5 = iVar5 + 1;
-        iVar6 = iVar6 + 0x10;
-      } while (iVar5 < *(int *)(param_1 + 0x1c));
-    }
-    uVar3 = 0x70;
+  int i;
+  if (*name != 0 && s->count > 0xfc) {
+    return -1;
   }
-  else {
-LAB_82d3dc44:
-    uVar3 = 0xffffffffffffffff;
+  if (s->count >= 0xfff) {
+    return -1;
   }
-  return uVar3;
+  for (i = 0; i < s->count; i++) {
+    Ent *e = s->ents + i;
+    e->c = e->obj->vt->f6(e->obj, name, 0x100);
+    s->ents[i].d = s->count;
+    if (s->ents[i].c == -1) return -1;
+  }
+  return 0x70;
 }
-

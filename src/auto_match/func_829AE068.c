@@ -25,30 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829ADE20();
-extern int fn_829ADE70();
-extern int fn_829ADEA0();
-extern int fn_829ADF30();
-extern int fn_829AE050();
-extern unsigned int lbl_82052100;
+extern void fn_829ADE20(void);
+extern void fn_829ADE70(void);
+extern void fn_829ADEA0(void);
+extern void fn_829ADF30(void);
+extern void fn_829AE050(void);
+extern char lbl_82052100[];
 
+typedef struct S { void *f0, *f4, *f8, *fc, *f10; int f14; char pad[0x68 - 0x18]; int f68, f6c; void *f70; int f74, f78, f7c, f80; } S;
 
-void fn_829AE068(undefined4 *param_1)
-
+void fn_829AE068(S *p)
 {
-  *param_1 = fn_829ADE20;
-  param_1[0x1c] = &lbl_82052100;
-  param_1[0x1a] = 0;
-  param_1[1] = fn_829ADEA0;
-  param_1[2] = fn_829ADE70;
-  param_1[3] = fn_829ADF30;
-  param_1[4] = fn_829AE050;
-  param_1[0x1b] = 0;
-  param_1[5] = 0;
-  param_1[0x1d] = 0x7b;
-  param_1[0x1e] = 0;
-  param_1[0x1f] = 0;
-  param_1[0x20] = 0;
-  return;
+  p->f0 = (void *)fn_829ADE20;
+  p->f4 = (void *)fn_829ADEA0;
+  p->f8 = (void *)fn_829ADE70;
+  p->fc = (void *)fn_829ADF30;
+  p->f10 = (void *)fn_829AE050;
+  p->f68 = 0;
+  p->f70 = lbl_82052100;
+  p->f6c = 0;
+  p->f14 = 0;
+  p->f74 = 0x7b;
+  p->f78 = 0;
+  p->f7c = 0;
+  p->f80 = 0;
 }
-

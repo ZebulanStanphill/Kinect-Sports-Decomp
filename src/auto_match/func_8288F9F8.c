@@ -1,53 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+typedef struct Node_8288F9F8 { struct Node_8288F9F8 *next, *prev; unsigned val; } Node_8288F9F8;
+typedef struct List_8288F9F8 { Node_8288F9F8 *head; int size; } List_8288F9F8;
+extern void fn_8265CA20(n);
 
-
-void fn_8288F9F8(int param_1,int param_2)
-
+void fn_8288F9F8(int param_1, unsigned param_2)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  piVar1 = *(int **)(param_1 + 0x44);
-  piVar2 = (int *)*piVar1;
-  if (piVar2 != piVar1) {
-    do {
-      if (piVar2[2] == param_2) break;
-      piVar2 = (int *)*piVar2;
-    } while (piVar2 != piVar1);
-    if (piVar2 != piVar1) {
-      *(int *)piVar2[1] = *piVar2;
-      *(int *)(*piVar2 + 4) = piVar2[1];
-      fn_8265CA20();
-      *(int *)(param_1 + 0x48) = *(int *)(param_1 + 0x48) + -1;
-    }
-  }
-  return;
-}
+  List_8288F9F8 *l = (List_8288F9F8 *)(param_1 + 0x44);
+  Node_8288F9F8 *h = l->head;
+  Node_8288F9F8 *n;
 
+  for (n = h->next; n != h; n = n->next) {
+    if (n->val == param_2) break;
+  }
+  if (n != l->head) {
+    n->prev->next = n->next;
+    n->next->prev = n->prev;
+    fn_8265CA20(n);
+    l->size = l->size - 1;
+  }
+}

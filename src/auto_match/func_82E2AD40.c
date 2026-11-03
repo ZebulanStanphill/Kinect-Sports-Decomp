@@ -1,52 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Vt_82E2AD40 {
+  char pad[0x48];
+  int (*f48)(void *, int, int);
+  int (*f4c)(void *);
+  int (*f50)(void *);
+} Vt_82E2AD40;
+typedef struct Obj_82E2AD40 { Vt_82E2AD40 *vt; } Obj_82E2AD40;
+typedef struct Self_82E2AD40 {
+  int pad0, pad1;
+  int cs[7];
+  int base;
+  unsigned count;
+} Self_82E2AD40;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-longlong fn_82E2AD40(int param_1,int *param_2)
-
+int fn_82E2AD40(int param_1, Obj_82E2AD40 *param_2)
 {
-  longlong lVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  RtlEnterCriticalSection(param_1 + 8);
-  lVar1 = (**(code **)(*param_2 + 0x50))(param_2);
-  if ((-1 < lVar1) && (uVar2 = 0, *(int *)(param_1 + 0x2c) != 0)) {
-    lVar3 = 0;
-    do {
-      lVar1 = (ulonglong)*(uint *)(param_1 + 0x24) + lVar3;
-      lVar1 = (**(code **)(*param_2 + 0x48))(param_2,lVar1,lVar1 + 0x10);
-      if (lVar1 < 0) break;
-      uVar2 = uVar2 + 1;
-      lVar3 = lVar3 + 0x20;
-    } while (uVar2 < *(uint *)(param_1 + 0x2c));
-  }
-  RtlLeaveCriticalSection(param_1 + 8);
-  return lVar1;
-}
+  Self_82E2AD40 *self = (Self_82E2AD40 *)param_1;
+  int hr;
+  unsigned i;
+  int off;
 
+  RtlEnterCriticalSection(&self->cs);
+  hr = param_2->vt->f50(param_2);
+  if (hr >= 0) {
+    i = 0;
+    if (*(unsigned *)(param_1 + 0x2c) > 0) {
+      off = 0;
+      do {
+        int a = *(int *)(param_1 + 0x24) + off;
+        hr = param_2->vt->f48(param_2, a, a + 0x10);
+        if (hr < 0) break;
+        i++;
+        off += 0x20;
+      } while (i < *(unsigned *)(param_1 + 0x2c));
+    }
+  }
+  RtlLeaveCriticalSection(&self->cs);
+  return hr;
+}

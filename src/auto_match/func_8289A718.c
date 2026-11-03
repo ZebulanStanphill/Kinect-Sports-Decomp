@@ -25,34 +25,49 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82899030();
-extern int fn_828B5580();
-extern int fn_828BDDA0();
-extern unsigned int lbl_82023ABC;
-extern unsigned int lbl_82023AC0;
-extern unsigned int lbl_82023C3C;
+extern void fn_828BDDA0(void *);
+extern void fn_82899030(void *, int, int);
+extern void fn_828B5580(void *, void *);
+extern char lbl_82023ABC[];
+extern char lbl_82023AC0[];
+extern char lbl_82023C3C[];
 
+typedef struct Mid { int a; char str[8]; } Mid;
+typedef struct It { int f0; Mid mid; int f10; } It;
+typedef struct S98 { void *vt; Mid mid; int f8; unsigned char flag; } S98;
+typedef struct Q { char pad[0x14]; It *it; int f18; } Q;
+typedef struct P {
+  void *vt;
+  char pad[0x50 - 4];
+  void *f50;
+  char pad2[0x80 - 0x54];
+  int f80, f84;
+  char f88[0x10];
+  S98 s;
+  int f_b0;
+} P;
 
-undefined4 *
-fn_8289A718(undefined4 *param_1,int param_2,undefined8 param_3,undefined8 param_4,
-             undefined1 param_5,undefined4 param_6)
-
+P *fn_8289A718(P *p, Q *q, int p3, int p4, unsigned char p5, int p6)
 {
-  int iVar1;
-  
-  fn_828BDDA0();
-  *param_1 = &lbl_82023AC0;
-  param_1[0x14] = &lbl_82023ABC;
-  param_1[0x20] = *(undefined4 *)(param_2 + 0x18);
-  param_1[0x21] = param_2;
-  fn_82899030(param_1 + 0x22,param_3,param_4);
-  iVar1 = *(int *)(param_2 + 0x14);
-  param_1[0x26] = &lbl_82023C3C;
-  param_1[0x27] = *(undefined4 *)(iVar1 + 4);
-  fn_828B5580(param_1 + 0x28,iVar1 + 8);
-  param_1[0x2a] = *(undefined4 *)(iVar1 + 0x10);
-  *(undefined1 *)(param_1 + 0x2b) = param_5;
-  param_1[0x2c] = param_6;
-  return param_1;
+  S98 *s;
+  It *it;
+  Mid *m;
+  Mid *im;
+  fn_828BDDA0(p);
+  p->vt = lbl_82023AC0;
+  p->f50 = lbl_82023ABC;
+  p->f80 = q->f18;
+  p->f84 = (int)q;
+  fn_82899030(p->f88, p3, p4);
+  it = q->it;
+  s = &p->s;
+  s->vt = lbl_82023C3C;
+  m = &s->mid;
+  im = &it->mid;
+  m->a = im->a;
+  fn_828B5580(m->str, im->str);
+  s->f8 = it->f10;
+  p->s.flag = p5;
+  p->f_b0 = p6;
+  return p;
 }
-

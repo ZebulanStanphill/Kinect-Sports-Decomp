@@ -25,37 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-
-
-void fn_82BA71F8(int param_1,int param_2)
-
+extern unsigned int *fn_82B7BD28(unsigned int, int);
+typedef struct N { int a; int b; int c; int d; int e; int f; } N;
+N *fn_82BA71F8(int param_1, int param_2)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined4 uVar4;
-  
+  unsigned int uVar1;
+  unsigned int *puVar2;
+  N *n;
+  N *r;
+  int uVar4;
   uVar4 = 4;
-  if (*(char *)(param_1 + 5) == '\0') {
-    uVar4 = 2;
-  }
-  uVar1 = *(undefined4 *)(param_2 + 0x5a8);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  piVar3 = puVar2 + 1;
+  if (*(char *)(param_1 + 5) == 0) uVar4 = 2;
+  uVar1 = *(unsigned int *)(param_2 + 0x5a8);
+  puVar2 = fn_82B7BD28(uVar1, 0x1c);
+  n = (N *)(puVar2 + 1);
   *puVar2 = uVar1;
-  if (piVar3 == (int *)0x0) {
-    piVar3 = (int *)0x0;
+  if (n != 0) {
+    n->a = param_2;
+    n->b = uVar4;
+    n->c = 1;
+    n->f = 0;
+    r = n;
+  } else {
+    r = 0;
   }
-  else {
-    *piVar3 = param_2;
-    puVar2[2] = uVar4;
-    puVar2[3] = 1;
-    puVar2[6] = 0;
-  }
-  piVar3[3] = param_1;
-  piVar3[2] = 1;
-  piVar3[4] = 0;
-  return;
+  r->d = param_1;
+  r->c = 1;
+  r->e = 0;
+  return r;
 }
-

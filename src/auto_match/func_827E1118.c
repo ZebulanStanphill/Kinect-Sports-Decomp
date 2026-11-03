@@ -25,38 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_827E0250();
-extern int fn_827E02A8();
-extern int fn_827E0438();
-extern int fn_827E0C38();
-extern int fn_827E8720();
+extern void fn_827E02A8(void *);
+extern unsigned int fn_827E0250(void *, void *);
+extern void fn_827E0438(void *, void *, unsigned int);
+extern void fn_827E0C38(void *, int);
+extern void fn_827E8720(void *, void *, void *);
 
+typedef struct Node { struct Node *next; struct Node *prev; } Node;
+typedef struct Hd { Node *head; } Hd;
+typedef struct M { int pad; Node *head; } M;
 
-undefined4 * fn_827E1118(undefined4 *param_1,int param_2,int *param_3,int *param_4)
-
+Node **fn_827E1118(Node **out, M *m, Node *first, Node *last)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  undefined1 auStack_40 [1];
-  
-  puVar3 = (undefined4 *)(param_2 + 4);
-  if ((param_3 == (int *)**(int **)(param_2 + 4)) && (param_4 == *(int **)(param_2 + 4))) {
-    fn_827E02A8(puVar3);
-    fn_827E0C38(param_2,8);
-    *param_1 = *(undefined4 *)*puVar3;
-  }
-  else {
-    while (param_3 != param_4) {
-      piVar1 = (int *)*param_3;
-      uVar2 = fn_827E0250(param_2,param_3 + 2);
-      fn_827E0438(param_2,param_3,uVar2);
-      fn_827E8720(auStack_40,puVar3,param_3);
-      param_3 = piVar1;
+  Node **hp = &m->head;
+  Node *cur;
+  char buf[1];
+  if (first == m->head->next && last == m->head) {
+    fn_827E02A8(hp);
+    fn_827E0C38(m, 8);
+    *out = (*hp)->next;
+  } else {
+    while (first != last) {
+      cur = first;
+      first = first->next;
+      fn_827E0438(m, cur, fn_827E0250(m, (char *)cur + 8));
+      fn_827E8720(buf, &m->head, cur);
     }
-    *param_1 = param_3;
+    *out = first;
   }
-  return param_1;
+  return out;
 }
-

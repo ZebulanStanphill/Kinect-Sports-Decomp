@@ -25,27 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+struct Sub;
+typedef struct SVT { char pad[0x30]; int (*f30)(struct Sub *); } SVT;
+typedef struct Sub { SVT *vt; } Sub;
+typedef struct It { char pad[0x3c]; Sub *sub; } It;
+typedef struct L { char pad[8]; It **items; int count; } L;
 
-
-longlong fn_82DFF630(int param_1)
-
+int fn_82DFF630(L *l)
 {
-  longlong lVar1;
-  longlong lVar2;
-  int iVar3;
-  int iVar4;
-  
-  lVar2 = 0;
-  iVar4 = 0;
-  if (0 < *(int *)(param_1 + 0xc)) {
-    iVar3 = 0;
+  int sum = 0;
+  int i = 0;
+  if (0 < l->count) {
     do {
-      lVar1 = (**(code **)(**(int **)(*(int *)(*(int *)(param_1 + 8) + iVar3) + 0x3c) + 0x30))();
-      iVar4 = iVar4 + 1;
-      lVar2 = lVar1 + lVar2;
-      iVar3 = iVar3 + 4;
-    } while (iVar4 < *(int *)(param_1 + 0xc));
+      It *it = l->items[i];
+      sum = it->sub->vt->f30(it->sub) + sum;
+      i++;
+    } while (i < l->count);
   }
-  return lVar2;
+  return sum;
 }
-

@@ -25,36 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82682D30();
-extern int fn_826944C8();
-extern int fn_82694700();
-extern int fn_82696330();
-extern unsigned int iStack_3c;
+extern void fn_82682D30(int, int, void *, int);
+extern void fn_826944C8(void *);
+extern void *fn_82694700(char *, int);
+extern void fn_82696330(void *);
 
+struct Obj;
+typedef struct OVT { char pad[0x5c]; int (*f5c)(struct Obj *); } OVT;
+typedef struct Obj { OVT *vt; } Obj;
+typedef struct Rc { int a; int b; int count; } Rc;
+typedef struct Var { unsigned char tag; Rc *rc; int pad[2]; } Var;
 
-void fn_82683020(int param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82683020(int param_1, int param_2, int param_3)
 {
   int iVar1;
-  int iVar2;
-  longlong lVar3;
-  undefined1 auStack_40 [4];
-  int iStack_3c;
-  
-  iVar1 = (**(code **)(**(int **)(param_1 + 0x68) + 0x5c))();
-  iVar2 = fn_82694700((ulonglong)*(uint *)(iVar1 + 0x78) + 0x254,param_3);
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  auStack_40[0] = 5;
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  iStack_3c = iVar2;
-  fn_82682D30(param_1,iVar1,auStack_40,param_2);
-  fn_82696330(auStack_40);
-  lVar3 = (ulonglong)*(uint *)(iVar2 + 8) - 1;
-  *(int *)(iVar2 + 8) = (int)lVar3;
-  if (lVar3 == 0) {
-    fn_826944C8(iVar2);
-  }
-  return;
+  Rc *rc;
+  Var v;
+  Obj *o = *(Obj **)(param_1 + 0x68);
+  int n;
+  iVar1 = o->vt->f5c(o);
+  { char *q = (char *)*(int *)(iVar1 + 0x78); char *sub = q + 8; rc = (Rc *)fn_82694700(sub + 0x24c, param_3); }
+  rc->count = rc->count + 1;
+  v.tag = 5;
+  v.rc = rc;
+  rc->count = rc->count + 1;
+  fn_82682D30(param_1, iVar1, &v, param_2);
+  fn_82696330(&v);
+  n = rc->count - 1;
+  rc->count = n;
+  if (n == 0) fn_826944C8(rc);
 }
-

@@ -25,26 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C478();
-extern int fn_828B5C88();
-extern int fn_828BEFD0();
-extern int fn_828E9DB8();
+extern void fn_8223C478(int, int, int);
+extern void fn_828B5C88(int, int, int);
+extern void fn_828BEFD0(int, int);
+extern void fn_828E9DB8(int, int, int);
 
+struct Obj;
+typedef struct VT { void *f0; int (*f4)(struct Obj *); char pad[0x50 - 8]; void (*f50)(struct Obj *, int); } VT;
+typedef struct Obj { VT *vt; } Obj;
+typedef struct S { char pad[0x6c]; int f6c; char pad2[0x80 - 0x70]; char f80[8]; Obj *o; int f8c; } S;
 
-void fn_828DD890(int param_1,undefined8 param_2)
-
+void fn_828DD890(S *s, int param_2)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  
-  (**(code **)(**(int **)(param_1 + 0x88) + 4))();
-  uVar2 = (**(code **)(**(int **)(param_1 + 0x88) + 4))();
-  fn_828BEFD0(uVar2,param_2);
-  fn_828B5C88(param_1 + 0x80,*(undefined4 *)(param_1 + 0x6c),param_2);
-  uVar1 = *(undefined4 *)(param_1 + 0x8c);
-  fn_8223C478(param_2,0x10,0);
-  fn_828E9DB8(param_2,uVar1,0x10);
-  (**(code **)(**(int **)(param_1 + 0x88) + 0x50))(*(int **)(param_1 + 0x88),param_2);
-  return;
+  int r;
+  int v;
+  s->o->vt->f4(s->o);
+  r = s->o->vt->f4(s->o);
+  fn_828BEFD0(r, param_2);
+  fn_828B5C88((int)s->f80, s->f6c, param_2);
+  v = s->f8c;
+  fn_8223C478(param_2, 0x10, 0);
+  fn_828E9DB8(param_2, v, 0x10);
+  s->o->vt->f50(s->o, param_2);
 }
-

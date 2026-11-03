@@ -25,23 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-
-
-void fn_82774A58(int *param_1)
-
+extern void fn_8267BE38(unsigned int);
+typedef struct { unsigned int head; int a; int b; int c; } L;
+void fn_82774A58(L *l)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  while (iVar1 != 0) {
-    iVar1 = *(int *)(iVar1 + 0x7f0);
-    fn_8267BE38();
+  unsigned int n = l->head;
+  while (n != 0) {
+    unsigned int nx = *(unsigned int *)(n + 0x7f0);
+    fn_8267BE38(n);
+    n = nx;
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0x7f;
-  param_1[3] = 0;
-  return;
+  l->head = 0; l->a = 0; l->b = 0x7f; l->c = 0;
 }
-
