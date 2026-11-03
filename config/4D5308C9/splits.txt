@@ -92070,7 +92070,7 @@ auto_match/func_828648B8.c:
 	.pdata      start:0x82202580 end:0x82202588
 	.text       start:0x828648B8 end:0x828648EC
 
-auto_match/func_828648F0.c:
+auto_match/func_828648F0.cpp:
 	.pdata      start:0x82202588 end:0x82202590
 	.text       start:0x828648F0 end:0x82864988
 
