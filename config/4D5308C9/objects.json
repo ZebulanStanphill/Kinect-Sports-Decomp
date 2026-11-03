@@ -9276,8 +9276,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_822569C0.c": {
-        "status": "NonMatching",
+      "auto_match/func_822569C0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -88648,8 +88648,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_826A3CE8.c": {
-        "status": "NonMatching",
+      "auto_match/func_826A3CE8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
