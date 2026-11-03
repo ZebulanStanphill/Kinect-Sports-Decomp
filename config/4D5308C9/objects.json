@@ -144059,11 +144059,12 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_82878D48.c": {
+      "auto_match/func_82878D48.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82878E10.c": {
         "status": "NonMatching",
@@ -144166,11 +144167,12 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_82879CD8.c": {
+      "auto_match/func_82879CD8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82879D80.cpp": {
         "status": "Matching",

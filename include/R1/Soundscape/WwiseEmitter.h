@@ -92,7 +92,7 @@ public:
     virtual int evf34(const AudioVariant_c & a, AudioVariant_c *b) = 0; // NonMatching fn_828792E0
     virtual int evf38() = 0; // NonMatching fn_82879100
     virtual int evf3C() = 0; // returns 0x20200000
-    virtual int evf40() = 0; // NonMatching fn_82879CD8
+    virtual int evf40() = 0; // fn_82879CD8 (WwiseEmitter_c): reverb, RTPC strategy and handle setup
     virtual AudioVariant_c evf44() = 0; // copy of the variant
     virtual int evf48(unsigned int a) = 0; // sets the handle at +0x54 once
     virtual unsigned int evf4C() = 0; // the handle at +0x54
@@ -167,6 +167,10 @@ public:
     R1_SOUNDSCAPE_EMITTER_SLOTS
     virtual int evf74(float a, float b); // fn_82879410 (NonMatching): AK::SoundEngine::SetObjectObstructionAndOcclusion
     virtual int evf78();                 // returns 0x20200000
+
+    // Removes the entries of unk7C whose vf04 says so (all of them when
+    // all is true), calling their vf1C after removing them.
+    int fn_82878D48(bool all);
 
     AudioVariant_c variant;
     unsigned int unk3C; // Wwise game object ID (the emitter's address)
