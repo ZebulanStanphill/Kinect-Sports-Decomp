@@ -25,84 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828B5650();
-
-
-int * fn_828E6B10(int *param_1,int param_2,uint *param_3)
-
+extern unsigned char fn_828B5650(void *, void *);
+typedef struct Node { struct Node *left, *parent, *right; unsigned a; char y[0x9]; char pad[3]; char color; char isnil; } Node;
+typedef struct { unsigned a; char y[1]; } Key;
+typedef struct { char pad[4]; Node *head; } Tree;
+typedef struct { Node *lo, *hi; } Range;
+static __forceinline unsigned char lt(Key *x, Key *y)
 {
-  undefined4 *puVar1;
-  bool bVar2;
-  undefined4 *puVar3;
-  char cVar4;
-  undefined4 *puVar5;
-  undefined4 *puVar6;
-  
-  puVar5 = *(undefined4 **)(param_2 + 4);
-  cVar4 = *(char *)((int)puVar5[1] + 0x1d);
-  puVar3 = puVar5;
-  puVar6 = (undefined4 *)puVar5[1];
-  while (cVar4 == '\0') {
-    if (((uint)puVar6[3] < *param_3) ||
-       (((uint)puVar6[3] <= *param_3 &&
-        (cVar4 = fn_828B5650(puVar6 + 4,param_3 + 1), cVar4 != '\0')))) {
-      bVar2 = true;
-    }
-    else {
-      bVar2 = false;
-    }
-    if (bVar2) {
-      puVar1 = (undefined4 *)puVar6[2];
-      puVar6 = puVar3;
-    }
-    else {
-      if (*(char *)((int)puVar5 + 0x1d) != '\0') {
-        if ((*param_3 < (uint)puVar6[3]) ||
-           ((*param_3 <= (uint)puVar6[3] &&
-            (cVar4 = fn_828B5650(param_3 + 1,puVar6 + 4), cVar4 != '\0')))) {
-          bVar2 = true;
-        }
-        else {
-          bVar2 = false;
-        }
-        if (bVar2) {
-          puVar5 = puVar6;
-        }
-      }
-      puVar1 = (undefined4 *)*puVar6;
-    }
-    puVar3 = puVar6;
-    puVar6 = puVar1;
-    cVar4 = *(char *)((int)puVar1 + 0x1d);
-  }
-  if (*(char *)((int)puVar5 + 0x1d) == '\0') {
-    puVar6 = (undefined4 *)*puVar5;
-  }
-  else {
-    puVar6 = *(undefined4 **)(*(int *)(param_2 + 4) + 4);
-  }
-  cVar4 = *(char *)((int)puVar6 + 0x1d);
-  while (cVar4 == '\0') {
-    if ((*param_3 < (uint)puVar6[3]) ||
-       ((*param_3 <= (uint)puVar6[3] &&
-        (cVar4 = fn_828B5650(param_3 + 1,puVar6 + 4), cVar4 != '\0')))) {
-      bVar2 = true;
-    }
-    else {
-      bVar2 = false;
-    }
-    if (bVar2) {
-      puVar1 = (undefined4 *)*puVar6;
-      puVar5 = puVar6;
-    }
-    else {
-      puVar1 = (undefined4 *)puVar6[2];
-    }
-    puVar6 = puVar1;
-    cVar4 = *(char *)((int)puVar1 + 0x1d);
-  }
-  *param_1 = (int)puVar3;
-  param_1[1] = (int)puVar5;
-  return param_1;
+  if (x->a < y->a || (!(y->a < x->a) && fn_828B5650(x->y, y->y))) return 1;
+  return 0;
 }
-
+Range *fn_828E6B10(Range *out, Tree *tree, Key *k)
+{
+  Node *lo = tree->head;
+  Node *hi = lo;
+  Node *p = lo->parent;
+  while (!p->isnil) {
+    if (lt((Key *)&p->a, k)) {
+      p = p->right;
+    } else {
+      if (hi->isnil && lt(k, (Key *)&p->a)) hi = p;
+      lo = p;
+      p = p->left;
+    }
+  }
+  if (hi->isnil) p = tree->head->parent; else p = hi->left;
+  while (!p->isnil) {
+    if (lt(k, (Key *)&p->a)) { hi = p; p = p->left; }
+    else p = p->right;
+  }
+  out->lo = lo;
+  out->hi = hi;
+  return out;
+}

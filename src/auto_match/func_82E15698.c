@@ -25,28 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82CE7E68();
-extern int fn_82CE7EE0();
-extern int fn_82D04C78();
-
-
-void fn_82E15698(int *param_1,undefined8 param_2)
-
+extern void fn_82CE7E68(void *);
+extern void fn_82CE7EE0(void *);
+extern void fn_82D04C78(void *, void *);
+typedef struct Node Node;
+typedef struct {
+  char pad[0x10];
+  void *(*f10)(Node *, void *);
+  char pad2[0x24 - 0x14];
+  Node *(*f24)(Node *);
+} VT;
+struct Node { VT *vt; };
+void fn_82E15698(Node *self, void *path)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  undefined1 auStack_50 [56];
-  
-  uVar1 = (**(code **)(*param_1 + 0x24))();
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_82E15698(uVar1,param_2);
+  char buf[56];
+  Node *parent;
+  void *name;
+  parent = self->vt->f24(self);
+  if (parent != 0) {
+    fn_82E15698(parent, path);
   }
-  fn_82CE7EE0(auStack_50);
-  uVar2 = (**(code **)(*param_1 + 0x10))(param_1,auStack_50);
-  fn_82D04C78(param_2,0xffffffff821aa630);
-  fn_82D04C78(param_2,uVar2);
-  fn_82CE7E68(auStack_50);
-  return;
+  fn_82CE7EE0(buf);
+  name = self->vt->f10(self, buf);
+  fn_82D04C78(path, "/");
+  fn_82D04C78(path, name);
+  fn_82CE7E68(buf);
 }
-

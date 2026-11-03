@@ -25,31 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A27F98();
+extern void *RtlCreateHeap(unsigned, void *, unsigned, unsigned, void *, void *);
+extern void fn_82A2A370(int);
 
-
-longlong fn_82A265A8(ulonglong param_1,ulonglong param_2,ulonglong param_3)
-
+void *fn_82A265A8(unsigned flags, unsigned reserve, unsigned commit)
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  
-  uVar1 = param_1 & 5 | 0x1000;
-  if ((param_3 & 0xffffffff) < 0x10000) {
-    if ((param_3 & 0xffffffff) == 0) {
-      uVar1 = param_1 & 5 | 0x1002;
-      goto code_r0x82a265f0;
+  unsigned f = flags & 5 | 0x1000;
+  void *h;
+  if (commit < 0x10000) {
+    if (commit == 0) {
+      f |= 2;
+      goto create;
     }
-    param_3 = 0x10000;
+    commit = 0x10000;
   }
-  if ((param_3 & 0xffffffff) < (param_2 & 0xffffffff)) {
-    param_3 = param_2;
-  }
-code_r0x82a265f0:
-  lVar2 = fn_82A27F98(uVar1,0,param_3,param_2,0,0);
-  if (lVar2 == 0) {
-    thunk_FUN_82a2b748(8);
-  }
-  return lVar2;
+  if (reserve > commit)
+    commit = reserve;
+create:
+  h = RtlCreateHeap(f, 0, commit, reserve, 0, 0);
+  if (h == 0)
+    fn_82A2A370(8);
+  return h;
 }
-

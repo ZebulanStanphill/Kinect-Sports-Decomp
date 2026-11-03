@@ -29,16 +29,14 @@ extern int fn_82813538();
 extern int fn_82813A10();
 extern int fn_82813FD0();
 extern unsigned int lbl_8201E080;
-extern unsigned int lbl_8320A3FC;
-extern unsigned int lbl_8320A420;
+extern int lbl_8320A3FC[];
 
 
 undefined4 * fn_828141C8(undefined4 *param_1)
 
 {
   undefined4 uVar1;
-  undefined *puStack_20;
-  undefined4 *puStack_1c;
+  struct { int *a; int *b; } it;
   
   *param_1 = &lbl_8201E080;
   fn_82813FD0(param_1 + 2,0);
@@ -49,12 +47,12 @@ undefined4 * fn_828141C8(undefined4 *param_1)
   param_1[0x35] = 0;
   uVar1 = KeTlsAlloc();
   param_1[0x36] = uVar1;
-  fn_82813A10(0xffffffff8320a3fc);
-  puStack_20 = &lbl_8320A3FC;
-  puStack_1c = &lbl_8320A420;
-  param_1[0x32] = lbl_8320A420;
-  lbl_8320A420 = param_1;
-  fn_82813538(&puStack_20);
+  fn_82813A10(lbl_8320A3FC);
+  it.a = lbl_8320A3FC;
+  it.b = &lbl_8320A3FC[9];
+  param_1[0x32] = lbl_8320A3FC[9];
+  lbl_8320A3FC[9] = (int)param_1;
+  fn_82813538(&it);
   return param_1;
 }
 

@@ -25,60 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x28]; unsigned f28; } In;
+typedef struct { char pad[0x38]; unsigned f38; } G;
+typedef struct { char pad[8]; In *in; unsigned char c; char pad2[4]; unsigned char b11; unsigned char b12; char pad3[5]; char sub18[1]; } Obj;
 extern int fn_8288A398();
-extern int fn_828A0C50();
-extern int fn_828A1B60();
-extern int fn_828A1C08();
-extern int fn_828A1C10();
-extern int fn_828AC808();
-extern int fn_828CFBD8();
-extern int fn_828CFC68();
-extern int fn_828D04D8();
-
-
-undefined8 fn_828D0590(int param_1,char param_2)
-
+extern int fn_828A0C50(Obj *, int);
+extern int fn_828A1B60(In *);
+extern int fn_828A1C08(In *);
+extern int fn_828A1C10(In *);
+extern int fn_828AC808(void *, void *);
+extern void fn_828CFBD8(Obj *, int);
+extern void fn_828CFC68(Obj *);
+extern void fn_828D04D8(Obj *, int, int, unsigned short, void *, unsigned char);
+int fn_828D0590(Obj *self, unsigned char flag)
 {
-  bool bVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  undefined8 uVar4;
-  char cVar6;
-  int iVar5;
-  longlong lVar7;
-  
-  if (param_2 == '\0') {
-    return 1;
-  }
-  uVar2 = fn_828A1C08(*(undefined4 *)(param_1 + 8));
-  uVar3 = fn_828A1C10(*(undefined4 *)(param_1 + 8));
-  lVar7 = (ulonglong)*(uint *)(param_1 + 8) + 0x60;
-  uVar4 = fn_828A1B60((ulonglong)*(uint *)(param_1 + 8));
-  if ((*(char *)(param_1 + 0xc) != '\0') && (cVar6 = fn_828A0C50(param_1,uVar4), cVar6 != '\0')) {
-    fn_828CFC68(param_1);
-  }
-  if (*(char *)(param_1 + 0xc) == '\0') {
-    fn_828CFBD8(param_1,uVar4);
-  }
-  if (*(char *)(param_1 + 0xc) == '\0') {
-    return 0;
-  }
-  if (((ulonglong)*(byte *)(param_1 + 0x11) != (uVar2 & 0xff)) ||
-     (bVar1 = false, (ulonglong)*(byte *)(param_1 + 0x12) != (uVar3 & 0xff))) {
-    bVar1 = true;
-  }
-  if (!bVar1) {
-    cVar6 = fn_828AC808(param_1 + 0x18,lVar7);
-    bVar1 = false;
-    if (cVar6 == '\0') goto LAB_828d0688;
-  }
-  bVar1 = true;
-LAB_828d0688:
-  if (bVar1) {
-    iVar5 = fn_8288A398();
-    fn_828D04D8(param_1,uVar2,uVar3,*(uint *)(iVar5 + 0x38) & 0xffff,lVar7,
-                  *(uint *)(*(int *)(param_1 + 8) + 0x28) & 0xff);
+  int a, b, h;
+  void *q;
+  unsigned char changed, t1;
+  if (flag == 0) return 1;
+  a = fn_828A1C08(self->in);
+  b = fn_828A1C10(self->in);
+  q = (char *)self->in + 0x60;
+  h = fn_828A1B60(self->in);
+  if (self->c != 0 && (unsigned char)fn_828A0C50(self, h) != 0) fn_828CFC68(self);
+  if (self->c == 0) fn_828CFBD8(self, h);
+  if (self->c == 0) return 0;
+  t1 = self->b11 != (unsigned char)a || self->b12 != (unsigned char)b;
+  changed = t1 || (unsigned char)fn_828AC808(self->sub18, q) != 0;
+  if (changed) {
+    G *g = (G *)fn_8288A398();
+    fn_828D04D8(self, a, b, g->f38, q, self->in->f28);
   }
   return 0;
 }
-

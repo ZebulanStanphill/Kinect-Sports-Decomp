@@ -25,28 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82175388;
-
-
-void fn_82D0AE18(int param_1,float *param_2)
-
+static const float lbl_82175388 = 2.3283064365386963e-10f;
+void fn_82D0AE18(int *rng, float *out)
 {
-  float fVar1;
-  uint uVar2;
-  
-  uVar2 = *(int *)(param_1 + 4) * 0x19660d + 0x3c6ef35f;
-  *(uint *)(param_1 + 4) = uVar2;
-  fVar1 = lbl_82175388;
-  *param_2 = (float)uVar2 * lbl_82175388;
-  uVar2 = *(int *)(param_1 + 4) * 0x19660d + 0x3c6ef35f;
-  *(uint *)(param_1 + 4) = uVar2;
-  param_2[1] = (float)uVar2 * fVar1;
-  uVar2 = *(int *)(param_1 + 4) * 0x19660d + 0x3c6ef35f;
-  *(uint *)(param_1 + 4) = uVar2;
-  param_2[2] = (float)uVar2 * fVar1;
-  uVar2 = *(int *)(param_1 + 4) * 0x19660d + 0x3c6ef35f;
-  *(uint *)(param_1 + 4) = uVar2;
-  param_2[3] = (float)uVar2 * fVar1;
-  return;
+  unsigned u;
+  u = rng[1] * 0x19660d + 0x3c6ef35f;
+  rng[1] = u;
+  out[0] = (float)u * lbl_82175388;
+  u = rng[1] * 0x19660d + 0x3c6ef35f;
+  rng[1] = u;
+  out[1] = (float)u * lbl_82175388;
+  u = rng[1] * 0x19660d + 0x3c6ef35f;
+  rng[1] = u;
+  out[2] = (float)u * lbl_82175388;
+  u = rng[1] * 0x19660d + 0x3c6ef35f;
+  rng[1] = u;
+  out[3] = (float)u * lbl_82175388;
 }
-

@@ -1,54 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821C1A3C;
+typedef struct Iface_824F0CE8 Iface_824F0CE8;
+typedef struct VT_824F0CE8 {
+  void *(*f0)(Iface_824F0CE8 *, int);
+  char pad[0x54 - 4];
+  void (*f54)(Iface_824F0CE8 *, unsigned);
+} VT_824F0CE8;
+struct Iface_824F0CE8 { VT_824F0CE8 *vt; };
 
+typedef struct Obj_824F0CE8 {
+  int *vt;
+  int f4;
+  Iface_824F0CE8 *f8;
+  char pad[0x50 - 0xc];
+  unsigned f50;
+  Iface_824F0CE8 *f54;
+} Obj_824F0CE8;
 
-void fn_824F0CE8(undefined4 *param_1)
+extern int lbl_821C1A3C[];
 
+void fn_824F0CE8(Obj_824F0CE8 *self)
 {
-  undefined4 *puVar1;
-  
-  *param_1 = &lbl_821C1A3C;
-  if ((int *)param_1[2] != (int *)0x0) {
-    if (param_1[0x14] != 0) {
-      (**(code **)(*(int *)param_1[2] + 0x54))();
-    }
-    puVar1 = (undefined4 *)param_1[2];
-    param_1[0x14] = 0;
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
-    }
-    param_1[2] = 0;
+  self->vt = lbl_821C1A3C;
+  if (self->f8 != 0) {
+    if (self->f50 != 0)
+      self->f8->vt->f54(self->f8, self->f50);
+    self->f50 = 0;
+    if (self->f8 != 0)
+      self->f8->vt->f0(self->f8, 1);
+    self->f8 = 0;
   }
-  puVar1 = (undefined4 *)param_1[0x15];
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  return;
+  if (self->f54 != 0)
+    self->f54->vt->f0(self->f54, 1);
 }
-

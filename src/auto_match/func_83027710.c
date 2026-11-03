@@ -25,22 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern unsigned int lbl_8217C608;
-extern unsigned int lbl_8217D040;
+extern void fn_8265CA20(void *);
+extern char lbl_8217C608[];
+extern char lbl_8217D040[];
+typedef struct Iface Iface;
+typedef struct { char pad[8]; void (*f8)(Iface *); } IVT;
+struct Iface { IVT *vt; };
+typedef struct { char pad[0x48]; Iface *ptr; } Sub;
+typedef struct { void *vt; char pad[0x48]; Iface *p4c; } Obj;
 
-
-undefined4 * fn_83027710(undefined4 *param_1,ulonglong param_2)
-
+static __forceinline void Rel(Sub *s) { if (s->ptr != 0) { s->ptr->vt->f8(s->ptr); } }
+Obj *fn_83027710(Obj *self, unsigned flags)
 {
-  *param_1 = &lbl_8217C608;
-  if (param_1[0x13] != 0) {
-    (**(code **)(*(int *)param_1[0x13] + 8))();
-  }
-  *param_1 = &lbl_8217D040;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+  self->vt = lbl_8217C608;
+  Rel((Sub *)((char *)self + 4));
+  self->vt = lbl_8217D040;
+  if ((flags & 1) != 0) fn_8265CA20(self);
+  return self;
 }
-

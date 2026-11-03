@@ -25,25 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8229F688();
-extern int fn_8229FAB8();
-extern int fn_8229FF28();
-
-
-void fn_822A0F98(int param_1)
-
+typedef struct { char pad[0xc]; int f0c; char pad2[0x2c - 0x10]; unsigned mode; char pad3[0x48 - 0x30]; int f48; int f4c; char f50[1]; } In;
+typedef struct { int p0; In *in; } Obj;
+extern void fn_8229F688(int, void *, int);
+extern void fn_8229FAB8(int, int, int);
+extern void fn_8229FF28(int, int);
+void fn_822A0F98(Obj *self)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  fn_8229F688(*(undefined4 *)(iVar1 + 0xc),iVar1 + 0x50,0);
-  if (*(uint *)(iVar1 + 0x2c) == 0) {
-    fn_8229FAB8(*(undefined4 *)(iVar1 + 0xc),*(undefined4 *)(iVar1 + 0x48),
-                  *(undefined4 *)(iVar1 + 0x4c));
+  In *in = self->in;
+  fn_8229F688(in->f0c, in->f50, 0);
+  switch (in->mode) {
+  case 1:
+  case 2:
+    fn_8229FF28(in->f0c, in->f48);
+    break;
+  case 0:
+    fn_8229FAB8(in->f0c, in->f48, in->f4c);
+    break;
   }
-  else if (*(uint *)(iVar1 + 0x2c) < 3) {
-    fn_8229FF28(*(undefined4 *)(iVar1 + 0xc),*(undefined4 *)(iVar1 + 0x48));
-  }
-  return;
 }
-

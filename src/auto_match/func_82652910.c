@@ -25,28 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *__imp__KeDebugMonitorData;
-extern int fn_826518D0();
-extern unsigned int uStack_1c;
-
-
-void fn_82652910(undefined4 param_1)
-
+typedef struct { char pad[0x18]; int (*f18)(int, void *); } DM;
+extern DM **__imp_KeDebugMonitorData;
+extern void fn_826518D0(void);
+extern void fn_82652640(void);
+typedef struct { void *fn; int arg; } Rec;
+void fn_82652910(int param_1)
 {
-  code *pcStack_20;
-  undefined4 uStack_1c;
-  
-  if (*__imp__KeDebugMonitorData != 0) {
-    (**(code **)(*__imp__KeDebugMonitorData + 0x18))(0x1c,0);
+  Rec r;
+  DM *d;
+  d = *__imp_KeDebugMonitorData;
+  if (d != 0) {
+    d->f18(0x1c, 0);
   }
-  pcStack_20 = fn_826518D0;
-  uStack_1c = param_1;
-  if (*__imp__KeDebugMonitorData != 0) {
-    (**(code **)(*__imp__KeDebugMonitorData + 0x18))(0x41,&pcStack_20);
+  r.fn = (void *)fn_826518D0;
+  r.arg = param_1;
+  d = *__imp_KeDebugMonitorData;
+  if (d != 0) {
+    d->f18(0x41, &r);
   }
-  if (*__imp__KeDebugMonitorData != 0) {
-    (**(code **)(*__imp__KeDebugMonitorData + 0x18))(0x5a,0xffffffff82652640);
+  d = *__imp_KeDebugMonitorData;
+  if (d != 0) {
+    d->f18(0x5a, (void *)fn_82652640);
   }
-  return;
 }
-

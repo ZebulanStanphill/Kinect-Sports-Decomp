@@ -25,18 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A93C18();
-extern int fn_82A93F70();
-extern unsigned int lbl_8326B318;
-
-
-undefined8
-fn_82544718(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             longlong param_5)
-
+extern int lbl_8326AF58[];
+extern void fn_82A93C18(int, int, int, int, int, int, int, int, int, int, int, int);
+extern void fn_82A93F70(int, int);
+int fn_82544718(int p1, int p2, int p3, int p4, int p5, int p6)
 {
-  fn_82A93C18(param_2,param_3,1,0,param_4,0,0,0xffffffffffffffff);
-  fn_82A93F70(param_1,(ulonglong)lbl_8326B318 + param_5);
-  return param_1;
+  fn_82A93C18(p2, p3, 1, 0, p4, 0, 0, -1, 0, p1, p6, 0);
+  fn_82A93F70(p1, lbl_8326AF58[0xf0] + p5);
+  return p1;
 }
-

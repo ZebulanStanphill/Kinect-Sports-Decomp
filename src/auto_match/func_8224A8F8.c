@@ -1,47 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_430;
-extern unsigned int *auStack_450;
-extern int memcpy();
+typedef struct Src_8224A8F8 Src_8224A8F8;
+typedef struct VT_8224A8F8 {
+  void *f[5];
+  void (*f14)(Src_8224A8F8 *, int, void *);
+} VT_8224A8F8;
+struct Src_8224A8F8 { VT_8224A8F8 *vt; };
 
+typedef struct Obj_8224A8F8 {
+  char pad0[8];
+  unsigned f8;
+  unsigned fc;
+  Src_8224A8F8 *f10;
+  int f14;
+  Src_8224A8F8 *f18;
+} Obj_8224A8F8;
 
-void fn_8224A8F8(int param_1,undefined8 param_2,ulonglong param_3)
+typedef struct B40c_8224A8F8 { unsigned char b[0x40c]; } B40c_8224A8F8;
+typedef struct B1c_8224A8F8 { unsigned char b[0x1c]; } B1c_8224A8F8;
 
+void fn_8224A8F8(Obj_8224A8F8 *self, int param_2, unsigned param_3)
 {
-  undefined1 auStack_450 [32];
-  undefined1 auStack_430 [1040];
-  
-  (**(code **)(**(int **)(param_1 + 0x10) + 0x14))(*(int **)(param_1 + 0x10),param_2,auStack_430);
-  (**(code **)(**(int **)(param_1 + 0x18) + 0x14))(*(int **)(param_1 + 0x18),param_2,auStack_450);
-  if ((param_3 & 0xffffffff) != 0) {
-    memcpy(*(uint *)(param_1 + 8) + param_3,auStack_430,0x40c);
-    memcpy(*(uint *)(param_1 + 0xc) + param_3,auStack_450,0x1c);
+  B1c_8224A8F8 b2;
+  B40c_8224A8F8 b1;
+  self->f10->vt->f14(self->f10, param_2, &b1);
+  self->f18->vt->f14(self->f18, param_2, &b2);
+  if (param_3 != 0) {
+    *(B40c_8224A8F8 *)(self->f8 + param_3) = b1;
+    *(B1c_8224A8F8 *)(self->fc + param_3) = b2;
   }
-  return;
 }
-

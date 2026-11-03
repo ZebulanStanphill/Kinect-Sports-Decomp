@@ -1,53 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA8A88();
-extern unsigned int lbl_83264234;
+typedef struct Obj_82FA6EF8 Obj_82FA6EF8;
+typedef struct VT_82FA6EF8 {
+  void *f[8];
+  unsigned (*f20)(Obj_82FA6EF8 *);
+} VT_82FA6EF8;
+typedef struct Sub_82FA6EF8 {
+  char pad[0x20];
+  unsigned f20;
+  unsigned pad24;
+  unsigned f28;
+} Sub_82FA6EF8;
+struct Obj_82FA6EF8 {
+  VT_82FA6EF8 *vt;
+  char pad[0x38 - 4];
+  Sub_82FA6EF8 *f38;
+  Obj_82FA6EF8 *f3c;
+};
 
+extern int fn_82FA8A88(Obj_82FA6EF8 *, unsigned, unsigned);
+extern Obj_82FA6EF8 *lbl_83264234;
 
-undefined8 fn_82FA6EF8(undefined8 param_1,int param_2,int param_3,undefined8 param_4,int param_5)
-
+int fn_82FA6EF8(int param_1, unsigned param_2, unsigned param_3, unsigned param_4, unsigned param_5)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  undefined8 uVar4;
-  
-  uVar4 = 1;
-  piVar1 = lbl_83264234;
-  while (piVar2 = piVar1, piVar2 != (int *)0x0) {
-    piVar1 = (int *)piVar2[0xf];
-    iVar3 = (**(code **)(*piVar2 + 0x20))(piVar2);
-    if ((((iVar3 == param_2) && ((param_3 == 0 || (*(int *)(piVar2[0xe] + 0x28) == param_3)))) &&
-        ((param_5 == 0 || (*(int *)(piVar2[0xe] + 0x20) == param_5)))) &&
-       (iVar3 = fn_82FA8A88(piVar2,param_4,0xffffffffffffffff), iVar3 != 1)) {
-      uVar4 = 2;
-    }
-  }
-  return uVar4;
+  Obj_82FA6EF8 *p, *n;
+  int r = 1;
+  unsigned npos = -1;
+  n = lbl_83264234;
+  if (n != 0) do {
+    p = n;
+    n = p->f3c;
+    if (p->vt->f20(p) == param_2 &&
+        (param_3 == 0 || p->f38->f28 == param_3) &&
+        (param_5 == 0 || p->f38->f20 == param_5) &&
+        fn_82FA8A88(p, param_4, npos) != 1)
+      r = 2;
+  } while (n != 0);
+  return r;
 }
-

@@ -1,108 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_821B7294;
+typedef struct SP_823FCEC8 {
+  int px;
+  unsigned rep;
+} SP_823FCEC8;
 
+typedef struct Obj_823FCEC8 {
+  int *vt;
+  int f4;
+  char pad[0x2c - 8];
+  SP_823FCEC8 m[7];
+  SP_823FCEC8 w1;
+  SP_823FCEC8 w2;
+} Obj_823FCEC8;
 
-undefined4 *
-fn_823FCEC8(undefined4 *param_1,int param_2,int param_3,int param_4,int param_5,int param_6,
-             int param_7,int param_8)
+extern void fn_822315A0(unsigned);
+extern unsigned char fn_8223AAC0(unsigned);
+extern void fn_82365BD8(SP_823FCEC8 *, SP_823FCEC8 *);
+extern int lbl_821B7294[];
 
+Obj_823FCEC8 *fn_823FCEC8(Obj_823FCEC8 *self, SP_823FCEC8 *a2, SP_823FCEC8 *a3, SP_823FCEC8 *a4,
+                          SP_823FCEC8 *a5, SP_823FCEC8 *a6, SP_823FCEC8 *a7, SP_823FCEC8 *a8,
+                          SP_823FCEC8 *a9, SP_823FCEC8 *a10)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *in_stack_00000054;
-  undefined4 *in_stack_0000005c;
-  
-  param_1[1] = 0;
-  *param_1 = &lbl_821B7294;
-  fn_82365BD8(param_1 + 0xb);
-  fn_82365BD8(param_1 + 0xd,param_3);
-  fn_82365BD8(param_1 + 0xf,param_4);
-  fn_82365BD8(param_1 + 0x11,param_5);
-  fn_82365BD8(param_1 + 0x13,param_6);
-  fn_82365BD8(param_1 + 0x15,param_7);
-  fn_82365BD8(param_1 + 0x17,param_8);
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  iVar1 = in_stack_00000054[1];
-  uVar2 = *in_stack_00000054;
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x1a] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x1a] = iVar1;
-      param_1[0x19] = uVar2;
-    }
+  SP_823FCEC8 *w;
+  unsigned r;
+  int px;
+  self->f4 = 0;
+  self->vt = lbl_821B7294;
+  fn_82365BD8(&self->m[0], a2);
+  fn_82365BD8(&self->m[1], a3);
+  fn_82365BD8(&self->m[2], a4);
+  fn_82365BD8(&self->m[3], a5);
+  fn_82365BD8(&self->m[4], a6);
+  fn_82365BD8(&self->m[5], a7);
+  fn_82365BD8(&self->m[6], a8);
+  w = &self->w1;
+  w->px = 0;
+  w->rep = 0;
+  r = a9->rep;
+  px = a9->px;
+  if (r != 0 && fn_8223AAC0(r) != 0) {
+    if (w->rep != 0)
+      fn_822315A0(w->rep);
+    w->rep = r;
+    w->px = px;
   }
-  param_1[0x1b] = 0;
-  param_1[0x1c] = 0;
-  iVar1 = in_stack_0000005c[1];
-  uVar2 = *in_stack_0000005c;
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x1c] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x1c] = iVar1;
-    param_1[0x1b] = uVar2;
+  w = &self->w2;
+  w->px = 0;
+  w->rep = 0;
+  r = a10->rep;
+  px = a10->px;
+  if (r != 0 && fn_8223AAC0(r) != 0) {
+    if (w->rep != 0)
+      fn_822315A0(w->rep);
+    w->rep = r;
+    w->px = px;
   }
-  if (*(int *)(param_2 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_3 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_4 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_5 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_6 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_7 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_8 + 4) != 0) {
-    fn_822315A0();
-  }
-  if (in_stack_00000054[1] != 0) {
-    fn_822315A0();
-  }
-  if (in_stack_0000005c[1] != 0) {
-    fn_822315A0();
-  }
-  return param_1;
+  if (a2->rep != 0) fn_822315A0(a2->rep);
+  if (a3->rep != 0) fn_822315A0(a3->rep);
+  if (a4->rep != 0) fn_822315A0(a4->rep);
+  if (a5->rep != 0) fn_822315A0(a5->rep);
+  if (a6->rep != 0) fn_822315A0(a6->rep);
+  if (a7->rep != 0) fn_822315A0(a7->rep);
+  if (a8->rep != 0) fn_822315A0(a8->rep);
+  if (a9->rep != 0) fn_822315A0(a9->rep);
+  if (a10->rep != 0) fn_822315A0(a10->rep);
+  return self;
 }
-

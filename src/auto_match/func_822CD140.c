@@ -29,23 +29,15 @@ extern int fn_82230300();
 extern int fn_8265CA20();
 
 
-void fn_822CD140(uint *param_1)
-
+void fn_822CD140(unsigned *p)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  
-  uVar2 = (ulonglong)*param_1;
-  if (uVar2 != 0) {
-    uVar1 = param_1[1];
-    for (; (uVar2 & 0xffffffff) != (ulonglong)uVar1; uVar2 = uVar2 + 0x20) {
-      fn_82230300(uVar2,1,0);
-    }
-    fn_8265CA20(*param_1);
+  unsigned *q;
+  q = p;
+  if (*q != 0) {
+    unsigned b = *q;
+    unsigned e = q[1];
+    for (; b != e; b += 0x20) fn_82230300(b, 1, 0);
+    fn_8265CA20(*q);
   }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
+  q[0] = 0; q[1] = 0; q[2] = 0;
 }
-

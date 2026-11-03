@@ -25,29 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1DD38();
-
-
-void fn_8245C548(undefined8 param_1,uint param_2,undefined8 param_3,int param_4)
-
+extern void fn_82A1DD38(void *, void *, unsigned);
+typedef struct { char pad[0x692]; unsigned char b[6]; unsigned n; } Obj;
+static __forceinline void swap2(unsigned char *p) { unsigned char t = p[0]; p[0] = p[1]; p[1] = t; }
+void fn_8245C548(void *src, unsigned len, int unused, Obj *o0)
 {
-  undefined1 uVar1;
-  uint uVar2;
-  
-  uVar2 = 5 - *(int *)(param_4 + 0x698);
-  if (param_2 <= uVar2) {
-    uVar2 = param_2;
+  Obj *o = o0; unsigned n = 5 - o->n;
+  if (n >= len) n = len;
+  if ((int)n > 0) {
+    fn_82A1DD38(&o->b[o->n], src, n);
+    o->n = o->n + n;
+    swap2(&o->b[0]);
+    swap2(&o->b[2]);
   }
-  if (0 < (int)uVar2) {
-    fn_82A1DD38(*(int *)(param_4 + 0x698) + param_4 + 0x692,param_1,uVar2);
-    *(uint *)(param_4 + 0x698) = *(int *)(param_4 + 0x698) + uVar2;
-    uVar1 = *(undefined1 *)(param_4 + 0x692);
-    *(undefined1 *)(param_4 + 0x692) = *(undefined1 *)(param_4 + 0x693);
-    *(undefined1 *)(param_4 + 0x693) = uVar1;
-    uVar1 = *(undefined1 *)(param_4 + 0x694);
-    *(undefined1 *)(param_4 + 0x694) = *(undefined1 *)(param_4 + 0x695);
-    *(undefined1 *)(param_4 + 0x695) = uVar1;
-  }
-  return;
 }
-
