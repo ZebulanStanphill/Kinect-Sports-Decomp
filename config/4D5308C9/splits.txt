@@ -94677,11 +94677,11 @@ auto_match/func_8287A1C0.c:
 auto_match/func_8287A1D8.c:
 	.text       start:0x8287A1D8 end:0x8287A1F0
 
-auto_match/func_8287A1F0.c:
+auto_match/func_8287A1F0.cpp:
 	.pdata      start:0x822034D0 end:0x822034D8
 	.text       start:0x8287A1F0 end:0x8287A304
 
-auto_match/func_8287A308.c:
+auto_match/func_8287A308.cpp:
 	.pdata      start:0x822034D8 end:0x822034E0
 	.text       start:0x8287A308 end:0x8287A428
 
