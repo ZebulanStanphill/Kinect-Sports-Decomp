@@ -143528,8 +143528,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82877658.c": {
-        "status": "NonMatching",
+      "auto_match/func_82877658.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -143651,8 +143651,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82877938.c": {
-        "status": "NonMatching",
+      "auto_match/func_82877938.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
