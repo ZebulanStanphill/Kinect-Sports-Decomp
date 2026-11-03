@@ -2,12 +2,12 @@
 
 extern "C" void fn_82672C20(ScaleformMovieView *movie, const char *method, void *args, unsigned int count);
 
-bool ScaleformMovieView::ScaleformCommandInvoke::vf04()
+int ScaleformMovieView::ScaleformCommandInvoke::vf04()
 {
     ScaleformMovieView *movie = unk04.ptr;
     if (movie->unkF0) {
         fn_82672C20(movie, unk14.c_str(), unk30.items, unk30.count);
-        return false;
+        return 0;
     }
-    return true;
+    return 1;
 }

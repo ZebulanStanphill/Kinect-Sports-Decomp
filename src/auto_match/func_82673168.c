@@ -1,1 +1,0 @@
-extern void fn_826728E8(void *,const char *,void *);int fn_82673168(char *command){char *owner=*(char **)(command+4);if(*(int *)(owner+0xf0)){const char *name=command+0x14;if(*(unsigned *)(command+0x28)>=16)name=*(char **)name;fn_826728E8(owner,name,*(void **)(command+0x30));return 0;}return 1;}

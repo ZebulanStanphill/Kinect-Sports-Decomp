@@ -1,26 +1,14 @@
-// ScaleformMovieView::ScaleformCommandCleanUpTextures scalar deleting destructor
-extern "C" {
-void fn_82670A50(void *self);
-void fn_8265CA20(void *p);
-}
+// ScaleformCommandCleanUpTextures deleting destructor. The class's constructor
+// is only inlined into a member that is still C, so this keeps its fn_ name.
+#include "Scaleform/ScaleformMovieView.h"
 
-class ScaleformMovieView {
-public:
-    class __declspec(novtable) ScaleformCommand {
-    public:
-        virtual __forceinline ~ScaleformCommand() { fn_82670A50(this); }
-        char pad[0x10];
-    };
-    class ScaleformCommandCleanUpTextures : public ScaleformCommand {
-    public:
-        virtual __forceinline ~ScaleformCommandCleanUpTextures() {}
-    };
-};
+typedef ScaleformMovieView::ScaleformCommandCleanUpTextures CleanUpTextures_82671478;
 
-extern "C" ScaleformMovieView::ScaleformCommandCleanUpTextures *fn_82671478(ScaleformMovieView::ScaleformCommandCleanUpTextures *self, unsigned int flags)
+extern "C" CleanUpTextures_82671478 *fn_82671478(CleanUpTextures_82671478 *self, unsigned int flags)
 {
-    self->ScaleformMovieView::ScaleformCommandCleanUpTextures::~ScaleformCommandCleanUpTextures();
-    if (flags & 1)
+    self->CleanUpTextures_82671478::~ScaleformCommandCleanUpTextures();
+    if (flags & 1) {
         fn_8265CA20(self);
+    }
     return self;
 }

@@ -1,1 +1,0 @@
-struct Q { char pad[0xf0]; int v; }; struct S { int pad; struct Q *q; char pad2[12]; int x; }; extern void fn_82671D48(); char fn_82672208(struct S *p) { if (p->q->v) { fn_82671D48(p->q,&p->x); return 0; } return 1; }
