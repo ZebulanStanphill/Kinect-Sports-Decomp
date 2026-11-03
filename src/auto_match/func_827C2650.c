@@ -1,133 +1,102 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1B68();
-extern int fn_827C25F0();
+typedef struct cinfo_827C2650 cinfo_827C2650;
+typedef struct {
+  int pad0;
+  int component_index;        /* 4 */
+  char pad8[0x1c];
+  int DCT_scaled_size;        /* 0x24 */
+  char pad28[8];
+  char component_needed;      /* 0x30 */
+  char pad31[3];
+  int MCU_width;              /* 0x34 */
+  int MCU_height;             /* 0x38 */
+  int MCU_blocks;             /* 0x3c */
+  int MCU_sample_width;       /* 0x40 */
+  int last_col_width;         /* 0x44 */
+  int last_row_height;        /* 0x48 */
+} comp_827C2650;
+typedef struct {
+  int pad0[5];
+  unsigned MCU_ctr;           /* 0x14 */
+  int MCU_vert_offset;        /* 0x18 */
+  int MCU_rows_per_iMCU_row;  /* 0x1c */
+  void *MCU_buffer[10];       /* 0x20 */
+} coef_827C2650;
+typedef void (*idct_fn_827C2650)(cinfo_827C2650 *, comp_827C2650 *, void *, void *, unsigned);
+struct cinfo_827C2650 {
+  char pad0[0x80];
+  unsigned input_iMCU_row;    /* 0x80 */
+  int pad84;
+  int output_iMCU_row;        /* 0x88 */
+  char pad8c[0x90];
+  unsigned total_iMCU_rows;   /* 0x11c */
+  int pad120;
+  int comps_in_scan;          /* 0x124 */
+  comp_827C2650 *cur_comp_info[4];  /* 0x128 */
+  unsigned MCUs_per_row;      /* 0x138 */
+  int pad13c;
+  int blocks_in_MCU;          /* 0x140 */
+  char pad144[0x44];
+  coef_827C2650 *coef;        /* 0x188 */
+  int pad18c;
+  struct { int p0, p4, p8; void (*finish_input_pass)(cinfo_827C2650 *); } *inputctl;  /* 0x190 */
+  int pad194;
+  struct { int p0; unsigned char (*decode_mcu)(cinfo_827C2650 *, void **); } *entropy;  /* 0x198 */
+  struct { int p0; idct_fn_827C2650 inverse_DCT[10]; } *idct;  /* 0x19c */
+};
+extern void fn_827C1B68(void *, unsigned);
+extern void fn_827C25F0(cinfo_827C2650 *);
 
-
-undefined8 fn_827C2650(int param_1,int param_2)
-
+int fn_827C2650(cinfo_827C2650 *cinfo, unsigned char ***output_buf)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  code *pcVar4;
-  int iVar5;
-  char cVar7;
-  undefined8 uVar6;
-  ulonglong uVar8;
-  uint uVar9;
-  int iVar10;
-  int *piVar11;
-  int iVar12;
-  int iVar13;
-  uint uVar14;
-  int iVar15;
-  int iVar16;
-  longlong lVar17;
-  longlong lVar18;
-  int iVar19;
-  
-  iVar1 = *(int *)(param_1 + 0x188);
-  uVar9 = *(int *)(param_1 + 0x138) - 1;
-  iVar2 = *(int *)(param_1 + 0x11c);
-  iVar13 = *(int *)(iVar1 + 0x18);
-  if (iVar13 < *(int *)(iVar1 + 0x1c)) {
-    do {
-      for (uVar14 = *(uint *)(iVar1 + 0x14); uVar14 <= uVar9; uVar14 = uVar14 + 1) {
-        fn_827C1B68(*(undefined4 *)(iVar1 + 0x20),*(int *)(param_1 + 0x140) << 7);
-        cVar7 = (**(code **)(*(int *)(param_1 + 0x198) + 4))(param_1,iVar1 + 0x20);
-        if (cVar7 == '\0') {
-          *(int *)(iVar1 + 0x18) = iVar13;
-          *(uint *)(iVar1 + 0x14) = uVar14;
-          return 0;
+  coef_827C2650 *coef = cinfo->coef;
+  unsigned MCU_col_num;
+  unsigned last_MCU_col = cinfo->MCUs_per_row - 1;
+  unsigned last_iMCU_row = cinfo->total_iMCU_rows - 1;
+  int blkn, ci, xindex, yindex, yoffset, useful_width;
+  unsigned char **output_ptr;
+  unsigned start_col, output_col;
+  comp_827C2650 *compptr;
+  idct_fn_827C2650 inverse_DCT;
+
+  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row; yoffset++) {
+    for (MCU_col_num = coef->MCU_ctr; MCU_col_num <= last_MCU_col; MCU_col_num++) {
+      fn_827C1B68(coef->MCU_buffer[0], cinfo->blocks_in_MCU << 7);
+      if (!cinfo->entropy->decode_mcu(cinfo, coef->MCU_buffer)) {
+        coef->MCU_vert_offset = yoffset;
+        coef->MCU_ctr = MCU_col_num;
+        return 0;
+      }
+      blkn = 0;
+      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+        compptr = cinfo->cur_comp_info[ci];
+        if (!compptr->component_needed) {
+          blkn += compptr->MCU_blocks;
+          continue;
         }
-        iVar12 = 0;
-        iVar10 = 0;
-        if (0 < *(int *)(param_1 + 0x124)) {
-          piVar11 = (int *)(param_1 + 0x128);
-          do {
-            iVar3 = *piVar11;
-            if (*(char *)(iVar3 + 0x30) == '\0') {
-              iVar12 = *(int *)(iVar3 + 0x3c) + iVar12;
+        inverse_DCT = cinfo->idct->inverse_DCT[compptr->component_index];
+        useful_width = (MCU_col_num < last_MCU_col) ? compptr->MCU_width : compptr->last_col_width;
+        output_ptr = output_buf[compptr->component_index] + yoffset * compptr->DCT_scaled_size;
+        start_col = MCU_col_num * compptr->MCU_sample_width;
+        for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
+          if (cinfo->input_iMCU_row < last_iMCU_row || yoffset + yindex < compptr->last_row_height) {
+            output_col = start_col;
+            for (xindex = 0; xindex < useful_width; xindex++) {
+              (*inverse_DCT)(cinfo, compptr, coef->MCU_buffer[blkn + xindex], output_ptr, output_col);
+              output_col += compptr->DCT_scaled_size;
             }
-            else {
-              iVar19 = *(int *)(iVar3 + 4) * 4;
-              pcVar4 = *(code **)(*(int *)(param_1 + 0x19c) + iVar19 + 4);
-              if (uVar14 < uVar9) {
-                iVar15 = *(int *)(iVar3 + 0x34);
-              }
-              else {
-                iVar15 = *(int *)(iVar3 + 0x44);
-              }
-              iVar16 = 0;
-              uVar8 = (ulonglong)*(uint *)(iVar3 + 0x24);
-              iVar5 = *(int *)(iVar3 + 0x40);
-              lVar17 = ((longlong)(int)*(uint *)(iVar3 + 0x24) * (longlong)iVar13 & 0x3fffffffU) * 4
-                       + (ulonglong)*(uint *)(iVar19 + param_2);
-              if (0 < *(int *)(iVar3 + 0x38)) {
-                do {
-                  if (((*(uint *)(param_1 + 0x80) < iVar2 - 1U) ||
-                      (iVar16 + iVar13 < *(int *)(iVar3 + 0x48))) && (iVar19 = 0, 0 < iVar15)) {
-                    lVar18 = (longlong)iVar5 * (longlong)(int)uVar14;
-                    do {
-                      (*pcVar4)(param_1,iVar3,*(undefined4 *)((iVar12 + 8 + iVar19) * 4 + iVar1),
-                                lVar17,lVar18);
-                      uVar8 = (ulonglong)*(uint *)(iVar3 + 0x24);
-                      iVar19 = iVar19 + 1;
-                      lVar18 = uVar8 + lVar18;
-                    } while (iVar19 < iVar15);
-                  }
-                  iVar16 = iVar16 + 1;
-                  iVar12 = *(int *)(iVar3 + 0x34) + iVar12;
-                  lVar17 = (uVar8 & 0x3fffffff) * 4 + lVar17;
-                } while (iVar16 < *(int *)(iVar3 + 0x38));
-              }
-            }
-            iVar10 = iVar10 + 1;
-            piVar11 = piVar11 + 1;
-          } while (iVar10 < *(int *)(param_1 + 0x124));
+          }
+          blkn += compptr->MCU_width;
+          output_ptr += compptr->DCT_scaled_size;
         }
       }
-      iVar13 = iVar13 + 1;
-      *(undefined4 *)(iVar1 + 0x14) = 0;
-    } while (iVar13 < *(int *)(iVar1 + 0x1c));
+    }
+    coef->MCU_ctr = 0;
   }
-  uVar9 = *(int *)(param_1 + 0x80) + 1;
-  *(int *)(param_1 + 0x88) = *(int *)(param_1 + 0x88) + 1;
-  *(uint *)(param_1 + 0x80) = uVar9;
-  if (uVar9 < *(uint *)(param_1 + 0x11c)) {
-    fn_827C25F0(param_1);
-    uVar6 = 3;
+  cinfo->output_iMCU_row++;
+  if (++(cinfo->input_iMCU_row) < cinfo->total_iMCU_rows) {
+    fn_827C25F0(cinfo);
+    return 3;
   }
-  else {
-    (**(code **)(*(int *)(param_1 + 400) + 0xc))(param_1);
-    uVar6 = 4;
-  }
-  return uVar6;
+  cinfo->inputctl->finish_input_pass(cinfo);
+  return 4;
 }
-

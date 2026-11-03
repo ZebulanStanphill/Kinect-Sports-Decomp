@@ -1,101 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_822315A0();
-extern int fn_822D79D8();
+typedef struct Comp_823A86F0 Comp_823A86F0;
+struct Comp_823A86F0 {
+  struct { int p0, p4, p8, pc; void (*f10)(Comp_823A86F0 *, int, void *); void (*f14)(Comp_823A86F0 *, int, void *); } *vt;
+};
+typedef struct Lis_823A86F0 Lis_823A86F0;
+struct Lis_823A86F0 { struct { int p0; void (*f4)(Lis_823A86F0 *, int, int, int); } *vt; };
+typedef struct { int first; void *second; } Sp_823A86F0;
+typedef struct {
+  char pad0[0x48];
+  Lis_823A86F0 *lis;      /* 0x48 */
+  char pad4c[0x1c];
+  Comp_823A86F0 *c68;     /* 0x68 */
+  int p6c;
+  Comp_823A86F0 *c70;     /* 0x70 */
+  int p74;
+  Comp_823A86F0 *c78;     /* 0x78 */
+} Obj_823A86F0;
+extern void *fn_8265C9E0(int);
 extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_1c;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int stack0x0000002c;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
-extern unsigned int uStack0000002c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+extern void fn_822D79D8(Sp_823A86F0 *, int);
+extern void fn_828E9D90(int);
+extern void fn_828E9D40(int);
+extern void fn_828E2B28(Obj_823A86F0 *, Sp_823A86F0 *);
+extern void fn_822315A0(void *);
 
-
-void fn_823A86F0(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
-
+void fn_823A86F0(Obj_823A86F0 *o, int a, int b, int c)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  int iVar4;
-  undefined8 uVar3;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined4 uStack0000002c;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 auStack_28;
-  struct { undefined4 first; int second; } stack_pair_20;
-
-
-  uStack0000001c = param_2;
-  uStack00000024 = param_3;
-  uStack0000002c = param_4;
-  iVar4 = fn_8265C9E0(0x28);
-  if (iVar4 == 0) {
-    uVar3 = 0;
+  Sp_823A86F0 sp;
+  void *mem;
+  int obj;
+  int r;
+  int s2, s1, s0;
+  int u;
+  mem = fn_8265C9E0(0x28);
+  if (mem != 0) {
+    obj = fn_822D7FE0(mem);
+  } else {
+    obj = 0;
   }
-  else {
-    uVar3 = fn_822D7FE0();
-  }
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  fn_822D79D8(&stack_pair_20.first,uVar3);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
-            (*(int **)(param_1 + 0x68),stack_pair_20.first,&stack0x0000001c);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))
-            (*(int **)(param_1 + 0x70),stack_pair_20.first,&stack0x00000024);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x10))
-            (*(int **)(param_1 + 0x78),stack_pair_20.first,&stack0x0000002c);
-  if (*(int *)(param_1 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_20.first);
-    fn_828E9D40(stack_pair_20.first);
-    uVar2 = stack_pair_20.first;
-    (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),stack_pair_20.first,&auStack_28)
-    ;
-    (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),uVar2,&uStack_2c);
-    (**(code **)(**(int **)(param_1 + 0x78) + 0x14))(*(int **)(param_1 + 0x78),uVar2,&uStack_30);
-    piVar1 = *(int **)(param_1 + 0x48);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 4))(piVar1,auStack_28,uStack_2c,uStack_30);
+  sp.first = 0;
+  sp.second = 0;
+  fn_822D79D8(&sp, obj);
+  o->c68->vt->f10(o->c68, sp.first, &a);
+  o->c70->vt->f10(o->c70, sp.first, &b);
+  o->c78->vt->f10(o->c78, sp.first, &c);
+  if (o->lis != 0) {
+    fn_828E9D90(sp.first);
+    fn_828E9D40(sp.first);
+    u = sp.first;
+    o->c68->vt->f14(o->c68, u, &s2);
+    o->c70->vt->f14(o->c70, u, &s1);
+    o->c78->vt->f14(o->c78, u, &s0);
+    if (o->lis != 0) {
+      o->lis->vt->f4(o->lis, s2, s1, s0);
     }
   }
-  fn_828E2B28(param_1,&stack_pair_20.first);
-  if (stack_pair_20.second != 0) {
-    fn_822315A0();
+  fn_828E2B28(o, &sp);
+  if (sp.second != 0) {
+    fn_822315A0(sp.second);
   }
-  return;
 }

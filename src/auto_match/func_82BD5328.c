@@ -1,99 +1,90 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C990();
-extern int fn_82A1E650();
-extern int fn_82A1E658();
-extern int fn_82A1E7D8();
-extern int fn_82BD7080();
-extern int fn_82BD9E68();
-extern unsigned int uRam83223ecc;
-extern unsigned int uRam83223ed0;
+extern void __emit(unsigned int);
+/* or r31,r31,r31: SMT thread-priority hint (XDK __db*cyc family) */
+#define SPIN_HINT() __emit(0x7FFFFB78)
+typedef struct Vt_82BD5328 { char pad[0x48]; void (*f48)(void *); } Vt_82BD5328;
+typedef struct { void (**vt)(void *); } Obj8_82BD5328;
+typedef struct { char pad[8]; void (*f8)(void *); } Vt8_82BD5328;
+typedef struct { Vt8_82BD5328 *vt; } A_82BD5328;
+typedef struct { Vt_82BD5328 *vt; } B_82BD5328;
+typedef struct {
+  int p0, p4;
+  unsigned n;             /* 8 */
+  char pad0c[0x30];
+  A_82BD5328 *a3c;        /* 0x3c */
+  B_82BD5328 *b40;        /* 0x40 */
+  int s44;
+  int s48;
+  int p4c;
+  int h[4];               /* 0x50 */
+  int q60[1];
+  char pad64[0x84];
+  void *he8;
+  char padec[0x20];
+  int p10c;
+  void *h110;
+  char pad114[4];
+  void *h118;
+} Obj_82BD5328;
+extern int lbl_83223ECC[];
+extern void fn_8265C990(void *, int);
+extern void fn_82A1E650(void *, int);
+extern void fn_82A1E658(void *);
+extern void fn_82A1E7D8(void *);
+extern void fn_82BD7080(int);
+extern void fn_82BD9E68(int);
 
-
-void fn_82BD5328(int param_1)
-
+void fn_82BD5328(Obj_82BD5328 *o)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  uRam83223ecc = 0;
-  uRam83223ed0 = 0;
-  if (param_1 != 0) {
-    if ((*(int *)(param_1 + 0xe8) != 0) && (*(int *)(param_1 + 0xe8) != -1)) {
-      fn_82A1E7D8(*(undefined4 *)(param_1 + 0x110));
-      *(undefined4 *)(param_1 + 0x10c) = 3;
-      fn_82A1E650(*(undefined4 *)(param_1 + 0xe8),0xffffffffffffffff);
-      *(undefined4 *)(param_1 + 0x10c) = 0;
-      fn_82A1E658(*(undefined4 *)(param_1 + 0xe8));
-      *(undefined4 *)(param_1 + 0xe8) = 0xffffffff;
+  int i;
+  unsigned u;
+  int *p;
+  lbl_83223ECC[0] = 0;
+  lbl_83223ECC[1] = 0;
+  if (o != 0) {
+    if (o->he8 != 0 && o->he8 != (void *)-1) {
+      fn_82A1E7D8(o->h110);
+      o->p10c = 3;
+      fn_82A1E650(o->he8, -1);
+      o->p10c = 0;
+      fn_82A1E658(o->he8);
+      o->he8 = (void *)-1;
     }
-    if ((*(int *)(param_1 + 0x110) != 0) && (*(int *)(param_1 + 0x110) != -1)) {
-      fn_82A1E658();
-      *(undefined4 *)(param_1 + 0x110) = 0xffffffff;
+    if (o->h110 != 0 && o->h110 != (void *)-1) {
+      fn_82A1E658(o->h110);
+      o->h110 = (void *)-1;
     }
-    if ((*(int *)(param_1 + 0x118) != 0) && (*(int *)(param_1 + 0x118) != -1)) {
-      fn_82A1E658();
-      *(undefined4 *)(param_1 + 0x118) = 0xffffffff;
+    if (o->h118 != 0 && o->h118 != (void *)-1) {
+      fn_82A1E658(o->h118);
+      o->h118 = (void *)-1;
     }
-    if (*(int *)(param_1 + 0x40) != 0) {
-      *(undefined4 *)(param_1 + 0x44) = 0;
-      do {
-      } while (*(int *)(param_1 + 0x48) != 0);
+    if (o->b40 != 0) {
+      o->s44 = 0;
+      while (o->s48 != 0) {
+        SPIN_HINT();
+      }
     }
-    puVar1 = (undefined4 *)(param_1 + 0x4c);
-    lVar3 = 4;
+    i = 0;
     do {
-      fn_82BD7080(puVar1[1]);
-      lVar3 = lVar3 + -1;
-      puVar1 = puVar1 + 1;
-      *puVar1 = 0;
-    } while (lVar3 != 0);
-    uVar2 = 0;
-    if (*(int *)(param_1 + 8) != 0) {
-      puVar1 = (undefined4 *)(param_1 + 0x5c);
+      fn_82BD7080(o->h[i]);
+      o->h[i] = 0;
+      i++;
+    } while (i < 4);
+    u = 0;
+    if (o->n > 0) {
       do {
-        fn_82BD9E68(puVar1[1]);
-        uVar2 = uVar2 + 1;
-        puVar1 = puVar1 + 1;
-        *puVar1 = 0;
-      } while (uVar2 < *(uint *)(param_1 + 8));
+        fn_82BD9E68(o->h[u + 4]);
+        o->h[u + 4] = 0;
+        u++;
+      } while (u < o->n);
     }
-    if (*(int **)(param_1 + 0x40) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x40) + 0x48))();
-      *(undefined4 *)(param_1 + 0x40) = 0;
+    if (o->b40 != 0) {
+      o->b40->vt->f48(o->b40);
+      o->b40 = 0;
     }
-    if (*(int **)(param_1 + 0x3c) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x3c) + 8))();
-      *(undefined4 *)(param_1 + 0x3c) = 0;
+    if (o->a3c != 0) {
+      o->a3c->vt->f8(o->a3c);
+      o->a3c = 0;
     }
-    fn_8265C990(param_1,0x618a800c);
+    fn_8265C990(o, 0x618a800c);
   }
-  return;
 }
-

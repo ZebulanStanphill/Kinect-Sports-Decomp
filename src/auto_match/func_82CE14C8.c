@@ -1,66 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82A2B798();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct { void *h; unsigned z; unsigned __int64 q; } Req_82CE14C8;
+extern int XamSessionRefObjByHandle(unsigned __int64, void **);
+extern int XMsgStartIORequest(int, int, unsigned, void *, int);
+extern void ObDereferenceObject(void *);
+extern void *fn_82A2B798();
 
-
-ulonglong fn_82CE14C8(undefined8 param_1,ulonglong param_2)
-
+unsigned int fn_82CE14C8(unsigned __int64 handle, unsigned int ev)
 {
-  ulonglong uVar1;
-  int iVar3;
-  longlong lVar2;
-  undefined4 auStack_40;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  void *obj;
+  Req_82CE14C8 r;
+  unsigned int rc;
 
-  undefined8 uStack_28;
-  
-  uVar1 = XamSessionRefObjByHandle(param_1,&auStack_40);
-  if (uVar1 == 0) {
-    stack_pair_30.second = 0;
-    uStack_28 = 0;
-    stack_pair_30.first = auStack_40;
-    iVar3 = XMsgStartIORequest(0xfb,0xb0011,param_2,&stack_pair_30.first,0x10);
-    if (iVar3 < 0) {
-      uVar1 = 0x65b;
+  rc = XamSessionRefObjByHandle(handle, &obj);
+  if (rc == 0) {
+    r.h = obj;
+    r.z = 0;
+    r.q = 0;
+    if (XMsgStartIORequest(0xfb, 0xb0011, ev, &r, 0x10) < 0) {
+      rc = 0x65b;
+    } else if (ev == 0) {
+      rc = fn_82A2B798() != 0 ? 0x65b : 0;
+    } else {
+      rc = 0x3e5;
     }
-    else if ((param_2 & 0xffffffff) == 0) {
-      lVar2 = fn_82A2B798();
-      uVar1 = -(ulonglong)(lVar2 != 0) & 0x65b;
-    }
-    else {
-      uVar1 = 0x3e5;
-    }
-    ObDereferenceObject(auStack_40);
+    ObDereferenceObject(obj);
   }
-  return uVar1;
+  return rc;
 }
-

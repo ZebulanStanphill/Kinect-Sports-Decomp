@@ -1,54 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { int p0; float val; int p8, pc; unsigned __int64 q; } Slot_83013DF0;
+typedef struct {
+  unsigned id;
+  int p4;
+  Slot_83013DF0 slot;
+  char pad[8];
+} Ent_83013DF0;
+typedef struct {
+  int p0;
+  Ent_83013DF0 *begin;
+  Ent_83013DF0 *end;
+  int pc;
+  char cs[0x20];
+  unsigned __int64 q30;
+} Obj_83013DF0;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_83013DF0(double param_1,int param_2,int param_3,undefined8 param_4)
-
+static __forceinline Slot_83013DF0 *findSlot(Obj_83013DF0 *o, unsigned id)
 {
-  uint uVar1;
-  uint uVar2;
-  int *piVar4;
-  undefined8 uVar3;
-  uint uVar5;
-  
-  for (piVar4 = *(int **)(param_2 + 4); (piVar4 != *(int **)(param_2 + 8) && (*piVar4 != param_3));
-      piVar4 = piVar4 + 10) {
+  Ent_83013DF0 *e;
+  unsigned ok;
+  for (e = o->begin; e != o->end && e->id != id; e++) {
   }
-  uVar1 = (uint)(*(int **)(param_2 + 8) != piVar4);
-  uVar2 = -(uint)(uVar1 != 0);
-  uVar5 = uVar2 & (uint)(piVar4 + 2);
-  if (uVar5 != 0) {
-    RtlEnterCriticalSection(param_2 + 0x10,uVar2,param_4,-uVar1);
-    uVar3 = *(undefined8 *)(param_2 + 0x30);
-    *(float *)(uVar5 + 4) = (float)param_1;
-    *(undefined8 *)(uVar5 + 0x10) = uVar3;
-    RtlLeaveCriticalSection(param_2 + 0x10);
-  }
-  return;
+  ok = e != o->end;
+  return ok ? &e->slot : 0;
 }
 
+void fn_83013DF0(Obj_83013DF0 *o, unsigned id, float v)
+{
+  Slot_83013DF0 *s = findSlot(o, id);
+  if (s != 0) {
+    RtlEnterCriticalSection(o->cs);
+    s->q = o->q30;
+    s->val = v;
+    RtlLeaveCriticalSection(o->cs);
+  }
+}

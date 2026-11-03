@@ -1,56 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Iface_830500F0 Iface_830500F0;
+struct Iface_830500F0 {
+  struct { int p0, p4; int (*f8)(Iface_830500F0 *, void *); } *vt;
+};
+typedef struct { char pad[0x80]; Iface_830500F0 *dev; } Src_830500F0;
+typedef struct {
+  char pad0[0x18];
+  __int64 q18;
+  unsigned h20, l20;
+  __int64 q28;
+  __int64 q30;
+  char pad38[0x28];
+  Src_830500F0 *src; /* 0x60 */
+  char pad64[8];
+  int r6c;
+  char pad70[0x2c];
+  struct { unsigned mode : 3; unsigned pad : 4; unsigned flag : 1; unsigned rest : 24; } bits; /* 0x9c */
+} Obj_830500F0;
 
-
-char fn_830500F0(int param_1,int param_2,longlong *param_3,int param_4)
-
+char fn_830500F0(Obj_830500F0 *o, Src_830500F0 *s, __int64 *v, int mode)
 {
-  int iVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  *(int *)(param_1 + 0x60) = param_2;
-  lVar3 = *param_3;
-  *(longlong *)(param_1 + 0x18) = lVar3;
-  *(longlong *)(param_1 + 0x20) = param_3[1];
-  *(longlong *)(param_1 + 0x28) = param_3[2];
-  *(longlong *)(param_1 + 0x30) = param_3[3];
-  if (lVar3 < 0) {
-    return '\x1f';
+  int r;
+  o->src = s;
+  o->q18 = v[0];
+  *(__int64 *)&o->h20 = v[1];
+  o->q28 = v[2];
+  o->q30 = v[3];
+  if (o->q18 < 0) {
+    return 0x1f;
   }
-  uVar2 = *(uint *)(param_1 + 0x9c) | 0x1000000;
-  if (*(int *)(param_1 + 0x20) == 0) {
-    uVar2 = *(uint *)(param_1 + 0x9c) & 0xfeffffff;
+  if (o->h20 > 0) {
+    o->bits.flag = 1;
+  } else {
+    o->bits.flag = 0;
   }
-  *(uint *)(param_1 + 0x9c) = uVar2;
-  *(uint *)(param_1 + 0x9c) = param_4 << 0x1d | uVar2 & 0x1fffffff;
-  iVar1 = (**(code **)(**(int **)(param_2 + 0x80) + 8))(*(int **)(param_2 + 0x80),param_1 + 0x18);
-  *(int *)(param_1 + 0x6c) = iVar1;
-  return (iVar1 == 0) + '\x01';
+  o->bits.mode = mode;
+  r = s->dev->vt->f8(s->dev, &o->q18);
+  o->r6c = r;
+  return (r == 0) + 1;
 }
-

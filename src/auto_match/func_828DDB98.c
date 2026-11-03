@@ -1,55 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828B03A8();
-extern int fn_828B03C0();
-extern int fn_828B03D8();
+typedef struct {
+  char pad0[0x18];
+  int f18;
+  char pad1c[0x50];
+  int f6c;
+  char pad70[0x10];
+  unsigned kind;       /* 0x80 */
+  int pad84;
+  __int64 q88;
+  unsigned char b90;
+} Obj_828DDB98;
+extern void fn_828B03A8(int, __int64);
+extern void fn_828B03C0(int);
+extern void fn_828B03D8(int, int, unsigned char);
 
-
-undefined8 fn_828DDB98(int param_1)
-
+int fn_828DDB98(Obj_828DDB98 *o)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 + 0x80);
-  if (uVar1 == 0) {
-    fn_828B03A8(*(undefined4 *)(param_1 + 0x6c),*(undefined8 *)(param_1 + 0x88));
-  }
-  else {
-    if (uVar1 == 1) {
-      fn_828B03D8(*(undefined4 *)(param_1 + 0x6c),*(undefined4 *)(param_1 + 0x18),
-                        *(undefined1 *)(param_1 + 0x90));
-      return 1;
-    }
-    if (uVar1 < 3) {
-      fn_828B03C0(*(undefined4 *)(param_1 + 0x6c));
-      return 1;
-    }
+  switch (o->kind) {
+  case 2:
+    fn_828B03C0(o->f6c);
+    break;
+  case 1:
+    fn_828B03D8(o->f6c, o->f18, o->b90);
+    break;
+  case 0:
+    fn_828B03A8(o->f6c, o->q88);
+    break;
+  default:
+    break;
   }
   return 1;
 }
-

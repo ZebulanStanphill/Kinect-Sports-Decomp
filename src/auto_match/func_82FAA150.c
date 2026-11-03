@@ -1,46 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct B_82FAA150 B_82FAA150;
+typedef struct A_82FAA150 A_82FAA150;
+typedef struct C_82FAA150 { char pad[0x60]; unsigned v60; } C_82FAA150;
+struct A_82FAA150 {
+  struct { char p0[8]; A_82FAA150 *(*f8)(B_82FAA150 *); } *vt;
+  char pad[0x3c];
+  C_82FAA150 *c40;
+};
+typedef struct D_82FAA150 {
+  struct { char p0[0x20]; unsigned (*f20)(struct D_82FAA150 *); } *vt;
+  int p4, p8;
+  struct D_82FAA150 *pc;
+} D_82FAA150;
+struct B_82FAA150 {
+  struct { char p0[8]; D_82FAA150 *(*f8)(B_82FAA150 *); } *vt;
+};
+typedef struct {
+  B_82FAA150 *a;
+  struct { char pad[0x40]; int c40; } *b;
+} Arg_82FAA150;
 
-
-ulonglong fn_82FAA150(undefined8 param_1,undefined4 *param_2)
-
+unsigned fn_82FAA150(void *unused, Arg_82FAA150 *p)
 {
-  int *piVar2;
-  ulonglong uVar1;
-  
-  if (*(int *)(param_2[1] + 0x40) != 0) {
-    return (ulonglong)*(uint *)(*(int *)(param_2[1] + 0x40) + 0x60);
+  D_82FAA150 *d;
+  unsigned r;
+  if (p->b->c40 != 0) {
+    return ((C_82FAA150 *)p->b->c40)->v60;
   }
-  piVar2 = (int *)(**(code **)(*(int *)*param_2 + 8))();
-  uVar1 = (**(code **)(*piVar2 + 0x20))();
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = (**(code **)(*(int *)piVar2[3] + 0x20))();
+  d = p->a->vt->f8(p->a);
+  r = d->vt->f20(d);
+  if (r == 0) {
+    r = d->pc->vt->f20(d->pc);
   }
-  return uVar1;
+  return r;
 }
-

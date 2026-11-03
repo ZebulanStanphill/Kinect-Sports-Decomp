@@ -9974,7 +9974,7 @@
         ]
       },
       "auto_match/func_8225BD88.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -15803,7 +15803,7 @@
         ]
       },
       "auto_match/func_822A12F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -27751,7 +27751,7 @@
         ]
       },
       "auto_match/func_82361AF0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -27765,7 +27765,7 @@
         "vc_include": true
       },
       "auto_match/func_82361C50.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -33076,7 +33076,7 @@
         ]
       },
       "auto_match/func_823A86F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -42457,7 +42457,7 @@
         ]
       },
       "auto_match/func_8242ED10.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -49232,7 +49232,7 @@
         ]
       },
       "auto_match/func_8248B7E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -60229,7 +60229,7 @@
         ]
       },
       "auto_match/func_82525618.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -116382,7 +116382,7 @@
         ]
       },
       "auto_match/func_827C2650.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -156908,7 +156908,7 @@
         ]
       },
       "auto_match/func_828DDB98.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -161989,7 +161989,7 @@
         ]
       },
       "auto_match/func_829309D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -164538,7 +164538,7 @@
         ]
       },
       "auto_match/func_82964CB0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -166129,7 +166129,7 @@
         ]
       },
       "auto_match/func_829A3A78.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -199514,7 +199514,7 @@
         ]
       },
       "auto_match/func_82BD5328.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -207382,7 +207382,7 @@
         ]
       },
       "auto_match/func_82C27630.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -212643,7 +212643,7 @@
         ]
       },
       "auto_match/func_82CE14C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -212685,7 +212685,7 @@
         ]
       },
       "auto_match/func_82CE19A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -213995,9 +213995,9 @@
         ]
       },
       "auto_match/func_82CE6A70.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82CE6AF8.cpp": {
@@ -237688,7 +237688,7 @@
         ]
       },
       "auto_match/func_82DC5128.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -268195,7 +268195,7 @@
         ]
       },
       "auto_match/func_82F631E8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -274779,7 +274779,7 @@
         ]
       },
       "auto_match/func_82FAA150.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -277961,7 +277961,7 @@
         ]
       },
       "auto_match/func_82FD3E38.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -285249,7 +285249,7 @@
         ]
       },
       "auto_match/func_83013DF0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -293322,7 +293322,7 @@
         ]
       },
       "auto_match/func_830500F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -295512,9 +295512,9 @@
         ]
       },
       "auto_match/func_8305BDE0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_8305BE58.c": {
