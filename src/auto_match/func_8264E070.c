@@ -1,75 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int __imp__VdGlobalDevice;
-extern unsigned int __imp__VdGlobalXamDevice;
-extern int fn_82644450();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Obj_8264E070 {
+  char pad[0x30];
+  unsigned f30;
+  unsigned f34;
+  char pad38[0x12c];
+  unsigned f164;
+} Obj_8264E070;
+extern unsigned **__imp_VdGlobalDevice;
+extern unsigned **__imp_VdGlobalXamDevice;
+extern int KeGetCurrentProcessType(void);
+extern void fn_82644450(unsigned, void *, int);
 
-
-void fn_8264E070(int param_1)
-
+void fn_8264E070(Obj_8264E070 *o)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  int iVar4;
-  uint uVar5;
-  struct { undefined4 first; uint second; } stack_pair_30;
-
-  undefined4 *puVar3;
-  
-  uVar1 = *(uint *)(param_1 + 0x30);
-  if ((int)uVar1 < 0) {
-    uVar5 = 0x2aaaaaaa;
+  unsigned f = o->f30;
+  int sign = (int)f >> 31;
+  unsigned r;
+  unsigned **dev;
+  unsigned dv;
+  struct { unsigned a, b, c; } pair;
+  if (sign != 0) {
+    r = 0x2aaaaaaa;
+  } else if ((f & 0x40000000) != 0) {
+    r = 0x15555555;
+  } else {
+    r = 0xffffffff;
   }
-  else if ((uVar1 & 0x40000000) == 0) {
-    uVar5 = 0xffffffff;
+  if ((f & 0x20000000) != 0) {
+    r = (3 << (o->f34 * 2)) & r;
+    if (o->f34 == 0 && sign == 0) {
+      r = r | 0x80000000;
+    }
   }
-  else {
-    uVar5 = 0x15555555;
+  if (KeGetCurrentProcessType() == 2) {
+    dv = *__imp_VdGlobalXamDevice;
+  } else {
+    dv = *__imp_VdGlobalDevice;
   }
-  if ((((uVar1 & 0x20000000) != 0) &&
-      (uVar5 = 3 << ((*(uint *)(param_1 + 0x34) & 0x1f) << 1) & uVar5,
-      *(uint *)(param_1 + 0x34) == 0)) && (-1 < (int)uVar1)) {
-    uVar5 = uVar5 | 0x80000000;
+  if (r != o->f164) {
+    o->f164 = r;
+    pair.a = 0xc0006200;
+    pair.b = r;
+    fn_82644450(dv, &pair, 2);
   }
-  iVar4 = KeGetCurrentProcessType();
-  puVar3 = __imp__VdGlobalDevice;
-  if (iVar4 == 2) {
-    puVar3 = __imp__VdGlobalXamDevice;
-  }
-  uVar2 = *puVar3;
-  if (uVar5 != *(uint *)(param_1 + 0x164)) {
-    *(uint *)(param_1 + 0x164) = uVar5;
-    stack_pair_30.first = 0xc0006200;
-    stack_pair_30.second = uVar5;
-    fn_82644450(uVar2,&stack_pair_30.first,2);
-  }
-  return;
 }
-

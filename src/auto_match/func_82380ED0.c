@@ -1,66 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8243DD58();
-extern int fn_8265CA20();
-extern unsigned int lbl_821B3A10;
+typedef struct Node_82380ED0 {
+  struct Node_82380ED0 *left, *parent, *right;
+  char pad[0x8];
+  char color, isnil;
+} Node_82380ED0;
+typedef struct Tree_82380ED0 {
+  int pad;
+  Node_82380ED0 *head;
+  int size;
+} Tree_82380ED0;
+typedef struct Obj_82380ED0 {
+  void *vt;
+  int p4;
+  Tree_82380ED0 a;
+  int p14;
+  Tree_82380ED0 b;
+} Obj_82380ED0;
+extern char lbl_821B3A10[];
+extern int fn_8243DD58(Tree_82380ED0 *, Node_82380ED0 *);
+extern int fn_8265CA20(void *);
 
-
-void fn_82380ED0(undefined4 *param_1)
-
+static __forceinline void TreeDtor(Tree_82380ED0 *t)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  *param_1 = &lbl_821B3A10;
-  puVar1 = *(undefined4 **)(param_1[7] + 4);
-  while (*(char *)((int)puVar1 + 0x15) == '\0') {
-    fn_8243DD58(param_1 + 6,puVar1[2]);
-    puVar2 = (undefined4 *)*puVar1;
-    fn_8265CA20(puVar1);
-    puVar1 = puVar2;
+  Node_82380ED0 *p = t->head->parent;
+  Node_82380ED0 *q;
+  while (!p->isnil) {
+    fn_8243DD58(t, p->right);
+    q = p->left;
+    fn_8265CA20(p);
+    p = q;
   }
-  *(undefined4 *)(param_1[7] + 4) = param_1[7];
-  *(undefined4 *)param_1[7] = param_1[7];
-  *(undefined4 *)(param_1[7] + 8) = param_1[7];
-  param_1[8] = 0;
-  fn_8265CA20(param_1[7]);
-  puVar1 = *(undefined4 **)(param_1[3] + 4);
-  while (*(char *)((int)puVar1 + 0x15) == '\0') {
-    fn_8243DD58(param_1 + 2,puVar1[2]);
-    puVar2 = (undefined4 *)*puVar1;
-    fn_8265CA20(puVar1);
-    puVar1 = puVar2;
-  }
-  *(undefined4 *)(param_1[3] + 4) = param_1[3];
-  *(undefined4 *)param_1[3] = param_1[3];
-  *(undefined4 *)(param_1[3] + 8) = param_1[3];
-  param_1[4] = 0;
-  fn_8265CA20(param_1[3]);
-  return;
+  t->head->parent = t->head;
+  t->head->left = t->head;
+  t->head->right = t->head;
+  t->size = 0;
+  fn_8265CA20(t->head);
 }
 
+void fn_82380ED0(Obj_82380ED0 *o)
+{
+  o->vt = lbl_821B3A10;
+  TreeDtor(&o->b);
+  TreeDtor(&o->a);
+}

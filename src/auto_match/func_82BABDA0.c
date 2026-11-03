@@ -1,66 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BABD38();
-extern int fn_82BD09F0();
-extern unsigned int lbl_820E7F9C;
+typedef struct Ent_82BABDA0 { int a; unsigned char ok; char pad[7]; } Ent_82BABDA0;
+typedef struct Obj_82BABDA0 Obj_82BABDA0;
+typedef struct Mgr_82BABDA0 { char pad[0xab0]; int hb0; } Mgr_82BABDA0;
+struct Obj_82BABDA0 {
+  char pad0[0x10];
+  int f10;
+  char pad14[0x3c];
+  int f50;
+  char pad54[0x90];
+  unsigned fe4_hi : 30;
+  unsigned fe4_f : 1;
+  unsigned fe4_lo : 1;
+  char pade8[4];
+  Obj_82BABDA0 *fec;
+  char padf0[0x2c8];
+  Mgr_82BABDA0 *f3b8;
+};
+extern Ent_82BABDA0 lbl_820E7F98[];
+extern unsigned char fn_82BABD38();
+extern int fn_82BD09F0(int, Obj_82BABDA0 *);
 
-
-undefined8 fn_82BABDA0(int param_1)
-
+static __forceinline unsigned char Ok(Obj_82BABDA0 *p)
 {
-  undefined4 uVar1;
-  bool bVar2;
-  char cVar5;
-  int iVar3;
-  int iVar4;
-  
-  cVar5 = fn_82BABD38();
-  if (cVar5 != '\0') {
-    if (((*(int *)(param_1 + 0x10) == 0) || ((*(uint *)(param_1 + 0xe4) >> 1 & 1) != 0)) ||
-       (bVar2 = true, (&lbl_820E7F9C)[*(int *)(param_1 + 0x50) * 0xc] == '\0')) {
-      bVar2 = false;
-    }
-    if (bVar2) {
-      iVar3 = *(int *)(param_1 + 0xec);
-      if (((*(int *)(iVar3 + 0x10) == 0) || ((*(uint *)(iVar3 + 0xe4) >> 1 & 1) != 0)) ||
-         (bVar2 = true, (&lbl_820E7F9C)[*(int *)(iVar3 + 0x50) * 0xc] == '\0')) {
-        bVar2 = false;
-      }
-      if (bVar2) {
-        uVar1 = *(undefined4 *)(*(int *)(param_1 + 0x3b8) + 0xab0);
-        iVar3 = fn_82BD09F0(uVar1);
-        iVar4 = fn_82BD09F0(uVar1,param_1);
-        if (iVar4 == iVar3) {
-          return 1;
-        }
+  unsigned char r;
+  if (p->f10 == 0 || (unsigned char)p->fe4_f != 0 || lbl_820E7F98[p->f50].ok == 0)
+    r = 0;
+  else
+    r = 1;
+  return r;
+}
+
+unsigned char fn_82BABDA0(Obj_82BABDA0 *o)
+{
+  int r;
+  unsigned char c = fn_82BABD38();
+  if (c != 0) {
+    if (Ok(o)) {
+      Obj_82BABDA0 *o2 = o->fec;
+      if (Ok(o2)) {
+        int h = o->f3b8->hb0;
+        int a = fn_82BD09F0(h, o2);
+        int b = fn_82BD09F0(h, o);
+        if (b == a) { r = 1; goto done; }
       }
     }
   }
-  return 0;
+  r = 0;
+done:
+  return (unsigned char)r;
 }
-

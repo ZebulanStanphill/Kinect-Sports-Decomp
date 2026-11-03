@@ -1,73 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT22(h,l) ((U32)((((U16)(h)) << 16) | ((U16)(l))))
-#define CONCAT42(h,l) ((U64)((((U32)(h)) << 16) | ((U16)(l))))
-#define CONCAT62(h,l) ((U64)((((U64)(h)) << 16) | ((U16)(l))))
-extern int fn_827B6268();
-extern int fn_827B6378();
+extern int fn_827B6268(int);
+extern int fn_827B6378(int);
+typedef struct Q4_827B6F80 { unsigned short a, b, c, d; } Q4_827B6F80;
+typedef struct Rec_827B6F80 { char pad0[8]; int p8; char pad1[0x10]; unsigned short *f1c; unsigned short f20; unsigned short f22; unsigned short f24; unsigned short f26; } Rec_827B6F80;
+typedef struct Slot_827B6F80 {
+  int f0; unsigned short f4; unsigned char f6, f7, f8, f9, fa, fb; Rec_827B6F80 *fc; int f10; int f14; Q4_827B6F80 f18; unsigned short f20; unsigned short f22;
+} Slot_827B6F80;
 
-
-int fn_827B6F80(longlong param_1,undefined2 *param_2,undefined2 param_3,undefined2 param_4)
-
+Rec_827B6F80 *fn_827B6F80(int self, unsigned short *src, int w, int h)
 {
-  undefined2 uVar1;
-  undefined2 uVar2;
-  undefined2 uVar3;
-  undefined2 uVar4;
-  int iVar5;
-  undefined4 *puVar6;
-  
-  iVar5 = fn_827B6268(param_1 + 0x1c);
-  puVar6 = (undefined4 *)fn_827B6378(param_1 + 100);
-  *(undefined4 **)(iVar5 + 8) = puVar6;
-  *(undefined2 **)(iVar5 + 0x1c) = param_2;
-  *(undefined2 *)(iVar5 + 0x20) = *param_2;
-  *(undefined2 *)(iVar5 + 0x26) = 0;
-  *(undefined2 *)(iVar5 + 0x22) = param_3;
-  *(undefined2 *)(iVar5 + 0x24) = param_4;
-  *(undefined1 *)((int)puVar6 + 10) = 0x10;
-  puVar6[3] = iVar5;
-  *puVar6 = 0;
-  *(undefined2 *)(puVar6 + 1) = 0;
-  *(undefined1 *)((int)puVar6 + 6) = 0;
-  *(undefined1 *)((int)puVar6 + 7) = 0;
-  *(undefined1 *)(puVar6 + 2) = 0;
-  *(undefined1 *)((int)puVar6 + 9) = 0;
-  *(undefined1 *)((int)puVar6 + 0xb) = 0;
-  puVar6[4] = 0;
-  puVar6[5] = 0;
-  uVar1 = *(undefined2 *)(iVar5 + 0x22);
-  uVar2 = param_2[2];
-  uVar3 = param_2[1];
-  uVar4 = *(undefined2 *)(iVar5 + 0x24);
-  *(undefined2 *)(puVar6 + 8) = 0;
-  *(undefined2 *)((int)puVar6 + 0x22) = 0;
-  *(ulonglong *)(puVar6 + 6) = CONCAT62(CONCAT42(CONCAT22(uVar1,uVar3),uVar4),uVar2);
-  return iVar5;
+  Rec_827B6F80 *r;
+  Slot_827B6F80 *s;
+  Q4_827B6F80 t;
+  r = (Rec_827B6F80 *)fn_827B6268(self + 0x1c);
+  s = (Slot_827B6F80 *)fn_827B6378(self + 100);
+  r->p8 = (int)s;
+  r->f1c = src;
+  r->f20 = *src;
+  r->f26 = 0;
+  r->f22 = w;
+  r->f24 = h;
+  s->fa = 0x10;
+  s->fc = r;
+  s->f0 = 0;
+  s->f4 = 0;
+  s->f6 = 0;
+  s->f7 = 0;
+  s->f8 = 0;
+  s->f9 = 0;
+  s->fb = 0;
+  s->f10 = 0;
+  s->f14 = 0;
+  { unsigned short a = r->f22; unsigned short d = src[2]; unsigned short b = src[1]; unsigned short c = r->f24;
+  t.a = a; t.c = c; t.b = b; t.d = d; }
+  s->f20 = 0;
+  s->f22 = 0;
+  s->f18 = t;
+  return r;
 }
-

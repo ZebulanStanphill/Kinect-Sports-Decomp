@@ -1,110 +1,91 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829B7760();
+typedef struct Cinfo_829B5278 Cinfo_829B5278;
+typedef struct Err_829B5278 {
+  void (*error_exit)(Cinfo_829B5278 *);
+  int pad4[4];
+  int msg_code;
+  int p0, p1;
+} Err_829B5278;
+typedef struct Comp_829B5278 {
+  int id, index, h, v, q, dc, ac;
+  int wib, hib, dct, dw, dh, needed;
+  int pad[6];
+  int tbl;
+  int pad2;
+} Comp_829B5278;
+typedef struct Master_829B5278 { int pad[4]; int flag; } Master_829B5278;
+struct Cinfo_829B5278 {
+  Err_829B5278 *err;
+  int pad4[6];
+  int width;
+  int height;
+  int ncomp;
+  char pad28[0xb0];
+  int precision;
+  Comp_829B5278 *comp;
+  int progressive;
+  char pad_e4[0x54];
+  int max_h;
+  int max_v;
+  int min_dct;
+  int rows;
+  char pad_144[4];
+  int nscans;
+  char pad_150[0x68];
+  Master_829B5278 *master;
+};
+extern int fn_829B7760(int, int);
 
-
-void fn_829B5278(int *param_1)
-
+void fn_829B5278(Cinfo_829B5278 *c)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  undefined4 *puVar5;
-  
-  if ((0xffdc < param_1[8]) || (0xffdc < param_1[7])) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x29;
-    *(undefined4 *)(*param_1 + 0x18) = 0xffdc;
-    (**(code **)*param_1)(param_1);
+  int ci;
+  Comp_829B5278 *p;
+  int t;
+  if (c->height > 0xffdc || c->width > 0xffdc) {
+    c->err->msg_code = 0x29;
+    c->err->p0 = 0xffdc;
+    c->err->error_exit(c);
   }
-  if (param_1[0x36] != 8) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xf;
-    *(int *)(*param_1 + 0x18) = param_1[0x36];
-    (**(code **)*param_1)(param_1);
+  if (c->precision != 8) {
+    c->err->msg_code = 0xf;
+    c->err->p0 = c->precision;
+    c->err->error_exit(c);
   }
-  if (10 < param_1[9]) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x1a;
-    *(int *)(*param_1 + 0x18) = param_1[9];
-    *(undefined4 *)(*param_1 + 0x1c) = 10;
-    (**(code **)*param_1)(param_1);
+  if (c->ncomp > 10) {
+    c->err->msg_code = 0x1a;
+    c->err->p0 = c->ncomp;
+    c->err->p1 = 10;
+    c->err->error_exit(c);
   }
-  param_1[0x4e] = 1;
-  iVar2 = 0;
-  param_1[0x4f] = 1;
-  if (0 < param_1[9]) {
-    piVar4 = (int *)(param_1[0x37] + 0xc);
-    do {
-      if ((((piVar4[-1] < 1) || (4 < piVar4[-1])) || (*piVar4 < 1)) || (4 < *piVar4)) {
-        *(undefined4 *)(*param_1 + 0x14) = 0x12;
-        (**(code **)*param_1)(param_1);
-      }
-      iVar3 = param_1[0x4e];
-      if (param_1[0x4e] <= piVar4[-1]) {
-        iVar3 = piVar4[-1];
-      }
-      param_1[0x4e] = iVar3;
-      iVar3 = param_1[0x4f];
-      if (param_1[0x4f] <= *piVar4) {
-        iVar3 = *piVar4;
-      }
-      iVar2 = iVar2 + 1;
-      param_1[0x4f] = iVar3;
-      piVar4 = piVar4 + 0x15;
-    } while (iVar2 < param_1[9]);
+  c->max_h = 1;
+  c->max_v = 1;
+  p = c->comp;
+  for (ci = 0; ci < c->ncomp; ci++, p++) {
+    if (p->h <= 0 || p->h > 4 || p->v <= 0 || p->v > 4) {
+      c->err->msg_code = 0x12;
+      c->err->error_exit(c);
+    }
+    t = c->max_h;
+    if (t <= p->h) t = p->h;
+    c->max_h = t;
+    t = c->max_v;
+    if (t <= p->v) t = p->v;
+    c->max_v = t;
   }
-  iVar2 = 0;
-  param_1[0x50] = 8;
-  if (0 < param_1[9]) {
-    puVar5 = (undefined4 *)(param_1[0x37] + -8);
-    do {
-      puVar5[0xb] = 8;
-      uVar1 = fn_829B7760((longlong)(int)puVar5[4] * (longlong)param_1[7],param_1[0x4e] << 3);
-      puVar5[9] = uVar1;
-      uVar1 = fn_829B7760((longlong)(int)puVar5[5] * (longlong)param_1[8],param_1[0x4f] << 3);
-      puVar5[10] = uVar1;
-      uVar1 = fn_829B7760((longlong)(int)puVar5[4] * (longlong)param_1[7],param_1[0x4e]);
-      puVar5[0xc] = uVar1;
-      uVar1 = fn_829B7760((longlong)(int)puVar5[5] * (longlong)param_1[8],param_1[0x4f]);
-      puVar5[0xd] = uVar1;
-      puVar5[0xe] = 1;
-      iVar2 = iVar2 + 1;
-      puVar5 = puVar5 + 0x15;
-      *puVar5 = 0;
-    } while (iVar2 < param_1[9]);
+  c->min_dct = 8;
+  p = c->comp;
+  for (ci = 0; ci < c->ncomp; ci++, p++) {
+    p->dct = 8;
+    p->wib = fn_829B7760(p->h * c->width, c->max_h * 8);
+    p->hib = fn_829B7760(p->v * c->height, c->max_v * 8);
+    p->dw = fn_829B7760(p->h * c->width, c->max_h);
+    p->dh = fn_829B7760(p->v * c->height, c->max_v);
+    p->needed = 1;
+    p->tbl = 0;
   }
-  iVar2 = fn_829B7760(param_1[8],param_1[0x4f] << 3);
-  param_1[0x51] = iVar2;
-  if ((param_1[0x53] < param_1[9]) || (param_1[0x38] != 0)) {
-    *(undefined4 *)(param_1[0x6e] + 0x10) = 1;
+  c->rows = fn_829B7760(c->height, c->max_v * 8);
+  if (c->nscans < c->ncomp || c->progressive != 0) {
+    c->master->flag = 1;
+  } else {
+    c->master->flag = 0;
   }
-  else {
-    *(undefined4 *)(param_1[0x6e] + 0x10) = 0;
-  }
-  return;
 }
-

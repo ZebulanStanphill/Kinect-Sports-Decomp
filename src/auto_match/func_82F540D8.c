@@ -1,51 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82F5C930();
+typedef struct Inner_82F540D8 { char pad[0x197c]; int f; } Inner_82F540D8;
+typedef struct Z3 { int b, c, d; } Z3;
+typedef struct Obj_82F540D8 { Inner_82F540D8 *a; Z3 z; } Obj_82F540D8;
+extern void *fn_8265C9E0(unsigned);
+extern Inner_82F540D8 *fn_82F5C930(void *);
 
-
-int * fn_82F540D8(int *param_1)
-
+Obj_82F540D8 *fn_82F540D8(Obj_82F540D8 *o)
 {
-  int iVar1;
-  
-  iVar1 = fn_8265C9E0(0x1980);
-  if (iVar1 == 0) {
-    iVar1 = 0;
-  }
-  else {
-    iVar1 = fn_82F5C930();
-  }
-  *param_1 = iVar1;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  *(undefined4 *)(*param_1 + 0x197c) = 1;
-  return param_1;
+  void *m = fn_8265C9E0(0x1980);
+  Inner_82F540D8 *p;
+  if (m != 0) { p = fn_82F5C930(m); } else { p = 0; }
+  o->a = p;
+  { Z3 *z = &o->z; z->b = 0; z->c = 0; z->d = 0; }
+  o->a->f = 1;
+  return o;
 }
-

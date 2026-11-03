@@ -1,74 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+struct Item_8232C528;
+typedef struct VT_8232C528 { void *f0; void (*f4)(struct Item_8232C528 *); void (*f8)(struct Item_8232C528 *); } VT_8232C528;
+typedef struct Item_8232C528 { VT_8232C528 *vt; int id; } Item_8232C528;
+typedef struct Pair_8232C528 { Item_8232C528 *obj; void *rep; } Pair_8232C528;
+typedef struct Obj_8232C528 {
+  char pad[0x54]; Pair_8232C528 *begin; Pair_8232C528 *end; char pad2[8]; Item_8232C528 *cur; void *rep;
+} Obj_8232C528;
 
-
-void fn_8232C528(int param_1,int param_2)
-
+void fn_8232C528(Obj_8232C528 *o, int id)
 {
-  int iVar1;
-  int iVar2;
-  char cVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  
-  piVar4 = *(int **)(param_1 + 100);
-  if (piVar4 != (int *)0x0) {
-    if (piVar4[1] == param_2) {
-      return;
-    }
-    (**(code **)(*piVar4 + 8))();
+  int c;
+  Pair_8232C528 *p, *end;
+  Item_8232C528 *obj;
+  void *rep;
+  Item_8232C528 *nobj;
+  void *nrep;
+  void *old;
+  c = (int)o->cur;
+  if (c != 0) {
+    if (((Item_8232C528 *)c)->id == id) return;
+    ((Item_8232C528 *)c)->vt->f8((Item_8232C528 *)c);
   }
-  piVar4 = *(int **)(param_1 + 0x54);
-  while( true ) {
-    if (piVar4 == *(int **)(param_1 + 0x58)) {
-      return;
-    }
-    iVar1 = *piVar4;
-    if (*(int *)(iVar1 + 4) == param_2) break;
-    piVar4 = piVar4 + 2;
+  p = o->begin;
+  end = o->end;
+  for (;;) {
+    if (p == end) return;
+    obj = p->obj;
+    if (obj->id == id) break;
+    p++;
   }
-  iVar2 = piVar4[1];
-  iVar6 = 0;
-  iVar5 = 0;
-  if ((iVar2 != 0) && (cVar3 = fn_8223AAC0(iVar2), cVar3 != '\0')) {
-    iVar6 = iVar2;
-    iVar5 = iVar1;
+  rep = p->rep;
+  nobj = 0;
+  nrep = 0;
+  if (rep != 0 && fn_8223AAC0(rep) != 0) {
+    nrep = rep;
+    nobj = obj;
   }
-  iVar1 = *(int *)(param_1 + 0x68);
-  *(int *)(param_1 + 0x68) = iVar6;
-  *(int *)(param_1 + 100) = iVar5;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  (**(code **)(**(int **)(param_1 + 100) + 4))();
-  return;
+  old = o->rep;
+  o->rep = nrep;
+  o->cur = nobj;
+  if (old != 0) fn_822315A0(old);
+  o->cur->vt->f4(o->cur);
 }
-

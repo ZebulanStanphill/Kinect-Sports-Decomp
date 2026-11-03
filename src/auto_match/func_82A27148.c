@@ -1,84 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern int fn_82A26BB0();
-extern unsigned int uStack_8;
+typedef struct Node_82A27148 { struct Node_82A27148 *next; } Node_82A27148;
+typedef struct Obj_82A27148 {
+  char pad0[0x14];
+  unsigned flags;
+  char pad18[0x30];
+  Node_82A27148 *single;
+  char pad4c[0xc];
+  Node_82A27148 head;
+  char pad5c[0x4];
+  void *tbl[0x40];
+  char pad[0x420];
+  unsigned f580;
+  char pad584[0xc];
+  unsigned f590;
+} Obj_82A27148;
+extern void *_ReturnAddress(void);
+extern void KeBugCheckEx(unsigned, void *, unsigned, unsigned, unsigned);
+extern int KeGetCurrentProcessType(void);
+extern int NtFreeVirtualMemory(void *, void *, unsigned, unsigned);
+extern int fn_82A26BB0(void *, unsigned);
 
-
-undefined8 fn_82A27148(int param_1)
-
+int fn_82A27148(Obj_82A27148 *p)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  undefined4 *puStack_30;
-  undefined4 auStack_2c [9];
-  undefined4 uStack_8;
-  
-  if (param_1 != 0) {
-    if ((*(uint *)(param_1 + 0x14) & 0x40000) != 0) {
-      uVar5 = KeGetCurrentProcessType();
-      if (*(byte *)(param_1 + 0x17b) != uVar5) {
-        KeBugCheckEx(0xf4,param_1,uStack_8,0x50f,0);
+  Node_82A27148 *n, *e;
+  struct { void *base; unsigned size; } pr;
+  unsigned h;
+  unsigned char i;
+  if (p != 0) {
+    if ((p->flags & 0x40000) != 0) {
+      int t = KeGetCurrentProcessType();
+      if (*((unsigned char *)p + 0x17b) != t) {
+        KeBugCheckEx(0xf4, p, (unsigned)_ReturnAddress(), 0x50f, 0);
       }
     }
-    puVar1 = *(undefined4 **)(param_1 + 0x58);
-    while ((undefined4 *)(param_1 + 0x58) != puVar1) {
-      puVar2 = (undefined4 *)*puVar1;
-      auStack_2c[0] = 0;
-      puStack_30 = puVar1;
-      NtFreeVirtualMemory(&puStack_30,auStack_2c,0x8000,*(undefined4 *)(param_1 + 0x590));
-      puVar1 = puVar2;
+    e = &p->head;
+    n = e->next;
+    while (e != n) {
+      pr.base = n;
+      n = n->next;
+      pr.size = 0;
+      NtFreeVirtualMemory(&pr, &pr.size, 0x8000, p->f590);
     }
-    if ((*(uint *)(param_1 + 0x14) & 1) == 0) {
-      *(undefined4 *)(param_1 + 0x580) = 0;
+    if ((p->flags & 1) == 0) {
+      p->f580 = 0;
     }
-    puVar1 = *(undefined4 **)(param_1 + 0x48);
-    *(undefined4 *)(param_1 + 0x48) = 0;
-    while (puVar1 != (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)*puVar1;
-      auStack_2c[0] = 0;
-      puStack_30 = puVar1;
-      NtFreeVirtualMemory(&puStack_30,auStack_2c,0x8000,*(undefined4 *)(param_1 + 0x590));
-      puVar1 = puVar2;
+    n = p->single;
+    p->single = 0;
+    while (n != 0) {
+      pr.base = n;
+      n = n->next;
+      pr.size = 0;
+      NtFreeVirtualMemory(&pr, &pr.size, 0x8000, p->f590);
     }
-    uVar3 = *(undefined4 *)(param_1 + 0x590);
-    uVar5 = 0x40;
+    h = p->f590;
+    i = 0x40;
     do {
-      uVar5 = uVar5 + 0xff & 0xff;
-      iVar4 = *(int *)((uVar5 + 0x18) * 4 + param_1);
-      if (iVar4 != 0) {
-        fn_82A26BB0(iVar4,uVar3);
+      i = i + 0xff;
+      if (p->tbl[i] != 0) {
+        fn_82A26BB0(p->tbl[i], h);
       }
-    } while (uVar5 != 0);
+    } while (i != 0);
   }
   return 0;
 }
-

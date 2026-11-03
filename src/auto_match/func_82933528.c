@@ -1,47 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8202F1A0;
-
-
-void fn_82933528(undefined8 param_1,undefined4 *param_2,undefined4 param_3,undefined8 param_4,
-                  undefined8 *param_5)
-
+extern char lbl_8202F1A0[];
+typedef struct { unsigned __int64 q[4]; } B32;
+typedef struct Obj_82933528 {
+  void *vt; int f4; int f8; int fc; int f10; int f14; double d18; B32 b;
+} Obj_82933528;
+Obj_82933528 *fn_82933528(Obj_82933528 *o, int a, double d, B32 *src)
 {
-  *(undefined8 *)(param_2 + 6) = param_1;
-  param_2[4] = param_3;
-  param_2[2] = 0;
-  param_2[1] = 0xf;
-  *param_2 = &lbl_8202F1A0;
-  param_2[3] = 0;
-  *(undefined8 *)(param_2 + 8) = *param_5;
-  *(undefined8 *)(param_2 + 10) = param_5[1];
-  *(undefined8 *)(param_2 + 0xc) = param_5[2];
-  *(undefined8 *)(param_2 + 0xe) = param_5[3];
-  return;
+  o->vt = lbl_8202F1A0;
+  o->f4 = 0xf;
+  o->f8 = 0;
+  o->d18 = d;
+  o->f10 = a;
+  o->fc = 0;
+  o->b = *src;
+  return o;
 }
-

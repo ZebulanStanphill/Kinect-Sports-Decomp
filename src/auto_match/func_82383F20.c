@@ -1,46 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82672C20();
-extern unsigned int lbl_821917C0;
+extern int fn_82672C20(void *, char *, int, int);
+extern float lbl_821917A8[];
 
+typedef struct Sub_82383F20 {
+  char pad[0x38];
+  int f38;
+  void *f3c;
+} Sub_82383F20;
 
-void fn_82383F20(int param_1)
+typedef struct Obj_82383F20 {
+  char pad0[0x60];
+  int f60;
+  char pad64[0xc];
+  Sub_82383F20 s;
+  char pad_b0[0x10];
+  float fc0;
+  char pad_c4[0x1c];
+  int fe0;
+} Obj_82383F20;
 
+void fn_82383F20(Obj_82383F20 *o)
 {
-  if (*(int *)(param_1 + 0xe0) != 0) {
-    if ((*(int *)(param_1 + 0xa4) != 0) && (*(int *)(param_1 + 0xa8) == 0)) {
-      *(undefined4 *)(param_1 + 0xa8) = 1;
-      fn_82672C20(*(undefined4 *)(param_1 + 0xac),0xffffffff821a8498,0,0);
+  if (o->fe0 != 0) {
+    int x = *(int *)((char *)o + 0xa4);
+    Sub_82383F20 *s = &o->s;
+    if (x != 0 && s->f38 == 0) {
+      s->f38 = 1;
+      fn_82672C20(s->f3c, "_root.mainCtrl.hide", 0, 0);
     }
-    *(undefined4 *)(param_1 + 0xe0) = 0;
-    *(undefined4 *)(param_1 + 0x60) = 0;
-    *(undefined4 *)(param_1 + 0xc0) = lbl_821917C0;
+    o->fe0 = 0;
+    o->f60 = 0;
+    o->fc0 = lbl_821917A8[6];
   }
-  return;
 }
-

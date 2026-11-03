@@ -1,98 +1,88 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82822368();
-extern int fn_828223C8();
-extern int fn_828252D8();
-extern int fn_82825378();
-extern int fn_82825428();
-extern int fn_82827850();
-extern int fn_82827980();
-extern int fn_828295A8();
-extern int fn_8282D760();
+typedef struct Node_82830670 {
+  char pad0[0xc];
+  int f0c;
+  int f10;
+  char pad14[4];
+  char f18[0x10];
+  unsigned char f28;
+} Node_82830670;
+typedef struct Obj_82830670 {
+  char pad[0x304];
+  void *f304;
+  int f308;
+  char pad30c[0xc0];
+  unsigned char *f3cc;
+  int *f3d0;
+  unsigned *f3d4;
+} Obj_82830670;
+typedef struct Sub_82830670 {
+  char pad[0x2fc];
+  char list[0x70];
+  unsigned char f36c_pad;
+} Sub_82830670;
+extern int fn_82822368(Node_82830670 *);
+extern int fn_828223C8(void *, Node_82830670 **);
+extern int fn_828252D8(void *);
+extern int fn_82825378(Obj_82830670 *, char *);
+extern int fn_82825428(char *);
+extern int fn_82827850(Node_82830670 *, Obj_82830670 *, int);
+extern unsigned char fn_82827980(char *, char *, int);
+extern int fn_828295A8(Node_82830670 *, unsigned *);
+extern int fn_8282D760(Obj_82830670 *, char *, void *);
 extern int fn_82830328();
-extern int fn_82830520();
-extern int fn_828313D0();
-extern int fn_82833CC8();
-extern int fn_82835800();
-extern unsigned int iStack_60;
+extern int fn_82830520(Obj_82830670 *, char *);
+extern int *fn_828313D0(void *, void *);
+extern int fn_82833CC8(Obj_82830670 *, char *, int);
+extern int fn_82835800(Obj_82830670 *, char *, int);
+extern int fn_82829F90();
+extern int fn_8282BB58();
+extern int fn_8282B470();
 
-
-void fn_82830670(int param_1,int param_2,int *param_3,int *param_4,char param_5)
-
+void fn_82830670(Obj_82830670 *o, char *s, unsigned *r, int *r2, unsigned char flag)
 {
-  int iVar1;
-  int iVar2;
-  char cVar4;
-  int *piVar3;
-  int iVar5;
-  int iStack_60;
-  int aiStack_5c;
-  
+  int a;
+  int prev;
+  unsigned char c;
+  Node_82830670 *cur;
+  Node_82830670 *nx;
+  Node_82830670 *n;
   fn_82830328();
-  fn_82830520(param_1,param_2);
-  *param_3 = 0;
-  cVar4 = fn_82827980(param_2,0xffffffff8201f07c,0);
-  iVar1 = *(int *)(param_1 + 0x308);
-  fn_828223C8(param_2 + 0x2fc,&iStack_60);
-  iVar5 = iVar1;
-  while (iVar2 = iStack_60, iStack_60 != 0) {
-    if ((*param_3 == 0) && (*(char *)(iStack_60 + 0x28) == cVar4)) {
-      fn_828295A8(iStack_60,param_3);
-      *param_4 = *(int *)(*(int *)(iVar2 + 0x10) * 4 + *(int *)(param_1 + 0x3d0) + -4) + -1;
+  fn_82830520(o, s);
+  *r = 0;
+  c = fn_82827980(s, ".data", 0);
+  a = o->f308;
+  prev = a;
+  fn_828223C8(s + 0x2fc, &cur);
+  while (cur != 0) {
+    n = cur;
+    if (*r == 0 && n->f28 == c) {
+      fn_828295A8(cur, r);
+      *r2 = o->f3d0[n->f10 - 1] - 1;
     }
-    *(undefined4 *)(iVar2 + 0x10) =
-         *(undefined4 *)(*(int *)(iVar2 + 0x10) * 4 + *(int *)(param_1 + 0x3d0) + -4);
-    *(undefined1 *)(iVar2 + 0x28) =
-         *(undefined1 *)((uint)*(byte *)(iVar2 + 0x28) + *(int *)(param_1 + 0x3cc) + -1);
-    fn_828223C8(iStack_60,&aiStack_5c);
-    if (*(int *)(*(int *)(iVar2 + 0xc) * 4 + *(int *)(param_1 + 0x3d4) + -4) != 0) {
-      fn_82822368(iStack_60);
-      fn_82827850(iVar2,param_1,iVar5);
-      iVar5 = iVar2;
-      if (param_5 != '\0') {
-        piVar3 = (int *)fn_828313D0(*(undefined4 *)(param_1 + 0x304),iVar2 + 0x18);
-        *piVar3 = iVar2;
+    n->f10 = o->f3d0[n->f10 - 1];
+    n->f28 = o->f3cc[n->f28 - 1];
+    fn_828223C8(cur, &nx);
+    if (o->f3d4[n->f0c - 1] != 0) {
+      fn_82822368(cur);
+      fn_82827850(n, o, prev);
+      if (flag != 0) {
+        int *p = fn_828313D0(o->f304, n->f18);
+        *p = (int)n;
       }
+      prev = (int)n;
     }
-    iStack_60 = aiStack_5c;
+    cur = nx;
   }
-  if ((*(char *)(param_2 + 0x3f6) != '\0') || (*(char *)(param_2 + 0x3f3) != '\0')) {
-    fn_82835800(param_1,param_2,iVar1);
+  if (s[0x3f6] != 0 || s[0x3f3] != 0) {
+    fn_82835800(o, s, a);
   }
-  fn_8282D760(param_1,param_2 + 0x36c,0xffffffff82829f90);
-  fn_82833CC8(param_1,param_2,iVar1);
-  fn_8282D760(param_1,param_2 + 0x318,0xffffffff8282bb58);
-  fn_8282D760(param_1,param_2 + 0x344,0xffffffff8282b470);
-  fn_82825378(param_1,param_2);
-  fn_828252D8(*(undefined4 *)(param_1 + 0x3cc));
-  fn_828252D8(*(undefined4 *)(param_1 + 0x3d0));
-  fn_828252D8(*(undefined4 *)(param_1 + 0x3d4));
-  fn_82825428(param_2);
-  return;
+  fn_8282D760(o, s + 0x36c, (void *)fn_82829F90);
+  fn_82833CC8(o, s, a);
+  fn_8282D760(o, s + 0x318, (void *)fn_8282BB58);
+  fn_8282D760(o, s + 0x344, (void *)fn_8282B470);
+  fn_82825378(o, s);
+  fn_828252D8(o->f3cc);
+  fn_828252D8(o->f3d0);
+  fn_828252D8(o->f3d4);
+  fn_82825428(s);
 }
-

@@ -1,71 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern char cRam83264328;
-extern int fn_82FAF8F0();
-extern int fn_82FFF990();
-extern int fn_8300C838();
-extern int fn_8300C920();
+typedef struct Obj_82FB2120 Obj_82FB2120;
+typedef struct Pair_82FB2120 { unsigned key; void *val; } Pair_82FB2120;
+typedef struct Vec_82FB2120 { unsigned *begin, *end; } Vec_82FB2120;
+struct Obj_82FB2120 {
+  struct { char pad[0x168]; void (*f168)(Obj_82FB2120 *); } *vt;
+  char pad4[0xa8];
+  char sub[0x8];
+  unsigned cnt;
+  Pair_82FB2120 *cur;
+  Pair_82FB2120 *last;
+  unsigned fc0;
+  unsigned fc4;
+  unsigned fc8;
+  unsigned fcc;
+};
+extern unsigned char lbl_8326430C[];
+extern int fn_82FAF8F0(Obj_82FB2120 *);
+extern Vec_82FB2120 *fn_8300C838(void *, unsigned, unsigned);
+extern int fn_8300C920(void *, unsigned, unsigned);
+extern int fn_82FFF990(void *);
 
-
-void fn_82FB2120(int *param_1)
-
+void fn_82FB2120(Obj_82FB2120 *o)
 {
-  int *piVar1;
-  int *piVar2;
-  longlong lVar3;
-  int *piVar4;
-  int *piVar5;
-  
-  if (cRam83264328 == '\0') {
-    fn_82FAF8F0();
-  }
-  else if (((ulonglong)(uint)param_1[0x2d] != 0) &&
-          (lVar3 = (ulonglong)(uint)param_1[0x2d] - 1, param_1[0x2d] = (int)lVar3, lVar3 == 0)) {
-    piVar2 = (int *)fn_8300C838(param_1 + 0x2b,param_1[0x31],param_1[0x33]);
-    if ((piVar2 != (int *)0x0) && (piVar5 = (int *)param_1[0x2e], piVar5 != (int *)param_1[0x2f])) {
-      do {
-        piVar1 = (int *)piVar2[1];
-        piVar4 = (int *)*piVar2;
-        if (piVar4 != piVar1) {
-          do {
-            if (*piVar4 == *piVar5) break;
-            piVar4 = piVar4 + 1;
-          } while (piVar4 != piVar1);
-          if (piVar4 != piVar1) {
-            fn_82FFF990(piVar5[1]);
+  if (lbl_8326430C[0x1c] == 0) {
+    fn_82FAF8F0(o);
+  } else if (o->cnt != 0 && --o->cnt == 0) {
+    void *s = o->sub;
+    Vec_82FB2120 *v = fn_8300C838(s, o->fc4, o->fcc);
+    if (v != 0) {
+      Pair_82FB2120 *it = o->cur;
+      if (it != o->last) {
+        do {
+          unsigned *e = v->end;
+          unsigned *p = v->begin;
+          unsigned k = it->key;
+          while (p != e) { if (*p == k) break; p++; }
+          if (p != v->end) {
+            fn_82FFF990(it->val);
           }
-        }
-        piVar5 = piVar5 + 2;
-      } while (piVar5 != (int *)param_1[0x2f]);
+          it++;
+        } while (it != o->last);
+      }
     }
-    fn_8300C920(param_1 + 0x2b,param_1[0x31],param_1[0x33]);
-    (**(code **)(*param_1 + 0x168))(param_1);
+    fn_8300C920(s, o->fc4, o->fcc);
+    o->vt->f168(o);
   }
-  return;
 }
-

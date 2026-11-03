@@ -1,82 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_8267C4C8();
-extern int fn_8267C4F0();
-extern int fn_82790678();
-extern int fn_82792F70();
-extern int fn_82794EE8();
-extern int fn_82795918();
-extern int fn_82F68CC0();
-extern unsigned int iStack_40;
+typedef struct Obj_82795E00 {
+  char pad[0x24];
+  short cnt;
+} Obj_82795E00;
+typedef struct Buf_82795E00 { int a, b; void *c; } Buf_82795E00;
+extern void *memcpy(void *, const void *, unsigned);
+extern int fn_8267C4C8(void *);
+extern int fn_8267C4F0(void *);
+extern int fn_82790678(Buf_82795E00 *, int, unsigned, void **);
+extern int fn_82792F70(Obj_82795E00 *, int, int, unsigned);
+extern int fn_82794EE8(void *, int);
+extern int fn_82795918(Obj_82795E00 *);
 
-
-void fn_82795E00(int param_1,undefined8 param_2,short *param_3,undefined8 param_4,
-                  ulonglong param_5,ulonglong param_6)
-
+void fn_82795E00(Obj_82795E00 *o, int a2, short *s, int a4, unsigned n, void *p)
 {
-  short *psVar1;
-  short sVar2;
-  ulonglong uVar3;
-  undefined8 uVar4;
-  undefined4 auStack_50 [2];
-  undefined1 auStack_48 [8];
-  int iStack_40;
-  
-  if ((int)param_5 != 0) {
-    if ((int)param_5 == -1) {
-      param_5 = 0;
-      sVar2 = *param_3;
-      psVar1 = param_3;
-      while (sVar2 != 0) {
-        psVar1 = psVar1 + 1;
-        param_5 = param_5 + 1;
-        sVar2 = *psVar1;
+  void *dst;
+  Buf_82795E00 buf;
+  void *tmp;
+  if (n != 0) {
+    if (n == -1) {
+      unsigned short c = *s;
+      n = 0;
+      if (c != 0) {
+        short *q = s;
+        do {
+          q++;
+          n++;
+        } while (*q != 0);
       }
     }
-    uVar3 = fn_82792F70(param_1,param_2,param_4,param_5);
-    if ((uVar3 & 0xffffffff) != 0) {
-      fn_82F68CC0(uVar3,param_3,(param_5 & 0x7fffffff) << 1);
-      if ((param_6 & 0xffffffff) != 0) {
-        fn_8267C4C8(param_6);
-        auStack_50[0] = (undefined4)param_6;
-        uVar4 = fn_82790678(auStack_48,param_4,param_5,auStack_50);
-        fn_82794EE8(param_1 + 0x10,uVar4);
-        if (iStack_40 != 0) {
-          fn_8267C4F0();
+    dst = (void *)fn_82792F70(o, a2, a4, n);
+    if (dst != 0) {
+      memcpy(dst, s, n * 2);
+      if (p != 0) {
+        fn_8267C4C8(p);
+        tmp = p;
+        fn_82794EE8((char *)o + 0x10, fn_82790678(&buf, a4, n, &tmp));
+        if (buf.c != 0) {
+          fn_8267C4F0(buf.c);
         }
-        fn_8267C4F0(param_6);
+        fn_8267C4F0(p);
       }
-      fn_82795918(param_1);
-      *(short *)(param_1 + 0x24) = *(short *)(param_1 + 0x24) + 1;
+      fn_82795918(o);
+      o->cnt = o->cnt + 1;
     }
   }
-  return;
 }
-
