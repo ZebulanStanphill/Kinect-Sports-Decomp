@@ -30,7 +30,7 @@ struct ReverbElement_828778E8 {
 unsigned int ReverbEmitterControl_c::fn_82877FC0()
 {
     ReverbElement_828778E8 element;
-    fn_828788D0(unk10, &element);
+    fn_828788D0(&unk10, &element);
     unk0C = true;
     return 0x20340000;
 }

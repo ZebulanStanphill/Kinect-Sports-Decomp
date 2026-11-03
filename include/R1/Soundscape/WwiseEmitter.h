@@ -30,7 +30,8 @@
 #include "R1/Soundscape/WwiseEventContext.h"
 
 extern "C" {
-void *fn_82877F50(void *self);
+void fn_82878300(void *vector);              // destroys ReverbEmitterControl_c::unk10
+void fn_82878698(void *vector, unsigned int n); // unk10.reserve(n)
 // ReverbEmitterControl_c's member, still a C unit (it takes the control).
 int fn_82877DD8(void *reverb, const void *variant);
 int fn_82878E10(void *emitter, unsigned int id); // removes id from the vector at +0x7C
@@ -125,9 +126,24 @@ public:
 
 // Non-virtual members are named after their addresses; unk0C is set whenever
 // a setting changes (a "dirty" flag). The members return a result code.
-class __declspec(novtable) ReverbEmitterControl_c {
+// The vector at ReverbEmitterControl_c+0x10 (std::vector of a 44-byte element,
+// see func_82877FC0.cpp and func_82878698.cpp): first, last, end and the
+// allocator byte. Its destructor and reserve are reached by their fn_ names.
+struct ReverbVector_82878300 {
+    __forceinline ReverbVector_82878300() : first(0), last(0), end(0) {}
+    __forceinline ~ReverbVector_82878300() { fn_82878300(this); }
+
+    void *first;
+    void *last;
+    void *end;
+    unsigned char allocator;
+};
+
+class ReverbEmitterControl_c {
 public:
-    __forceinline ReverbEmitterControl_c() { fn_82877F50(this); }
+    R1_SOUNDSCAPE_HEAP_OPERATORS
+
+    ReverbEmitterControl_c();
     virtual ~ReverbEmitterControl_c();
 
     int fn_828776A0(unsigned char a);   // sets unk04
@@ -138,9 +154,7 @@ public:
     unsigned char unk04;
     float unk08;
     bool unk0C;
-    // A vector (+0x10) whose element type is unknown; kept opaque so that the
-    // forwarding constructor stays the only code that initialises it.
-    void *unk10[4];
+    ReverbVector_82878300 unk10;
 };
 
 class WwiseEmitter_c : public Emitter_i, public EmitterSubject_c {

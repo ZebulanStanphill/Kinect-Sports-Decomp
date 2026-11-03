@@ -94335,7 +94335,7 @@ auto_match/func_82877938.c:
 	.pdata      start:0x82203300 end:0x82203308
 	.text       start:0x82877938 end:0x82877998
 
-auto_match/func_82877998.c:
+auto_match/func_82877998.cpp:
 	.text       start:0x82877998 end:0x828779B0
 
 auto_match/func_828779B0.c:
@@ -94378,7 +94378,7 @@ auto_match/func_82877F18.c:
 	.pdata      start:0x82203350 end:0x82203358
 	.text       start:0x82877F18 end:0x82877F50
 
-auto_match/func_82877F50.c:
+auto_match/func_82877F50.cpp:
 	.pdata      start:0x82203358 end:0x82203360
 	.text       start:0x82877F50 end:0x82877FBC
 
