@@ -25,47 +25,49 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
-extern unsigned int lbl_821B294C;
+typedef struct { void *px; int *rep; } SP_82361390;
+typedef struct { void *vt; int pad; SP_82361390 sp; } Obj_82361390;
+typedef struct { void *vt; int uses; int weak; Obj_82361390 obj; } Rep_82361390;
+extern void fn_822315A0(int *);
+extern unsigned char fn_8223AAC0(int *);
+extern Rep_82361390 *fn_8265C9E0(int);
+extern char lbl_821AD588[];
+extern char lbl_821B294C[];
 
-
-undefined4 * fn_82361390(undefined4 *param_1,undefined4 *param_2)
-
+SP_82361390 *fn_82361390(SP_82361390 *param_1, SP_82361390 *param_2)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  char cVar4;
-  
-  puVar3 = (undefined4 *)fn_8265C9E0(0x1c);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    puVar3[1] = 1;
-    *puVar3 = &lbl_821AD588;
-    puVar3[2] = 1;
-    if (puVar3 + 3 != (undefined4 *)0x0) {
-      puVar3[4] = 0;
-      puVar3[3] = &lbl_821B294C;
-      puVar3[5] = 0;
-      puVar3[6] = 0;
-      iVar1 = param_2[1];
-      uVar2 = *param_2;
-      if ((iVar1 != 0) && (cVar4 = fn_8223AAC0(iVar1), cVar4 != '\0')) {
-        if (puVar3[6] != 0) {
-          fn_822315A0();
-        }
-        puVar3[6] = iVar1;
-        puVar3[5] = uVar2;
+  Rep_82361390 *mem;
+  Rep_82361390 *r;
+  Obj_82361390 *o;
+  SP_82361390 *sp;
+  int *rep;
+  void *px;
+
+  mem = fn_8265C9E0(0x1c);
+  if (mem != 0) {
+    mem->uses = 1;
+    mem->vt = lbl_821AD588;
+    mem->weak = 1;
+    o = &mem->obj;
+    if (o != 0) {
+      o->pad = 0;
+      o->vt = lbl_821B294C;
+      sp = &o->sp;
+      sp->px = 0;
+      sp->rep = 0;
+      rep = param_2->rep;
+      px = param_2->px;
+      if (rep != 0 && fn_8223AAC0(rep) != 0) {
+        if (sp->rep != 0) fn_822315A0(sp->rep);
+        sp->rep = rep;
+        sp->px = px;
       }
     }
+    r = mem;
+  } else {
+    r = 0;
   }
-  param_1[1] = puVar3;
-  *param_1 = puVar3 + 3;
+  param_1->rep = (int *)r;
+  param_1->px = &r->obj;
   return param_1;
 }
-

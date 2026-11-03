@@ -25,44 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
 extern int fn_828132A8();
 extern int fn_828133A8();
 extern int fn_828135A0();
-extern int fn_82813AE0();
-extern unsigned int lbl_8320A3FC;
-extern unsigned int lbl_8320A420;
+extern unsigned char fn_82813AE0();
+extern unsigned int lbl_8320A3FC[];
 
+typedef struct { unsigned int *a; unsigned int *b; } It_82812848;
 
-undefined8 fn_82812848(void)
-
+int fn_82812848(void)
 {
-  int iVar1;
-  char cVar2;
-  undefined8 uVar3;
-  undefined4 auStack_20 [2];
-  undefined *puStack_18;
-  undefined4 *puStack_14;
-  
-  fn_828133A8(0xffffffff8320a3fc);
-  puStack_18 = &lbl_8320A3FC;
-  puStack_14 = &lbl_8320A420;
-  iVar1 = lbl_8320A420;
-  do {
+  unsigned int iVar1;
+  int r;
+  unsigned int out;
+  It_82812848 it;
+
+  fn_828133A8(lbl_8320A3FC);
+  it.a = lbl_8320A3FC;
+  it.b = &lbl_8320A3FC[9];
+  iVar1 = lbl_8320A3FC[9];
+  while (1) {
     if (iVar1 == 0) {
-      uVar3 = 0;
-code_r0x828128d4:
-      fn_828135A0(&puStack_18);
-      return uVar3;
+      r = 0;
+      break;
     }
-    if ((*(int *)(iVar1 + 0xd0) == 0) &&
-       ((cVar2 = fn_82813AE0(iVar1 + 8,auStack_20), cVar2 != '\0' ||
-        (cVar2 = fn_82813AE0(iVar1 + 0x48,auStack_20), cVar2 != '\0')))) {
-      fn_828132A8(auStack_20[0]);
-      uVar3 = 1;
-      goto code_r0x828128d4;
+    if (*(unsigned int *)(iVar1 + 0xd0) == 0) {
+      if (fn_82813AE0(iVar1 + 8, &out) != 0 || fn_82813AE0(iVar1 + 0x48, &out) != 0) {
+        fn_828132A8(out);
+        r = 1;
+        break;
+      }
     }
     iVar1 = *(int *)(iVar1 + 200);
-  } while( true );
+  }
+  fn_828135A0(&it);
+  return r;
 }
-

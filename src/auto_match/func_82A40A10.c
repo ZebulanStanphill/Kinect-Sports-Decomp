@@ -27,28 +27,23 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A40A10(int param_1,undefined8 param_2)
+typedef struct Obj_82A40A10 { void **vt; } Obj_82A40A10;
+typedef struct Node_82A40A10 { Obj_82A40A10 *obj; struct Node_82A40A10 *next; } Node_82A40A10;
 
+void fn_82A40A10(int param_1, int param_2)
 {
-  int *piVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  
-  piVar2 = (int *)(param_1 + 0x70);
-  (**(code **)(*(int *)(param_1 + 0x70) + 8))(piVar2);
-  puVar3 = *(undefined4 **)(param_1 + 0x22c);
-  while( true ) {
-    if (puVar3 == (undefined4 *)0x0) {
-      piVar1 = (int *)0x0;
-    }
-    else {
-      piVar1 = (int *)*puVar3;
-      puVar3 = (undefined4 *)puVar3[1];
-    }
-    if (piVar1 == (int *)0x0) break;
-    (**(code **)(*piVar1 + 8))(piVar1,param_2);
-  }
-  (**(code **)(*piVar2 + 0x14))(piVar2);
-  return;
-}
+  Obj_82A40A10 *sub = (Obj_82A40A10 *)(param_1 + 0x70);
+  Node_82A40A10 *n;
+  Node_82A40A10 *t;
+  Obj_82A40A10 *o;
 
+  ((void (*)(Obj_82A40A10 *))sub->vt[2])(sub);
+  n = *(Node_82A40A10 **)(param_1 + 0x22c);
+  for (;;) {
+    t = n;
+    if (t != 0) { n = t->next; o = t->obj; } else { o = 0; }
+    if (o == 0) break;
+    ((void (*)(Obj_82A40A10 *, int))o->vt[2])(o, param_2);
+  }
+  ((void (*)(Obj_82A40A10 *))sub->vt[5])(sub);
+}

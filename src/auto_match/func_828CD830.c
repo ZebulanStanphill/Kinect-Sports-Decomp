@@ -1,57 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828CCBC0();
+typedef struct { unsigned int a, b; } P_828CD830;
+typedef struct {
+  unsigned int key;
+  P_828CD830 v;
+} Val_828CD830;
+typedef struct {
+  char pad[0xc];
+  Val_828CD830 val;
+} Node_828CD830;
 
+extern Node_828CD830 *fn_828CCBC0(void *tree);
 
-void fn_828CD830(undefined8 param_1,undefined4 *param_2)
-
+static __forceinline void Init(P_828CD830 *x, P_828CD830 *y)
 {
-  undefined4 uVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  iVar2 = fn_828CCBC0();
-  if ((undefined4 *)(iVar2 + 0xc) != (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)(iVar2 + 0x10);
-    puVar3 = param_2 + 1;
-    *(undefined4 *)(iVar2 + 0xc) = *param_2;
-    *(undefined4 *)(iVar2 + 0x10) = 0;
-    *(undefined4 *)(iVar2 + 0x14) = 0;
-    if (puVar4 != puVar3) {
-      uVar1 = *(undefined4 *)(iVar2 + 0x14);
-      *(undefined4 *)(iVar2 + 0x14) = param_2[2];
-      param_2[2] = uVar1;
-      uVar1 = *puVar4;
-      *puVar4 = *puVar3;
-      *puVar3 = uVar1;
-    }
+  x->a = 0;
+  x->b = 0;
+  if (x != y) {
+    unsigned int *xp = &x->b;
+    unsigned int t = *xp;
+    *xp = y->b;
+    y->b = t;
+    t = x->a;
+    x->a = y->a;
+    y->a = t;
   }
-  return;
 }
 
+void fn_828CD830(void *tree, Val_828CD830 *src)
+{
+  Val_828CD830 *v = &fn_828CCBC0(tree)->val;
+
+  if (v != 0) {
+    v->key = src->key;
+    Init(&v->v, &src->v);
+  }
+}

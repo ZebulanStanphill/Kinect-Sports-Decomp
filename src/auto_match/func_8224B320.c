@@ -25,113 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8223AAC0();
-extern int fn_8224B7A0();
-extern unsigned int iStack_64;
-extern unsigned int iStack_6c;
-extern unsigned int iStack_74;
-extern unsigned int iStack_7c;
-extern unsigned int iStack_84;
-extern unsigned int iStack_8c;
-extern unsigned int lbl_821AD588;
-extern unsigned int uStack_68;
-extern unsigned int uStack_70;
-extern unsigned int uStack_78;
-extern unsigned int uStack_80;
-extern unsigned int uStack_88;
-extern unsigned int uStack_90;
+typedef struct { void *px; int *rep; } SP_8224B320;
+extern unsigned char fn_8223AAC0(int *);
+extern int fn_8224B7A0(void *, SP_8224B320 *, SP_8224B320 *, SP_8224B320 *, SP_8224B320 *, SP_8224B320 *, SP_8224B320 *);
+extern char lbl_821AD588[];
 
-
-undefined4 *
-fn_8224B320(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
-             undefined4 *param_5,undefined4 *param_6,undefined4 *param_7)
-
+static __forceinline void Lock_8224B320(SP_8224B320 *d, SP_8224B320 *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  struct { undefined4 first; int second; } stack_pair_90;
-
-  undefined4 uStack_88;
-  int iStack_84;
-  undefined4 uStack_80;
-  int iStack_7c;
-  struct { undefined4 first; int second; } stack_pair_78;
-
-  struct { undefined4 first; int second; } stack_pair_70;
-
-  undefined4 uStack_68;
-  int iStack_64;
-
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    iVar1 = param_7[1];
-    uVar2 = *param_7;
-    stack_pair_90.first = 0;
-    stack_pair_90.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_90.first = uVar2;
-        stack_pair_90.second = iVar1;
-      }
-    }
-    iVar1 = param_6[1];
-    uVar2 = *param_6;
-    uStack_88 = 0;
-    iStack_84 = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        uStack_88 = uVar2;
-        iStack_84 = iVar1;
-      }
-    }
-    iVar1 = param_5[1];
-    uVar2 = *param_5;
-    uStack_80 = 0;
-    iStack_7c = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        uStack_80 = uVar2;
-        iStack_7c = iVar1;
-      }
-    }
-    iVar1 = param_4[1];
-    uVar2 = *param_4;
-    stack_pair_78.first = 0;
-    stack_pair_78.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_78.first = uVar2;
-        stack_pair_78.second = iVar1;
-      }
-    }
-    iVar1 = param_3[1];
-    uVar2 = *param_3;
-    stack_pair_70.first = 0;
-    stack_pair_70.second = 0;
-    if (iVar1 != 0) {
-      cVar3 = fn_8223AAC0(iVar1);
-      if (cVar3 != '\0') {
-        stack_pair_70.first = uVar2;
-        stack_pair_70.second = iVar1;
-      }
-    }
-    iVar1 = param_2[1];
-    uVar2 = *param_2;
-    uStack_68 = 0;
-    iStack_64 = 0;
-    if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-      uStack_68 = uVar2;
-      iStack_64 = iVar1;
-    }
-    fn_8224B7A0(param_1 + 3,&uStack_68,&stack_pair_70.first,&stack_pair_78.first,&uStack_80,&uStack_88,&stack_pair_90.first)
-    ;
+  int *rep = s->rep;
+  void *px = s->px;
+  d->px = 0;
+  d->rep = 0;
+  if (rep != 0 && fn_8223AAC0(rep) != 0) {
+    d->rep = rep;
+    d->px = px;
   }
-  return param_1;
+}
+
+unsigned int *fn_8224B320(unsigned int *self, SP_8224B320 *p2, SP_8224B320 *p3, SP_8224B320 *p4,
+                          SP_8224B320 *p5, SP_8224B320 *p6, SP_8224B320 *p7)
+{
+  SP_8224B320 l[6];
+  void *obj;
+
+  self[1] = 1;
+  self[0] = (unsigned int)lbl_821AD588;
+  self[2] = 1;
+  obj = self + 3;
+  if (obj != 0) {
+    Lock_8224B320(&l[0], p7);
+    Lock_8224B320(&l[1], p6);
+    Lock_8224B320(&l[2], p5);
+    Lock_8224B320(&l[3], p4);
+    Lock_8224B320(&l[4], p3);
+    Lock_8224B320(&l[5], p2);
+    fn_8224B7A0(obj, &l[5], &l[4], &l[3], &l[2], &l[1], &l[0]);
+  }
+  return self;
 }

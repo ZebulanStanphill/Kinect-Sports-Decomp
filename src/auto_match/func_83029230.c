@@ -25,27 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_250;
-extern int fn_82A2A288();
-extern int fn_830290F8();
+extern int fn_82A2A288(int, int, int, int, void *, int);
+extern int fn_830290F8(int, int, void *, int, int, int, int);
 
-
-undefined8
-fn_83029230(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6,undefined8 param_7)
-
+int fn_83029230(int p1, int p2, int p3, int p4, int p5, int p6, int p7)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined1 auStack_250 [592];
-  
-  iVar2 = fn_82A2A288(0,0,param_3,0xffffffffffffffff,auStack_250,0x104);
-  if (iVar2 < 1) {
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = fn_830290F8(param_1,param_2,auStack_250,param_4,param_5,param_6,param_7);
-  }
-  return uVar1;
-}
+  unsigned short buf[0x104];
+  int r = 1;
 
+  if (fn_82A2A288(0, 0, p3, -1, buf, 0x104) > 0) {
+    r = fn_830290F8(p1, p2, buf, p4, p5, p6, p7);
+  }
+  return r;
+}

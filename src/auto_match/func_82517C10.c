@@ -1,60 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223B688();
+typedef struct Fn Fn;
+typedef struct { int (*f0)(Fn *, void *); } FnVt;
+struct Fn { FnVt *vt; };
+typedef struct { char pad[0x10]; Fn *target; } Src;
+typedef struct { char pad[0x10]; int res; } Sub;
+typedef struct {
+  char pad0[0x1c];
+  int a1c;
+  int a20;
+  unsigned char a24;
+  char pad25[3];
+  int a28;
+  int a2c;
+  int a30;
+  int a34;
+  Sub sub38;
+} Obj;
+extern void fn_8223B688();
 
-
-int fn_82517C10(int param_1, undefined8 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, int in_stack_00000054)
-
+Obj *fn_82517C10(Obj *o, int p2, int p3, int p4, int p5, int p6, int p7, int p8, Src *s)
 {
-  undefined4 uVar1;
-  int iVar2;
-
-  
+  Sub *sub;
   fn_8223B688();
-  *(undefined4 *)(param_1 + 0x1c) = param_3;
-  iVar2 = param_1 + 0x38;
-  *(undefined4 *)(param_1 + 0x20) = param_4;
-  *(undefined1 *)(param_1 + 0x24) = 0;
-  *(undefined4 *)(param_1 + 0x28) = param_5;
-  *(undefined4 *)(param_1 + 0x2c) = param_6;
-  *(undefined4 *)(param_1 + 0x30) = param_7;
-  *(undefined4 *)(param_1 + 0x34) = param_8;
-  if (*(int *)(in_stack_00000054 + 0x10) == 0) {
-    *(undefined4 *)(param_1 + 0x48) = 0;
-  }
-  else {
-    if (*(int *)(in_stack_00000054 + 0x10) != in_stack_00000054) {
-      iVar2 = 0;
+  o->a1c = p3;
+  sub = &o->sub38;
+  o->a20 = p4;
+  o->a24 = 0;
+  o->a28 = p5;
+  o->a2c = p6;
+  o->a30 = p7;
+  o->a34 = p8;
+  if (s->target == 0) {
+    sub->res = 0;
+  } else {
+    if ((void *)s->target == (void *)s) {
+      sub->res = s->target->vt->f0(s->target, sub);
+    } else {
+      sub->res = s->target->vt->f0(s->target, 0);
     }
-    uVar1 = (**(code **)**(undefined4 **)(in_stack_00000054 + 0x10))
-                      (*(undefined4 **)(in_stack_00000054 + 0x10),iVar2);
-    *(undefined4 *)(param_1 + 0x48) = uVar1;
   }
-  return param_1;
+  return o;
 }
-

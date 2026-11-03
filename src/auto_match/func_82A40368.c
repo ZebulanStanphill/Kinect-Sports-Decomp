@@ -1,49 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A42D68();
-extern int fn_82A772B8();
+typedef struct Iface_82A40368 Iface_82A40368;
+struct Iface_82A40368 {
+  struct {
+    char pad[0x34];
+    void (*f34)(Iface_82A40368 *self, unsigned int arg);
+  } *vt;
+};
+typedef struct {
+  char pad0[0xb0];
+  Iface_82A40368 *p;
+  unsigned int b4;
+  unsigned int b8;
+  char pad1[0x250 - 0xbc];
+  char sub[1];
+} Obj_82A40368;
 
+extern void fn_82A42D68(void *sub);
+extern void fn_82A772B8(Iface_82A40368 **pp);
 
-void fn_82A40368(int param_1)
-
+void fn_82A40368(Obj_82A40368 *o)
 {
-  if (*(int **)(param_1 + 0xb0) != (int *)0x0) {
-    if (*(int *)(param_1 + 0xb8) != 0) {
-      (**(code **)(**(int **)(param_1 + 0xb0) + 0x34))();
-      *(undefined4 *)(param_1 + 0xb8) = 0;
-    }
-    if (*(int *)(param_1 + 0xb4) != 0) {
-      (**(code **)(**(int **)(param_1 + 0xb0) + 0x34))();
-      *(undefined4 *)(param_1 + 0xb4) = 0;
-    }
-    fn_82A42D68(param_1 + 0x250);
-    fn_82A772B8((undefined4 *)(param_1 + 0xb0));
-  }
-  return;
-}
+  Iface_82A40368 **pp = &o->p;
 
+  if (*pp != 0) {
+    if (o->b8 != 0) {
+      (*pp)->vt->f34(*pp, o->b8);
+      o->b8 = 0;
+    }
+    if (o->b4 != 0) {
+      (*pp)->vt->f34(*pp, o->b4);
+      o->b4 = 0;
+    }
+    fn_82A42D68(o->sub);
+    fn_82A772B8(pp);
+  }
+}

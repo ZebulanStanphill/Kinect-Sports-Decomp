@@ -1,58 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8288BB90();
-extern int fn_828B5580();
-extern int fn_828BDDA0();
-extern unsigned int lbl_82023ABC;
-extern unsigned int lbl_82023AC0;
-extern unsigned int lbl_82023C3C;
+typedef struct { int a; int b[2]; } Mid;
+typedef struct { int p0; Mid t; int c10; } Src;
+typedef struct { int pad[5]; Src *src; int p18; } Par;
+typedef struct {
+  int vt;
+  Mid m;
+  int c;
+  unsigned char flag;
+  char pad[3];
+  int d;
+} Sub;
+typedef struct {
+  int vt;
+  char pad4[0x4c];
+  int vt50;
+  char pad54[0x2c];
+  int f80;
+  Par *f84;
+  int f88[4];
+  Sub sub;
+} Obj;
+extern void fn_828BDDA0();
+extern void fn_8288BB90(void *, int);
+extern void fn_828B5580(void *, void *);
+extern char lbl_82023ABC[];
+extern char lbl_82023AC0[];
+extern char lbl_82023C3C[];
 
-
-undefined4 *
-fn_8289AA20(undefined4 *param_1,int param_2,undefined8 param_3,undefined1 param_4,
-             undefined4 param_5)
-
+static __forceinline void MidCopy(Mid *d, Mid *s)
 {
-  int iVar1;
-  
-  fn_828BDDA0();
-  *param_1 = &lbl_82023AC0;
-  param_1[0x14] = &lbl_82023ABC;
-  param_1[0x20] = *(undefined4 *)(param_2 + 0x18);
-  param_1[0x21] = param_2;
-  fn_8288BB90(param_1 + 0x22,param_3);
-  iVar1 = *(int *)(param_2 + 0x14);
-  param_1[0x26] = &lbl_82023C3C;
-  param_1[0x27] = *(undefined4 *)(iVar1 + 4);
-  fn_828B5580(param_1 + 0x28,iVar1 + 8);
-  param_1[0x2a] = *(undefined4 *)(iVar1 + 0x10);
-  *(undefined1 *)(param_1 + 0x2b) = param_4;
-  param_1[0x2c] = param_5;
-  return param_1;
+  d->a = s->a;
+  fn_828B5580(&d->b, &s->b);
 }
 
+Obj *fn_8289AA20(Obj *o, Par *par, int p3, unsigned char p4, int p5)
+{
+  Src *y;
+  Sub *s;
+  Mid *m;
+  Mid *t;
+  fn_828BDDA0();
+  o->vt = (int)lbl_82023AC0;
+  o->vt50 = (int)lbl_82023ABC;
+  o->f80 = par->p18;
+  o->f84 = par;
+  fn_8288BB90(&o->f88, p3);
+  y = par->src;
+  s = &o->sub;
+  s->vt = (int)lbl_82023C3C;
+  MidCopy(&s->m, &y->t);
+  s->c = y->c10;
+  o->sub.flag = p4;
+  o->sub.d = p5;
+  return o;
+}

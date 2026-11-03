@@ -1,80 +1,73 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_90;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822ABA88();
-extern int fn_822C8C08();
-extern int fn_822E5340();
-extern int fn_822E53F8();
+typedef struct Sub_82398480 {
+  char pad0[8];
+  unsigned int count;
+} Sub_82398480;
+typedef struct {
+  Sub_82398480 **arr;
+  char pad4[0x10 - 4];
+  int idx;
+} Item_82398480;
+typedef struct {
+  char pad0[0x24];
+  int f24;
+  char pad28[0x114 - 0x28];
+  void *f114;
+} Entry_82398480;
+typedef struct {
+  Item_82398480 **first;
+  Item_82398480 **last;
+} Vec_82398480;
+typedef struct {
+  char pad0[8];
+  Vec_82398480 *vec;
+} Obj_82398480;
 
+extern Entry_82398480 *fn_822ABA88(Sub_82398480 *s, unsigned int j);
+extern void fn_822C8C08(void *p, const char *s);
+extern void fn_82230110(void *s, const char *text);
+extern void fn_82230300(void *s, int a, int b);
+extern void fn_822E5340(Entry_82398480 *e, void *s);
+extern void fn_822E53F8(Entry_82398480 *e, void *s);
 
-void fn_82398480(int param_1)
-
+void fn_82398480(Obj_82398480 *o)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  ulonglong uVar5;
-  undefined1 auStack_90 [32];
-  undefined1 auStack_70 [112];
-  
-  piVar2 = *(int **)(param_1 + 8);
-  iVar3 = 0;
-  if ((piVar2[1] - *piVar2 & 0xfffffffcU) != 0) {
-    iVar4 = 0;
-    do {
-      uVar5 = 0;
-      piVar2 = *(int **)(*piVar2 + iVar4);
-      iVar1 = *(int *)(piVar2[4] * 4 + *piVar2);
-      if (*(int *)(iVar1 + 8) != 0) {
-        do {
-          iVar1 = fn_822ABA88(iVar1,uVar5);
-          if (*(int *)(iVar1 + 0x24) == 0) {
-            fn_822C8C08(*(undefined4 *)(iVar1 + 0x114),0xffffffff821aded8);
-            fn_82230110(auStack_90,0xffffffff821aded8);
-            fn_822E5340(iVar1,auStack_90);
-            fn_82230300(auStack_90,1,0);
-            fn_82230110(auStack_70,0xffffffff821adec4);
-            fn_822E53F8(iVar1,auStack_70);
-            fn_82230300(auStack_70,1,0);
-          }
-          uVar5 = uVar5 + 1;
-          iVar1 = *(int *)(piVar2[4] * 4 + *piVar2);
-        } while ((uVar5 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 8));
-      }
-      piVar2 = *(int **)(param_1 + 8);
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < piVar2[1] - *piVar2 >> 2);
-  }
-  return;
-}
+  Vec_82398480 *v;
+  Item_82398480 *it;
+  Sub_82398480 *s;
+  Entry_82398480 *e;
+  unsigned int j;
+  int i;
+  int off;
+  char a[32];
+  char b[32];
 
+  v = o->vec;
+  i = 0;
+  if ((((int)v->last - (int)v->first) & ~3) > 0) {
+    off = 0;
+    do {
+      it = *(Item_82398480 **)((char *)v->first + off);
+      j = 0;
+      s = it->arr[it->idx];
+      if (s->count > 0) {
+        do {
+          e = fn_822ABA88(s, j);
+          if (e->f24 == 0) {
+            fn_822C8C08(e->f114, "idle_standing");
+            fn_82230110(a, "idle_standing");
+            fn_822E5340(e, a);
+            fn_82230300(a, 1, 0);
+            fn_82230110(b, "locomotion_standing");
+            fn_822E53F8(e, b);
+            fn_82230300(b, 1, 0);
+          }
+          j = j + 1;
+          s = it->arr[it->idx];
+        } while (j < s->count);
+      }
+      v = o->vec;
+      i = i + 1;
+      off = off + 4;
+    } while (i < (((int)v->last - (int)v->first) >> 2));
+  }
+}

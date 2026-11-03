@@ -25,29 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8268C3A8();
-extern int fn_826E76C8();
+extern int fn_8268C3A8(void *, int);
+extern int fn_826E76C8(void *, int, int, int);
 extern unsigned int lbl_8200D6D0;
 
-
-undefined4 *
-fn_826E8400(undefined4 *param_1,int param_2,undefined4 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6)
-
+int *fn_826E8400(int *param_1, unsigned int param_2, int param_3, int param_4, int param_5, int param_6)
 {
-  *param_1 = &lbl_8200D6D0;
-  param_1[4] = 0;
-  fn_8268C3A8(param_1 + 6,param_4);
+  int *q = param_1 + 4;
+  *param_1 = (int)&lbl_8200D6D0;
+  *q = 0;
+  fn_8268C3A8(param_1 + 6, param_4);
   param_1[0xf] = param_2;
-  if (param_2 == 0) {
-    param_1[0x10] = 0;
-  }
-  else {
-    param_1[0x10] = param_3;
-  }
-  fn_826E76C8(param_1,0,param_5,param_6);
+  if (param_2 != 0) { param_1[0x10] = param_3; } else { param_1[0x10] = 0; }
+  fn_826E76C8(param_1, 0, param_5, param_6);
   param_1[0xc] = param_1[0x10];
   param_1[0xd] = param_1[0x10];
   return param_1;
 }
-

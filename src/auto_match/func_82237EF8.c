@@ -1,33 +1,26 @@
-typedef struct Node Node;
-struct Node {
-    Node *previous;
-    Node *next;
-    Node *left;
-    Node *right;
-};
+typedef struct Node_82237EF8 {
+  struct Node_82237EF8 *parent;
+  struct Node_82237EF8 *right;
+  struct Node_82237EF8 *left;
+} Node_82237EF8;
 
-void fn_82237EF8(Node *param_1, Node **param_2)
+void fn_82237EF8(Node_82237EF8 *w, Node_82237EF8 **root)
 {
-    Node *previous = param_1->previous;
-    Node *next = param_1->next;
-    Node *left = previous->left;
-    Node *next_next = next->right;
+  Node_82237EF8 *p = w->parent;
+  Node_82237EF8 *pn = w->right;
+  Node_82237EF8 *l = pn->left;
+  unsigned char isRight = (p->right == w);
 
-    param_1->next = next_next;
-    if (next_next != 0) {
-        next_next->previous = param_1;
-    }
-    next->right = param_1;
-    param_1->previous = next;
-    next->previous = previous;
-
-    if (*param_2 == param_1) {
-        *param_2 = next;
-        return;
-    }
-    if (param_1 == left) {
-        previous->left = next;
-        return;
-    }
-    previous->right = next;
+  w->right = l;
+  if (l != 0) l->parent = w;
+  pn->left = w;
+  w->parent = pn;
+  pn->parent = p;
+  if (*root == w) {
+    *root = pn;
+  } else if (isRight) {
+    p->right = pn;
+  } else {
+    p->left = pn;
+  }
 }

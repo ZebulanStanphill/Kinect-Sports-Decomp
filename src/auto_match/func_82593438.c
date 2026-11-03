@@ -25,51 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_8255AA78();
-extern int fn_82574438();
-extern unsigned int uStack_20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+typedef struct { unsigned __int64 q[8]; } S64B_82593438;
+typedef struct { int a, b, c; } R12_82593438;
+extern void fn_82574438(void *, unsigned int, int, S64B_82593438 *);
+extern R12_82593438 fn_8255AA78(S64B_82593438);
 
-
-void fn_82593438(int param_1,undefined8 param_2,undefined4 *param_3)
-
+static __forceinline int Get_82593438(unsigned int p)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined1 auStack_60 [16];
-  undefined8 uStack_50;
-  undefined8 uStack_48;
-  undefined8 uStack_40;
-  undefined8 uStack_38;
-  undefined8 uStack_30;
-  undefined8 uStack_28;
-  undefined8 uStack_20;
-  
-  if (*(int *)(param_1 + 0x4c) != 0) {
-    if (*(int *)(param_1 + 0x8c0) != 0) {
-      uVar3 = *(undefined4 *)
-               ((*(int *)(*(int *)(param_1 + 0x4c) + 0x44) + 0x20) * 4 + *(int *)(param_1 + 0x8c0));
-      goto code_r0x82593484;
-    }
-  }
-  uVar3 = 0;
-code_r0x82593484:
-  fn_82574438(param_2,param_1 + 0xf0,uVar3,&uStack_50);
-  puVar2 = (undefined4 *)
-           fn_8255AA78(auStack_60,uStack_50,uStack_48,uStack_40,uStack_38,uStack_30,uStack_28,
-                             uStack_20);
-  uVar3 = puVar2[1];
-  uVar1 = puVar2[2];
-  *param_3 = *puVar2;
-  param_3[1] = uVar3;
-  param_3[2] = uVar1;
-  return;
+  unsigned int a = *(unsigned int *)(p + 0x4c);
+  unsigned int b;
+  if (a == 0) return 0;
+  b = *(unsigned int *)(p + 0x8c0);
+  if (b == 0) return 0;
+  return *(int *)((*(int *)(a + 0x44) + 0x20) * 4 + b);
 }
 
+void fn_82593438(unsigned int param_1, void *param_2, R12_82593438 *param_3)
+{
+  S64B_82593438 s;
+
+  fn_82574438(param_2, param_1 + 0xf0, Get_82593438(param_1), &s);
+  { R12_82593438 t = fn_8255AA78(s); *param_3 = t; }
+}

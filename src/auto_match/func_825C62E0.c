@@ -25,22 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82619478();
+typedef struct Item_825C62E0 { void **obj; struct Item_825C62E0 *next; } Item_825C62E0;
+typedef struct { int pad[2]; Item_825C62E0 *head; unsigned char flag; } List_825C62E0;
+extern int fn_82619478(void *, int, float);
 
-
-void fn_825C62E0(undefined8 param_1,int param_2,undefined8 param_3)
-
+void fn_825C62E0(List_825C62E0 *l, int a, float x)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_2 + 8);
-  *(undefined1 *)(param_2 + 0xc) = 0;
-  for (; piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if (*(int *)(*(int *)(*piVar1 + 4) + 400) != 0) {
-      fn_82619478(param_1,*piVar1,param_3);
-      *(undefined1 *)(param_2 + 0xc) = 1;
+  Item_825C62E0 *it;
+  it = l->head;
+  l->flag = 0;
+  for (; it != 0; it = it->next) {
+    if (*(int *)(*(int *)((char *)it->obj + 4) + 0x190) != 0) {
+      fn_82619478(it->obj, a, x);
+      l->flag = 1;
     }
   }
-  return;
 }
-

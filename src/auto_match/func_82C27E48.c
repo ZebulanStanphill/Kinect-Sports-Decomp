@@ -1,65 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10B28();
+typedef struct Node Node;
+struct Node { void *data; int pad4; Node *next; Node *prev; };
+typedef struct { int pad[2]; Node *first; } List;
+typedef struct Iface Iface;
+struct Iface { void *f0; void *f4; int (*f8)(Iface *, void *); };
+typedef struct {
+  char pad0[0x10];
+  List *list;
+  char pad14[4];
+  unsigned count;
+  char pad1c[0x2c];
+  void *h48;
+  Iface *iface;
+  char pad50[0x3c];
+  int elemSize;
+  int total;
+} Ctx;
+typedef struct { char pad[0x2c]; Ctx *ctx; } Obj;
+extern int fn_82C10B28(void *, int, Node **);
 
-
-undefined8 fn_82C27E48(int param_1)
-
+int fn_82C27E48(Obj *p)
 {
-  int iVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  undefined4 *apuStack_20 [2];
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  uVar2 = 0;
-  if (*(int *)(iVar1 + 0x18) != 0) {
-    apuStack_20[0] = *(undefined4 **)(*(int *)(iVar1 + 0x10) + 8);
-    while ((apuStack_20[0] != (undefined4 *)0x0 &&
-           (uVar2 = (**(code **)(*(int *)(iVar1 + 0x4c) + 8))
-                              (*(int *)(iVar1 + 0x4c),*apuStack_20[0]), -1 < (int)uVar2))) {
-      *(undefined4 *)(apuStack_20[0][3] + 8) = apuStack_20[0][2];
-      if (apuStack_20[0][2] != 0) {
-        *(undefined4 *)(apuStack_20[0][2] + 0xc) = apuStack_20[0][3];
+  Ctx *c = p->ctx;
+  Node *n = 0;
+  int hr = 0;
+  if (c->count != 0) {
+    n = c->list->first;
+    while (n != 0) {
+      hr = c->iface->f8(c->iface, n->data);
+      if (hr < 0) {
+        return hr;
       }
-      lVar3 = (ulonglong)*(uint *)(iVar1 + 0x18) - 1;
-      *(int *)(iVar1 + 0x18) = (int)lVar3;
-      *(int *)(iVar1 + 0x90) = *(int *)(iVar1 + 0x90) - *(int *)(iVar1 + 0x8c);
-      if (lVar3 == 0) {
-        *(undefined4 *)(*(int *)(iVar1 + 0x10) + 8) = 0;
+      n->prev->next = n->next;
+      if (n->next != 0) {
+        n->next->prev = n->prev;
       }
-      uVar2 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x48),0x1d,apuStack_20);
-      if ((int)uVar2 < 0) {
-        return uVar2;
+      c->count--;
+      c->total = c->total - c->elemSize;
+      if (c->count == 0) {
+        c->list->first = 0;
       }
-      apuStack_20[0] = *(undefined4 **)(*(int *)(iVar1 + 0x10) + 8);
+      hr = fn_82C10B28(c->h48, 0x1d, &n);
+      if (hr < 0) {
+        return hr;
+      }
+      n = c->list->first;
     }
   }
-  return uVar2;
+  return hr;
 }
-

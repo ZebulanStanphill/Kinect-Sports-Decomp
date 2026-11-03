@@ -1,57 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_110;
-extern int fn_82A1CFC8();
-extern int fn_82A21368();
-extern int fn_82A23B20();
-extern int fn_82A2A958();
-extern unsigned int lbl_83219B94;
+typedef struct { unsigned sev : 1; unsigned fac : 15; unsigned code : 16; } HR_82A24480;
+typedef struct { char pad0[0x14]; int m14; char pad1[0x1c - 0x18]; unsigned int flags; } Obj_82A24480;
+extern int fn_82A23B20(Obj_82A24480 *o, int a, char *buf, int n);
+extern int fn_82A2A958(char *buf);
+extern unsigned int fn_82A1F470(void);
+extern void fn_82A1F728(void);
+extern void fn_82A21368(int a, Obj_82A24480 *o);
+extern void fn_82A1CFC8(void);
+extern int lbl_83219B90[];
 
-
-ulonglong fn_82A24480(int param_1)
-
+unsigned int fn_82A24480(Obj_82A24480 *o)
 {
-  int iVar2;
-  ulonglong uVar1;
-  undefined1 auStack_110 [256];
-  
-  if ((*(uint *)(param_1 + 0x1c) & 0x40) != 0) {
-    fn_82A23B20(param_1,1,auStack_110,0x100);
-    iVar2 = fn_82A2A958(auStack_110);
-    if (iVar2 == 0) {
-      uVar1 = thunk_FUN_82a2b798();
-      return uVar1 | 0xfffffffff7280000;
+  char buf[256];
+  HR_82A24480 h;
+
+  if ((o->flags & 0x40) != 0) {
+    fn_82A23B20(o, 1, buf, 0x100);
+    if (fn_82A2A958(buf) == 0) {
+      h.sev = 1;
+      h.code = 0;
+      h.fac = (unsigned)fn_82A1F728;
+      return fn_82A1F470() | *(unsigned *)&h;
     }
-    *(undefined4 *)(param_1 + 0x14) = 0;
-    *(uint *)(param_1 + 0x1c) = *(uint *)(param_1 + 0x1c) & 0xffffffbf;
-    fn_82A21368(lbl_83219B94,param_1);
+    o->m14 = 0;
+    o->flags = o->flags & 0xffffffbf;
+    fn_82A21368(lbl_83219B90[1], o);
     fn_82A1CFC8();
   }
   return 0;
 }
-

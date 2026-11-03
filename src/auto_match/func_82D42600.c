@@ -25,57 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
+typedef struct { char pad0[0x14]; int f14; char pad1[0x4c - 0x18]; int f4c; char pad2[0x60 - 0x50]; } Item_82D42600;
+typedef struct { short *data; int size; unsigned int cap; } Arr_82D42600;
+typedef struct { char pad[0x10]; int f10; } G_82D42600;
+typedef struct {
+  char pad0[0xb0]; unsigned int shift; Item_82D42600 *items; int nitems; char pad1[0xcc - 0xbc];
+  Arr_82D42600 arr;
+} Obj_82D42600;
+extern G_82D42600 *fn_82CE5410(void);
+extern void fn_82CE6310(int, Arr_82D42600 *, int, int);
 
-
-void fn_82D42600(int param_1,uint param_2,undefined2 param_3)
-
+static __forceinline int Max(int a, int b) { return b < a ? a : b; }
+void fn_82D42600(Obj_82D42600 *self, unsigned int idx, short val)
 {
-  int iVar1;
-  int iVar2;
-  int iVar4;
-  longlong lVar3;
-  longlong lVar5;
-  int iVar6;
-  
-  if (*(int *)(param_1 + 0xd0) == 0) {
-    lVar5 = 0;
-    iVar1 = 0;
-    if (0 < *(int *)(param_1 + 0xb8)) {
-      iVar6 = *(int *)(param_1 + 0xb4);
-      iVar4 = 0;
-      do {
-        *(int *)(iVar6 + 0x4c) = (int)lVar5;
-        iVar1 = iVar1 + 1;
-        iVar2 = iVar4 + *(int *)(param_1 + 0xb4);
-        iVar4 = iVar4 + 0x60;
-        iVar6 = iVar4 + *(int *)(param_1 + 0xb4);
-        lVar5 = (ulonglong)*(uint *)(iVar2 + 0x14) + lVar5;
-      } while (iVar1 < *(int *)(param_1 + 0xb8));
-    }
-    iVar1 = fn_82CE5410();
-    iVar6 = (int)lVar5;
-    if ((int)(*(uint *)(param_1 + 0xd4) & 0x3fffffff) < iVar6) {
-      fn_82CE6310(*(undefined4 *)(iVar1 + 0x10),param_1 + 0xcc,lVar5,2);
-    }
-    iVar1 = fn_82CE5410();
-    if ((int)(*(uint *)(param_1 + 0xd4) & 0x3fffffff) < iVar6) {
-      lVar3 = ((ulonglong)*(uint *)(param_1 + 0xd4) & 0x3fffffff) << 1;
-      if ((int)lVar3 <= iVar6) {
-        lVar3 = lVar5;
-      }
-      fn_82CE6310(*(undefined4 *)(iVar1 + 0x10),param_1 + 0xcc,lVar3,2);
-    }
-    *(int *)(param_1 + 0xd0) = iVar6;
-  }
-  if ((param_2 & 0x80000000) == 0) {
-    *(undefined2 *)
-     ((*(int *)(((param_2 & 0x7fffffff) >> (0x20 - *(uint *)(param_1 + 0xb0) & 0x3f)) * 0x60 +
-                *(int *)(param_1 + 0xb4) + 0x4c) +
-      (0xffffffffU >> (*(uint *)(param_1 + 0xb0) & 0x3f) & param_2)) * 2 + *(int *)(param_1 + 0xcc))
-         = param_3;
-  }
-  return;
-}
+  int total, i;
+  G_82D42600 *g;
+  int c2;
+  int h;
+  Arr_82D42600 *a;
 
+  if (self->arr.size == 0) {
+    total = 0;
+    for (i = 0; i < self->nitems; i++) {
+      self->items[i].f4c = total;
+      total += self->items[i].f14;
+    }
+    a = &self->arr;
+    g = fn_82CE5410();
+    if ((int)(a->cap & 0x3fffffff) < total) fn_82CE6310(g->f10, a, total, 2);
+    g = fn_82CE5410();
+    h = g->f10;
+    c2 = a->cap & 0x3fffffff;
+    if (c2 < total) {
+      c2 = Max(c2 * 2, total);
+      fn_82CE6310(h, a, c2, 2);
+    }
+    a->size = total;
+  }
+  if ((idx & 0x80000000) == 0) {
+    self->arr.data[self->items[(idx & 0x7fffffff) >> (0x20 - self->shift)].f4c + (idx & (0xffffffffU >> self->shift))] = val;
+  }
+}

@@ -25,113 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_88;
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern int fn_823933E0();
-extern unsigned int iStack_8c;
-extern unsigned int iStack_94;
-extern unsigned int iStack_9c;
-extern unsigned int iStack_a4;
-extern unsigned int iStack_ac;
-extern unsigned int lbl_821AD588;
-extern unsigned int uStack_90;
-extern unsigned int uStack_98;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_b0;
+typedef struct { void *px; int *rep; } SP_82393160;
+typedef struct { int a, b; } B8_82393160;
+extern unsigned char fn_8223AAC0(int *);
+extern int fn_82365BD8(B8_82393160 *, int);
+extern int fn_823933E0(void *, SP_82393160 *, SP_82393160 *, SP_82393160 *, int, SP_82393160 *, SP_82393160 *, int, int, int);
+extern char lbl_821AD588[];
 
-
-undefined4 *
-fn_82393160(undefined4 *param_1, undefined4 *param_2, undefined4 *param_3, undefined4 *param_4, undefined8 param_5, undefined4 *param_6, undefined4 *param_7, undefined8 param_8, undefined4 in_stack_00000054, undefined4 in_stack_0000005c)
-
+static __forceinline void Lock_82393160(SP_82393160 *d, SP_82393160 *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar5;
-  undefined8 uVar3;
-  undefined8 uVar4;
-
-
-  struct { undefined4 first; int second; } stack_pair_b0;
-
-  undefined4 uStack_a8;
-  int iStack_a4;
-  struct { undefined4 first; int second; } stack_pair_a0;
-
-  undefined4 uStack_98;
-  int iStack_94;
-  struct { undefined4 first; int second; } stack_pair_90;
-
-  undefined1 auStack_88 [8];
-  undefined1 auStack_80 [8];
-  undefined1 auStack_78 [1];
-  undefined1 auStack_70 [48];
-
-  param_1[1] = 1;
-  *param_1 = &lbl_821AD588;
-  param_1[2] = 1;
-  if (param_1 + 3 != (undefined4 *)0x0) {
-    iVar1 = param_7[1];
-    uVar2 = *param_7;
-    stack_pair_90.first = 0;
-    stack_pair_90.second = 0;
-    if (iVar1 != 0) {
-      cVar5 = fn_8223AAC0(iVar1);
-      if (cVar5 != '\0') {
-        stack_pair_90.first = uVar2;
-        stack_pair_90.second = iVar1;
-      }
-    }
-    iVar1 = param_6[1];
-    uVar2 = *param_6;
-    uStack_98 = 0;
-    iStack_94 = 0;
-    if (iVar1 != 0) {
-      cVar5 = fn_8223AAC0(iVar1);
-      if (cVar5 != '\0') {
-        uStack_98 = uVar2;
-        iStack_94 = iVar1;
-      }
-    }
-    iVar1 = param_4[1];
-    uVar2 = *param_4;
-    stack_pair_b0.first = 0;
-    stack_pair_b0.second = 0;
-    if (iVar1 != 0) {
-      cVar5 = fn_8223AAC0(iVar1);
-      if (cVar5 != '\0') {
-        stack_pair_b0.first = uVar2;
-        stack_pair_b0.second = iVar1;
-      }
-    }
-    iVar1 = param_3[1];
-    uVar2 = *param_3;
-    uStack_a8 = 0;
-    iStack_a4 = 0;
-    if (iVar1 != 0) {
-      cVar5 = fn_8223AAC0(iVar1);
-      if (cVar5 != '\0') {
-        uStack_a8 = uVar2;
-        iStack_a4 = iVar1;
-      }
-    }
-    iVar1 = param_2[1];
-    uVar2 = *param_2;
-    stack_pair_a0.first = 0;
-    stack_pair_a0.second = 0;
-    if ((iVar1 != 0) && (cVar5 = fn_8223AAC0(iVar1), cVar5 != '\0')) {
-      stack_pair_a0.first = uVar2;
-      stack_pair_a0.second = iVar1;
-    }
-    fn_82365BD8(auStack_88,in_stack_0000005c);
-    fn_82365BD8(auStack_80,in_stack_00000054);
-    uVar3 = fn_82365BD8(auStack_78,param_8);
-    uVar4 = fn_82365BD8(auStack_70,param_5);
-    fn_823933E0(param_1 + 3,&stack_pair_a0.first,&uStack_a8,&stack_pair_b0.first,uVar4,&uStack_98,&stack_pair_90.first,uVar3);
+  int *rep = s->rep;
+  void *px = s->px;
+  d->px = 0;
+  d->rep = 0;
+  if (rep != 0 && fn_8223AAC0(rep) != 0) {
+    d->rep = rep;
+    d->px = px;
   }
-  return param_1;
+}
+
+unsigned int *fn_82393160(unsigned int *self, SP_82393160 *p2, SP_82393160 *p3, SP_82393160 *p4, int p5,
+                          SP_82393160 *p6, SP_82393160 *p7, int p8, int p9, int p10)
+{
+  struct { SP_82393160 l[5]; B8_82393160 b[4]; } L;
+  void *obj;
+
+  self[1] = 1;
+  self[0] = (unsigned int)lbl_821AD588;
+  self[2] = 1;
+  obj = self + 3;
+  if (obj != 0) {
+    Lock_82393160(&L.l[4], p7);
+    Lock_82393160(&L.l[3], p6);
+    Lock_82393160(&L.l[0], p4);
+    Lock_82393160(&L.l[1], p3);
+    Lock_82393160(&L.l[2], p2);
+    fn_823933E0(obj, &L.l[2], &L.l[1], &L.l[0], fn_82365BD8(&L.b[3], p5), &L.l[3], &L.l[4],
+                fn_82365BD8(&L.b[2], p8), fn_82365BD8(&L.b[1], p9), fn_82365BD8(&L.b[0], p10));
+  }
+  return self;
 }

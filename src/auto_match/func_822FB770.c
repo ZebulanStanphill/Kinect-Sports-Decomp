@@ -25,22 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822B83D0();
-extern int fn_82560010();
-
+typedef struct { union { char buf[16]; char *ptr; } u; unsigned int size; unsigned int cap; } Str_822D89D0;
+extern int fn_822B83D0(int, unsigned int);
+extern unsigned int fn_82560010(int, const char *);
 
 void fn_822FB770(int param_1)
-
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)(param_1 + 0x5c);
-  if (0xf < *(uint *)(param_1 + 0x70)) {
-    puVar2 = (undefined4 *)*puVar2;
-  }
-  uVar1 = fn_82560010(**(undefined4 **)(param_1 + 0x58),puVar2);
-  fn_822B83D0(*(undefined4 *)(param_1 + 0x54),uVar1);
-  return;
-}
+  Str_822D89D0 *s = (Str_822D89D0 *)(param_1 + 0x5c);
+  unsigned int r;
+  int *q;
 
+  q = *(int **)(param_1 + 0x58);
+  r = fn_82560010(*q, s->cap >= 0x10 ? s->u.ptr : s->u.buf);
+  fn_822B83D0(*(int *)(param_1 + 0x54), r);
+}

@@ -1,114 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned f0; unsigned f4; unsigned f8; unsigned fc; unsigned f10; char pad14[0x24]; unsigned f38; unsigned f3c; } Cell;
+typedef struct { unsigned flags; unsigned f4; unsigned *a8; unsigned cnt; unsigned *a10; } Item;
+typedef struct { char pad0[0xc]; unsigned n; char pad10[4]; Cell **tbl; Item **items; } Obj;
 extern int fn_82963618();
 extern int fn_82963678();
 
-
-undefined8 fn_82952570(int param_1)
-
+int fn_82952570(Obj *o)
 {
-  uint *puVar1;
-  int iVar2;
-  int iVar3;
-  bool bVar4;
-  bool bVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  uint uVar9;
-  int iVar10;
-  uint uVar11;
-  
+  int changed;
+  int ok;
+  unsigned i;
+  unsigned j;
+  unsigned k;
+  unsigned m;
+  Item *p;
+  Cell *a;
+  Cell *b;
   do {
-    bVar5 = false;
-    uVar11 = 0;
-    if (*(int *)(param_1 + 0xc) == 0) {
-      return 0;
-    }
-    iVar10 = 0;
-    do {
-      iVar6 = fn_82963618(*(undefined4 *)(iVar10 + *(int *)(param_1 + 0x18)));
-      if (iVar6 != 0) {
-        uVar9 = uVar11 + 1;
-        bVar4 = true;
-        iVar6 = iVar10;
-        if (uVar9 < *(uint *)(param_1 + 0xc)) {
+    changed = 0;
+    for (i = 0; i < o->n; i++) {
+      if (fn_82963618(o->items[i]) != 0) {
+        j = i + 1;
+        ok = 1;
+        if (j < o->n) {
           do {
-            puVar1 = *(uint **)(iVar6 + 4 + *(int *)(param_1 + 0x18));
-            iVar7 = fn_82963678(puVar1);
-            if (iVar7 != 0) break;
-            if ((*puVar1 & 0xfff00000) != 0x10000000) {
-              bVar4 = false;
+            p = o->items[j];
+            if (fn_82963678(p) != 0) {
               break;
             }
-            uVar8 = 0;
-            if (puVar1[3] != 0) {
-              iVar7 = 0;
-              do {
-                iVar2 = *(int *)(*(int *)(iVar7 + puVar1[4]) * 4 + *(int *)(param_1 + 0x14));
-                iVar3 = *(int *)(*(int *)(iVar7 + puVar1[2]) * 4 + *(int *)(param_1 + 0x14));
-                if ((((*(int *)(iVar2 + 0x38) != *(int *)(iVar3 + 0x38)) ||
-                     (*(int *)(iVar2 + 0x3c) != *(int *)(iVar3 + 0x3c))) ||
-                    (*(int *)(iVar2 + 4) != *(int *)(iVar3 + 4))) ||
-                   (((*(int *)(iVar2 + 0xc) != *(int *)(iVar3 + 0xc) ||
-                     (*(int *)(iVar2 + 8) != *(int *)(iVar3 + 8))) ||
-                    (*(int *)(iVar2 + 0x10) != *(int *)(iVar3 + 0x10))))) {
-                  bVar4 = false;
-                }
-                uVar8 = uVar8 + 1;
-                iVar7 = iVar7 + 4;
-              } while (uVar8 < puVar1[3]);
+            if ((p->flags & 0xfff00000) != 0x10000000) {
+              ok = 0;
+              break;
             }
-            uVar9 = uVar9 + 1;
-            iVar6 = iVar6 + 4;
-          } while (uVar9 < *(uint *)(param_1 + 0xc));
-          if (!bVar4) goto LAB_82952714;
+            for (k = 0; k < p->cnt; k++) {
+              a = o->tbl[p->a10[k]];
+              b = o->tbl[p->a8[k]];
+              if (a->f38 != b->f38 || a->f3c != b->f3c || a->f4 != b->f4 ||
+                  a->fc != b->fc || a->f8 != b->f8 || a->f10 != b->f10) {
+                ok = 0;
+              }
+            }
+            j++;
+          } while (j < o->n);
         }
-        bVar5 = true;
-        iVar6 = iVar10;
-        uVar9 = uVar11;
-        if (uVar11 < *(uint *)(param_1 + 0xc)) {
-          do {
-            iVar7 = fn_82963678(*(undefined4 *)(iVar6 + *(int *)(param_1 + 0x18)));
-            if (iVar7 != 0) break;
-            uVar9 = uVar9 + 1;
-            **(undefined4 **)(iVar6 + *(int *)(param_1 + 0x18)) = 0;
-            iVar6 = iVar6 + 4;
-          } while (uVar9 < *(uint *)(param_1 + 0xc));
+        if (ok != 0) {
+          changed = 1;
+          m = i;
+          j = i;
+          if (m < o->n) {
+            do {
+              if (fn_82963678(o->items[j]) != 0) {
+                break;
+              }
+              m++;
+              o->items[j]->flags = 0;
+              j++;
+            } while (m < o->n);
+          }
         }
       }
-LAB_82952714:
-      uVar11 = uVar11 + 1;
-      iVar10 = iVar10 + 4;
-    } while (uVar11 < *(uint *)(param_1 + 0xc));
-    if (!bVar5) {
-      return 0;
     }
-  } while( true );
+  } while (changed != 0);
+  return 0;
 }
-

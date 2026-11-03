@@ -1,54 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_826820F0 Obj_826820F0;
+struct Obj_826820F0 {
+  struct {
+    void (*f0)(Obj_826820F0 *self, int arg);
+  } *vt;
+  Obj_826820F0 *next;
+  unsigned int flags;
+};
 
-
-undefined8 fn_826820F0(undefined4 *param_1)
-
+unsigned int fn_826820F0(Obj_826820F0 *o)
 {
-  uint uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  uVar1 = param_1[2];
-  if (((uVar1 & 0x70000000) == 0x20000000) && (-1 < (int)uVar1)) {
-    param_1[2] = uVar1 & 0x8fffffff;
-    (**(code **)*param_1)(param_1,3);
-    iVar2 = param_1[1];
-    if ((param_1[2] & 0x70000000) != 0x40000000) {
-      param_1[1] = *(undefined4 *)(iVar2 + 0x14);
-      *(undefined4 **)(iVar2 + 0x14) = param_1;
-      param_1[2] = param_1[2] & 0x8fffffff | 0x40000000;
-    }
-    uVar3 = 1;
-  }
-  else {
-    uVar3 = 0;
-  }
-  return uVar3;
-}
+  unsigned int f = o->flags;
+  Obj_826820F0 *head;
 
+  if ((f & 0x70000000) == 0x20000000 && (unsigned char)(f >> 31) == 0) {
+    o->flags = f & 0x8fffffff;
+    o->vt->f0(o, 3);
+    head = o->next;
+    if ((o->flags & 0x70000000) != 0x40000000) {
+      o->next = *(Obj_826820F0 **)((char *)head + 0x14);
+      *(Obj_826820F0 **)((char *)head + 0x14) = o;
+      o->flags = (o->flags & 0x8fffffff) | 0x40000000;
+    }
+    return 1;
+  }
+  return 0;
+}

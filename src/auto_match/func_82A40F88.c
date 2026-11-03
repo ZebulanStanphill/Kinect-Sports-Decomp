@@ -1,52 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1BB18();
-extern int fn_82A47B28();
+typedef struct Iface_82A40F88 Iface_82A40F88;
+struct Iface_82A40F88 {
+  struct {
+    char pad0[8];
+    void (*f08)(Iface_82A40F88 *self);
+    char pad1[0x14 - 0xc];
+    void (*f14)(Iface_82A40F88 *self);
+  } *vt;
+};
+typedef struct Node_82A40F88 {
+  unsigned int key;
+  struct Node_82A40F88 *next;
+} Node_82A40F88;
+typedef struct {
+  char pad0[0x74];
+  Iface_82A40F88 lock;
+  char pad1[0xac - 0x78];
+  unsigned int m_ac;
+  char pad2[0x218 - 0xb0];
+  char list[0x230 - 0x218];
+  Node_82A40F88 *head;
+} Obj_82A40F88;
 
+static __forceinline Node_82A40F88 *Find(Node_82A40F88 *p, unsigned key) { for (; p != 0; p = p->next) if (p->key == key) return p; return 0; }
+extern unsigned int fn_82A1BB18(void);
+extern void fn_82A47B28(void *list, Node_82A40F88 *n);
 
-void fn_82A40F88(int param_1,int param_2)
-
+void fn_82A40F88(Obj_82A40F88 *o, unsigned int key)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  if ((param_2 != 0) && (iVar2 = fn_82A1BB18(), iVar2 != *(int *)(param_1 + 0xac))) {
-    piVar3 = (int *)(param_1 + 0x74);
-    (**(code **)(*(int *)(param_1 + 0x74) + 8))(piVar3);
-    for (piVar1 = *(int **)(param_1 + 0x230); (piVar1 != (int *)0x0 && (*piVar1 != param_2));
-        piVar1 = (int *)piVar1[1]) {
-    }
-    if (piVar1 != (int *)0x0) {
-      fn_82A47B28(param_1 + 0x218,piVar1);
-    }
-    (**(code **)(*piVar3 + 0x14))(piVar3);
-  }
-  return;
-}
+  Iface_82A40F88 *l;
+  Node_82A40F88 *n;
 
+  if (key != 0 && fn_82A1BB18() != o->m_ac) {
+    l = &o->lock;
+    l->vt->f08(l);
+    n = Find(o->head, key);
+    if (n != 0) fn_82A47B28(o->list, n);
+    l->vt->f14(l);
+  }
+}

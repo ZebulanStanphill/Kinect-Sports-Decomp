@@ -25,38 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E968();
+extern int fn_82A1E968(void *);
+typedef struct { int v[5]; } Val_82FA7F30;
+typedef struct { unsigned int key; int pad; Val_82FA7F30 val; int pad2[3]; } Ent_82FA7F30;
+typedef struct { Ent_82FA7F30 *begin; Ent_82FA7F30 *end; int pad; int cs[6]; } Vec_82FA7F30;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_82FA7F30(undefined4 *param_1,int param_2,int param_3)
-
+static __forceinline int neq(Ent_82FA7F30 *a, Ent_82FA7F30 *b) { return a != b; }
+static __forceinline Val_82FA7F30 *Get(int ok, Ent_82FA7F30 *e) { return ok ? &e->val : 0; }
+void fn_82FA7F30(Vec_82FA7F30 *param_1, unsigned int param_2, Val_82FA7F30 *param_3)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  int *piVar5;
-  uint uVar6;
-  longlong lVar7;
-  
-  for (piVar5 = (int *)*param_1; (piVar5 != (int *)param_1[1] && (*piVar5 != param_2));
-      piVar5 = piVar5 + 10) {
-  }
-  uVar1 = (uint)((int *)param_1[1] != piVar5);
-  uVar2 = -(uint)(uVar1 != 0);
-  uVar6 = uVar2 & (uint)(piVar5 + 2);
-  RtlEnterCriticalSection(param_1 + 3,uVar2,param_3,-uVar1);
-  puVar4 = (undefined4 *)(param_3 + -4);
-  puVar3 = (undefined4 *)(uVar6 - 4);
-  lVar7 = 5;
-  do {
-    puVar4 = puVar4 + 1;
-    puVar3 = puVar3 + 1;
-    *puVar3 = *puVar4;
-    lVar7 = lVar7 + -1;
-  } while (lVar7 != 0);
-  fn_82A1E968(uVar6 + 0x18);
-  RtlLeaveCriticalSection(param_1 + 3);
-  return;
+  Ent_82FA7F30 *e;
+  Val_82FA7F30 *d;
+  for (e = param_1->begin; e != param_1->end && e->key != param_2; e++) ;
+  d = Get(neq(e, param_1->end), e);
+  RtlEnterCriticalSection(param_1->cs);
+  *d = *param_3;
+  fn_82A1E968((char *)d + 0x18);
+  RtlLeaveCriticalSection(param_1->cs);
 }
-

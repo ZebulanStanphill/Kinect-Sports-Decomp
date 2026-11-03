@@ -27,47 +27,52 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint fn_8268E620(uint *param_1,uint param_2)
+typedef struct { unsigned int pad[6]; unsigned int child[2]; } TNode_8268E620;
+#define T(x) ((TNode_8268E620 *)(x))
 
+unsigned int fn_8268E620(unsigned int *param_1, unsigned int nb)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  ulonglong uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  uVar1 = *param_1;
-  uVar2 = 0;
-  uVar3 = 0xffffffff;
-  if (uVar1 == 0) {
-    return uVar2;
+  unsigned int t;
+  unsigned int v;
+  unsigned int rsize;
+  unsigned int rst;
+  unsigned int sizebits;
+  unsigned int rt;
+  unsigned int trem;
+
+  t = *param_1; v = 0; rsize = 0xffffffff;
+  if (t == 0) {
+    return v;
   }
-  uVar6 = 0;
-  uVar4 = (ulonglong)param_2;
-  while( true ) {
-    uVar5 = uVar1 - param_2;
-    if (((param_2 <= uVar1) && (uVar5 < uVar3)) && (uVar2 = uVar1, uVar3 = uVar5, uVar5 == 0)) {
-      return uVar1;
+  rst = 0; sizebits = nb;
+  for (;;) {
+    trem = t - nb;
+    if (t >= nb && trem < rsize) {
+      v = t;
+      rsize = trem;
+      if (trem == 0) {
+        return t;
+      }
     }
-    uVar5 = *(uint *)(uVar1 + 0x1c);
-    uVar1 = *(uint *)(((int)(uVar4 >> 0x1f) + 6) * 4 + uVar1);
-    if ((uVar5 != 0) && (uVar5 != uVar1)) {
-      uVar6 = uVar5;
+    rt = T(t)->child[1];
+    t = T(t)->child[sizebits >> 31];
+    if (rt != 0 && rt != t) {
+      rst = rt;
     }
-    if (uVar1 == 0) break;
-    uVar4 = (uVar4 & 0x7fffffff) << 1;
+    if (t == 0) break;
+    sizebits <<= 1;
   }
-  if (uVar6 == 0) {
-    return uVar2;
+  t = rst;
+  if (t == 0) {
+    return v;
   }
   do {
-    if ((param_2 <= uVar6) && (uVar6 - param_2 < uVar3)) {
-      uVar2 = uVar6;
-      uVar3 = uVar6 - param_2;
+    trem = t - nb;
+    if (t >= nb && trem < rsize) {
+      rsize = trem;
+      v = t;
     }
-    uVar6 = *(uint *)(((*(int *)(uVar6 + 0x18) == 0) + 6) * 4 + uVar6);
-  } while (uVar6 != 0);
-  return uVar2;
+    t = T(t)->child[T(t)->child[0] == 0];
+  } while (t != 0);
+  return v;
 }
-

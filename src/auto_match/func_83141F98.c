@@ -1,47 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern unsigned int lbl_831BCA0C;
-extern unsigned int lbl_831BCA1C;
-extern unsigned int lbl_831BCA20;
-
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct {
+  int alloc;
+  union { void *ptr; char buf[16]; } u;
+  unsigned size;
+  unsigned cap;
+} Str;
+extern Str lbl_831BCA08;
+extern void fn_8265CA20(void *);
 
 void fn_83141F98(void)
-
 {
-  if (0xf < lbl_831BCA20) {
-    fn_8265CA20(lbl_831BCA0C);
+  if (lbl_831BCA08.cap >= 0x10) {
+    fn_8265CA20(lbl_831BCA08.u.ptr);
   }
-  lbl_831BCA20 = 0xf;
-  lbl_831BCA1C = 0;
-  lbl_831BCA0C = lbl_831BCA0C & 0xffffff;
-  return;
+  lbl_831BCA08.cap = 0xf;
+  lbl_831BCA08.size = 0;
+  lbl_831BCA08.u.buf[0] = 0;
 }
-

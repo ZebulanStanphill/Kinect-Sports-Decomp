@@ -1,51 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
-extern int fn_8256D798();
-extern int fn_8256DA00();
-extern int fn_82811400();
-extern int memcpy();
+typedef struct { int v; char d[0x18]; } S_8260D2A8;
 
+extern void fn_82811400(void *p, int n);
+extern void fn_8256D798(void *o, int a, int b);
+extern void fn_8256DA00(void *o, void *src, int a, int b);
+extern void *memcpy(void *d, const void *s, unsigned int n);
 
-int fn_8260D2A8(int param_1,int param_2)
-
+void *fn_8260D2A8(unsigned char *o, unsigned char *src)
 {
-  undefined4 uVar1;
-  undefined1 auStack_3c [12];
-  
-  fn_82811400(auStack_3c,0x10);
-  uVar1 = *(undefined4 *)(param_2 + 0x18);
-  memcpy(auStack_3c,param_2 + 0x1c,0x18);
-  fn_82811400(param_1 + 0x1c,0x10);
-  *(undefined4 *)(param_1 + 0x18) = uVar1;
-  memcpy(param_1 + 0x1c,auStack_3c,0x18);
-  fn_8256D798(param_1,0,0);
-  fn_8256DA00(param_1,param_2,0,0xffffffffffffffff);
-  return param_1;
-}
+  S_8260D2A8 tmp;
+  unsigned char *s = src + 0x18;
+  unsigned char *t;
 
+  fn_82811400(tmp.d, 0x10);
+  tmp.v = *(int *)s;
+  memcpy(tmp.d, s + 4, 0x18);
+  t = o + 0x18;
+  fn_82811400(t + 4, 0x10);
+  *(int *)t = tmp.v;
+  memcpy(t + 4, tmp.d, 0x18);
+  fn_8256D798(o, 0, 0);
+  fn_8256DA00(o, src, 0, -1);
+  return o;
+}
