@@ -1,54 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82A77090(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+typedef struct Child_82A77090 Child_82A77090;
+typedef struct { void *f0, *f4, *f8; void (*fc)(Child_82A77090 *, int, int); void (*f10)(Child_82A77090 *, int, int); } VT_82A77090;
+struct Child_82A77090 { VT_82A77090 *vt; };
+typedef struct Obj_82A77090 {
+  char pad0[0xc];
+  Child_82A77090 *c0c;
+  char pad10[0x100 - 0x10];
+  Child_82A77090 *c100;
+} Obj_82A77090;
+void fn_82A77090(Obj_82A77090 *o, unsigned sel, int a, int b)
 {
-  int *piVar1;
-  
-  if (param_2 != 0) {
-    piVar1 = *(int **)(param_1 + 0x100);
-    if (piVar1 == (int *)0x0) {
-      return;
-    }
-                    /* WARNING: Could not recover jumptable at 0x82a770e4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(code **)(*piVar1 + 0xc))(piVar1,param_3,param_4);
+  if (sel == 0) {
+    if (o->c0c == 0) return;
+    o->c0c->vt->fc(o->c0c, a, b);
     return;
   }
-  piVar1 = *(int **)(param_1 + 0xc);
-  if (piVar1 == (int *)0x0) {
-    return;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82a770c0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*piVar1 + 0xc))(piVar1,param_3);
-  return;
+  if (o->c100 == 0) return;
+  o->c100->vt->fc(o->c100, a, b);
 }
-

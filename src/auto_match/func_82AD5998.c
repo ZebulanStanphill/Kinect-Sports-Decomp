@@ -1,50 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD2AA8();
-extern int fn_82ADD198();
-extern int fn_82ADD600();
+extern unsigned char fn_82AD2AA8(void *, unsigned int, void *);
+extern unsigned int fn_82ADD198(void *, unsigned short);
+extern unsigned int fn_82ADD600(void *, unsigned int);
 
-
-bool fn_82AD5998(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6)
-
+unsigned char fn_82AD5998(void *p1, int p2, void *p3, void *p4, void *p5, void *p6)
 {
-  undefined8 uVar1;
-  char cVar2;
-  
-  uVar1 = fn_82ADD198(param_1,*(undefined2 *)(param_2 + 0x12));
-  uVar1 = fn_82ADD600(param_1,uVar1);
-  cVar2 = fn_82AD2AA8(param_1,uVar1,param_3);
-  if (((cVar2 == '\0') && (cVar2 = fn_82AD2AA8(param_1,uVar1,param_4), cVar2 == '\0')) &&
-     (cVar2 = fn_82AD2AA8(param_1,uVar1,param_5), cVar2 == '\0')) {
-    cVar2 = fn_82AD2AA8(param_1,uVar1,param_6);
-    return cVar2 != '\0';
-  }
-  return true;
+  unsigned int u;
+  u = fn_82ADD198(p1, *(unsigned short *)(p2 + 0x12));
+  u = fn_82ADD600(p1, u);
+  if (fn_82AD2AA8(p1, u, p3) != 0) return 1;
+  if (fn_82AD2AA8(p1, u, p4) != 0) return 1;
+  if (fn_82AD2AA8(p1, u, p5) != 0) return 1;
+  return fn_82AD2AA8(p1, u, p6) != 0;
 }
-

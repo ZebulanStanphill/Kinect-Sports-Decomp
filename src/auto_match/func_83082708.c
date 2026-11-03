@@ -1,47 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Item_83082708 { char pad[0xc]; unsigned c; } Item_83082708;
+typedef struct Obj_83082708 Obj_83082708;
+typedef struct { void *f0, *f4, *f8; void (*fc)(Obj_83082708 *, unsigned, Item_83082708 *); } VT_83082708;
+struct Obj_83082708 { VT_83082708 *vt; };
 
-
-void fn_83082708(int *param_1,int *param_2,int param_3)
-
+void fn_83082708(Obj_83082708 *o, Item_83082708 **a, Item_83082708 **b)
 {
-  if (*param_2 != 0) {
-    param_3 = param_3 - (int)param_2;
+  int d;
+  if (*a != 0) {
+    d = (char *)b - (char *)a;
     do {
-      if (*(int *)(param_3 + (int)param_2) == 0) {
-        return;
-      }
-      if (*(int *)(*param_2 + 0xc) != 0) {
-        (**(code **)(*param_1 + 0xc))(param_1);
-      }
-      param_2 = param_2 + 1;
-    } while (*param_2 != 0);
+      Item_83082708 *x = *(Item_83082708 **)((char *)a + d);
+      if (x == 0) return;
+      if ((*a)->c != 0) o->vt->fc(o, (*a)->c, x);
+      a++;
+    } while (*a != 0);
   }
-  return;
 }
-

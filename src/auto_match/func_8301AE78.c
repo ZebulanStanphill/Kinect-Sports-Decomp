@@ -1,52 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Pair_8301AE78 { int a, b; } Pair_8301AE78;
+typedef struct Ent_8301AE78 { unsigned key; Pair_8301AE78 val; } Ent_8301AE78;
+typedef struct Tab_8301AE78 { char pad[0x34]; Ent_8301AE78 *first; Ent_8301AE78 *last; } Tab_8301AE78;
 
-
-void fn_8301AE78(undefined8 *param_1,undefined8 param_2,int param_3,int param_4)
-
+static __forceinline Pair_8301AE78 *Value(unsigned ok, Ent_8301AE78 *e)
 {
-  undefined4 uVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  
-  if (param_3 != 0) {
-    for (piVar2 = *(int **)(param_3 + 0x34);
-        (piVar2 != *(int **)(param_3 + 0x38) && (*piVar2 != param_4)); piVar2 = piVar2 + 3) {
+  return ok ? &e->val : 0;
+}
+
+void fn_8301AE78(Pair_8301AE78 *out, int unused, Tab_8301AE78 *t, unsigned key)
+{
+  Pair_8301AE78 z;
+  Pair_8301AE78 *r;
+  Ent_8301AE78 *e;
+  int x, y;
+  if (t != 0) {
+    for (e = t->first; e != t->last && e->key != key; e++) {
     }
-    puVar3 = (undefined4 *)(-(uint)(*(int **)(param_3 + 0x38) != piVar2) & (uint)(piVar2 + 1));
-    if (puVar3 != (undefined4 *)0x0) {
-      uVar1 = puVar3[1];
-      *(undefined4 *)param_1 = *puVar3;
-      *(undefined4 *)((int)param_1 + 4) = uVar1;
+    r = Value(e != t->last, e);
+    if (r != 0) {
+      y = r->b;
+      x = r->a;
+      out->b = y;
+      out->a = x;
       return;
     }
   }
-  *param_1 = 0;
-  return;
+  z.a = 0;
+  z.b = 0;
+  *out = z;
 }
-

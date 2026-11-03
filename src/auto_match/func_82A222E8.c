@@ -1,78 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_82A20618();
-extern int fn_82A207C8();
-extern int fn_82A21B98();
-extern unsigned int lbl_8315D2EC;
-extern unsigned int lbl_83219C90;
-extern unsigned int *lbl_83219C94;
-extern unsigned int lbl_83219C98;
+typedef struct Node_82A222E8 { struct Node_82A222E8 *next; struct Node_82A222E8 *prev; int pool; char data[0x1000]; } Node_82A222E8;
+typedef struct { char pad[0x100]; Node_82A222E8 *head; Node_82A222E8 *tail; unsigned int count; } Glob_82A222E8;
+extern Glob_82A222E8 lbl_83219B90;
+extern int lbl_8315D2EC;
+extern Node_82A222E8 *fn_8265C940(int, int);
+extern int fn_82A20618(int);
+extern int fn_82A207C8(void *, int, int, int);
+extern int *fn_82A21B98(int, int, int);
 
-
-void fn_82A222E8(undefined4 param_1,undefined8 param_2,undefined8 param_3)
-
+static __forceinline Node_82A222E8 *Grow_82A222E8(void)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  
-  if (lbl_83219C98 < 1000) {
-    lbl_83219C98 = lbl_83219C98 + 1;
-    puVar1 = lbl_83219C94;
-    if (((undefined4 **)lbl_83219C90 == &lbl_83219C90) &&
-       (puVar1 = (undefined4 *)fn_8265C940(0x100c,lbl_8315D2EC), puVar1 != (undefined4 *)0x0))
-    {
-      uVar2 = fn_82A207C8(puVar1 + 3,0x1000,4,1);
-      puVar1[2] = uVar2;
-      puVar1[1] = lbl_83219C94;
-      *puVar1 = &lbl_83219C90;
-      *lbl_83219C94 = puVar1;
-      lbl_83219C94 = puVar1;
+  Node_82A222E8 *n;
+  Node_82A222E8 *t;
+  n = fn_8265C940(0x100c, lbl_8315D2EC);
+  if (n != 0) {
+    n->pool = fn_82A207C8(n->data, 0x1000, 4, 1);
+    t = lbl_83219B90.tail;
+    n->next = (Node_82A222E8 *)&lbl_83219B90.head;
+    n->prev = t;
+    t->next = n;
+    lbl_83219B90.tail = n;
+  }
+  return n;
+}
+
+void fn_82A222E8(int param_1, int param_2, int param_3)
+{
+  Node_82A222E8 *n;
+  int *r;
+
+  if (lbl_83219B90.count < 1000) {
+    lbl_83219B90.count = lbl_83219B90.count + 1;
+    if (lbl_83219B90.head == (Node_82A222E8 *)&lbl_83219B90.head) {
+      n = Grow_82A222E8();
     }
-    puVar1 = (undefined4 *)fn_82A21B98(puVar1[2],param_2,param_3);
-    if (puVar1 == (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)fn_8265C940(0x100c,lbl_8315D2EC);
-      if (puVar1 != (undefined4 *)0x0) {
-        uVar2 = fn_82A207C8(puVar1 + 3,0x1000,4,1);
-        puVar1[2] = uVar2;
-        puVar1[1] = lbl_83219C94;
-        *puVar1 = &lbl_83219C90;
-        *lbl_83219C94 = puVar1;
-        lbl_83219C94 = puVar1;
-      }
-      puVar1 = (undefined4 *)fn_82A21B98(puVar1[2],param_2,param_3);
-      if (puVar1 == (undefined4 *)0x0) {
+    else {
+      n = lbl_83219B90.tail;
+    }
+    r = fn_82A21B98(n->pool, param_2, param_3);
+    if (r == 0) {
+      n = Grow_82A222E8();
+      r = fn_82A21B98(n->pool, param_2, param_3);
+      if (r == 0) {
         return;
       }
     }
-    *puVar1 = param_1;
+    *r = param_1;
     fn_82A20618(2);
   }
-  return;
 }
-

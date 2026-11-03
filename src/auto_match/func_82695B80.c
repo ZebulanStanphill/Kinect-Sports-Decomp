@@ -1,62 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C3378();
+typedef struct { int pad0; int pad4; unsigned int cnt; } Rc_82695B80;
+typedef struct { Rc_82695B80 *p; unsigned int q; unsigned char flag; } Sub_82695B80;
+typedef struct { int *vt; int a; int b; int pad; Sub_82695B80 s1; Sub_82695B80 s2; } Obj_82695B80;
+extern int fn_826C3378(Sub_82695B80 *, unsigned int, int);
 extern unsigned int lbl_82006138;
 
-
-undefined4 * fn_82695B80(undefined4 *param_1,undefined4 param_2,int *param_3,int *param_4)
-
+static __forceinline void SubCopy_82695B80(Sub_82695B80 *d, Sub_82695B80 *s)
 {
-  int iVar1;
-  
-  param_1[1] = param_2;
-  *param_1 = &lbl_82006138;
-  param_1[2] = 1;
-  *(undefined1 *)(param_1 + 6) = 0;
-  iVar1 = *param_3;
-  param_1[4] = iVar1;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
+  Rc_82695B80 *r;
+  d->flag = 0;
+  r = s->p;
+  d->p = r;
+  if (r != 0) {
+    r->cnt = (r->cnt + 1) & 0x8fffffff;
   }
-  param_1[5] = 0;
-  if (param_3[1] != 0) {
-    fn_826C3378(param_1 + 4,param_3[1],*(byte *)(param_3 + 2) & 1);
+  d->q = 0;
+  if (s->q != 0) {
+    fn_826C3378(d, s->q, s->flag & 1);
   }
-  *(undefined1 *)(param_1 + 9) = 0;
-  iVar1 = *param_4;
-  param_1[7] = iVar1;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  param_1[8] = 0;
-  if (param_4[1] != 0) {
-    fn_826C3378(param_1 + 7,param_4[1],*(byte *)(param_4 + 2) & 1);
-  }
-  return param_1;
 }
 
+Obj_82695B80 *fn_82695B80(Obj_82695B80 *param_1, int param_2, Sub_82695B80 *param_3, Sub_82695B80 *param_4)
+{
+  param_1->a = param_2;
+  param_1->vt = (int *)&lbl_82006138;
+  param_1->b = 1;
+  SubCopy_82695B80(&param_1->s1, param_3);
+  SubCopy_82695B80(&param_1->s2, param_4);
+  return param_1;
+}

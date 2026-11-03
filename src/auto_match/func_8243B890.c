@@ -1,55 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Itf_8243B890 Itf_8243B890;
+typedef struct { void *f0, *f4, *f8, *fc, *f10, *f14; void (*f18)(Itf_8243B890 *); } ItfVT_8243B890;
+struct Itf_8243B890 { ItfVT_8243B890 *vt; };
+typedef struct Vec_8243B890 { Itf_8243B890 **first; Itf_8243B890 **last; } Vec_8243B890;
+typedef struct In_8243B890 {
+  char pad0[0x1c4];
+  Vec_8243B890 v;
+  char pad1cc[0x1d4 - 0x1cc];
+  int i1d4;
+  char pad1d8[0x1f0 - 0x1d8];
+  char blk[0x20];
+  float f210;
+} In_8243B890;
+typedef struct Obj_8243B890 { char pad[0x40]; In_8243B890 *in; } Obj_8243B890;
+static __forceinline int vsize(Vec_8243B890 *v) { return v->last - v->first; }
 extern int fn_8243E5C8();
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
-
-void fn_8243B890(int param_1)
-
+void fn_8243B890(Obj_8243B890 *o)
 {
-  int *piVar1;
-  int iVar2;
-  uint uVar3;
-  
-  fn_8243E5C8((ulonglong)*(uint *)(param_1 + 0x40) + 0x1f0);
-  uVar3 = 0;
-  *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x210) = lbl_821CC160;
-  *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x1d4) = 0xffffffff;
-  piVar1 = (int *)(*(int *)(param_1 + 0x40) + 0x1c4);
-  if (*(int *)(*(int *)(param_1 + 0x40) + 0x1c8) - *piVar1 >> 2 != 0) {
-    iVar2 = 0;
-    do {
-      (**(code **)(**(int **)(*piVar1 + iVar2) + 0x18))();
-      uVar3 = uVar3 + 1;
-      iVar2 = iVar2 + 4;
-      piVar1 = (int *)(*(int *)(param_1 + 0x40) + 0x1c4);
-    } while (uVar3 < (uint)(*(int *)(*(int *)(param_1 + 0x40) + 0x1c8) - *piVar1 >> 2));
+  unsigned i;
+  fn_8243E5C8(o->in->blk);
+  o->in->f210 = lbl_821CC160;
+  o->in->i1d4 = -1;
+  for (i = 0; i < (unsigned)vsize(&o->in->v); i++) {
+    Vec_8243B890 *v = &o->in->v;
+    v->first[i]->vt->f18(v->first[i]);
   }
-  return;
 }
-
