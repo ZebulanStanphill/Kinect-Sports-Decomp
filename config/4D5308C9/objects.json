@@ -84393,7 +84393,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_82685A58.c": {
+      "auto_match/func_82685A58.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -84447,10 +84447,10 @@
           "/O1"
         ]
       },
-      "auto_match/func_82685F70.c": {
-        "status": "NonMatching",
+      "auto_match/func_82685F70.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
         ]
       },
       "auto_match/func_82686088.c": {
