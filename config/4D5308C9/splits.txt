@@ -94729,7 +94729,7 @@ auto_match/func_8287A6B8.c:
 	.pdata      start:0x82203518 end:0x82203520
 	.text       start:0x8287A6B8 end:0x8287A754
 
-auto_match/func_8287A758.c:
+auto_match/func_8287A758.cpp:
 	.text       start:0x8287A758 end:0x8287A770
 
 auto_match/func_8287A770.c:

@@ -144350,8 +144350,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_8287A758.c": {
-        "status": "NonMatching",
+      "auto_match/func_8287A758.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
