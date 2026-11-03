@@ -25,17 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82636C98();
-
+extern int fn_82ABD078();
+extern unsigned int fn_82636C98(int, int, int, int, int, int, int, void *, int);
 
 void fn_82ABD6A8(int param_1)
-
 {
-  int iVar1;
-  
-  iVar1 = fn_82636C98(*(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0xc),0,0,
-                            param_1 + 0x10,param_1 + 0x30,0xf,0xffffffff82abd078);
-  *(uint *)(param_1 + 0x444) = (uint)LZCOUNT(-1000 - iVar1) >> 5;
-  return;
-}
+  unsigned int r;
 
+  r = fn_82636C98(*(int *)(param_1 + 8), *(int *)(param_1 + 0xc), 0, 0, param_1 + 0x10, param_1 + 0x30, 0xf,
+                  (void *)fn_82ABD078, param_1);
+  *(unsigned int *)(param_1 + 0x444) = r == 0xfffffc18;
+}

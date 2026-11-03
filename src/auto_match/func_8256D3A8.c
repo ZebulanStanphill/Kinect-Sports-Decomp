@@ -1,63 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_5c;
-extern int fn_8256D798();
-extern int fn_8256D810();
-extern int fn_827DE048();
-extern int fn_82811400();
-extern int memcpy();
-
-
-int fn_8256D3A8(int param_1,char *param_2)
-
+extern unsigned strlen(const char *);
+extern void *memcpy(unsigned char *, const unsigned char *, unsigned);
+typedef struct E_8256D3A8 { int tag; char d[24]; } E_8256D3A8;
+typedef struct O_8256D3A8 { char pad[0x18]; E_8256D3A8 e; } O_8256D3A8;
+extern E_8256D3A8 *fn_827DE048(void *);
+extern void fn_82811400(void *, int);
+extern void fn_8256D798(void *, int, int);
+extern void fn_8256D810(void *, const char *, unsigned);
+O_8256D3A8 *fn_8256D3A8(O_8256D3A8 *o, const char *s)
 {
-  char cVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  char *pcVar4;
-  undefined1 auStack_5c [28];
-  undefined1 auStack_40 [16];
-  
-  puVar3 = (undefined4 *)fn_827DE048(auStack_40);
-  fn_82811400(auStack_5c,0x10);
-  uVar2 = *puVar3;
-  memcpy(auStack_5c,puVar3 + 1,0x18);
-  fn_82811400(param_1 + 0x1c,0x10);
-  *(undefined4 *)(param_1 + 0x18) = uVar2;
-  memcpy(param_1 + 0x1c,auStack_5c,0x18);
-  fn_8256D798(param_1,0,0);
-  pcVar4 = param_2;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  fn_8256D810(param_1,param_2,pcVar4 + (-1 - (int)param_2));
-  return param_1;
+  char t16[32];
+  E_8256D3A8 e;
+  E_8256D3A8 *src;
+  E_8256D3A8 *q;
+  src = fn_827DE048(t16);
+  fn_82811400(e.d, 0x10);
+  e.tag = src->tag;
+  memcpy((unsigned char *)e.d, (unsigned char *)src->d, 0x18);
+  q = &o->e;
+  fn_82811400(q->d, 0x10);
+  o->e.tag = e.tag;
+  memcpy((unsigned char *)q->d, (unsigned char *)e.d, 0x18);
+  fn_8256D798(o, 0, 0);
+  fn_8256D810(o, s, strlen(s));
+  return o;
 }
-

@@ -25,39 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE8E78();
-extern int fn_8309A6F8();
-extern unsigned int lbl_82132BC4;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_8309A9C8(undefined8 param_1,int param_2)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "TtCollQueryPairLinearCast";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  fn_8309A6F8(param_2,*(undefined4 *)(param_2 + 0x18),*(undefined4 *)(param_2 + 0x34),
-                    *(undefined4 *)(param_2 + 0x38));
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  fn_82CE8E78(param_1,param_2,param_2,0);
-  return;
 }
 
+typedef struct Obj_8309A9C8 {
+  char pad0[0x18];
+  int f18;
+  char pad1c[0x34 - 0x1c];
+  int f34;
+  int f38;
+} Obj_8309A9C8;
+
+extern int fn_8309A6F8(Obj_8309A9C8 *, int, int, int);
+extern int fn_82CE8E78(void *, Obj_8309A9C8 *, Obj_8309A9C8 *, int);
+
+void fn_8309A9C8(void *param_1, Obj_8309A9C8 *o)
+{
+  timer("TtCollQueryPairLinearCast");
+  fn_8309A6F8(o, o->f18, o->f34, o->f38);
+  timer("Et");
+  fn_82CE8E78(param_1, o, o, 0);
+}

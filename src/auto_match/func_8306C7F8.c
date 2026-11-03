@@ -25,29 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2A7D0();
-extern unsigned int iStack_18;
-extern unsigned int iStack_6c;
+typedef struct TZ_8306C7F8 {
+  int bias;
+  unsigned short stdName[32];
+  char stdDate[16];
+  int stdBias;
+  unsigned short dayName[32];
+  char dayDate[16];
+  int dayBias;
+} TZ_8306C7F8;
 
+extern unsigned int fn_82A2A7D0(TZ_8306C7F8 *);
 
-void fn_8306C7F8(longlong *param_1)
-
+void fn_8306C7F8(__int64 *param_1)
 {
-  uint uVar1;
-  int aiStack_c0 [21];
-  int iStack_6c;
-  int iStack_18;
-  
-  uVar1 = fn_82A2A7D0(aiStack_c0);
-  if (uVar1 != 0) {
-    if ((uVar1 == 1) || (iStack_6c = iStack_18, uVar1 < 3)) {
-      aiStack_c0[0] = iStack_6c + aiStack_c0[0];
-    }
-    else {
-      aiStack_c0[0] = 0;
-    }
-  }
-  *param_1 = (longlong)(aiStack_c0[0] * 0x3c) * 10000000;
-  return;
-}
+  TZ_8306C7F8 tz;
+  unsigned int id;
+  int x;
+  int y;
 
+  id = fn_82A2A7D0(&tz);
+  y = tz.bias;
+  switch (id) {
+    case 0:
+      break;
+    case 2:
+      x = tz.dayBias;
+      goto add;
+    case 1:
+      x = tz.stdBias;
+    add:
+      tz.bias = x + y;
+      break;
+    default:
+      tz.bias = 0;
+      break;
+  }
+  *param_1 = (__int64)(tz.bias * 0x3c) * 10000000;
+}

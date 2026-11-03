@@ -1,79 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82BD8D78(int param_1)
-
+typedef struct Node_82BD8D78 { int pad0; struct Node_82BD8D78 *next; } Node_82BD8D78;
+typedef struct List_82BD8D78 { Node_82BD8D78 *head; Node_82BD8D78 *tail; } List_82BD8D78;
+typedef struct Obj_82BD8D78 {
+  char pad0[0x10]; unsigned __int64 f10; unsigned __int64 f18; char pad20[8]; unsigned __int64 f28;
+  char pad30[0x14]; unsigned short f44; char pad46[2]; int f48; int f4c; unsigned __int64 q[0x19];
+  unsigned __int64 f118; char pad120[8]; unsigned __int64 f128; int f130; unsigned char f134; char pad135[3]; int f138;
+  char pad13c[0x44]; List_82BD8D78 dst; List_82BD8D78 src;
+} Obj_82BD8D78;
+void fn_82BD8D78(Obj_82BD8D78 *o)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  undefined8 *puVar4;
-  longlong lVar5;
-  
-  iVar3 = *(int *)(param_1 + 0x188);
-  piVar2 = (int *)(param_1 + 0x188);
-  *(undefined8 *)(param_1 + 0x10) = 0;
-  *(undefined8 *)(param_1 + 0x18) = 0;
-  *(undefined4 *)(param_1 + 0x4c) = 0;
-  *(short *)(param_1 + 0x44) = (short)(*(ulonglong *)(param_1 + 0x28) / 0x14);
-  *(undefined8 *)(param_1 + 0x128) = 0;
-  *(undefined4 *)(param_1 + 0x130) = 0;
-  *(undefined1 *)(param_1 + 0x134) = 0;
-  *(undefined4 *)(param_1 + 0x138) = 0;
-  if (iVar3 != 0) {
+  Node_82BD8D78 *n;
+  Node_82BD8D78 *m;
+  List_82BD8D78 *src = &o->src;
+  int i;
+  unsigned __int64 *p;
+  n = o->src.head;
+  o->f10 = 0;
+  o->f18 = 0;
+  o->f4c = 0;
+  o->f44 = (unsigned short)(o->f28 / 0x14);
+  o->f128 = 0;
+  o->f130 = 0;
+  o->f134 = 0;
+  o->f138 = 0;
+  if (n != 0) {
+    List_82BD8D78 *dst = &o->dst;
     do {
-      iVar1 = *piVar2;
-      if (iVar1 != 0) {
-        if (iVar1 == *(int *)(param_1 + 0x18c)) {
-          *(undefined4 *)(param_1 + 0x18c) = 0;
-        }
-        *piVar2 = *(int *)(iVar1 + 4);
-        *(undefined4 *)(iVar1 + 4) = 0;
+      m = src->head;
+      if (m != 0) {
+        if (m == src->tail) src->tail = 0;
+        src->head = m->next;
+        m->next = 0;
       }
-      *(undefined4 *)(iVar3 + 4) = 0;
-      if (*(int *)(param_1 + 0x184) == 0) {
-        *(int *)(param_1 + 0x180) = iVar3;
-      }
-      else {
-        *(int *)(*(int *)(param_1 + 0x184) + 4) = iVar3;
-      }
-      *(int *)(param_1 + 0x184) = iVar3;
-      iVar3 = *piVar2;
-    } while (iVar3 != 0);
+      n->next = 0;
+      if (dst->tail != 0) dst->tail->next = n; else dst->head = n;
+      dst->tail = n;
+      n = o->src.head;
+    } while (n != 0);
   }
-  puVar4 = (undefined8 *)(param_1 + 0x48);
-  lVar5 = 0x19;
+  p = &o->q[-1];
+  i = 0x19;
   do {
-    puVar4 = puVar4 + 1;
-    *puVar4 = *(undefined8 *)(param_1 + 0x118);
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  return;
+    p++;
+    *p = o->f118;
+    i--;
+  } while (i != 0);
 }
-

@@ -25,78 +25,67 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef unsigned __int64 U64_82ADDC90;
 
+typedef struct Self_82ADDC90 {
+  char pad0[0x2a0];
+  int n;
+  U64_82ADDC90 *tbl;
+  U64_82ADDC90 **ptrs;
+  char *bits;
+} Self_82ADDC90;
 
-undefined8 fn_82ADDC90(int param_1,uint param_2,uint param_3)
-
+static __forceinline unsigned char HasBit(char *row, unsigned int i)
 {
-  int iVar1;
-  int iVar2;
-  bool bVar3;
-  ulonglong *puVar4;
-  int iVar5;
-  ulonglong *puVar6;
-  ulonglong *puVar7;
-  
-  iVar1 = *(int *)(param_1 + 0x2a0) * param_2 * 8 + *(int *)(param_1 + 0x2ac);
-  iVar2 = *(int *)(param_1 + 0x2a0) * param_3 * 8 + *(int *)(param_1 + 0x2ac);
-  if (((1L << ((ulonglong)param_3 & 0x3f) & *(ulonglong *)((param_3 >> 3 & 0x1ffffff8) + iVar1)) ==
-       0) && ((1L << ((ulonglong)param_2 & 0x3f) &
-              *(ulonglong *)((param_2 >> 3 & 0x1ffffff8) + iVar2)) == 0)) {
-    iVar5 = 0;
+  return (((U64_82ADDC90)1 << (i & 0x3f)) & *(U64_82ADDC90 *)(row + (i >> 3 & 0x1ffffff8))) != 0;
+}
+
+static __forceinline unsigned char Open(U64_82ADDC90 *tbl, unsigned int a, unsigned int b)
+{
+  int i;
+
+  for (i = 0; i < 4; i++) {
+    if (~(tbl[b * 5 + i + 1] | tbl[a * 5 + i + 1]) != 0) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+static __forceinline unsigned char Overlap(U64_82ADDC90 *p, U64_82ADDC90 *end, int off)
+{
+  if (p < end) {
     do {
-      if ((*(ulonglong *)((param_3 * 5 + iVar5 + 1) * 8 + *(int *)(param_1 + 0x2a4)) |
-          *(ulonglong *)((param_2 * 5 + iVar5 + 1) * 8 + *(int *)(param_1 + 0x2a4))) !=
-          0xffffffffffffffff) {
-        bVar3 = true;
-        goto LAB_82addd60;
+      if ((*(U64_82ADDC90 *)(off + (int)p) & *p) != 0) {
+        return 1;
       }
-      iVar5 = iVar5 + 1;
-    } while (iVar5 < 4);
-    bVar3 = false;
-LAB_82addd60:
-    if (bVar3) {
-      puVar6 = *(ulonglong **)(param_2 * 4 + *(int *)(param_1 + 0x2a8));
-      puVar7 = *(ulonglong **)(param_3 * 4 + *(int *)(param_1 + 0x2a8));
-      if (puVar6 != (ulonglong *)0x0) {
-        puVar4 = puVar6 + *(int *)(param_1 + 0x2a0);
-        if (puVar6 < puVar4) {
-          iVar2 = iVar2 - (int)puVar6;
-          do {
-            if ((*(ulonglong *)(iVar2 + (int)puVar6) & *puVar6) != 0) {
-              bVar3 = true;
-              goto LAB_82adddc0;
-            }
-            puVar6 = puVar6 + 1;
-          } while (puVar6 < puVar4);
-        }
-        bVar3 = false;
-LAB_82adddc0:
-        if (bVar3) {
-          return 1;
-        }
+      p++;
+    } while (p < end);
+  }
+  return 0;
+}
+
+int fn_82ADDC90(Self_82ADDC90 *s, unsigned int a, unsigned int b)
+{
+  char *rowA;
+  char *rowB;
+  U64_82ADDC90 *p;
+  U64_82ADDC90 *q;
+
+  rowA = s->bits + s->n * a * 8;
+  rowB = s->bits + s->n * b * 8;
+  if (!HasBit(rowA, b) && !HasBit(rowB, a)) {
+    if (Open(s->tbl, a, b)) {
+      p = s->ptrs[a];
+      q = s->ptrs[b];
+      if (p != 0) {
+        if (Overlap(p, p + s->n, (int)rowB - (int)p)) return 1;
       }
-      if (puVar7 != (ulonglong *)0x0) {
-        puVar6 = puVar7 + *(int *)(param_1 + 0x2a0);
-        if (puVar7 < puVar6) {
-          iVar1 = iVar1 - (int)puVar7;
-          do {
-            if ((*(ulonglong *)(iVar1 + (int)puVar7) & *puVar7) != 0) {
-              bVar3 = true;
-              goto LAB_82adde10;
-            }
-            puVar7 = puVar7 + 1;
-          } while (puVar7 < puVar6);
-        }
-        bVar3 = false;
-LAB_82adde10:
-        if (bVar3) {
-          return 1;
-        }
+      if (q != 0) {
+        if (Overlap(q, q + s->n, (int)rowA - (int)q)) return 1;
       }
       return 0;
     }
   }
   return 1;
 }
-

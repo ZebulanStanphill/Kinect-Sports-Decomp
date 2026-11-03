@@ -25,46 +25,48 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEAE80();
-extern int fn_82CFBBF0();
+typedef struct Seg_82CEAFA8 {
+  int f0;
+  struct Seg_82CEAFA8 *next;
+  int f8;
+  int fc;
+  int f10;
+  int f14;
+  char *data;
+  int size;
+} Seg_82CEAFA8;
 
+extern int fn_82CEAE80(Seg_82CEAFA8 *);
+extern int fn_82CFBBF0(int, int);
 
-ulonglong fn_82CEAFA8(int param_1,undefined8 param_2)
-
+char *fn_82CEAFA8(Seg_82CEAFA8 *self, int key)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  
-  lVar3 = 0;
-  iVar1 = fn_82CEAE80();
-  if (0 < iVar1) {
+  int i;
+  int total;
+  int idx;
+  Seg_82CEAFA8 *s;
+  char *e;
+
+  for (i = 0; i < fn_82CEAE80(self); i++) {
+    total = self->size;
+    for (s = self->next; s != 0; s = s->next) {
+      total = s->size + total;
+    }
+    s = self;
+    idx = i - total;
     do {
-      uVar2 = (ulonglong)*(uint *)(param_1 + 0x1c);
-      for (iVar1 = *(int *)(param_1 + 4); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-        uVar2 = *(uint *)(iVar1 + 0x1c) + uVar2;
+      idx = s->size + idx;
+      if (idx >= 0) {
+        e = s->data + idx * 24;
+        goto found;
       }
-      uVar2 = lVar3 - uVar2;
-      iVar1 = param_1;
-      do {
-        uVar2 = *(uint *)(iVar1 + 0x1c) + uVar2;
-        if (-1 < (longlong)uVar2) {
-          uVar2 = (uVar2 + (uVar2 & 0x7fffffff) * 2 & 0x1fffffff) * 8 +
-                  (ulonglong)*(uint *)(iVar1 + 0x18);
-          goto LAB_82ceb014;
-        }
-        iVar1 = *(int *)(iVar1 + 4);
-      } while (iVar1 != 0);
-      uVar2 = (ulonglong)*(uint *)(param_1 + 0x18);
-LAB_82ceb014:
-      iVar1 = fn_82CFBBF0(*(undefined4 *)uVar2,param_2);
-      if (iVar1 == 0) {
-        return uVar2;
-      }
-      lVar3 = lVar3 + 1;
-      iVar1 = fn_82CEAE80(param_1);
-    } while ((int)lVar3 < iVar1);
+      s = s->next;
+    } while (s != 0);
+    e = self->data;
+found:
+    if (fn_82CFBBF0(*(int *)e, key) == 0) {
+      return e;
+    }
   }
   return 0;
 }
-

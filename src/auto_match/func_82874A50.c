@@ -25,25 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+typedef struct Sub_82874A50 Sub_82874A50;
+typedef struct VT_82874A50 {
+  int pad[7];
+  int (*f1c)();
+} VT_82874A50;
+struct Sub_82874A50 {
+  VT_82874A50 *vt;
+};
 
+typedef struct Elem_82874A50 {
+  unsigned char state;
+  char pad1[3];
+  Sub_82874A50 sub;
+  char pad8[0x70 - 8];
+} Elem_82874A50;
 
-undefined8 fn_82874A50(int *param_1)
+typedef struct Self_82874A50 {
+  VT_82874A50 *vt;
+  Elem_82874A50 *begin;
+  Elem_82874A50 *end;
+  char pad0c[0x18 - 0xc];
+  int m18[1];
+} Self_82874A50;
 
+int fn_82874A50(Self_82874A50 *self)
 {
-  int iVar2;
-  undefined8 uVar1;
-  char *pcVar3;
-  
-  for (pcVar3 = (char *)param_1[1]; pcVar3 != (char *)param_1[2]; pcVar3 = pcVar3 + 0x70) {
-    if (*pcVar3 == '\x01') {
-      (**(code **)(*(int *)(pcVar3 + 4) + 0x1c))(pcVar3 + 4);
+  Elem_82874A50 *p;
+  int hr;
+
+  for (p = self->begin; p != self->end; p++) {
+    if (p->state == 1) {
+      p->sub.vt->f1c(&p->sub);
     }
   }
-  iVar2 = (**(code **)(*param_1 + 0x1c))(param_1,param_1 + 6);
-  uVar1 = 0xffffffffa0260000;
-  if (-1 < iVar2) {
-    uVar1 = 0x20260000;
+  hr = self->vt->f1c(self, self->m18);
+  if (hr < 0) {
+    return 0xa0260000;
   }
-  return uVar1;
+  return 0x20260000;
 }
-

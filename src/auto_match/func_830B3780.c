@@ -25,34 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82CE08B8();
-extern int fn_82CE08F0();
-extern int fn_82CE0908();
+extern int fn_82CE08B8(int, int, int);
+extern int fn_82CE08F0(int, int, void *);
+extern int fn_82CE0908(int, unsigned int, int, void *, int);
 
-
-undefined8 fn_830B3780(int param_1,int *param_2)
-
+int fn_830B3780(int param_1, int *param_2)
 {
-  undefined8 uVar1;
-  int iVar2;
-  undefined4 auStack_30;
-  
-  uVar1 = fn_82CE08B8(2,1,6);
-  *param_2 = (int)uVar1;
-  if ((int)uVar1 != -1) {
-    iVar2 = fn_82CE0908(uVar1,0xffff,0x1006,param_1 + 8,4);
-    if ((iVar2 == 0) && (iVar2 = fn_82CE0908(*param_2,0xffff,0x1005,param_1 + 8,4), iVar2 == 0)) {
-      if (*(char *)(param_1 + 0xc) != '\0') {
-        auStack_30 = 1;
-        iVar2 = fn_82CE08F0(*param_2,0xffffffff8004667e,&auStack_30);
-        if (iVar2 != 0) {
-          return 0xffffffff8004000b;
-        }
-      }
-      return 0;
+  int s;
+  int one;
+
+  s = fn_82CE08B8(2, 1, 6);
+  *param_2 = s;
+  if (s == -1) {
+    return 0x8004000b;
+  }
+  if (fn_82CE0908(s, 0xffff, 0x1006, (void *)(param_1 + 8), 4) != 0) {
+    return 0x8004000b;
+  }
+  if (fn_82CE0908(*param_2, 0xffff, 0x1005, (void *)(param_1 + 8), 4) != 0) {
+    return 0x8004000b;
+  }
+  if (*(char *)(param_1 + 0xc) != 0) {
+    one = 1;
+    if (fn_82CE08F0(*param_2, 0x8004667e, &one) != 0) {
+      return 0x8004000b;
     }
   }
-  return 0xffffffff8004000b;
+  return 0;
 }
-

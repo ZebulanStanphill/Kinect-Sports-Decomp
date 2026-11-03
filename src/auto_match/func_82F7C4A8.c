@@ -26,49 +26,39 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E658();
-extern int fn_82F682B0();
-extern int fn_82F85CD8();
-extern int fn_82F85D70();
-extern unsigned int lbl_8329F620;
+extern unsigned int fn_82A1F470();
+extern int fn_82F682B0(unsigned int);
+extern int fn_82F85CD8(int);
+extern int fn_82F85D70(int);
+extern int lbl_8329F620[];
 
-
-undefined8 fn_82F7C4A8(undefined8 param_1)
-
+int fn_82F7C4A8(int h)
 {
-  int iVar3;
-  int iVar4;
-  ulonglong uVar1;
-  undefined8 uVar2;
-  uint uVar5;
-  
-  iVar3 = fn_82F85D70();
-  uVar5 = (uint)param_1;
-  if (iVar3 != -1) {
-    if (((uVar5 == 1) && ((*(byte *)(lbl_8329F620 + 0x94) & 1) != 0)) ||
-       ((uVar5 == 2 && ((*(byte *)(lbl_8329F620 + 0x4c) & 1) != 0)))) {
-      iVar3 = fn_82F85D70(2);
-      iVar4 = fn_82F85D70(1);
-      if (iVar4 == iVar3) goto LAB_82f7c534;
-    }
-    fn_82F85D70(param_1);
-    iVar3 = fn_82A1E658();
-    if (iVar3 == 0) {
-      uVar1 = thunk_FUN_82a2b798();
-      goto LAB_82f7c538;
-    }
-  }
-LAB_82f7c534:
-  uVar1 = 0;
-LAB_82f7c538:
-  fn_82F85CD8(param_1);
-  *(undefined1 *)((&lbl_8329F620)[(int)uVar5 >> 5] + (uVar5 & 0x1f) * 0x48 + 4) = 0;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    fn_82F682B0(uVar1);
-    uVar2 = 0xffffffffffffffff;
-  }
-  return uVar2;
-}
+  unsigned int err;
+  int a;
+  int b;
 
+  if (fn_82F85D70(h) != -1) {
+    if ((h == 1 && (*(unsigned char *)(lbl_8329F620[0] + 0x94) & 1) != 0) ||
+        (h == 2 && (*(unsigned char *)(lbl_8329F620[0] + 0x4c) & 1) != 0)) {
+      a = fn_82F85D70(2);
+      b = fn_82F85D70(1);
+      if (b == a) goto none;
+    }
+    fn_82F85D70(h);
+    if (fn_82A1E658() == 0) {
+      err = fn_82A1F470();
+      goto done;
+    }
+  }
+none:
+  err = 0;
+done:
+  fn_82F85CD8(h);
+  *(unsigned char *)(lbl_8329F620[h >> 5] + (h & 0x1f) * 0x48 + 4) = 0;
+  if (err != 0) {
+    fn_82F682B0(err);
+    return -1;
+  }
+  return 0;
+}

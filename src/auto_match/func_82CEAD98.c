@@ -25,46 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEAD08();
-extern int fn_82CFBBF0();
+typedef struct Seg_82CEAD98 {
+  int f0;
+  struct Seg_82CEAD98 *next;
+  int f8;
+  int fc;
+  char *data;
+  int size;
+} Seg_82CEAD98;
 
+extern int fn_82CEAD08(Seg_82CEAD98 *);
+extern int fn_82CFBBF0(int, int);
 
-ulonglong fn_82CEAD98(int param_1,undefined8 param_2)
-
+char *fn_82CEAD98(Seg_82CEAD98 *self, int key)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  
-  lVar3 = 0;
-  iVar1 = fn_82CEAD08();
-  if (0 < iVar1) {
+  int i;
+  int total;
+  int idx;
+  Seg_82CEAD98 *s;
+  char *e;
+
+  for (i = 0; i < fn_82CEAD08(self); i++) {
+    total = self->size;
+    for (s = self->next; s != 0; s = s->next) {
+      total = s->size + total;
+    }
+    s = self;
+    idx = i - total;
     do {
-      uVar2 = (ulonglong)*(uint *)(param_1 + 0x14);
-      for (iVar1 = *(int *)(param_1 + 4); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-        uVar2 = *(uint *)(iVar1 + 0x14) + uVar2;
+      idx = s->size + idx;
+      if (idx >= 0) {
+        e = s->data + idx * 20;
+        goto found;
       }
-      uVar2 = lVar3 - uVar2;
-      iVar1 = param_1;
-      do {
-        uVar2 = *(uint *)(iVar1 + 0x14) + uVar2;
-        if (-1 < (longlong)uVar2) {
-          uVar2 = (uVar2 + (uVar2 & 0x3fffffff) * 4 & 0x3fffffff) * 4 +
-                  (ulonglong)*(uint *)(iVar1 + 0x10);
-          goto LAB_82ceae04;
-        }
-        iVar1 = *(int *)(iVar1 + 4);
-      } while (iVar1 != 0);
-      uVar2 = (ulonglong)*(uint *)(param_1 + 0x10);
-LAB_82ceae04:
-      iVar1 = fn_82CFBBF0(*(undefined4 *)uVar2,param_2);
-      if (iVar1 == 0) {
-        return uVar2;
-      }
-      lVar3 = lVar3 + 1;
-      iVar1 = fn_82CEAD08(param_1);
-    } while ((int)lVar3 < iVar1);
+      s = s->next;
+    } while (s != 0);
+    e = self->data;
+found:
+    if (fn_82CFBBF0(*(int *)e, key) == 0) {
+      return e;
+    }
   }
   return 0;
 }
-

@@ -25,39 +25,55 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
+typedef struct Item_825C5198 Item_825C5198;
+typedef struct VT_825C5198 {
+  int pad[3];
+  void (*f0c)(Item_825C5198 *, int);
+} VT_825C5198;
+typedef struct Key_825C5198 {
+  unsigned int v;
+} Key_825C5198;
+struct Item_825C5198 {
+  VT_825C5198 *vt;
+  Key_825C5198 *key;
+};
+typedef struct Node_825C5198 {
+  Item_825C5198 *item;
+  struct Node_825C5198 *next;
+} Node_825C5198;
+typedef struct Owner_825C5198 {
+  char pad[8];
+  Node_825C5198 *head;
+} Owner_825C5198;
 
+extern int fn_82522ED8(Node_825C5198 *);
 
-undefined8 fn_825C5198(int param_1,int *param_2)
-
+int fn_825C5198(Owner_825C5198 *self, unsigned int *keyp)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-    piVar1 = *(int **)(param_1 + 8);
-    piVar2 = (int *)0x0;
+  Node_825C5198 *cur;
+  Node_825C5198 *prev;
+  Item_825C5198 *item;
+
+  cur = self->head;
+  prev = 0;
+  if (cur != 0) {
     do {
-      piVar3 = piVar1;
-      if (**(int **)(*piVar3 + 4) == *param_2) {
-        if (piVar2 == (int *)0x0) {
-          *(int *)(param_1 + 8) = piVar3[1];
+      if (cur->item->key->v == *keyp) {
+        if (prev != 0) {
+          prev->next = cur->next;
+        } else {
+          self->head = cur->next;
         }
-        else {
-          piVar2[1] = piVar3[1];
+        item = cur->item;
+        if (item != 0) {
+          item->vt->f0c(item, 1);
         }
-        piVar1 = (int *)*piVar3;
-        if (piVar1 != (int *)0x0) {
-          (**(code **)(*piVar1 + 0xc))(piVar1,1);
-        }
-        fn_82522ED8(piVar3);
+        fn_82522ED8(cur);
         return 1;
       }
-      piVar1 = (int *)piVar3[1];
-      piVar2 = piVar3;
-    } while ((int *)piVar3[1] != (int *)0x0);
+      prev = cur;
+      cur = cur->next;
+    } while (cur != 0);
   }
   return 0;
 }
-

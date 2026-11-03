@@ -1,50 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82812B80();
-extern int fn_82813A78();
-extern int fn_82A1E650();
-
-
-void fn_8281F440(int param_1,undefined8 param_2)
-
+void __emit(unsigned int opcode);
+#define __lwsync() __emit(0x7C2004AC)
+typedef struct { int pad0; int f4; unsigned f8; unsigned fc; } O_8281F440;
+extern void fn_82812B80(void *);
+extern unsigned char fn_82813A78(void);
+extern void fn_82A1E650(unsigned, int);
+void fn_8281F440(O_8281F440 *o, int arg)
 {
-  char cVar1;
-  
-  if ((*(int *)(param_1 + 0xc) != 0) && (*(int *)(param_1 + 8) != 0)) {
-    cVar1 = fn_82813A78();
-    if (cVar1 != '\0') {
-      fn_82812B80(param_1);
-    }
-    while (*(int *)(param_1 + 4) == 0) {
-      fn_82A1E650(*(undefined4 *)(param_1 + 8),param_2);
-    }
-    sync(1);
+  if (o->fc != 0 && o->f8 != 0) {
+    if (fn_82813A78() != 0) fn_82812B80(o);
+    while (o->f4 == 0) fn_82A1E650(o->f8, arg);
+    __lwsync();
   }
-  return;
 }
-
