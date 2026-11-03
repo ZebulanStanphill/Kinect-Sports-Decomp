@@ -7,7 +7,7 @@ namespace Soundscape {
 
 unsigned int WwiseEmitter_c::evf58()
 {
-    return fn_82877FC0(&reverb);
+    return reverb.fn_82877FC0();
 }
 
 } // namespace Soundscape

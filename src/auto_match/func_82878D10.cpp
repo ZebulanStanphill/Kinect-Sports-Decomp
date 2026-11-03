@@ -7,7 +7,7 @@ namespace Soundscape {
 
 float WwiseEmitter_c::evf64()
 {
-    return fn_828776E8(&reverb);
+    return reverb.fn_828776E8();
 }
 
 } // namespace Soundscape

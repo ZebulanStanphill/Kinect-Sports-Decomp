@@ -94284,13 +94284,13 @@ auto_match/func_82877690.c:
 auto_match/func_82877698.c:
 	.text       start:0x82877698 end:0x828776A0
 
-auto_match/func_828776A0.c:
+auto_match/func_828776A0.cpp:
 	.text       start:0x828776A0 end:0x828776C4
 
-auto_match/func_828776C8.c:
+auto_match/func_828776C8.cpp:
 	.text       start:0x828776C8 end:0x828776E8
 
-auto_match/func_828776E8.c:
+auto_match/func_828776E8.cpp:
 	.text       start:0x828776E8 end:0x828776F0
 
 auto_match/func_828776F0.c:
@@ -94382,7 +94382,7 @@ auto_match/func_82877F50.c:
 	.pdata      start:0x82203358 end:0x82203360
 	.text       start:0x82877F50 end:0x82877FBC
 
-auto_match/func_82877FC0.c:
+auto_match/func_82877FC0.cpp:
 	.pdata      start:0x82203360 end:0x82203368
 	.text       start:0x82877FC0 end:0x82878010
 

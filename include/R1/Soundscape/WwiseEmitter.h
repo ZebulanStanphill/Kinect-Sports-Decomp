@@ -9,8 +9,9 @@
 // are reached through inline forwarders, so this header can be used before
 // those units are converted:
 //   - AudioVariant_c (copy constructor, destructor): see AudioVariant.h;
-//   - ReverbEmitterControl_c's constructor is fn_82877F50 and its other
-//     members are called through extern "C" declarations.
+//   - ReverbEmitterControl_c's constructor is fn_82877F50; its members
+//     fn_82877DD8 (NonMatching) and fn_828788D0 (the vector's push_back) are
+//     called through extern "C" declarations.
 // Emitter_i's slots are named evfXX (not vfXX) because EmitterSubject_c,
 // WwiseEmitter_c's other base, already has vf00-vf0C. Their parameter types
 // come from the slot functions that were converted (the context and RTPC
@@ -30,12 +31,8 @@
 
 extern "C" {
 void *fn_82877F50(void *self);
-// ReverbEmitterControl_c's members, still C units (they take the control).
-int fn_828776A0(void *reverb, unsigned char a);
-unsigned int fn_82877FC0(void *reverb);
+// ReverbEmitterControl_c's member, still a C unit (it takes the control).
 int fn_82877DD8(void *reverb, const void *variant);
-int fn_828776C8(void *reverb, float a);
-float fn_828776E8(void *reverb);
 int fn_82878E10(void *emitter, unsigned int id); // removes id from the vector at +0x7C
 }
 
@@ -126,12 +123,19 @@ public:
     virtual int vf04(unsigned int a, unsigned int b, Emitter_i *emitter);
 };
 
+// Non-virtual members are named after their addresses; unk0C is set whenever
+// a setting changes (a "dirty" flag). The members return a result code.
 class __declspec(novtable) ReverbEmitterControl_c {
 public:
     __forceinline ReverbEmitterControl_c() { fn_82877F50(this); }
     virtual ~ReverbEmitterControl_c();
 
-    bool unk04;
+    int fn_828776A0(unsigned char a);   // sets unk04
+    int fn_828776C8(float a);           // sets unk08
+    float fn_828776E8();                // returns unk08
+    unsigned int fn_82877FC0();         // appends an element to unk10
+
+    unsigned char unk04;
     float unk08;
     bool unk0C;
     // A vector (+0x10) whose element type is unknown; kept opaque so that the
