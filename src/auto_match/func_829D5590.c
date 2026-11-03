@@ -27,25 +27,18 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined4 * fn_829D5590(undefined4 *param_1)
+typedef struct { int a, b; } Pair_829D5590;
+typedef struct { int tag; int count; Pair_829D5590 items[2]; } Msg_829D5590;
+extern Pair_829D5590 lbl_8205788C[];
 
+Msg_829D5590 *fn_829D5590(Msg_829D5590 *p)
 {
-  undefined4 *puVar1;
-  char *pcVar2;
-  longlong lVar3;
-  
-  puVar1 = param_1 + 1;
-  param_1[1] = 2;
-  pcVar2 = "t";
-  lVar3 = 2;
-  do {
-    puVar1[1] = *(undefined4 *)(pcVar2 + 4);
-    pcVar2 = pcVar2 + 8;
-    puVar1 = puVar1 + 2;
-    *puVar1 = *(undefined4 *)pcVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  *param_1 = 0x34;
-  return param_1 + (param_1[1] + 1) * 2;
+  int i;
+  p->count = 2;
+  for (i = 0; i < 2; i++) {
+    p->items[i].a = lbl_8205788C[i].a;
+    p->items[i].b = lbl_8205788C[i].b;
+  }
+  p->tag = 0x34;
+  return (Msg_829D5590 *)((int *)p + (p->count + 1) * 2);
 }
-

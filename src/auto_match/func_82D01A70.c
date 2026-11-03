@@ -25,40 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D01568();
+typedef struct Alloc_82D01A70 {
+  int f0; unsigned f4; int f8; void *fc; void *f10; int f14; unsigned f18; unsigned f1c;
+  int f20; int f24; int f28; int f2c; int f30;
+} Alloc_82D01A70;
+extern void fn_82D01568(Alloc_82D01A70 *, void *);
 
-
-void fn_82D01A70(undefined4 *param_1,uint param_2,uint param_3,undefined4 param_4,
-                  undefined4 param_5)
-
+void fn_82D01A70(Alloc_82D01A70 *p, unsigned size, unsigned align, int a, int b)
 {
-  uint uVar1;
-  int iVar2;
-  
-  fn_82D01568(param_1,param_1[3]);
-  param_1[3] = 0;
-  fn_82D01568(param_1,param_1[4]);
-  param_1[5] = param_4;
-  *param_1 = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[6] = param_3;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = param_5;
-  param_1[2] = 0;
-  uVar1 = param_3;
-  if (param_3 <= param_2) {
-    uVar1 = (param_2 + param_3) - 1 & ~(param_3 - 1);
-  }
-  param_1[1] = uVar1;
-  iVar2 = 0x1000;
-  if (0x10 < param_3) {
-    iVar2 = param_3 + 0xff0;
-  }
-  param_1[7] = iVar2;
-  return;
-}
+  unsigned r;
+  unsigned c;
 
+  fn_82D01568(p, p->fc);
+  p->fc = 0;
+  fn_82D01568(p, p->f10);
+  p->f14 = a;
+  p->f0 = 0;
+  p->fc = 0;
+  p->f10 = 0;
+  p->f18 = align;
+  p->f20 = 0;
+  p->f24 = 0;
+  p->f28 = 0;
+  p->f2c = 0;
+  p->f30 = b;
+  p->f8 = 0;
+  if (size < align) {
+    r = align;
+  } else {
+    r = (size + align - 1) & ~(align - 1);
+  }
+  p->f4 = r;
+  if (align <= 0x10) {
+    c = 0x1000;
+  } else {
+    c = align + 0xff0;
+  }
+  p->f1c = c;
+}

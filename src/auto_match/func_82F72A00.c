@@ -25,34 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F72318();
 extern unsigned int lbl_82169D7C;
 
 
-void fn_82F72A00(undefined4 *param_1,int param_2)
+extern char lbl_832635A0[];
+typedef struct Node { void *vt; struct Node *next; unsigned data; int idx; } Node;
+typedef struct List { Node *head; unsigned char state; } List;
+extern Node *fn_82F72318(char *, int, int);
 
+void fn_82F72A00(List *l, unsigned data)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  if (param_2 != 0) {
-    puVar2 = (undefined4 *)fn_82F72318(0xffffffff832635a0,0x10,0);
-    if (puVar2 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
+  Node *mem;
+  Node *n;
+
+  if (data != 0) {
+    mem = fn_82F72318(lbl_832635A0, 0x10, 0);
+    if (mem != 0) {
+      Node *old = l->head;
+      mem->data = data;
+      mem->idx = -1;
+      mem->vt = (void *)&lbl_82169D7C;
+      mem->next = old;
+      n = mem;
+    } else {
+      n = 0;
     }
-    else {
-      uVar1 = *param_1;
-      puVar2[2] = param_2;
-      puVar2[3] = 0xffffffff;
-      *puVar2 = &lbl_82169D7C;
-      puVar2[1] = uVar1;
-    }
-    *param_1 = puVar2;
-    if (puVar2 != (undefined4 *)0x0) {
+    l->head = n;
+    if (n != 0) {
       return;
     }
   }
-  *(undefined1 *)(param_1 + 1) = 3;
-  return;
+  l->state = 3;
 }
-

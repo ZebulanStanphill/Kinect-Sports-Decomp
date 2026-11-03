@@ -27,38 +27,31 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_829D36D8(int param_1,int param_2)
+typedef struct Ent_829D36D8 { char pad0[0x1c]; unsigned key; char pad20[0x40]; } Ent_829D36D8;
+typedef struct Pool_829D36D8 { char pad[0x950]; Ent_829D36D8 e[2]; } Pool_829D36D8;
 
+Ent_829D36D8 *fn_829D36D8(Pool_829D36D8 *p, unsigned key)
 {
-  int iVar1;
-  int *piVar2;
-  uint uVar3;
-  int *piVar4;
-  
-  piVar4 = (int *)(param_1 + 0x96c);
-  uVar3 = 0;
-  piVar2 = piVar4;
-  do {
-    if (*piVar2 == param_2) {
+  unsigned i;
+  Ent_829D36D8 *e;
+  unsigned *k;
+  unsigned *k0;
+
+  e = 0;
+  k0 = &p->e[0].key;
+  for (i = 0, k = k0; i < 2; i++, k += 0x18) {
+    if (*k == key) {
       return 0;
     }
-    uVar3 = uVar3 + 1;
-    piVar2 = piVar2 + 0x18;
-  } while (uVar3 < 2);
-  uVar3 = 0;
-  do {
-    if (*piVar4 == 0) {
-      param_1 = uVar3 * 0x60 + param_1;
-      iVar1 = param_1 + 0x950;
-      if (iVar1 == 0) {
-        return 0;
+  }
+  for (i = 0, k = k0; i < 2; i++, k += 0x18) {
+    if (*k == 0) {
+      e = &p->e[i];
+      if (e != 0) {
+        e->key = key;
       }
-      *(int *)(param_1 + 0x96c) = param_2;
-      return iVar1;
+      break;
     }
-    uVar3 = uVar3 + 1;
-    piVar4 = piVar4 + 0x18;
-  } while (uVar3 < 2);
-  return 0;
+  }
+  return e;
 }
-

@@ -25,20 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831D1298;
-extern unsigned int lbl_831D12A0;
-extern int (*lbl_83276778)();
-
+extern int lbl_831D1298[];
+extern struct { int pad; void (*f)(int, int, int, const char *, const char *, int); } lbl_83276774;
 
 void fn_822A1DD8(void)
-
 {
-  if ((lbl_831D12A0 == 0) && (lbl_831D1298 == 0)) {
-    if (lbl_83276778 != (code *)0x0) {
-      (*lbl_83276778)(0,0,0,0xffffffff821abf48,0xffffffff821abeb8,0x1c3);
+  if (lbl_831D1298[2] == 0 && lbl_831D1298[0] == 0) {
+    if (lbl_83276774.f != 0) {
+      lbl_83276774.f(0, 0, 0, "uiGameLoadingIncubationBeginEarlyDummyWipe", "D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\ui\\ui_game\\ui_game_loading\\ui_game_loading_incubation.cpp", 0x1c3);
     }
-    lbl_831D12A0 = 1;
+    lbl_831D1298[2] = 1;
   }
-  return;
 }
-

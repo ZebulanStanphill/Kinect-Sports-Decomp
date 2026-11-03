@@ -25,48 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C200();
-extern int fn_8223C478();
-extern int fn_828E9DB8();
+typedef struct Str_822340A8 { int pad0, pad4; union { char buf[4]; char *ptr; } u; unsigned cap; } Str_822340A8;
+typedef struct Str8 { int pad8; } Str8;
+extern void fn_8223C200(void *, int, int);
+extern void fn_8223C478(void *, int, int);
+extern void fn_828E9DB8(void *, int, int);
 
-
-void fn_822340A8(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
-
+void fn_822340A8(void *a, void *b, void *w, Str_822340A8 *s)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  uint uVar4;
-  char *pcVar5;
-  undefined8 uVar6;
-  
-  pcVar5 = (char *)(param_4 + 8);
-  if (4 < *(uint *)(param_4 + 0xc)) {
-    pcVar5 = *(char **)(param_4 + 8);
-  }
-  iVar2 = 0;
-  for (pcVar3 = pcVar5; pcVar3 != pcVar5 + 3; pcVar3 = pcVar3 + 1) {
-    if (*pcVar3 == '\0') {
-      iVar2 = iVar2 + 1;
-    }
-  }
-  fn_8223C200(param_3,iVar2 == 3,0);
-  if (iVar2 != 3) {
-    uVar4 = 0;
-    do {
-      cVar1 = pcVar5[uVar4];
-      fn_8223C200(param_3,cVar1 == '\0',0);
-      if (cVar1 != '\0') {
-        uVar6 = 4;
-        if (uVar4 != 2) {
-          uVar6 = 8;
-        }
-        fn_8223C478(param_3,uVar6,0);
-        fn_828E9DB8(param_3,cVar1,uVar6);
-      }
-      uVar4 = uVar4 + 1;
-    } while (uVar4 < 3);
-  }
-  return;
-}
+  unsigned char *p;
+  unsigned char *q;
+  int n;
+  unsigned char z;
+  unsigned char e;
+  unsigned char c;
+  int bits;
+  unsigned i;
 
+  if (s->cap <= 4) p = (unsigned char *)s->u.buf; else p = (unsigned char *)s->u.ptr;
+  q = p;
+  n = 0;
+  for (; q != p + 3; q++) {
+    if (*q == 0) n++;
+  }
+  z = (n == 3);
+  fn_8223C200(w, z, 0);
+  if (!(z & 1)) {
+    i = 0;
+    do {
+      c = p[i];
+      e = (c == 0);
+      fn_8223C200(w, e, 0);
+      if (!(e & 1)) {
+        if (i == 2) bits = 4; else bits = 8;
+        fn_8223C478(w, bits, 0);
+        fn_828E9DB8(w, c, bits);
+      }
+      i++;
+    } while (i < 3);
+  }
+}

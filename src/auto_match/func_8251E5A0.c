@@ -17,13 +17,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8251E5A0(int param_1,uint param_2)
+typedef struct Buf_8251E5A0 { int pad0; unsigned end; int pad8; unsigned short stride; unsigned short padE; unsigned short cnt; } Buf_8251E5A0;
+extern void fn_82A1DD38(unsigned, unsigned, unsigned);
 
+void fn_8251E5A0(Buf_8251E5A0 *b, unsigned idx)
 {
-  if (param_2 < *(int *)(param_1 + 4) - (uint)*(ushort *)(param_1 + 0xc)) {
-    Function_82A1DD38();
+  unsigned limit = b->end - b->stride;
+  if (idx < limit) {
+    fn_82A1DD38(idx, limit, b->stride);
   }
-  *(short *)(param_1 + 0x10) = *(short *)(param_1 + 0x10) + -1;
-  *(uint *)(param_1 + 4) = *(int *)(param_1 + 4) - (uint)*(ushort *)(param_1 + 0xc);
-  return;
+  b->cnt = b->cnt - 1;
+  b->end = b->end - b->stride;
 }

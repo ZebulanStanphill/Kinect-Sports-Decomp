@@ -25,67 +25,58 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82FABF68();
-extern int fn_82FB2590();
-extern int fn_82FB5408();
-extern int fn_82FB5640();
-extern int fn_82FB5D80();
-extern int fn_82FB60A0();
-extern int fn_8300CA50();
-extern int fn_8300CAF0();
+typedef struct S_82FB5E50 {
+  char pad0[0xc]; unsigned fc;
+  char pad10[0x1c]; int f2c;
+  char pad30[8]; int f38;
+  char pad3c[4]; char f40[4]; int f44; int f48; int f4c;
+  char pad50[4]; char f54[0x24]; unsigned char f78;
+} S_82FB5E50;
+typedef struct { char pad[0x28]; int x28; } Inner_82FB5E50;
+extern int fn_82FABF68(S_82FB5E50 *, int, int);
+extern int fn_82FB2590(int, int, int *);
+extern void *fn_82FB5408(S_82FB5E50 *, unsigned, int *);
+extern int fn_82FB5640(S_82FB5E50 *, void *);
+extern unsigned fn_82FB5D80(S_82FB5E50 *, int);
+extern int fn_82FB60A0(void *, int, int, unsigned);
+extern int fn_8300CA50(void *, int, int);
+extern int fn_8300CAF0(void *, int, int, int);
 extern unsigned int lbl_831BC768;
 
-
-undefined8
-fn_82FB5E50(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,int *param_6)
-
+int fn_82FB5E50(S_82FB5E50 *s, int a, int b, int c, int d, int *out)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  undefined4 auStack_40;
-  
-  *(int *)(param_1 + 0x4c) = (int)param_5;
-  uVar1 = fn_82FABF68();
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  uVar1 = fn_8300CA50(param_1 + 0x40,param_4,param_5);
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  uVar1 = fn_82FB60A0(param_1 + 0x54,8,0xffffffffffffffff,lbl_831BC768);
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  *(undefined1 *)(param_1 + 0x78) = 1;
-  *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + 1;
-  uVar2 = fn_8300CAF0(param_1 + 0x40,*(undefined4 *)(*(int *)(param_1 + 0x38) + 0x28),param_4,
-                          param_5);
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar3 = fn_82FB5408(param_1,0,param_6);
-    if (((uVar3 & 0xffffffff) != 0) && (iVar4 = fn_82FB5640(param_1,uVar3), iVar4 == 1)) {
-      iVar4 = fn_82FB5D80(param_1,uVar2);
-      if (iVar4 != 0) {
-        *param_6 = iVar4;
-        *(int *)(param_1 + 0x48) = (int)uVar2;
-        return uVar1;
-      }
-      goto LAB_82fb5f8c;
-    }
-  }
-  else {
-    fn_82FB2590(*(undefined4 *)(param_1 + 0x44),uVar2,&auStack_40);
-    uVar3 = fn_82FB5408(param_1,auStack_40,param_6);
-    if (((uVar3 & 0xffffffff) != 0) && (iVar4 = fn_82FB5640(param_1,uVar3), iVar4 == 1))
-    goto LAB_82fb5f8c;
-  }
-  uVar1 = 2;
-LAB_82fb5f8c:
-  *(int *)(param_1 + 0x48) = (int)uVar2;
-  return uVar1;
-}
+  int r;
+  int v;
+  unsigned x;
+  void *k;
+  int t;
 
+  s->f4c = d;
+  r = fn_82FABF68(s, a, b);
+  if (r != 1) return r;
+  r = fn_8300CA50(s->f40, c, d);
+  if (r != 1) return r;
+  r = fn_82FB60A0(s->f54, 8, -1, lbl_831BC768);
+  if (r != 1) return r;
+  s->f78 = 1;
+  s->f2c = s->f2c + 1;
+  v = fn_8300CAF0(s->f40, ((Inner_82FB5E50 *)s->f38)->x28, c, d);
+  if (s->fc == 0) {
+    k = fn_82FB5408(s, 0, out);
+    if (k != 0 && fn_82FB5640(s, k) == 1) {
+      x = fn_82FB5D80(s, v);
+      if (x != 0) {
+        *out = x;
+      }
+      goto done;
+    }
+  } else {
+    fn_82FB2590(s->f44, v, &t);
+    k = fn_82FB5408(s, t, out);
+    if (k != 0 && fn_82FB5640(s, k) == 1) goto done;
+  }
+  r = 2;
+done:
+  s->f48 = v;
+  return r;
+}

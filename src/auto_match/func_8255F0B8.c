@@ -25,40 +25,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827F2F90();
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_821C5284;
-extern unsigned int lbl_821CC160;
+typedef struct {
+  void *vt;
+  int pad0[0x44 - 1];
+  int m110, m114, m118;
+  int pad1[0x57 - 0x47];
+  int m15c, m160, m164, m168, m16c, m170, m174, m178;
+  int m17c;
+  int m180;
+  float m184, m188;
+  int m18c;
+  int pad2[0x68 - 0x64];
+  int m1a0;
+  int pad3;
+  int m1a8;
+} S_8255F0B8;
+extern void fn_827F2F90(void *, int, int, int, int, int);
+extern char lbl_821C5284[];
+extern float lbl_821917A8[];
+extern float lbl_821CC160;
 
-
-undefined4 * fn_8255F0B8(undefined4 *param_1,undefined8 param_2,undefined4 param_3)
-
+S_8255F0B8 *fn_8255F0B8(S_8255F0B8 *p, int a, int b)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  fn_827F2F90(param_1,param_2,0,0,0,0);
-  param_1[0x5f] = param_3;
-  uVar2 = lbl_821CC160;
-  uVar1 = lbl_821917B4;
-  param_1[0x44] = 0;
-  param_1[0x61] = uVar1;
-  *param_1 = &lbl_821C5284;
-  param_1[0x62] = uVar2;
-  param_1[0x45] = 0;
-  param_1[0x46] = 0;
-  param_1[0x59] = 0;
-  param_1[0x5a] = 0;
-  param_1[0x5b] = 1;
-  param_1[0x5c] = 0;
-  param_1[0x5d] = 0;
-  param_1[0x5e] = 0;
-  param_1[0x60] = 0;
-  param_1[99] = 0;
-  param_1[0x68] = 0;
-  param_1[0x6a] = 0;
-  param_1[0x57] = 0;
-  param_1[0x58] = 0;
-  return param_1;
+  float f2, f1;
+  fn_827F2F90(p, a, 0, 0, 0, 0);
+  p->m17c = b;
+  f1 = lbl_821917A8[3];
+  f2 = lbl_821CC160;
+  p->m110 = 0;
+  p->m184 = f1;
+  p->vt = lbl_821C5284;
+  p->m188 = f2;
+  p->m114 = 0;
+  p->m118 = 0;
+  p->m164 = 0;
+  p->m168 = 0;
+  p->m16c = 1;
+  p->m170 = 0;
+  p->m174 = 0;
+  p->m178 = 0;
+  p->m180 = 0;
+  p->m18c = 0;
+  p->m1a0 = 0;
+  p->m1a8 = 0;
+  p->m15c = 0;
+  p->m160 = 0;
+  return p;
 }
-

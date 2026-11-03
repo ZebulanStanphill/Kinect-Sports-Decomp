@@ -25,54 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8227DE10();
-extern int fn_8265CA20();
-extern int fn_82F63CA0();
+extern void fn_8227DE10(unsigned);
+extern void fn_8265CA20(void *);
+extern void *memmove(void *, const void *, unsigned);
 extern unsigned int lbl_821A87A4;
 
+typedef struct Pair_8227DCF8 { int a; unsigned b; } Pair_8227DCF8;
+typedef struct Vec1_8227DCF8 { unsigned *begin; unsigned *end; unsigned *cap; } Vec1_8227DCF8;
+typedef struct Vec2_8227DCF8 { Pair_8227DCF8 *begin; Pair_8227DCF8 *end; Pair_8227DCF8 *cap; } Vec2_8227DCF8;
+typedef struct Self_8227DCF8 { void *vt; int pad[2]; Vec1_8227DCF8 v1; int pad18; Vec2_8227DCF8 v2; } Self_8227DCF8;
 
-void fn_8227DCF8(undefined4 *param_1)
-
+void fn_8227DCF8(Self_8227DCF8 *self)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  piVar4 = (int *)param_1[4];
-  piVar3 = (int *)param_1[3];
-  piVar2 = param_1 + 3;
-  *param_1 = &lbl_821A87A4;
-  for (; piVar3 != piVar4; piVar3 = piVar3 + 1) {
-    if (*piVar3 != 0) {
-      fn_8227DE10();
-    }
-  }
-  iVar1 = *piVar2;
-  if (iVar1 != param_1[4]) {
-    fn_82F63CA0(iVar1,param_1[4],0);
-    param_1[4] = iVar1;
-  }
-  for (piVar4 = (int *)param_1[7]; piVar4 != (int *)param_1[8]; piVar4 = piVar4 + 2) {
-    if ((*piVar4 == 0) && (piVar4[1] != 0)) {
-      fn_8227DE10();
-    }
-  }
-  iVar1 = param_1[7];
-  if (iVar1 != 0) {
-    for (; iVar1 != param_1[8]; iVar1 = iVar1 + 8) {
-    }
-    fn_8265CA20();
-  }
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  if (*piVar2 != 0) {
-    fn_8265CA20();
-  }
-  *piVar2 = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  return;
-}
+  Vec1_8227DCF8 *v;
+  Vec2_8227DCF8 *w;
+  unsigned *p;
+  unsigned *e;
+  unsigned *first;
+  unsigned *last;
+  int cnt;
+  Pair_8227DCF8 *q;
+  Pair_8227DCF8 *r;
 
+  e = self->v1.end;
+  p = self->v1.begin;
+  v = &self->v1;
+  self->vt = &lbl_821A87A4;
+  for (; p != e; p++) {
+    if (*p != 0) {
+      fn_8227DE10(*p);
+    }
+  }
+  first = v->begin;
+  last = v->end;
+  if (first != last) {
+    cnt = v->end - last;
+    memmove(first, last, cnt * 4);
+    v->end = first + cnt;
+  }
+  for (q = self->v2.begin; q != self->v2.end; q++) {
+    if (q->a == 0 && q->b != 0) {
+      fn_8227DE10(q->b);
+    }
+  }
+  w = &self->v2;
+  if (w->begin != 0) {
+    for (r = w->begin; r != w->end; r++) {
+    }
+    fn_8265CA20(w->begin);
+  }
+  w->begin = 0;
+  w->end = 0;
+  w->cap = 0;
+  if (v->begin != 0) {
+    fn_8265CA20(v->begin);
+  }
+  v->begin = 0;
+  v->end = 0;
+  v->cap = 0;
+}

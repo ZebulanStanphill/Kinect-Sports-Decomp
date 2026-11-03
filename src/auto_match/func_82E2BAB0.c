@@ -25,30 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E2AC98();
+typedef struct { int a, b; } RTL_CRITICAL_SECTION;
+void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
 
+typedef struct Obj { int (**vt)(struct Obj *, int, unsigned *); } Obj;
+typedef struct {
+    unsigned short type;
+    unsigned short pad[3];
+    unsigned int value;
+} Prop;
+typedef struct {
+    int pad[2];
+    RTL_CRITICAL_SECTION cs;
+} Store;
 
-undefined8 fn_82E2BAB0(longlong param_1,undefined8 param_2,undefined8 param_3,undefined4 *param_4)
+extern Prop *fn_82E2AC98(Store *s, int key);
 
+int fn_82E2BAB0(Store *s, int key, int a, unsigned *out)
 {
-  undefined4 *puVar1;
-  short *psVar3;
-  undefined8 uVar2;
-  
-  *param_4 = 0;
-  RtlEnterCriticalSection(param_1 + 8);
-  psVar3 = (short *)fn_82E2AC98(param_1,param_2);
-  if (psVar3 == (short *)0x0) {
-    uVar2 = 0xffffffffc00d36e6;
-  }
-  else if ((*psVar3 == 0xd) && (puVar1 = *(undefined4 **)(psVar3 + 4), puVar1 != (undefined4 *)0x0))
-  {
-    uVar2 = (**(code **)*puVar1)(puVar1,param_3,param_4);
-  }
-  else {
-    uVar2 = 0xffffffffc00d36bd;
-  }
-  RtlLeaveCriticalSection(param_1 + 8);
-  return uVar2;
+    int hr;
+    Prop *p;
+    *out = 0;
+    RtlEnterCriticalSection(&s->cs);
+    p = fn_82E2AC98(s, key);
+    if (p != 0) {
+        if (p->type == 0xd && p->value != 0) {
+            hr = ((Obj *)p->value)->vt[0]((Obj *)p->value, a, out);
+        } else {
+            hr = 0xc00d36bd;
+        }
+    } else {
+        hr = 0xc00d36e6;
+    }
+    RtlLeaveCriticalSection(&s->cs);
+    return hr;
 }
-

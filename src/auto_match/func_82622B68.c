@@ -25,33 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-extern int fn_82622BD8();
-extern int fn_8265CA20();
+extern void fn_82522ED8(void *);
+extern void fn_82622BD8(void *);
+extern void fn_8265CA20(void *);
 extern unsigned int lbl_82197010;
 extern unsigned int lbl_821CAD7C;
 
+typedef struct Obj_82622B68 { void *vt; int pad4[5]; void *f18; void *f1c; int pad20; void *items[3]; } Obj_82622B68;
 
-void fn_82622B68(undefined4 *param_1)
-
+void fn_82622B68(Obj_82622B68 *o)
 {
-  longlong lVar1;
-  int *piVar2;
-  
-  *param_1 = &lbl_821CAD7C;
-  fn_82522ED8(param_1[6]);
-  fn_8265CA20(param_1[7]);
-  piVar2 = param_1 + 9;
-  lVar1 = 3;
-  do {
-    if (*piVar2 != 0) {
-      fn_82622BD8();
-      *piVar2 = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + 1;
-  } while (lVar1 != 0);
-  *param_1 = &lbl_82197010;
-  return;
-}
+  void **p;
+  void *x;
+  int n;
 
+  o->vt = &lbl_821CAD7C;
+  fn_82522ED8(o->f18);
+  fn_8265CA20(o->f1c);
+  p = o->items;
+  n = 3;
+  do {
+    x = *p;
+    if (x != 0) {
+      fn_82622BD8(x);
+      *p = 0;
+    }
+    n--;
+    p++;
+  } while (n != 0);
+  o->vt = &lbl_82197010;
+}

@@ -25,35 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8243DD58();
-extern int fn_82518828();
-extern int fn_8265CA20();
-extern unsigned int lbl_83297938;
-extern unsigned int lbl_8329793C;
-
+typedef struct Node_8313F2B0 Node_8313F2B0;
+struct Node_8313F2B0 { Node_8313F2B0 *left; Node_8313F2B0 *parent; Node_8313F2B0 *right; int val; int pad; unsigned char color; unsigned char isnil; };
+typedef struct { int al; Node_8313F2B0 *head; int size; } Tree_8313F2B0;
+extern struct { char pad[0x10]; Tree_8313F2B0 t; } lbl_83297924;
+extern void fn_8243DD58(Tree_8313F2B0 *, Node_8313F2B0 *);
+extern void fn_8265CA20(void *);
+extern void fn_82518828(void);
 
 void fn_8313F2B0(void)
-
 {
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  cVar1 = *(char *)((int)*(int **)(lbl_83297938 + 4) + 0x15);
-  piVar3 = *(int **)(lbl_83297938 + 4);
-  while (cVar1 == '\0') {
-    fn_8243DD58(0xffffffff83297934,piVar3[2]);
-    piVar2 = (int *)*piVar3;
-    fn_8265CA20(piVar3);
-    piVar3 = piVar2;
-    cVar1 = *(char *)((int)piVar2 + 0x15);
+  Node_8313F2B0 *p;
+  Node_8313F2B0 *q;
+  p = lbl_83297924.t.head->parent;
+  while (!p->isnil) {
+    fn_8243DD58(&lbl_83297924.t, p->right);
+    q = p->left;
+    fn_8265CA20(p);
+    p = q;
   }
-  *(int *)(lbl_83297938 + 4) = lbl_83297938;
-  *(int *)lbl_83297938 = lbl_83297938;
-  *(int *)(lbl_83297938 + 8) = lbl_83297938;
-  lbl_8329793C = 0;
-  fn_8265CA20(lbl_83297938);
+  lbl_83297924.t.head->parent = lbl_83297924.t.head;
+  lbl_83297924.t.head->left = lbl_83297924.t.head;
+  lbl_83297924.t.head->right = lbl_83297924.t.head;
+  lbl_83297924.t.size = 0;
+  fn_8265CA20(lbl_83297924.t.head);
   fn_82518828();
-  return;
 }
-

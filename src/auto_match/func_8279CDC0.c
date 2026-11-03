@@ -25,70 +25,69 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8278FDC8();
-extern int fn_82794B88();
-extern int fn_82F68CC0();
+typedef struct { char *data; int pad[6]; unsigned start; } Src_8279CDC0;
+typedef struct { unsigned char pad[8]; unsigned char flags; } B_8279CDC0;
+typedef struct { int pad[2]; int m8; int pad2[1]; int m10; } A_8279CDC0;
+typedef struct { int pad[5]; char *m14; } R_8279CDC0;
+typedef struct {
+  A_8279CDC0 *a;
+  Src_8279CDC0 *src;
+  int pad0[9];
+  R_8279CDC0 *mb;
+  unsigned pos;
+  unsigned len;
+  char pad1[0x2f4 - 0x38];
+  unsigned char flag;
+  char pad2;
+  char buf[0x200];
+  char pad4[2];
+  char *out;
+  unsigned outlen;
+} S_8279CDC0;
+extern unsigned fn_8278FDC8(Src_8279CDC0 *);
+extern int fn_82794B88(int);
+extern char *fn_8267B890(int, unsigned, int);
+extern void *memcpy(void *, const void *, unsigned);
 
-
-void fn_8279CDC0(int *param_1)
-
+void fn_8279CDC0(S_8279CDC0 *s)
 {
-  uint uVar1;
-  bool bVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  
-  if ((*(int *)(*param_1 + 0x10) == 0) ||
-     (bVar2 = true, (*(byte *)(*(int *)(*param_1 + 0x10) + 8) & 1) == 0)) {
-    bVar2 = false;
-  }
-  param_1[0x13e] = 0;
-  *(bool *)(param_1 + 0xbd) = bVar2;
-  if (!bVar2) {
+  unsigned total;
+  unsigned start;
+  unsigned char found;
+  char *buf;
+  char *data;
+  unsigned cnt;
+  int off;
+  int bytes;
+  found = s->a->m10 != 0 && (((B_8279CDC0 *)s->a->m10)->flags & 1) != 0;
+  s->out = 0;
+  s->flag = found;
+  if (!found) {
     return;
   }
-  uVar3 = fn_8278FDC8(param_1[1]);
-  uVar1 = *(uint *)(param_1[1] + 0x1c);
-  if (uVar1 <= (uint)param_1[0xc]) {
-    iVar4 = fn_8278FDC8(param_1[1]);
-    bVar2 = true;
-    if ((uint)param_1[0xc] <= iVar4 + uVar1) goto LAB_8279ce48;
+  total = fn_8278FDC8(s->src);
+  start = s->src->start;
+  found = s->pos >= start && s->pos <= fn_8278FDC8(s->src) + start;
+  if (found) {
+    total = fn_8278FDC8(s->src) + s->len;
   }
-  bVar2 = false;
-LAB_8279ce48:
-  if (bVar2) {
-    iVar4 = fn_8278FDC8(param_1[1]);
-    uVar3 = iVar4 + param_1[0xd];
+  if (total < 0x100) {
+    buf = s->buf;
+  } else {
+    buf = fn_8267B890(*(int *)((char *)fn_82794B88(s->a->m8) + 0x1c), (total + 1) * 2, 0);
   }
-  if (uVar3 < 0x100) {
-    iVar4 = (int)param_1 + 0x2f6;
+  data = s->src->data;
+  if (found && s->len > 0) {
+    off = s->pos - s->src->start;
+    bytes = off * 2;
+    memcpy(buf, data, bytes);
+    memcpy(buf + bytes, s->mb->m14, s->len * 2);
+    cnt = fn_8278FDC8(s->src) - off;
+    memcpy(buf + (s->len + off) * 2, data + bytes, cnt * 2);
+  } else {
+    memcpy(buf, data, total * 2);
   }
-  else {
-    iVar4 = fn_82794B88(*(undefined4 *)(*param_1 + 8));
-    iVar4 = fn_8267B890(*(undefined4 *)(iVar4 + 0x1c),uVar3 + 1 & 0x7fffffff,0);
-  }
-  iVar6 = *(int *)param_1[1];
-  uVar1 = uVar3;
-  iVar5 = iVar4;
-  if ((bVar2) && (param_1[0xd] != 0)) {
-    iVar7 = param_1[0xc] - ((int *)param_1[1])[7];
-    iVar8 = iVar7 * 2;
-    fn_82F68CC0(iVar4,iVar6,iVar8);
-    fn_82F68CC0(iVar8 + iVar4,*(undefined4 *)(param_1[0xb] + 0x14),param_1[0xd] << 1);
-    iVar5 = fn_8278FDC8(param_1[1]);
-    iVar6 = iVar8 + iVar6;
-    uVar1 = iVar5 - iVar7;
-    iVar5 = (param_1[0xd] + iVar7) * 2 + iVar4;
-  }
-  fn_82F68CC0(iVar5,iVar6,uVar1 & 0x7fffffff);
-  *(undefined2 *)(uVar3 * 2 + iVar4) = 0;
-  param_1[0x13e] = iVar4;
-  param_1[0x13f] = uVar3;
-  return;
+  *(unsigned short *)(buf + total * 2) = 0;
+  s->out = buf;
+  s->outlen = total;
 }
-

@@ -27,46 +27,43 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_825B47E8(int *param_1,undefined4 *param_2)
+typedef struct Node_825B47E8 Node_825B47E8;
+struct Node_825B47E8 { Node_825B47E8 *prev; Node_825B47E8 *next; };
+typedef struct { int count; Node_825B47E8 *head; } List_825B47E8;
 
+static __forceinline Node_825B47E8 *Init_825B47E8(Node_825B47E8 *p)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  
-  if (param_2 == (undefined4 *)0x0) {
-    param_2 = (undefined4 *)0x0;
-  }
-  else {
-    *param_2 = 0;
-    param_2[1] = 0;
-  }
-  puVar1 = (undefined4 *)param_1[1];
-  if ((puVar1 == (undefined4 *)0x0) || (param_2 <= puVar1)) {
-    param_2[1] = puVar1;
-    if ((undefined4 *)param_1[1] != (undefined4 *)0x0) {
-      *(undefined4 *)param_1[1] = param_2;
-    }
-    param_1[1] = (int)param_2;
-  }
-  else {
-    piVar4 = puVar1 + 1;
-    iVar2 = *piVar4;
-    while ((iVar2 != 0 && (puVar3 = (undefined4 *)*piVar4, puVar3 < param_2))) {
-      iVar2 = puVar3[1];
-      puVar1 = puVar3;
-      piVar4 = puVar3 + 1;
-    }
-    iVar2 = *piVar4;
-    *param_2 = puVar1;
-    param_2[1] = iVar2;
-    *piVar4 = (int)param_2;
-    if ((undefined4 *)param_2[1] != (undefined4 *)0x0) {
-      *(undefined4 *)param_2[1] = param_2;
-    }
-  }
-  *param_1 = *param_1 + 1;
-  return;
+  p->prev = 0;
+  p->next = 0;
+  return p;
 }
 
+void fn_825B47E8(List_825B47E8 *l, Node_825B47E8 *p)
+{
+  Node_825B47E8 *n;
+  Node_825B47E8 *h;
+  Node_825B47E8 *cur;
+  Node_825B47E8 *nx;
+  n = p ? Init_825B47E8(p) : 0;
+  h = l->head;
+  if (h == 0 || n <= h) {
+    n->next = h;
+    if (l->head != 0) {
+      l->head->prev = n;
+    }
+    l->head = n;
+  } else {
+    cur = h;
+    while (cur->next != 0 && cur->next < n) {
+      cur = cur->next;
+    }
+    nx = cur->next;
+    n->prev = cur;
+    n->next = nx;
+    cur->next = n;
+    if (n->next != 0) {
+      n->next->prev = n;
+    }
+  }
+  l->count = l->count + 1;
+}

@@ -25,37 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_823AA970();
-extern int fn_82882110();
+typedef struct Out_828D9A58 { int a; unsigned char flag; unsigned cap; } Out_828D9A58;
+extern int fn_823AA970(void *);
+extern unsigned fn_82882110(int);
 extern int fn_82882158();
-extern int fn_82897BD0();
+extern int fn_82897BD0(void *);
 
-
-undefined4 * fn_828D9A58(undefined4 *param_1,undefined8 param_2)
-
+Out_828D9A58 *fn_828D9A58(Out_828D9A58 *p, void *a)
 {
-  undefined4 uVar2;
-  undefined8 uVar1;
-  int iVar3;
-  uint uVar4;
-  
-  uVar2 = fn_823AA970(param_2);
-  *param_1 = uVar2;
-  uVar1 = fn_82897BD0(param_2);
-  if (((int)uVar1 == -1) || (iVar3 = fn_82882158(), iVar3 != -1)) {
-    uVar2 = 0;
-    *(undefined1 *)(param_1 + 1) = 0;
-  }
-  else {
-    *(undefined1 *)(param_1 + 1) = 1;
-    uVar4 = fn_82882110(uVar1);
-    param_1[2] = uVar4;
-    if (uVar4 < 0x10) {
-      return param_1;
-    }
-    uVar2 = 0xf;
-  }
-  param_1[2] = uVar2;
-  return param_1;
-}
+  int v;
+  unsigned n;
+  unsigned cap;
 
+  p->a = fn_823AA970(a);
+  v = fn_82897BD0(a);
+  if (v != -1 && fn_82882158() == -1) {
+    p->flag = 1;
+    n = fn_82882110(v);
+    p->cap = n;
+    if (n > 0xf) { p->cap = 0xf; return p; }
+  } else {
+    p->flag = 0;
+    p->cap = 0;
+    return p;
+  }
+  return p;
+}

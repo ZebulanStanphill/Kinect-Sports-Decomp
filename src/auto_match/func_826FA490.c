@@ -25,25 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_826C6248();
-extern int fn_826D2B68();
+typedef struct O_826FA490 O_826FA490;
+typedef struct { int pad[0x78 / 4]; unsigned m78; } Q_826FA490;
+typedef struct { void *p; int rest[21]; } L_826FA490;
+struct O_826FA490 { struct { int pad[8]; void (*f20)(O_826FA490 *, L_826FA490 *); int pad2[14]; Q_826FA490 *(*f5c)(O_826FA490 *); } *vt; };
+extern void fn_8267C498(void *);
+extern void fn_826C6248(L_826FA490 *);
+extern void fn_826D2B68(O_826FA490 *, L_826FA490 *, unsigned, int, int, int, int, int, int);
 
-
-void fn_826FA490(int *param_1,int *param_2)
-
+void fn_826FA490(O_826FA490 *a, O_826FA490 *b)
 {
-  int iVar1;
-  int aiStack_70 [22];
-  
-  fn_826C6248(aiStack_70);
-  (**(code **)(*param_1 + 0x20))(param_1,aiStack_70);
-  iVar1 = (**(code **)(*param_2 + 0x5c))(param_2);
-  fn_826D2B68(param_2,aiStack_70,(ulonglong)*(uint *)(iVar1 + 0x78) + 8,0,0,0xffffffffffffffff
-                    ,4,0);
-  if (aiStack_70[0] != 0) {
-    fn_8267C498();
+  L_826FA490 l;
+  unsigned t;
+  fn_826C6248(&l);
+  a->vt->f20(a, &l);
+  t = b->vt->f5c(b)->m78;
+  fn_826D2B68(b, &l, t + 8, 0, 0, -1, 4, 0, 0);
+  if (l.p != 0) {
+    fn_8267C498(l.p);
   }
-  return;
 }
-

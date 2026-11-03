@@ -25,24 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826944C8();
-extern int fn_82694B60();
-extern int fn_82696D38();
+typedef struct { int m0; int m4; int count; } Rc_8270FA78;
+extern void fn_826944C8(Rc_8270FA78 *);
+extern void fn_82694B60(void *, int);
+extern void fn_82696D38(Rc_8270FA78 **, int, int, int, int);
 
-
-void fn_8270FA78(longlong param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_8270FA78(char *self, int a, int b)
 {
-  uint uVar1;
-  undefined4 *apuStack_20 [4];
-  
-  fn_82696D38(apuStack_20,param_3,param_2,0xffffffffffffffff,0);
-  fn_82694B60(param_1 + 0x30,*apuStack_20[0]);
-  uVar1 = apuStack_20[0][2];
-  apuStack_20[0][2] = (int)((ulonglong)uVar1 - 1);
-  if ((ulonglong)uVar1 - 1 == 0) {
-    fn_826944C8(apuStack_20[0]);
+  Rc_8270FA78 *rc;
+  Rc_8270FA78 *r;
+  fn_82696D38(&rc, b, a, -1, 0);
+  fn_82694B60(self + 0x30, rc->m0);
+  r = rc;
+  if (--r->count == 0) {
+    fn_826944C8(r);
   }
-  return;
 }
-
