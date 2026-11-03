@@ -31,7 +31,7 @@ byte fn_826C5FD0(int *param_1,int *param_2)
 
 {
   int iVar1;
-  int iVar2;
+  unsigned int iVar2;
   
   iVar1 = *param_1;
   iVar2 = *param_2;
@@ -53,6 +53,6 @@ byte fn_826C5FD0(int *param_1,int *param_2)
   if (*(int *)(iVar1 + 0x17c) == iVar2) {
     return 0x20;
   }
-  return -(iVar2 == *(int *)(iVar1 + 0x180)) & 0x40;
+  return *(unsigned *)(iVar1 + 0x180) == iVar2 ? 0x40 : 0;
 }
 

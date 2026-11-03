@@ -1,102 +1,73 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_827C3A38(undefined4 *param_1,ulonglong param_2,int param_3,int param_4)
-
+typedef unsigned char JOCTET;
+struct C_827C3A38;
+typedef struct Err_827C3A38 {
+  void (*error_exit)(struct C_827C3A38 *);
+  void (*emit_message)(struct C_827C3A38 *, int);
+  int p8, pc, p10; int msg_code;
+} Err_827C3A38;
+typedef struct Src_827C3A38 {
+  const JOCTET *next_input_byte; unsigned bytes_in_buffer;
+  void (*init_source)(struct C_827C3A38 *);
+  unsigned char (*fill_input_buffer)(struct C_827C3A38 *);
+} Src_827C3A38;
+typedef struct Ent_827C3A38 { char pad[8]; unsigned char insufficient_data; } Ent_827C3A38;
+typedef struct C_827C3A38 {
+  Err_827C3A38 *err; char p[0x14]; Src_827C3A38 *src; char q[0x17c - 0x1c]; int unread_marker;
+  char r[0x198 - 0x180]; Ent_827C3A38 *entropy;
+} C_827C3A38;
+typedef struct State_827C3A38 {
+  const JOCTET *next_input_byte; unsigned bytes_in_buffer; int get_buffer; int bits_left; C_827C3A38 *cinfo;
+} State_827C3A38;
+int fn_827C3A38(State_827C3A38 *state, int get_buffer, int bits_left, int nbits)
 {
-  byte bVar1;
-  int *piVar2;
-  char cVar3;
-  ulonglong uVar4;
-  uint uVar5;
-  int iVar6;
-  int iVar7;
-  byte *pbVar8;
-  
-  iVar6 = (int)param_2;
-  piVar2 = (int *)param_1[4];
-  pbVar8 = (byte *)*param_1;
-  iVar7 = param_1[1];
-  if (piVar2[0x5f] == 0) {
-    for (; iVar6 = (int)param_2, param_3 < 0x19; param_3 = param_3 + 8) {
-      if (iVar7 == 0) {
-        cVar3 = (**(code **)(piVar2[6] + 0xc))(piVar2);
-        if (cVar3 == '\0') {
-          return 0;
-        }
-        pbVar8 = *(byte **)piVar2[6];
-        iVar7 = ((undefined4 *)piVar2[6])[1];
+  const JOCTET *next_input_byte = state->next_input_byte;
+  unsigned bytes_in_buffer = state->bytes_in_buffer;
+  C_827C3A38 *cinfo = state->cinfo;
+  if (cinfo->unread_marker == 0) {
+    while (bits_left < 25) {
+      int c;
+      if (bytes_in_buffer == 0) {
+        if (!cinfo->src->fill_input_buffer(cinfo)) return 0;
+        next_input_byte = cinfo->src->next_input_byte;
+        bytes_in_buffer = cinfo->src->bytes_in_buffer;
       }
-      bVar1 = *pbVar8;
-      uVar4 = (ulonglong)bVar1;
-      iVar7 = iVar7 + -1;
-      pbVar8 = pbVar8 + 1;
-      if (bVar1 == 0xff) {
+      bytes_in_buffer--;
+      c = *next_input_byte++;
+      if (c == 0xFF) {
         do {
-          if (iVar7 == 0) {
-            cVar3 = (**(code **)(piVar2[6] + 0xc))(piVar2);
-            if (cVar3 == '\0') {
-              return 0;
-            }
-            pbVar8 = *(byte **)piVar2[6];
-            iVar7 = ((undefined4 *)piVar2[6])[1];
+          if (bytes_in_buffer == 0) {
+            if (!cinfo->src->fill_input_buffer(cinfo)) return 0;
+            next_input_byte = cinfo->src->next_input_byte;
+            bytes_in_buffer = cinfo->src->bytes_in_buffer;
           }
-          bVar1 = *pbVar8;
-          iVar7 = iVar7 + -1;
-          pbVar8 = pbVar8 + 1;
-        } while (bVar1 == 0xff);
-        if (bVar1 != 0) {
-          piVar2[0x5f] = (uint)bVar1;
-          goto LAB_827c3b28;
+          bytes_in_buffer--;
+          c = *next_input_byte++;
+        } while (c == 0xFF);
+        if (c == 0) {
+          c = 0xFF;
+        } else {
+          cinfo->unread_marker = c;
+          goto no_more_bytes;
         }
-        uVar4 = 0xff;
       }
-      param_2 = (param_2 & 0xffffff) << 8 | uVar4;
+      get_buffer = (get_buffer << 8) | c;
+      bits_left += 8;
+    }
+  } else {
+  no_more_bytes:
+    if (nbits > bits_left) {
+      if (!cinfo->entropy->insufficient_data) {
+        cinfo->err->msg_code = 0x75;
+        cinfo->err->emit_message(cinfo, -1);
+        cinfo->entropy->insufficient_data = 1;
+      }
+      get_buffer <<= 25 - bits_left;
+      bits_left = 25;
     }
   }
-  else {
-LAB_827c3b28:
-    if (param_3 < param_4) {
-      if (*(char *)(piVar2[0x66] + 8) == '\0') {
-        *(undefined4 *)(*piVar2 + 0x14) = 0x75;
-        (**(code **)(*piVar2 + 4))(piVar2,0xffffffffffffffff);
-        *(undefined1 *)(piVar2[0x66] + 8) = 1;
-      }
-      uVar5 = 0x19 - param_3;
-      param_3 = 0x19;
-      iVar6 = iVar6 << (uVar5 & 0x3f);
-    }
-  }
-  *param_1 = pbVar8;
-  param_1[1] = iVar7;
-  param_1[2] = iVar6;
-  param_1[3] = param_3;
+  state->next_input_byte = next_input_byte;
+  state->bytes_in_buffer = bytes_in_buffer;
+  state->get_buffer = get_buffer;
+  state->bits_left = bits_left;
   return 1;
 }
-

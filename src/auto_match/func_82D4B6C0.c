@@ -25,37 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D4B3C0();
+typedef struct Node_82D4B6C0 { char pad[0xc]; struct Node_82D4B6C0 *up; char pad2[0x1c - 0x10]; unsigned key; } Node_82D4B6C0;
+typedef struct VObj_82D4B6C0 { int (**vt)(struct VObj_82D4B6C0 *, int); } VObj_82D4B6C0;
+extern int fn_82D4B3C0(int, int, unsigned, unsigned);
 
-
-void fn_82D4B6C0(undefined8 param_1, longlong param_2, undefined8 param_3, int param_4, int param_5, int *param_6, int *param_7, undefined8 param_8, undefined4 in_stack_00000054)
-
+void fn_82D4B6C0(int param_1, int param_2, int param_3, Node_82D4B6C0 *param_4, Node_82D4B6C0 *param_5, VObj_82D4B6C0 *param_6, VObj_82D4B6C0 *param_7, int param_8, int param_9)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-
-  
-  uVar3 = (**(code **)(*param_6 + 0x10))(param_6,param_8);
-  if ((int)uVar3 == -1) {
-    iVar2 = *(int *)(param_4 + 0xc);
-    while (iVar1 = iVar2, iVar1 != 0) {
-      param_4 = iVar1;
-      iVar2 = *(int *)(iVar1 + 0xc);
-    }
-    uVar3 = (ulonglong)*(uint *)(param_4 + 0x1c);
+  int a;
+  int b;
+  Node_82D4B6C0 *n;
+  a = (*(int (**)(VObj_82D4B6C0 *, int))((int)param_6->vt + 0x10))(param_6, param_8);
+  if (a == -1) {
+    while (param_4->up != 0) param_4 = param_4->up;
+    a = param_4->key;
   }
-  uVar4 = (**(code **)(*param_7 + 0x10))(param_7,in_stack_00000054);
-  if ((int)uVar4 == -1) {
-    iVar2 = *(int *)(param_5 + 0xc);
-    while (iVar1 = iVar2, iVar1 != 0) {
-      param_5 = iVar1;
-      iVar2 = *(int *)(iVar1 + 0xc);
-    }
-    uVar4 = (ulonglong)*(uint *)(param_5 + 0x1c);
+  b = (*(int (**)(VObj_82D4B6C0 *, int))((int)param_7->vt + 0x10))(param_7, param_9);
+  if (b == -1) {
+    n = param_5;
+    while (n->up != 0) n = n->up;
+    b = n->key;
   }
-  fn_82D4B3C0(param_1,param_2 + -0xc,uVar3,uVar4);
-  return;
+  fn_82D4B3C0(param_1, param_2 - 0xc, a, b);
 }
-

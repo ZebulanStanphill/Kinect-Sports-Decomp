@@ -27,21 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_826A1318(int *param_1,char param_2)
-
+void fn_826A1318(int *param_1, unsigned char param_2)
 {
-  int iVar1;
-  uint uVar2;
-  
-  if (param_2 == '\0') {
-    uVar2 = param_1[0x23] & 0xfffffffe;
-  }
-  else {
-    uVar2 = param_1[0x23] | 1;
-  }
-  param_1[0x23] = uVar2;
-  iVar1 = (**(code **)(*param_1 + 0x40))();
-  *(uint *)(iVar1 + 0xb00) = *(uint *)(iVar1 + 0xb00) | 0x400;
-  return;
-}
+  char *r;
+  unsigned *q;
 
+  if (param_2 != 0) {
+    param_1[0x23] = param_1[0x23] | 1;
+  } else {
+    param_1[0x23] = param_1[0x23] & ~1;
+  }
+  r = (*(char *(**)(int *))(*param_1 + 0x40))(param_1);
+  q = (unsigned *)(r + 0xb00);
+  *q = *q | 0x400;
+}

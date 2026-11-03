@@ -1,56 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82359C18();
-extern int fn_828E3228();
-extern int fn_828E32A0();
-extern unsigned int lbl_821968A4;
-extern unsigned int lbl_821982D0;
-
-
-void fn_82257468(undefined4 *param_1)
-
+extern void fn_822315A0(unsigned);
+extern void fn_82359C18(void *);
+extern void fn_828E3228(void *);
+extern void fn_828E32A0(void *);
+extern int lbl_821968A4;
+extern int lbl_821982D0;
+static __forceinline void SubDtor(char *s)
 {
-  *param_1 = &lbl_821982D0;
-  param_1[10] = &lbl_821968A4;
-  fn_82359C18(param_1 + 0x3e);
-  fn_82359C18(param_1 + 0x38);
-  fn_828E32A0(param_1 + 0x2a);
-  if (param_1[0x29] != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x27] != 0) {
-    fn_822315A0();
-  }
-  fn_82359C18(param_1 + 0x20);
-  fn_82359C18(param_1 + 0x1a);
-  fn_828E32A0(param_1 + 0xc);
-  fn_828E3228(param_1);
-  return;
+  fn_82359C18(s + 0x50);
+  fn_82359C18(s + 0x38);
+  fn_828E32A0(s);
 }
-
+void fn_82257468(unsigned *p)
+{
+  char *b;
+  *p = (unsigned)&lbl_821982D0;
+  p[10] = (unsigned)&lbl_821968A4;
+  SubDtor((char *)p + 0xa8);
+  b = (char *)p + 0x30;
+  if (p[0x29] != 0) fn_822315A0(p[0x29]);
+  if (*(unsigned *)(b + 0x6c) != 0) fn_822315A0(*(unsigned *)(b + 0x6c));
+  SubDtor(b);
+  fn_828E3228(p);
+}

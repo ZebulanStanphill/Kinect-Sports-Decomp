@@ -1,56 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_b0;
-extern int fn_82A93C18();
-extern int fn_82A94368();
-extern unsigned int iStack_44;
-extern unsigned int iStack_50;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_5c;
-
-
-void fn_82A86338(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  int *param_5,undefined4 *param_6,undefined4 *param_7)
-
+typedef struct S_82A86338 { char p0[0x14]; int f14; char p1[0x8]; int f20; int f24; char p2[0x4]; int f2c; char p3[0x10]; } S_82A86338;
+typedef struct L_82A86338 { char buf[0x40]; S_82A86338 s; } L_82A86338;
+extern void fn_82A93C18(int, int, int, int, int, int, int, int, int, void *, int, int);
+extern void fn_82A94798(void *, int, void *);
+void fn_82A86338(int a, int b, int c, int d, int *o1, int *o2, int *o3)
 {
-  undefined1 auStack_b0 [64];
-  undefined1 auStack_70 [20];
-  undefined4 uStack_5c;
-  int iStack_50;
-  undefined4 uStack_4c;
-  int iStack_44;
-  
-  fn_82A93C18(param_2,param_3,0,0,param_1,0,0,0);
-  fn_82A94368(auStack_b0,param_4,auStack_70);
-  *param_5 = iStack_44 * iStack_50;
-  *param_6 = uStack_5c;
-  *param_7 = uStack_4c;
-  return;
+  L_82A86338 l;
+  fn_82A93C18(b, c, 0, 0, a, 0, 0, 0, 0, l.buf, 0, 0);
+  fn_82A94798(l.buf, d, &l.s);
+  *o1 = l.s.f20 * l.s.f2c;
+  *o2 = l.s.f14;
+  *o3 = l.s.f24;
 }
-

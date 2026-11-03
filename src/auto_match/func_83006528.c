@@ -25,40 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_3c;
-extern int fn_83007E90();
-extern int fn_83007EF0();
+typedef struct Obj_83006528 { void (**vt)(); } Obj_83006528;
+extern void fn_83007E90(unsigned *);
+extern unsigned **fn_83007EF0(void *, int, unsigned ***);
 
-
-void fn_83006528(int *param_1,ulonglong param_2,ulonglong param_3,undefined8 param_4,
-                  ulonglong param_5)
-
+void fn_83006528(int *param_1, unsigned param_2, unsigned param_3, int param_4, unsigned param_5)
 {
   int *piVar1;
-  undefined4 *puVar2;
-  uint *puStack_40;
-  undefined1 auStack_3c [60];
-  
-  piVar1 = (int *)param_1[10];
-  if (piVar1 != (int *)0x0) {
-    puStack_40 = (uint *)*piVar1;
-    if (puStack_40 != (uint *)piVar1[1]) {
-      do {
-        if (((((ulonglong)*puStack_40 == (param_2 & 0xffffffff)) &&
-             ((ulonglong)puStack_40[1] == (param_3 & 0xffffffff))) &&
-            (puStack_40[3] == (uint)param_4)) &&
-           ((ulonglong)puStack_40[4] == (param_5 & 0xffffffff))) {
-          fn_83007E90(puStack_40 + 5);
-          puVar2 = (undefined4 *)fn_83007EF0(auStack_3c,param_1[10],&puStack_40);
-          puStack_40 = (uint *)*puVar2;
-        }
-        else {
-          puStack_40 = puStack_40 + 8;
-        }
-      } while (puStack_40 != *(uint **)(param_1[10] + 4));
-    }
-    (**(code **)(*param_1 + 0x58))(param_1,param_2,param_3,param_4,param_5);
-  }
-  return;
-}
+  struct { unsigned *it; char tmp[12]; } L;
 
+  piVar1 = (int *)param_1[10];
+  if (piVar1 != 0) {
+    unsigned *b0 = (unsigned *)*piVar1;
+    unsigned *e0 = (unsigned *)piVar1[1];
+    L.it = b0;
+    if (b0 != e0) {
+      do {
+        if (L.it[0] == param_2 && L.it[1] == param_3 && (int)L.it[3] == param_4 && L.it[4] == param_5) {
+          fn_83007E90(L.it + 5);
+          L.it = *fn_83007EF0(L.tmp, param_1[10], (unsigned ***)&L.it);
+        } else {
+          L.it = L.it + 8;
+        }
+      } while (L.it != *(unsigned **)(param_1[10] + 4));
+    }
+    (*(void (**)(int *, unsigned, unsigned, int, unsigned))(*param_1 + 0x58))(param_1, param_2, param_3, param_4, param_5);
+  }
+}

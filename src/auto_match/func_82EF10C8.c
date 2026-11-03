@@ -25,48 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A28568();
+typedef struct Node_82EF10C8 { char d[8]; struct Node_82EF10C8 *next; } Node_82EF10C8;
+typedef struct Block_82EF10C8 { struct Block_82EF10C8 *next; Node_82EF10C8 nodes[1]; } Block_82EF10C8;
+typedef struct Pool_82EF10C8 { Node_82EF10C8 *free; Block_82EF10C8 *blocks; unsigned n; } Pool_82EF10C8;
 extern int fn_82A2A360();
+extern Block_82EF10C8 *fn_82A28568(int, int, unsigned);
 
-
-undefined8 fn_82EF10C8(int *param_1,int *param_2)
-
+int fn_82EF10C8(Pool_82EF10C8 *pool, Node_82EF10C8 **out)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  uint uVar3;
-  int *piVar4;
-  int *piVar5;
-  
-  if (*param_1 == 0) {
-    uVar3 = param_1[2];
-    uVar1 = fn_82A2A360();
-    piVar2 = (int *)fn_82A28568(uVar1,0,((ulonglong)uVar3 - 1) * 0xc + 0x10);
-    if (piVar2 == (int *)0x0) {
-      return 0xffffffff8007000e;
+  if (pool->free == 0) {
+    Block_82EF10C8 *b;
+    unsigned i;
+    unsigned n = pool->n;
+    Node_82EF10C8 *p;
+    b = fn_82A28568(fn_82A2A360(), 0, (n - 1) * sizeof(Node_82EF10C8) + sizeof(Block_82EF10C8));
+    if (b == 0) {
+      return 0x8007000e;
     }
-    uVar3 = 0;
-    if (param_1[2] != 0) {
-      piVar5 = piVar2 + 1;
-      do {
-        if (piVar5 == (int *)0x0) {
-          piVar4 = (int *)0x0;
+    i = 0;
+    if (i < pool->n) {
+      p = b->nodes;
+      while (i < pool->n) {
+        Node_82EF10C8 *q;
+        if (p != 0) {
+          p->next = 0;
+          q = p;
+        } else {
+          q = 0;
         }
-        else {
-          piVar5[2] = 0;
-          piVar4 = piVar5;
-        }
-        uVar3 = uVar3 + 1;
-        piVar5 = piVar5 + 3;
-        piVar4[2] = *param_1;
-        *param_1 = (int)piVar4;
-      } while (uVar3 < (uint)param_1[2]);
+        i++;
+        p++;
+        q->next = pool->free;
+        pool->free = q;
+      }
     }
-    *piVar2 = param_1[1];
-    param_1[1] = (int)piVar2;
+    b->next = pool->blocks;
+    pool->blocks = b;
   }
-  *param_2 = *param_1;
-  *param_1 = *(int *)(*param_1 + 8);
+  *out = pool->free;
+  pool->free = pool->free->next;
   return 0;
 }
-

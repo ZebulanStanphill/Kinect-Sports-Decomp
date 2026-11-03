@@ -25,31 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82DA6530();
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
+typedef struct Msg_82D81000 { unsigned char tag; int a; unsigned short b; unsigned char c; } Msg_82D81000;
+extern void fn_82DA6530(int, Msg_82D81000 *);
 
-
-void fn_82D81000(int param_1,undefined8 param_2,undefined2 param_3,undefined8 param_4)
-
+void fn_82D81000(int param_1, int param_2, unsigned param_3, unsigned param_4)
 {
-  undefined1 auStack_20 [4];
-  undefined4 uStack_1c;
-  undefined2 uStack_18;
-  undefined1 uStack_16;
-  
+  Msg_82D81000 m;
+
   if (*(int *)(param_1 + 0x94) != 0) {
-    uStack_1c = (undefined4)param_2;
-    uStack_16 = (undefined1)param_4;
-    auStack_20[0] = 0x17;
-    uStack_18 = param_3;
-    fn_82DA6530(*(undefined4 *)(param_1 + 0x88),auStack_20);
+    m.a = param_2;
+    m.tag = 0x17;
+    m.b = param_3;
+    m.c = param_4;
+    fn_82DA6530(*(int *)(param_1 + 0x88), &m);
     return;
   }
-  (**(code **)(**(int **)(param_1 + 8) + 0x30))
-            (*(int **)(param_1 + 8),param_2,param_3,param_1,param_4);
-  return;
+  (*(void (**)(int, int, unsigned, int, unsigned))(**(int **)(param_1 + 8) + 0x30))(*(int *)(param_1 + 8), param_2, param_3, param_1, param_4);
 }
-

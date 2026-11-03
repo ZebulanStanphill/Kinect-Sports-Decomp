@@ -1,55 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_826C5118();
-extern int fn_82F68CC0();
-
-
-void fn_826C6638(int param_1,undefined8 param_2,int param_3)
-
+extern void *memcpy(void *, const void *, unsigned);
+typedef struct Buf_826C6638 { char pad[8]; } Buf_826C6638;
+typedef struct Inner_826C6638 { char pad0[0x14]; void *h; } Inner_826C6638;
+typedef struct Item_826C6638 { char pad0[8]; char data[0x48]; int *ptr; int n; unsigned char flags; } Item_826C6638;
+typedef struct Obj_826C6638 {
+  char pad0[0xa0]; Inner_826C6638 *in; char pad1[0xa4]; char x148[0x80]; Item_826C6638 *item;
+} Obj_826C6638;
+extern unsigned fn_8267B890(void *, int, int);
+extern Item_826C6638 *fn_826C5118(unsigned, void *);
+void fn_826C6638(Obj_826C6638 *o, void *src, int n)
 {
-  ulonglong uVar1;
-  undefined4 uVar2;
-  
-  if (*(int *)(param_1 + 0x1c8) == 0) {
-    uVar1 = fn_8267B890(*(undefined4 *)(*(int *)(param_1 + 0xa0) + 0x14),0x5c,0);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = fn_826C5118(uVar1,param_1 + 0x148);
-    }
-    *(undefined4 *)(param_1 + 0x1c8) = uVar2;
+  unsigned t;
+  Item_826C6638 *r;
+  if (o->item == 0) {
+    t = fn_8267B890(o->in->h, 0x5c, 0);
+    if (t != 0) r = fn_826C5118(t, o->x148);
+    else r = 0;
+    o->item = r;
   }
-  *(byte *)(*(int *)(param_1 + 0x1c8) + 0x58) = *(byte *)(*(int *)(param_1 + 0x1c8) + 0x58) | 3;
-  fn_82F68CC0((ulonglong)*(uint *)(param_1 + 0x1c8) + 8,param_2,param_3 << 2);
-  *(int *)(*(int *)(param_1 + 0x1c8) + 0x50) = *(int *)(param_1 + 0x1c8) + 8;
-  *(int *)(*(int *)(param_1 + 0x1c8) + 0x54) = param_3;
-  return;
+  o->item->flags = o->item->flags | 3;
+  memcpy(o->item->data - 0 , src, n << 2);
+  o->item->ptr = (int *)(o->item->data);
+  o->item->n = n;
 }
-

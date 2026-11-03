@@ -1,52 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-longlong fn_82ADD2D8(int *param_1,int *param_2)
-
+typedef struct Fl_82ADD2D8 { unsigned :2; unsigned f:1; unsigned :15; unsigned g:11; unsigned :3; } Fl_82ADD2D8;
+int fn_82ADD2D8(int *p1, int *p2)
 {
-  uint uVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  uVar1 = *(uint *)(*param_1 + 0xc0);
-  uVar2 = *(uint *)(*param_2 + 0xc0);
-  lVar3 = ((ulonglong)(uVar2 >> 0x1d) & 1) - ((ulonglong)(uVar1 >> 0x1d) & 1);
-  if (lVar3 != 0) {
-    return lVar3;
-  }
-  lVar3 = (ulonglong)*(uint *)(*param_2 + 0xc4) - (ulonglong)*(uint *)(*param_1 + 0xc4);
-  if (lVar3 < 0) {
-    return -1;
-  }
-  if (0 < lVar3) {
-    return 1;
-  }
-  return ((ulonglong)(uVar2 >> 3) & 0x7ff) - ((ulonglong)(uVar1 >> 3) & 0x7ff);
+  Fl_82ADD2D8 *f1 = (Fl_82ADD2D8 *)(*p1 + 0xc0);
+  Fl_82ADD2D8 *f2 = (Fl_82ADD2D8 *)(*p2 + 0xc0);
+  int d = f2->f - f1->f;
+  long long e;
+  if (d != 0) return d;
+  e = (long long)*(unsigned *)(*p2 + 0xc4) - (long long)*(unsigned *)(*p1 + 0xc4);
+  if (e < 0) return -1;
+  if (e > 0) return 1;
+  return f2->g - f1->g;
 }
-

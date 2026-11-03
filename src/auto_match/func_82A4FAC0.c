@@ -27,25 +27,26 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A4FAC0(int param_1,undefined8 param_2)
+typedef struct Node_82A4FAC0 { int *item; struct Node_82A4FAC0 *next; } Node_82A4FAC0;
 
+void fn_82A4FAC0(int param_1, int param_2)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = *(undefined4 **)(param_1 + 0x2c);
-  iVar1 = 0;
-  while ((puVar3 != (undefined4 *)0x0 && (-1 < iVar1))) {
-    if (puVar3 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    else {
-      puVar2 = (undefined4 *)*puVar3;
-      puVar3 = (undefined4 *)puVar3[1];
-    }
-    iVar1 = (**(code **)(*(int *)*puVar2 + 4))((int *)*puVar2,0,param_2);
-  }
-  return;
-}
+  Node_82A4FAC0 *n;
+  Node_82A4FAC0 *cur;
+  int hr;
+  int *obj;
 
+  n = *(Node_82A4FAC0 **)(param_1 + 0x2c);
+  hr = 0;
+  while (n != 0 && hr >= 0) {
+    cur = n;
+    if (n != 0) {
+      n = n->next;
+      obj = *(int **)cur;
+    } else {
+      obj = 0;
+    }
+    obj = (int *)*obj;
+    hr = (*(int (**)(int *, int, int))(*obj + 4))(obj, 0, param_2);
+  }
+}

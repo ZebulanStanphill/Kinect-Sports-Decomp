@@ -25,35 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825293A8();
-extern int fn_82529488();
+typedef struct Item_82529320 { char pad[0xb1c]; unsigned x; unsigned fl; } Item_82529320;
+typedef struct Link_82529320 { char pad[4]; struct Link_82529320 *next; int obj; } Link_82529320;
+typedef struct Owner_82529320 { char pad[0x48]; Link_82529320 *head; char pad2[0xb20 - 0x4c]; unsigned fl; } Owner_82529320;
+extern void fn_825293A8(void *);
+extern void fn_82529488(void *, int, void *);
 
-
-void fn_82529320(int param_1,undefined8 param_2)
-
+void fn_82529320(Owner_82529320 *p, int flag)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x48);
-LAB_8252938c:
-  iVar2 = iVar1;
-  if (iVar2 == 0) {
-    fn_825293A8(param_1);
-    return;
-  }
-  if (*(int *)(iVar2 + 8) != 0) {
-    fn_82529488(*(int *)(iVar2 + 8),param_2,param_1);
-  }
-  iVar1 = *(int *)(iVar2 + 4);
-  if ((int)param_2 != 0) goto code_r0x82529364;
-  goto LAB_82529388;
-code_r0x82529364:
-  if (((*(uint *)(param_1 + 0xb20) & *(uint *)(iVar2 + 0xae0)) != 0) &&
-     ((*(int *)(iVar2 + 0xadc) != 0 || (*(uint *)(iVar2 + 0xae0) == 0)))) {
-LAB_82529388:
-    fn_825293A8();
-  }
-  goto LAB_8252938c;
-}
+  Link_82529320 *n;
+  Link_82529320 *cur;
+  Item_82529320 *it;
 
+  n = p->head;
+  while (n != 0) {
+    cur = n;
+    if (cur->obj != 0) {
+      fn_82529488((void *)cur->obj, flag, p);
+    }
+    it = (Item_82529320 *)((char *)cur - 0x40);
+    n = cur->next;
+    if (flag == 0 || ((p->fl & it->fl) != 0 && (it->x != 0 || it->fl == 0))) {
+      fn_825293A8(it);
+    }
+  }
+  fn_825293A8(p);
+}

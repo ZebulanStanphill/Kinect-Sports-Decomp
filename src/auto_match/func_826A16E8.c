@@ -25,47 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8269A9E8();
-extern int fn_826A15C8();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Q_826A16E8 { unsigned a, b, c, d; } Q_826A16E8;
+extern unsigned fn_8269A9E8(unsigned);
+extern void fn_826A15C8(int, Q_826A16E8 *, int);
 
-
-void fn_826A16E8(undefined8 param_1,uint *param_2,undefined8 param_3)
-
+void fn_826A16E8(int param_1, Q_826A16E8 *param_2, int param_3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  struct { uint first; uint second; } stack_pair_50;
+  unsigned uVar1;
+  unsigned uVar2;
+  unsigned uVar3;
+  Q_826A16E8 t;
 
-  uint uStack_48;
-  uint uStack_44;
-  
-  uVar1 = fn_8269A9E8(*param_2);
-  uVar1 = uVar1 & 0xff;
+  uVar1 = (unsigned char)fn_8269A9E8(param_2->a);
   if (uVar1 == 1) {
-    fn_826A15C8(param_1,param_2,param_3);
-  }
-  else {
+    fn_826A15C8(param_1, param_2, param_3);
+  } else {
     uVar2 = 0;
     uVar3 = 1;
     if (uVar1 != 0) {
       do {
-        if ((*param_2 & uVar3) != 0) {
-          stack_pair_50.second = param_2[1];
-          uStack_48 = param_2[2];
-          uStack_44 = param_2[3];
-          uVar2 = uVar2 + 1;
-          stack_pair_50.first = uVar3;
-          fn_826A15C8(param_1,&stack_pair_50.first,param_3);
+        if ((param_2->a & uVar3) != 0) {
+          t = *param_2;
+          uVar2++;
+          t.a = uVar3;
+          fn_826A15C8(param_1, &t, param_3);
         }
         uVar3 = uVar3 << 1;
       } while (uVar2 < uVar1);
     }
   }
-  return;
 }
-

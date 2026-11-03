@@ -26,52 +26,33 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8225F160();
-extern int fn_8251CDF8();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-
+extern int fn_8251CDF8(int, int, int, void *);
 
 void fn_82466358(int param_1)
-
 {
-  int iVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  struct { int a, b, c; } L;
 
-  undefined4 uStack_28;
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 8) = 2;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x40) = 2;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 100) = 1;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x5c) = 2;
-  }
-  else if (*(int *)(param_1 + 8) == 1) {
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 8) = 1;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x40) = 1;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 100) = 2;
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x5c) = 1;
+  switch (*(unsigned *)(param_1 + 8)) {
+  case 1:
+    *(int *)(fn_8225F160() + 8) = 1;
+    *(int *)(fn_8225F160() + 0x40) = 1;
+    *(int *)(fn_8225F160() + 0x64) = 2;
+    *(int *)(fn_8225F160() + 0x5c) = 1;
+    break;
+  case 0:
+    *(int *)(fn_8225F160() + 8) = 2;
+    *(int *)(fn_8225F160() + 0x40) = 2;
+    *(int *)(fn_8225F160() + 0x64) = 1;
+    *(int *)(fn_8225F160() + 0x5c) = 2;
+    break;
   }
   if (*(int *)(param_1 + 0x1c) == 5) {
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x30) = 1;
+    *(int *)(fn_8225F160() + 0x30) = 1;
+  } else {
+    *(int *)(fn_8225F160() + 0x30) = 0;
   }
-  else {
-    iVar1 = fn_8225F160();
-    *(undefined4 *)(iVar1 + 0x30) = 0;
-  }
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  uStack_28 = 0;
-  fn_8251CDF8(0,param_1,0,&stack_pair_30.first);
-  return;
+  L.a = 0;
+  L.b = 0;
+  L.c = 0;
+  fn_8251CDF8(0, param_1, 0, &L);
 }
-

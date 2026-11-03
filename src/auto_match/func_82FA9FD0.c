@@ -1,58 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_8216CC48;
-extern unsigned int lbl_8216CC4C;
-extern unsigned int lbl_8217D040;
-extern unsigned int lbl_831BC768;
-
-
-void fn_82FA9FD0(undefined4 *param_1)
-
+extern int lbl_8216CC48;
+extern int lbl_8216CC4C;
+extern int lbl_8217D040;
+extern int lbl_831BC768;
+extern void fn_82FA5190(int, void *);
+typedef struct Vt_82FA9FD0 { void (*dtor)(void *, int); } Vt_82FA9FD0;
+typedef struct Res_82FA9FD0 { Vt_82FA9FD0 *vt; char pad[0x58]; int refs; } Res_82FA9FD0;
+typedef struct Obj_82FA9FD0 { int vt; int vt2; char pad[0x20]; Res_82FA9FD0 *res; } Obj_82FA9FD0;
+void fn_82FA9FD0(Obj_82FA9FD0 *p)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  puVar1 = (undefined4 *)param_1[10];
-  *param_1 = &lbl_8216CC4C;
-  param_1[1] = &lbl_8216CC48;
-  if (puVar1 != (undefined4 *)0x0) {
-    uVar2 = puVar1[0x17];
-    puVar1[0x17] = (int)((ulonglong)uVar2 - 1);
-    uVar3 = lbl_831BC768;
-    if ((longlong)((ulonglong)uVar2 - 1) < 1) {
-      (**(code **)*puVar1)(puVar1,0);
-      fn_82FA5190(uVar3,puVar1);
+  Res_82FA9FD0 *r = p->res;
+  int h;
+  p->vt = (int)&lbl_8216CC4C;
+  p->vt2 = (int)&lbl_8216CC48;
+  if (r != 0) {
+    if (--r->refs <= 0) {
+      h = lbl_831BC768;
+      r->vt->dtor(r, 0);
+      fn_82FA5190(h, r);
     }
-    param_1[10] = 0;
+    p->res = 0;
   }
-  *param_1 = &lbl_8217D040;
-  return;
+  p->vt = (int)&lbl_8217D040;
 }
-
