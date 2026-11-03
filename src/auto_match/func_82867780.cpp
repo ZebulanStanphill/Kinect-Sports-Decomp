@@ -1,16 +1,15 @@
 #include "R1/Soundscape/BankEntryState.h"
 #include "R1/Soundscape/EventHandleState.h"
+#include "R1/Soundscape/ListenerBias.h"
+
+// Singleton_c<ListenerBias_FULL_c>::GetInstance (see func_82869448.cpp).
+extern "C" R1::Soundscape::ListenerBias_FULL_c *fn_82869448();
 #include "R1/Soundscape/WwiseEventStates.h"
 
 extern "C" {
 void *fn_82868378();
 void *fn_82868568();
 void *fn_828684F8();
-void *fn_82869448();
-void *fn_828694C0();
-void *fn_82869538();
-void *fn_828695B0();
-void *fn_82869628();
 void *fn_82868438();
 void *fn_828685D8();
 void *fn_82868698();
@@ -42,10 +41,10 @@ extern "C" unsigned int fn_82867780()
     R1::Soundscape::Singleton_c<R1::Soundscape::EventHandle_FAILED_TO_PLAY_c>::GetInstance();
     fn_828684F8();
     fn_82869448();
-    fn_828694C0();
-    fn_82869538();
-    fn_828695B0();
-    fn_82869628();
+    R1::Soundscape::Singleton_c<R1::Soundscape::ListenerBias_LEFT_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::ListenerBias_RIGHT_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::ListenerBias_TOP_c>::GetInstance();
+    R1::Soundscape::Singleton_c<R1::Soundscape::ListenerBias_BOTTOM_c>::GetInstance();
     fn_82868438();
     fn_828685D8();
     fn_82868698();

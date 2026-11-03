@@ -1,2 +1,0 @@
-typedef struct ListenerBiasState ListenerBiasState;typedef struct ListenerBiasContext ListenerBiasContext;typedef struct {float channels[6];} Bias;extern const Bias lbl_820214FC;extern void *memcpy(void *,const void *,unsigned);
-int fn_8286C6B8(ListenerBiasState *state,ListenerBiasContext *context,unsigned listener,Bias *output,unsigned count){memcpy(output,&lbl_820214FC,sizeof(*output));return 0x20280000;}

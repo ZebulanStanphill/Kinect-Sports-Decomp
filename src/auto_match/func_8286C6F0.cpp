@@ -1,20 +1,17 @@
-// R1::Soundscape::ListenerBiasContext_c default constructor: vtable, then the value from
-// fn_82869448 at +4.
-extern "C" int fn_82869448();
+// R1::Soundscape::ListenerBiasContext_c default constructor: starts in the
+// ListenerBias_FULL_c state.
+#include "R1/Soundscape/ListenerBias.h"
+
+// Singleton_c<ListenerBias_FULL_c>::GetInstance (see func_82869448.cpp).
+extern "C" R1::Soundscape::ListenerBias_FULL_c *fn_82869448();
 
 namespace R1 {
-    namespace Soundscape {
-        class ListenerBiasContext_c {
-        public:
-            ListenerBiasContext_c();
-            virtual ~ListenerBiasContext_c();
+namespace Soundscape {
 
-            int m_4;
-        };
-
-        ListenerBiasContext_c::ListenerBiasContext_c()
-            : m_4(fn_82869448())
-        {
-        }
-    }
+ListenerBiasContext_c::ListenerBiasContext_c()
+    : state(fn_82869448())
+{
 }
+
+} // namespace Soundscape
+} // namespace R1
