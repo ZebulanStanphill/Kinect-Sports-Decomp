@@ -1,38 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82D44268 Obj_82D44268;
+typedef struct { void *f0, *f4, *f8; void (*fc)(Obj_82D44268 *, const char *, int, int); } VT_82D44268;
+struct Obj_82D44268 { VT_82D44268 *vt; };
 extern int fn_82CE3DC8();
-
-
-void fn_82D44268(int param_1,int *param_2)
-
+extern char lbl_8323C5E4[];
+void fn_82D44268(int param_1, Obj_82D44268 *param_2)
 {
-  (**(code **)(*param_2 + 0xc))(param_2,0xffffffff82138418,*(undefined4 *)(param_1 + 0x18),0);
-  fn_82CE3DC8(param_1,param_2,0xffffffff8323c5e4);
-  return;
+  param_2->vt->fc(param_2, "Child", *(int *)(param_1 + 0x18), 0);
+  fn_82CE3DC8(param_1, param_2, lbl_8323C5E4);
 }
-
