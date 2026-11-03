@@ -61820,7 +61820,7 @@ auto_match/func_826BF638.c:
 	.pdata      start:0x821F7048 end:0x821F7050
 	.text       start:0x826BF638 end:0x826BF7AC
 
-auto_match/func_826BF7B0.c:
+auto_match/func_826BF7B0.cpp:
 	.pdata      start:0x821F7050 end:0x821F7058
 	.text       start:0x826BF7B0 end:0x826BF874
 
