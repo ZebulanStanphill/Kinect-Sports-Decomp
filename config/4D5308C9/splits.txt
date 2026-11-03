@@ -93262,7 +93262,7 @@ auto_match/func_8286E660.cpp:
 	.pdata      start:0x82202D20 end:0x82202D28
 	.text       start:0x8286E660 end:0x8286E6D8
 
-auto_match/func_8286E6D8.c:
+auto_match/func_8286E6D8.cpp:
 	.pdata      start:0x82202D28 end:0x82202D30
 	.text       start:0x8286E6D8 end:0x8286E75C
 
@@ -93325,7 +93325,7 @@ auto_match/func_82870970.c:
 auto_match/func_828709D8.c:
 	.text       start:0x828709D8 end:0x828709EC
 
-auto_match/func_828709F0.c:
+auto_match/func_828709F0.cpp:
 	.pdata      start:0x82202DA0 end:0x82202DA8
 	.text       start:0x828709F0 end:0x82870A54
 
