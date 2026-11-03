@@ -1,55 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C610();
+typedef struct Node_828C4410 Node_828C4410;
+typedef struct { int pad[2]; unsigned char (*isnil)(Node_828C4410 *); } VT_828C4410;
+struct Node_828C4410 { VT_828C4410 *vt; int pad[3]; Node_828C4410 *left; Node_828C4410 *right; };
+typedef struct { int pad; Node_828C4410 *nil; } Tree_828C4410;
 
+extern int fn_8223C610(void *, int, char *, int);
 
-int * fn_828C4410(int param_1,int *param_2,undefined8 param_3)
-
+Node_828C4410 *fn_828C4410(Tree_828C4410 *param_1, Node_828C4410 *node, void *param_3)
 {
-  char cVar2;
-  int iVar1;
-  char acStack_30;
-  
-  cVar2 = (**(code **)(*param_2 + 8))(param_2);
-  while( true ) {
-    if (cVar2 != '\0') {
-      return param_2;
-    }
-    iVar1 = fn_8223C610(param_3,1,&acStack_30,1);
-    if (acStack_30 == '\0') break;
-    if (iVar1 == 0) {
-      param_2 = (int *)param_2[4];
-    }
-    else {
-      param_2 = (int *)param_2[5];
-    }
-    cVar2 = (**(code **)(*param_2 + 8))(param_2);
-  }
-  return *(int **)(param_1 + 4);
-}
+  unsigned char nil;
+  unsigned char dir;
+  char bit;
+  int n;
 
+  nil = node->vt->isnil(node);
+  while (nil == 0) {
+    n = fn_8223C610(param_3, 1, &bit, 1);
+    dir = (n == 0);
+    if (bit == 0) {
+      return param_1->nil;
+    }
+    if (dir != 0) {
+      node = node->left;
+    } else {
+      node = node->right;
+    }
+    nil = node->vt->isnil(node);
+  }
+  return node;
+}

@@ -1,78 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_82FA73C8();
-extern int fn_82FA7C48();
-extern int fn_82FA7CD0();
-extern int fn_82FAABA8();
-extern unsigned int iStack_40;
-extern unsigned int lbl_831BC680;
-extern unsigned int uStack_3c;
+typedef struct Node_82FA7610 { struct Node_82FA7610 *next; unsigned key; unsigned pad8; unsigned flags; } Node_82FA7610;
+typedef struct { Node_82FA7610 *head; } List_82FA7610;
+typedef struct { unsigned key; unsigned val; unsigned kind : 2; unsigned rest : 30; } Slot_82FA7610;
 
+extern List_82FA7610 lbl_831BC680;
+extern int fn_82FA73C8(unsigned, int *, unsigned *, unsigned *);
+extern Slot_82FA7610 *fn_82FA7C48(List_82FA7610 *);
+extern void fn_82FA7CD0(List_82FA7610 *);
+extern int fn_82FAABA8(int, Slot_82FA7610 *, unsigned, unsigned);
 
-undefined8 fn_82FA7610(ulonglong param_1,undefined4 param_2)
-
+int fn_82FA7610(unsigned param_1, unsigned param_2)
 {
-  int *piVar1;
-  int iVar3;
-  undefined4 *puVar4;
-  undefined8 uVar2;
-  int iStack_40;
-  undefined4 uStack_3c;
-  undefined4 auStack_38;
-  
-  iStack_40 = 0;
-  iVar3 = fn_82FA73C8(param_1,&iStack_40,&uStack_3c,&auStack_38);
-  if (0 < iVar3) {
-    puVar4 = (undefined4 *)fn_82FA7C48(0xffffffff831bc680);
-    if (puVar4 == (undefined4 *)0x0) {
-      piVar1 = lbl_831BC680;
-      if (lbl_831BC680 != (int *)0x0) {
-        do {
-          if ((ulonglong)(uint)piVar1[1] == (param_1 & 0xffffffff)) {
-            piVar1[3] = piVar1[3] | 0x80000000;
-          }
-          piVar1 = (int *)*piVar1;
-        } while (piVar1 != (int *)0x0);
-        return 0;
+  int ctx;
+  unsigned a;
+  unsigned b;
+  Slot_82FA7610 *s;
+  Node_82FA7610 *n;
+  int r;
+
+  ctx = 0;
+  if (fn_82FA73C8(param_1, &ctx, &a, &b) > 0) {
+    s = fn_82FA7C48(&lbl_831BC680);
+    if (s == 0) {
+      for (n = lbl_831BC680.head; n != 0; n = n->next) {
+        if (n->key == param_1) {
+          n->flags = n->flags | 0x80000000;
+        }
       }
+      return 0;
     }
-    else {
-      uVar2 = fn_82FAABA8(*(undefined4 *)(iStack_40 + 0x38),puVar4,auStack_38,uStack_3c);
-      if ((int)uVar2 == 1) {
-        *puVar4 = (int)param_1;
-        puVar4[1] = param_2;
-        puVar4[2] = puVar4[2] & 0x3fffffff | 0x40000000;
-        return uVar2;
-      }
-      fn_82FA7CD0(0xffffffff831bc680);
+    r = fn_82FAABA8(*(int *)(ctx + 0x38), s, b, a);
+    if (r == 1) {
+      s->key = param_1;
+      s->val = param_2;
+      s->kind = 1;
+      return r;
     }
+    fn_82FA7CD0(&lbl_831BC680);
   }
   return 0;
 }
-

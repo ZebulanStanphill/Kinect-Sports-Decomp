@@ -1,62 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_83066788();
-extern int fn_83067180();
+extern unsigned int _CountLeadingZeros(unsigned int);
+extern int fn_83066788(void *, void *, float);
+extern int fn_83067180(void *, int, void *);
 
-
-char fn_830672D8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
-
+char fn_830672D8(void *param_1, void *param_2, float param_3)
 {
-  int iVar1;
-  int iVar2;
-  longlong lVar3;
-  undefined1 auStack_40 [64];
-  
-  iVar2 = 0;
-  lVar3 = 0;
-  do {
-    fn_83067180(param_2,lVar3,auStack_40);
-    iVar1 = fn_83066788(param_1,param_3,auStack_40);
-    if (iVar1 == 1) {
-      if (0 < iVar2) {
-        return '\x03';
-      }
-      iVar2 = iVar2 + -1;
-    }
-    else if (iVar1 == 0) {
-      if (iVar2 < 0) {
-        return '\x03';
-      }
-      iVar2 = iVar2 + 1;
-    }
-    lVar3 = lVar3 + 1;
-  } while ((int)lVar3 < 8);
-  return ((int)LZCOUNT(iVar2) == 0) + '\x01';
-}
+  int r;
+  int sum;
+  int i;
+  char buf[16];
 
+  sum = 0;
+  i = 0;
+  do {
+    fn_83067180(param_1, i, buf);
+    r = fn_83066788(param_2, buf, param_3);
+    if (r == 1) {
+      if (sum > 0) {
+        return 3;
+      }
+      sum = sum - 1;
+    } else if (r == 0) {
+      if (sum < 0) {
+        return 3;
+      }
+      sum = sum + 1;
+    }
+    i = i + 1;
+  } while (i < 8);
+  return (_CountLeadingZeros(sum) == 0) + 1;
+}

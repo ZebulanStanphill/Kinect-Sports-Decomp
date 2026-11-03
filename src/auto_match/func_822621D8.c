@@ -1,63 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225FCE8();
-extern int fn_8225FDE0();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB40();
-extern int fn_82E1CB88();
-extern int fn_82E1CCA8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 
+extern unsigned char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern void fn_8225FCE8(const char *, __vector4);
+extern unsigned char fn_82E1CAD0(int);
+extern void fn_82E1CB88(const char *, int);
+extern void fn_82E1CB40(const char *, int);
+extern void fn_82E1CCA8(void);
 
-void fn_822621D8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+void fn_822621D8(int matchId, int frame, int player, int score1, int score2, int total, int strike, int spare, __vector4 pos)
 {
-  char *pcVar1;
-  int iVar2;
-  char cVar3;
-  
-  pcVar1 = (char *)fn_8225F670();
-  if (*pcVar1 != '\0') {
-    iVar2 = fn_8225FDE0(0x46,1);
-    if ((iVar2 == 0) && (cVar3 = fn_82E1CAD0(0x46), cVar3 != '\0')) {
-      fn_82E1CB88(0xffffffff821a6fd0,param_1);
-      fn_82E1CB88(0xffffffff821a7010,param_2);
-      fn_82E1CB88(0xffffffff821a6eb4,param_3);
-      fn_8225FCE8(0xffffffff821a6fec);
-      fn_82E1CB88(0xffffffff821a70b0,param_4);
-      fn_82E1CB88(0xffffffff821a70b8,param_5);
-      fn_82E1CB88(0xffffffff821a70c0,param_6);
-      fn_82E1CB40(0xffffffff821a7088,param_7);
-      fn_82E1CB40(0xffffffff821a70cc,param_8);
+  if (*fn_8225F670() != 0) {
+    if (fn_8225FDE0(0x46, 1) == 0 && fn_82E1CAD0(0x46) != 0) {
+      fn_82E1CB88("MatchId", matchId);
+      fn_82E1CB88("FrameNumber", frame);
+      fn_82E1CB88("PlayerIndex", player);
+      fn_8225FCE8("BasePosition", pos);
+      fn_82E1CB88("Score1", score1);
+      fn_82E1CB88("Score2", score2);
+      fn_82E1CB88("TotalScore", total);
+      fn_82E1CB40("Strike", strike);
+      fn_82E1CB40("Spare", spare);
       fn_82E1CCA8();
     }
   }
-  return;
 }
-

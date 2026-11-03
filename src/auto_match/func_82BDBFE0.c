@@ -1,62 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8314309C();
-
-
-void fn_82BDBFE0(int param_1,undefined4 *param_2)
-
+typedef struct Pkt_82BDBFE0 { int status; unsigned len; unsigned pad8; unsigned cap; int pad10; int limit; } Pkt_82BDBFE0;
+typedef struct Q_82BDBFE0 { Pkt_82BDBFE0 *pkt; struct Q_82BDBFE0 *next; } Q_82BDBFE0;
+typedef struct { char pad[0xc]; int voice; char pad2[0x88]; int limit; char pad3[0x34]; unsigned flags; } Dev_82BDBFE0;
+typedef struct { Q_82BDBFE0 *head; Q_82BDBFE0 *tail; } List_82BDBFE0;
+typedef struct { int pad; int dev; char pad2[0x6c]; List_82BDBFE0 list; } Self_82BDBFE0;
+#define DEV(s) ((Dev_82BDBFE0 *)(s)->dev)
+extern int XamVoiceSubmitPacket(int, int, Pkt_82BDBFE0 *);
+void fn_82BDBFE0(Self_82BDBFE0 *self, Q_82BDBFE0 *q)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  puVar1 = (undefined4 *)*param_2;
-  iVar2 = -0x7fffbffb;
-  if (puVar1[5] == 0) {
-    puVar1[3] = (uint)puVar1[3] >> 2;
+  Pkt_82BDBFE0 *pkt;
+  List_82BDBFE0 *l;
+  int hr;
+
+  pkt = q->pkt;
+  hr = 0x80004005;
+  if (pkt->limit == 0) {
+    pkt->cap = pkt->cap >> 2;
   }
-  puVar1[5] = *(undefined4 *)(*(int *)(param_1 + 4) + 0x98);
-  if (*(int *)(*(int *)(param_1 + 4) + 0xc) != 0) {
-    if ((*(uint *)(*(int *)(param_1 + 4) + 0xd0) & 0xf0000) != 0) {
-      iVar2 = fn_8314309C(*(undefined4 *)(*(int *)(param_1 + 4) + 0xc),1,puVar1);
+  pkt->limit = DEV(self)->limit;
+  if (DEV(self)->voice != 0) {
+    if ((DEV(self)->flags & 0xf0000) != 0) {
+      hr = XamVoiceSubmitPacket(DEV(self)->voice, 1, pkt);
     }
   }
-  if ((*(int *)(*(int *)(param_1 + 4) + 0xc) == 0) || (iVar2 < 0)) {
-    *puVar1 = 0xc0000001;
-    puVar1[1] = puVar1[3];
+  if (DEV(self)->voice == 0 || hr < 0) {
+    pkt->status = 0xc0000001;
+    pkt->len = pkt->cap;
   }
-  param_2[1] = 0;
-  if (*(int *)(param_1 + 0x78) == 0) {
-    *(undefined4 **)(param_1 + 0x74) = param_2;
+  q->next = 0;
+  l = &self->list;
+  if (l->tail != 0) {
+    l->tail->next = q;
+  } else {
+    l->head = q;
   }
-  else {
-    *(undefined4 **)(*(int *)(param_1 + 0x78) + 4) = param_2;
-  }
-  *(undefined4 **)(param_1 + 0x78) = param_2;
-  return;
+  l->tail = q;
 }
-

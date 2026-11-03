@@ -1,76 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CFF040();
-extern int fn_82CFF298();
+extern void fn_82CFF040(void *, int, int);
+extern void fn_82CFF298(void *);
 
+struct Al_82CFF358;
+typedef struct AlVT_82CFF358 {
+  int p0, p4;
+  void (*f8)(struct Al_82CFF358 *, int, int);
+  int pc;
+  void (*f10)(struct Al_82CFF358 *, int, int, int);
+} AlVT_82CFF358;
+typedef struct Al_82CFF358 { AlVT_82CFF358 *vt; } Al_82CFF358;
+typedef struct Svc_82CFF358 { char pad[0x10]; Al_82CFF358 *al; } Svc_82CFF358;
+extern Svc_82CFF358 *fn_82CE5410(void);
 
-void fn_82CFF358(undefined8 param_1,undefined4 *param_2)
+typedef struct Hk_82CFF358 {
+  int *data;
+  int size;
+  int cap;
+} Hk_82CFF358;
+typedef struct Arr_82CFF358 {
+  int p0, p4;
+  Hk_82CFF358 h;
+} Arr_82CFF358;
 
+void fn_82CFF358(void *ctx, Arr_82CFF358 *a)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  int *piVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  longlong lVar7;
-  
-  uVar1 = param_2[3];
-  lVar7 = (ulonglong)uVar1 - 1;
-  if (0 < lVar7) {
-    iVar6 = 0;
+  int size = a->h.size;
+  int n = size - 1;
+  int off;
+  int e, k;
+  Al_82CFF358 *al;
+  if (n > 0) {
+    off = 0;
     do {
-      uVar4 = *(undefined4 *)(param_2[2] + iVar6);
-      fn_82CFF040(param_1,uVar4,*param_2);
-      uVar2 = *param_2;
-      iVar5 = fn_82CE5410();
-      (**(code **)(**(int **)(iVar5 + 0x10) + 8))(*(int **)(iVar5 + 0x10),uVar4,uVar2);
-      lVar7 = lVar7 + -1;
-      iVar6 = iVar6 + 4;
-    } while (lVar7 != 0);
+      e = *(int *)((char *)a->h.data + off);
+      fn_82CFF040(ctx, e, a->p0);
+      k = a->p0;
+      al = fn_82CE5410()->al;
+      al->vt->f8(al, e, k);
+      n--;
+      off += 4;
+    } while (n != 0);
   }
-  if (uVar1 != 0) {
-    uVar2 = *(undefined4 *)(uVar1 * 4 + param_2[2] + -4);
-    fn_82CFF040(param_1,uVar2,param_2[1]);
-    uVar4 = *param_2;
-    iVar6 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar6 + 0x10) + 8))(*(int **)(iVar6 + 0x10),uVar2,uVar4);
+  if (size != 0) {
+    e = *(int *)((char *)a->h.data + size * 4 - 4);
+    fn_82CFF040(ctx, e, a->p4);
+    k = a->p0;
+    al = fn_82CE5410()->al;
+      al->vt->f8(al, e, k);
   }
-  iVar6 = fn_82CE5410();
-  piVar3 = *(int **)(iVar6 + 0x10);
-  param_2[3] = 0;
-  if ((param_2[4] & 0x80000000) == 0) {
-    (**(code **)(*piVar3 + 0x10))(piVar3,param_2[2],param_2[4] & 0x3fffffff,4);
+  {
+    Hk_82CFF358 *h = &a->h;
+    al = fn_82CE5410()->al;
+    h->size = 0;
+    if ((h->cap & (int)0x80000000) == 0) {
+      al->vt->f10(al, (int)h->data, h->cap & 0x3fffffff, 4);
+    }
+    h->data = 0;
+    h->cap = (int)0x80000000;
   }
-  param_2[2] = 0;
-  param_2[4] = 0x80000000;
-  fn_82CFF298(param_2);
-  return;
+  fn_82CFF298(a);
 }
-

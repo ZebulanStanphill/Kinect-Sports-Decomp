@@ -34,15 +34,15 @@ extern unsigned int lbl_82037BF8;
 void fn_82954CC0(undefined4 *param_1)
 
 {
-  int iVar1;
-  longlong lVar2;
+  unsigned int iVar1;
+  int lVar2;
   int *piVar3;
   
   *param_1 = &lbl_82037BF8;
   fn_8265C990(param_1[0x44],0x24810000);
   fn_8265C990(param_1[0x4a],0x24810000);
   if ((int *)param_1[0x6d] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x6d] + 4))();
+    (*(void (**)(int))(*(int *)param_1[0x6d] + 4))(param_1[0x6d]);
     param_1[0x6d] = 0;
   }
   piVar3 = param_1 + 0x76;
