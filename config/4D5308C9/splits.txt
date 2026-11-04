@@ -66291,7 +66291,7 @@ auto_match/func_826F8A98.c:
 	.pdata      start:0x821F8E20 end:0x821F8E28
 	.text       start:0x826F8A98 end:0x826F8AF0
 
-auto_match/func_826F8AF0.c:
+auto_match/func_826F8AF0.cpp:
 	.pdata      start:0x821F8E28 end:0x821F8E30
 	.text       start:0x826F8AF0 end:0x826F8C18
 
@@ -148317,7 +148317,7 @@ auto_match/func_82D6BB68.c:
 	.pdata      start:0x82218540 end:0x82218548
 	.text       start:0x82D6BB68 end:0x82D6BBEC
 
-auto_match/func_82D6BBF0.c:
+auto_match/func_82D6BBF0.cpp:
 	.pdata      start:0x82218548 end:0x82218550
 	.text       start:0x82D6BBF0 end:0x82D6BD10
 
