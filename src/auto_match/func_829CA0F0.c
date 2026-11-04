@@ -25,31 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
+typedef struct { unsigned char b[0x34]; } B34_829CA0F0;
 
-
-void fn_829CA0F0(int param_1,int param_2)
-
+void fn_829CA0F0(int param_1, int param_2)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x10);
-  if (param_2 < 0) {
-    *(undefined4 *)(iVar1 + 0x124) = 0;
+  char *iVar1;
+
+  iVar1 = *(char **)(param_1 + 0x10);
+  if (param_2 >= 0) {
+    if (*(unsigned int *)(iVar1 + 0xec) != 0) {
+      *(int *)(iVar1 + 0x134) = 0;
+      *(int *)(iVar1 + 0xec) = 0;
+    }
+    if (*(unsigned int *)(iVar1 + 0x120) != 0) {
+      *(int *)(iVar1 + 0x138) = 0;
+      *(int *)(iVar1 + 0x120) = 0;
+    }
+    *(B34_829CA0F0 *)(iVar1 + 0x54) = *(B34_829CA0F0 *)(iVar1 + 0xbc);
+    *(B34_829CA0F0 *)(iVar1 + 0x88) = *(B34_829CA0F0 *)(iVar1 + 0xf0);
+    *(int *)(iVar1 + 0x124) = 0;
   }
   else {
-    if (*(int *)(iVar1 + 0xec) != 0) {
-      *(undefined4 *)(iVar1 + 0x134) = 0;
-      *(undefined4 *)(iVar1 + 0xec) = 0;
-    }
-    if (*(int *)(iVar1 + 0x120) != 0) {
-      *(undefined4 *)(iVar1 + 0x138) = 0;
-      *(undefined4 *)(iVar1 + 0x120) = 0;
-    }
-    memcpy(iVar1 + 0x54,iVar1 + 0xbc,0x34);
-    memcpy(iVar1 + 0x88,iVar1 + 0xf0,0x34);
-    *(undefined4 *)(iVar1 + 0x124) = 0;
+    *(int *)(iVar1 + 0x124) = 0;
   }
-  return;
 }
-

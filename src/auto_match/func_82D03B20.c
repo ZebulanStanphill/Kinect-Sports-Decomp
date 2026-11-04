@@ -27,31 +27,29 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82D03B20(int param_1)
-
+unsigned int fn_82D03B20(unsigned int param_1)
 {
-  uint uVar1;
-  longlong lVar2;
-  int iVar3;
-  int iVar4;
-  
+  unsigned int uVar1; unsigned char bit;
+  unsigned int lVar2;
+  unsigned int iVar3;
+  unsigned int iVar4;
+
   lVar2 = 0;
-  *(uint *)(*(int *)(param_1 + 0x10) + 4) = *(uint *)(param_1 + 0x14) | 1;
-  *(int *)(*(int *)(param_1 + 0x14) + *(int *)(param_1 + 0x10)) = *(int *)(param_1 + 0x14);
-  iVar3 = *(int *)(param_1 + 0xa8);
+  *(unsigned int *)(*(unsigned int *)(param_1 + 0x10) + 4) = *(unsigned int *)(param_1 + 0x14) | 1;
+  *(unsigned int *)(*(int *)(param_1 + 0x14) + *(int *)(param_1 + 0x10)) = *(unsigned int *)(param_1 + 0x14);
+  iVar3 = *(unsigned int *)(param_1 + 0xa8);
   if (iVar3 != param_1 + 0xa4) {
     do {
-      for (iVar4 = *(int *)(iVar3 + 0x10); iVar4 != *(int *)(iVar3 + 0x14) + -0x10;
+      for (iVar4 = *(unsigned int *)(iVar3 + 0x10); iVar4 != *(unsigned int *)(iVar3 + 0x14) - 0x10;
           iVar4 = (uVar1 & 0xfffffffc) + iVar4) {
-        uVar1 = *(uint *)(iVar4 + 4);
-        if ((uVar1 >> 1 & 1) != 0) {
-          lVar2 = ((ulonglong)uVar1 & 0xfffffffc) + lVar2;
+        uVar1 = *(unsigned int *)(iVar4 + 4);
+        bit = (unsigned char)(uVar1 >> 1 & 1);
+        if (bit != 0) {
+          lVar2 = (uVar1 & 0xfffffffc) + lVar2;
         }
       }
-      iVar3 = *(int *)(iVar3 + 4);
+      iVar3 = *(unsigned int *)(iVar3 + 4);
     } while (iVar3 != param_1 + 0xa4);
-    return lVar2;
   }
   return lVar2;
 }
-

@@ -25,38 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
-extern int fn_822C72E0();
+extern int fn_822ABA88(int, unsigned int);
+extern int fn_822C72E0(int, char *);
+extern unsigned int strlen(const char *);
 
-
-void fn_823609C0(int param_1,int param_2,char *param_3)
-
+void fn_823609C0(int param_1, int param_2, char *param_3)
 {
-  char cVar1;
   int *piVar2;
   int iVar3;
-  char *pcVar4;
-  ulonglong uVar5;
-  
-  uVar5 = 0;
+  unsigned int i;
+
+  i = 0;
   piVar2 = *(int **)(**(int **)(param_1 + 8) + param_2 * 4);
   iVar3 = *(int *)(piVar2[4] * 4 + *piVar2);
-  pcVar4 = param_3;
-  if (*(int *)(iVar3 + 8) != 0) {
+  if (*(unsigned int *)(iVar3 + 8) > 0) {
     do {
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      if ((int)pcVar4 - (int)param_3 != 1) {
-        iVar3 = fn_822ABA88(iVar3,uVar5);
-        fn_822C72E0(*(undefined4 *)(*(int *)(iVar3 + 0x114) + 0x20),param_3);
+      if (strlen(param_3) != 0) {
+        iVar3 = fn_822ABA88(iVar3, i);
+        fn_822C72E0(*(int *)(*(int *)(iVar3 + 0x114) + 0x20), param_3);
       }
-      uVar5 = uVar5 + 1;
+      i = i + 1;
       iVar3 = *(int *)(piVar2[4] * 4 + *piVar2);
-      pcVar4 = param_3;
-    } while ((uVar5 & 0xffffffff) < (ulonglong)*(uint *)(iVar3 + 8));
+    } while (i < *(unsigned int *)(iVar3 + 8));
   }
-  return;
 }
-

@@ -25,22 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
-extern int fn_823C3AE0();
-
+extern int fn_822AF138(int, int);
+extern int fn_823C3AE0(int);
 
 void fn_823DEDB8(int param_1)
-
 {
   int iVar1;
-  
+
   iVar1 = *(int *)(param_1 + 8);
-  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(iVar1 + 0xe24);
-  *(uint *)(param_1 + 0x10) = (uint)LZCOUNT(*(undefined4 *)(iVar1 + 0xe24)) >> 5;
+  *(int *)(param_1 + 0xc) = *(int *)(iVar1 + 0xe24);
+  *(unsigned int *)(param_1 + 0x10) = *(int *)(iVar1 + 0xe24) == 0;
   if (*(int *)(iVar1 + 0x9a0) == 0) {
     fn_823C3AE0(iVar1);
   }
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(*(undefined4 *)(*(int *)(param_1 + 0xc) * 4 + *(int *)(iVar1 + 0xc)),7);
+  fn_822AF138(*(int *)(*(int *)(param_1 + 0xc) * 4 + *(int *)(iVar1 + 0xc)), 7);
+  fn_822AF138(*(int *)(*(int *)(param_1 + 0x10) * 4 + *(int *)(iVar1 + 0xc)), 8);
 }
-

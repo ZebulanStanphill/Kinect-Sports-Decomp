@@ -25,49 +25,58 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int _blkmov();
-extern int fn_830358C8();
+extern int _blkmov(void *, void *, unsigned int);
+extern int fn_830358C8(unsigned int, unsigned int);
 
+typedef struct Pair_83031B90 { unsigned int key; int *val; } Pair_83031B90;
+typedef Pair_83031B90 P;
+typedef struct Vec_83031B90 { P *begin; P *end; } V;
 
-undefined8 fn_83031B90(int *param_1,ulonglong param_2)
-
+static __forceinline int **Find(V *v, unsigned int key)
 {
-  undefined4 *puVar1;
-  int *piVar2;
-  ulonglong uVar3;
-  uint *puVar5;
-  undefined4 *puVar6;
-  ulonglong uVar4;
-  
-  puVar1 = (undefined4 *)param_1[0x2b];
-  for (puVar6 = (undefined4 *)param_1[0x2a]; puVar6 != puVar1; puVar6 = puVar6 + 1) {
-    fn_830358C8(*puVar6,param_2);
+  P *e;
+  P *end;
+  int found;
+  end = v->end;
+  for (e = v->begin; e != end && e->key != key; e++) {
   }
-  for (puVar5 = (uint *)param_1[0x1f];
-      (puVar5 != (uint *)param_1[0x20] && ((ulonglong)*puVar5 != (param_2 & 0xffffffff)));
-      puVar5 = puVar5 + 2) {
+  found = e != end;
+  return found ? &e->val : 0;
+}
+
+int fn_83031B90(int *param_1, unsigned int param_2)
+{
+  unsigned int *pi;
+  unsigned int *pe;
+  int **v;
+  int *obj;
+  P *b;
+  P *end;
+  V *vec;
+
+  pi = (unsigned int *)param_1[0x2a];
+  pe = (unsigned int *)param_1[0x2b];
+  for (; pi != pe; pi++) {
+    fn_830358C8(*pi, param_2);
   }
-  puVar6 = (undefined4 *)(-(uint)((uint *)param_1[0x20] != puVar5) & (uint)(puVar5 + 1));
-  if (puVar6 != (undefined4 *)0x0) {
-    piVar2 = (int *)*puVar6;
-    (**(code **)(*piVar2 + 0x2c))(piVar2,0);
-    uVar4 = (ulonglong)(uint)param_1[0x20];
-    uVar3 = (ulonglong)(uint)param_1[0x1f];
-    if (uVar3 != uVar4) {
-      do {
-        if ((ulonglong)*(uint *)uVar3 == (param_2 & 0xffffffff)) break;
-        uVar3 = uVar3 + 8;
-      } while ((uVar3 & 0xffffffff) != uVar4);
-      if ((uVar3 & 0xffffffff) != uVar4) {
-        if ((uVar3 & 0xffffffff) < (uVar4 - 8 & 0xffffffff)) {
-          _blkmov(uVar3,uVar3 + 8,
-                       (((((uVar4 - 8) - uVar3) - 1 & 0xffffffff) >> 3) + 1) * 8 & 0xfffffff8);
-        }
-        param_1[0x20] = param_1[0x20] + -8;
-      }
+  vec = (V *)(param_1 + 0x1f);
+  v = Find(vec, param_2);
+  if (v != 0) {
+    obj = *v;
+    (*(void (**)(int *, int))(*obj + 0x2c))(obj, 0);
+    end = vec->end;
+    b = vec->begin;
+    for (; b != end; b++) {
+      if (b->key == param_2) break;
     }
-    (**(code **)(*param_1 + 8))(param_1);
+    if (b != vec->end) {
+      end = end - 1;
+      if (b < end) {
+        _blkmov(b, b + 1, ((((unsigned int)end - (unsigned int)b) - 1 >> 3) + 1) * 8);
+      }
+      vec->end = vec->end - 1;
+    }
+    (*(void (**)(int *))(*param_1 + 8))(param_1);
   }
   return 1;
 }
-

@@ -25,39 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82DB4770();
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+typedef struct { void *pad; unsigned int *current; void *pad2; unsigned int *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
+extern int fn_82DB4770(int, int, float *);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_82DB46B8(int param_1,undefined8 param_2,float *param_3)
-
+void fn_82DB46B8(int param_1, int param_2, float *param_3)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "LtMaintenance";
-    puVar1[3] = "StResetTime";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 4;
-  }
-  if (*(float *)(param_1 + 0xc) <= *param_3) {
-    fn_82DB4770(param_1,param_2,param_3);
-  }
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  return;
-}
+  TimerStream *stream;
+  unsigned int *e;
 
+  stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    e = stream->current;
+    e[0] = (unsigned int)"LtMaintenance";
+    e[3] = (unsigned int)"StResetTime";
+    e[1] = (unsigned int)__mftb();
+    stream->current = e + 4;
+  }
+  if (*param_3 >= *(float *)(param_1 + 0xc)) {
+    fn_82DB4770(param_1, param_2, param_3);
+  }
+  stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    e = stream->current;
+    e[0] = (unsigned int)"lt";
+    e[1] = (unsigned int)__mftb();
+    stream->current = e + 3;
+  }
+}

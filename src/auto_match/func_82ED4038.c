@@ -25,49 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
+extern unsigned int fn_8265C940(unsigned int, unsigned int);
+extern int fn_8265C990(unsigned int, unsigned int);
 
-
-void fn_82ED4038(int *param_1,uint param_2,int param_3)
-
+void fn_82ED4038(unsigned int *param_1, unsigned int param_2, unsigned int param_3)
 {
-  int iVar2;
-  longlong lVar1;
-  
+  unsigned int iVar2;
+  unsigned int sz;
+
   if (*param_1 != 0) {
-    fn_8265C990(*param_1,0x248c8000);
+    fn_8265C990(*param_1, 0x248c8000);
     *param_1 = 0;
   }
   if (param_1[1] != 0) {
-    fn_8265C990(param_1[1],0x248c8000);
+    fn_8265C990(param_1[1], 0x248c8000);
     param_1[1] = 0;
   }
   if (param_1[3] != 0) {
-    fn_8265C990(param_1[3],0x248c8000);
+    fn_8265C990(param_1[3], 0x248c8000);
     param_1[3] = 0;
   }
   param_1[0x1008] = param_2;
   param_1[0x1009] = param_3;
   param_1[0x100a] = param_2 >> 4;
-  iVar2 = (param_2 + 0xf >> 4) * (param_3 + 0xfU >> 4) * 4;
+  iVar2 = (param_2 + 0xf >> 4) * (param_3 + 0xf >> 4) * 4;
   param_1[0x1006] = iVar2;
   param_1[4] = -1;
-  param_1[0x1007] = iVar2 >> 1;
-  iVar2 = fn_8265C940(iVar2,0x248c8000);
-  *param_1 = iVar2;
-  lVar1 = ((ulonglong)(uint)param_1[0x1006] & 0x3fffffff) << 2;
-  if (0x3fffffff < (uint)param_1[0x1006]) {
-    lVar1 = -1;
+  param_1[0x1007] = (int)iVar2 >> 1;
+  *param_1 = fn_8265C940(iVar2, 0x248c8000);
+  sz = param_1[0x1006] * 4;
+  if (0x3fffffff < param_1[0x1006]) {
+    sz = -1;
   }
-  iVar2 = fn_8265C940(lVar1,0x248c8000);
-  param_1[1] = iVar2;
-  lVar1 = ((ulonglong)(uint)param_1[0x1006] & 0x3fffffff) << 2;
-  if (0x3fffffff < (uint)param_1[0x1006]) {
-    lVar1 = -1;
+  param_1[1] = fn_8265C940(sz, 0x248c8000);
+  if (param_1[0x1006] <= 0x3fffffff) {
+    sz = param_1[0x1006] * 4;
+  } else {
+    sz = -1;
   }
-  iVar2 = fn_8265C940(lVar1,0x248c8000);
-  param_1[3] = iVar2;
-  return;
+  param_1[3] = fn_8265C940(sz, 0x248c8000);
 }
-

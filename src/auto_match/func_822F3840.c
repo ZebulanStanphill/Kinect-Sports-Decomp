@@ -25,52 +25,49 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
-extern int fn_822F3B50();
-extern int fn_822F3EC0();
-extern int fn_82397F30();
-extern int fn_8288B760();
+extern int fn_822AF138(int, int);
+extern int fn_822F3B50(int, float);
+extern int fn_822F3EC0(int);
+extern int fn_82397F30(int);
+extern unsigned char fn_8288B760(unsigned int);
 
-
-void fn_822F3840(undefined8 param_1,int param_2)
-
+void fn_822F3840(int param_1, float param_2)
 {
   int *piVar1;
-  uint uVar2;
+  int uVar2;
   int iVar3;
-  undefined8 uVar4;
-  
-  piVar1 = *(int **)(param_2 + 0x30);
-  if ((piVar1 == (int *)0x0) || ((*piVar1 == 0 && (piVar1[1] == 0)))) {
-    if (*(int *)(*(int *)(param_2 + 0xc) + 0x168) == 0) {
-      uVar2 = *(uint *)(*(int *)(param_2 + 0xc) + 0x16c);
+  int uVar4;
+  unsigned int a;
+
+  piVar1 = *(int **)(param_1 + 0x30);
+  if ((piVar1 == 0) || ((*piVar1 == 0 && (piVar1[1] == 0)))) {
+    a = *(unsigned int *)(*(int *)(param_1 + 0xc) + 0x168);
+    if (a != 0) {
+      uVar2 = fn_8288B760(a);
     }
     else {
-      uVar2 = fn_8288B760();
-      uVar2 = uVar2 & 0xff;
+      uVar2 = *(int *)(*(int *)(param_1 + 0xc) + 0x16c);
     }
-    if (uVar2 == 0) {
-      iVar3 = fn_822F3EC0(param_2);
+    if (uVar2 != 0) {
+      iVar3 = fn_822F3B50(param_1, param_2);
     }
     else {
-      iVar3 = fn_822F3B50(param_1);
+      iVar3 = fn_822F3EC0(param_1);
     }
     if (iVar3 == 0) {
       return;
     }
   }
-  if (*(int *)(*(int *)(param_2 + 0x10) + 0x178) == 2) {
+  if (*(int *)(*(int *)(param_1 + 0x10) + 0x178) == 2) {
     return;
   }
-  iVar3 = fn_82397F30();
-  if ((iVar3 == 0) || (iVar3 = *(int *)(param_2 + 0xc), *(int *)(iVar3 + 0x24) != 0)) {
-    iVar3 = *(int *)(param_2 + 0xc);
-    uVar4 = 7;
-  }
-  else {
+  iVar3 = fn_82397F30(*(int *)(param_1 + 0x10));
+  if ((iVar3 != 0) && (iVar3 = *(int *)(param_1 + 0xc), *(int *)(iVar3 + 0x24) == 0)) {
     uVar4 = 6;
   }
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(*(undefined4 *)(iVar3 + 0x110),uVar4);
+  else {
+    iVar3 = *(int *)(param_1 + 0xc);
+    uVar4 = 7;
+  }
+  fn_822AF138(*(int *)(iVar3 + 0x110), uVar4);
 }
-

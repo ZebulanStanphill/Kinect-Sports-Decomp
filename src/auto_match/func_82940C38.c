@@ -25,38 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82F68CC0();
+extern unsigned int fn_8265C940(unsigned int, unsigned int);
+extern int fn_8265C990(unsigned int, unsigned int);
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-undefined8 fn_82940C38(int param_1,int param_2)
-
+int fn_82940C38(int param_1, int param_2)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint uVar3;
-  
-  uVar1 = *(uint *)(param_1 + 0x604);
-  uVar3 = uVar1;
-  if (uVar1 == 0) {
+  unsigned int uVar1;
+  unsigned int lVar2;
+  unsigned int uVar3;
+
+  uVar1 = *(unsigned int *)(param_1 + 0x604);
+  if (uVar1 != 0) {
+    uVar3 = uVar1;
+  } else {
     uVar3 = 0x400;
   }
-  if (uVar3 < (uint)(param_2 + *(int *)(param_1 + 0x600))) {
-    do {
-      uVar3 = uVar3 << 1;
-    } while (uVar3 < (uint)(param_2 + *(int *)(param_1 + 0x600)));
+  while ((unsigned int)(param_2 + *(int *)(param_1 + 0x600)) > uVar3) {
+    uVar3 = uVar3 << 1;
   }
   if (uVar3 != uVar1) {
-    lVar2 = fn_8265C940(uVar3,0x24810000);
+    lVar2 = fn_8265C940(uVar3, 0x24810000);
     if (lVar2 == 0) {
-      return 0xffffffff8007000e;
+      return 0x8007000e;
     }
-    fn_82F68CC0(lVar2,*(undefined4 *)(param_1 + 0x5fc),*(undefined4 *)(param_1 + 0x600));
-    fn_8265C990(*(undefined4 *)(param_1 + 0x5fc),0x24810000);
-    *(int *)(param_1 + 0x5fc) = (int)lVar2;
-    *(uint *)(param_1 + 0x604) = uVar3;
+    memcpy((void *)lVar2, *(void **)(param_1 + 0x5fc), *(unsigned int *)(param_1 + 0x600));
+    fn_8265C990(*(unsigned int *)(param_1 + 0x5fc), 0x24810000);
+    *(unsigned int *)(param_1 + 0x5fc) = lVar2;
+    *(unsigned int *)(param_1 + 0x604) = uVar3;
   }
   return 0;
 }
-

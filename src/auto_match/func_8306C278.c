@@ -25,42 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
 extern int fn_82A2B760();
 extern unsigned int lbl_8315D3D0;
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_60;
 
+typedef struct { unsigned char a[16]; unsigned __int64 v[7]; } Loc_8306C278;
 
-undefined8
-fn_8306C278(undefined8 param_1,undefined8 *param_2,undefined8 *param_3,undefined8 *param_4)
-
+int fn_8306C278(int param_1, unsigned __int64 *param_2, unsigned __int64 *param_3, unsigned __int64 *param_4)
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined1 auStack_70 [16];
-  undefined8 uStack_60;
-  undefined8 uStack_58;
-  undefined8 uStack_50;
-  
-  iVar2 = (**(code **)(lbl_8315D3D0 + 0x20))(param_1,auStack_70,&uStack_60,0x38,0x22);
-  if (iVar2 < 0) {
-    fn_82A2B760();
-    uVar1 = 0;
-  }
-  else {
-    if (param_2 != (undefined8 *)0x0) {
-      *param_2 = uStack_60;
-    }
-    if (param_3 != (undefined8 *)0x0) {
-      *param_3 = uStack_58;
-    }
-    if (param_4 != (undefined8 *)0x0) {
-      *param_4 = uStack_50;
-    }
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+  Loc_8306C278 l;
 
+  iVar2 = (*(int (**)(int, void *, void *, int, int))(lbl_8315D3D0 + 0x20))(param_1, l.a, l.v, 0x38, 0x22);
+  if (iVar2 >= 0) {
+    if (param_2 != 0) {
+      *param_2 = l.v[0];
+    }
+    if (param_3 != 0) {
+      *param_3 = l.v[1];
+    }
+    if (param_4 != 0) {
+      *param_4 = l.v[2];
+    }
+    return 1;
+  }
+  fn_82A2B760();
+  return 0;
+}

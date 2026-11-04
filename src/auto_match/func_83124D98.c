@@ -25,37 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82488FB8();
-extern int fn_82F63EC8();
-extern unsigned int lbl_83296188;
-
-
+extern int fn_82488FB8(int *);
+extern int atexit(void (*)(void));
+extern void fn_8313F3F0(void);
+extern int lbl_832960A0[];
+typedef struct { int a[8]; int b; int c; int d; int pad; } E_83124D98;
 void fn_83124D98(void)
-
 {
-  longlong lVar1;
-  undefined4 *puVar2;
-  
-  lVar1 = 3;
-  puVar2 = (undefined4 *)0x832960f0;
-  do {
-    puVar2[-2] = 0;
-    puVar2[-1] = 0;
-    *puVar2 = 0;
-    puVar2[-10] = 0;
-    puVar2[-9] = 0;
-    puVar2[-8] = 0;
-    puVar2[-7] = 0;
-    puVar2[-6] = 0;
-    puVar2[-5] = 0;
-    puVar2[-4] = 0;
-    puVar2[-3] = 0;
-    fn_82488FB8(puVar2 + -2);
-    lVar1 = lVar1 + -1;
-    puVar2 = puVar2 + 0xc;
-  } while (-1 < lVar1);
-  lbl_83296188 = 0;
-  fn_82F63EC8(0xffffffff8313f3f0);
-  return;
+  int i;
+  E_83124D98 *e;
+  e = (E_83124D98 *)(lbl_832960A0 + 10);
+  for (i = 3; i >= 0; i--) {
+    e->b = 0;
+    e->c = 0;
+    e->d = 0;
+    e->a[0] = 0; e->a[1] = 0; e->a[2] = 0; e->a[3] = 0; e->a[4] = 0; e->a[5] = 0; e->a[6] = 0; e->a[7] = 0;
+    fn_82488FB8(&e->b);
+    e++;
+  }
+  lbl_832960A0[0x3a] = 0;
+  atexit(fn_8313F3F0);
 }
-

@@ -1,49 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_830516C8(int param_1,int param_2)
-
-{
-  int iVar1;
-  
-  iVar1 = param_1 + 0x5c;
-  RtlEnterCriticalSection(iVar1);
-  if (*(int *)(param_1 + 0x58) == 0) {
-    *(int *)(param_1 + 0x58) = param_2;
-    *(undefined4 *)(param_2 + 0xc) = 0;
-    RtlLeaveCriticalSection(iVar1);
-  }
-  else {
-    *(int *)(param_2 + 0xc) = *(int *)(param_1 + 0x58);
-    *(int *)(param_1 + 0x58) = param_2;
-    RtlLeaveCriticalSection(iVar1);
-  }
-  return;
-}
-
+typedef struct Node_830516C8 { char pad[12]; struct Node_830516C8 *next; } Node_830516C8;
+typedef struct Obj_830516C8 { char pad[0x58]; Node_830516C8 *head; char lock[32]; } Obj_830516C8;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+void fn_830516C8(Obj_830516C8 *o,Node_830516C8 *n) { void *lock=o->lock; Node_830516C8 *h; RtlEnterCriticalSection(lock); h=o->head; if(!h) {o->head=n; n->next=0;}else{n->next=h;o->head=n;} RtlLeaveCriticalSection(lock); }

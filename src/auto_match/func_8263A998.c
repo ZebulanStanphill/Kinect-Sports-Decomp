@@ -30,40 +30,24 @@ extern int fn_82A1DDC0();
 extern int memcpy();
 
 
-void fn_8263A998(int param_1,undefined8 param_2)
+extern int memcmp(const void *, const void *, unsigned);
+extern int KeGetCurrentProcessType(void);
 
+void fn_8263A998(int param_1, int param_2)
 {
-  byte bVar1;
-  byte bVar2;
-  int iVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  byte abStack_620 [1520];
-  byte abStack_20 [8];
-  
-  fn_8264DB08(abStack_620,param_2,0);
-  pbVar6 = (byte *)(param_1 + 0x3b70);
-  pbVar5 = abStack_620;
-  pbVar4 = pbVar6;
-  do {
-    bVar1 = *pbVar5;
-    bVar2 = *pbVar4;
-    if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-    pbVar5 = pbVar5 + 1;
-    pbVar4 = pbVar4 + 1;
-  } while (pbVar5 != abStack_20);
-  if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-    iVar3 = KeGetCurrentProcessType();
-    if (iVar3 != 2) {
-      if ((*(int *)(param_1 + 0x5e6c) != 0) && ((*(uint *)(param_1 + 0x5e70) & 0x80000000) == 0)) {
-        fn_82A1DDC0(*(int *)(param_1 + 0x5e6c),pbVar6,0x600);
-      }
-      *(uint *)(param_1 + 0x5e70) = *(uint *)(param_1 + 0x5e70) | 0x80000000;
-    }
-    memcpy(pbVar6,abStack_620,0x600);
-    *(uint *)(param_1 + 0x421c) = *(uint *)(param_1 + 0x421c) | 2;
-  }
-  return;
-}
+  unsigned char buf[0x600];
+  unsigned char *dst;
 
+  fn_8264DB08(buf, param_2, 0);
+  dst = (unsigned char *)(param_1 + 0x3b70);
+  if (memcmp(buf, dst, 0x600) != 0) {
+    if (KeGetCurrentProcessType() != 2) {
+      if (*(unsigned int *)(param_1 + 0x5e6c) != 0 && (*(unsigned int *)(param_1 + 0x5e70) & 0x80000000) == 0) {
+        fn_82A1DDC0(*(int *)(param_1 + 0x5e6c), dst, 0x600);
+      }
+      *(unsigned int *)(param_1 + 0x5e70) = *(unsigned int *)(param_1 + 0x5e70) | 0x80000000;
+    }
+    memcpy(dst, buf, 0x600);
+    *(unsigned int *)(param_1 + 0x421c) = *(unsigned int *)(param_1 + 0x421c) | 2;
+  }
+}

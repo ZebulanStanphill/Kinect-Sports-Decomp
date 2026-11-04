@@ -25,30 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8279A9F8();
+extern unsigned int fn_8279A9F8();
 extern int fn_827A8628();
 
 
-undefined8 fn_8279ADE8(int param_1,ulonglong param_2)
-
+int fn_8279ADE8(int param_1, unsigned int param_2)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  
-  uVar3 = 0;
+  int piVar1;
+  unsigned int uVar2;
+  int r;
+
+  r = 0;
   uVar2 = fn_8279A9F8();
-  if ((uVar2 & 0xffffffff) < (param_2 & 0xffffffff)) {
+  if (param_2 > uVar2) {
     param_2 = uVar2;
   }
-  if ((ulonglong)*(uint *)(param_1 + 0x4c) != (param_2 & 0xffffffff)) {
-    fn_827A8628(param_1 + 0x24,param_2);
-    piVar1 = *(int **)(param_1 + 0x10);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 8))(piVar1,param_1,param_2);
+  if (*(unsigned int *)(param_1 + 0x4c) != param_2) {
+    fn_827A8628(param_1 + 0x24, param_2);
+    piVar1 = *(int *)(param_1 + 0x10);
+    if (piVar1 != 0) {
+      (*(void (**)(int, int, unsigned))(*(int *)piVar1 + 8))(piVar1, param_1, param_2);
     }
-    uVar3 = 1;
+    r = 1;
   }
-  return uVar3;
+  return r;
 }
-
