@@ -252127,7 +252127,7 @@
         ]
       },
       "auto_match/func_82E576A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
