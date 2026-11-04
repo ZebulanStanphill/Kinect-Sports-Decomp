@@ -25,63 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_822315A0();
-extern int fn_82242A30();
-extern int fn_82365BD8();
-extern int fn_82522588();
-extern int fn_828AAF70();
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
+typedef struct { int px; int *rep; } Sp;
+typedef struct Inner { struct InnerVt *vt; } Inner;
+struct InnerVt { void *f0, *f4; int (*f8)(Inner *); };
+typedef struct { int pad[14]; int m38; } Target;
+typedef struct {
+  int pad0; Sp sp; int pad0c; int m10; int m14; unsigned char m18; unsigned char m19; char pad1a[6]; int m20;
+} Self;
+extern void fn_822315A0(int *);
+extern void fn_82242A30(Self *);
+extern Sp *fn_82365BD8(Sp *, Sp *);
+extern void fn_82522588(Sp *, Sp *);
+extern void fn_828AAF70(int, int);
 
-
-void fn_82242928(int param_1,int param_2,undefined4 param_3)
-
+/* std::swap: the shared_ptr swap (_Ptr_base::_Swap) swaps rep, then px, each
+   through the helper; open-coded, the second swap gets r10/r11 the other way. */
+static __forceinline void swp(int *a, int *b) { int tt = *a; *a = *b; *b = tt; }
+void fn_82242928(Self *self, Sp *other, int val)
 {
-  undefined4 uVar1;
-  bool bVar2;
-  undefined4 *puVar4;
-  longlong lVar3;
-  undefined4 *puVar5;
-  int iStack_40;
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  
-  puVar5 = (undefined4 *)(param_1 + 4);
-  if ((*(int *)(param_1 + 4) != 0) && (*(char *)(param_1 + 0x18) == '\0')) {
-    bVar2 = true;
-    if (*(char *)(param_1 + 0x19) == '\0') goto LAB_82242970;
+  Sp *sp = &self->sp;
+  Sp tmp;
+  Sp out;
+  Sp *t;
+  int m;
+  int *r;
+  unsigned char need = sp->px != 0 && self->m18 == 0 && self->m19 == 0;
+  if (need) fn_82242A30(self);
+  t = fn_82365BD8(&tmp, other);
+  swp((int *)&t->rep, (int *)&sp->rep);
+  swp((int *)&t->px, (int *)&sp->px);
+  if (tmp.rep != 0) fn_822315A0(tmp.rep);
+  self->m14 = val;
+  self->m20 = self->m20 + 1;
+  fn_82522588(&out, sp);
+  m = ((Target *)out.px)->m38;
+  if (m != 0) {
+    int o = (*(struct InnerVt **)m)->f8((Inner *)m);
+    int a = o + 0x1ec;
+    fn_828AAF70(a, 0);
   }
-  bVar2 = false;
-LAB_82242970:
-  if (bVar2) {
-    fn_82242A30(param_1);
-  }
-  puVar4 = (undefined4 *)fn_82365BD8(auStack_38,param_2);
-  uVar1 = puVar4[1];
-  puVar4[1] = *(undefined4 *)(param_1 + 8);
-  *(undefined4 *)(param_1 + 8) = uVar1;
-  uVar1 = *puVar4;
-  *puVar4 = *puVar5;
-  *puVar5 = uVar1;
-  if (iStack_34 != 0) {
-    fn_822315A0();
-  }
-  *(undefined4 *)(param_1 + 0x14) = param_3;
-  *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x20) + 1;
-  fn_82522588(&iStack_40,puVar5);
-  if (*(int **)(iStack_40 + 0x38) != (int *)0x0) {
-    lVar3 = (**(code **)(**(int **)(iStack_40 + 0x38) + 8))();
-    fn_828AAF70(lVar3 + 0x1ec,0);
-  }
-  if (iStack_3c != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_2 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
+  if (out.rep != 0) fn_822315A0(out.rep);
+  if (other->rep != 0) fn_822315A0(other->rep);
 }
-

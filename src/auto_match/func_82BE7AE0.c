@@ -25,32 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_82BE5240();
-extern int fn_82BEE7D0();
-extern int fn_82BF2D50();
+extern int fn_82BE5240(int, int, const char *, ...);
+extern int fn_82BEE7D0(int, void *, void *, int);
+extern int fn_82BF2D50(int);
 
 
-undefined8 fn_82BE7AE0(int param_1)
-
+extern char lbl_82196582[];
+/* fn_82BE5240 is a variadic (ctx, code, fmt, ...) status setter. The two field
+   resets are written in each arm: MSVC hoists them into one block but keeps the
+   zero register live, which is why the original builds the string in r10. */
+unsigned int fn_82BE7AE0(int param_1)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 auStack_30 [4];
-  undefined1 auStack_20 [16];
-  
-  if (*(int *)(param_1 + 0x9c) != 0) {
-    auStack_30[0] = *(undefined4 *)(param_1 + 0x90);
-    fn_82BEE7D0(2,auStack_30,auStack_20,0x10);
-    iVar2 = fn_82BF2D50(param_1 + 0xa0);
-    *(undefined4 *)(param_1 + 0x9c) = 0;
-    *(undefined4 *)(param_1 + 0x90) = 0;
-    if (iVar2 == 0) {
-      uVar1 = fn_82BE5240(param_1,800,0xffffffff82196582);
-      return uVar1;
-    }
+  int t[4];
+  char buf[16];
+  if (*(int *)(param_1 + 0x9c) == 0) return 0;
+  t[0] = *(int *)(param_1 + 0x90);
+  fn_82BEE7D0(2, t, buf, 0x10);
+  if (fn_82BF2D50(param_1 + 0xa0) != 0) {
+    *(int *)(param_1 + 0x9c) = 0;
+    *(int *)(param_1 + 0x90) = 0;
+    return 0;
   }
-  return 0;
+  *(int *)(param_1 + 0x9c) = 0;
+  *(int *)(param_1 + 0x90) = 0;
+  return fn_82BE5240(param_1, 800, lbl_82196582);
 }
-

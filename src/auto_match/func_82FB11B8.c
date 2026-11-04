@@ -25,45 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FAF408();
-extern int fn_83008600();
-extern int fn_830087C8();
-extern int fn_83029968();
+extern void *fn_82FA5060(unsigned int, int);
+extern int fn_82FAF408(void *, int);
+extern int fn_83008600(void *);
+extern int fn_830087C8(void *, int, int, int, int);
+extern void **fn_83029968(void *, unsigned int);
 extern unsigned int lbl_8216D2CC;
 extern unsigned int lbl_831BC768;
 
-
-undefined8
-fn_82FB11B8(longlong param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5)
-
+int fn_82FB11B8(char *self, int p2, int p3, int p4, int p5)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  
-  piVar1 = (int *)fn_83029968(param_1 + 0x88);
-  if (piVar1 != (int *)0x0) {
-    puVar2 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x2c);
-    if (puVar2 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
+  void **slot;
+  unsigned int *obj;
+  unsigned int *mem;
+
+  slot = fn_83029968(self + 0x88, p2);
+  if (slot != 0) {
+    mem = (unsigned int *)fn_82FA5060(lbl_831BC768, 0x2c);
+    if (mem != 0) {
+      fn_83008600(mem);
+      mem[10] = 0;
+      mem[0] = (unsigned int)&lbl_8216D2CC;
+      obj = mem;
+    } else {
+      obj = 0;
     }
-    else {
-      fn_83008600();
-      puVar2[10] = 0;
-      *puVar2 = &lbl_8216D2CC;
+    *slot = obj;
+    if (obj != 0) {
+      fn_830087C8(obj, p2, p3, p4, p5);
+    } else {
+      fn_82FAF408(self + 0x88, p2);
     }
-    *piVar1 = (int)puVar2;
-    if (puVar2 == (undefined4 *)0x0) {
-      fn_82FAF408(param_1 + 0x88,param_2);
-    }
-    else {
-      fn_830087C8(puVar2,param_2,param_3,param_4,param_5);
-    }
-    if (*piVar1 != 0) {
+    if (*slot != 0) {
       return 1;
     }
   }
   return 2;
 }
-
