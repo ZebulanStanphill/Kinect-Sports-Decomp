@@ -1,101 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_5c;
-extern unsigned int *auStack_60;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_82695750();
-extern int fn_82696330();
-extern int fn_826A5E30();
-extern int fn_826B14D8();
-extern int fn_82721A58();
-extern int fn_82721AE0();
-extern unsigned int iStack_50;
-extern unsigned int uStack_4c;
+typedef struct Ctx_82722398 Ctx_82722398;
+typedef struct Args_82722398 { Ctx_82722398 *ctx; unsigned char kind; } Args_82722398;
+typedef struct Res_82722398 { void *p; int q; unsigned char b; } Res_82722398;
+typedef struct Obj_82722398 { int pad[2]; unsigned rc; } Obj_82722398;
+typedef struct Tmp_82722398 { char data[16]; } Tmp_82722398;
+typedef struct Vt_82722398 {
+    char pad[0x28];
+    void (*f28)(void *, Args_82722398 *, void *, Tmp_82722398 *, unsigned char *);
+} Vt_82722398;
+typedef struct Sub_82722398 { int pad[4]; Vt_82722398 *vt; } Sub_82722398;
+struct Ctx_82722398 {
+    char pad[0x74];
+    char f50[0x278 - 0x74];
+    char f278[0x284 - 0x278];
+    int f284;
+    void *heap;
+    char pad2[0x2a0 - 0x28c];
+    Sub_82722398 *f2a0;
+};
 
+extern void *fn_8267B890(void *, int, int);
+extern void fn_826824B0(void *);
+extern Tmp_82722398 *fn_82695750(Tmp_82722398 *, Res_82722398 *);
+extern void fn_82696330(Tmp_82722398 *);
+extern void fn_826A5E30(void *, int *, Obj_82722398 **);
+extern int fn_826B14D8(Ctx_82722398 *, int);
+extern void *fn_82721AE0(void *, Args_82722398 *, int);
+extern Obj_82722398 *fn_82721A58(void *, Args_82722398 *, int, Res_82722398 *);
 
-/* WARNING: Type propagation algorithm not settling */
-
-undefined4 * fn_82722398(undefined4 *param_1,int param_2)
-
+Res_82722398 *fn_82722398(Res_82722398 *res, Ctx_82722398 *ctx)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  undefined4 uVar6;
-  longlong lVar4;
-  undefined8 uVar5;
-  uint uVar7;
-  undefined1 auStack_60 [4];
-  uint auStack_5c [3];
-  int iStack_50;
-  undefined1 uStack_4c;
-  undefined1 auStack_40 [16];
-  
-  uStack_4c = 8;
-  iStack_50 = param_2;
-  uVar3 = fn_8267B890(*(undefined4 *)(param_2 + 0x288),0x58,0);
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar6 = 0;
-  }
-  else {
-    uVar6 = fn_82721AE0(uVar3,&iStack_50,*(undefined4 *)(param_2 + 0x284));
-  }
-  *param_1 = uVar6;
-  *(undefined1 *)(param_1 + 2) = 0;
-  param_1[1] = 0;
-  lVar4 = fn_8267B890(*(undefined4 *)(param_2 + 0x288),0x50,0);
-  if (lVar4 == 0) {
-    uVar7 = 0;
-  }
-  else {
-    uVar5 = fn_826B14D8(param_2,1);
-    uVar7 = fn_82721A58(lVar4,&iStack_50,uVar5,param_1);
-  }
-  if (uVar7 != 0) {
-    *(uint *)(uVar7 + 8) = *(int *)(uVar7 + 8) + 1U & 0x8fffffff;
-  }
-  auStack_5c[1] = 0x1b;
-  auStack_5c[0] = uVar7;
-  fn_826A5E30(param_2 + 0x278,auStack_5c + 1,auStack_5c);
-  if (auStack_5c[0] != 0) {
-    fn_826824B0();
-  }
-  auStack_60[0] = 0;
-  iVar1 = *(int *)(param_2 + 0x2a0);
-  iVar2 = *(int *)(iVar1 + 0x10);
-  uVar5 = fn_82695750(auStack_40,param_1);
-  (**(code **)(iVar2 + 0x28))(iVar1 + 0x10,&iStack_50,param_2 + 0x74,uVar5,auStack_60);
-  fn_82696330(auStack_40);
-  if (uVar7 != 0) {
-    fn_826824B0(uVar7);
-  }
-  return param_1;
+    Args_82722398 a;
+    void *m;
+    void *m2;
+    Obj_82722398 *o;
+    Obj_82722398 *tp;
+    int tk;
+    unsigned char flag;
+    Tmp_82722398 buf;
+    a.ctx = ctx;
+    a.kind = 8;
+    m = fn_8267B890(ctx->heap, 0x58, 0);
+    res->p = m != 0 ? fn_82721AE0(m, &a, ctx->f284) : 0;
+    res->b = 0;
+    res->q = 0;
+    m2 = fn_8267B890(ctx->heap, 0x50, 0);
+    o = m2 != 0 ? fn_82721A58(m2, &a, fn_826B14D8(ctx, 1), res) : 0;
+    if (o != 0)
+        o->rc = o->rc + 1 & 0x8fffffff;
+    tp = o;
+    tk = 0x1b;
+    fn_826A5E30(ctx->f278, &tk, &tp);
+    if (tp != 0)
+        fn_826824B0(tp);
+    flag = 0;
+    {
+        Sub_82722398 *s = ctx->f2a0;
+        Vt_82722398 *vt = s->vt;
+        vt->f28((char *)s + 0x10, &a, ctx->f50, fn_82695750(&buf, res), &flag);
+    }
+    fn_82696330(&buf);
+    if (o != 0)
+        fn_826824B0(o);
+    return res;
 }
-

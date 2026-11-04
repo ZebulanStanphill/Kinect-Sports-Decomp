@@ -1,55 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82681F88();
-extern int fn_826BE840();
-extern int fn_826C3290();
+extern void fn_826BE840(void *);
+extern void fn_826C3290(void *);
+extern void fn_82681F88(void *);
 
+typedef struct { int *data; unsigned n; } Vec_8271CA10;
+typedef struct {
+  char pad[0x44];
+  char a[0xc];
+  char b[0xc];
+  Vec_8271CA10 *vec;
+} Obj_8271CA10;
 
-void fn_8271CA10(int param_1)
-
+void fn_8271CA10(Obj_8271CA10 *o)
 {
-  ulonglong uVar1;
-  int iVar2;
-  
-  fn_826BE840();
-  fn_826C3290(param_1 + 0x44);
-  fn_826C3290(param_1 + 0x50);
-  if ((*(int *)(param_1 + 0x5c) != 0) &&
-     (uVar1 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x5c) + 4), uVar1 != 0)) {
-    iVar2 = 0;
-    do {
-      if (*(int *)(**(int **)(param_1 + 0x5c) + iVar2) != 0) {
-        fn_82681F88();
+  unsigned i, n;
+  fn_826BE840(o);
+  fn_826C3290(o->a);
+  fn_826C3290(o->b);
+  if (o->vec != 0) {
+    n = o->vec->n;
+    if (n != 0) {
+      for (i = 0; i < n; i++) {
+        int *e = &o->vec->data[i];
+        if (*e != 0) fn_82681F88((void *)*e);
       }
-      uVar1 = uVar1 - 1;
-      iVar2 = iVar2 + 4;
-    } while (uVar1 != 0);
+    }
   }
-  return;
 }
-
