@@ -1,0 +1,3 @@
+extern "C" {
+extern void fn_82C06348(void *);extern char lbl_820ECDE0[];typedef struct Triple_82C0BF28{int a,b,c;} Triple_82C0BF28;typedef struct Object_82C0BF28 {void *v;char pad[0x28];Triple_82C0BF28 a,b;int c;} Object_82C0BF28;Object_82C0BF28 *fn_82C0BF28(Object_82C0BF28 *p){fn_82C06348(p);Triple_82C0BF28 *q=&p->b,*r=&p->a;q->a=0;p->b.b=0;q->c=0;p->v=lbl_820ECDE0;p->a.a=0;p->a.b=0;p->a.c=0;p->c=0;return p;}
+}

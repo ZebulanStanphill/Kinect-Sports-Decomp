@@ -1,0 +1,3 @@
+extern "C" {
+extern void fn_8268D758(void*);extern void fn_8268CC00(void*);typedef struct Tail_826C6248 {float f;int g,h;short i;char j,k;} Tail_826C6248;typedef struct Object_826C6248{int a;char x[0x20],y[0x18];Tail_826C6248 t;} Object_826C6248;Object_826C6248 *fn_826C6248(Object_826C6248 *p){p->a=0;fn_8268D758(p->x);fn_8268CC00(p->y);Tail_826C6248 *q=&p->t;p->t.h=0x40000;q->k=0;q->g=0;q->f=0.0f;q->i=0;q->j=0;return p;}
+}

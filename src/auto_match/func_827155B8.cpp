@@ -1,0 +1,1 @@
+extern "C" void fn_8268CC00(void*);extern "C" void fn_8268D758(void*);struct Tail_827155B8{int flags;char pad[8];char byte;};struct Object_827155B8{int zero;char a[0x18],b[0x20];Tail_827155B8 t;};extern "C" Object_827155B8 *fn_827155B8(Object_827155B8 *p){p->zero=0;fn_8268CC00(p->a);fn_8268D758(p->b);Tail_827155B8 *q=&p->t;q->flags=0x40000;p->t.byte=0;return p;}

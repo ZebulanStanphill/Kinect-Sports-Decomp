@@ -1,0 +1,1 @@
+extern "C" void fn_828AAF70(void *,void *);struct Object_828A9338{virtual void vf00();virtual void vf04();virtual char *vf08();};extern "C" void fn_828A9338(Object_828A9338 *p,void *q){fn_828AAF70(p->vf08()+0x144,q);}

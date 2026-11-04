@@ -1,0 +1,3 @@
+extern "C" {
+typedef struct Item_82755C20{char pad[0x154];int value;}Item_82755C20;typedef struct Entry_82755C20{Item_82755C20 *item;int pad;}Entry_82755C20;typedef struct Value_82755C20{int v;}Value_82755C20;typedef struct Object_82755C20{Entry_82755C20 *entries;unsigned count;int x,y;Value_82755C20 value;void SetValue(int *in);}Object_82755C20;extern void fn_827AECA8(int,int *);static __forceinline void set(Value_82755C20 *p,int *v){p->v=*v;}}
+void Object_82755C20::SetValue(int *in){Object_82755C20 *p=this;Value_82755C20 *v=&p->value;set(v,in);for(unsigned i=0,off=0;i<p->count;i++,off+=8){int x=p->entries[i].item->value;if(x)fn_827AECA8(x,&v->v);}}
