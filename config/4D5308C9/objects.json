@@ -27724,8 +27724,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82361798.c": {
-        "status": "NonMatching",
+      "auto_match/func_82361798.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -42448,8 +42448,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_8242EB60.c": {
-        "status": "NonMatching",
+      "auto_match/func_8242EB60.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -98178,8 +98178,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_826F8CC0.c": {
-        "status": "NonMatching",
+      "auto_match/func_826F8CC0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -147152,8 +147152,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_8288DFB8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8288DFB8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -147164,8 +147164,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_8288E0C8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8288E0C8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -149000,14 +149000,14 @@
           "/O1"
         ]
       },
-      "auto_match/func_8289F160.c": {
-        "status": "NonMatching",
+      "auto_match/func_8289F160.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_8289F1E8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8289F1E8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -155001,8 +155001,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_828CD0D8.c": {
-        "status": "NonMatching",
+      "auto_match/func_828CD0D8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

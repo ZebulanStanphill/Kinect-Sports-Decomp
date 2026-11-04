@@ -18375,7 +18375,7 @@ auto_match/func_823616B0.cpp:
 	.pdata      start:0x821E4EA8 end:0x821E4EB0
 	.text       start:0x823616B0 end:0x82361794
 
-auto_match/func_82361798.c:
+auto_match/func_82361798.cpp:
 	.pdata      start:0x821E4EB0 end:0x821E4EB8
 	.text       start:0x82361798 end:0x82361860
 
@@ -28522,7 +28522,7 @@ auto_match/func_8242EA78.cpp:
 	.pdata      start:0x821E9248 end:0x821E9250
 	.text       start:0x8242EA78 end:0x8242EB5C
 
-auto_match/func_8242EB60.c:
+auto_match/func_8242EB60.cpp:
 	.pdata      start:0x821E9250 end:0x821E9258
 	.text       start:0x8242EB60 end:0x8242EC28
 
@@ -66299,7 +66299,7 @@ auto_match/func_826F8C18.c:
 	.pdata      start:0x821F8E30 end:0x821F8E38
 	.text       start:0x826F8C18 end:0x826F8CC0
 
-auto_match/func_826F8CC0.c:
+auto_match/func_826F8CC0.cpp:
 	.pdata      start:0x821F8E38 end:0x821F8E40
 	.text       start:0x826F8CC0 end:0x826F8DE8
 
@@ -96366,13 +96366,13 @@ auto_match/func_8288DF40.c:
 	.pdata      start:0x82203E10 end:0x82203E18
 	.text       start:0x8288DF40 end:0x8288DFB4
 
-auto_match/func_8288DFB8.c:
+auto_match/func_8288DFB8.cpp:
 	.text       start:0x8288DFB8 end:0x8288E03C
 
 auto_match/func_8288E040.c:
 	.text       start:0x8288E040 end:0x8288E0C4
 
-auto_match/func_8288E0C8.c:
+auto_match/func_8288E0C8.cpp:
 	.text       start:0x8288E0C8 end:0x8288E14C
 
 auto_match/func_8288E150.c:
@@ -97510,10 +97510,10 @@ auto_match/func_8289F0B8.c:
 	.pdata      start:0x822045B0 end:0x822045B8
 	.text       start:0x8289F0B8 end:0x8289F160
 
-auto_match/func_8289F160.c:
+auto_match/func_8289F160.cpp:
 	.text       start:0x8289F160 end:0x8289F1E4
 
-auto_match/func_8289F1E8.c:
+auto_match/func_8289F1E8.cpp:
 	.text       start:0x8289F1E8 end:0x8289F26C
 
 auto_match/func_8289F270.c:
@@ -101236,7 +101236,7 @@ auto_match/func_828CD078.cpp:
 	.pdata      start:0x82205DB0 end:0x82205DB8
 	.text       start:0x828CD078 end:0x828CD0D4
 
-auto_match/func_828CD0D8.c:
+auto_match/func_828CD0D8.cpp:
 	.text       start:0x828CD0D8 end:0x828CD15C
 
 auto_match/func_828CD160.c:
