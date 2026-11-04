@@ -1,55 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C0608();
+typedef struct Sub_826D2390 { void *vt; int a, b; unsigned char c; int d, e; unsigned char f; int g; } Sub_826D2390;
+typedef struct Obj_826D2390 { void *vt0; int pad[3]; void *vt4; int pad2[9]; Sub_826D2390 s; } Obj_826D2390;
+extern int fn_826C0608(void *, void *, void *, void *);
 extern int fn_826D1B88();
-extern unsigned int lbl_82006E64;
-extern unsigned int lbl_8200BF44;
-extern unsigned int lbl_8200BF48;
-extern unsigned int lbl_8200C0D0;
-
-
-undefined4 *
-fn_826D2390(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+extern char lbl_82006E64[], lbl_8200BF48[], lbl_8200C0D0[], lbl_8200BF44[];
+Obj_826D2390 *fn_826D2390(Obj_826D2390 *p, void *a, void *b, void *c)
 {
+  Sub_826D2390 *s;
   fn_826D1B88();
-  param_1[0xe] = &lbl_82006E64;
-  *(undefined1 *)(param_1 + 0x11) = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  *(undefined1 *)(param_1 + 0x14) = 0;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x15] = 0;
-  *param_1 = &lbl_8200BF48;
-  param_1[4] = &lbl_8200C0D0;
-  param_1[0xe] = &lbl_8200BF44;
-  fn_826C0608(param_1 + 0xe,param_1,param_2,param_4);
-  return param_1;
+  s = &p->s;
+  s->vt = lbl_82006E64;
+  p->s.c = 0;
+  p->s.a = 0;
+  s->b = 0;
+  p->s.f = 0;
+  p->s.d = 0;
+  p->s.e = 0;
+  s->g = 0;
+  p->vt0 = lbl_8200BF48;
+  p->vt4 = lbl_8200C0D0;
+  p->s.vt = lbl_8200BF44;
+  fn_826C0608(&p->s, p, a, c);
+  return p;
 }
-

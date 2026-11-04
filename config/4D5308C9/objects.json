@@ -88712,7 +88712,7 @@
         ]
       },
       "auto_match/func_826A4620.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -93283,7 +93283,7 @@
         ]
       },
       "auto_match/func_826D2390.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -100107,7 +100107,7 @@
         ]
       },
       "auto_match/func_82711420.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -100515,7 +100515,7 @@
         ]
       },
       "auto_match/func_82713850.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -100647,7 +100647,7 @@
         ]
       },
       "auto_match/func_827141C0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -100768,7 +100768,7 @@
         ]
       },
       "auto_match/func_827150C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -100966,7 +100966,7 @@
         ]
       },
       "auto_match/func_82716738.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -101452,7 +101452,7 @@
         ]
       },
       "auto_match/func_8271B3C0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -101710,7 +101710,7 @@
         ]
       },
       "auto_match/func_8271CDB0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -103022,7 +103022,7 @@
         ]
       },
       "auto_match/func_827297C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -103781,7 +103781,7 @@
         ]
       },
       "auto_match/func_827375F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -103992,7 +103992,7 @@
         ]
       },
       "auto_match/func_82739298.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -104712,7 +104712,7 @@
         ]
       },
       "auto_match/func_8273E080.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -104965,7 +104965,7 @@
         ]
       },
       "auto_match/func_82740EA8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -105763,7 +105763,7 @@
         ]
       },
       "auto_match/func_82749668.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -106177,7 +106177,7 @@
         ]
       },
       "auto_match/func_8274D798.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -106429,7 +106429,7 @@
         ]
       },
       "auto_match/func_8274FE58.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -106549,7 +106549,7 @@
         ]
       },
       "auto_match/func_827511A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -106657,7 +106657,7 @@
         ]
       },
       "auto_match/func_82751DA8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -114547,7 +114547,7 @@
         ]
       },
       "auto_match/func_827AE740.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
