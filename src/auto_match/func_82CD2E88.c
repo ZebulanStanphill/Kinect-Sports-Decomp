@@ -1,71 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Fmt_82CD2E88 {
+  char pad0[0xe];
+  unsigned short bits;
+  unsigned type;
+  char pad1[0x14];
+  unsigned m28, m2c, m30;
+} Fmt_82CD2E88;
+typedef struct Out_82CD2E88 {
+  char pad[0x70];
+  unsigned x70, x74, x78, x7c;
+} Out_82CD2E88;
 
-
-undefined8 fn_82CD2E88(int param_1,int param_2)
-
+int fn_82CD2E88(Fmt_82CD2E88 *f, Out_82CD2E88 *o)
 {
-  short sVar1;
-  
-  *(undefined4 *)(param_2 + 0x74) = 0;
-  *(undefined4 *)(param_2 + 0x7c) = 0;
-  *(undefined4 *)(param_2 + 0x70) = 0;
-  *(undefined4 *)(param_2 + 0x78) = 0;
-  if (*(int *)(param_1 + 0x10) == 0) {
-    if (*(short *)(param_1 + 0xe) == 0x10) {
-code_r0x82cd2eb4:
-      *(undefined4 *)(param_2 + 0x74) = 7;
-      *(undefined4 *)(param_2 + 0x7c) = 2;
-      *(undefined4 *)(param_2 + 0x70) = 0x7c00;
-      *(undefined4 *)(param_2 + 0x78) = 0x3e0;
+  o->x74 = 0;
+  o->x7c = 0;
+  o->x70 = 0;
+  o->x78 = 0;
+  if (f->type == 0) {
+    if (f->bits == 0x10) {
+      o->x74 = 7;
+      o->x7c = 2;
+      o->x70 = 0x7c00;
+      o->x78 = 0x3e0;
       return 0;
     }
-  }
-  else if (*(int *)(param_1 + 0x10) == 3) {
-    sVar1 = *(short *)(param_1 + 0xe);
-    if (sVar1 == 0x10) {
-      if (((*(int *)(param_1 + 0x28) == 0x7c00) && (*(int *)(param_1 + 0x2c) == 0x3e0)) &&
-         (*(int *)(param_1 + 0x30) == 0x1f)) goto code_r0x82cd2eb4;
-      if (((*(int *)(param_1 + 0x28) == 0xf800) && (*(int *)(param_1 + 0x2c) == 0x7e0)) &&
-         (*(int *)(param_1 + 0x30) == 0x1f)) {
-        *(undefined4 *)(param_2 + 0x74) = 8;
-        *(undefined4 *)(param_2 + 0x7c) = 3;
-        *(undefined4 *)(param_2 + 0x70) = 0xf800;
-        *(undefined4 *)(param_2 + 0x78) = 0x7e0;
+  } else if (f->type == 3) {
+    unsigned short b = f->bits;
+    if (b == 0x10) {
+      if (f->m28 == 0x7c00 && f->m2c == 0x3e0 && f->m30 == 0x1f) {
+        o->x74 = 7;
+        o->x7c = 2;
+        o->x70 = 0x7c00;
+        o->x78 = 0x3e0;
         return 0;
       }
-    }
-    else if ((((sVar1 == 0x18) || (sVar1 == 0x20)) && (*(int *)(param_1 + 0x28) == 0xff0000)) &&
-            ((*(int *)(param_1 + 0x2c) == 0xff00 && (*(int *)(param_1 + 0x30) == 0xff)))) {
+      if (f->m28 == 0xf800 && f->m2c == 0x7e0 && f->m30 == 0x1f) {
+        o->x74 = 8;
+        o->x7c = 3;
+        o->x70 = 0xf800;
+        o->x78 = 0x7e0;
+        return 0;
+      }
+      return 3;
+    } else if ((b == 0x18 || b == 0x20) && f->m28 == 0xff0000 && f->m2c == 0xff00 && f->m30 == 0xff)
       return 0;
-    }
     return 3;
   }
   return 0;
 }
-

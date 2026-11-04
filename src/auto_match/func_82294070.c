@@ -1,80 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int uStack_60;
+typedef struct Value_82294070 {
+  int ctx;
+  int type;
+  union { double d; int i; unsigned char b; } v;
+} Value_82294070;
+
+extern void fn_82273CD8(Value_82294070 *, int);
+extern void fn_82273C88(Value_82294070 *);
+extern void fn_82672C20(int, const char *, Value_82294070 *, int);
 
 
-void fn_82294070(int param_1,int param_2,longlong param_3)
-
+void fn_82294070(char *o, int idx, int flag)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined1 *puVar4;
-  longlong lVar5;
-  undefined8 uStack_60;
-  undefined1 auStack_50 [8];
-  double dStack_48;
-  undefined1 auStack_40 [8];
-  char cStack_38;
-  undefined1 auStack_30 [32];
-  
-  iVar3 = param_2 * 0x1c + param_1;
-  if (*(int *)(iVar3 + 0x3c) != (int)param_3) {
-    puVar1 = *(undefined4 **)(param_1 + 0xc);
-    puVar2 = (undefined4 *)((int)&uStack_60 + 4);
-    lVar5 = 2;
+  char *e = o + idx * 0x1c;
+  if (*(int *)(e + 0x3c) != flag) {
+    int *ctx = *(int **)(o + 0xc);
+    Value_82294070 v[2];
+    Value_82294070 *p;
+    int i;
+    double d;
+    for (i = 0; i < 2; i++) {
+      v[i].ctx = 0;
+      v[i].type = 0;
+    }
+    fn_82273CD8(&v[0], 3);
+    d = (double)(idx + 1);
+    v[0].v.d = d;
+    fn_82273CD8(&v[1], 2);
+    v[1].v.b = flag != 0;
+    fn_82672C20(*ctx, "_root.mainCtrl.setIsKO", v, 2);
+    p = v + 2;
+    i = 1;
     do {
-      puVar2[3] = 0;
-      puVar2 = puVar2 + 4;
-      *puVar2 = 0;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    fn_82273CD8(auStack_50,3);
-    uStack_60 = (longlong)(param_2 + 1);
-    dStack_48 = (double)uStack_60;
-    fn_82273CD8(auStack_40,2);
-    cStack_38 = '\x01' - (param_3 == 0);
-    fn_82672C20(*puVar1,0xffffffff821ab940,auStack_50,2);
-    puVar4 = auStack_30;
-    lVar5 = 1;
-    do {
-      puVar4 = puVar4 + -0x10;
-      fn_82273C88(puVar4);
-      lVar5 = lVar5 + -1;
-    } while (-1 < lVar5);
-    *(int *)(iVar3 + 0x3c) = (int)param_3;
+      p--;
+      fn_82273C88(p);
+    } while (--i >= 0);
+    *(int *)(e + 0x3c) = flag;
   }
-  return;
 }
-
