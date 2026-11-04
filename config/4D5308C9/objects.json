@@ -3362,7 +3362,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_823A9DB8.c": {
+      "auto_match/func_823A9DB8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -33110,8 +33110,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_823A8AA8.c": {
-        "status": "NonMatching",
+      "auto_match/func_823A8AA8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
