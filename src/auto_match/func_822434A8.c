@@ -1,70 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_82242620();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_82242620(void *);
+extern int *fn_8265C9E0(int);
+extern char lbl_821AD588[];
 
+typedef struct { int *ptr; int *rc; } SharedPtr_822434A8;
 
-int * fn_822434A8(int *param_1)
-
+SharedPtr_822434A8 *fn_822434A8(SharedPtr_822434A8 *p)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  char cVar3;
-  
-  uVar2 = fn_8265C9E0(0x168);
-  if (uVar2 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    puVar1 = (undefined4 *)uVar2;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (uVar2 != 0xfffffffffffffff4) {
-      fn_82242620();
+    int *mem;
+    int *r;
+    int *o;
+    mem = fn_8265C9E0(0x168);
+    if (mem != 0) {
+        mem[1] = 1;
+        mem[0] = (int)lbl_821AD588;
+        mem[2] = 1;
+        if (mem + 3 != 0) {
+            fn_82242620(mem + 3);
+        }
+        r = mem;
+    } else {
+        r = 0;
     }
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  if ((uVar2 & 0xffffffff) != 0) {
-    cVar3 = fn_8223AAC0(uVar2);
-    if (cVar3 != '\0') {
-      if (param_1[1] != 0) {
-        fn_822315A0();
-      }
-      param_1[1] = (int)uVar2;
-      *param_1 = (int)uVar2 + 0xc;
+    o = r + 3;
+    p->ptr = 0;
+    p->rc = 0;
+    if (r != 0) {
+        if (fn_8223AAC0(r) != 0) {
+            if (p->rc != 0) {
+                fn_822315A0(p->rc);
+            }
+            p->rc = r;
+            p->ptr = o;
+        }
+        fn_822315A0(r);
     }
-    fn_822315A0(uVar2);
-  }
-  return param_1;
+    return p;
 }
-
