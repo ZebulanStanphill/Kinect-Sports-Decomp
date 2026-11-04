@@ -1,25 +1,33 @@
-extern int lbl_821C00FC;
-extern void fn_8265CA20(void *object);
+extern void fn_8265CA20(void *);
+extern char lbl_821C00FC[];
 
-void fn_824B15D8(int *param_1)
+typedef struct Ring_824B15D8 {
+  char *first;
+  char *last;
+  char *cur;
+  int pad;
+  unsigned count;
+} Ring_824B15D8;
+
+typedef struct Obj_824B15D8 {
+  void *vt;
+  Ring_824B15D8 r;
+} Obj_824B15D8;
+
+void fn_824B15D8(Obj_824B15D8 *o)
 {
-    int iVar1;
-    unsigned int uVar3;
-
-    uVar3 = 0;
-    param_1[0] = (int)&lbl_821C00FC;
-    if (param_1[5] > 0) {
-        do {
-            iVar1 = param_1[3];
-            uVar3 = uVar3 + 1;
-            param_1[3] = iVar1 + 0x20;
-            if (iVar1 + 0x20 == param_1[2]) {
-                param_1[3] = param_1[1];
-            }
-        } while (uVar3 < (unsigned int)param_1[5]);
-    }
-    iVar1 = param_1[1];
-    if (iVar1 != 0) {
-        fn_8265CA20((void *)iVar1);
-    }
+  Ring_824B15D8 *r = &o->r;
+  Ring_824B15D8 *q = &o->r;
+  unsigned i = 0;
+  char *c;
+  o->vt = lbl_821C00FC;
+  if (q->count > 0) {
+    do {
+      c = q->cur;
+      i++;
+      r->cur = c + 0x20;
+      if (r->cur == q->last) r->cur = o->r.first;
+    } while (i < q->count);
+  }
+  if (r->first != 0) fn_8265CA20(r->first);
 }

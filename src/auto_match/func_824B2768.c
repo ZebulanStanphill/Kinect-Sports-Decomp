@@ -1,24 +1,33 @@
-extern int lbl_821C0198;
 extern void fn_8265CA20(void *);
+extern char lbl_821C0198[];
 
-void fn_824B2768(int *param_1)
+typedef struct Ring_824B2768 {
+  char *first;
+  char *last;
+  char *cur;
+  int pad;
+  unsigned count;
+} Ring_824B2768;
+
+typedef struct Obj_824B2768 {
+  void *vt;
+  Ring_824B2768 r;
+} Obj_824B2768;
+
+void fn_824B2768(Obj_824B2768 *o)
 {
-    int iVar1;
-    int iVar2 = 0;
-
-    *param_1 = (int)&lbl_821C0198;
-    if (param_1[5] > 0) {
-        do {
-            iVar1 = param_1[3];
-            iVar2 = iVar2 + 1;
-            param_1[3] = iVar1 + 0x50;
-            if (iVar1 + 0x50 == param_1[2]) {
-                param_1[3] = param_1[1];
-            }
-        } while (iVar2 < param_1[5]);
-    }
-    if (param_1[1] == 0) {
-        return;
-    }
-    fn_8265CA20((void *)param_1[1]);
+  Ring_824B2768 *r = &o->r;
+  Ring_824B2768 *q = &o->r;
+  unsigned i = 0;
+  char *c;
+  o->vt = lbl_821C0198;
+  if (q->count > 0) {
+    do {
+      c = q->cur;
+      i++;
+      r->cur = c + 0x50;
+      if (r->cur == q->last) r->cur = o->r.first;
+    } while (i < q->count);
+  }
+  if (r->first != 0) fn_8265CA20(r->first);
 }

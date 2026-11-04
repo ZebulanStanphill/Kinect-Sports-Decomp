@@ -1,84 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223A4D8();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_82196C58;
-extern unsigned int lbl_82197F64;
+typedef struct Vt_822540D0 { void *(*f0)(void *, void *); } Vt_822540D0;
+typedef struct Impl_822540D0 { Vt_822540D0 *vt; } Impl_822540D0;
+typedef struct Fn_822540D0 { char buf[16]; Impl_822540D0 *impl; int pad; } Fn_822540D0;
+typedef struct Sp_822540D0 { int ptr; void *rep; } Sp_822540D0;
+typedef struct Obj_822540D0 {
+  void *vt;
+  char pad[0x34];
+  Fn_822540D0 f38;
+  Fn_822540D0 f50;
+  char x68[8];
+  char x70[8];
+  Sp_822540D0 sp;
+} Obj_822540D0;
+extern void fn_8223A4D8(Obj_822540D0 *);
+extern void fn_822315A0(void *);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_82365BD8(void *, void *);
+extern char lbl_82196C58[];
+extern char lbl_82197F64[];
 
-
-undefined4 * fn_822540D0(undefined4 *param_1,int param_2)
-
+static __forceinline void fcopy(Fn_822540D0 *dst, Fn_822540D0 *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  fn_8223A4D8();
-  *param_1 = &lbl_82196C58;
-  puVar4 = param_1 + 0xe;
-  if (*(int *)(param_2 + 0x48) == 0) {
-    param_1[0x12] = 0;
+  if (src->impl == 0) {
+    dst->impl = 0;
+  } else if (src->impl == (Impl_822540D0 *)src) {
+    dst->impl = src->impl->vt->f0(src->impl, dst);
+  } else {
+    dst->impl = src->impl->vt->f0(src->impl, 0);
   }
-  else {
-    if (*(int *)(param_2 + 0x48) != param_2 + 0x38) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x48))(*(undefined4 **)(param_2 + 0x48),puVar4);
-    param_1[0x12] = uVar2;
-  }
-  puVar4 = param_1 + 0x14;
-  if (*(int *)(param_2 + 0x60) == 0) {
-    param_1[0x18] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x60) != param_2 + 0x50) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x60))(*(undefined4 **)(param_2 + 0x60),puVar4);
-    param_1[0x18] = uVar2;
-  }
-  *param_1 = &lbl_82197F64;
-  fn_82365BD8(param_1 + 0x1a,param_2 + 0x68);
-  fn_82365BD8(param_1 + 0x1c,param_2 + 0x70);
-  param_1[0x1e] = 0;
-  param_1[0x1f] = 0;
-  iVar1 = *(int *)(param_2 + 0x7c);
-  uVar2 = *(undefined4 *)(param_2 + 0x78);
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x1f] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x1f] = iVar1;
-    param_1[0x1e] = uVar2;
-  }
-  return param_1;
 }
 
+Obj_822540D0 *fn_822540D0(Obj_822540D0 *d, Obj_822540D0 *s)
+{
+  Sp_822540D0 *dp;
+  void *rep;
+  int ptr;
+  fn_8223A4D8(d);
+  d->vt = lbl_82196C58;
+  fcopy(&d->f38, &s->f38);
+  fcopy(&d->f50, &s->f50);
+  d->vt = lbl_82197F64;
+  fn_82365BD8(d->x68, s->x68);
+  fn_82365BD8(d->x70, s->x70);
+  dp = &d->sp;
+  dp->ptr = 0;
+  dp->rep = 0;
+  rep = s->sp.rep;
+  ptr = s->sp.ptr;
+  if (rep != 0 && fn_8223AAC0(rep) != 0) {
+    if (dp->rep != 0) fn_822315A0(dp->rep);
+    dp->rep = rep;
+    dp->ptr = ptr;
+  }
+  return d;
+}
