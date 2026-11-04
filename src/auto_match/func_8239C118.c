@@ -1,195 +1,162 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B6C();
+extern void fn_82508078(int, const char *, int);
 
-
-void fn_8239C118(int param_1,uint param_2)
-
+void fn_8239C118(int param_1, unsigned param_2)
 {
-  undefined8 uVar1;
-  
-  switch(param_2) {
+  const char *name;
+
+  switch (param_2) {
   case 0:
-    uVar1 = 0xffffffff821b4c08;
+    name = "afterpoint_decided";
     break;
   case 1:
-    uVar1 = 0xffffffff821b4c1c;
+    name = "afterpoint_won_ace";
     break;
   case 2:
-    uVar1 = 0xffffffff821b4c30;
+    name = "afterpoint_won_backhand";
     break;
   case 3:
-    uVar1 = 0xffffffff821b4c48;
+    name = "afterpoint_won_backspin";
     break;
   case 4:
-    uVar1 = 0xffffffff821b4c60;
+    name = "afterpoint_won_forehand";
     break;
   case 5:
-    uVar1 = 0xffffffff821b4c78;
+    name = "afterpoint_won_powerful";
     break;
   case 6:
-    uVar1 = 0xffffffff821b4c90;
+    name = "afterpoint_won_rally_long";
     break;
   case 7:
-    uVar1 = 0xffffffff821b4cac;
+    name = "afterpoint_won_rally_normal";
     break;
   case 8:
-    uVar1 = 0xffffffff821b4cc8;
+    name = "afterpoint_won_spin";
     break;
   case 9:
-    uVar1 = 0xffffffff821b4cdc;
+    name = "afterpoint_won_topspin";
     break;
   case 10:
-    uVar1 = 0xffffffff821b4cf4;
+    name = "crowd_cheer";
     break;
-  case 0xb:
-    uVar1 = 0xffffffff821b4d00;
+  case 11:
+    name = "crowd_disappointment";
     break;
-  case 0xc:
-    uVar1 = 0xffffffff821b4d18;
+  case 12:
+    name = "crowd_swell";
     break;
-  case 0xd:
-    uVar1 = 0xffffffff821b4d24;
+  case 13:
+    name = "inplay_deuce";
     break;
-  case 0xe:
-    uVar1 = 0xffffffff821b4d34;
+  case 14:
+    name = "inplay_even_match";
     break;
-  case 0xf:
-    uVar1 = 0xffffffff821b4d48;
+  case 15:
+    name = "inplay_foul_miss_table";
     break;
-  case 0x10:
-    uVar1 = 0xffffffff821b4d60;
+  case 16:
+    name = "inplay_foul_volley";
     break;
-  case 0x11:
-    uVar1 = 0xffffffff821b4d74;
+  case 17:
+    name = "inplay_foul_hit_net_and_own_side";
     break;
-  case 0x12:
-    uVar1 = 0xffffffff821b4d98;
+  case 18:
+    name = "inplay_hit_net";
     break;
-  case 0x13:
-    uVar1 = 0xffffffff821b4da8;
+  case 19:
+    name = "inplay_hit_table_side";
     break;
-  case 0x14:
-    uVar1 = 0xffffffff821b4dc0;
+  case 20:
+    name = "inplay_large_score_difference";
     break;
-  case 0x15:
-    uVar1 = 0xffffffff821b4de0;
+  case 21:
+    name = "inplay_matchpoint";
     break;
-  case 0x16:
-    uVar1 = 0xffffffff821b4df4;
+  case 22:
+    name = "inplay_poor_return";
     break;
-  case 0x17:
-    uVar1 = 0xffffffff821b4e08;
+  case 23:
+    name = "inplay_rally_fast";
     break;
-  case 0x18:
-    uVar1 = 0xffffffff821b4e1c;
+  case 24:
+    name = "inplay_rally_slow";
     break;
-  case 0x19:
-    uVar1 = 0xffffffff821b4e30;
+  case 25:
+    name = "inplay_service_change";
     break;
-  case 0x1a:
-    uVar1 = 0xffffffff821b4e48;
+  case 26:
+    name = "inplay_shot_backhand";
     break;
-  case 0x1b:
-    uVar1 = 0xffffffff821b4e60;
+  case 27:
+    name = "inplay_shot_backspin";
     break;
-  case 0x1c:
-    uVar1 = 0xffffffff821b4e78;
+  case 28:
+    name = "inplay_shot_forehand";
     break;
-  case 0x1d:
-    uVar1 = 0xffffffff821b4e90;
+  case 29:
+    name = "inplay_shot_powerful";
     break;
-  case 0x1e:
-    uVar1 = 0xffffffff821b4ea8;
+  case 30:
+    name = "inplay_shot_spin";
     break;
-  case 0x1f:
-    uVar1 = 0xffffffff821b4ebc;
+  case 31:
+    name = "inplay_shot_topspin";
     break;
-  case 0x20:
-    uVar1 = 0xffffffff821b4ed0;
+  case 32:
+    name = "inplay_smash_chance";
     break;
-  case 0x21:
-    uVar1 = 0xffffffff821b4ee4;
+  case 33:
+    name = "inplay_successive_side_hits";
     break;
-  case 0x22:
-    uVar1 = 0xffffffff821b4f00;
+  case 34:
+    name = "inplay_tense_point";
     break;
-  case 0x23:
-    uVar1 = 0xffffffff821b4f14;
+  case 35:
+    name = "minigame_rally_encouragement";
     break;
-  case 0x24:
-    uVar1 = 0xffffffff821b4f34;
+  case 36:
+    name = "minigame_rally_pickup";
     break;
-  case 0x25:
-    uVar1 = 0xffffffff821b4f4c;
+  case 37:
+    name = "minigame_rally_praise";
     break;
-  case 0x26:
-    uVar1 = 0xffffffff821b4f64;
+  case 38:
+    name = "minigame_twinbat_encouragement";
     break;
-  case 0x27:
-    uVar1 = 0xffffffff821b4f84;
+  case 39:
+    name = "minigame_twinbat_pickup";
     break;
-  case 0x28:
-    uVar1 = 0xffffffff821b4f9c;
+  case 40:
+    name = "minigame_twinbat_praise";
     break;
-  case 0x29:
-    uVar1 = 0xffffffff821b4fb4;
+  case 41:
+    name = "postmatch_match_close";
     break;
-  case 0x2a:
-    uVar1 = 0xffffffff821b4fcc;
+  case 42:
+    name = "postmatch_match_end";
     break;
-  case 0x2b:
-    uVar1 = 0xffffffff821b4fe0;
+  case 43:
+    name = "postmatch_match_long";
     break;
-  case 0x2c:
-    uVar1 = 0xffffffff821b4ff8;
+  case 44:
+    name = "postmatch_match_onesided";
     break;
-  case 0x2d:
-    uVar1 = 0xffffffff821b5014;
+  case 45:
+    name = "postmatch_match_short";
     break;
-  case 0x2e:
-    uVar1 = 0xffffffff821b502c;
+  case 46:
+    name = "prematch_before_match";
     break;
-  case 0x2f:
-    uVar1 = 0xffffffff821b5044;
+  case 47:
+    name = "prematch_start_match";
     break;
   default:
     return;
   }
   if (*(int *)(param_1 + 0x178) != 0) {
-    if (param_2 < 0x23) {
+    if (param_2 < 0x23)
       return;
-    }
-    if (0x28 < param_2) {
+    if (param_2 > 0x28)
       return;
-    }
   }
-  fn_82F68B6C(*(undefined4 *)(param_1 + 0xa4),uVar1,0);
-  return;
+  fn_82508078(*(int *)(param_1 + 0xa4), name, 0);
 }
-

@@ -1,48 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0xd0]; unsigned v; char p2[7]; unsigned char b; } Inner_8304C908;
+typedef struct Sink_8304C908 { struct { void *s[8]; void (*f20)(struct Sink_8304C908 *, unsigned); } *vt; } Sink_8304C908;
+typedef struct { int a, b; Inner_8304C908 *inner; int c; Sink_8304C908 *sink; int pad[0xb]; unsigned rate; } Self_8304C908;
 
-
-void fn_8304C908(int param_1)
-
+void fn_8304C908(Self_8304C908 *self)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  uVar2 = *(uint *)(param_1 + 0x40);
-  uVar3 = *(uint *)(iVar1 + 0xd0);
-  *(undefined4 *)(iVar1 + 0xd0) = 0;
-  *(byte *)(iVar1 + 0xdb) = *(byte *)(iVar1 + 0xdb) & 0x7f;
-                    /* WARNING: Could not recover jumptable at 0x8304c94c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 0x10) + 0x20))
-            (*(int **)(param_1 + 0x10),((ulonglong)uVar3 * (ulonglong)uVar2) / 48000 & 0xffffffff);
-  return;
+  Inner_8304C908 *in = self->inner; unsigned __int64 t = (unsigned __int64)self->rate; in->b &= 0x7f; t *= in->v; in->v = 0; self->sink->vt->f20(self->sink, t / 48000);
 }
-

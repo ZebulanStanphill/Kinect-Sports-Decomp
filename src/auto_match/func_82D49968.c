@@ -1,53 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Itf_82D49968 { struct { void *s[4]; void (*f10)(struct Itf_82D49968 *, unsigned); } *vt; } Itf_82D49968;
+typedef struct { int pad0[2]; int *base; int pad[2]; int *idx; unsigned n; int pad2; int *rest; } In_82D49968;
+typedef struct { int pad[2]; In_82D49968 *in; struct { int pad[4]; Itf_82D49968 itf; } *sub; } Self_82D49968;
 
-
-void fn_82D49968(int param_1,ulonglong param_2)
-
+void fn_82D49968(Self_82D49968 *self, unsigned i)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if ((param_2 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 0x18)) {
-    uVar2 = *(undefined4 *)
-             ((*(int *)(*(int *)(iVar1 + 0x14) + (int)((param_2 & 0xffffffff) << 2)) + 1) * 4 +
-             *(int *)(iVar1 + 8));
-  }
-  else {
-    uVar2 = *(undefined4 *)
-             ((int)((param_2 - *(uint *)(iVar1 + 0x18) & 0xffffffff) << 2) + *(int *)(iVar1 + 0x20))
-    ;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82d499c0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*(int *)(*(int *)(param_1 + 0xc) + 0x10) + 0x10))
-            (*(int *)(param_1 + 0xc) + 0x10,uVar2);
-  return;
+  unsigned v; if (i < self->in->n) v = self->in->base[self->in->idx[i] + 1]; else v = self->in->rest[i - self->in->n];
+  self->sub->itf.vt->f10(&self->sub->itf, v);
 }
-

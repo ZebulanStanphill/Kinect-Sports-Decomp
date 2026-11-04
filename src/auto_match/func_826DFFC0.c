@@ -42,9 +42,9 @@ void fn_826DFFC0(int param_1)
   int iVar2;
   undefined4 uVar3;
   uint uVar5;
-  undefined8 uVar4;
-  int iVar6;
-  ulonglong uVar7;
+  unsigned int uVar4;
+  unsigned int iVar6;
+  unsigned int uVar7;
   uint auStack_40;
   
   uVar5 = fn_826A6A38();
@@ -52,13 +52,13 @@ void fn_826DFFC0(int param_1)
   if (iVar6 == 0) {
     iVar6 = param_1 + 0x28;
   }
-  fn_826A9280(param_1 + 0x14,0xffffffff8200c9cc,uVar5 & 0xffff,
+  fn_826A9280(param_1 + 0x14,"  GFx_DefineBitsJpeg2Loader: charid = %d pos = 0x%x\n",uVar5 & 0xffff,
                     ((ulonglong)*(uint *)(iVar6 + 0x34) - (ulonglong)*(uint *)(iVar6 + 0x30)) +
                     (ulonglong)*(uint *)(iVar6 + 0x2c));
   uVar7 = 0;
   piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 0x24);
   if (piVar1 == (int *)0x0) {
-    fn_826DFA28(param_1 + 0x14,0xffffffff8200c988);
+    fn_826DFA28(param_1 + 0x14,"Error: Jpeg system is not installed - can't load jpeg image data\n");
   }
   else {
     iVar6 = *(int *)(param_1 + 0x314);
@@ -70,7 +70,7 @@ void fn_826DFFC0(int param_1)
     iVar2 = *piVar1;
     uVar3 = *(undefined4 *)(iVar6 + 0x10);
     uVar4 = fn_826DF848(param_1);
-    uVar7 = (**(code **)(iVar2 + 0xc))(piVar1,uVar3,uVar4);
+    uVar7 = (*(code *)(iVar2 + 0xc))(piVar1,uVar3,uVar4);
   }
   auStack_40 = uVar5 & 0xffff;
   fn_826F4A18(param_1,&auStack_40,uVar7);
