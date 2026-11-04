@@ -1,124 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE5410();
-extern int fn_82DBBD28();
-extern int fn_82DBBF60();
-extern unsigned int lbl_82132BC4;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_82DBB298(int *param_1,int param_2,undefined8 param_3,int *param_4,int param_5,int param_6)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  int in_r0;
-  int iVar4;
-  int iVar5;
-  undefined2 *puVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  undefined4 uVar10;
-  
-  iVar4 = (**(code **)(*param_1 + 0x40))();
-  if (iVar4 != 0) {
-    (**(code **)(*param_4 + 0x18))(param_4);
-    iVar5 = KeTlsGetValue(lbl_8323B4A0);
-    puVar1 = *(undefined4 **)(iVar5 + 4);
-    if (puVar1 < *(undefined4 **)(iVar5 + 0xc)) {
-      *puVar1 = "TtSetMassChang";
-      uVar2 = TBLr;
-      puVar1[1] = (int)uVar2;
-      *(undefined4 **)(iVar5 + 4) = puVar1 + 3;
-    }
-    puVar6 = (undefined2 *)fn_82DBBD28(iVar4,0x1c);
-    if (puVar6 == (undefined2 *)0x0) {
-      iVar5 = fn_82CE5410();
-      puVar6 = (undefined2 *)
-               (**(code **)(**(int **)(iVar5 + 0x10) + 4))(*(int **)(iVar5 + 0x10),0x40);
-      if (puVar6 == (undefined2 *)0x0) {
-        puVar6 = (undefined2 *)0x0;
-      }
-      else {
-        *puVar6 = 0x1c;
-        puVar6[8] = 0x40;
-      }
-      fn_82DBBF60(iVar4,param_4,puVar6);
-    }
-    if (param_2 == *(int *)(iVar4 + 0x14)) {
-      puVar1 = (undefined4 *)(in_r0 + param_5 & 0xfffffff0);
-      uVar7 = puVar1[1];
-      uVar8 = puVar1[2];
-      uVar9 = puVar1[3];
-      puVar3 = (undefined4 *)((uint)(puVar6 + 0x10) & 0xfffffff0);
-      *puVar3 = *puVar1;
-      puVar3[1] = uVar7;
-      puVar3[2] = uVar8;
-      puVar3[3] = uVar9;
-      puVar1 = (undefined4 *)(in_r0 + param_6 & 0xfffffff0);
-      uVar7 = *puVar1;
-      uVar8 = puVar1[1];
-      uVar9 = puVar1[2];
-      uVar10 = puVar1[3];
-    }
-    else {
-      puVar1 = (undefined4 *)(in_r0 + param_6 & 0xfffffff0);
-      uVar7 = puVar1[1];
-      uVar8 = puVar1[2];
-      uVar9 = puVar1[3];
-      puVar3 = (undefined4 *)((uint)(puVar6 + 0x10) & 0xfffffff0);
-      *puVar3 = *puVar1;
-      puVar3[1] = uVar7;
-      puVar3[2] = uVar8;
-      puVar3[3] = uVar9;
-      puVar1 = (undefined4 *)(in_r0 + param_5 & 0xfffffff0);
-      uVar7 = *puVar1;
-      uVar8 = puVar1[1];
-      uVar9 = puVar1[2];
-      uVar10 = puVar1[3];
-    }
-    puVar1 = (undefined4 *)((uint)(puVar6 + 0x18) & 0xfffffff0);
-    *puVar1 = uVar7;
-    puVar1[1] = uVar8;
-    puVar1[2] = uVar9;
-    puVar1[3] = uVar10;
-    iVar4 = KeTlsGetValue(lbl_8323B4A0);
-    puVar1 = *(undefined4 **)(iVar4 + 4);
-    if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-      *puVar1 = &lbl_82132BC4;
-      uVar2 = TBLr;
-      puVar1[1] = (int)uVar2;
-      *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-    }
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  return;
 }
 
+typedef struct Item_82DBB298 {
+    short size;
+    char pad2[0x10 - 2];
+    short f10;
+    char pad12[0x20 - 0x12];
+    __vector4 a;
+    __vector4 b;
+} Item_82DBB298;
+
+typedef struct Tgt_82DBB298 { struct { char pad[0x18]; void (*f18)(void *); } *vt; } Tgt_82DBB298;
+typedef struct Mgr_82DBB298 {
+    struct { char pad[0x40]; struct Reg_82DBB298 *(*f40)(void *); } *vt;
+} Mgr_82DBB298;
+typedef struct Reg_82DBB298 {
+    char pad[0x14];
+    unsigned key;
+} Reg_82DBB298;
+typedef struct Heap_82DBB298 {
+    struct { char pad[4]; void *(*f4)(void *, int); } *vt;
+} Heap_82DBB298;
+typedef struct Alloc_82DBB298 {
+    char pad[0x10];
+    Heap_82DBB298 *heap;
+} Alloc_82DBB298;
+
+extern Item_82DBB298 *fn_82DBBD28(Reg_82DBB298 *, int);
+extern Alloc_82DBB298 *fn_82CE5410(void);
+extern void fn_82DBBF60(Reg_82DBB298 *, Tgt_82DBB298 *, Item_82DBB298 *);
+
+void fn_82DBB298(Mgr_82DBB298 *m, unsigned key, int unused, Tgt_82DBB298 *t, __vector4 *v1, __vector4 *v2)
+{
+    Reg_82DBB298 *r = m->vt->f40(m);
+    if (r != 0) {
+        Item_82DBB298 *p;
+        t->vt->f18(t);
+        timer("TtSetMassChang");
+        p = fn_82DBBD28(r, 0x1c);
+        if (p == 0) {
+            Heap_82DBB298 *h = fn_82CE5410()->heap;
+            Item_82DBB298 *blk = (Item_82DBB298 *)h->vt->f4(h, 0x40);
+            if (blk != 0) {
+                blk->size = 0x1c;
+                blk->f10 = 0x40;
+                p = blk;
+            } else {
+                p = 0;
+            }
+            fn_82DBBF60(r, t, p);
+        }
+        if (key == r->key) {
+            p->a = *v1;
+            p->b = *v2;
+        } else {
+            p->a = *v2;
+            p->b = *v1;
+        }
+        timer("Et");
+    }
+}
