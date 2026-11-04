@@ -1,149 +1,92 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_82683270();
-extern int fn_82695DA0();
-extern int fn_82696330();
-extern int fn_82696958();
-extern int fn_82696B20();
-extern int fn_826A7A58();
-extern int fn_826ABE30();
-extern int fn_826C2AC8();
-extern int fn_826C2D98();
-extern unsigned int iStack_6c;
-extern unsigned int iStack_70;
-extern unsigned int iStack_7c;
-extern unsigned int iStack_80;
+/* LTCG lane: --ltcg func_826ABE30.c gives 100.0% (variadic callee frame) */
+typedef struct Pair_826B05C0 { unsigned first; unsigned second; unsigned char flags; char pad[7]; } Pair_826B05C0;
+typedef struct Env_826B05C0 { char pad[8]; unsigned top; unsigned limit; int pad2; unsigned f14; char pad3[0x78 - 0x18]; struct { char pad[0x288]; int f288; } *gfx; } Env_826B05C0;
+typedef struct Ctx_826B05C0 { Env_826B05C0 *env; char pad[0x20]; int log; char pad2[0x36 - 0x28]; unsigned char flags; } Ctx_826B05C0;
 
+extern unsigned fn_8267B890(int, int, int);
+extern void fn_826824B0(unsigned);
+extern void fn_82683270(unsigned *, int);
+extern void fn_82695DA0(void *, unsigned);
+extern void fn_82696330(void *);
+extern unsigned fn_82696958(void *, Env_826B05C0 *);
+extern void fn_82696B20(Pair_826B05C0 *, void *, Env_826B05C0 *);
+extern void fn_826A7A58(unsigned, void *, Pair_826B05C0 *);
+extern void fn_826ABE30(void *, const char *);
+extern unsigned fn_826C2AC8(unsigned, void *, int);
+extern void fn_826C2D98(unsigned, void *, unsigned);
 
-void fn_826B05C0(uint *param_1)
-
+void fn_826B05C0(Ctx_826B05C0 *param_1)
 {
-  uint uVar1;
-  char cVar3;
-  int iVar2;
-  ulonglong uVar4;
-  undefined8 uVar5;
-  int *piVar6;
-  struct { int first; int second; } stack_pair_80;
+  char v1[16];
+  char v2[16];
+  Pair_826B05C0 pa;
+  Pair_826B05C0 pb;
+  unsigned char obj[16];
+  unsigned top;
+  unsigned arg;
+  unsigned iVar2;
+  unsigned mem;
+  unsigned r;
+  unsigned *sp;
+  unsigned t;
 
-  byte bStack_78;
-  struct { int first; int second; } stack_pair_70;
-
-  byte bStack_68;
-  char acStack_60;
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [64];
-
-  fn_82695DA0(auStack_40,*(undefined4 *)(*param_1 + 8));
-  uVar1 = *param_1;
-  uVar4 = (ulonglong)*(uint *)(uVar1 + 8) - 0x10;
-  if ((ulonglong)*(uint *)(uVar1 + 8) <= (ulonglong)*(uint *)(uVar1 + 0xc)) {
-    uVar4 = (ulonglong)*(uint *)(uVar1 + 0x14);
-  }
-  fn_82695DA0(auStack_50,uVar4);
-  fn_82696B20(&stack_pair_70.first,auStack_40,*param_1);
-  fn_82696B20(&stack_pair_80.first,auStack_50,*param_1);
-  if ((stack_pair_70.first == 0) || (stack_pair_80.first == 0)) {
-    if ((*(byte *)((int)param_1 + 0x36) & 0x80) != 0) {
-      if (stack_pair_70.first == 0) {
-        uVar5 = 0xffffffff82007914;
-      }
-      else {
-        uVar5 = 0xffffffff820078ec;
-      }
-      fn_826ABE30(param_1 + 9,uVar5);
+  fn_82695DA0(v1, param_1->env->top);
+  top = param_1->env->top;
+  arg = top - 0x10;
+  if (top <= param_1->env->limit)
+    arg = param_1->env->f14;
+  fn_82695DA0(v2, arg);
+  fn_82696B20(&pa, v1, param_1->env);
+  fn_82696B20(&pb, v2, param_1->env);
+  if (pa.first == 0 || pb.first == 0) {
+    if ((param_1->flags & 0x80) != 0) {
+      if (pa.first == 0)
+        fn_826ABE30(&param_1->log, "Error: can't extend with unknown super class.\n");
+      else
+        fn_826ABE30(&param_1->log, "Error: can't extend the unknown class.\n");
     }
-  }
-  else {
-    acStack_60 = '\0';
-    cVar3 = (**(code **)(*(int *)(stack_pair_70.first + 0x10) + 0x2c))
-                      (stack_pair_70.first + 0x10,*param_1 + 0x78,
-                       (ulonglong)*(uint *)(*param_1 + 0x78) + 0x130,&acStack_60);
-    if ((cVar3 == '\0') || (acStack_60 != '\x06')) {
-      if ((*(byte *)((int)param_1 + 0x36) & 0x80) != 0) {
-        fn_826ABE30(param_1 + 9,0xffffffff82007944);
-      }
-    }
-    else {
-      iVar2 = fn_82696958(&acStack_60,*param_1);
-      if (iVar2 != 0) {
-        *(uint *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1U & 0x8fffffff;
-      }
-      uVar4 = fn_8267B890(*(undefined4 *)(*(int *)(*param_1 + 0x78) + 0x288),0x50,0);
-      if ((uVar4 & 0xffffffff) == 0) {
-        uVar4 = 0;
-      }
-      else {
-        uVar4 = fn_826C2AC8(uVar4,(ulonglong)*param_1 + 0x78,iVar2);
-      }
-      fn_826C2D98(stack_pair_80.first,(ulonglong)*param_1 + 0x78,uVar4);
-      fn_826A7A58(uVar4 + 0x10,(ulonglong)*param_1 + 0x78,&stack_pair_70.first);
-      if ((uVar4 & 0xffffffff) != 0) {
-        fn_826824B0(uVar4);
-      }
-      if (iVar2 != 0) {
+  } else {
+    obj[0] = 0;
+    if ((*(unsigned char (**)(int, void *, unsigned, void *))(*(int *)(pa.first + 0x10) + 0x2c))(pa.first + 0x10, (char *)param_1->env + 0x78, *(unsigned *)((char *)param_1->env + 0x78) + 0x130, obj) == 0 || obj[0] != 6) {
+      if ((param_1->flags & 0x80) != 0)
+        fn_826ABE30(&param_1->log, "Error: can't extend by the class w/o prototype.\n");
+    } else {
+      iVar2 = fn_82696958(obj, param_1->env);
+      if (iVar2 != 0)
+        *(unsigned *)(iVar2 + 8) = (*(int *)(iVar2 + 8) + 1U) & 0x8fffffff;
+      mem = fn_8267B890(param_1->env->gfx->f288, 0x50, 0);
+      r = mem != 0 ? fn_826C2AC8(mem, (char *)param_1->env + 0x78, iVar2) : 0;
+      fn_826C2D98(pb.first, (char *)param_1->env + 0x78, r);
+      fn_826A7A58(r + 0x10, (char *)param_1->env + 0x78, &pa);
+      if (r != 0)
+        fn_826824B0(r);
+      if (iVar2 != 0)
         fn_826824B0(iVar2);
-      }
     }
-    fn_82696330(&acStack_60);
+    fn_82696330(obj);
   }
-  uVar1 = *param_1;
-  piVar6 = (int *)(uVar1 + 8);
-  if (*(int *)(uVar1 + 8) - 0x20U < *(uint *)(uVar1 + 0xc)) {
-    fn_82683270(piVar6,2);
+  sp = &param_1->env->top;
+  t = *sp;
+  if (t - 0x20U < param_1->env->limit) {
+    fn_82683270(sp, 2);
+  } else {
+    fn_82696330((void *)t);
+    *sp = *sp - 0x10;
+    fn_82696330((void *)*sp);
+    *sp = *sp - 0x10;
   }
-  else {
-    fn_82696330();
-    *piVar6 = *piVar6 + -0x10;
-    fn_82696330();
-    *piVar6 = *piVar6 + -0x10;
-  }
-  if (((bStack_78 & 2) == 0) && (stack_pair_80.first != 0)) {
-    fn_826824B0();
-  }
-  stack_pair_80.first = 0;
-  if (((bStack_78 & 1) == 0) && (stack_pair_80.second != 0)) {
-    fn_826824B0();
-  }
-  stack_pair_80.second = 0;
-  if (((bStack_68 & 2) == 0) && (stack_pair_70.first != 0)) {
-    fn_826824B0();
-  }
-  stack_pair_70.first = 0;
-  if (((bStack_68 & 1) == 0) && (stack_pair_70.second != 0)) {
-    fn_826824B0();
-  }
-  stack_pair_70.second = 0;
-  fn_82696330(auStack_50);
-  fn_82696330(auStack_40);
-  return;
+  if ((pb.flags & 2) == 0 && pb.first != 0)
+    fn_826824B0(pb.first);
+  pb.first = 0;
+  if ((pb.flags & 1) == 0 && pb.second != 0)
+    fn_826824B0(pb.second);
+  pb.second = 0;
+  if ((pa.flags & 2) == 0 && pa.first != 0)
+    fn_826824B0(pa.first);
+  pa.first = 0;
+  if ((pa.flags & 1) == 0 && pa.second != 0)
+    fn_826824B0(pa.second);
+  pa.second = 0;
+  fn_82696330(v2);
+  fn_82696330(v1);
 }

@@ -1,103 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_110;
-extern unsigned int *auStack_128;
-extern unsigned int *auStack_130;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_e0;
-extern int fn_8225F670();
-extern int fn_8225FDE0();
-extern int fn_82292780();
-extern int fn_82292AE8();
-extern int fn_82526C70();
-extern int fn_82536590();
-extern int fn_8266F668();
-extern int fn_82672C20();
+/* LTCG lane: --ltcg func_82526C70.c gives 100.0% (variadic callee frame) */
+extern char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern void fn_82292780(void *, int);
+extern int fn_82292AE8(void);
+extern int fn_82526C70(char *, unsigned, const char *, ...);
+extern void fn_82536590(void *, int);
+extern int *fn_8266F668(void *, int);
+extern void fn_82672C20(int, char *, int, int);
 extern int fn_828647D8();
-extern int fn_82864898();
-extern int fn_82864988();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB08();
-extern int fn_82E1CCA8();
+extern void fn_82864898(void *);
+extern void fn_82864988(void *, const char *);
+extern unsigned char fn_82E1CAD0(int);
+extern void fn_82E1CB08(const char *, void *, int);
+extern void fn_82E1CCA8(void);
 
+typedef struct Item_82279FA0 { int pad[2]; int f8; int pad2; unsigned id; int pad3; char name[0x4c]; char tag[1]; } Item_82279FA0;
+typedef struct Node_82279FA0 { struct Node_82279FA0 *next; int pad; Item_82279FA0 *val; } Node_82279FA0;
+typedef struct Obj_82279FA0 { struct { void (*f0)(struct Obj_82279FA0 *); } *vt; } Obj_82279FA0;
+typedef struct Self_82279FA0 {
+  int pad0[2]; int f8; int fc; Node_82279FA0 *list; char pad1[0xa4 - 0x14]; Obj_82279FA0 *obj;
+  char pad2[0xdc - 0xa8]; int fdc; char pad3[0xf4 - 0xe0]; int ff4;
+} Self_82279FA0;
 
-void fn_82279FA0(int param_1,int param_2)
-
+void fn_82279FA0(Self_82279FA0 *self, unsigned id)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 *puVar5;
-  char *pcVar6;
-  int iVar7;
-  char cVar8;
-  longlong lVar3;
-  undefined8 uVar4;
-  undefined4 auStack_130 [2];
-  undefined1 auStack_128 [24];
-  undefined1 auStack_110 [48];
-  undefined1 auStack_e0 [16];
-  undefined1 auStack_b0 [176];
-  
-  *(undefined4 *)(param_1 + 0xf4) = 1;
-  if (*(int *)(param_1 + 0xdc) != 0) {
-    if (*(undefined4 **)(param_1 + 0xa4) != (undefined4 *)0x0) {
-      (**(code **)**(undefined4 **)(param_1 + 0xa4))();
-    }
-    puVar5 = *(undefined4 **)(param_1 + 0x10);
-    for (puVar1 = (undefined4 *)*puVar5; puVar1 != puVar5; puVar1 = (undefined4 *)*puVar1) {
-      iVar2 = puVar1[2];
-      if (*(int *)(iVar2 + 0x10) == param_2) {
-        fn_82526C70(auStack_b0,0x80,0xffffffff821a820c,iVar2 + 0x18);
-        fn_82672C20(*(undefined4 *)(iVar2 + 8),auStack_b0,0,0);
-        puVar5 = (undefined4 *)fn_8266F668(auStack_130,*(undefined4 *)(param_1 + 8));
-        pcVar6 = (char *)fn_8225F670();
-        if (((*pcVar6 != '\0') && (iVar7 = fn_8225FDE0(0x61,1), iVar7 == 0)) &&
-           (cVar8 = fn_82E1CAD0(0x61), cVar8 != '\0')) {
-          fn_82526C70(auStack_128,10,0xffffffff821a6800,*puVar5);
-          fn_82E1CB08(0xffffffff821a7844,auStack_128,0);
-          fn_82E1CB08(0xffffffff821a784c,iVar2 + 0x18,0);
-          fn_82E1CB08(0xffffffff821a7858,iVar2 + 100,0);
+  struct { int t[2]; char b2[24]; char s110[48]; char e0[16]; char pad[32]; char buf[0x80]; } L;
+  Node_82279FA0 *n;
+  Item_82279FA0 *it;
+  int *p;
+  char *c;
+  int v;
+
+  self->ff4 = 1;
+  if (self->fdc != 0) {
+    if (self->obj != 0)
+      self->obj->vt->f0(self->obj);
+    for (n = self->list->next; n != self->list; n = n->next) {
+      it = n->val;
+      if (it->id == id) {
+        fn_82526C70(L.buf, 0x80, "%s.OnClick", it->name);
+        fn_82672C20(it->f8, L.buf, 0, 0);
+        p = fn_8266F668(L.t, self->f8);
+        c = fn_8225F670();
+        if (*c != 0 && fn_8225FDE0(0x61, 1) == 0 && fn_82E1CAD0(0x61) != 0) {
+          fn_82526C70(L.b2, 10, "0x%08x", *p);
+          fn_82E1CB08("MenuId", L.b2, 0);
+          fn_82E1CB08("ButtonName", it->name, 0);
+          fn_82E1CB08("ButtonTag", it->tag, 0);
           fn_82E1CCA8();
         }
         break;
       }
-      puVar5 = *(undefined4 **)(param_1 + 0x10);
     }
-    fn_82864988(auStack_e0,0xffffffff821a8274);
-    auStack_130[0] = fn_828647D8();
-    fn_82864898(auStack_e0);
-    lVar3 = fn_82292AE8();
-    fn_82292780(auStack_110,lVar3 + 0x28);
-    uVar4 = fn_828647D8(auStack_110);
-    fn_82536590(auStack_130,uVar4);
-    fn_82864898(auStack_110);
+    fn_82864988(L.e0, "Play_sfx_ui_frontend_select_impact");
+    L.t[0] = fn_828647D8();
+    fn_82864898(L.e0);
+    v = fn_82292AE8();
+    fn_82292780(L.s110, v + 0x28);
+    fn_82536590(L.t, fn_828647D8(L.s110));
+    fn_82864898(L.s110);
   }
-  *(undefined4 *)(param_1 + 0xf4) = 0;
-  return;
+  self->ff4 = 0;
 }
-

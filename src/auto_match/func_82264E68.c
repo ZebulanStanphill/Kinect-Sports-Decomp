@@ -1,58 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8225F670();
-extern int fn_8225FDE0();
-extern int fn_82526C70();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB08();
-extern int fn_82E1CCA8();
+/* needs the LTCG lane with the variadic callee fn_82526C70 (func_82526C70.c): 100.0%; buf[16] */
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *, ...);
+extern char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern unsigned char fn_82E1CAD0(int);
+extern int fn_82526C70(char *, unsigned, const char *, ...);
+extern int fn_82E1CB08(const char *, void *, int);
+extern int fn_82E1CCA8(void);
+extern int vsn(char *, unsigned, const char *, va_list);
 
-
-void fn_82264E68(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82264E68(int *p, void *name, void *tag)
 {
-  char *pcVar1;
-  int iVar2;
-  char cVar3;
-  undefined1 auStack_30 [48];
-  
-  pcVar1 = (char *)fn_8225F670();
-  if (*pcVar1 != '\0') {
-    iVar2 = fn_8225FDE0(0x60,1);
-    if ((iVar2 == 0) && (cVar3 = fn_82E1CAD0(0x60), cVar3 != '\0')) {
-      fn_82526C70(auStack_30,10,0xffffffff821a6800,*param_1);
-      fn_82E1CB08(0xffffffff821a7844,auStack_30,0);
-      fn_82E1CB08(0xffffffff821a784c,param_2,0);
-      fn_82E1CB08(0xffffffff821a7858,param_3,0);
+  char buf[16];
+  char *c = fn_8225F670();
+  if (*c != 0) {
+    if (fn_8225FDE0(0x60, 1) == 0 && fn_82E1CAD0(0x60) != 0) {
+      fn_82526C70(buf, 10, "0x%08x", *p);
+      fn_82E1CB08("MenuId", buf, 0);
+      fn_82E1CB08("ButtonName", name, 0);
+      fn_82E1CB08("ButtonTag", tag, 0);
       fn_82E1CCA8();
     }
   }
-  return;
 }
-
