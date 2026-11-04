@@ -105290,10 +105290,10 @@
           "/O1"
         ]
       },
-      "auto_match/func_82743808.c": {
-        "status": "NonMatching",
+      "auto_match/func_82743808.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
         ]
       },
       "auto_match/func_82743888.c": {

@@ -70899,7 +70899,7 @@ auto_match/func_827437A0.c:
 	.pdata      start:0x821FADA8 end:0x821FADB0
 	.text       start:0x827437A0 end:0x82743808
 
-auto_match/func_82743808.c:
+auto_match/func_82743808.cpp:
 	.pdata      start:0x821FADB0 end:0x821FADB8
 	.text       start:0x82743808 end:0x82743884
 
