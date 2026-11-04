@@ -2,3 +2,111 @@
 object: orig/4D5308C9/default.xex
 symbols: config/4D5308C9/symbols.txt
 splits: config/4D5308C9/splits.txt
+
+# 32-bit constants (HRESULT-style error codes) that the code builds with
+# lis/ori and that happen to fall inside a function's address range. The
+# splitter would otherwise turn each lis/ori pair into a relocation against
+# that function (for example fn_822403C8+0x3C for 0x82240404), which no source
+# can reproduce. MSVC builds addresses with lis/addi, never lis/ori.
+block_relocations:
+# func_829CFFE0: 0x83010004
+- source: 0x829D0130
+- source: 0x829D0138
+# func_829D5BF8: 0x83010008
+- source: 0x829D5C54
+- source: 0x829D5C58
+# func_829D5E60: 0x83010008
+- source: 0x829D5EB4
+- source: 0x829D5EB8
+# func_829D76B8: 0x83010008
+- source: 0x829D77B8
+- source: 0x829D77C4
+# func_829D85D8: 0x83010008
+- source: 0x829D86AC
+- source: 0x829D86B4
+# func_829D8780: 0x83010008
+- source: 0x829D8844
+- source: 0x829D884C
+# func_829D8F08: 0x83010008
+- source: 0x829D8FC0
+- source: 0x829D8FC4
+# func_829D8F08: 0x83010008
+- source: 0x829D9168
+- source: 0x829D9170
+# func_829D9CF8: 0x83010008
+- source: 0x829D9D3C
+- source: 0x829D9D44
+# func_829DA6D8: 0x83010008
+- source: 0x829DA7B0
+- source: 0x829DA7B4
+# func_829DA6D8: 0x8301000C
+- source: 0x829DA7E4
+- source: 0x829DA7E8
+# func_829DA858: 0x83010008
+- source: 0x829DA8FC
+- source: 0x829DA900
+# func_829EFEF8: 0x83010068
+- source: 0x829F0080
+- source: 0x829F0084
+# func_82F601A8: 0x82240404
+- source: 0x82F602E0
+- source: 0x82F602E4
+# func_82F60308: 0x82240404
+- source: 0x82F603AC
+- source: 0x82F603B0
+# func_82F603C8: 0x82240404
+- source: 0x82F603E8
+- source: 0x82F603EC
+# func_82F603F8: 0x82240404
+- source: 0x82F6047C
+- source: 0x82F60480
+# func_82F60498: 0x82240404
+- source: 0x82F6057C
+- source: 0x82F60580
+# func_82F60598: 0x82240404
+- source: 0x82F6061C
+- source: 0x82F60620
+# func_82F60740: 0x82240408
+- source: 0x82F60794
+- source: 0x82F60798
+# func_82F60740: 0x82240404
+- source: 0x82F608D0
+- source: 0x82F608D4
+# func_82F608F0: 0x82240404
+- source: 0x82F609F8
+- source: 0x82F609FC
+# func_82F60CA8: 0x82240408
+- source: 0x82F60D38
+- source: 0x82F60D3C
+# func_82F61538: 0x82240404
+- source: 0x82F61558
+- source: 0x82F6155C
+# func_82F61A28: 0x82240400
+- source: 0x82F61A98
+- source: 0x82F61A9C
+# func_82F61AB0: 0x82240400
+- source: 0x82F61B44
+- source: 0x82F61B48
+# func_82F61BE8: 0x82240404
+- source: 0x82F61D24
+- source: 0x82F61D28
+# func_82F61BE8: 0x82240400
+- source: 0x82F61D9C
+- source: 0x82F61DA0
+# func_82F61DC0: 0x82240400
+- source: 0x82F61F08
+- source: 0x82F61F0C
+# func_82F61F20: 0x82240400
+- source: 0x82F62040
+- source: 0x82F62044
+
+# A function address whose high half the code spills to the stack before the
+# low half is added, so the splitter does not pair the lis with the subi.
+add_relocations:
+# func_82F47A58: &fn_82F4D1D8
+- source: 0x82F47B04
+  type: ha
+  target: fn_82F4D1D8
+- source: 0x82F47B94
+  type: l
+  target: fn_82F4D1D8

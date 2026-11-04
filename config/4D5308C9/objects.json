@@ -265006,7 +265006,7 @@
       "auto_match/func_82F471A8.c": "MISSING",
       "auto_match/func_82F47670.c": "MISSING",
       "auto_match/func_82F47A58.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -267687,13 +267687,13 @@
         ]
       },
       "auto_match/func_82F603F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
       "auto_match/func_82F60498.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]

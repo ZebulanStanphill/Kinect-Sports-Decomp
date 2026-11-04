@@ -27,25 +27,37 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82F603F8(int param_1,int *param_2)
+typedef struct Obj_82F603F8 {
+  int pad0;
+  unsigned char enabled;
+  unsigned char pad5[3];
+  unsigned int cap;
+  unsigned int count;
+  int pad10[3];
+  void **items;
+} Obj_82F603F8;
 
+typedef struct Item_82F603F8 {
+  void (**vt)(void *);
+} Item_82F603F8;
+
+int fn_82F603F8(Obj_82F603F8 *self, Item_82F603F8 *item)
 {
-  undefined8 uVar1;
-  
-  uVar1 = 0;
-  RtlEnterCriticalSection(param_1 + 0xd4);
-  if ((*(char *)(param_1 + 4) == '\0') || (*(uint *)(param_1 + 8) <= *(uint *)(param_1 + 0xc))) {
-    uVar1 = 0xffffffff82240404;
-  }
-  else if (param_2 == (int *)0x0) {
-    uVar1 = 0xffffffff82240403;
-  }
-  else {
-    *(int **)(*(uint *)(param_1 + 0xc) * 4 + *(int *)(param_1 + 0x1c)) = param_2;
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + 1;
-    (**(code **)(*param_2 + 4))(param_2);
-  }
-  RtlLeaveCriticalSection(param_1 + 0xd4);
-  return uVar1;
-}
+  int hr;
 
+  hr = 0;
+  RtlEnterCriticalSection((char *)self + 0xd4);
+  if (self->enabled != 0 && self->count < self->cap) {
+    if (item != 0) {
+      self->items[self->count] = item;
+      self->count = self->count + 1;
+      item->vt[1](item);
+    } else {
+      hr = 0x82240403;
+    }
+  } else {
+    hr = 0x82240404;
+  }
+  RtlLeaveCriticalSection((char *)self + 0xd4);
+  return hr;
+}
