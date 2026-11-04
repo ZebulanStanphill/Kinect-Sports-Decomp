@@ -87270,8 +87270,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82698FC8.c": {
-        "status": "NonMatching",
+      "auto_match/func_82698FC8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -92792,7 +92792,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_826CC960.c": {
+      "auto_match/func_826CC960.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"

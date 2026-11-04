@@ -59284,7 +59284,7 @@ auto_match/func_82698D50.c:
 auto_match/func_82698F98.c:
 	.text       start:0x82698F98 end:0x82698FC8
 
-auto_match/func_82698FC8.c:
+auto_match/func_82698FC8.cpp:
 	.pdata      start:0x821F5F50 end:0x821F5F58
 	.text       start:0x82698FC8 end:0x82699058
 
@@ -62880,7 +62880,7 @@ auto_match/func_826CC7E0.c:
 	.pdata      start:0x821F77D0 end:0x821F77D8
 	.text       start:0x826CC7E0 end:0x826CC960
 
-auto_match/func_826CC960.c:
+auto_match/func_826CC960.cpp:
 	.pdata      start:0x821F77D8 end:0x821F77E0
 	.text       start:0x826CC960 end:0x826CC9E4
 
