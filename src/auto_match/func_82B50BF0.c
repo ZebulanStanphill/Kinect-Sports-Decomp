@@ -25,29 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern int fn_82AF87E0();
+typedef struct { int a; int b; } E_82B50B70;
+typedef struct { int pad[2]; unsigned int size; unsigned int cap; E_82B50B70 e[1]; } Arr_82B50B70;
+extern Arr_82B50B70 *fn_82AF87E0(unsigned int *, int);
 
-
-void fn_82B50BF0(uint *param_1,undefined4 param_2)
-
+void fn_82B50BF0(unsigned int *param_1, int param_2)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  
-  if ((param_1[1] & 1) == 0) {
-    uVar2 = *param_1 & 0xfffffffe;
-    iVar3 = uVar2 - 4;
-    if (iVar3 != 0) {
-      if (*(int *)(uVar2 + 4) + 1U <= *(uint *)(uVar2 + 8)) goto LAB_82b50c44;
-    }
-  }
-  iVar3 = fn_82AF87E0(param_1,1);
-LAB_82b50c44:
-  iVar1 = *(int *)(iVar3 + 8);
-  *(int *)(iVar3 + 8) = iVar1 + 1;
-  *(ulonglong *)((iVar1 + 2) * 8 + iVar3) = CONCAT44(2,param_2);
-  return;
-}
+  E_82B50B70 e;
+  Arr_82B50B70 *arr;
+  unsigned int n;
 
+  e.a = 2;
+  e.b = param_2;
+  if ((param_1[1] & 1) == 0) {
+    arr = (Arr_82B50B70 *)((param_1[0] & 0xfffffffe) - 4);
+    if (arr != 0 && arr->size + 1 <= arr->cap) goto ok;
+  }
+  arr = fn_82AF87E0(param_1, 1);
+ok:
+  { E_82B50B70 *d; d = &arr->e[arr->size]; arr->size++; *d = e; }
+}

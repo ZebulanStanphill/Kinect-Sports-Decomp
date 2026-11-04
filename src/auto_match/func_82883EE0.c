@@ -1,82 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+extern void fn_8265CA20(void *);
 
+typedef struct { void *p; int a; int b; } Item_82883EE0;
+typedef struct {
+  int pad0;
+  Item_82883EE0 **buf;
+  unsigned cap;
+  unsigned head;
+  unsigned count;
+} Q_82883EE0;
 
-void fn_82883EE0(int param_1)
-
+void fn_82883EE0(Q_82883EE0 *q0)
 {
-  int *piVar1;
-  int iVar2;
-  uint uVar4;
-  longlong lVar3;
-  int iVar5;
-  int iVar6;
-  
-  iVar5 = *(int *)(param_1 + 0x10);
-  while (iVar5 != 0) {
-    if (*(int *)(param_1 + 0x10) != 0) {
-      uVar4 = (*(int *)(param_1 + 0x10) + *(int *)(param_1 + 0xc)) - 1;
-      if (*(uint *)(param_1 + 8) <= uVar4) {
-        uVar4 = uVar4 - *(uint *)(param_1 + 8);
-      }
-      piVar1 = *(int **)(uVar4 * 4 + *(int *)(param_1 + 4));
-      if (*piVar1 != 0) {
-        fn_8265CA20();
-      }
-      *piVar1 = 0;
-      piVar1[1] = 0;
-      piVar1[2] = 0;
-      lVar3 = (ulonglong)*(uint *)(param_1 + 0x10) - 1;
-      *(int *)(param_1 + 0x10) = (int)lVar3;
-      if (lVar3 == 0) {
-        *(undefined4 *)(param_1 + 0xc) = 0;
-      }
+  Q_82883EE0 *q = q0;
+  Item_82883EE0 *it;
+  unsigned idx;
+  unsigned i;
+  unsigned n;
+  unsigned *pc = &q->count;
+  while (*pc != 0) {
+    if (q->count != 0) {
+      idx = q->count + q->head - 1;
+      if (q->cap <= idx) idx = idx - q->cap;
+      it = q->buf[idx];
+      if (it->p != 0) fn_8265CA20(it->p);
+      it->p = 0;
+      it->a = 0;
+      it->b = 0;
+      q->count = q->count - 1;
+      if (q->count == 0) q->head = 0;
     }
-    iVar5 = *(int *)(param_1 + 0x10);
   }
-  iVar5 = *(int *)(param_1 + 8);
-  if (iVar5 != 0) {
-    iVar6 = iVar5 << 2;
+  n = q->cap;
+  if (n != 0) {
+    i = n * 4;
     do {
-      iVar6 = iVar6 + -4;
-      iVar5 = iVar5 + -1;
-      iVar2 = *(int *)(*(int *)(param_1 + 4) + iVar6);
-      if (iVar2 != 0) {
-        fn_8265CA20(iVar2);
-      }
-    } while (iVar5 != 0);
+      i -= 4;
+      n--;
+      if (*(Item_82883EE0 **)((char *)q->buf + i) != 0) fn_8265CA20(*(Item_82883EE0 **)((char *)q->buf + i));
+    } while (n != 0);
   }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 8) = 0;
-  *(undefined4 *)(param_1 + 4) = 0;
-  return;
+  if (q->buf != 0) fn_8265CA20(q->buf);
+  q->cap = 0;
+  q->buf = 0;
 }
-

@@ -25,106 +25,116 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FC9A08();
-extern int fn_82FC9C90();
-extern int fn_82FC9F80();
-extern int fn_82FCA218();
+extern void fn_82FC9A08(void *);
+extern void fn_82FC9C90(void *, void *);
+extern void fn_82FC9F80(void *);
+extern void fn_82FCA218(void *, void *);
 
+struct A;
+typedef struct AVT { void *f0; void *f4; void (*free)(struct A *, void *); } AVT;
+typedef struct A { AVT *vt; } A;
+struct P;
+typedef struct PVT { void (*f0)(struct P *, int); } PVT;
+typedef struct P {
+  PVT *vt;
+  int p4;
+  void *f8;
+  void *fc;
+  void *f10;
+  int p14[4];
+  void *f24;
+  void *f28;
+  void *f2c;
+  void *g[12];
+  char pad[0x100 - 0x60];
+  unsigned count;
+} P;
 
-undefined8 fn_82FBCBA0(undefined4 *param_1,int *param_2)
-
+typedef struct { int a; void *b; int c, d; } E16_cba0;
+typedef struct { char pad[0x18]; void *b; char pad2[0x3c-0x1c]; } E3C_cba0;
+int fn_82FBCBA0(P *p, A *a)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar4;
-  longlong lVar3;
-  int *piVar5;
-  
-  if (param_1[2] == 0) {
-    if (param_1[3] != 0) {
-      fn_82FCA218(param_1[3],param_2);
-      if (param_1[3] != 0) {
-        fn_82FC9F80();
-      }
-      (**(code **)(*param_2 + 8))(param_2,param_1[3]);
-      param_1[3] = 0;
-    }
+  unsigned i;
+  int off;
+  char *arr;
+  void **q;
+  int n;
+  if (p->f8 != 0) {
+    fn_82FC9C90(p->f8, a);
+    if (p->f8 != 0) fn_82FC9A08(p->f8);
+    a->vt->free(a, p->f8);
+    p->f8 = 0;
+  } else if (p->fc != 0) {
+    fn_82FCA218(p->fc, a);
+    if (p->fc != 0) fn_82FC9F80(p->fc);
+    a->vt->free(a, p->fc);
+    p->fc = 0;
   }
-  else {
-    fn_82FC9C90();
-    if (param_1[2] != 0) {
-      fn_82FC9A08();
-    }
-    (**(code **)(*param_2 + 8))(param_2,param_1[2]);
-    param_1[2] = 0;
-  }
-  if (param_1[9] != 0) {
-    uVar2 = 0;
-    if (param_1[0x40] != 0) {
-      iVar4 = 0;
+  if (p->f24 != 0) {
+    i = 0;
+    if (p->count > 0) {
+      off = 0;
       do {
-        iVar1 = param_1[9];
-        if (*(int *)(iVar1 + iVar4 + 4) != 0) {
-          (**(code **)(*param_2 + 8))(param_2);
-          *(undefined4 *)(iVar1 + iVar4 + 4) = 0;
+        arr = (char *)p->f24;
+        if (*(void **)(arr + off + 4) != 0) {
+          a->vt->free(a, *(void **)(arr + off + 4));
+          *(void **)(arr + off + 4) = 0;
         }
-        uVar2 = uVar2 + 1;
-        iVar4 = iVar4 + 0x10;
-      } while (uVar2 < (uint)param_1[0x40]);
+        i++;
+        off += 0x10;
+      } while (i < p->count);
     }
-    (**(code **)(*param_2 + 8))(param_2,param_1[9]);
-    param_1[9] = 0;
+    a->vt->free(a, p->f24);
+    p->f24 = 0;
   }
-  if (param_1[10] != 0) {
-    uVar2 = 0;
-    if (param_1[0x40] != 0) {
-      iVar4 = 0;
+  if (p->f28 != 0) {
+    E16_cba0 *el;
+    i = 0;
+    if (p->count > 0) {
       do {
-        iVar1 = param_1[10];
-        if (*(int *)(iVar4 + iVar1 + 4) != 0) {
-          (**(code **)(*param_2 + 8))(param_2);
-          *(undefined4 *)(iVar4 + iVar1 + 4) = 0;
+        el = (E16_cba0 *)p->f28;
+        if (el[i].b != 0) {
+          a->vt->free(a, el[i].b);
+          el[i].b = 0;
         }
-        uVar2 = uVar2 + 1;
-        iVar4 = iVar4 + 0x10;
-      } while (uVar2 < (uint)param_1[0x40]);
+        i++;
+      } while (i < p->count);
     }
-    (**(code **)(*param_2 + 8))(param_2,param_1[10]);
-    param_1[10] = 0;
+    a->vt->free(a, p->f28);
+    p->f28 = 0;
   }
-  if (param_1[0xb] != 0) {
-    uVar2 = 0;
-    if (param_1[0x40] != 0) {
-      iVar4 = 0;
+  if (p->f2c != 0) {
+    i = 0;
+    if (p->count > 0) {
+      off = 0;
       do {
-        iVar1 = param_1[0xb];
-        if (*(int *)(iVar1 + iVar4 + 0x18) != 0) {
-          (**(code **)(*param_2 + 8))(param_2);
-          *(undefined4 *)(iVar1 + iVar4 + 0x18) = 0;
+        arr = (char *)p->f2c;
+        if (*(void **)(arr + off + 0x18) != 0) {
+          a->vt->free(a, *(void **)(arr + off + 0x18));
+          *(void **)(arr + off + 0x18) = 0;
         }
-        uVar2 = uVar2 + 1;
-        iVar4 = iVar4 + 0x3c;
-      } while (uVar2 < (uint)param_1[0x40]);
+        i++;
+        off += 0x3c;
+      } while (i < p->count);
     }
-    (**(code **)(*param_2 + 8))(param_2,param_1[0xb]);
-    param_1[0xb] = 0;
+    a->vt->free(a, p->f2c);
+    p->f2c = 0;
   }
-  if (param_1[4] != 0) {
-    (**(code **)(*param_2 + 8))(param_2);
-    param_1[4] = 0;
+  if (p->f10 != 0) {
+    a->vt->free(a, p->f10);
+    p->f10 = 0;
   }
-  piVar5 = param_1 + 0xc;
-  lVar3 = 0xc;
+  q = p->g;
+  n = 12;
   do {
-    if (*piVar5 != 0) {
-      (**(code **)(*param_2 + 8))(param_2);
-      *piVar5 = 0;
+    if (*q != 0) {
+      a->vt->free(a, *q);
+      *q = 0;
     }
-    lVar3 = lVar3 + -1;
-    piVar5 = piVar5 + 1;
-  } while (lVar3 != 0);
-  (**(code **)*param_1)(param_1,1);
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+    n--;
+    q++;
+  } while (n != 0);
+  p->vt->f0(p, 1);
+  a->vt->free(a, p);
   return 1;
 }
-

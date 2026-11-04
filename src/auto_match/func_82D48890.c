@@ -25,33 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE3DC8();
-extern int fn_82CFF8D0();
+typedef struct Ar_82D48890 { void **vt; } Ar_82D48890;
+typedef struct Obj_82D48890 { char pad[0x44]; int *items; int count; int flags; } Obj_82D48890;
+extern void fn_82CE3DC8(Obj_82D48890 *, Ar_82D48890 *, char *);
+extern unsigned fn_82CFF8D0(int *, unsigned);
+extern char lbl_8323C494[];
 
-
-void fn_82D48890(int param_1,int *param_2)
-
+void fn_82D48890(Obj_82D48890 *o, Ar_82D48890 *ar)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  if ((*(uint *)(param_1 + 0x4c) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x44),*(uint *)(param_1 + 0x4c) << 2);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff8213844c,*(undefined4 *)(param_1 + 0x44),
-               *(int *)(param_1 + 0x48) << 2,uVar1);
-  }
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 0x48)) {
-    iVar3 = 0;
-    do {
-      (**(code **)(*param_2 + 0xc))(param_2,0,*(undefined4 *)(iVar3 + *(int *)(param_1 + 0x44)),0);
-      iVar2 = iVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (iVar2 < *(int *)(param_1 + 0x48));
-  }
-  fn_82CE3DC8(param_1,param_2,0xffffffff8323c494);
-  return;
-}
+  unsigned h;
+  int i;
+  int off;
+  Obj_82D48890 *self = o;
 
+  if ((self->flags & (int)0x80000000) == 0) {
+    h = fn_82CFF8D0(self->items, self->flags << 2);
+    ((void (*)(Ar_82D48890 *, int, const char *, int *, int, unsigned))ar->vt[5])(ar, 3, "ChildPtrs", self->items, self->count << 2, h);
+  }
+  i = 0;
+  if (0 < self->count) {
+    do {
+      ((void (*)(Ar_82D48890 *, int, int, int))ar->vt[3])(ar, 0, self->items[i], 0);
+      i++;
+    } while (i < self->count);
+  }
+  fn_82CE3DC8(self, ar, lbl_8323C494);
+}

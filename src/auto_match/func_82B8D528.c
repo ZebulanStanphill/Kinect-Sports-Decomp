@@ -25,29 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B8B280();
-extern int fn_82B8BCB0();
+extern int fn_82B8B280(int, int, int, int, int);
+extern unsigned char fn_82B8BCB0(int, int, int, int);
 
-
-ulonglong fn_82B8D528(undefined8 param_1,int param_2,undefined8 param_3)
-
+unsigned int fn_82B8D528(int a, int b, int c)
 {
-  uint uVar1;
-  char cVar3;
-  ulonglong uVar2;
-  bool bVar4;
-  
-  uVar1 = *(uint *)(param_2 + 8) >> 7 & 0x7f;
-  if (uVar1 != 0x70) {
-    if ((uVar1 == 0x7d) || (bVar4 = false, uVar1 == 0x7c)) {
-      bVar4 = true;
-    }
-    if ((!bVar4) && (uVar1 != 0x71)) {
-      cVar3 = fn_82B8BCB0(param_3,param_1,param_2,1);
-      return (ulonglong)(cVar3 == '\0');
+  unsigned int k;
+  unsigned char ok;
+
+
+  k = *(unsigned int *)(b + 8) >> 7 & 0x7f;
+  if (k != 0x70) {
+    ok = k == 0x7d || k == 0x7c;
+    if (!ok && k != 0x71) {
+      return fn_82B8BCB0(c, a, b, 1) == 0;
     }
   }
-  uVar2 = fn_82B8B280(param_1,param_2,0,1);
-  return uVar2;
+  return fn_82B8B280(a, b, 0, 1, c);
 }
-

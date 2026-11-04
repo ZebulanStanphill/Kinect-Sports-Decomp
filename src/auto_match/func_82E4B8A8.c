@@ -25,56 +25,48 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D7E470();
-extern unsigned int uRam831882fc;
+extern int fn_82D7E470(int, const char *, unsigned *);
+extern int lbl_831882FC;
 
-
-undefined8 fn_82E4B8A8(undefined8 param_1,uint *param_2,uint *param_3,int param_4,int *param_5)
-
+int fn_82E4B8A8(int a, unsigned *w, unsigned *h, int mode, int *p)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  if ((param_5 == (int *)0x0) || (*param_5 == 0)) {
-    *param_3 = 0;
-    *param_2 = 0;
-    iVar1 = fn_82D7E470(uRam831882fc,0xffffffff82153ca8,param_2);
-    iVar2 = fn_82D7E470(uRam831882fc,0xffffffff82153c90,param_3);
-    if ((iVar1 != 0) && (((iVar2 != 0 && (*param_2 != 0)) && (*param_3 != 0)))) {
-      *param_2 = *param_2 + 0xf & 0xfffffff0;
-      if (param_4 == 8) {
-        uVar3 = *param_3 + 0x1f & 0xffffffe0;
-      }
-      else {
-        uVar3 = *param_3 + 0xf & 0xfffffff0;
-      }
-      *param_3 = uVar3;
-      uVar3 = *param_2;
-      if (uVar3 < 0x10) {
-        uVar3 = 0x10;
-      }
-      else if (0x2000 < uVar3) {
-        uVar3 = 0x2000;
-      }
-      *param_2 = uVar3;
-      uVar3 = *param_3;
-      if (uVar3 < 0x20) {
-        uVar3 = 0x20;
-      }
-      else if (0x2000 < uVar3) {
-        *param_3 = 0x2000;
-        return 1;
-      }
-      *param_3 = uVar3;
+  int r1;
+  int r2;
+  unsigned v;
+  if (p != 0 && p[0] != 0) {
+    if (p[0x26] != 0 && p[0x27] != 0) {
+      *w = p[10];
+      *h = p[0xb];
       return 1;
     }
+    return 0;
   }
-  else if ((param_5[0x26] != 0) && (param_5[0x27] != 0)) {
-    *param_2 = param_5[10];
-    *param_3 = param_5[0xb];
+  *h = 0;
+  *w = 0;
+  r1 = fn_82D7E470(lbl_831882FC, "Force Encoding Width", w);
+  r2 = fn_82D7E470(lbl_831882FC, "Force Encoding Height", h);
+  if (r1 != 0 && r2 != 0 && *w != 0 && *h != 0) {
+    *w = (*w + 0xf) & 0xfffffff0;
+    if (mode == 8) {
+      *h = (*h + 0x1f) & 0xffffffe0;
+    } else {
+      *h = (*h + 0xf) & 0xfffffff0;
+    }
+    v = *w;
+    if (v >= 0x10) {
+      if (v > 0x2000) v = 0x2000;
+    } else {
+      v = 0x10;
+    }
+    *w = v;
+    v = *h;
+    if (v >= 0x20) {
+      if (v > 0x2000) { *h = 0x2000; return 1; }
+    } else {
+      v = 0x20;
+    }
+    *h = v;
     return 1;
   }
   return 0;
 }
-
