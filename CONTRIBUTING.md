@@ -25,6 +25,12 @@ The evaluator prints the code match and saves the full objdiff result under the 
 
 The splitter decides which instructions refer to symbols, and it is occasionally wrong. A 32-bit constant built with `lis` and `ori`, such as an error code like `0x82240404`, can fall inside a function's address range and become a relocation that no source can reproduce; MSVC builds addresses with `lis` and `addi`, never `ori`. List such instructions under `block_relocations` in `config/4D5308C9/config.yml`. Where the splitter missed a real address, for example one whose halves are split across a stack spill, `add_relocations` restores it. Rerun `configure.py` after changing either.
 
+Some differences have causes that are easy to miss:
+
+- **Saved registers in a different order.** This is often a call that Ghidra gave too few arguments, or an argument with the wrong width. Compare the argument registers the callee reads with what the call passes before changing the order of statements.
+- **A byte swap.** A 32-bit swap built from `srwi` and three `rlwimi` is the compiler intrinsic `_byteswap_ulong`; `_byteswap_ushort` and `_byteswap_uint64` produce the 16- and 64-bit forms. No combination of shifts and masks produces the same code.
+- **`volatile`.** It makes the compiler reload and store a value at every access, so it can force a match the original source didn't have. Use it only where the code proves it: a loop that polls a field another thread writes, or another function on the same structure that reloads a field right after storing it.
+
 For a function that has no split yet, run `python3 scripts/isolate_functions.py 0xADDRESS`, reconfigure, and build its original object. Ghidra can supply the first C version. `scripts/prepare_full_game_task.py` can also package Ghidra C and assembly if you have generated the local analysis database.
 
 ## C++ classes
@@ -37,6 +43,8 @@ Much of the game is C++. RTTI gives the names of classes with virtual functions 
 4. Run the split again so the original object uses the new name, then evaluate the function. The evaluator finds the configured symbol name and adds `include/` and the source's directory to the compiler's include path; pass `/TP` instead of `/TC` in `--cflags`.
 
 Compiling a header with `/GR` emits RTTI. Its `??_R1` names encode each base class's offset, so they should match the game's when the layout is right.
+
+Many functions without a vtable entry are still member functions. When an `add` or an indexed load or store such as `lwzx` takes its operands in the opposite order to every C spelling, or a call's arguments are set up in an unexpected order, the function is likely a member whose `this` comes first. Declare a placeholder class named after an address, such as `Vec_83037438` or `Element_8288E4B0`, define the function as its member, and rename it to the mangled name. Every `Matching` unit that refers to the old `fn_` name has to become C++ and call the member in the same change. A `NonMatching` caller can keep the old name until it is converted, since it has to become C++ to match anyway. A function that several classes share keeps its `fn_` name.
 
 Declare functions and data that have no names yet inside `extern "C"` with their configured `fn_` or `lbl_` names, so calls to them match without renaming anything.
 
