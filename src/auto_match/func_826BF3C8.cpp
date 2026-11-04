@@ -2,7 +2,12 @@
 // map, so the probe loop re-reads m->pTable->SizeMask as in the original.
 extern "C" void fn_826BDE10(void *dst, const void *src);
 extern "C" void fn_826BE1B8(void *dst, const void *src);
-extern "C" void fn_826BEAC0(void *m, void *a, int n);
+// The table resize, defined by func_826BEAC0.cpp as a member of a placeholder
+// class (the real Scaleform template is unknown).
+struct Hash_826BEAC0 {
+  void *t;
+  void setRawCapacity(void *heap, unsigned int n);
+};
 
 inline void *operator new(unsigned int, void *p) throw() { return p; }
 
@@ -29,7 +34,7 @@ struct Table_826BF3C8 { unsigned int EntryCount; unsigned int SizeMask; };
 struct Hash_826BF3C8 {
   Table_826BF3C8 *pTable;
   Entry_826BF3C8 &E(unsigned int index) { return ((Entry_826BF3C8 *)(pTable + 1))[index]; }
-  void setRawCapacity(void *a, unsigned int n) { fn_826BEAC0(this, a, n); }
+  void setRawCapacity(void *a, unsigned int n) { ((Hash_826BEAC0 *)this)->setRawCapacity(a, n); }
   void CheckExpand(void *a) {
     if (pTable == 0)
       setRawCapacity(a, 8);
