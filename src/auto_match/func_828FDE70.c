@@ -1,62 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82F68CC0();
+typedef struct Vec_828FDE70 { char pad[0x5c]; void *data; unsigned size; unsigned cap; } Vec_828FDE70;
+extern void *memcpy(void *, const void *, unsigned);
+extern void *fn_8265C940(unsigned, int);
+extern void fn_8265C990(void *, int);
 
-
-undefined8 fn_828FDE70(int param_1,longlong param_2)
-
+int fn_828FDE70(Vec_828FDE70 *v, unsigned n)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  
-  uVar3 = (ulonglong)*(uint *)(param_1 + 100);
-  uVar2 = param_2 + (ulonglong)*(uint *)(param_1 + 0x60);
-  if (uVar3 < (uVar2 & 0xffffffff)) {
-    if (uVar3 == 0) {
-      uVar3 = 0x100;
+  if (v->size + n > v->cap) {
+    unsigned ncap = v->cap ? v->cap : 0x100;
+    void *p;
+    while (v->size + n > ncap) {
+      ncap = ncap << 1;
     }
-    if (uVar3 < (uVar2 & 0xffffffff)) {
-      do {
-        uVar3 = (uVar3 & 0x7fffffff) << 1;
-      } while (uVar3 < (param_2 + (ulonglong)*(uint *)(param_1 + 0x60) & 0xffffffff));
+    p = fn_8265C940(ncap * 4, 0x24810000);
+    if (p == 0) {
+      return 0x8007000e;
     }
-    lVar1 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x24810000);
-    if (lVar1 == 0) {
-      return 0xffffffff8007000e;
-    }
-    fn_82F68CC0(lVar1,*(undefined4 *)(param_1 + 0x5c),*(int *)(param_1 + 0x60) << 2);
-    fn_8265C990(*(undefined4 *)(param_1 + 0x5c),0x24810000);
-    *(int *)(param_1 + 0x5c) = (int)lVar1;
-    *(int *)(param_1 + 100) = (int)uVar3;
+    memcpy(p, v->data, v->size * 4);
+    fn_8265C990(v->data, 0x24810000);
+    v->data = p;
+    v->cap = ncap;
   }
   return 0;
 }
-
