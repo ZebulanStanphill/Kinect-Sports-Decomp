@@ -27,18 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_8267FD48(int param_1,ulonglong param_2)
-
+unsigned int fn_8267FD48(int k, unsigned int v)
 {
-  if (param_1 == 1) {
-    return (param_2 & 0x3fffffff) << 2;
+  switch (k) {
+  case 8:
+  case 9:
+  case 100:
+    return v;
+  case 2:
+    return (v + 1) * 3 & 0xfffffffc;
+  case 1:
+    return v * 4;
   }
-  if (param_1 != 2) {
-    if ((7 < param_1) && ((param_1 < 10 || (param_1 == 100)))) {
-      return param_2;
-    }
-    return 0;
-  }
-  return (param_2 + 1) * 3 & 0xfffffffc;
+  return 0;
 }
-

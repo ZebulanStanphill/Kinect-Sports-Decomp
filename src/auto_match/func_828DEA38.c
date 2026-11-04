@@ -25,44 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82516F48();
-extern int fn_828AC450();
-extern int fn_828BDDA0();
-extern int memcpy();
-extern unsigned int lbl_820270D4;
-extern unsigned int lbl_820270D8;
+//BODY
+extern void fn_828BDDA0(void *);
+extern void fn_82516F48(void *, int);
+extern void fn_828AC450(void *, int);
+extern void *memcpy(void *, const void *, unsigned int);
+extern char lbl_820270D4[];
+extern char lbl_820270D8[];
 
+typedef struct { unsigned char b[8]; } B8_828DEA38;
+typedef struct Obj_828DEA38 {
+  void *vt;
+  char pad1[0x4c];
+  void *vt50;
+  char pad2[0x2c];
+  unsigned __int64 f80;
+  int f88;
+  int f8c;
+  B8_828DEA38 f90;
+  char f98[0x10];
+  char fa8[0x24];
+  char pad3[0xd0 - 0xcc];
+  char fd0[0x10];
+  char fe0[0x10];
+  char ff0[0x10];
+} Obj_828DEA38;
 
-undefined4 *
-fn_828DEA38(undefined4 *param_1, undefined8 param_2, undefined4 param_3, undefined4 param_4, int param_5, undefined8 param_6, undefined8 param_7, undefined8 param_8, undefined4 in_stack_00000054, undefined4 in_stack_0000005c)
-
+Obj_828DEA38 *fn_828DEA38(Obj_828DEA38 *p, unsigned __int64 a, int b, int c, B8_828DEA38 *s8, void *s16, void *s24, int d, int e, int f)
 {
-  undefined1 *puVar1;
-  undefined1 *puVar2;
-  longlong lVar3;
-
-
-  
-  fn_828BDDA0();
-  *(undefined8 *)(param_1 + 0x20) = param_2;
-  param_1[0x22] = param_3;
-  param_1[0x23] = param_4;
-  *param_1 = &lbl_820270D8;
-  puVar1 = (undefined1 *)((int)param_1 + 0x8f);
-  param_1[0x14] = &lbl_820270D4;
-  puVar2 = (undefined1 *)(param_5 + -1);
-  lVar3 = 8;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  memcpy(param_1 + 0x26,param_6,0x10);
-  memcpy(param_1 + 0x2a,param_7,0x24);
-  fn_82516F48(param_1 + 0x34,param_8);
-  fn_82516F48(param_1 + 0x38,in_stack_00000054);
-  fn_828AC450(param_1 + 0x3c,in_stack_0000005c);
-  return param_1;
+  fn_828BDDA0(p);
+  p->f80 = a;
+  p->f88 = b;
+  p->f8c = c;
+  p->vt = lbl_820270D8;
+  p->vt50 = lbl_820270D4;
+  p->f90 = *s8;
+  memcpy(p->f98, s16, 0x10);
+  memcpy(p->fa8, s24, 0x24);
+  fn_82516F48(p->fd0, d);
+  fn_82516F48(p->fe0, e);
+  fn_828AC450(p->ff0, f);
+  return p;
 }
-

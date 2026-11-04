@@ -25,25 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F41C68();
+//BODY
+extern int fn_82F41C68(void *, int, int, void *);
+extern char lbl_820E975C[];
 
-
-undefined8
-fn_82F41130(undefined8 param_1,int param_2,int *param_3,int param_4,int param_5,undefined8 param_6
-             ,undefined8 param_7,undefined4 *param_8)
-
+int fn_82F41130(int unused, unsigned int a, int *b, unsigned int c, unsigned int d, int e, void *f, int *g)
 {
-  undefined8 uVar1;
-  
-  uVar1 = 0;
-  if ((((param_2 == 0) || (param_3 == (int *)0x0)) || (param_4 == 0)) ||
-     (((int)param_7 == 0 || (param_8 == (undefined4 *)0x0)))) {
-    uVar1 = 0xffffffff8000ffff;
+  int hr = 0;
+  if (a == 0 || b == 0 || c == 0 || f == 0 || g == 0) {
+    hr = 0x8000ffff;
+  } else if (*b == 1 && d == 0) {
+    hr = fn_82F41C68(lbl_820E975C, 2, e, f);
+    if (hr >= 0) {
+      *g = 1;
+    }
   }
-  else if (((*param_3 == 1) && (param_5 == 0)) &&
-          (uVar1 = fn_82F41C68(0xffffffff820e975c,2,param_6,param_7), -1 < (int)uVar1)) {
-    *param_8 = 1;
-  }
-  return uVar1;
+  return hr;
 }
-

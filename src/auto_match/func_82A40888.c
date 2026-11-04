@@ -25,53 +25,65 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A43BF8();
-extern int fn_82A459A8();
-extern int XAudioGetVoiceCategoryVolume();
+//BODY
+typedef struct Node_82A40888 { void *val; struct Node_82A40888 *next; } Node_82A40888;
+typedef struct VO_82A40888 { void (**vt)(struct VO_82A40888 *); } VO_82A40888;
+typedef struct Sub_82A40888 { void (**vt)(struct Sub_82A40888 *); } Sub_82A40888;
+typedef struct Obj_82A40888 {
+  char pad[0x70];
+  Sub_82A40888 sub;
+  char pad2[0x1fc - 0x74];
+  Node_82A40888 *list1;
+  char pad3[0x20c - 0x200];
+  float vol;
+  char pad4[0x22c - 0x210];
+  Node_82A40888 *list2;
+  int pad5;
+  unsigned int cnt2;
+} Obj_82A40888;
 
+extern void fn_82A43BF8(void *);
+extern void fn_82A459A8();
+extern int XAudioGetVoiceCategoryVolume(int, float *);
 
-void fn_82A40888(int param_1)
-
+void fn_82A40888(Obj_82A40888 *o)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined4 *puVar4;
-  float afStack_30;
-  
-  XAudioGetVoiceCategoryVolume(1,&afStack_30);
-  if (afStack_30 != *(float *)(param_1 + 0x20c)) {
-    puVar4 = *(undefined4 **)(param_1 + 0x1fc);
-    *(float *)(param_1 + 0x20c) = afStack_30;
-    while (puVar4 != (undefined4 *)0x0) {
-      if (puVar4 == (undefined4 *)0x0) {
-        uVar1 = 0;
+  float v;
+  Node_82A40888 *it;
+  Node_82A40888 *cur;
+  void *val;
+  Sub_82A40888 *sub;
+  XAudioGetVoiceCategoryVolume(1, &v);
+  if (v != o->vol) {
+    it = o->list1;
+    o->vol = v;
+    while (it != 0) {
+      cur = it;
+      if (it != 0) {
+        it = it->next;
+        val = cur->val;
+      } else {
+        val = 0;
       }
-      else {
-        uVar1 = *puVar4;
-        puVar4 = (undefined4 *)puVar4[1];
-      }
-      fn_82A43BF8(uVar1);
+      fn_82A43BF8(val);
     }
   }
-  piVar3 = (int *)(param_1 + 0x70);
-  (**(code **)(*(int *)(param_1 + 0x70) + 8))(piVar3);
-  if (*(int *)(param_1 + 0x234) != 0) {
-    puVar4 = *(undefined4 **)(param_1 + 0x22c);
-    while( true ) {
-      if (puVar4 == (undefined4 *)0x0) {
-        puVar2 = (undefined4 *)0x0;
+  sub = &o->sub;
+  sub->vt[2](sub);
+  if (o->cnt2 != 0) {
+    it = o->list2;
+    for (;;) {
+      cur = it;
+      if (it != 0) {
+        it = it->next;
+        val = cur->val;
+      } else {
+        val = 0;
       }
-      else {
-        puVar2 = (undefined4 *)*puVar4;
-        puVar4 = (undefined4 *)puVar4[1];
-      }
-      if (puVar2 == (undefined4 *)0x0) break;
-      (**(code **)*puVar2)();
+      if (val == 0) break;
+      (*(*(void (***)(void *))val))(val);
     }
   }
-  (**(code **)(*piVar3 + 0x14))(piVar3);
+  sub->vt[5](sub);
   fn_82A459A8();
-  return;
 }
-

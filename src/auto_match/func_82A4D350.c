@@ -25,26 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3FE48();
-extern int fn_82A5F3B8();
-extern int fn_82F691F0();
-extern unsigned int lbl_82089EAC;
-extern unsigned int lbl_82089EC0;
+//BODY
+extern void fn_82A5F3B8(void *, void *);
+extern void fn_82A3FE48(void *);
+extern void *memset(void *, int, unsigned int);
+extern char lbl_82089EAC[];
+extern char lbl_82089EC0[];
+extern char lbl_8315E1E8[];
+extern char lbl_83219D50[];
 
+typedef struct Obj_82A4D350 {
+  void *vt;
+  int pad[7];
+  void *vt20;
+  int f24[9];
+  int f48[6];
+  int f60;
+  int f64;
+  int f68;
+  int f6c;
+  int f70;
+} Obj_82A4D350;
 
-void fn_82A4D350(undefined4 *param_1)
-
+Obj_82A4D350 *fn_82A4D350(Obj_82A4D350 *p)
 {
-  fn_82A5F3B8(param_1,0xffffffff8315e1e8);
-  param_1[0x18] = 0;
-  *param_1 = &lbl_82089EC0;
-  param_1[8] = &lbl_82089EAC;
-  param_1[0x19] = 0;
-  param_1[0x1a] = 0;
-  param_1[0x1b] = 0;
-  param_1[0x1c] = 0;
-  fn_82A3FE48(0xffffffff83219d50);
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 9,0,0x24);
+  fn_82A5F3B8(p, lbl_8315E1E8);
+  p->f60 = 0;
+  p->vt = lbl_82089EC0;
+  p->vt20 = lbl_82089EAC;
+  p->f64 = 0;
+  p->f68 = 0;
+  p->f6c = 0;
+  p->f70 = 0;
+  fn_82A3FE48(lbl_83219D50);
+  memset(p->f24, 0, 0x24);
+  memset(p->f48, 0, 0x18);
+  return p;
 }
-

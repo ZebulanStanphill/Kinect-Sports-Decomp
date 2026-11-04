@@ -25,29 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6DF30();
+//BODY
+extern int tolower(int);
 
-
-ulonglong fn_82818520(byte *param_1)
-
+unsigned int fn_82818520(unsigned char *p)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  
-  uVar2 = 0;
-  while( true ) {
-    uVar1 = (ulonglong)(char)*param_1;
-    if (*param_1 < 0x80) {
-      uVar1 = fn_82F6DF30();
-    }
-    param_1 = param_1 + 1;
-    if ((uVar1 & 0xffffffff) == 0) break;
-    uVar2 = (uVar2 & 0xfffffff) * 0x10 + uVar1;
-    uVar1 = uVar2 & 0xf0000000;
-    if (uVar1 != 0) {
-      uVar2 = (uVar1 >> 0x18 | uVar1) ^ uVar2;
+  unsigned int h = 0;
+  unsigned int g;
+  for (;;) {
+    unsigned int c = *p;
+    if (*p < 0x80) {
+      c = tolower((char)*p);
+    } else c = (char)*p;
+    p++;
+    if (c == 0) break;
+    h = (h << 4) + c;
+    g = h & 0xf0000000;
+    if (g != 0) {
+      h = (g >> 24 | g) ^ h;
     }
   }
-  return uVar2;
+  return h;
 }
-

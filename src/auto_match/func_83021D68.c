@@ -25,38 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1DDC0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC770;
+//BODY
+extern void *fn_82FA5060(void *, unsigned int);
+extern void fn_82A1DDC0(void *, void *, unsigned int);
+extern void fn_82FA5190(void *, void *);
+extern void *lbl_831BC770;
 
+typedef struct { char pad[0x10]; unsigned short n; short pad2; void *data; } Src_83021D68;
 
-void fn_83021D68(int param_1,ushort *param_2,int *param_3)
-
+void fn_83021D68(Src_83021D68 *s, unsigned short *count, void **dst)
 {
-  ulonglong uVar1;
-  
-  if ((ulonglong)*(ushort *)(param_1 + 0x10) != 0) {
-    if (*param_3 == 0) {
-      *param_3 = *(int *)(param_1 + 0x14);
-      *(undefined4 *)(param_1 + 0x14) = 0;
-    }
-    else {
-      uVar1 = fn_82FA5060(lbl_831BC770,
-                                ((ulonglong)*param_2 + (ulonglong)*(ushort *)(param_1 + 0x10)) *
-                                0x14);
-      if ((uVar1 & 0xffffffff) != 0) {
-        fn_82A1DDC0(uVar1,*param_3,(ulonglong)*param_2 * 0x14);
-        fn_82A1DDC0((ulonglong)*param_2 * 0x14 + uVar1,*(undefined4 *)(param_1 + 0x14),
-                          (ulonglong)*(ushort *)(param_1 + 0x10) * 0x14);
-        fn_82FA5190(lbl_831BC770,*param_3);
-        fn_82FA5190(lbl_831BC770,*(undefined4 *)(param_1 + 0x14));
-        *(undefined4 *)(param_1 + 0x14) = 0;
-        *param_3 = (int)uVar1;
+  void *buf;
+  if (s->n != 0) {
+    if (*dst == 0) {
+      *dst = s->data;
+      s->data = 0;
+    } else {
+      buf = fn_82FA5060(lbl_831BC770, (*count + s->n) * 0x14);
+      if (buf != 0) {
+        fn_82A1DDC0(buf, *dst, *count * 0x14);
+        fn_82A1DDC0((char *)buf + *count * 0x14, s->data, s->n * 0x14);
+        fn_82FA5190(lbl_831BC770, *dst);
+        fn_82FA5190(lbl_831BC770, s->data);
+        s->data = 0;
+        *dst = buf;
       }
     }
-    *param_2 = *param_2 + *(short *)(param_1 + 0x10);
+    *count = *count + s->n;
   }
-  return;
 }
-

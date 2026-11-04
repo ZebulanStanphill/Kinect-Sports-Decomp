@@ -1,75 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8245C5E0(int param_1)
-
-{
-  int *piVar1;
-  int iVar3;
-  ulonglong uVar2;
-  longlong lVar4;
-  undefined4 *puVar5;
-  ulonglong uVar6;
-  
-  if (*(int *)(param_1 + 0x57c) == 0) {
-    *(undefined4 *)(param_1 + 0x574) = 0;
-    if (*(code **)(param_1 + 0x5d4) != (code *)0x0) {
-      (**(code **)(param_1 + 0x5d4))
-                (*(undefined4 *)(param_1 + 0x5c8),*(undefined4 *)(param_1 + 0x5d8),
-                 *(undefined4 *)(param_1 + 0x580));
-    }
-    RtlEnterCriticalSection(param_1);
-    *(undefined4 *)(param_1 + 0x57c) = 1;
-    RtlLeaveCriticalSection(param_1);
+extern void RtlEnterCriticalSection(void *); extern void RtlLeaveCriticalSection(void *);
+struct Obj_8245C5E0;
+typedef struct VT_8245C5E0 {
+  int pad0[4];
+  void (*f10)(struct Obj_8245C5E0 *, unsigned);
+  int pad14[4];
+  unsigned (*f24)(struct Obj_8245C5E0 *);
+  int pad28;
+  int (*f2c)(struct Obj_8245C5E0 *, unsigned);
+  void (*f30)(struct Obj_8245C5E0 *, unsigned);
+} VT_8245C5E0;
+typedef struct Obj_8245C5E0 { VT_8245C5E0 *vt; } Obj_8245C5E0;
+typedef struct O_8245C5E0 {
+  char cs[0x568];
+  Obj_8245C5E0 *objs[2];
+  int pad570; int f574; int pad578; int f57c; int f580; char pad584[0x44];
+  void *a5c8; char pad5cc[8]; void (*cb)(void *, void *, int); void *a5d8;
+} O_8245C5E0;
+void fn_8245C5E0(O_8245C5E0 *o) {
+  Obj_8245C5E0 **pp; Obj_8245C5E0 *p; unsigned i; int n;
+  if (o->f57c == 0) {
+    o->f574 = 0;
+    if (o->cb != 0) o->cb(o->a5c8, o->a5d8, o->f580);
+    RtlEnterCriticalSection(o);
+    o->f57c = 1;
+    RtlLeaveCriticalSection(o);
   }
-  RtlEnterCriticalSection(param_1);
-  puVar5 = (undefined4 *)(param_1 + 0x568);
-  lVar4 = 2;
+  RtlEnterCriticalSection(o);
+  pp = o->objs;
+  n = 2;
   do {
-    piVar1 = (int *)*puVar5;
-    uVar6 = 0;
-    iVar3 = (**(code **)(*piVar1 + 0x24))(piVar1);
-    if (iVar3 != 0) {
+    p = *pp;
+    i = 0;
+    if (p->vt->f24(p) != 0) {
       do {
-        iVar3 = (**(code **)(*piVar1 + 0x2c))(piVar1,uVar6);
-        if (iVar3 != 0) {
-          (**(code **)(*piVar1 + 0x30))(piVar1,uVar6);
-          (**(code **)(*piVar1 + 0x10))(piVar1,uVar6);
-        }
-        uVar6 = uVar6 + 1;
-        uVar2 = (**(code **)(*piVar1 + 0x24))(piVar1);
-      } while ((uVar6 & 0xffffffff) < (uVar2 & 0xffffffff));
+        if (p->vt->f2c(p, i) != 0) { p->vt->f30(p, i); p->vt->f10(p, i); }
+        i++;
+      } while (i < p->vt->f24(p));
     }
-    lVar4 = lVar4 + -1;
-    puVar5 = puVar5 + 1;
-  } while (lVar4 != 0);
-  RtlLeaveCriticalSection(param_1);
-  return;
+    n--; pp++;
+  } while (n != 0);
+  RtlLeaveCriticalSection(o);
 }
-

@@ -25,65 +25,61 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82252678();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_3c;
-extern unsigned int stack0x00000020;
-extern unsigned int stack0x0000003c;
-extern unsigned int stack0x0000005c;
-extern unsigned int uStack0000003c;
-extern unsigned int uStack0000005c;
-extern unsigned int uStack_40;
+//BODY
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 
+extern void fn_822315A0(void *);
+extern void fn_82252678(void *, int, void *);
+extern void fn_822D79D8(void *, int);
+extern int fn_822D7FE0(void *);
+extern void *fn_8265C9E0(int);
+extern void fn_828E2B28(void *, void *);
+extern void fn_828E9D40(int);
+extern void fn_828E9D90(int);
 
-void fn_823F2698(int param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined4 param_7)
+typedef struct I_823F2698 { void (**vt)(struct I_823F2698 *, int, void *); } I_823F2698;
+typedef struct Obj_823F2698 {
+  char pad[0x38];
+  char f38[0x10];
+  unsigned int f48;
+  char pad2[0x68 - 0x4c];
+  I_823F2698 *i68; int q68;
+  I_823F2698 *i70; int q70;
+  I_823F2698 *i78; int q78;
+  I_823F2698 *i80; int q80;
+  I_823F2698 *i88; int q88;
+  I_823F2698 *i90; int q90;
+  I_823F2698 *i98;
+} Obj_823F2698;
 
+void fn_823F2698(Obj_823F2698 *o, __vector4 v, int a, int b, int c, int d, int e, int f)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 uStack0000003c;
-  undefined4 uStack0000005c;
-  struct { undefined4 first; int second; } stack_pair_40;
-
-  
-  uStack0000003c = param_3;
-  uStack0000005c = param_7;
-  iVar2 = fn_8265C9E0(0x28);
-  if (iVar2 == 0) {
-    uVar1 = 0;
+  void *mem;
+  int h;
+  struct { int first; unsigned int second; } pr;
+  mem = fn_8265C9E0(0x28);
+  if (mem != 0) {
+    h = fn_822D7FE0(mem);
+  } else {
+    h = 0;
   }
-  else {
-    uVar1 = fn_822D7FE0();
+  pr.first = 0;
+  pr.second = 0;
+  fn_822D79D8(&pr, h);
+  o->i68->vt[4](o->i68, pr.first, &v);
+  o->i70->vt[4](o->i70, pr.first, (void *)a);
+  o->i78->vt[4](o->i78, pr.first, &b);
+  o->i80->vt[4](o->i80, pr.first, (void *)c);
+  o->i88->vt[4](o->i88, pr.first, (void *)d);
+  o->i90->vt[4](o->i90, pr.first, (void *)e);
+  o->i98->vt[4](o->i98, pr.first, &f);
+  if (o->f48 != 0) {
+    fn_828E9D90(pr.first);
+    fn_828E9D40(pr.first);
+    fn_82252678(o, pr.first, o->f38);
   }
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  fn_822D79D8(&stack_pair_40.first,uVar1);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
-            (*(int **)(param_1 + 0x68),stack_pair_40.first,&stack0x00000020);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))(*(int **)(param_1 + 0x70),stack_pair_40.first,param_2);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x10))
-            (*(int **)(param_1 + 0x78),stack_pair_40.first,&stack0x0000003c);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x10))(*(int **)(param_1 + 0x80),stack_pair_40.first,param_4);
-  (**(code **)(**(int **)(param_1 + 0x88) + 0x10))(*(int **)(param_1 + 0x88),stack_pair_40.first,param_5);
-  (**(code **)(**(int **)(param_1 + 0x90) + 0x10))(*(int **)(param_1 + 0x90),stack_pair_40.first,param_6);
-  (**(code **)(**(int **)(param_1 + 0x98) + 0x10))
-            (*(int **)(param_1 + 0x98),stack_pair_40.first,&stack0x0000005c);
-  if (*(int *)(param_1 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_40.first);
-    fn_828E9D40(stack_pair_40.first);
-    fn_82252678(param_1,stack_pair_40.first,param_1 + 0x38);
+  fn_828E2B28(o, &pr);
+  if (pr.second != 0) {
+    fn_822315A0((void *)pr.second);
   }
-  fn_828E2B28(param_1,&stack_pair_40.first);
-  if (stack_pair_40.second != 0) {
-    fn_822315A0();
-  }
-  return;
 }
-

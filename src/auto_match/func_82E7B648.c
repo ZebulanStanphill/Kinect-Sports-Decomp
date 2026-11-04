@@ -25,27 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E7E7E0();
-extern unsigned int lbl_8215F058;
+//BODY
+typedef struct VO_82E7B648 { void (**vt)(struct VO_82E7B648 *); } VO_82E7B648;
+typedef struct Obj_82E7B648 {
+  void *vt;
+  int f4;
+  VO_82E7B648 *f8;
+  VO_82E7B648 *fc;
+  int f10[4];
+  VO_82E7B648 *f20;
+} Obj_82E7B648;
 
+extern void fn_82E72FB8(void *);
+extern char lbl_8215F058[];
 
-void fn_82E7B648(undefined4 *param_1)
-
+void fn_82E7B648(Obj_82E7B648 *p)
 {
-  *param_1 = &lbl_8215F058;
-  if ((int *)param_1[8] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[8] + 8))();
-    param_1[8] = 0;
+  p->vt = lbl_8215F058;
+  if (p->f20 != 0) {
+    p->f20->vt[2](p->f20);
+    p->f20 = 0;
   }
-  if ((int *)param_1[3] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[3] + 8))();
-    param_1[3] = 0;
+  if (p->fc != 0) {
+    p->fc->vt[2](p->fc);
+    p->fc = 0;
   }
-  if ((int *)param_1[2] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[2] + 8))();
-    param_1[2] = 0;
+  if (p->f8 != 0) {
+    p->f8->vt[2](p->f8);
+    p->f8 = 0;
   }
-  fn_82E7E7E0(param_1 + 4);
-  return;
+  fn_82E72FB8(p->f10);
 }
-

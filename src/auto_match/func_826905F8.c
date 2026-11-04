@@ -27,66 +27,59 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_826905F8(uint *param_1,int *param_2)
+//BODY
+typedef struct TC_826905F8 {
+  struct TC_826905F8 *bk;
+  struct TC_826905F8 *fd;
+  int pad[3];
+  struct TC_826905F8 *parent;
+  struct TC_826905F8 *child[2];
+  unsigned int index;
+} TC_826905F8;
+typedef struct { unsigned int treemap; TC_826905F8 *treebins[32]; } M_826905F8;
 
+void fn_826905F8(M_826905F8 *M, TC_826905F8 *X)
 {
-  int iVar1;
-  int *piVar2;
-  uint *puVar3;
-  uint *puVar4;
-  int *piVar5;
-  
-  piVar5 = (int *)*param_2;
-  iVar1 = param_2[5];
-  if (piVar5 == param_2) {
-    piVar5 = (int *)param_2[7];
-    puVar3 = (uint *)(param_2 + 7);
-    if (piVar5 == (int *)0x0) {
-      piVar5 = (int *)param_2[6];
-      puVar3 = (uint *)(param_2 + 6);
-      if (piVar5 == (int *)0x0) goto LAB_8269066c;
-    }
-    while ((puVar4 = (uint *)((int)piVar5 + 0x1c), *(int *)((int)piVar5 + 0x1c) != 0 ||
-           (puVar4 = (uint *)((int)piVar5 + 0x18), *(int *)((int)piVar5 + 0x18) != 0))) {
-      puVar3 = puVar4;
-      piVar5 = (int *)*puVar4;
-    }
-    *puVar3 = 0;
-  }
-  else {
-    piVar2 = (int *)param_2[1];
-    *piVar2 = (int)piVar5;
-    piVar5[1] = (int)piVar2;
-  }
-LAB_8269066c:
-  if (iVar1 == 0) {
-    return;
-  }
-  if (param_2 == (int *)param_1[param_2[8] + 1]) {
-    param_1[param_2[8] + 1] = (uint)piVar5;
-    if (piVar5 == (int *)0x0) {
-      *param_1 = *param_1 & ~(1 << (param_2[8] & 0x3fU));
-      return;
+  TC_826905F8 *XP = X->parent;
+  TC_826905F8 *R;
+  if (X->bk != X) {
+    TC_826905F8 *F = X->fd;
+    R = X->bk;
+    F->bk = R;
+    R->fd = F;
+  } else {
+    TC_826905F8 **RP;
+    if (((R = *(RP = &(X->child[1]))) != 0) ||
+        ((R = *(RP = &(X->child[0]))) != 0)) {
+      TC_826905F8 **CP;
+      while ((*(CP = &(R->child[1])) != 0) ||
+             (*(CP = &(R->child[0])) != 0)) {
+        R = *(RP = CP);
+      }
+      *RP = 0;
     }
   }
-  else {
-    *(int **)((7 - (uint)(param_2 == *(int **)(iVar1 + 0x18))) * 4 + iVar1) = piVar5;
-    if (piVar5 == (int *)0x0) {
-      return;
+  if (XP != 0) {
+    TC_826905F8 **H = &M->treebins[X->index];
+    if (X == *H) {
+      if ((*H = R) == 0) {
+        M->treemap &= ~(1U << X->index);
+      }
+    } else {
+      XP->child[XP->child[0] != X] = R;
+    }
+    if (R != 0) {
+      TC_826905F8 *C0;
+      TC_826905F8 *C1;
+      R->parent = XP;
+      if ((C0 = X->child[0]) != 0) {
+        R->child[0] = C0;
+        C0->parent = R;
+      }
+      if ((C1 = X->child[1]) != 0) {
+        R->child[1] = C1;
+        C1->parent = R;
+      }
     }
   }
-  *(int *)((int)piVar5 + 0x14) = iVar1;
-  iVar1 = param_2[6];
-  if (iVar1 != 0) {
-    *(int *)((int)piVar5 + 0x18) = iVar1;
-    *(int **)(iVar1 + 0x14) = piVar5;
-  }
-  iVar1 = param_2[7];
-  if (iVar1 == 0) {
-    return;
-  }
-  *(int *)((int)piVar5 + 0x1c) = iVar1;
-  *(int **)(iVar1 + 0x14) = piVar5;
-  return;
 }
-

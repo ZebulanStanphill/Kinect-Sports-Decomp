@@ -1,54 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_824C04E0();
-extern int fn_82517978();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-
-
-void fn_824C02A8(int param_1,undefined4 *param_2)
-
-{
-  int iVar1;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  
-  fn_824C04E0(param_1,3);
-  uStack_30 = 0;
-  uStack_2c = 0;
-  fn_82517978(&uStack_30,*param_2,param_2[1],0);
-  iVar1 = *(int *)(param_1 + 0x48);
-  *(undefined4 *)(param_1 + 0x48) = uStack_2c;
-  *(undefined4 *)(param_1 + 0x44) = uStack_30;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  return;
+extern void fn_822315A0(void *); extern void fn_824C04E0(void *, int); extern void fn_82517978(void *, int, int, int);
+typedef struct SP_824C02A8 { int px; void *rep; } SP_824C02A8;
+typedef struct O_824C02A8 { char pad[0x44]; SP_824C02A8 sp; } O_824C02A8;
+void fn_824C02A8(O_824C02A8 *o, int *src) {
+SP_824C02A8 t; void *rep;
+SP_824C02A8 *sp;
+fn_824C04E0(o, 3);
+sp = &o->sp;
+t.px = 0; t.rep = 0;
+fn_82517978(&t, src[0], src[1], 0);
+rep = sp->rep;
+sp->rep = t.rep;
+sp->px = t.px;
+if (rep != 0) fn_822315A0(rep);
 }
-

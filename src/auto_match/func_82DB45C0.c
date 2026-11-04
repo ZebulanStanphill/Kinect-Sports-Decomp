@@ -25,49 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82D92950();
-extern int fn_82DB4770();
-extern unsigned int lbl_8202CF7C;
+//BODY
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time; int pad; const char *name2; } TimerEntryA;
+typedef struct { const char *name; unsigned time, pad; } TimerEntryB;
+typedef struct { void *pad; char *current; void *pad2; char *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
+extern void fn_82D92950(void *);
+extern void fn_82DB4770(void *, void *, void *);
 
+typedef struct { char pad[0xc]; float f; } Obj_82DB45C0;
 
-void fn_82DB45C0(int param_1,undefined8 param_2,float *param_3)
-
+void fn_82DB45C0(Obj_82DB45C0 *o, void *b, float *c)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "LtMaintenance";
-    puVar1[3] = "StSplit";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 4;
+  TimerStream *s;
+  TimerEntryA *ea;
+  TimerEntryB *eb;
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    ea = (TimerEntryA *)s->current;
+    ea->name = "LtMaintenance";
+    ea->name2 = "StSplit";
+    ea->time = (unsigned)__mftb();
+    s->current = (char *)(ea + 1);
   }
-  fn_82D92950(param_2);
-  if (*(float *)(param_1 + 0xc) <= *param_3) {
-    iVar3 = KeTlsGetValue(lbl_8323B4A0);
-    puVar1 = *(undefined4 **)(iVar3 + 4);
-    if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-      *puVar1 = "StResetTime";
-      uVar2 = TBLr;
-      puVar1[1] = (int)uVar2;
-      *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  fn_82D92950(b);
+  if (!(*c < o->f)) {
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+      eb = (TimerEntryB *)s->current;
+      eb->name = "StResetTime";
+      eb->time = (unsigned)__mftb();
+      s->current = (char *)(eb + 1);
     }
-    fn_82DB4770(param_1,param_2,param_3);
+    fn_82DB4770(o, b, c);
   }
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    eb = (TimerEntryB *)s->current;
+    eb->name = "lt";
+    eb->time = (unsigned)__mftb();
+    s->current = (char *)(eb + 1);
   }
-  return;
 }
-

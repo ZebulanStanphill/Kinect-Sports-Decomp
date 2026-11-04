@@ -25,23 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+//BODY
 
 
 void fn_83024568(int param_1)
-
 {
-  undefined4 uVar1;
-  
-  if (*(int *)(param_1 + 0x100) == 0) {
+  if (*(unsigned int *)(param_1 + 0x100) == 0) {
     return;
   }
-  uVar1 = 4;
-  if (*(int *)(param_1 + 0x108) != 0x11) {
-    uVar1 = 1;
+  if (*(int *)(param_1 + 0x108) == 0x11) {
+    *(int *)(param_1 + 0x74) = 4;
+  } else {
+    *(int *)(param_1 + 0x74) = 1;
   }
-  *(undefined4 *)(param_1 + 0x74) = uVar1;
-  *(undefined4 *)(param_1 + 0x108) = 0x11;
-  *(undefined2 *)(param_1 + 0x10e) = 0;
-  return;
+  *(int *)(param_1 + 0x108) = 0x11;
+  *(short *)(param_1 + 0x10e) = 0;
 }
-

@@ -1,60 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522ED8();
-
-
-void fn_825E6D20(int *param_1)
-
-{
-  uint uVar1;
-  
-  if (param_1[5] != 0) {
-    uVar1 = 0;
-    if (param_1[9] != 0) {
-      do {
-        uVar1 = uVar1 + 1;
-      } while (uVar1 < (uint)param_1[9]);
-    }
-    param_1[6] = param_1[5];
-    param_1[9] = 0;
-    fn_82522ED8();
+extern void fn_82522ED8(void *);
+typedef struct Vec_825E6D20 { void *first; void *last; int pad[2]; unsigned n; } Vec_825E6D20;
+typedef struct O_825E6D20 { Vec_825E6D20 a; Vec_825E6D20 b; } O_825E6D20;
+static __forceinline void clr(Vec_825E6D20 *v) {
+  unsigned i;
+  if (v->first != 0) {
+    for (i = 0; i < v->n; i++) ;
+    v->last = v->first; v->n = 0;
+    fn_82522ED8(v->first);
   }
-  if (*param_1 != 0) {
-    uVar1 = 0;
-    if (param_1[4] != 0) {
-      do {
-        uVar1 = uVar1 + 1;
-      } while (uVar1 < (uint)param_1[4]);
-    }
-    param_1[1] = *param_1;
-    param_1[4] = 0;
-    fn_82522ED8();
-  }
-  return;
 }
-
+void fn_825E6D20(O_825E6D20 *o) { clr(&o->b); clr(&o->a); }

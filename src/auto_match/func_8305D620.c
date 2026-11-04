@@ -27,24 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_8305D620(int param_1,int param_2)
 
+typedef struct { char pad[0x2c]; int *data; int count; } Arr_8305D620;
+
+void fn_8305D620(Arr_8305D620 *a, int add)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x30) + -1;
-  if (iVar2 == 0) {
-    return;
+  int i;
+  int n = a->count - 1;
+  if (n == 0) return;
+  for (i = n; i != 0; i--) {
+    int *e = &a->data[i];
+    *e += add;
   }
-  iVar3 = iVar2 * 4;
-  do {
-    piVar1 = (int *)(*(int *)(param_1 + 0x2c) + iVar3);
-    iVar3 = iVar3 + -4;
-    *piVar1 = *piVar1 + param_2;
-    iVar2 = iVar2 + -1;
-  } while (iVar2 != 0);
-  return;
 }
-
