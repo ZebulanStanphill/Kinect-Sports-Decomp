@@ -25,57 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BA02A8();
-extern int fn_82CE5410();
-extern int fn_82CEA4B8();
-extern int fn_82CEAB00();
-extern int fn_83082980();
-extern int fn_83082A80();
-extern int fn_83082BF0();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct { int a; int b; int c; } Ctx;
+typedef struct { char pad[0x10]; void *heap; } Glob;
+extern void fn_82BA02A8(Ctx *);
+extern Glob *fn_82CE5410(void);
+extern void fn_82CEA4B8(Ctx *, void *);
+extern void fn_82CEAB00(Ctx *, void *, int);
+extern void fn_83082980(void *, Ctx *, int, void *);
+extern void fn_83082A80(void *, Ctx *);
+extern void fn_83082BF0(void *, Ctx *);
+extern int fn_83082890();
+extern int fn_830828C0();
 
-
-void fn_83082D10(int *param_1,int param_2)
-
+void fn_83082D10(void **list, int mode)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  
-  iVar3 = 0;
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0xffffffff;
-  iVar1 = fn_82CE5410();
-  fn_82CEAB00(&stack_pair_40.first,*(undefined4 *)(iVar1 + 0x10),0);
-  iVar1 = *param_1;
-  piVar2 = param_1;
-  do {
-    if (iVar1 == 0) {
-      iVar1 = fn_82CE5410();
-      fn_82CEA4B8(&stack_pair_40.first,*(undefined4 *)(iVar1 + 0x10));
-      fn_82BA02A8(&stack_pair_40.first);
-      return;
+  int i = 0;
+  Ctx c;
+  void *o;
+  Glob *g;
+  c.a = 0;
+  c.b = 0;
+  c.c = -1;
+  g = fn_82CE5410();
+  fn_82CEAB00(&c, g->heap, 0);
+  while (list[i] != 0) {
+    o = list[i];
+    if (mode == 1) {
+      fn_83082A80(o, &c);
+      fn_83082BF0(o, &c);
+      goto L2;
+    } else if (mode < 4) {
+L2:
+      fn_83082980(o, &c, 2, (void *)fn_83082890);
     }
-    iVar1 = *piVar2;
-    if (param_2 == 1) {
-      fn_83082A80(iVar1,&stack_pair_40.first);
-      fn_83082BF0(iVar1,&stack_pair_40.first);
-LAB_83082d90:
-      fn_83082980(iVar1,&stack_pair_40.first,2,0xffffffff83082890);
+    if (mode < 5) {
+      fn_83082980(o, &c, 8, (void *)fn_830828C0);
     }
-    else if (param_2 < 4) goto LAB_83082d90;
-    if (param_2 < 5) {
-      fn_83082980(iVar1,&stack_pair_40.first,8,0xffffffff830828c0);
-    }
-    iVar3 = iVar3 + 1;
-    piVar2 = param_1 + iVar3;
-    iVar1 = *piVar2;
-  } while( true );
+    i++;
+  }
+  g = fn_82CE5410();
+  fn_82CEA4B8(&c, g->heap);
+  fn_82BA02A8(&c);
 }
-

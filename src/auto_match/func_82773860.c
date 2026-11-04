@@ -25,29 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82773748();
-extern int fn_827737E8();
+extern unsigned char fn_82773748(void *, unsigned);
+extern unsigned char fn_827737E8(void *, unsigned, int);
 
-
-undefined8 fn_82773860(undefined8 param_1,ulonglong param_2,undefined8 param_3)
-
+unsigned char fn_82773860(void *o, unsigned a, unsigned b)
 {
-  ulonglong uVar1;
-  bool bVar2;
-  char cVar3;
-  
-  uVar1 = param_2 & 0xffff;
-  if (uVar1 != 0) {
-    if ((((uVar1 == 9) || (uVar1 == 0xd)) || (uVar1 == 0x20)) || (bVar2 = false, uVar1 == 0x3000)) {
-      bVar2 = true;
-    }
-    if ((((bVar2) || (cVar3 = fn_82773748(param_1,param_3), cVar3 != '\0')) ||
-        ((cVar3 = fn_82773748(param_1,param_2), cVar3 != '\0' || (uVar1 == 0x2d)))) &&
-       ((cVar3 = fn_827737E8(param_1,param_3,1), cVar3 == '\0' &&
-        (cVar3 = fn_827737E8(param_1,param_2,2), cVar3 == '\0')))) {
-      return 1;
-    }
-  }
-  return 0;
+  unsigned c = a & 0xffff;
+  unsigned char sp;
+  if (c == 0) return 0;
+  sp = c == 9 || c == 0xd || c == 0x20 || c == 0x3000;
+  return (sp || fn_82773748(o, b) || fn_82773748(o, a) || c == 0x2d) &&
+         fn_827737E8(o, b, 1) == 0 && fn_827737E8(o, a, 2) == 0;
 }
-

@@ -25,30 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FC9C90();
+typedef struct Heap { struct HeapVt *vt; } Heap;
+struct HeapVt { void *f0, *f4; void (*f8)(Heap *, void *); };
+typedef struct Obj { void (**vt)(struct Obj *, int); int pad[2]; char sub[0x138]; void *slots[2]; } Obj;
+extern void fn_82FC9C90(void *);
 
-
-undefined8 fn_82FD3D30(undefined4 *param_1,int *param_2)
-
+int fn_82FD3D30(Obj *o, Heap *h)
 {
-  longlong lVar1;
-  int *piVar2;
-  
-  fn_82FC9C90(param_1 + 3);
-  piVar2 = param_1 + 0x51;
-  lVar1 = 2;
+  void **p;
+  int n;
+  fn_82FC9C90(o->sub);
+  p = o->slots;
+  n = 2;
   do {
-    if (*piVar2 != 0) {
-      (**(code **)(*param_2 + 8))(param_2);
-      *piVar2 = 0;
+    if (*p != 0) {
+      h->vt->f8(h, *p);
+      *p = 0;
     }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + 1;
-  } while (lVar1 != 0);
-  if (param_1 != (undefined4 *)0x0) {
-    (**(code **)*param_1)(param_1,1);
+    n--;
+    p++;
+  } while (n != 0);
+  if (o != 0) {
+    o->vt[0](o, 1);
   }
-  (**(code **)(*param_2 + 8))(param_2,param_1);
+  h->vt->f8(h, o);
   return 1;
 }
-

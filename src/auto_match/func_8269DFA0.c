@@ -25,51 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826824B0();
-extern int fn_82696AD0();
-extern int fn_82696B20();
-extern int fn_826C3768();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_50;
-extern unsigned int lbl_8200579C;
+extern char lbl_8200579C[];
+typedef struct { void *p0; void *p1; unsigned char flags; } Tmp;
+typedef struct { int a; int b; unsigned char c; } Sub;
+typedef struct {
+  void *vt; int m4; int m8; Sub sub; int m18; int m1c; int m20;
+} Obj;
+extern void fn_826824B0(void *);
+extern int fn_82696AD0(unsigned char *, int);
+extern int fn_82696B20(Tmp *, unsigned char *, int);
+extern void fn_826C3768(Sub *, int);
 
-
-undefined4 *
-fn_8269DFA0(undefined4 *param_1,undefined4 param_2,char *param_3,undefined8 param_4,
-             undefined4 param_5,undefined4 param_6)
-
+Obj *fn_8269DFA0(Obj *o, int a, unsigned char *s, int x, int y, int z)
 {
-  bool bVar1;
-  undefined4 uVar3;
-  undefined8 uVar2;
-  int iStack_50;
-  int iStack_4c;
-  byte bStack_48;
-  
-  param_1[1] = param_2;
-  *param_1 = &lbl_8200579C;
-  uVar3 = fn_82696AD0(param_3,param_4);
-  param_1[2] = uVar3;
-  *(undefined1 *)(param_1 + 5) = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[6] = (int)param_4;
-  param_1[7] = param_5;
-  param_1[8] = param_6;
-  if ((*param_3 == '\b') || (bVar1 = false, *param_3 == '\v')) {
-    bVar1 = true;
+  unsigned char ok;
+  Sub *sub;
+  o->m4 = a;
+  o->vt = lbl_8200579C;
+  o->m8 = fn_82696AD0(s, x);
+  sub = &o->sub;
+  sub->c = 0;
+  sub->a = 0;
+  sub->b = 0;
+  o->m18 = x;
+  o->m1c = y;
+  o->m20 = z;
+  ok = *s == 8 || *s == 11;
+  if (ok) {
+    Tmp t;
+    fn_826C3768(sub, fn_82696B20(&t, s, x));
+    if ((t.flags & 2) == 0 && t.p0 != 0) fn_826824B0(t.p0);
+    t.p0 = 0;
+    if ((t.flags & 1) == 0 && t.p1 != 0) fn_826824B0(t.p1);
   }
-  if (bVar1) {
-    uVar2 = fn_82696B20(&iStack_50,param_3,param_4);
-    fn_826C3768(param_1 + 3,uVar2);
-    if (((bStack_48 & 2) == 0) && (iStack_50 != 0)) {
-      fn_826824B0();
-    }
-    iStack_50 = 0;
-    if (((bStack_48 & 1) == 0) && (iStack_4c != 0)) {
-      fn_826824B0();
-    }
-  }
-  return param_1;
+  return o;
 }
-

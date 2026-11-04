@@ -25,46 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82682D30();
-extern int fn_826944C8();
-extern int fn_82694700();
-extern int fn_82696330();
-extern int fn_826B44A0();
+typedef struct Rc { int pad[2]; int count; } Rc;
+typedef struct Ctx { char pad[0x78]; int m78; } Ctx;
+typedef struct Iface { struct IfaceVt *vt; } Iface;
+struct IfaceVt { void *f[23]; Ctx *(*f5c)(Iface *); };
+typedef struct { char pad[0x68]; Iface *m68; } Self;
+extern void fn_82682D30(Self *, Ctx *, char *, unsigned);
+extern void fn_826944C8(Rc *);
+extern Rc *fn_82694700(int, int);
+extern void fn_82696330(char *);
+extern unsigned char fn_826B44A0(Ctx *, Rc **, char *, int, int, int, int);
 
-
-undefined8 fn_826F6108(int param_1,ulonglong param_2,undefined8 param_3)
-
+int fn_826F6108(Self *self, unsigned n, int key)
 {
-  int iVar1;
-  char cVar2;
-  longlong lVar3;
-  int aiStack_50 [4];
-  undefined1 auStack_40 [16];
-  
-  if ((*(int **)(param_1 + 0x68) != (int *)0x0) && ((param_2 & 0xffffffff) != 0)) {
-    iVar1 = (**(code **)(**(int **)(param_1 + 0x68) + 0x5c))();
-    aiStack_50[0] = fn_82694700((ulonglong)*(uint *)(iVar1 + 0x78) + 0x254,param_3);
-    *(int *)(aiStack_50[0] + 8) = *(int *)(aiStack_50[0] + 8) + 1;
-    auStack_40[0] = 0;
-    cVar2 = fn_826B44A0(iVar1,aiStack_50,auStack_40,0,0,0,0);
-    if (cVar2 != '\0') {
-      fn_82682D30(param_1,iVar1,auStack_40,param_2);
-      fn_82696330(auStack_40);
-      lVar3 = (ulonglong)*(uint *)(aiStack_50[0] + 8) - 1;
-      *(int *)(aiStack_50[0] + 8) = (int)lVar3;
-      if (lVar3 == 0) {
-        fn_826944C8(aiStack_50[0]);
-      }
+  Ctx *c;
+  Rc *rc;
+  char buf[16];
+  if (self->m68 != 0 && n != 0) {
+    c = self->m68->vt->f5c(self->m68);
+    rc = fn_82694700(c->m78 + 0x254, key);
+    rc->count = rc->count + 1;
+    buf[0] = 0;
+    if (fn_826B44A0(c, &rc, buf, 0, 0, 0, 0) != 0) {
+      fn_82682D30(self, c, buf, n);
+      fn_82696330(buf);
+      { Rc *r = rc; if (--r->count == 0) fn_826944C8(r); }
       return 1;
     }
-    fn_82696330(auStack_40);
-    lVar3 = (ulonglong)*(uint *)(aiStack_50[0] + 8) - 1;
-    *(int *)(aiStack_50[0] + 8) = (int)lVar3;
-    if (lVar3 == 0) {
-      fn_826944C8(aiStack_50[0]);
-    }
+    fn_82696330(buf);
+    { Rc *r = rc; if (--r->count == 0) fn_826944C8(r); }
   }
   return 0;
 }
-

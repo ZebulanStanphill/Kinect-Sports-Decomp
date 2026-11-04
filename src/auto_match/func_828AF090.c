@@ -25,18 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63CA0();
+typedef struct { int pad; unsigned **end; } V;
+extern void *memmove(void *, const void *, unsigned);
 
-
-undefined4 * fn_828AF090(undefined4 *param_1,int param_2,longlong param_3)
-
+unsigned ***fn_828AF090(unsigned ***out, V *v, unsigned **where)
 {
-  int iVar1;
-  
-  fn_82F63CA0(param_3,param_3 + 4,(*(int *)(param_2 + 4) - (int)(param_3 + 4) >> 2) << 2);
-  iVar1 = *(int *)(param_2 + 4);
-  *param_1 = (int)param_3;
-  *(int *)(param_2 + 4) = iVar1 + -4;
-  return param_1;
+  unsigned **e = v->end;
+  unsigned **src = where + 1;
+  memmove(where, src, (e - src) * sizeof(unsigned *));
+  e = v->end;
+  *out = where;
+  v->end = e - 1;
+  return out;
 }
-

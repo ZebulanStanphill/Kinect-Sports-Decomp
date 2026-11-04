@@ -27,24 +27,25 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E50CB8();
 extern int fn_82E50F10();
-
-
-undefined8 fn_82E513A0(int param_1,int *param_2)
-
+typedef struct I I;
+typedef struct { int f0; void (*AddRef)(I *); void (*Release)(I *); } IVT;
+struct I { IVT *vt; };
+typedef struct { char pad[0x60]; I *obj; } S;
+int fn_82E513A0(S *param_1, I *param_2)
 {
-  fn_82E50CB8(param_1 + 100);
-  if (*(int **)(param_1 + 0x60) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x60) + 8))();
-    *(undefined4 *)(param_1 + 0x60) = 0;
+  I *o;
+  fn_82E50CB8((char *)param_1 + 100);
+  o = param_1->obj;
+  if (o != 0) {
+    o->vt->Release(o);
+    param_1->obj = 0;
   }
-  if (param_2 == (int *)0x0) {
-    *(undefined4 *)(param_1 + 0x60) = 0;
+  if (param_2 != 0) {
+    param_1->obj = param_2;
+    param_2->vt->AddRef(param_2);
+  } else {
+    param_1->obj = 0;
   }
-  else {
-    *(int **)(param_1 + 0x60) = param_2;
-    (**(code **)(*param_2 + 4))(param_2);
-  }
-  fn_82E50F10(param_1 + 100);
+  fn_82E50F10((char *)param_1 + 100);
   return 0;
 }
-

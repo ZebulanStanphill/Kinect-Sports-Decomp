@@ -25,30 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *__imp__XboxHardwareInfo;
+extern unsigned int *__imp_XboxHardwareInfo;
+typedef struct { unsigned short len; unsigned short max; char *buf; } Str;
+extern int RtlCompareStringN(const char *, unsigned, const char *, unsigned, int);
 
-
-undefined8 fn_82A1F648(ushort *param_1)
-
+int fn_82A1F648(Str *s)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if (((*param_1 < 2) ||
-      (iVar2 = RtlCompareStringN(*(undefined4 *)(param_1 + 2),2,0xffffffff8208928c,2,1), iVar2 != 0)
-      ) && ((*param_1 < 5 ||
-            (iVar2 = RtlCompareStringN(*(undefined4 *)(param_1 + 2),5,0xffffffff82089284,5,1),
-            iVar2 != 0)))) {
-    if ((((*__imp__XboxHardwareInfo & 0x10) != 0) && (6 < *param_1)) &&
-       (iVar2 = RtlCompareStringN(*(undefined4 *)(param_1 + 2),7,0xffffffff8208927c,7,1), iVar2 == 0
-       )) {
-      return 1;
-    }
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 1;
-  }
-  return uVar1;
+  if (s->len >= 2 && RtlCompareStringN(s->buf, 2, "d:", 2, 1) == 0) return 1;
+  if (s->len >= 5 && RtlCompareStringN(s->buf, 5, "game:", 5, 1) == 0) return 1;
+  if ((*__imp_XboxHardwareInfo & 0x10) != 0 && s->len >= 7 &&
+      RtlCompareStringN(s->buf, 7, "cdrom0:", 7, 1) == 0) return 1;
+  return 0;
 }
-

@@ -25,36 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int __imp__ExThreadObjectType;
-extern int fn_82A2B760();
-extern unsigned int iStack_1c;
-extern unsigned int uStack_20;
+extern void *__imp_ExThreadObjectType;
+extern int ObReferenceObjectByHandle(void *, void *, void **);
+extern int KeSetAffinityThread(void *, unsigned, unsigned *);
+extern void ObDereferenceObject(void *);
+extern unsigned int _CountLeadingZeros(unsigned int);
+extern void fn_82A31F28(int);
 
-
-longlong fn_82A1E508(undefined8 param_1,uint param_2)
-
+int fn_82A1E508(void *h, unsigned cpu)
 {
-  longlong lVar1;
-  undefined4 uStack_20;
-  int iStack_1c;
-  
-  if (param_2 < 6) {
-    lVar1 = ObReferenceObjectByHandle(param_1,__imp__ExThreadObjectType,&uStack_20);
-    if (lVar1 < 0) goto LAB_82a1e594;
-    lVar1 = KeSetAffinityThread(uStack_20,1 << (param_2 & 0x3f),&iStack_1c);
-    ObDereferenceObject(uStack_20);
+  int hr;
+  void *thr;
+  unsigned prev;
+  if (cpu < 6) {
+    hr = ObReferenceObjectByHandle(h, __imp_ExThreadObjectType, &thr);
+    if (hr < 0) goto fail;
+    hr = KeSetAffinityThread(thr, 1 << cpu, &prev);
+    ObDereferenceObject(thr);
+  } else {
+    hr = 0xC000000D;
   }
-  else {
-    lVar1 = -0x3ffffff3;
-  }
-  if (-1 < (int)lVar1) {
-    if (iStack_1c != 0) {
-      return 0x1f - LZCOUNT(iStack_1c);
-    }
+  if (hr >= 0) {
+    if (prev != 0) return 0x1f - _CountLeadingZeros(prev);
     return 0;
   }
-LAB_82a1e594:
-  fn_82A2B760(lVar1);
+fail:
+  fn_82A31F28(hr);
   return -1;
 }
-

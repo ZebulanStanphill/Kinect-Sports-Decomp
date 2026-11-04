@@ -25,34 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E530();
-extern int fn_825A2C00();
-extern int fn_825A2D10();
+typedef struct { char pad[0x3c]; int m3c; unsigned flags; } Ent;
+typedef struct { char pad[0x48]; void *m48; int m4c; int m50; int m54; } Src;
+typedef struct { char pad[0x230]; char sub[1]; } Ctx;
+extern Ent *fn_825A2C00(Ctx *, void *, void *, short, int, int);
+extern void fn_825A2D10(Ctx *, Ent *);
+extern void fn_8251E530(void *, Ent *);
 
-
-undefined4 fn_825C3060(int param_1,undefined8 param_2,longlong param_3)
-
+int fn_825C3060(Src *s, int a, Ctx *c)
 {
-  uint uVar1;
-  int iVar2;
-  undefined2 uVar3;
-  
-  if (*(int *)(param_1 + 0x4c) == 0) {
-    uVar3 = 0xffff;
-  }
-  else {
-    uVar3 = (undefined2)*(undefined4 *)(param_1 + 0x50);
-  }
-  if ((*(int *)(param_1 + 0x48) != 0) &&
-     (iVar2 = fn_825A2C00(param_3,param_3 + 0x230,param_1 + 0x48,uVar3,
-                              *(undefined4 *)(param_1 + 0x54),param_2), iVar2 != 0)) {
-    uVar1 = *(uint *)(iVar2 + 0x40);
-    if (((uVar1 & 8) == 0) || (((uVar1 & 1) != 0 || ((uVar1 & 2) != 0)))) {
-      return *(undefined4 *)(iVar2 + 0x3c);
-    }
-    fn_825A2D10(param_3,iVar2);
-    fn_8251E530(param_3 + 0x230,iVar2);
-  }
+  int h;
+  Ent *e;
+  unsigned f;
+  void *sub;
+  int m54;
+  if (s->m4c != 0) h = s->m50; else h = -1;
+  sub = c->sub;
+  m54 = s->m54;
+  if (s->m48 == 0) return 0;
+  e = fn_825A2C00(c, sub, &s->m48, h, m54, a);
+  if (e == 0) return 0;
+  f = e->flags;
+  if ((f & 8) == 0 || (f & 1) != 0 || (f & 2) != 0) return e->m3c;
+  fn_825A2D10(c, e);
+  fn_8251E530(sub, e);
   return 0;
 }
-

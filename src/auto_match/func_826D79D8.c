@@ -25,30 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-ulonglong fn_826D79D8(int *param_1,uint *param_2,ulonglong param_3)
-
+int fn_826D79D8(int *p, unsigned *key, unsigned idx)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint *puVar4;
-  
-  uVar2 = (uint)param_3;
-  iVar3 = uVar2 * 0x10 + *param_1;
-  puVar4 = (uint *)(iVar3 + 8);
-  if ((*puVar4 != 0xfffffffe) && (*(uint *)(iVar3 + 0xc) == uVar2)) {
-    while( true ) {
-      if ((puVar4[1] == uVar2) && (puVar4[2] == *param_2)) {
-        return param_3;
-      }
-      uVar1 = *puVar4;
-      param_3 = (ulonglong)uVar1;
-      if (uVar1 == 0xffffffff) break;
-      puVar4 = (uint *)(uVar1 * 0x10 + *param_1 + 8);
+  int r = idx;
+  unsigned *e = (unsigned *)(idx * 0x10 + *p + 8);
+  if (*e != 0xfffffffe && e[1] == idx) {
+    for (;;) {
+      if (e[1] == idx && e[2] == *key) return r;
+      r = *e;
+      if (r == -1) break;
+      e = (unsigned *)(r * 0x10 + *p + 8);
     }
   }
-  return 0xffffffffffffffff;
+  return -1;
 }
-

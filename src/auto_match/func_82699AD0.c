@@ -25,29 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82699740();
+typedef struct Item { void (**vt)(struct Item *); int pad[7]; int m20; } Item;
+typedef struct { Item **items; unsigned count; int m8; int mc; } Arr;
+extern void fn_82699740(Arr *, int);
 
-
-void fn_82699AD0(int *param_1)
-
+void fn_82699AD0(Arr *a)
 {
-  int *piVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  uVar3 = (ulonglong)(uint)param_1[1];
-  param_1[3] = 0;
-  if (uVar3 != 0) {
-    iVar2 = 0;
-    do {
-      piVar1 = (int *)(iVar2 + *param_1);
-      (**(code **)(**(int **)(iVar2 + *param_1) + 0x74))();
-      uVar3 = uVar3 - 1;
-      iVar2 = iVar2 + 4;
-      *(undefined4 *)(*piVar1 + 0x20) = 0;
-    } while (uVar3 != 0);
+  unsigned n = a->count;
+  unsigned i;
+  a->mc = 0;
+  for (i = 0; i < n; i++) {
+    Item **p = &a->items[i];
+    (*p)->vt[0x74 / 4](*p);
+    (*p)->m20 = 0;
   }
-  fn_82699740(param_1,0);
-  return;
+  fn_82699740(a, 0);
 }
-

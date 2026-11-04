@@ -25,28 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8261A518();
-
-
-void fn_825C6B00(double param_1,int param_2)
-
+extern unsigned char fn_8261A518(void *, float);
+typedef struct N { void *a; struct N *next; } N;
+typedef struct { int pad[2]; N *head; float f; int pad2[2]; unsigned char flag; } S;
+void fn_825C6B00(S *p, float x)
 {
-  float fVar1;
-  undefined4 *puVar2;
-  byte bVar3;
-  double dVar4;
-  
-  fVar1 = *(float *)(param_2 + 0xc);
-  puVar2 = *(undefined4 **)(param_2 + 8);
-  if (param_1 != (double)fVar1) {
-    *(float *)(param_2 + 0xc) = (float)param_1;
-    dVar4 = (double)(float)(param_1 - (double)fVar1);
-    *(undefined1 *)(param_2 + 0x18) = 0;
-    for (; puVar2 != (undefined4 *)0x0; puVar2 = (undefined4 *)puVar2[1]) {
-      bVar3 = fn_8261A518(dVar4,*puVar2);
-      *(byte *)(param_2 + 0x18) = bVar3 | *(byte *)(param_2 + 0x18);
+  float old = p->f;
+  N *n = p->head;
+  if (x != old) {
+    float d;
+    p->f = x;
+    d = x - old;
+    p->flag = 0;
+    for (; n != 0; n = n->next) {
+      p->flag = fn_8261A518(n->a, d) | p->flag;
     }
   }
-  return;
 }
-

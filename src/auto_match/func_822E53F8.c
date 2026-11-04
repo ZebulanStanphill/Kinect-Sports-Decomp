@@ -25,37 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230218();
-extern int fn_822C1928();
-extern int fn_822C8C08();
-extern int fn_8260D428();
+typedef struct { union { char *p; char buf[16]; } u; unsigned size; unsigned cap; } Str;
+typedef struct { char pad0[0x20]; int m20; int pad24; int m28; char pad2c[0xc8]; Str name; } Obj;
+typedef struct { char pad[0x114]; Obj *o; } Self;
+extern int fn_82230218(Str *, Str *, int, int);
+extern int fn_822C1928(int, char *, int, int);
+extern int fn_822C8C08(Obj *, char *);
+extern int fn_8260D428(Str *, int, unsigned, char *, unsigned);
 
-
-void fn_822E53F8(int param_1,undefined4 *param_2)
-
+static char *cstr(Str *s)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x114);
-  puVar4 = (undefined4 *)(iVar1 + 0xf4);
-  puVar3 = puVar4;
-  if (0xf < *(uint *)(iVar1 + 0x108)) {
-    puVar3 = (undefined4 *)*puVar4;
-  }
-  iVar2 = fn_8260D428(param_2,0,param_2[4],puVar3,*(undefined4 *)(iVar1 + 0x104));
-  if (((iVar2 != 0) &&
-      (iVar2 = fn_822C1928((ulonglong)*(uint *)(iVar1 + 0x20) + 4,0xffffffff821acfe8,0,10),
-      iVar2 != -1)) && (*(int *)(iVar1 + 0x28) == 0)) {
-    puVar3 = param_2;
-    if (0xf < (uint)param_2[5]) {
-      puVar3 = (undefined4 *)*param_2;
-    }
-    fn_822C8C08(iVar1,puVar3);
-  }
-  fn_82230218(puVar4,param_2,0,0xffffffffffffffff);
-  return;
+  if (s->cap >= 0x10) return s->u.p;
+  return s->u.buf;
 }
 
+static int cmp(Str *a, Str *b)
+{
+  unsigned len = b->size;
+  char *p = cstr(b);
+  return fn_8260D428(a, 0, a->size, p, len);
+}
+
+void fn_822E53F8(Self *self, Str *s)
+{
+  Obj *o = self->o;
+  Str *n = &o->name;
+  if (cmp(s, n) != 0) {
+    if (fn_822C1928(o->m20 + 4, "locomotion", 0, 10) != -1 && o->m28 == 0) {
+      fn_822C8C08(o, cstr(s));
+    }
+  }
+  fn_82230218(n, s, 0, -1);
+}

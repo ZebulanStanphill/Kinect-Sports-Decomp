@@ -25,51 +25,36 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_82E50BE8();
-
-
-undefined8 fn_82E6E790(int *param_1,ulonglong param_2)
-
+extern void *fn_82E50BE8(unsigned, int, int, int, int);
+typedef unsigned __int64 u64;
+typedef struct O O;
+typedef struct {
+  char pad[0x10]; int (*f10)(O *, u64 *);
+  char pad2[0x54 - 0x14]; int (*f54)(O *);
+  char pad3[0x60 - 0x58]; int (*f60)(O *, u64, void *, unsigned, unsigned *);
+} VT;
+struct O {
+  VT *vt; int pad4; void *f8; int padc; u64 f10; int pad18[4]; unsigned f28; int pad2c; u64 f30; void *f38; int f3c;
+};
+int fn_82E6E790(O *o, u64 off)
 {
-  int iVar2;
-  undefined8 uVar1;
-  ulonglong uVar3;
-  uint auStack_40 [2];
-  ulonglong auStack_38 [7];
-  
-  if (param_1[2] != 0) {
-    if (param_1[0xe] == 0) {
-      iVar2 = fn_82E50BE8(param_1[10],0,0,0,0);
-      param_1[0xe] = iVar2;
-      if (iVar2 == 0) {
-        return 0xffffffff8007000e;
-      }
+  u64 size; unsigned n; unsigned got; int hr;
+  if (o->f8 != 0) {
+    if (o->f38 == 0) {
+      o->f38 = fn_82E50BE8(o->f28, 0, 0, 0, 0);
+      if (o->f38 == 0) return 0x8007000e;
     }
-    if ((param_1[0xf] == 0) && (uVar1 = (**(code **)(*param_1 + 0x54))(param_1), (int)uVar1 < 0)) {
-      return uVar1;
-    }
-    auStack_38[0] = 0;
-    uVar1 = (**(code **)(*param_1 + 0x10))(param_1,auStack_38);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    uVar3 = (ulonglong)(uint)param_1[10];
-    if (auStack_38[0] < uVar3 + param_2) {
-      uVar3 = (auStack_38[0] & 0xffffffff) - (param_2 & 0xffffffff);
-    }
-    auStack_40[0] = 0;
-    uVar1 = (**(code **)(*param_1 + 0x60))
-                      (param_1,*(longlong *)(param_1 + 4) + param_2,param_1[0xe],uVar3,auStack_40);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    *(ulonglong *)(param_1 + 0xc) = param_2;
-    if ((ulonglong)auStack_40[0] == (uVar3 & 0xffffffff)) {
-      return uVar1;
-    }
+    if (o->f3c == 0 && (hr = o->vt->f54(o)) < 0) return hr;
+    size = 0;
+    hr = o->vt->f10(o, &size);
+    if (hr < 0) return hr;
+    n = o->f28;
+    if (n + off > size) n = (unsigned)size - (unsigned)off;
+    got = 0;
+    hr = o->vt->f60(o, o->f10 + off, o->f38, n, &got);
+    if (hr < 0) return hr;
+    o->f30 = off;
+    if (got == n) return hr;
   }
-  return 0xffffffffc00d36bb;
+  return 0xc00d36bb;
 }
-

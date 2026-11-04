@@ -25,47 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
+typedef struct Heap { struct HeapVt *vt; } Heap;
+struct HeapVt { void *f0; void *(*alloc)(Heap *, int); };
+typedef struct { Heap *pad[4]; Heap *heap; } Glob;
+typedef struct { unsigned *a; unsigned short b; unsigned short c; } Part;
+typedef struct { Part p0; Part p1; } Set;
+static __forceinline void init(Part *p) { p->a = 0; p->b = 0; p->c = 0x8000; }
+typedef struct { char pad[0x214]; Set *set; } Obj;
+extern Glob *fn_82CE5410(void);
 
-
-void fn_82D8A228(int param_1,int param_2)
-
+void fn_82D8A228(Obj *o, unsigned x)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x214) == 0) {
-    iVar1 = fn_82CE5410();
-    puVar2 = (undefined4 *)(**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0x10)
-    ;
-    if (puVar2 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar2 = 0;
-      *(undefined2 *)(puVar2 + 1) = 0;
-      *(undefined2 *)((int)puVar2 + 6) = 0x8000;
-      puVar2[2] = 0;
-      *(undefined2 *)(puVar2 + 3) = 0;
-      *(undefined2 *)((int)puVar2 + 0xe) = 0x8000;
-    }
-    *(undefined4 **)(param_1 + 0x214) = puVar2;
+  Set *s;
+  int i;
+  unsigned *p;
+  int n;
+  if (o->set == 0) {
+    Glob *g = fn_82CE5410();
+    Set *m = (Set *)g->heap->vt->alloc(g->heap, 0x10);
+    Set *r;
+    if (m != 0) {
+      init(&m->p0);
+      init(&m->p1);
+      r = m;
+    } else r = 0;
+    o->set = r;
   }
-  iVar1 = *(int *)(param_1 + 0x214);
-  iVar4 = 0;
-  if (*(ushort *)(iVar1 + 0xc) != 0) {
-    piVar3 = *(int **)(iVar1 + 8);
+  s = o->set;
+  i = 0;
+  n = s->p1.b;
+  if (n > 0) {
+    p = s->p1.a;
     do {
-      if (*piVar3 == param_2) goto LAB_82d8a2dc;
-      iVar4 = iVar4 + 1;
-      piVar3 = piVar3 + 1;
-    } while (iVar4 < (int)(uint)*(ushort *)(iVar1 + 0xc));
+      if (*p == x) goto found;
+      i++;
+      p++;
+    } while (i < n);
   }
-  iVar4 = -1;
-LAB_82d8a2dc:
-  *(undefined4 *)(iVar4 * 4 + *(int *)(iVar1 + 8)) = 0;
-  return;
+  i = -1;
+found:
+  s->p1.a[i] = 0;
 }
-

@@ -25,26 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82575E90();
-
-
-undefined8 fn_82575DF0(ulonglong param_1,int param_2)
-
-{
-  char cVar1;
-  ulonglong uVar2;
-  
-  if (param_2 != 0) {
-    uVar2 = (ulonglong)*(uint *)(param_2 + 0x1bc);
-    if ((ulonglong)*(uint *)(param_2 + 0x1bc) == 0) {
-      uVar2 = param_1;
-    }
-    cVar1 = fn_82575E90(param_2,uVar2 + 0x78);
-    if (((cVar1 == '\0') && (cVar1 = fn_82575E90(param_2,uVar2 + 0x70), cVar1 == '\0')) &&
-       (cVar1 = fn_82575E90(param_2,uVar2 + 0x68), cVar1 == '\0')) {
-      return 0;
-    }
-  }
-  return 1;
-}
-
+extern unsigned char fn_82575E90(unsigned, unsigned);
+unsigned char fn_82575DF0(unsigned base, unsigned obj)
+{ unsigned u; unsigned t; unsigned char r;
+  if (obj == 0) return 1;
+    t = *(unsigned *)(obj + 0x1bc); 
+    if (t != 0) u = t; else u = base;
+    r = fn_82575E90(obj, u + 0x78) != 0 || fn_82575E90(obj, u + 0x70) != 0 || fn_82575E90(obj, u + 0x68) != 0;
+  return r; }

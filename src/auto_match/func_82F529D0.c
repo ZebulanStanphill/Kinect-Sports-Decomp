@@ -25,27 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F60AC0();
+typedef struct Iface { struct IfaceVt *vt; } Iface;
+struct IfaceVt {
+  int (*f0)(Iface *, int, int, int, int, int);
+  void *f4[9];
+  void (*f28)(Iface *);
+};
+typedef struct { int pad[2]; Iface *m8; } Obj;
+extern int fn_82F60AC0(Iface **);
 
-
-void fn_82F529D0(int param_1)
-
+void fn_82F529D0(Obj *o)
 {
-  int *piVar1;
-  int iVar2;
-  int *apiStack_20 [4];
-  
-  apiStack_20[0] = (int *)0x0;
-  iVar2 = fn_82F60AC0(apiStack_20);
-  if ((-1 < iVar2) &&
-     (iVar2 = (**(code **)*apiStack_20[0])(apiStack_20[0],1,0x20,0x100,0,0xffffffffffffffff),
-     piVar1 = apiStack_20[0], -1 < iVar2)) {
-    apiStack_20[0] = (int *)0x0;
-    *(int **)(param_1 + 8) = piVar1;
+  Iface *p = 0;
+  int hr = fn_82F60AC0(&p);
+  if (hr >= 0) {
+    hr = p->vt->f0(p, 1, 0x20, 0x100, 0, -1);
+    if (hr >= 0) {
+      Iface *q = p;
+      p = 0;
+      o->m8 = q;
+    }
   }
-  if (apiStack_20[0] != (int *)0x0) {
-    (**(code **)(*apiStack_20[0] + 0x28))();
-  }
-  return;
+  if (p != 0) p->vt->f28(p);
 }
-

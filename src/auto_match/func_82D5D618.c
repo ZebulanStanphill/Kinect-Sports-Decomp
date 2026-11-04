@@ -25,34 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82D71478();
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_30;
+typedef struct Obj { struct OVt *vt; } Obj;
+struct OVt { void *f0, *f4, *f8, *fc; int (*f10)(Obj *); };
+typedef struct { int a; Obj **b; int c; int d; int e; int f; int g; } Msg;
+typedef struct { char pad[8]; int m8; char pad2[0x24]; char sub[0x54]; unsigned char m84; } Self;
+extern void fn_82D71478(void *, Msg *);
 
-
-void fn_82D5D618(int param_1,undefined4 *param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5)
-
+void fn_82D5D618(Self *self, Obj **o, int a, int b, int c)
 {
-  undefined4 uStack_30;
-  undefined4 *puStack_2c;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  
-  if (*(char *)(param_1 + 0x84) == '\0') {
-    uStack_1c = *(undefined4 *)(param_1 + 8);
-    uStack_30 = param_3;
-    puStack_2c = param_2;
-    uStack_20 = param_4;
-    uStack_18 = param_5;
-    uStack_24 = (**(code **)(*(int *)*param_2 + 0x10))();
-    fn_82D71478(param_1 + 0x30,&uStack_30);
+  Msg m;
+  if (self->m84 == 0) {
+    m.a = a;
+    m.b = o;
+    m.f = self->m8;
+    m.e = b;
+    m.g = c;
+    m.d = (*m.b)->vt->f10(*m.b);
+    fn_82D71478(self->sub, &m);
   }
-  return;
 }
-

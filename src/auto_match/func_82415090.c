@@ -25,55 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82414F58();
-
-
-longlong fn_82415090(int param_1)
-
+extern unsigned char fn_82414F58(void *);
+typedef struct Wa { unsigned v; unsigned pad; struct Wa2 { unsigned v; unsigned pad; unsigned *p; } *p; } Wa;
+typedef struct Wb { unsigned v; unsigned pad; unsigned *p; } Wb;
+typedef struct { int pad; Wa *a; Wb *b; } T;
+unsigned fn_82415090(T *s)
 {
-  uint *puVar1;
-  bool bVar2;
-  char cVar4;
-  longlong lVar3;
-  ulonglong uVar5;
-  
-  if (*(int **)(param_1 + 4) == (int *)0x0) {
-LAB_824150d4:
-    bVar2 = false;
-  }
-  else {
-    if (*(int **)(param_1 + 8) == (int *)0x0) goto LAB_824150d4;
-    bVar2 = true;
-    if (**(int **)(param_1 + 8) + **(int **)(param_1 + 4) != 10) goto LAB_824150d4;
-  }
+  unsigned char bVar2;
+  bVar2 = s->a != 0 && s->b != 0 && s->b->v + s->a->v == 10;
   if (bVar2) {
-    cVar4 = fn_82414F58(param_1);
-    if (cVar4 == '\0') goto LAB_82415104;
-    uVar5 = (ulonglong)**(uint **)(*(int *)(param_1 + 8) + 8);
-LAB_824150fc:
-    lVar3 = uVar5 + 10;
+    if (fn_82414F58(s) != 0) return *s->b->p + 10;
   }
-  else {
-LAB_82415104:
-    if ((*(int **)(param_1 + 4) == (int *)0x0) || (bVar2 = true, **(int **)(param_1 + 4) != 10)) {
-      bVar2 = false;
-    }
-    if (bVar2) {
-      cVar4 = fn_82414F58(param_1);
-      if (cVar4 != '\0') {
-        puVar1 = *(uint **)(*(int *)(param_1 + 4) + 8);
-        uVar5 = (ulonglong)*(uint *)puVar1[2] + (ulonglong)*puVar1;
-        goto LAB_824150fc;
-      }
-    }
-    cVar4 = fn_82414F58(param_1);
-    if (cVar4 == '\0') {
-      lVar3 = 0;
-    }
-    else {
-      lVar3 = (ulonglong)**(uint **)(param_1 + 8) + (ulonglong)**(uint **)(param_1 + 4);
+  bVar2 = s->a != 0 && s->a->v == 10;
+  if (bVar2) {
+    if (fn_82414F58(s) != 0) {
+      return *s->a->p->p + s->a->p->v + 10;
     }
   }
-  return lVar3;
+  if (fn_82414F58(s) != 0) return s->b->v + s->a->v;
+  return 0;
 }
-

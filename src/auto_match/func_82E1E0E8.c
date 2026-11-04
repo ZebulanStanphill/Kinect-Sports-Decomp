@@ -25,56 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82E1D978();
-extern int fn_82E1F7F0();
+typedef struct Node { unsigned k; unsigned v; struct Node *next; struct Node *chain; } Node;
+typedef struct { int pad; Node *head; } List;
+extern void *fn_8265C9E0(int);
+extern Node *fn_82E1D978(List *, unsigned);
+extern unsigned fn_82E1F7F0(void *);
 
-
-void fn_82E1E0E8(int param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82E1E0E8(List *l, void *a, void *b)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  uVar1 = fn_82E1F7F0(param_2);
-  uVar2 = fn_82E1F7F0(param_3);
-  puVar3 = (undefined4 *)fn_82E1D978(param_1,uVar1);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)fn_8265C9E0(0x10);
-    if (puVar3 == (undefined4 *)0x0) {
-      puVar3 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar3 = 0;
-      puVar3[1] = 0;
-      puVar3[2] = 0;
-      puVar3[3] = 0;
-    }
-    *puVar3 = (int)uVar1;
-    puVar3[1] = uVar2;
-    puVar3[2] = *(undefined4 *)(param_1 + 4);
-    puVar3[3] = 0;
-    *(undefined4 **)(param_1 + 4) = puVar3;
+  unsigned k = fn_82E1F7F0(a);
+  unsigned v = fn_82E1F7F0(b);
+  Node *f = fn_82E1D978(l, k);
+  Node *n;
+  Node *mem;
+  if (f == 0) {
+    mem = (Node *)fn_8265C9E0(0x10);
+    if (mem != 0) {
+      mem->k = 0;
+      mem->v = 0;
+      mem->next = 0;
+      mem->chain = 0;
+      n = mem;
+    } else n = 0;
+    n->k = k;
+    n->v = v;
+    n->next = l->head;
+    n->chain = 0;
+    l->head = n;
+  } else {
+    mem = (Node *)fn_8265C9E0(0x10);
+    if (mem != 0) {
+      mem->k = 0;
+      mem->v = 0;
+      mem->next = 0;
+      mem->chain = 0;
+      n = mem;
+    } else n = 0;
+    while (f->chain != 0) f = f->chain;
+    f->k = k;
+    n->v = v;
+    f->chain = n;
   }
-  else {
-    puVar4 = (undefined4 *)fn_8265C9E0(0x10);
-    if (puVar4 == (undefined4 *)0x0) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar4 = 0;
-      puVar4[1] = 0;
-      puVar4[2] = 0;
-      puVar4[3] = 0;
-    }
-    for (; puVar3[3] != 0; puVar3 = (undefined4 *)puVar3[3]) {
-    }
-    *puVar3 = (int)uVar1;
-    puVar4[1] = uVar2;
-    puVar3[3] = puVar4;
-  }
-  return;
 }
-

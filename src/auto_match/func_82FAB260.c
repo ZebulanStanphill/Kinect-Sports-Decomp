@@ -25,25 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA9208();
-extern int fn_82FAA228();
-extern int fn_82FAAE50();
-extern int fn_82FAB1D8();
+typedef struct Inner { void (**vt)(struct Inner *, int); int pad[10]; int cnt; int pad30; unsigned char flags; } Inner;
+typedef struct { int pad[2]; Inner *in; } Outer;
+extern void fn_82FA9208(Inner *);
+extern void fn_82FAA228(Outer *);
+extern void fn_82FAAE50(void);
+extern void fn_82FAB1D8(Outer *);
 
-
-void fn_82FAB260(int param_1)
-
+void fn_82FAB260(Outer *o)
 {
-  *(int *)(*(int *)(param_1 + 8) + 0x2c) = *(int *)(*(int *)(param_1 + 8) + 0x2c) + 1;
-  if ((*(byte *)(*(int *)(param_1 + 8) + 0x34) & 0x80) == 0) {
-    fn_82FAB1D8(param_1);
+  Inner *p = o->in;
+  p->cnt = p->cnt + 1;
+  if ((o->in->flags & 0x80) != 0) {
+    if ((o->in->flags & 0x40) == 0) {
+      fn_82FAAE50();
+      fn_82FAA228(o);
+      o->in->vt[4](o->in, 0x400);
+    }
+  } else {
+    fn_82FAB1D8(o);
   }
-  else if ((*(byte *)(*(int *)(param_1 + 8) + 0x34) & 0x40) == 0) {
-    fn_82FAAE50();
-    fn_82FAA228(param_1);
-    (**(code **)(**(int **)(param_1 + 8) + 0x10))(*(int **)(param_1 + 8),0x400);
-  }
-  fn_82FA9208(*(undefined4 *)(param_1 + 8));
-  return;
+  fn_82FA9208(o->in);
 }
-

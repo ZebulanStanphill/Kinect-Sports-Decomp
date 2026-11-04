@@ -25,38 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-ulonglong fn_82F8A9B0(int param_1)
-
+typedef struct { char pad[4]; int status; void *pending_buf; char pad2[0x38 - 0xc]; void *window; char pad3[4]; void *prev; void *head; } DS;
+typedef struct z_stream_s {
+  char pad[0x1c]; DS *state; void *zalloc; void (*zfree)(void *, void *); void *opaque;
+} z_stream;
+int fn_82F8A9B0(z_stream *strm)
 {
-  int iVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  if (((param_1 == 0) || (iVar1 = *(int *)(param_1 + 0x1c), iVar1 == 0)) ||
-     (((iVar2 = *(int *)(iVar1 + 4), iVar2 != 0x2a &&
-       (((iVar2 != 0x45 && (iVar2 != 0x49)) && (iVar2 != 0x5b)))) &&
-      (((iVar2 != 0x67 && (iVar2 != 0x71)) && (iVar2 != 0x29a)))))) {
-    uVar3 = 0xfffffffffffffffe;
-  }
-  else {
-    if (*(int *)(iVar1 + 8) != 0) {
-      (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28));
-    }
-    if (*(int *)(*(int *)(param_1 + 0x1c) + 0x44) != 0) {
-      (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28));
-    }
-    if (*(int *)(*(int *)(param_1 + 0x1c) + 0x40) != 0) {
-      (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28));
-    }
-    if (*(int *)(*(int *)(param_1 + 0x1c) + 0x38) != 0) {
-      (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28));
-    }
-    (**(code **)(param_1 + 0x24))(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x1c));
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-    uVar3 = -(ulonglong)(iVar2 == 0x71) & 0xfffffffffffffffd;
-  }
-  return uVar3;
+  int status;
+  if (strm == 0 || strm->state == 0) return -2;
+  status = strm->state->status;
+  if (status != 0x2a && status != 0x45 && status != 0x49 && status != 0x5b && status != 0x67 && status != 0x71 && status != 0x29a) return -2;
+  if (strm->state->pending_buf) strm->zfree(strm->opaque, strm->state->pending_buf);
+  if (strm->state->head) strm->zfree(strm->opaque, strm->state->head);
+  if (strm->state->prev) strm->zfree(strm->opaque, strm->state->prev);
+  if (strm->state->window) strm->zfree(strm->opaque, strm->state->window);
+  strm->zfree(strm->opaque, strm->state);
+  strm->state = 0;
+  return status == 0x71 ? -3 : 0;
 }
-

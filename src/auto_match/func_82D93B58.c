@@ -25,32 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2f;
-extern int fn_82CE6150();
-extern unsigned int lbl_82006848;
-extern unsigned int uStack_30;
-
-
-undefined1 * fn_82D93B58(undefined1 *param_1,int param_2)
-
-{
-  char *pcVar1;
-  undefined1 uVar2;
-  double dVar3;
-  undefined1 uStack_30;
-  undefined1 auStack_2f [1];
-  
-  dVar3 = (double)lbl_82006848;
-  pcVar1 = (char *)fn_82CE6150(dVar3,&uStack_30,param_2 + 0x20);
-  if (((*pcVar1 == '\0') ||
-      (pcVar1 = (char *)fn_82CE6150(dVar3,auStack_2f,param_2 + 0x60), *pcVar1 == '\0')) ||
-     ((*(char *)(param_2 + 0xa2) != '\0' && (*(char *)(param_2 + 0xc2) == '\0')))) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = 1;
-  }
-  *param_1 = uVar2;
-  return param_1;
-}
-
+extern float lbl_82006848;
+extern char *fn_82CE6150(char *, int, float);
+char *fn_82D93B58(char *param_1, int param_2)
+{ char b[2]; char *p; char r; float d = lbl_82006848;
+  p = fn_82CE6150(&b[0], param_2 + 0x20, d);
+  if (*p == 0 || *fn_82CE6150(&b[1], param_2 + 0x60, d) == 0 || (*(char *)(param_2 + 0xa2) != 0 && *(char *)(param_2 + 0xc2) == 0)) r = 0; else r = 1;
+  *param_1 = r; return param_1; }

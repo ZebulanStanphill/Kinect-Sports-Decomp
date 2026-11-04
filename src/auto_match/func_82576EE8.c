@@ -25,35 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825C75A0();
-extern int fn_82631C78();
-extern unsigned int lbl_8320A898;
-
-
-void fn_82576EE8(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4)
-
+extern int fn_825C75A0(unsigned, int);
+extern int fn_82631C78(unsigned, int, int, int);
+extern unsigned lbl_8320A898;
+typedef struct Obj Obj;
+typedef struct { void (*f[16])(Obj *, float, int); } VT;
+struct Obj { VT *vt; };
+typedef struct N1 { Obj *obj; struct N1 *next; } N1;
+typedef struct N3 { Obj *a; unsigned b; void (*fn)(Obj *, float); int pad[1]; struct N3 *next; } N3;
+typedef struct { char pad[0x1d0]; Obj *obj; char pad2[0x1e4 - 0x1d4]; int next; } N2;
+typedef struct S { unsigned f0; char pad[0xc]; N3 *f10; char pad1[0xc]; N1 *f20; char pad2[0x4c]; N2 *f70; char pad3[0xc]; Obj *f80; } S;
+void fn_82576EE8(S *self, float dt, int c)
 {
-  int *piVar1;
-  int iVar2;
-  
-  for (piVar1 = (int *)param_2[8]; piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x1c))(param_1);
-    }
+  N1 *n; N2 *m; N3 *k;
+  for (n = self->f20; n != 0; n = n->next) {
+    if (n->obj != 0) n->obj->vt->f[7](n->obj, dt, c);
   }
-  fn_82631C78(lbl_8320A898,0,0x40,0x40);
-  for (iVar2 = param_2[0x1c]; iVar2 != 0; iVar2 = *(int *)(iVar2 + 0x1e4)) {
-    (**(code **)**(undefined4 **)(iVar2 + 0x1d0))(param_1);
+  fn_82631C78(lbl_8320A898, 0, 0x40, 0x40);
+  for (m = self->f70; m != 0; m = *(N2 **)((char *)m + 0x1e4)) {
+    m->obj->vt->f[0](m->obj, dt, c);
   }
-  if ((int *)param_2[0x20] != (int *)0x0) {
-    (**(code **)(*(int *)param_2[0x20] + 0x20))(param_1);
+  if (self->f80 != 0) self->f80->vt->f[8](self->f80, dt, c);
+  for (k = self->f10; k != 0; k = k->next) {
+    if (k->a != 0 && k->b != 0) k->fn(k->a, dt);
   }
-  for (piVar1 = (int *)param_2[4]; piVar1 != (int *)0x0; piVar1 = (int *)piVar1[4]) {
-    if ((*piVar1 != 0) && (piVar1[1] != 0)) {
-      (*(code *)piVar1[2])(param_1);
-    }
-  }
-  fn_825C75A0(*param_2,param_4);
-  return;
+  fn_825C75A0(self->f0, c);
 }
-

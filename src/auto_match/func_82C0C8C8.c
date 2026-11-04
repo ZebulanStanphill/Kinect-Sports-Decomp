@@ -25,122 +25,76 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C04268();
-extern int fn_82C0BF10();
-extern unsigned int uStack_44;
+typedef struct I { struct IVt *vt; } I;
+struct IVt {
+  void *f0, *f4;
+  void (*f8)(I *);
+  void (*fc)(I *);
+  void *f10;
+  void (*f14)(I *);
+  char pad18[0x24];
+  int (*f3c)(I *, I **, I **, int);
+  int (*f40)(I *, I **, I **, int);
+  int (*f44)(I *, I **, I **, int);
+  char pad48[0xc];
+  int (*f54)(I *, int);
+  char pad58[0x24];
+  int (*f7c)(I *, unsigned, unsigned *);
+  char pad80[0x44];
+  void (*fc4)(I *);
+  void (*fc8)(I *);
+};
+typedef struct { I base; char pad[0x28]; I *m2c; } Self;
+extern void fn_82C04268(I *, unsigned);
+extern void fn_82C0BF10(I *);
 
-
-undefined8 fn_82C0C8C8(int *param_1,ulonglong param_2,uint *param_3)
-
+int fn_82C0C8C8(Self *self, unsigned a, unsigned *out)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  int *piVar3;
-  int *piVar4;
-  int *piStack_50;
-  int *piStack_4c;
-  int *piStack_48;
-  uint uStack_44;
-  int *piStack_40;
-  int *piStack_3c;
-  int * apiStack_38;
-  
-  uStack_44 = 0;
-  apiStack_38 = (int *)0x0;
-  piStack_3c = (int *)0x0;
-  piStack_50 = (int *)0x0;
-  piStack_48 = (int *)0x0;
-  piStack_40 = (int *)0x0;
-  piStack_4c = (int *)0x0;
-  (**(code **)(*param_1 + 0xc))();
-  (**(code **)(*(int *)param_1[0xb] + 0x44))((int *)param_1[0xb],&apiStack_38,&piStack_3c,0);
-  (**(code **)(*(int *)param_1[0xb] + 0x3c))((int *)param_1[0xb],&piStack_50,&piStack_48,0);
-  uVar1 = (**(code **)(*(int *)param_1[0xb] + 0x40))((int *)param_1[0xb],&piStack_40,&piStack_4c,0);
-  piVar4 = (int *)0x0;
-  if (piStack_50 != (int *)0x0) {
-    (**(code **)(*piStack_50 + 0xc))(piStack_50);
-    piVar4 = piStack_50;
+  int hr;
+  I *r1, *r2, *r3, *r4, *r5, *r6;
+  unsigned v;
+  v = 0;
+  r6 = 0;
+  r5 = 0;
+  r1 = 0;
+  r2 = 0;
+  r3 = 0;
+  r4 = 0;
+  self->base.vt->fc(&self->base);
+  self->m2c->vt->f44(self->m2c, &r6, &r5, 0);
+  self->m2c->vt->f3c(self->m2c, &r1, &r2, 0);
+  hr = self->m2c->vt->f40(self->m2c, &r3, &r4, 0);
+  if (r1 != 0) r1->vt->fc(r1);
+  if (r2 != 0) r2->vt->fc(r2);
+  if (r3 != 0) r3->vt->fc(r3);
+  if (r4 != 0) r4->vt->fc(r4);
+  if (r2 != 0) {
+    hr = r2->vt->f7c(r2, a, &v);
+    a = v;
   }
-  piVar2 = (int *)0x0;
-  if (piStack_48 != (int *)0x0) {
-    (**(code **)(*piStack_48 + 0xc))();
-    piVar4 = piStack_50;
-    piVar2 = piStack_48;
-  }
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 0xc))(piStack_40);
-    piVar4 = piStack_50;
-    piVar2 = piStack_48;
-  }
-  piVar3 = (int *)0x0;
-  if (piStack_4c != (int *)0x0) {
-    (**(code **)(*piStack_4c + 0xc))(piStack_4c);
-    piVar4 = piStack_50;
-    piVar2 = piStack_48;
-    piVar3 = piStack_4c;
-  }
-  if (piVar2 != (int *)0x0) {
-    uVar1 = (**(code **)(*piVar2 + 0x7c))(piVar2,param_2,&uStack_44);
-    param_2 = (ulonglong)uStack_44;
-    piVar4 = piStack_50;
-    piVar3 = piStack_4c;
-  }
-  if (-1 < (int)uVar1) {
-    if (piVar4 != (int *)0x0) {
-      uVar1 = (**(code **)(*piVar4 + 0x7c))(piVar4,param_2,&uStack_44);
-      piVar3 = piStack_4c;
-    }
-    if (-1 < (int)uVar1) {
-      if (piStack_3c != (int *)0x0) {
-        uVar1 = (**(code **)(*piVar3 + 0x54))(piVar3,4);
-        fn_82C0BF10(piStack_3c);
+  if (hr >= 0) {
+    if (r1 != 0) hr = r1->vt->f7c(r1, a, &v);
+    if (hr >= 0) {
+      if (r5 != 0) {
+        hr = r4->vt->f54(r4, 4);
+        fn_82C0BF10(r5);
       }
-      if (-1 < (int)uVar1) {
-        fn_82C04268(param_1[0xb],uStack_44);
-      }
+      if (hr >= 0) fn_82C04268(self->m2c, v);
     }
   }
-  (**(code **)(*param_1 + 200))(param_1);
-  (**(code **)(*param_1 + 0xc4))(param_1);
-  if (piStack_4c != (int *)0x0) {
-    (**(code **)(*piStack_4c + 0x14))();
-  }
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 0x14))();
-  }
-  if (piStack_48 != (int *)0x0) {
-    (**(code **)(*piStack_48 + 0x14))();
-  }
-  if (piStack_50 != (int *)0x0) {
-    (**(code **)(*piStack_50 + 0x14))();
-  }
-  (**(code **)(*param_1 + 0x14))(param_1);
-  if (param_3 != (uint *)0x0) {
-    *param_3 = uStack_44;
-  }
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 8))();
-    piStack_40 = (int *)0x0;
-  }
-  if (piStack_4c != (int *)0x0) {
-    (**(code **)(*piStack_4c + 8))();
-    piStack_4c = (int *)0x0;
-  }
-  if (piStack_50 != (int *)0x0) {
-    (**(code **)(*piStack_50 + 8))();
-    piStack_50 = (int *)0x0;
-  }
-  if (piStack_48 != (int *)0x0) {
-    (**(code **)(*piStack_48 + 8))();
-    piStack_48 = (int *)0x0;
-  }
-  if (apiStack_38 != (int *)0x0) {
-    (**(code **)(*apiStack_38 + 8))();
-    apiStack_38 = (int *)0x0;
-  }
-  if (piStack_3c != (int *)0x0) {
-    (**(code **)(*piStack_3c + 8))();
-  }
-  return uVar1;
+  self->base.vt->fc8(&self->base);
+  self->base.vt->fc4(&self->base);
+  if (r4 != 0) r4->vt->f14(r4);
+  if (r3 != 0) r3->vt->f14(r3);
+  if (r2 != 0) r2->vt->f14(r2);
+  if (r1 != 0) r1->vt->f14(r1);
+  self->base.vt->f14(&self->base);
+  if (out != 0) *out = v;
+  if (r3 != 0) { r3->vt->f8(r3); r3 = 0; }
+  if (r4 != 0) { r4->vt->f8(r4); r4 = 0; }
+  if (r1 != 0) { r1->vt->f8(r1); r1 = 0; }
+  if (r2 != 0) { r2->vt->f8(r2); r2 = 0; }
+  if (r6 != 0) { r6->vt->f8(r6); r6 = 0; }
+  if (r5 != 0) r5->vt->f8(r5);
+  return hr;
 }
-

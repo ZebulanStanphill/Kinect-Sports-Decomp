@@ -25,33 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
 extern int fn_8280AE70();
 extern int fn_82810360();
 extern int fn_82860C68();
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_34;
-
-
-void fn_82853308(uint *param_1,int param_2,int param_3)
-
-{
-  int iVar1;
-  undefined1 auStack_40 [12];
-  undefined4 uStack_34;
-  undefined1 auStack_30 [8];
-  undefined4 uStack_28;
-  
-  if (*(int *)(param_3 + 0x3c) != 0) {
-    iVar1 = *(int *)(param_2 + 4) * 0x14 + *(int *)(param_3 + 0x3c);
-    fn_82860C68(iVar1);
-    fn_82810360(param_2 + 8,auStack_40);
-    uStack_34 = lbl_821AAD20;
-    fn_8280AE70((ulonglong)*param_1 + 0x40,auStack_40,auStack_30);
-    *(undefined4 *)(iVar1 + 0x10) = uStack_28;
-  }
-  return;
-}
-
+typedef struct { int a[3]; float z; } B40; typedef struct { int a[2]; float v; int d; } B60;
+void fn_82853308(unsigned *param_1, int *param_2, int param_3)
+{ B40 b; B60 c; int p; int *q = param_2 + 1; unsigned t = *(unsigned *)(param_3 + 0x3c);
+  if (t != 0) {
+    p = q[0] * 0x14 + t;
+    fn_82860C68(p);
+    fn_82810360(q + 1, &b);
+    b.z = 0.0f;
+    fn_8280AE70(*param_1 + 0x40, &b, &c);
+    *(float *)(p + 0x10) = c.v;
+  } }
