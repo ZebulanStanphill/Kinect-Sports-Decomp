@@ -25,84 +25,92 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828142D8();
-extern int fn_8281FDF0();
-extern int fn_82820228();
-extern unsigned int uStack_70;
+typedef struct Row_82814728 { unsigned int a58; unsigned int a5c; unsigned int f60; unsigned int f64; unsigned int f68; } Row_82814728;
+typedef struct Cfg_82814728 { char pad[0x51]; unsigned char n51; } Cfg_82814728;
+typedef struct Fn_82814728 { char pad[0xc]; int (*f0c)(int, unsigned int, int, unsigned int); } Fn_82814728;
+typedef struct Obj_82814728 {
+  char pad0[4];
+  unsigned int align;
+  char pad1[4];
+  unsigned int flags0c;
+  unsigned int flags10;
+  char pad2[4];
+  int h18;
+  Cfg_82814728 *cfg;
+  unsigned int x20;
+  char pad3[0x30 - 0x24];
+  unsigned char *arr;
+  int base;
+  char pad4[0x78 - 0x38];
+  unsigned char f78;
+  unsigned char idx;
+  unsigned char f7a;
+  unsigned char f7b;
+  unsigned char f7c;
+  unsigned char f7d;
+} Obj_82814728;
+extern void fn_828142D8(int, Fn_82814728 **);
+extern unsigned char fn_8281FDF0(Obj_82814728 *, const char *);
+extern void fn_82820228(unsigned int, unsigned int, unsigned int *);
 
-
-undefined8 fn_82814728(int param_1,char param_2)
-
+int fn_82814728(Obj_82814728 *o, unsigned char flag)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  undefined1 uVar4;
-  ulonglong uVar5;
-  undefined8 uVar6;
-  uint uVar7;
-  longlong lVar8;
-  longlong lVar9;
-  uint *puVar10;
-  uint uStack_70;
-  int aiStack_6c;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  iVar2 = *(int *)(param_1 + 0x20);
-  iVar3 = (uint)*(byte *)(param_1 + 0x79) * 0x14 + iVar1;
-  uVar6 = 0;
-  lVar9 = ((ulonglong)*(uint *)(iVar3 + 100) - (ulonglong)*(uint *)(iVar3 + 0x68)) +
-          (ulonglong)*(uint *)(iVar3 + 0x60);
-  if (*(char *)(iVar1 + 0x51) != '\0') {
-    uVar7 = 0;
+  Cfg_82814728 *cfg = o->cfg;
+  unsigned int x = o->x20;
+  Row_82814728 *row = (Row_82814728 *)((unsigned char *)cfg + o->idx * 0x14 + 0x58);
+  int result = 0;
+  unsigned int start = row->f64 - row->f68 + row->f60;
+  unsigned char i;
+  unsigned int sz;
+  unsigned int aligned;
+  unsigned char *e;
+  unsigned int off2;
+  unsigned int tot;
+  Fn_82814728 *fp;
+  unsigned int r;
+  unsigned int sh;
+
+  if (cfg->n51 != 0) {
+    i = 0;
     do {
-      puVar10 = (uint *)(uVar7 * 0x21 + *(int *)(param_1 + 0x30));
-      *(int *)((int)puVar10 + 0x15) = (int)lVar9;
-      uVar5 = (((ulonglong)*(uint *)(param_1 + 4) - lVar9) +
-              (ulonglong)*(uint *)((int)puVar10 + 0x1d)) - 1 &
-              ~((ulonglong)*(uint *)(param_1 + 4) - 1);
-      *(int *)((int)puVar10 + 0x19) = (int)uVar5;
-      lVar9 = (uVar5 - *(uint *)((int)puVar10 + 0x1d)) + lVar9;
-      if (iVar2 == 0) {
-LAB_828147e0:
-        uStack_70 = *(uint *)((int)puVar10 + 9);
-        uVar5 = (ulonglong)uStack_70;
+      e = o->arr + i * 0x21;
+      *(unsigned int *)(e + 0x15) = start;
+      aligned = ((o->align - start + *(unsigned int *)(e + 0x1d)) - 1) & ~(o->align - 1);
+      *(unsigned int *)(e + 0x19) = aligned;
+      start = aligned - *(unsigned int *)(e + 0x1d) + start;
+      if (x == 0) {
+        sz = *(unsigned int *)(e + 9);
       }
       else {
-        fn_82820228(iVar2,uVar7 + 3,&uStack_70);
-        uVar5 = (ulonglong)uStack_70;
-        if (uVar5 == 0) goto LAB_828147e0;
+        fn_82820228(x, i + 3, &sz);
+        if (sz == 0) {
+          sz = *(unsigned int *)(e + 9);
+        }
       }
-      lVar8 = 0;
-      if (param_2 == '\0') {
-        lVar8 = lVar9 + 0x44;
-      }
-      fn_828142D8((ulonglong)*(uint *)(param_1 + 0x34) + (ulonglong)*puVar10,&aiStack_6c);
-      if (aiStack_6c == 0) {
-        *(uint *)(param_1 + 0xc) = *(uint *)(param_1 + 0xc) | 0x800;
-LAB_828148a0:
-        uVar6 = 1;
+      off2 = flag != 0 ? 0 : start + 0x44;
+      tot = off2 + sz;
+      fn_828142D8(o->base + *(unsigned int *)e, &fp);
+      if (fp == 0) {
+        o->flags0c |= 0x800;
+        result = 1;
         break;
       }
-      iVar3 = (**(code **)(aiStack_6c + 0xc))
-                        (*(undefined4 *)(param_1 + 0x18),lVar8 + uVar5,
-                         1 << (*(byte *)(puVar10 + 1) & 0x3f),lVar8);
-      *(int *)((int)puVar10 + 0xd) = iVar3;
-      if (iVar3 == 0) goto LAB_828148a0;
-      uVar7 = uVar7 + 1 & 0xff;
-      *(uint *)(param_1 + 0x10) = *(uint *)(param_1 + 0x10) | 0x100;
-      iVar3 = 1 << (*(byte *)(puVar10 + 1) & 0x3f);
-      *(uint *)((int)puVar10 + 0x11) =
-           ((*(int *)((int)puVar10 + 0xd) + iVar3) - 1U & ~(iVar3 - 1U)) -
-           *(int *)((int)puVar10 + 0xd);
-    } while (uVar7 < *(byte *)(iVar1 + 0x51));
+      r = fp->f0c(o->h18, tot, 1 << e[4], off2);
+      *(unsigned int *)(e + 0xd) = r;
+      if (r == 0) {
+        result = 1;
+        break;
+      }
+      i++;
+      o->flags10 |= 0x100;
+      sh = 1 << e[4];
+      *(unsigned int *)(e + 0x11) = ((*(unsigned int *)(e + 0xd) + sh) - 1 & ~(sh - 1)) - *(unsigned int *)(e + 0xd);
+    } while (i < cfg->n51);
   }
-  *(undefined1 *)(param_1 + 0x7a) = 0;
-  *(undefined1 *)(param_1 + 0x7b) = 0;
-  *(undefined1 *)(param_1 + 0x7c) = 0;
-  *(undefined1 *)(param_1 + 0x7d) = 0;
-  uVar4 = fn_8281FDF0(param_1,0xffffffff8201e098);
-  *(undefined1 *)(param_1 + 0x78) = uVar4;
-  return uVar6;
+  o->f7a = 0;
+  o->f7b = 0;
+  o->f7c = 0;
+  o->f7d = 0;
+  o->f78 = fn_8281FDF0(o, ".data");
+  return result;
 }
-

@@ -25,36 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
 extern int fn_82F819D0();
 extern int fn_82F87280();
 
 
+extern char lbl_831BBCA8[];
+typedef struct Loc_82F865A0 { char a30[8]; char a28[8]; } Loc_82F865A0;
 undefined8 fn_82F865A0(undefined8 param_1,undefined8 param_2)
-
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined1 auStack_30 [8];
-  undefined1 auStack_28 [1];
-  
-  uVar1 = fn_82F819D0(auStack_28,auStack_30,param_2,0,0,0,0,0xffffffff831bbca8);
-  iVar2 = fn_82F87280(auStack_28,param_1);
-  if ((uVar1 & 3) == 0) {
-    if (iVar2 == 1) {
-      return 3;
-    }
-    if (iVar2 != 2) {
-      return 0;
-    }
-  }
-  else if ((uVar1 & 1) == 0) {
-    if ((uVar1 & 2) == 0) {
-      return 0;
-    }
-    return 3;
-  }
-  return 4;
-}
+  undefined8 r;
+  Loc_82F865A0 loc;
 
+  uVar1 = fn_82F819D0(loc.a28,loc.a30,param_2,0,0,0,0,lbl_831BBCA8);
+  iVar2 = fn_82F87280(loc.a28,param_1);
+  if ((uVar1 & 3) == 0) {
+    if (iVar2 == 1) return 3;
+    if (iVar2 != 2) return 0;
+    return 4;
+  } else if ((uVar1 & 1) != 0) return 4;
+  r = 3;
+  if ((uVar1 & 2) != 0) return r;
+  return 0;
+}

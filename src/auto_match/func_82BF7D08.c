@@ -25,37 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82BFB328();
+typedef struct Sub_82BF7D08 { int pad[2]; int a; unsigned int b; } Sub_82BF7D08;
+typedef struct Obj_82BF7D08 { char pad[0xc]; char *name; int pad2; Sub_82BF7D08 *sub; } Obj_82BF7D08;
+extern void *fn_82BE56B0(int);
+extern void *fn_82BFB328(void *, char *, Sub_82BF7D08 *);
 
-
-ulonglong fn_82BF7D08(int param_1)
-
+void *fn_82BF7D08(Obj_82BF7D08 *o)
 {
-  int iVar1;
-  ulonglong uVar2;
-  char *pcVar3;
-  
-  pcVar3 = *(char **)(param_1 + 0xc);
-  if (*(char **)(param_1 + 0xc) == (char *)0x0) {
-    pcVar3 = "(none)";
-  }
-  if ((((*pcVar3 != '\0') && (iVar1 = *(int *)(param_1 + 0x14), iVar1 != 0)) &&
-      (*(int *)(iVar1 + 8) != 0)) && (*(int *)(iVar1 + 0xc) != 0)) {
-    uVar2 = thunk_FUN_82be5550(0x14);
-    if ((uVar2 & 0xffffffff) == 0) {
-      uVar2 = 0;
+  char *s = o->name ? o->name : "(none)";
+  void *r;
+  void *m;
+  if (s != 0 && *s != 0 && o->sub != 0 && o->sub->a != 0 && o->sub->b != 0) {
+    m = fn_82BE56B0(0x14);
+    if (m != 0) {
+      r = fn_82BFB328(m, o->name ? o->name : "(none)", o->sub);
+    } else {
+      r = 0;
     }
-    else {
-      pcVar3 = *(char **)(param_1 + 0xc);
-      if (*(char **)(param_1 + 0xc) == (char *)0x0) {
-        pcVar3 = "(none)";
-      }
-      uVar2 = fn_82BFB328(uVar2,pcVar3,*(undefined4 *)(param_1 + 0x14));
-    }
-    if ((uVar2 & 0xffffffff) != 0) {
-      return uVar2;
+    if (r != 0) {
+      return r;
     }
   }
   return 0;
 }
-

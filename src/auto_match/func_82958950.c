@@ -25,38 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82F68CC0();
+typedef struct Obj_82958950 { char pad[0x110]; unsigned int *data; unsigned int size; unsigned int cap; } Obj_82958950;
+extern void *fn_8265C940(unsigned int, int);
+extern void fn_8265C990(void *, int);
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-undefined8 fn_82958950(int param_1,int param_2)
-
+int fn_82958950(Obj_82958950 *o, int n)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x118);
-  uVar3 = uVar2;
-  if (uVar2 == 0) {
-    uVar3 = 0x400;
+  unsigned int cap;
+  unsigned int oldcap = o->cap;
+  void *buf;
+  cap = oldcap ? oldcap : 0x400;
+  while (n + o->size > cap) {
+    cap = cap << 1;
   }
-  if (uVar3 < (uint)(param_2 + *(int *)(param_1 + 0x114))) {
-    do {
-      uVar3 = (uVar3 & 0x7fffffff) << 1;
-    } while (uVar3 < (uint)(param_2 + *(int *)(param_1 + 0x114)));
-  }
-  if (uVar3 != uVar2) {
-    lVar1 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x24810000);
-    if (lVar1 == 0) {
-      return 0xffffffff8007000e;
+  if (cap != oldcap) {
+    buf = fn_8265C940(cap * 4, 0x24810000);
+    if (buf == 0) {
+      return 0x8007000e;
     }
-    fn_82F68CC0(lVar1,*(undefined4 *)(param_1 + 0x110),*(int *)(param_1 + 0x114) << 2);
-    fn_8265C990(*(undefined4 *)(param_1 + 0x110),0x24810000);
-    *(int *)(param_1 + 0x110) = (int)lVar1;
-    *(int *)(param_1 + 0x118) = (int)uVar3;
+    memcpy(buf, o->data, o->size * 4);
+    fn_8265C990(o->data, 0x24810000);
+    o->data = buf;
+    o->cap = cap;
   }
   return 0;
 }
-

@@ -1,64 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE8E78();
-extern int fn_830A9418();
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { const char *name; unsigned time, unused; const char *name2; } TimerEntry2;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
+extern void fn_830A9418(int, int, int);
+extern void fn_82CE8E78(void *, void *, void *, int);
 
-
-void fn_82DC4E70(uint *param_1,undefined8 param_2,int param_3)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "LtIntegrate";
-    puVar1[3] = "StAppGrav";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 4;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  fn_830A9418((ulonglong)*param_1 + 0x1e0,*(undefined4 *)(param_3 + 0x20),
-                  *(undefined4 *)(param_3 + 0x24));
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  fn_82CE8E78(param_2,param_3,param_3,0);
-  return;
 }
 
+static void timer2(const char *name, const char *name2)
+{
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry2 *entry = (TimerEntry2 *)stream->current;
+    entry->name = name;
+    entry->name2 = name2;
+    entry->time = (unsigned)__mftb();
+    stream->current = (TimerEntry *)(entry + 1);
+  }
+}
+
+void fn_82DC4E70(unsigned *p, void *a, int *b)
+{
+  timer2("LtIntegrate", "StAppGrav");
+  fn_830A9418(*p + 0x1e0, b[8], b[9]);
+  timer("lt");
+  fn_82CE8E78(a, b, b, 0);
+}

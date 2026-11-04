@@ -1,54 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Sub_824D3368;
+typedef struct VtA_824D3368 { void *s0; struct Root_824D3368 *(*f4)(void *); } VtA_824D3368;
+typedef struct VtB_824D3368 { char pad[0x3c]; unsigned char (*f3c)(void *); } VtB_824D3368;
+typedef struct Sub_824D3368 { VtB_824D3368 *vt; } Sub_824D3368;
+typedef struct Root_824D3368 { char pad[0xa20]; Sub_824D3368 sub; } Root_824D3368;
+typedef struct Obj14_824D3368 { VtA_824D3368 *vt; } Obj14_824D3368;
+typedef struct Self_824D3368 { char pad[0x14]; Obj14_824D3368 *o14; char pad2[0x9f0 - 0x18]; unsigned int f9f0; } Self_824D3368;
 extern int fn_824CD030();
 
-
-uint fn_824D3368(int param_1)
-
+unsigned int fn_824D3368(Self_824D3368 *self)
 {
-  int iVar1;
-  char cVar3;
-  uint uVar2;
-  
-  iVar1 = fn_824CD030();
-  if (iVar1 == 0) {
-    if (*(int **)(param_1 + 0x14) == (int *)0x0) {
-      uVar2 = 0;
+    Root_824D3368 *root;
+    Sub_824D3368 *sub;
+    Obj14_824D3368 *o;
+    if (fn_824CD030() != 0) {
+        return self->f9f0;
     }
-    else {
-      iVar1 = (**(code **)(**(int **)(param_1 + 0x14) + 4))();
-      cVar3 = (**(code **)(*(int *)(iVar1 + 0xa20) + 0x3c))();
-      uVar2 = (uint)(cVar3 != '\0');
+    o = self->o14;
+    if (o != 0) {
+        root = o->vt->f4(o);
+        sub = &root->sub;
+        return sub->vt->f3c(sub) != 0;
     }
-  }
-  else {
-    uVar2 = *(uint *)(param_1 + 0x9f0);
-  }
-  return uVar2;
+    return 0;
 }
-

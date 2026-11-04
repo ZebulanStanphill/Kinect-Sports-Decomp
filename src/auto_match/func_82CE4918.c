@@ -25,35 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CED5B8();
+typedef struct Alloc_82CE4918 Alloc_82CE4918;
+typedef struct AVt_82CE4918 { int pad[4]; void (*dealloc)(Alloc_82CE4918 *, void *, unsigned, int); } AVt_82CE4918;
+struct Alloc_82CE4918 { AVt_82CE4918 *vt; };
+typedef struct Mem_82CE4918 { char pad[0x10]; Alloc_82CE4918 *alloc; } Mem_82CE4918;
+typedef struct Elem_82CE4918 { char pad[8]; char x[8]; } Elem_82CE4918;
+typedef struct Arr_82CE4918 { Elem_82CE4918 *data; int count; int cap; } Arr_82CE4918;
+extern Mem_82CE4918 *fn_82CE5410(void);
+extern void fn_82CED5B8(void *);
 
-
-void fn_82CE4918(uint *param_1)
-
+void fn_82CE4918(Arr_82CE4918 *a)
 {
-  int *piVar1;
-  int iVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  
-  iVar2 = fn_82CE5410();
-  uVar4 = (ulonglong)param_1[1];
-  piVar1 = *(int **)(iVar2 + 0x10);
-  if (0 < (int)param_1[1]) {
-    lVar3 = (ulonglong)*param_1 + 8;
+  Mem_82CE4918 *m = fn_82CE5410();
+  int n = a->count;
+  Elem_82CE4918 *p = a->data;
+  Alloc_82CE4918 *al = m->alloc;
+  if (n > 0) {
     do {
-      fn_82CED5B8(lVar3);
-      uVar4 = uVar4 - 1;
-      lVar3 = lVar3 + 0x10;
-    } while (uVar4 != 0);
+      fn_82CED5B8(p->x);
+      n--;
+      p++;
+    } while (n != 0);
   }
-  param_1[1] = 0;
-  if ((param_1[2] & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))(piVar1,*param_1,param_1[2] & 0x3fffffff,0x10);
+  a->count = 0;
+  if ((a->cap & (int)0x80000000) == 0) {
+    al->vt->dealloc(al, a->data, a->cap & 0x3fffffff, 0x10);
   }
-  *param_1 = 0;
-  param_1[2] = 0x80000000;
-  return;
+  a->data = 0;
+  a->cap = (int)0x80000000;
 }
-

@@ -1,78 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_8266D270();
-extern int fn_8266D440();
-extern int fn_8266D840();
-extern unsigned int uStack_70;
-extern unsigned int uStack_74;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct Elem_8266D8A8 { int a; int b; unsigned int key; } Elem_8266D8A8;
+typedef struct Out_8266D8A8 { int pad[4]; int f10; } Out_8266D8A8;
+typedef struct Tmp_8266D8A8 { int w0, w1, w2, w3, w4; } Tmp_8266D8A8;
+typedef struct Res_8266D8A8 { int pad[6]; } Res_8266D8A8;
+extern void fn_8266D270(Out_8266D8A8 *, Elem_8266D8A8 *);
+extern Res_8266D8A8 *fn_8266D840(void *, Elem_8266D8A8 *, Elem_8266D8A8 *, Tmp_8266D8A8 *);
+extern void fn_8266D440(void *);
 
-
-undefined8
-fn_8266D8A8(undefined8 param_1,int param_2,int param_3,int param_4,int param_5,int param_6)
-
+Res_8266D8A8 *fn_8266D8A8(Res_8266D8A8 *res, Elem_8266D8A8 *a, Elem_8266D8A8 *ae, Elem_8266D8A8 *b, Elem_8266D8A8 *be, Out_8266D8A8 *out)
 {
-  int iVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_80;
-
-  undefined4 uStack_78;
-  undefined4 uStack_74;
-  undefined4 uStack_70;
-  undefined1 auStack_60 [48];
-  
-  while ((param_2 != param_3 && (param_4 != param_5))) {
-    if (*(uint *)(param_4 + 8) < *(uint *)(param_2 + 8)) {
-      fn_8266D270(param_6,param_4);
-      param_4 = param_4 + 0xc;
+    Tmp_8266D8A8 t;
+    Res_8266D8A8 r1;
+    Res_8266D8A8 *p;
+    while (a != ae && b != be) {
+        if (b->key < a->key) {
+            fn_8266D270(out, b);
+            b++;
+        } else {
+            fn_8266D270(out, a);
+            a++;
+        }
     }
-    else {
-      fn_8266D270(param_6,param_2);
-      param_2 = param_2 + 0xc;
-    }
-  }
-  uStack_70 = *(undefined4 *)(param_6 + 0x10);
-  stack_pair_80.first = 0;
-  stack_pair_80.second = 0;
-  uStack_78 = 0;
-  uStack_74 = 0;
-  iVar1 = fn_8266D840(auStack_60,param_2,param_3,&stack_pair_80.first);
-  *(undefined4 *)(param_6 + 0x10) = *(undefined4 *)(iVar1 + 0x10);
-  fn_8266D440(auStack_60);
-  uStack_70 = *(undefined4 *)(param_6 + 0x10);
-  stack_pair_80.first = 0;
-  stack_pair_80.second = 0;
-  uStack_78 = 0;
-  uStack_74 = 0;
-  fn_8266D840(param_1,param_4,param_5,&stack_pair_80.first);
-  fn_8266D440(param_6);
-  return param_1;
+    t.w4 = out->f10;
+    t.w0 = 0;
+    t.w1 = 0;
+    t.w2 = 0;
+    t.w3 = 0;
+    p = fn_8266D840(&r1, a, ae, &t);
+    out->f10 = p->pad[4];
+    fn_8266D440(&r1);
+    t.w4 = out->f10;
+    t.w0 = 0;
+    t.w1 = 0;
+    t.w2 = 0;
+    t.w3 = 0;
+    fn_8266D840(res, b, be, &t);
+    fn_8266D440(out);
+    return res;
 }
-

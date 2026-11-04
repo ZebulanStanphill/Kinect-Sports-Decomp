@@ -25,35 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8269AD40();
-extern int fn_826CBFF0();
+typedef struct Obj_826CCE78 Obj_826CCE78;
+typedef struct Sub_826CCE78 Sub_826CCE78;
+typedef struct SVt_826CCE78 { char pad[0xb8]; unsigned char (*fb8)(Sub_826CCE78 *); } SVt_826CCE78;
+struct Sub_826CCE78 { SVt_826CCE78 *vt; };
+typedef struct Vt_826CCE78 { char pad[0x50]; Sub_826CCE78 *(*f50)(Obj_826CCE78 *, int); } Vt_826CCE78;
+struct Obj_826CCE78 {
+  Vt_826CCE78 *vt;
+  char pad[0x8c - 4];
+  unsigned int : 23;
+  unsigned int mode : 2;
+  unsigned int : 7;
+  char pad2[0xa0 - 0x90];
+  int arg;
+};
+extern void fn_8269AD40(Obj_826CCE78 *, int);
+extern void fn_826CBFF0(Obj_826CCE78 *, int);
 
-
-void fn_826CCE78(int *param_1,int param_2)
-
+void fn_826CCE78(Obj_826CCE78 *o, int v)
 {
-  int *piVar1;
-  char cVar2;
-  uint uVar3;
-  
-  if (param_2 == 0) {
-    uVar3 = param_1[0x23];
-LAB_826cce98:
-    uVar3 = uVar3 | 0x180;
+  if (v == 0) {
+    o->mode = 3;
   }
-  else {
-    if (param_2 < 1) goto LAB_826cceec;
-    piVar1 = (int *)(**(code **)(*param_1 + 0x50))(param_1,0);
-    if (piVar1 == (int *)0x0) goto LAB_826cceec;
-    cVar2 = (**(code **)(*piVar1 + 0xb8))();
-    uVar3 = param_1[0x23];
-    if (cVar2 != '\0') goto LAB_826cce98;
-    uVar3 = uVar3 & 0xfffffe7f | 0x100;
+  else if (v > 0) {
+    Sub_826CCE78 *s = o->vt->f50(o, 0);
+    if (s != 0) {
+      if (s->vt->fb8(s) != 0) {
+        o->mode = 3;
+      }
+      else {
+        o->mode = 2;
+      }
+    }
   }
-  param_1[0x23] = uVar3;
-LAB_826cceec:
-  fn_8269AD40(param_1,param_1[0x28]);
-  fn_826CBFF0(param_1,param_1[0x28]);
-  return;
+  fn_8269AD40(o, o->arg);
+  fn_826CBFF0(o, o->arg);
 }
-

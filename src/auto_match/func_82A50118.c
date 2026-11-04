@@ -25,16 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
 
+typedef struct Iface_82A50118 Iface_82A50118;
+typedef struct Vt_82A50118 { int pad[3]; void (*f)(Iface_82A50118 *, int, void *, int); } Vt_82A50118;
+struct Iface_82A50118 { Vt_82A50118 *vt; };
+typedef struct Obj_82A50118 { Iface_82A50118 *h; int w; int a; int b; int pad[2]; void *data; } Obj_82A50118;
 
-void fn_82A50118(undefined4 *param_1,undefined8 param_2)
-
+void fn_82A50118(Obj_82A50118 *o, void *dst)
 {
-  (**(code **)(*(int *)*param_1 + 0xc))
-            ((int *)*param_1,0,param_1[6],
-             ((longlong)(int)param_1[2] * (longlong)(int)param_1[1] + 3U & 0x3fffffff) << 2);
-  fn_82F68CC0(param_2,param_1[6],0xc);
-  return;
+  o->h->vt->f(o->h, 0, o->data, (o->a * o->w + 3) * 4);
+  memcpy(dst, o->data, 0xc);
 }
-

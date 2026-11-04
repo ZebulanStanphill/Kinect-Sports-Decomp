@@ -25,39 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83026548();
+typedef struct Obj_8301BA90 Obj_8301BA90;
+typedef struct Vt_8301BA90 { int pad0[2]; void (*rel)(Obj_8301BA90 *); int pad1[6]; void (*f24)(Obj_8301BA90 *); } Vt_8301BA90;
+struct Obj_8301BA90 { Vt_8301BA90 *vt; char pad[0xf8]; Obj_8301BA90 *sub; void *slot[4]; };
+typedef struct Mgr_8301BA90 { char pad[0xc]; Obj_8301BA90 *obj[2]; } Mgr_8301BA90;
+extern void fn_83026548(void *);
 
-
-void fn_8301BA90(int param_1)
-
+void fn_8301BA90(Mgr_8301BA90 *m)
 {
-  int *piVar1;
-  uint uVar2;
-  int *piVar3;
-  longlong lVar4;
-  int *piVar5;
-  
-  uVar2 = 0;
-  piVar3 = (int *)(param_1 + 0xc);
+  unsigned int i = 0;
+  Obj_8301BA90 **pp = m->obj;
   do {
-    piVar1 = (int *)*piVar3;
-    if (piVar1 == (int *)0x0) {
+    Obj_8301BA90 *o = *pp;
+    void **s;
+    int k;
+    if (o == 0) {
       return;
     }
-    (**(code **)(*(int *)piVar1[0x3f] + 0x24))();
-    piVar5 = piVar1 + 0x40;
-    lVar4 = 4;
+    o->sub->vt->f24(o->sub);
+    s = o->slot;
+    k = 4;
     do {
-      if (*piVar5 != 0) {
-        fn_83026548();
+      if (*s != 0) {
+        fn_83026548(*s);
       }
-      lVar4 = lVar4 + -1;
-      piVar5 = piVar5 + 1;
-    } while (lVar4 != 0);
-    (**(code **)(*piVar1 + 8))(piVar1);
-    uVar2 = uVar2 + 1;
-    piVar3 = piVar3 + 1;
-  } while (uVar2 < 2);
-  return;
+      k--;
+      s++;
+    } while (k != 0);
+    o->vt->rel(o);
+    i++;
+    pp++;
+  } while (i < 2);
 }
-

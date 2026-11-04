@@ -1,48 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
+typedef struct Iface_826EC330 { struct { char pad[0x44]; void (*f44)(void *, void *, int); } *vt; } Iface_826EC330;
+typedef struct Sub_826EC330 { Iface_826EC330 *p; int q; } Sub_826EC330;
+typedef struct Self_826EC330 { char pad[0x14]; void *f14; char pad2[8]; Sub_826EC330 s; } Self_826EC330;
+extern void fn_8267BE38(void *);
 
-
-int fn_826EC330(int param_1,ulonglong param_2)
-
+Self_826EC330 *fn_826EC330(Self_826EC330 *self, unsigned int flags)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 0x20);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x44))(piVar1,(undefined4 *)(param_1 + 0x20),2);
-  }
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  fn_8267BE38(*(undefined4 *)(param_1 + 0x14));
-  if ((param_2 & 1) != 0) {
-    fn_8267BE38(param_1);
-  }
-  return param_1;
+    Sub_826EC330 *s = &self->s;
+    if (s->p != 0) {
+        s->p->vt->f44(s->p, s, 2);
+    }
+    s->p = 0;
+    s->q = 0;
+    fn_8267BE38(self->f14);
+    if ((flags & 1) != 0) {
+        fn_8267BE38(self);
+    }
+    return self;
 }
-

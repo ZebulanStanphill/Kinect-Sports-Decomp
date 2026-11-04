@@ -25,49 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82FF8938();
-extern int fn_82FF8988();
-extern unsigned int iStack_38;
-extern unsigned int uStack_34;
+typedef struct Obj_82FF9478 { int pad; char sub[0x49c]; unsigned char flag; } Obj_82FF9478;
+typedef struct Hdr_82FF9478 { unsigned int magic; unsigned int size; } Hdr_82FF9478;
+extern int fn_82FF8938(void *, void *, unsigned int);
+extern int fn_82FF8988(void *, unsigned int, unsigned int *);
 
-
-undefined8 fn_82FF9478(int param_1,int *param_2)
-
+int fn_82FF9478(Obj_82FF9478 *o, unsigned int *out)
 {
-  int iVar2;
-  undefined8 uVar1;
-  ulonglong uVar3;
-  int iVar4;
-  uint auStack_40;
-  struct { int first; uint second; } stack_pair_38;
+  int rc;
+  unsigned int sz;
+  unsigned int got;
+  Hdr_82FF9478 hdr;
 
-  
-  iVar4 = param_1 + 4;
-  iVar2 = fn_82FF8938(iVar4,&stack_pair_38.first,8);
-  if ((iVar2 == 1) && (stack_pair_38.first == 0x424b4844)) {
-    uVar1 = fn_82FF8938(iVar4,param_2,0x10);
-    uVar3 = (ulonglong)stack_pair_38.second - 0x10;
-    if ((int)uVar1 == 1) {
-      if ((uVar3 & 0xffffffff) != 0) {
-        auStack_40 = 0;
-        uVar1 = fn_82FF8988(iVar4,uVar3,&auStack_40);
-        if ((int)uVar1 != 1) goto LAB_82ff9530;
-        if ((ulonglong)auStack_40 != (uVar3 & 0xffffffff)) {
-          uVar1 = 0x38;
-          goto LAB_82ff9530;
+  rc = fn_82FF8938(o->sub, &hdr, 8);
+  if (rc == 1 && hdr.magic == 0x424b4844) {
+    rc = fn_82FF8938(o->sub, out, 0x10);
+    sz = hdr.size - 0x10;
+    if (rc == 1) {
+      if (sz != 0) {
+        got = 0;
+        rc = fn_82FF8988(o->sub, sz, &got);
+        if (rc != 1) {
+          goto done;
+        }
+        if (got != sz) {
+          rc = 0x38;
+          goto done;
         }
       }
-      if (*param_2 != 0x2e) {
-        uVar1 = 0x40;
+      if (out[0] != 0x2e) {
+        rc = 0x40;
       }
     }
   }
   else {
-    uVar1 = 7;
+    rc = 7;
   }
-LAB_82ff9530:
-  *(char *)(param_1 + 0x4a0) = '\x01' - (param_2[3] == 0);
-  return uVar1;
+done:
+  o->flag = (out[3] != 0);
+  return rc;
 }
-

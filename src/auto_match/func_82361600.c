@@ -25,51 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82361BA0();
-extern unsigned int iStack_2c;
-extern unsigned int stack0x00000000;
+typedef struct SP_82361600 { int ptr; int *rep; } SP_82361600;
+typedef struct Loc_82361600 { int a; int *rep; SP_82361600 sp; } Loc_82361600;
+typedef struct Iface_82361600 Iface_82361600;
+typedef struct Vt_82361600 { char pad[0x14]; void (*f14)(Iface_82361600 *, int, int); } Vt_82361600;
+struct Iface_82361600 { Vt_82361600 *vt; };
+typedef struct Obj_82361600 { char pad[8]; Iface_82361600 *h; } Obj_82361600;
+extern void fn_822315A0(int *);
+extern SP_82361600 *fn_82361BA0(Loc_82361600 *);
 
-
-void fn_82361600(int param_1,undefined8 param_2,int *param_3)
-
+void fn_82361600(Obj_82361600 *o, int a, SP_82361600 *sp)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  int aiStack_28 [10];
-  
-  if (param_3 == (int *)0x0) {
-    iVar4 = 0;
-  }
-  else {
-    if (*param_3 == 0) {
-      piVar2 = (int *)fn_82361BA0(&stack0x00000000 + -0x30);
-      iVar3 = 0;
-      iVar4 = 0;
-      if ((int *)(&stack0x00000000 + -0x28) != piVar2) {
-        iVar4 = piVar2[1];
-        piVar2[1] = 0;
-        iVar3 = *piVar2;
-        *piVar2 = 0;
+  int v;
+  if (sp != 0) {
+    if (sp->ptr == 0) {
+      Loc_82361600 loc;
+      SP_82361600 *r = fn_82361BA0(&loc);
+      int np = 0;
+      int *nr = 0;
+      int *old;
+      if (&loc.sp != r) {
+        int *q = &r->rep;
+        nr = *q;
+        *q = 0;
+        np = r->ptr;
+        r->ptr = 0;
       }
-      iVar1 = param_3[1];
-      param_3[1] = iVar4;
-      *param_3 = iVar3;
-      if (iVar1 != 0) {
-        fn_822315A0();
+      old = sp->rep;
+      sp->rep = nr;
+      sp->ptr = np;
+      if (old != 0) {
+        fn_822315A0(old);
       }
-      if (iStack_2c != 0) {
-        fn_822315A0();
+      if (loc.rep != 0) {
+        fn_822315A0(loc.rep);
       }
     }
-    iVar4 = *param_3;
+    v = sp->ptr;
   }
-  (**(code **)(**(int **)(param_1 + 8) + 0x14))(*(int **)(param_1 + 8),param_2,iVar4);
-  return;
+  else {
+    v = 0;
+  }
+  o->h->vt->f14(o->h, a, v);
 }
-

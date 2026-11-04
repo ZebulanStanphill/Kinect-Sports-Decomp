@@ -25,23 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826D89A8();
+extern int fn_826D89A8(int, int);
 
+typedef struct Pair_826D9590 { int a; int b; } Pair_826D9590;
 
-undefined4 * fn_826D9590(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+Pair_826D9590 * fn_826D9590(Pair_826D9590 *p, int a, int b)
 {
-  longlong lVar1;
-  
-  lVar1 = fn_826D89A8(param_2,param_3);
-  if (lVar1 < 0) {
-    lVar1 = 0;
-    *param_1 = 0;
-  }
-  else {
-    *param_1 = (int)param_2;
-  }
-  param_1[1] = (int)lVar1;
-  return param_1;
+  int n = fn_826D89A8(a, b);
+  if (n >= 0) { p->a = a; p->b = n; return p; }
+  n = 0;
+  p->a = n;
+  p->b = n;
+  return p;
 }
-

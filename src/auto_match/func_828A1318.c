@@ -1,51 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82898240();
-extern int fn_82898298();
+extern unsigned char fn_82898298(void *);
+extern void fn_82898240(void *, void *);
 
+struct Iface_828A1318;
+typedef struct { void *f0; void *f4; unsigned char (*f8)(struct Iface_828A1318 *); } VT_828A1318;
+typedef struct Iface_828A1318 { VT_828A1318 *vt; } Iface_828A1318;
+typedef struct { char pad[0x1c]; Iface_828A1318 *iface; } Item_828A1318;
+typedef struct { char pad[0x2c4]; void *cur; } Obj_828A1318;
 
-void fn_828A1318(int param_1,int param_2)
-
+void fn_828A1318(Obj_828A1318 *o, Item_828A1318 *item)
 {
-  bool bVar1;
-  char cVar2;
-  
-  cVar2 = (**(code **)(**(int **)(param_2 + 0x1c) + 8))();
-  if (cVar2 != '\0') {
-    cVar2 = fn_82898298(param_2);
-    if ((cVar2 != '\0') || (bVar1 = false, *(int *)(param_1 + 0x2c4) == param_2)) {
-      bVar1 = true;
-    }
-    if (!bVar1) {
-      fn_82898240(param_2,*(undefined4 *)(param_1 + 0x2c4));
-      *(int *)(param_1 + 0x2c4) = param_2;
-    }
-  }
-  return;
-}
+    unsigned char c;
+    unsigned char b;
 
+    c = item->iface->vt->f8(item->iface);
+    if (c != 0) {
+        c = fn_82898298(item);
+        if (c != 0 || o->cur == item) {
+            b = 1;
+        } else {
+            b = 0;
+        }
+        if (!b) {
+            fn_82898240(item, o->cur);
+            o->cur = item;
+        }
+    }
+}

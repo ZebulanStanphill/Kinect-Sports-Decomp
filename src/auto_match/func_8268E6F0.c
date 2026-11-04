@@ -27,47 +27,51 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint fn_8268E6F0(uint *param_1,uint param_2)
+typedef struct Node_8268E6F0 { char pad[0x18]; struct Node_8268E6F0 *child[2]; } Node_8268E6F0;
 
+Node_8268E6F0 *fn_8268E6F0(Node_8268E6F0 **root, unsigned int size)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  ulonglong uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  uVar1 = *param_1;
-  uVar2 = 0;
-  uVar3 = 0xffffffff;
-  if (uVar1 == 0) {
-    return uVar2;
+  Node_8268E6F0 *t = *root;
+  Node_8268E6F0 *best = 0;
+  unsigned int bestdiff = 0xffffffff;
+  Node_8268E6F0 *rst;
+  Node_8268E6F0 *rt;
+  unsigned int k;
+  if (t == 0) {
+    return best;
   }
-  uVar6 = 0;
-  uVar4 = (ulonglong)param_2;
-  while( true ) {
-    uVar5 = param_2 - uVar1;
-    if (((uVar1 <= param_2) && (uVar5 < uVar3)) && (uVar2 = uVar1, uVar3 = uVar5, uVar5 == 0)) {
-      return uVar1;
+  rst = 0;
+  k = size;
+  for (;;) {
+    unsigned int diff = size - (unsigned int)t;
+    if ((unsigned int)t <= size && diff < bestdiff) {
+      best = t;
+      bestdiff = diff;
+      if (diff == 0) {
+        return t;
+      }
     }
-    uVar5 = *(uint *)(uVar1 + 0x18);
-    uVar1 = *(uint *)(((int)(uVar4 >> 0x1f) + 6) * 4 + uVar1);
-    if ((uVar5 != 0) && (uVar5 != uVar1)) {
-      uVar6 = uVar5;
+    rt = t->child[0];
+    t = t->child[k >> 31];
+    if (rt != 0 && rt != t) {
+      rst = rt;
     }
-    if (uVar1 == 0) break;
-    uVar4 = (uVar4 & 0x7fffffff) << 1;
+    if (t == 0) {
+      break;
+    }
+    k = k << 1;
   }
-  if (uVar6 == 0) {
-    return uVar2;
+  t = rst;
+  if (t == 0) {
+    return best;
   }
   do {
-    if ((uVar6 <= param_2) && (param_2 - uVar6 < uVar3)) {
-      uVar2 = uVar6;
-      uVar3 = param_2 - uVar6;
+    unsigned int diff = size - (unsigned int)t;
+    if ((unsigned int)t <= size && diff < bestdiff) {
+      bestdiff = diff;
+      best = t;
     }
-    uVar6 = *(uint *)((7 - (uint)(*(int *)(uVar6 + 0x1c) == 0)) * 4 + uVar6);
-  } while (uVar6 != 0);
-  return uVar2;
+    t = t->child[t->child[1] != 0];
+  } while (t != 0);
+  return best;
 }
-

@@ -1,47 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
+typedef struct Buf_82BF7098 { int p0; int p4; unsigned char *data; unsigned int size; } Buf_82BF7098;
 
-
-undefined8 fn_82BF7098(int param_1,longlong param_2,ulonglong param_3,ulonglong param_4)
-
+int fn_82BF7098(Buf_82BF7098 *b, unsigned int off, const void *src, unsigned int n)
 {
-  undefined8 uVar1;
-  
-  if (((((param_2 + param_4 & 0xffffffff) < (param_4 & 0xffffffff)) || ((param_3 & 0xffffffff) == 0)
-       ) || ((int)param_4 == 0)) ||
-     ((ulonglong)*(uint *)(param_1 + 0xc) < (param_2 + param_4 & 0xffffffff))) {
-    uVar1 = 0;
-  }
-  else {
-    fn_82F68CC0((ulonglong)*(uint *)(param_1 + 8) + param_2,param_3,param_4);
-    uVar1 = 1;
-  }
-  return uVar1;
+    unsigned int end = off + n;
+    if (n > end || src == 0 || n == 0 || end > b->size) {
+        return 0;
+    }
+    memcpy(b->data + off, src, n);
+    return 1;
 }
-

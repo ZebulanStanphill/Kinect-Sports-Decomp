@@ -1,47 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int uStack_28;
+struct Sub_83050700;
+typedef struct { int a0, a1, a2; void (*f3)(struct Sub_83050700 *, void *); void (*f4)(struct Sub_83050700 *, void *); } VT_83050700;
+typedef struct Sub_83050700 { VT_83050700 *vt; } Sub_83050700;
+typedef struct { char pad[0x18]; long long limit; char pad2[0x78 - 0x20]; Sub_83050700 sub; } Obj_83050700;
+typedef struct { long long a; unsigned b; unsigned c; } Buf_83050700;
 
-
-void fn_83050700(int param_1)
-
+void fn_83050700(Obj_83050700 *o)
 {
-  int *piVar1;
-  undefined1 auStack_30 [8];
-  uint uStack_28;
-  
-  piVar1 = (int *)(param_1 + 0x78);
-  (**(code **)(*(int *)(param_1 + 0x78) + 0xc))(piVar1,auStack_30);
-  if (*(longlong *)(param_1 + 0x18) < (longlong)(ulonglong)uStack_28) {
-    uStack_28 = (uint)*(longlong *)(param_1 + 0x18);
-    (**(code **)(*piVar1 + 0x10))(piVar1,auStack_30);
-  }
-  return;
-}
+    Buf_83050700 buf;
+    Sub_83050700 *s = &o->sub;
 
+    s->vt->f3(s, &buf);
+    if ((long long)buf.b > o->limit) {
+        buf.b = (unsigned)o->limit;
+        s->vt->f4(s, &buf);
+    }
+}

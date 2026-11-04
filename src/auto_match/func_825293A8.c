@@ -25,43 +25,53 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825298E8();
-extern int fn_8252AE68();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Node_825293A8 { int prev; int next; } Node_825293A8;
+typedef struct Obj_825293A8 Obj_825293A8;
+typedef struct Vt_825293A8 { int pad[3]; void (*f0c)(Obj_825293A8 *, void *); } Vt_825293A8;
+typedef struct Owner_825293A8 { char pad[0x3f0]; Node_825293A8 head; } Owner_825293A8;
+struct Obj_825293A8 {
+  Vt_825293A8 *vt;
+  char pad0[0x30 - 4];
+  int x30;
+  char pad1[4];
+  Node_825293A8 link;
+  char pad2[0xc];
+  Owner_825293A8 *owner;
+  char pad3[0xb24 - 0x50];
+  unsigned char flag;
+};
+typedef struct Msg_825293A8 { int id; int size; } Msg_825293A8;
+extern void fn_825298E8(Obj_825293A8 *);
+extern void fn_8252AE68(Obj_825293A8 *, int);
 
-
-void fn_825293A8(int *param_1)
-
+static __forceinline int isz_825293A8(int v) { return v == 0; }
+void fn_825293A8(Obj_825293A8 *p)
 {
-  int iVar1;
-  int *piVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  
-  if ((param_1[0x13] == 0) && (param_1[0xc] != 0)) {
-    fn_825298E8();
+  Node_825293A8 *q;
+  if (p->owner == 0 && p->x30 != 0) {
+    fn_825298E8(p);
   }
   else {
-    piVar2 = param_1 + 0xe;
-    if (param_1[0xe] == 0) {
-      if ((param_1[0x13] != 0) && (*(char *)(param_1 + 0x2c9) == '\0')) {
-        stack_pair_30.first = 0x4b;
-        stack_pair_30.second = 8;
-        (**(code **)(*param_1 + 0xc))(param_1,&stack_pair_30.first);
+    q = &p->link;
+    if (q->prev == 0) {
+      if (p->owner != 0 && p->flag == 0) {
+        Msg_825293A8 m;
+        m.id = 0x4b;
+        m.size = 8;
+        p->vt->f0c(p, &m);
       }
-      if (*piVar2 == 0) {
-        for (iVar1 = param_1[0x13] + 0x3f0; *(int *)(iVar1 + 4) != 0; iVar1 = *(int *)(iVar1 + 4)) {
+      if (q->prev == 0 && isz_825293A8(p->link.prev)) {
+        Node_825293A8 *n = &p->owner->head;
+        while (n->next != 0) {
+          n = (Node_825293A8 *)n->next;
         }
-        *(int **)(iVar1 + 4) = piVar2;
-        *piVar2 = iVar1;
-        param_1[0xf] = 0;
-        fn_8252AE68(param_1,1);
-        param_1[0x22b] = 0;
-        param_1[0x263] = 0;
+        n->next = (int)q;
+        q->prev = (int)n;
+        q->next = 0;
+        fn_8252AE68(p, 1);
+        *(int *)((char *)p + 0x8ac) = 0;
+        *(int *)((char *)p + 0x98c) = 0;
       }
     }
   }
-  return;
 }
-

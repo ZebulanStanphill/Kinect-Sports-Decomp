@@ -27,24 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_8278FE08(int param_1,int *param_2)
+typedef struct Buf_8278FE08 { unsigned int data; unsigned int size; } Buf_8278FE08;
+typedef struct Obj_8278FE08 { char pad[0x18]; Buf_8278FE08 *buf; unsigned int idx; } Obj_8278FE08;
 
+int fn_8278FE08(Obj_8278FE08 *o, int *out)
 {
-  int iVar1;
-  bool bVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x18);
-  if ((iVar1 == 0) || (bVar2 = false, *(uint *)(iVar1 + 4) <= *(uint *)(param_1 + 0x1c))) {
-    bVar2 = true;
+  Buf_8278FE08 *b = o->buf;
+  unsigned char done;
+  if (b == 0 || !(o->idx < b->size)) {
+    done = 1;
+  } else {
+    done = 0;
   }
-  if (!bVar2) {
-    if (param_2 != (int *)0x0) {
-      *param_2 = *(int *)(iVar1 + 4) - *(int *)(param_1 + 0x1c);
+  if (!done) {
+    if (out != 0) {
+      *out = b->size - o->idx;
     }
-    return ((ulonglong)*(uint *)(param_1 + 0x1c) & 0x7fffffff) * 2 +
-           (ulonglong)**(uint **)(param_1 + 0x18);
+    return o->buf->data + o->idx * 2;
   }
-  *param_2 = 0;
+  *out = 0;
   return 0;
 }
-

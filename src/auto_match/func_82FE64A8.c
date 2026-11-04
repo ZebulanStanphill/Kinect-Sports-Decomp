@@ -1,54 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8217BAB4;
-extern unsigned int lbl_821AAD20;
+typedef struct Alloc_82FE64A8 { struct { int pad; void *(*f4)(struct Alloc_82FE64A8 *, int); } *vt; } Alloc_82FE64A8;
+typedef struct Obj_82FE64A8 { void *vt; int a4; int a8; int ac; float f10; short s14; short s16; float f18; int f1c; int f20; } Obj_82FE64A8;
+extern char lbl_8217BAB4[];
 
-
-undefined4 * fn_82FE64A8(int *param_1)
-
+Obj_82FE64A8 *fn_82FE64A8(Alloc_82FE64A8 *al)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)(**(code **)(*param_1 + 4))(param_1,0x24);
-  if (puVar2 != (undefined4 *)0x0) {
-    puVar2[1] = 0;
-    uVar1 = lbl_821AAD20;
-    *puVar2 = &lbl_8217BAB4;
-    puVar2[4] = uVar1;
-    puVar2[2] = 0;
-    puVar2[6] = uVar1;
-    *(undefined2 *)(puVar2 + 5) = 1;
-    *(undefined2 *)((int)puVar2 + 0x16) = 0;
-    puVar2[8] = 0;
-    puVar2[7] = 0;
-    return puVar2;
-  }
-  return (undefined4 *)0x0;
+    Obj_82FE64A8 *o = (Obj_82FE64A8 *)al->vt->f4(al, 0x24);
+    if (o != 0) {
+        o->a4 = 0;
+        o->vt = lbl_8217BAB4;
+        o->f10 = 0.0f;
+        o->a8 = 0;
+        o->f18 = 0.0f;
+        o->s14 = 1;
+        o->s16 = 0;
+        o->f20 = 0;
+        o->f1c = 0;
+        return o;
+    }
+    return 0;
 }
-

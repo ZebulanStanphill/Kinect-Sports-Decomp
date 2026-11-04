@@ -1,45 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82CEAC60();
+typedef struct Obj_82E161D8 { struct { char pad[0x10]; unsigned int (*f10)(); } *vt; } Obj_82E161D8;
+extern char *fn_82CEAC60(void *, unsigned int, unsigned int);
 
-
-bool fn_82E161D8(undefined8 param_1,undefined8 param_2,int *param_3)
-
+unsigned char fn_82E161D8(int a, int b, Obj_82E161D8 *o)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  char *pcVar3;
-  undefined1 auStack_30 [16];
-  
-  uVar1 = (**(code **)(*param_3 + 0x10))(param_3);
-  uVar2 = (**(code **)(*param_3 + 0x10))(param_3,param_1);
-  pcVar3 = (char *)fn_82CEAC60(auStack_30,uVar2,uVar1);
-  return *pcVar3 != '\0';
+    unsigned int u1;
+    unsigned int u2;
+    char *c;
+    char buf[16];
+    u1 = o->vt->f10(o);
+    u2 = o->vt->f10(o, a);
+    c = fn_82CEAC60(buf, u2, u1);
+    return *c != 0;
 }
-

@@ -1,170 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_824BABE8(int param_1,uint param_2,int param_3)
-
+typedef struct O_824BABE8 { unsigned int w[0x600]; } O_824BABE8;
+typedef struct S_824BABE8 { char pad[0x100]; O_824BABE8 *o; } S_824BABE8;
+#define CLR(e) if ((e) != 0) { (e) = 0; }
+void fn_824BABE8(S_824BABE8 *self, unsigned int mode, int all)
 {
-  int iVar1;
-  int iVar2;
-  
-  if (param_3 != 0) {
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0x918) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x918) = 0;
+    int base;
+    if (all != 0) {
+        CLR(self->o->w[0x918 / 4]);
+        CLR(self->o->w[0x914 / 4]);
+        CLR(self->o->w[0x92c / 4]);
+        CLR(self->o->w[0x928 / 4]);
+        return;
     }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0x914) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x914) = 0;
+    switch (mode) {
+    case 3:
+        base = 0x44;
+        break;
+    case 2:
+        base = 0x22;
+        break;
+    case 1:
+        base = 0x66;
+        break;
+    case 0:
+        base = 0;
+        break;
+    default:
+        return;
     }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0x92c) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x92c) = 0;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0x928) == 0) {
-      return;
-    }
-    *(undefined4 *)(*(int *)(param_1 + 0x100) + 0x928) = 0;
-    return;
-  }
-  if (param_2 == 0) {
-    iVar2 = 0;
-  }
-  else if (param_2 == 1) {
-    iVar2 = 0x66;
-  }
-  else if (param_2 < 3) {
-    iVar2 = 0x22;
-  }
-  else {
-    if (param_2 != 3) {
-      return;
-    }
-    iVar2 = 0x44;
-  }
-  iVar1 = (iVar2 + 0x252) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x253) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x254) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x255) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x256) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 599) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 600) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x259) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25a) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25b) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25c) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25d) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25e) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x25f) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x260) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x261) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x262) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x263) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x264) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x265) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x266) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x267) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x268) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x269) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar2 = (iVar2 + 0x26a) * 4;
-  if (*(int *)(iVar2 + *(int *)(param_1 + 0x100)) == 0) {
-    return;
-  }
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x100)) = 0;
-  return;
+    CLR(self->o->w[base + 0x252]);
+    CLR(self->o->w[base + 0x253]);
+    CLR(self->o->w[base + 0x254]);
+    CLR(self->o->w[base + 0x255]);
+    CLR(self->o->w[base + 0x256]);
+    CLR(self->o->w[base + 0x257]);
+    CLR(self->o->w[base + 0x258]);
+    CLR(self->o->w[base + 0x259]);
+    CLR(self->o->w[base + 0x25a]);
+    CLR(self->o->w[base + 0x25b]);
+    CLR(self->o->w[base + 0x25c]);
+    CLR(self->o->w[base + 0x25d]);
+    CLR(self->o->w[base + 0x25e]);
+    CLR(self->o->w[base + 0x25f]);
+    CLR(self->o->w[base + 0x260]);
+    CLR(self->o->w[base + 0x261]);
+    CLR(self->o->w[base + 0x262]);
+    CLR(self->o->w[base + 0x263]);
+    CLR(self->o->w[base + 0x264]);
+    CLR(self->o->w[base + 0x265]);
+    CLR(self->o->w[base + 0x266]);
+    CLR(self->o->w[base + 0x267]);
+    CLR(self->o->w[base + 0x268]);
+    CLR(self->o->w[base + 0x269]);
+    CLR(self->o->w[base + 0x26a]);
 }
-
