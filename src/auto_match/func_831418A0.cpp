@@ -1,19 +1,31 @@
-// Destroy the global list and release its sentinel through the system heap.
-#include <new>
+// Static destructor of a global std::set: erases every element, then frees the
+// sentinel node through the system allocator. The range erase is the std::_Tree
+// member (func_828EAF40).
+namespace std {
+extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
+extern "C" __declspec(noreturn) void fn_82F622E0(const char *message);
+}
+#define _Xlength_error fn_82F622A8
+#define _Xout_of_range fn_82F622E0
+#include <set>
+#undef _Xlength_error
+#undef _Xout_of_range
+
 #include "game/Allocator_825089A0.h"
-typedef System_825089A0 System_831418A0;
-extern "C" System_831418A0 *fn_825089A0();
-struct Node_831418A0 { Node_831418A0 *next; };
-struct List_831418A0 { int allocator; Node_831418A0 *head; };
-struct Iterator_831418A0 { Node_831418A0 *node; };
+#include "game/Element_828EA970.h"
+
+typedef std::set<Element_828EA970> Set;
+typedef Set::_Mybase Tree;
+
+template <> Tree::iterator Tree::erase(const_iterator, const_iterator);
+
 extern "C" {
-extern List_831418A0 lbl_83214504;
-void fn_828EAF40(Iterator_831418A0 *, List_831418A0 *, Node_831418A0 *, Node_831418A0 *);
-void fn_831418A0() {
- Iterator_831418A0 result;
- fn_828EAF40(&result, &lbl_83214504, lbl_83214504.head->next, lbl_83214504.head);
- Node_831418A0 *head=lbl_83214504.head;
- System_831418A0 *system=fn_825089A0();
- system->vf28(head);
+extern Set lbl_83214504;
+
+void fn_831418A0(void)
+{
+    lbl_83214504.erase(lbl_83214504.begin(), lbl_83214504.end());
+    Tree::_Nodeptr head = lbl_83214504._Myhead;
+    fn_825089A0()->vf28(head);
 }
 }

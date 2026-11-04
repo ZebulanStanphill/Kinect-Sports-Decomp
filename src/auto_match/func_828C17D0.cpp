@@ -2,7 +2,20 @@
 // Placeholder layouts preserve the ownership and system allocator operations.
 #include <new>
 #include <list>
+namespace std {
+extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
+extern "C" __declspec(noreturn) void fn_82F622E0(const char *message);
+}
+#define _Xlength_error fn_82F622A8
+#define _Xout_of_range fn_82F622E0
+#include <set>
+#undef _Xlength_error
+#undef _Xout_of_range
 #include "game/Allocator_825089A0.h"
+#include "game/Element_828C04A0.h"
+typedef std::set<Element_828C04A0> Set_828C17D0;
+typedef Set_828C17D0::_Mybase SetTree_828C17D0;
+template <> SetTree_828C17D0::iterator SetTree_828C17D0::erase(const_iterator, const_iterator);
 struct Element_828C0290 { char data; };
 typedef std::list<Element_828C0290, Allocator_825089A0<Element_828C0290, 0> > EmptyList;
 template <> void EmptyList::clear();
@@ -36,13 +49,12 @@ struct Object_828C17D0 {
     void *resource;
     List_828C17D0 list;
     unsigned int padding2;
-    Tree_828C17D0 tree2;
+    Set_828C17D0 tree2;
 };
 extern "C" {
 extern char lbl_8202604C[], lbl_82026780[];
 void fn_82A1E0B8(void *);
 void fn_828C1318(Tree_828C17D0 *);
-void fn_828C0A70(void *, Tree_828C17D0 *, Iterator_828C17D0, Iterator_828C17D0);
 void fn_828C17D0(Object_828C17D0 *self) {
     self->vtable = lbl_8202604C;
     fn_82A1E0B8(self->resource);
@@ -63,10 +75,12 @@ void fn_828C17D0(Object_828C17D0 *self) {
         node = next;
         if (value) value->destroy(1);
     }
-    char result[16];
-    Tree_828C17D0 *tree2 = &self->tree2;
-    fn_828C0A70(result, tree2, Iterator_828C17D0(tree2->head->next), Iterator_828C17D0(tree2->head));
-    Node_828C17D0 *head = self->tree2.head;
+    {
+        Set_828C17D0 &tree2 = self->tree2;
+        SetTree_828C17D0::iterator result = tree2.erase(tree2.begin(), tree2.end());
+        (void)result;
+    }
+    Node_828C17D0 *head = (Node_828C17D0 *)self->tree2._Myhead;
     fn_825089A0()->vf28(head);
     reinterpret_cast<EmptyList *>(list)->clear();
     head = list->head;
