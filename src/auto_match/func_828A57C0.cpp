@@ -8,19 +8,7 @@ extern "C" __declspec(noreturn) void fn_82F622E0(const char *message);
 #undef _Xlength_error
 #undef _Xout_of_range
 
-extern "C" void fn_822315A0(void *rep);
-
-struct Element_828A57C0 {
-    int a;
-    int b;
-    void *rep;
-    ~Element_828A57C0() { if (rep != 0) fn_822315A0(rep); }
-};
-
-inline bool operator<(const Element_828A57C0 &a, const Element_828A57C0 &b)
-{
-    return a.a < b.a;
-}
+#include "game/Element_828A57C0.h"
 
 typedef std::set<Element_828A57C0> Set;
 typedef Set::_Mybase Tree;

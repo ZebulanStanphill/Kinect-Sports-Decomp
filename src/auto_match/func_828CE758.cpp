@@ -7,10 +7,9 @@
 //
 // The game was built with link-time code generation, which inlined more than
 // the compiler does by itself; /d2inlS1000 (in objects.json) lets it inline as
-// much. The inner set's erase(first, last) stays a call to fn_828A6130 (it
-// returns its iterator through a pointer that nothing reads), and the tree's
-// rotations stay calls to fn_828A1AE8 and fn_8288BA70. They, operator delete
-// and std::_Xlength_error keep the names that C units use. This copy of
+// much. The inner set's erase(first, last) is the std::_Tree member of func_828A6130,
+// and the tree's rotations stay calls to fn_828A1AE8 and fn_8288BA70. They,
+// operator delete and std::_Xlength_error keep the names that C units use. This copy of
 // _Insert was compiled with /O2.
 
 // <xtree> calls std::_Xlength_error directly, so its name is replaced here.
@@ -22,18 +21,13 @@ extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
 #undef _Xlength_error
 
 // The inner set's 12-byte value type (a placeholder; it holds a
-// std::tr1::shared_ptr at 0x4, which only fn_828A6130 destroys).
-struct Inner_828CE758 {
-    int data[3];
-};
+// std::tr1::shared_ptr at 0x8, which the inner set's erase destroys).
+#include "game/Element_828A57C0.h"
 
-typedef std::set<Inner_828CE758> InnerSet;
+#include "game/Element_828CE758.h"
+
+typedef InnerSet_828CE758 InnerSet;
 typedef InnerSet::_Mybase InnerTree;
-
-struct Element_828CE758 {
-    int unk0[3];
-    InnerSet unkC;
-};
 
 typedef std::set<Element_828CE758> Set;
 typedef Set::_Mybase Tree;
@@ -41,18 +35,12 @@ typedef Tree::_Node Node;
 
 extern "C" {
 void fn_8265CA20(void *ptr);
-void fn_828A6130(InnerTree::_Nodeptr *result, InnerTree *self, InnerTree::const_iterator first,
-                 InnerTree::const_iterator last);
 void fn_828A1AE8(Tree *self, Node *node);
 void fn_8288BA70(Tree *self, Node *node);
 }
 
-template <> __forceinline InnerTree::iterator InnerTree::erase(const_iterator first, const_iterator last)
-{
-    _Nodeptr result;
-    fn_828A6130(&result, this, first, last);
-    return iterator(result, this);
-}
+// out of line: func_828A6130
+template <> InnerTree::iterator InnerTree::erase(const_iterator, const_iterator);
 
 template <> void std::allocator<InnerTree::_Node>::deallocate(pointer ptr, size_type)
 {
