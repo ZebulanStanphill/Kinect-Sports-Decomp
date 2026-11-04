@@ -188013,7 +188013,7 @@ auto_match/func_830372D0.c:
 	.pdata      start:0x82226958 end:0x82226960
 	.text       start:0x830372D0 end:0x83037438
 
-auto_match/func_83037438.c:
+auto_match/func_83037438.cpp:
 	.pdata      start:0x82226960 end:0x82226968
 	.text       start:0x83037438 end:0x83037500
 

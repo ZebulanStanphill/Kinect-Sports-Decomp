@@ -290406,8 +290406,8 @@
         ]
       },
       "auto_match/func_830372D0.c": "MISSING",
-      "auto_match/func_83037438.c": {
-        "status": "NonMatching",
+      "auto_match/func_83037438.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
