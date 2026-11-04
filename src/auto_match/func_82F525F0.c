@@ -26,55 +26,36 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_18;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern int fn_82F57198();
-extern int fn_82F5B300();
-extern unsigned int iStack_1c;
-extern unsigned int uStack_20;
-extern U64 storeWordConditionalIndexed();
+typedef struct { int *vt; int pad4; long count; } Rc_82F525F0;
+typedef struct { int pad0; Rc_82F525F0 *rep; } It_82F525F0;
+typedef struct { int px; int *rep; } SP_82F525F0;
+typedef struct { int pad0; int p4; } In_82F525F0;
+typedef struct { int pad0; In_82F525F0 *in; } Obj_82F525F0;
+extern long _InterlockedDecrement(long *);
+extern int *fn_82F57198(It_82F525F0 *, int);
+extern void fn_82517978(SP_82F525F0 *, int, int, int);
+extern int fn_82F5B300(int);
+extern void fn_822315A0(int *);
 
-
-undefined8 fn_82F525F0(int param_1)
-
+int fn_82F525F0(Obj_82F525F0 *o)
 {
-  uint uVar1;
-  undefined4 *puVar3;
-  undefined8 uVar2;
-  longlong lVar4;
-  longlong lVar5;
-  uint *puVar6;
-  char in_RESERVE;
-  byte in_cr0;
-  undefined4 uStack_20;
-  int iStack_1c;
-  undefined1 auStack_18 [4];
-  int *piStack_14;
-  
-  puVar3 = (undefined4 *)fn_82F57198(auStack_18,*(undefined4 *)(*(int *)(param_1 + 4) + 4));
-  uStack_20 = 0;
-  iStack_1c = 0;
-  fn_82517978(&uStack_20,*puVar3,puVar3[1],0);
-  uVar2 = fn_82F5B300(uStack_20);
-  if (iStack_1c != 0) {
-    fn_822315A0(iStack_1c);
+  It_82F525F0 it;
+  SP_82F525F0 sp;
+  int *r;
+  int res;
+  r = fn_82F57198(&it, o->in->p4);
+  sp.px = 0;
+  sp.rep = 0;
+  fn_82517978(&sp, r[0], r[1], 0);
+  res = fn_82F5B300(sp.px);
+  if (sp.rep != 0) {
+    fn_822315A0(sp.rep);
   }
-  if (ZEXT48(piStack_14) != 0) {
-    lVar5 = ZEXT48(piStack_14) + 8;
-    do {
-      puVar6 = (uint *)lVar5;
-      lVar4 = (ulonglong)*puVar6 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar4,0,lVar5);
-        *puVar6 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar4 == 0) {
-      (**(code **)(*piStack_14 + 4))();
+  if (it.rep != 0) {
+    Rc_82F525F0 *c = it.rep;
+    if (_InterlockedDecrement(&c->count) == 0) {
+      ((void (*)(Rc_82F525F0 *))(c->vt[1]))(c);
     }
   }
-  return uVar2;
+  return res;
 }
-
