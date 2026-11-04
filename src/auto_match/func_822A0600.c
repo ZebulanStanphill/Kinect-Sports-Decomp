@@ -29,25 +29,20 @@ extern int fn_82273C88();
 extern int fn_82273CD8();
 extern int fn_822A0678();
 extern int fn_82672C20();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
 
 
 void fn_822A0600(int param_1,undefined4 param_2)
 
 {
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
+  struct { unsigned a, b, c; } args;
   
-  uStack_30 = 0;
-  uStack_2c = 0;
-  fn_82273CD8(&uStack_30,5);
-  uStack_28 = param_2;
+  args.a = 0;
+  args.b = 0;
+  fn_82273CD8(&args.a,5);
+  args.c = param_2;
   fn_822A0678(param_1);
-  fn_82672C20(*(undefined4 *)(param_1 + 4),0xffffffff821abb68,&uStack_30,1);
-  fn_82273C88(&uStack_30);
+  fn_82672C20(*(undefined4 *)(param_1 + 4),"_root.caption.DisplayCaption",&args.a,1);
+  fn_82273C88(&args.a);
   return;
 }
 

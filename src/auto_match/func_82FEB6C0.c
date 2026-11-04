@@ -1,3 +1,4 @@
+extern char lbl_8326434C[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -32,33 +33,33 @@ extern unsigned int lbl_831BC768;
 extern unsigned int lbl_832642EC;
 
 
-undefined8 fn_82FEB6C0(undefined8 param_1,int param_2,float *param_3,float *param_4)
+unsigned int fn_82FEB6C0(unsigned int param_1,int param_2,float *param_3,float *param_4)
 
 {
   uint uVar1;
   float fVar2;
   undefined4 uVar3;
   undefined4 *puVar5;
-  undefined8 uVar4;
+  unsigned int uVar4;
   
-  RtlEnterCriticalSection(0xffffffff8326434c);
+  RtlEnterCriticalSection(lbl_8326434C);
   puVar5 = (undefined4 *)fn_8301A7B8(lbl_832642EC,param_1);
-  fVar2 = lbl_82005328;
   if (puVar5 == (undefined4 *)0x0) {
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    uVar4 = 0xf;
+    RtlLeaveCriticalSection(lbl_8326434C);
+    return 0xf;
   }
-  else {
+  {
+    fVar2 = lbl_82005328;
     *param_3 = (float)*(byte *)((int)puVar5 + param_2 + 0x40) * lbl_82005328;
     *param_4 = (float)*(byte *)((int)puVar5 + param_2 + 0x48) * fVar2;
     uVar1 = puVar5[0x17];
-    puVar5[0x17] = (int)((ulonglong)uVar1 - 1);
-    uVar3 = lbl_831BC768;
-    if ((longlong)((ulonglong)uVar1 - 1) < 1) {
-      (**(code **)*puVar5)(puVar5,0);
+    puVar5[0x17] = (int)uVar1 - 1;
+    if ((int)puVar5[0x17] <= 0) {
+      uVar3 = lbl_831BC768;
+      (*(code *)*puVar5)(puVar5,0);
       fn_82FA5190(uVar3,puVar5);
     }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
+    RtlLeaveCriticalSection(lbl_8326434C);
     uVar4 = 1;
   }
   return uVar4;

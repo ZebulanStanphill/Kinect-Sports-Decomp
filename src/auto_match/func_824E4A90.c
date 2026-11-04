@@ -1,3 +1,4 @@
+extern char lbl_831C3370[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -51,7 +52,7 @@ extern unsigned int uStack_4c;
 undefined4 * fn_824E4A90(undefined4 *param_1,undefined4 *param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   undefined1 auStack_50 [1];
   undefined4 uStack_4c;
@@ -64,19 +65,19 @@ undefined4 * fn_824E4A90(undefined4 *param_1,undefined4 *param_2)
   undefined1 auStack_30 [4];
   undefined1 auStack_2c [4];
   undefined1 auStack_28 [4];
-  undefined1 auStack_24 [1];
+  undefined1 auStack_24 [4];
 
   param_1[1] = param_2;
   *param_1 = &lbl_821C164C;
-  if (param_2 == (undefined4 *)0x0) {
-    uVar2 = 0;
-  }
-  else {
+  if (param_2 != (undefined4 *)0x0) {
     uVar2 = *param_2;
   }
+  else {
+    uVar2 = 0;
+  }
   param_1[2] = uVar2;
-  fn_82520158(0xffffffff821c149c,auStack_50,0);
-  fn_82520158(0xffffffff821c14b4,&uStack_4c,0);
+  fn_82520158("fxLensFlareVertexShader",auStack_50,0);
+  fn_82520158("fxLensFlarePixelShader",&uStack_4c,0);
   uVar1 = fn_8251F720(auStack_50,0);
   uVar2 = fn_82631830();
   param_1[3] = uVar2;
@@ -85,22 +86,22 @@ undefined4 * fn_824E4A90(undefined4 *param_1,undefined4 *param_2)
   uVar2 = fn_82631488();
   param_1[4] = uVar2;
   fn_8251FA58(uVar1);
-  uVar1 = fn_82631BF8(0xffffffff831c3370);
+  uVar1 = fn_82631BF8(lbl_831C3370);
   uStack_4c = 0x10;
   fn_826438C0(param_1[3],0,uVar1,&uStack_4c,0);
   fn_8262FEC8(uVar1);
-  fn_82520158(0xffffffff821c14cc,&uStack_4c,0);
-  fn_82520158(0xffffffff821c14e4,auStack_50,0);
-  fn_82520158(0xffffffff821c1500,auStack_48,0);
-  fn_82520158(0xffffffff821c1518,auStack_44,0);
-  fn_82520158(0xffffffff821c1538,auStack_40,0);
-  fn_82520158(0xffffffff821c1558,auStack_3c,0);
-  fn_82520158(0xffffffff821c1578,auStack_38,0);
-  fn_82520158(0xffffffff821c1598,auStack_34,0);
-  fn_82520158(0xffffffff821c15b8,auStack_30,0);
-  fn_82520158(0xffffffff821c15d8,auStack_2c,0);
-  fn_82520158(0xffffffff821c15f8,auStack_28,0);
-  fn_82520158(0xffffffff821c1618,auStack_24,0);
+  fn_82520158("fxLensFlareStarTexture",&uStack_4c,0);
+  fn_82520158("fxLensFlareStarRaysTexture",auStack_50,0);
+  fn_82520158("fxLensFlareRaysTexture",auStack_48,0);
+  fn_82520158("fxLensFlareBlob132x32Texture",auStack_44,0);
+  fn_82520158("fxLensFlareBlob232x32Texture",auStack_40,0);
+  fn_82520158("fxLensFlareBlob332x32Texture",auStack_3c,0);
+  fn_82520158("fxLensFlareBlob164x64Texture",auStack_38,0);
+  fn_82520158("fxLensFlareBlob264x64Texture",auStack_34,0);
+  fn_82520158("fxLensFlareBlob364x64Texture",auStack_30,0);
+  fn_82520158("fxLensFlareBlob196x96Texture",auStack_2c,0);
+  fn_82520158("fxLensFlareBlob296x96Texture",auStack_28,0);
+  fn_82520158("fxLensFlareBlob396x96Texture",auStack_24,0);
   uVar2 = fn_8251F720(&uStack_4c,0);
   param_1[5] = uVar2;
   uVar2 = fn_8251F720(auStack_50,0);

@@ -25,15 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83156E70;
+extern unsigned char lbl_83156E70;
 
 
-void fn_828114D0(int param_1,uint param_2,char param_3)
-
-{
-  *(byte *)((param_2 >> 3) + param_1) =
-       (param_3 * (&lbl_83156E70)[param_2 & 7] | ~(&lbl_83156E70)[param_2 & 7]) &
-       *(byte *)((param_2 >> 3) + param_1);
-  return;
+void fn_828114D0(unsigned char *data, unsigned int bit, unsigned char value) {
+ unsigned char mask = (&lbl_83156E70)[bit & 7];
+ unsigned int index = bit >> 3;
+ data[index] &= value * mask | ~mask;
 }
-

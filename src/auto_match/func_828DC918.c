@@ -25,31 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8236D498();
-extern int fn_8240D930();
+extern int fn_8236D498(void *);
+extern int fn_8240D930(void *);
 extern int fn_828C3A00();
 
 
-undefined8 fn_828DC918(int param_1)
-
+typedef struct { char b[0x34]; } Elem_828DC918;
+typedef struct { char pad[0x6c]; int f6c; char pad2[0x10]; int f80; int f84; Elem_828DC918 *b; Elem_828DC918 *e; } Obj_828DC918;
+int fn_828DC918(Obj_828DC918 *o)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  ulonglong uVar5;
-  
-  uVar5 = (ulonglong)*(uint *)(param_1 + 0x88);
-  if (uVar5 != *(uint *)(param_1 + 0x8c)) {
-    do {
-      uVar1 = *(undefined4 *)(param_1 + 0x6c);
-      uVar3 = fn_8236D498(uVar5);
-      uVar2 = *(undefined4 *)(param_1 + 0x84);
-      uVar4 = fn_8240D930(uVar5);
-      fn_828C3A00(uVar1,*(undefined4 *)(param_1 + 0x80),uVar4,uVar2,uVar3,1);
-      uVar5 = uVar5 + 0x34;
-    } while ((uVar5 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x8c));
-  }
+  Elem_828DC918 *p = o->b;
+  if (p != o->e) do {
+      int a = o->f6c;
+      int c = fn_8236D498(p);
+      int d = o->f84;
+      fn_828C3A00(a,o->f80,fn_8240D930(p),d,c,1);
+      p++;
+  } while (p != o->e);
   return 1;
 }
-

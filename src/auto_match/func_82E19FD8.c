@@ -31,14 +31,14 @@ extern int fn_82CFD5A8();
 extern int fn_82CFD778();
 
 
-undefined8 fn_82E19FD8(int param_1,undefined4 param_2,undefined8 param_3)
+int fn_82E19FD8(int param_1,undefined4 param_2,int param_3)
 
 {
-  undefined8 uVar1;
+  int uVar1;
   int iVar3;
-  undefined8 uVar2;
-  undefined8 uVar4;
-  longlong lVar5;
+  int uVar2;
+  int uVar4;
+  int lVar5;
   
   uVar1 = 0xffffffffffffffff;
   switch(param_2) {
@@ -66,9 +66,6 @@ undefined8 fn_82E19FD8(int param_1,undefined4 param_2,undefined8 param_3)
   case 0x20:
     uVar1 = fn_82CFD778(param_1);
     break;
-  case 0x13:
-    uVar1 = fn_82E19FD8(param_1,*(undefined1 *)(param_1 + 0xd),param_3);
-    break;
   case 0x14:
   case 0x15:
   case 0x16:
@@ -80,32 +77,35 @@ undefined8 fn_82E19FD8(int param_1,undefined4 param_2,undefined8 param_3)
   case 0x21:
     uVar1 = param_3;
     break;
-  case 0x19:
-    uVar1 = 1;
+  case 0x13:
+    uVar1 = fn_82E19FD8(param_1,*(undefined1 *)(param_1 + 0xd),param_3);
+    break;
+  case 0x19: {
+    int maxval;
+    maxval = 1;
     uVar4 = fn_82CFD5A8(param_1);
     lVar5 = 0;
-    iVar3 = fn_82CEAE80();
+    iVar3 = fn_82CEAE80(uVar4);
     if (0 < iVar3) {
       do {
         iVar3 = fn_82CEAEA8(uVar4,lVar5);
         uVar2 = fn_82E19FD8(iVar3,*(undefined1 *)(iVar3 + 0xc),param_3);
-        if ((int)uVar1 < (int)uVar2) {
-          uVar1 = uVar2;
+        if (uVar2 > maxval) {
+          maxval = uVar2;
         }
         lVar5 = lVar5 + 1;
         iVar3 = fn_82CEAE80(uVar4);
       } while ((int)lVar5 < iVar3);
-    }
+    }    uVar1=maxval;
+    break;
   }
-  if ((*(ushort *)(param_1 + 0x10) & 0x180) != 0) {
-    uVar4 = 0x10;
-    if ((*(ushort *)(param_1 + 0x10) & 0x180) != 0x100) {
-      uVar4 = 8;
-    }
-    if ((int)uVar1 < (int)uVar4) {
-      uVar1 = uVar4;
+  }
+
+  { int alignment=*(short *)(param_1+0x10) & 0x180;
+    if(alignment != 0) {
+     if(alignment==0x100) alignment=16; else alignment=8;
+     if(alignment > uVar1) uVar1=alignment;
     }
   }
   return uVar1;
 }
-
