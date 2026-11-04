@@ -23,6 +23,8 @@ python3 scripts/evaluate_candidate.py 0x82400E48 src/auto_match/func_82400E48.c 
 
 The evaluator prints the code match and saves the full objdiff result under the local lab directory. On Windows, it runs the compiler directly. On other platforms, it uses Wibo; set `WIBO` if the wrapper is not on your `PATH`. Set `OBJDIFF_CLI` if objdiff is not on your `PATH`. Try `/O2` when the assembly suggests a different optimization setting. Inspect objdiff's instruction and relocation differences before calling a function complete.
 
+The splitter decides which instructions refer to symbols, and it is occasionally wrong. A 32-bit constant built with `lis` and `ori`, such as an error code like `0x82240404`, can fall inside a function's address range and become a relocation that no source can reproduce; MSVC builds addresses with `lis` and `addi`, never `ori`. List such instructions under `block_relocations` in `config/4D5308C9/config.yml`. Where the splitter missed a real address, for example one whose halves are split across a stack spill, `add_relocations` restores it. Rerun `configure.py` after changing either.
+
 For a function that has no split yet, run `python3 scripts/isolate_functions.py 0xADDRESS`, reconfigure, and build its original object. Ghidra can supply the first C version. `scripts/prepare_full_game_task.py` can also package Ghidra C and assembly if you have generated the local analysis database.
 
 ## C++ classes
