@@ -1,3 +1,6 @@
+extern void fn_822B6198(int,float);
+extern void fn_822C44D0(int,float);
+extern void fn_822FF9D0(unsigned,float);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -25,25 +28,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822B6198();
-extern int fn_822C44D0();
-extern int fn_822FF9D0();
 
 
-void fn_822C2870(undefined8 param_1,int param_2)
 
-{
-  uint uVar1;
-  
-  fn_822B6198();
-  uVar1 = (uint)(*(int *)(param_2 + 0x24) != 0);
-  if (uVar1 != *(uint *)(param_2 + 0x1f0)) {
-    *(uint *)(param_2 + 0x1f0) = uVar1;
-  }
-  fn_822C44D0(param_1,param_2);
-  if (*(int *)(param_2 + 0x1e8) != 0) {
-    fn_822FF9D0(param_1);
-  }
-  return;
+
+
+void fn_822C2870(int param_2,float delta) {
+ int changed;
+ fn_822B6198(param_2,delta);
+ changed = *(int *)(param_2+0x24) != 0;
+ if (changed != *(int *)(param_2+0x1f0)) *(int *)(param_2+0x1f0)=changed;
+ fn_822C44D0(param_2,delta);
+ if (*(unsigned *)(param_2+0x1e8)) fn_822FF9D0(*(unsigned *)(param_2+0x1e8),delta);
 }
-

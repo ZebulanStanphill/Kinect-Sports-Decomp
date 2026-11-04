@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82E62DF8(int param_1,uint param_2,undefined4 *param_3,undefined4 *param_4)
+int fn_82E62DF8(int param_1,uint param_2,undefined4 *param_3,undefined4 *param_4)
 
 {
   int *piVar1;
-  undefined8 uVar2;
+  int uVar2;
   
   uVar2 = 0;
   if (((param_2 < *(uint *)(param_1 + 0x54)) && (param_3 != (undefined4 *)0x0)) &&
@@ -39,15 +39,11 @@ undefined8 fn_82E62DF8(int param_1,uint param_2,undefined4 *param_3,undefined4 *
     *param_3 = *(undefined4 *)(*(int *)(param_1 + 0x5c) + param_2 * 4);
     piVar1 = *(int **)(*(int *)(param_1 + 0x58) + param_2 * 4);
     *param_4 = piVar1;
-    if (piVar1 == (int *)0x0) {
-      uVar2 = 0xffffffff8000ffff;
-    }
-    else {
-      (**(code **)(*piVar1 + 4))();
-    }
+    if (piVar1 != 0) { (*(code *)(*piVar1 + 4))(piVar1); }
+    else { uVar2 = 0x8000ffff; }
   }
   else {
-    uVar2 = 0xffffffff80070057;
+    uVar2 = 0x80070057;
   }
   return uVar2;
 }

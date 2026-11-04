@@ -28,27 +28,20 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82CE4040();
 
 
-void fn_82D96238(int param_1)
-
+typedef struct O { char pad[0x14]; unsigned s[2]; } O;
+void fn_82D96238(O *o)
 {
-  int iVar1;
-  uint uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  
-  lVar3 = 2;
-  puVar4 = (uint *)(param_1 + 0x14);
-  do {
-    if (*puVar4 == 0) {
-      uVar2 = *(uint *)(param_1 + 0x18) ^ *(uint *)(param_1 + 0x14);
-      if ((uVar2 != 0) && (iVar1 = *(int *)(uVar2 + 8), iVar1 != 0)) {
-        *puVar4 = *(uint *)(iVar1 + 0x24);
-        fn_82CE4040();
+  int i;
+  for (i = 0; i < 2; i++) {
+    if (o->s[i] == 0) {
+      unsigned u = o->s[1] ^ o->s[0] ^ o->s[i];
+      if (u != 0) {
+        int t = *(int *)(u + 8);
+        if (t != 0) {
+          o->s[i] = *(unsigned *)(t + 0x24);
+          fn_82CE4040(o->s[i]);
+        }
       }
     }
-    lVar3 = lVar3 + -1;
-    puVar4 = puVar4 + 1;
-  } while (lVar3 != 0);
-  return;
+  }
 }
-

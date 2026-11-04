@@ -28,30 +28,20 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F1E698();
 
 
-void fn_82F1ED80(int param_1,ulonglong param_2,ulonglong param_3,int param_4,longlong param_5)
-
+typedef struct P { char pad[0x2d0]; unsigned count; char pad2[0xaf0-0x2d4]; int mode; char pad3[0x1e54-0xaf4]; char *ents; } P;
+void fn_82F1ED80(P *p, unsigned a, unsigned b, int idx, int out)
 {
-  int iVar1;
-  ulonglong uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x1e54) + param_4 * 0x114;
-  if ((param_2 & 0xffffffff) < (param_3 & 0xffffffff)) {
-    do {
-      uVar2 = 0;
-      if (*(int *)(param_1 + 0x2d0) != 0) {
-        do {
-          if (((*(int *)(iVar1 + 0x74) != 0) || (*(int *)(param_1 + 0xaf0) == 0)) ||
-             (*(int *)(param_1 + 0xaf0) == 4)) {
-            fn_82F1E698(param_1,uVar2,param_2,iVar1,param_5);
-          }
-          uVar2 = uVar2 + 1;
-          iVar1 = iVar1 + 0x114;
-          param_5 = param_5 + 0x600;
-        } while ((uVar2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x2d0));
-      }
-      param_2 = param_2 + 1;
-    } while ((param_2 & 0xffffffff) < (param_3 & 0xffffffff));
+  char *e = p->ents + idx * 0x114;
+  unsigned i;
+  unsigned s = a;
+  unsigned n = b;
+  int o = out;
+  for (; s < n; s++) {
+    for (i = 0; i < p->count; i++) {
+      if (*(int *)(e + 0x74) != 0 || p->mode == 0 || p->mode == 4)
+        fn_82F1E698(p, i, s, e, o);
+      e += 0x114;
+      o += 0x600;
+    }
   }
-  return;
 }
-

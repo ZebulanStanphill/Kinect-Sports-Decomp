@@ -28,23 +28,19 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_826728E8();
 
 
-void fn_8229AD90(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
+void fn_8229AD90(int param_1,unsigned int param_2,int param_3,int param_4)
 
 {
   undefined4 *puVar1;
-  undefined8 uVar2;
+  const char *uVar2;
   
   puVar1 = *(undefined4 **)(param_1 + 0xc);
-  if (param_2 == 0) {
-    fn_826728E8(*puVar1,0xffffffff821ab778);
-    uVar2 = 0xffffffff821ab788;
-  }
-  else {
-    if (param_2 != 1) {
-      return;
-    }
-    fn_826728E8(*puVar1,0xffffffff821ab798);
-    uVar2 = 0xffffffff821ab7a8;
+  switch (param_2) {
+  case 1:
+    fn_826728E8(*puVar1,"avatar_player3"); uVar2 = "avatar_player4"; break;
+  case 0:
+    fn_826728E8(*puVar1,"avatar_player1"); uVar2 = "avatar_player2"; break;
+  default: return;
   }
   fn_826728E8(*puVar1,uVar2,param_4);
   return;

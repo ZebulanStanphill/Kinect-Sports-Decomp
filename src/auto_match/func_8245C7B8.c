@@ -44,19 +44,19 @@ void fn_8245C7B8(int param_1)
   *(undefined4 *)(param_1 + 0x6b4) = 1;
   iVar2 = param_1 + 0x6c8;
   *(undefined4 *)(param_1 + 0x664) = 1;
-  iVar1 = fn_82579EF0(iVar2,0xffffffff821bad24,0);
-  if ((-1 < iVar1) && (iVar1 < 0x10000)) {
+  iVar1 = fn_82579EF0(iVar2,"LspMajorVersionNumber",0);
+  if ((iVar1 >= 0) && (iVar1 <= 0xffff)) {
     *(short *)(param_1 + 0x65c) = (short)iVar1;
   }
-  iVar1 = fn_82579EF0(iVar2,0xffffffff821bad3c,0);
-  if ((-1 < iVar1) && (iVar1 < 0x10000)) {
+  iVar1 = fn_82579EF0(iVar2,"LspMinorVersionNumber",0);
+  if ((iVar1 >= 0) && (iVar1 <= 0xffff)) {
     *(short *)(param_1 + 0x65e) = (short)iVar1;
   }
-  iVar1 = fn_82579EF0(iVar2,0xffffffff821bad54,*(undefined2 *)(param_1 + 0x690));
-  if ((-1 < iVar1) && (iVar1 < 0x10000)) {
+  iVar1 = fn_82579EF0(iVar2,"MagicNumber",*(undefined2 *)(param_1 + 0x690));
+  if ((iVar1 >= 0) && (iVar1 <= 0xffff)) {
     *(short *)(param_1 + 0x690) = (short)iVar1;
   }
-  iVar1 = fn_82579EF0(iVar2,0xffffffff821bad60,*(undefined4 *)(param_1 + 0x718));
+  iVar1 = fn_82579EF0(iVar2,"LSPThread",*(undefined4 *)(param_1 + 0x718));
   *(int *)(param_1 + 0x718) = iVar1;
   if ((iVar1 < 0) || (5 < iVar1)) {
     *(undefined4 *)(param_1 + 0x718) = 0;

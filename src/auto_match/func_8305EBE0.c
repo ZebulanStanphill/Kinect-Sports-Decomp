@@ -1,65 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_8305EB60();
-extern int fn_8305F778();
-extern int fn_83060570();
-extern int fn_83066C10();
+typedef struct Arr_8305EBE0 { char pad[0x28]; int f28; int *f2c; int count; } Arr_8305EBE0;
+extern void fn_8305EB60(Arr_8305EBE0 *, int);
+extern void fn_8305F778(int, int, void *);
+extern int fn_83060570(int, void *);
+extern unsigned char fn_83066C10(int, void *, int, void *, float);
 
-
-undefined8
-fn_8305EBE0(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,int param_6)
-
+unsigned char fn_8305EBE0(Arr_8305EBE0 *a, int b, int c, float x, Arr_8305EBE0 *d)
 {
-  char cVar2;
-  undefined4 uVar1;
-  int iVar3;
-  int iVar4;
-  undefined1 auStack_50 [80];
-  
-  fn_8305EB60(param_6,*(undefined4 *)(param_2 + 0x30));
-  iVar3 = 0;
-  if (0 < *(int *)(param_2 + 0x30)) {
-    iVar4 = 0;
-    do {
-      fn_8305F778(*(undefined4 *)(param_2 + 0x28),*(undefined4 *)(*(int *)(param_2 + 0x2c) + iVar4)
-                   ,auStack_50);
-      cVar2 = fn_83066C10(param_1,param_3,auStack_50,param_4,auStack_50);
-      if (cVar2 == '\0') {
-        return 0;
-      }
-      uVar1 = fn_83060570(*(undefined4 *)(param_6 + 0x28),auStack_50);
-      iVar3 = iVar3 + 1;
-      *(undefined4 *)(*(int *)(param_6 + 0x2c) + iVar4) = uVar1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < *(int *)(param_2 + 0x30));
+  char tmp[0x10];
+  int i;
+  Arr_8305EBE0 *self = a;
+  fn_8305EB60(d, a->count);
+  for (i = 0; i < a->count; i++) {
+    fn_8305F778(a->f28, self->f2c[i], tmp);
+    if (fn_83066C10(b, tmp, c, tmp, x) == 0) return 0;
+    d->f2c[i] = fn_83060570(d->f28, tmp);
   }
   return 1;
 }
-

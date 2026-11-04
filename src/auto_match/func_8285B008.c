@@ -31,98 +31,75 @@ extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
 extern int fn_8305D680();
 extern int fn_8305D688();
-extern int fn_8305D7C0();
+extern unsigned fn_8305D7C0();
 extern int fn_83060380();
-extern int fn_830603C0();
+extern unsigned char fn_830603C0();
 extern int fn_830603D0();
 extern int fn_83060CB0();
 extern int fn_83060CD0();
 
 
-void fn_8285B008(int *param_1)
+void fn_8285B008(int *param_1,int param_2)
 
 {
-  char cVar5;
+  unsigned char cVar5;
   int iVar3;
-  longlong lVar1;
-  undefined8 uVar2;
+  int lVar1;
+  int uVar2;
   uint uVar4;
-  undefined8 uVar6;
-  undefined8 uVar7;
-  undefined8 uVar8;
-  longlong lVar9;
-  undefined1 auStack_60 [16];
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [48];
+  int uVar6;
+  int uVar7;
+  int uVar8;
+  int lVar9;
+  struct { undefined1 a[16]; undefined1 b[16]; undefined1 c[16]; undefined1 it[16]; } T;
   
-  fn_83060380(auStack_30);
+  fn_83060380(T.it,param_2);
   lVar9 = 0;
-  fn_83060CB0(auStack_30);
-  cVar5 = fn_830603C0(auStack_30);
+  fn_83060CB0(T.it);
+  cVar5 = fn_830603C0(T.it);
   if (cVar5 == '\0') {
     do {
-      fn_830603D0(auStack_30);
+      fn_830603D0(T.it);
       iVar3 = fn_8305D680();
-      if (2 < iVar3) {
-        fn_830603D0(auStack_30);
-        iVar3 = fn_8305D7C0();
-        if (iVar3 != 3) {
-          fn_830603D0(auStack_30);
+      if (iVar3 >= 3) {
+        fn_830603D0(T.it);
+        uVar4 = fn_8305D7C0();
+        if (uVar4 != 3) {
+          fn_830603D0(T.it);
           lVar1 = fn_8305D680();
           lVar9 = lVar1 + lVar9 + -2;
         }
       }
-      fn_83060CD0(auStack_30);
-      cVar5 = fn_830603C0(auStack_30);
+      fn_83060CD0(T.it);
+      cVar5 = fn_830603C0(T.it);
     } while (cVar5 == '\0');
     if ((int)lVar9 != 0) {
-      (**(code **)(*param_1 + 8))(param_1,lVar9);
-      fn_83060CB0(auStack_30);
-      while (cVar5 = fn_830603C0(auStack_30), cVar5 == '\0') {
-        uVar2 = fn_830603D0(auStack_30);
+      (*(code *)(*param_1 + 8))(param_1,lVar9);
+      for (fn_83060CB0(T.it); (cVar5 = fn_830603C0(T.it)) == 0; fn_83060CD0(T.it)) {
+        uVar2 = fn_830603D0(T.it);
         iVar3 = fn_8305D680();
-        if (2 < iVar3) {
-          uVar4 = fn_8305D7C0(uVar2);
-          if (uVar4 == 0) {
-            uVar7 = 0;
-            uVar6 = 0xd2;
-LAB_8285b11c:
-            uVar8 = 0x32;
-LAB_8285b120:
-            (**(code **)*param_1)(param_1,uVar6,uVar7,0,uVar8);
-          }
-          else {
-            if (uVar4 == 1) {
-              uVar8 = 0x50;
-              uVar7 = 0xff;
-              uVar6 = 0xff;
-              goto LAB_8285b120;
-            }
-            if (uVar4 < 3) {
-              uVar7 = 0xb4;
-              uVar6 = 0;
-              goto LAB_8285b11c;
-            }
-            if (uVar4 == 3) goto LAB_8285b1b8;
-          }
-          fn_8305D688(uVar2,0,auStack_40);
-          lVar9 = 1;
-          iVar3 = fn_8305D680(uVar2);
-          if (1 < iVar3 + -1) {
-            do {
-              fn_8305D688(uVar2,lVar9,auStack_50);
-              lVar9 = lVar9 + 1;
-              fn_8305D688(uVar2,lVar9,auStack_60);
-              (**(code **)(*param_1 + 0x10))(param_1,auStack_40,auStack_50,auStack_60);
-              iVar3 = fn_8305D680(uVar2);
-            } while ((int)lVar9 < iVar3 + -1);
-          }
+        if (iVar3 < 3) continue;
+        uVar4 = fn_8305D7C0(uVar2);
+        switch(uVar4) {
+        case 2: uVar7=0xb4; uVar6=0; uVar8=0x32; (*(code *)*param_1)(param_1,uVar6,uVar7,0,uVar8); break;
+        case 1: uVar8=0x50; uVar7=0xff; uVar6=0xff; (*(code *)*param_1)(param_1,uVar6,uVar7,0,uVar8); break;
+        case 0: uVar7=0; uVar6=0xd2; uVar8=0x32; (*(code *)*param_1)(param_1,uVar6,uVar7,0,uVar8); break;
+        default: if (uVar4 != 3) break; continue;
         }
-LAB_8285b1b8:
-        fn_83060CD0(auStack_30);
+        fn_8305D688(uVar2,0,T.c);
+        lVar9 = 1;
+        iVar3 = fn_8305D680(uVar2);
+        if (1 < iVar3 + -1) {
+          do {
+            fn_8305D688(uVar2,lVar9,T.b);
+            lVar9 = lVar9 + 1;
+            fn_8305D688(uVar2,lVar9,T.a);
+            (*(code *)(*param_1 + 0x10))(param_1,T.c,T.b,T.a);
+            iVar3 = fn_8305D680(uVar2);
+          } while ((int)lVar9 < iVar3 + -1);
+        }
       }
-      (**(code **)(*param_1 + 0xc))(param_1);
+      (*(code *)(*param_1 + 0xc))(param_1);
     }
   }
   return;

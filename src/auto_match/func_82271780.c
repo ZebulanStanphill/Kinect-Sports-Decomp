@@ -1,64 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82271830();
-extern int fn_8265CA20();
-
-
-void fn_82271780(int param_1,int param_2)
-
-{
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar1 = *(int **)(param_1 + 0xa8);
-  piVar3 = (int *)*piVar1;
-  while (piVar3 != piVar1) {
-    if ((piVar3[0x42d] == 0) || (piVar3[2] == param_2)) {
-      piVar2 = (int *)*piVar3;
-    }
-    else {
-      fn_82271830(param_1,piVar3 + 2);
-      piVar2 = (int *)*piVar3;
-      if (piVar3 != *(int **)(param_1 + 0xa8)) {
-        *(int **)piVar3[1] = piVar2;
-        *(int *)(*piVar3 + 4) = piVar3[1];
-        if (piVar3[4] != 0) {
-          fn_822315A0();
-        }
-        fn_8265CA20(piVar3);
-        *(int *)(param_1 + 0xac) = *(int *)(param_1 + 0xac) + -1;
-      }
-    }
-    piVar3 = piVar2;
-    piVar1 = *(int **)(param_1 + 0xa8);
+typedef struct Node_82271780 { struct Node_82271780 *next,*prev; unsigned key; int unk; void *ref; char pad[0x10a0]; int flag; } Node_82271780;
+typedef struct List_82271780 { Node_82271780 *head; unsigned size; } List_82271780;
+extern void fn_82271830(void *,void *);
+extern void fn_822315A0(void *);
+extern void fn_8265CA20(void *);
+static __forceinline int Want(Node_82271780 *n, unsigned key) { return n->flag != 0 && n->key != key; }
+static __forceinline Node_82271780 *Adv(Node_82271780 *n) { return n->next; }
+void fn_82271780(char *self,unsigned key) {
+ List_82271780 *list=(List_82271780 *)(self+0xa8);
+ Node_82271780 *it=list->head->next;
+ Node_82271780 *next;
+ while(it!=list->head) {
+  if(!Want(it,key)) it=Adv(it);
+  else {
+   fn_82271830(self,&it->key);
+   next=it->next;
+   if(it!=list->head) {
+    it->prev->next=next;it->next->prev=it->prev;
+    if(it->ref) fn_822315A0(it->ref);
+    fn_8265CA20(it);list->size--;
+   }
+   it=next;
   }
-  return;
+ }
 }
-

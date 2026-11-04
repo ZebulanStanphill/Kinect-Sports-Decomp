@@ -29,11 +29,11 @@ extern int fn_82BE8D28();
 extern int fn_82BE8D50();
 
 
-void fn_82BECDA0(int param_1,ulonglong param_2,undefined8 param_3,undefined4 param_4)
+void fn_82BECDA0(int param_1,unsigned int param_2,undefined8 param_3,undefined4 param_4)
 
 {
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_82BE8D50();
+  if (*(unsigned int *)(param_1 + 0xc) != 0) {
+    fn_82BE8D50(*(unsigned int *)(param_1 + 0xc));
   }
   *(int *)(param_1 + 0xc) = (int)param_2;
   if ((param_2 & 0xffffffff) != 0) {
