@@ -1,3 +1,4 @@
+extern void __debugbreak(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -30,67 +31,67 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82CF6C78(int param_1)
 
 {
-  undefined8 in_r0;
+
   int *piVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  longlong lVar5;
+  int lVar5;
   
   iVar2 = 0;
   lVar5 = 0x23;
   do {
     iVar4 = iVar2 << 4;
-    if (iVar4 < 0x11) {
+    if (iVar4 <= 0x10) {
       iVar3 = 1;
     }
-    else if (iVar4 < 0x21) {
+    else if (iVar4 <= 0x20) {
       iVar3 = 2;
     }
-    else if (iVar4 < 0x31) {
+    else if (iVar4 <= 0x30) {
       iVar3 = 3;
     }
-    else if (iVar4 < 0x41) {
+    else if (iVar4 <= 0x40) {
       iVar3 = 4;
     }
-    else if (iVar4 < 0x61) {
+    else if (iVar4 <= 0x60) {
       iVar3 = 5;
     }
-    else if (iVar4 < 0x81) {
+    else if (iVar4 <= 0x80) {
       iVar3 = 6;
     }
-    else if (iVar4 < 0xa1) {
+    else if (iVar4 <= 0xa0) {
       iVar3 = 7;
     }
-    else if (iVar4 < 0xc1) {
+    else if (iVar4 <= 0xc0) {
       iVar3 = 8;
     }
-    else if (iVar4 < 0x101) {
+    else if (iVar4 <= 0x100) {
       iVar3 = 9;
     }
-    else if (iVar4 < 0x141) {
+    else if (iVar4 <= 0x140) {
       iVar3 = 10;
     }
-    else if (iVar4 < 0x201) {
+    else if (iVar4 <= 0x200) {
       iVar3 = 0xb;
     }
-    else if (iVar4 < 0x221) {
+    else if (iVar4 <= 0x220) {
       iVar3 = 0xc;
     }
-    else if (iVar4 < 0x401) {
+    else if (iVar4 <= 0x400) {
       iVar3 = 0xd;
     }
-    else if (iVar4 < 0x801) {
+    else if (iVar4 <= 0x800) {
       iVar3 = 0xe;
     }
-    else if (iVar4 < 0x1001) {
+    else if (iVar4 <= 0x1000) {
       iVar3 = 0xf;
     }
-    else if (iVar4 < 0x2001) {
+    else if (iVar4 <= 0x2000) {
       iVar3 = 0x10;
     }
     else {
-      trapWord(0x1f,in_r0,0x16);
+      __debugbreak();
       iVar3 = -1;
     }
     *(char *)(param_1 + 0xd8 + iVar2) = (char)iVar3;
@@ -102,56 +103,56 @@ void fn_82CF6C78(int param_1)
   piVar1 = (int *)(param_1 + 0xf8);
   lVar5 = 8;
   do {
-    if (iVar2 < 0x11) {
+    if (iVar2 <= 0x10) {
       iVar4 = 1;
     }
-    else if (iVar2 < 0x21) {
+    else if (iVar2 <= 0x20) {
       iVar4 = 2;
     }
-    else if (iVar2 < 0x31) {
+    else if (iVar2 <= 0x30) {
       iVar4 = 3;
     }
-    else if (iVar2 < 0x41) {
+    else if (iVar2 <= 0x40) {
       iVar4 = 4;
     }
-    else if (iVar2 < 0x61) {
+    else if (iVar2 <= 0x60) {
       iVar4 = 5;
     }
-    else if (iVar2 < 0x81) {
+    else if (iVar2 <= 0x80) {
       iVar4 = 6;
     }
-    else if (iVar2 < 0xa1) {
+    else if (iVar2 <= 0xa0) {
       iVar4 = 7;
     }
-    else if (iVar2 < 0xc1) {
+    else if (iVar2 <= 0xc0) {
       iVar4 = 8;
     }
-    else if (iVar2 < 0x101) {
+    else if (iVar2 <= 0x100) {
       iVar4 = 9;
     }
-    else if (iVar2 < 0x141) {
+    else if (iVar2 <= 0x140) {
       iVar4 = 10;
     }
-    else if (iVar2 < 0x201) {
+    else if (iVar2 <= 0x200) {
       iVar4 = 0xb;
     }
-    else if (iVar2 < 0x221) {
+    else if (iVar2 <= 0x220) {
       iVar4 = 0xc;
     }
-    else if (iVar2 < 0x401) {
+    else if (iVar2 <= 0x400) {
       iVar4 = 0xd;
     }
-    else if (iVar2 < 0x801) {
+    else if (iVar2 <= 0x800) {
       iVar4 = 0xe;
     }
-    else if (iVar2 < 0x1001) {
+    else if (iVar2 <= 0x1000) {
       iVar4 = 0xf;
     }
-    else if (iVar2 < 0x2001) {
+    else if (iVar2 <= 0x2000) {
       iVar4 = 0x10;
     }
     else {
-      trapWord(0x1f,in_r0,0x16);
+      __debugbreak();
       iVar4 = -1;
     }
     piVar1 = piVar1 + 1;

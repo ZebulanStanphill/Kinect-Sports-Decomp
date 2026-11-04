@@ -33,33 +33,25 @@ undefined8 fn_82964BB0(int param_1,int param_2,int param_3,int param_4)
 {
   int iVar1;
   int iVar2;
-  undefined8 uVar3;
+  const char *uVar3;
   char *pcVar4;
-  ulonglong uVar5;
+  unsigned int uVar5;
   char *pcVar6;
   char acStack_60 [64];
   
   uVar5 = 0x40;
   pcVar6 = acStack_60;
   pcVar4 = *(char **)(*(int *)(param_2 + 0x68) + 0x18);
-  do {
-    if (*pcVar4 == '\0') break;
-    *pcVar6 = *pcVar4;
-    uVar5 = uVar5 - 1;
-    pcVar6 = pcVar6 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (uVar5 != 0);
-  if ((uVar5 & 0xffffffff) == 0) {
-    pcVar6 = pcVar6 + -1;
-  }
+  while (uVar5 != 0) { if (*pcVar4 == 0) break; *pcVar6++ = *pcVar4++; --uVar5; }
+  if (!uVar5) --pcVar6;
   iVar1 = *(int *)(param_2 + 4);
   iVar2 = *(int *)(param_1 + 0x10);
   *pcVar6 = '\0';
-  uVar3 = 0xffffffff820116b4;
+  uVar3 = "input";
   if ((*(uint *)(*(int *)(iVar1 * 4 + iVar2) + 4) & 0x20) != 0) {
-    uVar3 = 0xffffffff82038790;
+    uVar3 = "output";
   }
-  fn_828F6FA8(param_3,param_4,0xffffffff82038798,uVar3,acStack_60);
+  fn_828F6FA8(param_3,param_4,"%s semantic '%s'",uVar3,acStack_60);
   *(undefined1 *)(param_3 + param_4 + -1) = 0;
   return 0;
 }

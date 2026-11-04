@@ -26,20 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE5240();
-extern int fn_82BE56B0();
+extern void *fn_82BE56B0(unsigned);
 extern int fn_82BEB750();
-extern int fn_82BF1E60();
+extern int fn_82BF1E60(iVar1);
 extern int fn_82BF29A0();
 extern unsigned int lbl_820E9974;
-extern unsigned int lbl_831751D0;
+extern void *(*lbl_831751D0)(unsigned int);
 
 
-undefined4 * fn_82BE74D0(undefined4 *param_1,undefined8 param_2)
+undefined4 * fn_82BE74D0(undefined4 *param_1,unsigned int param_2)
 
 {
-  int iVar1;
+  void *iVar1;
   
-  fn_82BEB750(param_1,0xffffffff820e9980);
+  fn_82BEB750(param_1,"CNetworkManager");
   *(undefined2 *)(param_1 + 10) = 0;
   *param_1 = &lbl_820E9974;
   *(undefined2 *)((int)param_1 + 0x2a) = 0;
@@ -63,20 +63,19 @@ undefined4 * fn_82BE74D0(undefined4 *param_1,undefined8 param_2)
   param_1[0x27] = 0;
   fn_82BF29A0(param_1 + 0x28);
   iVar1 = fn_82BE56B0(0x44);
-  if (iVar1 == 0) {
+  if (iVar1 != 0) {
+    iVar1 = fn_82BF1E60(iVar1);
+  } else {
     iVar1 = 0;
-  }
-  else {
-    iVar1 = fn_82BF1E60();
   }
   param_1[0x23] = iVar1;
   if (iVar1 == 0) {
-    fn_82BE5240(param_1,0x65,0xffffffff820e9950);
+    fn_82BE5240(param_1,0x65,"Could not create transaction object");
   }
-  iVar1 = (*(code *)lbl_831751D0)(param_2);
+  iVar1 = lbl_831751D0(param_2);
   param_1[0xc] = iVar1;
   if (iVar1 == 0) {
-    fn_82BE5240(param_1,0x65,0xffffffff820e992c);
+    fn_82BE5240(param_1,0x65,"Could not allocate receive buffer");
   }
   return param_1;
 }

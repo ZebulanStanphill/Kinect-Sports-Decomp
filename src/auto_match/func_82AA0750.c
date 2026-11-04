@@ -1,3 +1,4 @@
+static __forceinline void SetBit_82AA0750(unsigned *bits, unsigned n) { bits[n >> 5] |= 1u << (n & 31); }
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -34,21 +35,18 @@ void fn_82AA0750(int param_1,uint param_2,undefined4 param_3)
   uint uVar1;
   uint uVar2;
   
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2ff0,0xffffffff820d3000,0x19b);
+  if ((void *)param_1 == 0) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pAS_Object","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h",0x19b);
   }
-  if (*(uint *)(param_1 + 0x44) <= param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2fb8,0xffffffff820d3000,0x19b);
+  if (param_2 >= *(uint *)(param_1 + 0x44)) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","(SSM_UINT32)eState < pAS_Object->ASMapInfo.uNumStates","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h",0x19b);
   }
-  if (*(uint *)(param_1 + 0x4c) <= *(uint *)(*(int *)(param_1 + 0x50) + param_2 * 8)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d2f60,0xffffffff820d3000,0x19b);
+  if (*(uint *)(*(int *)(param_1 + 0x50) + param_2 * 8) >= *(uint *)(param_1 + 0x4c)) {
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pAS_Object->ASMapInfo.pStateMap[eState].uBlockNum < pAS_Object->ASMapInfo.uNumStateBlks","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h",0x19b);
   }
   *(uint *)(param_1 + 0x10) = *(uint *)(param_1 + 0x10) | 1;
   *(undefined4 *)(*(int *)(param_1 + 8) + param_2 * 4) = param_3;
-  uVar1 = *(uint *)(*(int *)(param_1 + 0x50) + param_2 * 8);
-  uVar2 = uVar1 >> 3 & 0x1ffffffc;
-  *(uint *)(uVar2 + *(int *)(param_1 + 0xc)) =
-       1 << (uVar1 & 0x1f) | *(uint *)(uVar2 + *(int *)(param_1 + 0xc));
+  SetBit_82AA0750(*(unsigned **)(param_1 + 0xc), *(unsigned *)(*(int *)(param_1 + 0x50) + param_2 * 8));
   return;
 }
 

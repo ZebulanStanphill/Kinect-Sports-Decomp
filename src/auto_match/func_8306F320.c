@@ -25,20 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8306F250();
-extern unsigned int lbl_82021544;
-extern unsigned int lbl_831BCB98;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+extern unsigned char fn_8306F250(__vector4, float);
+extern double lbl_82021544;
+extern unsigned char lbl_831BCB98;
 
 
 undefined4 fn_8306F320(undefined8 param_1,int param_2,int param_3)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   iVar1 = (param_3 + 0x58) * 4;
   if (((*(int *)(iVar1 + param_2) == 2) && (*(int *)(&lbl_831BCB98 + param_3 * 0xc) != 0)) &&
-     (cVar2 = fn_8306F250((double)lbl_82021544), cVar2 != '\0')) {
+     (cVar2 = fn_8306F250(*(__vector4 *)(param_2+(param_3+2)*16),0.01f), cVar2 != '\0')) {
     return 1;
   }
   return *(undefined4 *)(iVar1 + param_2);

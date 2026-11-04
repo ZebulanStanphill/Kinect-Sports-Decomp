@@ -27,14 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82CE4F10(undefined1 *param_1,uint *param_2)
+void fn_82CE4F10(undefined1 *param_1,float *input)
 
 {
+  float *param_2 = input;
   int iVar1;
+  union { float f; unsigned u; } v;
   
   iVar1 = 0;
   do {
-    if ((*param_2 & 0x7f800000) == 0x7f800000) {
+    v.f = *param_2;
+    if ((v.u & 0x7f800000) == 0x7f800000) {
       *param_1 = 0;
       return;
     }
