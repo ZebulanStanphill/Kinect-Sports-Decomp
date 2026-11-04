@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACA920();
-extern int fn_82AD1978();
-extern int fn_82B841E8();
+typedef struct Obj_82AEB900 {
+  int pad[3];
+  int f0c;
+  unsigned int *f10;
+} Obj_82AEB900;
+typedef struct Link_82AEB900 {
+  unsigned prev;
+  unsigned tag;
+} Link_82AEB900;
+extern unsigned int fn_82ACA920(void *, void *, int);
+extern unsigned int fn_82AD1978(unsigned int, void *);
+extern unsigned int fn_82B841E8(void *, void *, int, int, int, int);
 
-
-uint fn_82AEB900(undefined8 param_1,undefined8 param_2,uint *param_3,int param_4)
-
+static __forceinline void linkInsert(unsigned *h, unsigned r)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  uVar2 = fn_82B841E8(param_1,param_2,0,0x62,1,4);
-  if (*(int *)(param_4 + 0x10) != 0) {
-    param_4 = fn_82ACA920(param_1,param_4,*(undefined4 *)(param_4 + 0xc));
-  }
-  uVar3 = fn_82AD1978(uVar2,param_4);
-  *(undefined4 *)(uVar2 + 0x2c) = uVar3;
-  if (param_3 != (uint *)0x0) {
-    uVar1 = uVar2 & 0xfffffffe;
-    *(uint *)(uVar1 + 0x24) = *param_3;
-    *(uint *)(*param_3 & 0xfffffffe) = uVar1;
-    *(uint *)(uVar1 + 0x28) = (uint)(param_3 + -9) | 1;
-    *param_3 = uVar1 + 0x28;
-  }
-  return uVar2;
+  Link_82AEB900 *l = (Link_82AEB900 *)((r & ~1u) + 0x24);
+  l->prev = *h;
+  *(unsigned *)(*h & ~1u) = (unsigned)l - 0x24;
+  l->tag = ((unsigned)h - 0x24) | 1;
+  *h = (unsigned)&l->tag;
 }
 
+unsigned int fn_82AEB900(void *a, void *b, unsigned int *list, Obj_82AEB900 *o)
+{
+  unsigned int r;
+  void *x;
+
+  r = fn_82B841E8(a, b, 0, 0x62, 1, 4);
+  x = o->f10 != 0 ? (void *)fn_82ACA920(a, o, o->f0c) : o;
+  *(unsigned int *)(r + 0x2c) = fn_82AD1978(r, x);
+  if (list != 0) {
+    linkInsert(list, r);
+  }
+  return r;
+}
