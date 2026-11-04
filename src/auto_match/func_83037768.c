@@ -25,55 +25,61 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2A700();
-extern int fn_82F65320();
-extern int fn_82F6E380();
-extern int fn_82FEBFF8();
-extern int fn_83009F28();
-extern int fn_83009FC0();
-extern int fn_830131C8();
-extern unsigned int iStack_40;
+extern unsigned int fn_82A2A700(int, void *, int, unsigned int);
+extern int fn_82F65320(unsigned int);
+extern unsigned __int64 fn_82F6E380(void *);
+extern int fn_82FEBFF8(void);
+extern int fn_83009F28(void);
+extern int fn_83009FC0(void);
+extern int fn_830131C8(unsigned int);
+extern int XNotifyGetNext(unsigned int, unsigned int, unsigned int *, unsigned int *);
 extern unsigned int lbl_832642E4;
 
+typedef struct Obj_83037768 {
+  int pad0;
+  unsigned int h4;
+  char pad8[8];
+  unsigned char stop;
+} Obj_83037768;
 
-undefined8 fn_83037768(int param_1)
-
+int fn_83037768(Obj_83037768 *self)
 {
-  undefined4 uVar1;
-  int iVar2;
-  uint uVar3;
-  int iStack_40;
-  int aiStack_3c;
-  
-  uVar1 = fn_82F6E380(0);
-  fn_82F65320(uVar1);
+  unsigned __int64 h;
+  unsigned int r;
+  unsigned int id;
+  unsigned int param;
+  unsigned char ok;
+
+  h = fn_82F6E380(0);
+  fn_82F65320((unsigned int)h);
   fn_82FEBFF8();
-  uVar3 = 0x102;
-  do {
-    if (uVar3 < 3) {
-      if (uVar3 == 0) {
-        iStack_40 = 0;
-        aiStack_3c = 0;
-        iVar2 = XNotifyGetNext(*(undefined4 *)(param_1 + 4),0xa000003,&iStack_40,&aiStack_3c);
-        if (iVar2 != 0) {
-          if (iStack_40 == 0xa000003 && aiStack_3c != 0) {
-            fn_83009FC0();
-          }
-          else {
-            fn_83009F28();
-          }
+  r = 0x102;
+  for (;;) {
+    switch (r) {
+    case 0:
+      id = 0;
+      param = 0;
+      if (XNotifyGetNext(self->h4, 0xa000003, &id, &param) != 0) {
+        ok = 0;
+        if (id == 0xa000003) {
+          ok = param != 0;
+        }
+        if (ok) {
+          fn_83009FC0();
+        } else {
+          fn_83009F28();
         }
       }
-      else {
-LAB_83037824:
-        fn_830131C8(lbl_832642E4);
-      }
+      break;
+    case 1:
+    case 2:
+    case 0x102:
+      fn_830131C8(lbl_832642E4);
+      break;
     }
-    else if (uVar3 == 0x102) goto LAB_83037824;
-    uVar3 = fn_82A2A700(3,(undefined4 *)(param_1 + 4),0,0xffffffffffffffff);
-    if (*(char *)(param_1 + 0x10) != '\0') {
+    r = fn_82A2A700(3, &self->h4, 0, -1);
+    if (self->stop != 0) {
       return 0;
     }
-  } while( true );
+  }
 }
-

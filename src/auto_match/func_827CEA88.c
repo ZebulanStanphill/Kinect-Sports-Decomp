@@ -25,77 +25,95 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827CEA30();
+typedef unsigned char *JSAMPROW_827CEA88;
+typedef JSAMPROW_827CEA88 *JSAMPARRAY_827CEA88;
+typedef JSAMPARRAY_827CEA88 *JSAMPIMAGE_827CEA88;
 
+typedef struct Cinfo_827CEA88 Cinfo_827CEA88;
 
-void fn_827CEA88(int param_1,longlong param_2,uint *param_3,ulonglong param_4,int param_5,
-                  uint *param_6,uint param_7)
+typedef struct Comp_827CEA88 {
+  int pad0[3];
+  int v_samp_factor;
+  int pad10[3];
+  unsigned int width_in_blocks;
+  int pad20[0x15 - 8];
+} Comp_827CEA88;
 
+typedef struct Prep_827CEA88 {
+  void *start_pass;
+  void *pre_process_data;
+  JSAMPARRAY_827CEA88 color_buf[10];
+  unsigned int rows_to_go;
+  int next_buf_row;
+} Prep_827CEA88;
+
+typedef struct Cconv_827CEA88 {
+  void *start_pass;
+  void (*color_convert)(Cinfo_827CEA88 *, JSAMPARRAY_827CEA88, JSAMPIMAGE_827CEA88, unsigned int, unsigned int);
+} Cconv_827CEA88;
+
+typedef struct Down_827CEA88 {
+  void *start_pass;
+  void (*downsample)(Cinfo_827CEA88 *, JSAMPIMAGE_827CEA88, unsigned int, JSAMPIMAGE_827CEA88, unsigned int);
+} Down_827CEA88;
+
+struct Cinfo_827CEA88 {
+  int pad0[7];
+  unsigned int image_width;
+  int pad20[0x3c / 4 - 8];
+  int num_components;
+  int pad40;
+  Comp_827CEA88 *comp_info;
+  char pad48[0xdc - 0x48];
+  int max_v_samp_factor;
+  char pade0[0x144 - 0xe0];
+  Prep_827CEA88 *prep;
+  char pad148[0x150 - 0x148];
+  Cconv_827CEA88 *cconvert;
+  Down_827CEA88 *downsample;
+};
+
+extern int fn_827CEA30(void *, unsigned int, int, int);
+
+void fn_827CEA88(Cinfo_827CEA88 *cinfo, JSAMPARRAY_827CEA88 input_buf, unsigned int *in_row_ctr,
+                 unsigned int in_rows_avail, JSAMPIMAGE_827CEA88 output_buf,
+                 unsigned int *out_row_group_ctr, unsigned int out_row_groups_avail)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  ulonglong uVar6;
-  int iVar7;
-  int *piVar8;
-  
-  iVar7 = *(int *)(param_1 + 0x144);
-  while( true ) {
-    if ((param_4 & 0xffffffff) <= (ulonglong)*param_3) {
-      return;
-    }
-    if (param_7 <= *param_6) break;
-    uVar2 = param_4 - *param_3;
-    uVar6 = (ulonglong)*(uint *)(param_1 + 0xdc) - (ulonglong)*(uint *)(iVar7 + 0x34);
-    if ((uVar2 & 0xffffffff) <= (uVar6 & 0xffffffff)) {
-      uVar6 = uVar2;
-    }
-    (**(code **)(*(int *)(param_1 + 0x150) + 4))
-              (param_1,((ulonglong)*param_3 & 0x3fffffff) * 4 + param_2,iVar7 + 8,
-               (ulonglong)*(uint *)(iVar7 + 0x34),uVar6);
-    *param_3 = *param_3 + (int)uVar6;
-    lVar3 = *(uint *)(iVar7 + 0x30) - uVar6;
-    iVar4 = *(int *)(iVar7 + 0x34) + (int)uVar6;
-    *(int *)(iVar7 + 0x34) = iVar4;
-    *(int *)(iVar7 + 0x30) = (int)lVar3;
-    if ((lVar3 == 0) && (iVar4 < *(int *)(param_1 + 0xdc))) {
-      iVar4 = 0;
-      if (0 < *(int *)(param_1 + 0x3c)) {
-        puVar5 = (undefined4 *)(iVar7 + 4);
-        do {
-          puVar5 = puVar5 + 1;
-          fn_827CEA30(*puVar5,*(undefined4 *)(param_1 + 0x1c),*(undefined4 *)(iVar7 + 0x34),
-                        *(undefined4 *)(param_1 + 0xdc));
-          iVar4 = iVar4 + 1;
-        } while (iVar4 < *(int *)(param_1 + 0x3c));
+  Prep_827CEA88 *prep = cinfo->prep;
+  unsigned int numrows;
+  int ci;
+  Comp_827CEA88 *compptr;
+
+  while (*in_row_ctr < in_rows_avail && *out_row_group_ctr < out_row_groups_avail) {
+    unsigned int inrows = in_rows_avail - *in_row_ctr;
+    numrows = cinfo->max_v_samp_factor - prep->next_buf_row;
+    if (numrows >= inrows) numrows = inrows;
+    cinfo->cconvert->color_convert(cinfo, input_buf + *in_row_ctr, (JSAMPIMAGE_827CEA88)prep->color_buf,
+                                   prep->next_buf_row, numrows);
+    *in_row_ctr += numrows;
+    prep->next_buf_row += numrows;
+    prep->rows_to_go -= numrows;
+    if (prep->rows_to_go == 0 && prep->next_buf_row < cinfo->max_v_samp_factor) {
+      for (ci = 0; ci < cinfo->num_components; ci++) {
+        fn_827CEA30(prep->color_buf[ci], cinfo->image_width, prep->next_buf_row, cinfo->max_v_samp_factor);
       }
-      *(undefined4 *)(iVar7 + 0x34) = *(undefined4 *)(param_1 + 0xdc);
+      prep->next_buf_row = cinfo->max_v_samp_factor;
     }
-    if (*(int *)(iVar7 + 0x34) == *(int *)(param_1 + 0xdc)) {
-      (**(code **)(*(int *)(param_1 + 0x154) + 4))(param_1,iVar7 + 8,0,param_5,*param_6);
-      *(undefined4 *)(iVar7 + 0x34) = 0;
-      *param_6 = *param_6 + 1;
+    if (prep->next_buf_row == cinfo->max_v_samp_factor) {
+      cinfo->downsample->downsample(cinfo, (JSAMPIMAGE_827CEA88)prep->color_buf, 0, output_buf,
+                                    *out_row_group_ctr);
+      prep->next_buf_row = 0;
+      (*out_row_group_ctr)++;
     }
-    if ((*(int *)(iVar7 + 0x30) == 0) && (*param_6 < param_7)) {
-      iVar7 = 0;
-      if (0 < *(int *)(param_1 + 0x3c)) {
-        piVar8 = (int *)(*(int *)(param_1 + 0x44) + -0x38);
-        puVar5 = (undefined4 *)(param_5 + -4);
-        do {
-          piVar1 = piVar8 + 0x11;
-          piVar8 = piVar8 + 0x15;
-          puVar5 = puVar5 + 1;
-          fn_827CEA30(*puVar5,*piVar8 << 3,(longlong)*piVar1 * (longlong)(int)*param_6,
-                        (longlong)*piVar1 * (longlong)(int)param_7);
-          iVar7 = iVar7 + 1;
-        } while (iVar7 < *(int *)(param_1 + 0x3c));
+    if (prep->rows_to_go == 0 && *out_row_group_ctr < out_row_groups_avail) {
+      compptr = cinfo->comp_info;
+      for (ci = 0; ci < cinfo->num_components; ci++, compptr++) {
+        fn_827CEA30(output_buf[ci], compptr->width_in_blocks * 8,
+                    *out_row_group_ctr * compptr->v_samp_factor,
+                    out_row_groups_avail * compptr->v_samp_factor);
       }
-      *param_6 = param_7;
+      *out_row_group_ctr = out_row_groups_avail;
       return;
     }
   }
-  return;
 }
-

@@ -25,82 +25,78 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_824BF8A8();
-extern int fn_82A1EFC0();
-extern unsigned int uStack_4c;
+extern int fn_824BF8A8(void *, void *);
+extern int fn_82A1EFC0(void *, int, int);
 
+typedef struct Ev_823876D0 {
+  const char *name;
+  unsigned int type;
+} Ev_823876D0;
 
-void fn_823876D0(int *param_1,undefined8 param_2)
-
+void fn_823876D0(int *p, void *q)
 {
-  char *pcStack_50;
-  undefined4 uStack_4c;
-  
-  if (param_1[1] != 0) {
-    uStack_4c = 7;
-    pcStack_50 = "showvideo";
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (*param_1 != 0) {
-    pcStack_50 = "getready_serving";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[4] != 0) {
-    pcStack_50 = "serving";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[5] != 0) {
-    pcStack_50 = "getready_serving";
-    uStack_4c = 6;
-    fn_824BF8A8(param_2,&pcStack_50);
-    pcStack_50 = "serving";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[9] != 0) {
-    pcStack_50 = "blocking";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[6] != 0) {
-    if (param_1[0xb] == 0) {
-      if (param_1[6] == 0) goto LAB_82387834;
-      pcStack_50 = "returning";
-      uStack_4c = 9;
-      fn_824BF8A8(param_2,&pcStack_50);
-      pcStack_50 = "returning";
-    }
-    else {
-      pcStack_50 = "blocking";
-      uStack_4c = 9;
-      fn_824BF8A8(param_2,&pcStack_50);
-      pcStack_50 = "blocking";
-    }
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-LAB_82387834:
-  if (param_1[7] != 0) {
-    pcStack_50 = "returning";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[10] != 0) {
-    pcStack_50 = "spiking";
-    uStack_4c = 9;
-    fn_824BF8A8(param_2,&pcStack_50);
-    pcStack_50 = "spiking";
-    uStack_4c = 7;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-  if (param_1[8] != 0) {
-    pcStack_50 = "spiking";
-    uStack_4c = 8;
-    fn_824BF8A8(param_2,&pcStack_50);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1,0,0x30);
-}
+  Ev_823876D0 ev;
 
+  if (p[1] != 0) {
+    ev.name = "showvideo";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[0] != 0) {
+    ev.name = "getready_serving";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[4] != 0) {
+    ev.name = "serving";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[5] != 0) {
+    ev.name = "getready_serving";
+    ev.type = 6;
+    fn_824BF8A8(q, &ev);
+    ev.name = "serving";
+    ev.type = 8;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[9] != 0) {
+    ev.name = "blocking";
+    ev.type = 8;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[6] != 0 && p[0xb] != 0) {
+    ev.name = "blocking";
+    ev.type = 9;
+    fn_824BF8A8(q, &ev);
+    ev.name = "blocking";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  } else if (p[6] != 0) {
+    ev.name = "returning";
+    ev.type = 9;
+    fn_824BF8A8(q, &ev);
+    ev.name = "returning";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[7] != 0) {
+    ev.name = "returning";
+    ev.type = 8;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[10] != 0) {
+    ev.name = "spiking";
+    ev.type = 9;
+    fn_824BF8A8(q, &ev);
+    ev.name = "spiking";
+    ev.type = 7;
+    fn_824BF8A8(q, &ev);
+  }
+  if (p[8] != 0) {
+    ev.name = "spiking";
+    ev.type = 8;
+    fn_824BF8A8(q, &ev);
+  }
+  fn_82A1EFC0(p, 0, 0x30);
+}

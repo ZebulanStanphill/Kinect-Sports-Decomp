@@ -25,43 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_823F2E20();
-extern int fn_8266EC60();
-extern int fn_8266EE08();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_82192480;
+extern int fn_822315A0(unsigned int);
+extern int fn_823F2E20(int *, int);
+extern int fn_8266EC60(void);
+extern int fn_8266EE08(void *, int, int, int, int, int);
+extern float lbl_82192438[];
 
+typedef struct Tmp_82284118 { int a; unsigned int b; } Tmp_82284118;
 
-undefined4 * fn_82284118(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+int *fn_82284118(int *self, int param_2, int param_3)
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = lbl_82192480;
-  uVar1 = fn_8266EC60();
-  uVar1 = fn_8266EE08(auStack_30,uVar1,param_2,0,param_3,0);
-  fn_823F2E20(param_1,uVar1);
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  puVar2 = param_1 + -0x82;
-  lVar3 = 6;
-  do {
-    puVar2[0x8b] = 0;
-    puVar2[0x8c] = 0;
-    puVar2[0x8f] = 0;
-    puVar2 = puVar2 + 0x8d;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return param_1;
-}
+  Tmp_82284118 t;
+  int *p;
+  int i;
 
+  self[0] = 0;
+  self[1] = 0;
+  *(float *)(self + 2) = lbl_82192438[0x12];
+  fn_823F2E20(self, fn_8266EE08(&t, fn_8266EC60(), param_2, 0, param_3, 0));
+  if (t.b != 0) {
+    fn_822315A0(t.b);
+  }
+  p = self - 0x82;
+  for (i = 6; i != 0; i--) {
+    p[0x8b] = 0;
+    p[0x8c] = 0;
+    p[0x8f] = 0;
+    p += 0x8d;
+    *p = 0;
+  }
+  return self;
+}

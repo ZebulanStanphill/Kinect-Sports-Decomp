@@ -27,74 +27,93 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_829AD570(int *param_1)
+typedef struct Cinfo_829AD570 Cinfo_829AD570;
 
+typedef struct Src_829AD570 {
+  const unsigned char *next_input_byte;
+  unsigned int bytes_in_buffer;
+  void (*init_source)(Cinfo_829AD570 *);
+  int (*fill_input_buffer)(Cinfo_829AD570 *);
+} Src_829AD570;
+
+typedef struct Err_829AD570 {
+  void (*error_exit)(Cinfo_829AD570 *);
+  void (*emit_message)(Cinfo_829AD570 *, int);
+  int pad8[3];
+  int msg_code;
+  int parm0;
+  int parm1;
+} Err_829AD570;
+
+typedef struct Marker_829AD570 {
+  int pad[6];
+  unsigned int discarded_bytes;
+} Marker_829AD570;
+
+struct Cinfo_829AD570 {
+  Err_829AD570 *err;
+  int pad4[5];
+  Src_829AD570 *src;
+  int pad1c[0x69 - 7];
+  int unread_marker;
+  int pad1a8[0x6f - 0x6a];
+  Marker_829AD570 *marker;
+};
+
+int fn_829AD570(Cinfo_829AD570 *cinfo)
 {
-  byte bVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  int iVar4;
-  byte *pbVar5;
-  
-  puVar2 = (undefined4 *)param_1[6];
-  pbVar5 = (byte *)*puVar2;
-  iVar4 = puVar2[1];
-  while( true ) {
-    if (iVar4 == 0) {
-      iVar4 = (*(code *)puVar2[3])(param_1);
-      if (iVar4 == 0) {
-        return 0;
-      }
-      pbVar5 = (byte *)*puVar2;
-      iVar4 = puVar2[1];
+  Src_829AD570 *datasrc;
+  const unsigned char *next_input_byte;
+  unsigned int bytes_in_buffer;
+  int c;
+  unsigned int discarded;
+
+  datasrc = cinfo->src;
+  next_input_byte = datasrc->next_input_byte;
+  bytes_in_buffer = datasrc->bytes_in_buffer;
+  for (;;) {
+    if (bytes_in_buffer == 0) {
+      if (!datasrc->fill_input_buffer(cinfo)) return 0;
+      next_input_byte = datasrc->next_input_byte;
+      bytes_in_buffer = datasrc->bytes_in_buffer;
     }
-    bVar1 = *pbVar5;
-    while( true ) {
-      pbVar5 = pbVar5 + 1;
-      iVar4 = iVar4 + -1;
-      if (bVar1 == 0xff) break;
-      *(int *)(param_1[0x6f] + 0x18) = *(int *)(param_1[0x6f] + 0x18) + 1;
-      *puVar2 = pbVar5;
-      puVar2[1] = iVar4;
-      if (iVar4 == 0) {
-        iVar4 = (*(code *)puVar2[3])(param_1);
-        if (iVar4 == 0) {
-          return 0;
-        }
-        pbVar5 = (byte *)*puVar2;
-        iVar4 = puVar2[1];
+    bytes_in_buffer--;
+    c = *next_input_byte++;
+    while (c != 0xFF) {
+      cinfo->marker->discarded_bytes++;
+      datasrc->next_input_byte = next_input_byte;
+      datasrc->bytes_in_buffer = bytes_in_buffer;
+      if (bytes_in_buffer == 0) {
+        if (!datasrc->fill_input_buffer(cinfo)) return 0;
+        next_input_byte = datasrc->next_input_byte;
+        bytes_in_buffer = datasrc->bytes_in_buffer;
       }
-      bVar1 = *pbVar5;
+      bytes_in_buffer--;
+      c = *next_input_byte++;
     }
     do {
-      if (iVar4 == 0) {
-        iVar4 = (*(code *)puVar2[3])(param_1);
-        if (iVar4 == 0) {
-          return 0;
-        }
-        pbVar5 = (byte *)*puVar2;
-        iVar4 = puVar2[1];
+      if (bytes_in_buffer == 0) {
+        if (!datasrc->fill_input_buffer(cinfo)) return 0;
+        next_input_byte = datasrc->next_input_byte;
+        bytes_in_buffer = datasrc->bytes_in_buffer;
       }
-      bVar1 = *pbVar5;
-      iVar4 = iVar4 + -1;
-      pbVar5 = pbVar5 + 1;
-    } while (bVar1 == 0xff);
-    iVar3 = *(int *)(param_1[0x6f] + 0x18);
-    if (bVar1 != 0) break;
-    *(int *)(param_1[0x6f] + 0x18) = iVar3 + 2;
-    *puVar2 = pbVar5;
-    puVar2[1] = iVar4;
+      bytes_in_buffer--;
+      c = *next_input_byte++;
+    } while (c == 0xFF);
+    if (c != 0) break;
+    cinfo->marker->discarded_bytes += 2;
+    datasrc->next_input_byte = next_input_byte;
+    datasrc->bytes_in_buffer = bytes_in_buffer;
   }
-  if (iVar3 != 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x74;
-    *(undefined4 *)(*param_1 + 0x18) = *(undefined4 *)(param_1[0x6f] + 0x18);
-    *(uint *)(*param_1 + 0x1c) = (uint)bVar1;
-    (**(code **)(*param_1 + 4))(param_1,0xffffffffffffffff);
-    *(undefined4 *)(param_1[0x6f] + 0x18) = 0;
+  if (cinfo->marker->discarded_bytes != 0) {
+    cinfo->err->msg_code = 0x74;
+    cinfo->err->parm0 = cinfo->marker->discarded_bytes;
+    cinfo->err->parm1 = c;
+    cinfo->err->emit_message(cinfo, -1);
+    cinfo->marker->discarded_bytes = 0;
   }
-  param_1[0x69] = (uint)bVar1;
-  *puVar2 = pbVar5;
-  puVar2[1] = iVar4;
+  cinfo->unread_marker = c;
+  datasrc->next_input_byte = next_input_byte;
+  datasrc->bytes_in_buffer = bytes_in_buffer;
   return 1;
 }
-

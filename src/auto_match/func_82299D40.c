@@ -25,78 +25,61 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8229A0B8();
-extern int fn_82672C20();
-extern int fn_82F64988();
-extern unsigned int uStack_38;
-extern unsigned int uStack_48;
-extern unsigned int uStack_70;
+extern int fn_82273C88(void *);
+extern int fn_82273CD8(void *, int);
+extern int fn_8229A0B8(void *);
+extern int fn_82672C20(int, const char *, void *, int);
+extern int fn_82F64988(void *, int, int);
 
+typedef struct Val_82299D40 {
+  int m0;
+  int m4;
+  union {
+    double d;
+    int i;
+  } v;
+} Val_82299D40;
 
-void fn_82299D40(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82299D40(int *self, int param_2, int param_3)
 {
-  int iVar1;
-  bool bVar2;
-  undefined4 *puVar3;
-  undefined1 *puVar4;
-  longlong lVar5;
-  double dVar6;
-  undefined8 uStack_70;
-  undefined1 auStack_60 [8];
-  double dStack_58;
-  undefined1 auStack_50 [8];
-  undefined4 uStack_48;
-  undefined1 auStack_40 [8];
-  undefined4 uStack_38;
-  undefined1 auStack_30 [48];
-  
-  iVar1 = param_1[0x484];
-  bVar2 = true;
-  if ((-1 < iVar1) && ((iVar1 < 4 || ((7 < iVar1 && (iVar1 < 0xb)))))) {
-    bVar2 = false;
-  }
-  if ((param_1[0x48a] == 0) || ((bVar2 && (param_1[0x485] != 3)))) {
-    fn_82F64988(param_1 + 0x83,0x400,param_2);
-    fn_82F64988(param_1 + 0x283,0x400,param_3);
-    param_1[0x485] = 3;
-    fn_8229A0B8(param_1);
-  }
-  else {
-    puVar3 = (undefined4 *)((int)&uStack_70 + 4);
-    lVar5 = 3;
-    do {
-      puVar3[3] = 0;
-      puVar3 = puVar3 + 4;
-      *puVar3 = 0;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    uStack_70 = (ulonglong)(uint)param_1[2];
-    dVar6 = (double)uStack_70;
-    fn_82273CD8(auStack_60,3);
-    dStack_58 = dVar6;
-    fn_82273CD8(auStack_50,5);
-    uStack_48 = (undefined4)param_2;
-    fn_82273CD8(auStack_40,5);
-    uStack_38 = (undefined4)param_3;
-    fn_82672C20(*param_1,0xffffffff821aacd8,auStack_60,3);
-    param_1[0x489] = 0;
-    param_1[0x483] = 3;
-    puVar4 = auStack_30;
-    param_1[0x488] = 1;
-    lVar5 = 2;
-    do {
-      puVar4 = puVar4 + -0x10;
-      fn_82273C88(puVar4);
-      lVar5 = lVar5 + -1;
-    } while (-1 < lVar5);
-  }
-  return;
-}
+  Val_82299D40 args[3];
+  Val_82299D40 *p;
+  int i;
+  int st;
+  int other;
+  double d;
 
+  st = self[0x484];
+  other = 1;
+  if (st >= 0 && (st <= 3 || (st > 7 && st <= 10))) {
+    other = 0;
+  }
+  if (self[0x48a] == 0 || (other && self[0x485] != 3)) {
+    fn_82F64988(self + 0x83, 0x400, param_2);
+    fn_82F64988(self + 0x283, 0x400, param_3);
+    self[0x485] = 3;
+    fn_8229A0B8(self);
+  } else {
+    for (i = 0; i < 3; i++) {
+      args[i].m0 = 0;
+      args[i].m4 = 0;
+    }
+    d = (double)(unsigned int)self[2];
+    fn_82273CD8(&args[0], 3);
+    args[0].v.d = d;
+    fn_82273CD8(&args[1], 5);
+    args[1].v.i = param_2;
+    fn_82273CD8(&args[2], 5);
+    args[2].v.i = param_3;
+    fn_82672C20(self[0], "_root.mainCtrl.displayDoubleCaption", args, 3);
+    self[0x489] = 0;
+    self[0x483] = 3;
+    self[0x488] = 1;
+    p = args + 3;
+    i = 2;
+    do {
+      p--;
+      fn_82273C88(p);
+    } while (--i >= 0);
+  }
+}

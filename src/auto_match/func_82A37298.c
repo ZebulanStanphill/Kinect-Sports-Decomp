@@ -25,61 +25,74 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_58;
-extern unsigned int *auStack_60;
-extern int fn_82A371C8();
-extern unsigned int iStack_54;
+extern int fn_82A371C8(void *, unsigned int *, unsigned int, int);
+extern int NtWaitForSingleObjectEx(void *, int, int, void *);
 
+typedef struct Buf_82A37298 {
+  unsigned int k0;
+  unsigned int k1;
+  unsigned int m8;
+  unsigned int mc;
+  int m10;
+  int m14;
+  unsigned int m18;
+  unsigned int m1c;
+  unsigned int m20;
+  void *event;
+} Buf_82A37298;
 
-int fn_82A37298(int param_1,int *param_2,undefined8 param_3,int *param_4,undefined8 param_5,
-                 code *param_6,code *param_7,undefined8 param_8)
+typedef struct Obj_82A37298 {
+  int pad0;
+  Buf_82A37298 bufs[2];
+  unsigned int cur;
+} Obj_82A37298;
 
+typedef struct Tmp_82A37298 {
+  int a;
+  int b;
+} Tmp_82A37298;
+
+typedef int (*Decomp_82A37298)(const char *, int, int, int, int, Tmp_82A37298 *, int, int *);
+typedef void (*Post_82A37298)(int, int);
+
+Buf_82A37298 *fn_82A37298(Obj_82A37298 *obj, unsigned int *key, int u, unsigned int *key2, int size,
+                          Decomp_82A37298 decomp, Post_82A37298 post, int ctx)
 {
-  bool bVar1;
-  int iVar2;
-  uint uVar3;
-  undefined4 auStack_60 [2];
-  undefined1 auStack_58 [4];
-  int iStack_54;
-  
-  iVar2 = *(uint *)(param_1 + 0x54) * 0x28 + param_1;
-  if ((*param_2 != *(int *)(iVar2 + 4)) || (param_2[1] != *(int *)(iVar2 + 8))) {
-    uVar3 = *(uint *)(param_1 + 0x54) ^ 1;
-    *(uint *)(param_1 + 0x54) = uVar3;
-    iVar2 = uVar3 * 0x28 + param_1;
-    if (*param_2 == *(int *)(iVar2 + 4)) {
-      if (param_2[1] == *(int *)(iVar2 + 8)) goto LAB_82a37330;
-    }
-    fn_82A371C8(param_1,param_2,uVar3,param_3);
-  }
-LAB_82a37330:
-  if ((*param_4 != 0) &&
-     ((*param_4 != *(int *)((*(uint *)(param_1 + 0x54) ^ 1) * 0x28 + param_1 + 4) ||
-      (param_4[1] != *(int *)((*(uint *)(param_1 + 0x54) ^ 1) * 0x28 + param_1 + 8))))) {
-    iVar2 = -0x3fffffff;
-    auStack_60[0] = 0;
-    if ((param_6 == (code *)0x0) || (param_4[2] == param_2[2])) {
-      bVar1 = false;
-    }
-    else {
-      iStack_54 = param_4[1] * (int)param_5;
-      bVar1 = true;
-      iVar2 = (*param_6)(0xffffffff820893a4,param_8,0,0,param_5,auStack_58,0,auStack_60);
-    }
-    fn_82A371C8(param_1,param_4,*(uint *)(param_1 + 0x54) ^ 1,param_5);
-    if ((bVar1) && (-1 < iVar2)) {
-      (*param_7)(*(undefined4 *)((*(uint *)(param_1 + 0x54) ^ 1) * 0x28 + param_1 + 0x14),
-                 auStack_60[0]);
-    }
-  }
-  iVar2 = *(int *)(param_1 + 0x54) * 0x28 + param_1;
-  if (*(int *)(iVar2 + 0x14) == 0x103) {
-    NtWaitForSingleObjectEx(*(undefined4 *)(iVar2 + 0x28),1,0,0);
-    iVar2 = *(int *)(param_1 + 0x54) * 0x28 + param_1;
-    *(undefined4 *)(iVar2 + 0x14) = *(undefined4 *)(iVar2 + 0x18);
-    iVar2 = *(int *)(param_1 + 0x54) * 0x28 + param_1;
-    *(undefined4 *)(iVar2 + 0x10) = *(undefined4 *)(iVar2 + 0x1c);
-  }
-  return *(int *)(param_1 + 0x54) * 0x28 + param_1 + 4;
-}
+  int hr;
+  int out;
+  int flag;
+  Tmp_82A37298 tmp;
+  Buf_82A37298 *b;
 
+  b = &obj->bufs[obj->cur];
+  if (key[0] != b->k0 || key[1] != b->k1) {
+    obj->cur = obj->cur ^ 1;
+    b = &obj->bufs[obj->cur];
+    if (key[0] != b->k0 || key[1] != b->k1) {
+      fn_82A371C8(obj, key, obj->cur, u);
+    }
+  }
+  if (key2[0] != 0 &&
+      (key2[0] != obj->bufs[obj->cur ^ 1].k0 || key2[1] != obj->bufs[obj->cur ^ 1].k1)) {
+    hr = 0xc0000001;
+    out = 0;
+    flag = decomp != 0 && key2[2] != key[2];
+    if (flag) {
+      tmp.b = key2[1] * size;
+      hr = decomp("XctdDecompression", ctx, 0, 0, size, &tmp, 0, &out);
+    }
+    fn_82A371C8(obj, key2, obj->cur ^ 1, size);
+    if (flag && hr >= 0) {
+      post(obj->bufs[obj->cur ^ 1].m10, out);
+    }
+  }
+  b = &obj->bufs[obj->cur];
+  if (b->m10 == 0x103) {
+    NtWaitForSingleObjectEx(b->event, 1, 0, 0);
+    b = &obj->bufs[obj->cur];
+    b->m10 = b->m14;
+    b = &obj->bufs[obj->cur];
+    b->mc = b->m18;
+  }
+  return &obj->bufs[obj->cur];
+}

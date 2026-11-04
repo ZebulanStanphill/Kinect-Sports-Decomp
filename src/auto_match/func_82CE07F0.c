@@ -25,37 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern int fn_8314320C();
-extern unsigned int uStack_30;
+extern int NetDll_WSAStartup(int, int, int);
+extern unsigned int XamGetSystemVersion(void);
+extern int XexGetModuleHandle(const char *, unsigned int *);
+extern int XexGetProcedureAddress(unsigned int, unsigned int, unsigned int *);
 
-
-void fn_82CE07F0(undefined8 param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82CE07F0(int param_1, int param_2, int param_3)
 {
-  uint uVar2;
-  int iVar3;
-  ulonglong uVar1;
-  uint uStack_30;
-  undefined4 auStack_2c;
-  
-  uStack_30 = 0;
-  uVar2 = XamGetSystemVersion();
-  if ((uVar2 < 0x200a3200) || (iVar3 = XexGetModuleHandle(0xffffffff820886b4,&auStack_2c), iVar3 < 0)
-     ) {
-    uVar1 = (ulonglong)uStack_30;
-  }
-  else {
-    uVar1 = XexGetProcedureAddress(auStack_2c,0x24,&uStack_30);
-    uVar1 = ((uVar1 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)uStack_30;
-    uStack_30 = (uint)uVar1;
-  }
-  if (uVar1 == 0) {
-    fn_8314320C(param_1,param_2,param_3);
-  }
-  else {
-    (*(code *)uVar1)();
-  }
-  return;
-}
+  unsigned int fp;
+  unsigned int mod;
+  unsigned int ver;
+  int hr;
 
+  fp = 0;
+  ver = XamGetSystemVersion();
+  if (ver >= 0x200a3200 && (hr = XexGetModuleHandle("xam.xex", &mod)) >= 0) {
+    hr = XexGetProcedureAddress(mod, 0x24, &fp);
+    fp = (((unsigned int)hr >> 0x1f) - 1) & fp;
+  }
+  if (fp != 0) {
+    ((int (*)(int, int, int, unsigned int))fp)(param_1, param_2, param_3, 0x202dff03);
+  } else {
+    NetDll_WSAStartup(param_1, param_2, param_3);
+  }
+}

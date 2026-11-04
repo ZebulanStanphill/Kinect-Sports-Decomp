@@ -25,33 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
+extern int fn_82FA5190(unsigned int, void *);
 extern unsigned int lbl_8217C358;
 extern unsigned int lbl_8217C35C;
 extern unsigned int lbl_8217D040;
 extern unsigned int lbl_831BC768;
 
+typedef struct Ref_8300F508 {
+  void (**vt)(void *, int);
+  int pad[0x16];
+  int refs;
+} Ref_8300F508;
 
-void fn_8300F508(undefined4 *param_1)
+typedef struct Obj_8300F508 {
+  void *vt0;
+  void *vt1;
+  int pad[11];
+  Ref_8300F508 *ref;
+} Obj_8300F508;
 
+void fn_8300F508(Obj_8300F508 *self)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  puVar1 = (undefined4 *)param_1[0xd];
-  *param_1 = &lbl_8217C35C;
-  param_1[1] = &lbl_8217C358;
-  if (puVar1 != (undefined4 *)0x0) {
-    uVar2 = puVar1[0x17];
-    puVar1[0x17] = (int)((ulonglong)uVar2 - 1);
-    uVar3 = lbl_831BC768;
-    if ((longlong)((ulonglong)uVar2 - 1) < 1) {
-      (**(code **)*puVar1)(puVar1,0);
-      fn_82FA5190(uVar3,puVar1);
+  Ref_8300F508 *r;
+  unsigned int heap;
+
+  r = self->ref;
+  self->vt0 = &lbl_8217C35C;
+  self->vt1 = &lbl_8217C358;
+  if (r != 0) {
+    int n = r->refs - 1;
+    r->refs = n;
+    if (n <= 0) {
+      heap = lbl_831BC768;
+      r->vt[0](r, 0);
+      fn_82FA5190(heap, r);
     }
   }
-  *param_1 = &lbl_8217D040;
-  return;
+  self->vt0 = &lbl_8217D040;
 }
-

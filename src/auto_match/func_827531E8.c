@@ -25,58 +25,60 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4C8();
-extern int fn_8267C4F0();
+extern int fn_8267C4C8(void *);
+extern int fn_8267C4F0(void *);
 
+typedef struct Obj_827531E8 {
+  int pad[3];
+  void *r0;
+  void *r1;
+  void *r2;
+  void *r3;
+} Obj_827531E8;
 
-ulonglong fn_827531E8(int param_1,undefined8 param_2,ulonglong param_3,ulonglong param_4,
-                       ulonglong param_5)
-
+unsigned char fn_827531E8(Obj_827531E8 *self, void *a, void *b, void *c, void *d)
 {
-  int iVar1;
-  ulonglong uVar2;
-  
-  iVar1 = (int)param_2;
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0xc) != iVar1) {
-    if (iVar1 != 0) {
-      fn_8267C4C8(param_2);
-    }
-    if (*(int *)(param_1 + 0xc) != 0) {
-      fn_8267C4F0();
-    }
-    *(int *)(param_1 + 0xc) = iVar1;
-  }
-  if ((ulonglong)*(uint *)(param_1 + 0x10) != (param_3 & 0xffffffff)) {
-    uVar2 = 1;
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_8267C4C8(param_3);
-    }
-    if (*(int *)(param_1 + 0x10) != 0) {
-      fn_8267C4F0();
-    }
-    *(int *)(param_1 + 0x10) = (int)param_3;
-  }
-  if ((ulonglong)*(uint *)(param_1 + 0x14) != (param_4 & 0xffffffff)) {
-    uVar2 = uVar2 | 2;
-    if ((param_4 & 0xffffffff) != 0) {
-      fn_8267C4C8(param_4);
-    }
-    if (*(int *)(param_1 + 0x14) != 0) {
-      fn_8267C4F0();
-    }
-    *(int *)(param_1 + 0x14) = (int)param_4;
-  }
-  if ((ulonglong)*(uint *)(param_1 + 0x18) != (param_5 & 0xffffffff)) {
-    uVar2 = 3;
-    if ((param_5 & 0xffffffff) != 0) {
-      fn_8267C4C8(param_5);
-    }
-    if (*(int *)(param_1 + 0x18) != 0) {
-      fn_8267C4F0();
-    }
-    *(int *)(param_1 + 0x18) = (int)param_5;
-  }
-  return uVar2;
-}
+  unsigned char flags;
 
+  flags = 0;
+  if (self->r0 != a) {
+    if (a != 0) {
+      fn_8267C4C8(a);
+    }
+    if (self->r0 != 0) {
+      fn_8267C4F0(self->r0);
+    }
+    self->r0 = a;
+  }
+  if (self->r1 != b) {
+    flags = 1;
+    if (b != 0) {
+      fn_8267C4C8(b);
+    }
+    if (self->r1 != 0) {
+      fn_8267C4F0(self->r1);
+    }
+    self->r1 = b;
+  }
+  if (self->r2 != c) {
+    flags = flags | 2;
+    if (c != 0) {
+      fn_8267C4C8(c);
+    }
+    if (self->r2 != 0) {
+      fn_8267C4F0(self->r2);
+    }
+    self->r2 = c;
+  }
+  if (self->r3 != d) {
+    flags = flags | 3;
+    if (d != 0) {
+      fn_8267C4C8(d);
+    }
+    if (self->r3 != 0) {
+      fn_8267C4F0(self->r3);
+    }
+    self->r3 = d;
+  }
+  return flags;
+}

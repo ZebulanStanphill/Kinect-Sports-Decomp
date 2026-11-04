@@ -27,22 +27,37 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_827BD878(int *param_1,int param_2,undefined4 param_3)
+typedef struct Err_827BD878 {
+  void (*error_exit)(void *);
+  int pad4[4];
+  int msg_code;
+  int msg_param0;
+} Err_827BD878;
 
+typedef struct Marker_827BD878 {
+  int pad0[6];
+  unsigned int limit[1];
+} Marker_827BD878;
+
+typedef struct Cinfo_827BD878 {
+  Err_827BD878 *err;
+  int pad[0x64];
+  Marker_827BD878 *marker;
+} Cinfo_827BD878;
+
+void fn_827BD878(Cinfo_827BD878 *cinfo, int code, unsigned int length)
 {
-  if (param_2 == 0xfe) {
-    *(undefined4 *)(param_1[0x65] + 0x18) = param_3;
-    return;
-  }
-  if ((0xdf < param_2) && (param_2 < 0xf0)) {
-    *(undefined4 *)((param_2 + -0xd9) * 4 + param_1[0x65]) = param_3;
-    return;
-  }
-  *(undefined4 *)(*param_1 + 0x14) = 0x44;
-  *(int *)(*param_1 + 0x18) = param_2;
-                    /* WARNING: Could not recover jumptable at 0x827bd8cc. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)*param_1)();
-  return;
-}
+  Marker_827BD878 *m = cinfo->marker;
 
+  if (code == 0xfe) {
+    m->limit[0] = length;
+    return;
+  }
+  if (code >= 0xe0 && code <= 0xef) {
+    ((unsigned int *)m)[code - 0xd9] = length;
+    return;
+  }
+  cinfo->err->msg_code = 0x44;
+  cinfo->err->msg_param0 = code;
+  (*cinfo->err->error_exit)(cinfo);
+}

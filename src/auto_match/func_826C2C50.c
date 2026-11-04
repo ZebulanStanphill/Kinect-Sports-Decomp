@@ -25,46 +25,52 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8267B890();
-extern int fn_82695FA0();
-extern int fn_826BF5B8();
-extern int fn_826C2BA8();
-extern int fn_826C3768();
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+extern int fn_8267B890(int, int, int);
+extern int fn_82695FA0(void *, int);
+extern int fn_826BF5B8(void *);
+extern int fn_826C2BA8(void *, int, void *, int);
+extern int fn_826C3768(void *, int);
 
+typedef struct S1_826C2C50 {
+  int a;
+  int b;
+  unsigned char c;
+} S1_826C2C50;
 
-undefined8
-fn_826C2C50(int param_1,int *param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5)
+typedef struct Obj_826C2C50 {
+  char pad[0x18];
+  int *m18;
+} Obj_826C2C50;
 
+typedef struct Ctx_826C2C50 {
+  char *p;
+  unsigned char m4;
+} Ctx_826C2C50;
+
+int fn_826C2C50(Obj_826C2C50 *self, Ctx_826C2C50 *ctx, int p3, int p4, int p5)
 {
-  undefined4 *puVar1;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined1 uStack_48;
-  undefined1 auStack_40 [16];
-  
-  uStack_48 = 0;
-  uStack_50 = 0;
-  uStack_4c = 0;
-  auStack_40[0] = 0;
-  fn_826C3768(&uStack_50,param_4);
-  fn_82695FA0(auStack_40,param_5);
-  if (*(int *)(param_1 + 0x18) == 0) {
-    puVar1 = (undefined4 *)fn_8267B890(*(undefined4 *)(*param_2 + 0x288),4,0);
-    if (puVar1 == (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)0x0;
+  S1_826C2C50 s;
+  unsigned char buf[16];
+  int *p;
+  int *r;
+
+  s.c = 0;
+  s.a = 0;
+  s.b = 0;
+  buf[0] = 0;
+  fn_826C3768(&s, p4);
+  fn_82695FA0(buf, p5);
+  if (self->m18 == 0) {
+    p = (int *)fn_8267B890(*(int *)(ctx->p + 0x288), 4, 0);
+    if (p != 0) {
+      *p = 0;
+      r = p;
+    } else {
+      r = 0;
     }
-    else {
-      *puVar1 = 0;
-    }
-    *(undefined4 **)(param_1 + 0x18) = puVar1;
+    self->m18 = r;
   }
-  fn_826C2BA8(*(undefined4 *)(param_1 + 0x18),param_3,&uStack_50,-(6 < *(byte *)(param_2 + 1)) & 1
-               );
-  fn_826BF5B8(&uStack_50);
+  fn_826C2BA8(self->m18, p3, &s, 6 < ctx->m4);
+  fn_826BF5B8(&s);
   return 1;
 }
-

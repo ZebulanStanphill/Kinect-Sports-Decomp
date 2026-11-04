@@ -25,102 +25,126 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8A9B0();
-extern int fn_82F8BB40();
-extern unsigned int lbl_82018A5C;
-extern unsigned int lbl_827D3AA8;
-extern unsigned int lbl_827D3AB0;
+extern int fn_82F8A9B0(void *);
+extern int fn_82F8BB40(void *);
+extern void *fn_827D3AA8(void *, unsigned int, unsigned int);
+extern void fn_827D3AB0(void *, void *);
+extern char *lbl_82018A44[];
 
+typedef struct ZStream_82F8BCA8 {
+  int pad0[6];
+  char *msg;
+  struct DState_82F8BCA8 *state;
+  void *(*zalloc)(void *, unsigned int, unsigned int);
+  void (*zfree)(void *, void *);
+  void *opaque;
+} ZStream_82F8BCA8;
 
-undefined8
-fn_82F8BCA8(int param_1,int param_2,int param_3,uint param_4,int param_5,int param_6,char *param_7
-             ,int param_8)
+typedef struct DState_82F8BCA8 {
+  ZStream_82F8BCA8 *strm;
+  int status;
+  unsigned char *pending_buf;
+  unsigned int pending_buf_size;
+  int pad10[2];
+  int wrap;
+  void *gzhead;
+  int pad20;
+  unsigned char method;
+  unsigned char pad25[3];
+  int pad28;
+  unsigned int w_size;
+  unsigned int w_bits;
+  unsigned int w_mask;
+  unsigned char *window;
+  int pad3c;
+  unsigned short *prev;
+  unsigned short *head;
+  int pad48;
+  unsigned int hash_size;
+  unsigned int hash_bits;
+  unsigned int hash_mask;
+  unsigned int hash_shift;
+  int pad5c[(0x84 - 0x5c) / 4];
+  int level;
+  int strategy;
+  int pad8c[(0x1698 - 0x8c) / 4];
+  unsigned char *l_buf;
+  unsigned int lit_bufsize;
+  int pad16a0;
+  unsigned short *d_buf;
+  int pad16a8[(0x16c0 - 0x16a8) / 4];
+} DState_82F8BCA8;
 
+int fn_82F8BCA8(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, int memLevel,
+                int strategy, const char *version, unsigned int stream_size)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  undefined8 uVar4;
-  int *piVar5;
-  int iVar6;
-  
-  iVar6 = 1;
-  if (((param_7 == (char *)0x0) || (*param_7 != '1')) || (param_8 != 0x38)) {
-    uVar4 = 0xfffffffffffffffa;
-  }
-  else {
-    if (param_1 != 0) {
-      *(undefined4 *)(param_1 + 0x18) = 0;
-      if (*(int *)(param_1 + 0x20) == 0) {
-        *(undefined4 *)(param_1 + 0x28) = 0;
-        *(undefined **)(param_1 + 0x20) = &lbl_827D3AA8;
-      }
-      if (*(int *)(param_1 + 0x24) == 0) {
-        *(undefined **)(param_1 + 0x24) = &lbl_827D3AB0;
-      }
-      if (param_2 == -1) {
-        param_2 = 6;
-      }
-      if ((int)param_4 < 0) {
-        iVar6 = 0;
-        param_4 = -param_4;
-      }
-      else if (0xf < (int)param_4) {
-        iVar6 = 2;
-        param_4 = param_4 - 0x10;
-      }
-      if (((((0 < param_5) && (param_5 < 10)) &&
-           ((param_3 == 8 && ((7 < (int)param_4 && ((int)param_4 < 0x10)))))) && (-1 < param_2)) &&
-         (((param_2 < 10 && (-1 < param_6)) && (param_6 < 5)))) {
-        if (param_4 == 8) {
-          param_4 = 9;
-        }
-        piVar5 = (int *)(**(code **)(param_1 + 0x20))(*(undefined4 *)(param_1 + 0x28),1,0x16c0);
-        if (piVar5 != (int *)0x0) {
-          *(int **)(param_1 + 0x1c) = piVar5;
-          iVar2 = 1 << (param_4 & 0x3f);
-          piVar5[0xb] = iVar2;
-          piVar5[0x14] = param_5 + 7U;
-          iVar3 = 1 << (param_5 + 7U & 0x3f);
-          piVar5[0x13] = iVar3;
-          *piVar5 = param_1;
-          piVar5[6] = iVar6;
-          piVar5[0xc] = param_4;
-          piVar5[7] = 0;
-          piVar5[0xd] = iVar2 + -1;
-          piVar5[0x15] = iVar3 + -1;
-          piVar5[0x16] = (param_5 + 9U) / 3;
-          iVar6 = (**(code **)(param_1 + 0x20))(*(undefined4 *)(param_1 + 0x28),iVar2,2);
-          piVar5[0xe] = iVar6;
-          iVar6 = (**(code **)(param_1 + 0x20))(*(undefined4 *)(param_1 + 0x28),piVar5[0xb],2);
-          piVar5[0x10] = iVar6;
-          iVar6 = (**(code **)(param_1 + 0x20))(*(undefined4 *)(param_1 + 0x28),piVar5[0x13],2);
-          piVar5[0x11] = iVar6;
-          iVar6 = 1 << (param_5 + 6U & 0x3f);
-          piVar5[0x5a7] = iVar6;
-          iVar6 = (**(code **)(param_1 + 0x20))(*(undefined4 *)(param_1 + 0x28),iVar6,4);
-          uVar1 = piVar5[0x5a7];
-          piVar5[2] = iVar6;
-          piVar5[3] = uVar1 << 2;
-          if (((piVar5[0xe] != 0) && (piVar5[0x10] != 0)) && ((piVar5[0x11] != 0 && (iVar6 != 0))))
-          {
-            piVar5[0x21] = param_2;
-            piVar5[0x22] = param_6;
-            piVar5[0x5a9] = (uVar1 & 0xfffffffe) + iVar6;
-            piVar5[0x5a6] = uVar1 * 3 + iVar6;
-            *(undefined1 *)(piVar5 + 9) = 8;
-            uVar4 = fn_82F8BB40(param_1);
-            return uVar4;
-          }
-          piVar5[1] = 0x29a;
-          *(undefined **)(param_1 + 0x18) = lbl_82018A5C;
-          fn_82F8A9B0(param_1);
-        }
-        return 0xfffffffffffffffc;
-      }
-    }
-    uVar4 = 0xfffffffffffffffe;
-  }
-  return uVar4;
-}
+  DState_82F8BCA8 *s;
+  int wrap = 1;
+  unsigned short *overlay;
 
+  if (version == 0 || version[0] != '1' || stream_size != 0x38) {
+    return -6;
+  }
+  if (strm == 0) {
+    return -2;
+  }
+  strm->msg = 0;
+  if (strm->zalloc == 0) {
+    strm->opaque = 0;
+    strm->zalloc = fn_827D3AA8;
+  }
+  if (strm->zfree == 0) {
+    strm->zfree = fn_827D3AB0;
+  }
+  if (level == -1) {
+    level = 6;
+  }
+  if (windowBits < 0) {
+    wrap = 0;
+    windowBits = -windowBits;
+  } else if (windowBits > 15) {
+    wrap = 2;
+    windowBits -= 16;
+  }
+  if (memLevel < 1 || memLevel > 9 || method != 8 || windowBits < 8 || windowBits > 15 ||
+      level < 0 || level > 9 || strategy < 0 || strategy > 4) {
+    return -2;
+  }
+  if (windowBits == 8) {
+    windowBits = 9;
+  }
+  s = (DState_82F8BCA8 *)strm->zalloc(strm->opaque, 1, 0x16c0);
+  if (s == 0) {
+    return -4;
+  }
+  strm->state = s;
+  s->strm = strm;
+  s->wrap = wrap;
+  s->gzhead = 0;
+  s->w_bits = windowBits;
+  s->hash_bits = memLevel + 7;
+  s->hash_size = 1 << s->hash_bits;
+  s->w_size = 1 << windowBits;
+  s->w_mask = s->w_size - 1;
+  s->hash_mask = s->hash_size - 1;
+  s->hash_shift = (s->hash_bits + 2) / 3;
+  s->window = (unsigned char *)strm->zalloc(strm->opaque, s->w_size, 2);
+  s->prev = (unsigned short *)strm->zalloc(strm->opaque, s->w_size, 2);
+  s->head = (unsigned short *)strm->zalloc(strm->opaque, s->hash_size, 2);
+  s->lit_bufsize = 1 << (memLevel + 6);
+  overlay = (unsigned short *)strm->zalloc(strm->opaque, s->lit_bufsize, 4);
+  s->pending_buf = (unsigned char *)overlay;
+  s->pending_buf_size = s->lit_bufsize * 4;
+  if (s->window == 0 || s->prev == 0 || s->head == 0 || s->pending_buf == 0) {
+    s->status = 666;
+    strm->msg = lbl_82018A44[6];
+    fn_82F8A9B0(strm);
+    return -4;
+  }
+  s->level = level;
+  s->strategy = strategy;
+  s->d_buf = overlay + s->lit_bufsize / 2;
+  s->l_buf = s->pending_buf + 3 * s->lit_bufsize;
+  s->method = (unsigned char)method;
+  return fn_82F8BB40(strm);
+}
