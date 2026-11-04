@@ -29,22 +29,18 @@ extern int fn_82536590();
 extern int fn_8255B0D8();
 
 
+static int isInWorld(int *p) { if(p) return *p != 0; return 0; }
 void fn_82357A20(int param_1)
 
 {
   int iVar1;
   int *piVar2;
-  bool bVar3;
+  int bVar3;
   
   iVar1 = *(int *)(param_1 + 4);
   fn_8255B0D8(*(undefined4 *)(*(int *)(iVar1 + 0x14) + 0x844));
   piVar2 = (int *)(iVar1 + 0x314);
-  if (piVar2 == (int *)0x0) {
-    bVar3 = false;
-  }
-  else {
-    bVar3 = *piVar2 != 0;
-  }
+  bVar3 = isInWorld(piVar2);
   if (bVar3) {
     fn_82536590(piVar2,0);
   }

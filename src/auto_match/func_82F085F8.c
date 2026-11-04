@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82ED3520();
-extern unsigned int lbl_82161238;
-extern unsigned int lbl_82161244;
+extern unsigned char lbl_82161238[];
 
 
-void fn_82F085F8(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5
+
+void fn_82F085F8(int param_1,int param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5
                   ,undefined4 *param_6)
 
 {
@@ -40,12 +40,12 @@ void fn_82F085F8(int param_1,uint param_2,undefined8 param_3,undefined8 param_4,
   if (((param_2 & 2) != 0) &&
      (iVar1 = fn_82ED3520(*(undefined4 *)(param_1 + 0x7b40),param_3,param_4,param_5), iVar1 == 0
      )) {
-    *param_6 = &lbl_82161244;
+    *param_6 = (lbl_82161238+12);
   }
   if (((param_2 & 4) != 0) &&
      (iVar1 = fn_82ED3520(*(undefined4 *)(param_1 + 0x7b40),param_3,param_4,param_5), iVar1 != 0
      )) {
-    *param_6 = &lbl_82161238;
+    *param_6 = lbl_82161238;
   }
   return;
 }

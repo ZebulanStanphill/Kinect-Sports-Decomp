@@ -25,29 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_150;
+extern unsigned strlen(const char *);
 extern int fn_829DAEB8();
 extern int fn_82A2B130();
 extern int fn_82F664B0();
 
 
-longlong fn_829DB8F0(char *param_1,undefined8 param_2,undefined8 param_3)
+int  fn_829DB8F0(char *param_1,undefined8 param_2,undefined8 param_3)
 
 {
   char cVar1;
-  longlong lVar2;
+  int lVar2;
   int iVar3;
   char *pcVar4;
-  int aiStack_160 [4];
+  unsigned aiStack_160 [4];
   undefined1 auStack_150 [304];
   
   aiStack_160[0] = 300;
-  pcVar4 = param_1;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  lVar2 = fn_82A2B130(2,0x101,param_1,(int)pcVar4 - (int)param_1,auStack_150,aiStack_160);
+  lVar2 = fn_82A2B130(2,0x101,param_1,strlen(param_1)+1,auStack_150,aiStack_160);
   if (aiStack_160[0] == 0) {
     lVar2 = -0x7fffbffb;
   }
