@@ -26,15 +26,15 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8277B988();
-extern unsigned int lbl_8200D8B0;
+extern float lbl_8200D8B0;
 extern unsigned int lbl_821AAD20;
 
 
 undefined4 * fn_826EC280(undefined4 *param_1)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
+  float uVar1;
+  float uVar2;
   
   param_1[1] = 0;
   param_1[2] = 0;
@@ -51,13 +51,13 @@ undefined4 * fn_826EC280(undefined4 *param_1)
   *param_1 = 0xffffffff;
   uVar1 = lbl_8200D8B0;
   *(undefined1 *)(param_1 + 0xc) = 0;
-  uVar2 = lbl_821AAD20;
+  uVar2 = 0.0f;
   *(undefined1 *)(param_1 + 0xb) = 0;
-  param_1[10] = uVar1;
+  *(float *)(param_1+10) = uVar1;
   *(undefined1 *)((int)param_1 + 0x2f) = 0;
-  param_1[0xd] = uVar2;
+  *(float *)(param_1+0xd) = uVar2;
   *(undefined1 *)((int)param_1 + 0x2d) = 0;
-  param_1[0xe] = uVar2;
+  *(float *)(param_1+0xe) = uVar2;
   *(undefined1 *)((int)param_1 + 0x2e) = 0;
   return param_1;
 }

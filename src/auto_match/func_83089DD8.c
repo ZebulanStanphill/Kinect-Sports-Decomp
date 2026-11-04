@@ -26,6 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_83089FA0();
+extern int fn_83089DB8();
 
 
 void fn_83089DD8(int param_1)
@@ -38,20 +39,20 @@ void fn_83089DD8(int param_1)
   int iVar5;
   
   if (1 < (int)*(uint *)(param_1 + 0x54)) {
-    fn_83089FA0(*(undefined4 *)(param_1 + 0x50),0,(ulonglong)*(uint *)(param_1 + 0x54) - 1,
-                      0xffffffff83089db8);
+    fn_83089FA0(*(undefined4 *)(param_1 + 0x50),0,(unsigned int)*(uint *)(param_1 + 0x54) - 1,
+                      fn_83089DB8);
   }
+  iVar4 = 0;
   if (0 < *(int *)(param_1 + 0x54)) {
     iVar3 = 0;
-    iVar4 = 0;
     do {
-      iVar5 = iVar4 + 1;
+      iVar5 = iVar4;
       piVar2 = (int *)(*(int *)(param_1 + 0x50) + iVar3);
       iVar3 = iVar3 + 8;
       iVar1 = *piVar2;
-      *(short *)(((*(int *)(iVar1 + 0x14) == param_1) + 2) * 2 + iVar1) = (short)iVar4;
-      iVar4 = iVar5;
-    } while (iVar5 < *(int *)(param_1 + 0x54));
+      *(short *)(((param_1 == *(int *)(iVar1 + 0x14)) + 2) * 2 + iVar1) = (short)iVar5;
+      iVar4 = iVar5 + 1;
+    } while (iVar4 < *(int *)(param_1 + 0x54));
   }
   return;
 }

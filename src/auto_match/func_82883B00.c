@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82882E60();
 extern int fn_82886C80();
 extern int fn_8289F160();
-extern unsigned int lbl_83212A04;
+extern unsigned int lbl_83212A00[];
 extern unsigned int uStack_30;
 
 
@@ -37,44 +37,43 @@ void fn_82883B00(undefined4 *param_1)
 {
   undefined2 uVar1;
   int *piVar2;
-  int iVar3;
-  undefined8 uVar4;
+  unsigned int iVar3;
+  unsigned int uVar4;
   undefined4 uVar5;
   int iVar6;
+  int *links;
   undefined4 uStack_30;
   int aiStack_2c;
   
   uStack_30 = *param_1;
-  fn_8289F160(&aiStack_2c,0xffffffff83212a00,&uStack_30);
-  if (aiStack_2c == lbl_83212A04) {
-    iVar6 = 0;
-  }
-  else {
-    iVar6 = *(int *)(aiStack_2c + 0x10);
-  }
+  fn_8289F160(&aiStack_2c,lbl_83212A00,&uStack_30);
+  if ((unsigned)aiStack_2c != lbl_83212A00[1]) {
+    iVar6=*(int *)(aiStack_2c+0x10);
+  } else iVar6=0;
   piVar2 = (int *)param_1[1];
-  if (*(char *)(piVar2 + 9) != '\0') {
+  if (*(unsigned char *)(piVar2 + 9) != '\0') {
     uVar1 = *(undefined2 *)((int)piVar2 + 0x26);
-    uVar4 = (**(code **)(*piVar2 + 4))();
+    uVar4 = (*(code *)(*piVar2 + 4))(piVar2);
     fn_82886C80(*(undefined4 *)(iVar6 + 0xb4),uVar4,uVar1);
   }
   uVar5 = fn_82882E60(param_1,*(undefined4 *)(param_1[1] + 0x30));
   iVar3 = param_1[1];
-  if (*(int *)(iVar3 + 0x30) != 0) {
+  links=(int *)(iVar6+0xa4);
+  if (*(unsigned *)(iVar3 + 0x30) != 0) {
     *(undefined4 *)(*(int *)(iVar3 + 0x30) + 0x34) = *(undefined4 *)(iVar3 + 0x34);
   }
-  if (*(int *)(iVar3 + 0x34) != 0) {
+  if (*(unsigned *)(iVar3 + 0x34) != 0) {
     *(undefined4 *)(*(int *)(iVar3 + 0x34) + 0x30) = *(undefined4 *)(iVar3 + 0x30);
   }
-  if (*(int *)(iVar6 + 0xa4) == iVar3) {
-    *(int *)(iVar6 + 0xa4) = *(int *)(iVar3 + 0x30);
+  if (links[0] == iVar3) {
+    links[0] = *(int *)(iVar3 + 0x30);
   }
-  if (*(int *)(iVar6 + 0xa8) == iVar3) {
-    *(undefined4 *)(iVar6 + 0xa8) = *(undefined4 *)(iVar3 + 0x34);
+  if (links[1] == iVar3) {
+    links[1] = *(undefined4 *)(iVar3 + 0x34);
   }
   *(undefined4 *)(iVar3 + 0x30) = 0;
   *(undefined4 *)(iVar3 + 0x34) = 0;
-  *(int *)(iVar6 + 0xac) = *(int *)(iVar6 + 0xac) + -1;
+  links[2] = links[2] + -1;
   *(undefined4 *)(iVar3 + 0x2c) = 0;
   param_1[1] = uVar5;
   *(undefined1 *)((int)param_1 + 0x11) = 1;

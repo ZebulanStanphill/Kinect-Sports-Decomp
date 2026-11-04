@@ -28,12 +28,12 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_83048E78();
 
 
-undefined8
-fn_83048F80(undefined8 param_1,undefined8 param_2,uint *param_3,int *param_4,uint *param_5)
+unsigned
+fn_83048F80(unsigned param_1,unsigned param_2,uint *param_3,unsigned int *param_4,uint *param_5)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   uint uVar3;
   int aiStack_30;
   
@@ -41,14 +41,12 @@ fn_83048F80(undefined8 param_1,undefined8 param_2,uint *param_3,int *param_4,uin
   *param_4 = iVar2;
   uVar3 = *param_3 + aiStack_30 * -0x200;
   *param_3 = uVar3;
-  if (*param_4 == 0) {
-    uVar1 = 2;
-  }
-  else {
+  if (*param_4 != 0) {
     *param_5 = uVar3 >> 7 & 3;
-    uVar1 = 1;
+
     *param_3 = *param_3 - (uVar3 & 0x180);
+    return 1;
   }
-  return uVar1;
+  return 2;
 }
 

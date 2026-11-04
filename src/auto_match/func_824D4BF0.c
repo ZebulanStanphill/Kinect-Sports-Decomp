@@ -39,30 +39,34 @@ void fn_824D4BF0(int param_1)
 
 {
   undefined4 uVar1;
-  undefined1 auStack_70 [32];
-  undefined1 auStack_50 [32];
+  int *a;
+  int *b;
+  undefined1 auStack_70 [28];
+  undefined1 auStack_50 [28];
   
-  fn_824CD610();
-  fn_82230110(auStack_70,0xffffffff821c0de0);
-  *(undefined4 *)(param_1 + 0x9a8) = 0;
-  *(undefined4 *)(param_1 + 0x9fc) = 0xffffffff;
+  fn_824CD610(param_1);
+  fn_82230110(auStack_70,"Player Id");
+  a=(int *)(param_1+0x99c);
+  *(undefined4 *)(a + 3) = 0;
+  *(undefined4 *)(a + 24) = 0xffffffff;
   *(undefined1 *)(param_1 + 0x9f4) = 1;
-  *(undefined4 *)(param_1 + 0x9f8) = 0;
-  uVar1 = fn_828EA268(0xffffffffffffffff);
+  *(undefined4 *)(a + 23) = 0;
+  uVar1 = fn_828EA268(0xffffffff);
   *(undefined4 *)(param_1 + 0xa00) = uVar1;
-  fn_82897DF8(param_1 + 0x99c,param_1,auStack_70);
+  fn_82897DF8(a,param_1,auStack_70);
   fn_82230300(auStack_70,1,0);
-  fn_82897B40(param_1 + 0x99c);
-  fn_82230110(auStack_50,0xffffffff821c0dec);
-  *(undefined4 *)(param_1 + 0xa64) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0xa10) = 0;
+  fn_82897B40(a);
+  fn_82230110(auStack_50,"Team Id");
+  b=(int *)(param_1+0xa04);
+  *(undefined4 *)(b + 24) = 0xffffffff;
+  *(undefined4 *)(b + 3) = 0;
   *(undefined1 *)(param_1 + 0xa5c) = 1;
-  *(undefined4 *)(param_1 + 0xa60) = 0;
-  uVar1 = fn_828EA268(0xffffffffffffffff);
+  *(undefined4 *)(b + 23) = 0;
+  uVar1 = fn_828EA268(0xffffffff);
   *(undefined4 *)(param_1 + 0xa68) = uVar1;
-  fn_82897DF8(param_1 + 0xa04,param_1,auStack_50);
+  fn_82897DF8(b,param_1,auStack_50);
   fn_82230300(auStack_50,1,0);
-  fn_82897B40(param_1 + 0xa04);
+  fn_82897B40(b);
   return;
 }
 

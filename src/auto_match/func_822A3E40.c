@@ -36,18 +36,16 @@ extern unsigned int uStack_30;
 void fn_822A3E40(int *param_1,undefined4 param_2)
 
 {
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
+  struct { undefined4 a,b,c,d; } v;
   
-  uStack_30 = 0;
-  uStack_2c = 0;
-  fn_82273CD8(&uStack_30,5);
-  uStack_28 = param_2;
+  v.a = 0;
+  v.b = 0;
+  fn_82273CD8(&v,5);
+  v.c = param_2;
   if (*(int *)(*param_1 + 0x28) != 0) {
-    fn_82672C20(*(int *)(*param_1 + 0x28),0xffffffff821a87e8,&uStack_30,1);
+    fn_82672C20(*(int *)(*param_1 + 0x28),"_root.setTitleText",&v,1);
   }
-  fn_82273C88(&uStack_30);
+  fn_82273C88(&v);
   return;
 }
 

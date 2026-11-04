@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_828BDDA0();
-extern unsigned int lbl_8200133C;
+extern float lbl_8200133C;
 extern unsigned int lbl_82025988;
 extern unsigned int lbl_82025990;
 
@@ -34,8 +34,8 @@ extern unsigned int lbl_82025990;
 undefined4 * fn_828BE7E8(undefined4 *param_1)
 
 {
-  fn_828BDDA0();
-  param_1[0x22] = lbl_8200133C;
+  fn_828BDDA0(param_1);
+  *(float *)(param_1+0x22) = -1.0f;
   *param_1 = &lbl_82025990;
   param_1[0x14] = &lbl_82025988;
   param_1[0x20] = 2;
