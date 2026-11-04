@@ -290466,7 +290466,7 @@
         ]
       },
       "auto_match/func_830379D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -290484,9 +290484,9 @@
         ]
       },
       "auto_match/func_83037AB0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_83037B38.c": {
