@@ -237425,10 +237425,11 @@
           "/O2"
         ]
       },
-      "auto_match/func_82DC13F0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82DC13F0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2",
+          "/QVMXReserve"
         ]
       },
       "auto_match/func_82DC1518.c": {
@@ -245286,8 +245287,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82E14430.c": {
-        "status": "NonMatching",
+      "auto_match/func_82E14430.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
