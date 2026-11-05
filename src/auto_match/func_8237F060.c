@@ -25,23 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82372C00();
+extern void fn_822315A0(unsigned);
+extern unsigned fn_82372C00(int);
+extern char lbl_831D1CA8[];
 extern int fn_824D2AE8();
 extern unsigned int iStack_2c;
 extern unsigned int iStack_30;
 
 
-undefined8 fn_8237F060(int param_1)
+char *fn_8237F060(int param_1)
 
 {
   int iVar1;
-  bool bVar2;
-  bool bVar3;
-  bool bVar4;
-  int iVar5;
+  int bVar2;
+  int bVar3;
+  int bVar4;
+  unsigned iVar5;
   int iVar6;
-  struct { int first; int second; } stack_pair_30;
+  struct { unsigned first; unsigned second; } stack_pair_30;
 
   
   iVar1 = *(int *)(param_1 + 0x240);
@@ -51,41 +52,29 @@ undefined8 fn_8237F060(int param_1)
     iVar6 = *(int *)(iVar5 + 0x28);
   }
   if (*(int *)(param_1 + 0x254) != *(int *)(iVar1 + 0x1f8)) {
-    return 0xffffffff831d1ca8;
+    return lbl_831D1CA8;
   }
-  if ((*(int *)(iVar1 + 0x54) == 2) || (*(int *)(iVar1 + 0x54) == 4)) {
-    bVar2 = true;
-    bVar3 = true;
-    bVar4 = true;
-    if (*(int *)(iVar1 + 0x1e4) == *(int *)(param_1 + 0x254)) goto LAB_8237f0d0;
-  }
-  else {
-    bVar4 = false;
-  }
-  bVar2 = bVar4;
-  bVar3 = false;
-LAB_8237f0d0:
+  bVar2=*(unsigned *)(iVar1+0x54)==2 || *(unsigned *)(iVar1+0x54)==4;
+  bVar3=bVar2 && *(int *)(iVar1+0x1e4)==*(int *)(param_1+0x254);
   fn_824D2AE8(&stack_pair_30.first,param_1 + 0x24c);
-  if ((stack_pair_30.first == 0) || (bVar4 = true, *(int *)(stack_pair_30.first + 0x9c) == 0)) {
-    bVar4 = false;
-  }
+  if (stack_pair_30.first && *(int *)(stack_pair_30.first+0x9c)) bVar4=1; else bVar4=0;
   if (((!bVar2) || (bVar3)) || (!bVar4)) {
     if (*(int *)(param_1 + 600) != iVar6) {
       if (stack_pair_30.second != 0) {
-        fn_822315A0();
+        fn_822315A0(stack_pair_30.second);
       }
-      return 0xffffffff831d1cf4;
+      return (lbl_831D1CA8+0x4c);
     }
     if (*(int *)(*(int *)(param_1 + 0x240) + 0x1f0) == *(int *)(param_1 + 0x254)) {
       if (stack_pair_30.second != 0) {
-        fn_822315A0();
+        fn_822315A0(stack_pair_30.second);
       }
-      return 0xffffffff831d1d40;
+      return (lbl_831D1CA8+0x98);
     }
   }
   if (stack_pair_30.second != 0) {
-    fn_822315A0();
+    fn_822315A0(stack_pair_30.second);
   }
-  return 0xffffffff831d1ca8;
+  return lbl_831D1CA8;
 }
 

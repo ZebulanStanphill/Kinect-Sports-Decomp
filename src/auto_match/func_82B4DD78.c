@@ -35,25 +35,20 @@ uint * fn_82B4DD78(uint *param_1,uint *param_2)
   uint uVar2;
   uint *puVar3;
   int iVar4;
-  uint uVar5;
+  int uVar5;
   
-  if ((param_2[1] & 1) == 0) {
-    puVar3 = (uint *)((*param_2 & 0xfffffffe) - 4);
-  }
-  else {
-    puVar3 = (uint *)0x0;
-  }
+  if (param_2[1] & 1) { puVar3 = 0; } else { puVar3=(uint *)((*param_2 & ~1u)-4); }
   iVar4 = puVar3[2] + 1;
   uVar5 = puVar3[2] - 1;
-  uVar2 = puVar3[iVar4 * 2];
-  uVar1 = puVar3[iVar4 * 2 + 1];
+  {int off=iVar4*8;uVar2=*(uint *)(off+(uint)puVar3);uVar1=*(uint *)(off+(uint)puVar3+4);}
   puVar3[2] = uVar5;
   *param_1 = uVar2;
   param_1[1] = uVar1;
   if (uVar5 == 0) {
-    *(uint *)(puVar3[1] & 0xfffffffe) = *puVar3;
-    *(uint *)(*puVar3 & 0xfffffffe) = puVar3[1];
-    fn_82AA6648(param_2,puVar3,((ulonglong)puVar3[3] + 2 & 0x1fffffff) << 3);
+    uint *p=(uint *)((uint)puVar3 & ~1u);
+    *(uint *)(p[1] & ~1u)=*p;
+    *(uint *)(*p & ~1u)=p[1];
+    fn_82AA6648(param_2,puVar3,(puVar3[3]+2)*8);
   }
   return param_1;
 }

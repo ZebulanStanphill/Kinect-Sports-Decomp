@@ -43,10 +43,7 @@ int * fn_8303DD28(undefined8 param_1,undefined8 param_2)
     fn_8304CC68(piVar1,param_1,param_2);
     *piVar1 = (int)&lbl_8217D660;
     iVar2 = fn_8304CCB8(piVar1);
-    if (iVar2 == 1) {
-      return piVar1;
-    }
-    (**(code **)(*piVar1 + 8))(piVar1);
+    if (iVar2 != 1) { (*(code *)(*piVar1 + 8))(piVar1); } else { return piVar1; }
   }
   return (int *)0x0;
 }

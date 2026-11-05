@@ -1,46 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C8C08();
-extern unsigned int lbl_821CC160;
-
-
-void fn_822BE9A0(int param_1)
-
-{
-  undefined4 uVar1;
-  
-  fn_822C8C08(*(undefined4 *)(param_1 + 0x114),0xffffffff821aca8c);
-  *(undefined4 *)(param_1 + 0x7bc) = 1;
-  uVar1 = lbl_821CC160;
-  *(undefined4 *)(param_1 + 0x4ec) = lbl_821CC160;
-  *(undefined4 *)(param_1 + 0x4f0) = uVar1;
-  *(undefined4 *)(param_1 + 0x4e8) = *(undefined4 *)(param_1 + 0x4e0);
-  *(undefined4 *)(param_1 + 0x790) = 0;
-  return;
+extern void fn_822C8C08(unsigned,const char *); extern float lbl_821CC160;
+static __forceinline void copy_float(float *d,float *s) {*d=*s;}
+void fn_822BE9A0(unsigned p) {
+ float *qcopy=(float *)(p+0x4e8);
+ fn_822C8C08(*(unsigned *)(p+0x114),"idle");
+ *(unsigned *)(p+0x7bc)=1;
+ { float *q=(float *)(p+0x4ec); float z=lbl_821CC160; q[0]=z;
+ q[1]=z; }
+ *qcopy=*(float *)(p+0x4e0);
+ *(unsigned *)(p+0x790)=0;
 }
-

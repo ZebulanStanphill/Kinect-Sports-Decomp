@@ -25,34 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8268AF70();
+extern unsigned fn_8268AF70(const char*,unsigned,unsigned);
+typedef struct Iface_82753078 { void **vt;} Iface_82753078;
+extern unsigned strlen(const char*);
 
 
-ulonglong fn_82753078(undefined8 param_1,int param_2)
+unsigned int  fn_82753078(unsigned param_1,int param_2)
 
 {
   char cVar1;
   uint uVar2;
   uint uVar3;
   uint *puVar5;
-  ulonglong uVar4;
+  unsigned uVar4;
   uint *puVar6;
   
   puVar5 = (uint *)(*(uint *)(param_2 + 0xc) & 0xfffffffc);
   if ((*puVar5 & 0x7fffffff) == 0) {
-    puVar5 = (uint *)(**(code **)(**(int **)(*(int *)(param_2 + 0x14) + 0xc) + 0x3c))();
+    puVar5 = (uint *)((char*(*)())((Iface_82753078*)(*(int *)(*(int *)(param_2 + 0x14) + 0xc)))->vt[15])((void*)(*(int *)(*(int *)(param_2 + 0x14) + 0xc)));
   }
   else {
     puVar5 = puVar5 + 2;
   }
   uVar2 = *(uint *)(param_2 + 8);
   uVar3 = *(uint *)(*(int *)(*(int *)(param_2 + 0x14) + 0xc) + 0x14);
-  puVar6 = puVar5;
-  do {
-    cVar1 = *(char *)puVar6;
-    puVar6 = (uint *)((int)puVar6 + 1);
-  } while (cVar1 != '\0');
-  uVar4 = fn_8268AF70(puVar5,(char *)((int)puVar6 + (-1 - (int)puVar5)),0x1505);
-  return uVar4 ^ ((ulonglong)uVar3 & 3 | (ulonglong)(uVar2 | uVar3) & 3);
+  uVar2 = (uVar2 | uVar3) & 3;
+  uVar4 = fn_8268AF70((const char*)puVar5,strlen((const char*)puVar5),0x1505);
+  return uVar4 ^ ((uVar2 | uVar3) & 3);
 }
 

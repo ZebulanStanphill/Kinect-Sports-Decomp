@@ -1,63 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_83027078(int *param_1,longlong param_2)
-
-{
-  uint uVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  longlong lVar4;
-  
-  if ((int)param_2 == 0) {
-    return;
-  }
-  uVar1 = 0;
-  for (uVar2 = param_1[1]; uVar2 != 0; uVar2 = uVar2 - 1 & uVar2) {
-    uVar1 = uVar1 + 1;
-  }
-  uVar2 = 0;
-  if (uVar1 != 0) {
-    do {
-      if ((int)param_2 != 0) {
-        puVar3 = (undefined4 *)(*(ushort *)(param_1 + 3) * uVar2 * 4 + *param_1 + -4);
-        lVar4 = param_2;
-        do {
-          puVar3 = puVar3 + 1;
-          *puVar3 = 0;
-          lVar4 = lVar4 + -1;
-        } while (lVar4 != 0);
-      }
-      uVar2 = uVar2 + 1;
-    } while (uVar2 < uVar1);
-    return;
-  }
-  return;
+typedef struct Rows_83027078 { unsigned *data,mask; unsigned pad; unsigned short stride; } Rows_83027078;
+void fn_83027078(Rows_83027078 *p,unsigned n) {
+ unsigned bits,count,i;
+ if(!n) return;
+ count=0;
+ for(bits=p->mask;bits;bits&=bits-1) count++;
+ i=0; if(count) do {
+  unsigned *q=p->data+p->stride*i;
+  unsigned j;
+  for(j=0;j<n;j++) q[j]=0;
+  i++;
+ } while(i<count);
 }
-

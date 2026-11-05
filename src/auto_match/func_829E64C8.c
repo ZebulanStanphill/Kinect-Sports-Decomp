@@ -25,32 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829E7EA0();
-extern int fn_829E82F0();
-extern int fn_829E8330();
-extern int fn_829E8390();
+extern int fn_829E7EA0(int *,unsigned,unsigned,unsigned);
+extern unsigned fn_829E82F0(unsigned,unsigned,unsigned);
+extern unsigned fn_829E8330(unsigned,unsigned,unsigned);
+extern int fn_829E8390(unsigned,int *,unsigned,unsigned,unsigned);
 
 
-void fn_829E64C8(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined4 *param_7,undefined8 param_8)
+void fn_829E64C8(int param_1,unsigned int param_2,unsigned param_3,unsigned int param_4,
+                  unsigned param_5,unsigned int param_6,undefined4 *param_7,unsigned int param_8)
 
 {
-  int iVar3;
-  undefined8 uVar1;
-  undefined8 uVar2;
+  int iVar3; int *sub=(int *)(param_1+4);
+  unsigned uVar1;
+  unsigned uVar2;
   undefined4 uVar4;
   
-  iVar3 = fn_829E7EA0(param_1 + 4);
-  if (iVar3 < 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar1 = fn_829E8330(*(undefined4 *)(param_1 + 0x18),param_3,param_4);
-    uVar2 = fn_829E82F0(*(undefined4 *)(param_1 + 0x18),param_5,param_6);
-    fn_829E8390(*(undefined4 *)(param_1 + 0x18),param_1 + 4,param_8,uVar2,uVar1);
-    uVar4 = *(undefined4 *)(param_1 + 0x10);
-  }
-  *param_7 = uVar4;
+  iVar3 = fn_829E7EA0(sub,param_2,param_3,param_4);
+  if (iVar3 >= 0) {
+    uVar1=fn_829E8330(*(undefined4 *)(param_1+0x18),param_3,param_4);
+    
+    fn_829E8390(*(undefined4 *)(param_1+0x18),sub,param_8,fn_829E82F0(*(undefined4 *)(param_1+0x18),param_5,param_6),uVar1);
+    *param_7=*(undefined4 *)(param_1+0x10);
+  } else {*param_7=0;}
+
   return;
 }
 

@@ -1,3 +1,4 @@
+extern unsigned char lbl_820F8F08[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -29,12 +30,12 @@ extern unsigned int *auStack_48;
 extern int fn_82E5A018();
 
 
-longlong fn_82E7CF08(int param_1,short param_2,undefined4 *param_3)
+int fn_82E7CF08(int param_1,ushort param_2,undefined4 *param_3)
 
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  short asStack_50;
+  uint uVar1;
+  int lVar2;
+  ushort asStack_50;
   int *piStack_4c;
   uint auStack_48 [2];
   
@@ -44,22 +45,22 @@ longlong fn_82E7CF08(int param_1,short param_2,undefined4 *param_3)
   if (param_3 == (undefined4 *)0x0) {
     lVar2 = -0x7fffbffd;
   }
-  else if (*(int *)(param_1 + 4) == 0) {
+  else if (*(void **)(param_1 + 4) == 0) {
     lVar2 = -0x7fff0001;
   }
   else {
-    lVar2 = (**(code **)(**(int **)(param_1 + 4) + 0xc))
-                      (*(int **)(param_1 + 4),0xffffffff820f8f08,auStack_48);
-    if (-1 < lVar2) {
+    lVar2 = (*(code *)(**(int **)(param_1 + 4) + 0xc))
+                      (*(int **)(param_1 + 4),&lbl_820F8F08,auStack_48);
+    if (lVar2 >= 0) {
       uVar1 = 0;
       if (auStack_48[0] != 0) {
         do {
           if (piStack_4c != (int *)0x0) {
-            (**(code **)(*piStack_4c + 8))();
+            (*(code *)(*piStack_4c + 8))(piStack_4c);
             piStack_4c = (int *)0x0;
           }
-          lVar2 = (**(code **)(**(int **)(param_1 + 4) + 0x10))
-                            (*(int **)(param_1 + 4),0xffffffff820f8f08,uVar1,&piStack_4c);
+          lVar2 = (*(code *)(**(int **)(param_1 + 4) + 0x10))
+                            (*(int **)(param_1 + 4),&lbl_820F8F08,uVar1,&piStack_4c);
           if ((lVar2 < 0) || (lVar2 = fn_82E5A018(piStack_4c,&asStack_50), lVar2 < 0))
           goto LAB_82e7d01c;
           if (asStack_50 == param_2) {
@@ -67,17 +68,17 @@ longlong fn_82E7CF08(int param_1,short param_2,undefined4 *param_3)
             if (piStack_4c == (int *)0x0) {
               return lVar2;
             }
-            (**(code **)(*piStack_4c + 4))();
+            (*(code *)(*piStack_4c + 4))(piStack_4c);
             goto LAB_82e7d01c;
           }
           uVar1 = uVar1 + 1;
-        } while ((uVar1 & 0xffffffff) < (ulonglong)auStack_48[0]);
+        } while (uVar1 < (uint)auStack_48[0]);
       }
       lVar2 = -0x3ff2c92b;
     }
 LAB_82e7d01c:
     if (piStack_4c != (int *)0x0) {
-      (**(code **)(*piStack_4c + 8))();
+      (*(code *)(*piStack_4c + 8))(piStack_4c);
     }
   }
   return lVar2;
