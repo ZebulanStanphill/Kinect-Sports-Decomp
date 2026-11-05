@@ -1,9 +1,9 @@
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
+
+
+
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,24 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_826944C8();
-extern int fn_826957D0();
-extern int fn_82696330();
-extern int fn_82696D38();
-extern int fn_8269A1F0();
-
-
-void fn_826A1A78(int param_1,int param_2)
+extern "C" int fn_826944C8(...);
+extern "C" int fn_826957D0(...);
+extern "C" int fn_82696330(...);
+extern "C" int fn_82696D38(...);
+extern "C" int fn_8269A1F0(...);
+struct Iface_826A1A78 {virtual void vf00();virtual void vf04();virtual void vf08();virtual void vf0c(unsigned,void*,unsigned,void*);};
+extern "C" void fn_826A1A78(int param_1,int param_2)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  longlong lVar4;
+  undefined4 uVar2;
+  int lVar3;
+  int lVar4;
   undefined1 auStack_50;
-  int aiStack_4c;
+  int aiStack_4c;int *ref;
   undefined1 auStack_40 [16];
 
   lVar4 = 0;
@@ -51,16 +48,11 @@ void fn_826A1A78(int param_1,int param_2)
     do {
       fn_8269A1F0(auStack_40,lVar4);
       auStack_50 = 0;
-      fn_82696D38(&aiStack_4c,auStack_40,*(undefined4 *)(param_2 + 0x18),0xffffffffffffffff,0);
-      iVar1 = *(int *)(param_1 + 0x10);
-      uVar2 = fn_826957D0(param_2,lVar4);
-      (**(code **)(iVar1 + 0xc))
-                ((int *)(param_1 + 0x10),*(undefined4 *)(param_2 + 0x18),&aiStack_4c,uVar2,&auStack_50
-                );
-      lVar3 = (ulonglong)*(uint *)(aiStack_4c + 8) - 1;
-      *(int *)(aiStack_4c + 8) = (int)lVar3;
+      fn_82696D38(&aiStack_4c,auStack_40,*(undefined4 *)(param_2 + 0x18),0xffffffff,0);
+      ((Iface_826A1A78 *)(param_1+16))->vf0c(*(unsigned*)(param_2+24),&aiStack_4c,fn_826957D0(param_2,lVar4),&auStack_50);
+      ref=(int*)aiStack_4c;lVar3=ref[2]-1;ref[2]=lVar3;
       if (lVar3 == 0) {
-        fn_826944C8(aiStack_4c);
+        fn_826944C8(ref);
       }
       lVar4 = lVar4 + 1;
     } while ((int)lVar4 < *(int *)(param_2 + 0x1c));
