@@ -30,28 +30,7 @@ extern unsigned int lbl_82005BC0;
 extern unsigned int lbl_82005BCC;
 
 
-void fn_82689100(undefined4 *param_1,int param_2,undefined4 *param_3)
-
-{
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  
-  param_1[1] = 1;
-  param_1[2] = &lbl_82005BB4;
-  *param_1 = &lbl_82005BCC;
-  param_1[2] = &lbl_82005BC0;
-  if (param_2 != 0) {
-    *(int *)(param_2 + 4) = *(int *)(param_2 + 4) + 1;
-  }
-  param_1[3] = param_2;
-  uVar1 = param_3[3];
-  uVar2 = param_3[2];
-  uVar3 = param_3[1];
-  param_1[4] = *param_3;
-  param_1[5] = uVar3;
-  param_1[6] = uVar2;
-  param_1[7] = uVar1;
-  return;
-}
-
+typedef struct { int pad; int count; } Rep_82689100;
+typedef struct { int count; unsigned *vt; } Sub_82689100;
+typedef struct { unsigned *vt; Sub_82689100 sub; Rep_82689100 *rep; int v[4]; } Obj_82689100;
+void fn_82689100(Obj_82689100 *self, Rep_82689100 *rep, int *src){ Sub_82689100 *s=&self->sub; int a,b,c,d; self->sub.count = 1; s->vt = &lbl_82005BB4; self->vt = &lbl_82005BCC; self->sub.vt = &lbl_82005BC0; if (rep != 0) rep->count++; self->rep = rep; d=src[3];c=src[2];b=src[1];a=src[0]; self->v[0]=a;self->v[1]=b;self->v[2]=c;self->v[3]=d; }

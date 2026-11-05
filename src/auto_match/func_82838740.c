@@ -26,28 +26,26 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
-extern int fn_8263B758();
+extern int fn_8263C548();
 extern int fn_8263C538();
-extern unsigned int uStack_22;
-extern unsigned int uStack_26;
 
 
-void fn_82838740(int param_1,undefined8 param_2)
+
+
+void fn_82838740(int param_1,undefined4 param_2)
 
 {
   undefined1 uVar1;
-  undefined4 auStack_40 [6];
-  undefined2 uStack_26;
-  undefined2 uStack_22;
+  struct { int data[6]; int a,b; } info;
   
   *(int *)(param_1 + 0x34) = (int)param_2;
   *(undefined4 *)(param_1 + 0x1c) = 0;
   uVar1 = fn_8263C538(param_2);
   *(undefined1 *)(param_1 + 0x30) = uVar1;
-  fn_8263B758(param_2,0,auStack_40);
-  *(undefined2 *)(param_1 + 0x24) = uStack_26;
-  *(undefined4 *)(param_1 + 0x18) = auStack_40[0];
-  *(undefined2 *)(param_1 + 0x26) = uStack_22;
+  fn_8263C548(param_2,0,&info);
+  *(undefined2 *)(param_1 + 0x24) = info.a;
+  *(undefined4 *)(param_1 + 0x18) = info.data[0];
+  *(undefined2 *)(param_1 + 0x26) = info.b;
   return;
 }
 

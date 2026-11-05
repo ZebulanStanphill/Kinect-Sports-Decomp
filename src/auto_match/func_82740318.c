@@ -25,37 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_826824B0();
-extern int fn_8269A608();
-extern int fn_826C1AD8();
-
-
+extern int fn_8267BE38(void *);
+extern int fn_826824B0(void *);
+extern int fn_8269A608(void *);
+extern int fn_826C1AD8(void *);
 void fn_82740318(int param_1)
-
 {
-  uint *puVar1;
-  uint uVar2;
-  
-  if (*(int *)(param_1 + 0x40) != 0) {
-    fn_826824B0();
-  }
-  if (*(int *)(param_1 + 0x3c) != 0) {
-    fn_826824B0();
-  }
-  if (*(int *)(param_1 + 0x38) != 0) {
-    fn_826824B0();
-  }
-  puVar1 = *(uint **)(param_1 + 0x34);
-  if (puVar1 != (uint *)0x0) {
-    uVar2 = *puVar1;
-    *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((longlong)((ulonglong)uVar2 - 1) < 1) {
-      fn_8269A608(puVar1);
-      fn_8267BE38(puVar1);
+  int *rc;
+  void *t;
+  t = *(void **)(param_1 + 0x40);
+  if (t != 0) fn_826824B0(t);
+  t = *(void **)(param_1 + 0x3c);
+  if (t != 0) fn_826824B0(t);
+  t = *(void **)(param_1 + 0x38);
+  if (t != 0) fn_826824B0(t);
+  rc = *(int **)(param_1 + 0x34);
+  if (rc != 0) {
+    if (--*rc <= 0) {
+      fn_8269A608(rc);
+      fn_8267BE38(rc);
     }
   }
   fn_826C1AD8(param_1);
-  return;
 }
-

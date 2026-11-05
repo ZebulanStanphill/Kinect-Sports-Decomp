@@ -1,73 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82823080();
-extern int fn_828230A8();
-extern int iRam8320a5f4;
-extern unsigned int iStack_30;
-extern unsigned int lbl_8320A5F0;
-
-
-undefined8 fn_82819BC0(int param_1,longlong param_2,ulonglong param_3,longlong param_4)
-
+extern void fn_82823080(void *, void *);
+extern void fn_828230A8(void *, void *);
+typedef struct { char pad[0x14]; unsigned m14; } Blk_82819BC0;
+typedef struct { char pad[0x20]; unsigned m20; } Hd_82819BC0;
+extern struct { unsigned best; int size; } lbl_8320A5F0;
+int fn_82819BC0(Blk_82819BC0 *o, int need, unsigned short al, int off)
 {
-  ulonglong uVar1;
-  int iVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  int iStack_30;
-  int aiStack_2c [11];
-  
-  lVar3 = (ulonglong)*(uint *)(param_1 + 0x14) - param_2;
-  if (-1 < lVar3) {
-    uVar1 = param_3 & 0xffff;
-    uVar4 = (ulonglong)*(uint *)(param_1 + 0x10) + param_4;
-    if ((uVar1 - 1 & uVar4) != 0) {
-      lVar3 = (uVar4 - ((uVar1 + uVar4) - 1 & ~(uVar1 - 1))) + lVar3;
-    }
-    iVar2 = (int)lVar3;
-    if (-1 < iVar2) {
-      if (((lbl_8320A5F0 == 0) || (iVar2 < iRam8320a5f4)) ||
-         ((iVar2 == iRam8320a5f4 && (param_1 - 0x10U < lbl_8320A5F0)))) {
-        lbl_8320A5F0 = param_1 - 0x10U;
-        iRam8320a5f4 = iVar2;
+  int d;
+  Blk_82819BC0 *out1;
+  Blk_82819BC0 *out2;
+  unsigned b = (unsigned)o - 0x10;
+  d = o->m14 - need;
+  if (d >= 0) {
+    unsigned u = ((Hd_82819BC0 *)b)->m20 + off;
+    unsigned a = al;
+    if (((a - 1) & u) != 0) d = (u - ((a + u - 1) & ~(a - 1))) + d;
+    if (d >= 0) {
+      if (lbl_8320A5F0.best == 0 || d < lbl_8320A5F0.size || (d == lbl_8320A5F0.size && b < lbl_8320A5F0.best)) {
+        lbl_8320A5F0.best = b;
+        lbl_8320A5F0.size = d;
       }
-      fn_82823080(param_1,&iStack_30);
-      if (iStack_30 != 0) {
-        fn_82819BC0(iStack_30,param_2,param_3,param_4);
-      }
+      fn_82823080(o, &out1);
+      if (out1 != 0) fn_82819BC0(out1, need, al, off);
       return 1;
     }
   }
-  fn_828230A8(param_1,aiStack_2c);
-  if ((aiStack_2c[0] != 0) &&
-     (iVar2 = fn_82819BC0(aiStack_2c[0],param_2,param_3,param_4), iVar2 != 0)) {
-    return 1;
-  }
+  fn_828230A8(o, &out2);
+  if (out2 != 0 && fn_82819BC0(out2, need, al, off) != 0) return 1;
   return 0;
 }
-

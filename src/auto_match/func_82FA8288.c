@@ -25,33 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAC568();
-extern int fn_82FF0838();
-extern unsigned int lbl_8216CB88;
-extern unsigned int lbl_8216CB90;
-extern unsigned int lbl_8216CBCC;
-extern unsigned int lbl_8217D264;
-extern unsigned int stack0x00000060;
+extern void *fn_82FF0838(void *, int, int, int, int, int, int, void *, unsigned char, int);
+extern int fn_82FAC568(void *, int);
+extern int lbl_8216CB88;
+extern int lbl_8216CB90;
+extern int lbl_8216CBCC;
+extern int lbl_8217D264;
 
-
-undefined4 *
-fn_82FA8288(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6,undefined4 param_7,undefined8 param_8)
-
+int *fn_82FA8288(int *param_1, int param_2, int param_3, int param_4, int param_5, int param_6,
+                 int param_7, int param_8, int param_9, int param_10, __int64 param_11,
+                 int param_12, int param_13)
 {
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_00000074;
-  
-  fn_82FF0838(param_1,param_3,param_4,param_5,param_6,param_8,in_stack_00000054,
-                    &stack0x00000060);
-  fn_82FAC568(param_1 + 0x62,param_2);
+  fn_82FF0838(param_1, param_3, param_4, param_5, param_6, param_8, param_9, &param_11, 0, param_13);
+  fn_82FAC568(param_1 + 0x62, param_2);
+  *param_1 = (int)&lbl_8216CB90;
+  param_1[1] = (int)&lbl_8216CB88;
   param_1[0x66] = param_7;
-  *(undefined1 *)(param_1 + 0x67) = 0;
-  param_1[0x62] = &lbl_8216CBCC;
-  *param_1 = &lbl_8216CB90;
-  param_1[1] = &lbl_8216CB88;
-  param_1[3] = &lbl_8217D264;
-  param_1[0x65] = 0xffffffff;
+  *(unsigned char *)(param_1 + 0x67) = 0;
+  param_1[3] = (int)&lbl_8217D264;
+  param_1[0x62] = (int)&lbl_8216CBCC;
+  param_1[0x65] = -1;
   return param_1;
 }
-

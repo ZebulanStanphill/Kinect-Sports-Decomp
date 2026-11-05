@@ -1,55 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { int p0; int p4; int p8; int pc; unsigned key; char body[0x402c-0x14]; } Ent_82ED2268;
+typedef struct {
+  char pad[0x18];
+  Ent_82ED2268 *base;
+  unsigned count;
+  char pad2[0x30-0x20];
+  unsigned cur;
+} Self_82ED2268;
 
-
-int fn_82ED2268(int param_1,int param_2)
-
+int fn_82ED2268(Self_82ED2268 *s, unsigned key)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  uVar3 = 0;
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    iVar1 = *(int *)(param_1 + 0x18);
-    iVar4 = 0;
-    iVar2 = iVar1;
-    do {
-      if (*(int *)(iVar2 + 0x10) == param_2) {
-        *(uint *)(param_1 + 0x30) = uVar3;
-        return uVar3 * 0x402c + iVar1;
-      }
-      uVar3 = uVar3 + 1;
-      iVar4 = iVar4 + 0x402c;
-      iVar2 = iVar4 + iVar1;
-    } while (uVar3 < *(uint *)(param_1 + 0x1c));
+  unsigned i;
+  for (i = 0; i < s->count; i++) {
+    if (s->base[i].key == key) { s->cur = i; return (int)&s->base[i]; }
   }
   return 0;
 }
-

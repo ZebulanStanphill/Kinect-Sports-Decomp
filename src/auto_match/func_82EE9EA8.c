@@ -25,44 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-int fn_82EE9EA8(undefined8 param_1,int param_2,int param_3)
-
+typedef struct Node_82EE9EA8 Node_82EE9EA8;
+struct Node_82EE9EA8 {
+  int pad0[2];
+  Node_82EE9EA8 *left;
+  Node_82EE9EA8 *right;
+  __int64 key;
+  unsigned rank;
+};
+Node_82EE9EA8 *fn_82EE9EA8(void *param_1, Node_82EE9EA8 *n, Node_82EE9EA8 *b)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar4 = *(int *)(param_2 + 0xc);
-  iVar2 = param_3;
-  if ((iVar4 != 0) && (iVar2 = iVar4, param_3 != 0)) {
-    iVar2 = param_3;
-    if (*(longlong *)(iVar4 + 0x10) < *(longlong *)(param_3 + 0x10)) {
-      iVar2 = iVar4;
-      iVar4 = param_3;
-    }
-    iVar2 = fn_82EE9EA8(param_1,iVar2,iVar4);
+  Node_82EE9EA8 *r = n->right;
+  Node_82EE9EA8 *m;
+  Node_82EE9EA8 *l;
+  unsigned rk;
+  if (r == 0) m = b;
+  else if (b == 0) m = r;
+  else if (r->key < b->key) m = fn_82EE9EA8(param_1, r, b);
+  else m = fn_82EE9EA8(param_1, b, r);
+  l = n->left;
+  n->right = m;
+  if (l == 0 || l->rank < m->rank) {
+    n->left = m;
+    n->right = l;
   }
-  iVar4 = *(int *)(param_2 + 8);
-  *(int *)(param_2 + 0xc) = iVar2;
-  if ((iVar4 == 0) || (*(uint *)(iVar4 + 0x18) < *(uint *)(iVar2 + 0x18))) {
-    *(int *)(param_2 + 8) = iVar2;
-    *(int *)(param_2 + 0xc) = iVar4;
+  if (n->right == 0) {
+    rk = 1;
+  } else {
+    unsigned a = n->right->rank;
+    unsigned c = n->left->rank;
+    if (c < a) a = c;
+    rk = a + 1;
   }
-  if (*(int *)(param_2 + 0xc) == 0) {
-    iVar4 = 1;
-  }
-  else {
-    uVar3 = *(uint *)(*(int *)(param_2 + 0xc) + 0x18);
-    uVar1 = *(uint *)(*(int *)(param_2 + 8) + 0x18);
-    if (uVar1 < uVar3) {
-      uVar3 = uVar1;
-    }
-    iVar4 = uVar3 + 1;
-  }
-  *(int *)(param_2 + 0x18) = iVar4;
-  return param_2;
+  n->rank = rk;
+  return n;
 }
-

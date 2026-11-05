@@ -1,41 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_826E6E40(undefined4 *param_1)
-
+struct VT_826E6E40;
+typedef struct Obj_826E6E40 { struct VT_826E6E40 *vt; } Obj_826E6E40;
+typedef struct VT_826E6E40 {
+  void *f0[4];
+  unsigned (*f10)(Obj_826E6E40 *);
+  void *f14[9];
+  void (*f38)(Obj_826E6E40 *, unsigned, int);
+} VT_826E6E40;
+typedef struct { Obj_826E6E40 *o; int p4; unsigned n; } Self_826E6E40;
+void fn_826E6E40(Self_826E6E40 *s)
 {
-  longlong lVar1;
-  
-  if (param_1[2] != 0) {
-    lVar1 = (**(code **)(*(int *)*param_1 + 0x10))();
-    (**(code **)(*(int *)*param_1 + 0x38))((int *)*param_1,lVar1 - (ulonglong)(uint)param_1[2],0);
+  if (s->n > 0) {
+    unsigned v = s->o->vt->f10(s->o);
+    s->o->vt->f38(s->o, v - s->n, 0);
   }
-  return;
 }
-

@@ -1,3 +1,4 @@
+extern unsigned char lbl_8214C740[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -24,50 +25,22 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F35400();
-extern int fn_82F3E1E0();
-
-
-undefined8 fn_82F35AE8(int param_1)
-
+typedef struct Ifc { struct { int (*qi)(struct Ifc *, void *, struct Ifc **); int (*s1)(struct Ifc *); int (*rel)(struct Ifc *); int (*s3)(struct Ifc *); int (*addref)(struct Ifc *); } *vt; } Ifc;
+typedef struct { Ifc *p; } Item;
+typedef struct Self {
+  char pad0[8]; void *x8; char pad1[0x40]; int f4c; int f50; Ifc *f54; char pad2[0x68]; unsigned cnt; char pad3[0x6c]; int f130; int pad134; int f138;
+} Self;
+int fn_82F35AE8(Self *self)
 {
-  undefined8 uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int *piStack_40;
-  undefined4 *apuStack_3c [15];
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
+  int hr; unsigned i; Item *it; Ifc *q;
+  if (self->x8 == 0) return 0xc00d36b6;
+  self->f4c = 0; self->f50 = 0;
+  if (self->f54 != 0) { self->f54->vt->rel(self->f54); self->f54 = 0; }
+  for (i = 0; i < self->cnt; i++) {
+    fn_82F35400((void *)((int)self + 0x58), i, &it);
+    hr = it->p->vt->qi(it->p, &lbl_8214C740, &q);
+    if (hr >= 0) { q->vt->addref(q); if (q != 0) { q->vt->rel(q); q = 0; } }
   }
-  else {
-    *(undefined4 *)(param_1 + 0x4c) = 0;
-    *(undefined4 *)(param_1 + 0x50) = 0;
-    if (*(int **)(param_1 + 0x54) != (int *)0x0) {
-      (**(code **)(**(int **)(param_1 + 0x54) + 8))();
-      *(undefined4 *)(param_1 + 0x54) = 0;
-    }
-    uVar3 = 0;
-    if (*(int *)(param_1 + 0xc0) != 0) {
-      do {
-        fn_82F35400(param_1 + 0x58,uVar3,apuStack_3c);
-        iVar2 = (*(code *)**(undefined4 **)*apuStack_3c[0])
-                          ((undefined4 *)*apuStack_3c[0],0xffffffff8214c740,&piStack_40);
-        if (-1 < iVar2) {
-          (**(code **)(*piStack_40 + 0x10))();
-          if (piStack_40 != (int *)0x0) {
-            (**(code **)(*piStack_40 + 8))();
-            piStack_40 = (int *)0x0;
-          }
-        }
-        uVar3 = uVar3 + 1;
-      } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0xc0));
-    }
-    *(undefined4 *)(param_1 + 0x130) = 0;
-    *(undefined4 *)(param_1 + 0x138) = 0;
-    uVar1 = fn_82F3E1E0(param_1);
-  }
-  return uVar1;
+  self->f130 = 0; self->f138 = 0;
+  return fn_82F3E1E0(self);
 }
-

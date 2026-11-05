@@ -25,44 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82555A88();
+extern int fn_822315A0(unsigned);
+extern unsigned *fn_82555A88(unsigned, unsigned);
 extern int fn_8266F6B8();
-extern int fn_82671A40();
-extern int fn_826728E8();
-extern unsigned int lbl_821938C8;
-extern unsigned int lbl_821AB494;
-extern unsigned int lbl_8326B394;
-
-
-void fn_8229D7E0(undefined4 *param_1)
-
+extern int fn_82671A40(unsigned, void *);
+extern int fn_826728E8(unsigned, const char *, int);
+extern unsigned lbl_821938C8[];
+extern int lbl_821AB494;
+extern unsigned lbl_8326B370[];
+void fn_8229D7E0(unsigned *param_1)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  int *piVar3;
-  longlong lVar4;
-  undefined **ppuVar5;
-  
-  uVar1 = param_1[1];
-  *param_1 = &lbl_821AB494;
-  uVar2 = fn_8266F6B8();
-  fn_826728E8(uVar1,0xffffffff821ab400,uVar2);
-  lVar4 = 0x10;
-  ppuVar5 = &lbl_821938C8;
-  do {
-    piVar3 = (int *)fn_82555A88((ulonglong)(uint)param_1[3] + 0x98,*ppuVar5);
-    if ((piVar3 != (int *)0x0) && (*piVar3 != 0)) {
-      *(undefined4 *)(*piVar3 + 0x19c) = lbl_8326B394;
-    }
-    lVar4 = lVar4 + -1;
-    ppuVar5 = ppuVar5 + 1;
-  } while (lVar4 != 0);
-  *(undefined4 *)(param_1[3] + 0x19c) = lbl_8326B394;
-  fn_82671A40(param_1[1],param_1);
-  if (param_1[2] != 0) {
-    fn_822315A0();
+  unsigned a = param_1[1];
+  unsigned *t;
+  *param_1 = (unsigned)&lbl_821AB494;
+  fn_826728E8(a, "cameraview", fn_8266F6B8());
+  {
+    unsigned *pp = lbl_821938C8;
+    int n = 0x10;
+    do {
+      t = fn_82555A88(param_1[3] + 0x98, *pp);
+      if (t != 0 && *t != 0) {
+        *(unsigned *)(*t + 0x19c) = lbl_8326B370[9];
+      }
+      n--;
+      pp++;
+    } while (n != 0);
   }
-  return;
+  *(unsigned *)(param_1[3] + 0x19c) = lbl_8326B370[9];
+  fn_82671A40(param_1[1], param_1);
+  if (param_1[2] != 0) {
+    fn_822315A0(param_1[2]);
+  }
 }
-

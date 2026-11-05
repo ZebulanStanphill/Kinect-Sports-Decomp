@@ -25,57 +25,63 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82231540();
-extern int fn_8265CA20();
-extern int fn_828B6DD0();
-extern int fn_828B8F70();
-extern int fn_828B9020();
-extern unsigned int uStack_4c;
-extern unsigned int uStack_70;
+typedef struct Obj_828B7EE0 Obj_828B7EE0;
+typedef struct { int u[4]; unsigned size; unsigned cap; int alloc; } Str_828B7EE0;
+typedef struct {
+  int pad0[7];
+  int (*f1c)(Obj_828B7EE0 *, int);
+  int (*f20)(Obj_828B7EE0 *, Str_828B7EE0 *);
+} Vt_828B7EE0;
+typedef struct { unsigned a; int b; } Ent_828B7EE0;
+typedef struct { Ent_828B7EE0 *begin; Ent_828B7EE0 *end; int pad; int alloc; } Vec_828B7EE0;
+struct Obj_828B7EE0 {
+  Vt_828B7EE0 *vt;
+  Vec_828B7EE0 vec;
+  char pad14[0xc];
+  int mode;
+  char pad24[4];
+  int a28;
+  int a2c;
+};
+extern void fn_82230110(Str_828B7EE0 *, const char *);
+extern void fn_82231540(unsigned, unsigned, void *, char);
+extern void fn_8265CA20(int);
+extern void fn_828B6DD0(void *, void *, void *, char);
+extern unsigned char fn_828B8F70(unsigned, int, int, Str_828B7EE0 *);
+extern void fn_828B9020(unsigned);
+extern char lbl_82196582[];
 
-
-undefined8 fn_828B7EE0(int *param_1,undefined8 param_2)
-
+int fn_828B7EE0(Obj_828B7EE0 *self, int param_2)
 {
-  undefined8 uVar1;
-  char cVar2;
-  undefined4 *puVar3;
-  undefined1 uStack_70;
-  undefined4 auStack_60 [5];
-  uint uStack_4c;
-  
-  if ((param_1[0xb] - param_1[10] & 0xfffffffcU) == 0) {
-    uVar1 = 1;
+  Str_828B7EE0 s;
+  int r;
+  Ent_828B7EE0 *p;
+  Vec_828B7EE0 *v;
+  char u1;
+  char u2;
+  if (((self->a2c - self->a28) & (int)0xfffffffc) == 0) {
+    return 1;
   }
-  else {
-    if (param_1[8] == 1) {
-      (**(code **)(*param_1 + 0x1c))(param_1,param_2);
-    }
-    fn_82230110(auStack_60,0xffffffff82196582);
-    uVar1 = (**(code **)(*param_1 + 0x20))(param_1,auStack_60);
-    puVar3 = (undefined4 *)param_1[1];
-    if (puVar3 != (undefined4 *)param_1[2]) {
-      do {
-        fn_828B9020(*puVar3);
-        cVar2 = fn_828B8F70(*puVar3,param_2,uVar1,auStack_60);
-        if (cVar2 == '\0') {
-          puVar3 = puVar3 + 2;
-        }
-        else {
-          fn_828B6DD0(puVar3 + 2,param_1[2],puVar3,uStack_70);
-          fn_82231540((ulonglong)(uint)param_1[2] - 8,(ulonglong)(uint)param_1[2],param_1 + 4,
-                            uStack_70);
-          param_1[2] = param_1[2] + -8;
-        }
-      } while (puVar3 != (undefined4 *)param_1[2]);
-    }
-    if (0xf < uStack_4c) {
-      fn_8265CA20(auStack_60[0]);
-    }
-    uVar1 = 0;
+  if (self->mode == 1) {
+    self->vt->f1c(self, param_2);
   }
-  return uVar1;
+  fn_82230110(&s, lbl_82196582);
+  r = self->vt->f20(self, &s);
+  p = self->vec.begin; v = &self->vec;
+  if (p != v->end) {
+    do {
+      fn_828B9020(p->a);
+      if (fn_828B8F70(p->a, param_2, r, &s) != 0) {
+        fn_828B6DD0(p + 1, v->end, p, u1);
+        fn_82231540((unsigned)v->end - 8, (unsigned)v->end, &v->alloc, u2);
+        v->end = v->end - 1;
+      } else {
+        p++;
+      }
+    } while (p != self->vec.end);
+  }
+  if (s.cap >= 0x10) {
+    fn_8265CA20(s.u[0]);
+  }
+  return 0;
 }
-

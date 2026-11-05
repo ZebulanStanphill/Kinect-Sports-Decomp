@@ -25,42 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-ulonglong fn_8275F178(int *param_1,int param_2)
-
+typedef struct Obj_8275F178 Obj_8275F178;
+typedef struct { void *pad[9]; char *(*f24)(Obj_8275F178 *, int *); } Vt_8275F178;
+struct Obj_8275F178 {
+  Vt_8275F178 *vt;
+  char pad4[0x20];
+  unsigned char flags;
+};
+typedef struct { char pad[0xc]; unsigned a; unsigned b; int c; } Q_8275F178;
+typedef struct {
+  char pad[0x18];
+  unsigned count;
+  char pad1c[8];
+  Q_8275F178 **items;
+} Arg_8275F178;
+int fn_8275F178(Obj_8275F178 *param_1, Arg_8275F178 *param_2)
 {
-  char cVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  int iVar5;
-  ulonglong uVar6;
-  int aiStack_20 [2];
-  
-  uVar6 = 0xffffffffffffffff;
-  if (((*(byte *)(param_1 + 9) & 0x40) != 0) && (*(int *)(param_2 + 0x18) == 1)) {
-    iVar5 = **(int **)(param_2 + 0x24);
-    uVar2 = *(uint *)(iVar5 + 0xc);
-    if ((uVar2 >> 0x1f != *(uint *)(iVar5 + 0x10) >> 0x1f) && (*(int *)(iVar5 + 0x14) < 0)) {
-      uVar3 = *(uint *)(iVar5 + 0x10);
-      if (-1 < (int)uVar2) {
-        uVar3 = uVar2;
-      }
-      uVar6 = (ulonglong)uVar3;
-      aiStack_20[0] = 0;
-      iVar5 = (**(code **)(*param_1 + 0x24))(param_1,aiStack_20);
-      if ((int)uVar3 < aiStack_20[0]) {
-        cVar1 = *(char *)(uVar3 * 0x28 + iVar5);
-        if ((cVar1 == 'A') || (bVar4 = false, cVar1 == 'C')) {
-          bVar4 = true;
-        }
-        if (!bVar4) {
-          uVar6 = 0xffffffffffffffff;
-        }
+  int ret = -1;
+  if ((param_1->flags & 0x40) != 0 && param_2->count == 1) {
+    Q_8275F178 *q = *param_2->items;
+    unsigned b = q->b;
+    unsigned a = q->a;
+    if (((int)a < 0) != ((int)b < 0) && q->c < 0) {
+      unsigned idx = b;
+      int n;
+      char *tbl;
+      unsigned char c;
+      unsigned char ok;
+      if ((int)a >= 0) idx = a;
+      ret = idx;
+      n = 0;
+      tbl = param_1->vt->f24(param_1, &n);
+      if ((int)idx < n) {
+        c = tbl[idx * 0x28];
+        ok = (c == 65 || c == 67);
+        if (!ok) ret = -1;
       }
     }
   }
-  return uVar6;
+  return ret;
 }
-

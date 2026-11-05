@@ -24,25 +24,24 @@ typedef signed char S8;
 typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824D4CC8();
-extern int fn_82897600();
-extern int fn_82897B18();
-extern int fn_82898220();
+typedef struct { char b[0x28]; int m28; } Sub_824E2550;
+typedef struct {
+  int p0; int m4; int m8; int mc; int m10;
+  char pad[0x9cc - 0x14];
+  Sub_824E2550 sub;
+} Obj_824E2550;
 
-
-void fn_824E2550(int param_1)
-
+void fn_824E2550(Obj_824E2550 *o)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  
-  fn_824D4CC8();
-  lVar2 = (ulonglong)*(uint *)(param_1 + 0x10) + 0xa6c;
-  uVar1 = fn_82897B18(lVar2);
-  fn_82897600(param_1,param_1 + 0x9cc,uVar1);
-  *(undefined4 *)(param_1 + 0x9f4) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x9cc,param_1,lVar2,*(undefined4 *)(param_1 + 4));
-  return;
-}
+  Sub_824E2550 *a;
+  unsigned int u;
+  int b;
 
+  fn_824D4CC8();
+  a = &o->sub;
+  b = o->m10 + 0xa6c;
+  u = fn_82897B18(b);
+  fn_82897600(o, a, u);
+  a->m28 = o->mc;
+  fn_82898220(a, o, b, o->m4);
+}

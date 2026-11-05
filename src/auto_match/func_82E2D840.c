@@ -25,26 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82E58808();
-
-
-undefined8 fn_82E2D840(undefined8 param_1,undefined8 param_2,ulonglong param_3,int *param_4)
-
+extern int fn_82E58808(unsigned, int, int *);
+extern char lbl_8214BFF0[];
+typedef struct { char pad[100]; int (*f64)(void *, void *, int); } Vt_82E2D840;
+typedef struct { Vt_82E2D840 *vt; } Obj_82E2D840;
+int fn_82E2D840(int param_1, int param_2, unsigned param_3, Obj_82E2D840 *param_4)
 {
-  undefined8 uVar1;
-  undefined4 auStack_20 [4];
-  
-  if (((param_3 & 0xffffffff) == 0) || (param_4 == (int *)0x0)) {
-    uVar1 = 0xffffffff80004003;
-  }
-  else {
-    auStack_20[0] = 0;
-    uVar1 = fn_82E58808(param_3,param_2,auStack_20);
-    if (-1 < (int)uVar1) {
-      uVar1 = (**(code **)(*param_4 + 100))(param_4,0xffffffff8214bff0,auStack_20[0]);
+  int hr;
+  int out[4];
+  if (param_3 == 0 || param_4 == 0) {
+    hr = 0x80004003;
+  } else {
+    out[0] = 0;
+    hr = fn_82E58808(param_3, param_2, out);
+    if (hr >= 0) {
+      hr = param_4->vt->f64(param_4, lbl_8214BFF0, out[0]);
     }
   }
-  return uVar1;
+  return hr;
 }
-

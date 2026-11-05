@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
-extern int fn_8267BED0();
+extern unsigned fn_8267BED0(int,unsigned,void *);
 extern int fn_8279C4B8();
 extern int fn_8279C5F0();
 
@@ -38,30 +38,22 @@ void fn_8279C658(int param_1,uint param_2,uint param_3)
   undefined4 uVar2;
   uint *puVar3;
   uint uVar4;
-  undefined4 auStack_30 [12];
+  undefined4 auStack_30 [1];
   
   *(uint *)(param_1 + 0x1c) = param_2;
   *(uint *)(param_1 + 0x20) = param_3;
-  if (*(int *)(param_1 + 0x14) == 0) {
+  if (*(void **)(param_1 + 0x14) == 0) {
     auStack_30[0] = 0x144;
     iVar1 = fn_8267BED0(param_1,0xb0,auStack_30);
-    if (iVar1 == 0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = fn_8279C4B8();
-    }
+    uVar2 = (unsigned)iVar1 != 0 ? fn_8279C4B8(iVar1) : 0;
     *(undefined4 *)(param_1 + 0x14) = uVar2;
   }
-  uVar4 = param_2;
-  if (param_3 < param_2) {
-    uVar4 = param_3;
-    param_3 = param_2;
-  }
+  if(param_3<param_2) { uVar4=param_3; param_3=param_2; param_2=uVar4; }
   puVar3 = (uint *)fn_8279C5F0(param_1);
-  if ((*puVar3 != uVar4) || (puVar3[1] != param_3 - uVar4)) {
-    *puVar3 = uVar4;
-    puVar3[1] = param_3 - uVar4;
+  uVar4 = param_3 - param_2;
+  if ((*puVar3 != param_2) || (puVar3[1] != uVar4)) {
+    *puVar3 = param_2;
+    puVar3[1] = uVar4;
     iVar1 = *(int *)(param_1 + 0x14);
     *(undefined1 *)(iVar1 + 0x18) = 0;
     *(undefined1 *)(iVar1 + 0x19) = 0;
