@@ -1,53 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-extern int fn_82B7BEB0();
+typedef struct Owner_82BA08F8 { char pad[0x5ac]; void *heap; } Owner_82BA08F8;
+typedef struct Obj_82BA08F8 {
+  char pad0[0xc];
+  Owner_82BA08F8 *owner;
+  char pad10[0x88];
+  int *data;
+} Obj_82BA08F8;
+extern void fn_82B7BEB0(void *, void *);
+extern int *fn_82B7BD28(void *, unsigned);
 
-
-void fn_82BA08F8(int param_1,int param_2,longlong param_3)
-
+void fn_82BA08F8(Obj_82BA08F8 *self, int *src, int n)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0x98) != 0) {
-    fn_82B7BEB0(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x5ac));
+  int i;
+  if (self->data != 0) {
+    fn_82B7BEB0(self->owner->heap, self->data);
   }
-  uVar1 = fn_82B7BD28(*(undefined4 *)(*(int *)(param_1 + 0xc) + 0x5ac),
-                            (param_3 + 1U & 0x3fffffff) << 2);
-  param_3 = param_3 + 1;
-  *(undefined4 *)(param_1 + 0x98) = uVar1;
-  iVar2 = 0;
+  self->data = fn_82B7BD28(self->owner->heap, (n + 1) * 4);
+  i = n + 1;
+  n = 0;
   do {
-    *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x98)) = *(undefined4 *)(iVar2 + param_2);
-    iVar2 = iVar2 + 4;
-    param_3 = param_3 + -1;
-  } while (param_3 != 0);
-  return;
+    self->data[n] = src[n];
+    n++;
+    i--;
+  } while (i != 0);
 }
-

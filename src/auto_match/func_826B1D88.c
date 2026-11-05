@@ -25,36 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82695FA0();
-extern int fn_826A8E58();
-extern int fn_826AE718();
-extern int fn_826B0A78();
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
+typedef struct Iter_826B1D88 { unsigned *tab; unsigned idx; } Iter_826B1D88;
+typedef struct Pair_826B1D88 { int *obj; int val; } Pair_826B1D88;
+extern void fn_82695FA0(char *, int);
+extern unsigned char fn_826A8E58(Iter_826B1D88 *, Pair_826B1D88 *);
+extern void fn_826AE718(void *, void *, Pair_826B1D88 *, int);
+extern void fn_826B0A78(Iter_826B1D88 *, void *, int *);
 
-
-void fn_826B1D88(undefined8 param_1,int *param_2,undefined8 param_3)
-
+void fn_826B1D88(void *a, int *b, int c)
 {
-  char cVar1;
-  uint *puStack_30;
-  uint uStack_2c;
-  int *piStack_28;
-  undefined4 uStack_24;
-  
-  fn_826B0A78(&puStack_30,param_1,param_2);
-  piStack_28 = (int *)0x0;
-  uStack_24 = 0;
-  cVar1 = fn_826A8E58(&puStack_30,&piStack_28);
-  if (cVar1 == '\0') {
-    fn_82695FA0(((ulonglong)uStack_2c & 0x7ffffff) * 0x20 + (ulonglong)*puStack_30 + 0x18,
-                      param_3);
+  struct { Iter_826B1D88 it; Pair_826B1D88 pr; } L;
+  fn_826B0A78(&L.it, a, b);
+  L.pr.obj = 0;
+  L.pr.val = 0;
+  if (fn_826A8E58(&L.it, &L.pr) == 0) {
+    fn_82695FA0((char *)(L.it.idx * 0x20 + *L.it.tab + 0x18), c);
+  } else {
+    L.pr.obj = b;
+    L.pr.val = c;
+    fn_826AE718(a, a, &L.pr, *(int *)(*b + 0xc));
   }
-  else {
-    uStack_24 = (undefined4)param_3;
-    piStack_28 = param_2;
-    fn_826AE718(param_1,param_1,&piStack_28,*(undefined4 *)(*param_2 + 0xc));
-  }
-  return;
 }
-

@@ -25,43 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8324E3B0;
+extern unsigned char *lbl_8324E3B0;
 
-
-void fn_82ED76D0(undefined8 param_1,byte *param_2,short *param_3,int param_4,int param_5)
-
+void fn_82ED76D0(int unused, unsigned char *d, short *s, int ds, int ss)
 {
-  short *psVar1;
-  longlong lVar2;
-  
-  lVar2 = 2;
-  do {
-    *param_2 = *(byte *)((uint)*param_2 + (int)*param_3 + lbl_8324E3B0);
-    param_2[1] = *(byte *)((int)param_3[1] + (uint)param_2[1] + lbl_8324E3B0);
-    param_2[2] = *(byte *)((int)param_3[2] + (uint)param_2[2] + lbl_8324E3B0);
-    param_2[3] = *(byte *)((int)param_3[3] + (uint)param_2[3] + lbl_8324E3B0);
-    param_2 = param_2 + param_4;
-    param_3 = param_3 + param_5;
-    *param_2 = *(byte *)((uint)*param_2 + (int)*param_3 + lbl_8324E3B0);
-    param_2[1] = *(byte *)((int)param_3[1] + (uint)param_2[1] + lbl_8324E3B0);
-    param_2[2] = *(byte *)((int)param_3[2] + (uint)param_2[2] + lbl_8324E3B0);
-    param_2[3] = *(byte *)((int)param_3[3] + (uint)param_2[3] + lbl_8324E3B0);
-    param_2 = param_2 + param_4;
-    param_3 = param_3 + param_5;
-    *param_2 = *(byte *)((uint)*param_2 + (int)*param_3 + lbl_8324E3B0);
-    param_2[1] = *(byte *)((int)param_3[1] + (uint)param_2[1] + lbl_8324E3B0);
-    param_2[2] = *(byte *)((int)param_3[2] + (uint)param_2[2] + lbl_8324E3B0);
-    param_2[3] = *(byte *)((int)param_3[3] + (uint)param_2[3] + lbl_8324E3B0);
-    param_2 = param_2 + param_4;
-    psVar1 = param_3 + param_5;
-    *param_2 = *(byte *)((uint)*param_2 + (int)*psVar1 + lbl_8324E3B0);
-    param_2[1] = *(byte *)((int)psVar1[1] + (uint)param_2[1] + lbl_8324E3B0);
-    param_2[2] = *(byte *)((int)psVar1[2] + (uint)param_2[2] + lbl_8324E3B0);
-    param_3 = psVar1 + param_5;
-    param_2[3] = *(byte *)((int)psVar1[3] + (uint)param_2[3] + lbl_8324E3B0);
-    param_2 = param_2 + param_4;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  return;
+    int i;
+    for (i = 0; i < 8; i++) {
+        d[0] = lbl_8324E3B0[d[0] + s[0]];
+        d[1] = lbl_8324E3B0[d[1] + s[1]];
+        d[2] = lbl_8324E3B0[d[2] + s[2]];
+        d[3] = lbl_8324E3B0[d[3] + s[3]];
+        d += ds;
+        s += ss;
+    }
 }
-

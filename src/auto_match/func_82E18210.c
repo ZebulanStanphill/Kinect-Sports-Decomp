@@ -25,41 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CFDFE0();
+extern int *fn_82CE5410(void);
+extern void fn_82CFDFE0(void *, void *, unsigned, int);
 
-
-void fn_82E18210(undefined8 param_1,ulonglong param_2,ulonglong param_3,int param_4)
-
+void fn_82E18210(void *a, unsigned type, int count, unsigned *src)
 {
-  int iVar1;
-  int *piVar2;
-  ulonglong *puVar3;
-  uint *puVar4;
-  ulonglong uVar5;
-  
-  if ((param_2 & 0xffffffff) == 4) {
-    fn_82CFDFE0(param_1,param_4,4,param_3);
-  }
-  else {
-    piVar2 = (int *)fn_82CE5410();
-    iVar1 = *piVar2;
-    *piVar2 = ((int)((param_3 & 0xffffffff) << 3) + 0x7fU & 0xffffff80) + iVar1;
-    if (0 < (int)param_3) {
-      puVar3 = (ulonglong *)(iVar1 + -8);
-      puVar4 = (uint *)(param_4 + -4);
-      uVar5 = param_3;
-      do {
-        puVar4 = puVar4 + 1;
-        puVar3 = puVar3 + 1;
-        *puVar3 = (ulonglong)*puVar4;
-        uVar5 = uVar5 - 1;
-      } while (uVar5 != 0);
-    }
-    fn_82CFDFE0(param_1,iVar1,param_2,param_3);
-    piVar2 = (int *)fn_82CE5410();
-    *piVar2 = iVar1;
-  }
-  return;
-}
+    int *top;
+    int base;
+    unsigned __int64 *dst;
+    int i;
 
+    if (type == 4) {
+        fn_82CFDFE0(a, src, 4, count);
+    } else {
+        top = fn_82CE5410();
+        base = *top;
+        *top = ((count * 8 + 0x7f) & ~0x7f) + base;
+        dst = (unsigned __int64 *)base;
+        for (i = 0; i < count; i++) {
+            dst[i] = src[i];
+        }
+        fn_82CFDFE0(a, (void *)base, type, count);
+        top = fn_82CE5410();
+        *top = base;
+    }
+}

@@ -25,67 +25,55 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int fStack0000001c;
-extern unsigned int fStack_2c;
-extern int fn_822315A0();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_24;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
-extern unsigned int uStack_28;
+typedef struct VObj_8233E8A0 { int *vt; } VObj_8233E8A0;
+typedef struct Obj_8233E8A0 {
+  char pad[0x48];
+  VObj_8233E8A0 *o48;
+  char pad1[0x68 - 0x4c];
+  VObj_8233E8A0 *o68;
+  int pad2;
+  VObj_8233E8A0 *o70;
+} Obj_8233E8A0;
+typedef struct Pair_8233E8A0 { int first; unsigned second; } Pair_8233E8A0;
+typedef void (*Set_8233E8A0)(VObj_8233E8A0 *, int, void *);
+extern void fn_822315A0(unsigned);
+extern void fn_822D79D8(Pair_8233E8A0 *, void *);
+extern void *fn_822D7FE0(void *);
+extern void *fn_8265C9E0(int);
+extern void fn_828E2B28(Obj_8233E8A0 *, Pair_8233E8A0 *);
+extern void fn_828E9D40(int);
+extern void fn_828E9D90(int);
 
-
-void fn_8233E8A0(double param_1,int param_2,undefined8 param_3,undefined4 param_4)
-
+void fn_8233E8A0(Obj_8233E8A0 *self, float a, int b)
 {
-  undefined4 uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  float fStack0000001c;
-  undefined4 uStack00000024;
-  undefined1 auStack_30 [4];
-  float fStack_2c;
-  struct { undefined4 first; int second; } stack_pair_28;
-
-  
-  fStack0000001c = (float)param_1;
-  uStack00000024 = param_4;
-  iVar3 = fn_8265C9E0(0x28);
-  if (iVar3 == 0) {
-    uVar2 = 0;
+  void *mem = fn_8265C9E0(0x28);
+  void *obj;
+  Pair_8233E8A0 pr;
+  if (mem != 0) {
+    obj = fn_822D7FE0(mem);
+  } else {
+    obj = 0;
   }
-  else {
-    uVar2 = fn_822D7FE0();
-  }
-  stack_pair_28.first = 0;
-  stack_pair_28.second = 0;
-  fn_822D79D8(&stack_pair_28.first,uVar2);
-  (**(code **)(**(int **)(param_2 + 0x68) + 0x10))
-            (*(int **)(param_2 + 0x68),stack_pair_28.first,&stack0x0000001c);
-  (**(code **)(**(int **)(param_2 + 0x70) + 0x10))
-            (*(int **)(param_2 + 0x70),stack_pair_28.first,&stack0x00000024);
-  if (*(int *)(param_2 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_28.first);
-    fn_828E9D40(stack_pair_28.first);
-    uVar1 = stack_pair_28.first;
-    (**(code **)(**(int **)(param_2 + 0x68) + 0x14))(*(int **)(param_2 + 0x68),stack_pair_28.first,&fStack_2c)
-    ;
-    (**(code **)(**(int **)(param_2 + 0x70) + 0x14))(*(int **)(param_2 + 0x70),uVar1,auStack_30);
-    if (*(int **)(param_2 + 0x48) != (int *)0x0) {
-      (**(code **)(**(int **)(param_2 + 0x48) + 4))((double)fStack_2c);
+  pr.first = 0;
+  pr.second = 0;
+  fn_822D79D8(&pr, obj);
+  (*(Set_8233E8A0 *)(*(int *)self->o68 + 0x10))(self->o68, pr.first, &a);
+  (*(Set_8233E8A0 *)(*(int *)self->o70 + 0x10))(self->o70, pr.first, &b);
+  if (self->o48 != 0) {
+    float fa;
+    int fb;
+    int h;
+    fn_828E9D90(pr.first);
+    fn_828E9D40(pr.first);
+    h = pr.first;
+    (*(Set_8233E8A0 *)(*(int *)self->o68 + 0x14))(self->o68, h, &fa);
+    (*(Set_8233E8A0 *)(*(int *)self->o70 + 0x14))(self->o70, h, &fb);
+    if (self->o48 != 0) {
+      (*(void (**)(VObj_8233E8A0 *, float, int))(*(int *)self->o48 + 4))(self->o48, fa, fb);
     }
   }
-  fn_828E2B28(param_2,&stack_pair_28.first);
-  if (stack_pair_28.second != 0) {
-    fn_822315A0();
+  fn_828E2B28(self, &pr);
+  if (pr.second != 0) {
+    fn_822315A0(pr.second);
   }
-  return;
 }
-

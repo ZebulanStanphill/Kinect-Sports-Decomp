@@ -25,37 +25,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
+typedef struct Node_825BF428 {
+    struct Node_825BF428 *next;
+    struct Node_825BF428 *prev;
+} Node_825BF428;
+typedef struct Vec_825BF428 {
+    int **first;
+    int **last;
+    int **end;
+} Vec_825BF428;
+typedef struct Obj_825BF428 {
+    char pad0[4];
+    Node_825BF428 *head;
+    int size;
+    char padc[4];
+    Vec_825BF428 v;
+} Obj_825BF428;
 
+extern void fn_8265CA20(void *);
 
-void fn_825BF428(int param_1)
-
+void fn_825BF428(Obj_825BF428 *o)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 0x10);
-  if (iVar3 != 0) {
-    for (; iVar3 != *(int *)(param_1 + 0x14); iVar3 = iVar3 + 4) {
-    }
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  piVar1 = *(int **)(param_1 + 4);
-  piVar2 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  if (piVar2 != *(int **)(param_1 + 4)) {
-    do {
-      piVar2 = (int *)*piVar2;
-      fn_8265CA20();
-    } while (piVar2 != (int *)*(int *)(param_1 + 4));
-  }
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
-}
+    Vec_825BF428 *v = &o->v;
+    Node_825BF428 *h;
+    Node_825BF428 *n;
+    Node_825BF428 *nx;
+    int **p;
 
+    if (v->first != 0) {
+        for (p = v->first; p != v->last; p++) {
+        }
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+    h = o->head;
+    n = h->next;
+    h->next = h;
+    o->head->prev = o->head;
+    o->size = 0;
+    while (n != o->head) {
+        nx = n->next;
+        fn_8265CA20(n);
+        n = nx;
+    }
+    fn_8265CA20(o->head);
+}

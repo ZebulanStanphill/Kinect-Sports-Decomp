@@ -25,28 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82BF3608();
-extern int fn_82BFA8D8();
-extern int fn_82BFABC8();
+typedef struct Guard_82BF3A88 {
+    int w[4];
+} Guard_82BF3A88;
 
+extern void fn_82BFA8D8(Guard_82BF3A88 *);
+extern void fn_82BFABC8(Guard_82BF3A88 *);
+extern unsigned fn_82BF3608(char *, unsigned, unsigned);
 
-undefined8 fn_82BF3A88(char *param_1,ulonglong param_2,ulonglong param_3)
-
+int fn_82BF3A88(char *s, unsigned a, unsigned b)
 {
-  int iVar1;
-  undefined1 auStack_30 [16];
-  
-  fn_82BFA8D8(auStack_30);
-  if ((((param_1 != (char *)0x0) && (*param_1 != '\0')) && ((param_2 & 0xffffffff) != 0)) &&
-     ((param_3 & 0xffffffff) != 0)) {
-    iVar1 = fn_82BF3608(param_1,param_2,param_3);
-    if (iVar1 != 0) {
-      fn_82BFABC8(auStack_30);
-      return 1;
-    }
-  }
-  fn_82BFABC8(auStack_30);
-  return 0;
-}
+    Guard_82BF3A88 g;
 
+    fn_82BFA8D8(&g);
+    if (s == 0 || *s == 0 || a == 0 || b == 0) {
+        fn_82BFABC8(&g);
+        return 0;
+    }
+    if (fn_82BF3608(s, a, b) == 0) {
+        fn_82BFABC8(&g);
+        return 0;
+    }
+    fn_82BFABC8(&g);
+    return 1;
+}

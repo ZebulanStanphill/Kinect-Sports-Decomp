@@ -25,33 +25,40 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_822BD278();
-extern int fn_822C69F0();
-extern int fn_822C6D68();
-extern int fn_822CB020();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_822CA5B0 Obj_822CA5B0;
+typedef struct Sub_822CA5B0 {
+    char pad0[0x114];
+    char *m114;
+} Sub_822CA5B0;
+struct Obj_822CA5B0 {
+    struct {
+        int pad[2];
+        char *(*f8)(Obj_822CA5B0 *);
+    } *vt;
+    char pad4[0xbc - 4];
+    char *m;
+};
 
-void fn_822CA5B0(int *param_1)
+extern void fn_822BD278(__vector4 *, char *);
+extern void fn_822CB020(__vector4 *, char *);
+extern void fn_822C6D68(char *, char *, char *, __vector4);
+extern void fn_822C69F0(char *, char *, char *, __vector4);
 
+void fn_822CA5B0(Obj_822CA5B0 *o)
 {
-  int iVar1;
-  longlong lVar2;
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [24];
-  
-  lVar2 = (**(code **)(*param_1 + 8))();
-  fn_822BD278(auStack_40,lVar2 + 0x144);
-  lVar2 = (**(code **)(*param_1 + 8))(param_1);
-  fn_822CB020(auStack_30,lVar2 + 0xf0);
-  iVar1 = param_1[0x2f];
-  if (iVar1 != 0) {
-    lVar2 = (ulonglong)*(uint *)(iVar1 + 0x114) + 0x50;
-    fn_822C6D68(lVar2,iVar1 + 0x80,iVar1 + 0xc0);
-    fn_822C69F0(lVar2,(ulonglong)(uint)param_1[0x2f] + 0x80,
-                      (ulonglong)(uint)param_1[0x2f] + 0xc0);
-  }
-  return;
-}
+    __vector4 a;
+    __vector4 b;
+    char *q;
 
+    fn_822BD278(&a, o->vt->f8(o) + 0x144);
+    fn_822CB020(&b, o->vt->f8(o) + 0xf0);
+    if (o->m != 0) {
+        q = *(char **)(o->m + 0x114) + 0x50;
+        fn_822C6D68(q, o->m + 0x80, o->m + 0xc0, a);
+        fn_822C69F0(q, o->m + 0x80, o->m + 0xc0, b);
+    }
+}

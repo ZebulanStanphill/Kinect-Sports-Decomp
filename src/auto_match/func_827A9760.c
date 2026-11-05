@@ -1,67 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827A9620();
+extern void fn_827A9620(char *, unsigned, unsigned);
 
+typedef struct {
+  unsigned small : 1;
+  unsigned on : 1;
+  unsigned rest : 30;
+  unsigned n;
+  char pad[0x14];
+  unsigned char sn;
+} Cont_827A9760;
 
-void fn_827A9760(uint *param_1)
-
+static __forceinline char *Data(Cont_827A9760 *c)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  
-  uVar4 = *param_1;
-  if ((uVar4 >> 0x1e & 1) != 0) {
-    iVar1 = (int)param_1 + 0x1e;
-    if ((int)uVar4 < 0) {
-      uVar2 = (uint)*(byte *)(param_1 + 7);
-    }
-    else {
-      iVar1 = (int)param_1 + 0x2a;
-      uVar2 = param_1[1];
-    }
-    iVar3 = (int)param_1 + 0x1e;
-    if ((int)uVar4 < 0) {
-      uVar4 = (uint)*(byte *)(param_1 + 7);
-    }
-    else {
-      iVar3 = (int)param_1 + 0x2a;
-      uVar4 = param_1[1];
-    }
-    fn_827A9620(iVar1,uVar2,uVar4 * 8 + iVar3 + 3 & 0xfffffffc);
-    if ((int)*param_1 < 0) {
-      *(undefined1 *)(param_1 + 7) = 0;
-    }
-    else {
-      param_1[1] = 0;
-    }
-  }
-  return;
+  if (c->small) return (char *)c + 0x1e;
+  return (char *)c + 0x2a;
+}
+static __forceinline unsigned Count(Cont_827A9760 *c)
+{
+  if (c->small) return c->sn;
+  return c->n;
 }
 
+void fn_827A9760(Cont_827A9760 *param_1)
+{
+  char *a, *c;
+  unsigned b, d;
+  if ((unsigned char)param_1->on) {
+    a = Data(param_1);
+    b = Count(param_1);
+    c = Data(param_1);
+    d = Count(param_1);
+    fn_827A9620(a, b, (d * 8 + (unsigned)c + 3) & 0xfffffffc);
+    if ((unsigned char)param_1->small) {
+      param_1->sn = 0;
+    } else {
+      param_1->n = 0;
+    }
+  }
+}

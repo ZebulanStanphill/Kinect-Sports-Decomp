@@ -25,36 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_826A9BC8();
+typedef struct Ctl_826AA3E0 { int pad[2]; int refs; } Ctl_826AA3E0;
+typedef struct Elem_826AA3E0 { int a; Ctl_826AA3E0 *c; } Elem_826AA3E0;
+typedef struct Vec_826AA3E0 { Elem_826AA3E0 *data; unsigned size; unsigned cap; int a; Ctl_826AA3E0 *c; } Vec_826AA3E0;
+extern void fn_826A9BC8(Vec_826AA3E0 *, Vec_826AA3E0 *, unsigned);
 
-
-void fn_826AA3E0(int *param_1,ulonglong param_2)
-
+void fn_826AA3E0(Vec_826AA3E0 *v, unsigned n)
 {
-  uint uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  int *piVar4;
-  
-  uVar1 = param_1[1];
-  fn_826A9BC8(param_1,param_1,param_2);
-  if ((ulonglong)uVar1 < (param_2 & 0xffffffff)) {
-    param_2 = param_2 - uVar1;
-    piVar4 = (int *)(uVar1 * 8 + *param_1);
-    uVar3 = 0;
-    if (param_2 != 0) {
+  unsigned old = v->size;
+  fn_826A9BC8(v, v, n);
+  if (n > old) {
+    Elem_826AA3E0 *p = v->data + old;
+    unsigned cnt = n - old;
+    unsigned i = 0;
+    if (cnt != 0) {
       do {
-        if (piVar4 != (int *)0x0) {
-          *piVar4 = param_1[3];
-          iVar2 = param_1[4];
-          piVar4[1] = iVar2;
-          *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
+        if (p != 0) {
+          p->a = v->a;
+          p->c = v->c;
+          p->c->refs = p->c->refs + 1;
         }
-        uVar3 = uVar3 + 1;
-        piVar4 = piVar4 + 2;
-      } while ((uVar3 & 0xffffffff) < (param_2 & 0xffffffff));
+        i++;
+        p++;
+      } while (i < cnt);
     }
   }
-  return;
 }
-

@@ -25,34 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FA9208();
-extern int fn_82FAC7A0();
-extern int fn_82FACE68();
-extern unsigned int lbl_831BC768;
+typedef struct Obj_82FADD68 { int pad[1]; int *vt; int pad2[9]; int ref; } Obj_82FADD68;
+extern unsigned fn_82FA5060(int, int);
+extern void fn_82FA9208(void *);
+extern Obj_82FADD68 *fn_82FAC7A0(unsigned, int, int);
+extern int fn_82FACE68(Obj_82FADD68 *, int, int);
+extern int lbl_831BC768;
 
-
-int fn_82FADD68(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+Obj_82FADD68 *fn_82FADD68(int a, int b, int c, int d)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int iVar3;
-  
-  uVar1 = fn_82FA5060(lbl_831BC768,0x7c);
-  if ((uVar1 & 0xffffffff) != 0) {
-    iVar2 = fn_82FAC7A0(uVar1,param_1,param_2);
-    if (iVar2 == 0) {
-      return 0;
+  unsigned h = fn_82FA5060(lbl_831BC768, 0x7c);
+  Obj_82FADD68 *o;
+  if (h != 0) {
+    o = fn_82FAC7A0(h, a, b);
+    if (o != 0) {
+      o->ref = o->ref + 1;
+      if (fn_82FACE68(o, c, d) != 1) {
+        (*(void (**)(void *, int))(*(int *)((char *)o + 4) + 4))((char *)o + 4, 0);
+    fn_82FA9208(o);
+        o = 0;
+      }
     }
-    *(int *)(iVar2 + 0x2c) = *(int *)(iVar2 + 0x2c) + 1;
-    iVar3 = fn_82FACE68(iVar2,param_3,param_4);
-    if (iVar3 == 1) {
-      return iVar2;
-    }
-    (**(code **)(*(int *)(iVar2 + 4) + 4))(iVar2 + 4,0);
-    fn_82FA9208(iVar2);
+  } else {
+    o = 0;
   }
-  return 0;
+  return o;
 }
-

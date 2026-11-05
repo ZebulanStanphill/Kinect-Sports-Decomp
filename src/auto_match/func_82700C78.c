@@ -25,59 +25,81 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_8267C498();
-extern int fn_826824B0();
-extern int fn_82695750();
-extern int fn_82696330();
-extern int fn_8269A678();
-extern int fn_826AEC60();
+typedef struct Dev_82700C78 Dev_82700C78;
+struct Dev_82700C78 {
+    struct {
+        char pad[0x5c];
+        int (*f5c)(Dev_82700C78 *);
+    } *vt;
+};
+typedef struct Self_82700C78 {
+    char pad0[0x68];
+    Dev_82700C78 *m68;
+} Self_82700C78;
+typedef struct Px_82700C78 {
+    char pad0[8];
+    unsigned rc;
+} Px_82700C78;
+typedef struct Rep_82700C78 {
+    char pad0[4];
+    int cnt;
+} Rep_82700C78;
+typedef struct Sp_82700C78 {
+    Px_82700C78 *px;
+    int rep;
+    char str[0x10];
+} Sp_82700C78;
+typedef struct Tmp_82700C78 {
+    char b[0x10];
+} Tmp_82700C78;
 
+extern Rep_82700C78 *fn_8269A678(Rep_82700C78 *, Self_82700C78 *);
+extern void fn_82695750(Tmp_82700C78 *, void *);
+extern int fn_826AEC60(Tmp_82700C78 *, int, void *, int, int, int, int);
+extern void fn_82696330(Tmp_82700C78 *);
+extern void fn_8267C498(Rep_82700C78 *);
+extern void fn_826824B0(Px_82700C78 *);
 
-undefined8
-fn_82700C78(int param_1,undefined8 param_2,int *param_3,undefined8 param_4,undefined8 param_5,
-             undefined8 param_6)
-
+int fn_82700C78(Self_82700C78 *o, int a, Sp_82700C78 *sp, int b, int c, int d)
 {
-  int iVar1;
-  int iVar3;
-  undefined8 uVar2;
-  int iVar4;
-  undefined1 auStack_60 [16];
-  
-  if (*(int *)(param_1 + 0x68) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    iVar1 = *param_3;
-    if (iVar1 != 0) {
-      *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-    }
-    iVar3 = 0;
-    iVar1 = *param_3;
-    if ((param_3[1] != 0) && (iVar3 = fn_8269A678(param_3[1],param_1), iVar3 != 0)) {
-      *(int *)(iVar3 + 4) = *(int *)(iVar3 + 4) + 1;
-    }
-    if (iVar1 == 0) {
-      iVar4 = iVar3 + 0x68;
-      if (iVar3 == 0) {
-        iVar4 = 0;
-      }
-    }
-    else {
-      iVar4 = iVar1 + 0x10;
-    }
-    uVar2 = (**(code **)(**(int **)(param_1 + 0x68) + 0x5c))();
-    fn_82695750(auStack_60,param_3 + 2);
-    uVar2 = fn_826AEC60(auStack_60,param_4,iVar4,uVar2,param_5,param_6,param_2);
-    fn_82696330(auStack_60);
-    if (iVar3 != 0) {
-      fn_8267C498(iVar3);
-    }
-    if (iVar1 != 0) {
-      fn_826824B0(iVar1);
-    }
-  }
-  return uVar2;
-}
+    Tmp_82700C78 t;
+    Px_82700C78 *px;
+    Rep_82700C78 *rep;
+    void *ptr;
+    int h;
+    int r;
 
+    if (o->m68 != 0) {
+        if (sp->px != 0) {
+            sp->px->rc = (sp->px->rc + 1) & 0x8fffffff;
+        }
+        rep = 0;
+        px = sp->px;
+        if (sp->rep != 0) {
+            Rep_82700C78 *t2 = fn_8269A678((Rep_82700C78 *)sp->rep, o);
+            if (t2 != 0) {
+                t2->cnt = t2->cnt + 1;
+            }
+            rep = t2;
+        }
+        if (px != 0) {
+            ptr = (char *)px + 0x10;
+        } else if (rep != 0) {
+            ptr = (char *)rep + 0x68;
+        } else {
+            ptr = 0;
+        }
+        h = o->m68->vt->f5c(o->m68);
+        fn_82695750(&t, sp->str);
+        r = fn_826AEC60(&t, b, ptr, h, c, d, a);
+        fn_82696330(&t);
+        if (rep != 0) {
+            fn_8267C498(rep);
+        }
+        if (px != 0) {
+            fn_826824B0(px);
+        }
+        return r;
+    }
+    return 0;
+}

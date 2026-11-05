@@ -1,66 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BC0088();
-
-
-undefined4 fn_82BC0340(int *param_1,undefined8 param_2)
-
+typedef struct Vec_82BC0340 { int pad; unsigned size; unsigned *data; } Vec_82BC0340;
+typedef struct Tab_82BC0340 {
+  unsigned n;
+  int pad4;
+  Vec_82BC0340 **buckets;
+  int (*eq)(unsigned, void *);
+  unsigned (*hash)(void *);
+} Tab_82BC0340;
+extern unsigned *fn_82BC0088(Vec_82BC0340 *, unsigned);
+unsigned fn_82BC0340(Tab_82BC0340 *t, void *key)
 {
-  undefined4 uVar1;
-  int iVar2;
-  uint uVar3;
-  undefined4 *puVar4;
-  int iVar5;
-  int iVar6;
-  
-  uVar3 = (*(code *)param_1[4])(param_2);
-  iVar2 = *(int *)((*param_1 - 1U & uVar3) * 4 + param_1[2]);
-  if (iVar2 != 0) {
-    uVar3 = 0;
-    if (*(int *)(iVar2 + 4) != 0) {
-      iVar6 = 0;
-      if (*(int *)(iVar2 + 4) == 0) {
-        puVar4 = (undefined4 *)fn_82BC0088(iVar2,0);
-        goto LAB_82bc03b8;
-      }
+  Vec_82BC0340 *b;
+  unsigned i;
+  unsigned h = t->hash(key);
+  b = t->buckets[(t->n - 1) & h];
+  if (b != 0) {
+    i = 0;
+    if (b->size != 0) {
       do {
-        puVar4 = (undefined4 *)(*(int *)(iVar2 + 8) + iVar6);
-LAB_82bc03b8:
-        uVar1 = *puVar4;
-        iVar5 = (*(code *)param_1[3])(uVar1,param_2);
-        if (iVar5 == 0) {
-          return uVar1;
-        }
-        uVar3 = uVar3 + 1;
-        iVar6 = iVar6 + 4;
-      } while (uVar3 < *(uint *)(iVar2 + 4));
+        unsigned *e;
+        unsigned v;
+        if (i < b->size) e = b->data + i; else e = fn_82BC0088(b, i);
+        v = *e;
+        if (t->eq(v, key) == 0) return v;
+        i++;
+      } while (i < b->size);
     }
   }
   return 0;
 }
-

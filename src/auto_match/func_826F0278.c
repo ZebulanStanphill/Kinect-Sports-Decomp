@@ -1,57 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8200DA48;
+extern char lbl_8200DA48[];
 
+typedef struct W_826F0278 { struct { void *f0, *f4, *f8; int (*fc)(struct W_826F0278 *); } *vt; } W_826F0278;
+typedef struct { char pad[0x14]; int m14; } P_826F0278;
+typedef struct { int m0; int m4; unsigned m8; } Src_826F0278;
+typedef struct {
+  void *vt;
+  int m4;
+  unsigned char m8;
+  int mc, m10, m14, m18, m1c, m20;
+} Obj_826F0278;
 
-undefined4 * fn_826F0278(undefined4 *param_1,undefined4 param_2,undefined4 *param_3)
-
+Obj_826F0278 *fn_826F0278(Obj_826F0278 *param_1, P_826F0278 *param_2, Src_826F0278 *param_3)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  param_1[1] = param_2;
-  *(undefined1 *)(param_1 + 2) = 0;
-  *param_1 = &lbl_8200DA48;
-  param_1[3] = *param_3;
-  param_1[4] = param_3[1];
-  uVar2 = param_3[2];
-  param_1[6] = 0;
-  param_1[5] = uVar2;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  iVar1 = param_3[2];
-  param_1[6] = iVar1;
-  if (iVar1 == 0) {
-    if (*(int **)(param_1[1] + 0x14) != (int *)0x0) {
-      uVar2 = (**(code **)(**(int **)(param_1[1] + 0x14) + 0xc))();
-      param_1[6] = uVar2;
+  unsigned v;
+  int *t;
+  int w;
+
+  param_1->m4 = (int)param_2;
+  param_1->m8 = 0;
+  param_1->vt = lbl_8200DA48;
+  param_1->mc = param_3->m0;
+  param_1->m10 = param_3->m4;
+  v = param_3->m8;
+  t = &param_1->m14;
+  param_1->m18 = 0;
+  *t = v;
+  param_1->m1c = 0;
+  param_1->m20 = 0;
+  v = param_3->m8;
+  param_1->m18 = v;
+  if (v == 0) {
+    w = ((P_826F0278 *)param_1->m4)->m14;
+    if (w != 0) {
+      param_1->m18 = ((W_826F0278 *)w)->vt->fc((W_826F0278 *)w);
     }
   }
   return param_1;
 }
-

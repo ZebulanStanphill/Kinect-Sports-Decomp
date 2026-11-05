@@ -27,16 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82811360(int *param_1,int *param_2)
+typedef struct Key_82811360 {
+    int a;
+    unsigned b, c, d, e, f;
+} Key_82811360;
 
+unsigned char fn_82811360(Key_82811360 *x, Key_82811360 *y)
 {
-  undefined8 uVar1;
-  
-  if ((((*param_1 != *param_2) || (param_1[1] != param_2[1])) || (param_1[2] != param_2[2])) ||
-     (((param_1[3] != param_2[3] || (param_1[4] != param_2[4])) ||
-      (uVar1 = 0, param_1[5] != param_2[5])))) {
-    uVar1 = 1;
-  }
-  return uVar1;
+    return x->a != y->a || x->b != y->b || x->c != y->c || x->d != y->d || x->e != y->e || x->f != y->f;
 }
-

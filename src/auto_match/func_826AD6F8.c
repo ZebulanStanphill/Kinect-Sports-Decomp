@@ -25,40 +25,61 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_826AA930();
-extern int fn_826C7030();
+typedef struct Str_826AD6F8 {
+    char pad0[8];
+    char *buf;
+    unsigned size;
+} Str_826AD6F8;
+typedef struct Ctx_826AD6F8 {
+    char pad0[0x288];
+    int m288;
+} Ctx_826AD6F8;
+typedef struct Hold_826AD6F8 {
+    char pad0[0x78];
+    Ctx_826AD6F8 *m78;
+} Hold_826AD6F8;
+typedef struct Self_826AD6F8 {
+    char pad0[4];
+    int s;
+} Self_826AD6F8;
+typedef struct Dev_826AD6F8 Dev_826AD6F8;
+struct Dev_826AD6F8 {
+    struct {
+        char pad[0x5c];
+        Hold_826AD6F8 *(*f5c)(Dev_826AD6F8 *);
+    } *vt;
+};
 
+extern void *fn_8267B890(int, int, int);
+extern void *fn_826AA930(void *, void *, Str_826AD6F8 *);
+extern void fn_826C7030(Dev_826AD6F8 *, void *, int);
+extern void fn_8267C498(void *);
 
-void fn_826AD6F8(int param_1,int *param_2,undefined8 param_3)
-
+void fn_826AD6F8(Self_826AD6F8 *self, Dev_826AD6F8 *dev, int arg)
 {
-  bool bVar1;
-  int iVar3;
-  ulonglong uVar2;
-  
-  iVar3 = *(int *)(param_1 + 4);
-  if (iVar3 != 0) {
-    if ((*(int *)(iVar3 + 0xc) == 0) || (bVar1 = false, **(char **)(iVar3 + 8) == '\0')) {
-      bVar1 = true;
-    }
-    if (!bVar1) {
-      iVar3 = (**(code **)(*param_2 + 0x5c))(param_2);
-      uVar2 = fn_8267B890(*(undefined4 *)(*(int *)(iVar3 + 0x78) + 0x288),0x20,0);
-      if ((uVar2 & 0xffffffff) == 0) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = fn_826AA930(uVar2,iVar3 + 0x78,*(undefined4 *)(param_1 + 4));
-      }
-      fn_826C7030(param_2,uVar2,param_3);
-      if ((uVar2 & 0xffffffff) != 0) {
-        fn_8267C498(uVar2);
-      }
-    }
-    return;
-  }
-  return;
-}
+    Hold_826AD6F8 *h;
+    void *mem;
+    void *r;
+    unsigned char empty;
 
+    if (self->s != 0) {
+        if (((Str_826AD6F8 *)self->s)->size < 1 || *((Str_826AD6F8 *)self->s)->buf == 0) {
+            empty = 1;
+        } else {
+            empty = 0;
+        }
+        if (!empty) {
+            h = dev->vt->f5c(dev);
+            mem = fn_8267B890(h->m78->m288, 0x20, 0);
+            if (mem != 0) {
+                r = fn_826AA930(mem, &h->m78, (Str_826AD6F8 *)self->s);
+            } else {
+                r = 0;
+            }
+            fn_826C7030(dev, r, arg);
+            if (r != 0) {
+                fn_8267C498(r);
+            }
+        }
+    }
+}

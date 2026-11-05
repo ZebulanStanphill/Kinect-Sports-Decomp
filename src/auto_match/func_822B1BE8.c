@@ -25,45 +25,69 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_a0;
-extern int fn_82230300();
-extern int fn_822B27E8();
-extern int fn_82897DF8();
-extern int fn_828EA268();
+typedef struct Str_822B1BE8 {
+    char b[0x20];
+} Str_822B1BE8;
+typedef struct Slot_822B1BE8 {
+    char pad0[0xc];
+    int mc;
+    char pad10[0x58 - 0x10];
+    char m58;
+    char pad59[3];
+    int m5c;
+    int m60;
+    int m64;
+} Slot_822B1BE8;
+typedef struct Obj_822B1BE8 {
+    char pad0[0xc];
+    int mc;
+    char pad10[0x58 - 0x10];
+    char m58;
+    char pad59[3];
+    int m5c;
+    int m60;
+    int m64;
+    char pad68[0xcc - 0x68];
+    int mcc;
+    char padd0[0x118 - 0xd0];
+    char m118;
+    char pad119[3];
+    int m11c;
+    int m120;
+    int m124;
+} Obj_822B1BE8;
 
+extern Str_822B1BE8 *fn_822B27E8(Str_822B1BE8 *, int, const char *);
+extern int fn_828EA268(int);
+extern void fn_82897DF8(void *, int, Str_822B1BE8 *);
+extern void fn_82230300(Str_822B1BE8 *, int, int);
 
-void fn_822B1BE8(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_822B1BE8(Obj_822B1BE8 *o, int a, int b, int c)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  undefined1 auStack_a0 [32];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [96];
-  
-  uVar1 = fn_822B27E8(auStack_a0,param_3,0xffffffff821ac8a0);
-  *(int *)(param_1 + 0x60) = (int)param_4;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined1 *)(param_1 + 0x58) = 0;
-  *(undefined4 *)(param_1 + 0x5c) = 0;
-  uVar2 = fn_828EA268(param_4);
-  *(undefined4 *)(param_1 + 100) = uVar2;
-  fn_82897DF8(param_1,param_2,uVar1);
-  fn_82230300(auStack_a0,1,0);
-  uVar1 = fn_822B27E8(auStack_80,param_3,0xffffffff821ac8b0);
-  fn_82897DF8(param_1 + 0x68,param_2,uVar1);
-  fn_82230300(auStack_80,1,0);
-  uVar1 = fn_822B27E8(auStack_60,param_3,0xffffffff821ac8c0);
-  *(undefined4 *)(param_1 + 0xcc) = 0;
-  *(undefined1 *)(param_1 + 0x118) = 0;
-  *(undefined4 *)(param_1 + 0x11c) = 0;
-  *(int *)(param_1 + 0x120) = (int)param_4;
-  uVar2 = fn_828EA268(param_4);
-  *(undefined4 *)(param_1 + 0x124) = uVar2;
-  fn_82897DF8(param_1 + 0xc0,param_2,uVar1);
-  fn_82230300(auStack_60,1,0);
-  return;
-}
+    Str_822B1BE8 s1;
+    Str_822B1BE8 s2;
+    Str_822B1BE8 s3;
+    Str_822B1BE8 *r;
+    Slot_822B1BE8 *sub;
 
+    r = fn_822B27E8(&s1, b, "_desiredState");
+    o->m60 = c;
+    o->mc = 0;
+    o->m58 = 0;
+    o->m5c = 0;
+    o->m64 = fn_828EA268(c);
+    fn_82897DF8(o, a, r);
+    fn_82230300(&s1, 1, 0);
+    r = fn_822B27E8(&s2, b, "_actualState");
+    fn_82897DF8((char *)o + 0x68, a, r);
+    fn_82230300(&s2, 1, 0);
+    r = fn_822B27E8(&s3, b, "_ownerReadyState");
+    sub = (Slot_822B1BE8 *)((char *)o + 0xc0);
+    sub->mc = 0;
+    sub->m58 = 0;
+    sub->m5c = 0;
+    sub->m60 = c;
+    sub->m64 = fn_828EA268(c);
+    fn_82897DF8(sub, a, r);
+    fn_82230300(&s3, 1, 0);
+}

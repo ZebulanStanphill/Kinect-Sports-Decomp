@@ -25,34 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829E82D0();
-extern int fn_829E8378();
-extern int fn_82A28568();
-extern unsigned int lbl_832179FC;
+typedef struct Obj_829E65C0 { int pad[6]; void *obj; } Obj_829E65C0;
+extern unsigned char fn_829E82D0(void *);
+extern void *fn_829E8378(void *);
+extern void *fn_82A28568(void *, int, int);
+extern char *lbl_832179FC;
 
-
-ulonglong fn_829E65C0(int param_1)
-
+int fn_829E65C0(Obj_829E65C0 *self)
 {
-  int iVar2;
-  ulonglong uVar1;
-  char cVar3;
-  
-  iVar2 = fn_82A28568(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0,0x14);
-  if (iVar2 == 0) {
-    iVar2 = 0;
+  void *a = fn_82A28568(*(void **)(lbl_832179FC + 0x8f4cc), 0, 0x14);
+  void *o;
+  if (a != 0) {
+    o = fn_829E8378(a);
+  } else {
+    o = 0;
   }
-  else {
-    iVar2 = fn_829E8378();
+  self->obj = o;
+  if (o == 0) {
+    return 0x8007000e;
   }
-  *(int *)(param_1 + 0x18) = iVar2;
-  if (iVar2 == 0) {
-    uVar1 = 0xffffffff8007000e;
-  }
-  else {
-    cVar3 = fn_829E82D0();
-    uVar1 = -(ulonglong)(cVar3 == '\0') & 0xffffffff8007000e;
-  }
-  return uVar1;
+  return fn_829E82D0(o) == 0 ? 0x8007000e : 0;
 }
-

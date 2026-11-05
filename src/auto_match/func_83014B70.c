@@ -25,28 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_83014568();
-extern int fn_83015E68();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642E0;
+extern unsigned fn_82FA5060(unsigned, int);
+extern unsigned fn_83014568(unsigned, int, int);
+extern void fn_83015E68(int, unsigned);
+extern unsigned lbl_831BC768;
+extern int lbl_832642E0;
 
-
-ulonglong fn_83014B70(undefined8 param_1,undefined8 param_2)
-
+unsigned fn_83014B70(int a, int b)
 {
-  ulonglong uVar1;
-  
-  uVar1 = fn_82FA5060(lbl_831BC768,0x80);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = 0;
+  unsigned h = fn_82FA5060(lbl_831BC768, 0x80);
+  unsigned o;
+  if (h != 0) {
+    o = fn_83014568(h, a, b);
+    if (o != 0) fn_83015E68(lbl_832642E0 + 0x1304, o);
+  } else {
+    o = 0;
   }
-  else {
-    uVar1 = fn_83014568(uVar1,param_1,param_2);
-    if ((uVar1 & 0xffffffff) != 0) {
-      fn_83015E68((ulonglong)lbl_832642E0 + 0x1304,uVar1);
-    }
-  }
-  return uVar1;
+  return o;
 }
-

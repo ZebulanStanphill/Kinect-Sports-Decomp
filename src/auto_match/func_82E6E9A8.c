@@ -25,32 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+typedef struct Obj_82E6E9A8 {
+  int *vt;
+  int pad1[5];
+  unsigned __int64 cur;
+  int pad2[4];
+  unsigned __int64 base;
+  unsigned end;
+} Obj_82E6E9A8;
+extern void *memcpy(void *, const void *, unsigned);
 
-
-undefined8 fn_82E6E9A8(int *param_1,ulonglong param_2,ulonglong param_3,undefined4 *param_4)
-
+int fn_82E6E9A8(Obj_82E6E9A8 *self, void *dst, unsigned n, unsigned *out)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  if (param_4 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff80004003;
+  if (out == 0) {
+    return 0x80004003;
   }
-  else {
-    *param_4 = 0;
-    if (((param_2 & 0xffffffff) != 0) && ((param_3 & 0xffffffff) != 0)) {
-      iVar2 = (**(code **)(*param_1 + 100))(param_1,*(undefined8 *)(param_1 + 6),param_3);
-      if (iVar2 == 0) {
-        return 0xffffffffc00d36bf;
-      }
-      fn_82F68CC0(param_2,((ulonglong)(uint)param_1[0xe] -
-                           (*(ulonglong *)(param_1 + 0xc) & 0xffffffff)) +
-                           (*(ulonglong *)(param_1 + 6) & 0xffffffff),param_3);
-      *param_4 = (int)param_3;
+  *out = 0;
+  if (dst != 0 && n != 0) {
+    if ((*(int (**)(Obj_82E6E9A8 *, unsigned __int64, unsigned))((char *)self->vt + 0x64))(self, self->cur, n) != 0) {
+      memcpy(dst, (const void *)((unsigned)self->end - (unsigned)self->base + (unsigned)self->cur), n);
+      *out = n;
+      return 0;
     }
-    uVar1 = 0;
+    return 0xc00d36bf;
   }
-  return uVar1;
+  return 0;
 }
-

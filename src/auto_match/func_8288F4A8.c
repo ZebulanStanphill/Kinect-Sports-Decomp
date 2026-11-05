@@ -25,47 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8288B8B0();
-extern int fn_82897620();
-extern int fn_8289B290();
-extern int fn_828A12E8();
-extern int fn_828B5650();
-extern unsigned int iStack_40;
+typedef struct VtObj { int *vt; } VtObj;
+typedef struct Node_8288F4A8 { int pad[5]; VtObj *obj; } Node_8288F4A8;
+typedef struct Sub_8288F4A8 { int head; unsigned end; } Sub_8288F4A8;
+typedef struct Map_8288F4A8 { int pad; Sub_8288F4A8 sub; } Map_8288F4A8;
+typedef struct Ctx_8288F4A8 { char pad[0x50]; int key; } Ctx_8288F4A8;
+typedef struct Pair_8288F4A8 { unsigned *begin; unsigned *end; } Pair_8288F4A8;
+extern Map_8288F4A8 *fn_828A12E8(int);
+extern Node_8288F4A8 *fn_8288B8B0(int *, void *);
+extern int fn_82897620(int, int);
+extern void fn_8289B290(int, Ctx_8288F4A8 *, int, int, void *);
+extern unsigned char fn_828B5650(void *, void *);
 
-
-void fn_8288F4A8(int *param_1,int param_2)
-
+void fn_8288F4A8(int *param_1, Ctx_8288F4A8 *param_2)
 {
-  int iVar1;
-  int iVar4;
-  ulonglong uVar2;
-  char cVar5;
-  undefined8 uVar3;
-  int *piVar6;
-  int iVar7;
-  int iStack_40;
-  int aiStack_3c [1];
-  
-  iVar1 = param_1[1];
-  for (iVar7 = *param_1; iVar7 != iVar1; iVar7 = iVar7 + 0x20) {
-    iVar4 = fn_828A12E8(*(undefined4 *)(param_2 + 0x50));
-    uVar2 = fn_8288B8B0(iVar4 + 4,iVar7);
-    iStack_40 = (int)uVar2;
-    if (((uVar2 & 0xffffffff) == (ulonglong)*(uint *)(iVar4 + 8)) ||
-       (cVar5 = fn_828B5650(iVar7,uVar2 + 0xc), cVar5 != '\0')) {
-      piVar6 = aiStack_3c;
-      aiStack_3c[0] = *(int *)(iVar4 + 8);
+  char *it = (char *)*param_1;
+  char *end = (char *)param_1[1];
+  for (; it != end; it += 0x20) {
+    Map_8288F4A8 *m = fn_828A12E8(param_2->key);
+    Sub_8288F4A8 *s = &m->sub;
+    Node_8288F4A8 *lb = fn_8288B8B0(&s->head, it);
+    Node_8288F4A8 *tmp[2];
+    Node_8288F4A8 **pp;
+    tmp[0] = lb;
+    if ((unsigned)lb == s->end || fn_828B5650(it, (char *)lb + 0xc) != 0) {
+      tmp[1] = (Node_8288F4A8 *)s->end;
+      pp = &tmp[1];
+    } else {
+      pp = &tmp[0];
     }
-    else {
-      piVar6 = &iStack_40;
-    }
-    if (((*piVar6 != *(int *)(iVar4 + 8)) &&
-        (piVar6 = *(int **)(*piVar6 + 0x14), piVar6 != (int *)0x0)) &&
-       (uVar2 = (**(code **)(*piVar6 + 8))(), (uVar2 & 0xffffffff) != 0)) {
-      uVar3 = fn_82897620(uVar2,*(undefined4 *)(iVar7 + 8));
-      fn_8289B290(uVar3,param_2,0,0,iVar7 + 0xc);
+    if ((unsigned)*pp != m->sub.end) {
+      VtObj *o = (*pp)->obj;
+      if (o != 0) {
+        unsigned r = (*(unsigned (**)(VtObj *))(*(int *)o + 8))(o);
+        if (r != 0) {
+          int v = fn_82897620(r, *(int *)(it + 8));
+          fn_8289B290(v, param_2, 0, 0, it + 0xc);
+        }
+      }
     }
   }
-  return;
 }
-

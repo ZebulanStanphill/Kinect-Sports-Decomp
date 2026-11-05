@@ -1,42 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82687DA8();
+typedef struct Obj_826D6828 Obj_826D6828;
+struct Obj_826D6828 {
+  struct { int pad[15]; void *(*f3c)(Obj_826D6828 *); } *vt;
+  int pad[4];
+  unsigned flags;
+};
+extern void fn_82687DA8(void *, void *, unsigned);
 
-
-void fn_826D6828(undefined8 param_1,int *param_2)
-
+void fn_826D6828(void *param_1, Obj_826D6828 *param_2)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = param_2[5];
-  uVar2 = (**(code **)(*param_2 + 0x3c))(param_2);
-  fn_82687DA8(param_1,uVar2,uVar1 & 0x303);
-  return;
+  unsigned f = param_2->flags & 0x303;
+  fn_82687DA8(param_1, param_2->vt->f3c(param_2), f);
 }
-

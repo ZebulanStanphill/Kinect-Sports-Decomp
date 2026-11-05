@@ -27,52 +27,40 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_82E1F708(char *param_1)
+extern unsigned strlen(const char *);
 
+int fn_82E1F708(char *s)
 {
-  char cVar1;
-  uint uVar2;
-  int iVar3;
-  char *pcVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  
-  pcVar4 = param_1;
-  if (param_1 != (char *)0x0) {
-    do {
-      cVar1 = *pcVar4;
-      pcVar4 = pcVar4 + 1;
-    } while (cVar1 != '\0');
-    iVar5 = (int)pcVar4 - (int)param_1;
-    if (iVar5 != 1) {
-      uVar2 = iVar5 - 2;
-      uVar6 = 0;
-      if (iVar5 != 1) {
-        do {
-          if ((param_1[uVar6] != ' ') && (param_1[uVar6] != '\t')) break;
-          uVar6 = uVar6 + 1;
-        } while (uVar6 < iVar5 - 1U);
-      }
-      for (; (uVar2 != 0 && ((param_1[uVar2] == ' ' || (param_1[uVar2] == '\t'))));
-          uVar2 = uVar2 - 1) {
-      }
-      if (uVar2 < uVar6) {
-        *param_1 = '\0';
-        return 0;
-      }
-      iVar5 = (uVar2 - uVar6) + 1;
-      if (uVar6 != 0) {
-        iVar3 = 0;
-        for (iVar7 = iVar5; iVar7 != 0; iVar7 = iVar7 + -1) {
-          param_1[iVar3] = param_1[iVar3 + uVar6];
-          iVar3 = iVar3 + 1;
-        }
-      }
-      param_1[iVar5] = '\0';
-      return iVar5;
+  unsigned len;
+  unsigned start;
+  unsigned end;
+  unsigned n;
+  if (s == 0) {
+    return 0;
+  }
+  len = strlen(s);
+  if (len == 0) {
+    return 0;
+  }
+  start = 0;
+  end = len - 1;
+  while (start < len && (s[start] == ' ' || s[start] == '\t')) {
+    start++;
+  }
+  while (end != 0 && (s[end] == ' ' || s[end] == '\t')) {
+    end--;
+  }
+  if (start > end) {
+    s[0] = 0;
+    return 0;
+  }
+  n = end - start + 1;
+  if (start != 0) {
+    unsigned i;
+    for (i = 0; i < n; i++) {
+      s[i] = s[i + start];
     }
   }
-  return 0;
+  s[n] = 0;
+  return n;
 }
-

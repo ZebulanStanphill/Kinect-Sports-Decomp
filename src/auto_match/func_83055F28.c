@@ -25,74 +25,87 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E0D0();
-extern int fn_82A2A650();
-extern unsigned int iStack_30;
-extern unsigned int iStack_34;
-extern unsigned int iStack_38;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
+typedef struct Obj_83055F28 Obj_83055F28;
+struct Obj_83055F28 {
+    struct {
+        int pad0;
+        void (*f4)(Obj_83055F28 *);
+        unsigned char (*f8)(Obj_83055F28 *);
+        void (*fc)(Obj_83055F28 *);
+    } *vt;
+    int m4;
+    unsigned m8;
+    char padc[4];
+    char cs[0x1c];
+    int m2c;
+    int m30;
+    int m34;
+    int m38;
+    char pad3c[0x48 - 0x3c];
+    unsigned m48;
+};
+typedef struct Pair_83055F28 {
+    int first;
+    int second;
+} Pair_83055F28;
+typedef struct Trip_83055F28 {
+    int first;
+    int second;
+    int third;
+} Trip_83055F28;
 
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern unsigned fn_82A2A650(int, void *, int, unsigned, int);
+extern void fn_82A1E0D0(int, int);
 
-undefined8 fn_83055F28(int *param_1)
-
+int fn_83055F28(Obj_83055F28 *o)
 {
-  uint uVar1;
-  bool bVar2;
-  int iVar3;
-  uint uVar4;
-  char cVar5;
-  struct { int first; int second; } stack_pair_40;
+    Pair_83055F28 a;
+    Trip_83055F28 b;
+    unsigned char run;
+    unsigned r;
+    unsigned lim;
+    unsigned cur;
+    unsigned lt;
 
-  struct { int first; int second; } stack_pair_38;
-
-  int iStack_30;
-
-  stack_pair_40.first = param_1[0xb];
-  stack_pair_38.second = param_1[0xd];
-  bVar2 = true;
-  iStack_30 = param_1[0xe];
-  stack_pair_40.second = param_1[0xc];
-  stack_pair_38.first = stack_pair_40.first;
-  (**(code **)(*param_1 + 0xc))();
-  do {
-    iVar3 = fn_82A2A650(2,&stack_pair_40.first,0,0xffffffffffffffff,1);
-    uVar4 = 0;
-    if (iVar3 != 0) {
-      uVar4 = fn_82A2A650(3,&stack_pair_38.first,0,param_1[1],1);
-    }
-    if (uVar4 < 0xc1) {
-      if (uVar4 != 0xc0) {
-        if (uVar4 != 0) {
-          if (2 < uVar4) {
+    b.first = o->m2c;
+    b.second = o->m34;
+    b.third = o->m38;
+    a.second = o->m30;
+    a.first = o->m2c;
+    run = 1;
+    o->vt->fc(o);
+    do {
+        r = fn_82A2A650(2, &a, 0, 0xffffffff, 1);
+        if (r != 0) {
+            r = fn_82A2A650(3, &b, 0, o->m4, 1);
+        }
+        switch (r) {
+        case 0:
+            if (o->vt->f8(o) != 0) {
+                run = 0;
+            } else {
+                fn_82A1E0D0(100, 1);
+            }
+            break;
+        case 0xc0:
+            break;
+        case 1:
+        case 2:
+        case 0x102:
+            RtlEnterCriticalSection(o->cs);
+            cur = o->m48;
+            lim = o->m8;
+            lt = cur < lim;
+            RtlLeaveCriticalSection(o->cs);
+            if (lt) {
+                o->vt->f4(o);
+            }
+            break;
+        default:
             return 1;
-          }
-          goto LAB_83056014;
         }
-        cVar5 = (**(code **)(*param_1 + 8))(param_1);
-        if (cVar5 == '\0') {
-          fn_82A1E0D0(100,1);
-        }
-        else {
-          bVar2 = false;
-        }
-      }
-    }
-    else {
-      if (uVar4 != 0x102) {
-        return 1;
-      }
-LAB_83056014:
-      RtlEnterCriticalSection(param_1 + 4);
-      uVar4 = param_1[0x12];
-      uVar1 = param_1[2];
-      RtlLeaveCriticalSection(param_1 + 4);
-      if (uVar4 < uVar1) {
-        (**(code **)(*param_1 + 4))(param_1);
-      }
-    }
-    if (!bVar2) {
-      return 0;
-    }
-  } while( true );
+    } while (run);
+    return 0;
 }

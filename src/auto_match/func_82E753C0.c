@@ -25,58 +25,87 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50BE8();
-extern int fn_82E5FD40();
-extern int memcpy();
+typedef struct I2_82E753C0 I2_82E753C0;
+typedef struct Data_82E753C0 {
+    char pad0[0x10];
+    unsigned short m10;
+} Data_82E753C0;
+struct I2_82E753C0 {
+    struct {
+        char pad0[8];
+        unsigned long (*f8)(I2_82E753C0 *);
+        char pad0c[0x98 - 0xc];
+        Data_82E753C0 *(*f98)(I2_82E753C0 *);
+    } *vt;
+};
+typedef struct I1_82E753C0 I1_82E753C0;
+struct I1_82E753C0 {
+    struct {
+        int (*f0)(I1_82E753C0 *, void *, I2_82E753C0 **);
+        char pad4[4];
+        unsigned long (*f8)(I1_82E753C0 *);
+    } *vt;
+};
+typedef struct Dev_82E753C0 Dev_82E753C0;
+struct Dev_82E753C0 {
+    struct {
+        char pad0[0x90];
+        int (*f90)(Dev_82E753C0 *, I1_82E753C0 **);
+    } *vt;
+};
+typedef struct Obj_82E753C0 {
+    char pad0[0x68];
+    int m68;
+    char pad6c[4];
+    void *m70;
+    int m74;
+} Obj_82E753C0;
 
+extern int fn_82E5FD40(I1_82E753C0 *, void *);
+extern void *fn_82E50BE8(int, int, int, int, int);
+extern void *memcpy(void *, const void *, unsigned);
+extern char lbl_821531C8[];
 
-longlong fn_82E753C0(int param_1,int *param_2)
-
+int fn_82E753C0(Obj_82E753C0 *o, Dev_82E753C0 *dev)
 {
-  longlong lVar1;
-  undefined4 uVar3;
-  int iVar4;
-  int iVar5;
-  ulonglong uVar2;
-  int *piStack_30;
-  int * apiStack_2c;
-  
-  if (param_2 == (int *)0x0) {
-    return -0x7ff8ffa9;
-  }
-  piStack_30 = (int *)0x0;
-  apiStack_2c = (int *)0x0;
-  lVar1 = (**(code **)(*param_2 + 0x90))(param_2,&piStack_30);
-  if (-1 < lVar1) {
-    if (piStack_30 == (int *)0x0) {
-      lVar1 = -0x3ff2c945;
-      goto LAB_82e754dc;
-    }
-    uVar3 = fn_82E5FD40(piStack_30,param_1 + 0x6c);
-    *(undefined4 *)(param_1 + 0x68) = uVar3;
-    lVar1 = (**(code **)*piStack_30)(piStack_30,0xffffffff821531c8,&apiStack_2c);
-    if (-1 < lVar1) {
-      iVar4 = (**(code **)(*apiStack_2c + 0x98))();
-      iVar5 = *(ushort *)(iVar4 + 0x10) + 0x12;
-      *(int *)(param_1 + 0x74) = iVar5;
-      uVar2 = fn_82E50BE8(iVar5,0,0,0,0);
-      *(int *)(param_1 + 0x70) = (int)uVar2;
-      if ((uVar2 & 0xffffffff) == 0) {
-        lVar1 = -0x7ff8fff2;
-      }
-      else {
-        memcpy(uVar2,iVar4,*(undefined4 *)(param_1 + 0x74));
-      }
-    }
-  }
-  if (piStack_30 != (int *)0x0) {
-    (**(code **)(*piStack_30 + 8))();
-    piStack_30 = (int *)0x0;
-  }
-LAB_82e754dc:
-  if (apiStack_2c != (int *)0x0) {
-    (**(code **)(*apiStack_2c + 8))();
-  }
-  return lVar1;
-}
+    I1_82E753C0 *i1;
+    I2_82E753C0 *i2;
+    Data_82E753C0 *d;
+    int hr;
+    int sz;
 
+    if (dev == 0) {
+        return 0x80070057;
+    }
+    i1 = 0;
+    i2 = 0;
+    hr = dev->vt->f90(dev, &i1);
+    if (hr >= 0) {
+        if (i1 == 0) {
+            hr = 0xC00D36BB;
+            goto L;
+        }
+        o->m68 = fn_82E5FD40(i1, (char *)o + 0x6c);
+        hr = i1->vt->f0(i1, lbl_821531C8, &i2);
+        if (hr >= 0) {
+            d = i2->vt->f98(i2);
+            sz = d->m10 + 0x12;
+            o->m74 = sz;
+            o->m70 = fn_82E50BE8(sz, 0, 0, 0, 0);
+            if (o->m70 == 0) {
+                hr = 0x8007000E;
+            } else {
+                memcpy(o->m70, d, o->m74);
+            }
+        }
+    }
+    if (i1 != 0) {
+        i1->vt->f8(i1);
+        i1 = 0;
+    }
+L:
+    if (i2 != 0) {
+        i2->vt->f8(i2);
+    }
+    return hr;
+}

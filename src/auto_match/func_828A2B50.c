@@ -1,48 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_828BDE70();
-extern unsigned int lbl_82024190;
-extern unsigned int lbl_82024198;
-
-
-void fn_828A2B50(undefined4 *param_1)
-
-{
-  *param_1 = &lbl_82024198;
-  param_1[0x14] = &lbl_82024190;
-  if (0xf < (uint)param_1[0x2f]) {
-    fn_8265CA20(param_1[0x2a]);
-  }
-  param_1[0x2e] = 0;
-  param_1[0x2f] = 0xf;
-  *(undefined1 *)(param_1 + 0x2a) = 0;
-  fn_828BDE70(param_1);
-  return;
-}
-
+typedef struct { union { char buf[16]; void *p; } u; unsigned size,cap; } Str;
+typedef struct { void *vt; char pad[76]; void *vt2; char pad2[168-84]; Str str; } Obj_828A2B50;
+extern char lbl_82024198[], lbl_82024190[];
+extern void fn_8265CA20(void *);
+extern void fn_828BDE70(void *);
+static __forceinline void tidy(Str *s) { if(s->cap >= 16) fn_8265CA20(s->u.p); s->size=0; s->cap=15; s->u.buf[0]=0; }
+void fn_828A2B50(Obj_828A2B50 *p) { p->vt=lbl_82024198; p->vt2=lbl_82024190; tidy(&p->str); fn_828BDE70(p); }

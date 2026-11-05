@@ -1,58 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
+typedef struct Sub_82D44850 Sub_82D44850;
+struct Sub_82D44850 {
+  struct { int pad; char *(*f4)(char *, Sub_82D44850 *, int, int); } *vt;
+};
+typedef struct Item_82D44850 {
+  int pad[5];
+  Sub_82D44850 sub;
+} Item_82D44850;
+typedef struct Obj_82D44850 {
+  int pad[7];
+  Item_82D44850 **items;
+  int count;
+} Obj_82D44850;
 
-
-undefined1 * fn_82D44850(undefined1 *param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+char *fn_82D44850(char *param_1, Obj_82D44850 *param_2, int param_3, int param_4)
 {
-  int iVar1;
-  char *pcVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  undefined1 auStack_40 [1];
-  
-  uVar3 = (ulonglong)*(uint *)(param_2 + 0x20) - 1;
-  if (-1 < (longlong)uVar3) {
-    lVar4 = (uVar3 & 0x3fffffff) << 2;
-    do {
-      iVar1 = *(int *)(*(int *)(param_2 + 0x1c) + (int)lVar4);
-      pcVar2 = (char *)(**(code **)(*(int *)(iVar1 + 0x14) + 4))
-                                 (auStack_40,iVar1 + 0x14,param_3,param_4);
-      if (*pcVar2 == '\0') {
-        *param_1 = 0;
-        return param_1;
-      }
-      uVar3 = uVar3 - 1;
-      lVar4 = lVar4 + -4;
-    } while (-1 < (longlong)uVar3);
+  char tmp[1];
+  int i;
+  for (i = param_2->count - 1; i >= 0; i--) {
+    Item_82D44850 *it = param_2->items[i];
+    if (*it->sub.vt->f4(tmp, &it->sub, param_3, param_4) == 0) {
+      *param_1 = 0;
+      return param_1;
+    }
   }
   *param_1 = 1;
   return param_1;
 }
-

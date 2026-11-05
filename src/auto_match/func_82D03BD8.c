@@ -1,54 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82D03BD8(int param_1,uint param_2)
-
+typedef struct { char pad[0xc]; unsigned base; } Heap_82D03BD8;
+typedef struct { unsigned sz : 30; unsigned f1 : 1; unsigned f0 : 1; } Head_82D03BD8;
+typedef struct { unsigned prev; unsigned head; } Chunk_82D03BD8;
+int fn_82D03BD8(Heap_82D03BD8 *param_1, unsigned param_2)
 {
-  uint uVar1;
-  uint *puVar2;
-  
-  puVar2 = (uint *)(param_2 - 0x10);
-  if (((((param_2 & 0xf) != 0) || (puVar2 < *(uint **)(param_1 + 0xc))) ||
-      (uVar1 = *(uint *)(param_2 - 0xc), (uVar1 >> 1 & 1) == 0)) ||
-     (((uVar1 & 0xfffffffc) < 0x10 || ((*(uint *)((int)puVar2 + (uVar1 & 0xfffffffc) + 4) & 1) == 0)
-      ))) {
-    return 0;
-  }
-  if ((uVar1 & 1) == 0) {
-    uVar1 = *(uint *)((int)puVar2 + (4 - *puVar2));
-    if ((uVar1 >> 1 & 1) != 0) {
-      return 0;
-    }
-    if ((uVar1 & 0xfffffffc) != *puVar2) {
-      return 0;
-    }
+  unsigned *p = (unsigned *)(param_2 - 0x10);
+  unsigned h, q, s;
+  unsigned char f;
+  if ((param_2 & 0xf) != 0) return 0;
+  if ((unsigned)p < param_1->base) return 0;
+  h = p[1];
+  f = (h >> 1) & 1;
+  if (f == 0) return 0;
+  s = h & 0xfffffffc;
+  if (s < 0x10) return 0;
+  if ((*(unsigned *)((char *)p + s + 4) & 1) == 0) return 0;
+  if ((h & 1) == 0) {
+    q = *(unsigned *)((char *)p + (4 - *p));
+    f = (q >> 1) & 1;
+    if (f != 0) return 0;
+    if ((q & 0xfffffffc) != *p) return 0;
   }
   return 1;
 }
-

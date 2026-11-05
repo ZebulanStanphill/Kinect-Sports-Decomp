@@ -1,98 +1,75 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82536070();
+extern void fn_82536070(void *, void *);
 
+typedef struct { char pad[0x14]; unsigned m14; unsigned m18; } Arg_8241F440;
+typedef struct {
+  char pad[0xc40]; int mc40;
+  char pad2[0x12fc - 0xc44]; char m12fc[1];
+  char pad3[0x2b20 - 0x12fd]; void *m2b20;
+  char pad4[0x2b98 - 0x2b24]; int m2b98;
+} Obj_8241F440;
 
-void fn_8241F440(int *param_1,int param_2)
-
+void fn_8241F440(Obj_8241F440 **param_1, Arg_8241F440 *param_2)
 {
-  int iVar1;
-  int *piVar2;
-  undefined4 uVar3;
-  
-  iVar1 = *param_1;
-  if (*(int *)(iVar1 + 0xc40) == 0) {
+  Obj_8241F440 *o;
+  int v;
+
+  o = *param_1;
+  if (o->mc40 == 0) {
     return;
   }
-  if (*(int *)(param_2 + 0x14) == 0) {
-    piVar2 = *(int **)(iVar1 + 0x2b20);
-    if (*(int *)(param_2 + 0x18) == 0) {
-      if (param_1 != piVar2) {
-        return;
-      }
-      if (*(int *)(iVar1 + 0x2b98) == 0) {
-        return;
-      }
-      fn_82536070(iVar1 + 0x12fc,iVar1 + 0x133c);
-      uVar3 = 0;
+  switch (param_2->m14) {
+  case 2:
+    if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+    if (o->m2b98 == 2) return;
+    fn_82536070(o->m12fc, (char *)o + 0x13bc);
+    v = 2;
+    break;
+  case 3:
+    if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+    if (o->m2b98 == 2) return;
+    fn_82536070(o->m12fc, (char *)o + 0x13bc);
+    v = 2;
+    break;
+  case 0xc:
+    if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+    if (o->m2b98 == 2) return;
+    fn_82536070(o->m12fc, (char *)o + 0x13bc);
+    v = 2;
+    break;
+  default:
+    if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+    if (o->m2b98 == 2) return;
+    fn_82536070(o->m12fc, (char *)o + 0x13bc);
+    v = 2;
+    break;
+  case 1:
+    if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+    if (o->m2b98 == 1) return;
+    fn_82536070(o->m12fc, (char *)o + 0x137c);
+    v = 1;
+    break;
+  case 0:
+    switch (param_2->m18) {
+    case 0:
+      if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+      if (o->m2b98 == 0) return;
+      fn_82536070(o->m12fc, (char *)o + 0x133c);
+      v = 0;
+      break;
+    case 1:
+      if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+      if (o->m2b98 == 3) return;
+      fn_82536070(o->m12fc, (char *)o + 0x13fc);
+      v = 3;
+      break;
+    default:
+      if (param_1 != (Obj_8241F440 **)o->m2b20) return;
+      if (o->m2b98 == 4) return;
+      fn_82536070(o->m12fc, (char *)o + 0x143c);
+      v = 4;
+      break;
     }
-    else if (*(int *)(param_2 + 0x18) == 1) {
-      if (param_1 != piVar2) {
-        return;
-      }
-      if (*(int *)(iVar1 + 0x2b98) == 3) {
-        return;
-      }
-      fn_82536070(iVar1 + 0x12fc,iVar1 + 0x13fc);
-      uVar3 = 3;
-    }
-    else {
-      if (param_1 != piVar2) {
-        return;
-      }
-      if (*(int *)(iVar1 + 0x2b98) == 4) {
-        return;
-      }
-      fn_82536070(iVar1 + 0x12fc,iVar1 + 0x143c);
-      uVar3 = 4;
-    }
+    break;
   }
-  else if (*(int *)(param_2 + 0x14) == 1) {
-    if (param_1 != *(int **)(iVar1 + 0x2b20)) {
-      return;
-    }
-    if (*(int *)(iVar1 + 0x2b98) == 1) {
-      return;
-    }
-    fn_82536070(iVar1 + 0x12fc,iVar1 + 0x137c);
-    uVar3 = 1;
-  }
-  else {
-    if (param_1 != *(int **)(iVar1 + 0x2b20)) {
-      return;
-    }
-    if (*(int *)(iVar1 + 0x2b98) == 2) {
-      return;
-    }
-    fn_82536070(iVar1 + 0x12fc,iVar1 + 0x13bc);
-    uVar3 = 2;
-  }
-  *(undefined4 *)(iVar1 + 0x2b98) = uVar3;
-  return;
+  o->m2b98 = v;
 }
-

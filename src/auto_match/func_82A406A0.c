@@ -27,22 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82A406A0(int param_1,longlong param_2)
+void fn_82A406A0(int param_1,int param_2)
 
 {
   int *piVar1;
   
   piVar1 = (int *)(param_1 + 0x50);
-  (**(code **)(*(int *)(param_1 + 0x50) + 8))(piVar1);
+  (*(code *)(*(int *)(param_1 + 0x50) + 8))(piVar1);
   if (*(int *)(param_1 + 0xa8) != 0) {
-    (**(code **)(*(int *)(param_1 + 0x2c) + 0x14))(param_1 + 0x2c);
-    (**(code **)(**(int **)(param_1 + 0xb0) + 0x3c))(*(int **)(param_1 + 0xb0),param_2);
-    (**(code **)(*(int *)(param_1 + 0x2c) + 8))(param_1 + 0x2c);
+    (*(code *)(*(int *)(param_1 + 0x2c) + 0x14))(param_1 + 0x2c);
+    (*(code *)(**(int **)(param_1 + 0xb0) + 0x3c))(*(int **)(param_1 + 0xb0),param_2);
+    (*(code *)(*(int *)(param_1 + 0x2c) + 8))(param_1 + 0x2c);
     *(undefined4 *)(param_1 + 0xac) = 0;
     *(uint *)(param_1 + 0xa8) =
-         (int)(param_2 + -1) - ((int)param_2 + -2 + (uint)(param_2 + -1 == 0));
+         (param_2 != 1);
   }
-  (**(code **)(*piVar1 + 0x14))(piVar1);
+  (*(code *)(*piVar1 + 0x14))(piVar1);
   return;
 }
 

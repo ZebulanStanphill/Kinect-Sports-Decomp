@@ -25,31 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAA780();
-extern int fn_82FAAA98();
-extern int fn_82FAAF20();
+typedef struct Arg_82FAB158 { int len; int zero; unsigned obj; } Arg_82FAB158;
+extern int fn_82FAA780(int, Arg_82FAB158 *);
+extern unsigned fn_82FAAA98(int, int, int, int, int);
+extern void fn_82FAAF20(int, unsigned);
 
-
-undefined8
-fn_82FAB158(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             int param_5,undefined8 param_6,undefined8 param_7)
-
+int fn_82FAB158(int p1, int p2, int p3, int p4, int p5, int p6, int p7)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  int aiStack_40 [4];
-  
-  uVar1 = fn_82FAAA98(param_1,param_4,param_3,param_6,param_7);
-  if ((uVar1 & 0xffffffff) != 0) {
-    aiStack_40[2] = (int)uVar1;
-    aiStack_40[0] = param_5 - (int)param_6;
-    aiStack_40[1] = 0;
-    uVar2 = fn_82FAA780(param_2,aiStack_40);
-    if ((int)uVar2 == 1) {
-      return uVar2;
+  unsigned o = fn_82FAAA98(p1, p4, p3, p6, p7);
+  if (o != 0) {
+    Arg_82FAB158 a;
+    int r;
+    a.obj = o;
+    a.zero = 0;
+    a.len = p5 - p6;
+    r = fn_82FAA780(p2, &a);
+    if (r == 1) {
+      return r;
     }
-    fn_82FAAF20(param_1,uVar1);
+    fn_82FAAF20(p1, o);
   }
   return 2;
 }
-

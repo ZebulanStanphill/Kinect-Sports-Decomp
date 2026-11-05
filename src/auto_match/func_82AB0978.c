@@ -1,3 +1,6 @@
+extern char lbl_83160558[];
+extern char lbl_83160538[];
+extern char lbl_83160548[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -34,20 +37,20 @@ void fn_82AB0978(uint param_1,int param_2,int *param_3)
 {
   int iVar1;
   uint *puVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   uint uVar5;
-  ulonglong uVar4;
+  unsigned int uVar4;
   
   iVar1 = *(int *)(param_2 + 0x10);
-  if (0xffff01ff < param_1) {
+  if (param_1 >= 0xffff0200) {
     fn_82A29A38();
   }
   uVar5 = 0;
-  if (*(int *)(param_2 + 8) != 0) {
+  if (*(unsigned *)(param_2 + 8) > 0) {
     do {
-      if ((*(uint *)(param_2 + 0xc) >> (uVar5 & 0x3f) & 1) != 0) {
+      if ((*(uint *)(param_2 + 0xc) >> uVar5 & 1) != 0) {
         puVar2 = (uint *)*param_3;
-        if (0xf < uVar5) {
+        if (uVar5 >= 0x10) {
           fn_82A29A38();
         }
         *puVar2 = (uVar5 & 0xff) << 0x10 | 0x8000019;
@@ -57,21 +60,18 @@ void fn_82AB0978(uint param_1,int param_2,int *param_3)
     } while (uVar5 < *(uint *)(param_2 + 8));
   }
   uVar4 = 0;
-  if (*(int *)(param_2 + 4) != 0) {
+  if (*(unsigned *)(param_2 + 4) > 0) {
     do {
-      if ((*(uint *)(iVar1 + 0xc4) >> ((uint)uVar4 & 0x3f) & 1) != 0) {
-        fn_82AB0600(uVar4 + 2,5,uVar4,0,0xffffffff83160558,0xf0000,param_2,param_3);
+      if ((*(uint *)(iVar1 + 0xc4) >> uVar4 & 1) != 0) {
+        fn_82AB0600(uVar4 + 2,5,uVar4,0,(unsigned)lbl_83160558,0xf0000,param_2,param_3);
       }
       uVar4 = uVar4 + 1;
-    } while ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(param_2 + 4));
+    } while ((uVar4 & 0xffffffff) < (unsigned int)*(uint *)(param_2 + 4));
   }
   uVar5 = 0;
   do {
-    if (*(int *)((uVar5 + 4) * 8 + iVar1) != 0) {
-      uVar3 = 0xffffffff83160538;
-      if (uVar5 != 0) {
-        uVar3 = 0xffffffff83160548;
-      }
+    if (*(unsigned *)((uVar5 + 4) * 8 + iVar1) != 0) {
+      if(uVar5==0) uVar3=(unsigned)lbl_83160538; else uVar3=(unsigned)lbl_83160548;
       fn_82AB0600(uVar5,10,uVar5,1,uVar3,0xf0000,param_2,param_3);
     }
     uVar5 = uVar5 + 1;

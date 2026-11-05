@@ -25,40 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_160;
-extern unsigned int *auStack_164;
-extern int fn_82A1E988();
-extern int fn_82A264C8();
-extern int fn_82A264D0();
-extern int fn_82A26568();
-extern int fn_82E1F9D0();
-extern unsigned int iStack_16c;
-extern unsigned int iStack_170;
-extern unsigned int uStack_168;
+extern unsigned fn_82A264D0(int, int, int, int, int, void *, void *);
+extern int fn_82A1E988(int, void *, int, int *, int);
+extern int fn_82A26568(int, const char *, void *, int, int *, int, int);
+extern void fn_82A264C8(const char *, int);
+extern int fn_82E1F9D0(int, const char *);
 
-
-ulonglong fn_82E1FA90(undefined8 param_1,undefined8 param_2)
-
+int fn_82E1FA90(int a, int b)
 {
-  ulonglong uVar1;
-  int iStack_170;
-  int iStack_16c;
-  undefined4 uStack_168;
-  undefined1 auStack_164 [4];
-  undefined1 auStack_160 [352];
-  
-  uVar1 = fn_82A264D0(param_2,1,1,0,1,auStack_164,&uStack_168);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = fn_82A1E988(uStack_168,auStack_160,0x134,&iStack_16c,0);
-    if ((uVar1 == 0) && (iStack_16c == 1)) {
-      iStack_170 = 0;
-      uVar1 = fn_82A26568(param_2,0xffffffff821a676c,auStack_160,3,&iStack_170,0,0);
-      if (iStack_170 == 2) {
-        uVar1 = fn_82E1F9D0(param_1,0xffffffff8214baf8);
-      }
-    }
-    fn_82A264C8(0xffffffff821a676c,0);
-  }
-  return uVar1;
-}
+    int r;
+    unsigned r0;
+    unsigned v;
+    unsigned cnt;
+    int h;
+    char t[4];
+    char buf[0x134];
 
+    r0 = fn_82A264D0(b, 1, 1, 0, 1, t, &h);
+    if (r0 != 0) {
+        return r0;
+    }
+    r = fn_82A1E988(h, buf, 0x134, (int *)&cnt, 0);
+    if (r == 0 && cnt == 1) {
+        v = 0;
+        r = fn_82A26568(b, "Vince", buf, 3, (int *)&v, 0, 0);
+        if (v == 2) {
+            r = fn_82E1F9D0(a, "Vince:\\VinceGameTimer.dat");
+        }
+    }
+    fn_82A264C8("Vince", 0);
+    return r;
+}

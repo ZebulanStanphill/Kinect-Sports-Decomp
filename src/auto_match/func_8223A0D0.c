@@ -1,61 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8223B688();
-extern unsigned int lbl_8219689C;
+typedef struct Sp_8223A0D0 { void *px; int *rep; } Sp_8223A0D0;
+typedef struct Obj_8223A0D0 {
+  void *vt;
+  Sp_8223A0D0 sp;
+  char other[4];
+} Obj_8223A0D0;
+extern void fn_822315A0(int *);
+extern unsigned char fn_8223AAC0(int *);
+extern void fn_8223B688(void *, void *);
+extern char lbl_8219689C[];
 
-
-undefined4 * fn_8223A0D0(undefined4 *param_1,int param_2)
-
+Obj_8223A0D0 *fn_8223A0D0(Obj_8223A0D0 *self, char *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  puVar4 = (undefined4 *)(param_2 + 4);
-  if (param_2 == 0) {
-    puVar4 = (undefined4 *)0x0;
+  Sp_8223A0D0 *d;
+  Sp_8223A0D0 *s;
+  int *rep;
+  void *px;
+  if (src != 0) {
+    s = (Sp_8223A0D0 *)(src + 4);
+  } else {
+    s = 0;
   }
-  param_1[1] = 0;
-  param_1[2] = 0;
-  iVar1 = puVar4[1];
-  uVar2 = *puVar4;
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[2] != 0) {
-      fn_822315A0();
+  d = &self->sp;
+  d->px = 0;
+  d->rep = 0;
+  rep = s->rep;
+  px = s->px;
+  if (rep != 0 && fn_8223AAC0(rep) != 0) {
+    if (d->rep != 0) {
+      fn_822315A0(d->rep);
     }
-    param_1[2] = iVar1;
-    param_1[1] = uVar2;
+    d->rep = rep;
+    d->px = px;
   }
-  *param_1 = &lbl_8219689C;
-  fn_8223B688(param_1 + 3,param_2 + 0xc);
-  return param_1;
+  self->vt = lbl_8219689C;
+  fn_8223B688(self->other, src + 0xc);
+  return self;
 }
-

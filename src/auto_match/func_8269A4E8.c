@@ -25,43 +25,34 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82703F00();
-extern unsigned int uStack_13;
-extern unsigned int uStack_14;
-extern unsigned int uStack_15;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Obj_8269A4E8 { int vt; char pad[0x62]; unsigned char flags; } Obj_8269A4E8;
+typedef struct Msg_8269A4E8 {
+  int type;
+  int a;
+  short b;
+  unsigned char c;
+  signed char d;
+  unsigned char e;
+  unsigned char f;
+} Msg_8269A4E8;
+extern void fn_82703F00(int, Obj_8269A4E8 *);
 
-
-void fn_8269A4E8(int *param_1)
-
+void fn_8269A4E8(Obj_8269A4E8 *self)
 {
-  undefined8 uVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  undefined2 uStack_18;
-  undefined1 uStack_16;
-  undefined1 uStack_15;
-  undefined1 uStack_14;
-  undefined1 uStack_13;
-  
-  if ((*(byte *)((int)param_1 + 0x66) & 2) != 0) {
-    uVar1 = (**(code **)(*param_1 + 0x40))();
-    fn_82703F00(uVar1,param_1);
+  if ((self->flags & 2) != 0) {
+    int r = (*(int (**)(Obj_8269A4E8 *))(*(int *)self + 0x40))(self);
+    fn_82703F00(r, self);
   }
-  if ((*(byte *)((int)param_1 + 0x66) & 0x10) == 0) {
-    stack_pair_20.second = 0;
-    uStack_18 = 0;
-    uStack_16 = 0;
-    uStack_14 = 0;
-    uStack_13 = 0;
-    stack_pair_20.first = 4;
-    uStack_15 = 0xff;
-    (**(code **)(*param_1 + 0x6c))(param_1,&stack_pair_20.first);
-    *(byte *)((int)param_1 + 0x66) = *(byte *)((int)param_1 + 0x66) | 0x10;
+  if ((self->flags & 0x10) == 0) {
+    Msg_8269A4E8 m;
+    m.a = 0;
+    m.b = 0;
+    m.c = 0;
+    m.e = 0;
+    m.f = 0;
+    m.type = 4;
+    m.d = -1;
+    (*(void (**)(Obj_8269A4E8 *, Msg_8269A4E8 *))(*(int *)self + 0x6c))(self, &m);
+    self->flags = self->flags | 0x10;
   }
-  return;
 }
-

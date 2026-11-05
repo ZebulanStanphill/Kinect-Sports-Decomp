@@ -25,37 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828ACCE8();
-extern int fn_828AD740();
-extern int fn_828D2DB8();
+typedef struct Obj_828D2F88 { int pad[2]; int h; int f; } Obj_828D2F88;
+extern unsigned char fn_828ACCE8(int);
+extern unsigned char fn_828AD740(int);
+extern void fn_828D2DB8(void *, int);
 
-
-longlong fn_828D2F88(int param_1)
-
+unsigned char fn_828D2F88(Obj_828D2F88 *self)
 {
-  bool bVar1;
-  char cVar2;
-  longlong lVar3;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    cVar2 = fn_828ACCE8(*(undefined4 *)(param_1 + 8));
-    bVar1 = true;
-    if (cVar2 == '\0') goto LAB_828d2fc4;
+  unsigned char a = self->f == 0 && fn_828ACCE8(self->h) != 0;
+  unsigned char r = a && fn_828AD740(self->h) != 0;
+  if (r) {
+    fn_828D2DB8(self, 3);
   }
-  else {
-LAB_828d2fc4:
-    bVar1 = false;
-  }
-  if (bVar1) {
-    cVar2 = fn_828AD740(*(undefined4 *)(param_1 + 8));
-    lVar3 = 1;
-    if (cVar2 != '\0') goto LAB_828d2ff0;
-  }
-  lVar3 = 0;
-LAB_828d2ff0:
-  if (lVar3 != 0) {
-    fn_828D2DB8(param_1,3);
-  }
-  return lVar3;
+  return r;
 }
-

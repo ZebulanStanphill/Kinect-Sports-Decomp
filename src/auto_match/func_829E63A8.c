@@ -25,49 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_120;
-extern int fn_829D36C8();
-extern int fn_829E7640();
-extern int fn_829E77C0();
-extern int fn_829E7918();
-extern int fn_82A28568();
-extern int fn_82F664B0();
-extern int fn_82F69A80();
-extern unsigned int lbl_832179FC;
+extern void fn_829E7640(void);
+extern void *fn_829E77C0(void *);
+extern const char *fn_829D36C8(void);
+extern int fn_829E7918(void *, char *);
+extern void *fn_82A28568(void *, int, int);
+extern int fn_82F664B0(char *, int, const char *);
+extern int fn_82F69A80(char *, int, const char *);
+extern char *lbl_832179FC;
 
-
-uint fn_829E63A8(int *param_1)
-
+int fn_829E63A8(void **out)
 {
-  int iVar2;
-  undefined8 uVar1;
-  uint uVar3;
-  undefined1 auStack_120 [272];
-  
+  char buf[0x104];
+  void *a;
+  void *o;
   fn_829E7640();
-  iVar2 = fn_82A28568(*(undefined4 *)(lbl_832179FC + 0x8f4cc),0,0x4c);
-  if (iVar2 == 0) {
-    iVar2 = 0;
+  a = fn_82A28568(*(void **)(lbl_832179FC + 0x8f4cc), 0, 0x4c);
+  if (a != 0) {
+    o = fn_829E77C0(a);
+  } else {
+    o = 0;
   }
-  else {
-    iVar2 = fn_829E77C0();
+  *out = o;
+  if (o == 0) {
+    return 0x8007000e;
   }
-  *param_1 = iVar2;
-  if (iVar2 == 0) {
-    uVar3 = 0x8007000e;
-  }
-  else {
-    uVar1 = fn_829D36C8();
-    iVar2 = fn_82F664B0(auStack_120,0x104,uVar1);
-    if ((iVar2 == 0) &&
-       (iVar2 = fn_82F69A80(auStack_120,0x104,0xffffffff82079640), iVar2 == 0)) {
-      iVar2 = fn_829E7918(*param_1,auStack_120);
-      uVar3 = iVar2 >> 0x1f & 0x80004005;
+  {
+    int hr;
+    if (fn_82F664B0(buf, 0x104, fn_829D36C8()) != 0) {
+      hr = 0x80004005;
+    } else if (fn_82F69A80(buf, 0x104, "NuiIdentityNN.bin.be") != 0) {
+      hr = 0x80004005;
+    } else {
+      hr = fn_829E7918(*out, buf);
+      hr = hr < 0 ? 0x80004005 : 0;
     }
-    else {
-      uVar3 = 0x80004005;
-    }
+    return hr;
   }
-  return uVar3;
 }
-

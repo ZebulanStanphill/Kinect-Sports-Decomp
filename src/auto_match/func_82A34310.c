@@ -1,64 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1BBE8();
-extern int fn_82A371C0();
-extern int fn_82A37600();
-extern int fn_82A37F58();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+extern int fn_82A1BBE8(int, void *, int);
+extern int fn_82A371C0(void *, int);
+extern int fn_82A37600(void *, int);
+extern int fn_82A37F58(void *, int);
 
+typedef struct { int pad0; int v4; } Sub_82A34310;
+typedef struct { int pad0; Sub_82A34310 *p4; int pad8, padc, pad10, v14, v18, v1c; unsigned v20; } Arg_82A34310;
 
-longlong fn_82A34310(longlong param_1,int param_2)
+typedef struct { int lo; int hi; } Range_82A34310;
+static void Range_init(Range_82A34310 *r) { r->lo = 0; r->hi = 0; }
 
+int fn_82A34310(char *param_1, Arg_82A34310 *param_2)
 {
-  uint uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  longlong lVar4;
-  longlong lVar5;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  
-  stack_pair_40.first = 0;
-  uStack_38 = 0;
-  if (*(int *)(param_2 + 4) == 0) {
-    stack_pair_40.second = 0x80000;
-  }
-  else {
-    stack_pair_40.second = *(undefined4 *)(*(int *)(param_2 + 4) + 4);
-  }
-  lVar2 = fn_82A37F58(param_1 + 0x50,*(undefined4 *)(param_2 + 0x1c));
-  uVar1 = *(uint *)(param_2 + 0x20);
-  lVar3 = fn_82A37600(param_1 + 0xc4,*(undefined4 *)(param_2 + 0x18));
-  lVar4 = fn_82A371C0(param_1 + 0x10c,*(undefined4 *)(param_2 + 0x14));
-  lVar5 = fn_82A1BBE8(1,&stack_pair_40.first,0xffffffff80000000);
-  return lVar5 + lVar4 + lVar3 + (ulonglong)uVar1 + lVar2;
+  int a, c, d, i;
+  unsigned b;
+  struct { int first; int arr[2]; } s;
+  s.first = 0;
+  for (i = 0; i < 2; i++) s.arr[i] = 0;
+  s.arr[0] = param_2->p4 ? param_2->p4->v4 : 0x80000;
+  a = fn_82A37F58(param_1 + 0x50, param_2->v1c);
+  b = param_2->v20;
+  c = fn_82A37600(param_1 + 0xc4, param_2->v18);
+  d = fn_82A371C0(param_1 + 0x10c, param_2->v14);
+  return fn_82A1BBE8(1, &s, 0x80000000) + d + c + b + a;
 }
-

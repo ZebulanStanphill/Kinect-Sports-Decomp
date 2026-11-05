@@ -25,55 +25,78 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82930318();
-extern int fn_829304E0();
-extern int fn_82932B38();
+typedef struct Node_82980910 Node_82980910;
+typedef struct Src_82980910 Src_82980910;
+struct Src_82980910 {
+    struct {
+        int pad0;
+        Node_82980910 *(*f4)(Src_82980910 *);
+    } *vt;
+};
+struct Node_82980910 {
+    char pad0[0x10];
+    int m10;
+    char pad14[4];
+    Node_82980910 *m18;
+    Node_82980910 *m1c;
+    char pad20[0x10];
+    int m30;
+};
+typedef struct Ctx_82980910 {
+    char pad0[0x70];
+    int m70;
+    char pad74[4];
+    struct {
+        char pad0[0x1c];
+        int m1c;
+    } *m78;
+} Ctx_82980910;
 
+extern void *fn_82930318(int);
+extern Node_82980910 *fn_82932B38(void *);
+extern void *fn_829304E0(void *, Node_82980910 *, int, const char *);
 
-ulonglong fn_82980910(int param_1,int *param_2,int *param_3)
-
+void *fn_82980910(Ctx_82980910 *c, Src_82980910 *a, Src_82980910 *b)
 {
-  int iVar2;
-  int iVar3;
-  ulonglong uVar1;
-  
-  *(undefined4 *)(*(int *)(param_1 + 0x78) + 0x1c) = 1;
-  iVar2 = fn_82930318(0x34);
-  if (iVar2 == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_82932B38();
-  }
-  if (iVar2 != 0) {
-    *(undefined4 *)(iVar2 + 0x10) = 0xd;
-    *(undefined4 *)(iVar2 + 0x30) = *(undefined4 *)(param_1 + 0x70);
-    *(int *)(param_1 + 0x70) = *(int *)(param_1 + 0x70) + 1;
-    if (param_3 != (int *)0x0) {
-      iVar3 = (**(code **)(*param_3 + 4))(param_3);
-      *(int *)(iVar2 + 0x1c) = iVar3;
-      if (iVar3 == 0) {
-        return 0;
-      }
-    }
-    if (param_2 != (int *)0x0) {
-      iVar3 = (**(code **)(*param_2 + 4))(param_2);
-      *(int *)(iVar2 + 0x18) = iVar3;
-      if (iVar3 == 0) {
-        return 0;
-      }
-    }
-    uVar1 = fn_82930318(0x14);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = fn_829304E0(uVar1,iVar2,0,0xffffffff8204de84);
-    }
-    if ((uVar1 & 0xffffffff) != 0) {
-      return uVar1;
-    }
-  }
-  return 0;
-}
+    void *mem;
+    Node_82980910 *n;
+    void *r;
+    Node_82980910 *t;
 
+    c->m78->m1c = 1;
+    mem = fn_82930318(0x34);
+    if (mem != 0) {
+        n = fn_82932B38(mem);
+    } else {
+        n = 0;
+    }
+    if (n != 0) {
+        n->m10 = 0xd;
+        n->m30 = c->m70;
+        c->m70 = c->m70 + 1;
+        if (b != 0) {
+            t = b->vt->f4(b);
+            n->m1c = t;
+            if (t == 0) {
+                return 0;
+            }
+        }
+        if (a != 0) {
+            t = a->vt->f4(a);
+            n->m18 = t;
+            if (t == 0) {
+                return 0;
+            }
+        }
+        mem = fn_82930318(0x14);
+        if (mem != 0) {
+            r = fn_829304E0(mem, n, 0, "CaseStmts");
+        } else {
+            r = 0;
+        }
+        if (r != 0) {
+            return r;
+        }
+    }
+    return 0;
+}

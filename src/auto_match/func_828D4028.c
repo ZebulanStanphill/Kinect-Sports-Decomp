@@ -25,29 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828AD740();
-extern int fn_828D34E0();
-extern int fn_828D38C0();
-extern int fn_828D3FC8();
+typedef struct Obj_828D4028 { int pad; int a[4]; int b[4]; } Obj_828D4028;
+extern unsigned char fn_828AD740(int);
+extern unsigned char fn_828D34E0(void *, int);
+extern void fn_828D38C0(void *);
+extern void fn_828D3FC8(void *);
 
-
-void fn_828D4028(int param_1)
-
+void fn_828D4028(char *p)
 {
-  char cVar1;
-  
-  cVar1 = fn_828AD740(*(undefined4 *)(param_1 + 0x24));
-  if (cVar1 == '\0') {
-    fn_828D3FC8(param_1 + 4);
-    cVar1 = fn_828D34E0(param_1,1);
-    if (cVar1 == '\0') {
+  if (fn_828AD740(*(int *)(p + 0x24)) != 0) {
+    fn_828D3FC8(p + 4);
+  } else {
+    fn_828D3FC8(p + 4);
+    if (fn_828D34E0(p, 1) == 0) {
       return;
     }
   }
-  else {
-    fn_828D3FC8(param_1 + 4);
-  }
-  fn_828D38C0(param_1 + 0x14);
-  return;
+  fn_828D38C0(p + 0x14);
 }
-

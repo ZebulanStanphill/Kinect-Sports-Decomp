@@ -25,49 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF6520();
-extern int fn_82FF69D0();
-extern int fn_82FF6A78();
-extern int fn_830069B8();
-extern int fn_83006F88();
-extern unsigned int lbl_832642E8;
+typedef struct Cur_83007940 { char pad[0x30]; unsigned id; } Cur_83007940;
+typedef struct Obj_83007940 { char *vt; char pad[0x1c]; Cur_83007940 *cur; } Obj_83007940;
+extern int fn_82FF6520(int, unsigned);
+extern int fn_82FF69D0(int, unsigned, Obj_83007940 *);
+extern void fn_82FF6A78(int, unsigned, Obj_83007940 *);
+extern unsigned char fn_830069B8(Obj_83007940 *);
+extern void fn_83006F88(Obj_83007940 *, int);
+extern int lbl_832642E8;
 
-
-undefined8 fn_83007940(int *param_1,ulonglong param_2)
-
+int fn_83007940(Obj_83007940 *self, unsigned id)
 {
-  char cVar3;
-  int iVar2;
-  undefined8 uVar1;
-  ulonglong uVar4;
-  
-  iVar2 = param_1[8];
-  if (iVar2 == 0) {
-    uVar4 = 0;
+  Cur_83007940 *c = self->cur;
+  unsigned cur;
+  if (c != 0) {
+    cur = c->id;
+  } else {
+    cur = 0;
   }
-  else {
-    uVar4 = (ulonglong)*(uint *)(iVar2 + 0x30);
-  }
-  if (uVar4 != (param_2 & 0xffffffff)) {
-    if ((iVar2 != 0) && (*(int *)(iVar2 + 0x30) != 0)) {
-      fn_82FF6A78(lbl_832642E8,*(int *)(iVar2 + 0x30),param_1);
-      (**(code **)(*param_1 + 0xd4))(param_1);
-      *(undefined4 *)(param_1[8] + 0x30) = 0;
+  if (cur != id) {
+    if (c != 0 && c->id != 0) {
+      fn_82FF6A78(lbl_832642E8, c->id, self);
+      (*(void (**)(Obj_83007940 *))(*(int *)self + 0xd4))(self);
+      self->cur->id = 0;
     }
-    if ((param_2 & 0xffffffff) != 0) {
-      cVar3 = fn_830069B8(param_1);
-      if (cVar3 == '\0') {
+    if (id != 0) {
+      if (fn_830069B8(self) != 0) {
+        if (fn_82FF69D0(lbl_832642E8, id, self) == 1) {
+          self->cur->id = id;
+          fn_83006F88(self, fn_82FF6520(lbl_832642E8, id));
+        }
+      } else {
         return 2;
       }
-      iVar2 = fn_82FF69D0(lbl_832642E8,param_2,param_1);
-      if (iVar2 == 1) {
-        *(int *)(param_1[8] + 0x30) = (int)param_2;
-        uVar1 = fn_82FF6520(lbl_832642E8,param_2);
-        fn_83006F88(param_1,uVar1);
-      }
     }
-    (**(code **)(*param_1 + 0xdc))(param_1);
+    (*(void (**)(Obj_83007940 *))(*(int *)self + 0xdc))(self);
   }
   return 1;
 }
-

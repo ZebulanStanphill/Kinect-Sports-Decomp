@@ -25,23 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C114A0();
+typedef struct Obj_82C07228 { char pad[0x218]; void *h; } Obj_82C07228;
+extern int fn_82C114A0(void *, int, int, unsigned *);
 
-
-undefined8 fn_82C07228(int param_1,undefined8 param_2,undefined8 param_3,int *param_4)
-
+int fn_82C07228(Obj_82C07228 *self, int a, int b, unsigned *c)
 {
-  undefined8 uVar1;
-  
-  if (*(int *)(param_1 + 0x218) == 0) {
-    uVar1 = 0xffffffff805000a8;
+  int hr;
+  if (self->h == 0) {
+    return 0x805000a8;
   }
-  else {
-    uVar1 = fn_82C114A0();
-    if ((-1 < (int)uVar1) && (*param_4 == 0)) {
-      *(undefined4 *)(param_1 + 0x218) = 0;
-    }
+  hr = fn_82C114A0(self->h, a, b, c);
+  if (hr >= 0 && *c == 0) {
+    self->h = 0;
   }
-  return uVar1;
+  return hr;
 }
-

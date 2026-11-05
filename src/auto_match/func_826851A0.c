@@ -27,27 +27,29 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_826851A0(int *param_1,undefined8 param_2,undefined8 param_3)
+struct Obj_826851A0;
+typedef struct VT_826851A0 {
+  void (*f0)(struct Obj_826851A0 *, int);
+  struct Obj_826851A0 *(*f4)(struct Obj_826851A0 *);
+  int pad[2];
+  int (*f10)(struct Obj_826851A0 *, struct Obj_826851A0 *, int);
+  int pad2[5];
+  unsigned char (*f28)(struct Obj_826851A0 *);
+} VT_826851A0;
+typedef struct Obj_826851A0 { VT_826851A0 *vt; } Obj_826851A0;
 
+int fn_826851A0(Obj_826851A0 *self, int a, int b)
 {
-  int *piVar2;
-  undefined8 uVar1;
-  char cVar3;
-  
-  piVar2 = (int *)(**(code **)(*param_1 + 4))();
-  if (piVar2 == (int *)0x0) {
-    uVar1 = 0;
+  Obj_826851A0 *o = self->vt->f4(self);
+  int r;
+  if (o == 0) {
+    return 0;
   }
-  else {
-    cVar3 = (**(code **)(*piVar2 + 0x28))(piVar2);
-    if (cVar3 == '\0') {
-      uVar1 = (**(code **)(*param_1 + 0x10))(param_1,piVar2,param_3);
-    }
-    else {
-      uVar1 = 0;
-    }
-    (**(code **)*piVar2)(piVar2,1);
+  if (o->vt->f28(o) != 0) {
+    r = 0;
+  } else {
+    r = self->vt->f10(self, o, b);
   }
-  return uVar1;
+  o->vt->f0(o, 1);
+  return r;
 }
-

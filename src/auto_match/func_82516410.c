@@ -26,31 +26,27 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
-extern int fn_828AA9B8();
+extern void fn_828AA9B8(void *,unsigned,unsigned,unsigned);
 extern unsigned int lbl_82197C88;
 extern unsigned int lbl_82197CDC;
 extern unsigned int lbl_82197CE0;
 
+static __forceinline void init_sub(undefined4 *p) { undefined4 *s=p+0x1c; s[0]=(unsigned)&lbl_82197CE0; p[0x1f]=0; p[0x1e]=(unsigned)(s+1); p[0x1d]=(unsigned)(s+1); }
 
-undefined4 * fn_82516410(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+undefined4 * fn_82516410(unsigned int param_1,unsigned int param_2,unsigned int param_3)
 
 {
   undefined4 *puVar1;
   
   puVar1 = (undefined4 *)fn_8265C9E0(0x88);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar1 != (undefined4 *)0x0) {
     fn_828AA9B8(puVar1,param_1,param_2,param_3);
-    puVar1[0x1c] = &lbl_82197CE0;
-    puVar1[0x1f] = 0;
-    puVar1[0x1e] = puVar1 + 0x1d;
-    puVar1[0x1d] = puVar1 + 0x1d;
+    init_sub(puVar1);
     *puVar1 = &lbl_82197C88;
     puVar1[0x1c] = &lbl_82197CDC;
     puVar1[0x20] = 0;
+    return puVar1;
   }
-  return puVar1;
+  return 0;
 }
 
