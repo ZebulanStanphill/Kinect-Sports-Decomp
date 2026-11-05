@@ -151305,8 +151305,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_828AFE88.c": {
-        "status": "NonMatching",
+      "auto_match/func_828AFE88.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

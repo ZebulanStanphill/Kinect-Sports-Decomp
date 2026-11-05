@@ -103,6 +103,20 @@ block_relocations:
 # A function address whose high half the code spills to the stack before the
 # low half is added, so the splitter does not pair the lis with the subi.
 add_relocations:
+# func_828AFE88: the 64-bit static at lbl_83214020 (lis/std and lis/ld with
+# the low half folded into the displacement)
+- source: 0x828AFEC0
+  type: ha
+  target: lbl_83214020
+- source: 0x828AFED0
+  type: l
+  target: lbl_83214020
+- source: 0x828AFEE4
+  type: ha
+  target: lbl_83214020
+- source: 0x828AFEE8
+  type: l
+  target: lbl_83214020
 # func_82F47A58: &fn_82F4D1D8
 - source: 0x82F47B04
   type: ha

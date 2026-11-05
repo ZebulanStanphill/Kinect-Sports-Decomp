@@ -98907,7 +98907,7 @@ auto_match/func_828AFE40.c:
 	.pdata      start:0x82204E70 end:0x82204E78
 	.text       start:0x828AFE40 end:0x828AFE88
 
-auto_match/func_828AFE88.c:
+auto_match/func_828AFE88.cpp:
 	.pdata      start:0x82204E78 end:0x82204E80
 	.text       start:0x828AFE88 end:0x828AFF00
 
