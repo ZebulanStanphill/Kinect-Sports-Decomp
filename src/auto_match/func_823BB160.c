@@ -25,61 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8227CB30();
-extern int fn_82359C18();
+extern void fn_8227CB30(void *, void *);
+extern void fn_82359C18(void *);
 
+typedef struct Fn_823BB160 Fn_823BB160;
+typedef struct Impl_823BB160 Impl_823BB160;
+struct Impl_823BB160 {
+  struct IVT_823BB160 {
+    Impl_823BB160 *(*clone)(Impl_823BB160 *, Fn_823BB160 *);
+    void *f4, *f8;
+    void (*del)(Impl_823BB160 *, int);
+  } *vt;
+};
+struct Fn_823BB160 {
+  int buf[4];
+  Impl_823BB160 *impl;
+};
+typedef struct Host_823BB160 Host_823BB160;
+struct Host_823BB160 {
+  struct HVT_823BB160 {
+    int pad[0x44 / 4];
+    Host_823BB160 *(*get)(Host_823BB160 *);
+  } *vt;
+  int pad[0x21];
+  Fn_823BB160 fn88;
+};
 
-void fn_823BB160(int *param_1,int *param_2,undefined8 param_3,int *param_4)
-
+static __forceinline void Assign_823BB160(Fn_823BB160 *dst, Fn_823BB160 *src)
 {
-  int *piVar1;
-  int iVar3;
-  undefined4 uVar4;
-  longlong lVar2;
-  int *piVar5;
-  
-  iVar3 = (**(code **)(*param_1 + 0x44))();
-  piVar5 = (int *)(iVar3 + 0x80);
-  if (piVar5 != param_2) {
-    piVar1 = *(int **)(iVar3 + 0x90);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,piVar5 != piVar1);
-      *(undefined4 *)(iVar3 + 0x90) = 0;
+  if (dst != src) {
+    if (dst->impl != 0) {
+      dst->impl->vt->del(dst->impl, (void *)dst->impl != (void *)dst);
+      dst->impl = 0;
     }
-    if ((int *)param_2[4] == (int *)0x0) {
-      *(undefined4 *)(iVar3 + 0x90) = 0;
-    }
-    else {
-      if ((int *)param_2[4] != param_2) {
-        piVar5 = (int *)0x0;
+    if (src->impl == 0) {
+      dst->impl = 0;
+    } else {
+      if ((void *)src->impl == (void *)src) {
+        dst->impl = src->impl->vt->clone(src->impl, dst);
+      } else {
+        dst->impl = src->impl->vt->clone(src->impl, 0);
       }
-      uVar4 = (*(code *)**(undefined4 **)param_2[4])((undefined4 *)param_2[4],piVar5);
-      *(undefined4 *)(iVar3 + 0x90) = uVar4;
     }
   }
-  lVar2 = (**(code **)(*param_1 + 0x44))(param_1);
-  fn_8227CB30(lVar2 + 0xf8,param_3);
-  piVar5 = param_1 + 0x22;
-  if (piVar5 != param_4) {
-    piVar1 = (int *)param_1[0x26];
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,piVar5 != piVar1);
-      param_1[0x26] = 0;
-    }
-    if ((int *)param_4[4] == (int *)0x0) {
-      param_1[0x26] = 0;
-    }
-    else {
-      if ((int *)param_4[4] != param_4) {
-        piVar5 = (int *)0x0;
-      }
-      iVar3 = (*(code *)**(undefined4 **)param_4[4])((undefined4 *)param_4[4],piVar5);
-      param_1[0x26] = iVar3;
-    }
-  }
-  fn_82359C18(param_2);
-  fn_82359C18(param_3);
-  fn_82359C18(param_4);
-  return;
 }
 
+void fn_823BB160(Host_823BB160 *h, Fn_823BB160 *a, void *b, Fn_823BB160 *c)
+{
+  Host_823BB160 *o = h->vt->get(h);
+  Assign_823BB160((Fn_823BB160 *)((char *)o + 0x80), a);
+  o = h->vt->get(h);
+  {
+    char *m = (char *)o + 0xa8;
+    fn_8227CB30(m + 0x50, b);
+  }
+  Assign_823BB160(&h->fn88, c);
+  fn_82359C18(a);
+  fn_82359C18(b);
+  fn_82359C18(c);
+}

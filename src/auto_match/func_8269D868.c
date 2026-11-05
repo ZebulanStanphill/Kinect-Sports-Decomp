@@ -1,49 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8268D280();
-extern unsigned int lbl_821AAD20;
+typedef struct Src Src;
+typedef struct SrcVt { void *pad[6]; void *(*f18)(void *, Src *); } SrcVt;
+struct Src { SrcVt *vt; };
+typedef struct Obj_8269D868 { char pad[0x68]; Src *src; } Obj;
+typedef struct V4 { float x, y, z, w; } V4;
+extern void fn_8268D280(int, V4 *, void *);
 
-
-undefined4 * fn_8269D868(undefined4 *param_1,int param_2,undefined8 param_3)
-
+V4 *fn_8269D868(V4 *out, Obj *o, int p3)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  undefined1 auStack_30 [24];
-  
-  uVar2 = (**(code **)(**(int **)(param_2 + 0x68) + 0x18))(auStack_30);
-  uVar1 = lbl_821AAD20;
-  *param_1 = lbl_821AAD20;
-  param_1[1] = uVar1;
-  param_1[2] = uVar1;
-  param_1[3] = uVar1;
-  fn_8268D280(param_3,param_1,uVar2);
-  return param_1;
+  char tmp[24];
+  void *r = o->src->vt->f18(tmp, o->src);
+  out->x = 0.0f;
+  out->y = 0.0f;
+  out->z = 0.0f;
+  out->w = 0.0f;
+  fn_8268D280(p3, out, r);
+  return out;
 }
-

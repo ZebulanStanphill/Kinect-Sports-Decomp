@@ -1,76 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_b0;
-extern int fn_822315A0();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_bc;
-extern unsigned int uStack_c0;
+typedef struct Iface Iface;
+typedef struct IfaceVt { void *pad[1]; void (*f4)(Iface *, void *); void *pad2[2]; void (*f10)(Iface *, int, int); void (*f14)(Iface *, int, void *); } IfaceVt;
+struct Iface { IfaceVt *vt; };
+typedef struct Sub38 { char pad[0x10]; Iface *w; } Sub38;
+typedef struct Pair { int first; unsigned second; } Pair;
+typedef struct M_8238EE00 {
+  char pad[0x38];
+  Iface *a38;
+  char pad2[0xc];
+  Iface *a48;
+  char pad3[0x1c];
+  Iface *a68;
+} M;
+typedef struct Obj_8238EE00 { char pad[0x78]; struct { char pad[0x168]; M m; } *x; } Obj;
+extern void *fn_8265C9E0(int);
+extern int fn_822D7FE0(void *);
+extern void fn_822D79D8(Pair *, int);
+extern void fn_828E9D90(int);
+extern void fn_828E9D40(int);
+extern void fn_828E2B28(void *, Pair *);
+extern void fn_822315A0(unsigned);
 
-
-void fn_8238EE00(int param_1,undefined8 param_2)
-
+void fn_8238EE00(Obj *o, int arg)
 {
-  int iVar1;
-  int iVar3;
-  undefined8 uVar2;
-  struct { undefined4 first; int second; } stack_pair_c0;
-
-  undefined1 auStack_b0 [144];
-  
-  iVar1 = *(int *)(param_1 + 0x78);
-  iVar3 = fn_8265C9E0(0x28);
-  if (iVar3 == 0) {
-    uVar2 = 0;
+  M *m = &o->x->m;
+  void *p;
+  int q;
+  Pair pr;
+  char buf[0x90];
+  p = fn_8265C9E0(0x28);
+  if (p != 0) q = fn_822D7FE0(p); else q = 0;
+  pr.first = 0;
+  pr.second = 0;
+  fn_822D79D8(&pr, q);
+  m->a68->vt->f10(m->a68, pr.first, arg);
+  if (m->a48 != 0) {
+    Sub38 *s;
+    fn_828E9D90(pr.first);
+    fn_828E9D40(pr.first);
+    s = (Sub38 *)&m->a38;
+    m->a68->vt->f14(m->a68, pr.first, buf);
+    if (s->w != 0)
+      s->w->vt->f4(s->w, buf);
   }
-  else {
-    uVar2 = fn_822D7FE0();
-  }
-  stack_pair_c0.first = 0;
-  stack_pair_c0.second = 0;
-  fn_822D79D8(&stack_pair_c0.first,uVar2);
-  (**(code **)(**(int **)(iVar1 + 0x1d0) + 0x10))(*(int **)(iVar1 + 0x1d0),stack_pair_c0.first,param_2);
-  if (*(int *)(iVar1 + 0x1b0) != 0) {
-    fn_828E9D90(stack_pair_c0.first);
-    fn_828E9D40(stack_pair_c0.first);
-    (**(code **)(**(int **)(iVar1 + 0x1d0) + 0x14))(*(int **)(iVar1 + 0x1d0),stack_pair_c0.first,auStack_b0);
-    if (*(int *)(iVar1 + 0x1b0) != 0) {
-      (**(code **)(**(int **)(iVar1 + 0x1b0) + 4))(*(int **)(iVar1 + 0x1b0),auStack_b0);
-    }
-  }
-  fn_828E2B28(iVar1 + 0x168,&stack_pair_c0.first);
-  if (stack_pair_c0.second != 0) {
-    fn_822315A0();
-  }
-  return;
+  fn_828E2B28(m, &pr);
+  if (pr.second != 0) fn_822315A0(pr.second);
 }
-

@@ -25,47 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822B70F0();
-extern int fn_822B91F8();
-extern int fn_8252CC80();
+extern void fn_822B91F8(void *, int, int, int);
+extern void fn_822B70F0(void *, float, int);
+extern void fn_8252CC80(void *, int);
 
+typedef struct Slot_82499BE8 { unsigned int v; unsigned short s; unsigned short pad; } Slot_82499BE8;
+typedef struct P14b_82499BE8 { char pad[0x90]; int f90; } P14b_82499BE8;
+typedef struct P14a_82499BE8 { char pad[0x8c0]; P14b_82499BE8 *f8c0; } P14a_82499BE8;
+typedef struct P118_82499BE8 { char pad[0x140]; int f140; char pad144[0x368 - 0x144]; int f368; } P118_82499BE8;
+typedef struct P11c_82499BE8 { int f0; char pad[0x90 - 4]; Slot_82499BE8 slots[2]; } P11c_82499BE8;
+typedef struct Mid_82499BE8 {
+  char pad0[0x14];
+  P14a_82499BE8 *f14;
+  char pad18[0x118 - 0x18];
+  P118_82499BE8 *f118;
+  P11c_82499BE8 *f11c;
+} Mid_82499BE8;
+typedef struct Obj_82499BE8 {
+  char pad[0xc0];
+  Mid_82499BE8 *mid;
+  int fc4;
+  float fc8;
+  float fcc;
+  int fd0;
+} Obj_82499BE8;
 
-void fn_82499BE8(int param_1)
-
+void fn_82499BE8(Obj_82499BE8 *o)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  float *pfVar3;
-  int *piVar4;
-  int iVar5;
-  
-  iVar5 = *(int *)(*(int *)(param_1 + 0xc0) + 0x118);
-  *(undefined4 *)(iVar5 + 0x368) = 0;
-  *(undefined4 *)(iVar5 + 0x140) = 0;
-  if (*(int *)(param_1 + 0xc4) != 0) {
-    *(undefined4 *)(*(int *)(*(int *)(*(int *)(param_1 + 0xc0) + 0x14) + 0x8c0) + 0x90) = 1;
-    *(undefined4 *)(param_1 + 0xc4) = 0;
-  }
-  lVar2 = 2;
-  puVar1 = *(undefined4 **)(*(int *)(param_1 + 0xc0) + 0x11c);
-  piVar4 = puVar1 + 0x24;
-  do {
-    if (*piVar4 != 0) {
-      fn_822B91F8(puVar1,*puVar1,*piVar4,*(undefined2 *)(piVar4 + 1));
-      *piVar4 = 0;
-      *(undefined2 *)(piVar4 + 1) = 0x5b;
-    }
-    lVar2 = lVar2 + -1;
-    piVar4 = piVar4 + 2;
-  } while (lVar2 != 0);
-  iVar5 = 0;
-  pfVar3 = (float *)(param_1 + 0xc4);
-  do {
-    pfVar3 = pfVar3 + 1;
-    fn_822B70F0((double)*pfVar3,*(undefined4 *)(param_1 + 0xc0));
-    fn_8252CC80(*(undefined4 *)(*(int *)(param_1 + 0xc0) + 0x14),*(int *)(param_1 + 0xd0) != 0);
-    iVar5 = iVar5 + 1;
-  } while (iVar5 < 2);
-  return;
-}
+  P118_82499BE8 *a = o->mid->f118;
+  P11c_82499BE8 *p;
+  Slot_82499BE8 *q;
+  float *pf;
+  int i;
 
+  a->f368 = 0;
+  a->f140 = 0;
+  if (o->fc4 != 0) {
+    o->mid->f14->f8c0->f90 = 1;
+    o->fc4 = 0;
+  }
+  p = o->mid->f11c;
+  q = p->slots;
+  i = 2;
+  do {
+    if (q->v != 0) {
+      fn_822B91F8(p, p->f0, q->v, q->s);
+      q->v = 0;
+      q->s = 0x5b;
+    }
+    i--;
+    q++;
+  } while (i != 0);
+  i = 0;
+  do {
+    pf = (float *)&o->fc4 + i + 1;
+    fn_822B70F0(o->mid, *pf, i);
+    fn_8252CC80(o->mid->f14, o->fd0 != 0);
+    i++;
+  } while (i < 2);
+}

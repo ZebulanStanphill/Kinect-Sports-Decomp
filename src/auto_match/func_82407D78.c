@@ -25,43 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_824CCD80();
-extern int fn_82522588();
-extern int fn_825603C8();
-extern int fn_825604A0();
-extern unsigned int iStack_2c;
+typedef struct { int a; unsigned b; } P_82407D78;
+extern void fn_822315A0(unsigned);
+extern int fn_824CCD80(int);
+extern int *fn_82522588(P_82407D78 *, int *);
+extern void fn_825603C8(int, int, int);
+extern void fn_825604A0(int);
 
-
-void fn_82407D78(int param_1,int *param_2)
-
+void fn_82407D78(int param_1, int *param_2)
 {
   int iVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
+  P_82407D78 o;
+
   iVar1 = *param_2;
   if (*(int *)(iVar1 + 0x10) ==
       *(int *)(*(int *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x38) + 0x24)) {
-    piVar3 = (int *)fn_82522588(auStack_30);
-    *(undefined4 *)(*piVar3 + 0x29c) = 1;
-    if (iStack_2c != 0) {
-      fn_822315A0();
+    *(int *)(*fn_82522588(&o, param_2) + 0x29c) = 1;
+    if (o.b != 0) {
+      fn_822315A0(o.b);
     }
     iVar1 = *param_2;
     if (*(int *)(iVar1 + 0x22c) != 1) {
-      uVar2 = fn_824CCD80(*(undefined4 *)(iVar1 + 0x10));
-      fn_825603C8(uVar2,iVar1 + 0x20,1);
-      *(undefined4 *)(iVar1 + 0x22c) = 1;
+      fn_825603C8(fn_824CCD80(*(int *)(iVar1 + 0x10)), iVar1 + 0x20, 1);
+      *(int *)(iVar1 + 0x22c) = 1;
     }
   }
   else if (*(int *)(iVar1 + 0x22c) != 0) {
     fn_825604A0(iVar1 + 0x20);
-    *(undefined4 *)(iVar1 + 0x22c) = 0;
+    *(int *)(iVar1 + 0x22c) = 0;
   }
-  return;
 }
-

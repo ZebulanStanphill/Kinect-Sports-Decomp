@@ -25,67 +25,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828AD0F8();
-extern int fn_828AD188();
-extern int fn_828AD488();
-extern int fn_828AD4A0();
-extern int fn_828D4600();
-extern int fn_828E0338();
-extern int fn_828E0390();
-extern int fn_828E0B48();
-extern int fn_828E0D30();
-extern int fn_82BA02A8();
+typedef struct { char pad0[8]; int state; char pad1[4]; int f10; int f14; int f18; } Obj_828D4680;
+extern unsigned char fn_828AD0F8(int);
+extern void fn_828AD188(int);
+extern unsigned char fn_828AD488(int);
+extern void fn_828AD4A0(int);
+extern unsigned char fn_828D4600(Obj_828D4680 *);
+extern void fn_828E0338(Obj_828D4680 *);
+extern void fn_828E0390(Obj_828D4680 *, int);
+extern void fn_828E0B48(Obj_828D4680 *);
+extern void fn_828E0D30(Obj_828D4680 *);
+extern void fn_82BA02A8(Obj_828D4680 *);
 
-
-void fn_828D4680(int param_1)
-
+void fn_828D4680(Obj_828D4680 *o)
 {
-  uint uVar1;
-  char cVar2;
-  undefined8 uVar3;
-  
-  cVar2 = fn_828AD0F8(*(undefined4 *)(param_1 + 0x14));
-  if (cVar2 == '\x01') {
-    cVar2 = fn_828AD0F8(*(undefined4 *)(param_1 + 0x18));
-    if (cVar2 == '\0') {
-      fn_828AD188(*(undefined4 *)(param_1 + 0x18));
+  if (fn_828AD0F8(o->f14) == 1) {
+    if (fn_828AD0F8(o->f18) == 0) {
+      fn_828AD188(o->f18);
+    }
+  } else {
+    if (fn_828AD488(o->f14) == 1 && fn_828AD488(o->f18) == 0) {
+      fn_828AD4A0(o->f18);
     }
   }
-  else {
-    cVar2 = fn_828AD488(*(undefined4 *)(param_1 + 0x14));
-    if ((cVar2 == '\x01') && (cVar2 = fn_828AD488(*(undefined4 *)(param_1 + 0x18)), cVar2 == '\0'))
-    {
-      fn_828AD4A0(*(undefined4 *)(param_1 + 0x18));
+  if (o->state != 3) {
+    if (fn_828D4600(o) != 0) {
+      fn_828E0390(o, 3);
+    }
+  } else {
+    if (fn_828D4600(o) == 0) {
+      fn_828E0390(o, 0);
     }
   }
-  if (*(int *)(param_1 + 8) == 3) {
-    cVar2 = fn_828D4600(param_1);
-    if (cVar2 != '\0') goto code_r0x828d473c;
-    uVar3 = 0;
+  switch ((unsigned)o->state) {
+  case 0:
+    fn_828E0B48(o);
+    break;
+  case 1:
+    fn_828E0338(o);
+    break;
+  case 2:
+    fn_828E0D30(o);
+    break;
+  case 3:
+    fn_82BA02A8(o);
+    break;
   }
-  else {
-    cVar2 = fn_828D4600(param_1);
-    if (cVar2 == '\0') goto code_r0x828d473c;
-    uVar3 = 3;
-  }
-  fn_828E0390(param_1,uVar3);
-code_r0x828d473c:
-  uVar1 = *(uint *)(param_1 + 8);
-  if (uVar1 < 4) {
-    if (uVar1 == 1) {
-      fn_828E0338(param_1);
-      return;
-    }
-    if (uVar1 == 2) {
-      fn_828E0D30(param_1);
-      return;
-    }
-    if (uVar1 == 0) {
-      fn_828E0B48(param_1);
-      return;
-    }
-    fn_82BA02A8(param_1);
-  }
-  return;
 }
-

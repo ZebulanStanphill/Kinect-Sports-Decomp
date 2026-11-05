@@ -34,25 +34,22 @@ extern int fn_82542ED0();
 extern int fn_82543B68();
 
 
-void fn_82540438(undefined8 param_1,int *param_2,undefined8 param_3)
+typedef struct { unsigned pad : 29; unsigned mode : 3; } Mode_82540438;
+typedef struct { char pad0[0x10]; unsigned __int64 flags; char pad1[0x2948 - 0x18]; Mode_82540438 m; } Ctx_82540438;
 
+void fn_82540438(int param_1, Ctx_82540438 **param_2, int param_3)
 {
-  int iVar1;
-  uint uVar2;
-  
+  Ctx_82540438 *c;
+  unsigned char mode;
   fn_825415F8(param_2);
-  fn_825417C0(param_2,param_3);
-  if (((int)param_3 == 0x10) || (uVar2 = 2, (int)param_3 == 1)) {
-    uVar2 = 6;
-  }
-  iVar1 = *param_2;
-  *(uint *)(iVar1 + 0x2948) = *(uint *)(iVar1 + 0x2948) & 0xfffffff8 | uVar2;
-  *(ulonglong *)(iVar1 + 0x10) = *(ulonglong *)(iVar1 + 0x10) | 0x40;
-  fn_825419D8(param_1,param_2,param_3);
-  fn_82541FD0(param_2,param_3);
+  fn_825417C0(param_2, param_3);
+  if (param_3 == 0x10 || param_3 == 1) mode = 6; else mode = 2;
+  c = *param_2;
+  { Mode_82540438 *w = &c->m; w->mode = mode; }
+  c->flags |= 0x40;
+  fn_825419D8(param_1, param_2, param_3);
+  fn_82541FD0(param_2, param_3);
   fn_825420C0(param_2);
   fn_82543B68();
   fn_82542ED0(param_2);
-  return;
 }
-

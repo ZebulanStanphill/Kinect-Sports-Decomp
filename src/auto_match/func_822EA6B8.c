@@ -25,33 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82230110();
-extern int fn_822C7FD8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AE1D0;
 
 
-undefined4 * fn_822EA6B8(undefined8 param_1)
+extern int fn_82230110(void *, const char *);
+extern void *fn_822C7FD8(void *, __int64);
+extern void *fn_8265C9E0(int);
+extern char lbl_821AE1D0[];
 
+int *fn_822EA6B8(__int64 param_1)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x110);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    fn_822C7FD8(puVar1,param_1);
-    *puVar1 = &lbl_821AE1D0;
-    puVar1[0x30] = 0;
-    puVar1[0x31] = 0;
-    puVar1[0x32] = 0;
-    puVar1[0x33] = 0;
-    puVar1[0x34] = 0;
-    puVar1[0x35] = 0;
-    fn_82230110(puVar1 + 0x36,0xffffffff821aded8);
-    fn_82230110(puVar1 + 0x3d,0xffffffff821adec4);
-  }
-  return puVar1;
-}
+  int *p;
 
+  p = (int *)fn_8265C9E0(0x110);
+  if (p != 0) {
+    fn_822C7FD8(p, param_1);
+    p[0] = (int)lbl_821AE1D0;
+    { int *q = p + 0x30; q[0] = 0; q[1] = 0; q[2] = 0; q[3] = 0; q[4] = 0; q[5] = 0; }
+    fn_82230110(p + 0x36, "idle_standing");
+    fn_82230110(p + 0x3d, "locomotion_standing");
+    return p;
+  }
+  return 0;
+}

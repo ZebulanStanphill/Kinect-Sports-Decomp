@@ -1,44 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Src_826EA248 Src_826EA248;
+typedef struct { int (*f0)(); int (*f1)(); int (*f2)(); int (*f3)(); int (*f4)(); int (*f5)(); int (*f6)(); int (*f7)(); int (*f8)(); int (*read)(Src_826EA248 *, void *, int); } VT_826EA248;
+struct Src_826EA248 { VT_826EA248 *vt; };
+typedef struct { void *cur; int len; int a, b, c; Src_826EA248 *src; char buf[0x800]; } Buf_826EA248;
+typedef struct { char pad[0x18]; Buf_826EA248 *b; } Obj_826EA248;
 
-
-bool fn_826EA248(int param_1)
-
+unsigned char fn_826EA248(Obj_826EA248 *o)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = *(int **)(param_1 + 0x18);
-  iVar2 = (**(code **)(*(int *)piVar1[5] + 0x24))((int *)piVar1[5],piVar1 + 6,0x800);
-  if (iVar2 == 0x800) {
-    *piVar1 = (int)(piVar1 + 6);
-    piVar1[1] = 0x800;
-  }
-  return iVar2 == 0x800;
+  Buf_826EA248 *b = o->b;
+  int n = b->src->vt->read(b->src, b->buf, 0x800);
+  if (n != 0x800) return 0;
+  b->cur = b->buf;
+  b->len = 0x800;
+  return 1;
 }
-

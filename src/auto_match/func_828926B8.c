@@ -42,10 +42,10 @@ extern unsigned int uStack_3c;
 void fn_828926B8(int param_1,undefined8 param_2)
 
 {
-  int iVar2;
+  unsigned int iVar2;
   int iVar3;
-  uint uVar4;
-  longlong lVar1;
+  unsigned short uVar4;
+  int lVar1;
   uint *puVar5;
   int iVar6;
   undefined2 auStack_40;
@@ -54,8 +54,8 @@ void fn_828926B8(int param_1,undefined8 param_2)
   
   iVar6 = param_1 + 0x14;
   iVar2 = fn_828B55F0(iVar6);
-  fn_8289D8D0(*(undefined4 *)(param_1 + 0x10));
-  iVar3 = fn_8240D928();
+  lVar1 = *(undefined4 *)(param_1 + 0x10);
+  iVar3 = fn_8240D928(fn_8289D8D0(lVar1));
   if ((iVar2 == iVar3) && (*(char *)(param_1 + 0x1c) == '\0')) {
     auStack_40 = fn_828B5600(iVar6);
     uVar4 = fn_828B55F8(iVar6);

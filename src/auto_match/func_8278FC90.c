@@ -25,26 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63CA0();
+extern void *memmove(void *, const void *, unsigned int);
 
+typedef struct WStr_8278FC90 {
+  unsigned short *p;
+  unsigned int size;
+} WStr_8278FC90;
 
-void fn_8278FC90(uint *param_1,ulonglong param_2,longlong param_3)
-
+void fn_8278FC90(WStr_8278FC90 *s, unsigned int pos, unsigned int n)
 {
-  ulonglong uVar1;
-  
-  uVar1 = (ulonglong)param_1[1];
-  if ((param_2 & 0xffffffff) < uVar1) {
-    if ((param_2 + param_3 & 0xffffffff) < uVar1) {
-      fn_82F63CA0((param_2 & 0x7fffffff) * 2 + (ulonglong)*param_1,
-                   (param_2 + param_3 & 0x7fffffff) * 2 + (ulonglong)*param_1,
-                   ((uVar1 - param_2) - param_3 & 0x7fffffff) << 1);
-      param_1[1] = param_1[1] - (int)param_3;
-    }
-    else {
-      param_1[1] = (uint)param_2;
+  if (pos < s->size) {
+    if (pos + n >= s->size) {
+      s->size = pos;
+    } else {
+      memmove(s->p + pos, s->p + (pos + n), (s->size - pos - n) * 2);
+      s->size = s->size - n;
     }
   }
-  return;
 }
-

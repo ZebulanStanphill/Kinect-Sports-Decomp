@@ -25,40 +25,39 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_2c;
-extern int fn_82266158();
-extern int fn_8252A1B0();
-extern unsigned int lbl_821CC160;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
+typedef struct { float x, y, z; } V3_8228C1B8;
+typedef struct Node_8228C1B8 { struct Node_8228C1B8 *next; int p4; char *item; } Node_8228C1B8;
+typedef struct List_8228C1B8 { Node_8228C1B8 *head; } List_8228C1B8;
+extern void fn_82266158(char *);
+extern void fn_8252A1B0(unsigned, V3_8228C1B8 *, int);
+extern float lbl_821CC160;
 
-
-void fn_8228C1B8(double param_1,int param_2)
-
+void fn_8228C1B8(char *param_1, float param_2)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  struct { undefined4 first; float second; } stack_pair_30;
+  Node_8228C1B8 *n;
+  Node_8228C1B8 *end;
+  char *item;
+  unsigned h;
+  V3_8228C1B8 a;
+  V3_8228C1B8 b;
 
-  undefined4 uStack_28;
-  
-  for (puVar1 = *(undefined4 **)**(int **)(param_2 + 0x80);
-      puVar1 != (undefined4 *)**(int **)(param_2 + 0x80); puVar1 = (undefined4 *)*puVar1) {
-    iVar2 = puVar1[2];
-    if (*(int *)(iVar2 + 0x40) == 0) goto LAB_8228c200;
+  end = (*(List_8228C1B8 **)(param_1 + 0x80))->head;
+  for (n = end->next; n != end; n = n->next) {
+    item = n->item;
+    if (*(unsigned *)(item + 0x40) == 0) goto found;
   }
-  iVar2 = 0;
-LAB_8228c200:
-  if (iVar2 != 0) {
-    fn_82266158(iVar2);
-    if ((*(int *)(iVar2 + 0xdc) != 0) &&
-       ((*(int *)(iVar2 + 0x52c) == 3 || (*(int *)(iVar2 + 0x52c) == 4)))) {
-      stack_pair_30.second = (float)param_1;
-      uStack_28 = lbl_821CC160;
-      stack_pair_30.first = lbl_821CC160;
-      fn_8252A1B0(*(int *)(iVar2 + 0xdc),&stack_pair_30.first,0);
+  item = 0;
+found:
+  if (item != 0) {
+    fn_82266158(item);
+    h = *(unsigned *)(item + 0xdc);
+    if (h != 0 &&
+        (*(int *)(item + 0x52c) == 3 || *(int *)(item + 0x52c) == 4)) {
+      a.y = param_2;
+      a.x = lbl_821CC160;
+      a.z = lbl_821CC160;
+      b = a;
+      fn_8252A1B0(h, &b, 0);
     }
   }
-  return;
 }
-

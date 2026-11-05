@@ -25,48 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82350888();
-extern int fn_82355538();
-extern int fn_82358A60();
-extern int (*lbl_83276778)();
-extern int (*lbl_83276794)();
+typedef void (*AssertFn_82351E78)(int, int, int, const char *, const char *, int);
+typedef int (*CheckFn_82351E78)(void);
+typedef struct { int pad0; AssertFn_82351E78 assertFn; char pad8[0x20 - 8]; CheckFn_82351E78 checkFn; } Hooks_82351E78;
+struct Obj_82351E78;
+typedef struct { void *f0; void *f4; void *f8; void *fc; int (*f10)(struct Obj_82351E78 *, float); } VT_82351E78;
+typedef struct Obj_82351E78 { VT_82351E78 *vt; } Obj_82351E78;
+typedef struct {
+  char pad0[0x18]; Obj_82351E78 *f18;
+  char pad1[0x350 - 0x1c]; int f350; int f354;
+  char pad2[0x3e4 - 0x358]; int f3e4;
+} Self_82351E78;
+extern Hooks_82351E78 lbl_83276774;
+extern void fn_82350888(Self_82351E78 *, int);
+extern void fn_82355538(Self_82351E78 *);
+extern void fn_82358A60(Obj_82351E78 *);
 
-
-void fn_82351E78(undefined8 param_1,int param_2)
-
+void fn_82351E78(Self_82351E78 *self, float dt)
 {
-  int iVar1;
-  
-  if (*(int *)(param_2 + 0x354) == 0) {
-    if (*(int *)(param_2 + 0x3e4) == 0) {
-      if (lbl_83276778 != (code *)0x0) {
-        (*lbl_83276778)(0,0,1,0xffffffff821b2100,0xffffffff821b1fb8,0x87f);
+  int ok;
+  if (self->f354 == 0) {
+    if (self->f3e4 == 0) {
+      if (lbl_83276774.assertFn != 0) {
+        lbl_83276774.assertFn(0, 0, 1, "olympus::sport::Sport::TickActiveSessionInit", "D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\sport\\sport.cpp", 0x87f);
       }
-      *(undefined4 *)(param_2 + 0x3e4) = 1;
+      self->f3e4 = 1;
     }
-    if (lbl_83276794 == (code *)0x0) {
-      iVar1 = 0;
-    }
-    else {
-      iVar1 = (*lbl_83276794)();
-    }
-    if (iVar1 != 0) {
-      if ((*(int **)(param_2 + 0x18) == (int *)0x0) ||
-         (iVar1 = (**(code **)(**(int **)(param_2 + 0x18) + 0x10))(param_1), iVar1 != 0)) {
-        if (*(int *)(param_2 + 0x350) == 0) {
-          fn_82358A60(*(undefined4 *)(param_2 + 0x18));
-          *(undefined4 *)(param_2 + 0x350) = 1;
-        }
-        else {
-          fn_82355538(param_2);
-          *(undefined4 *)(param_2 + 0x354) = 1;
+    ok = lbl_83276774.checkFn != 0 ? lbl_83276774.checkFn() : 0;
+    if (ok != 0) {
+      if (self->f18 == 0 || self->f18->vt->f10(self->f18, dt) != 0) {
+        if (self->f350 == 0) {
+          fn_82358A60(self->f18);
+          self->f350 = 1;
+        } else {
+          fn_82355538(self);
+          self->f354 = 1;
         }
       }
     }
+  } else {
+    fn_82350888(self, 7);
   }
-  else {
-    fn_82350888(param_2,7);
-  }
-  return;
 }
-

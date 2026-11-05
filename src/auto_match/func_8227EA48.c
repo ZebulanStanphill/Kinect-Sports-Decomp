@@ -1,58 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82275128();
-extern int fn_8227EB10();
-extern unsigned int lbl_821916FC;
+typedef struct Obj2 Obj2;
+typedef struct Vt2 { void (*f0)(Obj2 *, int); } Vt2;
+struct Obj2 { Vt2 *vt; };
+typedef struct Item {
+  void (*cb)(int, int);
+  int p4, p8;
+  int pc;
+  Obj2 *o10;
+  int p14;
+} Item;
+typedef struct Obj Obj;
+typedef struct Vt { void *pad[6]; void (*f18)(Obj *); } Vt;
+struct Obj {
+  Vt *vt;
+  char pad[8];
+  Item **items;
+  char pad2[0x1c];
+  int cur;
+};
+typedef struct Cam { char pad[0xc]; float f; } Cam;
+extern void fn_8227EB10(Obj *, int);
+extern Cam *fn_82275128(void);
+extern float lbl_821916FC;
 
-
-void fn_8227EA48(int *param_1)
-
+void fn_8227EA48(Obj *o)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  if (param_1[0xb] != -1) {
-    puVar2 = *(undefined4 **)(param_1[0xb] * 4 + param_1[3]);
-    if ((code *)*puVar2 != (code *)0x0) {
-      (*(code *)*puVar2)(puVar2[5],puVar2[3]);
-    }
-    puVar1 = (undefined4 *)puVar2[4];
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,puVar2[5]);
-    }
-    fn_8227EB10(param_1,0);
-    (**(code **)(*param_1 + 0x18))(param_1);
-    iVar3 = fn_82275128();
-    if (*(float *)(iVar3 + 0xc) < lbl_821916FC) {
-      *(float *)(iVar3 + 0xc) = lbl_821916FC;
-    }
+  Item *it;
+  Cam *c;
+  if (o->cur != -1) {
+    it = o->items[o->cur];
+    if (it->cb != 0)
+      it->cb(it->p14, it->pc);
+    if (it->o10 != 0)
+      it->o10->vt->f0(it->o10, it->p14);
+    fn_8227EB10(o, 0);
+    o->vt->f18(o);
+    c = fn_82275128();
+    if (c->f < lbl_821916FC)
+      c->f = lbl_821916FC;
   }
-  return;
 }
-

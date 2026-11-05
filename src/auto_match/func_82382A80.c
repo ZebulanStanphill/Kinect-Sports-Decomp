@@ -1,82 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_b0;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822B1BE8();
-extern int fn_8236DA90();
-extern int fn_82897DF8();
-extern int fn_828EA268();
+typedef struct Str32 { char b[32]; } Str32;
+typedef struct Sub { char p[0xc]; int f0; char pad[0x48]; char flag; char pad2[3]; int a, b, c; } Sub;
+typedef struct Obj_82382A80 {
+  char pad[0xe4];
+  Sub s1, s2, s3;
+  char s4[1];
+} Obj;
+extern void fn_8236DA90(void);
+extern void fn_82230110(Str32 *, const char *);
+extern void fn_82230300(Str32 *, int, int);
+extern void fn_822B1BE8(void *, Obj *, Str32 *, int);
+extern void fn_82897DF8(Sub *, Obj *, Str32 *);
+extern int fn_828EA268(int);
 
-
-void fn_82382A80(int param_1)
-
+static __forceinline void init(Sub *s, Obj *o, Str32 *nm, int n)
 {
-  undefined4 uVar1;
-  undefined1 auStack_b0 [32];
-  undefined1 auStack_90 [32];
-  undefined1 auStack_70 [32];
-  undefined1 auStack_50 [80];
-  
-  fn_8236DA90();
-  fn_82230110(auStack_b0,0xffffffff821b3a14);
-  fn_822B1BE8(param_1 + 0x21c,param_1,auStack_b0,0x13);
-  fn_82230300(auStack_b0,1,0);
-  fn_82230110(auStack_90,0xffffffff821b3a28);
-  *(undefined4 *)(param_1 + 0xf0) = 0;
-  *(undefined1 *)(param_1 + 0x13c) = 0;
-  *(undefined4 *)(param_1 + 0x140) = 0;
-  *(undefined4 *)(param_1 + 0x144) = 0x13;
-  uVar1 = fn_828EA268(0x13);
-  *(undefined4 *)(param_1 + 0x148) = uVar1;
-  fn_82897DF8(param_1 + 0xe4,param_1,auStack_90);
-  fn_82230300(auStack_90,1,0);
-  fn_82230110(auStack_70,0xffffffff821b3a3c);
-  *(undefined4 *)(param_1 + 0x158) = 0;
-  *(undefined1 *)(param_1 + 0x1a4) = 0;
-  *(undefined4 *)(param_1 + 0x1a8) = 0;
-  *(undefined4 *)(param_1 + 0x1ac) = 2;
-  uVar1 = fn_828EA268(2);
-  *(undefined4 *)(param_1 + 0x1b0) = uVar1;
-  fn_82897DF8(param_1 + 0x14c,param_1,auStack_70);
-  fn_82230300(auStack_70,1,0);
-  fn_82230110(auStack_50,0xffffffff821b3a4c);
-  *(undefined4 *)(param_1 + 0x1c0) = 0;
-  *(undefined1 *)(param_1 + 0x20c) = 0;
-  *(undefined4 *)(param_1 + 0x210) = 0;
-  *(undefined4 *)(param_1 + 0x214) = 2;
-  uVar1 = fn_828EA268(2);
-  *(undefined4 *)(param_1 + 0x218) = uVar1;
-  fn_82897DF8(param_1 + 0x1b4,param_1,auStack_50);
-  fn_82230300(auStack_50,1,0);
-  return;
+  s->f0 = 0;
+  s->flag = 0;
+  s->a = 0;
+  s->b = n;
+  s->c = fn_828EA268(n);
+  fn_82897DF8(s, o, nm);
 }
 
+void fn_82382A80(Obj *o)
+{
+  Str32 a, b, c, d;
+  fn_8236DA90();
+  fn_82230110(&a, "TT State Controller");
+  fn_822B1BE8(o->s4, o, &a, 0x13);
+  fn_82230300(&a, 1, 0);
+  fn_82230110(&b, "State after point");
+  init(&o->s1, o, &b, 0x13);
+  fn_82230300(&b, 1, 0);
+  fn_82230110(&c, "Serving Team ID");
+  init(&o->s2, o, &c, 2);
+  fn_82230300(&c, 1, 0);
+  fn_82230110(&d, "Serving Player ID");
+  init(&o->s3, o, &d, 2);
+  fn_82230300(&d, 1, 0);
+}

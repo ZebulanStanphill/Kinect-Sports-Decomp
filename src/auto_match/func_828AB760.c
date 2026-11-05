@@ -1,67 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8240D928();
+typedef struct Iface Iface;
+typedef struct IfaceVt {
+  void *pad[4];
+  int *(*f10)(Iface *);
+  int *(*f14)(Iface *);
+} IfaceVt;
+struct Iface { IfaceVt *vt; };
+typedef struct Obj_828AB760 {
+  char pad[0xc];
+  int dflt;
+  char pad2[0x10];
+  Iface *src;
+} Obj;
+extern int fn_8240D928(int);
 
-
-undefined4 fn_828AB760(int param_1,undefined8 param_2)
-
+int fn_828AB760(Obj *o, int idx)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-     (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))(), iVar1 == 0)) {
-    if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))(), iVar1 == 0)) {
-      uVar3 = *(undefined4 *)(param_1 + 0xc);
-    }
-    else {
-      if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))();
-      }
-      iVar2 = fn_8240D928(param_2);
-      uVar3 = *(undefined4 *)((iVar2 + 5) * 4 + iVar1);
-    }
+  int *base;
+  if (o->src != 0 && o->src->vt->f10(o->src) != 0) {
+    if (o->src != 0) base = o->src->vt->f10(o->src); else base = 0;
+    return base[fn_8240D928(idx) + 4];
   }
-  else {
-    if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-      iVar1 = 0;
-    }
-    else {
-      iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))();
-    }
-    iVar2 = fn_8240D928(param_2);
-    uVar3 = *(undefined4 *)((iVar2 + 4) * 4 + iVar1);
+  if (o->src != 0 && o->src->vt->f14(o->src) != 0) {
+    if (o->src != 0) base = o->src->vt->f14(o->src); else base = 0;
+    return base[fn_8240D928(idx) + 5];
   }
-  return uVar3;
+  return o->dflt;
 }
-

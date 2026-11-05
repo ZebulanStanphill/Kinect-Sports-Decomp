@@ -25,52 +25,62 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
-extern int fn_822AF138();
-extern int fn_8288B760();
+extern void *fn_822ABA88(void *, unsigned int);
+extern void fn_822AF138(int, int);
+extern unsigned int fn_8288B760(void *);
 
+typedef struct Elem_8239D2B0 {
+  int pad0[2];
+  unsigned int count;
+} Elem_8239D2B0;
+typedef struct Grp_8239D2B0 {
+  Elem_8239D2B0 **arr;
+  int pad[3];
+  int idx;
+} Grp_8239D2B0;
+typedef struct Item_8239D2B0 {
+  char pad0[0x110];
+  int f110;
+  char pad114[0x168 - 0x114];
+  void *f168;
+  int f16c;
+} Item_8239D2B0;
+typedef struct Vec_8239D2B0 {
+  int *begin;
+  int *end;
+} Vec_8239D2B0;
+typedef struct Obj_8239D2B0 {
+  int pad[2];
+  Vec_8239D2B0 *vec;
+} Obj_8239D2B0;
 
-void fn_8239D2B0(int param_1)
-
+void fn_8239D2B0(Obj_8239D2B0 *o)
 {
-  int iVar1;
-  uint uVar2;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  ulonglong uVar6;
-  
-  piVar3 = *(int **)(param_1 + 8);
-  iVar4 = 0;
-  if ((piVar3[1] - *piVar3 & 0xfffffffcU) != 0) {
-    iVar5 = 0;
+  Vec_8239D2B0 *v = o->vec;
+  int i = 0;
+  if ((((int)v->end - (int)v->begin) & ~3) > 0) {
+    int off = 0;
     do {
-      uVar6 = 0;
-      piVar3 = *(int **)(*piVar3 + iVar5);
-      iVar1 = *(int *)(piVar3[4] * 4 + *piVar3);
-      if (*(int *)(iVar1 + 8) != 0) {
+      unsigned int j = 0;
+      Grp_8239D2B0 *g = *(Grp_8239D2B0 **)((char *)v->begin + off);
+      if (g->arr[g->idx]->count > 0) {
         do {
-          iVar1 = fn_822ABA88(iVar1,uVar6);
-          if (*(int *)(iVar1 + 0x168) == 0) {
-            uVar2 = *(uint *)(iVar1 + 0x16c);
+          Item_8239D2B0 *it = (Item_8239D2B0 *)fn_822ABA88(g->arr[g->idx], j);
+          int r;
+          if (it->f168 != 0) {
+            r = (unsigned char)fn_8288B760(it->f168);
+          } else {
+            r = it->f16c;
           }
-          else {
-            uVar2 = fn_8288B760();
-            uVar2 = uVar2 & 0xff;
+          if (r != 0) {
+            fn_822AF138(it->f110, 2);
           }
-          if (uVar2 != 0) {
-                    /* WARNING: Subroutine does not return */
-            fn_822AF138(*(undefined4 *)(iVar1 + 0x110),2);
-          }
-          uVar6 = uVar6 + 1;
-          iVar1 = *(int *)(piVar3[4] * 4 + *piVar3);
-        } while ((uVar6 & 0xffffffff) < (ulonglong)*(uint *)(iVar1 + 8));
+          j++;
+        } while (j < g->arr[g->idx]->count);
       }
-      piVar3 = *(int **)(param_1 + 8);
-      iVar4 = iVar4 + 1;
-      iVar5 = iVar5 + 4;
-    } while (iVar4 < piVar3[1] - *piVar3 >> 2);
+      v = o->vec;
+      i++;
+      off += 4;
+    } while (i < v->end - v->begin);
   }
-  return;
 }
-

@@ -25,36 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_82F68CC0();
+typedef struct Rc_826D7EC0 { int vt; int cnt; } Rc_826D7EC0;
+typedef struct { unsigned char c[0x20]; } B32_826D7EC0;
+typedef struct S_826D7EC0 {
+  Rc_826D7EC0 *rc;
+  B32_826D7EC0 b;
+  float f[7];
+  int i40;
+  int i44;
+  short s48;
+  char c4a;
+  char c4b;
+} S_826D7EC0;
+extern void fn_8267C498(Rc_826D7EC0 *);
+extern void *memcpy(void *, const void *, unsigned);
 
-
-int * fn_826D7EC0(int *param_1,int *param_2)
-
+S_826D7EC0 *fn_826D7EC0(S_826D7EC0 *d, S_826D7EC0 *s)
 {
-  int iVar1;
-  
-  iVar1 = *param_2;
-  if (iVar1 != 0) {
-    *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) + 1;
-  }
-  if (*param_1 != 0) {
-    fn_8267C498();
-  }
-  *param_1 = *param_2;
-  fn_82F68CC0(param_1 + 1,param_2 + 1,0x20);
-  param_1[9] = param_2[9];
-  param_1[10] = param_2[10];
-  param_1[0xb] = param_2[0xb];
-  param_1[0xc] = param_2[0xc];
-  param_1[0xd] = param_2[0xd];
-  param_1[0xe] = param_2[0xe];
-  param_1[0xf] = param_2[0xf];
-  param_1[0x10] = param_2[0x10];
-  param_1[0x11] = param_2[0x11];
-  *(undefined2 *)(param_1 + 0x12) = *(undefined2 *)(param_2 + 0x12);
-  *(undefined1 *)((int)param_1 + 0x4a) = *(undefined1 *)((int)param_2 + 0x4a);
-  *(undefined1 *)((int)param_1 + 0x4b) = *(undefined1 *)((int)param_2 + 0x4b);
-  return param_1;
-}
+  int r;
 
+  r = (int)s->rc;
+  if (r != 0) {
+    ((Rc_826D7EC0 *)r)->cnt = ((Rc_826D7EC0 *)r)->cnt + 1;
+  }
+  if (d->rc != 0) {
+    fn_8267C498(d->rc);
+  }
+  d->rc = s->rc;
+  d->b = s->b;
+  d->f[0] = s->f[0];
+  d->f[1] = s->f[1];
+  d->f[2] = s->f[2];
+  d->f[3] = s->f[3];
+  d->f[4] = s->f[4];
+  d->f[5] = s->f[5];
+  d->f[6] = s->f[6];
+  d->i40 = s->i40;
+  d->i44 = s->i44;
+  d->s48 = s->s48;
+  d->c4a = s->c4a;
+  d->c4b = s->c4b;
+  return d;
+}

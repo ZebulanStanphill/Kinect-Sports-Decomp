@@ -1,61 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8280AD30(float *param_1,float *param_2,float *param_3)
-
+void fn_8280AD30(float *m, float *v, float *o)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  
-  fVar1 = param_2[1];
-  fVar2 = param_1[6];
-  fVar3 = param_2[2];
-  fVar4 = param_1[8];
-  fVar5 = *param_2;
-  fVar6 = param_1[2];
-  fVar7 = param_1[4];
-  fVar8 = param_1[10];
-  fVar9 = *param_1;
-  fVar10 = param_1[0xe];
-  fVar11 = param_1[0xc];
-  param_3[1] = param_1[9] * fVar3 + param_1[1] * fVar5 + param_1[5] * fVar1 + param_1[0xd];
-  param_3[2] = fVar8 * fVar3 + fVar6 * fVar5 + fVar2 * fVar1 + fVar10;
-  *param_3 = fVar9 * fVar5 + fVar7 * fVar1 + fVar4 * fVar3 + fVar11;
-  return;
+  float v2 = v[2];
+  float m13 = m[13];
+  float m0 = m[0];
+  float v1 = v[1];
+  float v0 = v[0];
+  float m4 = m[4];
+  float m5 = m[5];
+  float m14 = m[14];
+  float m1 = m[1];
+  float m8 = m[8];
+  float m9 = m[9];
+  float m10 = m[10];
+  float m2 = m[2];
+  float m12 = m[12];
+  float m6 = m[6];
+  o[0] = m0*v0 + m4*v1 + m8*v2 + m12;
+  o[1] = m1*v0 + m5*v1 + m9*v2 + m13;
+  o[2] = m2*v0 + m6*v1 + m10*v2 + m14;
 }
-

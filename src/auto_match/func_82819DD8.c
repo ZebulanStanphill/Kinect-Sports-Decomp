@@ -25,51 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82823080();
-extern int fn_828230A8();
-extern unsigned int iStack_30;
-extern unsigned int lbl_8320A5F0;
+typedef struct N_82819DD8 { char pad[0x20]; unsigned f20; unsigned f24; } N_82819DD8;
+extern void fn_82823080(N_82819DD8 *, N_82819DD8 **);
+extern void fn_828230A8(N_82819DD8 *, N_82819DD8 **);
+extern N_82819DD8 *lbl_8320A5F0;
 
-
-undefined8 fn_82819DD8(int param_1,longlong param_2,ulonglong param_3,longlong param_4)
-
+int fn_82819DD8(N_82819DD8 *p, int a, unsigned b, int c)
 {
-  ulonglong uVar1;
-  int iVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  int iStack_30;
-  int aiStack_2c;
-  
-  lVar3 = (ulonglong)*(uint *)(param_1 + 0x24) - param_2;
-  if (-1 < lVar3) {
-    uVar1 = param_3 & 0xffff;
-    uVar4 = (ulonglong)*(uint *)(param_1 + 0x20) + param_4;
-    if ((uVar1 - 1 & uVar4) != 0) {
-      lVar3 = (uVar4 - ((uVar1 + uVar4) - 1 & ~(uVar1 - 1))) + lVar3;
+  int d;
+  unsigned al;
+  unsigned e;
+  N_82819DD8 *q;
+  N_82819DD8 *q2;
+
+  d = p->f24 - a;
+  if (d >= 0) {
+    e = p->f20 + c;
+    al = b & 0xffff;
+    if (((al - 1) & e) != 0) {
+      d = (e - ((e + al - 1) & ~(al - 1))) + d;
     }
-    if (-1 < (int)lVar3) {
-      if ((lbl_8320A5F0 == 0) ||
-         ((ulonglong)*(uint *)(lbl_8320A5F0 + 0x20) < (ulonglong)*(uint *)(param_1 + 0x20))) {
-        lbl_8320A5F0 = param_1;
+    if (d >= 0) {
+      if (lbl_8320A5F0 == 0 || p->f20 > lbl_8320A5F0->f20) {
+        lbl_8320A5F0 = p;
       }
-      fn_828230A8(param_1,&iStack_30);
-      if (iStack_30 == 0) {
-        return 1;
+      fn_828230A8(p, &q);
+      if (q != 0) {
+        fn_82819DD8(q, a, b, c);
       }
-      fn_82819DD8(iStack_30,param_2,param_3,param_4);
       return 1;
     }
   }
-  fn_828230A8(param_1,&iStack_30);
-  if ((iStack_30 != 0) && (iVar2 = fn_82819DD8(iStack_30,param_2,param_3,param_4), iVar2 != 0)) {
+  fn_828230A8(p, &q);
+  if (q != 0 && fn_82819DD8(q, a, b, c) != 0) {
     return 1;
   }
-  fn_82823080(param_1,&aiStack_2c);
-  if ((aiStack_2c != 0) &&
-     (iVar2 = fn_82819DD8(aiStack_2c,param_2,param_3,param_4), iVar2 != 0)) {
+  fn_82823080(p, &q2);
+  if (q2 != 0 && fn_82819DD8(q2, a, b, c) != 0) {
     return 1;
   }
   return 0;
 }
-

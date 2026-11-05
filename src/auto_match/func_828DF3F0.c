@@ -25,33 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828E0270();
 
 
-undefined4 * fn_828DF3F0(int param_1,undefined8 param_2)
+typedef struct Node_828DF3F0 { struct Node_828DF3F0 *left, *parent, *right; int key; char pad[5]; unsigned char isnil; } Node_828DF3F0;
+typedef struct { int pad; Node_828DF3F0 *head; } Tree_828DF3F0;
+extern unsigned char fn_828E0270(void *, int);
 
+Node_828DF3F0 *fn_828DF3F0(Tree_828DF3F0 *t, int k)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  puVar4 = (undefined4 *)(*(undefined4 **)(param_1 + 4))[1];
-  cVar3 = *(char *)((int)puVar4 + 0x15);
-  puVar2 = *(undefined4 **)(param_1 + 4);
-  while (cVar3 == '\0') {
-    cVar3 = fn_828E0270(puVar4 + 3,param_2);
-    if (cVar3 == '\0') {
-      puVar1 = (undefined4 *)*puVar4;
+  Node_828DF3F0 *where = t->head;
+  Node_828DF3F0 *n = where->parent;
+  while (!n->isnil) {
+    if (fn_828E0270(&n->key, k)) {
+      n = n->right;
+    } else {
+      where = n;
+      n = n->left;
     }
-    else {
-      puVar1 = (undefined4 *)puVar4[2];
-      puVar4 = puVar2;
-    }
-    puVar2 = puVar4;
-    puVar4 = puVar1;
-    cVar3 = *(char *)((int)puVar1 + 0x15);
   }
-  return puVar2;
+  return where;
 }
-

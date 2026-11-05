@@ -25,40 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822DD818();
-extern int fn_8260D428();
+typedef struct Str_8286B368 {
+  union { char buf[16]; char *ptr; } u;
+  unsigned int size;
+  unsigned int cap;
+} Str_8286B368;
 
+extern int fn_8260D428(Str_8286B368 *, unsigned int, unsigned int, const char *, unsigned int);
+extern void fn_822DD818(Str_8286B368 *, Str_8286B368 *);
 
-void fn_8286B368(undefined4 *param_1,undefined4 *param_2,int param_3)
-
+static __forceinline int Cmp_8286B368(Str_8286B368 *hi, Str_8286B368 *lo)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = param_1;
-  if (0xf < (uint)param_1[5]) {
-    puVar2 = (undefined4 *)*param_1;
+  unsigned int len = lo->size;
+  const char *p;
+  if (lo->cap >= 0x10) {
+    p = lo->u.ptr;
+  } else {
+    p = lo->u.buf;
   }
-  iVar1 = fn_8260D428(param_2,0,param_2[4],puVar2,param_1[4]);
-  if (iVar1 < 0) {
-    fn_822DD818(param_2,param_1);
-  }
-  puVar2 = param_2;
-  if (0xf < (uint)param_2[5]) {
-    puVar2 = (undefined4 *)*param_2;
-  }
-  iVar1 = fn_8260D428(param_3,0,*(undefined4 *)(param_3 + 0x10),puVar2,param_2[4]);
-  if (iVar1 < 0) {
-    fn_822DD818(param_3,param_2);
-  }
-  puVar2 = param_1;
-  if (0xf < (uint)param_1[5]) {
-    puVar2 = (undefined4 *)*param_1;
-  }
-  iVar1 = fn_8260D428(param_2,0,param_2[4],puVar2,param_1[4]);
-  if (iVar1 < 0) {
-    fn_822DD818(param_2,param_1);
-  }
-  return;
+  return fn_8260D428(hi, 0, hi->size, p, len);
 }
 
+static __forceinline void Order_8286B368(Str_8286B368 *hi, Str_8286B368 *lo)
+{
+  if (Cmp_8286B368(hi, lo) < 0) {
+    fn_822DD818(hi, lo);
+  }
+}
+
+void fn_8286B368(Str_8286B368 *a, Str_8286B368 *b, Str_8286B368 *c)
+{
+  Order_8286B368(b, a);
+  Order_8286B368(c, b);
+  Order_8286B368(b, a);
+}

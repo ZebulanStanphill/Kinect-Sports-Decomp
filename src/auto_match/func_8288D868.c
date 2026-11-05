@@ -1,78 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82381BC0();
-extern int fn_8240D928();
-extern int fn_8288BE40();
-extern int fn_82A4AAA8();
-extern int fn_82F622E0();
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
+typedef struct Link_8288D868 { struct Link_8288D868 *next; int pad; int pad2; int pad3; int val; } Link_8288D868;
+typedef struct List_8288D868 { char pad[0x230]; Link_8288D868 *head; } List_8288D868;
+typedef struct Obj_8288D868 { char pad[0x10]; List_8288D868 *list; char pad2[0x3c - 0x14]; unsigned *bits; char pad3[0x4c - 0x40]; unsigned size; } Obj_8288D868;
+typedef struct Ref_8288D868 { unsigned *word; unsigned bit; } Ref_8288D868;
+typedef struct Pos_8288D868 { unsigned *word; unsigned bit; } Pos_8288D868;
+extern void fn_82381BC0(Link_8288D868 **);
+extern unsigned fn_8240D928(int);
+extern Ref_8288D868 *fn_8288BE40(void *, Pos_8288D868 *, unsigned);
+extern int fn_82A4AAA8(int);
+extern __declspec(noreturn) void fn_82F622E0(const char *);
 
-
-longlong fn_8288D868(int param_1)
-
+unsigned char fn_8288D868(Obj_8288D868 *o)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  int iVar3;
-  uint uVar4;
-  undefined4 *puVar5;
-  longlong lVar6;
-  int aiStack_40;
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
-
-  undefined1 auStack_30 [16];
-
-  lVar6 = 1;
-  piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 0x230);
-  aiStack_40 = *piVar1;
-  if ((int *)aiStack_40 != piVar1) {
+  unsigned char ok = 1;
+  Link_8288D868 *head = o->list->head;
+  Link_8288D868 *it = head->next;
+  if (it != head) {
     do {
-      uVar2 = *(undefined4 *)(aiStack_40 + 0x10);
-      if ((lVar6 == 0) || (iVar3 = fn_82A4AAA8(uVar2), iVar3 != 1)) {
-LAB_8288d90c:
-        lVar6 = 0;
+      int v = it->val;
+      int t;
+      if (ok == 0 || fn_82A4AAA8(v) != 1) {
+        t = 0;
+      } else {
+        unsigned idx = fn_8240D928(v);
+        Pos_8288D868 pos;
+        Ref_8288D868 *r;
+        char tmp[8];
+        if (o->size <= idx)
+          fn_82F622E0("invalid vector<bool> subscript");
+        pos.word = o->bits;
+        pos.bit = 0;
+        r = fn_8288BE40(tmp, &pos, idx);
+        t = 1;
+        if ((1u << r->bit & *r->word) == 0)
+          t = 0;
       }
-      else {
-        uVar4 = fn_8240D928(uVar2);
-        if (*(uint *)(param_1 + 0x4c) <= uVar4) {
-                    /* WARNING: Subroutine does not return */
-          fn_82F622E0(0xffffffff82023604);
-        }
-        stack_pair_38.first = *(undefined4 *)(param_1 + 0x3c);
-        stack_pair_38.second = 0;
-        puVar5 = (undefined4 *)fn_8288BE40(auStack_30,&stack_pair_38.first);
-        lVar6 = 1;
-        if ((1 << (puVar5[1] & 0x3f) & *(uint *)*puVar5) == 0) goto LAB_8288d90c;
-      }
-      fn_82381BC0(&aiStack_40);
-    } while (aiStack_40 != *(int *)(*(int *)(param_1 + 0x10) + 0x230));
+      ok = t;
+      fn_82381BC0(&it);
+    } while (it != o->list->head);
   }
-  return lVar6;
+  return ok;
 }

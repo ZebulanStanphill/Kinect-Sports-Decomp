@@ -25,31 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825293A8();
-
-
-void fn_82529488(int param_1,undefined8 param_2,int param_3)
-
+extern void fn_825293A8(unsigned int);
+void fn_82529488(unsigned int node, int flag, int ctx)
 {
-  int iVar1;
-  
-LAB_825294f4:
-  iVar1 = param_1;
-  if (iVar1 == 0) {
-    return;
+  while (node != 0) {
+    unsigned int o;
+    int left = *(int *)(node + 8);
+    if (left != 0) {
+      fn_82529488(left, flag, ctx);
+    }
+    o = node - 0x40;
+    node = *(int *)(node + 4);
+    if (flag == 0) {
+      fn_825293A8(o);
+    } else {
+      unsigned int m = *(unsigned int *)(o + 0xb20);
+      if ((*(unsigned int *)(ctx + 0xb20) & m) != 0) {
+        if (*(unsigned int *)(o + 0xb1c) != 0 || m == 0) {
+          fn_825293A8(o);
+        }
+      }
+    }
   }
-  if (*(int *)(iVar1 + 8) != 0) {
-    fn_82529488(*(int *)(iVar1 + 8),param_2,param_3);
-  }
-  param_1 = *(int *)(iVar1 + 4);
-  if ((int)param_2 != 0) goto code_r0x825294cc;
-  goto LAB_825294f0;
-code_r0x825294cc:
-  if (((*(uint *)(param_3 + 0xb20) & *(uint *)(iVar1 + 0xae0)) != 0) &&
-     ((*(int *)(iVar1 + 0xadc) != 0 || (*(uint *)(iVar1 + 0xae0) == 0)))) {
-LAB_825294f0:
-    fn_825293A8();
-  }
-  goto LAB_825294f4;
 }
-

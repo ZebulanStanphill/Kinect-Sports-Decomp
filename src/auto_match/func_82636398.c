@@ -28,44 +28,53 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_826323F8();
 
 
-void fn_82636398(int param_1)
+typedef struct { char pad[0x26b8]; int a; int b; char pad2[0x10]; } Slot_82636398;
+struct Obj_82636398;
+typedef struct { void *f0; void (*f4)(struct Obj_82636398 *); } VT_82636398;
+typedef struct Obj_82636398 { VT_82636398 *vt; } Obj_82636398;
+typedef struct {
+  char pad0[0x10];
+  Slot_82636398 slot[2];
+  int f4db0, f4db4;
+  Obj_82636398 *f4db8;
+  int f4dbc, f4dc0;
+  char pad2[0x4ddc - 0x4dc4];
+  int f4ddc, f4de0, f4de4, f4de8, f4dec, f4df0;
+} Ctx_82636398;
 
+void fn_82636398(Ctx_82636398 *p)
 {
-  longlong lVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  
-  *(undefined4 *)(param_1 + 0x4db0) = 1;
-  puVar3 = (undefined4 *)(param_1 + 0x26cc);
-  uVar2 = 0;
+  unsigned i;
+  int n;
+  Slot_82636398 *s;
+  int *q;
+  p->f4db0 = 1;
+  q = &p->slot[0].b;
+  i = 0;
   do {
-    fn_826323F8(puVar3 + -0x9af);
-    lVar1 = LZCOUNT(uVar2);
-    uVar2 = uVar2 + 1;
-    *puVar3 = 1;
-    puVar3[-1] = (uint)lVar1 >> 5;
-    puVar3 = puVar3 + 0x9b4;
-  } while (uVar2 < 2);
-  *(undefined4 *)(param_1 + 0x4dbc) = 0;
-  iVar4 = param_1 + 0x10;
-  *(undefined4 *)(param_1 + 0x4db4) = 0;
-  lVar1 = 2;
+    fn_826323F8((char *)q - 0x26bc);
+    q[-1] = i == 0;
+    i++;
+    *q = 1;
+    q += 0x9b4;
+  } while (i < 2);
+  p->f4dbc = 0;
+  s = p->slot;
+  p->f4db4 = 0;
+  n = 2;
   do {
-    fn_826323F8(iVar4);
-    *(undefined4 *)(iVar4 + 0x26bc) = 1;
-    lVar1 = lVar1 + -1;
-    iVar4 = iVar4 + 0x26d0;
-  } while (lVar1 != 0);
-  if (*(int **)(param_1 + 0x4db8) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x4db8) + 4))();
-    *(undefined4 *)(param_1 + 0x4db8) = 0;
+    fn_826323F8(s);
+    s->b = 1;
+    n--;
+    s++;
+  } while (n != 0);
+  if (p->f4db8 != 0) {
+    p->f4db8->vt->f4(p->f4db8);
+    p->f4db8 = 0;
   }
-  *(undefined4 *)(param_1 + 0x4dc0) = 0;
-  *(undefined4 *)(param_1 + 0x4ddc) = 0;
-  *(undefined4 *)(param_1 + 0x4de0) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0x4de8) = 0;
-  *(undefined4 *)(param_1 + 0x4df0) = 0;
-  return;
+  p->f4dc0 = 0;
+  p->f4ddc = 0;
+  p->f4de0 = -1;
+  p->f4de8 = 0;
+  p->f4df0 = 0;
 }
-

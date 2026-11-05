@@ -25,65 +25,44 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8234D618();
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int stack0x00000000;
+typedef struct { unsigned px; unsigned rep; } SP_8234C188;
+typedef struct { char pad[0x118]; unsigned px1; unsigned rep1; char pad2[0x144 - 0x120]; unsigned px2; unsigned rep2; } Obj_8234C188;
+extern SP_8234C188 *fn_8234D618(SP_8234C188 *, void *);
+extern void fn_822315A0(unsigned);
 
-
-void fn_8234C188(int param_1,undefined8 param_2)
-
+void fn_8234C188(Obj_8234C188 *o, void *a)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined1 auStack_40 [4];
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  undefined4 auStack_30 [12];
-  
-  puVar2 = (undefined4 *)fn_8234D618(&stack0x00000000 + -0x40);
-  uVar3 = 0;
-  uVar4 = 0;
-  if ((undefined4 *)(&stack0x00000000 + -0x30) != puVar2) {
-    uVar4 = puVar2[1];
-    puVar2[1] = 0;
-    uVar3 = *puVar2;
-    *puVar2 = 0;
+  struct { SP_8234C188 A, B, Z; } L;
+  SP_8234C188 *r;
+  unsigned px, rep, old;
+  r = fn_8234D618(&L.A, a);
+  px = 0;
+  rep = 0;
+  if (&L.Z != r) {
+    unsigned *pr = &r->rep;
+    rep = *pr;
+    *pr = 0;
+    px = r->px;
+    r->px = 0;
   }
-  iVar1 = *(int *)(param_1 + 0x11c);
-  *(undefined4 *)(param_1 + 0x11c) = uVar4;
-  *(undefined4 *)(param_1 + 0x118) = uVar3;
-  if (iVar1 != 0) {
-    fn_822315A0();
+  old = o->rep1;
+  o->rep1 = rep;
+  o->px1 = px;
+  if (old != 0) fn_822315A0(old);
+  if (L.A.rep != 0) fn_822315A0(L.A.rep);
+  r = fn_8234D618(&L.B, a);
+  px = 0;
+  rep = 0;
+  if (&L.Z != r) {
+    unsigned *pr = &r->rep;
+    rep = *pr;
+    *pr = 0;
+    px = r->px;
+    r->px = 0;
   }
-  if (iStack_3c != 0) {
-    fn_822315A0();
-  }
-  puVar2 = (undefined4 *)fn_8234D618(&stack0x00000000 + -0x38,param_2);
-  uVar3 = 0;
-  uVar4 = 0;
-  if ((undefined4 *)(&stack0x00000000 + -0x30) != puVar2) {
-    uVar4 = puVar2[1];
-    puVar2[1] = 0;
-    uVar3 = *puVar2;
-    *puVar2 = 0;
-  }
-  iVar1 = *(int *)(param_1 + 0x148);
-  *(undefined4 *)(param_1 + 0x148) = uVar4;
-  *(undefined4 *)(param_1 + 0x144) = uVar3;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  if (iStack_34 != 0) {
-    fn_822315A0();
-  }
-  return;
+  old = o->rep2;
+  o->rep2 = rep;
+  o->px2 = px;
+  if (old != 0) fn_822315A0(old);
+  if (L.B.rep != 0) fn_822315A0(L.B.rep);
 }
-

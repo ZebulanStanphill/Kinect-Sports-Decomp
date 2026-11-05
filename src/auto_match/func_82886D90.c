@@ -25,66 +25,71 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82886CB0();
-extern unsigned int lbl_83212A1C;
-extern unsigned int lbl_83212A24;
+typedef struct Rec_82886D90 { unsigned a; unsigned p4; unsigned b; } Rec_82886D90;
+typedef struct Itm_82886D90 Itm_82886D90;
+typedef struct VT_82886D90 { int (*f0)(Itm_82886D90 *); int (*f4)(Itm_82886D90 *); } VT_82886D90;
+struct Itm_82886D90 {
+  VT_82886D90 *vt;
+  char pad[0x20];
+  unsigned char f24;
+  unsigned char p25;
+  unsigned short f26;
+  char p28[8];
+  Itm_82886D90 *next;
+};
+extern void fn_82886CB0(Rec_82886D90 **, __int64);
+extern int *lbl_83212A1C[];
 
-
-void fn_82886D90(int *param_1,undefined4 *param_2,undefined8 param_3)
-
+void fn_82886D90(Rec_82886D90 **param_1, Itm_82886D90 **param_2, __int64 param_3)
 {
-  ushort uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  uint uVar4;
-  int iVar5;
-  int *piVar6;
-  uint uVar7;
-  ulonglong uVar8;
-  uint uVar9;
-  
-  uVar8 = (ulonglong)lbl_83212A24;
-  piVar6 = param_1;
-  if (0 < (int)lbl_83212A24) {
+  int n;
+  int i;
+  Rec_82886D90 *r;
+  Rec_82886D90 **q;
+  Itm_82886D90 *p;
+  int idx;
+  unsigned us;
+  unsigned u;
+  unsigned w;
+  unsigned b;
+
+  n = (int)lbl_83212A1C[2];
+  if (n > 0) {
+    q = param_1;
+    i = n;
     do {
-      puVar2 = (undefined4 *)*piVar6;
-      if (puVar2 != (undefined4 *)0x0) {
-        puVar2[2] = *puVar2;
+      r = *q;
+      if (r != 0) {
+        r->b = r->a;
       }
-      uVar8 = uVar8 - 1;
-      piVar6 = piVar6 + 1;
-    } while (uVar8 != 0);
+      q++;
+      i--;
+    } while (i != 0);
   }
-  piVar6 = (int *)*param_2;
-  do {
-    if (piVar6 == (int *)0x0) {
-      fn_82886CB0(param_1,param_3);
-      return;
-    }
-    iVar5 = (**(code **)(*piVar6 + 4))(piVar6);
-    if ((0 < *(int *)(iVar5 * 4 + lbl_83212A1C)) && (*(char *)(piVar6 + 9) != '\0')) {
-      uVar1 = *(ushort *)((int)piVar6 + 0x26);
-      uVar9 = (uint)uVar1;
-      iVar5 = (**(code **)(*piVar6 + 4))(piVar6);
-      piVar3 = (int *)param_1[iVar5];
-      uVar4 = 1 << (*(uint *)(iVar5 * 4 + lbl_83212A1C) & 0x3f);
-      uVar7 = *piVar3 - (uVar4 >> 1);
-      if (uVar4 < uVar7) {
-        uVar7 = uVar7 + uVar4;
+  for (p = *param_2; p != 0; p = p->next) {
+    idx = p->vt->f4(p);
+    if (((int *)lbl_83212A1C[0])[idx] > 0 && p->f24 != 0) {
+      us = p->f26;
+      idx = p->vt->f4(p);
+      r = param_1[idx];
+      w = 1 << ((int *)lbl_83212A1C[0])[idx];
+      b = r->b;
+      u = r->a - (w >> 1);
+      if (u > w) {
+        u = u + w;
       }
-      if (uVar7 < (uint)piVar3[2]) {
-        if (uVar7 <= uVar9) {
-LAB_82886e84:
-          if (uVar9 < (uint)piVar3[2]) goto LAB_82886e8c;
+      if (b > u) {
+        if (us >= u) {
+          if (us < b) r->b = us;
+        }
+      } else {
+        if (us < u) {
+          if (us < b) r->b = us;
+        } else {
+          r->b = us;
         }
       }
-      else {
-        if (uVar9 < uVar7) goto LAB_82886e84;
-LAB_82886e8c:
-        piVar3[2] = (uint)uVar1;
-      }
     }
-    piVar6 = (int *)piVar6[0xc];
-  } while( true );
+  }
+  fn_82886CB0(param_1, param_3);
 }
-

@@ -25,29 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_24;
-extern unsigned int fStack_30;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
+struct Src_822419F8;
+typedef struct { char pad0[4]; void (*f4)(struct Src_822419F8 *, int, int, float, int); char pad[0x14 - 8]; void (*f14)(struct Src_822419F8 *, int, void *); } VT_822419F8;
+typedef struct Src_822419F8 { VT_822419F8 *vt; } Src_822419F8;
+typedef struct { char pad[0x68]; Src_822419F8 *a68; int pad6c; Src_822419F8 *a70; int pad74; Src_822419F8 *a78; int pad7c; Src_822419F8 *a80; } Self_822419F8;
+typedef struct { char pad[0x10]; Src_822419F8 *sink; } Dst_822419F8;
 
-
-void fn_822419F8(int param_1,undefined8 param_2,int param_3,undefined8 param_4)
-
+void fn_822419F8(Self_822419F8 *self, int key, Dst_822419F8 *dst, int d)
 {
-  int *piVar1;
-  float fStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
-  undefined4 auStack_24 [9];
-  
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_24);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,&uStack_28);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x14))(*(int **)(param_1 + 0x78),param_2,&fStack_30);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x14))(*(int **)(param_1 + 0x80),param_2,&uStack_2c);
-  piVar1 = *(int **)(param_3 + 0x10);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))((double)fStack_30,piVar1,auStack_24[0],uStack_28,param_4,uStack_2c);
+  struct { float f; int c; int b; int a; } L;
+  Src_822419F8 *sink;
+  self->a68->vt->f14(self->a68, key, &L.a);
+  self->a70->vt->f14(self->a70, key, &L.b);
+  self->a78->vt->f14(self->a78, key, &L);
+  self->a80->vt->f14(self->a80, key, &L.c);
+  if (dst->sink != 0) {
+    dst->sink->vt->f4(dst->sink, L.a, L.b, L.f, L.c);
   }
-  return;
 }
-

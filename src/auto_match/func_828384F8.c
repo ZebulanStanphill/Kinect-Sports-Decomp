@@ -25,45 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_68;
-extern int fn_82A99180();
-extern int fn_82A99540();
-extern int fn_82A999C8();
-extern unsigned int iStack_54;
-extern unsigned int iStack_58;
-extern unsigned int iStack_5c;
-extern unsigned int iStack_60;
-extern unsigned int iStack_6c;
-extern unsigned int iStack_70;
+typedef struct { int x0, y0, x1, y1; } Rect_828384F8;
+typedef struct { int w, h, z; } Size_828384F8;
+typedef struct { char pad0[0x18]; int f18; char pad1[0x28 - 0x1c]; int f28; char pad2[0x34 - 0x2c]; int f34; } Self_828384F8;
+extern void fn_82A999C8(int, int, int *, int *, int *);
+extern void fn_82A99180(int, int, int, int, int, int, int, int);
+extern void fn_82A99540(int, int, int, int, int, int, int, int, Rect_828384F8 *, int);
 
-
-void fn_828384F8(int param_1,int param_2,int param_3,int param_4,int param_5,undefined8 param_6,
-                  undefined8 param_7,undefined8 param_8)
-
+void fn_828384F8(Self_828384F8 *self, int x, int y, int w, int h, int a, int b, int c, int p9, int p10)
 {
-  undefined4 in_stack_00000054;
-  int iStack_70;
-  int iStack_6c;
-  undefined1 auStack_68 [8];
-  int iStack_60;
-  int iStack_5c;
-  int iStack_58;
-  int iStack_54;
-  
-  fn_82A999C8(*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x34),&iStack_70,
-                    &iStack_6c,auStack_68);
-  if ((((param_2 == 0) && (param_3 == 0)) && (param_4 == iStack_70)) && (param_5 == iStack_6c)) {
-    fn_82A99180(param_6,param_7,param_8,in_stack_00000054,*(undefined4 *)(param_1 + 0x18),0,
-                    *(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x34));
+  Size_828384F8 sz;
+  Rect_828384F8 r;
+  fn_82A999C8(self->f28, self->f34, &sz.w, &sz.h, &sz.z);
+  if (x == 0 && y == 0 && w == sz.w && h == sz.h) {
+    fn_82A99180(a, b, c, p9, self->f18, 0, self->f28, self->f34);
+  } else {
+    r.x0 = x;
+    r.x1 = x + w;
+    r.y0 = y;
+    r.y1 = y + h;
+    fn_82A99540(a, b, c, p9, self->f18, 0, self->f28, self->f34, &r, p10);
   }
-  else {
-    iStack_58 = param_2 + param_4;
-    iStack_54 = param_3 + param_5;
-    iStack_60 = param_2;
-    iStack_5c = param_3;
-    fn_82A99540(param_6,param_7,param_8,in_stack_00000054,*(undefined4 *)(param_1 + 0x18),0,
-                    *(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x34));
-  }
-  return;
 }
-

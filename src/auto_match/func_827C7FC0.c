@@ -25,85 +25,98 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1AA0();
+extern int fn_827C1AA0(int, int);
 
+typedef struct jpeg_error_mgr_827C7FC0 {
+  void (*error_exit)(void *);
+  int pad4[4];
+  int msg_code;
+  int msg_parm[8];
+} jpeg_error_mgr_827C7FC0;
+typedef struct jpeg_component_info_827C7FC0 {
+  int component_id;
+  int component_index;
+  int h_samp_factor;
+  int v_samp_factor;
+  int quant_tbl_no;
+  int dc_tbl_no;
+  int ac_tbl_no;
+  unsigned int width_in_blocks;
+  unsigned int height_in_blocks;
+  int DCT_scaled_size;
+  unsigned int downsampled_width;
+  unsigned int downsampled_height;
+  unsigned char component_needed;
+  char pad31[0x54 - 0x31];
+} jpeg_component_info_827C7FC0;
+typedef struct jpeg_compress_struct_827C7FC0 {
+  jpeg_error_mgr_827C7FC0 *err;
+  char pad4[0x1c - 4];
+  unsigned int image_width;
+  unsigned int image_height;
+  int input_components;
+  char pad28[0x38 - 0x28];
+  int data_precision;
+  int num_components;
+  int jpeg_color_space;
+  jpeg_component_info_827C7FC0 *comp_info;
+  char pad48[0xd8 - 0x48];
+  int max_h_samp_factor;
+  int max_v_samp_factor;
+  int total_iMCU_rows;
+} jpeg_compress_struct_827C7FC0;
 
-void fn_827C7FC0(int *param_1)
+#define ERREXIT_827C7FC0(c, code) ((c)->err->msg_code = (code), (*(c)->err->error_exit)(c))
 
+void fn_827C7FC0(jpeg_compress_struct_827C7FC0 *cinfo)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  undefined1 *puVar5;
-  
-  if ((((param_1[8] == 0) || (param_1[7] == 0)) || (param_1[0xf] < 1)) || (param_1[9] < 1)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x20;
-    (**(code **)*param_1)(param_1);
-  }
-  if ((0xffdc < param_1[8]) || (0xffdc < param_1[7])) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x29;
-    *(undefined4 *)(*param_1 + 0x18) = 0xffdc;
-    (**(code **)*param_1)(param_1);
-  }
-  if (param_1[0xe] != 8) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xf;
-    *(int *)(*param_1 + 0x18) = param_1[0xe];
-    (**(code **)*param_1)(param_1);
-  }
-  if (10 < param_1[0xf]) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x1a;
-    *(int *)(*param_1 + 0x18) = param_1[0xf];
-    *(undefined4 *)(*param_1 + 0x1c) = 10;
-    (**(code **)*param_1)(param_1);
-  }
-  iVar2 = 0;
-  param_1[0x36] = 1;
-  param_1[0x37] = 1;
-  if (0 < param_1[0xf]) {
-    piVar4 = (int *)(param_1[0x11] + 0xc);
-    do {
-      if (((piVar4[-1] < 1) || (4 < piVar4[-1])) || ((*piVar4 < 1 || (4 < *piVar4)))) {
-        *(undefined4 *)(*param_1 + 0x14) = 0x12;
-        (**(code **)*param_1)(param_1);
-      }
-      iVar3 = param_1[0x36];
-      if (param_1[0x36] <= piVar4[-1]) {
-        iVar3 = piVar4[-1];
-      }
-      param_1[0x36] = iVar3;
-      iVar3 = param_1[0x37];
-      if (param_1[0x37] <= *piVar4) {
-        iVar3 = *piVar4;
-      }
-      iVar2 = iVar2 + 1;
-      param_1[0x37] = iVar3;
-      piVar4 = piVar4 + 0x15;
-    } while (iVar2 < param_1[0xf]);
-  }
-  iVar2 = 0;
-  if (0 < param_1[0xf]) {
-    puVar5 = (undefined1 *)(param_1[0x11] + -0x24);
-    do {
-      *(int *)(puVar5 + 0x28) = iVar2;
-      *(undefined4 *)(puVar5 + 0x48) = 8;
-      uVar1 = fn_827C1AA0((longlong)*(int *)(puVar5 + 0x2c) * (longlong)param_1[7],
-                            param_1[0x36] << 3);
-      *(undefined4 *)(puVar5 + 0x40) = uVar1;
-      uVar1 = fn_827C1AA0((longlong)*(int *)(puVar5 + 0x30) * (longlong)param_1[8],
-                            param_1[0x37] << 3);
-      *(undefined4 *)(puVar5 + 0x44) = uVar1;
-      uVar1 = fn_827C1AA0((longlong)*(int *)(puVar5 + 0x2c) * (longlong)param_1[7],param_1[0x36]);
-      *(undefined4 *)(puVar5 + 0x4c) = uVar1;
-      uVar1 = fn_827C1AA0((longlong)*(int *)(puVar5 + 0x30) * (longlong)param_1[8],param_1[0x37]);
-      *(undefined4 *)(puVar5 + 0x50) = uVar1;
-      iVar2 = iVar2 + 1;
-      puVar5 = puVar5 + 0x54;
-      *puVar5 = 1;
-    } while (iVar2 < param_1[0xf]);
-  }
-  iVar2 = fn_827C1AA0(param_1[8],param_1[0x37] << 3);
-  param_1[0x38] = iVar2;
-  return;
-}
+  int ci;
+  jpeg_component_info_827C7FC0 *compptr;
 
+  if (cinfo->image_height <= 0 || cinfo->image_width <= 0 || cinfo->num_components <= 0 ||
+      cinfo->input_components <= 0) {
+    ERREXIT_827C7FC0(cinfo, 0x20);
+  }
+  if ((long)cinfo->image_height > 0xffdc || (long)cinfo->image_width > 0xffdc) {
+    cinfo->err->msg_code = 0x29;
+    cinfo->err->msg_parm[0] = 0xffdc;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  if (cinfo->data_precision != 8) {
+    cinfo->err->msg_code = 0xf;
+    cinfo->err->msg_parm[0] = cinfo->data_precision;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  if (cinfo->num_components > 10) {
+    cinfo->err->msg_code = 0x1a;
+    cinfo->err->msg_parm[0] = cinfo->num_components;
+    cinfo->err->msg_parm[1] = 10;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  cinfo->max_h_samp_factor = 1;
+  cinfo->max_v_samp_factor = 1;
+  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+    if (compptr->h_samp_factor <= 0 || compptr->h_samp_factor > 4 || compptr->v_samp_factor <= 0 ||
+        compptr->v_samp_factor > 4) {
+      ERREXIT_827C7FC0(cinfo, 0x12);
+    }
+    cinfo->max_h_samp_factor =
+        cinfo->max_h_samp_factor > compptr->h_samp_factor ? cinfo->max_h_samp_factor : compptr->h_samp_factor;
+    cinfo->max_v_samp_factor =
+        cinfo->max_v_samp_factor > compptr->v_samp_factor ? cinfo->max_v_samp_factor : compptr->v_samp_factor;
+  }
+  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+    compptr->component_index = ci;
+    compptr->DCT_scaled_size = 8;
+    compptr->width_in_blocks =
+        fn_827C1AA0((__int64)cinfo->image_width * (__int64)compptr->h_samp_factor, cinfo->max_h_samp_factor << 3);
+    compptr->height_in_blocks =
+        fn_827C1AA0((__int64)cinfo->image_height * (__int64)compptr->v_samp_factor, cinfo->max_v_samp_factor << 3);
+    compptr->downsampled_width =
+        fn_827C1AA0((__int64)cinfo->image_width * (__int64)compptr->h_samp_factor, cinfo->max_h_samp_factor);
+    compptr->downsampled_height =
+        fn_827C1AA0((__int64)cinfo->image_height * (__int64)compptr->v_samp_factor, cinfo->max_v_samp_factor);
+    compptr->component_needed = 1;
+  }
+  cinfo->total_iMCU_rows = fn_827C1AA0(cinfo->image_height, cinfo->max_v_samp_factor << 3);
+}
