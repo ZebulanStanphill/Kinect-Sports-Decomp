@@ -1,70 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int iStack00000020;
+typedef struct S_82E819E8 {
+  int a; char pad4[0x40]; int b; char pad48[0x24]; int c;
+} S_82E819E8;
 
-
-void fn_82E819E8(int *param_1, undefined8 param_2, undefined8 unused_arg_3, undefined8 unused_arg_4, undefined8 unused_arg_5, undefined8 unused_arg_6, undefined8 unused_arg_7, undefined8 unused_arg_8, undefined8 unused_arg_9, undefined8 unused_arg_10, int in_stack_00000064, undefined8 unused_arg_12, undefined8 unused_arg_13, undefined8 unused_arg_14, undefined8 unused_arg_15, uint in_stack_0000008c)
-
+void fn_82E819E8(int *p, S_82E819E8 s)
 {
-  int iStack00000020;
-
-
-  
-  param_1[0x213] = 0;
-  param_1[0x7a8] = 0;
-  if ((in_stack_0000008c != 0) && (*param_1 == 0)) {
-    in_stack_0000008c =
-         -(uint)((ulonglong)in_stack_0000008c != 0xffffffffffffffff) & in_stack_0000008c;
-    param_1[0x213] = in_stack_0000008c;
-    param_1[0x7a8] = in_stack_0000008c;
+  int v;
+  p[0x213] = 0;
+  p[0x7a8] = 0;
+  if (s.c != 0 && p[0] == 0) {
+    v = s.c != -1 ? s.c : 0;
+    p[0x213] = v;
+    p[0x7a8] = v;
   }
-  if ((param_1[0x705] == 0) || (param_1[0x76b] == 1)) {
-    param_1[0x213] = 0;
-    param_1[0x7a8] = 0;
+  if (p[0x705] == 0 || p[0x76b] == 1) {
+    p[0x213] = 0;
+    p[0x7a8] = 0;
   }
-  iStack00000020 = (int)((ulonglong)param_2 >> 0x20);
-  if ((iStack00000020 != 0) && (*param_1 == 0)) {
-    param_1[0x213] = in_stack_00000064;
-    param_1[0x7a8] = in_stack_00000064;
+  if (s.a != 0 && p[0] == 0) {
+    p[0x213] = s.b;
+    p[0x7a8] = s.b;
   }
-  if (param_1[0x213] < 0) {
-    param_1[0x213] = 0;
-    param_1[0x7a8] = 0;
+  if (p[0x213] < 0) {
+    p[0x213] = 0;
+    p[0x7a8] = 0;
+  } else if (p[0x213] > 7 && p[0] == 0) {
+    p[0x213] = 7;
+    p[0x7a8] = 7;
   }
-  else if ((7 < param_1[0x213]) && (*param_1 == 0)) {
-    param_1[0x213] = 7;
-    param_1[0x7a8] = 7;
-  }
-  if (param_1[0x213] + 1 < param_1[0x792]) {
+  if (p[0x792] > p[0x213] + 1) {
     return;
   }
-  param_1[0x213] = 0;
-  param_1[0x7a8] = 0;
-  return;
+  p[0x213] = 0;
+  p[0x7a8] = 0;
 }
-

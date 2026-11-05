@@ -25,58 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10B28();
+extern int fn_82C10B28(int, int, void *);
+typedef struct Ent_82C29268 { int pad[2]; unsigned __int64 t; } Ent_82C29268;
+typedef struct Node_82C29268 { Ent_82C29268 *ent; unsigned flag; struct Node_82C29268 *prev; struct Node_82C29268 *next; } Node_82C29268;
+typedef struct Sink_82C29268 { int pad[2]; int (*f8)(struct Sink_82C29268 *, Ent_82C29268 *); } Sink_82C29268;
+typedef struct List_82C29268 { int pad0[4]; Node_82C29268 *tail; Node_82C29268 *head; unsigned count; int pad1[5]; int x30; Sink_82C29268 *sink; int pad2[15]; int a74; int a78; } List_82C29268;
+typedef struct Owner_82C29268 { int pad[0xb]; List_82C29268 *list; } Owner_82C29268;
 
-
-undefined8 fn_82C29268(int param_1,ulonglong param_2)
-
+int fn_82C29268(Owner_82C29268 *param_1,unsigned __int64 param_2)
 {
-  int iVar1;
-  int *piVar2;
-  undefined8 uVar3;
-  longlong lVar4;
-  int * apiStack_30;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  uVar3 = 0;
-  if ((*(int *)(iVar1 + 0x18) != 0) &&
-     (apiStack_30 = *(int **)(iVar1 + 0x14), *(int **)(iVar1 + 0x14) != *(int **)(iVar1 + 0x10)))
-  {
-    do {
-      if (apiStack_30 == (int *)0x0) {
-        return uVar3;
-      }
-      if (param_2 < *(ulonglong *)(*apiStack_30 + 8)) {
-        return uVar3;
-      }
-      piVar2 = (int *)apiStack_30[3];
-      if (apiStack_30[1] == 0) {
-        uVar3 = (**(code **)(*(int *)(iVar1 + 0x34) + 8))(*(int *)(iVar1 + 0x34));
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        *(int *)(iVar1 + 0x78) = *(int *)(iVar1 + 0x78) - *(int *)(iVar1 + 0x74);
-        *(int *)(apiStack_30[3] + 8) = apiStack_30[2];
-        if (apiStack_30[2] == 0) {
-          *(int *)(iVar1 + 0x14) = apiStack_30[3];
-        }
-        else {
-          *(int *)(apiStack_30[2] + 0xc) = apiStack_30[3];
-        }
-        lVar4 = (ulonglong)*(uint *)(iVar1 + 0x18) - 1;
-        *(int *)(iVar1 + 0x18) = (int)lVar4;
-        if (lVar4 == 0) {
-          *(undefined4 *)(*(int *)(iVar1 + 0x10) + 8) = 0;
-          *(undefined4 *)(iVar1 + 0x14) = 0;
-        }
-        uVar3 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x30),0x1e,&apiStack_30);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-      }
-      apiStack_30 = piVar2;
-    } while (piVar2 != *(int **)(iVar1 + 0x10));
+  List_82C29268 *l = param_1->list;
+  Node_82C29268 *cur;
+  Node_82C29268 *next;
+  int r = 0;
+  cur = 0;
+  if (l->count == 0) return r;
+  cur = l->head;
+  if (cur != l->tail) {
+  do {
+    if (cur == 0) return r;
+    if (cur->ent->t > param_2) return r;
+    next = cur->next;
+    if (cur->flag == 0) {
+      r = l->sink->f8(l->sink, cur->ent);
+      if (r < 0) return r;
+      l->a78 = l->a78 - l->a74;
+      cur->next->prev = cur->prev;
+      if (cur->prev != 0) cur->prev->next = cur->next;
+      else l->head = cur->next;
+      l->count = l->count - 1;
+      if (l->count == 0) { l->tail->prev = 0; l->head = 0; }
+      r = fn_82C10B28(l->x30, 0x1e, &cur);
+      if (r < 0) return r;
+    }
+    cur = next;
+  } while (next != l->tail);
   }
-  return uVar3;
+  return r;
 }
-

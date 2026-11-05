@@ -27,24 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined4 * fn_82FFE0F0(int param_1,uint param_2)
+typedef struct Node_82FFE0F0 { struct Node_82FFE0F0 *next; unsigned key; int value; } Node_82FFE0F0;
 
+int *fn_82FFE0F0(int *table, unsigned key)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  
-  uVar2 = (ulonglong)param_2 * 0x8421085 >> 0x20;
-  uVar2 = ((param_2 - uVar2 & 0xffffffff) >> 1) + uVar2 >> 4;
-  puVar1 = *(undefined4 **)
-            ((int)((((ulonglong)param_2 - ((uVar2 & 0x7ffffff) * 0x20 - uVar2)) + 1 & 0xffffffff) <<
-                  2) + param_1);
-  while( true ) {
-    if (puVar1 == (undefined4 *)0x0) {
-      return (undefined4 *)0x0;
-    }
-    if (puVar1[1] == param_2) break;
-    puVar1 = (undefined4 *)*puVar1;
-  }
-  return puVar1 + 2;
-}
+  Node_82FFE0F0 *n = ((Node_82FFE0F0 **)table)[key % 31 + 1];
 
+  while (n != 0) {
+    if (n->key == key) return &n->value;
+    n = n->next;
+  }
+  return 0;
+}

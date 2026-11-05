@@ -27,7 +27,6 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
-extern unsigned int lbl_821AAD20;
 
 
 double fn_82CEC4E0(int param_1)
@@ -41,7 +40,7 @@ double fn_82CEC4E0(int param_1)
   iVar3 = 0;
   pfVar2 = (float *)(param_1 + 0x20);
   lVar4 = 3;
-  fVar1 = lbl_821AAD20;
+  fVar1 = 0.0f;
   do {
     if (iVar3 != 0) {
       fVar1 = pfVar2[-8] * pfVar2[-8] + fVar1;

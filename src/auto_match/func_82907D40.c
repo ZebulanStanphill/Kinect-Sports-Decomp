@@ -25,41 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82904F08();
+extern unsigned *fn_8265C940(unsigned, int);
+extern void fn_8265C990(unsigned *, int);
+extern void fn_82904F08(int, int, unsigned *);
 
-
-undefined8 fn_82907D40(int param_1,undefined8 param_2,int param_3,ulonglong param_4)
-
+int fn_82907D40(int param_1, int param_2, int *param_3, unsigned param_4)
 {
-  uint uVar1;
-  uint *puVar2;
-  int *piVar3;
-  uint *puVar5;
-  undefined8 uVar4;
-  uint *puVar6;
-  
-  puVar5 = (uint *)fn_8265C940((param_4 & 0x3fffffff) << 2,0x24810000);
-  if (puVar5 == (uint *)0x0) {
-    uVar4 = 0xffffffff8007000e;
-  }
-  else {
-    fn_82904F08(param_1,param_2,puVar5);
-    if ((param_4 & 0xffffffff) != 0) {
-      puVar6 = puVar5;
-      do {
-        piVar3 = (int *)((param_3 - (int)puVar5) + (int)puVar6);
-        uVar1 = *puVar6;
-        puVar6 = puVar6 + 1;
-        puVar2 = *(uint **)(*piVar3 * 4 + *(int *)(*(int *)(param_1 + 8) + 0x14));
-        *puVar2 = *puVar2 | uVar1;
-        param_4 = param_4 - 1;
-      } while (param_4 != 0);
-    }
-    fn_8265C990(puVar5,0x24810000);
-    uVar4 = 0;
-  }
-  return uVar4;
-}
+  unsigned *buf;
+  unsigned i;
+  unsigned *t;
 
+  buf = fn_8265C940(param_4 * 4, 0x24810000);
+  if (buf == 0) {
+    return 0x8007000e;
+  }
+  fn_82904F08(param_1, param_2, buf);
+  for (i = 0; i < param_4; i++) {
+    t = *(unsigned **)(param_3[i] * 4 + *(int *)(*(int *)(param_1 + 8) + 0x14));
+    *t = *t | buf[i];
+  }
+  fn_8265C990(buf, 0x24810000);
+  return 0;
+}

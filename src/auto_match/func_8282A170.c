@@ -1,82 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82824308();
-extern int fn_82824338();
-extern int fn_828243A0();
-extern int fn_828243B8();
-extern int fn_828243D0();
-extern int fn_828299A8();
-extern int fn_8282A0E8();
+typedef struct Out_8282A170 { char pad[0xc]; unsigned mc; } Out_8282A170;
+typedef struct Tab_8282A170 { char *base; } Tab_8282A170;
+typedef struct X_8282A170 { char pad[0x388]; Tab_8282A170 *m388; char pad2[0x4c]; unsigned m3d8; } X_8282A170;
+typedef struct Host_8282A170 { char pad[8]; X_8282A170 *m8; char pad2[0x28]; unsigned char m34; } Host_8282A170;
+typedef struct Node_8282A170 { int m0; char pad[0x14]; unsigned m18; } Node_8282A170;
+typedef struct Ctx_8282A170 { Host_8282A170 *m0; int m4; int m8; unsigned mc; } Ctx_8282A170;
+typedef struct Ent_8282A170 { char pad[0x10]; int m10; } Ent_8282A170;
+extern unsigned char fn_82824308(Node_8282A170 *);
+extern unsigned char fn_82824338(Node_8282A170 *);
+extern unsigned char fn_828243A0(Node_8282A170 *);
+extern unsigned char fn_828243B8(Node_8282A170 *);
+extern unsigned char fn_828243D0(Node_8282A170 *);
+extern void fn_828299A8(unsigned *, X_8282A170 *, Out_8282A170 **);
+extern unsigned char fn_8282A0E8(X_8282A170 *, unsigned *);
 
-
-undefined8 fn_8282A170(undefined8 param_1,int *param_2,int param_3,int *param_4)
-
+int fn_8282A170(void *unused, Node_8282A170 *n, char *base, Ctx_8282A170 *ctx)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  char cVar4;
-  uint uVar5;
-  int *piVar6;
-  int aiStack_50 [2];
-  int aiStack_48 [18];
-  
-  iVar1 = param_4[1];
-  iVar2 = *(int *)(*param_4 + 8);
-  iVar3 = **(int **)(iVar2 + 0x388);
-  cVar4 = fn_828243A0(param_2);
-  if (((cVar4 == '\0') || (param_2[6] != 0)) && (cVar4 = fn_828243B8(param_2), cVar4 == '\0')) {
-    cVar4 = fn_828243D0(param_2);
-    if (cVar4 != '\0') {
-      while ((cVar4 = fn_82824308(param_2), cVar4 == '\0' &&
-             (cVar4 = fn_82824338(param_2), cVar4 == '\0'))) {
-        param_2 = (int *)(*param_2 * 0x20 + **(int **)(iVar2 + 0x388));
+  X_8282A170 *x = ctx->m0->m8;
+  Ent_8282A170 *rec = (Ent_8282A170 *)(x->m388->base + ctx->m4 * 0x20);
+  unsigned char c;
+  unsigned i;
+  struct { Out_8282A170 *out; int pad; unsigned t; } l;
+  unsigned *p;
+  c = fn_828243A0(n);
+  if ((c != 0 && n->m18 <= 0) || fn_828243B8(n) != 0) return 0;
+    if (fn_828243D0(n) != 0) {
+      while (fn_82824308(n) == 0 && fn_82824338(n) == 0) {
+        n = (Node_8282A170 *)(n->m0 * 0x20 + x->m388->base);
       }
     }
-    cVar4 = fn_82824338(param_2);
-    if (cVar4 == '\0') {
-      return 1;
-    }
-    uVar5 = 0;
-    if (param_4[3] != 0) {
-      do {
-        piVar6 = (int *)(*(int *)(iVar1 * 0x20 + iVar3 + 0x10) * uVar5 + param_3);
-        cVar4 = fn_8282A0E8(iVar2,piVar6);
-        if (((cVar4 != '\0') && (aiStack_48[0] = *piVar6, aiStack_48[0] != 0)) &&
-           (fn_828299A8(aiStack_48,iVar2,aiStack_50),
-           *(int *)(aiStack_50[0] + 0xc) == *(int *)(iVar2 + 0x3d8))) {
-          *(undefined1 *)(*param_4 + 0x34) = 1;
-          return 0;
+  if (fn_82824338(n) != 0) {
+      for (i = 0; i < ctx->mc; i++) {
+        p = (unsigned *)(rec->m10 * i + base);
+        if (fn_8282A0E8(x, p) != 0) {
+          l.t = *p;
+          if (l.t != 0) {
+            fn_828299A8(&l.t, x, &l.out);
+            if (l.out->mc == x->m3d8) {
+              ctx->m0->m34 = 1;
+              break;
+            }
+          }
         }
-        uVar5 = uVar5 + 1;
-      } while (uVar5 < (uint)param_4[3]);
-    }
+      }
+    return 0;
   }
-  return 0;
+  return 1;
 }
-

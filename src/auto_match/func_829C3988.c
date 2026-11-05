@@ -1,128 +1,103 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_104;
+typedef struct cinfo_829C3988 { char pad[0x148]; unsigned char *sample_range_limit; } cinfo_829C3988;
+typedef struct comp_829C3988 { char pad[0x50]; short *dct_table; } comp_829C3988;
 
+#define DCTSIZE 8
+#define CONST_BITS 13
+#define PASS1_BITS 2
+#define RANGE_MASK 0x3ff
+#define FIX_0_211164243 1730
+#define FIX_0_509795579 4176
+#define FIX_0_601344887 4926
+#define FIX_0_765366865 6270
+#define FIX_0_899976223 7373
+#define FIX_1_061594337 8697
+#define FIX_1_451774981 11893
+#define FIX_1_847759065 15137
+#define FIX_2_172734803 17799
+#define FIX_2_562915447 20995
+#define DEQUANTIZE(coef, quantval) (((int)(coef)) * (quantval))
+#define MULTIPLY(var, const) ((var) * (const))
+#define DESCALE(x, n) (((x) + (1 << ((n) - 1))) >> (n))
 
-void fn_829C3988(int param_1,int param_2,int param_3,int *param_4,int param_5)
-
+void fn_829C3988(cinfo_829C3988 *cinfo, comp_829C3988 *compptr, short *coef_block,
+                 unsigned char **output_buf, unsigned output_col)
 {
-  undefined1 uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  int *piVar6;
-  short *psVar7;
-  undefined1 *puVar8;
-  short *psVar9;
-  undefined1 *puVar10;
-  int iVar11;
-  int iVar12;
-  int iVar13;
-  longlong lVar14;
-  undefined1 auStack_104 [20];
-  int aiStack_f0 [16];
-  int aiStack_b0 [8];
-  int aiStack_90 [36];
-  
-  iVar13 = 8;
-  iVar12 = *(int *)(param_1 + 0x148) + 0x80;
-  piVar6 = aiStack_f0 + 8;
-  psVar7 = (short *)(param_3 + 0x60);
-  psVar9 = (short *)(*(int *)(param_2 + 0x50) + 0x60);
-  lVar14 = 8;
-  do {
-    if (iVar13 != 4) {
-      if ((((psVar7[-0x28] == 0) && (psVar7[-0x20] == 0)) && (psVar7[-0x18] == 0)) &&
-         (((psVar7[-8] == 0 && (*psVar7 == 0)) && (psVar7[8] == 0)))) {
-        iVar4 = (int)psVar9[-0x30] * (int)psVar7[-0x30] * 4;
-        piVar6[-8] = iVar4;
-        *piVar6 = iVar4;
-        piVar6[8] = iVar4;
-      }
-      else {
-        iVar11 = (int)psVar9[-0x28] * (int)psVar7[-0x28];
-        iVar2 = (int)psVar9[-0x20] * (int)psVar7[-0x20] * 0x3b21 +
-                (int)*psVar9 * (int)*psVar7 * -0x187e;
-        iVar3 = (int)psVar9[-0x30] * (int)psVar7[-0x30] * 0x4000;
-        iVar5 = iVar11 * 0x5203 + (int)psVar9[-0x18] * (int)psVar7[-0x18] * 0x1ccd +
-                (int)psVar9[-8] * (int)psVar7[-8] * -0x133e +
-                (int)psVar9[8] * (int)psVar7[8] * -0x1050;
-        iVar4 = iVar2 + iVar3;
-        iVar3 = iVar3 - iVar2;
-        iVar2 = (int)psVar9[-8] * (int)psVar7[-8] * 0x2e75 +
-                (int)psVar9[-0x18] * (int)psVar7[-0x18] * -0x4587 + iVar11 * 0x21f9 +
-                (int)psVar9[8] * (int)psVar7[8] * -0x6c2;
-        piVar6[-8] = iVar4 + iVar5 + 0x800 >> 0xc;
-        iVar4 = (iVar4 - iVar5) + 0x800 >> 0xc;
-        *piVar6 = iVar3 + iVar2 + 0x800 >> 0xc;
-        piVar6[8] = (iVar3 - iVar2) + 0x800 >> 0xc;
-      }
-      piVar6[0x10] = iVar4;
-    }
-    psVar7 = psVar7 + 1;
-    psVar9 = psVar9 + 1;
-    piVar6 = piVar6 + 1;
-    iVar13 = iVar13 + -1;
-    lVar14 = lVar14 + -1;
-  } while (lVar14 != 0);
-  puVar10 = auStack_104;
-  lVar14 = 4;
-  do {
-    iVar13 = *(int *)(puVar10 + 0x18);
-    puVar8 = (undefined1 *)(*param_4 + param_5);
-    if (((iVar13 == 0) && (*(int *)(puVar10 + 0x1c) == 0)) &&
-       ((*(int *)(puVar10 + 0x20) == 0 &&
-        (((*(int *)(puVar10 + 0x28) == 0 && (*(int *)(puVar10 + 0x2c) == 0)) &&
-         (*(int *)(puVar10 + 0x30) == 0)))))) {
-      uVar1 = *(undefined1 *)((*(int *)(puVar10 + 0x14) + 0x10 >> 5 & 0x3ffU) + iVar12);
-      *puVar8 = uVar1;
-      puVar8[1] = uVar1;
-      puVar8[2] = uVar1;
-      puVar8[3] = uVar1;
-    }
-    else {
-      iVar5 = *(int *)(puVar10 + 0x1c) * 0x3b21 + *(int *)(puVar10 + 0x2c) * -0x187e;
-      iVar2 = iVar5 + *(int *)(puVar10 + 0x14) * 0x4000;
-      iVar4 = iVar13 * 0x5203 + *(int *)(puVar10 + 0x20) * 0x1ccd +
-              *(int *)(puVar10 + 0x28) * -0x133e + *(int *)(puVar10 + 0x30) * -0x1050;
-      iVar5 = *(int *)(puVar10 + 0x14) * 0x4000 - iVar5;
-      iVar13 = *(int *)(puVar10 + 0x28) * 0x2e75 + *(int *)(puVar10 + 0x20) * -0x4587 +
-               iVar13 * 0x21f9 + *(int *)(puVar10 + 0x30) * -0x6c2;
-      *puVar8 = *(undefined1 *)((iVar2 + iVar4 + 0x40000 >> 0x13 & 0x3ffU) + iVar12);
-      puVar8[3] = *(undefined1 *)(((iVar2 - iVar4) + 0x40000 >> 0x13 & 0x3ffU) + iVar12);
-      puVar8[1] = *(undefined1 *)((iVar5 + iVar13 + 0x40000 >> 0x13 & 0x3ffU) + iVar12);
-      puVar8[2] = *(undefined1 *)(((iVar5 - iVar13) + 0x40000 >> 0x13 & 0x3ffU) + iVar12);
-    }
-    puVar10 = puVar10 + 0x20;
-    param_4 = param_4 + 1;
-    lVar14 = lVar14 + -1;
-  } while (lVar14 != 0);
-  return;
-}
+  int tmp0, tmp2, tmp10, tmp12;
+  int z1, z2, z3, z4;
+  short *inptr;
+  short *quantptr;
+  int *wsptr;
+  unsigned char *outptr;
+  unsigned char *range_limit = cinfo->sample_range_limit + 128;
+  int ctr;
+  int workspace[DCTSIZE * 4];
 
+  inptr = coef_block;
+  quantptr = compptr->dct_table;
+  wsptr = workspace;
+  for (ctr = DCTSIZE; ctr > 0; inptr++, quantptr++, wsptr++, ctr--) {
+    if (ctr == DCTSIZE - 4)
+      continue;
+    if (inptr[DCTSIZE * 1] == 0 && inptr[DCTSIZE * 2] == 0 &&
+        inptr[DCTSIZE * 3] == 0 && inptr[DCTSIZE * 5] == 0 &&
+        inptr[DCTSIZE * 6] == 0 && inptr[DCTSIZE * 7] == 0) {
+      int dcval = DEQUANTIZE(inptr[DCTSIZE * 0], quantptr[DCTSIZE * 0]) << PASS1_BITS;
+      wsptr[DCTSIZE * 0] = dcval;
+      wsptr[DCTSIZE * 1] = dcval;
+      wsptr[DCTSIZE * 2] = dcval;
+      wsptr[DCTSIZE * 3] = dcval;
+      continue;
+    }
+    tmp0 = DEQUANTIZE(inptr[DCTSIZE * 0], quantptr[DCTSIZE * 0]);
+    tmp0 <<= (CONST_BITS + 1);
+    z2 = DEQUANTIZE(inptr[DCTSIZE * 2], quantptr[DCTSIZE * 2]);
+    z3 = DEQUANTIZE(inptr[DCTSIZE * 6], quantptr[DCTSIZE * 6]);
+    tmp2 = MULTIPLY(z2, FIX_1_847759065) + MULTIPLY(z3, -FIX_0_765366865);
+    tmp10 = tmp0 + tmp2;
+    tmp12 = tmp0 - tmp2;
+    z1 = DEQUANTIZE(inptr[DCTSIZE * 7], quantptr[DCTSIZE * 7]);
+    z2 = DEQUANTIZE(inptr[DCTSIZE * 5], quantptr[DCTSIZE * 5]);
+    z3 = DEQUANTIZE(inptr[DCTSIZE * 3], quantptr[DCTSIZE * 3]);
+    z4 = DEQUANTIZE(inptr[DCTSIZE * 1], quantptr[DCTSIZE * 1]);
+    tmp0 = MULTIPLY(z1, -FIX_0_211164243) + MULTIPLY(z2, FIX_1_451774981) +
+           MULTIPLY(z3, -FIX_2_172734803) + MULTIPLY(z4, FIX_1_061594337);
+    tmp2 = MULTIPLY(z1, -FIX_0_509795579) + MULTIPLY(z2, -FIX_0_601344887) +
+           MULTIPLY(z3, FIX_0_899976223) + MULTIPLY(z4, FIX_2_562915447);
+    wsptr[DCTSIZE * 0] = (int)DESCALE(tmp10 + tmp2, CONST_BITS - PASS1_BITS + 1);
+    wsptr[DCTSIZE * 3] = (int)DESCALE(tmp10 - tmp2, CONST_BITS - PASS1_BITS + 1);
+    wsptr[DCTSIZE * 1] = (int)DESCALE(tmp12 + tmp0, CONST_BITS - PASS1_BITS + 1);
+    wsptr[DCTSIZE * 2] = (int)DESCALE(tmp12 - tmp0, CONST_BITS - PASS1_BITS + 1);
+  }
+
+  wsptr = workspace;
+  for (ctr = 0; ctr < 4; ctr++) {
+    outptr = output_buf[ctr] + output_col;
+    if (wsptr[1] == 0 && wsptr[2] == 0 && wsptr[3] == 0 && wsptr[5] == 0 &&
+        wsptr[6] == 0 && wsptr[7] == 0) {
+      unsigned char dcval = range_limit[(int)DESCALE((int)wsptr[0], PASS1_BITS + 3) & RANGE_MASK];
+      outptr[0] = dcval;
+      outptr[1] = dcval;
+      outptr[2] = dcval;
+      outptr[3] = dcval;
+      wsptr += DCTSIZE;
+      continue;
+    }
+    tmp0 = ((int)wsptr[0]) << (CONST_BITS + 1);
+    tmp2 = MULTIPLY((int)wsptr[2], FIX_1_847759065) + MULTIPLY((int)wsptr[6], -FIX_0_765366865);
+    tmp10 = tmp0 + tmp2;
+    tmp12 = tmp0 - tmp2;
+    z1 = (int)wsptr[7];
+    z2 = (int)wsptr[5];
+    z3 = (int)wsptr[3];
+    z4 = (int)wsptr[1];
+    tmp0 = MULTIPLY(z1, -FIX_0_211164243) + MULTIPLY(z2, FIX_1_451774981) +
+           MULTIPLY(z3, -FIX_2_172734803) + MULTIPLY(z4, FIX_1_061594337);
+    tmp2 = MULTIPLY(z1, -FIX_0_509795579) + MULTIPLY(z2, -FIX_0_601344887) +
+           MULTIPLY(z3, FIX_0_899976223) + MULTIPLY(z4, FIX_2_562915447);
+    outptr[0] = range_limit[(int)DESCALE(tmp10 + tmp2, CONST_BITS + PASS1_BITS + 3 + 1) & RANGE_MASK];
+    outptr[3] = range_limit[(int)DESCALE(tmp10 - tmp2, CONST_BITS + PASS1_BITS + 3 + 1) & RANGE_MASK];
+    outptr[1] = range_limit[(int)DESCALE(tmp12 + tmp0, CONST_BITS + PASS1_BITS + 3 + 1) & RANGE_MASK];
+    outptr[2] = range_limit[(int)DESCALE(tmp12 - tmp0, CONST_BITS + PASS1_BITS + 3 + 1) & RANGE_MASK];
+    wsptr += DCTSIZE;
+  }
+}

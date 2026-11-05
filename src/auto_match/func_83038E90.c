@@ -1,52 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FEFC98();
-extern int fn_82FEFCC8();
-extern int fn_82FEFF98();
-extern int fn_83032D88();
+typedef struct O_83038E90 {
+  char pad0[0x184]; void *m184; char pad188[0x50]; int m1d8; char pad1dc[4]; unsigned char m1e0;
+} O_83038E90;
+extern void fn_82FEFC98(void *);
+extern void fn_82FEFCC8(void *);
+extern int fn_82FEFF98(O_83038E90 *, int, int);
+extern void fn_83032D88(void *);
 
-
-undefined8 fn_83038E90(int param_1,undefined8 param_2,undefined8 param_3)
-
+static __forceinline void Rel_83038E90(void **pp)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  fn_82FEFC98(param_1 + -4);
-  *(undefined4 *)(param_1 + 0x1d8) = 0;
-  *(byte *)(param_1 + 0x1e0) = *(byte *)(param_1 + 0x1e0) | 0x20;
-  iVar1 = *(int *)(param_1 + 0x184);
-  *(undefined4 *)(param_1 + 0x184) = 0;
-  if (iVar1 != 0) {
-    fn_83032D88();
-  }
-  uVar2 = fn_82FEFF98(param_1,param_2,param_3);
-  fn_82FEFCC8(param_1 + -4);
-  return uVar2;
+  void *t = *pp;
+  *pp = 0;
+  if (t != 0) fn_83032D88(t);
 }
 
+int fn_83038E90(O_83038E90 *s, int a, int b)
+{
+  int r;
+  fn_82FEFC98((char *)s - 4);
+  s->m1d8 = 0;
+  s->m1e0 |= 0x20;
+  Rel_83038E90(&s->m184);
+  r = fn_82FEFF98(s, a, b);
+  fn_82FEFCC8((char *)s - 4);
+  return r;
+}

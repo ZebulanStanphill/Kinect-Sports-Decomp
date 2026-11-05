@@ -1,49 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8306C590();
-
-
-ulonglong fn_82E49970(int param_1)
-
-{
-  int iVar1;
-  ulonglong uVar2;
-  
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x9c) == -1) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    iVar1 = fn_8306C590();
-    if ((iVar1 == 0) && (uVar2 = thunk_FUN_82a2b798(), 0 < (int)uVar2)) {
-      uVar2 = uVar2 & 0xffff | 0x80070000;
-    }
-  }
-  return uVar2;
+extern int fn_8306C590(int);
+extern int fn_82A1F470(void);
+int fn_82E49970(char *self) {
+ int result=0;
+ int handle=*(int *)(self+0x9c);
+ if(handle==-1) return 0x80070057;
+ if(fn_8306C590(handle)==0) {int e=fn_82A1F470(); if(e<=0) result=e; else result=((unsigned __int64)e & 0xffff) | 0x80070000;}
+ return result;
 }
-

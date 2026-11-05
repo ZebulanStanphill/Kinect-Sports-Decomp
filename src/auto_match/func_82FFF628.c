@@ -1,53 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_10;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Arg_82FFF628 { int a; int b; unsigned char c; int d; float x; } Arg_82FFF628;
+typedef struct VT_82FFF628 { int pad[13]; void (*f34)(struct Obj_82FFF628 *, Arg_82FFF628 *); } VT_82FFF628;
+typedef struct Obj_82FFF628 { VT_82FFF628 *vt; } Obj_82FFF628;
 
-
-void fn_82FFF628(double param_1,int *param_2,undefined4 param_3,undefined8 param_4,
-                  undefined4 param_5,undefined4 param_6)
-
+void fn_82FFF628(Obj_82FFF628 *self, int a, float x, int b, int d)
 {
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined1 uStack_18;
-  undefined4 uStack_14;
-  float fStack_10;
-  
-  fStack_10 = (float)param_1;
-  uStack_18 = 0;
-  uStack_20 = param_3;
-  uStack_1c = param_5;
-  uStack_14 = param_6;
-  (**(code **)(*param_2 + 0x34))(param_2,&uStack_20);
-  return;
+  Arg_82FFF628 s;
+  s.a = a;
+  s.b = b;
+  s.c = 0;
+  s.d = d;
+  s.x = x;
+  self->vt->f34(self, &s);
 }
-

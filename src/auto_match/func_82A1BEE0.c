@@ -25,44 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82A2B798();
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_28;
+extern unsigned fn_82A2B798();
+extern unsigned XexCheckExecutablePrivilege(int);
+extern int XMsgStartIORequest(int, int, unsigned, void *, int);
 
+typedef struct Req_82A1BEE0 { int a; int pad; unsigned __int64 z; unsigned b; int c; int d; int pad2; } Req_82A1BEE0;
 
-ulonglong fn_82A1BEE0(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,
-                       ulonglong param_5)
-
+unsigned fn_82A1BEE0(int param_1, unsigned param_2, int param_3, int param_4, unsigned param_5)
 {
-  int iVar3;
-  ulonglong uVar1;
-  longlong lVar2;
-  undefined4 auStack_30 [2];
-  undefined8 uStack_28;
-  uint uStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  
-  uStack_28 = 0;
-  auStack_30[0] = param_1;
-  uStack_20 = param_2;
-  uStack_1c = param_3;
-  uStack_18 = param_4;
+  unsigned iVar3;
+  unsigned uVar1;
+  unsigned lVar2;
+  Req_82A1BEE0 r;
+
+  r.z = 0;
+  r.a = param_1;
+  r.b = param_2;
+  r.c = param_3;
+  r.d = param_4;
   if (((param_2 & 0xf0000000) == 0x40000000) &&
      (iVar3 = XexCheckExecutablePrivilege(0x24), iVar3 == 0)) {
     uVar1 = 5;
   }
   else {
-    iVar3 = XMsgStartIORequest(0xfb,0xb0007,param_5,auStack_30,0x20);
-    if (iVar3 < 0) {
+    if (XMsgStartIORequest(0xfb, 0xb0007, param_5, &r, 0x20) < 0) {
       uVar1 = 0x65b;
     }
-    else if ((param_5 & 0xffffffff) == 0) {
+    else if (param_5 == 0) {
       lVar2 = fn_82A2B798();
-      uVar1 = -(ulonglong)(lVar2 != 0) & 0x65b;
+      uVar1 = (lVar2 != 0) ? 0x65b : 0;
     }
     else {
       uVar1 = 0x3e5;
@@ -70,4 +61,3 @@ ulonglong fn_82A1BEE0(undefined4 param_1,uint param_2,undefined4 param_3,undefin
   }
   return uVar1;
 }
-

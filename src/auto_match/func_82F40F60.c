@@ -1,52 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Obj_func_82F40F60;
+typedef struct {
+  int pad[16];
+  int (*f40)(struct Obj_func_82F40F60 *, void *, int);
+} VT_func_82F40F60;
+typedef struct Obj_func_82F40F60 {
+  VT_func_82F40F60 *vt;
+} Obj_func_82F40F60;
 
-
-undefined8 fn_82F40F60(int *param_1,undefined8 param_2,short param_3)
-
+int fn_82F40F60(Obj_func_82F40F60 *o, void *a, unsigned short flag)
 {
-  bool bVar1;
-  undefined8 uVar2;
-  
-  bVar1 = false;
-  if (param_3 != 0) {
-    uVar2 = (**(code **)(*param_1 + 0x40))(param_1,param_2,0x2000);
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    if ((int)uVar2 == 1) {
-      bVar1 = true;
-    }
+  int ok = 0;
+  int r;
+  if (flag != 0) {
+    r = o->vt->f40(o, a, 0x2000);
+    if (r < 0)
+      return r;
+    if (r == 1)
+      ok = 1;
   }
-  uVar2 = 1;
-  if ((param_3 == 0) || (bVar1)) {
-    uVar2 = (**(code **)(*param_1 + 0x40))(param_1,param_2,0x39);
-  }
-  return uVar2;
+  r = 1;
+  if (flag == 0 || ok)
+    r = o->vt->f40(o, a, 0x39);
+  return r;
 }
-

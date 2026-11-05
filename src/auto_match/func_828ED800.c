@@ -1,51 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_828ED800 {
+  int pad[2];
+  unsigned char type;
+  char pad9[7];
+  __int64 f10;
+} Node_828ED800;
 
+typedef struct VT_828ED800 {
+  int pad[4];
+  Node_828ED800 *(*f10)(void *self);
+} VT_828ED800;
 
-undefined8 fn_828ED800(int *param_1,undefined8 param_2,undefined8 param_3,undefined1 *param_4)
+typedef struct Obj_828ED800 {
+  VT_828ED800 *vt;
+} Obj_828ED800;
 
+__int64 fn_828ED800(Obj_828ED800 *o, int a, int b, unsigned char *ok)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  iVar2 = (**(code **)(*param_1 + 0x10))();
-  if ((iVar2 == 0) || (*(char *)(iVar2 + 8) != '\x02')) {
-    uVar1 = 0;
-    if (param_4 != (undefined1 *)0x0) {
-      *param_4 = 0;
-    }
-  }
-  else {
-    uVar1 = *(undefined8 *)(iVar2 + 0x10);
-    if (param_4 != (undefined1 *)0x0) {
-      *param_4 = 1;
-    }
-  }
-  return uVar1;
-}
+  __int64 r = 0;
+  Node_828ED800 *n = o->vt->f10(o);
 
+  if (n != 0 && n->type == 2) {
+    r = n->f10;
+    if (ok != 0) {
+      *ok = 1;
+    }
+  } else {
+    if (ok != 0) {
+      *ok = (unsigned char)r;
+    }
+  }
+  return r;
+}

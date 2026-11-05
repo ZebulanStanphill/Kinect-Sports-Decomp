@@ -28,23 +28,23 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_829C2180();
 
 
-undefined8 fn_829B87C8(int param_1)
+int fn_829B87C8(unsigned int param_1)
 
 {
   uint *puVar1;
-  undefined8 uVar2;
+  int uVar2;
   
   if ((param_1 == 0) || (puVar1 = *(uint **)(param_1 + 0x1c), puVar1 == (uint *)0x0)) {
-    uVar2 = 0xfffffffffffffffe;
+    uVar2 = -2;
   }
   else {
     *(undefined4 *)(param_1 + 0x14) = 0;
     *(undefined4 *)(param_1 + 8) = 0;
     *(undefined4 *)(param_1 + 0x18) = 0;
-    *puVar1 = -(uint)(puVar1[3] != 0) & 7;
+    *puVar1 = puVar1[3] != 0 ? 7 : 0;
     fn_829C2180(*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x14),param_1,0);
-    uVar2 = 0;
+    return 0;
   }
-  return uVar2;
+  return (int)uVar2;
 }
 

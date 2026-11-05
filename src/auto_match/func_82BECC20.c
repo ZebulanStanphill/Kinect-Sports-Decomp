@@ -1,63 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BF7630();
-extern unsigned int iStack_40;
+extern int fn_82BF7630(void *, unsigned *, unsigned *, unsigned **);
 
-
-/* WARNING: Type propagation algorithm not settling */
-
-longlong fn_82BECC20(int param_1)
-
+unsigned fn_82BECC20(char *o)
 {
-  longlong lVar1;
-  longlong lVar2;
-  int iStack_40;
-  int aiStack_3c [2];
-  
-  if (*(int *)(param_1 + 0x50) == 2) {
-    lVar2 = 0;
-  }
-  else {
-    lVar2 = 0;
-    lVar1 = -(ulonglong)(*(int *)(param_1 + 0x1c) != 0);
-    aiStack_3c[0] = (int)lVar1;
-    if (lVar1 != 0) {
-      do {
-        aiStack_3c[1] = 0;
-        iStack_40 = 0;
-        fn_82BF7630(param_1 + 0xc,aiStack_3c,aiStack_3c + 1,&iStack_40);
-        if ((iStack_40 != 0) && ((ulonglong)*(uint *)(iStack_40 + 0x18) != 0)) {
-          lVar2 = (ulonglong)*(uint *)(iStack_40 + 0x18) + lVar2;
-        }
-      } while (aiStack_3c[0] != 0);
-    }
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x44) + lVar2;
-  }
-  return lVar2;
-}
+  unsigned sum;
+  unsigned m;
+  unsigned n;
+  unsigned *item;
 
+  if (*(int *)(o + 0x50) == 2)
+    return 0;
+  sum = 0;
+  m = (*(int *)(o + 0x1c) != 0) ? -1 : 0;
+  if (m != 0) {
+    do {
+      n = 0;
+      item = 0;
+      fn_82BF7630(o + 0xc, &m, &n, &item);
+      if (item != 0 && item[6] != 0)
+        sum += item[6];
+    } while (m != 0);
+  }
+  return *(unsigned *)(o + 0x44) + sum;
+}

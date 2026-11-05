@@ -1,3 +1,4 @@
+static __forceinline unsigned select_value(int ok,unsigned value) {return ok ? value : 0;}
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -39,41 +40,41 @@ extern unsigned int uStack_50;
 void fn_82E64F20(int param_1)
 
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  int *piVar5;
+  int lVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned *piVar5;
   uint uStack_50;
   uint auStack_4c;
 
   fn_82E50CB8(param_1 + 0xc);
   uVar2 = 0;
-  if (*(int *)(param_1 + 0xb4) != 0) {
+  if (*(uint *)(param_1 + 0xb4) > 0) {
     do {
       lVar1 = fn_82E644B8(param_1 + 0x4c,uVar2,&uStack_50);
-      piVar5 = (int *)(-(uint)(lVar1 != 0) & uStack_50);
+      piVar5 = (unsigned *)select_value(lVar1,uStack_50);
       if (piVar5 != (int *)0x0) {
         if (*piVar5 != 0) {
-          fn_82E4FE40();
+          fn_82E4FE40(*piVar5);
         }
         uVar4 = 0;
         *piVar5 = 0;
-        if (piVar5[0x1b] != 0) {
+        if (piVar5[0x1b] > 0) {
           do {
             lVar1 = fn_82E64450(piVar5 + 1,uVar4,&auStack_4c);
-            uVar3 = -(ulonglong)(lVar1 != 0) & (ulonglong)auStack_4c;
+            uVar3 = select_value(lVar1,auStack_4c);
             if (uVar3 != 0) {
               fn_82E72FB8(uVar3 + 0x18);
               fn_82E4FE40(uVar3);
             }
             uVar4 = uVar4 + 1;
-          } while ((uVar4 & 0xffffffff) < (ulonglong)(uint)piVar5[0x1b]);
+          } while (uVar4 < piVar5[0x1b]);
         }
         fn_82E64520(piVar5,1);
       }
       uVar2 = uVar2 + 1;
-    } while ((uVar2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0xb4));
+    } while (uVar2 < *(uint *)(param_1 + 0xb4));
   }
   fn_82E50F10(param_1 + 0xc);
   return;
