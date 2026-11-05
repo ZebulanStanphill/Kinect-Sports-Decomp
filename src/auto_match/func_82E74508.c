@@ -1,52 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E2D9C0();
-extern int fn_82E73028();
-extern int fn_82E73C58();
-extern unsigned int lbl_8215EF74;
+struct Iface_82E74508;
+typedef struct { void *f0; void *f4; void (*release)(struct Iface_82E74508 *); } IfaceVt_82E74508;
+typedef struct Iface_82E74508 { IfaceVt_82E74508 *vt; } Iface_82E74508;
+typedef struct { void *vt; char pad[0x3c]; Iface_82E74508 *iface; char sub[1]; } Obj_82E74508;
 
+extern char lbl_8215EF74[];
+extern int fn_82E58A90(void *);
+extern int fn_82E2D9C0(void *);
+extern int fn_82E73028(void *);
+extern int fn_82E73C58(void *, int);
 
-void fn_82E74508(undefined4 *param_1)
-
+void fn_82E74508(Obj_82E74508 *p)
 {
-  int iVar1;
-  
-  *param_1 = &lbl_8215EF74;
-  if ((int *)param_1[0x10] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x10] + 8))();
-    param_1[0x10] = 0;
+  p->vt = lbl_8215EF74;
+  if (p->iface != 0) {
+    p->iface->vt->release(p->iface);
+    p->iface = 0;
   }
-  do {
-    iVar1 = fn_82E73C58(param_1,0);
-  } while (-1 < iVar1);
-  thunk_FUN_82e58aac(param_1 + 0x11);
-  fn_82E2D9C0(param_1 + 0x11);
-  fn_82E73028(param_1);
-  return;
+  while (fn_82E73C58(p, 0) >= 0)
+    ;
+  fn_82E58A90(p->sub);
+  fn_82E2D9C0(p->sub);
+  fn_82E73028(p);
 }
-

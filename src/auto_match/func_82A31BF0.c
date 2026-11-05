@@ -1,3 +1,6 @@
+extern void *memset(void *,int,unsigned);
+typedef struct { unsigned __int64 a; unsigned b; } Args;
+static __forceinline void init(Args *p) { p->a=0; p->b=0; }
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -32,13 +35,14 @@ extern unsigned int uStack_68;
 extern unsigned int uStack_70;
 
 
-undefined8 fn_82A31BF0(undefined8 param_1,int param_2,char *param_3)
+unsigned int  fn_82A31BF0(undefined4 param_1,int param_2,char *param_3)
 
 {
-  undefined8 uVar1;
+ undefined4 self = param_1;
+
+  unsigned int uVar1;
   byte bVar2;
-  undefined8 uStack_70;
-  undefined4 uStack_68;
+  Args args;
   undefined1 auStack_60 [72];
   
   if (*param_3 == '\0') {
@@ -46,17 +50,16 @@ undefined8 fn_82A31BF0(undefined8 param_1,int param_2,char *param_3)
   }
   else {
     if ((*(byte *)(param_2 + 0x35) & 2) != 0) {
-      uStack_70 = 0;
-      uStack_68 = 0;
-      uVar1 = fn_82A2E9B0(param_1,param_2,0,&uStack_70,auStack_60);
-      if (-1 < (int)uVar1) {
-        return 0xffffffffc0000101;
+      memset(&args,0,12);
+      uVar1 = fn_82A2E9B0(self,param_2,0,&args,auStack_60);
+      if ((int)uVar1 >= 0) {
+        return 0xc0000101;
       }
       if ((int)uVar1 != -0x3fffffcc) {
         return uVar1;
       }
     }
-    uVar1 = fn_82A30780(param_1,param_2);
+    uVar1 = fn_82A30780(self,param_2);
     if ((int)uVar1 < 0) {
       return uVar1;
     }

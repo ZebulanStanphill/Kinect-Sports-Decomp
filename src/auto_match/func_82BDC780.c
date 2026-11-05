@@ -28,29 +28,25 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1F2F8();
 extern int fn_82BDBB60();
 extern int fn_82BDBFE0();
-extern int fn_82BDC130();
+extern int fn_82BDC130(param_1);
 
 
-undefined8 fn_82BDC780(int param_1)
+int fn_82BDC780(int param_1)
 
 {
   undefined4 uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
+  unsigned lVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   
-  uVar4 = (ulonglong)*(uint *)(param_1 + 0xc);
-  fn_82BDC130();
+  uVar4 = *(uint *)(param_1 + 0xc);
+  fn_82BDC130(param_1);
   fn_82BDBB60(param_1);
-  while ((uVar4 & 0xffffffff) != 0) {
+  while ((uVar4) != 0) {
     uVar4 = uVar4 - 1;
     uVar3 = (*(uint *)(param_1 + 0xc) - uVar4) - 1;
-    if ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0xc)) {
-      lVar2 = (ulonglong)*(uint *)(param_1 + 0x60) + (uVar3 & 0x1fffffff) * 8;
-    }
-    else {
-      lVar2 = 0;
-    }
+    if (uVar3 >= *(uint *)(param_1 + 0xc)) lVar2 = 0;
+    else lVar2 = *(uint *)(param_1 + 0x60) + uVar3 * 8;
     fn_82BDBFE0(param_1,lVar2);
   }
   *(undefined1 *)(param_1 + 0x8c) = 0;

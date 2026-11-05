@@ -1,91 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829BC7D8();
+typedef struct jerr { void (*error_exit)(void *); void (*emit_message)(void *, int); int pad[3]; int msg_code; } jerr;
+typedef struct jcomp { int pad0[5]; int dc_tbl_no; int ac_tbl_no; int pad1[2]; int DCT_scaled_size; int pad2[2]; int component_needed; } jcomp;
+typedef struct jent {
+  void *pub[2];
+  unsigned get_buffer; int bits_left; int insufficient_data;
+  int last_dc_val[4];
+  unsigned restarts_to_go;
+  void *dc_derived_tbls[4]; void *ac_derived_tbls[4];
+  void *dc_cur_tbls[10]; void *ac_cur_tbls[10];
+  int dc_needed[10]; int ac_needed[10];
+} jent;
+typedef struct jcinfo {
+  jerr *err;
+  char pad0[0x114];
+  unsigned restart_interval;
+  char pad1[0x30];
+  int comps_in_scan;
+  jcomp *cur_comp_info[4];
+  int MCUs_per_row, MCU_rows_in_scan;
+  int blocks_in_MCU;
+  int MCU_membership[10];
+  int Ss, Se, Ah, Al;
+  char pad3[0x1c0 - 0x1a4];
+  jent *entropy;
+} jcinfo;
+extern void fn_829BC7D8(jcinfo *, int, int, void *);
 
-
-void fn_829BD2A8(int *param_1)
-
+void fn_829BD2A8(jcinfo *cinfo)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  uint *puVar5;
-  undefined4 *puVar6;
-  int iVar7;
-  
-  iVar1 = param_1[0x70];
-  if ((((param_1[0x65] != 0) || (param_1[0x66] != 0x3f)) || (param_1[0x67] != 0)) ||
-     (param_1[0x68] != 0)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x7a;
-    (**(code **)(*param_1 + 4))(param_1,0xffffffffffffffff);
-  }
-  iVar7 = 0;
-  if (0 < param_1[0x53]) {
-    puVar6 = (undefined4 *)(iVar1 + 0x10);
-    piVar4 = param_1 + 0x53;
-    do {
-      piVar4 = piVar4 + 1;
-      iVar2 = *(int *)(*piVar4 + 0x14);
-      iVar3 = *(int *)(*piVar4 + 0x18);
-      fn_829BC7D8(param_1,1,iVar2,(iVar2 + 10) * 4 + iVar1);
-      fn_829BC7D8(param_1,0,iVar3,(iVar3 + 0xe) * 4 + iVar1);
-      iVar7 = iVar7 + 1;
-      puVar6 = puVar6 + 1;
-      *puVar6 = 0;
-    } while (iVar7 < param_1[0x53]);
-  }
-  iVar7 = 0;
-  if (0 < param_1[0x5a]) {
-    puVar5 = (uint *)(iVar1 + 0xc0);
-    piVar4 = param_1 + 0x5b;
-    do {
-      iVar2 = param_1[*piVar4 + 0x54];
-      puVar5[-0x1e] = *(uint *)((*(int *)(iVar2 + 0x14) + 10) * 4 + iVar1);
-      puVar5[-0x14] = *(uint *)((*(int *)(iVar2 + 0x18) + 0xe) * 4 + iVar1);
-      if (*(int *)(iVar2 + 0x30) == 0) {
-        *puVar5 = 0;
-        puVar5[-10] = 0;
-      }
-      else {
-        puVar5[-10] = 1;
-        *puVar5 = (int)((~(ulonglong)*(uint *)(iVar2 + 0x24) & 0xffffffff) >> 0x1f) +
-                  (uint)((ulonglong)*(uint *)(iVar2 + 0x24) < 2) & 1;
-      }
-      iVar7 = iVar7 + 1;
-      piVar4 = piVar4 + 1;
-      puVar5 = puVar5 + 1;
-    } while (iVar7 < param_1[0x5a]);
-  }
-  *(undefined4 *)(iVar1 + 8) = 0;
-  *(undefined4 *)(iVar1 + 0x10) = 0;
-  *(undefined4 *)(iVar1 + 0xc) = 0;
-  *(int *)(iVar1 + 0x24) = param_1[0x46];
-  return;
-}
+  jent *entropy = cinfo->entropy;
+  int ci, blkn, dctbl, actbl;
+  jcomp *compptr;
 
+  if (cinfo->Ss != 0 || cinfo->Se != 63 || cinfo->Ah != 0 || cinfo->Al != 0) {
+    cinfo->err->msg_code = 0x7a;
+    cinfo->err->emit_message(cinfo, -1);
+  }
+  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+    compptr = cinfo->cur_comp_info[ci];
+    dctbl = compptr->dc_tbl_no;
+    actbl = compptr->ac_tbl_no;
+    fn_829BC7D8(cinfo, 1, dctbl, &entropy->dc_derived_tbls[dctbl]);
+    fn_829BC7D8(cinfo, 0, actbl, &entropy->ac_derived_tbls[actbl]);
+    entropy->last_dc_val[ci] = 0;
+  }
+  for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
+    ci = cinfo->MCU_membership[blkn];
+    compptr = cinfo->cur_comp_info[ci];
+    entropy->dc_cur_tbls[blkn] = entropy->dc_derived_tbls[compptr->dc_tbl_no];
+    entropy->ac_cur_tbls[blkn] = entropy->ac_derived_tbls[compptr->ac_tbl_no];
+    if (compptr->component_needed) {
+      entropy->dc_needed[blkn] = 1;
+      entropy->ac_needed[blkn] = (compptr->DCT_scaled_size > 1);
+    } else {
+      entropy->ac_needed[blkn] = 0;
+      entropy->dc_needed[blkn] = 0;
+    }
+  }
+  entropy->insufficient_data = 0;
+  entropy->bits_left = 0;
+  entropy->get_buffer = 0;
+  entropy->restarts_to_go = cinfo->restart_interval;
+}

@@ -1,106 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int fn_82F7C2C0();
-extern int fn_82F7C468();
-extern int fn_82F857F8();
-extern unsigned int lbl_831BBF60;
-extern unsigned int lbl_8329F620;
+typedef struct File_82F7BAF0 { unsigned char *ptr; int cnt; unsigned char *base; int flag; int file; int charbuf; int bufsiz; } File_82F7BAF0;
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern void fn_82F857F8(File_82F7BAF0 *);
+extern int fn_82F7C468(File_82F7BAF0 *);
+extern int fn_82F7C2C0(int, unsigned char *, int);
+extern char lbl_831BBF60[];
+extern char *lbl_8329F620[];
 
-
-ulonglong fn_82F7BAF0(undefined4 *param_1)
-
+unsigned fn_82F7BAF0(File_82F7BAF0 *f)
 {
-  byte bVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 *puVar6;
-  undefined8 uVar4;
-  longlong lVar5;
-  int iVar7;
-  uint uVar8;
-  undefined *puVar9;
-  
-  if (param_1 == (undefined4 *)0x0) {
-    puVar6 = (undefined4 *)fn_82F68240();
-    *puVar6 = 0x16;
-    fn_82F63BA0();
+  int fl;
+  unsigned char c;
+  int r;
+  char *e;
+  if (f == 0) {
+    *_errno() = 0x16;
+    _invalid_parameter_noinfo();
+    return -1;
   }
-  else {
-    uVar8 = param_1[3];
-    if (((uVar8 & 0x83) != 0) && ((uVar8 & 0x40) == 0)) {
-      if ((uVar8 & 2) == 0) {
-        param_1[3] = uVar8 | 1;
-        if ((uVar8 & 0x10c) == 0) {
-          fn_82F857F8(param_1);
+  fl = f->flag;
+  if ((fl & 0x83) != 0 && (fl & 0x40) == 0) {
+    if ((fl & 2) != 0) {
+      fl = fl | 0x20;
+    } else {
+      fl = fl | 1;
+      f->flag = fl;
+      if ((fl & 0x10c) == 0) fn_82F857F8(f);
+      else f->ptr = f->base;
+      r = fn_82F7C2C0(fn_82F7C468(f), f->base, f->bufsiz);
+      f->cnt = r;
+      if (r != 0 && r != -1) {
+        if ((f->flag & 0x82) == 0) {
+          if (fn_82F7C468(f) == -1 || fn_82F7C468(f) == -2) e = lbl_831BBF60;
+          else e = lbl_8329F620[fn_82F7C468(f) >> 5] + (fn_82F7C468(f) & 0x1f) * 0x48;
+          if ((e[4] & 0x82) == 0x82) f->flag = f->flag | 0x2000;
         }
-        else {
-          *param_1 = param_1[2];
-        }
-        uVar2 = param_1[2];
-        uVar3 = param_1[6];
-        uVar4 = fn_82F7C468(param_1);
-        lVar5 = fn_82F7C2C0(uVar4,uVar2,uVar3);
-        iVar7 = (int)lVar5;
-        param_1[1] = iVar7;
-        if ((iVar7 != 0) && (iVar7 != -1)) {
-          if ((param_1[3] & 0x82) == 0) {
-            iVar7 = fn_82F7C468(param_1);
-            if ((iVar7 == -1) || (iVar7 = fn_82F7C468(param_1), iVar7 == -2)) {
-              puVar9 = &lbl_831BBF60;
-            }
-            else {
-              iVar7 = fn_82F7C468(param_1);
-              uVar8 = fn_82F7C468(param_1);
-              puVar9 = (undefined *)((uVar8 & 0x1f) * 0x48 + (&lbl_8329F620)[iVar7 >> 5]);
-            }
-            if ((puVar9[4] & 0x82) == 0x82) {
-              param_1[3] = param_1[3] | 0x2000;
-            }
-          }
-          if (((param_1[6] == 0x200) && ((param_1[3] & 8) != 0)) && ((param_1[3] & 0x400) == 0)) {
-            param_1[6] = 0x1000;
-          }
-          param_1[1] = param_1[1] + -1;
-          bVar1 = *(byte *)*param_1;
-          *param_1 = (byte *)*param_1 + 1;
-          return (ulonglong)bVar1;
-        }
-        param_1[1] = 0;
-        uVar8 = (-(uint)(lVar5 != 0) & 0x10) + 0x10 | param_1[3];
+        if (f->bufsiz == 0x200 && (f->flag & 8) != 0 && (f->flag & 0x400) == 0) f->bufsiz = 0x1000;
+        f->cnt = f->cnt - 1;
+        c = *f->ptr;
+        f->ptr = f->ptr + 1;
+        return c;
       }
-      else {
-        uVar8 = uVar8 | 0x20;
-      }
-      param_1[3] = uVar8;
+      f->cnt = 0;
+      fl = f->flag | ((r != 0 ? 0x20 : 0x10));
     }
+    f->flag = fl;
   }
-  return 0xffffffffffffffff;
+  return -1;
 }
-

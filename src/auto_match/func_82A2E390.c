@@ -1,67 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2C520();
+typedef struct Link_82A2E390 { struct Link_82A2E390 *next; struct Link_82A2E390 *prev; } Link_82A2E390;
+typedef struct {
+  char pad0[8];
+  void *f8;
+  int fc;
+  char pad10[0x40];
+  Link_82A2E390 link;
+} Stack_82A2E390;
+typedef struct {
+  char pad0[4];
+  unsigned f4;
+  char pad8[6];
+  unsigned short fe;
+  char pad10[8];
+  Stack_82A2E390 *f18;
+} Sub_82A2E390;
+typedef struct { char pad[0x50]; Sub_82A2E390 *sub; } Irp_82A2E390;
+typedef struct {
+  char pad0[0x35];
+  unsigned char f35;
+  char pad36[2];
+  char share[1];
+} File_82A2E390;
+typedef struct {
+  char pad0[0x80];
+  Link_82A2E390 head;
+} Dev_82A2E390;
 
+extern void IoSetShareAccess(unsigned, unsigned, void *, void *);
+extern int IoCheckShareAccess(unsigned, unsigned, void *, void *, int);
+extern int fn_82A2C520(void *, unsigned);
 
-undefined8 fn_82A2E390(int param_1,int param_2,int param_3,undefined4 param_4)
-
+int fn_82A2E390(char *dev, Irp_82A2E390 *irp, File_82A2E390 *file, int arg)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  iVar1 = *(int *)(param_2 + 0x50);
-  iVar2 = *(int *)(iVar1 + 0x18);
-  if (*(char *)(param_1 + 0xce) == '\0') {
-    uVar3 = 0xffffffffc0000022;
-  }
-  else {
-    if (*(char *)(param_3 + 0x38) == '\0') {
-      IoSetShareAccess();
-    }
-    else {
-      uVar3 = IoCheckShareAccess(*(undefined4 *)(iVar1 + 4),*(undefined2 *)(iVar1 + 0xe),iVar2,
-                                 param_3 + 0x38,1);
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-    }
-    fn_82A2C520(param_3,*(byte *)(param_3 + 0x35) & 1);
-    uVar3 = 0;
-    *(int *)(iVar2 + 8) = param_3;
-    *(undefined4 *)(iVar2 + 0xc) = 0;
-    iVar1 = *(int *)(param_1 + 0x80);
-    *(int *)(iVar2 + 0x54) = param_1 + 0x80;
-    *(int *)(iVar2 + 0x50) = iVar1;
-    *(int *)(iVar1 + 4) = iVar2 + 0x50;
-    *(int *)(param_1 + 0x80) = iVar2 + 0x50;
-    *(undefined4 *)(param_2 + 0x14) = param_4;
-  }
-  return uVar3;
-}
+  Sub_82A2E390 *sub = irp->sub;
+  unsigned acc = sub->f4;
+  unsigned short sh = sub->fe;
+  Stack_82A2E390 *st = sub->f18;
+  Link_82A2E390 *first;
+  int hr;
 
+  if (*(unsigned char *)(dev + 0xce) == 0) {
+    hr = 0xc0000022;
+  } else {
+    if (*(char *)((char *)file + 0x38) == 0) {
+      IoSetShareAccess(acc, sh, st, (char *)file + 0x38);
+    } else {
+      hr = IoCheckShareAccess(acc, sh, st, (char *)file + 0x38, 1);
+      if (hr < 0)
+        return hr;
+    }
+    fn_82A2C520(file, file->f35 & 1);
+    hr = 0;
+    st->f8 = file;
+    st->fc = 0;
+    first = *(Link_82A2E390 **)(dev + 0x80);
+    st->link.prev = (Link_82A2E390 *)(dev + 0x80);
+    st->link.next = first;
+    first->prev = &st->link;
+    *(Link_82A2E390 **)(dev + 0x80) = &st->link;
+    *(int *)((char *)irp + 0x14) = arg;
+  }
+  return hr;
+}

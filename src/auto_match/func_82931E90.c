@@ -1,75 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829301D0();
-extern int fn_82934160();
+typedef struct O_82931E90 { void *vt; unsigned a; unsigned b; unsigned c; unsigned d; unsigned e; unsigned *f; unsigned g, h, i; } O_82931E90;
+extern unsigned *fn_829301D0(unsigned,unsigned,unsigned);
+extern unsigned *fn_82934160(void);
 extern unsigned int lbl_8202F158;
 
-
-undefined4 * fn_82931E90(int param_1)
-
+static __forceinline O_82931E90 *init(O_82931E90 *m) {
+  m->a = 9; m->b = 0; m->vt = &lbl_8202F158; m->c = 0; m->d = 0; m->e = 10; m->f = 0; m->g = 0; m->h = 0; m->i = 0; return m; }
+O_82931E90 *fn_82931E90(char *src)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  puVar1 = (undefined4 *)fn_82934160();
-  puVar1 = (undefined4 *)fn_829301D0(*puVar1,0x28,0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  unsigned *mem = fn_82934160();
+  O_82931E90 *o, *r = (O_82931E90 *)fn_829301D0(*mem, 0x28, 0x10);
+  if (r != 0) o = init(r); else o = 0;
+  if (o == 0) return 0;
+  o->d = *(unsigned *)(src + 0x10);
+  o->e = *(unsigned *)(src + 0x14);
+  o->g = *(unsigned *)(src + 0x1c);
+  o->h = *(unsigned *)(src + 0x20);
+  o->i = *(unsigned *)(src + 0x24);
+  if (*(int **)(src + 0x18) != 0) {
+    o->f = (unsigned *)(*(unsigned (**)(void *))(**(int **)(src + 0x18) + 4))(*(int **)(src + 0x18));
+    if (o->f == 0) return 0;
   }
-  else {
-    puVar1[2] = 0;
-    puVar1[1] = 9;
-    *puVar1 = &lbl_8202F158;
-    puVar1[3] = 0;
-    puVar1[4] = 0;
-    puVar1[5] = 10;
-    puVar1[6] = 0;
-    puVar1[7] = 0;
-    puVar1[8] = 0;
-    puVar1[9] = 0;
-  }
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[4] = *(undefined4 *)(param_1 + 0x10);
-    puVar1[5] = *(undefined4 *)(param_1 + 0x14);
-    puVar1[7] = *(undefined4 *)(param_1 + 0x1c);
-    puVar1[8] = *(undefined4 *)(param_1 + 0x20);
-    puVar1[9] = *(undefined4 *)(param_1 + 0x24);
-    if (*(int **)(param_1 + 0x18) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x18) + 4))();
-      puVar1[6] = iVar2;
-      if (iVar2 == 0) {
-        return (undefined4 *)0x0;
-      }
-    }
-  }
-  return puVar1;
+  return o;
 }
-

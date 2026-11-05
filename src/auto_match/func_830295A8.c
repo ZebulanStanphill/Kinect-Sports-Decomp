@@ -1,66 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_30;
-extern int fn_82FF0F00();
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct { unsigned key; struct Tgt_830295A8 *value; } Ent_830295A8;
+typedef struct Tgt_830295A8 { char pad[0x2c]; float f2c; } Tgt_830295A8;
+typedef struct Link_830295A8 {
+  char pad[0x6c];
+  Tgt_830295A8 *f6c;
+} Link_830295A8;
+typedef struct Rec_830295A8 { char pad[0x14]; struct Rec_830295A8 *next; } Rec_830295A8;
+typedef struct {
+  char pad[0x7c];
+  Rec_830295A8 *list;
+  char pad80[8];
+  Ent_830295A8 *begin;
+  Ent_830295A8 *end;
+} Obj_830295A8;
+typedef struct { int a; int b; unsigned char c; int d; float e; } Msg_830295A8;
 
+extern int fn_82FF0F00(void *, void *);
 
-void fn_830295A8(double param_1,int param_2,int param_3)
-
+static __forceinline Tgt_830295A8 **Find(Obj_830295A8 *o, unsigned key)
 {
-  int iVar1;
-  int *piVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  Ent_830295A8 *end = o->end;
+  int found;
+  unsigned char bfound;
+  unsigned ufound;
+  Ent_830295A8 *e = o->begin;
+  while (e != end && e->key != key)
+    e++;
+  found = e != end;
+  return found ? &e->value : 0;
+}
 
-  undefined1 uStack_38;
-  undefined4 uStack_34;
-  float fStack_30;
-
-  for (piVar2 = *(int **)(param_2 + 0x88);
-      (piVar2 != *(int **)(param_2 + 0x8c) && (*piVar2 != param_3)); piVar2 = piVar2 + 2) {
-  }
-  piVar2 = (int *)(-(uint)(*(int **)(param_2 + 0x8c) != piVar2) & (uint)(piVar2 + 1));
-  if (piVar2 != (int *)0x0) {
-    iVar1 = *(int *)(param_2 + 0x7c);
-    stack_pair_40.first = 0;
-    uStack_38 = 0;
-    stack_pair_40.second = 0;
-    fStack_30 = (float)(param_1 - (double)*(float *)(*piVar2 + 0x2c));
-    uStack_34 = 0;
-    for (; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x14)) {
-      if (*(int *)(iVar1 + 0x6c) == *piVar2) {
-        fn_82FF0F00(iVar1,&stack_pair_40.first);
-      }
+void fn_830295A8(Obj_830295A8 *o, unsigned key, float v)
+{
+  Tgt_830295A8 **pp = Find(o, key);
+  Rec_830295A8 *r;
+  Msg_830295A8 m;
+  if (pp != 0) {
+    r = o->list;
+    m.a = 0;
+    m.c = 0;
+    m.b = 0;
+    m.e = v - (*pp)->f2c;
+    m.d = 0;
+    for (; r != 0; r = r->next) {
+      if (((Link_830295A8 *)r)->f6c == *pp)
+        fn_82FF0F00(r, &m);
     }
-    *(float *)(*piVar2 + 0x2c) = (float)param_1;
+    (*pp)->f2c = v;
   }
-  return;
 }

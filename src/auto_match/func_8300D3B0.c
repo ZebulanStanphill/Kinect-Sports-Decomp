@@ -1,76 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
-extern int fn_82FA5060();
-extern int fn_82FEFD50();
-extern int fn_8300D348();
-extern int fn_83037510();
-extern unsigned int lbl_82186E6C;
-extern unsigned int lbl_831BC770;
+typedef struct { char pad[0xfc]; struct { char pad[8]; void *f8; } *fc; } Inner_8300D3B0;
+typedef struct { char pad[4]; struct { char pad[0x14]; Inner_8300D3B0 *f14; } *f4; } Hdr_8300D3B0;
+typedef struct { char pad[0xc]; float fc; char pad2[0x2c - 0x10]; unsigned short f2c; unsigned short f2e; } Info_8300D3B0;
+typedef struct { void *data; } Buf_8300D3B0;
 
+typedef struct {
+  char pad0[4];
+  struct { char pad[0x14]; Inner_8300D3B0 *f14; } *f4;
+  char pad8[8];
+  void *f10;
+  char pad14[8];
+  unsigned short f1c;
+  unsigned short f1e;
+  char pad20[0x3a0 - 0x20];
+  Buf_8300D3B0 *f3a0;
+  char f3a4;
+} Obj_8300D3B0;
 
-undefined8 fn_8300D3B0(int param_1,int param_2)
+extern unsigned fn_8300D348(char *, void *);
+extern Info_8300D3B0 *fn_82FEFD50(void *);
+extern void *fn_82FA5060(unsigned, int);
+extern int fn_83037510(Buf_8300D3B0 *, unsigned short, unsigned short);
+extern void *memcpy(void *, const void *, unsigned);
+extern unsigned lbl_831BC770;
 
+int fn_8300D3B0(char *self, Obj_8300D3B0 *o)
 {
-  ushort uVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  
-  if (*(char *)(param_2 + 0x3a4) == '\0') {
-    iVar2 = *(int *)(*(int *)(param_2 + 4) + 0x14);
-    if (iVar2 == 0) {
-      uVar5 = 0;
-    }
-    else {
-      uVar5 = *(undefined4 *)(*(int *)(iVar2 + 0xfc) + 8);
-    }
-    iVar2 = fn_82FEFD50(uVar5);
-    if (((iVar2 != 0) && (*(char *)(param_1 + 0x4d) != '\0')) &&
-       (iVar3 = fn_8300D348(param_1,uVar5), iVar3 != 0)) {
-      uVar5 = *(undefined4 *)(param_2 + 0x10);
-      uVar1 = *(ushort *)(param_2 + 0x1c);
-      puVar4 = (undefined4 *)fn_82FA5060(lbl_831BC770,0x10);
-      if (puVar4 != (undefined4 *)0x0) {
-        *puVar4 = 0;
-        if ((lbl_82186E6C < *(float *)(iVar2 + 0xc)) &&
-           (iVar3 = fn_83037510(puVar4,uVar1,*(undefined2 *)(iVar2 + 0x2c)), iVar3 == 1)) {
-          fn_82F68CC0(*puVar4,uVar5,
-                       (longlong)(int)(uint)(*(ushort *)(iVar2 + 0x2e) >> 0xd) *
-                       (longlong)(int)(uint)uVar1 * 4);
-          *(undefined2 *)((int)puVar4 + 0xe) = *(undefined2 *)(param_2 + 0x1e);
+  Inner_8300D3B0 *in;
+  void *key;
+  Info_8300D3B0 *info;
+  void *src;
+  unsigned short cnt;
+  Buf_8300D3B0 *b;
+
+  if (o->f3a4 == 0) {
+    in = o->f4->f14;
+    if (in != 0)
+      key = in->fc->f8;
+    else
+      key = 0;
+    info = fn_82FEFD50(key);
+    if (info != 0 && *(unsigned char *)(self + 0x4d) != 0 && fn_8300D348(self, key) != 0) {
+      src = o->f10;
+      cnt = o->f1c;
+      b = (Buf_8300D3B0 *)fn_82FA5060(lbl_831BC770, 0x10);
+      if (b != 0) {
+        b->data = 0;
+        if (0.1f < info->fc && fn_83037510(b, cnt, info->f2c) == 1) {
+          memcpy(b->data, src, (info->f2e >> 13) * cnt * 4);
+          *(unsigned short *)((char *)b + 0xe) = o->f1e;
         }
-        *(undefined4 **)(param_2 + 0x3a0) = puVar4;
+        o->f3a0 = b;
         return 1;
       }
     }
   }
   return 0;
 }
-

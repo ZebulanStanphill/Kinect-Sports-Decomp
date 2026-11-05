@@ -1,72 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8262FEC8();
-extern unsigned int lbl_83223458;
-extern unsigned int lbl_832234A0;
-
-
-undefined8 fn_82A828B8(void)
-
+extern unsigned char lbl_83223458;
+extern unsigned lbl_83223460[];
+extern unsigned lbl_832234A0;
+extern void fn_8262FEC8(unsigned);
+int fn_82A828B8(void)
 {
-  undefined8 uVar1;
-  int *piVar2;
-  
-  if (lbl_83223458 == '\0') {
-    uVar1 = 0xffffffff8000ffff;
-  }
-  else {
-    piVar2 = (int *)0x83223494;
-    do {
-      if (piVar2[-1] != 0) {
-        fn_8262FEC8();
-        piVar2[-1] = 0;
-      }
-      if (*piVar2 != 0) {
-        fn_8262FEC8();
-        *piVar2 = 0;
-      }
-      if (piVar2[1] != 0) {
-        fn_8262FEC8();
-        piVar2[1] = 0;
-      }
-      if (piVar2[2] != 0) {
-        fn_8262FEC8();
-        piVar2[2] = 0;
-      }
-      piVar2 = piVar2 + -4;
-    } while (-0x7cddcb9d < (int)piVar2);
-    if (lbl_832234A0 != 0) {
-      fn_8262FEC8();
-      lbl_832234A0 = 0;
+    int i;
+    if (lbl_83223458 == 0)
+        return 0x8000ffff;
+    for (i = 13; i >= 1; i -= 4) {
+        if (lbl_83223460[i - 1] != 0) { fn_8262FEC8(lbl_83223460[i - 1]); lbl_83223460[i - 1] = 0; }
+        if (lbl_83223460[i] != 0) { fn_8262FEC8(lbl_83223460[i]); lbl_83223460[i] = 0; }
+        if (lbl_83223460[i + 1] != 0) { fn_8262FEC8(lbl_83223460[i + 1]); lbl_83223460[i + 1] = 0; }
+        if (lbl_83223460[i + 2] != 0) { fn_8262FEC8(lbl_83223460[i + 2]); lbl_83223460[i + 2] = 0; }
     }
-    lbl_83223458 = '\0';
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (lbl_832234A0 != 0) { fn_8262FEC8(lbl_832234A0); lbl_832234A0 = 0; }
+    lbl_83223458 = 0;
+    return 0;
 }
-

@@ -30,12 +30,12 @@ typedef struct { U64 lo, hi; } V16;
 void fn_82FC9C90(int param_1,int *param_2)
 
 {
-  if (*(int *)(param_1 + 8) != 0) {
-    (**(code **)(*param_2 + 8))(param_2);
+  if (*(unsigned int *)(param_1 + 8) != 0) {
+    (*(code *)(*param_2 + 8))(param_2,*(unsigned *)(param_1 + 8));
     *(undefined4 *)(param_1 + 8) = 0;
   }
-  if (*(int *)(param_1 + 0xe0) != 0) {
-    (**(code **)(*param_2 + 8))(param_2);
+  if (*(unsigned int *)(param_1 + 0xe0) != 0) {
+    (*(code *)(*param_2 + 8))(param_2,*(unsigned *)(param_1 + 0xe0));
     *(undefined4 *)(param_1 + 0xe0) = 0;
   }
   return;

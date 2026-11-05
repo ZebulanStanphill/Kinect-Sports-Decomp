@@ -1,3 +1,4 @@
+static __forceinline void clear(unsigned short *f) { *f &= 0x7fff; }
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -27,20 +28,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82FB7EC8(int param_1)
+void fn_82FB7EC8(unsigned param_1)
 
 {
-  int iVar1;
+ unsigned self = param_1;
+
+  unsigned int iVar1;
   
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (iVar1 != *(int *)(param_1 + 0x20)) {
+  iVar1 = *(int *)(self + 0x1c);
+  if (iVar1 != *(int *)(self + 0x20)) {
     do {
-      (**(code **)(**(int **)(iVar1 + 4) + 4))();
+      (*(code *)(**(int **)(iVar1 + 4) + 4))(*(int **)(iVar1 + 4));
       iVar1 = iVar1 + 8;
-    } while (iVar1 != *(int *)(param_1 + 0x20));
+    } while (iVar1 != *(int *)(self + 0x20));
   }
-  *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_1 + 0x1c);
-  *(ushort *)(param_1 + 0x28) = *(ushort *)(param_1 + 0x28) & 0x7fff;
+  *(undefined4 *)(self + 0x20) = *(undefined4 *)(self + 0x1c);
+  clear((ushort *)(self + 0x28));
   return;
 }
 

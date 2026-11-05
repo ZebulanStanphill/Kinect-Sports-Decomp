@@ -1,42 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
-
-
-void fn_82A4A8C8(int param_1)
-
+typedef struct Inner_82A4A8C8 { char pad[0x18]; int a; int pad1c, pad20; int b; int c; } Inner_82A4A8C8;
+typedef struct Obj_82A4A8C8 {
+    char pad[0x28];
+    int n28;
+    int pad2c;
+    Inner_82A4A8C8 *in;
+    char pad34[0x80 - 0x34];
+    int f80;
+} Obj_82A4A8C8;
+extern void fn_82A518E0(void *);
+void fn_82A4A8C8(Obj_82A4A8C8 *o)
 {
-  *(int *)(*(int *)(param_1 + 0x30) + 0x18) = *(int *)(*(int *)(param_1 + 0x30) + 0x18) + -1;
-  *(uint *)(*(int *)(param_1 + 0x30) + 0x24) =
-       *(int *)(*(int *)(param_1 + 0x30) + 0x24) + ((*(int *)(param_1 + 0x80) == 0) - 1);
-  *(int *)(*(int *)(param_1 + 0x30) + 0x28) =
-       *(int *)(*(int *)(param_1 + 0x30) + 0x28) - *(int *)(param_1 + 0x28);
-  fn_82F68B7C();
-  return;
+    o->in->a = o->in->a - 1;
+    { int t = o->f80 != 0; o->in->b = o->in->b - t; }
+    o->in->c = o->in->c - o->n28;
+    fn_82A518E0(o);
 }
-
