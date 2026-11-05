@@ -25,26 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82730710();
-
-
-void fn_82730B00(int *param_1,uint param_2)
-
+extern void fn_82730710(void *, void *, unsigned);
+void fn_82730B00(int *param_1, unsigned param_2)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
+  unsigned uVar1;
+  unsigned uVar2;
+  unsigned cnt;
+  int *puVar3;
+  int *puVar4;
+
   uVar1 = param_1[1];
-  fn_82730710(param_1,param_1,param_2);
-  if (uVar1 < param_2) {
-    puVar4 = (undefined4 *)(uVar1 * 0x14 + *param_1);
+  fn_82730710(param_1, param_1, param_2);
+  if (param_2 > uVar1) {
+    puVar4 = (int *)(uVar1 * 0x14 + *param_1);
     uVar2 = 0;
-    if (param_2 != uVar1) {
+    cnt = param_2 - uVar1;
+    if (cnt != 0) {
       puVar3 = puVar4 + 4;
       do {
-        if (puVar4 != (undefined4 *)0x0) {
+        if (puVar4 != 0) {
           *puVar4 = 0;
           puVar3[-3] = 0;
           puVar3[-2] = 0;
@@ -54,9 +53,7 @@ void fn_82730B00(int *param_1,uint param_2)
         uVar2 = uVar2 + 1;
         puVar4 = puVar4 + 5;
         puVar3 = puVar3 + 5;
-      } while (uVar2 < param_2 - uVar1);
+      } while (uVar2 < cnt);
     }
   }
-  return;
 }
-

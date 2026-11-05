@@ -28,25 +28,23 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82695468();
 extern int fn_826954C0();
 extern int fn_82696BC8();
-extern int fn_826A1FC8();
+extern int fn_826A1FC8(void *, void *);
 
 
 void fn_826A2168(int param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   longlong lVar2;
   
   cVar1 = fn_82695468(param_1,7);
   if (cVar1 == '\0') {
-    fn_826954C0(param_1,0xffffffff82006e38,0,0);
+    fn_826954C0(param_1,"Array",0,0);
   }
   else {
-    lVar2 = (ulonglong)*(uint *)(param_1 + 8) - 0x10;
-    if ((ulonglong)*(uint *)(param_1 + 8) == 0) {
-      lVar2 = 0;
-    }
-    fn_826A1FC8(lVar2);
+    char *c = *(char **)(param_1 + 8);
+    char *t = c != 0 ? c - 0x10 : 0;
+    fn_826A1FC8(t, t);
     fn_82696BC8(*(undefined4 *)(param_1 + 4));
   }
   return;

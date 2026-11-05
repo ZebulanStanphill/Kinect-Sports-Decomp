@@ -25,40 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8229AE10();
-extern int fn_82672C20();
-extern unsigned int iStack_34;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+extern int fn_822315A0(void *);
+extern int fn_82273C88(void *);
+extern int fn_82273CD8(void *, int);
+extern int *fn_8229AE10(void *, void *);
+extern int fn_82672C20(int, const char *, void *, int);
 
+typedef struct Val_82293B48 {
+  int m0;
+  int m4;
+  union {
+    double d;
+    int i;
+  } v;
+} Val_82293B48;
 
-void fn_82293B48(int param_1,int param_2)
+typedef struct Ref_82293B48 {
+  int m0;
+  void *rc;
+} Ref_82293B48;
 
+void fn_82293B48(int *self, int count)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  Val_82293B48 arg;
+  Ref_82293B48 ref;
 
-  double dStack_28;
-  
-  *(int *)(param_1 + 0x1840) = param_2;
-  if (0 < param_2) {
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    fn_82273CD8(&stack_pair_30.first,3);
-    dStack_28 = (double)(longlong)param_2;
-    puVar1 = (undefined4 *)fn_8229AE10(auStack_38,param_1);
-    fn_82672C20(*puVar1,0xffffffff821aa6bc,&stack_pair_30.first,1);
-    if (iStack_34 != 0) {
-      fn_822315A0();
+  self[0x610] = count;
+  if (count > 0) {
+    arg.m0 = 0;
+    arg.m4 = 0;
+    fn_82273CD8(&arg, 3);
+    arg.v.d = (double)count;
+    fn_82672C20(*fn_8229AE10(&ref, self), "_root.scorecardCtrl.setNumberTeams", &arg, 1);
+    if (ref.rc != 0) {
+      fn_822315A0(ref.rc);
     }
-    fn_82273C88(&stack_pair_30.first);
+    fn_82273C88(&arg);
   }
-  return;
 }
-

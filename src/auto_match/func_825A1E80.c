@@ -25,42 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
+extern void fn_822315A0(int);
+extern void fn_8265CA20(void *);
 
+typedef struct Vec_825A1E80 { unsigned *begin; unsigned *end; unsigned *cap; } Vec_825A1E80;
+typedef struct Node_825A1E80 { struct Node_825A1E80 *next; struct Node_825A1E80 *prev; int pad[2]; unsigned obj; } Node_825A1E80;
+typedef struct Obj_825A1E80 { int pad0; Node_825A1E80 *head; int size; int pad1; Vec_825A1E80 vec; } Obj_825A1E80;
 
-void fn_825A1E80(int param_1)
-
+void fn_825A1E80(Obj_825A1E80 *param_1)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x10);
-  if (iVar2 != 0) {
-    for (; iVar2 != *(int *)(param_1 + 0x14); iVar2 = iVar2 + 4) {
-    }
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  piVar1 = *(int **)(param_1 + 4);
-  piVar3 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  if (piVar3 != *(int **)(param_1 + 4)) {
-    do {
-      piVar1 = (int *)*piVar3;
-      if (piVar3[4] != 0) {
-        fn_822315A0();
-      }
-      fn_8265CA20(piVar3);
-      piVar3 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 4));
-  }
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
-}
+  Vec_825A1E80 *v = &param_1->vec;
+  unsigned *p;
+  Node_825A1E80 *n, *nx;
 
+  if (v->begin != 0) {
+    for (p = v->begin; p != v->end; p++) {
+    }
+    fn_8265CA20(v->begin);
+  }
+  v->begin = 0;
+  v->end = 0;
+  v->cap = 0;
+  n = param_1->head->next;
+  param_1->head->next = param_1->head;
+  param_1->head->prev = param_1->head;
+  param_1->size = 0;
+  while (n != param_1->head) {
+    nx = n->next;
+    if (n->obj != 0) {
+      fn_822315A0(n->obj);
+    }
+    fn_8265CA20(n);
+    n = nx;
+  }
+  fn_8265CA20(param_1->head);
+}

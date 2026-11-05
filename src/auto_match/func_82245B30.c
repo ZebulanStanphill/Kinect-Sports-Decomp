@@ -25,44 +25,42 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82236200();
-extern int fn_8289D8D0();
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned);
+extern int fn_8289D8D0(int);
+extern char *fn_82236200(void *, int);
 
+typedef struct IfaceVt_82245B30 { int pad[4]; unsigned (*f10)(void *); unsigned (*f14)(void *); } IfaceVt_82245B30;
+typedef struct Iface_82245B30 { IfaceVt_82245B30 *vt; } Iface_82245B30;
+typedef struct Sub_82245B30 { int pad0[2]; char *buf; unsigned size; } Sub_82245B30;
+typedef struct Str_82245B30 {
+  int pad0;
+  Sub_82245B30 sub;
+  int pad14[3];
+  Iface_82245B30 *iface;
+  int pad24;
+  int arg;
+} Str_82245B30;
 
-void fn_82245B30(int param_1,undefined8 param_2,int param_3,undefined8 param_4)
-
+void fn_82245B30(Str_82245B30 *self, void *dst, int off, unsigned len)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))();
-  }
-  if (iVar2 == 0) {
-    if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))();
-    }
-    if (iVar2 == 0) {
-      if (*(uint *)(param_1 + 0x10) < 5) {
-        param_1 = param_1 + 0xc;
-      }
-      else {
-        param_1 = *(int *)(param_1 + 0xc);
-      }
-      goto LAB_82245be0;
-    }
-  }
-  uVar1 = fn_8289D8D0(*(undefined4 *)(param_1 + 0x28));
-  param_1 = fn_82236200(param_1,uVar1);
-LAB_82245be0:
-  fn_82F68CC0(param_2,param_1 + param_3,param_4);
-  return;
-}
+  unsigned r;
+  char *p;
+  Sub_82245B30 *s;
 
+  r = self->iface ? self->iface->vt->f10(self->iface) : 0;
+  if (r == 0) {
+    r = self->iface ? self->iface->vt->f14(self->iface) : 0;
+    if (r == 0) {
+      s = &self->sub;
+      if (self->sub.size <= 4) {
+        p = (char *)&s->buf;
+      } else {
+        p = s->buf;
+      }
+      goto copy;
+    }
+  }
+  p = fn_82236200(self, fn_8289D8D0(self->arg));
+copy:
+  memcpy(dst, p + off, len);
+}

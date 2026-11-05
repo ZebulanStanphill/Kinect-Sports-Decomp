@@ -1,66 +1,74 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4F0();
-extern int fn_82695608();
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_826A7398();
+extern void fn_8267C4F0(void *);
+extern void *fn_82695608(void *, void *);
+extern void *fn_826957D0(void *, int);
+extern void fn_826959C8(void *);
 
+struct Svc_8274BDB8;
+typedef struct SvcVT_8274BDB8 {
+  int pad[3];
+  unsigned char (*f0c)(struct Svc_8274BDB8 *self, void *arg);
+} SvcVT_8274BDB8;
 
-void fn_8274BDB8(int param_1)
+typedef struct Svc_8274BDB8 {
+  SvcVT_8274BDB8 *vt;
+} Svc_8274BDB8;
 
+struct Reg_8274BDB8;
+typedef struct RegVT_8274BDB8 {
+  int pad[3];
+  Svc_8274BDB8 *(*f0c)(struct Reg_8274BDB8 *self, int id);
+} RegVT_8274BDB8;
+
+typedef struct Reg_8274BDB8 {
+  RegVT_8274BDB8 *vt;
+} Reg_8274BDB8;
+
+typedef struct Holder_8274BDB8 {
+  char pad[8];
+  Reg_8274BDB8 reg;
+} Holder_8274BDB8;
+
+typedef struct Out_8274BDB8 {
+  unsigned char kind;
+  char pad[3];
+  unsigned char res;
+} Out_8274BDB8;
+
+typedef struct Obj_8274BDB8 {
+  char pad0[4];
+  Out_8274BDB8 *out;
+  char pad8[0x10];
+  void *f18;
+} Obj_8274BDB8;
+
+extern Holder_8274BDB8 *fn_826A7398(void *);
+
+void fn_8274BDB8(Obj_8274BDB8 *o)
 {
-  undefined4 uVar1;
-  undefined1 *puVar2;
-  int iVar4;
-  int *piVar5;
-  undefined8 uVar3;
-  undefined1 uVar6;
-  
-  if (*(int *)(param_1 + 0x18) != 0) {
-    iVar4 = fn_826A7398();
-    piVar5 = (int *)(**(code **)(*(int *)(iVar4 + 8) + 0xc))((int *)(iVar4 + 8),0x1b);
-    uVar6 = 0;
-    if (piVar5 != (int *)0x0) {
-      iVar4 = *piVar5;
-      uVar1 = *(undefined4 *)(param_1 + 0x18);
-      uVar3 = fn_826957D0(param_1,0);
-      uVar3 = fn_82695608(uVar3,uVar1);
-      uVar6 = (**(code **)(iVar4 + 0xc))(piVar5,uVar3);
+  Reg_8274BDB8 *reg;
+  Svc_8274BDB8 *svc;
+  unsigned char res;
+  Out_8274BDB8 *out;
+  void *a;
+  void *b;
+
+  if (o->f18 != 0) {
+    reg = &fn_826A7398(o->f18)->reg;
+    svc = reg->vt->f0c(reg, 0x1b);
+    res = 0;
+    if (svc != 0) {
+      SvcVT_8274BDB8 *vt = svc->vt;
+      void *f18 = o->f18;
+      a = fn_826957D0(o, 0);
+      b = fn_82695608(a, f18);
+      res = vt->f0c(svc, b);
     }
-    puVar2 = *(undefined1 **)(param_1 + 4);
-    fn_826959C8(puVar2);
-    puVar2[4] = uVar6;
-    *puVar2 = 2;
-    if (piVar5 != (int *)0x0) {
-      fn_8267C4F0(piVar5);
+    out = o->out;
+    fn_826959C8(out);
+    out->res = res;
+    out->kind = 2;
+    if (svc != 0) {
+      fn_8267C4F0(svc);
     }
   }
-  return;
 }
-

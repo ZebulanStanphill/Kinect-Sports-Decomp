@@ -1,50 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA60();
-extern int fn_82F68CC0();
-
-
-undefined4 * fn_822DB770(undefined4 *param_1,undefined4 *param_2)
-
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  
-  uVar1 = param_2[2];
-  *param_1 = 0;
-  param_1[2] = uVar1;
-  puVar2 = param_1;
-  if (8 < uVar1) {
-    puVar2 = (undefined4 *)fn_8265CA60();
-    *param_1 = puVar2;
-    param_2 = (undefined4 *)*param_2;
-  }
-  fn_82F68CC0(puVar2,param_2,param_1[2]);
-  return param_1;
+extern void *fn_8265CA60(unsigned);
+extern void *memcpy(void *,const void *,unsigned);
+typedef struct Buffer_822DB770 {union {void *ptr;char buf[8];} u; unsigned size;} Buffer;
+Buffer *fn_822DB770(Buffer *d,Buffer *s) {
+ Buffer *out=d;
+ unsigned n=s->size;
+ void *dest;
+ const void * source;
+ out->size=n;
+ out->u.ptr=0;
+ if (out->size <= 8) {dest=out;source=s;}
+ else {dest=fn_8265CA60(out->size);out->u.ptr=dest;source=(const void *)s->u.ptr;}
+ memcpy(dest,source,out->size);
+ return out;
 }
-

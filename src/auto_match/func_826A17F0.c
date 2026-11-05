@@ -1,51 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8269B930();
-extern int fn_826A1440();
-extern int memcpy();
+extern void *memcpy(void *, const void *, unsigned int);
+extern int fn_8269B930(void *, unsigned int);
+extern int fn_826A1440(void *, void *, void *);
 
+typedef struct VT_826A17F0 {
+  int f0;
+  void (*f4)(void *self);
+} VT_826A17F0;
 
-void fn_826A17F0(int *param_1,int param_2)
+typedef struct Obj_826A17F0 {
+  VT_826A17F0 *vt;
+  int pad4[4];
+  int f14;
+  int pad18[3];
+  unsigned char b24[0x20];
+  float f44, f48, f4c, f50, f54, f58;
+  char pad5c[0x84 - 0x5c];
+  unsigned int f84;
+  char f88[4];
+} Obj_826A17F0;
 
+void fn_826A17F0(Obj_826A17F0 *o, Obj_826A17F0 *s)
 {
-  param_1[5] = *(int *)(param_2 + 0x14);
-  memcpy(param_1 + 9,param_2 + 0x24,0x20);
-  (**(code **)(*param_1 + 4))(param_1);
-  param_1[0x11] = *(int *)(param_2 + 0x44);
-  param_1[0x12] = *(int *)(param_2 + 0x48);
-  param_1[0x13] = *(int *)(param_2 + 0x4c);
-  param_1[0x14] = *(int *)(param_2 + 0x50);
-  param_1[0x15] = *(int *)(param_2 + 0x54);
-  param_1[0x16] = *(int *)(param_2 + 0x58);
-  fn_826A1440(param_1 + 0x22,param_1 + 0x22,param_2 + 0x88);
-  if (*(int *)(param_2 + 0x84) != 0) {
-    fn_8269B930(param_1);
+  o->f14 = s->f14;
+  memcpy((unsigned char *)o + 0x24, (unsigned char *)s + 0x24, 0x20);
+  o->vt->f4(o);
+  o->f44 = s->f44;
+  o->f48 = s->f48;
+  o->f4c = s->f4c;
+  o->f50 = s->f50;
+  o->f54 = s->f54;
+  o->f58 = s->f58;
+  fn_826A1440(o->f88, o->f88, s->f88);
+  if (s->f84 != 0) {
+    fn_8269B930(o, s->f84);
   }
-  return;
 }
-

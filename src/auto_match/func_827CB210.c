@@ -1,91 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef unsigned char JSAMPLE;
+typedef JSAMPLE *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef unsigned int JDIMENSION;
 
+typedef struct {
+  char pad0[0x10];
+  int *Cr_r_tab;
+  int *Cb_b_tab;
+  int *Cr_g_tab;
+  int *Cb_g_tab;
+} my_upsampler_func_827CB210;
 
-void fn_827CB210(int param_1,int *param_2,int param_3,undefined4 *param_4)
+typedef struct {
+  char pad0[0x5c];
+  JDIMENSION output_width;
+  char pad1[0x120 - 0x60];
+  JSAMPLE *sample_range_limit;
+  char pad2[0x1a0 - 0x124];
+  my_upsampler_func_827CB210 *upsample;
+} cinfo_func_827CB210;
 
+void fn_827CB210(cinfo_func_827CB210 *cinfo, JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr, JSAMPARRAY output_buf)
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int iVar10;
-  int iVar11;
-  byte *pbVar12;
-  byte *pbVar13;
-  byte *pbVar14;
-  undefined1 *puVar15;
-  ulonglong uVar16;
-  
-  iVar4 = *(int *)(param_1 + 0x1a0);
-  param_3 = param_3 * 4;
-  iVar5 = *(int *)(iVar4 + 0x10);
-  iVar6 = *(int *)(iVar4 + 0x14);
-  iVar7 = *(int *)(iVar4 + 0x18);
-  iVar4 = *(int *)(iVar4 + 0x1c);
-  pbVar14 = *(byte **)(*param_2 + param_3);
-  pbVar12 = *(byte **)(param_2[1] + param_3);
-  iVar8 = *(int *)(param_1 + 0x120);
-  pbVar13 = *(byte **)(param_2[2] + param_3);
-  puVar15 = (undefined1 *)*param_4;
-  for (uVar16 = (ulonglong)(*(uint *)(param_1 + 0x5c) >> 1); uVar16 != 0; uVar16 = uVar16 - 1) {
-    bVar1 = *pbVar13;
-    pbVar13 = pbVar13 + 1;
-    bVar2 = *pbVar12;
-    pbVar12 = pbVar12 + 1;
-    bVar3 = *pbVar14;
-    iVar9 = *(int *)((uint)bVar1 * 4 + iVar5);
-    iVar10 = *(int *)((uint)bVar2 * 4 + iVar6);
-    iVar11 = *(int *)((uint)bVar2 * 4 + iVar4) + *(int *)((uint)bVar1 * 4 + iVar7) >> 0x10;
-    *puVar15 = *(undefined1 *)((uint)bVar3 + iVar9 + iVar8);
-    puVar15[1] = *(undefined1 *)((uint)bVar3 + iVar11 + iVar8);
-    puVar15[2] = *(undefined1 *)((uint)bVar3 + iVar10 + iVar8);
-    bVar1 = pbVar14[1];
-    puVar15[3] = *(undefined1 *)((uint)bVar1 + iVar9 + iVar8);
-    pbVar14 = pbVar14 + 2;
-    puVar15[4] = *(undefined1 *)((uint)bVar1 + iVar11 + iVar8);
-    puVar15[5] = *(undefined1 *)((uint)bVar1 + iVar10 + iVar8);
-    puVar15 = puVar15 + 6;
-  }
-  if ((*(uint *)(param_1 + 0x5c) & 1) != 0) {
-    bVar1 = *pbVar14;
-    iVar4 = *(int *)((uint)*pbVar12 * 4 + iVar4);
-    iVar7 = *(int *)((uint)*pbVar13 * 4 + iVar7);
-    iVar6 = *(int *)((uint)*pbVar12 * 4 + iVar6);
-    *puVar15 = *(undefined1 *)(*(int *)((uint)*pbVar13 * 4 + iVar5) + (uint)bVar1 + iVar8);
-    puVar15[1] = *(undefined1 *)((uint)bVar1 + (iVar4 + iVar7 >> 0x10) + iVar8);
-    puVar15[2] = *(undefined1 *)((uint)bVar1 + iVar6 + iVar8);
-  }
-  return;
-}
+  my_upsampler_func_827CB210 *upsample = cinfo->upsample;
+  int y, cred, cgreen, cblue;
+  int cb, cr;
+  JSAMPROW outptr;
+  JSAMPROW inptr0, inptr1, inptr2;
+  JDIMENSION col;
+  JSAMPLE *range_limit = cinfo->sample_range_limit;
+  int *Crrtab = upsample->Cr_r_tab;
+  int *Cbbtab = upsample->Cb_b_tab;
+  int *Crgtab = upsample->Cr_g_tab;
+  int *Cbgtab = upsample->Cb_g_tab;
 
+  inptr0 = input_buf[0][in_row_group_ctr];
+  inptr1 = input_buf[1][in_row_group_ctr];
+  inptr2 = input_buf[2][in_row_group_ctr];
+  outptr = output_buf[0];
+  for (col = cinfo->output_width >> 1; col > 0; col--) {
+    cb = *inptr1++;
+    cr = *inptr2++;
+    cred = Crrtab[cr];
+    cgreen = (Cbgtab[cb] + Crgtab[cr]) >> 16;
+    cblue = Cbbtab[cb];
+    y = *inptr0++;
+    outptr[0] = range_limit[y + cred];
+    outptr[1] = range_limit[y + cgreen];
+    outptr[2] = range_limit[y + cblue];
+    outptr += 3;
+    y = *inptr0++;
+    outptr[0] = range_limit[y + cred];
+    outptr[1] = range_limit[y + cgreen];
+    outptr[2] = range_limit[y + cblue];
+    outptr += 3;
+  }
+  if (cinfo->output_width & 1) {
+    cb = *inptr1;
+    cr = *inptr2;
+    cred = Crrtab[cr];
+    cgreen = (Cbgtab[cb] + Crgtab[cr]) >> 16;
+    cblue = Cbbtab[cb];
+    y = *inptr0;
+    outptr[0] = range_limit[y + cred];
+    outptr[1] = range_limit[y + cgreen];
+    outptr[2] = range_limit[y + cblue];
+  }
+}

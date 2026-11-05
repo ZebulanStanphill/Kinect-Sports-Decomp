@@ -1,54 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+  unsigned begin;
+  unsigned end;
+  unsigned cur;
+  unsigned pad;
+  unsigned count;
+} Ring_func_824AE100;
 
+typedef struct {
+  int pad0;
+  Ring_func_824AE100 r;
+  int pad1;
+  unsigned char a, b;
+} Queue_func_824AE100;
 
-undefined8 fn_824AE100(int param_1)
+typedef struct {
+  char pad[0x3c];
+  Queue_func_824AE100 *q;
+} Obj_func_824AE100;
 
+int fn_824AE100(Obj_func_824AE100 *o)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x3c);
-  uVar3 = 0;
-  if (*(int *)(iVar1 + 0x14) != 0) {
-    do {
-      uVar3 = uVar3 + 1;
-      iVar2 = *(int *)(iVar1 + 0xc) + 0x40;
-      *(int *)(iVar1 + 0xc) = iVar2;
-      if (iVar2 == *(int *)(iVar1 + 8)) {
-        *(undefined4 *)(iVar1 + 0xc) = *(undefined4 *)(iVar1 + 4);
-      }
-    } while (uVar3 < *(uint *)(iVar1 + 0x14));
+  Queue_func_824AE100 *q = o->q;
+  Ring_func_824AE100 *r = &q->r;
+  unsigned *pc = &r->cur;
+  unsigned i = 0;
+  while (i < r->count) {
+    i++;
+    *pc += 0x40;
+    if (*pc == r->end)
+      *pc = r->begin;
   }
-  *(undefined4 *)(iVar1 + 0x14) = 0;
-  *(undefined1 *)(*(int *)(param_1 + 0x3c) + 0x1c) = 0;
-  *(undefined1 *)(*(int *)(param_1 + 0x3c) + 0x1d) = 1;
+  r->count = 0;
+  o->q->a = 0;
+  o->q->b = 1;
   return 0;
 }
-

@@ -25,27 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_825453C0();
-extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+extern void fn_825453C0(int, int, float *, float *, int);
+extern float lbl_821CA45C[];
+extern float lbl_821CC160;
 
-
-void fn_82545370(undefined8 param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_82545370(int param_1, int param_2, int param_3)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  float a[2];
+  float b[2];
 
-  struct { undefined4 first; undefined4 second; } stack_pair_18;
-
-
-  stack_pair_20.first = lbl_821CC160;
-  stack_pair_20.second = lbl_821CC160;
-  stack_pair_18.first = lbl_821CA460;
-  stack_pair_18.second = lbl_821CA460;
-  fn_825453C0(param_1,param_2,&stack_pair_20.first,&stack_pair_18.first,param_3);
-  return;
+  a[0] = lbl_821CC160;
+  a[1] = lbl_821CC160;
+  b[0] = lbl_821CA45C[1];
+  b[1] = lbl_821CA45C[1];
+  fn_825453C0(param_1, param_2, a, b, param_3);
 }

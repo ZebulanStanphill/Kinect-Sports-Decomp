@@ -1,84 +1,78 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_2c;
-extern int fn_8255EBE0();
-extern int fn_827EFFE8();
-extern int fn_8255EDD0();
-extern int fn_827F0180();
-extern int fn_82A1DD38();
-extern int fn_82F63108();
-extern unsigned int uStack_30;
+struct Obj_func_824C7608;
+typedef struct {
+  int pad0;
+  int (*f4)(struct Obj_func_824C7608 *);
+} VT_func_824C7608;
+typedef struct Obj_func_824C7608 {
+  VT_func_824C7608 *vt;
+} Obj_func_824C7608;
 
+typedef struct {
+  char pad0[0x10];
+  Obj_func_824C7608 *obj;
+} Sub_func_824C7608;
 
-void fn_824C7608(undefined4 *param_1,int param_2)
+typedef struct {
+  unsigned res;
+  int pad0[1];
+  unsigned short sz;
+} Slot_func_824C7608;
 
+typedef struct {
+  unsigned dev;
+  char pad0[0x1a4 - 4];
+  char sub[0x28];
+  Slot_func_824C7608 **table;
+  Sub_func_824C7608 s;
+  int pad1;
+  int f1e8;
+  int f1ec;
+  int f1f0;
+  unsigned f1f4;
+  int f1f8;
+} Self_func_824C7608;
+
+extern void fn_8255EBE0(unsigned, void *);
+extern void fn_827EFFE8(unsigned);
+extern void fn_8255EDD0(unsigned, void *);
+extern void fn_827F0180(unsigned, unsigned, int, int, int);
+extern void fn_82A1DD38(unsigned, unsigned, unsigned);
+extern __declspec(noreturn) void fn_82F63108(void);
+
+void fn_824C7608(Self_func_824C7608 *o, int flag)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  uint *puVar4;
-  uint uStack_30;
-  uint auStack_2c [1];
+  Sub_func_824C7608 *s;
+  int idx;
+  Slot_func_824C7608 *sl;
+  unsigned c, a, v;
+  unsigned *p;
 
-  if (param_1[0x78] == 0) {
-                    /* WARNING: Subroutine does not return */
+  s = &o->s;
+  if (s->obj == 0)
     fn_82F63108();
-  }
-  iVar3 = (**(code **)(*(int *)param_1[0x78] + 4))();
-  puVar2 = *(undefined4 **)((iVar3 + 0x20) * 4 + param_1[0x73]);
-  if ((param_2 == 0) || (param_1[0x7c] == 0)) {
-    if (param_1[0x7a] == 0) {
-      fn_8255EDD0(*param_1);
+  idx = s->obj->vt->f4(s->obj);
+  sl = o->table[idx + 0x20];
+  if (flag == 0 || o->f1f0 == 0) {
+    if (o->f1e8 != 0) {
+      if (o->f1ec != 0)
+        fn_8255EDD0(o->dev, o->sub);
+      else
+        fn_8255EBE0(o->dev, o->sub);
+    } else {
+      fn_827EFFE8(o->dev);
     }
-    else if (param_1[0x7b] == 0) {
-      fn_8255EBE0(*param_1,param_1 + 0x69);
-    }
-    else {
-      fn_827EFFE8();
-    }
-    fn_827F0180(*param_1,*puVar2,1,0,0);
-    param_1[0x7e] = iVar3;
-    param_1[0x7c] = 1;
-    param_1[0x7d] = 0;
-  }
-  else if (param_1[0x7e] != iVar3) {
-    uVar1 = param_1[0x7d];
-    uStack_30 = 3;
-    if (uVar1 < 3) {
-      fn_82A1DD38(*puVar2,**(undefined4 **)((param_1[0x7e] + 0x20) * 4 + param_1[0x73]),
-                        (ulonglong)*(ushort *)(puVar2 + 2) << 6);
-      auStack_2c[0] = uVar1 + 1;
-      puVar4 = &uStack_30;
-      if (auStack_2c[0] < 4) {
-        puVar4 = auStack_2c;
-      }
-      param_1[0x7d] = *puVar4;
+    fn_827F0180(o->dev, sl->res, 1, 0, 0);
+    o->f1f8 = idx;
+    o->f1f0 = 1;
+    o->f1f4 = 0;
+  } else if (o->f1f8 != idx) {
+    v = o->f1f4;
+    a = 3;
+    if (v < 3) {
+      fn_82A1DD38(sl->res, o->table[o->f1f8 + 0x20]->res, (unsigned)sl->sz << 6);
+      c = v + 1;
+      p = (c > 3) ? &a : &c;
+      o->f1f4 = *p;
     }
   }
-  return;
 }

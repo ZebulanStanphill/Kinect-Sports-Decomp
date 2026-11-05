@@ -25,50 +25,59 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82695608();
-extern int fn_82696330();
+extern unsigned char fn_82695608(char *, int);
+extern void fn_82696330(char *);
 
+struct Ctx_82717A90;
+typedef struct Sink_82717A90 {
+  struct SinkVt_82717A90 *vt;
+} Sink_82717A90;
+typedef struct SinkVt_82717A90 {
+  int pad[11];
+  void (*f2c)(Sink_82717A90 *, int, int, char *);
+} SinkVt_82717A90;
+typedef struct Obj_82717A90 {
+  struct ObjVt_82717A90 *vt;
+  int pad4[0x19];
+  Sink_82717A90 sink;
+  Sink_82717A90 *sinkp;
+  int pad70[0x7];
+  struct { unsigned pad : 27; unsigned f : 1; unsigned rest : 4; } flags;
+  int pad90[0xb];
+  int alt;
+} Obj_82717A90;
+typedef struct ObjVt_82717A90 {
+  int pad[22];
+  int (*f58)(Obj_82717A90 *);
+} ObjVt_82717A90;
 
-undefined8 fn_82717A90(int *param_1)
-
+int fn_82717A90(Obj_82717A90 *self)
 {
-  int iVar1;
-  int iVar2;
   int iVar3;
-  char cVar4;
-  undefined8 uVar5;
-  undefined1 auStack_30 [24];
-  
-  iVar3 = (**(code **)(*param_1 + 0x58))();
-  auStack_30[0] = 0;
+  int ok;
+  int sp;
+  char buf[24];
+
+  iVar3 = self->vt->f58(self);
+  buf[0] = 0;
   if (iVar3 != 0) {
-    if (((uint)param_1[0x23] >> 4 & 1) != 0) {
-      if (param_1[0x2f] == 0) {
-        iVar2 = param_1[0x1b];
-        if (iVar2 != 0) {
-          iVar1 = *(int *)(iVar2 + 0x10);
-          param_1 = (int *)(iVar2 + 0x10);
-          goto LAB_82717b00;
-        }
+    if ((unsigned char)self->flags.f != 0) {
+      if (self->alt != 0) {
+        self->sink.vt->f2c(&self->sink, iVar3 + 0x78, *(unsigned *)(iVar3 + 0x78) + 0x1e8, buf);
       }
       else {
-        iVar1 = param_1[0x1a];
-        param_1 = param_1 + 0x1a;
-LAB_82717b00:
-        (**(code **)(iVar1 + 0x2c))
-                  (param_1,iVar3 + 0x78,(ulonglong)*(uint *)(iVar3 + 0x78) + 0x1e8,auStack_30);
+        sp = (int)self->sinkp;
+        if (sp != 0) {
+          Sink_82717A90 *s = (Sink_82717A90 *)(sp + 0x10);
+          s->vt->f2c(s, iVar3 + 0x78, *(unsigned *)(iVar3 + 0x78) + 0x1e8, buf);
+        }
       }
-      cVar4 = fn_82695608(auStack_30,iVar3);
-      if (cVar4 != '\0') {
-        uVar5 = 1;
-        goto LAB_82717b34;
+      if (fn_82695608(buf, iVar3) != 0) {
+        fn_82696330(buf);
+        return 1;
       }
     }
   }
-  uVar5 = 0;
-LAB_82717b34:
-  fn_82696330(auStack_30);
-  return uVar5;
+  fn_82696330(buf);
+  return 0;
 }
-

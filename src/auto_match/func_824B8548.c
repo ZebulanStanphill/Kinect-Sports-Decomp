@@ -1,56 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern unsigned int lbl_83276744;
+extern void *fn_8265C9E0(int);
+extern void RtlInitializeCriticalSection(void *);
+extern void *lbl_83276744;
 
+typedef struct Obj_824B8548 {
+  char pad[0x1c];
+  int f1c, f20, f24, f28, f2c, f30, f34;
+} Obj_824B8548;
 
-void fn_824B8548(void)
-
+void *fn_824B8548(void)
 {
-  int iVar1;
-  
-  if (lbl_83276744 == 0) {
-    iVar1 = fn_8265C9E0(0x38);
-    if (iVar1 == 0) {
-      lbl_83276744 = 0;
-    }
-    else {
-      *(undefined4 *)(iVar1 + 0x1c) = 0;
-      *(undefined4 *)(iVar1 + 0x20) = 0;
-      *(undefined4 *)(iVar1 + 0x24) = 4;
-      *(undefined4 *)(iVar1 + 0x28) = 0;
-      *(undefined4 *)(iVar1 + 0x2c) = 0;
-      *(undefined4 *)(iVar1 + 0x30) = 0;
-      *(undefined4 *)(iVar1 + 0x34) = 1;
-      RtlInitializeCriticalSection(iVar1);
-      lbl_83276744 = iVar1;
-    }
-  }
-  return;
-}
+  Obj_824B8548 *p;
+  void *r;
 
+  if (lbl_83276744 == 0) {
+    p = fn_8265C9E0(0x38);
+    if (p != 0) {
+      p->f1c = 0;
+      p->f20 = 0;
+      p->f24 = 4;
+      p->f28 = 0;
+      p->f2c = 0;
+      p->f30 = 0;
+      p->f34 = 1;
+      RtlInitializeCriticalSection(p);
+      r = p;
+    } else {
+      r = 0;
+    }
+    lbl_83276744 = r;
+    return r;
+  }
+  return lbl_83276744;
+}

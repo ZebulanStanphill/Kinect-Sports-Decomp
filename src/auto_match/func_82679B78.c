@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8263CBB0();
-extern int fn_826793F0();
+typedef struct O_82679B78 {
+  char pad0[0xc]; int mc; char pad10[8]; int m18; char padlc[0xb8]; unsigned md4; void *md8;
+} O_82679B78;
+extern void fn_8263CBB0(void *, int, int, unsigned __int64);
+extern void fn_82639208(void *, unsigned);
+extern void fn_826793F0(O_82679B78 *);
 
-
-void fn_82679B78(int param_1)
-
+void fn_82679B78(O_82679B78 *s)
 {
-  if (*(int *)(param_1 + 0xd8) != 0) {
-    if (*(int *)(param_1 + 0x18) != 0) {
-      *(undefined4 *)(param_1 + 0xc) = 0;
-      *(undefined4 *)(param_1 + 0x18) = 0;
+  if (s->md8 != 0) {
+    if (s->m18 != 0) {
+      s->mc = 0;
+      s->m18 = 0;
     }
-                    /* WARNING: Subroutine does not return */
-    fn_8263CBB0(*(int *)(param_1 + 0xd8),0,0,0x80000000);
+    fn_8263CBB0(s->md8, 0, 0, 0x80000000);
+    fn_82639208(s->md8, s->md4);
   }
-  fn_826793F0(param_1);
-  return;
+  fn_826793F0(s);
 }
-
