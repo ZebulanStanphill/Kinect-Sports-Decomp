@@ -26,40 +26,27 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *__imp__XexExecutableModuleHandle;
-extern unsigned int *auStack_210;
+typedef struct { char pad[0x2c]; unsigned short count; short pad2; short *names; } XexMod_82A20E30;
+extern XexMod_82A20E30 **__imp_XexExecutableModuleHandle;
 extern int fn_82A20D78();
 
-
-bool fn_82A20E30(undefined8 param_1)
-
+int fn_82A20E30(int param_1)
 {
-  uint uVar1;
-  int iVar3;
-  longlong lVar2;
-  uint uVar4;
-  uint uVar5;
-  bool bVar6;
-  undefined1 auStack_210 [512];
-  
-  iVar3 = fn_82A20D78(0xffffffff82089270,0xc,param_1);
-  if (iVar3 == 0) {
-    iVar3 = *__imp__XexExecutableModuleHandle;
-    uVar4 = 0;
-    if (*(short *)(iVar3 + 0x2c) != 0) {
-      uVar5 = 0;
-      do {
-        uVar1 = uVar5 + 1 & 0xffff;
-        auStack_210[uVar5] = (char)*(undefined2 *)(uVar5 * 2 + *(int *)(iVar3 + 0x30));
-        uVar4 = (uint)*(ushort *)(iVar3 + 0x2c);
-        uVar5 = uVar1;
-      } while (uVar1 < uVar4);
-    }
-    lVar2 = fn_82A20D78(auStack_210,uVar4,param_1);
-    bVar6 = lVar2 != 0;
+  char buf[512];
+  XexMod_82A20E30 *h;
+  unsigned n;
+  unsigned i, nx;
+  if (fn_82A20D78("default.xex", 0xc, param_1) != 0) return 1;
+  h = *__imp_XexExecutableModuleHandle;
+  n = h->count;
+  if (n != 0) {
+    i = 0;
+    do {
+      nx = (i + 1) & 0xffff;
+      buf[i] = (char)h->names[i];
+      n = h->count;
+      i = nx;
+    } while (nx < n);
   }
-  else {
-    bVar6 = true;
-  }
-  return bVar6;
+  return fn_82A20D78(buf, n, param_1) != 0;
 }
-

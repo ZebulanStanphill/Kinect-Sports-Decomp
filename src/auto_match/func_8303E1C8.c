@@ -32,21 +32,15 @@ extern unsigned int lbl_8217D6E4;
 extern unsigned int lbl_831BC768;
 
 
-undefined4 * fn_8303E1C8(undefined8 param_1,undefined8 param_2)
-
+unsigned int *fn_8303E1C8(void *param_1, void *param_2)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x30);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
+  unsigned int *p = (unsigned int *)fn_82FA5060(lbl_831BC768, 0x30);
+  if (p != 0) {
+    fn_8303EC68(p, param_1, param_2);
+    *(unsigned char *)(p + 0xb) = 1;
+    *p = (unsigned int)&lbl_8217D6E4;
+    fn_8302BB20(p);
+    return p;
   }
-  else {
-    fn_8303EC68(puVar1,param_1,param_2);
-    *(undefined1 *)(puVar1 + 0xb) = 1;
-    *puVar1 = &lbl_8217D6E4;
-    fn_8302BB20(puVar1);
-  }
-  return puVar1;
+  return 0;
 }
-

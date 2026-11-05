@@ -1,61 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Unk Unk;
+typedef struct UnkVt {
+  int (*Query)(Unk *, const void *, Unk **);
+  void *pad;
+  void (*Release)(Unk *);
+  void *pad2[5];
+  int (*f20)(Unk *, const void *);
+} UnkVt;
+struct Unk { UnkVt *vt; };
+typedef struct Obj_82E43898 {
+  char pad[0x18];
+  Unk *u18;
+  Unk *u1c;
+  char pad2[0x5c];
+  Unk *u7c;
+  Unk *u80;
+} Obj;
+extern char lbl_82154C18[];
+extern char lbl_8202E618[];
 
-
-longlong fn_82E43898(int param_1)
-
+int fn_82E43898(Obj *o)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  int *apiStack_20 [2];
-  
-  lVar2 = 0;
-  apiStack_20[0] = (int *)0x0;
-  if (*(int **)(param_1 + 0x80) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x80) + 8))();
-    *(undefined4 *)(param_1 + 0x80) = 0;
+  int hr = 0;
+  Unk *q = 0;
+  if (o->u80 != 0) {
+    o->u80->vt->Release(o->u80);
+    o->u80 = 0;
   }
-  if (*(int **)(param_1 + 0x1c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x1c) + 8))();
-    *(undefined4 *)(param_1 + 0x1c) = 0;
+  if (o->u1c != 0) {
+    o->u1c->vt->Release(o->u1c);
+    o->u1c = 0;
   }
-  if (*(int **)(param_1 + 0x7c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x7c) + 8))();
-    *(undefined4 *)(param_1 + 0x7c) = 0;
+  if (o->u7c != 0) {
+    o->u7c->vt->Release(o->u7c);
+    o->u7c = 0;
   }
-  puVar1 = *(undefined4 **)(param_1 + 0x18);
-  if ((puVar1 != (undefined4 *)0x0) &&
-     (lVar2 = (**(code **)*puVar1)(puVar1,0xffffffff82154c18,apiStack_20), -1 < lVar2)) {
-    lVar2 = (**(code **)(*apiStack_20[0] + 0x20))(apiStack_20[0],0xffffffff8202e618);
+  if (o->u18 != 0) {
+    hr = o->u18->vt->Query(o->u18, lbl_82154C18, &q);
+    if (hr >= 0)
+      hr = q->vt->f20(q, lbl_8202E618);
   }
-  if (apiStack_20[0] != (int *)0x0) {
-    (**(code **)(*apiStack_20[0] + 8))();
-  }
-  return lVar2;
+  if (q != 0)
+    q->vt->Release(q);
+  return hr;
 }
-

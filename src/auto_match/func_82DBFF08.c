@@ -26,38 +26,29 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_830AA0D0();
-extern unsigned int lbl_821AAD20;
+typedef struct {
+  int f0; int f4; int f8; int fc; char pad10[0x10];
+  int f20; int f24; unsigned f28; unsigned f2c; int f30; int f34; unsigned f38; unsigned f3c;
+  int f40; char pad44[4]; float *f48; float *f4c;
+} Obj_82DBFF08;
 
-
-void fn_82DBFF08(int param_1,int param_2)
-
+void fn_82DBFF08(Obj_82DBFF08 *p, int param_2)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
+  float *q;
   if (param_2 == 0) {
-    *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(param_1 + 0x20);
-    *(undefined4 *)(param_1 + 0x3c) = *(undefined4 *)(param_1 + 0x30);
+    p->f2c = p->f20;
+    p->f3c = p->f30;
   }
-  uVar1 = lbl_821AAD20;
-  puVar2 = *(undefined4 **)(param_1 + 0x4c);
-  if (puVar2 < *(undefined4 **)(param_1 + 0x48)) {
-    do {
-      *puVar2 = uVar1;
-      puVar2 = puVar2 + 1;
-    } while (puVar2 < *(undefined4 **)(param_1 + 0x48));
+  for (q = p->f4c; q < p->f48; q++) {
+    *q = 0.0f;
   }
-  *(undefined4 *)(param_1 + 0x4c) = *(undefined4 *)(param_1 + 0x48);
-  if (*(int *)(param_1 + 0x2c) != *(int *)(param_1 + 0x28)) {
-    fn_830AA0D0(*(undefined4 *)(param_1 + 4),*(int *)(param_1 + 0x2c),
-                      *(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x40));
+  p->f4c = p->f48;
+  if (p->f2c != p->f28) {
+    fn_830AA0D0(p->f4, p->f2c, p->fc, p->f40);
   }
-  if (*(int *)(param_1 + 0x3c) != *(int *)(param_1 + 0x38)) {
-    fn_830AA0D0(*(undefined4 *)(param_1 + 4),*(int *)(param_1 + 0x3c),
-                      *(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x40));
+  if (p->f3c != p->f38) {
+    fn_830AA0D0(p->f4, p->f3c, p->fc, p->f40);
   }
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(param_1 + 0x28);
-  *(undefined4 *)(param_1 + 0x3c) = *(undefined4 *)(param_1 + 0x38);
-  return;
+  p->f2c = p->f28;
+  p->f3c = p->f38;
 }
-

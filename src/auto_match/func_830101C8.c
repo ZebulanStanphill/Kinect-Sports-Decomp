@@ -1,72 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_88;
-extern int fn_82FF5198();
-extern int fn_83013400();
-extern int fn_83032FE8();
-extern unsigned int lbl_83264304;
+struct Res_830101C8;
+typedef struct ResVt_830101C8 { int pad[10]; void (*f28)(struct Res_830101C8 *, void *); } ResVt_830101C8;
+typedef struct Res_830101C8 { ResVt_830101C8 *vt; char pad[0x10]; unsigned typ; } Res_830101C8;
+typedef struct Ent_830101C8 { int p0, p4; Res_830101C8 *res; char pad[0x1c]; int key; } Ent_830101C8;
+typedef struct Iter_830101C8 { Ent_830101C8 **node; int pad; } Iter_830101C8;
+typedef struct Node_830101C8 { int p0, p4; Ent_830101C8 *ent; } Node_830101C8;
+typedef struct It2_830101C8 { Node_830101C8 *n; int z; } It2_830101C8;
+typedef struct Obj_830101C8 { char pad[0x50]; Node_830101C8 *head; char pad2[0xc]; unsigned count; } Obj_830101C8;
+extern void fn_82FF5198(unsigned, int);
+extern It2_830101C8 *fn_83013400(void *, Obj_830101C8 *, Ent_830101C8 *, void *, It2_830101C8);
+extern void fn_83032FE8(void *);
+extern unsigned lbl_83264304;
 
-
-void fn_830101C8(int param_1)
-
+void fn_830101C8(Obj_830101C8 *o)
 {
-  int iVar1;
-  uint uVar2;
-  longlong *plVar3;
-  longlong lVar4;
-  longlong lStack_90;
-  undefined1 auStack_88 [8];
-  undefined4 auStack_80 [16];
-  
-  if (*(int *)(param_1 + 0x60) != 0) {
-    lStack_90 = (ulonglong)*(uint *)(param_1 + 0x50) << 0x20;
-    uVar2 = *(uint *)(param_1 + 0x50);
-    lVar4 = lStack_90;
-    while (uVar2 != 0) {
-      iVar1 = *(int *)(uVar2 + 8);
-      auStack_80[0] = 0;
-      uVar2 = *(uint *)(*(int *)(iVar1 + 8) + 0x14) >> 8;
-      if (uVar2 == 0x4011) {
-LAB_83010230:
-        (**(code **)(**(int **)(iVar1 + 8) + 0x28))(*(int **)(iVar1 + 8),auStack_80);
+  if (o->count > 0) {
+    It2_830101C8 it;
+    it.n = o->head;
+    it.z = 0;
+    while (it.n != 0) {
+      Ent_830101C8 *e = it.n->ent;
+      int tmp[16];
+      int t;
+      char ret[8];
+      tmp[0] = 0;
+      t = e->res->typ >> 8;
+      if (t == 0x4011 || t == 0x5011) {
+        if (t != 0x4011)
+          fn_83032FE8(e->res);
+        e->res->vt->f28(e->res, tmp);
       }
-      else if (uVar2 == 0x5011) {
-        fn_83032FE8();
-        goto LAB_83010230;
-      }
-      fn_82FF5198(lbl_83264304,*(undefined4 *)(iVar1 + 0x28));
-      plVar3 = (longlong *)fn_83013400(auStack_88,param_1,iVar1,param_1 + 0x50,lVar4);
-      lVar4 = *plVar3;
-      lStack_90 = ((((U64)(lStack_90)) & (~(((U64)0xFFFFFFFF) << 0))) | ((((U64)((uint)((ulonglong)lVar4 >> 0x20))) & ((U64)0xFFFFFFFF)) << 0));
-      uVar2 = (((U64)(lStack_90) >> 0) & 0xFFFFFFFF);
+      fn_82FF5198(lbl_83264304, e->key);
+      it = *fn_83013400(ret, o, e, &o->head, it);
     }
   }
-  return;
 }
-

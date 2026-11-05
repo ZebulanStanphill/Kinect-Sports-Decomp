@@ -25,30 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEAC20();
+extern __int64 fn_82CEAC20();
 extern int fn_82CFBBF0();
 
 
+extern char lbl_8323AE68[];
+extern char lbl_8323AEC8[];
 undefined8 fn_82E12ED8(int *param_1,undefined8 param_2)
 
 {
   undefined8 uVar1;
   undefined8 uVar2;
   int iVar3;
+  unsigned r;
   
-  uVar1 = fn_82CEAC20(0xffffffff8323ae68);
+  uVar1 = fn_82CEAC20(lbl_8323AE68);
   uVar2 = fn_82CEAC20(param_2);
   iVar3 = fn_82CFBBF0(uVar2,uVar1);
   if (iVar3 != 0) {
-    uVar1 = fn_82CEAC20(0xffffffff8323aec8);
+    uVar1 = fn_82CEAC20(lbl_8323AEC8);
     uVar2 = fn_82CEAC20(param_2);
     iVar3 = fn_82CFBBF0(uVar2,uVar1);
     if (iVar3 != 0) {
       iVar3 = *param_1;
       uVar1 = fn_82CEAC20(param_2);
-      iVar3 = (**(code **)(iVar3 + 0x10))(param_1,uVar1);
-      if (iVar3 == 0) {
-        (**(code **)(*param_1 + 0x1c))(param_1,param_2,0);
+      r = ((unsigned (*)(int *, __int64))*(int *)(iVar3 + 0x10))(param_1,uVar1);
+      if (r == 0) {
+        (*(void (*)(int *, __int64, int))*(int *)(*param_1 + 0x1c))(param_1,param_2,0);
       }
     }
   }

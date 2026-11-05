@@ -1,61 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD6300();
+typedef struct Vt_82BD6AD0 { int f0, f4; int (*f8)(struct Obj_82BD6AD0 *); } Vt_82BD6AD0;
+typedef struct Obj_82BD6AD0 { Vt_82BD6AD0 *vt; } Obj_82BD6AD0;
+typedef struct Hdr_82BD6AD0 { int pad[9]; int slot[1]; } Hdr_82BD6AD0;
+extern Obj_82BD6AD0 *fn_82BD6300(void *, int);
 
-
-longlong fn_82BD6AD0(int param_1,undefined4 *param_2,uint param_3)
-
+int fn_82BD6AD0(Hdr_82BD6AD0 *base, int *src, unsigned n)
 {
-  int *piVar1;
-  longlong lVar2;
-  uint uVar3;
-  undefined4 *puVar4;
-  
-  uVar3 = 0;
-  lVar2 = -0x7ff8ffa9;
-  if (param_3 != 0) {
-    puVar4 = (undefined4 *)(param_1 + 0x24);
+  unsigned i = 0;
+  int hr = 0x80070057;
+  if (n != 0) {
     do {
-      piVar1 = (int *)fn_82BD6300(param_1,*param_2);
-      if (piVar1 == (int *)0x0) {
-        return lVar2;
+      Obj_82BD6AD0 *o = fn_82BD6300(base, src[i]);
+      if (o == 0)
+        break;
+      hr = o->vt->f8(o);
+      base->slot[i] = 1;
+      if (hr < 0) {
+        base->pad[i + 9] = 0;
+        break;
       }
-      lVar2 = (**(code **)(*piVar1 + 8))();
-      *puVar4 = 1;
-      if (lVar2 < 0) {
-        *(undefined4 *)((uVar3 + 9) * 4 + param_1) = 0;
-        return lVar2;
-      }
-      uVar3 = uVar3 + 1;
-      param_2 = param_2 + 1;
-      puVar4 = puVar4 + 1;
-    } while (uVar3 < param_3);
+      i++;
+    } while (i < n);
   }
-  return lVar2;
+  return hr;
 }
-

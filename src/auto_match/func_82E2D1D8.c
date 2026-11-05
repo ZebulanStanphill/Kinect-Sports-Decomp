@@ -25,25 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E2D068();
+struct Com_82E2D1D8;
+typedef struct {
+  int (*f0)(struct Com_82E2D1D8 *, char *, void *);
+  void *f4;
+  int (*f8)(struct Com_82E2D1D8 *);
+  char pad[0x60 - 0xc];
+  int (*f60)(struct Com_82E2D1D8 *, char *, char *);
+} ComVT_82E2D1D8;
+typedef struct Com_82E2D1D8 { ComVT_82E2D1D8 *vt; } Com_82E2D1D8;
+extern int fn_82E2D068(Com_82E2D1D8 **);
+extern char lbl_82153478[];
+extern char lbl_821537B8[];
+extern char lbl_821531D8[];
 
-
-longlong fn_82E2D1D8(undefined8 param_1)
-
+int fn_82E2D1D8(void *param_1)
 {
-  longlong lVar1;
-  int *apiStack_20 [2];
-  
-  apiStack_20[0] = (int *)0x0;
-  lVar1 = fn_82E2D068(apiStack_20);
-  if ((-1 < lVar1) &&
-     (lVar1 = (**(code **)(*apiStack_20[0] + 0x60))
-                        (apiStack_20[0],0xffffffff82153478,0xffffffff821537b8), -1 < lVar1)) {
-    lVar1 = (**(code **)*apiStack_20[0])(apiStack_20[0],0xffffffff821531d8,param_1);
+  Com_82E2D1D8 *c = 0;
+  int hr;
+  hr = fn_82E2D068(&c);
+  if (hr >= 0) {
+    hr = c->vt->f60(c, lbl_82153478, lbl_821537B8);
+    if (hr >= 0) {
+      hr = c->vt->f0(c, lbl_821531D8, param_1);
+    }
   }
-  if (apiStack_20[0] != (int *)0x0) {
-    (**(code **)(*apiStack_20[0] + 8))();
+  if (c != 0) {
+    c->vt->f8(c);
   }
-  return lVar1;
+  return hr;
 }
-

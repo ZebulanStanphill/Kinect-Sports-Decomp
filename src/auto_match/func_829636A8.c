@@ -25,129 +25,46 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_829636A8(uint *param_1)
-
+unsigned int fn_829636A8(unsigned int *p)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = *param_1 & 0xfff00000;
-  if (uVar1 < 0x73800001) {
-    if (uVar1 == 0x73800000) {
-      return 1;
-    }
-    if (uVar1 < 0x20900001) {
-      if (uVar1 == 0x20900000) {
-        return 1;
-      }
-      if (uVar1 < 0x11400001) {
-        if (uVar1 == 0x11400000) {
-          return 1;
-        }
-        if (uVar1 == 0x10f00000) {
-          return 1;
-        }
-        if (uVar1 == 0x11100000) {
-          return 1;
-        }
-        if (uVar1 == 0x11200000) {
-          return 1;
-        }
-        uVar2 = 0x11300000;
-      }
-      else {
-        if (uVar1 == 0x11500000) {
-          return 1;
-        }
-        if (uVar1 == 0x20700000) {
-          return 1;
-        }
-        uVar2 = 0x20800000;
-      }
-    }
-    else if (uVar1 < 0x73400001) {
-      if (uVar1 == 0x73400000) {
-        return 1;
-      }
-      if (uVar1 == 0x73000000) {
-        return 1;
-      }
-      if (uVar1 == 0x73100000) {
-        return 1;
-      }
-      if (uVar1 == 0x73200000) {
-        return 1;
-      }
-      uVar2 = 0x73300000;
-    }
-    else {
-      if (uVar1 == 0x73500000) {
-        return 1;
-      }
-      if (uVar1 == 0x73600000) {
-        return 1;
-      }
-      uVar2 = 0x73700000;
-    }
-  }
-  else if (uVar1 < 0x74100001) {
-    if (uVar1 == 0x74100000) {
-      return 1;
-    }
-    if (uVar1 < 0x73d00001) {
-      if (uVar1 == 0x73d00000) {
-        return 1;
-      }
-      if (uVar1 == 0x73900000) {
-        return 1;
-      }
-      if (uVar1 == 0x73a00000) {
-        return 1;
-      }
-      if (uVar1 == 0x73b00000) {
-        return 1;
-      }
-      uVar2 = 0x73c00000;
-    }
-    else {
-      if (uVar1 == 0x73e00000) {
-        return 1;
-      }
-      if (uVar1 == 0x73f00000) {
-        return 1;
-      }
-      uVar2 = 0x74000000;
-    }
-  }
-  else if (uVar1 < 0x74600001) {
-    if (uVar1 == 0x74600000) {
-      return 1;
-    }
-    if (uVar1 == 0x74200000) {
-      return 1;
-    }
-    if (uVar1 == 0x74300000) {
-      return 1;
-    }
-    if (uVar1 == 0x74400000) {
-      return 1;
-    }
-    uVar2 = 0x74500000;
-  }
-  else {
-    if (uVar1 == 0x74700000) {
-      return 1;
-    }
-    if (uVar1 == 0x74a00000) {
-      return 1;
-    }
-    uVar2 = 0x74b00000;
-  }
-  if (uVar1 == uVar2) {
+  switch (*p & 0xfff00000) {
+  case 0x73800000:
+  case 0x20900000:
+  case 0x11400000:
+  case 0x10f00000:
+  case 0x11100000:
+  case 0x11200000:
+  case 0x11300000:
+  case 0x11500000:
+  case 0x20700000:
+  case 0x20800000:
+  case 0x73400000:
+  case 0x73000000:
+  case 0x73100000:
+  case 0x73200000:
+  case 0x73300000:
+  case 0x73500000:
+  case 0x73600000:
+  case 0x73700000:
+  case 0x74100000:
+  case 0x73d00000:
+  case 0x73900000:
+  case 0x73a00000:
+  case 0x73b00000:
+  case 0x73c00000:
+  case 0x73e00000:
+  case 0x73f00000:
+  case 0x74000000:
+  case 0x74600000:
+  case 0x74200000:
+  case 0x74300000:
+  case 0x74400000:
+  case 0x74500000:
+  case 0x74700000:
+  case 0x74a00000:
+  case 0x74b00000:
     return 1;
+  default:
+    return 0;
   }
-  return 0;
 }
-

@@ -25,37 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int memcpy();
+struct I_82E46EF8;
+typedef struct IV_82E46EF8 { void *s0; void *s4; void (*f8)(struct I_82E46EF8 *); void *sc; void *s10; int (*f14)(struct I_82E46EF8 *, int *); } IV_82E46EF8;
+typedef struct I_82E46EF8 { IV_82E46EF8 *vt; } I_82E46EF8;
+typedef struct O_82E46EF8 { char pad[0x64]; unsigned n; char p68[0xc]; I_82E46EF8 **items; } O_82E46EF8;
+extern void *memcpy(void *, const void *, unsigned);
 
-
-longlong fn_82E46EF8(int param_1,uint param_2)
-
+int fn_82E46EF8(O_82E46EF8 *o, unsigned idx)
 {
-  int *piVar1;
-  int iVar2;
-  longlong lVar3;
-  undefined4 auStack_40;
-  
-  auStack_40 = 0;
-  if (param_2 < *(uint *)(param_1 + 100)) {
-    piVar1 = *(int **)(param_2 * 4 + *(int *)(param_1 + 0x74));
-    if (piVar1 == (int *)0x0) {
-      lVar3 = -0x7fff0001;
-    }
-    else {
-      lVar3 = (**(code **)(*piVar1 + 0x14))(piVar1,&auStack_40);
-      if (-1 < lVar3) {
-        iVar2 = param_2 * 4 + *(int *)(param_1 + 0x74);
-        memcpy(iVar2,iVar2 + 4,(*(int *)(param_1 + 100) - param_2) - 1 & 0x3fffffff);
-        *(int *)(param_1 + 100) = *(int *)(param_1 + 100) + -1;
-        (**(code **)(*piVar1 + 8))(piVar1);
+  int hr;
+  int v;
+  I_82E46EF8 *p;
+  I_82E46EF8 **e;
+
+  v = 0;
+  if (idx >= o->n) {
+    hr = 0x80070057;
+  } else {
+    p = o->items[idx];
+    if (p == 0) {
+      hr = 0x8000ffff;
+    } else {
+      hr = p->vt->f14(p, &v);
+      if (hr >= 0) {
+        e = o->items + idx;
+        memcpy(e, e + 1, (o->n - idx - 1) * 4);
+        o->n = o->n - 1;
+        p->vt->f8(p);
       }
     }
   }
-  else {
-    lVar3 = -0x7ff8ffa9;
-  }
-  return lVar3;
+  return hr;
 }
-

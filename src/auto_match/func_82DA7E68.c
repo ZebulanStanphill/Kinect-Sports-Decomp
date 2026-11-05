@@ -28,31 +28,28 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F68B6C();
 
 
-void fn_82DA7E68(uint *param_1)
+extern int fn_83089FA0();
+extern int fn_82DA7D50();
 
+void fn_82DA7E68(unsigned *param_1)
 {
-  int iVar1;
-  longlong lVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)*param_1;
-  if (piVar3 < piVar3 + param_1[1] * 2) {
-    lVar2 = (ulonglong)((uint)((int)(piVar3 + param_1[1] * 2) + (-1 - (int)piVar3)) >> 3) + 1;
-    do {
-      iVar1 = *piVar3;
-      if (*(int *)((int)*(char *)(piVar3[1] + 5) + piVar3[1] + 0x14) <
-          *(int *)(*(char *)(iVar1 + 5) + iVar1 + 0x14)) {
-        *piVar3 = piVar3[1];
-        piVar3[1] = iVar1;
-      }
-      piVar3 = piVar3 + 2;
-      lVar2 = lVar2 + -1;
-    } while (lVar2 != 0);
+  int *p;
+  int *e;
+  int t;
+
+  p = (int *)param_1[0];
+  e = p + param_1[1] * 2;
+  for (; p < e; p += 2) {
+    t = p[0];
+    if (*(int *)((int)*(char *)(t + 5) + t + 0x14) >
+        *(int *)((int)*(char *)(p[1] + 5) + p[1] + 0x14)) {
+      int *q = p + 1;
+      *p = *q;
+      *q = t;
+    }
   }
-  if ((int)param_1[1] < 2) {
+  if ((int)param_1[1] <= 1) {
     return;
   }
-  fn_82F68B6C(*param_1,0,(ulonglong)param_1[1] - 1,0xffffffff82da7d50);
-  return;
+  fn_83089FA0(param_1[0], 0, param_1[1] - 1, fn_82DA7D50);
 }
-

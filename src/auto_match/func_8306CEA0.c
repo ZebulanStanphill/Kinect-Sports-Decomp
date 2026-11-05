@@ -25,39 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8306CD18();
-extern unsigned int lbl_8322344C;
+extern unsigned char lbl_8322344C;
+extern int fn_8306CD18(unsigned int, unsigned int, unsigned int *);
 
-
-undefined8 fn_8306CEA0(ulonglong param_1,ulonglong param_2,int *param_3)
-
+int fn_8306CEA0(unsigned int a, unsigned int b, unsigned int *out)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  int iVar3;
-  int iVar4;
-  int aiStack_20 [4];
-  
-  iVar3 = 0;
-  aiStack_20[0] = 0;
-  if (lbl_8322344C == '\0') {
-    uVar2 = 0xffffffff8000ffff;
-  }
-  else if (((param_3 == (int *)0x0) || ((param_1 & 0xffffffff) == 0)) ||
-          ((uVar1 = param_2 & 0xff, uVar1 != 1 && ((uVar1 != 2 && (uVar1 != 0)))))) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    uVar2 = fn_8306CD18(param_1,param_2,aiStack_20);
-    iVar3 = aiStack_20[0];
-  }
-  if (param_3 != (int *)0x0) {
-    iVar4 = iVar3 + 8;
-    if (iVar3 == 0) {
-      iVar4 = 0;
-    }
-    *param_3 = iVar4;
-  }
-  return uVar2;
-}
+  int r;
+  unsigned int tmp = 0;
 
+  if (lbl_8322344C == 0) {
+    r = 0x8000ffff;
+  } else if (out == 0 || a == 0 || ((unsigned char)b != 1 && (unsigned char)b != 2 && (unsigned char)b != 0)) {
+    r = 0x80070057;
+  } else {
+    r = fn_8306CD18(a, b, &tmp);
+  }
+  if (out != 0) {
+    *out = tmp != 0 ? tmp + 8 : 0;
+  }
+  return r;
+}

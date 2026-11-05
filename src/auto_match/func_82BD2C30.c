@@ -1,107 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_820E7F9E;
-extern unsigned int lbl_820E83A8;
-extern unsigned int lbl_8316FF50;
+typedef struct Obj Obj;
+typedef struct Vt {
+  void *pad0;
+  int (*f4)(Obj *);
+  void *pad1[4];
+  unsigned char (*f18)(Obj *);
+  void *pad2[0xc];
+  unsigned char (*f4c)(Obj *);
+} Vt;
+typedef struct Pl { char pad[0x50]; int idx; } Pl;
+struct Obj {
+  Vt *vt;
+  char pad[0x14];
+  int x18;
+  char pad2[0x82];
+  unsigned char fl[4];
+  char pad3[0x46];
+  Pl *pl[4];
+};
+typedef struct Row { char p[6]; unsigned char b; char q[5]; } Row;
+typedef struct Mode { unsigned hi : 30; unsigned f : 1; unsigned lo : 1; unsigned w[12]; } Mode;
+extern Row lbl_820E7F98[];
+extern int lbl_820E83A8[];
+extern Mode lbl_8316FF50[];
 
-
-ulonglong fn_82BD2C30(int *param_1,byte *param_2)
-
+int fn_82BD2C30(Obj *o, unsigned char *out)
 {
-  int iVar1;
-  char cVar2;
-  longlong lVar3;
-  uint uVar4;
-  ulonglong uVar5;
-  
-  uVar5 = 0;
-  lVar3 = 0;
-  uVar4 = 0;
-  iVar1 = (**(code **)(*param_1 + 4))();
-  if (0 < iVar1) {
-    if ((&lbl_820E7F9E)[*(int *)(param_1[0x3b] + 0x50) * 0xc] != 0) {
-      uVar4 = 1;
-      if (*(char *)((int)param_1 + 0x9f) != '\0') {
-        lVar3 = 1;
+  int res = 0;
+  int c25 = 0;
+  int c26 = 0;
+  int n = o->vt->f4(o);
+  unsigned char t;
+  if (n > 0) {
+    t = lbl_820E7F98[o->pl[1]->idx].b;
+    if (t != 0) {
+      c26 = 1;
+      if (o->fl[1] != 0) c25 = 1;
+    }
+    res = lbl_820E83A8[t];
+    if (res == -1) goto done;
+  }
+  if ((unsigned char)lbl_8316FF50[o->x18].f != 0) {
+    n = o->vt->f4(o);
+    if (n > 1 || o->vt->f4c(o) != 0) {
+      int z = (o->vt->f4c(o) == 0) + 1;
+      t = lbl_820E7F98[o->pl[z]->idx].b;
+      if (t != 0) {
+        c26++;
+        if (o->fl[z] != 0) c25++;
       }
+      res = lbl_820E83A8[res * 5 + t];
     }
-    uVar5 = (ulonglong)
-            *(uint *)(&lbl_820E83A8 +
-                     (uint)(byte)(&lbl_820E7F9E)[*(int *)(param_1[0x3b] + 0x50) * 0xc] * 4);
-    if (*(uint *)(&lbl_820E83A8 +
-                 (uint)(byte)(&lbl_820E7F9E)[*(int *)(param_1[0x3b] + 0x50) * 0xc] * 4) ==
-        0xffffffff) goto LAB_82bd2df4;
   }
-  if ((*(uint *)(&lbl_8316FF50 + param_1[6] * 0x34) >> 1 & 1) != 0) {
-    iVar1 = (**(code **)(*param_1 + 4))(param_1);
-    if (iVar1 < 2) {
-      cVar2 = (**(code **)(*param_1 + 0x4c))(param_1);
-      if (cVar2 == '\0') goto LAB_82bd2d7c;
-    }
-    cVar2 = (**(code **)(*param_1 + 0x4c))(param_1);
-    if ((ulonglong)(byte)(&lbl_820E7F9E)[*(int *)(param_1[(cVar2 == '\0') + 0x3b] + 0x50) * 0xc] !=
-        0) {
-      uVar4 = uVar4 + 1;
-      if (*(char *)((int)param_1 + (cVar2 == '\0') + 0x9f) != '\0') {
-        lVar3 = lVar3 + 1;
+  if (res != -1) {
+    if ((unsigned char)lbl_8316FF50[o->x18].f != 0 && o->vt->f4(o) > 2) {
+      t = lbl_820E7F98[o->pl[3]->idx].b;
+      if (t != 0) {
+        c26++;
+        if (o->fl[3] != 0) c25++;
       }
-    }
-    uVar5 = (ulonglong)
-            *(uint *)(&lbl_820E83A8 +
-                     (int)((uVar5 * 5 +
-                            (ulonglong)
-                            (byte)(&lbl_820E7F9E)
-                                  [*(int *)(param_1[(cVar2 == '\0') + 0x3b] + 0x50) * 0xc] &
-                           0xffffffff) << 2));
-  }
-LAB_82bd2d7c:
-  if ((int)uVar5 != -1) {
-    if (((*(uint *)(&lbl_8316FF50 + param_1[6] * 0x34) >> 1 & 1) != 0) &&
-       (iVar1 = (**(code **)(*param_1 + 4))(param_1), 2 < iVar1)) {
-      if ((ulonglong)(byte)(&lbl_820E7F9E)[*(int *)(param_1[0x3d] + 0x50) * 0xc] != 0) {
-        uVar4 = uVar4 + 1;
-        if (*(char *)((int)param_1 + 0xa1) != '\0') {
-          lVar3 = lVar3 + 1;
-        }
-      }
-      uVar5 = (ulonglong)
-              *(uint *)(&lbl_820E83A8 +
-                       (int)((uVar5 * 5 +
-                              (ulonglong)(byte)(&lbl_820E7F9E)[*(int *)(param_1[0x3d] + 0x50) * 0xc]
-                             & 0xffffffff) << 2));
+      res = lbl_820E83A8[res * 5 + t];
     }
   }
-LAB_82bd2df4:
-  *param_2 = (byte)((ulonglong)-lVar3 >> 0x18) >> 7;
-  cVar2 = (**(code **)(*param_1 + 0x18))(param_1);
-  if (((cVar2 != '\0') && (uVar4 != 0)) || ((*param_2 != 0 && ((uint)lVar3 < uVar4)))) {
-    uVar5 = 0xffffffffffffffff;
-  }
-  return uVar5;
+done:
+  *out = c25 > 0;
+  if ((o->vt->f18(o) != 0 && c26 > 0) || (*out != 0 && c25 < c26))
+    res = -1;
+  return res;
 }
-

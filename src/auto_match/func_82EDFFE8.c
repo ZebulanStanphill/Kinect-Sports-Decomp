@@ -25,31 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE08();
-extern int fn_82F68CC0();
+extern void *fn_82E4FE08(unsigned);
+extern void *memcpy(void *, const void *, unsigned);
 
-
-int * fn_82EDFFE8(ulonglong param_1,uint param_2)
-
+int *fn_82EDFFE8(const void *param_1, unsigned param_2)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if (param_2 < 0x80000000) {
-    iVar2 = param_2 * 2;
-    piVar1 = (int *)fn_82E4FE08(iVar2 + 0x15U & 0xfffffff0);
-    if (piVar1 != (int *)0x0) {
-      *piVar1 = iVar2;
-      piVar1 = piVar1 + 1;
-      if ((param_1 & 0xffffffff) != 0) {
-        fn_82F68CC0(piVar1,param_1,iVar2);
-      }
-      *(undefined2 *)(iVar2 + (int)piVar1) = 0;
-    }
-  }
-  else {
-    piVar1 = (int *)0x0;
-  }
-  return piVar1;
-}
+  int *p;
+  int n;
 
+  if (param_2 > 0x7fffffff) {
+    return 0;
+  }
+  n = param_2 * 2;
+  p = (int *)fn_82E4FE08(n + 0x15U & 0xfffffff0);
+  if (p != 0) {
+    *p = n;
+    p = p + 1;
+    if (param_1 != 0) {
+      memcpy(p, param_1, n);
+    }
+    ((short *)p)[param_2] = 0;
+  }
+  return p;
+}

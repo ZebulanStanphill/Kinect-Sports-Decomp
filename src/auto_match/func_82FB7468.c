@@ -1,64 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82FABF68();
-extern int fn_82FAD100();
-extern int fn_82FAD5B0();
-extern int fn_82FB72B0();
-extern int fn_82FB8C80();
+typedef struct VT_82FB7468 { int f0; int (*f4)(void *, void *, int); } VT_82FB7468;
+typedef struct { VT_82FB7468 *vt; int a4; int pad[2]; int a10; } Sub_82FB7468;
+typedef struct { int pad[0x10]; int x40; } Item_82FB7468;
+typedef struct {
+  char pad0[0xc]; unsigned ac;
+  char pad10[0x30]; VT_82FB7468 *vt40; int a44; char pad48[8]; Item_82FB7468 *a50;
+} Obj_82FB7468;
+extern void fn_82FAD100(void *);
+extern int fn_82FABF68(Obj_82FB7468 *, int, int);
+extern int fn_82FB8C80(void *);
+extern Item_82FB7468 *fn_82FB72B0(Obj_82FB7468 *);
+extern int fn_82FAD5B0(void *);
 
-
-undefined8 fn_82FB7468(int param_1,undefined8 param_2,undefined8 param_3,int *param_4)
-
+int fn_82FB7468(Obj_82FB7468 *o, int a, int b, Item_82FB7468 **out)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int *piVar3;
-  undefined4 auStack_40;
-  
-  piVar3 = (int *)(param_1 + 0x40);
-  fn_82FAD100(piVar3);
-  uVar1 = fn_82FABF68(param_1,param_2,param_3);
-  if (((int)uVar1 == 1) && (uVar1 = fn_82FB8C80(param_1 + 0x5c), (int)uVar1 == 1)) {
-    iVar2 = fn_82FB72B0(param_1);
-    *param_4 = iVar2;
-    if ((iVar2 == 0) || (*(int *)(iVar2 + 0x40) == 0)) {
-      uVar1 = 2;
-    }
-    else {
-      auStack_40 = *(undefined4 *)(param_1 + 0x44);
-      *(int *)(param_1 + 0x50) = iVar2;
-      (**(code **)(*piVar3 + 4))(piVar3,&auStack_40,0);
-      if (*(int *)(param_1 + 0xc) == 0) {
-        uVar1 = fn_82FAD5B0(piVar3);
+  int r;
+  void *s = &o->vt40;
+  fn_82FAD100(s);
+  r = fn_82FABF68(o, a, b);
+  if (r == 1) {
+    r = fn_82FB8C80((char *)o + 0x5c);
+    if (r == 1) {
+      Item_82FB7468 *it = fn_82FB72B0(o);
+      int tmp;
+      *out = it;
+      if (it == 0 || it->x40 == 0) {
+        r = 2;
+      } else {
+        tmp = o->a44;
+        o->a50 = it;
+        o->vt40->f4(s, &tmp, 0);
+        if (o->ac == 0) r = fn_82FAD5B0(s);
       }
     }
   }
-  return uVar1;
+  return r;
 }
-

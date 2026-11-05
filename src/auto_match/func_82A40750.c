@@ -1,59 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A42E20();
-extern int fn_82A43088();
+typedef struct Rel Rel;
+typedef struct RelVt { void *pad[2]; void (*f8)(Rel *); } RelVt;
+struct Rel { RelVt *vt; };
+typedef struct Dev Dev;
+typedef struct DevVt {
+  void *pad[10];
+  int (*f28)(Dev *, Rel *, int, int, void *, int, void *, int, int);
+  void *pad2[7];
+  int (*f48)(Dev *, int);
+} DevVt;
+struct Dev { DevVt *vt; };
+typedef struct Obj_82A40750 {
+  char pad[0xb0];
+  Dev *dev;
+} Obj;
+extern char *fn_82A42E20(void *, int, int, int, int);
+extern int fn_82A43088(Rel **);
 
-
-longlong fn_82A40750(int param_1,undefined8 param_2)
-
+int fn_82A40750(Obj *o, int p2, int p3)
 {
-  longlong lVar1;
-  longlong lVar2;
-  int *apiStack_40 [16];
-  
-  lVar1 = fn_82A42E20(param_1 + 0x250,0,1,0,0x465);
-  if (lVar1 == 0) {
-    lVar2 = -0x7ff8fff2;
-  }
-  else {
-    apiStack_40[0] = (int *)0x0;
-    lVar2 = fn_82A43088(apiStack_40);
-    if (-1 < lVar2) {
-      lVar2 = (**(code **)(**(int **)(param_1 + 0xb0) + 0x28))
-                        (*(int **)(param_1 + 0xb0),apiStack_40[0],param_2,1,lVar1 + 4,1,lVar1 + 4,
-                         0x1337f001);
-      if (-1 < lVar2) {
-        lVar2 = (**(code **)(**(int **)(param_1 + 0xb0) + 0x48))
-                          (*(int **)(param_1 + 0xb0),0x1337f001);
-      }
-      (**(code **)(*apiStack_40[0] + 8))();
+  char *r;
+  int hr;
+  Rel *rel;
+  r = fn_82A42E20((char *)o + 0x250, 0, 1, 0, 0x465);
+  if (r == 0) {
+    hr = 0x8007000e;
+  } else {
+    rel = 0;
+    hr = fn_82A43088(&rel);
+    if (hr >= 0) {
+      hr = o->dev->vt->f28(o->dev, rel, p2, 1, r + 4, 1, r + 4, 0x1337f001, p3);
+      if (hr >= 0)
+        hr = o->dev->vt->f48(o->dev, 0x1337f001);
+      rel->vt->f8(rel);
     }
   }
-  return lVar2;
+  return hr;
 }
-

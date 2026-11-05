@@ -27,29 +27,21 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82C65F98(char *param_1,int param_2)
-
+void fn_82C65F98(signed char *p, int k)
 {
-  char cVar1;
-  char cVar2;
-  
-  cVar1 = *param_1;
-  cVar2 = (char)param_2;
-  if ((int)cVar1 < -param_2) {
-    *param_1 = cVar2 * '\x02' + cVar1;
+  int c = p[0];
+  if (c < -k) {
+    p[0] = c + k * 2;
+  } else if (c >= k) {
+    p[0] = c - k * 2;
   }
-  else if (param_2 <= cVar1) {
-    *param_1 = cVar1 + cVar2 * -2;
-  }
-  cVar1 = param_1[1];
-  if ((int)cVar1 < -param_2) {
-    param_1[1] = cVar2 * '\x02' + cVar1;
+  c = p[1];
+  if (c < -k) {
+    p[1] = c + k * 2;
     return;
   }
-  if (cVar1 < param_2) {
+  if (c < k) {
     return;
   }
-  param_1[1] = cVar1 + cVar2 * -2;
-  return;
+  p[1] = c - k * 2;
 }
-

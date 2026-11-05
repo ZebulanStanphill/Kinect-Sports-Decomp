@@ -25,45 +25,41 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82E62670();
-extern int fn_82E628C8();
+typedef struct IF_82E5A200 { void (**vt)(struct IF_82E5A200 *); } IF_82E5A200;
+typedef struct Obj_82E5A200 { char pad[0x88]; IF_82E5A200 *f88; } Obj_82E5A200;
+extern int fn_82E62670(IF_82E5A200 *, unsigned *);
+extern int fn_82E628C8(IF_82E5A200 *, unsigned);
 
-
-longlong fn_82E5A200(int param_1,int *param_2)
-
+int fn_82E5A200(Obj_82E5A200 *o, IF_82E5A200 *p)
 {
-  longlong lVar1;
-  uint auStack_30 [12];
-  
-  if (param_2 == (int *)0x0) {
-    return -0x7ff8ffa9;
-  }
-  auStack_30[0] = 0;
-  if (*(int *)(param_1 + 0x88) != 0) {
-    lVar1 = fn_82E62670(*(int *)(param_1 + 0x88),auStack_30);
-    if (lVar1 < 0) {
-      return lVar1;
-    }
-    auStack_30[0] = auStack_30[0] & 0x7fffffff;
-    lVar1 = fn_82E628C8(*(undefined4 *)(param_1 + 0x88));
-    if (lVar1 < 0) {
-      return lVar1;
-    }
-  }
-  if (*(int **)(param_1 + 0x88) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x88) + 8))();
-    *(undefined4 *)(param_1 + 0x88) = 0;
-  }
-  lVar1 = fn_82E62670(param_2,auStack_30);
-  if (-1 < lVar1) {
-    auStack_30[0] = auStack_30[0] | 0x80000000;
-    lVar1 = fn_82E628C8(param_2);
-    if (-1 < lVar1) {
-      *(int **)(param_1 + 0x88) = param_2;
-      (**(code **)(*param_2 + 4))(param_2);
-    }
-  }
-  return lVar1;
-}
+  unsigned flags;
+  int hr;
 
+  if (p == 0) {
+    return 0x80070057;
+  }
+  flags = 0;
+  hr = 0;
+  if (o->f88 != 0) {
+    hr = fn_82E62670(o->f88, &flags);
+    if (hr < 0) goto done;
+    flags = flags & 0x7fffffff;
+    hr = fn_82E628C8(o->f88, flags);
+    if (hr < 0) goto done;
+  }
+  if (o->f88 != 0) {
+    o->f88->vt[2](o->f88);
+    o->f88 = 0;
+  }
+  hr = fn_82E62670(p, &flags);
+  if (hr >= 0) {
+    flags = flags | 0x80000000;
+    hr = fn_82E628C8(p, flags);
+    if (hr >= 0) {
+      o->f88 = p;
+      p->vt[1](p);
+    }
+  }
+done:
+  return hr;
+}

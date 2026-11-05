@@ -1,57 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E47918();
-extern int fn_82E50338();
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern void *fn_82E47918(void *, int);
+extern int fn_82E50338(void *, unsigned short *);
+static __forceinline int ok(int t){ return t == 5 || t == 0xd || t == 0x13 || t == 0x15 || t == 0x1f || t == 0x48 || t == 0x1011; }
 
-
-undefined8 fn_82E48898(longlong param_1,undefined8 param_2,short *param_3)
-
+int fn_82E48898(char *self, int a, unsigned short *p)
 {
-  short sVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  
-  RtlEnterCriticalSection(param_1 + 4);
-  uVar2 = fn_82E47918(param_1,param_2);
-  sVar1 = *param_3;
-  if ((((sVar1 == 5) || (sVar1 == 0xd)) || (sVar1 == 0x13)) ||
-     (((sVar1 == 0x15 || (sVar1 == 0x1f)) || ((sVar1 == 0x48 || (sVar1 == 0x1011)))))) {
-    if ((uVar2 & 0xffffffff) == 0) {
-      uVar3 = 0xffffffff8007000e;
-    }
-    else {
-      uVar3 = fn_82E50338(uVar2,param_3);
-    }
-  }
-  else {
-    uVar3 = 0xffffffffc00d36bd;
-  }
-  RtlLeaveCriticalSection(param_1 + 4);
-  return uVar3;
+ void *obj; int hr; int t;
+ RtlEnterCriticalSection(self + 4);
+ obj = fn_82E47918(self, a);
+ t = *p;
+  if (ok(t)) { if (obj == 0) hr = 0x8007000e; else hr = fn_82E50338(obj, p);} else hr = 0xc00d36bd;
+ RtlLeaveCriticalSection(self + 4);
+ return hr;
 }
-

@@ -25,27 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C8440();
-extern int memcpy();
-extern unsigned int lbl_832156AC;
-extern unsigned int lbl_832156B0;
-extern unsigned int lbl_8321570C;
+extern unsigned char KfAcquireSpinLock(void *);
+extern void KfReleaseSpinLock(void *, unsigned char);
+extern void *memcpy(void *, const void *, unsigned int);
+extern void fn_829C8440(int, int);
+extern char lbl_83215000[];
 
-
-undefined8 fn_829C8918(int param_1)
-
+int fn_829C8918(int idx)
 {
-  undefined8 uVar1;
-  
-  uVar1 = KfAcquireSpinLock(0xffffffff8321506c);
-  if (*(int *)(&lbl_832156AC + param_1 * 0x184) == 0) {
-    memcpy(&lbl_8321570C + param_1 * 0x184,&lbl_832156B0 + param_1 * 0x61,0x5c);
-    KfReleaseSpinLock(0xffffffff8321506c,uVar1);
-    fn_829C8440(param_1,1);
-  }
-  else {
-    KfReleaseSpinLock(0xffffffff8321506c,uVar1);
+  unsigned char irql = KfAcquireSpinLock(lbl_83215000 + 0x6c);
+  if (*(int *)(lbl_83215000 + 0x6ac + idx * 0x184) == 0) {
+    char *src = lbl_83215000 + 0x6b0 + idx * 0x184;
+    char *dst = lbl_83215000 + 0x70c + idx * 0x184;
+    memcpy(dst, src, 0x5c);
+    KfReleaseSpinLock(lbl_83215000 + 0x6c, irql);
+    fn_829C8440(idx, 1);
+  } else {
+    KfReleaseSpinLock(lbl_83215000 + 0x6c, irql);
   }
   return 0;
 }
-

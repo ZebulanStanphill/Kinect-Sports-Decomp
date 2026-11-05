@@ -25,40 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD20C0();
-extern int fn_82B8AE98();
+extern void fn_82AD20C0(unsigned int, unsigned int *, void *);
+extern void fn_82B8AE98(void *, void *);
 
+typedef struct Node_82AEB228 {
+  unsigned int f0;
+  unsigned int f4;
+  struct { unsigned int pad : 26; unsigned int bit : 1; unsigned int rest : 5; } f8;
+} Node_82AEB228;
 
-void fn_82AEB228(undefined8 param_1,uint *param_2)
-
+static __forceinline int notNull_82AEB228(unsigned int *p)
 {
-  uint *puVar1;
-  int iVar2;
-  uint *puVar3;
-  
-  while( true ) {
-    if ((param_2[1] & 1) != 0) break;
-    if ((param_2[1] & 1) == 0) {
-      iVar2 = (*param_2 & 0xfffffffe) - 0x28;
+  if (p) return 1;
+  return 0;
+}
+
+void fn_82AEB228(void *h, unsigned int *head)
+{
+  unsigned int t;
+  while ((t = head[1] & 1) == 0) {
+    Node_82AEB228 *n;
+    if (t != 0) {
+      n = 0;
+    } else {
+      n = (Node_82AEB228 *)((head[0] & 0xfffffffe) - 0x28);
     }
-    else {
-      iVar2 = 0;
-    }
-    if ((*(uint *)(iVar2 + 8) >> 5 & 1) != 0) {
-      puVar3 = (uint *)(iVar2 + 4);
-      while( true ) {
-        puVar1 = (uint *)*puVar3;
-        if (puVar1 == (uint *)0x0) break;
-        if ((puVar1[4] != 0) && ((*puVar1 & 0xe000000) != 0)) {
-          fn_82AD20C0(puVar1[4],puVar1,param_1);
+    if ((unsigned char)n->f8.bit != 0) {
+      unsigned int **pp = (unsigned int **)&n->f4;
+      unsigned int *q;
+      while (q = *pp, notNull_82AEB228(q)) {
+        if (q[4] != 0 && (q[0] & 0xe000000) != 0) {
+          fn_82AD20C0(q[4], q, h);
         }
-        if ((uint *)*puVar3 == puVar1) {
-          puVar3 = puVar1 + 2;
+        if (*pp == q) {
+          pp = (unsigned int **)(q + 2);
         }
       }
     }
-    fn_82B8AE98(param_1,iVar2);
+    fn_82B8AE98(h, n);
   }
-  return;
 }
-

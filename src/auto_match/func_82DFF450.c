@@ -1,95 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE5250();
-extern int fn_82CE52A8();
-extern int fn_82CE5410();
-extern int fn_82CE9108();
-extern int fn_82CFBA90();
-extern int fn_82CFBAD0();
-extern int fn_82CFBAD8();
-extern int fn_82D80CA0();
-extern int fn_82D80CA8();
-extern unsigned int lbl_82132BC4;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_82DFF450(int *param_1,int param_2,int *param_3,undefined8 param_4,undefined8 param_5)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar4;
-  int iVar5;
-  int *piVar6;
-  ulonglong uVar3;
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = "TtDoVehiclesSynchronously";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  (**(code **)(*param_1 + 0x1c))(param_1);
-  iVar5 = (**(code **)(*param_1 + 0x20))(param_1,param_5);
-  piVar6 = (int *)fn_82CE5410();
-  iVar4 = *piVar6;
-  *piVar6 = (iVar5 + 0x7fU & 0xffffff80) + iVar4;
-  iVar5 = fn_82CE5410();
-  uVar3 = fn_82CE5250(*(undefined4 *)(iVar5 + 0x10),4,0x80);
-  if ((uVar3 & 0xffffffff) != 0) {
-    fn_82CFBA90(uVar3,0,1000);
-  }
-  (**(code **)(*param_1 + 0x24))
-            (param_1,param_2,-(ulonglong)(*(int *)(*(int *)(param_2 + 0x7c) + 0x20) == 2) & 0x100,
-             param_5,param_4,uVar3,iVar4);
-  fn_82D80CA0(param_2);
-  (**(code **)(*param_3 + 0xc))(param_3,param_4,0xb);
-  fn_82CE9108(param_4);
-  (**(code **)(*param_3 + 0x10))(param_3);
-  fn_82CFBAD8(uVar3);
-  fn_82D80CA8(param_2);
-  fn_82CFBAD0(uVar3);
-  iVar5 = fn_82CE5410();
-  fn_82CE52A8(*(undefined4 *)(iVar5 + 0x10),uVar3);
-  (**(code **)(*param_1 + 0x28))(param_1,param_2 + 0x1d0,param_5,iVar4);
-  piVar6 = (int *)fn_82CE5410();
-  *piVar6 = iVar4;
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  return;
 }
 
+typedef struct Veh Veh;
+typedef struct VehVt {
+  void *pad[7];
+  void (*f1c)(Veh *);
+  int (*f20)(Veh *, int);
+  void (*f24)(Veh *, void *, int, int, void *, void *, int);
+  void (*f28)(Veh *, void *, int, int);
+} VehVt;
+struct Veh { VehVt *vt; };
+typedef struct Sub Sub;
+typedef struct SubVt { void *pad[3]; void (*fc)(Sub *, void *, int); void (*f10)(Sub *); } SubVt;
+struct Sub { SubVt *vt; };
+typedef struct Arg2 { char pad[0x7c]; struct { char pad[0x20]; int mode; } *cfg; char pad2[0x150]; char tail[1]; } Arg2;
+
+extern int *fn_82CE5410(void);
+extern void *fn_82CE5250(int, int, int);
+extern void fn_82CE52A8(int, void *);
+extern void fn_82CE9108(void *);
+extern void fn_82CFBA90(void *, int, int);
+extern void fn_82CFBAD0(void *);
+extern void fn_82CFBAD8(void *);
+extern void fn_82D80CA0(void *);
+extern void fn_82D80CA8(void *);
+
+void fn_82DFF450(Veh *o, Arg2 *a2, Sub *s, void *p4, int p5)
+{
+  int *cur;
+  int save;
+  void *buf;
+  int sz;
+  timer("TtDoVehiclesSynchronously");
+  o->vt->f1c(o);
+  sz = o->vt->f20(o, p5);
+  cur = fn_82CE5410();
+  save = *cur;
+  *cur = ((sz + 0x7f) & 0xffffff80) + save;
+  { int h = *(int *)(fn_82CE5410() + 4); buf = fn_82CE5250(h, 4, 0x80); }
+  if (buf != 0)
+    fn_82CFBA90(buf, 0, 1000);
+  o->vt->f24(o, a2, a2->cfg->mode == 2 ? 0x100 : 0, p5, p4, buf, save);
+  fn_82D80CA0(a2);
+  s->vt->fc(s, p4, 0xb);
+  fn_82CE9108(p4);
+  s->vt->f10(s);
+  fn_82CFBAD8(buf);
+  fn_82D80CA8(a2);
+  fn_82CFBAD0(buf);
+  fn_82CE52A8(*(int *)(fn_82CE5410() + 4), buf);
+  o->vt->f28(o, (char *)a2 + 0x1d0, p5, save);
+  *fn_82CE5410() = save;
+  timer("Et");
+}
