@@ -30,7 +30,7 @@ extern int fn_82FE0AD8();
 extern unsigned int lbl_821753A8;
 
 
-void fn_82FE27D8(undefined4 *param_1)
+undefined4 *fn_82FE27D8(undefined4 *param_1)
 
 {
   *param_1 = &lbl_821753A8;
@@ -42,5 +42,7 @@ void fn_82FE27D8(undefined4 *param_1)
   param_1[0x37] = 0;
                     /* WARNING: Subroutine does not return */
   fn_82A1EFC0(param_1 + 0x39,0,0xbc);
+fn_82A1EFC0(param_1 + 0x69,0,0x50);
+return param_1;
 }
 

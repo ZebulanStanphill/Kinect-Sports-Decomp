@@ -31,10 +31,10 @@ extern int memset();
 extern unsigned int lbl_820EBF88;
 
 
-void fn_82C00DA8(undefined4 *param_1)
+undefined4 *fn_82C00DA8(undefined4 *param_1)
 
 {
-  fn_82C06348();
+  fn_82C06348(param_1);
   *param_1 = &lbl_820EBF88;
   fn_82C06578(param_1);
   param_1[0xa0] = 0;
@@ -45,5 +45,8 @@ void fn_82C00DA8(undefined4 *param_1)
   param_1[0xa3] = 0;
                     /* WARNING: Subroutine does not return */
   memset(param_1 + 0xf,0,0x240);
+  param_1[0xa4] = 0;
+  param_1[0xa5] = 0;
+  return param_1;
 }
 

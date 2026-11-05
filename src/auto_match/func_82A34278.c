@@ -26,24 +26,24 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
-extern int fn_82A383C0();
+extern unsigned fn_82A383C0();
 
 
-undefined8 fn_82A34278(int param_1,undefined8 param_2)
+unsigned fn_82A34278(int param_1,unsigned param_2)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined4 auStack_30 [12];
+  unsigned uVar1;
+  unsigned auStack_30 [1];
   
   auStack_30[0] = 0;
   iVar2 = -0x3fffffff;
   if (*(code **)(param_1 + 0x3c) != (code *)0x0) {
-    iVar2 = (**(code **)(param_1 + 0x3c))(0xffffffff820893a4,param_2,5,0,0,0,0,auStack_30);
+    iVar2 = (*(code *)(param_1 + 0x3c))("XctdDecompression",param_2,5,0,0,0,0,auStack_30);
   }
   uVar1 = fn_82A383C0(param_1 + 0x50,param_2);
-  if ((*(code **)(param_1 + 0x40) != (code *)0x0) && (-1 < iVar2)) {
-    (**(code **)(param_1 + 0x40))(uVar1,auStack_30[0]);
+  if ((*(code **)(param_1 + 0x40) != (code *)0x0) && (0 <= iVar2)) {
+    (*(code *)(param_1 + 0x40))(uVar1,auStack_30[0]);
   }
   return uVar1;
 }

@@ -32,26 +32,20 @@ extern int fn_828A7CE0();
 extern int fn_82BA02A8();
 
 
-undefined4 * fn_828A7F70(undefined4 *param_1,undefined8 param_2)
+static __forceinline void init2(unsigned *p, unsigned v){p[0]=v; fn_8289E318(p+1,v);fn_82BA02A8(p,v,v);}
+undefined4 * fn_828A7F70(undefined4 *param_1,undefined4 param_2)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  undefined4 uVar2;
   
   uVar1 = fn_8265C9E0(0x20);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_828A7268(uVar1,param_2);
-  }
+  if (uVar1) uVar2=fn_828A7268(uVar1,param_2); else uVar2=0;
   *param_1 = (int)uVar2;
   fn_828A7CE0(param_1 + 1,uVar2);
   fn_82BA02A8(param_1,uVar2,uVar2);
   uVar2 = fn_8265C9E0(1);
-  param_1[2] = (int)uVar2;
-  fn_8289E318(param_1 + 3,uVar2);
-  fn_82BA02A8(param_1 + 2,uVar2,uVar2);
+  init2(param_1+2,uVar2);
   return param_1;
 }
 

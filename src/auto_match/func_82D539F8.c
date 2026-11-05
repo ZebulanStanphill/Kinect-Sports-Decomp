@@ -1,3 +1,4 @@
+extern unsigned __int64 __mftb(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -36,25 +37,25 @@ extern unsigned int lbl_82138A1C;
 extern unsigned int lbl_8323B4A0;
 
 
-longlong fn_82D539F8(undefined4 *param_1,undefined8 param_2,longlong param_3,undefined8 param_4,
-                      undefined8 param_5)
+int fn_82D539F8(undefined4 *param_1,int param_2,int param_3,int param_4,
+                      int param_5)
 
 {
   undefined4 *puVar1;
   uint uVar2;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   int iVar6;
   uint *puVar7;
-  ulonglong uVar4;
-  undefined8 uVar5;
-  undefined1 auStack_80 [48];
+  unsigned uVar4;
+  unsigned uVar5;
+  undefined1 auStack_80 [64];
   
   iVar6 = KeTlsGetValue(lbl_8323B4A0);
   puVar1 = *(undefined4 **)(iVar6 + 4);
   if (puVar1 < *(undefined4 **)(iVar6 + 0xc)) {
-    *puVar1 = &lbl_82138A1C;
+    *puVar1 = "LtBvTree3";
     puVar1[3] = "StQueryTree";
-    uVar5 = TBLr;
+    uVar5 = (unsigned)__mftb();
     puVar1[1] = (int)uVar5;
     *(undefined4 **)(iVar6 + 4) = puVar1 + 4;
   }
@@ -63,23 +64,23 @@ longlong fn_82D539F8(undefined4 *param_1,undefined8 param_2,longlong param_3,und
   *puVar7 = uVar2 + 0x4000;
   fn_82CE66E8(auStack_80,param_1 + 8);
   uVar4 = fn_82D53618(*param_1,param_1[1],auStack_80,param_1 + 0x1c,param_1[3],0,
-                          (ulonglong)uVar2,0x1000);
-  uVar5 = (**(code **)(**(int **)param_1[1] + 0x10))();
+                          uVar2,0x1000);
+  { int *o=*(int **)param_1[1]; uVar5=(*(code *)(*o+16))(o); }
   iVar6 = KeTlsGetValue(lbl_8323B4A0);
   puVar1 = *(undefined4 **)(iVar6 + 4);
   if (puVar1 < *(undefined4 **)(iVar6 + 0xc)) {
     *puVar1 = "StNarrow";
-    uVar3 = TBLr;
+    uVar3 = __mftb();
     puVar1[1] = (int)uVar3;
     *(undefined4 **)(iVar6 + 4) = puVar1 + 3;
   }
-  fn_82D71B20(param_3,param_1,uVar5,((uVar4 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)uVar2,
+  fn_82D71B20(param_3,param_1,uVar5,((uVar4 & 0xffffffff) >> 0x1f) - 1 & uVar2,
                   param_5);
   iVar6 = KeTlsGetValue(lbl_8323B4A0);
   puVar1 = *(undefined4 **)(iVar6 + 4);
   if (puVar1 < *(undefined4 **)(iVar6 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar5 = TBLr;
+    *puVar1 = "lt";
+    uVar5 = (unsigned)__mftb();
     puVar1[1] = (int)uVar5;
     *(undefined4 **)(iVar6 + 4) = puVar1 + 3;
   }

@@ -30,11 +30,11 @@ extern unsigned int lbl_8208E01C;
 extern unsigned int lbl_8208E048;
 
 
+static __forceinline void init_82A5D580(unsigned *p) { p[1]=0; p[0]=(unsigned)&lbl_8208DFC4; }
 void fn_82A5D580(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  param_1[2] = 0;
-  param_1[1] = &lbl_8208DFC4;
+  init_82A5D580(param_1+1);
   param_1[3] = param_2;
   param_1[4] = param_3;
   *param_1 = &lbl_8208E048;

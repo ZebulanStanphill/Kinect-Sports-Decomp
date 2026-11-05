@@ -1,3 +1,4 @@
+extern int abs(int);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -27,21 +28,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-ulonglong fn_82F2AC28(int param_1,uint param_2,int param_3,uint param_4,int param_5)
+uint fn_82F2AC28(int param_1,int param_2,int param_3,uint param_4,int param_5)
 
 {
   int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
+  uint uVar2;
+  int lVar3;
   
-  uVar2 = ((ulonglong)param_2 ^ (longlong)((int)param_2 >> 0x1f)) - (longlong)((int)param_2 >> 0x1f)
-  ;
+  uVar2 = abs((int)param_2);
   if ((*(int *)(param_1 + 0x624) == 0) || (2 < *(int *)(param_5 + 0x60))) {
-    if ((ulonglong)param_4 <= (uVar2 & 0xffffffff)) {
-      return (ulonglong)*(uint *)(param_4 * 8 + param_3 + 4) + 9;
+    if (uVar2 >= param_4) {
+      return (uint)*(uint *)(param_4 * 8 + param_3 + 4) + 9;
     }
     if ((uVar2 & 0xffffffff) != 0) {
-      return (ulonglong)*(uint *)((int)((uVar2 & 0xffffffff) << 3) + param_3 + 4) + 1;
+      return (uint)*(uint *)((int)((uVar2 & 0xffffffff) << 3) + param_3 + 4) + 1;
     }
   }
   else {
@@ -51,13 +51,13 @@ ulonglong fn_82F2AC28(int param_1,uint param_2,int param_3,uint param_4,int para
       lVar3 = 2;
       iVar1 = 3;
     }
-    if (param_4 <= (uint)(iVar1 + (int)uVar2) >> (int)lVar3) {
-      return (ulonglong)*(uint *)(param_4 * 8 + param_3 + 4) + lVar3 + 9;
+    if (((uint)(iVar1 + (int)uVar2) >> lVar3) >= param_4) {
+      return (uint)*(uint *)(param_4 * 8 + param_3 + 4) + lVar3 + 9;
     }
     if ((uVar2 & 0xffffffff) != 0) {
-      return (ulonglong)*(uint *)((int)((uVar2 & 0xffffffff) << 3) + param_3 + 4) + lVar3 + 1;
+      return (uint)*(uint *)((int)((uVar2 & 0xffffffff) << 3) + param_3 + 4) + lVar3 + 1;
     }
   }
-  return (ulonglong)*(uint *)(param_3 + 4);
+  return (uint)*(uint *)(param_3 + 4);
 }
 

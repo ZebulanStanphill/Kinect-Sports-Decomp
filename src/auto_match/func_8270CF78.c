@@ -26,35 +26,35 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8270C708();
-extern int fn_8270CED8();
-extern int fn_82F68CC0();
+extern unsigned char fn_8270CED8(int,int);
+extern void *memcpy(void *, const void *, unsigned int);
 
 
-undefined8 fn_8270CF78(int param_1,undefined8 param_2,undefined8 param_3)
+int fn_8270CF78(int param_1,void *param_2,int param_3)
 
 {
-  char cVar2;
-  undefined8 uVar1;
+  unsigned char cVar2;
+  int uVar1;
   longlong lVar3;
   int iVar4;
   
   if ((*(int *)(param_1 + 0x10) == 2) || (cVar2 = fn_8270CED8(param_1,2), cVar2 != '\0')) {
     iVar4 = (int)param_3;
-    if ((iVar4 <= 0x1ff8 - *(int *)(param_1 + 0x14)) || (fn_8270C708(param_1), iVar4 < 0x1001)) {
-      fn_82F68CC0((ulonglong)*(uint *)(param_1 + 0xc) + (ulonglong)*(uint *)(param_1 + 0x14),
+    if ((0x1ff8 - *(int *)(param_1 + 0x14) >= iVar4) || (fn_8270C708(param_1), iVar4 <= 0x1000)) {
+      memcpy((void *)(*(uint *)(param_1 + 0xc) + *(uint *)(param_1 + 0x14)),
                    param_2,param_3);
       *(int *)(param_1 + 0x14) = iVar4 + *(int *)(param_1 + 0x14);
       return param_3;
     }
-    uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),param_2,param_3);
-    if ((int)uVar1 < 1) {
+    uVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),param_2,param_3);
+    if (uVar1 <= 0) {
       return uVar1;
     }
     lVar3 = (longlong)(int)uVar1 + *(longlong *)(param_1 + 0x20);
   }
   else {
-    uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),param_2,param_3);
-    if ((int)uVar1 < 1) {
+    uVar1 = (*(code *)(**(int **)(param_1 + 8) + 0x24))(*(int **)(param_1 + 8),param_2,param_3);
+    if (uVar1 <= 0) {
       return uVar1;
     }
     lVar3 = (longlong)(int)uVar1 + *(longlong *)(param_1 + 0x20);

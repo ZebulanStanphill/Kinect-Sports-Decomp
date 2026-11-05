@@ -35,33 +35,34 @@ extern int fn_827D50B8();
 void fn_825BE288(int *param_1,uint *param_2)
 
 {
-  bool bVar1;
+  int bVar1;
   uint uVar2;
   int iVar3;
   undefined4 uVar4;
   
-  if ((*param_1 != 0) && (iVar3 = fn_827D50B8(), iVar3 == 0)) {
+  if ((*param_1 != 0) && (iVar3 = fn_827D50B8(*param_1), iVar3 == 0)) {
+    bVar1=0;
     RtlEnterCriticalSection((ulonglong)*param_2 + 0x234);
     uVar2 = *param_2;
-    bVar1 = param_2[3] == *(uint *)(uVar2 + 0x230);
-    if (bVar1) {
+    if(param_2[3] != *(uint *)(uVar2+0x230))bVar1=1;
+    if (!bVar1) {
       uVar4 = fn_827D5070(*param_1);
       *(undefined4 *)(param_2[2] * 4 + *(int *)(uVar2 + 0x1e4)) = uVar4;
     }
     RtlLeaveCriticalSection((ulonglong)*param_2 + 0x234);
-    if (!bVar1) {
+    if (bVar1) {
       fn_827D5070(*param_1);
       fn_8251FA58();
     }
   }
   if (param_2 != (uint *)0x0) {
     if (param_2[1] != 0) {
-      fn_822315A0();
+      fn_822315A0((void*)param_2[1]);
     }
     fn_8265CA20(param_2);
   }
-  if (param_1[1] != 0) {
-    fn_822315A0();
+  if ((void*)param_1[1] != 0) {
+    fn_822315A0((void*)param_1[1]);
   }
   return;
 }

@@ -1,3 +1,4 @@
+extern unsigned __int64 __mftb(void);
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -46,62 +47,51 @@ extern unsigned int uStack_4b;
 extern unsigned int uStack_50;
 
 
-void fn_82DB34D0(int param_1,int *param_2,undefined8 param_3)
+void fn_82DB34D0(int param_1,int *param_2,int param_3)
 
 {
   int *piVar1;
   undefined4 *puVar2;
   undefined8 uVar3;
   int iVar6;
-  undefined8 uVar4;
-  int iVar7;
-  ulonglong uVar5;
-  undefined4 auStack_70;
-  undefined1 auStack_68 [24];
-  undefined4 uStack_50;
-  undefined1 uStack_4b;
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [48];
-  
-  fn_83097440(auStack_68,param_3,*(undefined4 *)(param_1 + 0x1c));
+  int uVar4;
+  unsigned iVar7;
+  unsigned uVar5;
+  struct {unsigned handle,pad;int buffer[6];struct {unsigned value;unsigned char pad[1],flag,pad2[10];char a[16],b[16];} local;} ctx;
+  fn_83097440(ctx.buffer,param_3,*(undefined4 *)(param_1 + 0x1c));
   iVar7 = *param_2;
   if (iVar7 != 0) {
     fn_83083AA0(iVar7);
     iVar6 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar6 + 0x10) + 8))(*(int **)(iVar6 + 0x10),iVar7,0x50);
+    (*(code *)(**(int **)(iVar6 + 0x10) + 8))(*(int **)(iVar6 + 0x10),iVar7,0x50);
   }
-  uVar4 = fn_83097530(auStack_68);
-  fn_830838A8(&uStack_50);
+  uVar4 = fn_83097530(ctx.buffer);
+  fn_830838A8(&ctx.local);
   piVar1 = *(int **)(*(int *)(param_1 + 0x1c) + 0x58);
-  (**(code **)(*piVar1 + 0x40))(piVar1,auStack_40,auStack_30);
-  uStack_50 = (undefined4)uVar4;
-  uStack_4b = 0;
+  (*(code *)(*piVar1 + 0x40))(piVar1,ctx.local.a,ctx.local.b);
+  ctx.local.value = (undefined4)uVar4;
+  ctx.local.flag = 0;
   iVar7 = fn_82CE5410();
-  uVar5 = (**(code **)(**(int **)(iVar7 + 0x10) + 4))(*(int **)(iVar7 + 0x10),0x50);
-  if ((uVar5 & 0xffffffff) == 0) {
-    iVar7 = 0;
-  }
-  else {
-    iVar7 = fn_83083C28(uVar5,&uStack_50);
-  }
+  uVar5 = (*(code *)(**(int **)(iVar7 + 0x10) + 4))(*(int **)(iVar7 + 0x10),0x50);
+  iVar7=uVar5!=0 ? fn_83083C28(uVar5,&ctx.local) : 0;
   *param_2 = iVar7;
   iVar7 = KeTlsGetValue(lbl_8323B4A0);
   puVar2 = *(undefined4 **)(iVar7 + 4);
   if (puVar2 < *(undefined4 **)(iVar7 + 0xc)) {
     *puVar2 = "TtbuildTreeSingleThreaded";
-    uVar3 = TBLr;
+    uVar3 = __mftb();
     puVar2[1] = (int)uVar3;
     *(undefined4 **)(iVar7 + 4) = puVar2 + 3;
   }
-  fn_83085238(&auStack_70,uVar4);
-  fn_830855B0(auStack_68,0,uVar4,auStack_70);
-  fn_83085650(&auStack_70,*param_2);
-  fn_830852B0(&auStack_70,uVar4);
+  fn_83085238(&ctx.handle,uVar4);
+  fn_830855B0(ctx.buffer,0,uVar4,ctx.handle);
+  fn_83085650(&ctx.handle,*param_2);
+  fn_830852B0(&ctx.handle,uVar4);
   iVar7 = KeTlsGetValue(lbl_8323B4A0);
   puVar2 = *(undefined4 **)(iVar7 + 4);
   if (puVar2 < *(undefined4 **)(iVar7 + 0xc)) {
-    *puVar2 = &lbl_82132BC4;
-    uVar4 = TBLr;
+    *puVar2 = "Et";
+    uVar4 = (int)__mftb();
     puVar2[1] = (int)uVar4;
     *(undefined4 **)(iVar7 + 4) = puVar2 + 3;
   }

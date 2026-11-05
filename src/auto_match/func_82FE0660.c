@@ -27,19 +27,19 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82FE0660(int param_1,int *param_2)
+void fn_82FE0660(unsigned param_1,int *param_2)
 
 {
   uint uVar1;
   
-  if (*(int *)(param_1 + 0xd8) != 0) {
+  if (*(unsigned int *)(param_1 + 0xd8) != 0) {
     uVar1 = 0;
-    if (*(byte *)(param_1 + 0xcc) != 0) {
+    if (*(char *)(param_1 + 0xcc) != 0) {
       do {
         uVar1 = uVar1 + 1;
       } while (uVar1 < *(byte *)(param_1 + 0xcc));
     }
-    (**(code **)(*param_2 + 8))();
+    (*(code *)(*param_2 + 8))(param_2,*(unsigned *)(param_1+0xd8));
     *(undefined4 *)(param_1 + 0xd8) = 0;
   }
   return;

@@ -27,17 +27,17 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_8268B8E8();
-extern int fn_826BCBA0();
+extern unsigned fn_826BCBA0(void*,char*,unsigned,unsigned,double);
 
 
-longlong fn_82713060(int param_1,undefined8 param_2)
+int  fn_82713060(int param_1,unsigned param_2)
 
 {
-  undefined8 uVar1;
+  unsigned int uVar1;
   undefined1 auStack_50 [64];
   
-  uVar1 = fn_826BCBA0(*(undefined8 *)(param_1 + 0x30),param_1,auStack_50,0x40,param_2);
+  uVar1 = fn_826BCBA0((void*)param_1,(char*)auStack_50,0x40,param_2,*(double *)(param_1+0x30));
   fn_8268B8E8(param_1 + 0x38,uVar1);
-  return ((ulonglong)*(uint *)(param_1 + 0x38) & 0xfffffffc) + 8;
+  return (*(uint *)(param_1 + 0x38) & 0xfffffffc) + 8;
 }
 

@@ -33,10 +33,11 @@ extern int fn_8304FAC8();
 char fn_82876338(int param_1,int param_2,undefined1 param_3)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   char cVar2;
   
-  if (*(int *)(param_2 + 0x14) == 1) {
+  if (*(unsigned int *)(param_2 + 0x14) != 1) return 2;
+  {
     *(undefined1 *)(param_1 + 0x420) = param_3;
     iVar1 = fn_8304EF98();
     if (iVar1 == 0) {
@@ -46,9 +47,7 @@ char fn_82876338(int param_1,int param_2,undefined1 param_3)
     *(int *)(param_1 + 0x41c) = iVar1;
     cVar2 = (iVar1 == -1) + '\x01';
   }
-  else {
-    cVar2 = '\x02';
-  }
+
   return cVar2;
 }
 

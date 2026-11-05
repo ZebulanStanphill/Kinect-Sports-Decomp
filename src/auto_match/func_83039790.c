@@ -34,18 +34,19 @@ extern unsigned int lbl_83264304;
 extern unsigned int uStack_40;
 
 
-void fn_83039790(int param_1,char param_2)
+void fn_83039790(int param_1,unsigned char param_2)
 
 {
   undefined4 uVar1;
-  ulonglong uVar2;
+  unsigned uVar2;
   int iVar3;
   undefined4 uStack_40;
   undefined4 auStack_3c;
   
-  fn_83038730();
+  fn_83038730(param_1);
   if (((*(byte *)(param_1 + 0x1e4) & 0x20) != 0) && ((*(byte *)(param_1 + 0xd9) & 2) == 0)) {
-    if (*(int *)(param_1 + 0x1dc) == 0) {
+    if (*(unsigned *)(param_1+0x1dc) != 0) { *(undefined1 *)(param_1+0x1e8)=0; return; }
+    {
       if ((*(char *)(param_1 + 0x1e8) != '\0') &&
          ((param_2 == '\0' || (*(int *)(param_1 + 0x1ec) == 0)))) {
         uVar1 = *(undefined4 *)(param_1 + 0x1d4);
@@ -62,9 +63,7 @@ void fn_83039790(int param_1,char param_2)
         }
       }
     }
-    else {
-      *(undefined1 *)(param_1 + 0x1e8) = 0;
-    }
+
   }
   return;
 }

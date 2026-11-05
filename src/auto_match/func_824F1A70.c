@@ -1,43 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824F0D98();
-
-
-void fn_824F1A70(undefined8 param_1,int param_2)
-
-{
-  int *piVar1;
-  
-  for (piVar1 = *(int **)(param_2 + 0xc); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if (*piVar1 != 0) {
-      fn_824F0D98(param_1);
-    }
-  }
-  return;
+struct Node_824F1A70 { void *value; struct Node_824F1A70 *next; };
+struct Owner_824F1A70 { int pad[3]; struct Node_824F1A70 *head; };
+extern void fn_824F0D98(void *, double);
+void fn_824F1A70(struct Owner_824F1A70 *o, double t) {
+ struct Node_824F1A70 *n;
+ for(n=o->head;n;n=n->next) if(n->value) fn_824F0D98(n->value,t);
 }
-

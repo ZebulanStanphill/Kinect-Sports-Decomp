@@ -1,62 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821B297C;
-
-
-undefined4 * fn_82361EB0(int param_1)
-
-{
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  char cVar4;
-  
-  puVar3 = (undefined4 *)fn_8265C9E0(0xc);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar3 = &lbl_821B297C;
-    puVar3[1] = 0;
-    puVar3[2] = 0;
-    iVar1 = *(int *)(param_1 + 8);
-    uVar2 = *(undefined4 *)(param_1 + 4);
-    if ((iVar1 != 0) && (cVar4 = fn_8223AAC0(iVar1), cVar4 != '\0')) {
-      if (puVar3[2] != 0) {
-        fn_822315A0();
-      }
-      puVar3[2] = iVar1;
-      puVar3[1] = uVar2;
-    }
-  }
-  return puVar3;
+typedef struct Shared_82361EB0 { void *p; void *rep; } Shared_82361EB0;
+typedef struct Holder_82361EB0 { void *vt; Shared_82361EB0 value; } Holder_82361EB0;
+extern void *fn_8265C9E0(unsigned);
+extern unsigned char fn_8223AAC0(void *);
+extern void fn_822315A0(void *);
+extern char lbl_821B297C[];
+static __forceinline void init(Shared_82361EB0 *v) {v->p=0;v->rep=0;}
+static __forceinline void lock(Shared_82361EB0 *d, Shared_82361EB0 *s) {
+ void *r = s->rep; void *p = s->p;
+ if (r && fn_8223AAC0(r)) { if(d->rep) fn_822315A0(d->rep); d->rep = r; d->p = p; }
 }
-
+Holder_82361EB0 *fn_82361EB0(Holder_82361EB0 *s) {
+ Holder_82361EB0 *d = fn_8265C9E0(12);
+ if(d) { d->vt=lbl_821B297C; init(&d->value); lock(&d->value,&s->value); return d; }
+ return 0;
+}

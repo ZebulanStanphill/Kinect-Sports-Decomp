@@ -29,12 +29,12 @@ extern unsigned int *auStack_30;
 extern unsigned int iStack_34;
 
 
-longlong fn_82E62AD8(int *param_1)
+int fn_82E62AD8(int *param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   int iVar2;
-  ulonglong uVar3;
+  unsigned uVar3;
   int *piStack_40;
   int *piStack_3c;
   int *piStack_38;
@@ -42,7 +42,7 @@ longlong fn_82E62AD8(int *param_1)
   uint auStack_30;
   
   if (param_1 == (int *)0x0) {
-    lVar1 = -0x7fffbffd;
+    return 0x80004003;
   }
   else {
     piStack_38 = (int *)0x0;
@@ -50,58 +50,58 @@ longlong fn_82E62AD8(int *param_1)
     piStack_3c = (int *)0x0;
     auStack_30 = 0;
     iStack_34 = 0;
-    lVar1 = (**(code **)(*param_1 + 0x84))(param_1,&auStack_30);
-    if ((-1 < lVar1) && (uVar3 = 0, auStack_30 != 0)) {
+    lVar1 = (*(code *)(*param_1 + 0x84))(param_1,&auStack_30);
+    if ((lVar1 >= 0) && (uVar3 = 0, auStack_30 != 0)) {
       while( true ) {
         iStack_34 = 0;
         if (piStack_38 != (int *)0x0) {
-          (**(code **)(*piStack_38 + 8))();
+          (*(code *)(*piStack_38 + 8))(piStack_38);
           piStack_38 = (int *)0x0;
         }
         if (piStack_40 != (int *)0x0) {
-          (**(code **)(*piStack_40 + 8))();
+          (*(code *)(*piStack_40 + 8))(piStack_40);
           piStack_40 = (int *)0x0;
         }
         if (piStack_3c != (int *)0x0) {
-          (**(code **)(*piStack_3c + 8))();
+          (*(code *)(*piStack_3c + 8))(piStack_3c);
           piStack_3c = (int *)0x0;
         }
-        lVar1 = (**(code **)(*param_1 + 0x88))(param_1,uVar3,&iStack_34,&piStack_38);
+        lVar1 = (*(code *)(*param_1 + 0x88))(param_1,uVar3,&iStack_34,&piStack_38);
         if (lVar1 < 0) goto LAB_82e62cd0;
         if (piStack_38 == (int *)0x0) break;
         if (iStack_34 == 0) {
-          lVar1 = (**(code **)(*piStack_38 + 0x88))(piStack_38,&piStack_40);
+          lVar1 = (*(code *)(*piStack_38 + 0x88))(piStack_38,&piStack_40);
           if (lVar1 < 0) goto LAB_82e62cd0;
-          iVar2 = (**(code **)(*piStack_40 + 0x1c))(piStack_40,&piStack_3c);
+          iVar2 = (*(code *)(*piStack_40 + 0x1c))(piStack_40,&piStack_3c);
           if (iVar2 < 0) {
             if (piStack_3c != (int *)0x0) {
-              (**(code **)(*piStack_3c + 8))();
+              (*(code *)(*piStack_3c + 8))(piStack_3c);
               piStack_3c = (int *)0x0;
             }
-            lVar1 = (**(code **)(*piStack_40 + 0x14))(piStack_40,0,&piStack_3c);
+            lVar1 = (*(code *)(*piStack_40 + 0x14))(piStack_40,0,&piStack_3c);
             if ((lVar1 < 0) ||
-               (lVar1 = (**(code **)(*piStack_40 + 0x18))(piStack_40,piStack_3c), lVar1 < 0))
+               (lVar1 = (*(code *)(*piStack_40 + 0x18))(piStack_40,piStack_3c), lVar1 < 0))
             goto LAB_82e62cd0;
           }
-          lVar1 = (**(code **)(*param_1 + 0x8c))(param_1,uVar3);
+          lVar1 = (*(code *)(*param_1 + 0x8c))(param_1,uVar3);
           if (lVar1 < 0) goto LAB_82e62cd0;
         }
         uVar3 = uVar3 + 1;
-        if ((ulonglong)auStack_30 <= (uVar3 & 0xffffffff)) goto LAB_82e62cd0;
+        if (uVar3 >= auStack_30) goto LAB_82e62cd0;
       }
       lVar1 = -0x3ff2c945;
     }
 LAB_82e62cd0:
     if (piStack_38 != (int *)0x0) {
-      (**(code **)(*piStack_38 + 8))();
+      (*(code *)(*piStack_38 + 8))(piStack_38);
       piStack_38 = (int *)0x0;
     }
     if (piStack_40 != (int *)0x0) {
-      (**(code **)(*piStack_40 + 8))();
+      (*(code *)(*piStack_40 + 8))(piStack_40);
       piStack_40 = (int *)0x0;
     }
     if (piStack_3c != (int *)0x0) {
-      (**(code **)(*piStack_3c + 8))();
+      (*(code *)(*piStack_3c + 8))(piStack_3c);
     }
   }
   return lVar1;

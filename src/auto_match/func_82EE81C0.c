@@ -35,11 +35,11 @@ void fn_82EE81C0(undefined4 *param_1)
 {
   *param_1 = &lbl_8215FF48;
   if ((int *)param_1[0x18] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x18] + 8))();
+    (*(code *)(*(int *)param_1[0x18] + 8))(param_1[0x18]);
     param_1[0x18] = 0;
   }
   if (param_1[4] != -1) {
-    fn_82A1E658();
+    fn_82A1E658(param_1[4]);
   }
   fn_82E50EA0(param_1 + 9);
   return;

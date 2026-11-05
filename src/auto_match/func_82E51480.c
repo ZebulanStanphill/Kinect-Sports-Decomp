@@ -28,23 +28,23 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82E32040();
 
 
-longlong fn_82E51480(int *param_1)
+int fn_82E51480(int *param_1)
 
 {
-  longlong lVar1;
+  int lVar1;
   
   if ((int *)param_1[0x16] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x16] + 8))();
+    (*(code *)(*(int *)param_1[0x16] + 8))((void*)param_1[0x16]);
     param_1[0x16] = 0;
   }
   lVar1 = fn_82E32040(param_1 + 0x16);
-  if (-1 < lVar1) {
+  if (lVar1 >= 0) {
     *(undefined2 *)(param_1 + 0x17) = 0;
     if ((int *)param_1[0x18] != (int *)0x0) {
-      (**(code **)(*(int *)param_1[0x18] + 8))();
+      (*(code *)(*(int *)param_1[0x18] + 8))((void*)param_1[0x18]);
       param_1[0x18] = 0;
     }
-    (**(code **)(*param_1 + 0xa4))(param_1);
+    (*(code *)(*param_1 + 0xa4))(param_1);
   }
   return lVar1;
 }

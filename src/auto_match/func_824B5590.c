@@ -28,26 +28,24 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_824B4310();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821C03A8;
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
 
 undefined4 * fn_824B5590(undefined8 param_1)
 
 {
-  undefined4 uVar1;
+  float uVar1;
   undefined4 *puVar2;
   
   puVar2 = (undefined4 *)fn_8265C9E0(0x50);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar2 != 0) {
     fn_824B4310(puVar2,param_1);
     puVar2[0x12] = 0;
     uVar1 = lbl_821CC160;
     *puVar2 = &lbl_821C03A8;
-    puVar2[0x13] = uVar1;
+    *(float *)&puVar2[0x13] = uVar1;
+    return puVar2;
   }
-  return puVar2;
+  return 0;
 }
 

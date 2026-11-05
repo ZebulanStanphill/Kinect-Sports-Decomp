@@ -32,7 +32,7 @@ extern unsigned int lbl_820E0394;
 extern unsigned int lbl_820E03B4;
 
 
-undefined4 * fn_82BB5EF0(undefined4 *param_1,undefined8 param_2)
+undefined4 * fn_82BB5EF0(undefined4 *param_1,unsigned param_2)
 
 {
   undefined4 *puVar1;
@@ -43,24 +43,12 @@ undefined4 * fn_82BB5EF0(undefined4 *param_1,undefined8 param_2)
   puVar1 = (undefined4 *)fn_82B7BD28(param_2,0xc);
   puVar2 = puVar1 + 1;
   *puVar1 = (int)param_2;
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[2] = 0;
-    *puVar2 = &lbl_820E0374;
-  }
+  if (puVar2 != 0) { puVar2[1] = 0; *puVar2 = (unsigned)&lbl_820E0374; } else puVar2 = 0;
   param_1[2] = puVar2;
   puVar1 = (undefined4 *)fn_82B7BD28(param_2,0x10);
   puVar2 = puVar1 + 1;
   *puVar1 = (int)param_2;
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[2] = 0;
-    *puVar2 = &lbl_820E0394;
-  }
+  if (puVar2 != 0) { puVar2[1] = 0; *puVar2 = (unsigned)&lbl_820E0394; } else puVar2 = 0;
   param_1[3] = puVar2;
   param_1[4] = 0;
   param_1[5] = 0;

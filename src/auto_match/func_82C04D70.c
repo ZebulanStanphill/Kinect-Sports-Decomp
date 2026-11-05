@@ -25,29 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *,const void *,unsigned);
 
 
-undefined8 fn_82C04D70(int *param_1,undefined8 param_2,uint param_3,uint *param_4)
+undefined4 fn_82C04D70(int *param_1,undefined4 param_2,uint param_3,uint *param_4)
 
 {
   int iVar1;
   uint uVar2;
   
-  iVar1 = (**(code **)(*param_1 + 0x5c))();
-  if (iVar1 == 0) {
-    uVar2 = param_1[0xc] - param_1[0xd];
-    if (param_3 <= uVar2) {
-      *param_4 = param_3;
-      goto LAB_82c04dc8;
-    }
-  }
-  else {
-    uVar2 = 0;
-  }
-  *param_4 = uVar2;
-LAB_82c04dc8:
-  fn_82F68CC0((ulonglong)(uint)param_1[0xb] + (ulonglong)(uint)param_1[0xd],param_2,*param_4);
+  iVar1 = (*(code *)(*param_1 + 0x5c))(param_1);
+  if(iVar1 != 0) *param_4 = 0;
+  else { uVar2 = param_1[0xc] - param_1[0xd];
+  if(param_3 > uVar2) *param_4=uVar2; else *param_4=param_3; }
+  memcpy((uint)(uint)param_1[0xb] + (uint)(uint)param_1[0xd],param_2,*param_4);
   param_1[0xd] = param_1[0xd] + *param_4;
   return 0;
 }

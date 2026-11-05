@@ -32,10 +32,10 @@ void fn_8275EC20(int param_1,undefined8 param_2)
 
 {
   longlong lVar1;
-  ulonglong uVar2;
+  unsigned int uVar2;
   
   uVar2 = 0;
-  if (*(int *)(param_1 + 8) != 0) {
+  if (*(unsigned int *)(param_1 + 8) > 0) {
     do {
       lVar1 = (ulonglong)
               *(uint *)(((uint)((uVar2 & 0xffffffff) >> 6) & 0x3fffffc) + *(int *)(param_1 + 0x14))

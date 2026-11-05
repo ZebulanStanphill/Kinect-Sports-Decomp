@@ -29,19 +29,19 @@ extern int fn_82CE5410();
 extern int fn_82CE6310();
 
 
-void fn_82D04B20(undefined4 *param_1)
+void fn_82D04B20(int *param_1)
 
 {
   int iVar1;
-  uint uVar2;
+  int uVar2;
   
-  iVar1 = fn_82CE5410();
-  if ((param_1[2] & 0x3fffffff) == 0) {
+  iVar1 = *(int *)(fn_82CE5410() + 0xc);
+  if ((int)(param_1[2] & 0x3fffffff) < 1) {
     uVar2 = (param_1[2] & 0x3fffffff) << 1;
-    if (uVar2 < 2) {
+    if (uVar2 <= 1) {
       uVar2 = 1;
     }
-    fn_82CE6310(*(undefined4 *)(iVar1 + 0xc),param_1,uVar2,1);
+    fn_82CE6310(iVar1,param_1,uVar2,1);
   }
   param_1[1] = 1;
   *(undefined1 *)*param_1 = 0;
