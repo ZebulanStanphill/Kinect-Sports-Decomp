@@ -1,0 +1,3 @@
+extern "C" void fn_822315A0(void*);extern "C" void fn_82517978(void*,unsigned,unsigned,int);extern "C" int fn_8266F578(void*);extern "C" void fn_8229D898(void*,double);extern "C" void fn_822A3A38(void*);
+struct Pair_822A37F8 {void *ptr,*rep;__forceinline Pair_822A37F8(unsigned *h,int c):ptr(0),rep(0){unsigned a=h[0];unsigned b=h[1];fn_82517978(this,a,b,c);} __forceinline ~Pair_822A37F8(){if(rep)fn_822315A0(rep);}};
+extern "C" void fn_822A37F8(int *p,double dt){bool ok=false;fn_8229D898(p,dt);if(p[11]==0){ok=Pair_822A37F8((unsigned*)p+1,0).ptr && fn_8266F578(Pair_822A37F8((unsigned*)p+1,0).ptr);if(ok){fn_822A3A38(p);p[11]=1;}}}
