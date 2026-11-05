@@ -32,16 +32,11 @@ extern int fn_8265C9E0();
 undefined4 * fn_824C3240(undefined4 *param_1,int param_2)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   
   uVar1 = fn_8265C9E0(0x18);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_824C4008(uVar1,*(undefined4 *)(param_2 + 4));
-  }
+  uVar2 = uVar1 ? fn_824C4008(uVar1,*(undefined4 *)(param_2 + 4)) : 0;
   *param_1 = uVar2;
   return param_1;
 }

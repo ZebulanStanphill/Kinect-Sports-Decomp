@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 
 
 void fn_8284F4A8(int *param_1,int param_2,undefined4 *param_3,int *param_4,int *param_5,
-                  int *param_6,int *param_7,int *param_8)
+                  int *param_6,int *param_7,int *param_8,int *in_stack_00000054)
 
 {
   int iVar1;
-  int *in_stack_00000054;
+
   
   iVar1 = param_2 * 0xf0;
   *param_3 = *(undefined4 *)(*(int *)(*param_1 + 0xc) + param_2 * 100 + 4);

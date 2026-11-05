@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826308A0();
-extern int fn_82855AB0();
-extern int fn_82856218();
-extern int fn_828583D8();
-
-
-void fn_82857BA0(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+extern void fn_826308A0(int, int, int, int);
+extern void fn_82855AB0(void);
+extern void fn_82856218(void *, void *, void *, void *);
+extern void fn_828583D8(void *);
+extern void __dcbt(int, const void *);
+typedef struct Dst_82857BA0 { char pad[0x120]; char **p; } Dst_82857BA0;
+typedef struct Obj_82857BA0 { int p0; int f4; char pad[0x6940 - 8]; unsigned f6940; } Obj_82857BA0;
+void fn_82857BA0(Obj_82857BA0 *o, Dst_82857BA0 *d, void *c, void *e)
 {
-  ulonglong uVar1;
-  
-  uVar1 = (ulonglong)**(uint **)(param_2 + 0x120);
-  dataCacheBlockTouch(uVar1);
-  dataCacheBlockTouch(uVar1 + 0x80);
-  dataCacheBlockTouch(uVar1 + 0x100);
-  dataCacheBlockTouch(uVar1 + 0x180);
-  fn_82855AB0();
-  fn_828583D8(param_1);
-  fn_82856218(param_1,param_2,param_3,param_4);
-  if (*(int *)(param_1 + 0x6940) != 0) {
-    fn_826308A0(*(undefined4 *)(param_1 + 4),0,*(int *)(param_1 + 0x6940),0);
-  }
-  return;
+    char *a = *d->p;
+    __dcbt(0, a);
+    __dcbt(0x80, a);
+    __dcbt(0x100, a);
+    __dcbt(0x180, a);
+    fn_82855AB0();
+    fn_828583D8(o);
+    fn_82856218(o, d, c, e);
+    if (o->f6940 != 0)
+        fn_826308A0(o->f4, 0, o->f6940, 0);
 }
-

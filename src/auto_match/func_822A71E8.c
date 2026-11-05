@@ -1,3 +1,4 @@
+extern char lbl_82190260[];
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -27,31 +28,30 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82270B70();
 extern int fn_82532F98();
-extern int fn_827EF828();
+extern void fn_827EF828(int,float);
 extern int fn_827EFFE8();
 extern int fn_827F0180();
 
 
-void fn_822A71E8(int param_1)
+void fn_822A71E8(int param_1,float value)
 
 {
   undefined4 *puVar1;
   int iVar2;
   int iVar3;
   
-  fn_827EF828(*(undefined4 *)(param_1 + 0x5bc));
+  fn_827EF828(*(undefined4 *)(param_1 + 0x5bc),value);
   fn_827EFFE8(*(undefined4 *)(param_1 + 0x5bc));
-  iVar3 = *(int *)(param_1 + 0x550);
+  iVar3 = *(int *)(param_1 + 0x550) + 0x80;
   iVar2 = fn_82270B70();
-  puVar1 = *(undefined4 **)(*(int *)(iVar2 + 100) * 4 + iVar3 + 0x80);
-  iVar3 = (**(code **)(**(int **)(param_1 + 0x550) + 0xac))(*(int **)(param_1 + 0x550));
-  if (iVar3 == 0) {
-    fn_827F0180(*(undefined4 *)(param_1 + 0x5bc),*puVar1,1,0,0);
-  }
-  else {
+  puVar1 = *(undefined4 **)(*(int *)(iVar2 + 100) * 4 + iVar3);
+  iVar3 = (*(code *)(**(int **)(param_1 + 0x550) + 0xac))(*(int **)(param_1 + 0x550));
+  if (iVar3 != 0) {
     fn_827F0180(*(undefined4 *)(param_1 + 0x5bc),puVar1[1],1,0,0);
-    (**(code **)(**(int **)(*(int *)(param_1 + 0x550) + 0x1b4) + 0x18))();
-    fn_82532F98(puVar1,0xffffffff82190260);
+    (*(code *)(**(int **)(*(int *)(param_1 + 0x550) + 0x1b4) + 0x18))(*(int **)(*(int *)(param_1 + 0x550) + 0x1b4));
+    fn_82532F98(puVar1,lbl_82190260);
+  } else {
+    fn_827F0180(*(undefined4 *)(param_1 + 0x5bc),*puVar1,1,0,0);
   }
   return;
 }

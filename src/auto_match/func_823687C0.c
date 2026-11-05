@@ -1,55 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823C52C0();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821A8D8C;
+extern unsigned lbl_821A8D8C;
+extern unsigned *fn_8265C9E0(unsigned);
+extern void fn_823C52C0(void *,char *,int,unsigned,unsigned,void *,void *);
 
-
-undefined4 * fn_823687C0(undefined4 *param_1,int param_2,undefined8 param_3)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x3f0);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821A8D8C;
-    puVar1[2] = 1;
-    if (puVar1 + 4 != (undefined4 *)0x0) {
-      fn_823C52C0(puVar1 + 4,param_2,param_3,*(undefined4 *)(param_2 + 0x1c),
-                        *(undefined4 *)(param_2 + 0x4ac),param_2 + 0x4a4,param_2 + 0x4a8);
-    }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 4;
-  return param_1;
-}
-
+typedef struct S { char *a; char *b; } S;
+static __forceinline unsigned *make(char *p,int v,S s,unsigned *out) {unsigned *m=fn_8265C9E0(0x3f0);
+if(m) {m[1]=1;m[0]=(unsigned)&lbl_821A8D8C;m[2]=1; if((unsigned)m+16) fn_823C52C0((char *)m+16,p,v,*(unsigned *)(p+0x1c),*(unsigned *)(p+0x4ac),s.a,s.b);}else m=0;
+out[1]=(unsigned)m;out[0]=(unsigned)m+16;return out;}
+unsigned *fn_823687C0(unsigned *out,char *p,int v) { S s; s.b = p+0x4a8; s.a = p+0x4a4; return make(p,v,s,out);}

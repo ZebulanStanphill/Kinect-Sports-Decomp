@@ -28,29 +28,13 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8267A0E0();
 
 
-bool fn_82675C20(int *param_1,undefined8 param_2,undefined8 param_3,int param_4,longlong param_5)
-
+bool fn_82675C20(unsigned int *param_1,unsigned param_2,unsigned param_3,int param_4,int param_5)
 {
-  int iVar1;
-  bool bVar2;
-  
-  if ((param_1[7] == 0) || (*(int *)(param_1[7] + 0xd8) == 0)) {
-LAB_82675cc0:
-    bVar2 = false;
-  }
-  else {
-    (**(code **)(*param_1 + 0x44))();
-    if ((param_4 == 1) || (param_4 == 2)) {
-      iVar1 = 0x18280086;
-    }
-    else {
-      if (param_4 != 9) goto LAB_82675cc0;
-      iVar1 = 0x4900002;
-    }
-    param_1[0xd] = iVar1;
-    iVar1 = fn_8267A0E0(param_2,param_3,param_5 + 1,0,iVar1,param_1 + 10);
-    bVar2 = iVar1 == 0;
-  }
-  return bVar2;
+  if ((param_1[7] == 0) || (*(unsigned int *)(param_1[7] + 0xd8) == 0)) return 0;
+  (*(code *)(*param_1 + 0x44))(param_1);
+  if (param_4 == 1) param_1[0xd] = 0x18280086;
+  else if (param_4 == 2) param_1[0xd] = 0x18280086;
+  else if (param_4 == 9) param_1[0xd] = 0x4900002;
+  else return 0;
+  return fn_8267A0E0(param_2,param_3,param_5 + 1,0,param_1[0xd],param_1 + 10) == 0;
 }
-

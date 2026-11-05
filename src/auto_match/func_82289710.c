@@ -25,39 +25,35 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82267F50();
+extern int fn_82267F50(unsigned, void *, int, int);
 extern int fn_82268330();
 extern int fn_822886B0();
 extern int fn_8228A540();
 extern int fn_8228AF60();
-extern int fn_8265C9E0();
+extern unsigned fn_8265C9E0(int);
 extern int fn_8265CA20();
 
 
-void fn_82289710(undefined4 *param_1)
-
+extern char lbl_82196582[];
+void fn_82289710(int *p)
 {
-  int iVar1;
-  ulonglong uVar2;
-  undefined4 uVar3;
-  
-  iVar1 = param_1[0x185];
-  if (iVar1 != 0) {
-    fn_82268330(iVar1);
-    fn_8265CA20(iVar1);
-  }
-  uVar2 = fn_8265C9E0(0x700);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_82267F50(uVar2,param_1 + 0x10c,*param_1,param_1[0x1a6]);
-  }
-  param_1[0x185] = uVar3;
-  param_1[499] = 0;
-  fn_822886B0(param_1);
-  fn_8228A540(param_1,0xffffffff821a9504);
-  fn_8228AF60(param_1,0xffffffff82196582);
-  return;
-}
+  unsigned obj;
+  unsigned mem;
+  int r;
 
+  obj = ((unsigned *)p)[0x185];
+  if (obj != 0) {
+    fn_82268330(obj);
+    fn_8265CA20(obj);
+  }
+  mem = fn_8265C9E0(0x700);
+  if (mem != 0)
+    r = fn_82267F50(mem, p + 0x10c, p[0], p[0x1a6]);
+  else
+    r = 0;
+  ((int *)p)[0x185] = r;
+  p[499] = 0;
+  fn_822886B0(p);
+  fn_8228A540(p, "ticker_teamsetupmember_live");
+  fn_8228AF60(p, lbl_82196582);
+}

@@ -32,15 +32,12 @@ void fn_827C1968(int param_1)
 {
   undefined4 uVar1;
   
-  if (*(int *)(param_1 + 4) != 0) {
-    (**(code **)(*(int *)(param_1 + 4) + 0x24))(param_1,1);
-    if (*(char *)(param_1 + 0x10) == '\0') {
-      uVar1 = 100;
-    }
-    else {
-      uVar1 = 200;
+  if (*(unsigned int *)(param_1 + 4) != 0) {
+    (*(code *)(*(int *)(param_1 + 4) + 0x24))(param_1,1);
+    if (*(unsigned char *)(param_1 + 0x10) != 0) {
       *(undefined4 *)(param_1 + 0x10c) = 0;
-    }
+      uVar1 = 200;
+    } else uVar1 = 100;
     *(undefined4 *)(param_1 + 0x14) = uVar1;
   }
   return;

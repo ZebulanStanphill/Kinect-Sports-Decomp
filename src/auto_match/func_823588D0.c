@@ -25,34 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C70();
+extern int fn_82359C70(void *,float);
 
 
-undefined8 fn_823588D0(undefined8 param_1,int *param_2)
+int fn_823588D0(int *param_2,float param_1)
 
 {
-  uint uVar1;
+  int uVar1;
   int iVar2;
   undefined4 uVar3;
   uint uVar4;
   
   uVar1 = *(uint *)(*(int *)(param_2[0x35] + 0x18) + 0xc);
-  if ((uVar1 == 0) || (iVar2 = 1, param_2[0x37] != 0)) {
-    iVar2 = 0;
-  }
-  param_2[0x39] = iVar2;
-  if ((uVar1 != 0) || (iVar2 = 1, param_2[0x37] == 0)) {
-    iVar2 = 0;
-  }
-  param_2[0x38] = iVar2;
+  param_2[0x39] = uVar1 != 0 && param_2[0x37] == 0;
+  param_2[0x38] = uVar1 == 0 && param_2[0x37] != 0;
   param_2[0x37] = uVar1;
-  uVar4 = (uint)(uVar1 == 0) & param_2[0x3b];
   param_2[0x3a] = uVar1 | param_2[0x3a];
+  uVar4 = (uint)(uVar1 == 0) & param_2[0x3b];
   param_2[0x3b] = uVar4;
   if (uVar4 != 0) {
-    iVar2 = (**(code **)(*param_2 + 0x98))(param_2,0);
+    iVar2 = (*(code *)(*param_2 + 0x98))(param_2,0);
     if (iVar2 != 0) {
-      (**(code **)(*param_2 + 0x90))(param_2,1);
+      (*(code *)(*param_2 + 0x90))(param_2,1);
       param_2[0x3b] = 0;
     }
   }
@@ -65,11 +59,11 @@ undefined8 fn_823588D0(undefined8 param_1,int *param_2)
   param_2[0x3f] = param_2[0x40];
   param_2[0x40] = 0;
   if ((int *)param_2[0x21] != (int *)0x0) {
-    (**(code **)(*(int *)param_2[0x21] + 0x44))();
+    (*(code *)(*(int *)param_2[0x21] + 0x44))(param_2[0x21]);
   }
-  fn_82359C70(param_1,param_2 + 0x10);
-  if ((param_2[0x24] != 0) && ((param_2[0x28] == 0 || (*(int *)(param_2[0x28] + 0x40) != 1)))) {
-    uVar3 = (**(code **)(*param_2 + 0xb4))(param_2);
+  fn_82359C70(param_2+0x10,param_1);
+  if (((unsigned)param_2[0x24] != 0) && ((param_2[0x28] == 0 || (*(unsigned *)(param_2[0x28] + 0x40) != 1)))) {
+    uVar3 = (*(code *)(*param_2 + 0xb4))(param_2);
     *(undefined4 *)(param_2[0x24] + 0x50c) = uVar3;
   }
   return 0;

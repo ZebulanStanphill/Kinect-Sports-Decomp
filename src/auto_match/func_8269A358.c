@@ -1,44 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268D5D8();
-extern int fn_82F68CC0();
-
-
-void fn_8269A358(int param_1,undefined8 param_2)
-
+typedef struct { unsigned char b[0x20]; } Blob_8269A358;
+typedef struct Node_8269A358 {
+    char pad[0x20];
+    struct Node_8269A358 *child;
+    Blob_8269A358 data;
+} Node_8269A358;
+extern void fn_8268D5D8(void *, void *);
+void fn_8269A358(Node_8269A358 *n, Blob_8269A358 *out)
 {
-  if (*(int *)(param_1 + 0x20) == 0) {
-    fn_82F68CC0(param_2,param_1 + 0x24,0x20);
-  }
-  else {
-    ((int (*)())fn_8269A358)();
-    fn_8268D5D8(param_2,param_1 + 0x24);
-  }
-  return;
+    if (n->child != 0) {
+        fn_8269A358(n->child, out);
+        fn_8268D5D8(out, &n->data);
+    } else {
+        *out = n->data;
+    }
 }
-

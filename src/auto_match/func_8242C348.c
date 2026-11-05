@@ -1,67 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82250A18();
 extern int fn_8242C1B8();
 extern unsigned int lbl_832975B0;
 
+typedef struct { char pad[0xf8]; int f_f8; } Dat_8242C348;
+typedef struct { char pad[0x40]; Dat_8242C348 *f40; } Item_8242C348;
+typedef struct { char pad[0x40]; struct { char pad[0x1c4]; Item_8242C348 **arr; char pad2[0x1d4 - 0x1c8]; int idx; } *f40; } Hold_8242C348;
+typedef struct { char pad[0xbc]; unsigned int fbc; } Tail_8242C348;
+typedef struct { char pad[0x174]; char *s174; } Obj_8242C348;
 
-ulonglong fn_8242C348(int param_1)
-
+unsigned char fn_8242C348(char *p)
 {
-  ulonglong uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  if (*(int *)(*(int *)(*(int *)(param_1 + 0x174) + 0x5c) + 0x1d4) == -1) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = *(int *)(*(int *)(param_1 + 0x174) + 0x5c);
-    iVar2 = *(int *)(*(int *)(iVar2 + 0x1d4) * 4 + *(int *)(iVar2 + 0x1c4));
-  }
-  if (*(int *)(*(int *)(iVar2 + 0x40) + 0xf8) == 0) {
-    uVar1 = 0;
-  }
-  else {
-    iVar2 = lbl_832975B0;
-    if (lbl_832975B0 == 0) {
-      iVar2 = fn_82250A18();
-    }
-    if (*(char *)(iVar2 + 4) == '\0') {
-      iVar2 = fn_8242C1B8(param_1);
-      uVar1 = (ulonglong)*(uint *)(iVar2 + 0x2c) + 1;
-    }
-    else {
-      uVar1 = 1;
-    }
-    uVar3 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x174) + 0xbc);
-    uVar1 = ((~(uVar3 ^ uVar1) & 0xffffffff) >> 0x1f) + (ulonglong)(uVar3 <= uVar1) & 1;
-  }
-  return uVar1;
-}
+  Hold_8242C348 *h = (Hold_8242C348 *)(*(char **)(p + 0x174) + 0x1c);
+  Item_8242C348 *it;
+  int a, b;
+  char *g;
 
+  if (h->f40->idx == -1)
+    it = 0;
+  else
+    it = h->f40->arr[h->f40->idx];
+  if (it->f40->f_f8 == 0)
+    return 0;
+  g = (char *)lbl_832975B0;
+  if (lbl_832975B0 == 0)
+    g = (char *)fn_82250A18();
+  if (*(unsigned char *)(g + 4) != 0)
+    a = 1;
+  else
+    a = *(int *)(fn_8242C1B8(p) + 0x2c) + 1;
+  b = *(int *)(*(char **)(p + 0x174) + 0xbc);
+  return a < b;
+}

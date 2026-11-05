@@ -1,42 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-
-
-void fn_82234C48(int param_1,undefined8 param_2)
-
-{
-  undefined1 auStack_20 [16];
-  
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_20);
-  if (*(int **)(param_1 + 0x60) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x60) + 4))();
-  }
-  return;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+typedef struct Iface_82234C48 Iface_82234C48;
+struct Iface_82234C48 { struct VT_82234C48 *vt; };
+typedef struct VT_82234C48 { void (*f0)(); void (*set)(Iface_82234C48 *,__vector4); void (*f8)(); void (*fc)(); void (*f10)(); void (*get)(Iface_82234C48 *,int,__vector4 *); } VT_82234C48;
+typedef struct Sub_82234C48 { char pad[16]; Iface_82234C48 *out; int x; Iface_82234C48 *in; } Sub_82234C48;
+void fn_82234C48(char *self,int arg) {
+ __vector4 v;
+ Sub_82234C48 *s=(Sub_82234C48 *)(self+0x50);
+ s->in->vt->get(s->in,arg,&v);
+ if(s->out) s->out->vt->set(s->out,v);
 }
-

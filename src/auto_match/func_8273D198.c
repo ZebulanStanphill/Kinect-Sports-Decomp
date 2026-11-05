@@ -1,70 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82681728();
-extern int fn_826944C8();
-extern int fn_82696330();
-extern int fn_82696958();
-extern int fn_82713EE8();
-extern unsigned int iStack_54;
-extern unsigned int lbl_8200C4D4;
-extern unsigned int lbl_82012160;
-extern unsigned int uStack_50;
-
-
-undefined4 fn_8273D198(longlong param_1,int param_2)
-
+extern char lbl_82012158[];
+extern char lbl_82012160[];
+extern char lbl_8200C4D4[];
+typedef struct Rep_8273D198 { int p0, p4; int cnt; } Rep_8273D198;
+typedef struct Ctx_8273D198 { void *vt; void *obj; int res; } Ctx_8273D198;
+struct Sub_8273D198;
+typedef struct VtS_8273D198 { int pad[8]; void (*f20)(struct Sub_8273D198 *, void *, Ctx_8273D198 *, int, int); } VtS_8273D198;
+typedef struct Sub_8273D198 { VtS_8273D198 *vt; } Sub_8273D198;
+typedef struct Hold_8273D198 { char pad[0x10]; Sub_8273D198 sub; } Hold_8273D198;
+typedef struct P2_8273D198 { char pad[0x78]; int f78; } P2_8273D198;
+extern void fn_82681728(Rep_8273D198 **, int, char *);
+extern void fn_82713EE8(char *, void *, Rep_8273D198 **, char *);
+extern void fn_826944C8(Rep_8273D198 *);
+extern Hold_8273D198 *fn_82696958(char *, void *);
+extern void fn_82696330(char *);
+int fn_8273D198(char *a, P2_8273D198 *b)
 {
-  undefined4 uVar1;
-  int iVar2;
-  longlong lVar3;
-  int aiStack_60 [2];
-  undefined **ppuStack_58;
-  int iStack_54;
-  undefined4 uStack_50;
-  undefined1 auStack_40 [64];
-  
-  auStack_40[0] = 0;
-  fn_82681728(aiStack_60,(ulonglong)*(uint *)(param_2 + 0x78) + 0x254,0xffffffff82012158);
-  fn_82713EE8(param_1 + 0x10,param_2,aiStack_60,auStack_40);
-  lVar3 = (ulonglong)*(uint *)(aiStack_60[0] + 8) - 1;
-  *(int *)(aiStack_60[0] + 8) = (int)lVar3;
-  if (lVar3 == 0) {
-    fn_826944C8(aiStack_60[0]);
-  }
-  iVar2 = fn_82696958(auStack_40,param_2);
-  uStack_50 = 0;
-  ppuStack_58 = (undefined **)&lbl_82012160;
-  iStack_54 = param_2;
-  (**(code **)(*(int *)(iVar2 + 0x10) + 0x20))(iVar2 + 0x10,param_2 + 0x78,&ppuStack_58,0,0);
-  uVar1 = uStack_50;
-  ppuStack_58 = &lbl_8200C4D4;
-  fn_82696330(auStack_40);
-  return uVar1;
+    char buf[0x10];
+    Ctx_8273D198 c;
+    Rep_8273D198 *ref;
+    Hold_8273D198 *h;
+    int n;
+    Rep_8273D198 *r;
+    buf[0] = 0;
+    fn_82681728(&ref, b->f78 + 0x254, lbl_82012158);
+    fn_82713EE8(a + 0x10, b, &ref, buf);
+    r = ref;
+    n = r->cnt - 1;
+    r->cnt = n;
+    if (n == 0) fn_826944C8(r);
+    h = fn_82696958(buf, b);
+    c.res = 0;
+    c.vt = lbl_82012160;
+    c.obj = b;
+    h->sub.vt->f20(&h->sub, &b->f78, &c, 0, 0);
+    c.vt = lbl_8200C4D4;
+    n = c.res;
+    fn_82696330(buf);
+    return n;
 }
-

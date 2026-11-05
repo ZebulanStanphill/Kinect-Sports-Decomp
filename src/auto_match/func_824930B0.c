@@ -1,85 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_8225F160();
-extern int fn_8229EEA0();
-extern int fn_824CCD80();
-extern int fn_82522588();
-extern int fn_825603C8();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_832975B0;
-
-
-void fn_824930B0(int param_1)
-
+typedef struct It_824930B0 { int a; void *b; } It_824930B0;
+typedef struct Slot_824930B0 { char pad[0x10]; int f10; char pad2[0x20 - 0x14]; char f20[4]; } Slot_824930B0;
+typedef struct Inner_824930B0 {
+    char pad[0x30];
+    unsigned begin;
+    unsigned end;
+    char pad2[0xe70 - 0x38];
+    int fe70;
+    char pad3[0xee8 - 0xe74];
+    unsigned fee8;
+} Inner_824930B0;
+typedef struct Obj_824930B0 { char pad[0x44]; Inner_824930B0 *in; } Obj_824930B0;
+extern unsigned int _CountLeadingZeros(unsigned int);
+extern int *fn_82522588(It_824930B0 *, unsigned);
+extern void fn_822315A0(void *);
+extern int *fn_8225F160(void);
+extern char *fn_82250A18(void);
+extern int fn_824CCD80(int);
+extern void fn_825603C8(int, void *, int);
+extern void fn_8229EEA0(int);
+extern char *lbl_832975B0;
+void fn_824930B0(Obj_824930B0 *o)
 {
-  int iVar1;
-  int *piVar3;
-  int iVar4;
-  undefined8 uVar2;
-  ulonglong uVar5;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  iVar1 = *(int *)(param_1 + 0x44);
-  for (uVar5 = (ulonglong)*(uint *)(iVar1 + 0x30);
-      (uVar5 & 0xffffffff) != (ulonglong)*(uint *)(iVar1 + 0x34); uVar5 = uVar5 + 8) {
-    piVar3 = (int *)fn_82522588(auStack_30,uVar5);
-    iVar4 = *piVar3;
-    *(undefined4 *)(iVar4 + 0x390) = 0;
-    *(undefined4 *)(iVar4 + 0x3c0) = 0;
-    *(undefined4 *)(iVar4 + 0x3c4) = 0;
-    if (iStack_2c != 0) {
-      fn_822315A0();
+    Inner_824930B0 *in = o->in;
+    unsigned p;
+    It_824930B0 it;
+    for (p = in->begin; p != in->end; p += 8) {
+        int *e = (int *)*fn_82522588(&it, p);
+        e[0x390 / 4] = 0;
+        e[0x3c0 / 4] = 0;
+        e[0x3c4 / 4] = 0;
+        if (it.b != 0) fn_822315A0(it.b);
     }
-  }
-  *(undefined4 *)(iVar1 + 0xe70) = 0;
-  iVar4 = fn_8225F160();
-  if (*(int *)(iVar4 + 8) == 1) {
-    iVar4 = lbl_832975B0;
-    if (lbl_832975B0 == 0) {
-      iVar4 = fn_82250A18();
+    in->fe70 = 0;
+    if (fn_8225F160()[2] == 1) {
+        char *g;
+        if (lbl_832975B0 != 0) g = lbl_832975B0; else g = fn_82250A18();
+        if (g[4] == 0) {
+            char *s = *(char **)((_CountLeadingZeros(in->fee8) >> 2 & 8) + in->begin);
+            if (*(int *)(s + 0x22c) != 1) {
+                fn_825603C8(fn_824CCD80(*(int *)(s + 0x10)), s + 0x20, 1);
+                *(int *)(s + 0x22c) = 1;
+            }
+        }
     }
-    if (*(char *)(iVar4 + 4) == '\0') {
-      iVar4 = *(int *)(((uint)LZCOUNT(*(undefined4 *)(iVar1 + 0xee8)) >> 2 & 8) +
-                      *(int *)(iVar1 + 0x30));
-      if (*(int *)(iVar4 + 0x22c) != 1) {
-        uVar2 = fn_824CCD80(*(undefined4 *)(iVar4 + 0x10));
-        fn_825603C8(uVar2,iVar4 + 0x20,1);
-        *(undefined4 *)(iVar4 + 0x22c) = 1;
-      }
-    }
-  }
-  if (*(int *)(*(int *)(iVar1 + 0x94) + 0x5c) != 0) {
-    fn_8229EEA0();
-  }
-  return;
+    if (*(int *)(*(int *)((char *)in + 0x94) + 0x5c) != 0)
+        fn_8229EEA0(*(int *)(*(int *)((char *)in + 0x94) + 0x5c));
 }
-

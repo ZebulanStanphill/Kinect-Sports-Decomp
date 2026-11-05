@@ -1,57 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822B1CF0();
-extern int fn_8288B760();
-extern int fn_828AB870();
-extern int fn_82F63108();
+extern int fn_8288B760(int);
+extern int fn_828AB870(void *, int);
+extern __declspec(noreturn) void fn_82F63108(void);
 
+struct Iface_822B1E78;
+typedef struct { void *f0; int (*f4)(struct Iface_822B1E78 *); } Vt_822B1E78;
+typedef struct Iface_822B1E78 { Vt_822B1E78 *vt; } Iface_822B1E78;
+typedef struct { int pad[4]; Iface_822B1E78 *ptr; } Handle_822B1E78;
+typedef struct { char pad0[0x10]; int f10; char pad14[4]; Handle_822B1E78 h; char pad2c[4]; char sub[1]; } Obj_822B1E78;
 
-void fn_822B1E78(int param_1)
-
+void fn_822B1E78(Obj_822B1E78 *p)
 {
-  char cVar2;
-  undefined8 uVar1;
-  
+  int v;
   fn_822B1CF0();
-  cVar2 = fn_8288B760(*(undefined4 *)(param_1 + 0x10));
-  if (cVar2 != '\0') {
-    if (*(int *)(param_1 + 0x28) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      if (*(int *)(param_1 + 0x28) == 0) {
-                    /* WARNING: Subroutine does not return */
+  if ((unsigned char)fn_8288B760(p->f10) != 0) {
+    if (p->h.ptr != 0) {
+      Handle_822B1E78 *h = &p->h;
+      if (h->ptr == 0)
         fn_82F63108();
-      }
-      uVar1 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+      v = h->ptr->vt->f4(h->ptr);
+    } else {
+      v = 0;
     }
-    fn_828AB870(param_1 + 0x30,uVar1);
+    fn_828AB870(p->sub, v);
   }
-  return;
 }
-

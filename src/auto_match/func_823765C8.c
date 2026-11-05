@@ -34,21 +34,20 @@ undefined4 * fn_823765C8(undefined4 *param_1)
 
 {
   undefined4 *puVar1;
+  undefined4 *mem;
   
   *param_1 = 0;
   param_1[1] = 0;
-  puVar1 = (undefined4 *)fn_8265C9E0(0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[3] = 0;
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821B375C;
-    puVar1[2] = 1;
-  }
+  mem = (undefined4 *)fn_8265C9E0(0x10);
+  if (mem != 0) {
+    mem[3] = 0;
+    mem[1] = 1;
+    *mem = &lbl_821B375C;
+    mem[2] = 1;
+    puVar1 = mem;
+  } else puVar1 = 0;
   if (param_1[1] != 0) {
-    fn_822315A0();
+    fn_822315A0(param_1[1]);
   }
   param_1[1] = puVar1;
   *param_1 = 0;

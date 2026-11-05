@@ -1,150 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_824BB600(int param_1,uint param_2,int param_3)
-
+typedef struct { char pad[0x100]; unsigned *tab; } O_824BB600;
+typedef struct { char pad[0xb50]; unsigned f50; unsigned p54, p58; unsigned f5c; } T_824BB600;
+void fn_824BB600(O_824BB600 *self, unsigned id, int flag)
 {
-  int iVar1;
-  int iVar2;
-  
-  if (param_3 != 0) {
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0xb50) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0xb50) = 0;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0xb5c) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0xb5c) = 0;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0xb60) != 0) {
-      *(undefined4 *)(*(int *)(param_1 + 0x100) + 0xb60) = 0;
-    }
-    if (*(int *)(*(int *)(param_1 + 0x100) + 0xb6c) == 0) {
-      return;
-    }
-    *(undefined4 *)(*(int *)(param_1 + 0x100) + 0xb6c) = 0;
+  int idx;
+  if (flag != 0) {
+    T_824BB600 *t = (T_824BB600 *)self->tab;
+    if (t->f50 != 0) t->f50 = 0;
+    t = (T_824BB600 *)self->tab;
+    if (*(unsigned *)((char *)t + 0xb5c) != 0) *(unsigned *)((char *)t + 0xb5c) = 0;
+    t = (T_824BB600 *)self->tab;
+    if (*(unsigned *)((char *)t + 0xb60) != 0) *(unsigned *)((char *)t + 0xb60) = 0;
+    t = (T_824BB600 *)self->tab;
+    if (*(unsigned *)((char *)t + 0xb6c) == 0) return;
+    *(unsigned *)((char *)t + 0xb6c) = 0;
     return;
   }
-  if (param_2 == 0) {
-    iVar2 = 0;
-  }
-  else if (param_2 == 1) {
-    iVar2 = 0x4b;
-  }
-  else if (param_2 < 3) {
-    iVar2 = 0x19;
-  }
-  else {
-    if (param_2 != 3) {
-      return;
-    }
-    iVar2 = 0x32;
-  }
-  iVar1 = (iVar2 + 0x2e8) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2e7) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2e9) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2ea) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2eb) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2ec) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2ed) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2ee) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2ef) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f0) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f1) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f2) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f3) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f4) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f5) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f6) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f7) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f8) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar1 = (iVar2 + 0x2f9) * 4;
-  if (*(int *)(iVar1 + *(int *)(param_1 + 0x100)) != 0) {
-    *(undefined4 *)(iVar1 + *(int *)(param_1 + 0x100)) = 0;
-  }
-  iVar2 = (iVar2 + 0x2fa) * 4;
-  if (*(int *)(iVar2 + *(int *)(param_1 + 0x100)) == 0) {
-    return;
-  }
-  *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x100)) = 0;
-  return;
+  switch (id) { case 0: idx = 0; break; case 1: idx = 75; break; case 2: idx = 25; break; case 3: idx = 50; break; default: return; }
+  if (self->tab[idx + 744] != 0) self->tab[idx + 744] = 0;
+  if (self->tab[idx + 743] != 0) self->tab[idx + 743] = 0;
+  if (self->tab[idx + 745] != 0) self->tab[idx + 745] = 0;
+  if (self->tab[idx + 746] != 0) self->tab[idx + 746] = 0;
+  if (self->tab[idx + 747] != 0) self->tab[idx + 747] = 0;
+  if (self->tab[idx + 748] != 0) self->tab[idx + 748] = 0;
+  if (self->tab[idx + 749] != 0) self->tab[idx + 749] = 0;
+  if (self->tab[idx + 750] != 0) self->tab[idx + 750] = 0;
+  if (self->tab[idx + 751] != 0) self->tab[idx + 751] = 0;
+  if (self->tab[idx + 752] != 0) self->tab[idx + 752] = 0;
+  if (self->tab[idx + 753] != 0) self->tab[idx + 753] = 0;
+  if (self->tab[idx + 754] != 0) self->tab[idx + 754] = 0;
+  if (self->tab[idx + 755] != 0) self->tab[idx + 755] = 0;
+  if (self->tab[idx + 756] != 0) self->tab[idx + 756] = 0;
+  if (self->tab[idx + 757] != 0) self->tab[idx + 757] = 0;
+  if (self->tab[idx + 758] != 0) self->tab[idx + 758] = 0;
+  if (self->tab[idx + 759] != 0) self->tab[idx + 759] = 0;
+  if (self->tab[idx + 760] != 0) self->tab[idx + 760] = 0;
+  if (self->tab[idx + 761] != 0) self->tab[idx + 761] = 0;
+  if (self->tab[idx + 762] != 0) self->tab[idx + 762] = 0;
 }
-

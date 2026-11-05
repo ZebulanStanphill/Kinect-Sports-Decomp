@@ -28,19 +28,19 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_827B19D8();
 
 
-undefined8 fn_827B1B68(undefined4 *param_1,ulonglong param_2)
+undefined4 fn_827B1B68(undefined4 *param_1,unsigned int param_2)
 
 {
-  undefined8 uVar1;
-  byte abStack_20 [8];
+  undefined4 uVar1;
+  byte abStack_20 [1];
   
-  abStack_20[0] = (byte)((param_2 & 0x7f) << 1);
-  if ((param_2 & 0xffffffff) < 0x80) {
+  if ((param_2 & 0xffffffff) <= 0x7f) {
+    abStack_20[0] = (byte)((param_2 & 0x7f) << 1);
     fn_827B19D8(*param_1,abStack_20);
     uVar1 = 1;
   }
   else {
-    abStack_20[0] = abStack_20[0] | 1;
+    abStack_20[0] = (byte)((param_2 & 0x7f) << 1) | 1;
     fn_827B19D8(*param_1,abStack_20);
     abStack_20[0] = (byte)((param_2 & 0xffffffff) >> 7);
     fn_827B19D8(*param_1,abStack_20);
