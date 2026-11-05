@@ -77941,10 +77941,10 @@
           "/O2"
         ]
       },
-      "auto_match/func_8265C238.c": {
-        "status": "NonMatching",
+      "auto_match/func_8265C238.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_8265C290.c": {
@@ -116052,8 +116052,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_827BEA30.c": {
-        "status": "NonMatching",
+      "auto_match/func_827BEA30.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
