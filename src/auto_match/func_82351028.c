@@ -30,9 +30,9 @@ extern int fn_82247000();
 extern int fn_82250A18();
 extern int fn_82350888();
 extern int fn_82512B70();
-extern int fn_8288B760();
-extern int fn_828B00A0();
-extern int (*lbl_8327677C)();
+extern unsigned char fn_8288B760(int);
+extern unsigned __int64 fn_828B00A0(unsigned);
+extern int (*lbl_83276774[])();
 extern unsigned int lbl_832975B0;
 
 
@@ -42,10 +42,10 @@ void fn_82351028(int param_1)
   bool bVar1;
   uint uVar2;
   int iVar5;
-  char cVar6;
-  ulonglong uVar3;
+  unsigned char cVar6;
+  unsigned uVar3;
   ulonglong uVar4;
-  undefined8 uVar7;
+  unsigned uVar7;
   
   uVar7 = 4;
   if (*(int *)(param_1 + 0x10) != 0) {
@@ -55,7 +55,7 @@ void fn_82351028(int param_1)
   if (lbl_832975B0 == 0) {
     iVar5 = fn_82250A18();
   }
-  if ((*(char *)(iVar5 + 4) != '\0') && (*(int *)(param_1 + 0x3f4) != 0)) {
+  if ((*(char *)(iVar5 + 4) != '\0') && (*(unsigned *)(param_1 + 0x3f4) != 0)) {
     *(undefined1 *)(*(int *)(param_1 + 0x3f4) + 0x95) = 1;
     if (*(int *)(param_1 + 0x3f8) == 0) {
       iVar5 = *(int *)(param_1 + 0x3f4);
@@ -71,14 +71,13 @@ void fn_82351028(int param_1)
       return;
     }
     uVar2 = (*(int **)(param_1 + 0x3f4))[4];
-    iVar5 = (**(code **)(**(int **)(param_1 + 0x3f4) + 4))();
-    uVar3 = (**(code **)(*(int *)(iVar5 + 0xf0) + 0x3c))();
-    if (uVar3 == 0) {
-      bVar1 = false;
+    iVar5 = (*(code *)(**(int **)(param_1 + 0x3f4) + 4))(*(void**)(param_1+0x3f4));
+    iVar5+=0xf0;uVar3 = (*(code *)(*(int *)iVar5 + 0x3c))(iVar5);
+    if (uVar3 != 0) {
+      bVar1 = fn_828B00A0(uVar2+0x278) >= (unsigned __int64)uVar3;
     }
     else {
-      uVar4 = fn_828B00A0((ulonglong)uVar2 + 0x278);
-      bVar1 = (uVar3 & 0xffffffff) <= uVar4;
+      bVar1 = false;
     }
     if (!bVar1) {
       return;
@@ -86,11 +85,11 @@ void fn_82351028(int param_1)
     uVar7 = 5;
   }
   if ((*(int *)(param_1 + 0x3e4) != 0) &&
-     (*(undefined4 *)(param_1 + 0x3e4) = 0, lbl_8327677C != (code *)0x0)) {
-    (*lbl_8327677C)(0xffffffff821b2074,0xffffffff821b1fb8,0x657);
+     (*(undefined4 *)(param_1 + 0x3e4) = 0, lbl_83276774[2] != (code *)0x0)) {
+    (*lbl_83276774[2])("olympus::sport::Sport::TickWaitingOnSync","D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\sport\\sport.cpp",0x657);
   }
-  if (*(int *)(param_1 + 0x3f0) != 0) {
-    fn_82512B70();
+  if (*(unsigned *)(param_1 + 0x3f0) != 0) {
+    fn_82512B70(*(unsigned *)(param_1+0x3f0));
     *(undefined4 *)(param_1 + 0x3f0) = 0;
   }
   fn_82350888(param_1,uVar7);

@@ -41,11 +41,11 @@ extern unsigned int lbl_820244C8;
 
 
 undefined4 *
-fn_828AA9B8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+fn_828AA9B8(undefined4 *param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
 
 {
   uint uVar1;
-  undefined8 uVar2;
+  unsigned int uVar2;
   undefined1 uVar3;
   
   fn_82895048(param_1,param_2,1);
@@ -53,23 +53,23 @@ fn_828AA9B8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   *param_1 = &lbl_820244C8;
   uVar1 = param_1[0xd];
   uVar2 = fn_828B8F40(param_3);
-  fn_822CB340((ulonglong)uVar1 + 0x48,uVar2);
+  fn_822CB340((unsigned int)uVar1 + 0x48,uVar2);
   uVar1 = param_1[0xd];
   uVar2 = fn_82E1DAA0(param_3);
-  fn_8224E9D8((ulonglong)uVar1 + 0x9c,uVar2);
+  fn_8224E9D8((unsigned int)uVar1 + 0x9c,uVar2);
   uVar1 = param_1[0xd];
   uVar3 = fn_823AB478(param_3);
-  fn_828AB150((ulonglong)uVar1 + 0xf0,uVar3);
-  fn_828AAF70((ulonglong)(uint)param_1[0xd] + 0x198,param_4);
+  fn_828AB150((unsigned int)uVar1 + 0xf0,uVar3);
+  fn_828AAF70((unsigned int)(uint)param_1[0xd] + 0x198,param_4);
   uVar1 = param_1[0xd];
   uVar2 = fn_828EA600(param_3);
-  fn_828AAF70((ulonglong)uVar1 + 0x1ec,uVar2);
+  fn_828AAF70((unsigned int)uVar1 + 0x1ec,uVar2);
   uVar1 = param_1[0xd];
   uVar2 = fn_828EA840(param_3);
-  fn_828AAF70((ulonglong)uVar1 + 0x240,uVar2);
+  fn_828AAF70((unsigned int)uVar1 + 0x240,uVar2);
   uVar1 = param_1[0xd];
   uVar2 = fn_828EA610(param_3);
-  fn_828AAF70((ulonglong)uVar1 + 0x294,uVar2);
+  fn_828AAF70((unsigned int)uVar1 + 0x294,uVar2);
   fn_828AA838(param_1);
   return param_1;
 }

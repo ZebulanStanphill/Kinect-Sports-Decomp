@@ -34,15 +34,16 @@ void fn_8274BE60(int param_1)
 
 {
   undefined1 *puVar1;
-  int iVar2;
+  int iVar2; int *iface;
   int *piVar3;
   undefined1 uVar4;
   
-  if (*(int *)(param_1 + 0x18) != 0) {
-    iVar2 = fn_826A7398();
-    piVar3 = (int *)(**(code **)(*(int *)(iVar2 + 8) + 0xc))((int *)(iVar2 + 8),0x1b);
+  if (*(unsigned int *)(param_1 + 0x18) != 0) {
+    iVar2 = fn_826A7398(*(unsigned *)(param_1+0x18));
+    iface = (int *)(iVar2+8);
+    piVar3 = (int *)(*(code *)(*iface+0xc))(iface,0x1b);
     if (piVar3 != (int *)0x0) {
-      uVar4 = (**(code **)(*piVar3 + 0x10))(piVar3);
+      uVar4 = (*(code *)(*piVar3 + 0x10))(piVar3);
       puVar1 = *(undefined1 **)(param_1 + 4);
       fn_826959C8(puVar1);
       puVar1[4] = uVar4;

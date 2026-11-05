@@ -30,10 +30,10 @@ typedef struct { U64 lo, hi; } V16;
 undefined4 fn_82A2B798(void)
 
 {
-  int in_r13;
+
   
-  if (*(int *)(in_r13 + 0x150) == 0) {
-    return *(undefined4 *)(*(int *)(in_r13 + 0x100) + 0x160);
+  if (*(unsigned int *)(__gregister_get(13) + 0x150) == 0) {
+    return *(undefined4 *)(*(int *)(__gregister_get(13) + 0x100) + 0x160);
   }
   return 0;
 }

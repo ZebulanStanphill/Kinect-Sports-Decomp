@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_82E3C590();
 extern int fn_82E4FE40();
-extern int fn_82E50BE8();
+extern void *fn_82E50BE8(unsigned,int,int,int,int);
 extern int fn_82E57620();
 extern int fn_82E576A8();
 extern int fn_82E57738();
@@ -38,7 +38,7 @@ extern int fn_82EE39D8();
 extern int fn_82EE3F30();
 
 
-longlong fn_82EE4800(int *param_1,uint *param_2)
+int fn_82EE4800(int *param_1,uint *param_2)
 
 {
   uint uVar1;
@@ -46,11 +46,11 @@ longlong fn_82EE4800(int *param_1,uint *param_2)
   uint uVar3;
   int *piVar4;
   uint uVar5;
-  ulonglong uVar6;
-  longlong lVar7;
-  ushort auStack_50 [40];
+  void *uVar6;ushort counter;
+  int lVar7;
+  ushort auStack_50 [1];
   
-  if (param_1[3] == 0) {
+  if ((unsigned)param_1[3] == 0) {
     return -0x3ff2c94a;
   }
   if (param_2 == (uint *)0x0) {
@@ -62,7 +62,7 @@ longlong fn_82EE4800(int *param_1,uint *param_2)
     uVar3 = 0x2a;
 LAB_82ee4858:
     *param_2 = uVar3;
-    lVar7 = -0x3ff2c94f;
+    lVar7=-0x3ff2c94f;goto done;
   }
   else {
     fn_82EE3F30(param_1);
@@ -70,22 +70,17 @@ LAB_82ee4858:
     fn_82E57620(param_1 + 4,piVar4);
     fn_82E576A8(param_1 + 8,piVar4);
     lVar7 = fn_82E57620(param_1 + 0x5d,piVar4);
-    if ((-1 < lVar7) && (lVar7 = fn_82E57738(auStack_50,piVar4), -1 < lVar7)) {
+    if ((lVar7 >= 0) && (lVar7 = fn_82E57738(auStack_50,piVar4), lVar7 >= 0)) {
       uVar5 = (uint)auStack_50[0];
       uVar3 = (uVar5 + 0x15) * 2;
-      if (uVar1 < uVar3) goto LAB_82ee4858;
+      if (uVar1 < uVar3) {*param_2=uVar3;lVar7=-0x3ff2c94f;goto done;}
       uVar6 = 0;
-      uVar3 = 0;
+      counter = 0;
       if (uVar5 != 0) {
         do {
-          iVar2 = fn_82E50BE8(0x104,0,0,0,0);
-          if (iVar2 == 0) {
-            uVar6 = 0;
-          }
-          else {
-            uVar6 = fn_82EE39D8();
-          }
-          if ((uVar6 & 0xffffffff) == 0) {
+          iVar2 = (int)fn_82E50BE8(0x104,0,0,0,0);
+          if((void*)iVar2 != 0) uVar6=(void*)fn_82EE39D8(iVar2); else uVar6=0;
+          if (uVar6 == 0) {
             lVar7 = -0x7ff8fff2;
             goto LAB_82ee49bc;
           }
@@ -101,12 +96,12 @@ LAB_82ee4858:
             lVar7 = -0x7ff8fff2;
             break;
           }
-          uVar3 = uVar3 + 1 & 0xffff;
-        } while (uVar3 < uVar5);
+          counter = (ushort)(counter + 1);
+        } while (counter < uVar5);
       }
       if ((int)lVar7 < 0) {
 LAB_82ee4994:
-        if ((uVar6 & 0xffffffff) != 0) {
+        if (uVar6 != 0) {
           fn_82EE3730(uVar6);
           fn_82E4FE40(uVar6);
         }
@@ -115,12 +110,12 @@ LAB_82ee4994:
     if ((int)lVar7 != -0x3ff2c94f) {
 LAB_82ee49bc:
       *param_2 = uVar1 - param_1[0x10];
-      if ((-1 < (int)lVar7) && (uVar6 = (**(code **)(*param_1 + 0x2c))(param_1), uVar6 != *param_2))
+      if (((int)lVar7 >= 0) && ((*(unsigned __int64 (**)())(*param_1+0x2c))(param_1) != *param_2))
       {
         lVar7 = -0x3ff2c566;
       }
     }
   }
-  return lVar7;
+  done: return lVar7;
 }
 

@@ -37,7 +37,7 @@ extern int fn_8300FA30();
 extern int fn_8300FCF0();
 extern int fn_83010868();
 extern int fn_8302BD60();
-extern int fn_83032D88();
+extern int fn_83032D88(unsigned);
 extern int fn_83032FB8();
 extern int fn_83032FD0();
 extern int fn_83032FF0();
@@ -46,42 +46,42 @@ extern int fn_83033070();
 extern int fn_83033110();
 extern int fn_83033360();
 extern int fn_830337B0();
-extern unsigned int lbl_8201FBB8;
-extern unsigned int lbl_821AAD20;
+extern float lbl_8201FBB8;
+extern float lbl_821AAD20;
 extern unsigned int lbl_831BC768;
 extern unsigned int lbl_832642E0;
 extern unsigned int lbl_832642E4;
 
 
-void fn_83038F08(int *param_1,ulonglong param_2)
+void fn_83038F08(int *param_1,uint param_2)
 
 {
   byte bVar1;
   undefined4 uVar2;
   int *piVar4;
   int *piVar5;
-  ulonglong uVar3;
+  uint uVar3;
   undefined4 *puVar6;
   int iVar7;
   uint uVar8;
   
   fn_82FEFC98();
   fn_82FEF600(param_1);
-  (**(code **)(*param_1 + 0x3c))(param_1,0);
-  if ((param_1[0x77] == 0) && (lbl_832642E4 != 0)) {
+  (*(code *)(*param_1 + 0x3c))(param_1,0);
+  if (((unsigned)param_1[0x77] == 0) && (lbl_832642E4 != 0)) {
     fn_8300F998(lbl_832642E4,param_1);
   }
-  if (param_1[0x77] == 0) goto LAB_8303921c;
+  if ((unsigned)param_1[0x77] == 0) goto LAB_8303921c;
   if (((*(byte *)((int)param_1 + 0xd9) & 8) != 0) ||
      ((((*(byte *)((int)param_1 + 0xd9) & 1) != 0 &&
        ((param_1[0x78] >> 0x1c == 1 || (param_1[0x78] >> 0x1c == 2)))) ||
-      (piVar4 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4), piVar4 == (int *)0x0))))
+      (piVar4 = (int *)fn_82FAB9C0(lbl_832642E0 + 4,param_1[0x77]), piVar4 == (int *)0x0))))
   goto LAB_8303921c;
   piVar5 = (int *)fn_83033360(0x5011,0,param_1 + 0x62);
   if (piVar5 != (int *)0x0) {
     piVar5[0x27] = param_1[0x4c];
     fn_83032FB8(piVar5,param_1 + 99);
-    (**(code **)(*piVar5 + 0x14))(piVar5,piVar4[3]);
+    (*(code *)(*piVar5 + 0x14))(piVar5,piVar4[3]);
     fn_83032FD0(piVar5,param_1[0x75]);
     uVar3 = fn_82FA5060(lbl_831BC768,0x38);
     if (((uVar3 & 0xffffffff) != 0) &&
@@ -93,7 +93,7 @@ void fn_83038F08(int *param_1,ulonglong param_2)
         fn_830337B0(piVar5,param_1 + 0x5f);
         if (((*(byte *)((int)param_1 + 0xd9) & 4) == 0) && ((param_2 & 0xff) == 0)) {
           if (param_1[0x78] >> 0x1c == 3) {
-            uVar8 = (uint)((float)param_1[0x76] * lbl_8201FBB8);
+            uVar8 = (uint)(int)(*(float *)(param_1+0x76) * lbl_8201FBB8);
             goto LAB_83039138;
           }
           if (param_1[0x78] >> 0x1c == 4) {
@@ -102,40 +102,38 @@ void fn_83038F08(int *param_1,ulonglong param_2)
         }
         else {
           fn_83032FF0(piVar5,*(byte *)(param_1 + 0x79) >> 7);
-          uVar8 = (uint)((float)param_1[0x76] * lbl_8201FBB8);
-          if (((param_1[0x78] & 0xf0000000U) != 0x30000000) || (uVar8 < 0x2800)) {
+          uVar8 = (uint)(int)(*(float *)(param_1+0x76) * lbl_8201FBB8);
+          if (((int)(param_1[0x78] & 0xf0000000U) != 0x30000000) || (uVar8 < 0x2800)) {
             uVar8 = 0x2800;
           }
 LAB_83039138:
           fn_8302BD60(piVar5,uVar8,0,0);
         }
         puVar6[2] = piVar5;
-        *(undefined8 *)(puVar6 + 6) = *(undefined8 *)(param_1 + 0x10);
-        *(undefined8 *)(puVar6 + 8) = *(undefined8 *)(param_1 + 0x12);
-        *(undefined8 *)(puVar6 + 10) = *(undefined8 *)(param_1 + 0x14);
+        { struct Copy_83038F08 { unsigned __int64 q[3]; }; *(struct Copy_83038F08 *)(puVar6+6) = *(struct Copy_83038F08 *)(param_1+0x10); }
         fn_8300FCF0(lbl_832642E4,puVar6);
-        if ((((float)param_1[0x76] != lbl_821AAD20) && (param_1[0x4c] != 0)) && (param_1[0x17] == 0)
+        if (((*(float *)(param_1+0x76) != 0.0f) && ((unsigned)param_1[0x4c] != 0)) && ((unsigned)param_1[0x17] == 0)
            ) {
           fn_83010868(lbl_832642E4,puVar6);
         }
       }
       else {
         uVar2 = lbl_831BC768;
-        (**(code **)*puVar6)(puVar6,0);
+        (*(code *)*puVar6)(puVar6,0);
         fn_82FA5190(uVar2,puVar6);
       }
     }
-    (**(code **)(*piVar5 + 8))(piVar5);
+    (*(code *)(*piVar5 + 8))(piVar5);
   }
   if ((*(byte *)((int)param_1 + 0xd9) & 0x20) != 0) {
     *(byte *)((int)param_1 + 0xd9) = *(byte *)((int)param_1 + 0xd9) | 0x10;
   }
-  (**(code **)(*piVar4 + 8))(piVar4);
+  (*(code *)(*piVar4 + 8))(piVar4);
 LAB_8303921c:
   iVar7 = param_1[0x62];
   param_1[0x62] = 0;
-  if (iVar7 != 0) {
-    fn_83032D88();
+  if ((unsigned)iVar7 != 0) {
+    fn_83032D88(iVar7);
   }
   bVar1 = *(byte *)((int)param_1 + 0xd9);
   if (((bVar1 & 0x20) != 0) && ((bVar1 & 0x10) != 0)) {

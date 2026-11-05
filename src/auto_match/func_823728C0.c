@@ -26,16 +26,16 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_824E6890();
-extern int fn_824E7360();
+extern int fn_824E7360(int, float, int);
 
 
-void fn_823728C0(int param_1)
+void fn_823728C0(unsigned param_1,int param_2)
 
 {
   if ((*(int *)(param_1 + 0x648) != 0) || (*(int *)(param_1 + 0x64c) != 0)) {
-    fn_824E6890(*(int *)(param_1 + 0x7e0),
-                      (ulonglong)*(uint *)(*(int *)(param_1 + 0x7e0) + 0xd54) + 0x20);
-    fn_824E7360((double)*(float *)(param_1 + 0x654));
+    {int obj=fn_824E6890(*(int *)(param_1 + 0x7e0),
+                      (uint)*(uint *)(*(int *)(param_1 + 0x7e0) + 0xd54) + 0x20);
+    float f=*(float *)(param_1+0x654);fn_824E7360(obj,f,param_2);}
     *(undefined4 *)(param_1 + 0x648) = 0;
     *(undefined4 *)(param_1 + 0x64c) = 0;
   }

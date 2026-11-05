@@ -27,10 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E50C30();
 extern int fn_82EE7F00();
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned);
+extern void fn_82EE7F20(void *,int,int,int);
 
 
-void fn_82E66690(int param_1)
+int fn_82E66690(int param_1)
 
 {
   *(undefined4 *)(param_1 + 0x200) = 0;
@@ -50,6 +51,8 @@ void fn_82E66690(int param_1)
   fn_82E50C30(param_1 + 0x240);
   fn_82EE7F00(param_1 + 0x27c);
                     /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1,0,0x200);
+  memset((void *)param_1,0,0x200);
+  fn_82EE7F20((void *)(param_1+0x27c),0xa,0,0);
+  return param_1;
 }
 

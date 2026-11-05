@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82BD7F18();
 
 
-undefined8 fn_82BD7C38(int param_1,undefined4 *param_2,undefined4 *param_3,uint param_4)
+int fn_82BD7C38(int param_1,undefined4 *param_2,undefined4 *param_3,uint param_4)
 
 {
   undefined4 *puVar1;
@@ -42,23 +42,18 @@ undefined8 fn_82BD7C38(int param_1,undefined4 *param_2,undefined4 *param_3,uint 
   if (param_3 != (undefined4 *)0x0) {
     *param_3 = 0;
   }
-  if (*(int *)(param_1 + 4) != 0) {
+  if (*(unsigned *)(param_1 + 4) != 0) {
     puVar1 = *(undefined4 **)(*(int *)(param_1 + 4) + 8);
-    if (param_2 == (undefined4 *)0x0) {
-      while (puVar1 != (undefined4 *)0x0) {
-        *(undefined4 *)*puVar1 = 0xc0000001;
-        puVar1 = (undefined4 *)fn_82BD7F18(*(undefined4 *)(param_1 + 4));
-      }
-    }
-    else if (puVar1 != (undefined4 *)0x0) {
-      *(undefined4 *)*puVar1 = 0xc0000001;
-      *param_2 = *puVar1;
-      fn_82BD7F18(*(undefined4 *)(param_1 + 4));
+    if (param_2 != 0) {
+      if (puVar1 != 0) { *(undefined4 *)*puVar1=0xc0000001; *param_2=*puVar1; fn_82BD7F18(*(undefined4 *)(param_1+4),puVar1); }
+    } else {
+      while (puVar1 != 0) { *(undefined4 *)*puVar1=0xc0000001; puVar1=(undefined4 *)fn_82BD7F18(*(undefined4 *)(param_1+4),puVar1); }
     }
   }
+  uVar3=0;
   piVar2 = (int *)(param_1 + 8);
   do {
-    if ((*piVar2 != 0) && ((param_3 == (undefined4 *)0x0 || (uVar3 == param_4)))) {
+    if (((unsigned)*piVar2 != 0) && ((param_3 == (undefined4 *)0x0 || (uVar3 == param_4)))) {
       puVar1 = *(undefined4 **)(*piVar2 + 8);
       if (param_3 != (undefined4 *)0x0) {
         if (puVar1 == (undefined4 *)0x0) {
@@ -66,12 +61,12 @@ undefined8 fn_82BD7C38(int param_1,undefined4 *param_2,undefined4 *param_3,uint 
         }
         *(undefined4 *)*puVar1 = 0xc0000001;
         *param_3 = *puVar1;
-        fn_82BD7F18(*(undefined4 *)((uVar3 + 2) * 4 + param_1));
+        fn_82BD7F18(*(undefined4 *)((uVar3 + 2) * 4 + param_1),puVar1);
         return 0;
       }
       while (puVar1 != (undefined4 *)0x0) {
         *(undefined4 *)*puVar1 = 0xc0000001;
-        puVar1 = (undefined4 *)fn_82BD7F18(*piVar2);
+        puVar1 = (undefined4 *)fn_82BD7F18(*piVar2,puVar1);
       }
     }
     uVar3 = uVar3 + 1;

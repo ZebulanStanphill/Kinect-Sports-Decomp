@@ -1,3 +1,4 @@
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {float f[4];} __vector4;
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -30,7 +31,7 @@ extern int fn_822315A0();
 extern int fn_822527F8();
 extern int fn_822D79D8();
 extern int fn_822D7FE0();
-extern int fn_8265C9E0();
+extern unsigned fn_8265C9E0(unsigned);
 extern int fn_828E2B28();
 extern int fn_828E9D40();
 extern int fn_828E9D90();
@@ -43,48 +44,44 @@ extern unsigned int uStack0000004c;
 extern unsigned int uStack_38;
 
 
-void fn_823F2978(int param_1,undefined8 param_2,undefined1 param_3,undefined8 param_4,
-                  undefined4 param_5)
+void fn_823F2978(int param_1,__vector4 pos,int param_2,undefined1 param_3,int param_4,undefined4 param_5)
 
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined1 uStack0000003f;
-  undefined4 uStack0000004c;
+  unsigned iVar2;
+  int uVar1;
+
   undefined1 auStack_40;
-  struct { undefined4 first; int second; } stack_pair_38;
+  struct { undefined4 first; void *second; } stack_pair_38;
 
 
   auStack_40 = 0;
-  uStack0000003f = param_3;
-  uStack0000004c = param_5;
+
   iVar2 = fn_8265C9E0(0x28);
-  if (iVar2 == 0) {
+  if (iVar2 != 0) {
+    uVar1 = fn_822D7FE0(iVar2);
+  } else {
     uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_822D7FE0();
   }
   stack_pair_38.first = 0;
   stack_pair_38.second = 0;
   fn_822D79D8(&stack_pair_38.first,uVar1);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
-            (*(int **)(param_1 + 0x68),stack_pair_38.first,&stack0x00000020);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))(*(int **)(param_1 + 0x70),stack_pair_38.first,param_2);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x10))(*(int **)(param_1 + 0x78),stack_pair_38.first,&auStack_40);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x10))
-            (*(int **)(param_1 + 0x80),stack_pair_38.first,&stack0x0000003f);
-  (**(code **)(**(int **)(param_1 + 0x88) + 0x10))(*(int **)(param_1 + 0x88),stack_pair_38.first,param_4);
-  (**(code **)(**(int **)(param_1 + 0x90) + 0x10))
-            (*(int **)(param_1 + 0x90),stack_pair_38.first,&stack0x0000004c);
-  if (*(int *)(param_1 + 0x48) != 0) {
+  (*(code *)(**(int **)(param_1 + 0x68) + 0x10))
+            (*(int **)(param_1 + 0x68),stack_pair_38.first,&pos);
+  (*(code *)(**(int **)(param_1 + 0x70) + 0x10))(*(int **)(param_1 + 0x70),stack_pair_38.first,param_2);
+  (*(code *)(**(int **)(param_1 + 0x78) + 0x10))(*(int **)(param_1 + 0x78),stack_pair_38.first,&auStack_40);
+  (*(code *)(**(int **)(param_1 + 0x80) + 0x10))
+            (*(int **)(param_1 + 0x80),stack_pair_38.first,&param_3);
+  (*(code *)(**(int **)(param_1 + 0x88) + 0x10))(*(int **)(param_1 + 0x88),stack_pair_38.first,param_4);
+  (*(code *)(**(int **)(param_1 + 0x90) + 0x10))
+            (*(int **)(param_1 + 0x90),stack_pair_38.first,&param_5);
+  if (*(unsigned *)(param_1 + 0x48) != 0) {
     fn_828E9D90(stack_pair_38.first);
     fn_828E9D40(stack_pair_38.first);
     fn_822527F8(param_1,stack_pair_38.first,param_1 + 0x38);
   }
   fn_828E2B28(param_1,&stack_pair_38.first);
   if (stack_pair_38.second != 0) {
-    fn_822315A0();
+    fn_822315A0(stack_pair_38.second);
   }
   return;
 }

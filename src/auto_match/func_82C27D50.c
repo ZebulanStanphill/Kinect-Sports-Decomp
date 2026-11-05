@@ -1,68 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10B28();
-
-
-void fn_82C27D50(int param_1,int param_2)
-
-{
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 * apuStack_30;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  puVar2 = *(undefined4 **)(iVar1 + 0x94);
-  if (*(undefined4 **)(iVar1 + 0x94) != (undefined4 *)0x0) {
-    do {
-      do {
-        apuStack_30 = puVar2;
-        if (apuStack_30 == (undefined4 *)0x0) {
-          return;
-        }
-        puVar2 = (undefined4 *)apuStack_30[2];
-      } while ((apuStack_30[1] != 1) && (param_2 == 0));
-      iVar3 = (**(code **)(*(int *)(iVar1 + 0x4c) + 8))(*(int *)(iVar1 + 0x4c),*apuStack_30);
-      if (iVar3 < 0) {
-        return;
-      }
-      if (apuStack_30 == *(undefined4 **)(iVar1 + 0x94)) {
-        *(undefined4 *)(iVar1 + 0x94) = apuStack_30[2];
-      }
-      if (apuStack_30[3] != 0) {
-        *(undefined4 *)(apuStack_30[3] + 8) = apuStack_30[2];
-      }
-      if (apuStack_30[2] != 0) {
-        *(undefined4 *)(apuStack_30[2] + 0xc) = apuStack_30[3];
-      }
-      iVar3 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x48),0x1d,&apuStack_30);
-    } while (-1 < iVar3);
+typedef struct Node_82C27D50 {unsigned value,state;struct Node_82C27D50 *next,*prev;} Node_82C27D50;
+extern int fn_82C10B28(unsigned,int,Node_82C27D50 **);
+int fn_82C27D50(unsigned self,int force){
+ int hr=0;unsigned obj=*(unsigned *)(self+44);Node_82C27D50 *it=0,*p=*(Node_82C27D50 **)(obj+0x94);
+ if(*(unsigned *)(obj+0x94)==0)return hr;
+ it=*(Node_82C27D50 **)(obj+0x94);
+ while(it){Node_82C27D50 *next=it->next;
+  if(it->state==1 || force){
+   unsigned q=*(unsigned *)(obj+0x4c);
+   hr=(*(int (**)(unsigned,unsigned))(q+8))(q,it->value);if(hr<0)return hr;
+   if(it==*(Node_82C27D50 **)(obj+0x94))*(Node_82C27D50 **)(obj+0x94)=it->next;
+   if(it->prev)it->prev->next=it->next;
+   if(it->next)it->next->prev=it->prev;
+   hr=fn_82C10B28(*(unsigned *)(obj+0x48),0x1d,&it);if(hr<0)return hr;
   }
-  return;
+  it=next;
+ }
+return hr;
 }
-
