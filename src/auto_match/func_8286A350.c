@@ -1,52 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8260D428();
-extern int fn_8286A240();
-
-
-undefined8 fn_8286A350(undefined8 param_1,undefined4 *param_2,int param_3)
-
+typedef struct Str_8286A350 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int cap;
+} Str_8286A350;
+extern int fn_8260D428(Str_8286A350 *, unsigned int, unsigned int, const char *, unsigned int);
+extern Str_8286A350 *fn_8286A240(Str_8286A350 *, Str_8286A350 *, Str_8286A350 *, int);
+static __forceinline int cmp(Str_8286A350 *a, Str_8286A350 *b)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  puVar2 = (undefined4 *)fn_8286A240();
-  if (puVar2 != param_2) {
-    puVar1 = puVar2 + 4;
-    if (0xf < (uint)puVar2[5]) {
-      puVar2 = (undefined4 *)*puVar2;
-    }
-    iVar3 = fn_8260D428(param_3,0,*(undefined4 *)(param_3 + 0x10),puVar2,*puVar1);
-    if (-1 < iVar3) {
-      return 1;
-    }
-  }
-  return 0;
+    unsigned int len = b->size;
+    const char *p;
+    if (b->cap >= 0x10)
+        p = b->u.ptr;
+    else
+        p = b->u.buf;
+    return fn_8260D428(a, 0, a->size, p, len);
 }
 
+unsigned char fn_8286A350(Str_8286A350 *param_1, Str_8286A350 *param_2, Str_8286A350 *param_3)
+{
+    Str_8286A350 *n = fn_8286A240(param_1, param_2, param_3, 0);
+    return n != param_2 && cmp(param_3, n) >= 0;
+}

@@ -1,50 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821CAD1C;
-
-
-void fn_825C67A8(int param_1,undefined8 param_2,undefined4 param_3)
-
+extern void *fn_82522D98(int);
+extern void *fn_8265C9E0(int);
+extern int lbl_821CAD1C[];
+typedef struct Item_825C67A8 { void *vt; int f4; int f8; unsigned char fc; } Item_825C67A8;
+typedef struct Node_825C67A8 { Item_825C67A8 *item; struct Node_825C67A8 *next; } Node_825C67A8;
+typedef struct { int p0; int p4; Node_825C67A8 *head; int fc; } List_825C67A8;
+Item_825C67A8 *fn_825C67A8(List_825C67A8 *l, int unused, int v)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)fn_8265C9E0(0x10);
-  if (puVar2 != (undefined4 *)0x0) {
-    uVar1 = *(undefined4 *)(param_1 + 0xc);
-    puVar2[1] = param_3;
-    *(undefined1 *)(puVar2 + 3) = 0;
-    *puVar2 = &lbl_821CAD1C;
-    puVar2[2] = uVar1;
+  Item_825C67A8 *it;
+  Item_825C67A8 *m;
+  Node_825C67A8 *n;
+  m = (Item_825C67A8 *)fn_8265C9E0(0x10);
+  if (m != 0) {
+    m->f8 = l->fc;
+    m->f4 = v;
+    m->fc = 0;
+    m->vt = lbl_821CAD1C;
+    it = m;
+  } else {
+    it = 0;
   }
-                    /* WARNING: Subroutine does not return */
-  fn_82522D98(8);
+  n = (Node_825C67A8 *)fn_82522D98(8);
+  n->item = it;
+  n->next = l->head;
+  l->head = n;
+  return it;
 }
-

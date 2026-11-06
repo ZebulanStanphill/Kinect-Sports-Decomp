@@ -1,53 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABBF0();
-extern unsigned int iStack_28;
-extern unsigned int lbl_821AC9EC;
+struct Obj_822B6F28;
+typedef struct VT_822B6F28 {
+    int pad[0x24 / 4];
+    void (*f24)(struct Obj_822B6F28 *, void *);
+} VT_822B6F28;
+typedef struct Dev_822B6F28 {
+    char pad[0x90];
+    unsigned int flag;
+} Dev_822B6F28;
+typedef struct Owner_822B6F28 {
+    char pad[0x8c0];
+    Dev_822B6F28 *dev;
+} Owner_822B6F28;
+typedef struct Arr_822B6F28 {
+    int *data;
+    int pad[3];
+    int idx;
+} Arr_822B6F28;
+typedef struct Obj_822B6F28 {
+    VT_822B6F28 *vt;
+    char pad0[0x14 - 4];
+    Owner_822B6F28 *owner;
+    int pad18;
+    Arr_822B6F28 *arr;
+    int pad20;
+    void *cur;
+} Obj_822B6F28;
+typedef struct Frame_822B6F28 {
+    void *vt;
+    Obj_822B6F28 *obj;
+    void *cur;
+} Frame_822B6F28;
+extern char lbl_821AC9EC[];
+extern void fn_822ABBF0(int, Frame_822B6F28 *);
 
-
-void fn_822B6F28(int *param_1,int param_2,int param_3)
-
+void fn_822B6F28(Obj_822B6F28 *self, char *param_2, int param_3)
 {
-  undefined **ppuStack_30;
-  int *piStack_2c;
-  int iStack_28;
-  
-  if ((param_3 != 0) || ((param_2 != 0 && (*(char *)(param_2 + 0xe0) != '\0')))) {
-    ppuStack_30 = &lbl_821AC9EC;
-    piStack_2c = param_1;
-    iStack_28 = param_2;
-    fn_822ABBF0(*(undefined4 *)(((int *)param_1[7])[4] * 4 + *(int *)param_1[7]),&ppuStack_30);
-    if (param_1[9] != param_2) {
-      param_1[9] = param_2;
-      *(uint *)(*(int *)(param_1[5] + 0x8c0) + 0x90) = (uint)(param_2 != 0);
-      (**(code **)(*param_1 + 0x24))(param_1,param_2);
+    Frame_822B6F28 f;
+    if (param_3 != 0 || (param_2 != 0 && param_2[0xe0] != 0)) {
+        f.vt = lbl_821AC9EC;
+        f.obj = self;
+        f.cur = param_2;
+        fn_822ABBF0(self->arr->data[self->arr->idx], &f);
+        if (self->cur != param_2) {
+            self->cur = param_2;
+            if (param_2 != 0)
+                self->owner->dev->flag = 1;
+            else
+                self->owner->dev->flag = 0;
+            self->vt->f24(self, param_2);
+        }
     }
-  }
-  return;
 }
-

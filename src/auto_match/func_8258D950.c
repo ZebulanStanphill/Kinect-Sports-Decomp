@@ -1,53 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern unsigned int *auStack_40;
-extern unsigned int fStack_34;
-extern unsigned int fStack_38;
-extern int fn_82230300();
-extern int fn_8258E488();
+typedef struct Vec2_8258D950 {
+    float x, y;
+} Vec2_8258D950;
+typedef struct Target_8258D950 {
+    char pad[0x28];
+    Vec2_8258D950 pos;
+} Target_8258D950;
+typedef struct Owner_8258D950 {
+    char pad[0x1b0];
+    Target_8258D950 *first;
+    Target_8258D950 *last;
+} Owner_8258D950;
+extern Target_8258D950 **fn_8258E488(void *, void *, void *);
+extern void fn_82230300(void *, int, int);
 
-
-void fn_8258D950(double param_1,double param_2,int param_3,undefined8 param_4)
-
+void fn_8258D950(Owner_8258D950 *self, void *tmp, float x, float y)
 {
-  int *piVar1;
-  undefined1 auStack_40 [8];
-  float fStack_38;
-  float fStack_34;
-  
-  piVar1 = (int *)fn_8258E488(auStack_40,param_3 + 0x1b0,param_4);
-  if (*piVar1 != *(int *)(param_3 + 0x1b4)) {
-    fStack_38 = (float)param_1;
-    fStack_34 = (float)param_2;
-    *(ulonglong *)(*piVar1 + 0x28) = CONCAT44(fStack_38,fStack_34);
-  }
-  fn_82230300(param_4,1,0);
-  return;
+    struct {
+        char buf[8];
+        Vec2_8258D950 v;
+    } l;
+    Target_8258D950 *t = *fn_8258E488(l.buf, &self->first, tmp);
+    if (t != self->last) {
+        l.v.x = x;
+        l.v.y = y;
+        t->pos = l.v;
+    }
+    fn_82230300(tmp, 1, 0);
 }
-

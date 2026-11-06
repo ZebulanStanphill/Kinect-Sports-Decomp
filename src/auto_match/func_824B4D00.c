@@ -28,31 +28,25 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_824B4310();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821C027C;
-extern unsigned int lbl_821CA1A0;
-extern unsigned int lbl_821CA1A4;
-extern unsigned int lbl_821CA1A8;
-extern unsigned int lbl_821CC160;
+extern unsigned int lbl_821CA1A0[3];
+extern float lbl_821CC160;
 
 
 undefined4 * fn_824B4D00(undefined8 param_1)
-
 {
-  undefined4 uVar1;
+  float uVar1;
   undefined4 *puVar2;
-  
+
   puVar2 = (undefined4 *)fn_8265C9E0(0x58);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
+  if (puVar2 != (undefined4 *)0x0) {
     fn_824B4310(puVar2,param_1);
     uVar1 = lbl_821CC160;
     *puVar2 = &lbl_821C027C;
-    puVar2[0x12] = uVar1;
-    puVar2[0x13] = lbl_821CA1A0;
-    puVar2[0x14] = lbl_821CA1A4;
-    puVar2[0x15] = lbl_821CA1A8;
+    *(float *)&puVar2[0x12] = uVar1;
+    puVar2[0x13] = lbl_821CA1A0[0];
+    puVar2[0x14] = lbl_821CA1A0[1];
+    puVar2[0x15] = lbl_821CA1A0[2];
+    return puVar2;
   }
-  return puVar2;
+  return (undefined4 *)0x0;
 }
-

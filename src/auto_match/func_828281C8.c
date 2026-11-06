@@ -1,86 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8265C9E0();
+extern void *fn_8265C9E0(int);
 extern int fn_82822300();
-extern int fn_828252D0();
-extern int fn_82827980();
+extern void *fn_828252D0(int);
+extern unsigned fn_82827980();
 extern int fn_82828B78();
 extern int fn_82829A80();
-extern int strncpy();
-
-
-ulonglong fn_828281C8(int param_1,char *param_2,int *param_3)
-
+extern char *strncpy(char *, const char *, unsigned);
+extern unsigned strlen(const char *);
+typedef struct { int p0; int p4; char *name; int fc; int f10; unsigned char f14; char pad[7]; int f1c; int f20; char f24[4]; int f28; } Ent_828281C8;
+typedef struct { char pad[0x51]; unsigned char cnt; } Obj_828281C8;
+unsigned fn_828281C8(char *obj, char *name, Ent_828281C8 **out)
 {
-  char cVar1;
-  undefined1 uVar2;
-  ulonglong uVar3;
-  int iVar6;
-  undefined8 uVar4;
-  longlong lVar5;
-  char *pcVar7;
-  undefined1 auStack_40 [1];
-  
-  uVar3 = fn_82827980();
-  if ((uVar3 & 0xff) == 0) {
-    *(char *)(param_1 + 0x51) = *(char *)(param_1 + 0x51) + '\x01';
-    iVar6 = fn_828252D0(0x2c);
-    pcVar7 = param_2;
-    do {
-      cVar1 = *pcVar7;
-      pcVar7 = pcVar7 + 1;
-    } while (cVar1 != '\0');
-    uVar4 = fn_828252D0((int)pcVar7 - (int)param_2);
-    *(int *)(iVar6 + 8) = (int)uVar4;
-    strncpy(uVar4,param_2,(int)pcVar7 - (int)param_2);
-    uVar2 = *(undefined1 *)(param_1 + 0x51);
-    *(undefined4 *)(iVar6 + 0xc) = 0;
-    *(undefined4 *)(iVar6 + 0x1c) = 0;
-    *(undefined4 *)(iVar6 + 0x20) = 0;
-    *(undefined1 *)(iVar6 + 0x14) = uVar2;
-    fn_82822300(param_1 + 0x2f4,iVar6);
-    uVar3 = (ulonglong)*(byte *)(param_1 + 0x51);
-    if (*(char *)(param_1 + 0x3f1) != '\0') {
-      fn_82829A80(param_1,0xffffffff8201ed10,param_2,iVar6 + 0x24,0x20);
-      lVar5 = fn_8265C9E0(0x10);
-      if (lVar5 == 0) {
-        lVar5 = 0;
+  unsigned r;
+  Ent_828281C8 *e;
+  unsigned len;
+  int m;
+  unsigned char c;
+  char buf[1];
+  r = fn_82827980();
+  if ((unsigned char)r == 0) {
+    obj[0x51] = obj[0x51] + 1;
+    e = (Ent_828281C8 *)fn_828252D0(0x2c);
+    len = strlen(name) + 1;
+    e->name = (char *)fn_828252D0(len);
+    strncpy(e->name, name, len);
+    c = obj[0x51];
+    e->fc = 0;
+    e->f1c = 0;
+    e->f20 = 0;
+    e->f14 = c;
+    fn_82822300(obj + 0x2f4, e);
+    r = (unsigned char)obj[0x51];
+    if (obj[0x3f1] != 0) {
+      fn_82829A80(obj, "pool", name, &e->f24, 0x20);
+      m = (int)fn_8265C9E0(0x10);
+      if (m != 0) {
+        fn_82828B78(m, buf, buf);
+      } else {
+        m = 0;
       }
-      else {
-        fn_82828B78(lVar5,auStack_40,auStack_40);
-      }
-      *(int *)(iVar6 + 0x28) = (int)lVar5;
+      e->f28 = m;
     }
-    if (param_3 != (int *)0x0) {
-      *param_3 = iVar6;
+    if (out != 0) {
+      *out = e;
     }
   }
-  return uVar3;
+  return r;
 }
-

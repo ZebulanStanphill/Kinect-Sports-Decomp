@@ -1,78 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern unsigned int lbl_831BCF5C;
+typedef struct Arr_83095B60 {
+    unsigned short *data;
+    int count;
+    unsigned int flags : 2;
+    unsigned int cap : 30;
+} Arr_83095B60;
+typedef struct Svc_83095B60 {
+    char pad[0x10];
+    void *heap;
+} Svc_83095B60;
+extern int lbl_831BCF54[];
+extern Svc_83095B60 *fn_82CE5410(void);
+extern void fn_82CE6310(void *, Arr_83095B60 *, int, int);
 
-
-void fn_83095B60(undefined4 *param_1,int param_2,int *param_3)
-
+void fn_83095B60(Arr_83095B60 *arr, char *param_2, int **param_3)
 {
-  int iVar1;
-  longlong lVar2;
-  longlong lVar3;
-  ushort *puVar4;
-  ushort *puVar5;
-  longlong lVar6;
-  int iVar7;
-  
-  puVar5 = (ushort *)*param_1;
-  lVar6 = 0;
-  if (puVar5 < puVar5 + param_1[1] * 2) {
-    puVar4 = puVar5 + -1;
-    lVar3 = (ulonglong)((uint)((int)(puVar5 + param_1[1] * 2) + (-1 - (int)puVar5)) >> 2) + 1;
-    lVar2 = lVar6;
-    do {
-      iVar1 = *(int *)((uint)puVar5[1] * 4 + *param_3);
-      lVar6 = lVar2;
-      if (-1 < iVar1) {
-        lVar6 = lVar2 + 1;
-        *(undefined4 *)(puVar4 + 1) = *(undefined4 *)puVar5;
-        puVar4 = puVar4 + 2;
-        *puVar4 = (ushort)iVar1;
-        *(short *)(*(int *)(&lbl_831BCF5C + (*puVar5 & 1) * 4) + iVar1 * 0x10 + param_2) =
-             (short)lVar2;
-      }
-      puVar5 = puVar5 + 2;
-      lVar3 = lVar3 + -1;
-      lVar2 = lVar6;
-    } while (lVar3 != 0);
-  }
-  iVar1 = fn_82CE5410();
-  iVar7 = (int)lVar6;
-  if ((int)(param_1[2] & 0x3fffffff) < iVar7) {
-    lVar2 = ((ulonglong)(uint)param_1[2] & 0x3fffffff) << 1;
-    if ((int)lVar2 <= iVar7) {
-      lVar2 = lVar6;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar1 + 0x10),param_1,lVar2,4);
-  }
-  param_1[1] = iVar7;
-  return;
-}
+    unsigned short *src = arr->data;
+    unsigned short *dst;
+    unsigned short *end;
+    int n = 0;
+    int k;
+    int m;
+    Svc_83095B60 *svc;
+    int newCap;
+    void *heap;
 
+    end = src + arr->count * 2;
+    if (src < end) {
+        dst = src - 1;
+        for (; src < end; src += 2) {
+            k = n;
+            m = (*param_3)[src[1]];
+            if (m >= 0) {
+                n++;
+                *(int *)(dst + 1) = *(int *)src;
+                dst += 2;
+                *dst = (unsigned short)m;
+                *(short *)(*(int *)(lbl_831BCF54 + 2 + (src[0] & 1)) + m * 0x10 + param_2) = (short)k;
+            }
+        }
+    }
+    svc = fn_82CE5410();
+    heap = svc->heap;
+    if ((int)arr->cap < n) {
+        newCap = arr->cap * 2;
+        if (n >= newCap)
+            newCap = n;
+        fn_82CE6310(heap, arr, newCap, 4);
+    }
+    arr->count = n;
+}

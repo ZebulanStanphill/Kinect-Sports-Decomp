@@ -1,69 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82CEF0B8();
 extern int fn_82CFF928();
 extern int fn_82D93550();
+extern char lbl_8323CF30[];
+extern char lbl_8323E200[];
+struct Ar_82D89EB8;
+typedef struct {
+  int p0[3];
+  void (*f0c)(struct Ar_82D89EB8 *, const char *, void *, int);
+  int p1;
+  void (*f14)(struct Ar_82D89EB8 *, int, const char *, void *, int, int);
+} ArVt_82D89EB8;
+typedef struct Ar_82D89EB8 { ArVt_82D89EB8 *vt; } Ar_82D89EB8;
+typedef struct { void *a; unsigned short b; unsigned short c; } Lst_82D89EB8;
+typedef struct { Lst_82D89EB8 act; Lst_82D89EB8 ent; } Ext_82D89EB8;
+typedef struct {
+  char pad0[0xb4];
+  void *a_b4; int a_b8; int a_bc;
+  char pad1[0x1f8 - 0xc0];
+  void *a_1f8; char pad2[4]; void *a_200; unsigned short a_204; unsigned short a_206;
+  char pad3[0x214 - 0x208];
+  Ext_82D89EB8 *a_214;
+} Obj_82D89EB8;
 
-
-void fn_82D89EB8(int param_1,int *param_2)
-
+void fn_82D89EB8(Obj_82D89EB8 *o, Ar_82D89EB8 *ar)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  (**(code **)(*param_2 + 0x14))
-            (param_2,3,0xffffffff8213acc8,*(undefined4 *)(param_1 + 0xb4),
-             *(int *)(param_1 + 0xb8) << 2,*(int *)(param_1 + 0xbc) << 2);
-  fn_82CEF0B8(param_1,0xffffffff8323cf30,param_2);
-  if ((*(ushort *)(param_1 + 0x206) & 0x8000) == 0) {
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821415b0,*(undefined4 *)(param_1 + 0x200),
-               (ulonglong)*(ushort *)(param_1 + 0x204) << 2,
-               ((ulonglong)*(ushort *)(param_1 + 0x206) & 0x3fff) << 2);
+  Ext_82D89EB8 *x;
+  ar->vt->f14(ar, 3, "constraintsSlave", o->a_b4, o->a_b8 << 2, o->a_bc << 2);
+  fn_82CEF0B8(o, lbl_8323CF30, ar);
+  if ((o->a_206 & 0x8000) == 0) {
+    ar->vt->f14(ar, 3, "CollisionListnr", o->a_200, o->a_204 << 2, (o->a_206 & 0x3fff) << 2);
   }
-  if (*(int *)(param_1 + 0x214) != 0) {
-    fn_82CFF928(param_2,0xffffffff82141598,*(int *)(param_1 + 0x214),0x10,0);
-    iVar1 = *(int *)(param_1 + 0x214);
-    if ((*(ushort *)(iVar1 + 0xe) & 0x8000) == 0) {
-      (**(code **)(*param_2 + 0x14))
-                (param_2,3,0xffffffff82141588,*(undefined4 *)(iVar1 + 8),
-                 (ulonglong)*(ushort *)(iVar1 + 0xc) << 2,
-                 ((ulonglong)*(ushort *)(iVar1 + 0xe) & 0x3fff) << 2);
+  if (o->a_214 != 0) {
+    fn_82CFF928(ar, "ExtendedListenersStruct", o->a_214, 0x10, 0);
+    x = o->a_214;
+    if ((x->ent.c & 0x8000) == 0) {
+      ar->vt->f14(ar, 3, "EntityListeners", x->ent.a, x->ent.b << 2, (x->ent.c & 0x3fff) << 2);
     }
-    puVar2 = *(undefined4 **)(param_1 + 0x214);
-    if ((*(ushort *)((int)puVar2 + 6) & 0x8000) == 0) {
-      (**(code **)(*param_2 + 0x14))
-                (param_2,3,0xffffffff82141574,*puVar2,(ulonglong)*(ushort *)(puVar2 + 1) << 2,
-                 ((ulonglong)*(ushort *)((int)puVar2 + 6) & 0x3fff) << 2);
+    x = o->a_214;
+    if ((x->act.c & 0x8000) == 0) {
+      ar->vt->f14(ar, 3, "ActivatonListners", x->act.a, x->act.b << 2, (x->act.c & 0x3fff) << 2);
     }
   }
-  (**(code **)(*param_2 + 0xc))(param_2,0xffffffff82141568,*(undefined4 *)(param_1 + 0x1f8),0);
-  fn_82D93550(param_1,param_2,0xffffffff8323e200);
-  return;
+  ar->vt->f0c(ar, "SavedMotion", o->a_1f8, 0);
+  fn_82D93550(o, ar, lbl_8323E200);
 }
-

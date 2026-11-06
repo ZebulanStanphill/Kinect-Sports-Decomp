@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_832659CD;
+typedef struct { char pad[8]; unsigned char *bits; } Bits_8262D030;
+typedef struct { char pad[0xf0]; Bits_8262D030 *bm; } Mgr_8262D030;
+typedef struct { Mgr_8262D030 *mgr; char pad[0x41]; unsigned char flag; } Glob_8262D030;
+typedef struct { char pad0[8]; int a; unsigned idx; int want; } Arg_8262D030;
+extern Glob_8262D030 lbl_83265988;
 
-
-char fn_8262D030(undefined8 param_1,int param_2)
-
+char fn_8262D030(int param_1, Arg_8262D030 *p)
 {
-  if (lbl_832659CD != '\0') {
-    if (*(uint *)(param_2 + 0x10) ==
-        (uint)(((uint)*(byte *)(*(int *)(*(int *)(lbl_83265988 + 0xf0) + 8) +
-                               (*(uint *)(param_2 + 0xc) >> 3)) &
-               1 << (*(uint *)(param_2 + 0xc) & 7)) != 0)) {
-      return (*(int *)(param_2 + 8) == 0) + '\x01';
+  unsigned i;
+  unsigned char b;
+  if (lbl_83265988.flag != 0) {
+    i = p->idx;
+    b = lbl_83265988.mgr->bm->bits[i >> 3];
+    if (p->want == ((b & (1 << (i & 7))) != 0)) {
+      return (p->a == 0) + 1;
     }
   }
-  return '\0';
+  return 0;
 }
-

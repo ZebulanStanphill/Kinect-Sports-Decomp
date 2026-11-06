@@ -29,14 +29,15 @@ extern unsigned int lbl_820798C8;
 extern unsigned int lbl_820798D0;
 
 
-void fn_829E8B10(undefined4 *param_1)
-
+void fn_829E8B10(unsigned int *param_1)
 {
-  *param_1 = &lbl_820798D0;
-  if ((int *)param_1[0xb] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0xb] + 8))();
+  unsigned int *p;
+
+  p = (unsigned int *)param_1[11];
+  *param_1 = (unsigned int)&lbl_820798D0;
+  if (p != 0) {
+    (*(code *)(*p + 8))(p);
   }
-  *param_1 = &lbl_820798C8;
+  *param_1 = (unsigned int)&lbl_820798C8;
   return;
 }
-

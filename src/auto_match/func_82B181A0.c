@@ -1,50 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABE5F8();
-extern int fn_82AD20C0();
+typedef struct Node_82B181A0 {
+    int pad0[2];
+    struct Node_82B181A0 *next;
+    int pad1;
+    void *owner;
+} Node_82B181A0;
+typedef struct List_82B181A0 {
+    int pad;
+    Node_82B181A0 *head;
+} List_82B181A0;
+extern int fn_82ABE5F8(void *, Node_82B181A0 *, int, int);
+extern int fn_82AD20C0(void *, Node_82B181A0 *, void *);
 
-
-void fn_82B181A0(int param_1,undefined8 param_2)
-
+void fn_82B181A0(List_82B181A0 *param_1, void *param_2)
 {
-  int iVar1;
-  
-  while( true ) {
-    iVar1 = *(int *)(param_1 + 4);
-    if (iVar1 == 0) break;
-    if (*(int *)(iVar1 + 0x10) == 0) {
-      *(undefined4 *)(param_1 + 4) = *(undefined4 *)(iVar1 + 8);
-      fn_82ABE5F8(param_2,iVar1,0x14,0x1a);
+    Node_82B181A0 *n;
+    while ((n = param_1->head) != 0) {
+        if (n->owner != 0) {
+            fn_82AD20C0(n->owner, n, param_2);
+        } else {
+            param_1->head = n->next;
+            fn_82ABE5F8(param_2, n, 0x14, 0x1a);
+        }
     }
-    else {
-      fn_82AD20C0(*(int *)(iVar1 + 0x10),iVar1,param_2);
-    }
-  }
-  return;
 }
-

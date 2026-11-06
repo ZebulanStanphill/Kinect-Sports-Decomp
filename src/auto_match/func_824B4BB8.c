@@ -1,58 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824B4310();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821C022C;
-extern unsigned int lbl_821CA1A0;
-extern unsigned int lbl_821CA1A4;
-extern unsigned int lbl_821CA1A8;
-extern unsigned int lbl_821CC160;
+typedef struct V3_824B4BB8 {
+    int a, b, c;
+} V3_824B4BB8;
+typedef struct Obj_824B4BB8 {
+    void *vt;
+    char pad[0x44];
+    float f48;
+    V3_824B4BB8 v;
+} Obj_824B4BB8;
+extern void *fn_8265C9E0(int);
+extern void fn_824B4310(void *, void *);
+extern char lbl_821C022C[];
+extern V3_824B4BB8 lbl_821CA1A0;
+extern float lbl_821CC160;
 
-
-undefined4 * fn_824B4BB8(undefined8 param_1)
-
+Obj_824B4BB8 *fn_824B4BB8(void *param_1)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)fn_8265C9E0(0x58);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    fn_824B4310(puVar2,param_1);
-    uVar1 = lbl_821CC160;
-    *puVar2 = &lbl_821C022C;
-    puVar2[0x12] = uVar1;
-    puVar2[0x13] = lbl_821CA1A0;
-    puVar2[0x14] = lbl_821CA1A4;
-    puVar2[0x15] = lbl_821CA1A8;
-  }
-  return puVar2;
+    Obj_824B4BB8 *p = (Obj_824B4BB8 *)fn_8265C9E0(0x58);
+    if (p != 0) {
+        float f;
+        fn_824B4310(p, param_1);
+        f = lbl_821CC160;
+        p->vt = lbl_821C022C;
+        p->f48 = f;
+        p->v = lbl_821CA1A0;
+        return p;
+    }
+    return 0;
 }
-
