@@ -11,10 +11,10 @@ typedef unsigned int undefined4;
 typedef unsigned int uint;
 typedef unsigned int dword;
 typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
+typedef unsigned int undefined8;
+typedef unsigned int ulonglong;
 typedef unsigned __int64 qword;
-typedef __int64 longlong;
+typedef int longlong;
 typedef int (*code)();
 typedef unsigned char U8;
 typedef unsigned short U16;
@@ -25,36 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827B0790();
+extern unsigned fn_827B0790(int,unsigned);
 
 
-undefined8 fn_827B1400(int param_1,ulonglong param_2,int param_3,longlong param_4)
+undefined8 fn_827B1400(int param_1,unsigned int param_2,int param_3,int param_4)
 
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  undefined8 uVar3;
+  unsigned int uVar1;
+  int lVar2;
+  unsigned int uVar3;
   
-  uVar1 = fn_827B0790();
+  uVar1 = fn_827B0790(param_1,param_2);
   lVar2 = fn_827B0790(param_3,param_4);
-  if ((uVar1 - param_2 & 0xffffffff) == (lVar2 - param_4 & 0xffffffffU)) {
-    if ((param_2 & 0xffffffff) < (uVar1 & 0xffffffff)) {
+  if ((uVar1 - param_2) != (lVar2 - param_4)) return 0;
+ {
+    if ((param_2) < (uVar1)) {
       do {
         if (*(char *)(*(int *)(((uint)param_2 >> 10 & 0x3ffffc) +
                               *(int *)(*(int *)(param_1 + 0xc) + 0xc)) + ((uint)param_2 & 0xfff)) !=
             *(char *)(*(int *)(((uint)param_4 >> 10 & 0x3ffffc) +
                               *(int *)(*(int *)(param_3 + 0xc) + 0xc)) + ((uint)param_4 & 0xfff)))
-        goto LAB_827b1440;
+        return 0;
         param_2 = param_2 + 1;
         param_4 = param_4 + 1;
-      } while ((param_2 & 0xffffffff) < (uVar1 & 0xffffffff));
+      } while ((param_2) < (uVar1));
     }
     uVar3 = 1;
   }
-  else {
-LAB_827b1440:
-    uVar3 = 0;
-  }
   return uVar3;
 }
-
