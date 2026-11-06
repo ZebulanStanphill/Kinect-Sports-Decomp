@@ -99343,7 +99343,7 @@ auto_match/func_828B4E60.cpp:
 	.pdata      start:0x82205148 end:0x82205150
 	.text       start:0x828B4E60 end:0x828B4F94
 
-auto_match/func_828B4F98.c:
+auto_match/func_828B4F98.cpp:
 	.pdata      start:0x82205150 end:0x82205158
 	.text       start:0x828B4F98 end:0x828B5110
 

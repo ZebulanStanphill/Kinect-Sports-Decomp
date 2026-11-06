@@ -152026,11 +152026,13 @@
           "/O2"
         ]
       },
-      "auto_match/func_828B4F98.c": {
-        "status": "NonMatching",
+      "auto_match/func_828B4F98.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
-        ]
+          "/O2",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
       "auto_match/func_828B5110.cpp": {
         "status": "Matching",
