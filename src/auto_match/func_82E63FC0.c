@@ -1,100 +1,92 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82E49100();
-extern int fn_82E50330();
-extern int fn_82E50D88();
-extern int fn_82E50FA0();
-extern unsigned int uStack_58;
-extern unsigned int uStack_70;
+void *memset(void *, int, unsigned int);
 
+typedef struct {
+    unsigned short vt;
+    unsigned short r1;
+    unsigned short r2;
+    unsigned short r3;
+    __int64 val;
+} PropVar_82E63FC0;
+typedef struct {
+    unsigned char fmtid[16];
+    unsigned int pid;
+} PropKey_82E63FC0;
+typedef struct Store_82E63FC0 Store_82E63FC0;
+typedef struct {
+    void *QueryInterface;
+    void *AddRef;
+    void *Release;
+    int (*GetCount)(Store_82E63FC0 *, unsigned int *);
+    int (*GetAt)(Store_82E63FC0 *, unsigned int, PropKey_82E63FC0 *);
+    int (*GetValue)(Store_82E63FC0 *, PropKey_82E63FC0 *, PropVar_82E63FC0 *);
+} StoreVt_82E63FC0;
+struct Store_82E63FC0 { StoreVt_82E63FC0 *vt; };
+typedef struct Stream_82E63FC0 Stream_82E63FC0;
+typedef struct {
+    void *QueryInterface;
+    void *AddRef;
+    void *Release;
+    void *Read;
+    int (*Write)(Stream_82E63FC0 *, const void *, unsigned int, unsigned int *);
+} StreamVt_82E63FC0;
+struct Stream_82E63FC0 { StreamVt_82E63FC0 *vt; };
+extern void fn_82E50D88(void *lock);
+extern void fn_82E50FA0(void *lock);
+extern int fn_82E49100(Stream_82E63FC0 *stream, PropVar_82E63FC0 *pv);
+extern void fn_82E50330(PropVar_82E63FC0 *pv);
 
-longlong fn_82E63FC0(int param_1,int *param_2)
-
+int fn_82E63FC0(char *self, Stream_82E63FC0 *stream)
 {
-  int iVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  int *piVar4;
-  longlong lVar5;
-  uint uStack_70;
-  int aiStack_6c [3];
-  undefined1 auStack_60 [8];
-  undefined8 uStack_58;
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [64];
-  
-  fn_82E50D88(param_1 + 8);
-  uVar2 = 0;
-  aiStack_6c[0] = 0;
-  if (param_2 == (int *)0x0) {
-    lVar5 = -0x7fffbffd;
-  }
-  else {
-    piVar4 = (int *)(param_1 + -4);
-    uStack_58 = 0;
-    lVar5 = (**(code **)(*(int *)(param_1 + -4) + 0xc))(piVar4,&uStack_70);
-    if (-1 < lVar5) {
-      uVar3 = 0;
-      if (uStack_70 != 0) {
-        do {
-          lVar5 = (**(code **)(*piVar4 + 0x10))(piVar4,uVar3,auStack_50);
-          if (lVar5 < 0) goto LAB_82e64194;
-          iVar1 = (**(code **)(*piVar4 + 0x14))(piVar4,auStack_50,auStack_60);
-          if (-1 < iVar1) {
-            aiStack_6c[0] = aiStack_6c[0] + 1;
-          }
-          uVar3 = uVar3 + 1;
-        } while ((uVar3 & 0xffffffff) < (ulonglong)uStack_70);
-      }
-      lVar5 = (**(code **)(*param_2 + 0x10))(param_2,aiStack_6c,4,0);
-      if ((-1 < lVar5) && (uStack_70 != 0)) {
-        do {
-          lVar5 = (**(code **)(*piVar4 + 0x10))(piVar4,uVar2,auStack_50);
-          if (lVar5 < 0) break;
-          iVar1 = (**(code **)(*piVar4 + 0x14))(piVar4,auStack_50,auStack_60);
-          if (-1 < iVar1) {
-            lVar5 = (**(code **)(*param_2 + 0x10))(param_2,auStack_50,0x10,0);
-            if (lVar5 < 0) break;
-            lVar5 = (**(code **)(*param_2 + 0x10))(param_2,auStack_40,4,0);
-            if (lVar5 < 0) break;
-            lVar5 = fn_82E49100(param_2,auStack_60);
-            fn_82E50330(auStack_60);
-          }
-          uVar2 = uVar2 + 1;
-        } while ((uVar2 & 0xffffffff) < (ulonglong)uStack_70);
-      }
-    }
-  }
-LAB_82e64194:
-  fn_82E50FA0(param_1 + 8);
-  return lVar5;
-}
+    Store_82E63FC0 *store;
+    unsigned int count;
+    int written;
+    unsigned int i;
+    int hr;
+    PropKey_82E63FC0 key;
+    PropVar_82E63FC0 pv;
 
+    fn_82E50D88(self + 8);
+    written = 0;
+    if (stream == 0) {
+        hr = 0x80004003;
+    } else {
+        store = (Store_82E63FC0 *)(self - 4);
+        memset(&pv, 0, sizeof(pv));
+        hr = store->vt->GetCount(store, &count);
+        if (hr >= 0) {
+            for (i = 0; i < count; i++) {
+                hr = store->vt->GetAt(store, i, &key);
+                if (hr < 0) {
+                    goto done;
+                }
+                if (store->vt->GetValue(store, &key, &pv) >= 0) {
+                    written++;
+                }
+            }
+            hr = stream->vt->Write(stream, &written, 4, 0);
+            if (hr >= 0) {
+                for (i = 0; i < count; i++) {
+                    hr = store->vt->GetAt(store, i, &key);
+                    if (hr < 0) {
+                        break;
+                    }
+                    if (store->vt->GetValue(store, &key, &pv) >= 0) {
+                        hr = stream->vt->Write(stream, key.fmtid, 0x10, 0);
+                        if (hr < 0) {
+                            break;
+                        }
+                        hr = stream->vt->Write(stream, &key.pid, 4, 0);
+                        if (hr < 0) {
+                            break;
+                        }
+                        hr = fn_82E49100(stream, &pv);
+                        fn_82E50330(&pv);
+                    }
+                }
+            }
+        }
+    }
+done:
+    fn_82E50FA0(self + 8);
+    return hr;
+}

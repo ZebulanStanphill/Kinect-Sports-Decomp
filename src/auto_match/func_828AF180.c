@@ -1,49 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memmove();
+void *memmove(void *, const void *, unsigned int);
 
 
-void fn_828AF180(int param_1,int param_2)
+typedef struct Vec_828AF180 {
+    int *first;
+    int *last;
+} Vec_828AF180;
 
+typedef struct Obj_828AF180 {
+    char pad[0x258];
+    Vec_828AF180 vec;
+} Obj_828AF180;
+
+static __forceinline void Erase_828AF180(Vec_828AF180 *v, int *where)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 600);
-  if (piVar1 != *(int **)(param_1 + 0x25c)) {
-    while (param_2 != *piVar1) {
-      piVar1 = piVar1 + 1;
-      if (piVar1 == *(int **)(param_1 + 0x25c)) {
-        return;
-      }
-    }
-    memmove(piVar1,piVar1 + 1,(*(int *)(param_1 + 0x25c) - (int)(piVar1 + 1) >> 2) << 2);
-    *(int *)(param_1 + 0x25c) = *(int *)(param_1 + 0x25c) + -4;
-  }
-  return;
+    int *next = where + 1;
+    memmove(where, next, (v->last - next) * sizeof(int));
+    v->last--;
 }
 
+void fn_828AF180(Obj_828AF180 *o, int value)
+{
+    int *end = o->vec.last;
+    int *p;
+    for (p = o->vec.first; p != end; p++) {
+        if (value == *p) {
+            Erase_828AF180(&o->vec, p);
+            return;
+        }
+    }
+}
