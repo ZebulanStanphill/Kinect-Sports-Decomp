@@ -28,9 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
 
-undefined8 fn_82B6C150(int param_1,uint param_2,uint param_3,uint *param_4,uint *param_5)
+int fn_82B6C150(int param_1,int param_2,uint param_3,uint *param_4,uint *param_5)
 
 {
+  uint i;
+  uint n;
   uint uVar1;
   uint uVar2;
   uint *puVar3;
@@ -43,35 +45,37 @@ undefined8 fn_82B6C150(int param_1,uint param_2,uint param_3,uint *param_4,uint 
   }
   else {
     if (*(int *)(param_1 + 0x10) != 1) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9a24,0xffffffff820d9998,0x29a);
+      fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pFCA->eMode == E_FA_DECREMENTAL","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x29a);
     }
     uVar4 = 0x20;
     uVar2 = 0x20 - *(int *)(param_1 + 0x4a4);
   }
+  i = uVar2;
   if (uVar2 < uVar4) {
     puVar5 = (uint *)(uVar2 * 0x24 + param_1 + 0x20);
     do {
       if (puVar5[-2] != 1) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9ad0,0xffffffff820d9998,0x2a2);
+        fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pFetchBlock->bIsUsed == SSM_TRUE","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x2a2);
       }
-      if (puVar5[-1] == 1) {
+      if ((int)puVar5[-1] == 1) {
         uVar1 = 0;
-        if (*puVar5 != 0) {
+        n = *puVar5;
+        if (n != 0) {
           puVar3 = puVar5 + 4;
           do {
-            if ((puVar3[-3] == param_2) && (*puVar3 == param_3)) {
-              *param_4 = uVar2;
+            if (((int)puVar3[-3] == param_2) && (*puVar3 == param_3)) {
+              *param_4 = i;
               *param_5 = uVar1;
               return 1;
             }
             uVar1 = uVar1 + 1;
             puVar3 = puVar3 + 1;
-          } while (uVar1 < *puVar5);
+          } while (uVar1 < n);
         }
       }
-      uVar2 = uVar2 + 1;
+      i = i + 1;
       puVar5 = puVar5 + 9;
-    } while (uVar2 < uVar4);
+    } while (i < uVar4);
   }
   return 0;
 }

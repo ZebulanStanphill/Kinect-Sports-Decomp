@@ -186504,7 +186504,7 @@
         ]
       },
       "auto_match/func_82AC6650.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -187291,7 +187291,7 @@
         ]
       },
       "auto_match/func_82AD2770.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -192718,7 +192718,7 @@
         ]
       },
       "auto_match/func_82B6C150.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
