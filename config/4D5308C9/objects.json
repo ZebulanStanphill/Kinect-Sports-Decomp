@@ -31417,11 +31417,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_82392190.c": {
-        "status": "NonMatching",
+      "auto_match/func_82392190.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82392248.c": {
         "status": "NonMatching",
@@ -37656,11 +37657,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_823F5C60.c": {
-        "status": "NonMatching",
+      "auto_match/func_823F5C60.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_823F5D18.c": {
         "status": "NonMatching",
