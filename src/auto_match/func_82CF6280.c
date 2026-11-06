@@ -1,79 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CF1790();
+typedef struct Alloc_82CF6280 Alloc_82CF6280;
+typedef struct AllocVtbl_82CF6280 {
+  void *f0;
+  void *f4;
+  void *f8;
+  void *fc;
+  void (*Free)(Alloc_82CF6280 *a, void *p, unsigned cap, unsigned elemSize);
+} AllocVtbl_82CF6280;
+struct Alloc_82CF6280 { AllocVtbl_82CF6280 *vt; };
+typedef struct Env_82CF6280 { char pad[0x14]; Alloc_82CF6280 *alloc; } Env_82CF6280;
+typedef struct Elem_82CF6280 { char pad[0x58]; } Elem_82CF6280;
+typedef struct Array_82CF6280 {
+  Elem_82CF6280 *data;
+  int count;
+  int cap;
+} Array_82CF6280;
+typedef struct Obj_82CF6280 {
+  char pad[0x58];
+  Array_82CF6280 a;
+  Array_82CF6280 b;
+} Obj_82CF6280;
+extern Env_82CF6280 *fn_82CE5410(void);
+extern void fn_82CF1790(void *p);
 
-
-void fn_82CF6280(int param_1)
-
+static __forceinline void clearArray(Array_82CF6280 *arr)
 {
-  int *piVar1;
-  int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  
-  iVar2 = fn_82CE5410();
-  uVar4 = (ulonglong)*(uint *)(param_1 + 0x68);
-  uVar3 = (ulonglong)*(uint *)(param_1 + 100);
-  piVar1 = *(int **)(iVar2 + 0x14);
-  if (0 < (int)*(uint *)(param_1 + 0x68)) {
-    do {
-      fn_82CF1790(uVar3);
-      uVar4 = uVar4 - 1;
-      uVar3 = uVar3 + 0x58;
-    } while (uVar4 != 0);
-  }
-  *(undefined4 *)(param_1 + 0x68) = 0;
-  if ((*(uint *)(param_1 + 0x6c) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 100),*(uint *)(param_1 + 0x6c) & 0x3fffffff,0x58);
-  }
-  *(undefined4 *)(param_1 + 100) = 0;
-  *(undefined4 *)(param_1 + 0x6c) = 0x80000000;
-  iVar2 = fn_82CE5410();
-  uVar3 = (ulonglong)*(uint *)(param_1 + 0x5c);
-  uVar4 = (ulonglong)*(uint *)(param_1 + 0x58);
-  piVar1 = *(int **)(iVar2 + 0x14);
-  if (0 < (int)*(uint *)(param_1 + 0x5c)) {
-    do {
-      fn_82CF1790(uVar4);
-      uVar3 = uVar3 - 1;
-      uVar4 = uVar4 + 0x58;
-    } while (uVar3 != 0);
-  }
-  *(undefined4 *)(param_1 + 0x5c) = 0;
-  if ((*(uint *)(param_1 + 0x60) & 0x80000000) == 0) {
-    (**(code **)(*piVar1 + 0x10))
-              (piVar1,*(undefined4 *)(param_1 + 0x58),*(uint *)(param_1 + 0x60) & 0x3fffffff,0x58);
-  }
-  *(undefined4 *)(param_1 + 0x58) = 0;
-  *(undefined4 *)(param_1 + 0x60) = 0x80000000;
-  fn_82CF1790(param_1);
-  return;
+  Env_82CF6280 *env = fn_82CE5410();
+  int n = arr->count;
+  Elem_82CF6280 *p = arr->data;
+  Alloc_82CF6280 *al = env->alloc;
+  int i;
+  for (i = 0; i < n; i++)
+    fn_82CF1790(&p[i]);
+  arr->count = 0;
+  if ((arr->cap & (int)0x80000000) == 0)
+    al->vt->Free(al, arr->data, arr->cap & 0x3fffffff, sizeof(Elem_82CF6280));
+  arr->data = 0;
+  arr->cap = 0x80000000;
 }
 
+void fn_82CF6280(Obj_82CF6280 *o)
+{
+  clearArray(&o->b);
+  clearArray(&o->a);
+  fn_82CF1790(o);
+}

@@ -1,127 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223A4D8();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_82196C58;
-extern unsigned int lbl_82198198;
+typedef struct FuncImpl_82256C80 FuncImpl_82256C80;
+typedef struct FuncImplVtbl_82256C80 {
+  FuncImpl_82256C80 *(*Copy)(FuncImpl_82256C80 *self, void *where);
+} FuncImplVtbl_82256C80;
+struct FuncImpl_82256C80 { FuncImplVtbl_82256C80 *vt; };
+typedef struct Func_82256C80 {
+  char space[0x10];
+  FuncImpl_82256C80 *impl;
+  int pad14;
+} Func_82256C80;
+typedef struct Weak_82256C80 {
+  void *ptr;
+  void *rep;
+} Weak_82256C80;
+typedef struct Obj_82256C80 {
+  void *vt;
+  char pad4[0x38 - 4];
+  Func_82256C80 f1;
+  Func_82256C80 f2;
+  char s68[8];
+  char s70[8];
+  Weak_82256C80 w78;
+  Weak_82256C80 w80;
+  Weak_82256C80 w88;
+  Weak_82256C80 w90;
+  char s98[8];
+} Obj_82256C80;
+extern void fn_8223A4D8(Obj_82256C80 *self, Obj_82256C80 *other);
+extern unsigned char fn_8223AAC0(void *rep);
+extern void fn_822315A0(void *rep);
+extern void fn_82365BD8(void *self, void *other);
+extern char lbl_82196C58[];
+extern char lbl_82198198[];
 
-
-undefined4 * fn_82256C80(undefined4 *param_1,int param_2)
-
+static __forceinline void copyFunc(Func_82256C80 *d, Func_82256C80 *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  fn_8223A4D8();
-  *param_1 = &lbl_82196C58;
-  puVar4 = param_1 + 0xe;
-  if (*(int *)(param_2 + 0x48) == 0) {
-    param_1[0x12] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x48) != param_2 + 0x38) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x48))(*(undefined4 **)(param_2 + 0x48),puVar4);
-    param_1[0x12] = uVar2;
-  }
-  puVar4 = param_1 + 0x14;
-  if (*(int *)(param_2 + 0x60) == 0) {
-    param_1[0x18] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x60) != param_2 + 0x50) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x60))(*(undefined4 **)(param_2 + 0x60),puVar4);
-    param_1[0x18] = uVar2;
-  }
-  *param_1 = &lbl_82198198;
-  fn_82365BD8(param_1 + 0x1a,param_2 + 0x68);
-  fn_82365BD8(param_1 + 0x1c,param_2 + 0x70);
-  param_1[0x1e] = 0;
-  param_1[0x1f] = 0;
-  iVar1 = *(int *)(param_2 + 0x7c);
-  uVar2 = *(undefined4 *)(param_2 + 0x78);
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x1f] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x1f] = iVar1;
-      param_1[0x1e] = uVar2;
-    }
-  }
-  param_1[0x20] = 0;
-  param_1[0x21] = 0;
-  iVar1 = *(int *)(param_2 + 0x84);
-  uVar2 = *(undefined4 *)(param_2 + 0x80);
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x21] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x21] = iVar1;
-      param_1[0x20] = uVar2;
-    }
-  }
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  iVar1 = *(int *)(param_2 + 0x8c);
-  uVar2 = *(undefined4 *)(param_2 + 0x88);
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x23] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x23] = iVar1;
-      param_1[0x22] = uVar2;
-    }
-  }
-  param_1[0x24] = 0;
-  param_1[0x25] = 0;
-  iVar1 = *(int *)(param_2 + 0x94);
-  uVar2 = *(undefined4 *)(param_2 + 0x90);
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x25] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x25] = iVar1;
-    param_1[0x24] = uVar2;
-  }
-  fn_82365BD8(param_1 + 0x26,param_2 + 0x98);
-  return param_1;
+  if (s->impl == 0)
+    d->impl = 0;
+  else if (s->impl == (void *)s->space)
+    d->impl = s->impl->vt->Copy(s->impl, d->space);
+  else
+    d->impl = s->impl->vt->Copy(s->impl, 0);
 }
 
+static __forceinline void lockWeak(Weak_82256C80 *d, Weak_82256C80 *s)
+{
+  void *rep;
+  void *ptr;
+  d->ptr = 0;
+  d->rep = 0;
+  rep = s->rep;
+  ptr = s->ptr;
+  if (rep != 0 && fn_8223AAC0(rep)) {
+    if (d->rep != 0)
+      fn_822315A0(d->rep);
+    d->rep = rep;
+    d->ptr = ptr;
+  }
+}
+
+Obj_82256C80 *fn_82256C80(Obj_82256C80 *self, Obj_82256C80 *other)
+{
+  fn_8223A4D8(self, other);
+  self->vt = lbl_82196C58;
+  copyFunc(&self->f1, &other->f1);
+  copyFunc(&self->f2, &other->f2);
+  self->vt = lbl_82198198;
+  fn_82365BD8(self->s68, other->s68);
+  fn_82365BD8(self->s70, other->s70);
+  lockWeak(&self->w78, &other->w78);
+  lockWeak(&self->w80, &other->w80);
+  lockWeak(&self->w88, &other->w88);
+  lockWeak(&self->w90, &other->w90);
+  fn_82365BD8(self->s98, other->s98);
+  return self;
+}

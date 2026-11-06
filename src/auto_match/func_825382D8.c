@@ -25,55 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_a0;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_82240378();
-extern int fn_82537C48();
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_80;
+typedef struct Str_825382D8 { char b[0x1c]; } Str_825382D8;
+typedef struct Entry_825382D8 { unsigned __int64 key; char name[0x18]; int f20; unsigned flags; unsigned __int64 v; char rest[0x78 - 0x30]; } Entry_825382D8;
+typedef struct Pair_825382D8 { unsigned __int64 key; Str_825382D8 name; int f; unsigned __int64 q; int z; } Pair_825382D8;
+extern void *fn_82230110(void *, void *);
+extern void fn_82240378(void *, void *);
+extern void fn_82230300(void *, int, int);
+extern void fn_82537C48(void *, void *);
 
-
-undefined4 *
-fn_825382D8(undefined4 *param_1,undefined8 *param_2,undefined8 *param_3,longlong param_4)
-
+int *fn_825382D8(int *param_1, Entry_825382D8 *param_2, Entry_825382D8 *param_3, int param_4)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  undefined8 *puVar3;
-  undefined8 uVar4;
-  undefined8 *puVar5;
-  undefined1 auStack_a0 [32];
-  undefined8 uStack_80;
-  undefined1 auStack_78 [28];
-  undefined4 uStack_5c;
-  undefined8 uStack_58;
-  undefined4 uStack_50;
-  
+  char tmp[0x20];
+  Pair_825382D8 p;
+  Entry_825382D8 *e;
   if (param_2 != param_3) {
-    puVar5 = param_2 + 5;
+    e = param_2;
     do {
-      if ((*(uint *)((int)puVar5 + -4) & 1) == 0) {
-        uVar4 = *puVar5;
-        uVar1 = *(undefined4 *)(puVar5 + -1);
-        uVar2 = fn_82230110(auStack_a0,puVar5 + -4);
-        uStack_80 = puVar5[-5];
-        fn_82240378(auStack_78,uVar2);
-        uStack_50 = 0;
-        uStack_5c = uVar1;
-        uStack_58 = uVar4;
-        fn_82230300(uVar2,1,0);
-        fn_82537C48(param_4 + 0x20,&uStack_80);
-        fn_82230300(auStack_78,1,0);
+      if ((e->flags & 1) == 0) {
+        unsigned __int64 v = e->v;
+        int f = e->f20;
+        void *s = fn_82230110(tmp, e->name);
+        p.key = e->key;
+        fn_82240378(&p.name, s);
+        p.f = f;
+        p.q = v;
+        p.z = 0;
+        fn_82230300(s, 1, 0);
+        fn_82537C48((void *)(param_4 + 0x20), &p);
+        fn_82230300(&p.name, 1, 0);
       }
-      puVar3 = puVar5 + 10;
-      puVar5 = puVar5 + 0xf;
-    } while (puVar3 != param_3);
+      e++;
+    } while (e != param_3);
   }
-  *param_1 = (int)param_4;
+  *param_1 = param_4;
   return param_1;
 }
-

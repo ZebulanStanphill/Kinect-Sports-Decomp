@@ -1,95 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE5410();
-extern int fn_82D71B20();
-extern unsigned int lbl_82132BC4;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
-
-longlong fn_82D742B0(int param_1,undefined8 param_2,longlong param_3,undefined8 param_4,
-                      undefined8 param_5)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
-  undefined8 uVar4;
-  int iVar5;
-  int *piVar6;
-  uint *puVar7;
-  int iVar8;
-  ulonglong uVar9;
-  uint uVar10;
-  ulonglong uVar11;
-  
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar5 + 4);
-  if (puVar1 < *(undefined4 **)(iVar5 + 0xc)) {
-    *puVar1 = "TtList3";
-    uVar4 = TBLr;
-    puVar1[1] = (int)uVar4;
-    *(undefined4 **)(iVar5 + 4) = puVar1 + 3;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  iVar5 = **(int **)(param_1 + 4);
-  uVar2 = *(uint *)(iVar5 + 0x1c);
-  uVar11 = (ulonglong)uVar2;
-  piVar6 = (int *)fn_82CE5410();
-  iVar3 = *piVar6;
-  iVar8 = 0;
-  uVar10 = 0;
-  uVar9 = 1;
-  *piVar6 = (uVar2 * 4 + 0x83 & 0xffffff80) + iVar3;
-  if (0 < (int)uVar2) {
-    puVar7 = (uint *)(iVar3 + -4);
-    do {
-      if ((0xff < uVar10) || ((*(uint *)(((uVar10 >> 5) + 0x14) * 4 + iVar5) & (uint)uVar9) != 0)) {
-        puVar7 = puVar7 + 1;
-        *puVar7 = uVar10;
-        iVar8 = iVar8 + 1;
-      }
-      uVar10 = uVar10 + 1;
-      uVar9 = (uVar9 & 0x7fffffff) << 1 | uVar9 >> 0x1f;
-      uVar11 = uVar11 - 1;
-    } while (uVar11 != 0);
-  }
-  *(undefined4 *)(iVar8 * 4 + iVar3) = 0xffffffff;
-  fn_82D71B20(param_3,param_1,iVar5 + 0x10,iVar3,param_5);
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar5 + 4);
-  if (puVar1 < *(undefined4 **)(iVar5 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar4 = TBLr;
-    puVar1[1] = (int)uVar4;
-    *(undefined4 **)(iVar5 + 4) = puVar1 + 3;
-  }
-  piVar6 = (int *)fn_82CE5410();
-  *piVar6 = iVar3;
-  return param_3 + 0x10;
 }
 
+typedef struct Rec_82D742B0 {
+  char pad0[0x1c];
+  int count;
+  char pad1[0x50 - 0x20];
+  int bits[8];
+} Rec_82D742B0;
+typedef struct Obj_82D742B0 {
+  int f0;
+  Rec_82D742B0 **f4;
+} Obj_82D742B0;
+
+extern int **fn_82CE5410(void);
+extern void fn_82D71B20(char *c, Obj_82D742B0 *o, char *r, int *buf, int e);
+
+char *fn_82D742B0(Obj_82D742B0 *o, int a, char *c, int b, int e)
+{
+  Rec_82D742B0 *r;
+  int *buf;
+  int n;
+  int i;
+  int k;
+  int **sp;
+  timer("TtList3");
+  r = *o->f4;
+  n = r->count;
+  sp = fn_82CE5410();
+  buf = *sp;
+  *sp = (int *)((char *)buf + ((n * 4 + 0x83) & 0xffffff80));
+  k = 0;
+  for (i = 0; i < n; i++) {
+    if ((unsigned)i >= 0x100 || (r->bits[(unsigned)i >> 5] & (1 << (i & 31))) != 0)
+      buf[k++] = i;
+  }
+  buf[k] = -1;
+  fn_82D71B20(c, o, (char *)r + 0x10, buf, e);
+  timer("Et");
+  sp = fn_82CE5410();
+  *sp = buf;
+  return c + 0x10;
+}

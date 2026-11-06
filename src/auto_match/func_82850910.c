@@ -25,31 +25,27 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82817B08();
-extern int fn_82817B50();
-extern int fn_82817BC8();
 
+extern int fn_82817B08(void *);
+extern void fn_82817B50(void *, int, int *);
+extern void fn_82817BC8(int, int *);
 
-undefined8 fn_82850910(int param_1,longlong param_2)
-
+int fn_82850910(int param_1, int *param_2)
 {
-  longlong lVar1;
-  longlong lVar2;
-  undefined4 auStack_30;
-  
-  if ((*(int *)(param_1 + 0x144) != 0) && (lVar1 = fn_82817B08(), 0 < lVar1)) {
-    lVar2 = 0;
-    if (0 < (int)lVar1) {
+  int n, i;
+  int out;
+  void *o = *(void **)(param_1 + 0x144);
+  if (o != 0 && (n = fn_82817B08(o)) > 0) {
+    i = 0;
+    if (0 < n) {
       do {
-        fn_82817B50(*(undefined4 *)(param_1 + 0x144),lVar2,&auStack_30);
-        fn_82817BC8(auStack_30,param_2);
-        lVar2 = lVar2 + 1;
-        param_2 = param_2 + 4;
-      } while ((int)lVar2 < (int)lVar1);
+        fn_82817B50(*(void **)(param_1 + 0x144), i, &out);
+        fn_82817BC8(out, param_2);
+        i++;
+        param_2++;
+      } while (i < n);
     }
     return 1;
   }
   return 0;
 }
-

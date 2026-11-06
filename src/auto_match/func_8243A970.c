@@ -25,52 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82437EC8();
-extern int fn_8243C0C0();
-
-
-undefined8 fn_8243A970(undefined8 param_1,int param_2)
-
+struct O_8243A970;
+typedef struct VT_8243A970 { void *s[5]; void (*f14)(struct O_8243A970 *); } VT_8243A970;
+typedef struct O_8243A970 { VT_8243A970 *vt; int pad[4]; int a; int b; int pad2[9]; struct Ctl_8243A970 *ctl; } O_8243A970;
+typedef struct Ctl_8243A970 { char pad[8]; char flag; char pad1[0x1c4-9]; O_8243A970 **arr; char pad2[0x1d4-0x1c8]; int idx; } Ctl_8243A970;
+extern void fn_8243C0C0(void *, float);
+extern void fn_82437EC8(void *, int);
+int fn_8243A970(O_8243A970 *o, float f)
 {
-  int iVar1;
-  int *piVar2;
-  bool bVar3;
-  
-  fn_8243C0C0();
-  if (*(int *)(param_2 + 0x14) == 0) {
-    fn_82437EC8(param_2,2);
-  }
-  iVar1 = *(int *)(param_2 + 0x14);
-  if ((*(int *)(param_2 + 0x18) == iVar1) || (bVar3 = true, *(int *)(param_2 + 0x18) == 0)) {
-    bVar3 = false;
-  }
-  if (!bVar3) {
-    if (((*(int *)(*(int *)(param_2 + 0x40) + 0x1d4) == -1) ||
-        (piVar2 = *(int **)(*(int *)(*(int *)(param_2 + 0x40) + 0x1d4) * 4 +
-                           *(int *)(*(int *)(param_2 + 0x40) + 0x1c4)), piVar2 == (int *)0x0)) ||
-       (iVar1 == 7)) {
-      return 1;
-    }
-    if ((iVar1 != 3) && (*(char *)(piVar2[0x10] + 8) != '\0')) {
-      if ((piVar2[6] == piVar2[5]) || (bVar3 = true, piVar2[6] == 0)) {
-        bVar3 = false;
-      }
-      if (!bVar3) {
-        (**(code **)(*piVar2 + 0x14))(piVar2);
-        fn_82437EC8(param_2,3);
+  O_8243A970 *p;
+  bool x;
+  fn_8243C0C0(o, f);
+  if (o->a == 0) fn_82437EC8(o, 2);
+  x = o->b != o->a && o->b != 0;
+  if (!x) {
+    if (o->ctl->idx == -1) goto r1;
+    p = o->ctl->arr[o->ctl->idx];
+    if (p == 0) { r1: return 1; }
+    if (o->a == 7) return 1;
+    if (o->a != 3 && p->ctl->flag != 0) {
+      x = p->b != p->a && p->b != 0;
+      if (!x) {
+        p->vt->f14(p);
+        fn_82437EC8(o, 3);
         return 0;
       }
     }
-    fn_8243C0C0(param_1,piVar2);
-    if ((*(char *)(piVar2[0x10] + 8) == '\0') && (piVar2[5] == 1)) {
-      if ((piVar2[6] == 1) || (bVar3 = true, piVar2[6] == 0)) {
-        bVar3 = false;
-      }
-      if (!bVar3) {
-        return 1;
-      }
+    fn_8243C0C0(p, f);
+    if (p->ctl->flag == 0 && p->a == 1) {
+      x = p->b != 1 && p->b != 0;
+      if (!x) return 1;
     }
   }
   return 0;
 }
-

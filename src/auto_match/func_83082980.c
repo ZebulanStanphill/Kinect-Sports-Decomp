@@ -1,76 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CEA160();
-extern int fn_82CEA280();
-extern int fn_82CEAC30();
-extern int fn_82CEAF18();
-extern int fn_82CEAF20();
-extern int fn_82CFD5B0();
+typedef struct Info_83082980 { char pad[0x10]; int id; } Info_83082980;
+extern int fn_82CEA280(void *ctx, void *node, int a);
+extern Info_83082980 *fn_82CE5410(void);
+extern void fn_82CEA160(void *ctx, int id, void *node, int flags);
+extern int fn_82CEAF18(void *node);
+extern void *fn_82CEAF20(void *node, int i);
+extern void *fn_82CFD5B0(void *child);
+extern void *fn_82CEAC30(void *node);
 
-
-void fn_83082980(undefined8 param_1,undefined8 param_2,ulonglong param_3,code *param_4)
-
+void fn_83082980(void *node, void *ctx, int mask, void (*cb)(void *))
 {
-  uint uVar1;
-  ulonglong uVar2;
-  int iVar4;
-  undefined8 uVar3;
-  longlong lVar5;
-  
-  uVar2 = fn_82CEA280(param_2,param_1,0);
-  uVar1 = (uint)uVar2;
-  while( true ) {
-    if ((uVar1 & (uint)param_3) != 0) {
-      return;
-    }
-    iVar4 = fn_82CE5410();
-    fn_82CEA160(param_2,*(undefined4 *)(iVar4 + 0x10),param_1,uVar2 | param_3);
-    lVar5 = 0;
-    iVar4 = fn_82CEAF18(param_1);
-    if (0 < iVar4) {
-      do {
-        uVar3 = fn_82CEAF20(param_1,lVar5);
-        uVar2 = fn_82CFD5B0();
-        if ((uVar2 & 0xffffffff) != 0) {
-          fn_83082980(uVar2,param_2,param_3,param_4);
-        }
-        (*param_4)(uVar3);
-        lVar5 = lVar5 + 1;
-        iVar4 = fn_82CEAF18(param_1);
-      } while ((int)lVar5 < iVar4);
-    }
-    iVar4 = fn_82CEAC30(param_1);
-    if (iVar4 == 0) break;
-    param_1 = fn_82CEAC30(param_1);
-    uVar2 = fn_82CEA280(param_2,param_1,0);
-    uVar1 = (uint)uVar2;
+  int flags;
+  Info_83082980 *info;
+  int i;
+  void *child;
+  void *sub;
+  flags = fn_82CEA280(ctx, node, 0);
+  if ((flags & mask) != 0)
+    return;
+  info = fn_82CE5410();
+  fn_82CEA160(ctx, info->id, node, flags | mask);
+  for (i = 0; i < fn_82CEAF18(node); i++) {
+    child = fn_82CEAF20(node, i);
+    sub = fn_82CFD5B0(child);
+    if (sub != 0)
+      fn_83082980(sub, ctx, mask, cb);
+    cb(child);
   }
-  return;
+  if (fn_82CEAC30(node) != 0)
+    fn_83082980(fn_82CEAC30(node), ctx, mask, cb);
 }
-

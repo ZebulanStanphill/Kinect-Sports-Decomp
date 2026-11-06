@@ -1,85 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82930318();
-extern int fn_82934E38();
+typedef struct Node_82934F48 Node_82934F48;
+typedef struct NodeVtbl_82934F48 {
+  void *f0;
+  Node_82934F48 *(*Clone)(Node_82934F48 *self);
+} NodeVtbl_82934F48;
+struct Node_82934F48 { NodeVtbl_82934F48 *vt; };
+typedef struct Block_82934F48 { unsigned __int64 v[4]; } Block_82934F48;
+typedef struct Obj_82934F48 {
+  char pad0[0x10];
+  Block_82934F48 block;
+  int f30;
+  int f34;
+  int f38;
+  Node_82934F48 *a;
+  Node_82934F48 *b;
+  Node_82934F48 *kids[4];
+  int f54;
+  int f58;
+  int f5c;
+} Obj_82934F48;
+extern void *fn_82930318(unsigned size);
+extern Obj_82934F48 *fn_82934E38(void *mem);
 
-
-int fn_82934F48(int param_1)
-
+Obj_82934F48 *fn_82934F48(Obj_82934F48 *o)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  int *piVar4;
-  
-  iVar1 = fn_82930318(0x60);
-  if (iVar1 == 0) {
-    iVar1 = 0;
+  void *mem;
+  Obj_82934F48 *n;
+  unsigned i;
+  mem = fn_82930318(0x60);
+  if (mem != 0)
+    n = fn_82934E38(mem);
+  else
+    n = 0;
+  if (n == 0)
+    return 0;
+  n->block = o->block;
+  n->f30 = o->f30;
+  n->f34 = o->f34;
+  n->f38 = o->f38;
+  n->f54 = o->f54;
+  n->f58 = o->f58;
+  if (o->a != 0) {
+    if ((n->a = o->a->vt->Clone(o->a)) == 0)
+      return 0;
   }
-  else {
-    iVar1 = fn_82934E38();
+  if (o->b != 0) {
+    if ((n->b = o->b->vt->Clone(o->b)) == 0)
+      return 0;
   }
-  if (iVar1 == 0) {
-LAB_82934f80:
-    iVar1 = 0;
-  }
-  else {
-    *(undefined8 *)(iVar1 + 0x10) = *(undefined8 *)(param_1 + 0x10);
-    *(undefined8 *)(iVar1 + 0x18) = *(undefined8 *)(param_1 + 0x18);
-    *(undefined8 *)(iVar1 + 0x20) = *(undefined8 *)(param_1 + 0x20);
-    *(undefined8 *)(iVar1 + 0x28) = *(undefined8 *)(param_1 + 0x28);
-    *(undefined4 *)(iVar1 + 0x30) = *(undefined4 *)(param_1 + 0x30);
-    *(undefined4 *)(iVar1 + 0x34) = *(undefined4 *)(param_1 + 0x34);
-    *(undefined4 *)(iVar1 + 0x38) = *(undefined4 *)(param_1 + 0x38);
-    *(undefined4 *)(iVar1 + 0x54) = *(undefined4 *)(param_1 + 0x54);
-    *(undefined4 *)(iVar1 + 0x58) = *(undefined4 *)(param_1 + 0x58);
-    if (*(int **)(param_1 + 0x3c) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x3c) + 4))();
-      *(int *)(iVar1 + 0x3c) = iVar2;
-      if (iVar2 == 0) goto LAB_82934f80;
+  for (i = 0; i < 4; i++) {
+    if (o->kids[i] != 0) {
+      if ((n->kids[i] = o->kids[i]->vt->Clone(o->kids[i])) == 0)
+        return 0;
     }
-    if (*(int **)(param_1 + 0x40) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x40) + 4))();
-      *(int *)(iVar1 + 0x40) = iVar2;
-      if (iVar2 == 0) goto LAB_82934f80;
-    }
-    piVar4 = (int *)(param_1 + 0x44);
-    uVar3 = 0;
-    do {
-      if ((int *)*piVar4 != (int *)0x0) {
-        iVar2 = (**(code **)(*(int *)*piVar4 + 4))();
-        *(int *)((iVar1 - param_1) + (int)piVar4) = iVar2;
-        if (iVar2 == 0) goto LAB_82934f80;
-      }
-      uVar3 = uVar3 + 1;
-      piVar4 = piVar4 + 1;
-    } while (uVar3 < 4);
   }
-  return iVar1;
+  return n;
 }
-

@@ -25,108 +25,85 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82C07E78();
-extern int fn_82C10630();
-extern int fn_82C107F8();
-extern int fn_82C10950();
-extern int fn_82C10E58();
-extern int fn_82C10EC0();
-extern int fn_82C10F40();
-extern int fn_82C11160();
-extern int fn_82C11FF8();
-extern int fn_82C12520();
-extern unsigned int iStack_7c;
-extern unsigned int iStack_88;
-extern unsigned int iStack_8c;
+typedef struct Ent_82C08290 { char c; char pad[0x1f]; int f20; char pad1[0x38 - 0x24]; int f38; int f3c; int f40; int f44; int f48; int f4c; } Ent_82C08290;
+typedef struct Self_82C08290 { int pad0; struct Sub_82C08290 *sub; int f8; char pad[0x220 - 0xc]; int f220; char pad1[0x238 - 0x224]; int f238; int f23c; char pad2[0x260 - 0x240]; int f260; } Self_82C08290;
+typedef struct Sub_82C08290 { char pad[0x78]; int f78; int f7c; } Sub_82C08290;
+typedef struct Loc_82C08290 { Ent_82C08290 *ent; unsigned h; int *info; int *node; } Loc_82C08290;
+typedef struct Sel_82C08290 { unsigned char c; int v; } Sel_82C08290;
+typedef struct Stk_82C08290 { Loc_82C08290 L; Sel_82C08290 sel; char *args[3]; int pad[3]; char buf[0x30]; } Stk_82C08290;
+extern int fn_82C10F40(int, char, void *);
+extern int fn_82C11160(int);
+extern void fn_82C10EC0(int, char);
+extern int fn_82C10E58(int, char, void *);
+extern int fn_82C11FF8(int, void *);
+extern int fn_82C10950(int, int, void *);
+extern int fn_82C12520(int, void *, int, int, int, int, void *, void *);
+extern int fn_82C10630(int, void *, void *, void *);
+extern int fn_82C07E78(void *, int, void *);
+extern int fn_82C107F8(int, int, int, void *);
+extern void fn_82C07F20(void);
 
-
-ulonglong fn_82C08290(int param_1,undefined8 param_2,int param_3)
-
+int fn_82C08290(Self_82C08290 *self, char param_2, int param_3)
 {
-  ulonglong uVar1;
-  undefined1 *puStack_90;
-  int iStack_8c;
-  int iStack_88;
-  int *piStack_84;
-  undefined1 auStack_80 [4];
-  int iStack_7c;
-  char *pcStack_78;
-  char *pcStack_74;
-  char *pcStack_70;
-  undefined1 auStack_60 [48];
-  
-  iStack_8c = 0;
-  piStack_84 = (int *)0x0;
-  puStack_90 = (undefined1 *)0x0;
-  uVar1 = fn_82C10F40(*(undefined4 *)(*(int *)(param_1 + 4) + 0x7c),param_2,&iStack_88);
-  if ((-1 < (int)uVar1) &&
-     ((uVar1 = fn_82C10F40(*(undefined4 *)(param_1 + 0x238),param_2,&puStack_90),
-      (uVar1 & 0xffffffff) == 0x80500016 || (-1 < (int)uVar1)))) {
-    if (puStack_90 != (undefined1 *)0x0) {
-      fn_82C10F40(*(undefined4 *)(param_1 + 0x23c),param_2,&iStack_8c);
-      if (iStack_8c != 0) {
-        uVar1 = fn_82C11160();
-        if ((int)uVar1 < 0) goto LAB_82c08528;
-        iStack_8c = 0;
-        fn_82C10EC0(*(undefined4 *)(param_1 + 0x23c),param_2);
-      }
-      fn_82C10EC0(*(undefined4 *)(param_1 + 0x238),param_2);
-      puStack_90 = (undefined1 *)0x0;
-    }
-    uVar1 = fn_82C10E58(*(undefined4 *)(param_1 + 0x238),param_2,&puStack_90);
-    if (-1 < (int)uVar1) {
-      *puStack_90 = (char)param_2;
-      *(undefined4 *)(puStack_90 + 0x20) = *(undefined4 *)(iStack_88 + 4);
-      uVar1 = fn_82C11FF8(*(undefined4 *)(param_1 + 0x260),&iStack_8c);
-      if (-1 < (int)uVar1) {
-        if (param_3 != 0) {
-          pcStack_74 = (char *)0x0;
-          pcStack_70 = "passthru";
-          pcStack_78 = "WMFDecodeX86";
-          if (*(int *)(iStack_88 + 4) == 1) {
-            pcStack_74 = "-acodec";
-          }
-          else if (*(int *)(iStack_88 + 4) == 2) {
-            pcStack_74 = "-vcodec";
-          }
-          uVar1 = fn_82C10950(*(undefined4 *)(param_1 + 0x260),3,&pcStack_78);
-          if ((int)uVar1 < 0) goto LAB_82c08528;
+  int hr;
+  Stk_82C08290 S;
+
+  S.L.h = 0;
+  S.L.node = 0;
+  S.L.ent = 0;
+  hr = fn_82C10F40(self->sub->f7c, param_2, &S.L.info);
+  if (hr >= 0) {
+    hr = fn_82C10F40(self->f238, param_2, &S.L.ent);
+    if ((unsigned)hr == 0x80500016u || hr >= 0) {
+      if (S.L.ent != 0) {
+        fn_82C10F40(self->f23c, param_2, &S.L.h);
+        if (S.L.h != 0) {
+          hr = fn_82C11160(S.L.h);
+          if (hr < 0) goto fail;
+          S.L.h = 0;
+          fn_82C10EC0(self->f23c, param_2);
         }
-        uVar1 = fn_82C12520(iStack_8c,iStack_88,*(undefined4 *)(param_1 + 0x220),
-                                  *(undefined4 *)(*(int *)(param_1 + 4) + 0x78),
-                                  *(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0x260),
-                                  puStack_90 + 0x40,puStack_90 + 0x44);
-        if ((-1 < (int)uVar1) &&
-           (uVar1 = fn_82C10630(*(undefined4 *)(param_1 + 0x260),0xffffffff82c07f20,puStack_90,
-                                 puStack_90 + 0x3c), -1 < (int)uVar1)) {
-          *(int *)(puStack_90 + 0x48) = param_1;
-          *(undefined4 *)(puStack_90 + 0x38) = 1;
-          *(undefined4 *)(puStack_90 + 0x4c) = 0;
-          uVar1 = fn_82C07E78(iStack_88,*(undefined4 *)(puStack_90 + 0x3c),auStack_60);
-          if ((-1 < (int)uVar1) &&
-             ((uVar1 = fn_82C107F8(*(undefined4 *)(param_1 + 0x260),
-                                         *(undefined4 *)(puStack_90 + 0x40),0x80000,auStack_60),
-              -1 < (int)uVar1 &&
-              (uVar1 = fn_82C10E58(*(undefined4 *)(param_1 + 0x23c),param_2,&piStack_84),
-              -1 < (int)uVar1)))) {
-            *piStack_84 = iStack_8c;
-            iStack_7c = iStack_8c;
-            auStack_80[0] = (char)param_2;
-            uVar1 = fn_82C107F8(*(undefined4 *)(param_1 + 0x260),4,0x20050,auStack_80);
-            if (-1 < (int)uVar1) {
-              return uVar1;
+        fn_82C10EC0(self->f238, param_2);
+        S.L.ent = 0;
+      }
+      hr = fn_82C10E58(self->f238, param_2, &S.L.ent);
+      if (hr >= 0) {
+        S.L.ent->c = param_2;
+        S.L.ent->f20 = S.L.info[1];
+        hr = fn_82C11FF8(self->f260, &S.L.h);
+        if (hr >= 0) {
+          if (param_3 != 0) {
+            S.args[1] = 0;
+            S.args[0] = "WMFDecodeX86";
+            S.args[2] = "passthru";
+            if (S.L.info[1] == 1) {
+              S.args[1] = "-acodec";
+            } else if (S.L.info[1] == 2) {
+              S.args[1] = "-vcodec";
+            }
+            hr = fn_82C10950(self->f260, 3, S.args);
+            if (hr < 0) goto fail;
+          }
+          hr = fn_82C12520(S.L.h, S.L.info, self->f220, self->sub->f78, self->f8, self->f260, &S.L.ent->f40, &S.L.ent->f44);
+          if (hr >= 0 && (hr = fn_82C10630(self->f260, fn_82C07F20, S.L.ent, &S.L.ent->f3c)) >= 0) {
+            S.L.ent->f48 = (int)self;
+            S.L.ent->f38 = 1;
+            S.L.ent->f4c = 0;
+            hr = fn_82C07E78(S.L.info, S.L.ent->f3c, S.buf);
+            if (hr >= 0 && (hr = fn_82C107F8(self->f260, S.L.ent->f40, 0x80000, S.buf)) >= 0 &&
+                (hr = fn_82C10E58(self->f23c, param_2, &S.L.node)) >= 0) {
+              *S.L.node = S.L.h;
+              S.sel.v = S.L.h;
+              S.sel.c = param_2;
+              hr = fn_82C107F8(self->f260, 4, 0x20050, &S.sel);
+              if (hr >= 0) return hr;
             }
           }
         }
       }
     }
   }
-LAB_82c08528:
-  if (iStack_8c != 0) {
-    fn_82C10EC0(*(undefined4 *)(param_1 + 0x23c),param_2);
-  }
-  return uVar1;
+fail:
+  if (S.L.h != 0) fn_82C10EC0(self->f23c, param_2);
+  return hr;
 }
-

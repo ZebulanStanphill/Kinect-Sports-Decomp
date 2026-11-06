@@ -1,57 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int (*lbl_8327677C)();
-extern unsigned int lbl_832960A4;
-extern unsigned int lbl_832960A8;
-extern unsigned int lbl_8329618C;
-
+typedef struct { int pad0[2]; void (*assert_fn)(const char *, const char *, int); } Fns_8251DB70;
+typedef struct { int pad0[1]; int pad1; int cur; } G_8251DB70;
+typedef struct { int pad0[5]; int ent[4]; int count; } Stack_8251DB70;
+typedef struct { int pad[1]; Stack_8251DB70 *stk; } H_8251DB70;
+extern Fns_8251DB70 lbl_83276774;
+extern struct { int pad0; int f4; int f8; char pad[0xe0]; H_8251DB70 *fec; } lbl_832960A0;
+extern H_8251DB70 *lbl_8329618C;
 
 void fn_8251DB70(void)
-
 {
-  int iVar1;
-  int iVar2;
-  
-  if (lbl_8327677C != (code *)0x0) {
-    (*lbl_8327677C)(0xffffffff821c2b98,0xffffffff821c2b20,0xcb2);
+  Stack_8251DB70 *s;
+  int n;
+  if (lbl_83276774.assert_fn != 0) {
+    lbl_83276774.assert_fn("meTickClosingTransition", "D:\\Work\\R1SDK\\Olympus_testing\\red\\Ghoulies\\game\\app\\app_scene.cpp", 0xcb2);
   }
-  if (lbl_8329618C == 0) {
-    iVar2 = 0;
+  if (lbl_832960A0.fec != 0) s = lbl_832960A0.fec->stk;
+  else s = 0;
+  n = s->count;
+  if (n <= 0 || s->ent[n - 1] != lbl_832960A0.f8) {
+    s->ent[n] = lbl_832960A0.f8;
+    s->count = s->count + 1;
   }
-  else {
-    iVar2 = *(int *)(lbl_8329618C + 4);
-  }
-  iVar1 = *(int *)(iVar2 + 0x24);
-  if ((iVar1 < 1) || (*(int *)((iVar1 + 4) * 4 + iVar2) != lbl_832960A8)) {
-    *(int *)((iVar1 + 5) * 4 + iVar2) = lbl_832960A8;
-    *(int *)(iVar2 + 0x24) = *(int *)(iVar2 + 0x24) + 1;
-  }
-  lbl_832960A4 = 0;
-  return;
+  lbl_832960A0.f4 = 0;
 }
-

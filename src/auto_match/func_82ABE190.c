@@ -26,22 +26,12 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
+typedef struct B_82ABE190 { int pad[2]; unsigned pad0:18; unsigned type:7; unsigned pad1:1; unsigned flag:1; unsigned rest:5; } B_82ABE190;
+typedef struct A_82ABE190 { unsigned pad0:4; unsigned f:3; unsigned rest:25; int a; int b; B_82ABE190 *c; } A_82ABE190;
 
-undefined8 fn_82ABE190(uint *param_1)
-
+bool fn_82ABE190(A_82ABE190 *a)
 {
-  bool bVar1;
-  uint uVar2;
-  
-  if ((*param_1 & 0xe000000) != 0) {
-    uVar2 = *(uint *)(param_1[3] + 8) >> 7 & 0x7f;
-    if ((uVar2 == 0x7d) || (bVar1 = false, uVar2 == 0x7c)) {
-      bVar1 = true;
-    }
-    if ((!bVar1) && ((*(uint *)(param_1[3] + 8) >> 5 & 1) == 0)) {
-      return 1;
-    }
-  }
-  return 0;
+  B_82ABE190 *b;
+  bool s;
+  return a->f != 0 && (b = a->c, s = b->type == 0x7d || b->type == 0x7c, !s) && (unsigned char)a->c->flag == 0;
 }
-

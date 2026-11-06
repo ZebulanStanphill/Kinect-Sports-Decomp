@@ -25,53 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_824248C8();
-extern int fn_8265CA20();
-extern unsigned int lbl_821B85D0;
-extern unsigned int lbl_821B86B0;
-
-
-undefined4 * fn_82423428(undefined4 *param_1,ulonglong param_2)
-
+typedef struct E_82423428 { int a; void *p; int c; int d; } E_82423428;
+typedef struct Vec_82423428 { E_82423428 *first; E_82423428 *last; E_82423428 *end; } Vec_82423428;
+typedef struct Obj_82423428 { void *vt; int pad[2]; int sub[4]; Vec_82423428 v1; int pad2; Vec_82423428 v2; } Obj_82423428;
+extern char lbl_821B85D0[];
+extern char lbl_821B86B0[];
+extern void fn_824248C8(void *);
+extern void fn_8265CA20(void *);
+static __forceinline void freeVec(Vec_82423428 *v)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = param_1[0xb];
-  *param_1 = &lbl_821B86B0;
-  if (iVar2 != param_1[0xc]) {
-    do {
-      iVar1 = *(int *)(iVar2 + 4);
-      if (iVar1 != 0) {
-        fn_824248C8(iVar1);
-        fn_8265CA20(iVar1);
-      }
-      iVar2 = iVar2 + 0x10;
-    } while (iVar2 != param_1[0xc]);
-  }
-  iVar2 = param_1[0xb];
-  if (iVar2 != 0) {
-    for (; iVar2 != param_1[0xc]; iVar2 = iVar2 + 0x10) {
+  E_82423428 *e;
+  if (v->first != 0) {
+    for (e = v->first; e != v->last; e++) {
     }
-    fn_8265CA20();
+    fn_8265CA20(v->first);
   }
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  iVar2 = param_1[7];
-  if (iVar2 != 0) {
-    for (; iVar2 != param_1[8]; iVar2 = iVar2 + 0x10) {
-    }
-    fn_8265CA20();
-  }
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  fn_824248C8(param_1 + 3);
-  *param_1 = &lbl_821B85D0;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
 }
-
+Obj_82423428 *fn_82423428(Obj_82423428 *o, unsigned flags)
+{
+  E_82423428 *e;
+  void *p;
+  e = o->v2.first;
+  o->vt = lbl_821B86B0;
+  if (e != o->v2.last) {
+    do {
+      p = e->p;
+      if (p != 0) {
+        fn_824248C8(p);
+        fn_8265CA20(p);
+      }
+      e++;
+    } while (e != o->v2.last);
+  }
+  freeVec(&o->v2);
+  freeVec(&o->v1);
+  fn_824248C8(o->sub);
+  o->vt = lbl_821B85D0;
+  if (flags & 1) {
+    fn_8265CA20(o);
+  }
+  return o;
+}

@@ -30,7 +30,7 @@ typedef struct { U64 lo, hi; } V16;
 bool fn_8300CC40(int param_1,uint param_2)
 
 {
-  return ((int)*(char *)((param_2 >> 3 & 0x1fff) + *(int *)(param_1 + 0x24)) &
-         1 << ((param_2 & 0xffff) + ((int)(param_2 & 0xffff) >> 3) * -8 & 0x3f)) != 0;
+  int n = param_2 & 0xffff;
+  char c = *(char *)((param_2 >> 3 & 0x1fff) + *(int *)(param_1 + 0x24));
+  return (c & (1 << (n % 8))) != 0;
 }
-
