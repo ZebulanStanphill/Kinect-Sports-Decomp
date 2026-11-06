@@ -1,92 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8289C078();
-extern int fn_8289C128();
-extern int fn_8289C1A0();
-
-
-void fn_8289C308(int param_1,ulonglong param_2)
-
+typedef struct If_8289C308 If_8289C308;
+typedef struct Res_8289C308 { int pad; unsigned int f4; } Res_8289C308;
+typedef struct VT_8289C308 {
+  int pad0;
+  Res_8289C308 *(*s4)(If_8289C308 *);
+  Res_8289C308 *(*s8)(If_8289C308 *);
+  Res_8289C308 *(*sc)(If_8289C308 *);
+  Res_8289C308 *(*s10)(If_8289C308 *);
+  Res_8289C308 *(*s14)(If_8289C308 *);
+  Res_8289C308 *(*s18)(If_8289C308 *);
+} VT_8289C308;
+struct If_8289C308 { VT_8289C308 *vt; };
+typedef struct Obj_8289C308 {
+  char pad[0x20];
+  If_8289C308 *c;
+} Obj_8289C308;
+extern void fn_8289C078(Obj_8289C308 *, unsigned int);
+extern void fn_8289C128(Obj_8289C308 *);
+extern void fn_8289C1A0(Obj_8289C308 *);
+#define CALL(c, s) ((c) != 0 ? (c)->vt->s(c) : 0)
+void fn_8289C308(Obj_8289C308 *o, unsigned int key)
 {
-  int iVar1;
-  
-  if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-     (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 4))(), iVar1 == 0)) {
-    if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-       (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0xc))(), iVar1 == 0)) {
-      if ((*(int **)(param_1 + 0x20) != (int *)0x0) &&
-         (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))(), iVar1 != 0))
-      goto LAB_8289c3dc;
-      if ((*(int **)(param_1 + 0x20) == (int *)0x0) ||
-         (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 8))(), iVar1 == 0)) {
-        if ((*(int **)(param_1 + 0x20) != (int *)0x0) &&
-           (iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))(), iVar1 != 0)) {
-          return;
-        }
-        if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-          return;
-        }
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x18))();
-        if (iVar1 == 0) {
-          return;
-        }
-        if (*(int **)(param_1 + 0x20) == (int *)0x0) goto LAB_8289c4ac;
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0x18))();
-      }
-      else if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-LAB_8289c4ac:
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 8))();
-      }
-      if ((param_2 & 0xffffffff) != (ulonglong)*(uint *)(iVar1 + 4)) {
-        return;
-      }
-    }
-    else {
-      if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = (**(code **)(**(int **)(param_1 + 0x20) + 0xc))();
-      }
-      if ((param_2 & 0xffffffff) != (ulonglong)*(uint *)(iVar1 + 4)) {
-        return;
-      }
-      fn_8289C128(param_1);
-    }
-    fn_8289C1A0(param_1);
+  Res_8289C308 *v;
+  if (CALL(o->c, s4) != 0) {
+L_c3dc:
+    fn_8289C078(o, key);
+    return;
   }
-  else {
-LAB_8289c3dc:
-    fn_8289C078(param_1,param_2);
+  if (CALL(o->c, sc) != 0) {
+    v = CALL(o->c, sc);
+    if (key != v->f4) return;
+    fn_8289C128(o);
+    fn_8289C1A0(o);
+    return;
   }
-  return;
+  if (CALL(o->c, s14) != 0) goto L_c3dc;
+  if (CALL(o->c, s8) != 0) {
+    v = CALL(o->c, s8);
+  } else {
+    if (CALL(o->c, s10) != 0) return;
+    if (CALL(o->c, s18) == 0) return;
+    v = CALL(o->c, s18);
+  }
+  if (key != v->f4) return;
+  fn_8289C1A0(o);
 }
-

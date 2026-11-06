@@ -1,59 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AA770();
-extern int fn_82399BA0();
-extern int fn_8239D7F8();
+typedef struct T_823A3360 { char pad[0x14]; int f14; int f18; } T_823A3360;
+typedef struct R_823A3360 { int f0; int f4; } R_823A3360;
+typedef struct Q_823A3360 { R_823A3360 *f0; } Q_823A3360;
+typedef struct M_823A3360 {
+    char pad0[8];
+    Q_823A3360 *f8;
+    char padc[0xd4 - 0xc];
+    struct { char pad[0x14]; T_823A3360 *f14; } *fd4;
+} M_823A3360;
+typedef struct Obj_823A3360 { char pad[8]; M_823A3360 *f8; } Obj_823A3360;
+extern int fn_82399BA0(M_823A3360 *m);
+extern unsigned fn_822AA770(int a);
+extern int fn_8239D7F8(M_823A3360 *m, int a);
 
-
-undefined8 fn_823A3360(int param_1)
-
+int fn_823A3360(Obj_823A3360 *p)
 {
-  int iVar1;
-  bool bVar2;
-  int iVar4;
-  int iVar5;
-  undefined8 uVar3;
-  
-  iVar4 = fn_82399BA0(*(undefined4 *)(param_1 + 8));
-  iVar1 = *(int *)(param_1 + 8);
-  iVar5 = fn_822AA770(*(undefined4 *)(**(int **)(iVar1 + 8) + 4));
-  if (iVar5 == 0) {
-    iVar5 = fn_8239D7F8(iVar1,1);
-    bVar2 = true;
-    if (iVar5 != 0) goto LAB_823a33bc;
-  }
-  bVar2 = false;
-LAB_823a33bc:
-  if ((((iVar4 != 0) && (bVar2)) ||
-      (iVar1 = *(int *)(*(int *)(iVar1 + 0xd4) + 0x14), *(int *)(iVar1 + 0x14) != 0)) ||
-     (uVar3 = 1, *(int *)(iVar1 + 0x18) != 0)) {
-    uVar3 = 0;
-  }
-  return uVar3;
-}
+    int a;
+    int b;
+    M_823A3360 *m;
+    T_823A3360 *t;
+    int r;
 
+    a = fn_82399BA0(p->f8);
+    m = p->f8;
+    if (fn_822AA770(m->f8->f0->f4) == 0 && fn_8239D7F8(m, 1) != 0)
+        b = 1;
+    else
+        b = 0;
+    if (a != 0 && b != 0)
+        r = 0;
+    else {
+        t = m->fd4->f14;
+        if (t->f14 != 0 || t->f18 != 0)
+            r = 0;
+        else
+            r = 1;
+    }
+    return r;
+}

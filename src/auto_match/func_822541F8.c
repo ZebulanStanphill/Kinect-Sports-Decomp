@@ -1,101 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223A4D8();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_82196C58;
-extern unsigned int lbl_82197F74;
+typedef struct Impl_822541F8 Impl_822541F8;
+typedef struct ImplVtbl_822541F8 {
+    Impl_822541F8 *(*copy)(Impl_822541F8 *self, void *where);
+} ImplVtbl_822541F8;
+struct Impl_822541F8 {
+    ImplVtbl_822541F8 *vt;
+};
 
+typedef struct Func_822541F8 {
+    unsigned int space[4];
+    Impl_822541F8 *impl;
+    int f14;
+} Func_822541F8;
 
-undefined4 * fn_822541F8(undefined4 *param_1,int param_2)
+typedef struct Ref_822541F8 {
+    void *ptr;
+    void *rep;
+} Ref_822541F8;
 
+typedef struct Obj_822541F8 {
+    void *vt;
+    char pad4[0x38 - 4];
+    Func_822541F8 f38;
+    Func_822541F8 f50;
+    unsigned int f68[2];
+    unsigned int f70[2];
+    unsigned int f78[2];
+    Ref_822541F8 f80;
+    Ref_822541F8 f88;
+    unsigned int f90[2];
+    unsigned int f98[2];
+} Obj_822541F8;
+
+extern char lbl_82196C58[];
+extern char lbl_82197F74[];
+extern void fn_8223A4D8(Obj_822541F8 *self, const Obj_822541F8 *src);
+extern unsigned char fn_8223AAC0(void *rep);
+extern void fn_822315A0(void *rep);
+extern void fn_82365BD8(void *dst, const void *src);
+
+static __forceinline void CopyFunc_822541F8(Func_822541F8 *dst, const Func_822541F8 *src)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  fn_8223A4D8();
-  *param_1 = &lbl_82196C58;
-  puVar4 = param_1 + 0xe;
-  if (*(int *)(param_2 + 0x48) == 0) {
-    param_1[0x12] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x48) != param_2 + 0x38) {
-      puVar4 = (undefined4 *)0x0;
+    if (src->impl == 0) {
+        dst->impl = 0;
+    } else if ((void *)src->impl == (void *)src) {
+        dst->impl = src->impl->vt->copy(src->impl, dst);
+    } else {
+        dst->impl = src->impl->vt->copy(src->impl, 0);
     }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x48))(*(undefined4 **)(param_2 + 0x48),puVar4);
-    param_1[0x12] = uVar2;
-  }
-  puVar4 = param_1 + 0x14;
-  if (*(int *)(param_2 + 0x60) == 0) {
-    param_1[0x18] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x60) != param_2 + 0x50) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x60))(*(undefined4 **)(param_2 + 0x60),puVar4);
-    param_1[0x18] = uVar2;
-  }
-  *param_1 = &lbl_82197F74;
-  fn_82365BD8(param_1 + 0x1a,param_2 + 0x68);
-  fn_82365BD8(param_1 + 0x1c,param_2 + 0x70);
-  fn_82365BD8(param_1 + 0x1e,param_2 + 0x78);
-  param_1[0x20] = 0;
-  param_1[0x21] = 0;
-  iVar1 = *(int *)(param_2 + 0x84);
-  uVar2 = *(undefined4 *)(param_2 + 0x80);
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x21] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x21] = iVar1;
-      param_1[0x20] = uVar2;
-    }
-  }
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  iVar1 = *(int *)(param_2 + 0x8c);
-  uVar2 = *(undefined4 *)(param_2 + 0x88);
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x23] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x23] = iVar1;
-    param_1[0x22] = uVar2;
-  }
-  fn_82365BD8(param_1 + 0x24,param_2 + 0x90);
-  fn_82365BD8(param_1 + 0x26,param_2 + 0x98);
-  return param_1;
 }
 
+static __forceinline void CopyRef_822541F8(Ref_822541F8 *dst, const Ref_822541F8 *src)
+{
+    void *rep;
+    void *ptr;
+
+    dst->ptr = 0;
+    dst->rep = 0;
+    rep = src->rep;
+    ptr = src->ptr;
+    if (rep != 0 && fn_8223AAC0(rep)) {
+        if (dst->rep != 0) {
+            fn_822315A0(dst->rep);
+        }
+        dst->rep = rep;
+        dst->ptr = ptr;
+    }
+}
+
+Obj_822541F8 *fn_822541F8(Obj_822541F8 *self, const Obj_822541F8 *src)
+{
+    fn_8223A4D8(self, src);
+    self->vt = lbl_82196C58;
+    CopyFunc_822541F8(&self->f38, &src->f38);
+    CopyFunc_822541F8(&self->f50, &src->f50);
+    self->vt = lbl_82197F74;
+    fn_82365BD8(self->f68, src->f68);
+    fn_82365BD8(self->f70, src->f70);
+    fn_82365BD8(self->f78, src->f78);
+    CopyRef_822541F8(&self->f80, &src->f80);
+    CopyRef_822541F8(&self->f88, &src->f88);
+    fn_82365BD8(self->f90, src->f90);
+    fn_82365BD8(self->f98, src->f98);
+    return self;
+}

@@ -1,65 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_820;
-extern unsigned int *auStack_a20;
-extern int fn_82250A18();
-extern int fn_8229DCA8();
-extern int fn_82358FD8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821A8C90;
-extern unsigned int lbl_832975B0;
+typedef struct Mgr_822A0D08 { char pad[0x58]; unsigned f58; } Mgr_822A0D08;
+typedef struct Obj_822A0D08 {
+    char pad[0x1c];
+    int f1c;
+    char pad20[0xd0 - 0x20];
+    void *fd0;
+} Obj_822A0D08;
+typedef struct Big_822A0D08 {
+    char pad[0x41c];
+    void *vt;
+} Big_822A0D08;
+extern Mgr_822A0D08 *lbl_832975B0;
+extern char lbl_821A8C90[];
+extern char lbl_820E975C[];
+extern Mgr_822A0D08 *fn_82250A18(void);
+extern void fn_822A0DF8(void);
+extern void fn_82358FD8(int a, char *buf, int n, const char *name);
+extern void *fn_8265C9E0(unsigned size);
+extern void fn_8229DCA8(void *self, char *a, char *b, char *c, char *d, void (*f)(void), Obj_822A0D08 *p, int one, int zero);
 
-
-void fn_822A0D08(int param_1)
-
+void fn_822A0D08(Obj_822A0D08 *p)
 {
-  int iVar1;
-  undefined1 auStack_a20 [512];
-  undefined1 auStack_820 [2056];
-  
-  iVar1 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar1 = fn_82250A18();
-  }
-  if ((*(int *)(iVar1 + 0x58) == 0) && (*(int *)(param_1 + 0xd0) == 0)) {
-    fn_82358FD8(*(undefined4 *)(param_1 + 0x1c),auStack_a20,0x100,0xffffffff821abd28);
-    fn_82358FD8(*(undefined4 *)(param_1 + 0x1c),auStack_820,0x400,0xffffffff821abd3c);
-    iVar1 = fn_8265C9E0(0x434);
-    if (iVar1 == 0) {
-      iVar1 = 0;
-    }
-    else {
-      *(undefined ***)(iVar1 + 0x41c) = &lbl_821A8C90;
-      fn_8229DCA8(iVar1,auStack_a20,auStack_820,0xffffffff820e975c,0xffffffff820e975c,
-                    0xffffffff822a0df8,param_1,1);
-    }
-    *(int *)(param_1 + 0xd0) = iVar1;
-  }
-  return;
-}
+    Mgr_822A0D08 *m;
+    Big_822A0D08 *o;
+    char a[0x200];
+    char b[0x800];
 
+    if (lbl_832975B0 != 0)
+        m = lbl_832975B0;
+    else
+        m = fn_82250A18();
+    if (m->f58 == 0 && p->fd0 == 0) {
+        fn_82358FD8(p->f1c, a, 0x100, "waitingForPlayers");
+        fn_82358FD8(p->f1c, b, 0x400, "waitingForBatSelection");
+        o = (Big_822A0D08 *)fn_8265C9E0(0x434);
+        if (o != 0) {
+            o->vt = lbl_821A8C90;
+            fn_8229DCA8(o, a, b, lbl_820E975C, lbl_820E975C, fn_822A0DF8, p, 1, 0);
+        } else {
+            o = 0;
+        }
+        p->fd0 = o;
+    }
+}

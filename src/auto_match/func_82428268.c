@@ -1,45 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Src_82428268 {
+    char pad[0x1c];
+    float rate;
+    int f20;
+    int f24;
+} Src_82428268;
 
+typedef struct Dst_82428268 {
+    char pad0[0x30];
+    int f30;
+    int f34;
+    char pad38[0x40 - 0x38];
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+    float rate;
+    char pad54[0xe4 - 0x54];
+    unsigned int irate;
+    char pade8[0x19c - 0xe8];
+    int f19c;
+    int f1a0;
+    int f1a4;
+} Dst_82428268;
 
-void fn_82428268(int param_1,int param_2)
-
+void fn_82428268(Src_82428268 *s, Dst_82428268 *d)
 {
-  *(undefined4 *)(param_2 + 0x30) = 0;
-  *(undefined4 *)(param_2 + 0x50) = *(undefined4 *)(param_1 + 0x1c);
-  *(undefined4 *)(param_2 + 0x40) = 0;
-  *(undefined4 *)(param_2 + 0x48) = *(undefined4 *)(param_1 + 0x24);
-  *(undefined4 *)(param_2 + 0x4c) = 0;
-  *(undefined4 *)(param_2 + 0x34) = 1;
-  *(int *)(param_2 + 0xe4) = (int)(longlong)*(float *)(param_1 + 0x1c);
-  *(undefined4 *)(param_2 + 0x19c) = 0;
-  *(undefined4 *)(param_2 + 0x1a0) = 0;
-  *(undefined4 *)(param_2 + 0x1a4) = 0;
-  return;
+    d->f30 = 0;
+    d->rate = s->rate;
+    d->f40 = 0;
+    d->f48 = s->f24;
+    d->f4c = 0;
+    d->f34 = 1;
+    d->irate = (unsigned int)s->rate;
+    d->f19c = 0;
+    d->f1a0 = 0;
+    d->f1a4 = 0;
 }
-

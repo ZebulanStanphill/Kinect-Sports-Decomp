@@ -1,49 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+struct Sink_82259C78;
+typedef struct SinkVT_82259C78 {
+    int pad0;
+    void (*f4)(struct Sink_82259C78 *self, unsigned char b, float f, __vector4 v);
+} SinkVT_82259C78;
+typedef struct Sink_82259C78 { SinkVT_82259C78 *vt; } Sink_82259C78;
+struct Src_82259C78;
+typedef struct SrcVT_82259C78 {
+    int pad[5];
+    void (*f14)(struct Src_82259C78 *self, int a, void *out);
+} SrcVT_82259C78;
+typedef struct Src_82259C78 { SrcVT_82259C78 *vt; } Src_82259C78;
+typedef struct Obj_82259C78 {
+    char pad[0x68];
+    Src_82259C78 *s68;
+    int pad6c;
+    Src_82259C78 *s70;
+    int pad74;
+    Src_82259C78 *s78;
+} Obj_82259C78;
+typedef struct Dst_82259C78 {
+    char pad[0x10];
+    Sink_82259C78 *sink;
+} Dst_82259C78;
+typedef struct Tmp_82259C78 { unsigned char b; float x; float y; float z; } Tmp_82259C78;
 
-
-void fn_82259C78(int param_1,undefined8 param_2,int param_3)
-
+void fn_82259C78(Obj_82259C78 *p, int a, Dst_82259C78 *d)
 {
-  int *piVar1;
-  undefined1 auStack_40 [4];
-  float afStack_3c [3];
-  undefined1 auStack_30 [48];
-  
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_40);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,auStack_30);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x14))(*(int **)(param_1 + 0x78),param_2,afStack_3c);
-  piVar1 = *(int **)(param_3 + 0x10);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 4))((double)afStack_3c[0],piVar1,auStack_40[0]);
-  }
-  return;
-}
+    Tmp_82259C78 t;
+    __vector4 v4;
 
+    p->s68->vt->f14(p->s68, a, &t.b);
+    p->s70->vt->f14(p->s70, a, &v4);
+    p->s78->vt->f14(p->s78, a, &t.x);
+    if (d->sink != 0)
+        d->sink->vt->f4(d->sink, t.b, t.x, v4);
+}

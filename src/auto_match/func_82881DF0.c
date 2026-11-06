@@ -25,22 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8289F160();
-extern unsigned int lbl_83212A04;
-extern unsigned int uStack_20;
-
-
-undefined4 fn_82881DF0(undefined4 param_1)
-
+typedef struct Node_82881DF0 { int pad[4]; struct Sub_82881DF0 *sub; } Node_82881DF0;
+typedef struct Sub_82881DF0 { char pad[0xb8]; int f; } Sub_82881DF0;
+typedef struct Map_82881DF0 { int a; Node_82881DF0 *end; } Map_82881DF0;
+extern Map_82881DF0 lbl_83212A00;
+extern void fn_8289F160(Node_82881DF0 **it, Map_82881DF0 *m, int *key);
+int fn_82881DF0(int key)
 {
-  undefined4 uStack_20;
-  int aiStack_1c [3];
-  
-  uStack_20 = param_1;
-  fn_8289F160(aiStack_1c,0xffffffff83212a00,&uStack_20);
-  if ((aiStack_1c[0] != lbl_83212A04) && (*(int *)(aiStack_1c[0] + 0x10) != 0)) {
-    return *(undefined4 *)(*(int *)(aiStack_1c[0] + 0x10) + 0xb8);
+  struct { int k; Node_82881DF0 *it; } l;
+  l.k = key;
+  fn_8289F160(&l.it, &lbl_83212A00, &l.k);
+  if (l.it != lbl_83212A00.end) {
+    Sub_82881DF0 *s = l.it->sub;
+    if (s != 0) return s->f;
   }
   return 0;
 }
-

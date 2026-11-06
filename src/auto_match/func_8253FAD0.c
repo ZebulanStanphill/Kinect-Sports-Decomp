@@ -1,50 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82570F18();
-extern int fn_82571978();
-extern int fn_82604630();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_8253FAD0 {
+    char pad0[0x90];
+    __vector4 v90;
+    __vector4 va0;
+    __vector4 vb0;
+    __vector4 vc0;
+    float fd0;
+    int fd4;
+    int fd8;
+    int fdc;
+    char pade0[0xf0 - 0xe0];
+    int active;
+    char padf4[0x180 - 0xf4];
+    char sub180[0x2d0 - 0x180];
+    char sub2d0[0x3b0 - 0x2d0];
+    __vector4 v3b0;
+    char pad3c0[0x3f0 - 0x3c0];
+} Entry_8253FAD0;
 
-void fn_8253FAD0(int param_1)
+typedef struct Obj_8253FAD0 {
+    char pad[0x758];
+    Entry_8253FAD0 *begin;
+    Entry_8253FAD0 *end;
+} Obj_8253FAD0;
 
+extern void fn_82604630(Obj_8253FAD0 *o);
+extern void fn_82570F18(Obj_8253FAD0 *o);
+extern void fn_82571978(void *a, int b, void *c, __vector4 v1, __vector4 v2, __vector4 v3,
+                        __vector4 v4, __vector4 v5, float f);
+
+void fn_8253FAD0(Obj_8253FAD0 *o)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  fn_82604630();
-  fn_82570F18(param_1);
-  uVar1 = *(uint *)(param_1 + 0x75c);
-  for (uVar2 = *(uint *)(param_1 + 0x758); uVar2 < uVar1; uVar2 = uVar2 + 0x3f0) {
-    if (*(int *)(uVar2 + 0xf0) == 1) {
-      fn_82571978((double)*(float *)(uVar2 + 0xd0),uVar2 + 0x2d0,*(undefined4 *)(uVar2 + 0xdc)
-                        ,uVar2 + 0x180);
-    }
-  }
-  return;
-}
+    Entry_8253FAD0 *e;
+    Entry_8253FAD0 *end;
 
+    fn_82604630(o);
+    fn_82570F18(o);
+    end = o->end;
+    for (e = o->begin; e < end; e++) {
+        if (e->active == 1) {
+            fn_82571978(e->sub2d0, e->fdc, e->sub180, e->vb0, e->vc0, e->v90, e->va0, e->v3b0, e->fd0);
+        }
+    }
+}

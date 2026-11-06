@@ -25,62 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F66368();
-extern int fn_82F668D8();
+extern unsigned strlen(const char *);
+extern int fn_82F66368(char *, unsigned, const char *, unsigned);
+extern int fn_82F668D8(char *, unsigned, const char *, unsigned);
 
-
-void fn_8257A438(char *param_1,undefined1 *param_2)
-
+void fn_8257A438(char *path, char *out)
 {
-  char cVar1;
-  bool bVar2;
-  char *pcVar3;
-  int iVar4;
-  char *pcVar5;
-  
-  iVar4 = 0;
-  *param_2 = 0;
-  bVar2 = false;
-  pcVar3 = param_1;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  pcVar3 = pcVar3 + (-1 - (int)param_1);
-  do {
-    if (pcVar3 < (char *)0x3) {
-LAB_8257a4c8:
-      pcVar3 = param_1;
-      if (!bVar2) {
-        fn_82F66368(param_2,0x104,0xffffffff821c135c,0x103);
-        pcVar5 = param_1;
-        do {
-          cVar1 = *pcVar5;
-          pcVar5 = pcVar5 + 1;
-        } while (cVar1 != '\0');
-        if ((pcVar5 + (-1 - (int)param_1) != (char *)0x0) &&
-           (param_2[(int)(pcVar5 + (-1 - (int)param_1) + -1)] != '\\')) {
-          fn_82F668D8(param_2,0x104,0xffffffff821c5510,1);
-        }
-      }
-      do {
-        cVar1 = *pcVar3;
-        pcVar3 = pcVar3 + 1;
-      } while (cVar1 != '\0');
-      fn_82F668D8(param_2,0x104,param_1,pcVar3 + (-1 - (int)param_1));
-      return;
+  int i = 0;
+  unsigned char found = 0;
+  unsigned len;
+  out[0] = 0;
+  len = strlen(path);
+  while (len > 2) {
+    if (path[i] == ':') {
+      found = 1;
+      break;
     }
-    if (param_1[iVar4] == ':') {
-      bVar2 = true;
-      goto LAB_8257a4c8;
+    i++;
+    len = strlen(path) - i;
+  }
+  if (!found) {
+    fn_82F66368(out, 0x104, "Game:", 0x103);
+    len = strlen(path);
+    if (len != 0 && out[len - 1] != '\\') {
+      fn_82F668D8(out, 0x104, "\\", 1);
     }
-    iVar4 = iVar4 + 1;
-    pcVar3 = param_1;
-    do {
-      cVar1 = *pcVar3;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-    pcVar3 = pcVar3 + ((-1 - (int)param_1) - iVar4);
-  } while( true );
+  }
+  fn_82F668D8(out, 0x104, path, strlen(path));
 }
-

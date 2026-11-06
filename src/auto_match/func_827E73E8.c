@@ -1,59 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827D50F8();
-extern int fn_827D9DA0();
-extern int fn_827D9DC0();
+typedef struct Ent_827E73E8 { int v[10]; } Ent_827E73E8;
+typedef struct Obj_827E73E8 {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    Ent_827E73E8 *tab;
+} Obj_827E73E8;
+extern int fn_827D50F8(int a);
+extern unsigned fn_827D9DC0(int a);
+extern void fn_827D9DA0(int a, unsigned v);
 
-
-undefined8 fn_827E73E8(int param_1)
-
+int fn_827E73E8(Obj_827E73E8 *p)
 {
-  int iVar3;
-  undefined8 uVar1;
-  ulonglong uVar2;
-  
-  iVar3 = fn_827D50F8(*(undefined4 *)(param_1 + 0x14));
-  if (iVar3 == 0) {
-    uVar2 = fn_827D9DC0(*(undefined4 *)(param_1 + 8));
-    if (*(int *)((*(int *)(param_1 + 4) + 3) * 0x28 + *(int *)(param_1 + 0x20)) == 0) {
-      uVar1 = 0x4b0;
-    }
-    else if (((uVar2 & 2) == 0) && ((uVar2 & 1) == 0)) {
-      uVar1 = 6;
-    }
-    else {
-      fn_827D9DA0(*(undefined4 *)(param_1 + 8),uVar2 | 4);
-      uVar1 = 0x3e4;
-    }
-  }
-  else {
-    uVar1 = 0x4c7;
-  }
-  return uVar1;
-}
+    unsigned f;
 
+    if (fn_827D50F8(p->f14) != 0)
+        return 0x4c7;
+    f = fn_827D9DC0(p->f8);
+    if (p->tab[p->f4 + 3].v[0] == 0)
+        return 0x4b0;
+    if ((f & 2) == 0 && (f & 1) == 0)
+        return 6;
+    fn_827D9DA0(p->f8, f | 4);
+    return 0x3e4;
+}

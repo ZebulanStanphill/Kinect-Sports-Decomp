@@ -1,68 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8248F8E8();
-extern int fn_82491E88();
-extern unsigned int lbl_821BEBAC;
-extern unsigned int lbl_821BEBB0;
+extern void fn_8248F8E8(void *p);
+extern void fn_82491E88(void *p);
+extern char lbl_821BEBB0[];
+extern char lbl_821BEBAC[];
 
+typedef struct In_82496658 {
+  void *vt;
+  char pad4[0x30 - 4];
+  char sub[1];
+} In_82496658;
 
-void fn_82496658(int param_1)
+typedef struct Node_82496658 {
+  struct Node_82496658 *next;
+  struct Node_82496658 *prev;
+  char pad8[0x20 - 8];
+  In_82496658 in;
+} Node_82496658;
 
+typedef struct Vec_82496658 {
+  char **first;
+  char **last;
+  char **end;
+} Vec_82496658;
+
+typedef struct List_82496658 {
+  int pad0;
+  Node_82496658 *head;
+  int size;
+  int pad0c;
+  Vec_82496658 vec;
+} List_82496658;
+
+void fn_82496658(List_82496658 *self)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x10);
-  if (iVar2 != 0) {
-    for (; iVar2 != *(int *)(param_1 + 0x14); iVar2 = iVar2 + 4) {
-    }
-    fn_8248F8E8();
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  piVar1 = *(int **)(param_1 + 4);
-  piVar3 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  if (piVar3 != *(int **)(param_1 + 4)) {
-    do {
-      piVar1 = (int *)*piVar3;
-      piVar3[8] = (int)&lbl_821BEBAC;
-      fn_82491E88(piVar3 + 0x14);
-      piVar3[8] = (int)&lbl_821BEBB0;
-      fn_8248F8E8(piVar3);
-      piVar3 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 4));
-  }
-  fn_8248F8E8(*(undefined4 *)(param_1 + 4));
-  return;
-}
+  Vec_82496658 *v = &self->vec;
+  char **it;
+  Node_82496658 *head;
+  Node_82496658 *n;
+  Node_82496658 *next;
+  In_82496658 *in;
 
+  if (v->first != 0) {
+    for (it = v->first; it != v->last; it++) {
+    }
+    fn_8248F8E8(v->first);
+  }
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
+  head = self->head;
+  n = head->next;
+  head->next = head;
+  self->head->prev = self->head;
+  self->size = 0;
+  while (n != self->head) { next = n->next; in = &n->in; in->vt = lbl_821BEBAC; fn_82491E88(in->sub); in->vt = lbl_821BEBB0; fn_8248F8E8(n); n = next; }
+  fn_8248F8E8(self->head);
+}

@@ -29,20 +29,15 @@ extern int fn_8267B890();
 extern int fn_826C35B8();
 
 
-undefined1 * fn_82695598(undefined1 *param_1,int *param_2,undefined8 param_3)
+undefined1 * fn_82695598(undefined1 *param_1,int *param_2,unsigned int param_3)
 
 {
-  ulonglong uVar1;
+  unsigned int uVar1;
   undefined4 uVar2;
   
   *param_1 = 8;
   uVar1 = fn_8267B890(*(undefined4 *)(*param_2 + 0x288),0x34,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_826C35B8(uVar1,param_2,param_3);
-  }
+  uVar2 = uVar1 != 0 ? fn_826C35B8(uVar1,param_2,param_3) : 0;
   *(undefined4 *)(param_1 + 4) = uVar2;
   param_1[0xc] = 0;
   *(undefined4 *)(param_1 + 8) = 0;

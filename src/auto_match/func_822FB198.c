@@ -1,52 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230218();
-extern int fn_8260D428();
-
-
-void fn_822FB198(int param_1,int param_2)
-
+typedef struct Str_822FB198 {
+  union { char buf[16]; char *ptr; } u;
+  unsigned int size;
+  unsigned int res;
+} Str_822FB198;
+typedef struct Obj_822FB198 {
+  char pad[0x5c];
+  Str_822FB198 s;
+  char pad2[0x98 - 0x74];
+  int f98;
+} Obj_822FB198;
+typedef struct Arg_822FB198 { char pad[0x10]; int f10; } Arg_822FB198;
+extern int fn_8260D428(Arg_822FB198 *, int, int, char *, unsigned int);
+extern void fn_82230218(Str_822FB198 *, Arg_822FB198 *, int, unsigned int);
+static char *cstr(Str_822FB198 *s)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = (undefined4 *)(param_1 + 0x5c);
-  puVar2 = puVar3;
-  if (0xf < *(uint *)(param_1 + 0x70)) {
-    puVar2 = (undefined4 *)*puVar3;
-  }
-  iVar1 = fn_8260D428(param_2,0,*(undefined4 *)(param_2 + 0x10),puVar2,
-                       *(undefined4 *)(param_1 + 0x6c));
-  if (iVar1 != 0) {
-    fn_82230218(puVar3,param_2,0,0xffffffffffffffff);
-    *(undefined4 *)(param_1 + 0x98) = 0;
-  }
-  return;
+  return s->res >= 0x10 ? s->u.ptr : s->u.buf;
 }
-
+void fn_822FB198(Obj_822FB198 *o, Arg_822FB198 *a)
+{
+  unsigned int n = o->s.size;
+  if (fn_8260D428(a, 0, a->f10, cstr(&o->s), n) != 0) {
+    fn_82230218(&o->s, a, 0, 0xffffffff);
+    o->f98 = 0;
+  }
+}

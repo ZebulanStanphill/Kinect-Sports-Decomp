@@ -25,79 +25,75 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1B68();
-extern int fn_827CB600();
-extern int fn_827CC2B0();
-extern int fn_827CC368();
-extern int fn_827CC638();
-extern int fn_827CC710();
-extern int fn_827CC750();
-
-
-void fn_827CC758(int *param_1,char param_2)
-
+extern void fn_827C1B68(void *, unsigned);
+extern void fn_827CB600(void);
+extern void fn_827CC2B0(void);
+extern void fn_827CC368(void);
+extern void fn_827CC638(void *);
+extern void fn_827CC710(void);
+extern void fn_827CC750(void);
+struct Cinfo_827CC758;
+typedef struct Err_827CC758 { void (*error_exit)(struct Cinfo_827CC758 *); int pad[4]; int msg_code; int msg_parm; } Err_827CC758;
+typedef struct Mem_827CC758 { void *(*alloc_small)(struct Cinfo_827CC758 *, int, unsigned); void *(*alloc_large)(struct Cinfo_827CC758 *, int, unsigned); } Mem_827CC758;
+typedef struct Quant_827CC758 {
+  void (*start_pass)(void);
+  void (*color_quantize)(void);
+  void (*finish_pass)(void);
+  void (*new_color_map)(void);
+  void *pad[2];
+  void **histogram;
+  unsigned char needs_zeroed;
+  void *fserrors;
+  unsigned char on_odd_row;
+  void *error_limiter;
+} Quant_827CC758;
+typedef struct Cinfo_827CC758 {
+  Err_827CC758 *err;
+  Mem_827CC758 *mem;
+  char pad[0x44];
+  int dither_mode;
+  char pad1[0x0c];
+  int output_width;
+  char pad2[0x10];
+  int actual_number_of_colors;
+  char pad3[0x134];
+  Quant_827CC758 *cquantize;
+} Cinfo_827CC758;
+void fn_827CC758(Cinfo_827CC758 *cinfo, unsigned char is_pre_scan)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 uVar4;
-  code *pcVar5;
-  undefined4 *puVar6;
-  longlong lVar7;
-  
-  iVar1 = param_1[0x6a];
-  iVar2 = *(int *)(iVar1 + 0x18);
-  if (param_1[0x13] != 0) {
-    param_1[0x13] = 2;
-  }
-  if (param_2 == '\0') {
-    if (param_1[0x13] == 2) {
-      pcVar5 = fn_827CC368;
+  Quant_827CC758 *q = cinfo->cquantize;
+  void **histogram = q->histogram;
+  int i;
+  if (cinfo->dither_mode != 0) cinfo->dither_mode = 2;
+  if (is_pre_scan) {
+    q->color_quantize = fn_827CB600;
+    q->finish_pass = fn_827CC710;
+    q->needs_zeroed = 1;
+  } else {
+    if (cinfo->dither_mode == 2) q->color_quantize = fn_827CC368;
+    else q->color_quantize = fn_827CC2B0;
+    q->finish_pass = fn_827CC750;
+    i = cinfo->actual_number_of_colors;
+    if (i < 1) {
+      cinfo->err->msg_code = 0x38;
+      cinfo->err->msg_parm = 1;
+      cinfo->err->error_exit(cinfo);
     }
-    else {
-      pcVar5 = fn_827CC2B0;
+    if (i > 256) {
+      cinfo->err->msg_code = 0x39;
+      cinfo->err->msg_parm = 256;
+      cinfo->err->error_exit(cinfo);
     }
-    *(code **)(iVar1 + 4) = pcVar5;
-    *(code **)(iVar1 + 8) = fn_827CC750;
-    iVar3 = param_1[0x1c];
-    if (iVar3 < 1) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x38;
-      *(undefined4 *)(*param_1 + 0x18) = 1;
-      (**(code **)*param_1)(param_1);
-    }
-    if (0x100 < iVar3) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x39;
-      *(undefined4 *)(*param_1 + 0x18) = 0x100;
-      (**(code **)*param_1)(param_1);
-    }
-    if (param_1[0x13] == 2) {
-      lVar7 = ((ulonglong)(uint)param_1[0x17] + 2) * 6;
-      if (*(int *)(iVar1 + 0x20) == 0) {
-        uVar4 = (**(code **)(param_1[1] + 4))(param_1,1,lVar7);
-        *(undefined4 *)(iVar1 + 0x20) = uVar4;
-      }
-      fn_827C1B68(*(undefined4 *)(iVar1 + 0x20),lVar7);
-      if (*(int *)(iVar1 + 0x28) == 0) {
-        fn_827CC638(param_1);
-      }
-      *(undefined1 *)(iVar1 + 0x24) = 0;
+    if (cinfo->dither_mode == 2) {
+      unsigned arraysize = (cinfo->output_width + 2) * 6;
+      if (q->fserrors == 0) q->fserrors = cinfo->mem->alloc_large(cinfo, 1, arraysize);
+      fn_827C1B68(q->fserrors, arraysize);
+      if (q->error_limiter == 0) fn_827CC638(cinfo);
+      q->on_odd_row = 0;
     }
   }
-  else {
-    *(code **)(iVar1 + 4) = fn_827CB600;
-    *(code **)(iVar1 + 8) = fn_827CC710;
-    *(undefined1 *)(iVar1 + 0x1c) = 1;
+  if (q->needs_zeroed) {
+    for (i = 0; i < 32; i++) fn_827C1B68(histogram[i], 0x1000);
+    q->needs_zeroed = 0;
   }
-  if (*(char *)(iVar1 + 0x1c) != '\0') {
-    puVar6 = (undefined4 *)(iVar2 + -4);
-    lVar7 = 0x20;
-    do {
-      puVar6 = puVar6 + 1;
-      fn_827C1B68(*puVar6,0x1000);
-      lVar7 = lVar7 + -1;
-    } while (lVar7 != 0);
-    *(undefined1 *)(iVar1 + 0x1c) = 0;
-  }
-  return;
 }
-

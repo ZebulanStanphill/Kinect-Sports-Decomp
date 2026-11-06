@@ -1,88 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_822CDC98();
-extern int fn_822CEE40();
-extern unsigned int lbl_831DCD58;
-
-
-void fn_82372550(int param_1,int param_2,int *param_3,int *param_4,int param_5,int param_6)
-
+typedef struct Ent_82372550 Ent_82372550;
+typedef struct VT_82372550 {
+  void *s[5];
+  void (*f14)(Ent_82372550 *, const char *);
+} VT_82372550;
+struct Ent_82372550 {
+  VT_82372550 *vt;
+  int pad[10];
+  int f2c;
+  int pad2[0xd5 - 0xc];
+  int fd5;
+};
+extern int lbl_831DCD58[];
+extern Ent_82372550 *fn_822CEE40(Ent_82372550 *);
+extern void fn_822CDC98(Ent_82372550 *, const char *);
+extern void fn_822315A0(int);
+void fn_82372550(int param_1, int param_2, Ent_82372550 *p3, Ent_82372550 *p4, int p5, int p6)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
   int iVar3;
-  
-  if (*(int *)(param_1 + 0x1f0) == 8) goto LAB_823726e0;
-  if (param_5 < 0x18) {
-    iVar3 = *(int *)(&lbl_831DCD58 + param_5 * 4);
-  }
-  else {
-    iVar3 = 6;
-  }
-  uVar1 = fn_822CEE40(param_3);
-  if (*(int *)(param_1 + 0x220) != 0) {
-    (**(code **)(*param_3 + 0x14))(param_3,0xffffffff821b34dc);
-  }
-  if (param_3[0xb] == param_4[0xb]) {
-    if (iVar3 == 2) {
-      fn_822CDC98(param_3,0xffffffff821b34f0);
-      fn_822CDC98(param_3,0xffffffff821b3504);
+  Ent_82372550 *e;
+  if (*(int *)(param_1 + 0x1f0) != 8) {
+    if (p5 >= 0x18) {
+      iVar3 = 6;
+    } else {
+      iVar3 = lbl_831DCD58[p5];
     }
-    fn_822CDC98(param_3,0xffffffff821b3518);
-    if (param_5 == 4) {
-      fn_822CDC98(param_4,0xffffffff821b3524);
-      fn_822CDC98(param_4,0xffffffff821b3538);
-      uVar2 = 0xffffffff821b354c;
-      goto LAB_82372680;
+    e = fn_822CEE40(p3);
+    if (*(int *)(param_1 + 0x220) != 0) {
+      p3->vt->f14(p3, "movement_hit_medium");
     }
-    if ((5 < param_5) && (param_5 < 8)) {
-      uVar2 = 0xffffffff821b355c;
-      goto LAB_82372680;
+    if (p3->f2c == p4->f2c) {
+      if (iVar3 == 2) {
+        fn_822CDC98(p3, "comment_smashchance");
+        fn_822CDC98(p3, "comment_cleanongoal");
+      }
+      fn_822CDC98(p3, "event_pass");
+      switch (p5) {
+      case 4:
+        fn_822CDC98(p4, "comment_goodbump");
+        fn_822CDC98(p4, "comment_goodpass");
+        fn_822CDC98(p4, "event_receive");
+        break;
+      case 6:
+      case 7:
+        fn_822CDC98(p4, "comment_goodset");
+        break;
+      }
+    } else {
+      fn_822CDC98(p3, "event_attack");
+    }
+    if (iVar3 == 4 && e != 0) {
+      fn_822CDC98(e, "comment_goodblock");
+    }
+    if (p6 != 0) {
+      fn_822CDC98(p3, "event_defend");
+      if (e != 0 && p3->fd5 != 0) {
+        fn_822CDC98(e, "comment_recovery");
+      }
     }
   }
-  else {
-    uVar2 = 0xffffffff821b356c;
-    param_4 = param_3;
-LAB_82372680:
-    fn_822CDC98(param_4,uVar2);
+  if (*(unsigned int *)(param_2 + 4) != 0) {
+    fn_822315A0(*(unsigned int *)(param_2 + 4));
   }
-  if ((iVar3 == 4) && ((uVar1 & 0xffffffff) != 0)) {
-    fn_822CDC98(uVar1,0xffffffff821b357c);
-  }
-  if (((param_6 != 0) && (fn_822CDC98(param_3,0xffffffff821b3590), (uVar1 & 0xffffffff) != 0))
-     && (param_3[0xd5] != 0)) {
-    fn_822CDC98(uVar1,0xffffffff821b35a0);
-  }
-LAB_823726e0:
-  if (*(int *)(param_2 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
 }
-

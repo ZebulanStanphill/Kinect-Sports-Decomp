@@ -25,25 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_828B82D0();
-extern unsigned int lbl_820252D0;
+extern void fn_828B82D0(void *);
+extern char lbl_820252D0[];
 
+typedef struct Child_828B8888 Child_828B8888;
+typedef struct {
+  void (*del)(Child_828B8888 *, int);
+  void (*s4)(Child_828B8888 *);
+  void (*s8)(Child_828B8888 *);
+} ChildVt_828B8888;
+struct Child_828B8888 { ChildVt_828B8888 *vt; };
+typedef struct {
+  void *vt;
+  char pad[0x4c];
+  Child_828B8888 *child;
+} Obj_828B8888;
 
-void fn_828B8888(undefined4 *param_1)
-
+void fn_828B8888(Obj_828B8888 *self)
 {
-  undefined4 *puVar1;
-  
-  *param_1 = &lbl_820252D0;
-  if ((int *)param_1[0x14] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x14] + 8))();
-    puVar1 = (undefined4 *)param_1[0x14];
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+  self->vt = lbl_820252D0;
+  if (self->child != 0) {
+    self->child->vt->s8(self->child);
+    if (self->child != 0) {
+      self->child->vt->del(self->child, 1);
     }
-    param_1[0x14] = 0;
+    self->child = 0;
   }
-  fn_828B82D0(param_1);
-  return;
+  fn_828B82D0(self);
 }
-

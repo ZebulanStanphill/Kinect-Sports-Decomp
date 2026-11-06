@@ -25,70 +25,52 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8251F720();
-extern int fn_82549960();
-extern int fn_825FBDB8();
-extern int fn_82602390();
-extern int fn_82627DB0();
-extern int fn_8265B648();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821CC160;
-extern float lbl_8327F894;
-
-
-void fn_82602D20(int param_1,int param_2)
-
+extern void fn_825FBDB8(void *);
+extern void fn_82627DB0(void *, void *);
+extern void *fn_8265C9E0(unsigned);
+struct Obj_82602D20;
+struct Sub_82602D20;
+typedef struct VT_82602D20 { int s0, s1, s2; void (*f0c)(void *, int); } VT_82602D20;
+typedef struct Child_82602D20 { VT_82602D20 *vt; } Child_82602D20;
+typedef struct Mid_82602D20 { char pad[0x1a8]; Child_82602D20 *child; } Mid_82602D20;
+extern Mid_82602D20 *fn_82549960(void *, void *, int, int, int, int);
+extern void fn_8265B648(void *, int);
+extern int fn_8251F720(void *, int);
+extern void fn_82602390(void *, void *, float);
+extern float lbl_821CC160;
+extern float lbl_8327F880[];
+typedef struct Slot_82602D20 { char pad[0xa2]; unsigned short id; char pad2[0x1d0 - 0xa4]; } Slot_82602D20;
+typedef struct Obj_82602D20 { char pad[6]; short n; char pad1[0x24c]; int f254; char pad2[0x1c]; Mid_82602D20 *f274; char pad3[0x18]; unsigned f290; int f294; int pad4[2]; Slot_82602D20 slots[1]; } Obj_82602D20;
+typedef struct P1_82602D20 { char pad[0x820]; float f820; char pad1[0x14]; float f838; } P1_82602D20;
+void fn_82602D20(P1_82602D20 *p1, Obj_82602D20 *o)
 {
-  ulonglong uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  int *piVar4;
-  int iVar5;
-  double dVar6;
-  int aiStack_40;
-  
-  piVar4 = (int *)(param_2 + 0x290);
-  if (*(int *)(param_2 + 0x290) != 0) {
-    fn_825FBDB8(param_2);
-    iVar2 = 0;
-    if (0 < *(short *)(param_2 + 6)) {
-      iVar5 = param_2 + 0x2a0;
-      do {
-        if (*(short *)(iVar5 + 0xa2) == -2) {
-          fn_82627DB0(param_2,iVar5);
-        }
-        iVar2 = iVar2 + 1;
-        iVar5 = iVar5 + 0x1d0;
-      } while (iVar2 < *(short *)(param_2 + 6));
+  if (o->f290 != 0) {
+    int i;
+    void *mem;
+    Mid_82602D20 *m;
+    unsigned tmp;
+    fn_825FBDB8(o);
+    for (i = 0; i < o->n; i++) {
+      if (o->slots[i].id == 0xfffe) fn_82627DB0(o, &o->slots[i]);
     }
-    uVar1 = fn_8265C9E0(0x200);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar2 = 0;
+    mem = fn_8265C9E0(0x200);
+    if (mem != 0) m = fn_82549960(mem, &o->f290, 0, 0, 0, 0);
+    else m = 0;
+    o->f274 = m;
+    m->child->vt->f0c(m->child, 0);
+    if (o->f290 != 0) {
+      tmp = o->f290;
+      fn_8265B648(&tmp, 5);
+    } else {
+      tmp = 0;
     }
-    else {
-      iVar2 = fn_82549960(uVar1,piVar4,0,0,0,0);
-    }
-    *(int *)(param_2 + 0x274) = iVar2;
-    (**(code **)(**(int **)(iVar2 + 0x1a8) + 0xc))(*(int **)(iVar2 + 0x1a8),0);
-    aiStack_40 = *piVar4;
-    if (aiStack_40 == 0) {
-      aiStack_40 = 0;
-    }
-    else {
-      fn_8265B648(&aiStack_40,5);
-    }
-    uVar3 = fn_8251F720(&aiStack_40,0);
-    *(undefined4 *)(param_2 + 0x294) = uVar3;
-    *(undefined4 *)(param_2 + 0x254) = 7;
-    *piVar4 = 0;
+    o->f294 = fn_8251F720(&tmp, 0);
+    o->f254 = 7;
+    o->f290 = 0;
   }
-  if (*(int *)(param_2 + 0x254) == 7) {
-    dVar6 = (double)lbl_821CC160;
-    if ((double)*(float *)(param_1 + 0x838) <= dVar6) {
-      dVar6 = (double)(*(float *)(param_1 + 0x820) * lbl_8327F894);
-    }
-    fn_82602390(dVar6,param_1,param_2);
+  if (o->f254 == 7) {
+    float t = lbl_821CC160;
+    if (p1->f838 <= t) t = p1->f820 * lbl_8327F880[5];
+    fn_82602390(p1, o, t);
   }
-  return;
 }
-

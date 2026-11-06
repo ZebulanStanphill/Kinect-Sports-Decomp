@@ -25,32 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82817C98();
-extern int fn_82818308();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+extern void fn_82817C98(int, int *);
+extern int fn_82818308(void *, int, int, int *);
 
+typedef struct {
+  char pad[0xfc];
+  int out;
+  void *src;
+} Obj_82851D70;
 
-undefined8 fn_82851D70(int param_1,undefined8 param_2)
-
+int fn_82851D70(Obj_82851D70 *o, int p2)
 {
-  undefined8 uVar1;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  
-  uStack_20 = 0;
-  uVar1 = 0;
-  if (*(int *)(param_1 + 0x100) != 0) {
-    uVar1 = fn_82818308(*(int *)(param_1 + 0x100),param_2,0,&uStack_1c);
-    if ((int)uVar1 == 0) {
-      *(undefined4 *)(param_1 + 0xfc) = 0;
-    }
-    else {
-      fn_82817C98(uStack_1c,&uStack_20);
-      uVar1 = 1;
-      *(undefined4 *)(param_1 + 0xfc) = uStack_20;
+  int a = 0;
+  int b;
+  unsigned r = (unsigned)o->src;
+  if (r != 0) {
+    r = fn_82818308((void *)r, p2, 0, &b);
+    if ((int)r == 0) {
+      o->out = 0;
+    } else {
+      fn_82817C98(b, &a);
+      r = 1;
+      o->out = a;
     }
   }
-  return uVar1;
+  return r;
 }
-
