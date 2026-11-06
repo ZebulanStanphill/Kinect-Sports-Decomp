@@ -1,49 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
-extern int (*lbl_8327677C)();
+typedef struct {
+    int f0;
+    int f4;
+    void (*traceFn)(const char *func, const char *file, int line);
+} Glob_83276774;
+typedef struct {
+    int pad[4];
+    float f10;
+    int f14;
+    int active;
+} Obj_824650D0;
+extern Glob_83276774 lbl_83276774;
+extern float lbl_821CC160;
 
-
-void fn_824650D0(double param_1,int param_2)
-
+void fn_824650D0(Obj_824650D0 *o, float dt)
 {
-  float fVar1;
-  
-  if (*(int *)(param_2 + 0x18) != 0) {
-    fVar1 = (float)((double)*(float *)(param_2 + 0x10) - param_1);
-    *(float *)(param_2 + 0x10) = fVar1;
-    if (fVar1 <= lbl_821CC160) {
-      if (lbl_8327677C != (code *)0x0) {
-        (*lbl_8327677C)(0xffffffff821bbfb0,0xffffffff821bbef0,0x37);
+  if (o->active != 0) {
+    o->f10 = o->f10 - dt;
+    if (o->f10 <= lbl_821CC160) {
+      if (lbl_83276774.traceFn != 0) {
+        lbl_83276774.traceFn("PlayerCalibration::Wipe::Update","D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\scenecontroller\\scenecontroller_playercalibration\\scenecontroller_playercalibration_effect\\scenecontroller_playercalibration_effect_wipe.cpp",0x37);
       }
-      *(undefined4 *)(param_2 + 0x18) = 0;
+      o->active = 0;
     }
   }
-  return;
 }
-

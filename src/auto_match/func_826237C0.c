@@ -1,104 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
-extern int fn_82522DF8();
-extern int fn_82A1EFC0();
+typedef struct Block_826237C0 {
+    struct Block_826237C0 *next;
+    struct Block_826237C0 *prev;
+    int size;
+    char *start;
+    char *cur;
+    int pad14[3];
+} Block_826237C0;
 
+typedef struct Arena_826237C0 {
+    Block_826237C0 head;
+    Block_826237C0 *current;
+    int defaultSize;
+    int noClear;
+} Arena_826237C0;
 
-ulonglong fn_826237C0(int param_1,longlong param_2,ulonglong param_3)
+extern void *fn_82522D98(int size);
+extern void *fn_82522DF8(int size);
+extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
 
+void *fn_826237C0(Arena_826237C0 *arena, int size, int align)
 {
-  undefined4 *puVar1;
-  int *piVar2;
-  int iVar4;
-  ulonglong uVar3;
-  int iVar5;
-  ulonglong uVar6;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82522D98(*(undefined4 *)(param_1 + 0x24));
-  }
-  piVar2 = *(int **)(param_1 + 0x20);
-  do {
-    iVar5 = (int)param_2;
-    if (piVar2 == (int *)0x0) {
-      uVar3 = (param_3 & 0x7fffffff) * 2 + param_2;
-      uVar6 = (ulonglong)*(uint *)(param_1 + 0x24);
-      if ((int)*(uint *)(param_1 + 0x24) < (int)uVar3) {
-        uVar6 = uVar3;
-      }
-      if (*(int *)(param_1 + 0x28) == 0) {
-                    /* WARNING: Subroutine does not return */
-        fn_82522D98();
-      }
-      piVar2 = (int *)fn_82522DF8(uVar6 + 0x20);
-      *piVar2 = 0;
-      piVar2[1] = 0;
-      iVar4 = *(int *)(param_1 + 0x20);
-      puVar1 = *(undefined4 **)(iVar4 + 4);
-      *(int **)(iVar4 + 4) = piVar2;
-      *piVar2 = iVar4;
-      piVar2[1] = (int)puVar1;
-      if (puVar1 != (undefined4 *)0x0) {
-        *puVar1 = piVar2;
-      }
-      piVar2[2] = (int)uVar6;
-      piVar2[4] = (int)(piVar2 + 8);
-      piVar2[3] = (int)(piVar2 + 8);
-      *(int **)(param_1 + 0x20) = piVar2;
-      uVar6 = (ulonglong)(uint)piVar2[4];
-      if (1 < (int)param_3) {
-        param_3 = param_3 - 1;
-        uVar6 = (param_3 - (param_3 + uVar6 & param_3)) + uVar6;
-      }
-      piVar2[4] = (int)uVar6 + iVar5;
-LAB_82623904:
-      if (*(int *)(param_1 + 0x28) == 0) {
-                    /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(uVar6,0,(uint)piVar2[4] - uVar6);
-      }
-      return uVar6;
-    }
-    uVar6 = (ulonglong)(uint)piVar2[4];
-    if ((int)param_3 < 2) {
-      iVar4 = piVar2[4] - piVar2[3];
-    }
-    else {
-      uVar3 = param_3 - 1;
-      uVar6 = (uVar3 - (uVar3 + uVar6 & uVar3)) + uVar6;
-      iVar4 = (int)uVar6 - piVar2[3];
-    }
-    if (iVar5 <= piVar2[2] - iVar4) {
-      piVar2[4] = (int)uVar6 + iVar5;
-      goto LAB_82623904;
-    }
-    piVar2 = (int *)*piVar2;
-  } while( true );
-}
+    Block_826237C0 *block;
+    Block_826237C0 *prev;
+    Block_826237C0 *next;
+    Block_826237C0 *nb;
+    char *p;
+    int mask;
+    int blockSize;
+    int used;
 
+    if (arena->head.start == 0) {
+        p = (char *)fn_82522D98(arena->defaultSize);
+        arena->head.start = p;
+        arena->head.cur = p;
+        arena->head.size = arena->defaultSize;
+    }
+    for (block = arena->current; block != 0; block = block->next) {
+        p = block->cur;
+        if (align > 1) {
+            mask = align - 1;
+            p += mask - ((mask + (int)p) & mask);
+            used = p - block->start;
+        } else {
+            used = p - block->start;
+        }
+        if (block->size - used >= size) {
+            block->cur = p + size;
+            goto done;
+        }
+    }
+    blockSize = arena->defaultSize >= align * 2 + size ? arena->defaultSize : align * 2 + size;
+    if (arena->noClear == 0) {
+        nb = (Block_826237C0 *)fn_82522D98(blockSize + 0x20);
+    } else {
+        nb = (Block_826237C0 *)fn_82522DF8(blockSize + 0x20);
+    }
+    nb->next = 0;
+    nb->prev = 0;
+    next = arena->current;
+    prev = next->prev;
+    next->prev = nb;
+    nb->next = next;
+    nb->prev = prev;
+    if (prev != 0) {
+        prev->next = nb;
+    }
+    nb->size = blockSize;
+    nb->cur = (char *)(nb + 1);
+    nb->start = (char *)(nb + 1);
+    arena->current = nb;
+    block = nb;
+    p = nb->cur;
+    if (align > 1) {
+        mask = align - 1;
+        p += mask - ((mask + (int)p) & mask);
+    }
+    nb->cur = p + size;
+done:
+    if (arena->noClear == 0) {
+        fn_82A1EFC0(p, 0, block->cur - p);
+    }
+    return p;
+}

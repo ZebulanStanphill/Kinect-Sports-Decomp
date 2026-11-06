@@ -1,56 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82575DF0();
-extern int fn_826182E0();
+void __dcbt(int offset, const void *base);
+typedef struct Obj_825C5248 { char pad[0x1a4]; char a; char b; char c; } Obj_825C5248;
+typedef struct Item_825C5248 { int f0; Obj_825C5248 *obj; } Item_825C5248;
+typedef struct Node_825C5248 { Item_825C5248 *item; struct Node_825C5248 *next; } Node_825C5248;
+typedef struct List_825C5248 { int f0; int f4; Node_825C5248 *head; } List_825C5248;
+extern void fn_82575DF0(int a, Obj_825C5248 *o);
+extern void fn_826182E0(Item_825C5248 *item, Obj_825C5248 *o, float f);
 
-
-void fn_825C5248(undefined8 param_1,int param_2)
-
+void fn_825C5248(List_825C5248 *l, float f)
 {
-  int iVar1;
-  int *piVar2;
-  ulonglong uVar3;
-  
-  uVar3 = (ulonglong)*(uint *)(param_2 + 8);
-  while (uVar3 != 0) {
-    piVar2 = (int *)uVar3;
-    uVar3 = (ulonglong)(uint)piVar2[1];
-    dataCacheBlockTouch(uVar3);
-    iVar1 = *(int *)(*piVar2 + 4);
-    if (((*(char *)(iVar1 + 0x1a4) == '\0') && (*(char *)(iVar1 + 0x1a5) == '\0')) &&
-       (*(char *)(iVar1 + 0x1a6) != '\0')) {
-      fn_82575DF0(*(undefined4 *)(param_2 + 4));
-    }
-    else {
-      fn_826182E0(param_1);
-      uVar3 = (ulonglong)(uint)piVar2[1];
+  Node_825C5248 *n = l->head;
+  while (n != 0) {
+    Node_825C5248 *next = n->next;
+    Obj_825C5248 *o;
+    __dcbt(0, next);
+    o = n->item->obj;
+    if (o->a == 0 && o->b == 0 && o->c != 0) {
+      fn_82575DF0(l->f4, o);
+      n = next;
+    } else {
+      fn_826182E0(n->item, o, f);
+      n = n->next;
     }
   }
-  return;
 }
-

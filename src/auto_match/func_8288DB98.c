@@ -1,76 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8288CBD8();
-extern int fn_82897620();
-extern int fn_82897BA8();
-extern int fn_8289C078();
-extern int fn_8289C128();
-extern int fn_8289CB70();
+struct Iface_8288DB98;
+typedef struct IfaceVt_8288DB98 {
+  void *f0;
+  unsigned int (*f4)(struct Iface_8288DB98 *);
+  void *f8;
+  unsigned int (*fc)(struct Iface_8288DB98 *);
+  void *f10;
+  unsigned int (*f14)(struct Iface_8288DB98 *);
+} IfaceVt_8288DB98;
+typedef struct Iface_8288DB98 { IfaceVt_8288DB98 *vt; } Iface_8288DB98;
+typedef struct Item_8288DB98 { char pad[0x18]; int f18; int f1c; Iface_8288DB98 *iface; } Item_8288DB98;
+typedef struct ListHdr_8288DB98 { int f0; int f4; unsigned int count; } ListHdr_8288DB98;
+typedef struct List_8288DB98 { char pad[0x10]; ListHdr_8288DB98 *hdr; } List_8288DB98;
+struct Owner_8288DB98;
+typedef struct OwnerVt_8288DB98 { void *f0; void *f4; List_8288DB98 *(*getList)(struct Owner_8288DB98 *); } OwnerVt_8288DB98;
+typedef struct Owner_8288DB98 { OwnerVt_8288DB98 *vt; } Owner_8288DB98;
+extern Item_8288DB98 *fn_82897620(List_8288DB98 *l, unsigned int i);
+extern unsigned char fn_82897BA8(int v);
+extern int fn_8289CB70(Item_8288DB98 *it, int a, int b, int c);
+extern void fn_8288CBD8(void *out, int *v);
+extern void fn_8289C078(Item_8288DB98 *it, int a);
+extern void fn_8289C128(Item_8288DB98 *it);
 
+static __forceinline unsigned int Item_query4(Item_8288DB98 *it) { return it->iface != 0 ? it->iface->vt->f4(it->iface) : 0; }
+static __forceinline unsigned int Item_query14(Item_8288DB98 *it) { return it->iface != 0 ? it->iface->vt->f14(it->iface) : 0; }
+static __forceinline unsigned int Item_queryC(Item_8288DB98 *it) { return it->iface != 0 ? it->iface->vt->fc(it->iface) : 0; }
 
-void fn_8288DB98(int *param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_8288DB98(Owner_8288DB98 *o, int a, void *out)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  char cVar5;
-  int iVar4;
-  ulonglong uVar6;
-  undefined4 auStack_40;
-  
-  iVar2 = (**(code **)(*param_1 + 8))();
-  uVar6 = 0;
-  uVar1 = *(uint *)(*(int *)(iVar2 + 0x10) + 8);
-  if (uVar1 != 0) {
-    do {
-      iVar3 = fn_82897620(iVar2,uVar6);
-      cVar5 = fn_82897BA8(*(undefined4 *)(iVar3 + 0x18));
-      if (cVar5 == '\0') {
-        auStack_40 = fn_8289CB70(iVar3,param_2,1,0);
-        fn_8288CBD8(param_3,&auStack_40);
-        if (((*(int **)(iVar3 + 0x20) == (int *)0x0) ||
-            (iVar4 = (**(code **)(**(int **)(iVar3 + 0x20) + 4))(), iVar4 == 0)) &&
-           ((*(int **)(iVar3 + 0x20) == (int *)0x0 ||
-            (iVar4 = (**(code **)(**(int **)(iVar3 + 0x20) + 0x14))(), iVar4 == 0)))) {
-          if ((*(int **)(iVar3 + 0x20) != (int *)0x0) &&
-             (iVar4 = (**(code **)(**(int **)(iVar3 + 0x20) + 0xc))(), iVar4 != 0)) {
-            fn_8289C128(iVar3);
-          }
-        }
-        else {
-          fn_8289C078(iVar3,param_2);
-        }
+  List_8288DB98 *l = o->vt->getList(o);
+  unsigned int i;
+  unsigned int n = l->hdr->count;
+  for (i = 0; i < n; i++) {
+    Item_8288DB98 *it = fn_82897620(l, i);
+    if (fn_82897BA8(it->f18) == 0) {
+      int v = fn_8289CB70(it, a, 1, 0);
+      fn_8288CBD8(out, &v);
+      if (Item_query4(it) || Item_query14(it)) {
+        fn_8289C078(it, a);
+      } else if (Item_queryC(it)) {
+        fn_8289C128(it);
       }
-      uVar6 = uVar6 + 1;
-    } while ((uVar6 & 0xffffffff) < (ulonglong)uVar1);
+    }
   }
-  return;
 }
-

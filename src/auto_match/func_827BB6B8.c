@@ -1,203 +1,129 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* libjpeg jdmarker.c get_sof (open-source IJG libjpeg 6b). */
+typedef unsigned char JOCTET;
+typedef unsigned char boolean;
+typedef unsigned int JDIMENSION;
+typedef long INT32;
+typedef struct jpeg_common_struct_827BB6B8 *j_common_ptr;
+typedef struct jpeg_decompress_struct_827BB6B8 *j_decompress_ptr;
 
+struct jpeg_error_mgr_827BB6B8 {
+  void (*error_exit)(j_common_ptr cinfo);
+  void (*emit_message)(j_common_ptr cinfo, int msg_level);
+  int pad8[3];
+  int msg_code;
+  int msg_parm[8];
+};
 
-undefined8 fn_827BB6B8(int *param_1,undefined1 param_2,undefined1 param_3)
+struct jpeg_memory_mgr_827BB6B8 {
+  void *(*alloc_small)(j_common_ptr cinfo, int pool_id, unsigned int sizeofobject);
+};
 
+struct jpeg_source_mgr_827BB6B8 {
+  const JOCTET *next_input_byte;
+  unsigned int bytes_in_buffer;
+  void (*init_source)(j_decompress_ptr cinfo);
+  boolean (*fill_input_buffer)(j_decompress_ptr cinfo);
+};
+
+typedef struct jpeg_component_info_827BB6B8 {
+  int component_id;
+  int component_index;
+  int h_samp_factor;
+  int v_samp_factor;
+  int quant_tbl_no;
+  int pad14[16];
+} jpeg_component_info_827BB6B8;
+
+struct jpeg_marker_reader_827BB6B8 {
+  int pad0[3];
+  boolean pad_c;
+  boolean saw_SOF;
+};
+
+struct jpeg_decompress_struct_827BB6B8 {
+  struct jpeg_error_mgr_827BB6B8 *err;
+  struct jpeg_memory_mgr_827BB6B8 *mem;
+  int pad8[4];
+  struct jpeg_source_mgr_827BB6B8 *src;
+  JDIMENSION image_width;
+  JDIMENSION image_height;
+  int num_components;
+  int pad28[38];
+  int data_precision;
+  jpeg_component_info_827BB6B8 *comp_info;
+  boolean progressive_mode;
+  boolean arith_code;
+  char padca[0xb2];
+  int unread_marker;
+  int pad180[5];
+  struct jpeg_marker_reader_827BB6B8 *marker;
+};
+
+#define JPOOL_IMAGE 1
+#define GETJOCTET(value) (value)
+#define MAKESTMT(stuff) do { stuff } while (0)
+#define INPUT_VARS(cinfo) struct jpeg_source_mgr_827BB6B8 *datasrc = (cinfo)->src; const JOCTET *next_input_byte = datasrc->next_input_byte; unsigned int bytes_in_buffer = datasrc->bytes_in_buffer
+#define INPUT_SYNC(cinfo) MAKESTMT( datasrc->next_input_byte = next_input_byte; datasrc->bytes_in_buffer = bytes_in_buffer; )
+#define MAKE_BYTE_AVAIL(cinfo,action) if (bytes_in_buffer == 0) { if (!(*datasrc->fill_input_buffer)(cinfo)) { action; } next_input_byte = datasrc->next_input_byte; bytes_in_buffer = datasrc->bytes_in_buffer; }
+#define INPUT_BYTE(cinfo,V,action) MAKESTMT( MAKE_BYTE_AVAIL(cinfo,action); bytes_in_buffer--; V = GETJOCTET(*next_input_byte++); )
+#define INPUT_2BYTES(cinfo,V,action) MAKESTMT( MAKE_BYTE_AVAIL(cinfo,action); bytes_in_buffer--; V = ((unsigned int) GETJOCTET(*next_input_byte++)) << 8; MAKE_BYTE_AVAIL(cinfo,action); bytes_in_buffer--; V += GETJOCTET(*next_input_byte++); )
+#define ERREXIT(cinfo,code) ((cinfo)->err->msg_code = (code), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)))
+#define TRACEMS4(cinfo,lvl,code,p1,p2,p3,p4) MAKESTMT(int * _mp = (cinfo)->err->msg_parm; _mp[0] = (p1); _mp[1] = (p2); _mp[2] = (p3); _mp[3] = (p4); (cinfo)->err->msg_code = (code); (*(cinfo)->err->emit_message) ((j_common_ptr) (cinfo), (lvl)); )
+
+boolean fn_827BB6B8(j_decompress_ptr cinfo, boolean is_prog, boolean is_arith)
 {
-  byte bVar1;
-  byte bVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  char cVar7;
-  undefined8 uVar5;
-  int iVar6;
-  byte *pbVar8;
-  byte *pbVar9;
-  ulonglong uVar10;
-  undefined4 *puVar11;
-  
-  puVar3 = (undefined4 *)param_1[6];
-  uVar10 = (ulonglong)(uint)puVar3[1];
-  pbVar8 = (byte *)*puVar3;
-  *(undefined1 *)(param_1 + 0x32) = param_2;
-  *(undefined1 *)((int)param_1 + 0xc9) = param_3;
-  if (uVar10 == 0) {
-    cVar7 = (*(code *)puVar3[3])();
-    if (cVar7 != '\0') {
-      pbVar8 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-      goto LAB_827bb708;
-    }
-LAB_827bb6f8:
-    uVar5 = 0;
-  }
-  else {
-LAB_827bb708:
-    bVar1 = *pbVar8;
-    uVar10 = uVar10 - 1;
-    pbVar8 = pbVar8 + 1;
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar8 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    bVar2 = *pbVar8;
-    uVar10 = uVar10 - 1;
-    pbVar8 = pbVar8 + 1;
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar8 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    uVar10 = uVar10 - 1;
-    pbVar9 = pbVar8 + 1;
-    param_1[0x30] = (uint)*pbVar8;
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar9 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    uVar10 = uVar10 - 1;
-    pbVar8 = pbVar9 + 1;
-    param_1[8] = (uint)*pbVar9 << 8;
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar8 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    pbVar9 = pbVar8 + 1;
-    uVar10 = uVar10 - 1;
-    param_1[8] = (uint)*pbVar8 + param_1[8];
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar9 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    uVar10 = uVar10 - 1;
-    pbVar8 = pbVar9 + 1;
-    param_1[7] = (uint)*pbVar9 << 8;
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar8 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    uVar10 = uVar10 - 1;
-    pbVar9 = pbVar8 + 1;
-    param_1[7] = (uint)*pbVar8 + param_1[7];
-    if (uVar10 == 0) {
-      cVar7 = (*(code *)puVar3[3])(param_1);
-      if (cVar7 == '\0') goto LAB_827bb6f8;
-      pbVar9 = (byte *)*puVar3;
-      uVar10 = (ulonglong)(uint)puVar3[1];
-    }
-    pbVar8 = pbVar9 + 1;
-    iVar6 = *param_1;
-    uVar10 = uVar10 - 1;
-    param_1[9] = (uint)*pbVar9;
-    *(int *)(iVar6 + 0x18) = param_1[0x5f];
-    *(int *)(iVar6 + 0x1c) = param_1[7];
-    *(int *)(iVar6 + 0x20) = param_1[8];
-    *(int *)(iVar6 + 0x24) = param_1[9];
-    *(undefined4 *)(*param_1 + 0x14) = 100;
-    (**(code **)(*param_1 + 4))(param_1,1);
-    if (*(char *)(param_1[0x65] + 0xd) != '\0') {
-      *(undefined4 *)(*param_1 + 0x14) = 0x3a;
-      (**(code **)*param_1)(param_1);
-    }
-    if (((param_1[8] == 0) || (param_1[7] == 0)) || (param_1[9] < 1)) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x20;
-      (**(code **)*param_1)(param_1);
-    }
-    if ((uint)bVar2 + (uint)bVar1 * 0x100 + -8 != param_1[9] * 3) {
-      *(undefined4 *)(*param_1 + 0x14) = 0xb;
-      (**(code **)*param_1)(param_1);
-    }
-    if (param_1[0x31] == 0) {
-      iVar6 = (**(code **)param_1[1])(param_1,1,(ulonglong)(uint)param_1[9] * 0x54);
-      param_1[0x31] = iVar6;
-    }
-    iVar6 = 0;
-    if (0 < param_1[9]) {
-      puVar11 = (undefined4 *)(param_1[0x31] + -0x44);
-      do {
-        puVar11[0x12] = iVar6;
-        if ((uVar10 & 0xffffffff) == 0) {
-          cVar7 = (*(code *)puVar3[3])(param_1);
-          if (cVar7 == '\0') goto LAB_827bb6f8;
-          pbVar8 = (byte *)*puVar3;
-          uVar10 = (ulonglong)(uint)puVar3[1];
-        }
-        uVar10 = uVar10 - 1;
-        pbVar9 = pbVar8 + 1;
-        puVar11[0x11] = (uint)*pbVar8;
-        if (uVar10 == 0) {
-          cVar7 = (*(code *)puVar3[3])(param_1);
-          if (cVar7 == '\0') goto LAB_827bb6f8;
-          pbVar9 = (byte *)*puVar3;
-          uVar10 = (ulonglong)(uint)puVar3[1];
-        }
-        bVar1 = *pbVar9;
-        uVar10 = uVar10 - 1;
-        pbVar9 = pbVar9 + 1;
-        puVar11[0x14] = bVar1 & 0xf;
-        puVar11[0x13] = (int)(uint)bVar1 >> 4;
-        if (uVar10 == 0) {
-          cVar7 = (*(code *)puVar3[3])(param_1);
-          if (cVar7 == '\0') goto LAB_827bb6f8;
-          pbVar9 = (byte *)*puVar3;
-          uVar10 = (ulonglong)(uint)puVar3[1];
-        }
-        pbVar8 = pbVar9 + 1;
-        uVar10 = uVar10 - 1;
-        puVar11[0x15] = (uint)*pbVar9;
-        iVar4 = *param_1;
-        *(undefined4 *)(iVar4 + 0x18) = puVar11[0x11];
-        *(undefined4 *)(iVar4 + 0x1c) = puVar11[0x13];
-        *(undefined4 *)(iVar4 + 0x20) = puVar11[0x14];
-        puVar11 = puVar11 + 0x15;
-        *(undefined4 *)(iVar4 + 0x24) = *puVar11;
-        *(undefined4 *)(*param_1 + 0x14) = 0x65;
-        (**(code **)(*param_1 + 4))(param_1,1);
-        iVar6 = iVar6 + 1;
-      } while (iVar6 < param_1[9]);
-    }
-    uVar5 = 1;
-    *(undefined1 *)(param_1[0x65] + 0xd) = 1;
-    *puVar3 = pbVar8;
-    puVar3[1] = (int)uVar10;
-  }
-  return uVar5;
-}
+  INT32 length;
+  int c, ci;
+  jpeg_component_info_827BB6B8 *compptr;
+  INPUT_VARS(cinfo);
 
+  cinfo->progressive_mode = is_prog;
+  cinfo->arith_code = is_arith;
+
+  INPUT_2BYTES(cinfo, length, return 0);
+
+  INPUT_BYTE(cinfo, cinfo->data_precision, return 0);
+  INPUT_2BYTES(cinfo, cinfo->image_height, return 0);
+  INPUT_2BYTES(cinfo, cinfo->image_width, return 0);
+  INPUT_BYTE(cinfo, cinfo->num_components, return 0);
+
+  length -= 8;
+
+  TRACEMS4(cinfo, 1, 100, cinfo->unread_marker,
+           (int) cinfo->image_width, (int) cinfo->image_height,
+           cinfo->num_components);
+
+  if (cinfo->marker->saw_SOF)
+    ERREXIT(cinfo, 0x3a);
+
+  if (cinfo->image_height <= 0 || cinfo->image_width <= 0
+      || cinfo->num_components <= 0)
+    ERREXIT(cinfo, 0x20);
+
+  if (length != (cinfo->num_components * 3))
+    ERREXIT(cinfo, 0xb);
+
+  if (cinfo->comp_info == 0)
+    cinfo->comp_info = (jpeg_component_info_827BB6B8 *) (*cinfo->mem->alloc_small)
+                        ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                         cinfo->num_components * sizeof(jpeg_component_info_827BB6B8));
+
+  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
+       ci++, compptr++) {
+    compptr->component_index = ci;
+    INPUT_BYTE(cinfo, compptr->component_id, return 0);
+    INPUT_BYTE(cinfo, c, return 0);
+    compptr->h_samp_factor = (c >> 4) & 15;
+    compptr->v_samp_factor = (c     ) & 15;
+    INPUT_BYTE(cinfo, compptr->quant_tbl_no, return 0);
+
+    TRACEMS4(cinfo, 1, 0x65,
+             compptr->component_id, compptr->h_samp_factor,
+             compptr->v_samp_factor, compptr->quant_tbl_no);
+  }
+
+  cinfo->marker->saw_SOF = 1;
+
+  INPUT_SYNC(cinfo);
+  return 1;
+}

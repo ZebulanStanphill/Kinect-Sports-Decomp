@@ -1,49 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4C8();
-extern int fn_8267C4F0();
-extern int fn_8268B8E8();
+typedef struct Self_82693F10 {
+    char pad0[0x1c];
+    void *ref;
+    char name[4];
+} Self_82693F10;
 
+extern void fn_8267C4C8(void *p);
+extern void fn_8267C4F0(void *p);
+extern void fn_8268B8E8(void *dst, const char *s);
+extern char lbl_82196582[];
 
-void fn_82693F10(int param_1,ulonglong param_2,ulonglong param_3)
-
+void fn_82693F10(Self_82693F10 *self, void *ref, const char *name)
 {
-  if ((param_2 & 0xffffffff) != 0) {
-    fn_8267C4C8(param_2);
-  }
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8267C4F0();
-  }
-  *(int *)(param_1 + 0x1c) = (int)param_2;
-  if ((param_3 & 0xffffffff) == 0) {
-    param_3 = 0xffffffff82196582;
-  }
-  fn_8268B8E8(param_1 + 0x20,param_3);
-  return;
+    if (ref != 0) {
+        fn_8267C4C8(ref);
+    }
+    if (self->ref != 0) {
+        fn_8267C4F0(self->ref);
+    }
+    self->ref = ref;
+    fn_8268B8E8(self->name, name != 0 ? name : lbl_82196582);
 }
-

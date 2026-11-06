@@ -1,41 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268C210();
+typedef struct Color_827582C8 {
+    unsigned char r, g, b, a;
+} Color_827582C8;
 
+typedef struct Obj_827582C8 {
+    int a;
+    int b;
+    int c;
+    int sub;
+    Color_827582C8 color;
+} Obj_827582C8;
 
-undefined4 * fn_827582C8(undefined4 *param_1)
+extern void fn_8268C210(int *p);
 
+Obj_827582C8 *fn_827582C8(Obj_827582C8 *self)
 {
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  fn_8268C210(param_1 + 3);
-  param_1[4] = 0xffffff00;
-  return param_1;
+    Color_827582C8 c;
+    self->a = 0;
+    self->b = 0;
+    self->c = 0;
+    fn_8268C210(&self->sub);
+    c.a = 0;
+    c.g = 0xff;
+    c.b = 0xff;
+    c.r = 0xff;
+    self->color = c;
+    return self;
 }
-

@@ -1,112 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack0000004c;
-extern int fn_822315A0();
-extern int fn_82256048();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828B55B0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_2c;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int stack0x0000002c;
-extern unsigned int stack0x00000034;
-extern unsigned int stack0x00000044;
-extern unsigned int stack0x0000004c;
-extern unsigned int stack0x00000054;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
-extern unsigned int uStack0000002c;
-extern unsigned int uStack00000034;
-extern unsigned int uStack00000044;
-extern unsigned int uStack_30;
+typedef struct Stream_823292D0 Stream_823292D0;
 
+typedef struct Ref_823292D0 {
+    Stream_823292D0 *ptr;
+    void *ctrl;
+} Ref_823292D0;
 
-void fn_823292D0(double param_1,int param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5,undefined4 param_6,undefined8 param_7,undefined4 param_8)
+typedef struct Field_823292D0 Field_823292D0;
+typedef struct FieldVtbl_823292D0 {
+    void *slot[4];
+    void (*Write)(Field_823292D0 *self, Stream_823292D0 *s, void *value);
+} FieldVtbl_823292D0;
+struct Field_823292D0 {
+    FieldVtbl_823292D0 *vt;
+};
 
+typedef struct FieldRef_823292D0 {
+    Field_823292D0 *ptr;
+    void *ctrl;
+} FieldRef_823292D0;
+
+typedef struct Obj_823292D0 {
+    int pad00[0xe];
+    int field38[4];
+    void *field48;
+    int pad4c[7];
+    FieldRef_823292D0 fields[8];
+} Obj_823292D0;
+
+extern void fn_822315A0(void *ctrl);
+extern void fn_82256048(Obj_823292D0 *self, Stream_823292D0 *s, int *p);
+extern void fn_822D79D8(Ref_823292D0 *ref, Stream_823292D0 *s);
+extern Stream_823292D0 *fn_822D7FE0(void *mem);
+extern void *fn_8265C9E0(int size);
+extern void fn_828B55B0(void *value);
+extern void fn_828E2B28(Obj_823292D0 *self, Ref_823292D0 *ref);
+extern int fn_828E9D40(Stream_823292D0 *s);
+extern int fn_828E9D90(Stream_823292D0 *s);
+
+void fn_823292D0(Obj_823292D0 *self, int a, int b, int c, int d, void *e, int f, float g, int h)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined4 uStack0000002c;
-  undefined4 uStack00000034;
-  undefined4 uStack00000044;
-  float fStack0000004c;
-  struct { undefined4 first; int second; } stack_pair_30;
+    void *mem = fn_8265C9E0(0x28);
+    Stream_823292D0 *s;
+    Ref_823292D0 ref;
 
-  
-  fStack0000004c = (float)param_1;
-  uStack0000001c = param_3;
-  uStack00000024 = param_4;
-  uStack0000002c = param_5;
-  uStack00000034 = param_6;
-  uStack00000044 = param_8;
-  iVar2 = fn_8265C9E0(0x28);
-  if (iVar2 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_822D7FE0();
-  }
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_822D79D8(&stack_pair_30.first,uVar1);
-  (**(code **)(**(int **)(param_2 + 0x68) + 0x10))
-            (*(int **)(param_2 + 0x68),stack_pair_30.first,&stack0x0000001c);
-  (**(code **)(**(int **)(param_2 + 0x70) + 0x10))
-            (*(int **)(param_2 + 0x70),stack_pair_30.first,&stack0x00000024);
-  (**(code **)(**(int **)(param_2 + 0x78) + 0x10))
-            (*(int **)(param_2 + 0x78),stack_pair_30.first,&stack0x0000002c);
-  (**(code **)(**(int **)(param_2 + 0x80) + 0x10))
-            (*(int **)(param_2 + 0x80),stack_pair_30.first,&stack0x00000034);
-  (**(code **)(**(int **)(param_2 + 0x88) + 0x10))(*(int **)(param_2 + 0x88),stack_pair_30.first,param_7);
-  (**(code **)(**(int **)(param_2 + 0x90) + 0x10))
-            (*(int **)(param_2 + 0x90),stack_pair_30.first,&stack0x00000044);
-  (**(code **)(**(int **)(param_2 + 0x98) + 0x10))
-            (*(int **)(param_2 + 0x98),stack_pair_30.first,&stack0x0000004c);
-  (**(code **)(**(int **)(param_2 + 0xa0) + 0x10))
-            (*(int **)(param_2 + 0xa0),stack_pair_30.first,&stack0x00000054);
-  if (*(int *)(param_2 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_30.first);
-    fn_828E9D40(stack_pair_30.first);
-    fn_82256048(param_2,stack_pair_30.first,param_2 + 0x38);
-  }
-  fn_828E2B28(param_2,&stack_pair_30.first);
-  if (stack_pair_30.second != 0) {
-    fn_822315A0();
-  }
-  fn_828B55B0(param_7);
-  return;
+    if (mem != 0) {
+        s = fn_822D7FE0(mem);
+    } else {
+        s = 0;
+    }
+    ref.ptr = 0;
+    ref.ctrl = 0;
+    fn_822D79D8(&ref, s);
+    self->fields[0].ptr->vt->Write(self->fields[0].ptr, ref.ptr, &a);
+    self->fields[1].ptr->vt->Write(self->fields[1].ptr, ref.ptr, &b);
+    self->fields[2].ptr->vt->Write(self->fields[2].ptr, ref.ptr, &c);
+    self->fields[3].ptr->vt->Write(self->fields[3].ptr, ref.ptr, &d);
+    self->fields[4].ptr->vt->Write(self->fields[4].ptr, ref.ptr, e);
+    self->fields[5].ptr->vt->Write(self->fields[5].ptr, ref.ptr, &f);
+    self->fields[6].ptr->vt->Write(self->fields[6].ptr, ref.ptr, &g);
+    self->fields[7].ptr->vt->Write(self->fields[7].ptr, ref.ptr, &h);
+    if (self->field48 != 0) {
+        fn_828E9D90(ref.ptr);
+        fn_828E9D40(ref.ptr);
+        fn_82256048(self, ref.ptr, self->field38);
+    }
+    fn_828E2B28(self, &ref);
+    if (ref.ctrl != 0) {
+        fn_822315A0(ref.ctrl);
+    }
+    fn_828B55B0(e);
 }
-

@@ -1,59 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8289F160();
-extern unsigned int iStack_1c;
-extern unsigned int lbl_83212A04;
-extern unsigned int uStack_20;
+typedef struct Node_82882FB8 {
+    int f0, f4, f8, fC;
+    char *value;
+} Node_82882FB8;
+typedef struct {
+    int f0;
+    Node_82882FB8 *head;
+    int size;
+} Map_82882FB8;
+typedef struct {
+    char pad0[0x2c];
+    char *f2c;
+    struct Link_82882FB8 *f30;
+} Link_82882FB8;
+typedef struct {
+    int key;
+    Link_82882FB8 *cur;
+} Iter_82882FB8;
+extern Map_82882FB8 lbl_83212A00;
+extern void fn_8289F160(Node_82882FB8 **out, Map_82882FB8 *map, int *key);
 
-
-void fn_82882FB8(undefined4 *param_1)
-
+void fn_82882FB8(Iter_82882FB8 *it)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uStack_20;
-  int iStack_1c;
-  
-  uStack_20 = *param_1;
-  fn_8289F160(&iStack_1c,0xffffffff83212a00,&uStack_20);
-  if (iStack_1c == lbl_83212A04) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = *(int *)(iStack_1c + 0x10);
-  }
-  iVar1 = *(int *)(param_1[1] + 0x30);
-  if ((iVar1 == 0) && (*(int *)(param_1[1] + 0x2c) == iVar2 + 0x70)) {
-    param_1[1] = *(undefined4 *)(iVar2 + 0x7c);
-  }
-  else {
-    param_1[1] = iVar1;
-  }
-  return;
+    int key = it->key;
+    Node_82882FB8 *n;
+    char *v;
+    Link_82882FB8 *next;
+    fn_8289F160(&n, &lbl_83212A00, &key);
+    v = n != lbl_83212A00.head ? n->value : 0;
+    next = (Link_82882FB8 *)it->cur->f30;
+    if (next == 0 && it->cur->f2c == v + 0x70) {
+        it->cur = *(Link_82882FB8 **)(v + 0x7c);
+    } else {
+        it->cur = next;
+    }
 }
-

@@ -1,49 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827227E8();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+typedef struct Entry_82725D88 {
+    int a;
+    unsigned int key;
+    int b;
+    int c;
+} Entry_82725D88;
+typedef struct Array_82725D88 {
+    Entry_82725D88 *data;
+    unsigned int count;
+} Array_82725D88;
+typedef struct Obj_82725D88 {
+    int pad[3];
+    Array_82725D88 items;
+} Obj_82725D88;
+extern void fn_82722760(void);
+extern unsigned int fn_827227E8(Array_82725D88 *arr, unsigned int lo, unsigned int hi, unsigned int *key, void *cmp);
 
-
-int fn_82725D88(int param_1,int param_2)
-
+static __forceinline unsigned int find_82725D88(Array_82725D88 *arr, unsigned int *key)
 {
-  uint uVar1;
-  int iVar2;
-  int iStack0000001c;
-  
-  iStack0000001c = param_2;
-  uVar1 = fn_827227E8((int *)(param_1 + 0xc),0,*(undefined4 *)(param_1 + 0x10),&stack0x0000001c,
-                        0xffffffff82722760);
-  if ((*(uint *)(param_1 + 0x10) <= uVar1) ||
-     (iVar2 = uVar1 * 0x10 + *(int *)(param_1 + 0xc), *(int *)(iVar2 + 4) != param_2)) {
-    iVar2 = 0;
-  }
-  return iVar2;
+    return fn_827227E8(arr, 0, arr->count, key, (void *)fn_82722760);
 }
 
+Entry_82725D88 *fn_82725D88(Obj_82725D88 *o, unsigned int key)
+{
+    unsigned int i;
+    Entry_82725D88 *e;
+    unsigned int k;
+
+    k = key;
+    i = find_82725D88(&o->items, &key);
+    if (i < o->items.count) {
+        e = &o->items.data[i];
+        if (e->key == k) {
+            return e;
+        }
+    }
+    return 0;
+}

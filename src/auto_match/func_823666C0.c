@@ -1,42 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822BE4C0();
+typedef struct Iface_823666C0 Iface_823666C0;
+typedef struct {
+    int (*f0)(Iface_823666C0 *);
+    int (*f4)(Iface_823666C0 *);
+    int (*f8)(Iface_823666C0 *);
+    int (*fC)(Iface_823666C0 *);
+} IfaceVt_823666C0;
+struct Iface_823666C0 { IfaceVt_823666C0 *vt; };
+typedef struct {
+    char pad0[0x210];
+    int f210;
+    char pad214[0x3ec - 0x214];
+    Iface_823666C0 *f3ec;
+    char pad3f0[0x798 - 0x3f0];
+    char f798[4];
+} Inner_823666C0;
+typedef struct {
+    int f0;
+    Inner_823666C0 *inner;
+} Self_823666C0;
+extern void fn_822BE4C0(int a, int b, int c, void *d);
 
-
-void fn_823666C0(int param_1,undefined8 param_2)
-
+void fn_823666C0(Self_823666C0 *self, int arg)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  uVar2 = (**(code **)(**(int **)(iVar1 + 0x3ec) + 0xc))();
-  fn_822BE4C0(param_2,*(undefined4 *)(*(int *)(param_1 + 4) + 0x210),uVar2,iVar1 + 0x798);
-  return;
+    Inner_823666C0 *in = self->inner;
+    fn_822BE4C0(arg, self->inner->f210, in->f3ec->vt->fC(in->f3ec), in->f798);
 }
-

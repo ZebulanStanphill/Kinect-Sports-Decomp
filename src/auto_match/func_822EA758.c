@@ -1,54 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82320440();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
+typedef struct Blk_822EA758 {
+    void *vt;
+    int uses;
+    int weaks;
+    char obj[0x2c];
+} Blk_822EA758;
 
+typedef struct Out_822EA758 {
+    void *ptr;
+    Blk_822EA758 *blk;
+} Out_822EA758;
 
-undefined4 * fn_822EA758(undefined4 *param_1,undefined8 param_2,float *param_3,float *param_4)
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82320440(void *obj, void *a, float x, float y);
+extern char lbl_821AD588[];
 
+Out_822EA758 *fn_822EA758(Out_822EA758 *out, void *a, const float *x, const float *y)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x38);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar1 + 3 != (undefined4 *)0x0) {
-      fn_82320440((double)*param_3,(double)*param_4,puVar1 + 3,param_2);
-    }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 3;
-  return param_1;
-}
+    Blk_822EA758 *mem = (Blk_822EA758 *)fn_8265C9E0(0x38);
+    Blk_822EA758 *p;
 
+    if (mem != 0) {
+        mem->uses = 1;
+        mem->vt = lbl_821AD588;
+        mem->weaks = 1;
+        if (mem->obj != 0) {
+            fn_82320440(mem->obj, a, *x, *y);
+        }
+        p = mem;
+    } else {
+        p = 0;
+    }
+    out->blk = p;
+    out->ptr = p->obj;
+    return out;
+}
