@@ -1,84 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82A37B80();
-extern int fn_82A37C50();
-extern int memmove();
-extern int memcpy();
+typedef struct Rec_82A37D48 { void *key; unsigned short words; short pad; char data[1]; } Rec_82A37D48;
+typedef struct Ring_82A37D48 {
+  int f0;
+  char *begin;
+  char *end;
+  unsigned int cap;
+  char cs[0x1c];
+} Ring_82A37D48;
+typedef struct Desc_82A37D48 { int f0; int f4; int f8; unsigned int fmt; } Desc_82A37D48;
+extern unsigned int fn_82A37C50(Ring_82A37D48 *r, void *key, void *out);
+extern void fn_82A37B80(Ring_82A37D48 *r);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void *memmove(void *, const void *, unsigned int);
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-void fn_82A37D48(int param_1,undefined8 param_2,int param_3)
-
+void fn_82A37D48(Ring_82A37D48 *r, void *key, Desc_82A37D48 *d)
 {
-  longlong lVar1;
-  int iVar3;
-  ulonglong uVar2;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  longlong lVar7;
-  undefined1 auStack_40 [1];
-  
-  if (*(int *)(param_1 + 0xc) != 0) {
-    iVar3 = fn_82A37C50(param_1,param_2,auStack_40);
-    if (iVar3 == 0) {
-      fn_82A37B80(param_1);
-      uVar2 = (ulonglong)*(uint *)(param_1 + 4);
-      lVar7 = *(uint *)(param_1 + 8) - uVar2;
-      lVar1 = (((longlong)(int)((-(uint)((*(uint *)(param_3 + 0xc) & 0xc00000) != 0) & 0xc) + 0x14)
-                * (longlong)(int)(*(uint *)(param_3 + 0xc) >> 6 & 0xffff) + 0x1fU >> 5) + 4) * 4;
-      uVar6 = lVar1 + 8;
-      if (uVar6 <= *(uint *)(param_1 + 0xc)) {
-        uVar4 = uVar2;
-        if (((ulonglong)*(uint *)(param_1 + 0xc) - lVar7 & 0xffffffff) < uVar6) {
-          do {
-            uVar5 = (ulonglong)*(ushort *)((int)uVar4 + 4);
-            lVar7 = lVar7 + uVar5 * -4;
-            uVar4 = uVar5 * 4 + uVar4;
-          } while (((ulonglong)*(uint *)(param_1 + 0xc) - lVar7 & 0xffffffff) < uVar6);
-        }
-        if ((uVar4 & 0xffffffff) != uVar2) {
-          if ((uVar4 & 0xffffffff) == (ulonglong)*(uint *)(param_1 + 8)) {
-            *(uint *)(param_1 + 8) = *(uint *)(param_1 + 4);
-          }
-          else {
-            memmove(uVar2,uVar4,lVar7);
-            *(int *)(param_1 + 8) = *(int *)(param_1 + 4) + (int)lVar7;
-          }
-        }
-        **(undefined4 **)(param_1 + 8) = (int)param_2;
-        *(short *)(*(int *)(param_1 + 8) + 4) = (short)(uVar6 >> 2);
-        memcpy((ulonglong)*(uint *)(param_1 + 8) + 8,param_3,lVar1);
-        *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + (int)uVar6;
+  char tmp[4];
+  if (r->cap > 0 && fn_82A37C50(r, key, tmp) == 0) {
+    unsigned int used;
+    unsigned int size;
+    unsigned int total;
+    fn_82A37B80(r);
+    used = r->end - r->begin;
+    size = (((((d->fmt & 0xc00000) != 0 ? 0x20 : 0x14) * ((d->fmt >> 6) & 0xffff) + 0x1f) >> 5) + 4) * 4;
+    total = size + 8;
+    if (total <= r->cap) {
+      char *p = r->begin;
+      while (r->cap - used < total) {
+        unsigned int n = ((Rec_82A37D48 *)p)->words * 4;
+        used -= n;
+        p += n;
       }
-      RtlLeaveCriticalSection(param_1 + 0x10);
+      if (p != r->begin) {
+        if (p != r->end) {
+          memmove(r->begin, p, used);
+          r->end = r->begin + used;
+        } else {
+          r->end = r->begin;
+        }
+      }
+      ((Rec_82A37D48 *)r->end)->key = key;
+      ((Rec_82A37D48 *)r->end)->words = (unsigned short)(total >> 2);
+      memcpy(r->end + 8, d, size);
+      r->end += total;
     }
+    RtlLeaveCriticalSection(r->cs);
   }
-  return;
 }
-

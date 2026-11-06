@@ -1,158 +1,139 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8301AE78();
-extern int fn_8301AEF8();
-extern int fn_8301AF50();
-extern int fn_8302FB68();
-extern int fn_8302FD88();
-extern unsigned int iStack_8c;
-extern unsigned int iStack_90;
-extern unsigned int lbl_832642EC;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct {
+    unsigned int *begin;
+    unsigned int *end;
+} Set_83030318;
+typedef struct SetNode_83030318 {
+    struct SetNode_83030318 *next;
+    unsigned int key;
+    Set_83030318 value;
+} SetNode_83030318;
+typedef struct {
+    int f0;
+    int f4;
+    unsigned char flags : 5;
+    unsigned char low : 3;
+} Info_83030318;
+typedef struct InfoNode_83030318 {
+    struct InfoNode_83030318 *next;
+    unsigned int key;
+    Info_83030318 value;
+} InfoNode_83030318;
+typedef struct {
+    char pad0[0x18];
+    unsigned int f18;
+} Item_83030318;
+typedef struct ItemNode_83030318 {
+    struct ItemNode_83030318 *next;
+    unsigned int key;
+    Item_83030318 value;
+} ItemNode_83030318;
+typedef struct {
+    unsigned int id;
+    int count;
+} Run_83030318;
+typedef struct {
+    char pad0[0xc];
+    int fc;
+    char pad10[0xc0 - 0x10];
+    unsigned int defId;
+    SetNode_83030318 *sets;
+    char padc8[0xe4 - 0xc8];
+    InfoNode_83030318 *infos;
+    char pade8[0x104 - 0xe8];
+    ItemNode_83030318 *items;
+} Obj_83030318;
+typedef struct {
+    unsigned int id;
+    int f4;
+} Key_83030318;
+extern int lbl_832642EC;
+extern void fn_8301AE78(Key_83030318 *out, int ctx, unsigned int key, int fc);
+extern void fn_8301AF50(int ctx, int fc, unsigned int key);
+extern void fn_8301AEF8(int ctx, unsigned int key, int fc, Run_83030318 *run);
+extern int fn_8302FD88(Obj_83030318 *o, Set_83030318 *a, Set_83030318 *b, unsigned int key);
+extern int fn_8302FB68(Obj_83030318 *o, unsigned int id, Item_83030318 *item);
 
-
-undefined8 fn_83030318(int param_1,int param_2,ulonglong param_3)
-
+static __forceinline Set_83030318 *FindSet_83030318(SetNode_83030318 *n, unsigned int key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  bool bVar4;
-  undefined4 uVar5;
-  undefined8 uVar6;
-  int *piVar7;
-  byte bVar8;
-  undefined4 *puVar9;
-  int *piVar10;
-  int *piVar11;
-  struct { int first; int second; } stack_pair_90;
-
-  int aiStack_88 [2];
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  
-  fn_8301AE78(aiStack_88,lbl_832642EC,param_3,*(undefined4 *)(param_1 + 0xc));
-  if (param_2 == aiStack_88[0]) {
-    return 1;
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0xc4);
-  for (puVar9 = puVar1; puVar2 = puVar1, puVar9 != (undefined4 *)0x0; puVar9 = (undefined4 *)*puVar9
-      ) {
-    if (puVar9[1] == aiStack_88[0]) {
-      puVar9 = puVar9 + 2;
-      goto joined_r0x83030390;
-    }
-  }
-  puVar9 = (undefined4 *)0x0;
-joined_r0x83030390:
-  do {
-    if (puVar2 == (undefined4 *)0x0) break;
-    if (puVar2[1] == param_2) {
-      piVar10 = puVar2 + 2;
-      if (piVar10 != (int *)0x0) goto LAB_830303ec;
-      break;
-    }
-    puVar2 = (undefined4 *)*puVar2;
-  } while( true );
-  param_2 = *(int *)(param_1 + 0xc0);
-  do {
-    if (puVar1 == (undefined4 *)0x0) {
-      piVar10 = (int *)0x0;
-LAB_830303ec:
-      uVar6 = fn_8302FD88(param_1,puVar9,piVar10,param_3);
-      fn_8301AF50(lbl_832642EC,*(undefined4 *)(param_1 + 0xc),param_3);
-      stack_pair_90.second = 0;
-      stack_pair_90.first = 0;
-      puVar1 = *(undefined4 **)(param_1 + 0x104);
-      do {
-        if (puVar1 == (undefined4 *)0x0) {
-          fn_8301AEF8(lbl_832642EC,param_3,*(undefined4 *)(param_1 + 0xc),&stack_pair_90.first);
-          return uVar6;
+    for (; n != 0; n = n->next) {
+        if (n->key == key) {
+            return &n->value;
         }
-        if (stack_pair_90.first == param_2) {
-          stack_pair_90.second = stack_pair_90.second + 1;
-        }
-        else {
-          stack_pair_90.second = 1;
-          stack_pair_90.first = param_2;
-        }
-        if ((((ulonglong)(uint)puVar1[8] == (param_3 & 0xffffffff)) && (piVar10 != (int *)0x0)) &&
-           (piVar11 = (int *)*piVar10, piVar11 != (int *)piVar10[1])) {
-          do {
-            iVar3 = *piVar11;
-            for (puVar2 = *(undefined4 **)(param_1 + 0xe4); puVar2 != (undefined4 *)0x0;
-                puVar2 = (undefined4 *)*puVar2) {
-              if (puVar2[1] == iVar3) {
-                if (puVar2 + 2 != (undefined4 *)0x0) {
-                  uStack_80 = puVar2[2];
-                  uStack_7c = puVar2[3];
-                  uStack_78 = ((((U64)(uStack_78)) & (~(((U64)0xFF) << 0))) | ((((U64)((byte)((uint)puVar2[4] >> 0x18))) & ((U64)0xFF)) << 0));
-                  uVar5 = puVar2[4];
-                  bVar8 = (((U64)(uStack_78) >> 0) & 0xFF);
-                  goto LAB_830304b0;
-                }
-                break;
-              }
-            }
-            uVar5 = uStack_78;
-            bVar8 = 0;
-LAB_830304b0:
-            uStack_78 = uVar5;
-            if ((bVar8 & 8) == 0) {
-LAB_83030530:
-              uVar6 = fn_8302FB68(param_1,iVar3,puVar1 + 2);
-            }
-            else {
-              bVar4 = false;
-              if (puVar9 != (undefined4 *)0x0) {
-                for (piVar7 = (int *)*puVar9; piVar7 != (int *)puVar9[1]; piVar7 = piVar7 + 1) {
-                  if (*piVar7 == iVar3) {
-                    bVar4 = true;
-                    break;
-                  }
-                }
-              }
-              if (!bVar4) goto LAB_83030530;
-            }
-            piVar11 = piVar11 + 1;
-          } while (piVar11 != (int *)piVar10[1]);
-        }
-        puVar1 = (undefined4 *)*puVar1;
-      } while( true );
     }
-    if (puVar1[1] == param_2) {
-      piVar10 = puVar1 + 2;
-      goto LAB_830303ec;
-    }
-    puVar1 = (undefined4 *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+static __forceinline Info_83030318 *FindInfo_83030318(InfoNode_83030318 *n, unsigned int key)
+{
+    for (; n != 0; n = n->next) {
+        if (n->key == key) {
+            return &n->value;
+        }
+    }
+    return 0;
+}
+
+int fn_83030318(Obj_83030318 *o, unsigned int id, unsigned int key)
+{
+    Key_83030318 cur;
+    Set_83030318 *a;
+    Set_83030318 *b;
+    int result = 1;
+    Run_83030318 run;
+    Info_83030318 info;
+    ItemNode_83030318 *node;
+    fn_8301AE78(&cur, lbl_832642EC, key, o->fc);
+    if (id == cur.id) {
+        goto Exit;
+    }
+    a = FindSet_83030318(o->sets, cur.id);
+    b = FindSet_83030318(o->sets, id);
+    if (b == 0) {
+        id = o->defId;
+        b = FindSet_83030318(o->sets, id);
+    }
+    result = fn_8302FD88(o, a, b, key);
+    fn_8301AF50(lbl_832642EC, o->fc, key);
+    run.count = 0;
+    run.id = 0;
+    for (node = o->items; node != 0; node = node->next) {
+        Item_83030318 *item = &node->value;
+        if (run.id == id) {
+            run.count++;
+        } else {
+            run.id = id;
+            run.count = 1;
+        }
+        if (item->f18 == key && b != 0) {
+            unsigned int *it;
+            for (it = b->begin; it != b->end; it++) {
+                unsigned int v = *it;
+                Info_83030318 *f = FindInfo_83030318(o->infos, v);
+                if (f != 0) {
+                    info = *f;
+                } else {
+                    info.flags = 0;
+                }
+                if (info.flags & 1) {
+                    unsigned char found = 0;
+                    if (a != 0) {
+                        unsigned int *p;
+                        for (p = a->begin; p != a->end; p++) {
+                            if (*p == v) {
+                                found = 1;
+                                break;
+                            }
+                        }
+                    }
+                    if (found) {
+                        continue;
+                    }
+                }
+                result = fn_8302FB68(o, v, item);
+            }
+        }
+    }
+    fn_8301AEF8(lbl_832642EC, key, o->fc, &run);
+Exit:
+    return result;
+}

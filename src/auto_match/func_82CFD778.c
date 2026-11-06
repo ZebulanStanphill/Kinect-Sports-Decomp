@@ -1,71 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEAE80();
-extern int fn_82CEAEA8();
+typedef struct TypeInfo_8317F680 {
+    char pad[10];
+    short align;
+} TypeInfo_8317F680;
 
+typedef struct Type_82CFD778 {
+    int pad0;
+    void *members;
+    int pad8;
+    unsigned char kind;
+    unsigned char subkind;
+    unsigned char padE[2];
+    unsigned short flags;
+} Type_82CFD778;
 
-longlong fn_82CFD778(int param_1)
+extern int fn_82CEAE80(void *list);
+extern Type_82CFD778 *fn_82CEAEA8(void *list, int index);
+extern TypeInfo_8317F680 lbl_8317F680[];
 
+int fn_82CFD778(Type_82CFD778 *type);
+
+static __forceinline int BaseAlign_82CFD778(Type_82CFD778 *type)
 {
-  byte bVar1;
-  int iVar2;
-  longlong lVar3;
-  longlong lVar4;
-  
-  bVar1 = *(byte *)(param_1 + 0xc);
-  if ((bVar1 == 0x18) || (bVar1 == 0x1f)) {
-    bVar1 = *(byte *)(param_1 + 0xd);
-  }
-  if (bVar1 == 0x19) {
-    lVar3 = 1;
-    lVar4 = 0;
-    iVar2 = fn_82CEAE80(*(undefined4 *)(param_1 + 4));
-    if (0 < iVar2) {
-      do {
-        fn_82CEAEA8(*(undefined4 *)(param_1 + 4),lVar4);
-        iVar2 = ((int (*)())fn_82CFD778)();
-        if ((int)lVar3 < iVar2) {
-          fn_82CEAEA8(*(undefined4 *)(param_1 + 4),lVar4);
-          lVar3 = ((int (*)())fn_82CFD778)();
-        }
-        lVar4 = lVar4 + 1;
-        iVar2 = fn_82CEAE80(*(undefined4 *)(param_1 + 4));
-      } while ((int)lVar4 < iVar2);
+    int kind = type->kind;
+    int align;
+    int i;
+
+    if (kind == 0x18 || kind == 0x1f) {
+        kind = type->subkind;
     }
-  }
-  else {
-    lVar3 = (longlong)*(short *)((uint)bVar1 * 0xc + -0x7ce80976);
-  }
-  if (((*(ushort *)(param_1 + 0x10) & 0x180) != 0) &&
-     (lVar4 = (-(ulonglong)((*(ushort *)(param_1 + 0x10) >> 8 & 1) != 0) & 8) + 8,
-     (int)lVar3 < (int)lVar4)) {
-    lVar3 = lVar4;
-  }
-  return lVar3;
+    if (kind == 0x19) {
+        align = 1;
+        for (i = 0; i < fn_82CEAE80(type->members); i++) {
+            if (fn_82CFD778(fn_82CEAEA8(type->members, i)) > align) {
+                align = fn_82CFD778(fn_82CEAEA8(type->members, i));
+            }
+        }
+        return align;
+    }
+    return lbl_8317F680[kind].align;
 }
 
+int fn_82CFD778(Type_82CFD778 *type)
+{
+    int align = BaseAlign_82CFD778(type);
+    int extra;
+
+    if ((type->flags & 0x180) != 0) {
+        extra = ((unsigned char)(type->flags >> 8) & 1) ? 16 : 8;
+        if (extra > align) {
+            align = extra;
+        }
+    }
+    return align;
+}

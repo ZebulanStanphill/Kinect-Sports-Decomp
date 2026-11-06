@@ -1,116 +1,136 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_54;
-extern int fn_82E59440();
-extern int fn_82E7C300();
-extern int fn_82E7C6C0();
-extern int fn_82E7C9B8();
-extern int fn_82E7CB88();
-extern int fn_82E7CDE8();
-extern int fn_82E7D068();
-extern int fn_82E7D348();
-extern int fn_82E7D568();
-extern int fn_82E7D7A0();
-extern int fn_82E7D948();
-extern int fn_82E7DA30();
-extern int fn_82E7DBC0();
-extern int fn_82E7DDC8();
-extern unsigned int uStack_58;
+typedef struct Guid_82E7E1D8 { unsigned char data[16]; } Guid_82E7E1D8;
 
+typedef struct Unknown_82E7E1D8 Unknown_82E7E1D8;
+typedef struct UnknownVtbl_82E7E1D8 {
+    int (*QueryInterface)(Unknown_82E7E1D8 *self, const Guid_82E7E1D8 *iid, void **out);
+    unsigned int (*AddRef)(Unknown_82E7E1D8 *self);
+    unsigned int (*Release)(Unknown_82E7E1D8 *self);
+} UnknownVtbl_82E7E1D8;
+struct Unknown_82E7E1D8 {
+    UnknownVtbl_82E7E1D8 *vt;
+};
 
-/* WARNING: Type propagation algorithm not settling */
+typedef struct Entry_82E7E1D8 Entry_82E7E1D8;
+typedef struct EntryVtbl_82E7E1D8 {
+    int (*QueryInterface)(Entry_82E7E1D8 *self, const Guid_82E7E1D8 *iid, void **out);
+    unsigned int (*AddRef)(Entry_82E7E1D8 *self);
+    unsigned int (*Release)(Entry_82E7E1D8 *self);
+    void *slots[30];
+    int (*GetId)(Entry_82E7E1D8 *self, unsigned int *id);       /* +0x84 */
+} EntryVtbl_82E7E1D8;
+struct Entry_82E7E1D8 {
+    EntryVtbl_82E7E1D8 *vt;
+};
 
-longlong fn_82E7E1D8(int *param_1,int *param_2,undefined8 param_3)
+typedef struct Source_82E7E1D8 Source_82E7E1D8;
+typedef struct SourceVtbl_82E7E1D8 {
+    void *slots[33];
+    int (*GetCount)(Source_82E7E1D8 *self, unsigned int *count);  /* +0x84 */
+    int (*GetEntry)(Source_82E7E1D8 *self, unsigned int index, unsigned int *key, Entry_82E7E1D8 **entry); /* +0x88 */
+} SourceVtbl_82E7E1D8;
+struct Source_82E7E1D8 {
+    SourceVtbl_82E7E1D8 *vt;
+};
 
+typedef struct Obj_82E7E1D8 {
+    void *factory;
+    void *iface;
+} Obj_82E7E1D8;
+
+extern Guid_82E7E1D8 lbl_820ED018;
+extern Guid_82E7E1D8 lbl_82154C58;
+extern Guid_82E7E1D8 lbl_82154C18;
+
+extern int fn_82E59440(void *factory, const Guid_82E7E1D8 *clsid, const Guid_82E7E1D8 *iid, Unknown_82E7E1D8 **out);
+extern int fn_82E7C300(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7DA30(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7DDC8(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7C6C0(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7D068(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7D348(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7DBC0(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7C9B8(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7D568(Obj_82E7E1D8 *self, Source_82E7E1D8 *src, int arg);
+extern int fn_82E7CB88(Obj_82E7E1D8 *self, Source_82E7E1D8 *src);
+extern int fn_82E7CDE8(Obj_82E7E1D8 *self, unsigned short id, Entry_82E7E1D8 *entry);
+extern int fn_82E7D7A0(Obj_82E7E1D8 *self, unsigned short id, Entry_82E7E1D8 *entry);
+extern int fn_82E7D948(Obj_82E7E1D8 *self, unsigned short id, Source_82E7E1D8 *src, Entry_82E7E1D8 *entry, int arg);
+
+int fn_82E7E1D8(Obj_82E7E1D8 *self, Source_82E7E1D8 *src, int arg)
 {
-  uint uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  int iVar4;
-  int *piStack_60;
-  int *piStack_5c;
-  uint uStack_58;
-  uint auStack_54 [2];
-  
-  uStack_58 = 0;
-  auStack_54[1] = 0;
-  piStack_5c = (int *)0x0;
-  piStack_60 = (int *)0x0;
-  auStack_54[0] = 0;
-  if (param_2 == (int *)0x0) {
-    return -0x7fffbffd;
-  }
-  if (*param_1 != 0) {
-    if ((((param_1[1] != 0) ||
-         ((lVar2 = fn_82E59440(*param_1,0xffffffff820ed018,0xffffffff82154c58,&piStack_5c),
-          -1 < lVar2 &&
-          (lVar2 = (**(code **)*piStack_5c)(piStack_5c,0xffffffff82154c18,param_1 + 1), -1 < lVar2))
-         )) && ((lVar2 = fn_82E7C300(param_1,param_2), -1 < lVar2 &&
-                (((lVar2 = fn_82E7DA30(param_1,param_2), -1 < lVar2 &&
-                  (lVar2 = fn_82E7DDC8(param_1,param_2), -1 < lVar2)) &&
-                 (lVar2 = fn_82E7C6C0(param_1,param_2), -1 < lVar2)))))) &&
-       (((((lVar2 = fn_82E7D068(param_1,param_2), -1 < lVar2 &&
-           (lVar2 = fn_82E7D348(param_1,param_2), -1 < lVar2)) &&
-          ((lVar2 = fn_82E7DBC0(param_1,param_2), -1 < lVar2 &&
-           ((lVar2 = fn_82E7C9B8(param_1,param_2), -1 < lVar2 &&
-            (lVar2 = fn_82E7D568(param_1,param_2,param_3), -1 < lVar2)))))) &&
-         (lVar2 = fn_82E7CB88(param_1,param_2), -1 < lVar2)) &&
-        ((lVar2 = (**(code **)(*param_2 + 0x84))(param_2,&uStack_58), -1 < lVar2 &&
-         (uVar3 = 0, uStack_58 != 0)))))) {
-      while( true ) {
-        if (piStack_60 != (int *)0x0) {
-          (**(code **)(*piStack_60 + 8))();
-          piStack_60 = (int *)0x0;
-        }
-        lVar2 = (**(code **)(*param_2 + 0x88))(param_2,uVar3,auStack_54 + 1,&piStack_60);
-        if ((lVar2 < 0) ||
-           (lVar2 = (**(code **)(*piStack_60 + 0x84))(piStack_60,auStack_54), lVar2 < 0)) break;
-        uVar1 = auStack_54[0] & 0xffff;
-        lVar2 = fn_82E7CDE8(param_1,uVar1,piStack_60);
-        if ((lVar2 < 0) ||
-           (((lVar2 = fn_82E7D7A0(param_1,uVar1,piStack_60), lVar2 < 0 ||
-             (lVar2 = fn_82E7D948(param_1,uVar1,param_2,piStack_60,param_3), lVar2 < 0)) ||
-            (uVar3 = uVar3 + 1, (ulonglong)uStack_58 <= (uVar3 & 0xffffffff))))) break;
-      }
-    }
-    iVar4 = (int)lVar2;
-    if ((((iVar4 != -0x3ff2c566) && (iVar4 != -0x3ff2c94f)) && (iVar4 != -0x7fff0001)) &&
-       (iVar4 != -0x7ff8ffa9)) goto LAB_82e7e4b0;
-  }
-  lVar2 = -0x3ff2c174;
-LAB_82e7e4b0:
-  if (piStack_5c != (int *)0x0) {
-    (**(code **)(*piStack_5c + 8))(piStack_5c);
-    piStack_5c = (int *)0x0;
-  }
-  if (piStack_60 != (int *)0x0) {
-    (**(code **)(*piStack_60 + 8))(piStack_60);
-  }
-  return lVar2;
-}
+    int hr;
+    unsigned int count = 0;
+    unsigned int key = 0;
+    Unknown_82E7E1D8 *unk = 0;
+    Entry_82E7E1D8 *entry = 0;
+    unsigned int id = 0;
+    unsigned int i;
 
+    if (src == 0) {
+        hr = 0x80004003;
+        goto cleanup;
+    }
+    if (self->factory == 0) {
+        goto fail;
+    }
+    if (self->iface == 0) {
+        hr = fn_82E59440(self->factory, &lbl_820ED018, &lbl_82154C58, &unk);
+        if (hr < 0) goto check;
+        hr = unk->vt->QueryInterface(unk, &lbl_82154C18, &self->iface);
+        if (hr < 0) goto check;
+    }
+    hr = fn_82E7C300(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7DA30(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7DDC8(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7C6C0(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7D068(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7D348(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7DBC0(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7C9B8(self, src);
+    if (hr < 0) goto check;
+    hr = fn_82E7D568(self, src, arg);
+    if (hr < 0) goto check;
+    hr = fn_82E7CB88(self, src);
+    if (hr < 0) goto check;
+    hr = src->vt->GetCount(src, &count);
+    if (hr < 0) goto check;
+    for (i = 0; i < count; i++) {
+        unsigned short entryId;
+        if (entry != 0) {
+            entry->vt->Release(entry);
+            entry = 0;
+        }
+        hr = src->vt->GetEntry(src, i, &key, &entry);
+        if (hr < 0) goto check;
+        hr = entry->vt->GetId(entry, &id);
+        if (hr < 0) goto check;
+        entryId = (unsigned short)id;
+        hr = fn_82E7CDE8(self, entryId, entry);
+        if (hr < 0) goto check;
+        hr = fn_82E7D7A0(self, entryId, entry);
+        if (hr < 0) goto check;
+        hr = fn_82E7D948(self, entryId, src, entry, arg);
+        if (hr < 0) goto check;
+    }
+check:
+    if (hr == (int)0xC00D3A9A || hr == (int)0xC00D36B1 || hr == (int)0x8000FFFF || hr == (int)0x80070057) {
+fail:
+        hr = 0xC00D3E8C;
+    }
+cleanup:
+    if (unk != 0) {
+        unk->vt->Release(unk);
+        unk = 0;
+    }
+    if (entry != 0) {
+        entry->vt->Release(entry);
+    }
+    return hr;
+}

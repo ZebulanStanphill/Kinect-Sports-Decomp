@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern unsigned int lbl_8315D3D0;
+typedef int (*Fn_82A33688)(int, int, int, int, unsigned int *, int, int, int, int);
 
+typedef struct Api_82A33688 {
+    char pad[0x18];
+    Fn_82A33688 fn18;
+} Api_82A33688;
 
-ulonglong fn_82A33688(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+extern Api_82A33688 *lbl_8315D3D0;
 
+int fn_82A33688(int param_1, int param_2, int param_3)
 {
-  ulonglong uVar1;
-  uint auStack_10 [4];
-  
-  uVar1 = (**(code **)(lbl_8315D3D0 + 0x18))(param_1,0,0,0,auStack_10,param_2,param_3,0);
-  if (-1 < (int)uVar1) {
-    uVar1 = (ulonglong)auStack_10[0];
-  }
-  return uVar1;
-}
+    unsigned int result;
+    int hr;
 
+    hr = lbl_8315D3D0->fn18(param_1, 0, 0, 0, &result, param_2, param_3, 0, 0);
+    if (hr >= 0) {
+        hr = result;
+    }
+    return hr;
+}

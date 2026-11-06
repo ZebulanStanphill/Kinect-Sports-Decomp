@@ -1,52 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82D80768 {
+    unsigned char f00[9];
+    unsigned char level;
+    unsigned short a;
+    unsigned short b;
+} Obj_82D80768;
 
-
-void fn_82D80768(int param_1,ulonglong param_2,ulonglong param_3,uint param_4)
-
+void fn_82D80768(Obj_82D80768 *obj, unsigned int a, unsigned int b, unsigned int level)
 {
-  ushort uVar1;
-  ushort uVar2;
-  
-  if ((param_4 & 3) < (*(byte *)(param_1 + 9) & 3)) {
-    uVar1 = (ushort)((~param_2 & 0xffffffff) << 0xe);
-  }
-  else {
-    uVar1 = (ushort)((param_2 & 0xffffffff) << 0xe);
-  }
-  if ((int)param_4 < (int)(uint)*(byte *)(param_1 + 9)) {
-    uVar2 = (ushort)((~param_3 & 0xffffffff) << 0xe);
-  }
-  else {
-    uVar2 = (ushort)((param_3 & 0xffffffff) << 0xe);
-  }
-  *(ushort *)(param_1 + 10) = *(ushort *)(param_1 + 10) & 0x3fff | uVar1;
-  *(ushort *)(param_1 + 0xc) = *(ushort *)(param_1 + 0xc) & 0x3fff | uVar2;
-  return;
-}
+    unsigned int va;
+    unsigned int vb;
 
+    if ((level & 3) < (obj->level & 3)) {
+        va = ~a << 14;
+    } else {
+        va = a << 14;
+    }
+    if ((int)level < (int)obj->level) {
+        vb = ~b << 14;
+    } else {
+        vb = b << 14;
+    }
+    obj->a = (obj->a & 0x3fff) | va;
+    obj->b = (obj->b & 0x3fff) | vb;
+}

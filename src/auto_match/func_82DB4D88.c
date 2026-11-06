@@ -1,151 +1,158 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE5410();
-extern int fn_82DBA1E0();
-extern int fn_83088640();
-extern int fn_83096038();
-extern int fn_83096040();
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+extern void __dcbt(int offset, const void *base);
+typedef struct { const char *name; unsigned time; int pad; const char *name2; } TimerEntryA;
+typedef struct { const char *name; unsigned time, pad; } TimerEntryB;
+typedef struct { void *pad; char *current; void *pad2; char *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_82DB4D88(undefined8 param_1,int *param_2,ulonglong param_3,int param_4,int param_5,
-                  int param_6)
-
+static void timer(const char *name)
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  undefined4 *puVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  undefined8 uVar9;
-  int iVar10;
-  int *piVar11;
-  int iVar12;
-  uint uVar13;
-  longlong lVar14;
-  int aiStack_80 [32];
-  
-  if ((int)param_3 != 0) {
-    iVar10 = KeTlsGetValue(lbl_8323B4A0);
-    puVar4 = *(undefined4 **)(iVar10 + 4);
-    if (puVar4 < *(undefined4 **)(iVar10 + 0xc)) {
-      *puVar4 = "LtBroadPhase";
-      puVar4[3] = "StGatherAabbs";
-      uVar9 = TBLr;
-      puVar4[1] = (int)uVar9;
-      *(undefined4 **)(iVar10 + 4) = puVar4 + 4;
+    TimerStream *s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        TimerEntryB *eb = (TimerEntryB *)s->current;
+        eb->name = name;
+        eb->time = (unsigned)__mftb();
+        s->current = (char *)(eb + 1);
     }
-    piVar11 = (int *)fn_82CE5410();
-    iVar10 = *piVar11;
-    *piVar11 = ((int)((param_3 & 0xffffffff) << 5) + 0x7fU & 0xffffff80) + iVar10;
-    piVar11 = (int *)fn_82CE5410();
-    iVar5 = *piVar11;
-    lVar14 = param_3 - 1;
-    *piVar11 = ((int)((param_3 & 0xffffffff) << 2) + 0x7fU & 0xffffff80) + iVar5;
-    if (-1 < lVar14) {
-      piVar11 = (int *)(iVar10 + -8);
-      iVar12 = iVar5 - (int)param_2;
-      do {
-        iVar6 = *param_2;
-        if (3 < (int)lVar14) {
-          dataCacheBlockTouch((ulonglong)(uint)param_2[4] + 0x10);
-        }
-        *(int *)(iVar12 + (int)param_2) = iVar6 + 0x24;
-        aiStack_80[0] = iVar6;
-        if (*(uint *)(iVar6 + 0x40) < *(uint *)(iVar6 + 0x30)) {
-          fn_82DBA1E0(*(undefined4 *)(param_4 + 0x78),aiStack_80,1);
-        }
-        bVar1 = *(byte *)(iVar6 + 0x3f);
-        lVar14 = lVar14 + -1;
-        param_2 = param_2 + 1;
-        bVar2 = *(byte *)(iVar6 + 0x3e);
-        bVar3 = *(byte *)(iVar6 + 0x3c);
-        iVar7 = *(int *)(iVar6 + 0x38);
-        uVar13 = (uint)bVar1;
-        iVar8 = *(int *)(iVar6 + 0x30);
-        piVar11[3] = *(int *)(iVar6 + 0x34) - ((uint)*(byte *)(iVar6 + 0x3d) << (bVar1 & 0x3f));
-        piVar11[4] = iVar7 - ((uint)bVar2 << (bVar1 & 0x3f));
-        piVar11[2] = iVar8 - ((uint)bVar3 << (uVar13 & 0x3f));
-        bVar1 = *(byte *)(iVar6 + 0x4c);
-        bVar2 = *(byte *)(iVar6 + 0x4e);
-        iVar7 = *(int *)(iVar6 + 0x40);
-        iVar8 = *(int *)(iVar6 + 0x48);
-        piVar11[7] = ((uint)*(byte *)(iVar6 + 0x4d) << (uVar13 & 0x3f)) + *(int *)(iVar6 + 0x44);
-        piVar11[6] = ((uint)bVar1 << (uVar13 & 0x3f)) + iVar7;
-        piVar11 = piVar11 + 8;
-        *piVar11 = ((uint)bVar2 << (uVar13 & 0x3f)) + iVar8;
-      } while (-1 < lVar14);
-    }
-    iVar12 = KeTlsGetValue(lbl_8323B4A0);
-    puVar4 = *(undefined4 **)(iVar12 + 4);
-    if (puVar4 < *(undefined4 **)(iVar12 + 0xc)) {
-      *puVar4 = "St3AxisSweep";
-      uVar9 = TBLr;
-      puVar4[1] = (int)uVar9;
-      *(undefined4 **)(iVar12 + 4) = puVar4 + 3;
-    }
-    if (*(int *)(*(int *)(param_4 + 0x58) + 0x10) != 0) {
-      fn_83096038();
-    }
-    (**(code **)(**(int **)(param_4 + 0x58) + 0x2c))
-              (*(int **)(param_4 + 0x58),iVar5,iVar10,param_3,param_5,param_6);
-    if (*(int *)(*(int *)(param_4 + 0x58) + 0x10) != 0) {
-      fn_83096040();
-    }
-    piVar11 = (int *)fn_82CE5410();
-    *piVar11 = iVar5;
-    piVar11 = (int *)fn_82CE5410();
-    *piVar11 = iVar10;
-    if ((ulonglong)*(uint *)(param_5 + 4) + (ulonglong)*(uint *)(param_6 + 4) != 0) {
-      iVar10 = KeTlsGetValue(lbl_8323B4A0);
-      puVar4 = *(undefined4 **)(iVar10 + 4);
-      if (puVar4 < *(undefined4 **)(iVar10 + 0xc)) {
-        *puVar4 = "StRemoveDup";
-        uVar9 = TBLr;
-        puVar4[1] = (int)uVar9;
-        *(undefined4 **)(iVar10 + 4) = puVar4 + 3;
-      }
-      fn_83088640(param_5,param_6);
-    }
-    iVar10 = KeTlsGetValue(lbl_8323B4A0);
-    puVar4 = *(undefined4 **)(iVar10 + 4);
-    if (puVar4 < *(undefined4 **)(iVar10 + 0xc)) {
-      *puVar4 = &lbl_8202CF7C;
-      uVar9 = TBLr;
-      puVar4[1] = (int)uVar9;
-      *(undefined4 **)(iVar10 + 4) = puVar4 + 3;
-    }
-  }
-  return;
 }
 
+typedef struct AabbU_82DB4D88 {
+    unsigned int min[3];
+    unsigned char expMin[3];
+    unsigned char shift;
+    unsigned int max[3];
+    unsigned char expMax[3];
+    unsigned char pad1f;
+} AabbU_82DB4D88;
+
+typedef struct Collidable_82DB4D88 {
+    char pad00[0x14];
+    int handle;
+    int pad18[2];
+    AabbU_82DB4D88 aabb;
+} Collidable_82DB4D88;
+
+typedef struct Entity_82DB4D88 {
+    char pad00[0x10];
+    Collidable_82DB4D88 collidable;
+} Entity_82DB4D88;
+
+typedef struct Aabb_82DB4D88 {
+    unsigned int min[3];
+    int pad0c;
+    unsigned int max[3];
+    int pad1c;
+} Aabb_82DB4D88;
+
+typedef struct Pairs_82DB4D88 {
+    int pad00;
+    int size;
+} Pairs_82DB4D88;
+
+typedef struct Sweep_82DB4D88 Sweep_82DB4D88;
+typedef struct SweepVtbl_82DB4D88 {
+    void *slot[11];
+    void (*AddObjects)(Sweep_82DB4D88 *self, int **handles, Aabb_82DB4D88 *aabbs, int count,
+                       Pairs_82DB4D88 *added, Pairs_82DB4D88 *removed);
+} SweepVtbl_82DB4D88;
+struct Sweep_82DB4D88 {
+    SweepVtbl_82DB4D88 *vt;
+    int pad04[3];
+    void *locked;
+};
+
+typedef struct World_82DB4D88 {
+    char pad00[0x58];
+    Sweep_82DB4D88 *sweep;
+    char pad5c[0x1c];
+    void *updater;
+} World_82DB4D88;
+
+extern int *fn_82CE5410(void);
+extern void fn_82DBA1E0(void *updater, Entity_82DB4D88 **entities, int count);
+extern void fn_83088640(Pairs_82DB4D88 *added, Pairs_82DB4D88 *removed);
+extern void fn_83096038(Sweep_82DB4D88 *sweep);
+extern void fn_83096040(Sweep_82DB4D88 *sweep);
+
+void fn_82DB4D88(void *self, Entity_82DB4D88 **entities, int count, World_82DB4D88 *world,
+                 Pairs_82DB4D88 *added, Pairs_82DB4D88 *removed)
+{
+    Aabb_82DB4D88 *aabbs;
+    int **handles;
+    int *stack;
+    int i;
+
+    if (count == 0) {
+        return;
+    }
+    {
+        TimerStream *s = KeTlsGetValue(lbl_8323B4A0);
+        if (s->current < s->end) {
+            TimerEntryA *ea = (TimerEntryA *)s->current;
+            ea->name = "LtBroadPhase";
+            ea->name2 = "StGatherAabbs";
+            ea->time = (unsigned)__mftb();
+            s->current = (char *)(ea + 1);
+        }
+    }
+    stack = fn_82CE5410();
+    aabbs = (Aabb_82DB4D88 *)*stack;
+    *stack = ((count * 32 + 0x7f) & ~0x7f) + (int)aabbs;
+    stack = fn_82CE5410();
+    handles = (int **)*stack;
+    *stack = ((count * 4 + 0x7f) & ~0x7f) + (int)handles;
+    {
+        Aabb_82DB4D88 *a = aabbs;
+        int **h = handles;
+        Entity_82DB4D88 **p = entities;
+        for (i = count - 1; i >= 0; i--) {
+            Entity_82DB4D88 *e = *p;
+            Collidable_82DB4D88 *c;
+            AabbU_82DB4D88 *src;
+            if (i >= 4) {
+                __dcbt(0, (char *)p[4] + 0x10);
+            }
+            c = &e->collidable;
+            *h = &c->handle;
+            src = &c->aabb;
+            if (src->min[0] > src->max[0]) {
+                fn_82DBA1E0(world->updater, &e, 1);
+            }
+            p++;
+            {
+                unsigned int shift = src->shift;
+                unsigned int m0 = src->min[0] - (src->expMin[0] << shift);
+                unsigned int m1 = src->min[1] - (src->expMin[1] << shift);
+                unsigned int m2 = src->min[2] - (src->expMin[2] << shift);
+                unsigned int x0, x1, x2;
+                a->min[0] = m0;
+                a->min[1] = m1;
+                a->min[2] = m2;
+                x0 = src->max[0] + (src->expMax[0] << shift);
+                x1 = src->max[1] + (src->expMax[1] << shift);
+                x2 = src->max[2] + (src->expMax[2] << shift);
+                a->max[0] = x0;
+                a->max[1] = x1;
+                a->max[2] = x2;
+            }
+            h++;
+            a++;
+        }
+    }
+    timer("St3AxisSweep");
+    if (world->sweep->locked != 0) {
+        fn_83096038(world->sweep);
+    }
+    world->sweep->vt->AddObjects(world->sweep, handles, aabbs, count, added, removed);
+    if (world->sweep->locked != 0) {
+        fn_83096040(world->sweep);
+    }
+    *fn_82CE5410() = (int)handles;
+    *fn_82CE5410() = (int)aabbs;
+    if (added->size + removed->size > 0) {
+        timer("StRemoveDup");
+        fn_83088640(added, removed);
+    }
+    timer("lt");
+}

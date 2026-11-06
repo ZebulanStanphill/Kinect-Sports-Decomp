@@ -1,67 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829301D0();
-extern int fn_82934160();
-extern unsigned int lbl_8202F14C;
+typedef struct Node_82931C78 Node_82931C78;
+typedef struct NodeVtbl_82931C78 {
+    void *f00;
+    Node_82931C78 *(*Clone)(Node_82931C78 *self);
+} NodeVtbl_82931C78;
+struct Node_82931C78 {
+    NodeVtbl_82931C78 *vt;
+    int type;
+    int f08;
+    int f0c;
+    Node_82931C78 *child;
+    int value;
+};
 
+extern void **fn_82934160(void);
+extern void *fn_829301D0(void *heap, unsigned int size, unsigned int align);
+extern NodeVtbl_82931C78 lbl_8202F14C;
 
-undefined4 * fn_82931C78(int param_1)
-
+static __forceinline Node_82931C78 *Node_init(Node_82931C78 *node)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  puVar1 = (undefined4 *)fn_82934160();
-  puVar1 = (undefined4 *)fn_829301D0(*puVar1,0x18,0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[2] = 0;
-    puVar1[1] = 8;
-    *puVar1 = &lbl_8202F14C;
-    puVar1[3] = 0;
-    puVar1[4] = 0;
-    puVar1[5] = 0;
-  }
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[5] = *(undefined4 *)(param_1 + 0x14);
-    if (*(int **)(param_1 + 0x10) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x10) + 4))();
-      puVar1[4] = iVar2;
-      if (iVar2 == 0) {
-        return (undefined4 *)0x0;
-      }
-    }
-  }
-  return puVar1;
+    node->vt = &lbl_8202F14C;
+    node->type = 8;
+    node->f08 = 0;
+    node->f0c = 0;
+    node->child = 0;
+    node->value = 0;
+    return node;
 }
 
+Node_82931C78 *fn_82931C78(Node_82931C78 *self)
+{
+    Node_82931C78 *mem;
+    Node_82931C78 *node;
+
+    mem = (Node_82931C78 *)fn_829301D0(*fn_82934160(), 0x18, 0x10);
+    if (mem != 0) {
+        node = Node_init(mem);
+    } else {
+        node = 0;
+    }
+    if (node == 0) {
+        return 0;
+    }
+    node->value = self->value;
+    if (self->child != 0) {
+        node->child = self->child->vt->Clone(self->child);
+        if (node->child == 0) {
+            return 0;
+        }
+    }
+    return node;
+}

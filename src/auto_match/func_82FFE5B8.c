@@ -1,54 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8301B248();
-
-
-int * fn_82FFE5B8(undefined4 *param_1,int param_2,undefined8 param_3)
-
-{
-  int *piVar1;
-  int *piVar2;
-  
-  for (piVar2 = (int *)*param_1; (piVar2 != (int *)param_1[1] && (*piVar2 != param_2));
-      piVar2 = piVar2 + 3) {
-  }
-  piVar2 = (int *)(-(uint)((int *)param_1[1] != piVar2) & (uint)(piVar2 + 1));
-  if (piVar2 == (int *)0x0) {
-    piVar1 = (int *)fn_8301B248();
-    if (piVar1 != (int *)0x0) {
-      piVar2 = piVar1 + 1;
-      *piVar1 = param_2;
-      *(undefined8 *)(piVar1 + 1) = param_3;
-    }
-  }
-  else {
-    *(undefined8 *)piVar2 = param_3;
-  }
-  return piVar2;
+typedef struct { unsigned key; unsigned __int64 value; } Dummy_82FFE5B8;
+typedef struct { unsigned words[3]; } Entry_82FFE5B8;
+typedef struct { Entry_82FFE5B8 *begin, *end; int capacity; } Table_82FFE5B8;
+extern Entry_82FFE5B8 *fn_8301B248(Table_82FFE5B8 *);
+static __forceinline unsigned __int64 *find_82FFE5B8(Table_82FFE5B8 *t,unsigned key) {
+ Entry_82FFE5B8 *p;
+ for(p=t->begin;p!=t->end && p->words[0]!=key;p++) {}
+ { unsigned char found=p!=t->end; return found ? (unsigned __int64 *)&p->words[1] : 0; }
 }
-
+unsigned __int64 *fn_82FFE5B8(Table_82FFE5B8 *t,unsigned key,unsigned __int64 value) {
+ unsigned __int64 *p=find_82FFE5B8(t,key);
+ if(p) *p=value;
+ else {
+ Entry_82FFE5B8 *e=fn_8301B248(t);
+ if(e) { p=(unsigned __int64 *)&e->words[1]; e->words[0]=key; *(unsigned __int64 *)&e->words[1]=value; }
+ }
+ return p;
+}

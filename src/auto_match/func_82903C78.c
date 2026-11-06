@@ -1,60 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+    char pad0[0x10];
+    unsigned int f10;
+    char pad14[0x6c - 0x14];
+    unsigned int f6c;
+} Item_82903C78;
+typedef struct {
+    char pad0[0x14];
+    Item_82903C78 **items;
+} Pool_82903C78;
+typedef struct {
+    int f0;
+    int f4;
+    Pool_82903C78 *pool;
+    char padC[0x18 - 0xc];
+    int *index;
+} Ctx_82903C78;
 
-
-ulonglong fn_82903C78(uint param_1,uint param_2,int param_3)
-
+int fn_82903C78(unsigned int a, unsigned int b, Ctx_82903C78 *ctx)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar1 = *(int *)(*(int *)(param_3 + 8) + 0x14);
-  iVar4 = *(int *)(*(int *)(param_1 * 4 + *(int *)(param_3 + 0x18)) * 4 + iVar1);
-  iVar1 = *(int *)(*(int *)(param_2 * 4 + *(int *)(param_3 + 0x18)) * 4 + iVar1);
-  uVar2 = *(uint *)(iVar4 + 0x6c);
-  uVar3 = *(uint *)(iVar1 + 0x6c);
-  if (uVar3 <= uVar2) {
-    if (uVar3 < uVar2) {
-      return 1;
+    Item_82903C78 *ia = ctx->pool->items[ctx->index[a]];
+    Item_82903C78 *ib = ctx->pool->items[ctx->index[b]];
+    if (ia->f6c < ib->f6c) {
+        return -1;
     }
-    uVar2 = *(uint *)(iVar4 + 0x10);
-    uVar3 = *(uint *)(iVar1 + 0x10);
-    if (uVar3 <= uVar2) {
-      if (uVar3 < uVar2) {
+    if (ia->f6c > ib->f6c) {
         return 1;
-      }
-      if (param_2 <= param_1) {
-        return -(ulonglong)(param_2 < param_1) & 1;
-      }
     }
-  }
-  return 0xffffffffffffffff;
+    if (ia->f10 < ib->f10) {
+        return -1;
+    }
+    if (ia->f10 > ib->f10) {
+        return 1;
+    }
+    if (a < b) {
+        return -1;
+    }
+    return a > b;
 }
-

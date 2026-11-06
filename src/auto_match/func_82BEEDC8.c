@@ -1,71 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5230();
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5478();
-extern int fn_830B4CB8();
-extern unsigned int lbl_820EB148;
-extern unsigned int lbl_831751CC;
+typedef struct List_82BEEDC8 {
+    void *head;
+    void *tail;
+    int cur;
+} List_82BEEDC8;
 
+typedef struct Obj_82BEEDC8 {
+    void *vtable;
+    int f04[4];
+    void *handle;
+    int f18;
+    List_82BEEDC8 list1;
+    int f28[9];
+    List_82BEEDC8 list2;
+} Obj_82BEEDC8;
 
-void fn_82BEEDC8(undefined4 *param_1)
+extern void fn_82BE5230(Obj_82BEEDC8 *self);
+extern void *fn_82BE5340(List_82BEEDC8 *list);
+extern void *fn_82BE5350(List_82BEEDC8 *list);
+extern void *fn_82BE5378(List_82BEEDC8 *list);
+extern void fn_82BE5478(List_82BEEDC8 *list);
+extern void fn_82BE54C0(List_82BEEDC8 *list);
+extern void fn_830B4CB8(void *p, int v);
+extern char lbl_820EB148[];
+extern void (*lbl_831751CC)(void *p);
 
+void fn_82BEEDC8(Obj_82BEEDC8 *self)
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  *param_1 = &lbl_820EB148;
-  if (param_1[5] != 0) {
-    (*(code *)lbl_831751CC)();
-    param_1[5] = 0;
-  }
-  puVar2 = param_1 + 0x13;
-  fn_82BE5340(puVar2);
-  while (param_1[0x15] != 0) {
-    fn_82BE5378(puVar2);
-    (*(code *)lbl_831751CC)();
-    fn_82BE5350(puVar2);
-  }
-  fn_82BE5478();
-  puVar3 = param_1 + 7;
-  fn_82BE5340(puVar3);
-  while (param_1[9] != 0) {
-    uVar1 = fn_82BE5378(puVar3);
-    fn_830B4CB8(uVar1,0);
-    fn_82BE5350(puVar3);
-  }
-  fn_82BE5478();
-  fn_82BE5478(puVar2);
-  fn_82BE5478(puVar3);
-  fn_82BE5230(param_1);
-  return;
+    self->vtable = lbl_820EB148;
+    if (self->handle != 0) {
+        lbl_831751CC(self->handle);
+        self->handle = 0;
+    }
+    for (fn_82BE5340(&self->list2); self->list2.cur != 0; fn_82BE5350(&self->list2)) {
+        lbl_831751CC(fn_82BE5378(&self->list2));
+    }
+    fn_82BE5478(&self->list2);
+    for (fn_82BE5340(&self->list1); self->list1.cur != 0; fn_82BE5350(&self->list1)) {
+        fn_830B4CB8(fn_82BE5378(&self->list1), 0);
+    }
+    fn_82BE5478(&self->list1);
+    fn_82BE54C0(&self->list2);
+    fn_82BE54C0(&self->list1);
+    fn_82BE5230(self);
 }
-

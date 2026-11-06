@@ -1,108 +1,93 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829BAA90();
-extern unsigned int lbl_820548A8;
-extern unsigned int lbl_820548B0;
+typedef struct jerr_829B5A80 {
+  void (*error_exit)(void *cinfo);
+  void *emit_message;
+  void *output_message;
+  void *format_message;
+  void *reset_error_mgr;
+  int msg_code;
+  union { int i[8]; char s[80]; } msg_parm;
+} jerr_829B5A80;
+typedef union small_hdr_829B5A80 {
+  struct {
+    union small_hdr_829B5A80 *next;
+    unsigned int bytes_used;
+    unsigned int bytes_left;
+  } hdr;
+  double dummy;
+} small_hdr_829B5A80;
+typedef struct {
+  char pad[0x34];
+  small_hdr_829B5A80 *small_list[2];
+  char pad3c[0x10];
+  int total_space_allocated;
+} mem_829B5A80;
+typedef struct {
+  jerr_829B5A80 *err;
+  mem_829B5A80 *mem;
+} cinfo_829B5A80;
+extern void *fn_829BAA90(cinfo_829B5A80 *, unsigned int);
+/* first_pool_slop[2] followed by extra_pool_slop[2] */
+extern const unsigned int lbl_820548A8[4];
 
-
-int fn_829B5A80(int *param_1,ulonglong param_2,ulonglong param_3)
-
+void *fn_829B5A80(cinfo_829B5A80 *cinfo, int pool_id, unsigned int sizeofobject)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  undefined *puVar6;
-  longlong lVar7;
-  int iVar9;
-  ulonglong uVar8;
-  
-  iVar1 = param_1[1];
-  if (0x3b9ac9f0 < (uint)param_3) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x36;
-    *(undefined4 *)(*param_1 + 0x18) = 1;
-    (**(code **)*param_1)();
-  }
-  if ((param_3 & 7) != 0) {
-    param_3 = (param_3 - (param_3 & 7)) + 8;
-  }
-  iVar9 = (int)param_2;
-  if ((iVar9 < 0) || (1 < iVar9)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xe;
-    *(int *)(*param_1 + 0x18) = iVar9;
-    (**(code **)*param_1)(param_1);
-  }
-  iVar2 = (int)((param_2 + 0xd & 0xffffffff) << 2);
-  iVar9 = (int)param_3;
-  puVar4 = *(undefined4 **)(iVar2 + iVar1);
-  puVar3 = (undefined4 *)0x0;
-  while (puVar5 = puVar4, puVar5 != (undefined4 *)0x0) {
-    if ((param_3 & 0xffffffff) <= (ulonglong)(uint)puVar5[2]) goto LAB_829b5c30;
-    puVar3 = puVar5;
-    puVar4 = (undefined4 *)*puVar5;
-  }
-  lVar7 = param_3 + 0x10;
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar6 = &lbl_820548A8;
-  }
-  else {
-    puVar6 = &lbl_820548B0;
-  }
-  uVar8 = (ulonglong)*(uint *)(puVar6 + (int)((param_2 & 0xffffffff) << 2));
-  if ((1000000000U - lVar7 & 0xffffffff) <
-      (ulonglong)*(uint *)(puVar6 + (int)((param_2 & 0xffffffff) << 2))) {
-    uVar8 = 1000000000U - lVar7;
-  }
-  puVar5 = (undefined4 *)fn_829BAA90(param_1,uVar8 + lVar7);
-  while (puVar5 == (undefined4 *)0x0) {
-    uVar8 = (uVar8 & 0xffffffff) >> 1;
-    if (uVar8 < 0x32) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x36;
-      *(undefined4 *)(*param_1 + 0x18) = 2;
-      (**(code **)*param_1)(param_1);
-    }
-    puVar5 = (undefined4 *)fn_829BAA90(param_1,uVar8 + lVar7);
-  }
-  *(int *)(iVar1 + 0x4c) = *(int *)(iVar1 + 0x4c) + (int)uVar8 + (int)lVar7;
-  *puVar5 = 0;
-  puVar5[1] = 0;
-  puVar5[2] = (int)uVar8 + iVar9;
-  if (puVar3 == (undefined4 *)0x0) {
-    *(undefined4 **)(iVar2 + iVar1) = puVar5;
-  }
-  else {
-    *puVar3 = puVar5;
-  }
-LAB_829b5c30:
-  iVar1 = puVar5[1];
-  puVar5[1] = iVar1 + iVar9;
-  puVar5[2] = puVar5[2] - iVar9;
-  return (int)puVar5 + iVar1 + 0x10;
-}
+  mem_829B5A80 *mem = cinfo->mem;
+  small_hdr_829B5A80 *hdr_ptr, *prev_hdr_ptr;
+  char *data_ptr;
+  unsigned int odd_bytes, min_request, slop;
 
+  if (sizeofobject > (unsigned int)(1000000000 - sizeof(small_hdr_829B5A80))) {
+    cinfo->err->msg_code = 0x36;
+    cinfo->err->msg_parm.i[0] = 1;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  odd_bytes = sizeofobject % 8;
+  if (odd_bytes > 0)
+    sizeofobject += 8 - odd_bytes;
+  if (pool_id < 0 || pool_id >= 2) {
+    cinfo->err->msg_code = 0xe;
+    cinfo->err->msg_parm.i[0] = pool_id;
+    (*cinfo->err->error_exit)(cinfo);
+  }
+  prev_hdr_ptr = 0;
+  hdr_ptr = mem->small_list[pool_id];
+  while (hdr_ptr != 0) {
+    if (hdr_ptr->hdr.bytes_left >= sizeofobject)
+      break;
+    prev_hdr_ptr = hdr_ptr;
+    hdr_ptr = hdr_ptr->hdr.next;
+  }
+  if (hdr_ptr == 0) {
+    min_request = sizeofobject + sizeof(small_hdr_829B5A80);
+    if (prev_hdr_ptr == 0)
+      slop = lbl_820548A8[pool_id];
+    else
+      slop = (lbl_820548A8 + 2)[pool_id];
+    if (slop > (unsigned int)(1000000000 - min_request))
+      slop = (unsigned int)(1000000000 - min_request);
+    for (;;) {
+      hdr_ptr = (small_hdr_829B5A80 *)fn_829BAA90(cinfo, min_request + slop);
+      if (hdr_ptr != 0)
+        break;
+      slop /= 2;
+      if (slop < 50) {
+        cinfo->err->msg_code = 0x36;
+        cinfo->err->msg_parm.i[0] = 2;
+        (*cinfo->err->error_exit)(cinfo);
+      }
+    }
+    mem->total_space_allocated += min_request + slop;
+    hdr_ptr->hdr.next = 0;
+    hdr_ptr->hdr.bytes_used = 0;
+    hdr_ptr->hdr.bytes_left = sizeofobject + slop;
+    if (prev_hdr_ptr == 0)
+      mem->small_list[pool_id] = hdr_ptr;
+    else
+      prev_hdr_ptr->hdr.next = hdr_ptr;
+  }
+  data_ptr = (char *)(hdr_ptr + 1);
+  data_ptr += hdr_ptr->hdr.bytes_used;
+  hdr_ptr->hdr.bytes_used += sizeofobject;
+  hdr_ptr->hdr.bytes_left -= sizeofobject;
+  return (void *)data_ptr;
+}

@@ -1,66 +1,62 @@
-extern int *piRam83265048;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8304FF88();
+typedef struct Item_83050008 {
+    int f0;
+    int f4;
+    int pad8[4];
+    int f18;
+    unsigned int f1c;
+    void *f20;
+} Item_83050008;
 
+typedef struct Mgr_83050008 Mgr_83050008;
+typedef int (*MgrFn_83050008)(Mgr_83050008 *self, int a, int b, int *c, unsigned char *flag, void *out);
+typedef struct MgrVt_83050008 {
+    void *slot0;
+    MgrFn_83050008 f4;
+    MgrFn_83050008 f8;
+} MgrVt_83050008;
+struct Mgr_83050008 {
+    MgrVt_83050008 *vt;
+};
 
-undefined8 fn_83050008(int *param_1)
+typedef struct Self_83050008 Self_83050008;
+typedef struct SelfVt_83050008 {
+    void *slots[4];
+    void (*f10)(Self_83050008 *self);
+} SelfVt_83050008;
+struct Self_83050008 {
+    SelfVt_83050008 *vt;
+    int pad4[3];
+    Item_83050008 *item;
+    int pad14;
+    char f18[0x74 - 0x18];
+    unsigned int flags;
+};
 
+extern Mgr_83050008 *lbl_83265048;
+extern void fn_8304FF88(Self_83050008 *self);
+
+int fn_83050008(Self_83050008 *self)
 {
-  undefined4 *puVar1;
-  code *pcVar2;
-  undefined8 uVar3;
-  undefined4 *puVar4;
-  undefined1 auStack_20 [8];
+    Item_83050008 *item = self->item;
+    unsigned char flag;
+    int *p;
+    MgrFn_83050008 fn;
+    int r;
 
-  puVar1 = (undefined4 *)param_1[4];
-  if ((puVar1 == (undefined4 *)0x0) || ((param_1[0x1d] & 0x8000000U) != 0)) {
-    uVar3 = 1;
-  }
-  else {
-    puVar4 = puVar1 + 1;
-    auStack_20[0] = 1;
-    if (puVar1[8] == 0) {
-      puVar4 = (undefined4 *)0x0;
+    if (item == 0 || (self->flags & 0x8000000) != 0) {
+        return 1;
     }
-    if ((puVar1[7] & 0x80000000) == 0) {
-      pcVar2 = *(code **)(*piRam83265048 + 4);
+    flag = 1;
+    p = item->f20 != 0 ? &item->f4 : 0;
+    if ((item->f1c & 0x80000000) != 0) {
+        r = lbl_83265048->vt->f8(lbl_83265048, item->f0, item->f18, p, &flag, self->f18);
+    } else {
+        r = lbl_83265048->vt->f4(lbl_83265048, item->f0, item->f18, p, &flag, self->f18);
     }
-    else {
-      pcVar2 = *(code **)(*piRam83265048 + 8);
+    if (r == 1) {
+        self->flags |= 0x4000000;
+        self->vt->f10(self);
     }
-    uVar3 = (*pcVar2)(piRam83265048,*puVar1,puVar1[6],puVar4,auStack_20,param_1 + 6);
-    if ((int)uVar3 == 1) {
-      param_1[0x1d] = param_1[0x1d] | 0x4000000;
-      (**(code **)(*param_1 + 0x10))(param_1);
-    }
-    fn_8304FF88(param_1);
-  }
-  return uVar3;
+    fn_8304FF88(self);
+    return r;
 }

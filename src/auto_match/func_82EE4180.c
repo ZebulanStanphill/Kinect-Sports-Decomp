@@ -1,152 +1,129 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_6e;
-extern int fn_82E3C590();
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
-extern int fn_82E57620();
-extern int fn_82E576A8();
-extern int fn_82E57738();
-extern int fn_82EE32F8();
-extern int fn_82EE3730();
-extern int fn_82EE39D8();
-extern int fn_82EE3F30();
-extern unsigned int uStack_70;
+typedef struct Parser_82EE4180 Parser_82EE4180;
+typedef struct {
+    void *f[11];
+    unsigned __int64 (*GetSize)(Parser_82EE4180 *p);
+} ParserVt_82EE4180;
+struct Parser_82EE4180 {
+    ParserVt_82EE4180 *vt;
+    int f4;
+    int f8;
+    void *fc;
+    char f10[0x10];
+    char f20[8];
+    char stream[0x18];
+    unsigned int avail;
+    int f44;
+    char list[0x174 - 0x48];
+    char f174[4];
+};
+extern void fn_82EE3F30(Parser_82EE4180 *p);
+extern int fn_82E57620(void *dst, void *stream);
+extern int fn_82E576A8(void *dst, void *stream);
+extern int fn_82E57738(unsigned short *dst, void *stream);
+extern void *fn_82E50BE8(int size, int a, int b, int c, int d);
+extern void *fn_82EE39D8(void *mem);
+extern int fn_82E3C590(void *item, unsigned short v, int flag);
+extern int fn_82EE32F8(void *list, void *item, int flag);
+extern void fn_82EE3730(void *item);
+extern void fn_82E4FE40(void *item);
 
-
-longlong fn_82EE4180(int *param_1,uint *param_2)
-
+int fn_82EE4180(Parser_82EE4180 *p, unsigned int *needed)
 {
-  ushort uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  int *piVar7;
-  ushort uVar8;
-  ulonglong uVar9;
-  uint uVar10;
-  ushort uStack_70;
-  undefined2 auStack_6e [55];
-  
-  if (param_1[3] == 0) {
-    lVar2 = -0x3ff2c94a;
-  }
-  else if (param_2 == (uint *)0x0) {
-    lVar2 = -0x7ff8ffa9;
-  }
-  else {
-    *param_2 = 0;
-    uVar6 = param_1[0x10];
-    if (uVar6 < 0x2a) {
-      uVar6 = 0x2a;
-LAB_82ee41d8:
-      *param_2 = uVar6;
-      lVar2 = -0x3ff2c94f;
+    int hr;
+    unsigned int avail;
+    void *stream;
+    unsigned short w[2];
+    void *item;
+    void *mem;
+    unsigned short i;
+    unsigned short j;
+    unsigned int n;
+    unsigned int m;
+    unsigned int used;
+    if (p->fc == 0) {
+        return ((int)0xC00D36B6);
     }
-    else {
-      fn_82EE3F30(param_1);
-      piVar7 = param_1 + 10;
-      fn_82E57620(param_1 + 4,piVar7);
-      fn_82E576A8(param_1 + 8,piVar7);
-      lVar2 = fn_82E57620(param_1 + 0x5d,piVar7);
-      if ((-1 < lVar2) &&
-         (lVar3 = fn_82E57738(&uStack_70,piVar7), uVar1 = uStack_70, lVar2 = lVar3, -1 < lVar3
-         )) {
-        uVar9 = 0;
-        uVar8 = 0;
-        if (uStack_70 != 0) {
-          lVar2 = -0x7ff8fff2;
-          do {
-            if ((uint)param_1[0x10] < 2) {
-              uVar6 = (uVar6 - param_1[0x10]) + 2;
-              goto LAB_82ee41d8;
+    if (needed == 0) {
+        return ((int)0x80070057);
+    }
+    *needed = 0;
+    avail = p->avail;
+    if (avail < 0x2a) {
+        *needed = 0x2a;
+        hr = ((int)0xC00D36B1);
+        goto Exit;
+    }
+    fn_82EE3F30(p);
+    stream = p->stream;
+    fn_82E57620(p->f10, stream);
+    fn_82E576A8(p->f20, stream);
+    hr = fn_82E57620(p->f174, stream);
+    if (hr >= 0 && (hr = fn_82E57738(&w[0], stream)) >= 0) {
+        n = w[0];
+        item = 0;
+        for (i = 0; i < n; i++) {
+            used = avail - p->avail;
+            if (p->avail < 2) {
+                *needed = used + 2;
+                hr = ((int)0xC00D36B1);
+                goto Exit;
             }
-            iVar4 = fn_82E50BE8(0x104,0,0,0,0);
-            if (iVar4 == 0) {
-              uVar9 = 0;
+            mem = fn_82E50BE8(0x104, 0, 0, 0, 0);
+            if (mem != 0) {
+                item = fn_82EE39D8(mem);
+            } else {
+                item = 0;
             }
-            else {
-              uVar9 = fn_82EE39D8();
+            if (item == 0) {
+                hr = ((int)0x8007000E);
+                goto Done;
             }
-            if ((uVar9 & 0xffffffff) == 0) goto LAB_82ee43ac;
-            lVar3 = fn_82E57738(&uStack_70,piVar7);
-            if (lVar3 < 0) goto LAB_82ee438c;
-            uVar5 = (uint)uStack_70;
-            if ((uint)param_1[0x10] < uVar5 << 1) {
-              lVar3 = -0x3ff2c94f;
-              *param_2 = (uint)uStack_70 * 2 + (uVar6 - param_1[0x10]);
-              goto LAB_82ee438c;
+            hr = fn_82E57738(&w[0], stream);
+            if (hr < 0) {
+                goto Cleanup;
             }
-            uVar10 = 0;
-            if (uVar5 != 0) {
-              do {
-                lVar3 = fn_82E57738(auStack_6e,piVar7);
-                if (lVar3 < 0) goto LAB_82ee438c;
-                iVar4 = fn_82E3C590(uVar9,auStack_6e[0],0);
-                if (iVar4 == 0) {
-                  lVar3 = -0x7ff8fff2;
-                  break;
+            m = w[0];
+            used = avail - p->avail;
+            if (p->avail < m * 2) {
+                hr = ((int)0xC00D36B1);
+                *needed = m * 2 + used;
+                goto Cleanup;
+            }
+            for (j = 0; j < m; j++) {
+                hr = fn_82E57738(&w[1], stream);
+                if (hr < 0) {
+                    goto Cleanup;
                 }
-                uVar10 = uVar10 + 1 & 0xffff;
-              } while (uVar10 < uVar5);
+                if (fn_82E3C590(item, w[1], 0) == 0) {
+                    hr = ((int)0x8007000E);
+                    break;
+                }
             }
-            if ((int)lVar3 < 0) goto LAB_82ee438c;
-            iVar4 = fn_82EE32F8(param_1 + 0x12,uVar9,0);
-            if (iVar4 == 0) {
-              lVar3 = -0x7ff8fff2;
-              break;
+            if (hr < 0) {
+                goto Cleanup;
             }
-            uVar9 = 0;
-            uVar8 = uVar8 + 1;
-          } while (uVar8 < uVar1);
+            if (fn_82EE32F8(p->list, item, 0) == 0) {
+                hr = ((int)0x8007000E);
+                break;
+            }
+            item = 0;
         }
-        lVar2 = lVar3;
-        if ((int)lVar3 < 0) {
-LAB_82ee438c:
-          lVar2 = lVar3;
-          if ((uVar9 & 0xffffffff) != 0) {
-            fn_82EE3730(uVar9);
-            fn_82E4FE40(uVar9);
-          }
+        if (hr < 0) {
+Cleanup:
+            if (item != 0) {
+                fn_82EE3730(item);
+                fn_82E4FE40(item);
+            }
         }
-      }
-      if ((int)lVar2 != -0x3ff2c94f) {
-LAB_82ee43ac:
-        *param_2 = uVar6 - param_1[0x10];
-        if ((-1 < (int)lVar2) &&
-           (uVar9 = (**(code **)(*param_1 + 0x2c))(param_1), uVar9 != *param_2)) {
-          lVar2 = -0x3ff2c566;
-        }
-      }
     }
-  }
-  return lVar2;
+    if (hr == ((int)0xC00D36B1)) {
+        goto Exit;
+    }
+Done:
+    *needed = avail - p->avail;
+    if (hr >= 0 && p->vt->GetSize(p) != *needed) {
+        hr = ((int)0xC00D3A9A);
+    }
+Exit:
+    return hr;
 }
-

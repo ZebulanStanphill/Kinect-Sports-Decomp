@@ -1,142 +1,107 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5478();
-extern int fn_82BE5998();
-extern unsigned int lbl_820EBAA4;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Deletable_82BF5F50 Deletable_82BF5F50;
+typedef struct DeletableVtbl_82BF5F50 {
+    void (*Delete)(Deletable_82BF5F50 *self, int flags);
+} DeletableVtbl_82BF5F50;
+struct Deletable_82BF5F50 {
+    DeletableVtbl_82BF5F50 *vt;
+};
 
-void fn_82BF5F50(longlong param_1)
+typedef struct Node_82BF5F50 {
+    int pad00[2];
+    Deletable_82BF5F50 *value;
+} Node_82BF5F50;
 
+typedef struct List_82BF5F50 {
+    int pad00[2];
+    int count;
+} List_82BF5F50;
+
+typedef struct Obj_82BF5F50 {
+    void *vtbl;
+    int pad04[0x13];
+    long state;
+    List_82BF5F50 *nodes;
+    List_82BF5F50 *listA;
+    int pad5c;
+    List_82BF5F50 *listB;
+    int pad64;
+    List_82BF5F50 *listC;
+} Obj_82BF5F50;
+
+extern Node_82BF5F50 *fn_82BE5340(List_82BF5F50 *list);
+extern Node_82BF5F50 *fn_82BE5350(List_82BF5F50 *list);
+extern Deletable_82BF5F50 *fn_82BE5378(List_82BF5F50 *list);
+extern void fn_82BE5478(List_82BF5F50 *list);
+extern void fn_82BE54C0(List_82BF5F50 *list);
+extern void fn_82BE56C0(List_82BF5F50 *list);
+extern void fn_82BE5998(Obj_82BF5F50 *self);
+extern char lbl_820EBAA4[];
+
+static void FreeList(List_82BF5F50 *list)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  longlong lVar6;
-  uint *puVar7;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  puVar3 = (undefined4 *)param_1;
-  *puVar3 = &lbl_820EBAA4;
-  lVar6 = param_1 + 0x50;
-  do {
-    puVar7 = (uint *)lVar6;
-    uVar1 = *puVar7;
-    if (uVar1 != 1) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((ulonglong)uVar1,0,lVar6);
-        *puVar7 = uVar2;
-      }
-      break;
+    if (list != 0) {
+        fn_82BE54C0(list);
+        fn_82BE56C0(list);
     }
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(0,0,lVar6);
-      *puVar7 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar1 != 0) {
-    if (puVar3[0x15] != 0) {
-      iVar4 = fn_82BE5340();
-      while (iVar4 != 0) {
-        puVar5 = *(undefined4 **)(iVar4 + 8);
-        if (puVar5 != (undefined4 *)0x0) {
-          (**(code **)*puVar5)(puVar5,1);
-        }
-        iVar4 = fn_82BE5350(puVar3[0x15]);
-      }
-      fn_82BE5478(puVar3[0x15]);
-      iVar4 = puVar3[0x15];
-      if (iVar4 != 0) {
-        fn_82BE5478(iVar4);
-        thunk_FUN_82be5558(iVar4);
-      }
-      puVar3[0x15] = 0;
-    }
-    if (puVar3[0x16] != 0) {
-      fn_82BE5340();
-      while (*(int *)(puVar3[0x16] + 8) != 0) {
-        puVar5 = (undefined4 *)fn_82BE5378(puVar3[0x16]);
-        if (puVar5 != (undefined4 *)0x0) {
-          (**(code **)*puVar5)(puVar5,1);
-        }
-        fn_82BE5350(puVar3[0x16]);
-      }
-      fn_82BE5478();
-      iVar4 = puVar3[0x16];
-      if (iVar4 != 0) {
-        fn_82BE5478(iVar4);
-        thunk_FUN_82be5558(iVar4);
-      }
-      puVar3[0x16] = 0;
-    }
-    if (puVar3[0x18] != 0) {
-      fn_82BE5340();
-      while (*(int *)(puVar3[0x18] + 8) != 0) {
-        puVar5 = (undefined4 *)fn_82BE5378(puVar3[0x18]);
-        if (puVar5 != (undefined4 *)0x0) {
-          (**(code **)*puVar5)(puVar5,1);
-        }
-        fn_82BE5350(puVar3[0x18]);
-      }
-      fn_82BE5478();
-      iVar4 = puVar3[0x18];
-      if (iVar4 != 0) {
-        fn_82BE5478(iVar4);
-        thunk_FUN_82be5558(iVar4);
-      }
-      puVar3[0x18] = 0;
-    }
-    if (puVar3[0x1a] != 0) {
-      fn_82BE5340();
-      while (*(int *)(puVar3[0x1a] + 8) != 0) {
-        puVar5 = (undefined4 *)fn_82BE5378(puVar3[0x1a]);
-        if (puVar5 != (undefined4 *)0x0) {
-          (**(code **)*puVar5)(puVar5,1);
-        }
-        fn_82BE5350(puVar3[0x1a]);
-      }
-      fn_82BE5478();
-      iVar4 = puVar3[0x1a];
-      if (iVar4 != 0) {
-        fn_82BE5478(iVar4);
-        thunk_FUN_82be5558(iVar4);
-      }
-      puVar3[0x1a] = 0;
-    }
-  }
-  fn_82BE5998(param_1);
-  return;
 }
 
+void fn_82BF5F50(Obj_82BF5F50 *self)
+{
+    self->vtbl = lbl_820EBAA4;
+    if (_InterlockedCompareExchange(&self->state, 0, 1) != 0) {
+        if (self->nodes != 0) {
+            Node_82BF5F50 *n;
+            for (n = fn_82BE5340(self->nodes); n != 0; n = fn_82BE5350(self->nodes)) {
+                Deletable_82BF5F50 *d = n->value;
+                if (d != 0) {
+                    d->vt->Delete(d, 1);
+                }
+            }
+            fn_82BE5478(self->nodes);
+            FreeList(self->nodes);
+            self->nodes = 0;
+        }
+        if (self->listA != 0) {
+            fn_82BE5340(self->listA);
+            while (self->listA->count != 0) {
+                Deletable_82BF5F50 *d = fn_82BE5378(self->listA);
+                if (d != 0) {
+                    d->vt->Delete(d, 1);
+                }
+                fn_82BE5350(self->listA);
+            }
+            fn_82BE5478(self->listA);
+            FreeList(self->listA);
+            self->listA = 0;
+        }
+        if (self->listB != 0) {
+            fn_82BE5340(self->listB);
+            while (self->listB->count != 0) {
+                Deletable_82BF5F50 *d = fn_82BE5378(self->listB);
+                if (d != 0) {
+                    d->vt->Delete(d, 1);
+                }
+                fn_82BE5350(self->listB);
+            }
+            fn_82BE5478(self->listB);
+            FreeList(self->listB);
+            self->listB = 0;
+        }
+        if (self->listC != 0) {
+            fn_82BE5340(self->listC);
+            while (self->listC->count != 0) {
+                Deletable_82BF5F50 *d = fn_82BE5378(self->listC);
+                if (d != 0) {
+                    d->vt->Delete(d, 1);
+                }
+                fn_82BE5350(self->listC);
+            }
+            fn_82BE5478(self->listC);
+            FreeList(self->listC);
+            self->listC = 0;
+        }
+    }
+    fn_82BE5998(self);
+}

@@ -1,56 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82CE5410();
-extern int fn_82D8D6C0();
-extern int fn_82D9A5F8();
+typedef struct Aabb_82E01810 {
+    __declspec(align(16)) float min[4];
+    float max[4];
+} Aabb_82E01810;
 
+typedef struct Self_82E01810 Self_82E01810;
+typedef struct SelfVt_82E01810 {
+    void *slots[13];
+    void (*getAabb)(Self_82E01810 *self, void *arg, Aabb_82E01810 *out);
+} SelfVt_82E01810;
 
-void fn_82E01810(int *param_1,int param_2)
+struct Self_82E01810 {
+    SelfVt_82E01810 *vt;
+    int pad4[2];
+    unsigned int filterInfo;
+    void *phantom;
+    char sub[8];
+    char listener[4];
+    char *f20;
+};
 
+typedef struct Arg_82E01810 {
+    char pad0[0x18];
+    char *f18;
+} Arg_82E01810;
+
+typedef struct Alloc_82E01810 Alloc_82E01810;
+typedef struct AllocVt_82E01810 {
+    void *slot0;
+    void *(*blockAlloc)(Alloc_82E01810 *self, int size);
+} AllocVt_82E01810;
+struct Alloc_82E01810 {
+    AllocVt_82E01810 *vt;
+};
+
+typedef struct Router_82E01810 {
+    char pad0[0x10];
+    Alloc_82E01810 *heap;
+} Router_82E01810;
+
+extern Router_82E01810 *fn_82CE5410(void);
+extern void *fn_82D8D6C0(void *self, const Aabb_82E01810 *aabb, unsigned int filterInfo);
+extern void fn_82D9A5F8(void *phantom, void *listener);
+
+void fn_82E01810(Self_82E01810 *self, Arg_82E01810 *arg)
 {
-  int iVar2;
-  undefined8 uVar1;
-  int *piVar3;
-  undefined1 auStack_40 [40];
-  
-  (**(code **)(*param_1 + 0x34))(param_1,param_2,auStack_40);
-  iVar2 = fn_82CE5410();
-  iVar2 = (**(code **)(**(int **)(iVar2 + 0x10) + 4))(*(int **)(iVar2 + 0x10),0xe0);
-  *(undefined2 *)(iVar2 + 4) = 0xe0;
-  uVar1 = fn_82D8D6C0(iVar2,auStack_40,param_1[3]);
-  param_1[4] = (int)uVar1;
-  param_1[8] = *(int *)(param_2 + 0x18) + 0x10;
-  piVar3 = param_1 + 7;
-  if (param_1 == (int *)0xffffffec) {
-    piVar3 = (int *)0x0;
-  }
-  fn_82D9A5F8(uVar1,piVar3);
-  return;
-}
+    Aabb_82E01810 aabb;
+    char *mem;
+    void *ph;
+    char *sub;
+    Alloc_82E01810 *heap;
 
+    self->vt->getAabb(self, arg, &aabb);
+    heap = fn_82CE5410()->heap;
+    mem = (char *)heap->vt->blockAlloc(heap, 0xe0);
+    *(short *)(mem + 4) = 0xe0;
+    ph = fn_82D8D6C0(mem, &aabb, self->filterInfo);
+    self->phantom = ph;
+    self->f20 = arg->f18 + 0x10;
+    fn_82D9A5F8(ph, self->sub != 0 ? self->listener : 0);
+}

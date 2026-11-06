@@ -1,66 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F72318();
-extern int fn_82F72A00();
-extern int fn_82F72C10();
-extern int fn_82F73308();
+typedef struct {
+    void *f0;
+    int f4;
+} Obj_82F73680;
+extern char lbl_832635A0[];
+extern void fn_82F73308(Obj_82F73680 *o, const char *s);
+extern void *fn_82F72318(void *heap, int size, int flags);
+extern void *fn_82F72C10(void *mem, const char *s, int len);
+extern void fn_82F72A00(Obj_82F73680 *o, void *node);
 
-
-int * fn_82F73680(int *param_1,char *param_2)
-
+Obj_82F73680 *fn_82F73680(Obj_82F73680 *o, const char *s)
 {
-  char cVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  
-  if ((((int)(param_1[1] & 0xff000000U) < 0x1000001) && (param_2 != (char *)0x0)) &&
-     (*param_2 != '\0')) {
-    if (*param_1 == 0) {
-      fn_82F73308();
-    }
-    else {
-      uVar2 = fn_82F72318(0xffffffff832635a0,0xc,0);
-      if ((uVar2 & 0xffffffff) == 0) {
-        uVar3 = 0;
-      }
-      else {
-        iVar4 = 0;
-        cVar1 = *param_2;
-        while (cVar1 != '\0') {
-          iVar4 = iVar4 + 1;
-          cVar1 = param_2[iVar4];
+    if ((o->f4 & (int)0xff000000) <= 0x1000000 && s != 0 && *s != 0) {
+        if (o->f0 == 0) {
+            fn_82F73308(o, s);
+        } else {
+            void *mem = fn_82F72318(lbl_832635A0, 0xc, 0);
+            void *n;
+            if (mem != 0) {
+                int len = 0;
+                while (s[len] != 0) {
+                    len++;
+                }
+                n = fn_82F72C10(mem, s, len);
+            } else {
+                n = 0;
+            }
+            fn_82F72A00(o, n);
         }
-        uVar3 = fn_82F72C10(uVar2,param_2);
-      }
-      fn_82F72A00(param_1,uVar3);
     }
-  }
-  return param_1;
+    return o;
 }
-

@@ -1,64 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82ABE2E0 {
+    unsigned int flags;
+    int pad04;
+    struct Node_82ABE2E0 *next;
+    int pad0c;
+    void *used;
+} Node_82ABE2E0;
+typedef struct Obj_82ABE2E0 {
+    void *a;
+    Node_82ABE2E0 *list;
+    unsigned int flags;
+} Obj_82ABE2E0;
 
-
-bool fn_82ABE2E0(int *param_1)
-
+static __forceinline unsigned char inRange_82ABE2E0(unsigned int t)
 {
-  bool bVar1;
-  uint uVar2;
-  uint *puVar3;
-  
-  uVar2 = (uint)param_1[2] >> 7 & 0x7f;
-  if ((uVar2 < 0x53) || (bVar1 = true, 0x5f < uVar2)) {
-    bVar1 = false;
-  }
-  if ((bVar1) || (((param_1[2] & 0x2000000U) != 0 && ((*param_1 != 0 || (param_1[1] != 0)))))) {
-    return false;
-  }
-  puVar3 = (uint *)param_1[1];
-  if (puVar3 == (uint *)0x0) {
-    return true;
-  }
-  do {
-    if (puVar3[4] != 0) {
-      if ((*puVar3 & 0x40000000) == 0) {
-        bVar1 = true;
-        if ((*puVar3 & 0xe000000) != 0) goto LAB_82abe370;
-      }
-      else {
-LAB_82abe370:
-        bVar1 = false;
-      }
-      if (!bVar1) break;
+    if (t >= 0x53 && t <= 0x5f) {
+        return 1;
     }
-    puVar3 = (uint *)puVar3[2];
-  } while (puVar3 != (uint *)0x0);
-  return puVar3 == (uint *)0x0;
+    return 0;
 }
 
+static __forceinline unsigned char nodeOk_82ABE2E0(Node_82ABE2E0 *n)
+{
+    if ((n->flags & 0x40000000) == 0 && (n->flags & 0x0e000000) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+static __forceinline int notNull_82ABE2E0(Node_82ABE2E0 *p)
+{
+    if (p) return 1;
+    return 0;
+}
+
+unsigned char fn_82ABE2E0(Obj_82ABE2E0 *o)
+{
+    Node_82ABE2E0 *n;
+
+    if (inRange_82ABE2E0((o->flags >> 7) & 0x7f)) {
+        return 0;
+    }
+    if ((o->flags & 0x2000000) != 0 && (o->a != 0 || o->list != 0)) {
+        return 0;
+    }
+    n = o->list;
+    if (n == 0) {
+        return 1;
+    }
+    for (; notNull_82ABE2E0(n); n = n->next) {
+        if (n->used != 0 && !nodeOk_82ABE2E0(n)) {
+            break;
+        }
+    }
+    return n == 0;
+}
