@@ -1,66 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern int fn_8265CA20();
+extern void fn_82359C18(void *p);
+extern void fn_8265CA20(void *p);
 
+typedef struct { unsigned char b[0x18]; } Elem_82456B18;
+typedef struct {
+  Elem_82456B18 *begin;
+  Elem_82456B18 *end;
+  int cap;
+} Vec_82456B18;
+typedef struct {
+  unsigned char pad0[8];
+  unsigned char sub[0x18];
+  Vec_82456B18 v2;
+  int pad2c;
+  Vec_82456B18 v1;
+} Obj_82456B18;
 
-void fn_82456B18(int param_1)
-
+void fn_82456B18(Obj_82456B18 *o)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x30);
-  if (uVar2 != 0) {
-    uVar1 = *(uint *)(param_1 + 0x34);
-    for (; (uVar2 & 0xffffffff) != (ulonglong)uVar1; uVar2 = uVar2 + 0x18) {
-      fn_82359C18(uVar2);
+  Elem_82456B18 *p;
+  Elem_82456B18 *b;
+  Elem_82456B18 *e;
+  Vec_82456B18 *v;
+  v = &o->v1;
+  p = v->begin;
+  if (p != 0) {
+    e = v->end;
+    for (; p != e; p++) {
+      fn_82359C18(p);
     }
-    fn_8265CA20(*(undefined4 *)(param_1 + 0x30));
+    fn_8265CA20(v->begin);
   }
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x34) = 0;
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  uVar2 = (ulonglong)*(uint *)(param_1 + 0x20);
-  if (uVar2 != 0) {
-    uVar1 = *(uint *)(param_1 + 0x24);
-    if (uVar2 != uVar1) {
+  v->begin = 0;
+  v->end = 0;
+  v->cap = 0;
+  v = &o->v2;
+  b = v->begin;
+  if (b != 0) {
+    e = v->end;
+    p = b;
+    if (b != e) {
       do {
-        fn_82359C18(uVar2);
-        uVar2 = uVar2 + 0x18;
-      } while ((uVar2 & 0xffffffff) != (ulonglong)uVar1);
+        fn_82359C18(p);
+        p++;
+      } while (p != e);
     }
-    fn_8265CA20(*(undefined4 *)(param_1 + 0x20));
+    fn_8265CA20(v->begin);
   }
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  fn_82359C18(param_1 + 8);
-  return;
+  v->begin = 0;
+  v->end = 0;
+  v->cap = 0;
+  fn_82359C18(o->sub);
 }
-

@@ -1,58 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_826EC330();
-extern int fn_8277B488();
+extern void fn_8267BE38(int a);
+extern void fn_826EC330(unsigned int a, int b);
+extern void fn_8277B488(void *a);
 
+struct Ref_826EC5D0;
+typedef struct RefVt_826EC5D0 {
+  void *slots[17];
+  void (*Release)(struct RefObj_826EC5D0 *, struct Ref_826EC5D0 *, int);
+} RefVt_826EC5D0;
+typedef struct RefObj_826EC5D0 { RefVt_826EC5D0 *vt; } RefObj_826EC5D0;
+typedef struct Ref_826EC5D0 { RefObj_826EC5D0 *obj; int extra; } Ref_826EC5D0;
 
-void fn_826EC5D0(int param_1)
+typedef struct Self_826EC5D0 {
+  int pad0;
+  int f4;
+  char pad8[8];
+  Ref_826EC5D0 ref10;
+  int f18;
+  char pad1c[8];
+  unsigned int f24;
+  char pad28[0x3c - 0x28];
+  char sub3c[0x50 - 0x3c - 4 + 4];
+  Ref_826EC5D0 ref50;
+} Self_826EC5D0;
 
+void fn_826EC5D0(Self_826EC5D0 *param_1)
 {
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_1 + 0x50);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x44))(piVar1,(undefined4 *)(param_1 + 0x50),1);
-  }
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  piVar1 = *(int **)(param_1 + 0x10);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x44))(piVar1,(undefined4 *)(param_1 + 0x10),1);
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_826EC330(*(int *)(param_1 + 0x24),1);
-  }
-  fn_8277B488(param_1 + 0x3c);
-  fn_8267BE38(*(undefined4 *)(param_1 + 0x18));
-  fn_8267BE38(*(undefined4 *)(param_1 + 4));
-  return;
-}
+  Ref_826EC5D0 *a;
+  Ref_826EC5D0 *b;
 
+  a = &param_1->ref50;
+  if (a->obj != 0) {
+    a->obj->vt->Release(a->obj, a, 1);
+  }
+  b = &param_1->ref10;
+  a->obj = 0;
+  a->extra = 0;
+  if (b->obj != 0) {
+    b->obj->vt->Release(b->obj, b, 1);
+  }
+  b->obj = 0;
+  b->extra = 0;
+  if (param_1->f24 != 0) {
+    fn_826EC330(param_1->f24, 1);
+  }
+  fn_8277B488(param_1->sub3c);
+  fn_8267BE38(param_1->f18);
+  fn_8267BE38(param_1->f4);
+}

@@ -1,80 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82639F78();
+typedef struct T_82853378 {
+  unsigned char *a;          /* 0x00 */
+  unsigned char *b;          /* 0x04 */
+  unsigned char *c;          /* 0x08 */
+  unsigned char *d;          /* 0x0c */
+  int pad0;                  /* 0x10 */
+  unsigned short n;          /* 0x14 */
+  unsigned short s0;         /* 0x16 */
+  unsigned short s1;         /* 0x18 */
+} T_82853378;
+extern void fn_82838B88(int *, int, int, unsigned short, unsigned short);
+extern void fn_82639F78(int, int, int, int, int, unsigned __int64);
 
-
-void fn_82853378(int param_1,int param_2,longlong param_3)
-
+void fn_82853378(int param_1, int param_2, int param_3)
 {
-  ushort uVar1;
-  bool bVar2;
-  int iVar3;
-  int *piVar4;
-  undefined4 *puVar5;
-  longlong lVar6;
-  int aiStack_230 [140];
-  
-  puVar5 = (undefined4 *)0x0;
-  thunk_FUN_82838b18(aiStack_230,(ulonglong)*(uint *)(param_2 + 0x14) + param_3,param_1 + 0xa4,
-                     *(undefined2 *)(param_2 + 0x1a),*(undefined2 *)(param_2 + 0x1c));
-  lVar6 = 0;
-  if (*(short *)(param_2 + 0x18) != 0) {
+  int stk[128];
+  T_82853378 *t = (T_82853378 *)(param_2 + 4);
+  int *p;
+  int *e = 0;
+  int i;
+  int j;
+  int m;
+  fn_82838B88(stk, *(int *)(param_2 + 0x14) + param_3, param_1 + 0xa4, t->s0, t->s1);
+  i = 0;
+  if (t->n != 0) {
     do {
-      uVar1 = *(ushort *)(param_2 + 0x1a);
-      bVar2 = false;
-      if (uVar1 < *(ushort *)(param_2 + 0x1c)) {
-        iVar3 = 0;
-        if (uVar1 != 0) {
-          piVar4 = aiStack_230;
+      int s0 = t->s0;
+      m = 0;
+      if ((unsigned)s0 < t->s1) {
+        j = 0;
+        if ((int)s0 > 0) {
+          p = stk;
           do {
-            if (*(char *)(*(int *)(param_2 + 0x10) + iVar3) ==
-                *(char *)(*(int *)(param_2 + 0xc) + (int)lVar6)) {
-              bVar2 = true;
-              puVar5 = (undefined4 *)
-                       ((uint)*(byte *)(*(int *)(param_2 + 4) + *piVar4) * 0x10 +
-                       *(int *)(param_2 + 8));
+            if (t->d[j] == t->c[i]) {
+              m = 1;
+              e = (int *)(t->a[*p] * 0x10 + (int)t->b);
             }
-            iVar3 = iVar3 + 1;
-            piVar4 = piVar4 + 1;
-          } while (iVar3 < (int)(uint)uVar1);
+            j++;
+            p++;
+          } while (j < (int)s0);
         }
       }
-      if (!bVar2) {
-        puVar5 = (undefined4 *)
-                 ((uint)*(byte *)(*(int *)(param_2 + 0xc) + (int)lVar6) * 0x10 +
-                 *(int *)(param_2 + 8));
+      if (!(m & 0xff)) {
+        e = (int *)(t->c[i] * 0x10 + (int)t->b);
       }
-      fn_82639F78(*(undefined4 *)(param_1 + 4),lVar6,puVar5[1],0,*puVar5,
-                        0x8000000000000000 >>
-                        ((((0x5f - lVar6) * 0x5556 & 0xffffffffU) >> 0x10) + 0x20 & 0x7f));
-      lVar6 = lVar6 + 1;
-    } while ((int)lVar6 < (int)(uint)*(ushort *)(param_2 + 0x18));
+      fn_82639F78(*(int *)(param_1 + 4), i, e[1], 0, e[0], 0x8000000000000000ULL >> ((((unsigned)(0x5f - i) * 0x5556) >> 16) + 0x20));
+      i++;
+    } while (i < (int)t->n);
   }
-  return;
 }
-

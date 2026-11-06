@@ -1,69 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_82526358();
-extern unsigned int lbl_832975B0;
+typedef struct G_82359F58 { char pad[4]; unsigned char b; } G_82359F58;
+typedef struct M_82359F58 { char pad[0x40]; unsigned x; } M_82359F58;
+typedef struct C_82359F58 { char pad[0xa0]; int m; } C_82359F58;
+typedef struct A_82359F58 { char pad[4]; C_82359F58 *c; } A_82359F58;
+typedef struct T_82359F58 { char pad[0xd8]; unsigned char f; } T_82359F58;
+extern G_82359F58 *lbl_832975B0;
+extern G_82359F58 *fn_82250A18(void);
+extern void fn_82526358(T_82359F58 *, int, int);
 
-
-void fn_82359F58(int param_1,int param_2)
-
+void fn_82359F58(A_82359F58 *param_1, T_82359F58 *param_2)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
   if (param_2 != 0) {
-    iVar1 = lbl_832975B0;
+    G_82359F58 *g = lbl_832975B0;
+    int m;
     if (lbl_832975B0 == 0) {
-      iVar1 = fn_82250A18();
+      g = fn_82250A18();
     }
-    if (*(char *)(iVar1 + 4) == '\0') {
-      iVar1 = *(int *)(*(int *)(param_1 + 4) + 0xa0);
-      if ((iVar1 == 0) || (*(int *)(iVar1 + 0x40) != 1)) {
-        if (*(char *)(param_2 + 0xd8) != '\0') {
-          return;
-        }
-        uVar2 = 2;
-      }
-      else {
-        if (*(char *)(param_2 + 0xd8) != '\0') {
-          return;
-        }
-        uVar2 = 4;
+    if (g->b != 0) {
+      if (param_2->f != 0) return;
+      fn_82526358(param_2, 0x8001, 1);
+    } else {
+      m = param_1->c->m;
+      if (m != 0 && ((M_82359F58 *)m)->x == 1) {
+        if (param_2->f != 0) return;
+        fn_82526358(param_2, 0x8001, 4);
+      } else {
+        if (param_2->f != 0) return;
+        fn_82526358(param_2, 0x8001, 2);
       }
     }
-    else {
-      if (*(char *)(param_2 + 0xd8) != '\0') {
-        return;
-      }
-      uVar2 = 1;
-    }
-    fn_82526358(param_2,0x8001,uVar2);
   }
-  return;
 }
-

@@ -1,47 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_1c;
-extern unsigned int fStack_20;
 extern int fn_825321B0();
-extern unsigned int stack0x00000020;
 
+typedef struct {
+  char pad0[0x74];
+  int f74;
+  char pad78[0x2c];
+  float fa4;
+  float fa8;
+} Obj_82331618;
 
-bool fn_82331618(double param_1,int param_2)
-
+int fn_82331618(Obj_82331618 *o, __vector4 v, float r)
 {
-  struct { float first; float second; } stack_pair_20;
+  float p[2];
+  float dx;
+  float dy;
 
-  
-  fn_825321B0(&stack0x00000020,&stack_pair_20.first,*(undefined4 *)(param_2 + 0x74));
-  stack_pair_20.second = stack_pair_20.second - *(float *)(param_2 + 0xa8);
-  stack_pair_20.first = stack_pair_20.first - *(float *)(param_2 + 0xa4);
-  return (double)SQRT(stack_pair_20.first * stack_pair_20.first + stack_pair_20.second * stack_pair_20.second) <= param_1;
+  fn_825321B0(&v, p, o->f74);
+  dy = p[1] - o->fa8;
+  dx = p[0] - o->fa4;
+  return (float)sqrt(dx * dx + dy * dy) <= r;
 }
-

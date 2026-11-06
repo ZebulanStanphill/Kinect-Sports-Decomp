@@ -1,84 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8260D428();
+typedef struct Str_823261A0 { union { char *p; char buf[16]; } u; unsigned size; unsigned cap; } Str_823261A0;
+typedef struct Node_823261A0 { struct Node_823261A0 *left, *parent, *right; Str_823261A0 key; int pad24; int value; char color; char isnil; } Node_823261A0;
+typedef struct Tree_823261A0 { int pad; Node_823261A0 *head; } Tree_823261A0;
+typedef struct Wrap_823261A0 { int pad; Str_823261A0 s; } Wrap_823261A0;
+typedef struct Self_823261A0 { char pad[0xcc]; Tree_823261A0 tree; } Self_823261A0;
+extern int fn_8260D428(Str_823261A0 *, int, unsigned, const char *, unsigned);
 
+static const char *cstr(Str_823261A0 *s) { return s->cap >= 0x10 ? s->u.p : s->u.buf; }
 
-undefined4 fn_823261A0(int param_1,int *param_2)
+static int cmp(Str_823261A0 *a, Str_823261A0 *b) { unsigned len = b->size; const char *p = cstr(b); return fn_8260D428(a, 0, a->size, p, len); }
 
+int fn_823261A0(Self_823261A0 *param_1, Wrap_823261A0 **param_2)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  undefined4 **ppuVar6;
-  undefined4 *puVar7;
-  undefined4 *puVar8;
-  undefined4 *puStack_40;
-  undefined4 *apuStack_3c [1];
-  
-  iVar2 = *param_2;
-  puVar7 = (undefined4 *)(iVar2 + 4);
-  puVar8 = *(undefined4 **)(param_1 + 0xd0);
-  puVar5 = (undefined4 *)(*(undefined4 **)(param_1 + 0xd0))[1];
-  while (*(char *)((int)puVar5 + 0x2d) == '\0') {
-    puVar4 = puVar7;
-    if (0xf < *(uint *)(iVar2 + 0x18)) {
-      puVar4 = (undefined4 *)*puVar7;
-    }
-    iVar1 = fn_8260D428(puVar5 + 3,0,puVar5[7],puVar4,*(undefined4 *)(iVar2 + 0x14));
-    if (iVar1 < 0) {
-      puVar5 = (undefined4 *)puVar5[2];
-    }
-    else {
-      puVar8 = puVar5;
-      puVar5 = (undefined4 *)*puVar5;
-    }
-  }
-  puStack_40 = puVar8;
-  if (puVar8 != *(undefined4 **)(param_1 + 0xd0)) {
-    puVar5 = puVar8 + 3;
-    if (0xf < (uint)puVar8[8]) {
-      puVar5 = (undefined4 *)*puVar5;
-    }
-    iVar2 = fn_8260D428(puVar7,0,*(undefined4 *)(iVar2 + 0x14),puVar5,puVar8[7]);
-    if (-1 < iVar2) {
-      ppuVar6 = &puStack_40;
-      goto LAB_82326270;
-    }
-  }
-  ppuVar6 = apuStack_3c;
-  apuStack_3c[0] = *(undefined4 **)(param_1 + 0xd0);
-LAB_82326270:
-  uVar3 = 0;
-  if (*ppuVar6 != *(undefined4 **)(param_1 + 0xd0)) {
-    uVar3 = (*ppuVar6)[10];
-  }
-  return uVar3;
-}
+  Tree_823261A0 *t = &param_1->tree;
+  Str_823261A0 *key = &(*param_2)->s;
+  Node_823261A0 *res = t->head;
+  Node_823261A0 *n = res->parent;
+  Node_823261A0 **pp;
+  Node_823261A0 *tmp;
+  Node_823261A0 *endn;
+  int r;
 
+  while (n->isnil == 0) {
+    if (cmp(&n->key, key) < 0) {
+      n = n->right;
+    } else {
+      res = n;
+      n = n->left;
+    }
+  }
+  tmp = res;
+  if (res != t->head && cmp(key, &res->key) >= 0) {
+    pp = &tmp;
+  } else {
+    endn = t->head;
+    pp = &endn;
+  }
+  r = 0;
+  if (*pp != param_1->tree.head) {
+    r = (*pp)->value;
+  }
+  return r;
+}

@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct O_826992B8;
+typedef struct VT_826992B8 {
+  void *s[2];
+  unsigned char (*test)(struct O_826992B8 *);
+  void *t[32];
+  void (*apply)(struct O_826992B8 *, int);
+} VT_826992B8;
+typedef struct O_826992B8 { VT_826992B8 *vt; } O_826992B8;
+typedef struct V_826992B8 { O_826992B8 **data; int count; } V_826992B8;
 
-
-void fn_826992B8(int *param_1,undefined8 param_2)
-
+void fn_826992B8(V_826992B8 *param_1, int param_2)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  char cVar3;
-  
-  uVar2 = (ulonglong)(uint)param_1[1];
-  while (uVar2 = uVar2 - 1, -1 < (longlong)uVar2) {
-    piVar1 = *(int **)((int)((uVar2 & 0xffffffff) << 2) + *param_1);
-    cVar3 = (**(code **)(*piVar1 + 8))(piVar1);
-    if (cVar3 != '\0') {
-      (**(code **)(*piVar1 + 0x8c))(piVar1,param_2);
-      if (param_1[1] <= (int)uVar2) {
-        uVar2 = (ulonglong)(uint)param_1[1];
+  int i;
+  for (i = param_1->count - 1; i >= 0; i--) {
+    O_826992B8 *o = param_1->data[i];
+    if (o->vt->test(o) != 0) {
+      o->vt->apply(o, param_2);
+      if (i >= param_1->count) {
+        i = param_1->count;
       }
     }
   }
-  return;
 }
-

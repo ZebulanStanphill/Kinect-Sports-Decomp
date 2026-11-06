@@ -1,35 +1,14 @@
-typedef unsigned char undefined1, byte, undefined, bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2, ushort, word;
-typedef unsigned int undefined4, uint, dword, ulong;
-typedef unsigned __int64 undefined8, ulonglong, qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern void fn_827D9670(int, unsigned *, __int64 *, unsigned *);
 
-
-undefined8 fn_825200F0(undefined8 param_1,uint *param_2)
-
+int fn_825200F0(int param_1, unsigned *param_2)
 {
-  uint uStack_20;
-  uint uStack_1c;
-  undefined8 uStack_18;
-
-  uStack_1c = *param_2;
-  uStack_20 = uStack_1c >> 0x18;
-  if (uStack_1c == 0) {
-    uStack_20 = 0x7a;
-  }
-  uStack_18 = 0;
-  FUN_827d9670(param_1,&uStack_1c,&uStack_18,&uStack_20);
+  unsigned a;
+  unsigned k;
+  __int64 z;
+  unsigned v = *param_2;
+  unsigned t;
+  if (v != 0) t = v >> 24; else t = 0x7a;
+  a = t; k = v; z = 0;
+  fn_827D9670(param_1, &k, &z, &a);
   return param_1;
 }
