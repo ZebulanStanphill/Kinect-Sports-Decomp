@@ -1,59 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_82FAF408();
-extern unsigned int lbl_831BC768;
+typedef struct Item_83029690 Item_83029690;
+typedef struct ItemVtbl_83029690 {
+    void (*dtor)(Item_83029690 *self, int flags);
+} ItemVtbl_83029690;
+struct Item_83029690 {
+    ItemVtbl_83029690 *vt;
+};
 
+typedef struct Pair_83029690 {
+    unsigned int key;
+    Item_83029690 *value;
+} Pair_83029690;
 
-void fn_83029690(int param_1,ulonglong param_2,undefined8 param_3)
+typedef struct Map_83029690 {
+    Pair_83029690 *begin;
+    Pair_83029690 *end;
+} Map_83029690;
 
+typedef struct Obj_83029690 {
+    char pad[0x88];
+    Map_83029690 map;
+} Obj_83029690;
+
+extern void *lbl_831BC768;
+extern void fn_82FA5190(void *heap, void *p);
+extern void fn_82FAF408(Map_83029690 *m, unsigned int key);
+
+static __forceinline Item_83029690 **Find_83029690(Map_83029690 *m, unsigned int key)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  uint *puVar4;
-  int *piVar5;
-  
-  uVar3 = lbl_831BC768;
-  for (puVar4 = *(uint **)(param_1 + 0x88);
-      (puVar4 != *(uint **)(param_1 + 0x8c) && ((ulonglong)*puVar4 != (param_2 & 0xffffffff)));
-      puVar4 = puVar4 + 2) {
-  }
-  uVar2 = (uint)(*(uint **)(param_1 + 0x8c) != puVar4);
-  piVar5 = (int *)(-(uint)(uVar2 != 0) & (uint)(puVar4 + 1));
-  if (piVar5 != (int *)0x0) {
-    puVar1 = (undefined4 *)*piVar5;
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,0,param_3,-uVar2);
-      fn_82FA5190(uVar3,puVar1);
+    Pair_83029690 *p;
+    unsigned char found;
+
+    for (p = m->begin; p != m->end; p++) {
+        if (p->key == key) {
+            break;
+        }
     }
-    fn_82FAF408(param_1 + 0x88,param_2);
-  }
-  return;
+    found = p != m->end;
+    return found ? &p->value : 0;
 }
 
+void fn_83029690(Obj_83029690 *o, unsigned int key)
+{
+    Item_83029690 **pv = Find_83029690(&o->map, key);
+    Item_83029690 *item;
+    void *heap;
+
+    if (pv != 0) {
+        item = *pv;
+        heap = lbl_831BC768;
+        if (item != 0) {
+            item->vt->dtor(item, 0);
+            fn_82FA5190(heap, item);
+        }
+        fn_82FAF408(&o->map, key);
+    }
+}

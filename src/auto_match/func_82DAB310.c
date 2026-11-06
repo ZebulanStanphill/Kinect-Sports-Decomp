@@ -1,67 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82DAD368();
-extern int fn_82DAF0B0();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_38;
-extern unsigned int uStack_28;
-extern unsigned int uStack_3c;
-
-
-void fn_82DAB310(int param_1,undefined4 param_2,undefined4 param_3)
-
+typedef struct Ev_82DAB310 {
+  unsigned short id;
+  int f4;
+  int f8;
+  int fc;
+  int f10;
+  int f14;
+  int f18;
+  int f1c;
+} Ev_82DAB310;
+typedef struct Node_82DAB310 {
+  char pad0[8];
+  void *f8;
+  char pad[0x204 - 0xc];
+  unsigned short f204;
+} Node_82DAB310;
+typedef struct Pair_82DAB310 {
+  char pad[0x10];
+  Node_82DAB310 *a;
+  Node_82DAB310 *b;
+} Pair_82DAB310;
+extern void fn_82DAF0B0(void *, Ev_82DAB310 *);
+extern void fn_82DAD368(Node_82DAB310 *, Ev_82DAB310 *);
+void fn_82DAB310(Pair_82DAB310 *p, int param_2, int param_3)
 {
-  int iVar1;
-  int iVar2;
-  undefined2 auStack_40 [2];
-  undefined4 uStack_3c;
-  int iStack_38;
-  int iStack_34;
-  int iStack_2c;
-  undefined4 uStack_28;
-  
-  iVar1 = *(int *)(param_1 + 0x10);
-  iVar2 = *(int *)(param_1 + 0x14);
-  auStack_40[0] = 0xffff;
-  uStack_3c = param_3;
-  iStack_38 = iVar1;
-  iStack_34 = iVar2;
-  iStack_2c = param_1;
-  uStack_28 = param_2;
-  fn_82DAF0B0(*(undefined4 *)(iVar1 + 8),auStack_40);
-  if (*(short *)(iVar1 + 0x204) != 0) {
-    fn_82DAD368(iVar1,auStack_40);
-  }
-  if (*(short *)(iVar2 + 0x204) != 0) {
-    fn_82DAD368(iVar2,auStack_40);
-  }
-  return;
+  Node_82DAB310 *a = p->a;
+  Node_82DAB310 *b = p->b;
+  Ev_82DAB310 ev;
+  void *h = a->f8;
+  ev.id = 0xffff;
+  ev.f4 = param_3;
+  ev.f8 = (int)a;
+  ev.fc = (int)b;
+  ev.f14 = (int)p;
+  ev.f18 = param_2;
+  fn_82DAF0B0(h, &ev);
+  if (a->f204 != 0) fn_82DAD368(a, &ev);
+  if (b->f204 != 0) fn_82DAD368(b, &ev);
 }
-

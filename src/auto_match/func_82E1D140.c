@@ -1,56 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E1E4F0();
-extern int fn_82E1E590();
-extern int fn_82E1E680();
-extern int fn_82E1EDA0();
+extern char lbl_8200ED9C[];
+extern char lbl_8202F488[];
+extern void fn_82E1E680(void *obj, const char *name);
+extern void fn_82E1E4F0(void *obj, const char *name, char *type, int v);
+extern void fn_82E1E590(void *obj, const char *name, char *type, int v);
+extern void fn_82E1EDA0(void *obj);
 
+typedef struct Surv_82E1D140 {
+  int pad0;
+  int pad4;
+  int pad8;
+  void *doc;
+  int pad10;
+  int pad14;
+  unsigned char ready;
+} Surv_82E1D140;
 
-undefined8
-fn_82E1D140(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6)
-
+int fn_82E1D140(Surv_82E1D140 *self, int question, int questionId, int answer, int answerNumber, int context)
 {
-  undefined8 uVar1;
-  
-  if ((*(int *)(param_1 + 0xc) == 0) || (*(char *)(param_1 + 0x18) == '\0')) {
-    uVar1 = 0xffffffff80004005;
+  if (self->doc == 0 || self->ready == 0) {
+    return 0x80004005;
   }
-  else {
-    fn_82E1E680(*(int *)(param_1 + 0xc),0xffffffff8214b788);
-    fn_82E1E4F0(*(undefined4 *)(param_1 + 0xc),0xffffffff8214b77c,0xffffffff8200ed9c,param_2);
-    fn_82E1E4F0(*(undefined4 *)(param_1 + 0xc),0xffffffff8214b770,0xffffffff8200ed9c,param_3);
-    fn_82E1E4F0(*(undefined4 *)(param_1 + 0xc),0xffffffff8214b768,0xffffffff8200ed9c,param_4);
-    fn_82E1E590(*(undefined4 *)(param_1 + 0xc),0xffffffff8214b758,0xffffffff8202f488,param_5);
-    fn_82E1E4F0(*(undefined4 *)(param_1 + 0xc),0xffffffff8214b750,0xffffffff8200ed9c,param_6);
-    fn_82E1EDA0(*(undefined4 *)(param_1 + 0xc));
-    uVar1 = 0;
-  }
-  return uVar1;
+  fn_82E1E680(self->doc, "SurveyAnswer");
+  fn_82E1E4F0(self->doc, "Question", lbl_8200ED9C, question);
+  fn_82E1E4F0(self->doc, "QuestionID", lbl_8200ED9C, questionId);
+  fn_82E1E4F0(self->doc, "Answer", lbl_8200ED9C, answer);
+  fn_82E1E590(self->doc, "AnswerNumber", lbl_8202F488, answerNumber);
+  fn_82E1E4F0(self->doc, "Context", lbl_8200ED9C, context);
+  fn_82E1EDA0(self->doc);
+  return 0;
 }
-

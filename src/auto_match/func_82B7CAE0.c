@@ -25,30 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-extern unsigned int lbl_820DB490;
+extern int *fn_82B7BD28(int, int);
+extern char lbl_820DB490[];
 
+typedef struct {
+  void *vt;
+  int a4;
+  int a8;
+  int ac;
+  int a10;
+} Obj_82B7CAE0;
 
-undefined4 * fn_82B7CAE0(undefined4 param_1,undefined4 param_2,int param_3)
-
+Obj_82B7CAE0 *fn_82B7CAE0(int p1, int p2, char *ctx)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  uVar1 = *(undefined4 *)(param_3 + 0x5a8);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x18);
-  puVar3 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
+  int heap = *(int *)(ctx + 0x5a8);
+  int *raw = fn_82B7BD28(heap, 0x18);
+  Obj_82B7CAE0 *o = (Obj_82B7CAE0 *)(raw + 1);
+  Obj_82B7CAE0 *res;
+  raw[0] = heap;
+  if (o != 0) {
+    o->a4 = p1;
+    o->a8 = p2;
+    o->a10 = (int)ctx;
+    o->vt = lbl_820DB490;
+    res = o;
+  } else {
+    res = 0;
   }
-  else {
-    puVar2[2] = param_1;
-    puVar2[3] = param_2;
-    puVar2[5] = param_3;
-    *puVar3 = &lbl_820DB490;
-  }
-  return puVar3;
+  return res;
 }
-

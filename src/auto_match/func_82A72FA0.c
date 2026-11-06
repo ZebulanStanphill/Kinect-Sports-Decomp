@@ -1,56 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A72A10();
+typedef struct State_82A72FA0 {
+    char pad[0x2da];
+    unsigned short maxLen;
+} State_82A72FA0;
 
+typedef struct Ctx_82A72FA0 {
+    State_82A72FA0 *state;
+} Ctx_82A72FA0;
 
-undefined8 fn_82A72FA0(int *param_1,int param_2)
+typedef struct Item_82A72FA0 {
+    char pad0[0x24];
+    int f24;
+    int f28;
+    char pad2c[0x1ea - 0x2c];
+    unsigned short len;
+} Item_82A72FA0;
 
+extern int fn_82A72A10(Ctx_82A72FA0 *c, Item_82A72FA0 *it, int a, int b);
+
+static __forceinline unsigned short Max_82A72FA0(unsigned short a, unsigned short b)
 {
-  ushort uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  ushort uVar4;
-  
-  iVar2 = *param_1;
-  if (*(int *)(param_2 + 0x28) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_82A72A10(param_1,param_2,0,*(undefined4 *)(param_2 + 0x24));
-    if (-1 < (int)uVar3) {
-      uVar1 = *(ushort *)(iVar2 + 0x2da);
-      uVar4 = *(ushort *)(param_2 + 0x1ea);
-      if (*(ushort *)(param_2 + 0x1ea) < uVar1) {
-        uVar4 = uVar1;
-      }
-      *(ushort *)(iVar2 + 0x2da) = uVar4;
+    if (b > a) {
+        return b;
     }
-  }
-  return uVar3;
+    return a;
 }
 
+int fn_82A72FA0(Ctx_82A72FA0 *c, Item_82A72FA0 *it)
+{
+    State_82A72FA0 *s = c->state;
+    int hr = 0;
+
+    if (it->f28 != 0) {
+        hr = fn_82A72A10(c, it, 0, it->f24);
+        if (hr >= 0) {
+            s->maxLen = Max_82A72FA0(it->len, s->maxLen);
+        }
+    }
+    return hr;
+}

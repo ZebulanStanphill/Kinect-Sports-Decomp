@@ -25,113 +25,77 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-extern int fn_82BAF3D8();
-extern int fn_82BC0928();
-extern int fn_82BC38E0();
-
-
-void fn_82BAFA88(int *param_1,char param_2)
-
+extern void *fn_82B7BD28(unsigned, unsigned);
+extern void fn_82BAF3D8(void *, unsigned, void (*)(void), void (*)(void), int);
+extern void *fn_82BC0928(void *, int, int, void *);
+extern void *fn_82BC38E0(void *, void *);
+extern void fn_82BAF478(void);
+extern void fn_82BAF468(void);
+extern void fn_82BAF168(void);
+extern void fn_82BAF118(void);
+extern void fn_82BAF198(void);
+extern void fn_82BAF120(void);
+extern void fn_82BAF1E8(void);
+extern void fn_82BAF130(void);
+extern void fn_82BAF258(void);
+extern void fn_82BAF148(void);
+typedef struct Ctx_82BAFA88 { char pad[0x57c]; int f57c, f580, f584, f588; char pad1[0x0c]; int f598; char pad2[0x10]; unsigned arena; } Ctx_82BAFA88;
+typedef struct Obj_82BAFA88 { Ctx_82BAFA88 *ctx; void *a[7]; unsigned char flag; int f24; int f28; } Obj_82BAFA88;
+void fn_82BAFA88(Obj_82BAFA88 *o, unsigned char flag)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  
-  *(char *)(param_1 + 8) = param_2;
-  param_1[9] = 0;
-  if (param_2 == '\0') {
-    param_1[10] = 0x20;
-  }
-  else {
-    param_1[10] = 0;
-  }
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  puVar4 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(undefined4 *)(*param_1 + 0x5ac),0xffffffff82baf478,0xffffffff82baf468,
-                  0x10);
-  }
-  param_1[1] = (int)puVar4;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  puVar4 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(undefined4 *)(*param_1 + 0x5ac),0xffffffff82baf168,0xffffffff82baf118,
-                  0x10);
-  }
-  param_1[2] = (int)puVar4;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  puVar4 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(undefined4 *)(*param_1 + 0x5ac),0xffffffff82baf198,0xffffffff82baf120,
-                  0x10);
-  }
-  param_1[3] = (int)puVar4;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  puVar4 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(undefined4 *)(*param_1 + 0x5ac),0xffffffff82baf1e8,0xffffffff82baf130,
-                  0x10);
-  }
-  param_1[4] = (int)puVar4;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x1c);
-  puVar4 = puVar2 + 1;
-  *puVar2 = uVar1;
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(undefined4 *)(*param_1 + 0x5ac),0xffffffff82baf258,0xffffffff82baf148,
-                  0x10);
-  }
-  param_1[5] = (int)puVar4;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x34);
-  *puVar2 = uVar1;
-  if (puVar2 + 1 == (undefined4 *)0x0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = fn_82BC0928(puVar2 + 1,0,0,*param_1);
-  }
-  param_1[6] = iVar3;
-  uVar1 = *(undefined4 *)(*param_1 + 0x5ac);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x3c4);
-  *puVar2 = uVar1;
-  if (puVar2 + 1 == (undefined4 *)0x0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = fn_82BC38E0(puVar2 + 1,*param_1);
-  }
-  param_1[7] = iVar3;
-  *(undefined4 *)(*param_1 + 0x598) = 0;
-  *(undefined4 *)(*param_1 + 0x57c) = 0;
-  *(undefined4 *)(*param_1 + 0x580) = 0;
-  *(undefined4 *)(*param_1 + 0x584) = 1;
-  *(undefined4 *)(*param_1 + 0x588) = 0;
-  return;
+  unsigned *m;
+  unsigned arena;
+  void *q;
+  o->flag = flag;
+  o->f24 = 0;
+  if (flag != 0) o->f28 = 0;
+  else o->f28 = 0x20;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x1c);
+  *m = arena;
+  q = m + 1;
+  if (q != 0) fn_82BAF3D8(q, o->ctx->arena, fn_82BAF478, fn_82BAF468, 0x10);
+  else q = 0;
+  o->a[0] = q;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x1c);
+  *m = arena;
+  q = m + 1;
+  if (q != 0) fn_82BAF3D8(q, o->ctx->arena, fn_82BAF168, fn_82BAF118, 0x10);
+  else q = 0;
+  o->a[1] = q;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x1c);
+  *m = arena;
+  q = m + 1;
+  if (q != 0) fn_82BAF3D8(q, o->ctx->arena, fn_82BAF198, fn_82BAF120, 0x10);
+  else q = 0;
+  o->a[2] = q;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x1c);
+  *m = arena;
+  q = m + 1;
+  if (q != 0) fn_82BAF3D8(q, o->ctx->arena, fn_82BAF1E8, fn_82BAF130, 0x10);
+  else q = 0;
+  o->a[3] = q;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x1c);
+  *m = arena;
+  q = m + 1;
+  if (q != 0) fn_82BAF3D8(q, o->ctx->arena, fn_82BAF258, fn_82BAF148, 0x10);
+  else q = 0;
+  o->a[4] = q;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x34);
+  *m = arena;
+  o->a[5] = m + 1 ? fn_82BC0928(m + 1, 0, 0, o->ctx) : 0;
+  arena = o->ctx->arena;
+  m = fn_82B7BD28(arena, 0x3c4);
+  *m = arena;
+  o->a[6] = m + 1 ? fn_82BC38E0(m + 1, o->ctx) : 0;
+  o->ctx->f598 = 0;
+  o->ctx->f57c = 0;
+  o->ctx->f580 = 0;
+  o->ctx->f584 = 1;
+  o->ctx->f588 = 0;
 }
-

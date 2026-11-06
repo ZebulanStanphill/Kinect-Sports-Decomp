@@ -1,61 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50BE8();
-extern int fn_82EECAE0();
-
-
-undefined8 fn_82E7B810(int param_1)
-
+typedef struct VT_82E7B810 {
+  int (*s0)(void *);
+  int (*s1)(void *);
+  int (*s2)(void *);
+} VT_82E7B810;
+typedef struct Iface_82E7B810 { VT_82E7B810 *vt; } Iface_82E7B810;
+typedef struct Obj2_82E7B810 {
+  Iface_82E7B810 base;
+  int pad;
+  int *vbtbl;
+} Obj2_82E7B810;
+typedef struct Obj_82E7B810 {
+  int pad0[2];
+  int f8;
+  int fc;
+  int pad1[4];
+  Obj2_82E7B810 *p20;
+} Obj_82E7B810;
+extern unsigned int fn_82E50BE8(int, int, int, int, int);
+extern Obj2_82E7B810 *fn_82EECAE0(unsigned int, int, int, int, int);
+int fn_82E7B810(Obj_82E7B810 *o)
 {
-  ulonglong uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  
-  if (*(int **)(param_1 + 0x20) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x20) + 8))();
-    *(undefined4 *)(param_1 + 0x20) = 0;
+  Obj2_82E7B810 *r;
+  char *adj;
+  unsigned int m;
+  if (o->p20 != 0) {
+    o->p20->base.vt->s2(o->p20);
+    o->p20 = 0;
   }
-  uVar1 = fn_82E50BE8(0xd0,0,0,0,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = fn_82EECAE0(uVar1,*(undefined4 *)(param_1 + 8),*(undefined4 *)(param_1 + 0xc),1,1)
-    ;
-  }
-  *(int *)(param_1 + 0x20) = iVar3;
-  if (iVar3 == 0) {
-    uVar2 = 0xffffffff8007000e;
-  }
-  else {
-    iVar3 = *(int *)(*(int *)(iVar3 + 8) + 8) + iVar3;
-    uVar2 = (*(code *)**(undefined4 **)(iVar3 + 8))(iVar3 + 8);
-  }
-  return uVar2;
+  m = fn_82E50BE8(0xd0, 0, 0, 0, 0);
+  r = m != 0 ? fn_82EECAE0(m, o->f8, o->fc, 1, 1) : 0;
+  o->p20 = r;
+  if (r == 0) return 0x8007000e;
+  adj = (char *)r + r->vbtbl[2];
+  return ((Iface_82E7B810 *)(adj + 8))->vt->s0(adj + 8);
 }
-

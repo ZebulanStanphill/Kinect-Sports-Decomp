@@ -25,38 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82C53960();
-extern unsigned int uStack_20;
-
-
-ulonglong fn_82C562F0(undefined4 *param_1,uint param_2)
-
+extern void *fn_82C53960(unsigned, unsigned);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+typedef struct Heap_82C562F0 { void *cs; } Heap_82C562F0;
+void *fn_82C562F0(Heap_82C562F0 *h, unsigned size)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  undefined4 uStack_20;
-  
-  if (param_2 < 0xfffffffb) {
-    RtlEnterCriticalSection(*param_1);
-    uVar1 = param_2 + 3 & 0xfffffffc;
-    if (uVar1 < 0xffffffff) {
-      uVar2 = fn_82C53960(uVar1,0);
-      if ((uVar2 & 0xffffffff) == 0) {
-        uVar2 = 0;
-      }
-      else {
-        RtlEnterCriticalSection(*param_1);
-        RtlLeaveCriticalSection(*param_1);
-      }
+  void *r;
+  unsigned n;
+  if (size >= 0xfffffffb)
+    return 0;
+  RtlEnterCriticalSection(h->cs);
+  n = (size + 3) & 0xfffffffc;
+  if (n < 0xffffffff) {
+    void *p = fn_82C53960(n, 0);
+    if (p != 0) {
+      r = p;
+      RtlEnterCriticalSection(h->cs);
+      RtlLeaveCriticalSection(h->cs);
+    } else {
+      r = 0;
     }
-    else {
-      uVar2 = (ulonglong)uStack_20;
-    }
-    RtlLeaveCriticalSection(*param_1);
   }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+  RtlLeaveCriticalSection(h->cs);
+  return r;
 }
-

@@ -25,21 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82E93398(int param_1,int param_2,longlong param_3)
-
+int fn_82E93398(char *self, int flag, long long off)
 {
-  if (param_2 == 0) {
-    param_3 = *(longlong *)(param_1 + 0x1e28) + *(longlong *)(param_1 + 0x1e20);
+  int ret = 0;
+  long long t;
+  if (flag != 0) {
+    t = *(long long *)(self + 0x1e20) - *(long long *)(self + 0x1e38) + off;
+  } else {
+    t = *(long long *)(self + 0x1e28) + *(long long *)(self + 0x1e20);
   }
-  else {
-    param_3 = (*(longlong *)(param_1 + 0x1e20) - *(longlong *)(param_1 + 0x1e38)) + param_3;
-  }
-  if (((*(int *)(param_1 + 0x1e10) != 0) && (param_3 < *(longlong *)(param_1 + 0x1e18))) &&
-     (*(int *)(param_1 + 0x4c08) == 0)) {
-    return 0;
-  }
-  return 1;
+  if (!(*(int *)(self + 0x1e10) != 0 && t < *(long long *)(self + 0x1e18) && *(int *)(self + 0x4c08) == 0))
+    ret = 1;
+  return ret;
 }
-

@@ -1,86 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_630;
-extern int fn_82C76868();
-extern int fn_82C77B70();
-extern int fn_830C0798();
-extern int fn_830C0AE0();
-extern int fn_830D5D20();
-extern int fn_830D6DD0();
-extern int fn_830DB5C0();
-extern int fn_830FFAD8();
-extern int fn_831067E8();
-extern unsigned int lbl_8329F084;
+typedef struct Pic_830C03A8 {
+    char pad0[0x34];
+    unsigned short f34;
+    char pad36[0x558 - 0x36];
+    int stride;
+    char pad55c[0x580 - 0x55c];
+    char sub[0x8a0 - 0x580];
+} Pic_830C03A8;
 
+extern void *lbl_8329F084;
+extern void fn_830D5D20(char *ctx, Pic_830C03A8 *pic);
+extern void fn_830C0798(void *a, void *b);
+extern int fn_830D6DD0(char *ctx, Pic_830C03A8 *pic, char *sub);
+extern int fn_831067E8(char *ctx, Pic_830C03A8 *pic, char *sub);
+extern int fn_830FFAD8(char *ctx, Pic_830C03A8 *pic, char *sub);
+extern int fn_830DB5C0(char *ctx, Pic_830C03A8 *pic, char *sub, int a, int b, unsigned int c);
+extern void fn_82C77B70(char *ctx, Pic_830C03A8 *pic, int a, int b, unsigned int c);
+extern void fn_82C76868(char *ctx, Pic_830C03A8 *pic, char *y, char *u, char *v, int a, unsigned int c);
+extern void fn_830C0AE0(void *a, void *buf);
 
-undefined8 fn_830C03A8(int param_1)
-
+int fn_830C03A8(char *ctx)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  int iVar3;
-  undefined4 uVar4;
-  int iVar5;
-  int iVar6;
-  undefined1 auStack_630 [1536];
-  
-  iVar3 = *(int *)(param_1 + 0x54c8) * 0x8a0 + param_1;
-  iVar6 = iVar3 + 0x3e70;
-  fn_830D5D20(param_1,iVar6);
-  fn_830C0798(lbl_8329F084,param_1 + 0x57a0);
-  iVar5 = iVar3 + 0x43f0;
-  uVar1 = fn_830D6DD0(param_1,iVar6,iVar5);
-  if (((((int)uVar1 == 0) && (uVar1 = fn_831067E8(param_1,iVar6,iVar5), (int)uVar1 == 0)) &&
-      (uVar1 = fn_830FFAD8(param_1,iVar6,iVar5), (int)uVar1 == 0)) &&
-     (uVar1 = fn_830DB5C0(param_1,iVar6,iVar5,0,0,*(ushort *)(iVar3 + 0x3ea4) >> 1),
-     (int)uVar1 == 0)) {
-    if (*(int *)(param_1 + 0xf6c) != 0) {
-      fn_82C77B70(param_1,iVar6,0,0,*(ushort *)(iVar3 + 0x3ea4) >> 1);
-      lVar2 = (longlong)(*(int *)(param_1 + 0xd0) >> 1) * (longlong)*(int *)(iVar3 + 0x43c8);
-      fn_82C76868(param_1,iVar6,
-                        (longlong)(*(int *)(param_1 + 0xcc) >> 1) *
-                        (longlong)*(int *)(iVar3 + 0x43c8) + (ulonglong)*(uint *)(param_1 + 0xec0) +
-                        (ulonglong)*(uint *)(param_1 + 0xdc),
-                        (ulonglong)*(uint *)(param_1 + 0xec4) + lVar2 +
-                        (ulonglong)*(uint *)(param_1 + 0xe0),
-                        (ulonglong)*(uint *)(param_1 + 0xec8) + lVar2 +
-                        (ulonglong)*(uint *)(param_1 + 0xe0),0,*(ushort *)(iVar3 + 0x3ea4) >> 1);
-    }
-    fn_830C0AE0(param_1 + 0x57a0,auStack_630);
-    if (((*(int *)(param_1 + 0xf6c) != 0) || (*(int *)(param_1 + 0x3a28) != 0)) ||
-       (uVar4 = 0, *(int *)(param_1 + 0x3b9c) != -1)) {
-      uVar4 = 1;
-    }
-    *(undefined4 *)(param_1 + 0x3d08) = uVar4;
-    *(undefined4 *)(param_1 + 0x3d0c) = 0;
-    uVar1 = 0;
-    *(undefined4 *)(param_1 + 0x3cf0) = 1;
-  }
-  return uVar1;
-}
+    Pic_830C03A8 *pic;
+    char *sub;
+    int hr;
+    unsigned char buf[0x600];
 
+    pic = (Pic_830C03A8 *)(ctx + *(int *)(ctx + 0x54c8) * 0x8a0 + 0x3e70);
+    fn_830D5D20(ctx, pic);
+    fn_830C0798(lbl_8329F084, ctx + 0x57a0);
+    sub = pic->sub;
+    hr = fn_830D6DD0(ctx, pic, sub);
+    if (hr != 0) {
+        return hr;
+    }
+    hr = fn_831067E8(ctx, pic, sub);
+    if (hr != 0) {
+        return hr;
+    }
+    hr = fn_830FFAD8(ctx, pic, sub);
+    if (hr != 0) {
+        return hr;
+    }
+    hr = fn_830DB5C0(ctx, pic, sub, 0, 0, pic->f34 >> 1);
+    if (hr != 0) {
+        return hr;
+    }
+    if (*(int *)(ctx + 0xf6c) != 0) {
+        fn_82C77B70(ctx, pic, 0, 0, pic->f34 >> 1);
+        {
+            int y = *(int *)(ctx + 0xcc) >> 1;
+            int c = *(int *)(ctx + 0xd0) >> 1;
+            int x = *(int *)(ctx + 0xdc);
+            int cx = *(int *)(ctx + 0xe0);
+            int s = pic->stride;
+            int uv = c * s;
+            fn_82C76868(ctx, pic,
+                        *(char **)(ctx + 0xec0) + y * s + x,
+                        *(char **)(ctx + 0xec4) + uv + cx,
+                        *(char **)(ctx + 0xec8) + uv + cx,
+                        0, pic->f34 >> 1);
+        }
+    }
+    fn_830C0AE0(ctx + 0x57a0, buf);
+    *(int *)(ctx + 0x3d08) = *(int *)(ctx + 0xf6c) != 0 || *(int *)(ctx + 0x3a28) != 0 || *(int *)(ctx + 0x3b9c) != -1;
+    *(int *)(ctx + 0x3d0c) = 0;
+    *(int *)(ctx + 0x3cf0) = 1;
+    return 0;
+}

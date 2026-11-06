@@ -1,67 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern int fn_82E27BF0();
-extern int fn_82E28460();
-extern int fn_82E2D1D8();
+typedef struct Obj_82E2D290 Obj_82E2D290;
+typedef struct {
+  void *s[2];
+  int (*release)(Obj_82E2D290 *);
+  void *s3[0x54 / 4 - 3];
+  int (*f54)(Obj_82E2D290 *, void *, int);
+  int (*f58)(Obj_82E2D290 *, void *, unsigned long long);
+} Vt_82E2D290;
+struct Obj_82E2D290 { Vt_82E2D290 *vt; };
+extern char lbl_82153598[];
+extern char lbl_821535E8[];
+extern int fn_82E2D1D8(Obj_82E2D290 **);
+extern int fn_82E28460(Obj_82E2D290 *, int, int, int);
+extern int fn_82E27BF0(Obj_82E2D290 *, int);
 
-
-longlong fn_82E2D290(undefined8 param_1,undefined8 param_2,int param_3,int param_4,
-                      undefined8 param_5,undefined8 param_6,undefined8 param_7,int *param_8)
-
+int fn_82E2D290(int a, int b, unsigned int hi, unsigned int lo, int x, int y, int z, Obj_82E2D290 **out)
 {
-  longlong lVar1;
-  
-  *param_8 = 0;
-  lVar1 = fn_82E2D1D8(param_8);
-  if (-1 < lVar1) {
-    if (*param_8 == 0) {
-      lVar1 = -0x7fff0001;
-    }
-    else {
-      lVar1 = fn_82E28460(*param_8,param_1,param_2,param_7);
-      if (((-1 < lVar1) &&
-          (((param_3 == 0 || (param_4 == 0)) ||
-           (lVar1 = (**(code **)(*(int *)*param_8 + 0x58))
-                              ((int *)*param_8,0xffffffff82153598,CONCAT44(param_3,param_4)),
-           -1 < lVar1)))) &&
-         ((((int)param_5 == 0 ||
-           (lVar1 = (**(code **)(*(int *)*param_8 + 0x54))
-                              ((int *)*param_8,0xffffffff821535e8,param_5), -1 < lVar1)) &&
-          (lVar1 = fn_82E27BF0(*param_8,param_6), -1 < lVar1)))) {
-        return lVar1;
+  int hr;
+  *out = 0;
+  hr = fn_82E2D1D8(out);
+  if (hr >= 0) {
+    if (*out == 0) {
+      hr = 0x8000ffff;
+    } else {
+      hr = fn_82E28460(*out, a, b, z);
+      if (hr >= 0 && (hi == 0 || lo == 0 || (hr = (*out)->vt->f58(*out, lbl_82153598, ((unsigned long long)hi << 32) | lo)) >= 0)
+          && (x == 0 || (hr = (*out)->vt->f54(*out, lbl_821535E8, x)) >= 0)
+          && (hr = fn_82E27BF0(*out, y)) >= 0) {
+        return hr;
       }
     }
   }
-  if ((int *)*param_8 != (int *)0x0) {
-    (**(code **)(*(int *)*param_8 + 8))();
-    *param_8 = 0;
+  if (*out != 0) {
+    (*out)->vt->release(*out);
+    *out = 0;
   }
-  return lVar1;
+  return hr;
 }
-

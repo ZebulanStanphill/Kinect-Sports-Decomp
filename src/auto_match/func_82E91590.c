@@ -25,27 +25,18 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82E91590(undefined4 *param_1,undefined4 *param_2,longlong param_3)
-
+typedef struct Node_82E91590 { struct Node_82E91590 *next; int value; } Node_82E91590;
+typedef struct List_82E91590 { Node_82E91590 *head; int pad[3]; int count; } List_82E91590;
+int fn_82E91590(List_82E91590 *l, int *out, int idx)
 {
-  if (param_2 != (undefined4 *)0x0) {
-    if ((int)param_3 < (int)param_1[4]) {
-      if ((int)param_3 == -1) {
-        param_3 = (ulonglong)(uint)param_1[4] - 1;
-      }
-      param_1 = (undefined4 *)*param_1;
-      if (0 < (int)param_3) {
-        do {
-          param_1 = (undefined4 *)*param_1;
-          param_3 = param_3 + -1;
-        } while (param_3 != 0);
-      }
-      *param_2 = param_1[1];
-      return 1;
-    }
+  if (out != 0 && idx < l->count) {
+    Node_82E91590 *n;
+    int i;
+    if (idx == -1) idx = l->count - 1;
+    n = l->head;
+    for (i = 0; i < idx; i++) n = n->next;
+    *out = n->value;
+    return 1;
   }
   return 0;
 }
-

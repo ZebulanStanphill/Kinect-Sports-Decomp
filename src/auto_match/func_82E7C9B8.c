@@ -1,88 +1,82 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Unk_82E7C9B8 Unk_82E7C9B8;
+typedef struct UnkVtbl_82E7C9B8 {
+    int (*query)(Unk_82E7C9B8 *self, const void *iid, Unk_82E7C9B8 **out);
+    int (*addRef)(Unk_82E7C9B8 *self);
+    int (*release)(Unk_82E7C9B8 *self);
+    int (*f0c)(Unk_82E7C9B8 *self);
+    int (*getChild)(Unk_82E7C9B8 *self, const void *id, int flags, Unk_82E7C9B8 **out);
+    int (*getRange)(Unk_82E7C9B8 *self, __int64 *a, __int64 *b);
+} UnkVtbl_82E7C9B8;
+struct Unk_82E7C9B8 {
+    UnkVtbl_82E7C9B8 *vt;
+};
 
+typedef struct Sink_82E7C9B8 Sink_82E7C9B8;
+typedef struct SinkVtbl_82E7C9B8 {
+    void *slots[22];
+    int (*setValue)(Sink_82E7C9B8 *self, const void *key, __int64 value);
+} SinkVtbl_82E7C9B8;
+struct Sink_82E7C9B8 {
+    SinkVtbl_82E7C9B8 *vt;
+};
 
-longlong fn_82E7C9B8(undefined4 *param_1,int *param_2)
+typedef struct Obj_82E7C9B8 {
+    Unk_82E7C9B8 *source;
+} Obj_82E7C9B8;
 
+extern char lbl_82154C18[];
+extern char lbl_820ED018[];
+extern char lbl_821549B8[];
+extern char lbl_8214C1B0[];
+extern char lbl_8214C1C0[];
+
+#define SAFE_RELEASE_82E7C9B8(p) if ((p) != 0) { (p)->vt->release(p); (p) = 0; }
+
+int fn_82E7C9B8(Obj_82E7C9B8 *o, Sink_82E7C9B8 *sink)
 {
-  longlong lVar1;
-  longlong lVar2;
-  int *piStack_50;
-  int *piStack_4c;
-  int *apiStack_48 [2];
-  longlong lStack_40;
-  longlong lStack_38;
-  longlong alStack_30;
-  
-  piStack_50 = (int *)0x0;
-  piStack_4c = (int *)0x0;
-  apiStack_48[0] = (int *)0x0;
-  lStack_38 = 0;
-  lStack_40 = 0;
-  alStack_30 = 0;
-  if (param_2 == (int *)0x0) {
-    lVar2 = -0x7fffbffd;
-  }
-  else {
-    lVar2 = (*(code *)**(undefined4 **)*param_1)
-                      ((undefined4 *)*param_1,0xffffffff82154c18,&piStack_50);
-    if (-1 < lVar2) {
-      lVar2 = (**(code **)(*piStack_50 + 0x10))(piStack_50,0xffffffff820ed018,0,&piStack_4c);
-      if (-1 < lVar2) {
-        lVar2 = (**(code **)(*piStack_50 + 0x10))(piStack_50,0xffffffff821549b8,0,apiStack_48);
-        if (-1 < lVar2) {
-          lVar2 = (**(code **)(*piStack_4c + 0x14))(piStack_4c,0,&lStack_38);
-          if (-1 < lVar2) {
-            lVar2 = (**(code **)(*apiStack_48[0] + 0x14))(apiStack_48[0],&lStack_40,&alStack_30);
-            if (-1 < lVar2) {
-              lVar1 = alStack_30 - lStack_40;
-              lVar2 = (**(code **)(*param_2 + 0x58))
-                                (param_2,0xffffffff8214c1b0,lStack_40 + lStack_38);
-              if (-1 < lVar2) {
-                lVar2 = (**(code **)(*param_2 + 0x58))(param_2,0xffffffff8214c1c0,lVar1);
-              }
-            }
-          }
-        }
-      }
-    }
-    if (piStack_50 != (int *)0x0) {
-      (**(code **)(*piStack_50 + 8))();
-      piStack_50 = (int *)0x0;
-    }
-    if (piStack_4c != (int *)0x0) {
-      (**(code **)(*piStack_4c + 8))();
-      piStack_4c = (int *)0x0;
-    }
-    if (apiStack_48[0] != (int *)0x0) {
-      (**(code **)(*apiStack_48[0] + 8))();
-    }
-  }
-  return lVar2;
-}
+    Unk_82E7C9B8 *root = 0;
+    Unk_82E7C9B8 *a = 0;
+    Unk_82E7C9B8 *b = 0;
+    __int64 dur = 0;
+    __int64 start = 0;
+    __int64 end = 0;
+    __int64 len;
+    int hr;
 
+    if (sink == 0) {
+        hr = 0x80004003;
+        goto out;
+    }
+    hr = o->source->vt->query(o->source, lbl_82154C18, &root);
+    if (hr < 0) {
+        goto done;
+    }
+    hr = root->vt->getChild(root, lbl_820ED018, 0, &a);
+    if (hr < 0) {
+        goto done;
+    }
+    hr = root->vt->getChild(root, lbl_821549B8, 0, &b);
+    if (hr < 0) {
+        goto done;
+    }
+    hr = a->vt->getRange(a, 0, &dur);
+    if (hr < 0) {
+        goto done;
+    }
+    hr = b->vt->getRange(b, &start, &end);
+    if (hr < 0) {
+        goto done;
+    }
+    len = end - start;
+    hr = sink->vt->setValue(sink, lbl_8214C1B0, start + dur);
+    if (hr < 0) {
+        goto done;
+    }
+    hr = sink->vt->setValue(sink, lbl_8214C1C0, len);
+done:
+    SAFE_RELEASE_82E7C9B8(root);
+    SAFE_RELEASE_82E7C9B8(a);
+    SAFE_RELEASE_82E7C9B8(b);
+out:
+    return hr;
+}

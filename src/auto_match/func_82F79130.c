@@ -25,27 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int _errno();
-extern int fn_82F79028();
-extern int _ctrlfp();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_831BC2A4;
+extern int *_errno(void);
+extern double fn_82F79028(int, int, double, double, double, int);
+extern int _ctrlfp(int, unsigned int);
+extern double lbl_82005710;
+extern int lbl_831BC2A4;
 
-
-undefined8
-fn_82F79130(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+double fn_82F79130(int a, int b, int c, double x)
 {
-  undefined4 *puVar1;
-  
   if (lbl_831BC2A4 == 0) {
-    param_1 = fn_82F79028(param_1,lbl_82005710,param_1,1);
+    x = fn_82F79028(1, a, x, lbl_82005710, x, c);
+  } else {
+    *_errno() = 0x21;
+    _ctrlfp(c, 0xc007feff);
   }
-  else {
-    puVar1 = (undefined4 *)_errno(param_2,param_2);
-    *puVar1 = 0x21;
-    _ctrlfp(param_4,0xffffffffc007feff);
-  }
-  return param_1;
+  return x;
 }
-

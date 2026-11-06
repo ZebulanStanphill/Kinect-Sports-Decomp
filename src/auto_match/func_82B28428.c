@@ -1,71 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B25248();
-extern int fn_82B80F70();
+extern void fn_82B25248(void *a, void *b, void *c);
+extern unsigned char fn_82B80F70(int slot, double *lo, double *hi);
 
+typedef struct Dat_82B28428 {
+  int kind;
+  struct Dat_82B28428 *next;
+} Dat_82B28428;
 
-void fn_82B28428(undefined8 param_1,int param_2,ulonglong param_3,int param_4,undefined8 param_5)
+typedef struct Link_82B28428 {
+  int pad0;
+  int pad4;
+  struct Link_82B28428 *next;
+  int padc;
+  void *target;
+} Link_82B28428;
 
+typedef struct Obj_82B28428 {
+  int pad0;
+  Link_82B28428 *links;
+  int pad8;
+  unsigned int bits;
+  Dat_82B28428 *dat;
+} Obj_82B28428;
+
+static int notNull_82B28428(void *p) { if (p) return 1; return 0; }
+
+static unsigned char setBits_82B28428(Obj_82B28428 *o, unsigned int m)
 {
-  int iVar1;
-  uint uVar2;
-  char cVar3;
-  int *piVar4;
-  double dStack_40;
-  double adStack_38;
-  
-  uVar2 = param_4 << ((uint)((param_3 & 0xffffffff) << 2) & 0x3c);
-  if ((*(uint *)(param_2 + 0xc) & uVar2 & 0xffff) != uVar2) {
-    *(ushort *)(param_2 + 0xe) = (ushort)*(uint *)(param_2 + 0xc) | (ushort)uVar2;
-    piVar4 = *(int **)(param_2 + 0x10);
-    if (piVar4 != (int *)0x0) {
-      do {
-        if (*piVar4 == 1) break;
-        piVar4 = (int *)piVar4[1];
-      } while (piVar4 != (int *)0x0);
-      if ((piVar4 != (int *)0x0) &&
-         (cVar3 = fn_82B80F70(param_3,&dStack_40,&adStack_38), cVar3 != '\0')) {
-        iVar1 = (int)((param_3 + 1 & 0xffffffff) << 3);
-        if (*(double *)(iVar1 + (int)piVar4) < dStack_40) {
-          *(double *)(iVar1 + (int)piVar4) = dStack_40;
-        }
-        iVar1 = (int)((param_3 + 5 & 0xffffffff) << 3);
-        if (adStack_38 < *(double *)(iVar1 + (int)piVar4)) {
-          *(double *)(iVar1 + (int)piVar4) = adStack_38;
-        }
-      }
-    }
-    for (iVar1 = *(int *)(param_2 + 4); iVar1 != 0; iVar1 = *(int *)(iVar1 + 8)) {
-      if (*(int *)(iVar1 + 0x10) != 0) {
-        fn_82B25248(param_1,*(int *)(iVar1 + 0x10),param_5);
+  if ((o->bits & m & 0xffff) == m) {
+    return 0;
+  }
+  *(unsigned short *)((char *)o + 0xe) = (unsigned short)(o->bits | m);
+  return 1;
+}
+
+void fn_82B28428(void *a, Obj_82B28428 *o, int slot, unsigned int mask, void *c)
+{
+  Dat_82B28428 *d;
+  Link_82B28428 *l;
+  double lo;
+  double hi;
+  double *arr;
+
+  if (setBits_82B28428(o, mask << (slot * 4))) {
+    d = o->dat;
+    for (; d != 0; d = d->next) { if (d->kind == 1) break; } if (d != 0 && fn_82B80F70(slot, &lo, &hi) != 0) { arr = (double *)d; if (lo > arr[slot + 1]) arr[slot + 1] = lo; if (hi < arr[slot + 5]) arr[slot + 5] = hi; }
+    for (l = o->links; notNull_82B28428(l); l = l->next) {
+      if (l->target != 0) {
+        fn_82B25248(a, l->target, c);
       }
     }
   }
-  return;
 }
-
