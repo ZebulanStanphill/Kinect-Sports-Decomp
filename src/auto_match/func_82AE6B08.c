@@ -1,58 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82AE6B08 {
+  unsigned int prev;
+  unsigned int next;
+  unsigned int count;
+  int pad;
+  unsigned int items[1];
+} Node_82AE6B08;
 
-
-longlong fn_82AE6B08(int param_1,int param_2)
-
+static Node_82AE6B08 *First_82AE6B08(Node_82AE6B08 *list)
 {
-  uint uVar1;
-  longlong lVar2;
-  int *piVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  
-  lVar2 = 0;
-  for (uVar1 = *(uint *)(param_1 + 4); ((uVar1 & 1) == 0 && (uVar1 != 0));
-      uVar1 = *(uint *)((uVar1 & 0xfffffffe) + 4)) {
-    uVar4 = (ulonglong)*(uint *)(uVar1 + 8);
-    uVar5 = 0;
-    if (uVar4 != 0) {
-      piVar3 = (int *)(uVar1 + 0x10);
-      do {
-        if (*piVar3 == param_2) {
-          return uVar5 + lVar2;
-        }
-        uVar5 = uVar5 + 1;
-        piVar3 = piVar3 + 1;
-      } while ((uVar5 & 0xffffffff) < uVar4);
+  if (list->next & 1) {
+    return 0;
+  }
+  return (Node_82AE6B08 *)list->next;
+}
+
+static Node_82AE6B08 *Next_82AE6B08(Node_82AE6B08 *n)
+{
+  unsigned int p = ((Node_82AE6B08 *)((unsigned int)n & ~1u))->next;
+  if (p & 1) {
+    return 0;
+  }
+  return (Node_82AE6B08 *)p;
+}
+
+int fn_82AE6B08(Node_82AE6B08 *list, unsigned int key)
+{
+  int base;
+  Node_82AE6B08 *n;
+  unsigned int i;
+
+  base = 0;
+  for (n = First_82AE6B08(list); n != 0; n = Next_82AE6B08(n)) {
+    for (i = 0; i < n->count; i++) {
+      if (n->items[i] == key) {
+        return i + base;
+      }
     }
-    lVar2 = uVar4 + lVar2;
+    base += n->count;
   }
   return -1;
 }
-

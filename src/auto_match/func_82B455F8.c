@@ -1,61 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_828F0170();
-extern unsigned int uStack_2c;
+typedef struct Info_82B455F8 {
+    int a;
+    unsigned int id;
+    int rest[2];
+} Info_82B455F8;
 
+typedef struct Src_82B455F8 {
+    char pad[0x18];
+    int handle;
+} Src_82B455F8;
 
-undefined8 fn_82B455F8(int param_1,int param_2,uint *param_3)
+typedef struct Self_82B455F8 {
+    char pad[0x30];
+    unsigned int id;
+} Self_82B455F8;
 
+extern int fn_828F0170(int handle, int zero, Info_82B455F8 *info);
+
+int fn_82B455F8(Self_82B455F8 *param_1, Src_82B455F8 *param_2, unsigned int *param_3)
 {
-  int iVar2;
-  undefined8 uVar1;
-  uint uVar3;
-  undefined1 auStack_30 [4];
-  uint uStack_2c;
-  
-  uVar3 = 0;
-  if (param_2 != 0) {
-    iVar2 = fn_828F0170(*(undefined4 *)(param_2 + 0x18),0,auStack_30);
-    uVar3 = uStack_2c;
-    if (iVar2 < 0) {
-      uVar3 = 0xffffffff;
-    }
-  }
-  if ((((uVar3 & 0xffff0000) == 0) ||
-      ((uVar3 & 0xffff0000) == (*(uint *)(param_1 + 0x30) & 0xffff0000))) &&
-     (((uVar3 & 0xffff) == 0 || ((uVar3 & 0xffff) == (uint)*(ushort *)(param_1 + 0x32))))) {
-    *param_3 = uVar3;
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+    unsigned int id;
+    Info_82B455F8 info;
 
+    id = 0;
+    if (param_2 != 0) {
+        int hr = fn_828F0170(param_2->handle, 0, &info);
+        id = info.id;
+        if (hr < 0) {
+            id = 0xffffffff;
+        }
+    }
+    if (((id & 0xffff0000) == 0 || (id & 0xffff0000) == (param_1->id & 0xffff0000)) &&
+        ((id & 0xffff) == 0 || (id & 0xffff) == *(unsigned short *)((char *)param_1 + 0x32))) {
+        *param_3 = id;
+        return 1;
+    }
+    return 0;
+}

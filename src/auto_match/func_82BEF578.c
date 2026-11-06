@@ -1,69 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BEEEA0();
+typedef struct Ided_82BEF578 Ided_82BEF578;
+typedef struct { void *f0; unsigned int (*getId)(Ided_82BEF578 *p); } IdedVt_82BEF578;
+struct Ided_82BEF578 { IdedVt_82BEF578 *vt; };
+typedef struct { int f0; int f4; Ided_82BEF578 *ided; } Ref_82BEF578;
+typedef struct { char pad[0x2c]; Ref_82BEF578 ref; } Owner_82BEF578;
+typedef struct { int a; int b; int count; } List_82BEF578;
+typedef struct {
+    char pad[0x2c];
+    Owner_82BEF578 *owner;
+    char pad2[0x48 - 0x30];
+    unsigned short max;
+    short pad3;
+    List_82BEF578 list;
+    unsigned int state;
+} Obj_82BEF578;
+extern void fn_82BE5340(List_82BEF578 *l);
+extern void fn_82BE5350(List_82BEF578 *l);
+extern unsigned int *fn_82BE5378(List_82BEF578 *l);
+extern void fn_82BEEEA0(Obj_82BEF578 *o, unsigned int id);
+static __forceinline unsigned int refId(Ref_82BEF578 *r) { return r->ided ? r->ided->vt->getId(r->ided) : 0; }
+static __forceinline unsigned int getId(Owner_82BEF578 *p) { return p ? refId(&p->ref) : 0; }
 
-
-undefined8 fn_82BEF578(int param_1,ulonglong param_2)
-
+int fn_82BEF578(Obj_82BEF578 *o, unsigned int id)
 {
-  int *piVar1;
-  ulonglong uVar2;
-  uint *puVar3;
-  ushort uVar4;
-  int iVar5;
-  
-  if (*(int *)(param_1 + 0x58) != 1) {
-    iVar5 = param_1 + 0x4c;
-    fn_82BE5340(iVar5);
-    uVar4 = 0;
-    while ((*(int *)(param_1 + 0x54) != 0 && (uVar4 < *(ushort *)(param_1 + 0x48)))) {
-      if ((*(int *)(param_1 + 0x2c) == 0) ||
-         (piVar1 = *(int **)(*(int *)(param_1 + 0x2c) + 0x34), piVar1 == (int *)0x0)) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = (**(code **)(*piVar1 + 4))();
-      }
-      if ((uVar2 & 0xffffffff) == (param_2 & 0xffffffff)) {
-        return 0;
-      }
-      puVar3 = (uint *)fn_82BE5378(iVar5);
-      if ((ulonglong)*puVar3 == (param_2 & 0xffffffff)) {
-        fn_82BEEEA0(param_1,param_2);
-        return 1;
-      }
-      fn_82BE5350(iVar5);
-      uVar4 = uVar4 + 1;
+unsigned short i = 0;
+if (o->state != 1) {
+    fn_82BE5340(&o->list);
+    while (o->list.count != 0 && i++ < o->max) {
+        if (getId(o->owner) == id) return 0;
+        if (*fn_82BE5378(&o->list) == id) { fn_82BEEEA0(o, id); return 1; }
+        fn_82BE5350(&o->list);
     }
-  }
-  return 0;
 }
-
+return 0;
+}

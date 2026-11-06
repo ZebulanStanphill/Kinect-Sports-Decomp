@@ -1,80 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Hdr_82AC5778 {
+    char pad0[0x20];
+    unsigned int maxIndex;
+} Hdr_82AC5778;
 
+typedef struct Entry_82AC5778 {
+    unsigned int info;
+    int pad4[2];
+} Entry_82AC5778;
 
-undefined8 fn_82AC5778(uint *param_1,int *param_2)
+typedef struct Ctx_82AC5778 {
+    Hdr_82AC5778 *hdr;
+    Entry_82AC5778 *entries;
+    int pad8[4];
+    unsigned int *links;
+    unsigned int flags;
+    char pad20[0x44 - 0x20];
+    char *base;
+    unsigned int size;
+    char pad4c[0x8058 - 0x4c];
+    unsigned int numKinds;
+} Ctx_82AC5778;
 
+int fn_82AC5778(unsigned int *p, Ctx_82AC5778 *c)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint *puVar6;
-  uint uVar7;
-  
-  uVar1 = param_2[7];
-  if (((uVar1 & 0x40000) == 0) && ((uVar1 & 0x20000) == 0)) {
-    uVar5 = uVar1 >> 5 & 0x1f;
-    if (((uint *)param_2[0x11] <= param_1) &&
-       (param_1 + uVar5 <= (uint *)(param_2[0x12] + param_2[0x11]))) {
-      uVar7 = 0;
-      uVar4 = 0;
-      if ((uVar1 >> 5 & 0x1f) != 0) {
-        do {
-          uVar1 = *param_1;
-          uVar2 = uVar1 >> 0x10 & 0xfff;
-          if (*(uint *)(*param_2 + 0x20) < uVar2) {
-            return 0xffffffff80004005;
-          }
-          uVar3 = uVar1 >> 8 & 0xf;
-          if ((uint)param_2[0x2016] <= uVar3) {
-            return 0xffffffff80004005;
-          }
-          puVar6 = (uint *)(uVar2 * 4 + param_2[6]);
-          do {
-            uVar2 = *puVar6;
-            if ((*(uint *)((uVar2 & 0xfff) * 0xc + param_2[1]) & 0x3f) != uVar3) {
-              return 0xffffffff80004005;
-            }
-            puVar6 = puVar6 + 1;
-          } while ((uVar2 & 0x1000) == 0);
-          if ((uVar4 != 0) && ((uVar1 & 0xff) <= uVar7)) {
-            return 0xffffffff80004005;
-          }
-          uVar4 = uVar4 + 1;
-          uVar7 = uVar1 & 0xff;
-          param_1 = param_1 + 1;
-        } while (uVar4 < uVar5);
-      }
-      return 0;
-    }
-  }
-  return 0xffffffff80004005;
-}
+    unsigned int flags;
+    unsigned int n;
+    unsigned int i;
+    unsigned int prev;
+    unsigned int v;
+    unsigned int idx;
+    unsigned int kind;
+    unsigned int link;
+    unsigned int *lp;
+    unsigned int maxIndex;
+    unsigned int *links;
 
+    flags = c->flags;
+    if ((flags & 0x40000) != 0) {
+        return 0x80004005;
+    }
+    if ((flags & 0x20000) != 0) {
+        return 0x80004005;
+    }
+    n = (flags >> 5) & 0x1f;
+    if ((char *)p < c->base) {
+        return 0x80004005;
+    }
+    if ((unsigned __int64)(unsigned int)p + (unsigned __int64)n * 4 > (__int64)c->base + c->size) {
+        return 0x80004005;
+    }
+    maxIndex = c->hdr->maxIndex;
+    prev = 0;
+    links = c->links;
+    for (i = 0; i < n; i++) {
+        v = *p;
+        idx = (v >> 16) & 0xfff;
+        if (idx > maxIndex) {
+            return 0x80004005;
+        }
+        kind = (v >> 8) & 0xf;
+        if (kind >= c->numKinds) {
+            return 0x80004005;
+        }
+        lp = &links[idx];
+        do {
+            link = *lp;
+            if ((c->entries[link & 0xfff].info & 0x3f) != kind) {
+                return 0x80004005;
+            }
+            lp++;
+        } while ((link & 0x1000) == 0);
+        if (i != 0 && prev >= (v & 0xff)) {
+            return 0x80004005;
+        }
+        prev = v & 0xff;
+        p++;
+    }
+    return 0;
+}

@@ -29,31 +29,31 @@ extern unsigned int *auStack_70;
 
 
 undefined1 *
-fn_82D44790(undefined1 *param_1,int param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
+fn_82D44790(undefined1 *param_1,int param_2,int param_3,int param_4,
+             int param_5,int param_6,int param_7,int param_8,int param_9)
 
 {
   int iVar1;
   char *pcVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  undefined1 auStack_70 [32];
+  int uVar3;
+  int lVar4;
+  undefined1 auStack_70 [16];
   
-  uVar3 = (ulonglong)*(uint *)(param_2 + 0x28) - 1;
-  if (-1 < (longlong)uVar3) {
-    lVar4 = (uVar3 & 0x3fffffff) << 2;
+  uVar3 = *(int *)(param_2 + 0x28) - 1;
+  if (uVar3 >= 0) {
+    lVar4 = uVar3 * 4;
     do {
       iVar1 = *(int *)(*(int *)(param_2 + 0x24) + (int)lVar4);
-      pcVar2 = (char *)(*(code *)**(undefined4 **)(iVar1 + 0xc))
+      pcVar2 = (char *)(*(code *)*(unsigned int *)(iVar1 + 0xc))
                                  (auStack_70,iVar1 + 0xc,param_3,param_4,param_5,param_6,param_7,
-                                  param_8);
+                                  param_8,param_9);
       if (*pcVar2 == '\0') {
         *param_1 = 0;
         return param_1;
       }
       uVar3 = uVar3 - 1;
       lVar4 = lVar4 + -4;
-    } while (-1 < (longlong)uVar3);
+    } while (uVar3 >= 0);
   }
   *param_1 = 1;
   return param_1;

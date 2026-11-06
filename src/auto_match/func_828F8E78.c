@@ -1,65 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828F5B70();
-extern int fn_828F8968();
+typedef struct Node_828F8E78 Node_828F8E78;
+struct Node_828F8E78 {
+    int value;
+    Node_828F8E78 *next;
+};
 
+typedef struct Event_828F8E78 {
+    int type;
+    int data[7];
+} Event_828F8E78;
 
-undefined8 fn_828F8E78(int param_1)
+typedef struct Parser_828F8E78 {
+    char pad0[0x74];
+    Node_828F8E78 *stack;
+    char pad78[0x2a0 - 0x78];
+    int state;
+} Parser_828F8E78;
 
+extern int fn_828F8968(Parser_828F8E78 *p, Event_828F8E78 *ev);
+extern void fn_828F5B70(Node_828F8E78 *n, int flags);
+
+int fn_828F8E78(Parser_828F8E78 *p)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined4 uVar3;
-  int aiStack_30 [8];
-  
-  if (*(int *)(param_1 + 0x74) == 0) {
-    uVar2 = 0xffffffff8876086c;
-  }
-  else {
-    do {
-      uVar2 = fn_828F8968(param_1,aiStack_30);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-    } while (aiStack_30[0] != 0xd);
-    iVar1 = *(int *)(param_1 + 0x74);
-    *(undefined4 *)(param_1 + 0x74) = *(undefined4 *)(iVar1 + 4);
-    *(undefined4 *)(iVar1 + 4) = 0;
-    fn_828F5B70(iVar1,1);
-    if (*(undefined4 **)(param_1 + 0x74) == (undefined4 *)0x0) {
-      uVar3 = 1;
-    }
-    else {
-      uVar3 = **(undefined4 **)(param_1 + 0x74);
-    }
-    *(undefined4 *)(param_1 + 0x2a0) = uVar3;
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+    Event_828F8E78 ev;
+    Node_828F8E78 *top;
+    int hr;
 
+    if (p->stack == 0) {
+        return 0x8876086c;
+    }
+    for (;;) {
+        hr = fn_828F8968(p, &ev);
+        if (hr < 0) {
+            return hr;
+        }
+        if (ev.type == 0xd) {
+            break;
+        }
+    }
+    top = p->stack;
+    p->stack = top->next;
+    top->next = 0;
+    fn_828F5B70(top, 1);
+    p->state = p->stack != 0 ? p->stack->value : 1;
+    return 0;
+}

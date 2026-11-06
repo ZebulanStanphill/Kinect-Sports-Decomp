@@ -1,78 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829AB0F0();
-extern int fn_829AB128();
+/* libpng png_set_IHDR (build with user limits fixed at 1000000). */
+typedef unsigned int png_uint_32;
+typedef unsigned char png_byte;
+typedef unsigned int png_size_t;
 
+typedef struct png_info_829AE100 {
+    png_uint_32 width;
+    png_uint_32 height;
+    png_uint_32 valid;
+    png_size_t rowbytes;
+    void *palette;
+    unsigned short num_palette;
+    unsigned short num_trans;
+    png_byte bit_depth;
+    png_byte color_type;
+    png_byte compression_type;
+    png_byte filter_type;
+    png_byte interlace_type;
+    png_byte channels;
+    png_byte pixel_depth;
+} png_info_829AE100;
 
-void fn_829AE100(ulonglong param_1,uint *param_2,uint param_3,uint param_4,char param_5,
-                  byte param_6,undefined1 param_7,undefined1 param_8)
+extern void fn_829AB0F0(void *png_ptr, const char *message);
+extern void fn_829AB128(void *png_ptr, const char *message);
 
+void fn_829AE100(void *png_ptr, png_info_829AE100 *info_ptr, png_uint_32 width, png_uint_32 height,
+                 int bit_depth, int color_type, int interlace_type, int compression_type, int filter_type)
 {
-  char cVar1;
-  byte bVar3;
-  uint uVar2;
-  undefined1 in_stack_00000057;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    return;
-  }
-  if (param_2 != (uint *)0x0) {
-    if ((1000000 < param_3) || (1000000 < param_4)) {
-      fn_829AB0F0(param_1,0xffffffff82052398);
-    }
-    *param_2 = param_3;
-    *(byte *)((int)param_2 + 0x19) = param_6;
-    param_2[1] = param_4;
-    *(char *)(param_2 + 6) = param_5;
-    *(undefined1 *)((int)param_2 + 0x1a) = param_8;
-    *(undefined1 *)((int)param_2 + 0x1b) = in_stack_00000057;
-    *(undefined1 *)(param_2 + 7) = param_7;
-    if ((param_6 == 3) || (cVar1 = '\x03', (param_6 & 2) == 0)) {
-      cVar1 = '\x01';
-    }
-    *(char *)((int)param_2 + 0x1d) = cVar1;
-    if ((param_6 & 4) != 0) {
-      *(char *)((int)param_2 + 0x1d) = cVar1 + '\x01';
-    }
-    bVar3 = param_5 * *(char *)((int)param_2 + 0x1d);
-    *(byte *)((int)param_2 + 0x1e) = bVar3;
-    uVar2 = (int)(bVar3 + 7) >> 3;
-    trapWord(6,(longlong)(int)uVar2,0);
-    if (0x7fffffff / (ulonglong)uVar2 < (ulonglong)param_3) {
-      fn_829AB128(param_1,0xffffffff82052358);
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = bVar3 * param_3 + 7 >> 3;
-    }
-    param_2[3] = uVar2;
-    return;
-  }
-  return;
-}
+    if (png_ptr == 0 || info_ptr == 0)
+        return;
 
+    if (width > 1000000L || height > 1000000L)
+        fn_829AB0F0(png_ptr, "image size exceeds user limits in IHDR");
+
+    info_ptr->width = width;
+    info_ptr->height = height;
+    info_ptr->bit_depth = (png_byte)bit_depth;
+    info_ptr->color_type = (png_byte)color_type;
+    info_ptr->compression_type = (png_byte)compression_type;
+    info_ptr->filter_type = (png_byte)filter_type;
+    info_ptr->interlace_type = (png_byte)interlace_type;
+    if (info_ptr->color_type == 3)
+        info_ptr->channels = 1;
+    else if (info_ptr->color_type & 2)
+        info_ptr->channels = 3;
+    else
+        info_ptr->channels = 1;
+    if (info_ptr->color_type & 4)
+        info_ptr->channels++;
+    info_ptr->pixel_depth = (png_byte)(info_ptr->channels * info_ptr->bit_depth);
+
+    /* check for overflow */
+    if (width > (png_uint_32)0x7fffffffL / ((info_ptr->pixel_depth + 7) >> 3)) {
+        fn_829AB128(png_ptr, "Width too large to process image data; rowbytes will overflow.");
+        info_ptr->rowbytes = (png_size_t)0;
+    } else
+        info_ptr->rowbytes = (info_ptr->width * info_ptr->pixel_depth + 7) >> 3;
+}

@@ -28,40 +28,43 @@ typedef struct { U64 lo, hi; } V16;
 extern int memcpy();
 
 
-void fn_82CA3EE0(undefined4 *param_1,undefined4 *param_2,longlong param_3,int param_4,int param_5,
+void fn_82CA3EE0(undefined4 *param_1,undefined4 *param_2,int param_3,int param_4,int param_5,
                   int param_6)
 
 {
   undefined4 uVar1;
-  uint uVar2;
+  int uVar2;
   undefined4 *puVar3;
   undefined4 *puVar4;
-  longlong lVar5;
+  int lVar5;
   
-  if (param_6 <= param_4) {
+  if (param_4 >= param_6) {
     param_4 = param_6;
   }
   uVar2 = param_4 >> 3;
+  { int remainder=param_4-uVar2*8;
   if (0 < (int)param_3) {
+    int rows=param_3;
     do {
-      puVar4 = param_2;
       puVar3 = param_1;
+      puVar4 = param_2;
       if (0 < (int)uVar2) {
-        lVar5 = (longlong)(int)uVar2;
+        lVar5 = uVar2;
         do {
           uVar1 = *puVar4;
           puVar4 = puVar4 + 2;
           *puVar3 = uVar1;
-          puVar3[1] = *(undefined4 *)((int)puVar3 + (int)param_2 + (4 - (int)param_1));
+          puVar3[1] = *(undefined4 *)(((int)param_2-(int)param_1)+(int)puVar3+4);
           puVar3 = puVar3 + 2;
           lVar5 = lVar5 + -1;
         } while (lVar5 != 0);
       }
-      memcpy(puVar3,puVar4,param_4 + (uVar2 & 0x1fffffff) * -8);
-      param_3 = param_3 + -1;
+      memcpy(puVar3,puVar4,remainder);
+      rows=rows-1;
       param_1 = (undefined4 *)((int)param_1 + param_6);
       param_2 = (undefined4 *)((int)param_2 + param_5);
-    } while (param_3 != 0);
+    } while (rows != 0);
+  }
   }
   return;
 }

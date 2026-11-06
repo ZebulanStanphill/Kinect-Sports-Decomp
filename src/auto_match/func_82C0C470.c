@@ -1,60 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82C0C470 Obj_82C0C470;
+typedef struct ObjVtbl_82C0C470 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void (*lock)(Obj_82C0C470 *self);
+    void *slot4;
+    void (*unlock)(Obj_82C0C470 *self);
+} ObjVtbl_82C0C470;
+struct Obj_82C0C470 {
+    ObjVtbl_82C0C470 *vt;
+    char pad04[0x30];
+    int value34;
+    int value38;
+    int value3C;
+    int value40;
+    int extra44;
+    int extra48;
+    int extra4C;
+    int extra50;
+};
 
-
-undefined8 fn_82C0C470(int *param_1,longlong param_2,int param_3,int param_4)
-
+int fn_82C0C470(Obj_82C0C470 *self, int kind, int value, int extra)
 {
-  ulonglong uVar1;
-  
-  (**(code **)(*param_1 + 0xc))();
-  uVar1 = param_2 - 1;
-  if ((uVar1 & 0xffffffff) < 4) {
-    if ((int)uVar1 == 0) {
-      param_1[0xf] = param_3;
-      param_1[0x13] = param_4;
-      goto LAB_82c0c4e8;
+    self->vt->lock(self);
+    switch (kind) {
+    default:
+        self->extra44 = extra;
+        self->value34 = value;
+        break;
+    case 3:
+        self->extra44 = extra;
+        self->value34 = value;
+        break;
+    case 4:
+        self->value38 = value;
+        self->extra48 = extra;
+        break;
+    case 1:
+        self->value3C = value;
+        self->extra4C = extra;
+        break;
+    case 2:
+        self->value40 = value;
+        self->extra50 = extra;
+        break;
     }
-    if (param_2 == 2) {
-      param_1[0x10] = param_3;
-      param_1[0x14] = param_4;
-      goto LAB_82c0c4e8;
-    }
-    if (uVar1 != 2) {
-      param_1[0xe] = param_3;
-      param_1[0x12] = param_4;
-      goto LAB_82c0c4e8;
-    }
-  }
-  param_1[0xd] = param_3;
-  param_1[0x11] = param_4;
-LAB_82c0c4e8:
-  (**(code **)(*param_1 + 0x14))(param_1);
-  return 0;
+    self->vt->unlock(self);
+    return 0;
 }
-

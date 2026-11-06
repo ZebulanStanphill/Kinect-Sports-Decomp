@@ -1,151 +1,142 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82230110();
-extern int fn_82230218();
-extern int fn_82230300();
-extern int fn_8251C390();
-extern int fn_829E53B0();
-extern int fn_82A1E108();
-extern int fn_82A1E650();
-extern int fn_82A1E658();
-extern int fn_82A1E7D8();
-extern int fn_82A1E810();
-extern int fn_82A29D80();
-extern int fn_82A29DE8();
-extern int fn_82A2A958();
-extern int fn_82BA02A8();
-extern int fn_82E21FC8();
-extern int fn_82E22B50();
-extern unsigned int iStack_50;
-extern unsigned int uStack_4c;
+typedef struct String_82E22218 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+    int unk18;
+} String_82E22218;
 
+typedef struct Deque_82E22218 Deque_82E22218;
+typedef struct Proxy_82E22218 {
+    Deque_82E22218 *cont;
+} Proxy_82E22218;
+struct Deque_82E22218 {
+    Proxy_82E22218 *proxy;
+    String_82E22218 **map;
+    unsigned int mapSize;
+    unsigned int off;
+    unsigned int size;
+};
 
-undefined8 fn_82E22218(undefined4 *param_1)
+typedef struct CriticalSection_82E22218 {
+    int v[7];
+} CriticalSection_82E22218;
 
+typedef struct Uploader_82E22218 {
+    char data[0x10];
+} Uploader_82E22218;
+
+typedef struct Scope_82E22218 {
+    char data[0x10];
+} Scope_82E22218;
+
+typedef struct LogUploadManager_82E22218 {
+    String_82E22218 host;
+    String_82E22218 path;
+    String_82E22218 user;
+    unsigned short port;
+    unsigned char deleteAfter;
+    unsigned char secure;
+    int timeout;
+    unsigned char quit;
+    char pad5D[3];
+    int unk60;
+    void *idleEvent;
+    void *wakeEvent;
+    CriticalSection_82E22218 lock;
+    Deque_82E22218 queue;
+} LogUploadManager_82E22218;
+
+extern char lbl_82196582[];
+extern void fn_8251C390(Scope_82E22218 *s, const char *file, int line);
+extern void fn_829E53B0(Scope_82E22218 *s);
+extern unsigned int fn_82A1E650(void *h, unsigned int timeout);
+extern void fn_82230110(String_82E22218 *s, const char *text);
+extern void fn_82230218(String_82E22218 *s, String_82E22218 *src, unsigned int pos, unsigned int n);
+extern void fn_82230300(String_82E22218 *s, int built, unsigned int size);
+extern void fn_82E21FC8(Deque_82E22218 *d);
+extern int fn_82A1E810(void *h);
+extern int fn_82A1E7D8(void *h);
+extern void RtlEnterCriticalSection(CriticalSection_82E22218 *cs);
+extern void RtlLeaveCriticalSection(CriticalSection_82E22218 *cs);
+extern void fn_82BA02A8(Uploader_82E22218 *u);
+extern unsigned char fn_82E22B50(Uploader_82E22218 *u, const char *file, const char *host, unsigned char secure,
+                                 int timeout, const char *path, const char *user, unsigned short port);
+extern void *fn_82A29DE8(const char *name, unsigned int access, unsigned int share, void *sa,
+                         unsigned int disposition, unsigned int flags, void *tmpl);
+extern unsigned int fn_82A29D80(void *h, unsigned int *high);
+extern int fn_82A1E658(void *h);
+extern int fn_82A2A958(const char *name);
+extern void fn_82A1E108(unsigned int ms);
+
+static __forceinline const char *CStr_82E22218(String_82E22218 *s)
 {
-  bool bVar1;
-  int iVar2;
-  char cVar6;
-  undefined8 uVar3;
-  int iVar4;
-  undefined4 ****ppppuVar5;
-  undefined4 *puVar7;
-  undefined4 *puVar8;
-  uint uVar9;
-  undefined4 *puVar10;
-  undefined1 auStack_80 [16];
-  undefined1 auStack_70 [16];
-  undefined4 ***apppuStack_60 [4];
-  int iStack_50;
-  uint uStack_4c;
-  
-  fn_8251C390(auStack_70,0xffffffff8214bee4,0x76);
-  if (*(char *)(param_1 + 0x17) == '\0') {
-    do {
-      fn_82A1E650(param_1[0x1a],0xffffffffffffffff);
-      do {
-        fn_82230110(apppuStack_60,0xffffffff82196582);
-        RtlEnterCriticalSection(param_1 + 0x1b);
-        iVar2 = param_1[0x26];
-        if (iVar2 != 0) {
-          uVar9 = param_1[0x25];
-          iVar4 = 0;
-          if ((int *)param_1[0x22] != (int *)0x0) {
-            iVar4 = *(int *)param_1[0x22];
-          }
-          if (*(uint *)(iVar4 + 8) <= uVar9) {
-            uVar9 = uVar9 - *(uint *)(iVar4 + 8);
-          }
-          fn_82230218(apppuStack_60,*(undefined4 *)(*(int *)(iVar4 + 4) + uVar9 * 4),0,
-                            0xffffffffffffffff);
-          fn_82E21FC8(param_1 + 0x22);
-        }
-        else {
-          fn_82A1E810(param_1[0x19]);
-          fn_82A1E7D8(param_1[0x1a]);
-        }
-        RtlLeaveCriticalSection(param_1 + 0x1b);
-        if (iStack_50 != 0) {
-          fn_82BA02A8(auStack_80);
-          puVar8 = param_1 + 0xe;
-          if (0xf < (uint)param_1[0x13]) {
-            puVar8 = (undefined4 *)*puVar8;
-          }
-          puVar10 = param_1 + 7;
-          if (0xf < (uint)param_1[0xc]) {
-            puVar10 = (undefined4 *)*puVar10;
-          }
-          puVar7 = param_1;
-          if (0xf < (uint)param_1[5]) {
-            puVar7 = (undefined4 *)*param_1;
-          }
-          ppppuVar5 = (undefined4 ****)apppuStack_60[0];
-          if (uStack_4c < 0x10) {
-            ppppuVar5 = apppuStack_60;
-          }
-          cVar6 = fn_82E22B50(auStack_80,ppppuVar5,puVar7,*(undefined1 *)((int)param_1 + 0x57),
-                                  param_1[0x16],puVar10,puVar8,*(undefined2 *)(param_1 + 0x15));
-          if (*(char *)((int)param_1 + 0x56) != '\0') {
-            bVar1 = uStack_4c < 0x10;
-            if (cVar6 == '\0') {
-              ppppuVar5 = (undefined4 ****)apppuStack_60[0];
-              if (bVar1) {
-                ppppuVar5 = apppuStack_60;
-              }
-              uVar3 = fn_82A29DE8(ppppuVar5,0xffffffff80000000,0,0,3,0,0);
-              if ((int)uVar3 != -1) {
-                iVar4 = fn_82A29D80(uVar3,0);
-                fn_82A1E658(uVar3);
-                if (iVar4 == 0) {
-                  bVar1 = uStack_4c < 0x10;
-                  goto LAB_82e223f8;
-                }
-              }
-            }
-            else {
-LAB_82e223f8:
-              ppppuVar5 = (undefined4 ****)apppuStack_60[0];
-              if (bVar1) {
-                ppppuVar5 = apppuStack_60;
-              }
-              fn_82A2A958(ppppuVar5);
-            }
-          }
-          fn_82BA02A8(auStack_80);
-        }
-        fn_82A1E108(1000);
-        fn_82230300(apppuStack_60,1,0);
-      } while (iVar2 != 0);
-    } while (*(char *)(param_1 + 0x17) == '\0');
-  }
-  fn_829E53B0(auStack_70);
-  return 0;
+    return 16 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+static __forceinline String_82E22218 *Front_82E22218(Deque_82E22218 *d)
+{
+    unsigned int off = d->off;
+    Deque_82E22218 *c = d->proxy == 0 ? 0 : d->proxy->cont;
+
+    if (c->mapSize <= off) {
+        off -= c->mapSize;
+    }
+    return c->map[off];
+}
+
+int fn_82E22218(LogUploadManager_82E22218 *self)
+{
+    Scope_82E22218 scope;
+    String_82E22218 file;
+    Uploader_82E22218 up;
+    unsigned char empty;
+    unsigned char ok;
+    void *h;
+    unsigned int size;
+
+    fn_8251C390(&scope, ".\\LogUploadManager.cpp", 0x76);
+    while (!self->quit) {
+        fn_82A1E650(self->wakeEvent, 0xFFFFFFFF);
+        do {
+            fn_82230110(&file, lbl_82196582);
+            RtlEnterCriticalSection(&self->lock);
+            empty = self->queue.size == 0;
+            if (!empty) {
+                fn_82230218(&file, Front_82E22218(&self->queue), 0, 0xFFFFFFFF);
+                fn_82E21FC8(&self->queue);
+            } else {
+                fn_82A1E810(self->idleEvent);
+                fn_82A1E7D8(self->wakeEvent);
+            }
+            RtlLeaveCriticalSection(&self->lock);
+            if (file.size != 0) {
+                fn_82BA02A8(&up);
+                ok = fn_82E22B50(&up, CStr_82E22218(&file), CStr_82E22218(&self->host), self->secure,
+                                 self->timeout, CStr_82E22218(&self->path), CStr_82E22218(&self->user),
+                                 self->port);
+                if (self->deleteAfter) {
+                    if (ok) {
+                        fn_82A2A958(CStr_82E22218(&file));
+                    } else {
+                        h = fn_82A29DE8(CStr_82E22218(&file), 0x80000000, 0, 0, 3, 0, 0);
+                        if (h != (void *)-1) {
+                            size = fn_82A29D80(h, 0);
+                            fn_82A1E658(h);
+                            if (size == 0) {
+                                fn_82A2A958(CStr_82E22218(&file));
+                            }
+                        }
+                    }
+                }
+                fn_82BA02A8(&up);
+            }
+            fn_82A1E108(1000);
+            fn_82230300(&file, 1, 0);
+        } while (!empty);
+    }
+    fn_829E53B0(&scope);
+    return 0;
+}

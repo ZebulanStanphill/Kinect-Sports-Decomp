@@ -1,112 +1,95 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BD3A30();
+typedef struct Pkt_82BD3AD0 { int state; int x4; unsigned char *data; } Pkt_82BD3AD0;
+typedef struct Node_82BD3AD0 { Pkt_82BD3AD0 *pkt; struct Node_82BD3AD0 *next; } Node_82BD3AD0;
+typedef struct Queue_82BD3AD0 { Node_82BD3AD0 *head; Node_82BD3AD0 *tail; } Queue_82BD3AD0;
+typedef struct Cfg_82BD3AD0 { char pad[0x8c]; unsigned char channel; } Cfg_82BD3AD0;
+typedef struct Conn_82BD3AD0 { unsigned int index; int pad4; Cfg_82BD3AD0 *cfg; char pad[0xc4]; unsigned int mode; } Conn_82BD3AD0;
+typedef struct Mgr_82BD3AD0 { char pad[0xec]; unsigned int dirty; } Mgr_82BD3AD0;
+typedef struct Obj_82BD3AD0 {
+    int pad0;
+    Conn_82BD3AD0 *conn;
+    char pad8[0x18];
+    Mgr_82BD3AD0 *mgr;
+    char pad24[8];
+    Queue_82BD3AD0 pending;
+    Queue_82BD3AD0 sent;
+    unsigned char channel;
+    char pad3d;
+    unsigned short seq;
+} Obj_82BD3AD0;
 
+extern void fn_82BD3A30(Obj_82BD3AD0 *o, Node_82BD3AD0 *n);
 
-undefined8 fn_82BD3AD0(int param_1)
-
+static __forceinline Node_82BD3AD0 *pop(Queue_82BD3AD0 *q)
 {
-  char cVar1;
-  ushort uVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  int *piVar5;
-  int *piVar6;
-  int iVar7;
-  ushort uVar8;
-  int *piVar9;
-  int *piVar10;
-  
-  piVar10 = (int *)(param_1 + 0x34);
-  puVar3 = *(undefined4 **)(param_1 + 0x34);
-  while ((puVar3 != (undefined4 *)0x0 && (*(int *)*puVar3 != 0x103))) {
-    iVar4 = *piVar10;
-    if (iVar4 != 0) {
-      if (iVar4 == *(int *)(param_1 + 0x38)) {
-        *(undefined4 *)(param_1 + 0x38) = 0;
-      }
-      *piVar10 = *(int *)(iVar4 + 4);
-      *(undefined4 *)(iVar4 + 4) = 0;
+    Node_82BD3AD0 *n = q->head;
+    if (n != 0) {
+        if (n == q->tail) {
+            q->tail = 0;
+        }
+        q->head = n->next;
+        n->next = 0;
     }
-    fn_82BD3A30(param_1);
-    puVar3 = (undefined4 *)*piVar10;
-  }
-  piVar5 = *(int **)(param_1 + 0x2c);
-  piVar9 = (int *)(param_1 + 0x2c);
-  while( true ) {
-    if (piVar5 == (int *)0x0) {
-      return 0;
-    }
-    piVar6 = (int *)*piVar5;
-    if (*piVar6 == 0x103) break;
-    iVar4 = *piVar9;
-    iVar7 = piVar6[2];
-    if (iVar4 != 0) {
-      if (iVar4 == *(int *)(param_1 + 0x30)) {
-        *(undefined4 *)(param_1 + 0x30) = 0;
-      }
-      *piVar9 = *(int *)(iVar4 + 4);
-      *(undefined4 *)(iVar4 + 4) = 0;
-    }
-    if (*piVar6 == 0) {
-      cVar1 = *(char *)(*(int *)(*(int *)(param_1 + 4) + 8) + 0x8c);
-      if (*(char *)(param_1 + 0x3c) != cVar1) {
-        *(char *)(param_1 + 0x3c) = cVar1;
-      }
-      if (0x7ff < *(ushort *)(param_1 + 0x3e)) {
-        *(undefined2 *)(param_1 + 0x3e) = 0;
-      }
-      uVar2 = *(ushort *)(iVar7 + -2);
-      uVar8 = (ushort)*(byte *)(param_1 + 0x3c) << 0xc;
-      *(ushort *)(iVar7 + -2) = uVar8 | uVar2 & 0xfff;
-      *(ushort *)(iVar7 + -2) = (*(ushort *)(param_1 + 0x3e) & 0x7ff) << 1 | uVar8 | uVar2 & 1;
-      *(short *)(param_1 + 0x3e) = *(short *)(param_1 + 0x3e) + 1;
-      *(ushort *)(iVar7 + -2) =
-           (ushort)((*(uint *)(*(int *)(param_1 + 4) + 0xd0) & 0xf0000) == 0x10000) |
-           *(ushort *)(iVar7 + -2) & 0xfffe;
-      *(undefined4 *)*piVar5 = 0x103;
-      *(undefined4 *)(*piVar5 + 4) = 0;
-      piVar5[1] = 0;
-      if (*(int *)(param_1 + 0x38) == 0) {
-        *piVar10 = (int)piVar5;
-      }
-      else {
-        *(int **)(*(int *)(param_1 + 0x38) + 4) = piVar5;
-      }
-      *(int **)(param_1 + 0x38) = piVar5;
-      *(uint *)(*(int *)(param_1 + 0x20) + 0xec) =
-           1 << (**(uint **)(param_1 + 4) & 0x3f) | *(uint *)(*(int *)(param_1 + 0x20) + 0xec);
-    }
-    else {
-      fn_82BD3A30(param_1);
-    }
-    piVar5 = (int *)*piVar9;
-  }
-  return 0;
+    return n;
 }
 
+static __forceinline void push(Queue_82BD3AD0 *q, Node_82BD3AD0 *n)
+{
+    n->next = 0;
+    if (q->tail != 0) {
+        q->tail->next = n;
+    } else {
+        q->head = n;
+    }
+    q->tail = n;
+}
+
+static __forceinline int notNull(Node_82BD3AD0 *n)
+{
+    if (n) {
+        return 1;
+    }
+    return 0;
+}
+
+int fn_82BD3AD0(Obj_82BD3AD0 *o)
+{
+    Queue_82BD3AD0 *sent = &o->sent;
+    Queue_82BD3AD0 *pending;
+    Node_82BD3AD0 *n;
+    for (n = o->sent.head; notNull(n) && n->pkt->state != 0x103; n = o->sent.head) {
+        pop(sent);
+        fn_82BD3A30(o, n);
+    }
+    pending = &o->pending;
+    for (n = o->pending.head; notNull(n); n = o->pending.head) {
+        Pkt_82BD3AD0 *p = n->pkt;
+        unsigned char *data;
+        if (p->state == 0x103) {
+            break;
+        }
+        data = p->data;
+        pop(pending);
+        if (p->state == 0) {
+            unsigned short *h;
+            unsigned char ch = o->conn->cfg->channel;
+            if (o->channel != ch) {
+                o->channel = ch;
+            }
+            if (o->seq >= 0x800) {
+                o->seq = 0;
+            }
+            h = (unsigned short *)(data - 2);
+            *h = (unsigned short)((o->channel << 12) | (*h & 0xfff));
+            *h = (unsigned short)((*h & 0xf001) | ((o->seq & 0x7ff) << 1));
+            o->seq++;
+            *h = (unsigned short)((*h & 0xfffe) | ((o->conn->mode & 0xf0000) == 0x10000));
+            n->pkt->state = 0x103;
+            n->pkt->x4 = 0;
+            push(sent, n);
+            o->mgr->dirty |= 1 << o->conn->index;
+        } else {
+            fn_82BD3A30(o, n);
+        }
+    }
+    return 0;
+}

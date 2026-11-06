@@ -1,64 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E6D500();
+typedef struct Obj_82E6D710 { char pad[0x7630]; int skipLast; } Obj_82E6D710;
 
+extern void fn_82E6D500(int a, int b, int c, int d, int e, int f, int g, int h, int *i, int j);
 
-void fn_82E6D710(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+void fn_82E6D710(Obj_82E6D710 *o, int h0, int h1, int h2, int h3,
+                 int c0, int d0, int c1, int d1, int c2, int d2, int c3, int d3,
+                 int e0, int f0, int e1, int f1, int e2, int f2, int e3, int f3,
+                 int u22, int j, int u24, int *out, int a, int g, int b)
 {
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
-  undefined4 in_stack_00000064;
-  undefined4 in_stack_0000006c;
-  undefined4 in_stack_00000074;
-  undefined4 in_stack_0000007c;
-  undefined4 in_stack_00000084;
-  undefined4 in_stack_0000008c;
-  undefined4 in_stack_00000094;
-  undefined4 in_stack_0000009c;
-  undefined4 in_stack_000000a4;
-  undefined4 in_stack_000000ac;
-  undefined4 in_stack_000000b4;
-  undefined4 in_stack_000000dc;
-  undefined4 in_stack_000000e4;
-  undefined4 in_stack_000000ec;
-  
-  fn_82E6D500(in_stack_000000dc,in_stack_000000ec,param_6,param_7,in_stack_0000007c,
-                in_stack_00000084,in_stack_000000e4,param_2);
-  fn_82E6D500(in_stack_000000dc,in_stack_000000ec,param_8,in_stack_00000054,in_stack_0000008c,
-                in_stack_00000094,in_stack_000000e4,param_3);
-  fn_82E6D500(in_stack_000000dc,in_stack_000000ec,in_stack_0000005c,in_stack_00000064,
-                in_stack_0000009c,in_stack_000000a4,in_stack_000000e4,param_4);
-  if (*(int *)(param_1 + 0x7630) == 0) {
-    fn_82E6D500(in_stack_000000dc,in_stack_000000ec,in_stack_0000006c,in_stack_00000074,
-                  in_stack_000000ac,in_stack_000000b4,in_stack_000000e4,param_5);
-  }
-  return;
+    fn_82E6D500(a, b, c0, d0, e0, f0, g, h0, out, j);
+    fn_82E6D500(a, b, c1, d1, e1, f1, g, h1, out + 1, j);
+    fn_82E6D500(a, b, c2, d2, e2, f2, g, h2, out + 2, j);
+    if (o->skipLast == 0) {
+        fn_82E6D500(a, b, c3, d3, e3, f3, g, h3, out + 3, j);
+    }
 }
-

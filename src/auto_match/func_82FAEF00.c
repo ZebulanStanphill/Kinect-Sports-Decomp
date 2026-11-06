@@ -1,51 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Child_82FAEF00 Child_82FAEF00;
+typedef struct {
+    char pad[0x44];
+    void (*update)(Child_82FAEF00 *c, float dt, int arg, unsigned char flag);
+} ChildVt_82FAEF00;
+struct Child_82FAEF00 {
+    ChildVt_82FAEF00 *vt;
+    int f04[4];
+    int f14;
+    unsigned short f18;
+};
+typedef struct { int key; Child_82FAEF00 *child; } Pair_82FAEF00;
+typedef struct {
+    char pad[0x7c];
+    Pair_82FAEF00 *begin;
+    Pair_82FAEF00 *end;
+} Obj_82FAEF00;
 
-
-void fn_82FAEF00(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,
-                  ulonglong param_5)
-
+void fn_82FAEF00(Obj_82FAEF00 *o, float dt, int arg, unsigned char flag)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = *(int *)(param_2 + 0x7c);
-  if (iVar2 != *(int *)(param_2 + 0x80)) {
-    do {
-      if (((param_5 & 0xff) == 0) || (*(int *)(*(int *)(iVar2 + 4) + 0x14) == 0)) {
-        piVar1 = *(int **)(iVar2 + 4);
-        if (*(short *)(piVar1 + 6) != 0) {
-          (**(code **)(*piVar1 + 0x44))(param_1,piVar1,param_3,param_4,param_5);
+    Pair_82FAEF00 *p;
+    for (p = o->begin; p != o->end; p++) {
+        if (flag == 0 || p->child->f14 == 0) {
+            Child_82FAEF00 *c = p->child;
+            if (c->f18 != 0) {
+                c->vt->update(c, dt, arg, flag);
+            }
         }
-      }
-      iVar2 = iVar2 + 8;
-    } while (iVar2 != *(int *)(param_2 + 0x80));
-  }
-  return;
+    }
 }
-

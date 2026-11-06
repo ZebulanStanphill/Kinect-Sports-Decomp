@@ -1,50 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CF5F58();
+typedef struct Node_82CF12D0 { float f[16]; double d; } Node_82CF12D0;
 
+extern Node_82CF12D0 *fn_82CF5F58(Node_82CF12D0 *n, double v, int idx);
 
-int fn_82CF12D0(double param_1,int param_2,int param_3,undefined8 param_4,int param_5)
-
+Node_82CF12D0 *fn_82CF12D0(Node_82CF12D0 *a, Node_82CF12D0 *b, double v, int idx)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = param_2;
-  if ((param_3 != 0) &&
-     (param_1 <= (double)*(float *)(param_5 * 4 + param_3) + *(double *)(param_3 + 0x40))) {
-    param_2 = param_3;
-    iVar1 = param_3;
-  }
-  while (iVar1 != 0) {
-    iVar2 = fn_82CF5F58(param_1,iVar1);
-    param_2 = iVar1;
-    iVar1 = iVar2;
-  }
-  return param_2;
+    Node_82CF12D0 *cur = a;
+    Node_82CF12D0 *next;
+    if (b != 0 && v <= b->f[idx] + b->d) {
+        cur = b;
+    }
+    while (cur != 0) {
+        next = fn_82CF5F58(cur, v, idx);
+        if (next == 0) {
+            break;
+        }
+        cur = next;
+    }
+    return cur;
 }
-

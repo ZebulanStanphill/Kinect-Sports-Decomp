@@ -1,49 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AF5548();
-extern int fn_82AF8668();
-extern int fn_82B098F0();
+typedef struct Item_82B0A638 {
+    int a;
+    int b;
+    unsigned int pad_hi : 5;
+    unsigned int done : 1;
+    unsigned int pad_lo : 26;
+} Item_82B0A638;
 
+extern Item_82B0A638 *fn_82B098F0(int param_1, int param_2, Item_82B0A638 *item, int zero);
+extern int fn_82AF5548(int param_1, Item_82B0A638 *item, int param_4);
+extern void fn_82AF8668(int value, unsigned int tagged);
 
-void fn_82B0A638(undefined8 param_1,undefined8 param_2,int param_3,longlong param_4,int param_5)
-
+void fn_82B0A638(int param_1, int param_2, Item_82B0A638 *param_3, int param_4, int *param_5)
 {
-  uint uVar1;
-  int iVar2;
-  
-  if ((*(uint *)(param_3 + 8) >> 0x1a & 1) == 0) {
-    uVar1 = fn_82B098F0();
-    if ((uVar1 != 0) && ((*(uint *)(uVar1 + 8) >> 0x1a & 1) == 0)) {
-      iVar2 = fn_82AF5548(param_1,param_3,param_4);
-      fn_82AF8668(*(undefined4 *)(iVar2 * 4 + param_5),param_4 != 0 | uVar1);
-      *(uint *)(uVar1 + 8) = *(uint *)(uVar1 + 8) | 0x4000000;
-    }
-  }
-  return;
-}
+    Item_82B0A638 *other;
 
+    if ((unsigned char)param_3->done == 0) {
+        other = fn_82B098F0(param_1, param_2, param_3, 0);
+        if (other != 0 && (unsigned char)other->done == 0) {
+            fn_82AF8668(param_5[fn_82AF5548(param_1, param_3, param_4)], (param_4 != 0) | (unsigned int)other);
+            other->done = 1;
+        }
+    }
+}

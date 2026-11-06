@@ -26,35 +26,38 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82AD1978();
-extern int fn_82B4BAA8();
+typedef struct { unsigned value,tag; } Argument_82B4C660;
+extern unsigned fn_82B4BAA8(int,Argument_82B4C660 *);
 extern int fn_82B841E8();
 extern unsigned int stack0x00000018;
 extern unsigned int uStack00000018;
 
 
-uint fn_82B4C660(int param_1,undefined8 param_2)
+uint fn_82B4C660(int param_1,Argument_82B4C660 param_2)
 
 {
   int iVar1;
   uint uVar2;
   uint uVar4;
-  undefined8 uVar3;
+  unsigned uVar3;
   undefined4 uVar5;
   uint *puVar6;
   undefined8 uStack00000018;
   
-  uStack00000018 = param_2;
+
   uVar4 = fn_82B841E8(param_1,*(undefined4 *)(param_1 + 0x234),0,0x30,1,1);
-  uVar3 = fn_82B4BAA8(param_1,&stack0x00000018);
+  uVar3 = fn_82B4BAA8(param_1,&param_2);
   uVar5 = fn_82AD1978(uVar4,uVar3);
   *(undefined4 *)(uVar4 + 0x2c) = uVar5;
   iVar1 = *(int *)(param_1 + 0x234);
   puVar6 = (uint *)(iVar1 + 0x18);
   uVar2 = uVar4 & 0xfffffffe;
-  *(uint *)(uVar2 + 0x24) = *puVar6;
-  *(uint *)(*puVar6 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar2 + 0x28) = iVar1 - 0xcU | 1;
-  *puVar6 = uVar2 + 0x28;
+  puVar6 = (uint *)(iVar1 + 0x18);
+  { uint *node = (uint *)(uVar2 + 0x24);
+  *node = *puVar6;
+  *(uint *)(*puVar6 & 0xfffffffe) = (uint)node - 0x24;
+  node[1] = (uint)puVar6 - 0x24U | 1;
+  *puVar6 = (uint)(node + 1); }
   return uVar4;
 }
 
