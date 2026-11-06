@@ -1,61 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E7AB58();
 
+typedef struct {
+  int a0;
+  int a4;
+  short a8;
+  short pada;
+  unsigned int ac;
+} In_82E7B1E8;
+typedef struct {
+  char pad0[0x13c];
+  int f13c;
+  int f140;
+  short f144;
+  short pad146;
+  unsigned int f148;
+  char pad14c[0xec];
+  unsigned char f238;
+} Obj_82E7B1E8;
 
-undefined8 fn_82E7B1E8(int param_1,int *param_2)
-
+int fn_82E7B1E8(Obj_82E7B1E8 *o, In_82E7B1E8 *in)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  if (param_2 == (int *)0x0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else if (*param_2 == 0) {
-    iVar1 = *(int *)(param_1 + 0x148);
-    if ((iVar1 != 0) && (param_2[3] != iVar1)) {
-      uVar2 = 0xffffffffc00d36b5;
-    }
-    else {
-      *(undefined4 *)(param_1 + 0x13c) = 0;
-      *(int *)(param_1 + 0x140) = param_2[1];
-      *(undefined2 *)(param_1 + 0x144) = *(undefined2 *)(param_2 + 2);
-      *(int *)(param_1 + 0x148) = param_2[3];
-      if ((iVar1 != 0) || (uVar2 = fn_82E7AB58(param_1), -1 < (int)uVar2)) {
-        uVar2 = 0;
-        *(undefined1 *)(param_1 + 0x238) = 3;
-      }
-    }
-  }
-  else {
-    uVar2 = 0xffffffff80004001;
-  }
-  return uVar2;
-}
+  int had;
+  int hr;
 
+  if (in == 0) {
+    return 0x80070057;
+  }
+  if (in->a0 != 0) {
+    return 0x80004001;
+  }
+  had = o->f148 != 0;
+  if (had && in->ac != o->f148) {
+    return 0xc00d36b5;
+  }
+  o->f13c = 0;
+  o->f140 = in->a4;
+  o->f144 = in->a8;
+  o->f148 = in->ac;
+  if (!had) {
+    hr = fn_82E7AB58(o);
+    if (hr < 0) {
+      return hr;
+    }
+  }
+  o->f238 = 3;
+  return 0;
+}

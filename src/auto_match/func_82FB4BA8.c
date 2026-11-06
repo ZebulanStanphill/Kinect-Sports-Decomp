@@ -1,46 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct R_82FB4BA8 { char pad[0xc]; unsigned v; } R_82FB4BA8;
+typedef struct V_82FB4BA8 { char pad[0x20]; R_82FB4BA8 *(*get)(struct W_82FB4BA8 *); } V_82FB4BA8;
+typedef struct W_82FB4BA8 { V_82FB4BA8 *vt; } W_82FB4BA8;
+typedef struct Y_82FB4BA8 { char pad[0x1c]; W_82FB4BA8 *w; } Y_82FB4BA8;
+typedef struct Z_82FB4BA8 { char pad[4]; Y_82FB4BA8 *y; } Z_82FB4BA8;
+typedef struct A_82FB4BA8 { char pad[0x58]; Z_82FB4BA8 *z; } A_82FB4BA8;
 
-
-undefined8 fn_82FB4BA8(int param_1,int param_2)
-
+int fn_82FB4BA8(A_82FB4BA8 *param_1, unsigned param_2)
 {
-  int iVar1;
-  
-  iVar1 = (**(code **)(**(int **)(*(int *)(*(int *)(param_1 + 0x58) + 4) + 0x1c) + 0x20))();
-  if (iVar1 == 0) {
-    if (param_2 == 0) {
-      return 0;
-    }
-  }
-  else if (*(int *)(iVar1 + 0xc) == param_2) {
-    return 0;
-  }
+  W_82FB4BA8 *w = param_1->z->y->w;
+  R_82FB4BA8 *r = w->vt->get(w);
+  if (r != 0) {
+    if (r->v == param_2) goto zero;
+  } else if (param_2 == 0) goto zero;
   return 1;
+zero:
+  return 0;
 }
-

@@ -1,77 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C10B28();
-
-
-undefined8 fn_82C2A820(int param_1,ulonglong param_2)
-
+struct K_82C2A820;
+struct O_82C2A820;
+typedef struct O_82C2A820 { void *s[2]; int (*release)(struct O_82C2A820 *, struct K_82C2A820 *); } O_82C2A820;
+typedef struct K_82C2A820 { char pad[8]; unsigned __int64 t; } K_82C2A820;
+typedef struct N_82C2A820 { K_82C2A820 *key; struct N_82C2A820 *prev; struct N_82C2A820 *next; } N_82C2A820;
+typedef struct L_82C2A820 {
+  char pad0[0x10];
+  N_82C2A820 *head;
+  N_82C2A820 *first;
+  unsigned count;
+  char pad1[0x14];
+  int x;
+  O_82C2A820 *obj;
+  char pad2[0x3c];
+  int sz;
+  int total;
+} L_82C2A820;
+typedef struct A_82C2A820 { char pad[0x2c]; L_82C2A820 *l; } A_82C2A820;
+static __forceinline int notNull_82C2A820(void *p)
 {
-  int iVar1;
-  int *piVar2;
-  undefined8 uVar3;
-  longlong lVar4;
-  int * apiStack_30;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  uVar3 = 0;
-  if ((*(int *)(iVar1 + 0x18) != 0) &&
-     (apiStack_30 = *(int **)(iVar1 + 0x14), *(int **)(iVar1 + 0x14) != *(int **)(iVar1 + 0x10)))
-  {
-    while ((apiStack_30 != (int *)0x0 && (*(ulonglong *)(*apiStack_30 + 8) < param_2))) {
-      piVar2 = (int *)apiStack_30[2];
-      uVar3 = (**(code **)(*(int *)(iVar1 + 0x34) + 8))(*(int *)(iVar1 + 0x34));
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      *(int *)(iVar1 + 0x78) = *(int *)(iVar1 + 0x78) - *(int *)(iVar1 + 0x74);
-      *(int *)(apiStack_30[2] + 4) = apiStack_30[1];
-      if (apiStack_30[1] == 0) {
-        *(int *)(iVar1 + 0x14) = apiStack_30[2];
-      }
-      else {
-        *(int *)(apiStack_30[1] + 8) = apiStack_30[2];
-      }
-      lVar4 = (ulonglong)*(uint *)(iVar1 + 0x18) - 1;
-      *(int *)(iVar1 + 0x18) = (int)lVar4;
-      if (lVar4 == 0) {
-        *(undefined4 *)(*(int *)(iVar1 + 0x10) + 4) = 0;
-        *(undefined4 *)(iVar1 + 0x14) = 0;
-      }
-      uVar3 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x30),0x1f,&apiStack_30);
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      apiStack_30 = piVar2;
-      if (piVar2 == *(int **)(iVar1 + 0x10)) {
-        return uVar3;
+  if (p) return 1;
+  return 0;
+}
+extern int fn_82C10B28(int, int, N_82C2A820 **);
+
+int fn_82C2A820(A_82C2A820 *param_1, unsigned __int64 param_2)
+{
+  L_82C2A820 *l = param_1->l;
+  int r = 0;
+  N_82C2A820 *cur;
+  N_82C2A820 *nxt;
+  cur = 0;
+  if (l->count == 0) {
+    return r;
+  } else {
+    cur = l->first;
+    if (cur != l->head) {
+      while (notNull_82C2A820(cur) && cur->key->t < param_2) {
+        nxt = cur->next;
+        r = l->obj->release(l->obj, cur->key);
+        if (r < 0) return r;
+        l->total = l->total - l->sz;
+        cur->next->prev = cur->prev;
+        if (cur->prev != 0) {
+          cur->prev->next = cur->next;
+        } else {
+          l->first = cur->next;
+        }
+        if (--l->count == 0) {
+          l->head->prev = 0;
+          l->first = 0;
+        }
+        r = fn_82C10B28(l->x, 0x1f, &cur);
+        if (r < 0) return r;
+        cur = nxt;
+        if (nxt == l->head) return r;
       }
     }
   }
-  return uVar3;
+  return r;
 }
-

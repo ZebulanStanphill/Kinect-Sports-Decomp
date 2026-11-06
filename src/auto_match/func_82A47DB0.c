@@ -1,71 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3FF60();
+extern int KeGetCurrentProcessType(void);
+extern void *fn_82A3FF60(void *, int, int, int);
+extern int fn_82A1F2B8(const char *);
+extern void __debugbreak(void);
+extern char lbl_83219D50[];
+typedef struct Node_82A47DB0 { struct Node_82A47DB0 *chunk; struct Node_82A47DB0 *next; unsigned pad; } Node_82A47DB0;
+typedef struct { Node_82A47DB0 *free; Node_82A47DB0 *chunks; char pad[0x6c]; unsigned lim; unsigned cur; } List_82A47DB0;
 
-
-/* WARNING: Removing unreachable block (ram,0x82a47e70) */
-
-int fn_82A47DB0(int *param_1)
-
+Node_82A47DB0 *fn_82A47DB0(List_82A47DB0 *l)
 {
-  bool bVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  longlong lVar5;
-  
-  bVar1 = false;
-  if (((uint)param_1[0x1e] < (uint)param_1[0x1d]) && (iVar2 = KeGetCurrentProcessType(), iVar2 != 2)
-     ) {
-    bVar1 = true;
+  int low;
+  Node_82A47DB0 *c;
+  Node_82A47DB0 *e;
+  Node_82A47DB0 *r;
+  int i;
+  low = 0;
+  if (l->cur < l->lim && KeGetCurrentProcessType() != 2) {
+    low = 1;
   }
-  if (((*param_1 == 0) || (bVar1)) &&
-     (piVar3 = (int *)fn_82A3FF60(0xffffffff83219d50,100,0x20970000,0), piVar3 != (int *)0x0))
-  {
-    piVar4 = piVar3 + 1;
-    lVar5 = 8;
-    do {
-      piVar4[1] = *param_1;
-      *param_1 = (int)piVar4;
-      piVar4 = piVar4 + 3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    *piVar3 = param_1[1];
-    param_1[1] = (int)piVar3;
-    param_1[0x1e] = param_1[0x1e] + 8;
+  if (l->free == 0 || low != 0) {
+    if (l->cur + 8 <= 0xffffffff) {
+      c = (Node_82A47DB0 *)fn_82A3FF60(lbl_83219D50, 100, 0x20970000, 0);
+      if (c != 0) {
+        e = (Node_82A47DB0 *)((char *)c + 4);
+        for (i = 8; i != 0; i--) {
+          e->next = l->free;
+          l->free = e;
+          e = (Node_82A47DB0 *)((char *)e + 12);
+        }
+        c->chunk = l->chunks;
+        l->chunks = c;
+        l->cur = l->cur + 8;
+      }
+    } else {
+      fn_82A1F2B8("SimpList: non-growable list ran out of room for new elements");
+      __debugbreak();
+    }
   }
-  iVar2 = *param_1;
-  if (iVar2 == 0) {
-    iVar2 = 0;
+  r = l->free;
+  if (r != 0) {
+    l->free = r->next;
+  } else {
+    r = 0;
   }
-  else {
-    *param_1 = *(int *)(iVar2 + 4);
-  }
-  return iVar2;
+  return r;
 }
-

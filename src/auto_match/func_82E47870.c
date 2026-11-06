@@ -1,67 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern int memcmp(const void *, const void *, unsigned int);
 
+typedef struct {
+  char pad0[4];
+  char cs[0x1c];
+  unsigned char *entries;
+  char pad24[4];
+  unsigned int count;
+} Obj_82E47870;
 
-int fn_82E47870(int param_1,byte *param_2)
-
+unsigned char *fn_82E47870(Obj_82E47870 *o, unsigned char *key)
 {
-  byte bVar1;
-  byte bVar2;
-  uint uVar3;
-  int iVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  int iVar7;
-  
-  iVar7 = 0;
-  RtlEnterCriticalSection(param_1 + 4);
-  uVar3 = 0;
-  if (*(uint *)(param_1 + 0x28) != 0) {
-    iVar4 = 0;
+  unsigned char *result = 0;
+  unsigned int i;
+
+  RtlEnterCriticalSection(o->cs);
+  i = 0;
+  if (o->count != 0) {
     do {
-      pbVar5 = (byte *)(iVar4 + *(int *)(param_1 + 0x20));
-      pbVar6 = param_2;
-      do {
-        bVar1 = *pbVar6;
-        bVar2 = *pbVar5;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-        pbVar6 = pbVar6 + 1;
-        pbVar5 = pbVar5 + 1;
-      } while (pbVar6 != param_2 + 0x10);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
-        iVar7 = uVar3 * 0x20 + *(int *)(param_1 + 0x20) + 0x10;
+      if (memcmp(key, o->entries + i * 0x20, 16) == 0) {
+        result = o->entries + i * 0x20 + 0x10;
         break;
       }
-      uVar3 = uVar3 + 1;
-      iVar4 = iVar4 + 0x20;
-    } while (uVar3 < *(uint *)(param_1 + 0x28));
+      i++;
+    } while (i < o->count);
   }
-  RtlLeaveCriticalSection(param_1 + 4);
-  return iVar7;
+  RtlLeaveCriticalSection(o->cs);
+  return result;
 }
-

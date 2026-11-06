@@ -28,26 +28,21 @@ typedef struct { U64 lo, hi; } V16;
 
 
 void fn_82E0A0F8(int *param_1)
-
 {
-  uint uVar1;
-  ulonglong uVar2;
+  int *sub;
+  int uVar2;
   int iVar3;
-  code *pcVar4;
-  
-  uVar1 = *(uint *)(param_1[7] + 0x18);
-  uVar2 = (ulonglong)uVar1;
-  iVar3 = *(int *)(param_1[7] + 0x1c);
-  if (((int)uVar1 < 0) || (iVar3 < 0)) {
-    iVar3 = *param_1;
-    uVar2 = (**(code **)(iVar3 + 0x38))(param_1,0xffffffff8214a6f0);
-    pcVar4 = *(code **)(iVar3 + 0x3c);
-    iVar3 = 0;
+  int vt;
+
+  sub = (int *)param_1[7];
+  uVar2 = sub[6];
+  iVar3 = sub[7];
+  if (uVar2 < 0 || iVar3 < 0) {
+    vt = *param_1;
+    uVar2 = (*(code *)(vt + 0x38))(param_1, "__data__");
+    (*(code *)(vt + 0x3c))(param_1, uVar2, 0);
+  } else {
+    (*(code *)(*param_1 + 0x3c))(param_1, uVar2, iVar3);
   }
-  else {
-    pcVar4 = *(code **)(*param_1 + 0x3c);
-  }
-  (*pcVar4)(param_1,uVar2,iVar3);
   return;
 }
-

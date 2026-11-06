@@ -1,71 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E968();
-extern int fn_83014128();
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void *fn_83014128(void *vec, unsigned int key);
+extern void fn_82A1E968(void *p);
 
+typedef struct Val_83013E80 { int v[4]; __int64 stamp; unsigned int tag; int pad; } Val_83013E80;
+typedef struct Ent_83013E80 { unsigned int key; int pad; Val_83013E80 val; } Ent_83013E80;
+typedef struct Vec_83013E80 { Ent_83013E80 *begin; Ent_83013E80 *end; } Vec_83013E80;
+typedef struct Self_83013E80 {
+  int pad0;
+  Vec_83013E80 vec;
+  int pad_c;
+  char cs[0x20];
+  __int64 stamp;
+} Self_83013E80;
 
-undefined8 fn_83013E80(int param_1,ulonglong param_2,undefined4 *param_3,int param_4)
-
+static __forceinline Val_83013E80 *findVal(Vec_83013E80 *v, unsigned int key)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  uint *puVar4;
-  int iVar5;
-  
-  for (puVar4 = *(uint **)(param_1 + 4);
-      (puVar4 != *(uint **)(param_1 + 8) && ((ulonglong)*puVar4 != (param_2 & 0xffffffff)));
-      puVar4 = puVar4 + 10) {
+  Ent_83013E80 *p;
+  unsigned int found;
+  for (p = v->begin; p != v->end && p->key != key; p++) {
   }
-  iVar5 = param_1 + 0x10;
-  uVar1 = (uint)(*(uint **)(param_1 + 8) != puVar4);
-  uVar2 = -(uint)(uVar1 != 0);
-  puVar3 = (undefined4 *)(uVar2 & (uint)(puVar4 + 2));
-  RtlEnterCriticalSection(iVar5,uVar2,param_3,-uVar1);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)fn_83014128((int *)(param_1 + 4),param_2);
-    if (puVar3 != (undefined4 *)0x0) {
-      if (*(int *)(param_1 + 8) != *(int *)(param_1 + 4)) {
-        fn_82A1E968(param_1 + 0x30);
-      }
-      puVar3[6] = param_4;
-LAB_83013f50:
-      *puVar3 = *param_3;
-      puVar3[1] = param_3[1];
-      puVar3[2] = param_3[2];
-      puVar3[3] = param_3[3];
-      *(undefined8 *)(puVar3 + 4) = *(undefined8 *)(param_1 + 0x30);
-      RtlLeaveCriticalSection(iVar5);
-      return 1;
-    }
-  }
-  else if (param_4 == puVar3[6]) goto LAB_83013f50;
-  RtlLeaveCriticalSection(iVar5);
-  return 2;
+  found = (p != v->end);
+  return found ? &p->val : 0;
 }
 
+int fn_83013E80(Self_83013E80 *param_1, unsigned int param_2, Val_83013E80 *param_3, unsigned int param_4)
+{
+  Val_83013E80 *val;
+  Vec_83013E80 *vec;
+  void *cs;
+
+  vec = &param_1->vec;
+  val = findVal(vec, param_2);
+  cs = param_1->cs;
+  RtlEnterCriticalSection(cs);
+  if (val == 0) {
+    val = (Val_83013E80 *)fn_83014128(vec, param_2);
+    if (val == 0) {
+      RtlLeaveCriticalSection(cs);
+      return 2;
+    }
+    if (vec->end != vec->begin) {
+      fn_82A1E968(&param_1->stamp);
+    }
+    val->tag = param_4;
+  } else {
+    if (param_4 != val->tag) {
+      RtlLeaveCriticalSection(cs);
+      return 2;
+    }
+  }
+  val->v[0] = param_3->v[0];
+  val->v[1] = param_3->v[1];
+  val->v[2] = param_3->v[2];
+  val->v[3] = param_3->v[3];
+  val->stamp = param_1->stamp;
+  RtlLeaveCriticalSection(cs);
+  return 1;
+}

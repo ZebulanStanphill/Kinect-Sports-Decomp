@@ -1,60 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct {
+  char pad0[9];
+  unsigned char f9;
+  unsigned short fa;
+  unsigned short fc;
+} Obj_82D8B2F8;
 
-
-void fn_82D8B2F8(int param_1,char param_2,uint param_3,ulonglong param_4,ulonglong param_5,
-                  uint param_6)
-
+void fn_82D8B2F8(Obj_82D8B2F8 *o, unsigned char on, unsigned int c, unsigned int d, unsigned int e, unsigned int f)
 {
-  ushort uVar1;
-  ushort uVar2;
-  
-  if (param_2 != '\0') {
-    *(char *)(param_1 + 9) = (char)(param_3 & 0xf);
-    if ((param_6 & 3) < (param_3 & 3)) {
-      uVar1 = (ushort)((~param_4 & 0xffffffff) << 0xe);
+  unsigned int x;
+  unsigned int y;
+
+  if (on != 0) {
+    o->f9 = c & 0xf;
+    if ((f & 3) < (c & 3)) {
+      x = ~d << 14;
+    } else {
+      x = d << 14;
     }
-    else {
-      uVar1 = (ushort)((param_4 & 0xffffffff) << 0xe);
+    if ((int)f < (int)(c & 0xf)) {
+      y = ~e << 14;
+    } else {
+      y = e << 14;
     }
-    if ((int)param_6 < (int)(param_3 & 0xf)) {
-      uVar2 = (ushort)((~param_5 & 0xffffffff) << 0xe);
-    }
-    else {
-      uVar2 = (ushort)((param_5 & 0xffffffff) << 0xe);
-    }
-    *(ushort *)(param_1 + 10) = *(ushort *)(param_1 + 10) & 0x3fff | uVar1;
-    *(ushort *)(param_1 + 0xc) = *(ushort *)(param_1 + 0xc) & 0x3fff | uVar2;
+    o->fa = (o->fa & 0x3fff) | x;
+    o->fc = (o->fc & 0x3fff) | y;
     return;
   }
-  *(undefined2 *)(param_1 + 10) = 0;
-  *(undefined1 *)(param_1 + 9) = 0xff;
-  *(undefined2 *)(param_1 + 0xc) = 0;
-  return;
+  o->fa = 0;
+  o->f9 = 0xff;
+  o->fc = 0;
 }
-

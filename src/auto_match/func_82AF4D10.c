@@ -1,97 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD12C8();
-
-
-undefined8
-fn_82AF4D10(undefined8 param_1,uint *param_2,undefined8 param_3,uint *param_4,undefined8 param_5,
-             uint *param_6,undefined8 param_7,int *param_8)
-
+typedef struct Y { int a, b; unsigned c; } Y;
+typedef struct X { unsigned flags; int a, b; Y *y; } X;
+extern unsigned fn_82AD12C8(int);
+int fn_82AF4D10(int p1, X *x1, int a1, X *x2, int a2, X *x3, int a3, unsigned *out)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  bool bVar5;
-  uint uVar6;
-  uint uVar7;
-  
-  uVar1 = *param_2;
-  iVar3 = 0;
-  uVar7 = 0;
-  uVar6 = 0xffffffff;
-  if ((uVar1 & 0x18) != 0) {
-    uVar2 = *(uint *)(param_2[3] + 8) >> 7 & 0x7f;
-    if ((uVar2 == 0x7d) || (bVar5 = false, uVar2 == 0x7c)) {
-      bVar5 = true;
-    }
-    if (bVar5) {
-      uVar6 = uVar1 & 0x18;
-      uVar7 = uVar1 & 0x18;
-    }
-    if ((uVar1 & 8) != 0) {
-      iVar3 = fn_82AD12C8(param_3);
+  unsigned m;
+  unsigned cur = 0;
+  unsigned orv = 0;
+  unsigned andv;
+  unsigned v;
+  andv = 0xffffffff;
+  m = x1->flags & 0x18;
+  if (m != 0) {
+    unsigned t = (x1->y->c >> 7) & 0x7f;
+    unsigned char ok = (t == 0x7d || t == 0x7c);
+    if (ok) { orv = m; andv = m; }
+    if ((m & 8) != 0) cur = fn_82AD12C8(a1);
+  }
+  m = x2->flags & 0x18;
+  if (m != 0) {
+    unsigned t = (x2->y->c >> 7) & 0x7f;
+    unsigned char ok = (t == 0x7d || t == 0x7c);
+    if (ok) { orv = m | orv; andv = m & andv; }
+    if ((m & 8) != 0) {
+      v = fn_82AD12C8(a2);
+      if (cur != 0 && v != cur) return 0;
+      cur = v;
     }
   }
-  uVar1 = *param_4;
-  iVar4 = iVar3;
-  if ((uVar1 & 0x18) != 0) {
-    uVar2 = *(uint *)(param_4[3] + 8) >> 7 & 0x7f;
-    if ((uVar2 == 0x7d) || (bVar5 = false, uVar2 == 0x7c)) {
-      bVar5 = true;
-    }
-    if (bVar5) {
-      uVar7 = uVar1 & 0x18 | uVar7;
-      uVar6 = uVar1 & 0x18 & uVar6;
-    }
-    if ((((uVar1 & 8) != 0) && (iVar4 = fn_82AD12C8(param_5), iVar3 != 0)) && (iVar4 != iVar3)) {
-      return 0;
+  m = x3->flags & 0x18;
+  if (m != 0) {
+    unsigned t = (x3->y->c >> 7) & 0x7f;
+    unsigned char ok = (t == 0x7d || t == 0x7c);
+    if (ok) { orv = m | orv; andv = m & andv; }
+    if ((m & 8) != 0) {
+      v = fn_82AD12C8(a3);
+      if (cur != 0 && v != cur) return 0;
+      cur = v;
     }
   }
-  uVar1 = *param_6;
-  iVar3 = iVar4;
-  if ((uVar1 & 0x18) != 0) {
-    uVar2 = *(uint *)(param_6[3] + 8) >> 7 & 0x7f;
-    if ((uVar2 == 0x7d) || (bVar5 = false, uVar2 == 0x7c)) {
-      bVar5 = true;
-    }
-    if (bVar5) {
-      uVar7 = uVar1 & 0x18 | uVar7;
-      uVar6 = uVar1 & 0x18 & uVar6;
-    }
-    if ((((uVar1 & 8) != 0) && (iVar3 = fn_82AD12C8(param_7), iVar4 != 0)) && (iVar3 != iVar4)) {
-      return 0;
-    }
-  }
-  if ((uVar7 != 0) && (uVar7 != uVar6)) {
-    return 0;
-  }
-  *param_8 = iVar3;
+  if (orv != 0 && orv != andv) return 0;
+  *out = cur;
   return 1;
 }
-

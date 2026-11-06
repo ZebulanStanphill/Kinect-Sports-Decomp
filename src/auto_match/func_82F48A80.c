@@ -28,32 +28,29 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F487F8();
 
 
-longlong fn_82F48A80(int param_1,int *param_2)
-
+int fn_82F48A80(int param_1,int *param_2)
 {
-  longlong lVar1;
+  int lVar1;
   int * apiStack_30;
-  
   apiStack_30 = (int *)0x0;
   if (param_2 == (int *)0x0) {
     lVar1 = -0x7ff8ffa9;
   }
   else {
     *(int **)(param_1 + 0xc) = param_2;
-    (**(code **)(*param_2 + 4))(param_2);
-    lVar1 = (**(code **)(**(int **)(param_1 + 0x10) + 0x10))(*(int **)(param_1 + 0x10),&apiStack_30);
-    if (-1 < lVar1) {
-      if (param_2 == apiStack_30) {
-        lVar1 = fn_82F487F8(param_1 + -4);
+    (*(code *)(*param_2 + 4))(param_2);
+    lVar1 = (*(code *)(*(int *)(*(int *)(param_1 + 0x10)) + 0x10))(*(int **)(param_1 + 0x10),&apiStack_30);
+    if (lVar1 >= 0) {
+      if (param_2 != apiStack_30) {
+        lVar1 = -0x7ff8ffa9;
       }
       else {
-        lVar1 = -0x7ff8ffa9;
+        lVar1 = fn_82F487F8(param_1 + -4);
       }
     }
     if (apiStack_30 != (int *)0x0) {
-      (**(code **)(*apiStack_30 + 8))(apiStack_30);
+      (*(code *)(*apiStack_30 + 8))(apiStack_30);
     }
   }
   return lVar1;
 }
-

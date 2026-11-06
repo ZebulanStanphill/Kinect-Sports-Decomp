@@ -1,59 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EE6048();
+struct Obj_82F484D8;
+typedef struct Vt_82F484D8 {
+  void *slots[20];
+  int (*Check)(struct Obj_82F484D8 *);
+} Vt_82F484D8;
+typedef struct Obj_82F484D8 {
+  Vt_82F484D8 *vt;
+  int pad4[3];
+  unsigned int f10;
+  int pad14[2];
+  int stride;
+  int pad20;
+  unsigned int count;
+  int pad28[2];
+  char sub[0x48 - 0x30];
+  unsigned int limit;
+} Obj_82F484D8;
+extern int fn_82EE6048(void *, unsigned int, void *, int);
 
-
-undefined8 fn_82F484D8(int *param_1,uint param_2,undefined8 param_3)
-
+int fn_82F484D8(Obj_82F484D8 *param_1, unsigned int param_2, void *param_3)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  iVar2 = (**(code **)(*param_1 + 0x50))();
-  if (iVar2 == 0) {
-    uVar1 = 0xffffffff80004001;
-  }
-  else if (param_1[4] == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if (param_2 < (uint)param_1[9]) {
-    if ((ulonglong)(uint)param_1[0x12] <
-        ((longlong)param_1[7] * (longlong)(int)param_2 + 8U & 0xffffffff)) {
-      uVar1 = 0xffffffffc00d3a9e;
-    }
-    else {
-      uVar1 = fn_82EE6048(param_1 + 0xc,(longlong)param_1[7] * (longlong)(int)param_2,param_3,
-                                4);
-    }
-  }
-  else {
-    uVar1 = 0xffffffffc00d36bf;
-  }
-  return uVar1;
-}
+  unsigned int off;
 
+  if (param_1->vt->Check(param_1) == 0) {
+    return 0x80004001;
+  }
+  if (param_1->f10 == 0) {
+    return 0xc00d36b6;
+  }
+  if (param_2 >= param_1->count) {
+    return 0xc00d36bf;
+  }
+  off = param_1->stride * param_2;
+  if (param_1->limit < off + 8) {
+    return 0xc00d3a9e;
+  }
+  return fn_82EE6048(param_1->sub, off, param_3, 4);
+}
