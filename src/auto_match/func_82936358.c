@@ -33,11 +33,11 @@ void fn_82936358(undefined4 *param_1)
 
 {
   *(undefined1 *)((int)param_1 + *(ushort *)(param_1 + 2) + 0x10) = 0;
-  if (param_1[3] == 0) {
-    fn_828FAB00(*param_1,param_1[1],0x1bbe,0xffffffff821c4da8,param_1 + 4);
+  if ((int)param_1[3] != 0) {
+    fn_828FA8D8(*param_1,param_1[1],0x1bbd,"%s",param_1 + 4);
   }
   else {
-    fn_828FA8D8(*param_1,param_1[1],0x1bbd);
+    fn_828FAB00(*param_1,param_1[1],0x1bbe,"%s",param_1 + 4);
   }
   *(undefined2 *)(param_1 + 2) = 0;
   return;

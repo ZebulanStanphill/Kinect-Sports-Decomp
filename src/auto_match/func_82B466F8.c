@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_82930918();
-extern int fn_82AA66A8();
+extern __declspec(noreturn) void fn_82AA66A8(int, int, ...);
 extern int fn_82AC6560();
 
 
-undefined4 * fn_82B466F8(undefined8 param_1,int param_2)
+undefined4 * fn_82B466F8(int param_1,unsigned int param_2)
 
 {
   undefined4 *puVar1;
@@ -43,10 +43,11 @@ undefined4 * fn_82B466F8(undefined8 param_1,int param_2)
   }
   puVar1 = (undefined4 *)fn_82AC6560(param_1,0x30,0x11);
   fn_82930918(auStack_50);
+  { unsigned v = auStack_50[0];
   puVar1[6] = param_2;
   puVar1[1] = 3;
   puVar1[4] = 9;
-  *puVar1 = auStack_50[0];
+  *puVar1 = v; }
   return puVar1;
 }
 

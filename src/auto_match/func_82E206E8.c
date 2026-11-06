@@ -35,18 +35,18 @@ extern unsigned int uStack_1d;
 void fn_82E206E8(char *param_1)
 
 {
-  undefined1 auStack_120 [259];
+  undefined1 auStack_120 [260];
   undefined1 uStack_1d;
   
-  fn_82F64068(auStack_120,0x104,0x103,0xffffffff8214bba0,*(undefined4 *)(param_1 + 0x10),
+  fn_82F64068(auStack_120,0x104,0x103,"%s_%s_%04d.log",*(undefined4 *)(param_1 + 0x10),
                     *(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 4));
   if (*param_1 != '\0') {
-    fn_82F668D8(auStack_120,0x104,0xffffffff8214bb98,4);
+    fn_82F668D8(auStack_120,0x104,".cmp",4);
   }
   if (param_1[1] != '\0') {
-    fn_82F668D8(auStack_120,0x104,0xffffffff8214bb90,4);
+    fn_82F668D8(auStack_120,0x104,".enc",4);
   }
-  uStack_1d = 0;
+  auStack_120[259] = 0;
   fn_82E1F690(auStack_120);
   return;
 }
