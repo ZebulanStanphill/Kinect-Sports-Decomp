@@ -1,3 +1,4 @@
+
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -31,15 +32,15 @@ extern int fn_826C8C70();
 extern unsigned int lbl_82005718;
 
 
-void fn_826E9248(undefined8 param_1,float *param_2)
+void fn_826E9248(unsigned int param_1,float *param_2)
 
 {
-  undefined1 auStack_210 [496];
+  undefined1 auStack_210 [512];
   
-  fn_826BC900(auStack_210,0x200,0xffffffff8200d74c,(double)(*param_2 * lbl_82005718),
-                    (double)(param_2[1] * lbl_82005718),(double)(param_2[2] * lbl_82005718),
-                    (double)(param_2[3] * lbl_82005718));
-  fn_826C8C70(param_1,0xffffffff821c4da8,auStack_210);
+  fn_826BC900(auStack_210,0x200,"xmin = %g, ymin = %g, xmax = %g, ymax = %g\n",(double)(*param_2 * 0.05f),
+                    (double)(param_2[1] * 0.05f),(double)(param_2[2] * 0.05f),
+                    (double)(param_2[3] * 0.05f));
+  fn_826C8C70(param_1,"%s",auStack_210);
   return;
 }
 

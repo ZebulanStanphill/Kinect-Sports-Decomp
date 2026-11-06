@@ -1,3 +1,4 @@
+
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -28,30 +29,30 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
 
-undefined8 fn_82B6BFA0(int param_1,int param_2,uint param_3,uint *param_4,uint *param_5)
+undefined8 fn_82B6BFA0(unsigned int param_1,int param_2,uint param_3,uint *param_4,uint *param_5)
 
 {
   undefined8 uVar1;
   uint uVar2;
   
   if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9990,0xffffffff820d9998,0x18a);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pFCA","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x18a);
   }
   if (param_4 == (uint *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9ac4,0xffffffff820d9998,0x18b);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pConstIndex","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x18b);
   }
   if (param_5 == (uint *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9ab8,0xffffffff820d9998,0x18c);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pConstSlot","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x18c);
   }
   if (*(int *)(param_1 + 0x10) == 2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9a98,0xffffffff820d9998,0x18d);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pFCA->eMode != E_FA_READONLY","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x18d);
   }
   if ((param_2 == 3) || (param_2 == 2)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9a48,0xffffffff820d9998,400);
+    fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","eType != E_FETCH_TYPE_VERTEX_INTERNAL && eType != E_FETCH_TYPE_TEXTURE_INTERNAL","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",400);
   }
   if (*(int *)(param_1 + 0x10) == 0) {
     if (param_2 == 1) {
-      if (0x5f < param_3) {
+      if (param_3 >= 0x60) {
         return 1;
       }
       *param_4 = (0x5f - param_3) / 3;
@@ -65,15 +66,15 @@ undefined8 fn_82B6BFA0(int param_1,int param_2,uint param_3,uint *param_4,uint *
   }
   else {
     if (*(int *)(param_1 + 0x10) != 1) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9a24,0xffffffff820d9998,0x1af);
+      fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","pFCA->eMode == E_FA_DECREMENTAL","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",0x1af);
     }
     if (param_2 != 0) {
       uVar1 = 0x1b0;
 LAB_82b6c114:
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9a04,0xffffffff820d9998,uVar1);
+      fn_82AB15D0(0,"Assertion failed: %s (%s:%u)","eType == E_FETCH_TYPE_TEXTURE","e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp",uVar1);
     }
   }
-  if (0x1f < param_3) {
+  if (param_3 >= 0x20) {
     return 1;
   }
   *param_4 = param_3;

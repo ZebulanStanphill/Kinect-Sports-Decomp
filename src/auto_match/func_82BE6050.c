@@ -1,3 +1,4 @@
+
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -26,26 +27,26 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE5240();
-extern unsigned int lbl_831751D0;
+extern unsigned int (*lbl_831751D0)(unsigned int);
 
 
-undefined8 fn_82BE6050(int *param_1,undefined8 param_2)
+undefined8 fn_82BE6050(int *param_1,unsigned int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   int iVar2;
-  undefined8 uVar3;
+  unsigned int uVar3;
   
   iVar2 = (int)param_2;
-  if (iVar2 < 1) {
-    uVar3 = 0xffffffff820e9498;
+  if (iVar2 <= 0) {
+    uVar3 = "Can't allocate buffer of 0 or negative size.";
   }
-  else if ((param_1[7] == 0) || (param_1[10] < 1)) {
-    if ((param_1[6] == 1) && (iVar1 = (**(code **)(*param_1 + 0xc))(param_1), iVar1 < iVar2)) {
-      uVar3 = 0xffffffff820e9418;
+  else if (((unsigned int)param_1[7] == 0) || (param_1[10] <= 0)) {
+    if ((param_1[6] == 1) && (iVar1 = (*(code *)(*param_1 + 0xc))(param_1), iVar2 > (int)iVar1)) {
+      uVar3 = "Requested buffer size will exceed request maximum.";
     }
     else {
-      iVar1 = (*(code *)lbl_831751D0)(param_2);
+      iVar1 = lbl_831751D0(param_2);
       param_1[7] = iVar1;
       param_1[8] = 0;
       param_1[9] = 0;
@@ -55,11 +56,11 @@ undefined8 fn_82BE6050(int *param_1,undefined8 param_2)
       }
       param_1[7] = 0;
       param_1[10] = 0;
-      uVar3 = 0xffffffff820e93f0;
+      uVar3 = "Could not allocate raw request buffer";
     }
   }
   else {
-    uVar3 = 0xffffffff820e9450;
+    uVar3 = "Buffer already exists.  Can't allocate new, use ReAllocateDataBuffer.";
   }
   fn_82BE5240(param_1,0x65,uVar3);
   return 0;

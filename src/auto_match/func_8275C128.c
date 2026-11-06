@@ -36,22 +36,19 @@ void fn_8275C128(int param_1)
 
 {
   undefined4 uVar1;
-  undefined8 uVar2;
-  int iVar4;
-  ulonglong uVar3;
+  unsigned int uVar2;
+  unsigned int iVar4;
+  unsigned int uVar3;
   
   if (*(int *)(param_1 + 0x1c) < 1) {
-    fn_826ADE60(*(undefined4 *)(param_1 + 0x18),0xffffffff82014728);
+    fn_826ADE60(*(undefined4 *)(param_1 + 0x18),"Error: Sound.SetPan needs one Argument\n");
   }
   else {
     uVar1 = *(undefined4 *)(param_1 + 0x18);
     uVar2 = fn_826957D0(param_1,0);
     uVar2 = fn_82697610(uVar2,uVar1);
-    iVar4 = *(int *)(param_1 + 8) + -0x10;
-    if (*(int *)(param_1 + 8) == 0) {
-      iVar4 = 0;
-    }
-    if ((iVar4 != 0) && (uVar3 = fn_8275BB38(), (uVar3 & 0xffffffff) != 0)) {
+    iVar4 = *(unsigned int *)(param_1 + 8) != 0 ? *(unsigned int *)(param_1 + 8) - 0x10 : 0;
+    if ((iVar4 != 0) && (uVar3 = fn_8275BB38(iVar4), (uVar3 & 0xffffffff) != 0)) {
       fn_826D0A40(uVar3,uVar2);
     }
   }

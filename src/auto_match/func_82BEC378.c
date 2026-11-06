@@ -1,3 +1,4 @@
+
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
@@ -31,15 +32,15 @@ extern int fn_82BE5340();
 extern int fn_82BE5350();
 extern int fn_82BE5378();
 extern int fn_82BE56B0();
-extern int fn_82BEB628();
+extern void *fn_82BEB628();
 
 
-void fn_82BEC378(int param_1,ulonglong param_2)
+void fn_82BEC378(int param_1,unsigned int param_2)
 
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  int iVar3;
+  int lVar1;
+  unsigned int uVar2;
+  void *iVar3;
   int iVar4;
   
   if ((param_2 & 0xffffffff) != 0) {
@@ -48,19 +49,16 @@ void fn_82BEC378(int param_1,ulonglong param_2)
     fn_82BE5340(iVar4);
     while (*(int *)(param_1 + 0x68) != 0) {
       lVar1 = fn_82BE56B0(0xc);
-      if (lVar1 == 0) {
-        iVar3 = 0;
-      }
-      else {
+      if (lVar1 != 0) {
         uVar2 = fn_82BE5378(iVar4);
         iVar3 = fn_82BEB628(lVar1,uVar2);
-      }
+      } else { iVar3 = 0; }
       if (iVar3 == 0) {
-        fn_82BE5240(param_1,0x65,0xffffffff820eb028);
+        fn_82BE5240(param_1,0x65,"CMassiveListNode in GetResponsePortIndexPairs()");
         *(undefined4 *)(param_1 + 0x10) = 0;
         return;
       }
-      fn_82BE52B8(param_2);
+      fn_82BE52B8(param_2,iVar3);
       fn_82BE5350(iVar4);
     }
   }
