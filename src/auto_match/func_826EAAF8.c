@@ -30,21 +30,16 @@ extern int fn_8267BED0();
 extern int fn_826EA6F8();
 
 
-undefined8 fn_826EAAF8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+int fn_826EAAF8(int param_1,int param_2,int param_3)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  undefined4 auStack_20 [2];
-  
+  unsigned int uVar1;
+  int auStack_20 [2];
+
   auStack_20[0] = 2;
   uVar1 = fn_8267BED0(param_1,0x310,auStack_20);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
+  if (uVar1 != 0) {
+    return fn_826EA6F8(uVar1,0,param_2,param_3);
   }
-  else {
-    uVar2 = fn_826EA6F8(uVar1,0,param_2,param_3);
-  }
-  return uVar2;
+  return 0;
 }
-

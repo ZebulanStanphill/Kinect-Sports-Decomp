@@ -1,64 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82230300();
-extern int fn_8257EB18();
-extern int fn_8257EB78();
-extern int fn_8260D428();
-extern unsigned int uStack_20;
+typedef struct {
+    union { char buf[16]; char *ptr; } u;
+    unsigned size;
+    unsigned cap;
+} Str_825A1198;
 
+extern void fn_82230300(Str_825A1198 *s, int built, unsigned newsize);
+extern void fn_8257EB18(void);
+extern int fn_8257EB78(Str_825A1198 *s);
+extern int fn_8260D428(Str_825A1198 *s, unsigned off, unsigned n0, const char *p, unsigned n);
 
-undefined8 fn_825A1198(void)
-
+int fn_825A1198(void)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined1 auStack_30 [16];
-  undefined4 uStack_20;
-  
-  fn_82230300(auStack_30,0,0);
-  fn_8257EB18();
-  iVar1 = fn_8257EB78(auStack_30);
-  if (iVar1 == 0) {
-    iVar1 = fn_8260D428(auStack_30,0,uStack_20,0xffffffff821bcca4,2);
-    if (iVar1 == 0) {
-      fn_82230300(auStack_30,1,0);
-      return 1;
+    Str_825A1198 s;
+    fn_82230300(&s, 0, 0);
+    fn_8257EB18();
+    if (fn_8257EB78(&s) == 0) {
+        if (fn_8260D428(&s, 0, s.size, "en", 2) == 0) {
+            fn_82230300(&s, 1, 0);
+            return 1;
+        }
+        if (fn_8260D428(&s, 0, 3, "en-", 3) == 0) {
+            fn_82230300(&s, 1, 0);
+            return 1;
+        }
     }
-    iVar1 = fn_8260D428(auStack_30,0,3,0xffffffff821c7efc,3);
-    if (iVar1 == 0) {
-      uVar2 = 1;
-      goto code_r0x825a123c;
-    }
-  }
-  uVar2 = 0;
-code_r0x825a123c:
-  fn_82230300(auStack_30,1,0);
-  return uVar2;
+    fn_82230300(&s, 1, 0);
+    return 0;
 }
-

@@ -1,42 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82615B30();
+typedef struct Node_825C48F8 {
+    int value;
+    struct Node_825C48F8 *next;
+} Node_825C48F8;
 
+typedef struct {
+    int unk0;
+    int unk4;
+    Node_825C48F8 *head;
+} List_825C48F8;
 
-void fn_825C48F8(undefined8 param_1,int param_2)
+extern void fn_82615B30(int value, float t);
 
+void fn_825C48F8(List_825C48F8 *list, float t)
 {
-  undefined4 *puVar1;
-  
-  for (puVar1 = *(undefined4 **)(param_2 + 8); puVar1 != (undefined4 *)0x0;
-      puVar1 = (undefined4 *)puVar1[1]) {
-    fn_82615B30(param_1,*puVar1);
-  }
-  return;
+    Node_825C48F8 *n;
+    for (n = list->head; n != 0; n = n->next) {
+        fn_82615B30(n->value, t);
+    }
 }
-

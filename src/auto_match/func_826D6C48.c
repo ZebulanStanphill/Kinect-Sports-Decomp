@@ -1,70 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BC98();
-extern int fn_8267C2D8();
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct {
+    int a, b, c, d, e, f, g, h;
+} Desc_826D6C48;
+typedef struct Res_826D6C48 Res_826D6C48;
+typedef struct {
+    char pad0[0x1c]; void *mgr; Res_826D6C48 *res;
+} Obj_826D6C48;
+extern void fn_8267BC98(Res_826D6C48 *res);
+extern Res_826D6C48 *fn_8267C2D8(void *mgr, const char *name, Desc_826D6C48 *desc);
 
-
-undefined4 fn_826D6C48(int param_1)
-
+static __forceinline void assign(Res_826D6C48 **slot, Res_826D6C48 *r)
 {
-  undefined4 uVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  
-  if (*(int *)(param_1 + 0x20) == 0) {
-    uStack_24 = 0;
-    uStack_34 = 0;
-    stack_pair_40.first = 4;
-    stack_pair_40.second = 0x20;
-    uStack_38 = 0x1000;
-    uStack_30 = 0xffffffff;
-    uStack_2c = 0;
-    uStack_28 = 7;
-    uVar1 = fn_8267C2D8(*(undefined4 *)(param_1 + 0x1c),0xffffffff8200c560,&stack_pair_40.first);
-    if (*(int *)(param_1 + 0x20) != 0) {
-      fn_8267BC98(*(int *)(param_1 + 0x20));
+    if (*slot != 0) {
+        fn_8267BC98(*slot);
     }
-    *(undefined4 *)(param_1 + 0x20) = uVar1;
-  }
-  return *(undefined4 *)(param_1 + 0x20);
+    *slot = r;
 }
 
+Res_826D6C48 *fn_826D6C48(Obj_826D6C48 *o)
+{
+    Desc_826D6C48 d;
+    if ((int)o->res == 0) {
+        d.a = 4;
+        d.b = 0x20;
+        d.c = 0x1000;
+        d.h = 0;
+        d.d = 0;
+        d.e = -1;
+        d.f = 0;
+        d.g = 7;
+        assign(&o->res, fn_8267C2D8(o->mgr, "_Images", &d));
+    }
+    return o->res;
+}

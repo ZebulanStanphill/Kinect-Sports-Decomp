@@ -27,35 +27,48 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined1 fn_822EF060(int *param_1)
+typedef struct Buf_822EF060 {
+  int (**vt)(struct Buf_822EF060 *);
+  char pad0[0x1c];
+  unsigned char **gfirst;
+  char pad1[0xc];
+  int *gcount;
+} Buf_822EF060;
+
+typedef struct Iter_822EF060 {
+  Buf_822EF060 *buf;
+  unsigned char got;
+  unsigned char ch;
+} Iter_822EF060;
+
+unsigned char fn_822EF060(Iter_822EF060 *param_1)
 
 {
-  int *piVar1;
-  uint uVar2;
-  int iVar3;
-  
-  piVar1 = (int *)*param_1;
-  if (piVar1 != (int *)0x0) {
-    if (*(int *)piVar1[8] == 0) {
-      iVar3 = 0;
+  Buf_822EF060 *b;
+  int n;
+  int c;
+
+  b = param_1->buf;
+  if (b != 0) {
+    if (*b->gfirst != 0) {
+      n = *b->gcount;
     }
     else {
-      iVar3 = *(int *)piVar1[0xc];
+      n = 0;
     }
-    if (iVar3 < 1) {
-      uVar2 = (**(code **)(*piVar1 + 0x18))();
+    if (n > 0) {
+      c = **b->gfirst;
     }
     else {
-      uVar2 = (uint)**(byte **)piVar1[8];
+      c = b->vt[6](b);
     }
-    if (uVar2 != 0xffffffff) {
-      *(char *)((int)param_1 + 5) = (char)uVar2;
-      goto LAB_822ef0dc;
+    if (c != -1) {
+      param_1->ch = (unsigned char)c;
+      goto done;
     }
   }
-  *param_1 = 0;
-LAB_822ef0dc:
-  *(undefined1 *)(param_1 + 1) = 1;
-  return *(undefined1 *)((int)param_1 + 5);
+  param_1->buf = 0;
+done:
+  param_1->got = 1;
+  return param_1->ch;
 }
-

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack00000054;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 extern int fn_822315A0();
 extern int fn_82252510();
 extern int fn_822D79D8();
@@ -34,63 +34,52 @@ extern int fn_8265C9E0();
 extern int fn_828E2B28();
 extern int fn_828E9D40();
 extern int fn_828E9D90();
-extern unsigned int iStack_2c;
-extern unsigned int stack0x00000020;
-extern unsigned int stack0x00000040;
-extern unsigned int stack0x00000054;
-extern unsigned int stack0x0000005c;
-extern unsigned int stack0x0000006c;
-extern unsigned int uStack0000005c;
-extern unsigned int uStack0000006c;
-extern unsigned int uStack_30;
 
+typedef struct Param_823F2230 {
+  void (**vt)(struct Param_823F2230 *, int, void *);
+} Param_823F2230;
 
-void fn_823F2230(double param_1,int param_2,undefined8 param_3,undefined8 param_4,
-                  undefined4 param_5,undefined8 param_6,undefined4 param_7)
+typedef struct Obj_823F2230 {
+  char pad0[0x38];
+  char sub[0x10];
+  unsigned int enabled;
+  char pad1[0x1c];
+  struct { Param_823F2230 *p; int pad; } slot[7];
+} Obj_823F2230;
+
+typedef struct Pair_823F2230 { int first; unsigned int second; } Pair_823F2230;
+
+void fn_823F2230(Obj_823F2230 *param_1,__vector4 va,void *p,__vector4 vb,float f,int e,void *q,int g)
 
 {
-  int iVar2;
-  undefined8 uVar1;
-  float fStack00000054;
-  undefined4 uStack0000005c;
-  undefined4 uStack0000006c;
-  struct { undefined4 first; int second; } stack_pair_30;
+  unsigned int mem;
+  int h;
+  Pair_823F2230 pair;
 
-  
-  fStack00000054 = (float)param_1;
-  uStack0000005c = param_5;
-  uStack0000006c = param_7;
-  iVar2 = fn_8265C9E0(0x28);
-  if (iVar2 == 0) {
-    uVar1 = 0;
+  mem = fn_8265C9E0(0x28);
+  if (mem != 0) {
+    h = fn_822D7FE0();
   }
   else {
-    uVar1 = fn_822D7FE0();
+    h = 0;
   }
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_822D79D8(&stack_pair_30.first,uVar1);
-  (**(code **)(**(int **)(param_2 + 0x68) + 0x10))
-            (*(int **)(param_2 + 0x68),stack_pair_30.first,&stack0x00000020);
-  (**(code **)(**(int **)(param_2 + 0x70) + 0x10))(*(int **)(param_2 + 0x70),stack_pair_30.first,param_3);
-  (**(code **)(**(int **)(param_2 + 0x78) + 0x10))
-            (*(int **)(param_2 + 0x78),stack_pair_30.first,&stack0x00000040);
-  (**(code **)(**(int **)(param_2 + 0x80) + 0x10))
-            (*(int **)(param_2 + 0x80),stack_pair_30.first,&stack0x00000054);
-  (**(code **)(**(int **)(param_2 + 0x88) + 0x10))
-            (*(int **)(param_2 + 0x88),stack_pair_30.first,&stack0x0000005c);
-  (**(code **)(**(int **)(param_2 + 0x90) + 0x10))(*(int **)(param_2 + 0x90),stack_pair_30.first,param_6);
-  (**(code **)(**(int **)(param_2 + 0x98) + 0x10))
-            (*(int **)(param_2 + 0x98),stack_pair_30.first,&stack0x0000006c);
-  if (*(int *)(param_2 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_30.first);
-    fn_828E9D40(stack_pair_30.first);
-    fn_82252510(param_2,stack_pair_30.first,param_2 + 0x38);
+  pair.first = 0;
+  pair.second = 0;
+  fn_822D79D8(&pair,h);
+  param_1->slot[0].p->vt[4](param_1->slot[0].p,pair.first,&va);
+  param_1->slot[1].p->vt[4](param_1->slot[1].p,pair.first,p);
+  param_1->slot[2].p->vt[4](param_1->slot[2].p,pair.first,&vb);
+  param_1->slot[3].p->vt[4](param_1->slot[3].p,pair.first,&f);
+  param_1->slot[4].p->vt[4](param_1->slot[4].p,pair.first,&e);
+  param_1->slot[5].p->vt[4](param_1->slot[5].p,pair.first,q);
+  param_1->slot[6].p->vt[4](param_1->slot[6].p,pair.first,&g);
+  if (param_1->enabled != 0) {
+    fn_828E9D90(pair.first);
+    fn_828E9D40(pair.first);
+    fn_82252510(param_1,pair.first,param_1->sub);
   }
-  fn_828E2B28(param_2,&stack_pair_30.first);
-  if (stack_pair_30.second != 0) {
-    fn_822315A0();
+  fn_828E2B28(param_1,&pair);
+  if (pair.second != 0) {
+    fn_822315A0(pair.second);
   }
-  return;
 }
-

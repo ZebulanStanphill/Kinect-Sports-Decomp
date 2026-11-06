@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-
-
-void fn_82469F80(undefined8 param_1,int param_2)
-
+typedef struct { int a; int b; double d; } Val;
+typedef struct { int p0; void *target; } O;
+extern void fn_82273CD8(Val *, int);
+extern void fn_82273C88(Val *);
+extern void fn_82672C20(void *, const char *, Val *, int);
+void fn_82469F80(O *o, double d)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  undefined8 uStack_28;
-  
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_82273CD8(&stack_pair_30.first,3);
-  uStack_28 = param_1;
-  fn_82672C20(*(undefined4 *)(param_2 + 4),0xffffffff821bc368,&stack_pair_30.first,1);
-  fn_82273C88(&stack_pair_30.first);
-  return;
+  Val v;
+  v.a = 0;
+  v.b = 0;
+  fn_82273CD8(&v, 3);
+  v.d = d;
+  fn_82672C20(o->target, "_root.brightness", &v, 1);
+  fn_82273C88(&v);
 }
-

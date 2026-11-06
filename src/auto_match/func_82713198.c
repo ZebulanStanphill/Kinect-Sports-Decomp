@@ -1,62 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82681898();
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_82696330();
-extern int fn_826972E0();
+typedef struct { char b[0x18]; } Str_82713198;
+typedef struct Value_82713198 Value_82713198;
+typedef struct {
+    char pad[0x10];
+    Str_82713198 *(*toString)(Str_82713198 *ret, Value_82713198 *v);
+} ValueVt_82713198;
+struct Value_82713198 { ValueVt_82713198 *vt; };
+typedef struct {
+    void *pad0;
+    void *vm;
+    char *top;
+    char pad0c[0x18 - 0xc];
+    void *locale;
+} Ctx_82713198;
 
+extern unsigned char fn_82695468(Ctx_82713198 *c, int type);
+extern void fn_826954C0(Ctx_82713198 *c, const char *expected, int a, int b);
+extern double fn_826972E0(Str_82713198 *s, void *locale);
+extern void fn_82681898(void *vm, double d);
+extern void fn_82696330(Str_82713198 *s);
 
-void fn_82713198(int param_1)
-
+void fn_82713198(Ctx_82713198 *c)
 {
-  undefined4 uVar1;
-  char cVar3;
-  undefined8 uVar2;
-  int *piVar4;
-  undefined1 auStack_30 [24];
-  
-  cVar3 = fn_82695468(param_1,9);
-  if (cVar3 == '\0') {
-    fn_826954C0(param_1,0xffffffff8200ef4c,0,0);
-  }
-  else {
-    piVar4 = (int *)(*(int *)(param_1 + 8) + -0x10);
-    if (*(int *)(param_1 + 8) == 0) {
-      piVar4 = (int *)0x0;
+    Str_82713198 s;
+    Value_82713198 *v;
+    if (!fn_82695468(c, 9)) {
+        fn_826954C0(c, "Number", 0, 0);
+        return;
     }
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    uVar2 = (**(code **)(*piVar4 + 0x10))(auStack_30);
-    fn_826972E0(uVar2,uVar1);
-    fn_82681898(*(undefined4 *)(param_1 + 4));
-    fn_82696330(auStack_30);
-  }
-  return;
+    v = c->top != 0 ? (Value_82713198 *)(c->top - 0x10) : 0;
+    fn_82681898(c->vm, fn_826972E0(v->vt->toString(&s, v), c->locale));
+    fn_82696330(&s);
 }
-

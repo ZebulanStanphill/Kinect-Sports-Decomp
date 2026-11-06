@@ -29,36 +29,30 @@ extern int fn_82275530();
 extern int fn_822755F8();
 extern int fn_82275698();
 extern int fn_822757E0();
+extern void fn_82275470(int first,int last,int n,int buf);
 
-
-void fn_82275470(longlong param_1,undefined8 param_2,longlong param_3,undefined8 param_4)
+void fn_82275470(int first,int last,int n,int buf)
 
 {
-  int iVar1;
-  uint uVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  
-  if ((int)param_3 < 0x21) {
-    fn_822755F8();
+  int half;
+  int mid;
+
+  if (n <= 0x20) {
+    fn_822755F8(first,last,n,buf);
   }
   else {
-    uVar2 = (int)param_3 + 1;
-    uVar4 = (longlong)((int)uVar2 >> 1) + (ulonglong)((int)uVar2 < 0 && (uVar2 & 1) != 0);
-    lVar3 = (uVar4 & 0x1fffffff) * 8 + param_1;
-    iVar1 = fn_82275530(param_4);
-    if (iVar1 < (int)uVar4) {
-      fn_82275470(param_1,lVar3,uVar4,param_4);
-      param_3 = param_3 - uVar4;
-      fn_82275470(lVar3,param_2,param_3,param_4);
+    half = (n + 1) / 2;
+    mid = first + half * 8;
+    if (half <= fn_82275530(buf)) {
+      fn_82275698(first,mid,half,buf);
+      n = n - half;
+      fn_82275698(mid,last,n,buf);
     }
     else {
-      fn_82275698();
-      param_3 = param_3 - uVar4;
-      fn_82275698(lVar3,param_2,param_3,param_4);
+      fn_82275470(first,mid,half,buf);
+      n = n - half;
+      fn_82275470(mid,last,n,buf);
     }
-    fn_822757E0(param_1,lVar3,param_2,uVar4,param_3,param_4);
+    fn_822757E0(first,mid,last,half,n,buf);
   }
-  return;
 }
-

@@ -1,4 +1,3 @@
-typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
 typedef unsigned char bool;
@@ -25,96 +24,94 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_8225F160();
-extern int fn_823AB478();
-extern int fn_8245AE18();
-extern int fn_8245AF50();
-extern int fn_8245AFC0();
-extern int fn_8245B050();
-extern int fn_8245B100();
-extern int fn_8245B168();
-extern int fn_8245B1F0();
-extern int fn_824B70F0();
-extern int fn_82512508();
-extern int fn_828EA5F8();
-extern int fn_828EA610();
+extern int *fn_8225F160(void);
+extern unsigned char fn_828EA610(int);
+extern unsigned char fn_828EA5F8(int);
+extern unsigned char fn_82512508(int);
+extern int fn_8245AE18(void);
+extern int fn_8245B1F0(int);
+extern int fn_8245AF50(int, unsigned short);
+extern int fn_823AB478(int);
+extern int fn_8245B050(int, unsigned char, int);
+extern int fn_8245B100(int);
+extern int fn_8245B168(int, void *, int);
+extern int fn_824B70F0(void);
+extern int fn_8245AFC0(int, int, int);
 
-
-void fn_824B7300(undefined8 param_1,int param_2,undefined1 param_3,undefined4 param_4,
-                  undefined2 param_5,undefined2 param_6,undefined2 param_7)
+void fn_824B7300(int param_1,int param_2,int param_3,int param_4,
+                  short param_5,short param_6,short param_7)
 
 {
-  int iVar1;
-  char cVar2;
-  undefined1 uVar3;
-  int iVar4;
-  undefined2 auStack_50 [40];
-  
-  if (param_2 == 1) {
-    iVar4 = 8;
+  int *cmd;
+  int kind;
+  int obj;
+  int code;
+  short buf;
+  unsigned char uv;
+
+  switch (param_2) {
+  case 1:
+    kind = 8;
+    break;
+  case 2:
+    kind = 9;
+    break;
+  case 3:
+    kind = 7;
+    break;
+  case 4:
+    kind = 6;
+    break;
+  default:
+    kind = ((param_2 == 5) ^ 1) + 5;
+    break;
   }
-  else if (param_2 == 2) {
-    iVar4 = 9;
-  }
-  else if (param_2 == 3) {
-    iVar4 = 7;
-  }
-  else if (param_2 == 4) {
-    iVar4 = 6;
-  }
-  else {
-    iVar4 = ((uint)LZCOUNT(param_2 + -5) >> 5 ^ 1) + 5;
-  }
-  iVar1 = fn_8225F160();
-  *(undefined4 *)(iVar1 + 0x18) = 2;
-  *(int *)(iVar1 + 0x1c) = iVar4;
-  *(undefined4 *)(iVar1 + 0x28) = 4;
-  *(undefined4 *)(iVar1 + 0x20) = param_4;
-  *(undefined4 *)(iVar1 + 0x24) = 0;
-  cVar2 = fn_828EA610(param_1);
-  if (cVar2 == '\0') {
-    cVar2 = fn_828EA5F8(param_1);
-    if ((cVar2 != '\0') && (cVar2 = fn_82512508(param_1), cVar2 != '\0')) {
-      iVar4 = fn_8245AE18();
-      if (param_2 == 1) {
-        cVar2 = '\x1e';
+  cmd = fn_8225F160();
+  cmd[6] = 2;
+  cmd[7] = kind;
+  cmd[10] = 4;
+  cmd[8] = param_4;
+  cmd[9] = 0;
+  if (fn_828EA610(param_1) == 0) {
+    if (fn_828EA5F8(param_1) != 0 && fn_82512508(param_1) != 0) {
+      obj = fn_8245AE18();
+      switch (param_2) {
+      case 1:
+        code = 0x1e;
+        break;
+      case 2:
+        code = 0x1f;
+        break;
+      case 3:
+        code = 0x1d;
+        break;
+      case 4:
+        code = 0x1c;
+        break;
+      default:
+        code = ((param_2 == 5) ^ 1) + 0x1b;
+        break;
       }
-      else if (param_2 == 2) {
-        cVar2 = '\x1f';
-      }
-      else if (param_2 == 3) {
-        cVar2 = '\x1d';
-      }
-      else if (param_2 == 4) {
-        cVar2 = '\x1c';
-      }
-      else {
-        cVar2 = (param_2 != 5) + '\x1b';
-      }
-      iVar1 = fn_8245B1F0(iVar4);
-      if (iVar1 != 0) {
-        fn_8245AF50(iVar4,cVar2);
-        if (*(int *)(iVar4 + 0x14) == 0) {
-          *(undefined4 *)(iVar4 + 0x14) = 1;
+      if (fn_8245B1F0(obj) != 0) {
+        fn_8245AF50(obj,code);
+        if (*(int *)(obj + 0x14) == 0) {
+          *(int *)(obj + 0x14) = 1;
         }
-        uVar3 = fn_823AB478(param_1);
-        fn_8245B050(iVar4,uVar3,4);
-        fn_8245B050(iVar4,param_3,4);
-        fn_8245B100(iVar4);
-        auStack_50[0] = (undefined2)param_4;
-        fn_8245B168(iVar4,auStack_50,2);
-        auStack_50[0] = param_5;
-        fn_8245B168(iVar4,auStack_50,2);
-        auStack_50[0] = param_6;
-        fn_8245B168(iVar4,auStack_50,2);
-        auStack_50[0] = param_7;
-        fn_8245B168(iVar4,auStack_50,2);
+        uv = fn_823AB478(param_1);
+        fn_8245B050(obj,uv,4);
+        fn_8245B050(obj,param_3,4);
+        fn_8245B100(obj);
+        buf = (short)param_4;
+        fn_8245B168(obj,&buf,2);
+        buf = param_5;
+        fn_8245B168(obj,&buf,2);
+        buf = param_6;
+        fn_8245B168(obj,&buf,2);
+        buf = param_7;
+        fn_8245B168(obj,&buf,2);
         fn_824B70F0();
-        fn_8245AFC0(iVar4,0,0);
+        fn_8245AFC0(obj,0,0);
       }
     }
   }
-  return;
 }
-

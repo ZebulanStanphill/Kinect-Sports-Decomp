@@ -1,53 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82279398();
-extern int fn_8227E4B0();
+typedef struct Item_82279D28 {
+  char pad[0x10];
+  unsigned int id;
+} Item_82279D28;
 
+typedef struct Node_82279D28 {
+  struct Node_82279D28 *next;
+  struct Node_82279D28 *prev;
+  Item_82279D28 *item;
+} Node_82279D28;
 
-void fn_82279D28(int param_1,ulonglong param_2,undefined8 param_3)
+typedef struct Obj_82279D28 {
+  char pad0[0x10];
+  Node_82279D28 *list;
+  char pad1[0x9c - 0x14];
+  void *target;
+} Obj_82279D28;
 
+extern void fn_82279398(Item_82279D28 *, unsigned int);
+extern void fn_8227E4B0(void *, unsigned int, int, int);
+
+static __forceinline Item_82279D28 *find(Node_82279D28 *list, unsigned int id)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0x9c) != 0) {
-    fn_8227E4B0(*(int *)(param_1 + 0x9c),param_2,(int)param_3 == 0,0);
-    for (puVar1 = (undefined4 *)**(undefined4 **)(param_1 + 0x10);
-        puVar1 != *(undefined4 **)(param_1 + 0x10); puVar1 = (undefined4 *)*puVar1) {
-      iVar2 = puVar1[2];
-      if ((ulonglong)*(uint *)(iVar2 + 0x10) == (param_2 & 0xffffffff)) goto LAB_82279d88;
-    }
-    iVar2 = 0;
-LAB_82279d88:
-    if (iVar2 != 0) {
-      fn_82279398(iVar2,param_3);
+  Node_82279D28 *n;
+  Item_82279D28 *it;
+
+  for (n = list->next; n != list; n = n->next) {
+    it = n->item;
+    if (it->id == id) {
+      return it;
     }
   }
-  return;
+  return 0;
 }
 
+void fn_82279D28(Obj_82279D28 *param_1, unsigned int param_2, unsigned int param_3)
+{
+  Item_82279D28 *found;
+
+  if (param_1->target != 0) {
+    fn_8227E4B0(param_1->target, param_2, param_3 == 0, 0);
+    found = find(param_1->list, param_2);
+    if (found != 0) {
+      fn_82279398(found, param_3);
+    }
+  }
+}

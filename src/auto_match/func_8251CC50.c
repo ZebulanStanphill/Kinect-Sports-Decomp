@@ -1,76 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int iRam832960bc;
-extern unsigned int lbl_832960A4;
-extern unsigned int lbl_832960A8;
-extern unsigned int lbl_832960B4;
-extern unsigned int lbl_832960B8;
-extern unsigned int lbl_832960C4;
-extern unsigned int lbl_8329618C;
+typedef struct Holder_8251CC50 {
+  int pad0;
+  int pad4;
+} Holder_8251CC50;
 
+typedef struct Inner_8251CC50 {
+  char pad0[0x24];
+  int count;
+} Inner_8251CC50;
 
-void fn_8251CC50(int param_1,int param_2)
+typedef struct Node_8251CC50 {
+  int pad0;
+  Inner_8251CC50 *inner;
+} Node_8251CC50;
 
+typedef struct Globals_8251CC50 {
+  int pad0;
+  int f4;
+  int f8;
+  char padc[8];
+  int f14;
+  int f18;
+  int f1c;
+  int pad20;
+  int f24;
+  char pad28[0xc4];
+  Node_8251CC50 *fec;
+} Globals_8251CC50;
+
+extern Globals_8251CC50 lbl_832960A0;
+
+void fn_8251CC50(int a, int flag)
 {
-  int iVar1;
-  int iVar2;
-  
-  if (param_2 == 0) {
-    lbl_832960B4 = lbl_832960B4 + -1;
-  }
-  else {
-    lbl_832960B8 = lbl_832960B8 + -1;
-  }
-  if (lbl_832960B8 != 0) {
-    return;
-  }
-  if (lbl_832960B4 != 0) {
-    return;
-  }
-  if ((iRam832960bc == 0) && (lbl_832960C4 != 0)) {
-    lbl_832960A4 = 3;
-  }
-  else {
-    if (lbl_8329618C == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = *(int *)(lbl_8329618C + 4);
-    }
-    iVar1 = *(int *)(iVar2 + 0x24);
-    if ((iVar1 < 1) || (*(int *)((iVar1 + 4) * 4 + iVar2) != param_1)) {
-      *(int *)((iVar1 + 5) * 4 + iVar2) = param_1;
-      *(int *)(iVar2 + 0x24) = *(int *)(iVar2 + 0x24) + 1;
-    }
-    lbl_832960A4 = 0;
-  }
-  lbl_832960A8 = param_1;
-  lbl_832960C4 = 1;
-  return;
-}
+  Inner_8251CC50 *o;
+  int n;
+  int *arr;
 
+  if (flag != 0)
+    lbl_832960A0.f18--;
+  else
+    lbl_832960A0.f14--;
+  if (lbl_832960A0.f18 != 0)
+    return;
+  if (lbl_832960A0.f14 != 0)
+    return;
+  if (lbl_832960A0.f1c == 0 && lbl_832960A0.f24 != 0) {
+    lbl_832960A0.f4 = 3;
+  } else {
+    o = lbl_832960A0.fec ? lbl_832960A0.fec->inner : 0;
+    n = o->count;
+    arr = (int *)o;
+    if (n <= 0 || arr[n + 4] != a) {
+      arr[n + 5] = a;
+      o->count = o->count + 1;
+    }
+    lbl_832960A0.f4 = 0;
+  }
+  lbl_832960A0.f8 = a;
+  lbl_832960A0.f24 = 1;
+}

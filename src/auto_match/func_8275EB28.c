@@ -1,52 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82005718;
+typedef struct { int a, b, c, d; } Rect_8275EB28;
+typedef struct {
+    char pad0[0x24];
+    unsigned char flags;
+    char pad25[0x34 - 0x25];
+    Rect_8275EB28 rect;
+} Src_8275EB28;
+typedef struct {
+    Src_8275EB28 *src;
+    int first;
+    Rect_8275EB28 rect;
+    int count;
+    int second;
+    float step;
+} Obj_8275EB28;
 
+extern float lbl_82002AE0;
 
-void fn_8275EB28(int *param_1,int param_2)
-
+void fn_8275EB28(Obj_8275EB28 *o, Src_8275EB28 *src)
 {
-  int iVar1;
-  
-  *param_1 = param_2;
-  param_1[1] = *(int *)(param_2 + 0x34);
-  param_1[2] = *(int *)(param_2 + 0x34);
-  param_1[3] = *(int *)(param_2 + 0x38);
-  param_1[4] = *(int *)(param_2 + 0x3c);
-  param_1[5] = *(int *)(param_2 + 0x40);
-  param_1[6] = 0;
-  param_1[7] = *(int *)(param_2 + 0x38);
-  iVar1 = lbl_82002AE0;
-  if ((*(byte *)(param_2 + 0x24) & 2) != 0) {
-    iVar1 = lbl_82005718;
-  }
-  param_1[8] = iVar1;
-  return;
+    Rect_8275EB28 *r = &src->rect;
+    o->src = src;
+    o->first = r->a;
+    o->rect = *r;
+    o->count = 0;
+    o->second = r->b;
+    o->step = (src->flags & 2) ? 0.05f : lbl_82002AE0;
 }
-

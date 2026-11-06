@@ -1,71 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82295A48();
-extern int fn_82297DB0();
-extern int fn_824C04E0();
-extern int fn_8265C9E0();
-extern int fn_8265CA20();
-extern int fn_82F68CC0();
-
-
-void fn_824C21B8(int param_1,undefined4 param_2,undefined4 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6)
-
+extern void *memcpy(void *, const void *, unsigned int);
+extern void *fn_8265C9E0(int);
+extern void fn_8265CA20(void *);
+extern void fn_822315A0(void *);
+extern void fn_82295A48(void *, void *);
+extern void fn_824C04E0(void *, int);
+extern void fn_82297DB0(void *, int, int);
+typedef struct { int a; void *b; } Pair;
+typedef struct { char pad[0x54]; int f54; int f58; void *f5c; unsigned __int64 f60; Pair p68; char sub70[1]; } O;
+void fn_824C21B8(O *o, int a, int b, void *src, unsigned __int64 v, void *s)
 {
-  int iVar1;
-  ulonglong uVar2;
-  
-  *(undefined4 *)(param_1 + 0x54) = param_2;
-  *(undefined4 *)(param_1 + 0x58) = param_3;
-  uVar2 = fn_8265C9E0(0x428);
-  if (uVar2 == 0) {
-    uVar2 = 0;
+  void *p;
+  Pair *pp;
+  void *old;
+  o->f54 = a;
+  o->f58 = b;
+  p = fn_8265C9E0(0x428);
+  if (p != 0) {
+    memcpy(p, src, 0x428);
+  } else {
+    p = 0;
   }
-  else {
-    fn_82F68CC0(uVar2,param_4,0x428);
+  if (p != o->f5c) {
+    if (o->f5c != 0) fn_8265CA20(o->f5c);
+    o->f5c = p;
   }
-  if ((uVar2 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x5c)) {
-    if ((ulonglong)*(uint *)(param_1 + 0x5c) != 0) {
-      fn_8265CA20();
-    }
-    *(int *)(param_1 + 0x5c) = (int)uVar2;
-  }
-  *(undefined8 *)(param_1 + 0x60) = param_5;
-  iVar1 = *(int *)(param_1 + 0x6c);
-  *(undefined4 *)(param_1 + 0x6c) = 0;
-  *(undefined4 *)(param_1 + 0x68) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  fn_82295A48(param_1 + 0x70,param_6);
-  fn_824C04E0(param_1,1);
-  fn_82297DB0(param_6,1,0);
-  return;
+  o->f60 = v;
+  pp = &o->p68;
+  old = pp->b;
+  pp->b = 0;
+  pp->a = 0;
+  if (old != 0) fn_822315A0(old);
+  fn_82295A48(o->sub70, s);
+  fn_824C04E0(o, 1);
+  fn_82297DB0(s, 1, 0);
 }
-

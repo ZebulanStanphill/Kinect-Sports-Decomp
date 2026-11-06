@@ -1,49 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83211320;
-extern unsigned int lbl_83211328;
+extern unsigned int lbl_83211328[];
 
-
-void fn_82859808(undefined4 *param_1)
-
+void fn_82859808(void (**self)(void *, unsigned int))
 {
-  longlong lVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if (lbl_83211320 != 0) {
-    lVar1 = 0;
-    do {
-      (*(code *)*param_1)(param_1,lVar1 + (ulonglong)lbl_83211328);
-      iVar2 = iVar2 + 1;
-      lVar1 = lVar1 + 0xd8;
-    } while (iVar2 < (int)(uint)lbl_83211320);
-  }
-  return;
-}
+  int i;
+  /* the entry count is the 16-bit value 8 bytes before the base pointer */
+  unsigned short *count = (unsigned short *)lbl_83211328 - 4;
 
+  for (i = 0; i < *count; i++) {
+    (*self)(self, i * 0xd8 + lbl_83211328[0]);
+  }
+}

@@ -1,80 +1,77 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_826959C8();
-extern int fn_82696BC8();
-extern int fn_82735960();
-extern int fn_82735D68();
-extern int fn_827363A0();
+struct B_82727A40;
+typedef struct {
+    int pad0;
+    int pad4;
+    int (*kind)(struct B_82727A40 *self);
+} Vt_82727A40;
+typedef struct B_82727A40 {
+    Vt_82727A40 *vt;
+} B_82727A40;
 
+typedef struct {
+    char pad0[0xa0];
+    struct {
+        char pad[8];
+        struct {
+            char pad[0x18];
+            unsigned int b;
+            unsigned int a;
+        } *inner;
+    } *info;
+} Base_82727A40;
 
-void fn_82727A40(int param_1)
+typedef struct {
+    char pad[0x78];
+    struct {
+        char pad[0x288];
+        int heap;
+    } *sub;
+} Owner_82727A40;
 
+typedef struct {
+    int pad0;
+    char *out;
+    B_82727A40 *b;
+    char pad0c[0x18 - 0xc];
+    Owner_82727A40 *owner;
+} Obj_82727A40;
+
+extern void *fn_8267B890(int heap, int size, int flags);
+extern void fn_826824B0(void *p);
+extern void fn_826959C8(char *p);
+extern void fn_82696BC8(char *out, void *node);
+extern void *fn_82735960(void *mem, Owner_82727A40 *owner);
+extern void fn_82735D68(void *node, char *owner78, unsigned int v);
+extern void fn_827363A0(void *node, char *owner78, unsigned int v);
+
+void fn_82727A40(Obj_82727A40 *self)
 {
-  int iVar1;
-  undefined1 *puVar2;
-  int iVar4;
-  ulonglong uVar3;
-  
-  if ((*(int **)(param_1 + 8) == (int *)0x0) ||
-     (iVar4 = (**(code **)(**(int **)(param_1 + 8) + 8))(), iVar4 != 4)) {
-    puVar2 = *(undefined1 **)(param_1 + 4);
-    fn_826959C8(puVar2);
-    *puVar2 = 0;
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 8) + -0x68;
-    if (*(int *)(param_1 + 8) == 0) {
-      iVar4 = 0;
+    if (self->b == 0 || self->b->vt->kind(self->b) != 4) {
+        char *out = self->out;
+        fn_826959C8(out);
+        *out = 0;
+    } else {
+        Base_82727A40 *base;
+        unsigned int a, b;
+        void *mem;
+        void *node;
+        if (self->b != 0)
+            base = (Base_82727A40 *)((char *)self->b - 0x68);
+        else
+            base = 0;
+        a = base->info->inner->a;
+        b = base->info->inner->b;
+        mem = fn_8267B890(self->owner->sub->heap, 0x74, 0);
+        if (mem != 0)
+            node = fn_82735960(mem, self->owner);
+        else
+            node = 0;
+        if (a != 0)
+            fn_82735D68(node, (char *)self->owner + 0x78, a);
+        if (b != 0)
+            fn_827363A0(node, (char *)self->owner + 0x78, b);
+        fn_82696BC8(self->out, node);
+        if (node != 0)
+            fn_826824B0(node);
     }
-    iVar4 = *(int *)(*(int *)(iVar4 + 0xa0) + 8);
-    iVar1 = *(int *)(iVar4 + 0x1c);
-    iVar4 = *(int *)(iVar4 + 0x18);
-    uVar3 = fn_8267B890(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0x18) + 0x78) + 0x288),
-                              0x74,0);
-    if ((uVar3 & 0xffffffff) == 0) {
-      uVar3 = 0;
-    }
-    else {
-      uVar3 = fn_82735960(uVar3,*(undefined4 *)(param_1 + 0x18));
-    }
-    if (iVar1 != 0) {
-      fn_82735D68(uVar3,(ulonglong)*(uint *)(param_1 + 0x18) + 0x78,iVar1);
-    }
-    if (iVar4 != 0) {
-      fn_827363A0(uVar3,(ulonglong)*(uint *)(param_1 + 0x18) + 0x78,iVar4);
-    }
-    fn_82696BC8(*(undefined4 *)(param_1 + 4),uVar3);
-    if ((uVar3 & 0xffffffff) != 0) {
-      fn_826824B0(uVar3);
-    }
-  }
-  return;
 }
-

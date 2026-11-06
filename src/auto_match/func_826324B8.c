@@ -1,154 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826323F8();
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82F68CC0();
+typedef struct {
+    void *data;
+    unsigned int count;
+    unsigned int capacity;
+} Array_826324B8;
 
+typedef struct {
+    char pad[0x4db4];
+    unsigned int flagsHi : 29;
+    unsigned int bit2 : 1;
+    unsigned int flagsLo : 2;
+} Ctx_826324B8;
 
-void fn_826324B8(int *param_1,int param_2)
+typedef struct {
+    Ctx_826324B8 *ctx;
+    char pad4[0x4c];
+    int hr;
+    char pad54[0xc];
+    Array_826324B8 a60;
+    Array_826324B8 a6C;
+    char pad78[0x94];
+    Array_826324B8 a10C;
+    Array_826324B8 a118;
+    Array_826324B8 a124;
+    Array_826324B8 a130;
+} Builder_826324B8;
 
+extern void fn_826323F8(Builder_826324B8 *self);
+extern void *fn_8265C940(unsigned int size, unsigned int tag);
+extern void fn_8265C990(void *p, unsigned int tag);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+
+static __forceinline void Reset_826324B8(Builder_826324B8 *self, Array_826324B8 *a, unsigned int minimum, unsigned int elemSize)
 {
-  longlong lVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  int *piVar4;
-  
-  fn_826323F8();
-  *param_1 = param_2;
-  piVar4 = param_1 + 0x18;
-  param_1[0x19] = 0;
-  if ((uint)param_1[0x1a] < 100) {
-    uVar3 = ((ulonglong)(uint)param_1[0x1a] & 0x7fffffff) << 1;
-    if (uVar3 < 100) {
-      uVar3 = 100;
-    }
-    lVar1 = fn_8265C940(uVar3 * 0xc,0x64800000);
-    if (lVar1 == 0) {
-      param_1[0x14] = -0x7ff8fff2;
-    }
-    else {
-      param_1[0x1a] = (int)uVar3;
-      if (*piVar4 != 0) {
-        fn_82F68CC0(lVar1,*piVar4,(ulonglong)(uint)param_1[0x19] * 0xc);
-        fn_8265C990(*piVar4,0x24800000);
-      }
-      *piVar4 = (int)lVar1;
-    }
-  }
-  piVar4 = param_1 + 0x1b;
-  param_1[0x1c] = 0;
-  if ((uint)param_1[0x1d] < 0x32) {
-    uVar3 = ((ulonglong)(uint)param_1[0x1d] & 0x7fffffff) << 1;
-    if (uVar3 < 0x32) {
-      uVar3 = 0x32;
-    }
-    lVar1 = fn_8265C940((uVar3 & 0x1fffffff) << 3,0x64800000);
-    if (lVar1 == 0) {
-      param_1[0x14] = -0x7ff8fff2;
-    }
-    else {
-      param_1[0x1d] = (int)uVar3;
-      if (*piVar4 != 0) {
-        fn_82F68CC0(lVar1,*piVar4,param_1[0x1c] << 3);
-        fn_8265C990(*piVar4,0x24800000);
-      }
-      *piVar4 = (int)lVar1;
-    }
-  }
-  if ((*(uint *)(*param_1 + 0x4db4) >> 2 & 1) == 0) {
-    piVar4 = param_1 + 0x46;
-    param_1[0x47] = 0;
-    if ((uint)param_1[0x48] < 2) {
-      uVar3 = ((ulonglong)(uint)param_1[0x48] & 0x7fffffff) << 1;
-      if (uVar3 < 2) {
-        uVar3 = 2;
-      }
-      lVar1 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x64800000);
-      if (lVar1 == 0) {
-        param_1[0x14] = -0x7ff8fff2;
-      }
-      else {
-        param_1[0x48] = (int)uVar3;
-        if (*piVar4 != 0) {
-          fn_82F68CC0(lVar1,*piVar4,param_1[0x47] << 2);
-          fn_8265C990(*piVar4,0x24800000);
+    a->count = 0;
+    if (a->capacity < minimum) {
+        unsigned int n = a->capacity * 2;
+        void *p;
+        if (n < minimum) {
+            n = minimum;
         }
-        *piVar4 = (int)lVar1;
-      }
-    }
-    piVar4 = param_1 + 0x49;
-    param_1[0x4a] = 0;
-    if ((uint)param_1[0x4b] < 0x10) {
-      uVar3 = ((ulonglong)(uint)param_1[0x4b] & 0x7fffffff) << 1;
-      if (uVar3 < 0x10) {
-        uVar3 = 0x10;
-      }
-      lVar1 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x64800000);
-      if (lVar1 == 0) {
-        param_1[0x14] = -0x7ff8fff2;
-      }
-      else {
-        param_1[0x4b] = (int)uVar3;
-        if (*piVar4 != 0) {
-          fn_82F68CC0(lVar1,*piVar4,param_1[0x4a] << 2);
-          fn_8265C990(*piVar4,0x24800000);
+        p = fn_8265C940(n * elemSize, 0x64800000);
+        if (p == 0) {
+            self->hr = 0x8007000e;
+        } else {
+            a->capacity = n;
+            if (a->data != 0) {
+                memcpy(p, a->data, a->count * elemSize);
+                fn_8265C990(a->data, 0x24800000);
+            }
+            a->data = p;
         }
-        *piVar4 = (int)lVar1;
-      }
     }
-    uVar2 = param_1[0x4e];
-    piVar4 = param_1 + 0x4c;
-    param_1[0x4d] = 0;
-  }
-  else {
-    uVar2 = param_1[0x45];
-    piVar4 = param_1 + 0x43;
-    param_1[0x44] = 0;
-  }
-  if (uVar2 < 0x10) {
-    uVar3 = ((ulonglong)uVar2 & 0x7fffffff) << 1;
-    if (uVar3 < 0x10) {
-      uVar3 = 0x10;
-    }
-    lVar1 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x64800000);
-    if (lVar1 == 0) {
-      param_1[0x14] = -0x7ff8fff2;
-    }
-    else {
-      piVar4[2] = (int)uVar3;
-      if (*piVar4 != 0) {
-        fn_82F68CC0(lVar1,*piVar4,piVar4[1] << 2);
-        fn_8265C990(*piVar4,0x24800000);
-      }
-      *piVar4 = (int)lVar1;
-    }
-  }
-  return;
 }
 
+void fn_826324B8(Builder_826324B8 *self, Ctx_826324B8 *ctx)
+{
+    fn_826323F8(self);
+    self->ctx = ctx;
+    Reset_826324B8(self, &self->a60, 100, 12);
+    Reset_826324B8(self, &self->a6C, 50, 8);
+    if ((unsigned char)self->ctx->bit2) {
+        Reset_826324B8(self, &self->a10C, 16, 4);
+    } else {
+        Reset_826324B8(self, &self->a118, 2, 4);
+        Reset_826324B8(self, &self->a124, 16, 4);
+        Reset_826324B8(self, &self->a130, 16, 4);
+    }
+}
