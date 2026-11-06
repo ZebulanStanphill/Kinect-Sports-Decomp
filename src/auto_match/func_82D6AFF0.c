@@ -29,24 +29,22 @@ extern unsigned int *auStack_80;
 extern int fn_82CE6768();
 
 
-void fn_82D6AFF0(int *param_1,int *param_2,int *param_3,undefined8 param_4,undefined8 param_5)
+void fn_82D6AFF0(int *param_1,int *param_2,int *param_3,unsigned param_4,unsigned param_5)
 
 {
   int iVar1;
-  int aiStack_90 [2];
-  undefined1 *puStack_88;
-  int *piStack_84;
-  undefined1 auStack_80 [80];
+  struct {int data[2]; undefined1 *buffer; int *object;} context;
+  undefined1 auStack_80 [64];
   
   iVar1 = *param_1;
   fn_82CE6768(auStack_80,param_1[2],iVar1 + 0x30);
-  puStack_88 = auStack_80;
-  aiStack_90[0] = *(int *)(iVar1 + 0x14);
-  aiStack_90[1] = 0;
-  piStack_84 = param_1;
-  (**(code **)((uint)*(byte *)((*(int *)(aiStack_90[0] + 0xc) + 0xd) * 0x20 +
+  context.object = param_1;
+  context.buffer = auStack_80;
+  context.data[0] = *(int *)(iVar1 + 0x14);
+  context.data[1] = 0;
+  (*(code *)((uint)*(byte *)((*(int *)(context.data[0] + 0xc) + 0xd) * 0x20 +
                                *(int *)(*param_2 + 0xc) + *param_3) * 0x14 + *param_3 + 0x9ac))
-            (aiStack_90,param_2,param_3,param_4,param_5);
+            (&context,param_2,param_3,param_4,param_5);
   return;
 }
 

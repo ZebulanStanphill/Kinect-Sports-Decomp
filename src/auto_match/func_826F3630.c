@@ -26,21 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_826D8D60();
-extern int fn_826E50D0();
+extern unsigned char fn_826E50D0(int,unsigned,int,int,int,int);
 
 
-bool fn_826F3630(int param_1,undefined8 param_2)
+bool fn_826F3630(int param_1,unsigned param_2)
 
 {
   int iVar1;
-  char cVar2;
+  unsigned char cVar2;
   
   iVar1 = *(int *)(param_1 + 0x10);
   cVar2 = fn_826E50D0(param_1 + 0x28,param_2,*(undefined4 *)(iVar1 + 0xc),
                             *(undefined4 *)(iVar1 + 0x28),*(undefined4 *)(iVar1 + 0x10),1);
-  if (cVar2 != '\0') {
-    fn_826D8D60(*(undefined4 *)(param_1 + 0x20),param_1 + 0x274);
-  }
-  return cVar2 != '\0';
+  if (cVar2 == 0) return false;
+  fn_826D8D60(*(undefined4 *)(param_1 + 0x20),param_1 + 0x274);
+  return true;
 }
 

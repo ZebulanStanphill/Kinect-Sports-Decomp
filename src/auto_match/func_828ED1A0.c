@@ -32,27 +32,14 @@ bool fn_828ED1A0(int param_1)
 {
   uint uVar1;
   
-  uVar1 = *(uint *)(param_1 + 8);
-  if (uVar1 < 6) {
-    if (uVar1 == 1) {
-      return true;
-    }
-    if (uVar1 != 2) {
-      if (uVar1 == 3) {
-        return true;
-      }
-      if (uVar1 != 4) {
-        if (uVar1 != 0) {
-          return true;
-        }
-        return false;
-      }
-    }
+  switch (*(uint *)(param_1 + 8)) {
+  case 0: return false;
+  case 1: case 3: case 5: return true;
+  case 2: case 4: default: break;
   }
-  if ((((*(int *)(param_1 + 0x1ac) != 1) && (*(char *)(param_1 + 0x128) == '\0')) &&
+  if ((((*(int *)(param_1 + 0x1ac) != 1) && (*(unsigned char *)(param_1 + 0x128) == 0)) &&
       (*(int *)(param_1 + 0x188) != 1)) && (*(int *)(param_1 + 0x188) != 3)) {
-    return *(char *)(param_1 + 0x164) != '\0';
+    return *(unsigned char *)(param_1 + 0x164) != 0;
   }
   return true;
 }
-
