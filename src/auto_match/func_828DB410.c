@@ -41,20 +41,9 @@ extern int fn_828DB2F8();
 void fn_828DB410(int param_1)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
   switch(*(undefined4 *)(param_1 + 0xc)) {
-  case 1:
-    fn_828DAA50(param_1);
-    return;
-  case 2:
-    cVar1 = fn_828ACCE8(*(undefined4 *)(param_1 + 8));
-    if ((cVar1 == '\0') || (cVar1 = fn_828AD740(*(undefined4 *)(param_1 + 8)), cVar1 != '\0'))
-    {
-      fn_828D2F28(param_1);
-      return;
-    }
-    break;
   case 3:
     fn_828DB128(param_1);
     return;
@@ -73,6 +62,17 @@ void fn_828DB410(int param_1)
   case 8:
     fn_828DAF10(param_1);
     return;
+  case 1:
+    fn_828DAA50(param_1);
+    return;
+  case 2:
+    cVar1 = fn_828ACCE8(*(undefined4 *)(param_1 + 8));
+    if ((cVar1 == '\0') || (cVar1 = fn_828AD740(*(undefined4 *)(param_1 + 8)), cVar1 != '\0'))
+    {
+      fn_828D2F28(param_1);
+      return;
+    }
+    break;
   case 10:
     cVar1 = fn_828ACCE8(*(undefined4 *)(param_1 + 8));
     if (cVar1 != '\0') {

@@ -31,7 +31,8 @@ extern int fn_82BE6B58();
 extern int fn_82BEBE48();
 
 
-undefined8 fn_82BEC428(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4)
+extern char lbl_82196582[];
+undefined8 fn_82BEC428(undefined8 param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
 
 {
   int iVar2;
@@ -39,16 +40,9 @@ undefined8 fn_82BEC428(undefined8 param_1,ulonglong param_2,ulonglong param_3,ul
   
   if ((((param_2 & 0xffffffff) == 0) || ((param_3 & 0xffffffff) == 0)) ||
      ((param_4 & 0xffffffff) == 0)) {
-    fn_82BE5240(param_1,0x44c,0xffffffff82196582);
+    fn_82BE5240(param_1,0x44c,lbl_82196582);
   }
-  iVar2 = fn_82BE6B58(param_1,param_2,0x100,0x100);
-  if ((iVar2 == 0) || (iVar2 = fn_82BEBE48(param_1,param_3,param_4), iVar2 == 0)) {
-    uVar1 = 0;
-  }
-  else {
-    fn_82BE64E0(param_1,2);
-    uVar1 = 1;
-  }
-  return uVar1;
+  if (fn_82BE6B58(param_1,param_2,0x100,0x100)==0) return 0;
+  if (fn_82BEBE48(param_1,param_3,param_4)==0) return 0;
+  fn_82BE64E0(param_1,2); return 1;
 }
-

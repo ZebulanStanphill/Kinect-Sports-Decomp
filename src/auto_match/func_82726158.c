@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
-extern int fn_8267B890();
+extern unsigned int fn_8267B890();
 extern int fn_82687270();
 extern int fn_826A6A38();
 extern int fn_826A9280();
@@ -39,19 +39,19 @@ void fn_82726158(int param_1,undefined4 *param_2)
 
 {
   uint uVar2;
-  int iVar3;
-  ulonglong uVar1;
-  uint auStack_30 [12];
+  unsigned int iVar3;
+  unsigned int uVar1;
+  uint auStack_30 [1];
   
-  uVar2 = fn_826A6A38();
+  uVar2 = fn_826A6A38(param_1);
   iVar3 = fn_8267B890(*(undefined4 *)(*(int *)(param_1 + 0x20) + 0x1c),0x58,0);
-  if (iVar3 == 0) {
-    uVar1 = 0;
+  if (iVar3 != 0) {
+    uVar1 = fn_82726070(iVar3);
   }
   else {
-    uVar1 = fn_82726070();
+    uVar1 = 0;
   }
-  fn_826A9280(param_1 + 0x14,0xffffffff820110b4,uVar2 & 0xffff);
+  fn_826A9280(param_1 + 0x14,"EditTextChar, id = %d\n",uVar2 & 0xffff);
   fn_82724BE0(uVar1,param_1,*param_2);
   if (*(int *)(param_1 + 0x2e8) == 0) {
     auStack_30[0] = uVar2 & 0xffff;

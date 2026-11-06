@@ -40,25 +40,25 @@ void fn_826E0428(int param_1)
 {
   undefined4 uVar1;
   uint uVar3;
-  ulonglong uVar2;
+  unsigned int uVar2;
   int iVar4;
   uint auStack_30;
   
-  uVar3 = fn_826A6A38();
+  uVar3 = fn_826A6A38(param_1);
   uVar3 = uVar3 & 0xffff;
-  fn_826A9280(param_1 + 0x14,0xffffffff8200cad4,uVar3);
+  fn_826A9280(param_1 + 0x14,"  sprite\n  char id = %d\n",uVar3);
   uVar2 = fn_8267B890(*(undefined4 *)(*(int *)(param_1 + 0x20) + 0x1c),0x38,0);
-  if ((uVar2 & 0xffffffff) == 0) {
-    iVar4 = 0;
+  if (uVar2 != 0) {
+    iVar4 = fn_826D28F0(uVar2,*(undefined4 *)(param_1 + 0x24));
   }
   else {
-    iVar4 = fn_826D28F0(uVar2,*(undefined4 *)(param_1 + 0x24));
+    iVar4 = 0;
   }
   auStack_30 = uVar3;
   fn_826CDAB8(iVar4,param_1,&auStack_30);
   uVar1 = *(undefined4 *)(param_1 + 0x20);
-  *(uint *)(iVar4 + 0xc) = uVar3;
   auStack_30 = uVar3;
+  *(uint *)(iVar4 + 0xc) = uVar3;
   fn_826DDC60(uVar1,&auStack_30,iVar4);
   fn_82687270(iVar4);
   return;
