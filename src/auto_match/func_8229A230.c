@@ -36,18 +36,18 @@ void fn_8229A230(undefined4 *param_1)
 
 {
   double dVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  struct { unsigned first,second; double number; } stack_pair_30;
 
   double dStack_28;
   
-  if ((param_1[0x48a] == 0) || (param_1[0x483] != 1)) {
-    if (param_1[0x48a] != 0) {
+  if (((int)param_1[0x48a] == 0) || ((int)param_1[0x483] != 1)) {
+    if ((int)param_1[0x48a] != 0) {
       stack_pair_30.first = 0;
       stack_pair_30.second = 0;
       dVar1 = (double)(uint)param_1[2];
       fn_82273CD8(&stack_pair_30.first,3);
-      dStack_28 = dVar1;
-      fn_82672C20(*param_1,0xffffffff821aad64,&stack_pair_30.first,1);
+      stack_pair_30.number = dVar1;
+      fn_82672C20(*param_1,"_root.mainCtrl.destroyCaption",&stack_pair_30.first,1);
       fn_82273C88(&stack_pair_30.first);
     }
     param_1[0x483] = 0;

@@ -29,24 +29,20 @@ extern int fn_8267C498();
 extern int fn_8269CEE0();
 
 
-void fn_826FD288(int param_1)
-
-{
-  char cVar1;
-  int *apiStack_20 [2];
-  
-  if (((*(ushort *)(param_1 + 0xb00) & 1) != 0) &&
-     (fn_8269CEE0(apiStack_20,param_1 + 0xad8), apiStack_20[0] != (int *)0x0)) {
-    apiStack_20[0][1] = apiStack_20[0][1] + 1;
-    fn_8267C498(apiStack_20[0]);
-    if ((apiStack_20[0][8] != 0) &&
-       (cVar1 = (**(code **)(*apiStack_20[0] + 0xd0))(apiStack_20[0],0,2), cVar1 == '\0')) {
-      fn_8267C498(apiStack_20[0]);
-      return;
+void fn_826FD288(int self) {
+ int *pair[2];
+ if ((*(ushort *)(self+0xb00)&1)!=0) {
+  fn_8269CEE0(pair,self+0xad8);
+  { int *obj=pair[0];
+   if(obj) {
+    obj[1]++;
+    fn_8267C498(obj);
+    if(obj[8] && !(*(unsigned char (**)(int *,int,int))(*obj+0xd0))(obj,0,2)) {
+     fn_8267C498(obj); return;
     }
-    fn_8267C498(apiStack_20[0]);
+    fn_8267C498(obj);
+   }
   }
-  *(uint *)(param_1 + 0xb00) = *(uint *)(param_1 + 0xb00) & 0xfffeffff;
-  return;
+ }
+ *(uint *)(self+0xb00)&=0xfffeffff;
 }
-

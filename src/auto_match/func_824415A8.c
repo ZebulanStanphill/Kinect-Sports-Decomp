@@ -26,58 +26,57 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_824BF8A8();
-extern unsigned int lbl_82191C00;
-extern unsigned int uStack_3c;
+extern unsigned char *lbl_82191C00[];
 
 
-void fn_824415A8(uint *param_1,undefined8 param_2)
+
+void fn_824415A8(uint *param_1,unsigned param_2)
 
 {
   char *pcVar1;
   uint uVar2;
   undefined *puVar3;
-  bool bVar4;
-  char *pcStack_40;
-  uint uStack_3c;
+  int bVar4;
+  struct { char *p; uint tag; } value;
   
-  puVar3 = (&lbl_82191C00)[param_1[4]];
+  puVar3 = lbl_82191C00[param_1[4]];
   pcVar1 = *(char **)(puVar3 + 0x1c);
   if ((*param_1 & 0x40) != 0) {
-    uStack_3c = 7;
-    pcStack_40 = pcVar1;
-    fn_824BF8A8(param_2,&pcStack_40);
-  }
-  bVar4 = (*param_1 & 0x80) != 0;
-  if (bVar4) {
-    uStack_3c = 8;
-    pcStack_40 = pcVar1;
-    fn_824BF8A8(param_2,&pcStack_40);
-  }
-  if ((*param_1 & 0x100000) != 0) {
-    uStack_3c = 7;
-    pcStack_40 = "discus_video";
-    fn_824BF8A8(param_2,&pcStack_40);
-  }
-  if ((*param_1 & 8) != 0) {
-    pcStack_40 = *(char **)(puVar3 + 0x18);
-    uStack_3c = 7;
-    fn_824BF8A8(param_2,&pcStack_40);
-  }
-  if (bVar4) {
-    pcStack_40 = *(char **)(puVar3 + 0x18);
-    uStack_3c = 6;
-    fn_824BF8A8(param_2,&pcStack_40);
+    value.tag = 7;
+    value.p = pcVar1;
+    fn_824BF8A8(param_2,&value.p);
   }
   if ((*param_1 & 0x80) != 0) {
-    pcStack_40 = *(char **)(puVar3 + 0x20);
-    uStack_3c = 7;
-    fn_824BF8A8(param_2,&pcStack_40);
+    value.tag = 8;
+    value.p = pcVar1;
+    fn_824BF8A8(param_2,&value.p);
+    bVar4 = 1;
+  } else { bVar4 = 0; }
+  if ((*param_1 & 0x100000) != 0) {
+    value.tag = 7;
+    value.p = "discus_video";
+    fn_824BF8A8(param_2,&value.p);
+  }
+  if ((*param_1 & 8) != 0) {
+    value.p = *(char **)(puVar3 + 0x18);
+    value.tag = 7;
+    fn_824BF8A8(param_2,&value.p);
+  }
+  if (bVar4) {
+    value.p = *(char **)(puVar3 + 0x18);
+    value.tag = 6;
+    fn_824BF8A8(param_2,&value.p);
+  }
+  if ((*param_1 & 0x80) != 0) {
+    value.p = *(char **)(puVar3 + 0x20);
+    value.tag = 7;
+    fn_824BF8A8(param_2,&value.p);
   }
   uVar2 = *param_1;
   if (((uVar2 >> 0xc & 1) != 0) || ((uVar2 & 0x2000) != 0)) {
-    pcStack_40 = *(char **)(puVar3 + 0x20);
-    uStack_3c = ~(uVar2 >> 0xc) & 1 | 8;
-    fn_824BF8A8(param_2,&pcStack_40);
+    value.p = *(char **)(puVar3 + 0x20);
+    value.tag = ~(uVar2 >> 0xc) & 1 | 8;
+    fn_824BF8A8(param_2,&value.p);
   }
   return;
 }

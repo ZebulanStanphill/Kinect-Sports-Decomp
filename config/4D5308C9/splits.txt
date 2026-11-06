@@ -101581,7 +101581,7 @@ auto_match/func_828D1480.c:
 	.pdata      start:0x82206020 end:0x82206028
 	.text       start:0x828D1480 end:0x828D14D0
 
-auto_match/func_828D14D0.c:
+auto_match/func_828D14D0.cpp:
 	.pdata      start:0x82206028 end:0x82206030
 	.text       start:0x828D14D0 end:0x828D156C
 
