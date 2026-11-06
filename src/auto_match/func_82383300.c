@@ -40,14 +40,14 @@ void fn_82383300(int param_1,undefined4 *param_2)
     fn_82359C18(puVar3);
     puVar1 = (undefined4 *)param_2[4];
     if (puVar1 == (undefined4 *)0x0) {
-      *(undefined4 *)(param_1 + 0x60) = 0;
+      puVar3[4] = 0;
     }
     else if (puVar1 == param_2) {
-      uVar2 = (**(code **)*puVar1)(puVar1,puVar3);
-      *(undefined4 *)(param_1 + 0x60) = uVar2;
+      uVar2 = (*(code *)(*puVar1))(puVar1,puVar3);
+      puVar3[4] = uVar2;
     }
     else {
-      *(undefined4 **)(param_1 + 0x60) = puVar1;
+      *(undefined4 **)(puVar3 + 4) = puVar1;
       param_2[4] = 0;
     }
   }

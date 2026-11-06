@@ -25,37 +25,33 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
+extern int fn_82A1F470(void);
+unsigned int strlen(const char *);
 extern int fn_82230360();
 extern int fn_82665348();
 extern int fn_8266A4E8();
 extern unsigned int uStack_80;
 
 
-longlong fn_8257EB78(undefined8 param_1)
+int fn_8257EB78(int param_1)
 
 {
   char cVar1;
   int iVar2;
   char *pcVar3;
-  longlong lVar4;
-  undefined4 uStack_80;
-  char acStack_7c [100];
+  int lVar4;
+  struct Info_8257EB78 { unsigned size; char text[100]; } info;
   
   lVar4 = 0;
-  uStack_80 = 0x5c;
-  acStack_7c[0] = '\0';
-  iVar2 = fn_8266A4E8(&uStack_80);
+  info.size = 0x5c;
+  info.text[0] = '\0';
+  iVar2 = fn_8266A4E8(&info);
   if (iVar2 == 0) {
-    lVar4 = thunk_FUN_82a2b798();
+    return fn_82A1F470();
   }
-  else if (((acStack_7c[0] != '\0') || (iVar2 = fn_82665348(acStack_7c,0x55), -1 < iVar2)) ||
-          (lVar4 = thunk_FUN_82a2b798(), lVar4 == 0)) {
-    pcVar3 = acStack_7c;
-    do {
-      cVar1 = *pcVar3;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-    fn_82230360(param_1,acStack_7c,pcVar3 + (-1 - (int)acStack_7c));
+  else if (((info.text[0] != '\0') || (iVar2 = fn_82665348(info.text,0x55), 0 <= iVar2)) ||
+          (lVar4 = fn_82A1F470(), lVar4 == 0)) {
+    fn_82230360(param_1,info.text,strlen(info.text));
   }
   return lVar4;
 }

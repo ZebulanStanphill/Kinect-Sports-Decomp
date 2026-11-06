@@ -34,27 +34,18 @@ void fn_827C5128(int param_1)
   undefined4 *puVar1;
   int iVar2;
   int iVar3;
-  longlong lVar4;
+  int lVar4;
   
-  puVar1 = (undefined4 *)(*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,0x40);
+  puVar1 = (undefined4 *)((code)**(undefined4 **)(param_1 + 4))(param_1,1,0x40);
   *(undefined4 **)(param_1 + 0x198) = puVar1;
-  iVar3 = 0;
   *puVar1 = fn_827C4E40;
-  puVar1[0xb] = 0;
-  puVar1[0xc] = 0;
-  puVar1[0xd] = 0;
-  puVar1[0xe] = 0;
-  iVar2 = (*(code *)**(undefined4 **)(param_1 + 4))(param_1,1,*(int *)(param_1 + 0x24) << 8);
+  { int n; unsigned *sub=puVar1+0xb;for(n=0;n<4;++n)sub[n]=0; }
+  iVar2 = ((code)**(undefined4 **)(param_1 + 4))(param_1,1,*(int *)(param_1 + 0x24) << 8);
   *(int *)(param_1 + 0x8c) = iVar2;
+  iVar3 = 0;
   if (0 < *(int *)(param_1 + 0x24)) {
     do {
-      puVar1 = (undefined4 *)(iVar2 + -4);
-      lVar4 = 0x40;
-      do {
-        puVar1 = puVar1 + 1;
-        *puVar1 = 0xffffffff;
-        lVar4 = lVar4 + -1;
-      } while (lVar4 != 0);
+      for (lVar4=0;lVar4<64;lVar4++) ((unsigned *)iVar2)[lVar4]=0xffffffff;
       iVar3 = iVar3 + 1;
       iVar2 = iVar2 + 0x100;
     } while (iVar3 < *(int *)(param_1 + 0x24));

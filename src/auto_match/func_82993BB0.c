@@ -38,25 +38,29 @@ void fn_82993BB0(int *param_1)
   uint uVar3;
   uint uVar4;
   uint uVar5;
+  uint end;
+  code callback;
   int iVar6;
-  ulonglong uVar7;
+  unsigned int uVar7;
   int iVar8;
   uint uVar9;
   int iVar10;
-  longlong lVar11;
+  int lVar11;
   undefined4 auStack_80 [4];
   undefined4 auStack_70 [4];
   int aiStack_60 [4];
-  int aiStack_50 [20];
+  int aiStack_50 [4];
   
   puVar1 = (uint *)param_1[0x41];
+  callback=*(code *)(*param_1+0x154);
   uVar2 = *puVar1;
-  uVar7 = (ulonglong)uVar2 & 0xfffff;
+  uVar7 = uVar2 & 0xfffff;
   uVar3 = puVar1[2];
   uVar4 = puVar1[3];
   uVar5 = puVar1[4];
-  iVar8 = (**(code **)(*param_1 + 0x154))(param_1,param_1[0x40],auStack_70,4,0,0);
-  if (-1 < iVar8) {
+  end=uVar7*4+uVar3;
+  iVar8 = callback(param_1,param_1[0x40],auStack_70,4,0,0);
+  if (iVar8 >= 0) {
     iVar8 = param_1[0x89];
     iVar6 = param_1[0x8a];
     uVar9 = 0;
@@ -73,9 +77,9 @@ void fn_82993BB0(int *param_1)
       iVar10 = iVar10 + 4;
       lVar11 = lVar11 + -1;
     } while (lVar11 != 0);
-    fn_8295D318(param_1,2,auStack_80,uVar4,(ulonglong)uVar3,
-                      ((ulonglong)uVar2 & 0xfffff) * 4 + (ulonglong)uVar3,0,uVar7);
-    fn_8295D318(param_1,0x58,uVar5,uVar4,auStack_80,aiStack_50,aiStack_60,uVar7);
+    fn_8295D318(param_1,2,auStack_80,uVar4,uVar3,
+                      end,0,uVar7,0,0x1000000,0,0);
+    fn_8295D318(param_1,0x58,uVar5,uVar4,auStack_80,aiStack_50,aiStack_60,uVar7,0,0,0,0);
   }
   return;
 }

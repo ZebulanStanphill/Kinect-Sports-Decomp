@@ -27,6 +27,8 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_220;
 extern unsigned int *auStack_230;
+void __debugbreak(void);
+extern char lbl_821C24F0[];
 extern int fn_82CED958();
 extern int fn_82CEDB38();
 extern int fn_82CEDCF0();
@@ -34,12 +36,12 @@ extern int fn_82CEE578();
 extern unsigned int *lbl_8323B464;
 
 
-longlong fn_82D0B378(int param_1,ulonglong param_2)
+unsigned int fn_82D0B378(int param_1,unsigned int param_2)
 
 {
   undefined4 uVar1;
   undefined8 in_r0;
-  undefined8 uVar2;
+  unsigned int uVar2;
   int iVar3;
   undefined1 auStack_230 [16];
   undefined1 auStack_220 [512];
@@ -48,17 +50,17 @@ longlong fn_82D0B378(int param_1,ulonglong param_2)
   if (*(char *)(iVar3 + 0x1b5) == '\0') {
     fn_82CEE578(auStack_230,auStack_220,0x200);
     uVar1 = *(undefined4 *)(iVar3 + 0x1b0);
-    uVar2 = fn_82CEDB38(auStack_230,0xffffffff82134540);
+    uVar2 = fn_82CEDB38(auStack_230,"No index available (");
     uVar2 = fn_82CEDCF0(uVar2,uVar1);
-    fn_82CEDB38(uVar2,0xffffffff821c24f0);
-    iVar3 = (**(code **)(*lbl_8323B464 + 0xc))
-                      (lbl_8323B464,3,0x79f9d886,auStack_220,0xffffffff8213450c,0x146);
+    fn_82CEDB38(uVar2,lbl_821C24F0);
+    iVar3 = (*(code *)(*lbl_8323B464 + 0xc))
+                      (lbl_8323B464,3,0x79f9d886,auStack_220,".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp",0x146);
     if (iVar3 != 0) {
-      trapWord(0x1f,in_r0,0x16);
+      __debugbreak();
     }
                     /* WARNING: Subroutine does not return */
     fn_82CED958(auStack_230);
   }
-  return (ulonglong)*(uint *)(*(int *)(param_1 + 8) + 0x54) + (param_2 & 0xfffffff) * 0x10;
+  return *(uint *)(*(int *)(param_1 + 8) + 0x54) + param_2 * 0x10;
 }
 

@@ -1,47 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_828C8E40();
-
-
-void fn_828C96F0(undefined8 *param_1,int param_2)
-
-{
-  uint uVar1;
-  undefined8 auStack_30 [6];
-  
-  uVar1 = param_2 - (int)param_1;
-  while (8 < (int)(uVar1 & 0xfffffff8)) {
-    auStack_30[0] = *(undefined8 *)((int)param_1 + (uVar1 - 8));
-    *(undefined8 *)((int)param_1 + (uVar1 - 8)) = *param_1;
-    fn_828C8E40(param_1,0,(int)(uVar1 - 8) >> 3,auStack_30);
-    uVar1 = uVar1 - 8;
-  }
-  return;
+typedef unsigned __int64 Item_828C96F0;
+extern void fn_828C8E40(Item_828C96F0 *, int, int, Item_828C96F0 *);
+void fn_828C96F0(Item_828C96F0 *first, Item_828C96F0 *last) {
+    int bytes = (char *)last - (char *)first;
+    if ((bytes & ~7) > 8) {
+    Item_828C96F0 *base = first - 1;
+    do {
+        Item_828C96F0 value = *(Item_828C96F0 *)((char *)base + bytes);
+        int next = bytes - 8;
+        *(Item_828C96F0 *)((char *)base + bytes) = *first;
+        fn_828C8E40(first, 0, next >> 3, &value);
+        bytes = next;
+    } while ((bytes & ~7) > 8);
+    }
 }
-

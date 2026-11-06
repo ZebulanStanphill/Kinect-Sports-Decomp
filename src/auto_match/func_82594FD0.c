@@ -1,76 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_30;
-extern int fn_82381BC0();
-extern int fn_8243DD58();
-extern int fn_825950A0();
-extern int fn_8265CA20();
-extern unsigned int *lbl_83297008;
-extern unsigned int stack0x0000001c;
-extern unsigned int uRam8329700c;
-extern unsigned int uStack0000001c;
-
-
-uint * fn_82594FD0(uint *param_1,ulonglong param_2,uint *param_3)
-
-{
-  char cVar1;
-  uint *puVar2;
-  uint *puVar3;
-  uint uStack0000001c;
-  undefined1 auStack_30 [48];
-  
-  uStack0000001c = (uint)param_2;
-  if (((param_2 & 0xffffffff) == (ulonglong)*lbl_83297008) && (param_3 == lbl_83297008)) {
-    cVar1 = *(char *)((int)lbl_83297008[1] + 0x15);
-    puVar3 = (uint *)lbl_83297008[1];
-    while (cVar1 == '\0') {
-      fn_8243DD58(0xffffffff83297004,puVar3[2]);
-      puVar2 = (uint *)*puVar3;
-      fn_8265CA20(puVar3);
-      puVar3 = puVar2;
-      cVar1 = *(char *)((int)puVar2 + 0x15);
+typedef struct Node_82594FD0 { struct Node_82594FD0 *left, *parent, *right; char pad[9]; unsigned char nil; } Node_82594FD0;
+typedef struct Tree_82594FD0 { int allocator; Node_82594FD0 *head; unsigned count; int pad; } Tree_82594FD0;
+extern Tree_82594FD0 lbl_83297004;
+extern void fn_8243DD58(Tree_82594FD0 *, Node_82594FD0 *);
+extern void fn_8265CA20(void *);
+extern void fn_82381BC0(Node_82594FD0 **);
+extern void fn_825950A0(void *, Node_82594FD0 *);
+Node_82594FD0 **fn_82594FD0(Node_82594FD0 **out, Node_82594FD0 *first, Node_82594FD0 *last) {
+    char tmp[4];
+    if (first == lbl_83297004.head->left && last == lbl_83297004.head) {
+        Node_82594FD0 *p = lbl_83297004.head->parent;
+        while (!p->nil) {
+            Node_82594FD0 *q;
+            fn_8243DD58(&lbl_83297004,p->right);
+            q=p->left;
+            fn_8265CA20(p);
+            p=q;
+        }
+        lbl_83297004.head->parent=lbl_83297004.head;
+        lbl_83297004.head->left=lbl_83297004.head;
+        lbl_83297004.head->right=lbl_83297004.head;
+        lbl_83297004.count=0;
+        *out=lbl_83297004.head->left;
+    } else {
+        while (first!=last) {
+            Node_82594FD0 *p=first;
+            fn_82381BC0(&first);
+            fn_825950A0(tmp,p);
+        }
+        *out=first;
     }
-    lbl_83297008[1] = (uint)lbl_83297008;
-    *lbl_83297008 = (uint)lbl_83297008;
-    lbl_83297008[2] = (uint)lbl_83297008;
-    uRam8329700c = 0;
-    *param_1 = *lbl_83297008;
-  }
-  else {
-    while ((param_2 & 0xffffffff) != ZEXT48(param_3)) {
-      fn_82381BC0(&stack0x0000001c);
-      fn_825950A0(auStack_30,param_2);
-      param_2 = (ulonglong)uStack0000001c;
-    }
-    *param_1 = (uint)param_2;
-  }
-  return param_1;
+    return out;
 }
-

@@ -28,20 +28,17 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C4F0();
 
 
-undefined8 fn_8274A8E0(int *param_1)
+unsigned int fn_8274A8E0(int *param_1)
 
 {
   int *piVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   
-  piVar2 = (int *)(**(code **)(*param_1 + 0xc))(param_1,0x22);
-  if (piVar2 == (int *)0x0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = (**(code **)(*piVar2 + 4))(piVar2);
-    fn_8267C4F0(piVar2);
-  }
+  piVar2 = (int *)(*(code *)(*param_1 + 0xc))(param_1,0x22);
+  if (piVar2 != (int *)0) {
+    uVar1 = (*(code *)(*piVar2 + 4))(piVar2);
+  } else { uVar1=0; }
+  if (piVar2) fn_8267C4F0(piVar2);
   return uVar1;
 }
 

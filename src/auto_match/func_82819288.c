@@ -27,15 +27,15 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82819288(int param_1,int param_2)
+int  fn_82819288(int param_1,int param_2)
 
 {
-  if (*(uint *)(param_2 + 0x14) < *(uint *)(param_1 + 0x14)) {
+  if (*(uint *)(param_1 + 0x14) > *(uint *)(param_2 + 0x14)) {
     return -1;
   }
   if (*(uint *)(param_1 + 0x14) < *(uint *)(param_2 + 0x14)) {
     return 1;
   }
-  return (-(ulonglong)(*(uint *)(param_2 + 0x10) < *(uint *)(param_1 + 0x10)) & 0xfffffffe) + 1;
+  return *(uint *)(param_1+0x10) > *(uint *)(param_2+0x10) ? -1 : 1;
 }
 
