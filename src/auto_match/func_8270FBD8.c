@@ -25,78 +25,90 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82681838();
-extern int fn_8268AFD8();
-extern int fn_8268B1F0();
-extern int fn_8268C4C0();
-extern int fn_826944C8();
-extern int fn_82694610();
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_82696D38();
-extern unsigned int lbl_831E7E64;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Rc_8270FBD8 {
+  int a, b;
+  int refs;
+} Rc_8270FBD8;
+typedef struct Sb_8270FBD8 {
+  const char *str;
+  int len;
+  char pad[0x18];
+} Sb_8270FBD8;
+typedef struct Ent_8270FBD8 {
+  int pad[2];
+  int v0;
+  int v1;
+  int v2;
+  int v3;
+  int *p30;
+} Ent_8270FBD8;
+typedef struct Obj_8270FBD8 {
+  int pad0;
+  int f4;
+  unsigned f8;
+  int padc[3];
+  int f18;
+  int f1c;
+} Obj_8270FBD8;
 
+extern void fn_82681838(int, Rc_8270FBD8 **);
+extern void fn_8268AFD8(Sb_8270FBD8 *);
+extern void fn_8268B1F0(Sb_8270FBD8 *, int, int);
+extern void fn_8268C4C0(Sb_8270FBD8 *, int, int, int);
+extern void fn_826944C8(Rc_8270FBD8 *);
+extern Rc_8270FBD8 *fn_82694610(int, const char *, int);
+extern unsigned char fn_82695468(Obj_8270FBD8 *, int);
+extern void fn_826954C0(Obj_8270FBD8 *, const char *, int, int);
+extern int fn_826957D0(Obj_8270FBD8 *, int);
+extern void fn_82696D38(int **, int, int, int, int);
+extern int lbl_831E7E64;
+extern char lbl_82005EA4[];
+extern char lbl_82196582[];
 
-void fn_8270FBD8(int param_1)
-
+void fn_8270FBD8(Obj_8270FBD8 *p)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  char cVar5;
-  undefined8 uVar3;
-  int iVar4;
-  ulonglong uVar6;
-  longlong lVar7;
-  undefined4 *puStack_50;
-  int aiStack_4c [3];
-  uint uStack_40;
-  undefined4 uStack_3c;
-  
-  cVar5 = fn_82695468(param_1,8);
-  if (cVar5 == '\0') {
-    fn_826954C0(param_1,0xffffffff82005ea4,0,0);
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 8) + -0x10;
-    if (*(int *)(param_1 + 8) == 0) {
-      iVar4 = 0;
-    }
-    fn_8268C4C0(&uStack_40,**(undefined4 **)(iVar4 + 0x30),(*(undefined4 **)(iVar4 + 0x30))[4]
-                      ,lbl_831E7E64);
-    lVar7 = 0;
-    if (0 < *(int *)(param_1 + 0x1c)) {
-      do {
-        uVar1 = *(undefined4 *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,lVar7);
-        fn_82696D38(&puStack_50,uVar3,uVar1,0xffffffffffffffff,0);
-        fn_8268B1F0(&uStack_40,*puStack_50,0xffffffffffffffff);
-        uVar2 = puStack_50[2];
-        puStack_50[2] = (int)((ulonglong)uVar2 - 1);
-        if ((ulonglong)uVar2 - 1 == 0) {
-          fn_826944C8(puStack_50);
-        }
-        lVar7 = lVar7 + 1;
-      } while ((int)lVar7 < *(int *)(param_1 + 0x1c));
-    }
-    uVar6 = (ulonglong)uStack_40;
-    if (uVar6 == 0) {
-      uVar6 = 0xffffffff82196582;
-    }
-    iVar4 = fn_82694610((ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x78) + 0x254,uVar6,
-                              uStack_3c);
-    *(int *)(iVar4 + 8) = *(int *)(iVar4 + 8) + 1;
-    aiStack_4c[0] = iVar4;
-    fn_82681838(*(undefined4 *)(param_1 + 4),aiStack_4c);
-    lVar7 = (ulonglong)*(uint *)(iVar4 + 8) - 1;
-    *(int *)(iVar4 + 8) = (int)lVar7;
-    if (lVar7 == 0) {
-      fn_826944C8(iVar4);
-    }
-    fn_8268AFD8(&uStack_40);
-  }
-  return;
-}
+  int *ent;
+  int *q;
+  int *rr;
+  int h;
+  int hd;
+  int *ref;
+  Rc_8270FBD8 *r;
+  Rc_8270FBD8 *tmp;
+  Sb_8270FBD8 sb;
+  int i;
+  const char *s;
 
+  if (fn_82695468(p, 8) == 0) {
+    fn_826954C0(p, lbl_82005EA4, 0, 0);
+  } else {
+    ent = p->f8 != 0 ? (int *)(p->f8 - 0x10) : 0;
+    q = (int *)ent[0xc];
+    fn_8268C4C0(&sb, q[0], q[4], lbl_831E7E64);
+    i = 0;
+    if (p->f1c > 0) {
+      do {
+        h = p->f18;
+        hd = fn_826957D0(p, i);
+        fn_82696D38(&ref, hd, h, -1, 0);
+        fn_8268B1F0(&sb, *ref, -1);
+        rr = ref;
+        if (--rr[2] == 0) {
+          fn_826944C8((Rc_8270FBD8 *)rr);
+        }
+        i++;
+      } while (i < p->f1c);
+    }
+    s = sb.str;
+    if (s == 0) {
+      s = lbl_82196582;
+    }
+    r = fn_82694610(*(int *)(p->f18 + 0x78) + 0x254, s, sb.len);
+    { int c = r->refs; tmp = r; r->refs = c + 1; }
+    fn_82681838(p->f4, &tmp);
+    if (--r->refs == 0) {
+      fn_826944C8(r);
+    }
+    fn_8268AFD8(&sb);
+  }
+}

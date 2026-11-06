@@ -25,34 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_8326599C;
+extern unsigned int lbl_83265988[];
 
-
-ulonglong fn_825122A8(int param_1)
-
+unsigned int fn_825122A8(unsigned int param_1)
 {
-  ulonglong uVar1;
-  int *piVar2;
-  
-  uVar1 = 0;
-  piVar2 = &lbl_83265988;
+  unsigned int i;
+  unsigned int *p;
+
+  i = 0;
+  p = lbl_83265988;
   do {
-    if (*piVar2 == param_1) {
-      return uVar1;
+    if (*p == param_1) {
+      return i;
     }
-    uVar1 = uVar1 + 1;
-    piVar2 = piVar2 + 1;
-  } while ((uVar1 & 0xffffffff) < 4);
-  uVar1 = 0;
-  piVar2 = &lbl_8326599C;
+    i = i + 1;
+    p = p + 1;
+  } while (i < 4);
+  i = 0;
+  p = lbl_83265988 + 5;
   do {
-    if (*piVar2 == param_1) {
-      return uVar1;
+    if (*p == param_1) {
+      return i;
     }
-    uVar1 = uVar1 + 1;
-    piVar2 = piVar2 + 1;
-  } while ((uVar1 & 0xffffffff) < 4);
+    i = i + 1;
+    p = p + 1;
+  } while (i < 4);
   return 0;
 }
-

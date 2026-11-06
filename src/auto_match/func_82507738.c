@@ -1,58 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825200A8();
+extern int fn_825200A8(unsigned int, int);
 
+typedef struct Node_82507738 Node_82507738;
+typedef struct Obj_82507738 Obj_82507738;
+typedef struct Vt_82507738 {
+  void *f[8];
+  unsigned int (*f20)(Obj_82507738 *);
+} Vt_82507738;
+typedef struct Arr_82507738 { char *ptr; unsigned int count; } Arr_82507738;
+struct Obj_82507738 {
+  Vt_82507738 *vt;
+  char pad[0x94];
+  Arr_82507738 arr;
+};
+struct Node_82507738 {
+  Obj_82507738 *obj;
+  int pad[8];
+  unsigned int flags;
+  char rest[0x1a0 - 0x28];
+};
 
-void fn_82507738(undefined8 param_1,int *param_2,code *param_3,undefined8 param_4)
-
+void fn_82507738(int a, Node_82507738 *n, void (*cb)(Node_82507738 *, int), int b)
 {
-  undefined8 uVar1;
-  int iVar2;
-  longlong lVar3;
-  uint uVar4;
-  
-  uVar1 = (**(code **)(*(int *)*param_2 + 0x20))();
-  iVar2 = fn_825200A8(uVar1,param_1);
-  if (iVar2 != 0) {
-    (*param_3)(param_2,param_4);
+  Node_82507738 *self = n;
+  unsigned int k;
+  int r;
+  k = self->obj->vt->f20(self->obj);
+  r = fn_825200A8(k, a);
+  if (r != 0) {
+    cb(self, b);
   }
-  if ((param_2[9] & 0x40000000U) != 0) {
-    iVar2 = *param_2;
-    uVar4 = 0;
-    if (*(int *)(iVar2 + 0x9c) != 0) {
-      lVar3 = 0;
+  if ((self->flags & 0x40000000) != 0) {
+    Obj_82507738 *o = self->obj;
+    Arr_82507738 *ar = &o->arr;
+    unsigned int i = 0;
+    if (ar->count > 0) {
+      int off = 0;
       do {
-        fn_82507738(param_1,(ulonglong)*(uint *)(iVar2 + 0x98) + lVar3,param_3,param_4);
-        uVar4 = uVar4 + 1;
-        lVar3 = lVar3 + 0x1a0;
-      } while (uVar4 < *(uint *)(iVar2 + 0x9c));
+        fn_82507738(a, (Node_82507738 *)(ar->ptr + off), cb, b);
+        i++;
+        off += 0x1a0;
+      } while (i < ar->count);
     }
   }
-  return;
 }
-

@@ -27,22 +27,13 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D61EB0(undefined8 param_1,short *param_2,short param_3)
-
+void fn_82D61EB0(int param_1, short *param_2, unsigned int param_3)
 {
-  int iVar1;
-  short *psVar2;
-  
-  iVar1 = 0;
-  psVar2 = param_2;
-  do {
-    if (*psVar2 == param_3) {
-      param_2[iVar1] = -1;
+  int i;
+  for (i = 0; i < 3; i++) {
+    if (((unsigned short *)param_2)[i] == (unsigned short)param_3) {
+      param_2[i] = -1;
       return;
     }
-    iVar1 = iVar1 + 1;
-    psVar2 = psVar2 + 1;
-  } while (iVar1 < 3);
-  return;
+  }
 }
-

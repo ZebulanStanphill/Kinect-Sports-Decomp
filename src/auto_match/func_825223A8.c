@@ -26,28 +26,19 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_823AB478();
-extern unsigned int lbl_832767C8;
+extern int lbl_832767C8;
 
 
-void fn_825223A8(undefined8 param_1,int param_2)
-
+void fn_825223A8(int param_1, unsigned int param_2)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = lbl_832767C8;
-  if ((param_2 == 0) || (param_2 == 2)) {
-    iVar2 = fn_823AB478();
-    *(undefined1 *)(iVar2 + iVar1 + 0x74) = 1;
+  if (param_2 == 0 || param_2 == 2) {
+    int g = lbl_832767C8;
+    *(unsigned char *)(fn_823AB478() + g + 0x74) = 1;
+  } else if (param_2 == 0x48f) {
+    int g = lbl_832767C8;
+    *(unsigned char *)(fn_823AB478() + g + 0x84) = 1;
+  } else {
+    int g = lbl_832767C8;
+    *(unsigned char *)(fn_823AB478() + g + 0x78) = 1;
   }
-  else if (param_2 == 0x48f) {
-    iVar2 = fn_823AB478();
-    *(undefined1 *)(iVar2 + iVar1 + 0x84) = 1;
-  }
-  else {
-    iVar2 = fn_823AB478();
-    *(undefined1 *)(iVar2 + iVar1 + 0x78) = 1;
-  }
-  return;
 }
-

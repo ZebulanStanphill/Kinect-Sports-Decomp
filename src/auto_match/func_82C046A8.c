@@ -27,16 +27,24 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82C046A8(int *param_1,longlong param_2)
+typedef struct Vt_82C046A8 {
+  void *f0[3];
+  void (*fc)(int *);
+  void (*f10)(void);
+  void (*f14)(int *);
+  void *f18[24];
+  void (*f78)(int *);
+} Vt_82C046A8;
 
+int fn_82C046A8(int *self, unsigned __int64 delta)
 {
-  (**(code **)(*param_1 + 0xc))();
-  param_1[0x4f] = param_1[0x4f] + 1;
-  *(ulonglong *)(param_1 + 0x4c) = (ulonglong)(uint)param_1[0x53] + param_2;
-  if ((ulonglong)(uint)param_1[0x4f] == ((ulonglong)(uint)param_1[0x4f] / 5) * 5) {
-    (**(code **)(*param_1 + 0x78))(param_1);
+  Vt_82C046A8 *vt = *(Vt_82C046A8 **)self;
+  vt->fc(self);
+  self[0x4f] = self[0x4f] + 1;
+  { unsigned __int64 *tp = (unsigned __int64 *)(self + 0x4c); *tp = (unsigned)self[0x53] + delta; }
+  if ((unsigned)self[0x4f] % 5 == 0) {
+    (*(Vt_82C046A8 **)self)->f78(self);
   }
-  (**(code **)(*param_1 + 0x14))(param_1);
+  (*(Vt_82C046A8 **)self)->f14(self);
   return 0;
 }
-

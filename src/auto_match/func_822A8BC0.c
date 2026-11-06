@@ -25,77 +25,92 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_90;
-extern int fn_822924C0();
-extern int fn_822933E8();
-extern int fn_822A8928();
-extern int fn_828647C0();
-extern int fn_828647D8();
-extern int fn_82864848();
-extern int fn_82864898();
-extern int fn_82864E90();
-extern unsigned int lbl_8327F878;
+typedef struct S30_822A8BC0 { char b[0x30]; } S30_822A8BC0;
+typedef struct Obj_822A8BC0 Obj_822A8BC0;
+typedef struct Vt_822A8BC0 {
+  void *f0[5];
+  void (*f14)(Obj_822A8BC0 *, int);
+  Obj_822A8BC0 *(*f18)(Obj_822A8BC0 *);
+  void *f1c[5];
+  void (*f30)(S30_822A8BC0 *, Obj_822A8BC0 *, int);
+} Vt_822A8BC0;
+struct Obj_822A8BC0 {
+  Vt_822A8BC0 *vt;
+};
+typedef struct Vec_822A8BC0 {
+  char *first;
+  char *last;
+} Vec_822A8BC0;
+typedef struct Self_822A8BC0 {
+  char pad[0x44];
+  Vec_822A8BC0 vec;
+  char pad4c[0x10];
+  unsigned char f5c;
+} Self_822A8BC0;
 
+extern void fn_822924C0(char *, char *);
+extern void fn_822933E8(char *, char *);
+extern int fn_822A8928(int, int, int, S30_822A8BC0 *);
+extern unsigned char fn_828647C0(char *, int);
+extern int fn_828647D8(S30_822A8BC0 *);
+extern void fn_82864848(S30_822A8BC0 *);
+extern void fn_82864898(S30_822A8BC0 *);
+extern Obj_822A8BC0 *fn_82864E90(void);
+extern int lbl_8327F878;
 
-undefined8 fn_822A8BC0(int param_1,undefined8 param_2)
-
+int fn_822A8BC0(Self_822A8BC0 *p, int key)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
-  char cVar6;
-  int *piVar4;
-  int iVar5;
-  ulonglong uVar7;
-  longlong lVar8;
-  ulonglong uVar9;
-  undefined1 auStack_90 [48];
-  undefined1 auStack_60 [96];
-  
-  if (*(char *)(param_1 + 0x5c) == '\0') {
-    uVar1 = *(uint *)(param_1 + 0x48);
-    for (uVar7 = (ulonglong)*(uint *)(param_1 + 0x44); (uVar7 & 0xffffffff) != (ulonglong)uVar1;
-        uVar7 = uVar7 + 0x24) {
-      cVar6 = fn_828647C0(uVar7,param_2);
-      if (cVar6 != '\0') break;
-    }
-    if ((uVar7 & 0xffffffff) != (ulonglong)*(uint *)(param_1 + 0x48)) {
-      piVar4 = (int *)fn_82864E90();
-      piVar4 = (int *)(**(code **)(*piVar4 + 0x18))();
-      (**(code **)(*piVar4 + 0x30))(auStack_60,piVar4,param_2);
-      fn_82864848(auStack_90);
-      uVar2 = lbl_8327F878;
-      uVar3 = fn_828647D8(auStack_60);
-      iVar5 = fn_822A8928(uVar2,0,uVar3,auStack_90);
-      if (iVar5 < 0) {
-        fn_82864898(auStack_90);
-        fn_82864898(auStack_60);
-        goto LAB_822a8be0;
-      }
-      piVar4 = (int *)fn_82864E90();
-      piVar4 = (int *)(**(code **)(*piVar4 + 0x18))();
-      (**(code **)(*piVar4 + 0x14))(piVar4,param_2);
-      uVar9 = uVar7 + 0x24;
-      uVar1 = *(uint *)(param_1 + 0x48);
-      if ((uVar9 & 0xffffffff) != (ulonglong)uVar1) {
-        lVar8 = uVar7 - uVar9;
-        do {
-          fn_822924C0(lVar8 + uVar9,uVar9);
-          uVar9 = uVar9 + 0x24;
-        } while ((uVar9 & 0xffffffff) != (ulonglong)uVar1);
-      }
-      fn_822933E8((ulonglong)*(uint *)(param_1 + 0x48) - 0x24);
-      *(int *)(param_1 + 0x48) = *(int *)(param_1 + 0x48) + -0x24;
-      fn_82864898(auStack_90);
-      fn_82864898(auStack_60);
-    }
-    uVar3 = 0;
-  }
-  else {
-LAB_822a8be0:
-    uVar3 = 0xffffffff80004005;
-  }
-  return uVar3;
-}
+  Vec_822A8BC0 *v;
+  char *it;
+  char *end;
+  char *next;
+  char *d;
+  Obj_822A8BC0 *o;
+  Obj_822A8BC0 *t;
+  S30_822A8BC0 a;
+  S30_822A8BC0 b;
+  int g;
+  int hr;
 
+  if (p->f5c != 0) {
+    return 0x80004005;
+  }
+  end = p->vec.last;
+  v = &p->vec;
+  it = v->first;
+  for (; it != end; it += 0x24) {
+    if (fn_828647C0(it, key) != 0) {
+      break;
+    }
+  }
+  if (it != p->vec.last) {
+    t = fn_82864E90();
+    o = t->vt->f18(t);
+    o->vt->f30(&a, o, key);
+    fn_82864848(&b);
+    g = lbl_8327F878;
+    hr = fn_822A8928(g, 0, fn_828647D8(&a), &b);
+    if (hr < 0) {
+      fn_82864898(&b);
+      fn_82864898(&a);
+      return 0x80004005;
+    }
+    t = fn_82864E90();
+    o = t->vt->f18(t);
+    o->vt->f14(o, key);
+    next = it + 0x24;
+    end = v->last;
+    if (next != end) {
+      d = (char *)(it - next);
+      do {
+        fn_822924C0(d + (int)next, next);
+        next += 0x24;
+      } while (next != end);
+    }
+    fn_822933E8(v->last - 0x24, v->last);
+    v->last = v->last - 0x24;
+    fn_82864898(&b);
+    fn_82864898(&a);
+  }
+  return 0;
+}

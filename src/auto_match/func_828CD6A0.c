@@ -25,57 +25,26 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_823B4970();
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9FF8();
+extern void fn_823B4970(int, int, int, int);
+extern int fn_828E9D90(int);
+extern int fn_828E9DA8(int);
+extern int fn_828E9FF8(int, int);
 
-
-void fn_828CD6A0(int param_1,undefined8 param_2)
-
+static __forceinline int ReadBits(int w, int n)
 {
-  int iVar3;
-  int iVar4;
-  undefined4 uVar5;
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  iVar3 = fn_828E9DA8(param_2);
-  iVar4 = fn_828E9D90(param_2);
-  if (iVar3 - iVar4 < 8) {
-    uVar5 = 0;
+  int v;
+  if (fn_828E9DA8(w) - fn_828E9D90(w) >= n) {
+    v = fn_828E9FF8(w, n);
+  } else {
+    v = 0;
   }
-  else {
-    uVar5 = fn_828E9FF8(param_2,8);
-  }
-  *(undefined4 *)(param_1 + 0x84) = uVar5;
-  iVar3 = fn_828E9DA8(param_2);
-  iVar4 = fn_828E9D90(param_2);
-  if (iVar3 - iVar4 < 5) {
-    uVar5 = 0;
-  }
-  else {
-    uVar5 = fn_828E9FF8(param_2,5);
-  }
-  *(undefined4 *)(param_1 + 0x88) = uVar5;
-  iVar3 = fn_828E9DA8(param_2);
-  iVar4 = fn_828E9D90(param_2);
-  if (iVar3 - iVar4 < 1) {
-    lVar1 = 0;
-  }
-  else {
-    lVar1 = fn_828E9FF8(param_2,1);
-  }
-  *(char *)(param_1 + 0x8c) = '\x01' - (lVar1 == 0);
-  iVar3 = fn_828E9DA8(param_2);
-  iVar4 = fn_828E9D90(param_2);
-  if (iVar3 - iVar4 < 0xd) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_828E9FF8(param_2,0xd);
-  }
-  fn_823B4970(param_1 + 0x98,param_2,uVar2,0);
-  return;
+  return v;
 }
 
+void fn_828CD6A0(int param_1, int param_2)
+{
+  *(int *)(param_1 + 0x84) = ReadBits(param_2, 8);
+  *(int *)(param_1 + 0x88) = ReadBits(param_2, 5);
+  *(char *)(param_1 + 0x8c) = ReadBits(param_2, 1) != 0;
+  fn_823B4970(param_1 + 0x98, param_2, ReadBits(param_2, 0xd), 0);
+}

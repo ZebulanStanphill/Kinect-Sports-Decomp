@@ -25,30 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83032D88();
+typedef struct Node_83033EA8 Node_83033EA8;
+struct Node_83033EA8 {
+  Node_83033EA8 *next;
+  int key;
+  int val;
+};
 
+extern void fn_83032D88(void *);
 
-int * fn_83033EA8(int *param_1,int *param_2)
-
+int * fn_83033EA8(Node_83033EA8 **head, void **pkey)
 {
-  param_1 = (int *)*param_1;
-  if (param_1 != (int *)0x0) {
-    do {
-      if (param_1[1] == *param_2) {
-        if (*param_2 == 0) {
-          return param_1 + 2;
-        }
-        fn_83032D88();
-        *param_2 = 0;
-        return param_1 + 2;
+  Node_83033EA8 *n;
+  int *res;
+  for (n = *head; n != 0; n = n->next) {
+    if (n->key == (int)*pkey) {
+      res = &n->val;
+      if (*pkey != 0) {
+        fn_83032D88(*pkey);
+        *pkey = 0;
       }
-      param_1 = (int *)*param_1;
-    } while (param_1 != (int *)0x0);
+      return res;
+    }
   }
-  if (*param_2 != 0) {
-    fn_83032D88();
-    *param_2 = 0;
+  if (*pkey != 0) {
+    fn_83032D88(*pkey);
+    *pkey = 0;
   }
-  return (int *)0x0;
+  return 0;
 }
-

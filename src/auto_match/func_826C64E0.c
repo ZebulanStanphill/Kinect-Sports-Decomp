@@ -25,48 +25,43 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_826944C8();
-extern int fn_826C5118();
+typedef struct { char pad[8]; int refs; } Rc_826C64E0;
+typedef struct { Rc_826C64E0 *rc; char pad[0x44]; int f48; char pad4c[0xc]; unsigned char f58; } Cell_826C64E0;
+typedef struct { char pad[0x14]; void *heap; } Ctx_826C64E0;
+typedef struct {
+  char pad0[0xa0];
+  Ctx_826C64E0 *ctx;
+  char pada4[0x148 - 0xa4];
+  char f148[0x80];
+  Cell_826C64E0 *cell;
+} Obj_826C64E0;
+extern void *fn_8267B890(void *, int, int);
+extern void fn_826944C8(Rc_826C64E0 *);
+extern Cell_826C64E0 *fn_826C5118(void *, void *);
 
-
-void fn_826C64E0(int param_1,int *param_2)
-
+void fn_826C64E0(Obj_826C64E0 *o, Rc_826C64E0 **param_2)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  ulonglong uVar4;
-  undefined4 uVar5;
-  longlong lVar6;
-  
-  if (*(int *)(param_1 + 0x1c8) == 0) {
-    uVar4 = fn_8267B890(*(undefined4 *)(*(int *)(param_1 + 0xa0) + 0x14),0x5c,0);
-    if ((uVar4 & 0xffffffff) == 0) {
-      uVar5 = 0;
-    }
-    else {
-      uVar5 = fn_826C5118(uVar4,param_1 + 0x148);
-    }
-    *(undefined4 *)(param_1 + 0x1c8) = uVar5;
-  }
-  iVar1 = *param_2;
-  piVar2 = *(int **)(param_1 + 0x1c8);
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  iVar3 = *piVar2;
-  lVar6 = (ulonglong)*(uint *)(iVar3 + 8) - 1;
-  *(int *)(iVar3 + 8) = (int)lVar6;
-  if (lVar6 == 0) {
-    fn_826944C8();
-  }
-  *piVar2 = iVar1;
-  *(byte *)(*(int *)(param_1 + 0x1c8) + 0x58) = *(byte *)(*(int *)(param_1 + 0x1c8) + 0x58) | 1;
-  (*(undefined4 **)(param_1 + 0x1c8))[0x12] = *(undefined4 *)**(undefined4 **)(param_1 + 0x1c8);
-  lVar6 = (ulonglong)*(uint *)(*param_2 + 8) - 1;
-  *(int *)(*param_2 + 8) = (int)lVar6;
-  if (lVar6 == 0) {
-    fn_826944C8();
-  }
-  return;
-}
+  Rc_826C64E0 *rc;
+  Cell_826C64E0 *cell;
+  void *mem;
+  Rc_826C64E0 *t;
 
+  if (o->cell == 0) {
+    mem = fn_8267B890(o->ctx->heap, 0x5c, 0);
+    o->cell = mem != 0 ? fn_826C5118(mem, o->f148) : 0;
+  }
+  rc = *param_2;
+  cell = o->cell;
+  rc->refs = rc->refs + 1;
+  t = cell->rc;
+  if (--t->refs == 0) {
+    fn_826944C8(t);
+  }
+  cell->rc = rc;
+  o->cell->f58 = o->cell->f58 | 1;
+  o->cell->f48 = *(int *)o->cell->rc;
+  t = *param_2;
+  if (--t->refs == 0) {
+    fn_826944C8(t);
+  }
+}

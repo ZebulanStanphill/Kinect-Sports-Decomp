@@ -30,21 +30,15 @@ extern int fn_82CEF0B8();
 extern int fn_82CFF638();
 
 
-void fn_82CEF598(ulonglong param_1,undefined8 param_2)
-
+void fn_82CEF598(unsigned int param_1, unsigned int param_2)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  
-  uVar1 = fn_82CFF638(param_2,param_1);
-  uVar2 = param_1;
-  if ((uVar1 & 0xffffffff) != 0) {
-    while ((uVar2 & 0xffffffff) != 0) {
-      fn_82CEF0B8(param_1,uVar1,param_2);
-      uVar1 = fn_82CEAC28(uVar1);
-      uVar2 = uVar1;
-    }
+  unsigned int it;
+  it = fn_82CFF638(param_2, param_1);
+  if (it != 0 && param_1 != 0) {
+    unsigned int p = it;
+    do {
+      fn_82CEF0B8(param_1, p, param_2);
+      p = fn_82CEAC28(p);
+    } while (p != 0);
   }
-  return;
 }
-

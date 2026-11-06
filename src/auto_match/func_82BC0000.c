@@ -1,57 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
-
-
-undefined8 fn_82BC0000(int param_1,int param_2)
-
+extern void *memcpy(void *, const void *, unsigned int);
+typedef struct { int pad; unsigned int count; unsigned int *data; } Arr;
+int fn_82BC0000(Arr *a, unsigned int v)
 {
-  uint uVar1;
-  int *piVar2;
-  uint uVar3;
-  
-  uVar1 = *(uint *)(param_1 + 4);
-  uVar3 = 0;
-  piVar2 = *(int **)(param_1 + 8);
-  if (uVar1 != 0) {
+  unsigned int n = a->count;
+  unsigned int i = 0;
+  unsigned int *d = a->data;
+  unsigned int *p;
+  unsigned int *pc = &a->count;
+  if (n != 0) {
+    p = d;
     do {
-      if (param_2 == *piVar2) {
-        if (uVar3 < uVar1) {
-          *(uint *)(param_1 + 4) = uVar1 - 1;
-          piVar2 = *(int **)(param_1 + 8) + uVar3;
-          fn_82F68CC0(piVar2,piVar2 + 1,(uVar1 - 1) - uVar3 & 0x3fffffff);
+      if (v == *p) {
+        if (i < n) {
+          unsigned int m = n - 1;
+          a->count = m;
+          p = d + i;
+          memcpy(p, p + 1, (m - i) * 4);
         }
         return 1;
       }
-      uVar3 = uVar3 + 1;
-      piVar2 = piVar2 + 1;
-    } while (uVar3 < *(uint *)(param_1 + 4));
+      i++;
+      p++;
+    } while (i < *pc);
   }
   return 0;
 }
-

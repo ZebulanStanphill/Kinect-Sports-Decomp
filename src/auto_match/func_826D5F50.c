@@ -25,28 +25,23 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8267B890();
-extern int fn_826D4148();
+typedef struct { char pad0[0x40]; void *(*f40)(void *); } VT_826D5F50;
+typedef struct { VT_826D5F50 *vt; } Obj_826D5F50;
+typedef struct { char pad[0x14]; void *heap; } Ctx_826D5F50;
+extern void *fn_8267B890(void *, int, int);
+extern void *fn_826D4148(void *, int, int, void *, void *, void *, int);
 
-
-undefined8 fn_826D5F50(undefined8 param_1,int *param_2,undefined4 *param_3,undefined8 param_4)
-
+void *fn_826D5F50(int param_1, Obj_826D5F50 *self, int *param_3, int param_4)
 {
-  int iVar3;
-  ulonglong uVar1;
-  undefined8 uVar2;
-  undefined4 auStack_40;
-  
-  iVar3 = (**(code **)(*param_2 + 0x40))(param_2);
-  uVar1 = fn_8267B890(*(undefined4 *)(iVar3 + 0x14),0x1d8,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    auStack_40 = *param_3;
-    uVar2 = fn_826D4148(uVar1,param_1,param_4,iVar3,param_2,&auStack_40,0);
-  }
-  return uVar2;
-}
+  Ctx_826D5F50 *ctx;
+  void *mem;
+  int arg;
 
+  ctx = (Ctx_826D5F50 *)self->vt->f40(self);
+  mem = fn_8267B890(ctx->heap, 0x1d8, 0);
+  if (mem != 0) {
+    arg = *param_3;
+    return fn_826D4148(mem, param_1, param_4, ctx, self, &arg, 0);
+  }
+  return 0;
+}

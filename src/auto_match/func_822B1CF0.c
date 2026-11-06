@@ -1,57 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Fn_822B1CF0 Fn_822B1CF0;
+typedef struct Impl_822B1CF0 Impl_822B1CF0;
+typedef struct ImplVt_822B1CF0 {
+  Impl_822B1CF0 *(*clone)(Impl_822B1CF0 *, Fn_822B1CF0 *);
+  void *f4;
+  void *f8;
+  void (*destroy)(Impl_822B1CF0 *, int);
+} ImplVt_822B1CF0;
+struct Impl_822B1CF0 { ImplVt_822B1CF0 *vt; };
+struct Fn_822B1CF0 { int pad[4]; Impl_822B1CF0 *impl; };
+typedef struct Obj_822B1CF0 { char pad[0x18]; Fn_822B1CF0 fn; } Obj_822B1CF0;
 
-
-void fn_822B1CF0(int param_1,int *param_2)
-
+void fn_822B1CF0(Obj_822B1CF0 *self, Fn_822B1CF0 *src)
 {
-  int *piVar1;
-  undefined4 uVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)(param_1 + 0x18);
-  if (piVar3 != param_2) {
-    piVar1 = *(int **)(param_1 + 0x28);
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0xc))(piVar1,piVar3 != piVar1);
-      *(undefined4 *)(param_1 + 0x28) = 0;
+  Fn_822B1CF0 *dst = &self->fn;
+  Impl_822B1CF0 *old;
+  Fn_822B1CF0 *arg;
+  if (dst != src) {
+    old = dst->impl;
+    if (old != 0) {
+      old->vt->destroy(old, (Fn_822B1CF0 *)old != dst);
+      dst->impl = 0;
     }
-    if ((int *)param_2[4] == (int *)0x0) {
-      *(undefined4 *)(param_1 + 0x28) = 0;
-    }
-    else {
-      if ((int *)param_2[4] != param_2) {
-        piVar3 = (int *)0x0;
+    if (src->impl == 0) {
+      dst->impl = 0;
+    } else {
+      if ((Fn_822B1CF0 *)src->impl == src) {
+        dst->impl = src->impl->vt->clone(src->impl, dst);
+      } else {
+        dst->impl = src->impl->vt->clone(src->impl, 0);
       }
-      uVar2 = (*(code *)**(undefined4 **)param_2[4])((undefined4 *)param_2[4],piVar3);
-      *(undefined4 *)(param_1 + 0x28) = uVar2;
     }
   }
-  return;
 }
-

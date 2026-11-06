@@ -25,30 +25,29 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CEFB30();
-extern int fn_82CEFBD0();
 
 
-void fn_83095FB8(int param_1,undefined8 param_2)
 
+
+
+typedef struct { int pad[4]; void *p10; } S_83095FB8;
+typedef struct { int pad[2]; int p8; int pc; int *p10; } S_83095FB8b;
+typedef struct VT_83095FB8 { int f0; unsigned (*f4)(void *, int); } VT_83095FB8;
+typedef struct { VT_83095FB8 *vt; } Obj_83095FB8;
+typedef struct { int pad[4]; Obj_83095FB8 *o; } Ctx_83095FB8;
+
+extern Ctx_83095FB8 *fn_82CE5410(void);
+extern int fn_82CEFBD0(unsigned, int);
+extern void fn_82CEFB30(void *);
+
+void fn_83095FB8(S_83095FB8 *self, int param_2)
 {
-  int iVar2;
-  ulonglong uVar1;
-  undefined4 uVar3;
-  
-  if (*(int *)(param_1 + 0x10) == 0) {
-    iVar2 = fn_82CE5410();
-    uVar1 = (**(code **)(**(int **)(iVar2 + 0x10) + 4))(*(int **)(iVar2 + 0x10),0x1c);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar3 = 0;
-    }
-    else {
-      uVar3 = fn_82CEFBD0(uVar1,param_2);
-    }
-    *(undefined4 *)(param_1 + 0x10) = uVar3;
-    fn_82CEFB30(param_1 + 8);
+  Ctx_83095FB8 *c;
+  unsigned m;
+  if (self->p10 == 0) {
+    c = fn_82CE5410();
+    m = c->o->vt->f4(c->o, 0x1c);
+    self->p10 = m != 0 ? (void *)fn_82CEFBD0(m, param_2) : 0;
+    fn_82CEFB30((char *)self + 8);
   }
-  return;
 }
-

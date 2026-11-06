@@ -26,49 +26,50 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1c;
-extern unsigned int *auStack_20;
-extern int fn_82520158();
-extern int fn_82525F28();
-extern int fn_8259CA88();
-extern int fn_8265C940();
-extern int fn_8265C9E0();
-extern int fn_82A1EFC0();
-extern int fn_82A81FE8();
-extern int fn_82A822A8();
+extern void fn_82520158(const char *, void *, int);
+extern void fn_82525F28(void *, void *);
+extern void fn_8259CA88(void);
+extern unsigned int fn_8265C940(int, int);
+extern void *fn_8265C9E0(int);
+extern void fn_82A1EFC0(void *, int, int);
+extern int fn_82A81FE8(int, int, int, int, unsigned int);
+extern int fn_82A822A8(int, int, int, unsigned int);
 extern unsigned int lbl_821C3058;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_832767EC;
+extern char lbl_832767F0[];
+extern unsigned int *lbl_8327F254;
+extern unsigned int lbl_8327F640;
 
-
-void fn_82523998(void)
-
+int fn_82523998(void)
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined1 auStack_20 [4];
-  undefined1 auStack_1c [4];
+  unsigned int *p;
+  char buf20[4];
+  char buf1c[4];
 
   uVar1 = lbl_8320A898;
-  if (puRam8327f254 == (undefined4 *)0x0) {
-    puRam8327f254 = (undefined4 *)fn_8265C9E0(4);
-    if (puRam8327f254 == (undefined4 *)0x0) {
-      puRam8327f254 = (undefined4 *)0x0;
-    }
-    else {
-      *puRam8327f254 = &lbl_821C3058;
+  if (lbl_8327F254 == 0) {
+    p = (unsigned int *)fn_8265C9E0(4);
+    if (p != 0) {
+      lbl_8327F254 = p;
+      *p = (unsigned int)&lbl_821C3058;
+    } else {
+      lbl_8327F254 = 0;
     }
   }
-  iVar2 = fn_82A81FE8(1,2,5,4,uVar1);
-  if (-1 < iVar2) {
+  iVar2 = fn_82A81FE8(1, 2, 5, 4, uVar1);
+  if (iVar2 >= 0) {
     fn_8259CA88();
-    lbl_832767EC = fn_8265C940(0x2000,0x21006000);
-    fn_82A822A8(0,0,0x2000);
-    fn_82520158(0xffffffff821c2f5c,auStack_1c,1);
-    fn_82520158(0xffffffff821c2f80,auStack_20,1);
-    fn_82525F28(auStack_1c,auStack_20);
-                    /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(0xffffffff832767f0,0,0x8a60);
+    lbl_832767EC = fn_8265C940(0x2000, 0x21006000);
+    fn_82A822A8(0, 0, 0x2000, lbl_832767EC);
+    fn_82520158("XAvatarDefaultShadowLODModelMale", buf1c, 1);
+    fn_82520158("XAvatarDefaultShadowLODModelFemale", buf20, 1);
+    fn_82525F28(buf1c, buf20);
+    fn_82A1EFC0(lbl_832767F0, 0, 0x8a60);
+    lbl_8327F640 = 1;
+    iVar2 = 0;
   }
-  return;
+  return iVar2;
 }

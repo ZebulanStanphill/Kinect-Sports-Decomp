@@ -32,31 +32,21 @@ extern unsigned int lbl_821AEDD8;
 
 
 void fn_823019E8(undefined4 *param_1)
-
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = param_1 + 0x28;
-  puVar1 = param_1 + 0x19;
+  int i;
+  undefined4 *q;
+  undefined4 *e;
   *param_1 = &lbl_821AEDD8;
-  lVar2 = 4;
-  do {
-    fn_82302CE0(puVar1);
-    lVar2 = lVar2 + -1;
-    puVar3 = puVar3 + 0x11;
-    *puVar3 = 0;
-    puVar1 = puVar1 + 4;
-  } while (lVar2 != 0);
-  puVar3 = param_1 + 0x29;
-  lVar2 = 3;
-  do {
-    puVar3 = puVar3 + -4;
-    fn_82302AE0(puVar3);
-    lVar2 = lVar2 + -1;
-  } while (-1 < lVar2);
+  q = param_1 + 0x28;
+  e = param_1 + 0x19;
+  for (i = 4; i != 0; i--) {
+    fn_82302CE0(e);
+    q += 0x11;
+    *q = 0;
+    e += 4;
+  }
+  q = param_1 + 0x29;
+  i = 3;
+  do { q -= 4; fn_82302AE0(q); } while (--i >= 0);
   fn_822C71C8(param_1);
-  return;
 }
-

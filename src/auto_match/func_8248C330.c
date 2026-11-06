@@ -1,61 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern int fn_8248B7E0();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
+extern void fn_822315A0(void *);
+extern void fn_82365BD8(void *, void *);
+extern void fn_8248B7E0(void *);
 
+typedef struct Pair_8248C330 { int a; void *b; } Pair_8248C330;
+typedef struct Sink_8248C330 Sink_8248C330;
+typedef struct SinkVt_8248C330 { void (*put)(Sink_8248C330 *, Pair_8248C330 *); } SinkVt_8248C330;
+struct Sink_8248C330 { SinkVt_8248C330 *vt; };
+typedef struct Ent_8248C330 { int pad[4]; char val[8]; unsigned int key; int pad2; } Ent_8248C330;
+typedef struct Tab_8248C330 { int pad[12]; Ent_8248C330 *begin; Ent_8248C330 *end; } Tab_8248C330;
 
-undefined8 fn_8248C330(int param_1,undefined4 *param_2,int param_3)
-
+int fn_8248C330(Tab_8248C330 *t, Sink_8248C330 *sink, unsigned int key)
 {
-  int iVar1;
-  int iStack_30;
-  int iStack_2c;
-  
-  iVar1 = *(int *)(param_1 + 0x30);
-  while( true ) {
-    if (iVar1 == *(int *)(param_1 + 0x34)) {
-      return 0;
+  Ent_8248C330 *e = t->begin;
+  Pair_8248C330 st;
+  unsigned char nz;
+  while (e != t->end) {
+    if (e->key == key) {
+      fn_82365BD8(&st, e->val);
+      nz = st.a != 0;
+      if (st.b != 0) {
+        fn_822315A0(st.b);
+      }
+      if (nz) {
+        fn_82365BD8(&st, e->val);
+        sink->vt->put(sink, &st);
+      }
+      fn_8248B7E0(e);
+      return 1;
     }
-    if (*(int *)(iVar1 + 0x18) == param_3) break;
-    iVar1 = iVar1 + 0x20;
+    e++;
   }
-  fn_82365BD8(&iStack_30,iVar1 + 0x10);
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  if (iStack_30 != 0) {
-    fn_82365BD8(&iStack_30,iVar1 + 0x10);
-    (**(code **)*param_2)(param_2,&iStack_30);
-  }
-  fn_8248B7E0(iVar1);
-  return 1;
+  return 0;
 }
-

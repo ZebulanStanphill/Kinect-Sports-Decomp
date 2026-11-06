@@ -1,66 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C4F0();
-extern int fn_82681728();
-extern int fn_82681838();
-extern int fn_826944C8();
-extern int fn_82694B60();
-extern int fn_826A7398();
+typedef struct Item_8274BB58 { int (**vt)(struct Item_8274BB58 *); } Item_8274BB58;
+typedef struct Iface_8274BB58 { Item_8274BB58 *(**vt)(struct Iface_8274BB58 *, int); } Iface_8274BB58;
+typedef struct Mgr_8274BB58 { int f0, f4; Iface_8274BB58 iface; } Mgr_8274BB58;
+typedef struct Rc_8274BB58 { int f0, f4; int refs; } Rc_8274BB58;
+typedef struct Inner_8274BB58 { char pad[0x78]; int f78; } Inner_8274BB58;
+typedef struct Obj_8274BB58 { int f0; int f4; int f8; int fc; int f10; int f14; Inner_8274BB58 *f18; } Obj_8274BB58;
+extern Mgr_8274BB58 *fn_826A7398(Inner_8274BB58 *);
+extern void fn_82681728(Rc_8274BB58 **, int, const char *);
+extern void fn_82694B60(Rc_8274BB58 **, int);
+extern void fn_82681838(int, Rc_8274BB58 **);
+extern void fn_826944C8(Rc_8274BB58 *);
+extern void fn_8267C4F0(Item_8274BB58 *);
 
-
-void fn_8274BB58(int param_1)
-
+void fn_8274BB58(Obj_8274BB58 *o)
 {
-  int iVar2;
-  int *piVar3;
-  undefined8 uVar1;
-  longlong lVar4;
-  int aiStack_20 [2];
-  
-  if (*(int *)(param_1 + 0x18) != 0) {
-    iVar2 = fn_826A7398();
-    piVar3 = (int *)(**(code **)(*(int *)(iVar2 + 8) + 0xc))((int *)(iVar2 + 8),0x1b);
-    fn_82681728(aiStack_20,(ulonglong)*(uint *)(*(int *)(param_1 + 0x18) + 0x78) + 0x254,
-                      0xffffffff820071cc);
-    if (piVar3 != (int *)0x0) {
-      uVar1 = (**(code **)(*piVar3 + 8))(piVar3);
-      fn_82694B60(aiStack_20,uVar1);
+  Mgr_8274BB58 *m;
+  Iface_8274BB58 *ifc;
+  Item_8274BB58 *p;
+  Rc_8274BB58 *rc;
+  Rc_8274BB58 *r;
+  int n;
+
+  if (o->f18 != 0) {
+    m = fn_826A7398(o->f18);
+    ifc = &m->iface;
+    p = ifc->vt[3](ifc, 0x1b);
+    fn_82681728(&rc, o->f18->f78 + 0x254, "UNKNOWN");
+    if (p != 0) {
+      fn_82694B60(&rc, p->vt[2](p));
     }
-    fn_82681838(*(undefined4 *)(param_1 + 4),aiStack_20);
-    lVar4 = (ulonglong)*(uint *)(aiStack_20[0] + 8) - 1;
-    *(int *)(aiStack_20[0] + 8) = (int)lVar4;
-    if (lVar4 == 0) {
-      fn_826944C8(aiStack_20[0]);
+    fn_82681838(o->f4, &rc);
+    r = rc;
+    n = r->refs - 1;
+    r->refs = n;
+    if (n == 0) {
+      fn_826944C8(r);
     }
-    if (piVar3 != (int *)0x0) {
-      fn_8267C4F0(piVar3);
+    if (p != 0) {
+      fn_8267C4F0(p);
     }
   }
-  return;
 }
-

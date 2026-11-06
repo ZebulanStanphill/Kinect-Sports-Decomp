@@ -1,92 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_8225F670();
-extern int fn_8225FD88();
-extern int fn_8225FDE0();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB08();
-extern int fn_82E1CB40();
-extern int fn_82E1CB88();
-extern int fn_82E1CCA8();
-extern int fn_82E1CD08();
-extern unsigned int lbl_832660F8;
-extern unsigned int lbl_832660FC;
-extern unsigned int lbl_832760AA;
-extern unsigned int lbl_832760AB;
-extern unsigned int lbl_832760B8;
-extern unsigned int lbl_832760BC;
-extern unsigned int lbl_832975B0;
-
-
-void fn_8225FE40(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+extern unsigned char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern int fn_8225FD88(int);
+extern int fn_82250A18(void);
+extern unsigned char fn_82E1CAD0(int);
+extern int fn_82E1CB08(const char *, int, int);
+extern int fn_82E1CB40(const char *, int);
+extern int fn_82E1CB88(const char *, int);
+extern int fn_82E1CCA8(void);
+extern int fn_82E1CD08(void);
+extern int lbl_83265A58[];
+extern char lbl_832760AA;
+extern char lbl_832760AB;
+extern int lbl_832760B8;
+extern int lbl_832760BC;
+typedef struct { char pad[4]; unsigned char f4; } Cfg_8225FE40;
+extern Cfg_8225FE40 *lbl_832975B0;
+void fn_8225FE40(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12)
 {
-  char *pcVar2;
-  int iVar3;
-  char cVar4;
-  undefined8 uVar1;
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
-  undefined4 in_stack_00000064;
-  undefined4 in_stack_0000006c;
-  
-  pcVar2 = (char *)fn_8225F670();
-  if (*pcVar2 != '\0') {
-    iVar3 = fn_8225FDE0(0x18,1);
-    if ((iVar3 == 0) && (cVar4 = fn_82E1CAD0(0x18), cVar4 != '\0')) {
+  unsigned char *pc;
+  Cfg_8225FE40 *cfg;
+  pc = fn_8225F670();
+  if (*pc != 0) {
+    if (fn_8225FDE0(0x18, 1) == 0 && fn_82E1CAD0(0x18) != 0) {
       fn_82E1CD08();
-      fn_82E1CB88(0xffffffff821a684c,param_1);
-      fn_82E1CB08(0xffffffff82196124,param_2,0);
-      fn_82E1CB88(0xffffffff821a685c,param_3);
-      iVar3 = lbl_832975B0;
-      if (lbl_832975B0 == 0) {
-        iVar3 = fn_82250A18();
-      }
-      fn_82E1CB40(0xffffffff821a6868,*(undefined1 *)(iVar3 + 4));
-      uVar1 = fn_8225FD88(param_4);
-      fn_82E1CB08(0xffffffff821a6874,uVar1,0);
-      fn_82E1CB88(0xffffffff821a6880,param_5);
-      fn_82E1CB88(0xffffffff821a6894,param_6);
-      fn_82E1CB88(0xffffffff821a68b0,param_7);
-      fn_82E1CB88(0xffffffff821a68c4,param_8);
-      fn_82E1CB88(0xffffffff821a68e0,in_stack_00000054);
-      fn_82E1CB88(0xffffffff821a68f4,in_stack_0000005c);
-      fn_82E1CB88(0xffffffff821a6910,in_stack_00000064);
-      fn_82E1CB88(0xffffffff821a6924,in_stack_0000006c);
+      fn_82E1CB88("MatchCounter", a1);
+      fn_82E1CB08("GameMode", a2, 0);
+      fn_82E1CB88("IsPartyMode", a3);
+      cfg = lbl_832975B0 ? lbl_832975B0 : (Cfg_8225FE40 *)fn_82250A18();
+      fn_82E1CB40("IsLiveGame", cfg->f4);
+      fn_82E1CB08("Difficulty", fn_8225FD88(a4), 0);
+      fn_82E1CB88("Team0Player0IsHuman", a5);
+      fn_82E1CB88("Team0Player0IsLeftHanded", a6);
+      fn_82E1CB88("Team0Player1IsHuman", a7);
+      fn_82E1CB88("Team0Player1IsLeftHanded", a8);
+      fn_82E1CB88("Team1Player0IsHuman", a9);
+      fn_82E1CB88("Team1Player0IsLeftHanded", a10);
+      fn_82E1CB88("Team1Player1IsHuman", a11);
+      fn_82E1CB88("Team1Player1IsLeftHanded", a12);
       fn_82E1CCA8();
     }
   }
+  lbl_832760B8 = lbl_83265A58[0x1a8];
+  lbl_832760BC = lbl_83265A58[0x1a9];
   lbl_832760AA = 1;
   lbl_832760AB = 0;
-  lbl_832760B8 = lbl_832660F8;
-  lbl_832760BC = lbl_832660FC;
-  return;
 }
-

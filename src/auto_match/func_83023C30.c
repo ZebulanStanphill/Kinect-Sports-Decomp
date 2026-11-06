@@ -25,53 +25,66 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern int fn_82FEC150();
-extern int fn_82FEC160();
-extern int fn_83022528();
-extern int fn_830252F0();
-extern unsigned int lbl_831BC770;
+typedef struct Obj_83023C30 Obj_83023C30;
+typedef struct {
+  void (*f0)(Obj_83023C30 *, int);
+  void (*f4)(Obj_83023C30 *, char *);
+  void (*f8)(void);
+  void (*fc)(void);
+  void (*f10)(Obj_83023C30 *, char *);
+} Vt_83023C30;
+struct Obj_83023C30 {
+  Vt_83023C30 *vt;
+};
 
+extern void fn_82FA5190(void *, void *);
+extern void fn_82FEC150(void);
+extern void fn_82FEC160(void);
+extern void fn_83022528(void *);
+extern void fn_830252F0(char *, void *);
+extern void *lbl_831BC770;
+extern char lbl_831BC7FC[];
+extern char lbl_832645B0[];
 
-undefined8 fn_83023C30(int param_1)
-
+int fn_83023C30(int param_1)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  longlong lVar4;
-  int *piVar5;
-  
-  fn_83022528(param_1 + 0x80);
-  if (*(int *)(param_1 + 0x100) != 0) {
-    fn_82FA5190(lbl_831BC770);
-    *(undefined4 *)(param_1 + 0x100) = 0;
+  Obj_83023C30 **e;
+  Obj_83023C30 *o;
+  Obj_83023C30 *q;
+  void *heap;
+  int i;
+  char *sb = lbl_832645B0;
+  char *sa = lbl_831BC7FC;
+
+  fn_83022528((void *)(param_1 + 0x80));
+  if (*(void **)(param_1 + 0x100) != 0) {
+    fn_82FA5190(lbl_831BC770, *(void **)(param_1 + 0x100));
+    *(int *)(param_1 + 0x100) = 0;
   }
-  piVar5 = (int *)(param_1 + 0x24);
-  lVar4 = 4;
+  e = (Obj_83023C30 **)(param_1 + 0x24);
+  i = 4;
   do {
-    piVar1 = (int *)*piVar5;
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 4))(piVar1,0xffffffff831bc7fc);
-      *piVar5 = 0;
+    o = e[0];
+    if (o != 0) {
+      o->vt->f4(o, sa);
+      e[0] = 0;
     }
-    uVar3 = lbl_831BC770;
-    puVar2 = (undefined4 *)piVar5[1];
-    if (puVar2 != (undefined4 *)0x0) {
-      (**(code **)*puVar2)(puVar2,0);
-      fn_82FA5190(uVar3,puVar2);
-      piVar5[1] = 0;
+    q = e[1];
+    if (q != 0) {
+      heap = lbl_831BC770;
+      q->vt->f0(q, 0);
+      fn_82FA5190(heap, q);
+      e[1] = 0;
     }
-    if (piVar5[-1] != 0) {
-      fn_830252F0(0xffffffff832645b0);
+    if (e[-1] != 0) {
+      fn_830252F0(sb, e[-1]);
       fn_82FEC150();
-      (**(code **)(*(int *)piVar5[-1] + 0x10))((int *)piVar5[-1],0xffffffff831bc7fc);
-      piVar5[-1] = 0;
+      e[-1]->vt->f10(e[-1], sa);
+      e[-1] = 0;
       fn_82FEC160();
     }
-    lVar4 = lVar4 + -1;
-    piVar5 = piVar5 + 5;
-  } while (lVar4 != 0);
+    i--;
+    e = e + 5;
+  } while (i != 0);
   return 1;
 }
-

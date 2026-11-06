@@ -1,67 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267BE38();
-extern int fn_82F68CC0();
+extern void *fn_8267B890(int, unsigned int, int);
+extern void fn_8267BE38(void *);
+extern void *memcpy(void *, const void *, unsigned int);
 
+typedef struct Desc_8277B540 { int x; unsigned int elem; } Desc_8277B540;
+typedef struct Vec_8277B540 {
+  unsigned int minCap;
+  unsigned int cap;
+  void *data;
+  Desc_8277B540 *desc;
+  int alloc;
+} Vec_8277B540;
 
-void fn_8277B540(uint *param_1,uint param_2,char param_3)
-
+void fn_8277B540(Vec_8277B540 *v, unsigned int n, unsigned char exact)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  
-  uVar1 = param_1[1];
-  if (param_2 != uVar1) {
-    if (*(int *)param_1[3] != 0) {
-      if (param_2 < *param_1) {
-        param_2 = *param_1;
+  unsigned int cap = v->cap;
+  void *p;
+  if (n != cap) {
+    if (v->desc->x != 0) {
+      if (n < v->minCap) {
+        n = v->minCap;
       }
-      if ((uVar1 < param_2) || ((param_3 != '\0' && (uVar1 != param_2)))) {
-        if (param_2 == 0) {
-          uVar2 = 0;
+      if (n > cap || (exact != 0 && cap != n)) {
+        if (n != 0) {
+          p = fn_8267B890(v->alloc, v->desc->elem * n, 0);
+        } else {
+          p = 0;
         }
-        else {
-          uVar2 = fn_8267B890(param_1[4],
-                                    (longlong)((int *)param_1[3])[1] * (longlong)(int)param_2,0);
-        }
-        if (param_1[2] != 0) {
-          if ((uVar2 & 0xffffffff) != 0) {
-            fn_82F68CC0(uVar2,param_1[2],
-                         (longlong)*(int *)(param_1[3] + 4) * (longlong)(int)*param_1);
+        if (v->data != 0) {
+          if (p != 0) {
+            memcpy(p, v->data, v->desc->elem * v->minCap);
           }
-          fn_8267BE38(param_1[2]);
+          fn_8267BE38(v->data);
         }
-        param_1[1] = param_2;
-        param_1[2] = (uint)uVar2;
+        v->cap = n;
+        v->data = p;
       }
     }
   }
-  return;
 }
-

@@ -1,85 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267C4C8();
-extern int fn_8278CC58();
-extern int fn_8278CD58();
-extern int fn_8278CF00();
-extern int fn_8278E310();
-extern int fn_8278E4C0();
-
-
-int fn_8278E7B0(int param_1,int param_2)
-
+typedef struct { char pad[0x2a]; unsigned short fl; } Item_8278E7B0;
+typedef struct { unsigned *data; unsigned pad; unsigned pad2; unsigned pad3; unsigned cap; } Tab_8278E7B0;
+typedef struct { char pad[8]; unsigned *tab; char pad2[4]; unsigned cap; char pad3[8]; unsigned heap; char pad4[0x2c]; unsigned char flags; } Self_8278E7B0;
+extern int fn_8267B890(unsigned, int, int);
+extern int fn_8267C4C8(unsigned);
+extern int fn_8278CC58(void *, void *);
+extern Item_8278E7B0 *fn_8278CD58(unsigned, Item_8278E7B0 *, unsigned);
+extern int fn_8278CF00(Item_8278E7B0 *);
+extern int fn_8278E310(void *, void *, void *);
+extern int fn_8278E4C0(void *, int);
+Item_8278E7B0 *fn_8278E7B0(Self_8278E7B0 *self, Item_8278E7B0 *item)
 {
-  int iVar2;
-  ulonglong uVar1;
-  uint uVar3;
-  int *piVar4;
-  int *piVar5;
-  int aiStack_30;
-  
-  if ((*(ushort *)(param_2 + 0x2a) >> 9 & 1) == 0) {
-    piVar5 = (int *)(param_1 + 8);
-    aiStack_30 = param_2;
-    iVar2 = fn_8278CC58(piVar5,&aiStack_30);
-    if (iVar2 < 0) {
-      piVar4 = (int *)0x0;
-    }
-    else {
-      piVar4 = (int *)(iVar2 * 0xc + *piVar5 + 0x10);
-    }
-    if (piVar4 != (int *)0x0) {
-      fn_8267C4C8(*piVar4);
-      return *piVar4;
-    }
-    uVar3 = 0;
-    if ((uint *)*piVar5 != (uint *)0x0) {
-      uVar3 = *(uint *)*piVar5;
-    }
-    if (*(uint *)(param_1 + 0x10) <= uVar3) {
-      fn_8278E4C0(param_1,0);
-    }
-  }
-  uVar1 = fn_8267B890(*(undefined4 *)(param_1 + 0x1c),0x2c,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_8278CD58(uVar1,param_2,*(undefined4 *)(param_1 + 0x1c));
-  }
-  aiStack_30 = iVar2;
-  if (((*(byte *)(param_1 + 0x4c) & 1) != 0) && ((*(ushort *)(iVar2 + 0x2a) >> 0xb & 1) != 0)) {
-    fn_8278CF00(iVar2);
-  }
-  if ((*(ushort *)(param_2 + 0x2a) >> 9 & 1) == 0) {
-    fn_8278E310(param_1 + 8,param_1 + 8,&aiStack_30);
-  }
-  return iVar2;
-}
+  int idx;
+  unsigned *ent;
+  unsigned n;
+  unsigned m;
+  Item_8278E7B0 *r;
+  Item_8278E7B0 *key;
+  unsigned **tp;
 
+  if ((unsigned char)(item->fl >> 9 & 1) == 0) {
+    tp = &self->tab;
+    key = item;
+    idx = fn_8278CC58(tp, &key);
+    if (idx >= 0) ent = (unsigned *)(idx * 0xc + (int)*tp + 0x10); else ent = 0;
+    if (ent != 0) {
+      fn_8267C4C8(*ent);
+      return (Item_8278E7B0 *)*ent;
+    }
+    n = (unsigned)*tp;
+    if (n != 0) n = *(unsigned *)n;
+    if (n >= self->cap) fn_8278E4C0(self, 0);
+  }
+  m = fn_8267B890(self->heap, 0x2c, 0);
+  r = m ? fn_8278CD58(m, item, self->heap) : 0;
+  key = r;
+  if ((self->flags & 1) != 0 && (unsigned char)(r->fl >> 0xb & 1) != 0) fn_8278CF00(r);
+  if ((unsigned char)(item->fl >> 9 & 1) == 0) fn_8278E310(&self->tab, &self->tab, &key);
+  return r;
+}

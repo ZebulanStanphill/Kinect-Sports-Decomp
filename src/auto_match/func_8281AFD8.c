@@ -25,49 +25,32 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8281B938();
+extern void fn_8281B938(int, int, int, int, int, int);
 
-
-void fn_8281AFD8(int param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_8281AFD8(int param_1, int param_2, int param_3)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  bool bVar4;
-  undefined8 uVar5;
-  undefined4 uVar6;
-  int iVar7;
-  short sVar8;
-  
-  sVar8 = *(short *)(param_1 + 0x108);
-  iVar1 = *(int *)(param_1 + 0x7c);
-  if (sVar8 == -1) {
-    sVar8 = *(short *)(param_1 + 0x84);
+  unsigned short s;
+  int base;
+  int idx;
+  int ent;
+
+  s = *(unsigned short *)(param_1 + 0x108);
+  base = *(int *)(param_1 + 0x7c);
+  if (s == 0xffff) {
+    s = *(unsigned short *)(param_1 + 0x84);
   }
-  if (sVar8 != -1) {
+  if ((short)s != -1) {
     do {
-      iVar7 = (int)sVar8;
-      sVar8 = *(short *)(iVar7 * 0x40 + iVar1 + 0x2c);
-    } while (sVar8 != -1);
-    for (; iVar7 != -1; iVar7 = (int)*(short *)(iVar7 + 0x2e)) {
-      iVar7 = iVar7 * 0x40 + iVar1;
-      bVar4 = (*(byte *)(iVar7 + 0x36) & 1) == 0;
-      if (bVar4) {
-        uVar2 = *(undefined4 *)(iVar7 + 0x24);
-        uVar3 = *(undefined4 *)(iVar7 + 0x20);
-        uVar6 = 0;
-        uVar5 = param_3;
+      idx = (short)s;
+      s = *(unsigned short *)(idx * 0x40 + base + 0x2c);
+    } while (s != 0xffff);
+    for (; idx != -1; idx = *(short *)(ent + 0x2e)) {
+      ent = idx * 0x40 + base;
+      if ((*(unsigned char *)(ent + 0x36) & 1) != 0) {
+        fn_8281B938(param_2, param_1, *(int *)(ent + 0x3c), *(int *)(ent + 0x28), *(int *)(ent + 0x38), 0);
+      } else {
+        fn_8281B938(param_3, param_1, *(int *)(ent + 0x20), *(int *)(ent + 0x24), 0, 1);
       }
-      else {
-        uVar6 = *(undefined4 *)(iVar7 + 0x38);
-        uVar2 = *(undefined4 *)(iVar7 + 0x28);
-        uVar3 = *(undefined4 *)(iVar7 + 0x3c);
-        uVar5 = param_2;
-      }
-      fn_8281B938(uVar5,param_1,uVar3,uVar2,uVar6,bVar4);
     }
   }
-  return;
 }
-

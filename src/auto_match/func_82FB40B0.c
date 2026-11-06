@@ -25,23 +25,31 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAA6E0();
+typedef struct Obj_82FB40B0 {
+  void *vt;
+  char pad4[0x2c];
+  unsigned f30;
+  char pad34[0xc];
+  int f40;
+  unsigned char f44;
+  char pad45[3];
+  int f48;
+  int f4c;
+  unsigned char f50;
+} Obj_82FB40B0;
+
+extern void fn_82FAA6E0(Obj_82FB40B0 *, int, int, void *);
 extern unsigned int lbl_8216D7E4;
 
-
-undefined4 * fn_82FB40B0(undefined4 *param_1)
-
+Obj_82FB40B0 * fn_82FB40B0(Obj_82FB40B0 *self, int x, int y, void *ref, unsigned char flag)
 {
-  undefined1 in_r7;
-  
-  fn_82FAA6E0();
-  *(undefined1 *)(param_1 + 0x14) = in_r7;
-  param_1[0x12] = 0;
-  *param_1 = &lbl_8216D7E4;
-  param_1[0x13] = 1;
-  param_1[0x10] = 0;
-  *(undefined1 *)(param_1 + 0x11) = 0;
-  param_1[0xc] = param_1[0xc] & 0x7fffffff;
-  return param_1;
+  fn_82FAA6E0(self, x, y, ref);
+  self->f50 = flag;
+  self->f48 = 0;
+  self->vt = &lbl_8216D7E4;
+  self->f4c = 1;
+  self->f40 = 0;
+  self->f44 = 0;
+  self->f30 = self->f30 & 0x7fffffff;
+  return self;
 }
-

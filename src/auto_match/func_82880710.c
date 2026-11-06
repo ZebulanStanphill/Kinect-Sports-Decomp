@@ -1,57 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C2C0();
-extern int fn_82F622A8();
+typedef struct Vec_82880710 { unsigned char *first; unsigned char *last; unsigned char *end; } Vec_82880710;
+extern unsigned char *fn_8223C2C0(void *, unsigned);
+extern void fn_82F622A8(const char *);
 
-
-undefined8 fn_82880710(int *param_1,ulonglong param_2)
-
+int fn_82880710(Vec_82880710 *v, unsigned n)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  if ((param_2 & 0xffffffff) == 0) {
-    uVar1 = 0;
+  v->first = 0;
+  v->last = 0;
+  v->end = 0;
+  if (n == 0) {
+    return 0;
   }
-  else {
-    if (0xffffffff < (param_2 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F622A8(0xffffffff82196fd4);
-    }
-    iVar2 = fn_8223C2C0(param_1 + 3,param_2);
-    uVar1 = 1;
-    *param_1 = iVar2;
-    param_1[1] = iVar2;
-    param_1[2] = iVar2 + (int)param_2;
+  if (n > 0xffffffff) {
+    fn_82F622A8("vector<T> too long");
   }
-  return uVar1;
+  v->first = fn_8223C2C0(v + 1, n);
+  v->last = v->first;
+  v->end = v->first + n;
+  return 1;
 }
-

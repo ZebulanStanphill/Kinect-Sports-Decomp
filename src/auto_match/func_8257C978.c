@@ -25,38 +25,54 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
-extern float lbl_8327F894;
+extern float lbl_821CC160;
+extern float lbl_8327F880[];
 
+typedef struct Obj_8257C978 Obj_8257C978;
+typedef struct {
+  void *f[6];
+  void (*f18)(Obj_8257C978 *, void *);
+} VtA_8257C978;
+typedef struct {
+  void *f[6];
+  void (*f18)(Obj_8257C978 *, float);
+} VtB_8257C978;
+struct Obj_8257C978 {
+  VtA_8257C978 *vt;
+  int a, state;
+};
+
+typedef struct Link_8257C978 Link_8257C978;
+struct Link_8257C978 {
+  Link_8257C978 *next;
+  Link_8257C978 *n2;
+  Obj_8257C978 *obj;
+};
 
 void fn_8257C978(int param_1)
-
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  undefined4 *puVar5;
-  double dVar6;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  iVar2 = *(int *)(param_1 + 0x34);
-  while (iVar1 != 0) {
-    piVar4 = (int *)(iVar1 + -0x38);
-    iVar1 = *(int *)(iVar1 + 4);
-    (**(code **)(*piVar4 + 0x18))(piVar4,iVar2);
+  unsigned int n;
+  void *ctx;
+  Link_8257C978 *it;
+  Link_8257C978 *end;
+  float step;
+  n = *(unsigned int *)(param_1 + 4);
+  ctx = *(void **)(param_1 + 0x34);
+  while (n != 0) {
+    Obj_8257C978 *o = (Obj_8257C978 *)(n - 0x38);
+    n = *(unsigned int *)(n + 4);
+    o->vt->f18(o, ctx);
   }
-  dVar6 = (double)lbl_821CC160;
-  if ((double)*(float *)(iVar2 + 0x838) <= dVar6) {
-    dVar6 = (double)(*(float *)(iVar2 + 0x820) * lbl_8327F894);
+  step = lbl_821CC160;
+  if (*(float *)((char *)ctx + 0x838) <= step) {
+    step = *(float *)((char *)ctx + 0x820) * lbl_8327F880[5];
   }
-  puVar5 = *(undefined4 **)(param_1 + 0x28);
-  for (puVar3 = (undefined4 *)*puVar5; puVar3 != puVar5; puVar3 = (undefined4 *)*puVar3) {
-    if (((int *)puVar3[2])[2] == 2) {
-      (**(code **)(*(int *)puVar3[2] + 0x18))(dVar6);
+  end = *(Link_8257C978 **)(param_1 + 0x28);
+  for (it = end->next; it != end; it = it->next) {
+    Obj_8257C978 *q = it->obj;
+    if (q->state == 2) {
+      ((VtB_8257C978 *)q->vt)->f18(q, step);
     }
-    puVar5 = *(undefined4 **)(param_1 + 0x28);
+    end = *(Link_8257C978 **)(param_1 + 0x28);
   }
-  return;
 }
-
