@@ -160329,7 +160329,7 @@ auto_match/func_82E1EE88.c:
 	.pdata      start:0x8221C040 end:0x8221C048
 	.text       start:0x82E1EE88 end:0x82E1F00C
 
-auto_match/func_82E1F010.c:
+auto_match/func_82E1F010.cpp:
 	.pdata      start:0x8221C048 end:0x8221C050
 	.text       start:0x82E1F010 end:0x82E1F268
 
