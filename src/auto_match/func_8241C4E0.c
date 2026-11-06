@@ -1,81 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x6d4]; int tex[6]; } Res_8241C4E0;
+typedef struct { char data[0x1ac]; } Item_8241C4E0;
+typedef struct {
+    Res_8241C4E0 *res;
+    int f04;
+    Item_8241C4E0 *begin;
+    Item_8241C4E0 *end;
+    char pad[0x258 - 0x10];
+    void *extra;
+    char pad2[0x28c - 0x25c];
+    int mode;
+} Obj_8241C4E0;
+typedef struct { int tex; int kind; void *extra; } Out_8241C4E0;
 
+static __forceinline unsigned int count(Obj_8241C4E0 *o) { return o->end - o->begin; }
 
-void fn_8241C4E0(int *param_1,undefined4 *param_2)
-
+void fn_8241C4E0(Obj_8241C4E0 *o, Out_8241C4E0 *out)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  iVar1 = param_1[0xa3];
-  param_2[1] = 0;
-  if (iVar1 == 9) {
-    uVar3 = 2;
-  }
-  else {
-    if (iVar1 != 10) goto LAB_8241c50c;
-    uVar3 = 1;
-  }
-  param_2[1] = uVar3;
-LAB_8241c50c:
-  iVar2 = param_1[0x96];
-  *param_2 = 0;
-  param_2[2] = iVar2;
-  if (iVar1 == 9) {
-    if ((uint)((param_1[3] - param_1[2]) / 0x1ac) < 2) {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6d4);
-    }
-    else {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6e0);
-    }
-  }
-  else if (iVar1 == 10) {
-    if ((uint)((param_1[3] - param_1[2]) / 0x1ac) < 2) {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6d8);
-    }
-    else {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6e4);
-    }
-  }
-  else {
-    if ((iVar1 != 3) && (iVar2 == 0)) {
-      return;
-    }
-    if ((uint)((param_1[3] - param_1[2]) / 0x1ac) < 2) {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6dc);
-    }
-    else {
-      uVar3 = *(undefined4 *)(*param_1 + 0x6e8);
-    }
-  }
-  *param_2 = uVar3;
-  return;
-}
+    int mode = o->mode;
+    void *extra;
 
+    out->kind = 0;
+    switch (mode) {
+    case 9:
+        out->kind = 2;
+        break;
+    case 10:
+        out->kind = 1;
+        break;
+    }
+    extra = o->extra;
+    out->tex = 0;
+    out->extra = extra;
+    switch (mode) {
+    case 9:
+        out->tex = count(o) > 1 ? o->res->tex[3] : o->res->tex[0];
+        break;
+    case 10:
+        out->tex = count(o) > 1 ? o->res->tex[4] : o->res->tex[1];
+        break;
+    default:
+        if (mode != 3 && extra == 0) {
+            return;
+        }
+        out->tex = count(o) > 1 ? o->res->tex[5] : o->res->tex[2];
+        break;
+    }
+}

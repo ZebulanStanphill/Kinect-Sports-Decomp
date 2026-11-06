@@ -1,74 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8255BFC0();
-extern unsigned int lbl_831C119C;
+typedef struct Item_825BBCA0 {
+    int a;
+    unsigned short type;
+} Item_825BBCA0;
 
+typedef unsigned char (*Check_825BBCA0)(Item_825BBCA0 *item, void *self);
 
-longlong fn_825BBCA0(int param_1,int param_2)
+typedef struct Handler_825BBCA0 {
+    void *a;
+    Check_825BBCA0 test;
+    Check_825BBCA0 apply;
+    void *d;
+} Handler_825BBCA0;
 
+typedef struct List_825BBCA0 {
+    int a;
+    unsigned short *begin;
+    unsigned short *end;
+} List_825BBCA0;
+
+typedef struct Def_825BBCA0 {
+    char pad[0x34];
+    List_825BBCA0 *ids;
+} Def_825BBCA0;
+
+typedef struct Self_825BBCA0 {
+    char pad[0x2fc];
+    int registry;
+} Self_825BBCA0;
+
+extern Handler_825BBCA0 lbl_831C1198[];
+extern Item_825BBCA0 *fn_8255BFC0(int registry, unsigned short id);
+
+static __forceinline unsigned char call_825BBCA0(Check_825BBCA0 f, Item_825BBCA0 *item, void *self)
 {
-  undefined2 *puVar1;
-  code *pcVar2;
-  int iVar3;
-  char cVar4;
-  longlong lVar5;
-  undefined2 *puVar6;
-  
-  lVar5 = 1;
-  puVar6 = *(undefined2 **)(*(int *)(param_2 + 0x34) + 4);
-  puVar1 = *(undefined2 **)(*(int *)(param_2 + 0x34) + 8);
-  do {
-    if (puVar1 <= puVar6) {
-      return lVar5;
+    if (f != 0) {
+        return f(item, self);
     }
-    iVar3 = fn_8255BFC0(*(undefined4 *)(param_1 + 0x2fc),*puVar6);
-    if (*(code **)(&lbl_831C119C + (uint)*(ushort *)(iVar3 + 4) * 0x10) == (code *)0x0) {
-      cVar4 = '\0';
-    }
-    else {
-      cVar4 = (**(code **)(&lbl_831C119C + (uint)*(ushort *)(iVar3 + 4) * 0x10))(iVar3,param_1);
-    }
-    if (cVar4 != '\0') {
-      if (lVar5 != 0) {
-        pcVar2 = *(code **)((uint)*(ushort *)(iVar3 + 4) * 0x10 + -0x7ce3ee60);
-        if (pcVar2 == (code *)0x0) {
-          cVar4 = '\0';
-        }
-        else {
-          cVar4 = (*pcVar2)(iVar3,param_1);
-        }
-        lVar5 = 1;
-        if (cVar4 != '\0') goto LAB_825bbd60;
-      }
-      lVar5 = 0;
-    }
-LAB_825bbd60:
-    puVar6 = puVar6 + 1;
-  } while( true );
+    return 0;
 }
 
+unsigned char fn_825BBCA0(Self_825BBCA0 *param_1, Def_825BBCA0 *param_2)
+{
+    unsigned char ok;
+    unsigned short *it;
+    unsigned short *end;
+    Item_825BBCA0 *item;
+
+    ok = 1;
+    it = param_2->ids->begin;
+    end = param_2->ids->end;
+    for (; it < end; it++) {
+        item = fn_8255BFC0(param_1->registry, *it);
+        if (call_825BBCA0(lbl_831C1198[item->type].test, item, param_1)) {
+            ok = ok && call_825BBCA0(lbl_831C1198[item->type].apply, item, param_1);
+        }
+    }
+    return ok;
+}

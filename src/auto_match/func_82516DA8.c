@@ -1,100 +1,78 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_11c;
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82230300();
-extern int fn_8223B728();
-extern int fn_8223CFC0();
-extern int fn_8223DCC8();
-extern int fn_8223FBB0();
-extern int fn_8223FDB8();
-extern int fn_82240158();
-extern int fn_822403C8();
-extern int fn_82517B60();
-extern int fn_82520AC8();
-extern int fn_828BC448();
-extern int fn_828C2A50();
+typedef struct String_82516DA8 {
+    char buf[16];
+    unsigned int size;
+    unsigned int res;
+    int pad18[2];
+} String_82516DA8;
 
+typedef struct Stream_82516DA8 {
+    int vbase;
+    char body[156];
+} Stream_82516DA8;
 
-undefined8 fn_82516DA8(undefined8 param_1,int param_2,undefined8 param_3)
+typedef struct Item_82516DA8 {
+    void *item;
+    int pad4[3];
+} Item_82516DA8;
 
+typedef struct Vec_82516DA8 {
+    int alloc;
+    Item_82516DA8 *first;
+    Item_82516DA8 *last;
+    Item_82516DA8 *end;
+} Vec_82516DA8;
+
+typedef struct Data_82516DA8 {
+    int pad0;
+    Vec_82516DA8 ctx;
+    Vec_82516DA8 prop;
+} Data_82516DA8;
+
+extern void fn_8223CFC0(Stream_82516DA8 *os, int mode, int flag);
+extern Stream_82516DA8 *fn_82240158(Stream_82516DA8 *os, const char *s);
+extern Stream_82516DA8 *fn_82520AC8(Stream_82516DA8 *os, int v);
+extern Stream_82516DA8 *fn_8223FBB0(Stream_82516DA8 *os, unsigned int v);
+extern Stream_82516DA8 *fn_82517B60(Stream_82516DA8 *os, char c);
+extern Stream_82516DA8 *fn_8223FDB8(Stream_82516DA8 *os);
+extern String_82516DA8 *fn_828C2A50(String_82516DA8 *ret, void *item, void *ctx);
+extern String_82516DA8 *fn_828BC448(String_82516DA8 *ret, void *item, void *ctx);
+extern Stream_82516DA8 *fn_8223B728(Stream_82516DA8 *os, String_82516DA8 *s);
+extern void fn_82230300(String_82516DA8 *s, int built, unsigned int newsize);
+extern void fn_822403C8(String_82516DA8 *ret, void *buf);
+extern void fn_8223DCC8(Stream_82516DA8 *os);
+
+static int Size_82516DA8(Vec_82516DA8 *v)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  undefined8 uVar4;
-  undefined8 uVar5;
-  undefined4 *puVar6;
-  undefined1 auStack_120 [4];
-  undefined1 auStack_11c [156];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [32];
-  
-  fn_8223CFC0(auStack_120,2,1);
-  fn_82240158(auStack_120,0xffffffff821c276c);
-  iVar1 = *(int *)(param_2 + 8);
-  iVar2 = *(int *)(param_2 + 0xc);
-  uVar4 = fn_82240158(auStack_120,0xffffffff821c27a8);
-  uVar4 = fn_82520AC8(uVar4,iVar2 - iVar1 >> 4);
-  uVar4 = fn_82240158(uVar4,0xffffffff821c2798);
-  fn_8223FBB0(uVar4,0);
-  puVar6 = *(undefined4 **)(param_2 + 8);
-  if (puVar6 != *(undefined4 **)(param_2 + 0xc)) {
-    do {
-      uVar3 = *puVar6;
-      fn_82517B60(auStack_120,10);
-      fn_8223FDB8(auStack_120);
-      uVar4 = fn_828C2A50(auStack_60,uVar3,param_3);
-      uVar5 = fn_82240158(auStack_120,0xffffffff821c27b8);
-      uVar4 = fn_8223B728(uVar5,uVar4);
-      fn_82240158(uVar4,0xffffffff821c27b4);
-      fn_82230300(auStack_60,1,0);
-      puVar6 = puVar6 + 4;
-    } while (puVar6 != *(undefined4 **)(param_2 + 0xc));
-  }
-  puVar6 = *(undefined4 **)(param_2 + 0x18);
-  if (puVar6 != *(undefined4 **)(param_2 + 0x1c)) {
-    do {
-      uVar3 = *puVar6;
-      fn_82517B60(auStack_120,10);
-      fn_8223FDB8(auStack_120);
-      uVar4 = fn_828BC448(auStack_80,uVar3,param_3);
-      uVar5 = fn_82240158(auStack_120,0xffffffff821c27c4);
-      uVar4 = fn_8223B728(uVar5,uVar4);
-      fn_82240158(uVar4,0xffffffff821c27b4);
-      fn_82230300(auStack_80,1,0);
-      puVar6 = puVar6 + 4;
-    } while (puVar6 != *(undefined4 **)(param_2 + 0x1c));
-  }
-  fn_822403C8(param_1,auStack_11c);
-  fn_8223DCC8(auStack_120);
-  return param_1;
+    return v->last - v->first;
 }
 
+String_82516DA8 *fn_82516DA8(String_82516DA8 *ret, Data_82516DA8 *d, void *ctx)
+{
+    Stream_82516DA8 os;
+    String_82516DA8 a;
+    String_82516DA8 b;
+    Item_82516DA8 *it;
+    void *item;
+
+    fn_8223CFC0(&os, 2, 1);
+    fn_82240158(&os, "GlobalContextsandPropertiesVariableData: ");
+    fn_8223FBB0(fn_82240158(fn_82520AC8(fn_82240158(&os, "Contexts "), Size_82516DA8(&d->ctx)),
+                            ", Properties "), 0);
+    for (it = d->ctx.first; it != d->ctx.last; it++) {
+        item = it->item;
+        fn_82517B60(&os, 10);
+        fn_8223FDB8(&os);
+        fn_82240158(fn_8223B728(fn_82240158(&os, "Context ["), fn_828C2A50(&a, item, ctx)), "]");
+        fn_82230300(&a, 1, 0);
+    }
+    for (it = d->prop.first; it != d->prop.last; it++) {
+        item = it->item;
+        fn_82517B60(&os, 10);
+        fn_8223FDB8(&os);
+        fn_82240158(fn_8223B728(fn_82240158(&os, "Property ["), fn_828BC448(&b, item, ctx)), "]");
+        fn_82230300(&b, 1, 0);
+    }
+    fn_822403C8(ret, os.body);
+    fn_8223DCC8(&os);
+    return ret;
+}

@@ -1,49 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_827F1C50();
+typedef struct Pair_827F1CB0 {
+    unsigned short a;
+    unsigned short b;
+} Pair_827F1CB0;
 
+typedef struct Node_827F1CB0 {
+    unsigned short a;
+    unsigned short b;
+    struct Node_827F1CB0 *prev;
+    struct Node_827F1CB0 *next;
+} Node_827F1CB0;
 
-undefined4 * fn_827F1CB0(undefined4 *param_1,int param_2,int *param_3)
+typedef struct Owner_827F1CB0 {
+    char pad[0xd4];
+    Node_827F1CB0 *head;
+    int count;
+} Owner_827F1CB0;
 
+extern void fn_827F1C50(Pair_827F1CB0 *out, Owner_827F1CB0 *o, Node_827F1CB0 *n);
+
+Pair_827F1CB0 *fn_827F1CB0(Pair_827F1CB0 *param_1, Owner_827F1CB0 *param_2, Node_827F1CB0 **param_3)
 {
-  undefined4 auStack_30;
-  
-  *(int *)(param_2 + 0xd8) = *(int *)(param_2 + 0xd8) + -1;
-  if (*(int *)(*param_3 + 8) == *(int *)(param_2 + 0xd4)) {
-    fn_827F1C50(&auStack_30);
-    *param_3 = *(int *)(param_2 + 0xd4);
-    *param_1 = auStack_30;
-  }
-  else {
-    *param_3 = *(int *)(*param_3 + 8);
-    fn_827F1C50();
-  }
-  return param_1;
+    Pair_827F1CB0 tmp;
+    Node_827F1CB0 *n;
+    param_2->count--;
+    n = *param_3;
+    if (n->next != param_2->head) {
+        *param_3 = n->next;
+        fn_827F1C50(param_1, param_2, n);
+        return param_1;
+    }
+    fn_827F1C50(&tmp, param_2, n);
+    *param_3 = param_2->head;
+    *param_1 = tmp;
+    return param_1;
 }
-

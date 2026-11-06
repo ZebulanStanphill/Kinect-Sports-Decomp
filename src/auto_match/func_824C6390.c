@@ -1,72 +1,79 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8234D950();
-extern int fn_8255EBE0();
-extern int fn_8255EDD0();
-extern int fn_827EF828();
-extern int fn_827EFFE8();
-extern int fn_827F0180();
-extern int fn_82F63108();
+typedef struct Impl_824C6390 Impl_824C6390;
 
+typedef struct ImplVtbl_824C6390 {
+    void *slot0;
+    int (*call)(Impl_824C6390 *self);
+} ImplVtbl_824C6390;
 
-void fn_824C6390(int param_1)
+struct Impl_824C6390 {
+    ImplVtbl_824C6390 *vt;
+};
 
+typedef struct Func_824C6390 {
+    int space[4];
+    Impl_824C6390 *impl;
+} Func_824C6390;
+
+typedef struct State_824C6390 {
+    int ctx;
+    char pad04[0x1a4 - 0x4];
+    int params[(0x1cc - 0x1a4) / 4];
+    int **table;
+    Func_824C6390 func;
+    int pad1e4;
+    int mode;
+    int alt;
+    int active;
+    int dirty;
+    int current;
+} State_824C6390;
+
+typedef struct Owner_824C6390 {
+    char pad[0x1c];
+    State_824C6390 *state;
+    char pad20[0x34 - 0x20];
+    void *pending;
+} Owner_824C6390;
+
+extern void fn_8234D950(void *pending);
+extern void fn_827EF828(int ctx);
+extern __declspec(noreturn) void fn_82F63108(void);
+extern void fn_827EFFE8(int ctx);
+extern void fn_8255EBE0(int ctx, int *params);
+extern void fn_8255EDD0(int ctx, int *params);
+extern void fn_827F0180(int ctx, int value, int a, int b, int c);
+
+void fn_824C6390(Owner_824C6390 *param_1)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_8234D950();
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0x1c);
-  if (puVar1[0x7b] == 0) {
-    fn_827EF828(*puVar1);
-  }
-  if (puVar1[0x78] == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F63108();
-  }
-  iVar3 = (**(code **)(*(int *)puVar1[0x78] + 4))();
-  puVar2 = *(undefined4 **)((iVar3 + 0x20) * 4 + puVar1[0x73]);
-  if (puVar1[0x7a] == 0) {
-    fn_827EFFE8(*puVar1);
-  }
-  else if (puVar1[0x7b] == 0) {
-    fn_8255EBE0(*puVar1,puVar1 + 0x69);
-  }
-  else {
-    fn_8255EDD0();
-  }
-  fn_827F0180(*puVar1,*puVar2,1,0,0);
-  puVar1[0x7e] = iVar3;
-  puVar1[0x7c] = 1;
-  puVar1[0x7d] = 0;
-  return;
-}
+    State_824C6390 *s;
+    Func_824C6390 *f;
+    int idx;
+    int *entry;
 
+    if (param_1->pending != 0) {
+        fn_8234D950(param_1->pending);
+    }
+    s = param_1->state;
+    if (s->alt == 0) {
+        fn_827EF828(s->ctx);
+    }
+    f = &s->func;
+    if (f->impl == 0) {
+        fn_82F63108();
+    }
+    idx = f->impl->vt->call(f->impl);
+    entry = s->table[idx + 0x20];
+    if (s->mode != 0) {
+        if (s->alt != 0) {
+            fn_8255EDD0(s->ctx, s->params);
+        } else {
+            fn_8255EBE0(s->ctx, s->params);
+        }
+    } else {
+        fn_827EFFE8(s->ctx);
+    }
+    fn_827F0180(s->ctx, *entry, 1, 0, 0);
+    s->current = idx;
+    s->active = 1;
+    s->dirty = 0;
+}

@@ -1,83 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C9E38();
+typedef struct Elem_8233D1D8 {
+    void *ptr;
+    void *aux;
+} Elem_8233D1D8;
 
+typedef struct Vec_8233D1D8 {
+    Elem_8233D1D8 *first;
+    Elem_8233D1D8 *last;
+    Elem_8233D1D8 *end;
+} Vec_8233D1D8;
 
-void fn_8233D1D8(int *param_1,undefined4 *param_2)
+extern void fn_822C9E38(Vec_8233D1D8 *v);
 
+static unsigned char Inside_8233D1D8(Vec_8233D1D8 *v, Elem_8233D1D8 *p)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 uVar3;
-  bool bVar4;
-  undefined4 *puVar5;
-  
-  puVar1 = (undefined4 *)param_1[1];
-  if ((puVar1 <= param_2) || (bVar4 = true, param_2 < (undefined4 *)*param_1)) {
-    bVar4 = false;
-  }
-  if (bVar4) {
-    iVar2 = *param_1;
-    if (puVar1 == (undefined4 *)param_1[2]) {
-      fn_822C9E38(param_1);
-    }
-    puVar1 = (undefined4 *)param_1[1];
-    puVar5 = (undefined4 *)(((int)param_2 - iVar2 >> 3) * 8 + *param_1);
-    if (puVar1 != (undefined4 *)0x0) {
-      *puVar1 = 0;
-      puVar1[1] = 0;
-      if (puVar1 != puVar5) {
-        puVar1[1] = puVar5[1];
-        puVar5[1] = 0;
-        uVar3 = *puVar1;
-        *puVar1 = *puVar5;
-        *puVar5 = uVar3;
-      }
-    }
-  }
-  else {
-    if (puVar1 == (undefined4 *)param_1[2]) {
-      fn_822C9E38(param_1);
-    }
-    puVar1 = (undefined4 *)param_1[1];
-    if (puVar1 != (undefined4 *)0x0) {
-      *puVar1 = 0;
-      puVar1[1] = 0;
-      if (puVar1 != param_2) {
-        puVar1[1] = param_2[1];
-        param_2[1] = 0;
-        uVar3 = *puVar1;
-        *puVar1 = *param_2;
-        *param_2 = uVar3;
-      }
-    }
-  }
-  param_1[1] = param_1[1] + 8;
-  return;
+    return p < v->last && v->first <= p;
 }
 
+static __forceinline void Swap_8233D1D8(void **a, void **b)
+{
+    void *t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void Move_8233D1D8(Elem_8233D1D8 *dst, Elem_8233D1D8 *src)
+{
+    dst->ptr = 0;
+    dst->aux = 0;
+    if (dst != src) {
+        Swap_8233D1D8(&dst->aux, &src->aux);
+        Swap_8233D1D8(&dst->ptr, &src->ptr);
+    }
+}
+
+static __forceinline void Construct_8233D1D8(Elem_8233D1D8 *dst, Elem_8233D1D8 *src)
+{
+    if (dst != 0) {
+        Move_8233D1D8(dst, src);
+    }
+}
+
+void fn_8233D1D8(Vec_8233D1D8 *v, Elem_8233D1D8 *val)
+{
+    int idx;
+
+    if (Inside_8233D1D8(v, val)) {
+        idx = val - v->first;
+        if (v->last == v->end) {
+            fn_822C9E38(v);
+        }
+        Construct_8233D1D8(v->last, v->first + idx);
+    } else {
+        if (v->last == v->end) {
+            fn_822C9E38(v);
+        }
+        Construct_8233D1D8(v->last, val);
+    }
+    v->last++;
+}

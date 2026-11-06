@@ -1,49 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8265CA20();
+typedef struct { void *begin; void *end; void *cap; } Vec_8234B900;
+typedef struct { void *p; } Ref_8234B900;
+typedef struct {
+    int f00;
+    Ref_8234B900 f04;
+    int f08[3];
+    Ref_8234B900 f14;
+    int f18;
+    Vec_8234B900 vec;
+} Obj_8234B900;
+extern void fn_822315A0(void *p);
+extern void fn_8265CA20(void *p);
 
-
-void fn_8234B900(int param_1)
-
+static __forceinline void vecTidy(Vec_8234B900 *v)
 {
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  if (*(int *)(param_1 + 0x14) != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
+    if (v->begin != 0) {
+        fn_8265CA20(v->begin);
+    }
+    v->begin = 0;
+    v->end = 0;
+    v->cap = 0;
+}
+static __forceinline void refRelease(Ref_8234B900 *r)
+{
+    if (r->p != 0) {
+        fn_822315A0(r->p);
+    }
 }
 
+void fn_8234B900(Obj_8234B900 *o)
+{
+    vecTidy(&o->vec);
+    refRelease(&o->f14);
+    refRelease(&o->f04);
+}

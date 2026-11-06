@@ -1,57 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82820EF8(ulonglong *param_1,int param_2)
-
+void fn_82820EF8(void *p, unsigned int size)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  
-  if (param_2 == 2) {
-    *(ushort *)param_1 = *(ushort *)param_1 << 8 | *(ushort *)param_1 >> 8;
-    return;
-  }
-  if (param_2 != 4) {
-    if (param_2 != 8) {
-      return;
+    unsigned int v;
+    unsigned __int64 w;
+    switch (size) {
+    case 2:
+        *(unsigned short *)p = *(unsigned short *)p << 8 | *(unsigned short *)p >> 8;
+        break;
+    case 4:
+        v = *(unsigned int *)p;
+        *(unsigned int *)p = ((v & 0xff0000 | v >> 16) >> 8) | ((v << 16 | v & 0xff00) << 8);
+        break;
+    case 8:
+        w = *(unsigned __int64 *)p;
+        *(unsigned __int64 *)p =
+            (((w & 0xff000000000000 | w >> 16) >> 16 | w & 0xff0000000000) >> 16 | w & 0xff00000000) >> 8 |
+            (((w << 16 | w & 0xff00) << 16 | w & 0xff0000) << 16 | w & 0xff000000) << 8;
+        break;
     }
-    uVar2 = *param_1;
-    *param_1 = (((uVar2 & 0xff000000000000 | uVar2 >> 0x10) >> 0x10 | uVar2 & 0xff0000000000) >>
-                0x10 | uVar2 & 0xff00000000) >> 8 |
-               (((uVar2 << 0x10 | uVar2 & 0xff00) << 0x10 | uVar2 & 0xff0000) << 0x10 |
-               uVar2 & 0xff000000) << 8;
-    return;
-  }
-  uVar1 = *(uint *)param_1;
-  *(uint *)param_1 =
-       (uVar1 >> 0x10 | uVar1 & 0xffff0000) >> 8 & 0xffff |
-       ((uVar1 << 0x10 | uVar1 & 0xffff) & 0xffff00) << 8;
-  return;
 }
-

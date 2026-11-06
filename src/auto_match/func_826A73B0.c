@@ -1,44 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_826A73B0 Obj_826A73B0;
 
+typedef struct ObjVtbl_826A73B0 {
+    void *slots[16];
+    char *(*Get)(Obj_826A73B0 *self);
+} ObjVtbl_826A73B0;
 
-longlong fn_826A73B0(int param_1)
+struct Obj_826A73B0 {
+    ObjVtbl_826A73B0 *vt;
+};
 
+typedef struct Owner_826A73B0 {
+    char pad0[0x74];
+    Obj_826A73B0 *obj;
+} Owner_826A73B0;
+
+char *fn_826A73B0(Owner_826A73B0 *o)
 {
-  longlong lVar1;
-  
-  if (*(int **)(param_1 + 0x74) == (int *)0x0) {
-    lVar1 = 0;
-  }
-  else {
-    lVar1 = (**(code **)(**(int **)(param_1 + 0x74) + 0x40))();
-    lVar1 = lVar1 + 0x18;
-  }
-  return lVar1;
+    if (o->obj != 0) {
+        return o->obj->vt->Get(o->obj) + 0x18;
+    }
+    return 0;
 }
-

@@ -1,63 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267B890();
-extern int fn_8267BDA8();
-extern int fn_8267BE38();
+typedef struct Buffer_826C8988 {
+    void *data;
+    unsigned int unk4;
+    unsigned int size;
+} Buffer_826C8988;
+
+extern void *fn_8267B890(unsigned int heap, unsigned int size, int *flags);
+extern void *fn_8267BDA8(void *ptr, unsigned int size);
+extern void fn_8267BE38(void *ptr);
 extern unsigned int lbl_831E7E64;
 
-
-void fn_826C8988(int *param_1,undefined8 param_2,int param_3)
-
+void fn_826C8988(Buffer_826C8988 *buf, int unused, unsigned int size)
 {
-  int iVar1;
-  uint uVar2;
-  undefined4 auStack_20 [2];
-  
-  if (param_3 == 0) {
-    uVar2 = 0;
-    if (*param_1 != 0) {
-      fn_8267BE38();
-      *param_1 = 0;
-    }
-  }
-  else {
-    uVar2 = param_3 + 3U & 0xfffffffc;
-    if (*param_1 == 0) {
-      auStack_20[0] = 2;
-      iVar1 = fn_8267B890(lbl_831E7E64,uVar2,auStack_20);
-    }
-    else {
-      iVar1 = fn_8267BDA8();
-    }
-    *param_1 = iVar1;
-  }
-  param_1[2] = uVar2;
-  return;
-}
+    unsigned int rounded;
+    int flags;
 
+    if (size == 0) {
+        rounded = 0;
+        if (buf->data != 0) {
+            fn_8267BE38(buf->data);
+            buf->data = 0;
+        }
+    } else {
+        rounded = (size + 3) & ~3u;
+        if (buf->data != 0) {
+            buf->data = fn_8267BDA8(buf->data, rounded);
+        } else {
+            flags = 2;
+            buf->data = fn_8267B890(lbl_831E7E64, rounded, &flags);
+        }
+    }
+    buf->size = rounded;
+}

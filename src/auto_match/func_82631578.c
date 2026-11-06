@@ -1,121 +1,129 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern int fn_8264B4A0();
-extern int fn_82F68CC0();
-extern unsigned int uStack_30;
+typedef struct Cmd_82631578 {
+    unsigned int top : 1;
+    unsigned int flag : 1;
+    unsigned int addr : 30;
+    unsigned int value;
+} Cmd_82631578;
 
+typedef struct Blob_82631578 {
+    char pad[0x14];
+    unsigned int offset;
+} Blob_82631578;
 
-void fn_82631578(int param_1,int param_2)
+typedef struct Shader_82631578 {
+    unsigned int mask;
+    int a;
+    unsigned int fence;
+    char pad0c[0x28 - 0xc];
+    Blob_82631578 blob;
+} Shader_82631578;
 
+typedef struct Header_82631578 {
+    unsigned __int64 clear;
+    unsigned __int64 extra;
+    unsigned int size;
+    unsigned int data[1];
+} Header_82631578;
+
+typedef struct Device_82631578 {
+    char pad[0x8];
+    unsigned __int64 dirty8;
+    unsigned __int64 dirty10;
+    char pad18[0x20 - 0x18];
+    unsigned __int64 dirty20;
+    char pad28[0x480 - 0x28];
+    char regs[0x2a9c - 0x480];
+    unsigned int fence;
+    unsigned int mask;
+    char pad2aa4[0x3244 - 0x2aa4];
+    Shader_82631578 *shader;
+    char pad3248[0x35a8 - 0x3248];
+    Cmd_82631578 *cmd;
+    Cmd_82631578 *cmdEnd;
+} Device_82631578;
+
+extern Cmd_82631578 *fn_8264B4A0(Device_82631578 *dev);
+void *memcpy(void *dst, const void *src, unsigned int n);
+
+static __forceinline void orq_82631578(unsigned __int64 *p, unsigned __int64 m)
 {
-  ushort uVar1;
-  uint *puVar2;
-  uint *puVar3;
-  undefined8 *puVar4;
-  ushort uVar5;
-  ulonglong uVar6;
-  ulonglong *puVar7;
-  uint uVar8;
-  uint *puVar9;
-  uint *puVar10;
-  uint *puVar11;
-  uint uStack_30;
-  
-  puVar10 = *(uint **)(param_1 + 0x3244);
-  if (puVar10 != (uint *)0x0) {
-    if (*(uint *)(param_1 + 0x2a9c) == 0) {
-      if ((*(uint *)(param_1 + 0x2aa0) & *puVar10) != 0) {
-        puVar4 = *(undefined8 **)(param_1 + 0x35a8);
-        if (*(undefined8 **)(param_1 + 0x35ac) <= puVar4) {
-          puVar4 = (undefined8 *)fn_8264B4A0(param_1);
-        }
-        *puVar4 = CONCAT44((uint)puVar10 >> 2 | uStack_30 & 0x80000000,0xffffffff);
-        *(undefined8 **)(param_1 + 0x35a8) = puVar4 + 1;
-      }
-    }
-    else {
-      puVar10[2] = *(uint *)(param_1 + 0x2a9c);
-    }
-  }
-  *(int *)(param_1 + 0x3244) = param_2;
-  uVar6 = *(ulonglong *)(param_1 + 0x10);
-  *(ulonglong *)(param_1 + 0x10) = uVar6 | 0x100000;
-  *(ulonglong *)(param_1 + 0x10) = uVar6 | 0x120000;
-  if (param_2 != 0) {
-    if (*(int *)(param_2 + 0x3c) != 0) {
-      puVar7 = (ulonglong *)(*(int *)(param_2 + 0x3c) + param_2 + 0x28);
-      *(ulonglong *)(param_1 + 8) = *(ulonglong *)(param_1 + 8) & ~*puVar7;
-      if (puVar7[1] != 0) {
-        *(ulonglong *)(param_1 + 0x20) = *(ulonglong *)(param_1 + 0x20) | 0x100000000000000;
-      }
-      puVar9 = (uint *)((int)puVar7 + 0x14);
-      puVar10 = (uint *)(*(int *)(puVar7 + 2) + (int)puVar9);
-      if (puVar9 < puVar10) {
-        do {
-          puVar11 = puVar9 + 1;
-          if ((ushort)*puVar9 == 0) break;
-          puVar9 = puVar9 + 2;
-          puVar11 = puVar9;
-        } while (puVar9 < puVar10);
-        if (puVar11 < puVar10) {
-          do {
-            uVar8 = (uint)(ushort)*puVar11;
-            uVar5 = *(ushort *)puVar11;
-            puVar11 = puVar11 + 1;
-            if (uVar8 == 0) break;
-            fn_82F68CC0((uint)uVar5 + param_1 + 0x480,puVar11,uVar8 * 4);
-            puVar11 = puVar11 + uVar8;
-          } while (puVar11 < puVar10);
-          while( true ) {
-            if (puVar10 <= puVar11) {
-              return;
-            }
-            uVar5 = (ushort)*puVar11;
-            uVar1 = *(ushort *)puVar11;
-            puVar11 = puVar11 + 1;
-            if (uVar5 == 0) break;
-            puVar9 = (uint *)((uint)uVar1 + param_1 + 0x480 + -4);
-            do {
-              uVar8 = *puVar11;
-              puVar2 = puVar9 + 1;
-              puVar3 = puVar11 + 1;
-              uVar5 = uVar5 - 2;
-              puVar11 = puVar11 + 2;
-              puVar9 = puVar9 + 1;
-              *puVar9 = *puVar2 & uVar8 | *puVar3;
-            } while (uVar5 != 0);
-          }
-          return;
-        }
-      }
-    }
-  }
-  return;
+    *p |= m;
 }
 
+void fn_82631578(Device_82631578 *param_1, Shader_82631578 *param_2)
+{
+    Shader_82631578 *old = param_1->shader;
+
+    if (old != 0) {
+        if (param_1->fence != 0) {
+            old->fence = param_1->fence;
+        } else if ((param_1->mask & old->mask) != 0) {
+            Cmd_82631578 cmd;
+            Cmd_82631578 *p = param_1->cmd;
+            if (p >= param_1->cmdEnd) {
+                p = fn_8264B4A0(param_1);
+            }
+            cmd.addr = (unsigned int)old >> 2;
+            cmd.value = 0xffffffff;
+            cmd.flag = 0;
+            *p = cmd;
+            param_1->cmd = p + 1;
+        }
+    }
+    param_1->shader = param_2;
+    orq_82631578(&param_1->dirty10, 0x100000);
+    orq_82631578(&param_1->dirty10, 0x20000);
+    if (param_2 != 0) {
+        Blob_82631578 *blob = &param_2->blob;
+        if (blob->offset != 0) {
+        Header_82631578 *h = (Header_82631578 *)((char *)blob + blob->offset);
+        char *regs;
+        unsigned int *rec;
+        unsigned int *end;
+        unsigned short count;
+        unsigned short off;
+
+        param_1->dirty8 &= ~h->clear;
+        if (h->extra != 0) {
+            param_1->dirty20 |= 0x100000000000000;
+        }
+        rec = h->data;
+        regs = param_1->regs;
+        end = (unsigned int *)((char *)rec + h->size);
+        while (rec < end) {
+            count = ((unsigned short *)rec)[1];
+            rec++;
+            if (count == 0) {
+                break;
+            }
+            rec++;
+        }
+        while (rec < end) {
+            count = ((unsigned short *)rec)[1];
+            off = ((unsigned short *)rec)[0];
+            rec++;
+            if (count == 0) {
+                break;
+            }
+            memcpy(regs + off, rec, count * 4);
+            rec += count;
+        }
+        while (rec < end) {
+            unsigned int *dst;
+            count = ((unsigned short *)rec)[1];
+            off = ((unsigned short *)rec)[0];
+            rec++;
+            if (count == 0) {
+                break;
+            }
+            dst = (unsigned int *)(regs + off);
+            do {
+                *dst = (*dst & rec[0]) | rec[1];
+                dst++;
+                rec += 2;
+                count -= 2;
+            } while (count != 0);
+        }
+    }
+    }
+}

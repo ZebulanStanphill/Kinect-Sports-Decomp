@@ -1,54 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826824B0();
-extern unsigned int lbl_8200612C;
-
-
-void fn_82695CF0(undefined4 *param_1)
-
-{
-  if (((*(byte *)(param_1 + 9) & 2) == 0) && (param_1[7] != 0)) {
-    fn_826824B0();
-  }
-  param_1[7] = 0;
-  if (((*(byte *)(param_1 + 9) & 1) == 0) && (param_1[8] != 0)) {
-    fn_826824B0();
-  }
-  param_1[8] = 0;
-  if (((*(byte *)(param_1 + 6) & 2) == 0) && (param_1[4] != 0)) {
-    fn_826824B0();
-  }
-  param_1[4] = 0;
-  if (((*(byte *)(param_1 + 6) & 1) == 0) && (param_1[5] != 0)) {
-    fn_826824B0();
-  }
-  param_1[5] = 0;
-  *param_1 = &lbl_8200612C;
-  return;
+extern void fn_826824B0(void *);
+extern char lbl_8200612C[];
+struct OwnedPair_82695CF0 { void *a,*b; unsigned char flags; char pad[3]; };
+struct Owner_82695CF0 { void *vtable; char pad[12]; struct OwnedPair_82695CF0 first,second; };
+void fn_82695CF0(struct Owner_82695CF0 *self) {
+ struct OwnedPair_82695CF0 *p=&self->second;
+ if(!(p->flags&2) && p->a) fn_826824B0(p->a); p->a=0;
+ if(!(p->flags&1) && p->b) fn_826824B0(p->b); p->b=0;
+ { struct OwnedPair_82695CF0 *q=&self->first;
+ if(!(q->flags&2) && q->a) fn_826824B0(q->a); q->a=0;
+ if(!(q->flags&1) && q->b) fn_826824B0(q->b); q->b=0;
+ }
+ self->vtable=lbl_8200612C;
 }
-

@@ -1,87 +1,94 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82681728();
-extern int fn_826944C8();
-extern int fn_82695608();
-extern int fn_82696330();
+typedef struct StrData_8272C8F8 { int pad[2]; int refs; } StrData_8272C8F8;
+typedef struct Str_8272C8F8 { StrData_8272C8F8 *data; } Str_8272C8F8;
+typedef struct Value_8272C8F8 { unsigned char type; char pad[15]; } Value_8272C8F8;
 
+typedef struct Iface_8272C8F8 Iface_8272C8F8;
+typedef struct IfaceVt_8272C8F8 {
+    void *s[11];
+    unsigned char (*get)(Iface_8272C8F8 *self, void *ctx, Str_8272C8F8 *name, Value_8272C8F8 *out);
+} IfaceVt_8272C8F8;
+struct Iface_8272C8F8 { IfaceVt_8272C8F8 *vt; };
+typedef struct Target_8272C8F8 { int pad[4]; Iface_8272C8F8 iface; } Target_8272C8F8;
 
-ulonglong fn_8272C8F8(int *param_1)
+typedef struct Movie_8272C8F8 { char pad[0x78]; char *root; } Movie_8272C8F8;
+typedef struct Node_8272C8F8 { char pad[0x68]; unsigned short flags; } Node_8272C8F8;
+typedef struct Ref_8272C8F8 { char pad[0x114]; int node; } Ref_8272C8F8;
+typedef struct Def_8272C8F8 { char pad[0x50]; unsigned short flags; } Def_8272C8F8;
 
+typedef struct Obj_8272C8F8 Obj_8272C8F8;
+typedef struct ObjVt_8272C8F8 {
+    void *s0[2];
+    unsigned char (*isActive)(Obj_8272C8F8 *self);
+    void *s3[19];
+    Movie_8272C8F8 *(*getMovie)(Obj_8272C8F8 *self);
+} ObjVt_8272C8F8;
+struct Obj_8272C8F8 {
+    ObjVt_8272C8F8 *vt;
+    char pad[0x68];
+    Target_8272C8F8 *target;
+    char pad2[0x1c];
+    unsigned int flags;
+    char pad3[0xc];
+    Def_8272C8F8 *def;
+    Ref_8272C8F8 *ref;
+};
+
+extern void fn_82681728(Str_8272C8F8 *s, char *base, const char *name);
+extern void fn_826944C8(StrData_8272C8F8 *d);
+extern unsigned char fn_82695608(Value_8272C8F8 *v, Movie_8272C8F8 *m);
+extern void fn_82696330(Value_8272C8F8 *v);
+
+unsigned char fn_8272C8F8(Obj_8272C8F8 *o)
 {
-  ushort uVar1;
-  int iVar2;
-  bool bVar3;
-  char cVar6;
-  int iVar5;
-  ulonglong uVar4;
-  longlong lVar7;
-  int aiStack_50 [4];
-  char acStack_40 [64];
-  
-  cVar6 = (**(code **)(*param_1 + 8))();
-  if (cVar6 != '\0') {
-    if (*(int *)(param_1[0x28] + 0x114) == 0) {
-      uVar1 = *(ushort *)(param_1[0x27] + 0x50) >> 3;
-    }
-    else {
-      uVar1 = *(ushort *)(*(int *)(param_1[0x28] + 0x114) + 0x68);
-    }
-    if ((uVar1 & 1) == 0) {
-      if (((param_1[0x23] & 0x60U) == 0) && (iVar2 = param_1[0x1b], iVar2 != 0)) {
-        acStack_40[0] = '\0';
-        iVar5 = (**(code **)(*param_1 + 0x58))(param_1);
-        fn_82681728(aiStack_50,(ulonglong)*(uint *)(iVar5 + 0x78) + 0x254,0xffffffff8200670c);
-        cVar6 = (**(code **)(*(int *)(iVar2 + 0x10) + 0x2c))
-                          (iVar2 + 0x10,iVar5 + 0x78,aiStack_50,acStack_40);
-        lVar7 = (ulonglong)*(uint *)(aiStack_50[0] + 8) - 1;
-        *(int *)(aiStack_50[0] + 8) = (int)lVar7;
-        if (lVar7 == 0) {
-          fn_826944C8(aiStack_50[0]);
+    unsigned char hidden;
+    unsigned char bad;
+    if (o->vt->isActive(o)) {
+        if (o->ref->node != 0) {
+            hidden = ((Node_8272C8F8 *)o->ref->node)->flags & 1;
+        } else {
+            hidden = (o->def->flags >> 3) & 1;
         }
-        if (cVar6 != '\0') {
-          if ((acStack_40[0] == '\0') || (bVar3 = false, acStack_40[0] == '\n')) {
-            bVar3 = true;
-          }
-          if (!bVar3) {
-            uVar4 = fn_82695608(acStack_40,iVar5);
-            fn_82696330(acStack_40);
-            return uVar4;
-          }
+        if (!hidden) {
+            if ((o->flags & 0x60) == 0) {
+                Target_8272C8F8 *t = o->target;
+                if (t != 0) {
+                    Value_8272C8F8 v;
+                    Str_8272C8F8 s;
+                    Movie_8272C8F8 *m;
+                    unsigned char ok;
+                    unsigned char empty;
+                    v.type = 0;
+                    m = o->vt->getMovie(o);
+                    fn_82681728(&s, m->root + 0x254, "tabEnabled");
+                    ok = t->iface.vt->get(&t->iface, &m->root, &s, &v);
+                    {
+                        StrData_8272C8F8 *d = s.data;
+                        if (--d->refs == 0) {
+                            fn_826944C8(d);
+                        }
+                    }
+                    if (ok) {
+                        if (v.type == 0 || v.type == 0xa) {
+                            empty = 1;
+                        } else {
+                            empty = 0;
+                        }
+                        if (!empty) {
+                            unsigned char r = fn_82695608(&v, m);
+                            fn_82696330(&v);
+                            return r;
+                        }
+                    }
+                    fn_82696330(&v);
+                }
+            }
+            if ((o->flags & 0x60) != 0 && (o->flags & 0x60) != 0x60) {
+                bad = 1;
+            } else {
+                bad = 0;
+            }
+            return !bad;
         }
-        fn_82696330(acStack_40);
-      }
-      if (((param_1[0x23] & 0x60U) == 0) || (bVar3 = true, (param_1[0x23] & 0x60U) == 0x60)) {
-        bVar3 = false;
-      }
-      return (ulonglong)!bVar3;
     }
-  }
-  return 0;
+    return 0;
 }
-

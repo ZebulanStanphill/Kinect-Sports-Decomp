@@ -1,47 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern float lbl_821CC160;
 
+typedef struct Vec_823DDD88 {
+    int *begin;
+    int *end;
+} Vec_823DDD88;
 
-void fn_823DDD88(int param_1)
+typedef struct Owner_823DDD88 {
+    char pad0[0x20];
+    Vec_823DDD88 **items;
+    char pad24[0xe2c - 0x24];
+    int index;
+} Owner_823DDD88;
 
+typedef struct State_823DDD88 {
+    int pad0[2];
+    Owner_823DDD88 *owner;
+    int flag;
+    int active;
+    float value;
+} State_823DDD88;
+
+void fn_823DDD88(State_823DDD88 *s)
 {
-  int *piVar1;
-  
-  *(undefined4 *)(param_1 + 0x10) = 1;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0x14) = lbl_821CC160;
-  piVar1 = *(int **)(*(int *)(*(int *)(param_1 + 8) + 0xe2c) * 4 +
-                    *(int *)(*(int *)(param_1 + 8) + 0x20));
-  if (piVar1[1] - *piVar1 >> 2 == 0) {
-    return;
-  }
-  *(undefined4 *)(param_1 + 0xc) = 1;
-  return;
-}
+    Vec_823DDD88 *v;
 
+    s->active = 1;
+    s->flag = 0;
+    s->value = lbl_821CC160;
+    v = s->owner->items[s->owner->index];
+    if ((unsigned)(v->end - v->begin) > 0) {
+        s->flag = 1;
+    }
+}

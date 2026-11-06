@@ -1,59 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8232C528();
-extern int fn_8232CBD8();
+typedef struct Ent_8232C490 {
+    char pad0[0x27c];
+    int other;
+    char pad280[0x5c0 - 0x280];
+    unsigned int cur;
+    char pad5c4[0x6c4 - 0x5c4];
+    unsigned int target;
+    char pad6c8[0x7a4 - 0x6c8];
+    int busy;
+} Ent_8232C490;
 
+typedef struct Obj_8232C490 {
+    int pad0;
+    Ent_8232C490 *ent;
+    char pad8[0x64 - 8];
+    void *child;
+} Obj_8232C490;
 
-void fn_8232C490(undefined8 param_1,int param_2)
+extern void fn_8232C528(Obj_8232C490 *o, int mode);
+extern void fn_8232CBD8(void *child, float dt);
 
+void fn_8232C490(Obj_8232C490 *o, float dt)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = *(int *)(*(int *)(param_2 + 4) + 0x27c);
-  if (iVar1 == 0) {
-    return;
-  }
-  if (*(int *)(*(int *)(param_2 + 4) + 0x7a4) == 0) {
-    if (*(int *)(iVar1 + 0x5c0) == *(int *)(iVar1 + 0x6c4)) {
-      uVar2 = 1;
-    }
-    else {
-      if (*(int *)(iVar1 + 0x7a4) == 0) goto LAB_8232c500;
-      uVar2 = 0;
-    }
-  }
-  else {
-    uVar2 = 5;
-  }
-  fn_8232C528(param_2,uVar2);
-LAB_8232c500:
-  fn_8232CBD8(param_1,*(undefined4 *)(param_2 + 100));
-  return;
-}
+    Ent_8232C490 *e;
+    Ent_8232C490 *other;
 
+    e = o->ent;
+    if (e->other == 0) {
+        return;
+    }
+    other = (Ent_8232C490 *)e->other;
+    if (e->busy != 0) {
+        fn_8232C528(o, 5);
+    } else if (other->cur == other->target) {
+        fn_8232C528(o, 1);
+    } else if (other->busy != 0) {
+        fn_8232C528(o, 0);
+    }
+    fn_8232CBD8(o->child, dt);
+}

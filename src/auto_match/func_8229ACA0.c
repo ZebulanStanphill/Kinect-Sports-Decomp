@@ -1,57 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Value_8229ACA0 {
+  int obj;
+  int type;
+  double num;
+} Value_8229ACA0;
 
+typedef struct Ctrl_8229ACA0 {
+  int movie;
+  int f4;
+  int f8;
+  int mode;
+} Ctrl_8229ACA0;
 
-void fn_8229ACA0(int param_1,int param_2)
+extern void fn_82273C88(Value_8229ACA0 *);
+extern void fn_82273CD8(Value_8229ACA0 *, int);
+extern void fn_82672C20(int, const char *, Value_8229ACA0 *, int);
 
+static void SetNumber_8229ACA0(Value_8229ACA0 *v, double num)
 {
-  undefined4 *puVar1;
-  double dVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  double dStack_28;
-  
-  puVar1 = *(undefined4 **)(param_1 + 0xc);
-  if (puVar1[3] != param_2) {
-    puVar1[3] = param_2;
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    dVar2 = (double)(longlong)(int)puVar1[3];
-    fn_82273CD8(&stack_pair_30.first,3);
-    dStack_28 = dVar2;
-    fn_82672C20(*puVar1,0xffffffff821a8724,&stack_pair_30.first,1);
-    fn_82273C88(&stack_pair_30.first);
-  }
-  return;
+  fn_82273CD8(v, 3);
+  v->num = num;
 }
 
+void fn_8229ACA0(int param_1, int param_2)
+{
+  Ctrl_8229ACA0 *c = *(Ctrl_8229ACA0 **)(param_1 + 0xc);
+  Value_8229ACA0 v;
+
+  if (c->mode != param_2) {
+    c->mode = param_2;
+    v.obj = 0;
+    v.type = 0;
+    SetNumber_8229ACA0(&v, (double)c->mode);
+    fn_82672C20(c->movie, "_root.mainCtrl.setDisplayMode", &v, 1);
+    fn_82273C88(&v);
+  }
+}

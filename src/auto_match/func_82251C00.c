@@ -1,47 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828E9D60();
-extern int fn_828E9D90();
+typedef struct Sys_82251C00 Sys_82251C00;
 
+typedef struct SysVtbl_82251C00 {
+    void *slots[5];
+    void (*Update)(Sys_82251C00 *self, void *ctx, int flags);
+} SysVtbl_82251C00;
 
-longlong fn_82251C00(int param_1,undefined8 param_2)
+struct Sys_82251C00 {
+    SysVtbl_82251C00 *vt;
+};
 
+typedef struct Owner_82251C00 {
+    char pad0[0x68];
+    Sys_82251C00 *a;
+    int pad6c;
+    Sys_82251C00 *b;
+    int pad74;
+    Sys_82251C00 *c;
+    int pad7c;
+    Sys_82251C00 *d;
+} Owner_82251C00;
+
+extern int fn_828E9D90(void *ctx);
+extern void fn_828E9D60(void *ctx, int start);
+
+int fn_82251C00(Owner_82251C00 *o, void *ctx)
 {
-  longlong lVar1;
-  longlong lVar2;
-  
-  lVar1 = fn_828E9D90(param_2);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x14))(*(int **)(param_1 + 0x78),param_2,0);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x14))(*(int **)(param_1 + 0x80),param_2,0);
-  lVar2 = fn_828E9D90(param_2);
-  fn_828E9D60(param_2,lVar1);
-  return lVar2 - lVar1;
-}
+    int start;
+    int elapsed;
 
+    start = fn_828E9D90(ctx);
+    o->a->vt->Update(o->a, ctx, 0);
+    o->b->vt->Update(o->b, ctx, 0);
+    o->c->vt->Update(o->c, ctx, 0);
+    o->d->vt->Update(o->d, ctx, 0);
+    elapsed = fn_828E9D90(ctx) - start;
+    fn_828E9D60(ctx, start);
+    return elapsed;
+}
