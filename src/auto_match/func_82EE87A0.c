@@ -1,59 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1BB18();
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct Link_82EE87A0 {
+    struct Link_82EE87A0 *next;
+    struct Link_82EE87A0 *prev;
+} Link_82EE87A0;
 
+typedef struct {
+    int unk0;
+    Link_82EE87A0 head;
+} List_82EE87A0;
 
-void fn_82EE87A0(int param_1)
+typedef struct {
+    int unk0;
+    Link_82EE87A0 link;
+    int unkC;
+    int unk10;
+    unsigned int id;
+    int found;
+} Entry_82EE87A0;
 
+typedef struct {
+    char pad[0x50];
+    List_82EE87A0 list;
+    char lock[4];
+} Owner_82EE87A0;
+
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern unsigned int fn_82A1BB18(void);
+
+static __forceinline Link_82EE87A0 *List_82EE87A0_first(List_82EE87A0 *l)
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  uint *puVar4;
-  
-  fn_82E50CB8(param_1 + 0x5c);
-  puVar3 = (uint *)(-(uint)(param_1 + 0x54U != *(uint *)(param_1 + 0x54)) &
-                   *(uint *)(param_1 + 0x54));
-  if (puVar3 != (uint *)0x0) {
-    do {
-      uVar1 = puVar3[4];
-      puVar4 = (uint *)(-(uint)(param_1 + 0x54U != *puVar3) & *puVar3);
-      uVar2 = fn_82A1BB18();
-      if (uVar1 == uVar2) {
-        puVar3[5] = 1;
-        break;
-      }
-      puVar3 = puVar4;
-    } while (puVar4 != (uint *)0x0);
-  }
-  fn_82E50F10(param_1 + 0x5c);
-  return;
+    return l->head.next != &l->head ? l->head.next : 0;
 }
 
+void fn_82EE87A0(Owner_82EE87A0 *self)
+{
+    Link_82EE87A0 *l;
+    fn_82E50CB8(self->lock);
+    l = List_82EE87A0_first(&self->list);
+    while (l != 0) {
+        Entry_82EE87A0 *e = (Entry_82EE87A0 *)((char *)l - 4);
+        unsigned int id = e->id;
+        l = l->next != &self->list.head ? l->next : 0;
+        if (id == fn_82A1BB18()) {
+            e->found = 1;
+            break;
+        }
+    }
+    fn_82E50F10(self->lock);
+}

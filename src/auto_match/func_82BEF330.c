@@ -1,51 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BEA420();
-extern int fn_82BF1430();
+extern void *fn_82BEA420(int, int);
+extern int fn_82BF1430(void *, int);
 
+typedef struct {
+  char pad0[0x18]; int f18;
+  char pad1[0x28 - 0x1c]; unsigned int f28; void *f2c;
+  char pad2[0x3c - 0x30]; int f3c;
+  char pad3[0x44 - 0x40]; int f44;
+} S_82BEF330;
 
-undefined8 fn_82BEF330(int param_1,int param_2)
-
+int fn_82BEF330(S_82BEF330 *self, int flag)
 {
-  ulonglong uVar1;
-  undefined4 uVar3;
-  undefined8 uVar2;
-  
-  uVar1 = (ulonglong)*(uint *)(param_1 + 0x2c);
-  if ((((uVar1 == 0) || (param_2 != 0)) || (*(int *)(param_1 + 0x28) == 0)) &&
-     (uVar1 = fn_82BEA420(*(undefined4 *)(param_1 + 0x18),0), (uVar1 & 0xffffffff) == 0)) {
-    uVar2 = 0;
+  void *p = self->f2c;
+  if (p == 0 || flag != 0 || self->f28 == 0) {
+    p = fn_82BEA420(self->f18, 0);
+    if (p != 0) goto ok;
+    return 0;
+  } else {
+ok:
+    self->f3c = fn_82BF1430(p, self->f44);
+    return 1;
   }
-  else {
-    uVar3 = fn_82BF1430(uVar1,*(undefined4 *)(param_1 + 0x44));
-    *(undefined4 *)(param_1 + 0x3c) = uVar3;
-    uVar2 = 1;
-  }
-  return uVar2;
 }
-

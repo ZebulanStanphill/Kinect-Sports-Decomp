@@ -25,32 +25,30 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83217128;
-extern unsigned int lbl_83217140;
-
+extern char lbl_8315C428[];
+extern unsigned int lbl_83215000[];
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern int KeSetEvent(void *, int, int);
 
 void fn_829CFD70(void)
 
 {
-  int iVar1;
-  int *piVar2;
-  
-  RtlEnterCriticalSection(0xffffffff8315c428);
-  piVar2 = &lbl_83217128;
-  do {
-    iVar1 = *piVar2;
-    if (iVar1 != 0) {
-      KeSetEvent(iVar1,1,0);
-      if (*(int *)(iVar1 + 0x10) != 0) {
-        KeSetEvent(*(int *)(iVar1 + 0x10),1,0);
+  unsigned int *ev;
+  int p;
+
+  RtlEnterCriticalSection(lbl_8315C428);
+  for (p = (int)(lbl_83215000 + 0x2128 / 4); p < (int)(lbl_83215000 + 0x2140 / 4); p += 4) {
+    ev = (unsigned int *)*(unsigned int *)p;
+    if (ev != 0) {
+      KeSetEvent(ev,1,0);
+      if (ev[4] != 0) {
+        KeSetEvent((void *)ev[4],1,0);
       }
     }
-    piVar2 = piVar2 + 1;
-  } while ((int)piVar2 < -0x7cde8ec0);
-  if (lbl_83217140 != 0) {
-    KeSetEvent(lbl_83217140,1,0);
   }
-  RtlLeaveCriticalSection(0xffffffff8315c428);
-  return;
+  if (lbl_83215000[0x2140 / 4] != 0) {
+    KeSetEvent((void *)lbl_83215000[0x2140 / 4],1,0);
+  }
+  RtlLeaveCriticalSection(lbl_8315C428);
 }
-

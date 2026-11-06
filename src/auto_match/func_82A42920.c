@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-byte fn_82A42920(undefined8 param_1,longlong param_2)
+byte fn_82A42920(undefined8 param_1,int param_2)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   
   iVar1 = (int)param_2;
   if (iVar1 == 0x566d) {
@@ -54,6 +54,6 @@ byte fn_82A42920(undefined8 param_1,longlong param_2)
   if (iVar1 == 0x3efd) {
     return 2;
   }
-  return -(param_2 != 0x203a) & 8;
+  return param_2 != 0x203a ? 8 : 0;
 }
 

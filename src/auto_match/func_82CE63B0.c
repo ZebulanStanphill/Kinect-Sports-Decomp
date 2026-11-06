@@ -1,55 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
+typedef struct Allocator_82CE63B0 Allocator_82CE63B0;
 
+typedef struct {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *(*alloc)(Allocator_82CE63B0 *self, int *capacity, int elemSize);
+    void *slot10;
+    void *(*realloc)(Allocator_82CE63B0 *self, void *data, unsigned int capacity, int *newCapacity, int elemSize);
+} AllocatorVtbl_82CE63B0;
 
-void fn_82CE63B0(int *param_1,undefined4 *param_2,undefined8 param_3)
+struct Allocator_82CE63B0 {
+    AllocatorVtbl_82CE63B0 *vt;
+};
 
+typedef struct {
+    void *data;
+    int count;
+    int capacity;
+} Array_82CE63B0;
+
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+
+void fn_82CE63B0(Allocator_82CE63B0 *a, Array_82CE63B0 *arr, int elemSize)
 {
-  undefined4 uVar1;
-  int aiStack_30 [4];
-  
-  aiStack_30[0] = param_2[1] << 1;
-  if (param_2[1] == 0) {
-    aiStack_30[0] = 1;
-  }
-  if ((param_2[2] & 0x80000000) == 0) {
-    uVar1 = (**(code **)(*param_1 + 0x14))
-                      (param_1,*param_2,param_2[2] & 0x3fffffff,aiStack_30,param_3);
-    *param_2 = uVar1;
-    param_2[2] = aiStack_30[0];
-  }
-  else {
-    uVar1 = (**(code **)(*param_1 + 0xc))(param_1,aiStack_30,param_3);
-    memcpy(uVar1,*param_2,(longlong)(int)param_3 * (longlong)(int)param_2[1]);
-    *param_2 = uVar1;
-    param_2[2] = aiStack_30[0];
-  }
-  return;
+    int newCapacity;
+    void *data;
+    newCapacity = arr->count != 0 ? arr->count * 2 : 1;
+    if ((arr->capacity & (int)0x80000000) == 0) {
+        unsigned int cap = arr->capacity & 0x3fffffff;
+        data = a->vt->realloc(a, arr->data, cap, &newCapacity, elemSize);
+        arr->data = data;
+        arr->capacity = newCapacity;
+    } else {
+        data = a->vt->alloc(a, &newCapacity, elemSize);
+        memcpy(data, arr->data, elemSize * arr->count);
+        arr->data = data;
+        arr->capacity = newCapacity;
+    }
 }
-

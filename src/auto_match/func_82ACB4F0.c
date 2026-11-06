@@ -1,106 +1,83 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABE6D0();
-extern int fn_82AE91E8();
-extern int fn_82AE9600();
+typedef struct Node_82ACB4F0 {
+    struct Ref_82ACB4F0 *refs;      /* +0x00 */
+    char pad4[4];
+    unsigned int pad8_hi : 18;
+    unsigned int kind : 7;          /* +0x08 */
+    unsigned int pad8_lo : 7;
+    char padc[4];
+    unsigned int w10;               /* +0x10 */
+    unsigned int pad14_hi : 19;
+    unsigned int id : 13;           /* +0x14 */
+    char pad18[0x24 - 0x18];
+    unsigned int link;              /* +0x24 */
+} Node_82ACB4F0;
 
+typedef struct Ref_82ACB4F0 {
+    struct Ref_82ACB4F0 *next0;
+    struct Ref_82ACB4F0 *next;      /* +4 */
+    int pad8;
+    Node_82ACB4F0 *target;          /* +0xc */
+} Ref_82ACB4F0;
 
-void fn_82ACB4F0(undefined8 param_1,int param_2,char param_3)
+typedef struct {
+    char pad[0x18];
+    unsigned int first;             /* +0x18 */
+    unsigned int last;              /* +0x1c */
+} List_82ACB4F0;
 
+extern Node_82ACB4F0 *fn_82ABE6D0(Node_82ACB4F0 *);
+extern unsigned char fn_82AE91E8(Node_82ACB4F0 *);
+extern unsigned char fn_82AE9600(void *, Node_82ACB4F0 *, Node_82ACB4F0 *);
+
+static __forceinline int notNull(Ref_82ACB4F0 *p) { if (p) return 1; return 0; }
+static __forceinline unsigned char InA(unsigned int k) { return k >= 1 && k <= 0x1f; }
+static __forceinline unsigned char InB(unsigned int k) { return k >= 0x20 && k <= 0x52; }
+#define L(n) ((Node_82ACB4F0 *)((unsigned int)(n) & 0xfffffffe))
+void fn_82ACB4F0(void *a, List_82ACB4F0 *list, unsigned char flag)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  bool bVar4;
-  int *piVar5;
-  char cVar6;
-  char cVar7;
-  uint uVar8;
-  uint uVar9;
-  int *piVar10;
-  int iVar11;
-  
-  uVar8 = 0;
-  if ((*(uint *)(param_2 + 0x1c) & 1) == 0) {
-    uVar1 = *(uint *)(param_2 + 0x18);
-    do {
-      uVar1 = uVar1 & 0xfffffffe;
-      piVar10 = (int *)(uVar1 - 0x28);
-      if (piVar10 == (int *)0x0) {
-        return;
-      }
-      uVar3 = *(uint *)(uVar1 - 0x20) >> 7 & 0x7f;
-      if (uVar3 != 0x7e) {
-        uVar9 = uVar8 + 1;
-        if ((uVar3 < 0x20) || (bVar4 = true, 0x52 < uVar3)) {
-          bVar4 = false;
-        }
-        if ((bVar4) && ((*(uint *)(uVar1 - 4) & 1) == 0)) {
-          uVar3 = *(uint *)(uVar1 - 4) & 0xfffffffe;
-          iVar11 = uVar3 - 0x28;
-          if (iVar11 != 0) {
-            uVar3 = *(uint *)(uVar3 - 0x20) >> 7 & 0x7f;
-            if ((uVar3 == 0) || (bVar4 = true, 0x1f < uVar3)) {
-              bVar4 = false;
-            }
-            if (bVar4) {
-              cVar7 = '\0';
-              piVar5 = (int *)fn_82ABE6D0(iVar11);
-              if (piVar10 == piVar5) {
-                cVar7 = '\x01';
-              }
-              else if ((param_3 != '\0') && (cVar6 = fn_82AE91E8(iVar11), cVar6 != '\0')) {
-                for (iVar2 = *piVar10; iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-                  if (*(int *)(iVar2 + 0xc) == iVar11) {
-                    bVar4 = true;
-                    goto LAB_82acb5f4;
-                  }
-                }
-                bVar4 = false;
-LAB_82acb5f4:
-                if (!bVar4) {
-                  cVar7 = fn_82AE9600(param_1,iVar11,piVar10);
-                }
-              }
-              if (cVar7 != '\0') {
-                uVar9 = uVar8;
-              }
-            }
-          }
-        }
-        uVar3 = *(uint *)(uVar1 - 0x14);
-        *(uint *)(uVar1 - 0x18) = *(uint *)(uVar1 - 0x18) | 0x1000000;
-        *(uint *)(uVar1 - 0x14) = uVar8 & 0x1fff | uVar3 & 0xffffe000;
-        uVar8 = uVar9;
-      }
-      uVar1 = *(uint *)(uVar1 - 4);
-    } while ((uVar1 & 1) == 0);
-  }
-  return;
-}
+    unsigned int cnt = 0;
+    unsigned int t;
+    Node_82ACB4F0 *node;
 
+    if ((list->last & 1) == 0) {
+        t = list->first;
+        while ((node = (Node_82ACB4F0 *)((t & 0xfffffffe) - 0x28)) != 0) {
+            if (node->kind != 0x7e) {
+                unsigned int next = cnt + 1;
+                if (InB(node->kind) && (L(node)->link & 1) == 0) {
+                    Node_82ACB4F0 *n2 = (Node_82ACB4F0 *)((L(node)->link & 0xfffffffe) - 0x28);
+                    if (n2 != 0 && InA(n2->kind)) {
+                        unsigned char r = 0;
+                        if (node == fn_82ABE6D0(n2)) {
+                            r = 1;
+                        } else if (flag != 0 && fn_82AE91E8(n2) != 0) {
+                            Ref_82ACB4F0 *it;
+                            unsigned char found;
+                            for (it = node->refs; notNull(it); it = it->next) {
+                                if (it->target == n2) {
+                                    found = 1;
+                                    goto done;
+                                }
+                            }
+                            found = 0;
+done:
+                            if (!found) {
+                                r = fn_82AE9600(a, n2, node);
+                            }
+                        }
+                        if (r != 0) {
+                            next = cnt;
+                        }
+                    }
+                }
+                node->w10 = node->w10 | 0x1000000;
+                node->id = cnt;
+                cnt = next;
+            }
+            t = L(node)->link;
+            if ((t & 1) != 0) {
+                break;
+            }
+        }
+    }
+}

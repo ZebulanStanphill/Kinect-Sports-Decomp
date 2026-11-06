@@ -1,103 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_240;
-extern unsigned int *auStack_260;
-extern unsigned int iStack_244;
-extern unsigned int iStack_24c;
-extern unsigned int lbl_82132BC4;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_248;
-
-
-void fn_82D6FBB8(int param_1,int param_2,int param_3,undefined8 param_4)
-
+extern char lbl_82132BC4[];
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  char *pcVar4;
-  ulonglong uVar5;
-  longlong lVar6;
-  int iVar7;
-  undefined1 auStack_260 [16];
-  int *piStack_250;
-  int iStack_24c;
-  undefined4 uStack_248;
-  int iStack_244;
-  undefined1 auStack_240 [512];
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "TtrcConvxPiece";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  iVar3 = 0;
-  if (0 < *(int *)(param_1 + 0x28)) {
-    iVar7 = 0;
-    do {
-      if (*(int *)(param_2 + 0x24) == 0) {
-LAB_82d6fc70:
-        piStack_250 = (int *)(**(code **)(*(int *)(*(int *)(param_1 + 0x20) + 0x10) + 0x14))
-                                       (*(int *)(param_1 + 0x20) + 0x10,
-                                        *(undefined4 *)(*(int *)(param_1 + 0x24) + iVar7),
-                                        auStack_240);
-        uStack_248 = *(undefined4 *)(param_3 + 8);
-        iStack_24c = iVar3;
-        iStack_244 = param_3;
-        (**(code **)(*piStack_250 + 0x24))(piStack_250,param_2,&piStack_250,param_4);
-      }
-      else {
-        uVar5 = (ulonglong)*(uint *)(param_1 + 0x20);
-        lVar6 = uVar5 + 0x10;
-        if (uVar5 == 0) {
-          lVar6 = 0;
-        }
-        pcVar4 = (char *)(**(code **)**(undefined4 **)(param_2 + 0x24))
-                                   (auStack_260,*(undefined4 **)(param_2 + 0x24),param_2,uVar5,lVar6
-                                    ,*(undefined4 *)(*(int *)(param_1 + 0x24) + iVar7));
-        if (*pcVar4 != '\0') goto LAB_82d6fc70;
-      }
-      iVar3 = iVar3 + 1;
-      iVar7 = iVar7 + 4;
-    } while (iVar3 < *(int *)(param_1 + 0x28));
-  }
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  return;
 }
-
+struct P_82D6FBB8; struct Q_82D6FBB8; struct R_82D6FBB8;
+typedef struct { void *p0; void *p1; void (*f14)(void); } Dummy_82D6FBB8;
+typedef struct Ev_82D6FBB8 { struct R_82D6FBB8 *r; int idx; int unk; struct C_82D6FBB8 *c; } Ev_82D6FBB8;
+typedef struct R_82D6FBB8 { void **vt; } R_82D6FBB8;
+typedef struct C_82D6FBB8 { char pad[8]; int f8; } C_82D6FBB8;
+typedef struct Sub_82D6FBB8 { char (*(*vt)[1]); } SubDummy_82D6FBB8;
+typedef struct S10_82D6FBB8 { struct { char pad[0x14]; R_82D6FBB8 *(*f14)(struct S10_82D6FBB8 *, int, void *); } *vt; } S10_82D6FBB8;
+typedef struct A20_82D6FBB8 { char pad[0x10]; S10_82D6FBB8 s10; } A20_82D6FBB8;
+typedef struct B24 { struct { char *(*f0)(void *, struct B24 *, void *, void *, void *, int); } *vt; } B24;
+typedef struct { char pad[0x20]; A20_82D6FBB8 *a20; int *arr; int count; } A;
+typedef struct { char pad[0x24]; B24 *b24; } B;
+void fn_82D6FBB8(A *a, B *b, C_82D6FBB8 *c, int d)
+{
+  int i, off;
+  struct { char buf1[16]; Ev_82D6FBB8 ev; char buf2[512]; } s;
+  timer("TtrcConvxPiece");
+  i = 0;
+  if (0 < a->count) {
+    off = 0;
+    do {
+      R_82D6FBB8 *r;
+      if (b->b24 == 0 || *b->b24->vt->f0(s.buf1, b->b24, b, a->a20, a->a20 ? (char *)a->a20 + 0x10 : 0, *(int *)((char *)a->arr + off)) != 0) {
+        r = a->a20->s10.vt->f14(&a->a20->s10, *(int *)((char *)a->arr + off), s.buf2);
+        s.ev.c = c;
+        s.ev.r = r;
+        s.ev.idx = i;
+        s.ev.unk = c->f8;
+        ((void (*)(R_82D6FBB8 *, B *, Ev_82D6FBB8 *, int))r->vt[0x24 / 4])(r, b, &s.ev, d);
+      }
+      i++;
+      off += 4;
+    } while (i < a->count);
+  }
+  timer("Et");
+}

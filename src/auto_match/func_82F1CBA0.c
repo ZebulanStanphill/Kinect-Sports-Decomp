@@ -1,77 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E85220();
+typedef struct {
+    char pad[0x28];
+    int scale;
+    char pad2C[8];
+} Entry_82F1CBA0;
 
+typedef struct {
+    char pad[0x60];
+    int index;
+    char pad64[0xb0];
+} Channel_82F1CBA0;
 
-void fn_82F1CBA0(int param_1,int param_2,short *param_3,undefined2 *param_4,int param_5)
+typedef struct {
+    char pad[0x2d0];
+    int current;
+    char pad2D4[0x6d24 - 0x2d4];
+    Entry_82F1CBA0 *table;
+} Ctx_82F1CBA0;
 
+extern short fn_82E85220(Ctx_82F1CBA0 *ctx, int value, int scale);
+
+void fn_82F1CBA0(Ctx_82F1CBA0 *ctx, int mode, short *in, short *out, Channel_82F1CBA0 *ch)
 {
-  int iVar1;
-  undefined2 uVar2;
-  undefined2 *puVar3;
-  longlong lVar4;
-  
-  if ((((param_2 == 0) || (param_2 == 1)) || (param_2 == 4)) || (param_2 == 5)) {
-    uVar2 = fn_82E85220(param_1,(longlong)
-                                 *(int *)(*(int *)(param_5 + *(int *)(param_1 + 0x2d0) * -0x114 +
-                                                  0x60) * 0x34 + *(int *)(param_1 + 0x6d24) + 0x28)
-                                 * (longlong)(int)*param_3,
-                         *(undefined4 *)
-                          (*(int *)(param_5 + 0x60) * 0x34 + *(int *)(param_1 + 0x6d24) + 0x28));
-    param_4[8] = uVar2;
-    *param_4 = uVar2;
-    puVar3 = param_4 + 9;
-    iVar1 = (int)param_3 - (int)param_4;
-    lVar4 = 7;
-    do {
-      param_3 = param_3 + 1;
-      uVar2 = fn_82E85220(param_1,(longlong)
-                                   *(int *)(param_5 + *(int *)(param_1 + 0x2d0) * -0x114 + 0x60) *
-                                   (longlong)(int)*param_3,*(undefined4 *)(param_5 + 0x60));
-      puVar3[-8] = uVar2;
-      uVar2 = fn_82E85220(param_1,(longlong)
-                                   *(int *)(param_5 + *(int *)(param_1 + 0x2d0) * -0x114 + 0x60) *
-                                   (longlong)(int)*(short *)((int)puVar3 + iVar1),
-                           *(undefined4 *)(param_5 + 0x60));
-      *puVar3 = uVar2;
-      lVar4 = lVar4 + -1;
-      puVar3 = puVar3 + 1;
-    } while (lVar4 != 0);
-  }
-  else {
-    iVar1 = (int)param_3 - (int)param_4;
-    lVar4 = 0x10;
-    do {
-      *param_4 = *(undefined2 *)(iVar1 + (int)param_4);
-      param_4 = param_4 + 1;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-  }
-  return;
+    int i;
+    if (mode == 0 || mode == 1 || mode == 4 || mode == 5) {
+        Channel_82F1CBA0 *base = ch - ctx->current;
+        out[0] = out[8] = fn_82E85220(ctx,
+            ctx->table[base->index].scale * in[0],
+            ctx->table[ch->index].scale);
+        for (i = 1; i < 8; i++) {
+            out[i] = fn_82E85220(ctx, (ch - ctx->current)->index * in[i], ch->index);
+            out[i + 8] = fn_82E85220(ctx, (ch - ctx->current)->index * in[i + 8], ch->index);
+        }
+    } else {
+        for (i = 0; i < 16; i++) {
+            out[i] = in[i];
+        }
+    }
 }
-

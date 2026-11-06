@@ -1,63 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA60();
+typedef struct VT_82897568 {
+  void *s0, *s1, *s2;
+  void (*init)(void *);
+} VT_82897568;
 
+typedef struct Src_82897568 {
+  int a, b;
+  unsigned int count;
+} Src_82897568;
 
-void fn_82897568(int *param_1,int param_2,int param_3)
+typedef struct Obj_82897568 {
+  VT_82897568 *vt;
+  int f4;
+  int *data;
+  int f0c;
+  Src_82897568 *src;
+} Obj_82897568;
 
+extern void *fn_8265CA60(unsigned int);
+
+void fn_82897568(Obj_82897568 *o, Src_82897568 *src, int arg)
 {
-  longlong lVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  param_1[4] = param_2;
-  param_1[1] = param_3;
-  uVar3 = (ulonglong)*(uint *)(param_2 + 8);
-  if (uVar3 == 0) {
-    param_1[2] = 0;
-  }
-  else {
-    lVar1 = ((ulonglong)*(uint *)(param_2 + 8) & 0x3fffffff) << 2;
-    if (0x3fffffff < uVar3) {
-      lVar1 = -1;
-    }
-    iVar2 = fn_8265CA60(lVar1);
-    param_1[2] = iVar2;
-  }
-  if ((param_1[2] != 0) && (uVar3 != 0)) {
-    iVar2 = 0;
-    do {
-      *(undefined4 *)(param_1[2] + iVar2) = 0;
-      iVar2 = iVar2 + 4;
-      uVar3 = uVar3 - 1;
-    } while (uVar3 != 0);
-  }
-  (**(code **)(*param_1 + 0xc))(param_1);
-  return;
-}
+  unsigned int n;
+  unsigned int sz;
+  unsigned int i;
 
+  o->src = src;
+  o->f4 = arg;
+  n = src->count;
+  if (n != 0) {
+    sz = n * 4;
+    if (n > 0x3fffffff) {
+      sz = 0xffffffff;
+    }
+    o->data = (int *)fn_8265CA60(sz);
+  } else {
+    o->data = 0;
+  }
+  if (o->data != 0 && n != 0) {
+    for (i = 0; i < n; i++) {
+      o->data[i] = 0;
+    }
+  }
+  o->vt->init(o);
+}

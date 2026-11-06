@@ -1,48 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82248B90();
-extern int fn_828976D0();
-extern int fn_828A12E8();
+typedef struct Val_82891410 { int pad[13]; int v34; } Val_82891410;
+typedef struct Node_82891410 { struct Node_82891410 *left; int pad[4]; Val_82891410 *val; } Node_82891410;
+typedef struct Map_82891410 { int p0; int p1; Node_82891410 *head; } Map_82891410;
+extern void fn_828976D0();
+extern void fn_82248B90();
+extern Map_82891410 *fn_828A12E8();
 
-
-void fn_82891410(undefined8 param_1,undefined8 param_2)
-
+void fn_82891410(int unused, Map_82891410 *m)
 {
-  int iVar1;
-  int iVar2;
-  int aiStack_20 [2];
-  
-  iVar1 = fn_828A12E8(param_2);
-  aiStack_20[0] = **(int **)(iVar1 + 8);
-  while (iVar1 = aiStack_20[0], iVar2 = fn_828A12E8(param_2), iVar1 != *(int *)(iVar2 + 8)) {
-    fn_828976D0(*(undefined4 *)(*(int *)(iVar1 + 0x14) + 0x34));
-    fn_82248B90(aiStack_20);
+  Node_82891410 *it;
+  Node_82891410 *cur = fn_828A12E8(m)->head->left;
+  int ok;
+  it = cur;
+  for (;;) {
+    Node_82891410 *e = fn_828A12E8(m)->head;
+    if (cur != e) ok = 1; else ok = 0;
+    if (!ok) break;
+    fn_828976D0(cur->val->v34);
+    fn_82248B90(&it);
+    cur = it;
   }
-  return;
 }
-

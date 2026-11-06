@@ -28,26 +28,27 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82A429A8();
 
 
-uint * fn_82A42A28(undefined8 param_1,uint *param_2,undefined8 param_3,undefined8 param_4,
-                    undefined8 param_5)
+typedef struct Ent_82A42A28 { int a; int b; } Ent_82A42A28;
+typedef struct Tbl_82A42A28 { unsigned int idx; Ent_82A42A28 e[2]; } Tbl_82A42A28;
+
+Ent_82A42A28 *fn_82A42A28(int param_1,Tbl_82A42A28 *param_2,int param_3,int param_4,int param_5)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  
-  uVar1 = *param_2;
-  *param_2 = uVar1 ^ 1;
-  puVar3 = param_2 + uVar1 * 2 + 1;
-  if (param_2[uVar1 * 2 + 2] == 0x7fffffff) {
-    uVar2 = fn_82A429A8(param_1,param_3,param_4,param_5);
-    if (uVar2 == 0x7fffffff) {
-      puVar3 = (uint *)0x0;
+  unsigned int i;
+  int r;
+  Ent_82A42A28 *ent;
+
+  i = param_2->idx;
+  param_2->idx = i ^ 1;
+  ent = &param_2->e[i];
+  if (ent->b == 0x7fffffff) {
+    r = fn_82A429A8(param_1,param_3,param_4,param_5);
+    if (r == 0x7fffffff) {
+      ent = 0;
     }
     else {
-      param_2[uVar1 * 2 + 2] = uVar2;
+      ent->b = r;
     }
   }
-  return puVar3;
+  return ent;
 }
-

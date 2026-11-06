@@ -1,84 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1020;
-extern unsigned int *auStack_1060;
-extern unsigned int *auStack_1070;
-extern unsigned int *auStack_1088;
-extern unsigned int *auStack_1090;
-extern unsigned int lbl_83219B8C;
-extern unsigned int uStack_1078;
-extern unsigned int uStack_1080;
+typedef struct Ansi_82A1F740 { unsigned short len, max; char *buf; int pad[2]; } Ansi_82A1F740;
+typedef struct Info_82A1F740 { char pad[0x28]; long long off; long long x; } Info_82A1F740;
+typedef struct Oa_82A1F740 { int root; Ansi_82A1F740 *name; int attrs; } Oa_82A1F740;
+typedef struct Tab_82A1F740 {
+  int pad0[3];
+  int (*create)(void **, unsigned int, Oa_82A1F740 *, int *, int, int, int, int, int);
+  int pad1[4];
+  int (*query)(void *, int *, void *, int, int);
+} Tab_82A1F740;
+extern Tab_82A1F740 *lbl_83219B8C;
+extern void RtlInitAnsiString(Ansi_82A1F740 *, const char *);
+extern int NtWriteFile(void *, int, int, int, int *, void *, unsigned int, long long *);
+extern int NtWaitForSingleObjectEx(void *, int, int, int);
+extern void NtClose(void *);
 
-
-ulonglong fn_82A1F740(ulonglong param_1)
-
+int fn_82A1F740(unsigned int remaining)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  undefined4 auStack_1090;
-  uint auStack_1088 [2];
-  undefined4 uStack_1080;
-  undefined1 *puStack_107c;
-  undefined4 uStack_1078;
-  undefined1 auStack_1070 [16];
-  undefined1 auStack_1060 [40];
-  longlong alStack_1038 [3];
-  undefined1 auStack_1020 [4112];
-  
-  RtlInitAnsiString(auStack_1070,0xffffffff82089290);
-  uStack_1080 = 0xfffffffd;
-  puStack_107c = auStack_1070;
-  uStack_1078 = 0x40;
-  uVar1 = (**(code **)(lbl_83219B8C + 0xc))
-                    (&auStack_1090,0x40100000,&uStack_1080,auStack_1088,0,0,0,3);
-  if ((-1 < (longlong)uVar1) &&
-     (uVar1 = (**(code **)(lbl_83219B8C + 0x20))
-                        (auStack_1090,auStack_1088,auStack_1060,0x38,0x22), -1 < (longlong)uVar1)
-     ) {
-    uVar2 = param_1 & 0xffffffff;
-    while (uVar2 != 0) {
-      uVar2 = 0x1000;
-      if ((param_1 & 0xffffffff) < 0x1000) {
-        uVar2 = param_1;
-      }
-      uVar1 = NtWriteFile(auStack_1090,0,0,0,auStack_1088,auStack_1020,0x1000,alStack_1038);
-      if ((int)uVar1 == 0x103) {
-        uVar1 = NtWaitForSingleObjectEx(auStack_1090,1,0,0);
-        if ((longlong)uVar1 < 0) break;
-        uVar1 = (ulonglong)auStack_1088[0];
-      }
-      if ((int)uVar1 < 0) break;
-      alStack_1038[0] = (uVar2 & 0xffffffff) + alStack_1038[0];
-      param_1 = param_1 - uVar2;
-      uVar2 = param_1;
-    }
-    NtClose(auStack_1090);
-  }
-  return uVar1;
-}
+  void *h;
+  int iosb[2];
+  Oa_82A1F740 oa;
+  Ansi_82A1F740 name;
+  Info_82A1F740 info;
+  char buf[0x1000];
+  int hr;
+  unsigned int chunk;
 
+  RtlInitAnsiString(&name, "cache:\\$cache$\\spc");
+  oa.root = -3;
+  oa.attrs = 0x40;
+  oa.name = &name;
+  hr = lbl_83219B8C->create(&h, 0x40100000, &oa, iosb, 0, 0, 0, 3, 8);
+  if (hr >= 0) {
+    hr = lbl_83219B8C->query(h, iosb, &info, 0x38, 0x22);
+    if (hr >= 0) {
+      while (remaining != 0) {
+        chunk = 0x1000;
+        if (remaining < 0x1000) {
+          chunk = remaining;
+        }
+        hr = NtWriteFile(h, 0, 0, 0, iosb, buf, 0x1000, &info.off);
+        if (hr == 0x103) {
+          hr = NtWaitForSingleObjectEx(h, 1, 0, 0);
+          if (hr < 0) break;
+          hr = iosb[0];
+        }
+        if (hr < 0) break;
+        info.off = info.off + chunk;
+        remaining = remaining - chunk;
+      }
+      NtClose(h);
+    }
+  }
+  return hr;
+}

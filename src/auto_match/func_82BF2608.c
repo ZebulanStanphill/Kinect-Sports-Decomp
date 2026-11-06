@@ -1,59 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BF2490();
-extern int fn_82F68CC0();
-extern unsigned int lbl_831751CC;
-extern unsigned int lbl_831751D0;
+typedef unsigned int size_t;
+extern void *memcpy(void *d, const void *s, size_t n);
+typedef struct {
+    char pad0[0x20];
+    unsigned char *buf;
+    unsigned char *end;
+    int used;
+    int cap;
+} Buf_82BF2608;
 
+extern void *(*lbl_831751D0)(int size);
+extern void (*lbl_831751CC)(void *p);
+extern int fn_82BF2490(Buf_82BF2608 *b, int size);
 
-undefined8 fn_82BF2608(int param_1,undefined8 param_2)
-
+int fn_82BF2608(Buf_82BF2608 *b, int size)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  if ((*(int *)(param_1 + 0x20) == 0) || (*(int *)(param_1 + 0x2c) == 0)) {
-    uVar2 = fn_82BF2490(param_1,param_2);
-  }
-  else {
-    lVar1 = (*(code *)lbl_831751D0)(param_2);
-    if (lVar1 == 0) {
-      uVar2 = 0x65;
+    unsigned char *p;
+    if (b->buf == 0 || b->cap == 0) {
+        return fn_82BF2490(b, size);
     }
-    else {
-      fn_82F68CC0(lVar1,*(undefined4 *)(param_1 + 0x20),*(undefined4 *)(param_1 + 0x28));
-      (*(code *)lbl_831751CC)(*(undefined4 *)(param_1 + 0x20));
-      uVar2 = 0;
-      *(int *)(param_1 + 0x20) = (int)lVar1;
-      *(int *)(param_1 + 0x2c) = (int)param_2;
-      *(int *)(param_1 + 0x24) = *(int *)(param_1 + 0x28) + (int)lVar1;
+    p = lbl_831751D0(size);
+    if (p != 0) {
+        memcpy(p, b->buf, b->used);
+        lbl_831751CC(b->buf);
+        b->buf = p;
+        b->cap = size;
+        b->end = p + b->used;
+        return 0;
     }
-  }
-  return uVar2;
+    return 0x65;
 }
-

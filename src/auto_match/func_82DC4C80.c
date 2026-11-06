@@ -1,77 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE8E78();
-extern int fn_82D91828();
-extern int fn_82DAF6C8();
-extern unsigned int lbl_82132BC4;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time, unused; } TimerEntry;
+typedef struct { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
 
-
-void fn_82DC4C80(undefined8 param_1,undefined8 param_2,int param_3)
-
+static void timer(const char *name)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = "TtSplitIsle";
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+  TimerStream *stream = KeTlsGetValue(lbl_8323B4A0);
+  if (stream->current < stream->end) {
+    TimerEntry *entry = stream->current;
+    entry->name = name;
+    entry->time = (unsigned)__mftb();
+    stream->current = entry + 1;
   }
-  iVar4 = *(int *)(param_3 + 0x14);
-  uVar2 = *(uint *)(param_3 + 0x18);
-  *(byte *)(iVar4 + 0x25) = *(byte *)(iVar4 + 0x25) & 0x3f;
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0x80000000;
-  fn_82DAF6C8(iVar4);
-  fn_82D91828(iVar4,*(undefined4 *)(iVar4 + 0x18),(ulonglong)uVar2 + 0x5c,&stack_pair_40.first);
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  fn_82CE8E78(param_2,param_3,param_3,0);
-  return;
 }
 
+typedef struct Inner_82DC4C80 { char pad0[0x18]; unsigned int f18; char pad1[0x25 - 0x1c]; unsigned char f25; } Inner_82DC4C80;
+typedef struct Arg_82DC4C80 { char pad[0x14]; Inner_82DC4C80 *inner; unsigned int f18; } Arg_82DC4C80;
+typedef struct Triple_82DC4C80 { unsigned int a, b, c; } Triple_82DC4C80;
+
+extern void fn_82DAF6C8();
+extern void fn_82D91828();
+extern void fn_82CE8E78();
+
+void fn_82DC4C80(void *unused, void *p2, Arg_82DC4C80 *p3)
+{
+  Inner_82DC4C80 *in;
+  unsigned int n;
+  Triple_82DC4C80 t;
+  timer("TtSplitIsle");
+  in = p3->inner;
+  n = p3->f18 + 0x5c;
+  in->f25 = in->f25 & 0x3f;
+  t.a = 0;
+  t.b = 0;
+  t.c = 0x80000000;
+  fn_82DAF6C8(in);
+  fn_82D91828(in, in->f18, n, &t);
+  timer("Et");
+  fn_82CE8E78(p2, p3, p3, 0);
+}

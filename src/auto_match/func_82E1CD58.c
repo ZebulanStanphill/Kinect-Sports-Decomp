@@ -28,28 +28,15 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
 
 
-undefined8 fn_82E1CD58(int param_1,ulonglong param_2)
+int fn_82E1CD58(int param_1,unsigned int param_2)
 
 {
-  undefined4 uVar2;
-  longlong lVar1;
-  
-  uVar2 = fn_8265C9E0(param_2);
-  *(undefined4 *)(param_1 + 0x1c) = uVar2;
-  lVar1 = (param_2 & 0x3fffffff) << 2;
-  if (0x3fffffff < (param_2 & 0xffffffff)) {
-    lVar1 = -1;
-  }
-  uVar2 = fn_8265C9E0(lVar1);
-  *(undefined4 *)(param_1 + 0x20) = uVar2;
-  lVar1 = (param_2 & 0x3fffffff) << 2;
-  if (0x3fffffff < (param_2 & 0xffffffff)) {
-    lVar1 = -1;
-  }
-  uVar2 = fn_8265C9E0(lVar1);
-  *(undefined4 *)(param_1 + 0x24) = uVar2;
-  *(int *)(param_1 + 0x14) = (int)param_2;
-  *(undefined1 *)(param_1 + 0x18) = 1;
+  int p;
+
+  *(int *)(param_1 + 0x1c) = fn_8265C9E0(param_2);
+  *(int *)(param_1 + 0x20) = fn_8265C9E0(param_2 <= 0x3fffffff ? param_2 * 4 : -1);
+  *(int *)(param_1 + 0x24) = fn_8265C9E0(param_2 <= 0x3fffffff ? param_2 * 4 : -1);
+  *(unsigned int *)(param_1 + 0x14) = param_2;
+  *(unsigned char *)(param_1 + 0x18) = 1;
   return 0;
 }
-

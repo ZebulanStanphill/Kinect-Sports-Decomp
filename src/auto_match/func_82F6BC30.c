@@ -1,61 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6BB98();
-extern int fn_82F6BCB0();
-extern int fn_82F7C468();
-extern int fn_82F82BD0();
+typedef struct Stream_82F6BC30 {
+  int pad0[3];
+  unsigned int flags;
+} Stream_82F6BC30;
+extern int fn_82F6BB98(Stream_82F6BC30 *);
+extern int fn_82F6BCB0(void);
+extern int fn_82F7C468(Stream_82F6BC30 *);
+extern int fn_82F82BD0(void);
 
-
-longlong fn_82F6BC30(int param_1)
-
+int fn_82F6BC30(Stream_82F6BC30 *s)
 {
-  longlong lVar1;
-  int iVar2;
-  
-  if (param_1 == 0) {
-    lVar1 = fn_82F6BCB0();
+  int r;
+  if (s == 0) {
+    r = fn_82F6BCB0();
+  } else if (fn_82F6BB98(s) != 0) {
+    r = -1;
+  } else if ((s->flags & 0x4000) != 0) {
+    fn_82F7C468(s);
+    r = fn_82F82BD0() != 0 ? -1 : 0;
+  } else {
+    r = 0;
   }
-  else {
-    iVar2 = fn_82F6BB98(param_1);
-    if (iVar2 == 0) {
-      if ((*(uint *)(param_1 + 0xc) & 0x4000) == 0) {
-        lVar1 = 0;
-      }
-      else {
-        fn_82F7C468(param_1);
-        lVar1 = fn_82F82BD0();
-        lVar1 = -(ulonglong)(lVar1 != 0);
-      }
-    }
-    else {
-      lVar1 = -1;
-    }
-  }
-  return lVar1;
+  return r;
 }
-
