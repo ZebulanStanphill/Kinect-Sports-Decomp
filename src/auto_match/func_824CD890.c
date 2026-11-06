@@ -31,44 +31,5 @@ extern int fn_82897B18();
 extern int fn_82898220();
 
 
-void fn_824CD890(int param_1)
-
-{
-  undefined8 uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  int iVar4;
-  ulonglong uVar5;
-  
-  uVar5 = (ulonglong)*(uint *)(param_1 + 0x10);
-  uVar1 = fn_82897B18(uVar5 + 0x34);
-  fn_82897600(param_1,param_1 + 0x48,uVar1);
-  *(undefined4 *)(param_1 + 0x70) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x48,param_1,uVar5 + 0x34,*(undefined4 *)(param_1 + 4));
-  uVar1 = fn_82897B18(uVar5 + 0x8c);
-  fn_82897600(param_1,param_1 + 0x9c,uVar1);
-  *(undefined4 *)(param_1 + 0xc4) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x9c,param_1,uVar5 + 0x8c,*(undefined4 *)(param_1 + 4));
-  iVar4 = param_1 + 0xf0;
-  lVar3 = uVar5 + 0xe4;
-  lVar2 = 0x14;
-  do {
-    uVar1 = fn_82897B18(lVar3);
-    fn_82897600(param_1,iVar4,uVar1);
-    *(undefined4 *)(iVar4 + 0x28) = *(undefined4 *)(param_1 + 0xc);
-    fn_82898220(iVar4,param_1,lVar3,*(undefined4 *)(param_1 + 4));
-    lVar2 = lVar2 + -1;
-    lVar3 = lVar3 + 0x58;
-    iVar4 = iVar4 + 0x54;
-  } while (lVar2 != 0);
-  fn_8224F2B8(param_1 + 0x828,param_1,uVar5 + 0x874);
-  fn_8224F2B8(param_1 + 0x87c,param_1,uVar5 + 0x8dc);
-  fn_8224F2B8(param_1 + 0x780,param_1,uVar5 + 0x7c4);
-  fn_8224F2B8(param_1 + 0x7d4,param_1,uVar5 + 0x81c);
-  uVar1 = fn_82897B18(uVar5 + 0x944);
-  fn_82897600(param_1,param_1 + 0x8d0,uVar1);
-  *(undefined4 *)(param_1 + 0x8f8) = *(undefined4 *)(param_1 + 0xc);
-  fn_82898220(param_1 + 0x8d0,param_1,uVar5 + 0x944,*(undefined4 *)(param_1 + 4));
-  return;
-}
-
+static __forceinline void init(int o,int d,int s){int n=fn_82897B18(s);fn_82897600(o,d,n);*(unsigned *)(d+0x28)=*(unsigned *)(o+0xc);fn_82898220(d,o,s,*(unsigned *)(o+4));}
+void fn_824CD890(int o){int s=*(int *)(o+0x10);init(o,o+0x48,s+0x34);init(o,o+0x9c,s+0x8c);{int d=o+0xf0;int src=s+0xe4;int n=20;do{init(o,d,src);--n;src+=0x58;d+=0x54;}while(n);}fn_8224F2B8(o+0x828,o,s+0x874);fn_8224F2B8(o+0x87c,o,s+0x8dc);fn_8224F2B8(o+0x780,o,s+0x7c4);fn_8224F2B8(o+0x7d4,o,s+0x81c);init(o,o+0x8d0,s+0x944);}

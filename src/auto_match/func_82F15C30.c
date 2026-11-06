@@ -29,33 +29,12 @@ extern int fn_82F02410();
 extern int fn_82F02700();
 
 
-void fn_82F15C30(int param_1,int param_2,int param_3)
-
-{
-  undefined8 uVar1;
-  undefined8 uVar2;
-  
-  if (param_2 == 0) {
-    if (param_3 == 0) {
-      return;
-    }
-    fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),0,1);
-    fn_82F02700(*(undefined4 *)(param_1 + 0x1ebc));
-    fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),0xab,0x18);
-    fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),0x1b,0x18);
-    fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),0x1b,0x18);
-    fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),0x1b,0x18);
-    uVar2 = 0x10;
-    uVar1 = 0x1b;
-  }
-  else {
-    if (param_3 == 0) {
-      return;
-    }
-    uVar2 = 1;
-    uVar1 = 1;
-  }
-  fn_82F02410(*(undefined4 *)(param_1 + 0x1ebc),uVar1,uVar2);
-  return;
+void fn_82F15C30(int p,int a,int b) {unsigned val,n;
+ if(a!=0){if(b==0)return;n=1;val=1;}else{if(b==0)return;
+ fn_82F02410(*(int*)(p+0x1ebc),0,1);fn_82F02700(*(int*)(p+0x1ebc));
+ fn_82F02410(*(int*)(p+0x1ebc),0xab,0x18);
+ fn_82F02410(*(int*)(p+0x1ebc),0x1b,0x18);
+ fn_82F02410(*(int*)(p+0x1ebc),0x1b,0x18);
+ fn_82F02410(*(int*)(p+0x1ebc),0x1b,0x18);n=0x10;val=0x1b;}
+ fn_82F02410(*(int*)(p+0x1ebc),val,n);
 }
-

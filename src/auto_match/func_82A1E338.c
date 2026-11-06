@@ -1,58 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int __imp__ExThreadObjectType;
-extern unsigned int *auStack_20;
-extern int fn_82A2B760();
-
-
-undefined8 fn_82A1E338(undefined8 param_1,undefined8 param_2)
-
-{
-  int iVar2;
-  undefined8 uVar1;
-  undefined4 auStack_20 [4];
-  
-  iVar2 = ObReferenceObjectByHandle(param_1,__imp__ExThreadObjectType,auStack_20);
-  if (iVar2 < 0) {
-    fn_82A2B760();
-    uVar1 = 0;
-  }
-  else {
-    if ((int)param_2 == 0xf) {
-      param_2 = 0x10;
-    }
-    else if ((int)param_2 == -0xf) {
-      param_2 = 0xfffffffffffffff0;
-    }
-    KeSetBasePriorityThread(auStack_20[0],param_2);
-    ObDereferenceObject(auStack_20[0]);
-    uVar1 = 1;
-  }
-  return uVar1;
-}
-
+extern void *__imp_ExThreadObjectType;
+extern int ObReferenceObjectByHandle(void *,void *,void **);
+extern int KeSetBasePriorityThread(void *,int);
+extern void ObDereferenceObject(void *);
+extern void fn_82A31F28(int);
+int fn_82A1E338(void *h,int p) { void *o; int hr=ObReferenceObjectByHandle(h,__imp_ExThreadObjectType,&o);
+ if(hr>=0) { int v=p; if(p==15) v=16; else if(p==-15) v=-16; KeSetBasePriorityThread(o,v); ObDereferenceObject(o); return 1; }
+ fn_82A31F28(hr); return 0; }

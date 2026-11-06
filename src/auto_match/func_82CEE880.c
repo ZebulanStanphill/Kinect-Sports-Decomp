@@ -28,18 +28,18 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82CE5410();
 
 
-void fn_82CEE880(undefined8 param_1,undefined8 param_2,int param_3,int param_4,int param_5,
+void fn_82CEE880(int param_1,int param_2,int param_3,int param_4,int param_5,
                   int *param_6)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned int uVar1;
   
   iVar2 = fn_82CE5410();
-  uVar1 = (**(code **)(**(int **)(iVar2 + 0x10) + 0x2c))
-                    (*(int **)(iVar2 + 0x10),param_2,(longlong)param_4 * (longlong)param_5);
-  (**(code **)(*param_6 + 0x14))
-            (param_6,3,param_1,param_2,(longlong)param_3 * (longlong)param_5,uVar1);
+  uVar1 = (*(code *)(**(int **)(iVar2 + 0x10) + 0x2c))
+                    (*(int **)(iVar2 + 0x10),param_2,(int)param_4 * (int)param_5);
+  (*(code *)(*param_6 + 0x14))
+            (param_6,3,param_1,param_2,(int)param_3 * (int)param_5,uVar1);
   return;
 }
 
