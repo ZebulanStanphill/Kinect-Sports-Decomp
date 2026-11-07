@@ -1,99 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8223A4D8();
-extern int fn_8223AAC0();
-extern int fn_82365BD8();
-extern unsigned int lbl_82196C58;
-extern unsigned int lbl_82197F94;
+typedef struct Impl_82254628 Impl_82254628;
+typedef struct ImplVt_82254628 {
+    Impl_82254628 *(*copy)(Impl_82254628 *self, void *where);
+} ImplVt_82254628;
+struct Impl_82254628 {
+    ImplVt_82254628 *vt;
+};
 
+typedef struct Func_82254628 {
+    int space[4];
+    Impl_82254628 *impl;
+    int pad;
+} Func_82254628;
 
-undefined4 * fn_82254628(undefined4 *param_1,int param_2)
+typedef struct Ref_82254628 {
+    int v;
+    void *p;
+} Ref_82254628;
 
+typedef struct Obj_82254628 {
+    void *vt;
+    int base[13];
+    Func_82254628 f1;     /* 0x38 */
+    Func_82254628 f2;     /* 0x50 */
+    int h1[2];            /* 0x68 */
+    int h2[2];            /* 0x70 */
+    int h3[2];            /* 0x78 */
+    Ref_82254628 r1;      /* 0x80 */
+    Ref_82254628 r2;      /* 0x88 */
+} Obj_82254628;
+
+extern void fn_8223A4D8(Obj_82254628 *dst, Obj_82254628 *src);
+extern unsigned char fn_8223AAC0(void *p);
+extern void fn_822315A0(void *p);
+extern void fn_82365BD8(void *dst, void *src);
+extern char lbl_82196C58[];
+extern char lbl_82197F94[];
+
+static __forceinline void copyFunc_82254628(Func_82254628 *d, Func_82254628 *s)
 {
-  int iVar1;
-  undefined4 uVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  
-  fn_8223A4D8();
-  *param_1 = &lbl_82196C58;
-  puVar4 = param_1 + 0xe;
-  if (*(int *)(param_2 + 0x48) == 0) {
-    param_1[0x12] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x48) != param_2 + 0x38) {
-      puVar4 = (undefined4 *)0x0;
+    if (s->impl == 0) {
+        d->impl = 0;
+    } else if (s->impl == (Impl_82254628 *)s) {
+        d->impl = s->impl->vt->copy(s->impl, d);
+    } else {
+        d->impl = s->impl->vt->copy(s->impl, 0);
     }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x48))(*(undefined4 **)(param_2 + 0x48),puVar4);
-    param_1[0x12] = uVar2;
-  }
-  puVar4 = param_1 + 0x14;
-  if (*(int *)(param_2 + 0x60) == 0) {
-    param_1[0x18] = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x60) != param_2 + 0x50) {
-      puVar4 = (undefined4 *)0x0;
-    }
-    uVar2 = (**(code **)**(undefined4 **)(param_2 + 0x60))(*(undefined4 **)(param_2 + 0x60),puVar4);
-    param_1[0x18] = uVar2;
-  }
-  *param_1 = &lbl_82197F94;
-  fn_82365BD8(param_1 + 0x1a,param_2 + 0x68);
-  fn_82365BD8(param_1 + 0x1c,param_2 + 0x70);
-  fn_82365BD8(param_1 + 0x1e,param_2 + 0x78);
-  param_1[0x20] = 0;
-  param_1[0x21] = 0;
-  iVar1 = *(int *)(param_2 + 0x84);
-  uVar2 = *(undefined4 *)(param_2 + 0x80);
-  if (iVar1 != 0) {
-    cVar3 = fn_8223AAC0(iVar1);
-    if (cVar3 != '\0') {
-      if (param_1[0x21] != 0) {
-        fn_822315A0();
-      }
-      param_1[0x21] = iVar1;
-      param_1[0x20] = uVar2;
-    }
-  }
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  iVar1 = *(int *)(param_2 + 0x8c);
-  uVar2 = *(undefined4 *)(param_2 + 0x88);
-  if ((iVar1 != 0) && (cVar3 = fn_8223AAC0(iVar1), cVar3 != '\0')) {
-    if (param_1[0x23] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x23] = iVar1;
-    param_1[0x22] = uVar2;
-  }
-  return param_1;
 }
 
+static __forceinline void copyRef_82254628(Ref_82254628 *d, Ref_82254628 *s)
+{
+    d->v = 0;
+    d->p = 0;
+    {
+        void *p = s->p;
+        int v = s->v;
+        if (p != 0 && fn_8223AAC0(p)) {
+            if (d->p != 0) {
+                fn_822315A0(d->p);
+            }
+            d->p = p;
+            d->v = v;
+        }
+    }
+}
+
+Obj_82254628 *fn_82254628(Obj_82254628 *dst, Obj_82254628 *src)
+{
+    fn_8223A4D8(dst, src);
+    dst->vt = lbl_82196C58;
+    copyFunc_82254628(&dst->f1, &src->f1);
+    copyFunc_82254628(&dst->f2, &src->f2);
+    dst->vt = lbl_82197F94;
+    fn_82365BD8(dst->h1, src->h1);
+    fn_82365BD8(dst->h2, src->h2);
+    fn_82365BD8(dst->h3, src->h3);
+    copyRef_82254628(&dst->r1, &src->r1);
+    copyRef_82254628(&dst->r2, &src->r2);
+    return dst;
+}

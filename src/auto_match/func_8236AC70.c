@@ -1,59 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABBF0();
-extern unsigned int iStack_1c;
-extern unsigned int lbl_821B2FB0;
+typedef struct S_8236AC70 {
+    int *arr;
+    int pad[3];
+    int idx;
+} S_8236AC70;
 
+typedef struct Vec_8236AC70 {
+    S_8236AC70 **begin;
+    S_8236AC70 **end;
+} Vec_8236AC70;
 
-int fn_8236AC70(int param_1)
+typedef struct Obj_8236AC70 {
+    int a;
+    int b;
+    Vec_8236AC70 *vec;
+} Obj_8236AC70;
 
+typedef struct Visitor_8236AC70 {
+    void *vt;
+    unsigned int result;
+} Visitor_8236AC70;
+
+extern char lbl_821B2FB0[];
+extern void fn_822ABBF0(int value, Visitor_8236AC70 *vis);
+
+static __forceinline void Visitor_8236AC70_init(Visitor_8236AC70 *p)
 {
-  int *piVar1;
-  uint uVar2;
-  undefined **ppuStack_20;
-  int iStack_1c;
-  
-  piVar1 = *(int **)(param_1 + 8);
-  if (piVar1 != (int *)0x0) {
-    iStack_1c = 0;
-    ppuStack_20 = &lbl_821B2FB0;
-    uVar2 = piVar1[1] - *piVar1 >> 2;
-    if ((uVar2 != 0) &&
-       (fn_822ABBF0(*(undefined4 *)((*(int **)*piVar1)[4] * 4 + **(int **)*piVar1),
-                          &ppuStack_20), iStack_1c != 0)) {
-      return iStack_1c;
-    }
-    if ((1 < uVar2) &&
-       (piVar1 = *(int **)(**(int **)(param_1 + 8) + 4),
-       fn_822ABBF0(*(undefined4 *)(piVar1[4] * 4 + *piVar1),&ppuStack_20), iStack_1c != 0)) {
-      return iStack_1c;
-    }
-  }
-  return 0;
+    p->result = 0;
+    p->vt = lbl_821B2FB0;
 }
 
+unsigned int fn_8236AC70(Obj_8236AC70 *o)
+{
+    Vec_8236AC70 *v = o->vec;
+    if (v != 0) {
+        Visitor_8236AC70 vis;
+        unsigned int n;
+        n = v->end - v->begin;
+        Visitor_8236AC70_init(&vis);
+        if (n != 0) {
+            S_8236AC70 *s = v->begin[0];
+            fn_822ABBF0(s->arr[s->idx], &vis);
+            if (vis.result != 0)
+                return vis.result;
+        }
+        if (n > 1) {
+            S_8236AC70 *s = o->vec->begin[1];
+            fn_822ABBF0(s->arr[s->idx], &vis);
+            if (vis.result != 0)
+                return vis.result;
+        }
+    }
+    return 0;
+}

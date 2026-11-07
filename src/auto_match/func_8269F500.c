@@ -1,98 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267BE38();
-extern int fn_826944C8();
-extern int fn_8269A608();
-extern int fn_8269F1B8();
-extern int fn_826FF4E8();
+typedef struct Ref_8269F500 {
+    int count;
+} Ref_8269F500;
 
+typedef struct Tmp_8269F500 {
+    int pad0;
+    int pad4;
+    int count;
+} Tmp_8269F500;
 
-int fn_8269F500(int *param_1)
+typedef struct Sub_8269F500 {
+    void **vt;
+    int pad[5];
+} Sub_8269F500;
 
+typedef struct Obj_8269F500 {
+    void **vt;
+    int pad04[7];
+    int f20;
+    unsigned char pad24[0x42];
+    unsigned char flags66;
+    unsigned char pad67;
+    Sub_8269F500 sub;
+    int cache;
+} Obj_8269F500;
+
+extern void *fn_8267B890(int a, int size, int c);
+extern void fn_8267BE38(void *p);
+extern void fn_826944C8(Tmp_8269F500 *p);
+extern void fn_8269A608(Ref_8269F500 *p);
+extern Ref_8269F500 *fn_8269F1B8(void *mem, void *a, int b, Obj_8269F500 *c);
+extern void fn_826FF4E8(Tmp_8269F500 **out, int src);
+
+int fn_8269F500(Obj_8269F500 *o)
 {
-  uint *puVar1;
-  uint uVar2;
-  int iVar5;
-  int iVar6;
-  longlong lVar3;
-  ulonglong uVar4;
-  int aiStack_30;
-  
-  if (param_1[0x20] == 0) {
-    iVar5 = (**(code **)(*param_1 + 0x40))();
-    iVar6 = (**(code **)(param_1[0x1a] + 8))(param_1 + 0x1a);
-    if ((iVar6 == 2) && ((*(byte *)((int)param_1 + 0x66) & 0x10) != 0)) {
-      lVar3 = fn_8267B890(*(undefined4 *)(iVar5 + 0x14),0x14,0);
-      if (lVar3 == 0) {
-        iVar5 = 0;
-      }
-      else {
-        iVar5 = (**(code **)(*param_1 + 0x58))(param_1);
-        iVar5 = fn_8269F1B8(lVar3,(ulonglong)*(uint *)(iVar5 + 0x78) + 8,0,0);
-      }
-      puVar1 = (uint *)param_1[0x20];
-      if (puVar1 != (uint *)0x0) {
-        uVar2 = *puVar1;
-        *puVar1 = (uint)((ulonglong)uVar2 - 1);
-        if ((longlong)((ulonglong)uVar2 - 1) < 1) {
-          fn_8269A608(puVar1);
-          fn_8267BE38(puVar1);
-        }
-      }
-      param_1[0x20] = iVar5;
-    }
-    else {
-      fn_826FF4E8(&aiStack_30,iVar5);
-      uVar4 = fn_8267B890(*(undefined4 *)(iVar5 + 0x14),0x14,0);
-      if ((uVar4 & 0xffffffff) == 0) {
-        iVar5 = 0;
-      }
-      else {
-        iVar5 = fn_8269F1B8(uVar4,&aiStack_30,param_1[8],param_1);
-      }
-      puVar1 = (uint *)param_1[0x20];
-      if (puVar1 != (uint *)0x0) {
-        uVar2 = *puVar1;
-        *puVar1 = (uint)((ulonglong)uVar2 - 1);
-        if ((longlong)((ulonglong)uVar2 - 1) < 1) {
-          fn_8269A608(puVar1);
-          fn_8267BE38(puVar1);
-        }
-      }
-      param_1[0x20] = iVar5;
-      lVar3 = (ulonglong)*(uint *)(aiStack_30 + 8) - 1;
-      *(int *)(aiStack_30 + 8) = (int)lVar3;
-      if (lVar3 == 0) {
-        fn_826944C8(aiStack_30);
-      }
-    }
-  }
-  return param_1[0x20];
-}
+    Ref_8269F500 *n;
+    Ref_8269F500 *old;
+    Tmp_8269F500 *tmp;
+    Tmp_8269F500 *t;
+    void *mem;
+    int r;
+    int q;
 
+    if (o->cache == 0) {
+        r = ((int (*)(Obj_8269F500 *))o->vt[16])(o);
+        if (((int (*)(Sub_8269F500 *))o->sub.vt[2])(&o->sub) == 2 && (o->flags66 & 0x10) != 0) {
+            mem = fn_8267B890(*(int *)(r + 0x14), 0x14, 0);
+            if (mem != 0) {
+                q = ((int (*)(Obj_8269F500 *))o->vt[22])(o);
+                n = fn_8269F1B8(mem, *(char **)(q + 0x78) + 8, 0, 0);
+            } else {
+                n = 0;
+            }
+            old = (Ref_8269F500 *)o->cache;
+            if (old != 0) {
+                if (--old->count <= 0) {
+                    fn_8269A608(old);
+                    fn_8267BE38(old);
+                }
+            }
+            o->cache = (int)n;
+        } else {
+            fn_826FF4E8(&tmp, r);
+            mem = fn_8267B890(*(int *)(r + 0x14), 0x14, 0);
+            if (mem != 0) {
+                n = fn_8269F1B8(mem, &tmp, o->f20, o);
+            } else {
+                n = 0;
+            }
+            old = (Ref_8269F500 *)o->cache;
+            if (old != 0) {
+                if (--old->count <= 0) {
+                    fn_8269A608(old);
+                    fn_8267BE38(old);
+                }
+            }
+            o->cache = (int)n;
+            t = tmp;
+            if (--t->count == 0) {
+                fn_826944C8(t);
+            }
+        }
+    }
+    return o->cache;
+}

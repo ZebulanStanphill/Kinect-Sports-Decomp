@@ -1,94 +1,94 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10d0;
-extern unsigned int *auStack_10e0;
-extern int fn_822315A0();
-extern int fn_8226D2A8();
-extern int fn_8226D388();
-extern int fn_8226D6A0();
-extern int fn_82276E10();
-extern int fn_82284B08();
-extern int fn_823F2E20();
-extern unsigned int iStack_10cc;
-extern unsigned int iStack_10dc;
-extern unsigned int lbl_821CC160;
-extern unsigned int uStack_10c8;
+typedef struct Iface_82276CD0 Iface_82276CD0;
+typedef struct IfaceVt_82276CD0 {
+    void (*f0)(Iface_82276CD0 *self);
+    void (*f4)(Iface_82276CD0 *self);
+} IfaceVt_82276CD0;
+struct Iface_82276CD0 {
+    IfaceVt_82276CD0 *vt;
+};
 
+typedef struct Node_82276CD0 {
+    int size;
+    int pad[9];
+    float time;
+} Node_82276CD0;
 
-void fn_82276CD0(double param_1,int param_2)
+typedef struct Obj_82276CD0 {
+    int pad0[4];
+    Iface_82276CD0 *listener;   /* 0x10 */
+    int pad14;
+    void *child;                /* 0x18 */
+    int done;                   /* 0x1c */
+    int pad20;
+    Node_82276CD0 *node;        /* 0x24 */
+    unsigned int index;         /* 0x28 */
+    unsigned int count;         /* 0x2c */
+    void *current;              /* 0x30 */
+    int pad34[2];
+    float timer;                /* 0x3c */
+} Obj_82276CD0;
 
+typedef struct Ref_82276CD0 {
+    int a;
+    void *p;
+} Ref_82276CD0;
+
+typedef struct Buf_82276CD0 {
+    int a;
+    void *p;
+    int c;
+    unsigned char rest[0x10B0 - 12];
+} Buf_82276CD0;
+
+extern float lbl_821CC160;
+extern void fn_8226D2A8(Buf_82276CD0 *b);
+extern void *fn_82276E10(Ref_82276CD0 *r, Obj_82276CD0 *o);
+extern void fn_823F2E20(Buf_82276CD0 *b, void *src);
+extern void fn_822315A0(void *p);
+extern void *fn_8226D388(Buf_82276CD0 *b);
+extern void fn_8226D6A0(void *p);
+extern void fn_82284B08(void *p, float dt);
+
+void fn_82276CD0(Obj_82276CD0 *o, float dt)
 {
-  float fVar1;
-  int iVar2;
-  int *piVar3;
-  undefined8 uVar4;
-  undefined4 uVar5;
-  undefined1 auStack_10e0 [4];
-  int iStack_10dc;
-  undefined1 auStack_10d0 [4];
-  int iStack_10cc;
-  undefined4 uStack_10c8;
-  
-  fVar1 = (float)((double)*(float *)(param_2 + 0x3c) - param_1);
-  *(float *)(param_2 + 0x3c) = fVar1;
-  if (fVar1 <= lbl_821CC160) {
-    if (*(uint *)(param_2 + 0x28) < *(uint *)(param_2 + 0x2c)) {
-      fn_8226D2A8(auStack_10d0);
-      uVar4 = fn_82276E10(auStack_10e0,param_2);
-      fn_823F2E20(auStack_10d0,uVar4);
-      if (iStack_10dc != 0) {
-        fn_822315A0();
-      }
-      uStack_10c8 = 0;
-      uVar5 = fn_8226D388(auStack_10d0);
-      if (*(int *)(param_2 + 0x30) != 0) {
-        fn_8226D6A0();
-      }
-      piVar3 = *(int **)(param_2 + 0x24);
-      *(undefined4 *)(param_2 + 0x30) = uVar5;
-      iVar2 = piVar3[10];
-      *(int *)(param_2 + 0x28) = *(int *)(param_2 + 0x28) + 1;
-      *(int *)(param_2 + 0x3c) = iVar2;
-      *(int *)(param_2 + 0x24) = *piVar3 + (int)piVar3;
-      if (iStack_10cc != 0) {
-        fn_822315A0();
-      }
-    }
-    else if (*(int *)(param_2 + 0x1c) == 0) {
-      if (*(int **)(param_2 + 0x10) != (int *)0x0) {
-        (**(code **)(**(int **)(param_2 + 0x10) + 4))();
-      }
-      *(undefined4 *)(param_2 + 0x1c) = 1;
-    }
-  }
-  if (*(int *)(param_2 + 0x18) != 0) {
-    fn_82284B08(param_1);
-  }
-  return;
-}
+    float t;
+    float nt;
+    Ref_82276CD0 ref;
+    Buf_82276CD0 buf;
+    void *v;
+    Node_82276CD0 *p;
 
+    t = o->timer - dt;
+    o->timer = t;
+    if (t <= lbl_821CC160) {
+        if (o->index < o->count) {
+            fn_8226D2A8(&buf);
+            fn_823F2E20(&buf, fn_82276E10(&ref, o));
+            if (ref.p != 0) {
+                fn_822315A0(ref.p);
+            }
+            buf.c = 0;
+            v = fn_8226D388(&buf);
+            if (o->current != 0) {
+                fn_8226D6A0(o->current);
+            }
+            p = o->node;
+            o->current = v;
+            nt = p->time;
+            o->index++;
+            o->timer = nt;
+            o->node = (Node_82276CD0 *)(p->size + (int)p);
+            if (buf.p != 0) {
+                fn_822315A0(buf.p);
+            }
+        } else if (o->done == 0) {
+            if (o->listener != 0) {
+                o->listener->vt->f4(o->listener);
+            }
+            o->done = 1;
+        }
+    }
+    if (o->child != 0) {
+        fn_82284B08(o->child, dt);
+    }
+}

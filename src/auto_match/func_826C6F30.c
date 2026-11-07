@@ -1,76 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826D7038();
-extern int fn_826D7728();
-extern unsigned int iStack_60;
-extern unsigned int uStack_5c;
+typedef struct Obj_826C6F30 Obj_826C6F30;
 
+typedef struct {
+    Obj_826C6F30 **items;
+    unsigned int count;
+} Pair_826C6F30;
 
-void fn_826C6F30(int param_1,int param_2)
+typedef struct {
+    void *pad0[2];
+    void (*f8)(Obj_826C6F30 *self, int a, int b);
+    void *padC[2];
+    unsigned char (*f14)(Obj_826C6F30 *self);
+    void *pad18[6];
+    unsigned char (*f30)(Obj_826C6F30 *self, Pair_826C6F30 *out, unsigned int index);
+} Vtbl_826C6F30;
 
+struct Obj_826C6F30 {
+    Vtbl_826C6F30 *vt;
+    int pad4[7];
+    int field20;
+};
+
+extern unsigned int fn_826D7038(int a);
+extern int fn_826D7728(Obj_826C6F30 *obj, int a, int b, int c);
+
+void fn_826C6F30(int param_1, int param_2)
 {
-  int *piVar1;
-  int *piVar2;
-  ulonglong uVar3;
-  char cVar4;
-  uint uVar5;
-  ulonglong uVar6;
-  int iVar7;
-  struct { int first; uint second; } stack_pair_60;
+    Obj_826C6F30 *src;
+    unsigned int n;
+    unsigned int i;
+    unsigned int j;
+    Pair_826C6F30 pair;
 
-  
-  uVar6 = 0;
-  piVar1 = *(int **)(*(int *)(param_2 + 0x1c) + 0xc);
-  uVar3 = fn_826D7038(piVar1[8]);
-  if (uVar3 != 0) {
-    do {
-      stack_pair_60.first = 0;
-      stack_pair_60.second = 0;
-      cVar4 = (**(code **)(*piVar1 + 0x30))(piVar1,&stack_pair_60.first,uVar6);
-      if ((cVar4 != '\0') && (uVar5 = 0, stack_pair_60.second != 0)) {
-        iVar7 = 0;
+    i = 0;
+    src = *(Obj_826C6F30 **)(*(int *)(param_2 + 0x1c) + 0xc);
+    n = fn_826D7038(src->field20);
+    if (n != 0) {
         do {
-          piVar2 = *(int **)(iVar7 + stack_pair_60.first);
-          cVar4 = (**(code **)(*piVar2 + 0x14))(piVar2);
-          if (cVar4 == '\0') {
-            (**(code **)(*piVar2 + 8))(piVar2,param_1,0);
-          }
-          else {
-            fn_826D7728(piVar2,param_1,param_2,1);
-          }
-          uVar5 = uVar5 + 1;
-          iVar7 = iVar7 + 4;
-        } while (uVar5 < stack_pair_60.second);
-      }
-      uVar6 = uVar6 + 1;
-    } while ((uVar6 & 0xffffffff) < (uVar3 & 0xffffffff));
-  }
-  *(uint *)(*(int *)(param_1 + 0xa0) + 0xb00) = *(uint *)(*(int *)(param_1 + 0xa0) + 0xb00) | 0x400;
-  return;
+            pair.items = 0;
+            pair.count = 0;
+            if (src->vt->f30(src, &pair, i)) {
+                j = 0;
+                if (pair.count != 0) {
+                    do {
+                        Obj_826C6F30 *o = pair.items[j];
+                        if (o->vt->f14(o)) {
+                            fn_826D7728(o, param_1, param_2, 1);
+                        } else {
+                            o->vt->f8(o, param_1, 0);
+                        }
+                        j++;
+                    } while (j < pair.count);
+                }
+            }
+            i++;
+        } while (i < n);
+    }
+    *(unsigned int *)(*(int *)(param_1 + 0xa0) + 0xb00) |= 0x400;
 }
-

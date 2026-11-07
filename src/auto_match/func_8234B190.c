@@ -1,58 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_8223DFF0();
-extern int fn_82560010();
+typedef unsigned int size_t;
+size_t strlen(const char *s);
 
+typedef struct Str_8234B190 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int res;
+} Str_8234B190;
 
-undefined8 fn_8234B190(undefined4 *param_1,char *param_2)
+typedef struct StrBuf_8234B190 {
+    Str_8234B190 s;
+    unsigned int pad[4];
+} StrBuf_8234B190;
 
+extern Str_8234B190 *fn_82230110(Str_8234B190 *s, const char *text);
+extern void fn_82230300(Str_8234B190 *s, int a, int b);
+extern Str_8234B190 *fn_8223DFF0(Str_8234B190 *s, const char *text, unsigned int len);
+extern int fn_82560010(int a, const char *name);
+
+int fn_8234B190(int **param_1, const char *param_2)
 {
-  char cVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  char *pcVar4;
-  undefined1 auStack_40 [40];
-  
-  uVar2 = fn_82230110(auStack_40,0xffffffff821b1c64);
-  pcVar4 = param_2;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  puVar3 = (undefined4 *)fn_8223DFF0(uVar2,param_2,pcVar4 + (-1 - (int)param_2));
-  if (0xf < (uint)puVar3[5]) {
-    puVar3 = (undefined4 *)*puVar3;
-  }
-  uVar2 = fn_82560010(*(undefined4 *)*param_1,puVar3);
-  fn_82230300(auStack_40,1,0);
-  return uVar2;
-}
+    StrBuf_8234B190 tmp;
+    Str_8234B190 *s;
+    int *obj;
+    const char *name;
+    int r;
 
+    s = fn_82230110(&tmp.s, "faceanim_");
+    s = fn_8223DFF0(s, param_2, strlen(param_2));
+    obj = *param_1;
+    name = s->res >= 0x10 ? s->u.ptr : s->u.buf;
+    r = fn_82560010(*obj, name);
+    fn_82230300(&tmp.s, 1, 0);
+    return r;
+}

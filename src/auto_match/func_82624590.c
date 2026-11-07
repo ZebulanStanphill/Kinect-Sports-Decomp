@@ -1,44 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E4D0();
-extern int fn_825D50C0();
+typedef struct Obj_82624590 {
+    char pad[0xc];
+    unsigned short count;
+} Obj_82624590;
+
+typedef struct Arg_82624590 {
+    unsigned int value;
+    int kind;
+} Arg_82624590;
+
+typedef struct Owner_82624590 {
+    char pad[0xb8];
+    unsigned int objBase;
+} Owner_82624590;
+
+typedef struct Self_82624590 {
+    void *vtable;
+    char pad04[0x38];
+    Owner_82624590 *owner;   /* 0x3c */
+    char pad40[0x10];
+    unsigned int handle;     /* 0x50 */
+} Self_82624590;
+
+extern void *fn_8251E4D0(Obj_82624590 *obj);
+extern void fn_82A1DD38(void *a, Arg_82624590 *arg, unsigned short count);
+extern void fn_825D50C0(Self_82624590 *self);
 extern unsigned int lbl_821CAD94;
 
-
-void fn_82624590(undefined4 *param_1)
-
+void fn_82624590(Self_82624590 *param_1)
 {
-  *param_1 = &lbl_821CAD94;
-  if (param_1[0x14] != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_8251E4D0((ulonglong)*(uint *)(param_1[0xf] + 0xb8) + 8);
-  }
-  fn_825D50C0(param_1);
-  return;
+    param_1->vtable = &lbl_821CAD94;
+    if (param_1->handle != 0) {
+        Arg_82624590 a;
+        Obj_82624590 *o;
+        void *r;
+        a.value = param_1->handle;
+        a.kind = 3;
+        o = (Obj_82624590 *)(param_1->owner->objBase + 8);
+        r = fn_8251E4D0(o);
+        fn_82A1DD38(r, &a, o->count);
+    }
+    fn_825D50C0(param_1);
 }
-

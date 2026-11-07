@@ -1,48 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B430();
-extern unsigned int lbl_83297340;
-extern unsigned int lbl_83297348;
-extern unsigned int lbl_83297558;
+typedef struct Obj_82231480 {
+  int pad[0x84];
+  unsigned char flag;
+} Obj_82231480;
 
+typedef struct Res_82231480 {
+  int f0;
+  Obj_82231480 *owner;
+} Res_82231480;
+
+extern Res_82231480 *fn_8267B430(Obj_82231480 *obj, int a, int b);
+extern unsigned int lbl_83297340;
+extern Obj_82231480 lbl_83297348;
 
 void fn_82231480(void)
-
 {
-  int iVar1;
-  
+  Res_82231480 *r;
+
   if ((lbl_83297340 & 1) == 0) {
     lbl_83297340 = lbl_83297340 | 1;
-    lbl_83297558 = 0;
+    lbl_83297348.flag = 0;
   }
-  iVar1 = fn_8267B430(0xffffffff83297348,0x10000,0x8000000);
-  *(undefined **)(iVar1 + 4) = &lbl_83297348;
-  lbl_83297558 = 1;
-  return;
+  r = fn_8267B430(&lbl_83297348, 0x10000, 0x8000000);
+  r->owner = &lbl_83297348;
+  lbl_83297348.flag = 1;
 }
-

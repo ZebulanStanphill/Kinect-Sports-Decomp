@@ -1,111 +1,100 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827C8ED8();
-extern unsigned int lbl_82017AD8;
-extern unsigned int lbl_82017AE0;
+/* Corresponds to libjpeg jmemmgr.c alloc_small (open-source IJG libjpeg). */
+typedef unsigned int size_t_827C08B0;
 
+typedef struct ErrMgr_827C08B0 {
+    void (*error_exit)(void *cinfo);
+    void (*emit_message)(void *cinfo, int level);
+    void (*output_message)(void *cinfo);
+    void (*format_message)(void *cinfo, char *buffer);
+    void (*reset_error_mgr)(void *cinfo);
+    int msg_code;
+    int msg_parm[20];
+} ErrMgr_827C08B0;
 
-int fn_827C08B0(int *param_1,ulonglong param_2,ulonglong param_3)
+typedef struct SmallPool_827C08B0 {
+    struct SmallPool_827C08B0 *next;
+    size_t_827C08B0 bytes_used;
+    size_t_827C08B0 bytes_left;
+    int pad;
+} SmallPool_827C08B0;
 
+typedef struct MemMgr_827C08B0 {
+    void *pub[13];
+    SmallPool_827C08B0 *small_list[2];
+    void *large_list[2];
+    void *virt_sarray_list;
+    void *virt_barray_list;
+    long total_space_allocated;
+} MemMgr_827C08B0;
+
+typedef struct Common_827C08B0 {
+    ErrMgr_827C08B0 *err;
+    MemMgr_827C08B0 *mem;
+} Common_827C08B0;
+
+extern void *fn_827C8ED8(Common_827C08B0 *cinfo, size_t_827C08B0 sizeofobject);
+extern size_t_827C08B0 lbl_82017AD8[];
+
+void *fn_827C08B0(Common_827C08B0 *cinfo, int pool_id, size_t_827C08B0 sizeofobject)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  undefined *puVar5;
-  undefined4 *puVar6;
-  longlong lVar7;
-  int iVar9;
-  ulonglong uVar8;
-  
-  iVar1 = param_1[1];
-  if (0x3b9ac9f0 < (uint)param_3) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x36;
-    *(undefined4 *)(*param_1 + 0x18) = 1;
-    (**(code **)*param_1)();
-  }
-  if ((param_3 & 7) != 0) {
-    param_3 = (param_3 - (param_3 & 7)) + 8;
-  }
-  iVar9 = (int)param_2;
-  if ((iVar9 < 0) || (1 < iVar9)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0xe;
-    *(int *)(*param_1 + 0x18) = iVar9;
-    (**(code **)*param_1)(param_1);
-  }
-  iVar2 = (int)((param_2 + 0xd & 0xffffffff) << 2);
-  puVar6 = (undefined4 *)0x0;
-  puVar3 = *(undefined4 **)(iVar2 + iVar1);
-  iVar9 = (int)param_3;
-  if (puVar3 != (undefined4 *)0x0) {
-    do {
-      puVar4 = puVar3;
-      puVar3 = puVar4;
-      if ((param_3 & 0xffffffff) <= (ulonglong)(uint)puVar4[2]) break;
-      puVar3 = (undefined4 *)*puVar4;
-      puVar6 = puVar4;
-    } while (puVar3 != (undefined4 *)0x0);
-    if (puVar3 != (undefined4 *)0x0) goto LAB_827c0a44;
-  }
-  lVar7 = param_3 + 0x10;
-  puVar5 = &lbl_82017AD8;
-  if (puVar6 != (undefined4 *)0x0) {
-    puVar5 = &lbl_82017AE0;
-  }
-  uVar8 = (ulonglong)*(uint *)(puVar5 + (int)((param_2 & 0xffffffff) << 2));
-  if ((1000000000U - lVar7 & 0xffffffff) <
-      (ulonglong)*(uint *)(puVar5 + (int)((param_2 & 0xffffffff) << 2))) {
-    uVar8 = 1000000000U - lVar7;
-  }
-  while( true ) {
-    puVar3 = (undefined4 *)fn_827C8ED8(param_1,uVar8 + lVar7);
-    if (puVar3 != (undefined4 *)0x0) break;
-    uVar8 = (uVar8 & 0xffffffff) >> 1;
-    if (uVar8 < 0x32) {
-      *(undefined4 *)(*param_1 + 0x14) = 0x36;
-      *(undefined4 *)(*param_1 + 0x18) = 2;
-      (**(code **)*param_1)(param_1);
-    }
-  }
-  *(int *)(iVar1 + 0x4c) = *(int *)(iVar1 + 0x4c) + (int)uVar8 + (int)lVar7;
-  *puVar3 = 0;
-  puVar3[1] = 0;
-  puVar3[2] = (int)uVar8 + iVar9;
-  if (puVar6 == (undefined4 *)0x0) {
-    *(undefined4 **)(iVar2 + iVar1) = puVar3;
-  }
-  else {
-    *puVar6 = puVar3;
-  }
-LAB_827c0a44:
-  iVar1 = puVar3[1];
-  puVar3[1] = iVar1 + iVar9;
-  puVar3[2] = puVar3[2] - iVar9;
-  return (int)puVar3 + iVar1 + 0x10;
-}
+    MemMgr_827C08B0 *mem = cinfo->mem;
+    SmallPool_827C08B0 *hdr_ptr;
+    SmallPool_827C08B0 *prev_hdr_ptr;
+    char *data_ptr;
+    size_t_827C08B0 odd_bytes, min_request, slop;
 
+    if (sizeofobject > (size_t_827C08B0)(1000000000 - sizeof(SmallPool_827C08B0))) {
+        cinfo->err->msg_code = 0x36;
+        cinfo->err->msg_parm[0] = 1;
+        (*cinfo->err->error_exit)(cinfo);
+    }
+    odd_bytes = sizeofobject % 8;
+    if (odd_bytes > 0)
+        sizeofobject += 8 - odd_bytes;
+    if (pool_id < 0 || pool_id >= 2) {
+        cinfo->err->msg_code = 0xe;
+        cinfo->err->msg_parm[0] = pool_id;
+        (*cinfo->err->error_exit)(cinfo);
+    }
+    prev_hdr_ptr = 0;
+    hdr_ptr = mem->small_list[pool_id];
+    while (hdr_ptr != 0) {
+        if (hdr_ptr->bytes_left >= sizeofobject)
+            break;
+        prev_hdr_ptr = hdr_ptr;
+        hdr_ptr = hdr_ptr->next;
+    }
+    if (hdr_ptr == 0) {
+        min_request = sizeofobject + sizeof(SmallPool_827C08B0);
+        if (prev_hdr_ptr == 0)
+            slop = lbl_82017AD8[pool_id];
+        else
+            slop = lbl_82017AD8[pool_id + 2];
+        if (slop > (size_t_827C08B0)(1000000000 - min_request))
+            slop = (size_t_827C08B0)(1000000000 - min_request);
+        for (;;) {
+            hdr_ptr = (SmallPool_827C08B0 *)fn_827C8ED8(cinfo, min_request + slop);
+            if (hdr_ptr != 0)
+                break;
+            slop /= 2;
+            if (slop < 50) {
+                cinfo->err->msg_code = 0x36;
+                cinfo->err->msg_parm[0] = 2;
+                (*cinfo->err->error_exit)(cinfo);
+            }
+        }
+        mem->total_space_allocated += min_request + slop;
+        hdr_ptr->next = 0;
+        hdr_ptr->bytes_used = 0;
+        hdr_ptr->bytes_left = sizeofobject + slop;
+        if (prev_hdr_ptr == 0)
+            mem->small_list[pool_id] = hdr_ptr;
+        else
+            prev_hdr_ptr->next = hdr_ptr;
+    }
+    data_ptr = (char *)(hdr_ptr + 1);
+    data_ptr += hdr_ptr->bytes_used;
+    hdr_ptr->bytes_used += sizeofobject;
+    hdr_ptr->bytes_left -= sizeofobject;
+    return (void *)data_ptr;
+}

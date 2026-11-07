@@ -1,90 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_824A1758();
-extern int fn_824A1B50();
-extern int fn_8265CA20();
-extern unsigned int *lbl_83292C84;
-extern unsigned int uRam83292c88;
+typedef struct Node_824A1628 {
+    struct Node_824A1628 *left;
+    struct Node_824A1628 *parent;
+    struct Node_824A1628 *right;
+    int key;
+    int value;
+    int value2;
+    unsigned char color;
+    unsigned char isnil;
+} Node_824A1628;
 
+typedef struct Tree_824A1628 {
+    int comp;
+    Node_824A1628 *head;
+    unsigned int size;
+} Tree_824A1628;
 
-int * fn_824A1628(int *param_1,int *param_2,int *param_3)
+extern Tree_824A1628 lbl_83292C80;
 
+extern void fn_824A1B50(Tree_824A1628 *tree, Node_824A1628 *node);
+extern void fn_8265CA20(void *p);
+extern void fn_824A1758(Node_824A1628 **ret, Node_824A1628 *where);
+
+Node_824A1628 **fn_824A1628(Node_824A1628 **ret, Node_824A1628 *first, Node_824A1628 *last)
 {
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  int *piVar4;
-  undefined1 auStack_30 [48];
-  
-  if ((param_2 == (int *)*lbl_83292C84) && (param_3 == lbl_83292C84)) {
-    cVar1 = *(char *)(lbl_83292C84[1] + 0x19);
-    piVar4 = (int *)lbl_83292C84[1];
-    while (cVar1 == '\0') {
-      fn_824A1B50(0xffffffff83292c80,piVar4[2]);
-      piVar2 = (int *)*piVar4;
-      fn_8265CA20(piVar4);
-      piVar4 = piVar2;
-      cVar1 = *(char *)((int)piVar2 + 0x19);
-    }
-    lbl_83292C84[1] = (int)lbl_83292C84;
-    *lbl_83292C84 = (int)lbl_83292C84;
-    lbl_83292C84[2] = (int)lbl_83292C84;
-    uRam83292c88 = 0;
-    *param_1 = *lbl_83292C84;
-  }
-  else {
-    while (param_2 != param_3) {
-      piVar4 = param_2;
-      if (*(char *)((int)param_2 + 0x19) == '\0') {
-        piVar4 = (int *)param_2[2];
-        if (*(char *)((int)piVar4 + 0x19) == '\0') {
-          piVar2 = (int *)*piVar4;
-          while (piVar3 = piVar2, *(char *)((int)piVar3 + 0x19) == '\0') {
-            piVar4 = piVar3;
-            piVar2 = (int *)*piVar3;
-          }
-        }
-        else {
-          piVar2 = (int *)param_2[1];
-          piVar3 = param_2;
-          while ((piVar4 = piVar2, *(char *)((int)piVar4 + 0x19) == '\0' &&
-                 (piVar3 == (int *)piVar4[2]))) {
-            piVar3 = piVar4;
-            piVar2 = (int *)piVar4[1];
-          }
-        }
-      }
-      fn_824A1758(auStack_30,param_2);
-      param_2 = piVar4;
-    }
-    *param_1 = (int)param_2;
-  }
-  return param_1;
-}
+    Node_824A1628 *tmp;
 
+    if (first == lbl_83292C80.head->left && last == lbl_83292C80.head) {
+        first = lbl_83292C80.head->parent;
+        while (!first->isnil) {
+            Node_824A1628 *q;
+            fn_824A1B50(&lbl_83292C80, first->right);
+            q = first;
+            first = first->left;
+            fn_8265CA20(q);
+        }
+        lbl_83292C80.head->parent = lbl_83292C80.head;
+        lbl_83292C80.head->left = lbl_83292C80.head;
+        lbl_83292C80.head->right = lbl_83292C80.head;
+        lbl_83292C80.size = 0;
+        *ret = lbl_83292C80.head->left;
+    } else {
+        while (first != last) {
+            Node_824A1628 *where = first;
+            if (!first->isnil) {
+                if (!first->right->isnil) {
+                    Node_824A1628 *p = first->right;
+                    Node_824A1628 *l;
+                    while (!(l = p->left)->isnil)
+                        p = l;
+                    first = p;
+                } else {
+                    Node_824A1628 *q;
+                    while (!(q = first->parent)->isnil && first == q->right)
+                        first = q;
+                    first = q;
+                }
+            }
+            fn_824A1758(&tmp, where);
+        }
+        *ret = first;
+    }
+    return ret;
+}

@@ -1,47 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Stream_826E9988 Stream_826E9988;
 
+typedef struct StreamVtbl_826E9988 {
+    void *slots0[4];
+    int (*Tell)(Stream_826E9988 *self);
+    void *slots5[9];
+    int (*Seek)(Stream_826E9988 *self, int offset, int origin);
+} StreamVtbl_826E9988;
 
-undefined8 fn_826E9988(int *param_1)
+struct Stream_826E9988 {
+    StreamVtbl_826E9988 *vt;
+};
 
+int fn_826E9988(Stream_826E9988 *s)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  lVar1 = (**(code **)(*param_1 + 0x10))();
-  if (lVar1 < 0) {
-    uVar2 = 0xffffffffffffffff;
-  }
-  else {
-    (**(code **)(*param_1 + 0x38))(param_1,0,2);
-    uVar2 = (**(code **)(*param_1 + 0x10))(param_1);
-    (**(code **)(*param_1 + 0x38))(param_1,lVar1,0);
-  }
-  return uVar2;
-}
+    int pos;
+    int len;
 
+    pos = s->vt->Tell(s);
+    if (pos >= 0) {
+        s->vt->Seek(s, 0, 2);
+        len = s->vt->Tell(s);
+        s->vt->Seek(s, pos, 0);
+        return len;
+    }
+    return -1;
+}

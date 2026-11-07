@@ -1,47 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
-
-longlong fn_82690288(int param_1,int param_2,uint param_3,uint param_4)
-
+int fn_82690288(U8 *p, U32 size, U32 shift, U32 align)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + param_4 & ~param_4;
-  for (uVar2 = uVar1 - param_1; (uVar2 != 0 && (uVar2 < 0x10)); uVar2 = param_4 + 1 + uVar2) {
-    uVar1 = param_4 + 1 + uVar1;
-  }
-  uVar2 = (uint)*(ushort *)(param_1 + 0xc);
-  if (0x20 < *(ushort *)(param_1 + 0xc)) {
-    uVar2 = *(uint *)(param_1 + 0x10);
-  }
-  return -((ulonglong)
-           ((uVar2 << (param_3 & 0x3f)) + param_1 < uVar1 + (param_2 << (param_3 & 0x3f))) - 1);
-}
+    U32 start;
+    U32 d;
+    U32 n;
+    U32 bytes;
 
+    bytes = size << shift;
+    start = ((U32)p + align) & ~align;
+    d = start - (U32)p;
+    while (d != 0 && d < 0x10) {
+        d += align + 1;
+        start += align + 1;
+    }
+    n = *(U16 *)(p + 0xc);
+    if (n >= 0x21) {
+        n = *(U32 *)(p + 0x10);
+    }
+    return (U32)p + (n << shift) >= start + bytes;
+}

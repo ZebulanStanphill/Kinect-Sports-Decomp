@@ -1,56 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827BB1D8();
-extern int fn_827C1968();
+/* Corresponds to libjpeg jdapimin.c jpeg_read_header (open-source IJG libjpeg). */
+typedef unsigned char boolean;
 
+struct jpeg_decompress_struct_827BB508;
 
-undefined8 fn_827BB508(int *param_1,char param_2)
+typedef struct jpeg_error_mgr_827BB508 {
+    void (*error_exit)(struct jpeg_decompress_struct_827BB508 *cinfo);
+    void (*emit_message)(struct jpeg_decompress_struct_827BB508 *cinfo, int msg_level);
+    void (*output_message)(struct jpeg_decompress_struct_827BB508 *cinfo);
+    void (*format_message)(struct jpeg_decompress_struct_827BB508 *cinfo, char *buffer);
+    void (*reset_error_mgr)(struct jpeg_decompress_struct_827BB508 *cinfo);
+    int msg_code;
+    union {
+        int i[8];
+        char s[80];
+    } msg_parm;
+} jpeg_error_mgr_827BB508;
 
+typedef struct jpeg_decompress_struct_827BB508 {
+    jpeg_error_mgr_827BB508 *err;
+    void *mem;
+    void *progress;
+    void *client_data;
+    boolean is_decompressor;
+    int global_state;
+} jpeg_decompress_struct_827BB508;
+
+extern int fn_827BB1D8(jpeg_decompress_struct_827BB508 *cinfo);
+extern void fn_827C1968(jpeg_decompress_struct_827BB508 *cinfo);
+
+int fn_827BB508(jpeg_decompress_struct_827BB508 *cinfo, boolean require_image)
 {
-  undefined8 uVar1;
-  
-  if ((param_1[5] != 200) && (param_1[5] != 0xc9)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(code **)*param_1)();
-  }
-  uVar1 = fn_827BB1D8(param_1);
-  if ((int)uVar1 == 1) {
-    uVar1 = 1;
-  }
-  else if ((int)uVar1 == 2) {
-    if (param_2 != '\0') {
-      *(undefined4 *)(*param_1 + 0x14) = 0x33;
-      (**(code **)*param_1)(param_1);
-    }
-    fn_827C1968(param_1);
-    uVar1 = 2;
-  }
-  return uVar1;
-}
+    int retcode;
 
+    if (cinfo->global_state != 200 && cinfo->global_state != 201) {
+        cinfo->err->msg_code = 0x14;
+        cinfo->err->msg_parm.i[0] = cinfo->global_state;
+        (*cinfo->err->error_exit)(cinfo);
+    }
+
+    retcode = fn_827BB1D8(cinfo);
+
+    switch (retcode) {
+    case 1:
+        retcode = 1;
+        break;
+    case 2:
+        if (require_image) {
+            cinfo->err->msg_code = 0x33;
+            (*cinfo->err->error_exit)(cinfo);
+        }
+        fn_827C1968(cinfo);
+        retcode = 2;
+        break;
+    case 0:
+        break;
+    }
+    return retcode;
+}

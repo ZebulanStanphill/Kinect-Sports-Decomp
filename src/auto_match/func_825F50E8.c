@@ -1,59 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825552C8();
+typedef struct Sub_825F50E8 {
+    void *obj;          /* 0x8dc */
+    int pad[7];         /* 0x8e0 .. 0x8fb */
+    int state;          /* 0x8fc */
+} Sub_825F50E8;
 
+extern int fn_825552C8(void *obj);
 
 void fn_825F50E8(int param_1)
-
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  if (*(int *)(param_1 + 0x8dc) != 0) {
-    iVar1 = *(int *)(param_1 + 0x8fc);
-    if (iVar1 == 1) {
-      uVar2 = 3;
-    }
-    else {
-      if (iVar1 < 2) {
-        return;
-      }
-      if (3 < iVar1) {
-        return;
-      }
-      iVar1 = fn_825552C8();
-      if (iVar1 == 0) {
-        return;
-      }
-      uVar2 = 4;
-    }
-    *(undefined4 *)(param_1 + 0x8fc) = uVar2;
-  }
-  return;
-}
+    Sub_825F50E8 *s = (Sub_825F50E8 *)(param_1 + 0x8dc);
+    int v;
 
+    if (s->obj != 0) {
+        switch (s->state) {
+        case 2:
+        case 3:
+            if (fn_825552C8(s->obj) == 0) {
+                return;
+            }
+            v = 4;
+            break;
+        case 1:
+            v = 3;
+            break;
+        default:
+            return;
+        }
+        s->state = v;
+    }
+}

@@ -1,66 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_826972E0();
 
+extern int fn_826957D0(int obj, int arg);
+extern double fn_826972E0(int a, int b);
+extern int fn_826959C8(U8 *p);
 
-void fn_826A6E48(int param_1)
-
+static __forceinline U8 IsNaN_826A6E48(double d)
 {
-  undefined4 uVar1;
-  bool bVar2;
-  undefined8 uVar3;
-  undefined1 uVar4;
-  undefined1 *puVar5;
-  ulonglong uVar6;
-  
-  if (0 < *(int *)(param_1 + 0x1c)) {
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    uVar3 = fn_826957D0(param_1,0);
-    uVar6 = fn_826972E0(uVar3,uVar1);
-    if (((uVar6 & 0x7ff0000000000000) != 0x7ff0000000000000) ||
-       (bVar2 = true, (uVar6 & 0xfffffffffffff) == 0)) {
-      bVar2 = false;
-    }
-    if (((!bVar2) && (uVar6 != 0xfff0000000000000)) && (uVar6 != 0x7ff0000000000000)) {
-      puVar5 = *(undefined1 **)(param_1 + 4);
-      fn_826959C8(puVar5);
-      uVar4 = 1;
-      goto LAB_826a6f2c;
-    }
-  }
-  puVar5 = *(undefined1 **)(param_1 + 4);
-  fn_826959C8(puVar5);
-  uVar4 = 0;
-LAB_826a6f2c:
-  puVar5[4] = uVar4;
-  *puVar5 = 2;
-  return;
+    U64 b = *(U64 *)&d;
+    return (b & 0x7ff0000000000000ULL) == 0x7ff0000000000000ULL &&
+           (b & 0x000fffffffffffffULL) != 0;
 }
 
+static __forceinline U8 IsNegInf_826A6E48(double d)
+{
+    return *(U64 *)&d == 0xfff0000000000000ULL;
+}
+
+static __forceinline U8 IsPosInf_826A6E48(double d)
+{
+    return *(U64 *)&d == 0x7ff0000000000000ULL;
+}
+
+void fn_826A6E48(int param_1)
+{
+    U8 *out;
+    double d;
+    int arg;
+
+    if (*(int *)(param_1 + 0x1c) >= 1) {
+        arg = *(int *)(param_1 + 0x18);
+        d = fn_826972E0(fn_826957D0(param_1, 0), arg);
+        if (!IsNaN_826A6E48(d) && !IsNegInf_826A6E48(d) && !IsPosInf_826A6E48(d)) {
+            out = *(U8 **)(param_1 + 4);
+            fn_826959C8(out);
+            out[4] = 1;
+            out[0] = 2;
+            return;
+        }
+    }
+    out = *(U8 **)(param_1 + 4);
+    fn_826959C8(out);
+    out[4] = 0;
+    out[0] = 2;
+}

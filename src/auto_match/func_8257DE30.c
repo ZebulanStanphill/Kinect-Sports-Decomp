@@ -1,72 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8218E30C;
-extern unsigned int lbl_8218E310;
+typedef struct Obj_8257DE30 Obj_8257DE30;
+typedef struct Ctx_8257DE30 Ctx_8257DE30;
 
+typedef struct VT_8257DE30 {
+    void *f0;
+    void *f4;
+    void *f8;
+    void (*fC)(Obj_8257DE30 *o, Ctx_8257DE30 *ctx, int a);
+    void (*f10)(Obj_8257DE30 *o, Ctx_8257DE30 *ctx, int a);
+} VT_8257DE30;
 
-void fn_8257DE30(int param_1,int param_2,int param_3,int param_4,undefined8 param_5)
+struct Obj_8257DE30 {
+    VT_8257DE30 *vt;
+};
 
+typedef struct Node_8257DE30 {
+    int f0;
+    struct Node_8257DE30 *next;
+} Node_8257DE30;
+
+typedef struct Bucket_8257DE30 {
+    int f0;
+    Node_8257DE30 *head;
+} Bucket_8257DE30;
+
+typedef struct Container_8257DE30 {
+    int f0;
+    Bucket_8257DE30 *buckets;
+} Container_8257DE30;
+
+struct Ctx_8257DE30 {
+    int f0;
+    int f4;
+    int f8;
+    int idx;
+};
+
+typedef struct Range_8257DE30 {
+    int a;
+    int start;
+    int end;
+} Range_8257DE30;
+
+extern Range_8257DE30 lbl_8218E308[];
+
+void fn_8257DE30(Container_8257DE30 *c, int k, Ctx_8257DE30 *ctx, int p4, int p5)
 {
-  int iVar1;
-  int iVar2;
-  bool bVar3;
-  int *piVar4;
-  int iVar5;
-  int *piVar6;
-  
-  param_2 = param_2 * 0xc;
-  iVar1 = *(int *)(param_3 + 0xc);
-  iVar5 = *(int *)(&lbl_8218E30C + param_2);
-  if (iVar5 < *(int *)(&lbl_8218E310 + param_2)) {
-    piVar4 = (int *)(iVar5 * 8 + *(int *)(param_1 + 4) + 4);
-    do {
-      iVar2 = *piVar4;
-      bVar3 = false;
-      if (iVar2 != 0) {
-        do {
-          piVar6 = (int *)(iVar2 + -0x10);
-          if (iVar2 == 0) {
-            piVar6 = (int *)0x0;
-          }
-          if ((piVar6[iVar1 + 0xc] != 0) && (*(char *)((int)piVar6 + param_4 + 0x48) != '\0')) {
-            if (!bVar3) {
-              (**(code **)(*piVar6 + 0xc))(piVar6,param_3,param_5);
-              bVar3 = true;
-            }
-            (**(code **)(*piVar6 + 0x10))(piVar6,param_3,param_4);
-          }
-          iVar2 = *(int *)(iVar2 + 4);
-        } while (iVar2 != 0);
-      }
-      iVar5 = iVar5 + 1;
-      piVar4 = piVar4 + 2;
-    } while (iVar5 < *(int *)(&lbl_8218E310 + param_2));
-  }
-  return;
-}
+    Bucket_8257DE30 *b = c->buckets;
+    int idx = ctx->idx;
+    int i;
 
+    for (i = lbl_8218E308[k].start; i < lbl_8218E308[k].end; i++) {
+        Node_8257DE30 *n = b[i].head;
+        int called = 0;
+        while (n != 0) {
+            Obj_8257DE30 *o = (n != 0) ? (Obj_8257DE30 *)((char *)n - 0x10) : 0;
+            if (((int *)o)[idx + 12] != 0 &&
+                *((unsigned char *)o + p4 + 0x48) != 0) {
+                if (called == 0) {
+                    o->vt->fC(o, ctx, p5);
+                    called = 1;
+                }
+                o->vt->f10(o, ctx, p4);
+            }
+            n = n->next;
+        }
+    }
+}
