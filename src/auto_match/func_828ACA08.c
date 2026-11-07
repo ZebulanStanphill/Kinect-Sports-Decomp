@@ -1,68 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_8223C478();
-extern int fn_8265CA20();
-extern int fn_828AC768();
-extern int fn_828E9D28();
-extern int fn_828E9D40();
-extern int fn_828E9F18();
-extern unsigned int iStack_28;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
+typedef struct BitWriter_828ACA08 {
+  int bitPos;
+  int bytePos;
+  void *buffer;
+  int size;
+  void *inlineBuffer;
+  int inlineSize;
+  void *heapBuffer;
+  int unk1C;
+  int unk20;
+} BitWriter_828ACA08;
 
+extern void fn_828E9D28(BitWriter_828ACA08 *w, void *buffer, int size);
+extern void fn_8223C478(BitWriter_828ACA08 *w, int bits, int unk);
+extern void fn_828E9F18(BitWriter_828ACA08 *w, unsigned int value, int bits);
+extern void fn_828E9D40(BitWriter_828ACA08 *w);
+extern void fn_828AC768(void *dst, BitWriter_828ACA08 *w);
+extern void fn_8265CA20(void *p);
 
-void fn_828ACA08(undefined8 param_1,undefined8 param_2)
-
+void fn_828ACA08(void *dst, unsigned int value)
 {
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [16];
-  undefined1 *puStack_30;
-  undefined4 uStack_2c;
-  int iStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  
-  puStack_30 = auStack_50;
-  iStack_28 = 0;
-  uStack_24 = 0;
-  uStack_20 = 0;
-  uStack_2c = 2;
-  fn_828E9D28(auStack_40,auStack_50,2);
-  fn_8223C478(auStack_40,0xc,0);
-  fn_828E9F18(auStack_40,param_2,0xc);
-  fn_828E9D40(auStack_40);
-  fn_828AC768(param_1,auStack_40);
-  if (iStack_28 != 0) {
-    fn_8265CA20();
+  unsigned char storage[16];
+  BitWriter_828ACA08 w;
+  w.heapBuffer = 0;
+  w.unk1C = 0;
+  w.unk20 = 0;
+  w.inlineBuffer = storage;
+  w.inlineSize = 2;
+  fn_828E9D28(&w, storage, 2);
+  fn_8223C478(&w, 0xc, 0);
+  fn_828E9F18(&w, value, 0xc);
+  fn_828E9D40(&w);
+  fn_828AC768(dst, &w);
+  if (w.heapBuffer != 0) {
+    fn_8265CA20(w.heapBuffer);
   }
-  return;
 }
-

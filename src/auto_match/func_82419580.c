@@ -1,105 +1,90 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82416D20();
-extern int fn_82419810();
-extern int fn_82422090();
-extern int fn_82573D30();
+typedef struct Stats_82419580 {
+  char pad[0x7d4];
+  int released;
+  int held;
+} Stats_82419580;
 
+typedef struct Ball_82419580 {
+  char pad[0x28];
+  Stats_82419580 *stats;
+  int active;
+} Ball_82419580;
 
-void fn_82419580(int param_1,char *param_2)
+typedef struct Lane_82419580 {
+  char pad0[0x34];
+  Ball_82419580 *ball;
+  char pad38[0x110 - 0x38];
+  char ballPool[0x188 - 0x110];
+  char pinsetter[4];
+} Lane_82419580;
 
+extern void fn_82419810(Lane_82419580 *lane);
+extern void fn_82422090(void *pinsetter, int unk);
+extern void fn_82573D30(Stats_82419580 *stats);
+extern void fn_82416D20(void *pool, Ball_82419580 *ball);
+
+void fn_82419580(Lane_82419580 *lane, const unsigned char *p)
 {
-  int iVar1;
-  int iVar2;
-  char *pcVar3;
-  char cVar4;
-  char cVar5;
-  char cVar6;
-  
-  cVar6 = *param_2;
-  cVar4 = 'p';
-  if (cVar6 == 'p') {
-    cVar6 = 'p';
-    pcVar3 = param_2;
+  const unsigned char *q;
+  unsigned char c;
+  unsigned char b;
+  q = p;
+  c = *p;
+  b = 0x70;
+  if (c == 0x70) {
+    int d = (int)"position_players" - (int)p;
     do {
-      pcVar3 = pcVar3 + 1;
-      if (cVar6 == '\0') goto code_r0x824195e8;
-      cVar4 = pcVar3[(int)"position_players" - (int)param_2];
-      cVar6 = *pcVar3;
-    } while (cVar6 == cVar4);
+      q++;
+      if (c == 0) goto match1;
+      b = q[d];
+      c = *q;
+    } while (c == b);
   }
-  if (cVar6 == cVar4) {
-code_r0x824195e8:
-    fn_82419810(param_1);
+  if (c - b == 0) {
+match1:
+    fn_82419810(lane);
   }
-  cVar6 = *param_2;
-  cVar5 = 'p';
-  cVar4 = cVar6;
-  if (cVar6 == 'p') {
-    cVar4 = 'p';
-    pcVar3 = param_2;
+  q = p;
+  b = 0x70;
+  c = *p;
+  if (c == 0x70) {
+    int d = (int)"pinsetter_activate" - (int)p;
     do {
-      pcVar3 = pcVar3 + 1;
-      if (cVar4 == '\0') goto code_r0x82419640;
-      cVar5 = pcVar3[(int)"pinsetter_activate" - (int)param_2];
-      cVar4 = *pcVar3;
-    } while (cVar4 == cVar5);
+      q++;
+      if (c == 0) goto match2;
+      b = q[d];
+      c = *q;
+    } while (c == b);
   }
-  if (cVar4 == cVar5) {
-code_r0x82419640:
-    fn_82422090(param_1 + 0x188,0);
+  if (c - b == 0) {
+match2:
+    fn_82422090(lane->pinsetter, 0);
+    return;
   }
-  else {
-    cVar4 = 'b';
-    if (cVar6 == 'b') {
-      iVar2 = (int)"ball_activate" - (int)param_2;
-      cVar6 = 'b';
-      do {
-        param_2 = param_2 + 1;
-        if (cVar6 == '\0') goto code_r0x8241969c;
-        cVar4 = param_2[iVar2];
-        cVar6 = *param_2;
-      } while (cVar6 == cVar4);
-    }
-    if (cVar6 == cVar4) {
-code_r0x8241969c:
-      iVar2 = *(int *)(param_1 + 0x34);
-      if (iVar2 != 0) {
-        iVar1 = *(int *)(iVar2 + 0x28);
-        *(undefined4 *)(iVar2 + 0x2c) = 0;
-        *(int *)(iVar1 + 0x7d4) = *(int *)(iVar1 + 0x7d4) + 1;
-        *(int *)(iVar1 + 0x7d8) = *(int *)(iVar1 + 0x7d8) + -1;
-        fn_82573D30(*(undefined4 *)(iVar2 + 0x28));
-        fn_82416D20(param_1 + 0x110,*(undefined4 *)(param_1 + 0x34));
-        *(undefined4 *)(param_1 + 0x34) = 0;
-      }
+  q = p;
+  c = *p;
+  b = 0x62;
+  if (c == 0x62) {
+    int d = (int)"ball_activate" - (int)p;
+    do {
+      q++;
+      if (c == 0) goto match3;
+      b = q[d];
+      c = *q;
+    } while (c == b);
+  }
+  if (c - b == 0) {
+    Ball_82419580 *ball;
+match3:
+    ball = lane->ball;
+    if (ball != 0) {
+      Stats_82419580 *stats = ball->stats;
+      ball->active = 0;
+      stats->released++;
+      stats->held--;
+      fn_82573D30(ball->stats);
+      fn_82416D20(lane->ballPool, lane->ball);
+      lane->ball = 0;
     }
   }
-  return;
 }
-

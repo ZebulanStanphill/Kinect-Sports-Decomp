@@ -1,65 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F3E710();
-extern unsigned int lbl_8202E618;
-extern unsigned int lbl_8202E61C;
-extern unsigned int lbl_8202E620;
-extern unsigned int lbl_8202E624;
-extern unsigned int lbl_821549B8;
-extern unsigned int lbl_821549BC;
-extern unsigned int lbl_821549C0;
-extern unsigned int lbl_821549C4;
-extern unsigned int lbl_82162E78;
-extern unsigned int lbl_82162E90;
+typedef struct { int v[4]; } Quad_82F3E7A8;
 
+typedef struct {
+  void *vt0;
+  void *vt1;
+  int pad8[2];
+  Quad_82F3E7A8 q10;
+  __int64 i20;
+  char pad28[0x48 - 0x28];
+  int f48;
+  unsigned short f4c;
+  short pad4e;
+  Quad_82F3E7A8 q50;
+  __int64 i60;
+} Obj_82F3E7A8;
 
-undefined4 * fn_82F3E7A8(undefined4 *param_1)
+extern void fn_82F3E710(Obj_82F3E7A8 *);
+extern char lbl_82162E90[];
+extern char lbl_82162E78[];
+extern Quad_82F3E7A8 lbl_8202E618;
+extern Quad_82F3E7A8 lbl_821549B8;
 
+Obj_82F3E7A8 *fn_82F3E7A8(Obj_82F3E7A8 *o)
 {
-  undefined4 uVar1;
-  
-  fn_82F3E710();
-  *param_1 = &lbl_82162E90;
-  param_1[1] = &lbl_82162E78;
-  param_1[0x12] = 1;
-  *(undefined2 *)(param_1 + 0x13) = 0x101;
-  param_1[0x14] = lbl_8202E618;
-  param_1[0x15] = lbl_8202E61C;
-  param_1[0x16] = lbl_8202E620;
-  uVar1 = lbl_8202E624;
-  *(undefined8 *)(param_1 + 0x18) = 0;
-  param_1[0x17] = uVar1;
-  param_1[4] = lbl_821549B8;
-  param_1[5] = lbl_821549BC;
-  param_1[6] = lbl_821549C0;
-  uVar1 = lbl_821549C4;
-  *(undefined8 *)(param_1 + 8) = 0x32;
-  param_1[7] = uVar1;
-  return param_1;
+  fn_82F3E710(o);
+  o->vt0 = lbl_82162E90;
+  o->vt1 = lbl_82162E78;
+  o->f48 = 1;
+  o->f4c = 0x101;
+  o->q50 = lbl_8202E618;
+  o->i60 = 0;
+  o->q10 = lbl_821549B8;
+  o->i20 = 0x32;
+  return o;
 }
-

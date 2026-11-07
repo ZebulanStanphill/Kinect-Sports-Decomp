@@ -1,108 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F66368();
-extern int fn_82F668D8();
+typedef unsigned int size_t;
+size_t strlen(const char *s);
 
+typedef struct Paths_82876C70 {
+    int unk0;
+    char root[0x104];
+    char sub[0x208];
+    char ext[0x104];
+} Paths_82876C70;
 
-undefined8 fn_82876C70(int param_1,char *param_2,int *param_3,char *param_4)
+typedef struct Options_82876C70 {
+    void *a;
+    void *b;
+    int unk8[2];
+    unsigned char useExt;
+} Options_82876C70;
 
+extern int fn_82F66368(char *dst, size_t size, const char *src, size_t count);
+extern int fn_82F668D8(char *dst, size_t size, const char *src, size_t count);
+
+int fn_82876C70(Paths_82876C70 *paths, const char *name, Options_82876C70 *opts, char *out)
 {
-  char cVar1;
-  char *pcVar2;
-  char *pcVar3;
-  char *pcVar4;
-  char *pcVar5;
-  
-  pcVar3 = param_2;
-  if (param_2 == (char *)0x0) {
-    return 0x1f;
-  }
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  pcVar3 = pcVar3 + (-1 - (int)param_2);
-  if ((char *)0x103 < pcVar3) {
-    return 0x1f;
-  }
-  fn_82F66368(param_4,0x104,param_1 + 4,0x103);
-  pcVar5 = param_4;
-  if (param_3 != (int *)0x0) {
-    if ((*param_3 == 0) && (param_3[1] == 0)) {
-      pcVar2 = (char *)(param_1 + 0x108);
-      pcVar4 = pcVar2;
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      pcVar3 = pcVar4 + (int)(pcVar3 + (-1 - (int)pcVar2));
-      pcVar4 = param_4;
-      if ((char *)0x103 < pcVar3) {
-        return 2;
-      }
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      fn_82F668D8(param_4,0x104,pcVar2,0x103 - (int)(pcVar4 + (-1 - (int)param_4)));
-    }
-    if (*(char *)(param_3 + 4) != '\0') {
-      pcVar2 = (char *)(param_1 + 0x310);
-      pcVar4 = pcVar2;
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      pcVar3 = pcVar4 + (int)(pcVar3 + (-1 - (int)pcVar2));
-      pcVar4 = param_4;
-      if ((char *)0x103 < pcVar3) {
-        return 2;
-      }
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      fn_82F668D8(param_4,0x104,pcVar2,0x103 - (int)(pcVar4 + (-1 - (int)param_4)));
-    }
-  }
-  do {
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + 1;
-  } while (cVar1 != '\0');
-  pcVar4 = param_4;
-  if ((char *)0x103 < pcVar5 + (int)(pcVar3 + (-1 - (int)param_4))) {
-    return 2;
-  }
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  fn_82F668D8(param_4,0x104,param_2,0x103 - (int)(pcVar4 + (-1 - (int)param_4)));
-  return 1;
-}
+    size_t len;
 
+    if (name == 0) {
+        return 0x1f;
+    }
+    len = strlen(name);
+    if (len >= 0x104) {
+        return 0x1f;
+    }
+    fn_82F66368(out, 0x104, paths->root, 0x103);
+    if (opts != 0) {
+        if (opts->a == 0 && opts->b == 0) {
+            len += strlen(paths->sub);
+            if (len >= 0x104) {
+                return 2;
+            }
+            fn_82F668D8(out, 0x104, paths->sub, 0x103 - strlen(out));
+        }
+        if (opts->useExt) {
+            len += strlen(paths->ext);
+            if (len >= 0x104) {
+                return 2;
+            }
+            fn_82F668D8(out, 0x104, paths->ext, 0x103 - strlen(out));
+        }
+    }
+    if (strlen(out) + len >= 0x104) {
+        return 2;
+    }
+    fn_82F668D8(out, 0x104, name, 0x103 - strlen(out));
+    return 1;
+}

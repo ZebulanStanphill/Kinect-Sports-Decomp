@@ -1,59 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8295D318();
+typedef struct {
+  unsigned int flags;
+  int pad4;
+  int arg8;
+  int padC;
+  int *index;
+} Desc_8295F3A0;
 
+typedef struct { int pad0; unsigned int id; } Entry_8295F3A0;
 
-undefined8 fn_8295F3A0(int *param_1)
+typedef struct Obj_8295F3A0 Obj_8295F3A0;
+typedef struct {
+  char pad[0x154];
+  int (*Fill)(Obj_8295F3A0 *, int, int *, unsigned int, int, int);
+} Vt_8295F3A0;
 
+struct Obj_8295F3A0 {
+  Vt_8295F3A0 *vt;
+  int pad4[4];
+  Entry_8295F3A0 **entries;
+  int pad18[0x1C];
+  unsigned int id;
+  int pad8C[0x1D];
+  int src;
+  Desc_8295F3A0 *desc;
+};
+
+extern int fn_8295D318(Obj_8295F3A0 *, int, int *, unsigned int, int, int, int, unsigned int, int, int, int, int);
+
+int fn_8295F3A0(Obj_8295F3A0 *o)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  int *piVar3;
-  int aiStack_40 [16];
-  
-  piVar3 = (int *)((uint *)param_1[0x41])[4];
-  uVar1 = *(uint *)param_1[0x41] & 0xfffff;
-  if (param_1[0x22] != *(int *)(*(int *)(*piVar3 * 4 + param_1[5]) + 4)) {
-    uVar2 = (**(code **)(*param_1 + 0x154))(param_1,param_1[0x40],aiStack_40,uVar1,0,0);
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    piVar3 = aiStack_40;
-  }
-  uVar2 = fn_8295D318(param_1,0x24,piVar3,uVar1,*(undefined4 *)(param_1[0x41] + 8),0,0,uVar1);
-  if (-1 < (int)uVar2) {
-    if ((piVar3 == aiStack_40) &&
-       (uVar2 = fn_8295D318(param_1,1,*(undefined4 *)(param_1[0x41] + 0x10),uVar1,aiStack_40,0
-                                  ,0,uVar1), (int)uVar2 < 0)) {
-      return uVar2;
-    }
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+  int buf[4];
+  int hr;
+  int *data = o->desc->index;
+  unsigned int n = o->desc->flags & 0xfffff;
 
+  if (o->id != o->entries[*o->desc->index]->id) {
+    hr = o->vt->Fill(o, o->src, buf, n, 0, 0);
+    if (hr < 0)
+      return hr;
+    data = buf;
+  }
+  hr = fn_8295D318(o, 0x24, data, n, o->desc->arg8, 0, 0, n, 0, 0, 0, 0);
+  if (hr < 0)
+    return hr;
+  if (data == buf) {
+    hr = fn_8295D318(o, 1, (int *)o->desc->index, n, (int)buf, 0, 0, n, 0, 0, 0, 0);
+    if (hr < 0)
+      return hr;
+  }
+  return 0;
+}

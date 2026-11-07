@@ -1,110 +1,119 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A775C0();
-extern int fn_82A78740();
-extern unsigned int iStack_48;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Range_82A78930 {
+  void *buffer;
+  int valid;
+  unsigned int count;
+} Range_82A78930;
 
+typedef struct Stream_82A78930 Stream_82A78930;
+typedef struct StreamVtbl_82A78930 {
+  void *slots0[7];
+  void (*Flush)(Stream_82A78930 *self);
+  void *slots1[2];
+  void (*Bind)(Stream_82A78930 *self, int a, Range_82A78930 *src, int b, Range_82A78930 *dst,
+               int extra);
+  unsigned int (*Count)(Stream_82A78930 *self, unsigned int n);
+} StreamVtbl_82A78930;
+struct Stream_82A78930 { StreamVtbl_82A78930 *vt; };
 
-undefined8 fn_82A78930(int *param_1)
+typedef struct Format_82A78930 {
+  char pad[0xc];
+  unsigned short stride;
+} Format_82A78930;
 
+typedef struct Source_82A78930 {
+  char pad[0x2c];
+  Format_82A78930 *format;
+  int unk30;
+  unsigned int size;
+  Range_82A78930 range;
+} Source_82A78930;
+
+typedef struct Device_82A78930 {
+  char pad[0x220];
+  void *buffer;
+} Device_82A78930;
+
+typedef struct Renderer_82A78930 Renderer_82A78930;
+typedef struct RendererVtbl_82A78930 {
+  void *slots[2];
+  int (*IsReady)(Renderer_82A78930 *self);
+} RendererVtbl_82A78930;
+
+struct Renderer_82A78930 {
+  RendererVtbl_82A78930 *vt;
+  Device_82A78930 *device;
+  Stream_82A78930 *input;
+  char pad0C[0x50 - 0xc];
+  Source_82A78930 **source;
+  char pad54[0x60 - 0x54];
+  int inputExtra;
+  char pad64[0x78 - 0x64];
+  Format_82A78930 *format;
+  int locked;
+  char pad80[0xb0 - 0x80];
+  void *unkB0;
+  int unkB4;
+  void *unkB8;
+  char padBC[0xfc - 0xbc];
+  Stream_82A78930 *output;
+  int unk100;
+  int outputExtra;
+  Stream_82A78930 *flusher;
+};
+
+extern void fn_82A775C0(Renderer_82A78930 *self, unsigned int count);
+extern void *fn_82A78740(Renderer_82A78930 *self, unsigned int bytes);
+
+int fn_82A78930(Renderer_82A78930 *self)
 {
-  int *piVar1;
-  int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  int iVar5;
-  undefined4 *puVar6;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  int iStack_48;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  Source_82A78930 *src = self->source ? *self->source : 0;
+  unsigned int q = src->size / src->format->stride;
+  unsigned int n = q;
+  unsigned int m = 0;
+  Range_82A78930 r1;
+  Range_82A78930 r2;
+  Range_82A78930 *dst;
+  Range_82A78930 *srcRange;
 
-  undefined4 uStack_38;
-  
-  if ((int *)param_1[0x14] == (int *)0x0) {
-    iVar5 = 0;
+  if (self->output != 0) {
+    n = self->output->vt->Count(self->output, q);
+    m = n;
   }
-  else {
-    iVar5 = *(int *)param_1[0x14];
+  if (self->input != 0) {
+    m = self->input->vt->Count(self->input, n);
   }
-  uVar4 = (ulonglong)*(ushort *)(*(int *)(iVar5 + 0x2c) + 0xc);
-  uVar3 = *(uint *)(iVar5 + 0x34) / uVar4;
-  trapWord(6,uVar4,0);
-  uVar4 = 0;
-  if ((int *)param_1[0x3f] != (int *)0x0) {
-    uVar3 = (**(code **)(*(int *)param_1[0x3f] + 0x2c))();
-    uVar4 = uVar3;
+  if (self->flusher != 0 && self->locked == 0) {
+    fn_82A775C0(self, m);
   }
-  piVar1 = (int *)param_1[2];
-  if (piVar1 != (int *)0x0) {
-    uVar4 = (**(code **)(*piVar1 + 0x2c))(piVar1,uVar3);
+  r1.count = m;
+  if (self->vt->IsReady(self) == 0 || self->locked != 0 ||
+      (self->unkB8 == 0 && self->unkB0 == 0)) {
+    r1.buffer = 0;
+    r1.valid = 0;
+  } else {
+    r1.buffer = fn_82A78740(self, self->format->stride * m);
+    r1.valid = 1;
   }
-  if ((param_1[0x42] != 0) && (param_1[0x1f] == 0)) {
-    fn_82A775C0(param_1,uVar4);
-  }
-  iStack_48 = (int)uVar4;
-  iVar2 = (**(code **)(*param_1 + 8))(param_1);
-  if (((iVar2 == 0) || (param_1[0x1f] != 0)) || ((param_1[0x2e] == 0 && (param_1[0x2c] == 0)))) {
-    uStack_50 = 0;
-    uStack_4c = 0;
-  }
-  else {
-    uStack_50 = fn_82A78740(param_1,(longlong)(int)(uint)*(ushort *)(param_1[0x1e] + 0xc) *
-                                      (longlong)(int)uVar4);
-    uStack_4c = 1;
-  }
-  if ((param_1[2] == 0) || (param_1[0x3f] == 0)) {
-    puVar6 = &uStack_50;
-    if (param_1[0x3f] == 0) {
-      puVar6 = (undefined4 *)(iVar5 + 0x38);
+  srcRange = &src->range;
+  if (self->input != 0 && self->output != 0) {
+    r2.count = n;
+    r2.valid = 0;
+    r2.buffer = self->device->buffer;
+    dst = &r2;
+  } else {
+    dst = &r1;
+    if (self->output == 0) {
+      dst = srcRange;
     }
   }
-  else {
-    uStack_38 = (undefined4)uVar3;
-    stack_pair_40.second = 0;
-    stack_pair_40.first = *(undefined4 *)(param_1[1] + 0x220);
-    puVar6 = &stack_pair_40.first;
+  if (self->input != 0) {
+    self->input->vt->Bind(self->input, 1, &r1, 1, dst, self->inputExtra);
   }
-  if (param_1[2] != 0) {
-    (**(code **)(*(int *)param_1[2] + 0x28))((int *)param_1[2],1,&uStack_50,1,puVar6,param_1[0x18]);
+  if (self->output != 0) {
+    self->output->vt->Bind(self->output, 1, dst, 1, srcRange, self->outputExtra);
   }
-  piVar1 = (int *)param_1[0x3f];
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0x28))(piVar1,1,puVar6,1,(undefined4 *)(iVar5 + 0x38),param_1[0x41]);
-  }
-  if ((int *)param_1[0x42] != (int *)0x0) {
-    (**(code **)(*(int *)param_1[0x42] + 0x1c))();
+  if (self->flusher != 0) {
+    self->flusher->vt->Flush(self->flusher);
   }
   return 0;
 }
-

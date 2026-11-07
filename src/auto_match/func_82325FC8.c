@@ -1,46 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82290718();
-extern int fn_822C87C8();
-extern int fn_8265CA20();
-extern unsigned int lbl_821B02E8;
+typedef struct Node_82325FC8 Node_82325FC8;
+struct Node_82325FC8 {
+    Node_82325FC8 *left;
+};
 
+typedef struct Iter_82325FC8 {
+    Node_82325FC8 *ptr;
+} Iter_82325FC8;
 
-void fn_82325FC8(undefined4 *param_1)
+typedef struct Tree_82325FC8 {
+    int unk0;
+    Node_82325FC8 *head;
+} Tree_82325FC8;
 
+typedef struct Obj_82325FC8 {
+    void *vtable;
+    int unk4[0x32];
+    Tree_82325FC8 tree;
+} Obj_82325FC8;
+
+extern char lbl_821B02E8[];
+extern Iter_82325FC8 *fn_82290718(Iter_82325FC8 *result, Tree_82325FC8 *tree, Iter_82325FC8 first, Iter_82325FC8 last);
+extern void fn_8265CA20(void *p);
+extern void fn_822C87C8(Obj_82325FC8 *self);
+
+static __forceinline void Tree_destroy_82325FC8(Tree_82325FC8 *tree)
 {
-  undefined1 auStack_20 [16];
-  
-  *param_1 = &lbl_821B02E8;
-  fn_82290718(auStack_20,param_1 + 0x33,*(undefined4 *)param_1[0x34]);
-  fn_8265CA20(param_1[0x34]);
-  fn_822C87C8(param_1);
-  return;
+    Iter_82325FC8 result;
+    Iter_82325FC8 first;
+    Iter_82325FC8 last;
+
+    last.ptr = tree->head;
+    first.ptr = tree->head->left;
+    fn_82290718(&result, tree, first, last);
+    fn_8265CA20(tree->head);
 }
 
+void fn_82325FC8(Obj_82325FC8 *self)
+{
+    self->vtable = lbl_821B02E8;
+    Tree_destroy_82325FC8(&self->tree);
+    fn_822C87C8(self);
+}

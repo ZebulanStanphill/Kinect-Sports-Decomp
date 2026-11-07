@@ -1,48 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_810;
-extern int fn_82F668C8();
-extern int fn_82F6A938();
-extern int fn_82F6AB08();
+typedef char *va_list;
 
+extern int fn_82F668C8(char *buf, unsigned int size, unsigned int count, const char *fmt, va_list ap);
+extern char *fn_82F6AB08(void);
+extern int fn_82F6A938(const char *str, void *stream);
 
-void fn_82684BE8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_82684BE8(void *ctx, int level, const char *fmt, va_list ap)
 {
-  longlong lVar1;
-  undefined1 auStack_810 [2047];
-  byte bStack_11;
-  
-  auStack_810[0] = 0;
-  lVar1 = fn_82F668C8(auStack_810,0x800,0xffffffffffffffff,param_3,param_4);
-  bStack_11 = -(lVar1 != -1) & bStack_11;
-  lVar1 = fn_82F6AB08();
-  fn_82F6A938(auStack_810,lVar1 + 0x20);
-  return;
-}
+    char buf[0x800];
 
+    buf[0] = 0;
+    if (fn_82F668C8(buf, sizeof(buf), (unsigned int)-1, fmt, ap) == -1) {
+        buf[sizeof(buf) - 1] = 0;
+    }
+    fn_82F6A938(buf, fn_82F6AB08() + 0x20);
+}

@@ -1,108 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_80;
-extern int fn_8268D008();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int iStack_44;
-extern unsigned int iStack_48;
-extern unsigned int iStack_4c;
-extern unsigned int iStack_50;
-extern unsigned int iStack_5c;
-extern unsigned int iStack_60;
-extern unsigned int iStack_64;
-extern unsigned int iStack_68;
-extern unsigned int iStack_6c;
-extern unsigned int iStack_70;
+typedef struct Vec2_82717DA0 {
+    float x;
+    float y;
+} Vec2_82717DA0;
 
+typedef struct Xform_82717DA0 {
+    float a;
+    float b;
+    float c;
+    float d;
+    float tx;
+    float ty;
+} Xform_82717DA0;
 
-int * fn_82717DA0(int *param_1,undefined8 param_2,undefined8 param_3,int *param_4)
+typedef struct Part_82717DA0 {
+    char pad0[0x3c];
+    unsigned int kind;
+    char pad40[8];
+    unsigned char flags;
+    char pad49[3];
+} Part_82717DA0;
 
+typedef struct Model_82717DA0 {
+    char pad0[0x18];
+    Part_82717DA0 *parts;
+    unsigned int count;
+} Model_82717DA0;
+
+typedef struct Node_82717DA0 Node_82717DA0;
+typedef struct NodeVt_82717DA0 {
+    void *slots[2];
+    unsigned char (*isVisible)(Node_82717DA0 *self);
+    void *slots2[9];
+    unsigned char (*hitTest)(Node_82717DA0 *self, Vec2_82717DA0 *point, int deep);
+} NodeVt_82717DA0;
+struct Node_82717DA0 {
+    NodeVt_82717DA0 *vt;
+    char pad4[0x40];
+    Xform_82717DA0 xform;
+    char pad5c[0x40];
+    Model_82717DA0 *model;
+    int unka0;
+    Node_82717DA0 **children;
+    unsigned int childCount;
+};
+
+static __forceinline void copyXform_82717DA0(Xform_82717DA0 *dst, const Xform_82717DA0 *src)
 {
-  int *piVar1;
-  char cVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  undefined1 auStack_80 [8];
-  undefined1 auStack_78 [8];
-  struct { int first; int second; } stack_pair_70;
+    dst->a = src->a;
+    dst->b = src->b;
+    dst->c = src->c;
+    dst->d = src->d;
+    dst->tx = src->tx;
+    dst->ty = src->ty;
+}
 
-  int iStack_68;
-  int iStack_64;
-  int iStack_60;
-  int iStack_5c;
-  struct { int first; int second; } stack_pair_50;
+extern void fn_8268D008(Xform_82717DA0 *xform, Vec2_82717DA0 *out, Vec2_82717DA0 *in);
 
-  int iStack_48;
-  int iStack_44;
-  int iStack_40;
-  int iStack_3c;
+Node_82717DA0 *fn_82717DA0(Node_82717DA0 *self, Vec2_82717DA0 *point, int unused, Node_82717DA0 *exclude)
+{
+    Xform_82717DA0 xform;
+    Xform_82717DA0 childXform;
+    Vec2_82717DA0 local;
+    Vec2_82717DA0 childLocal;
+    Node_82717DA0 *child;
+    unsigned int i;
 
-  cVar2 = (**(code **)(*param_1 + 8))();
-  if ((cVar2 != '\0') && (param_4 != param_1)) {
-    stack_pair_70.first = param_1[0x11];
-    stack_pair_70.second = param_1[0x12];
-    iStack_68 = param_1[0x13];
-    iStack_64 = param_1[0x14];
-    iStack_60 = param_1[0x15];
-    iStack_5c = param_1[0x16];
-    fn_8268D008(&stack_pair_70.first,auStack_80,param_2);
-    iVar3 = param_1[0x27];
-    uVar6 = 0;
-    if (*(int *)(iVar3 + 0x1c) != 0) {
-      iVar4 = 0;
-      iVar5 = 0;
-      do {
-        iVar3 = *(int *)(iVar3 + 0x18) + iVar5;
-        if ((((*(int *)(iVar3 + 0x3c) != 0x40000) && ((*(byte *)(iVar3 + 0x48) & 1) != 0)) &&
-            (uVar6 < (uint)param_1[0x2a])) &&
-           (piVar1 = *(int **)(param_1[0x29] + iVar4), piVar1 != (int *)0x0)) {
-          stack_pair_50.first = piVar1[0x11];
-          stack_pair_50.second = piVar1[0x12];
-          iStack_48 = piVar1[0x13];
-          iStack_44 = piVar1[0x14];
-          iStack_40 = piVar1[0x15];
-          iStack_3c = piVar1[0x16];
-          fn_8268D008(&stack_pair_50.first,auStack_78,auStack_80);
-          cVar2 = (**(code **)(*piVar1 + 0x30))(piVar1,auStack_78,1);
-          if (cVar2 != '\0') {
-            return param_1;
-          }
+    if (self->vt->isVisible(self) && exclude != self) {
+        copyXform_82717DA0(&xform, &self->xform);
+        fn_8268D008(&xform, &local, point);
+        for (i = 0; i < self->model->count; i++) {
+            Part_82717DA0 *part = &self->model->parts[i];
+            if (part->kind != 0x40000 && (part->flags & 1) && i < self->childCount &&
+                (child = self->children[i]) != 0) {
+                copyXform_82717DA0(&childXform, &child->xform);
+                fn_8268D008(&childXform, &childLocal, &local);
+                if (child->vt->hitTest(child, &childLocal, 1)) {
+                    return self;
+                }
+            }
         }
-        iVar3 = param_1[0x27];
-        uVar6 = uVar6 + 1;
-        iVar5 = iVar5 + 0x4c;
-        iVar4 = iVar4 + 4;
-      } while (uVar6 < *(uint *)(iVar3 + 0x1c));
     }
-  }
-  return (int *)0x0;
+    return 0;
 }

@@ -1,93 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8255BB98();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int lbl_83296158;
-extern unsigned int lbl_8329615C;
+typedef struct Player_8255BCC0 { char pad[0x14]; int result; } Player_8255BCC0;
+typedef struct User_8255BCC0 { char pad[0xd48]; Player_8255BCC0 *player; } User_8255BCC0;
+typedef struct Slot_8255BCC0 { int pad0; User_8255BCC0 *user; int rest[10]; } Slot_8255BCC0;
+typedef struct Info_8255BCC0 { int pad0; unsigned int id; } Info_8255BCC0;
+typedef struct Ref_8255BCC0 { Info_8255BCC0 *info; void *ref; } Ref_8255BCC0;
+typedef struct Table_8255BCC0 { char pad[0x28]; Slot_8255BCC0 slots[4]; } Table_8255BCC0;
+extern Table_8255BCC0 lbl_832960A0;
+extern void fn_8255BB98(Ref_8255BCC0 *out, Player_8255BCC0 *player);
+extern void fn_822315A0(void *ref);
 
-
-undefined4 fn_8255BCC0(int param_1)
-
+static User_8255BCC0 *GetUser_8255BCC0(unsigned int index)
 {
-  undefined4 uVar1;
-  int *piVar2;
-  int iVar3;
-  undefined *puVar4;
-  int iVar5;
-  uint uVar6;
-  uint uVar7;
-  longlong lVar8;
-  struct { int first; int second; } stack_pair_40;
-
-  
-  uVar6 = 0;
-  piVar2 = &lbl_8329615C;
-  lVar8 = 4;
-  do {
-    if (*piVar2 != 0) {
-      uVar6 = uVar6 + 1;
+  unsigned int count = 0;
+  int k;
+  for (k = 3; k >= 0; k--) {
+    Slot_8255BCC0 *slot = &lbl_832960A0.slots[k];
+    if (slot->user != 0) {
+      count++;
     }
-    piVar2 = piVar2 + -0xc;
-    lVar8 = lVar8 + -1;
-  } while (lVar8 != 0);
-  uVar7 = 0;
-  if (uVar6 != 0) {
-    do {
-      iVar3 = 0;
-      puVar4 = &lbl_83296158;
-      do {
-        iVar5 = *(int *)(puVar4 + 4);
-        if (iVar5 != 0) {
-          iVar3 = iVar3 + 1;
-        }
-        if (iVar3 == uVar7 - 1) goto LAB_8255bd44;
-        puVar4 = puVar4 + -0x30;
-      } while (-0x7cd69f39 < (int)puVar4);
-      iVar5 = 0;
-LAB_8255bd44:
-      iVar3 = *(int *)(iVar5 + 0xd48);
-      fn_8255BB98(&stack_pair_40.first,iVar3);
-      if ((stack_pair_40.first != 0) && (*(int *)(stack_pair_40.first + 4) == param_1)) {
-        uVar1 = *(undefined4 *)(iVar3 + 0x14);
-        if (stack_pair_40.second == 0) {
-          return uVar1;
-        }
-        fn_822315A0();
-        return uVar1;
-      }
-      if (stack_pair_40.second != 0) {
-        fn_822315A0();
-      }
-      uVar7 = uVar7 + 1;
-    } while (uVar7 < uVar6);
+    if (count == index - 1) {
+      return slot->user;
+    }
   }
   return 0;
 }
 
+int fn_8255BCC0(unsigned int id)
+{
+  unsigned int n = 0;
+  unsigned int i;
+  int k;
+  Ref_8255BCC0 ref;
+  Player_8255BCC0 *player;
+  {
+    Slot_8255BCC0 *slot = &lbl_832960A0.slots[3];
+    k = 4;
+    do {
+      if (slot->user != 0) {
+        n++;
+      }
+      slot--;
+    } while (--k != 0);
+  }
+  for (i = 0; i < n; i++) {
+    player = GetUser_8255BCC0(i)->player;
+    fn_8255BB98(&ref, player);
+    if (ref.info != 0 && ref.info->id == id) {
+      int result = player->result;
+      if (ref.ref != 0) {
+        fn_822315A0(ref.ref);
+      }
+      return result;
+    }
+    if (ref.ref != 0) {
+      fn_822315A0(ref.ref);
+    }
+  }
+  return 0;
+}

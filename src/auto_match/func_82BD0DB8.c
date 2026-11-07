@@ -1,93 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-extern int fn_82B7BEB0();
-extern int fn_82BA0FD8();
-extern int fn_82BC0088();
-extern int fn_82BD0A18();
-extern unsigned int lbl_83223EC4;
+typedef struct Owner_82BD0DB8 { char pad[0x5b0]; void *heap; } Owner_82BD0DB8;
+typedef struct List_82BD0DB8 { int pad0; void *head; } List_82BD0DB8;
+typedef struct Matrix_82BD0DB8 {
+  unsigned int *bits;
+  List_82BD0DB8 *list;
+  Owner_82BD0DB8 *owner;
+  int pad0c;
+  int count;
+} Matrix_82BD0DB8;
+extern void *fn_82B7BD28(void *heap, int size);
+extern void fn_82B7BEB0(void *heap, void *p);
+extern unsigned int *fn_82BA0FD8(int n, void *heap);
+extern int *fn_82BC0088(List_82BD0DB8 *list, void *head);
+extern int fn_82BD0A18(void *p, int n, int z, Owner_82BD0DB8 *owner);
+extern int *lbl_83223EC4;
 
-
-void fn_82BD0DB8(int *param_1)
-
+void fn_82BD0DB8(Matrix_82BD0DB8 *m)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  uint uVar6;
-  longlong lVar7;
-  ulonglong uVar8;
-  
-  uVar1 = param_1[4];
-  iVar2 = *param_1;
-  param_1[4] = uVar1 + 1;
-  uVar6 = uVar1 * (uVar1 + 1);
-  lVar7 = (longlong)((int)uVar6 >> 1) + (ulonglong)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  iVar3 = fn_82BA0FD8(lVar7,*(undefined4 *)(param_1[2] + 0x5b0));
-  *param_1 = iVar3;
-  uVar6 = 0;
-  if (0 < (longlong)((lVar7 - (ulonglong)(uint)param_1[4]) + 1)) {
-    do {
-      iVar3 = ((uVar6 >> 5) + 2) * 4;
-      if ((*(uint *)(iVar3 + iVar2) >> (uVar6 & 0x1f) & 1) != 0) {
-        *(uint *)(iVar3 + *param_1) = 1 << (uVar6 & 0x1f) | *(uint *)(iVar3 + *param_1);
-      }
-      uVar6 = uVar6 + 1;
-    } while ((int)uVar6 < ((int)lVar7 - param_1[4]) + 1);
+  int old = m->count;
+  unsigned int *oldBits = m->bits;
+  int n;
+  int i;
+  unsigned int b;
+  int *oldTab;
+  void **mem;
+  int r;
+  m->count = old + 1;
+  n = (m->count - 1) * m->count / 2;
+  m->bits = fn_82BA0FD8(n, m->owner->heap);
+  for (b = 0; (int)b < n - m->count + 1; b++) {
+    if ((oldBits[(b >> 5) + 2] >> (b & 0x1f)) & 1) {
+      m->bits[(b >> 5) + 2] |= 1 << (b & 0x1f);
+    }
   }
-  if (iVar2 != 0) {
-    fn_82B7BEB0(*(undefined4 *)(iVar2 + -4),iVar2 + -4);
+  if (oldBits != 0) {
+    fn_82B7BEB0((void *)oldBits[-1], oldBits - 1);
   }
-  iVar2 = lbl_83223EC4;
-  lbl_83223EC4 = fn_82B7BD28(*(undefined4 *)(param_1[2] + 0x5b0),param_1[4] << 2);
-  if (0 < (int)uVar1) {
-    iVar3 = 0;
-    uVar8 = (ulonglong)uVar1;
-    do {
-      *(undefined4 *)(iVar3 + lbl_83223EC4) = *(undefined4 *)(iVar3 + iVar2);
-      iVar3 = iVar3 + 4;
-      uVar8 = uVar8 - 1;
-    } while (uVar8 != 0);
+  oldTab = lbl_83223EC4;
+  lbl_83223EC4 = (int *)fn_82B7BD28(m->owner->heap, m->count << 2);
+  for (i = 0; i < old; i++) {
+    lbl_83223EC4[i] = oldTab[i];
   }
-  fn_82B7BEB0(*(undefined4 *)(param_1[2] + 0x5b0),iVar2);
-  uVar5 = *(undefined4 *)(param_1[2] + 0x5b0);
-  puVar4 = (undefined4 *)fn_82B7BD28(uVar5,0x18);
-  *puVar4 = uVar5;
-  if (puVar4 + 1 == (undefined4 *)0x0) {
-    uVar5 = 0;
+  fn_82B7BEB0(m->owner->heap, oldTab);
+  {
+    void *heap = m->owner->heap;
+    mem = (void **)fn_82B7BD28(heap, 0x18);
+    *mem = heap;
+    if (mem + 1 != 0) {
+      r = fn_82BD0A18(mem + 1, old, 0, m->owner);
+    } else {
+      r = 0;
+    }
   }
-  else {
-    uVar5 = fn_82BD0A18(puVar4 + 1,(ulonglong)uVar1,0,param_1[2]);
-  }
-  puVar4 = (undefined4 *)fn_82BC0088(param_1[1],*(undefined4 *)(param_1[1] + 4));
-  *puVar4 = uVar5;
-  return;
+  *fn_82BC0088(m->list, m->list->head) = r;
 }
-

@@ -1,81 +1,86 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack00000024;
-extern int fn_827A8630();
-extern unsigned int lbl_821AAD20;
-extern unsigned int stack0x00000024;
+typedef struct ShortClip_827A9328 {
+    int unk0[4];
+    int start;
+    short unk14;
+    unsigned short length;
+    char unk18[5];
+    signed char offset;
+} ShortClip_827A9328;
 
+typedef struct LongClip_827A9328 {
+    int unk0[4];
+    int start;
+    int unk14;
+    int length;
+    char unk1c[12];
+    short offset;
+} LongClip_827A9328;
 
-undefined4 * fn_827A9328(double param_1,undefined4 *param_2,int *param_3)
+typedef union Clip_827A9328 {
+    struct {
+        unsigned int isShort : 1;
+        unsigned int unk0 : 31;
+    } hdr;
+    ShortClip_827A9328 s;
+    LongClip_827A9328 l;
+} Clip_827A9328;
 
+typedef struct Track_827A9328 {
+    Clip_827A9328 **clips;
+    unsigned int count;
+    char unk8[0x6c];
+    unsigned char pad74 : 5;
+    unsigned char loop : 1;
+    unsigned char unk74 : 2;
+} Track_827A9328;
+
+typedef struct Cursor_827A9328 {
+    Track_827A9328 *track;
+    int unk4;
+    unsigned int index;
+    float time;
+    unsigned char loop;
+} Cursor_827A9328;
+
+extern void fn_827A83F8(void);
+extern unsigned int fn_827A8630(Track_827A9328 *track, unsigned int first, unsigned int last, float *key, void *compare);
+
+Cursor_827A9328 fn_827A9328(Track_827A9328 *track, float time)
 {
-  byte bVar1;
-  int *piVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  int iVar6;
-  float fStack00000024;
-  
-  fStack00000024 = (float)param_1;
-  if (param_3[1] != 0) {
-    iVar4 = fn_827A8630(param_3,0,param_3[1],&stack0x00000024,0xffffffff827a83f8);
-    if (iVar4 == param_3[1]) {
-      iVar4 = iVar4 + -1;
-    }
-    piVar2 = *(int **)(iVar4 * 4 + *param_3);
-    if ((double)(longlong)piVar2[4] <= param_1) {
-      if (*piVar2 < 0) {
-        uVar5 = (uint)*(ushort *)((int)piVar2 + 0x16);
-        iVar6 = (int)*(char *)((int)piVar2 + 0x1d);
-      }
-      else {
-        uVar5 = piVar2[6];
-        iVar6 = (int)*(short *)(piVar2 + 10);
-      }
-      if (param_1 < (double)(longlong)(int)(iVar6 + uVar5 + piVar2[4])) {
-        bVar1 = *(byte *)(param_3 + 0x1d);
-        param_2[2] = iVar4;
-        *param_2 = param_3;
-        param_2[1] = 0;
-        *(byte *)(param_2 + 4) = bVar1 >> 2 & 1;
-        uVar3 = lbl_821AAD20;
-        goto LAB_827a944c;
-      }
-    }
-  }
-  *param_2 = 0;
-  param_2[1] = 0;
-  uVar3 = lbl_821AAD20;
-  param_2[2] = 0;
-  *(undefined1 *)(param_2 + 4) = 0;
-LAB_827a944c:
-  param_2[3] = uVar3;
-  return param_2;
-}
+    Cursor_827A9328 result;
+    unsigned int index;
+    Clip_827A9328 *clip;
+    float t = time;
+    unsigned int isShort;
+    int start;
+    int length;
+    int offset;
 
+    if (track->count != 0) {
+        index = fn_827A8630(track, 0, track->count, &time, (void *)fn_827A83F8);
+        if (index == track->count) {
+            index--;
+        }
+        clip = track->clips[index];
+        isShort = clip->hdr.isShort;
+        if (t >= (float)(isShort ? clip->s.start : clip->l.start)) {
+            start = isShort ? clip->s.start : clip->l.start;
+            length = isShort ? clip->s.length : clip->l.length;
+            offset = isShort ? clip->s.offset : clip->l.offset;
+            if (t < (float)(offset + length + start)) {
+                result.track = track;
+                result.unk4 = 0;
+                result.index = index;
+                result.time = 0.0f;
+                result.loop = track->loop;
+                return result;
+            }
+        }
+    }
+    result.track = 0;
+    result.unk4 = 0;
+    result.index = 0;
+    result.time = 0.0f;
+    result.loop = 0;
+    return result;
+}

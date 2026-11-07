@@ -1,80 +1,71 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA8948();
-extern int fn_82FA8A88();
-extern int fn_82FB4CB8();
+typedef struct Voice_82FB5068 Voice_82FB5068;
+typedef struct {
+  void *pad0[4];
+  void (*Advance)(Voice_82FB5068 *, int);
+  void (*Play)(Voice_82FB5068 *, int, int);
+} VoiceVt_82FB5068;
+struct Voice_82FB5068 { VoiceVt_82FB5068 *vt; };
 
+typedef struct Link_82FB5068 { struct Link_82FB5068 *next; } Link_82FB5068;
+typedef struct { char pad0[0x74]; Link_82FB5068 *head; } Queue_82FB5068;
 
-void fn_82FB5068(int param_1,longlong param_2)
+typedef struct {
+  char pad0[0x14];
+  Queue_82FB5068 *queue;
+  int pad18;
+  int voice;
+  int delay1;
+  int arg24[3];
+  unsigned int flags;
+  int delay2;
+  int arg38[2];
+  void *fade;
+  unsigned char fading;
+  char pad45[3];
+  int offset;
+} Obj_82FB5068;
 
+extern void fn_82FA8948(Voice_82FB5068 *, int *, int);
+extern void fn_82FA8A88(void *, int *, int);
+extern void fn_82FB4CB8(Queue_82FB5068 *);
+
+void fn_82FB5068(Obj_82FB5068 *o, int dt)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  code *pcVar4;
-  
-  iVar3 = (int)param_2;
-  if (((*(uint *)(param_1 + 0x30) & 0x80000000) != 0) &&
-     (*(int *)(param_1 + 0x48) + *(int *)(param_1 + 0x20) < iVar3)) {
-    fn_82FA8948(*(undefined4 *)(param_1 + 0x1c),param_1 + 0x24);
-    *(uint *)(param_1 + 0x30) = *(uint *)(param_1 + 0x30) & 0x7fffffff;
-  }
-  if (((*(char *)(param_1 + 0x44) != '\0') && (*(int *)(param_1 + 0x40) != 0)) &&
-     (*(int *)(param_1 + 0x48) + *(int *)(param_1 + 0x34) < iVar3)) {
-    fn_82FA8A88(*(int *)(param_1 + 0x40),param_1 + 0x38);
-    *(undefined1 *)(param_1 + 0x44) = 0;
-  }
-  piVar2 = *(int **)(param_1 + 0x1c);
-  if (piVar2 != (int *)0x0) {
-    iVar1 = *(int *)(param_1 + 0x48);
-    if (iVar1 < 0) {
-      pcVar4 = *(code **)(*piVar2 + 0x10);
-    }
-    else {
-      pcVar4 = *(code **)(*piVar2 + 0x14);
-      if (iVar3 <= iVar1) {
-        (*pcVar4)(piVar2,iVar1,param_2);
-        goto LAB_82fb5184;
-      }
-      (*pcVar4)(piVar2,iVar1,iVar1);
-      *(undefined4 *)(*(int *)(param_1 + 0x14) + 0x74) =
-           **(undefined4 **)(*(int *)(param_1 + 0x14) + 0x74);
-      fn_82FB4CB8();
-      piVar2 = *(int **)(param_1 + 0x1c);
-      param_2 = param_2 - (ulonglong)*(uint *)(param_1 + 0x48);
-      pcVar4 = *(code **)(*piVar2 + 0x10);
-    }
-    (*pcVar4)(piVar2,param_2);
-  }
-LAB_82fb5184:
-  if (-0x7ffffc00 < *(int *)(param_1 + 0x48)) {
-    *(int *)(param_1 + 0x48) = *(int *)(param_1 + 0x48) - iVar3;
-  }
-  return;
-}
+  int t;
+  Voice_82FB5068 *v;
 
+  if ((o->flags & 0x80000000) != 0) {
+    t = o->offset + o->delay1;
+    if (t >= 0 && t < dt) {
+      fn_82FA8948((Voice_82FB5068 *)o->voice, o->arg24, t);
+      o->flags &= 0x7fffffff;
+    }
+  }
+  if (o->fading != 0 && o->fade != 0) {
+    t = o->offset + o->delay2;
+    if (t >= 0 && t < dt) {
+      fn_82FA8A88(o->fade, o->arg38, t);
+      o->fading = 0;
+    }
+  }
+  if (o->voice != 0) {
+    v = (Voice_82FB5068 *)o->voice;
+    if (o->offset >= 0) {
+      if (o->offset < dt) {
+        Queue_82FB5068 *q;
+        v->vt->Play(v, o->offset, o->offset);
+        q = o->queue;
+        q->head = q->head->next;
+        fn_82FB4CB8(q);
+        v = (Voice_82FB5068 *)o->voice;
+        v->vt->Advance(v, dt - o->offset);
+      } else {
+        v->vt->Play(v, o->offset, dt);
+      }
+    } else {
+      v->vt->Advance(v, dt);
+    }
+  }
+  if (o->offset > (int)0x80000400)
+    o->offset -= dt;
+}

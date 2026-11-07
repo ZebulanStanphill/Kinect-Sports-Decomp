@@ -1,128 +1,108 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern int fn_82250A18();
-extern int fn_8249B9D0();
-extern int fn_825129C8();
-extern int fn_8251CDF8();
-extern int fn_825200A8();
-extern int fn_82535298();
-extern int fn_82536288();
-extern int fn_828647D8();
-extern int fn_82864898();
-extern int fn_828648F0();
-extern int (*lbl_83276798)();
-extern unsigned int lbl_832960A0;
-extern unsigned int lbl_832960A4;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct {
+  char pad0[0x24];
+  int (*query)(void);
+} Glob_83276774;
 
+typedef struct { unsigned int busy; int mode; } Glob_832960A0;
+typedef struct { int pad0; unsigned char ready; } Sys_832975B0;
+typedef struct { char pad0[0x24]; unsigned int handle; } Res_8249BC10;
+typedef struct { int a, b, c, d; } Args_8249BC10;
 
-void fn_8249BC10(int param_1)
+typedef struct {
+  int pad0;
+  unsigned int state;
+  char pad8[0x70 - 0x8];
+  void *ctx;
+  int pad74;
+  int loaded;
+  char pad7c[0x84 - 0x7c];
+  int started;
+  char pad88[0xd4 - 0x88];
+  int id;
+  char padd8[0xe0 - 0xd8];
+  char req[0x110 - 0xe0];
+  Res_8249BC10 *res;
+} Obj_8249BC10;
 
+extern Glob_83276774 lbl_83276774;
+extern Glob_832960A0 lbl_832960A0;
+extern Sys_832975B0 *lbl_832975B0;
+extern char lbl_832924B0[];
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+
+extern Sys_832975B0 *fn_82250A18(void);
+extern void fn_8249B9D0(Obj_8249BC10 *, int);
+extern int fn_825129C8(int);
+extern void fn_8251CDF8(void *, void *, int, Args_8249BC10 *);
+extern int fn_825200A8(void *, void *);
+extern int fn_82535298(int *, int, void *, void *);
+extern void fn_82536288(int *);
+extern int fn_828647D8(void);
+extern void fn_82864898(void *);
+extern void fn_828648F0(void *, void *);
+
+static Sys_832975B0 *getSys(void)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  undefined8 uVar4;
-  undefined4 auStack_70 [4];
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  undefined1 auStack_50 [80];
-  
-  uVar1 = *(uint *)(param_1 + 4);
-  if (uVar1 != 0) {
-    if (uVar1 != 1) {
-      if (2 < uVar1) {
-        return;
-      }
-      if (*(int *)(param_1 + 0x84) == 0) {
-        uStack_60 = 0;
-        uStack_5c = 0;
-        uStack_58 = 0;
-        fn_8251CDF8(*(undefined4 *)(param_1 + 0x70),param_1 + 0xe0,0,&uStack_60);
-        *(undefined4 *)(param_1 + 0x84) = 1;
-      }
-      if ((*(int *)(param_1 + 0x70) != 0) &&
-         (iVar2 = fn_825200A8(*(int *)(param_1 + 0x70),param_1 + 0xe0), iVar2 != 0)) {
-        if (lbl_83276798 == (code *)0x0) {
-          iVar2 = 0;
-        }
-        else {
-          iVar2 = (*lbl_83276798)();
-        }
-        if (iVar2 != 0) goto LAB_8249bda8;
-      }
-      if (lbl_83276798 == (code *)0x0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = (*lbl_83276798)();
-      }
-      if (iVar2 == 0) {
-        return;
-      }
-      if (lbl_832960A4 == 2) {
-        return;
-      }
-      if (lbl_832960A0 != 0) {
-        return;
-      }
-      uVar4 = 3;
-      goto LAB_8249bdac;
-    }
-    iVar2 = lbl_832975B0;
-    if (lbl_832975B0 == 0) {
-      iVar2 = fn_82250A18();
-    }
-    if (*(char *)(iVar2 + 4) == '\0') {
-      if (*(int *)(*(int *)(param_1 + 0x110) + 0x24) != 0) {
-        return;
-      }
-      uVar3 = fn_825129C8(0);
-      *(undefined4 *)(*(int *)(param_1 + 0x110) + 0x24) = uVar3;
-      fn_828648F0(auStack_50,0xffffffff832924b0);
-      uVar4 = fn_828647D8();
-      auStack_70[0] = *(undefined4 *)(param_1 + 0xd4);
-      auStack_70[0] = fn_82535298(auStack_70,uVar4,0xffffffff83296bc0,0xffffffff83296bd0);
-      fn_82864898(auStack_50);
-      fn_82536288(auStack_70);
-      *(undefined4 *)(param_1 + 0x78) = 1;
-    }
-  }
-LAB_8249bda8:
-  uVar4 = 2;
-LAB_8249bdac:
-  fn_8249B9D0(param_1,uVar4);
-  return;
+  if (lbl_832975B0 != 0)
+    return lbl_832975B0;
+  return fn_82250A18();
 }
 
+static int query(void)
+{
+  if (lbl_83276774.query != 0)
+    return lbl_83276774.query();
+  return 0;
+}
+
+void fn_8249BC10(Obj_8249BC10 *o)
+{
+  switch (o->state) {
+  case 0:
+    break;
+  case 1: {
+    unsigned char notReady = getSys()->ready == 0;
+    if (notReady & 1) {
+      char name[40];
+      int h;
+      int str;
+      unsigned int tmp;
+      if (o->res->handle != 0)
+        return;
+      tmp = fn_825129C8(0);
+      o->res->handle = tmp;
+      fn_828648F0(name, lbl_832924B0);
+      str = fn_828647D8();
+      h = o->id;
+      h = fn_82535298(&h, str, lbl_83296BC0, lbl_83296BD0);
+      fn_82864898(name);
+      fn_82536288(&h);
+      o->loaded = 1;
+    }
+    break;
+  }
+  case 2:
+    if (o->started == 0) {
+      Args_8249BC10 a;
+      a.a = 0;
+      a.b = 0;
+      a.c = 0;
+      fn_8251CDF8(o->ctx, o->req, 0, &a);
+      o->started = 1;
+    }
+    if (o->ctx != 0 && fn_825200A8(o->ctx, o->req) != 0 && query() != 0)
+      break;
+    if (query() == 0)
+      return;
+    if (lbl_832960A0.mode == 2)
+      return;
+    if (lbl_832960A0.busy != 0)
+      return;
+    fn_8249B9D0(o, 3);
+    return;
+  default:
+    return;
+  }
+  fn_8249B9D0(o, 2);
+}

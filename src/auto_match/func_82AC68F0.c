@@ -1,55 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC6560();
+typedef struct Link_82AC68F0 {
+    unsigned int next;
+    unsigned int prev;
+} Link_82AC68F0;
 
+typedef struct Node_82AC68F0 {
+    int unk0[4];
+    Link_82AC68F0 lists[3];
+    int unk28[2];
+    unsigned int pad30 : 13;
+    unsigned int id : 19;
+    int unk34[4];
+    unsigned int pad44 : 4;
+    unsigned int count : 28;
+    int unk48;
+    unsigned int pad4c : 12;
+    unsigned int flag : 1;
+    unsigned int line : 19;
+} Node_82AC68F0;
 
-void fn_82AC68F0(int param_1)
+typedef struct Ctx_82AC68F0 {
+    int unk0[8];
+    unsigned int line;
+    int unk24;
+    unsigned int pad28 : 2;
+    unsigned int flag : 1;
+    unsigned int unk28 : 29;
+    int unk2c[12];
+    unsigned int nextId;
+} Ctx_82AC68F0;
 
+extern Node_82AC68F0 *fn_82AC6560(Ctx_82AC68F0 *ctx, int size, int kind);
+
+static __forceinline void listInit_82AC68F0(Link_82AC68F0 *l)
 {
-  int iVar1;
-  uint uVar2;
-  
-  iVar1 = fn_82AC6560(param_1,0x74,5);
-  *(uint *)(iVar1 + 0x14) = iVar1 - 0x14U | 1;
-  *(uint *)(iVar1 + 0x10) = iVar1 + 0x14U | 1;
-  *(uint *)(iVar1 + 0x18) = iVar1 + 0x1cU | 1;
-  *(uint *)(iVar1 + 0x1c) = iVar1 - 0xcU | 1;
-  *(uint *)(iVar1 + 0x20) = iVar1 + 0x24U | 1;
-  *(uint *)(iVar1 + 0x24) = iVar1 - 4U | 1;
-  *(uint *)(iVar1 + 0x44) = *(uint *)(iVar1 + 0x44) & 0xf0000000 | 1;
-  uVar2 = *(uint *)(param_1 + 0x5c);
-  *(uint *)(param_1 + 0x5c) = uVar2 + 1;
-  *(uint *)(iVar1 + 0x30) = uVar2 & 0x7ffff | *(uint *)(iVar1 + 0x30) & 0xfff80000;
-  uVar2 = *(uint *)(iVar1 + 0x4c) & 0xfff80000 | *(uint *)(param_1 + 0x20) & 0x7ffff;
-  *(uint *)(iVar1 + 0x4c) = uVar2;
-  if ((*(uint *)(param_1 + 0x28) & 0x20000000) != 0) {
-    *(uint *)(iVar1 + 0x4c) = uVar2 | 0x80000;
-  }
-  return;
+    l->prev = ((unsigned int)l - 0x24) | 1;
+    l->next = (unsigned int)&l->prev | 1;
 }
 
+void fn_82AC68F0(Ctx_82AC68F0 *ctx)
+{
+    Node_82AC68F0 *n;
+    unsigned int id;
+
+    n = fn_82AC6560(ctx, 0x74, 5);
+    listInit_82AC68F0(&n->lists[0]);
+    listInit_82AC68F0(&n->lists[1]);
+    listInit_82AC68F0(&n->lists[2]);
+    n->count = 1;
+    id = ctx->nextId;
+    ctx->nextId = id + 1;
+    n->id = id;
+    n->line = ctx->line;
+    if (ctx->flag) {
+        n->flag = 1;
+    }
+}

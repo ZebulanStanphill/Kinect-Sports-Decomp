@@ -1,59 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8229A230();
-extern int fn_82672C20();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct {
+  int a;
+  int b;
+  double num;
+} Value_8229A000;
 
+typedef struct {
+  void *movie;
+  int pad4;
+  unsigned int count;
+  char padC[0x120C - 0xC];
+  int state;
+  char pad1210[0x1220 - 0x1210];
+  int ready;
+  int hidden;
+} Obj_8229A000;
 
-void fn_8229A000(undefined4 *param_1)
+extern void fn_82273C88(Value_8229A000 *);
+extern void fn_82273CD8(Value_8229A000 *, int);
+extern void fn_8229A230(Obj_8229A000 *);
+extern void fn_82672C20(void *, const char *, Value_8229A000 *, int);
 
+void fn_8229A000(Obj_8229A000 *o)
 {
-  double dVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  double dStack_28;
-  
-  if ((param_1[0x489] == 0) && (param_1[0x488] != 0)) {
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    dVar1 = (double)(uint)param_1[2];
-    fn_82273CD8(&stack_pair_30.first,3);
-    dStack_28 = dVar1;
-    fn_82672C20(*param_1,0xffffffff821a8498,&stack_pair_30.first,1);
-    param_1[0x489] = 1;
-    fn_82273C88(&stack_pair_30.first);
+  if (o->hidden == 0 && o->ready != 0) {
+    Value_8229A000 v;
+    double d;
+    v.a = 0;
+    v.b = 0;
+    d = (double)o->count;
+    fn_82273CD8(&v, 3);
+    v.num = d;
+    fn_82672C20(o->movie, "_root.mainCtrl.hide", &v, 1);
+    o->hidden = 1;
+    fn_82273C88(&v);
+  } else if (o->state == 1) {
+    fn_8229A230(o);
   }
-  else if (param_1[0x483] == 1) {
-    fn_8229A230(param_1);
-  }
-  return;
 }
-

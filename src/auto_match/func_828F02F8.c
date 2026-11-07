@@ -1,170 +1,134 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_308;
-extern unsigned int *auStack_320;
-extern unsigned int *auStack_3e0;
-extern unsigned int *auStack_3e8;
-extern int fn_82897B18();
-extern int fn_828EFFE0();
-extern int fn_828F0088();
-extern int fn_828F5BD0();
-extern int fn_828F5C88();
-extern int fn_828F6D60();
-extern int fn_828F9A60();
-extern int fn_828F9CB0();
-extern int fn_82901E60();
-extern int fn_82903DB8();
-extern int fn_82917790();
-extern int fn_82A9A8B8();
-extern int fn_82A9DBD0();
-extern int fn_82A9ED60();
-extern int fn_82A9F348();
-extern int fn_82A9F810();
-extern int fn_82A9F8B0();
-extern int fn_82EE8150();
+struct Unk_828F02F8;
+typedef struct UnkVt_828F02F8 { void *s0, *s1; void (*Release)(struct Unk_828F02F8 *); void *(*GetData)(struct Unk_828F02F8 *); } UnkVt_828F02F8;
+typedef struct Unk_828F02F8 { UnkVt_828F02F8 *vt; } Unk_828F02F8;
+typedef struct Opts_828F02F8 { unsigned int flags; int x4; int x8; Unk_828F02F8 *xc; int x10; void *handle; } Opts_828F02F8;
+typedef struct Macro_828F02F8 { const char *name; const char *def; } Macro_828F02F8;
+typedef struct Ctx_828F02F8 { char pad[0x18]; char sub[0x298]; Opts_828F02F8 *opts; int pad2b4[3]; } Ctx_828F02F8;
+typedef struct Compiler_828F02F8 { char data[0xc0]; } Compiler_828F02F8;
+struct Src_828F02F8;
+typedef struct SrcVt_828F02F8 {
+    void *s0;
+    int (*Load)(struct Src_828F02F8 *, Ctx_828F02F8 *);
+    Macro_828F02F8 *(*GetDefines)(struct Src_828F02F8 *);
+} SrcVt_828F02F8;
+typedef struct Src_828F02F8 { SrcVt_828F02F8 *vt; } Src_828F02F8;
 
+extern void fn_828F5BD0(Ctx_828F02F8 *);
+extern void fn_828F5C88(Ctx_828F02F8 *);
+extern void *fn_82A9ED60(void);
+extern void fn_82A9C180(void *, const char *, int);
+extern void fn_82A9F7F0(void *, const char *, const char *);
+extern void fn_82A9EDA8(void *, unsigned int, Opts_828F02F8 *);
+extern const char *fn_828F0088(const char *, unsigned int);
+extern int fn_828EFFE0(const char *);
+extern void fn_828F6D60(Ctx_828F02F8 *, const char *);
+extern void fn_82901E60(Compiler_828F02F8 *, int);
+extern int fn_82917790(Compiler_828F02F8 *, Ctx_828F02F8 *, int, int, int, const char *, unsigned int, Unk_828F02F8 **, Unk_828F02F8 **, Opts_828F02F8 *);
+extern void fn_82903DB8(Compiler_828F02F8 *);
+extern unsigned int fn_82897B18(void *);
+extern void *fn_82A9F970(void *);
+extern int fn_828F9B30(void *, Unk_828F02F8 **);
+extern int fn_82A9F978(void *, void *, void *, int *);
+extern void fn_82EE8150(void *);
+extern void fn_828F9CB0(void *, void *);
 
-/* WARNING: Removing unreachable block (ram,0x828f05cc) */
-
-longlong fn_828F02F8(int *param_1,undefined8 param_2,int *param_3,ulonglong param_4,
-                      undefined4 *param_5,ulonglong param_6,undefined4 *param_7,uint *param_8)
-
+int fn_828F02F8(Src_828F02F8 *self, int p2, const char **pTarget, unsigned int flags, Unk_828F02F8 **ppShader, void *p6, Unk_828F02F8 **ppErrors, Opts_828F02F8 *opts)
 {
-  int iVar2;
-  int *piVar3;
-  undefined8 uVar1;
-  undefined8 uVar4;
-  ulonglong uVar5;
-  longlong lVar6;
-  int *piStack_3ec;
-  undefined1 auStack_3e8 [8];
-  undefined1 auStack_3e0 [192];
-  undefined1 auStack_320 [24];
-  undefined1 auStack_308 [664];
-  uint *puStack_70;
-  
-  piStack_3ec = (int *)0x0;
-  fn_828F5BD0(auStack_320);
-  if (param_5 != (undefined4 *)0x0) {
-    *param_5 = 0;
-  }
-  if (param_7 != (undefined4 *)0x0) {
-    *param_7 = 0;
-  }
-  if ((param_8 != (uint *)0x0) && (param_8[5] != 0)) {
-    lVar6 = -0x7789f794;
-    goto LAB_828f05ac;
-  }
-  if (((param_4 & 0xfffffffffca1e1c0) == 0) && (*param_3 != 0)) {
-    uVar5 = 0;
-    if ((param_8 != (uint *)0x0) && ((*param_8 & 2) != 0)) {
-      uVar5 = fn_82A9ED60();
-      param_8[5] = (uint)uVar5;
-      if (uVar5 == 0) {
-        lVar6 = -0x7ff8fff2;
-        goto LAB_828f0590;
-      }
-      fn_82A9A8B8(uVar5,0xffffffff82027a0c,0);
-      iVar2 = (**(code **)(*param_1 + 8))(param_1);
-      if (iVar2 != 0) {
-        piVar3 = (int *)(**(code **)(*param_1 + 8))(param_1);
-        iVar2 = *piVar3;
-        while (iVar2 != 0) {
-          fn_82A9F348(uVar5,iVar2,piVar3[1]);
-          piVar3 = piVar3 + 2;
-          iVar2 = *piVar3;
-        }
-      }
-      fn_82A9DBD0(uVar5,param_4,param_8);
-    }
-    iVar2 = fn_828F0088(*param_3,param_4);
-    *param_3 = iVar2;
-    puStack_70 = param_8;
-    lVar6 = (**(code **)(*param_1 + 4))(param_1,auStack_320);
-    if (-1 < lVar6) {
-      iVar2 = fn_828EFFE0(*param_3);
-      if (iVar2 == 0) {
-        uVar4 = 0xffffffff820279dc;
-      }
-      else {
-        uVar4 = 0xffffffff820279ec;
-      }
-      fn_828F6D60(auStack_320,uVar4);
-      fn_82901E60(auStack_3e0,0);
-      lVar6 = fn_82917790(auStack_3e0,auStack_320,0,param_2,0,*param_3,param_4 | 0x100,
-                                &piStack_3ec);
-      if (lVar6 < 0) {
-        fn_82903DB8(auStack_3e0);
-      }
-      else {
-        fn_82903DB8(auStack_3e0);
-        iVar2 = fn_82897B18(auStack_308);
-        if (iVar2 == 0) {
-          if ((uVar5 & 0xffffffff) != 0) {
-            uVar4 = fn_82A9F810(uVar5);
-            lVar6 = fn_828F9A60(uVar4,param_8 + 3);
-            if (-1 < lVar6) {
-              uVar1 = (**(code **)(*(int *)param_8[3] + 0xc))();
-              lVar6 = fn_82A9F8B0(uVar5,uVar1,uVar4,auStack_3e8);
-            }
-          }
-          piVar3 = piStack_3ec;
-          if (param_5 != (undefined4 *)0x0) {
-            piStack_3ec = (int *)0x0;
-            *param_5 = piVar3;
-          }
-          if (param_7 != (undefined4 *)0x0) {
-            *param_7 = 0;
-          }
-        }
-        else {
-          lVar6 = -0x7789f4a7;
-        }
-      }
-    }
-  }
-  else {
-    lVar6 = -0x7789f794;
-  }
-LAB_828f0590:
-  if ((param_8 != (uint *)0x0) && (param_8[5] != 0)) {
-    fn_82EE8150();
-    param_8[5] = 0;
-  }
-LAB_828f05ac:
-  if ((param_6 & 0xffffffff) != 0) {
-    fn_828F9CB0(auStack_308,param_6);
-  }
-  if (piStack_3ec != (int *)0x0) {
-    (**(code **)(*piStack_3ec + 8))();
-    piStack_3ec = (int *)0x0;
-  }
-  fn_828F5C88(auStack_320);
-  return lVar6;
-}
+    Unk_828F02F8 *shader = 0;
+    Unk_828F02F8 *errors = 0;
+    int x68;
+    Compiler_828F02F8 comp;
+    Ctx_828F02F8 ctx;
+    int hr;
+    void *h;
 
+    fn_828F5BD0(&ctx);
+    if (ppShader != 0)
+        *ppShader = 0;
+    if (ppErrors != 0)
+        *ppErrors = 0;
+    if (opts != 0 && opts->handle != 0) {
+        hr = 0x8876086c;
+        goto done;
+    }
+    if ((flags & 0xfca1e1c0) != 0) {
+        hr = 0x8876086c;
+        goto cleanup;
+    }
+    if (*pTarget == 0) {
+        hr = 0x8876086c;
+        goto cleanup;
+    }
+    h = 0;
+    if (opts != 0 && (opts->flags & 2) != 0) {
+        h = fn_82A9ED60();
+        opts->handle = h;
+        if (h == 0) {
+            hr = 0x8007000e;
+            goto cleanup;
+        }
+        fn_82A9C180(h, "Compiler", 0);
+        if (self->vt->GetDefines(self) != 0) {
+            Macro_828F02F8 *m = self->vt->GetDefines(self);
+            for (; m->name != 0; m++)
+                fn_82A9F7F0(h, m->name, m->def);
+        }
+        fn_82A9EDA8(h, flags, opts);
+    }
+    *pTarget = fn_828F0088(*pTarget, flags);
+    ctx.opts = opts;
+    hr = self->vt->Load(self, &ctx);
+    if (hr < 0)
+        goto cleanup;
+    if (fn_828EFFE0(*pTarget))
+        fn_828F6D60(&ctx, "_XBOX_CPU");
+    else
+        fn_828F6D60(&ctx, "_XBOX_GPU_FINAL");
+    fn_82901E60(&comp, 0);
+    hr = fn_82917790(&comp, &ctx, 0, p2, 0, *pTarget, flags | 0x100, &shader, &errors, opts);
+    if (hr < 0) {
+        fn_82903DB8(&comp);
+        goto cleanup;
+    }
+    fn_82903DB8(&comp);
+    if (fn_82897B18(ctx.sub) != 0) {
+        hr = 0x88760b59;
+        goto cleanup;
+    }
+    if (h != 0) {
+        void *x = fn_82A9F970(h);
+        hr = fn_828F9B30(x, &opts->xc);
+        if (hr >= 0) {
+            void *d = opts->xc->vt->GetData(opts->xc);
+            hr = fn_82A9F978(h, d, x, &x68);
+        }
+    }
+    if (ppShader != 0) {
+        Unk_828F02F8 *t = shader;
+        shader = 0;
+        *ppShader = t;
+    }
+    if (ppErrors != 0) {
+        Unk_828F02F8 *t = errors;
+        errors = 0;
+        *ppErrors = t;
+    }
+cleanup:
+    if (opts != 0 && opts->handle != 0) {
+        fn_82EE8150(opts->handle);
+        opts->handle = 0;
+    }
+done:
+    if (p6 != 0)
+        fn_828F9CB0(ctx.sub, p6);
+    if (errors != 0) {
+        errors->vt->Release(errors);
+        errors = 0;
+    }
+    if (shader != 0) {
+        shader->vt->Release(shader);
+        shader = 0;
+    }
+    fn_828F5C88(&ctx);
+    return hr;
+}

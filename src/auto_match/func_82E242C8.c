@@ -1,78 +1,82 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int iStack_4c;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Buffer_82E242C8 Buffer_82E242C8;
+typedef struct BufferVt_82E242C8 {
+    int (*QueryInterface)(Buffer_82E242C8 *self, const void *iid, void **out);
+    unsigned int (*AddRef)(Buffer_82E242C8 *self);
+    unsigned int (*Release)(Buffer_82E242C8 *self);
+    int (*Lock)(Buffer_82E242C8 *self, unsigned char **data, unsigned int *maxLength, unsigned int *length);
+    int (*Unlock)(Buffer_82E242C8 *self);
+} BufferVt_82E242C8;
+struct Buffer_82E242C8 {
+    BufferVt_82E242C8 *vt;
+};
 
+typedef struct Sample_82E242C8 Sample_82E242C8;
+typedef struct SampleVt_82E242C8 {
+    void *slots[39];
+    int (*GetBufferCount)(Sample_82E242C8 *self, unsigned int *count);
+    int (*GetBufferByIndex)(Sample_82E242C8 *self, unsigned int index, Buffer_82E242C8 **buffer);
+} SampleVt_82E242C8;
+struct Sample_82E242C8 {
+    SampleVt_82E242C8 *vt;
+};
 
-longlong fn_82E242C8(int param_1,int *param_2)
+typedef struct Stream_82E242C8 Stream_82E242C8;
+typedef struct StreamVt_82E242C8 {
+    void *slots[12];
+    int (*Write)(Stream_82E242C8 *self, const unsigned char *data, unsigned int length, unsigned int *written);
+} StreamVt_82E242C8;
+struct Stream_82E242C8 {
+    StreamVt_82E242C8 *vt;
+};
 
+typedef struct Sink_82E242C8 {
+    char pad0[0x104];
+    Stream_82E242C8 *stream;
+} Sink_82E242C8;
+
+int fn_82E242C8(Sink_82E242C8 *self, Sample_82E242C8 *sample)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  int *piStack_50;
-  int iStack_4c;
-  uint uStack_48;
-  undefined4 uStack_44;
-  undefined4 auStack_40;
-  
-  uStack_48 = 0;
-  piStack_50 = (int *)0x0;
-  iStack_4c = 0;
-  uStack_44 = 0;
-  auStack_40 = 0;
-  lVar1 = (**(code **)(*param_2 + 0x9c))(param_2,&uStack_48);
-  if ((-1 < lVar1) && (uVar2 = 0, uStack_48 != 0)) {
-    do {
-      if (piStack_50 != (int *)0x0) {
-        (**(code **)(*piStack_50 + 8))();
-        piStack_50 = (int *)0x0;
-      }
-      lVar1 = (**(code **)(*param_2 + 0xa0))(param_2,uVar2,&piStack_50);
-      if ((((lVar1 < 0) ||
-           (lVar1 = (**(code **)(*piStack_50 + 0xc))(piStack_50,&iStack_4c,0,&uStack_44), lVar1 < 0)
-           ) || (lVar1 = (**(code **)(**(int **)(param_1 + 0x104) + 0x30))
-                                   (*(int **)(param_1 + 0x104),iStack_4c,uStack_44,&auStack_40),
-                lVar1 < 0)) || (lVar1 = (**(code **)(*piStack_50 + 0x10))(), lVar1 < 0)) break;
-      uVar2 = uVar2 + 1;
-      iStack_4c = 0;
-    } while ((uVar2 & 0xffffffff) < (ulonglong)uStack_48);
-  }
-  if (iStack_4c != 0) {
-    if (piStack_50 == (int *)0x0) {
-      return lVar1;
-    }
-    (**(code **)(*piStack_50 + 0x10))();
-  }
-  if (piStack_50 != (int *)0x0) {
-    (**(code **)(*piStack_50 + 8))();
-  }
-  return lVar1;
-}
+    int hr;
+    unsigned int count = 0;
+    Buffer_82E242C8 *buffer = 0;
+    unsigned char *data = 0;
+    unsigned int length = 0;
+    unsigned int written = 0;
+    unsigned int i;
 
+    hr = sample->vt->GetBufferCount(sample, &count);
+    if (hr < 0) {
+        goto done;
+    }
+    for (i = 0; i < count; i++) {
+        if (buffer != 0) {
+            buffer->vt->Release(buffer);
+            buffer = 0;
+        }
+        hr = sample->vt->GetBufferByIndex(sample, i, &buffer);
+        if (hr < 0) {
+            goto done;
+        }
+        hr = buffer->vt->Lock(buffer, &data, 0, &length);
+        if (hr < 0) {
+            goto done;
+        }
+        hr = self->stream->vt->Write(self->stream, data, length, &written);
+        if (hr < 0) {
+            goto done;
+        }
+        hr = buffer->vt->Unlock(buffer);
+        if (hr < 0) {
+            goto done;
+        }
+        data = 0;
+    }
+done:
+    if (data != 0 && buffer != 0) {
+        buffer->vt->Unlock(buffer);
+    }
+    if (buffer != 0) {
+        buffer->vt->Release(buffer);
+    }
+    return hr;
+}
