@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8288AE70();
-extern int fn_8289EDA0();
+extern unsigned char *fn_8288AE70(int, unsigned int *);
+extern void fn_8289EDA0(unsigned int,unsigned int,unsigned int *,unsigned char);
 extern int fn_828A1C98();
 extern unsigned int iStack_1c;
 extern unsigned int stack0x0000001c;
@@ -36,24 +36,25 @@ extern unsigned int uStack_18;
 extern unsigned int uStack_20;
 
 
-undefined8 fn_8288B150(longlong param_1,undefined4 param_2)
+unsigned int fn_8288B150(int param_1,undefined4 param_2)
 
 {
   char *pcVar1;
-  undefined4 uStack0000001c;
+  int result;
+
   undefined1 uStack_20;
-  int iStack_1c;
+  unsigned int iStack_1c;
   struct { undefined4 first; undefined4 second; } stack_pair_18;
 
   
-  uStack0000001c = param_2;
-  fn_828A1C98(&stack_pair_18.first,param_1 + 0x124,&stack0x0000001c);
+
+  fn_828A1C98(&stack_pair_18.first,param_1 + 0x124,&param_2);
   iStack_1c = 0;
   fn_8289EDA0(stack_pair_18.first,stack_pair_18.second,&iStack_1c,uStack_20);
   if ((iStack_1c != 0) &&
-     (pcVar1 = (char *)fn_8288AE70(param_1 + 0x124,&stack0x0000001c), *pcVar1 == '\0')) {
-    return 0;
-  }
-  return 1;
+     (pcVar1 = (char *)fn_8288AE70(param_1 + 0x124,&param_2), *pcVar1 == '\0')) {
+    result = 0;
+  } else { result = 1; }
+  return (unsigned char)result;
 }
 

@@ -28,22 +28,22 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82C10B28();
 
 
-undefined8 fn_82C279A8(int param_1)
+int fn_82C279A8(int param_1)
 
 {
   int iVar1;
-  int iVar2;
-  undefined8 uVar3;
+  unsigned int iVar2;
+  int uVar3;
   int *piVar4;
-  int aiStack_30;
+  int aiStack_30=0;
   
   iVar1 = *(int *)(param_1 + 0x2c);
   piVar4 = (int *)(iVar1 + 4);
-  aiStack_30 = *(int *)(iVar1 + 4);
-  if (aiStack_30 == 0) {
-    uVar3 = 0;
+  if (*(unsigned *)piVar4 == 0) {
+    return 0;
   }
   else {
+    aiStack_30 = *piVar4;
     iVar2 = *(int *)(aiStack_30 + 0x24);
     while (iVar2 != 0) {
       iVar2 = *(int *)(*piVar4 + 0x24);
@@ -58,10 +58,11 @@ undefined8 fn_82C279A8(int param_1)
       iVar2 = *(int *)(aiStack_30 + 0x24);
     }
     uVar3 = fn_82C10B28(*(undefined4 *)(iVar1 + 0x48),0x1d,piVar4);
-    if (-1 < (int)uVar3) {
+    if (uVar3 >= 0) {
+      int count=*(int *)(iVar1+0xc);
       *piVar4 = 0;
       *(undefined4 *)(iVar1 + 8) = 0;
-      *(int *)(iVar1 + 0xc) = *(int *)(iVar1 + 0xc) + -1;
+      *(int *)(iVar1 + 0xc) = count - 1;
     }
   }
   return uVar3;

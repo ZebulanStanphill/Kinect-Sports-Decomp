@@ -40,16 +40,16 @@ extern int fn_82F29A78();
 extern int fn_82F29B68();
 extern int fn_82F29C58();
 extern int fn_82F47A58();
-extern unsigned int lbl_82F28920;
-extern unsigned int lbl_82F28950;
-extern unsigned int lbl_82F28980;
-extern unsigned int lbl_82F289B0;
+extern int fn_82F28920();
+extern int fn_82F28950();
+extern int fn_82F28980();
+extern int fn_82F289B0();
 
 
 void fn_82F29D48(int param_1)
 
 {
-  fn_82F47A58();
+  fn_82F47A58(param_1);
   *(code **)(param_1 + 0xa5c) = fn_82F27950;
   *(code **)(param_1 + 0xa60) = fn_82F27150;
   *(code **)(param_1 + 0xa64) = fn_82F27988;
@@ -62,10 +62,10 @@ void fn_82F29D48(int param_1)
   *(code **)(param_1 + 0x9c8) = fn_82F29C58;
   *(code **)(param_1 + 0x9c0) = fn_82F29A78;
   *(code **)(param_1 + 0x9cc) = fn_82F289E0;
-  *(undefined **)(param_1 + 0x9d0) = &lbl_82F28920;
-  *(undefined **)(param_1 + 0x9d4) = &lbl_82F28980;
-  *(undefined **)(param_1 + 0x9d8) = &lbl_82F28950;
-  *(undefined **)(param_1 + 0x9dc) = &lbl_82F289B0;
+  *(undefined **)(param_1 + 0x9d0) = fn_82F28920;
+  *(undefined **)(param_1 + 0x9d4) = fn_82F28980;
+  *(undefined **)(param_1 + 0x9d8) = fn_82F28950;
+  *(undefined **)(param_1 + 0x9dc) = fn_82F289B0;
   *(code **)(param_1 + 0x9e0) = fn_82F28800;
   fn_82F11900(param_1);
   return;

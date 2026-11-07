@@ -27,24 +27,16 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_8301AC70(double param_1,int param_2,uint param_3)
-
-{
-  int *piVar1;
-  
-  piVar1 = *(int **)((param_3 % 0xc1 + 10) * 4 + param_2);
-  if (piVar1 != (int *)0x0) {
-    while (piVar1[1] != param_3) {
-      piVar1 = (int *)*piVar1;
-      if (piVar1 == (int *)0x0) {
-        return 2;
-      }
+static __forceinline int *find_8301AC70(int base,unsigned key) {
+    int *node=*(int **)(base+(key%193+10)*4);
+    for (;node;node=(int *)*node) {
+        if ((unsigned)node[1]==key) return node+2;
     }
-    if (piVar1 + 2 != (int *)0x0) {
-      *(float *)(piVar1[2] + 0x54) = (float)param_1;
-      return 1;
-    }
-  }
-  return 2;
+    return 0;
 }
-
+unsigned fn_8301AC70(int base,unsigned key,float value) {
+    int *item=find_8301AC70(base,key);
+    if (!item) return 2;
+    *(float *)(*item+0x54)=value;
+    return 1;
+}

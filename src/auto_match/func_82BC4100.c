@@ -1,46 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BA0690();
-extern int fn_82BC33B0();
-extern unsigned int lbl_820E4850;
-
-
-undefined8 fn_82BC4100(undefined8 param_1,undefined8 param_2,int param_3)
-
-{
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)fn_82BC33B0(param_1,0x88);
-  puVar1[4] = 0;
-  *puVar1 = &lbl_820E4850;
-  puVar1[5] = 1;
-  puVar1[0x39] = puVar1[0x39] | 0x18;
-  fn_82BA0690(*(undefined4 *)(param_3 + 0xab0),puVar1);
-  return param_1;
+typedef struct Object_82BC4100 {
+ void *vtable;
+ unsigned int pad[3];
+ unsigned int a, b;
+ unsigned int gap[51];
+ unsigned int flags;
+} Object_82BC4100;
+extern Object_82BC4100 *fn_82BC33B0(void *, int);
+extern void fn_82BA0690(void *, Object_82BC4100 *);
+extern char lbl_820E4850[];
+static __forceinline void set_flags(unsigned int *flags) { *flags |= 0x18; }
+void *fn_82BC4100(void *self, void *unused, char *owner) {
+ Object_82BC4100 *o = fn_82BC33B0(self, 0x88);
+ o->a = 0;
+ o->vtable = lbl_820E4850;
+ o->b = 1;
+ set_flags(&o->flags);
+ fn_82BA0690(*(void **)(owner + 0xab0), o);
+ return self;
 }
-

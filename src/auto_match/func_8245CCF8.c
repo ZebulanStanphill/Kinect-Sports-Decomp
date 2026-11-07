@@ -1,65 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_8265CA20();
-
-
-void fn_8245CCF8(int param_1)
-
-{
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x10);
-  if (iVar2 != 0) {
-    for (; iVar2 != *(int *)(param_1 + 0x14); iVar2 = iVar2 + 4) {
-    }
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  piVar1 = *(int **)(param_1 + 4);
-  piVar3 = (int *)*piVar1;
-  *piVar1 = (int)piVar1;
-  *(int *)(*(int *)(param_1 + 4) + 4) = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 8) = 0;
-  if (piVar3 != *(int **)(param_1 + 4)) {
-    do {
-      piVar1 = (int *)*piVar3;
-      fn_82230300(piVar3 + 9,1,0);
-      fn_82230300(piVar3 + 2,1,0);
-      fn_8265CA20(piVar3);
-      piVar3 = piVar1;
-    } while (piVar1 != (int *)*(int *)(param_1 + 4));
-  }
-  fn_8265CA20(*(undefined4 *)(param_1 + 4));
-  return;
+typedef struct Vec_8245CCF8 { unsigned *begin, *end, *capacity; } Vec_8245CCF8;
+typedef struct Node_8245CCF8 { struct Node_8245CCF8 *next, *prev; char payload[56]; } Node_8245CCF8;
+typedef struct Owner_8245CCF8 { int pad; Node_8245CCF8 *head; int size; int pad2; Vec_8245CCF8 vec; } Owner_8245CCF8;
+extern void fn_8265CA20(void *);
+extern void fn_82230300(void *,int,int);
+void fn_8245CCF8(Owner_8245CCF8 *o) {
+ Vec_8245CCF8 *v=&o->vec;
+ Node_8245CCF8 *node;
+ if(v->begin) {
+  unsigned *i;
+  for(i=v->begin;i!=v->end;++i) {}
+  fn_8265CA20(v->begin);
+ }
+ v->begin=0; v->end=0; v->capacity=0;
+ node=o->head->next;
+ o->head->next=o->head;
+ o->head->prev=o->head;
+ o->size=0;
+ while(node!=o->head) {
+  char *payload=node->payload;
+  Node_8245CCF8 *next=node->next;
+  fn_82230300(payload+28,1,0);
+  fn_82230300(payload,1,0);
+  fn_8265CA20(node);
+  node=next;
+ }
+ fn_8265CA20(o->head);
 }
-

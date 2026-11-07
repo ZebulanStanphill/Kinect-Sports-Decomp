@@ -27,34 +27,22 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_830051E0(double param_1,int param_2,int param_3,undefined8 param_4,char param_5)
+void fn_830051E0(int param_2,int param_3,float param_1,unsigned char param_5)
 
 {
-  int *piStack_20;
+  unsigned *piStack_20;
   
-  if (param_3 < 0x40001) {
-    if (param_3 == 0x40000) {
-      *(float *)(*(int *)(param_2 + 4) + 0x10) = (float)param_1;
-      piStack_20 = (int *)(*(int *)(param_2 + 4) + 0x20);
-    }
-    else if (param_3 == 0x10000) {
-      *(float *)(*(int *)(param_2 + 4) + 4) = (float)param_1;
-      piStack_20 = (int *)(*(int *)(param_2 + 4) + 0x14);
-    }
-    else if (param_3 == 0x20000) {
-      *(float *)(*(int *)(param_2 + 4) + 0xc) = (float)param_1;
-      piStack_20 = (int *)(*(int *)(param_2 + 4) + 0x18);
-    }
-  }
-  else if (param_3 == 0x80000) {
-    *(float *)(*(int *)(param_2 + 4) + 8) = (float)param_1;
-    piStack_20 = (int *)(*(int *)(param_2 + 4) + 0x1c);
+  switch(param_3) {
+  case 0x10000: *(float *)(*(int *)(param_2+4)+4)=param_1; piStack_20=(unsigned *)(*(int *)(param_2+4)+0x14); break;
+  case 0x20000: *(float *)(*(int *)(param_2+4)+0xc)=param_1; piStack_20=(unsigned *)(*(int *)(param_2+4)+0x18); break;
+  case 0x40000: *(float *)(*(int *)(param_2+4)+0x10)=param_1; piStack_20=(unsigned *)(*(int *)(param_2+4)+0x20); break;
+  case 0x80000: *(float *)(*(int *)(param_2+4)+8)=param_1; piStack_20=(unsigned *)(*(int *)(param_2+4)+0x1c); break;
   }
   if ((param_5 != '\0') && (*piStack_20 != 0)) {
-    (**(code **)(*(int *)(param_2 + -0x1c) + 0x98))(param_2 + -0x1c,3);
+    (*(code *)(*(int *)(param_2 + -0x1c) + 0x98))(param_2 + -0x1c,3);
     *piStack_20 = 0;
   }
-  (**(code **)(*(int *)(param_2 + -0x1c) + 0x50))(param_2 + -0x1c);
+  (*(code *)(*(int *)(param_2 + -0x1c) + 0x50))(param_2 + -0x1c);
   return;
 }
 

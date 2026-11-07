@@ -1,82 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C69500();
-
-
-void fn_82C91D80(int param_1)
-
-{
-  undefined4 *puVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  fn_82C69500(param_1 + 0xea0,param_1 + 0xea4);
-  puVar1 = *(undefined4 **)(param_1 + 0xea0);
-  piVar2 = *(int **)(param_1 + 0xea4);
-  *(undefined4 *)(param_1 + 0xec0) = *puVar1;
-  *(undefined4 *)(param_1 + 0xec4) = puVar1[1];
-  *(undefined4 *)(param_1 + 0xec8) = puVar1[2];
-  iVar3 = *piVar2;
-  *(int *)(param_1 + 0xee8) = iVar3;
-  *(int *)(param_1 + 0xeec) = piVar2[1];
-  *(int *)(param_1 + 0xef0) = piVar2[2];
-  if (iVar3 == 0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0xdc) + iVar3;
-  }
-  *(int *)(param_1 + 0xef4) = iVar4;
-  if (*(int *)(param_1 + 0xec0) == 0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0xdc) + *(int *)(param_1 + 0xec0);
-  }
-  *(int *)(param_1 + 0xf10) = iVar4;
-  if (*(int *)(param_1 + 0xec4) == 0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0xe0) + *(int *)(param_1 + 0xec4);
-  }
-  *(int *)(param_1 + 0xf14) = iVar4;
-  if (*(int *)(param_1 + 0xec8) == 0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0xe0) + *(int *)(param_1 + 0xec8);
-  }
-  *(int *)(param_1 + 0xf18) = iVar4;
-  *(int *)(param_1 + 0x39e8) = iVar3;
-  *(undefined4 *)(param_1 + 0x39ec) = *(undefined4 *)(param_1 + 0xeec);
-  *(undefined4 *)(param_1 + 0x39f0) = *(undefined4 *)(param_1 + 0xef0);
-  return;
+typedef struct Triple_82C91D80 { unsigned a,b,c; } Triple_82C91D80;
+typedef struct Packet_82C91D80 { char pad[0xdc]; char *base1,*base2; char gap[0xea0-0xe4]; Triple_82C91D80 *first,*second; char gap2[0xec0-0xea8]; Triple_82C91D80 firstCopy; char gap3[0xee8-0xecc]; Triple_82C91D80 secondCopy; char *firstPtr; char gap4[0xf10-0xef8]; char *ptrs[3]; char gap5[0x39e8-0xf1c]; Triple_82C91D80 result; } Packet_82C91D80;
+extern void fn_82C69500(void *,void *);
+void fn_82C91D80(Packet_82C91D80 *o) {
+ Triple_82C91D80 *a,*b;
+ unsigned offset;
+ fn_82C69500(&o->first,&o->second);
+ a=o->first; b=o->second;
+ o->firstCopy.a=a->a; o->firstCopy.b=a->b; o->firstCopy.c=a->c;
+ o->secondCopy.a=b->a; o->secondCopy.b=b->b; o->secondCopy.c=b->c;
+ offset=o->secondCopy.a;
+ o->firstPtr=offset!=0 ? o->base1+offset:0;
+ o->ptrs[0]=o->firstCopy.a!=0 ? o->base1+o->firstCopy.a:0;
+ o->ptrs[1]=o->firstCopy.b!=0 ? o->base2+o->firstCopy.b:0;
+ o->ptrs[2]=o->firstCopy.c!=0 ? o->base2+o->firstCopy.c:0;
+ o->result.a=offset; o->result.b=o->secondCopy.b; o->result.c=o->secondCopy.c;
 }
-

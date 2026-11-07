@@ -25,10 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8322344C;
+extern unsigned char lbl_8322344C;
+extern int XamAvatarGetMetadataRandom(unsigned char,void *,void *,void *);
+extern void fn_82A2A370(int);
 
 
-ulonglong fn_82A81B88(byte param_1,int param_2,int param_3,int param_4)
+unsigned int fn_82A81B88(byte param_1,void *param_2,void *param_3,unsigned int param_4)
 
 {
   int iVar1;
@@ -37,21 +39,20 @@ ulonglong fn_82A81B88(byte param_1,int param_2,int param_3,int param_4)
     iVar1 = -0x7fff0001;
   }
   else {
-    if ((((param_2 == 0) || (param_3 == 0)) || (param_1 == 0)) || ((param_1 & 0xfc) != 0)) {
+    if ((((param_2 == 0) || (param_3 == 0)) || (param_1 == 0)) || ((param_1 & ~3u) != 0)) {
       iVar1 = -0x7ff8ffa9;
     }
     else {
-      iVar1 = XamAvatarGetMetadataRandom();
+      iVar1 = XamAvatarGetMetadataRandom(param_1,param_2,param_3,(void *)param_4);
     }
-    if (-1 < iVar1) {
-      return -(ulonglong)(param_4 != 0) & 0x3e5;
+    if (iVar1 >= 0) {
+      return param_4 ? 0x3e5 : 0;
     }
   }
-  if (param_4 == 0) {
-    thunk_FUN_82a2b748();
-  }
-  else {
+  if (param_4 != 0) {
     *(int *)(param_4 + 0x18) = iVar1;
+  } else {
+    fn_82A2A370(iVar1);
   }
   return 0x65b;
 }
