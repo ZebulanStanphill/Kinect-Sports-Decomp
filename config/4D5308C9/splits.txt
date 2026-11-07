@@ -20811,7 +20811,7 @@ auto_match/func_82390920.c:
 	.pdata      start:0x821E5EC8 end:0x821E5ED0
 	.text       start:0x82390920 end:0x82390A80
 
-auto_match/func_82390A80.c:
+auto_match/func_82390A80.cpp:
 	.pdata      start:0x821E5ED0 end:0x821E5ED8
 	.text       start:0x82390A80 end:0x82390BF8
 
@@ -25041,7 +25041,7 @@ auto_match/func_823F1940.c:
 	.pdata      start:0x821E7BE0 end:0x821E7BE8
 	.text       start:0x823F1940 end:0x823F1B04
 
-auto_match/func_823F1B08.c:
+auto_match/func_823F1B08.cpp:
 	.pdata      start:0x821E7BE8 end:0x821E7BF0
 	.text       start:0x823F1B08 end:0x823F1C80
 
@@ -28083,7 +28083,7 @@ auto_match/func_82426B08.c:
 	.pdata      start:0x821E8F70 end:0x821E8F78
 	.text       start:0x82426B08 end:0x82426C30
 
-auto_match/func_82426C30.c:
+auto_match/func_82426C30.cpp:
 	.text       start:0x82426C30 end:0x82426D20
 
 auto_match/func_82426D20.c:
@@ -52737,7 +52737,7 @@ auto_match/func_82646858.c:
 	.pdata      start:0x821F3418 end:0x821F3420
 	.text       start:0x82646858 end:0x82646AEC
 
-auto_match/func_82646AF0.c:
+auto_match/func_82646AF0.cpp:
 	.pdata      start:0x821F3420 end:0x821F3428
 	.text       start:0x82646AF0 end:0x82646DB4
 
@@ -98732,7 +98732,7 @@ auto_match/func_828AD7A0.c:
 	.pdata      start:0x82204D78 end:0x82204D80
 	.text       start:0x828AD7A0 end:0x828AD83C
 
-auto_match/func_828AD840.c:
+auto_match/func_828AD840.cpp:
 	.pdata      start:0x82204D80 end:0x82204D88
 	.text       start:0x828AD840 end:0x828ADBB4
 
@@ -148337,7 +148337,7 @@ auto_match/func_82D6C100.c:
 	.pdata      start:0x82218568 end:0x82218570
 	.text       start:0x82D6C100 end:0x82D6C2AC
 
-auto_match/func_82D6C2B0.c:
+auto_match/func_82D6C2B0.cpp:
 	.pdata      start:0x82218570 end:0x82218578
 	.text       start:0x82D6C2B0 end:0x82D6C3DC
 
@@ -161925,7 +161925,7 @@ auto_match/func_82E39EA0.c:
 	.pdata      start:0x8221C9E8 end:0x8221C9F0
 	.text       start:0x82E39EA0 end:0x82E39F18
 
-auto_match/func_82E39F18.c:
+auto_match/func_82E39F18.cpp:
 	.pdata      start:0x8221C9F0 end:0x8221C9F8
 	.text       start:0x82E39F18 end:0x82E39F6C
 
