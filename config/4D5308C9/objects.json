@@ -16241,8 +16241,8 @@
         ]
       },
       "auto_match/func_822A87F0.c": "MISSING",
-      "auto_match/func_822A8928.c": {
-        "status": "NonMatching",
+      "auto_match/func_822A8928.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -140177,11 +140177,12 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_82865AF0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82865AF0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82865B90.c": {
         "status": "Matching",
@@ -140850,11 +140851,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_82868E78.c": {
-        "status": "NonMatching",
+      "auto_match/func_82868E78.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82868EF0.cpp": {
         "status": "Matching",
@@ -141600,8 +141602,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_8286CD20.c": {
-        "status": "NonMatching",
+      "auto_match/func_8286CD20.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -147340,8 +147342,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_8288EC98.c": {
-        "status": "NonMatching",
+      "auto_match/func_8288EC98.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -171369,8 +171371,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_829EAB30.c": {
-        "status": "NonMatching",
+      "auto_match/func_829EAB30.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -227802,8 +227804,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D6BD10.c": {
-        "status": "NonMatching",
+      "auto_match/func_82D6BD10.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

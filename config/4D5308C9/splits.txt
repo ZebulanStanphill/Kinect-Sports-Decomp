@@ -10148,7 +10148,7 @@ auto_match/func_822A87F0.c:
 	.pdata      start:0x821E14E8 end:0x821E14F0
 	.text       start:0x822A87F0 end:0x822A8928
 
-auto_match/func_822A8928.c:
+auto_match/func_822A8928.cpp:
 	.pdata      start:0x821E14F0 end:0x821E14F8
 	.text       start:0x822A8928 end:0x822A89B8
 
@@ -92170,7 +92170,7 @@ auto_match/func_828656E8.cpp:
 	.pdata      start:0x82202630 end:0x82202638
 	.text       start:0x828656E8 end:0x82865AEC
 
-auto_match/func_82865AF0.c:
+auto_match/func_82865AF0.cpp:
 	.pdata      start:0x82202638 end:0x82202640
 	.text       start:0x82865AF0 end:0x82865B90
 
@@ -92586,7 +92586,7 @@ auto_match/func_82868E18.cpp:
 	.pdata      start:0x822028B0 end:0x822028B8
 	.text       start:0x82868E18 end:0x82868E78
 
-auto_match/func_82868E78.c:
+auto_match/func_82868E78.cpp:
 	.pdata      start:0x822028B8 end:0x822028C0
 	.text       start:0x82868E78 end:0x82868EEC
 
@@ -93051,7 +93051,7 @@ auto_match/func_8286CCB8.c:
 	.pdata      start:0x82202B98 end:0x82202BA0
 	.text       start:0x8286CCB8 end:0x8286CD20
 
-auto_match/func_8286CD20.c:
+auto_match/func_8286CD20.cpp:
 	.pdata      start:0x82202BA0 end:0x82202BA8
 	.text       start:0x8286CD20 end:0x8286CD84
 
@@ -96430,7 +96430,7 @@ auto_match/func_8288EBC8.c:
 	.pdata      start:0x82203E78 end:0x82203E80
 	.text       start:0x8288EBC8 end:0x8288EC94
 
-auto_match/func_8288EC98.c:
+auto_match/func_8288EC98.cpp:
 	.pdata      start:0x82203E80 end:0x82203E88
 	.text       start:0x8288EC98 end:0x8288EE68
 
@@ -111606,7 +111606,7 @@ auto_match/func_829EAAD8.c:
 	.pdata      start:0x8220A720 end:0x8220A728
 	.text       start:0x829EAAD8 end:0x829EAB30
 
-auto_match/func_829EAB30.c:
+auto_match/func_829EAB30.cpp:
 	.pdata      start:0x8220A728 end:0x8220A730
 	.text       start:0x829EAB30 end:0x829EABB8
 
@@ -148321,7 +148321,7 @@ auto_match/func_82D6BBF0.cpp:
 	.pdata      start:0x82218548 end:0x82218550
 	.text       start:0x82D6BBF0 end:0x82D6BD10
 
-auto_match/func_82D6BD10.c:
+auto_match/func_82D6BD10.cpp:
 	.pdata      start:0x82218550 end:0x82218558
 	.text       start:0x82D6BD10 end:0x82D6BE30
 
