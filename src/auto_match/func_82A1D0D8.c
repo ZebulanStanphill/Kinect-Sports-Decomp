@@ -1,134 +1,115 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_128;
-extern unsigned int *auStack_140;
-extern unsigned int *auStack_180;
-extern unsigned int *auStack_18c;
-extern unsigned int *auStack_190;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_d0;
-extern unsigned int *auStack_e8;
-extern int fn_82A1C808();
-extern int fn_82A1CA50();
-extern int fn_82A1CD98();
-extern int fn_82A1CE88();
-extern int fn_8314231C();
-extern int fn_83142B1C();
-extern int iRam832192e0;
-extern unsigned int uRam832192e8;
-extern unsigned int uStack_110;
-extern unsigned int uStack_138;
-extern unsigned int uStack_168;
-extern unsigned int uStack_e0;
+typedef struct Tbl_82A1D0D8 {
+    int (*f0)(void);
+    int (*Start)(void);
+    int (*f8)(void);
+    int (*fC)(void);
+    void (*Stop)(void);
+} Tbl_82A1D0D8;
 
+typedef struct Ctx_82A1D0D8 {
+    int state;          /* 0x00 */
+    int pad4;           /* 0x04 */
+    int index;          /* 0x08 */
+    int second;         /* 0x0C */
+    int result;         /* 0x10 */
+    char pad14[0x298 - 0x14];
+    Tbl_82A1D0D8 *tbl;  /* 0x298 */
+} Ctx_82A1D0D8;
 
-undefined8 fn_82A1D0D8(int *param_1)
+typedef struct Vol_82A1D0D8 {
+    int pad0[6];        /* 0x00 */
+    int handle;         /* 0x18 */
+    int pad1C[9];       /* 0x1C */
+    void *base;         /* 0x40 */
+    int pad44;          /* 0x44 */
+    void *device;       /* 0x48 */
+    int pad4C[3];       /* 0x4C */
+} Vol_82A1D0D8;
 
+extern int lbl_832192E0[];
+extern char lbl_8315D25C[];
+extern char lbl_8315D26C[];
+extern char lbl_8315D24C[];
+
+extern int fn_82A1C808(int idx, Ctx_82A1D0D8 *ctx, Vol_82A1D0D8 *vol, unsigned int *size, char *path);
+extern int fn_82A1CA50(int idx, Ctx_82A1D0D8 *ctx, Vol_82A1D0D8 *vol);
+extern int fn_82A1CE88(int second, const char *fmt, int idx);
+extern void fn_82A1CD98(void);
+extern void ExRegisterTitleTerminateNotification(void *reg, int create);
+extern int KeSetEvent(void *evt, int inc, int wait);
+extern int KeWaitForSingleObject(void *obj, int reason, int mode, int alertable, void *timeout);
+extern int XamTaskShouldExit(void);
+extern int IoDismountVolume(void *dev);
+extern void ObDereferenceObject(void *obj);
+extern int NtFreeVirtualMemory(void **base, unsigned int *size, unsigned int type, int prot);
+extern int NtClose(int handle);
+
+int fn_82A1D0D8(Ctx_82A1D0D8 *p)
 {
-  bool bVar1;
-  bool bVar2;
-  longlong lVar3;
-  int iVar4;
-  undefined1 auStack_190 [4];
-  undefined1 auStack_18c [12];
-  undefined1 auStack_180 [24];
-  undefined4 uStack_168;
-  undefined1 auStack_140 [8];
-  undefined4 uStack_138;
-  undefined1 auStack_128 [24];
-  undefined4 uStack_110;
-  undefined1 auStack_e8 [8];
-  undefined4 uStack_e0;
-  undefined1 auStack_d0 [64];
-  undefined1 auStack_90 [144];
-  
-  bVar1 = false;
-  if (*(code **)(param_1[0xa6] + 4) != (code *)0x0) {
-    lVar3 = (**(code **)(param_1[0xa6] + 4))();
-    if (lVar3 < 0) goto LAB_82a1d2e4;
-  }
-  lVar3 = fn_82A1C808(param_1[2],param_1,auStack_180,auStack_190,auStack_d0);
-  if (-1 < lVar3) {
-    bVar2 = false;
-    if (param_1[3] == 0) {
-LAB_82a1d16c:
-      bVar1 = bVar2;
-      lVar3 = fn_82A1CE88(param_1[3],0xffffffff8208873c,param_1[2]);
-      if (-1 < lVar3) {
-        iRam832192e0 = 1;
-        ExRegisterTitleTerminateNotification(0xffffffff8315d26c,1);
-        param_1[4] = (int)lVar3;
-        uRam832192e8 = 1;
-        KeSetEvent(0xffffffff8315d25c,1,0);
-        do {
-          KeWaitForSingleObject(0xffffffff8315d24c,3,1,0,0);
-          iVar4 = *param_1;
-          fn_82A1CA50(param_1[2],param_1,auStack_180);
-          if (param_1[3] != 0) {
-            fn_82A1CA50(1,param_1,auStack_128);
-          }
-          if (iVar4 == 1) {
-            param_1[4] = (int)lVar3;
-            KeSetEvent(0xffffffff8315d25c,1,0);
-          }
-        } while ((iVar4 != 2) && (iVar4 = fn_8314231C(), iVar4 == 0));
-        if (iRam832192e0 != 0) {
-          iRam832192e0 = 0;
-          ExRegisterTitleTerminateNotification(0xffffffff8315d26c,0);
-        }
-        fn_82A1CD98();
-      }
-    }
-    else {
-      lVar3 = fn_82A1C808(1,param_1,auStack_128,auStack_18c,auStack_90);
-      if (-1 < lVar3) {
-        bVar2 = true;
-        goto LAB_82a1d16c;
-      }
-    }
-    fn_83142B1C(uStack_138);
-    ObDereferenceObject(uStack_138);
-    NtFreeVirtualMemory(auStack_140,auStack_190,0x8000,1);
-    NtClose(uStack_168);
-    if (bVar1) {
-      fn_83142B1C(uStack_e0);
-      ObDereferenceObject(uStack_e0);
-      NtFreeVirtualMemory(auStack_e8,auStack_18c,0x8000,1);
-      NtClose(uStack_110);
-    }
-  }
-  if (*(code **)(param_1[0xa6] + 0x10) != (code *)0x0) {
-    (**(code **)(param_1[0xa6] + 0x10))();
-  }
-LAB_82a1d2e4:
-  param_1[4] = (int)lVar3;
-  uRam832192e8 = 0;
-  KeSetEvent(0xffffffff8315d25c,1,0);
-  return 0;
-}
+    Vol_82A1D0D8 vol[2];
+    unsigned int size[2];
+    char path[2][0x40];
+    int have2;
+    int hr;
+    int state;
 
+    have2 = 0;
+    if (p->tbl->Start != 0) {
+        hr = p->tbl->Start();
+        if (hr < 0)
+            goto done;
+    }
+    hr = fn_82A1C808(p->index, p, &vol[0], &size[0], path[0]);
+    if (hr >= 0) {
+        if (p->second != 0) {
+            hr = fn_82A1C808(1, p, &vol[1], &size[1], path[1]);
+            if (hr < 0)
+                goto cleanup;
+            have2 = 1;
+        }
+        hr = fn_82A1CE88(p->second, "\\Device\\cache%d", p->index);
+        if (hr >= 0) {
+            lbl_832192E0[0] = 1;
+            ExRegisterTitleTerminateNotification(lbl_8315D26C, 1);
+            p->result = hr;
+            lbl_832192E0[2] = 1;
+            KeSetEvent(lbl_8315D25C, 1, 0);
+            do {
+                KeWaitForSingleObject(lbl_8315D24C, 3, 1, 0, 0);
+                state = p->state;
+                fn_82A1CA50(p->index, p, &vol[0]);
+                if (p->second != 0) {
+                    fn_82A1CA50(1, p, &vol[1]);
+                }
+                if (state == 1) {
+                    p->result = hr;
+                    KeSetEvent(lbl_8315D25C, 1, 0);
+                }
+            } while (state != 2 && XamTaskShouldExit() == 0);
+            if (lbl_832192E0[0] != 0) {
+                lbl_832192E0[0] = 0;
+                ExRegisterTitleTerminateNotification(lbl_8315D26C, 0);
+            }
+            fn_82A1CD98();
+        }
+cleanup:
+        IoDismountVolume(vol[0].device);
+        ObDereferenceObject(vol[0].device);
+        NtFreeVirtualMemory(&vol[0].base, &size[0], 0x8000, 1);
+        NtClose(vol[0].handle);
+        if (have2 != 0) {
+            IoDismountVolume(vol[1].device);
+            ObDereferenceObject(vol[1].device);
+            NtFreeVirtualMemory(&vol[1].base, &size[1], 0x8000, 1);
+            NtClose(vol[1].handle);
+        }
+    }
+    if (p->tbl->Stop != 0) {
+        p->tbl->Stop();
+    }
+done:
+    p->result = hr;
+    lbl_832192E0[2] = 0;
+    KeSetEvent(lbl_8315D25C, 1, 0);
+    return 0;
+}

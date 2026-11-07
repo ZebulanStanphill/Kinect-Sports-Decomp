@@ -1,53 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_830177C8();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642FC;
+typedef struct Entry_83008F78 {
+    int id;
+    int a;
+    int b;
+} Entry_83008F78;
 
+typedef struct Table_83008F78 {
+    Entry_83008F78 e[5];
+    unsigned char bits0;   /* 0x3c */
+    unsigned char bits1;   /* 0x3d */
+} Table_83008F78;
 
-bool fn_83008F78(int param_1,uint param_2)
+typedef struct Obj_83008F78 {
+    char pad0[0x24];
+    Table_83008F78 *alt;   /* 0x24 */
+    Table_83008F78 *tbl;   /* 0x28 */
+    char pad2c[0x14];
+    unsigned int mask;     /* 0x40 */
+} Obj_83008F78;
 
+extern float fn_830177C8(void *a, Obj_83008F78 *o, int b, int c);
+extern void *lbl_832642FC;
+
+static __forceinline unsigned char getBit_83008F78(unsigned char bits, unsigned char i)
 {
-  byte bVar1;
-  double dVar2;
-  
-  if (*(int *)(param_1 + 0x28) == 0) {
-    return false;
-  }
-  bVar1 = *(byte *)(*(int *)(param_1 + 0x28) + 0x3c) >> (param_2 & 0x3f);
-  if ((*(int *)((param_2 + 1) * 0xc + *(int *)(param_1 + 0x28)) != -1) &&
-     ((1 << (param_2 + 0x18 & 0x3f) & *(uint *)(param_1 + 0x40)) != 0)) {
-    dVar2 = (double)fn_830177C8(lbl_832642FC,param_1,param_2 + 0x18,0);
-    return dVar2 != (double)lbl_821AAD20;
-  }
-  if (*(int *)(param_1 + 0x24) != 0) {
-    bVar1 = *(byte *)(*(int *)(param_1 + 0x24) + 0x3d) >> (param_2 & 0x3f);
-  }
-  return (bool)(bVar1 & 1);
+    return (bits >> i) & 1;
 }
 
+unsigned char fn_83008F78(Obj_83008F78 *p, int idx)
+{
+    unsigned char r;
+
+    if (*(void **)&p->tbl == 0) {
+        return 0;
+    }
+    r = getBit_83008F78(p->tbl->bits0, (unsigned char)idx);
+    if (p->tbl->e[idx + 1].id != -1 && ((1 << (idx + 0x18)) & p->mask) != 0) {
+        return fn_830177C8(lbl_832642FC, p, idx + 0x18, 0) != 0.0f;
+    }
+    if (p->alt != 0) {
+        r = getBit_83008F78(p->alt->bits1, (unsigned char)idx);
+    }
+    return r;
+}

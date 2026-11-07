@@ -1,62 +1,40 @@
-extern int *piRam8326504c;
-extern int *piRam83265050;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC978;
-extern unsigned int uRam83265048;
-extern unsigned int uRam83265054;
+typedef struct Obj_8304F800 Obj_8304F800;
 
+typedef struct Vtbl_8304F800 {
+    void *slots[5];
+    void (*fn14)(Obj_8304F800 *self);
+} Vtbl_8304F800;
+
+struct Obj_8304F800 {
+    Vtbl_8304F800 *vt;
+};
+
+typedef struct Vec_8304F800 {
+    Obj_8304F800 **begin;
+    Obj_8304F800 **end;
+    Obj_8304F800 **cap;
+} Vec_8304F800;
+
+extern int fn_82FA5190(unsigned int heap, void *p);
+extern unsigned int lbl_831BC978;
+extern unsigned int lbl_83265048;
+extern Vec_8304F800 lbl_8326504C;
 
 void fn_8304F800(void)
-
 {
-  int *piVar1;
-  int *piVar2;
+    Obj_8304F800 **p;
 
-  uRam83265048 = 0;
-  piVar1 = piRam83265050;
-  piVar2 = piRam8326504c;
-  if (piRam8326504c != piRam83265050) {
-    do {
-      if ((int *)*piVar2 != (int *)0x0) {
-        (**(code **)(*(int *)*piVar2 + 0x14))();
-        piVar1 = piRam83265050;
-      }
-      piVar2 = piVar2 + 1;
-    } while (piVar2 != piVar1);
-  }
-  if (piRam8326504c != (int *)0x0) {
-    piRam83265050 = piRam8326504c;
-    fn_82FA5190(lbl_831BC978);
-    piRam8326504c = (int *)0x0;
-    piRam83265050 = (int *)0x0;
-    uRam83265054 = 0;
-  }
-  return;
+    lbl_83265048 = 0;
+    for (p = lbl_8326504C.begin; p != lbl_8326504C.end; p++) {
+        if (*p != 0) {
+            (*p)->vt->fn14(*p);
+        }
+    }
+    if (lbl_8326504C.begin != 0) {
+        lbl_8326504C.end = lbl_8326504C.begin;
+        fn_82FA5190(lbl_831BC978, lbl_8326504C.begin);
+        lbl_8326504C.begin = 0;
+        lbl_8326504C.end = 0;
+        lbl_8326504C.cap = 0;
+    }
 }

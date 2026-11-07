@@ -1,82 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EEFC00();
-extern int fn_82EEFD30();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+typedef struct Entry8_82EF0350 {
+    unsigned int len;
+    unsigned int extra;
+} Entry8_82EF0350;
 
+typedef struct Entry16_82EF0350 {
+    unsigned int a;
+    unsigned int b;
+    unsigned int len;
+    unsigned int d;
+} Entry16_82EF0350;
 
-undefined8 fn_82EF0350(int param_1,longlong *param_2,longlong *param_3)
+typedef struct Obj_82EF0350 {
+    char pad0[0xc];
+    void *handle;                 /* 0x0c */
+    char pad10[0x10];
+    unsigned __int64 size;        /* 0x20 */
+    char pad28[0x20];
+    char list2[0x1ac - 0x48];     /* 0x48 */
+    unsigned int count2;          /* 0x1ac */
+    char list1[0x26c - 0x1b0];    /* 0x1b0 */
+    unsigned int count1;          /* 0x26c */
+} Obj_82EF0350;
 
+extern int fn_82EEFC00(void *list, unsigned int index, Entry16_82EF0350 **out);
+extern int fn_82EEFD30(void *list, unsigned int index, Entry8_82EF0350 **out);
+
+int fn_82EF0350(Obj_82EF0350 *self, unsigned __int64 *outA, unsigned __int64 *outB)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  ulonglong *apuStack_60 [4];
-  ulonglong uStack_50;
-  uint uStack_48;
-  undefined4 uStack_44;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else {
-    lVar2 = 0x2c;
-    uVar3 = 0;
-    if (*(int *)(param_1 + 0x26c) != 0) {
-      do {
-        fn_82EEFD30(param_1 + 0x1b0,uVar3,apuStack_60);
-        uVar3 = uVar3 + 1;
-        uStack_50 = *apuStack_60[0];
-        lVar2 = (uStack_50 >> 0x20 & 0x7fffffff) * 2 + lVar2 + 2;
-      } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x26c));
-    }
-    uVar3 = 0;
-    if (*(int *)(param_1 + 0x1ac) != 0) {
-      do {
-        fn_82EEFC00(param_1 + 0x48,uVar3,apuStack_60);
-        uVar3 = uVar3 + 1;
-        uStack_50 = *apuStack_60[0];
-        uStack_48 = *(uint *)(apuStack_60[0] + 1);
-        uStack_44 = *(undefined4 *)((int)apuStack_60[0] + 0xc);
-        lVar2 = ((ulonglong)uStack_48 & 0x7fffffff) * 2 + lVar2 + 8;
-      } while ((uVar3 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x1ac));
-    }
-    if (param_2 != (longlong *)0x0) {
-      *param_2 = lVar2;
-    }
-    if (param_3 != (longlong *)0x0) {
-      *param_3 = lVar2;
-    }
-    *(longlong *)(param_1 + 0x20) = lVar2;
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+    unsigned __int64 total;
+    unsigned int i;
+    void *p;
+    Entry8_82EF0350 a;
+    Entry16_82EF0350 b;
 
+    if (self->handle == 0) {
+        return (int)0xC00D36B6;
+    }
+    total = 0x2c;
+    for (i = 0; i < self->count1; i++) {
+        fn_82EEFD30(self->list1, i, (Entry8_82EF0350 **)&p);
+        a = *(Entry8_82EF0350 *)p;
+        total = total + (a.len & 0x7fffffff) * 2 + 2;
+    }
+    for (i = 0; i < self->count2; i++) {
+        fn_82EEFC00(self->list2, i, (Entry16_82EF0350 **)&p);
+        b = *(Entry16_82EF0350 *)p;
+        total = total + (b.len & 0x7fffffff) * 2 + 8;
+    }
+    if (outA != 0) {
+        *outA = total;
+    }
+    if (outB != 0) {
+        *outB = total;
+    }
+    self->size = total;
+    return 0;
+}

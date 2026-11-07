@@ -1,47 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFF8D0();
-extern int fn_82D71668();
+typedef struct Arr_82D541A0 {
+    void *data;
+    int size;
+    int cap;
+} Arr_82D541A0;
 
+typedef struct Visitor_82D541A0 Visitor_82D541A0;
 
-void fn_82D541A0(int param_1,int *param_2)
+typedef struct VisitorVt_82D541A0 {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fC;
+    void *f10;
+    void (*f14)(Visitor_82D541A0 *self, int kind, const char *name, void *data, int bytes, int extra);
+} VisitorVt_82D541A0;
 
+struct Visitor_82D541A0 {
+    VisitorVt_82D541A0 *vt;
+    int f4;
+    int f8;
+};
+
+extern int fn_82CFF8D0(void *data, int bytes);
+extern void fn_82D71668(Arr_82D541A0 *arr, int arg, Visitor_82D541A0 *v);
+
+void fn_82D541A0(int param_1, Visitor_82D541A0 *v)
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)(param_1 + 0x30);
-  if ((*(uint *)(param_1 + 0x38) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*puVar2,*(uint *)(param_1 + 0x38) << 2);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff82138a78,*puVar2,*(int *)(param_1 + 0x34) << 2,uVar1);
-  }
-  fn_82D71668(puVar2,param_2[2],param_2);
-  return;
+    Arr_82D541A0 *a = (Arr_82D541A0 *)(param_1 + 0x30);
+    if ((a->cap & (int)0x80000000) == 0) {
+        int r = fn_82CFF8D0(a->data, a->cap << 2);
+        v->vt->f14(v, 3, "SectorPtrs", a->data, a->size << 2, r);
+    }
+    fn_82D71668(a, v->f8, v);
 }
-

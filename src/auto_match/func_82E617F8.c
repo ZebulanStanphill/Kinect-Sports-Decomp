@@ -1,83 +1,74 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_34;
-extern int fn_82E5A200();
-extern int fn_82E60688();
-extern int fn_82E60E60();
-extern int fn_82E62670();
-extern int fn_82E628C8();
-extern unsigned int uStack_38;
+typedef struct Obj_82E617F8 Obj_82E617F8;
 
+typedef struct Vtbl_82E617F8 {
+    void *s0;
+    void *s4;
+    unsigned int (*Release)(Obj_82E617F8 *self);
+    void *sc;
+    void *s10;
+    int (*Set)(Obj_82E617F8 *self, Obj_82E617F8 *item, int flags);
+    void *s18;
+    int (*Query)(Obj_82E617F8 *self, const void *iid, void *out);
+} Vtbl_82E617F8;
 
-longlong fn_82E617F8(int *param_1,int *param_2,int *param_3)
+struct Obj_82E617F8 {
+    Vtbl_82E617F8 *vt;
+};
 
+extern char lbl_82154B18[];
+extern char lbl_820F8F08[];
+extern char lbl_8214C720[];
+
+extern int fn_82E60688(Obj_82E617F8 *a, Obj_82E617F8 *p);
+extern int fn_82E60E60(Obj_82E617F8 *c, Obj_82E617F8 *a, Obj_82E617F8 *q);
+extern int fn_82E62670(Obj_82E617F8 *p, unsigned int *v);
+extern int fn_82E628C8(Obj_82E617F8 *p, unsigned int v);
+extern int fn_82E5A200(Obj_82E617F8 *q, Obj_82E617F8 *p);
+
+int fn_82E617F8(Obj_82E617F8 *a, Obj_82E617F8 *b, Obj_82E617F8 *c)
 {
-  longlong lVar1;
-  int *piStack_40;
-  int *piStack_3c;
-  uint uStack_38;
-  uint auStack_34;
-  
-  if (((param_1 == (int *)0x0) || (param_2 == (int *)0x0)) || (param_3 == (int *)0x0)) {
-    return -0x7ff8ffa9;
-  }
-  piStack_40 = (int *)0x0;
-  piStack_3c = (int *)0x0;
-  lVar1 = (**(code **)(*param_2 + 0x1c))(param_2,0xffffffff82154b18,&piStack_40);
-  if (((-1 < lVar1) && (lVar1 = fn_82E60688(param_1,piStack_40), -1 < lVar1)) &&
-     ((lVar1 = (**(code **)(*param_2 + 0x1c))(param_2,0xffffffff820f8f08,&piStack_3c), -1 < lVar1 &&
-      (lVar1 = fn_82E60E60(param_3,param_1,piStack_3c), -1 < lVar1)))) {
-    auStack_34 = 0;
-    lVar1 = (**(code **)(*param_1 + 0x1c))(param_1,0xffffffff8214c720,&auStack_34);
-    if (-1 < lVar1) {
-      if ((auStack_34 & 0x80000000) != 0) {
-        uStack_38 = 0;
-        lVar1 = fn_82E62670(piStack_40,&uStack_38);
-        if (lVar1 < 0) goto LAB_82e61974;
-        uStack_38 = uStack_38 | 0x80000000;
-        lVar1 = fn_82E628C8(piStack_40);
-        if ((lVar1 < 0) || (lVar1 = fn_82E5A200(piStack_3c,piStack_40), lVar1 < 0))
-        goto LAB_82e61974;
-      }
-      lVar1 = (**(code **)(*param_3 + 0x14))(param_3,piStack_40,0);
-      if (-1 < lVar1) {
-        lVar1 = (**(code **)(*param_3 + 0x14))(param_3,piStack_3c,0);
-      }
-    }
-  }
-LAB_82e61974:
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 8))();
-    piStack_40 = (int *)0x0;
-  }
-  if (piStack_3c != (int *)0x0) {
-    (**(code **)(*piStack_3c + 8))();
-  }
-  return lVar1;
-}
+    Obj_82E617F8 *p;
+    Obj_82E617F8 *q;
+    unsigned int v;
+    unsigned int flags;
+    int hr;
 
+    if (a == 0 || b == 0 || c == 0) {
+        return (int)0x80070057;
+    }
+    p = 0;
+    q = 0;
+    hr = b->vt->Query(b, lbl_82154B18, &p);
+    if (hr < 0) goto done;
+    hr = fn_82E60688(a, p);
+    if (hr < 0) goto done;
+    hr = b->vt->Query(b, lbl_820F8F08, &q);
+    if (hr < 0) goto done;
+    hr = fn_82E60E60(c, a, q);
+    if (hr < 0) goto done;
+    flags = 0;
+    hr = a->vt->Query(a, lbl_8214C720, &flags);
+    if (hr < 0) goto done;
+    if ((flags & 0x80000000) != 0) {
+        v = 0;
+        hr = fn_82E62670(p, &v);
+        if (hr < 0) goto done;
+        v |= 0x80000000;
+        hr = fn_82E628C8(p, v);
+        if (hr < 0) goto done;
+        hr = fn_82E5A200(q, p);
+        if (hr < 0) goto done;
+    }
+    hr = c->vt->Set(c, p, 0);
+    if (hr < 0) goto done;
+    hr = c->vt->Set(c, q, 0);
+done:
+    if (p != 0) {
+        p->vt->Release(p);
+        p = 0;
+    }
+    if (q != 0) {
+        q->vt->Release(q);
+    }
+    return hr;
+}

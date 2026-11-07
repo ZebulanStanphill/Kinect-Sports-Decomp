@@ -1,93 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E5A1E0();
-extern int fn_82E5A1F0();
-extern int fn_82E5EF70();
-extern int fn_82E5F020();
-extern int fn_82E5F1F0();
 
+typedef struct Obj_82E60E60 { void **vt; } Obj_82E60E60;
+typedef struct { U32 den; U32 num; } Ratio_82E60E60;
+typedef struct { char pad[0x30]; Ratio_82E60E60 r; } Info_82E60E60;
 
-longlong fn_82E60E60(int *param_1,int *param_2,ulonglong param_3)
+typedef int (*Fn0_82E60E60)(Obj_82E60E60 *);
+typedef int (*FnOut_82E60E60)(Obj_82E60E60 *, Obj_82E60E60 **);
+typedef int (*FnQI_82E60E60)(Obj_82E60E60 *, void *, Obj_82E60E60 **);
+typedef int (*FnGet_82E60E60)(Obj_82E60E60 *, void *, int, Obj_82E60E60 **);
+typedef Info_82E60E60 *(*FnInfo_82E60E60)(Obj_82E60E60 *);
 
+extern char lbl_821531D8[];
+extern char lbl_82154A58[];
+
+extern int fn_82E5A1E0(void *p, int v);
+extern int fn_82E5A1F0(void *p, U32 v);
+extern int fn_82E5EF70(Obj_82E60E60 *o, Obj_82E60E60 *s, void *p);
+extern int fn_82E5F020(Obj_82E60E60 *o, void *p);
+extern int fn_82E5F1F0(Obj_82E60E60 *o, void *p);
+
+int fn_82E60E60(Obj_82E60E60 *p1, Obj_82E60E60 *p2, void *p3)
 {
-  uint uVar1;
-  longlong lVar2;
-  undefined8 uVar3;
-  int iVar4;
-  int *piStack_40;
-  int *piStack_3c;
-  int *apiStack_38 [14];
-  
-  if (((param_1 == (int *)0x0) || (param_2 == (int *)0x0)) || ((param_3 & 0xffffffff) == 0)) {
-    return -0x7ff8ffa9;
+  Obj_82E60E60 *a;
+  Obj_82E60E60 *b;
+  Obj_82E60E60 *c;
+  int hr;
+
+  if (p1 == 0 || p2 == 0 || p3 == 0) {
+    return (int)0x80070057;
   }
-  piStack_40 = (int *)0x0;
-  piStack_3c = (int *)0x0;
-  apiStack_38[0] = (int *)0x0;
-  lVar2 = fn_82E5F1F0(param_2,param_3);
-  if (-1 < lVar2) {
-    uVar3 = (**(code **)(*param_2 + 0x88))(param_2);
-    lVar2 = fn_82E5A1E0(param_3,uVar3);
-    if ((-1 < lVar2) && (lVar2 = (**(code **)(*param_2 + 0x90))(param_2,&piStack_40), -1 < lVar2)) {
-      if (piStack_40 == (int *)0x0) {
-        lVar2 = -0x3ff2c945;
-        goto LAB_82e61000;
-      }
-      iVar4 = (**(code **)*piStack_40)(piStack_40,0xffffffff821531d8,&piStack_3c);
-      if (-1 < iVar4) {
-        iVar4 = (**(code **)(*piStack_3c + 0x98))();
-        uVar1 = *(uint *)(iVar4 + 0x30);
-        if (uVar1 != 0) {
-          trapDoubleWordImmediate(6,(ulonglong)uVar1,0);
-          lVar2 = fn_82E5A1F0(param_3,((ulonglong)*(uint *)(iVar4 + 0x34) * 10000000) /
-                                          (ulonglong)uVar1 & 0xffffffff);
-          if (lVar2 < 0) goto LAB_82e60fe0;
-        }
-      }
-      lVar2 = (**(code **)(*param_1 + 0x10))(param_1,0xffffffff82154a58,0,apiStack_38);
-      if ((-1 < lVar2) && (lVar2 = fn_82E5EF70(param_2,apiStack_38[0],param_3), -1 < lVar2)) {
-        lVar2 = fn_82E5F020(param_2,param_3);
-      }
+  a = 0;
+  b = 0;
+  c = 0;
+  hr = fn_82E5F1F0(p2, p3);
+  if (hr < 0) goto done;
+  hr = fn_82E5A1E0(p3, ((Fn0_82E60E60)p2->vt[0x88 / 4])(p2));
+  if (hr < 0) goto done;
+  hr = ((FnOut_82E60E60)p2->vt[0x90 / 4])(p2, &a);
+  if (hr < 0) goto done;
+  if (a == 0) {
+    hr = (int)0xC00D36BB;
+    goto done2;
+  }
+  if (((FnQI_82E60E60)a->vt[0])(a, lbl_821531D8, &b) >= 0) {
+    Ratio_82E60E60 *r = &((FnInfo_82E60E60)b->vt[0x98 / 4])(b)->r;
+    if (r->den != 0) {
+      hr = fn_82E5A1F0(p3, (U32)(((U64)r->num * 10000000) / r->den));
+      if (hr < 0) goto done;
     }
   }
-LAB_82e60fe0:
-  if (piStack_40 != (int *)0x0) {
-    (**(code **)(*piStack_40 + 8))();
-    piStack_40 = (int *)0x0;
+  hr = ((FnGet_82E60E60)p1->vt[0x10 / 4])(p1, lbl_82154A58, 0, &c);
+  if (hr < 0) goto done;
+  hr = fn_82E5EF70(p2, c, p3);
+  if (hr < 0) goto done;
+  hr = fn_82E5F020(p2, p3);
+done:
+  if (a != 0) {
+    ((Fn0_82E60E60)a->vt[8 / 4])(a);
+    a = 0;
   }
-LAB_82e61000:
-  if (piStack_3c != (int *)0x0) {
-    (**(code **)(*piStack_3c + 8))();
-    piStack_3c = (int *)0x0;
+done2:
+  if (b != 0) {
+    ((Fn0_82E60E60)b->vt[8 / 4])(b);
+    b = 0;
   }
-  if (apiStack_38[0] != (int *)0x0) {
-    (**(code **)(*apiStack_38[0] + 8))();
+  if (c != 0) {
+    ((Fn0_82E60E60)c->vt[8 / 4])(c);
   }
-  return lVar2;
+  return hr;
 }
-

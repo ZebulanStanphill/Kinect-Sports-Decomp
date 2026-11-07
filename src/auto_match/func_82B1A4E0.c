@@ -1,52 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Link_82B1A4E0 {
+    unsigned int prev;
+    unsigned int next;
+} Link_82B1A4E0;
 
-
-void fn_82B1A4E0(uint param_1,uint *param_2)
-
+void fn_82B1A4E0(unsigned int other, Link_82B1A4E0 *node)
 {
-  uint uVar1;
-  uint uVar2;
-  int *piVar3;
-  
-  if ((param_2[1] & 1) != 0) {
-    return;
-  }
-  param_1 = param_1 & 0xfffffffe;
-  uVar1 = *param_2;
-  piVar3 = (int *)(param_2[1] & 0xfffffffe);
-  uVar2 = *(uint *)(param_1 + 4);
-  *piVar3 = param_1 + 4;
-  *(int **)(param_1 + 4) = piVar3;
-  *(uint *)(uVar1 & 0xfffffffe) = uVar2;
-  *(uint **)(uVar2 & 0xfffffffe) = (uint *)(uVar1 & 0xfffffffe);
-  param_2[1] = (uint)param_2 | 1;
-  *param_2 = (uint)(param_2 + 1) | 1;
-  return;
-}
+    Link_82B1A4E0 *o;
+    Link_82B1A4E0 *n;
+    Link_82B1A4E0 *p;
+    unsigned int onext;
 
+    if ((node->next & 1) != 0) {
+        return;
+    }
+    o = (Link_82B1A4E0 *)(other & ~1u);
+    n = (Link_82B1A4E0 *)(node->next & ~1u);
+    p = (Link_82B1A4E0 *)((node->prev & ~1u) - 4);
+    onext = o->next;
+    n->prev = (unsigned int)&o->next;
+    o->next = (unsigned int)n;
+    p->next = onext;
+    ((Link_82B1A4E0 *)(onext & ~1u))->prev = (unsigned int)&p->next;
+    node->next = (unsigned int)node | 1;
+    node->prev = (unsigned int)&node->next | 1;
+}

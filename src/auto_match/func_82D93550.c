@@ -1,58 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CFF8D0();
-extern int fn_82CFF928();
+typedef struct Writer_82D93550 Writer_82D93550;
 
+typedef struct WriterVt_82D93550 {
+    void *s00;
+    void *s04;
+    void *s08;
+    void (*BeginObject)(Writer_82D93550 *w, const char *name, int id, int flags);
+    void *s10;
+    void (*WriteArray)(Writer_82D93550 *w, int kind, const char *name, void *data,
+                       int size, int extra);
+} WriterVt_82D93550;
 
-void fn_82D93550(int param_1,int *param_2)
+struct Writer_82D93550 {
+    WriterVt_82D93550 *vt;
+};
 
+typedef struct Shape_82D93550 {
+    int pad00[4];
+    int id;                 /* 0x10 */
+    int pad14[15];          /* 0x14..0x4f */
+    unsigned short pad50;   /* 0x50 */
+    unsigned short count;   /* 0x52 */
+    void *aabbs;            /* 0x54 */
+    void *aabbs2;           /* 0x58 */
+    int pad5c;              /* 0x5c */
+    void *agt;              /* 0x60 */
+    int agtCount;           /* 0x64 */
+    int agtCap;             /* 0x68 */
+    int pad6c[3];           /* 0x6c..0x77 */
+    void *props;            /* 0x78 */
+    int propCount;          /* 0x7c */
+    int propCap;            /* 0x80 */
+} Shape_82D93550;
+
+extern int fn_82CFF8D0(void *data, int size);
+extern void fn_82CFF928(Writer_82D93550 *w, const char *name, void *data, int size, int flags);
+
+void fn_82D93550(Shape_82D93550 *s, Writer_82D93550 *w)
 {
-  undefined8 uVar1;
-  
-  (**(code **)(*param_2 + 0xc))(param_2,0xffffffff82141708,*(undefined4 *)(param_1 + 0x10),0);
-  if ((*(uint *)(param_1 + 0x68) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x60),*(uint *)(param_1 + 0x68) << 3);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821416fc,*(undefined4 *)(param_1 + 0x60),
-               *(int *)(param_1 + 100) << 3,uVar1);
-  }
-  if ((*(uint *)(param_1 + 0x80) & 0x80000000) == 0) {
-    uVar1 = fn_82CFF8D0(*(undefined4 *)(param_1 + 0x78),*(uint *)(param_1 + 0x80) << 4);
-    (**(code **)(*param_2 + 0x14))
-              (param_2,3,0xffffffff821416f0,*(undefined4 *)(param_1 + 0x78),
-               *(int *)(param_1 + 0x7c) << 4,uVar1);
-  }
-  if (*(int *)(param_1 + 0x54) != 0) {
-    fn_82CFF928(param_2,0xffffffff821416e0,*(int *)(param_1 + 0x54),
-                      (ulonglong)*(ushort *)(param_1 + 0x52) << 5,0);
-    fn_82CFF928(param_2,0xffffffff821416e0,*(undefined4 *)(param_1 + 0x58),
-                      (ulonglong)*(ushort *)(param_1 + 0x52) << 2,0);
-  }
-  return;
-}
+    int r;
 
+    w->vt->BeginObject(w, "Shape", s->id, 0);
+    if ((s->agtCap & (int)0x80000000) == 0) {
+        r = fn_82CFF8D0(s->agt, s->agtCap << 3);
+        w->vt->WriteArray(w, 3, "CollAgtPtr", s->agt, s->agtCount << 3, r);
+    }
+    if ((s->propCap & (int)0x80000000) == 0) {
+        r = fn_82CFF8D0(s->props, s->propCap << 4);
+        w->vt->WriteArray(w, 3, "Properties", s->props, s->propCount << 4, r);
+    }
+    if (s->aabbs != 0) {
+        fn_82CFF928(w, "ChildShapeAabbs", s->aabbs, s->count << 5, 0);
+        fn_82CFF928(w, "ChildShapeAabbs", s->aabbs2, s->count << 2, 0);
+    }
+}

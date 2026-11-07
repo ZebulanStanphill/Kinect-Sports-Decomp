@@ -1,44 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_83026318 Obj_83026318;
 
+typedef struct Vtbl_83026318 {
+    void *slot0;
+    void *slot4;
+    void (*slot8)(Obj_83026318 *self);
+    void *slotC;
+    void (*slot10)(Obj_83026318 *self, int arg);
+} Vtbl_83026318;
 
-void fn_83026318(int param_1,undefined8 param_2)
+struct Obj_83026318 {
+    Vtbl_83026318 *vt;
+};
 
+typedef struct Self_83026318 {
+    int pad0;
+    Obj_83026318 *a;      /* 0x04 */
+    int pad8;
+    Obj_83026318 *b;      /* 0x0c */
+    int pad10;
+    unsigned char flag;   /* 0x14 */
+} Self_83026318;
+
+void fn_83026318(Self_83026318 *self, int mode)
 {
-  if ((int)param_2 != 2) {
-    (**(code **)(**(int **)(param_1 + 0xc) + 8))();
-  }
-  if ((int)param_2 == 0) {
-    *(undefined1 *)(param_1 + 0x14) = 0;
-  }
-  if (*(char *)(param_1 + 0x14) == '\0') {
-    (**(code **)(**(int **)(param_1 + 4) + 0x10))(*(int **)(param_1 + 4),param_2);
-  }
-  return;
+    if (mode != 2) {
+        self->b->vt->slot8(self->b);
+    }
+    if (mode == 0) {
+        self->flag = 0;
+    }
+    if (self->flag == 0) {
+        self->a->vt->slot10(self->a, mode);
+    }
 }
-

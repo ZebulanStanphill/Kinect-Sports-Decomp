@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_10;
 
+void *memset(void *dst, int val, unsigned int size);
 
-void fn_82C0C3A8(int *param_1,uint param_2)
+typedef struct Msg_82C0C3A8 {
+    unsigned int id;
+    int data[8];
+} Msg_82C0C3A8;
 
+typedef void (*VFn_82C0C3A8)(void *self, Msg_82C0C3A8 *msg);
+
+void fn_82C0C3A8(int *param_1, uint param_2)
 {
-  longlong alStack_30 [4];
-  undefined4 uStack_10;
-  
-  alStack_30[1] = 0;
-  alStack_30[2] = 0;
-  alStack_30[3] = 0;
-  uStack_10 = 0;
-  alStack_30[0] = (ulonglong)param_2 << 0x20;
-  (**(code **)(*param_1 + 0x24))(param_1,alStack_30);
-  return;
-}
+    Msg_82C0C3A8 m;
 
+    memset(&m, 0, sizeof(m));
+    m.id = param_2;
+    (*(VFn_82C0C3A8 *)(*param_1 + 0x24))(param_1, &m);
+}

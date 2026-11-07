@@ -1,73 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ABDD90();
-extern int fn_82B83B68();
+typedef struct Hdr_82B840F8 {
+    unsigned int w0;
+    unsigned int w1;
+    unsigned int bits;          /* +0x08 */
+    unsigned int hi : 16;       /* +0x0c */
+    unsigned int lo : 16;       /* +0x0e */
+} Hdr_82B840F8;
 
+typedef struct Entry_82B840F8 {
+    unsigned int top : 1;
+    unsigned int d : 2;
+    unsigned int e : 14;
+    unsigned int f : 15;
+    unsigned int pad0 : 11;
+    unsigned int flag : 1;
+    unsigned int pad1 : 16;
+    unsigned int g : 4;
+} Entry_82B840F8;
 
-void fn_82B840F8(int param_1, undefined8 param_2, undefined8 param_3, undefined8 param_4, uint param_5, uint param_6, uint param_7, undefined8 unused_arg_8, undefined4 in_stack_00000054, uint in_stack_0000005c)
+extern int fn_82ABDD90(int a, unsigned int b, unsigned int c, unsigned int d);
+extern void fn_82B83B68(Hdr_82B840F8 *p, int a, int b, int c, int d, int e);
 
+void fn_82B840F8(Hdr_82B840F8 *p1, int p2, int p3, int p4, unsigned int p5,
+                 unsigned int p6, unsigned int p7, int p8, int p9, int p10)
 {
-  uint uVar1;
-  int iVar2;
-  uint *puVar3;
-  ushort uVar4;
+    unsigned int v;
+    int r;
+    Entry_82B840F8 *e;
 
-
-  
-  fn_82B83B68(param_1,param_2,param_4,param_3,(int)param_3 == 0x68,in_stack_00000054);
-  uVar1 = *(uint *)(param_1 + 8);
-  iVar2 = fn_82ABDD90(param_2,uVar1 >> 7 & 0x7f,uVar1 >> 0x13 & 7,uVar1 >> 0xe & 7);
-  puVar3 = (uint *)(iVar2 + param_1 + -8);
-  *puVar3 = param_5 & 0x7fff |
-            ((in_stack_0000005c & 3) << 0xe | param_6 & 0x3fff) << 0xf | *puVar3 & 0x80000000;
-  puVar3[1] = param_7 & 0xf | puVar3[1] & 0xfffffff0 | 0x100000;
-  if (in_stack_0000005c == 1) {
-    if ((*(uint *)(param_1 + 0xc) & 0xeeee) == 0xeeee) {
-      return;
+    fn_82B83B68(p1, p2, p4, p3, p3 == 0x68, p9);
+    v = p1->bits;
+    r = fn_82ABDD90(p2, (v >> 7) & 0x7f, (v >> 19) & 7, (v >> 14) & 7);
+    e = (Entry_82B840F8 *)(r + ((char *)p1 - 8));
+    e->d = p10;
+    e->e = p6;
+    e->f = p5;
+    e->g = p7;
+    e->flag = 1;
+    switch (p10) {
+    case 1:
+        if ((p1->lo & 0xeeee) != 0xeeee)
+            p1->lo |= 0xeeee;
+        break;
+    case 2:
+        if ((p1->lo & 0x4444) != 0x4444)
+            p1->lo |= 0x4444;
+        break;
+    case 3:
+        if ((p1->lo & 0x6666) != 0x6666)
+            p1->lo |= 0x6666;
+        break;
     }
-    uVar4 = (ushort)*(uint *)(param_1 + 0xc) | 0xeeee;
-  }
-  else if (in_stack_0000005c == 2) {
-    if ((*(uint *)(param_1 + 0xc) & 0x4444) == 0x4444) {
-      return;
-    }
-    uVar4 = (ushort)*(uint *)(param_1 + 0xc) | 0x4444;
-  }
-  else {
-    if (in_stack_0000005c != 3) {
-      return;
-    }
-    if ((*(uint *)(param_1 + 0xc) & 0x6666) == 0x6666) {
-      return;
-    }
-    uVar4 = (ushort)*(uint *)(param_1 + 0xc) | 0x6666;
-  }
-  *(ushort *)(param_1 + 0xe) = uVar4;
-  return;
 }
-

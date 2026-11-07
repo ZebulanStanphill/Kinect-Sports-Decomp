@@ -1,53 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83215A40;
-extern unsigned int lbl_83215A54;
-extern unsigned int lbl_832170E0;
-extern unsigned int lbl_832172E8;
+extern int lbl_83215000[];
+extern int lbl_8315C454;
 
+void RtlEnterCriticalSection(void *cs);
+void RtlLeaveCriticalSection(void *cs);
+int KeSetEvent(void *ev, int increment, int wait);
+void ObDereferenceObject(void *obj);
 
-undefined8 fn_829D23A0(void)
+#define __sync() __emit(0x7C0004AC)
 
+int fn_829D23A0(void)
 {
-  RtlEnterCriticalSection(0xffffffff8315c454);
-  if (lbl_83215A40 == 1) {
-    lbl_83215A40 = 0;
-    lbl_832170E0 = 0;
-    sync(0);
-    KeSetEvent(0xffffffff83215a44,1,0);
-    if (lbl_83215A54 != 0) {
-      KeSetEvent(lbl_83215A54,1,0);
-      ObDereferenceObject(lbl_83215A54);
-      lbl_83215A54 = 0;
+  RtlEnterCriticalSection(&lbl_8315C454);
+  if (lbl_83215000[0x290] == 1) {
+    lbl_83215000[0x290] = 0;
+    lbl_83215000[0x838] = 0;
+    __sync();
+    KeSetEvent(&lbl_83215000[0x291], 1, 0);
+    if ((void *)lbl_83215000[0x295] != 0) {
+      KeSetEvent((void *)lbl_83215000[0x295], 1, 0);
+      ObDereferenceObject((void *)lbl_83215000[0x295]);
+      lbl_83215000[0x295] = 0;
     }
   }
-  RtlLeaveCriticalSection(0xffffffff8315c454);
-  lbl_832172E8 = 0;
+  RtlLeaveCriticalSection(&lbl_8315C454);
+  lbl_83215000[0x8ba] = 0;
   return 0;
 }
-

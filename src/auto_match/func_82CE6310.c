@@ -1,54 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
 
+void *memcpy(void *dst, const void *src, unsigned int n);
 
-void fn_82CE6310(int *param_1,undefined4 *param_2,undefined4 param_3,undefined8 param_4)
+typedef struct Buf_82CE6310 {
+    void *data;
+    int count;
+    int flags;
+} Buf_82CE6310;
 
+struct Obj_82CE6310;
+
+typedef struct Vtbl_82CE6310 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *(*alloc)(struct Obj_82CE6310 *self, U32 *cap, int size);
+    void *slot10;
+    void *(*realloc)(struct Obj_82CE6310 *self, void *data, int n, U32 *cap, int size);
+} Vtbl_82CE6310;
+
+typedef struct Obj_82CE6310 {
+    Vtbl_82CE6310 *vt;
+} Obj_82CE6310;
+
+void fn_82CE6310(Obj_82CE6310 *o, Buf_82CE6310 *b, U32 cap, int size)
 {
-  undefined4 uVar1;
-  undefined4 uStack00000024;
-  
-  uStack00000024 = param_3;
-  if ((param_2[2] & 0x80000000) == 0) {
-    uVar1 = (**(code **)(*param_1 + 0x14))
-                      (param_1,*param_2,param_2[2] & 0x3fffffff,&stack0x00000024,param_4);
-    *param_2 = uVar1;
-    param_2[2] = uStack00000024;
-  }
-  else {
-    uVar1 = (**(code **)(*param_1 + 0xc))(param_1,&stack0x00000024,param_4);
-    memcpy(uVar1,*param_2,(longlong)(int)param_2[1] * (longlong)(int)param_4);
-    *param_2 = uVar1;
-    param_2[2] = uStack00000024;
-  }
-  return;
+    void *p;
+    if ((b->flags & (int)0x80000000) == 0) {
+        int oldCap = b->flags & 0x3fffffff;
+        void *old = b->data;
+        p = o->vt->realloc(o, old, oldCap, &cap, size);
+        b->data = p;
+        b->flags = cap;
+    } else {
+        p = o->vt->alloc(o, &cap, size);
+        memcpy(p, b->data, b->count * size);
+        b->data = p;
+        b->flags = cap;
+    }
 }
-

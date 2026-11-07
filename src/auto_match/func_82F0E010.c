@@ -1,77 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831A9CD0;
+typedef struct Entry_82F0E010 {
+    unsigned int a;
+    unsigned int b;
+    char pad[0x3c0];
+} Entry_82F0E010;
 
+typedef struct Obj_82F0E010 {
+    char pad0[0x658];
+    unsigned int count;
+    char pad65C[0xdec - 0x65c];
+    Entry_82F0E010 entries[16];
+    char padEnd[0x4e4c - (0xdec + 16 * 0x3c8)];
+    int mode;
+    void *tabA;
+    void *tabB;
+    char pad4E58[0x7944 - 0x4e58];
+    int state;
+} Obj_82F0E010;
 
-void fn_82F0E010(int param_1)
+extern char lbl_831AA090[];
+extern char lbl_831A9CD0[];
+extern char lbl_831AA810[];
+extern char lbl_831AA450[];
 
+void fn_82F0E010(Obj_82F0E010 *p)
 {
-  int *piVar1;
-  uint uVar2;
-  uint uVar3;
-  int *piVar4;
-  uint uVar5;
-  
-  uVar3 = 0;
-  uVar2 = 0;
-  uVar5 = 0;
-  if (*(int *)(param_1 + 0x658) != 0) {
-    piVar4 = (int *)(param_1 + 0xa24);
-    do {
-      piVar1 = piVar4 + 0xf3;
-      uVar5 = uVar5 + 1;
-      piVar4 = piVar4 + 0xf2;
-      uVar3 = *piVar1 + uVar3;
-      uVar2 = *piVar4 + uVar2;
-    } while (uVar5 < *(uint *)(param_1 + 0x658));
-    if (uVar2 < uVar3) {
-      *(undefined4 *)(param_1 + 0x4e4c) = 1;
-      *(undefined4 *)(param_1 + 0x4e50) = 0x831aa450;
-      *(undefined4 *)(param_1 + 0x4e54) = 0x831aa810;
-      goto LAB_82f0e0a0;
-    }
-  }
-  *(undefined4 *)(param_1 + 0x4e4c) = 0;
-  *(undefined **)(param_1 + 0x4e50) = &lbl_831A9CD0;
-  *(undefined4 *)(param_1 + 0x4e54) = 0x831aa090;
-LAB_82f0e0a0:
-  if (*(int *)(param_1 + 0x7944) != 2) {
-    if (*(int *)(param_1 + 0x7944) == 0) {
-      *(undefined **)(param_1 + 0x4e50) = &lbl_831A9CD0;
-      *(undefined4 *)(param_1 + 0x4e54) = 0x831aa090;
-      *(undefined4 *)(param_1 + 0x4e4c) = 0;
-    }
-    else {
-      *(undefined4 *)(param_1 + 0x4e50) = 0x831aa450;
-      *(undefined4 *)(param_1 + 0x4e54) = 0x831aa810;
-      *(undefined4 *)(param_1 + 0x4e4c) = 1;
-    }
-  }
-  return;
-}
+    unsigned int i;
+    unsigned int sb;
+    unsigned int sa;
 
+    sb = 0;
+    sa = 0;
+    for (i = 0; i < p->count; i++) {
+        sb += p->entries[i].b;
+        sa += p->entries[i].a;
+    }
+    if (sb <= sa) {
+        p->mode = 0;
+        p->tabA = lbl_831A9CD0;
+        p->tabB = lbl_831AA090;
+    } else {
+        p->mode = 1;
+        p->tabA = lbl_831AA450;
+        p->tabB = lbl_831AA810;
+    }
+    if (p->state != 2) {
+        if (p->state == 0) {
+            p->tabA = lbl_831A9CD0;
+            p->tabB = lbl_831AA090;
+            p->mode = 0;
+        } else {
+            p->tabA = lbl_831AA450;
+            p->tabB = lbl_831AA810;
+            p->mode = 1;
+        }
+    }
+}

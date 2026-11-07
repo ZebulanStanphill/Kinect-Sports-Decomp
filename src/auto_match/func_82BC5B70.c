@@ -1,70 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82BC5B70 Node_82BC5B70;
 
+typedef struct Vtbl_82BC5B70 {
+    void *f00;
+    void *f04;
+    void *f08;
+    unsigned char (*f0C)(Node_82BC5B70 *self);
+    void *f10;
+    unsigned char (*f14)(Node_82BC5B70 *self);
+    void *f18;
+    unsigned char (*f1C)(Node_82BC5B70 *self);
+    unsigned char (*f20)(Node_82BC5B70 *self);
+} Vtbl_82BC5B70;
 
-int * fn_82BC5B70(int param_1)
+typedef struct List_82BC5B70 {
+    int f00;
+    unsigned int count;
+    Node_82BC5B70 **items;
+} List_82BC5B70;
 
+struct Node_82BC5B70 {
+    Vtbl_82BC5B70 *vt;
+    unsigned char pad04[0x34];
+    List_82BC5B70 *list;
+    unsigned char pad3C[0x98 - 0x3C];
+    Node_82BC5B70 *n98;
+    Node_82BC5B70 *n9C;
+};
+
+typedef struct Owner_82BC5B70 {
+    unsigned char pad00[0x90];
+    Node_82BC5B70 *root;
+} Owner_82BC5B70;
+
+Node_82BC5B70 *fn_82BC5B70(Owner_82BC5B70 *o)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  
-  piVar3 = *(int **)(param_1 + 0x90);
-  while( true ) {
-    if ((piVar3 == (int *)0x0) || (*(int *)(piVar3[0xe] + 4) == 0)) {
-      return piVar3;
-    }
-    cVar1 = (**(code **)(*piVar3 + 0x1c))(piVar3);
-    if (cVar1 != '\0') {
-      return piVar3;
-    }
-    cVar1 = (**(code **)(*piVar3 + 0x20))(piVar3);
-    if (cVar1 != '\0') break;
-    cVar1 = (**(code **)(*piVar3 + 0x14))(piVar3);
-    if (cVar1 == '\0') {
-      cVar1 = (**(code **)(*piVar3 + 0xc))(piVar3);
-      if (cVar1 == '\0') {
-        if (*(int *)(piVar3[0xe] + 4) == 0) {
-          puVar2 = (undefined4 *)0x0;
-        }
-        else {
-          puVar2 = *(undefined4 **)(piVar3[0xe] + 8);
-        }
-        piVar3 = (int *)*puVar2;
-      }
-      else {
-        piVar3 = (int *)piVar3[0x26];
-      }
-    }
-    else {
-      piVar3 = (int *)piVar3[0x27];
-    }
-  }
-  return piVar3;
-}
+    Node_82BC5B70 *p;
+    Node_82BC5B70 **e;
 
+    p = o->root;
+    while (p != 0 && p->list->count > 0) {
+        if (p->vt->f1C(p))
+            break;
+        if (p->vt->f20(p))
+            break;
+        if (p->vt->f14(p)) {
+            p = p->n9C;
+        } else if (p->vt->f0C(p)) {
+            p = p->n98;
+        } else {
+            e = p->list->count > 0 ? p->list->items : 0;
+            p = *e;
+        }
+    }
+    return p;
+}

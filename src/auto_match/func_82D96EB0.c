@@ -1,48 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82CE5458();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82134508;
+typedef struct Sub_82D96EB0 {
+    short a;        /* 0x94 */
+    char b;         /* 0x96 */
+    char c[1];      /* 0x97 */
+} Sub_82D96EB0;
 
+typedef struct Obj_82D96EB0 {
+    short f0;               /* 0x00 */
+    char pad02[0x8e];       /* 0x02 */
+    short f90;              /* 0x90 */
+    short pad92;            /* 0x92 */
+    Sub_82D96EB0 s;         /* 0x94 */
+    float f98;              /* 0x98 */
+} Obj_82D96EB0;
 
-undefined2 * fn_82D96EB0(undefined2 *param_1)
+extern void fn_82CE5458(void *dst, const void *src);
+extern float lbl_82002AE0;
+extern float lbl_82134508;
 
+static __forceinline void Sub_init_82D96EB0(Sub_82D96EB0 *s, float v)
 {
-  undefined4 auStack_20 [4];
-  
-  *param_1 = 2;
-  param_1[0x48] = 0xc;
-  auStack_20[0] = lbl_82002AE0;
-  param_1[0x4a] = 5;
-  *(undefined1 *)(param_1 + 0x4b) = 0;
-  fn_82CE5458((int)param_1 + 0x97,auStack_20);
-  *(undefined4 *)(param_1 + 0x4c) = lbl_82134508;
-  return param_1;
+    s->a = 5;
+    s->b = 0;
+    fn_82CE5458((char *)s + 3, &v);
 }
 
+Obj_82D96EB0 *fn_82D96EB0(Obj_82D96EB0 *param_1)
+{
+    param_1->f0 = 2;
+    param_1->f90 = 0xc;
+    Sub_init_82D96EB0(&param_1->s, lbl_82002AE0);
+    param_1->f98 = lbl_82134508;
+    return param_1;
+}

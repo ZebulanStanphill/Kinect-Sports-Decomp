@@ -1,48 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry_82A59718 {
+    char pad[0x30];
+    int key;
+} Entry_82A59718;
 
+typedef struct Node_82A59718 {
+    Entry_82A59718 *value;
+    struct Node_82A59718 *next;
+} Node_82A59718;
 
-void fn_82A59718(int param_1,int param_2)
+typedef struct Bucket_82A59718 {
+    Node_82A59718 *head;
+    int pad[9];
+} Bucket_82A59718;
 
+typedef struct Table_82A59718 {
+    int pad[8];
+    Bucket_82A59718 buckets[13];
+} Table_82A59718;
+
+Entry_82A59718 *fn_82A59718(Table_82A59718 *t, int key)
 {
-  int iVar1;
-  int *piVar2;
-  
-  piVar2 = *(int **)((param_2 % 0xd) * 0x28 + param_1 + 0x20);
-  do {
-    if (piVar2 == (int *)0x0) {
-      iVar1 = 0;
-    }
-    else {
-      iVar1 = *piVar2;
-      piVar2 = (int *)piVar2[1];
-    }
-  } while (*(int *)(iVar1 + 0x30) != param_2);
-  return;
-}
+    Node_82A59718 *n;
+    Node_82A59718 *cur;
+    Entry_82A59718 *e;
 
+    n = t->buckets[key % 13].head;
+    do {
+        cur = n;
+        if (cur != 0) {
+            n = cur->next;
+            e = cur->value;
+        } else {
+            e = 0;
+        }
+    } while (e->key != key);
+    return e;
+}

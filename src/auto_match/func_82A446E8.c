@@ -1,49 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
 typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3F6F0();
-extern int fn_82A411B8();
-extern int fn_82A412D8();
+
+extern int fn_82A3F6F0(void *p);
+extern int fn_82A411B8(void *p);
+extern int fn_82A412D8(void *p);
 extern unsigned int lbl_82089758;
 extern unsigned int lbl_82089788;
 
+typedef struct Sub_82A446E8 {
+  void *vt;             /* 0x00 (outer 0x04) */
+  int pad04;            /* 0x04 */
+  char m08[0x48];       /* 0x08 (outer 0x0c) */
+  char m50[0x38];       /* 0x50 (outer 0x54) */
+} Sub_82A446E8;
 
-void fn_82A446E8(undefined4 *param_1)
+typedef struct Obj_82A446E8 {
+  int f00;              /* 0x00 */
+  Sub_82A446E8 sub;     /* 0x04 */
+  void *vt2;            /* 0x8c */
+  int pad90;            /* 0x90 */
+  char m94[0x28];       /* 0x94 */
+  char mbc[0x28];       /* 0xbc */
+  char me4[0x10];       /* 0xe4 */
+} Obj_82A446E8;
 
+void fn_82A446E8(Obj_82A446E8 *param_1)
 {
-  param_1[1] = &lbl_82089788;
-  param_1[0x23] = &lbl_82089758;
-  *param_1 = 0;
-  fn_82A412D8(param_1 + 0x39);
-  fn_82A3F6F0(param_1 + 0x2f);
-  fn_82A411B8(param_1 + 0x25);
-  param_1[1] = 0;
-  fn_82A411B8(param_1 + 0x15);
-  fn_82A411B8(param_1 + 3);
-  return;
-}
+  Sub_82A446E8 *s;
 
+  param_1->sub.vt = &lbl_82089788;
+  param_1->vt2 = &lbl_82089758;
+  s = &param_1->sub;
+  param_1->f00 = 0;
+  fn_82A412D8(param_1->me4);
+  fn_82A3F6F0(param_1->mbc);
+  fn_82A411B8(param_1->m94);
+  param_1->sub.vt = 0;
+  fn_82A411B8(s->m50);
+  fn_82A411B8(s->m08);
+}
