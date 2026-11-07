@@ -1,56 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_82756300();
-extern int fn_827564F0();
+typedef struct Arr_82757CE8 {
+    void **data;
+    unsigned int count;
+} Arr_82757CE8;
 
+extern void fn_8267BE38(void *p);
+extern void fn_82756300(Arr_82757CE8 *a, int b);
+extern void fn_827564F0(void *p);
 
-void fn_82757CE8(int *param_1)
-
+static __forceinline void Delete_82757CE8(void *o)
 {
-  int iVar1;
-  ulonglong uVar2;
-  int iVar3;
-  
-  uVar2 = (ulonglong)(uint)param_1[1];
-  if (uVar2 != 0) {
-    iVar3 = 0;
-    do {
-      iVar1 = *(int *)(iVar3 + *param_1);
-      if ((iVar1 != 0) && (iVar1 != 0)) {
-        fn_827564F0(iVar1);
-        fn_8267BE38(iVar1);
-      }
-      uVar2 = uVar2 - 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 != 0);
-  }
-  fn_82756300(param_1,0);
-  return;
+    if (o != 0) {
+        fn_827564F0(o);
+        fn_8267BE38(o);
+    }
 }
 
+void fn_82757CE8(Arr_82757CE8 *a)
+{
+    unsigned int n;
+    unsigned int i;
+
+    n = a->count;
+    for (i = 0; i < n; i++) {
+        if (a->data[i] != 0) {
+            Delete_82757CE8(a->data[i]);
+        }
+    }
+    fn_82756300(a, 0);
+}

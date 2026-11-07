@@ -1,49 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82447518();
-extern int fn_824475E0();
+typedef struct Obj_82447580 Obj_82447580;
 
+typedef struct Vtbl_82447580 {
+    void *slots[5];
+    void (*Get)(Obj_82447580 *self, int key, void *out);
+} Vtbl_82447580;
 
-void fn_82447580(int *param_1,undefined8 param_2,undefined8 param_3)
+struct Obj_82447580 {
+    Vtbl_82447580 *vt;
+};
 
+typedef struct Buf_82447580 {
+    unsigned int w[4];
+} Buf_82447580;
+
+extern int fn_82447518(void *dst, Buf_82447580 *src);
+extern void *fn_824475E0(void *dst);
+
+void fn_82447580(Obj_82447580 *obj, int key, void *dst)
 {
-  longlong lVar1;
-  undefined1 auStack_30 [16];
-  
-  lVar1 = fn_824475E0(param_3);
-  if (lVar1 == 0) {
-    (**(code **)(*param_1 + 0x14))(param_1,param_2,auStack_30);
-    fn_82447518(param_3,auStack_30);
-  }
-  else {
-    (**(code **)(*param_1 + 0x14))(param_1,param_2);
-  }
-  return;
-}
+    Buf_82447580 tmp;
+    void *p;
 
+    p = fn_824475E0(dst);
+    if (p != 0) {
+        obj->vt->Get(obj, key, p);
+    } else {
+        obj->vt->Get(obj, key, &tmp);
+        fn_82447518(dst, &tmp);
+    }
+}

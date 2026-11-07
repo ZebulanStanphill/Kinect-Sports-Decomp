@@ -1,103 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_8263C620();
-extern int fn_8263C7D8();
-extern int fn_8263C7F0();
-extern int fn_82A98408();
-extern int fn_82F691F0();
-extern unsigned int lbl_832112F4;
-extern unsigned int lbl_832112F8;
-extern unsigned int lbl_832112FC;
-extern unsigned int uStack_64;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct LockedRect_828518B8 {
+    int Pitch;
+    void *pBits;
+} LockedRect_828518B8;
 
+typedef struct Rect_828518B8 {
+    int left;
+    int top;
+    int right;
+    int bottom;
+} Rect_828518B8;
+
+extern void *lbl_832112F4[3];
+
+extern void *fn_8263C7F0(int a, int b, int c, int d, int e, unsigned int fmt, int g, int h);
+extern int fn_8263C7D8(void *tex, int level, LockedRect_828518B8 *lr, int rect, int flags);
+extern int fn_8263C620(void *tex, int level);
+extern int fn_82A98CB8(void *bits, int pitch, int a, int b, void *src, int srcPitch,
+                       Rect_828518B8 *rect, int c);
+void *memset(void *dst, int val, unsigned int n);
 
 void fn_828518B8(void)
-
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  undefined8 *puVar3;
-  longlong lVar4;
-  struct { uint first; undefined4 second; } stack_pair_80;
+    LockedRect_828518B8 lr;
+    Rect_828518B8 rect;
+    unsigned int data[16];
+    unsigned __int64 *p;
+    int i;
 
-  undefined4 uStack_70;
-  undefined4 uStack_6c;
-  undefined4 uStack_68;
-  undefined4 uStack_64;
-  undefined1 auStack_60 [64];
-  
-  if (lbl_832112F4 == 0) {
-    uVar1 = fn_8263C7F0(4,4,1,1,0,0x18280186,1,3);
-    lbl_832112F4 = (int)uVar1;
-    fn_8263C7D8(uVar1,0,&stack_pair_80.first,0,0);
-    puVar2 = &uStack_64;
-    lVar4 = 0x10;
-    do {
-      puVar2 = puVar2 + 1;
-      *puVar2 = 0xffff00ff;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    uStack_64 = 4;
-    uStack_70 = 0;
-    uStack_6c = 0;
-    uStack_68 = 4;
-    fn_82A98408(stack_pair_80.second,
-                      (longlong)((int)stack_pair_80.first >> 2) +
-                      (ulonglong)((int)stack_pair_80.first < 0 && (stack_pair_80.first & 3) != 0),4,0,auStack_60,0x10,
-                      &uStack_70,4);
-    fn_8263C620(lbl_832112F4,0);
-    uVar1 = fn_8263C7F0(4,4,1,1,0,0x18280186,1,3);
-    lbl_832112F8 = (undefined4)uVar1;
-    fn_8263C7D8(uVar1,0,&stack_pair_80.first,0,0);
-    puVar3 = (undefined8 *)&uStack_68;
-    lVar4 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      *puVar3 = 0;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    fn_82A98408(stack_pair_80.second,
-                      (longlong)((int)stack_pair_80.first >> 2) +
-                      (ulonglong)((int)stack_pair_80.first < 0 && (stack_pair_80.first & 3) != 0),4,0,auStack_60,0x10,
-                      &uStack_70,4);
-    fn_8263C620(lbl_832112F8,0);
-    uVar1 = fn_8263C7F0(4,4,1,1,0,0x18280186,1,3);
-    lbl_832112FC = (undefined4)uVar1;
-    fn_8263C7D8(uVar1,0,&stack_pair_80.first,0,0);
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(stack_pair_80.second,0xff,stack_pair_80.first << 2);
-  }
-  return;
+    if (lbl_832112F4[0] == 0) {
+        lbl_832112F4[0] = fn_8263C7F0(4, 4, 1, 1, 0, 0x18280186, 1, 3);
+        fn_8263C7D8(lbl_832112F4[0], 0, &lr, 0, 0);
+        for (i = 0; i < 16; i++) {
+            data[i] = 0xffff00ff;
+        }
+        rect.bottom = 4;
+        rect.left = 0;
+        rect.top = 0;
+        rect.right = 4;
+        fn_82A98CB8(lr.pBits, lr.Pitch / 4, 4, 0, data, 0x10, &rect, 4);
+        fn_8263C620(lbl_832112F4[0], 0);
+
+        lbl_832112F4[1] = fn_8263C7F0(4, 4, 1, 1, 0, 0x18280186, 1, 3);
+        fn_8263C7D8(lbl_832112F4[1], 0, &lr, 0, 0);
+        p = (unsigned __int64 *)data;
+        for (i = 0; i < 8; i++) {
+            p[i] = 0;
+        }
+        fn_82A98CB8(lr.pBits, lr.Pitch / 4, 4, 0, data, 0x10, &rect, 4);
+        fn_8263C620(lbl_832112F4[1], 0);
+
+        lbl_832112F4[2] = fn_8263C7F0(4, 4, 1, 1, 0, 0x18280186, 1, 3);
+        fn_8263C7D8(lbl_832112F4[2], 0, &lr, 0, 0);
+        memset(lr.pBits, 0xff, lr.Pitch * 4);
+        fn_8263C620(lbl_832112F4[2], 0);
+    }
 }
-

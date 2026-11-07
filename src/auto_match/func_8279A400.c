@@ -32,14 +32,14 @@ extern int fn_82791FD0();
 undefined8 fn_8279A400(int param_1)
 
 {
-  int iVar1;
+  unsigned int iVar1;
   uint uVar2;
   
-  if ((*(uint *)(param_1 + 0x1c) != 0) &&
-     (iVar1 = fn_8278FDC8((ulonglong)*(uint *)(param_1 + 0x1c) + 0x14), iVar1 != 0)) {
+  if ((*(int *)(param_1 + 0x1c) != 0) &&
+     (iVar1 = fn_8278FDC8((unsigned int)*(uint *)(param_1 + 0x1c) + 0x14), iVar1 != 0)) {
     iVar1 = fn_82791FD0(param_1 + 0x4c);
-    if ((*(uint *)(*(int *)(param_1 + 0x1c) + 0x30) <=
-         (uint)(*(int *)(*(int *)(param_1 + 0x30) + 0x1c) + *(int *)(iVar1 + 4))) &&
+    if (((uint)(*(int *)(*(int *)(param_1 + 0x30) + 0x1c) + *(int *)(iVar1 + 4)) >=
+         *(uint *)(*(int *)(param_1 + 0x1c) + 0x30)) &&
        (uVar2 = fn_8278FDC8(*(int *)(param_1 + 0x1c) + 0x14),
        *(uint *)(param_1 + 0x28) < uVar2)) {
       return 1;
@@ -47,4 +47,3 @@ undefined8 fn_8279A400(int param_1)
   }
   return 0;
 }
-

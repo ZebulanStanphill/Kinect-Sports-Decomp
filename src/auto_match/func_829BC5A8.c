@@ -1,53 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829BBAA8();
-extern int fn_829BBC60();
-extern int fn_829BBE00();
+typedef struct Sub_829BC5A8 {
+    char pad0[0xc];
+    void *callback;
+    unsigned int count;
+} Sub_829BC5A8;
 
+typedef struct Obj_829BC5A8 {
+    char pad0[0x50];
+    int f50;
+    char pad54[0x4c];
+    int fA0;
+    char padA4[0x10c];
+    Sub_829BC5A8 *sub;
+} Obj_829BC5A8;
 
-void fn_829BC5A8(int param_1)
+extern int fn_829BBC60(Obj_829BC5A8 *self);
+extern void fn_829BBAA8(void);
+extern void fn_829BBE00(void);
 
+void fn_829BC5A8(Obj_829BC5A8 *self)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x1b0);
-  if (*(int *)(iVar1 + 0x10) == 0) {
-    *(undefined4 *)(param_1 + 0xa0) = 0;
-  }
-  else if ((*(int *)(param_1 + 0x50) == 0) || (iVar2 = fn_829BBC60(), iVar2 == 0)) {
-    *(code **)(iVar1 + 0xc) = fn_829BBAA8;
-    *(undefined4 *)(param_1 + 0xa0) = 0;
-  }
-  else {
-    *(code **)(iVar1 + 0xc) = fn_829BBE00;
-    *(undefined4 *)(param_1 + 0xa0) = 0;
-  }
-  return;
+    Sub_829BC5A8 *sub = self->sub;
+    if (sub->count != 0) {
+        if (self->f50 != 0 && fn_829BBC60(self) != 0)
+            sub->callback = (void *)fn_829BBE00;
+        else
+            sub->callback = (void *)fn_829BBAA8;
+    }
+    self->fA0 = 0;
 }
-

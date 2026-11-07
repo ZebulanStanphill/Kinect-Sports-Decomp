@@ -1,58 +1,33 @@
 typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
 typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
 typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_13;
-extern unsigned int uStack_14;
-extern unsigned int uStack_15;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
 
+typedef struct Desc_826C5788 {
+  undefined4 first;   /* 0x00 */
+  undefined4 second;  /* 0x04 */
+  undefined2 s8;      /* 0x08 */
+  undefined1 bA;      /* 0x0a */
+  signed char bB;     /* 0x0b */
+  undefined1 bC;      /* 0x0c */
+  undefined1 bD;      /* 0x0d */
+  undefined1 bE;      /* 0x0e */
+  undefined1 bF;      /* 0x0f */
+  undefined4 w10;     /* 0x10 */
+  undefined4 w14;     /* 0x14 */
+} Desc_826C5788;
+
+typedef void (*Fn_826C5788)(int *self, Desc_826C5788 *desc);
 
 void fn_826C5788(int *param_1)
-
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  Desc_826C5788 d;
 
-  undefined2 uStack_18;
-  undefined1 uStack_16;
-  undefined1 uStack_15;
-  undefined1 uStack_14;
-  undefined1 uStack_13;
-  
-  stack_pair_20.second = 0;
-  uStack_18 = 0;
-  uStack_16 = 0;
-  uStack_14 = 0;
-  uStack_13 = 0;
-  stack_pair_20.first = 0x80007;
-  uStack_15 = 0xff;
-  (**(code **)(*param_1 + 0x6c))(param_1,&stack_pair_20.first);
-  return;
+  d.second = 0;
+  d.s8 = 0;
+  d.bA = 0;
+  d.bC = 0;
+  d.bD = 0;
+  d.first = 0x80007;
+  d.bB = -1;
+  (*(Fn_826C5788 *)(*param_1 + 0x6c))(param_1, &d);
 }
-

@@ -1,103 +1,82 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_bc;
-extern unsigned int *auStack_c0;
-extern int fn_8265CA20();
-extern int fn_82888948();
-extern int fn_82889220();
-extern int fn_82889518();
-extern int fn_828E9D28();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_a4;
-extern unsigned int uStack_70;
-extern unsigned int uStack_9c;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_ac;
+typedef struct Value_82889760 {
+    int f0;
+    char stream[0x10];
+    int f14;
+    int f18;
+    void *first;
+    void *last;
+    void *end;
+    char pad28[0x20];
+} Value_82889760;
 
+typedef struct Pair_82889760 {
+    unsigned short key;
+    char pad2[6];
+    Value_82889760 value;
+} Pair_82889760;
 
-undefined4 * fn_82889760(int param_1,ushort *param_2)
+typedef struct Node_82889760 {
+    struct Node_82889760 *left;
+    struct Node_82889760 *parent;
+    struct Node_82889760 *right;
+    int padC;
+    Pair_82889760 pair;
+    char color;
+    char isnil;
+} Node_82889760;
 
+typedef struct Map_82889760 {
+    int alval;
+    Node_82889760 *head;
+    unsigned int size;
+} Map_82889760;
+
+extern void fn_828E9D28(void *stream, void *buf, int size);
+extern void fn_82889220(Value_82889760 *dst, Value_82889760 *src);
+extern Node_82889760 *fn_82888948(Map_82889760 *map);
+extern void fn_82889518(Node_82889760 **result, Map_82889760 *map, Node_82889760 *where, Node_82889760 *node);
+extern void fn_8265CA20(void *p);
+
+Value_82889760 *fn_82889760(Map_82889760 *map, unsigned short *key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  undefined4 *apuStack_d0 [4];
-  undefined1 auStack_c0 [4];
-  undefined1 auStack_bc [16];
-  undefined4 uStack_ac;
-  undefined4 uStack_a8;
-  int iStack_a4;
-  undefined4 uStack_a0;
-  undefined4 uStack_9c;
-  ushort uStack_70;
-  undefined1 auStack_68 [28];
-  int iStack_4c;
-  
-  puVar4 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar4[1] + 0x61) == '\0') {
-    puVar1 = (undefined4 *)puVar4[1];
-    do {
-      if (*(ushort *)(puVar1 + 4) < *param_2) {
-        puVar2 = (undefined4 *)puVar1[2];
-      }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar4 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x61) == '\0');
-  }
-  if ((puVar4 == *(undefined4 **)(param_1 + 4)) || (*param_2 < *(ushort *)(puVar4 + 4))) {
-    iStack_a4 = 0;
-    uStack_a0 = 0;
-    uStack_9c = 0;
-    uStack_ac = 0;
-    uStack_a8 = 0;
-    fn_828E9D28(auStack_bc,0,0);
-    uStack_70 = *param_2;
-    fn_82889220(auStack_68,auStack_c0);
-    iVar3 = fn_82888948(param_1);
-    if ((ushort *)(iVar3 + 0x10) != (ushort *)0x0) {
-      *(ushort *)(iVar3 + 0x10) = uStack_70;
-      fn_82889220(iVar3 + 0x18,auStack_68);
-    }
-    fn_82889518(apuStack_d0,param_1,puVar4,iVar3);
-    if (iStack_4c != 0) {
-      fn_8265CA20();
-    }
-    puVar4 = apuStack_d0[0];
-    if (iStack_a4 != 0) {
-      fn_8265CA20();
-    }
-  }
-  return puVar4 + 6;
-}
+    Node_82889760 *where = map->head;
+    Node_82889760 *node = map->head->parent;
 
+    while (!node->isnil) {
+        if (node->pair.key < *key) {
+            node = node->right;
+        } else {
+            where = node;
+            node = node->left;
+        }
+    }
+    if (where == map->head || *key < where->pair.key) {
+        Value_82889760 tmp;
+        Pair_82889760 pair;
+        Node_82889760 *result;
+        Node_82889760 *newNode;
+        Pair_82889760 *p;
+
+        tmp.first = 0;
+        tmp.last = 0;
+        tmp.end = 0;
+        tmp.f14 = 0;
+        tmp.f18 = 0;
+        fn_828E9D28(tmp.stream, 0, 0);
+        pair.key = *key;
+        fn_82889220(&pair.value, &tmp);
+        newNode = fn_82888948(map);
+        p = &newNode->pair;
+        if (p != 0) {
+            p->key = pair.key;
+            fn_82889220(&p->value, &pair.value);
+        }
+        fn_82889518(&result, map, where, newNode);
+        where = result;
+        if (pair.value.first != 0)
+            fn_8265CA20(pair.value.first);
+        if (tmp.first != 0)
+            fn_8265CA20(tmp.first);
+    }
+    return &where->pair.value;
+}

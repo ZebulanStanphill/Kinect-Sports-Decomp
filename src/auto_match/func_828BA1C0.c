@@ -1,104 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA60();
-extern int fn_82F64840();
-extern int memcpy();
+
+extern void *fn_8265CA60(unsigned int size);
+extern int fn_82F64840(U16 *dst, unsigned int dstCount, const U16 *src, unsigned int count);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
 extern unsigned int lbl_82025404;
 
+typedef struct Raw_828BA1C0 {
+    U64 lo;
+    U64 hi;
+} Raw_828BA1C0;
 
-undefined4 * fn_828BA1C0(undefined4 *param_1,undefined8 *param_2)
+typedef struct Fields_828BA1C0 {
+    U8 type;
+    U8 pad[7];
+    unsigned int count;
+    void *data;
+} Fields_828BA1C0;
 
+typedef union Value_828BA1C0 {
+    Raw_828BA1C0 raw;
+    Fields_828BA1C0 f;
+} Value_828BA1C0;
+
+typedef struct Obj_828BA1C0 {
+    void *vtbl;
+    int pad4;
+    Value_828BA1C0 val;
+    int kind;
+} Obj_828BA1C0;
+
+Obj_828BA1C0 *fn_828BA1C0(Obj_828BA1C0 *p, Value_828BA1C0 *src)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  uint uVar3;
-  
-  param_1[6] = 0;
-  *param_1 = &lbl_82025404;
-  *(undefined8 *)(param_1 + 2) = 0;
-  *(undefined8 *)(param_1 + 4) = 0;
-  *(undefined8 *)(param_1 + 2) = *param_2;
-  *(undefined8 *)(param_1 + 4) = param_2[1];
-  uVar3 = (uint)*(byte *)(param_1 + 2);
-  if (uVar3 - 1 < 7) {
-    if (uVar3 == 2) {
-      param_1[6] = 2;
-    }
-    else if (uVar3 == 3) {
-      param_1[6] = 3;
-    }
-    else if (uVar3 == 4) {
-      param_1[6] = 4;
-    }
-    else if (uVar3 == 5) {
-      param_1[6] = 5;
-    }
-    else if (uVar3 == 6) {
-      param_1[6] = 6;
-    }
-    else if (uVar3 == 1) {
-      param_1[6] = 1;
-    }
-    else {
-      param_1[6] = 7;
-    }
-  }
-  else {
-    param_1[6] = 0;
-  }
-  if (param_1[6] == 4) {
-    uVar3 = param_1[4];
-    if ((uVar3 != 0) && (*(int *)((int)param_2 + 0xc) != 0)) {
-      lVar1 = ((ulonglong)uVar3 & 0x7fffffff) << 1;
-      if (0x7fffffff < uVar3) {
-        lVar1 = -1;
-      }
-      uVar2 = fn_8265CA60(lVar1);
-      param_1[5] = (int)uVar2;
-      fn_82F64840(uVar2,(ulonglong)(uint)param_1[4],*(undefined4 *)((int)param_2 + 0xc),
-                        (ulonglong)(uint)param_1[4] - 1);
-      *(undefined2 *)(param_1[4] * 2 + param_1[5] + -2) = 0;
-      return param_1;
-    }
-  }
-  else {
-    if (param_1[6] != 6) {
-      return param_1;
-    }
-    if ((param_1[4] != 0) && (*(int *)((int)param_2 + 0xc) != 0)) {
-      uVar2 = fn_8265CA60();
-      param_1[5] = (int)uVar2;
-      memcpy(uVar2,*(undefined4 *)((int)param_2 + 0xc),param_1[4]);
-      return param_1;
-    }
-  }
-  param_1[5] = 0;
-  param_1[4] = 0;
-  return param_1;
-}
+    Value_828BA1C0 *v;
+    unsigned int n;
 
+    p->kind = 0;
+    p->vtbl = &lbl_82025404;
+    v = &p->val;
+    v->raw.lo = 0;
+    v->raw.hi = 0;
+    *v = *src;
+
+    switch (p->val.f.type) {
+    case 1: p->kind = 1; break;
+    case 2: p->kind = 2; break;
+    case 3: p->kind = 3; break;
+    case 4: p->kind = 4; break;
+    case 5: p->kind = 5; break;
+    case 6: p->kind = 6; break;
+    case 7: p->kind = 7; break;
+    default: p->kind = 0; break;
+    }
+
+    if (p->kind == 4) {
+        n = p->val.f.count;
+        if (n != 0 && src->f.data != 0) {
+            p->val.f.data = fn_8265CA60(n <= 0x7fffffff ? n * 2 : 0xffffffff);
+            fn_82F64840((U16 *)p->val.f.data, p->val.f.count, (const U16 *)src->f.data,
+                        p->val.f.count - 1);
+            ((U16 *)p->val.f.data)[p->val.f.count - 1] = 0;
+            return p;
+        }
+    } else if (p->kind == 6) {
+        n = p->val.f.count;
+        if (n != 0 && src->f.data != 0) {
+            p->val.f.data = fn_8265CA60(n);
+            memcpy(p->val.f.data, src->f.data, p->val.f.count);
+            return p;
+        }
+    } else {
+        return p;
+    }
+    p->val.f.data = 0;
+    p->val.f.count = 0;
+    return p;
+}

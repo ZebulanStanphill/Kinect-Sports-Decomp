@@ -1,55 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822315A0();
-extern int fn_8229AE10();
-extern int fn_82672C20();
-extern int fn_82A1EFC0();
-extern unsigned int iStack_1c;
+typedef struct Ptr_82293BF0 {
+    void *obj;
+    void *rep;
+} Ptr_82293BF0;
 
+typedef struct Main_82293BF0 {
+    void *movie;
+    char pad4[0xc];
+    int f10;
+    char f14[0x20];
+    char f34[0x20];
+    char f54[0x20];
+    char pad74[0x28];
+    short f9C;
+} Main_82293BF0;
 
-void fn_82293BF0(int param_1)
+typedef struct Obj_82293BF0 {
+    char pad0[0xc];
+    Main_82293BF0 *main;
+} Obj_82293BF0;
 
+extern Ptr_82293BF0 *fn_8229AE10(Ptr_82293BF0 *out, Obj_82293BF0 *o);
+extern void fn_82672C20(void *movie, const char *path, int a, int b);
+extern void fn_822315A0(void *rep);
+extern void fn_82A1EFC0(void *p, int v, int n);
+
+void fn_82293BF0(Obj_82293BF0 *o)
 {
-  undefined4 *puVar1;
-  undefined1 auStack_20 [4];
-  int iStack_1c;
-  
-  puVar1 = (undefined4 *)fn_8229AE10(auStack_20,param_1);
-  fn_82672C20(*puVar1,0xffffffff821aa7a0,0,0);
-  if (iStack_1c != 0) {
-    fn_822315A0();
-  }
-  puVar1 = *(undefined4 **)(param_1 + 0xc);
-  fn_82672C20(*puVar1,0xffffffff821ab7dc,0,0);
-  puVar1[4] = 0;
-  *(undefined2 *)(puVar1 + 0x27) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(puVar1 + 5,0,0x20);
-}
+    Ptr_82293BF0 p;
+    Main_82293BF0 *m;
 
+    fn_82672C20(fn_8229AE10(&p, o)->obj, "_root.scorecardCtrl.reset", 0, 0);
+    if (p.rep != 0) {
+        fn_822315A0(p.rep);
+    }
+    m = o->main;
+    fn_82672C20(m->movie, "_root.mainCtrl.reset", 0, 0);
+    m->f10 = 0;
+    m->f9C = 0;
+    fn_82A1EFC0(m->f14, 0, 0x20);
+    fn_82A1EFC0(m->f54, 0, 0x20);
+    fn_82A1EFC0(m->f34, 0, 0x20);
+}

@@ -1,54 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Corresponds to libjpeg jcsample.c sep_downsample (open-source IJG libjpeg). */
+typedef unsigned char JSAMPLE;
+typedef JSAMPLE *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef unsigned int JDIMENSION;
 
+typedef struct jpeg_component_info_827CF108 {
+  int component_id;
+  int component_index;
+  int h_samp_factor;
+  int v_samp_factor;
+  char pad[0x54 - 0x10];
+} jpeg_component_info_827CF108;
 
-void fn_827CF108(int param_1,uint *param_2,ulonglong param_3,int param_4,int param_5)
+typedef struct Cinfo_827CF108 Cinfo_827CF108;
 
+typedef void (*downsample1_ptr_827CF108)(Cinfo_827CF108 *cinfo,
+                                         jpeg_component_info_827CF108 *compptr,
+                                         JSAMPARRAY input_data,
+                                         JSAMPARRAY output_data);
+
+typedef struct Downsample_827CF108 {
+  void (*start_pass)(Cinfo_827CF108 *cinfo);
+  void (*downsample)(Cinfo_827CF108 *cinfo);
+  int need_context_rows;
+  downsample1_ptr_827CF108 methods[10];
+} Downsample_827CF108;
+
+struct Cinfo_827CF108 {
+  char pad0[0x3c];
+  int num_components;
+  char pad40[4];
+  jpeg_component_info_827CF108 *comp_info;
+  char pad48[0x154 - 0x48];
+  Downsample_827CF108 *downsample;
+};
+
+void fn_827CF108(Cinfo_827CF108 *cinfo,
+                 JSAMPIMAGE input_buf, JDIMENSION in_row_index,
+                 JSAMPIMAGE output_buf, JDIMENSION out_row_group_index)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 0x44);
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 0x3c)) {
-    puVar1 = (undefined4 *)(*(int *)(param_1 + 0x154) + 8);
-    param_4 = param_4 - (int)param_2;
-    do {
-      puVar1 = puVar1 + 1;
-      (*(code *)*puVar1)(param_1,iVar3,(ulonglong)*param_2 + (param_3 & 0x3fffffff) * 4,
-                         ((longlong)*(int *)(iVar3 + 0xc) * (longlong)param_5 & 0x3fffffffU) * 4 +
-                         (ulonglong)*(uint *)(param_4 + (int)param_2));
-      iVar2 = iVar2 + 1;
-      param_2 = param_2 + 1;
-      iVar3 = iVar3 + 0x54;
-    } while (iVar2 < *(int *)(param_1 + 0x3c));
-  }
-  return;
-}
+  Downsample_827CF108 *downsample = cinfo->downsample;
+  int ci;
+  jpeg_component_info_827CF108 *compptr;
+  JSAMPARRAY in_ptr, out_ptr;
 
+  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
+       ci++, compptr++) {
+    in_ptr = input_buf[ci] + in_row_index;
+    out_ptr = output_buf[ci] + (out_row_group_index * compptr->v_samp_factor);
+    (*downsample->methods[ci])(cinfo, compptr, in_ptr, out_ptr);
+  }
+}

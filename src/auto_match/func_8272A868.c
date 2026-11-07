@@ -1,69 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_82704C38();
-extern int fn_82797870();
-extern int fn_827979F8();
-extern unsigned int lbl_831E7E64;
+typedef struct Owner_8272A868 {
+    char pad[0x1c];
+    void *obj;
+} Owner_8272A868;
 
+extern void *fn_8267B890(void *heap, int size, int flags);
+extern void fn_8267C498(void *p);
+extern void *fn_82704C38(void *mem, void *heap, int a);
+extern void *fn_82797870(void *mem, void *a);
+extern void fn_827979F8(void *arg, void *obj, int a, int b);
+extern void *lbl_831E7E64;
 
-void fn_8272A868(int param_1,undefined8 param_2)
-
+void fn_8272A868(Owner_8272A868 *self, void *arg)
 {
-  undefined4 uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  undefined8 uVar4;
-  
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    fn_8267C498();
-  }
-  uVar1 = lbl_831E7E64;
-  uVar2 = fn_8267B890(lbl_831E7E64,0x50,0);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_82704C38(uVar2,uVar1,1);
-  }
-  uVar3 = fn_8267B890(uVar1,0x24,0);
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_82797870(uVar3,uVar2);
-  }
-  *(int *)(param_1 + 0x1c) = (int)uVar4;
-  fn_827979F8(param_2,uVar4,0,0xffffffffffffffff);
-  if ((uVar2 & 0xffffffff) != 0) {
-    fn_8267C498(uVar2);
-  }
-  return;
-}
+    void *heap;
+    void *mem;
+    void *a;
+    void *b;
 
+    if (self->obj != 0) {
+        fn_8267C498(self->obj);
+    }
+    heap = lbl_831E7E64;
+    mem = fn_8267B890(heap, 0x50, 0);
+    a = mem ? fn_82704C38(mem, heap, 1) : 0;
+    mem = fn_8267B890(heap, 0x24, 0);
+    b = mem ? fn_82797870(mem, a) : 0;
+    self->obj = b;
+    fn_827979F8(arg, b, 0, -1);
+    if (a != 0) {
+        fn_8267C498(a);
+    }
+}

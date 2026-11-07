@@ -1,43 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B648();
 
+typedef struct Iface_8267BAF0 Iface_8267BAF0;
 
-bool fn_8267BAF0(longlong param_1,undefined8 param_2)
+typedef struct IfaceVtbl_8267BAF0 {
+    void *slots[9];
+    int (*fn24)(Iface_8267BAF0 *self);
+} IfaceVtbl_8267BAF0;
 
+struct Iface_8267BAF0 {
+    IfaceVtbl_8267BAF0 *vt;
+};
+
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern Iface_8267BAF0 *fn_8267B648(char *self, int key);
+
+bool fn_8267BAF0(char *self, int key)
 {
-  int *piVar1;
-  int iVar2;
-  
-  RtlEnterCriticalSection(param_1 + 0x2c4);
-  piVar1 = (int *)fn_8267B648(param_1,param_2);
-  iVar2 = (**(code **)(*piVar1 + 0x24))();
-  RtlLeaveCriticalSection(param_1 + 0x2c4);
-  return iVar2 == 0;
-}
+    Iface_8267BAF0 *obj;
+    bool result;
 
+    RtlEnterCriticalSection(self + 0x2c4);
+    obj = fn_8267B648(self, key);
+    result = obj->vt->fn24(obj) == 0;
+    RtlLeaveCriticalSection(self + 0x2c4);
+    return result;
+}

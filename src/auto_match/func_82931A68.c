@@ -1,81 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829301D0();
-extern int fn_82934160();
-extern unsigned int lbl_8202F140;
+extern char lbl_8202F140[];
 
+typedef struct Node_82931A68 Node_82931A68;
+typedef struct NodeVtbl_82931A68 {
+    void *f0;
+    Node_82931A68 *(*clone)(Node_82931A68 *self);
+} NodeVtbl_82931A68;
 
-undefined4 * fn_82931A68(int param_1)
+struct Node_82931A68 {
+    NodeVtbl_82931A68 *vtbl;
+    int type;
+    int f8;
+    int fC;
+    int value;
+    Node_82931A68 *a;
+    Node_82931A68 *b;
+    Node_82931A68 *c;
+};
 
+extern void **fn_82934160(void);
+extern void *fn_829301D0(void *heap, unsigned int size, unsigned int align);
+
+static __forceinline Node_82931A68 *ctor_82931A68(Node_82931A68 *n)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  puVar1 = (undefined4 *)fn_82934160();
-  puVar1 = (undefined4 *)fn_829301D0(*puVar1,0x20,0x10);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[2] = 0;
-    puVar1[1] = 7;
-    *puVar1 = &lbl_8202F140;
-    puVar1[3] = 0;
-    puVar1[4] = 0;
-    puVar1[5] = 0;
-    puVar1[6] = 0;
-    puVar1[7] = 0;
-  }
-  if (puVar1 != (undefined4 *)0x0) {
-    puVar1[4] = *(undefined4 *)(param_1 + 0x10);
-    if (*(int **)(param_1 + 0x14) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x14) + 4))();
-      puVar1[5] = iVar2;
-      if (iVar2 == 0) {
-        return (undefined4 *)0x0;
-      }
-    }
-    if (*(int **)(param_1 + 0x18) != (int *)0x0) {
-      iVar2 = (**(code **)(**(int **)(param_1 + 0x18) + 4))();
-      puVar1[6] = iVar2;
-      if (iVar2 == 0) {
-        return (undefined4 *)0x0;
-      }
-    }
-    if (*(int **)(param_1 + 0x1c) == (int *)0x0) {
-      return puVar1;
-    }
-    iVar2 = (**(code **)(**(int **)(param_1 + 0x1c) + 4))();
-    puVar1[7] = iVar2;
-    if (iVar2 != 0) {
-      return puVar1;
-    }
-  }
-  return (undefined4 *)0x0;
+    n->type = 7;
+    n->f8 = 0;
+    n->vtbl = (NodeVtbl_82931A68 *)lbl_8202F140;
+    n->fC = 0;
+    n->value = 0;
+    n->a = 0;
+    n->b = 0;
+    n->c = 0;
+    return n;
 }
 
+Node_82931A68 *fn_82931A68(Node_82931A68 *o)
+{
+    void *mem = fn_829301D0(*fn_82934160(), 0x20, 0x10);
+    Node_82931A68 *n = mem != 0 ? ctor_82931A68((Node_82931A68 *)mem) : 0;
+
+    if (n == 0) {
+        return 0;
+    }
+    n->value = o->value;
+    if (o->a != 0 && (n->a = o->a->vtbl->clone(o->a)) == 0 ||
+        o->b != 0 && (n->b = o->b->vtbl->clone(o->b)) == 0 ||
+        o->c != 0 && (n->c = o->c->vtbl->clone(o->c)) == 0) {
+        return 0;
+    }
+    return n;
+}

@@ -1,51 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_826C6368();
+typedef struct Ref_8278CF00 {
+    int refs;
+} Ref_8278CF00;
 
+typedef struct Obj_8278CF00 {
+    char pad0[0x1c];
+    Ref_8278CF00 *ref;
+    char pad20[0xa];
+    unsigned short flags;
+} Obj_8278CF00;
 
-void fn_8278CF00(int param_1)
+extern void fn_826C6368(Ref_8278CF00 *r);
+extern void fn_8267BE38(Ref_8278CF00 *r);
 
+static __forceinline void release_8278CF00(Ref_8278CF00 **pp)
 {
-  uint *puVar1;
-  uint uVar2;
-  
-  puVar1 = *(uint **)(param_1 + 0x1c);
-  if (puVar1 != (uint *)0x0) {
-    uVar2 = *puVar1;
-    *puVar1 = (uint)((ulonglong)uVar2 - 1);
-    if ((ulonglong)uVar2 - 1 == 0) {
-      fn_826C6368(puVar1);
-      fn_8267BE38(puVar1);
+    Ref_8278CF00 *r = *pp;
+    if (r != 0) {
+        if (--r->refs == 0) {
+            fn_826C6368(r);
+            fn_8267BE38(r);
+        }
     }
-  }
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(ushort *)(param_1 + 0x2a) = *(ushort *)(param_1 + 0x2a) & 0xf7ff;
-  return;
+    *pp = 0;
 }
 
+void fn_8278CF00(Obj_8278CF00 *o)
+{
+    release_8278CF00(&o->ref);
+    o->flags &= 0xf7ff;
+}

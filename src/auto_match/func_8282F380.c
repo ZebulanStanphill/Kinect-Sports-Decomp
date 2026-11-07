@@ -1,79 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828223C8();
-extern int fn_828252D0();
-extern int fn_828252D8();
-extern int fn_8282F248();
-extern unsigned int lbl_8201ED80;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Node_8282F380 {
+    char pad[0x1c];
+    unsigned int size;
+    void *data;
+} Node_8282F380;
 
+extern void fn_828223C8(void *list, Node_8282F380 **out);
+extern void *fn_828252D0(unsigned int size);
+extern void fn_828252D8(void *p);
+extern void fn_8282F248(void *src, unsigned int srcSize, void *dst, unsigned int *size);
+extern float lbl_8201ED80;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_8282F380(longlong param_1)
-
+void fn_8282F380(char *self)
 {
-  float fVar1;
-  int iVar2;
-  undefined8 uVar3;
-  undefined4 *puVar4;
-  double dVar5;
-  int aiStack_50;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  ulonglong uStack_40;
-  ulonglong uStack_38;
-  
-  fn_828223C8(param_1 + 0x2f4,&aiStack_50);
-  if (aiStack_50 != 0) {
-    dVar5 = (double)lbl_8201ED80;
-    do {
-      iVar2 = aiStack_50;
-      uStack_40 = (ulonglong)*(uint *)(aiStack_50 + 0x1c);
-      puVar4 = (undefined4 *)(aiStack_50 + 0x1c);
-      uStack_38 = uStack_40 + 0xb & 0xffffffff;
-      fVar1 = (float)((double)uStack_40 * dVar5);
-      if ((float)((double)uStack_40 * dVar5) <= (float)uStack_38) {
-        fVar1 = (float)uStack_38;
-      }
-      uStack_44 = (undefined4)(longlong)fVar1;
-      uStack_48 = uStack_44;
-      uVar3 = fn_828252D0();
-      fn_8282F248(*(undefined4 *)(iVar2 + 0x20),*puVar4,uVar3,&uStack_48);
-      fn_828252D8(*(undefined4 *)(iVar2 + 0x20));
-      *(int *)(iVar2 + 0x20) = (int)uVar3;
-      *puVar4 = uStack_48;
-      fn_828223C8(aiStack_50,&aiStack_50);
-    } while (aiStack_50 != 0);
-  }
-  return;
-}
+    Node_8282F380 *node;
+    unsigned int size;
+    float k;
 
+    fn_828223C8(self + 0x2f4, &node);
+    if (node != 0) {
+        k = lbl_8201ED80;
+        do {
+            Node_8282F380 *n = node;
+            float a = (float)n->size * k;
+            float b = (float)(n->size + 11);
+            void *buf;
+            if (a <= b) {
+                a = b;
+            }
+            size = (unsigned int)a;
+            buf = fn_828252D0(size);
+            fn_828252D8 == 0 ? (void)0 : (void)0;
+            fn_8282F248(n->data, n->size, buf, &size);
+            fn_828252D8(n->data);
+            n->data = buf;
+            n->size = size;
+            fn_828223C8(node, &node);
+        } while (node != 0);
+    }
+}

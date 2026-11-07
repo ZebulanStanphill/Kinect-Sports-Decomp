@@ -1,80 +1,80 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_822315A0();
-extern int fn_822EFBF0();
-extern int fn_822F09C0();
-extern int fn_82396DA8();
-extern int fn_823A73C0();
-extern int fn_823AFE00();
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
+typedef __declspec(passinreg) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Ptr_822F06B0 {
+    void *first;
+    void *rep;
+} Ptr_822F06B0;
 
-undefined8 fn_822F06B0(int param_1)
+typedef struct Target_822F06B0 {
+    char pad0[0x10];
+    __vector4 pos;
+    int f20;
+    float x;
+    float y;
+    float z;
+    char pad30[0x10];
+    int f40;
+    char f44[4];
+} Target_822F06B0;
 
+typedef struct TargetPtr_822F06B0 {
+    Target_822F06B0 *first;
+    void *rep;
+} TargetPtr_822F06B0;
+
+typedef struct Info_822F06B0 {
+    char pad0[0x28];
+    int f28;
+    int f2C;
+} Info_822F06B0;
+
+typedef struct Owner_822F06B0 {
+    char pad0[0x84];
+    void *f84;
+} Owner_822F06B0;
+
+typedef struct Obj_822F06B0 {
+    char pad0[0xc];
+    Info_822F06B0 *info;
+    Owner_822F06B0 *owner;
+    char pad14[0x10];
+    void *f24;
+} Obj_822F06B0;
+
+extern int fn_82396DA8(Owner_822F06B0 *owner);
+extern Ptr_822F06B0 *fn_822EFBF0(Ptr_822F06B0 *out, void *src);
+extern TargetPtr_822F06B0 *fn_823A73C0(TargetPtr_822F06B0 *out, void *p, int a, int b);
+extern void fn_822315A0(void *rep);
+extern void fn_823AFE00(void *p, __vector4 v);
+extern int fn_822F09C0(Obj_822F06B0 *o, int a, float x, float y, float z, int b, void *c);
+
+int fn_822F06B0(Obj_822F06B0 *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  undefined8 uVar6;
-  int iStack_40;
-  int iStack_3c;
-  undefined1 auStack_38 [4];
-  int iStack_34;
-  
-  uVar6 = 0;
-  iVar1 = *(int *)(*(int *)(param_1 + 0x10) + 0x84);
-  if (iVar1 != 0) {
-    iVar4 = fn_82396DA8();
-    if (iVar4 != 0) {
-      uVar2 = *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x2c);
-      uVar3 = *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x28);
-      puVar5 = (undefined4 *)fn_822EFBF0(auStack_38,iVar1);
-      fn_823A73C0(&iStack_40,*puVar5,uVar3,uVar2);
-      if (iStack_34 != 0) {
-        fn_822315A0();
-      }
-      if (iStack_40 != 0) {
-        fn_823AFE00(*(undefined4 *)(param_1 + 0x24));
-        uVar6 = fn_822F09C0((double)*(float *)(iStack_40 + 0x24),
-                                  (double)*(float *)(iStack_40 + 0x28),
-                                  (double)*(float *)(iStack_40 + 0x2c),param_1,
-                                  *(undefined4 *)(iStack_40 + 0x20));
-      }
-      if (iStack_3c != 0) {
-        fn_822315A0();
-      }
-    }
-  }
-  return uVar6;
-}
+    int result = 0;
+    void *src = o->owner->f84;
 
+    if (src != 0 && fn_82396DA8(o->owner) != 0) {
+        int b = o->info->f2C;
+        int a = o->info->f28;
+        Ptr_822F06B0 sp;
+        TargetPtr_822F06B0 t;
+        Target_822F06B0 *e;
+
+        fn_823A73C0(&t, fn_822EFBF0(&sp, src)->first, a, b);
+        if (sp.rep != 0) {
+            fn_822315A0(sp.rep);
+        }
+        e = t.first;
+        if (e != 0) {
+            fn_823AFE00(o->f24, e->pos);
+            result = fn_822F09C0(o, e->f20, e->x, e->y, e->z, e->f40, e->f44);
+        }
+        if (t.rep != 0) {
+            fn_822315A0(t.rep);
+        }
+    }
+    return result;
+}
