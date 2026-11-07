@@ -1,59 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268B330();
-extern int fn_8268B400();
-extern int fn_826BD078();
 
+extern void fn_8268B330(int param_1);
+extern void fn_8268B400(int param_1, uint c);
+extern uint fn_826BD078(int *cursor);
 
-undefined8 fn_827558F0(undefined8 param_1,int param_2,uint param_3,uint param_4,char param_5)
-
+int fn_827558F0(int param_1, int param_2, uint param_3, uint param_4, unsigned char param_5)
 {
-  ulonglong uVar1;
-  int aiStack_40;
-  
-  fn_8268B330();
-  aiStack_40 = (*(uint *)(param_2 + 0xc) & 0xfffffffc) + 8;
-  while( true ) {
-    if (param_4 <= param_3) {
-      return param_1;
-    }
-    uVar1 = fn_826BD078(&aiStack_40);
-    if (uVar1 == 0) break;
-    if ((uVar1 & 0xffffffff) == 10) {
-      if (param_5 != '\0') {
-        fn_8268B400(param_1,10);
-      }
-    }
-    else {
-      fn_8268B400(param_1);
+  uint c;
+  int cursor;
+
+  fn_8268B330(param_1);
+  cursor = (*(uint *)(param_2 + 0xc) & 0xfffffffc) + 8;
+  for (; param_3 < param_4; ) {
+    c = fn_826BD078(&cursor);
+    if (c == 0) break;
+    if (c != 10) {
+      fn_8268B400(param_1, c);
       param_3 = param_3 + 1;
+    }
+    else if (param_5 != 0) {
+      fn_8268B400(param_1, 10);
     }
   }
   return param_1;
 }
-

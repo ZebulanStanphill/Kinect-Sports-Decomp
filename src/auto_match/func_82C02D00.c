@@ -1,44 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_18;
 
+void *memset(void *dst, int val, unsigned int size);
 
-void fn_82C02D00(int *param_1,uint param_2)
+typedef struct Msg_82C02D00 {
+    uint id;
+    uint words[6];
+} Msg_82C02D00;
 
+struct Obj_82C02D00;
+
+typedef struct Vtbl_82C02D00 {
+    void *slots[11];
+    void (*send)(struct Obj_82C02D00 *self, Msg_82C02D00 *msg);
+} Vtbl_82C02D00;
+
+typedef struct Obj_82C02D00 {
+    Vtbl_82C02D00 *vt;
+} Obj_82C02D00;
+
+void fn_82C02D00(Obj_82C02D00 *param_1, uint param_2)
 {
-  longlong alStack_30 [3];
-  undefined4 uStack_18;
-  
-  alStack_30[1] = 0;
-  alStack_30[2] = 0;
-  uStack_18 = 0;
-  alStack_30[0] = (ulonglong)param_2 << 0x20;
-  (**(code **)(*param_1 + 0x2c))(param_1,alStack_30);
-  return;
-}
+    Msg_82C02D00 msg;
 
+    memset(&msg, 0, sizeof(msg));
+    msg.id = param_2;
+    param_1->vt->send(param_1, &msg);
+}
