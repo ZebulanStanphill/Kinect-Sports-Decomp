@@ -1,81 +1,90 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *__imp__XexExecutableModuleHandle;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82A1F888();
-extern int fn_82A1F950();
-extern int fn_82A207C8();
-extern int fn_82F691F0();
-extern unsigned int lbl_8315D2EC;
-extern unsigned int lbl_83219B8C;
+typedef unsigned long ULONG;
+typedef void *PVOID;
 
+typedef struct _LDR_DATA_TABLE_ENTRY {
+    char pad[0x58];
+    PVOID XexHeaderBase;
+} LDR_DATA_TABLE_ENTRY;
 
-ulonglong fn_82A22EB8(undefined4 *param_1,undefined4 param_2)
+typedef struct Header_82A22EB8 {
+    ULONG magic;
+    ULONG version;
+    ULONG id;
+    ULONG titleVersion;
+} Header_82A22EB8;
 
+typedef struct Ops_82A22EB8 {
+    void *f0;
+    void (*close)(int handle);
+} Ops_82A22EB8;
+
+extern LDR_DATA_TABLE_ENTRY **__imp_XexExecutableModuleHandle;
+extern PVOID RtlImageXexHeaderField(PVOID XexHeaderBase, ULONG Key);
+extern void *memset(void *, int, unsigned int);
+extern void *lbl_8315D2EC;
+extern Ops_82A22EB8 *lbl_83219B8C;
+extern void *fn_8265C940(unsigned int size, void *heap);
+extern void fn_8265C990(void *p, void *heap);
+extern int fn_82A1F888(int *handle, int mode);
+extern int fn_82A1F950(int *handle, void *buf, unsigned int block);
+extern void fn_82A207C8(void *buf, unsigned int size, int a, int b);
+
+static __forceinline int getField_82A22EB8(ULONG key, ULONG **out)
 {
-  undefined4 *puVar2;
-  ulonglong uVar1;
-  int iVar3;
-  undefined4 uVar4;
-  
-  puVar2 = (undefined4 *)fn_8265C940(0x1000,lbl_8315D2EC);
-  if (puVar2 == (undefined4 *)0x0) {
-    return 0;
-  }
-  uVar1 = fn_82A1F888(param_1,1);
-  if ((uVar1 & 0xc0000000) != 0xc0000000) {
-    puVar2[2] = param_2;
-    *puVar2 = 0xfadebac4;
-    puVar2[1] = 3;
-    if ((*__imp__XexExecutableModuleHandle == 0) ||
-       (iVar3 = RtlImageXexHeaderField
-                          (*(undefined4 *)(*__imp__XexExecutableModuleHandle + 0x58),0x40006),
-       (longlong)-(ulonglong)(iVar3 == 0) < 0)) {
-      uVar4 = 0;
+    LDR_DATA_TABLE_ENTRY *mod = *__imp_XexExecutableModuleHandle;
+    ULONG *p;
+
+    if (mod == 0) {
+        return 0xc0000225;
     }
-    else {
-      uVar4 = *(undefined4 *)(iVar3 + 4);
-    }
-    puVar2[3] = uVar4;
-    uVar1 = fn_82A1F950(param_1,puVar2,0);
-    if (-1 < (longlong)uVar1) {
-      fn_82A207C8(puVar2,0x1000,0x24,1);
-      uVar1 = fn_82A1F950(param_1,puVar2,1);
-      if (-1 < (longlong)uVar1) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F691F0(puVar2,0,0x1000);
-      }
-    }
-    (**(code **)(lbl_83219B8C + 4))(*param_1);
-    *param_1 = 0xffffffff;
-  }
-  fn_8265C990(puVar2,lbl_8315D2EC);
-  return uVar1;
+    p = (ULONG *)RtlImageXexHeaderField(mod->XexHeaderBase, key);
+    *out = p;
+    return p != 0 ? 0 : 0xc0000225;
 }
 
+int fn_82A22EB8(int *handle, ULONG id)
+{
+    Header_82A22EB8 *buf;
+    int hr;
+    unsigned int i;
+
+    buf = (Header_82A22EB8 *)fn_8265C940(0x1000, lbl_8315D2EC);
+    if (buf == 0) {
+        hr = 0;
+        goto done;
+    }
+    hr = fn_82A1F888(handle, 1);
+    if (((unsigned int)hr & 0xc0000000) != 0xc0000000) {
+        ULONG *p;
+        ULONG v;
+
+        buf->id = id;
+        buf->magic = 0xfadebac4;
+        buf->version = 3;
+        if (getField_82A22EB8(0x40006, &p) >= 0) {
+            v = p[1];
+        } else {
+            v = 0;
+        }
+        buf->titleVersion = v;
+        hr = fn_82A1F950(handle, buf, 0);
+        if (hr >= 0) {
+            fn_82A207C8(buf, 0x1000, 0x24, 1);
+            hr = fn_82A1F950(handle, buf, 1);
+            if (hr >= 0) {
+                memset(buf, 0, 0x1000);
+                for (i = 1; i < 16; i++) {
+                    hr = fn_82A1F950(handle, buf, i + 1);
+                    if (hr < 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        lbl_83219B8C->close(*handle);
+        *handle = -1;
+    }
+    fn_8265C990(buf, lbl_8315D2EC);
+done:
+    return hr;
+}

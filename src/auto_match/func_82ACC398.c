@@ -1,50 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACBB48();
-extern int fn_82F691F0();
-
-
-void fn_82ACC398(undefined4 *param_1,undefined4 param_2)
-
+typedef struct { unsigned int count; unsigned int words[1]; } BitData_82ACC398;
+typedef struct { unsigned int bits; } BitSet_82ACC398;
+typedef struct { int owner; BitSet_82ACC398 set; } Obj_82ACC398;
+extern void fn_82ACBB48(BitSet_82ACC398 *s, int n);
+extern void *memset(void *, int, unsigned int);
+static __forceinline void BitSetClear(BitSet_82ACC398 *s)
 {
-  int *piVar1;
-  uint *puVar2;
-  
-  *param_1 = param_2;
-  puVar2 = param_1 + 1;
-  param_1[1] = 1;
-  fn_82ACBB48(puVar2,0x100);
-  piVar1 = (int *)*puVar2;
-  if ((~(uint)piVar1 & 1) == 0) {
-    *puVar2 = 1;
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(piVar1 + 1,0,*piVar1 << 2);
+    if ((~s->bits & 1) == 0) {
+        s->bits = 1;
+    } else {
+        BitData_82ACC398 *d = (BitData_82ACC398 *)s->bits;
+        memset(d->words, 0, d->count * 4);
+    }
 }
-
+void fn_82ACC398(Obj_82ACC398 *o, int owner)
+{
+    o->owner = owner;
+    o->set.bits = 1;
+    fn_82ACBB48(&o->set, 0x100);
+    BitSetClear(&o->set);
+}

@@ -1,68 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC8910();
-extern int fn_82ACA998();
-extern int fn_82ACB390();
-extern int fn_82ACC490();
+typedef struct Key_82ACCAC0 {
+    unsigned a : 20;
+    unsigned b : 8;
+    unsigned c : 4;
+} Key_82ACCAC0;
 
+typedef struct Node_82ACCAC0 {
+    unsigned flags;
+    int pad4;
+    struct Node_82ACCAC0 *next;
+} Node_82ACCAC0;
 
-void fn_82ACCAC0(int param_1,int param_2,undefined8 param_3)
+typedef struct Entry_82ACCAC0 {
+    int pad0;
+    Node_82ACCAC0 *first;
+} Entry_82ACCAC0;
 
+extern unsigned int fn_82AC8910(void *set, unsigned int start, int limit);
+extern unsigned int fn_82ACA998(void *self, void *other, Entry_82ACCAC0 *e);
+extern void fn_82ACC490(void *out, Key_82ACCAC0 key);
+extern void fn_82ACB390(void *out, Key_82ACCAC0 key, Entry_82ACCAC0 *e);
+
+static __forceinline int notNull_82ACCAC0(Node_82ACCAC0 *p)
 {
-  uint *puVar1;
-  int iVar2;
-  uint uVar4;
-  ulonglong uVar3;
-  uint uVar5;
-  
-  if ((*(int *)(param_2 + 0x58) != 0) &&
-     (uVar4 = fn_82AC8910(*(int *)(param_2 + 0x58),0,*(undefined4 *)(param_1 + 0x2a0)),
-     uVar4 <= *(int *)(param_1 + 0x29c) - 1U)) {
-    do {
-      iVar2 = *(int *)(uVar4 * 4 + *(int *)(param_1 + 0x2c4));
-      for (puVar1 = *(uint **)(iVar2 + 4); (puVar1 != (uint *)0x0 && ((*puVar1 & 0xe000000) == 0));
-          puVar1 = (uint *)puVar1[2]) {
-      }
-      uVar5 = *puVar1;
-      uVar3 = fn_82ACA998(param_1,param_2,iVar2);
-      uVar3 = (ulonglong)(uVar5 >> 0xd) & 0xff0 | uVar3 & 0xffffffff0000000f;
-      fn_82ACC490(param_3,uVar3);
-      fn_82ACB390(param_3,uVar3,iVar2);
-      uVar5 = *(int *)(param_1 + 0x29c) - 1;
-      if (uVar4 == uVar5) {
-        uVar4 = 0xffffffff;
-      }
-      else {
-        uVar4 = fn_82AC8910(*(undefined4 *)(param_2 + 0x58),uVar4 + 1,
-                             *(undefined4 *)(param_1 + 0x2a0));
-      }
-    } while (uVar4 <= uVar5);
-  }
-  return;
+    if (p != 0)
+        return 1;
+    return 0;
 }
 
+void fn_82ACCAC0(char *self, char *other, void *out)
+{
+    unsigned int idx;
+    unsigned int last;
+    Entry_82ACCAC0 *e;
+    Node_82ACCAC0 *n;
+    Key_82ACCAC0 key;
+
+    if (*(void **)(other + 0x58) != 0) {
+        idx = fn_82AC8910(*(void **)(other + 0x58), 0, *(int *)(self + 0x2a0));
+        if (idx <= *(unsigned int *)(self + 0x29c) - 1) {
+            do {
+                e = (*(Entry_82ACCAC0 ***)(self + 0x2c4))[idx];
+                n = e->first;
+                while (notNull_82ACCAC0(n)) {
+                    if ((n->flags & 0xe000000) != 0)
+                        break;
+                    n = n->next;
+                }
+                key.b = n->flags >> 17;
+                key.a = 0;
+                key.c = fn_82ACA998(self, other, e);
+                fn_82ACC490(out, key);
+                fn_82ACB390(out, key, e);
+                last = *(unsigned int *)(self + 0x29c) - 1;
+                if (idx == last) {
+                    idx = 0xffffffff;
+                } else {
+                    idx = fn_82AC8910(*(void **)(other + 0x58), idx + 1,
+                                      *(int *)(self + 0x2a0));
+                }
+            } while (idx <= last);
+        }
+    }
+}

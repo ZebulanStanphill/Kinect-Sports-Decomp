@@ -1,56 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8316FF50;
+typedef struct Entry_82BD3128 {
+  unsigned int pad : 28;
+  unsigned int b3 : 1;
+  unsigned int b2 : 1;
+  unsigned int b1 : 1;
+  unsigned int b0 : 1;
+  int rest[12];
+} Entry_82BD3128;
 
+typedef struct Obj_82BD3128 {
+  int pad0[6];
+  int index;              /* 0x18 */
+  int pad1[(0xe4 - 0x1c) / 4];
+  unsigned int fpad : 30; /* 0xe4 */
+  unsigned int flag : 1;
+  unsigned int flow : 1;
+} Obj_82BD3128;
 
-void fn_82BD3128(int param_1,int param_2)
+typedef struct Counters_82BD3128 {
+  int pad0[4];
+  int c10; /* 0x10 */
+  int c14; /* 0x14 */
+  int c18; /* 0x18 */
+} Counters_82BD3128;
 
+extern Entry_82BD3128 lbl_8316FF50[];
+
+void fn_82BD3128(Counters_82BD3128 *param_1, Obj_82BD3128 *param_2)
 {
-  uint uVar1;
-  
-  if ((*(uint *)(param_2 + 0xe4) >> 1 & 1) == 0) {
-    uVar1 = *(uint *)(&lbl_8316FF50 + *(int *)(param_2 + 0x18) * 0x34) >> 3 & 1;
+  unsigned char v;
+  Entry_82BD3128 *e;
+
+  if ((unsigned char)param_2->flag) {
+    v = 0;
   }
   else {
-    uVar1 = 0;
+    v = (unsigned char)lbl_8316FF50[param_2->index].b3;
   }
-  if (uVar1 == 0) {
-    *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
+  if (v == 0) {
+    param_1->c18++;
     return;
   }
-  if ((*(uint *)(&lbl_8316FF50 + *(int *)(param_2 + 0x18) * 0x34) >> 2 & 1) != 0) {
-    *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 1;
+  e = &lbl_8316FF50[param_2->index];
+  if ((unsigned char)e->b2) {
+    param_1->c14++;
     return;
   }
-  if ((*(uint *)(&lbl_8316FF50 + *(int *)(param_2 + 0x18) * 0x34) >> 1 & 1) == 0) {
-    return;
+  if ((unsigned char)e->b1) {
+    param_1->c10++;
   }
-  *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + 1;
-  return;
 }
-

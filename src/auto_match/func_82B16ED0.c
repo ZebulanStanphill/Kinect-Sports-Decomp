@@ -1,51 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82B16ED0 {
+    int pad0[2];
+    unsigned int flags;      /* 0x08 */
+    unsigned short pad0c;    /* 0x0c */
+    unsigned short nibbles;  /* 0x0e */
+    int pad10;               /* 0x10 */
+    unsigned int bits;       /* 0x14 */
+} Obj_82B16ED0;
 
+typedef struct Inner_82B16ED0 {
+    int pad[10];
+    unsigned int hi : 17;    /* 0x28 */
+    unsigned int bit14 : 1;
+    unsigned int lo : 14;
+} Inner_82B16ED0;
 
-uint fn_82B16ED0(uint param_1,uint param_2)
+typedef struct Mid_82B16ED0 {
+    int pad[37];
+    Inner_82B16ED0 *inner;   /* 0x94 */
+} Mid_82B16ED0;
 
+typedef struct Page_82B16ED0 {
+    Mid_82B16ED0 *mid;       /* 0x00 */
+} Page_82B16ED0;
+
+unsigned int fn_82B16ED0(Obj_82B16ED0 *o, unsigned int i)
 {
-  ushort uVar1;
-  
-  if ((*(uint *)(param_1 + 8) & 0x3f80) == 16000) {
-    if (((~(ulonglong)*(uint *)(*(int *)(*(int *)(param_1 & 0xfffff000) + 0x94) + 0x28) & 0xffffffff
-         ) >> 0xe & 1) == 0) {
-      return 0;
-    }
-    return (*(uint *)(param_1 + 0x14) >> 2 & 0xff) >> ((param_2 & 0x1f) << 1) & 3;
-  }
-  if ((*(uint *)(param_1 + 8) & 0x1000000) != 0) {
-    return 0;
-  }
-  uVar1 = *(ushort *)(param_1 + 0xe) >> ((param_2 & 0xf) << 2);
-  if ((uVar1 & 4) == 0) {
-    return 0;
-  }
-  return ((uVar1 & 2) == 0 ^ 1) + 1;
-}
+    unsigned int v;
+    unsigned int r;
 
+    if ((o->flags & 0x3f80) == 16000) {
+        Page_82B16ED0 *pg = (Page_82B16ED0 *)((unsigned int)o & 0xfffff000);
+        if ((unsigned char)!pg->mid->inner->bit14 == 0) {
+            return 0;
+        }
+        return ((o->bits >> 2) & 0xff) >> (i * 2) & 3;
+    }
+    r = 0;
+    if ((o->flags & 0x1000000) == 0) {
+        v = (o->nibbles >> (unsigned short)(i * 4)) & 0xf;
+        if ((v & 4) != 0) {
+            r = (v & 2) ? 2 : 1;
+        }
+    }
+    return r;
+}

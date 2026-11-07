@@ -1,63 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE8D50();
-extern int fn_82BF6AB8();
-extern int fn_82BFAAE8();
-extern int fn_82BFABD8();
-extern int fn_82BFABE0();
-extern int fn_82BFAED0();
+extern void *fn_82BE56B0(unsigned int size);
+extern void *fn_82BFAED0(void *mem, void *arg);
+extern void fn_82BFABD8(void *lock, const char *name);
+extern void fn_82BFABE0(void *lock, const char *name);
+extern int fn_82BF6AB8(void *list, void *cmd);
+extern void fn_82BE8D50(void *cmd);
+extern void fn_82BFAAE8(void *ev, int v);
 
-
-undefined8 fn_82BF3D78(longlong param_1,ulonglong param_2)
-
+int fn_82BF3D78(char *self, void *arg)
 {
-  ulonglong uVar1;
-  int iVar2;
-  
-  if ((param_2 & 0xffffffff) != 0) {
-    uVar1 = thunk_FUN_82be5550(0x14);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = fn_82BFAED0(uVar1,param_2);
-    }
-    if ((uVar1 & 0xffffffff) != 0) {
-      fn_82BFABD8(param_1 + 0x2c,0xffffffff820eb7a4);
-      iVar2 = fn_82BF6AB8(param_1 + 0x18,uVar1);
-      fn_82BFABE0(param_1 + 0x2c,0xffffffff820eb7a4);
-      if (iVar2 != 0) {
-        fn_82BE8D50(uVar1);
-        fn_82BFAAE8(param_1 + 0x58,1);
-        return 1;
-      }
-    }
-  }
-  return 0;
-}
+    void *mem;
+    void *cmd;
+    const char *name;
+    int r;
 
+    if (arg != 0) {
+        mem = fn_82BE56B0(0x14);
+        if (mem != 0)
+            cmd = fn_82BFAED0(mem, arg);
+        else
+            cmd = 0;
+        if (cmd != 0) {
+            name = "CFileAsyncWorker::AddCommandInternal";
+            fn_82BFABD8(self + 0x2c, name);
+            r = fn_82BF6AB8(self + 0x18, cmd);
+            fn_82BFABE0(self + 0x2c, name);
+            if (r != 0) {
+                fn_82BE8D50(cmd);
+                fn_82BFAAE8(self + 0x58, 1);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

@@ -1,55 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F64840();
-extern int fn_82F64CE0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC978;
+extern void *lbl_831BC978;
+extern void fn_82FA5190(void *heap, void *p);
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern int fn_82F64840(unsigned short *dst, unsigned int dstCount,
+                       const unsigned short *src, unsigned int count);
 
-
-undefined8 fn_830501E8(int param_1,ulonglong param_2)
-
+int fn_830501E8(char *param_1, const unsigned short *param_2)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  
-  if (*(int *)(param_1 + -0x14) != 0) {
-    fn_82FA5190(lbl_831BC978);
-  }
-  if ((param_2 & 0xffffffff) != 0) {
-    lVar1 = fn_82F64CE0(param_2);
-    uVar2 = fn_82FA5060(lbl_831BC978,(lVar1 + 1U & 0x7fffffff) << 1);
-    *(int *)(param_1 + -0x14) = (int)uVar2;
-    if ((uVar2 & 0xffffffff) == 0) {
-      return 0x34;
-    }
-    fn_82F64840(uVar2,lVar1 + 1U,param_2,lVar1);
-  }
-  return 1;
-}
+    unsigned int n;
+    unsigned short *buf;
 
+    if (*(void **)(param_1 - 0x14) != 0) {
+        fn_82FA5190(lbl_831BC978, *(void **)(param_1 - 0x14));
+    }
+    if (param_2 != 0) {
+        n = fn_82F64CE0(param_2) + 1;
+        buf = (unsigned short *)fn_82FA5060(lbl_831BC978, n * 2);
+        *(unsigned short **)(param_1 - 0x14) = buf;
+        if (buf == 0) {
+            return 0x34;
+        }
+        fn_82F64840(buf, n, param_2, n - 1);
+    }
+    return 1;
+}

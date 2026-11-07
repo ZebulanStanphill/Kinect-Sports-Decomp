@@ -1,60 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A30780();
-extern int fn_82A30A08();
+typedef struct State_82A31CB8 {
+    unsigned char pad0[0x18];
+    unsigned int value;         /* 0x18 */
+    unsigned char pad1c[0x35 - 0x1C];
+    unsigned char flags;        /* 0x35 */
+} State_82A31CB8;
 
+extern int fn_82A30780(void *ctx, State_82A31CB8 *s);
+extern int fn_82A30A08(void *ctx, State_82A31CB8 *s, unsigned int value, int flag);
 
-undefined8 fn_82A31CB8(undefined8 param_1,int param_2,int *param_3)
-
+int fn_82A31CB8(void *ctx, State_82A31CB8 *s, int *req)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  
-  if (*param_3 == 0) {
-    uVar1 = param_3[1];
-    uVar2 = *(uint *)(param_2 + 0x18);
-    if (uVar1 != uVar2) {
-      uVar3 = fn_82A30780(param_1,param_2);
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      if ((uVar2 < uVar1) && (uVar3 = fn_82A30A08(param_1,param_2,uVar1,1), (int)uVar3 < 0)) {
-        return uVar3;
-      }
-      *(uint *)(param_2 + 0x18) = uVar1;
-      *(byte *)(param_2 + 0x35) = *(byte *)(param_2 + 0x35) | 0x10;
-    }
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = 0xffffffffc000007f;
-  }
-  return uVar3;
-}
+    unsigned int newValue;
+    unsigned int oldValue;
+    int hr;
 
+    if (req[0] != 0) {
+        return (int)0xC000007F;
+    }
+    newValue = (unsigned int)req[1];
+    oldValue = s->value;
+    if (newValue != oldValue) {
+        hr = fn_82A30780(ctx, s);
+        if (hr < 0) {
+            return hr;
+        }
+        if (newValue > oldValue) {
+            hr = fn_82A30A08(ctx, s, newValue, 1);
+            if (hr < 0) {
+                return hr;
+            }
+        }
+        s->value = newValue;
+        s->flags |= 0x10;
+    }
+    return 0;
+}

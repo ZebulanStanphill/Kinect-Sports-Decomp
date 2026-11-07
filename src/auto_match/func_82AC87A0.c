@@ -1,76 +1,86 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC86B0();
 
+extern int fn_82AC86B0(int *p);
 
-undefined8 fn_82AC87A0(int param_1,int *param_2)
+typedef struct Obj_82AC87A0 {
+    int f0;
+    int f4;
+    uint f8;
+} Obj_82AC87A0;
 
+typedef struct Node_82AC87A0 {
+    uint flags;
+    struct Node_82AC87A0 *next;
+    int f8;
+    Obj_82AC87A0 *obj;
+} Node_82AC87A0;
+
+typedef struct Ctx_82AC87A0 {
+    char pad0[0x28];
+    int f28;
+    int f2c;
+    uint f30;
+} Ctx_82AC87A0;
+
+typedef struct Item_82AC87A0 {
+    Node_82AC87A0 *head;
+    int f4;
+    uint f8;
+} Item_82AC87A0;
+
+static __forceinline bool isRangeA(uint k)
 {
-  uint *puVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  bool bVar5;
-  
-  uVar2 = (uint)param_2[2] >> 7 & 0x7f;
-  if ((uVar2 < 0x5b) || (bVar5 = true, 0x5e < uVar2)) {
-    bVar5 = false;
-  }
-  if ((bVar5) || (bVar5 = false, uVar2 == 0x7b)) {
-    bVar5 = true;
-  }
-  if ((!bVar5) &&
-     ((((iVar4 = fn_82AC86B0(param_2), iVar4 == 0 || (iVar4 == 4)) ||
-       (*(int *)(param_1 + 0x28) == 0)) || (*(int *)(param_1 + 0x28) == iVar4)))) {
-    if (iVar4 != 2) {
-      return 0;
-    }
-    puVar1 = (uint *)*param_2;
-    do {
-      if (puVar1 == (uint *)0x0) {
-        return 0;
-      }
-      uVar2 = *puVar1;
-      if (((uVar2 & 0x40000000) == 0) || (bVar5 = true, (uVar2 & 0xe000000) != 0)) {
-        bVar5 = false;
-      }
-      if (bVar5) {
-        uVar3 = *(uint *)(puVar1[3] + 8) >> 7 & 0x7f;
-        if ((uVar3 < 0x60) || (bVar5 = true, 0x66 < uVar3)) {
-          bVar5 = false;
-        }
-        if ((bVar5) && ((1 << (uVar2 >> 0xd & 0x3f) & *(uint *)(param_1 + 0x30)) != 0)) {
-          return 1;
-        }
-      }
-      puVar1 = (uint *)puVar1[1];
-    } while( true );
-  }
-  return 1;
+    return k >= 0x5b && k <= 0x5e;
 }
 
+static __forceinline bool isKindA(uint k)
+{
+    return isRangeA(k) || k == 0x7b;
+}
+
+static __forceinline bool isNodeFlag(uint w)
+{
+    return (w & 0x40000000) != 0 && (w & 0x0e000000) == 0;
+}
+
+static __forceinline bool isRangeB(uint k)
+{
+    return k >= 0x60 && k <= 0x66;
+}
+
+static __forceinline int notNull(Node_82AC87A0 *n)
+{
+    if (n)
+        return 1;
+    return 0;
+}
+
+int fn_82AC87A0(Ctx_82AC87A0 *ctx, Item_82AC87A0 *item)
+{
+    int result = 0;
+    uint k = (item->f8 >> 7) & 0x7f;
+    int t;
+    Node_82AC87A0 *n;
+
+    if (isKindA(k)) {
+        result = 1;
+    } else {
+        t = fn_82AC86B0((int *)item);
+        if (t != 0 && t != 4 && ctx->f28 != 0 && ctx->f28 != t) {
+            result = 1;
+        } else if (t == 2) {
+            n = item->head;
+            while (notNull(n)) {
+                uint w = n->flags;
+                if (isNodeFlag(w) && isRangeB((n->obj->f8 >> 7) & 0x7f) &&
+                    ((1 << ((w >> 13) & 0xfff)) & ctx->f30) != 0) {
+                    result = 1;
+                    break;
+                }
+                n = n->next;
+            }
+        }
+    }
+    return result;
+}

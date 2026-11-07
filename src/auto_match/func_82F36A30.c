@@ -1,64 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F35400();
-extern int fn_82F35498();
+typedef struct Obj_82F36A30 Obj_82F36A30;
 
+typedef struct ObjVt_82F36A30 {
+    void *slot0;
+    void *slot1;
+    void (*Release)(Obj_82F36A30 *self);
+} ObjVt_82F36A30;
 
-undefined8 fn_82F36A30(int param_1,ulonglong param_2)
+struct Obj_82F36A30 {
+    ObjVt_82F36A30 *vt;
+};
 
+typedef struct Sub_82F36A30 {
+    char pad0[0x68];
+    unsigned int count;
+} Sub_82F36A30;
+
+typedef struct Main_82F36A30 {
+    char pad0[0xc];
+    void *p0c;
+    char pad1[0x5c - 0x10];
+    Sub_82F36A30 sub;
+    char pad2[0x13c - 0xc8];
+    int x13c;
+} Main_82F36A30;
+
+extern int fn_82F35400(Sub_82F36A30 *s, unsigned int idx, Obj_82F36A30 ***out);
+extern int fn_82F35498(Sub_82F36A30 *s, unsigned int idx);
+
+static __forceinline int RemoveRange_82F36A30(Sub_82F36A30 *s, unsigned int idx, unsigned int n)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int *apiStack_30 [12];
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if ((param_2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0xc4)) {
-    iVar2 = param_1 + 0x5c;
-    fn_82F35400(iVar2,param_2,apiStack_30);
-    if (*apiStack_30[0] != 0) {
-      fn_82F35400(iVar2,param_2,apiStack_30);
-      (**(code **)(*(int *)*apiStack_30[0] + 8))();
+    unsigned int i;
+    int hr;
+
+    if (idx + n > s->count) {
+        return 0;
     }
-    if (((ulonglong)*(uint *)(param_1 + 0xc4) < (param_2 + 1 & 0xffffffff)) ||
-       (iVar2 = fn_82F35498(iVar2,param_2), iVar2 < 0)) {
-      uVar1 = 0xffffffff8000ffff;
+    for (i = 0; i < n; i++) {
+        hr = fn_82F35498(s, idx);
+        if (hr < 0) {
+            break;
+        }
+        s->count--;
     }
-    else {
-      *(int *)(param_1 + 0xc4) = *(int *)(param_1 + 0xc4) + -1;
-      uVar1 = 0;
-      *(int *)(param_1 + 0x13c) = *(int *)(param_1 + 0x13c) + -1;
-    }
-  }
-  else {
-    uVar1 = 0xffffffff80070057;
-  }
-  return uVar1;
+    return hr >= 0;
 }
 
+int fn_82F36A30(Main_82F36A30 *p, unsigned int idx)
+{
+    int result;
+    Sub_82F36A30 *s;
+    Obj_82F36A30 **slot;
+
+    if (p->p0c == 0) {
+        result = (int)0xC00D36B6;
+    }
+    else if (idx >= p->sub.count) {
+        result = (int)0x80070057;
+    }
+    else {
+        s = &p->sub;
+        fn_82F35400(s, idx, &slot);
+        if (*slot != 0) {
+            fn_82F35400(s, idx, &slot);
+            (*slot)->vt->Release(*slot);
+        }
+        if (!RemoveRange_82F36A30(s, idx, 1)) {
+            result = (int)0x8000FFFF;
+        }
+        else {
+            p->x13c--;
+            result = 0;
+        }
+    }
+    return result;
+}

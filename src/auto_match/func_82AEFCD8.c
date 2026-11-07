@@ -1,85 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Flags_82AEFCD8 {
+    unsigned int pad0 : 1;
+    unsigned int hi : 1;
+    unsigned int pad1 : 2;
+    unsigned int cnt : 3;
+    unsigned int pad2 : 12;
+    unsigned int sel : 8;
+    unsigned int pad3 : 5;
+} Flags_82AEFCD8;
 
+typedef struct Node_82AEFCD8 {
+    Flags_82AEFCD8 f;
+    unsigned int unk4;
+    struct Node_82AEFCD8 *next;
+} Node_82AEFCD8;
 
-void fn_82AEFCD8(int param_1)
+typedef struct Bits_82AEFCD8 {
+    unsigned int pad0 : 15;
+    unsigned int lookup : 3;
+    unsigned int pad1 : 9;
+    unsigned int count : 4;
+    unsigned int pad2 : 1;
+} Bits_82AEFCD8;
 
+typedef struct Owner_82AEFCD8 {
+    unsigned int unk0;
+    Node_82AEFCD8 *head;
+    Bits_82AEFCD8 bits;
+} Owner_82AEFCD8;
+
+static __forceinline int notNull_82AEFCD8(Node_82AEFCD8 *p)
 {
-  uint *puVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar10;
-  ulonglong uVar9;
-  
-  puVar1 = *(uint **)(param_1 + 4);
-  uVar6 = 0;
-  do {
-    if (puVar1 == (uint *)0x0) {
-      uVar9 = 0;
-      if (uVar6 != 0) {
-        uVar9 = (ulonglong)(uint)(1 << (0x20U - (int)LZCOUNT(uVar6) & 0x3f)) - 1;
-      }
-      *(uint *)(param_1 + 8) =
-           (uint)((((0x8da691691448U >> (uVar9 & 0x7f)) >> (uVar9 & 0x7f)) >> (uVar9 & 0x7f) & 7) <<
-                 0xe) |
-           (uint)((uVar9 & 0xffff1fff) << 1) & 0x1e | *(uint *)(param_1 + 8) & 0xfffe3fe1;
-      return;
-    }
-    uVar2 = *puVar1;
-    if ((uVar2 & 0x40000000) == 0) {
-      bVar4 = false;
-      if ((uVar2 & 0xe000000) != 0) goto LAB_82aefd08;
-    }
-    else {
-LAB_82aefd08:
-      bVar4 = true;
-    }
-    if (bVar4) {
-      uVar5 = uVar2 >> 0x19 & 7;
-      uVar7 = 0;
-      uVar10 = 0;
-      if (uVar5 != 0) {
-        uVar8 = 0;
-        do {
-          uVar10 = uVar10 + 1;
-          uVar3 = uVar8 & 0x3f;
-          uVar8 = uVar8 + 2;
-          uVar7 = 1 << ((uVar2 >> 5 & 0xff) >> uVar3 & 3) | uVar7;
-        } while (uVar10 < uVar5);
-      }
-      uVar6 = uVar7 | uVar6;
-    }
-    puVar1 = (uint *)puVar1[2];
-  } while( true );
+    if (p)
+        return 1;
+    return 0;
 }
 
+void fn_82AEFCD8(Owner_82AEFCD8 *o)
+{
+    Node_82AEFCD8 *p;
+    unsigned int acc;
+    unsigned int n;
+
+    p = o->head;
+    acc = 0;
+    while (notNull_82AEFCD8(p)) {
+        unsigned char active = p->f.hi || p->f.cnt;
+        if (active) {
+            unsigned int mask = 0;
+            unsigned int i = 0;
+            if (p->f.cnt != 0) {
+                unsigned int shift = 0;
+                do {
+                    i++;
+                    mask |= 1 << ((p->f.sel >> shift) & 3);
+                    shift += 2;
+                } while (i < p->f.cnt);
+            }
+            acc |= mask;
+        }
+        p = p->next;
+    }
+
+    n = 0;
+    if (acc != 0) {
+        n = (1 << (32 - _CountLeadingZeros(acc))) - 1;
+    }
+    o->bits.lookup = (unsigned int)(((0x8DA691691448ULL >> n) >> n) >> n);
+    o->bits.count = n;
+}

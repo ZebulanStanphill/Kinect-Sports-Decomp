@@ -1,53 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E3BE78();
+typedef struct Node_82E3C770 {
+    int value;
+    struct Node_82E3C770 *next;
+} Node_82E3C770;
 
+typedef struct Queue_82E3C770 {
+    int unk0;
+    char pool[0x58];
+    Node_82E3C770 *head;
+    Node_82E3C770 *tail;
+    int count;
+} Queue_82E3C770;
 
-undefined8 fn_82E3C770(int param_1,undefined4 *param_2)
+extern int fn_82E3BE78(void *pool, Node_82E3C770 **out);
 
+int fn_82E3C770(Queue_82E3C770 *q, int *value)
 {
-  undefined8 uVar1;
-  undefined4 *apuStack_20 [2];
-  
-  uVar1 = fn_82E3BE78(param_1 + 4,apuStack_20);
-  if (-1 < (int)uVar1) {
-    apuStack_20[0][1] = 0;
-    *apuStack_20[0] = *param_2;
-    if (*(int *)(param_1 + 0x60) == 0) {
-      *(undefined4 **)(param_1 + 0x5c) = apuStack_20[0];
-    }
-    else {
-      *(undefined4 **)(*(int *)(param_1 + 0x60) + 4) = apuStack_20[0];
-    }
-    uVar1 = 0;
-    *(undefined4 **)(param_1 + 0x60) = apuStack_20[0];
-    *(int *)(param_1 + 100) = *(int *)(param_1 + 100) + 1;
-  }
-  return uVar1;
+    Node_82E3C770 *n;
+    Node_82E3C770 *node;
+    int hr = fn_82E3BE78(q->pool, &n);
+    if (hr < 0)
+        return hr;
+    node = n;
+    node->next = 0;
+    node->value = *value;
+    if (q->tail != 0)
+        q->tail->next = node;
+    else
+        q->head = node;
+    q->tail = node;
+    q->count++;
+    return 0;
 }
-

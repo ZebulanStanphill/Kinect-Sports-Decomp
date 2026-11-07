@@ -1,70 +1,69 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAF408();
+typedef struct Pair_830036C8 {
+    unsigned int key;
+    unsigned short count;
+} Pair_830036C8;
 
+typedef struct Vec_830036C8 {
+    Pair_830036C8 *begin;
+    Pair_830036C8 *end;
+} Vec_830036C8;
 
-void fn_830036C8(int param_1,ulonglong param_2,ulonglong param_3)
+typedef struct Target_830036C8 Target_830036C8;
+typedef struct TargetVtbl_830036C8 {
+    void *s[30];
+    void (*notify)(Target_830036C8 *self, unsigned int key, unsigned short flags, int arg);
+} TargetVtbl_830036C8;
+struct Target_830036C8 { TargetVtbl_830036C8 *vt; };
 
+typedef struct Holder_830036C8 {
+    int f0;
+    Target_830036C8 *target;
+} Holder_830036C8;
+
+typedef struct Obj_830036C8 {
+    unsigned char pad0[0x10];
+    Target_830036C8 *owner;
+    Target_830036C8 *parent;
+    unsigned short refs;
+    unsigned char pad1a[0x23];
+    unsigned char flags3d;
+    unsigned char pad3e[6];
+    Holder_830036C8 *holder;
+    Vec_830036C8 keys;
+} Obj_830036C8;
+
+extern void fn_82FAF408(Vec_830036C8 *v, unsigned int key);
+
+static __forceinline unsigned short *Find(Vec_830036C8 *v, unsigned int key)
 {
-  short sVar1;
-  int *piVar2;
-  uint uVar3;
-  uint *puVar4;
-  short *psVar5;
-  
-  *(short *)(param_1 + 0x18) = *(short *)(param_1 + 0x18) + -1;
-  if (((param_2 & 0xffffffff) != 0) &&
-     (((*(byte *)(param_1 + 0x3d) & 0x20) != 0 || (*(int *)(param_1 + 0x10) == 0)))) {
-    for (puVar4 = *(uint **)(param_1 + 0x48);
-        (puVar4 != *(uint **)(param_1 + 0x4c) && ((ulonglong)*puVar4 != (param_2 & 0xffffffff)));
-        puVar4 = puVar4 + 2) {
+    Pair_830036C8 *p;
+    int found;
+    for (p = v->begin; p != v->end && p->key != key; p++) {
     }
-    uVar3 = (uint)(*(uint **)(param_1 + 0x4c) != puVar4);
-    psVar5 = (short *)(-(uint)(uVar3 != 0) & (uint)(puVar4 + 1));
-    if ((psVar5 != (short *)0x0) &&
-       (sVar1 = *psVar5, *psVar5 = sVar1 + -1, (short)(sVar1 + -1) == 0)) {
-      fn_82FAF408(param_1 + 0x48,param_2,-uVar3);
-    }
-    param_2 = 0;
-  }
-  if (((param_3 & 1) != 0) && (piVar2 = *(int **)(param_1 + 0x14), piVar2 != (int *)0x0)) {
-    param_3 = param_3 & 0xfffe;
-    (**(code **)(*piVar2 + 0x78))(piVar2,param_2,3,0);
-  }
-  if ((((param_3 & 2) != 0) && (*(int *)(param_1 + 0x44) != 0)) &&
-     (piVar2 = *(int **)(*(int *)(param_1 + 0x44) + 4), piVar2 != (int *)0x0)) {
-    param_3 = (param_3 & 0xffff) << 0x20 | param_3 & 0xfffd;
-    (**(code **)(*piVar2 + 0x78))(piVar2,param_2,3,0);
-  }
-  piVar2 = *(int **)(param_1 + 0x10);
-  if (piVar2 != (int *)0x0) {
-    (**(code **)(*piVar2 + 0x78))(piVar2,param_2,param_3,0);
-  }
-  return;
+    found = p != v->end;
+    return found ? &p->count : 0;
 }
+void fn_830036C8(Obj_830036C8 *o, unsigned int key, unsigned short flags)
+{
+    unsigned short *cnt;
 
+    o->refs--;
+    if (key != 0 && ((o->flags3d & 0x20) != 0 || (int)o->owner == 0)) {
+        cnt = Find(&o->keys, key);
+        if (cnt != 0 && --*cnt == 0) {
+            fn_82FAF408(&o->keys, key);
+        }
+        key = 0;
+    }
+    if ((flags & 1) != 0 && o->parent != 0) {
+        flags &= ~1;
+        o->parent->vt->notify(o->parent, key, 3, 0);
+    }
+    if ((flags & 2) != 0 && o->holder != 0 && o->holder->target != 0) {
+        flags &= ~2;
+        o->holder->target->vt->notify(o->holder->target, key, 3, 0);
+    }
+    if (o->owner != 0) {
+        o->owner->vt->notify(o->owner, key, flags, 0);
+    }
+}

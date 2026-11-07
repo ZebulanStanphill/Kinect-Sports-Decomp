@@ -1,47 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern int fn_82CE5040();
+typedef struct Obj_82CEFD60 Obj_82CEFD60;
 
+typedef struct Vtbl_82CEFD60 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void (*getData)(Obj_82CEFD60 *self, void *out);    /* 0x0c */
+    void *slot4;
+    void (*begin)(Obj_82CEFD60 *self);                 /* 0x14 */
+    void *slot6;
+    void *slot7;
+    Obj_82CEFD60 *(*next)(Obj_82CEFD60 *self);         /* 0x20 */
+} Vtbl_82CEFD60;
 
-void fn_82CEFD60(int *param_1,undefined8 param_2)
+struct Obj_82CEFD60 {
+    Vtbl_82CEFD60 *vt;
+};
 
+extern void fn_82CE5040(int a, void *buf, int c);
+
+void fn_82CEFD60(Obj_82CEFD60 *self, int ctx)
 {
-  int *piVar1;
-  undefined1 auStack_60 [72];
-  
-  (**(code **)(*param_1 + 0x14))();
-  piVar1 = (int *)(**(code **)(*param_1 + 0x20))(param_1);
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,auStack_60);
-                    /* WARNING: Subroutine does not return */
-    fn_82CE5040(param_2,auStack_60,param_2);
-  }
-  return;
-}
+    unsigned char buf[72];
+    Obj_82CEFD60 *p;
 
+    self->vt->begin(self);
+    p = self->vt->next(self);
+    while (p != 0) {
+        p->vt->getData(p, buf);
+        fn_82CE5040(ctx, buf, ctx);
+        p = p->vt->next(p);
+    }
+}

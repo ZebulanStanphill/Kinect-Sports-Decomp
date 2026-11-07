@@ -1,60 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82E55008();
-extern int fn_82EE2F38();
+typedef struct Arr_82E556C8 {
+    void **data;
+    unsigned int count;
+} Arr_82E556C8;
 
+typedef struct Obj_82E556C8 {
+    int pad0[2];
+    int lock[19];          /* 0x08 .. 0x53 */
+    Arr_82E556C8 arr;      /* 0x54 data, 0x58 count */
+} Obj_82E556C8;
 
-undefined8 fn_82E556C8(int param_1,uint param_2)
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern void fn_82E55008(void *e, int flag);
+extern int fn_82EE2F38(Arr_82E556C8 *a, unsigned int idx, int flag);
 
+int fn_82E556C8(Obj_82E556C8 *p, unsigned int idx)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0;
-  fn_82E50CB8(param_1 + 8);
-  if (param_2 < *(uint *)(param_1 + 0x58)) {
-    if (param_2 < *(uint *)(param_1 + 0x58)) {
-      iVar1 = *(int *)(param_2 * 4 + *(int *)(param_1 + 0x54));
-      if (iVar1 != 0) {
-        fn_82E55008(iVar1,1);
-        iVar1 = fn_82EE2F38((int *)(param_1 + 0x54),param_2,1);
-        if (iVar1 != 0) goto LAB_82e55750;
-      }
-    }
-    uVar2 = 0xffffffff8000ffff;
-  }
-  else {
-    uVar2 = 0xffffffff80070057;
-  }
-LAB_82e55750:
-  fn_82E50F10(param_1 + 8);
-  return uVar2;
-}
+    Obj_82E556C8 *self = p;
+    int hr = 0;
+    void *lock = self->lock;
+    void *e;
 
+    fn_82E50CB8(lock);
+    if (self->arr.count <= idx) {
+        hr = 0x80070057;
+    } else {
+        Arr_82E556C8 *a = &self->arr;
+        if (idx < a->count) {
+            e = a->data[idx];
+            if (e != 0) {
+                fn_82E55008(e, 1);
+                if (fn_82EE2F38(a, idx, 1) != 0)
+                    goto done;
+            }
+        }
+        hr = 0x8000FFFF;
+    }
+done:
+    fn_82E50F10(lock);
+    return hr;
+}

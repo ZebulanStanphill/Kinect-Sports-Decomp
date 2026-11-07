@@ -1,70 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Obj_83006A80 Obj_83006A80;
 
+typedef struct Vtbl_83006A80 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void *slot3;
+    void (*f10)(Obj_83006A80 *self, void *arg);
+} Vtbl_83006A80;
 
-void fn_83006A80(int *param_1)
+struct Obj_83006A80 {
+    Vtbl_83006A80 *vt;
+};
 
+typedef struct Elem_83006A80 {
+    int pad[5];
+    void *data;
+    int a;
+    int b;
+} Elem_83006A80;
+
+typedef struct Slot_83006A80 {
+    Obj_83006A80 *p;
+    int x;
+    int y;
+} Slot_83006A80;
+
+typedef struct Container_83006A80 {
+    Elem_83006A80 *begin;
+    Elem_83006A80 *end;
+    Elem_83006A80 *cap;
+    int pad;
+    Slot_83006A80 slots[4];
+} Container_83006A80;
+
+extern void fn_82FA5190(void *heap, void *p);
+extern void *lbl_831BC768;
+extern char lbl_831BC7F4[];
+
+void fn_83006A80(Container_83006A80 *c)
 {
-  int *piVar1;
-  longlong lVar2;
-  int iVar3;
-  
-  iVar3 = *param_1;
-  if (iVar3 != param_1[1]) {
-    do {
-      if (*(int *)(iVar3 + 0x14) != 0) {
-        fn_82FA5190(lbl_831BC768);
-        *(undefined4 *)(iVar3 + 0x14) = 0;
-      }
-      *(undefined4 *)(iVar3 + 0x18) = 0;
-      *(undefined4 *)(iVar3 + 0x1c) = 0;
-      iVar3 = iVar3 + 0x20;
-    } while (iVar3 != param_1[1]);
-  }
-  if (*param_1 != 0) {
-    param_1[1] = *param_1;
-    fn_82FA5190(lbl_831BC768);
-    *param_1 = 0;
-    param_1[1] = 0;
-    param_1[2] = 0;
-  }
-  param_1 = param_1 + 4;
-  lVar2 = 4;
-  do {
-    piVar1 = (int *)*param_1;
-    if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0x10))(piVar1,0xffffffff831bc7f4);
-    }
-    lVar2 = lVar2 + -1;
-    param_1 = param_1 + 3;
-  } while (lVar2 != 0);
-  return;
-}
+    Elem_83006A80 *it;
+    Elem_83006A80 *b;
+    int i;
 
+    for (it = c->begin; it != c->end; it++) {
+        if (it->data != 0) {
+            fn_82FA5190(lbl_831BC768, it->data);
+            it->data = 0;
+        }
+        it->a = 0;
+        it->b = 0;
+    }
+    b = c->begin;
+    if (b != 0) {
+        c->end = b;
+        fn_82FA5190(lbl_831BC768, b);
+        c->begin = 0;
+        c->end = 0;
+        c->cap = 0;
+    }
+    for (i = 0; i < 4; i++) {
+        if (c->slots[i].p != 0) {
+            c->slots[i].p->vt->f10(c->slots[i].p, lbl_831BC7F4);
+        }
+    }
+}

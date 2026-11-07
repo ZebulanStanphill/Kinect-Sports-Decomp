@@ -1,111 +1,132 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AC9F80();
-extern int fn_82AD1270();
-extern int fn_82AD12C8();
-extern int fn_82AD17B0();
-extern int fn_82AD18C0();
-extern int fn_82AD1918();
-extern int fn_82AD1978();
-extern int fn_82AD1B28();
-extern int fn_82AF77E0();
-extern int fn_82AF80A8();
-extern int fn_82AFA378();
-extern int fn_82AFE7E0();
+typedef struct Stack_82B02A28 {
+    unsigned int items[4];
+    unsigned int count;
+} Stack_82B02A28;
 
+typedef struct Entry_82B02A28 {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+} Entry_82B02A28;
 
-int fn_82B02A28(undefined8 param_1,int param_2,undefined4 *param_3)
+typedef struct EStack_82B02A28 {
+    Entry_82B02A28 items[8];
+    unsigned int count;
+} EStack_82B02A28;
 
+typedef struct State_82B02A28 {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    Stack_82B02A28 stk;
+    EStack_82B02A28 estk;
+    unsigned int pad[11];
+    unsigned int d0;
+    unsigned int d4;
+} State_82B02A28;
+
+typedef struct Node_82B02A28 {
+    int f0;
+    int f4;
+    unsigned int flags;
+} Node_82B02A28;
+
+typedef struct Desc_82B02A28 {
+    unsigned int a : 4;
+    unsigned int kind : 3;
+    unsigned int b : 12;
+    unsigned int bits : 8;
+    unsigned int c : 5;
+} Desc_82B02A28;
+
+extern int fn_82AC9F80(void *ctx, unsigned int v, int z);
+extern void fn_82AD1270(Desc_82B02A28 *p, unsigned int v);
+extern unsigned int fn_82AD12C8(unsigned int v);
+extern Desc_82B02A28 *fn_82AD17B0(void *ctx, unsigned int v);
+extern int fn_82AD18C0(void *ctx, Node_82B02A28 *n, int z);
+extern int fn_82AD1918(void *ctx, unsigned int a, unsigned int b, unsigned int c);
+extern void fn_82AD1978(Node_82B02A28 *n, int v);
+extern void fn_82AD1B28(Node_82B02A28 *n);
+extern Node_82B02A28 *fn_82AF77E0(void *ctx, int z, Node_82B02A28 *parent, int x, int y);
+extern Node_82B02A28 *fn_82AF80A8(void *ctx, int z, Node_82B02A28 *parent, Desc_82B02A28 *d);
+extern void fn_82AFA378(void *ctx, Node_82B02A28 *n);
+extern void fn_82AFE7E0(void *ctx, Node_82B02A28 *parent, int z, Node_82B02A28 *n);
+
+static __forceinline void push_82B02A28(Stack_82B02A28 *st, unsigned int v)
 {
-  undefined4 uVar1;
-  uint *puVar5;
-  int iVar6;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  int iVar7;
-  int iVar8;
-  uint uVar9;
-  
-  if (param_3[7] == 3) {
-    param_3[6] = param_3[0x35];
-    param_3[7] = param_3[7] + 1;
-  }
-  uVar9 = 0;
-  iVar6 = param_3[7];
-  while (iVar6 != 0) {
-    iVar6 = param_3[7];
-    param_3[7] = iVar6 + -1;
-    uVar9 = param_3[iVar6 + 2] | uVar9 << 2;
-    iVar6 = param_3[7];
-  }
-  uVar1 = param_3[1];
-  puVar5 = (uint *)fn_82AD17B0(param_1,*param_3);
-  *puVar5 = *puVar5 & 0xf1ffffff | 0x8000000;
-  fn_82AD1270(puVar5,uVar1);
-  *puVar5 = (uVar9 & 0xff) << 5 | *puVar5 & 0xffffe01f;
-  iVar6 = fn_82AF80A8(param_1,0,param_2,puVar5);
-  if (param_3[2] != 0) {
-    uVar2 = fn_82AC9F80(param_1,param_3[2],0);
-    fn_82AD1978(iVar6,uVar2);
-  }
-  iVar8 = param_3[0x28];
-  while (iVar8 != 0) {
-    iVar8 = param_3[0x28] + -1;
-    param_3[0x28] = iVar8;
-    uVar9 = param_3[iVar8 * 4 + 10];
-    uVar1 = param_3[iVar8 * 4 + 0xb];
-    iVar7 = iVar6;
-    if (param_3[0x28] != param_3[0x34] + -1) {
-      uVar3 = fn_82AD1918(param_1,param_3[iVar8 * 4 + 8],param_3[iVar8 * 4 + 9],uVar9);
-      uVar4 = fn_82AD18C0(param_1,iVar6,0);
-      uVar2 = uVar4;
-      if ((*(uint *)(iVar6 + 8) & 0x3f80) == 0x180) {
-        uVar2 = uVar3;
-        uVar3 = uVar4;
-      }
-      iVar7 = fn_82AF77E0(param_1,0,param_2,uVar3,uVar2);
-      if ((uVar9 & 8) != 0) {
-        uVar2 = fn_82AD12C8(uVar1);
-        uVar2 = fn_82AC9F80(param_1,uVar2,0);
-        fn_82AD1978(iVar7,uVar2);
-      }
-      fn_82AD1B28(iVar6);
-      *(uint *)(iVar6 + 8) = *(uint *)(iVar6 + 8) | 0x1000000;
-      fn_82AFA378(param_1,iVar6);
-    }
-    iVar6 = iVar7;
-    iVar8 = param_3[0x28];
-  }
-  if ((*(uint *)(param_2 + 8) & 1) != 0) {
-    *(uint *)(iVar6 + 8) = *(uint *)(iVar6 + 8) | 1;
-  }
-  fn_82AFE7E0(param_1,param_2,0,iVar6);
-  return iVar6;
+    st->items[st->count] = v;
+    st->count++;
 }
 
+static __forceinline unsigned int pop_82B02A28(Stack_82B02A28 *st)
+{
+    unsigned int n;
+
+    n = st->count - 1;
+    st->count = n;
+    return st->items[n];
+}
+
+static __forceinline Entry_82B02A28 epop_82B02A28(EStack_82B02A28 *st)
+{
+    st->count--;
+    return st->items[st->count];
+}
+
+Node_82B02A28 *fn_82B02A28(void *ctx, Node_82B02A28 *parent, State_82B02A28 *s)
+{
+    unsigned int bits;
+    unsigned int a;
+    unsigned int b;
+    Desc_82B02A28 *p;
+    Node_82B02A28 *cur;
+    Node_82B02A28 *nn;
+    Entry_82B02A28 e;
+    int x;
+    int y;
+    int t;
+
+    if (s->stk.count == 3) {
+        push_82B02A28(&s->stk, s->d4);
+    }
+    bits = 0;
+    while (s->stk.count != 0) {
+        bits = pop_82B02A28(&s->stk) | (bits << 2);
+    }
+    a = s->a;
+    b = s->b;
+    p = fn_82AD17B0(ctx, a);
+    p->kind = 4;
+    fn_82AD1270(p, b);
+    p->bits = bits;
+    cur = fn_82AF80A8(ctx, 0, parent, p);
+    if (s->c != 0) {
+        fn_82AD1978(cur, fn_82AC9F80(ctx, s->c, 0));
+    }
+    while (s->estk.count != 0) {
+        e = epop_82B02A28(&s->estk);
+        if (s->estk.count != s->d0 - 1) {
+            x = fn_82AD1918(ctx, e.a, e.b, e.c);
+            y = fn_82AD18C0(ctx, cur, 0);
+            if ((cur->flags & 0x3f80) == 0x180) {
+                t = x;
+                x = y;
+                y = t;
+            }
+            nn = fn_82AF77E0(ctx, 0, parent, x, y);
+            if ((e.c & 8) != 0) {
+                fn_82AD1978(nn, fn_82AC9F80(ctx, fn_82AD12C8(e.d), 0));
+            }
+            fn_82AD1B28(cur);
+            cur->flags |= 0x1000000;
+            fn_82AFA378(ctx, cur);
+            cur = nn;
+        }
+    }
+    if ((parent->flags & 1) != 0) {
+        cur->flags |= 1;
+    }
+    fn_82AFE7E0(ctx, parent, 0, cur);
+    return cur;
+}

@@ -1,44 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5230();
-extern unsigned int lbl_820EB6F4;
-extern unsigned int lbl_831751CC;
+typedef void (*ReleaseFn_82BF2E58)(void *handle);
 
+typedef struct Obj_82BF2E58 {
+    void *vtable;
+    char pad4[0x10];
+    unsigned char active;
+    char pad15[3];
+    void *handle;
+} Obj_82BF2E58;
 
-void fn_82BF2E58(undefined4 *param_1)
+extern char lbl_820EB6F4[];
+extern ReleaseFn_82BF2E58 lbl_831751CC;
+extern void fn_82BE5230(void *self);
 
+void fn_82BF2E58(Obj_82BF2E58 *self)
 {
-  *param_1 = &lbl_820EB6F4;
-  if (param_1[6] != 0) {
-    (*(code *)lbl_831751CC)();
-  }
-  *(undefined1 *)(param_1 + 5) = 0;
-  fn_82BE5230(param_1);
-  return;
+    self->vtable = lbl_820EB6F4;
+    if (self->handle != 0)
+        lbl_831751CC(self->handle);
+    self->active = 0;
+    fn_82BE5230(self);
 }
-

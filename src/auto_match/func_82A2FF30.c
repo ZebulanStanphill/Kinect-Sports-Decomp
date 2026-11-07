@@ -1,104 +1,108 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A2C770();
-extern int fn_82A2FCF8();
-extern int fn_82A2FDE0();
-extern int fn_82F691F0();
-extern int iRam83219d10;
+typedef struct Fcb_82A2FF30 {
+    char pad0[0x18];
+    unsigned int size;        /* 0x18 */
+    unsigned int allocSize;   /* 0x1c */
+    char pad20[0x15];
+    unsigned char flags;      /* 0x35 */
+} Fcb_82A2FF30;
 
+typedef struct FileObj_82A2FF30 {
+    char pad0[2];
+    unsigned char flags;      /* 0x02 */
+    char pad3[5];
+    Fcb_82A2FF30 *fcb;        /* 0x08 */
+    char padC[8];
+    int x14;                  /* 0x14 */
+    unsigned int x18;         /* 0x18 */
+} FileObj_82A2FF30;
 
-void fn_82A2FF30(int param_1,int param_2)
+typedef struct Loc_82A2FF30 {
+    int x0;
+    unsigned int length;      /* 0x04 */
+    int x8;
+    int xC;                   /* 0x0c */
+    unsigned int offset;      /* 0x10 */
+    void *x14;                /* 0x14 */
+    FileObj_82A2FF30 *fo;     /* 0x18 */
+} Loc_82A2FF30;
 
+typedef struct Irp_82A2FF30 {
+    char pad0[0x10];
+    int status;               /* 0x10 */
+    unsigned int info;        /* 0x14 */
+    char pad18[4];
+    void *buffer;             /* 0x1c */
+    char pad20[0x30];
+    Loc_82A2FF30 *loc;        /* 0x50 */
+} Irp_82A2FF30;
+
+typedef struct Dev_82A2FF30 {
+    char pad0[0x88];
+    int status;               /* 0x88 */
+} Dev_82A2FF30;
+
+extern int lbl_83219D04[];
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void IoCompleteRequest(void *irp, int boost);
+extern void *memset(void *dst, int c, unsigned int n);
+extern unsigned int fn_82A2C770(void *a, void *buf, unsigned int len, unsigned int off);
+extern int fn_82A2FCF8(Dev_82A2FF30 *dev, Fcb_82A2FF30 *fcb, void *buf, unsigned int len, unsigned int off);
+extern int fn_82A2FDE0(Dev_82A2FF30 *dev, Fcb_82A2FF30 *fcb, void *buf, unsigned int len, unsigned int off);
+
+void fn_82A2FF30(Dev_82A2FF30 *dev, Irp_82A2FF30 *irp)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  
-  iVar3 = *(int *)(param_2 + 0x50);
-  iVar1 = *(int *)(iVar3 + 0x18);
-  uVar7 = (ulonglong)*(uint *)(iVar3 + 4);
-  iRam83219d10 = iRam83219d10 + 1;
-  iVar2 = *(int *)(iVar1 + 8);
-  RtlEnterCriticalSection();
-  iVar4 = *(int *)(param_1 + 0x88);
-  if (iVar4 == 0) {
-    if ((*(byte *)(iVar1 + 2) & 0x10) == 0) {
-      if ((*(byte *)(iVar2 + 0x35) & 2) == 0) {
-        if (uVar7 == 0) {
-          iVar4 = 0;
-          *(undefined4 *)(param_2 + 0x14) = 0;
-        }
-        else {
-          uVar6 = (ulonglong)*(uint *)(iVar3 + 0x10);
-          if ((*(int *)(iVar3 + 0xc) == 0) && (uVar6 < *(uint *)(iVar2 + 0x18))) {
-            uVar5 = *(uint *)(iVar2 + 0x18) - uVar6;
-            if ((uVar5 & 0xffffffff) <= uVar7) {
-              uVar7 = uVar5;
-            }
-            if (((ulonglong)*(uint *)(iVar2 + 0x1c) < (uVar6 + uVar7 & 0xffffffff)) ||
-               (iVar3 = fn_82A2C770(*(undefined4 *)(iVar3 + 0x14),
-                                          *(undefined4 *)(param_2 + 0x1c),uVar7,uVar6), iVar3 != 0))
-            {
-              iVar4 = fn_82A2FCF8(param_1,iVar2,*(undefined4 *)(param_2 + 0x1c),uVar7,uVar6);
-            }
-            else {
-              iVar4 = fn_82A2FDE0(param_1,iVar2,*(undefined4 *)(param_2 + 0x1c),uVar7,uVar6);
-            }
-            if (iVar4 < 0) {
-                    /* WARNING: Subroutine does not return */
-              fn_82F691F0(*(undefined4 *)(param_2 + 0x1c),0,uVar7);
-            }
-            if ((*(byte *)(iVar1 + 2) & 1) != 0) {
-              *(int *)(iVar1 + 0x18) = (int)(uVar6 + uVar7);
-              *(undefined4 *)(iVar1 + 0x14) = 0;
-            }
-            *(int *)(param_2 + 0x14) = (int)uVar7;
-          }
-          else {
-            iVar4 = -0x3fffffef;
-          }
-        }
-      }
-      else {
-        iVar4 = -0x3ffffff0;
-      }
-    }
-    else {
-      iVar4 = -0x3ffffed8;
-    }
-  }
-  RtlLeaveCriticalSection(param_1);
-  *(int *)(param_2 + 0x10) = iVar4;
-  IoCompleteRequest(param_2,1);
-  return;
-}
+    Loc_82A2FF30 *loc;
+    FileObj_82A2FF30 *fo;
+    Fcb_82A2FF30 *fcb;
+    unsigned int len;
+    unsigned int off;
+    unsigned int avail;
+    unsigned int end;
+    int status;
 
+    loc = irp->loc;
+    fo = loc->fo;
+    len = loc->length;
+    fcb = fo->fcb;
+    lbl_83219D04[3]++;
+    RtlEnterCriticalSection(dev);
+    if (dev->status != 0) {
+        status = dev->status;
+    } else if (fo->flags & 0x10) {
+        status = (int)0xC0000128;
+    } else if (fcb->flags & 2) {
+        status = (int)0xC0000010;
+    } else if (len == 0) {
+        status = 0;
+        irp->info = 0;
+    } else {
+        off = loc->offset;
+        if (loc->xC == 0 && off < fcb->size) {
+            avail = fcb->size - off;
+            if (len >= avail) {
+                len = avail;
+            }
+            end = off + len;
+            if (end > fcb->allocSize || fn_82A2C770(loc->x14, irp->buffer, len, off) != 0) {
+                status = fn_82A2FCF8(dev, fcb, irp->buffer, len, off);
+            } else {
+                status = fn_82A2FDE0(dev, fcb, irp->buffer, len, off);
+            }
+            if (status >= 0) {
+                if (fo->flags & 1) {
+                    fo->x18 = end;
+                    fo->x14 = 0;
+                }
+                irp->info = len;
+            } else {
+                memset(irp->buffer, 0, len);
+            }
+        } else {
+            status = (int)0xC0000011;
+        }
+    }
+    RtlLeaveCriticalSection(dev);
+    irp->status = status;
+    IoCompleteRequest(irp, 1);
+}

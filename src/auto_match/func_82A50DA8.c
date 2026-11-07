@@ -1,61 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A43F70();
+typedef struct ListNode_82A50DA8 {
+    struct Item_82A50DA8 *data;
+    struct ListNode_82A50DA8 *next;
+} ListNode_82A50DA8;
 
+typedef struct Item_82A50DA8 {
+    int pad0;
+    int pad4;
+    int handle;
+} Item_82A50DA8;
 
-undefined8 fn_82A50DA8(int param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4)
+typedef struct Iface_82A50DA8 Iface_82A50DA8;
 
+typedef struct IfaceVtbl_82A50DA8 {
+    void *slots[18];
+    int (*f48)(Iface_82A50DA8 *self, unsigned int arg);
+} IfaceVtbl_82A50DA8;
+
+struct Iface_82A50DA8 {
+    IfaceVtbl_82A50DA8 *vt;
+};
+
+typedef struct Owner_82A50DA8 {
+    char pad[0xb0];
+    Iface_82A50DA8 *iface;
+} Owner_82A50DA8;
+
+typedef struct Self_82A50DA8 {
+    char pad[0x20];
+    ListNode_82A50DA8 *head;
+    char pad24[0xc];
+    Owner_82A50DA8 *owner;
+} Self_82A50DA8;
+
+extern int fn_82A43F70(int handle, int a, int b, unsigned int c);
+
+int fn_82A50DA8(Self_82A50DA8 *self, int a, int b, unsigned int id)
 {
-  int iVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  int *piVar4;
-  
-  uVar2 = 0;
-  uVar3 = param_4;
-  if ((param_4 & 0xffffffff) == 0) {
-    uVar3 = 0x1337f001;
-  }
-  piVar4 = *(int **)(param_1 + 0x20);
-  while (piVar4 != (int *)0x0) {
-    if (piVar4 == (int *)0x0) {
-      iVar1 = 0;
-    }
-    else {
-      iVar1 = *piVar4;
-      piVar4 = (int *)piVar4[1];
-    }
-    fn_82A43F70(*(undefined4 *)(iVar1 + 8),param_2,param_3,uVar3);
-  }
-  if ((param_4 & 0xffffffff) == 0) {
-    piVar4 = *(int **)(*(int *)(param_1 + 0x30) + 0xb0);
-    uVar2 = (**(code **)(*piVar4 + 0x48))(piVar4,uVar3);
-  }
-  return uVar2;
-}
+    int result;
+    unsigned int c;
+    ListNode_82A50DA8 *it;
+    ListNode_82A50DA8 *n;
+    Item_82A50DA8 *item;
+    Iface_82A50DA8 *iface;
 
+    result = 0;
+    if (id == 0) {
+        c = 0x1337f001;
+    } else {
+        c = id;
+    }
+    it = self->head;
+    while (it != 0) {
+        n = it;
+        if (n != 0) {
+            it = n->next;
+            item = n->data;
+        } else {
+            item = 0;
+        }
+        fn_82A43F70(item->handle, a, b, c);
+    }
+    if (id == 0) {
+        iface = self->owner->iface;
+        result = iface->vt->f48(iface, c);
+    }
+    return result;
+}

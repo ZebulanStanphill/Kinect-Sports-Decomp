@@ -1,82 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_82A2B798();
-extern unsigned int iStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct Msg_82CE1828 {
+    void *obj;
+    unsigned int arg;
+    unsigned __int64 arg64;
+    unsigned int timeout;
+    unsigned int cb;
+    void *buffer;
+} Msg_82CE1828;
 
+extern unsigned int XamSessionRefObjByHandle(void *handle, void **obj);
+extern int XMsgStartIORequest(unsigned int app, unsigned int msg, void *overlapped,
+                              void *buffer, unsigned int size);
+extern void ObDereferenceObject(void *obj);
+extern unsigned int fn_82A2B798(void);
 
-ulonglong fn_82CE1828(undefined8 param_1,undefined4 param_2,undefined8 param_3,uint *param_4,
-                       int param_5,ulonglong param_6)
-
+unsigned int fn_82CE1828(void *handle, unsigned int arg, unsigned __int64 arg64,
+                         unsigned int *pcb, void *buffer, void *overlapped)
 {
-  ulonglong uVar1;
-  int iVar3;
-  longlong lVar2;
-  undefined4 auStack_70;
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
+    unsigned int result;
+    void *obj;
+    Msg_82CE1828 msg;
 
-  undefined8 uStack_58;
-  undefined4 uStack_50;
-  uint uStack_4c;
-  int iStack_48;
-  
-  if ((param_5 == 0) || (*param_4 < 0xe08)) {
-    uVar1 = 0x7a;
-    *param_4 = 0xe08;
-  }
-  else {
-    uVar1 = XamSessionRefObjByHandle(param_1,&auStack_70);
-    if (uVar1 == 0) {
-      uStack_4c = *param_4;
-      uStack_50 = 300;
-      stack_pair_60.first = auStack_70;
-      stack_pair_60.second = param_2;
-      uStack_58 = param_3;
-      iStack_48 = param_5;
-      iVar3 = XMsgStartIORequest(0xfb,0xb001a,param_6,&stack_pair_60.first,0x20);
-      if (iVar3 < 0) {
-        uVar1 = 0x65b;
-      }
-      else if ((param_6 & 0xffffffff) == 0) {
-        lVar2 = fn_82A2B798();
-        uVar1 = -(ulonglong)(lVar2 != 0) & 0x65b;
-      }
-      else {
-        uVar1 = 0x3e5;
-      }
-      ObDereferenceObject(auStack_70);
+    if (buffer == 0 || *pcb < 0xe08) {
+        result = 0x7a;
+        *pcb = 0xe08;
+    } else {
+        result = XamSessionRefObjByHandle(handle, &obj);
+        if (result == 0) {
+            msg.obj = obj;
+            msg.arg = arg;
+            msg.arg64 = arg64;
+            msg.timeout = 300;
+            msg.cb = *pcb;
+            msg.buffer = buffer;
+            if (XMsgStartIORequest(0xfb, 0xb001a, overlapped, &msg, 0x20) < 0) {
+                result = 0x65b;
+            } else if (overlapped == 0) {
+                result = fn_82A2B798() ? 0x65b : 0;
+            } else {
+                result = 0x3e5;
+            }
+            ObDereferenceObject(obj);
+        }
     }
-  }
-  return uVar1;
+    return result;
 }
-

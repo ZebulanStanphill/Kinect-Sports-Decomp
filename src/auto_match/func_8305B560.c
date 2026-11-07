@@ -1,39 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
-
-
-void fn_8305B560(int param_1,undefined8 param_2)
-
+typedef struct { __int64 v[5]; } Arg40_8305B560;
+extern void fn_8305AC60(void *dst, Arg40_8305B560 a);
+void fn_8305B560(char *self, void *dst)
 {
-  fn_82F68B7C(param_2,*(undefined8 *)(param_1 + 0x50),*(undefined8 *)(param_1 + 0x58),
-               *(undefined8 *)(param_1 + 0x60),*(undefined8 *)(param_1 + 0x68),
-               *(undefined8 *)(param_1 + 0x70));
-  return;
+    fn_8305AC60(dst, *(Arg40_8305B560 *)(self + 0x50));
 }
-

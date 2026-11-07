@@ -27,21 +27,20 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint fn_82C16A38(int *param_1)
+unsigned char fn_82C16A38(int *param_1)
 
 {
   int iVar1;
   
   iVar1 = *param_1;
-  if (2 < *(int *)(iVar1 + 0x3c)) {
-    if (*(int *)(iVar1 + 0x25c) != 0) {
-      return *(int *)(iVar1 + 8) + 0x11U & 0xff;
+  if (*(int *)(iVar1 + 0x3c) <= 2) {
+    if (*(int *)(iVar1 + 0xd4) != 0) {
+      return (unsigned char)(*(int *)(iVar1 + 8) + 0xb);
     }
-    return *(int *)(iVar1 + 8) + 6U & 0xff;
+    return 0;
   }
-  if (*(int *)(iVar1 + 0xd4) != 0) {
-    return *(int *)(iVar1 + 8) + 0xbU & 0xff;
+  if (*(int *)(iVar1 + 0x25c) != 0) {
+    return (unsigned char)(*(int *)(iVar1 + 8) + 0x11);
   }
-  return 0;
+  return (unsigned char)(*(int *)(iVar1 + 8) + 6);
 }
-

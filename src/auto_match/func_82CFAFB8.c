@@ -1,44 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
+typedef struct Res_82CFAFB8 {
+    unsigned char v;
+} Res_82CFAFB8;
 
+struct Iface_82CFAFB8;
 
-undefined1 * fn_82CFAFB8(undefined1 *param_1,int param_2)
+typedef struct Vtbl_82CFAFB8 {
+    void *f0;
+    void *f4;
+    void *f8;
+    Res_82CFAFB8 *(*get)(Res_82CFAFB8 *out, struct Iface_82CFAFB8 *self);
+} Vtbl_82CFAFB8;
 
+typedef struct Iface_82CFAFB8 {
+    Vtbl_82CFAFB8 *vt;
+} Iface_82CFAFB8;
+
+typedef struct Obj_82CFAFB8 {
+    int f0;
+    int f4;
+    Iface_82CFAFB8 *p;
+    int fC;
+    int begin;
+    int end;
+} Obj_82CFAFB8;
+
+Res_82CFAFB8 *fn_82CFAFB8(Res_82CFAFB8 *out, Obj_82CFAFB8 *o)
 {
-  undefined1 *puVar1;
-  undefined1 auStack_20 [16];
-  
-  puVar1 = auStack_20;
-  if (*(int **)(param_2 + 8) != (int *)0x0) {
-    puVar1 = (undefined1 *)(**(code **)(**(int **)(param_2 + 8) + 0xc))();
-  }
-  *param_1 = *puVar1;
-  return param_1;
-}
+    Res_82CFAFB8 tmp;
+    Res_82CFAFB8 *r;
 
+    if (o->p != 0) {
+        r = o->p->vt->get(&tmp, o->p);
+    } else {
+        tmp.v = o->begin != o->end;
+        r = &tmp;
+    }
+    *out = *r;
+    return out;
+}

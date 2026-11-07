@@ -1,42 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82A773C0 Obj_82A773C0;
 
+typedef struct Vtbl_82A773C0 {
+    int (*QueryValue)(Obj_82A773C0 *self, const char *name, void *out);
+} Vtbl_82A773C0;
 
-ulonglong fn_82A773C0(longlong param_1,undefined4 *param_2)
+struct Obj_82A773C0 {
+    Vtbl_82A773C0 *vt;
+};
 
+extern char lbl_82089748[];
+extern char lbl_82089DB0[];
+
+int fn_82A773C0(char *self, Obj_82A773C0 *src)
 {
-  ulonglong uVar1;
-  
-  uVar1 = (**(code **)*param_2)(param_2,0xffffffff82089748,param_1 + 0xfc);
-  if (-1 < (int)uVar1) {
-    uVar1 = (**(code **)*param_2)(param_2,0xffffffff82089db0,param_1 + 0x100);
-    uVar1 = -(ulonglong)(uVar1 != 0xffffffff80004002) & uVar1;
-  }
-  return uVar1;
-}
+    int hr;
 
+    hr = src->vt->QueryValue(src, lbl_82089748, self + 0xfc);
+    if (hr >= 0) {
+        hr = src->vt->QueryValue(src, lbl_82089DB0, self + 0x100);
+        hr = (hr != (int)0x80004002) ? hr : 0;
+    }
+    return hr;
+}

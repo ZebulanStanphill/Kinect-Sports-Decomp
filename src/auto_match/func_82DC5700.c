@@ -1,131 +1,197 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_b0;
-extern int fn_82CE5410();
-extern int fn_82CE8E78();
-extern int fn_82DC7928();
-extern int fn_82F68CC0();
-extern unsigned int iStack_64;
-extern unsigned int iStack_68;
-extern unsigned int iStack_7c;
-extern unsigned int iStack_80;
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+
+typedef struct TimerEntry_82DC5700 {
+    const char *name;
+    unsigned time;
+    unsigned unused;
+} TimerEntry_82DC5700;
+
+typedef struct TimerListEntry_82DC5700 {
+    const char *name;
+    unsigned time;
+    unsigned unused;
+    const char *split;
+} TimerListEntry_82DC5700;
+
+typedef struct TimerStream_82DC5700 {
+    void *pad;
+    char *current;
+    void *pad2;
+    char *end;
+} TimerStream_82DC5700;
+
+extern TimerStream_82DC5700 *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_74;
-extern unsigned int uStack_78;
 
+typedef struct StepInfo_82DC5700 {
+    unsigned char data[0x30];
+    int a;
+    int b;
+    int c;
+    int d;
+    unsigned char pad40[8];
+    void *e0;
+    int e1;
+    unsigned char pad50[0x10];
+} StepInfo_82DC5700;
 
-void fn_82DC5700(longlong param_1,undefined8 param_2,int param_3)
+typedef struct Atom_82DC5700 {
+    unsigned short type;
+    char pad2[0x12];
+    struct Atom_82DC5700 *next;
+} Atom_82DC5700;
 
+typedef struct Listener_82DC5700 Listener_82DC5700;
+typedef struct ListenerVtbl_82DC5700 {
+    void *slots[14];
+    void (*callback)(Listener_82DC5700 *self, StepInfo_82DC5700 *info);
+} ListenerVtbl_82DC5700;
+struct Listener_82DC5700 {
+    ListenerVtbl_82DC5700 *vtbl;
+};
+
+typedef struct Ref_82DC5700 {
+    char pad0[0x18];
+    int f18;
+} Ref_82DC5700;
+
+typedef struct Owner_82DC5700 {
+    char pad0[0xa4];
+    int offset;
+} Owner_82DC5700;
+
+typedef struct Data_82DC5700 {
+    char pad0[0x10];
+    unsigned short f10;
+} Data_82DC5700;
+
+typedef struct Instance_82DC5700 {
+    char pad0[0xc];
+    Listener_82DC5700 *listener;
+    Data_82DC5700 *data;
+    Ref_82DC5700 *refA;
+    Ref_82DC5700 *refB;
+} Instance_82DC5700;
+
+typedef struct Constraint_82DC5700 {
+    Instance_82DC5700 *inst;
+    Owner_82DC5700 *ownerA;
+    Owner_82DC5700 *ownerB;
+    Atom_82DC5700 *atoms;
+    char pad10[2];
+    unsigned char flags;
+    char pad13[9];
+    int f1C;
+} Constraint_82DC5700;
+
+typedef struct Slot_82DC5700 {
+    Data_82DC5700 *data;
+    char pad4[0x10];
+    unsigned short f14;
+} Slot_82DC5700;
+
+typedef struct Entry_82DC5700 {
+    Constraint_82DC5700 *c;
+    Slot_82DC5700 *slot;
+} Entry_82DC5700;
+
+typedef struct Island_82DC5700 {
+    char pad0[0x30];
+    int offset;
+    char pad34[0x3c];
+    Entry_82DC5700 *entries;
+    int count;
+} Island_82DC5700;
+
+typedef struct Task_82DC5700 {
+    char pad0[0x18];
+    Island_82DC5700 *island;
+} Task_82DC5700;
+
+typedef struct Heap_82DC5700 Heap_82DC5700;
+typedef struct HeapVtbl_82DC5700 {
+    void *f0;
+    void *f4;
+    void (*free)(Heap_82DC5700 *self, void *p, int size);
+} HeapVtbl_82DC5700;
+struct Heap_82DC5700 {
+    HeapVtbl_82DC5700 *vtbl;
+};
+
+typedef struct Router_82DC5700 {
+    char pad0[0x10];
+    Heap_82DC5700 *heap;
+} Router_82DC5700;
+
+typedef struct Sim_82DC5700 {
+    char pad0[0x10];
+    StepInfo_82DC5700 info;
+} Sim_82DC5700;
+
+extern void fn_82DC7928(Listener_82DC5700 *l, StepInfo_82DC5700 *info, Atom_82DC5700 *atoms, int mode);
+extern Router_82DC5700 *fn_82CE5410(void);
+extern void fn_82CE8E78(void *a, Task_82DC5700 *t, Task_82DC5700 *t2, int z);
+
+void fn_82DC5700(Sim_82DC5700 *sim, void *arg, Task_82DC5700 *task)
 {
-  ushort uVar1;
-  undefined4 *puVar2;
-  ushort *puVar3;
-  int iVar4;
-  int iVar5;
-  int *piVar6;
-  undefined4 uVar7;
-  int *piVar8;
-  undefined8 uVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  undefined1 auStack_b0 [48];
-  int iStack_80;
-  int iStack_7c;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
-  int iStack_68;
-  int iStack_64;
-  
-  iVar12 = *(int *)(param_3 + 0x18);
-  fn_82F68CC0(auStack_b0,param_1 + 0x10,0x60);
-  if (0 < *(int *)(iVar12 + 0x74)) {
-    iVar10 = KeTlsGetValue(lbl_8323B4A0);
-    puVar2 = *(undefined4 **)(iVar10 + 4);
-    if (puVar2 < *(undefined4 **)(iVar10 + 0xc)) {
-      *puVar2 = "LtIntegrate";
-      puVar2[3] = "StConstraintCallbacks";
-      uVar9 = TBLr;
-      puVar2[1] = (int)uVar9;
-      *(undefined4 **)(iVar10 + 4) = puVar2 + 4;
-    }
-    iVar10 = 0;
-    if (0 < *(int *)(iVar12 + 0x74)) {
-      iVar11 = 0;
-      do {
-        piVar8 = *(int **)(iVar11 + *(int *)(iVar12 + 0x70));
-        iStack_68 = *piVar8;
-        iStack_64 = piVar8[7];
-        iStack_80 = *(int *)(piVar8[1] + 0xa4) + *(int *)(iVar12 + 0x30);
-        iStack_7c = *(int *)(piVar8[2] + 0xa4) + *(int *)(iVar12 + 0x30);
-        uStack_78 = *(undefined4 *)(*(int *)(*piVar8 + 0x14) + 0x18);
-        uStack_74 = *(undefined4 *)(*(int *)(*piVar8 + 0x18) + 0x18);
-        if ((*(byte *)((int)piVar8 + 0x12) & 9) != 0) {
-          puVar3 = (ushort *)piVar8[3];
-          iVar4 = *(int *)(*piVar8 + 0x10);
-          uVar1 = *puVar3;
-          while (0x16 < uVar1) {
-            puVar3 = *(ushort **)(puVar3 + 10);
-            uVar1 = *puVar3;
-          }
-          fn_82DC7928(*(undefined4 *)(*piVar8 + 0xc),auStack_b0,puVar3,2);
-          iVar5 = *(int *)(*piVar8 + 0x10);
-          if (iVar4 != iVar5) {
-            piVar6 = *(int **)(iVar11 + *(int *)(iVar12 + 0x70) + 4);
-            *piVar6 = iVar5;
-            *(undefined2 *)(piVar6 + 5) = *(undefined2 *)(iVar5 + 0x10);
-          }
-        }
-        if ((*(byte *)((int)piVar8 + 0x12) & 4) != 0) {
-          (**(code **)(**(int **)(*piVar8 + 0xc) + 0x38))(*(int **)(*piVar8 + 0xc),auStack_b0);
-        }
-        iVar10 = iVar10 + 1;
-        iVar11 = iVar11 + 8;
-      } while (iVar10 < *(int *)(iVar12 + 0x74));
-    }
-    iVar10 = *(int *)(iVar12 + 0x74);
-    uVar7 = *(undefined4 *)(iVar12 + 0x70);
-    iVar11 = fn_82CE5410();
-    (**(code **)(**(int **)(iVar11 + 0x10) + 8))(*(int **)(iVar11 + 0x10),uVar7,iVar10 << 3);
-    *(undefined4 *)(iVar12 + 0x74) = 0;
-    *(undefined4 *)(iVar12 + 0x70) = 0;
-    iVar12 = KeTlsGetValue(lbl_8323B4A0);
-    puVar2 = *(undefined4 **)(iVar12 + 4);
-    if (puVar2 < *(undefined4 **)(iVar12 + 0xc)) {
-      *puVar2 = &lbl_8202CF7C;
-      uVar9 = TBLr;
-      puVar2[1] = (int)uVar9;
-      *(undefined4 **)(iVar12 + 4) = puVar2 + 3;
-    }
-  }
-  fn_82CE8E78(param_2,param_3,param_3,0);
-  return;
-}
+    Island_82DC5700 *island = task->island;
+    StepInfo_82DC5700 info = sim->info;
 
+    if (island->count > 0) {
+        int i;
+        TimerStream_82DC5700 *s = KeTlsGetValue(lbl_8323B4A0);
+        if (s->current < s->end) {
+            TimerListEntry_82DC5700 *e = (TimerListEntry_82DC5700 *)s->current;
+            e->name = "LtIntegrate";
+            e->split = "StConstraintCallbacks";
+            e->time = (unsigned)__mftb();
+            s->current = (char *)(e + 1);
+        }
+        for (i = 0; i < island->count; i++) {
+            Constraint_82DC5700 *c = island->entries[i].c;
+            info.e0 = c->inst;
+            info.e1 = c->f1C;
+            info.a = c->ownerA->offset + island->offset;
+            info.b = c->ownerB->offset + island->offset;
+            info.c = c->inst->refA->f18;
+            info.d = c->inst->refB->f18;
+            if ((c->flags & 9) != 0) {
+                Atom_82DC5700 *atom = c->atoms;
+                Listener_82DC5700 *l = c->inst->listener;
+                Data_82DC5700 *old = c->inst->data;
+                Data_82DC5700 *nd;
+                while (atom->type >= 0x17) {
+                    atom = atom->next;
+                }
+                fn_82DC7928(l, &info, atom, 2);
+                nd = c->inst->data;
+                if (old != nd) {
+                    Slot_82DC5700 *slot = island->entries[i].slot;
+                    slot->data = nd;
+                    slot->f14 = nd->f10;
+                }
+            }
+            if ((c->flags & 4) != 0) {
+                c->inst->listener->vtbl->callback(c->inst->listener, &info);
+            }
+        }
+        {
+            int n = island->count;
+            Entry_82DC5700 *entries = island->entries;
+            Heap_82DC5700 *heap = fn_82CE5410()->heap;
+            heap->vtbl->free(heap, entries, n * 8);
+        }
+        island->entries = 0;
+        island->count = 0;
+        {
+            TimerStream_82DC5700 *s2 = KeTlsGetValue(lbl_8323B4A0);
+            if (s2->current < s2->end) {
+                TimerEntry_82DC5700 *e = (TimerEntry_82DC5700 *)s2->current;
+                e->name = "lt";
+                e->time = (unsigned)__mftb();
+                s2->current = (char *)(e + 1);
+            }
+        }
+    }
+    fn_82CE8E78(arg, task, task, 0);
+}

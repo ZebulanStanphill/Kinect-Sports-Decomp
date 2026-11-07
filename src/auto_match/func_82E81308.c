@@ -1,79 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50BE8();
-extern int fn_82E80A68();
-extern int fn_82E80FD8();
+typedef struct Node_82E81308 {
+    unsigned int a;                     /* 0x0 */
+    unsigned int b;                     /* 0x4 */
+    int pad8;                           /* 0x8 */
+    struct Node_82E81308 *next;         /* 0xc */
+} Node_82E81308;
 
+typedef struct Obj_82E81308 {
+    int f0;                             /* 0x0 */
+    unsigned int size;                  /* 0x4 */
+    unsigned int f8;                    /* 0x8 */
+    Node_82E81308 *head;                /* 0xc */
+    Node_82E81308 *tail;                /* 0x10 */
+    Node_82E81308 *f14;                 /* 0x14 */
+} Obj_82E81308;
 
-undefined8 fn_82E81308(int param_1,ulonglong param_2)
+extern void *fn_82E50BE8(int a, int b, int c, int d, int e);
+extern void fn_82E80A68(Obj_82E81308 *p);
+extern Node_82E81308 *fn_82E80FD8(void *mem, unsigned int start, unsigned int len);
 
+long fn_82E81308(Obj_82E81308 *p, unsigned __int64 size)
 {
-  uint *puVar1;
-  ulonglong uVar2;
-  int iVar3;
-  ulonglong uVar4;
-  
-  if (0x10000 < param_2) {
-    return 0xffffffff80070057;
-  }
-  puVar1 = *(uint **)(param_1 + 0x10);
-  if (puVar1 == (uint *)0x0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = (ulonglong)puVar1[1] + (ulonglong)*puVar1;
-    if ((param_2 & 0xffffffff) <= (uVar4 & 0xffffffff)) goto LAB_82e813dc;
-  }
-  uVar2 = fn_82E50BE8(0x10,0,0,0,0);
-  if ((uVar2 & 0xffffffff) == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = fn_82E80FD8(uVar2,uVar4,(param_2 & 0xffffffff) - uVar4);
-  }
-  if (iVar3 == 0) {
-    return 0xffffffff8007000e;
-  }
-  if (*(int *)(param_1 + 0x10) == 0) {
-    *(int *)(param_1 + 0xc) = iVar3;
-    *(int *)(param_1 + 0x14) = iVar3;
-    *(undefined4 *)(param_1 + 8) = 0;
-  }
-  else {
-    *(int *)(*(int *)(param_1 + 0x10) + 0xc) = iVar3;
-  }
-  *(int *)(param_1 + 0x10) = iVar3;
-LAB_82e813dc:
-  *(int *)(param_1 + 4) = (int)param_2;
-  if ((param_2 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 8)) {
-    *(int *)(param_1 + 8) = (int)param_2;
-    fn_82E80A68(param_1);
-  }
-  return 0;
-}
+    long hr = 0;
+    Node_82E81308 *last;
+    unsigned int total;
+    void *mem;
+    Node_82E81308 *node;
 
+    if (size > 0x10000) {
+        hr = (long)0x80070057;
+    } else {
+        last = p->tail;
+        total = last ? last->b + last->a : 0;
+        if (last == 0 || (unsigned int)size > total) {
+            mem = fn_82E50BE8(0x10, 0, 0, 0, 0);
+            node = mem ? fn_82E80FD8(mem, total, (unsigned int)size - total) : 0;
+            if (node == 0) {
+                hr = (long)0x8007000E;
+                goto done;
+            }
+            if (p->tail == 0) {
+                p->head = node;
+                p->f14 = node;
+                p->f8 = 0;
+            } else {
+                p->tail->next = node;
+            }
+            p->tail = node;
+        }
+        p->size = (unsigned int)size;
+        if (p->f8 > (unsigned int)size) {
+            p->f8 = (unsigned int)size;
+            fn_82E80A68(p);
+        }
+    }
+done:
+    return hr;
+}

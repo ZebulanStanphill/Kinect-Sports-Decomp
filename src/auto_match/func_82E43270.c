@@ -1,64 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E42D28();
+extern char lbl_8215ED68[];
 
+typedef struct IUnk_82E43270 IUnk_82E43270;
 
-longlong fn_82E43270(int param_1,undefined4 *param_2)
+typedef struct IUnkVtbl_82E43270 {
+    int (*QueryInterface)(IUnk_82E43270 *self, const void *iid, IUnk_82E43270 **out);
+    int (*AddRef)(IUnk_82E43270 *self);
+    int (*Release)(IUnk_82E43270 *self);
+    void *pad[7];
+    int (*Get)(IUnk_82E43270 *self, IUnk_82E43270 **out);
+} IUnkVtbl_82E43270;
 
+struct IUnk_82E43270 {
+    IUnkVtbl_82E43270 *vt;
+};
+
+extern int fn_82E42D28(int self, IUnk_82E43270 *obj);
+
+int fn_82E43270(int param_1, IUnk_82E43270 *param_2)
 {
-  longlong lVar1;
-  int *piStack_30;
-  int * apiStack_2c;
-  
-  if (param_2 == (undefined4 *)0x0) {
-    lVar1 = -0x7ff8ffa9;
-  }
-  else {
-    piStack_30 = (int *)0x0;
-    apiStack_2c = (int *)0x0;
-    if (*(int *)(param_1 + 0x594) == 0) {
-      lVar1 = (**(code **)*param_2)(param_2,0xffffffff8215ed68,&piStack_30);
-      if ((-1 < lVar1) &&
-         (lVar1 = (**(code **)(*piStack_30 + 0x28))(piStack_30,&apiStack_2c), -1 < lVar1)) {
-        lVar1 = fn_82E42D28(param_1,apiStack_2c);
-      }
-      if (piStack_30 != (int *)0x0) {
-        (**(code **)(*piStack_30 + 8))();
-        piStack_30 = (int *)0x0;
-      }
-      if (apiStack_2c != (int *)0x0) {
-        (**(code **)(*apiStack_2c + 8))();
-      }
-    }
-    else {
-      lVar1 = -0x3ff2b9ad;
-    }
-  }
-  return lVar1;
-}
+    int hr;
+    IUnk_82E43270 *a;
+    IUnk_82E43270 *b;
 
+    if (param_2 == 0) {
+        return (int)0x80070057;
+    }
+    a = 0;
+    b = 0;
+    if (*(unsigned int *)(param_1 + 0x594) != 0) {
+        hr = (int)0xC00D4653;
+    } else {
+        hr = param_2->vt->QueryInterface(param_2, lbl_8215ED68, &a);
+        if (hr >= 0) {
+            hr = a->vt->Get(a, &b);
+            if (hr >= 0) {
+                hr = fn_82E42D28(param_1, b);
+            }
+        }
+        if (a != 0) {
+            a->vt->Release(a);
+            a = 0;
+        }
+        if (b != 0) {
+            b->vt->Release(b);
+        }
+    }
+    return hr;
+}

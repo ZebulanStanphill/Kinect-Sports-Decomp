@@ -1,108 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct { unsigned int d1; unsigned short d2, d3; unsigned char d4[8]; } Guid_82E39F70;
+typedef struct Unknown_82E39F70 Unknown_82E39F70;
+typedef struct {
+    long (*QueryInterface)(Unknown_82E39F70 *self, const Guid_82E39F70 *iid, Unknown_82E39F70 **out);
+    unsigned long (*AddRef)(Unknown_82E39F70 *self);
+    unsigned long (*Release)(Unknown_82E39F70 *self);
+    void *f0c;
+    long (*GetItem)(Unknown_82E39F70 *self, const Guid_82E39F70 *key, int index, Unknown_82E39F70 **out);
+    long (*GetValue)(Unknown_82E39F70 *self, int index, __int64 *out);
+    void *f18, *f1c, *f20, *f24;
+    long (*GetChild)(Unknown_82E39F70 *self, Unknown_82E39F70 **out);
+} UnknownVtbl_82E39F70;
+struct Unknown_82E39F70 { UnknownVtbl_82E39F70 *vt; };
+typedef struct { int f0; int f4; char lock[0x64]; int ready; } Obj_82E39F70;
+extern const Guid_82E39F70 lbl_8215ED68, lbl_82154C18, lbl_820ED018, lbl_821549B8;
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
 
-
-longlong fn_82E39F70(int param_1,undefined4 *param_2,longlong *param_3)
-
+long fn_82E39F70(Obj_82E39F70 *self, Unknown_82E39F70 *src, __int64 *out)
 {
-  longlong lVar1;
-  int *piStack_60;
-  int *piStack_5c;
-  int *piStack_58;
-  int *piStack_54;
-  int *apiStack_50 [2];
-  longlong lStack_48;
-  longlong alStack_40;
-  
-  fn_82E50CB8(param_1 + 8);
-  piStack_5c = (int *)0x0;
-  piStack_58 = (int *)0x0;
-  piStack_60 = (int *)0x0;
-  apiStack_50[0] = (int *)0x0;
-  piStack_54 = (int *)0x0;
-  if ((param_2 == (undefined4 *)0x0) || (param_3 == (longlong *)0x0)) {
-    lVar1 = -0x7ff8ffa9;
-  }
-  else {
-    *param_3 = 0;
-    if (*(int *)(param_1 + 0x6c) == 0) {
-      lVar1 = -0x3ff2c94e;
-    }
-    else {
-      lStack_48 = 0;
-      alStack_40 = 0;
-      lVar1 = (**(code **)*param_2)(param_2,0xffffffff8215ed68,&piStack_5c);
-      if (-1 < lVar1) {
-        lVar1 = (**(code **)(*piStack_5c + 0x28))(piStack_5c,&piStack_58);
-        if (-1 < lVar1) {
-          lVar1 = (**(code **)*piStack_58)(piStack_58,0xffffffff82154c18,&piStack_60);
-          if (-1 < lVar1) {
-            lVar1 = (**(code **)(*piStack_60 + 0x10))(piStack_60,0xffffffff820ed018,0,apiStack_50);
-            if (-1 < lVar1) {
-              lVar1 = (**(code **)(*piStack_60 + 0x10))(piStack_60,0xffffffff821549b8,0,&piStack_54)
-              ;
-              if (-1 < lVar1) {
-                lVar1 = (**(code **)(*apiStack_50[0] + 0x14))(apiStack_50[0],0,&lStack_48);
-                if ((-1 < lVar1) &&
-                   (lVar1 = (**(code **)(*piStack_54 + 0x14))(piStack_54,0,&alStack_40), -1 < lVar1))
-                {
-                  *param_3 = alStack_40 + lStack_48;
+    long hr;
+    Unknown_82E39F70 *a, *b, *c, *d, *e;
+    __int64 v1, v2;
+    fn_82E50CB8(self->lock);
+    a = 0;
+    b = 0;
+    c = 0;
+    d = 0;
+    e = 0;
+    if (src == 0) {
+        hr = 0x80070057;
+    } else if (out == 0) {
+        hr = 0x80070057;
+    } else {
+        *out = 0;
+        if (self->ready == 0) {
+            hr = 0xC00D36B2;
+        } else {
+            v1 = 0;
+            v2 = 0;
+            hr = src->vt->QueryInterface(src, &lbl_8215ED68, &a);
+            if (hr >= 0) {
+                hr = a->vt->GetChild(a, &b);
+                if (hr >= 0) {
+                    hr = b->vt->QueryInterface(b, &lbl_82154C18, &c);
+                    if (hr >= 0) {
+                        hr = c->vt->GetItem(c, &lbl_820ED018, 0, &d);
+                        if (hr >= 0) {
+                            hr = c->vt->GetItem(c, &lbl_821549B8, 0, &e);
+                            if (hr >= 0) {
+                                hr = d->vt->GetValue(d, 0, &v1);
+                                if (hr >= 0) {
+                                    hr = e->vt->GetValue(e, 0, &v2);
+                                    if (hr >= 0) {
+                                        *out = v2 + v1;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
+            if (a != 0) { a->vt->Release(a); a = 0; }
+            if (b != 0) { b->vt->Release(b); b = 0; }
+            if (c != 0) { c->vt->Release(c); c = 0; }
+            if (e != 0) { e->vt->Release(e); e = 0; }
+            if (d != 0) { d->vt->Release(d); d = 0; }
         }
-      }
-      if (piStack_5c != (int *)0x0) {
-        (**(code **)(*piStack_5c + 8))();
-        piStack_5c = (int *)0x0;
-      }
-      if (piStack_58 != (int *)0x0) {
-        (**(code **)(*piStack_58 + 8))();
-        piStack_58 = (int *)0x0;
-      }
-      if (piStack_60 != (int *)0x0) {
-        (**(code **)(*piStack_60 + 8))();
-        piStack_60 = (int *)0x0;
-      }
-      if (piStack_54 != (int *)0x0) {
-        (**(code **)(*piStack_54 + 8))();
-        piStack_54 = (int *)0x0;
-      }
-      if (apiStack_50[0] != (int *)0x0) {
-        (**(code **)(*apiStack_50[0] + 8))();
-        apiStack_50[0] = (int *)0x0;
-      }
     }
-  }
-  fn_82E50F10(param_1 + 8);
-  return lVar1;
+    fn_82E50F10(self->lock);
+    return hr;
 }
-

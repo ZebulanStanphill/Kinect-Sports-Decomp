@@ -1,51 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FF0838();
-extern unsigned int lbl_831BC768;
+typedef struct Desc_82FFFB48 {
+    char pad0[8];
+    int f8;
+    char padC[4];
+    char f10[0x18];
+    char f28[0x58];
+    unsigned char f80;
+} Desc_82FFFB48;
 
+extern void *lbl_831BC768;
+extern void *fn_82FA5060(void *heap, int size);
+extern void *fn_82FF0838(void *mem, int a, int b, int c, void *d, void *e, int f, int g,
+                         unsigned char h, int i);
 
-undefined8
-fn_82FFFB48(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4,
-             undefined8 param_5)
-
+void *fn_82FFFB48(int unused, int a, int b, Desc_82FFFB48 *desc, int g)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = fn_82FA5060(lbl_831BC768,0x188);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_82FF0838(uVar1,param_2,param_3,*(undefined4 *)(param_4 + 8),param_4 + 0x10,
-                              param_4 + 0x28,0,param_5);
-  }
-  return uVar2;
+    void *mem = fn_82FA5060(lbl_831BC768, 0x188);
+    if (mem != 0)
+        return fn_82FF0838(mem, a, b, desc->f8, desc->f10, desc->f28, 0, g, desc->f80, 0);
+    return 0;
 }
-
