@@ -1,68 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50330();
-extern int fn_82E50F00();
-extern int fn_82E51028();
-extern int fn_82E52428();
-extern int fn_82E63428();
+typedef struct Key_82E63500 {
+    int v[4];
+} Key_82E63500;
 
+typedef struct Elem_82E63500 {
+    Key_82E63500 key;
+    int value[4];
+} Elem_82E63500;
 
-longlong fn_82E63500(int param_1,undefined4 *param_2)
+typedef struct Map_82E63500 {
+    int pad0;
+    int lock[15];
+    Elem_82E63500 *data;     /* 0x40 */
+    unsigned int capacity;   /* 0x44 */
+    unsigned int count;      /* 0x48 */
+} Map_82E63500;
 
+extern void fn_82E50330(void *p);
+extern void fn_82E50F00(void *lock, int n);
+extern void fn_82E51028(void *lock, int n);
+extern void *fn_82E52428(Map_82E63500 *m, Key_82E63500 *key);
+extern int fn_82E63428(Map_82E63500 *m, unsigned int newCapacity);
+
+void *fn_82E63500(Map_82E63500 *m, Key_82E63500 *key)
 {
-  uint uVar1;
-  longlong lVar2;
-  int iVar3;
-  int iVar4;
-  
-  fn_82E50F00(param_1 + 4,1);
-  lVar2 = fn_82E52428(param_1,param_2);
-  if (lVar2 == 0) {
-    if (((ulonglong)*(uint *)(param_1 + 0x48) == (ulonglong)*(uint *)(param_1 + 0x44)) &&
-       (iVar3 = fn_82E63428(param_1,(ulonglong)*(uint *)(param_1 + 0x44) + 4), iVar3 < 0)) {
-      lVar2 = 0;
-    }
-    else {
-      iVar3 = *(int *)(param_1 + 0x48) * 0x20;
-      iVar4 = iVar3 + *(int *)(param_1 + 0x40);
-      *(undefined4 *)(iVar3 + *(int *)(param_1 + 0x40)) = *param_2;
-      *(undefined4 *)(iVar4 + 4) = param_2[1];
-      *(undefined4 *)(iVar4 + 8) = param_2[2];
-      *(undefined4 *)(iVar4 + 0xc) = param_2[3];
-      uVar1 = *(uint *)(param_1 + 0x48);
-      *(uint *)(param_1 + 0x48) = uVar1 + 1;
-      lVar2 = ((ulonglong)uVar1 & 0x7ffffff) * 0x20 + (ulonglong)*(uint *)(param_1 + 0x40) + 0x10;
-    }
-  }
-  else {
-    fn_82E50330(lVar2);
-  }
-  fn_82E51028(param_1 + 4,1);
-  return lVar2;
-}
+    void *r;
 
+    fn_82E50F00(m->lock, 1);
+    r = fn_82E52428(m, key);
+    if (r != 0) {
+        fn_82E50330(r);
+    } else if (m->count == m->capacity && fn_82E63428(m, m->capacity + 4) < 0) {
+        r = 0;
+    } else {
+        m->data[m->count].key = *key;
+        r = m->data[m->count++].value;
+    }
+    fn_82E51028(m->lock, 1);
+    return r;
+}

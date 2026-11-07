@@ -1,79 +1,86 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83050528();
-extern int fn_83053F30();
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
-ulonglong fn_83053588(int param_1,undefined8 param_2,int *param_3)
+typedef struct Inner_83053588 {
+    char pad0[0x84];
+    unsigned f84;
+} Inner_83053588;
 
+typedef struct Bits_83053588 {
+    unsigned a : 2;
+    unsigned b : 1;
+    unsigned c : 1;
+    unsigned d : 1;
+    unsigned e : 2;
+    unsigned f : 1;
+    unsigned rest : 24;
+} Bits_83053588;
+
+typedef struct Obj_83053588 {
+    char pad0[0x18];
+    char f18[8];
+    unsigned f20;
+    char pad24[0x14];
+    char cs[0x28];
+    Inner_83053588 *f60;
+    char pad64[4];
+    unsigned f68;
+    unsigned f6c;
+    char pad70[4];
+    Bits_83053588 f74;
+    char pad78[8];
+    U64 f80;
+    U64 f88;
+    char pad90[0xc];
+    unsigned f9c;
+    char pada0[0x10];
+    unsigned fb0;
+} Obj_83053588;
+
+extern void fn_83050528(Obj_83053588 *p, int a);
+extern unsigned fn_83053F30(Obj_83053588 *p, unsigned a, U64 off, unsigned size,
+                            unsigned flag, int *count, unsigned char *done);
+
+unsigned fn_83053588(Obj_83053588 *p, unsigned param_2, void **param_3)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  int iVar5;
-  char acStack_30 [4];
-  int aiStack_2c;
-  
-  iVar5 = param_1 + 0x38;
-  *param_3 = param_1 + 0x18;
-  RtlEnterCriticalSection(iVar5);
-  uVar1 = *(uint *)(param_1 + 0x74);
-  if (((uVar1 & 0x8000000) == 0) && ((uVar1 >> 0x18 & 1) != 0)) {
-    if ((*(uint *)(param_1 + 0x9c) & 0x1000000) != 0) {
-      *(uint *)(param_1 + 0x9c) = *(uint *)(param_1 + 0x9c) & 0xfeffffff;
-      *(ulonglong *)(param_1 + 0x80) =
-           ((longlong)*(int *)(param_1 + 0x6c) * (longlong)*(int *)(param_1 + 0x20) & 0xffffffffU) +
-           *(longlong *)(param_1 + 0x88);
-    }
-    uVar3 = (ulonglong)*(uint *)(param_1 + 0x68) - (ulonglong)*(uint *)(param_1 + 0xb0);
-    uVar4 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x60) + 0x84);
-    uVar2 = uVar4;
-    if (uVar3 <= uVar4) {
-      uVar2 = uVar3;
-    }
-    uVar2 = fn_83053F30(param_1,param_2,
-                          ((longlong)*(int *)(param_1 + 0x6c) * (longlong)*(int *)(param_1 + 0x20) &
-                          0xffffffffU) + *(longlong *)(param_1 + 0x88) +
-                          (ulonglong)*(uint *)(param_1 + 0xb0),uVar2,uVar1 >> 0x1d & 1,&aiStack_2c,
-                          acStack_30);
-    if ((uVar2 & 0xffffffff) != 0) {
-      *(int *)(param_1 + 0xb0) = *(int *)(param_1 + 0xb0) + aiStack_2c;
-      if ((acStack_30[0] != '\0') || (uVar3 <= uVar4)) {
-        fn_83050528(param_1,0);
-      }
-    }
-    RtlLeaveCriticalSection(iVar5);
-  }
-  else {
-    RtlLeaveCriticalSection(iVar5);
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+    Bits_83053588 fl;
+    unsigned remaining;
+    unsigned avail;
+    unsigned size;
+    unsigned char fits;
+    U64 off;
+    unsigned r;
+    int count;
+    unsigned char done;
 
+    *param_3 = p->f18;
+    RtlEnterCriticalSection(p->cs);
+    fl = p->f74;
+    if (fl.d == 0 && (unsigned char)fl.f != 0) {
+        if ((p->f9c & 0x1000000) != 0) {
+            p->f9c &= 0xfeffffff;
+            p->f80 = (U64)(unsigned)(p->f6c * p->f20) + p->f88;
+        }
+        remaining = p->f68 - p->fb0;
+        avail = p->f60->f84;
+        off = (U64)(unsigned)(p->f6c * p->f20) + p->f88 + p->fb0;
+        fits = remaining <= avail;
+        size = avail;
+        if (fits) {
+            size = remaining;
+        }
+        r = fn_83053F30(p, param_2, off, size, fl.b, &count, &done);
+        if (r != 0) {
+            p->fb0 += count;
+            if (done != 0 || fits != 0) {
+                fn_83050528(p, 0);
+            }
+        }
+        RtlLeaveCriticalSection(p->cs);
+        return r;
+    }
+    RtlLeaveCriticalSection(p->cs);
+    return 0;
+}

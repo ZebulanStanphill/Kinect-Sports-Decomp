@@ -1,9 +1,6 @@
 typedef unsigned char undefined1;
 typedef unsigned char byte;
 typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
 typedef unsigned short undefined2;
 typedef unsigned short ushort;
 typedef unsigned short word;
@@ -25,19 +22,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_83075D58();
-extern unsigned int lbl_821AAD20;
+extern unsigned char fn_83075D58(int p);
 
 
-undefined8 fn_8306D7E0(int param_1)
-
+unsigned char fn_8306D7E0(int param_1)
 {
-  char cVar1;
-  
-  if ((*(float *)(param_1 + 0x1a80) <= lbl_821AAD20) &&
-     (cVar1 = fn_83075D58(param_1 + 0xa40), cVar1 != '\0')) {
-    return 0;
-  }
-  return 1;
+  return !(*(float *)(param_1 + 0x1a80) <= 0.0f &&
+           fn_83075D58(param_1 + 0xa40) != 0);
 }
-

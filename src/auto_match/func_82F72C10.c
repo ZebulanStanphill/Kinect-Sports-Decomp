@@ -1,57 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F72318();
-extern unsigned int lbl_82169D88;
+extern char lbl_82169D88[];
+extern char lbl_832635A0[];
+extern void *fn_82F72318(void *heap, int size, int flags);
 
+typedef struct Buffer_82F72C10 {
+    void *vtable;
+    unsigned char *data;
+    int size;
+} Buffer_82F72C10;
 
-undefined4 * fn_82F72C10(undefined4 *param_1,int param_2,ulonglong param_3)
-
+Buffer_82F72C10 *fn_82F72C10(Buffer_82F72C10 *self, const unsigned char *src, int size)
 {
-  undefined1 *puVar1;
-  
-  *param_1 = &lbl_82169D88;
-  if (((int)param_3 == 0) || (param_2 == 0)) {
-    param_1[1] = 0;
-    param_1[2] = 0;
-  }
-  else {
-    puVar1 = (undefined1 *)fn_82F72318(0xffffffff832635a0,param_3,0);
-    param_1[2] = (int)param_3;
-    param_1[1] = puVar1;
-    if ((puVar1 != (undefined1 *)0x0) && ((param_3 & 0xffffffff) != 0)) {
-      param_2 = param_2 - (int)puVar1;
-      do {
-        *puVar1 = puVar1[param_2];
-        puVar1 = puVar1 + 1;
-        param_3 = param_3 - 1;
-      } while (param_3 != 0);
-    }
-  }
-  return param_1;
-}
+    unsigned char *p;
 
+    self->vtable = lbl_82169D88;
+    if (size == 0 || src == 0) {
+        self->data = 0;
+        self->size = 0;
+    } else {
+        p = (unsigned char *)fn_82F72318(lbl_832635A0, size, 0);
+        self->size = size;
+        self->data = p;
+        if (p != 0) {
+            unsigned int i;
+            for (i = 0; i < (unsigned int)size; i++) {
+                p[i] = src[i];
+            }
+        }
+    }
+    return self;
+}

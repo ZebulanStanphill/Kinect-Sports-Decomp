@@ -1,43 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82F5B310 Obj_82F5B310;
 
+typedef struct Vtbl_82F5B310 {
+    void *slots[6];
+    void (*method18)(Obj_82F5B310 *self);
+} Vtbl_82F5B310;
 
-bool fn_82F5B310(int *param_1)
+struct Obj_82F5B310 {
+    Vtbl_82F5B310 *vt;
+};
 
+typedef struct Holder_82F5B310 {
+    Obj_82F5B310 *obj;
+    void *other;
+} Holder_82F5B310;
+
+unsigned char fn_82F5B310(Holder_82F5B310 *h)
 {
-  bool bVar1;
-  
-  if ((param_1[1] == 0) || (bVar1 = true, *param_1 == 0)) {
-    bVar1 = false;
-  }
-  if (bVar1) {
-    (**(code **)(*(int *)*param_1 + 0x18))();
-  }
-  return bVar1;
+    unsigned char ok = h->other != 0 && h->obj != 0;
+    if (!ok) {
+        return 0;
+    }
+    h->obj->vt->method18(h->obj);
+    return 1;
 }
-

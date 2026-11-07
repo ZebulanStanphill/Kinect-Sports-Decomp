@@ -1,79 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1a0;
-extern unsigned int *auStack_3a0;
-extern unsigned int *auStack_3b0;
-extern int fn_82CE0658();
-extern int fn_82CE08A0();
-extern int fn_82CED958();
-extern int fn_82CEDB38();
-extern int fn_82CEE578();
-extern unsigned int *lbl_8323B464;
-extern unsigned int lbl_8323B524;
-extern unsigned int uStack_3b4;
-extern unsigned int uStack_3b8;
-extern unsigned int uStack_3bc;
-extern unsigned int uStack_3c0;
+typedef struct XNetStartupParams_82D05A88 {
+    unsigned char cfgSizeOfStruct;
+    unsigned char cfgFlags;
+    unsigned char cfgSockMaxDgramSockets;
+    unsigned char cfgSockMaxStreamSockets;
+    unsigned char cfgSockDefaultRecvBufsizeInK;
+    unsigned char cfgSockDefaultSendBufsizeInK;
+    unsigned char cfgKeyRegMax;
+    unsigned char cfgSecRegMax;
+    unsigned char cfgQosDataLimitDiv4;
+    unsigned char cfgQosProbeTimeoutInSeconds;
+    unsigned char cfgQosProbeRetries;
+    unsigned char cfgQosSrvMaxSimultaneousResponses;
+    unsigned char cfgQosPairWaitTimeInSeconds;
+} XNetStartupParams_82D05A88;
 
+typedef struct WSAData_82D05A88 {
+    unsigned char data[400];
+} WSAData_82D05A88;
+
+typedef struct OStream_82D05A88 {
+    int v[4];
+} OStream_82D05A88;
+
+typedef struct ErrorVt_82D05A88 ErrorVt_82D05A88;
+typedef struct Error_82D05A88 {
+    ErrorVt_82D05A88 *vt;
+} Error_82D05A88;
+
+struct ErrorVt_82D05A88 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    int (*message)(Error_82D05A88 *self, int type, unsigned int id,
+                   const char *msg, const char *file, int line);
+};
+
+void *memset(void *dst, int c, unsigned int n);
+
+extern int fn_82CE0658(XNetStartupParams_82D05A88 *params);
+extern int fn_82CE08A0(int version, WSAData_82D05A88 *data);
+extern void fn_82CEE578(OStream_82D05A88 *os, char *buf, int size);
+extern void fn_82CEDB38(OStream_82D05A88 *os, const char *s);
+extern void fn_82CED958(OStream_82D05A88 *os);
+
+extern Error_82D05A88 *lbl_8323B464;
+extern unsigned char lbl_8323B524;
 
 void fn_82D05A88(void)
-
 {
-  undefined8 in_r0;
-  int iVar1;
-  undefined4 uStack_3c0;
-  undefined4 uStack_3bc;
-  undefined4 uStack_3b8;
-  undefined1 uStack_3b4;
-  undefined1 auStack_3b0 [16];
-  undefined1 auStack_3a0 [512];
-  undefined1 auStack_1a0 [400];
-  
-  if (lbl_8323B524 == '\0') {
-    uStack_3bc = 0;
-    uStack_3b8 = 0;
-    uStack_3b4 = 0;
-    uStack_3c0 = 0xd010000;
-    fn_82CE0658(&uStack_3c0);
-    iVar1 = fn_82CE08A0(0x202,auStack_1a0);
-    if (iVar1 == -1) {
-      fn_82CEE578(auStack_3b0,auStack_3a0,0x200);
-      fn_82CEDB38(auStack_3b0,0xffffffff82133fe4);
-      iVar1 = (**(code **)(*lbl_8323B464 + 0xc))
-                        (lbl_8323B464,3,0x321825f8,auStack_3a0,0xffffffff82133fbc,0x48);
-      if (iVar1 != 0) {
-        trapWord(0x1f,in_r0,0x16);
-      }
-                    /* WARNING: Subroutine does not return */
-      fn_82CED958(auStack_3b0);
-    }
-    lbl_8323B524 = '\x01';
-  }
-  return;
-}
+    XNetStartupParams_82D05A88 xnsp;
+    OStream_82D05A88 os;
+    char buf[512];
+    WSAData_82D05A88 wsaData;
 
+    if (lbl_8323B524 == 0) {
+        memset(&xnsp, 0, sizeof(xnsp));
+        xnsp.cfgSizeOfStruct = sizeof(xnsp);
+        xnsp.cfgFlags = 1;
+        fn_82CE0658(&xnsp);
+        if (fn_82CE08A0(0x202, &wsaData) == -1) {
+            fn_82CEE578(&os, buf, 0x200);
+            fn_82CEDB38(&os, "(Windows)WSAStartup failed with error!");
+            if (lbl_8323B464->vt->message(lbl_8323B464, 3, 0x321825f8, buf,
+                    ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x48) != 0) {
+                __debugbreak();
+            }
+            fn_82CED958(&os);
+        }
+        lbl_8323B524 = 1;
+    }
+}

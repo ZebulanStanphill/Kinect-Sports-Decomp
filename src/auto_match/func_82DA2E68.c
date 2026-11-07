@@ -1,52 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82D99CC8();
+typedef struct Allocator_82DA2E68 Allocator_82DA2E68;
 
+typedef struct AllocatorVtbl_82DA2E68 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void *slot3;
+    void (*Free)(Allocator_82DA2E68 *self, void *data, int size, int align);
+} AllocatorVtbl_82DA2E68;
 
-void fn_82DA2E68(int param_1)
+struct Allocator_82DA2E68 {
+    AllocatorVtbl_82DA2E68 *vt;
+};
 
+typedef struct Globals_82DA2E68 {
+    int pad[4];
+    Allocator_82DA2E68 *alloc;
+} Globals_82DA2E68;
+
+typedef struct Buf_82DA2E68 {
+    void *data;
+    int count;
+    int cap;
+} Buf_82DA2E68;
+
+typedef struct Obj_82DA2E68 {
+    char pad[0x160];
+    Buf_82DA2E68 buf;
+} Obj_82DA2E68;
+
+extern Globals_82DA2E68 *fn_82CE5410(void);
+extern void fn_82D99CC8(Obj_82DA2E68 *p);
+
+static __forceinline void Buf_Clear_82DA2E68(Buf_82DA2E68 *b)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0x164) == 0) {
-    iVar2 = fn_82CE5410();
-    piVar1 = *(int **)(iVar2 + 0x10);
-    *(undefined4 *)(param_1 + 0x164) = 0;
-    if ((*(uint *)(param_1 + 0x168) & 0x80000000) == 0) {
-      (**(code **)(*piVar1 + 0x10))
-                (piVar1,*(undefined4 *)(param_1 + 0x160),*(uint *)(param_1 + 0x168) & 0x3fffffff,4);
+    Allocator_82DA2E68 *a = fn_82CE5410()->alloc;
+    b->count = 0;
+    if ((b->cap & (int)0x80000000) == 0) {
+        a->vt->Free(a, b->data, b->cap & 0x3fffffff, 4);
     }
-    *(undefined4 *)(param_1 + 0x160) = 0;
-    *(undefined4 *)(param_1 + 0x168) = 0x80000000;
-  }
-  fn_82D99CC8(param_1);
-  return;
+    b->data = 0;
+    b->cap = (int)0x80000000;
 }
 
+void fn_82DA2E68(Obj_82DA2E68 *p)
+{
+    if (p->buf.count == 0) {
+        Buf_Clear_82DA2E68(&p->buf);
+    }
+    fn_82D99CC8(p);
+}

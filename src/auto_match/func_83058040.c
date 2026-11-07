@@ -1,43 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8305B970();
-extern int fn_8305BE58();
 
+typedef struct Target_83058040 {
+  char pad[0x24];
+  float value;
+} Target_83058040;
 
-void fn_83058040(uint *param_1)
+typedef struct Obj_83058040 {
+  uint count;
+  uint unk4;
+  Target_83058040 *target;
+  uint data[1];
+} Obj_83058040;
 
+extern int fn_8305B970(void *p, double d);
+extern double fn_8305BE58(double d);
+
+void fn_83058040(Obj_83058040 *param_1)
 {
-  int iVar1;
-  double dVar2;
-  
-  iVar1 = fn_8305B970((double)*param_1,param_1 + 3);
-  dVar2 = (double)fn_8305BE58((double)(longlong)iVar1);
-  *(float *)(param_1[2] + 0x24) = (float)dVar2;
-  return;
-}
+  int n;
 
+  n = fn_8305B970(param_1->data, (double)param_1->count);
+  param_1->target->value = (float)fn_8305BE58((double)n);
+}

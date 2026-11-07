@@ -1,78 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A43340();
-extern int fn_82A45900();
-extern int fn_82A47900();
+typedef struct Elem_82A481D0 {
+    int v0;                 /* 0x00 */
+    char pad04[0x18];       /* 0x04 */
+    unsigned int f1c;       /* 0x1c */
+    int f20;                /* 0x20 */
+} Elem_82A481D0;
 
+typedef struct List_82A481D0 {
+    char pad00[0x18];       /* 0x00 */
+    Elem_82A481D0 **head;   /* 0x18 */
+} List_82A481D0;
 
-void fn_82A481D0(int param_1)
+typedef struct Obj_82A481D0 {
+    char pad000[0x8c];      /* 0x000 */
+    char s8c[0x1d2 - 0x8c]; /* 0x08c */
+    unsigned char cnt;      /* 0x1d2 */
+    char pad1d3;            /* 0x1d3 */
+    int f1d4;               /* 0x1d4 */
+    int f1d8;               /* 0x1d8 */
+    char pad1dc[0x18];      /* 0x1dc */
+    List_82A481D0 list;     /* 0x1f4 */
+} Obj_82A481D0;
 
+extern int fn_82A47900(Obj_82A481D0 *p);
+extern void fn_82A43340(void *a, int b, int c);
+extern void fn_82A45900(int a, int b);
+
+static __forceinline Elem_82A481D0 *Front_82A481D0(List_82A481D0 *l)
 {
-  int *piVar1;
-  longlong lVar2;
-  undefined4 *puVar3;
-  ulonglong uVar4;
-  int iVar5;
-  
-  if (*(int *)(param_1 + 0x1d4) == 0) {
-    lVar2 = fn_82A47900();
-    uVar4 = (ulonglong)*(byte *)(param_1 + 0x1d2) - lVar2;
-    if (uVar4 != 0) {
-      if ((uVar4 & 0xffffffff) != 0) {
-        do {
-          piVar1 = *(int **)(param_1 + 0x20c);
-          if (piVar1 == (int *)0x0) {
-            puVar3 = (undefined4 *)0x0;
-            iVar5 = 0;
-          }
-          else {
-            puVar3 = (undefined4 *)*piVar1;
-            iVar5 = *piVar1;
-          }
-          fn_82A43340(param_1 + 0x8c,*(undefined4 *)(iVar5 + 0x20),*puVar3);
-          uVar4 = uVar4 - 1;
-        } while (uVar4 != 0);
-      }
-      if (*(int **)(param_1 + 0x20c) == (int *)0x0) {
-        iVar5 = 0;
-      }
-      else {
-        iVar5 = **(int **)(param_1 + 0x20c);
-      }
-      if (*(int *)(iVar5 + 0x1c) == 0xff) {
-        fn_82A45900(*(undefined4 *)(param_1 + 0x1d8),0xfe);
-        *(undefined1 *)(param_1 + 0x1d2) = 0xfe;
-      }
-      else {
-        *(char *)(param_1 + 0x1d2) = (char)lVar2;
-      }
-    }
-  }
-  return;
+    return l->head ? *l->head : 0;
 }
 
+void fn_82A481D0(Obj_82A481D0 *p)
+{
+    int r;
+    int n;
+    unsigned int i;
+
+    if (p->f1d4 == 0) {
+        r = fn_82A47900(p);
+        n = p->cnt - r;
+        if (n != 0) {
+            for (i = 0; i < (unsigned int)n; i++) {
+                fn_82A43340(p->s8c, Front_82A481D0(&p->list)->f20,
+                            Front_82A481D0(&p->list)->v0);
+            }
+            if (Front_82A481D0(&p->list)->f1c == 0xff) {
+                fn_82A45900(p->f1d8, 0xfe);
+                p->cnt = 0xfe;
+            } else {
+                p->cnt = (unsigned char)r;
+            }
+        }
+    }
+}

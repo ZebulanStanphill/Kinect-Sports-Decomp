@@ -1,90 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82A49DF8();
-extern unsigned int lbl_82089D08;
+typedef struct Desc_82A4B800 {
+    unsigned int kind;
+    unsigned int flags;
+    unsigned short *name;
+    unsigned short *description;
+    int format[1];
+} Desc_82A4B800;
 
+extern void *fn_8265C940(unsigned int size, unsigned int tag);
+extern void fn_8265C990(void *p, unsigned int tag);
+extern void fn_82A49DF8(void *fmt, int a, int b, int c, int rate, int d, int e, int f, short g);
 
-undefined8 fn_82A4B800(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
-
+static __forceinline int copyw_82A4B800(unsigned short *d, unsigned int n, const unsigned short *s)
 {
-  short sVar1;
-  short *psVar2;
-  short *psVar3;
-  ulonglong uVar4;
-  short *psVar5;
-  undefined8 uVar6;
-  
-  *param_3 = 2;
-  param_3[1] = 0xf;
-  fn_82A49DF8(param_3 + 4,0x28,3,6,48000,0,0,0xffffffffffffffff);
-  psVar2 = (short *)fn_8265C940(0xc,0x20970000);
-  if (psVar2 == (short *)0x0) {
-    uVar6 = 0xffffffff8007000e;
-  }
-  else {
-    psVar3 = (short *)fn_8265C940(0x2c,0x20970000);
-    if (psVar3 == (short *)0x0) {
-      uVar6 = 0xffffffff8007000e;
-      fn_8265C990(psVar2,0x20970000);
+    int r = 0;
+    if (n == 0) {
+        r = 0x80070057;
+    } else {
+        while (n != 0 && *s != 0) {
+            *d++ = *s++;
+            n--;
+        }
+        if (n == 0) {
+            d--;
+            r = 0x8007007A;
+        }
+        *d = 0;
     }
-    else {
-      uVar6 = 0;
-      uVar4 = 0xc;
-      psVar5 = psVar2;
-      do {
-        if (*(short *)(&lbl_82089D08 + ((int)psVar5 - (int)psVar2)) == 0) break;
-        *psVar5 = *(short *)(&lbl_82089D08 + ((int)psVar5 - (int)psVar2));
-        uVar4 = uVar4 - 1;
-        psVar5 = psVar5 + 1;
-      } while (uVar4 != 0);
-      if ((uVar4 & 0xffffffff) == 0) {
-        psVar5 = psVar5 + -1;
-      }
-      *psVar5 = 0;
-      uVar4 = 0x2c;
-      psVar5 = psVar3;
-      do {
-        sVar1 = *(short *)((int)L"Xbox 360 audio device" + ((int)psVar5 - (int)psVar3));
-        if (sVar1 == 0) break;
-        *psVar5 = sVar1;
-        uVar4 = uVar4 - 1;
-        psVar5 = psVar5 + 1;
-      } while (uVar4 != 0);
-      if ((uVar4 & 0xffffffff) == 0) {
-        psVar5 = psVar5 + -1;
-      }
-      *psVar5 = 0;
-      param_3[2] = psVar2;
-      param_3[3] = psVar3;
-    }
-  }
-  return uVar6;
+    return r;
 }
 
+int fn_82A4B800(int param_1, int param_2, Desc_82A4B800 *desc)
+{
+    unsigned short *name;
+    unsigned short *text;
+    int hr;
+
+    desc->kind = 2;
+    desc->flags = 0xf;
+    fn_82A49DF8(desc->format, 0x28, 3, 6, 48000, 0, 0, -1, (short)0x80);
+    name = (unsigned short *)fn_8265C940(0xc, 0x20970000);
+    if (name == 0) {
+        hr = 0x8007000E;
+    } else {
+        text = (unsigned short *)fn_8265C940(0x2c, 0x20970000);
+        if (text != 0) {
+            hr = 0;
+            copyw_82A4B800(name, 0xc, (const unsigned short *)L"Audio");
+            copyw_82A4B800(text, 0x2c, (const unsigned short *)L"Xbox 360 audio device");
+            desc->name = name;
+            desc->description = text;
+        } else {
+            hr = 0x8007000E;
+            fn_8265C990(name, 0x20970000);
+        }
+    }
+    return hr;
+}

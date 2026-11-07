@@ -1,53 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Child_82FAF088 Child_82FAF088;
 
+typedef struct ChildVt_82FAF088 {
+    char pad0[0x48];
+    void (*Update)(Child_82FAF088 *self, float f, int a, int b, int c);
+    char pad4c[0x84 - 0x4c];
+    unsigned char (*IsDone)(Child_82FAF088 *self);
+} ChildVt_82FAF088;
 
-void fn_82FAF088(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6)
+struct Child_82FAF088 {
+    ChildVt_82FAF088 *vt;
+    char pad4[0x14];
+    unsigned short count;
+};
 
+typedef struct Entry_82FAF088 {
+    int key;
+    Child_82FAF088 *child;
+} Entry_82FAF088;
+
+typedef struct Owner_82FAF088 {
+    char pad0[0x7c];
+    Entry_82FAF088 *begin;
+    Entry_82FAF088 *end;
+} Owner_82FAF088;
+
+void fn_82FAF088(Owner_82FAF088 *self, float f, int a, int b, int c)
 {
-  int *piVar1;
-  char cVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_2 + 0x7c);
-  if (iVar3 != *(int *)(param_2 + 0x80)) {
-    do {
-      cVar2 = (**(code **)(**(int **)(iVar3 + 4) + 0x84))();
-      if (cVar2 == '\0') {
-        piVar1 = *(int **)(iVar3 + 4);
-        if (*(short *)(piVar1 + 6) != 0) {
-          (**(code **)(*piVar1 + 0x48))(param_1,piVar1,param_3,param_4,param_5,param_6);
-        }
-      }
-      iVar3 = iVar3 + 8;
-    } while (iVar3 != *(int *)(param_2 + 0x80));
-  }
-  return;
-}
+    Entry_82FAF088 *e;
 
+    for (e = self->begin; e != self->end; e++) {
+        if (e->child->vt->IsDone(e->child) == 0) {
+            Child_82FAF088 *ch = e->child;
+            if (ch->count != 0) {
+                ch->vt->Update(ch, f, a, b, c);
+            }
+        }
+    }
+}

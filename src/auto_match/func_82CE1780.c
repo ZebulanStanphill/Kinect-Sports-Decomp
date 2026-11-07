@@ -1,72 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82A2B798();
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct {
+    void *obj;
+    unsigned int arg1;
+    unsigned int arg2;
+    unsigned int zero1;
+    unsigned int zero2;
+} IoArgs_82CE1780;
 
+extern unsigned int XamSessionRefObjByHandle(void *handle, void **obj);
+extern int XMsgStartIORequest(unsigned int app, unsigned int msg, void *overlapped,
+                              void *buffer, unsigned int size);
+extern void ObDereferenceObject(void *obj);
+extern unsigned int fn_82A2B798(void);
 
-ulonglong fn_82CE1780(undefined8 param_1,undefined4 param_2,undefined4 param_3,ulonglong param_4)
-
+unsigned int fn_82CE1780(void *handle, unsigned int arg1, unsigned int arg2, void *overlapped)
 {
-  ulonglong uVar1;
-  int iVar3;
-  longlong lVar2;
-  undefined4 auStack_50;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+    unsigned int result;
+    void *obj;
+    IoArgs_82CE1780 args;
 
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  
-  uVar1 = XamSessionRefObjByHandle(param_1,&auStack_50);
-  if (uVar1 == 0) {
-    uStack_34 = 0;
-    uStack_30 = 0;
-    stack_pair_40.first = auStack_50;
-    stack_pair_40.second = param_2;
-    uStack_38 = param_3;
-    iVar3 = XMsgStartIORequest(0xfb,0xb0013,param_4,&stack_pair_40.first,0x14);
-    if (iVar3 < 0) {
-      uVar1 = 0x65b;
+    result = XamSessionRefObjByHandle(handle, &obj);
+    if (result == 0) {
+        args.obj = obj;
+        args.arg1 = arg1;
+        args.arg2 = arg2;
+        args.zero1 = 0;
+        args.zero2 = 0;
+        if (XMsgStartIORequest(0xfb, 0xb0013, overlapped, &args, sizeof(args)) < 0) {
+            result = 0x65b;
+        } else if (overlapped == 0) {
+            result = fn_82A2B798() != 0 ? 0x65b : 0;
+        } else {
+            result = 0x3e5;
+        }
+        ObDereferenceObject(obj);
     }
-    else if ((param_4 & 0xffffffff) == 0) {
-      lVar2 = fn_82A2B798();
-      uVar1 = -(ulonglong)(lVar2 != 0) & 0x65b;
-    }
-    else {
-      uVar1 = 0x3e5;
-    }
-    ObDereferenceObject(auStack_50);
-  }
-  return uVar1;
+    return result;
 }
-

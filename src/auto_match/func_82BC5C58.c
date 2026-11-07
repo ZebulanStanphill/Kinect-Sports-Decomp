@@ -1,65 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82BC5C58 Node_82BC5C58;
 
+typedef struct List_82BC5C58 {
+    int pad0;
+    unsigned int count;      /* 0x4 */
+    Node_82BC5C58 **data;    /* 0x8 */
+} List_82BC5C58;
 
-int * fn_82BC5C58(int *param_1)
+typedef struct Vtbl_82BC5C58 {
+    void *pad0[3];
+    unsigned char (*fC)(Node_82BC5C58 *);   /* 0xc */
+    void *pad10;
+    unsigned char (*f14)(Node_82BC5C58 *);  /* 0x14 */
+    void *pad18;
+    unsigned char (*f1C)(Node_82BC5C58 *);  /* 0x1c */
+    unsigned char (*f20)(Node_82BC5C58 *);  /* 0x20 */
+} Vtbl_82BC5C58;
 
+struct Node_82BC5C58 {
+    Vtbl_82BC5C58 *vt;          /* 0x0 */
+    int pad4[13];
+    List_82BC5C58 *list;        /* 0x38 */
+    int pad3c[22];
+    Node_82BC5C58 *first;       /* 0x94 */
+    Node_82BC5C58 *n98;         /* 0x98 */
+    Node_82BC5C58 *n9c;         /* 0x9c */
+};
+
+Node_82BC5C58 *fn_82BC5C58(Node_82BC5C58 *self)
 {
-  char cVar1;
-  int *piVar2;
-  
-  piVar2 = (int *)param_1[0x25];
-  while ((((piVar2 != (int *)0x0 && (param_1 = piVar2, *(int *)(piVar2[0xe] + 4) != 0)) &&
-          (cVar1 = (**(code **)(*piVar2 + 0x1c))(piVar2), cVar1 == '\0')) &&
-         (cVar1 = (**(code **)(*piVar2 + 0x20))(piVar2), cVar1 == '\0'))) {
-    cVar1 = (**(code **)(*piVar2 + 0x14))(piVar2);
-    if (cVar1 == '\0') {
-      cVar1 = (**(code **)(*piVar2 + 0xc))(piVar2);
-      if (cVar1 == '\0') {
-        if (*(int *)(piVar2[0xe] + 4) == 0) {
-          piVar2 = (int *)0x0;
-        }
-        else {
-          piVar2 = *(int **)(piVar2[0xe] + 8);
-        }
-        piVar2 = (int *)*piVar2;
-        param_1 = piVar2;
-      }
-      else {
-        piVar2 = (int *)piVar2[0x26];
-        param_1 = piVar2;
-      }
-    }
-    else {
-      piVar2 = (int *)piVar2[0x27];
-      param_1 = piVar2;
-    }
-  }
-  return param_1;
-}
+    Node_82BC5C58 *p;
+    Node_82BC5C58 **arr;
 
+    p = self->first;
+    if (p == 0)
+        return self;
+    do {
+        if (!(p->list->count > 0))
+            break;
+        if (p->vt->f1C(p))
+            break;
+        if (p->vt->f20(p))
+            break;
+        if (p->vt->f14(p)) {
+            p = p->n9c;
+        } else if (p->vt->fC(p)) {
+            p = p->n98;
+        } else {
+            List_82BC5C58 *l = p->list;
+            if (l->count > 0)
+                arr = l->data;
+            else
+                arr = 0;
+            p = *arr;
+        }
+    } while (p != 0);
+    return p;
+}

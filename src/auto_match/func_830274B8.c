@@ -1,104 +1,81 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1DDC0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_830273D8();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_831BC768;
+typedef struct Elem_830274B8 {
+    void *ptr;
+    unsigned int value;
+    float x;
+    float y;
+} Elem_830274B8;
 
+typedef struct Block_830274B8 {
+    unsigned char data[16];
+} Block_830274B8;
 
-undefined8
-fn_830274B8(int param_1,ulonglong param_2,ulonglong param_3,uint *param_4,ulonglong param_5)
+typedef struct Pair_830274B8 {
+    unsigned int index;
+    unsigned int value;
+} Pair_830274B8;
 
+typedef struct Obj_830274B8 {
+    unsigned char pad[0x3c];
+    Block_830274B8 *blocks;
+    unsigned int blockCount;
+    Elem_830274B8 *elems;
+    unsigned int elemCount;
+} Obj_830274B8;
+
+extern void *lbl_831BC768;
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void fn_82FA5190(void *heap, void *p);
+extern void fn_82A1DDC0(void *dst, const void *src, unsigned int size);
+extern void fn_830273D8(Obj_830274B8 *o);
+
+int fn_830274B8(Obj_830274B8 *o, const void *src, unsigned int n,
+                Pair_830274B8 *pairs, unsigned int m)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  ulonglong uVar3;
-  int iVar4;
-  undefined8 uVar5;
-  longlong lVar6;
-  
-  uVar5 = 1;
-  if (*(int *)(param_1 + 0x3c) != 0) {
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 0x3c) = 0;
-  }
-  if (*(int *)(param_1 + 0x44) != 0) {
-    fn_82FA5190(lbl_831BC768);
-    *(undefined4 *)(param_1 + 0x44) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x48) = 0;
-  if (((((param_3 & 0xffffffff) == 0) || ((param_5 & 0xffffffff) == 0)) ||
-      ((param_2 & 0xffffffff) == 0)) || (param_4 == (uint *)0x0)) {
-    uVar5 = 0x1f;
-LAB_83027644:
-    fn_830273D8(param_1);
-  }
-  else {
-    lVar6 = (param_3 & 0xfffffff) << 4;
-    uVar3 = fn_82FA5060(lbl_831BC768,lVar6);
-    *(int *)(param_1 + 0x3c) = (int)uVar3;
-    if ((uVar3 & 0xffffffff) != 0) {
-      fn_82A1DDC0(uVar3,param_2,lVar6);
-      *(int *)(param_1 + 0x40) = (int)param_3;
-      iVar4 = fn_82FA5060(lbl_831BC768,(param_5 & 0xfffffff) << 4);
-      *(int *)(param_1 + 0x44) = iVar4;
-      if (iVar4 != 0) {
-        *(int *)(param_1 + 0x48) = (int)param_5;
-        uVar2 = lbl_821AAD20;
-        uVar3 = 0;
-        if ((param_5 & 0xffffffff) != 0) {
-          iVar4 = 0;
-          do {
-            *(uint *)(iVar4 + *(int *)(param_1 + 0x44) + 4) = param_4[1];
-            uVar1 = *param_4;
-            if ((param_3 & 0xffffffff) <= (ulonglong)uVar1) {
-              fn_830273D8(param_1);
-              return 2;
-            }
-            uVar3 = uVar3 + 1;
-            param_4 = param_4 + 2;
-            *(uint *)(iVar4 + *(int *)(param_1 + 0x44)) = uVar1 * 0x10 + *(int *)(param_1 + 0x3c);
-            *(undefined4 *)(iVar4 + *(int *)(param_1 + 0x44) + 8) = uVar2;
-            *(undefined4 *)(iVar4 + *(int *)(param_1 + 0x44) + 0xc) = uVar2;
-            iVar4 = iVar4 + 0x10;
-          } while ((uVar3 & 0xffffffff) < (param_5 & 0xffffffff));
-          fn_830273D8(param_1);
-          return 1;
-        }
-        goto LAB_83027644;
-      }
-    }
-    fn_830273D8(param_1);
-    uVar5 = 0x34;
-  }
-  return uVar5;
-}
+    int result = 1;
+    unsigned int i;
+    unsigned int idx;
+    Block_830274B8 *a;
+    Elem_830274B8 *b;
 
+    if (o->blocks != 0) {
+        fn_82FA5190(lbl_831BC768, o->blocks);
+        o->blocks = 0;
+    }
+    if (o->elems != 0) {
+        fn_82FA5190(lbl_831BC768, o->elems);
+        o->elems = 0;
+    }
+    o->blockCount = 0;
+    o->elemCount = 0;
+    if (n != 0 && m != 0 && src != 0 && pairs != 0) {
+        a = (Block_830274B8 *)fn_82FA5060(lbl_831BC768, n * 16);
+        o->blocks = a;
+        if (a != 0) {
+            fn_82A1DDC0(a, src, n * 16);
+            o->blockCount = n;
+            b = (Elem_830274B8 *)fn_82FA5060(lbl_831BC768, m * 16);
+            o->elems = b;
+            if (b != 0) {
+                o->elemCount = m;
+                for (i = 0; i < m; i++) {
+                    o->elems[i].value = pairs[i].value;
+                    idx = pairs[i].index;
+                    if (idx >= n) {
+                        result = 2;
+                        break;
+                    }
+                    o->elems[i].ptr = &o->blocks[idx];
+                    o->elems[i].x = 0.0f;
+                    o->elems[i].y = 0.0f;
+                }
+                goto done;
+            }
+        }
+        result = 0x34;
+    } else {
+        result = 0x1f;
+    }
+done:
+    fn_830273D8(o);
+    return result;
+}

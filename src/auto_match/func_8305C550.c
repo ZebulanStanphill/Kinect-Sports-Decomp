@@ -1,57 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83066788();
 
+typedef struct Node_8305C550 {
+    int pad[8];
+    struct Node_8305C550 *left;   /* 0x20 */
+    struct Node_8305C550 *right;  /* 0x24 */
+} Node_8305C550;
 
-int fn_8305C550(int param_1,undefined8 param_2)
+typedef struct Tree_8305C550 {
+    int pad0;
+    Node_8305C550 *root;          /* 0x04 */
+    float value;                  /* 0x08 */
+} Tree_8305C550;
 
+extern int fn_83066788(Node_8305C550 *node, int arg, float value);
+
+static __forceinline U8 isLeaf(Node_8305C550 *n)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 4);
-  while( true ) {
-    if (iVar3 == 0) {
-      return 0;
-    }
-    if ((*(int *)(iVar3 + 0x20) != 0) || (bVar1 = true, *(int *)(iVar3 + 0x24) != 0)) {
-      bVar1 = false;
-    }
-    if (bVar1) break;
-    iVar2 = fn_83066788((double)*(float *)(param_1 + 8),iVar3,param_2);
-    if ((iVar2 == 0) || (iVar2 == 2)) {
-      iVar3 = *(int *)(iVar3 + 0x20);
-    }
-    else {
-      iVar3 = *(int *)(iVar3 + 0x24);
-    }
-  }
-  return iVar3;
+    return n->left == 0 && n->right == 0;
 }
 
+int fn_8305C550(Tree_8305C550 *tree, int arg)
+{
+    Node_8305C550 *node;
+    int r;
+
+    node = tree->root;
+    while (node != 0) {
+        if (isLeaf(node)) {
+            return (int)node;
+        }
+        r = fn_83066788(node, arg, tree->value);
+        if (r == 0 || r == 2) {
+            node = node->left;
+        } else {
+            node = node->right;
+        }
+    }
+    return 0;
+}

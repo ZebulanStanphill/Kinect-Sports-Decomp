@@ -1,52 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82D9A670();
+typedef struct Allocator_82D8D648 Allocator_82D8D648;
 
+typedef struct {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fC;
+    void (*Free)(Allocator_82D8D648 *self, void *data, unsigned int size, int align);
+} AllocatorVtbl_82D8D648;
 
-void fn_82D8D648(int param_1)
+struct Allocator_82D8D648 {
+    AllocatorVtbl_82D8D648 *vt;
+};
 
+typedef struct {
+    char pad[0x10];
+    Allocator_82D8D648 *alloc;
+} Context_82D8D648;
+
+typedef struct {
+    void *data;
+    int count;
+    int flags;
+} Array_82D8D648;
+
+typedef struct {
+    char pad[0xd0];
+    Array_82D8D648 arr;
+} Obj_82D8D648;
+
+extern Context_82D8D648 *fn_82CE5410(void);
+extern void fn_82D9A670(Obj_82D8D648 *o);
+
+static __forceinline void Array_Free_82D8D648(Array_82D8D648 *a)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0xd4) == 0) {
-    iVar2 = fn_82CE5410();
-    piVar1 = *(int **)(iVar2 + 0x10);
-    *(undefined4 *)(param_1 + 0xd4) = 0;
-    if ((*(uint *)(param_1 + 0xd8) & 0x80000000) == 0) {
-      (**(code **)(*piVar1 + 0x10))
-                (piVar1,*(undefined4 *)(param_1 + 0xd0),*(uint *)(param_1 + 0xd8) & 0x3fffffff,4);
+    Allocator_82D8D648 *al = fn_82CE5410()->alloc;
+    a->count = 0;
+    if ((a->flags & (int)0x80000000) == 0) {
+        al->vt->Free(al, a->data, a->flags & 0x3fffffff, 4);
     }
-    *(undefined4 *)(param_1 + 0xd0) = 0;
-    *(undefined4 *)(param_1 + 0xd8) = 0x80000000;
-  }
-  fn_82D9A670(param_1);
-  return;
+    a->data = 0;
+    a->flags = (int)0x80000000;
 }
 
+void fn_82D8D648(Obj_82D8D648 *o)
+{
+    if (o->arr.count == 0) {
+        Array_Free_82D8D648(&o->arr);
+    }
+    fn_82D9A670(o);
+}

@@ -1,61 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82231540();
-extern int fn_828B6DD0();
-extern int fn_828B9180();
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_50;
+typedef struct { unsigned char c; } Tag_828B8018;
 
+typedef struct Elem_828B8018 {
+  int key;
+  int value;
+} Elem_828B8018;
 
-void fn_828B8018(int param_1)
+typedef struct Vec_828B8018 {
+  Elem_828B8018 *first;
+  Elem_828B8018 *last;
+  Elem_828B8018 *end;
+  Tag_828B8018 alloc;
+} Vec_828B8018;
 
+typedef struct Outer_828B8018 {
+  int pad0;
+  Vec_828B8018 v;
+} Outer_828B8018;
+
+extern float fn_828B9180(int key);
+extern Elem_828B8018 *fn_828B6DD0(Elem_828B8018 *src, Elem_828B8018 *srcEnd,
+                                  Elem_828B8018 *dst, Tag_828B8018 tag);
+extern void fn_82231540(Elem_828B8018 *first, Elem_828B8018 *last,
+                        Tag_828B8018 *alloc, Tag_828B8018 tag);
+
+static __forceinline unsigned char isDead_828B8018(Elem_828B8018 *e)
 {
-  undefined4 *puVar1;
-  double dVar2;
-  double dVar3;
-  undefined1 uStack_50;
-  
-  puVar1 = *(undefined4 **)(param_1 + 4);
-  if (puVar1 != *(undefined4 **)(param_1 + 8)) {
-    dVar3 = (double)lbl_821AAD20;
-    do {
-      dVar2 = (double)fn_828B9180(*puVar1);
-      if (dVar2 <= dVar3) {
-        fn_828B6DD0(puVar1 + 2,*(undefined4 *)(param_1 + 8),puVar1,uStack_50);
-        fn_82231540((ulonglong)*(uint *)(param_1 + 8) - 8,(ulonglong)*(uint *)(param_1 + 8),
-                          param_1 + 0x10,uStack_50);
-        *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + -8;
-      }
-      else {
-        puVar1 = puVar1 + 2;
-      }
-    } while (puVar1 != *(undefined4 **)(param_1 + 8));
+  unsigned char dead = 0;
+  if (fn_828B9180(e->key) <= 0.0f) {
+    dead = 1;
   }
-  return;
+  return dead;
 }
 
+static __forceinline Elem_828B8018 *erase_828B8018(Vec_828B8018 *v, Elem_828B8018 *it)
+{
+  Tag_828B8018 t1;
+  Tag_828B8018 t2;
+  fn_828B6DD0(it + 1, v->last, it, t1);
+  fn_82231540(v->last - 1, v->last, &v->alloc, t2);
+  v->last--;
+  return it;
+}
+
+void fn_828B8018(Outer_828B8018 *o)
+{
+  Elem_828B8018 *it;
+
+  it = o->v.first;
+  while (it != o->v.last) {
+    if (isDead_828B8018(it)) {
+      it = erase_828B8018(&o->v, it);
+    } else {
+      it++;
+    }
+  }
+}

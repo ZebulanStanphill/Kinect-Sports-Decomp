@@ -1,100 +1,81 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82904370();
-extern int fn_829080F8();
-extern int fn_82914750();
+typedef struct Ent_829166B8 {
+    int pad0;
+    int value;
+} Ent_829166B8;
 
+typedef struct Table_829166B8 {
+    int pad0[2];
+    unsigned int count;      /* 0x08 */
+    int pad1[2];
+    Ent_829166B8 **entries;  /* 0x14 */
+    int pad2[27];
+    int value;               /* 0x84 */
+} Table_829166B8;
 
-longlong fn_829166B8(int param_1,int param_2)
+typedef struct Ctx_829166B8 {
+    int pad0[2];
+    Table_829166B8 *table;   /* 0x08 */
+    int pad1[16];
+    int error;               /* 0x4C */
+} Ctx_829166B8;
 
+typedef struct Desc_829166B8 {
+    int pad0;
+    int type;                /* 0x04 */
+    int pad1[2];
+    int id;                  /* 0x10 */
+    int w;                   /* 0x14 */
+    int h;                   /* 0x18 */
+} Desc_829166B8;
+
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void fn_8265C990(void *p, unsigned int flags);
+extern int fn_82904370(Ctx_829166B8 *a, Desc_829166B8 *b, unsigned int n, unsigned int *in,
+                       unsigned int *out, int x, int y);
+extern int fn_829080F8(Ctx_829166B8 *a, int id, unsigned int *buf, int value, int p5, int p6,
+                       int p7, int p8);
+extern int fn_82914750(Ctx_829166B8 *a, Desc_829166B8 *b, unsigned int *buf, int x);
+
+int fn_829166B8(Ctx_829166B8 *a, Desc_829166B8 *b)
 {
-  int iVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  int iVar5;
-  uint *puVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  
-  if (*(int *)(param_2 + 4) == 0xe) {
-    uVar7 = (longlong)*(int *)(param_2 + 0x18) * (longlong)*(int *)(param_2 + 0x14);
-    puVar4 = (uint *)fn_8265C940((uVar7 & 0x3fffffff) << 2,0x24810000);
-    if (puVar4 == (uint *)0x0) {
-      lVar3 = -0x7ff8fff2;
-    }
-    else {
-      if ((uVar7 & 0xffffffff) != 0) {
-        puVar6 = puVar4 + -1;
-        uVar8 = uVar7;
-        uVar2 = uVar7 & 0xffffffff;
-        while (uVar2 != 0) {
-          puVar6 = puVar6 + 1;
-          *puVar6 = 0xffffffff;
-          uVar8 = uVar8 - 1;
-          uVar2 = uVar8;
-        }
-      }
-      lVar3 = fn_82914750(param_1,param_2,puVar4,0);
-      if ((-1 < lVar3) &&
-         (lVar3 = fn_82904370(param_1,param_2,uVar7 & 0xffffffff000fffff | 0x10000000,puVar4,
-                                puVar4,0,0), -1 < lVar3)) {
-        puVar6 = puVar4;
-        uVar8 = uVar7 & 0xffffffff;
-        while (uVar8 != 0) {
-          iVar1 = *(int *)(param_1 + 8);
-          if (*puVar6 < *(uint *)(iVar1 + 8)) {
-            iVar5 = *(int *)(*puVar6 * 4 + *(int *)(iVar1 + 0x14));
-          }
-          else {
-            iVar5 = 0;
-          }
-          if (iVar5 != 0) {
-            *(undefined4 *)(iVar5 + 4) = *(undefined4 *)(iVar1 + 0x84);
-          }
-          puVar6 = puVar6 + 1;
-          uVar7 = uVar7 - 1;
-          uVar8 = uVar7;
-        }
-        lVar3 = fn_829080F8(param_1,*(undefined4 *)(param_2 + 0x10),puVar4,
-                              *(undefined4 *)(*(int *)(param_1 + 8) + 0x84),1,1,0,0);
-      }
-    }
-    fn_8265C990(puVar4,0x24810000);
-    if (*(int *)(param_1 + 0x4c) != 0) {
-      lVar3 = -0x7fffbffb;
-    }
-  }
-  else {
-    lVar3 = 0;
-  }
-  return lVar3;
-}
+    unsigned int n;
+    unsigned int *buf;
+    unsigned int i;
+    int hr;
 
+    if (b->type != 0xe)
+        return 0;
+
+    n = b->h * b->w;
+    buf = (unsigned int *)fn_8265C940(n * 4, 0x24810000);
+    if (buf == 0) {
+        hr = 0x8007000e;
+    } else {
+        if (n != 0) {
+            for (i = 0; i < n; i++)
+                buf[i] = 0xffffffff;
+        }
+        hr = fn_82914750(a, b, buf, 0);
+        if (hr >= 0) {
+            hr = fn_82904370(a, b, (n & 0x000fffff) | 0x10000000, buf, buf, 0, 0);
+            if (hr >= 0) {
+                for (i = 0; i < n; i++) {
+                    Table_829166B8 *t = a->table;
+                    unsigned int idx = buf[i];
+                    Ent_829166B8 *e;
+                    if (idx < t->count)
+                        e = t->entries[idx];
+                    else
+                        e = 0;
+                    if (e != 0)
+                        e->value = t->value;
+                }
+                hr = fn_829080F8(a, b->id, buf, a->table->value, 1, 1, 0, 0);
+            }
+        }
+    }
+    fn_8265C990(buf, 0x24810000);
+    if (a->error != 0)
+        hr = 0x80004005;
+    return hr;
+}

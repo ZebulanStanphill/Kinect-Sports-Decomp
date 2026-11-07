@@ -1,54 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BA0310();
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
+typedef struct Vtbl_82BC0780 {
+    char pad[0x54];
+    void (*f54)(struct Obj_82BC0780 *self, int a, int b, int c);
+} Vtbl_82BC0780;
 
+typedef struct Obj_82BC0780 {
+    Vtbl_82BC0780 *vt;
+} Obj_82BC0780;
 
-int fn_82BC0780(int param_1,undefined4 param_2,undefined8 param_3)
+typedef struct Self_82BC0780 {
+    char pad[0x38];
+    Obj_82BC0780 *obj;
+    int f3c;
+} Self_82BC0780;
 
+typedef struct Flags_82BC0780 {
+    unsigned char b[4];
+} Flags_82BC0780;
+
+extern unsigned char fn_82BA0310(int a);
+
+int fn_82BC0780(Self_82BC0780 *self, Flags_82BC0780 flags, int arg)
 {
-  char cVar1;
-  int iVar2;
-  undefined4 uStack0000001c;
-  
-  uStack0000001c = param_2;
-  cVar1 = fn_82BA0310(param_3);
-  if (cVar1 != '\0') {
-    iVar2 = 0;
-    do {
-      if (*(char *)((int)&stack0x0000001c + iVar2) == '\0') {
-        (**(code **)(**(int **)(param_1 + 0x38) + 0x54))(*(int **)(param_1 + 0x38),0,iVar2,0);
-      }
-      iVar2 = iVar2 + 1;
-    } while (iVar2 < 4);
-    param_1 = *(int *)(param_1 + 0x3c);
-  }
-  return param_1;
+    int i;
+    if (fn_82BA0310(arg)) {
+        for (i = 0; i < 4; i++) {
+            if (flags.b[i] == 0) {
+                self->obj->vt->f54(self->obj, 0, i, 0);
+            }
+        }
+        return self->f3c;
+    }
+    return (int)self;
 }
-

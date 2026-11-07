@@ -1,44 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_820E0214;
 
+typedef struct Sub_82BBFDF0 {
+    void *vt;
+    void *owner;
+    int extra;
+} Sub_82BBFDF0;
 
-void fn_82BBFDF0(undefined4 *param_1)
+typedef struct Obj_82BBFDF0 {
+    void *vt;
+    int field4;
+    Sub_82BBFDF0 *cur;
+    Sub_82BBFDF0 sub;
+} Obj_82BBFDF0;
 
+void fn_82BBFDF0(Obj_82BBFDF0 *o)
 {
-  *param_1 = &lbl_820E0214;
-  param_1[3] = &lbl_820E0214;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[2] = param_1 + 3;
-  param_1[1] = 0;
-  param_1[4] = param_1;
-  param_1[5] = 0;
-  return;
-}
+    Sub_82BBFDF0 *s;
 
+    o->vt = &lbl_820E0214;
+    s = &o->sub;
+    s->vt = &lbl_820E0214;
+    s->owner = 0;
+    s->extra = 0;
+    o->cur = s;
+    o->field4 = 0;
+    o->sub.owner = o;
+    o->sub.extra = 0;
+}
