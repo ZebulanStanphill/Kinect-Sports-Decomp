@@ -286420,10 +286420,10 @@
           "/O2"
         ]
       },
-      "auto_match/func_8301B4D8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8301B4D8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_8301B528.c": {

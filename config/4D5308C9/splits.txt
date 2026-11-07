@@ -185467,7 +185467,7 @@ auto_match/func_8301B488.c:
 	.pdata      start:0x82225B98 end:0x82225BA0
 	.text       start:0x8301B488 end:0x8301B4D8
 
-auto_match/func_8301B4D8.c:
+auto_match/func_8301B4D8.cpp:
 	.pdata      start:0x82225BA0 end:0x82225BA8
 	.text       start:0x8301B4D8 end:0x8301B528
 
