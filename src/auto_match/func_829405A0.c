@@ -27,53 +27,32 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_829405A0(int param_1,uint *param_2,int param_3)
+unsigned int fn_829405A0(int param_1,uint *param_2,int param_3)
 
 {
-  bool bVar1;
+  int bVar1;
   uint uVar2;
   uint uVar3;
   
   uVar2 = *param_2 & 0xfff00000;
-  if (*(int *)(*(int *)(*(int *)((*param_2 & 0xfffff) * param_3 * 4 + param_2[2]) * 4 +
-                       *(int *)(param_1 + 0x14)) + 0x6c) == 0x11) {
+  if (*(uint *)(*(int *)(*(int *)((*param_2 & 0xfffff) * param_3 * 4 + param_2[2]) * 4 +
+                       *(int *)(param_1 + 0x14)) + 0x6c) != 0x11) return 0;
+  {
     if (uVar2 == 0x30000000) {
-      bVar1 = param_3 == 0;
-    }
-    else {
-      if (uVar2 < 0x73800001) {
-        if (uVar2 == 0x73800000) {
-          return 1;
-        }
-        if (uVar2 == 0x10f00000) {
-          return 1;
-        }
-        if (uVar2 == 0x73500000) {
-          return 1;
-        }
-        if (uVar2 == 0x73600000) {
-          return 1;
-        }
-        uVar3 = 0x73700000;
+      if ((uint)param_3 == 0) return 1;
+    } else {
+      switch (uVar2) {
+        case 0x73800000:
+        case 0x10f00000:
+        case 0x73500000:
+        case 0x73600000:
+        case 0x73700000:
+        case 0x74400000:
+        case 0x74500000:
+        case 0x74600000:
+        case 0x74700000: return 1;
       }
-      else {
-        if (uVar2 == 0x74400000) {
-          return 1;
-        }
-        if (uVar2 == 0x74500000) {
-          return 1;
-        }
-        if (uVar2 == 0x74600000) {
-          return 1;
-        }
-        uVar3 = 0x74700000;
-      }
-      bVar1 = uVar2 == uVar3;
-    }
-    if (bVar1) {
-      return 1;
     }
   }
   return 0;
 }
-
