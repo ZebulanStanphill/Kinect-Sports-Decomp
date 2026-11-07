@@ -25,34 +25,38 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82419580();
-extern int fn_82419700();
+extern int fn_82419580(void *obj, int arg);
+extern int fn_82419700(int obj, int arg);
 
 
 void fn_8235C930(int param_1,int *param_2)
 
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (*param_2 == 0x58) {
-    if (*(int *)(param_1 + 0x2b20) != 0) {
-      fn_82419580(*(int *)(param_1 + 0x2b20),param_2[2]);
+  int i;
+  int entry;
+  void *obj;
+
+  switch (*param_2) {
+  case 0x59:
+    i = 0;
+    if (0 < *(int *)(param_1 + 0xc04)) {
+      entry = param_1 + 0x1ec0;
+      do {
+        if (fn_82419700(entry,param_2[2]) != 0) {
+          param_2[3] = 1;
+          return;
+        }
+        i = i + 1;
+        entry = entry + 0x420;
+      } while (i < *(int *)(param_1 + 0xc04));
     }
-  }
-  else if ((*param_2 == 0x59) && (iVar2 = 0, 0 < *(int *)(param_1 + 0xc04))) {
-    iVar3 = param_1 + 0x1ec0;
-    do {
-      iVar1 = fn_82419700(iVar3,param_2[2]);
-      if (iVar1 != 0) {
-        param_2[3] = 1;
-        return;
-      }
-      iVar2 = iVar2 + 1;
-      iVar3 = iVar3 + 0x420;
-    } while (iVar2 < *(int *)(param_1 + 0xc04));
+    break;
+  case 0x58:
+    obj = *(void **)(param_1 + 0x2b20);
+    if (obj != 0) {
+      fn_82419580(obj,param_2[2]);
+    }
+    break;
   }
   return;
 }
-

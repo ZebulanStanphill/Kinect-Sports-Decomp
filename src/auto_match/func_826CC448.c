@@ -1,63 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C498();
-extern int fn_826C90C8();
-extern int fn_82700248();
-extern unsigned int uStack_24;
+typedef struct Params_826CC448 {
+    int a;
+    int b;
+    short c;
+    char d;
+    char e;
+    char f;
+    char g;
+} Params_826CC448;
 
+typedef struct Entry_826CC448 {
+    int unk0;
+    int state;
+    void *owner;
+    void *other;
+    Params_826CC448 params;
+} Entry_826CC448;
 
-void fn_826CC448(int param_1)
+typedef struct Obj_826CC448 {
+    int unk0;
+    int refs;
+} Obj_826CC448;
 
+extern void fn_8267C498(void *p);
+extern void fn_826C90C8(void *obj, int arg);
+extern Entry_826CC448 *fn_82700248(void *base, int kind);
+
+static __forceinline void SetRef_826CC448(void **slot, void *v)
 {
-  int iVar1;
-  undefined4 uStack_24;
-  
-  if ((*(byte *)(param_1 + 0x1cc) & 8) == 0) {
-    *(byte *)(param_1 + 0x1cc) = *(byte *)(param_1 + 0x1cc) | 8;
-    fn_826C90C8(param_1,0);
-    uStack_24 = ((((U64)(uStack_24)) & (~(((U64)0xFFFFFF) << 8))) | ((((U64)((((U64)(uStack_24) >> 8) & 0xFFFFFF) & 0xffff)) & ((U64)0xFFFFFF)) << 8));
-    uStack_24 = (uint)(((U64)(uStack_24) >> 8) & 0xFFFFFF);
-    iVar1 = fn_82700248((ulonglong)*(uint *)(param_1 + 0xa0) + 0xa2c,5);
-    *(undefined4 *)(iVar1 + 4) = 2;
-    *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + 1;
-    if (*(int *)(iVar1 + 8) != 0) {
-      fn_8267C498();
+    if (*slot != 0) {
+        fn_8267C498(*slot);
     }
-    *(int *)(iVar1 + 8) = param_1;
-    if (*(int *)(iVar1 + 0xc) != 0) {
-      fn_8267C498();
-    }
-    *(undefined4 *)(iVar1 + 0xc) = 0;
-    *(undefined4 *)(iVar1 + 0x10) = 1;
-    *(undefined4 *)(iVar1 + 0x14) = 0;
-    *(undefined4 *)(iVar1 + 0x18) = 0xff;
-    *(uint *)(iVar1 + 0x1c) = uStack_24;
-  }
-  return;
+    *slot = v;
 }
 
+void fn_826CC448(unsigned char *param_1)
+{
+    Params_826CC448 s;
+    Entry_826CC448 *e;
+    unsigned char flags;
+
+    flags = param_1[0x1cc];
+    if ((flags & 8) == 0) {
+        param_1[0x1cc] = flags | 8;
+        fn_826C90C8(param_1, 0);
+        s.a = 1;
+        s.b = 0;
+        s.c = 0;
+        s.d = 0;
+        s.e = -1;
+        s.f = 0;
+        s.g = 0;
+        e = fn_82700248((char *)*(int *)(param_1 + 0xa0) + 0xa2c, 5);
+        e->state = 2;
+        ((Obj_826CC448 *)param_1)->refs = ((Obj_826CC448 *)param_1)->refs + 1;
+        SetRef_826CC448(&e->owner, param_1);
+        SetRef_826CC448(&e->other, 0);
+        e->params = s;
+    }
+}

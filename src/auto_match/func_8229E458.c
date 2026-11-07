@@ -1,48 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8229E260();
+typedef struct Obj_8229E458 Obj_8229E458;
 
+typedef struct Vtbl_8229E458 {
+    void *slot0;
+    void (*slot4)(Obj_8229E458 *self);
+} Vtbl_8229E458;
 
-undefined8 fn_8229E458(int *param_1)
+struct Obj_8229E458 {
+    Vtbl_8229E458 *vt;
+};
 
+typedef struct Self_8229E458 {
+    Obj_8229E458 *obj;          /* 0x000 */
+    char pad004[0x410 - 4];
+    int flag410;                /* 0x410 */
+} Self_8229E458;
+
+extern void fn_8229E260(Self_8229E458 *self);
+
+int fn_8229E458(Self_8229E458 *self)
 {
-  undefined8 uVar1;
-  
-  if (param_1[0x104] == 0) {
-    if ((int *)*param_1 != (int *)0x0) {
-      (**(code **)(*(int *)*param_1 + 4))();
-    }
-    uVar1 = 0;
-  }
-  else {
-    fn_8229E260();
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    Obj_8229E458 *obj;
 
+    if (self->flag410 != 0) {
+        fn_8229E260(self);
+        return 1;
+    }
+    obj = self->obj;
+    if (obj != 0) {
+        obj->vt->slot4(obj);
+    }
+    return 0;
+}

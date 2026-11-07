@@ -1,87 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82897ED8();
-extern int fn_82F68CC0();
-extern int fn_82F691F0();
+typedef struct Var_82899478 {
+    int pad0;
+    int type;
+    void *data[4];
+    unsigned int size;
+} Var_82899478;
 
+typedef struct Src_82899478 {
+    int pad0;
+    int type;
+    void *value;
+    unsigned int size;
+} Src_82899478;
 
-void fn_82899478(int param_1,int param_2,int param_3)
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82897ED8(void **dst, void **src);
+void *memset(void *dst, int c, unsigned int n);
+void *memcpy(void *dst, const void *src, unsigned int n);
 
+void fn_82899478(Var_82899478 *dst, Src_82899478 *src, int idx)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  longlong lVar5;
-  undefined4 *puVar6;
-  
-  puVar3 = (undefined4 *)((param_3 + 2) * 4 + param_2);
-  lVar2 = 4;
-  puVar4 = (undefined4 *)(param_1 + 8);
-  do {
-    if ((*(int *)(param_1 + 4) == 9) && (*(int *)(param_2 + 4) == 7)) {
-      *(undefined4 *)(param_1 + 4) = 7;
-      lVar5 = 4;
-      *(undefined4 *)(param_1 + 0x18) = *(undefined4 *)(param_2 + 0xc);
-      puVar6 = (undefined4 *)(param_1 + 8);
-      do {
-        if (4 < *(uint *)(param_1 + 0x18)) {
-          uVar1 = fn_8265C9E0(*(undefined4 *)(param_2 + 0xc));
-                    /* WARNING: Subroutine does not return */
-          fn_82F691F0(uVar1,0,*(undefined4 *)(param_2 + 0xc));
-        }
-        *puVar6 = 0;
-        lVar5 = lVar5 + -1;
-        puVar6 = puVar6 + 1;
-      } while (lVar5 != 0);
-    }
-    else {
-      *(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_2 + 4);
-    }
-    if (*(int *)(param_1 + 4) == 7) {
-      if (*(uint *)(param_1 + 0x18) < 5) {
-LAB_82899560:
-        *puVar4 = *puVar3;
-      }
-      else {
-        fn_82F68CC0(*puVar4,*puVar3);
-      }
-    }
-    else {
-      if (*(int *)(param_1 + 4) != 8) goto LAB_82899560;
-      fn_82897ED8(puVar4,puVar3);
-    }
-    lVar2 = lVar2 + -1;
-    puVar4 = puVar4 + 1;
-    if (lVar2 == 0) {
-      return;
-    }
-  } while( true );
-}
+    void **s = (void **)src + (idx + 2);
+    int i;
+    int j;
 
+    for (i = 0; i < 4; i++) {
+        if (dst->type == 9 && src->type == 7) {
+            dst->type = 7;
+            dst->size = src->size;
+            for (j = 0; j < 4; j++) {
+                if (dst->size <= 4) {
+                    dst->data[j] = 0;
+                } else {
+                    void *p = fn_8265C9E0(src->size);
+                    memset(p, 0, src->size);
+                    dst->data[j] = p;
+                }
+            }
+        } else {
+            dst->type = src->type;
+        }
+        if (dst->type == 7) {
+            if (dst->size > 4) {
+                memcpy(dst->data[i], *s, dst->size);
+            } else {
+                dst->data[i] = *s;
+            }
+        } else if (dst->type == 8) {
+            fn_82897ED8(&dst->data[i], s);
+        } else {
+            dst->data[i] = *s;
+        }
+    }
+}

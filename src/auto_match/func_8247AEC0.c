@@ -1,108 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_822A5480();
-extern int fn_82517978();
-extern int fn_82555A88();
-extern int fn_8266F2D0();
-extern int fn_82672C20();
-extern unsigned int lbl_821958F0;
-extern unsigned int lbl_821CC160;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct Pair_8247AEC0 {
+    int a;
+    int b;
+} Pair_8247AEC0;
 
+typedef struct Arg_8247AEC0 {
+    int a;
+    int b;
+    double d;
+} Arg_8247AEC0;
 
-void fn_8247AEC0(int param_1,int param_2)
+typedef struct Ref_8247AEC0 {
+    int a;
+    int b;
+} Ref_8247AEC0;
 
+extern int **fn_82555A88(int base, const char *name);
+extern void fn_82517978(Pair_8247AEC0 *out, int a, int b, int c);
+extern void fn_8266F2D0(int *obj, Pair_8247AEC0 *pair, int a, float f, int b);
+extern void fn_822A5480(Ref_8247AEC0 *ref, char *name);
+extern void fn_82273CD8(Arg_8247AEC0 *arg, int type);
+extern void fn_82672C20(int obj, const char *name, Arg_8247AEC0 *arg, int count);
+extern void fn_82273C88(Arg_8247AEC0 *arg);
+
+extern float lbl_821CC160;
+extern double lbl_821954B0[];
+extern char lbl_820E975C[];
+
+void fn_8247AEC0(char *self, char *other)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  int *piVar5;
-  ulonglong uVar6;
-  double dVar7;
-  undefined8 uVar8;
-  struct { undefined4 first; undefined4 second; } stack_pair_80;
+    Ref_8247AEC0 *r;
+    Ref_8247AEC0 *p;
+    int a;
+    float scale;
+    int base;
+    int **res;
+    int *obj;
+    double speed;
+    Pair_8247AEC0 pair;
+    Arg_8247AEC0 arg1;
+    Arg_8247AEC0 arg2;
 
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
-
-  undefined8 uStack_68;
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
-
-  undefined8 uStack_58;
-
-  piVar1 = *(int **)(param_1 + 0x5c4);
-  iVar2 = *piVar1;
-  dVar7 = (double)lbl_821CC160;
-  uVar6 = (ulonglong)*(uint *)(*(int *)(param_2 + 0x3e4) + 0x8c0);
-  if (iVar2 != 0) {
-    piVar5 = (int *)fn_82555A88(uVar6 + 0x98,0xffffffff821bd31c);
-    if ((piVar5 != (int *)0x0) && (iVar3 = *piVar5, iVar3 != 0)) {
-      stack_pair_80.first = 0;
-      stack_pair_80.second = 0;
-      fn_82517978(&stack_pair_80.first,iVar2,piVar1[1],0);
-      fn_8266F2D0(dVar7,iVar3,&stack_pair_80.first,0);
+    r = *(Ref_8247AEC0 **)(self + 0x5c4);
+    a = r->a;
+    scale = lbl_821CC160;
+    base = *(int *)(*(int *)(other + 0x3e4) + 0x8c0);
+    if (a != 0) {
+        res = fn_82555A88(base + 0x98, "|REFERENCE_topticker|");
+        if (res != 0 && (obj = *res) != 0) {
+            pair.a = 0;
+            pair.b = 0;
+            fn_82517978(&pair, a, r->b, 0);
+            fn_8266F2D0(obj, &pair, 0, scale, 0);
+        }
     }
-  }
-  fn_822A5480(*(undefined4 *)(param_1 + 0x5c4),0xffffffff820e975c);
-  stack_pair_70.first = 0;
-  stack_pair_70.second = 0;
-  puVar4 = *(undefined4 **)(param_1 + 0x5c4);
-  fn_82273CD8(&stack_pair_70.first,3);
-  uStack_68 = lbl_821958F0;
-  uVar8 = lbl_821958F0;
-  fn_82672C20(*puVar4,0xffffffff821ac400,&stack_pair_70.first,1);
-  fn_82273C88(&stack_pair_70.first);
-  piVar1 = *(int **)(param_1 + 0x5c8);
-  iVar2 = *piVar1;
-  if (((iVar2 != 0) &&
-      (piVar5 = (int *)fn_82555A88(uVar6 + 0x98,0xffffffff821bd334), piVar5 != (int *)0x0)) &&
-     (iVar3 = *piVar5, iVar3 != 0)) {
-    stack_pair_80.first = 0;
-    stack_pair_80.second = 0;
-    fn_82517978(&stack_pair_80.first,iVar2,piVar1[1],0);
-    fn_8266F2D0(dVar7,iVar3,&stack_pair_80.first,0);
-  }
-  fn_822A5480(*(undefined4 *)(param_1 + 0x5c8),0xffffffff820e975c);
-  stack_pair_60.first = 0;
-  stack_pair_60.second = 0;
-  puVar4 = *(undefined4 **)(param_1 + 0x5c8);
-  fn_82273CD8(&stack_pair_60.first,3);
-  uStack_58 = uVar8;
-  fn_82672C20(*puVar4,0xffffffff821ac400,&stack_pair_60.first,1);
-  fn_82273C88(&stack_pair_60.first);
-  return;
+    fn_822A5480(*(Ref_8247AEC0 **)(self + 0x5c4), lbl_820E975C);
+    arg1.a = 0;
+    arg1.b = 0;
+    p = *(Ref_8247AEC0 **)(self + 0x5c4);
+    fn_82273CD8(&arg1, 3);
+    speed = lbl_821954B0[136];
+    arg1.d = speed;
+    fn_82672C20(p->a, "_root.SetSpeed", &arg1, 1);
+    fn_82273C88(&arg1);
+
+    r = *(Ref_8247AEC0 **)(self + 0x5c8);
+    a = r->a;
+    if (a != 0) {
+        res = fn_82555A88(base + 0x98, "|REFERENCE_Bottomticker|");
+        if (res != 0 && (obj = *res) != 0) {
+            pair.a = 0;
+            pair.b = 0;
+            fn_82517978(&pair, a, r->b, 0);
+            fn_8266F2D0(obj, &pair, 0, scale, 0);
+        }
+    }
+    fn_822A5480(*(Ref_8247AEC0 **)(self + 0x5c8), lbl_820E975C);
+    arg2.a = 0;
+    arg2.b = 0;
+    p = *(Ref_8247AEC0 **)(self + 0x5c8);
+    fn_82273CD8(&arg2, 3);
+    arg2.d = speed;
+    fn_82672C20(p->a, "_root.SetSpeed", &arg2, 1);
+    fn_82273C88(&arg2);
 }

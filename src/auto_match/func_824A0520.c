@@ -1,148 +1,95 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_b0;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_823F2E20();
-extern int fn_824A0720();
-extern int fn_824A0808();
-extern int fn_8266EC60();
-extern int fn_8266ECF0();
-extern int fn_82672C20();
-extern unsigned int iStack_ac;
-extern unsigned int lbl_82195B10;
-extern unsigned int lbl_821CC160;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_88;
-extern unsigned int uStack_9c;
-extern unsigned int uStack_a0;
+typedef struct Value_824A0520 {
+    int type;
+    int data;
+    double num;
+} Value_824A0520;
 
+typedef struct Ref_824A0520 {
+    int obj;
+    void *ref;
+} Ref_824A0520;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Obj_824A0520 {
+    char pad0[0x4c];
+    int f4c;
+    int movie;
+    char pad54[0x30];
+    float f84;
+} Obj_824A0520;
 
-void fn_824A0520(int param_1,undefined8 param_2,int param_3)
+extern void *fn_8266EC60(void);
+extern void *fn_8266ECF0(Ref_824A0520 *out, void *a, void *b, int c, int d, int e, int f, int g);
+extern void fn_823F2E20(int *dst, void *src);
+extern void fn_822315A0(void *p);
+extern void fn_82273CD8(Value_824A0520 *v, int type);
+extern void fn_82273C88(Value_824A0520 *v);
+extern void fn_82672C20(int movie, const char *name, Value_824A0520 *args, int count);
+extern void fn_824A0720(Obj_824A0520 *self, int a, int b);
+extern void fn_824A0808(Obj_824A0520 *self);
 
+extern double lbl_821954B0[];
+extern float lbl_821CC160;
+
+void fn_824A0520(Obj_824A0520 *self, int param_2, int param_3)
 {
-  undefined8 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined1 *puVar4;
-  longlong lVar5;
-  undefined1 auStack_b0 [4];
-  int iStack_ac;
-  longlong lStack_a8;
-  struct { undefined4 first; undefined4 second; } stack_pair_a0;
+    Ref_824A0520 tmp;
+    Value_824A0520 v;
+    Value_824A0520 a1[2];
+    Value_824A0520 a2[2];
+    Value_824A0520 *e;
+    double t;
+    int i;
 
-  double dStack_98;
-  undefined1 auStack_90 [8];
-  undefined8 uStack_88;
-  undefined1 auStack_80 [4];
-  undefined4 uStack_7c;
-  undefined8 uStack_78;
-  undefined1 auStack_70 [8];
-  double dStack_68;
-  undefined1 auStack_60 [8];
-  double dStack_58;
-  undefined1 auStack_50 [64];
-  
-  puVar3 = (undefined4 *)(param_1 + 0x50);
-  if (*(int *)(param_1 + 0x50) == 0) {
-    uVar1 = fn_8266EC60();
-    uVar1 = fn_8266ECF0(auStack_b0,uVar1,param_1 + 0x4c,4,0,0xffffffffffffffff,0,0x18280143);
-    fn_823F2E20(puVar3,uVar1);
-    if (iStack_ac != 0) {
-      fn_822315A0();
+    if (self->movie == 0) {
+        fn_823F2E20(&self->movie,
+                    fn_8266ECF0(&tmp, fn_8266EC60(), &self->f4c, 4, 0, -1, 0, 0x18280143));
+        if (tmp.ref != 0) {
+            fn_822315A0(tmp.ref);
+        }
+        for (i = 0; i < 2; i++) {
+            a1[i].type = 0;
+            a1[i].data = 0;
+        }
+        fn_82273CD8(&a1[0], 3);
+        t = lbl_821954B0[0xcc];
+        a1[0].num = t;
+        fn_82273CD8(&a1[1], 3);
+        a1[1].num = t;
+        fn_82672C20(self->movie, "setTimings", a1, 2);
+        e = &a1[2];
+        i = 1;
+        do {
+            e--;
+            fn_82273C88(e);
+            i--;
+        } while (i >= 0);
+        self->f84 = lbl_821CC160;
+        fn_824A0808(self);
     }
-    puVar2 = &stack_pair_a0.second;
-    lVar5 = 2;
-    do {
-      puVar2[3] = 0;
-      puVar2 = puVar2 + 4;
-      *puVar2 = 0;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    fn_82273CD8(auStack_90,3);
-    uStack_88 = lbl_82195B10;
-    uVar1 = lbl_82195B10;
-    fn_82273CD8(auStack_80,3);
-    uStack_78 = uVar1;
-    fn_82672C20(*puVar3,0xffffffff821bf118,auStack_90,2);
-    puVar4 = auStack_70;
-    lVar5 = 1;
-    do {
-      puVar4 = puVar4 + -0x10;
-      fn_82273C88(puVar4);
-      lVar5 = lVar5 + -1;
-    } while (-1 < lVar5);
-    *(undefined4 *)(param_1 + 0x84) = lbl_821CC160;
-    fn_824A0808(param_1);
-  }
-  if (param_3 == 0) {
-    stack_pair_a0.first = 0;
-    stack_pair_a0.second = 0;
-    fn_82273CD8(&stack_pair_a0.first,3);
-    lStack_a8 = (longlong)(int)param_2;
-    dStack_98 = (double)lStack_a8;
-    fn_82672C20(*puVar3,0xffffffff821bf124,&stack_pair_a0.first,1);
-    fn_824A0720(param_1,param_2,0);
-    fn_82273C88(&stack_pair_a0.first);
-  }
-  else {
-    puVar2 = &uStack_7c;
-    lVar5 = 2;
-    do {
-      puVar2[3] = 0;
-      puVar2 = puVar2 + 4;
-      *puVar2 = 0;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    fn_82273CD8(auStack_70,3);
-    lStack_a8 = (longlong)(int)param_2;
-    dStack_68 = (double)lStack_a8;
-    fn_82273CD8(auStack_60,3);
-    lStack_a8 = (longlong)param_3;
-    dStack_58 = (double)lStack_a8;
-    fn_82672C20(*puVar3,0xffffffff821bf134,auStack_70,2);
-    puVar4 = auStack_50;
-    lVar5 = 1;
-    do {
-      puVar4 = puVar4 + -0x10;
-      fn_82273C88(puVar4);
-      lVar5 = lVar5 + -1;
-    } while (-1 < lVar5);
-  }
-  return;
+    if (param_3 == 0) {
+        v.type = 0;
+        v.data = 0;
+        fn_82273CD8(&v, 3);
+        v.num = (double)param_2;
+        fn_82672C20(self->movie, "HideMoveIcons", &v, 1);
+        fn_824A0720(self, param_2, 0);
+        fn_82273C88(&v);
+    } else {
+        for (i = 0; i < 2; i++) {
+            a2[i].type = 0;
+            a2[i].data = 0;
+        }
+        fn_82273CD8(&a2[0], 3);
+        a2[0].num = (double)param_2;
+        fn_82273CD8(&a2[1], 3);
+        a2[1].num = (double)param_3;
+        fn_82672C20(self->movie, "Show", a2, 2);
+        e = &a2[2];
+        i = 1;
+        do {
+            e--;
+            fn_82273C88(e);
+            i--;
+        } while (i >= 0);
+    }
 }
-

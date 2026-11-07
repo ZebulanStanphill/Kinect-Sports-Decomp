@@ -1,50 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8242E3E0();
-extern int fn_8243A970();
-extern unsigned int lbl_821CC160;
+typedef struct Inner_8242BE10 {
+    char pad0[0x30];
+    unsigned char flag30;
+    char pad31[0x50 - 0x31];
+    float f50;
+    float f54;
+} Inner_8242BE10;
 
+typedef struct Mid_8242BE10 {
+    char pad0[0x93c];
+    Inner_8242BE10 *inner;
+} Mid_8242BE10;
 
-void fn_8242BE10(undefined8 param_1,int param_2)
+typedef struct Sub_8242BE10 {
+    char pad0[0x1c];
+    char part1c[0x80];
+    Mid_8242BE10 *mid;
+} Sub_8242BE10;
 
+typedef struct Obj_8242BE10 {
+    char pad0[0x174];
+    Sub_8242BE10 *sub;
+} Obj_8242BE10;
+
+extern int fn_8242E3E0(Obj_8242BE10 *p);
+extern void fn_8243A970(void *p, float f);
+extern float lbl_821CC160;
+
+void fn_8242BE10(Obj_8242BE10 *p, float f)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  iVar2 = fn_8242E3E0();
-  if ((iVar2 != 0) &&
-     (iVar2 = *(int *)(*(int *)(*(int *)(param_2 + 0x174) + 0x9c) + 0x93c), iVar2 != 0)) {
-    *(undefined1 *)(iVar2 + 0x30) = 0;
-    uVar1 = lbl_821CC160;
-    *(undefined4 *)(iVar2 + 0x50) = lbl_821CC160;
-    *(undefined4 *)(iVar2 + 0x54) = uVar1;
-  }
-  fn_8243A970(param_1,(ulonglong)*(uint *)(param_2 + 0x174) + 0x1c);
-  return;
-}
+    Inner_8242BE10 *in;
+    float v;
 
+    if (fn_8242E3E0(p) != 0) {
+        in = p->sub->mid->inner;
+        if (in != 0) {
+            in->flag30 = 0;
+            v = lbl_821CC160;
+            in->f50 = v;
+            in->f54 = v;
+        }
+    }
+    fn_8243A970(p->sub->part1c, f);
+}

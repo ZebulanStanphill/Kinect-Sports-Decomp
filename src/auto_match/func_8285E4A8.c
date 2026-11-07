@@ -1,93 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8280AD30();
-extern int fn_82810360();
-extern int fn_8285A808();
-extern int fn_8285A830();
-extern int fn_8285AAF0();
-extern int fn_8285E178();
-extern int fn_8285E398();
-extern int fn_828602F8();
-extern int fn_82860750();
-extern unsigned int lbl_832115A4;
-extern unsigned int lbl_832115A5;
-extern unsigned int lbl_832115A6;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+typedef struct Vec3_8285E4A8 {
+    float x;
+    float y;
+    float z;
+} Vec3_8285E4A8;
 
+typedef struct State_8285E4A8 {
+    int id;                 /* 0x00 */
+    int f4[3];              /* 0x04 */
+    int state;              /* 0x10 */
+    Vec3_8285E4A8 v14;      /* 0x14 */
+    Vec3_8285E4A8 v20;      /* 0x20 */
+} State_8285E4A8;
 
-void fn_8285E4A8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined4 *param_8)
+extern unsigned char lbl_83211340[];
 
+extern State_8285E4A8 *fn_8285A830(void);
+extern char *fn_8285A808(int a, int b);
+extern void fn_82810360(Vec3_8285E4A8 *dst, Vec3_8285E4A8 *src);
+extern void fn_8285AAF0(int a, int b, Vec3_8285E4A8 *c);
+extern int fn_82860750(int a, int b, Vec3_8285E4A8 *c);
+extern void fn_828602F8(int a, int b, Vec3_8285E4A8 *p, Vec3_8285E4A8 *q);
+extern void fn_8280AD30(char *ctx, Vec3_8285E4A8 *d, Vec3_8285E4A8 *tmp);
+extern void fn_8285E178(int a, int b, int *p, float f1, float f2, Vec3_8285E4A8 *tmp);
+extern void fn_8285E398(int a, int b, int id, void *p0, void *p1, void *p2,
+                        void *p3, void *p4, void *p5);
+
+void fn_8285E4A8(int a, int b, Vec3_8285E4A8 *c, float f1, float f2, Vec3_8285E4A8 *d)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  char cVar3;
-  undefined4 *puVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
+    State_8285E4A8 *s;
+    char *ctx;
+    unsigned char ok;
+    Vec3_8285E4A8 tmp;
 
-  undefined4 uStack_68;
-  
-  lbl_832115A5 = 0;
-  lbl_832115A6 = 1;
-  lbl_832115A4 = 0;
-  cVar3 = '\0';
-  stack_pair_70.first = *param_8;
-  stack_pair_70.second = param_8[1];
-  uStack_68 = param_8[2];
-  puVar1 = (undefined4 *)fn_8285A830();
-  iVar2 = fn_8285A808(param_3,param_4);
-  if (puVar1[4] == 0) {
-    fn_82810360(param_5,puVar1 + 5);
-    fn_8285AAF0(param_3,param_4,param_5);
-    cVar3 = fn_82860750(param_3,param_4,param_5);
-    if (cVar3 != '\0') {
-      puVar1[4] = 1;
+    lbl_83211340[0x265] = 0;
+    lbl_83211340[0x266] = 1;
+    lbl_83211340[0x264] = 0;
+    ok = 0;
+    tmp = *d;
+    s = fn_8285A830();
+    ctx = fn_8285A808(a, b);
+    if (s->state == 0) {
+        fn_82810360(c, &s->v14);
+        fn_8285AAF0(a, b, c);
+        ok = (unsigned char)fn_82860750(a, b, c);
+        if (ok) {
+            s->state = 1;
+        }
+    } else if (s->state == 1) {
+        fn_82810360(&s->v14, &s->v20);
+        fn_82810360(c, &s->v14);
+        fn_8285AAF0(a, b, c);
+        ok = 1;
+        fn_828602F8(a, b, &s->v20, &s->v14);
+        fn_8285AAF0(a, b, c);
     }
-  }
-  else if (puVar1[4] == 1) {
-    puVar4 = puVar1 + 5;
-    fn_82810360(puVar4,puVar1 + 8);
-    fn_82810360(param_5,puVar4);
-    fn_8285AAF0(param_3,param_4,param_5);
-    cVar3 = '\x01';
-    fn_828602F8(param_3,param_4,puVar1 + 8,puVar4);
-    fn_8285AAF0(param_3,param_4,param_5);
-  }
-  if (cVar3 != '\0') {
-    if (*(int *)(iVar2 + 0x94) != 0) {
-      fn_8280AD30(iVar2 + 0x10,param_8,&stack_pair_70.first);
+    if (ok) {
+        if (*(void **)(ctx + 0x94) != 0) {
+            fn_8280AD30(ctx + 0x10, d, &tmp);
+        }
+        fn_8285E178(a, b, s->f4, f1, f2, &tmp);
+        fn_8285E398(a, b, s->id, lbl_83211340, lbl_83211340 + 0x40, lbl_83211340 + 0x80,
+                    lbl_83211340 + 0x1f4, lbl_83211340 + 0x170, lbl_83211340 + 0xc8);
     }
-    fn_8285E178(param_1,param_2,param_3,param_4,puVar1 + 1);
-    fn_8285E398(param_3,param_4,*puVar1,0xffffffff83211340,0xffffffff83211380,0xffffffff832113c0,
-                  0xffffffff83211534,0xffffffff832114b0);
-  }
-  return;
 }
-

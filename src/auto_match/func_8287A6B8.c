@@ -1,49 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822924C0();
+typedef struct Obj_8287A6B8 {
+  int pad0;
+  float f4;
+  float f8;
+  float fc;
+  float f10;
+  float f14;
+  float f18;
+  unsigned char b1c;
+  float f20;
+  float f24;
+  unsigned char b28;
+  float f2c;
+  float f30;
+  int sub34;
+} Obj_8287A6B8;
 
+extern int fn_822924C0(void *dst, void *src);
 
-int fn_8287A6B8(int param_1,int param_2)
-
+Obj_8287A6B8 *fn_8287A6B8(Obj_8287A6B8 *param_1, Obj_8287A6B8 *param_2)
 {
-  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_2 + 4);
-  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(param_2 + 8);
-  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(param_2 + 0xc);
-  *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(param_2 + 0x10);
-  *(undefined4 *)(param_1 + 0x14) = *(undefined4 *)(param_2 + 0x14);
-  *(undefined4 *)(param_1 + 0x18) = *(undefined4 *)(param_2 + 0x18);
-  *(undefined1 *)(param_1 + 0x1c) = *(undefined1 *)(param_2 + 0x1c);
-  *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_2 + 0x20);
-  *(undefined4 *)(param_1 + 0x24) = *(undefined4 *)(param_2 + 0x24);
-  *(undefined1 *)(param_1 + 0x28) = *(undefined1 *)(param_2 + 0x28);
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(param_2 + 0x2c);
-  *(undefined4 *)(param_1 + 0x30) = *(undefined4 *)(param_2 + 0x30);
-  fn_822924C0(param_1 + 0x34,param_2 + 0x34);
+  param_1->f4 = param_2->f4;
+  param_1->f8 = param_2->f8;
+  param_1->fc = param_2->fc;
+  param_1->f10 = param_2->f10;
+  param_1->f14 = param_2->f14;
+  param_1->f18 = param_2->f18;
+  param_1->b1c = param_2->b1c;
+  param_1->f20 = param_2->f20;
+  param_1->f24 = param_2->f24;
+  param_1->b28 = param_2->b28;
+  param_1->f2c = param_2->f2c;
+  param_1->f30 = param_2->f30;
+  fn_822924C0(&param_1->sub34, &param_2->sub34);
   return param_1;
 }
-

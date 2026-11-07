@@ -1,57 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F160();
 
+typedef struct Obj_823400C8 {
+    int pad0;
+    int v0;
+    int v1;
+    int v2;
+    int v3;
+    int v4;
+} Obj_823400C8;
 
-undefined4 fn_823400C8(int param_1)
+typedef struct Mode_8225F160 {
+    int pad[5];
+    uint mode;
+} Mode_8225F160;
 
+extern Mode_8225F160 *fn_8225F160();
+
+int fn_823400C8(Obj_823400C8 *param_1)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  iVar2 = fn_8225F160();
-  uVar1 = *(uint *)(iVar2 + 0x14);
-  if (uVar1 == 0) {
-    uVar3 = *(undefined4 *)(param_1 + 4);
-  }
-  else if (uVar1 == 1) {
-    uVar3 = *(undefined4 *)(param_1 + 8);
-  }
-  else if (uVar1 < 3) {
-    uVar3 = *(undefined4 *)(param_1 + 0xc);
-  }
-  else if (uVar1 == 3) {
-    uVar3 = *(undefined4 *)(param_1 + 0x10);
-  }
-  else {
-    uVar3 = *(undefined4 *)(param_1 + 0x14);
-  }
-  return uVar3;
+    switch (fn_8225F160()->mode) {
+    case 0:
+        return param_1->v0;
+    case 1:
+        return param_1->v1;
+    case 2:
+        return param_1->v2;
+    case 3:
+        return param_1->v3;
+    default:
+        return param_1->v4;
+    }
 }
-

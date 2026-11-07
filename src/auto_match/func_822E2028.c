@@ -1,55 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_824D2AE8();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
-extern unsigned int lbl_821CC160;
+typedef struct Obj_822E2028 {
+    char pad0[0xd4];
+    int flag;
+    char pad1[0x8];
+    float a;
+    float b;
+} Obj_822E2028;
 
+typedef struct Pair_822E2028 {
+    Obj_822E2028 *first;
+    void *second;
+} Pair_822E2028;
 
-void fn_822E2028(int *param_1)
+struct Self_822E2028;
 
+typedef struct Vt_822E2028 {
+    void *slots[8];
+    void (*f20)(struct Self_822E2028 *self);
+} Vt_822E2028;
+
+typedef struct Self_822E2028 {
+    Vt_822E2028 *vt;
+    char pad0[0x54];
+    char member58;
+} Self_822E2028;
+
+extern void fn_822315A0(void *p);
+extern void fn_824D2AE8(Pair_822E2028 *out, void *src);
+extern float lbl_821CC160;
+
+void fn_822E2028(Self_822E2028 *param_1)
 {
-  undefined4 uVar1;
-  struct { int first; int second; } stack_pair_20;
+    Pair_822E2028 pair;
+    Obj_822E2028 *o;
 
-  
-  fn_824D2AE8(&stack_pair_20.first,param_1 + 0x16);
-  if (stack_pair_20.first != 0) {
-    *(undefined4 *)(stack_pair_20.first + 0xd4) = 1;
-    uVar1 = lbl_821CC160;
-    *(undefined4 *)(stack_pair_20.first + 0xe0) = lbl_821CC160;
-    *(undefined4 *)(stack_pair_20.first + 0xe4) = uVar1;
-  }
-  (**(code **)(*param_1 + 0x20))(param_1);
-  if (stack_pair_20.second != 0) {
-    fn_822315A0();
-  }
-  return;
+    fn_824D2AE8(&pair, &param_1->member58);
+    o = pair.first;
+    if (o != 0) {
+        float v;
+        o->flag = 1;
+        v = lbl_821CC160;
+        o->a = v;
+        o->b = v;
+    }
+    param_1->vt->f20(param_1);
+    if (pair.second != 0) {
+        fn_822315A0(pair.second);
+    }
 }
-
