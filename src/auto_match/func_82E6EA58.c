@@ -1,56 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
 
+void *memcpy(void *dst, const void *src, unsigned int n);
 
-undefined8 fn_82E6EA58(int *param_1,ulonglong param_2,ulonglong param_3,undefined4 *param_4)
+struct Obj_82E6EA58;
 
+typedef struct Vtbl_82E6EA58 {
+    void *slots[25];
+    int (*Reserve)(struct Obj_82E6EA58 *self, U64 pos, unsigned int n);
+} Vtbl_82E6EA58;
+
+typedef struct Obj_82E6EA58 {
+    Vtbl_82E6EA58 *vt;
+    int pad04[5];
+    U64 f18;
+    int pad20[4];
+    U64 f30;
+    unsigned int f38;
+    int f3c;
+} Obj_82E6EA58;
+
+int fn_82E6EA58(Obj_82E6EA58 *p, const void *src, unsigned int n, unsigned int *out)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  if (param_4 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff80004003;
-  }
-  else {
-    *param_4 = 0;
-    if (((param_2 & 0xffffffff) != 0) && ((param_3 & 0xffffffff) != 0)) {
-      iVar2 = (**(code **)(*param_1 + 100))(param_1,*(undefined8 *)(param_1 + 6),param_3);
-      if (iVar2 == 0) {
-        return 0xffffffffc00d36bf;
-      }
-      fn_82F68CC0(((ulonglong)(uint)param_1[0xe] - (*(ulonglong *)(param_1 + 0xc) & 0xffffffff)) +
-                   (*(ulonglong *)(param_1 + 6) & 0xffffffff),param_2,param_3);
-      *param_4 = (int)param_3;
-      param_1[0xf] = 0;
+    if (out == 0) {
+        return 0x80004003;
     }
-    uVar1 = 0;
-  }
-  return uVar1;
+    *out = 0;
+    if (src != 0 && n != 0) {
+        if (p->vt->Reserve(p, p->f18, n) != 0) {
+            memcpy((char *)(p->f38 - (unsigned int)p->f30 + (unsigned int)p->f18), src, n);
+            *out = n;
+            p->f3c = 0;
+        } else {
+            return 0xC00D36BF;
+        }
+    }
+    return 0;
 }
-

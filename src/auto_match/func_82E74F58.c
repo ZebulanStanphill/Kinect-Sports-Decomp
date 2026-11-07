@@ -1,55 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef union LargeInt_82E74F58 {
+    struct {
+        unsigned int HighPart;
+        unsigned int LowPart;
+    } u;
+    __int64 QuadPart;
+} LargeInt_82E74F58;
 
+typedef struct Vtbl_82E74F58 {
+    void *slots[35];
+    int (*GetPos)(void *self, LargeInt_82E74F58 *pos);
+} Vtbl_82E74F58;
 
-undefined8 fn_82E74F58(undefined8 param_1,int *param_2,longlong param_3,longlong *param_4)
+typedef struct Obj_82E74F58 {
+    Vtbl_82E74F58 *vt;
+} Obj_82E74F58;
 
+int fn_82E74F58(void *param_1, Obj_82E74F58 *obj, __int64 offset, LargeInt_82E74F58 *out)
 {
-  undefined8 uVar1;
-  longlong lStack_20;
-  
-  if ((param_2 == (int *)0x0) || (param_4 == (longlong *)0x0)) {
-    uVar1 = 0xffffffff80004003;
-  }
-  else {
-    *param_4 = 0;
-    lStack_20 = 0;
-    uVar1 = (**(code **)(*param_2 + 0x8c))(param_2,&lStack_20);
-    if (-1 < (int)uVar1) {
-      if (lStack_20 + param_3 < 0) {
-        uVar1 = 0xffffffff80070057;
-      }
-      else {
-        *param_4 = lStack_20 + param_3;
-        uVar1 = 0;
-      }
-    }
-  }
-  return uVar1;
-}
+    int hr;
+    LargeInt_82E74F58 pos;
+    __int64 sum;
 
+    if (obj == 0 || out == 0) {
+        return 0x80004003;
+    }
+    out->QuadPart = 0;
+    pos.QuadPart = 0;
+    hr = obj->vt->GetPos(obj, &pos);
+    if (hr < 0) {
+        return hr;
+    }
+    sum = pos.QuadPart + offset;
+    if (sum < 0) {
+        return 0x80070057;
+    }
+    out->QuadPart = sum;
+    return 0;
+}

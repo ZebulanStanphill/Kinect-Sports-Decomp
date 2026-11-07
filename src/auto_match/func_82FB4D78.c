@@ -1,51 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern unsigned int lbl_832642E0;
+typedef struct Obj_82FB4D78 Obj_82FB4D78;
+typedef struct Sub_82FB4D78 Sub_82FB4D78;
+typedef struct Ctx_82FB4D78 Ctx_82FB4D78;
 
+struct Sub_82FB4D78 {
+    int pad0[4];
+    int data10[6];
+    int field28;
+};
 
-undefined8 fn_82FB4D78(int param_1,undefined8 param_2,undefined4 *param_3)
+struct Ctx_82FB4D78 {
+    int pad0[14];
+    Sub_82FB4D78 *sub;
+};
 
+typedef struct {
+    void *s0;
+    void *s1;
+    void (*Release)(Obj_82FB4D78 *self);
+    void *pad[85];
+    int (*Method)(Obj_82FB4D78 *self, Ctx_82FB4D78 *ctx, int a, void *b, int *out);
+} Vt_82FB4D78;
+
+struct Obj_82FB4D78 {
+    Vt_82FB4D78 *vt;
+};
+
+extern Obj_82FB4D78 *fn_82FAB9C0(int key);
+extern int lbl_832642E0;
+
+int fn_82FB4D78(Ctx_82FB4D78 *ctx, int unused, int *out)
 {
-  int *piVar2;
-  undefined8 uVar1;
-  
-  *param_3 = 0;
-  piVar2 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4);
-  if (piVar2 == (int *)0x0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = (**(code **)(*piVar2 + 0x160))
-                      (piVar2,param_1,*(undefined4 *)(*(int *)(param_1 + 0x38) + 0x28),
-                       *(int *)(param_1 + 0x38) + 0x10,param_3);
-    (**(code **)(*piVar2 + 8))(piVar2);
-  }
-  return uVar1;
-}
+    Obj_82FB4D78 *p;
+    int hr = 0;
 
+    *out = hr;
+    p = fn_82FAB9C0(lbl_832642E0 + 4);
+    if (p != 0) {
+        hr = p->vt->Method(p, ctx, ctx->sub->field28, &ctx->sub->data10, out);
+        p->vt->Release(p);
+    }
+    return hr;
+}

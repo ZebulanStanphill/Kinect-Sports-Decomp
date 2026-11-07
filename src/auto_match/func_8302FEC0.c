@@ -1,67 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF5D28();
+typedef struct Vec_8302FEC0 {
+    unsigned int *begin;
+    unsigned int *end;
+} Vec_8302FEC0;
 
+typedef struct Node_8302FEC0 {
+    struct Node_8302FEC0 *next;
+    unsigned int key;
+    Vec_8302FEC0 vec;
+} Node_8302FEC0;
 
-char fn_8302FEC0(int param_1,int param_2,int param_3)
+typedef struct Obj_8302FEC0 {
+    char pad[0xc4];
+    Node_8302FEC0 *head;
+} Obj_8302FEC0;
 
+extern unsigned int *fn_82FF5D28(Vec_8302FEC0 *v);
+
+static __forceinline Vec_8302FEC0 *FindVec_8302FEC0(Obj_8302FEC0 *o, unsigned int key)
 {
-  int *piVar1;
-  char cVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  if (param_3 == 0) {
-    return '\x1f';
-  }
-  piVar1 = *(int **)(param_1 + 0xc4);
-  cVar2 = '9';
-  if (piVar1 != (int *)0x0) {
-    while (piVar1[1] != param_2) {
-      piVar1 = (int *)*piVar1;
-      if (piVar1 == (int *)0x0) {
-        return cVar2;
-      }
-    }
-    piVar3 = piVar1 + 2;
-    if (piVar3 != (int *)0x0) {
-      for (piVar4 = (int *)*piVar3; (piVar4 != (int *)piVar1[3] && (*piVar4 != param_3));
-          piVar4 = piVar4 + 1) {
-      }
-      if ((-(uint)((int *)piVar1[3] != piVar4) & (uint)piVar4) == 0) {
-        piVar1 = (int *)fn_82FF5D28(piVar3);
-        if (piVar1 != (int *)0x0) {
-          *piVar1 = param_3;
+    Node_8302FEC0 *n;
+    for (n = o->head; n != 0; n = n->next) {
+        if (n->key == key) {
+            return &n->vec;
         }
-        cVar2 = (piVar1 == (int *)0x0) + '\x01';
-      }
     }
-  }
-  return cVar2;
+    return 0;
 }
 
+static __forceinline int VecFind_8302FEC0(Vec_8302FEC0 *v, unsigned int val)
+{
+    unsigned int *it;
+    for (it = v->begin; it != v->end && *it != val; ++it) {
+    }
+    return it != v->end ? (int)it : 0;
+}
+
+char fn_8302FEC0(Obj_8302FEC0 *o, unsigned int key, unsigned int val)
+{
+    Vec_8302FEC0 *v;
+    unsigned int *slot;
+    char result;
+
+    if (val == 0) {
+        return 0x1f;
+    }
+    result = 0x39;
+    v = FindVec_8302FEC0(o, key);
+    if (v != 0) {
+        if (VecFind_8302FEC0(v, val) == 0) {
+            slot = fn_82FF5D28(v);
+            if (slot != 0) {
+                *slot = val;
+            }
+            result = (slot == 0) + 1;
+        }
+    }
+    return result;
+}

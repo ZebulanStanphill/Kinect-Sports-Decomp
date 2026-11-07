@@ -1,60 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
+typedef struct Node_82FB6FE8 {
+    int pad0;
+    struct Node_82FB6FE8 *next;
+    int pad8;
+    int padC;
+    unsigned char flag;
+} Node_82FB6FE8;
 
+typedef struct Obj_82FB6FE8 Obj_82FB6FE8;
 
-void fn_82FB6FE8(undefined4 *param_1,int *param_2,ulonglong param_3)
+typedef struct {
+    unsigned int (*fn0)(Obj_82FB6FE8 *self, void *out);
+} Vtbl_82FB6FE8;
 
+struct Obj_82FB6FE8 {
+    Vtbl_82FB6FE8 *vt;
+    int pad4;
+    int pad8;
+    int padC;
+    int pad10;
+    Node_82FB6FE8 *cur;
+};
+
+void fn_82FB6FE8(Obj_82FB6FE8 *param_1, Node_82FB6FE8 **param_2, int param_3)
 {
-  int iVar1;
-  ulonglong uVar2;
-  int iVar3;
-  ulonglong uVar4;
-  undefined1 auStack_30 [1];
-  
-  iVar1 = *param_2;
-  uVar4 = 0;
-  uVar2 = (-param_3 & ~param_3 & 0xffffffff) >> 0x1f;
-  if (uVar2 != 0xfffffffffffffffe) {
-    do {
-      if (iVar1 == 0) {
-        return;
-      }
-      if (*(char *)(iVar1 + 0x10) != '\0') {
-        if ((iVar1 == param_1[5]) && (iVar3 = (**(code **)*param_1)(param_1,auStack_30), iVar3 == 0)
-           ) {
-          return;
-        }
-        uVar4 = uVar4 + 1;
-      }
-      iVar1 = *(int *)(iVar1 + 4);
-    } while ((uVar4 & 0xffffffff) < uVar2 + 2);
-  }
-  return;
-}
+    Node_82FB6FE8 *node;
+    unsigned int count;
+    unsigned int limit;
+    unsigned char buf[1];
 
+    node = *param_2;
+    count = 0;
+    limit = (param_3 > 0) + 2;
+    while (count < limit) {
+        if (node == 0) {
+            return;
+        }
+        if (node->flag != 0) {
+            if (node == param_1->cur && param_1->vt->fn0(param_1, buf) == 0) {
+                return;
+            }
+            count++;
+        }
+        node = node->next;
+    }
+}

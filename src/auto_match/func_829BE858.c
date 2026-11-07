@@ -1,59 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Corresponds to libjpeg jdpostct.c start_pass_dpost (open-source IJG libjpeg). */
+typedef struct ErrMgr_829BE858 ErrMgr_829BE858;
+typedef struct MemMgr_829BE858 MemMgr_829BE858;
+typedef struct Cinfo_829BE858 Cinfo_829BE858;
+
+struct ErrMgr_829BE858 {
+    void (*error_exit)(Cinfo_829BE858 *cinfo);
+    int pad04[4];
+    int msg_code;
+};
+
+struct MemMgr_829BE858 {
+    int pad00[7];
+    void *(*access)(Cinfo_829BE858 *cinfo, void *arr, int start, int num, int writable);
+};
+
+typedef struct Other_829BE858 {
+    int pad00;
+    void *fn;
+} Other_829BE858;
+
+typedef struct Ctl_829BE858 {
+    int pad00;
+    void *fn;
+    void *arr;
+    void *buffer;
+    int num;
+    int f14;
+    int f18;
+} Ctl_829BE858;
+
+struct Cinfo_829BE858 {
+    ErrMgr_829BE858 *err;
+    MemMgr_829BE858 *mem;
+    int pad08[19];
+    int flag54;
+    int pad58[87];
+    Ctl_829BE858 *ctl;
+    int pad1b8[4];
+    Other_829BE858 *other;
+};
+
 extern int fn_829BE7C0();
 
-
-void fn_829BE858(int *param_1,int param_2)
-
+void fn_829BE858(Cinfo_829BE858 *cinfo, int mode)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = param_1[0x6d];
-  if (param_2 == 0) {
-    if (param_1[0x15] == 0) {
-      *(undefined4 *)(iVar1 + 4) = *(undefined4 *)(param_1[0x72] + 4);
-    }
-    else {
-      *(code **)(iVar1 + 4) = fn_829BE7C0;
-      if (*(int *)(iVar1 + 0xc) == 0) {
-        uVar2 = (**(code **)(param_1[1] + 0x1c))
-                          (param_1,*(undefined4 *)(iVar1 + 8),0,*(undefined4 *)(iVar1 + 0x10),1);
-        *(undefined4 *)(iVar1 + 0xc) = uVar2;
-      }
-    }
-  }
-  else {
-    *(undefined4 *)(*param_1 + 0x14) = 4;
-    (**(code **)*param_1)();
-  }
-  *(undefined4 *)(iVar1 + 0x18) = 0;
-  *(undefined4 *)(iVar1 + 0x14) = 0;
-  return;
-}
+    Ctl_829BE858 *c = cinfo->ctl;
 
+    if (mode != 0) {
+        cinfo->err->msg_code = 4;
+        cinfo->err->error_exit(cinfo);
+    } else if (cinfo->flag54 != 0) {
+        c->fn = (void *)fn_829BE7C0;
+        if (c->buffer == 0) {
+            c->buffer = cinfo->mem->access(cinfo, c->arr, 0, c->num, 1);
+        }
+    } else {
+        c->fn = cinfo->other->fn;
+    }
+    c->f18 = 0;
+    c->f14 = 0;
+}

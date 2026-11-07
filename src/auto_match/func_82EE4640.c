@@ -1,52 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E3C590();
-extern int fn_82EE3630();
+typedef struct Obj_82EE4640 {
+    int pad0[3];
+    unsigned int active;        /* 0x0c */
+    int pad10[14];
+    char sub48[0x68];           /* 0x48 */
+    unsigned int count;         /* 0xb0 */
+} Obj_82EE4640;
 
+extern void *fn_82E3C590(void *a, void *b, int c);
+extern int fn_82EE3630(void *list, unsigned int idx, void ***out);
 
-ulonglong fn_82EE4640(int param_1,uint param_2,undefined8 param_3)
-
+int fn_82EE4640(Obj_82EE4640 *p, unsigned short idx, void *arg)
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  undefined4 *apuStack_20 [4];
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if ((param_2 & 0xffff) < *(uint *)(param_1 + 0xb0)) {
-    fn_82EE3630(param_1 + 0x48,param_2 & 0xffff,apuStack_20);
-    lVar2 = fn_82E3C590(*apuStack_20[0],param_3,0);
-    uVar1 = -(ulonglong)(lVar2 == 0) & 0xffffffff8007000e;
-  }
-  else {
-    uVar1 = 0xffffffffc00d36d5;
-  }
-  return uVar1;
-}
+    void **entry;
 
+    if (p->active == 0) {
+        return (int)0xC00D36B6;
+    }
+    if (idx >= p->count) {
+        return (int)0xC00D36D5;
+    }
+    fn_82EE3630(p->sub48, idx, &entry);
+    return fn_82E3C590(*entry, arg, 0) ? 0 : (int)0x8007000E;
+}

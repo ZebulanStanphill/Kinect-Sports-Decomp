@@ -1,48 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83001FE8();
-extern int fn_83005838();
-extern unsigned int lbl_821AAD20;
+typedef struct Sub_830027F0 {
+    char pad[0x2c];
+    float x;
+    float y;
+} Sub_830027F0;
 
+typedef struct Obj_830027F0 {
+    char pad[0x68];
+    Sub_830027F0 *sub;
+} Obj_830027F0;
 
-void fn_830027F0(undefined8 param_1,double param_2,double param_3,int param_4)
+extern void fn_83005838(Obj_830027F0 *p, float a, float b, float c);
+extern unsigned char fn_83001FE8(Obj_830027F0 *p);
 
+void fn_830027F0(Obj_830027F0 *p, float a, float b, float c)
 {
-  char cVar1;
-  double dVar2;
-  
-  dVar2 = (double)lbl_821AAD20;
-  fn_83005838(param_1,dVar2,dVar2);
-  if ((((param_2 != dVar2) || (param_3 != dVar2)) || (*(int *)(param_4 + 0x68) != 0)) &&
-     (cVar1 = fn_83001FE8(param_4), cVar1 != '\0')) {
-    *(float *)(*(int *)(param_4 + 0x68) + 0x2c) = (float)param_2;
-    *(float *)(*(int *)(param_4 + 0x68) + 0x30) = (float)param_3;
-  }
-  return;
+    fn_83005838(p, a, 0.0f, 0.0f);
+    if ((b != 0.0f || c != 0.0f || p->sub != 0) && fn_83001FE8(p) != 0) {
+        p->sub->x = b;
+        p->sub->y = c;
+    }
 }
-

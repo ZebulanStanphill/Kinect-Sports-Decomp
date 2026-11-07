@@ -1,62 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D89B48();
-extern int fn_82D8A058();
+typedef struct Inner_82DF40A0 {
+    int pad0;
+    int pad4;
+    int active;
+} Inner_82DF40A0;
 
+typedef struct Flags_82DF40A0 {
+    unsigned char hi : 5;
+    unsigned char enabled : 1;
+    unsigned char lo : 2;
+} Flags_82DF40A0;
 
-void fn_82DF40A0(int param_1,byte param_2)
+typedef struct Obj_82DF40A0 {
+    int pad0;
+    int pad4;
+    int link;
+    Flags_82DF40A0 flags;
+    unsigned char pad_d[3];
+    Inner_82DF40A0 *inner;
+} Obj_82DF40A0;
 
+extern void fn_82D89B48(Inner_82DF40A0 *inner, void *link);
+extern void fn_82D8A058(Inner_82DF40A0 *inner, void *link);
+
+static __forceinline unsigned char isActive_82DF40A0(Inner_82DF40A0 *p)
 {
-  int iVar1;
-  bool bVar2;
-  byte bVar3;
-  
-  if (param_2 != (*(byte *)(param_1 + 0xc) >> 2 & 1)) {
-    iVar1 = *(int *)(param_1 + 0x10);
-    if ((iVar1 == 0) || (bVar2 = true, *(int *)(iVar1 + 8) == 0)) {
-      bVar2 = false;
-    }
-    if (bVar2) {
-      if (param_2 == 0) {
-        fn_82D89B48(iVar1,param_1 + 8);
-      }
-      else {
-        fn_82D8A058();
-      }
-    }
-    if (param_2 == 0) {
-      bVar3 = *(byte *)(param_1 + 0xc) & 0xfb;
-    }
-    else {
-      bVar3 = *(byte *)(param_1 + 0xc) | 4;
-    }
-    *(byte *)(param_1 + 0xc) = bVar3;
-  }
-  return;
+    return p != 0 && p->active != 0;
 }
 
+void fn_82DF40A0(Obj_82DF40A0 *self, unsigned char enable)
+{
+    Inner_82DF40A0 *inner;
+
+    if (enable != self->flags.enabled) {
+        inner = self->inner;
+        if (isActive_82DF40A0(inner)) {
+            if (enable != 0) {
+                fn_82D8A058(inner, &self->link);
+            } else {
+                fn_82D89B48(inner, &self->link);
+            }
+        }
+        if (enable != 0) {
+            self->flags.enabled = 1;
+        } else {
+            self->flags.enabled = 0;
+        }
+    }
+}

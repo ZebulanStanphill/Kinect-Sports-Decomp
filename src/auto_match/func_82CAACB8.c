@@ -1,84 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82CAACB8 {
+    struct Node_82CAACB8 *next;
+    int value;
+} Node_82CAACB8;
 
+typedef struct List_82CAACB8 {
+    Node_82CAACB8 *head;
+    Node_82CAACB8 *tail;
+    Node_82CAACB8 *freeHead;
+    Node_82CAACB8 *freeTail;
+    int count;
+} List_82CAACB8;
 
-undefined8 fn_82CAACB8(int *param_1,int *param_2,longlong param_3)
-
+int fn_82CAACB8(List_82CAACB8 *list, int *out, int index)
 {
-  uint uVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  iVar2 = (int)param_3;
-  if ((param_2 != (int *)0x0) && (*param_2 = 0, param_1 != (int *)0x0)) {
-    uVar1 = param_1[4];
-    if (iVar2 < (int)uVar1) {
-      if (iVar2 == 0) {
-        piVar4 = (int *)*param_1;
-        iVar2 = *piVar4;
-        *param_1 = iVar2;
-        if (iVar2 == 0) {
-          param_1[1] = 0;
-        }
-      }
-      else if ((iVar2 == -1) && (uVar1 == 1)) {
-        piVar4 = (int *)param_1[1];
-        *param_1 = 0;
-      }
-      else {
-        if (iVar2 == -1) {
-          param_3 = (ulonglong)uVar1 - 1;
-        }
-        piVar3 = (int *)*param_1;
-        param_3 = param_3 + -1;
-        if (0 < param_3) {
-          do {
-            piVar3 = (int *)*piVar3;
-            param_3 = param_3 + -1;
-          } while (param_3 != 0);
-        }
-        piVar4 = (int *)*piVar3;
-        *piVar3 = *piVar4;
-        if (iVar2 == -1) {
-          param_1[1] = (int)piVar3;
-        }
-      }
-      *param_2 = piVar4[1];
-      *piVar4 = param_1[2];
-      param_1[2] = (int)piVar4;
-      if (param_1[3] == 0) {
-        param_1[3] = (int)piVar4;
-      }
-      param_1[4] = param_1[4] + -1;
-      return 1;
-    }
-  }
-  return 0;
-}
+    Node_82CAACB8 *n;
+    Node_82CAACB8 *p;
+    int i;
 
+    if (out == 0) {
+        return 0;
+    }
+    *out = 0;
+    if (list == 0) {
+        return 0;
+    }
+    if (index >= list->count) {
+        return 0;
+    }
+    if (index == 0) {
+        n = list->head;
+        p = n->next;
+        list->head = p;
+        if (p == 0) {
+            list->tail = 0;
+        }
+    } else if (index == -1 && list->count == 1) {
+        n = list->tail;
+        list->head = 0;
+    } else {
+        i = index;
+        if (index == -1) {
+            i = list->count - 1;
+        }
+        p = list->head;
+        for (i = i - 1; i > 0; i--) {
+            p = p->next;
+        }
+        n = p->next;
+        p->next = n->next;
+        if (index == -1) {
+            list->tail = p;
+        }
+    }
+    *out = n->value;
+    n->next = list->freeHead;
+    list->freeHead = n;
+    if (list->freeTail == 0) {
+        list->freeTail = n;
+    }
+    list->count--;
+    return 1;
+}

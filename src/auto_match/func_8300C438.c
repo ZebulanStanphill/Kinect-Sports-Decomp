@@ -1,53 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Vtbl_8300C438 Vtbl_8300C438;
 
+typedef struct Obj_8300C438 {
+    Vtbl_8300C438 *vt;
+} Obj_8300C438;
 
-undefined8 fn_8300C438(int param_1)
+struct Vtbl_8300C438 {
+    void *pad[34];
+    int (*f88)(Obj_8300C438 *self);
+    void (*f8c)(Obj_8300C438 *self);
+};
 
+typedef struct Entry_8300C438 {
+    int key;
+    Obj_8300C438 *obj;
+} Entry_8300C438;
+
+typedef struct Owner_8300C438 {
+    char pad[0x48];
+    Entry_8300C438 *begin;
+    Entry_8300C438 *end;
+} Owner_8300C438;
+
+int fn_8300C438(Owner_8300C438 *o)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 0x48);
-  uVar1 = 1;
-  if (iVar3 != *(int *)(param_1 + 0x4c)) {
-    do {
-      uVar1 = (**(code **)(**(int **)(iVar3 + 4) + 0x88))();
-      if ((int)uVar1 != 1) {
-        for (iVar2 = *(int *)(param_1 + 0x48); iVar2 != iVar3; iVar2 = iVar2 + 8) {
-          (**(code **)(**(int **)(iVar2 + 4) + 0x8c))();
-        }
-        return uVar1;
-      }
-      iVar3 = iVar3 + 8;
-    } while (iVar3 != *(int *)(param_1 + 0x4c));
-  }
-  return uVar1;
-}
+    Entry_8300C438 *it;
+    Entry_8300C438 *j;
+    int r;
 
+    it = o->begin;
+    r = 1;
+    while (it != o->end) {
+        r = it->obj->vt->f88(it->obj);
+        if (r != 1)
+            break;
+        it++;
+    }
+    if (r != 1) {
+        for (j = o->begin; j != it; j++) {
+            j->obj->vt->f8c(j->obj);
+        }
+    }
+    return r;
+}

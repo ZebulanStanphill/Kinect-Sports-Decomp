@@ -26,17 +26,17 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BFA0C0();
-extern unsigned int lbl_8322FD18;
+extern unsigned int lbl_8322FD08[];
 
 
+extern char lbl_83231D48[];
 void fn_82BFA478(void)
 
 {
-  if (lbl_8322FD18 != 0) {
-    RtlEnterCriticalSection(0xffffffff83231d48);
+  if (lbl_8322FD08[4] != 0) {
+    RtlEnterCriticalSection(lbl_83231D48);
     fn_82BFA0C0();
-    RtlLeaveCriticalSection(0xffffffff83231d48);
+    RtlLeaveCriticalSection(lbl_83231D48);
   }
   return;
 }
-

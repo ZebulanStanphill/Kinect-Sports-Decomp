@@ -1,56 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AE9DE0();
-extern int fn_82F68CC0();
+typedef struct Data_82AEA018 {
+    unsigned char bytes[0x34];
+} Data_82AEA018;
 
+typedef struct Obj_82AEA018 {
+    unsigned int head;
+    Data_82AEA018 data;
+} Obj_82AEA018;
 
-void fn_82AEA018(uint *param_1,longlong param_2,int param_3,uint param_4)
+typedef struct Cont_82AEA018 {
+    unsigned int pad0;
+    unsigned int head;
+} Cont_82AEA018;
 
+typedef struct Node_82AEA018 {
+    unsigned char pad0[0x14];
+    unsigned int key;
+    unsigned char pad18[0xC];
+    unsigned int link24;
+    unsigned int link28;
+} Node_82AEA018;
+
+extern void fn_82AE9DE0(Data_82AEA018 *d, unsigned int node);
+
+static int notNull_82AEA018(Node_82AEA018 *p)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  fn_82F68CC0(param_1 + 1,param_2 + 4,0x34);
-  while (uVar1 = param_4, uVar2 = *(uint *)((uVar1 & 0xfffffffe) + 0x24), (uVar2 & 1) == 0) {
-    uVar2 = uVar2 & 0xfffffffe;
-    param_4 = uVar2 - 0x28;
-    if ((param_4 == 0) || (((*(uint *)(uVar2 - 0x14) ^ *(uint *)(uVar1 + 0x14)) & 0x1fff) != 0))
-    break;
-  }
-  *param_1 = uVar1;
-  uVar2 = -(uint)((*(uint *)(param_3 + 4) & 1) == 0) & *(uint *)(param_3 + 4);
-  if (uVar2 != uVar1) {
-    do {
-      fn_82AE9DE0(param_1 + 1,uVar2);
-      uVar2 = *(uint *)((uVar2 & 0xfffffffe) + 0x28);
-      uVar2 = -(uint)((uVar2 & 1) == 0) & uVar2;
-    } while (uVar2 != *param_1);
-  }
-  return;
+    if (p)
+        return 1;
+    return 0;
 }
 
+void fn_82AEA018(Obj_82AEA018 *o, Obj_82AEA018 *src, Cont_82AEA018 *c, unsigned int n)
+{
+    unsigned int cur;
+    unsigned int v;
+
+    o->data = src->data;
+    cur = n;
+    for (;;) {
+        unsigned int link = ((Node_82AEA018 *)(cur & ~1u))->link24;
+        Node_82AEA018 *m;
+        if (link & 1)
+            m = 0;
+        else
+            m = (Node_82AEA018 *)((link & ~1u) - 0x28);
+        if (!notNull_82AEA018(m))
+            break;
+        if ((m->key ^ ((Node_82AEA018 *)cur)->key) & 0x1fff)
+            break;
+        cur = (unsigned int)m;
+    }
+    o->head = cur;
+    v = c->head;
+    v = (v & 1) ? 0 : v;
+    while (v != o->head) {
+        fn_82AE9DE0(&o->data, v);
+        v = ((Node_82AEA018 *)(v & ~1u))->link28;
+        v = (v & 1) ? 0 : v;
+    }
+}

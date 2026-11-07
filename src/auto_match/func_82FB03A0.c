@@ -1,53 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82FB03A0 Obj_82FB03A0;
 
+typedef struct Vtbl_82FB03A0 {
+    char pad[0x88];
+    int (*Begin)(Obj_82FB03A0 *self);
+    void (*Undo)(Obj_82FB03A0 *self);
+} Vtbl_82FB03A0;
 
-undefined8 fn_82FB03A0(int param_1)
+struct Obj_82FB03A0 {
+    Vtbl_82FB03A0 *vt;
+};
 
+typedef struct Entry_82FB03A0 {
+    int key;
+    Obj_82FB03A0 *obj;
+} Entry_82FB03A0;
+
+typedef struct Owner_82FB03A0 {
+    char pad[0x7c];
+    Entry_82FB03A0 *begin;
+    Entry_82FB03A0 *end;
+} Owner_82FB03A0;
+
+int fn_82FB03A0(Owner_82FB03A0 *self)
 {
-  undefined8 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 0x7c);
-  uVar1 = 1;
-  if (iVar3 != *(int *)(param_1 + 0x80)) {
-    do {
-      uVar1 = (**(code **)(**(int **)(iVar3 + 4) + 0x88))();
-      if ((int)uVar1 != 1) {
-        for (iVar2 = *(int *)(param_1 + 0x7c); iVar2 != iVar3; iVar2 = iVar2 + 8) {
-          (**(code **)(**(int **)(iVar2 + 4) + 0x8c))();
-        }
-        return uVar1;
-      }
-      iVar3 = iVar3 + 8;
-    } while (iVar3 != *(int *)(param_1 + 0x80));
-  }
-  return uVar1;
-}
+    Entry_82FB03A0 *it;
+    Entry_82FB03A0 *j;
+    int r;
 
+    r = 1;
+    for (it = self->begin; it != self->end; it++) {
+        r = it->obj->vt->Begin(it->obj);
+        if (r != 1)
+            break;
+    }
+    if (r != 1) {
+        for (j = self->begin; j != it; j++) {
+            j->obj->vt->Undo(j->obj);
+        }
+    }
+    return r;
+}

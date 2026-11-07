@@ -1,58 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832643F4;
-extern unsigned int lbl_832643F8;
+typedef struct Inner_82FECB70 {
+    char pad[0x64];
+    unsigned int key;
+} Inner_82FECB70;
 
+typedef struct Mid_82FECB70 {
+    char pad[8];
+    Inner_82FECB70 *inner;
+} Mid_82FECB70;
 
-undefined4 * fn_82FECB70(int param_1)
+typedef struct Obj_82FECB70 {
+    char pad[0xfc];
+    Mid_82FECB70 *mid;
+} Obj_82FECB70;
 
+typedef struct Node_82FECB70 {
+    struct Node_82FECB70 *next;
+    int pad[4];
+    Obj_82FECB70 *obj;
+} Node_82FECB70;
+
+typedef struct Param_82FECB70 {
+    char pad[0x64];
+    unsigned int key;
+} Param_82FECB70;
+
+typedef struct Range_82FECB70 {
+    Node_82FECB70 ***begin;
+    Node_82FECB70 ***end;
+} Range_82FECB70;
+
+extern Range_82FECB70 lbl_832643F4;
+
+Node_82FECB70 *fn_82FECB70(Param_82FECB70 *param_1)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  puVar2 = lbl_832643F4;
-  if (*(int *)(param_1 + 100) != 0) {
-    for (; puVar2 != lbl_832643F8; puVar2 = puVar2 + 1) {
-      for (puVar1 = *(undefined4 **)*puVar2; puVar1 != (undefined4 *)0x0;
-          puVar1 = (undefined4 *)*puVar1) {
-        if (puVar1[5] == 0) {
-          iVar3 = 0;
-        }
-        else {
-          iVar3 = *(int *)(*(int *)(puVar1[5] + 0xfc) + 8);
-        }
-        if (*(int *)(iVar3 + 100) == *(int *)(param_1 + 100)) {
-          return puVar1;
-        }
-      }
-    }
-  }
-  return (undefined4 *)0x0;
-}
+    unsigned int key;
+    Node_82FECB70 ***it;
+    Node_82FECB70 *n;
 
+    key = param_1->key;
+    if (key != 0) {
+        for (it = lbl_832643F4.begin; it != lbl_832643F4.end; it++) {
+            for (n = **it; n != 0; n = n->next) {
+                if ((n->obj != 0 ? n->obj->mid->inner : 0)->key == key) {
+                    return n;
+                }
+            }
+        }
+    }
+    return 0;
+}

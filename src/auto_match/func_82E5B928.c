@@ -1,75 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82E5AFB0();
-extern int fn_82E5B608();
-extern int fn_82E5BF90();
+typedef struct Entry_82E5B928 {
+    char pad[6];
+    unsigned short len;
+} Entry_82E5B928;
 
+extern int fn_82E5AFB0(void *list, unsigned int idx, Entry_82E5B928 **out);
+extern unsigned __int64 fn_82E5B608(void *obj);
+extern int fn_82E5BF90(void *p, int a, unsigned __int64 *out);
 
-undefined8 fn_82E5B928(int param_1,longlong *param_2,longlong *param_3)
-
+int fn_82E5B928(char *obj, unsigned __int64 *outBase, unsigned __int64 *outTotal)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  ulonglong uVar4;
-  uint auStack_50;
-  longlong alStack_48;
+    unsigned __int64 total;
+    unsigned __int64 size;
+    unsigned __int64 base;
+    unsigned __int64 extra;
+    unsigned int i;
+    Entry_82E5B928 *e;
+    Entry_82E5B928 *p;
 
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else {
-    lVar3 = 0x58;
-    uVar4 = 0;
-    if (*(int *)(param_1 + 0x160) != 0) {
-      do {
-        lVar2 = fn_82E5AFB0(param_1 + 0xf8,uVar4,&auStack_50);
-        uVar4 = uVar4 + 1;
-        lVar3 = (ulonglong)*(ushort *)((-(uint)(lVar2 != 0) & auStack_50) + 6) + lVar3 + 4;
-      } while ((uVar4 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x160));
+    if (*(void **)(obj + 0xc) == 0) {
+        return (int)0xc00d36b6;
     }
-    lVar2 = fn_82E5B608(param_1);
-    lVar2 = lVar2 + lVar3;
-    alStack_48 = 0;
-    lVar3 = lVar2;
-    if (*(int *)(param_1 + 0x88) != 0) {
-      fn_82E5BF90(*(int *)(param_1 + 0x88),0,&alStack_48);
-      lVar3 = alStack_48 + lVar2;
+    total = 0x58;
+    for (i = 0; i < *(unsigned int *)(obj + 0x160); i++) {
+        p = fn_82E5AFB0(obj + 0xf8, i, &e) != 0 ? e : 0;
+        total = p->len + total + 4;
     }
-    if (param_2 != (longlong *)0x0) {
-      *param_2 = lVar2;
+    size = fn_82E5B608(obj) + total;
+    base = size;
+    extra = 0;
+    if (*(void **)(obj + 0x88) != 0) {
+        fn_82E5BF90(*(void **)(obj + 0x88), 0, &extra);
+        size = extra + size;
     }
-    if (param_3 != (longlong *)0x0) {
-      *param_3 = lVar3;
+    if (outBase != 0) {
+        *outBase = base;
     }
-    *(longlong *)(param_1 + 0x20) = lVar3;
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (outTotal != 0) {
+        *outTotal = size;
+    }
+    *(unsigned __int64 *)(obj + 0x20) = size;
+    return 0;
 }

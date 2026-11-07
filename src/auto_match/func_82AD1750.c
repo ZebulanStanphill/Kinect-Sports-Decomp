@@ -1,62 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82AD1750 {
+  unsigned char pad[0x34];
+  struct Node_82AD1750 *parent;   /* 0x34 */
+  struct Node_82AD1750 *child;    /* 0x38 */
+  struct Node_82AD1750 *sibling;  /* 0x3c */
+} Node_82AD1750;
 
+typedef struct Iter_82AD1750 {
+  Node_82AD1750 *root;  /* 0x0 */
+  Node_82AD1750 *cur;   /* 0x4 */
+} Iter_82AD1750;
 
-int fn_82AD1750(int *param_1)
-
+Node_82AD1750 *fn_82AD1750(Iter_82AD1750 *it)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar1 = param_1[1];
-  if (iVar1 != 0) {
-    iVar4 = *(int *)(iVar1 + 0x38);
-    if (iVar4 == 0) {
-      iVar3 = iVar1;
-      do {
-        while( true ) {
-          if (iVar3 == *param_1) {
-            iVar4 = 0;
-            goto code_r0x82ad17a4;
-          }
-          iVar2 = *(int *)(iVar3 + 0x3c);
-          if (iVar2 != 0) break;
-          iVar3 = *(int *)(iVar3 + 0x34);
-        }
-        iVar4 = *(int *)(iVar2 + 0x38);
-        iVar3 = iVar2;
-      } while (iVar4 == 0);
-    }
-code_r0x82ad17a4:
-    param_1[1] = iVar4;
-  }
-  return iVar1;
-}
+  Node_82AD1750 *cur;
+  Node_82AD1750 *w;
+  Node_82AD1750 *n;
 
+  cur = it->cur;
+  if (cur != 0) {
+    n = cur->child;
+    w = cur;
+    if (n == 0) {
+      do {
+        for (;;) {
+          if (w == it->root) {
+            n = 0;
+            goto done;
+          }
+          n = w->sibling;
+          if (n != 0)
+            break;
+          w = w->parent;
+        }
+        w = n;
+        n = n->child;
+      } while (n == 0);
+    }
+done:
+    it->cur = n;
+  }
+  return cur;
+}

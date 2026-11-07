@@ -1,81 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82FA5060();
-extern int fn_830137C8();
-extern int fn_8303B348();
-extern unsigned int lbl_831BC770;
+typedef struct Obj_83026420 Obj_83026420;
 
+typedef struct ObjVt_83026420 {
+    void *f0;
+    void *f4;
+    int (*f8)(Obj_83026420 *self);
+    void (*fC)(Obj_83026420 *self, void *out);
+    void *f10;
+    int (*f14)(Obj_83026420 *self, void *iid, void *pp, int a, void *b);
+} ObjVt_83026420;
 
-undefined8
-fn_83026420(int param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4,int param_5)
+struct Obj_83026420 {
+    ObjVt_83026420 *vt;
+};
 
+typedef struct Self_83026420 {
+    int f0;
+    int f4;
+    int f8;
+    Obj_83026420 *fC;
+    void *f10;
+    unsigned char f14;
+    unsigned char f15;
+    unsigned char f16;
+    unsigned char pad17;
+    unsigned int f18;
+    int f1C;
+    int f20;
+} Self_83026420;
+
+typedef struct Arg5_83026420 {
+    int f0;
+    unsigned int f4;
+} Arg5_83026420;
+
+extern char lbl_831BC7FC[];
+extern void *lbl_831BC770;
+extern int fn_830137C8(void *iid, int a, Obj_83026420 **out);
+extern void *fn_82FA5060(void *heap, int size);
+extern void *fn_8303B348(void *mem, int a, int b);
+
+int fn_83026420(Self_83026420 *self, int *p2, int p3, int p4, Arg5_83026420 *p5)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  undefined4 *puVar3;
-  undefined1 auStack_50 [5];
-  char cStack_4b;
-  
-  *(int *)(param_1 + 8) = (int)param_4;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined1 *)(param_1 + 0x14) = 0;
-  puVar3 = (undefined4 *)(param_1 + 0xc);
-  *(undefined4 *)(param_1 + 0x20) = 0;
-  *(undefined1 *)(param_1 + 0x15) = 0;
-  *(undefined1 *)(param_1 + 0x16) = 0;
-  *(uint *)(param_1 + 0x18) = *(uint *)(param_5 + 4) >> 0xe;
-  *(int *)(param_1 + 0x1c) = (int)param_3;
-  uVar1 = fn_830137C8(0xffffffff831bc7fc,*param_2,puVar3);
-  if ((int)uVar1 == 1) {
-    (**(code **)(*(int *)*puVar3 + 0xc))((int *)*puVar3,auStack_50);
-    if (cStack_4b == '\0') {
-      uVar2 = fn_82FA5060(lbl_831BC770,0x10);
-      if ((uVar2 & 0xffffffff) == 0) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = fn_8303B348(uVar2,param_4,param_3);
-      }
-      *(int *)(param_1 + 0x10) = (int)uVar2;
-      if ((uVar2 & 0xffffffff) != 0) {
-        uVar1 = (**(code **)(*(int *)*puVar3 + 0x14))
-                          ((int *)*puVar3,0xffffffff831bc7fc,uVar2 + 4,param_2[1],param_5);
-        if ((int)uVar1 != 1) {
-          return uVar1;
-        }
-        uVar1 = (**(code **)(*(int *)*puVar3 + 8))();
-        return uVar1;
-      }
-    }
-    uVar1 = 2;
-  }
-  return uVar1;
-}
+    int r;
+    void *p;
+    void *mem;
+    unsigned char buf[8];
 
+    self->f8 = p4;
+    self->fC = 0;
+    self->f10 = 0;
+    self->f14 = 0;
+    self->f20 = 0;
+    self->f15 = 0;
+    self->f16 = 0;
+    self->f18 = p5->f4 >> 14;
+    self->f1C = p3;
+    r = fn_830137C8(lbl_831BC7FC, p2[0], &self->fC);
+    if (r != 1) {
+        return r;
+    }
+    self->fC->vt->fC(self->fC, buf);
+    if (buf[5] == 0) {
+        mem = fn_82FA5060(lbl_831BC770, 0x10);
+        p = mem ? fn_8303B348(mem, p4, p3) : 0;
+        self->f10 = p;
+        if (p != 0) {
+            r = self->fC->vt->f14(self->fC, lbl_831BC7FC, (char *)p + 4, p2[1], p5);
+            if (r != 1) {
+                return r;
+            }
+            return self->fC->vt->f8(self->fC);
+        }
+    }
+    return 2;
+}

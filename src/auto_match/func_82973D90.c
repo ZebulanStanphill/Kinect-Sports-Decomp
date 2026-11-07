@@ -1,191 +1,118 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82963318();
-extern int fn_8296CF68();
+typedef struct Entry_82973D90 {
+    int pad0;
+    unsigned int key;          /* 0x04 */
+    int pad8;
+    unsigned int value;        /* 0x0c */
+    unsigned int index;        /* 0x10 */
+    int pad14[13];
+    unsigned int group;        /* 0x48 */
+} Entry_82973D90;
 
+typedef struct Group_82973D90 {
+    unsigned int packed;       /* 0x00 */
+    unsigned int total;        /* 0x04 */
+    int pad8;
+    unsigned int count;        /* 0x0c */
+    unsigned int *indices;     /* 0x10 */
+    int pad14[4];
+    unsigned int flag;         /* 0x24 */
+} Group_82973D90;
 
-bool fn_82973D90(int param_1,int param_2)
+typedef struct Obj_82973D90 {
+    int pad0[2];
+    unsigned int nEntries;              /* 0x08 */
+    unsigned int nGroups;               /* 0x0c */
+    int pad10;
+    Entry_82973D90 **entries;           /* 0x14 */
+    Group_82973D90 **groups;            /* 0x18 */
+    int pad1c[27];
+    unsigned int key;                   /* 0x88 */
+} Obj_82973D90;
 
+extern unsigned int fn_82963318(Group_82973D90 *g, unsigned int i, unsigned int **out);
+extern void fn_8296CF68(Obj_82973D90 *o);
+
+int fn_82973D90(Obj_82973D90 *o, int mode)
 {
-  int *piVar1;
-  uint *puVar2;
-  bool bVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  int iVar12;
-  ulonglong uVar13;
-  ulonglong uVar14;
-  int *apiStack_60 [24];
-  
-  bVar3 = false;
-  uVar10 = 0;
-  uVar9 = 0;
-  if (*(uint *)(param_1 + 8) != 0) {
-    iVar12 = 0;
-    do {
-      iVar6 = *(int *)(iVar12 + *(int *)(param_1 + 0x14));
-      if ((*(int *)(param_1 + 0x88) == *(int *)(iVar6 + 4)) &&
-         (uVar11 = *(uint *)(iVar6 + 0xc), uVar10 <= uVar11)) {
-        uVar10 = uVar11 + 1;
-      }
-      uVar9 = uVar9 + 1;
-      iVar12 = iVar12 + 4;
-    } while (uVar9 < *(uint *)(param_1 + 8));
-  }
-  fn_8296CF68(param_1);
-  uVar11 = 0;
-  uVar9 = 0;
-  if (*(int *)(param_1 + 0xc) != 0) {
-    iVar12 = 0;
-    do {
-      puVar2 = *(uint **)(iVar12 + *(int *)(param_1 + 0x18));
-      if ((*puVar2 & 0xfff00000) != 0) {
-        uVar14 = (ulonglong)*puVar2 & 0xfffff;
-        uVar13 = puVar2[1] / uVar14;
-        trapWord(6,uVar14,0);
-        puVar2[9] = 0;
-        uVar14 = 0;
-        if ((int)uVar13 != 0) {
-          do {
-            uVar4 = fn_82963318(puVar2,uVar14,apiStack_60);
-            iVar6 = *(int *)(*apiStack_60[0] * 4 + *(int *)(param_1 + 0x14));
-            if (*(int *)(param_1 + 0x88) == *(int *)(iVar6 + 4)) {
-              uVar5 = 1;
-              piVar1 = apiStack_60[0];
-              if (1 < (uVar4 & 0xffffffff)) {
-                do {
-                  iVar7 = *(int *)(piVar1[1] * 4 + *(int *)(param_1 + 0x14));
-                  if ((*(int *)(param_1 + 0x88) == *(int *)(iVar7 + 4)) &&
-                     (*(int *)(iVar7 + 0x48) != *(int *)(iVar6 + 0x48))) break;
-                  uVar5 = uVar5 + 1;
-                  piVar1 = piVar1 + 1;
-                } while ((uVar5 & 0xffffffff) < (uVar4 & 0xffffffff));
-              }
-              if (((uVar5 & 0xffffffff) != (uVar4 & 0xffffffff)) && ((uVar4 & 0xffffffff) != 0)) {
-                iVar6 = 0;
-                do {
-                  iVar7 = *(int *)(*(int *)(iVar6 + (int)apiStack_60[0]) * 4 +
-                                  *(int *)(param_1 + 0x14));
-                  if (*(int *)(param_1 + 0x88) == *(int *)(iVar7 + 4)) {
-                    *(undefined4 *)
-                     (*(int *)(*(int *)(iVar7 + 0x48) * 4 + *(int *)(param_1 + 0x18)) + 0x24) = 1;
-                  }
-                  iVar6 = iVar6 + 4;
-                  uVar4 = uVar4 - 1;
-                } while (uVar4 != 0);
-              }
-            }
-            uVar14 = uVar14 + 1;
-          } while ((uVar14 & 0xffffffff) < uVar13);
-        }
-      }
-      uVar9 = *(uint *)(param_1 + 0xc);
-      uVar11 = uVar11 + 1;
-      iVar12 = iVar12 + 4;
-    } while (uVar11 < uVar9);
-  }
-  uVar11 = 0;
-  if (uVar9 != 0) {
-    iVar12 = 0;
-    bVar3 = false;
-    do {
-      puVar2 = *(uint **)(iVar12 + *(int *)(param_1 + 0x18));
-      if (((*puVar2 & 0xfff00000) != 0) && (puVar2[9] == 0)) {
-        piVar1 = (int *)puVar2[4];
-        iVar6 = *(int *)(param_1 + 0x14);
-        if (*(int *)(param_1 + 0x88) == *(int *)(*(int *)(*piVar1 * 4 + iVar6) + 4)) {
-          uVar9 = puVar2[3];
-          if (param_2 == 0) {
-            uVar8 = 0;
-            if (uVar9 != 0) {
-              iVar7 = 0;
-              do {
-                if (*(int *)(*(int *)(*(int *)(iVar7 + (int)piVar1) * 4 + iVar6) + 0x10) == 0)
-                break;
-                uVar8 = uVar8 + 1;
-                iVar7 = iVar7 + 4;
-              } while (uVar8 < uVar9);
-            }
-            if (uVar9 <= uVar8) {
-              uVar8 = 0;
-              if (uVar9 != 0) {
-                iVar6 = 0;
-                do {
-                  uVar8 = uVar8 + 1;
-                  piVar1 = (int *)(iVar6 + puVar2[4]);
-                  iVar6 = iVar6 + 4;
-                  *(uint *)(*(int *)(*piVar1 * 4 + *(int *)(param_1 + 0x14)) + 0xc) = uVar10;
-                } while (uVar8 < puVar2[3]);
-              }
-              goto LAB_829740b4;
-            }
-          }
-          else {
-            uVar8 = 0;
-            if (uVar9 != 0) {
-              iVar7 = 0;
-              do {
-                if (uVar8 != *(uint *)(*(int *)(*(int *)(iVar7 + (int)piVar1) * 4 + iVar6) + 0x10))
-                break;
-                uVar8 = uVar8 + 1;
-                iVar7 = iVar7 + 4;
-              } while (uVar8 < uVar9);
-            }
-            if (uVar8 != uVar9) {
-              uVar8 = 0;
-              if (uVar9 != 0) {
-                iVar6 = 0;
-                do {
-                  *(uint *)(*(int *)(*(int *)(iVar6 + puVar2[4]) * 4 + *(int *)(param_1 + 0x14)) +
-                           0xc) = uVar10;
-                  piVar1 = (int *)(iVar6 + puVar2[4]);
-                  iVar6 = iVar6 + 4;
-                  *(uint *)(*(int *)(*piVar1 * 4 + *(int *)(param_1 + 0x14)) + 0x10) = uVar8;
-                  uVar8 = uVar8 + 1;
-                } while (uVar8 < puVar2[3]);
-              }
-LAB_829740b4:
-              uVar10 = uVar10 + 1;
-              bVar3 = true;
-            }
-          }
-        }
-      }
-      uVar11 = uVar11 + 1;
-      iVar12 = iVar12 + 4;
-    } while (uVar11 < *(uint *)(param_1 + 0xc));
-  }
-  return !bVar3;
-}
+    int changed = 0;
+    unsigned int next = 0;
+    unsigned int i, j, k, n, iters;
+    unsigned int *list;
+    Group_82973D90 *g;
+    Entry_82973D90 *e;
+    Entry_82973D90 *first;
 
+    for (i = 0; i < o->nEntries; i++) {
+        e = o->entries[i];
+        if (o->key == e->key && next <= e->value) {
+            next = e->value + 1;
+        }
+    }
+
+    fn_8296CF68(o);
+
+    for (i = 0; i < o->nGroups; i++) {
+        g = o->groups[i];
+        if ((g->packed & 0xfff00000) != 0) {
+            iters = g->total / (g->packed & 0xfffff);
+            g->flag = 0;
+            for (j = 0; j < iters; j++) {
+                n = fn_82963318(g, j, &list);
+                first = o->entries[list[0]];
+                if (o->key == first->key) {
+                    for (k = 1; k < n; k++) {
+                        e = o->entries[list[k]];
+                        if (o->key == e->key && e->group != first->group) {
+                            break;
+                        }
+                    }
+                    if (k != n && n != 0) {
+                        for (k = 0; k < n; k++) {
+                            e = o->entries[list[k]];
+                            if (o->key == e->key) {
+                                o->groups[e->group]->flag = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < o->nGroups; i++) {
+        g = o->groups[i];
+        if ((g->packed & 0xfff00000) != 0 && g->flag == 0) {
+            if (o->key == o->entries[g->indices[0]]->key) {
+                if (mode != 0) {
+                    for (k = 0; k < g->count; k++) {
+                        if (k != o->entries[g->indices[k]]->index) {
+                            break;
+                        }
+                    }
+                    if (k != g->count) {
+                        for (k = 0; k < g->count; k++) {
+                            o->entries[g->indices[k]]->value = next;
+                            o->entries[g->indices[k]]->index = k;
+                        }
+                        changed = 1;
+                        next++;
+                    }
+                } else {
+                    for (k = 0; k < g->count; k++) {
+                        if (o->entries[g->indices[k]]->index == 0) {
+                            break;
+                        }
+                    }
+                    if (k >= g->count) {
+                        for (k = 0; k < g->count; k++) {
+                            o->entries[g->indices[k]]->value = next;
+                        }
+                        changed = 1;
+                        next++;
+                    }
+                }
+            }
+        }
+    }
+    return changed == 0;
+}

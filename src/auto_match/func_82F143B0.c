@@ -1,102 +1,78 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_82EDFFC0();
-extern int fn_82F142E8();
-extern int fn_82F44B68();
+typedef struct Rect_82F143B0 {
+    int x0;
+    int y0;
+    int x1;
+    int y1;
+} Rect_82F143B0;
 
+typedef struct Obj_82F143B0 {
+    Rect_82F143B0 a;   /* 0x00 */
+    Rect_82F143B0 b;   /* 0x10 */
+    int areaA;         /* 0x20 */
+    int areaB;         /* 0x24 */
+    int wA;            /* 0x28 */
+    int hA;            /* 0x2c */
+    int wB;            /* 0x30 */
+    int hB;            /* 0x34 */
+    void *m38;         /* 0x38 */
+    void *m3c;         /* 0x3c */
+    void *m40;         /* 0x40 */
+} Obj_82F143B0;
 
-int * fn_82F143B0(int *param_1,int *param_2,undefined8 param_3,undefined8 param_4)
+extern void *fn_8265C940(int size, unsigned int flags);
+extern void fn_82EDFFC0(void *rect, void *src);
+extern void fn_82F142E8(void *self);
+extern void *fn_82F44B68(void *mem, int *err, void *src, int arg);
 
+Obj_82F143B0 *fn_82F143B0(Obj_82F143B0 *p, int *err, void *srcA, void *srcB)
 {
-  ulonglong uVar1;
-  int iVar2;
-  
-  param_1[1] = 0;
-  *param_1 = 0;
-  param_1[3] = -1;
-  param_1[2] = -1;
-  param_1[5] = 0;
-  param_1[4] = 0;
-  param_1[7] = -1;
-  param_1[6] = -1;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  fn_82EDFFC0(param_1,param_3);
-  fn_82EDFFC0(param_1 + 4,param_4);
-  param_1[8] = (param_1[2] - *param_1) * (param_1[3] - param_1[1]);
-  param_1[10] = param_1[2] - *param_1;
-  param_1[0xb] = param_1[3] - param_1[1];
-  param_1[9] = (param_1[7] - param_1[5]) * (param_1[6] - param_1[4]);
-  param_1[0xc] = param_1[6] - param_1[4];
-  param_1[0xd] = param_1[7] - param_1[5];
-  uVar1 = fn_8265C940(0x18,0x248c8000);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_82F44B68(uVar1,param_2,param_4,0);
-  }
-  param_1[0xf] = iVar2;
-  if (iVar2 == 0) {
-LAB_82f14548:
-    *param_2 = -3;
-    fn_82F142E8(param_1);
-  }
-  else {
-    if (*param_2 == 0) {
-      uVar1 = fn_8265C940(0x18,0x248c8000);
-      if ((uVar1 & 0xffffffff) == 0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = fn_82F44B68(uVar1,param_2,param_4,0);
-      }
-      param_1[0x10] = iVar2;
-      if (iVar2 == 0) goto LAB_82f14548;
-      if (*param_2 == 0) {
-        uVar1 = fn_8265C940(0x18,0x248c8000);
-        if ((uVar1 & 0xffffffff) == 0) {
-          iVar2 = 0;
-        }
-        else {
-          iVar2 = fn_82F44B68(uVar1,param_2,param_3,0);
-        }
-        param_1[0xe] = iVar2;
-        if (iVar2 == 0) goto LAB_82f14548;
-        if (*param_2 == 0) {
-          return param_1;
-        }
-      }
-    }
-    fn_82F142E8(param_1);
-  }
-  return param_1;
-}
+    Rect_82F143B0 *b;
+    void *mem;
 
+    p->a.y0 = 0;
+    p->a.x0 = 0;
+    p->a.y1 = -1;
+    p->a.x1 = -1;
+    b = &p->b;
+    b->y0 = 0;
+    b->x0 = 0;
+    b->y1 = -1;
+    b->x1 = -1;
+    p->m38 = 0;
+    p->m3c = 0;
+    p->m40 = 0;
+    fn_82EDFFC0(p, srcA);
+    fn_82EDFFC0(b, srcB);
+    p->areaA = (p->a.x1 - p->a.x0) * (p->a.y1 - p->a.y0);
+    p->areaB = (b->y1 - b->y0) * (b->x1 - b->x0);
+    p->wA = p->a.x1 - p->a.x0;
+    p->hA = p->a.y1 - p->a.y0;
+    p->wB = b->x1 - b->x0;
+    p->hB = b->y1 - b->y0;
+
+    mem = fn_8265C940(0x18, 0x248c8000);
+    p->m3c = mem ? fn_82F44B68(mem, err, srcB, 0) : 0;
+    if (p->m3c == 0)
+        goto fail;
+    if (*err != 0)
+        goto cleanup;
+    mem = fn_8265C940(0x18, 0x248c8000);
+    p->m40 = mem ? fn_82F44B68(mem, err, srcB, 0) : 0;
+    if (p->m40 == 0)
+        goto fail;
+    if (*err != 0)
+        goto cleanup;
+    mem = fn_8265C940(0x18, 0x248c8000);
+    p->m38 = mem ? fn_82F44B68(mem, err, srcA, 0) : 0;
+    if (p->m38 == 0) {
+fail:
+        *err = -3;
+        fn_82F142E8(p);
+        return p;
+    }
+    if (*err != 0) {
+cleanup:
+        fn_82F142E8(p);
+    }
+    return p;
+}
