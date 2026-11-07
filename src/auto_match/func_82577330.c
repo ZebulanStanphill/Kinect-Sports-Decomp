@@ -1,72 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82577330 Obj_82577330;
 
+typedef struct Vtbl_82577330 {
+    void *slots[9];
+    void (*setValue)(Obj_82577330 *self, float v); /* 0x24 */
+} Vtbl_82577330;
 
-void fn_82577330(double param_1,int param_2)
+struct Obj_82577330 {
+    Vtbl_82577330 *vt;
+};
 
+typedef struct Node_82577330 {
+    Obj_82577330 *obj;
+    struct Node_82577330 *next;
+} Node_82577330;
+
+typedef struct Self_82577330 {
+    char pad0[0x14];
+    Node_82577330 *list14;
+    Node_82577330 *list18;
+    Node_82577330 *list1c;
+    Node_82577330 *list20;
+    Node_82577330 *list24;
+    char pad28[0x80 - 0x28];
+    Obj_82577330 *obj80;
+    Obj_82577330 *obj84;
+    int field88;
+    Obj_82577330 *obj8c;
+    char pad90[0xb0 - 0x90];
+    float valueB0;
+} Self_82577330;
+
+void fn_82577330(Self_82577330 *self, float v)
 {
-  int *piVar1;
-  
-  *(float *)(param_2 + 0xb0) = (float)param_1;
-  if (*(int **)(param_2 + 0x80) != (int *)0x0) {
-    (**(code **)(**(int **)(param_2 + 0x80) + 0x24))();
-  }
-  if (*(int **)(param_2 + 0x8c) != (int *)0x0) {
-    (**(code **)(**(int **)(param_2 + 0x8c) + 0x24))(param_1);
-  }
-  if (*(int **)(param_2 + 0x84) != (int *)0x0) {
-    (**(code **)(**(int **)(param_2 + 0x84) + 0x24))(param_1);
-  }
-  for (piVar1 = *(int **)(param_2 + 0x14); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x24))(param_1);
-    }
-  }
-  for (piVar1 = *(int **)(param_2 + 0x18); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x24))(param_1);
-    }
-  }
-  for (piVar1 = *(int **)(param_2 + 0x1c); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x24))(param_1);
-    }
-  }
-  for (piVar1 = *(int **)(param_2 + 0x20); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x24))(param_1);
-    }
-  }
-  for (piVar1 = *(int **)(param_2 + 0x24); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    if ((int *)*piVar1 != (int *)0x0) {
-      (**(code **)(*(int *)*piVar1 + 0x24))(param_1);
-    }
-  }
-  return;
-}
+    Node_82577330 *n;
 
+    self->valueB0 = v;
+    if (self->obj80 != 0) {
+        self->obj80->vt->setValue(self->obj80, v);
+    }
+    if (self->obj8c != 0) {
+        self->obj8c->vt->setValue(self->obj8c, v);
+    }
+    if (self->obj84 != 0) {
+        self->obj84->vt->setValue(self->obj84, v);
+    }
+    for (n = self->list14; n != 0; n = n->next) {
+        if (n->obj != 0) {
+            n->obj->vt->setValue(n->obj, v);
+        }
+    }
+    for (n = self->list18; n != 0; n = n->next) {
+        if (n->obj != 0) {
+            n->obj->vt->setValue(n->obj, v);
+        }
+    }
+    for (n = self->list1c; n != 0; n = n->next) {
+        if (n->obj != 0) {
+            n->obj->vt->setValue(n->obj, v);
+        }
+    }
+    for (n = self->list20; n != 0; n = n->next) {
+        if (n->obj != 0) {
+            n->obj->vt->setValue(n->obj, v);
+        }
+    }
+    for (n = self->list24; n != 0; n = n->next) {
+        if (n->obj != 0) {
+            n->obj->vt->setValue(n->obj, v);
+        }
+    }
+}

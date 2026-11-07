@@ -1,85 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82799C40();
+
+typedef struct Compact_827A1800 {
+    unsigned flag : 1;
+    unsigned pad0 : 31;
+    int x4;
+    int x8;
+    int xc;
+    int x10;
+    unsigned short x14;
+    unsigned short x16;
+    unsigned short x18;
+    unsigned short x1a;
+    char x1c;
+    signed char x1d;
+} Compact_827A1800;
+
+typedef struct Full_827A1800 {
+    unsigned flag : 1;
+    unsigned pad0 : 31;
+    int x4;
+    int x8;
+    int xc;
+    int x10;
+    int x14;
+    int x18;
+    char pad1c[0x26 - 0x1c];
+    unsigned short x26;
+    short x28;
+} Full_827A1800;
+
+typedef union Elem_827A1800 {
+    Compact_827A1800 c;
+    Full_827A1800 f;
+} Elem_827A1800;
+
+typedef struct Arr_827A1800 {
+    Elem_827A1800 **data;
+    unsigned int count;
+} Arr_827A1800;
+
+typedef struct Obj_827A1800 {
+    char pad[0x24];
+    Arr_827A1800 arr;
+} Obj_827A1800;
+
+typedef struct Out_827A1800 {
+    unsigned int a0;
+    unsigned int a4;
+    unsigned int a8;
+    unsigned int ac;
+    int a10;
+    int a14;
+} Out_827A1800;
+
+extern float fn_82799C40(Elem_827A1800 *e);
 extern int fn_827A0BD0();
 
-
-undefined8 fn_827A1800(int param_1,uint param_2,uint *param_3)
-
+int fn_827A1800(Obj_827A1800 *o, unsigned int i, Out_827A1800 *out)
 {
-  ushort uVar1;
-  int *piVar2;
-  bool bVar3;
-  uint uVar4;
-  double dVar5;
-  
-  if (param_3 != (uint *)0x0) {
-    fn_827A0BD0();
-    if ((((int *)(param_1 + 0x24) == (int *)0x0) || (*(uint *)(param_1 + 0x28) <= param_2)) ||
-       (bVar3 = false, (int)param_2 < 0)) {
-      bVar3 = true;
-    }
-    if (!bVar3) {
-      piVar2 = *(int **)(param_2 * 4 + *(int *)(param_1 + 0x24));
-      if (*piVar2 < 0) {
-        uVar1 = *(ushort *)((int)piVar2 + 0x1a);
-      }
-      else {
-        uVar1 = *(ushort *)((int)piVar2 + 0x26);
-      }
-      param_3[2] = (uint)(longlong)(float)uVar1;
-      dVar5 = (double)fn_82799C40(piVar2);
-      param_3[3] = (uint)(longlong)dVar5;
-      if (*piVar2 < 0) {
-        uVar4 = (uint)*(ushort *)(piVar2 + 5);
-      }
-      else {
-        uVar4 = piVar2[5];
-      }
-      *param_3 = uVar4;
-      if (*piVar2 < 0) {
-        uVar4 = (uint)*(ushort *)((int)piVar2 + 0x16);
-      }
-      else {
-        uVar4 = piVar2[6];
-      }
-      param_3[1] = uVar4;
-      if (*piVar2 < 0) {
-        uVar4 = (uint)*(char *)((int)piVar2 + 0x1d);
-      }
-      else {
-        uVar4 = (uint)*(short *)(piVar2 + 10);
-      }
-      param_3[5] = uVar4;
-      param_3[4] = piVar2[3];
-      return 1;
-    }
-  }
-  return 0;
-}
+    Arr_827A1800 *a;
+    Elem_827A1800 *e;
+    bool bad;
 
+    if (out != 0) {
+        fn_827A0BD0();
+        a = &o->arr;
+        if (a == 0 || i >= a->count || (int)i < 0) {
+            bad = 1;
+        } else {
+            bad = 0;
+        }
+        if (!bad) {
+            e = a->data[i];
+            out->a8 = (unsigned int)((unsigned char)e->c.flag ? (float)e->c.x1a : (float)e->f.x26);
+            out->ac = (unsigned int)fn_82799C40(e);
+            out->a0 = (unsigned char)e->c.flag ? e->c.x14 : e->f.x14;
+            out->a4 = (unsigned char)e->c.flag ? e->c.x16 : e->f.x18;
+            out->a14 = (unsigned char)e->c.flag ? e->c.x1d : e->f.x28;
+            out->a10 = (unsigned char)e->c.flag ? e->c.xc : e->f.xc;
+            return 1;
+        }
+    }
+    return 0;
+}

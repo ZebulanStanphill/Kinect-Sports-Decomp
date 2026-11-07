@@ -1,85 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225FDE0();
-extern int fn_82281530();
-extern int fn_82281868();
-extern int fn_822819E0();
-extern int fn_82480FA0();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB08();
-extern int fn_82E1CC60();
-extern int fn_82E1CCA8();
+extern unsigned char *fn_8225F670(void);
+extern int fn_8225FDE0(int a, int b);
+extern unsigned char fn_82E1CAD0(int a);
+extern void fn_82E1CC60(const char *name, float value);
+extern void fn_82E1CB08(const char *a, const char *b, int c);
+extern void fn_82E1CCA8(void);
+extern int fn_82281530(void *p);
+extern void fn_82281868(void *p, int a, int b);
+extern void fn_822819E0(void *p, int a);
+extern void fn_82480FA0(void *p);
 
+typedef struct Inner_82482FE8 {
+    int pad0;
+    int pad4;
+    int f8;
+    int padC;
+    unsigned int f10;
+} Inner_82482FE8;
 
-void fn_82482FE8(int param_1)
+typedef struct Obj_82482FE8 {
+    char pad0[0x14];
+    Inner_82482FE8 *inner;   /* 0x14 */
+    char pad18[0x48 - 0x18];
+    int f48;                 /* 0x48 */
+    int f4c;                 /* 0x4c */
+    char pad50[0x58 - 0x50];
+    int state;               /* 0x58 */
+    char pad5c[0x100 - 0x5c];
+    int f100;                /* 0x100 */
+    float f104;              /* 0x104 */
+} Obj_82482FE8;
 
+void fn_82482FE8(Obj_82482FE8 *self)
 {
-  char *pcVar1;
-  int iVar2;
-  char cVar3;
-  longlong lVar4;
-  double dVar5;
-  
-  if (*(int *)(param_1 + 0x58) == 1) {
-    dVar5 = (double)*(float *)(param_1 + 0x104);
-    pcVar1 = (char *)fn_8225F670();
-    if (*pcVar1 != '\0') {
-      iVar2 = fn_8225FDE0(0x6a,1);
-      if ((iVar2 == 0) && (cVar3 = fn_82E1CAD0(0x6a), cVar3 != '\0')) {
-        fn_82E1CC60(dVar5,0xffffffff821a7a04);
-        fn_82E1CB08(0xffffffff821a7a38,0xffffffff821bd9c0,0);
-        fn_82E1CCA8();
-      }
-    }
-  }
-  if (*(int *)(param_1 + 0x58) == 5) {
-    *(undefined4 *)(param_1 + 0x4c) = 1;
-  }
-  else if (*(int *)(param_1 + 0x58) == 1) {
-    iVar2 = fn_82281530(*(undefined4 *)(param_1 + 0x14));
-    if (iVar2 == 0) {
-      iVar2 = *(int *)(param_1 + 0x14);
-      lVar4 = (ulonglong)*(uint *)(param_1 + 0x48) + 4;
-      if (*(int *)(iVar2 + 0x10) == 0) {
-        if (*(int *)(iVar2 + 8) != 0) {
-          fn_822819E0(iVar2,lVar4);
-        }
-      }
-      else {
-        fn_82281868(iVar2,lVar4,0);
-      }
-      *(undefined4 *)(param_1 + 0x100) = 1;
-    }
-  }
-  else {
-    fn_82480FA0(param_1);
-  }
-  return;
-}
+    Inner_82482FE8 *in;
+    int v;
 
+    if (self->state == 1) {
+        float t = self->f104;
+        if (*fn_8225F670() != 0) {
+            if (fn_8225FDE0(0x6a, 1) == 0 && fn_82E1CAD0(0x6a) != 0) {
+                fn_82E1CC60("TimeSinceMenuOpened", t);
+                fn_82E1CB08("Menu", "ReviewFlow", 0);
+                fn_82E1CCA8();
+            }
+        }
+    }
+    if (self->state == 5) {
+        self->f4c = 1;
+    } else if (self->state != 1) {
+        fn_82480FA0(self);
+    } else {
+        if (fn_82281530(self->inner) == 0) {
+            in = self->inner;
+            v = self->f48 + 4;
+            if (in->f10 != 0) {
+                fn_82281868(in, v, 0);
+            } else if (in->f8 != 0) {
+                fn_822819E0(in, v);
+            }
+            self->f100 = 1;
+        }
+    }
+}

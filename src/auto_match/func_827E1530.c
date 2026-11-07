@@ -1,57 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_827D5610();
-extern int fn_827D7EB8();
-extern int fn_827D83A0();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct {
+    unsigned int first;
+    unsigned int second;
+} Pair_827E1530;
 
+typedef struct {
+    unsigned char pad0[0x14];
+    unsigned int f14;
+    unsigned int f18;
+    unsigned char pad1c[4];
+    int f20;
+} Obj_827E1530;
 
-void fn_827E1530(int param_1,undefined8 param_2)
+extern int fn_82517978(Pair_827E1530 *out, unsigned int a, unsigned int b, int c);
+extern int fn_827D5610(void *p);
+extern int fn_827D7EB8(void *p, Pair_827E1530 *pair);
+extern int fn_827D83A0(void *p, Pair_827E1530 *pair);
 
+void fn_827E1530(Obj_827E1530 *param_1, void *param_2)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    Pair_827E1530 pair;
 
-  
-  if (*(int *)(param_1 + 0x20) == 0) {
-    stack_pair_20.first = 0;
-    stack_pair_20.second = 0;
-    fn_82517978(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0);
-    fn_827D7EB8(param_2,&stack_pair_20.first);
-  }
-  else {
-    fn_827D5610(param_2);
-    stack_pair_20.first = 0;
-    stack_pair_20.second = 0;
-    fn_82517978(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0);
-    fn_827D83A0(param_2,&stack_pair_20.first);
-  }
-  return;
+    if (param_1->f20 != 0) {
+        fn_827D5610(param_2);
+        pair.first = 0;
+        pair.second = 0;
+        fn_82517978(&pair, param_1->f14, param_1->f18, 0);
+        fn_827D83A0(param_2, &pair);
+    }
+    else {
+        pair.first = 0;
+        pair.second = 0;
+        fn_82517978(&pair, param_1->f14, param_1->f18, 0);
+        fn_827D7EB8(param_2, &pair);
+    }
 }
-

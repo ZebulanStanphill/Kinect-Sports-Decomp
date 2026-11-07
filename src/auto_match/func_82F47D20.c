@@ -1,130 +1,122 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_82E57738();
-extern int fn_82E57820();
-extern int fn_82E59EC8();
-extern int fn_82EE5CC8();
 
+typedef struct Stream_82F47D20 Stream_82F47D20;
+typedef struct StreamVt_82F47D20 {
+    void *slot0[5];
+    int (*GetSize)(Stream_82F47D20 *self, int a, unsigned int *size);
+} StreamVt_82F47D20;
+struct Stream_82F47D20 {
+    StreamVt_82F47D20 *vt;
+};
 
-undefined8 fn_82F47D20(int *param_1,int *param_2,ulonglong param_3,int *param_4)
+typedef struct Obj_82F47D20 Obj_82F47D20;
+typedef struct ObjVt_82F47D20 {
+    void *slot0[6];
+    int (*GetEnd)(Obj_82F47D20 *self, U64 *end);
+    void *slot7[13];
+    int (*Check)(Obj_82F47D20 *self);
+} ObjVt_82F47D20;
 
+struct Obj_82F47D20 {
+    ObjVt_82F47D20 *vt;     /* 0x00 */
+    int f04;
+    int f08;
+    int fc;                 /* 0x0c */
+    void *f10;              /* 0x10 */
+    int f14;
+    unsigned short count;   /* 0x18 */
+    unsigned short f1a;
+    int f1c;
+    int f20;
+    int f24;                /* 0x24 */
+    int f28;
+    U64 *f2c;               /* 0x2c */
+    int f30;                /* 0x30 */
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    unsigned int f48;       /* 0x48 */
+    int f4c;
+    U64 f50;                /* 0x50 */
+    int f58;                /* 0x58 */
+    unsigned int f5c;       /* 0x5c */
+};
+
+extern int fn_82E57738(void *a, void *b);
+extern int fn_82E57820(void *a, void *b, unsigned int n);
+extern int fn_82E59EC8(void *a, void *b);
+extern int fn_82EE5CC8(void *a, void *b, unsigned int off, int d);
+
+int fn_82F47D20(Obj_82F47D20 *o, Stream_82F47D20 *s, unsigned int off, unsigned int *out)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  int iVar4;
-  ulonglong uVar5;
-  uint uVar6;
-  ulonglong *puVar8;
-  ulonglong uVar7;
-  ulonglong uVar9;
-  int *piVar10;
-  uint auStack_50 [2];
-  ulonglong auStack_48;
-  
-  if (param_1[4] == 0) {
-    return 0xffffffffc00d36b6;
-  }
-  if ((param_2 != (int *)0x0) && (param_4 != (int *)0x0)) {
-    *param_4 = 0;
-    auStack_50[0] = 0;
-    uVar3 = (**(code **)(*param_2 + 0x14))(param_2,0,auStack_50);
-    if ((int)uVar3 < 0) {
-      return uVar3;
-    }
-    if ((param_3 & 0xffffffff) < (ulonglong)auStack_50[0]) {
-      piVar10 = param_1 + 0xc;
-      uVar9 = auStack_50[0] - param_3;
-      uVar3 = fn_82EE5CC8(piVar10,param_2,param_3,0);
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      if ((*(ulonglong *)(param_1 + 0x14) < (ulonglong)(uint)param_1[0x17]) &&
-         ((ulonglong)(uint)param_1[0x17] <= (ulonglong)(uint)param_1[0x12])) {
-        uVar3 = fn_82E59EC8(param_1 + 9,piVar10);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        iVar4 = (**(code **)(*param_1 + 0x50))(param_1);
-        if (iVar4 != 0) {
-          fn_82E57738(param_1 + 0x16,piVar10);
-        }
-        uVar3 = fn_82E57820(param_1[0xb],piVar10,(ulonglong)*(ushort *)(param_1 + 6) << 3);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        uVar6 = 0;
-        if (*(short *)(param_1 + 6) != 0) {
-          puVar8 = (ulonglong *)(param_1[0xb] + -8);
-          do {
-            uVar1 = *(uint *)(puVar8 + 1);
-            uVar6 = uVar6 + 1;
-            uVar2 = *(uint *)((int)puVar8 + 0xc);
-            puVar8 = puVar8 + 1;
-            *puVar8 = (((ulonglong)uVar2 & 0xff) << 0x18 |
-                      ((ulonglong)uVar2 & 0xff00) << 8 |
-                      (ulonglong)(uVar2 >> 8) & 0xff00 | (ulonglong)(uVar2 >> 0x18)) << 0x20 |
-                      ((ulonglong)uVar1 & 0xff) << 0x18 |
-                      ((ulonglong)uVar1 & 0xff00) << 8 |
-                      (ulonglong)(uVar1 >> 8) & 0xff00 | (ulonglong)(uVar1 >> 0x18);
-          } while (uVar6 < *(ushort *)(param_1 + 6));
-        }
-        param_1[3] = 1;
-      }
-      iVar4 = 0;
-      auStack_48 = 0;
-      uVar5 = 0;
-      if (param_1[3] != 0) {
-        uVar3 = (**(code **)(*param_1 + 0x18))(param_1,&auStack_48);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        if (auStack_48 <= *(ulonglong *)(param_1 + 0x14)) {
-          return 0xffffffffc00d36b5;
-        }
-        iVar4 = (int)auStack_48 - (int)*(ulonglong *)(param_1 + 0x14);
-        uVar5 = auStack_48;
-      }
-      uVar7 = (uVar9 & 0xffffffff) + *(longlong *)(param_1 + 0x14);
-      *(ulonglong *)(param_1 + 0x14) = uVar7;
-      if ((param_1[3] == 0) || (uVar7 < uVar5)) {
-        iVar4 = (int)uVar9;
-        uVar3 = 0x400d3a98;
-      }
-      else {
-        uVar3 = 0;
-      }
-      *param_4 = iVar4;
-      return uVar3;
-    }
-  }
-  return 0xffffffff80070057;
-}
+    unsigned int size;
+    unsigned int remain;
+    unsigned int i;
+    unsigned int v;
+    U64 *p;
+    U64 t;
+    U64 delta;
+    int hr;
 
+    if (o->f10 == 0) {
+        return 0xc00d36b6;
+    }
+    if (s != 0 && out != 0) {
+        *out = 0;
+        size = 0;
+        hr = s->vt->GetSize(s, 0, &size);
+        if (hr < 0) {
+            return hr;
+        }
+        if (off < size) {
+            remain = size - off;
+            hr = fn_82EE5CC8(&o->f30, s, off, 0);
+            if (hr < 0) {
+                return hr;
+            }
+            if (o->f50 < o->f5c && o->f48 >= o->f5c) {
+                hr = fn_82E59EC8(&o->f24, &o->f30);
+                if (hr < 0) {
+                    return hr;
+                }
+                if (o->vt->Check(o) != 0) {
+                    fn_82E57738(&o->f58, &o->f30);
+                }
+                hr = fn_82E57820(o->f2c, &o->f30, (unsigned int)o->count * 8);
+                if (hr < 0) {
+                    return hr;
+                }
+                p = o->f2c;
+                for (i = 0; i < o->count; i++) {
+                    p[i] = _byteswap_uint64(p[i]);
+                }
+                o->fc = 1;
+            }
+            delta = 0;
+            t = 0;
+            if (o->fc != 0) {
+                hr = o->vt->GetEnd(o, &t);
+                if (hr < 0) {
+                    return hr;
+                }
+                if (t <= o->f50) {
+                    return 0xc00d36b5;
+                }
+                delta = t - o->f50;
+            }
+            o->f50 = remain + o->f50;
+            if (o->fc == 0 || o->f50 < t) {
+                hr = 0x400d3a98;
+                v = remain;
+            } else {
+                hr = 0;
+                v = (unsigned int)delta;
+            }
+            *out = v;
+            return hr;
+        }
+    }
+    return 0x80070057;
+}

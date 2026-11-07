@@ -1,50 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
 typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822651E0();
-extern int fn_822676A0();
-extern int fn_8265C9E0();
 
+extern void *fn_8265C9E0(unsigned int size);
+extern int fn_822651E0(void *mem, int a, int b, int c, int d, int e);
+extern void fn_822676A0(int self, int obj, int a);
 
-void fn_82267628(int param_1,undefined8 param_2)
-
+void fn_82267628(int param_1, int param_2)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = fn_8265C9E0(0x640);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
+  void *mem;
+  int obj;
+
+  mem = fn_8265C9E0(0x640);
+  if (mem != 0) {
+    obj = fn_822651E0(mem, param_2, *(int *)(param_1 + 0x6c), param_1 + 0x70,
+                      *(int *)(param_1 + 0x68), *(int *)(param_1 + 0x74));
   }
   else {
-    uVar2 = fn_822651E0(uVar1,param_2,*(undefined4 *)(param_1 + 0x6c),param_1 + 0x70,
-                          *(undefined4 *)(param_1 + 0x68),*(undefined4 *)(param_1 + 0x74));
+    obj = 0;
   }
-  fn_822676A0(param_1,uVar2,param_2);
-  return;
+  fn_822676A0(param_1, obj, param_2);
 }
-

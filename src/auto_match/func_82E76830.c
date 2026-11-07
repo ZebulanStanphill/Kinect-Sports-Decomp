@@ -1,91 +1,84 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E59440();
-extern int fn_82E62670();
-extern int fn_82E626B0();
-extern int fn_82E626F0();
-extern unsigned int iStack_34;
+typedef struct IUnk_82E76830 IUnk_82E76830;
 
+typedef struct Vtbl_82E76830 {
+    int (*QueryInterface)(IUnk_82E76830 *self, void *iid, IUnk_82E76830 **out);
+    unsigned long (*AddRef)(IUnk_82E76830 *self);
+    unsigned long (*Release)(IUnk_82E76830 *self);
+    void *slot3;
+    int (*Get)(IUnk_82E76830 *self, void *id, int flags, IUnk_82E76830 **out);
+} Vtbl_82E76830;
 
-/* WARNING: Type propagation algorithm not settling */
+struct IUnk_82E76830 {
+    Vtbl_82E76830 *vt;
+};
 
-longlong fn_82E76830(int param_1,ulonglong param_2)
+typedef struct Obj_82E76830 {
+    char pad[0x138];
+    unsigned int value;
+} Obj_82E76830;
 
+extern char lbl_820ED018[];
+extern char lbl_82154C58[];
+extern char lbl_82154C18[];
+extern char lbl_82154AA8[];
+
+extern int fn_82E59440(void *src, void *a, void *b, IUnk_82E76830 **out);
+extern int fn_82E62670(IUnk_82E76830 *p, unsigned int *out);
+extern int fn_82E626B0(IUnk_82E76830 *p, unsigned int *out);
+extern int fn_82E626F0(IUnk_82E76830 *p, unsigned int *out);
+
+int fn_82E76830(Obj_82E76830 *self, void *src)
 {
-  int *piVar1;
-  longlong lVar2;
-  int *piStack_40;
-  int *piStack_3c;
-  int *piStack_38;
-  int iStack_34;
-  int aiStack_30 [2];
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    lVar2 = -0x7ff8ffa9;
-  }
-  else {
-    piStack_40 = (int *)0x0;
-    piStack_3c = (int *)0x0;
-    piStack_38 = (int *)0x0;
-    lVar2 = fn_82E59440(param_2,0xffffffff820ed018,0xffffffff82154c58,&piStack_40);
-    if (((-1 < lVar2) &&
-        (lVar2 = (**(code **)*piStack_40)(piStack_40,0xffffffff82154c18,&piStack_3c), -1 < lVar2))
-       && (lVar2 = (**(code **)(*piStack_3c + 0x10))(piStack_3c,0xffffffff82154aa8,0,&piStack_38),
-          piVar1 = piStack_38, -1 < lVar2)) {
-      aiStack_30[0] = 0;
-      lVar2 = fn_82E626B0(piStack_38,aiStack_30);
-      if (-1 < lVar2) {
-        iStack_34 = 0;
-        lVar2 = fn_82E626F0(piVar1,&iStack_34);
-        if (-1 < lVar2) {
-          if (aiStack_30[0] == iStack_34) {
-            *(int *)(param_1 + 0x138) = aiStack_30[0];
-          }
-          else {
-            *(undefined4 *)(param_1 + 0x138) = 0;
-          }
-          aiStack_30[1] = 0;
-          lVar2 = fn_82E62670(piVar1,aiStack_30 + 1);
-        }
-      }
-    }
-    if (piStack_40 != (int *)0x0) {
-      (**(code **)(*piStack_40 + 8))();
-      piStack_40 = (int *)0x0;
-    }
-    if (piStack_3c != (int *)0x0) {
-      (**(code **)(*piStack_3c + 8))();
-      piStack_3c = (int *)0x0;
-    }
-    if (piStack_38 != (int *)0x0) {
-      (**(code **)(*piStack_38 + 8))();
-    }
-  }
-  return lVar2;
-}
+    IUnk_82E76830 *p0;
+    IUnk_82E76830 *p1;
+    IUnk_82E76830 *p2;
+    IUnk_82E76830 *p;
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    int hr;
 
+    if (src == 0) {
+        return 0x80070057;
+    }
+    p0 = 0;
+    p1 = 0;
+    p2 = 0;
+    hr = fn_82E59440(src, lbl_820ED018, lbl_82154C58, &p0);
+    if (hr >= 0) {
+        hr = p0->vt->QueryInterface(p0, lbl_82154C18, &p1);
+        if (hr >= 0) {
+            hr = p1->vt->Get(p1, lbl_82154AA8, 0, &p2);
+            if (hr >= 0) {
+                a = 0;
+                p = p2;
+                hr = fn_82E626B0(p, &a);
+                if (hr >= 0) {
+                    b = 0;
+                    hr = fn_82E626F0(p, &b);
+                    if (hr >= 0) {
+                        if (a == b) {
+                            self->value = a;
+                        } else {
+                            self->value = 0;
+                        }
+                        c = 0;
+                        hr = fn_82E62670(p, &c);
+                    }
+                }
+            }
+        }
+    }
+    if (p0 != 0) {
+        p0->vt->Release(p0);
+        p0 = 0;
+    }
+    if (p1 != 0) {
+        p1->vt->Release(p1);
+        p1 = 0;
+    }
+    if (p2 != 0) {
+        p2->vt->Release(p2);
+    }
+    return hr;
+}

@@ -1,42 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82815220();
-extern int fn_82816600();
 
+extern void fn_82816C38(void);
+extern void fn_82816C98(void);
+extern void fn_82816CE8(void);
+extern int fn_82815220(void *a, void *b, int c, void *d, int e);
+extern int fn_82816600(int a, int b, void *c, int d, int e);
 
-void fn_82816D58(undefined8 param_1,undefined8 param_2)
-
+void fn_82816D58(int param_1, int param_2)
 {
-  undefined1 auStack_20 [8];
-  
-  fn_82815220(0xffffffff82816c38,0xffffffff82816c98,0,0xffffffff82816ce8,0);
-  fn_82816600(param_1,0,auStack_20,param_2,0x800);
-  return;
-}
+  unsigned char auStack_20[8];
 
+  fn_82815220((void *)fn_82816C38, (void *)fn_82816C98, 0, (void *)fn_82816CE8, 0);
+  fn_82816600(param_1, 0, auStack_20, param_2, 0x800);
+}

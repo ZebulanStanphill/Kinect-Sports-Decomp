@@ -1,73 +1,59 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832642E4;
+typedef struct Obj_8300D748 Obj_8300D748;
 
+typedef struct ObjVtbl_8300D748 {
+    void *slots[12];
+    unsigned char (*check)(Obj_8300D748 *self);
+} ObjVtbl_8300D748;
 
-void fn_8300D748(int *param_1)
+struct Obj_8300D748 {
+    ObjVtbl_8300D748 *vt;
+};
 
+typedef struct Elem_8300D748 {
+    int key;
+    Obj_8300D748 *obj;
+} Elem_8300D748;
+
+typedef struct Vec_8300D748 {
+    Elem_8300D748 *begin;
+    Elem_8300D748 *end;
+    Elem_8300D748 *cap;
+} Vec_8300D748;
+
+typedef struct Self_8300D748 {
+    int pad0[3];
+    Vec_8300D748 v[5];
+    unsigned int time;
+    unsigned char pad4c;
+    unsigned char count;
+} Self_8300D748;
+
+typedef struct Clock_8300D748 {
+    int pad[0x24];
+    unsigned int now;
+} Clock_8300D748;
+
+extern Clock_8300D748 *lbl_832642E4;
+
+void fn_8300D748(Self_8300D748 *self)
 {
-  int *piVar1;
-  int *piVar2;
-  char cVar3;
-  uint uVar4;
-  uint uVar5;
-  int iVar6;
-  int *piVar7;
-  
-  cVar3 = '\0';
-  uVar4 = 0;
-  piVar2 = param_1;
-  if (*(char *)((int)param_1 + 0x4d) != '\0') {
-    do {
-      piVar7 = piVar2 + 3;
-      if (cVar3 != '\0') break;
-      uVar5 = 0;
-      if (piVar2[4] - *piVar7 >> 3 != 0) {
-        iVar6 = 0;
-        do {
-          if (cVar3 != '\0') break;
-          piVar1 = *(int **)(*piVar7 + iVar6 + 4);
-          if (piVar1 != (int *)0x0) {
-            cVar3 = (**(code **)(*piVar1 + 0x30))(piVar1);
-          }
-          uVar5 = uVar5 + 1;
-          iVar6 = iVar6 + 8;
-        } while (uVar5 < (uint)(piVar2[4] - *piVar7 >> 3));
-      }
-      uVar4 = uVar4 + 1;
-      piVar2 = piVar7;
-    } while (uVar4 < *(byte *)((int)param_1 + 0x4d));
-  }
-  if (cVar3 != '\0') {
-    if ((param_1[0x12] == 0) || (8 < (uint)(*(int *)(lbl_832642E4 + 0x90) - param_1[0x12]))) {
-      param_1[0x12] = *(int *)(lbl_832642E4 + 0x90);
-    }
-  }
-  return;
-}
+    unsigned char done = 0;
+    unsigned int i;
+    unsigned int j;
 
+    for (i = 0; i < self->count && !done; i++) {
+        Vec_8300D748 *v = &self->v[i];
+        for (j = 0; j < (unsigned int)(v->end - v->begin) && !done; j++) {
+            Obj_8300D748 **pp = &v->begin[j].obj;
+            if (*pp != 0) {
+                done = (*pp)->vt->check(*pp);
+            }
+        }
+    }
+    if (done) {
+        unsigned int now = lbl_832642E4->now;
+        if (self->time == 0 || now - self->time > 8) {
+            self->time = now;
+        }
+    }
+}
