@@ -13278,7 +13278,7 @@ auto_match/func_822EAA00.c:
 	.pdata      start:0x821E2B00 end:0x821E2B08
 	.text       start:0x822EAA00 end:0x822EAAC8
 
-auto_match/func_822EAAC8.c:
+auto_match/func_822EAAC8.cpp:
 	.pdata      start:0x821E2B08 end:0x821E2B10
 	.text       start:0x822EAAC8 end:0x822EABCC
 
