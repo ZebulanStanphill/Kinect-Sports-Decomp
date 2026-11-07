@@ -1,58 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_13;
-extern unsigned int uStack_14;
-extern unsigned int uStack_15;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef void (*VFunc_8269AB28)(void *self, void *arg);
 
+typedef struct Obj_8269AB28 {
+  VFunc_8269AB28 *vt;
+} Obj_8269AB28;
 
-void fn_8269AB28(int *param_1)
+typedef struct Msg_8269AB28 {
+  int first;
+  int second;
+  unsigned short s8;
+  unsigned char ba;
+  signed char bb;
+  unsigned char bc;
+  unsigned char bd;
+} Msg_8269AB28;
 
+void fn_8269AB28(Obj_8269AB28 *param_1)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  Msg_8269AB28 msg;
 
-  undefined2 uStack_18;
-  undefined1 uStack_16;
-  undefined1 uStack_15;
-  undefined1 uStack_14;
-  undefined1 uStack_13;
-  
-  stack_pair_20.second = 0;
-  uStack_18 = 0;
-  uStack_16 = 0;
-  uStack_14 = 0;
-  uStack_13 = 0;
-  stack_pair_20.first = 1;
-  uStack_15 = 0xff;
-  (**(code **)(*param_1 + 0x6c))(param_1,&stack_pair_20.first);
-  return;
+  msg.second = 0;
+  msg.s8 = 0;
+  msg.ba = 0;
+  msg.bc = 0;
+  msg.bd = 0;
+  msg.first = 1;
+  msg.bb = -1;
+  param_1->vt[0x6c / 4](param_1, &msg);
 }
-

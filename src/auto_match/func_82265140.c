@@ -1,51 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225FCE8();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB88();
-extern int fn_82E1CC60();
-extern int fn_82E1CCA8();
+typedef union __declspec(intrin_type) __declspec(align(16)) __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+extern unsigned char *fn_8225F670(void);
+extern void fn_8225FCE8(const char *name, __vector4 v);
+extern unsigned char fn_82E1CAD0(int id);
+extern void fn_82E1CB88(const char *name, int value);
+extern void fn_82E1CC60(const char *name, float value);
+extern void fn_82E1CCA8(void);
 
-void fn_82265140(undefined8 param_1,undefined8 param_2)
-
+void fn_82265140(int skipped, __vector4 position, float height)
 {
-  char *pcVar1;
-  char cVar2;
-  
-  pcVar1 = (char *)fn_8225F670();
-  if ((*pcVar1 != '\0') && (cVar2 = fn_82E1CAD0(0x6c), cVar2 != '\0')) {
-    fn_82E1CB88(0xffffffff821a7a64,param_2);
-    fn_8225FCE8(0xffffffff821a7a78);
-    fn_82E1CC60(param_1,0xffffffff821a7a8c);
-    fn_82E1CCA8();
-  }
-  return;
-}
+    unsigned char *p;
 
+    p = fn_8225F670();
+    if (*p != 0 && fn_82E1CAD0(0x6c) != 0) {
+        fn_82E1CB88("CalibrationSkipped", skipped);
+        fn_8225FCE8("CalibrationPosition", position);
+        fn_82E1CC60("CameraHeight", height);
+        fn_82E1CCA8();
+    }
+}

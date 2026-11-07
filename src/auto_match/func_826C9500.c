@@ -1,116 +1,79 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826C7758();
-extern unsigned int uStack_13;
-extern unsigned int uStack_14;
-extern unsigned int uStack_15;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_23;
-extern unsigned int uStack_24;
-extern unsigned int uStack_25;
-extern unsigned int uStack_26;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
 
+typedef struct Msg_826C9500 {
+    int kind;
+    int value;
+    unsigned short a;
+    unsigned char b;
+    signed char c;
+    unsigned char d;
+    unsigned char e;
+} Msg_826C9500;
 
-ulonglong fn_826C9500(int param_1,char param_2)
+extern unsigned char fn_826C7758(char *p, Msg_826C9500 *msg);
 
+static __forceinline bool IsClear_826C9500(char *p)
 {
-  bool bVar1;
-  bool bVar2;
-  char cVar3;
-  ulonglong uVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  undefined2 uStack_28;
-  undefined1 uStack_26;
-  undefined1 uStack_25;
-  undefined1 uStack_24;
-  undefined1 uStack_23;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined2 uStack_18;
-  undefined1 uStack_16;
-  undefined1 uStack_15;
-  undefined1 uStack_14;
-  undefined1 uStack_13;
-  
-  uVar4 = 0;
-  if (((*(uint *)(param_1 + 0x8c) & 0xc) != 0) ||
-     (bVar2 = false, (~(*(byte *)(param_1 + 0x66) >> 6) & 1) == 0)) {
-    bVar2 = true;
-  }
-  if ((bVar2) ||
-     (((*(int *)(param_1 + 0xb8) != 0 && (*(int *)(*(int *)(param_1 + 0xa0) + 0xa08) != param_1)) &&
-      ((*(int *)(param_1 + 0x1b4) == 0 || (*(int *)(*(int *)(param_1 + 0x1b4) + 0xc) == 0)))))) {
-    bVar1 = false;
-  }
-  else {
-    bVar1 = true;
-  }
-  if (bVar1) {
-    uVar4 = (ulonglong)(param_2 == '\0');
-  }
-  else if (param_2 == '\0') {
-    if (!bVar2) {
-      uStack_1c = 0;
-      uStack_18 = 0;
-      uStack_20 = 2;
-      uStack_16 = 0;
-      uStack_15 = 0xff;
-      uStack_14 = 0;
-      uStack_13 = 0;
-      cVar3 = fn_826C7758(param_1,&uStack_20);
-      if (cVar3 != '\0') {
-        uVar4 = 1;
-      }
-    }
-  }
-  else {
-    if (!bVar2) {
-      stack_pair_30.second = 0;
-      uStack_28 = 0;
-      stack_pair_30.first = 2;
-      uStack_26 = 0;
-      uStack_25 = 0xff;
-      uStack_24 = 0;
-      uStack_23 = 0;
-      cVar3 = fn_826C7758(param_1,&stack_pair_30.first);
-      if (cVar3 != '\0') {
-        return 0;
-      }
-    }
-    uVar4 = 0xffffffffffffffff;
-  }
-  return uVar4;
+    return ~(*(unsigned char *)(p + 0x66) >> 6) & 1;
 }
 
+static __forceinline bool IsBlocked_826C9500(char *p)
+{
+    return (*(unsigned int *)(p + 0x8c) & 0xc) != 0 || !IsClear_826C9500(p);
+}
+
+static __forceinline bool IsIdle_826C9500(char *p, bool blocked)
+{
+    if (blocked ||
+        (*(int *)(p + 0xb8) != 0 &&
+         *(char **)(*(char **)(p + 0xa0) + 0xa08) != p &&
+         (*(char **)(p + 0x1b4) == 0 ||
+          *(void **)(*(char **)(p + 0x1b4) + 0xc) == 0)))
+        return false;
+    return true;
+}
+
+int fn_826C9500(char *param_1, unsigned char param_2)
+{
+    int result;
+    bool blocked;
+    bool idle;
+    Msg_826C9500 m1;
+    Msg_826C9500 m2;
+
+    result = 0;
+    blocked = IsBlocked_826C9500(param_1);
+    idle = IsIdle_826C9500(param_1, blocked);
+    if (idle) {
+        result = (param_2 == 0);
+    } else if (param_2 != 0) {
+        if (!blocked) {
+            m1.value = 0;
+            m1.a = 0;
+            m1.kind = 2;
+            m1.b = 0;
+            m1.c = -1;
+            m1.d = 0;
+            m1.e = 0;
+            if (fn_826C7758(param_1, &m1) != 0)
+                goto done;
+        }
+        result = -1;
+    } else {
+        if (!blocked) {
+            m2.value = 0;
+            m2.a = 0;
+            m2.kind = 2;
+            m2.b = 0;
+            m2.c = -1;
+            m2.d = 0;
+            m2.e = 0;
+            if (fn_826C7758(param_1, &m2) != 0)
+                result = 1;
+        }
+    }
+done:
+    return result;
+}

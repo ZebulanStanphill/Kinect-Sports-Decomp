@@ -1,96 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_830;
-extern unsigned int *auStack_a30;
-extern unsigned int *auStack_a70;
-extern int fn_8229DCA8();
-extern int fn_8229E410();
-extern int fn_823AB470();
-extern int fn_825129C8();
-extern int fn_82528BF8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821A8C90;
+
+typedef struct Obj_82230F00 {
+    char pad0[0x58];
+    void *child;          /* 0x58 */
+    unsigned char flag;   /* 0x5c */
+} Obj_82230F00;
+
+typedef struct Child_82230F00 {
+    char pad0[0x41c];
+    void *vt;             /* 0x41c */
+    char pad1[0x434 - 0x420];
+} Child_82230F00;
+
+extern int fn_8229DCA8(void *self, unsigned short *a, unsigned short *b,
+                       unsigned short *c, char *name, void *cb, void *owner,
+                       int x, int y);
+extern void fn_8229E410(void *p);
+extern int fn_823AB470(unsigned int p);
+extern void *fn_825129C8(int p);
+extern int fn_82528BF8(int mgr, const char *key, unsigned short *buf, int n,
+                       int a, int b);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82231390(void);
+extern char lbl_821A8C90[];
+extern char lbl_820E975C[];
+extern char lbl_82196344[];
 extern unsigned int lbl_83265988;
-extern unsigned int lbl_832760A4;
-extern unsigned int lbl_83276730;
+extern void *lbl_832760A4;
+extern int lbl_83276728[];
 
-
-void fn_82230F00(int param_1,int param_2)
-
+static __forceinline bool isState2_82230F00(void)
 {
-  bool bVar1;
-  int iVar2;
-  undefined1 auStack_a70 [64];
-  undefined1 auStack_a30 [512];
-  undefined1 auStack_830 [2096];
-  
-  if (*(int *)(param_1 + 0x58) == 0) {
-    *(undefined1 *)(param_1 + 0x5c) = 0;
-  }
-  fn_82528BF8(lbl_83276730,0xffffffff82196330,auStack_a30,0x100,0,1);
-  fn_82528BF8(lbl_83276730,0xffffffff82196330,auStack_830,0x400,0,1);
-  fn_82528BF8(lbl_83276730,0xffffffff82196344,auStack_a70,0x20,0,1);
-  if (param_2 == 0x25) {
-    fn_82528BF8(lbl_83276730,0xffffffff82196350,auStack_830,0x400,0,1);
-  }
-  if (param_2 == 0x1b) {
-    fn_82528BF8(lbl_83276730,0xffffffff82196368,auStack_830,0x400,0,1);
-  }
-  if (param_2 != 2) goto LAB_82231034;
-  if (lbl_83265988 == 0) {
-LAB_8223100c:
-    bVar1 = false;
-  }
-  else {
-    iVar2 = fn_823AB470();
-    bVar1 = true;
-    if (iVar2 != 2) goto LAB_8223100c;
-  }
-  if (!bVar1) {
-    fn_82528BF8(lbl_83276730,0xffffffff82196368,auStack_830,0x400,0,1);
-  }
-LAB_82231034:
-  if (*(int *)(param_1 + 0x58) == 0) {
-    iVar2 = fn_8265C9E0(0x434);
-    if (iVar2 == 0) {
-      iVar2 = 0;
-    }
-    else {
-      *(undefined ***)(iVar2 + 0x41c) = &lbl_821A8C90;
-      fn_8229DCA8(iVar2,auStack_a30,auStack_830,auStack_a70,0xffffffff820e975c,
-                        0xffffffff82231390,param_1,1);
-    }
-    *(int *)(param_1 + 0x58) = iVar2;
-    fn_8229E410();
-    if ((lbl_832760A4 == 0) && (param_2 != 0x25)) {
-      lbl_832760A4 = fn_825129C8(0);
-    }
-  }
-  return;
+    if (lbl_83265988 != 0 && fn_823AB470(lbl_83265988) == 2)
+        return 1;
+    return 0;
 }
 
+static __forceinline void *create_82230F00(unsigned short *a, unsigned short *b,
+                                           unsigned short *c, Obj_82230F00 *owner)
+{
+    Child_82230F00 *p = (Child_82230F00 *)fn_8265C9E0(0x434);
+    if (p != 0) {
+        p->vt = lbl_821A8C90;
+        fn_8229DCA8(p, a, b, c, lbl_820E975C, (void *)fn_82231390, owner, 1, 0);
+        return p;
+    }
+    return 0;
+}
+
+void fn_82230F00(Obj_82230F00 *param_1, unsigned int param_2)
+{
+    unsigned short title[0x20];
+    unsigned short caption[0x100];
+    unsigned short text[0x400];
+    void *p;
+
+    if (param_1->child == 0) {
+        param_1->flag = 0;
+    }
+    fn_82528BF8(lbl_83276728[2], "liveConnectError", caption, 0x100, 0, 1);
+    fn_82528BF8(lbl_83276728[2], "liveConnectError", text, 0x400, 0, 1);
+    fn_82528BF8(lbl_83276728[2], lbl_82196344, title, 0x20, 0, 1);
+    if (param_2 == 0x25) {
+        fn_82528BF8(lbl_83276728[2], "liveSessionJoinError", text, 0x400, 0, 1);
+    }
+    if (param_2 == 0x1b) {
+        fn_82528BF8(lbl_83276728[2], "liveSignOut", text, 0x400, 0, 1);
+    }
+    if (param_2 == 2) {
+        if (!isState2_82230F00()) {
+            fn_82528BF8(lbl_83276728[2], "liveSignOut", text, 0x400, 0, 1);
+        }
+    }
+    if (param_1->child == 0) {
+        p = create_82230F00(caption, text, title, param_1);
+        param_1->child = p;
+        fn_8229E410(p);
+        if (lbl_832760A4 == 0 && param_2 != 0x25) {
+            lbl_832760A4 = fn_825129C8(0);
+        }
+    }
+}

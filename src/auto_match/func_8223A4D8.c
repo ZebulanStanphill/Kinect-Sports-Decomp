@@ -1,56 +1,39 @@
 typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
 typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223B688();
-extern int fn_82517978();
+
+typedef struct Pair_8223A4D8 {
+    int a;
+    int b;
+} Pair_8223A4D8;
+
+typedef struct Obj_8223A4D8 {
+    void *vtbl;              /* 0x00 */
+    int f4;                  /* 0x04 */
+    Pair_8223A4D8 p8;        /* 0x08 */
+    int f10[7];              /* 0x10 */
+    unsigned char f2c;       /* 0x2c */
+    unsigned char pad2d[3];
+    int f30;                 /* 0x30 */
+} Obj_8223A4D8;
+
+extern int fn_8223B688(int *dst, int *src);
+extern int fn_82517978(Pair_8223A4D8 *dst, int a, int b, int c);
 extern unsigned int lbl_8219688C;
 
-
-undefined4 * fn_8223A4D8(undefined4 *param_1,int param_2)
-
+Obj_8223A4D8 *fn_8223A4D8(Obj_8223A4D8 *dst, Obj_8223A4D8 *src)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = (undefined4 *)(param_2 + 4);
-  if (param_2 == 0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  param_1[1] = *puVar1;
-  puVar1 = (undefined4 *)(param_2 + 8);
-  if (param_2 == 0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  param_1[2] = 0;
-  param_1[3] = 0;
-  fn_82517978(param_1 + 2,*puVar1,puVar1[1],0);
-  *param_1 = &lbl_8219688C;
-  fn_8223B688(param_1 + 4,param_2 + 0x10);
-  *(undefined1 *)(param_1 + 0xb) = *(undefined1 *)(param_2 + 0x2c);
-  param_1[0xc] = *(undefined4 *)(param_2 + 0x30);
-  return param_1;
-}
+    int *p4;
+    Pair_8223A4D8 *p8;
 
+    p4 = src != 0 ? &src->f4 : 0;
+    dst->f4 = *p4;
+    p8 = src != 0 ? &src->p8 : 0;
+    dst->p8.a = 0;
+    dst->p8.b = 0;
+    fn_82517978(&dst->p8, p8->a, p8->b, 0);
+    dst->vtbl = &lbl_8219688C;
+    fn_8223B688(dst->f10, src->f10);
+    dst->f2c = src->f2c;
+    dst->f30 = src->f30;
+    return dst;
+}

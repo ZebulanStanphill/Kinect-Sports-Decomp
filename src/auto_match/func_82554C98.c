@@ -1,59 +1,65 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827F3C20();
+typedef struct Inner_82554C98 Inner_82554C98;
 
+typedef struct Res1_82554C98 {
+    int pad0;
+    int pad4;
+    int value;
+} Res1_82554C98;
 
-void fn_82554C98(int param_1,undefined4 *param_2)
+typedef struct Res2_82554C98 {
+    int pad[11];
+    int value;
+} Res2_82554C98;
 
+typedef struct Vtbl_82554C98 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *slotC;
+    void *slot10;
+    int (*f14)(Inner_82554C98 *self);
+    void *slot18;
+    void *slot1C;
+    void *slot20;
+    Res2_82554C98 *(*f24)(Inner_82554C98 *self);
+} Vtbl_82554C98;
+
+struct Inner_82554C98 {
+    Vtbl_82554C98 *vt;
+    char pad[0xb64];
+    void *b68;
+};
+
+typedef struct Outer_82554C98 {
+    int pad0;
+    Inner_82554C98 *inner;
+} Outer_82554C98;
+
+extern Res1_82554C98 *fn_827F3C20(void *p);
+
+void fn_82554C98(Outer_82554C98 *o, int *out)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  *param_2 = 0;
-  if (*(int *)(*(int *)(param_1 + 4) + 0xb68) == 0) {
-    iVar1 = (**(code **)(**(int **)(param_1 + 4) + 0x14))();
-    if (iVar1 == 0) {
-      return;
-    }
-    iVar1 = (**(code **)(**(int **)(param_1 + 4) + 0x24))();
-    if (iVar1 == 0) {
-      return;
-    }
-    uVar2 = *(undefined4 *)(iVar1 + 0x2c);
-  }
-  else {
-    iVar1 = fn_827F3C20();
-    if (iVar1 == 0) {
-      return;
-    }
-    uVar2 = *(undefined4 *)(iVar1 + 8);
-  }
-  *param_2 = uVar2;
-  return;
-}
+    void *p;
+    int v;
 
+    *out = 0;
+    p = o->inner->b68;
+    if (p != 0) {
+        Res1_82554C98 *r = fn_827F3C20(p);
+        if (r == 0) {
+            return;
+        }
+        v = r->value;
+    } else {
+        Res2_82554C98 *r2;
+        if (o->inner->vt->f14(o->inner) == 0) {
+            return;
+        }
+        r2 = o->inner->vt->f24(o->inner);
+        if (r2 == 0) {
+            return;
+        }
+        v = r2->value;
+    }
+    *out = v;
+}

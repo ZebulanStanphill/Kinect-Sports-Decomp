@@ -1,59 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828647C0();
-extern int fn_82877A00();
+typedef struct Elem_82877B20 {
+    int head;
+    unsigned char body[0x2C];
+} Elem_82877B20;
 
+typedef struct Container_82877B20 {
+    int unk0;
+    Elem_82877B20 *begin;
+    Elem_82877B20 *end;
+} Container_82877B20;
 
-undefined8 fn_82877B20(undefined8 param_1,int param_2,undefined8 param_3)
+extern unsigned char fn_828647C0(void *a, void *key);
+extern int fn_82877A00(Elem_82877B20 *e, float f);
 
+int fn_82877B20(Container_82877B20 *c, void *key, float f)
 {
-  uint uVar1;
-  char cVar4;
-  undefined8 uVar2;
-  int iVar3;
-  ulonglong uVar5;
-  
-  uVar1 = *(uint *)(param_2 + 8);
-  for (uVar5 = (ulonglong)*(uint *)(param_2 + 4); (uVar5 & 0xffffffff) != (ulonglong)uVar1;
-      uVar5 = uVar5 + 0x30) {
-    cVar4 = fn_828647C0(uVar5 + 4,param_3);
-    if (cVar4 != '\0') break;
-  }
-  if ((uVar5 & 0xffffffff) == (ulonglong)*(uint *)(param_2 + 8)) {
-    uVar2 = 0xffffffffa0320000;
-  }
-  else {
-    iVar3 = fn_82877A00(param_1,uVar5);
-    uVar2 = 0xffffffffa0320000;
-    if (-1 < iVar3) {
-      uVar2 = 0x20320000;
-    }
-  }
-  return uVar2;
-}
+    Elem_82877B20 *p;
+    Elem_82877B20 *end = c->end;
 
+    for (p = c->begin; p != end; p++) {
+        if (fn_828647C0(p->body, key)) {
+            break;
+        }
+    }
+    if (p == c->end) {
+        return (int)0xA0320000;
+    }
+    return fn_82877A00(p, f) < 0 ? (int)0xA0320000 : 0x20320000;
+}

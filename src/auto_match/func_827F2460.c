@@ -1,74 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827F3A60();
-extern int fn_827F3AB0();
+typedef struct VObj_827F2460 VObj_827F2460;
 
+typedef struct {
+    void *slot0;
+    void *slot4;
+    int (*getSize)(VObj_827F2460 *self);
+} VObjVtbl_827F2460;
 
-longlong fn_827F2460(int param_1)
+struct VObj_827F2460 {
+    VObjVtbl_827F2460 *vt;
+};
 
+typedef struct {
+    int pad0;
+    VObj_827F2460 *obj;     /* 0x04 */
+    int pad8[6];            /* 0x08 */
+    int entries[12];        /* 0x20 */
+    unsigned char pad50[2]; /* 0x50 */
+    unsigned char bits[1];  /* 0x52 */
+    unsigned char last;     /* 0x53 */
+    unsigned char first;    /* 0x54 */
+} Ctx_827F2460;
+
+extern int fn_827F3A60(Ctx_827F2460 *p);
+extern unsigned int fn_827F3AB0(int e);
+
+static __forceinline int bitTest_827F2460(Ctx_827F2460 *p, unsigned int i)
 {
-  bool bVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  
-  iVar2 = (**(code **)(**(int **)(param_1 + 4) + 8))();
-  uVar8 = (uint)*(byte *)(param_1 + 0x54);
-  uVar4 = 0;
-  iVar6 = 0;
-  while( true ) {
-    if ((*(byte *)((uVar8 >> 3) + param_1 + 0x52) >> (uVar8 & 7) & 1) == 0) {
-      iVar6 = iVar6 + 1;
-      iVar7 = (uVar8 + 8) * 4;
-      uVar3 = fn_827F3AB0(*(undefined4 *)(iVar7 + param_1));
-      if (uVar4 <= uVar3) {
-        uVar4 = fn_827F3AB0(*(undefined4 *)(iVar7 + param_1));
-      }
-    }
-    if (uVar8 == *(byte *)(param_1 + 0x53)) break;
-    uVar8 = uVar8 + 1 & 3;
-  }
-  if (0 < iVar6) {
-    bVar1 = 1 < iVar6;
-    if (((0 < iVar6) && (iVar6 = 1, bVar1)) ||
-       (iVar7 = 1,
-       (*(byte *)((uint)(*(byte *)(param_1 + 0x54) >> 3) + param_1 + 0x52) >>
-        (*(byte *)(param_1 + 0x54) & 7) & 1) != 0)) {
-      iVar7 = 0;
-    }
-    iVar5 = fn_827F3A60(param_1);
-    return (longlong)iVar5 * (longlong)(iVar6 - iVar7) +
-           (longlong)(int)(uVar4 + (iVar2 + 0xfU & 0xfffffff0)) * (longlong)iVar6;
-  }
-  return 0;
+    return (((unsigned char *)p)[0x52 + (i >> 3)] >> (i & 7)) & 1;
 }
 
+int fn_827F2460(Ctx_827F2460 *p)
+{
+    unsigned int aligned;
+    unsigned int max;
+    int count;
+    int i;
+    int n;
+    int k;
+    int result;
+
+    aligned = (unsigned int)(p->obj->vt->getSize(p->obj) + 0xf) & ~0xfu;
+    i = p->first;
+    result = 0;
+    max = 0;
+    count = 0;
+    for (;;) {
+        if (bitTest_827F2460(p, i) == 0) {
+            count++;
+            if (max <= fn_827F3AB0(p->entries[i])) {
+                max = fn_827F3AB0(p->entries[i]);
+            }
+        }
+        if (i == p->last) break;
+        i = (i + 1) & 3;
+    }
+    if (count > 0) {
+        n = (count < 1) ? count : 1;
+        if (count > 1 || bitTest_827F2460(p, p->first) != 0) {
+            k = 0;
+        } else {
+            k = 1;
+        }
+        result = fn_827F3A60(p) * (n - k) + (max + aligned) * n;
+    }
+    return result;
+}

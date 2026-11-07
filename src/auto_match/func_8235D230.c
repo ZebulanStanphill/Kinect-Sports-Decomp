@@ -1,93 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry_8235D230 {
+    unsigned char name[64];
+    unsigned char data[64];
+    float f[4];
+    int v[4];
+} Entry_8235D230;
 
+typedef struct Owner_8235D230 {
+    char pad[0x1b9c];
+    Entry_8235D230 *entries;
+    unsigned int count;
+} Owner_8235D230;
 
-undefined8 fn_8235D230(int param_1,char *param_2,undefined1 *param_3)
-
+int fn_8235D230(Owner_8235D230 *self, const unsigned char *name, Entry_8235D230 *out)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  uint uVar4;
-  int iVar5;
-  char *pcVar6;
-  char *pcVar7;
-  undefined1 *puVar8;
-  longlong lVar9;
-  
-  pcVar3 = *(char **)(param_1 + 0x1b9c);
-  if (pcVar3 != (char *)0x0) {
-    uVar4 = 0;
-    if (*(uint *)(param_1 + 0x1ba0) != 0) {
-      iVar5 = (int)pcVar3 - (int)param_2;
-      pcVar6 = pcVar3;
-      do {
-        cVar1 = *pcVar6;
-        pcVar7 = param_2;
-        cVar2 = *param_2;
-        while (cVar2 == cVar1) {
-          pcVar7 = pcVar7 + 1;
-          if (cVar2 == '\0') goto LAB_8235d2b8;
-          cVar1 = pcVar7[iVar5];
-          cVar2 = *pcVar7;
-        }
-        if (cVar2 == cVar1) {
-LAB_8235d2b8:
-          lVar9 = 0x40;
-          puVar8 = param_3;
-          do {
-            *puVar8 = puVar8[(int)(pcVar3 + (uVar4 * 0xa0 - (int)param_3))];
-            puVar8 = puVar8 + 1;
-            lVar9 = lVar9 + -1;
-          } while (lVar9 != 0);
-          iVar5 = 0;
-          lVar9 = 0x40;
-          do {
-            param_3[iVar5 + 0x40] = pcVar3[iVar5 + uVar4 * 0xa0 + 0x40];
-            iVar5 = iVar5 + 1;
-            lVar9 = lVar9 + -1;
-          } while (lVar9 != 0);
-          *(undefined4 *)(param_3 + 0x80) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x80);
-          *(undefined4 *)(param_3 + 0x84) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x84);
-          *(undefined4 *)(param_3 + 0x88) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x88);
-          *(undefined4 *)(param_3 + 0x8c) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x8c);
-          *(undefined4 *)(param_3 + 0x90) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x90);
-          *(undefined4 *)(param_3 + 0x94) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x94);
-          *(undefined4 *)(param_3 + 0x98) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x98);
-          *(undefined4 *)(param_3 + 0x9c) = *(undefined4 *)(pcVar3 + uVar4 * 0xa0 + 0x9c);
-          return 1;
-        }
-        uVar4 = uVar4 + 1;
-        pcVar6 = pcVar6 + 0xa0;
-        iVar5 = iVar5 + 0xa0;
-      } while (uVar4 < *(uint *)(param_1 + 0x1ba0));
-    }
-  }
-  return 0;
-}
+    Entry_8235D230 *arr;
+    Entry_8235D230 *e;
+    unsigned int i;
+    int j;
 
+    arr = self->entries;
+    if (arr != 0) {
+        for (i = 0; i < self->count; i++) {
+            const unsigned char *p = name;
+            const unsigned char *q = arr[i].name;
+            unsigned char c1 = *p;
+            unsigned char c2 = *q;
+            while (c1 == c2) {
+                p++;
+                q++;
+                if (c1 == 0)
+                    goto found;
+                c1 = *p;
+                c2 = *q;
+            }
+            if (c1 - c2 == 0)
+                goto found;
+        }
+    }
+    return 0;
+
+found:
+    e = &arr[i];
+    for (j = 0; j < 64; j++)
+        out->name[j] = e->name[j];
+    for (j = 0; j < 64; j++)
+        out->data[j] = e->data[j];
+    out->f[0] = e->f[0];
+    out->f[1] = e->f[1];
+    out->f[2] = e->f[2];
+    out->f[3] = e->f[3];
+    out->v[0] = e->v[0];
+    out->v[1] = e->v[1];
+    out->v[2] = e->v[2];
+    out->v[3] = e->v[3];
+    return 1;
+}

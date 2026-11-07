@@ -1,51 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8232C528();
-extern int fn_82520780();
+typedef struct Vt_8232D910 {
+    void *slots[5];
+    void (*Notify)(struct Obj_8232D910 *self, int oldState, int newState);
+} Vt_8232D910;
 
+typedef struct Obj_8232D910 {
+    Vt_8232D910 *vt;
+    int pad4;
+    int state;
+} Obj_8232D910;
 
-void fn_8232D910(int param_1,int param_2)
+typedef struct Cfg_8232D910 {
+    char pad[0x4e0];
+    float scale;
+    float pad4e4;
+    float range;
+} Cfg_8232D910;
 
+typedef struct Self_8232D910 {
+    int pad0;
+    int pad4;
+    Cfg_8232D910 *cfg;
+    Obj_8232D910 *obj;
+    float cur;
+    float base;
+} Self_8232D910;
+
+extern char lbl_83265A28[];
+extern int fn_82520780(char *name, float value);
+extern void fn_8232C528(Obj_8232D910 *obj, int flag);
+
+void fn_8232D910(Self_8232D910 *self, int param_2)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if ((*(int *)(*(int *)(param_1 + 0xc) + 8) == 2) &&
-     (iVar2 = fn_82520780((double)(((*(float *)(param_1 + 0x10) - *(float *)(param_1 + 0x14)) /
-                                    *(float *)(*(int *)(param_1 + 8) + 0x4e0)) *
-                                    *(float *)(*(int *)(param_1 + 8) + 0x4e8) +
-                                   *(float *)(param_1 + 0x14)),0xffffffff83265a28), iVar2 != 0)) {
-    piVar1 = *(int **)(param_1 + 0xc);
-    iVar2 = piVar1[2];
-    piVar1[2] = (uint)(param_2 == 0);
-    (**(code **)(*piVar1 + 0x14))(piVar1,iVar2);
-    fn_8232C528(*(undefined4 *)(param_1 + 0xc),1);
-  }
-  return;
-}
+    float v;
+    Obj_8232D910 *o;
+    int old;
+    int n;
 
+    v = ((self->cur - self->base) / self->cfg->scale) * self->cfg->range + self->base;
+    if (self->obj->state == 2 && fn_82520780(lbl_83265A28, v) != 0) {
+        o = self->obj;
+        n = (param_2 == 0);
+        old = o->state;
+        o->state = n;
+        o->vt->Notify(o, old, n);
+        fn_8232C528(self->obj, 1);
+    }
+}

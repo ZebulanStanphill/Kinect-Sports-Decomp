@@ -1,47 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82822F60();
+typedef struct Node_8282B470 {
+    char pad0[0x14];
+    unsigned int a;
+    unsigned int b;
+} Node_8282B470;
 
+typedef struct Obj_8282B470 {
+    char pad0[0x38];
+    int count;
+    char pad3c[0x344 - 0x3c];
+    char sub[0x3d4 - 0x344];
+    unsigned int *table;
+} Obj_8282B470;
 
-void fn_8282B470(int param_1,int param_2)
+extern int fn_82822F60(void *a, void *b, void *c, void *d);
+extern void fn_8282AF50(void);
 
+void fn_8282B470(Obj_8282B470 *o, Node_8282B470 *n)
 {
-  int aiStack_20 [4];
-  
-  if (*(int *)(param_2 + 0x14) != 0) {
-    *(undefined4 *)(param_2 + 0x14) =
-         *(undefined4 *)(*(int *)(param_2 + 0x14) * 4 + *(int *)(param_1 + 0x3d4) + -4);
-    *(undefined4 *)(param_2 + 0x18) =
-         *(undefined4 *)(*(int *)(param_2 + 0x18) * 4 + *(int *)(param_1 + 0x3d4) + -4);
-    aiStack_20[0] = param_2;
-    fn_82822F60(param_1 + 0x344,param_2,0xffffffff8282af50,aiStack_20);
-    *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x38) + 1;
-  }
-  return;
-}
+    Node_8282B470 *node = n;
 
+    if (node->a != 0) {
+        node->a = o->table[node->a - 1];
+        node->b = o->table[node->b - 1];
+        fn_82822F60(o->sub, node, (void *)fn_8282AF50, &node);
+        o->count++;
+    }
+}

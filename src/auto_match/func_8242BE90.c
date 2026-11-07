@@ -1,52 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82522588();
-extern unsigned int iStack_2c;
+typedef struct Obj_8242BE90 Obj_8242BE90;
 
+typedef struct VTable_8242BE90 {
+    void *slot0;
+    void (*slot1)(Obj_8242BE90 *self, float f, int x);
+} VTable_8242BE90;
 
-void fn_8242BE90(undefined8 param_1,int param_2)
+struct Obj_8242BE90 {
+    VTable_8242BE90 *vt;
+};
 
+typedef struct SharedPtr_8242BE90 {
+    Obj_8242BE90 *obj;
+    void *ctrl;
+} SharedPtr_8242BE90;
+
+typedef struct Elem_8242BE90 {
+    int a;
+    int b;
+} Elem_8242BE90;
+
+typedef struct Owner_8242BE90 {
+    char pad[0x30];
+    Elem_8242BE90 *begin;
+    Elem_8242BE90 *end;
+} Owner_8242BE90;
+
+extern void fn_822315A0(void *ctrl);
+extern SharedPtr_8242BE90 *fn_82522588(SharedPtr_8242BE90 *out, Elem_8242BE90 *elem);
+
+void fn_8242BE90(Owner_8242BE90 *self, float f, int x)
 {
-  undefined4 *puVar1;
-  ulonglong uVar2;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  for (uVar2 = (ulonglong)*(uint *)(param_2 + 0x30);
-      (uVar2 & 0xffffffff) != (ulonglong)*(uint *)(param_2 + 0x34); uVar2 = uVar2 + 8) {
-    puVar1 = (undefined4 *)fn_82522588(auStack_30,uVar2);
-    (**(code **)(*(int *)*puVar1 + 4))(param_1);
-    if (iStack_2c != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
-}
+    Elem_8242BE90 *it;
 
+    for (it = self->begin; it != self->end; it++) {
+        SharedPtr_8242BE90 sp;
+        Obj_8242BE90 *o = fn_82522588(&sp, it)->obj;
+        o->vt->slot1(o, f, x);
+        if (sp.ctrl != 0) {
+            fn_822315A0(sp.ctrl);
+        }
+    }
+}
