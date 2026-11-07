@@ -1,60 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82A1E0C0();
-extern int fn_82A1E2C0();
-extern unsigned int lbl_831751CC;
-extern unsigned int lbl_831751D0;
+typedef struct Obj_82BEE168 {
+    int pad[5];
+    void *thread;   /* 0x14 */
+} Obj_82BEE168;
 
+typedef struct Args_82BEE168 {
+    unsigned int a;
+    unsigned int b;
+} Args_82BEE168;
 
-undefined8 fn_82BEE168(int param_1,undefined4 param_2,undefined4 param_3)
+extern void *(*lbl_831751D0)(unsigned int size);
+extern void (*lbl_831751CC)(void *p);
+extern void fn_82BEE060(void);
+extern void *fn_82A1E0C0(void *attr, unsigned int stack, void *start, void *param,
+                         unsigned int flags, unsigned long *tid);
+extern int fn_82A1E2C0(void *h);
 
+int fn_82BEE168(Obj_82BEE168 *o, unsigned int a, unsigned int b)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 auStack_30 [12];
-  
-  if (*(int *)(param_1 + 0x14) == 0) {
-    auStack_30[0] = 0;
-    puVar1 = (undefined4 *)(*(code *)lbl_831751D0)(8);
-    if (puVar1 == (undefined4 *)0x0) {
-      return 0;
-    }
-    *puVar1 = param_2;
-    puVar1[1] = param_3;
-    iVar2 = fn_82A1E0C0(0,0,0xffffffff82bee060,puVar1,4,auStack_30);
-    *(int *)(param_1 + 0x14) = iVar2;
-    if (iVar2 != 0) {
-      fn_82A1E2C0();
-      return 1;
-    }
-    (*(code *)lbl_831751CC)(puVar1);
-  }
-  return 0;
-}
+    Args_82BEE168 *p;
+    void *h;
+    unsigned long tid;
 
+    if (o->thread == 0) {
+        tid = 0;
+        p = (Args_82BEE168 *)lbl_831751D0(8);
+        if (p == 0) {
+            return 0;
+        }
+        p->a = a;
+        p->b = b;
+        h = fn_82A1E0C0(0, 0, (void *)fn_82BEE060, p, 4, &tid);
+        o->thread = h;
+        if (h == 0) {
+            lbl_831751CC(p);
+            return 0;
+        }
+        fn_82A1E2C0(h);
+        return 1;
+    }
+    return 0;
+}

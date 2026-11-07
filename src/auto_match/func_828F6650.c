@@ -1,64 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
+typedef struct Node_828F6650 {
+    int key;
+    int value;
+    int unk8;
+    struct Node_828F6650 *next;
+} Node_828F6650;
 
+typedef struct List_828F6650 {
+    char pad0[0x38];
+    Node_828F6650 *head;
+} List_828F6650;
 
-undefined8 fn_828F6650(int param_1,int param_2)
+typedef struct Owner_828F6650 {
+    char pad0[0x5c];
+    int f5c;
+    int f60;
+    char pad64[0x274 - 0x64];
+    List_828F6650 *list;
+} Owner_828F6650;
 
+extern void *fn_8265C940(int size, int flags);
+
+static __forceinline Node_828F6650 *Node_ctor_828F6650(Node_828F6650 *n, Owner_828F6650 *o, int key)
 {
-  int iVar1;
-  int *piVar3;
-  undefined8 uVar2;
-  int *piVar4;
-  undefined4 uVar5;
-  
-  piVar3 = (int *)fn_8265C940(0x10,0x24810000);
-  piVar4 = (int *)0x0;
-  if (piVar3 != (int *)0x0) {
-    iVar1 = *(int *)(param_1 + 0x5c);
-    piVar3[2] = 0;
-    *piVar3 = param_2;
-    piVar3[3] = 0;
-    piVar3[1] = iVar1;
-    piVar4 = piVar3;
-  }
-  if (piVar4 == (int *)0x0) {
-    uVar2 = 0xffffffff8007000e;
-  }
-  else {
-    piVar4[3] = *(int *)(*(int *)(param_1 + 0x274) + 0x38);
-    *(int **)(*(int *)(param_1 + 0x274) + 0x38) = piVar4;
-    if ((*(int *)(param_1 + 0x5c) == 0) || (uVar5 = 1, param_2 == 0)) {
-      uVar5 = 0;
+    if (n != 0) {
+        int val = o->f5c;
+        n->unk8 = 0;
+        n->key = key;
+        n->next = 0;
+        n->value = val;
+        return n;
     }
-    *(undefined4 *)(param_1 + 0x60) = uVar5;
-    uVar2 = 0;
-  }
-  return uVar2;
+    return 0;
 }
 
+int fn_828F6650(Owner_828F6650 *param_1, int param_2)
+{
+    Node_828F6650 *n;
+    int v;
+
+    n = Node_ctor_828F6650((Node_828F6650 *)fn_8265C940(0x10, 0x24810000), param_1, param_2);
+    if (n == 0) {
+        return 0x8007000E;
+    }
+    n->next = param_1->list->head;
+    param_1->list->head = n;
+    if (param_1->f5c != 0 && param_2 != 0) {
+        v = 1;
+    } else {
+        v = 0;
+    }
+    param_1->f60 = v;
+    return 0;
+}

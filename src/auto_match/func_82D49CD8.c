@@ -1,52 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Inner_82D49CD8 Inner_82D49CD8;
 
+typedef struct {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *slotC;
+    void *slot10;
+    void *slot14;
+    int (*read)(Inner_82D49CD8 *self, int arg, int size);
+} InnerVtbl_82D49CD8;
 
-longlong fn_82D49CD8(int param_1,undefined8 param_2,longlong param_3)
+struct Inner_82D49CD8 {
+    InnerVtbl_82D49CD8 *vt;
+};
 
+typedef struct {
+    char pad0[0x18];
+    Inner_82D49CD8 *inner;
+    int count;
+    char pad20[0x10];
+    char buf[0x30];
+} Self_82D49CD8;
+
+int fn_82D49CD8(Self_82D49CD8 *s, int arg, int size)
 {
-  longlong lVar1;
-  int iVar2;
-  
-  lVar1 = (**(code **)(**(int **)(param_1 + 0x18) + 0x18))
-                    (*(int **)(param_1 + 0x18),param_2,param_3 + -0x30);
-  iVar2 = (int)lVar1;
-  if ((iVar2 < 0) || ((int)(param_3 + -0x30) < iVar2)) {
-    lVar1 = -1;
-  }
-  else if (*(int *)(param_1 + 0x18) == param_1 + 0x30) {
-    lVar1 = lVar1 + 0x30;
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-  }
-  else {
-    *(int *)(param_1 + 0x1c) = iVar2;
-    lVar1 = 0x30;
-  }
-  return lVar1;
+    int avail = size - 0x30;
+    int r = s->inner->vt->read(s->inner, arg, avail);
+    if (r < 0) {
+        return -1;
+    }
+    if (r > avail) {
+        return -1;
+    }
+    if (s->inner == (Inner_82D49CD8 *)s->buf) {
+        s->count = 0;
+        return r + 0x30;
+    }
+    s->count = r;
+    return 0x30;
 }
-

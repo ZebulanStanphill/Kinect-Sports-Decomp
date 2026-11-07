@@ -1,86 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_a0;
-extern int fn_828AC488();
-extern int fn_828D4D10();
-extern int fn_828DCC88();
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9FF8();
 
+extern void fn_828AC488(void *obj);
+extern void *fn_828D4D10(void *obj, uint value, int flag);
+extern void fn_828DCC88(void *list, void *item);
+extern int fn_828E9D90(void *stream);
+extern int fn_828E9DA8(void *stream);
+extern uint fn_828E9FF8(void *stream, int bits);
 
-void fn_828DCDC8(int param_1,undefined8 param_2)
-
+static __forceinline uint ReadBits_828DCDC8(void *stream, int bits)
 {
-  int iVar2;
-  int iVar3;
-  undefined4 uVar4;
-  undefined8 uVar1;
-  undefined1 auStack_a0 [64];
-  undefined1 auStack_60 [64];
-  
-  iVar2 = fn_828E9DA8(param_2);
-  iVar3 = fn_828E9D90(param_2);
-  if (iVar2 - iVar3 < 2) {
-    uVar4 = 0;
+  if (fn_828E9DA8(stream) - fn_828E9D90(stream) >= bits) {
+    return fn_828E9FF8(stream, bits);
   }
-  else {
-    uVar4 = fn_828E9FF8(param_2,2);
-  }
-  *(undefined4 *)(param_1 + 0x80) = uVar4;
-  iVar2 = fn_828E9DA8(param_2);
-  iVar3 = fn_828E9D90(param_2);
-  if (iVar2 - iVar3 < 2) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_828E9FF8(param_2,2);
-  }
-  *(undefined4 *)(param_1 + 0x84) = uVar4;
-  while( true ) {
-    iVar2 = fn_828E9DA8(param_2);
-    iVar3 = fn_828E9D90(param_2);
-    if ((iVar2 - iVar3 < 1) || (iVar2 = fn_828E9FF8(param_2,1), iVar2 == 0)) break;
-    iVar2 = fn_828E9DA8(param_2);
-    iVar3 = fn_828E9D90(param_2);
-    if (iVar2 - iVar3 < 2) {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = fn_828E9FF8(param_2,2);
-    }
-    fn_828D4D10(auStack_60,uVar1,0);
-    uVar1 = fn_828D4D10(auStack_a0,uVar1,0);
-    fn_828DCC88(param_1 + 0x88,uVar1);
-    fn_828AC488(auStack_a0);
-    fn_828AC488(auStack_60);
-  }
-  return;
+  return 0;
 }
 
+void fn_828DCDC8(char *self, void *stream)
+{
+  unsigned char tmpA[64];
+  unsigned char tmpB[64];
+  uint v;
+
+  *(uint *)(self + 0x80) = ReadBits_828DCDC8(stream, 2);
+  *(uint *)(self + 0x84) = ReadBits_828DCDC8(stream, 2);
+  for (;;) {
+    if (ReadBits_828DCDC8(stream, 1) == 0) {
+      break;
+    }
+    v = ReadBits_828DCDC8(stream, 2);
+    fn_828D4D10(tmpB, v, 0);
+    fn_828DCC88(self + 0x88, fn_828D4D10(tmpA, v, 0));
+    fn_828AC488(tmpA);
+    fn_828AC488(tmpB);
+  }
+}

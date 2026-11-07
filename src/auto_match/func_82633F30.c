@@ -1,83 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82633E88();
+typedef struct Bits_82633F30 {
+    unsigned int pad0 : 16;
+    unsigned int type : 4;
+    unsigned int pad1 : 2;
+    unsigned int flag : 1;
+    unsigned int pad2 : 9;
+} Bits_82633F30;
 
+typedef struct Obj_82633F30 {
+    int field_0;
+    Bits_82633F30 bits;
+} Obj_82633F30;
 
-void fn_82633F30(char param_1)
+extern unsigned char fn_82633E88(Obj_82633F30 *o, int x);
 
+void fn_82633F30(unsigned char enable, int a, int b, int c, Obj_82633F30 *o, int x)
 {
-  bool bVar1;
-  char cVar2;
-  int in_r7;
-  undefined8 in_r8;
-  uint uVar3;
-  uint uVar4;
-  
-  if (param_1 == '\0') {
-    return;
-  }
-  uVar4 = *(uint *)(in_r7 + 4);
-  uVar3 = uVar4 >> 0xc & 0xf;
-  if ((1 << uVar3 & 0x607eU) == 0) {
-    return;
-  }
-  cVar2 = fn_82633E88(in_r7,in_r8);
-  bVar1 = cVar2 != '\0';
-  if (uVar3 < 7) {
-    if (uVar3 < 5) {
-      if (uVar3 == 0) {
-        return;
-      }
-      if (2 < uVar3) {
-        if (uVar3 == 3) goto LAB_82633fdc;
-        if (uVar3 != 4) {
-          return;
-        }
-        goto LAB_82633fc8;
-      }
-    }
-    uVar4 = (uint)bVar1 << 9 | uVar4 & 0xfffffdff;
-  }
-  else {
-    if (uVar3 == 0xd) {
-LAB_82633fdc:
-      uVar3 = (-(uint)bVar1 & 10) + 3;
-    }
-    else {
-      if (uVar3 != 0xe) {
-        return;
-      }
-LAB_82633fc8:
-      uVar3 = (-(uint)bVar1 & 10) + 4;
-    }
-    uVar4 = (uVar3 & 0xf) << 0xc | uVar4 & 0xffff0fff;
-  }
-  *(uint *)(in_r7 + 4) = uVar4;
-  return;
-}
+    Bits_82633F30 w;
+    unsigned int type;
+    int on;
 
+    if (enable == 0) {
+        return;
+    }
+    w = o->bits;
+    type = w.type;
+    if (((1 << type) & 0x607eU) == 0) {
+        return;
+    }
+    on = fn_82633E88(o, x) != 0;
+    switch (type) {
+    case 1:
+    case 2:
+    case 5:
+    case 6:
+        w.flag = on;
+        break;
+    case 3:
+    case 13:
+        w.type = on ? 13 : 3;
+        break;
+    case 4:
+    case 14:
+        w.type = on ? 14 : 4;
+        break;
+    default:
+        return;
+    }
+    o->bits = w;
+}

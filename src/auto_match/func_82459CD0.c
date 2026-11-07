@@ -1,74 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522FF0();
-extern int fn_82CE09D0();
-extern int fn_82CE0BE8();
-extern unsigned int uStack_11c;
-extern unsigned int uStack_120;
-extern unsigned int uStack_12c;
-extern unsigned int uStack_130;
+typedef struct Timeval_82459CD0 {
+    long tv_sec;
+    long tv_usec;
+} Timeval_82459CD0;
 
+typedef struct FdSet_82459CD0 {
+    unsigned int fd_count;
+    unsigned int fd_array[64];
+} FdSet_82459CD0;
 
-void fn_82459CD0(double *param_1)
+typedef struct Obj_82459CD0 {
+    double start;       /* 0x00 */
+    double timeout;     /* 0x08 */
+    int pad10[4];       /* 0x10 */
+    unsigned int sock;  /* 0x20 */
+    int pad24[24];      /* 0x24 */
+    int state;          /* 0x84 */
+} Obj_82459CD0;
 
+extern double fn_82522FF0(void);
+extern int fn_82CE09D0(int nfds, FdSet_82459CD0 *readfds, FdSet_82459CD0 *writefds,
+                       FdSet_82459CD0 *exceptfds, Timeval_82459CD0 *timeout);
+extern int fn_82CE0BE8(unsigned int s, FdSet_82459CD0 *set);
+
+void fn_82459CD0(Obj_82459CD0 *p)
 {
-  int iVar1;
-  undefined4 uVar2;
-  double dVar3;
-  struct { undefined4 first; undefined4 second; } stack_pair_130;
+    int r;
 
-  undefined4 uStack_120;
-  undefined4 uStack_11c;
-  
-  dVar3 = (double)fn_82522FF0();
-  if (param_1[1] <= dVar3 - *param_1) {
-    uVar2 = 0xc;
-  }
-  else {
-    uStack_11c = *(undefined4 *)(param_1 + 4);
-    stack_pair_130.first = 0;
-    uStack_120 = 1;
-    stack_pair_130.second = 0;
-    iVar1 = fn_82CE09D0(0,0,&uStack_120,0,&stack_pair_130.first);
-    if (iVar1 != -1) {
-      if (iVar1 < 1) {
-        return;
-      }
-      iVar1 = fn_82CE0BE8(*(undefined4 *)(param_1 + 4),&uStack_120);
-      if (iVar1 != 0) {
-        uVar2 = 8;
-        goto LAB_82459d6c;
-      }
+    if (fn_82522FF0() - p->start < p->timeout) {
+        Timeval_82459CD0 tv = {0};
+        FdSet_82459CD0 set;
+
+        set.fd_array[0] = p->sock;
+        set.fd_count = 1;
+        r = fn_82CE09D0(0, 0, &set, 0, &tv);
+        if (r == -1) {
+            p->state = 0xd;
+            return;
+        }
+        if (r > 0) {
+            if (fn_82CE0BE8(p->sock, &set) != 0) {
+                p->state = 8;
+            } else {
+                p->state = 0xd;
+            }
+        }
+    } else {
+        p->state = 0xc;
     }
-    uVar2 = 0xd;
-  }
-LAB_82459d6c:
-  *(undefined4 *)((int)param_1 + 0x84) = uVar2;
-  return;
 }
-

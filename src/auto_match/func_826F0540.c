@@ -1,62 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826F0360();
+typedef struct View_826F0540 {
+    const char *ptr;
+    unsigned int len;
+} View_826F0540;
 
+typedef struct Bits_826F0540 {
+    unsigned int a : 5;
+    unsigned int b : 5;
+    unsigned int rest : 22;
+} Bits_826F0540;
 
-void fn_826F0540(uint *param_1,int *param_2)
+extern unsigned int fn_826F0360(View_826F0540 *v, unsigned int value, int delim);
 
+static int findChar_826F0540(View_826F0540 *v, char c)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  
-  if (param_2[1] != 0) {
-    uVar4 = 0;
-    do {
-      if (*(char *)(*param_2 + uVar4) == '.') goto LAB_826f0588;
-      uVar4 = uVar4 + 1;
-    } while (uVar4 < (uint)param_2[1]);
-    uVar4 = 0xffffffff;
-LAB_826f0588:
-    uVar2 = fn_826F0360(param_2,*param_1 >> 0x16 & 0x1f,0x3a);
-    uVar1 = *param_1;
-    uVar2 = (uVar2 & 0x1f) << 0x16;
-    *param_1 = uVar2 | uVar1 & 0xf83fffff;
-    if (-1 < (int)uVar4) {
-      *param_1 = uVar2 | uVar1 & 0x3fffff;
-      uVar4 = (uint)(param_2[1] != 0);
-      param_2[1] = param_2[1] - uVar4;
-      *param_2 = *param_2 + uVar4;
-      iVar3 = fn_826F0360(param_2,*param_1 >> 0x1b,0x3a);
-      *param_1 = iVar3 << 0x1b | *param_1 & 0x7ffffff;
+    unsigned int i;
+    for (i = 0; i < v->len; i++) {
+        if (v->ptr[i] == c) {
+            return (int)i;
+        }
     }
-  }
-  return;
+    return -1;
 }
 
+void fn_826F0540(Bits_826F0540 *bits, View_826F0540 *v)
+{
+    if (v->len != 0) {
+        int pos = findChar_826F0540(v, '.');
+        bits->b = fn_826F0360(v, bits->b, 0x3a);
+        if (pos >= 0) {
+            unsigned int n;
+            unsigned int len;
+            bits->a = 0;
+            n = 1;
+            len = v->len;
+            if (len < 1) {
+                n = len;
+            }
+            v->len = len - n;
+            v->ptr += n;
+            bits->a = fn_826F0360(v, bits->a, 0x3a);
+        }
+    }
+}
