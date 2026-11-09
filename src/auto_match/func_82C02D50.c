@@ -1,53 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-#define _uStack_30 ((*(U64*)&uStack_30))
-extern unsigned int uStack_18;
-extern unsigned int uStack_20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
 
+void *memset(void *dst, int val, unsigned int size);
 
-void fn_82C02D50(int *param_1,undefined4 param_2,undefined4 param_3)
+typedef struct Msg_82C02D50 {
+    uint id;
+    uint value;
+    uint words[5];
+} Msg_82C02D50;
 
+struct Obj_82C02D50;
+
+typedef struct Vtbl_82C02D50 {
+    void *slots[11];
+    void (*send)(struct Obj_82C02D50 *self, Msg_82C02D50 *msg);
+} Vtbl_82C02D50;
+
+typedef struct Obj_82C02D50 {
+    Vtbl_82C02D50 *vt;
+} Obj_82C02D50;
+
+void fn_82C02D50(Obj_82C02D50 *param_1, uint param_2, uint param_3)
 {
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined8 uStack_28;
-  undefined8 uStack_20;
-  undefined4 uStack_18;
-  
-  uStack_28 = 0;
-  uStack_20 = 0;
-  uStack_18 = 0;
-  _uStack_30 = CONCAT44(param_2,param_3);
-  (**(code **)(*param_1 + 0x2c))(param_1,&uStack_30);
-  return;
-}
+    Msg_82C02D50 msg;
 
+    memset(&msg, 0, sizeof(msg));
+    msg.id = param_2;
+    msg.value = param_3;
+    param_1->vt->send(param_1, &msg);
+}

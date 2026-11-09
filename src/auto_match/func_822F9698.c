@@ -1,57 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831CCCA0;
-extern unsigned int lbl_831CCCA4;
+typedef struct Obj_822F9698 Obj_822F9698;
+typedef struct VT_822F9698 {
+  int pad[15];
+  unsigned int (*f3c)(Obj_822F9698 *);
+} VT_822F9698;
+struct Obj_822F9698 {
+  VT_822F9698 *vt;
+};
 
+typedef struct Ent_822F9698 {
+  char pad0[0x178];
+  float f178;
+  char pad17c[8];
+  int f184;
+  char pad188[4];
+  int f18c;
+  char pad190[0x10];
+  int f1a0;
+} Ent_822F9698;
 
-double fn_822F9698(int param_1)
+typedef struct Mid_822F9698 {
+  char pad0[0x1e4];
+  Ent_822F9698 *ent;
+  char pad1e8[0xf8];
+  Obj_822F9698 *obj;
+} Mid_822F9698;
 
+typedef struct Cfg_822F9698 {
+  char pad0[0x14];
+  float f14;
+  float f18;
+  float f1c;
+  float f20;
+} Cfg_822F9698;
+
+typedef struct Top_822F9698 {
+  int f0;
+  Mid_822F9698 *mid;
+  int f8;
+  Cfg_822F9698 *cfg;
+} Top_822F9698;
+
+extern float lbl_831CCC98[];
+
+double fn_822F9698(Top_822F9698 *p)
 {
-  int iVar1;
-  int iVar2;
-  double dVar3;
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 4) + 0x1e4);
-  iVar2 = (**(code **)(**(int **)(*(int *)(param_1 + 4) + 0x2e0) + 0x3c))();
-  if (iVar2 == 0) {
-    dVar3 = (double)*(float *)(*(int *)(param_1 + 0xc) + 0x14);
-  }
-  else if (*(int *)(iVar1 + 0x184) == 0) {
-    if ((*(int *)(iVar1 + 0x1a0) == 0) || (*(int *)(iVar1 + 0x18c) == 0)) {
-      dVar3 = (double)((lbl_831CCCA4 - lbl_831CCCA0) * *(float *)(iVar1 + 0x178) + lbl_831CCCA0);
-    }
-    else {
-      dVar3 = (double)*(float *)(*(int *)(param_1 + 0xc) + 0x18);
-    }
-  }
-  else {
-    dVar3 = (double)*(float *)(*(int *)(param_1 + 0xc) + 0x1c);
-  }
-  return dVar3;
-}
+  Ent_822F9698 *e;
+  float r;
+  float a;
 
+  e = p->mid->ent;
+  if (p->mid->obj->vt->f3c(p->mid->obj) == 0) {
+    r = p->cfg->f14;
+  } else if (e->f184 != 0) {
+    r = p->cfg->f1c;
+  } else if (e->f1a0 == 0 || e->f18c == 0) {
+    a = lbl_831CCC98[2];
+    r = (lbl_831CCC98[3] - a) * e->f178 + a;
+  } else {
+    r = p->cfg->f18;
+  }
+  return r;
+}

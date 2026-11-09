@@ -1,78 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-extern unsigned int *auStack_3c;
-extern int fn_82FF22B8();
-extern int fn_82FF7EB0();
-extern int fn_82FF8250();
-extern unsigned int iStack_40;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
+typedef struct Node_82FF6BF0 Node_82FF6BF0;
 
+typedef struct Key_82FF6BF0 { int a; int b; } Key_82FF6BF0;
 
-undefined8 fn_82FF6BF0(int param_1,int param_2,undefined4 param_3,undefined4 param_4,char param_5)
+typedef struct Sub_82FF6BF0 {
+    Node_82FF6BF0 *head;
+    Node_82FF6BF0 *end;
+} Sub_82FF6BF0;
 
+typedef struct Obj_82FF6BF0 {
+    char pad[0x3c];
+    Sub_82FF6BF0 sub;
+} Obj_82FF6BF0;
+
+typedef struct Pair_82FF6BF0 { unsigned int key; Obj_82FF6BF0 *value; } Pair_82FF6BF0;
+
+typedef struct Owner_82FF6BF0 {
+    int pad;
+    Pair_82FF6BF0 *begin;
+    Pair_82FF6BF0 *end;
+} Owner_82FF6BF0;
+
+extern void fn_82FF7EB0(Node_82FF6BF0 **out, Sub_82FF6BF0 *s, Key_82FF6BF0 k);
+extern void fn_82FF22B8(Node_82FF6BF0 **out, Sub_82FF6BF0 *s, Node_82FF6BF0 **it);
+extern void fn_82FF8250(Sub_82FF6BF0 *s, Key_82FF6BF0 k);
+
+static __forceinline int neq(Pair_82FF6BF0 *a, Pair_82FF6BF0 *b) { return a != b; }
+
+static __forceinline Obj_82FF6BF0 **find(Owner_82FF6BF0 *o, unsigned int key)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  int *piVar4;
-  uint *puVar5;
-  int iVar6;
-  int iStack_40;
-  undefined1 auStack_3c [4];
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  
-  for (piVar4 = *(int **)(param_1 + 4); (piVar4 != *(int **)(param_1 + 8) && (*piVar4 != param_2));
-      piVar4 = piVar4 + 2) {
-  }
-  uVar2 = (uint)(*(int **)(param_1 + 8) != piVar4);
-  puVar5 = (uint *)(-(uint)(uVar2 != 0) & (uint)(piVar4 + 1));
-  if (puVar5 == (uint *)0x0) {
-    uVar3 = 0x14;
-  }
-  else {
-    uVar1 = *puVar5;
-    iVar6 = uVar1 + 0x3c;
-    uStack_38 = param_3;
-    uStack_34 = param_4;
-    fn_82FF7EB0(&iStack_40,iVar6,CONCAT44(param_3,param_4),-uVar2);
-    if (iStack_40 != *(int *)(uVar1 + 0x40)) {
-      fn_82FF22B8(auStack_3c,iVar6,&iStack_40);
+    Pair_82FF6BF0 *it;
+    for (it = o->begin; it != o->end; it++) {
+        if (it->key == key)
+            break;
     }
-    if (param_5 != '\0') {
-      uStack_38 = param_4;
-      uStack_34 = param_3;
-      fn_82FF8250((ulonglong)*puVar5 + 0x3c,CONCAT44(param_4,param_3));
-    }
-    uVar3 = 1;
-  }
-  return uVar3;
+    return neq(it, o->end) ? &it->value : 0;
 }
 
+int fn_82FF6BF0(Owner_82FF6BF0 *o, unsigned int key, int a, int b, unsigned char flag)
+{
+    Obj_82FF6BF0 **pp;
+    Sub_82FF6BF0 *s;
+    Node_82FF6BF0 *it;
+    Node_82FF6BF0 *tmp;
+    Key_82FF6BF0 k;
+
+    pp = find(o, key);
+    if (pp != 0) {
+        s = &(*pp)->sub;
+        k.a = a;
+        k.b = b;
+        fn_82FF7EB0(&it, s, k);
+        if (it != s->end) {
+            fn_82FF22B8(&tmp, s, &it);
+        }
+        if (flag != 0) {
+            k.a = b;
+            k.b = a;
+            fn_82FF8250(&(*pp)->sub, k);
+        }
+        return 1;
+    }
+    return 0x14;
+}

@@ -1,51 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8289D8D0();
+typedef struct Sub_828AADB8 Sub_828AADB8;
+typedef struct SubVtbl_828AADB8 {
+    void *s0, *s1, *s2, *s3;
+    unsigned int (*m10)(Sub_828AADB8 *self);
+    unsigned int (*m14)(Sub_828AADB8 *self);
+} SubVtbl_828AADB8;
+struct Sub_828AADB8 { SubVtbl_828AADB8 *vt; };
 
-
-ulonglong fn_828AADB8(int *param_1)
-
+typedef struct Obj_828AADB8 Obj_828AADB8;
+typedef struct ObjVtbl_828AADB8 {
+    void *s[14];
+    unsigned char (*m38)(Obj_828AADB8 *self, unsigned int v);
+} ObjVtbl_828AADB8;
+struct Obj_828AADB8 {
+    ObjVtbl_828AADB8 *vt;
+    int f4, f8;
+    unsigned char fC;
+    int f10, f14, f18, f1c;
+    Sub_828AADB8 *sub;
+    int f24;
+    int f28;
+};
+extern unsigned int fn_8289D8D0(int v);
+static __forceinline unsigned int A(Obj_828AADB8 *o) { return o->sub != 0 && o->sub->vt->m10(o->sub) != 0; }
+static __forceinline unsigned int B(Obj_828AADB8 *o) { return o->sub != 0 && o->sub->vt->m14(o->sub) != 0; }
+unsigned char fn_828AADB8(Obj_828AADB8 *o)
 {
-  int iVar3;
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  if ((((int *)param_1[8] == (int *)0x0) ||
-      (iVar3 = (**(code **)(*(int *)param_1[8] + 0x10))(), iVar3 == 0)) &&
-     (((int *)param_1[8] == (int *)0x0 ||
-      (iVar3 = (**(code **)(*(int *)param_1[8] + 0x14))(), iVar3 == 0)))) {
-    uVar1 = (ulonglong)*(byte *)(param_1 + 3);
-  }
-  else {
-    iVar3 = *param_1;
-    uVar2 = fn_8289D8D0(param_1[10]);
-    uVar1 = (**(code **)(iVar3 + 0x38))(param_1,uVar2);
-  }
-  return uVar1;
+    if (A(o) || B(o)) {
+        return o->vt->m38(o, fn_8289D8D0(o->f28));
+    }
+    return o->fC;
 }
 

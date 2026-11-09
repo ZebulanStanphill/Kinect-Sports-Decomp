@@ -1,51 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8289D8D0();
+typedef struct Sub_828BD230 Sub_828BD230;
+typedef struct SubVtbl_828BD230 {
+    void *s0, *s1, *s2, *s3;
+    unsigned int (*m10)(Sub_828BD230 *self);
+    unsigned int (*m14)(Sub_828BD230 *self);
+} SubVtbl_828BD230;
+struct Sub_828BD230 { SubVtbl_828BD230 *vt; };
 
-
-double fn_828BD230(int *param_1)
-
+typedef struct Obj_828BD230 Obj_828BD230;
+typedef struct ObjVtbl_828BD230 {
+    void *s[14];
+    float (*m38)(Obj_828BD230 *self, unsigned int v);
+} ObjVtbl_828BD230;
+struct Obj_828BD230 {
+    ObjVtbl_828BD230 *vt;
+    int f4, f8;
+    float fC;
+    int f10, f14, f18, f1c;
+    Sub_828BD230 *sub;
+    int f24;
+    int f28;
+};
+extern unsigned int fn_8289D8D0(int v);
+static __forceinline unsigned int A(Obj_828BD230 *o) { return o->sub != 0 && o->sub->vt->m10(o->sub) != 0; }
+static __forceinline unsigned int B(Obj_828BD230 *o) { return o->sub != 0 && o->sub->vt->m14(o->sub) != 0; }
+float fn_828BD230(Obj_828BD230 *o)
 {
-  int iVar2;
-  undefined8 uVar1;
-  double dVar3;
-  
-  if ((((int *)param_1[8] == (int *)0x0) ||
-      (iVar2 = (**(code **)(*(int *)param_1[8] + 0x10))(), iVar2 == 0)) &&
-     (((int *)param_1[8] == (int *)0x0 ||
-      (iVar2 = (**(code **)(*(int *)param_1[8] + 0x14))(), iVar2 == 0)))) {
-    dVar3 = (double)(float)param_1[3];
-  }
-  else {
-    iVar2 = *param_1;
-    uVar1 = fn_8289D8D0(param_1[10]);
-    dVar3 = (double)(**(code **)(iVar2 + 0x38))(param_1,uVar1);
-  }
-  return dVar3;
+    if (A(o) || B(o)) {
+        return o->vt->m38(o, fn_8289D8D0(o->f28));
+    }
+    return o->fC;
 }
-

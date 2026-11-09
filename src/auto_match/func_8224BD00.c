@@ -1,80 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8265C9E0();
-extern int fn_82F64538();
-extern unsigned int lbl_82197B5C;
+/* Read a bool setting into a boost::any: if the any already holds a bool,
+   read into it in place, else read into a local and assign a new holder. */
+typedef struct Placeholder_8224BD00 Placeholder_8224BD00;
+typedef struct PlaceholderVtbl_8224BD00 {
+    void (*destroy)(Placeholder_8224BD00 *self, int flags);
+    const void *(*type)(Placeholder_8224BD00 *self);
+} PlaceholderVtbl_8224BD00;
+struct Placeholder_8224BD00 { const PlaceholderVtbl_8224BD00 *vt; };
+typedef struct Holder_8224BD00 { const void *vt; unsigned char held; } Holder_8224BD00;
+typedef struct Any_8224BD00 { Placeholder_8224BD00 *content; } Any_8224BD00;
 
+typedef struct Source_8224BD00 Source_8224BD00;
+typedef struct SourceVtbl_8224BD00 {
+    void *s0, *s1, *s2, *s3, *s4;
+    void (*Get)(Source_8224BD00 *self, unsigned int key, unsigned char *v);
+} SourceVtbl_8224BD00;
+struct Source_8224BD00 { const SourceVtbl_8224BD00 *vt; };
 
-void fn_8224BD00(int *param_1,undefined8 param_2,int *param_3)
+extern unsigned char fn_82F64538(const void *a, const void *b);
+extern void *fn_8265C9E0(unsigned int size);
+extern char lbl_831D7088[];
+extern char lbl_831D7470[];
+extern char lbl_82197B5C[];
 
+void fn_8224BD00(Source_8224BD00 *s, unsigned int key, Any_8224BD00 *a)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  char cVar4;
-  undefined4 *puVar3;
-  int iVar5;
-  undefined1 auStack_30;
-  
-  if (param_3 != (int *)0x0) {
-    if ((int *)*param_3 == (int *)0x0) {
-      uVar2 = 0xffffffff831d7088;
+    unsigned char *p;
+    if (a != 0 && fn_82F64538(a->content ? a->content->vt->type(a->content) : lbl_831D7088, lbl_831D7470)) {
+        p = &((Holder_8224BD00 *)a->content)->held;
+    } else {
+        p = 0;
     }
-    else {
-      uVar2 = (**(code **)(*(int *)*param_3 + 4))();
+    if (p != 0) {
+        s->vt->Get(s, key, p);
+    } else {
+        unsigned char v;
+        Holder_8224BD00 *mem;
+        Holder_8224BD00 *h;
+        Placeholder_8224BD00 *old;
+        s->vt->Get(s, key, &v);
+        mem = (Holder_8224BD00 *)fn_8265C9E0(8);
+        if (mem != 0) {
+            mem->vt = lbl_82197B5C;
+            mem->held = v;
+            h = mem;
+        } else {
+            h = 0;
+        }
+        old = a->content;
+        a->content = (Placeholder_8224BD00 *)h;
+        if (old != 0) {
+            old->vt->destroy(old, 1);
+        }
     }
-    cVar4 = fn_82F64538(uVar2,0xffffffff831d7470);
-    if (cVar4 != '\0') {
-      iVar5 = *param_3 + 4;
-      goto LAB_8224bd6c;
-    }
-  }
-  iVar5 = 0;
-LAB_8224bd6c:
-  if (iVar5 == 0) {
-    (**(code **)(*param_1 + 0x14))(param_1,param_2,&auStack_30);
-    puVar3 = (undefined4 *)fn_8265C9E0(8);
-    if (puVar3 == (undefined4 *)0x0) {
-      puVar3 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar3 = &lbl_82197B5C;
-      *(undefined1 *)(puVar3 + 1) = auStack_30;
-    }
-    puVar1 = (undefined4 *)*param_3;
-    *param_3 = (int)puVar3;
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
-    }
-  }
-  else {
-    (**(code **)(*param_1 + 0x14))(param_1,param_2);
-  }
-  return;
 }
-

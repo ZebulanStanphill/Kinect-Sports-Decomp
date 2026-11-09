@@ -1,42 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BF4448();
-extern unsigned int lbl_820EBA10;
+typedef struct AdCreator_82BF4A18 {
+    const void *vtable;
+    int pad04[9];
+    unsigned short value;
+} AdCreator_82BF4A18;
 
+extern AdCreator_82BF4A18 *fn_82BF4448(AdCreator_82BF4A18 *self, const char *name, int param,
+                                      const void *data, unsigned short count, unsigned short flags);
+extern const char lbl_820EBA10[];
 
-undefined4 * fn_82BF4A18(undefined4 *param_1)
-
+AdCreator_82BF4A18 *fn_82BF4A18(AdCreator_82BF4A18 *self, const char *name, int param,
+                                const void *data, unsigned short count, unsigned short flags,
+                                unsigned short value)
 {
-  undefined2 in_r9;
-  
-  fn_82BF4448();
-  *(undefined2 *)(param_1 + 10) = in_r9;
-  *param_1 = &lbl_820EBA10;
-  return param_1;
+    fn_82BF4448(self, name, param, data, count, flags);
+    self->value = value;
+    self->vtable = lbl_820EBA10;
+    return self;
 }
-

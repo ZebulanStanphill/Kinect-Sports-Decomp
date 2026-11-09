@@ -1,46 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Src_8270C938 Src_8270C938;
+typedef struct SrcVt_8270C938 {
+  void *s[4];
+  int (*f10)(Src_8270C938 *);
+  void *s2;
+  int (*f18)(Src_8270C938 *);
+} SrcVt_8270C938;
+struct Src_8270C938 { SrcVt_8270C938 *vt; };
+typedef struct Obj_8270C938 {
+  void *vt;
+  int f4;
+  Src_8270C938 *src;
+  int fc;
+  int mode;
+  int extra;
+} Obj_8270C938;
 
-
-longlong fn_8270C938(int param_1)
-
+int fn_8270C938(Obj_8270C938 *o)
 {
-  longlong lVar1;
-  longlong lVar2;
-  
-  lVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x18))();
-  if (((int)lVar1 != -1) && (*(int *)(param_1 + 0x10) == 2)) {
-    lVar2 = (**(code **)(**(int **)(param_1 + 8) + 0x10))();
-    lVar2 = lVar2 + (ulonglong)*(uint *)(param_1 + 0x14);
-    if ((int)lVar1 < (int)lVar2) {
-      lVar1 = lVar2;
+  int a;
+  int b;
+
+  a = o->src->vt->f18(o->src);
+  if (a != -1 && o->mode == 2) {
+    b = o->src->vt->f10(o->src) + o->extra;
+    if (b > a) {
+      a = b;
     }
   }
-  return lVar1;
+  return a;
 }
-

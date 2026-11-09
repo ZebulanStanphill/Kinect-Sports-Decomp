@@ -1,44 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *lbl_8328A688;
-
+typedef struct Impl_8313D148 Impl_8313D148;
+typedef struct { void *s0, *s1, *s2; void (*del)(Impl_8313D148 *, int); } ImplVt_8313D148;
+struct Impl_8313D148 { ImplVt_8313D148 *vt; };
+typedef struct { int space[4]; Impl_8313D148 *impl; } Func_8313D148;
+extern Func_8313D148 lbl_8328A678;
 
 void fn_8313D148(void)
-
 {
-  int iVar1;
-  
-  if (lbl_8328A688 != (int *)0x0) {
-    iVar1 = -(int)lbl_8328A688 + -0x7cd75988;
-    (**(code **)(*lbl_8328A688 + 0xc))
-              (lbl_8328A688,iVar1 - (-(int)lbl_8328A688 + -0x7cd75989 + (uint)(iVar1 == 0)));
-    lbl_8328A688 = (int *)0x0;
-  }
-  return;
+    Func_8313D148 *f = &lbl_8328A678;
+    if (f->impl) {
+        f->impl->vt->del(f->impl, f->impl != (Impl_8313D148 *)f->space);
+        f->impl = 0;
+    }
 }
-

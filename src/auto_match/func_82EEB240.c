@@ -1,37 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memset();
+typedef struct Obj_82EEB240 {
+  int f0[9];
+  int f24;
+  int f28;
+  int f2c;
+  int f30;
+} Obj_82EEB240;
+extern void *memset(void *dst, int c, unsigned int n);
 
-
-void fn_82EEB240(undefined8 param_1)
-
+Obj_82EEB240 *fn_82EEB240(Obj_82EEB240 *self)
 {
-                    /* WARNING: Subroutine does not return */
-  memset(param_1,0,0x34);
+  memset(self, 0, sizeof(Obj_82EEB240));
+  self->f24 = 0;
+  self->f30 = 0;
+  return self;
 }
-

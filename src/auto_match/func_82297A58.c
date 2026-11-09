@@ -1,74 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memcpy();
+extern void *memcpy(void *, const void *, unsigned int);
 
+struct Buf_82297A58;
+typedef struct VT_82297A58 {
+  void *s0;
+  void *s1;
+  void *s2;
+  void *s3;
+  void *s4;
+  void *s5;
+  void *s6;
+  unsigned short (*uflow)(struct Buf_82297A58 *self);
+} VT_82297A58;
+typedef struct Buf_82297A58 {
+  VT_82297A58 *vt;
+  char pad4[0x20 - 4];
+  unsigned short **pnext;
+  char pad24[0x30 - 0x24];
+  int *pcount;
+} Buf_82297A58;
 
-longlong fn_82297A58(int *param_1,longlong param_2,ulonglong param_3)
-
+__int64 fn_82297A58(Buf_82297A58 *self, unsigned short *s, __int64 count)
 {
-  short sVar1;
-  int iVar2;
-  longlong lVar3;
-  longlong lVar4;
-  ulonglong uVar5;
-  
-  lVar3 = 0;
-  while( true ) {
-    while( true ) {
-      if ((longlong)param_3 < 1) {
-        return lVar3;
-      }
-      if (*(int *)param_1[8] == 0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = *(int *)param_1[0xc];
-      }
-      uVar5 = (ulonglong)iVar2;
-      if ((longlong)uVar5 < 1) break;
-      if ((longlong)param_3 < (longlong)uVar5) {
-        uVar5 = param_3;
-      }
-      lVar4 = (uVar5 & 0x7fffffff) * 2;
-      memcpy(param_2,*(int *)param_1[8],lVar4);
-      param_2 = lVar4 + param_2;
-      lVar3 = uVar5 + lVar3;
-      param_3 = param_3 - uVar5;
-      *(int *)param_1[0xc] = *(int *)param_1[0xc] - (int)uVar5;
-      *(int *)param_1[8] = (int)lVar4 + *(int *)param_1[8];
-    }
-    sVar1 = (**(code **)(*param_1 + 0x1c))(param_1);
-    if (sVar1 == -1) break;
-    *(short *)param_2 = sVar1;
-    param_2 = param_2 + 2;
-    lVar3 = lVar3 + 1;
-    param_3 = param_3 - 1;
-  }
-  return lVar3;
-}
+  __int64 done = 0;
+  __int64 avail;
+  int n;
 
+  while (count > 0) {
+    if (*self->pnext != 0) { n = *self->pcount; } else { n = 0; }
+    avail = n;
+    if (avail > 0) {
+      if (count < avail) avail = count;
+      memcpy(s, *self->pnext, (unsigned int)avail * 2);
+      s += (int)avail;
+      done += avail;
+      count -= avail;
+      *self->pcount -= (int)avail;
+      *self->pnext += (int)avail;
+    } else {
+      unsigned short c = self->vt->uflow(self);
+      if (c == 0xffff) break;
+      *s = c;
+      s++;
+      done++;
+      count--;
+    }
+  }
+  return done;
+}
