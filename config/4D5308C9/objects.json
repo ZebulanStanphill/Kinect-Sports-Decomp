@@ -30632,11 +30632,12 @@
           "/O2"
         ]
       },
-      "auto_match/func_823866C0.c": {
+      "auto_match/func_823866C0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_823867D0.c": {
         "status": "NonMatching",
@@ -30652,11 +30653,13 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_82386910.c": {
-        "status": "NonMatching",
+      "auto_match/func_82386910.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
       "auto_match/func_823869D8.cpp": {
         "status": "Matching",
