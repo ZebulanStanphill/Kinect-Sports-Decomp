@@ -1,80 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
+typedef struct Node_83030FE8 Node_83030FE8;
+typedef struct Item_83030FE8 {
+    int pad[0x18];
+    int f60;
+    int f64;
+} Item_83030FE8;
+struct Node_83030FE8 {
+    Node_83030FE8 *next;
+    int f4;
+    Item_83030FE8 item;
+};
+typedef struct Pool_83030FE8 {
+    int f0, f4;
+    Node_83030FE8 *free;
+    unsigned count;
+    int f10;
+    int f14;
+    Node_83030FE8 *mem;
+    void *heap;
+} Pool_83030FE8;
+extern void *fn_82FA5060(void *heap, unsigned size);
 
-
-undefined8
-fn_83030FE8(undefined4 *param_1,ulonglong param_2,undefined4 param_3,undefined8 param_4)
-
+int fn_83030FE8(Pool_83030FE8 *p, unsigned count, int a, void *heap)
 {
-  int *piVar1;
-  uint uVar2;
-  int *piVar3;
-  undefined8 uVar4;
-  
-  param_1[7] = (int)param_4;
-  param_1[3] = (int)param_2;
-  uVar4 = 1;
-  param_1[5] = 0;
-  param_1[4] = param_3;
-  if ((param_2 & 0xffffffff) == 0) {
-    param_1[6] = 0;
-  }
-  else {
-    piVar1 = (int *)fn_82FA5060(param_4,param_2 * 0x70);
-    param_1[6] = piVar1;
-    if (piVar1 != (int *)0x0) {
-      uVar2 = 0;
-      param_1[2] = piVar1;
-      piVar3 = piVar1;
-      if (param_1[3] != 0) {
-        do {
-          if (piVar3 != (int *)0xfffffff8) {
-            piVar3[0x1a] = 0;
-          }
-          piVar1 = piVar3 + 0x1c;
-          uVar2 = uVar2 + 1;
-          *piVar3 = (int)piVar1;
-          piVar3 = piVar1;
-        } while (uVar2 < (uint)param_1[3]);
-      }
-      piVar1[-0x1c] = 0;
-      *param_1 = 0;
-      param_1[1] = 0;
-      return 1;
+    int ret = 1;
+    p->heap = heap;
+    p->count = count;
+    p->f14 = 0;
+    p->f10 = a;
+    if (count != 0) {
+        Node_83030FE8 *n = fn_82FA5060(heap, count * sizeof(Node_83030FE8));
+        p->mem = n;
+        if (n != 0) {
+            unsigned i = 0;
+            Node_83030FE8 *cur = n;
+            p->free = n;
+            while (i < p->count) {
+                Node_83030FE8 *nx;
+                if ((int)cur != -8)
+                    cur->item.f60 = 0;
+                nx = cur + 1;
+                i++;
+                cur->next = nx;
+                cur = nx;
+            }
+            cur[-1].next = 0;
+        } else {
+            p->count = 0;
+            ret = 0x34;
+            p->f10 = 0;
+            p->free = 0;
+        }
+    } else {
+        p->mem = 0;
+        p->free = 0;
     }
-    param_1[3] = 0;
-    uVar4 = 0x34;
-    param_1[4] = 0;
-  }
-  param_1[2] = 0;
-  *param_1 = 0;
-  param_1[1] = 0;
-  return uVar4;
+    p->f0 = 0;
+    p->f4 = 0;
+    return ret;
 }
-

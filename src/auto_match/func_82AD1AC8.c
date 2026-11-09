@@ -27,34 +27,43 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-uint * fn_82AD1AC8(int *param_1,int param_2)
+typedef struct Node_82AD1AC8 {
+    unsigned int w;                  /* 0x00 */
+    struct Node_82AD1AC8 *next;      /* 0x04 */
+} Node_82AD1AC8;
 
+typedef struct List_82AD1AC8 {
+    Node_82AD1AC8 *head;             /* 0x00 */
+} List_82AD1AC8;
+
+static int notNull(Node_82AD1AC8 *p)
 {
-  uint *puVar1;
-  uint uVar2;
-  bool bVar3;
-  
-  puVar1 = (uint *)*param_1;
-  do {
-    if (puVar1 == (uint *)0x0) {
-      return (uint *)0x0;
-    }
-    uVar2 = *puVar1;
-    if ((uVar2 & 0x40000000) == 0) {
-      bVar3 = true;
-      if ((uVar2 & 0xe000000) != 0) goto LAB_82ad1aec;
-    }
-    else {
-LAB_82ad1aec:
-      bVar3 = false;
-    }
-    if ((!bVar3) || (bVar3 = true, (uVar2 >> 0xd & 0xfff) != param_2 + 1U)) {
-      bVar3 = false;
-    }
-    if (bVar3) {
-      return puVar1;
-    }
-    puVar1 = (uint *)puVar1[1];
-  } while( true );
+    if (p) return 1;
+    return 0;
 }
 
+Node_82AD1AC8 *fn_82AD1AC8(List_82AD1AC8 *l, int id)
+{
+    Node_82AD1AC8 *p;
+    unsigned char ok;
+    unsigned int w;
+    p = l->head;
+    while (notNull(p)) {
+        w = p->w;
+        if ((w & 0x40000000) == 0 && (w & 0xe000000) == 0) {
+            ok = 1;
+        } else {
+            ok = 0;
+        }
+        if (ok && ((w >> 13) & 0xfff) == id + 1U) {
+            ok = 1;
+        } else {
+            ok = 0;
+        }
+        if (ok) {
+            return p;
+        }
+        p = p->next;
+    }
+    return 0;
+}

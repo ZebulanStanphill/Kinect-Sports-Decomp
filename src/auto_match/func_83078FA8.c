@@ -1,54 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_83078598();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+typedef struct Matrix_83078598 { __vector4 r[4]; } Matrix_83078598;
+typedef struct Vec_83078FA8 { __vector4 v; } Vec_83078FA8;
 
+extern Matrix_83078598 fn_83078598(void *node);
 
-undefined8 fn_83078FA8(undefined8 param_1)
-
+Vec_83078FA8 fn_83078FA8(void *node)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  undefined1 in_vs35 [16];
-  undefined1 in_vs43 [16];
-  undefined4 in_register_000103f0;
-  undefined4 in_register_000103f4;
-  undefined4 in_register_000103f8;
-  undefined4 in_vr63;
-  undefined1 auStack_50 [16];
-  
-  fn_83078598(auStack_50);
-  altv207_13(in_vs35,in_vs43);
-  puVar1 = (undefined4 *)(in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  return param_1;
-}
+    Vec_83078FA8 result;
 
+    result.v = fn_83078598(node).r[3];
+    return result;
+}

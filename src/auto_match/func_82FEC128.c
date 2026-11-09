@@ -25,39 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832643D4;
+extern void fn_830241A8(void *p, unsigned int value, unsigned int mask);
+extern void *lbl_832643D4;
 
-
-void fn_82FEC128(ulonglong param_1,ulonglong param_2)
-
+void fn_82FEC128(unsigned int value, unsigned int mask)
 {
-  int iVar1;
-  
-  iVar1 = lbl_832643D4;
   if (lbl_832643D4 == 0) {
     return;
   }
-  if ((param_2 & 1) != 0) {
-    *(byte *)(lbl_832643D4 + 0x2c) =
-         (byte)((param_1 & 0xffffffff) << 7) | *(byte *)(lbl_832643D4 + 0x2c) & 0x7f;
-  }
-  if ((param_2 & 2) != 0) {
-    *(byte *)(iVar1 + 0x40) =
-         (byte)((param_1 & 0xffffffff) << 6) & 0x80 | *(byte *)(iVar1 + 0x40) & 0x7f;
-  }
-  if ((param_2 & 4) != 0) {
-    *(byte *)(iVar1 + 0x54) =
-         (byte)((param_1 & 0xffffffff) << 5) & 0x80 | *(byte *)(iVar1 + 0x54) & 0x7f;
-  }
-  if ((param_2 & 8) != 0) {
-    *(byte *)(iVar1 + 0x68) =
-         (byte)((param_1 & 0xffffffff) << 4) & 0x80 | *(byte *)(iVar1 + 0x68) & 0x7f;
-  }
-  if ((param_2 & 0x10) == 0) {
-    return;
-  }
-  *(byte *)(iVar1 + 0x6c) =
-       (byte)((param_1 & 0xffffffff) << 3) & 0x80 | *(byte *)(iVar1 + 0x6c) & 0x7f;
-  return;
+  fn_830241A8(lbl_832643D4, value, mask);
 }
-

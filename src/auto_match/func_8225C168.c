@@ -25,41 +25,37 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_8225C238();
+typedef struct Elem_8225C168 {
+  int value;
+} Elem_8225C168;
 
+typedef struct Vec_8225C168 {
+  Elem_8225C168 *first;
+  Elem_8225C168 *last;
+  Elem_8225C168 *end;
+} Vec_8225C168;
 
-void fn_8225C168(uint *param_1,undefined4 *param_2)
+extern void fn_8225C238(Vec_8225C168 *);
 
+void fn_8225C168(Vec_8225C168 *v, Elem_8225C168 *val)
 {
-  uint uVar1;
-  bool bVar2;
-  undefined4 uVar3;
-  undefined4 *puVar4;
-  
-  puVar4 = (undefined4 *)param_1[1];
-  if ((puVar4 <= param_2) || (bVar2 = true, param_2 < (undefined4 *)*param_1)) {
-    bVar2 = false;
+  Elem_8225C168 *l = v->last;
+  unsigned char inside;
+  if (val < l && v->first <= val)
+    inside = 1;
+  else
+    inside = 0;
+  if (inside) {
+    int idx = val - v->first;
+    if (l == v->end)
+      fn_8225C238(v);
+    if (v->last != 0)
+      *v->last = v->first[idx];
+  } else {
+    if (l == v->end)
+      fn_8225C238(v);
+    if (v->last != 0)
+      *v->last = *val;
   }
-  if (bVar2) {
-    uVar1 = *param_1;
-    if (puVar4 == (undefined4 *)param_1[2]) {
-      fn_8225C238(param_1);
-    }
-    puVar4 = (undefined4 *)param_1[1];
-    if (puVar4 == (undefined4 *)0x0) goto LAB_8225c210;
-    uVar3 = *(undefined4 *)(((int)((int)param_2 - uVar1) >> 2) * 4 + *param_1);
-  }
-  else {
-    if (puVar4 == (undefined4 *)param_1[2]) {
-      fn_8225C238(param_1);
-    }
-    puVar4 = (undefined4 *)param_1[1];
-    if (puVar4 == (undefined4 *)0x0) goto LAB_8225c210;
-    uVar3 = *param_2;
-  }
-  *puVar4 = uVar3;
-LAB_8225c210:
-  param_1[1] = param_1[1] + 4;
-  return;
+  v->last = v->last + 1;
 }
-

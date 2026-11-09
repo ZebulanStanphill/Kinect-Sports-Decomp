@@ -25,33 +25,45 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827F6AC0();
-extern int fn_827F6BA0();
-extern int fn_827F6F58();
-extern int fn_827F9AB0();
-extern int fn_827FA1F0();
-extern int fn_827FA3E8();
-extern int fn_827FA3F0();
-extern int fn_827FA3F8();
-extern int fn_82F691F0();
+typedef struct Obj_827F3770 {
+    char pad0[0x34];
+    float a[8];   /* 0x34 */
+    float b[8];   /* 0x54 */
+} Obj_827F3770;
 
+extern void fn_827F6F58(Obj_827F3770 *p, int v);
+extern int fn_827FA3E8(void *src);
+extern int fn_827FA3F0(void *src);
+extern int fn_827FA3F8(void *src);
+extern void fn_827F6BA0(Obj_827F3770 *p, unsigned short v);
+extern void fn_827F6AC0(Obj_827F3770 *p, int v);
+extern void fn_827FA1F0(Obj_827F3770 *p, int v);
+extern void fn_827F9AB0(Obj_827F3770 *p, int v);
+extern float lbl_82002AE0;
 
-void fn_827F3770(longlong param_1,undefined8 param_2)
+void *memset(void *dst, int c, unsigned int n);
 
+Obj_827F3770 *fn_827F3770(Obj_827F3770 *p, void *src)
 {
-  undefined2 uVar3;
-  undefined8 uVar1;
-  undefined8 uVar2;
-  
-  fn_827F6F58(param_1,0);
-  uVar3 = fn_827FA3E8(param_2);
-  uVar1 = fn_827FA3F0(param_2);
-  uVar2 = fn_827FA3F8(param_2);
-  fn_827F6BA0(param_1,uVar3);
-  fn_827F6AC0(param_1,uVar1);
-  fn_827FA1F0(param_1,uVar2);
-  fn_827F9AB0(param_1,0xffff);
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 0x34,0,0x20);
-}
+    int v0;
+    int v1;
+    int v2;
+    float *b;
+    float f;
 
+    fn_827F6F58(p, 0);
+    v0 = fn_827FA3E8(src);
+    v1 = fn_827FA3F0(src);
+    v2 = fn_827FA3F8(src);
+    fn_827F6BA0(p, (unsigned short)v0);
+    fn_827F6AC0(p, v1);
+    fn_827FA1F0(p, v2);
+    fn_827F9AB0(p, 0xffff);
+    b = p->b;
+    memset(p->a, 0, 0x20);
+    memset(b, 0, 0x20);
+    f = lbl_82002AE0;
+    b[3] = f;
+    p->a[3] = f;
+    return p;
+}

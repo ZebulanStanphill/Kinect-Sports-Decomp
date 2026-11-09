@@ -27,13 +27,12 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82606A20(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7)
+typedef struct Obj_82606A20 {
+    int field0;
+    void (*fn)(int a, int b, int c, float d, int e, int f);
+} Obj_82606A20;
 
+void fn_82606A20(Obj_82606A20 *obj, int a, int b, int c, float d, int e, int f)
 {
-                    /* WARNING: Could not recover jumptable at 0x82606a40. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(param_1 + 4))(param_2,param_3,param_4,param_4,param_6,param_7);
-  return;
+    obj->fn(a, b, c, d, e, f);
 }
-

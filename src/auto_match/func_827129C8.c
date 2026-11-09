@@ -1,49 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82681898();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_82F68918();
-extern unsigned int lbl_82005730;
+extern void fn_82681898(void *p);
+extern void *fn_826957D0(void *self, int index);
+extern double fn_826972E0(void *obj, int key);
+extern double fn_82F68918(double x);
+extern double lbl_82005730;
 
+typedef struct Obj_827129C8 {
+    int pad0;
+    void *x04;
+    int pad8[4];
+    int x18;
+} Obj_827129C8;
 
-void fn_827129C8(int param_1)
-
+void fn_827129C8(Obj_827129C8 *self)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  double dVar3;
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  uVar2 = fn_826957D0(param_1,0);
-  dVar3 = (double)fn_826972E0(uVar2,uVar1);
-  fn_82F68918(dVar3 + lbl_82005730);
-  fn_82681898(*(undefined4 *)(param_1 + 4));
-  return;
+    int key = self->x18;
+    fn_82F68918(fn_826972E0(fn_826957D0(self, 0), key) + lbl_82005730);
+    fn_82681898(self->x04);
 }
-

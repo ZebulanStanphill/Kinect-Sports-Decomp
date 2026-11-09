@@ -25,16 +25,19 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+typedef struct Buffer_8305B2E8 {
+    int pad0;
+    unsigned int size;    /* 0x04 */
+    char *base;           /* 0x08 */
+    char *cur;            /* 0x0c */
+} Buffer_8305B2E8;
 
+void *memset(void *dst, int c, unsigned int n);
 
-void fn_8305B2E8(int param_1)
-
+void fn_8305B2E8(Buffer_8305B2E8 *b)
 {
-  if (*(int *)(param_1 + 4) != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(*(undefined4 *)(param_1 + 8),0);
+  if (b->size != 0) {
+    memset(b->base, 0, b->size);
+    b->cur = b->base;
   }
-  return;
 }
-

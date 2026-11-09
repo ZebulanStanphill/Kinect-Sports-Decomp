@@ -1,43 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AD2B40();
-extern int fn_82B25E80();
+extern unsigned char fn_82B25E80(int a, unsigned int b, unsigned int c, unsigned char flag);
+extern void fn_82AD2B40(int a, unsigned int b);
 
-
-bool fn_82AD5A48(undefined8 param_1,undefined8 param_2)
-
+unsigned char fn_82AD5A48(int a, unsigned int b, unsigned int c)
 {
-  char cVar1;
-  
-  cVar1 = fn_82B25E80();
-  if (cVar1 != '\0') {
-    fn_82AD2B40(param_1,param_2);
+  if (fn_82B25E80(a, b, c, 0) == 0) {
+    return 0;
   }
-  return cVar1 != '\0';
+  fn_82AD2B40(a, b);
+  return 1;
 }
-

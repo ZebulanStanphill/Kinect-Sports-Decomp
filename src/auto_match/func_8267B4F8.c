@@ -1,37 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+typedef struct Info_8267B4F8 { unsigned char data[0x18]; } Info_8267B4F8;
+typedef struct Obj_8267B4F8 Obj_8267B4F8;
+typedef struct ObjVtbl_8267B4F8 {
+    void (*get)(Obj_8267B4F8 *self, Info_8267B4F8 *info);
+} ObjVtbl_8267B4F8;
+struct Obj_8267B4F8 { ObjVtbl_8267B4F8 *vt; };
+typedef struct Owner_8267B4F8 {
+    char pad0[0xa4];
+    Obj_8267B4F8 *obj;
+} Owner_8267B4F8;
 
+void *memset(void *dst, int c, unsigned int n);
 
-void fn_8267B4F8(undefined8 param_1,undefined8 param_2)
-
+void fn_8267B4F8(Owner_8267B4F8 *self, Info_8267B4F8 *info)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_2,0,0x18);
+    memset(info, 0, sizeof(*info));
+    self->obj->vt->get(self->obj, info);
 }
-

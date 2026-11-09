@@ -25,61 +25,47 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3F758();
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
+extern void fn_82E4FE40(void *);
+extern void *fn_82E50BE8(unsigned, int, int, int, int);
+extern int fn_82A3F758(void *, unsigned, const unsigned short *);
 
-
-undefined8 fn_82F3F130(int param_1,short *param_2)
-
+static int Length(const unsigned short *p, unsigned *out)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  short *psVar4;
-  int iVar5;
-  uint uVar6;
-  
-  uVar6 = 0;
-  if (*(int *)(param_1 + 0x54) != 0) {
-    fn_82E4FE40();
+  int hr = 0;
+  unsigned n = 0x7fffffff;
+  while (n != 0 && *p != 0) {
+    p++;
+    n--;
   }
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  if (param_2 == (short *)0x0) {
-LAB_82f3f214:
-    *(uint *)(param_1 + 0x60) = uVar6;
-    uVar3 = 0;
+  if (n == 0) {
+    hr = 0x80070057;
+  } else {
+    *out = 0x7fffffff - n;
   }
-  else {
-    iVar5 = 0x7fffffff;
-    psVar4 = param_2;
-    do {
-      if (*psVar4 == 0) break;
-      iVar5 = iVar5 + -1;
-      psVar4 = psVar4 + 1;
-    } while (iVar5 != 0);
-    if (iVar5 != 0) {
-      uVar6 = 0x80000000 - iVar5;
-      uVar1 = uVar6 & 0x7fffffff;
-      if (0x7fffffff < uVar6) {
-        uVar1 = 0xffffffff;
-      }
-      uVar2 = fn_82E50BE8(uVar1,0,0,0,0);
-      *(int *)(param_1 + 0x54) = (int)uVar2;
-      if ((uVar2 & 0xffffffff) == 0) {
-        return 0xffffffff8007000e;
-      }
-      if (uVar6 < 0x80000000) {
-        uVar3 = fn_82A3F758(uVar2,uVar6,param_2);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        *(undefined2 *)(iVar5 * -2 + *(int *)(param_1 + 0x54) + -2) = 0;
-        goto LAB_82f3f214;
-      }
-    }
-    uVar3 = 0xffffffff80070057;
-  }
-  return uVar3;
+  return hr;
 }
 
+int fn_82F3F130(char *o, const unsigned short *s)
+{
+  unsigned len = 0;
+  unsigned short *buf;
+  int hr;
+  if (*(void **)(o + 0x54) != 0) {
+    fn_82E4FE40(*(void **)(o + 0x54));
+  }
+  *(void **)(o + 0x54) = 0;
+  if (s != 0) {
+    hr = Length(s, &len);
+    if (hr < 0) return hr;
+    len++;
+    buf = (unsigned short *)fn_82E50BE8(len <= 0x7fffffff ? len * 2 : 0xffffffff, 0, 0, 0, 0);
+    *(unsigned short **)(o + 0x54) = buf;
+    if (buf == 0) return 0x8007000e;
+    if (len > 0x7fffffff) return 0x80070057;
+    hr = fn_82A3F758(buf, len, s);
+    if (hr < 0) return hr;
+    (*(unsigned short **)(o + 0x54))[len - 1] = 0;
+  }
+  *(unsigned *)(o + 0x60) = len;
+  return 0;
+}

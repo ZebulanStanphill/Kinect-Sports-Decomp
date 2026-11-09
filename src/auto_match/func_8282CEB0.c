@@ -25,22 +25,21 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int uRam8320a784;
-extern unsigned int uRam8320a788;
-extern unsigned int uRam8320a78c;
-extern unsigned int uRam8320a790;
-extern unsigned int uRam8320a794;
+typedef struct Settings_8282CEB0 {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+} Settings_8282CEB0;
 
+extern Settings_8282CEB0 lbl_8320A784;
 
-void fn_8282CEB0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5)
-
+void fn_8282CEB0(int a, int b, int c, int d, int e)
 {
-  uRam8320a784 = param_1;
-  uRam8320a788 = param_2;
-  uRam8320a78c = param_3;
-  uRam8320a790 = param_4;
-  uRam8320a794 = param_5;
-  return;
+    lbl_8320A784.a = a;
+    lbl_8320A784.b = b;
+    lbl_8320A784.c = c;
+    lbl_8320A784.d = d;
+    lbl_8320A784.e = e;
 }
-
