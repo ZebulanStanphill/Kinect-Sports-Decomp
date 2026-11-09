@@ -76854,7 +76854,7 @@ auto_match/func_827AEB38.c:
 auto_match/func_827AEC38.c:
 	.text       start:0x827AEC38 end:0x827AECA4
 
-auto_match/func_827AECA8.c:
+auto_match/func_827AECA8.cpp:
 	.text       start:0x827AECA8 end:0x827AECE4
 
 auto_match/func_827AECE8.c:
