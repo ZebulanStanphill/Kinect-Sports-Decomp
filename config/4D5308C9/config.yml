@@ -100,6 +100,10 @@ block_relocations:
 - source: 0x82F62040
 - source: 0x82F62044
 
+# A word in the block of random-looking data at 0x820BC6A0 that happens to
+# equal 0x82055E77, an odd address inside zlib's fixed_tl table.
+- source: 0x820C155C
+
 # A function address whose high half the code spills to the stack before the
 # low half is added, so the splitter does not pair the lis with the subi.
 add_relocations:
