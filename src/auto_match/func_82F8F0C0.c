@@ -1,43 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F93A10();
+// Kinect Sports retail 4D5308C9, function 0x82F8F0C0 (72 bytes).
+// Constructor: base constructor fn_82F93A10, then vtable lbl_8216BAB0 and a zeroed word at +0x438.
 extern unsigned int lbl_8216BAB0;
+extern void *fn_82F93A10(void *);
 
-
-undefined4 * fn_82F8F0C0(undefined4 *param_1)
-
+void **fn_82F8F0C0(void **p)
 {
-  undefined4 *puStack00000014;
-  
-  puStack00000014 = param_1;
-  fn_82F93A10(param_1);
-  *puStack00000014 = &lbl_8216BAB0;
-  puStack00000014[0x10e] = 0;
-  return puStack00000014;
+    fn_82F93A10(p);
+    *p = &lbl_8216BAB0;
+    p[0x10e] = 0;
+    return p;
 }
-

@@ -1,41 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8305B958();
-extern int fn_8305BB58();
-extern unsigned int lbl_8217E248;
-extern unsigned int lbl_8217E24C;
+// Kinect Sports retail 4D5308C9, function 0x83057BA0 (72 bytes).
+// Initialises the header via fn_8305BB58 and the float pair at +0xc from a constant pair.
+extern void fn_8305BB58(unsigned int *p);
+extern void fn_8305B958(float *dst, float a, float b);
+extern float lbl_8217E248[2];
 
-
-longlong fn_83057BA0(longlong param_1)
-
+unsigned int *fn_83057BA0(unsigned int *p)
 {
-  fn_8305BB58();
-  fn_8305B958((double)lbl_8217E248,(double)lbl_8217E24C,param_1 + 0xc);
-  return param_1;
+    fn_8305BB58(p);
+    fn_8305B958((float *)(p + 3), lbl_8217E248[0], lbl_8217E248[1]);
+    return p;
 }
-

@@ -1,52 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50338();
-extern int fn_82E50F00();
-extern int fn_82E51028();
-extern int fn_82E52428();
+// Kinect Sports retail 4D5308C9, function 0x82E52BB8 (120 bytes).
+// Looks up key under the store lock (self+4); copies the entry into out via fn_82E50338
+// when out is given. Returns 0xc00d36e6 when the key is not found.
+extern void fn_82E50F00(int lock, int mode);
+extern void fn_82E51028(int lock, int mode);
+extern void *fn_82E52428(int self, unsigned key);
+extern unsigned fn_82E50338(void *out, void *entry);
 
-
-undefined8 fn_82E52BB8(longlong param_1,undefined8 param_2,ulonglong param_3)
-
+unsigned fn_82E52BB8(int self, unsigned key, void *out)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0;
-  fn_82E50F00(param_1 + 4,1);
-  lVar1 = fn_82E52428(param_1,param_2);
-  if (lVar1 == 0) {
-    uVar2 = 0xffffffffc00d36e6;
-  }
-  else if ((param_3 & 0xffffffff) != 0) {
-    uVar2 = fn_82E50338(param_3);
-  }
-  fn_82E51028(param_1 + 4,1);
-  return uVar2;
+    unsigned hr = 0;
+    void *e;
+    fn_82E50F00(self + 4, 1);
+    e = fn_82E52428(self, key);
+    if (e) {
+        if (out) {
+            hr = fn_82E50338(out, e);
+        }
+    } else {
+        hr = 0xc00d36e6;
+    }
+    fn_82E51028(self + 4, 1);
+    return hr;
 }
-

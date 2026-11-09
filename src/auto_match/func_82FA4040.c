@@ -1,40 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1EFC0();
-extern unsigned int lbl_8216CB10;
+extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern char lbl_8216CB10[];
 
+typedef struct Obj_82FA4040 {
+    char *vt;
+    int f4;
+    int f8;
+    char blockC[0x60];
+    int pad6c[2];
+    int f74;
+    int f78;
+    int f7c;
+    int pad80[4];
+    char block90[0x40];
+    char blockD0[0x40];
+    char block110[0x10];
+    char block120[0x10];
+    char block130[0x10];
+    char block140[0x40];
+    char block180[0x40];
+    char block1C0[0x40];
+} Obj_82FA4040;
 
-void fn_82FA4040(undefined4 *param_1)
-
+Obj_82FA4040 *fn_82FA4040(Obj_82FA4040 *o)
 {
-  param_1[2] = 0;
-  *param_1 = &lbl_8216CB10;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 3,0,0x60);
+    o->f8 = 0;
+    o->vt = lbl_8216CB10;
+    fn_82A1EFC0(o->blockC, 0, 0x60);
+    o->f4 = 0;
+    o->f74 = 0;
+    o->f78 = 0;
+    o->f7c = 0;
+    fn_82A1EFC0(o->block110, 0, 0x10);
+    fn_82A1EFC0(o->block130, 0, 0x10);
+    fn_82A1EFC0(o->blockD0, 0, 0x40);
+    fn_82A1EFC0(o->block120, 0, 0x10);
+    fn_82A1EFC0(o->block90, 0, 0x40);
+    fn_82A1EFC0(o->block140, 0, 0x40);
+    fn_82A1EFC0(o->block180, 0, 0x40);
+    fn_82A1EFC0(o->block1C0, 0, 0x40);
+    return o;
 }
-

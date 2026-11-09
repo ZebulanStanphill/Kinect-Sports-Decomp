@@ -1,45 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_830273A8();
+struct Obj_830003B8;
 
+typedef struct {
+  void *s[18];
+  void (*f)(struct Obj_830003B8 *, float, int, int, int);
+} VT_830003B8;
 
-undefined8 fn_830003B8(int *param_1,byte param_2)
+typedef struct Obj_830003B8 {
+  VT_830003B8 *vt;
+  char pad[0x60];
+  unsigned int h;
+} Obj_830003B8;
 
+extern int fn_830273A8(unsigned int);
+
+int fn_830003B8(Obj_830003B8 *p, unsigned char a)
 {
-  undefined8 uVar1;
-  
-  if (param_1[0x19] == 0) {
-    uVar1 = 2;
-  }
-  else {
-    uVar1 = fn_830273A8();
-    (**(code **)(*param_1 + 0x48))((double)param_2,param_1);
-  }
-  return uVar1;
-}
+  int r;
 
+  if (p->h != 0) {
+    r = fn_830273A8(p->h);
+    p->vt->f(p, (float)a, 0x25, 0, 0);
+    return r;
+  }
+  return 2;
+}

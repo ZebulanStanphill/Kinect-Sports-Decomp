@@ -1,41 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF3080();
+// Kinect Sports retail 4D5308C9, function 0x82FEB8C8 (96 bytes).
+// Calls fn_82FF3080 inside the lbl_8326434C critical section and returns its float result.
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern float fn_82FF3080(int p);
+extern char lbl_8326434C[];
 
-
-undefined8 fn_82FEB8C8(undefined8 param_1)
-
+float fn_82FEB8C8(int p)
 {
-  undefined8 uVar1;
-  
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  uVar1 = fn_82FF3080(param_1);
-  RtlLeaveCriticalSection(0xffffffff8326434c);
-  return uVar1;
+    float r;
+    RtlEnterCriticalSection((RTL_CRITICAL_SECTION *)lbl_8326434C);
+    r = fn_82FF3080(p);
+    RtlLeaveCriticalSection((RTL_CRITICAL_SECTION *)lbl_8326434C);
+    return r;
 }
-

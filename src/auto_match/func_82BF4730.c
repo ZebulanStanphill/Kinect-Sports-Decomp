@@ -1,43 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BF4448();
-extern unsigned int lbl_820EB940;
+typedef struct Obj_82BF4730 {
+    void *vt;
+    unsigned char pad[0x24];
+    unsigned short count;
+    float value;
+} Obj_82BF4730;
 
+extern Obj_82BF4730 *fn_82BF4448(Obj_82BF4730 *o, const char *name, int a, void *p,
+                                 unsigned short n, unsigned short m);
+extern char lbl_820EB940[];
 
-undefined4 * fn_82BF4730(double param_1,undefined4 *param_2)
-
+Obj_82BF4730 *fn_82BF4730(Obj_82BF4730 *o, const char *name, int a, void *p,
+                          unsigned short n, unsigned short m, unsigned short count, float value)
 {
-  undefined2 in_r9;
-  
-  fn_82BF4448();
-  param_2[0xb] = (float)param_1;
-  *(undefined2 *)(param_2 + 10) = in_r9;
-  *param_2 = &lbl_820EB940;
-  return param_2;
+    fn_82BF4448(o, name, a, p, n, m);
+    o->value = value;
+    o->count = count;
+    o->vt = lbl_820EB940;
+    return o;
 }
-
