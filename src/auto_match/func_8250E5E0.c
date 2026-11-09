@@ -29,7 +29,7 @@ extern int fn_8250E678();
 extern int fn_827F2038();
 extern int fn_827F2D60();
 extern int fn_827F2F90();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 fn_8250E5E0(int param_1,undefined8 param_2)
@@ -41,8 +41,8 @@ undefined4 fn_8250E5E0(int param_1,undefined8 param_2)
   double dVar4;
   
   *(undefined4 *)(param_1 + 0x20) = 0;
-  fVar1 = lbl_821CC160;
-  dVar4 = (double)lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
+  dVar4 = (double)ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x24) = 0;
   *(undefined4 *)(param_1 + 0x28) = 0;
   *(float *)(param_1 + 0x2c) = fVar1;

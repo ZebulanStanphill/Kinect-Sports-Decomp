@@ -33,7 +33,7 @@ extern unsigned int lbl_82191418;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821954EC;
 extern unsigned int lbl_821956D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 extern V16 loadVectorLeftIndexed128();
 
@@ -106,7 +106,7 @@ undefined8 fn_824AF358(int param_1)
     fVar17 = fVar9 - fVar21;
     fVar18 = fVar10 - fVar22;
     fn_8255AE78((double)(fVar1 * lbl_821954EC - lbl_831E4E38));
-    fVar4 = lbl_821CC160;
+    fVar4 = ltcg_pool_0_0f;
     loadVectorLeftIndexed128(in_r0,0xffffffff8218e8e8);
     fVar11 = fVar11 - (fVar15 * fVar7 + fVar19);
     fVar12 = fVar12 - (fVar16 * fVar8 + fVar20);

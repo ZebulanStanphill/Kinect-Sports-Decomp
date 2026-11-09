@@ -32,7 +32,7 @@ extern unsigned int *auStack_98;
 extern unsigned int *auStack_cc;
 extern unsigned int *auStack_f8;
 extern int fn_82F68CC0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
 extern unsigned int uStack_84;
@@ -100,7 +100,7 @@ void fn_822520E8(int param_1,undefined8 param_2,int param_3)
   puVar3[2] = in_register_000104d8;
   puVar3[3] = in_vr77;
   puVar3 = auStack_68;
-  uStack_90 = lbl_821CC160;
+  uStack_90 = ltcg_pool_0_0f;
   uStack_8c = 0;
   uStack_8b = 0;
   uStack_8a = 0;

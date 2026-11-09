@@ -30,7 +30,7 @@ extern unsigned int lbl_821954B0;
 extern unsigned int lbl_82195590;
 extern unsigned int lbl_821955AC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_82621870(double param_1,double param_2,double param_3,double param_4)
@@ -42,7 +42,7 @@ double fn_82621870(double param_1,double param_2,double param_3,double param_4)
   double dVar4;
   double dVar5;
   
-  if (param_3 != (double)lbl_821CC160) {
+  if (param_3 != (double)ltcg_pool_0_0f) {
     puVar1 = &lbl_821954B0;
     dVar5 = (double)lbl_821CA460;
     dVar4 = (double)lbl_82195590;

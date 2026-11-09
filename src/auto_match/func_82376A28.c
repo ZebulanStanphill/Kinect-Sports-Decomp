@@ -48,7 +48,9 @@ typedef struct Ptr_82376A28 {
 extern void *fn_8265C9E0(unsigned int);
 extern char lbl_821AD588[];
 extern char lbl_821B445C[];
-extern float lbl_821CC160;
+/* The game code's 0.0f (its link-time code generation pool copy), read by name: written as the
+   literal 0.0f, its load is scheduled differently and the unit reaches 97.6%. */
+extern float ltcg_pool_0_0f;
 
 Ptr_82376A28 *fn_82376A28(Ptr_82376A28 *out, int a)
 {
@@ -65,7 +67,7 @@ Ptr_82376A28 *fn_82376A28(Ptr_82376A28 *out, int a)
     if (b != 0) {
       b->f8 = a;
       b->f14 = 0;
-      g = lbl_821CC160;
+      g = ltcg_pool_0_0f;
       b->f4 = 0xf;
       b->fc = g;
       b->vt = lbl_821B445C;

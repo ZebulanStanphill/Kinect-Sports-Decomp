@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82193E2C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_824FA0F8(int param_1)
@@ -54,7 +54,7 @@ double fn_824FA0F8(int param_1)
   fVar3 = *(float *)(param_1 + 0x2b8);
   if (fVar3 < fVar2) {
     fVar3 = fVar3 + lbl_82193E2C;
-    if (fVar1 < lbl_821CC160) {
+    if (fVar1 < ltcg_pool_0_0f) {
       fVar1 = fVar1 + lbl_82193E2C;
     }
   }

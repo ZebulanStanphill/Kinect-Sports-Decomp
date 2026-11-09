@@ -51,7 +51,7 @@ extern int fn_824C8210();
 extern int fn_82508078();
 extern int fn_82512C30();
 extern unsigned int lbl_82193B00;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int fn_823C0268(double param_1,int *param_2)
@@ -70,7 +70,7 @@ int fn_823C0268(double param_1,int *param_2)
   if (*piVar1 != 0) goto LAB_823c0688;
   iVar3 = param_2[0x122];
   cVar4 = fn_82308E08(param_2 + 0x332);
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   if (cVar4 == '\0') {
     if (param_2[0x381] == 0) {
       if (*(int *)(*(int *)(param_2[0x35] + 0x18) + 0xc) == 0) {

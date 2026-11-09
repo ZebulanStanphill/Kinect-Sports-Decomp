@@ -40,7 +40,7 @@ extern int fn_82F6A594();
 extern unsigned int lbl_82192A60;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821BECFC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C7AF8;
 extern unsigned int lbl_831C7B64;
 extern unsigned int lbl_831C7B68;
@@ -176,7 +176,7 @@ LAB_82430888:
         dVar19 = (double)(float)((double)fVar1 - (double)fVar4);
         dVar20 = (double)(float)((double)fVar3 - (double)fVar2);
         *(undefined **)(*(int *)(iVar8 + 0x244) + 0x98) = puVar15;
-        dVar21 = (double)lbl_821CC160;
+        dVar21 = (double)ltcg_pool_0_0f;
         *(undefined4 *)(*(int *)(iVar8 + 0x244) + 0x18) =
              *(undefined4 *)(*(int *)(*(int *)(iVar8 + 0x244) + 0x98) + 0x68);
         *(undefined4 *)(*(int *)(iVar8 + 0x244) + 0xd8) = 1;
@@ -248,7 +248,7 @@ LAB_824309ac:
           else {
             iVar11 = *(int *)(iVar11 + 0x50);
           }
-          dVar22 = (double)lbl_821CC160;
+          dVar22 = (double)ltcg_pool_0_0f;
           if ((iVar11 != 0) && (iVar11 = *(int *)(iVar8 + 0x244), *(char *)(iVar11 + 0xd0) == '\0'))
           {
             if (*(int *)(iVar11 + 8) == 5) {
@@ -407,7 +407,7 @@ LAB_824309ac:
            *(undefined4 *)(*(int *)(*(int *)(iVar8 + 0x244) + 0x98) + 0x68);
       *(undefined4 *)(*(int *)(iVar8 + 0x244) + 0xd8) = 1;
       puVar9 = (undefined4 *)fn_8248F890(0x4c);
-      fVar4 = lbl_821CC160;
+      fVar4 = ltcg_pool_0_0f;
       if (puVar9 == (undefined4 *)0x0) {
         puVar9 = (undefined4 *)0x0;
       }

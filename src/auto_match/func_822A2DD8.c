@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern void fn_822A2FE8(void);
-extern float lbl_821CC160;
 extern float lbl_831CE850;
 
 void fn_822A2DD8(int *param_1, int param_2, int param_3)
@@ -45,7 +44,7 @@ void fn_822A2DD8(int *param_1, int param_2, int param_3)
   if (iVar1 == 2 || iVar1 == 3 || iVar1 == 4 || iVar1 == 5 || iVar1 == 6 || iVar1 == 7) {
     f = *(float *)(param_1[iVar1 * 4 + 0x89] + param_1[0xa9] * 8 + 4);
   } else {
-    f = lbl_821CC160;
+    f = 0.0f;
   }
   *(float *)&param_1[0x87] = f;
   *(float *)&param_1[6] = lbl_831CE850;

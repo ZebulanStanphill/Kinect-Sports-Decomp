@@ -70,7 +70,7 @@ extern unsigned int lbl_821B37CC;
 extern unsigned int lbl_821B37E4;
 extern unsigned int lbl_821BEBBC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1B34;
 extern unsigned int lbl_831D1B38;
 extern unsigned int lbl_831D1B3C;
@@ -173,9 +173,9 @@ void fn_82370F38(double param_1,undefined8 param_2,int param_3,int *param_4,int 
   if ((iVar9 != 5) || (uVar12 = 1, *(int *)(param_3 + 0x1fc) != 0)) {
     uVar12 = 0;
   }
-  dVar18 = (double)lbl_821CC160;
+  dVar18 = (double)ltcg_pool_0_0f;
   if ((int)param_7 < 0x18) {
-    *(float *)(param_5 + 0x264) = lbl_821CC160;
+    *(float *)(param_5 + 0x264) = ltcg_pool_0_0f;
     *(uint *)(param_5 + 600) = param_7;
     *(float *)(param_5 + 0x260) = (float)param_1;
     *(undefined4 *)(param_5 + 0x26c) = uVar12;

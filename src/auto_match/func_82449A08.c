@@ -26,13 +26,13 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8242C1B8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_82449A08(int param_1)
 
 {
-  if (*(float *)(*(int *)(param_1 + 0x44) + 0x40) <= lbl_821CC160) {
+  if (*(float *)(*(int *)(param_1 + 0x44) + 0x40) <= ltcg_pool_0_0f) {
                     /* WARNING: Subroutine does not return */
     fn_8242C1B8(**(undefined4 **)(param_1 + 0x40));
   }

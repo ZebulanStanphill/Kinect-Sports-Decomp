@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_824B2610();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821954E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824B24D0(int param_1)
@@ -63,7 +63,7 @@ void fn_824B24D0(int param_1)
         goto LAB_824b2594;
       }
       fVar2 = fVar2 - *(float *)(iVar4 + 0x40);
-    } while (lbl_821CC160 < fVar2);
+    } while (ltcg_pool_0_0f < fVar2);
   }
   uVar5 = 0;
 LAB_824b2594:

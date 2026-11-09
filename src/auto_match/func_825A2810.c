@@ -30,7 +30,7 @@ extern int fn_82520158();
 extern int fn_82560100();
 extern unsigned int lbl_82192480;
 extern unsigned int lbl_821C7F50;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorAddFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -73,7 +73,7 @@ void fn_825A2810(int param_1,int param_2)
     uVar6 = *(uint *)(param_1 + 0x630);
     uVar1 = *(uint *)(param_1 + 0x634);
     if (uVar6 < uVar1) {
-      dVar7 = (double)lbl_821CC160;
+      dVar7 = (double)ltcg_pool_0_0f;
       do {
         if ((uVar5 & 3) == 0) {
           puVar2 = (undefined4 *)((uint)(&lbl_821C7F50 + (int)in_r0) & 0xfffffff0);

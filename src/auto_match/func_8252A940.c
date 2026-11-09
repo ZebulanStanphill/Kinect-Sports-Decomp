@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 #define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8252A940(int param_1)
@@ -47,7 +47,7 @@ void fn_8252A940(int param_1)
   uVar2 = lbl_821CA460;
   pfVar5 = (float *)(param_1 + 0x210);
   puVar7 = (undefined8 *)(param_1 + 0x1f0);
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   lVar4 = 2;
   do {
     *puVar7 = CONCAT44(uVar2,uVar2);

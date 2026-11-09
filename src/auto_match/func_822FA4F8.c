@@ -30,7 +30,7 @@ extern int fn_822ABA88();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CCA68;
 extern unsigned int lbl_831CCA6C;
 extern unsigned int lbl_83265A28;
@@ -99,8 +99,8 @@ double fn_822FA4F8(int param_1)
   puVar6[3] = uVar14;
   fVar2 = lbl_821CA460;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((afStack_30[0] < lbl_821CC160) << 2) |
-                (uint)(NAN(afStack_30[0]) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((afStack_30[0] < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(afStack_30[0]) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar2 = fVar9;
   }
   return (double)(((fVar1 - fVar7) * ((float)(uVar8 | 0x3f800000) - lbl_821CA460) + fVar7) * -fVar2)

@@ -32,7 +32,7 @@ extern int fn_82F6A594();
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821958F8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82277768(undefined8 param_1,undefined8 param_2,ulonglong param_3)
@@ -71,24 +71,24 @@ void fn_82277768(undefined8 param_1,undefined8 param_2,ulonglong param_3)
     fVar1 = (float)(dVar8 - -dVar6);
     fVar2 = (float)(dVar9 - -dVar6);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar9 = -dVar6;
     }
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar8 = -dVar6;
     }
     dVar7 = dVar6;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(dVar9 - dVar6) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(dVar9 - dVar6)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(dVar9 - dVar6) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(dVar9 - dVar6)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar7 = dVar9;
     }
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(dVar8 - dVar6) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(dVar8 - dVar6)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(dVar8 - dVar6) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(dVar8 - dVar6)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar6 = dVar8;
     }
     *(float *)(iVar5 + 0x14) = (float)((double)*(float *)(iVar5 + 0x14) + dVar7);

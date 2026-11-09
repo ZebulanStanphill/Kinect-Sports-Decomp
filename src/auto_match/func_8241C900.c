@@ -29,7 +29,7 @@ extern int fn_822ABA88();
 extern int fn_822B67F8();
 extern int fn_822B98A8();
 extern int fn_82F64988();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8241C900(int *param_1,int *param_2,int param_3)
@@ -54,7 +54,7 @@ void fn_8241C900(int *param_1,int *param_2,int param_3)
   if ((param_1[3] - iVar2) / 0x1ac != 0) {
     iVar11 = 0;
     iVar9 = 0;
-    dVar12 = (double)lbl_821CC160;
+    dVar12 = (double)ltcg_pool_0_0f;
     do {
       piVar4 = (int *)param_1[1];
       if (piVar4 != (int *)0x0) {

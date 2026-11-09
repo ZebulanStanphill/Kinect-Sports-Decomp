@@ -14,7 +14,6 @@ typedef struct List_82267E00 {
     Node_82267E00 *head;
 } List_82267E00;
 
-extern float lbl_821CC160;
 extern void fn_8252A1B0(void *p, Vec3_82267E00 *v, int flag);
 
 static __forceinline char *Find_82267E00(List_82267E00 *list, unsigned int id)
@@ -48,7 +47,7 @@ void fn_82267E00(List_82267E00 *list, unsigned int id, float f)
     if (obj != 0) {
         target = *(void **)(obj + 0xdc);
         if (target != 0 && (*(int *)(obj + 0x52c) == 3 || *(int *)(obj + 0x52c) == 4)) {
-            v = MakeVec3_82267E00(lbl_821CC160, f, lbl_821CC160);
+            v = MakeVec3_82267E00(0.0f, f, 0.0f);
             fn_8252A1B0(target, &v, 0);
         }
     }

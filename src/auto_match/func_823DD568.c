@@ -30,7 +30,7 @@ extern float fRam831d19d4;
 extern int fn_822ABA88();
 extern int fn_8249ABC0();
 extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823DD568(int param_1)
@@ -56,7 +56,7 @@ void fn_823DD568(int param_1)
   uVar11 = (ulonglong)uVar15;
   *(undefined4 *)(param_1 + 0xd8) = 0;
   *(undefined4 *)(param_1 + 0xe4) = 0;
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x270) = 0;
   *(undefined4 *)(param_1 + 0xdc) = uVar2;
   if ((*(float *)(uVar15 + 0x47c) < *(float *)(uVar15 + 0x474)) &&

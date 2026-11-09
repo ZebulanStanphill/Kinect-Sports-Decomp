@@ -52,7 +52,7 @@ extern int fn_82397F88();
 extern unsigned int iStack_8c;
 extern unsigned int iStack_94;
 extern unsigned int iStack_9c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern V16 vectorSubtractFloatingPoint();
@@ -161,10 +161,10 @@ undefined8 fn_822F3B50(double param_1,int param_2)
       fVar2 = *(float *)(param_2 + 0xbc);
       fVar1 = (float)((double)fVar2 - param_1);
       *(float *)(param_2 + 0xbc) = fVar1;
-      if ((double)lbl_821CC160 <= (double)fVar1) {
+      if ((double)ltcg_pool_0_0f <= (double)fVar1) {
         return 0;
       }
-      if ((double)fVar2 < (double)lbl_821CC160) {
+      if ((double)fVar2 < (double)ltcg_pool_0_0f) {
         return 0;
       }
       fn_822C72E0(*(undefined4 *)(*(int *)(*(int *)(param_2 + 0xc) + 0x114) + 0x20),

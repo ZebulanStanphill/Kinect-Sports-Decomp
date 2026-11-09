@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822A6F38();
 extern unsigned int lbl_821917C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822A6998(int param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4)
@@ -35,8 +35,8 @@ void fn_822A6998(int param_1,undefined4 *param_2,undefined8 param_3,undefined8 p
 {
   double dVar1;
   
-  dVar1 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x528) = lbl_821CC160;
+  dVar1 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x528) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x110) = *param_2;
   if (*(int *)(param_1 + 0x108) == 3) {
     fn_822A6F38(dVar1,(double)lbl_821917C0,param_1,param_1 + 0x110,param_3,param_4,1);

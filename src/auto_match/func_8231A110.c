@@ -42,7 +42,7 @@ extern unsigned int lbl_821AF968;
 extern unsigned int lbl_821C0F10;
 extern unsigned int lbl_821C0F1C;
 extern unsigned int lbl_821C2424;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_60;
 extern unsigned int uStack_64;
 
@@ -91,8 +91,8 @@ undefined4 * fn_8231A110(undefined4 *param_1,int param_2,undefined4 param_3,unde
   *(undefined1 *)(param_1 + 0xa8) = 0;
   *(undefined1 *)((int)param_1 + 0x2a1) = 0;
   *(undefined1 *)((int)param_1 + 0x2a2) = 0;
-  fVar3 = lbl_821CC160;
-  dVar14 = (double)lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
+  dVar14 = (double)ltcg_pool_0_0f;
   *(undefined1 *)((int)param_1 + 0x2a3) = 0;
   param_1[0xa9] = 0;
   param_1[0xab] = 0;

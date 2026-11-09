@@ -32,7 +32,7 @@ extern unsigned int fStack_28;
 extern unsigned int fStack_2c;
 extern unsigned int fStack_30;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C08DC;
 extern unsigned int lbl_831C08E0;
 extern unsigned int lbl_831C08E4;
@@ -93,7 +93,7 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
   uVar15 = lbl_831C08E4;
   uVar14 = lbl_831C08E0;
   uVar13 = lbl_831C08DC;
-  fVar12 = lbl_821CC160;
+  fVar12 = ltcg_pool_0_0f;
   bVar1 = (int)lbl_831C08E0 < 0;
   uVar3 = lbl_831C08E0 & 1;
   iVar16 = (int)lbl_831C08E0 >> 1;

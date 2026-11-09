@@ -65,7 +65,7 @@ extern int fn_82F691F0();
 extern unsigned int lbl_820E975C;
 extern unsigned int lbl_82192A40;
 extern unsigned int lbl_821BBD08;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12D4;
 extern unsigned int lbl_832765B8;
 extern unsigned int lbl_832765BC;
@@ -162,8 +162,8 @@ undefined4 * fn_8245E9D8(undefined4 *param_1,int param_2)
     }
     param_1[0x26] = uVar6;
   }
-  dVar12 = (double)lbl_821CC160;
-  param_1[0x16] = lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
+  param_1[0x16] = ltcg_pool_0_0f;
   uVar8 = fn_8251F720(param_2 + 0x60,0);
   iVar7 = fn_8265C9E0(0x40);
   if (iVar7 == 0) {

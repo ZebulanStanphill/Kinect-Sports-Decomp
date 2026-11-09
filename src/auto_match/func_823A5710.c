@@ -3,7 +3,6 @@ extern int fn_82398DA0(void *p, void *q);
 extern int fn_823ADF20(void *p);
 extern int fn_82490FC8(int a);
 extern int fn_8265CA20(void *p);
-extern float lbl_821CC160;
 
 typedef struct {
   char pad[0x94];
@@ -44,7 +43,7 @@ void fn_823A5710(Obj *p)
     fn_8265CA20(c);
   }
   in->child = 0;
-  p->inner->f204 = lbl_821CC160;
+  p->inner->f204 = 0.0f;
   in = p->inner;
   in->f220 = 0;
   in->f224 = 0;

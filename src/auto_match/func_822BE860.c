@@ -30,7 +30,7 @@ extern int fn_82320B00();
 extern int fn_824CCD80();
 extern int fn_8252AFE0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822BE860(int param_1,int param_2)
@@ -43,7 +43,7 @@ void fn_822BE860(int param_1,int param_2)
     iVar1 = *(int *)(param_1 + 0x7dc);
     uVar2 = 0;
     *(undefined4 *)(iVar1 + 0x1c) = 0;
-    fn_8252AFE0((double)lbl_821CC160,*(undefined4 *)(iVar1 + 4));
+    fn_8252AFE0((double)ltcg_pool_0_0f,*(undefined4 *)(iVar1 + 4));
     iVar1 = *(int *)(param_1 + 0x7e4);
     *(undefined4 *)(iVar1 + 0x1c) = uVar2;
     fn_8252AFE0(*(undefined4 *)(iVar1 + 4));
@@ -63,7 +63,7 @@ void fn_822BE860(int param_1,int param_2)
     *(undefined4 *)(iVar1 + 0x20) = uVar2;
     *(undefined4 *)(iVar1 + 0x1c) = 1;
     fn_824CCD80(*(undefined4 *)(param_1 + 0x24));
-    fn_822B70F0((double)lbl_821CC160,param_1);
+    fn_822B70F0((double)ltcg_pool_0_0f,param_1);
     if (*(int *)(param_1 + 0x7d4) != 0) {
       fn_82320B00(*(int *)(param_1 + 0x7d4),1);
     }

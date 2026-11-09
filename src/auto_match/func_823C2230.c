@@ -38,7 +38,7 @@ extern int fn_823C1DA8();
 extern int fn_823C25C0();
 extern int fn_823C2950();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -122,8 +122,8 @@ void fn_823C2230(int param_1,int param_2)
   vectorMinimumFloatingPoint(in_vs45,in_vs32);
   vectorMaximumFloatingPoint(in_vs45,in_vs32);
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar7 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar7) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar7 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar7) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar4 = fVar3;
   }
   dVar14 = (double)(fVar4 * *(float *)(param_2 + 0x280));

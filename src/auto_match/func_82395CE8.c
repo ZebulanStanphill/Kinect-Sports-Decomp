@@ -42,7 +42,7 @@ extern int fn_825603C8();
 extern int fn_825604A0();
 extern int iRam831c996c;
 extern unsigned int lbl_821B518C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 
 
@@ -60,8 +60,8 @@ void fn_82395CE8(int *param_1,int param_2,int param_3)
   
   param_1[0xa8] = 1;
   param_1[0x3c] = 1;
-  dVar7 = (double)lbl_821CC160;
-  param_1[0x21e] = (int)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
+  param_1[0x21e] = (int)ltcg_pool_0_0f;
   fn_82396F50();
   fn_82396518(param_1);
   puVar1 = (undefined4 *)param_1[0xb8];

@@ -39,7 +39,7 @@ extern int fn_82639EA8();
 extern int fn_8263A1B8();
 extern int fn_8263A508();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12B8;
 extern unsigned int lbl_831D12BC;
 extern unsigned int lbl_831D12C0;
@@ -95,7 +95,7 @@ void fn_822A1F70(void)
   if (lbl_831D12B8 != 0) {
     uStack_68 = 0x500;
     uStack_60 = lbl_821CA460;
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     uStack_8c = (undefined4)(longlong)*(float *)(lbl_8320A898 + 0x3220);
     uStack_48 = uStack_8c;
     uStack_80 = ((((U64)(uStack_80)) & (~(((U64)0xFFFFFFFF) << 32))) | ((((U64)((undefined4)(longlong)*(float *)(lbl_8320A898 + 0x3224))) & ((U64)0xFFFFFFFF)) << 32));
@@ -105,7 +105,7 @@ void fn_822A1F70(void)
     uStack_40 = *(undefined4 *)(lbl_8320A898 + 0x3228);
     uStack_3c = *(undefined4 *)(lbl_8320A898 + 0x322c);
     uStack_64 = 0x2d0;
-    fStack_5c = lbl_821CC160;
+    fStack_5c = ltcg_pool_0_0f;
     uStack_50 = uStack_8c;
     uStack_4c = (((U64)(uStack_80) >> 32) & 0xFFFFFFFF);
     uStack_70 = 0;

@@ -41,7 +41,7 @@ extern int fn_82637B30();
 extern int fn_82639EA8();
 extern int memcpy();
 extern unsigned int iStack_104;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B370;
 extern unsigned int uStack_108;
 extern unsigned int uStack_10c;
@@ -101,7 +101,7 @@ void fn_825ECEF0(int param_1)
   iVar12 = iVar4 * 0x200 + iVar5;
   memcpy(auStack_80,iVar12 + 0x50,0x40);
   memcpy(auStack_c0,iVar12 + 0x90,0x40);
-  uStack_ec = lbl_821CC160;
+  uStack_ec = ltcg_pool_0_0f;
   uStack_108 = *(undefined4 *)(iVar5 + 0xae4);
   stack_pair_110.first = *(undefined4 *)(param_1 + 0x10);
   piVar7 = *(int **)((*(uint *)(iVar5 + 0xaf0) % 3 + 5) * 4 + param_1);

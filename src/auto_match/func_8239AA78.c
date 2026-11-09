@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8239AA78(int param_1,int param_2)
@@ -68,7 +68,7 @@ undefined8 fn_8239AA78(int param_1,int param_2)
       puVar3[1] = uVar4;
       puVar3[2] = uVar5;
       puVar3[3] = uVar6;
-      if (fStack_8 < lbl_821CC160) {
+      if (fStack_8 < ltcg_pool_0_0f) {
         return 1;
       }
     }

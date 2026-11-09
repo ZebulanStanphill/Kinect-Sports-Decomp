@@ -31,7 +31,7 @@ extern int fn_827F2D60();
 extern int fn_827F6418();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
@@ -52,7 +52,7 @@ void fn_824FDB18(int param_1,int param_2,int param_3)
     if (iVar2 != 0) {
       uStack_1c = *(undefined4 *)(iVar3 + 0x38);
       uStack_20 = 0;
-      uVar1 = fn_8255F8D0((double)lbl_821CC160,(double)lbl_821CA460,&uStack_20);
+      uVar1 = fn_8255F8D0((double)ltcg_pool_0_0f,(double)lbl_821CA460,&uStack_20);
       *(int *)(param_1 + 0xb80) = (int)uVar1;
       fn_827F6418(uVar1,0);
       fn_827F2D60((double)lbl_8218E8E8,*(undefined4 *)(param_1 + 0xb74),

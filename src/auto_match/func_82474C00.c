@@ -33,7 +33,7 @@ extern int fn_8252CAF8();
 extern int fn_82547C80();
 extern int fn_82F4EBE8();
 extern int iRam831c6690;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F844;
 
 
@@ -74,7 +74,7 @@ void fn_82474C00(int param_1)
     piVar13 = piVar13 + 2;
   } while (lVar11 != 0);
   lVar11 = -1;
-  dVar16 = (double)lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
   dVar17 = dVar16;
   iVar4 = fn_8249ABC0();
   iVar1 = *(int *)(iVar4 + 0x4c);

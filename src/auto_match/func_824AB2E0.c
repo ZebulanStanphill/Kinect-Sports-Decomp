@@ -33,7 +33,7 @@ extern int fn_824AA3D8();
 extern unsigned int lbl_8219145C;
 extern unsigned int lbl_8219146C;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_824AB2E0(int param_1,undefined8 param_2)
@@ -78,7 +78,7 @@ double fn_824AB2E0(int param_1,undefined8 param_2)
   puVar3[2] = uVar11;
   puVar3[3] = uVar12;
   dVar6 = (double)fStack_1c;
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   if ((double)fVar1 <= dVar6) {
     dVar9 = (double)pfVar5[1];
     if (*(float *)(&lbl_821954D8 +

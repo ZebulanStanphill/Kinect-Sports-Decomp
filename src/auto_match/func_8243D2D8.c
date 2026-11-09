@@ -47,7 +47,7 @@ extern unsigned int iStack_100;
 extern unsigned int iStack_120;
 extern unsigned int iStack_fc;
 extern unsigned int lbl_82196320;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x0000001c;
 extern unsigned int uStack0000001c;
 extern unsigned int uStack_108;
@@ -98,7 +98,7 @@ void fn_8243D2D8(int param_1,undefined4 param_2,ulonglong param_3,ulonglong para
   uVar10 = 0;
   if ((int)(puVar8[1] - *puVar8) / 0x30 != 0) {
     lVar11 = 0;
-    dVar13 = (double)lbl_821CC160;
+    dVar13 = (double)ltcg_pool_0_0f;
     uStack0000001c = param_2;
     do {
       fn_8243DAE0(&iStack_100,lVar11 + (ulonglong)*puVar8 + 0x1c,&stack0x0000001c);

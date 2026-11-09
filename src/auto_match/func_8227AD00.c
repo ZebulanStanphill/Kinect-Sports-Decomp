@@ -39,7 +39,7 @@ extern unsigned int iStack_314;
 extern unsigned int iStack_31c;
 extern unsigned int iStack_324;
 extern unsigned int lbl_821A86E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8227AD00(undefined4 *param_1,undefined8 param_2)
@@ -63,7 +63,7 @@ void fn_8227AD00(undefined4 *param_1,undefined8 param_2)
   
   fn_822794D0(param_1,param_2,0,1,0);
   param_1[0x28d] = 0;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   param_1[0x28e] = 0;
   param_1[0x28c] = uVar1;
   *param_1 = &lbl_821A86E8;

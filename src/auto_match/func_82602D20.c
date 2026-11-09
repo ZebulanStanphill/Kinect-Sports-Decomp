@@ -37,7 +37,6 @@ extern Mid_82602D20 *fn_82549960(void *, void *, int, int, int, int);
 extern void fn_8265B648(void *, int);
 extern int fn_8251F720(void *, int);
 extern void fn_82602390(void *, void *, float);
-extern float lbl_821CC160;
 extern float lbl_8327F880[];
 typedef struct Slot_82602D20 { char pad[0xa2]; unsigned short id; char pad2[0x1d0 - 0xa4]; } Slot_82602D20;
 typedef struct Obj_82602D20 { char pad[6]; short n; char pad1[0x24c]; int f254; char pad2[0x1c]; Mid_82602D20 *f274; char pad3[0x18]; unsigned f290; int f294; int pad4[2]; Slot_82602D20 slots[1]; } Obj_82602D20;
@@ -69,7 +68,7 @@ void fn_82602D20(P1_82602D20 *p1, Obj_82602D20 *o)
     o->f290 = 0;
   }
   if (o->f254 == 7) {
-    float t = lbl_821CC160;
+    float t = 0.0f;
     if (p1->f838 <= t) t = p1->f820 * lbl_8327F880[5];
     fn_82602390(p1, o, t);
   }

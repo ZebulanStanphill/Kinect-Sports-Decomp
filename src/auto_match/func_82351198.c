@@ -49,7 +49,7 @@ extern int fn_82F691F0();
 extern unsigned int lbl_820E975C;
 extern unsigned int lbl_82192604;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D44F8;
 extern unsigned int lbl_831D4508;
 extern unsigned int lbl_831D450C;
@@ -121,7 +121,7 @@ void fn_82351198(int param_1)
     }
     if ((puVar7 != (uint *)0x0) &&
        (uVar8 = (ulonglong)*puVar7, uVar8 != (uVar8 - 1) + (ulonglong)(uVar8 == 0))) {
-      uVar6 = fn_8255B1E0((double)lbl_821CC160,iVar4,puVar7,1,0,1,param_1 + 0x314,1);
+      uVar6 = fn_8255B1E0((double)ltcg_pool_0_0f,iVar4,puVar7,1,0,1,param_1 + 0x314,1);
       *(undefined4 *)(param_1 + 800) = uVar6;
       fn_82351510(param_1,1);
       pcVar9 = (char *)(param_1 + 0x2cc);
@@ -171,7 +171,7 @@ void fn_82351198(int param_1)
     *(undefined4 *)(param_1 + 0x31c) = 0;
   }
   *(undefined4 *)(param_1 + 800) = 0;
-  lbl_831D44F8 = lbl_821CC160;
+  lbl_831D44F8 = ltcg_pool_0_0f;
   lbl_831D450C = 0xff;
   lbl_831D4508 = 0;
   fn_82864988(auStack_460,0xffffffff821b20bc);

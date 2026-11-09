@@ -41,7 +41,7 @@ extern int fn_8287FD98();
 extern unsigned int lbl_82193CC0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1A4C;
 extern unsigned int lbl_831D1A50;
 extern unsigned int lbl_832975B0;
@@ -64,7 +64,7 @@ void fn_823DDF88(double param_1,int param_2)
   int aiStack_60 [24];
   
   iVar2 = *(int *)(param_2 + 8);
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   if (*(int *)(iVar2 + 0xf9c) != 0) {
     fVar1 = (float)((double)*(float *)(iVar2 + 0xfa8) + param_1);
     *(float *)(iVar2 + 0xfa8) = fVar1;

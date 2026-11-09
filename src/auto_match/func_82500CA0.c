@@ -49,7 +49,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821C223C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265988;
 extern unsigned int lbl_83297B04;
 extern unsigned int lbl_8329E624;
@@ -117,7 +117,7 @@ void fn_82500CA0(int param_1,undefined8 param_2)
         *(undefined1 *)(param_1 + 0xb68) = 1;
         if (*(int *)(param_1 + 0xfec) != 0) {
           fn_8255F880(auStack_50,param_1 + 0xfec);
-          dVar12 = (double)lbl_821CC160;
+          dVar12 = (double)ltcg_pool_0_0f;
           lVar5 = fn_8255F8D0(dVar12,(double)lbl_821CA460,auStack_50);
           *(int *)(param_1 + 0xff0) = (int)lVar5;
           if (lVar5 != 0) {

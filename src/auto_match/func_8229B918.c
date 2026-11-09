@@ -45,7 +45,7 @@ extern int fn_828647D8();
 extern int fn_82864898();
 extern int fn_82864988();
 extern unsigned int iStack_44;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8229B918(undefined4 *param_1)
@@ -61,7 +61,7 @@ void fn_8229B918(undefined4 *param_1)
   int iStack_44;
   undefined1 auStack_40 [40];
   
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   puVar4 = param_1 + 0xe;
   lVar5 = 2;
   do {

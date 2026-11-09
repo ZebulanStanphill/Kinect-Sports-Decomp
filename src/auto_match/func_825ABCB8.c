@@ -42,7 +42,7 @@ extern int fn_82F6A594();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83297910;
 extern unsigned int lbl_83297920;
 
@@ -126,7 +126,7 @@ void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
                                       ,(double)(lbl_821CA460 - (fVar2 + (float)(dVar14 * dVar11))),
                                       dVar10);
         dVar11 = (double)fn_82809D40(-dVar16,dVar17);
-        fStack_6c = lbl_821CC160;
+        fStack_6c = ltcg_pool_0_0f;
       }
       else {
         dVar10 = (double)fn_82809D40((double)((float)(dVar11 * dVar15) + (float)(dVar13 * dVar12)),

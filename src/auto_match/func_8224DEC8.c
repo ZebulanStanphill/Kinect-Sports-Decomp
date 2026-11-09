@@ -36,7 +36,7 @@ extern unsigned int iStack_f5c;
 extern unsigned int iStack_f60;
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821985F4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832760A8;
 extern unsigned int lbl_832760A9;
 extern unsigned int uStack_f58;
@@ -77,7 +77,7 @@ bool fn_8224DEC8(int *param_1,int *param_2)
   if (iVar3 == 0) {
 LAB_8224df30:
     iVar3 = fn_82292AE8();
-    if (*(float *)(iVar3 + 0x5c) == lbl_821CC160) {
+    if (*(float *)(iVar3 + 0x5c) == ltcg_pool_0_0f) {
       *(float *)(iVar3 + 0x5c) = lbl_82005748;
     }
     bVar5 = false;
@@ -104,7 +104,7 @@ LAB_8224df30:
     }
     iVar3 = fn_82292AE8();
     if (*(float *)(iVar3 + 0x5c) == lbl_82005748) {
-      *(float *)(iVar3 + 0x5c) = lbl_821CC160;
+      *(float *)(iVar3 + 0x5c) = ltcg_pool_0_0f;
     }
     if ((lbl_832760A8 != '\0') || (bVar5 = false, lbl_832760A9 != '\0')) {
       bVar5 = true;

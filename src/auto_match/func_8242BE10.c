@@ -24,7 +24,6 @@ typedef struct Obj_8242BE10 {
 
 extern int fn_8242E3E0(Obj_8242BE10 *p);
 extern void fn_8243A970(void *p, float f);
-extern float lbl_821CC160;
 
 void fn_8242BE10(Obj_8242BE10 *p, float f)
 {
@@ -35,7 +34,7 @@ void fn_8242BE10(Obj_8242BE10 *p, float f)
         in = p->sub->mid->inner;
         if (in != 0) {
             in->flag30 = 0;
-            v = lbl_821CC160;
+            v = 0.0f;
             in->f50 = v;
             in->f54 = v;
         }

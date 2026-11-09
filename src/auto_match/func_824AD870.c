@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_824AD870(int param_1)
@@ -33,8 +33,8 @@ undefined8 fn_824AD870(int param_1)
 {
   undefined4 uVar1;
   
-  uVar1 = lbl_821CC160;
-  *(undefined4 *)(param_1 + 100) = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
+  *(undefined4 *)(param_1 + 100) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x68) = uVar1;
   *(undefined4 *)(param_1 + 0x6c) = uVar1;
   *(undefined4 *)(param_1 + 0x70) = uVar1;

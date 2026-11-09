@@ -37,7 +37,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821954E0;
 extern unsigned int lbl_821955A8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327FBA4;
 extern unsigned int lbl_8327FBA8;
 extern unsigned int lbl_8327FBAC;
@@ -152,7 +152,7 @@ code_r0x8254c5b0:
     lVar9 = 0;
     dVar22 = (double)lbl_8218E8FC;
     dVar19 = (double)lbl_82193AF0;
-    dVar23 = (double)lbl_821CC160;
+    dVar23 = (double)ltcg_pool_0_0f;
     do {
       if (uVar8 + 8 < uVar11) {
         dataCacheBlockTouch(lVar9 + (ulonglong)*puVar13 + 0x300);

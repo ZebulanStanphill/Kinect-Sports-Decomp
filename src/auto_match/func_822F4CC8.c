@@ -35,7 +35,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CCE10;
 
 
@@ -67,7 +67,7 @@ double fn_822F4CC8(int param_1,int param_2)
     else {
       piVar1 = *(int **)(iVar2 + 0x100);
     }
-    dVar5 = (double)lbl_821CC160;
+    dVar5 = (double)ltcg_pool_0_0f;
     dVar7 = (double)lbl_821CA460;
     dVar6 = dVar5;
     if ((piVar1 != (int *)0x0) && (iVar2 = fn_824CCFC8(), dVar6 = dVar5, iVar2 != 0)) {

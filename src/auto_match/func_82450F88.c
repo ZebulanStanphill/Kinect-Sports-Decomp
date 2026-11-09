@@ -36,7 +36,7 @@ extern unsigned int lbl_821B8268;
 extern unsigned int lbl_821B9B00;
 extern unsigned int lbl_821B9B14;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_82450F88(undefined4 *param_1,int param_2)
@@ -72,7 +72,7 @@ undefined4 * fn_82450F88(undefined4 *param_1,int param_2)
   param_1[9] = 0;
   uVar1 = lbl_8218E8E8;
   param_1[10] = 0;
-  uVar4 = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
   uVar3 = lbl_82192480;
   *(undefined1 *)(param_1 + 0xc) = 0;
   uVar2 = lbl_821917C4;

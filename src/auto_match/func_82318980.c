@@ -34,7 +34,7 @@ extern unsigned int lbl_82195598;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_821959B8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -67,7 +67,7 @@ void fn_82318980(double param_1,longlong param_2)
   lVar6 = param_2 + 0x14;
   dVar12 = (double)lbl_821959B8;
   lVar5 = 7;
-  dVar13 = (double)lbl_821CC160;
+  dVar13 = (double)ltcg_pool_0_0f;
   dVar11 = (double)lbl_82195644;
   dVar10 = lbl_82195598;
   do {

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_82F68B6C();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82469458(double param_1,int *param_2)
@@ -40,17 +40,17 @@ void fn_82469458(double param_1,int *param_2)
   int iVar4;
   undefined8 uVar5;
   
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   iVar4 = *param_2;
   if (iVar4 == 6) {
     if (param_2[5] == 0) {
       return;
     }
     fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = lbl_821CC160;
+    fVar2 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar2 = (float)((double)(float)param_2[5] - param_1);
     }
     param_2[5] = (int)fVar2;
@@ -65,10 +65,10 @@ void fn_82469458(double param_1,int *param_2)
       return;
     }
     fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = lbl_821CC160;
+    fVar2 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar2 = (float)((double)(float)param_2[5] - param_1);
     }
     param_2[5] = (int)fVar2;
@@ -86,10 +86,10 @@ void fn_82469458(double param_1,int *param_2)
       return;
     }
     fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = lbl_821CC160;
+    fVar2 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar2 = (float)((double)(float)param_2[5] - param_1);
     }
     param_2[5] = (int)fVar2;

@@ -39,7 +39,7 @@ extern unsigned int iStack_60;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821925C0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1B50;
 
 
@@ -96,14 +96,14 @@ int fn_8237F198(int param_1,longlong param_2)
     puVar3[1] = uVar10;
     puVar3[2] = uVar11;
     puVar3[3] = uVar12;
-    fVar7 = lbl_821CC160;
+    fVar7 = ltcg_pool_0_0f;
     puVar8 = auStack_40;
     puVar1 = (undefined4 *)(iStack_60 + 0x20U & 0xfffffff0);
     uVar10 = *puVar1;
     uVar11 = puVar1[1];
     uVar12 = puVar1[2];
     uVar13 = puVar1[3];
-    bVar9 = lbl_821CC160 <= fStack_4c;
+    bVar9 = ltcg_pool_0_0f <= fStack_4c;
     puVar1 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
     *puVar1 = uVar10;
     puVar1[1] = uVar11;

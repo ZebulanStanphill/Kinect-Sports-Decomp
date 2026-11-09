@@ -2,7 +2,7 @@ typedef unsigned int undefined4;
 typedef unsigned __int64 undefined8;
 extern void fn_82366908(undefined4 *, undefined8, undefined8);
 extern undefined4 lbl_821B7B38;
-extern float lbl_821CC160;
+extern float ltcg_pool_0_0f;
 
 undefined4 *
 fn_82400E48(undefined4 *param_1,undefined4 param_2,undefined8 param_3,undefined4 *param_4)
@@ -18,7 +18,7 @@ fn_82400E48(undefined4 *param_1,undefined4 param_2,undefined8 param_3,undefined4
   param_1[0x92] = 0;
   param_1[0x93] = 0;
   param_1[0x94] = 0;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   param_1[0x95] = 0;
   param_1[0x96] = 0;
   param_1[0x97] = 0;

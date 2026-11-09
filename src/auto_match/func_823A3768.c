@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern int fn_82359698();
 extern int fn_82535298();
 extern int fn_82536288();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83276570;
 
 
@@ -42,7 +42,7 @@ void fn_823A3768(double param_1,int param_2)
   float fVar4;
   undefined4 auStack_20 [4];
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   fVar1 = (float)((double)*(float *)(param_2 + 0xc) - param_1);
   iVar2 = *(int *)(param_2 + 8);
   *(float *)(param_2 + 0xc) = fVar1;

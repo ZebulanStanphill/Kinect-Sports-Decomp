@@ -31,7 +31,7 @@ extern int fn_8255B490();
 extern int fn_825603C8();
 extern int fn_82566E58();
 extern int fn_82567088();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83282244;
 
 
@@ -70,7 +70,7 @@ void fn_8255AFA8(int param_1)
     fn_82567088(*(undefined4 *)(param_1 + 0x358),param_1 + 0x30);
   }
   *(undefined4 *)(param_1 + 4) = 1;
-  *(undefined4 *)(param_1 + 0x350) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x350) = ltcg_pool_0_0f;
 LAB_8255b0a8:
   fn_8255B490(param_1);
   return;

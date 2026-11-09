@@ -1,7 +1,6 @@
 extern void *fn_8265C9E0(int);
 extern void fn_824B4310(void *, int);
 extern char lbl_821C0438[];
-extern float lbl_821CC160;
 
 typedef struct Obj_824B5B00 {
   char *vt;
@@ -20,7 +19,7 @@ Obj_824B5B00 *fn_824B5B00(int a)
     float f;
     fn_824B4310(p, a);
     p->f50 = 0;
-    f = lbl_821CC160;
+    f = 0.0f;
     p->vt = lbl_821C0438;
     p->f48 = f;
     p->f54 = 0;

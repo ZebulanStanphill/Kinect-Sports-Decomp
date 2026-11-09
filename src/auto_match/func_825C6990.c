@@ -30,7 +30,7 @@ extern int fn_8265C9E0();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_821CAD2C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -46,7 +46,7 @@ void fn_825C6990(int param_1,undefined4 param_2,undefined4 param_3,undefined4 pa
   undefined4 *puVar6;
   
   puVar6 = (undefined4 *)fn_8265C9E0(0x88);
-  uVar5 = lbl_821CC160;
+  uVar5 = ltcg_pool_0_0f;
   if (puVar6 == (undefined4 *)0x0) {
     puVar6 = (undefined4 *)0x0;
   }

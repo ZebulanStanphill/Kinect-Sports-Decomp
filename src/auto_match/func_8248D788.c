@@ -39,7 +39,7 @@ extern int fn_8263A1B8();
 extern int fn_8263A508();
 extern int fn_8263DE70();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam83297728;
 extern unsigned int uRam8329772c;
 extern unsigned int uStack_8c;
@@ -103,9 +103,9 @@ void fn_8248D788(int param_1,int param_2)
     }
     fn_8263A1B8(param_2,0,*(undefined4 *)(param_1 + 0x9c));
     stack_pair_c0.first = 0;
-    dVar2 = (double)lbl_821CC160;
+    dVar2 = (double)ltcg_pool_0_0f;
     stack_pair_c0.second = 0;
-    fStack_b0 = lbl_821CC160;
+    fStack_b0 = ltcg_pool_0_0f;
     uStack_ac = lbl_821CA460;
     uStack_b8 = *(undefined4 *)(param_1 + 0x5c);
     uStack_b4 = *(undefined4 *)(param_1 + 0x60);

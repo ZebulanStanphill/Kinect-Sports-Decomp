@@ -31,7 +31,7 @@ extern unsigned int fStack_3c;
 extern unsigned int fStack_4c;
 extern int fn_824AA530();
 extern unsigned int lbl_82195898;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -56,7 +56,7 @@ void fn_824AA168(int *param_1,undefined8 param_2)
   if (ABS(fStack_4c) <= ABS(fStack_3c)) {
     fStack_4c = fStack_3c;
   }
-  param_1[0x10] = (uint)LZCOUNT(param_1[0xf] - (uint)(lbl_821CC160 < fStack_4c)) >> 5;
+  param_1[0x10] = (uint)LZCOUNT(param_1[0xf] - (uint)(ltcg_pool_0_0f < fStack_4c)) >> 5;
   param_1[0x11] = (uint)(fVar1 < ABS(fStack_4c));
   dVar4 = (double)(**(code **)(*param_1 + 0x28))(param_1,param_2);
   param_1[0xc] = (int)(float)dVar4;

@@ -47,7 +47,7 @@ extern int fn_825521F0();
 extern int fn_8265CA20();
 extern unsigned int lbl_821B2B18;
 extern unsigned int lbl_821B2C44;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82362D40(undefined4 *param_1)
@@ -97,7 +97,7 @@ void fn_82362D40(undefined4 *param_1)
   param_1[0x20d] = 0;
   param_1[0x20b] = 0;
   pppuStack_30 = (undefined ***)0x0;
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   fn_825521F0(dVar5,(double)(float)param_1[0x1fc]);
   fn_82359C18(param_1 + 0x200);
   if (param_1[0x1f9] != 0) {

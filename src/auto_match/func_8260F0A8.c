@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_821917B4;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8260F0A8(int param_1,undefined8 param_2,int param_3)
@@ -43,7 +43,7 @@ void fn_8260F0A8(int param_1,undefined8 param_2,int param_3)
   float fVar7;
   bool bVar8;
   
-  fVar7 = lbl_821CC160;
+  fVar7 = ltcg_pool_0_0f;
   fVar6 = lbl_821917B4;
   fVar5 = lbl_8218E8FC;
   piVar3 = *(int **)(**(int **)(param_1 + 0x60) + 0x93c);
@@ -51,10 +51,10 @@ void fn_8260F0A8(int param_1,undefined8 param_2,int param_3)
     return;
   }
   fVar1 = *(float *)(param_3 + 0x10);
-  if (fVar1 <= lbl_821CC160) {
+  if (fVar1 <= ltcg_pool_0_0f) {
     return;
   }
-  bVar8 = (float)piVar3[0x14] < lbl_821CC160;
+  bVar8 = (float)piVar3[0x14] < ltcg_pool_0_0f;
   iVar2 = *(int *)(*piVar3 + 0x1a8);
   fVar4 = lbl_821CA460 / fVar1;
   piVar3[0xd] = *(int *)(iVar2 + 0x1e8);

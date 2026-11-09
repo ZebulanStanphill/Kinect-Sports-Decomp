@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8254EEB8();
 extern unsigned int iStack_20;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327FBA4;
 extern unsigned int lbl_8327FBA8;
 extern unsigned int lbl_8327FBAC;
@@ -54,7 +54,7 @@ void fn_8254EDB0(undefined8 param_1,undefined8 param_2,int param_3,ulonglong par
     if ((((int)param_4 != *(int *)(param_3 + 0x104)) ||
         (*(int *)((int)aiStack_30 + (int)((param_4 & 0xffffffff) << 2)) != *(int *)(param_3 + 0x100)
         )) || (*(int *)(param_3 + 0xf0) != 0)) {
-      fn_8254EEB8(param_1,param_2,(double)lbl_821CC160,param_3);
+      fn_8254EEB8(param_1,param_2,(double)ltcg_pool_0_0f,param_3);
       *(int *)(param_3 + 0x104) = (int)param_4;
     }
   }

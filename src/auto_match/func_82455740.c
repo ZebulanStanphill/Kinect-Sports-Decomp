@@ -31,7 +31,7 @@ extern int fn_824558D8();
 extern int fn_825521F0();
 extern unsigned int lbl_821BA96C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_2c;
 
 
@@ -46,7 +46,7 @@ void fn_82455740(float *param_1,undefined8 param_2)
   uVar1 = fn_8227CB30(param_1 + 4);
   pppuStack_20 = &ppuStack_30;
   ppuStack_30 = &lbl_821BA96C;
-  param_1[2] = lbl_821CC160;
+  param_1[2] = ltcg_pool_0_0f;
   uStack_2c = CONCAT44(fn_824558D8,param_1);
   fn_825521F0((double)lbl_821CA460,(double)*param_1,uVar1,param_2,&ppuStack_30);
   return;

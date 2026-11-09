@@ -29,7 +29,7 @@ extern int fn_822AA770();
 extern int fn_82399BA0();
 extern int fn_82399CB8();
 extern int fn_8239FC88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2B38;
 extern unsigned int lbl_831D2B80;
 
@@ -50,7 +50,7 @@ void fn_8239FAD8(double param_1,int param_2)
       return;
     }
     *(undefined4 *)(param_2 + 0x28c) = 4;
-    *(undefined4 *)(param_2 + 0x290) = lbl_821CC160;
+    *(undefined4 *)(param_2 + 0x290) = ltcg_pool_0_0f;
     uVar5 = -((int)*(uint *)(param_2 + 0x288) >> 0x1f) - 1U & *(uint *)(param_2 + 0x288);
     goto LAB_8239fc6c;
   }
@@ -83,7 +83,7 @@ void fn_8239FAD8(double param_1,int param_2)
       return;
     }
     uVar4 = -(uint)(*(int *)(param_2 + 0x28c) != 4) & 1;
-    *(undefined4 *)(param_2 + 0x290) = lbl_821CC160;
+    *(undefined4 *)(param_2 + 0x290) = ltcg_pool_0_0f;
     *(undefined4 *)(param_2 + 0x28c) = 0;
     uVar5 = *(uint *)(param_2 + 0x288);
     if ((int)*(uint *)(param_2 + 0x288) < (int)uVar4) {
@@ -110,7 +110,7 @@ LAB_8239fc08:
   uVar5 = *(uint *)(param_2 + 0x288);
   *(int *)(param_2 + 0x298) = 1 - iVar2;
   *(undefined4 *)(param_2 + 0x28c) = 3;
-  *(undefined4 *)(param_2 + 0x290) = lbl_821CC160;
+  *(undefined4 *)(param_2 + 0x290) = ltcg_pool_0_0f;
   if ((int)uVar5 < 1) {
     uVar5 = 1;
   }

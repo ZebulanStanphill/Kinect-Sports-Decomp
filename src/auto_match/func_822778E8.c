@@ -35,7 +35,7 @@ extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821958EC;
 extern unsigned int lbl_821958F8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822778E8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
@@ -55,7 +55,7 @@ void fn_822778E8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
   iVar3 = fn_82F6A540();
   fVar1 = lbl_8218E8E8;
   if ((param_3 & 0xff) != 0) {
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
   }
   dVar9 = (double)(float)(extraout_f1 * (double)lbl_821958EC);
   dVar8 = (double)(float)(extraout_f1 * (double)lbl_821958F8);
@@ -71,23 +71,23 @@ void fn_822778E8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
   fVar1 = (float)(dVar4 - -dVar8);
   fVar2 = (float)(dVar5 - -dVar9);
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar5 = -dVar9;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar4 = -dVar8;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)(((float)(dVar5 - dVar9) < lbl_821CC160) << 2) |
-                (uint)(NAN((float)(dVar5 - dVar9)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)(((float)(dVar5 - dVar9) < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN((float)(dVar5 - dVar9)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar9 = dVar5;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)(((float)(dVar4 - dVar8) < lbl_821CC160) << 2) |
-                (uint)(NAN((float)(dVar4 - dVar8)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)(((float)(dVar4 - dVar8) < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN((float)(dVar4 - dVar8)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar8 = dVar4;
   }
   *(float *)(iVar3 + 0x24) = (float)((double)*(float *)(iVar3 + 0x24) + dVar9);

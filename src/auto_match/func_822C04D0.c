@@ -30,7 +30,7 @@ extern int fn_82320BE0();
 extern int fn_82321138();
 extern int fn_8232B210();
 extern int fn_82F63108();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822C04D0(int param_1,uint param_2)
@@ -39,9 +39,9 @@ void fn_822C04D0(int param_1,uint param_2)
   undefined4 uVar1;
   undefined8 uVar2;
   
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   if (*(int *)(param_1 + 0x788) == 2) {
-    *(undefined4 *)(param_1 + 0x4ec) = lbl_821CC160;
+    *(undefined4 *)(param_1 + 0x4ec) = ltcg_pool_0_0f;
     *(undefined4 *)(param_1 + 0x4f0) = uVar1;
     fn_82321138(param_1 + 0x528,param_1);
   }

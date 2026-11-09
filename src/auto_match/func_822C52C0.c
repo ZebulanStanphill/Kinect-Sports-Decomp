@@ -46,7 +46,7 @@ extern int fn_82811238();
 extern int fn_82811438();
 extern int fn_82F68CC0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_822C52C0(undefined8 param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4,
@@ -76,9 +76,9 @@ bool fn_822C52C0(undefined8 param_1,undefined8 param_2,ulonglong param_3,undefin
   puVar9[1] = in_register_000104d4;
   puVar9[2] = in_register_000104d8;
   puVar9[3] = in_vr77;
-  *param_6 = lbl_821CC160;
+  *param_6 = ltcg_pool_0_0f;
   fn_8255F880(auStack_c0,param_2);
-  puVar9 = (undefined4 *)fn_8255F8D0((double)lbl_821CC160,(double)lbl_821CA460,auStack_c0);
+  puVar9 = (undefined4 *)fn_8255F8D0((double)ltcg_pool_0_0f,(double)lbl_821CA460,auStack_c0);
   fn_827F3C20();
   uVar2 = fn_827F7210();
   bVar1 = (param_3 & 0xffffffff) < (uVar2 & 0xffff);

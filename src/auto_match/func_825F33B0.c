@@ -73,7 +73,7 @@ extern unsigned int lbl_821954D0;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_82195830;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326C250;
 extern unsigned int lbl_83296C80;
@@ -245,8 +245,8 @@ void fn_825F33B0(undefined8 param_1,undefined8 param_2,longlong param_3)
   uStack_198 = uStack_134;
   uStack_194 = uStack_124;
   dVar17 = (double)fn_82F65E20(lbl_82195830);
-  dVar16 = (double)lbl_821CC160;
-  fStack_180 = lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
+  fStack_180 = ltcg_pool_0_0f;
   fStack_184 = (float)(dVar19 / (double)(float)dVar17);
   if ((double)fStack_118 <= dVar16) {
     fStack_1e0 = -fStack_1e0;
@@ -255,7 +255,7 @@ void fn_825F33B0(undefined8 param_1,undefined8 param_2,longlong param_3)
   iStack_16c = piVar12[0x18];
   iStack_168 = piVar12[0x19];
   iStack_164 = piVar12[0x1a];
-  fStack_178 = lbl_821CC160;
+  fStack_178 = ltcg_pool_0_0f;
   uStack_174 = (((U64)(uStack_1f0) >> 0) & 0xFFFFFFFF);
   fStack_17c = fStack_1e0;
   uVar11 = fn_826310E0(iVar7,0xc0,&uStack_1d0,7,0xc000);

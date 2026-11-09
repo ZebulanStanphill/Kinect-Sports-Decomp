@@ -42,7 +42,7 @@ extern unsigned int lbl_821985F4;
 extern unsigned int lbl_821A7FF4;
 extern unsigned int lbl_821A8C90;
 extern unsigned int lbl_821A9D60;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_230;
 
 
@@ -72,7 +72,7 @@ void fn_82290F40(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
   param_1[0x59] = 0;
   param_1[0x5a] = 0;
   param_1[0x5c] = 0;
-  param_1[0x5b] = lbl_821CC160;
+  param_1[0x5b] = ltcg_pool_0_0f;
   param_1[0x4d] = param_1;
   param_1[0x4e] = fn_82291398;
   param_1[0x4f] = fn_82BA02A8;

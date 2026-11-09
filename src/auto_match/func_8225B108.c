@@ -42,7 +42,7 @@ extern int fn_82672C20();
 extern int fn_828EA610();
 extern int fn_82F64840();
 extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832767C8;
 extern unsigned int lbl_8327F894;
 extern unsigned int lbl_83283E40;
@@ -99,7 +99,7 @@ void fn_8225B108(void)
     uStack_26c = 0;
     if (piRam83276538[1] != 0) {
       piRam83276538[1] = 0;
-      piVar4[4] = lbl_821CC160;
+      piVar4[4] = ltcg_pool_0_0f;
       fn_82273CD8(&uStack_270,4);
       pcStack_268 = "appear";
       fn_82672C20(piVar4[2],0xffffffff821ab71c,&uStack_270,1);

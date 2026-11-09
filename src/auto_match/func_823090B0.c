@@ -29,7 +29,7 @@ extern unsigned int *auStack_40;
 extern int fn_822C5B18();
 extern int fn_823000E0();
 extern int fn_8230BBC0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823090B0(int param_1)
@@ -45,7 +45,7 @@ void fn_823090B0(int param_1)
   undefined4 in_vr77;
   undefined1 auStack_40 [1];
   
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x30) = 0;
   *(undefined4 *)(param_1 + 0x34) = uVar3;
   *(undefined4 *)(param_1 + 0x50) = 0;

@@ -35,7 +35,7 @@ extern unsigned int lbl_821CA1A0;
 extern unsigned int lbl_821CA1A4;
 extern unsigned int lbl_821CA1A8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
@@ -96,7 +96,7 @@ int * fn_823215F0(int *param_1,int *param_2,undefined8 param_3,int param_4)
   }
   fn_8252CAF8(param_1[1],1,*(uint *)(param_4 + 0x2c) & 0xff);
   param_1[7] = 0;
-  fn_8252AFE0((double)lbl_821CC160,param_1[1]);
+  fn_8252AFE0((double)ltcg_pool_0_0f,param_1[1]);
   return param_1;
 }
 

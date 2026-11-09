@@ -30,7 +30,7 @@ extern int fn_82273C88();
 extern int fn_82273CD8();
 extern int fn_82279C58();
 extern int fn_82672C20();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_2c;
 extern unsigned int uStack_30;
 extern unsigned int uStack_40;
@@ -99,7 +99,7 @@ LAB_8227b76c:
   stack_pair_30.first = 0;
   stack_pair_30.second = 0;
   uStack_40 = (longlong)*(int *)(param_1 + 0xa84);
-  *(undefined4 *)(param_1 + 0xa4c) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0xa4c) = ltcg_pool_0_0f;
   dVar3 = (double)uStack_40;
   fn_82273CD8(&stack_pair_30.first,3);
   dStack_28 = dVar3;

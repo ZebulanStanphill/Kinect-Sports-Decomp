@@ -32,7 +32,7 @@ extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_70;
 
 
@@ -81,7 +81,7 @@ void fn_8226B1F8(undefined8 param_1,float *param_2,float *param_3,float *param_4
   if ((bVar11) && (bVar7)) {
     fVar3 = *(float *)(iVar8 + 0xa8) - *param_2;
     fVar5 = *(float *)(iVar8 + 0xac) - param_2[1];
-    dVar14 = (double)lbl_821CC160;
+    dVar14 = (double)ltcg_pool_0_0f;
     if ((fVar5 * fVar5 + fVar3 * fVar3 < fVar2 * fVar2) || (*(char *)(iVar8 + 0xb0) != '\0')) {
       dVar13 = (double)*(float *)(iVar8 + 0x98);
       dVar15 = (double)*(float *)(iVar8 + 0x9c);
@@ -89,7 +89,7 @@ void fn_8226B1F8(undefined8 param_1,float *param_2,float *param_3,float *param_4
       param_3[2] = *(float *)(iVar8 + 0xa4);
     }
     else {
-      param_3[2] = lbl_821CC160;
+      param_3[2] = ltcg_pool_0_0f;
       dVar17 = (double)lbl_821CA460;
       dVar15 = dVar17;
       dVar13 = dVar17;

@@ -43,7 +43,7 @@ extern int fn_82539560();
 extern unsigned int iStack_7c;
 extern unsigned int iStack_8c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CD028;
 extern unsigned int lbl_831CD02C;
 extern unsigned int lbl_831CD218;
@@ -101,7 +101,7 @@ void fn_822F0E08(int param_1)
       dVar13 = (double)fn_82539560((double)(*(float *)(*(int *)(iVar5 + 0x2e0) + 0x94) +
                                             *(float *)(iVar6 + 0x170)),
                                     (double)(fVar9 * lbl_831CD284),(double)(fVar9 * lbl_831CD288),
-                                    (double)lbl_821CC160,(double)lbl_821CA460);
+                                    (double)ltcg_pool_0_0f,(double)lbl_821CA460);
       dVar13 = dVar13 * (double)(float)((double)*(float *)(puVar8 + 0x68) -
                                        (double)*(float *)(puVar8 + 100)) +
                (double)*(float *)(puVar8 + 100);

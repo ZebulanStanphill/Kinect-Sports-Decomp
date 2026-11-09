@@ -54,7 +54,7 @@ extern __int64 lRam83275f80;
 extern __int64 lRam83275f88;
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83275B68;
 extern unsigned int lbl_83275DB8;
 extern unsigned int uRam83275d90;
@@ -108,8 +108,8 @@ code_r0x82652090:
 code_r0x82652044:
     dVar12 = (double)lbl_82005748;
     dVar13 = (double)(float)((double)fVar1 * dVar12);
-    if (dVar13 < (double)lbl_821CC160) {
-      return (double)lbl_821CC160;
+    if (dVar13 < (double)ltcg_pool_0_0f) {
+      return (double)ltcg_pool_0_0f;
     }
     if (dVar13 <= dVar12) {
       return dVar13;

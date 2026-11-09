@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_38;
 extern int fn_8252D970();
 extern int fn_8257CB40();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82569898(double param_1,int param_2)
@@ -40,10 +40,10 @@ void fn_82569898(double param_1,int param_2)
   double dVar4;
   undefined1 auStack_38 [1];
 
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   uVar2 = 0;
-  dVar4 = (double)lbl_821CC160;
-  *(float *)(param_2 + 0x54) = lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
+  *(float *)(param_2 + 0x54) = ltcg_pool_0_0f;
   *(float *)(param_2 + 0x50) = fVar1;
   if (*(int *)(param_2 + 0xd4) != 0) {
     iVar3 = 0;

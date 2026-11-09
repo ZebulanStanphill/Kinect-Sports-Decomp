@@ -98,7 +98,6 @@ struct Obj {
 };
 
 extern "C" {
-extern float lbl_821CC160;
 extern void *lbl_821C2424[];
 extern void *lbl_821C0B18[];
 extern void *lbl_821C0B30[];
@@ -132,7 +131,7 @@ extern "C" Obj *fn_824C9480(Obj *self, int arg, WeakPtr *wp, Func *func)
     }
     fn_82230300(&self->sub08, 0, 0);
     fn_82230300(&self->sub24, 0, 0);
-    self->f40 = lbl_821CC160;
+    self->f40 = 0.0f;
     unsigned int *ps = &self->size;
     *ps = 0;
     self->head = std::_Allocate(1, (MapNode *)0);

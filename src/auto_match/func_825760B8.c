@@ -40,7 +40,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_821C1A30;
 extern unsigned int lbl_821C9070;
 extern unsigned int lbl_821C9134;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 *
@@ -123,7 +123,7 @@ fn_825760B8(undefined8 param_1,undefined4 *param_2,int param_3,int param_4,undef
           if (piVar3 != (int *)0x0) {
             piVar3[1] = (int)param_2;
             piVar3[2] = 0;
-            iVar4 = lbl_821CC160;
+            iVar4 = ltcg_pool_0_0f;
             *piVar3 = (int)&lbl_821C9134;
             piVar3[3] = iVar4;
             fn_82520158(0xffffffff821c53d4,auStack_50,0);

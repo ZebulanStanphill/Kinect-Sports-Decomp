@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8236F868();
-extern float lbl_821CC160;
 
 
 void fn_823709B8(int param_1)
@@ -42,7 +41,7 @@ void fn_823709B8(int param_1)
   *(float *)((*(int *)(iVar2 + 0xc) + 4) * 4 + iVar2) = (float)(longlong)(int)fVar1;
   *(int *)(iVar2 + 0xc) = *(int *)(iVar2 + 0xc) + 1;
   fn_8236F868();
-  *(float *)(param_1 + 0x288) = lbl_821CC160;
+  *(float *)(param_1 + 0x288) = 0.0f;
   return;
 }
 

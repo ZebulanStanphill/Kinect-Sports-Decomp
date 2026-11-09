@@ -31,7 +31,7 @@ extern unsigned int lbl_82005748;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82192D74;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823A0570(int param_1,float *param_2)
@@ -45,7 +45,7 @@ void fn_823A0570(int param_1,float *param_2)
   double dVar6;
   double dVar7;
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   fVar2 = param_2[2];
   dVar5 = (double)lbl_8218E8E8;
   fVar3 = *param_2 * lbl_82005748;

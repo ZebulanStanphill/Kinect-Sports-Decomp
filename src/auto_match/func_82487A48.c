@@ -32,7 +32,7 @@ extern int fn_82359C18();
 extern int fn_8265C9E0();
 extern int fn_82F68CC0();
 extern unsigned int lbl_821BE91C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831d3e9c;
 extern unsigned int uRam831d3ea0;
 extern unsigned int uRam831d3eb8;
@@ -48,7 +48,7 @@ fn_82487A48(undefined4 *param_1,undefined4 *param_2,undefined4 param_3,undefined
   undefined4 uVar3;
   undefined1 auStack_80 [128];
   
-  param_1[3] = lbl_821CC160;
+  param_1[3] = ltcg_pool_0_0f;
   param_1[1] = 6;
   param_1[2] = 0;
   *param_1 = &lbl_821BE91C;

@@ -36,7 +36,7 @@ extern float lbl_8218E8E8;
 extern unsigned int lbl_821916F4;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DCD58;
 
 
@@ -55,7 +55,7 @@ void fn_8238BEB8(undefined8 param_1,undefined8 param_2,int param_3,int param_4,i
   undefined1 auStack_60 [1];
   
   uVar3 = fn_822CEE40(param_5);
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   if (uVar3 != 0) {
     iVar5 = (int)uVar3;
     if (*(int *)(iVar5 + 0x24) == 0) {

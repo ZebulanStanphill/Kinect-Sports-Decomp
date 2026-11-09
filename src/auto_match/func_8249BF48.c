@@ -37,7 +37,7 @@ extern int fn_82F4DB78();
 extern int fn_82F4E760();
 extern int fn_82F4EBC0();
 extern int fn_82F4EFF8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
@@ -108,7 +108,7 @@ void fn_8249BF48(int param_1)
   pfVar2[3] = in_vr68 * in_vr0;
   fn_82F4E760((double)fVar1,ABS((double)fStack_38));
   *(undefined4 *)(param_1 + 0x24) = 0;
-  *(undefined4 *)(param_1 + 0x30) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x30) = ltcg_pool_0_0f;
   return;
 }
 

@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -50,7 +50,7 @@ int fn_82579AC0(double param_1,int param_2,undefined8 param_3,int param_4)
   
   iVar5 = 0;
   fVar2 = lbl_82195530;
-  if ((double)lbl_821CC160 < param_1) {
+  if ((double)ltcg_pool_0_0f < param_1) {
     fVar2 = (float)(param_1 * param_1);
   }
   piVar7 = *(int **)(param_2 + 0x310);

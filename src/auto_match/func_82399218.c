@@ -31,7 +31,7 @@ extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82F6DA24();
 extern int fn_82F6DCBC();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C996C;
 
 
@@ -61,8 +61,8 @@ void fn_82399218(undefined8 param_1,int param_2)
   uVar5 = lbl_831C996C;
   dVar13 = (double)*(float *)(param_2 + 0x268);
   uVar6 = 0xffffffff8219622c;
-  if (dVar13 <= (double)lbl_821CC160) {
-    if (dVar13 < (double)lbl_821CC160) {
+  if (dVar13 <= (double)ltcg_pool_0_0f) {
+    if (dVar13 < (double)ltcg_pool_0_0f) {
       uVar6 = 0xffffffff821b4ad0;
     }
   }

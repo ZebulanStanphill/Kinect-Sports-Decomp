@@ -30,7 +30,7 @@ extern int fn_82536008();
 extern int fn_82536288();
 extern int fn_82575DF0();
 extern int fn_82F63108();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822BEA00(int param_1)
@@ -43,7 +43,7 @@ void fn_822BEA00(int param_1)
   *(undefined4 *)(param_1 + 0x7a0) = 0;
   *(undefined4 *)(param_1 + 0x7bc) = 0;
   iVar1 = *(int *)(param_1 + 0x6d0);
-  *(undefined4 *)(param_1 + 0x5c4) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x5c4) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x5c0) = 0;
   *(undefined4 *)(param_1 + 0x720) = 0;
   *(undefined4 *)(iVar1 + 0x100) = 0;

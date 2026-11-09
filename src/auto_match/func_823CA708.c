@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern float fRam832976cc;
 extern int fn_82359558();
 extern unsigned int lbl_82191FC8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823CA708(int param_1,int param_2)
@@ -46,7 +46,7 @@ void fn_823CA708(int param_1,int param_2)
   }
   *(int *)(param_1 + 0x290) = param_2;
   *(undefined4 *)(param_1 + 0x364) = 0;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   switch(param_2) {
   case 0:
   case 5:
@@ -77,7 +77,7 @@ void fn_823CA708(int param_1,int param_2)
     *(undefined4 *)(param_1 + 0x2a0) = *(undefined4 *)(param_1 + 0x2a4);
     break;
   case 0xd:
-    *(float *)(param_1 + 0x264) = lbl_821CC160;
+    *(float *)(param_1 + 0x264) = ltcg_pool_0_0f;
     break;
   case 0x14:
     *(undefined4 *)(param_1 + 0x2ac) = 0;
@@ -89,7 +89,7 @@ void fn_823CA708(int param_1,int param_2)
     }
     goto code_r0x823ca79c;
   case 0x1d:
-    if (fRam832976cc == lbl_821CC160) break;
+    if (fRam832976cc == ltcg_pool_0_0f) break;
     iVar2 = (int)fRam832976cc;
     if ((int)fRam832976cc <= *(int *)(param_1 + 0x260)) {
       iVar2 = *(int *)(param_1 + 0x260);

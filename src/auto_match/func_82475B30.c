@@ -31,7 +31,7 @@ extern float fRam831c6684;
 extern float fRam831c6688;
 extern int fn_8252AFE0();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F894;
 
 
@@ -53,7 +53,7 @@ void fn_82475B30(int *param_1)
       fVar2 = -fVar2;
     }
     dVar3 = (double)(fVar2 + fVar1);
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
                   ((uint)(byte)((dVar3 < dVar4) << 2) | (uint)(NAN(dVar3) || NAN(dVar4)) << 2)) <
         0.0) {
@@ -68,7 +68,7 @@ void fn_82475B30(int *param_1)
   else {
     dVar5 = (double)fRam831c6680;
     if (dVar3 != (double)fRam831c6680) {
-      fn_8252AFE0((double)lbl_821CC160);
+      fn_8252AFE0((double)ltcg_pool_0_0f);
       *(undefined4 *)(*param_1 + 0x1d0) = 1;
       return;
     }

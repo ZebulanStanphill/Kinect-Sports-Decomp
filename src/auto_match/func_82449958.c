@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_8242C1B8();
 extern int fn_82435FA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 
@@ -61,7 +61,7 @@ undefined8 fn_82449958(undefined8 param_1,int param_2,undefined8 param_3)
   fVar9 = pfVar1[2];
   fVar10 = pfVar1[3];
   iVar3 = fn_8242C1B8();
-  fn_82435FA8((double)lbl_821CC160,ZEXT48(&stack0x00000000) - 0x40,param_2,param_3,
+  fn_82435FA8((double)ltcg_pool_0_0f,ZEXT48(&stack0x00000000) - 0x40,param_2,param_3,
                     *(undefined1 *)(*(int *)(iVar3 + 0x1a0) + 0x44));
   pfVar1 = (float *)((uint)(auStack_40 + (int)in_r0) & 0xfffffff0);
   fVar4 = pfVar1[1];

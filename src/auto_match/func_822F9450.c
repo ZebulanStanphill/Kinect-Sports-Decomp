@@ -35,7 +35,7 @@ extern unsigned int iStack_34;
 extern unsigned int iStack_38;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -62,7 +62,7 @@ double fn_822F9450(int param_1)
     bVar5 = true;
     piVar7 = (int *)fn_822E5FA8(auStack_30,*(undefined4 *)(param_1 + 8));
     bVar6 = false;
-    if (*(float *)(*piVar7 + 0x24) <= lbl_821CC160) goto LAB_822f94b4;
+    if (*(float *)(*piVar7 + 0x24) <= ltcg_pool_0_0f) goto LAB_822f94b4;
   }
   bVar6 = true;
 LAB_822f94b4:

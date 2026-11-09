@@ -42,7 +42,7 @@ extern int fn_82F4D690();
 extern unsigned int lbl_821922D0;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A58;
 extern unsigned int lbl_83265A5C;
 extern unsigned int lbl_8327F894;
@@ -264,7 +264,7 @@ LAB_82274ecc:
     bVar17 = 0;
     bVar18 = 0;
   }
-  dVar22 = (double)lbl_821CC160;
+  dVar22 = (double)ltcg_pool_0_0f;
   if (dVar22 < (double)(float)piVar9[3]) {
     bVar17 = 0;
   }

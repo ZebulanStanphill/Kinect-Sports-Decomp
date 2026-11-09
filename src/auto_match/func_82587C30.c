@@ -41,7 +41,7 @@ extern unsigned int lbl_82195568;
 extern unsigned int lbl_8219556C;
 extern unsigned int lbl_82195570;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_10;
 extern unsigned int uStack_a;
 
@@ -57,7 +57,7 @@ double fn_82587C30(double param_1,double param_2)
   undefined2 uStack_a;
   
   fVar1 = (float)param_1;
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   if (param_1 == dVar4) {
     if (param_2 == dVar4) {
       dVar4 = (double)lbl_821CA460;

@@ -34,7 +34,7 @@ extern int fn_823CA708();
 extern unsigned int iStack_4c;
 extern unsigned int lbl_821AC4A4;
 extern unsigned int lbl_821B2FB8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2F48;
 extern unsigned int lbl_831D2F58;
 extern unsigned int uStack_40;
@@ -91,7 +91,7 @@ void fn_823C8D58(int param_1)
       vectorRotateLeftImmediateMaskInsert128(in_vr2,auVar6,3,2);
       fn_823C9098((double)lbl_831D2F48,
                         (double)*(float *)(*(int *)(piVar1[4] * 4 + *piVar1) + 0x14),
-                        (double)lbl_821CC160,iVar4,0x1c4,0xffffffff821d0000,auStack_30,&uStack_48,
+                        (double)ltcg_pool_0_0f,iVar4,0x1c4,0xffffffff821d0000,auStack_30,&uStack_48,
                         0xffffffff821cc160);
       puVar2 = (undefined4 *)((uint)(auStack_30 + (int)in_r0) & 0xfffffff0);
       uVar5 = *puVar2;

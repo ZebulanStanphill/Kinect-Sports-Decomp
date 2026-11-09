@@ -1,5 +1,4 @@
 extern int fn_824CD030(void);
-extern float lbl_821CC160;
 
 float fn_824E17D8(int param_1)
 {
@@ -17,5 +16,5 @@ float fn_824E17D8(int param_1)
         return *(float *)(node + 0x1c);
     }
 
-    return lbl_821CC160;
+    return 0.0f;
 }

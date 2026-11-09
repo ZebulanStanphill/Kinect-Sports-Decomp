@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 
 extern void fn_826022E0(void *, void *, void *);
 extern int fn_82627340(void *, void *, float, int *, int *);
@@ -29,7 +28,7 @@ void fn_82602620(void *a, char *pool, float dt)
   }
   if (item != 0) {
     fn_826022E0(pool, item, a);
-    if (dt > lbl_821CC160 && fn_82627340(a, item, dt, &x1, &x0) == 0) {
+    if (dt > 0.0f && fn_82627340(a, item, dt, &x1, &x0) == 0) {
       fn_82627DB0(pool, item);
     }
   }

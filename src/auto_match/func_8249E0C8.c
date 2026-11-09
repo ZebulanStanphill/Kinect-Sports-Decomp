@@ -30,7 +30,7 @@ extern int fn_8225F160();
 extern int fn_8249ABC0();
 extern int fn_8249E5D8();
 extern int fn_825200A8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832765BC;
 extern V16 vectorSubtractFloatingPoint();
 
@@ -115,7 +115,7 @@ LAB_8249e1b8:
               bVar3 = true;
               *(uint *)(param_1 + 0xe4) = (uint)(*(int *)(lbl_832765BC + 0x68) != 0);
             }
-            fVar4 = lbl_821CC160;
+            fVar4 = ltcg_pool_0_0f;
             if (!bVar3) {
               return;
             }
@@ -174,7 +174,7 @@ joined_r0x8249e1ec:
       }
     }
   }
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   puVar1 = (undefined4 *)(param_1 + 0x70U & 0xfffffff0);
   uVar11 = puVar1[1];
   uVar12 = puVar1[2];

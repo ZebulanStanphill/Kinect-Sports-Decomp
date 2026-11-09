@@ -29,7 +29,7 @@ extern int fn_825792D8();
 extern int fn_825797A0();
 extern int fn_825CD180();
 extern unsigned int lbl_82195680;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 
 
@@ -72,7 +72,7 @@ fn_825795A8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   pfVar3[2] = fVar11;
   pfVar3[3] = fVar11;
   if (fVar4 < afStack_40[0]) {
-    iVar6 = fn_825792D8((double)lbl_821CC160,*param_1,param_2,param_3,param_4,1);
+    iVar6 = fn_825792D8((double)ltcg_pool_0_0f,*param_1,param_2,param_3,param_4,1);
     if (iVar6 != 0) {
       iVar6 = fn_825797A0(param_1);
       uVar5 = fn_825CD180(*param_1,param_2,param_3,param_4,iVar6,param_1 + 99,param_1[0x68]);

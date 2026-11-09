@@ -51,7 +51,7 @@ extern float lbl_82195590;
 extern float lbl_821955A0;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 extern unsigned int lbl_83274B10;
 extern unsigned int lbl_83274B14;
@@ -161,7 +161,7 @@ void fn_82626258(undefined8 param_1,longlong param_2,undefined4 *param_3,undefin
       fStack_108 = (float)dVar14;
       dVar14 = (double)fn_82809D40(-dVar20,dVar21);
       stack_pair_110.first = (float)dVar14;
-      stack_pair_110.second = lbl_821CC160;
+      stack_pair_110.second = ltcg_pool_0_0f;
     }
     else {
       dVar14 = (double)fn_82809D40((double)((float)(dVar15 * dVar19) + (float)(dVar17 * dVar16)),

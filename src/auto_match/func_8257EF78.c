@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern float lbl_8327F894;
 
 
@@ -37,7 +37,7 @@ void fn_8257EF78(int param_1,int param_2)
   double dVar3;
   
   if (param_1 != 0) {
-    dVar3 = (double)lbl_821CC160;
+    dVar3 = (double)ltcg_pool_0_0f;
     do {
       iVar1 = *(int *)(param_1 + 4);
       if (*(int *)(param_1 + -8) == 0) {

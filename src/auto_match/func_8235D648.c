@@ -36,7 +36,7 @@ extern unsigned int lbl_821917D4;
 extern unsigned int lbl_82191FC8;
 extern unsigned int lbl_82193B00;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D17A0;
 
 
@@ -67,7 +67,7 @@ void fn_8235D648(void)
   if ((piVar8[1] - *piVar8 & 0xfffffffcU) != 0) {
     iVar10 = 0;
     dVar15 = (double)lbl_82193B00;
-    dVar16 = (double)lbl_821CC160;
+    dVar16 = (double)ltcg_pool_0_0f;
     dVar14 = (double)lbl_821CA460;
     do {
       uVar11 = 0;

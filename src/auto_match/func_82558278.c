@@ -87,7 +87,7 @@ extern unsigned int lbl_821C2D38;
 extern unsigned int lbl_821C2D54;
 extern unsigned int lbl_821C2D78;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832659C4;
 extern unsigned int lbl_832659C8;
 extern unsigned int lbl_832659D4;
@@ -245,7 +245,7 @@ void fn_82558278(void)
   uRam832660f0 = 0;
   lbl_832660F8 = 0;
   lbl_832660FC = 0;
-  uRam832660f4 = lbl_821CC160;
+  uRam832660f4 = ltcg_pool_0_0f;
   pcRam8327f718 = fn_82599020;
   pcRam8327f70c = fn_82599020;
   fn_82580410();

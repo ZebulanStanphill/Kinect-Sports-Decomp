@@ -34,7 +34,7 @@ extern unsigned int lbl_821917B0;
 extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821955C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832967B8;
 extern unsigned int stack0x00000020;
 extern unsigned int uStack00000020;
@@ -100,7 +100,7 @@ void fn_824E70F8(double param_1,int param_2,undefined8 param_3,undefined8 param_
     if (*(int *)(iVar8 + 0xac) == 0) {
       *(undefined4 *)(iVar8 + 0xb0) = lbl_821922D0;
       uVar3 = lbl_821916FC;
-      *(undefined4 *)(iVar8 + 0xb8) = lbl_821CC160;
+      *(undefined4 *)(iVar8 + 0xb8) = ltcg_pool_0_0f;
       *(undefined4 *)(iVar8 + 0xb4) = uVar3;
     }
     if (*(int *)(iVar8 + 0xa0) == 0) {

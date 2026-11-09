@@ -58,7 +58,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821917B0;
 extern unsigned int lbl_821917D4;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_823D4E88(double param_1,uint *param_2)
@@ -86,7 +86,7 @@ bool fn_823D4E88(double param_1,uint *param_2)
   undefined1 auStack_2a0 [64];
   undefined1 auStack_260 [512];
   
-  dVar18 = (double)lbl_821CC160;
+  dVar18 = (double)ltcg_pool_0_0f;
   bVar15 = false;
   if (*(char *)((int)param_2 + 0x9d) == '\0') {
     if ((param_2[10] != 0) && (uVar6 = *param_2, *(int *)(uVar6 + 0xe04) == 0)) {

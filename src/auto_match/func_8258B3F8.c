@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C08DC;
 extern unsigned int lbl_831C08E0;
 extern unsigned int lbl_831C08E4;
@@ -56,7 +56,7 @@ void fn_8258B3F8(uint *param_1,float *param_2,float *param_3,uint *param_4,uint 
   ulonglong uVar17;
   longlong lVar18;
   
-  fVar12 = lbl_821CC160;
+  fVar12 = ltcg_pool_0_0f;
   fVar11 = lbl_821CA460;
   uVar13 = *param_1;
   uVar15 = (ulonglong)uVar13;
@@ -66,13 +66,13 @@ void fn_8258B3F8(uint *param_1,float *param_2,float *param_3,uint *param_4,uint 
   fVar7 = (lbl_821CA460 / (float)(longlong)lbl_831C08DC) * fVar1;
   fVar6 = (lbl_821CA460 / (float)(longlong)lbl_831C08DC) * fVar2;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar7 = fVar7 - lbl_821CA460;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar6 = fVar6 - lbl_821CA460;
   }
   uVar17 = (ulonglong)(uint)(int)fVar7;

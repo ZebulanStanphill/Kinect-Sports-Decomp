@@ -37,7 +37,7 @@ extern int fn_826231D8();
 extern int fn_82623338();
 extern int fn_82639EA8();
 extern int fn_82F68CC0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_104;
 extern unsigned int uStack_108;
 extern unsigned int uStack_10c;
@@ -96,7 +96,7 @@ void fn_825EC958(int param_1)
   lVar13 = ((ulonglong)uVar4 & 0x7fffff) * 0x200 + (ulonglong)*(uint *)(param_1 + 4);
   fn_82F68CC0(auStack_80,lVar13 + 0x50,0x40);
   fn_82F68CC0(auStack_c0,lVar13 + 0x90,0x40);
-  uStack_ec = lbl_821CC160;
+  uStack_ec = ltcg_pool_0_0f;
   piStack_110 = *(int **)(param_1 + 0x10);
   uStack_108 = *(undefined4 *)(*(int *)(param_1 + 4) + 0xae4);
   piVar8 = *(int **)((*(uint *)(*(int *)(param_1 + 4) + 0xaf0) % 3 + 5) * 4 + param_1);

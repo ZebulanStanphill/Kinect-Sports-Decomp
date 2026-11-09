@@ -32,7 +32,7 @@ extern int fn_8266C6F8();
 extern int fn_8266C730();
 extern int fn_8266EC60();
 extern int fn_82672C20();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8229C290(undefined4 *param_1)
@@ -48,7 +48,7 @@ void fn_8229C290(undefined4 *param_1)
     param_1[2] = 1;
     fn_8229BA88(param_1);
     param_1[0x18] = 0;
-    param_1[0x19] = lbl_821CC160;
+    param_1[0x19] = ltcg_pool_0_0f;
     if (param_1[0x2a] != 0) {
       fn_82512A48();
       param_1[0x2a] = 0;

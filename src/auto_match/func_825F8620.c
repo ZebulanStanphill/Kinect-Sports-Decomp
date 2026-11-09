@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82535298();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern float lbl_8327F894;
 
 
@@ -45,15 +45,15 @@ void fn_825F8620(int param_1,undefined4 *param_2,int param_3)
   int aiStack_20 [2];
   
   iVar7 = param_2[param_3 * 0xb + 3];
-  if (*(float *)(iVar7 + 8) <= lbl_821CC160) {
+  if (*(float *)(iVar7 + 8) <= ltcg_pool_0_0f) {
     iVar6 = 0;
     iVar4 = 0;
     if (*(int *)(iVar7 + 0x18) == 3) {
       iVar4 = param_2[0xa3];
     }
-    if ((iVar4 != *(int *)(iVar7 + 0x10)) && (lbl_821CC160 < *(float *)(iVar7 + 0xc))) {
-      fVar2 = lbl_821CC160;
-      if (*(float *)(param_1 + 0x838) <= lbl_821CC160) {
+    if ((iVar4 != *(int *)(iVar7 + 0x10)) && (ltcg_pool_0_0f < *(float *)(iVar7 + 0xc))) {
+      fVar2 = ltcg_pool_0_0f;
+      if (*(float *)(param_1 + 0x838) <= ltcg_pool_0_0f) {
         fVar2 = *(float *)(param_1 + 0x820) * lbl_8327F894;
       }
       *(float *)(iVar7 + 0xc) = *(float *)(iVar7 + 0xc) - fVar2;
@@ -85,8 +85,8 @@ void fn_825F8620(int param_1,undefined4 *param_2,int param_3)
     fVar2 = lbl_82192480;
   }
   else {
-    fVar2 = lbl_821CC160;
-    if (*(float *)(param_1 + 0x838) <= lbl_821CC160) {
+    fVar2 = ltcg_pool_0_0f;
+    if (*(float *)(param_1 + 0x838) <= ltcg_pool_0_0f) {
       fVar2 = *(float *)(param_1 + 0x820) * lbl_8327F894;
     }
     fVar2 = *(float *)(iVar7 + 8) - fVar2;

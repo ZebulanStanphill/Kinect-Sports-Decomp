@@ -43,7 +43,7 @@ extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_82191118;
 extern unsigned int lbl_821914B0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_54;
 extern unsigned int uStack_58;
 extern unsigned int uStack_6c;
@@ -88,7 +88,7 @@ void fn_82284D28(int param_1,int param_2)
     uStack_58 = *(undefined4 *)(iVar1 + 8);
     uStack_54 = *(undefined4 *)(iVar1 + 0xc);
                     /* WARNING: Subroutine does not return */
-    fn_82539560((double)fStack_5c,(double)lbl_821CC160,(double)lbl_82191118,(double)lbl_821CC160,
+    fn_82539560((double)fStack_5c,(double)ltcg_pool_0_0f,(double)lbl_82191118,(double)ltcg_pool_0_0f,
                  (double)lbl_821CA460);
   }
   uStack_70 = 0;

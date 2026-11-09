@@ -33,7 +33,7 @@ extern unsigned int lbl_8218EFD4;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B4BC;
 extern unsigned int lbl_8326B4C8;
 extern unsigned int uStack_54;
@@ -71,7 +71,7 @@ void fn_8260B7C0(int *param_1,int param_2)
   uint uStack_54;
   float afStack_50 [20];
   
-  fVar10 = lbl_821CC160;
+  fVar10 = ltcg_pool_0_0f;
   iVar14 = 0;
   pfVar13 = &fStack_58;
   lVar18 = 2;

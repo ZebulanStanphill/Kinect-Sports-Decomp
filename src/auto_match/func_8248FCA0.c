@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8248FCA0(int param_1,int param_2)
@@ -37,11 +37,11 @@ double fn_8248FCA0(int param_1,int param_2)
   uint *puVar4;
   
   if (*(uint *)(param_1 + 0x38) <= *(uint *)(param_2 + 0x14)) {
-    return (double)lbl_821CC160;
+    return (double)ltcg_pool_0_0f;
   }
   puVar4 = *(uint **)(param_2 + 4);
   puVar1 = *(uint **)(param_2 + 8);
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   puVar3 = puVar4;
   if (puVar4 != puVar1) {
     do {

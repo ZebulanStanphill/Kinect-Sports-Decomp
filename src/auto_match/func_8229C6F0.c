@@ -34,7 +34,7 @@ extern int fn_8229CAD0();
 extern int fn_82358FD8();
 extern int fn_8249ABC0();
 extern int fn_828AAF70();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 
 
@@ -80,7 +80,7 @@ void fn_8229C6F0(int param_1,int param_2,int param_3)
       lVar6 = (**(code **)(*piVar2 + 8))();
       fn_828AAF70(lVar6 + 0x48,1);
     }
-    if (lbl_821CC160 < *(float *)(param_1 + 0x18)) {
+    if (ltcg_pool_0_0f < *(float *)(param_1 + 0x18)) {
       piVar2 = *(int **)(*(int *)(param_1 + 0x4c) + 0x84);
       if (piVar2 == (int *)0x0) {
         bVar7 = true;

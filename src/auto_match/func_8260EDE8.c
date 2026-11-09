@@ -30,7 +30,7 @@ extern int fn_8257E190();
 extern int fn_8265C9E0();
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8260EDE8(int param_1,undefined8 param_2,int param_3,undefined8 param_4,int param_5)
@@ -48,8 +48,8 @@ void fn_8260EDE8(int param_1,undefined8 param_2,int param_3,undefined8 param_4,i
     if ((uVar3 & 0xffffffff) != 0) {
       fVar1 = (float)(dVar4 - (double)lbl_82193AF0);
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         dVar4 = (double)lbl_82193AF0;
       }
       fn_8257E190(dVar4,(double)*(float *)(param_3 + 0x10),uVar3,uVar2);

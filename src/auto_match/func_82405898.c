@@ -32,7 +32,7 @@ extern int fn_8227DA30();
 extern int fn_82405638();
 extern int memcpy();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
 extern unsigned int uStack_54;
@@ -67,7 +67,7 @@ void fn_82405898(double param_1,int param_2)
   
   fVar5 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
   *(float *)(param_2 + 0x34) = fVar5;
-  if (fVar5 <= lbl_821CC160) {
+  if (fVar5 <= ltcg_pool_0_0f) {
     iVar3 = *(int *)(param_2 + 0x2c) + 1;
     *(int *)(param_2 + 0x2c) = iVar3;
     if (iVar3 == *(int *)(param_2 + 0x20) - *(int *)(param_2 + 0x1c) >> 3) {

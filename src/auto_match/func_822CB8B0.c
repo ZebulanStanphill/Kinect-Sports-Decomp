@@ -38,7 +38,7 @@ extern int fn_82F6A590();
 extern int fn_82F6B030();
 extern unsigned int lbl_82195518;
 extern unsigned int lbl_82195528;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D142C;
 extern unsigned int lbl_83297654;
 extern unsigned int lbl_83297658;
@@ -81,7 +81,7 @@ void fn_822CB8B0(undefined8 param_1,float *param_2)
   }
   uStack_68 = *(ulonglong *)param_2;
   dVar10 = (double)param_2[1];
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   fStack_60 = param_2[2];
   dVar9 = (double)param_2[2];
   dVar8 = (double)*param_2;

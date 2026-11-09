@@ -45,7 +45,7 @@ extern int iRam831cd628;
 extern unsigned int iStack_8c;
 extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 fn_822E0550(int param_1,int *param_2)
@@ -76,10 +76,10 @@ undefined4 fn_822E0550(int param_1,int *param_2)
   iVar8 = *(int *)((int)uVar10 + 0x274);
   auStack_80[0] = 0;
   iStack_8c = 0;
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   bVar3 = false;
-  fStack_90 = lbl_821CC160;
-  afStack_88[0] = lbl_821CC160;
+  fStack_90 = ltcg_pool_0_0f;
+  afStack_88[0] = ltcg_pool_0_0f;
   iVar7 = fn_822CF260(uVar10,0);
   dVar13 = (double)lbl_8218EC10;
   if (iVar7 == 0) {

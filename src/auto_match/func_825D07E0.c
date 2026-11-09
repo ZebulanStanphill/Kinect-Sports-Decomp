@@ -46,7 +46,7 @@ extern int fn_827EB678();
 extern unsigned int iStack_4c8c;
 extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack00000054;
 extern unsigned int uStack_4c7c;
 extern unsigned int uStack_4c80;
@@ -150,7 +150,7 @@ void fn_825D07E0(int param_1,int *param_2,undefined8 param_3,ulonglong param_4,l
         uStack_4cac = ((uVar2 - uVar13) - 1 >> 8) + 1;
         lVar17 = uVar16 + 0xe8;
         dVar20 = (double)lbl_821922D0;
-        dVar21 = (double)lbl_821CC160;
+        dVar21 = (double)ltcg_pool_0_0f;
         uStack_4ca8 = 1;
         do {
           puVar4 = (undefined4 *)lVar17;

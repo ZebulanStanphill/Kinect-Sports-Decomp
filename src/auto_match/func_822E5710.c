@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822C6B30();
 extern int fn_822E58E8();
 extern int fn_8255A780();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D9208;
 
 
@@ -50,8 +50,8 @@ void fn_822E5710(int param_1)
     iVar1 = fn_822E58E8(param_1);
     if (iVar1 == 0) {
       fn_822C6B30((ulonglong)*(uint *)(param_1 + 0x114) + 0x50,param_1 + 0x80,param_1 + 0xc0,
-                        CONCAT44(lbl_821CC160,*(undefined4 *)(param_1 + 0x2a0)),
-                        (ulonglong)lbl_821CC160 << 0x20);
+                        CONCAT44(ltcg_pool_0_0f,*(undefined4 *)(param_1 + 0x2a0)),
+                        (ulonglong)ltcg_pool_0_0f << 0x20);
     }
     else {
       *(undefined4 *)(param_1 + 0x2a8) = 1;

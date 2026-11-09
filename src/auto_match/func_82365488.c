@@ -29,7 +29,7 @@ extern int fn_8288B760();
 extern float lbl_82191FB0;
 extern unsigned int lbl_82192708;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_82365488(int param_1)
@@ -54,6 +54,6 @@ double fn_82365488(int param_1)
       }
     }
   }
-  return (double)lbl_821CC160;
+  return (double)ltcg_pool_0_0f;
 }
 

@@ -30,7 +30,7 @@ extern unsigned int *auStack_50;
 extern int fn_82368E38();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2D98;
 extern unsigned int lbl_831D2E70;
 extern unsigned int lbl_831D2E74;
@@ -74,7 +74,7 @@ void fn_823CA870(int param_1,int param_2,undefined4 *param_3,undefined4 *param_4
   puVar5[1] = uVar9;
   puVar5[2] = uVar10;
   puVar5[3] = uVar11;
-  fVar7 = lbl_821CC160;
+  fVar7 = ltcg_pool_0_0f;
   param_3[2] = uVar8;
   fVar3 = fVar6 - *(float *)(param_2 + 4);
   bVar1 = lbl_831D2E88 == 0;

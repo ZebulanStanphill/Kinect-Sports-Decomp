@@ -32,7 +32,7 @@ extern int fn_8255B1E0();
 extern int fn_825909E0();
 extern int fn_825A2410();
 extern int fn_825B9EF8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8257EE08(uint *param_1)
@@ -53,7 +53,7 @@ undefined8 fn_8257EE08(uint *param_1)
     piVar2 = (int *)param_1[6];
     uVar6 = 1;
     if (*piVar2 == 0) {
-      iVar4 = fn_8255B1E0((double)lbl_821CC160,*(undefined4 *)(uVar1 + 0x844),piVar2 + 2,1,0,1
+      iVar4 = fn_8255B1E0((double)ltcg_pool_0_0f,*(undefined4 *)(uVar1 + 0x844),piVar2 + 2,1,0,1
                                 ,0,0);
       if (iVar4 != 0) {
         param_1[0xf] = 1;

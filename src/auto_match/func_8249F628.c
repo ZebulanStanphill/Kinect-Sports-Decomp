@@ -1,5 +1,4 @@
 extern void fn_8249F6A0(void *);
-extern float lbl_821CC160;
 
 typedef struct {
   char pad0[0x48];
@@ -25,7 +24,7 @@ int fn_8249F628(S *s, T *t, int p3, int p4, int p5)
       if (v != 0) {
         t->b = v;
         if (v != t->a) {
-          t->f = lbl_821CC160;
+          t->f = 0.0f;
         }
       }
     }

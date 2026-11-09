@@ -32,7 +32,7 @@ extern int fn_824791D0();
 extern unsigned int lbl_821A8D8C;
 extern unsigned int lbl_821BD014;
 extern unsigned int lbl_821BD4BC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_7c;
 
 
@@ -54,7 +54,7 @@ fn_8247B498(undefined4 *param_1,undefined8 param_2,undefined4 *param_3,undefined
   if (param_1 + 4 != (undefined4 *)0x0) {
     uStack_7c = *param_6;
     uVar1 = *param_3;
-    param_1[7] = lbl_821CC160;
+    param_1[7] = ltcg_pool_0_0f;
     pppuStack_70 = &ppuStack_80;
     param_1[5] = 8;
     ppuStack_80 = &lbl_821BD4BC;

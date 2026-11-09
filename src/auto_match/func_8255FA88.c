@@ -30,7 +30,7 @@ extern int fn_827F6318();
 extern int fn_827F6320();
 extern int fn_827F9DF8();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8255FA88(longlong param_1)
@@ -45,7 +45,7 @@ undefined8 fn_8255FA88(longlong param_1)
     return 0;
   }
   dVar2 = (double)fn_827F6310(param_1);
-  dVar3 = (double)lbl_821CC160;
+  dVar3 = (double)ltcg_pool_0_0f;
   if ((dVar2 < dVar3) || (iVar1 = fn_827F9DF8(param_1 + 0x24), iVar1 == 1)) {
     dVar2 = (double)fn_827F6318(param_1);
     if (dVar2 <= dVar3) {

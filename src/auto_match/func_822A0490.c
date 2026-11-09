@@ -28,12 +28,11 @@ extern void fn_82673BC0(void *h, void *cb, void *ctx);
 extern void fn_822A0790(void);
 extern void fn_82291208(void);
 extern char lbl_821ABBA4[];
-extern float lbl_821CC160;
 
 static __forceinline void Inner_init(Inner_822A0490 *in)
 {
     in->handle = 0;
-    in->f10 = lbl_821CC160;
+    in->f10 = 0.0f;
     in->f08 = 0;
     in->f0c = 0;
     in->f14 = 0;

@@ -30,7 +30,7 @@ extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
 extern int fn_82F50108();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83297720;
 extern unsigned int uStack_68;
 extern unsigned int uStack_6c;
@@ -60,9 +60,9 @@ undefined8 fn_824772F0(undefined8 param_1)
   undefined1 auStack_40 [16];
   float afStack_30 [1];
   
-  stack_pair_70.first = lbl_821CC160;
+  stack_pair_70.first = ltcg_pool_0_0f;
   stack_pair_70.second = lbl_821CA460;
-  uStack_68 = lbl_821CC160;
+  uStack_68 = ltcg_pool_0_0f;
   fn_82F50108(param_1,9,2,auStack_60,0,0,0);
   fn_82F50108(param_1,0xe,2,auStack_40,0,0,0);
   fn_82F50108(param_1,8,2,auStack_50,0,0,0);

@@ -30,7 +30,7 @@ extern unsigned int fStack_3c;
 extern int fn_82554860();
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 extern unsigned int uStack_24;
@@ -67,7 +67,7 @@ void fn_8246B320(double param_1,double param_2,int param_3,undefined8 param_4,un
   fStack_3c = (float)param_1;
   fStack_30 = (float)param_2;
   uStack_4c = lbl_821CA460;
-  uStack_48 = lbl_821CC160;
+  uStack_48 = ltcg_pool_0_0f;
   uStack_50 = 0x4d697850;
   uStack_40 = lbl_821917C0;
   uStack_44 = 0x20;

@@ -30,7 +30,7 @@ extern int fn_8229AAF8();
 extern int fn_822ABA88();
 extern int fn_8241AFD0();
 extern int fn_8241F6A8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82335158(int param_1)
@@ -53,8 +53,8 @@ void fn_82335158(int param_1)
       if (*(float *)(iVar6 + 0xadc) < *(float *)(param_1 + 0x228)) {
         *(undefined4 *)(*(int *)(param_1 + 0x230) + 0x29c) = 8;
         *(undefined4 *)(param_1 + 0x224) = 1;
-        uVar3 = lbl_821CC160;
-        *(undefined4 *)(param_1 + 0x228) = lbl_821CC160;
+        uVar3 = ltcg_pool_0_0f;
+        *(undefined4 *)(param_1 + 0x228) = ltcg_pool_0_0f;
         *(undefined4 *)(param_1 + 0x22c) = uVar3;
       }
     }

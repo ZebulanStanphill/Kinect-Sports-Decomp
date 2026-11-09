@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern float lbl_82195590;
 extern float lbl_821955A0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8255A7D0(double param_1,double param_2,double param_3)
@@ -40,8 +40,8 @@ double fn_8255A7D0(double param_1,double param_2,double param_3)
   fVar2 = (float)(param_2 - param_1) * lbl_82195590;
   fVar1 = (float)(((double)fVar1 - (double)(longlong)fVar1) * lbl_821955A0);
   fVar2 = (float)(((double)fVar2 - (double)(longlong)fVar2) * lbl_821955A0);
-  if (fVar1 <= lbl_821CC160) {
-    if (lbl_821CC160 < fVar2) {
+  if (fVar1 <= ltcg_pool_0_0f) {
+    if (ltcg_pool_0_0f < fVar2) {
       return param_2;
     }
     if (fVar1 <= fVar2) {
@@ -49,7 +49,7 @@ double fn_8255A7D0(double param_1,double param_2,double param_3)
     }
   }
   else {
-    if (fVar2 < lbl_821CC160) {
+    if (fVar2 < ltcg_pool_0_0f) {
       return param_2;
     }
     if (fVar2 <= fVar1) {

@@ -31,7 +31,7 @@ extern int fn_8263B758();
 extern int fn_82837D98();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195598;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 
@@ -66,8 +66,8 @@ undefined8 fn_825D16E8(float *param_1,float *param_2,int param_3,undefined8 para
   fVar2 = fVar4 - fVar3;
   uVar9 = (ulonglong)(uint)(int)(float)(longlong)((double)(param_1[1] * fVar3) - lbl_82195598);
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar3 = fVar4;
   }
   alStack_70 = (longlong)(int)fVar3;

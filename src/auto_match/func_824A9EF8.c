@@ -4,7 +4,6 @@ typedef struct { void *vt; char pad[0x38]; Blob_824A9EF8 data; int f54; float f5
 extern void fn_82F53A20(void *, void *);
 extern void *fn_8265C9E0(unsigned);
 extern char lbl_821BF9A0[];
-extern float lbl_821CC160;
 
 Obj_824A9EF8 *fn_824A9EF8(Src_824A9EF8 *src)
 {
@@ -14,7 +13,7 @@ Obj_824A9EF8 *fn_824A9EF8(Src_824A9EF8 *src)
     p->vt = lbl_821BF9A0;
     p->data = src->data;
     p->f54 = 0;
-    p->f58 = lbl_821CC160;
+    p->f58 = 0.0f;
     return p;
   }
   return 0;

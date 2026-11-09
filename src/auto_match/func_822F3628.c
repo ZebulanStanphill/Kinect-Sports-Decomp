@@ -34,7 +34,7 @@ extern int fn_8265CA20();
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_82196582;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -54,7 +54,7 @@ void fn_822F3628(int param_1)
     *(undefined4 *)(param_1 + 0xb8) = 0;
     *(undefined4 *)(param_1 + 0xc4) = 0;
     *(undefined4 *)(param_1 + 0x24) = 0;
-    uVar3 = lbl_821CC160;
+    uVar3 = ltcg_pool_0_0f;
     *(undefined1 **)(param_1 + 0xc0) = &lbl_82196582;
     *(undefined4 *)(param_1 + 0xbc) = uVar3;
     iVar5 = *(int *)(param_1 + 0x2c);

@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8239D6D8(int param_1,int param_2,undefined8 param_3,int param_4)
@@ -39,7 +39,7 @@ void fn_8239D6D8(int param_1,int param_2,undefined8 param_3,int param_4)
   
   piVar1 = *(int **)(**(int **)(param_1 + 8) + param_2 * 4);
   iVar4 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),param_3);
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   iVar2 = (param_2 * 2 + (int)param_3) * 0xb0 + param_1 + 0x8d4;
   *(int *)(iVar2 + 0x38) = *(int *)(iVar2 + 0x38) + 1;
   if (fVar3 < *(float *)(param_4 + 0x268)) {

@@ -36,7 +36,7 @@ extern int fn_825319C0();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern V16 vectorConditionalSelect();
 extern V16 vectorMultiplyAddFloatingPoint();
@@ -107,7 +107,7 @@ void fn_82331A20(double param_1,int param_2,undefined8 param_3)
   }
   uVar2 = *(uint *)(param_2 + 0xd4);
   *(ulonglong *)pfVar6 = CONCAT44(fStack_50,fStack_4c);
-  dVar13 = (double)lbl_821CC160;
+  dVar13 = (double)ltcg_pool_0_0f;
   dVar12 = (double)lbl_821CA460;
   if (uVar2 == 0) {
     fVar1 = (float)((double)*(float *)(param_2 + 0xb8) * param_1 +

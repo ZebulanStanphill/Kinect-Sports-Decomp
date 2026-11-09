@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8260BA88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_10;
 extern unsigned int uStack_24;
 extern unsigned int uStack_28;
@@ -48,7 +48,7 @@ void fn_8260DDD0(longlong param_1)
   undefined4 uStack_10;
   undefined4 uStack_c;
   
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   puVar2 = &uStack_28;
   uStack_24 = 0;
   uStack_30 = 0;

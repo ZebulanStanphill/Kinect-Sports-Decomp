@@ -36,7 +36,7 @@ extern int fn_826311B8();
 extern int fn_8263CBB0();
 extern unsigned int lbl_821917B0;
 extern unsigned int lbl_82193D04;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B430;
 extern unsigned int lbl_8326B434;
@@ -72,7 +72,7 @@ void fn_825C8058(int param_1,longlong param_2)
       stack_pair_60.second = *(undefined4 *)(param_1 + 0x828);
       stack_pair_60.first = *(float *)(param_1 + 3000) * lbl_821917B0;
       fStack_58 = *(float *)(param_1 + 0xbb4) * lbl_82193D04;
-      uStack_54 = lbl_821CC160;
+      uStack_54 = ltcg_pool_0_0f;
       fStack_4c = (float)((double)((longlong)*(float *)(iVar3 + 0x3224) & 0xffffffff) /
                          (double)lbl_8326B434);
       fStack_50 = (float)((double)((longlong)*(float *)(iVar3 + 0x3220) & 0xffffffff) /

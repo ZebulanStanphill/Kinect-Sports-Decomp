@@ -36,7 +36,7 @@ extern int fn_823807F0();
 extern int fn_82528EE0();
 extern int fn_82535298();
 extern int fn_82536288();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8238DD50(int param_1)
@@ -52,7 +52,7 @@ void fn_8238DD50(int param_1)
   undefined1 auStack_270 [64];
   undefined1 auStack_230 [512];
   
-  *(undefined4 *)(param_1 + 0xc) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0xc) = ltcg_pool_0_0f;
   *(undefined4 *)(*(int *)(param_1 + 8) + 0x658) = 1;
   iVar1 = *(int *)(*(int *)(param_1 + 8) + 0xa0);
   if ((iVar1 == 0) || (*(int *)(iVar1 + 0x40) != 1)) {

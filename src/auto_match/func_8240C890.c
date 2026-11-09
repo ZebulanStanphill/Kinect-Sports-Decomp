@@ -34,7 +34,7 @@ extern int fn_8254EDB0();
 extern unsigned int iStack_34;
 extern unsigned int iStack_38;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8240C890(int param_1,int *param_2)
@@ -126,7 +126,7 @@ void fn_8240C890(int param_1,int *param_2)
         }
       }
       *(undefined4 *)(iVar8 + 0x88) = 1;
-      *(undefined4 *)(iVar8 + 0x8c) = lbl_821CC160;
+      *(undefined4 *)(iVar8 + 0x8c) = ltcg_pool_0_0f;
     }
     if (iStack_34 != 0) {
       fn_822315A0();

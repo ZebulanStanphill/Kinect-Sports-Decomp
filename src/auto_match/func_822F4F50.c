@@ -40,7 +40,7 @@ extern int fn_8223AAC0();
 extern int fn_822F5258();
 extern int fn_824CCFC8();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -74,7 +74,7 @@ double fn_822F4F50(int param_1,undefined8 param_2,int param_3)
         iVar6 = *(int *)(iVar6 + 8);
         fVar4 = fRam831ccddc;
         if (((iVar6 != 2) && (iVar6 != 1)) &&
-           ((iVar6 != 4 && (((iVar6 == 0 || (iVar6 == 3)) || (fVar4 = lbl_821CC160, iVar6 == 5))))))
+           ((iVar6 != 4 && (((iVar6 == 0 || (iVar6 == 3)) || (fVar4 = ltcg_pool_0_0f, iVar6 == 5))))))
         {
           fVar4 = fRam831ccde0;
         }
@@ -92,7 +92,7 @@ double fn_822F4F50(int param_1,undefined8 param_2,int param_3)
         }
         fVar4 = *(float *)(iVar6 * 4 + iVar3);
         if (!bVar5) {
-          fVar4 = lbl_821CC160;
+          fVar4 = ltcg_pool_0_0f;
         }
         if (fVar1 - fVar4 < 0.0) {
           fVar1 = fVar4;
@@ -119,6 +119,6 @@ double fn_822F4F50(int param_1,undefined8 param_2,int param_3)
       return dVar8;
     }
   }
-  return (double)lbl_821CC160;
+  return (double)ltcg_pool_0_0f;
 }
 

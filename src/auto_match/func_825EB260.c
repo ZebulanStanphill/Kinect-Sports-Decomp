@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8254A870();
 extern int fn_82553008();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825EB260(int param_1)
@@ -46,7 +46,7 @@ void fn_825EB260(int param_1)
   uVar5 = (ulonglong)uVar2;
   if (0 < (int)uVar2) {
     iVar6 = 0;
-    dVar8 = (double)lbl_821CC160;
+    dVar8 = (double)ltcg_pool_0_0f;
     do {
       iVar3 = *(int *)(param_1 + 0x10) + 3;
       piVar7 = (int *)(*(int *)(iVar3 * 4 + *(int *)(param_1 + 8)) + iVar6);

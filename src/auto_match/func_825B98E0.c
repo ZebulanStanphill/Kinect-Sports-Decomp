@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int iStack_c;
 extern unsigned int lbl_82195598;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_825B98E0(double param_1,ushort *param_2,undefined8 param_3,undefined4 *param_4,
@@ -46,7 +46,7 @@ double fn_825B98E0(double param_1,ushort *param_2,undefined8 param_3,undefined4 
   if (uVar3 == 1) {
     uVar2 = **(undefined4 **)(param_2 + 4);
     *param_5 = uVar2;
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     *param_4 = uVar2;
     return dVar4;
   }
@@ -56,7 +56,7 @@ double fn_825B98E0(double param_1,ushort *param_2,undefined8 param_3,undefined4 
   iStack_c = (int)(longlong)(fVar1 * (float)(param_1 / (double)*(float *)(param_2 + 2)));
   if (iStack_c == 0) {
     *param_4 = **(undefined4 **)(param_2 + 4);
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     uVar2 = *(undefined4 *)(*(int *)(param_2 + 4) + 4);
   }
   else {

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82579DB0();
 extern int fn_82F67FE8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8257A028(double param_1)
@@ -47,7 +47,7 @@ double fn_8257A028(double param_1)
       pcVar4 = pcVar4 + 1;
     } while (cVar1 != '\0');
     if ((int)pcVar4 - (int)pcVar2 != 1) {
-      afStack_20 = lbl_821CC160;
+      afStack_20 = ltcg_pool_0_0f;
       iVar3 = fn_82F67FE8(pcVar2,0xffffffff821c5504,&afStack_20);
       if (iVar3 == 1) {
         param_1 = (double)afStack_20;

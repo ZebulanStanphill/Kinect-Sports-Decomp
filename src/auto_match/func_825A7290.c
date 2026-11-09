@@ -29,7 +29,7 @@ extern int fn_8251E4D0();
 extern int fn_825A8140();
 extern int fn_82A1DD38();
 extern unsigned int lbl_821956C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825A7290(int param_1)
@@ -118,7 +118,7 @@ void fn_825A7290(int param_1)
     } while (lVar9 != 0);
     if (dVar13 != dVar12) goto LAB_825a73e8;
   }
-  dVar13 = (double)lbl_821CC160;
+  dVar13 = (double)ltcg_pool_0_0f;
 LAB_825a73e8:
   *(float *)(param_1 + 0x62c) = (float)dVar13;
   uVar6 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x610) + 0x1c);

@@ -29,7 +29,7 @@ extern float fRam831d32f8;
 extern int fn_82359558();
 extern int fn_824CCD80();
 extern int fn_82530158();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F844;
 
 
@@ -49,7 +49,7 @@ void fn_82403B48(int param_1)
     if ((*(int *)(iVar1 + 0x27c) == 0) && (*(int *)(iVar1 + 0x368) != 0)) {
       fn_824CCD80(*(undefined4 *)(iVar1 + 0x10));
       if (lbl_8327F844 != 0) {
-        fn_82530158((double)lbl_821CC160,(double)fRam831d32f8,lbl_8327F844);
+        fn_82530158((double)ltcg_pool_0_0f,(double)fRam831d32f8,lbl_8327F844);
       }
       *(undefined4 *)(iVar1 + 0x368) = 0;
     }

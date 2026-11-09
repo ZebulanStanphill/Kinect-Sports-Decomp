@@ -31,7 +31,7 @@ extern int fn_82299D40();
 extern int fn_82299E90();
 extern int fn_8229A230();
 extern unsigned int iStack_c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8229A2F8(int param_1,byte *param_2,uint param_3,int param_4,uint param_5)
@@ -103,7 +103,7 @@ LAB_8229a38c:
       if (uVar4 == uVar3) {
 LAB_8229a448:
         uVar5 = 4;
-        if (*(float *)(param_1 + 0x121c) <= lbl_821CC160) {
+        if (*(float *)(param_1 + 0x121c) <= ltcg_pool_0_0f) {
           uVar5 = 0;
         }
         *(undefined4 *)(param_1 + 0x120c) = uVar5;

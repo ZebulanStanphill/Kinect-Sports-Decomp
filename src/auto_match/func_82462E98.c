@@ -29,7 +29,7 @@ extern unsigned int fStack_18;
 extern int fn_82F4EBC0();
 extern int fn_82F4EEC0();
 extern int fn_82F4EFF8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82462E98(int param_1)
@@ -61,7 +61,7 @@ void fn_82462E98(int param_1)
       }
       bVar1 = *(int *)(iVar7 + 0x48) == 9;
       *(undefined4 *)(iVar7 + 0x4c) = 9;
-      uVar10 = lbl_821CC160;
+      uVar10 = ltcg_pool_0_0f;
     }
     else {
       uVar6 = fn_82F4EBC0(0);
@@ -78,7 +78,7 @@ void fn_82462E98(int param_1)
       puVar4[1] = uVar10;
       puVar4[2] = uVar9;
       puVar4[3] = uVar11;
-      uVar10 = lbl_821CC160;
+      uVar10 = ltcg_pool_0_0f;
       if (afStack_20[0] <= fVar2) {
         if (*(float *)(param_1 + 0x1c0) <= afStack_20[0]) {
           bVar1 = true;

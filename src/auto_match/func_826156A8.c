@@ -36,7 +36,7 @@ extern unsigned int lbl_82191FC8;
 extern unsigned int lbl_8219570C;
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_821CACBC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_826156A8(undefined8 param_1,undefined4 param_2,int param_3,undefined8 param_4,
@@ -63,7 +63,7 @@ void fn_826156A8(undefined8 param_1,undefined4 param_2,int param_3,undefined8 pa
   *puVar2 = &lbl_821CACBC;
   puVar2[4] = (float)extraout_f1;
   puVar2[2] = param_3;
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   puVar2[3] = (float)extraout_f1;
   dVar9 = (double)lbl_821CA460;
   dVar4 = dVar9;

@@ -44,7 +44,7 @@ extern unsigned int iStack_54;
 extern unsigned int iStack_5c;
 extern unsigned int iStack_64;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_3c;
 extern unsigned int uStack_40;
 
@@ -72,7 +72,7 @@ void fn_8241B1C8(double param_1,uint *param_2)
 
   double dStack_38;
   
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   uVar7 = param_2[0x6d];
   if (uVar7 < 2) {
     if (-1 < *(int *)(param_2[6] * 0x1ac + param_2[2] + 0xc)) {
@@ -106,9 +106,9 @@ void fn_8241B1C8(double param_1,uint *param_2)
   else if (uVar7 == 3) {
     fVar1 = (float)((double)(float)param_2[0x6f] - param_1);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-      fVar1 = lbl_821CC160;
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+      fVar1 = ltcg_pool_0_0f;
     }
     param_2[0x6f] = (uint)fVar1;
     if (fVar1 == fVar3) {

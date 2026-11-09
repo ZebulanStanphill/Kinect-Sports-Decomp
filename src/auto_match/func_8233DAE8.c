@@ -43,7 +43,7 @@ extern int fn_82F68CC0();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_821B16B8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 
 
@@ -75,7 +75,7 @@ void fn_8233DAE8(void)
   fn_822CA8E0();
   iVar7 = piVar3[0x2f];
   cVar9 = fn_8288B760(piVar3);
-  uVar8 = lbl_821CC160;
+  uVar8 = ltcg_pool_0_0f;
   if (cVar9 == '\0') {
     lVar2 = (**(code **)(*piVar3 + 8))(piVar3);
     fn_8233D8A0(lVar2 + 0x1ec,&stack0x00000000 + -0xa0,&stack0x00000000 + -0x9c,

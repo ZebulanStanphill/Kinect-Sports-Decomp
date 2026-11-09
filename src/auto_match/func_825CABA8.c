@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F64318();
 extern float lbl_8219564C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_825CABA8(int param_1)
@@ -36,7 +36,7 @@ double fn_825CABA8(int param_1)
 {
   float fVar1;
   
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (*(int *)(param_1 + 0x2c) != 0) {
     if (*(float *)(param_1 + 0x44) < *(float *)(param_1 + 0x48)) {
                     /* WARNING: Subroutine does not return */

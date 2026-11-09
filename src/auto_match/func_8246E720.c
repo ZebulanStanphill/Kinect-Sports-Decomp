@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82465328();
 extern unsigned int lbl_82193CC0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8246E720(double param_1,double param_2,int param_3,undefined8 param_4,int param_5)
@@ -41,7 +41,7 @@ undefined8 fn_8246E720(double param_1,double param_2,int param_3,undefined8 para
   double dVar4;
   double dVar5;
   
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   if (((dVar5 < (double)*(float *)(param_3 + 0x18)) && (param_5 != 0)) &&
      (iVar1 = fn_82465328(*(undefined4 *)(param_3 + 0x440)), iVar1 != 0)) {
     dVar3 = (double)(float)(param_2 - (double)*(float *)(param_3 + 0x18));

@@ -40,7 +40,7 @@ extern unsigned int iStack_290;
 extern unsigned int iStack_2b0;
 extern unsigned int lbl_821922D4;
 extern unsigned int lbl_82192604;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_28c;
 extern unsigned int uStack_2ac;
@@ -66,8 +66,8 @@ void fn_8229B268(undefined8 param_1,int param_2,ulonglong param_3,ulonglong para
   undefined1 auStack_280 [64];
   undefined1 auStack_240 [576];
   
-  fVar2 = lbl_821CC160;
-  dVar7 = (double)lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
+  dVar7 = (double)ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0xc) != 0) {
     return;
   }

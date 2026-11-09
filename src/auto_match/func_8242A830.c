@@ -48,7 +48,7 @@ extern unsigned int lbl_821955FC;
 extern unsigned int lbl_821B90FC;
 extern unsigned int lbl_821B96BC;
 extern unsigned int lbl_821B9B48;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -112,9 +112,9 @@ void fn_8242A830(undefined1 *param_1,undefined8 param_2,int param_3)
   fn_82441BD0(param_1 + 0x10,0xffffffff821b9b38,(ulonglong)*puVar8 + 0x60,puVar9);
   *(undefined ***)(param_1 + 0x10) = &lbl_821B9B48;
   puVar5 = (undefined4 *)fn_8265C9E0(0x20);
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   uVar1 = lbl_821922D0;
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   if (puVar5 == (undefined4 *)0x0) {
     puVar5 = (undefined4 *)0x0;
   }

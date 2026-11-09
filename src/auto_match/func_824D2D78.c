@@ -47,7 +47,7 @@ extern unsigned int iStack_2c;
 extern unsigned int iStack_4c;
 extern unsigned int lbl_821955D8;
 extern unsigned int lbl_821C0D00;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831c3b88;
 extern unsigned int uStack_50;
 extern U64 storeWordConditionalIndexed();
@@ -88,7 +88,7 @@ undefined4 * fn_824D2D78(undefined4 *param_1,int param_2)
   fn_824DB830(param_1 + 0x3c,1,*(undefined4 *)(param_2 + 0x30));
   fn_824DB830(param_1 + 0x15c,0,*(undefined4 *)(param_2 + 0x30));
   param_1[0x27c] = 0;
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   param_1[0x27d] = 0;
   param_1[0x280] = uVar2;
   param_1[0x27e] = 0;

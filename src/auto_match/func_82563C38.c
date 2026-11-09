@@ -30,7 +30,7 @@ extern unsigned int *auStack_60;
 extern unsigned int *auStack_80;
 extern int fn_82CE6010();
 extern unsigned int lbl_821962C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorConditionalSelect();
 
 
@@ -69,7 +69,7 @@ void fn_82563C38(int param_1,int param_2,int param_3)
   puVar2[3] = uVar5;
   fn_82CE6010(auStack_60,0xffffffff82196750);
   (**(code **)(**(int **)(param_1 + 0x10) + 0x1c))
-            ((double)lbl_821CC160,*(int **)(param_1 + 0x10),auStack_60);
+            ((double)ltcg_pool_0_0f,*(int **)(param_1 + 0x10),auStack_60);
   puVar1 = (undefined4 *)((uint)(auStack_80 + in_r0) & 0xfffffff0);
   uVar3 = *puVar1;
   uVar4 = puVar1[1];

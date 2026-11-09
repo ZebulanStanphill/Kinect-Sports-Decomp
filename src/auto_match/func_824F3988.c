@@ -45,7 +45,7 @@ extern unsigned int lbl_821954D4;
 extern unsigned int lbl_82195928;
 extern unsigned int lbl_82195BE0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_83265A28;
 extern unsigned int stack0x00000000;
@@ -102,7 +102,7 @@ void fn_824F3988(undefined8 param_1,undefined8 param_2,double param_3,double par
   iVar5 = fn_82F6A52C();
   fVar1 = lbl_821954D4;
   if ((*(int *)(iVar5 + 0xc) != 0) && (*(char *)(iVar5 + 0x74) != '\x01')) {
-    dVar11 = (double)lbl_821CC160;
+    dVar11 = (double)ltcg_pool_0_0f;
     dVar10 = extraout_f1;
     if ((in_r10 & 0xff) != 0) {
       loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);

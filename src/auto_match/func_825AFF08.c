@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8254A870();
 extern unsigned int lbl_82193A34;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825AFF08(double param_1,float *param_2)
@@ -50,7 +50,7 @@ void fn_825AFF08(double param_1,float *param_2)
   fVar1 = (float)(param_1 * (double)*pfVar7);
   fVar3 = *param_2;
   *pfVar7 = fVar1;
-  if (fVar2 == lbl_821CC160) {
+  if (fVar2 == ltcg_pool_0_0f) {
     *pfVar7 = fVar1;
     *pfVar6 = fVar1;
     *param_2 = fVar1;

@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ulonglong fn_8254A748(double param_1,double param_2,double param_3)
@@ -41,14 +41,14 @@ ulonglong fn_8254A748(double param_1,double param_2,double param_3)
   fVar1 = (float)((double)(float)((double)lbl_821CA460 - param_3) * param_2 +
                  (double)(float)(param_1 * param_3));
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-    fVar1 = lbl_821CC160;
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+    fVar1 = ltcg_pool_0_0f;
   }
   fVar2 = lbl_82195644;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 - lbl_82195644 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1 - lbl_82195644) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 - lbl_82195644 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1 - lbl_82195644) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar2 = fVar1;
   }
   return (longlong)fVar2 & 0xff;

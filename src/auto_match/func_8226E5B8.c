@@ -57,7 +57,7 @@ extern unsigned int lbl_821925C0;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82193B00;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8327F8A0;
 extern unsigned int stack0x00000000;
@@ -193,7 +193,7 @@ void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
   fn_82F68CC0(uVar15 - 400,uVar17 + 0xa880,0x40);
   fn_82F68CC0(uVar15 - 0x110,uVar17 + 0xa900,0x40);
   iVar14 = lbl_8320A898;
-  fStack_148 = lbl_821CC160;
+  fStack_148 = ltcg_pool_0_0f;
   uVar1 = *param_3;
   uVar2 = param_3[4];
   uVar3 = param_3[5];
@@ -212,7 +212,7 @@ void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
   uStack_160 = uStack_e8;{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr0,in_vr12,4,3); memcpy(auVar20, &_vt0, 16); }{ V16 _vt1 = vectorRotateLeftImmediateMaskInsert128(in_vr13,in_vr11,4,3); memcpy(auVar21, &_vt1, 16); }
   uStack_174 = param_3[0xd];{ V16 _vt2 = vectorRotateLeftImmediateMaskInsert128(auVar20,auVar21,3,2); memcpy(auVar20, &_vt2, 16); }
   uVar7 = param_3[2];
-  dVar18 = (double)lbl_821CC160;
+  dVar18 = (double)ltcg_pool_0_0f;
   uVar8 = param_3[6];
   uVar9 = param_3[10];
   uStack_154 = uStack_d4;

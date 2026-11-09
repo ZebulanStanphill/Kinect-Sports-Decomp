@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 
 static float side_(float *a, float *b, float *c)
 {
@@ -8,10 +7,10 @@ static float side_(float *a, float *b, float *c)
 int fn_82533578(float *p1, float *p2, float *p3, float *p4)
 {
   float s = side_(p1, p2, p4);
-  if (side_(p2, p3, p4) * s < lbl_821CC160) {
+  if (side_(p2, p3, p4) * s < 0.0f) {
     return 0;
   }
-  if (side_(p3, p1, p4) * s < lbl_821CC160) {
+  if (side_(p3, p1, p4) * s < 0.0f) {
     return 0;
   }
   return 1;

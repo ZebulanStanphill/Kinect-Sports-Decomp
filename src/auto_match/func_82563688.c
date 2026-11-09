@@ -29,7 +29,7 @@ extern int fn_8255FB38();
 extern int fn_827F6318();
 extern unsigned int lbl_8218E68C;
 extern unsigned int lbl_8218E690;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_82563688(undefined8 param_1,undefined8 param_2,ushort *param_3,code *param_4)
@@ -60,7 +60,7 @@ undefined8 fn_82563688(undefined8 param_1,undefined8 param_2,ushort *param_3,cod
       fn_827F6318(param_1);
       (*param_4)(param_3,param_2);
     }
-    if ((*(float *)(param_3 + 4) == lbl_821CC160) || (iVar4 = fn_8255FB38(param_1), iVar4 == 0)) {
+    if ((*(float *)(param_3 + 4) == ltcg_pool_0_0f) || (iVar4 = fn_8255FB38(param_1), iVar4 == 0)) {
       bVar1 = false;
     }
     else {

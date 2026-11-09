@@ -40,7 +40,7 @@ extern unsigned int iStack_30;
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_82192604;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822E1040(double param_1,int *param_2)
@@ -58,7 +58,7 @@ void fn_822E1040(double param_1,int *param_2)
   int iStack_2c;
   
   param_2[0x13] = (int)(float)((double)(float)param_2[0x13] - param_1);
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   if (*(int *)(param_2[5] + 0x24) != 0) {
     iVar1 = *(int *)(param_2[5] + 0x118);
     if (*(int *)(param_2[4] + 0x54) != 0xb) {

@@ -38,7 +38,7 @@ extern int fn_82672C20();
 extern unsigned int iStack0000001c;
 extern unsigned int lbl_82195598;
 extern unsigned int lbl_821A8C90;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x0000001c;
 extern unsigned int uStack_12c;
 extern unsigned int uStack_130;
@@ -57,7 +57,7 @@ void fn_822985B0(double param_1,int *param_2,int param_3)
   undefined1 auStack_120 [264];
   
   iStack0000001c = param_3;
-  if ((param_3 != 0xb) || (param_1 <= (double)lbl_821CC160)) {
+  if ((param_3 != 0xb) || (param_1 <= (double)ltcg_pool_0_0f)) {
     puVar1 = (undefined4 *)fn_82299140(param_2 + 2,&stack0x0000001c);
     if (7 < (uint)puVar1[5]) {
       puVar1 = (undefined4 *)*puVar1;

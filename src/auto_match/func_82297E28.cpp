@@ -50,7 +50,6 @@ struct Obj {
 };
 
 extern "C" {
-extern float lbl_821CC160;
 void fn_82266D28(SP *h, int a);
 void *fn_8266EC60(void);
 SP fn_8266ECF0(void *ctx, int p, int a, int b, int c, int d, int flags);
@@ -90,7 +89,7 @@ Obj *fn_82297E28(Obj *self, int p2, void *p3)
     self->f60 = 0;
     fn_82297428(self->f64, L"Game Paused");
     self->f84 = 0;
-    self->f80 = lbl_821CC160;
+    self->f80 = 0.0f;
     fn_823F2E20(&self->h, fn_8266ECF0(fn_8266EC60(), p2, 1, 0, -1, 0, 0x18280143));
     fn_82673BC0(self->h.ptr, fn_822984D0, self);
     fn_822987B8(self, p3);

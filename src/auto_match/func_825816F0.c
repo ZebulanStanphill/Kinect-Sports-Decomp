@@ -38,7 +38,7 @@ extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern float lbl_82195644;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A24;
 extern unsigned int lbl_8326C070;
 extern unsigned int lbl_8326C260;
@@ -171,7 +171,7 @@ void fn_825816F0(undefined8 param_1,longlong param_2,undefined8 param_3,undefine
                                        bVar24,uVar21,uVar23), iVar16 == 0)) goto LAB_82581e1c;
       }
       fn_825D6BD8(iVar16,param_2 + 0x34,param_2 + 0x38);
-      fVar8 = lbl_821CC160;
+      fVar8 = ltcg_pool_0_0f;
       fVar7 = lbl_821CA460;
       *(undefined4 *)(iVar16 + 0x94) = *(undefined4 *)(iVar5 + 0x58);
       fVar1 = *(float *)(iVar5 + 0x5c);

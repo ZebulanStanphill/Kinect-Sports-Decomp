@@ -62,7 +62,7 @@ extern unsigned int iStack_274;
 extern unsigned int iStack_27c;
 extern unsigned int iStack_41c;
 extern unsigned int lbl_82193A34;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_3d8;
 extern unsigned int uStack_3e0;
 extern unsigned int uStack_3e8;
@@ -232,13 +232,13 @@ LAB_823b3190:
     else {
       piVar7 = (int *)param_2;
       piVar10 = *(int **)(*piVar7 + 8);
-      dVar19 = (double)lbl_821CC160;
+      dVar19 = (double)ltcg_pool_0_0f;
       puVar12 = (undefined4 *)(iVar5 + 0x10U & 0xfffffff0);
       uVar20 = puVar12[1];
       uVar21 = puVar12[2];
       uVar22 = puVar12[3];
       uVar13 = 0;
-      fStack_3a0 = lbl_821CC160;
+      fStack_3a0 = ltcg_pool_0_0f;
       puVar1 = (undefined4 *)((int)auStack_3b0 + (int)in_r0 & 0xfffffff0);
       *puVar1 = *puVar12;
       puVar1[1] = uVar20;

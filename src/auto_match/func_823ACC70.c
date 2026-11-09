@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_823AC9D8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int fn_823ACC70(int param_1,int param_2)
@@ -58,8 +58,8 @@ int fn_823ACC70(int param_1,int param_2)
   float afStack_30 [6];
   
   fn_823AC9D8(afStack_30);
-  fVar4 = lbl_821CC160;
-  if (*(float *)(param_2 + 0x38) <= lbl_821CC160) {
+  fVar4 = ltcg_pool_0_0f;
+  if (*(float *)(param_2 + 0x38) <= ltcg_pool_0_0f) {
     puVar2 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
     *puVar2 = in_register_00010470;
     puVar2[1] = in_register_00010474;

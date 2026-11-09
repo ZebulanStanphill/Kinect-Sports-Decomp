@@ -29,7 +29,7 @@ extern int fn_822842B0();
 extern int fn_82672C20();
 extern unsigned int lbl_82192480;
 extern unsigned int lbl_82192604;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822841B8(double param_1,undefined4 *param_2)
@@ -44,7 +44,7 @@ void fn_822841B8(double param_1,undefined4 *param_2)
   pfVar4 = (float *)(param_2 + 0xc);
   bVar2 = false;
   uVar3 = 0;
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   do {
     if (pfVar4[-2] != 0.0) {
       if (pfVar4[-1] == 0.0) {

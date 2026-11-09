@@ -33,7 +33,7 @@ extern int fn_825275B0();
 extern unsigned int iStack_5c;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821925C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822E2BE8(double param_1,undefined8 param_2,int param_3,int param_4,undefined8 param_5)
@@ -55,19 +55,19 @@ void fn_822E2BE8(double param_1,undefined8 param_2,int param_3,int param_4,undef
   }
   iVar2 = *(int *)(param_3 + 0x14);
   if ((*(int *)(iVar2 + 0x2c) == *(int *)(param_4 + 0x2c)) || (*(int *)(iVar2 + 0x310) != 0)) {
-    if (param_1 < (double)lbl_821CC160) {
+    if (param_1 < (double)ltcg_pool_0_0f) {
 LAB_822e2d10:
       bVar4 = false;
       goto LAB_822e2ca4;
     }
   }
   else {
-    if (param_1 == (double)lbl_821CC160) {
+    if (param_1 == (double)ltcg_pool_0_0f) {
       bVar4 = *(int *)(param_4 + 0x2a4) != 0;
       goto LAB_822e2ca4;
     }
     fVar1 = lbl_8218E8E8;
-    if (param_1 < (double)lbl_821CC160) {
+    if (param_1 < (double)ltcg_pool_0_0f) {
       fVar1 = lbl_821925C0;
     }
     if ((double)fVar1 < param_1) goto LAB_822e2d10;

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern int (*lbl_8327677C)();
 extern int (*lbl_83276794)();
 
@@ -43,7 +43,7 @@ LAB_8236b614:
     uVar2 = 1;
   }
   else {
-    if (*(float *)(iVar1 + 0xd8) <= lbl_821CC160) {
+    if (*(float *)(iVar1 + 0xd8) <= ltcg_pool_0_0f) {
       if (lbl_83276794 == (code *)0x0) {
         iVar3 = 0;
       }

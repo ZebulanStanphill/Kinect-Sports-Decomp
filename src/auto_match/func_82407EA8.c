@@ -30,7 +30,7 @@ extern int fn_8229AAF8();
 extern int fn_82359698();
 extern int fn_82406BE0();
 extern int fn_827F5708();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82407EA8(int param_1)
@@ -52,7 +52,7 @@ void fn_82407EA8(int param_1)
        = 1;
   if (*(int *)(*(int *)(*(int *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + 0x38) + 0x118) + 0x2e4) !=
       0) {
-    fn_827F5708((double)lbl_821CC160);
+    fn_827F5708((double)ltcg_pool_0_0f);
   }
   piVar3 = (int *)(*(int *)(param_1 + 4) + 0x44);
   if (piVar3 == (int *)0x0) {

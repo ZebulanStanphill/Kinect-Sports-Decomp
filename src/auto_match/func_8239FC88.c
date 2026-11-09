@@ -30,7 +30,7 @@ extern int fn_82359558();
 extern int fn_82397F88();
 extern int fn_82399CB8();
 extern int fn_825604A0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2B38;
 extern unsigned int lbl_831D2B80;
 extern unsigned int lbl_832975B0;
@@ -87,7 +87,7 @@ LAB_8239fcec:
   *(int *)(param_1 + 0x298) = 1 - iVar2;
 LAB_8239fdf8:
   *(uint *)(param_1 + 0x28c) = param_2;
-  *(undefined4 *)(param_1 + 0x290) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x290) = ltcg_pool_0_0f;
   uVar4 = *(uint *)(param_1 + 0x288);
   if ((int)*(uint *)(param_1 + 0x288) < (int)param_3) {
     uVar4 = param_3;

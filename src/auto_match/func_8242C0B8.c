@@ -1,5 +1,4 @@
 typedef struct SP_8242C0B8 { int *ptr; unsigned rep; } SP_8242C0B8;
-extern float lbl_821CC160;
 extern int fn_824CCD80(int);
 extern void fn_825603C8(int, int, int);
 extern SP_8242C0B8 *fn_82522588(SP_8242C0B8 *, int *);
@@ -12,7 +11,7 @@ void fn_8242C0B8(int param_1)
   int **p = *(int ***)(param_1 + 0x30);
   int i = 0;
   if (p != *(int ***)(param_1 + 0x34)) {
-    float f = lbl_821CC160;
+    float f = 0.0f;
     do {
       SP_8242C0B8 tmp;
       int *o;

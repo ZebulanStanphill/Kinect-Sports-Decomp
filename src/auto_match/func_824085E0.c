@@ -47,7 +47,7 @@ extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195598;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824085E0(double param_1,int param_2)
@@ -68,7 +68,7 @@ void fn_824085E0(double param_1,int param_2)
   double dVar13;
   int aiStack_30 [6];
   
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   uVar7 = *(uint *)(param_2 + 0x50);
   if (uVar7 == 0) {
     if (*(int *)(param_2 + 0x54) == 0) {
@@ -76,10 +76,10 @@ void fn_824085E0(double param_1,int param_2)
     }
     fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
     fVar5 = -fVar1;
-    fVar6 = lbl_821CC160;
+    fVar6 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar5 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar5) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar5 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar6 = fVar1;
     }
     *(float *)(param_2 + 0x54) = fVar6;
@@ -98,10 +98,10 @@ LAB_82408a00:
       }
       fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
       fVar5 = -fVar1;
-      fVar6 = lbl_821CC160;
+      fVar6 = ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar5 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar5) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar5 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar6 = fVar1;
       }
       *(float *)(param_2 + 0x54) = fVar6;
@@ -120,10 +120,10 @@ LAB_82408a00:
     }
     fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
     fVar5 = -fVar1;
-    fVar6 = lbl_821CC160;
+    fVar6 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar5 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar5) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar5 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar6 = fVar1;
     }
     *(float *)(param_2 + 0x54) = fVar6;

@@ -51,7 +51,7 @@ extern int iRam8326b380;
 extern int iRam8326b384;
 extern int iRam8326b388;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B370;
 extern unsigned int lbl_8326B374;
@@ -186,7 +186,7 @@ void fn_82546CC0(int param_1)
   iRam8326b380 = fn_8263C910(0x500,0x2d0,0x18280186,0,auStack_e0);
   fn_8263A1B8(lbl_8320A898,0);
   fn_8263DE70((double)lbl_821CA460,lbl_8320A898,0,0,0xf,0);
-  fn_8263FB38((double)lbl_821CC160,lbl_8320A898,0,0,lbl_8326B370,0,0,0,0);
+  fn_8263FB38((double)ltcg_pool_0_0f,lbl_8320A898,0,0,lbl_8326B370,0,0,0,0);
   auStack_e0[0] = 0;
   iRam8326b384 = fn_8263C910(0x500,0x2d0,0x1a220197,0,auStack_e0);
   auStack_e0[0] = 0;

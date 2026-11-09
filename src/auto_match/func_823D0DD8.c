@@ -40,7 +40,7 @@ extern int fn_82508078();
 extern int fn_82F63108();
 extern unsigned int iStack_3c;
 extern unsigned int lbl_821B6284;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823D0DD8(int param_1,int param_2)
@@ -129,7 +129,7 @@ void fn_823D0DD8(int param_1,int param_2)
         if ((*(int *)(param_1 + 0x41c) != 4) ||
            (*(int *)(param_1 + 0x424) != *(int *)(param_1 + 0x420))) {
           *(undefined4 *)(param_1 + 0x41c) = 4;
-          *(undefined4 *)(param_1 + 0x428) = lbl_821CC160;
+          *(undefined4 *)(param_1 + 0x428) = ltcg_pool_0_0f;
         }
       }
       fn_8236BCD8(param_1);

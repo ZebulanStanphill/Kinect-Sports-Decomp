@@ -53,7 +53,7 @@ extern unsigned int iStack_38c;
 extern unsigned int iStack_390;
 extern unsigned int lbl_821BC740;
 extern unsigned int lbl_821BC758;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8246FAF0;
 extern unsigned int lbl_8246FB10;
 extern unsigned int lbl_831D1318;
@@ -131,7 +131,7 @@ void fn_82350888(int param_1,int param_2)
     }
     break;
   case 8:
-    *(undefined4 *)(param_1 + 0x368) = lbl_821CC160;
+    *(undefined4 *)(param_1 + 0x368) = ltcg_pool_0_0f;
     if (iVar5 != 0) {
       *(undefined4 *)(*(int *)(iVar5 + 0x38) + 0x80) = uRam831c6c2c;
     }

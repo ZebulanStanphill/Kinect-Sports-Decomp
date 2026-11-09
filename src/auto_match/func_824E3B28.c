@@ -43,7 +43,7 @@ extern int fn_8258D680();
 extern int fn_8265CA20();
 extern int fn_82F4E760();
 extern int fn_82F4EC18();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 
@@ -108,8 +108,8 @@ void fn_824E3B28(int param_1)
     fn_8249BDC0(iVar5,1);
   }
   fn_8249B450(iVar5);
-  dVar8 = (double)lbl_821CC160;
-  *(float *)(iVar5 + 0x28) = lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
+  *(float *)(iVar5 + 0x28) = ltcg_pool_0_0f;
   loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x40);
   pfVar4 = (float *)((uint)(auStack_30 + (int)in_r0) & 0xfffffff0);
   *pfVar4 = in_register_00010440 * in_register_00010000;

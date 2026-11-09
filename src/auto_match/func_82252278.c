@@ -31,7 +31,7 @@ extern unsigned int *auStack_80;
 extern unsigned int *auStack_b0;
 extern unsigned int fStack_7c;
 extern int fn_82F68CC0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_24;
 extern unsigned int uStack_28;
 extern unsigned int uStack_2a;
@@ -95,7 +95,7 @@ void fn_82252278(int param_1,undefined8 param_2,int param_3)
   uStack_2c = 0;
   uStack_2b = 0;
   uStack_2a = 0;
-  uStack_30 = lbl_821CC160;
+  uStack_30 = ltcg_pool_0_0f;
   uStack_28 = 0;
   uStack_24 = 3;
   (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,&uStack_74);

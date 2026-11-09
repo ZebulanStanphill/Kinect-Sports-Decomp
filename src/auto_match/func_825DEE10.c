@@ -35,7 +35,7 @@ extern unsigned int lbl_82193D10;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195590;
 extern float lbl_821955A0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 
 
@@ -64,13 +64,13 @@ undefined8 fn_825DEE10(double param_1,double param_2,int *param_3)
     pfVar7 = (float *)&lbl_82192604;
     dVar13 = (double)lbl_831E4E38;
     iVar5 = fn_8255A780(ABS((double)*(float *)(iVar5 + 0x50)),dVar13,(double)lbl_82193D10);
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
     dVar11 = (double)pfVar7[-0x395];
     fVar2 = (float)((double)*(float *)(param_3[0x10] + 0x4c) - param_2);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-      fVar2 = lbl_821CC160;
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+      fVar2 = ltcg_pool_0_0f;
     }
     *(float *)(param_3[0x10] + 0x4c) = fVar2;
     if (((dVar11 < (double)*(float *)(*param_3 + 0xa0)) || ((double)pfVar7[-0x38c] < ABS(param_1)))

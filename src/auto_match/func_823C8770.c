@@ -35,7 +35,7 @@ extern unsigned int fStack_68;
 extern int fn_822B33B0();
 extern int fn_823C9098();
 extern int fn_823CAF28();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 extern unsigned int uStack_54;
 extern unsigned int uStack_58;
@@ -64,7 +64,7 @@ void fn_823C8770(int param_1)
   
   fn_823CAF28(param_1,auStack_30,auStack_40,&fStack_68,auStack_70);
   fn_823C9098((double)fStack_68,(double)fStack_64,(double)fStack_60);
-  cVar3 = fn_822B33B0((double)lbl_821CC160,
+  cVar3 = fn_822B33B0((double)ltcg_pool_0_0f,
                        *(undefined4 *)(*(int *)(*(int *)(param_1 + 0x240) + 0x1c) + 4));
   if (cVar3 != '\0') {
     puVar1 = (undefined4 *)((uint)(auStack_20 + in_r0) & 0xfffffff0);

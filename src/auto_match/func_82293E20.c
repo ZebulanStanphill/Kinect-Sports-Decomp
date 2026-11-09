@@ -29,7 +29,7 @@ extern int fn_82299AC8();
 extern int fn_82299D40();
 extern int fn_82299E90();
 extern int fn_82F64988();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82293E20(double param_1,double param_2,int param_3,undefined8 param_4,undefined8 param_5,
@@ -50,7 +50,7 @@ void fn_82293E20(double param_1,double param_2,int param_3,undefined8 param_4,un
   if ((param_7 & 0xffffffff) != 0) {
     fn_82F64988(param_3 + 0x102c,0x400,param_7);
   }
-  if (*(float *)(param_3 + 0x182c) == lbl_821CC160) {
+  if (*(float *)(param_3 + 0x182c) == ltcg_pool_0_0f) {
     if (*(int *)(param_3 + 0x1834) == 0) {
       fn_82299AC8(*(undefined4 *)(param_3 + 0x1848),iVar1);
     }

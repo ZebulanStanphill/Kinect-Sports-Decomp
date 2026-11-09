@@ -35,7 +35,7 @@ extern int fn_8257F0E8();
 extern int fn_8257FDD8();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821955AC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern float lbl_8327F894;
 
 
@@ -56,7 +56,7 @@ void fn_82489350(int param_1)
   
   iVar2 = *(int *)(param_1 + 0xd54);
   fn_8255AFA8(*(undefined4 *)(param_1 + 0x844));
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   fVar5 = lbl_8327F894 * *(float *)(param_1 + 0x820);
   if (*(int *)(param_1 + 0x838) != 0) {
     dVar9 = (double)(*(float *)(param_1 + 0x838) - fVar5);

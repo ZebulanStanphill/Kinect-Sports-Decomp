@@ -36,7 +36,7 @@ extern unsigned int lbl_821B5380;
 extern unsigned int lbl_821B5444;
 extern unsigned int lbl_821B5484;
 extern unsigned int lbl_821B54D4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_823A4B00(undefined4 *param_1,undefined4 param_2)
@@ -137,7 +137,7 @@ undefined4 * fn_823A4B00(undefined4 *param_1,undefined4 param_2)
     if (puStack_5c + 3 != (undefined4 *)0x0) {
       puStack_5c[5] = param_1;
       puStack_5c[4] = 3;
-      uVar1 = lbl_821CC160;
+      uVar1 = ltcg_pool_0_0f;
       puStack_5c[3] = &lbl_821B5380;
       puStack_5c[6] = uVar1;
     }

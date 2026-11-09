@@ -35,7 +35,7 @@ extern int fn_8262A2F0();
 extern unsigned int lbl_821955AC;
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_821CB888;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int fn_8262A108(int param_1,undefined8 param_2,int param_3,undefined4 param_4)
@@ -79,7 +79,7 @@ int fn_8262A108(int param_1,undefined8 param_2,int param_3,undefined4 param_4)
     *(int *)(param_1 + 0x968) = *(int *)(param_1 + 0x968) + 1;
   } while (iVar6 < 0xc);
   fn_8255D1B0(param_3,param_1 + 0x20,param_1 + 0x18);
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x1c) = lbl_821955AC;
   fn_8262A2F0(dVar7,param_1);
   return param_1;

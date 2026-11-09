@@ -52,7 +52,7 @@ extern unsigned int iStack_20c;
 extern unsigned int iStack_27c;
 extern unsigned int iStack_2a0;
 extern unsigned int lbl_82002B04;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832766CC;
 extern unsigned int uStack_1e8;
 extern unsigned int uStack_24c;
@@ -331,6 +331,6 @@ LAB_824667a8:
   param_1[0x7d] = 0;
   fn_82467D80(param_1 + 0x14);
   fn_82467D80(param_1 + 0x18);
-  fn_82466A20((double)lbl_821CC160,param_1);
+  fn_82466A20((double)ltcg_pool_0_0f,param_1);
   return param_1;
 }

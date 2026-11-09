@@ -46,7 +46,7 @@ extern unsigned int lbl_8218EC94;
 extern unsigned int lbl_8218ECA8;
 extern unsigned int lbl_8218ECB4;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326F87C;
 extern unsigned int lbl_8326F880;
 extern unsigned int lbl_8326F8F4;
@@ -184,7 +184,7 @@ void fn_8259D418(undefined8 param_1,longlong param_2,longlong param_3,undefined8
     puVar29[3] = uVar19;
   }
   uVar34 = puVar25[1];
-  dVar38 = (double)lbl_821CC160;
+  dVar38 = (double)ltcg_pool_0_0f;
   puVar8 = (undefined8 *)param_5;
   if (((((uVar34 == 8) || (uVar34 == 0x80)) || (uVar34 == 0x40)) ||
       ((uVar34 == 1 && (puVar25[0x11] != 0)))) && ((double)*(float *)((int)puVar8 + 0xc) == dVar38))

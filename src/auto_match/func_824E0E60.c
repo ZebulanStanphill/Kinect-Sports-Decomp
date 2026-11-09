@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 
 typedef struct {
     int a, b;
@@ -12,5 +11,5 @@ void fn_824E0E60(S *s)
 {
     s->d = 0;
     s->c = 0;
-    s->f = lbl_821CC160;
+    s->f = 0.0f;
 }

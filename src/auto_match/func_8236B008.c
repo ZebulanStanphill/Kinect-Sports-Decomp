@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8236B008(int param_1,undefined4 param_2)
@@ -42,7 +42,7 @@ void fn_8236B008(int param_1,undefined4 param_2)
   undefined4 in_register_000104d8;
   undefined4 in_vr77;
   
-  *(undefined4 *)(param_1 + 0xed0) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0xed0) = ltcg_pool_0_0f;
   puVar1 = (undefined4 *)(in_r0 + param_1 + 0xe90 & 0xfffffff0);
   *puVar1 = in_register_000104d0;
   puVar1[1] = in_register_000104d4;

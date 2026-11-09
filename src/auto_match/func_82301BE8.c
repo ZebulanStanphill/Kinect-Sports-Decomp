@@ -49,7 +49,7 @@ extern unsigned int iStack_d4;
 extern unsigned int lbl_821AECE4;
 extern unsigned int lbl_821AEDA8;
 extern unsigned int lbl_821AEDF0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_11c;
 extern unsigned int uStack_124;
@@ -133,15 +133,15 @@ void fn_82301BE8(int param_1,undefined4 *param_2,undefined4 *param_3)
   lVar11 = 4;
   do {
     fn_82302CE0(iVar9);
-    fVar6 = lbl_821CC160;
+    fVar6 = ltcg_pool_0_0f;
     lVar11 = lVar11 + -1;
     iVar9 = iVar9 + 0x10;
   } while (lVar11 != 0);
   ppuStack_170 = &lbl_821AEDF0;
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   pcStack_148 = "footplay_sidetoside_part2";
   puStack_150 = &lbl_821AECE4;
-  *(float *)(param_1 + 0x1d4) = lbl_821CC160;
+  *(float *)(param_1 + 0x1d4) = ltcg_pool_0_0f;
   piStack_1a0 = aiStack_1b0;
   *(float *)(param_1 + 0x1d0) = fVar6;
   *(float *)(param_1 + 0x1dc) = fVar6;

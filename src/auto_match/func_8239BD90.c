@@ -32,7 +32,7 @@ extern int fn_8239C118();
 extern int fn_824BD858();
 extern int fn_82508078();
 extern int fn_8288B760();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -106,7 +106,7 @@ LAB_8239be14:
         if (uVar6 < *(uint *)(param_1 + 0x2d4)) {
           uVar6 = (**(code **)(**(int **)(param_1 + 0x2e0) + 0x3c))();
           if (uVar6 < *(uint *)(param_1 + 0x2d4) >> 1) {
-            if (lbl_821CC160 < *(float *)(param_2 + 0x268)) {
+            if (ltcg_pool_0_0f < *(float *)(param_2 + 0x268)) {
               lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
               uVar8 = (ulonglong)(-1 < (int)(-lbl_83265A28 & ~lbl_83265A28)) ^ 1;
 LAB_8239c098:
@@ -122,7 +122,7 @@ LAB_8239c098:
               uVar3 = 0xffffffff821b4c08;
               goto LAB_8239c100;
             }
-            if (*(float *)(param_2 + 0x268) < lbl_821CC160) {
+            if (*(float *)(param_2 + 0x268) < ltcg_pool_0_0f) {
               uVar8 = (longlong)(int)lbl_83265A28 * 0x19660d + 0x3c6ef35f;
               lbl_83265A28 = (uint)uVar8;
               uVar8 = -(ulonglong)((-uVar8 & ~uVar8 & 0xffffffff) >> 0x1f != 0);

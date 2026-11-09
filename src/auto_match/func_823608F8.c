@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 extern int fn_822B70F0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823608F8(int param_1,int param_2,longlong param_3)
@@ -48,7 +48,7 @@ void fn_823608F8(int param_1,int param_2,longlong param_3)
   uVar3 = ZEXT48(piVar1);
   iVar2 = *(int *)(piVar1[4] * 4 + *piVar1);
   if (*(int *)(iVar2 + 8) != 0) {
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     dVar6 = (double)lbl_821CA460;
     do {
       iVar2 = fn_822ABA88(iVar2,uVar4);

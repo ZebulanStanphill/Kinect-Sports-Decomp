@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined1 fn_824B1410(int param_1)
@@ -52,8 +52,8 @@ undefined1 fn_824B1410(int param_1)
     }
     uVar4 = 0;
     fVar3 = *(float *)(iVar1 + 0x28);
-    fVar2 = lbl_821CC160;
-    while ((lbl_821CC160 < fVar3 && (uVar4 < *(int *)(iVar1 + 0x14) - 1U))) {
+    fVar2 = ltcg_pool_0_0f;
+    while ((ltcg_pool_0_0f < fVar3 && (uVar4 < *(int *)(iVar1 + 0x14) - 1U))) {
       uVar4 = uVar4 + 1;
       if (uVar4 < *(uint *)(iVar1 + 0x14)) {
         iVar5 = (*(uint *)(iVar1 + 0x14) - uVar4) + -1;

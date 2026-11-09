@@ -32,7 +32,7 @@ extern int fn_8248BEA8();
 extern int fn_8248C888();
 extern int fn_824BF690();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern U64 storeWordConditionalIndexed();
 
 
@@ -85,7 +85,7 @@ void fn_824BD700(longlong param_1)
   } while (!(bool)(in_cr0 >> 1 & 1));
   piVar5[0x15] = 0;
   piVar5[0x1f] = 4;
-  iVar2 = lbl_821CC160;
+  iVar2 = ltcg_pool_0_0f;
   piVar5[0x20] = 4;
   iVar1 = lbl_821CA460;
   piVar5[0x23] = iVar2;

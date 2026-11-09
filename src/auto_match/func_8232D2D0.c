@@ -30,7 +30,7 @@ extern int fn_8232C528();
 extern int fn_82520780();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -51,7 +51,7 @@ void fn_8232D2D0(double param_1,int param_2)
   if (*(int *)(*(int *)(param_2 + 8) + 0x7ac) == 0) {
     *(float *)(param_2 + 0x88) = (float)((double)*(float *)(param_2 + 0x88) + param_1);
   }
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   if ((*(int *)(param_2 + 0x8c) != 0) && (*(int *)(param_2 + 0x90) != 0)) {
     dVar7 = (double)(float)((double)*(float *)(param_2 + 0x90) - param_1);
     dVar9 = -dVar7;

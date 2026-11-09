@@ -33,7 +33,7 @@ extern int fn_82587AC0();
 extern int fn_8265CAA0();
 extern unsigned int iStack_4c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 extern U64 storeVectorElementWordIndexed();
 
@@ -64,10 +64,10 @@ void fn_82475A58(int param_1,undefined4 *param_2,undefined8 param_3)
   *(undefined4 *)(uVar1 + 4 & 0xfffffffc) = uVar4;
   uVar4 = storeVectorElementWordIndexed(in_vs44,lVar5,8);
   *(undefined4 *)(uVar1 + 8 & 0xfffffffc) = uVar4;
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   uVar4 = lbl_821CA460;
-  dVar7 = (double)lbl_821CC160;
-  *(float *)(uStack_50 + 0xa4) = lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
+  *(float *)(uStack_50 + 0xa4) = ltcg_pool_0_0f;
   *(float *)(uStack_50 + 0xa8) = fVar2;
   *(float *)(uStack_50 + 0xac) = fVar2;
   *(undefined4 *)(uStack_50 + 0xb0) = uVar4;

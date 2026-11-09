@@ -31,7 +31,7 @@ extern int fn_82560708();
 extern int fn_82A1DD38();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825DD5C8(int param_1,int param_2,int param_3,int param_4)
@@ -65,8 +65,8 @@ LAB_825dd618:
   fVar1 = (float)((double)lbl_821CA460 - (double)*(float *)(param_2 + 0x7a0));
   dVar4 = (double)lbl_821CA460;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar4 = (double)*(float *)(param_2 + 0x7a0);
   }
                     /* WARNING: Subroutine does not return */

@@ -39,7 +39,7 @@ extern int fn_82CE5410();
 extern int fn_82D3C628();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_48;
 extern unsigned int uStack_5c;
 
@@ -111,7 +111,7 @@ int * fn_825A4BD8(int param_1,undefined8 param_2,undefined8 param_3)
     puVar1[2] = in_register_00010008;
     puVar1[3] = in_vr0;
     uStack_48 = auStack_70[0];
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     fStack00000020 = in_register_00010010;
     fStack00000024 = in_register_00010014;
     fStack00000028 = in_register_00010018;

@@ -31,7 +31,6 @@ typedef struct Obj_824F5A20 {
   unsigned char f18; unsigned char f19; float f1c; float f20;
 } Obj_824F5A20;
 extern char lbl_821C1E80[];
-extern float lbl_821CC160;
 extern void fn_82520158(const char *, int *, int);
 extern void *fn_8251F720(int *, int);
 extern void fn_8251FA58(void *);
@@ -58,7 +57,7 @@ Obj_824F5A20 *fn_824F5A20(Obj_824F5A20 *o, Src_824F5A20 *src)
   }
   o->f18 = 0;
   o->f19 = 0;
-  t = lbl_821CC160;
+  t = 0.0f;
   o->f1c = t;
   o->f20 = t;
   fn_82520158("fxCrossFadeVertexShader", &l.a, 0);

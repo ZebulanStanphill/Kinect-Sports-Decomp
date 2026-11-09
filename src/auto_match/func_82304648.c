@@ -29,7 +29,7 @@ extern int fn_82809CB0();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_821922D0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DF1B0;
 
 
@@ -55,7 +55,7 @@ void fn_82304648(void)
   *(undefined4 *)(iVar2 + 0x50) = 1;
   *(undefined4 *)(iVar2 + 0x1e4) = 4;
   iVar1 = *(int *)(iVar2 + 0x98);
-  dVar6 = (double)lbl_821CC160;
+  dVar6 = (double)ltcg_pool_0_0f;
   for (iVar3 = *(int *)(iVar2 + 0x94); iVar3 != iVar1; iVar3 = iVar3 + 0x40) {
     dVar4 = (double)fn_82809CB0((double)*(float *)(iVar3 + 0x20));
     dVar5 = (double)fn_82809CB0((double)*(float *)(iVar3 + 0x28));

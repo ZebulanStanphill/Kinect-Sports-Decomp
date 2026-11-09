@@ -36,7 +36,7 @@ extern int fn_82F63108();
 extern unsigned int iStack_8c;
 extern unsigned int iStack_90;
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82377D58(double param_1,double param_2,int param_3,undefined8 param_4,undefined8 param_5,
@@ -104,7 +104,7 @@ void fn_82377D58(double param_1,double param_2,int param_3,undefined8 param_4,un
   puVar5[2] = uVar8;
   puVar5[3] = uVar9;
   dVar6 = (double)fn_82379A60(iStack_90);
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   *(float *)(iStack_90 + 0x120) = (float)(-(double)fStack_7c / dVar6);
   if (*(int *)(iStack_90 + 0x2160) == 0) {
                     /* WARNING: Subroutine does not return */

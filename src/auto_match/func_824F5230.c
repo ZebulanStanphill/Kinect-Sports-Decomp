@@ -34,7 +34,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_82195CA4;
 extern float lbl_82195CA8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 
 
@@ -60,10 +60,10 @@ void fn_824F5230(double param_1,double param_2,double param_3,double param_4,dou
   double dVar16;
   
   puVar6 = lbl_8320A898;
-  uVar5 = lbl_821CC160;
+  uVar5 = ltcg_pool_0_0f;
   fVar3 = lbl_82192734;
   dVar16 = (double)lbl_82191FC4;
-  *(undefined4 *)(lbl_8320A898 + 0x270) = lbl_821CC160;
+  *(undefined4 *)(lbl_8320A898 + 0x270) = ltcg_pool_0_0f;
   *(undefined4 *)((int)puVar6 + 0x1384) = uVar5;
   *(undefined4 *)(puVar6 + 0x271) = uVar5;
   *(float *)((int)puVar6 + 0x138c) = (float)param_4;

@@ -37,7 +37,7 @@ extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_a0;
 
 
@@ -78,7 +78,7 @@ void fn_823A9168(undefined8 param_1,undefined8 param_2,longlong param_3)
   (**(code **)(*(int *)(iVar7 + 0x40) + 0x10))(piVar9,param_2,param_3 + 0x10);
   piVar11 = (int *)(iVar7 + 0xa8);
   (**(code **)(*(int *)(iVar7 + 0xa8) + 0x10))(piVar11,param_2,param_3 + 0x24);
-  dVar18 = (double)lbl_821CC160;
+  dVar18 = (double)ltcg_pool_0_0f;
   iVar4 = (int)param_3;
   if (*(int *)(iVar4 + 0x28) == 0) {
     uVar10 = 0;

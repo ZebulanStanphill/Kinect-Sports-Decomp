@@ -35,7 +35,7 @@ extern unsigned int iStack_5c;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821BA994;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_82456678;
 extern unsigned int uStack_4c;
 
@@ -65,7 +65,7 @@ void fn_82364988(int param_1,undefined *param_2)
     fn_825521F0((double)lbl_821CA460,(double)lbl_8218E8E8);
     *(undefined4 *)(param_1 + 0x828) = 0;
     *(undefined4 *)(param_1 + 0x84c) = 1;
-    *(undefined4 *)(param_1 + 0x854) = lbl_821CC160;
+    *(undefined4 *)(param_1 + 0x854) = ltcg_pool_0_0f;
   }
   (**(code **)(**(int **)(param_1 + 0x3ec) + 0x1c))(*(int **)(param_1 + 0x3ec),param_2);
   iVar1 = fn_82364DF0(param_1,param_2);

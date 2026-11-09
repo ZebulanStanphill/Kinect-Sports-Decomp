@@ -48,7 +48,7 @@ extern unsigned int iStack_184;
 extern unsigned int iStack_190;
 extern unsigned int lbl_821C2258;
 extern unsigned int lbl_821C2CF8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A24;
 extern unsigned int lbl_8326F874;
 extern unsigned int lbl_832767C8;
@@ -200,7 +200,7 @@ LAB_825b79c0:
       do {
         puVar10 = puVar10 + 1;
         *puVar10 = 0;
-        uVar3 = lbl_821CC160;
+        uVar3 = ltcg_pool_0_0f;
         lVar14 = lVar14 + -1;
       } while (lVar14 != 0);
       iVar12 = 0;

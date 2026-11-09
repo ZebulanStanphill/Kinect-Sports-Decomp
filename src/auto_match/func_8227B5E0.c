@@ -30,7 +30,6 @@ extern int fn_822315A0();
 extern int fn_82279C58();
 extern int fn_82672C20();
 extern unsigned int iStack_1c;
-extern float lbl_821CC160;
 
 
 void fn_8227B5E0(int param_1)
@@ -46,7 +45,7 @@ void fn_8227B5E0(int param_1)
       fn_822315A0(local.owner);
     }
     *(undefined4 *)(param_1 + 0xa48) = 5;
-    *(float *)(param_1 + 0xa4c) = lbl_821CC160;
+    *(float *)(param_1 + 0xa4c) = 0.0f;
   }
   return;
 }

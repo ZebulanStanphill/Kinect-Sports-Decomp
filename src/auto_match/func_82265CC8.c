@@ -30,7 +30,7 @@ extern unsigned int fStack_2c;
 extern int fn_822843E0();
 extern int fn_82284448();
 extern unsigned int lbl_82191F78;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82265CC8(int param_1)
@@ -77,7 +77,7 @@ void fn_82265CC8(int param_1)
 LAB_82265d64:
         uVar2 = *(uint *)(param_1 + 0x44);
         *(int *)(param_1 + 0x540) = (int)uVar6;
-        fn_822843E0((double)lbl_821CC160,*(undefined4 *)(param_1 + 0x520),
+        fn_822843E0((double)ltcg_pool_0_0f,*(undefined4 *)(param_1 + 0x520),
                           ((ulonglong)uVar2 +
                           ((longlong)((int)uVar2 >> 1) +
                            (ulonglong)((int)uVar2 < 0 && (uVar2 & 1) != 0) & 0x7fffffff) * -2) *

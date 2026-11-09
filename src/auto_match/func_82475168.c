@@ -25,7 +25,6 @@ extern int fn_82475350(int idx);
 extern Mgr_82475168 *fn_8249ABC0(void);
 extern void fn_8249B598(Mgr_82475168 *m, int idx);
 extern Obj_82475168 *fn_82F4EBE8(void);
-extern float lbl_821CC160;
 extern float lbl_831C6664[];
 extern float lbl_8327F880[];
 
@@ -74,6 +73,6 @@ int fn_82475168(int param_1, int param_2)
         }
     }
 reset:
-    *(float *)(e + 0x5c) = lbl_821CC160;
+    *(float *)(e + 0x5c) = 0.0f;
     return 0;
 }

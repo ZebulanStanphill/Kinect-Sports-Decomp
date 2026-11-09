@@ -32,7 +32,7 @@ extern int fn_823C4D40();
 extern int fn_823CE4E0();
 extern int fn_823CEFB0();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_823C3308(int param_1)
@@ -63,7 +63,7 @@ bool fn_823C3308(int param_1)
   iVar13 = *(int *)(param_1 + 0xe10);
   fVar5 = *(float *)(iVar13 + 0xa8) * *(float *)(iVar13 + 0x8bc);
   fVar6 = *(float *)(iVar13 + 0xa0) * *(float *)(iVar13 + 0x8bc);
-  dVar15 = (double)lbl_821CC160;
+  dVar15 = (double)ltcg_pool_0_0f;
   fVar1 = *(float *)(iVar13 + 0x280);
   iVar4 = *(int *)(*(int *)(param_1 + 0x1c) + 4);
   puVar7 = (undefined4 *)(iVar13 + 0x50U & 0xfffffff0);

@@ -29,7 +29,7 @@ extern unsigned int lbl_821917C0;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954E8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -41,9 +41,9 @@ void fn_8255FEE8(double param_1,int param_2,undefined4 *param_3,int param_4)
   float fVar3;
   double dVar4;
   
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   fVar3 = lbl_821CA460;
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   param_3[6] = 0;
   param_3[9] = 0;
   uVar2 = lbl_821917C0;

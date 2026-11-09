@@ -37,7 +37,7 @@ extern int fn_8239FAD8();
 extern int fn_82570840();
 extern int fn_825709D8();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2980;
 extern unsigned int lbl_831D2AC0;
 extern unsigned int lbl_831D2AC4;
@@ -120,7 +120,7 @@ LAB_8239f5a4:
   else {
     fVar3 = lbl_821CA460;
     if (*(int *)(param_2 + 0x28c) == 0) {
-      fVar3 = lbl_821CC160;
+      fVar3 = ltcg_pool_0_0f;
     }
     uVar4 = *(undefined4 *)(param_2 + 0x29c);
     loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x40);

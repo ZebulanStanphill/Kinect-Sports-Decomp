@@ -32,7 +32,7 @@ extern int fn_824BF8A8();
 extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_8251FBA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83276594;
 
 
@@ -91,7 +91,7 @@ LAB_824bea28:
   }
   fn_8245DE90(lbl_83276594,(ulonglong)uVar2 + 1);
   *(undefined4 *)(param_1 + 0xd8) = 1;
-  *(undefined4 *)(param_1 + 0xdc) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0xdc) = ltcg_pool_0_0f;
   return;
 }
 

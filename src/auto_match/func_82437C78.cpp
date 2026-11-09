@@ -54,7 +54,6 @@ struct Obj {
 extern "C" {
 extern void *lbl_821B9368[];
 extern void *lbl_821B9378[];
-extern float lbl_821CC160;
 void fn_8223B688(void *self, void *arg);
 Owned *fn_822B19F0(void *self, Function *f);
 void fn_822B1B28(Owned *self);
@@ -93,7 +92,7 @@ extern "C" Obj *fn_82437C78(Obj *self, void *arg)
     fn_8223B688(self->sub, arg);
     {
         float *fp = &self->f38;
-        *fp = lbl_821CC160;
+        *fp = 0.0f;
     }
     Ptr_init(&self->owned);
     mem = fn_8265C9E0(0x28);

@@ -29,7 +29,7 @@ extern unsigned int *auStack_50;
 extern int fn_8257A9F0();
 extern int fn_82F65350();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -55,7 +55,7 @@ ulonglong fn_823360A8(int param_1,int *param_2,int param_3,longlong param_4)
   uVar14 = (uint)param_4;
   uVar6 = 0;
   if (*(int *)(*param_2 + 0xae8) == 0) {
-    fVar5 = lbl_821CC160;
+    fVar5 = ltcg_pool_0_0f;
     if (uVar14 != 0) {
       pfVar10 = (float *)(param_3 + -0x90);
       do {
@@ -66,9 +66,9 @@ ulonglong fn_823360A8(int param_1,int *param_2,int param_3,longlong param_4)
     }
     lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
     fVar5 = ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * fVar5;
-    if (lbl_821CC160 < fVar5) {
+    if (ltcg_pool_0_0f < fVar5) {
       pfVar10 = (float *)(param_3 + 0x44);
-      fVar4 = lbl_821CC160;
+      fVar4 = ltcg_pool_0_0f;
       do {
         fVar4 = *pfVar10 + fVar4;
         if (fVar4 <= fVar5) {

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ulonglong fn_82490EA0(double param_1,int param_2,ulonglong param_3)
@@ -44,7 +44,7 @@ ulonglong fn_82490EA0(double param_1,int param_2,ulonglong param_3)
       puVar5 = puVar5 + 2) {
   }
   if (puVar5 != puVar2) {
-    dVar6 = (double)lbl_821CC160;
+    dVar6 = (double)ltcg_pool_0_0f;
     if (param_1 <= dVar6) {
       if (param_1 < dVar6) {
         puVar4 = puVar5;

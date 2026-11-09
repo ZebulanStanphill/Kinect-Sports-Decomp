@@ -30,7 +30,7 @@ extern float lbl_8218E8E8;
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821961F0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B850;
 extern unsigned int lbl_8326B85C;
 extern unsigned int lbl_8326B860;
@@ -60,11 +60,11 @@ void fn_82623F60(void)
   lbl_8326B85C = lbl_821CA460;
   lbl_8326B860 = lbl_821CA460;
   lbl_8326B874 = *(float *)(lbl_8326B8E8 + 0x10) * lbl_8218E8E8;
-  uRam8326b868 = lbl_821CC160;
+  uRam8326b868 = ltcg_pool_0_0f;
   lbl_8326B878 = *(float *)(lbl_8326B8E8 + 0x10) * lbl_8218E8E8;
   uRam8326b870 = lbl_821916FC;
-  lbl_8326B87C = lbl_821CC160;
-  lbl_8326B86C = lbl_821CC160;
+  lbl_8326B87C = ltcg_pool_0_0f;
+  lbl_8326B86C = ltcg_pool_0_0f;
   lbl_83274AFC = lbl_821CA460;
   return;
 }

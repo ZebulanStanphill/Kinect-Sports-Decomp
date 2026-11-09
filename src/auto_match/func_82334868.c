@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822BD338();
 extern int fn_822C72E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82334868(int param_1)
@@ -50,7 +50,7 @@ void fn_82334868(int param_1)
   }
   else if (*(int *)(param_1 + 0xc) == 0) {
     fVar1 = *(float *)(*(int *)(iVar2 + 0x23c) + 0x924);
-    dVar5 = (double)lbl_821CC160;
+    dVar5 = (double)ltcg_pool_0_0f;
     if (((*(int *)(iVar2 + 0x2a0) == 0) && (*(int *)(*(int *)(iVar2 + 0x23c) + 0x92c) == 0)) ||
        ((double)fVar1 <= dVar5)) {
       fn_822C72E0(*(undefined4 *)(*(int *)(param_1 + 8) + 0x20),param_1 + 0x134);
@@ -72,8 +72,8 @@ void fn_82334868(int param_1)
                                   *(uint *)(*(int *)(*(int *)(param_1 + 0x230) + 0x114) + 0x20) + 4,
                                   0xffffffff821b09cc), cVar3 != '\0')) {
       *(undefined4 *)(param_1 + 0x224) = 4;
-      fVar1 = lbl_821CC160;
-      *(float *)(param_1 + 0x228) = lbl_821CC160;
+      fVar1 = ltcg_pool_0_0f;
+      *(float *)(param_1 + 0x228) = ltcg_pool_0_0f;
       *(float *)(param_1 + 0x22c) = fVar1;
     }
   }

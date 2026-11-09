@@ -44,7 +44,7 @@ extern int fn_8263E9F0();
 extern int fn_8263FB38();
 extern int memcpy();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_100;
 extern unsigned int uStack_114;
 extern unsigned int uStack_118;
@@ -109,7 +109,7 @@ void fn_825EA9C8(int param_1)
   if (((*(int *)(iVar1 + 0xca4) == 0) && (*(int *)(param_1 + 0x30) == 0)) &&
      (*(int *)(iVar1 + 0xd30) != 0)) {
     fn_82623298(piVar3,*(undefined4 *)(iVar1 + 0xd34),*(undefined4 *)(iVar1 + 0xd38));
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     fn_8263DE70(dVar7,iVar2,0,0,1,0);
     fn_8263E9F0(dVar7,iVar2,0,0,0,0,*(undefined4 *)(iVar1 + 0xd30),0,0);
     fn_82623338(*(undefined4 *)
@@ -123,11 +123,11 @@ void fn_825EA9C8(int param_1)
     }
     else {
       *(undefined4 *)(param_1 + 0x30) = 0;
-      fStack_fc = lbl_821CC160;
+      fStack_fc = ltcg_pool_0_0f;
       uStack_114 = *(undefined4 *)(param_1 + 0x10);
       uStack_118 = *(undefined4 *)(*(int *)(param_1 + 4) + 0xae4);
       stack_pair_120.first = *(undefined4 *)(param_1 + 0x18);
-      dVar7 = (double)lbl_821CC160;
+      dVar7 = (double)ltcg_pool_0_0f;
       stack_pair_120.second = 4;
       puVar5 = (undefined4 *)((uint)(auStack_110 + in_r0) & 0xfffffff0);
       *puVar5 = in_register_000104b0;

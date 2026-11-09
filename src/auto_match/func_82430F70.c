@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern unsigned int fStack00000024;
 extern unsigned int fStack_2c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 
@@ -68,7 +68,7 @@ undefined8 fn_82430F70(double param_1,undefined8 param_2,int param_3)
   }
   (**(code **)(**(int **)(*(int *)(param_3 + 0x244) + 0x38) + 0xc))(ZEXT48(&stack0x00000000) - 0x30)
   ;
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) + 0x24);
   iVar1 = (int)in_r0;
   pfVar2 = (float *)((uint)(auStack_30 + iVar1) & 0xfffffff0);

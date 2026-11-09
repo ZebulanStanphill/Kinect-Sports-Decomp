@@ -37,7 +37,7 @@ extern int fn_824DA438();
 extern int fn_82539560();
 extern int iRam831c3e44;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824D9F68(undefined8 param_1,undefined8 param_2,int param_3,undefined8 param_4,
@@ -60,7 +60,7 @@ void fn_824D9F68(undefined8 param_1,undefined8 param_2,int param_3,undefined8 pa
   dVar4 = (double)fRam831c3edc;
   fVar1 = SQRT(afStack_2c[0] * afStack_2c[0] + (float)(dVar5 * dVar5));
   dVar7 = (double)fVar1;
-  dVar6 = (double)lbl_821CC160;
+  dVar6 = (double)ltcg_pool_0_0f;
   dVar3 = (double)(float)((double)*(float *)(param_3 * 4 + -0x7ce3c130) - dVar7);
   if (ABS(dVar3) <= dVar4) {
     *param_6 = fVar1;

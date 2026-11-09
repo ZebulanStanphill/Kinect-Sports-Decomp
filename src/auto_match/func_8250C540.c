@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8250C280();
 extern unsigned int iStack_6c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_58;
 extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
@@ -54,7 +54,7 @@ void fn_8250C540(double param_1,double param_2,undefined8 param_3,undefined8 par
   uint uStack_5c;
   uint uStack_58;
   
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   uVar5 = 0;
   do {
     uStack_70 = uVar5;

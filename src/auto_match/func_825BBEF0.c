@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_825BBEF0(double param_1,undefined8 param_2,int param_3,int param_4)
@@ -53,7 +53,7 @@ undefined8 fn_825BBEF0(double param_1,undefined8 param_2,int param_3,int param_4
   if ((in_register_00010018 < fVar1) || (bVar3 = true, fVar5 <= in_register_00010018)) {
     bVar3 = false;
   }
-  if ((bVar3) && (*(float *)(param_3 + 0xc) != lbl_821CC160)) {
+  if ((bVar3) && (*(float *)(param_3 + 0xc) != ltcg_pool_0_0f)) {
     dVar7 = (double)in_register_00010010;
     dVar9 = (double)(float)(dVar7 + param_1);
     dVar8 = (double)((in_register_00010018 - *(float *)(param_3 + 0x10)) / *(float *)(param_3 + 0xc)

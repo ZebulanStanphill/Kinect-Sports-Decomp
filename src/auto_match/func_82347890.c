@@ -44,7 +44,7 @@ extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_82193B00;
 extern unsigned int lbl_82195828;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 float * fn_82347890(float *param_1,int param_2)
@@ -61,9 +61,9 @@ float * fn_82347890(float *param_1,int param_2)
   double dVar9;
   double dVar10;
   
-  fVar6 = lbl_821CC160;
+  fVar6 = ltcg_pool_0_0f;
   fVar2 = lbl_821911F8;
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   param_1[5] = 0.0;
   fVar5 = lbl_821CA460;
   fVar4 = lbl_82193B00;

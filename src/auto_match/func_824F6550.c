@@ -48,7 +48,7 @@ extern int fn_82F65FE0();
 extern unsigned int lbl_8218E1AC;
 extern unsigned int lbl_8219174C;
 extern unsigned int lbl_8219248C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C3120;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -133,7 +133,7 @@ LAB_824f65e8:
     }
     if (iVar2 != -0x9c0) {
       *(undefined4 *)(iVar2 + 0xa00) = 8;
-      *(undefined4 *)(iVar2 + 0x9fc) = lbl_821CC160;
+      *(undefined4 *)(iVar2 + 0x9fc) = ltcg_pool_0_0f;
       *(undefined1 *)(iVar2 + 0x9f8) = 1;
     }
     fn_8257E880((double)lbl_8219174C,iVar2);

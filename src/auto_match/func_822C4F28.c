@@ -31,7 +31,7 @@ extern int fn_822C6D68();
 extern int fn_822CA5B0();
 extern int fn_8255A070();
 extern int fn_8288B760();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822C4F28(int param_1)
@@ -56,8 +56,8 @@ void fn_822C4F28(int param_1)
   else {
     lVar3 = (ulonglong)*(uint *)(param_1 + 0x114) + 0x50;
     fn_822C6D68(lVar3,param_1 + 0x80,param_1 + 0xc0);
-    fVar1 = lbl_821CC160;
-    dVar5 = (double)lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
+    dVar5 = (double)ltcg_pool_0_0f;
     dVar4 = (double)fn_8255A070();
     fn_822C6B30(lVar3,param_1 + 0x80,param_1 + 0xc0,CONCAT44(fVar1,(float)dVar4),
                       (ulonglong)(uint)(float)dVar5 << 0x20);

@@ -32,7 +32,7 @@ extern int fn_8262EB18();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -52,7 +52,7 @@ void fn_82627BB0(int param_1,int param_2)
   double dVar10;
   float fStack_30;
   
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   if (((double)*(float *)(param_1 + 0x268) != dVar9) ||
      (bVar3 = false, (double)*(float *)(param_1 + 0x26c) != dVar9)) {
     bVar3 = true;

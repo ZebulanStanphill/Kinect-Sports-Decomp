@@ -30,7 +30,7 @@ extern int fn_82373840();
 extern int fn_82373B70();
 extern int fn_82A1EFC0();
 extern unsigned int lbl_821B37CC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -45,10 +45,10 @@ void fn_82375E60(int param_1)
   undefined **appuStack_30 [4];
   undefined ***pppuStack_20;
   
-  fVar3 = lbl_821CC160;
-  dVar5 = (double)lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
+  dVar5 = (double)ltcg_pool_0_0f;
   *(float *)(*(int *)((*(int **)**(undefined4 **)(param_1 + 8))[4] * 4 +
-                     **(int **)**(undefined4 **)(param_1 + 8)) + 0x20) = lbl_821CC160;
+                     **(int **)**(undefined4 **)(param_1 + 8)) + 0x20) = ltcg_pool_0_0f;
   piVar1 = *(int **)(**(int **)(param_1 + 8) + 4);
   *(float *)(*(int *)(piVar1[4] * 4 + *piVar1) + 0x20) = fVar3;
   fn_82373B70();

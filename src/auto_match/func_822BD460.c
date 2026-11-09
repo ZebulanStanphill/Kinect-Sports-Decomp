@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern int fn_824CCD80();
 extern int fn_824CD030();
 extern int fn_82560100();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000020;
 extern unsigned int stack0x00000030;
 
@@ -41,7 +41,7 @@ void fn_822BD460(undefined8 param_1,undefined8 param_2,ulonglong param_3,undefin
   int iVar2;
   undefined4 auStack_20 [2];
   
-  iVar1 = fn_82560100((double)lbl_821CC160,param_1,param_2,&stack0x00000020,param_4,
+  iVar1 = fn_82560100((double)ltcg_pool_0_0f,param_1,param_2,&stack0x00000020,param_4,
                             &stack0x00000030,0,0,0);
   if (((param_3 & 0xffffffff) != 0) && (iVar2 = fn_824CD030(param_3), iVar2 != 0)) {
     auStack_20[0] = fn_824CCD80(param_3);

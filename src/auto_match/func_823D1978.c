@@ -32,7 +32,7 @@ extern int fn_823CEFB0();
 extern int fn_823D0268();
 extern int fn_8288B760();
 extern unsigned int lbl_82191FC4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823D1978(double param_1,int param_2)
@@ -232,7 +232,7 @@ LAB_823d1b94:
     fn_823CE4E0(param_2,uVar12);
   }
 LAB_823d1de8:
-  uVar8 = lbl_821CC160;
+  uVar8 = ltcg_pool_0_0f;
   *(undefined1 *)(param_2 + 0x1520) = 0;
   *(undefined1 *)(param_2 + 0x152c) = 0;
   *(undefined4 *)(param_2 + 0x1538) = uVar8;

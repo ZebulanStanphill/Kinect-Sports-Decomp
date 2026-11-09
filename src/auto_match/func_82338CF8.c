@@ -40,7 +40,7 @@ extern int fn_82F50D98();
 extern int fn_82F50E10();
 extern int fn_82F52520();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 
@@ -147,14 +147,14 @@ undefined8 fn_82338CF8(undefined8 param_1,int param_2)
         fVar18 = afStack_a0[0] - -fVar20;
         fVar19 = afStack_a0[0];
         if (*(float *)(&lbl_821954D8 +
-                      ((uint)(byte)((fVar18 < lbl_821CC160) << 2) |
-                      (uint)(NAN(fVar18) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                      ((uint)(byte)((fVar18 < ltcg_pool_0_0f) << 2) |
+                      (uint)(NAN(fVar18) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
           fVar19 = -fVar20;
         }
         afStack_a0[0] = fVar20;
         if (*(float *)(&lbl_821954D8 +
-                      ((uint)(byte)((fVar19 - fVar20 < lbl_821CC160) << 2) |
-                      (uint)(NAN(fVar19 - fVar20) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                      ((uint)(byte)((fVar19 - fVar20 < ltcg_pool_0_0f) << 2) |
+                      (uint)(NAN(fVar19 - fVar20) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
           afStack_a0[0] = fVar19;
         }
       }

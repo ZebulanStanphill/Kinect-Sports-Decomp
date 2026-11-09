@@ -61,7 +61,7 @@ extern unsigned int iStack_e4;
 extern unsigned int iStack_ec;
 extern unsigned int iStack_f4;
 extern unsigned int lbl_82193AF0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_100;
 extern unsigned int uStack_90;
@@ -242,7 +242,7 @@ void fn_822F4258(undefined8 param_1,double param_2,double param_3,double param_4
     fn_8239B5B8((ulonglong)*(uint *)(iVar5 + 0x10),(ulonglong)*(uint *)(iVar5 + 0x10) + 0x66c)
     ;
     puVar8 = *(undefined4 **)(*(int *)(iVar5 + 0x10) + 0xa8);
-    *(undefined4 *)(*(int *)(iVar5 + 0x10) + 0x868) = lbl_821CC160;
+    *(undefined4 *)(*(int *)(iVar5 + 0x10) + 0x868) = ltcg_pool_0_0f;
     piVar9 = (int *)puVar8[1];
     for (piVar10 = (int *)*puVar8; piVar10 != piVar9; piVar10 = piVar10 + 2) {
       fn_824C97F0(*(undefined4 *)(*piVar10 + 0x28),0xffffffff821b45a8);

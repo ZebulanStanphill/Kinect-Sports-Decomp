@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_8232C528();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8232DBE0(double param_1,int param_2)
@@ -44,14 +44,14 @@ void fn_8232DBE0(double param_1,int param_2)
   if (*(int *)(*(int *)(param_2 + 8) + 0x7a4) == 0) {
     fn_8232C528(*(undefined4 *)(param_2 + 0xc),2);
   }
-  fVar6 = lbl_821CC160;
+  fVar6 = ltcg_pool_0_0f;
   if ((*(int *)(param_2 + 100) != 0) && (*(int *)(param_2 + 0x68) != 0)) {
     fVar1 = (float)((double)*(float *)(param_2 + 0x68) - param_1);
     fVar4 = -fVar1;
-    fVar5 = lbl_821CC160;
+    fVar5 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar4 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar4) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar4 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar5 = fVar1;
     }
     *(float *)(param_2 + 0x68) = fVar5;

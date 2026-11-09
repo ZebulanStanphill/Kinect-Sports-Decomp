@@ -35,7 +35,7 @@ extern unsigned int fStack_30;
 extern int fn_823AC278();
 extern int fn_823AD3F0();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2C68;
 
 
@@ -65,30 +65,30 @@ double fn_823AC498(undefined8 param_1)
     fVar3 = (float)(ABS((double)fStack_28) - ABS((double)fStack_18));
     dVar6 = ABS((double)fStack_2c);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar6 = ABS((double)fStack_1c);
     }
     dVar5 = ABS((double)fStack_28);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar3 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar3) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar3 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar5 = ABS((double)fStack_18);
     }
     dVar4 = ABS((double)fStack_30);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar4 = ABS((double)fStack_20);
     }
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(dVar6 - dVar5) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(dVar6 - dVar5)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(dVar6 - dVar5) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(dVar6 - dVar5)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar6 = dVar5;
     }
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(dVar4 - dVar6) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(dVar4 - dVar6)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(dVar4 - dVar6) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(dVar4 - dVar6)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar4 = dVar6;
     }
   }

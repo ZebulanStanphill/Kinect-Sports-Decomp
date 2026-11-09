@@ -32,7 +32,7 @@ extern int fn_824CD030();
 extern int fn_827F57E8();
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823427C0(int param_1,undefined8 param_2,undefined8 param_3)
@@ -70,7 +70,7 @@ void fn_823427C0(int param_1,undefined8 param_2,undefined8 param_3)
       goto LAB_82342908;
     }
     iVar2 = *(int *)(**(int **)(param_1 + 0xc) + 0x118);
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
   }
   else {
     if ((int)param_3 != 4) goto LAB_82342908;

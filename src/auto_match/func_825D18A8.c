@@ -35,7 +35,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195598;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_74;
 extern unsigned int uStack_78;
 
@@ -64,8 +64,8 @@ void fn_825D18A8(float *param_1,float *param_2,int param_3,int param_4,float *pa
   uint uStack_78;
   uint uStack_74;
   
-  fVar4 = lbl_821CC160;
-  dVar15 = (double)lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
+  dVar15 = (double)ltcg_pool_0_0f;
   *param_5 = lbl_82195644;
   *param_6 = fVar4;
   fVar4 = lbl_821CA460;

@@ -38,7 +38,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_82192F70;
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -103,8 +103,8 @@ undefined8 fn_8231C8C8(undefined8 param_1,int param_2,float *param_3,float *para
   fStack_40 = (float)(uVar6 & 0x7fffff | 0x3f800000);
   fVar2 = fStack_40;
   fStack_40 = (float)(lbl_83265A28 & 0x7fffff | 0x3f800000);
-  if ((lbl_821CC160 < fStack_38 * (fVar2 - lbl_821CA460) + fVar1) &&
-     ((fStack_34 - fStack_3c) * (fStack_40 - lbl_821CA460) + fStack_3c < lbl_821CC160)) {
+  if ((ltcg_pool_0_0f < fStack_38 * (fVar2 - lbl_821CA460) + fVar1) &&
+     ((fStack_34 - fStack_3c) * (fStack_40 - lbl_821CA460) + fStack_3c < ltcg_pool_0_0f)) {
     *(undefined4 *)(param_2 + 0x2b0) = 1;
   }
   fn_8231CB88(param_1);

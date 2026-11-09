@@ -35,7 +35,7 @@ extern int fn_822D14B8();
 extern int fn_822E2D18();
 extern int fn_822E2E30();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DCD58;
 extern unsigned int lbl_83265A28;
 
@@ -105,8 +105,8 @@ LAB_822e1bb0:
 LAB_822e1bbc:
   *(uint *)(param_1 + 0x44) = uVar8;
   *(undefined4 *)(param_1 + 0x48) = 1;
-  dVar9 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x54) = lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x54) = ltcg_pool_0_0f;
   *(undefined4 *)(*(int *)(param_1 + 0x14) + 0x270) = 0;
   if (*(int *)(*(int *)(param_1 + 0x14) + 0x24) == 0) {
     fn_822CF300(*(int *)(param_1 + 0x14),5);

@@ -59,7 +59,7 @@ extern unsigned int lbl_82191FC8;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195690;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F8B8;
 extern unsigned int lbl_8327FA10;
 extern unsigned int lbl_8327FA14;
@@ -151,7 +151,7 @@ void fn_825CCAE0(undefined8 param_1,double param_2,undefined8 param_3,undefined8
   vectorSubtractFloatingPoint(in_vs45,in_vs32);
   vectorSubtractFloatingPoint(in_vs44,in_vs32);
   dVar18 = (double)*(float *)((int)fVar2 + 0x54);
-  dVar26 = (double)lbl_821CC160;
+  dVar26 = (double)ltcg_pool_0_0f;
   dVar16 = (double)*(float *)((int)fVar2 + 0x4c);
   dVar15 = (double)*(float *)((int)fVar2 + 0x50);
   iVar9 = 0;

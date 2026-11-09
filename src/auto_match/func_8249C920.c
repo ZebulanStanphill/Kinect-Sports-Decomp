@@ -34,7 +34,7 @@ extern unsigned int lbl_821917B4;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821956DC;
 extern unsigned int lbl_821956E0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D76EC;
 
 
@@ -55,10 +55,10 @@ void fn_8249C920(int param_1,int param_2)
       fn_8249B5F0(param_2,1,0,0);
       fn_82F4E1F8();
       fn_82265140(1);
-      fVar7 = lbl_821CC160;
+      fVar7 = ltcg_pool_0_0f;
       fVar4 = lbl_821956E0;
       fVar3 = ABS(*(float *)(param_2 + 0xf8));
-      if ((lbl_821CC160 < fVar3) && (iVar1 = *(int *)(param_2 + 0xec), fVar3 <= lbl_821956DC)) {
+      if ((ltcg_pool_0_0f < fVar3) && (iVar1 = *(int *)(param_2 + 0xec), fVar3 <= lbl_821956DC)) {
         fVar6 = lbl_821956E0 - fVar3;
         *(float *)(iVar1 + 0xc) = fVar6;
         fVar5 = lbl_831D76EC;

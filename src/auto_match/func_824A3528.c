@@ -30,7 +30,7 @@ extern unsigned int *auStack_38;
 extern unsigned int fStack_2c;
 extern unsigned int iStack_3c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_40;
 
 
@@ -58,7 +58,7 @@ void fn_824A3528(int param_1,int *param_2)
   
   (**(code **)*param_2)(param_2,auStack_38,&uStack_40);
   (**(code **)(*param_2 + 4))(param_2,uStack_40,&iStack_3c);
-  uVar4 = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
   fVar1 = *(float *)(param_1 + 0x3c);
   puVar2 = (undefined4 *)(*(int *)(iStack_3c + 0x40) + 0xd0U & 0xfffffff0);
   uVar6 = puVar2[1];

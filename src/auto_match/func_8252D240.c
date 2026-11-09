@@ -29,7 +29,7 @@ extern int fn_8252D2F8();
 extern unsigned int iStack_2c;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 extern unsigned int uStack_24;
@@ -64,8 +64,8 @@ void fn_8252D240(undefined8 param_1,undefined8 param_2,int *param_3)
   undefined4 uStack_1c;
   
   uStack_4c = lbl_821CA460;
-  uStack_48 = lbl_821CC160;
-  uStack_3c = lbl_821CC160;
+  uStack_48 = ltcg_pool_0_0f;
+  uStack_3c = ltcg_pool_0_0f;
   uStack_50 = 0x4d697850;
   uStack_40 = lbl_821917C0;
   uStack_44 = 0x20;

@@ -1,6 +1,5 @@
 extern int *fn_8251F720(void *, int);
 extern void fn_8251FA58(void *);
-extern float lbl_821CC160;
 
 
 void fn_8236AD40(int *d, void *arg)
@@ -12,7 +11,7 @@ void fn_8236AD40(int *d, void *arg)
   int k;
   s = fn_8251F720(arg, 0);
   d[0x3f9] = s[0x0];
-  fv = lbl_821CC160;
+  fv = 0.0f;
   d[0x3fa] = s[0x1];
   d[0x3fb] = s[0x2];
   d[0x3fc] = s[0x3];

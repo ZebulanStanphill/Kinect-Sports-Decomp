@@ -31,7 +31,7 @@ extern int fn_822CFA38();
 extern int fn_822E2BE8();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -54,7 +54,7 @@ void fn_822E28C0(int param_1)
     piVar2 = *(int **)(**(int **)(*(int *)(param_1 + 0x10) + 8) + *(int *)(uVar1 + 0x2c) * -4 + 4);
     uVar4 = fn_822ABA88(*(undefined4 *)(piVar2[4] * 4 + *piVar2),*(undefined4 *)(param_1 + 0x44));
     iVar5 = fn_822CFA38(uVar6,1);
-    dVar9 = (double)lbl_821CC160;
+    dVar9 = (double)ltcg_pool_0_0f;
     dVar7 = (double)lbl_821CA460;
     dVar8 = dVar9;
     if (iVar5 != 0) {

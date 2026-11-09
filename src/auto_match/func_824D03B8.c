@@ -32,7 +32,6 @@ typedef struct Slot_824D03B8 {
   char pad2[0x1c10 - 0x3b0];
 } Slot_824D03B8;
 typedef struct Obj_824D03B8 { char pad[0x3a00]; A_824D03B8 *f3a00; int f3a04; B_824D03B8 *f3a08; } Obj_824D03B8;
-extern float lbl_821CC160;
 
 void fn_824D03B8(Obj_824D03B8 *o, int idx, int on, float t)
 {
@@ -52,7 +51,7 @@ void fn_824D03B8(Obj_824D03B8 *o, int idx, int on, float t)
       s->f3a8 = 1;
       s->f3ac = s->f348 + o->f3a00->f254;
     }
-    s->f344 = lbl_821CC160;
+    s->f344 = 0.0f;
   }
   s = &((Slot_824D03B8 *)o)[idx];
   s->f394 = on;

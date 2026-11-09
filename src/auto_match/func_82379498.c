@@ -36,7 +36,7 @@ extern int fn_82534820();
 extern int fn_82539560();
 extern int fn_82552BE8();
 extern unsigned int lbl_82005748;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1C38;
 extern unsigned int lbl_831D1C3C;
 extern unsigned int uStack_48;
@@ -74,7 +74,7 @@ void fn_82379498(int *param_1,int *param_2)
         puVar2[1] = uVar6;
         puVar2[2] = uVar7;
         puVar2[3] = uVar8;
-        dVar5 = (double)lbl_821CC160;
+        dVar5 = (double)ltcg_pool_0_0f;
         dVar4 = (double)fn_82539560((double)stack_pair_50.second,(double)lbl_831D1C38,(double)lbl_831D1C3C,
                                      dVar5,(double)lbl_82005748);
         if (dVar5 < dVar4) {

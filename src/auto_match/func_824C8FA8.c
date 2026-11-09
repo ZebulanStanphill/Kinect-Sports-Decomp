@@ -36,7 +36,7 @@ extern int fn_8255A160();
 extern int fn_8255ACE0();
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821959A4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_38;
 
 
@@ -63,13 +63,13 @@ undefined8 fn_824C8FA8(undefined8 param_1,undefined4 *param_2,int param_3)
   fVar1 = (float)(dVar3 - dVar4);
   dVar3 = (double)fn_8253FD80((double)(fVar1 / SQRT(fVar1 * fVar1 + lbl_821959A4)));
   fStack_40 = (float)-dVar3;
-  uStack_38 = lbl_821CC160;
+  uStack_38 = ltcg_pool_0_0f;
   puVar2 = (undefined4 *)(in_r0 + param_3 & 0xfffffff0);
   uVar5 = *puVar2;
   uVar6 = puVar2[1];
   uVar7 = puVar2[2];
   uVar8 = puVar2[3];
-  fStack_3c = (float)lbl_821CC160;
+  fStack_3c = (float)ltcg_pool_0_0f;
   fn_8255ACE0(&fStack_40);
   puVar2 = (undefined4 *)(in_r0 + (int)param_1 & 0xfffffff0);
   *puVar2 = uVar5;

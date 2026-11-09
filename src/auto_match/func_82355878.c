@@ -51,7 +51,7 @@ extern int fn_82F64988();
 extern int fn_82F691F0();
 extern unsigned int lbl_820E975C;
 extern unsigned int lbl_821A8D8C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832765BC;
 extern unsigned int uStack_290;
 extern unsigned int uStack_350;
@@ -100,8 +100,8 @@ void fn_82355878(int param_1)
   undefined1 auStack_28e [654];
   
   piVar10 = *(int **)(param_1 + 0x18);
-  dVar24 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x390) = lbl_821CC160;
+  dVar24 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x390) = ltcg_pool_0_0f;
   if (piVar10 != (int *)0x0) {
     (**(code **)(*piVar10 + 0x18))(piVar10,(ulonglong)*(uint *)(param_1 + 0x344) - 1);
   }

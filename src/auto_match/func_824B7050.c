@@ -29,7 +29,7 @@ extern int fn_824B4310();
 extern int fn_8265C9E0();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821C0570;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_824B7050(undefined8 param_1)
@@ -45,7 +45,7 @@ undefined4 * fn_824B7050(undefined8 param_1)
   }
   else {
     fn_824B4310(puVar3,param_1);
-    uVar2 = lbl_821CC160;
+    uVar2 = ltcg_pool_0_0f;
     puVar3[0x12] = 0;
     uVar1 = lbl_82192734;
     *puVar3 = &lbl_821C0570;

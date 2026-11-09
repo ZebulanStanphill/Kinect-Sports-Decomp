@@ -29,7 +29,7 @@ extern unsigned int *auStack_4f;
 extern int fn_82552720();
 extern int fn_825529B0();
 extern int fn_82F691F0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823A62E8(double param_1,int param_2)
@@ -56,7 +56,7 @@ void fn_823A62E8(double param_1,int param_2)
   }
   fVar1 = (float)((double)*(float *)(param_2 + 0x2c) - param_1);
   *(float *)(param_2 + 0x2c) = fVar1;
-  if (lbl_821CC160 < fVar1) {
+  if (ltcg_pool_0_0f < fVar1) {
     if (*(int *)(param_2 + 0x28) != 0) {
       return;
     }

@@ -30,7 +30,7 @@ extern int fn_827EFC90();
 extern int fn_827F04B0();
 extern int fn_827F2DD0();
 extern int fn_82D93670();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825B46F0(uint *param_1)
@@ -47,7 +47,7 @@ void fn_825B46F0(uint *param_1)
   uVar6 = *param_1;
   uVar1 = param_1[1];
   if (uVar6 < uVar1) {
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     uVar5 = uVar6;
     do {
       if (*(int *)(uVar6 + 0xd4) != 0) {

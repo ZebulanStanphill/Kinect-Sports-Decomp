@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 extern int fn_823693A0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -52,7 +52,7 @@ void fn_823C3AE0(undefined8 param_1)
   float afStack_20 [8];
   
   uVar8 = 0;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   uVar5 = 0;
   piVar1 = *(int **)(*(int *)((int)param_1 + 0xe24) * 4 + **(int **)((int)param_1 + 8));
   uVar2 = *(uint *)(piVar1[4] * 4 + *piVar1);

@@ -38,7 +38,7 @@ extern int fn_827EFFE8();
 extern int fn_827F0180();
 extern int fn_82A1EFC0();
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8329EAD0;
 extern unsigned int lbl_8329EAE0;
@@ -86,7 +86,7 @@ void fn_822B9E88(int *param_1)
     if (((param_1[7] == 0) && (fn_822B98F8(), param_1[7] != 0)) &&
        (fn_82520158(0xffffffff821a9670,aiStack_70,0), aiStack_70[0] != 0)) {
       fn_822B99C0(param_1,aiStack_70);
-      fn_827EF828((double)lbl_821CC160,param_1[7]);
+      fn_827EF828((double)ltcg_pool_0_0f,param_1[7]);
       fn_827EFFE8(param_1[7]);
     }
     piVar13 = *(int **)(*param_1 + 0x8c0);

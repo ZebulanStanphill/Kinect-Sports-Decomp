@@ -1,7 +1,6 @@
 extern void *memcpy(void *, const void *, unsigned int);
 extern unsigned int lbl_821AD588;
 extern unsigned int lbl_821B7E04;
-extern float lbl_821CC160;
 
 typedef struct Buf { unsigned char d[0x2c]; } Buf;
 typedef struct Sub {
@@ -51,7 +50,7 @@ Obj *fn_8240D0B8(Obj *param_1, Src *param_2)
     s->vt = &lbl_821B7E04;
     s->f18 = 0;
     s->buf = *(Buf *)param_2->s6;
-    fv = lbl_821CC160;
+    fv = 0.0f;
     s->f48 = 0;
     s->f4c = 0;
     s->f50 = param_2->s7;

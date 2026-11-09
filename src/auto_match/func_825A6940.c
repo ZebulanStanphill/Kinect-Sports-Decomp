@@ -30,7 +30,6 @@ extern int fn_825A6B58();
 extern int fn_825A7178();
 extern int fn_82604780();
 extern int fn_82CED628();
-__declspec(selectany) extern const float lbl_821CC160 = 0.0f;
 
 
 void fn_825A6940(int param_1)
@@ -49,7 +48,7 @@ void fn_825A6940(int param_1)
       fn_825A6A78(param_1);
     }
     *(undefined4 *)(*(unsigned *)(param_1 + 0x4e0) + 0x118) = *(undefined4 *)(param_1 + 0x59c);
-    if (*(float *)(param_1 + 0x5c4) > lbl_821CC160) { fn_825A6B58(param_1); } else {
+    if (*(float *)(param_1 + 0x5c4) > 0.0f) { fn_825A6B58(param_1); } else {
       if ((*(int *)(param_1 + 0x584) != 0) || (*(int *)(param_1 + 0x58c) != 0)) {
         iVar1 = *(unsigned *)(param_1 + 0x4e0);
         if (*(int *)(iVar1 + 0x104) != 0) {

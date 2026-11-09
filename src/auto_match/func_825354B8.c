@@ -42,7 +42,7 @@ extern int fn_82864898();
 extern unsigned int lbl_821C3FC4;
 extern unsigned int lbl_821C4014;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F85C;
 extern unsigned int *lbl_8327F868;
 extern unsigned int lbl_8327F874;
@@ -87,7 +87,7 @@ int * fn_825354B8(undefined4 *param_1,float *param_2,float *param_3,undefined8 p
     ppiVar5 = &piStack_d0;
   }
   else {
-    dVar9 = (double)lbl_821CC160;
+    dVar9 = (double)ltcg_pool_0_0f;
     dVar6 = dVar9;
     dVar7 = dVar9;
     dVar8 = dVar9;

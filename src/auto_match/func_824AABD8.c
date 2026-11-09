@@ -30,7 +30,7 @@ extern int fn_82539560();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82192480;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824AABD8(void)
@@ -42,6 +42,6 @@ void fn_824AABD8(void)
   dVar2 = (double)lbl_82192480;
   uVar1 = fn_824AAC40();
                     /* WARNING: Subroutine does not return */
-  fn_82539560(uVar1,(double)lbl_821916FC,dVar2,(double)lbl_821CC160,(double)lbl_821CA460);
+  fn_82539560(uVar1,(double)lbl_821916FC,dVar2,(double)ltcg_pool_0_0f,(double)lbl_821CA460);
 }
 

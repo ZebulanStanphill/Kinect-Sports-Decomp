@@ -38,7 +38,7 @@ extern int fn_82335838();
 extern int fn_82336398();
 extern int fn_823364B8();
 extern int fn_82417F58();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned char switchdataD_82195038[];
 
 
@@ -70,7 +70,7 @@ void fn_82334340(double param_1,int param_2)
     return;
   }
   if (((*(int *)(uVar1 + 0x24) != 0) || (*(int *)(uVar1 + 0x280) == 0)) ||
-     (uVar4 = fn_82417F58(uVar9), fVar3 = lbl_821CC160,
+     (uVar4 = fn_82417F58(uVar9), fVar3 = ltcg_pool_0_0f,
      (uVar4 & 0xffffffff) != (uVar8 & 0xffffffff))) {
     uVar9 = fn_82417F58(uVar9);
     if ((uVar9 & 0xffffffff) == (uVar8 & 0xffffffff)) {
@@ -79,9 +79,9 @@ void fn_82334340(double param_1,int param_2)
     *(undefined4 *)(param_2 + 0x14) = 0;
     return;
   }
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0x14) == 0) {
-    *(float *)(param_2 + 0x228) = lbl_821CC160;
+    *(float *)(param_2 + 0x228) = ltcg_pool_0_0f;
     *(undefined4 *)(param_2 + 0x224) = 1;
     *(float *)(param_2 + 0x22c) = fVar3;
   }

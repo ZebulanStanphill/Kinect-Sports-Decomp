@@ -5,7 +5,8 @@
 // would add a null check) and the vtable is stored by hand.
 // /O1 /QVMXReserve: the game keeps constant vectors in reserved VMX registers (v77 zero, v75, v65 the
 // sign mask), read with __VMXGetReg; each read is a separate value (two negations, vor copies).
-// The game's 0.0f (lbl_821CC160) is a static constant so that it is loaded once; 1.0f is
+// 0.0f is the game code's link-time code generation pool copy (ltcg_pool_0_0f; the unit's
+// pool_aliases entry in objects.json renames the compiled __real@00000000 to it); 1.0f is
 // lbl_821CA45C[1] (selectany, as in func_825BCDA8.cpp).
 #include "havok/hkpShape.h"
 
@@ -21,7 +22,6 @@ __vector4 __vcmpgtfp(__vector4 a, __vector4 b);
 __vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
 }
 
-static const float lbl_821CC160 = 0.0f;   // the game's 0.0f
 
 class hkVector4 {
 public:
@@ -122,9 +122,9 @@ extern "C" Actuator *fn_82603640(Actuator *self, hkpEntity *entity)
     *(void ***)self = lbl_821CA858;
     self->m_linearParams.m_0 = lbl_821CA45C[1];
     self->m_linearParams.m_4 = lbl_821CA45C[1];
-    self->m_linearParams.m_timeConstant = lbl_821CC160;
-    self->m_linearParams.m_invTimeConstant = lbl_821CC160;
-    self->m_linearParams.m_invTimeConstant2 = lbl_821CC160;
+    self->m_linearParams.m_timeConstant = 0.0f;
+    self->m_linearParams.m_invTimeConstant = 0.0f;
+    self->m_linearParams.m_invTimeConstant2 = 0.0f;
     self->m_angularParams = self->m_linearParams;
     self->deactivate();
     self->m_108 = 0;

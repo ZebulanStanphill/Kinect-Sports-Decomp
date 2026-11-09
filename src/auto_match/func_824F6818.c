@@ -58,7 +58,7 @@ extern unsigned int lbl_821914B0;
 extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821956BC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C3124;
 extern unsigned int lbl_831C3128;
 extern unsigned int lbl_831C312C;
@@ -203,8 +203,8 @@ LAB_824f6a4c:
   uVar14 = (ulonglong)*(uint *)(iVar8 + 0x2b0);
   lVar15 = 3;
   uVar12 = (ulonglong)*(uint *)(iVar8 + 0x2b4);
-  fVar3 = lbl_821CC160;
-  fVar4 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
+  fVar4 = ltcg_pool_0_0f;
   do {
     uVar7 = uVar14 + 0x23;
     uVar11 = -(ulonglong)(uVar12 != 3) & uVar12 + 1;
@@ -232,7 +232,7 @@ LAB_824f6a4c:
   }
   if (bVar13) {
     if (bVar5) {
-      *(float *)(iVar8 + 0x220) = lbl_821CC160;
+      *(float *)(iVar8 + 0x220) = ltcg_pool_0_0f;
     }
     else if (fVar4 < -lbl_831C3134) goto LAB_824f6be4;
   }

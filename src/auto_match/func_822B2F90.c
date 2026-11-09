@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822B2EA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorCompareEqualToFloatingPoint();
 extern V16 vectorSubtractFloatingPoint();
 
@@ -62,7 +62,7 @@ float * fn_822B2F90(float *param_1,int param_2)
   fVar6 = *(float *)(uVar2 + 8);
   vectorSubtractFloatingPoint(in_vs32,in_vs45);
   vectorCompareEqualToFloatingPoint(in_vs43,in_vs44);
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (!(bool)(in_cr6 >> 3 & 1)) {
     fVar1 = fVar5 * fVar5 + 0.0 + fVar6 * fVar6;
     vectorSubtractFloatingPoint(in_vs43,in_vs45);

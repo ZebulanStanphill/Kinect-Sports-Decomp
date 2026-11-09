@@ -17,7 +17,6 @@ extern void *fn_8265C9E0(unsigned int);
 extern void fn_824584B8(void *);
 extern void fn_822315A0(void *);
 extern char lbl_821BAA6C[];
-extern float lbl_821CC160;
 
 void fn_82458748(Ent_82458748 *tab, void *param_2)
 {
@@ -35,7 +34,7 @@ void fn_82458748(Ent_82458748 *tab, void *param_2)
     obj = &q->obj;
     if (obj != 0) {
       obj->owner = param_2;
-      obj->f4 = lbl_821CC160;
+      obj->f4 = 0.0f;
       fn_824584B8(obj->sub);
       obj->fe0 = 0;
       obj->fe4 = 0;

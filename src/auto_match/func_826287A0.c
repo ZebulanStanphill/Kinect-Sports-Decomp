@@ -42,7 +42,7 @@ extern int fn_82F6E2F0();
 extern unsigned int iStack_d0;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82193CC0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_b8;
 extern unsigned int uStack_cc;
 
@@ -82,7 +82,7 @@ void fn_826287A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,ulongl
   if (0 < iVar8) {
     piVar9 = piVar5 + 5;
     dVar14 = (double)lbl_82192734;
-    dVar16 = (double)lbl_821CC160;
+    dVar16 = (double)ltcg_pool_0_0f;
     dVar15 = (double)lbl_82193CC0;
     do {
       uStack_b8 = *(undefined8 *)piVar9;

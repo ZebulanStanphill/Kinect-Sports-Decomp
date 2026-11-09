@@ -29,7 +29,7 @@ extern int fn_82250A18();
 extern int fn_822A1460();
 extern int fn_822AA770();
 extern int fn_8265C9E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 
 
@@ -52,7 +52,7 @@ undefined4 * fn_82370740(undefined4 *param_1,int param_2)
     fVar1 = *(float *)(*(int *)(param_2 + 0x260) + 0x1a0);
 LAB_82370780:
     uVar9 = 1;
-    if (fVar1 <= lbl_821CC160) {
+    if (fVar1 <= ltcg_pool_0_0f) {
       uVar9 = 0;
     }
   }

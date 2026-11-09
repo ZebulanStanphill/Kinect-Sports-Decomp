@@ -42,7 +42,7 @@ extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821A7E4C;
 extern unsigned int lbl_821A7E60;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1024;
 extern unsigned int lbl_831D1044;
 extern unsigned int lbl_831D1048;
@@ -149,7 +149,7 @@ LAB_82271fe0:
       } while (lVar11 != 0);
       puVar6[0xb] = uVar2;
       puVar6[10] = uVar7;
-      fVar1 = lbl_821CC160;
+      fVar1 = ltcg_pool_0_0f;
       *puVar6 = &lbl_821A7E4C;
       *(longlong *)(puVar6 + 7) = uStack_78;
       puVar6[0xc] = fVar1;
@@ -181,8 +181,8 @@ LAB_82271fe4:
     }
     else {
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)(((float)(dVar14 - dVar15) < lbl_821CC160) << 2) |
-                    (uint)(NAN((float)(dVar14 - dVar15)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)(((float)(dVar14 - dVar15) < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN((float)(dVar14 - dVar15)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         dVar14 = dVar15;
       }
       uVar7 = fn_8226A7C0((double)(float)(dVar14 / dVar12),(double)lbl_831D1044,
@@ -202,8 +202,8 @@ LAB_82271fe4:
     dVar14 = (double)fn_82809CB0(dVar13);
     dVar15 = (double)fn_82809CB0((double)(float)(dVar15 - dVar13));
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(dVar14 - dVar15) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(dVar14 - dVar15)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(dVar14 - dVar15) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(dVar14 - dVar15)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar14 = dVar15;
     }
     puVar6 = (undefined4 *)fn_8265C9E0(0x34);

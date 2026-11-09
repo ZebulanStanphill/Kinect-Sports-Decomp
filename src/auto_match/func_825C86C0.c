@@ -39,7 +39,7 @@ extern unsigned int lbl_82192604;
 extern unsigned int lbl_821954D4;
 extern unsigned int lbl_82195690;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_70;
 extern V16 vectorSubtractFloatingPoint();
 
@@ -94,7 +94,7 @@ void fn_825C86C0(undefined8 param_1,double param_2,double param_3)
   uVar22 = puVar5[2];
   uVar23 = puVar5[3];
   vectorSubtractFloatingPoint(in_vs45,in_vs44);
-  dVar14 = (double)lbl_821CC160;
+  dVar14 = (double)ltcg_pool_0_0f;
   puVar5 = (undefined4 *)((int)&uStack_70 + in_r0 & 0xfffffff0);
   *puVar5 = *puVar4;
   puVar5[1] = uVar17;

@@ -30,7 +30,7 @@ extern int fn_8223DB10();
 extern int fn_822EC810();
 extern unsigned int iStack_20;
 extern unsigned int lbl_821AE3B4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_822EC770(undefined4 *param_1)
@@ -53,7 +53,7 @@ double fn_822EC770(undefined4 *param_1)
   cVar1 = fn_822EC810(appuStack_60,afStack_70);
   if (cVar1 == '\0') {
     fn_8223DB10(appuStack_60);
-    dVar2 = (double)lbl_821CC160;
+    dVar2 = (double)ltcg_pool_0_0f;
   }
   else {
     dVar2 = (double)afStack_70[0];

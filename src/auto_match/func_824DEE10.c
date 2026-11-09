@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_824DC918();
 extern int fn_824DC998();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Removing unreachable block (ram,0x824def58) */
@@ -47,7 +47,7 @@ void fn_824DEE10(double param_1,int *param_2,undefined8 param_3,int param_4)
   
   fn_824DC998(param_2 + 2);
   dVar6 = (double)*(float *)(param_4 + 0xb8);
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   if (*(float *)(&lbl_821954D8 +
                 ((uint)(byte)((dVar6 < dVar7) << 2) | (uint)(NAN(dVar6) || NAN(dVar7)) << 2)) < 0.0)
   {

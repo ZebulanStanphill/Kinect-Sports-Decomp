@@ -45,7 +45,7 @@ extern int fn_8288B760();
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_821ACD84;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 loadVectorRightIndexed128();
 
@@ -69,7 +69,7 @@ void fn_822C0158(longlong param_1,int param_2)
   iVar1 = *(int *)(iVar4 + 0x118);
   uVar2 = *(undefined4 *)(iVar4 + 0x114);
   if (param_2 == 0) {
-    fn_827F57E8((double)lbl_821CC160,(double)lbl_8218E8FC,*(undefined4 *)(iVar1 + 0x10));
+    fn_827F57E8((double)ltcg_pool_0_0f,(double)lbl_8218E8FC,*(undefined4 *)(iVar1 + 0x10));
     *(undefined4 *)(*(int *)(iVar1 + 0x10) + 0x108) =
          *(undefined4 *)(*(int *)(iVar1 + 0x10) + 0x10c);
     fn_82230110(auStack_60,0xffffffff821accc4);

@@ -44,7 +44,7 @@ extern int fn_8266F640();
 extern int fn_82F4EC30();
 extern int fn_82F53380();
 extern unsigned int iStack_25c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_260;
 
 
@@ -69,7 +69,7 @@ void fn_8229B6C8(double param_1,double param_2,undefined4 *param_3,undefined8 pa
   fn_8229BA88();
   uVar9 = 0;
   pfVar8 = (float *)(param_3 + 0xd);
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   do {
     uVar3 = fn_82F4EC30(uVar9);
     fVar4 = (float)fn_82F53380(uVar3,param_3 + 10,0,1);

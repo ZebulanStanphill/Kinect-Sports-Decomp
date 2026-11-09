@@ -38,7 +38,7 @@ extern unsigned int iStack_f0;
 extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_82195600;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DB304;
 extern unsigned int lbl_83265A40;
 extern unsigned int lbl_83265A44;
@@ -155,7 +155,7 @@ LAB_8235615c:
     piVar17 = (int *)*piVar11;
     piVar11 = (int *)piVar11[1];
     if (piVar17 != piVar11) {
-      dVar24 = (double)lbl_821CC160;
+      dVar24 = (double)ltcg_pool_0_0f;
       dVar26 = (double)lbl_821CA460;
       do {
         iVar16 = piVar17[3];

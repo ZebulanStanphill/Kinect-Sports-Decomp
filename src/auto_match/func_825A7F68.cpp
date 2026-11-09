@@ -5,7 +5,6 @@ class hkpEntity;
 class hkpUnaryAction : public hkReferencedObject { public: hkpUnaryAction(hkpEntity *,hkUlong); char pad[0x14]; };
 extern "C" {
 extern void *lbl_821CA8E4[];
-extern float lbl_821CC160;
 void fn_82CED628(void *,const char *);
 void fn_82D95528(void *,Body *);
 void fn_82D888D0(void *,void *);
@@ -27,7 +26,7 @@ extern "C" void fn_825A7F68(Self *self,Body *body,char *context) {
  fn_82D95528(a,body);
  if(self->action->owner) self->action->owner->world=world;
  Action *action=self->action;
- if(action->owner) self->value=action->owner->value; else self->value=lbl_821CC160;
+ if(action->owner) self->value=action->owner->value; else self->value=0.0f;
  Action **last=*(Action ***)(sub+0x90),**p=*(Action ***)(sub+0x8c);
  while(p<last) {if(*p==action) {fn_8251E530(sub+0x8c,p); return;} ++p;}
  fn_82D888D0(*(void **)(sub+8),action);

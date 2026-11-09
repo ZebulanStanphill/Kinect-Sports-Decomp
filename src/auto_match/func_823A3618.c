@@ -29,7 +29,6 @@ extern int fn_8229AC50();
 extern int fn_822A0E10();
 extern int fn_823985A8();
 extern int fn_8239CE98();
-extern float lbl_821CC160;
 extern float lbl_8327656C;
 
 
@@ -41,7 +40,7 @@ void fn_823A3618(int param_1)
   
   iVar2 = fn_8239CE98(*(undefined4 *)(param_1 + 8));
   *(int *)(param_1 + 0x10) = iVar2;
-  uVar1 = iVar2 != 0 ? lbl_8327656C : lbl_821CC160;
+  uVar1 = iVar2 != 0 ? lbl_8327656C : 0.0f;
   *(float *)(param_1 + 0xc) = uVar1;
   *(undefined4 *)(param_1 + 0x14) = 0;
   fn_8229AC50(*(undefined4 *)(*(int *)(param_1 + 8) + 0xd4));

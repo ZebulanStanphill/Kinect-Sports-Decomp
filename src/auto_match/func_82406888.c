@@ -50,7 +50,7 @@ extern unsigned int lbl_821B7E50;
 extern unsigned int lbl_821B7E68;
 extern unsigned int lbl_821B7E80;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82406888(double param_1,int param_2)
@@ -103,7 +103,7 @@ void fn_82406888(double param_1,int param_2)
         return;
       }
       *(float *)(param_2 + 0x68) = (float)((double)*(float *)(param_2 + 0x68) + param_1);
-      dVar7 = (double)lbl_821CC160;
+      dVar7 = (double)ltcg_pool_0_0f;
       iVar3 = *(int *)(*(int *)(*(int *)(param_2 + 0x10) + 0x38) + 0x24);
       if (iVar3 != 0) {
         iVar2 = fn_824CD030(iVar3);

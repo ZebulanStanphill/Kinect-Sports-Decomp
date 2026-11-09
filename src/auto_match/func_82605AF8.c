@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
 extern unsigned int *auStack_40;
 extern int fn_82605F88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 
@@ -55,7 +55,7 @@ void fn_82605AF8(uint *param_1,undefined8 param_2,int param_3)
   uVar5 = *param_1;
   uVar2 = param_1[1];
   if (uVar5 < uVar2) {
-    dVar6 = (double)lbl_821CC160;
+    dVar6 = (double)ltcg_pool_0_0f;
     do {
       if (dVar6 < (double)*(float *)(uVar5 + 0x270)) {
         pfVar3 = (float *)((int)in_r0 + param_3 & 0xfffffff0);

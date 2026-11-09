@@ -33,7 +33,7 @@ extern int fn_823005D0();
 extern int fn_823006E0();
 extern int fn_823008E8();
 extern int fn_82300E58();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorMaximumFloatingPoint();
 extern V16 vectorMinimumFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
@@ -62,7 +62,7 @@ void fn_822FF9D0(int param_1,undefined8 param_2)
     *(undefined4 *)(param_1 + 0x554) = 0;
     *(undefined4 *)(param_1 + 0x564) = 0;
     *(undefined4 *)(param_1 + 0x568) = 0xffffffff;
-    uVar7 = lbl_821CC160;
+    uVar7 = ltcg_pool_0_0f;
     *(undefined4 *)(param_1 + 0x56c) = 0;
     *(undefined4 *)(param_1 + 0x560) = uVar7;
     *(undefined4 *)(param_1 + 0x55c) = uVar7;

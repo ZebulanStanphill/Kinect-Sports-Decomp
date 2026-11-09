@@ -60,7 +60,7 @@ extern unsigned int iStack_ec;
 extern unsigned int iStack_f4;
 extern unsigned int iStack_fc;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CA08C;
 extern unsigned int lbl_831CCDA8;
 extern unsigned int lbl_831CCDAC;
@@ -169,7 +169,7 @@ void fn_822F4758(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   }
   uVar18 = *(undefined4 *)((int)param_3 + 0x58);
   iVar7 = *(int *)(*(int *)(iVar5 + 0xc) + 0x24);
-  dVar16 = (double)lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
   if (((iVar7 != 0) || (*(int *)(iVar1 + 0x1a4) == 0)) ||
      (bVar4 = true, (double)*(float *)(iVar5 + 0xb0) <= dVar16)) {
     bVar4 = false;

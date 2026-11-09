@@ -36,7 +36,7 @@ extern int fn_82645EA8();
 extern int fn_82647738();
 extern int fn_82A1E7D8();
 extern int fn_82A1E810();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B498;
 extern unsigned int lbl_8326B4A8;
@@ -95,7 +95,7 @@ void fn_82590188(int param_1,longlong param_2)
   undefined4 uStack_5c;
   undefined4 uStack_58;
   
-  uStack_7c = lbl_821CC160;
+  uStack_7c = ltcg_pool_0_0f;
   uStack_98 = *(undefined4 *)(param_1 + 0x44);
   iVar1 = *(int *)(param_1 + 0x8ac);
   stack_pair_b0.second = (undefined4)param_2;

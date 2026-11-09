@@ -52,7 +52,7 @@ extern unsigned int lbl_82195590;
 extern unsigned int lbl_82195598;
 extern float lbl_821955A0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -86,7 +86,7 @@ void fn_825DFC70(undefined8 param_1,undefined8 param_2)
   dVar10 = lbl_821955A0;
   dVar9 = lbl_82195598;
   iVar5 = piVar3[0x10];
-  dVar14 = (double)lbl_821CC160;
+  dVar14 = (double)ltcg_pool_0_0f;
   dVar12 = extraout_f1;
   if ((*(int *)(iVar5 + 0x58) != 0) &&
      (dVar12 = extraout_f1, *(float *)(iVar5 + 0x70) < lbl_8218E8E8)) {

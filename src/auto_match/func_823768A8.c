@@ -1,7 +1,6 @@
 extern void *fn_8265C9E0(unsigned int);
 extern unsigned int lbl_821AD588;
 extern unsigned int lbl_821B46D0;
-extern float lbl_821CC160;
 
 typedef struct Sub_823768A8 {
   void *vt; int f4; int f8; float fc; int f10; int f14; int f18; int f1c; int f20; int f24; int f28; int f2c;
@@ -20,7 +19,7 @@ static Blk_823768A8 *Init(Blk_823768A8 *b, int param_2)
     s->f24 = 1;
     s->f8 = param_2;
     s->f10 = 0;
-    s->fc = lbl_821CC160;
+    s->fc = 0.0f;
     s->f4 = 4;
     s->vt = &lbl_821B46D0;
     s->f14 = 0;

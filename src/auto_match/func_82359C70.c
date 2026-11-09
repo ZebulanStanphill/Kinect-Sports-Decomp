@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_82359DB8();
 extern unsigned int iStack_2c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82359C70(double param_1,int *param_2)
@@ -48,7 +48,7 @@ void fn_82359C70(double param_1,int *param_2)
     (**(code **)(*param_2 + 8))(param_2,param_2[5],uVar2);
     param_2[6] = (int)uVar2;
     param_2[5] = (int)uVar2;
-    param_2[0xe] = lbl_821CC160;
+    param_2[0xe] = ltcg_pool_0_0f;
   }
   if (param_2[5] != 0) {
     if ((param_2[6] == param_2[5]) || (param_2[6] == 0)) {

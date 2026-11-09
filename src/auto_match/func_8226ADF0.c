@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_821CC160;
 
 
 undefined8 fn_8226ADF0(int param_1)
@@ -34,7 +33,7 @@ undefined8 fn_8226ADF0(int param_1)
   if (*(char *)(param_1 + 4) != '\0') {
     return 1;
   }
-  if (*(float *)(param_1 + 0x30) <= lbl_821CC160) {
+  if (*(float *)(param_1 + 0x30) <= 0.0f) {
     return 1;
   }
   return 0;

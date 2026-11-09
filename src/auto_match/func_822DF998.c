@@ -42,7 +42,7 @@ extern int memcpy();
 extern unsigned int iStack_13c;
 extern unsigned int iStack_140;
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822DF998(int param_1,int param_2)
@@ -83,9 +83,9 @@ void fn_822DF998(int param_1,int param_2)
   puVar4[3] = uVar13;
   iVar7 = fn_822CEEC8(uVar1);
   if (iVar7 == 0) {
-    if (fStack_128 <= lbl_821CC160) goto LAB_822dfb70;
+    if (fStack_128 <= ltcg_pool_0_0f) goto LAB_822dfb70;
   }
-  else if (lbl_821CC160 <= fStack_128) goto LAB_822dfb70;
+  else if (ltcg_pool_0_0f <= fStack_128) goto LAB_822dfb70;
   bVar5 = false;
   if (param_2 != 0xff) {
     *(int *)(param_1 + 0x4c) = param_2;

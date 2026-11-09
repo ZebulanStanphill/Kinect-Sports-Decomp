@@ -86,7 +86,7 @@ extern unsigned int lbl_82191F44;
 extern unsigned int lbl_82195518;
 extern unsigned int lbl_82196750;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D19D0;
 extern unsigned int lbl_831D19D8;
 extern unsigned int lbl_83265A28;
@@ -153,8 +153,8 @@ void fn_823BF2B8(int *param_1,int param_2,int param_3)
   *(undefined1 *)(param_1 + 0x4d4) = 0;
   param_1[0x10c] = 0;
   param_1[0x3c] = 1;
-  fVar2 = lbl_821CC160;
-  dVar23 = (double)lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
+  dVar23 = (double)ltcg_pool_0_0f;
   do {
     iVar7 = 0;
     lVar19 = 7;

@@ -31,7 +31,7 @@ extern int fn_8266FA50();
 extern int fn_8266FAC8();
 extern int fn_8266FB20();
 extern unsigned int lbl_82195518;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_3c;
 extern unsigned int uStack_40;
 extern unsigned int uStack_4c;
@@ -58,9 +58,9 @@ void fn_822CC748(undefined4 *param_1,float *param_2)
   fn_8266FA50(*param_1,&stack_pair_40.first,0xffffffff821ad1e0);
   fn_8266FA50(*param_1,&stack_pair_50.first,0xffffffff821ad1f4);
   dVar2 = lbl_82195518;
-  dVar3 = (double)lbl_821CC160;
+  dVar3 = (double)ltcg_pool_0_0f;
   if (dStack_38 == lbl_82195518) {
-    *param_2 = lbl_821CC160;
+    *param_2 = ltcg_pool_0_0f;
   }
   else {
     dVar1 = (double)fn_8266FAC8(*param_1);

@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 typedef struct { int pad; void (*cb)(int, int, int, const char *, const char *, int); } Cb_8236B4F0;
 extern Cb_8236B4F0 lbl_83276774;
 
@@ -8,7 +7,7 @@ typedef struct { char pad[0x4b0]; Sub_8236B4F0 *ui; } Obj_8236B4F0;
 void fn_8236B4F0(Obj_8236B4F0 *obj, float v)
 {
   Sub_8236B4F0 *s = obj->ui;
-  float c = lbl_821CC160;
+  float c = 0.0f;
   s->f_d8 = v;
   if (v == c && lbl_83276774.cb != 0) {
     lbl_83276774.cb(0, 0, 1, "olympus::sport::football::FootballUI::OpenSwipe",

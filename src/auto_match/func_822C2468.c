@@ -33,7 +33,7 @@ extern int fn_8265C9E0();
 extern unsigned int lbl_82002B04;
 extern unsigned int lbl_821ACF5C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_54;
 extern unsigned int uStack_5c;
 
@@ -90,7 +90,7 @@ undefined4 * fn_822C2468(undefined4 *param_1,int param_2)
   }
   param_1[0x6d] = iVar5;
   *(int *)iVar5 = iVar5;
-  uVar4 = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
   uVar3 = lbl_821CA460;
   *(undefined4 *)(param_1[0x6d] + 4) = param_1[0x6d];
   *(undefined4 *)(param_1[0x6d] + 8) = param_1[0x6d];

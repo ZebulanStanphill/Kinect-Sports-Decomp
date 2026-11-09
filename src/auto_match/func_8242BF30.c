@@ -33,7 +33,7 @@ extern int fn_8242C410();
 extern int fn_8288B760();
 extern unsigned int iStack_54;
 extern unsigned int lbl_82191FC8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8242BF30(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
@@ -94,7 +94,7 @@ void fn_8242BF30(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
     } while (iVar10 < iVar4);
   }
   iVar9 = *(int *)(*(int *)(iVar7 + 0x40) + 0x114);
-  if ((iVar9 == 4) || (fVar1 = lbl_821CC160, iVar9 == 5)) {
+  if ((iVar9 == 4) || (fVar1 = ltcg_pool_0_0f, iVar9 == 5)) {
     fVar1 = lbl_82191FC8;
   }
   if ((*(int *)(param_1 + 0xa0) == 0) || (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) != 1)) {

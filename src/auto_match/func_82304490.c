@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
 extern int fn_822C6B30();
 extern int fn_825613E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 
 
@@ -46,8 +46,8 @@ void fn_82304490(int param_1,undefined8 param_2)
   if ((*(undefined4 **)(param_1 + 0x54))[1] != 0) {
     uVar1 = *(uint *)(param_1 + 0x24);
     fn_822C6B30(param_2,*(undefined4 *)(param_1 + 0x20),(ulonglong)uVar1,
-                      CONCAT44(lbl_821CC160,**(undefined4 **)(param_1 + 0x54)),
-                      (ulonglong)lbl_821CC160 << 0x20);
+                      CONCAT44(ltcg_pool_0_0f,**(undefined4 **)(param_1 + 0x54)),
+                      (ulonglong)ltcg_pool_0_0f << 0x20);
     pfVar2 = (float *)((int)in_r0 + (int)param_2 & 0xfffffff0);
     loadVectorLeftIndexed128(in_r0,(ulonglong)uVar1 + 0x40);
     in_register_00010000 = *pfVar2 * in_register_00010000;

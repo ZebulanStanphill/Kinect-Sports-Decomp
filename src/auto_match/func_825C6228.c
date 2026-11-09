@@ -29,7 +29,6 @@ typedef struct List_825C6228 {
 extern void *fn_82522D98(unsigned int size);
 extern void *fn_8265C9E0(unsigned int size);
 extern char lbl_821CAD0C[];
-extern float lbl_821CC160;
 
 Obj_825C6228 *fn_825C6228(List_825C6228 *list, int param_2, int param_3)
 {
@@ -42,7 +41,7 @@ Obj_825C6228 *fn_825C6228(List_825C6228 *list, int param_2, int param_3)
     if (p != 0) {
         p->owner = param_3;
         p->f_fb4 = 0;
-        f = lbl_821CC160;
+        f = 0.0f;
         p->vtable = lbl_821CAD0C;
         p->f_fcc = f;
         p->f_fb8 = 0;

@@ -33,7 +33,7 @@ extern int fn_822F9F88();
 extern int fn_82365BD8();
 extern unsigned int iStack_44;
 extern unsigned int iStack_4c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int * fn_822F9750(int *param_1,int param_2,int param_3,int param_4,int param_5)
@@ -57,9 +57,9 @@ int * fn_822F9750(int *param_1,int param_2,int param_3,int param_4,int param_5)
   param_1[6] = 0;
   param_1[7] = 0;
   param_1[0xb] = 1;
-  iVar1 = lbl_821CC160;
+  iVar1 = ltcg_pool_0_0f;
   piVar5 = param_1 + 7;
-  param_1[8] = lbl_821CC160;
+  param_1[8] = ltcg_pool_0_0f;
   param_1[9] = iVar1;
   param_1[10] = iVar1;
   if (*(int *)(*param_1 + 0x178) == 1) {

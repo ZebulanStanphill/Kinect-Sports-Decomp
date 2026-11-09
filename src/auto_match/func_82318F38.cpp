@@ -4,7 +4,6 @@ inline void *operator new(unsigned int, void *p) throw() { return p; }
 
 extern "C" {
 extern float lbl_821CA45C[2];
-extern float lbl_821CC160;
 }
 
 struct Value {
@@ -13,7 +12,7 @@ struct Value {
     float c;
     float d;
     float e;
-    Value() : a(0), b(lbl_821CA45C[1]), c(lbl_821CC160), d(lbl_821CA45C[1]), e(lbl_821CA45C[1]) {}
+    Value() : a(0), b(lbl_821CA45C[1]), c(0.0f), d(lbl_821CA45C[1]), e(lbl_821CA45C[1]) {}
 };
 
 struct Pair {

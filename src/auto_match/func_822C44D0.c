@@ -37,7 +37,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82191FC8;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822C44D0(double param_1,longlong param_2)
@@ -85,13 +85,13 @@ void fn_822C44D0(double param_1,longlong param_2)
       iVar9 = fn_824CCD80(iVar2);
     }
   }
-  fVar7 = lbl_821CC160;
+  fVar7 = ltcg_pool_0_0f;
   fVar1 = (float)((double)*(float *)(iVar3 + 0x204) - param_1);
   fVar4 = -fVar1;
-  fVar5 = lbl_821CC160;
+  fVar5 = ltcg_pool_0_0f;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar4 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar4) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar4 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar5 = fVar1;
   }
   *(float *)(iVar3 + 0x204) = fVar5;

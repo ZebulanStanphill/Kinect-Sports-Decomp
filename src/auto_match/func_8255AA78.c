@@ -40,7 +40,7 @@ extern unsigned int fStack00000048;
 extern int fn_8253FD80();
 extern int fn_82809D40();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int register0x0000000c;
 extern unsigned int stack0x00000020;
 extern unsigned int uStack00000020;
@@ -77,7 +77,7 @@ float * fn_8255AA78(float *param_1,undefined8 param_2,undefined8 param_3,undefin
   fVar3 = lbl_821CA460;
   pfVar6 = afStack_30;
   pfVar5 = (float *)((int)register0x0000000c + 0x24);
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   lVar8 = 3;
   do {
     dVar9 = (double)(pfVar5[-1] * pfVar5[-1] + pfVar5[1] * pfVar5[1] + *pfVar5 * *pfVar5);

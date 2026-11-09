@@ -40,7 +40,7 @@ extern unsigned int lbl_82192D74;
 extern unsigned int lbl_821954D8;
 extern float lbl_82195B44;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorAddFloatingPoint();
@@ -70,10 +70,10 @@ undefined1 fn_8261A518(double param_1,int param_2)
   float in_vr13;
   undefined1 auStack_40 [64];
   
-  fVar11 = lbl_821CC160;
+  fVar11 = ltcg_pool_0_0f;
   fVar10 = lbl_821CA460;
   if (*(int *)(param_2 + 0x20) != 0) {
-    if ((*(int *)(param_2 + 0x14) == 0) || (lbl_821CC160 < *(float *)(param_2 + 0x6c))) {
+    if ((*(int *)(param_2 + 0x14) == 0) || (ltcg_pool_0_0f < *(float *)(param_2 + 0x6c))) {
       lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
       *(float *)(param_2 + 0x24) = (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460;
       lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;

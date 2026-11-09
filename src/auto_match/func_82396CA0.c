@@ -32,7 +32,7 @@ extern int fn_82536590();
 extern int fn_828647D8();
 extern int fn_82864898();
 extern int fn_82864988();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82396CA0(int param_1)
@@ -49,7 +49,7 @@ void fn_82396CA0(int param_1)
     fn_82864898(auStack_50);
     fn_82536590(auStack_60,0);
     *(undefined4 *)(param_1 + 0x2d0) = 0;
-    *(undefined4 *)(param_1 + 0x868) = lbl_821CC160;
+    *(undefined4 *)(param_1 + 0x868) = ltcg_pool_0_0f;
     piVar1 = (int *)(*(undefined4 **)(param_1 + 0xa8))[1];
     for (piVar2 = (int *)**(undefined4 **)(param_1 + 0xa8); piVar2 != piVar1; piVar2 = piVar2 + 2) {
       fn_824C97F0(*(undefined4 *)(*piVar2 + 0x28),0xffffffff821b45a8);

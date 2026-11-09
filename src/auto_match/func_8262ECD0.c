@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82195680;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8262ECD0(double param_1,float *param_2,byte param_3,byte param_4,byte param_5)
@@ -38,7 +38,7 @@ void fn_8262ECD0(double param_1,float *param_2,byte param_3,byte param_4,byte pa
   
   fVar2 = (float)param_3;
   param_2[6] = (float)param_4;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   dVar3 = (double)lbl_82195680;
   param_2[5] = fVar2;
   param_2[7] = (float)param_5;

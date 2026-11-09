@@ -31,7 +31,7 @@ extern int fn_82627DB0();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Removing unreachable block (ram,0x8260259c) */
@@ -88,7 +88,7 @@ void fn_82602390(undefined8 param_1,longlong param_2)
   puVar4[3] = uVar21;
   if (0 < sVar2) {
     uVar13 = 0;
-    dVar17 = (double)lbl_821CC160;
+    dVar17 = (double)ltcg_pool_0_0f;
     uVar16 = extraout_f1;
     do {
       lVar12 = uVar13 * 0x1d0 + param_2;

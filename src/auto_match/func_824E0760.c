@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82192F34;
 extern float lbl_82193CC0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -58,7 +58,7 @@ LAB_824e08f0:
     param_4 = iVar11 * param_5 * 2 + param_4;
     uVar6 = param_1 + 1;
     uVar1 = *(ushort *)(iVar2 * 2 + param_4);
-    fVar4 = lbl_821CC160;
+    fVar4 = ltcg_pool_0_0f;
     if ((uVar1 & 7) == uVar6) {
       fVar4 = (float)(uVar1 >> 3) * lbl_82193CC0;
     }

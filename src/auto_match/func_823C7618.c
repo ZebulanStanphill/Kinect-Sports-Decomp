@@ -36,7 +36,7 @@ extern int fn_823C9098();
 extern int fn_823CAAE8();
 extern int fn_82F65018();
 extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_80;
 extern unsigned int uStack_88;
 extern V16 vectorConditionalSelect();
@@ -123,7 +123,7 @@ void fn_823C7618(int param_1)
   uVar13 = puVar4[1];
   uVar15 = puVar4[2];
   uVar17 = puVar4[3];
-  cVar8 = fn_822B33B0((double)lbl_821CC160,*(undefined4 *)(*(int *)(iVar1 + 0x1c) + 4));
+  cVar8 = fn_822B33B0((double)ltcg_pool_0_0f,*(undefined4 *)(*(int *)(iVar1 + 0x1c) + 4));
   if (cVar8 != '\0') {
     puVar4 = (undefined4 *)(param_1 + 0x1a0U & 0xfffffff0);
     *puVar4 = uVar11;

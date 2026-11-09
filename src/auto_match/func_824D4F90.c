@@ -55,7 +55,7 @@ extern int fn_82F51FD0();
 extern int fn_82F53380();
 extern unsigned int iStack_10c;
 extern unsigned int lbl_821C0E54;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_110;
 extern U64 storeWordConditionalIndexed();
 
@@ -119,7 +119,7 @@ undefined4 * fn_824D4F90(undefined4 *param_1,int param_2)
   
   fn_824CC840();
   param_1[0x3c] = 0;
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   *param_1 = &lbl_821C0E54;
   param_1[0x58] = uVar2;
   *(undefined1 *)(param_1 + 0x38) = 1;

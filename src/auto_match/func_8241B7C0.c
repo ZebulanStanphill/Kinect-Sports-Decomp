@@ -68,7 +68,7 @@ extern unsigned int lbl_821939FC;
 extern unsigned int lbl_82193A04;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_20e0;
@@ -111,14 +111,14 @@ void fn_8241B7C0(double param_1,int *param_2)
   undefined1 auStack_1050 [2048];
   undefined1 auStack_850 [2128];
   
-  fVar8 = lbl_821CC160;
+  fVar8 = ltcg_pool_0_0f;
   iVar10 = param_2[0x9f];
   if (iVar10 == 1) {
     fVar2 = (float)((double)(float)param_2[0x9a] - param_1);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-      fVar2 = lbl_821CC160;
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+      fVar2 = ltcg_pool_0_0f;
     }
     param_2[0x9a] = (int)fVar2;
     if (((param_2[0x99] == 0) && (fVar2 != fVar8)) && (param_2[0x97] != 0)) {
@@ -127,8 +127,8 @@ void fn_8241B7C0(double param_1,int *param_2)
   }
   else {
     if (iVar10 == 2) {
-      dVar20 = (double)lbl_821CC160;
-      fStack_20f0 = lbl_821CC160;
+      dVar20 = (double)ltcg_pool_0_0f;
+      fStack_20f0 = ltcg_pool_0_0f;
       if (param_2[0x9b] == 0) {
         fn_8241C3A0(param_2,auStack_20d0);
         uStack_20ec = 8;
@@ -272,7 +272,7 @@ LAB_8241c320:
     }
     if (iVar10 == 3) {
       dVar20 = (double)(float)((double)(float)param_2[0xa0] - param_1);
-      dVar21 = (double)lbl_821CC160;
+      dVar21 = (double)ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 +
                     ((uint)(byte)((dVar20 < dVar21) << 2) | (uint)(NAN(dVar20) || NAN(dVar21)) << 2)
                     ) < 0.0) {

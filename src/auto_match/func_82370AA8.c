@@ -32,7 +32,7 @@ extern int fn_82570840();
 extern int iRam831cb3c4;
 extern unsigned int iStack_44;
 extern unsigned int iStack_4c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 
 
@@ -55,7 +55,7 @@ void fn_82370AA8(int param_1,int param_2)
   bVar5 = false;
   uStack_50 = 0;
   if (uVar6 != *(uint *)(param_1 + 0x34)) {
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     do {
       if (*(int *)(param_2 + 0x24) == 0) {
 LAB_82370b1c:

@@ -32,7 +32,7 @@ extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_82560010();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_34;
 extern unsigned int uStack_38;
 
@@ -55,7 +55,7 @@ void fn_823E3560(int param_1,undefined4 param_2,undefined8 param_3)
   auStack_40[0] = param_2;
   iVar3 = fn_82560010(*(undefined4 *)(*(int *)(*(int *)(param_1 + 4) + 0x118) + 0x24),param_3)
   ;
-  fStack_30 = lbl_821CC160;
+  fStack_30 = ltcg_pool_0_0f;
   if (iVar3 != 0) {
     iVar4 = fn_8251F720(iVar3 + 0x40,0);
     dVar7 = (double)*(float *)(iVar4 + 0x1c);

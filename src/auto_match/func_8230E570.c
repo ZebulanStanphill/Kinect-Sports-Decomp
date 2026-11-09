@@ -39,7 +39,7 @@ extern int fn_823DB548();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8230E570(void)
@@ -73,7 +73,7 @@ void fn_8230E570(void)
   fn_8230F388();
   if ((*(int *)(iVar5 + 0x484) == 0) ||
      (iVar2 = *(int *)(iVar5 + 0x10), *(int *)(iVar2 + 0xfa4) == 0)) goto LAB_8230e7d0;
-  dVar14 = (double)lbl_821CC160;
+  dVar14 = (double)ltcg_pool_0_0f;
   if ((dVar14 < (double)*(float *)(iVar5 + 0x4e0)) &&
      ((fVar1 = (float)((double)*(float *)(iVar5 + 0x4e0) - dVar9), *(float *)(iVar5 + 0x4e0) = fVar1
       , (double)fVar1 <= dVar14 || ((double)*(float *)(iVar5 + 0x4d8) <= dVar9)))) {

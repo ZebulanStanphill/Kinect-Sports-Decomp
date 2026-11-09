@@ -30,7 +30,7 @@ extern int fn_8229AAF8();
 extern int fn_823DB7C8();
 extern int fn_823DB9B0();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern int (*lbl_83276778)();
 
 
@@ -46,7 +46,7 @@ void fn_823DB428(double param_1,int *param_2)
   if (param_2[0x20] != 0) {
     fn_823DB9B0(param_2 + 0x18);
   }
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   if ((((param_2[0x35] != 0) && (dVar4 < (double)(float)param_2[0x36])) &&
       (fVar1 = (float)((double)(float)param_2[0x36] - param_1), param_2[0x36] = (int)fVar1,
       (double)fVar1 <= dVar4)) && (lbl_83276778 != (code *)0x0)) {

@@ -37,7 +37,7 @@ extern int fn_824C97F0();
 extern int fn_8255AEF0();
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -83,7 +83,7 @@ void fn_8239A2D8(double param_1,int param_2)
       fVar4 = lbl_821CA460;
       fVar3 = lbl_8218E8FC;
       uVar6 = 0xffffffff821cc160;
-      if (fVar1 <= lbl_821CC160) {
+      if (fVar1 <= ltcg_pool_0_0f) {
         lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
         fVar1 = (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460;
         *(uint *)(param_2 + 0x874) = (uint)LZCOUNT(*(undefined4 *)(param_2 + 0x874)) >> 5;

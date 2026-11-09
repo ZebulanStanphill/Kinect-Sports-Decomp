@@ -30,7 +30,7 @@ extern unsigned int fStack_38;
 extern int fn_82337C80();
 extern int fn_82359558();
 extern int fn_8255AE78();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int fn_82430E58(double param_1,int param_2,int param_3)
@@ -71,7 +71,7 @@ int fn_82430E58(double param_1,int param_2,int param_3)
   puVar3[1] = in_register_000104d4;
   puVar3[2] = in_register_000104d8;
   puVar3[3] = in_vr77;
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   if (0 < iVar1) {
     if (iVar1 < 3) {
       iVar1 = *(int *)(iVar4 + 0xc);

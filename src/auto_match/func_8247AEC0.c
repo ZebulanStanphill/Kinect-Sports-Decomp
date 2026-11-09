@@ -22,7 +22,6 @@ extern void fn_82273CD8(Arg_8247AEC0 *arg, int type);
 extern void fn_82672C20(int obj, const char *name, Arg_8247AEC0 *arg, int count);
 extern void fn_82273C88(Arg_8247AEC0 *arg);
 
-extern float lbl_821CC160;
 extern double lbl_821954B0[];
 extern char lbl_820E975C[];
 
@@ -42,7 +41,7 @@ void fn_8247AEC0(char *self, char *other)
 
     r = *(Ref_8247AEC0 **)(self + 0x5c4);
     a = r->a;
-    scale = lbl_821CC160;
+    scale = 0.0f;
     base = *(int *)(*(int *)(other + 0x3e4) + 0x8c0);
     if (a != 0) {
         res = fn_82555A88(base + 0x98, "|REFERENCE_topticker|");

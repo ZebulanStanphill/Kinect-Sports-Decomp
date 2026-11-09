@@ -29,7 +29,7 @@ extern int fn_8232B210();
 extern int fn_82535F50();
 extern int fn_82590C38();
 extern int fn_82F63108();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8232B0A8(double param_1,int *param_2)
@@ -87,7 +87,7 @@ void fn_8232B0A8(double param_1,int *param_2)
   }
   fVar1 = (float)param_2[1];
   param_2[1] = (int)(float)((double)fVar1 - param_1);
-  if (((param_2[2] != 0) && ((float)((double)fVar1 - param_1) <= lbl_821CC160)) && (*param_2 != 0))
+  if (((param_2[2] != 0) && ((float)((double)fVar1 - param_1) <= ltcg_pool_0_0f)) && (*param_2 != 0))
   {
     fn_8232B210(param_2);
     if (param_2[0x56] == 0) {

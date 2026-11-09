@@ -32,7 +32,7 @@ extern float lbl_8218E8FC;
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82193B00;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
@@ -55,8 +55,8 @@ void fn_823412E8(int param_1)
   undefined1 in_vr13 [16];
   
   *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x10) = 2;
-  dVar4 = (double)lbl_821CC160;
-  *(float *)(*(int *)(param_1 + 0xc) + 0x14) = lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
+  *(float *)(*(int *)(param_1 + 0xc) + 0x14) = ltcg_pool_0_0f;
   *(undefined4 *)(*(int *)(param_1 + 0xc) + 4) = 1;
   dVar3 = (double)lbl_821CA460;
   iVar1 = *(int *)(**(int **)(param_1 + 0xc) + 0x24);

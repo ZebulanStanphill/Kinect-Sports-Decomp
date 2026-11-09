@@ -32,7 +32,7 @@ extern int fn_827F22D0();
 extern int fn_827F5708();
 extern int fn_827F5730();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82554720(undefined8 param_1,int param_2)
@@ -49,7 +49,7 @@ void fn_82554720(undefined8 param_1,int param_2)
   uVar4 = 1;
   if (1 < *(uint *)(param_2 + 0x18c)) {
     iVar5 = 4;
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     dVar6 = (double)lbl_821CA460;
     do {
       bVar1 = *(byte *)(uVar4 + *(int *)(param_2 + 0x19c));

@@ -32,7 +32,7 @@ extern int fn_824A74A0();
 extern int fn_824A7540();
 extern int fn_824CCFC8();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824CFEA0(int param_1,undefined4 *param_2,undefined4 *param_3,float *param_4,float *param_5
@@ -54,13 +54,13 @@ void fn_824CFEA0(int param_1,undefined4 *param_2,undefined4 *param_3,float *para
   
   uVar9 = (ulonglong)*(uint *)(param_1 + 0xfc);
   if (uVar9 == 0) {
-    dVar12 = (double)lbl_821CC160;
-    *param_4 = lbl_821CC160;
+    dVar12 = (double)ltcg_pool_0_0f;
+    *param_4 = ltcg_pool_0_0f;
     *param_2 = 0;
     *param_3 = 0;
     goto LAB_824d01a4;
   }
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   if (dVar12 < (double)*(float *)(param_1 + 0x39c)) {
     uVar5 = 0;
   }

@@ -48,7 +48,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821959CC;
 extern unsigned int lbl_821A7E4C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 extern unsigned int uStack_54;
 extern unsigned int uStack_58;
@@ -97,8 +97,8 @@ void fn_822808C0(int param_1,float *param_2)
     uStack_54 = lbl_82192D74;
     if (param_2 == (float *)0x0) {
       auStack_60[0] = 1;
-      uStack_68 = CONCAT44(lbl_821CC160,lbl_821CC160);
-      fStack_6c = lbl_821CC160;
+      uStack_68 = CONCAT44(ltcg_pool_0_0f,ltcg_pool_0_0f);
+      fStack_6c = ltcg_pool_0_0f;
       uStack_70 = lbl_821CA460;
       dVar15 = (double)fn_82809CB0();
       dVar17 = (double)fn_82809CB0(dVar17);
@@ -108,8 +108,8 @@ void fn_822808C0(int param_1,float *param_2)
       }
       else {
         if (*(float *)(&lbl_821954D8 +
-                      ((uint)(byte)(((float)(dVar15 - dVar17) < lbl_821CC160) << 2) |
-                      (uint)(NAN((float)(dVar15 - dVar17)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                      ((uint)(byte)(((float)(dVar15 - dVar17) < ltcg_pool_0_0f) << 2) |
+                      (uint)(NAN((float)(dVar15 - dVar17)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
           dVar15 = dVar17;
         }
         uVar9 = fn_8226A7C0((double)(float)(dVar15 * (double)lbl_821959CC),(double)lbl_821922D0,
@@ -140,9 +140,9 @@ void fn_822808C0(int param_1,float *param_2)
           lVar14 = lVar14 + -1;
         } while (lVar14 != 0);
         *puVar8 = &lbl_821A7E4C;
-        fVar6 = lbl_821CC160;
-        bVar1 = NAN(lbl_821CC160);
-        bVar13 = (float)(dVar15 - dVar17) < lbl_821CC160;
+        fVar6 = ltcg_pool_0_0f;
+        bVar1 = NAN(ltcg_pool_0_0f);
+        bVar13 = (float)(dVar15 - dVar17) < ltcg_pool_0_0f;
         dVar16 = (double)lbl_821959CC;
         puVar8[7] = *param_2;
         fVar3 = param_2[1];

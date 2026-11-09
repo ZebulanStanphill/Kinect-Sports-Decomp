@@ -30,7 +30,7 @@ extern int fn_82441F88();
 extern int fn_8252A1B0();
 extern int fn_825327A8();
 extern int fn_8255AE78();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8329EA20;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -83,7 +83,7 @@ void fn_82442338(undefined8 param_1,int param_2,undefined8 param_3,undefined1 pa
   fn_8255AE78(param_1);
   vectorAddFloatingPoint(auVar5,auVar6);
   fn_82441F88(param_2);
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   if (**(int **)(param_2 + 4) != 0) {
     fn_8252A1B0(**(int **)(param_2 + 4),ZEXT48(&stack0x00000000) - 0x58,0);
   }

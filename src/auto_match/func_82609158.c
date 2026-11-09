@@ -41,7 +41,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195634;
 extern unsigned int lbl_82195D44;
 extern unsigned int lbl_821CA820;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_821CEA60;
 extern unsigned int lbl_831E796C;
 extern unsigned int lbl_8329E430;
@@ -123,7 +123,7 @@ undefined8 fn_82609158(int param_1)
   float fStack_ac;
   float fStack_a8;
   
-  dVar38 = (double)lbl_821CC160;
+  dVar38 = (double)ltcg_pool_0_0f;
   if (*(short *)(param_1 + 0xb0) != 0) {
     if ((lbl_8329E440 & 1) == 0) {
       lbl_8329E440 = lbl_8329E440 | 1;

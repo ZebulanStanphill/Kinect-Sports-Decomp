@@ -30,7 +30,6 @@ typedef struct Node_8228C1B8 { struct Node_8228C1B8 *next; int p4; char *item; }
 typedef struct List_8228C1B8 { Node_8228C1B8 *head; } List_8228C1B8;
 extern void fn_82266158(char *);
 extern void fn_8252A1B0(unsigned, V3_8228C1B8 *, int);
-extern float lbl_821CC160;
 
 void fn_8228C1B8(char *param_1, float param_2)
 {
@@ -54,8 +53,8 @@ found:
     if (h != 0 &&
         (*(int *)(item + 0x52c) == 3 || *(int *)(item + 0x52c) == 4)) {
       a.y = param_2;
-      a.x = lbl_821CC160;
-      a.z = lbl_821CC160;
+      a.x = 0.0f;
+      a.z = 0.0f;
       b = a;
       fn_8252A1B0(h, &b, 0);
     }

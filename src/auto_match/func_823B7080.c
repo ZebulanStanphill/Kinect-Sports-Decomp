@@ -35,7 +35,7 @@ extern int fn_823BAFF8();
 extern int fn_825AD4B8();
 extern int fn_8288B760();
 extern int fn_828AAF70();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823B7080(int param_1)
@@ -50,8 +50,8 @@ void fn_823B7080(int param_1)
   
   *(undefined4 *)(param_1 + 0x10) = 0;
   *(undefined4 *)(param_1 + 0x50) = 1;
-  uVar2 = lbl_821CC160;
-  *(undefined4 *)(param_1 + 0x14) = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
+  *(undefined4 *)(param_1 + 0x14) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x18) = 0xffffffff;
   *(undefined4 *)(param_1 + 0x28) = uVar2;
   *(undefined8 *)(param_1 + 0x20) = 0;

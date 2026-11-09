@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 extern int fn_8242C410();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_82450348(int param_1,int param_2)
@@ -42,7 +42,7 @@ undefined8 fn_82450348(int param_1,int param_2)
   ulonglong uVar7;
   double dVar8;
   
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   piVar1 = *(int **)(**(int **)(**(int **)(param_1 + 0x40) + 8) +
                     (*(int **)(param_1 + 0x40))[0x81] * 4);
   uVar2 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),0);

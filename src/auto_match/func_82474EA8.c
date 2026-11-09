@@ -32,7 +32,7 @@ extern int fn_82475C28();
 extern int fn_8249ABC0();
 extern int fn_8249B8C0();
 extern int fn_8249D1C0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C6678;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -61,7 +61,7 @@ void fn_82474EA8(int param_1)
   }
   iVar2 = fn_8249ABC0();
   fn_8249B8C0();
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   *(undefined4 *)(*(int *)(iVar2 + 0x110) + 0x28) = 1;
   *(undefined4 *)(param_1 + 0xa8) = uVar3;
   return;

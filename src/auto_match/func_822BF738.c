@@ -31,7 +31,7 @@ extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822BF738(undefined8 param_1,ulonglong param_2)
@@ -47,7 +47,7 @@ void fn_822BF738(undefined8 param_1,ulonglong param_2)
   
   iVar3 = fn_82F6A548();
   if ((*(int *)(iVar3 + 0x7ac) == 0) && (*(int *)(iVar3 + 0x7a0) == 0)) {
-    dVar6 = (double)lbl_821CC160;
+    dVar6 = (double)ltcg_pool_0_0f;
     if (*(int *)(iVar3 + 0x24) == 0) {
       iVar2 = *(int *)(iVar3 + 0x5a8);
       if ((param_2 & 0xffffffff) < 2) {

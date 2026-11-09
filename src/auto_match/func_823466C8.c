@@ -61,7 +61,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F844;
 extern V16 loadVectorLeftIndexed128();
 
@@ -117,7 +117,7 @@ void fn_823466C8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   iVar12 = **(int **)(iVar10 + 0xc);
   uVar27 = extraout_f1;
   iVar11 = fn_82337B90(iVar12);
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (iVar11 != 0) {
     piVar3 = *(int **)(iVar10 + 0xc);
     iVar11 = piVar3[1];
@@ -162,7 +162,7 @@ void fn_823466C8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
           iVar11 = *(int *)(iVar11 + 0x5c);
           uVar17 = *(undefined4 *)(*(int *)(iVar11 + 0x1d4) * 4 + *(int *)(iVar11 + 0x1c4));
         }
-        dVar20 = (double)lbl_821CC160;
+        dVar20 = (double)ltcg_pool_0_0f;
         dVar32 = (double)lbl_821CA460;
         if (*(int *)(*(int *)(iVar12 + 0x1a0) + 0x18) == 0) {
           iVar11 = fn_824CD030(param_3);
@@ -278,7 +278,7 @@ void fn_823466C8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
       else if (iVar11 == 0xe) {
         iVar11 = *(int *)(iVar10 + 0x10);
         iVar13 = fn_824CD030(param_3);
-        dVar20 = (double)lbl_821CC160;
+        dVar20 = (double)ltcg_pool_0_0f;
         dVar28 = dVar20;
         if (iVar13 != 0) {
           dVar28 = (double)*(float *)(*(int *)(*(int *)(*(int *)((int)param_3 + 0xfc) + 0x10) + 0x3c

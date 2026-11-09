@@ -30,7 +30,7 @@ extern int fn_82526A20();
 extern int fn_82559EF0();
 extern int fn_82561880();
 extern int fn_825619C0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83280B8C;
 extern unsigned int lbl_83280B98;
 
@@ -76,7 +76,7 @@ undefined8 fn_825605B0(int param_1)
       else {
         fn_82561880((&lbl_83280B98)[param_1],auStack_30);
         fn_82559EF0(iVar2 + 0x50,iVar2 + 0x54);
-        *(undefined4 *)(iVar2 + 0x58) = lbl_821CC160;
+        *(undefined4 *)(iVar2 + 0x58) = ltcg_pool_0_0f;
       }
     }
   }

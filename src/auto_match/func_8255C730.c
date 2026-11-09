@@ -29,7 +29,7 @@ extern int fn_825BBD78();
 extern int fn_825BBFA8();
 extern int fn_825BC0E0();
 extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ushort * fn_8255C730(int param_1,undefined8 param_2,uint param_3)
@@ -47,9 +47,9 @@ ushort * fn_8255C730(int param_1,undefined8 param_2,uint param_3)
   puVar5 = *(ushort **)(param_1 + 4);
   puVar2 = *(ushort **)(param_1 + 8);
   puVar4 = (ushort *)0x0;
-  dVar6 = (double)lbl_821CC160;
+  dVar6 = (double)ltcg_pool_0_0f;
   dVar7 = (double)lbl_82195530;
-  afStack_40[0] = lbl_821CC160;
+  afStack_40[0] = ltcg_pool_0_0f;
   do {
     if (puVar2 <= puVar5) {
       return puVar4;

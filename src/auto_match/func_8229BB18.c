@@ -39,7 +39,7 @@ extern int fn_82672C20();
 extern int fn_82F64CE0();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_29c;
 extern unsigned int uStack_2a0;
 
@@ -72,7 +72,7 @@ void fn_8229BB18(undefined4 *param_1)
   undefined4 auStack_270 [156];
   
   bVar2 = false;
-  dVar14 = (double)lbl_821CC160;
+  dVar14 = (double)ltcg_pool_0_0f;
   uVar7 = 0;
   dVar15 = dVar14;
   if (param_1[4] != 0) {

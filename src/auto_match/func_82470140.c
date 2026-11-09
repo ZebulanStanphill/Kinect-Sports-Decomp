@@ -59,7 +59,7 @@ extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195994;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12D4;
 extern unsigned int uRam831c6c40;
 extern unsigned int uRam831c6c44;
@@ -149,7 +149,7 @@ void fn_82470140(double param_1,int param_2)
       fn_824651F0(*(undefined4 *)(param_2 + 0x440),iVar4);
       fn_8246F9F0(param_2,param_2 + 0x174);
     }
-    dVar10 = (double)lbl_821CC160;
+    dVar10 = (double)ltcg_pool_0_0f;
     iVar4 = fn_8246E720(param_1,dVar10,param_2);
     if (iVar4 != 0) {
       fn_82469958(*(undefined4 *)(param_2 + 0x3fc),*(int *)(param_2 + 0x70) == 0);
@@ -190,7 +190,7 @@ void fn_82470140(double param_1,int param_2)
   if (iVar4 == 1) {
     iVar4 = fn_8246E720(param_1,(double)fRam831c6c08,param_2);
     if (iVar4 == 0) goto LAB_82470888;
-    if ((lbl_821CC160 < *(float *)(param_2 + 0x20)) || (lbl_821CC160 < *(float *)(param_2 + 0x48)))
+    if ((ltcg_pool_0_0f < *(float *)(param_2 + 0x20)) || (ltcg_pool_0_0f < *(float *)(param_2 + 0x48)))
     {
       if (*(int *)(param_2 + 0x70) == 0) {
         fn_82469958(*(undefined4 *)(param_2 + 0x3fc),3);
@@ -206,7 +206,7 @@ LAB_824705f8:
   }
   else {
     if (iVar4 == 2) {
-      dVar10 = (double)lbl_821CC160;
+      dVar10 = (double)ltcg_pool_0_0f;
       iVar4 = fn_8246E720(param_1,dVar10,param_2);
       dVar11 = (double)(*(float *)(param_2 + 0x18) / fRam831c6c4c);
       pfVar8 = (float *)(param_2 + 8);
@@ -256,7 +256,7 @@ LAB_824705f8:
       }
       else {
         if (iVar4 == 5) {
-          dVar11 = (double)lbl_821CC160;
+          dVar11 = (double)ltcg_pool_0_0f;
           iVar4 = fn_8246E720(param_1,dVar11,param_2);
           if (iVar4 != 0) {
             fn_8246F9F0(param_2,param_2 + 0xb8);
@@ -286,7 +286,7 @@ LAB_824705f8:
           }
           goto LAB_82470888;
         }
-        dVar10 = (double)lbl_821CC160;
+        dVar10 = (double)ltcg_pool_0_0f;
         iVar4 = fn_8246E720(param_1,dVar10,param_2);
         dVar11 = (double)(*(float *)(param_2 + 0x18) / fRam831c6c5c);
         pfVar8 = (float *)(param_2 + 0x2c);

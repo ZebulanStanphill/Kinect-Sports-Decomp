@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82337D48();
 extern int fn_8242E688();
 extern int fn_82440D08();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8
@@ -42,8 +42,8 @@ fn_82450170(double param_1,undefined8 param_2,int *param_3,undefined8 param_4,ul
   iVar2 = (**(code **)(*param_3 + 0x28))(param_3);
   if ((double)*(float *)param_3[0x11] <= param_1) {
     iVar3 = fn_8242E688(*(undefined4 *)param_3[0x10],param_5 & 0xff);
-    fVar1 = lbl_821CC160;
-    if ((iVar3 == 0) || (iVar3 = fn_82337D48(), fVar1 = lbl_821CC160, iVar3 == 0))
+    fVar1 = ltcg_pool_0_0f;
+    if ((iVar3 == 0) || (iVar3 = fn_82337D48(), fVar1 = ltcg_pool_0_0f, iVar3 == 0))
     goto LAB_824501f4;
     iVar2 = 1;
   }

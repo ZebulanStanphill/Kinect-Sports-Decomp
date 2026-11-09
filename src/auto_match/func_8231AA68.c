@@ -45,7 +45,7 @@ extern int fn_824D7EC0();
 extern int fn_82508078();
 extern int fn_8255A070();
 extern int strstr();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8329EA20;
 extern unsigned int uStack_7c;
 extern unsigned int uStack_80;
@@ -206,7 +206,7 @@ LAB_8231aca0:
     stack_pair_80.second = *(undefined4 *)(*(int *)(param_2 + 0xc) + 0x2c);
     fn_8230C220(iVar12 + 0xa28,&stack_pair_80.first);
   }
-  dVar14 = (double)lbl_821CC160;
+  dVar14 = (double)ltcg_pool_0_0f;
   if ((dVar14 < (double)*(float *)(param_2 + 0x324)) &&
      (fVar1 = (float)((double)*(float *)(param_2 + 0x324) - param_1),
      *(float *)(param_2 + 0x324) = fVar1, (double)fVar1 <= dVar14)) {

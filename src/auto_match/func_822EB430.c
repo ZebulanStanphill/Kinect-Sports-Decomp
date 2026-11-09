@@ -3,7 +3,6 @@ extern struct SP_822EB430 *fn_82365BD8(void *, void *);
 extern void fn_822315A0(unsigned);
 extern void fn_82230300(void *, int, int);
 extern char lbl_821ADF3C[], lbl_821AE394[];
-extern float lbl_821CC160;
 struct O_822EB430 { void *vt; int f4; int f8, fc, f10, f14; char sp[8]; int f20; float f24; char str[0x1c]; int f44; };
 struct O_822EB430 *fn_822EB430(struct O_822EB430 *o, int a, int b, int c, int d, struct SP_822EB430 *sp, int e)
 {
@@ -20,7 +19,7 @@ struct O_822EB430 *fn_822EB430(struct O_822EB430 *o, int a, int b, int c, int d,
   fn_82365BD8(o->sp, t);
   o->f20 = e;
   if (t->rc != 0) fn_822315A0(t->rc);
-  fl = lbl_821CC160;
+  fl = 0.0f;
   o->vt = lbl_821AE394;
   o->f24 = fl;
   fn_82230300(o->str, 0, 0);

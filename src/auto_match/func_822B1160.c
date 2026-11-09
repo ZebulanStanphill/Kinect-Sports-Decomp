@@ -32,7 +32,7 @@ extern int fn_823692A0();
 extern int fn_8236A928();
 extern int fn_8236BA88();
 extern unsigned int lbl_82193B00;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_a4;
 
 
@@ -126,8 +126,8 @@ void fn_822B1160(int param_1)
   }
   if ((iVar21 != *(int *)(param_1 + 0x20)) && (iVar21 != -1)) {
     *(undefined4 *)(param_1 + 0x1c) = 0xffffffff;
-    uVar6 = lbl_821CC160;
-    *(undefined4 *)(param_1 + 0x18) = lbl_821CC160;
+    uVar6 = ltcg_pool_0_0f;
+    *(undefined4 *)(param_1 + 0x18) = ltcg_pool_0_0f;
     *(undefined4 *)(param_1 + 0x24) = uVar6;
   }
   *(int *)(param_1 + 0x20) = iVar21;

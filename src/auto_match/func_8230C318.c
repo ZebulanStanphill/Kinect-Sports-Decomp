@@ -34,7 +34,7 @@ extern unsigned int lbl_82002B04;
 extern unsigned int lbl_821AF398;
 extern unsigned int lbl_821AF3B8;
 extern unsigned int lbl_821C2424;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_40;
 extern unsigned int uStack_4c;
 
@@ -57,7 +57,7 @@ undefined4 * fn_8230C318(undefined4 *param_1,int param_2,undefined4 param_3)
   *param_1 = &lbl_821AF398;
   param_1[1] = 9;
   param_1[6] = &lbl_821C2424;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   param_1[0xc] = 0;
   param_1[0xe] = uVar1;
   uStack_4c = 0;

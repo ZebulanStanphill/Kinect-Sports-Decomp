@@ -36,7 +36,7 @@ extern unsigned int lbl_821917D4;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831d3ae8;
 
 
@@ -61,7 +61,7 @@ void fn_824767B8(double param_1,int param_2)
     fVar1 = (float)((double)*(float *)(param_2 + 0x118) - param_1);
     *(float *)(param_2 + 0x118) = fVar1;
     fVar4 = lbl_821CA460;
-    dVar11 = (double)lbl_821CC160;
+    dVar11 = (double)ltcg_pool_0_0f;
     if ((double)fVar1 < dVar11) {
       fVar1 = lbl_82192734;
       if (fVar2 < *(float *)(param_2 + 0x110)) {

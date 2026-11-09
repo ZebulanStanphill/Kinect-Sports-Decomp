@@ -35,7 +35,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821961F0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B850;
 extern unsigned int lbl_8326B854;
@@ -116,7 +116,7 @@ void fn_82587F30(void)
   uVar6 = (((U64)(lbl_832968D0) >> 32) & 0xFFFFFFFF);
   uVar5 = (((U64)(lbl_832968D0) >> 0) & 0xFFFFFFFF);
   iVar4 = lbl_8326B8E8;
-  lbl_8326B868 = lbl_821CC160;
+  lbl_8326B868 = ltcg_pool_0_0f;
   lbl_8326B870 = lbl_821916FC;
   fVar2 = lbl_8218E8E8;
   lbl_8326B850 = 0;

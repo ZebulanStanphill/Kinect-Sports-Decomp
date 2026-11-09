@@ -30,7 +30,7 @@ extern int fn_8254EDB0();
 extern int fn_8254EEB8();
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 param_4,int param_5,
@@ -46,7 +46,7 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
   ulonglong uVar7;
   bool bVar8;
   
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   fVar6 = lbl_82005748;
   if (param_1[0x31] == 0) {
     fn_8254EDB0(*param_1);
@@ -59,11 +59,11 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
       }
       fVar2 = *(float *)((int)((uVar7 & 0xffffffff) << 2) + (int)param_1);
       param_1[0x43] = (int)fVar2;
-      fVar3 = lbl_821CC160;
+      fVar3 = ltcg_pool_0_0f;
       fVar6 = lbl_82005748;
-      bVar1 = NAN(lbl_821CC160);
-      bVar8 = fVar2 < lbl_821CC160;
-      param_1[0x45] = (int)lbl_821CC160;
+      bVar1 = NAN(ltcg_pool_0_0f);
+      bVar8 = fVar2 < ltcg_pool_0_0f;
+      param_1[0x45] = (int)ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 + ((uint)(byte)(bVar8 << 2) | (uint)(NAN(fVar2) || bVar1) << 2))
           < 0.0) {
         fVar2 = fVar3;
@@ -80,14 +80,14 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
       iVar4 = (int)((param_2 + 0x38U & 0xffffffff) << 2);
       fVar3 = *(float *)(iVar4 + (int)param_1) + (float)param_1[0x44];
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar3 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar3) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-        fVar3 = lbl_821CC160;
+                    ((uint)(byte)((fVar3 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+        fVar3 = ltcg_pool_0_0f;
       }
       fVar5 = lbl_82005748;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar3 - lbl_82005748 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar3 - lbl_82005748) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar3 - lbl_82005748 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar3 - lbl_82005748) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar5 = fVar3;
       }
       param_1[0x44] = (int)fVar5;

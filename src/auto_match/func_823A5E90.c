@@ -28,7 +28,6 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_823598B0();
 extern int fn_82359928();
 extern int fn_8239C468();
-extern float lbl_821CC160;
 
 
 void fn_823A5E90(int param_1)
@@ -37,7 +36,7 @@ void fn_823A5E90(int param_1)
   int iVar1;
   float uVar2;
   
-  uVar2 = lbl_821CC160;
+  uVar2 = 0.0f;
   iVar1 = *(int *)(param_1 + 8);
   *(undefined4 *)(iVar1 + 0xbc) = 0;
   *(float *)(iVar1 + 200) = uVar2;

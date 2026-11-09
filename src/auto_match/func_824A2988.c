@@ -32,7 +32,7 @@ extern unsigned int fStack_4c;
 extern unsigned int fStack_5c;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_88;
 extern unsigned int uStack_90;
 extern unsigned int uStack_9c;
@@ -75,8 +75,8 @@ void fn_824A2988(int param_1,int *param_2)
   float fStack_4c;
   
   (**(code **)*param_2)(param_2,&uStack_9c,&uStack_a0);
-  dVar15 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x60) = lbl_821CC160;
+  dVar15 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x60) = ltcg_pool_0_0f;
   lVar12 = (ulonglong)*(uint *)(param_1 + 0x40) - 1;
   if (-1 < lVar12) {
     dVar16 = (double)lbl_821CA460;

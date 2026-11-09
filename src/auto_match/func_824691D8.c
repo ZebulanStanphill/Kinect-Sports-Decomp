@@ -29,7 +29,7 @@ extern unsigned int *auStack_63e;
 extern unsigned int *auStack_68c;
 extern int memset();
 extern unsigned int lbl_820E975C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_640;
 
 
@@ -49,7 +49,7 @@ void fn_824691D8(undefined4 *param_1)
   param_1[1] = 0;
   lVar3 = 3;
   param_1[2] = 0;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   param_1[3] = 3;
   param_1[5] = uVar1;
   param_1[4] = 0;

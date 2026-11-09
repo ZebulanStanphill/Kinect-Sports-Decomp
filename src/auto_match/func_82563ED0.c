@@ -30,7 +30,7 @@ extern unsigned int fStack_18;
 extern unsigned int fStack_1c;
 extern unsigned int fStack_20;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorSubtractFloatingPoint();
 
@@ -57,7 +57,7 @@ void fn_82563ED0(undefined8 param_1,float *param_2)
   float fStack_1c;
   float fStack_18;
   
-  fVar5 = lbl_821CC160;
+  fVar5 = ltcg_pool_0_0f;
   iVar3 = (int)param_1;
   pfVar2 = (float *)(in_r0 + iVar3 & 0xfffffff0);
   fVar6 = pfVar2[1];

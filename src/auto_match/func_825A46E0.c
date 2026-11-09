@@ -37,7 +37,7 @@ extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_82193CC0;
 extern float lbl_8219570C;
 extern unsigned int lbl_82195860;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8323BB14;
 extern unsigned int lbl_8323BCE4;
 extern unsigned int *lbl_8323FD9C;
@@ -176,7 +176,7 @@ LAB_825a4880:
     dVar38 = (double)*(float *)(iVar17 + 4);
     dVar35 = (double)*(float *)(iVar17 + 8);
   }
-  dVar33 = (double)lbl_821CC160;
+  dVar33 = (double)ltcg_pool_0_0f;
   bVar31 = dVar34 == dVar33;
   bVar32 = dVar35 == dVar33;
   if ((uVar28 & 0x1000000) != 0) {

@@ -32,7 +32,7 @@ extern int fn_82570B78();
 extern unsigned int iStack_4c;
 extern unsigned int iStack_50;
 extern unsigned int lbl_82196750;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_48;
 
 
@@ -56,7 +56,7 @@ longlong fn_82570840(int *param_1,undefined8 param_2,char param_3,undefined4 par
   undefined1 auStack_40 [1];
   undefined1 auStack_30 [48];
   
-  stack_pair_50.second = fn_82566CA8((double)lbl_821CC160,*(undefined4 *)(*param_1 + 0x844),param_2,4,0,0
+  stack_pair_50.second = fn_82566CA8((double)ltcg_pool_0_0f,*(undefined4 *)(*param_1 + 0x844),param_2,4,0,0
                                 ,0,*param_1,0);
   if (stack_pair_50.second == 0) {
     lVar3 = -1;

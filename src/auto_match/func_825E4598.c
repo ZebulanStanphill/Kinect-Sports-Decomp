@@ -34,7 +34,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -65,7 +65,7 @@ void fn_825E4598(void)
     dVar8 = (double)lbl_8218E8E8;
     dVar10 = (double)lbl_82193E2C;
     dVar12 = (double)lbl_821CA460;
-    dVar11 = (double)lbl_821CC160;
+    dVar11 = (double)ltcg_pool_0_0f;
     iVar7 = iVar4 + 0xa0;
     dVar9 = (double)lbl_82193E50;
     do {

@@ -38,7 +38,7 @@ extern int fn_82396230();
 extern int fn_82F64988();
 extern unsigned int iStack_3c;
 extern unsigned int iStack_40;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8239C4D8(int param_1)
@@ -106,7 +106,7 @@ void fn_8239C4D8(int param_1)
       iVar10 = iStack_40;
       lVar9 = (longlong)((uint)((ulonglong)(auStack_38) >> 32));
       auStack_38 = (ulonglong)(iStack_40 * 0x3c + iStack_3c);
-      fn_8229F758((double)lbl_821CC160,(double)(longlong)auStack_38,(double)lVar9,
+      fn_8229F758((double)ltcg_pool_0_0f,(double)(longlong)auStack_38,(double)lVar9,
                         *(undefined4 *)(iVar2 + 0xc));
       if ((9 < iVar8) || (uVar7 = 1, iVar10 != 0)) {
         uVar7 = 0;

@@ -63,7 +63,7 @@ extern unsigned int lbl_821C0A0C;
 extern unsigned int lbl_821C0A5C;
 extern unsigned int lbl_821C2404;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_58c;
@@ -112,7 +112,7 @@ int * fn_824C5CB8(int *param_1,int param_2,undefined4 param_3,undefined8 param_4
   uVar9 = ZEXT48(&stack0x00000000);
   iVar12 = 0;
   *param_1 = 0;
-  iVar10 = lbl_821CC160;
+  iVar10 = ltcg_pool_0_0f;
   puVar16 = (uint *)(param_1 + 7);
   param_1[1] = (uint)(*(char *)(param_2 + 0x3c) == '\0');
   piVar15 = param_1 + 0xb;

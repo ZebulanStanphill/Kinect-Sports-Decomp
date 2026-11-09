@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82520780();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -47,13 +47,13 @@ ulonglong fn_8232BDB0(float *param_1)
   afStack_28[1] = param_1[1];
   afStack_28[2] = param_1[2];
   if ((int)lVar3 == 0) {
-    afStack_28[2] = lbl_821CC160;
+    afStack_28[2] = ltcg_pool_0_0f;
     fVar1 = fVar1 - param_1[2];
   }
   pfVar4 = afStack_28;
   lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
   uVar5 = 0;
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   do {
     fVar2 = *pfVar4 + fVar2;
     if (((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * fVar1 < fVar2) {

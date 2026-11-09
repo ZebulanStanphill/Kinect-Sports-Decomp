@@ -53,7 +53,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_821B8058;
 extern unsigned int lbl_821B8084;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8240BCE8(int param_1,int param_2,int param_3,int param_4)
@@ -118,7 +118,7 @@ void fn_8240BCE8(int param_1,int param_2,int param_3,int param_4)
       *(undefined4 *)(iVar8 + 0x1cc) = 0;
       *(undefined4 *)(iVar8 + 0x1d4) = 0;
     }
-    uVar5 = lbl_821CC160;
+    uVar5 = ltcg_pool_0_0f;
     if (*(int *)(param_1 + 0xec) == 0) {
       piVar1 = *(int **)(**(int **)(*(int *)(param_1 + 4) + 8) + *(int *)(param_3 + 0x2c) * 4);
       *(undefined4 *)(*(int *)(piVar1[4] * 4 + *piVar1) + 0x20) = lbl_82005748;

@@ -34,7 +34,7 @@ extern unsigned int lbl_82195590;
 extern float lbl_821955A0;
 extern unsigned int lbl_821956B4;
 extern unsigned int lbl_82195DD4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8261FA78(undefined8 param_1,double param_2,undefined8 param_3,double param_4)
@@ -68,7 +68,7 @@ void fn_8261FA78(undefined8 param_1,double param_2,undefined8 param_3,double par
     dVar10 = (double)lbl_821956B4;
     dVar11 = (double)lbl_821954EC;
     dVar13 = extraout_f1;
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
     do {
       dVar15 = (double)fVar1;
       fVar1 = (float)dVar13;

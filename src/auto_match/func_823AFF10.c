@@ -34,7 +34,7 @@ extern int fn_823B1FF0();
 extern int fn_823B23B8();
 extern int fn_823B2490();
 extern int fn_823B2888();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823AFF10(int param_1)
@@ -59,7 +59,7 @@ void fn_823AFF10(int param_1)
   dVar7 = (double)*(float *)(param_1 + 0x54);
   fVar1 = (float)((double)*(float *)(param_1 + 0xb0) + dVar7);
   fVar2 = (float)((double)*(float *)(param_1 + 0x138) + (double)*(float *)(param_1 + 0xb0));
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   if ((double)*(float *)(param_1 + 0x24) < dVar8) {
     fVar3 = *(float *)(param_1 + 4);
     if (fVar1 < fVar3) {

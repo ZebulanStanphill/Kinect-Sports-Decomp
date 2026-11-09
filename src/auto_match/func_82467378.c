@@ -30,7 +30,7 @@ extern int fn_82360E28();
 extern int fn_8257A9F0();
 extern int fn_8265CA20();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int uStack_48;
 extern unsigned int uStack_50;
@@ -159,7 +159,7 @@ LAB_824676f4:
     uStack_48 = CONCAT44(lbl_83265A28,uVar2) & 0x7fffffffffffff | 0x3f80000000000000;
     if (uVar2 != 0) {
       puVar10 = puStack_40;
-      fVar5 = lbl_821CC160;
+      fVar5 = ltcg_pool_0_0f;
       do {
         fVar5 = *(float *)(*puVar10 * 4 + *param_5) + lbl_821CA460 / (float)uVar2 + fVar5;
         if (((float)(((U64)(uStack_48) >> 0) & 0xFFFFFFFF) - lbl_821CA460) * fVar3 < fVar5) goto LAB_824676f4;

@@ -35,7 +35,7 @@ extern int fn_8246EC90();
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195994;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C6B80;
 extern unsigned int lbl_831C6C54;
 
@@ -76,8 +76,8 @@ void fn_8246FFB0(int param_1)
     fVar1 = (float)((double)*(float *)(param_1 + 0x24) - (double)*(float *)(param_1 + 0x4c));
     dVar5 = (double)*(float *)(param_1 + 0x24);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar5 = (double)*(float *)(param_1 + 0x4c);
     }
     fn_82469EB0(dVar5,*(undefined4 *)(param_1 + 0x310));

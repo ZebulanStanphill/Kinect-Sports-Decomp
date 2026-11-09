@@ -32,7 +32,7 @@ extern int fn_82E1CAD0();
 extern int fn_82E1CB88();
 extern int fn_82E1CC60();
 extern int fn_82E1CCA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82261580(undefined8 param_1,undefined8 param_2,undefined8 param_3)
@@ -49,7 +49,7 @@ void fn_82261580(undefined8 param_1,undefined8 param_2,undefined8 param_3)
       fn_82E1CB88(0xffffffff821a6d50,param_2);
       fn_82E1CC60(param_1,0xffffffff821a6df4);
       fn_8225FCE8(0xffffffff821a6e04);
-      fn_82E1CC60((double)lbl_821CC160,0xffffffff821a6e44);
+      fn_82E1CC60((double)ltcg_pool_0_0f,0xffffffff821a6e44);
       fn_82E1CB88(0xffffffff821a69c0,param_3);
       fn_82E1CCA8();
     }

@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 extern float lbl_821CA45C[];
 extern unsigned int lbl_83265A28;
 static float rnd(void)
@@ -13,6 +12,6 @@ void fn_8232D710(int param_1)
 {
     float base = *(float *)(param_1 + 0x3c);
     float cur = *(float *)(param_1 + 0x40);
-    *(float *)(param_1 + 0x44) = lbl_821CC160;
+    *(float *)(param_1 + 0x44) = 0.0f;
     *(float *)(param_1 + 0x48) = base + (cur - base) * rnd();
 }

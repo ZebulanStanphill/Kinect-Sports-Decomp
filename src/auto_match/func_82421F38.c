@@ -32,7 +32,7 @@ extern int fn_82558210();
 extern int fn_82587AC0();
 extern int fn_827F6308();
 extern float lbl_821916FC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern U64 storeVectorElementWordIndexed();
 
@@ -66,7 +66,7 @@ void fn_82421F38(undefined4 *param_1,undefined4 param_2)
   if (*(int *)(param_1[1] + 400) != 0) {
     *(undefined4 *)(**(int **)(*(int *)(param_1[1] + 400) + 400) + 0x118) = 1;
   }
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   *(float *)(param_1[1] + 0x2f0) = *(float *)(param_1[1] + 0x2f0) * lbl_821916FC;
   param_1[6] = uVar1;
   param_1[2] = 0;

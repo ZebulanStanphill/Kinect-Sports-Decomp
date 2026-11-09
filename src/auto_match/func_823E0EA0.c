@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_823D9F58();
 extern int fn_823DA180();
 extern int fn_823E0DA0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 char fn_823E0EA0(longlong param_1,undefined8 param_2,uint *param_3,int *param_4)
@@ -123,7 +123,7 @@ LAB_823e0efc:
   dVar17 = (double)((float)puVar9[9] * (float)puVar9[0xb]);
   dVar19 = (double)((float)puVar9[0xb] + (float)((double)(float)param_3[1] - dVar17));
   dVar18 = (double)fn_823D9F58(lVar16,1);
-  dVar22 = (double)lbl_821CC160;
+  dVar22 = (double)ltcg_pool_0_0f;
   bVar2 = *param_4 == 0;
   dVar20 = dVar22;
   dVar21 = dVar22;

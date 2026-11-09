@@ -50,7 +50,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82448A88(undefined8 param_1,uint param_2,ulonglong param_3,int param_4)
@@ -189,7 +189,7 @@ void fn_82448A88(undefined8 param_1,uint param_2,ulonglong param_3,int param_4)
                                       ,(double)(lbl_821CA460 - (fVar2 + (float)(dVar13 * dVar19))),
                                       dVar11);
         dVar19 = (double)fn_82809D40(-dVar15,dVar16);
-        dVar12 = (double)lbl_821CC160;
+        dVar12 = (double)ltcg_pool_0_0f;
       }
       else {
         dVar11 = (double)fn_82809D40((double)((float)(dVar19 * dVar14) + (float)(dVar18 * dVar12)),
@@ -236,7 +236,7 @@ void fn_82448A88(undefined8 param_1,uint param_2,ulonglong param_3,int param_4)
     fStack_78 = (float)dVar12;
     dVar11 = (double)fn_82809D40(-dVar19,dVar11);
     fStack_80 = (float)dVar11;
-    fStack_7c = lbl_821CC160;
+    fStack_7c = ltcg_pool_0_0f;
   }
   else {
     dVar12 = (double)fn_82809D40((double)((float)dVar16 + (float)dVar12),

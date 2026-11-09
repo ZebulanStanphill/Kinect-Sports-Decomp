@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_825F4FE8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_825F4F10(int param_1,undefined4 param_2)
@@ -52,9 +52,9 @@ undefined8 fn_825F4F10(int param_1,undefined4 param_2)
     *(undefined4 *)(param_1 + 0x91c) = param_2;
     *(undefined4 *)(param_1 + 0x900) = 0;
     *(int *)(param_1 + 0x8f0) = (int)lVar5;
-    uVar2 = lbl_821CC160;
+    uVar2 = ltcg_pool_0_0f;
     iVar4 = 0;
-    *(undefined4 *)(param_1 + 0x8f8) = lbl_821CC160;
+    *(undefined4 *)(param_1 + 0x8f8) = ltcg_pool_0_0f;
     *(undefined4 *)(param_1 + 0x8fc) = 1;
     *(undefined4 *)(param_1 + 0x8f4) = uVar2;
     *(undefined4 *)(param_1 + 0x918) = 0;

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern float fRam831c3140;
 extern float fRam831c3148;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C3120;
 extern unsigned int lbl_831E4E38;
 
@@ -68,7 +68,7 @@ code_r0x824fa1cc:
   }
   if (param_2 != 3) goto code_r0x824fa2fc;
   *(undefined4 *)(param_1 + 0x2d8) = 0xffffffff;
-  if (*(float *)(param_1 + 0x220) <= lbl_821CC160) {
+  if (*(float *)(param_1 + 0x220) <= ltcg_pool_0_0f) {
     *(float *)(param_1 + 0x220) = -fVar1;
     lVar4 = 1;
     pfVar3 = (float *)(param_1 + 0x2c8);

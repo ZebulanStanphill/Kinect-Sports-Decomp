@@ -35,7 +35,7 @@ extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821922D4;
 extern unsigned int lbl_82192604;
 extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_823D2A60(double param_1,int param_2)
@@ -70,6 +70,6 @@ LAB_823d2b44:
       }
     }
   }
-  return (double)lbl_821CC160;
+  return (double)ltcg_pool_0_0f;
 }
 

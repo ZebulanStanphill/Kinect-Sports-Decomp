@@ -36,7 +36,7 @@ extern int fn_8248E338();
 extern unsigned int iStack_44;
 extern unsigned int iStack_4c;
 extern unsigned int iStack_50;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8248DBA8(double param_1,undefined4 *param_2,undefined8 param_3,int param_4)
@@ -74,7 +74,7 @@ undefined8 fn_8248DBA8(double param_1,undefined4 *param_2,undefined8 param_3,int
     } while (iVar8 != 0);
     if ((param_2[7] != 0) && (param_2[0x12] == 0)) {
       param_2[0xf] = (float)((double)(float)param_2[0xf] + param_1);
-      dVar13 = (double)lbl_821CC160;
+      dVar13 = (double)ltcg_pool_0_0f;
       do {
         if (param_2[0x12] != 0) break;
         puVar11 = param_2 + 2;

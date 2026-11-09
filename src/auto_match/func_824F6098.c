@@ -29,7 +29,7 @@ extern int fn_82522D98();
 extern int fn_8265C9E0();
 extern int fn_82F65B18();
 extern unsigned int lbl_821C1EA8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824F6098(double param_1,int param_2,undefined8 param_3,undefined4 param_4,
@@ -46,7 +46,7 @@ void fn_824F6098(double param_1,int param_2,undefined8 param_3,undefined4 param_
     puVar2[3] = (float)param_1;
     puVar2[1] = param_4;
     puVar2[6] = 0;
-    uVar1 = lbl_821CC160;
+    uVar1 = ltcg_pool_0_0f;
     *puVar2 = &lbl_821C1EA8;
     puVar2[5] = uVar1;
     puVar2[2] = uVar3;

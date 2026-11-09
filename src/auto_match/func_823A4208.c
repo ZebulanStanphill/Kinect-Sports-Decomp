@@ -49,7 +49,7 @@ extern int fn_82672C20();
 extern unsigned int lbl_82195528;
 extern unsigned int lbl_82195830;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_88;
 extern unsigned int uStack_b8;
@@ -119,7 +119,7 @@ undefined8 fn_823A4208(int param_1,ulonglong param_2,undefined8 param_3,int para
   if ((iVar7 == 1) || (bVar4 = false, iVar7 == 0)) {
     bVar4 = true;
   }
-  dVar17 = (double)lbl_821CC160;
+  dVar17 = (double)ltcg_pool_0_0f;
   dVar15 = (double)lbl_821CA460;
   if (bVar3) {
     dVar14 = dVar17;

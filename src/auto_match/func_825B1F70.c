@@ -35,7 +35,7 @@ extern unsigned int lbl_8219550C;
 extern unsigned int lbl_82195510;
 extern unsigned int lbl_82195514;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -62,7 +62,7 @@ void fn_825B1F70(undefined4 *param_1)
     return;
   }
   *param_1 = 1;
-  uVar11 = lbl_821CC160;
+  uVar11 = ltcg_pool_0_0f;
   param_1[0x17] = 0;
   uVar9 = lbl_82195514;
   uVar8 = lbl_82195510;

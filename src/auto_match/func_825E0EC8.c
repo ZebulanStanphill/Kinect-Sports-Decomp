@@ -44,7 +44,7 @@ extern unsigned int lbl_82195590;
 extern float lbl_821955A0;
 extern unsigned int lbl_821955B4;
 extern unsigned int lbl_82195C38;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DB304;
 
 
@@ -78,7 +78,7 @@ void fn_825E0EC8(undefined8 param_1,int *param_2)
   
   iVar7 = fn_82F6A540();
   iVar9 = param_2[0xd];
-  dVar16 = (double)lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
   fVar1 = *(float *)(iVar9 + 4);
   fVar2 = *(float *)(iVar9 + 0x2c);
   if ((*(int *)(iVar9 + 0x50) != 0) || (bVar10 = false, *(int *)(param_2[0x10] + 8) != 0)) {

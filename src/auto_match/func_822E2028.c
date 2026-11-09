@@ -26,7 +26,6 @@ typedef struct Self_822E2028 {
 
 extern void fn_822315A0(void *p);
 extern void fn_824D2AE8(Pair_822E2028 *out, void *src);
-extern float lbl_821CC160;
 
 void fn_822E2028(Self_822E2028 *param_1)
 {
@@ -38,7 +37,7 @@ void fn_822E2028(Self_822E2028 *param_1)
     if (o != 0) {
         float v;
         o->flag = 1;
-        v = lbl_821CC160;
+        v = 0.0f;
         o->a = v;
         o->b = v;
     }

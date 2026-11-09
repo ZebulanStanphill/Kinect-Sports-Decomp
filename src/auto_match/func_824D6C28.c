@@ -31,7 +31,7 @@ extern int fn_822B6A58();
 extern int fn_824D6A88();
 extern int fn_824D6E28();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D4264;
 extern unsigned int stack0x00000020;
 
@@ -93,20 +93,20 @@ LAB_824d6d70:
       if (dVar6 < (double)stack_pair_70.second) {
         if ((bVar5) && (*(int *)(*(int *)(param_1 + 0x144) + 0x6c) != 0)) {
           *param_3 = 1;
-          fVar1 = lbl_821CC160;
+          fVar1 = ltcg_pool_0_0f;
           goto LAB_824d6e10;
         }
-        if ((bVar3) && (fVar1 = lbl_821CC160, *(int *)(*(int *)(param_1 + 0x148) + 0x6c) != 0))
+        if ((bVar3) && (fVar1 = ltcg_pool_0_0f, *(int *)(*(int *)(param_1 + 0x148) + 0x6c) != 0))
         goto LAB_824d6d70;
       }
     }
     fn_822B6A58(&stack_pair_70.first,*(undefined4 *)(param_1 + 0x164),2);
     if (dVar6 < (double)stack_pair_70.second) {
-      return (double)lbl_821CC160;
+      return (double)ltcg_pool_0_0f;
     }
   }
   *param_3 = 0;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
 LAB_824d6e10:
   *param_4 = 0;
   return (double)fVar1;

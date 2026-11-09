@@ -48,7 +48,7 @@ extern int fn_823737B8();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821954E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CD634;
 extern unsigned int lbl_831DCD58;
 
@@ -149,7 +149,7 @@ LAB_822df6fc:
     else {
       iVar16 = 6;
     }
-    dVar18 = (double)lbl_821CC160;
+    dVar18 = (double)ltcg_pool_0_0f;
     if ((iVar11 != 9) || (bVar6 = true, param_2 <= dVar18)) {
       bVar6 = false;
     }

@@ -30,7 +30,7 @@ extern double sqrt(double);
 extern unsigned int fStack_28;
 extern int fn_824DC918();
 extern int fn_824DC998();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824E09C0(longlong param_1,int param_2)
@@ -47,7 +47,7 @@ void fn_824E09C0(longlong param_1,int param_2)
   float fStack_28;
   
   fn_824DC998(param_1 + 8);
-  dVar3 = (double)lbl_821CC160;
+  dVar3 = (double)ltcg_pool_0_0f;
   if (dVar3 < (double)*(float *)(param_2 + 0xb8)) {
     puVar1 = (undefined4 *)(param_2 + 0xb0U & 0xfffffff0);
     uVar4 = puVar1[1];

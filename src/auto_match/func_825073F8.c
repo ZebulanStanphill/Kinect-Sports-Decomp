@@ -32,7 +32,7 @@ extern int fn_827EF828();
 extern int fn_827EFFE8();
 extern int fn_827F0180();
 extern unsigned int lbl_821922D0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern float lbl_8327F894;
 
 
@@ -73,7 +73,7 @@ void fn_825073F8(int param_1,undefined8 param_2)
     *(undefined1 *)(param_1 + 0xb6d) = 0;
   }
   if (*(char *)(param_1 + 0xb6c) != '\0') {
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     if ((double)*(float *)(*(int *)(param_1 + 0x4c) + 0x838) <= dVar4) {
       dVar4 = (double)(*(float *)(*(int *)(param_1 + 0x4c) + 0x820) * lbl_8327F894);
     }

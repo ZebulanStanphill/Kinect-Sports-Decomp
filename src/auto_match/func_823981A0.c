@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_2c;
 extern int fn_82359200();
 extern int fn_82359108();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_30;
 
 
@@ -45,11 +45,11 @@ void fn_823981A0(int *param_1,undefined8 param_2)
     iVar1 = (**(code **)(*param_1 + 0x70))(param_1,&auStack_2c,&uStack_30);
     if (0 < iVar1) {
                     /* WARNING: Subroutine does not return */
-      fn_82359108((double)lbl_821CC160,param_1,uStack_30);
+      fn_82359108((double)ltcg_pool_0_0f,param_1,uStack_30);
     }
   }
   else {
-    fn_82359200((double)lbl_821CC160,param_1,param_2,param_2);
+    fn_82359200((double)ltcg_pool_0_0f,param_1,param_2,param_2);
   }
   return;
 }

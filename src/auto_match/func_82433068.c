@@ -37,7 +37,7 @@ extern int fn_82437EC8();
 extern int fn_82437F40();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821B932C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_82433068(undefined4 *param_1,int param_2)
@@ -118,7 +118,7 @@ undefined4 * fn_82433068(undefined4 *param_1,int param_2)
           *(undefined4 *)(iVar3 + 0x158) = uVar5;
           goto code_r0x82433388;
         }
-        if (lbl_821CC160 < *(float *)(iVar3 + 0x148)) {
+        if (ltcg_pool_0_0f < *(float *)(iVar3 + 0x148)) {
           iVar3 = 200;
           iVar4 = piVar6[0x58] * 200;
           goto code_r0x8243336c;

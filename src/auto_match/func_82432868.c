@@ -32,7 +32,7 @@ extern unsigned int lbl_82005748;
 extern unsigned int lbl_82191144;
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F894;
 
 
@@ -47,7 +47,7 @@ void fn_82432868(int param_1)
   float fVar4;
   int iVar5;
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   if (*(int *)(*(int *)(param_1 + 4) + 0x7c) != 0) {
     iVar2 = *(int *)(param_1 + 4);
     fVar1 = *(float *)(iVar2 + 0x84) - lbl_8327F894;

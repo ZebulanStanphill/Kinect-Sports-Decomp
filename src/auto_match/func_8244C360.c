@@ -29,7 +29,7 @@ extern unsigned int *auStack_60;
 extern int fn_82435FA8();
 extern int fn_824E17D8();
 extern unsigned int lbl_82191FCC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C78F0;
 
 
@@ -58,7 +58,7 @@ double fn_8244C360(int *param_1,int param_2,undefined8 param_3)
   uVar1 = *(int *)(*(int *)(*(int *)param_1[0x10] + 0x174) + 4) + 0x50U & 0xfffffff0;
   fVar6 = *(float *)(uVar1 + 4);
   fVar7 = *(float *)(uVar1 + 8);
-  fn_82435FA8((double)lbl_821CC160,afStack_50,param_1,param_3,0);
+  fn_82435FA8((double)ltcg_pool_0_0f,afStack_50,param_1,param_3,0);
   fVar3 = lbl_831C78F0;
   uVar1 = (int)afStack_50 + in_r0 & 0xfffffff0;
   fVar6 = (fVar8 - fVar6) * *(float *)(uVar1 + 4) + 0.0 + (fVar9 - fVar7) * *(float *)(uVar1 + 8);

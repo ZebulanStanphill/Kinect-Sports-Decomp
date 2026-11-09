@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82273C88();
 extern int fn_82273CD8();
 extern int fn_82672C20();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
@@ -45,13 +45,13 @@ void fn_8229F208(int param_1,int param_2)
   if (*(int *)(param_1 + 4) != param_2) {
     *(int *)(param_1 + 4) = param_2;
     if (param_2 == 0) {
-      *(undefined4 *)(param_1 + 0x10) = lbl_821CC160;
+      *(undefined4 *)(param_1 + 0x10) = ltcg_pool_0_0f;
       fn_82273CD8(&stack_pair_20.first,4);
       pcStack_18 = "appear";
     }
     else {
       if (param_2 != 1) goto LAB_8229f2a4;
-      *(undefined4 *)(param_1 + 0x10) = lbl_821CC160;
+      *(undefined4 *)(param_1 + 0x10) = ltcg_pool_0_0f;
       fn_82273CD8(&stack_pair_20.first,4);
       pcStack_18 = "disappear";
     }

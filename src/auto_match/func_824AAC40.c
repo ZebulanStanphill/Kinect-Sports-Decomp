@@ -30,7 +30,7 @@ extern unsigned int *auStack_40;
 extern unsigned int fStack_3c;
 extern unsigned int lbl_82193B38;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
@@ -59,7 +59,7 @@ double fn_824AAC40(int param_1,int *param_2)
   
   (**(code **)*param_2)(param_2,&uStack_50,&uStack_4c);
   iVar1 = *(int *)(param_1 + 0x3c);
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   uVar5 = (ulonglong)uStack_4c;
   dVar8 = (double)((float)uStack_50 - ((float)uVar5 - lbl_82193B38));
   fVar2 = (float)uStack_50;

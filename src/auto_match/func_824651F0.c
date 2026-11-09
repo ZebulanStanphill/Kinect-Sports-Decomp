@@ -6,7 +6,6 @@ extern void fn_82864898(void *);
 extern void fn_82864988(void *, const char *);
 extern char lbl_83296BC0[];
 extern char lbl_83296BD0[];
-extern float lbl_821CC160;
 void fn_824651F0(int param_1, int *param_2)
 {
   char auStack_40[40];
@@ -23,5 +22,5 @@ void fn_824651F0(int param_1, int *param_2)
       fn_82864898(auStack_40);
     }
   }
-  *(float *)(param_1 + 0x3c) = lbl_821CC160;
+  *(float *)(param_1 + 0x3c) = 0.0f;
 }

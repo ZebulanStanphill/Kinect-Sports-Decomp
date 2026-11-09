@@ -33,7 +33,7 @@ extern int fn_82A1EFC0();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82196582;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern U64 storeVectorElementWordIndexed();
 
 
@@ -62,9 +62,9 @@ void fn_82529508(longlong param_1)
   fn_82558210(param_1,3);
   puVar9 = (undefined4 *)fn_82587B68(2);
   fn_82526C70(param_1 + 0x42,0x40,0xffffffff821c4dd0,*puVar9);
-  uVar4 = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
   lVar12 = param_1 + 0x510;
-  *(undefined4 *)(puVar8 + 0x4c) = lbl_821CC160;
+  *(undefined4 *)(puVar8 + 0x4c) = ltcg_pool_0_0f;
   *(undefined4 *)(puVar8 + 0x4e) = uVar4;
   *(undefined4 *)(puVar8 + 0x50) = uVar4;
   *(undefined4 *)(puVar8 + 0x56) = uVar4;

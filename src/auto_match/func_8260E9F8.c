@@ -29,7 +29,7 @@ extern int fn_82539560();
 extern int fn_82553008();
 extern int fn_82569980();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8260E9F8(undefined8 param_1,undefined8 param_2,int param_3,undefined8 param_4,int param_5)
@@ -49,7 +49,7 @@ void fn_8260E9F8(undefined8 param_1,undefined8 param_2,int param_3,undefined8 pa
       if (*(int *)(iVar1 + 0x8c0) != 0) {
                     /* WARNING: Subroutine does not return */
         fn_82539560((double)*(float *)((int)param_1 + 0x88),(double)*(float *)(param_3 + 4),
-                     (double)*(float *)(param_3 + 8),(double)lbl_821CC160,(double)lbl_821CA460);
+                     (double)*(float *)(param_3 + 8),(double)ltcg_pool_0_0f,(double)lbl_821CA460);
       }
     }
     else if ((((param_5 == 1) || (param_5 == 3)) && ((ulonglong)*(uint *)(iVar1 + 0x8c0) != 0)) &&

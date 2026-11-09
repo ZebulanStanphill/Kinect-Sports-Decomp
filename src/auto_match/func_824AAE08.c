@@ -32,7 +32,7 @@ extern int fn_824AB100();
 extern int fn_82539560();
 extern unsigned int lbl_82192604;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
 
@@ -69,7 +69,7 @@ void fn_824AAE08(int param_1,int *param_2)
   fVar1 = in_register_00010450 * 0.0 + *(float *)(uVar2 + 4) * in_register_00010454 +
           *(float *)(uVar2 + 8) * in_register_00010458;
   dVar7 = (double)lbl_821CA460;
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   dVar6 = (double)lbl_82192604;
   pfVar3 = (float *)((int)afStack_40 + in_r0 & 0xfffffff0);
   *pfVar3 = fVar1;

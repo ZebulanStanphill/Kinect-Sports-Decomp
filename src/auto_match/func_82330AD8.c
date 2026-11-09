@@ -32,7 +32,7 @@ extern int fn_82528FA8();
 extern int memcpy();
 extern unsigned int lbl_821B0970;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 *
@@ -52,8 +52,8 @@ fn_82330AD8(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   puVar3 = param_1 + 8;
   fn_8227D7E8(puVar3);
   param_1[0x1d] = (int)param_5;
-  dVar4 = (double)lbl_821CC160;
-  param_1[0x1c] = lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
+  param_1[0x1c] = ltcg_pool_0_0f;
   memcpy(param_1 + 0x1e,param_3,0x18);
   param_1[0x25] = (float)dVar4;
   param_1[0x24] = 0;

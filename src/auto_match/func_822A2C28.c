@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_822A2FE8();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CE850;
 
 
@@ -45,14 +45,14 @@ void fn_822A2C28(double param_1,int *param_2)
   
   iVar2 = *param_2;
   param_2[0xaa] = 0;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (iVar2 == 1) {
     if (param_2[6] != 0) {
       fVar4 = -(float)((double)(float)param_2[6] - param_1);
-      fVar5 = lbl_821CC160;
+      fVar5 = ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar4 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar4) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar4 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar5 = (float)((double)(float)param_2[6] - param_1);
       }
       param_2[6] = (int)fVar5;
@@ -65,10 +65,10 @@ void fn_822A2C28(double param_1,int *param_2)
   }
   else if (((1 < iVar2) && (iVar2 < 8)) && (param_2[0x87] != 0)) {
     fVar4 = -(float)((double)(float)param_2[0x87] - param_1);
-    fVar5 = lbl_821CC160;
+    fVar5 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar4 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar4) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar4 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar5 = (float)((double)(float)param_2[0x87] - param_1);
     }
     param_2[0x87] = (int)fVar5;

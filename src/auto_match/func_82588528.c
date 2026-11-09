@@ -34,7 +34,7 @@ extern int fn_82F64CE0();
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern unsigned int lbl_82192734;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B850;
 extern unsigned int lbl_8326B85C;
 extern unsigned int lbl_8326B860;
@@ -69,7 +69,7 @@ void fn_82588528(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   
   psVar6 = (short *)fn_82F6A53C();
   iVar4 = lbl_8326B850;
-  dVar19 = (double)lbl_821CC160;
+  dVar19 = (double)ltcg_pool_0_0f;
   dVar13 = (double)lbl_8326B85C;
   if (dVar13 == dVar19) {
     if ((double)lbl_8326B860 == dVar19) goto LAB_82588880;

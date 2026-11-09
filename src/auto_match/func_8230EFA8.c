@@ -33,7 +33,7 @@ extern int fn_8230E260();
 extern int fn_82356F98();
 extern int fn_823CC298();
 extern int fn_823DB6B8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8230EFA8(int param_1)
@@ -57,7 +57,7 @@ void fn_8230EFA8(int param_1)
     iVar3 = fn_82356F98(auStack_50);
     iVar2 = *(int *)(*(int *)(param_1 + 0x10) + 0x4b0);
     if (iVar2 != 0) {
-      fn_823DB6B8((double)lbl_821CC160,iVar2,iVar3,0);
+      fn_823DB6B8((double)ltcg_pool_0_0f,iVar2,iVar3,0);
     }
     if (*(int *)(iVar3 + 4) != 0) {
       fn_822315A0();

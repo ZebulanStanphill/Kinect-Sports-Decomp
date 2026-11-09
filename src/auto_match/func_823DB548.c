@@ -31,7 +31,7 @@ extern int fn_82672C20();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 
 
@@ -64,7 +64,7 @@ void fn_823DB548(undefined8 param_1,double param_2,double param_3,undefined8 par
   float in_vr2;
   
   iVar4 = fn_82F6A548();
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   if ((dVar10 < extraout_f1) || (iVar8 = 1, (double)(float)(param_2 + param_3) <= dVar10)) {
     iVar8 = 0;
   }

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_825F4DE0();
 extern int fn_825F4F10();
 extern int fn_825F4FE8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82610730(int param_1,undefined8 param_2,int param_3,undefined8 param_4,uint param_5)
@@ -40,10 +40,10 @@ void fn_82610730(int param_1,undefined8 param_2,int param_3,undefined8 param_4,u
   int iVar4;
   bool bVar5;
   
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   iVar1 = **(int **)(param_1 + 0x60);
   if (param_5 == 0) {
-    bVar5 = lbl_821CC160 < *(float *)(param_3 + 0x18);
+    bVar5 = ltcg_pool_0_0f < *(float *)(param_3 + 0x18);
     iVar4 = fn_825F4F10(iVar1,bVar5);
     if (iVar4 == 0) {
       fn_825F4DE0(iVar1,param_3 + 0x10,bVar5);
@@ -53,17 +53,17 @@ void fn_82610730(int param_1,undefined8 param_2,int param_3,undefined8 param_4,u
   }
   if (param_5 != 1) {
     if (param_5 < 3) {
-      if (*(float *)(param_3 + 0x18) <= lbl_821CC160) {
+      if (*(float *)(param_3 + 0x18) <= ltcg_pool_0_0f) {
         return;
       }
-      fVar2 = lbl_821CC160;
+      fVar2 = ltcg_pool_0_0f;
       if (*(int *)(iVar1 + 0x8dc) != 0) {
         fVar2 = *(float *)(*(int *)(iVar1 + 0x8dc) + 0x10) - *(float *)(iVar1 + 0x8f4);
       }
       if (*(float *)(param_3 + 0x18) < fVar2) {
         return;
       }
-      if (*(float *)(iVar1 + 0x924) != lbl_821CC160) {
+      if (*(float *)(iVar1 + 0x924) != ltcg_pool_0_0f) {
         return;
       }
       *(undefined4 *)(iVar1 + 0x924) = *(undefined4 *)(iVar1 + 0x8f4);

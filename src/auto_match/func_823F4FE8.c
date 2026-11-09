@@ -32,7 +32,7 @@ extern int fn_8265C9E0();
 extern int fn_82F64538();
 extern int memcpy();
 extern unsigned int lbl_821B7A44;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_34;
 extern unsigned int uStack_38;
 extern unsigned int uStack_3a;
@@ -100,7 +100,7 @@ LAB_823f5058:
     puVar4[3] = in_vr77;
     uStack_3c = 0;
     uStack_3b = 0;
-    uStack_40 = lbl_821CC160;
+    uStack_40 = ltcg_pool_0_0f;
     uStack_3a = 0;
     uStack_38 = 0;
     uStack_34 = 3;

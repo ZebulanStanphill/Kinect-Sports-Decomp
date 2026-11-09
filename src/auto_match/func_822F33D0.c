@@ -33,7 +33,7 @@ extern int memcpy();
 extern unsigned int lbl_82196582;
 extern unsigned int lbl_821ADF3C;
 extern unsigned int lbl_821AE6B4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 *
@@ -83,7 +83,7 @@ fn_822F33D0(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4
   iVar5 = param_1[4];
   param_1[0x2e] = 0;
   param_1[0x31] = 0;
-  uVar4 = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
   iVar1 = param_1[3];
   puVar3 = (undefined4 *)((uint)(param_1 + 0x28) & 0xfffffff0);
   *puVar3 = in_register_000104d0;

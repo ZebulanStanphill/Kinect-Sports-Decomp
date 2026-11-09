@@ -41,7 +41,7 @@ extern int fn_823CA978();
 extern int fn_82F65018();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82192734;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_b0;
 extern unsigned int uStack_b8;
 extern V16 vectorSubtractFloatingPoint();
@@ -161,7 +161,7 @@ void fn_823C7FE8(undefined8 param_1,int param_2)
   }
   fn_823C7AF0(param_1,param_2);
   uVar8 = (ulonglong)*(uint *)(*(int *)(*(int *)(param_2 + 0x240) + 0x1c) + 4);
-  cVar9 = fn_822B33B0((double)lbl_821CC160,uVar8);
+  cVar9 = fn_822B33B0((double)ltcg_pool_0_0f,uVar8);
   if (((cVar9 != '\0') && (cVar9 = fn_822B33B0(uVar8), cVar9 != '\0')) ||
      (*(int *)(param_2 + 0x368) != 0)) {
     puVar6 = (undefined4 *)((uint)(auStack_80 + in_r0) & 0xfffffff0);

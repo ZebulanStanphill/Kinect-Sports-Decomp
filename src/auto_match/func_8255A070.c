@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82809D40();
 extern unsigned int lbl_82195680;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8255A070(void)
@@ -41,7 +41,7 @@ double fn_8255A070(void)
     dVar1 = (double)fn_82809D40();
   }
   else {
-    dVar1 = (double)lbl_821CC160;
+    dVar1 = (double)ltcg_pool_0_0f;
   }
   return dVar1;
 }

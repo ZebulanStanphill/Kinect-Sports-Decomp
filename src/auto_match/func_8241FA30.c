@@ -29,7 +29,7 @@ extern int fn_82547C80();
 extern unsigned int lbl_82191D8C;
 extern unsigned int lbl_82191D9C;
 extern unsigned int lbl_82191DA0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8241FA30(int *param_1)
@@ -44,10 +44,10 @@ void fn_8241FA30(int *param_1)
   
   fVar1 = (in_register_00010010 - (float)param_1[0x74]) - (float)param_1[0x84];
   iVar4 = 0;
-  if (lbl_821CC160 < fVar1) {
+  if (ltcg_pool_0_0f < fVar1) {
     uVar5 = 0;
     pfVar3 = (float *)&lbl_82191D8C;
-    fVar2 = lbl_821CC160;
+    fVar2 = ltcg_pool_0_0f;
     do {
       if (0xfb < uVar5) break;
       pfVar3 = pfVar3 + 3;

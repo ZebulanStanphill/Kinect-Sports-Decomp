@@ -2,7 +2,6 @@ extern int fn_822C5B18();
 extern int fn_82359C18();
 extern int fn_82476198();
 extern unsigned int lbl_821BCFD4;
-extern float lbl_821CC160;
 
 typedef struct {
   unsigned vt;
@@ -23,7 +22,7 @@ typedef struct {
 Obj_82478A00 *fn_82478A00(Obj_82478A00 *o, int p2, int p3, int p4, int p5, int p6, int p7)
 {
   char tmp[16];
-  o->fc = lbl_821CC160;
+  o->fc = 0.0f;
   o->f4 = 4;
   o->f8 = 0;
   o->vt = (unsigned)&lbl_821BCFD4;

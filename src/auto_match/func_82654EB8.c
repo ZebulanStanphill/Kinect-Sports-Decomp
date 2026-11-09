@@ -34,7 +34,7 @@ extern unsigned int lbl_82192510;
 extern unsigned int lbl_82192604;
 extern unsigned int lbl_82193B38;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_82654EB8(double param_1)
@@ -46,7 +46,7 @@ double fn_82654EB8(double param_1)
   
   if ((double)lbl_821CA460 <= ABS(param_1)) {
     if ((double)lbl_821916FC <= ABS(param_1)) {
-      dVar1 = (double)lbl_821CC160;
+      dVar1 = (double)ltcg_pool_0_0f;
     }
     else {
       dVar1 = (double)fn_826545C0(param_1);

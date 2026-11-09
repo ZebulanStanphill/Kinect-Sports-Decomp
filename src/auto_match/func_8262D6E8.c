@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_10;
 extern unsigned int fStack_c;
 extern unsigned int lbl_82191EAC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ulonglong fn_8262D6E8(int param_1,int param_2)
@@ -46,7 +46,7 @@ ulonglong fn_8262D6E8(int param_1,int param_2)
   
   uVar1 = *(uint *)(param_2 + 8);
   if (uVar1 == 5) {
-    if (lbl_821CC160 < *(float *)(param_1 + 0x184)) {
+    if (ltcg_pool_0_0f < *(float *)(param_1 + 0x184)) {
       return 1;
     }
   }
@@ -60,7 +60,7 @@ ulonglong fn_8262D6E8(int param_1,int param_2)
     puVar3[1] = uVar4;
     puVar3[2] = uVar5;
     puVar3[3] = uVar6;
-    if (lbl_821CC160 <= fStack_c) {
+    if (ltcg_pool_0_0f <= fStack_c) {
       return 1;
     }
   }
@@ -80,11 +80,11 @@ ulonglong fn_8262D6E8(int param_1,int param_2)
   }
   else {
     if (uVar1 < 3) {
-      if ((((*(float *)(param_1 + 0xd0) == lbl_821CC160) &&
-           (*(float *)(param_1 + 0xd4) == lbl_821CC160)) &&
-          (*(float *)(param_1 + 0xd8) == lbl_821CC160)) &&
-         ((*(float *)(param_1 + 0xdc) == lbl_821CC160 &&
-          (*(float *)(param_1 + 0xe0) == lbl_821CC160)))) {
+      if ((((*(float *)(param_1 + 0xd0) == ltcg_pool_0_0f) &&
+           (*(float *)(param_1 + 0xd4) == ltcg_pool_0_0f)) &&
+          (*(float *)(param_1 + 0xd8) == ltcg_pool_0_0f)) &&
+         ((*(float *)(param_1 + 0xdc) == ltcg_pool_0_0f &&
+          (*(float *)(param_1 + 0xe0) == ltcg_pool_0_0f)))) {
         return 0;
       }
       return 1;

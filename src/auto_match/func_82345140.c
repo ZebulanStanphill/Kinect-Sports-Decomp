@@ -35,7 +35,7 @@ extern int fn_824CD030();
 extern int fn_827F57E8();
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82345140(int param_1,undefined8 param_2,int param_3)
@@ -66,7 +66,7 @@ void fn_82345140(int param_1,undefined8 param_2,int param_3)
       return;
     }
     iVar2 = *(int *)(**(int **)(param_1 + 0xc) + 0x118);
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
 LAB_82345330:
     fn_827F57E8((double)fVar1,(double)lbl_8218E8FC,*(undefined4 *)(iVar2 + 0x10));
     *(undefined4 *)(*(int *)(iVar2 + 0x10) + 0x108) =

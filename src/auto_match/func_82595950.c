@@ -40,7 +40,7 @@ extern int fn_825CFDF0();
 extern int fn_825F4A28();
 extern int fn_82D92950();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern int (*lbl_83265A00)();
 extern int (*lbl_83265A08)();
 extern unsigned int lbl_8326B4A0;
@@ -139,7 +139,7 @@ void fn_82595950(int param_1)
     (*lbl_83265A08)(param_1);
   }
 LAB_82595a7c:
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   if ((double)*(float *)(param_1 + 0x838) <= dVar5) {
     dVar5 = (double)(*(float *)(param_1 + 0x820) * lbl_8327F894);
   }

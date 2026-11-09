@@ -33,7 +33,7 @@ extern int fn_8265C9E0();
 extern int fn_8265CA20();
 extern unsigned int lbl_82191FC8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823042A8(int param_1)
@@ -74,7 +74,7 @@ void fn_823042A8(int param_1)
   }
   piVar9 = (int *)*piVar7;
   piVar3 = (int *)piVar7[1];
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   do {
     if (piVar9 == piVar3) {
       if (*piVar7 != 0) {

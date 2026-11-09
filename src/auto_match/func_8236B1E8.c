@@ -30,7 +30,7 @@ extern int fn_822AA718();
 extern int fn_822ABA88();
 extern int fn_823CC7A0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -69,7 +69,7 @@ undefined8 fn_8236B1E8(int param_1,int param_2,undefined8 param_3)
       fVar11 = *(float *)(uVar3 + 8);
     }
     fn_822AA718(afStack_50,uVar9);
-    fVar6 = lbl_821CC160;
+    fVar6 = ltcg_pool_0_0f;
     uVar3 = (int)afStack_50 + in_r0 & 0xfffffff0;
     uVar4 = in_r0 + *(int *)(*(int *)(param_1 + 0x1c) + 4) & 0xfffffff0;
     fVar10 = *(float *)(uVar3 + 4) * (fVar10 - *(float *)(uVar4 + 4)) + 0.0 +

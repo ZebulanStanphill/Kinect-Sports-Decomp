@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82191FB4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000020;
 extern V16 vectorSubtractFloatingPoint();
 
@@ -86,7 +86,7 @@ void fn_823CBE48(int param_1)
     puVar3[2] = in_register_00010018;
     puVar3[3] = in_vr1;
   }
-  fVar7 = lbl_821CC160;
+  fVar7 = ltcg_pool_0_0f;
   uVar4 = param_1 + 0x3a0U & 0xfffffff0;
   uVar5 = in_r0 + param_1 + 0x3b0 & 0xfffffff0;
   vectorSubtractFloatingPoint(in_vs33,in_vs45);

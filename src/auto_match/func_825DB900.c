@@ -42,7 +42,7 @@ extern unsigned int lbl_821956BC;
 extern unsigned int lbl_82195938;
 extern float lbl_8219593C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 
 
@@ -64,7 +64,7 @@ double fn_825DB900(double param_1,longlong param_2,ulonglong param_3,int param_4
   float afStack_50 [2];
   float fStack_48;
   
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   dVar6 = dVar5;
   if ((param_3 & 0xffffffff) != 0) {
     dVar5 = (double)fn_8261FD18(param_3);

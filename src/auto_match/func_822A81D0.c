@@ -40,7 +40,7 @@ extern int fn_82A1DBD8();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8329EAD0;
 extern unsigned int lbl_8329EAE0;
@@ -214,10 +214,10 @@ void fn_822A81D0(int param_1)
   else {
     fn_82520158(0xffffffff821a9670,aiStack_b0,0);
     if (aiStack_b0[0] != 0) {
-      dVar15 = (double)lbl_821CC160;
-      fStack_98 = lbl_821CC160;
+      dVar15 = (double)ltcg_pool_0_0f;
+      fStack_98 = ltcg_pool_0_0f;
       stack_pair_a0.first = 0x4d697850;
-      fStack_8c = lbl_821CC160;
+      fStack_8c = ltcg_pool_0_0f;
       uStack_94 = 0x20;
       stack_pair_a0.second = lbl_821CA460;
       uStack_88 = 0;

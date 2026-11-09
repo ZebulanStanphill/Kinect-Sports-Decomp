@@ -39,7 +39,7 @@ extern unsigned int lbl_82192F70;
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82503DA8(int param_1)
@@ -72,7 +72,7 @@ void fn_82503DA8(int param_1)
   lVar7 = fn_82F4EBC0(*(uint *)(param_1 + 0xb60) & 0xff);
   if (lVar7 != 0) {
     cVar9 = fn_82F4EFF8(lVar7);
-    dVar14 = (double)lbl_821CC160;
+    dVar14 = (double)ltcg_pool_0_0f;
     if ((cVar9 != '\0') && (*(char *)(param_1 + 0xc20) != '\0')) {
       uVar1 = *(undefined4 *)(param_1 + 0x4c);
       puVar3 = (undefined4 *)((uint)(auStack_50 + in_r0) & 0xfffffff0);

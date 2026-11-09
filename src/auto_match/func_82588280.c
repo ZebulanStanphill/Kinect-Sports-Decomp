@@ -31,7 +31,7 @@ extern unsigned int fStack_28;
 extern int fn_825881D8();
 extern int fn_825E4A78();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B85C;
 extern unsigned int lbl_8326B8E8;
 extern unsigned int lbl_8326B8F0;
@@ -49,8 +49,8 @@ double fn_82588280(double param_1,int param_2,undefined8 param_3,undefined8 para
   float fStack_28;
   float fStack_24;
   
-  dVar5 = (double)lbl_821CC160;
-  afStack_30[0] = lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
+  afStack_30[0] = ltcg_pool_0_0f;
   if (param_1 == dVar5) {
     pfVar1 = &lbl_8326B85C;
   }

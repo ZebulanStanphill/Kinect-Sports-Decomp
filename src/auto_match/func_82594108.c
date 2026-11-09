@@ -29,7 +29,7 @@ extern int fn_828EB518();
 extern int fn_82A1E860();
 extern unsigned int lbl_8218EFD4;
 extern unsigned int lbl_82195654;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265988;
 extern unsigned int lbl_8326B4BC;
 extern unsigned int lbl_8326C390;
@@ -49,7 +49,7 @@ void fn_82594108(int param_1)
   int iVar7;
   undefined2 uStack_3a;
   
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   if ((*(uint *)(&lbl_8218EFD4 + param_1 * 4) & lbl_8326B4BC) != 0) {
     iVar7 = param_1 * 0x30;
     if (*(int *)(iVar7 + -0x7cd93d20) != 0) {
@@ -58,7 +58,7 @@ void fn_82594108(int param_1)
         *(undefined4 *)(iVar7 + -0x7cd93d0c) = *(undefined4 *)(iVar7 + -0x7cd93d14);
       }
       else {
-        *(undefined4 *)(iVar7 + -0x7cd93d10) = lbl_821CC160;
+        *(undefined4 *)(iVar7 + -0x7cd93d10) = ltcg_pool_0_0f;
         *(undefined4 *)(iVar7 + -0x7cd93d0c) = uVar3;
       }
     }

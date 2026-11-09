@@ -12,7 +12,6 @@ struct Obj {
 };
 struct Capture { Member method; Obj *self; char rest[48-12]; };
 extern "C" {void *fn_8265C9E0(unsigned int);void fn_82315140();extern char lbl_821AF698[],lbl_821AF6B8[];}
-static const float lbl_821CC160 = 1.0f;
 extern "C" Obj *fn_82314970(Obj *self,Owner *other,int arg) {
  Member m;m.fn=fn_82315140;m.adjust=0;
  int value=other->value;
@@ -22,8 +21,8 @@ extern "C" Obj *fn_82314970(Obj *self,Owner *other,int arg) {
  self->f4=17;
  self->f14=0;
  { Function *g=&self->cb; g->impl=0; }
- self->f38=lbl_821CC160;
- self->f44=lbl_821CC160;
+ self->f38=0.0f;
+ self->f44=0.0f;
  self->f3c=0;
  self->f40=2;
  Capture capture;capture.method=m;capture.self=self;

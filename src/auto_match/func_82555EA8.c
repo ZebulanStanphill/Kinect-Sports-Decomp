@@ -29,7 +29,7 @@ extern unsigned int *auStack_a0;
 extern int fn_8253B7C0();
 extern unsigned int iStack_58;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_a8;
 
 
@@ -54,7 +54,7 @@ void fn_82555EA8(int param_1,int param_2)
   iVar7 = 0;
   if (0 < *(int *)(param_1 + 0x28)) {
     iVar8 = 0;
-    dVar10 = (double)lbl_821CC160;
+    dVar10 = (double)ltcg_pool_0_0f;
     dVar11 = (double)lbl_821CA460;
     do {
       piVar2 = *(int **)(iVar8 + *(int *)(param_1 + 0x24));

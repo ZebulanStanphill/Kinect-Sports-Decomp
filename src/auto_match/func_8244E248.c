@@ -33,7 +33,7 @@ extern int fn_8244FE38();
 extern int fn_82450238();
 extern int fn_82450348();
 extern int fn_82508078();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8244E248(double param_1,int param_2)
@@ -149,7 +149,7 @@ LAB_8244e498:
     }
   }
   iVar5 = *(int *)(param_2 + 0x44);
-  if (((*(char *)(iVar5 + 0xfc) == '\0') && (lbl_821CC160 <= *(float *)(iVar5 + 0x108))) &&
+  if (((*(char *)(iVar5 + 0xfc) == '\0') && (ltcg_pool_0_0f <= *(float *)(iVar5 + 0x108))) &&
      (*(float *)(iVar5 + 0x108) = (float)((double)*(float *)(iVar5 + 0x108) + param_1),
      *(float *)(*(int *)(param_2 + 0x44) + 0x104) < *(float *)(*(int *)(param_2 + 0x44) + 0x108))) {
     fn_8244FE38(param_2);

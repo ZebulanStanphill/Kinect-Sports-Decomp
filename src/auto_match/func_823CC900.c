@@ -37,7 +37,7 @@ extern int fn_823CC9F0();
 extern int fn_823E7368();
 extern int fn_823F0A30();
 extern unsigned int iStack_9c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 
 
@@ -52,7 +52,7 @@ void fn_823CC900(int param_1,undefined8 param_2)
   undefined1 auStack_80 [104];
   
   fn_82250D10(auStack_80);
-  fn_82368E38((double)lbl_821CC160,auStack_90,param_1);
+  fn_82368E38((double)ltcg_pool_0_0f,auStack_90,param_1);
   fn_823E7368(param_1,auStack_80);
   iVar1 = lbl_832975B0;
   if (lbl_832975B0 == 0) {

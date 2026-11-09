@@ -33,7 +33,7 @@ extern int fn_8288B760();
 extern int fn_828AB870();
 extern int fn_828B00A0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8240C980(int param_1,int param_2)
@@ -88,8 +88,8 @@ void fn_8240C980(int param_1,int param_2)
   if (*(int *)(param_1 + 0x48) != param_2) {
     iVar4 = param_1 + 100;
   }
-  dVar8 = (double)lbl_821CC160;
-  *(float *)(iVar4 + 8) = lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
+  *(float *)(iVar4 + 8) = ltcg_pool_0_0f;
   iVar4 = (**(code **)(*piVar7 + 0xc))(piVar7,param_2);
   if (*(int *)(iVar4 + 0x7a0) == 0) {
     if (piVar6 != (int *)0x0) {

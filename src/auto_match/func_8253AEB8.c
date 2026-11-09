@@ -36,7 +36,7 @@ extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_38;
 extern unsigned int uStack_60;
 
@@ -81,11 +81,11 @@ void fn_8253AEB8(void)
     dVar3 = (double)(float)((double)(float)(dVar4 * dVar7 - (double)(float)(dVar5 * dVar6)) * dVar9)
     ;
     uStack_38 = uVar1;
-    if (((double)lbl_821CC160 <= dVar3) && (dVar3 <= dVar8)) {
+    if (((double)ltcg_pool_0_0f <= dVar3) && (dVar3 <= dVar8)) {
       dVar3 = (double)(float)((double)(float)(dVar4 * (double)(((U64)(uStack_60) >> 0) & 0xFFFFFFFF) -
                                              (double)(float)(dVar5 * (double)(((U64)(uStack_60) >> 32) & 0xFFFFFFFF))) *
                              dVar9);
-      if (((double)lbl_821CC160 <= dVar3) && (dVar3 <= dVar8)) {
+      if (((double)ltcg_pool_0_0f <= dVar3) && (dVar3 <= dVar8)) {
         if (puVar2 != (undefined4 *)0x0) {
           uStack_38 = fn_82811AD8(&uStack_60);
           uVar1 = fn_82811980(auStack_58,&uStack_38);

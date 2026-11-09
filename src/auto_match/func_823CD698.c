@@ -32,7 +32,7 @@ extern int fn_823C4C00();
 extern int fn_823CDF08();
 extern int fn_823D7F10();
 extern int fn_824FE498();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823CD698(int param_1,int *param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5
@@ -57,7 +57,7 @@ void fn_823CD698(int param_1,int *param_2,undefined8 param_3,undefined8 param_4,
       *(int *)(param_1 + 0x420) = param_2[1];
       *(int *)(param_1 + 0x424) = iVar1;
       *(undefined4 *)(param_1 + 0x41c) = 5;
-      *(undefined4 *)(param_1 + 0x428) = lbl_821CC160;
+      *(undefined4 *)(param_1 + 0x428) = ltcg_pool_0_0f;
     }
     fn_823C4C00(param_1,param_2[1]);
     return;

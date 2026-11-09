@@ -43,7 +43,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_82195590;
 extern float lbl_821955A0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_94;
 extern unsigned int uStack_9c;
 
@@ -132,7 +132,7 @@ LAB_823c841c:
     }
     fn_823C7AF0(param_1,param_2);
     uVar11 = (ulonglong)*(uint *)(*(int *)(*(int *)(param_2 + 0x240) + 0x1c) + 4);
-    cVar8 = fn_822B33B0((double)lbl_821CC160,uVar11);
+    cVar8 = fn_822B33B0((double)ltcg_pool_0_0f,uVar11);
     if (((cVar8 != '\0') && (cVar8 = fn_822B33B0(uVar11), cVar8 != '\0')) ||
        (*(int *)(param_2 + 0x368) != 0)) {
       puVar3 = (undefined4 *)((uint)(auStack_80 + iVar6) & 0xfffffff0);

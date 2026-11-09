@@ -29,7 +29,6 @@ extern void fn_822315A0(void *);
 extern void fn_8251FA58(void *);
 extern void fn_8265CA20(void *);
 extern void fn_82672660(int, void *);
-extern float lbl_821CC160;
 extern void (*lbl_83276774[])(const char *, const char *, int);
 
 typedef struct Res { char pad[0x3c]; int f3c; void *f40; } Res;
@@ -39,7 +38,7 @@ void fn_823DB2F8(Self *self)
 {
   Res *r;
 
-  if (self->fd4 != 0 && self->fd8 <= lbl_821CC160) {
+  if (self->fd4 != 0 && self->fd8 <= 0.0f) {
     if (lbl_83276774[2] != 0) {
       lbl_83276774[2]("olympus::sport::football::FootballUI::CloseSwipe", "D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\sport\\controller\\football\\sport_controller_football_ui.cpp", 0x1e5);
     }

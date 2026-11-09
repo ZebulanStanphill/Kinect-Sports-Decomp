@@ -32,7 +32,7 @@ extern int fn_822E5640();
 extern int fn_822E57D8();
 extern int fn_822EC378();
 extern int fn_822EC5A0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern V16 vectorSubtractFloatingPoint();
@@ -68,7 +68,7 @@ void fn_822EB710(double param_1,int param_2)
     else {
       fVar1 = (float)((double)*(float *)(param_2 + 0x24) - param_1);
       *(float *)(param_2 + 0x24) = fVar1;
-      dVar8 = (double)lbl_821CC160;
+      dVar8 = (double)ltcg_pool_0_0f;
       if (((*(int *)(iVar3 + 0x2a4) == 0) || (*(int *)(iVar3 + 0x2a8) == 0)) &&
          (dVar8 < (double)fVar1)) {
         iVar3 = fn_822C1928(param_2 + 0x28,0xffffffff821ae2a4,0,7);

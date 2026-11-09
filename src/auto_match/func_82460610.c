@@ -46,7 +46,7 @@ extern int fn_8266EC60();
 extern unsigned int lbl_821917D4;
 extern unsigned int lbl_82193CC0;
 extern unsigned int lbl_821BC740;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12D4;
 extern unsigned int lbl_831D1318;
 extern unsigned int uStack_50;
@@ -88,11 +88,11 @@ void fn_82460610(int param_1,longlong param_2)
   undefined1 auStack_60 [16];
   undefined4 uStack_50;
   
-  fVar5 = lbl_821CC160;
+  fVar5 = ltcg_pool_0_0f;
   iVar9 = *(int *)(param_1 + 0x54);
   if ((int)param_2 != iVar9) {
     uVar19 = 0x10;
-    dVar18 = (double)lbl_821CC160;
+    dVar18 = (double)ltcg_pool_0_0f;
     if (iVar9 == 5) {
       lbl_831D12D4 = 1;
       if (*(int *)(param_1 + 0xc4) == 0) {
@@ -119,7 +119,7 @@ LAB_824606d4:
       } while (iVar16 < 0x18);
       iVar15 = -1;
 LAB_824606fc:
-      *(float *)(iVar9 * 0x11c + *(int *)(param_1 + 0x3c) + 0x114) = lbl_821CC160;
+      *(float *)(iVar9 * 0x11c + *(int *)(param_1 + 0x3c) + 0x114) = ltcg_pool_0_0f;
       *(float *)(iVar15 * 0x11c + *(int *)(param_1 + 0x3c) + 0x114) = fVar5;
       fn_824696D0((double)*(float *)(*(int *)(param_1 + 0x3c) + 0x114),
                         (double)*(float *)(*(int *)(param_1 + 0x3c) + 0x230),

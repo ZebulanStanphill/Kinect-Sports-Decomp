@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8253AE20(float *param_1,float *param_2,float *param_3,float *param_4,float *param_5)
@@ -47,7 +47,7 @@ undefined8 fn_8253AE20(float *param_1,float *param_2,float *param_3,float *param
   fVar3 = *param_2 * param_1[2] - *param_1 * param_2[2];
   fVar6 = *param_4 * param_3[2] - *param_3 * param_4[2];
   fVar7 = fVar5 * fVar2 - fVar4 * fVar1;
-  if (fVar7 == lbl_821CC160) {
+  if (fVar7 == ltcg_pool_0_0f) {
     return 0;
   }
   fVar7 = lbl_821CA460 / fVar7;

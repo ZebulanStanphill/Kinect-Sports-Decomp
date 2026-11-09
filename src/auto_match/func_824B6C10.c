@@ -28,7 +28,6 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_824B4310();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821C0520;
-extern float lbl_821CC160;
 
 
 undefined4 * fn_824B6C10(int param_1)
@@ -41,7 +40,7 @@ undefined4 * fn_824B6C10(int param_1)
   if (puVar2 != 0) {
     fn_824B4310(puVar2,param_1);
     puVar2[0x12] = 0;
-    uVar1 = lbl_821CC160;
+    uVar1 = 0.0f;
     *puVar2 = &lbl_821C0520;
     *(float *)(puVar2 + 0x14) = uVar1;
     puVar2[0x13] = 0;

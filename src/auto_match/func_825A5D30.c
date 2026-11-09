@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_28;
 extern int fn_82A1EFC0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825A5D30(int param_1,undefined8 param_2,int param_3)
@@ -36,7 +36,7 @@ void fn_825A5D30(int param_1,undefined8 param_2,int param_3)
   undefined4 uVar1;
   undefined1 auStack_28 [40];
   
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x5c) = 0;
   *(undefined4 *)(param_1 + 0x40) = uVar1;
   *(undefined4 *)(param_3 + 0x194) = *(undefined4 *)(param_1 + 0x48);

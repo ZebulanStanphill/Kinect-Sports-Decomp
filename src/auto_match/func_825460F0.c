@@ -42,7 +42,7 @@ extern int fn_825B2080();
 extern int fn_82F6A520();
 extern int fn_82F6A56C();
 extern int iRam8326b46c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825460F0(void)
@@ -73,7 +73,7 @@ void fn_825460F0(void)
   undefined1 auStack_b0 [176];
   
   iVar1 = fn_82F6A520();
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   if (iRam8326b46c != 0) {
     puVar3 = *(undefined4 **)(iVar1 + 0x1ac);
     uVar6 = ZEXT48(puVar3);

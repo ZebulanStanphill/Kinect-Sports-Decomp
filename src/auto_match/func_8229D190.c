@@ -31,7 +31,7 @@ extern unsigned int *auStack_50;
 extern int fn_82273C88();
 extern int fn_82273CD8();
 extern int fn_82672C20();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_60;
 
 
@@ -59,7 +59,7 @@ void fn_8229D190(float *param_1,int param_2,uint param_3)
     }
     fVar1 = param_1[1];
   }
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   if ((double)fVar1 <= dVar5) {
     return;
   }

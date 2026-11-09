@@ -2,7 +2,6 @@ extern void *fn_822C5B18(void *tmp, int p);
 extern void fn_82359C18(int p);
 extern void fn_8247BB18(void *self, int p2, int p3, int p4, int p5, int p6, void *p7, int p8);
 extern char lbl_821BD50C[];
-extern float lbl_821CC160;
 
 typedef struct Vec3_8247C228 {
   int x;
@@ -26,7 +25,7 @@ typedef struct Obj_8247C228 {
 Obj_8247C228 *fn_8247C228(Obj_8247C228 *o, int p2, int p3, int p4, int p5, int p6, int p7, int p8)
 {
   char tmp[16];
-  float f = lbl_821CC160;
+  float f = 0.0f;
   o->fc = f;
   o->f4 = 5;
   o->f8 = 0;

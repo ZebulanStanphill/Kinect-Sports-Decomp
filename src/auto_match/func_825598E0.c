@@ -35,7 +35,7 @@ extern unsigned int lbl_82192330;
 extern unsigned int lbl_82195688;
 extern unsigned int lbl_8219568C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8
@@ -82,7 +82,7 @@ fn_825598E0(double param_1,double param_2,ushort *param_3,undefined8 param_4,int
   int iStack_5c;
   undefined1 auStack_50 [80];
   
-  fVar12 = lbl_821CC160;
+  fVar12 = ltcg_pool_0_0f;
   uVar22 = (ulonglong)((float)(param_2 / param_1) * ((float)(longlong)param_5 - lbl_821CA460));
   iStack_5c = (int)uVar22;
   uVar18 = uVar22 & 0xffffffff;

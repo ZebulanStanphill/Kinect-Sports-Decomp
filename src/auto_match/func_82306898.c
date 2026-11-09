@@ -4,7 +4,6 @@ extern unsigned char fn_822BD338(int a, const char *s);
 extern void fn_822C8C08(int a, const char *s);
 extern void fn_822FB198(int a, void *s);
 extern void fn_823000E0(int a, void *b);
-extern float lbl_821CC160;
 
 #define W(p, o) (*(int *)((p) + (o)))
 #define F(p, o) (*(float *)((p) + (o)))
@@ -25,7 +24,7 @@ void fn_82306898(int param_1)
   }
   W(iVar1, 0x56c) = 0;
   t.f10 = 0;
-  F(iVar1, 0x558) = lbl_821CC160;
+  F(iVar1, 0x558) = 0.0f;
   W(W(W(param_1, 0xc), 0x1e8), 0x564) = 0;
   iVar1 = W(param_1, 0xc);
   W(W(iVar1, 0x1e8), 0x578) = 0;

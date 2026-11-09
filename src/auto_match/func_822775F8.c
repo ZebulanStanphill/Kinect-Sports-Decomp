@@ -32,7 +32,7 @@ extern int fn_82277A58();
 extern int fn_82539560();
 extern unsigned int lbl_82192480;
 extern unsigned int lbl_82193CC0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822775F8(int param_1,char param_2,float *param_3)
@@ -47,7 +47,7 @@ void fn_822775F8(int param_1,char param_2,float *param_3)
   
   if (param_2 == '\0') {
     *(undefined1 *)(param_1 + 0x44) = 0;
-    *(ulonglong *)(param_1 + 0x2c) = CONCAT44(lbl_821CC160,lbl_821CC160);
+    *(ulonglong *)(param_1 + 0x2c) = CONCAT44(ltcg_pool_0_0f,ltcg_pool_0_0f);
   }
   else {
     if (*(char *)(param_1 + 0x44) == '\0') {
@@ -72,7 +72,7 @@ void fn_822775F8(int param_1,char param_2,float *param_3)
        ((double)lbl_82193CC0 <=
         (double)SQRT(*(float *)(param_1 + 0x30) * *(float *)(param_1 + 0x30) + fVar2 * fVar2))) {
                     /* WARNING: Subroutine does not return */
-      fn_82539560(dVar6,(double)lbl_821CC160,(double)lbl_82192480);
+      fn_82539560(dVar6,(double)ltcg_pool_0_0f,(double)lbl_82192480);
     }
   }
   return;

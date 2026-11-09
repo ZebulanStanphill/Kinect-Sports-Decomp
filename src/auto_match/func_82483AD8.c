@@ -33,7 +33,7 @@ extern int fn_82292D50();
 extern int fn_8247F240();
 extern int fn_8254B438();
 extern int fn_8255B1E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam832766f1;
 
 
@@ -60,7 +60,7 @@ void fn_82483AD8(int param_1)
     uRam832766f1 = 1;
     if (((*(int *)(param_1 + 8) == 5) || (*(int *)(param_1 + 8) == 6)) &&
        (*(int *)(param_1 + 0x97c) != 0)) {
-      fn_8255B1E0((double)lbl_821CC160,*(undefined4 *)(*(int *)(param_1 + 0x978) + 0x844),
+      fn_8255B1E0((double)ltcg_pool_0_0f,*(undefined4 *)(*(int *)(param_1 + 0x978) + 0x844),
                         param_1 + 0x97c,1,0,0,0,1);
     }
   }

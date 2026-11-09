@@ -29,7 +29,7 @@ extern int fn_8242E560();
 extern int fn_824CD030();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82341CA0(undefined8 param_1,double param_2,double param_3,undefined8 param_4,
@@ -44,7 +44,7 @@ void fn_82341CA0(undefined8 param_1,double param_2,double param_3,undefined8 par
   double dVar5;
   
   iVar1 = fn_82F6A548();
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   dVar4 = extraout_f1;
   if ((param_3 < dVar5) && (iVar2 = fn_824CD030(param_5), param_3 = dVar5, iVar2 != 0)) {
     param_3 = (double)*(float *)(*(int *)(*(int *)((int)param_5 + 0xfc) + 0x2c) + 0x74);

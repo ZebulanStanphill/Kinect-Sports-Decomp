@@ -30,7 +30,7 @@ extern int fn_822C8C08();
 extern int fn_8231F730();
 extern int fn_8231F800();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -65,14 +65,14 @@ void fn_8231EC40(int param_1)
   longlong alStack_40 [1];
   undefined1 auStack_30 [48];
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   iVar5 = (int)in_r0;
   puVar2 = (undefined4 *)(*(int *)(param_1 + 0x10) + 0xd30U & 0xfffffff0);
   uVar10 = *puVar2;
   uVar11 = puVar2[1];
   uVar12 = puVar2[2];
   uVar13 = puVar2[3];
-  *(float *)(param_1 + 0x48) = lbl_821CC160;
+  *(float *)(param_1 + 0x48) = ltcg_pool_0_0f;
   *(undefined1 *)(param_1 + 0x30) = 0;
   puVar2 = (undefined4 *)(param_1 + 0x60U & 0xfffffff0);
   *puVar2 = uVar10;

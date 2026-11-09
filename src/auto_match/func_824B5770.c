@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C4610;
 extern unsigned int lbl_831C4614;
 extern unsigned int lbl_831C461C;
@@ -46,7 +46,7 @@ double fn_824B5770(int param_1,int param_2,int param_3,int param_4)
   double dVar6;
   
   if ((param_2 == 0) && (param_3 == 0)) {
-    return (double)lbl_821CC160;
+    return (double)ltcg_pool_0_0f;
   }
   *(int *)(param_1 + 0x50) = param_2;
   *(int *)(param_1 + 0x54) = param_3;
@@ -58,7 +58,7 @@ double fn_824B5770(int param_1,int param_2,int param_3,int param_4)
     fVar1 = *(float *)(param_1 + 0x4c);
   }
   dVar3 = (double)fVar1;
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   dVar4 = dVar3;
   if ((param_2 == 0) &&
      (dVar4 = dVar5,

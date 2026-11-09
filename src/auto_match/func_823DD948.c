@@ -33,7 +33,7 @@ extern int fn_823DDB00();
 extern int fn_824C8258();
 extern int fn_8255B1E0();
 extern unsigned int lbl_821B2630;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Removing unreachable block (ram,0x823dd9d0) */
@@ -58,7 +58,7 @@ void fn_823DD948(longlong param_1,longlong param_2)
   fn_823DDB00();
   *(int *)(iVar3 + 0xe0) = (int)param_2;
   param_1 = param_2 * 0x14 + param_1;
-  iVar2 = fn_8255B1E0((double)lbl_821CC160,*(undefined4 *)(*(int *)(iVar3 + 0xc) + 0x844),
+  iVar2 = fn_8255B1E0((double)ltcg_pool_0_0f,*(undefined4 *)(*(int *)(iVar3 + 0xc) + 0x844),
                             param_1 + 0x10,0,0,0,0,0);
   *(int *)(iVar3 + 0xe4) = iVar2;
   if (iVar2 != 0) {

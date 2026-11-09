@@ -32,7 +32,7 @@ extern unsigned int iStack0000001c;
 extern float lbl_821917B0;
 extern unsigned int lbl_82192734;
 extern float lbl_82193B00;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x0000001c;
 extern unsigned int uStack_70;
 extern unsigned int uStack_78;
@@ -64,7 +64,7 @@ void fn_822676A0(int param_1,int param_2,int param_3)
   uStack_78 = CONCAT44(lbl_82192734,lbl_82192734);
   stack_pair_80.first = *(undefined4 *)(param_3 + 0x40);
   stack_pair_80.second = *(undefined4 *)(param_3 + 0x44);
-  uStack_70 = CONCAT44(lbl_821CC160,lbl_821CC160);
+  uStack_70 = CONCAT44(ltcg_pool_0_0f,ltcg_pool_0_0f);
   fn_8227E330(*(undefined4 *)(param_1 + 0x18),&stack_pair_80.first,param_1 + 0x24);
   *(undefined4 *)(param_1 + 0x54) = 1;
   return;

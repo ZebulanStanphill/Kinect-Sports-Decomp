@@ -29,7 +29,7 @@ extern int fn_82520218();
 extern int fn_82F65FE0();
 extern unsigned int lbl_82191418;
 extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326C200;
 extern unsigned int lbl_8326FA04;
 extern unsigned int lbl_83274708;
@@ -86,14 +86,14 @@ void fn_825996B0(void)
   }
   iVar1 = fn_82520218();
   if (iVar1 != 0) {
-    lbl_8327472C = lbl_821CC160;
+    lbl_8327472C = ltcg_pool_0_0f;
     lbl_83274724 = lbl_82191418;
     lbl_8327470C = 0;
-    lbl_83274720 = lbl_821CC160;
+    lbl_83274720 = ltcg_pool_0_0f;
     lbl_83274710 = 0;
-    lbl_8327471C = lbl_821CC160;
+    lbl_8327471C = ltcg_pool_0_0f;
     lbl_83274714 = 0;
-    lbl_83274728 = lbl_821CC160;
+    lbl_83274728 = ltcg_pool_0_0f;
     lbl_83274718 = 0;
     lbl_83274708 = 0;
   }

@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8255B1E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_82435E88(int param_1,int *param_2)
@@ -41,7 +41,7 @@ bool fn_82435E88(int param_1,int *param_2)
   }
   else {
     piVar1 = *(int **)(param_1 + 0x40);
-    iVar2 = fn_8255B1E0((double)lbl_821CC160,
+    iVar2 = fn_8255B1E0((double)ltcg_pool_0_0f,
                               *(undefined4 *)(*(int *)(*(int *)(*piVar1 + 0x174) + 0x9c) + 0x844),
                               param_2,1,0,0,0,0);
     piVar1[0x3c] = iVar2;

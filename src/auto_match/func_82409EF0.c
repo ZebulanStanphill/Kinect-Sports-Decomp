@@ -30,7 +30,7 @@ extern unsigned int *auStack_20;
 extern int fn_822AF200();
 extern int fn_82F68B64();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82409EF0(double param_1,int param_2)
@@ -45,17 +45,17 @@ void fn_82409EF0(double param_1,int param_2)
   char cVar7;
   undefined4 auStack_20 [2];
   
-  fVar6 = lbl_821CC160;
+  fVar6 = ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0x58) == 2) {
     if (*(int *)(param_2 + 0x3c) == 0) {
       return;
     }
     fVar1 = (float)((double)*(float *)(param_2 + 0x3c) - param_1);
     fVar4 = -fVar1;
-    fVar5 = lbl_821CC160;
+    fVar5 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar4 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar4) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar4 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar5 = fVar1;
     }
     *(float *)(param_2 + 0x3c) = fVar5;

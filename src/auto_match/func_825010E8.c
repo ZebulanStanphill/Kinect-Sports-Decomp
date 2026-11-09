@@ -29,7 +29,6 @@ extern int fn_82528948();
 extern int fn_8252BDB8();
 extern int fn_8252D020();
 extern float fn_82A81DA8();
-extern float lbl_821CC160;
 
 
 void fn_825010E8(int param_1,undefined8 param_2)
@@ -42,7 +41,7 @@ void fn_825010E8(int param_1,undefined8 param_2)
     *(undefined4 *)(param_1 + 0xb64) = 0;
   }
   fn_8252BDB8(param_1,param_2);
-  if (*(float *)(param_1 + 0xffc) > lbl_821CC160) {
+  if (*(float *)(param_1 + 0xffc) > 0.0f) {
     fVar1 = *(float *)(param_1 + 0xffc) / fn_82A81DA8(param_2);
     if (((*(float *)(param_1 + 0xa0) != fVar1) || (*(float *)(param_1 + 0xa4) != fVar1)) ||
        (*(float *)(param_1 + 0xa8) != fVar1)) {

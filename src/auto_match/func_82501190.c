@@ -33,7 +33,7 @@ extern int fn_82528948();
 extern int fn_8252A1B0();
 extern int fn_82F511A8();
 extern int fn_82F52188();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_40;
 extern V16 vectorConditionalSelect();
 extern V16 vectorMultiplyAddFloatingPoint();
@@ -113,8 +113,8 @@ void fn_82501190(int param_1)
   puVar3[3] = uVar10;
   fn_82528948(param_1);
   fn_82F511A8(*(undefined4 *)(param_1 + 0xb60),&uStack_40,auStack_3c,auStack_38,2);
-  uStack_40 = lbl_821CC160;
-  auStack_38[0] = lbl_821CC160;
+  uStack_40 = ltcg_pool_0_0f;
+  auStack_38[0] = ltcg_pool_0_0f;
   fn_8252A1B0(param_1,&uStack_40,0);
   return;
 }

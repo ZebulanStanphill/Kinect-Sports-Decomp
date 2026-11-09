@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ulonglong fn_825428F8(double param_1)
@@ -41,8 +41,8 @@ ulonglong fn_825428F8(double param_1)
   fVar1 = (float)(param_1 - (double)lbl_821CA460);
   dVar2 = (double)lbl_821CA460;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     dVar2 = param_1;
   }
   return ((longlong)(dVar2 * (double)lbl_82195644) & 0xffU) << 0x18 | 0xffffff;

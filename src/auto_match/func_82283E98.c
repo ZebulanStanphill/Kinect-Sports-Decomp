@@ -41,7 +41,7 @@ extern int fn_82536590();
 extern int fn_828647D8();
 extern int fn_82864898();
 extern int fn_82864988();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D44F8;
 extern unsigned int lbl_831D4508;
 extern unsigned int lbl_831D450C;
@@ -152,7 +152,7 @@ void fn_82283E98(int param_1,int param_2)
       auStack_80[0] = fn_828647D8();
       fn_82864898(auStack_60);
       fn_82536590(auStack_80,0);
-      lbl_831D44F8 = lbl_821CC160;
+      lbl_831D44F8 = ltcg_pool_0_0f;
       lbl_831D450C = 0xff;
       lbl_831D4508 = 0;
     }

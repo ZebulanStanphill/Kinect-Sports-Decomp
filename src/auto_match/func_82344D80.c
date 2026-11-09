@@ -38,7 +38,7 @@ extern int fn_827F57E8();
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82344D80(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_4)
@@ -90,7 +90,7 @@ void fn_82344D80(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 p
     break;
   case 0xe:
     iVar1 = *(int *)(*(int *)param_2[3] + 0x118);
-    fn_827F57E8((double)lbl_821CC160,(double)lbl_8218E8FC,*(undefined4 *)(iVar1 + 0x10));
+    fn_827F57E8((double)ltcg_pool_0_0f,(double)lbl_8218E8FC,*(undefined4 *)(iVar1 + 0x10));
     iVar1 = *(int *)(iVar1 + 0x10);
     piVar3 = (int *)param_2[3];
     *(undefined4 *)(iVar1 + 0x108) = *(undefined4 *)(iVar1 + 0x10c);

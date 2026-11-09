@@ -59,7 +59,7 @@ extern int fn_82A1EFC0();
 extern int memcpy();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821B9BC8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_fc;
 
@@ -161,7 +161,7 @@ void fn_82418800(double param_1,int *param_2)
     param_2[0x106] = (int)(float)((double)(float)param_2[0x106] + param_1);
   }
   fn_8241B1C8(param_1,param_2);
-  dVar16 = (double)lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
   if (param_2[0x21] != 0) {
     param_2[0x20] = param_2[0x21];
     goto LAB_82418b90;

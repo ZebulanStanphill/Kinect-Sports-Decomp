@@ -37,7 +37,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82191FB0;
 extern unsigned int lbl_82193D04;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1BD0;
 extern unsigned int lbl_831D1BD8;
 extern unsigned int lbl_831D1BDC;
@@ -75,7 +75,7 @@ int fn_8237A2E0(double param_1,int param_2,int param_3,undefined8 param_4,undefi
   }
   fn_82385168(param_1,*(undefined4 *)(param_3 + 0x20d0),param_4,param_4,param_6,param_6,
                     auStack_90,!bVar3,param_8);
-  if ((param_1 <= (double)lbl_821CC160) ||
+  if ((param_1 <= (double)ltcg_pool_0_0f) ||
      (((iVar5 = (int)param_4, iVar5 != 0xb && (iVar5 != 10)) && (iVar5 != 0)))) goto LAB_8237a564;
   iVar6 = 0;
   dVar12 = (double)lbl_821CA460;

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822A2A48();
 extern int fn_8265C9E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12B0;
 extern unsigned int lbl_831D12B8;
 extern unsigned int lbl_831D12BC;
@@ -54,7 +54,7 @@ void fn_822A19D0(void)
 {
   int iVar1;
   
-  lbl_831D12C0 = lbl_821CC160;
+  lbl_831D12C0 = ltcg_pool_0_0f;
   lbl_831D12C4 = 0;
   lbl_831D12D8 = 0;
   lbl_831D12B8 = 0;

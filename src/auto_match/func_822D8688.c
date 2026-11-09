@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822C6938();
 extern int fn_8234E808();
 extern int fn_825613E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CD820;
 extern unsigned int lbl_831CD828;
 extern V16 loadVectorLeftIndexed128();
@@ -71,7 +71,7 @@ void fn_822D8688(double param_1,int param_2,int param_3)
     loadVectorLeftIndexed128(uVar5,0x48);
     fn_822C6938(uVar5);
   }
-  dVar6 = (double)lbl_821CC160;
+  dVar6 = (double)ltcg_pool_0_0f;
   if (*(int *)(*(int *)(param_2 + 0x54) + 0x24) != 0) {
     iVar2 = *(int *)(param_2 + 0x88);
     pfVar4 = (float *)(iVar2 + 0x18);

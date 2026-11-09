@@ -43,7 +43,6 @@ typedef struct {
 extern void fn_827F2F90(void *, int, int, int, int, int);
 extern char lbl_821C5284[];
 extern float lbl_821917A8[];
-extern float lbl_821CC160;
 
 S_8255F0B8 *fn_8255F0B8(S_8255F0B8 *p, int a, int b)
 {
@@ -51,7 +50,7 @@ S_8255F0B8 *fn_8255F0B8(S_8255F0B8 *p, int a, int b)
   fn_827F2F90(p, a, 0, 0, 0, 0);
   p->m17c = b;
   f1 = lbl_821917A8[3];
-  f2 = lbl_821CC160;
+  f2 = 0.0f;
   p->m110 = 0;
   p->m184 = f1;
   p->vt = lbl_821C5284;

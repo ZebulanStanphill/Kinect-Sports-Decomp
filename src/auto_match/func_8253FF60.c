@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821925C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 ulonglong fn_8253FF60(double param_1)
@@ -38,7 +38,7 @@ ulonglong fn_8253FF60(double param_1)
   
   uVar1 = (uint)param_1;
   uVar2 = (ulonglong)uVar1;
-  if (param_1 < (double)lbl_821CC160) {
+  if (param_1 < (double)ltcg_pool_0_0f) {
     if (lbl_821925C0 < (float)(param_1 - (double)(longlong)(int)uVar1)) {
       return uVar2;
     }

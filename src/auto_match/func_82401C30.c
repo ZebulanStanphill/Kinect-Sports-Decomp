@@ -46,7 +46,7 @@ extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D324C;
 extern unsigned int lbl_831E4E38;
 extern unsigned int lbl_832976D4;
@@ -94,7 +94,7 @@ void fn_82401C30(void)
   }
   uVar5 = fn_82359558(*(undefined4 *)(iVar6 + 0x240),*(undefined4 *)(iVar6 + 0x10));
   fn_82402488(auStack_50,uVar5);
-  dVar15 = (double)lbl_821CC160;
+  dVar15 = (double)ltcg_pool_0_0f;
   if (*(float *)(&lbl_821954D8 +
                 ((uint)(byte)(((double)(fStack_4c - lbl_832976D4) < dVar15) << 2) |
                 (uint)(NAN((double)(fStack_4c - lbl_832976D4)) || NAN(dVar15)) << 2)) < 0.0) {

@@ -44,7 +44,7 @@ extern int fn_8263DE70();
 extern int fn_8263FB38();
 extern int fn_82F68CC0();
 extern unsigned int lbl_8218C96C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -75,7 +75,7 @@ void fn_825EEAD8(int param_1)
                           (ulonglong)*(uint *)(param_1 + 4) + 0x174);
   *(undefined4 *)(iVar1 + 0x2f14) = 1;
   uVar4 = lbl_8218C96C;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   *(uint *)(iVar1 + 0x2934) =
        (-(uint)(*(int *)(iVar1 + 0x3158) != 0) & 1) << 1 | *(uint *)(iVar1 + 0x2934) & 0xfffffffd;
   *(ulonglong *)(iVar1 + 0x10) = *(ulonglong *)(iVar1 + 0x10) | 0x20800;

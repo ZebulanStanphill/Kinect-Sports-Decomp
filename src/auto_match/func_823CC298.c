@@ -29,7 +29,7 @@ extern int fn_82535298();
 extern int fn_82536288();
 extern int fn_8254EDB0();
 extern int fn_8254F190();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823CC298(int *param_1,undefined4 param_2)
@@ -205,7 +205,7 @@ void fn_823CC298(int *param_1,undefined4 param_2)
     *(undefined1 *)(param_1 + 0x1b) = 0;
     *(undefined4 *)(*param_1 + 0x1c8) = 0;
     fn_8254F190((double)(float)param_1[0x1a],*param_1);
-    fn_8254EDB0((double)lbl_821CC160,*param_1,param_1[0x1f]);
+    fn_8254EDB0((double)ltcg_pool_0_0f,*param_1,param_1[0x1f]);
     return;
   case 0x15:
     piVar3 = param_1 + 4;
@@ -289,7 +289,7 @@ code_r0x823cc6b8:
   case 0x1f:
     *(undefined1 *)(param_1 + 0x1d) = 1;
     param_1[0x1e] = 1;
-    param_1[0x1c] = (int)lbl_821CC160;
+    param_1[0x1c] = (int)ltcg_pool_0_0f;
     return;
   case 0x20:
     *(undefined1 *)(param_1 + 0x1b) = 0;

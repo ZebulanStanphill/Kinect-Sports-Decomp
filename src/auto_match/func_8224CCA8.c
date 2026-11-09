@@ -33,7 +33,6 @@ extern int fn_8251C3C0();
 extern int fn_8288B760();
 extern unsigned int lbl_82197CE8;
 extern unsigned int lbl_82197D3C;
-extern float lbl_821CC160;
 
 
 void fn_8224CCA8(undefined4 *param_1)
@@ -58,7 +57,7 @@ void fn_8224CCA8(undefined4 *param_1)
       param_1[0x219] = 0;
     }
     if ((*(char *)(param_1 + 0x11d) != '\0') &&
-       (iVar3 = fn_82292AE8(), *(float *)(iVar3 + 0x5c) == lbl_821CC160)) {
+       (iVar3 = fn_82292AE8(), *(float *)(iVar3 + 0x5c) == 0.0f)) {
       *(float *)(iVar3 + 0x5c) = 100.0f;
     }
   }

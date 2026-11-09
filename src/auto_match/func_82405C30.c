@@ -30,7 +30,7 @@ extern int fn_82405638();
 extern int fn_82405E08();
 extern int fn_82535298();
 extern int fn_82536288();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82405C30(int param_1)
@@ -46,7 +46,7 @@ void fn_82405C30(int param_1)
   iVar5 = *(int *)(param_1 + 0x30) + 1;
   *(undefined4 *)(param_1 + 0x48) = 0;
   *(int *)(param_1 + 0x30) = iVar5;
-  *(undefined4 *)(param_1 + 0x44) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x44) = ltcg_pool_0_0f;
   uVar3 = *(undefined4 *)(*(int *)(param_1 + 0xa0) + 0x84c);
   if (iVar5 == *(int *)(param_1 + 0x20) - *(int *)(param_1 + 0x1c) >> 3) {
     lStack_20 = CONCAT44(*(undefined4 *)(param_1 + 0x8c),(((U64)(lStack_20) >> 32) & 0xFFFFFFFF));

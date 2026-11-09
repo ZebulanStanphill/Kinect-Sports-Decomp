@@ -47,7 +47,7 @@ extern int fn_82A1BB18();
 extern int iRam83296d40;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821956B4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_58;
 extern U64 storeWordConditionalIndexed();
 
@@ -84,8 +84,8 @@ void fn_8256AC48(int *param_1,int param_2)
       uStack_58 = (longlong)iVar7;
       fVar1 = (float)((double)uStack_58 - dVar10);
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         dVar10 = (double)uStack_58;
       }
       if (dVar10 <= (double)lbl_821956B4) {

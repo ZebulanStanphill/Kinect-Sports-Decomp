@@ -30,7 +30,7 @@ extern unsigned int lbl_821958A4;
 extern unsigned int lbl_821958B0;
 extern unsigned int lbl_821958B4;
 extern unsigned int lbl_821958B8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorNegativeMultiplySubtractFloatingPoint();
 
 
@@ -56,7 +56,7 @@ char fn_823CC7F0(void)
   float afStack_40 [16];
   
   dVar6 = (double)fn_8255A260();
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   if (dVar6 <= (double)lbl_821958A4) {
     cVar4 = '\0';
   }

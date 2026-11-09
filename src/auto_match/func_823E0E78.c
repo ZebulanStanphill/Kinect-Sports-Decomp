@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 
 typedef struct Pair823E0E78 {
     int a;
@@ -19,7 +18,7 @@ typedef struct S823E0E78 {
 void fn_823E0E78(S823E0E78 *p)
 {
     Pair823E0E78 *q = &p->pair;
-    p->f18 = lbl_821CC160;
+    p->f18 = 0.0f;
     q->b = 0;
     q->a = 0;
     p->f64 = 0;

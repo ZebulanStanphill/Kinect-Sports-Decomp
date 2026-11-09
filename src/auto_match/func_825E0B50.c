@@ -49,7 +49,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821955B4;
 extern unsigned int lbl_821959DC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 
 
@@ -95,7 +95,7 @@ void fn_825E0B50(undefined8 param_1,undefined8 param_2)
   float fStack_78;
   
   piVar7 = (int *)fn_82F6A540();
-  dVar20 = (double)lbl_821CC160;
+  dVar20 = (double)ltcg_pool_0_0f;
   if ((double)*(float *)(piVar7[8] + 0xd0) == dVar20) {
     *(undefined4 *)(piVar7[0xd] + 0x2ec) = 0;
     *(undefined4 *)(piVar7[0xd] + 0x2c0) = 0;

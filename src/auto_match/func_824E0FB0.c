@@ -30,7 +30,7 @@ extern int fn_8255A470();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824E0FB0(double param_1,int param_2)
@@ -50,7 +50,7 @@ void fn_824E0FB0(double param_1,int param_2)
   dVar3 = (double)fn_8255A070();
   dVar5 = (double)(float)(dVar3 * dVar4);
   dVar3 = (double)fn_8255A070();
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   dVar3 = (double)fn_8255A470((double)(float)(dVar5 - dVar3),dVar4,(double)lbl_82193E50);
   uVar2 = (uint)((double)**(float **)(param_2 + 4) < dVar3);
   *(uint *)(param_2 + 0x10) = uVar2;

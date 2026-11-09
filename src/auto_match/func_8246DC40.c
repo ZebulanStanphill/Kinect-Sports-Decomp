@@ -66,7 +66,7 @@ extern unsigned int lbl_820E975C;
 extern unsigned int lbl_82191418;
 extern unsigned int lbl_821955F4;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C6BD0;
 extern unsigned int lbl_831C6BE0;
 extern unsigned int lbl_831C6C14;
@@ -139,7 +139,7 @@ void fn_8246DC40(int param_1,int param_2)
   *(int *)(param_1 + 0xc) = param_2;
   uVar2 = lbl_831C6BE0;
   uVar6 = lbl_831C6BD0;
-  dVar15 = (double)lbl_821CC160;
+  dVar15 = (double)ltcg_pool_0_0f;
   if (iVar7 == 0) {
     loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);
     loadVectorLeftIndexed128(0xffffffff831c6b70,0x68);

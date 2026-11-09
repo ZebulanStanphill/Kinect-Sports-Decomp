@@ -55,7 +55,7 @@ extern unsigned int lbl_82002B04;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_82192754;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_100;
 extern unsigned int uStack_124;
 extern unsigned int uStack_130;
@@ -278,7 +278,7 @@ void fn_8254CEB8(void)
   if ((*(int *)(iVar5 + 0x2c) - *piVar19) / 0x18 != 0) {
     iVar16 = 0;
     dVar28 = (double)lbl_821917C0;
-    dVar29 = (double)lbl_821CC160;
+    dVar29 = (double)ltcg_pool_0_0f;
     dVar27 = (double)lbl_821CA460;
     dVar26 = (double)lbl_82192754;
     do {

@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8253C548();
 extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000020;
 
 
@@ -66,7 +66,7 @@ void fn_824FE498(int param_1)
   puVar4[1] = in_register_000104d4;
   puVar4[2] = in_register_000104d8;
   puVar4[3] = in_vr77;
-  fVar8 = lbl_821CC160;
+  fVar8 = ltcg_pool_0_0f;
   puVar4 = (undefined4 *)(param_1 + 0xc30U & 0xfffffff0);
   *puVar4 = in_register_000104d0;
   puVar4[1] = in_register_000104d4;

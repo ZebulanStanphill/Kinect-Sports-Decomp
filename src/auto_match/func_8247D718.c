@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_20;
 extern int fn_825521F0();
 extern unsigned int lbl_82191FB0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_10;
 
 
@@ -39,7 +39,7 @@ void fn_8247D718(undefined8 param_1,undefined8 param_2)
   undefined4 uStack_10;
   
   uStack_10 = 0;
-  fn_825521F0((double)lbl_821CC160,(double)lbl_82191FB0,param_1,param_2,auStack_20);
+  fn_825521F0((double)ltcg_pool_0_0f,(double)lbl_82191FB0,param_1,param_2,auStack_20);
   return;
 }
 

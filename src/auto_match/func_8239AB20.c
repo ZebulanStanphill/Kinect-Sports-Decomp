@@ -30,7 +30,7 @@ extern unsigned int fStack_5c;
 extern int fn_823116D8();
 extern int fn_8239AA78();
 extern int fn_8239D070();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_60;
 
 
@@ -80,7 +80,7 @@ void fn_8239AB20(int param_1)
     }
   }
   iVar6 = *(int *)(param_1 + 0x1e4);
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   if ((iVar6 != 0) && (iVar7 = fn_8239AA78(param_1), iVar7 != 0)) {
     fStack_5c = (float)dVar12;
     uStack_60 = 1;

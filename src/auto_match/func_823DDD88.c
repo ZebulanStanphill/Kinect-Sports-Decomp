@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 
 typedef struct Vec_823DDD88 {
     int *begin;
@@ -26,7 +25,7 @@ void fn_823DDD88(State_823DDD88 *s)
 
     s->active = 1;
     s->flag = 0;
-    s->value = lbl_821CC160;
+    s->value = 0.0f;
     v = s->owner->items[s->owner->index];
     if ((unsigned)(v->end - v->begin) > 0) {
         s->flag = 1;

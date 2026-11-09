@@ -42,7 +42,7 @@ extern unsigned int lbl_82191FCC;
 extern unsigned int lbl_821922D0;
 extern unsigned int lbl_82192330;
 extern unsigned int lbl_82192734;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2DA4;
 extern unsigned int lbl_831D2DA8;
 extern unsigned int lbl_831D2FEC;
@@ -109,7 +109,7 @@ void fn_823C7370(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
   pfVar6[1] = in_register_00010014;
   pfVar6[2] = in_register_00010018;
   pfVar6[3] = in_vr1;
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   fVar14 = lbl_82192734;
   pfVar6 = (float *)&lbl_831D3000;
   if (param_6 == 0) {
@@ -119,7 +119,7 @@ void fn_823C7370(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
   fStack_9c = pfVar6[2];
   fStack_98 = pfVar6[3];
   dVar10 = (double)*pfVar6;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   if (*(int *)(*(int *)(iVar5 + 0x10) + 0x2c) != 0) {
     puVar1 = (undefined4 *)
              (in_r0 + *(int *)(*(int *)(*(int *)(iVar5 + 0x240) + 0x1c) + 4) & 0xfffffff0);

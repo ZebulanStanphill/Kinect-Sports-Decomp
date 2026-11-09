@@ -37,7 +37,7 @@ extern int fn_82F6A594();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8261E4B8(undefined8 param_1,ulonglong param_2,ulonglong param_3)
@@ -94,7 +94,7 @@ void fn_8261E4B8(undefined8 param_1,ulonglong param_2,ulonglong param_3)
     fn_82809D40(-(double)((float)(dVar7 * dVar11) - (float)(dVar9 * dVar8)),
                  (double)(lbl_821CA460 - (fVar2 + (float)(dVar10 * dVar7))),dVar6);
     dVar6 = (double)fn_82809D40(-dVar12,dVar13);
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
   }
   else {
     fn_82809D40((double)((float)(dVar7 * dVar11) + (float)(dVar9 * dVar8)),

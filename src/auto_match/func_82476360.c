@@ -37,7 +37,6 @@ extern int fn_825708F0();
 extern int fn_8265CA20();
 extern int fn_82864898();
 extern int fn_82864988();
-extern float lbl_821CC160;
 
 
 void fn_82476360(int param_1)
@@ -54,7 +53,7 @@ void fn_82476360(int param_1)
     fn_82529320(*(int *)(param_1 + 0x160),0);
     *(undefined4 *)(param_1 + 0x160) = 0;
   }
-  dVar4 = lbl_821CC160;
+  dVar4 = 0.0f;
   if (*(float *)(param_1 + 0x11c) > dVar4) {
     iVar3 = fn_82292AE8();
     if (*(int **)(iVar3 + 0x24) != (int *)0x0) {

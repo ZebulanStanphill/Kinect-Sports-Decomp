@@ -35,7 +35,7 @@ extern unsigned int lbl_821C107C;
 extern unsigned int lbl_821C108C;
 extern unsigned int lbl_821C10A4;
 extern unsigned int lbl_821C10B4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int * fn_824DF9F8(int *param_1,int param_2,int param_3)
@@ -70,7 +70,7 @@ int * fn_824DF9F8(int *param_1,int param_2,int param_3)
   param_1[0x4e] = 0;
   param_1[0x4f] = 0;
   param_1[0x50] = 0;
-  iVar2 = lbl_821CC160;
+  iVar2 = ltcg_pool_0_0f;
   pppuStack_30 = appuStack_40;
   param_1[0x4c] = (int)&lbl_821C10A4;
   param_1[0x51] = iVar2;

@@ -74,7 +74,7 @@ extern unsigned int lbl_82195B74;
 extern unsigned int lbl_82195B78;
 extern unsigned int lbl_82195B7C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_100;
 extern unsigned int uStack_108;
 extern unsigned int uStack_10c;
@@ -220,7 +220,7 @@ void fn_82650538(undefined8 param_1,longlong param_2,uint *param_3,ulonglong par
   if (*(uint *)(iVar4 + 0x38) < uVar5) {
     uVar5 = fn_82645110(iVar4);
   }
-  afStack_180[0] = lbl_821CC160;
+  afStack_180[0] = ltcg_pool_0_0f;
   fVar1 = param_7[1];
   fStack_128 = *param_7;
   uStack_160 = *param_8;

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_824C0998();
 extern unsigned int iStack_2c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824C0640(int *param_1)
@@ -47,7 +47,7 @@ void fn_824C0640(int *param_1)
   }
   param_1[0xe] = param_1[0xe];
   iVar3 = (int)uVar2;
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   if (iVar3 != param_1[5]) {
     (**(code **)(*param_1 + 8))(param_1,param_1[5],uVar2);
     param_1[0xe] = (int)(float)dVar4;

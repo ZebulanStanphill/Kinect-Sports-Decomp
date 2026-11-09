@@ -39,7 +39,7 @@ extern int fn_8265C9E0();
 extern unsigned int iStack_64;
 extern unsigned int lbl_821ADF7C;
 extern unsigned int lbl_821AE598;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_68;
 
 
@@ -133,7 +133,7 @@ void fn_822E4330(int param_1,undefined4 param_2,undefined4 *param_3,undefined4 *
   if ((piVar3[1] - *piVar3 & 0xfffffffcU) == 0) {
     puVar4 = (undefined4 *)fn_822E64E0((double)fRam831d14ec,param_1);
     *(undefined4 **)(param_1 + 0x210) = puVar4;
-    fn_8252AFE0((double)lbl_821CC160,*puVar4);
+    fn_8252AFE0((double)ltcg_pool_0_0f,*puVar4);
   }
   fn_822E68B8(param_1);
   fn_822E9128(*(undefined4 *)(param_1 + 0x114),param_6);

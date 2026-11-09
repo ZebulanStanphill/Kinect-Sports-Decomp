@@ -28,7 +28,6 @@ extern void fn_824A0720(Obj_824A0520 *self, int a, int b);
 extern void fn_824A0808(Obj_824A0520 *self);
 
 extern double lbl_821954B0[];
-extern float lbl_821CC160;
 
 void fn_824A0520(Obj_824A0520 *self, int param_2, int param_3)
 {
@@ -63,7 +62,7 @@ void fn_824A0520(Obj_824A0520 *self, int param_2, int param_3)
             fn_82273C88(e);
             i--;
         } while (i >= 0);
-        self->f84 = lbl_821CC160;
+        self->f84 = 0.0f;
         fn_824A0808(self);
     }
     if (param_3 == 0) {

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8246B178();
 extern int fn_8246B2A8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8245FF08(int param_1)
@@ -42,8 +42,8 @@ void fn_8245FF08(int param_1)
   uVar1 = *(uint *)(*(int *)(param_1 + 0x50) + 0x34);
   uVar5 = (ulonglong)uVar1;
   if ((uVar1 != 0) && (*(int *)(*(int *)(param_1 + 0x50) + 0x74) != 0)) {
-    if ((*(float *)(*(int *)(param_1 + 0x3c) + 0x110) == lbl_821CC160) &&
-       (*(float *)(*(int *)(param_1 + 0x3c) + 0x22c) == lbl_821CC160)) {
+    if ((*(float *)(*(int *)(param_1 + 0x3c) + 0x110) == ltcg_pool_0_0f) &&
+       (*(float *)(*(int *)(param_1 + 0x3c) + 0x22c) == ltcg_pool_0_0f)) {
       uVar4 = 0xffffffff831c6e00;
       uVar2 = fn_8246B178(uVar5 + 0x68,3,0xffffffff831c6e00);
       fn_8246B2A8(uVar5,uVar2);

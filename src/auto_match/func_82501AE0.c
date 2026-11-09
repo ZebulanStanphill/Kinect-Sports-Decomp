@@ -30,7 +30,7 @@ extern int fn_8255DDE0();
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82196750;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_82501AE0(int param_1,int param_2)
@@ -58,8 +58,8 @@ undefined8 fn_82501AE0(int param_1,int param_2)
   undefined4 in_vr77;
   undefined1 auStack_40 [64];
   
-  fVar5 = lbl_821CC160;
-  dVar11 = (double)lbl_821CC160;
+  fVar5 = ltcg_pool_0_0f;
+  dVar11 = (double)ltcg_pool_0_0f;
   puVar8 = (undefined4 *)(param_1 + 0xb90U & 0xfffffff0);
   *puVar8 = in_register_000104d0;
   puVar8[1] = in_register_000104d4;

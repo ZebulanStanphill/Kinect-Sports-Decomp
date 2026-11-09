@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int iRam831cdb40;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822D15E0(double param_1,int param_2)
@@ -56,13 +56,13 @@ void fn_822D15E0(double param_1,int param_2)
     iVar1 = *(int *)(param_2 + 0x18);
     dVar3 = param_1;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(param_1 - dVar4) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(param_1 - dVar4)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(param_1 - dVar4) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(param_1 - dVar4)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       dVar3 = dVar4;
     }
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)(((float)(param_1 - dVar5) < lbl_821CC160) << 2) |
-                  (uint)(NAN((float)(param_1 - dVar5)) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)(((float)(param_1 - dVar5) < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN((float)(param_1 - dVar5)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       param_1 = dVar5;
     }
     *(float *)(iVar1 + 0x44) =

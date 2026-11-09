@@ -35,7 +35,7 @@ extern unsigned int iStack_dc;
 extern unsigned int iStack_f0;
 extern unsigned int lbl_82196290;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_7c;
 extern unsigned int uStack_80;
 extern unsigned int uStack_84;
@@ -87,7 +87,7 @@ void fn_8254BD40(int param_1,int *param_2,undefined4 *param_3,ulonglong *param_4
   uVar9 = (ulonglong)in_stack_00000054;
   if ((in_stack_00000054 != 0) &&
      ((**(code **)(*(int *)param_2[0x6a] + 4))
-                ((double)lbl_821CA460,(double)lbl_821CA460,(double)lbl_821CC160,(int *)param_2[0x6a]
+                ((double)lbl_821CA460,(double)lbl_821CA460,(double)ltcg_pool_0_0f,(int *)param_2[0x6a]
                  ,param_3[3],param_5,0xffffffff8329ead0), 0 < (int)in_stack_00000054)) {
     do {
       if ((int)uVar9 < 0x21) {

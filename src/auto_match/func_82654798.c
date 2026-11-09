@@ -30,7 +30,7 @@ extern unsigned int *auStack_2f0;
 extern unsigned int *auStack_370;
 extern unsigned int lbl_821954C8;
 extern unsigned int lbl_82195520;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_374;
 
 
@@ -73,7 +73,7 @@ void fn_82654798(int param_1,int param_2,ulonglong param_3)
   float afStack_2e0 [12];
   undefined4 auStack_2b0 [172];
   
-  fVar8 = lbl_821CC160;
+  fVar8 = ltcg_pool_0_0f;
   dVar7 = lbl_82195520;
   fVar6 = lbl_821954C8;
   iVar9 = (int)param_3;

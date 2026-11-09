@@ -36,7 +36,7 @@ extern int fn_8249D980();
 extern int fn_82535298();
 extern int fn_82536288();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823C09D0(double param_1,int param_2)
@@ -86,7 +86,7 @@ LAB_823c0ab0:
   }
   fn_82359928(param_2,uVar5);
   iVar4 = 0;
-  dVar15 = (double)lbl_821CC160;
+  dVar15 = (double)ltcg_pool_0_0f;
   do {
     iVar9 = 0;
     lVar11 = 7;

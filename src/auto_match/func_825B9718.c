@@ -31,7 +31,7 @@ extern int fn_82A1DD38();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int fn_825B9718(double param_1,double param_2)
@@ -53,8 +53,8 @@ int fn_825B9718(double param_1,double param_2)
   fn_82A1DD38(iVar2 + 0x40,in_r7,0x40);
   *(float *)(iVar2 + 0x2c) = (float)param_1;
   *(float *)(iVar2 + 0x24) = (float)param_2;
-  dVar3 = (double)lbl_821CC160;
-  *(float *)(iVar2 + 0x3c) = lbl_821CC160;
+  dVar3 = (double)ltcg_pool_0_0f;
+  *(float *)(iVar2 + 0x3c) = ltcg_pool_0_0f;
   uVar4 = lbl_821CA460;
   *(undefined1 *)(iVar2 + 0x84) = 2;
   if (*(float *)(&lbl_821954D8 +

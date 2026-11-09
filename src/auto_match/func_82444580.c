@@ -39,7 +39,7 @@ extern int fn_82445DD0();
 extern int fn_82453B80();
 extern int fn_82526C70();
 extern unsigned int lbl_821B9BC8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 extern unsigned int lbl_8329EA20;
 extern unsigned int uStack_2c;
@@ -97,17 +97,17 @@ void fn_82444580(int param_1,int param_2)
       }
       fn_82526C70(&ppuStack_50,0x20,0xffffffff821b0c70,puVar3,0xffffffff821b9a08);
       stack_pair_60.first = lbl_831E4E38;
-      fStack_58 = lbl_821CC160;
+      fStack_58 = ltcg_pool_0_0f;
       uVar4 = *(undefined4 *)(*(int *)(param_1 + 4) + 0x24);
       puVar3 = (undefined4 *)((uint)(&lbl_8329EA20 + in_r0) & 0xfffffff0);
       uVar5 = puVar3[1];
       uVar6 = puVar3[2];
       uVar7 = puVar3[3];
       vectorConditionalSelect(in_vs32,in_vs45,in_vs44);
-      fStack_68 = lbl_821CC160;
-      fStack_6c = lbl_821CC160;
+      fStack_68 = ltcg_pool_0_0f;
+      fStack_6c = ltcg_pool_0_0f;
       uStack_70 = lbl_831E4E38;
-      stack_pair_60.second = lbl_821CC160;
+      stack_pair_60.second = ltcg_pool_0_0f;
       puVar1 = (undefined4 *)((int)&uStack_70 + in_r0 & 0xfffffff0);
       *puVar1 = *puVar3;
       puVar1[1] = uVar5;
@@ -131,7 +131,7 @@ void fn_82444580(int param_1,int param_2)
     puVar3[1] = in_register_000104d4;
     puVar3[2] = in_register_000104d8;
     puVar3[3] = in_vr77;
-    fStack_30 = lbl_821CC160;
+    fStack_30 = ltcg_pool_0_0f;
     uStack_4c = 0;
     ppuStack_50 = &lbl_821B9BC8;
     uStack_48 = 3;
@@ -154,7 +154,7 @@ void fn_82444580(int param_1,int param_2)
     auStack_80[0] = uStack_2c;
   }
   else {
-    if (*(float *)(iVar2 + 0x3c) == lbl_821CC160) {
+    if (*(float *)(iVar2 + 0x3c) == ltcg_pool_0_0f) {
       fn_82445810();
       return;
     }

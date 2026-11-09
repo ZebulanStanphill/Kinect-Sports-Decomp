@@ -33,7 +33,7 @@ extern int fn_8239FF60();
 extern int fn_8256D470();
 extern unsigned int iStack_54;
 extern unsigned int iStack_58;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_823AB5C0(int *param_1,int param_2,int param_3,int param_4)
@@ -66,7 +66,7 @@ LAB_823ab5fc:
       }
       uVar3 = (ulonglong)(uint)param_1[0x27] + 1;
       param_1[0x27] = (int)uVar3;
-      dVar6 = (double)lbl_821CC160;
+      dVar6 = (double)ltcg_pool_0_0f;
       param_1[0x2a] = *(int *)(param_3 + 0x174);
       if (((double)(float)param_1[0x29] <= dVar6) || ((uVar3 & 0xffffffff) == 0)) {
 LAB_823ab6ec:

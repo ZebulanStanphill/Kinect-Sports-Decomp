@@ -44,7 +44,7 @@ extern unsigned int lbl_821BA6DC;
 extern unsigned int lbl_821BA6E0;
 extern unsigned int lbl_821BA6E4;
 extern unsigned int lbl_821BA6F8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
@@ -83,14 +83,14 @@ void fn_82409010(double param_1,int param_2)
      (iVar5 = (**(code **)(**(int **)(param_2 + 0x14) + 8))(), *(int *)(iVar5 + 0x7a0) != 0)) {
     *(float *)(param_2 + 0x44) = lbl_8218E1AC;
   }
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0x44) != 0) {
     fVar1 = (float)((double)*(float *)(param_2 + 0x44) - param_1);
     fVar2 = -fVar1;
-    fVar3 = lbl_821CC160;
+    fVar3 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar3 = fVar1;
     }
     *(float *)(param_2 + 0x44) = fVar3;

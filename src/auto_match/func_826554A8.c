@@ -50,7 +50,7 @@ extern unsigned int lbl_82195A68;
 extern unsigned int lbl_82195A70;
 extern unsigned int lbl_82195A78;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_2b0;
 extern unsigned int uStack_2bc;
 
@@ -160,7 +160,7 @@ void fn_826554A8(double param_1,undefined4 *param_2,int param_3,undefined8 param
       goto LAB_82655700;
     }
     if (iVar4 != 5) {
-      dVar7 = (double)lbl_821CC160;
+      dVar7 = (double)ltcg_pool_0_0f;
       goto LAB_82655700;
     }
     dVar7 = (double)param_5[2];

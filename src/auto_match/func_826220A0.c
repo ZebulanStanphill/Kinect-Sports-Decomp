@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821956B4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_826220A0(int param_1,float *param_2,float *param_3,float *param_4)
@@ -89,8 +89,8 @@ void fn_826220A0(int param_1,float *param_2,float *param_3,float *param_4)
   uVar6 = (uint)(*param_3 * lbl_821956B4 + lbl_8218E8E8);
   fVar7 = param_2[2];
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar25 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar25) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar25 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar25) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar7 = param_3[2];
   }
   fVar25 = fVar7 - param_4[2];
@@ -102,8 +102,8 @@ void fn_826220A0(int param_1,float *param_2,float *param_3,float *param_4)
   uVar11 = (ulonglong)uVar4 - (ulonglong)uVar5;
   uVar39 = (uVar32 & 0xfffffff) * 0x10;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar25 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar25) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar25 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar25) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar7 = param_4[2];
   }
   uVar37 = (uVar31 & 0xfffffff) * 0x10;
@@ -111,9 +111,9 @@ void fn_826220A0(int param_1,float *param_2,float *param_3,float *param_4)
   uVar38 = (uVar29 & 0xfffffff) << 4;
   uVar36 = (uVar11 & 0xfffffff) << 4;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar7 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar7) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-    fVar7 = lbl_821CC160;
+                ((uint)(byte)((fVar7 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar7) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+    fVar7 = ltcg_pool_0_0f;
   }
   uVar14 = (uint)((uVar41 & 0x1fffffff) << 3);
   if ((int)uVar41 < 1) {

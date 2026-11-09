@@ -30,7 +30,7 @@ extern int fn_825C2EB8();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821954EC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_82594470(double param_1,longlong param_2)
@@ -54,7 +54,7 @@ bool fn_82594470(double param_1,longlong param_2)
   dVar9 = (double)lbl_821954EC;
   lVar4 = param_2 + 4;
   dVar10 = (double)lbl_821CA460;
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   do {
     pfVar2 = *(float **)((int)param_2 + 0x28);
     fVar1 = *(float *)((int)param_2 + 0x2c);

@@ -32,7 +32,7 @@ extern int fn_8255DA40();
 extern unsigned int lbl_8218EC10;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1B64;
 extern unsigned int lbl_831D1B68;
 extern unsigned int lbl_831D1B6C;
@@ -83,7 +83,7 @@ double fn_82379818(int *param_1,undefined4 *param_2,undefined4 *param_3,undefine
   *param_4 = 0;
   if (fVar3 <= ABS(fStack_38)) {
     dVar5 = (double)((lbl_831D1B74 - fStack_38) / fStack_38);
-    if ((double)lbl_821CC160 < dVar5) {
+    if ((double)ltcg_pool_0_0f < dVar5) {
       iVar4 = fn_82379660(dVar5,auStack_40,param_1);
       dVar7 = (double)*(float *)(iVar4 + 4);
       if (*param_1 == 0) {

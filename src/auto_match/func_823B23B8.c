@@ -29,7 +29,7 @@ extern unsigned int *auStack_60;
 extern int fn_823B3FE0();
 extern int fn_8255AE78();
 extern unsigned int lbl_82193E50;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CA0B0;
 extern unsigned int lbl_831CA0B4;
 extern V16 loadVectorLeftIndexed128();
@@ -84,7 +84,7 @@ void fn_823B23B8(int param_1,int param_2)
     auStack_60[0] = 1;
     fn_823B3FE0(iVar1,auStack_60);
   }
-  uVar6 = lbl_821CC160;
+  uVar6 = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x168) = lbl_831CA0B0;
   uVar7 = lbl_831CA0B4;
   *(undefined4 *)(param_1 + 0x1a4) = 1;

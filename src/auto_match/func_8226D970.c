@@ -48,7 +48,7 @@ extern int fn_827F0180();
 extern int memcpy();
 extern unsigned int lbl_821917B4;
 extern unsigned int lbl_821954C8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B394;
 extern unsigned int lbl_8327F894;
 
@@ -113,7 +113,7 @@ LAB_8226da44:
   else {
     piVar5[0x28] = uVar6;
     piVar5[0x26] = 1;
-    piVar5[0x1a] = lbl_821CC160;
+    piVar5[0x1a] = ltcg_pool_0_0f;
   }
   fn_82271378(dVar9,piVar5);
   fn_822A85C8(dVar9,piVar5[0x17]);

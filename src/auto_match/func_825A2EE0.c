@@ -30,7 +30,7 @@ extern int fn_8255E0B0();
 extern int fn_8255E3A0();
 extern int fn_82574340();
 extern int fn_82593438();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825A2EE0(int param_1,int param_2,undefined8 param_3,undefined4 *param_4)
@@ -84,8 +84,8 @@ void fn_825A2EE0(int param_1,int param_2,undefined8 param_3,undefined4 *param_4)
     return;
   }
 LAB_825a2fc8:
-  uVar4 = lbl_821CC160;
-  param_4[2] = lbl_821CC160;
+  uVar4 = ltcg_pool_0_0f;
+  param_4[2] = ltcg_pool_0_0f;
   param_4[1] = uVar4;
   *param_4 = uVar4;
   return;

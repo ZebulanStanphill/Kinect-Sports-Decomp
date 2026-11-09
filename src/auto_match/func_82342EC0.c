@@ -41,7 +41,7 @@ extern unsigned int lbl_82192568;
 extern unsigned int lbl_821B1980;
 extern unsigned int lbl_821B1BD0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -95,13 +95,13 @@ undefined4 * fn_82342EC0(undefined4 *param_1,undefined8 param_2,undefined8 param
     uVar6 = lbl_821CA460;
     uVar1 = lbl_82191138;
     *puVar12 = 0xffffffff;
-    uVar7 = lbl_821CC160;
+    uVar7 = ltcg_pool_0_0f;
     uVar5 = lbl_82192568;
     uVar4 = lbl_82192510;
     uVar3 = lbl_821917CC;
     uVar2 = lbl_821916FC;
     uVar11 = lbl_8218E8E8;
-    puVar12[2] = lbl_821CC160;
+    puVar12[2] = ltcg_pool_0_0f;
     puVar12[3] = uVar6;
     puVar12[4] = uVar7;
     puVar12[5] = uVar6;

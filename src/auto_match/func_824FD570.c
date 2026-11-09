@@ -38,7 +38,7 @@ extern int fn_82F51D60();
 extern int fn_82F51E28();
 extern int fn_82F520B0();
 extern unsigned int lbl_82193B00;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824FD570(int param_1,undefined8 param_2)
@@ -77,7 +77,7 @@ void fn_824FD570(int param_1,undefined8 param_2)
         (ulonglong)((ulonglong)*(uint *)(iVar3 + 0x44) < 2) & 1) == 0)) ||
       ((*(int *)(param_1 + 0xb88) != 0 &&
        (*(float *)(*(int *)(param_1 + 0xb88) + 0x74) <= lbl_82193B00)))))) {
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
     iVar3 = *(int *)(param_1 + 0xb84);
     pfVar5 = (float *)(iVar3 + 0x18);
     if (iVar3 + 0x18 != iVar3 + 0x60) {

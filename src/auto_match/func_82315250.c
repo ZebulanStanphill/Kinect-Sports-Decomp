@@ -47,7 +47,7 @@ extern unsigned int lbl_821C0F10;
 extern unsigned int lbl_821C0F1C;
 extern unsigned int lbl_821C2424;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_70;
 extern unsigned int uStack_7c;
 extern unsigned int uStack_84;
@@ -93,9 +93,9 @@ fn_82315250(undefined4 *param_1,int param_2,int param_3,undefined4 param_4,undef
   *param_1 = &lbl_821AF790;
   param_1[2] = uVar6;
   param_1[1] = 0x12;
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   fVar1 = lbl_821CA460;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   pfVar7 = (float *)(param_1 + 0xe2);
   do {
     pfVar7[-1] = fVar1;

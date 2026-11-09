@@ -35,7 +35,7 @@ extern int fn_82424C80();
 extern int fn_82508078();
 extern int fn_82536590();
 extern int fn_82F622E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82423DD8(int *param_1,int param_2,int param_3,undefined8 param_4,undefined4 *param_5,
@@ -59,7 +59,7 @@ void fn_82423DD8(int *param_1,int param_2,int param_3,undefined8 param_4,undefin
   *param_5 = uVar6;
   *param_6 = 1;
   *param_7 = param_1[0x14];
-  *param_8 = lbl_821CC160;
+  *param_8 = ltcg_pool_0_0f;
   if ((*(int *)(param_2 + 0x20) == 0) && (*(int *)(param_2 + 0x24) == 0)) {
     if (*(int *)(param_3 + 4) == 0) {
       iVar7 = param_1[2];

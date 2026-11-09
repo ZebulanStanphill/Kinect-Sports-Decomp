@@ -57,7 +57,7 @@ extern unsigned int lbl_82192D74;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_8219581C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_134;
@@ -174,7 +174,7 @@ void fn_82615B30(void)
     uStack_13c = (uint)uVar18;
     dVar29 = (double)lbl_82192568;
     uStack_144 = (uint)uVar19;
-    dVar33 = (double)lbl_821CC160;
+    dVar33 = (double)ltcg_pool_0_0f;
     uStack_14c = (uint)uVar20;
     dVar34 = (double)lbl_82192734;
     uStack_134 = (uint)uVar21;

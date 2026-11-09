@@ -47,7 +47,7 @@ extern int fn_825D6140();
 extern int fn_826231D8();
 extern int fn_82623338();
 extern int fn_82639EA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_118;
 extern unsigned int uStack_11c;
 extern unsigned int uStack_120;
@@ -133,7 +133,7 @@ void fn_825EDEB0(int param_1)
   undefined1 auStack_b0 [16];
   undefined1 auStack_a0 [160];
   
-  uStack_13c = lbl_821CC160;
+  uStack_13c = ltcg_pool_0_0f;
   uStack_158 = *(undefined4 *)(*(int *)(param_1 + 4) + 0xae4);
   piStack_160 = *(int **)(param_1 + 0x10);
   uStack_154 = *(undefined4 *)(param_1 + 8);

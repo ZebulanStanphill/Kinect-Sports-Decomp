@@ -35,7 +35,7 @@ extern unsigned int lbl_82192330;
 extern unsigned int lbl_8219275C;
 extern unsigned int lbl_821954B0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831DB308;
 
 
@@ -54,8 +54,8 @@ void fn_823CC100(double param_1,int *param_2)
   float in_register_00010018;
   float fStack00000028;
   
-  fVar2 = lbl_821CC160;
-  dVar9 = (double)lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
+  dVar9 = (double)ltcg_pool_0_0f;
   fStack00000028 = in_register_00010018;
   if ((*(char *)(param_2 + 0x1d) != '\0') &&
      (fVar1 = (float)param_2[0x1c], param_2[0x1c] = (int)(float)((double)fVar1 - param_1),

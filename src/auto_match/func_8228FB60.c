@@ -29,7 +29,7 @@ extern int fn_8228F078();
 extern int fn_8228F478();
 extern int fn_8228F648();
 extern int fn_82672C20();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8228FB60(int param_1)
@@ -53,7 +53,7 @@ void fn_8228FB60(int param_1)
     }
     if (iVar1 != 7) {
       if (iVar1 == 9) {
-        *(undefined4 *)(param_1 + 0x94) = lbl_821CC160;
+        *(undefined4 *)(param_1 + 0x94) = ltcg_pool_0_0f;
         fn_8228F648(param_1,0);
       }
       else if (iVar1 == 10) {
@@ -62,7 +62,7 @@ void fn_8228FB60(int param_1)
       goto LAB_8228fc1c;
     }
   }
-  *(undefined4 *)(param_1 + 0x94) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x94) = ltcg_pool_0_0f;
 LAB_8228fc1c:
   *(undefined4 *)(param_1 + 8) = *(undefined4 *)(param_1 + 4);
   return;

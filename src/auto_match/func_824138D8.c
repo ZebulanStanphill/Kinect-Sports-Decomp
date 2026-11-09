@@ -51,7 +51,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821955F0;
 extern unsigned int lbl_821BEC2C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4868;
 extern V16 vectorAddFloatingPoint();
 
@@ -145,7 +145,7 @@ void fn_824138D8(int param_1,int *param_2)
   puVar4[1] = uVar17;
   puVar4[2] = uVar18;
   puVar4[3] = uVar19;
-  dVar16 = (double)lbl_821CC160;
+  dVar16 = (double)ltcg_pool_0_0f;
   fVar2 = -(float)((double)(float)((double)fStack_78 - dVar15) * dVar14 - dVar12);
   if (fVar2 < fVar5) {
     *(undefined1 *)(param_1 + 0x2b8) = 1;

@@ -39,7 +39,7 @@ extern int fn_823F2E20();
 extern unsigned int iStack_10bc;
 extern unsigned int iStack_10cc;
 extern unsigned int lbl_82192488;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D12AC;
 extern unsigned int lbl_831D12B4;
 extern unsigned int lbl_831D12CC;
@@ -73,7 +73,7 @@ void fn_822A2938(undefined8 param_1)
       fn_822315A0();
     }
     uStack_10b4 = 0;
-    uStack_10b0 = lbl_821CC160;
+    uStack_10b0 = ltcg_pool_0_0f;
     if (lbl_831D12CC != 0) {
       uStack_10b0 = lbl_82192488;
     }

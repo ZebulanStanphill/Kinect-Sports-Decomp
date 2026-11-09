@@ -1,7 +1,6 @@
 #include "stdext/xmemory.h"
 
 extern "C" {
-extern float lbl_821CC160;
 extern float lbl_82193CF0[];
 }
 
@@ -52,7 +51,7 @@ struct Obj {
 extern "C" Obj *fn_82448010(Obj *self)
 {
     float *low=&lbl_82193CF0[-0x687];
-    float c=lbl_821CC160,d=*low,e=low[0x68c];
+    float c=0.0f,d=*low,e=low[0x68c];
     self->a0 = 0;
     self->f14 = c;
     self->a4 = 0;

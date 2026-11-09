@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int memcpy();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 int * fn_82414898(int *param_1,undefined8 param_2,int param_3,int param_4)
@@ -42,7 +42,7 @@ int * fn_82414898(int *param_1,undefined8 param_2,int param_3,int param_4)
   param_1[0x42] = param_4;
   param_1[0x48] = 1;
   iVar1 = lbl_821CA460;
-  param_1[0x45] = lbl_821CC160;
+  param_1[0x45] = ltcg_pool_0_0f;
   param_1[0x46] = iVar1;
   param_1[0x47] = iVar1;
   param_1[0x43] = param_1[0x32];

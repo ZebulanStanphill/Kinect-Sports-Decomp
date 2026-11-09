@@ -32,7 +32,7 @@ extern int fn_82273C88();
 extern int fn_82273CD8();
 extern int fn_82672C20();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 
 
@@ -77,15 +77,15 @@ void fn_8229D068(float *param_1,int param_2,uint param_3)
   uStack_50 = (longlong)param_2;
   dStack_38 = (double)uStack_50;
   fn_82273CD8(auStack_30,3);
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   uStack_50 = (longlong)(int)param_3;
   dStack_28 = (double)uStack_50;
   if (param_3 == 0) {
-    *param_1 = lbl_821CC160;
+    *param_1 = ltcg_pool_0_0f;
   }
   else {
     if (param_3 == 1) {
-      *param_1 = lbl_821CC160;
+      *param_1 = ltcg_pool_0_0f;
       goto LAB_8229d150;
     }
     if (2 < param_3) goto LAB_8229d150;

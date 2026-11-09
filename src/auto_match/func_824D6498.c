@@ -36,7 +36,7 @@ extern int fn_824D6A88();
 extern int fn_824D6C28();
 extern unsigned int iStack_e0;
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D40A8;
 extern unsigned int lbl_831D40AC;
 extern unsigned int lbl_831D40B0;
@@ -80,9 +80,9 @@ fn_824D6498(undefined8 param_1,int param_2,int param_3,undefined8 param_4,undefi
   
   iVar12 = *(int *)(param_2 + 0x164);
   *param_8 = 0;
-  fVar1 = lbl_821CC160;
-  dVar14 = (double)lbl_821CC160;
-  *param_6 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
+  dVar14 = (double)ltcg_pool_0_0f;
+  *param_6 = ltcg_pool_0_0f;
   *param_7 = fVar1;
   if (iVar12 == 0) {
     return 0;

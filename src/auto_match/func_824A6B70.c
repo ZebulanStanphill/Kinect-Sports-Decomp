@@ -36,7 +36,7 @@ extern int fn_82536288();
 extern int fn_82536358();
 extern int fn_828647D8();
 extern int fn_824A75E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824A6B70(int param_1)
@@ -56,14 +56,14 @@ void fn_824A6B70(int param_1)
   undefined1 auStack_50 [80];
 
   iVar1 = *(int *)(param_1 + 0x3c);
-  if (*(float *)(iVar1 + 0x20) <= lbl_821CC160) {
+  if (*(float *)(iVar1 + 0x20) <= ltcg_pool_0_0f) {
     return;
   }
-  if ((*(float *)(iVar1 + 0x24) <= lbl_821CC160) ||
+  if ((*(float *)(iVar1 + 0x24) <= ltcg_pool_0_0f) ||
      (bVar2 = true, *(float *)(iVar1 + 0x20) <= *(float *)(iVar1 + 0x24))) {
     bVar2 = false;
   }
-  if ((*(float *)(iVar1 + 0x28) <= lbl_821CC160) ||
+  if ((*(float *)(iVar1 + 0x28) <= ltcg_pool_0_0f) ||
      (bVar3 = true,
      *(float *)(*(int *)(param_1 + 0x3c) + 0x20) <= *(float *)(*(int *)(param_1 + 0x3c) + 0x28))) {
     bVar3 = false;

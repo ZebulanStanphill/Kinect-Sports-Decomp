@@ -4,7 +4,6 @@ extern void fn_822D01E8(void *s, int a, int b, int c, void *d, int e);
 extern void *fn_82365BD8(void *tmp, void *src);
 extern int lbl_821AD588[];
 extern int lbl_821ADC90[];
-extern float lbl_821CC160;
 
 typedef struct Sub_822D1DA8 {
   void *vt; char pad[0x2c - 4]; char str[0x1c]; int f48; float f4c; int pad50; int f54;
@@ -30,7 +29,7 @@ Obj_822D1DA8 *fn_822D1DA8(Obj_822D1DA8 *o, int a, int b, void *src, int e)
     fn_82230300(s->str, 0, 0);
     s->f48 = 0;
     s->f54 = 0;
-    s->f4c = lbl_821CC160;
+    s->f4c = 0.0f;
     if (r->rc != 0) fn_822315A0(r->rc);
   }
   return o;

@@ -38,7 +38,7 @@ extern int fn_82522588();
 extern unsigned int iStack_44;
 extern unsigned int lbl_821B90AC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8242E168(int param_1)
@@ -98,7 +98,7 @@ void fn_8242E168(int param_1)
   if ((iVar4 != 0) &&
      (iVar4 = *(int *)(*(int *)(*(int *)(param_1 + 0x174) + 0x9c) + 0x93c), iVar4 != 0)) {
     *(undefined1 *)(iVar4 + 0x30) = 0;
-    uVar2 = lbl_821CC160;
+    uVar2 = ltcg_pool_0_0f;
     *(undefined4 *)(iVar4 + 0x50) = lbl_821CA460;
     *(undefined4 *)(iVar4 + 0x54) = uVar2;
   }

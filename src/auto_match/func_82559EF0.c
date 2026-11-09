@@ -30,7 +30,7 @@ extern double sqrt(double);
 extern unsigned int fStack00000014;
 extern int fn_82809D40();
 extern unsigned int lbl_82195680;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_82559EF0(float *param_1,float *param_2)
@@ -48,17 +48,17 @@ undefined8 fn_82559EF0(float *param_1,float *param_2)
   float in_register_00010018;
   float fStack00000014;
   
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   dVar3 = (double)in_register_00010010;
   dVar4 = (double)in_register_00010018;
   uVar2 = 1;
-  dVar5 = (double)lbl_821CC160;
+  dVar5 = (double)ltcg_pool_0_0f;
   dVar7 = (double)lbl_82195680;
   if ((dVar7 < ABS(dVar3)) || (dVar7 < ABS(dVar4))) {
     dVar6 = (double)SQRT((float)(dVar4 * dVar4 + (double)(float)(dVar3 * dVar3)));
   }
   else {
-    *param_2 = lbl_821CC160;
+    *param_2 = ltcg_pool_0_0f;
     uVar2 = 0;
     *param_1 = fVar1;
     dVar6 = dVar5;

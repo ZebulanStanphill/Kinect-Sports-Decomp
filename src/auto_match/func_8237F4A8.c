@@ -30,7 +30,7 @@ extern unsigned int fStack00000010;
 extern unsigned int fStack00000014;
 extern int fn_82539560();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8237F4A8(double param_1,double param_2,undefined8 param_3)
@@ -46,7 +46,7 @@ double fn_8237F4A8(double param_1,double param_2,undefined8 param_3)
   
   fStack00000010 = (float)((ulonglong)param_3 >> 0x20);
   dVar5 = (double)fStack00000010;
-  dVar2 = (double)lbl_821CC160;
+  dVar2 = (double)ltcg_pool_0_0f;
   dVar3 = (double)lbl_821CA460;
   dVar1 = (double)(float)(param_1 - dVar3);
   dVar4 = (double)(float)(param_2 - dVar3);

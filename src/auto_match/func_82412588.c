@@ -39,7 +39,7 @@ extern int fn_82536590();
 extern int fn_82560100();
 extern float lbl_82192604;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int lbl_832975B0;
 extern unsigned int stack0x00000020;
@@ -136,7 +136,7 @@ LAB_82412704:
     iVar5 = fn_82250A18();
   }
   if (*(char *)(iVar5 + 4) != '\0') {
-    fn_8241CE30((double)lbl_821CC160,*(undefined4 *)(param_1 + 0x24),param_1,3);
+    fn_8241CE30((double)ltcg_pool_0_0f,*(undefined4 *)(param_1 + 0x24),param_1,3);
   }
   return;
 }

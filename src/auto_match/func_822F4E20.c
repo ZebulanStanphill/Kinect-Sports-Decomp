@@ -31,7 +31,7 @@ extern int fn_822F9B78();
 extern int fn_824CCFC8();
 extern unsigned int iStack_1c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -70,7 +70,7 @@ double fn_822F4E20(int param_1,int param_2,int param_3)
       piVar1 = *(int **)(iVar2 + 0xf8);
     }
     if ((piVar1 == (int *)0x0) || (iVar2 = fn_824CCFC8(), iVar2 == 0)) {
-      dVar4 = (double)lbl_821CC160;
+      dVar4 = (double)ltcg_pool_0_0f;
     }
     else {
       dVar4 = (double)(**(code **)(*piVar1 + 0x14))(piVar1);

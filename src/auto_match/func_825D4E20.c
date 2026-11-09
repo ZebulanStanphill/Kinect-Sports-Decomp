@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82640058();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825D4E20(int param_1,undefined8 param_2)
@@ -39,7 +39,7 @@ void fn_825D4E20(int param_1,undefined8 param_2)
   *(undefined4 *)(param_1 + 0x2f04) = 7;
   *(uint *)(param_1 + 0x28dc) =
        *(uint *)(param_1 + 0x28dc) & 0xfffffff0 | -(uint)(*(int *)(param_1 + 0x3148) != 0) & 7;
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   *(ulonglong *)(param_1 + 0x10) = *(ulonglong *)(param_1 + 0x10) | 0x2000000000;
   uVar1 = lbl_821CA460;
   *(undefined4 *)(param_1 + 0x17d0) = uVar2;

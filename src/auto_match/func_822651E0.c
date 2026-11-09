@@ -31,7 +31,6 @@ extern int fn_82528BF8();
 extern int fn_82528E38();
 extern void *memcpy(void*,const void*,unsigned);
 extern void fn_82266CC0(void);
-extern float lbl_821CC160;
 
 
 int fn_822651E0(int param_1,int param_2,undefined4 param_3,undefined4 *param_4,undefined4 param_5,
@@ -44,7 +43,7 @@ int fn_822651E0(int param_1,int param_2,undefined4 param_3,undefined4 *param_4,u
   memcpy((void*)param_1,(void*)param_2,0xd0);
   *(undefined4 *)(param_1 + 0xdc) = 0;
   *(undefined4 *)(param_1 + 0xe0) = 0;
-  f = lbl_821CC160;
+  f = 0.0f;
   *(undefined4 *)(param_1 + 0xe4) = 0;
   *(float *)(param_1 + 0xe8) = f;
   *(float *)(param_1 + 0xec) = f;

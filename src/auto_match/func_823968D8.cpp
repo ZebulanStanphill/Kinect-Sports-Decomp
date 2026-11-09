@@ -24,12 +24,11 @@ extern "C" {
 extern void fn_822AE9D8(void *);
 extern void fn_82398250(void *, int);
 extern void fn_823985A8(void *);
-extern float lbl_821CC160;
 
 void fn_823968D8(Obj_823968D8 *self)
 {
   fn_822AE9D8(self->src);
-  self->f_bc4 = lbl_821CC160;
+  self->f_bc4 = 0.0f;
   fn_823985A8(self);
   fn_82398250(self, 1);
   Tab_823968D8 *t = **self->src;

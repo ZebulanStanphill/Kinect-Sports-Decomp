@@ -7,11 +7,10 @@ typedef struct S_824E1468 {
 } S_824E1468;
 typedef struct Owner_824E1468 { char pad[0xfc]; S_824E1468 *s; } Owner_824E1468;
 extern int fn_824CD030(void);
-extern float lbl_821CC160;
 
 void fn_824E1468(Owner_824E1468 *o)
 {
-  o->s->f60 = lbl_821CC160;
+  o->s->f60 = 0.0f;
   if (fn_824CD030() != 0) {
     o->s->p0->vt->f24(o->s->p0);
     o->s->pc->vt->f24(o->s->pc);

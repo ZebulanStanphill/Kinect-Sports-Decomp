@@ -31,7 +31,7 @@ extern int fn_822B69A0();
 extern int fn_822C4448();
 extern int fn_824CD030();
 extern unsigned int lbl_821962C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Removing unreachable block (ram,0x82316658) */
@@ -98,7 +98,7 @@ void fn_823164D8(undefined8 param_1,int param_2)
     fn_822C4448(auStack_110,*(undefined4 *)(param_2 + 0xc),*(undefined4 *)(param_2 + 0x10),0,1
                      );
     (**(code **)(**(int **)(param_2 + 0x5d0) + 4))
-              (param_1,ABS(dVar6),(double)lbl_821CC160,*(int **)(param_2 + 0x5d0),iVar2);
+              (param_1,ABS(dVar6),(double)ltcg_pool_0_0f,*(int **)(param_2 + 0x5d0),iVar2);
   }
   return;
 }

@@ -30,7 +30,7 @@ extern unsigned int lbl_821917B0;
 extern unsigned int lbl_821917D4;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -43,14 +43,14 @@ void fn_8234B238(double param_1,int param_2)
   float fVar4;
   undefined4 uVar5;
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0x40) != 0) {
     fVar1 = (float)((double)*(float *)(param_2 + 0x40) - param_1);
     fVar2 = -fVar1;
-    fVar3 = lbl_821CC160;
+    fVar3 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar2) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar3 = fVar1;
     }
     *(float *)(param_2 + 0x40) = fVar3;

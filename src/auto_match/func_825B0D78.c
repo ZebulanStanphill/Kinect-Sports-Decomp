@@ -33,7 +33,7 @@ extern int fn_8284D890();
 extern int fn_8284F488();
 extern int fn_8284F498();
 extern int fn_8284F560();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825B0D78(int param_1,undefined8 param_2,int *param_3,int *param_4)
@@ -67,7 +67,7 @@ void fn_825B0D78(int param_1,undefined8 param_2,int *param_3,int *param_4)
   uVar4 = fn_8284F488(param_3);
   uVar13 = 0;
   if (uVar4 != 0) {
-    dVar20 = (double)lbl_821CC160;
+    dVar20 = (double)ltcg_pool_0_0f;
     iVar16 = 0;
     do {
       pcVar19 = *(char **)(*(int *)(iVar16 + param_3[2] + 0x80) + 4);

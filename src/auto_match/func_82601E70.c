@@ -32,7 +32,7 @@ extern int fn_8255DEA0();
 extern int fn_8255E320();
 extern int fn_82603068();
 extern int fn_82603170();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorAddFloatingPoint();
@@ -175,7 +175,7 @@ void fn_82601E70(double param_1,int param_2)
   puVar5[2] = uVar13;
   puVar5[3] = uVar14;
 LAB_82601ff0:
-  if ((param_1 == (double)lbl_821CC160) || (*(uint *)(param_2 + 0x1c) < 2)) {
+  if ((param_1 == (double)ltcg_pool_0_0f) || (*(uint *)(param_2 + 0x1c) < 2)) {
     puVar5 = (undefined4 *)(param_2 + 0x80U & 0xfffffff0);
     *puVar5 = in_register_000104d0;
     puVar5[1] = in_register_000104d4;

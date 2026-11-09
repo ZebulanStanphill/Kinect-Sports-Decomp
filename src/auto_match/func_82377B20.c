@@ -34,7 +34,7 @@ extern int fn_8237AFE8();
 extern int fn_82F63108();
 extern unsigned int iStack_6c;
 extern unsigned int iStack_70;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82377B20(double param_1,undefined8 param_2)
@@ -93,7 +93,7 @@ void fn_82377B20(double param_1,undefined8 param_2)
   *(undefined4 *)(iStack_70 + 0x2148) = 0x18;
   *(undefined4 *)(iStack_70 + 0xdc) = 0;
   dVar4 = (double)fn_82379A60(iStack_70);
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   *(float *)(iStack_70 + 0x120) = (float)(-(double)fStack_5c / dVar4);
   if (fVar2 <= *(float *)(iStack_70 + 0x38)) {
     uVar3 = 1;

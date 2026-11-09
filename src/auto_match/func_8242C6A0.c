@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_822ABA88();
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8242C6A0(int param_1,int param_2,undefined8 param_3,int param_4)
@@ -49,7 +49,7 @@ void fn_8242C6A0(int param_1,int param_2,undefined8 param_3,int param_4)
   iVar5 = 0;
   if ((piVar4[1] - *piVar4 & 0xfffffffcU) != 0) {
     lVar2 = 0;
-    dVar6 = (double)lbl_821CC160;
+    dVar6 = (double)ltcg_pool_0_0f;
     do {
       piVar4 = *(int **)(*(int *)uVar3 + (int)lVar2);
       iVar1 = fn_822ABA88(*(undefined4 *)(piVar4[4] * 4 + *piVar4),0);

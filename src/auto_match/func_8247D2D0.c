@@ -2,7 +2,6 @@ extern void *fn_822C5B18(void *, void *);
 extern void fn_82359C18(void *);
 extern void *memcpy(void *, const void *, unsigned int);
 extern unsigned int lbl_821BD574;
-extern float lbl_821CC160;
 
 unsigned int *fn_8247D2D0(unsigned int *param_1, unsigned char *param_2, int param_3, int param_4,
                           void *param_5, int param_6)
@@ -14,7 +13,7 @@ unsigned int *fn_8247D2D0(unsigned int *param_1, unsigned char *param_2, int par
   unsigned int *pBase;
 
   param_1[1] = 3;
-  fVar1 = lbl_821CC160;
+  fVar1 = 0.0f;
   *param_1 = (unsigned int)&lbl_821BD574;
   *(float *)(param_1 + 3) = fVar1;
   param_1[2] = 0;

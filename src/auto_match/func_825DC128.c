@@ -33,7 +33,7 @@ extern float lbl_82195590;
 extern float lbl_821955A0;
 extern float lbl_82195800;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -47,10 +47,10 @@ undefined8 fn_825DC128(undefined8 param_1,int param_2,longlong param_3)
   
   fn_82A1DD38(param_2 + 0x130,param_2 + 0x378,0x124);
   fn_82A1DD38(param_2 + 0x254,param_3 + 0x9c,0x124);
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   fVar2 = lbl_821916FC;
   fVar1 = *(float *)(param_2 + 0x6e4);
-  *(float *)(param_2 + 0xfbc) = lbl_821CC160;
+  *(float *)(param_2 + 0xfbc) = ltcg_pool_0_0f;
   if (fVar2 < fVar1 - *(float *)(param_2 + 0x104)) {
     *(float *)(param_2 + 0x290) = fVar3;
   }

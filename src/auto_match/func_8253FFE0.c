@@ -32,7 +32,7 @@ extern unsigned int lbl_82192488;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821956A8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_8253FFE0(double param_1)
@@ -42,7 +42,7 @@ double fn_8253FFE0(double param_1)
   double dVar2;
   double dVar3;
   
-  dVar3 = (double)lbl_821CC160;
+  dVar3 = (double)ltcg_pool_0_0f;
   bVar1 = ((double)(float)(param_1 - (double)lbl_8218EC10) < dVar3) << 3 |
           (NAN((double)(float)(param_1 - (double)lbl_8218EC10)) || NAN(dVar3));
   dVar2 = (double)fn_82F655D8(lbl_821956A8,(double)(float)(param_1 * (double)lbl_82192488));

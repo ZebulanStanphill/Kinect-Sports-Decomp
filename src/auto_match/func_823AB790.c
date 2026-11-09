@@ -31,7 +31,7 @@ extern int fn_8239D490();
 extern int fn_8256D470();
 extern unsigned int iStack_54;
 extern unsigned int iStack_58;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_823AB790(int *param_1,int param_2,ulonglong param_3,uint param_4)
@@ -99,7 +99,7 @@ LAB_823ab8dc:
     }
   }
   fn_8256D470(&lStack_60,piVar5,puVar6);
-  if ((float)param_1[0x23] <= lbl_821CC160) {
+  if ((float)param_1[0x23] <= ltcg_pool_0_0f) {
     param_1[1] = 2;
   }
   if (iStack_54 != 0) {

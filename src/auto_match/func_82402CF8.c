@@ -1,4 +1,3 @@
-extern float lbl_821CC160;
 extern float lbl_831D31E8[];
 extern void *lbl_8327F844;
 
@@ -19,7 +18,7 @@ void fn_82402CF8(int param_1, int param_2, int param_3)
     if ((*(int *)(param_1 + 0x27c) == 0) && (*(int *)(param_1 + 0x368) != 0)) {
         r = fn_824CCD80(*(int *)(param_1 + 0x10));
         if (lbl_8327F844 != 0) {
-            fn_82530158(lbl_8327F844, lbl_821CC160, lbl_831D31E8[0x44], r);
+            fn_82530158(lbl_8327F844, 0.0f, lbl_831D31E8[0x44], r);
         }
         *(int *)(param_1 + 0x368) = 0;
     }

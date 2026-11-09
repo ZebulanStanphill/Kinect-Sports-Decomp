@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_4c;
 extern int fn_824B5980();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_50;
 
 
@@ -46,7 +46,7 @@ double fn_824B58A8(undefined8 param_1,undefined4 *param_2,int param_3)
   
   (**(code **)*param_2)(param_2,auStack_4c,&uStack_50);
   lVar3 = 0;
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   if (0 < param_3) {
     do {
       uVar2 = (ulonglong)uStack_50 - lVar3;

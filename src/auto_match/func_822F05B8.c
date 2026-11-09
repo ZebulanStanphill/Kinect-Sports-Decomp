@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_822F01F8();
 extern int fn_82539560();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CD294;
 extern unsigned int lbl_831CD298;
 
@@ -51,7 +51,7 @@ undefined8 fn_822F05B8(int param_1)
                     /* WARNING: Subroutine does not return */
       fn_82539560((double)(*(float *)(*(int *)(iVar2 + 0x2e0) + 0x94) + *(float *)(iVar3 + 0x170)),
                    (double)(fVar1 * lbl_831CD294),(double)(fVar1 * lbl_831CD298),
-                   (double)lbl_821CC160,(double)lbl_821CA460);
+                   (double)ltcg_pool_0_0f,(double)lbl_821CA460);
     }
   }
   else {

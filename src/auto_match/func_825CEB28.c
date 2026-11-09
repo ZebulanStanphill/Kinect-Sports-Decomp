@@ -74,7 +74,7 @@ extern float lbl_821954D0;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_82195BA4;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326C250;
 extern unsigned int lbl_83296C80;
@@ -222,7 +222,7 @@ void fn_825CEB28(undefined8 param_1,longlong param_2)
     puVar16 = lbl_8320A898;
     dVar24 = (double)lbl_8218E8E8;
     uVar17 = (ulonglong)(uVar2 >> 3) & 1;
-    dVar23 = (double)lbl_821CC160;
+    dVar23 = (double)ltcg_pool_0_0f;
     uVar21 = (ulonglong)((double)fVar1 * dVar22 + dVar24);
     *(uint *)((int)lbl_8320A898 + 0x293c) = *(uint *)((int)lbl_8320A898 + 0x293c) | 8;
     puVar16[2] = puVar16[2] | 0x40200;

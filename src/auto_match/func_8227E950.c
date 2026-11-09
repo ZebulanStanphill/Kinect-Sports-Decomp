@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8227EB10();
-extern float lbl_821CC160;
 
 
 void fn_8227E950(int *param_1,int *param_2,unsigned param_3)
@@ -53,7 +52,7 @@ void fn_8227E950(int *param_1,int *param_2,unsigned param_3)
 
     if ((param_2 != (int *)0x0) && (piVar3 = (int *)param_2[0x13], piVar3 != (int *)param_2[0x14]))
     {
-      uVar2=lbl_821CC160;
+      uVar2=0.0f;
       do {
         iVar1 = *piVar3;
         piVar3 = piVar3 + 1;

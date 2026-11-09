@@ -32,7 +32,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_82192A78;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82368F90(undefined8 param_1,int param_2,undefined8 param_3,int param_4,uint param_5,
@@ -56,7 +56,7 @@ void fn_82368F90(undefined8 param_1,int param_2,undefined8 param_3,int param_4,u
   fn_8252CB48(*(undefined4 *)(iVar2 + param_2),param_3,1,uVar3 & 0xff);
   fn_8252CB48(*(undefined4 *)(iVar2 + param_2),param_3,2,param_6 == 0);
   if (*(int *)(param_2 + 0x34c) != 0) {
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
     if ((param_6 == 0) && (fVar1 = lbl_821CA460, param_5 != 0)) {
                     /* WARNING: Subroutine does not return */
       fn_82539560(param_1,(double)lbl_82192A78,(double)lbl_821916FC,(double)lbl_821917C0,

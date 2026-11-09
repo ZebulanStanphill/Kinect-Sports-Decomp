@@ -35,7 +35,7 @@ extern int fn_82F6A594();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195680;
 extern unsigned int lbl_82195684;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8255FB38(void)
@@ -59,7 +59,7 @@ void fn_8255FB38(void)
   dVar5 = (double)fn_827F6428(lVar1);
   if (dVar4 != dVar5) {
     dVar6 = (double)fn_827F6310(lVar1);
-    dVar8 = (double)lbl_821CC160;
+    dVar8 = (double)ltcg_pool_0_0f;
     dVar9 = dVar5;
     if ((dVar6 < dVar8) || (iVar3 = fn_827F9DF8(lVar1 + 0x24), dVar9 = dVar5, iVar3 == 1)) {
       dVar7 = (double)(float)(dVar10 - (double)lbl_82195680);

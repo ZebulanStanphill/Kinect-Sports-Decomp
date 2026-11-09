@@ -40,7 +40,7 @@ extern unsigned int iStack_54;
 extern unsigned int iStack_5c;
 extern unsigned int iStack_60;
 extern unsigned int lbl_821AE598;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorAddFloatingPoint();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
@@ -97,10 +97,10 @@ void fn_822F67E8(double param_1,int param_2)
     fn_827F6210((double)*(float *)(param_2 + 0x50),
                       *(undefined4 *)
                        (*(int *)(*(int *)(*(int *)(param_2 + 0xc) + 0x118) + 0xc) + 0x110));
-    if ((double)lbl_821CC160 < (double)*(float *)(param_2 + 0xb0)) {
+    if ((double)ltcg_pool_0_0f < (double)*(float *)(param_2 + 0xb0)) {
       return;
     }
-    if (dVar12 <= (double)lbl_821CC160) {
+    if (dVar12 <= (double)ltcg_pool_0_0f) {
       return;
     }
     *(undefined4 *)(*(int *)(param_2 + 0xc) + 700) = 1;
@@ -108,7 +108,7 @@ void fn_822F67E8(double param_1,int param_2)
   }
   fVar1 = (float)((double)*(float *)(param_2 + 0xb4) - param_1);
   *(float *)(param_2 + 0xb4) = fVar1;
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   if ((double)fVar1 < dVar12) {
     bVar10 = true;
     puVar6 = (undefined4 *)fn_822E5FA8(auStack_58,*(undefined4 *)(param_2 + 0xc));

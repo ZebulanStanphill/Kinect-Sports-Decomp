@@ -35,7 +35,7 @@ extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82194CFF;
 extern unsigned int lbl_82196750;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 extern unsigned int uStack_7c;
 extern unsigned int uStack_80;
@@ -224,7 +224,7 @@ fn_823DFF38(undefined8 param_1,int param_2,undefined8 param_3,ulonglong param_4,
       return 1;
     }
   }
-  uStack_80 = lbl_821CC160;
+  uStack_80 = ltcg_pool_0_0f;
   puVar6 = (undefined4 *)((uint)(&lbl_82196750 + iVar9) & 0xfffffff0);
   uVar19 = puVar6[1];
   uVar20 = puVar6[2];

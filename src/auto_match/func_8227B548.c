@@ -42,7 +42,6 @@ typedef struct Obj_8227B548 {
 extern int *fn_82279C58(Tmp_8227B548 *, Obj_8227B548 *);
 extern void fn_82672C20(int, const char *, int, int);
 extern void fn_822315A0(unsigned);
-extern float lbl_821CC160;
 
 void fn_8227B548(Obj_8227B548 *o)
 {
@@ -55,7 +54,7 @@ void fn_8227B548(Obj_8227B548 *o)
                 fn_822315A0(t.rc);
             }
             o->m48 = 1;
-            o->m4c = lbl_821CC160;
+            o->m4c = 0.0f;
         }
     } else {
         o->m54 = 1;

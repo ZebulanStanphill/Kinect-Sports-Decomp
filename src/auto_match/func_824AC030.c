@@ -29,7 +29,7 @@ extern unsigned int *auStack_58;
 extern float fRam831c4eb0;
 extern int fn_824A5010();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831c4ea8;
 extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
@@ -49,8 +49,8 @@ void fn_824AC030(int param_1,int *param_2)
   undefined4 auStack_58 [22];
   
   *(undefined4 *)(param_1 + 0x3c) = 0;
-  dVar6 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x30) = lbl_821CC160;
+  dVar6 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x30) = ltcg_pool_0_0f;
   (**(code **)*param_2)(param_2,&uStack_5c,&uStack_60);
   uVar3 = (ulonglong)uStack_60;
   uVar4 = (uVar3 - uRam831c4ea8) + 1;

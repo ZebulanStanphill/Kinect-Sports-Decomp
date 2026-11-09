@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82271C18();
 extern int fn_8228C2C8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 fn_822724D0(int param_1)
@@ -52,7 +52,7 @@ undefined4 fn_822724D0(int param_1)
     *(undefined4 *)(param_1 + 0xd0) = 0;
     *(undefined4 *)(param_1 + 0xc0) = *(undefined4 *)(param_1 + 0xbc);
     *(uint *)(param_1 + 0xc4) = (uint)LZCOUNT(*(undefined4 *)(param_1 + 0xbc)) >> 5;
-    uVar4 = lbl_821CC160;
+    uVar4 = ltcg_pool_0_0f;
     iVar5 = *piVar6;
     if (iVar5 != piVar6[1]) {
       do {

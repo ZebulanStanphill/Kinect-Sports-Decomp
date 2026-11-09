@@ -39,7 +39,7 @@ extern unsigned int lbl_8219248C;
 extern unsigned int lbl_82192754;
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8328D41C;
 
 
@@ -81,7 +81,7 @@ void fn_82349F78(int param_1,int param_2,int param_3)
             return;
           }
           uVar5 = 0xffffffff821b1ad8;
-          fVar1 = lbl_821CC160;
+          fVar1 = ltcg_pool_0_0f;
           goto LAB_8234a21c;
         }
         if (iVar3 == 0xe) {
@@ -134,7 +134,7 @@ void fn_82349F78(int param_1,int param_2,int param_3)
   }
   (**(code **)(*piVar7 + 0x40))(aiStack_28,piVar7,0);
   fn_82436130(&lStack_30,piVar7,**(undefined4 **)(param_1 + 0xc));
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if ((((((U64)(lStack_30) >> 0) & 0xFFFFFFFF) <= lbl_8328D41C) || (aiStack_28[0] < (((U64)(lStack_30) >> 0) & 0xFFFFFFFF))) &&
      (aiStack_28[0] < *(int *)(piVar7[0x10] + 0x118))) {
     lStack_30 = (longlong)aiStack_28[0];

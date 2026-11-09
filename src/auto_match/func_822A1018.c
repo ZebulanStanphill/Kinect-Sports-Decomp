@@ -40,7 +40,6 @@ extern int fn_8266F660();
 extern int fn_82673A28();
 extern int fn_82673C58();
 extern unsigned int iStack_2c;
-extern float lbl_821CC160;
 
 
 undefined4 * fn_822A1018(undefined4 *param_1,undefined8 param_2)
@@ -55,8 +54,8 @@ undefined4 * fn_822A1018(undefined4 *param_1,undefined8 param_2)
   fn_82266D28(param_1,0);
   *(undefined1 *)(param_1 + 2) = 0;
   *(undefined1 *)((int)param_1 + 9) = 0;
-  uVar1 = lbl_821CC160;
-  ((float *)param_1)[8] = lbl_821CC160;
+  uVar1 = 0.0f;
+  ((float *)param_1)[8] = 0.0f;
   ((float *)param_1)[9] = uVar1;
   uVar2 = fn_8266EF20(&pair,fn_8266EC60(),param_2,0,0,0x18280143);
   fn_823F2E20(param_1,uVar2);

@@ -47,7 +47,7 @@ extern unsigned int lbl_82195A9C;
 extern unsigned int lbl_821CA1A4;
 extern unsigned int lbl_821CA1A8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1C4C;
 extern unsigned int lbl_83265A28;
 extern unsigned int stack0x00000020;
@@ -103,7 +103,7 @@ void fn_8237A598(int param_1,undefined4 *param_2,int param_3)
   puVar2[1] = in_register_000104d4;
   puVar2[2] = in_register_000104d8;
   puVar2[3] = in_vr77;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   dVar8 = (double)lbl_821CA460;
   puVar2 = (undefined4 *)((uint)(auStack_80 + in_r0) & 0xfffffff0);
   *puVar2 = uVar5;

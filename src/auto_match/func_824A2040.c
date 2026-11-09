@@ -31,7 +31,7 @@ extern int fn_827F4058();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824A2040(double param_1,int param_2)
@@ -47,7 +47,7 @@ void fn_824A2040(double param_1,int param_2)
   else {
     fn_824A2128();
   }
-  fVar2 = lbl_821CC160;
+  fVar2 = ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0xd8) != 0) {
     fVar2 = lbl_821CA460;
   }
@@ -55,13 +55,13 @@ void fn_824A2040(double param_1,int param_2)
   fVar1 = (float)(param_1 * (double)lbl_821916FC);
   fVar3 = fVar2 - -fVar1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar3 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar3) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar3 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar2 = -fVar1;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar2 - fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar2 - fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar2 - fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar2 - fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar1 = fVar2;
   }
   *(float *)(param_2 + 0xdc) = fVar1 + *(float *)(param_2 + 0xdc);

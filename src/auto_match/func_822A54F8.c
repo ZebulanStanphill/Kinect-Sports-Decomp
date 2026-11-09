@@ -29,7 +29,7 @@ extern int fn_822A5680();
 extern int fn_82539560();
 extern int fn_82559D80();
 extern int fn_82559E70();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D1334;
 extern unsigned int lbl_831D1338;
 extern unsigned int lbl_831D133C;
@@ -63,7 +63,7 @@ void fn_822A54F8(double param_1,uint *param_2,undefined8 param_3)
 LAB_822a560c:
     param_2[4] = uVar4;
     *param_2 = uVar5;
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
   }
   else {
     if (uVar4 == 1) {
@@ -78,7 +78,7 @@ LAB_822a560c:
       dVar8 = (double)(float)((double)(float)param_2[5] + param_1);
       param_2[5] = (uint)(float)((double)(float)param_2[5] + param_1);
       uVar5 = (uint)((double)*(float *)(uVar4 + 0xc) <= dVar8);
-      dVar8 = (double)fn_82539560(dVar8,(double)lbl_821CC160,(double)*(float *)(uVar4 + 0xc),
+      dVar8 = (double)fn_82539560(dVar8,(double)ltcg_pool_0_0f,(double)*(float *)(uVar4 + 0xc),
                                    (double)lbl_831D1338,(double)lbl_831D133C);
       param_2[0x10] = (uint)(float)dVar8;
       if (uVar5 == 0) goto LAB_822a5620;
@@ -90,7 +90,7 @@ LAB_822a560c:
       dVar8 = (double)(float)((double)(float)param_2[5] + param_1);
       param_2[5] = (uint)(float)((double)(float)param_2[5] + param_1);
       uVar5 = (uint)((double)*(float *)(uVar4 + 0xc) <= dVar8);
-      dVar8 = (double)fn_82539560(dVar8,(double)lbl_821CC160,(double)*(float *)(uVar4 + 0xc),
+      dVar8 = (double)fn_82539560(dVar8,(double)ltcg_pool_0_0f,(double)*(float *)(uVar4 + 0xc),
                                    (double)lbl_831D133C,(double)lbl_831D1338);
       param_2[0x10] = (uint)(float)dVar8;
       if (uVar5 == 0) goto LAB_822a5620;

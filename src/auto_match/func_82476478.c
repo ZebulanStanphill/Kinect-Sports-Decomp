@@ -45,7 +45,7 @@ extern int memcpy();
 extern unsigned int lbl_8218E8E8;
 extern float lbl_821917D4;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 
 
@@ -118,7 +118,7 @@ undefined8 fn_82476478(double param_1,longlong param_2,undefined8 param_3,int pa
       goto LAB_82476584;
       *(undefined4 *)(iVar6 + 0xe0) = 0;
     }
-    *(undefined4 *)(iVar6 + 0x10c) = lbl_821CC160;
+    *(undefined4 *)(iVar6 + 0x10c) = ltcg_pool_0_0f;
   }
 LAB_82476584:
   iVar8 = *(int *)(*(int *)(iVar6 + 0x14) + 0x84);

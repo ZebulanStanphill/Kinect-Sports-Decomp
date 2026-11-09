@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
 extern int fn_822ABA88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_823759C8(undefined8 param_1,int param_2)
@@ -57,7 +57,7 @@ undefined8 fn_823759C8(undefined8 param_1,int param_2)
       uVar8 = ZEXT48(piVar1);
       uVar7 = (ulonglong)*(uint *)(*(int *)(piVar1[4] * 4 + *piVar1) + 8);
       if (uVar7 != 0) {
-        dVar9 = (double)lbl_821CC160;
+        dVar9 = (double)ltcg_pool_0_0f;
         do {
           iVar3 = fn_822ABA88(*(undefined4 *)(((int *)uVar8)[4] * 4 + *(int *)uVar8));
           iVar2 = (int)param_1;

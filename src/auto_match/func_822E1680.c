@@ -31,7 +31,7 @@ extern int fn_822CF008();
 extern unsigned int lbl_821914B0;
 extern unsigned int lbl_821929B0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_822E1680(int param_1)
@@ -46,7 +46,7 @@ undefined8 fn_822E1680(int param_1)
   float afStack_40 [4];
   undefined1 auStack_30 [24];
   
-  if (*(float *)(param_1 + 0x4c) < lbl_821CC160) {
+  if (*(float *)(param_1 + 0x4c) < ltcg_pool_0_0f) {
     if (*(int *)(*(int *)(param_1 + 0x10) + 0x54) == 0xb) {
       iVar5 = fn_822CF008((double)lbl_821929B0,*(undefined4 *)(param_1 + 0x14));
       if (iVar5 != 0) {

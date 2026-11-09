@@ -31,7 +31,7 @@ extern int fn_822CEFA0();
 extern int fn_823737B8();
 extern int fn_823815D0();
 extern int fn_82381948();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82381120(int param_1,int param_2,int param_3,undefined8 param_4,undefined8 param_5,
@@ -64,9 +64,9 @@ void fn_82381120(int param_1,int param_2,int param_3,undefined8 param_4,undefine
     goto LAB_823811bc;
   }
   if (*(int *)(iVar2 + 0x2a4) == 0) {
-    if (dVar5 < (double)lbl_821CC160) goto LAB_823811fc;
+    if (dVar5 < (double)ltcg_pool_0_0f) goto LAB_823811fc;
   }
-  else if ((double)lbl_821CC160 < dVar5) {
+  else if ((double)ltcg_pool_0_0f < dVar5) {
 LAB_823811fc:
     uVar4 = 10;
     goto LAB_823811bc;

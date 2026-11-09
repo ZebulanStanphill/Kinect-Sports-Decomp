@@ -32,7 +32,7 @@ extern int fn_82414950();
 extern int fn_82528948();
 extern int fn_82536070();
 extern int fn_82536590();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
@@ -120,7 +120,7 @@ LAB_82419bd0:
     fn_82414950(uVar4,0,uVar5);
   }
   uVar1 = *param_1;
-  param_1[0x8d] = lbl_821CC160;
+  param_1[0x8d] = ltcg_pool_0_0f;
   if (*(int *)(uVar1 + 0xcb8) == 0) {
     if (param_1 != *(uint **)(uVar1 + 0x2b20)) goto LAB_82419c38;
     iVar3 = *(int *)(uVar1 + 0xd4);

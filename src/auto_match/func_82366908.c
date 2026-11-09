@@ -34,7 +34,7 @@ extern unsigned int lbl_821B2D1C;
 extern unsigned int lbl_821CA1A0;
 extern unsigned int lbl_821CA1A4;
 extern unsigned int lbl_821CA1A8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 longlong fn_82366908(longlong param_1,undefined4 param_2,undefined8 param_3)
@@ -80,7 +80,7 @@ longlong fn_82366908(longlong param_1,undefined4 param_2,undefined8 param_3)
   puVar2[3] = in_vr77;
   puVar1[0x7c] = lbl_8219676C;
   puVar1[0x7d] = lbl_82196770;
-  uVar5 = lbl_821CC160;
+  uVar5 = ltcg_pool_0_0f;
   puVar1[0x7e] = lbl_82196774;
   puVar1[0x7f] = lbl_821CA1A0;
   puVar1[0x80] = lbl_821CA1A4;

@@ -62,7 +62,7 @@ extern unsigned int lbl_821BF0D4;
 extern unsigned int lbl_821BF15C;
 extern unsigned int lbl_821BF170;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_27c;
 extern unsigned int uStack_280;
 extern unsigned int uStack_28c;
@@ -126,7 +126,7 @@ int * fn_8249A540(int *param_1,int *param_2)
   param_1[8] = 0;
   param_1[9] = 0;
   param_1[0xb] = 0;
-  iVar11 = lbl_821CC160;
+  iVar11 = ltcg_pool_0_0f;
   piVar18 = param_1 + 0xd;
   dVar20 = (double)lbl_82192734;
   param_1[10] = (int)lbl_82192734;
@@ -142,7 +142,7 @@ int * fn_8249A540(int *param_1,int *param_2)
   param_1[0xe] = iVar11;
   *(int *)iVar11 = iVar11;
   *(int *)(param_1[0xe] + 4) = param_1[0xe];
-  iVar11 = lbl_821CC160;
+  iVar11 = ltcg_pool_0_0f;
   *(int *)(param_1[0xe] + 8) = param_1[0xe];
   piVar17 = param_1 + 0x28;
   *(undefined1 *)(param_1[0xe] + 0x14) = 1;
@@ -325,7 +325,7 @@ int * fn_8249A540(int *param_1,int *param_2)
   }
   fn_824A0AD8(auStack_2a0,piVar18,iVar14);
   puVar13 = (undefined4 *)fn_8265C9E0(0x20);
-  iVar11 = lbl_821CC160;
+  iVar11 = ltcg_pool_0_0f;
   if (puVar13 == (undefined4 *)0x0) {
     puVar13 = (undefined4 *)0x0;
   }

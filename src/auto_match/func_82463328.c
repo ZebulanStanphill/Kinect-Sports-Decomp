@@ -35,7 +35,7 @@ extern int fn_82F4EEC0();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195530;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_82463328(int param_1)
@@ -80,9 +80,9 @@ double fn_82463328(int param_1)
   bVar7 = true;
   dVar10 = (double)fStack_28;
   dVar11 = (double)fStack_30;
-  dVar13 = (double)lbl_821CC160;
+  dVar13 = (double)ltcg_pool_0_0f;
   dVar12 = (double)lbl_82195530;
-  fStack_2c = lbl_821CC160;
+  fStack_2c = ltcg_pool_0_0f;
   dVar9 = dVar12;
   if ((double)((float)(dVar10 - (double)fVar2) * (float)((double)fVar4 - (double)fVar1) -
               (float)(dVar11 - (double)fVar1) * (float)((double)fVar3 - (double)fVar2)) <= dVar13) {

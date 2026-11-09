@@ -72,7 +72,6 @@ struct Self_8235C0A8 {
 
 extern "C" {
 extern char lbl_821A8D8C[];
-extern float lbl_821CC160;
 void *fn_8265C9E0(unsigned int size);
 void fn_82573D30(Counter_8235C0A8 *c);
 void fn_82416D20(int *pool, Slot_8235C0A8 *slot);
@@ -152,7 +151,7 @@ extern "C" void fn_8235C0A8(Self_8235C0A8 *param_1)
             }
         }
         {
-            float v = lbl_821CC160;
+            float v = 0.0f;
             Screen_8235C0A8 *s = param_1->screen.ptr;
             s->a84 = 0xf;
             s->a4c = v;

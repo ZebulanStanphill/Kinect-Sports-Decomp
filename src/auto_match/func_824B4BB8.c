@@ -11,7 +11,6 @@ extern void *fn_8265C9E0(int);
 extern void fn_824B4310(void *, void *);
 extern char lbl_821C022C[];
 extern V3_824B4BB8 lbl_821CA1A0;
-extern float lbl_821CC160;
 
 Obj_824B4BB8 *fn_824B4BB8(void *param_1)
 {
@@ -19,7 +18,7 @@ Obj_824B4BB8 *fn_824B4BB8(void *param_1)
     if (p != 0) {
         float f;
         fn_824B4310(p, param_1);
-        f = lbl_821CC160;
+        f = 0.0f;
         p->vt = lbl_821C022C;
         p->f48 = f;
         p->v = lbl_821CA1A0;

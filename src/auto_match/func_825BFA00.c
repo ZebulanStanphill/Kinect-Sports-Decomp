@@ -36,7 +36,7 @@ extern int fn_825C0F18();
 extern int fn_825C1138();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D4598;
 extern unsigned int lbl_831D45A8;
 extern unsigned int lbl_831D45DC;
@@ -77,14 +77,14 @@ void fn_825BFA00(int *param_1,undefined8 param_2,int param_3,undefined8 param_4,
   puVar3[1] = in_register_00010014;
   puVar3[2] = in_register_00010018;
   puVar3[3] = in_vr1;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (iVar11 != 0) {
     fVar4 = (float)param_1[0x16] - *(float *)(param_3 + 0xb3c);
     fVar6 = -fVar4;
-    fVar5 = lbl_821CC160;
+    fVar5 = ltcg_pool_0_0f;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar6 < lbl_821CC160) << 2) |
-                  (uint)(NAN(fVar6) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                  ((uint)(byte)((fVar6 < ltcg_pool_0_0f) << 2) |
+                  (uint)(NAN(fVar6) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar5 = fVar4;
     }
     param_1[0x16] = (int)fVar5;
@@ -131,7 +131,7 @@ LAB_825bfafc:
       dVar15 = (double)lbl_82195530;
       dVar16 = dVar15;
       if (0 < param_1[0xb]) {
-        dVar14 = (double)lbl_821CC160;
+        dVar14 = (double)ltcg_pool_0_0f;
         iVar9 = 0;
         do {
           dVar13 = (double)*(float *)(iVar9 + *param_1 + 0x28);

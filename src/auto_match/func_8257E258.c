@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82539560();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined1 fn_8257E258(double param_1,int param_2,undefined8 param_3,int param_4)
@@ -51,13 +51,13 @@ undefined1 fn_8257E258(double param_1,int param_2,undefined8 param_3,int param_4
   dVar5 = (double)fVar1;
   *(float *)(param_2 + 0x54) = fVar1;
   fVar1 = lbl_821CA460;
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   if (*(char *)(param_2 + 0x65) != '\0') {
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
     fVar3 = lbl_821CA460;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82539560(dVar5,(double)lbl_821CC160,(double)*(float *)(param_2 + 0x58),(double)fVar1,
+  fn_82539560(dVar5,(double)ltcg_pool_0_0f,(double)*(float *)(param_2 + 0x58),(double)fVar1,
                (double)fVar3,(double)*(float *)(param_2 + 0x58) <= dVar5);
 }
 

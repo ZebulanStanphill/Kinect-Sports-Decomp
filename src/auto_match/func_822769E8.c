@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_22e;
 extern int fn_822C5B18();
 extern int fn_82F691F0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -41,7 +41,7 @@ void fn_822769E8(int param_1,undefined8 param_2,undefined8 param_3)
   
   fn_822C5B18(param_1,param_3);
   *(undefined4 *)(param_1 + 0x18) = 0;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x34) = 0xffffffff;
   *(undefined4 *)(param_1 + 0x3c) = uVar1;
   *(undefined4 *)(param_1 + 0x38) = 0xffffffff;

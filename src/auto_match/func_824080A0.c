@@ -39,7 +39,7 @@ extern unsigned int lbl_82002B04;
 extern unsigned int lbl_8218E1AC;
 extern unsigned int lbl_821B7EC8;
 extern unsigned int lbl_821B7EE4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_84;
 extern unsigned int uStack_8c;
 
@@ -78,7 +78,7 @@ fn_824080A0(double param_1,undefined4 *param_2,undefined4 param_3,undefined4 par
   param_2[4] = param_6;
   param_2[5] = param_5;
   param_2[0xd] = 1;
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   param_2[6] = (float)param_1;
   param_2[7] = (float)param_1;
   param_2[8] = param_3;

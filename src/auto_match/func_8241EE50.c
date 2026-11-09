@@ -31,7 +31,6 @@ struct Self {
 extern void fn_8229CFB8(int, int, int);
 extern void fn_8241A8A0(Self *, int);
 extern void fn_8241B4E0(Self *, Ent *, int);
-extern float lbl_821CC160;
 
 void fn_8241EE50(Self *param_1, int param_2)
 {
@@ -52,7 +51,7 @@ void fn_8241EE50(Self *param_1, int param_2)
   }
   o = param_1->owner;
   if (o->enabled != 0) {
-    param_1->t = lbl_821CC160;
+    param_1->t = 0.0f;
     if (param_1 == o->cur) {
       fn_8229CFB8(o->sub->h, 0, 0);
     }

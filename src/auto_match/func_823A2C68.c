@@ -47,7 +47,7 @@ extern int fn_82535298();
 extern int fn_82536288();
 extern int fn_825529B0();
 extern unsigned int lbl_821917B0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823A2C68(int param_1)
@@ -177,7 +177,7 @@ void fn_823A2C68(int param_1)
           return;
         }
         uVar9 = 4;
-        *(undefined4 *)((int)uVar7 + 0x208) = lbl_821CC160;
+        *(undefined4 *)((int)uVar7 + 0x208) = ltcg_pool_0_0f;
         goto LAB_823a30f0;
       }
       uVar9 = 0xe;

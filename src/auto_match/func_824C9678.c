@@ -35,7 +35,7 @@ extern int fn_824CC5A0();
 extern int fn_82F63108();
 extern unsigned int iStack_34;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_824C9678(double param_1,int param_2)
@@ -79,7 +79,7 @@ void fn_824C9678(double param_1,int param_2)
                   CONCAT44(pfStack_38,param_2));
   if (*(int *)(param_2 + 0x40) != 0) {
     dVar4 = (double)(float)((double)*(float *)(param_2 + 0x40) - param_1);
-    dVar7 = (double)lbl_821CC160;
+    dVar7 = (double)ltcg_pool_0_0f;
     dVar6 = -dVar4;
     dVar5 = dVar7;
     if (*(float *)(&lbl_821954D8 +

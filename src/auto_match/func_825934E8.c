@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83297AC4;
 extern unsigned int lbl_83297AC8;
 extern unsigned int lbl_83297ACC;
@@ -42,9 +42,9 @@ uint * fn_825934E8(uint *param_1)
     return &lbl_83297AC4;
   }
   lbl_83297AD0 = lbl_83297AD0 | 1;
-  lbl_83297AC4 = lbl_821CC160;
-  lbl_83297AC8 = lbl_821CC160;
-  lbl_83297ACC = lbl_821CC160;
+  lbl_83297AC4 = ltcg_pool_0_0f;
+  lbl_83297AC8 = ltcg_pool_0_0f;
+  lbl_83297ACC = ltcg_pool_0_0f;
   return &lbl_83297AC4;
 }
 

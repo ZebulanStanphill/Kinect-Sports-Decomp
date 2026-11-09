@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82522ED8(void *);
-extern float lbl_821CC160;
 
 
 undefined8 fn_8262CC58(int param_1,int param_2)
@@ -45,7 +44,7 @@ LAB_8262cc90:
   if (piVar3 != (int *)0x0) {
     do {
       if (piVar3[2] == *(int *)(param_2 + 0xc)) {
-        if (*(float *)(param_2 + 0x10) != lbl_821CC160) {
+        if (*(float *)(param_2 + 0x10) != 0.0f) {
           return 0;
         }
         { unsigned *node = (unsigned *)(piVar3-2);

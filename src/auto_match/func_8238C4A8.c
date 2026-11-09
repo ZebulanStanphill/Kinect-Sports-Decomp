@@ -30,7 +30,7 @@ extern int fn_822ABA88();
 extern int fn_822CFF20();
 extern int fn_82359BB0();
 extern int fn_82536590();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8238C4A8(int *param_1)
@@ -64,7 +64,7 @@ void fn_8238C4A8(int *param_1)
     } while ((uVar5 & 0xffffffff) < (uVar6 & 0xffffffff));
   }
   fn_822CFF20(&piStack_30,iVar1 + 0x184);
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   for (; piStack_30 != piStack_2c; piStack_30 = piStack_30 + 2) {
     *(undefined4 *)(*piStack_30 + 0x174) = 0;
     iVar4 = *piStack_30;

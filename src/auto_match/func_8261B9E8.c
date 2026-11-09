@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82D41968();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8261B9E8(int param_1,int param_2)
@@ -122,7 +122,7 @@ void fn_8261B9E8(int param_1,int param_2)
 LAB_8261bb6c:
   *(undefined1 *)(param_1 + 0x1c) = 1;
   *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_2 + 0x1c);
-  uVar5 = lbl_821CC160;
+  uVar5 = ltcg_pool_0_0f;
   if (*(int *)(param_1 + 0x18) == 0) {
     uVar5 = *(undefined4 *)(param_2 + 0x1c);
   }

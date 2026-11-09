@@ -29,7 +29,7 @@ extern unsigned int fStack_18;
 extern unsigned int fStack_28;
 extern unsigned int fStack_8;
 extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_82334BD0(int param_1,int param_2)
@@ -139,7 +139,7 @@ double fn_82334BD0(int param_1,int param_2)
           puVar2[2] = uVar11;
           puVar2[3] = uVar12;
           afStack_40[3] = lbl_82195530;
-          dVar8 = (double)lbl_821CC160;
+          dVar8 = (double)ltcg_pool_0_0f;
           dVar7 = (double)lbl_82195530;
           if ((double)afStack_30[0] == dVar8) {
             afStack_40[0] = lbl_82195530;
@@ -291,6 +291,6 @@ double fn_82334BD0(int param_1,int param_2)
       }
     }
   }
-  return (double)lbl_821CC160;
+  return (double)ltcg_pool_0_0f;
 }
 

@@ -29,7 +29,7 @@ extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821A7E24;
 extern unsigned int lbl_821A7E38;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8226A7C0(double param_1,double param_2,double param_3,undefined4 *param_4,
@@ -47,7 +47,7 @@ void fn_8226A7C0(double param_1,double param_2,double param_3,undefined4 *param_
   
   param_4[6] = 0xffffffff;
   *param_4 = &lbl_821A7E24;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   if (in_r9 == 0) {
     *(undefined1 *)(param_4 + 1) = 0;
     uVar3 = lbl_821CA460;

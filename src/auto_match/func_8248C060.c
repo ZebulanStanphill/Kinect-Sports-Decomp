@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8248C060(double param_1,int param_2,undefined4 param_3,int param_4)
@@ -46,8 +46,8 @@ undefined8 fn_8248C060(double param_1,int param_2,undefined4 param_3,int param_4
         *(undefined4 *)(iVar5 + 4) = param_3;
         *(undefined4 *)(iVar5 + 0x28) = 0;
         *(undefined4 *)(iVar5 + 0x44) = 0;
-        fVar1 = lbl_821CC160;
-        *(float *)(iVar5 + 0x3c) = lbl_821CC160;
+        fVar1 = ltcg_pool_0_0f;
+        *(float *)(iVar5 + 0x3c) = ltcg_pool_0_0f;
         if (iVar4 != iVar2) goto code_r0x8248c0d4;
         goto code_r0x8248c114;
       }

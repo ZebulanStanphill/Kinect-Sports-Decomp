@@ -34,7 +34,7 @@ extern int fn_824C97F0();
 extern int fn_824D2AE8();
 extern unsigned int iStack_3c;
 extern unsigned int iStack_40;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8238B378(int param_1)
@@ -50,7 +50,7 @@ void fn_8238B378(int param_1)
   
   *(undefined4 *)(param_1 + 0x14) = 0;
   fn_824D2AE8(&stack_pair_40.first,(ulonglong)*(uint *)(param_1 + 8) + 0x1b0);
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   *(undefined4 *)(stack_pair_40.first + 0x174) = 1;
   *(undefined4 *)(param_1 + 0x18) = uVar1;
   *(undefined4 *)(param_1 + 0x20) = 0;

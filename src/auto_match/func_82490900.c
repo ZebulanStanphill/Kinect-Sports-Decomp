@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_5c;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 bool fn_82490900(double param_1,uint *param_2)
@@ -112,7 +112,7 @@ LAB_824909a8:
         puVar11 = puVar12;
       }
       bVar8 = false;
-      dVar15 = (double)lbl_821CC160;
+      dVar15 = (double)ltcg_pool_0_0f;
       dVar16 = dVar15;
       if (puVar12 != puVar11) {
         do {

@@ -47,7 +47,7 @@ extern unsigned int lbl_82193B24;
 extern unsigned int lbl_82193B38;
 extern unsigned int lbl_82193B40;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -78,7 +78,7 @@ void fn_822811F8(void)
   
   puVar20 = (undefined4 *)fn_82F6A548();
   puVar20[0x16] = lbl_8218E8E8;
-  uVar19 = lbl_821CC160;
+  uVar19 = ltcg_pool_0_0f;
   uVar18 = lbl_821CA460;
   uVar17 = lbl_82193B40;
   uVar16 = lbl_82193B38;
@@ -96,7 +96,7 @@ void fn_822811F8(void)
   uVar4 = lbl_82191FD0;
   uVar3 = lbl_821917D4;
   uVar2 = lbl_821917B0;
-  uVar1 = CONCAT44(lbl_821CA460,lbl_821CC160);
+  uVar1 = CONCAT44(lbl_821CA460,ltcg_pool_0_0f);
   *puVar20 = lbl_82193AD8;
   puVar20[1] = uVar7;
   puVar20[4] = uVar2;

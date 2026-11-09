@@ -7,7 +7,6 @@ extern SP_823CE798 *fn_822EFBF0(SP_823CE798 *, void *);
 extern void fn_822315A0(void *);
 extern void fn_823F0828(void *, int, __vector4);
 extern unsigned char fn_8288B760(void *);
-extern float lbl_821CC160;
 
 typedef struct Sub_823CE798 {
     unsigned char flag;
@@ -39,7 +38,7 @@ void fn_823CE798(Obj_823CE798 *o, int a, __vector4 v)
     {
         Sub_823CE798 *s = &o->s;
         s->value = a;
-        s->f = lbl_821CC160;
+        s->f = 0.0f;
         s->flag = 1;
         s->vec = v;
     }

@@ -40,7 +40,7 @@ extern int fn_82639990();
 extern int fn_82639A10();
 extern int fn_8263CBB0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C1E08;
 extern unsigned int lbl_831C1E0C;
 extern unsigned int lbl_831C1E14;
@@ -267,7 +267,7 @@ void fn_825419D8(ulonglong param_1,int *param_2,int param_3)
     }
     fn_826312F0(*param_2,2,auStack_b0,1);
     uVar18 = lbl_831C1E18;
-    uVar17 = lbl_821CC160;
+    uVar17 = ltcg_pool_0_0f;
     iVar1 = *param_2;
     *(undefined4 *)(iVar1 + 0x1c30) = lbl_831C1E14;
     *(undefined4 *)(iVar1 + 0x1c34) = uVar18;

@@ -31,7 +31,7 @@ extern int fn_825279F8();
 extern int fn_82528948();
 extern int fn_8255FA88();
 extern unsigned int lbl_82194FE7;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorConditionalSelect();
 extern V16 vectorMultiplyAddFloatingPoint();
 extern V16 vectorSubtractFloatingPoint();
@@ -88,7 +88,7 @@ void fn_82266360(double param_1,int param_2)
   case 1:
     fVar17 = (float)((double)*(float *)(param_2 + 0xfc) - param_1);
     *(float *)(param_2 + 0xfc) = fVar17;
-    if (lbl_821CC160 < fVar17) {
+    if (ltcg_pool_0_0f < fVar17) {
       return;
     }
     uVar9 = 1;
@@ -152,7 +152,7 @@ void fn_82266360(double param_1,int param_2)
   case 3:
     if ((*(int *)(param_2 + 0x53c) == 0) ||
        (fVar17 = (float)((double)*(float *)(param_2 + 0x530) - param_1),
-       *(float *)(param_2 + 0x530) = fVar17, lbl_821CC160 <= fVar17)) goto LAB_822664f4;
+       *(float *)(param_2 + 0x530) = fVar17, ltcg_pool_0_0f <= fVar17)) goto LAB_822664f4;
     uVar9 = 3;
     uVar8 = 4;
     goto LAB_822664ec;
@@ -177,7 +177,7 @@ LAB_822664f4:
   case 6:
     fVar17 = (float)((double)*(float *)(param_2 + 0xfc) - param_1);
     *(float *)(param_2 + 0xfc) = fVar17;
-    if (lbl_821CC160 < fVar17) {
+    if (ltcg_pool_0_0f < fVar17) {
       return;
     }
     uVar9 = 6;

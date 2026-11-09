@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int iStack_48;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_44;
 extern unsigned int uStack_4c;
@@ -69,8 +69,8 @@ undefined8 fn_824AA258(undefined8 param_1,int param_2,int *param_3,int param_4)
   fVar3 = (float)uStack_50 - fVar2;
   fVar4 = (float)uStack_50;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar3 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar3) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar3 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar4 = fVar2;
   }
   uVar8 = (ulonglong)fVar4;

@@ -48,7 +48,7 @@ extern unsigned int lbl_821CA1A0;
 extern unsigned int lbl_821CA1A4;
 extern unsigned int lbl_821CA1A8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_d0;
 extern unsigned int uStack_dc;
 
@@ -118,7 +118,7 @@ void fn_824AA530(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
       dVar13 = (double)fStack_b8;
       dVar14 = (double)fStack_bc;
       dVar15 = (double)fStack_c0;
-      dVar11 = (double)lbl_821CC160;
+      dVar11 = (double)ltcg_pool_0_0f;
       dVar12 = (double)lbl_821CA460;
       dVar9 = (double)(float)((double)uStack_d0 * dVar10);
       do {

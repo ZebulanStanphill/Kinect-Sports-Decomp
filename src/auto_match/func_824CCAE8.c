@@ -41,7 +41,7 @@ extern int fn_82F510F0();
 extern int fn_82F512E8();
 extern int fn_82F51AC0();
 extern int fn_82F52348();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -73,7 +73,7 @@ void fn_824CCAE8(undefined8 param_1,int *param_2)
   float afStack_60 [4];
   undefined1 auStack_50 [80];
   
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   dVar9 = dVar8;
   iVar5 = fn_824CD030();
   if (iVar5 != 0) {

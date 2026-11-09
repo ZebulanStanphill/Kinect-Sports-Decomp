@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82539560();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 double fn_823A03F0(int *param_1,int param_2,longlong param_3)
@@ -35,10 +35,10 @@ double fn_823A03F0(int *param_1,int param_2,longlong param_3)
 {
   if (*param_1 != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82539560((double)(longlong)param_2,(double)lbl_821CC160,
-                 (double)(byte)((-(param_3 != 0) & 0x1eU) + 0x14),(double)lbl_821CC160,
+    fn_82539560((double)(longlong)param_2,(double)ltcg_pool_0_0f,
+                 (double)(byte)((-(param_3 != 0) & 0x1eU) + 0x14),(double)ltcg_pool_0_0f,
                  (double)lbl_821CA460);
   }
-  return (double)lbl_821CC160;
+  return (double)ltcg_pool_0_0f;
 }
 

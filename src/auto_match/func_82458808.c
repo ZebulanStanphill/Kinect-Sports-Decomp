@@ -29,7 +29,7 @@ extern unsigned int *auStack_58;
 extern unsigned int *auStack_90;
 extern int fn_82458598();
 extern int fn_82F691F0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 extern unsigned int uStack_64;
@@ -58,7 +58,7 @@ void fn_82458808(int *param_1)
   
   if (param_1 != param_1 + 4) {
     iVar1 = *param_1;
-    *(undefined4 *)(iVar1 + 4) = lbl_821CC160;
+    *(undefined4 *)(iVar1 + 4) = ltcg_pool_0_0f;
     fn_82458598(iVar1 + 8);
     fn_82458598(iVar1 + 0x18);
     puVar2 = auStack_90;

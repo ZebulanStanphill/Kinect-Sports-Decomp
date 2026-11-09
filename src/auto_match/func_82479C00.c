@@ -67,7 +67,7 @@ extern unsigned int lbl_821BD45C;
 extern unsigned int lbl_821BD474;
 extern unsigned int lbl_821BD48C;
 extern unsigned int lbl_821BDA84;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern int (*lbl_83276778)();
 extern unsigned int lbl_8328E784;
 extern unsigned int lbl_83297810;
@@ -258,7 +258,7 @@ void fn_82479C00(undefined **param_1)
     if (puVar14 + 3 != (undefined4 *)0x0) {
       puVar14[5] = 0;
       puVar14[4] = 10;
-      uVar4 = lbl_821CC160;
+      uVar4 = ltcg_pool_0_0f;
       puVar14[3] = &lbl_821BDA84;
       puVar14[6] = uVar4;
       puVar14[7] = param_1 + 0x1de;

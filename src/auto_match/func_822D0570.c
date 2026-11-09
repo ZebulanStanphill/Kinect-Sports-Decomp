@@ -38,7 +38,7 @@ extern unsigned int iStack_6c;
 extern unsigned int iStack_70;
 extern unsigned int lbl_821917B0;
 extern unsigned int lbl_821917C0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8329EA20;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_48;
@@ -121,7 +121,7 @@ void fn_822D0570(int param_1,int param_2,undefined8 param_3,int param_4)
              iVar6 == 0)) {
             pfVar7 = (float *)(iVar8 + 0x26c);
             lVar5 = 5;
-            fVar12 = lbl_821CC160;
+            fVar12 = ltcg_pool_0_0f;
             do {
               pfVar7 = pfVar7 + 1;
               fVar12 = *pfVar7 + fVar12;
@@ -157,7 +157,7 @@ void fn_822D0570(int param_1,int param_2,undefined8 param_3,int param_4)
             if (((iVar8 == 7) || (iVar8 == 6)) || (iVar8 == 5)) {
               pfVar7 = (float *)(*(int *)(param_1 + 0x10) + 0x26c);
               lVar5 = 5;
-              fVar12 = lbl_821CC160;
+              fVar12 = ltcg_pool_0_0f;
               do {
                 pfVar7 = pfVar7 + 1;
                 fVar12 = *pfVar7 + fVar12;

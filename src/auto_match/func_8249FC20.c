@@ -30,7 +30,7 @@ extern int fn_8249ABC0();
 extern int fn_8249F490();
 extern int fn_82F4EBE8();
 extern int fn_82F52188();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
@@ -76,7 +76,7 @@ undefined8 fn_8249FC20(int param_1,int *param_2)
     }
     uVar4 = fn_8249F490(&uStack_50);
   }
-  if (lbl_821CC160 < *(float *)((*param_2 + 1) * 0x24 + param_1)) {
+  if (ltcg_pool_0_0f < *(float *)((*param_2 + 1) * 0x24 + param_1)) {
     uVar4 = 0;
   }
   return uVar4;

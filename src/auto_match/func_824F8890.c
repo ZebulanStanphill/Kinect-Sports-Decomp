@@ -40,7 +40,7 @@ extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821956BC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D42F8;
 
 
@@ -105,8 +105,8 @@ void fn_824F8890(int param_1)
   puVar7[1] = uVar11;
   puVar7[2] = uVar12;
   puVar7[3] = uVar13;
-  fVar1 = lbl_821CC160;
-  dVar8 = (double)lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
+  dVar8 = (double)ltcg_pool_0_0f;
   puVar7 = &lbl_831D42F8;
   puVar3 = (undefined4 *)((int)&fStack_20 + in_r0 & 0xfffffff0);
   *puVar3 = uVar14;

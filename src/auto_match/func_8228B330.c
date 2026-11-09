@@ -43,7 +43,7 @@ extern int fn_82A1DBD8();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
@@ -96,9 +96,9 @@ void fn_8228B330(undefined4 *param_1,int param_2,undefined8 param_3)
   fn_82520158(0xffffffff821a9670,&aiStack_b0,0);
   if ((param_1[param_2 * 6 + 0x188] == 0) || (param_1[param_2 * 6 + 0x189] == 0)) {
     stack_pair_a0.second = lbl_821CA460;
-    fStack_98 = lbl_821CC160;
+    fStack_98 = ltcg_pool_0_0f;
     stack_pair_a0.first = 0x4d697850;
-    fStack_8c = lbl_821CC160;
+    fStack_8c = ltcg_pool_0_0f;
     uStack_94 = 0x20;
     uStack_90 = lbl_821917C0;
     uStack_88 = 0;
@@ -114,10 +114,10 @@ void fn_8228B330(undefined4 *param_1,int param_2,undefined8 param_3)
     fn_8252D6E0(param_3,*param_1);
   }
   else if (aiStack_b0 != 0) {
-    dVar14 = (double)lbl_821CC160;
-    fStack_98 = lbl_821CC160;
+    dVar14 = (double)ltcg_pool_0_0f;
+    fStack_98 = ltcg_pool_0_0f;
     stack_pair_a0.first = 0x4d697850;
-    fStack_8c = lbl_821CC160;
+    fStack_8c = ltcg_pool_0_0f;
     uStack_94 = 0x20;
     stack_pair_a0.second = lbl_821CA460;
     uStack_88 = 0;

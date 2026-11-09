@@ -30,7 +30,7 @@ extern int fn_8248BC38();
 extern int fn_8248C5E0();
 extern int fn_8248DE88();
 extern int fn_8265C9E0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8248BEA8(int param_1)
@@ -61,7 +61,7 @@ void fn_8248BEA8(int param_1)
   }
   *(undefined4 *)(param_1 + 0x14) = 0;
   puVar11 = (undefined4 *)fn_8265C9E0(0x68);
-  uVar9 = lbl_821CC160;
+  uVar9 = ltcg_pool_0_0f;
   if (puVar11 == (undefined4 *)0x0) {
     puVar11 = (undefined4 *)0x0;
   }

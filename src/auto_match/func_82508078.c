@@ -31,7 +31,7 @@ extern int fn_82512E18();
 extern int fn_8251FBA8();
 extern int fn_82526A20();
 extern unsigned int iStack_50;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_48;
 
 
@@ -65,7 +65,7 @@ undefined8 fn_82508078(int *param_1,undefined8 param_2,undefined8 param_3)
 LAB_825080f8:
     if (iVar4 != 0) {
       fStack_4c = *(float *)(iVar4 + 0x90);
-      if (fStack_4c <= lbl_821CC160) {
+      if (fStack_4c <= ltcg_pool_0_0f) {
         fn_82508160(param_1,iVar4,param_3,1);
       }
       else {

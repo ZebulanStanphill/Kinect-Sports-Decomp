@@ -30,7 +30,7 @@ extern float fRam83274b28;
 extern float fRam83274b2c;
 extern int fn_82559EF0();
 extern unsigned int lbl_82193E50;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83274B20;
 extern V16 loadVectorLeftIndexed128();
 
@@ -81,7 +81,7 @@ void fn_82626968(int param_1,int param_2,int param_3)
   fVar7 = pfVar3[1];
   fVar9 = pfVar3[2];
   fVar11 = pfVar3[3];
-  *(undefined4 *)(param_3 + 8) = lbl_821CC160;
+  *(undefined4 *)(param_3 + 8) = ltcg_pool_0_0f;
   *(float *)(param_3 + 4) = *(float *)(param_3 + 4) + fVar4;
   loadVectorLeftIndexed128(0xffffffff82192950,0x60);
   pfVar3 = (float *)(in_r0 + param_2 & 0xfffffff0);

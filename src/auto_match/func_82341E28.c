@@ -34,7 +34,7 @@ extern int fn_824CCFC8();
 extern int fn_824CD030();
 extern int fn_8254E7D8();
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82341E28(double param_1,int param_2)
@@ -49,9 +49,9 @@ void fn_82341E28(double param_1,int param_2)
   undefined8 uVar7;
   double dVar8;
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   piVar2 = *(int **)(param_2 + 0xc);
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   iVar3 = *piVar2;
   if ((dVar8 < (double)(float)piVar2[0xe]) &&
      (fVar1 = (float)((double)(float)piVar2[0xe] - param_1), piVar2[0xe] = (int)fVar1,

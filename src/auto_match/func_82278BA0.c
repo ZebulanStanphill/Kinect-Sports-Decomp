@@ -36,7 +36,7 @@ extern int fn_82517978();
 extern int fn_82526C70();
 extern int fn_82672C20();
 extern unsigned int lbl_821A8228;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_d8;
 extern unsigned int uStack_dc;
 extern unsigned int uStack_e0;
@@ -106,8 +106,8 @@ fn_82278BA0(undefined4 *param_1,undefined4 *param_2,int *param_3,char *param_4,u
       param_1[0x89] = 0;
       fn_82273C88(&stack_pair_e0.first);
 code_r0x82278d40:
-      uVar1 = lbl_821CC160;
-      param_1[0x93] = lbl_821CC160;
+      uVar1 = ltcg_pool_0_0f;
+      param_1[0x93] = ltcg_pool_0_0f;
       param_1[0x92] = uVar1;
       param_1[0x95] = uVar1;
       param_1[0x94] = uVar1;

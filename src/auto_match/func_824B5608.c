@@ -31,7 +31,7 @@ extern float fRam831c4684;
 extern unsigned int fStack_3c;
 extern int fn_824B44C8();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831c467c;
 extern unsigned int uRam831c4680;
 extern unsigned int uRam831c4688;
@@ -76,7 +76,7 @@ LAB_824b566c:
   iVar4 = 0;
 LAB_824b56c0:
   *(int *)(param_1 + 0x4c) = iVar4;
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if ((*(int *)(param_1 + 0x48) != 0) && (iVar4 != 0)) {
     fVar1 = lbl_821CA460;
   }

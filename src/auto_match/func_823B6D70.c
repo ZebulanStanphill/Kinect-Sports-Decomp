@@ -31,7 +31,7 @@ extern int fn_8243C3D0();
 extern int fn_8243C490();
 extern int fn_8288B760();
 extern int fn_828B00A0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823B6D70(uint *param_1)
@@ -61,7 +61,7 @@ void fn_823B6D70(uint *param_1)
         lVar1 = (**(code **)(*piVar3 + 8))();
         fn_8243C490(lVar1 + 0x9c,auStack_20);
         iVar2 = param_1[3] - 0x68;
-        param_1[5] = lbl_821CC160;
+        param_1[5] = ltcg_pool_0_0f;
         if (param_1[3] == 0) {
           iVar2 = 0;
         }

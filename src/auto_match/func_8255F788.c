@@ -27,14 +27,14 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8255F7E8();
 extern int fn_827F3580();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8255F788(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4)
 
 {
   fn_8255F7E8();
-  fn_827F3580(param_1,(double)lbl_821CC160,param_2,param_3,param_4,0x12);
+  fn_827F3580(param_1,(double)ltcg_pool_0_0f,param_2,param_3,param_4,0x12);
   *(undefined4 *)(param_2 + 0x114) = 0;
   *(undefined4 *)(param_2 + 0x110) = 0;
   return;

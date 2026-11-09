@@ -36,7 +36,7 @@ extern int fn_82F68CC0();
 extern unsigned int lbl_82195E58;
 extern unsigned int lbl_82195E5C;
 extern unsigned int lbl_82196288;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern void *memcpy(void *, const void *, unsigned int);
@@ -61,7 +61,7 @@ int fn_822A57B8(double param_1,int param_2,undefined8 param_3,undefined4 *param_
   fn_82F68CC0(param_2,param_3,0x108);
   *(float *)(param_2 + 0x520) = (float)param_1;
   *(undefined4 *)(param_2 + 0x108) = 2;
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   *(undefined4 *)(param_2 + 0x500) = 2;
   memcpy((void *)((const void *)(param_2 + 0x510U & 0xfffffff0)), auVar4, 16);
   *(undefined4 *)(param_2 + 0x524) = uVar2;

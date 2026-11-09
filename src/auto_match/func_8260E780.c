@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8260E780(int param_1,undefined8 param_2,int param_3,undefined8 param_4,int param_5)
@@ -37,12 +37,12 @@ void fn_8260E780(int param_1,undefined8 param_2,int param_3,undefined8 param_4,i
   if (param_5 == 0) {
     *(undefined4 *)(param_3 + 0x1c) = 1;
   }
-  fVar1 = lbl_821CC160;
+  fVar1 = ltcg_pool_0_0f;
   if (*(int *)(param_3 + 0x1c) == 0) {
     return;
   }
   if (*(int *)(param_3 + 0x24) == *(int *)(param_3 + 0x14)) {
-    if (lbl_821CC160 < *(float *)(param_3 + 0x18)) {
+    if (ltcg_pool_0_0f < *(float *)(param_3 + 0x18)) {
       *(float *)(param_3 + 0x18) =
            *(float *)(param_3 + 0x18) -
            (*(float *)(param_1 + 0x88) - *(float *)(param_3 + 4)) /

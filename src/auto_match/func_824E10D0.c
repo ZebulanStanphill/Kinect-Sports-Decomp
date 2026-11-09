@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
 extern int fn_82F53CA0();
 extern unsigned int lbl_821915FC;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_824E10D0(undefined4 *param_1,int param_2)
@@ -50,7 +50,7 @@ undefined4 * fn_824E10D0(undefined4 *param_1,int param_2)
   param_1[2] = 0;
   param_1[3] = 0;
   param_1[4] = 0;
-  uVar3 = lbl_821CC160;
+  uVar3 = ltcg_pool_0_0f;
   param_1[5] = 0;
   param_1[6] = 0;
   param_1[7] = 0;

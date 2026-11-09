@@ -31,7 +31,7 @@ extern unsigned int fStack_28;
 extern unsigned int fStack_2c;
 extern unsigned int iStack_3c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_40;
 
 
@@ -94,7 +94,7 @@ void fn_824A4B38(int param_1,int *param_2)
   puVar2[3] = uVar9;
   uVar5 = (uint)(fVar1 < fStack_28 - fStack_28);
   *(uint *)(param_1 + 0x44) = uVar5;
-  *(undefined4 *)(param_1 + 0x30) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x30) = ltcg_pool_0_0f;
   puVar2 = (undefined4 *)(in_r0 + param_1 + 0x50 & 0xfffffff0);
   *puVar2 = in_register_000104d0;
   puVar2[1] = in_register_000104d4;

@@ -44,7 +44,7 @@ extern int fn_823AD3F0();
 extern int fn_8253A728();
 extern unsigned int lbl_821954B0;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2C60;
 extern unsigned int lbl_831D2CA0;
 extern unsigned int lbl_831D2CC0;
@@ -171,7 +171,7 @@ undefined8 fn_822F4038(int param_1,int param_2,int param_3)
   puVar5 = &lbl_831D2C60;
   dVar12 = (double)*(float *)(param_2 + 0x48);
   puVar4 = &lbl_821954B0;
-  dVar11 = (double)lbl_821CC160;
+  dVar11 = (double)ltcg_pool_0_0f;
   dVar6 = (double)(float)((double)(float)(dVar13 - dVar6) * dVar12 + dVar6);
   dVar13 = (double)(float)(dVar6 - dVar8);
   if (*(float *)(&lbl_821954D8 +

@@ -34,7 +34,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_821955C8;
 extern unsigned int lbl_82195900;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorMergeHighWord();
 extern V16 vectorMergeLowWord();
 extern void *memcpy(void *, const void *, unsigned int);
@@ -88,7 +88,7 @@ undefined8 fn_8226CFE8(int param_1,float *param_2,float *param_3)
   pfVar2[3] = fVar1;
   if (fStack_18 <= fVar4) {
     pfVar2 = (float *)(in_r0 + param_1 + 0x100 & 0xfffffff0);{ V16 _vt9 = vectorMergeHighWord(auVar16,auVar15); memcpy(auVar12, &_vt9, 16); }{ V16 _vt10 = vectorMergeLowWord(auVar16,auVar15); memcpy(auVar16, &_vt10, 16); }
-    dVar10 = (double)lbl_821CC160;{ V16 _vt11 = vectorMergeHighWord(auVar13,auVar14); memcpy(auVar15, &_vt11, 16); }{ V16 _vt12 = vectorMergeLowWord(auVar13,auVar14); memcpy(auVar14, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(auVar12,auVar15); memcpy(auVar13, &_vt13, 16); }{ V16 _vt14 = vectorMergeLowWord(auVar12,auVar15); memcpy(auVar15, &_vt14, 16); }
+    dVar10 = (double)ltcg_pool_0_0f;{ V16 _vt11 = vectorMergeHighWord(auVar13,auVar14); memcpy(auVar15, &_vt11, 16); }{ V16 _vt12 = vectorMergeLowWord(auVar13,auVar14); memcpy(auVar14, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(auVar12,auVar15); memcpy(auVar13, &_vt13, 16); }{ V16 _vt14 = vectorMergeLowWord(auVar12,auVar15); memcpy(auVar15, &_vt14, 16); }
     vectorMergeHighWord(auVar16,auVar14);
     vectorMergeLowWord(auVar16,auVar14);
     fVar1 = fVar1 * *pfVar2 + fVar1 * pfVar2[1] + fVar1 * pfVar2[2] + fVar1 * pfVar2[3];{ V16 _vt15 = vectorMergeHighWord(auVar14,auVar13); memcpy(auVar13, &_vt15, 16); }{ V16 _vt16 = vectorMergeHighWord(auVar15,auVar11); memcpy(auVar11, &_vt16, 16); }

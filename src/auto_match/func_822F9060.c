@@ -1,5 +1,4 @@
 typedef struct W_822F9060 { float *ptr; unsigned rep; } W_822F9060;
-extern float lbl_821CC160;
 extern unsigned char fn_8223AAC0(unsigned);
 extern void fn_822315A0(unsigned);
 
@@ -10,7 +9,7 @@ float *fn_822F9060(float *param_1, W_822F9060 *param_2, int *param_3)
   unsigned rep;
   unsigned r;
   float *e;
-  param_1[0] = lbl_821CC160;
+  param_1[0] = 0.0f;
   f = param_1[0];
   param_1[1] = f;
   param_1[2] = f;

@@ -29,7 +29,6 @@ extern int fn_824B4310();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821C027C;
 extern unsigned int lbl_821CA1A0[3];
-extern float lbl_821CC160;
 
 
 undefined4 * fn_824B4D00(undefined8 param_1)
@@ -40,7 +39,7 @@ undefined4 * fn_824B4D00(undefined8 param_1)
   puVar2 = (undefined4 *)fn_8265C9E0(0x58);
   if (puVar2 != (undefined4 *)0x0) {
     fn_824B4310(puVar2,param_1);
-    uVar1 = lbl_821CC160;
+    uVar1 = 0.0f;
     *puVar2 = &lbl_821C027C;
     *(float *)&puVar2[0x12] = uVar1;
     puVar2[0x13] = lbl_821CA1A0[0];

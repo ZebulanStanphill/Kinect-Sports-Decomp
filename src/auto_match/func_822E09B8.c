@@ -36,7 +36,7 @@ extern int fn_8255E2B0();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_a0;
 
 
@@ -91,7 +91,7 @@ undefined4 fn_822E09B8(int param_1,int *param_2)
   else {
 LAB_822e0a6c:
     if (iVar8 != 0) {
-      dVar10 = (double)lbl_821CC160;
+      dVar10 = (double)ltcg_pool_0_0f;
       dVar12 = (double)lbl_821CA460;
       if (iVar8 == 1) {
         iVar8 = *(int *)(param_1 + 0x14);

@@ -29,7 +29,7 @@ extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_82809D40();
 extern unsigned int lbl_82195680;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_8255A0D0(float *param_1)
@@ -51,7 +51,7 @@ undefined8 fn_8255A0D0(float *param_1)
   }
   else {
     uVar1 = 0;
-    *param_1 = lbl_821CC160;
+    *param_1 = ltcg_pool_0_0f;
   }
   return uVar1;
 }

@@ -41,7 +41,6 @@ extern int fn_82536590();
 extern int fn_82A1E1A8();
 extern float lbl_821916FC;
 extern float lbl_82193AD8[];
-extern float lbl_821CC160;
 
 typedef struct Ctx_823A19F0 Ctx_823A19F0;
 typedef struct Self_823A19F0 { char pad0[8]; Ctx_823A19F0 *ctx; float f0c; } Self_823A19F0;
@@ -59,7 +58,7 @@ void fn_823A19F0(Self_823A19F0 *self, float delta)
   if (*(int *)(OBJ(self) + 0x178) == 1) {
     fVar1 = self->f0c - delta;
     self->f0c = fVar1;
-    if (fVar1 <= lbl_821CC160) {
+    if (fVar1 <= 0.0f) {
       fn_82A1E1A8(2000);
       self->f0c = lbl_821916FC;
     }

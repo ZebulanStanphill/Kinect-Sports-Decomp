@@ -39,7 +39,7 @@ extern int fn_827F6320();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82191118;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 
 
@@ -73,7 +73,7 @@ void fn_82502040(longlong param_1,int param_2)
   iVar4 = 0;
   lVar5 = param_1 + 0xccc;
   dVar9 = (double)lbl_8218E8E8;
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   dVar8 = (double)lbl_82191118;
   do {
     piVar6 = (int *)lVar5;

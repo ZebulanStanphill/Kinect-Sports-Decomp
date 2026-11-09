@@ -29,7 +29,7 @@ extern int fn_822ABA88();
 extern int fn_8239C118();
 extern int fn_8239FF60();
 extern int fn_82508078();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -84,8 +84,8 @@ code_r0x8239b990:
      (*(int *)(param_1 + 0x178) == 0)) {
     fn_82508078(*(undefined4 *)(param_1 + 0xa4),0xffffffff821b4ee4,0);
   }
-  if (*(float *)(param_2 + 0x268) <= lbl_821CC160) {
-    if (lbl_821CC160 <= *(float *)(param_2 + 0x268)) goto code_r0x8239ba4c;
+  if (*(float *)(param_2 + 0x268) <= ltcg_pool_0_0f) {
+    if (ltcg_pool_0_0f <= *(float *)(param_2 + 0x268)) goto code_r0x8239ba4c;
     uVar4 = (longlong)(int)lbl_83265A28 * 0x19660d + 0x3c6ef35f;
     lbl_83265A28 = (uint)uVar4;
     uVar4 = -(ulonglong)((-uVar4 & ~uVar4 & 0xffffffff) >> 0x1f != 0);

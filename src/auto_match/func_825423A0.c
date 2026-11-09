@@ -36,7 +36,7 @@ extern int fn_82637DE0();
 extern int fn_82637E50();
 extern int fn_82637EC0();
 extern int fn_82637FF0();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_825423A0(double param_1,int *param_2,int param_3,int param_4,undefined8 param_5,
@@ -55,7 +55,7 @@ code_r0x82542530:
     *(uint *)(iVar1 + 0x2934) = uVar3;
     *(ulonglong *)(iVar1 + 0x10) = *(ulonglong *)(iVar1 + 0x10) | 0x800;
     dVar4 = (double)fn_82637C50(*param_2,6);
-    if (dVar4 <= (double)lbl_821CC160) {
+    if (dVar4 <= (double)ltcg_pool_0_0f) {
       if (param_4 != 0) goto code_r0x825425b0;
       fn_82637EC0(*param_2,1);
       fn_82637D70(*param_2,0);
@@ -89,7 +89,7 @@ code_r0x825425b0:
       return;
     }
     iVar1 = *param_2;
-    dVar4 = (double)lbl_821CC160;
+    dVar4 = (double)ltcg_pool_0_0f;
     *(uint *)(iVar1 + 0x2934) = *(uint *)(iVar1 + 0x2934) | 4;
     *(ulonglong *)(iVar1 + 0x10) = *(ulonglong *)(iVar1 + 0x10) | 0x800;
     if ((dVar4 < param_1) && (param_4 == 0)) {

@@ -31,7 +31,7 @@ extern unsigned int lbl_821B5748;
 extern unsigned int lbl_821B57E8;
 extern unsigned int lbl_821B58C0;
 extern unsigned int lbl_821B5998;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82397820(int param_1)
@@ -48,7 +48,7 @@ void fn_82397820(int param_1)
   
   if (*(int *)(param_1 + 0x178) == 1) {
     puVar8 = (undefined4 *)fn_8265C9E0(0x80);
-    uVar1 = lbl_821CC160;
+    uVar1 = ltcg_pool_0_0f;
     if (puVar8 != (undefined4 *)0x0) {
       uVar2 = *(undefined4 *)(param_1 + 0xcc);
       uVar6 = (uint)LZCOUNT(uVar2) >> 5;
@@ -90,7 +90,7 @@ void fn_82397820(int param_1)
   else {
     if (*(int *)(param_1 + 0x178) == 2) {
       puVar8 = (undefined4 *)fn_8265C9E0(0xb0);
-      uVar1 = lbl_821CC160;
+      uVar1 = ltcg_pool_0_0f;
       if (puVar8 == (undefined4 *)0x0) {
         puVar8 = (undefined4 *)0x0;
       }
@@ -156,7 +156,7 @@ void fn_82397820(int param_1)
         uVar2 = *(undefined4 *)(iVar7 + 0x150);
         uVar3 = *(undefined4 *)(iVar7 + 0x158);
         uVar4 = *(undefined4 *)(iVar7 + 0x154);
-        puVar8[0x16] = lbl_821CC160;
+        puVar8[0x16] = ltcg_pool_0_0f;
         *puVar8 = &lbl_821B5748;
         puVar8[1] = 0;
         puVar8[2] = uVar1;
@@ -192,7 +192,7 @@ void fn_82397820(int param_1)
         uVar2 = *(undefined4 *)(iVar7 + 0x150);
         uVar3 = *(undefined4 *)(iVar7 + 0x158);
         uVar4 = *(undefined4 *)(iVar7 + 0x154);
-        puVar8[0x16] = lbl_821CC160;
+        puVar8[0x16] = ltcg_pool_0_0f;
         puVar8[1] = 0;
         puVar8[2] = uVar1;
         puVar8[3] = uVar1;

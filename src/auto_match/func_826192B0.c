@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern int fn_8251F720();
 extern int fn_82520158();
 extern unsigned int lbl_821CAD0C;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_826192B0(undefined4 *param_1,undefined4 param_2,int param_3)
@@ -42,7 +42,7 @@ undefined4 * fn_826192B0(undefined4 *param_1,undefined4 param_2,int param_3)
   param_1[1] = param_2;
   param_1[0x3f2] = param_3;
   param_1[0x3ed] = 0;
-  param_1[0x3f3] = lbl_821CC160;
+  param_1[0x3f3] = ltcg_pool_0_0f;
   *param_1 = &lbl_821CAD0C;
   param_1[0x3ee] = 0;
   param_1[0x3ef] = 0;

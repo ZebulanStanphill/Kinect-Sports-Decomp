@@ -34,7 +34,7 @@ extern int fn_82520158();
 extern int fn_8266EC60();
 extern int fn_8266EE08();
 extern unsigned int iStack_24;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 * fn_8229F148(undefined4 *param_1)
@@ -48,7 +48,7 @@ undefined4 * fn_8229F148(undefined4 *param_1)
   
   *param_1 = 1;
   param_1[1] = 2;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   param_1[2] = 0;
   param_1[3] = 0;
   param_1[4] = uVar1;

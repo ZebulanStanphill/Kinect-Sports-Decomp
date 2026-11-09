@@ -29,7 +29,7 @@ extern int fn_82359698();
 extern int fn_82405638();
 extern int fn_82405898();
 extern int fn_82405A10();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82405500(double param_1,int param_2)
@@ -53,7 +53,7 @@ void fn_82405500(double param_1,int param_2)
     if (uVar2 == 1) {
       fVar1 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
       *(float *)(param_2 + 0x34) = fVar1;
-      if (lbl_821CC160 < fVar1) {
+      if (ltcg_pool_0_0f < fVar1) {
         return;
       }
       uVar4 = 2;
@@ -66,7 +66,7 @@ void fn_82405500(double param_1,int param_2)
     if (uVar2 == 3) {
       fVar1 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
       *(float *)(param_2 + 0x34) = fVar1;
-      if (lbl_821CC160 < fVar1) {
+      if (ltcg_pool_0_0f < fVar1) {
         return;
       }
       uVar4 = 4;
@@ -79,7 +79,7 @@ void fn_82405500(double param_1,int param_2)
     if ((uVar2 != 5) && (uVar2 != 6)) {
       fVar1 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
       *(float *)(param_2 + 0x34) = fVar1;
-      if (lbl_821CC160 < fVar1) {
+      if (ltcg_pool_0_0f < fVar1) {
         return;
       }
       iVar3 = *(int *)(param_2 + 8);
@@ -90,7 +90,7 @@ void fn_82405500(double param_1,int param_2)
     }
     fVar1 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
     *(float *)(param_2 + 0x34) = fVar1;
-    if (lbl_821CC160 < fVar1) {
+    if (ltcg_pool_0_0f < fVar1) {
       return;
     }
   }

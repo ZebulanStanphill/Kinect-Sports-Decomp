@@ -33,7 +33,7 @@ extern int fn_825B6D50();
 extern int fn_8260BA88();
 extern int fn_82A1E850();
 extern unsigned int lbl_8218EFD4;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B4BC;
 extern unsigned int lbl_8326B4C8;
 extern unsigned int uStack_3c;
@@ -71,7 +71,7 @@ void fn_82557FA8(void)
   } while ((int)puVar5 < -0x7de7101c);
   fn_82593FC8();
   piVar6 = &lbl_8326B4C8;
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   do {
     puVar1 = (undefined4 *)*piVar6;
     iVar2 = fn_82A1E850(*puVar1,auStack_80);

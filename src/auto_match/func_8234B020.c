@@ -29,7 +29,7 @@ extern int fn_82230360();
 extern int fn_8234B0C8();
 extern int fn_827F3580();
 extern int fn_827F5708();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8234B020(int param_1)
@@ -38,7 +38,7 @@ void fn_8234B020(int param_1)
   undefined4 *puVar1;
   double dVar2;
   
-  dVar2 = (double)lbl_821CC160;
+  dVar2 = (double)ltcg_pool_0_0f;
   if (*(int *)(param_1 + 0x24) != 0) {
     fn_827F5708(dVar2);
   }

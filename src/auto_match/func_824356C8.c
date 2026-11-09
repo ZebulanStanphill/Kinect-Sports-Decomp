@@ -53,7 +53,7 @@ extern int fn_82522588();
 extern int fn_82672C20();
 extern unsigned int iStack_25c;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D44F8;
 extern unsigned int lbl_831D4508;
 extern unsigned int lbl_831D450C;
@@ -97,7 +97,7 @@ void fn_824356C8(int param_1,undefined8 param_2,int param_3)
     } while ((int)lVar8 < iVar2);
   }
   uVar10 = (ulonglong)*(uint *)(iVar3 + 0x30);
-  dVar12 = (double)lbl_821CC160;
+  dVar12 = (double)ltcg_pool_0_0f;
   if (uVar10 != *(uint *)(iVar3 + 0x34)) {
     do {
       piVar4 = (int *)fn_82522588(auStack_260,uVar10);

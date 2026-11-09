@@ -40,7 +40,6 @@ typedef struct Buf_82276CD0 {
     unsigned char rest[0x10B0 - 12];
 } Buf_82276CD0;
 
-extern float lbl_821CC160;
 extern void fn_8226D2A8(Buf_82276CD0 *b);
 extern void *fn_82276E10(Ref_82276CD0 *r, Obj_82276CD0 *o);
 extern void fn_823F2E20(Buf_82276CD0 *b, void *src);
@@ -60,7 +59,7 @@ void fn_82276CD0(Obj_82276CD0 *o, float dt)
 
     t = o->timer - dt;
     o->timer = t;
-    if (t <= lbl_821CC160) {
+    if (t <= 0.0f) {
         if (o->index < o->count) {
             fn_8226D2A8(&buf);
             fn_823F2E20(&buf, fn_82276E10(&ref, o));

@@ -35,7 +35,7 @@ extern int fn_825500E8();
 extern int fn_82F68CC0();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_3c;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
@@ -84,7 +84,7 @@ void fn_8254E670(double param_1,double param_2,double param_3,double param_4,int
   uStack_50 = param_6;
   uStack_4c = param_7;
   if (puStack_60 != puVar5) {
-    dVar6 = (double)lbl_821CC160;
+    dVar6 = (double)ltcg_pool_0_0f;
     do {
       if (((double)(float)((double)(float)puStack_60[3] + (double)(float)puStack_60[7]) <= dVar7) ||
          (fVar1 = (float)(dVar7 - (double)(float)puStack_60[3]), puStack_60[7] = fVar1,

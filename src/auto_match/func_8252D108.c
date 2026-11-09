@@ -44,7 +44,6 @@ extern void fn_825A2108(Main_8252D108 *p, Obj_8252D108 *o, int v);
 extern void *fn_827F04B0(int size);
 extern int fn_827F0858(Obj_8252D108 *o);
 extern void fn_827F2DD0(void *src, Obj_8252D108 *o, float f, int a, int b);
-extern float lbl_821CC160;
 
 Obj_8252D108 *fn_8252D108(Main_8252D108 *p)
 {
@@ -64,7 +63,7 @@ Obj_8252D108 *fn_8252D108(Main_8252D108 *p)
         mem = fn_827F04B0(0x1a0);
         o = mem ? fn_82554260(mem, s->src, s->x24) : 0;
         s->obj = o;
-        fn_827F2DD0(s->src, o, lbl_821CC160, 0x12, 0);
+        fn_827F2DD0(s->src, o, 0.0f, 0x12, 0);
         if (p->x7b0 != 0) {
             fn_825A2108(p, s->obj, fn_827F0858(s->obj));
         }

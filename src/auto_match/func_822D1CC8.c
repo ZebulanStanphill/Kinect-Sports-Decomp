@@ -4,7 +4,6 @@ extern void fn_82230300(void *, int, int);
 extern void fn_822315A0(void *);
 extern char lbl_821A8D8C[];
 extern char lbl_821ADB98[];
-extern float lbl_821CC160;
 
 typedef struct {
   void *p;
@@ -65,7 +64,7 @@ Obj_822D1CC8 *fn_822D1CC8(Obj_822D1CC8 *self, void *a, void *b, void *c, void *d
     s->fb8 = 0;
     s->fc8 = 0;
     s->fcc = 0;
-    s->fd8 = lbl_821CC160;
+    s->fd8 = 0.0f;
     s->fd4 = 0;
     if (r->rc != 0) fn_822315A0(r->rc);
   }

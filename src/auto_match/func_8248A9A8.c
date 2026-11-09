@@ -1,7 +1,6 @@
 typedef unsigned int uint;
 extern void fn_8225F160(void);
 extern int fn_8225F3C0(void);
-extern float lbl_821CC160;
 
 typedef struct {
   char pad[0x20];
@@ -12,7 +11,7 @@ extern int fn_8249B598(T *, int);
 
 float fn_8248A9A8(float *param_1)
 {
-  float f = lbl_821CC160;
+  float f = 0.0f;
   int i;
 
   fn_8225F160();

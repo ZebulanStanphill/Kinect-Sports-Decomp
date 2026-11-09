@@ -36,7 +36,7 @@ extern int fn_82864898();
 extern int fn_828648F0();
 extern unsigned int iStack_7c;
 extern unsigned int iStack_80;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_82298280(undefined4 *param_1)
@@ -110,7 +110,7 @@ void fn_82298280(undefined4 *param_1)
     }
     *piVar5 = *piVar6;
     fn_822985B0((double)(float)param_1[0x14],param_1);
-    param_1[0x20] = lbl_821CC160;
+    param_1[0x20] = ltcg_pool_0_0f;
   }
   return;
 }

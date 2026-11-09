@@ -34,7 +34,7 @@ extern int fn_82357010();
 extern int fn_8265C9E0();
 extern int fn_82F64988();
 extern unsigned int iStack_c0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_70;
 extern unsigned int uStack_b4;
 extern unsigned int uStack_b8;
@@ -83,7 +83,7 @@ void fn_82355050(int param_1)
     iVar4 = *piVar1;
     if (piVar1[1] - iVar4 >> 2 != 0) {
       iVar7 = 0;
-      dVar12 = (double)lbl_821CC160;
+      dVar12 = (double)ltcg_pool_0_0f;
       do {
         uVar11 = 0;
         if (*(int *)(*(int *)(iVar7 + iVar4) + 8) != 0) {
@@ -115,7 +115,7 @@ void fn_82355050(int param_1)
     iVar4 = 0;
     if ((piVar1[1] - *piVar1 & 0xfffffffcU) != 0) {
       iVar7 = 0;
-      dVar12 = (double)lbl_821CC160;
+      dVar12 = (double)ltcg_pool_0_0f;
       do {
         uVar10 = 0;
         piVar1 = *(int **)(**(int **)(param_1 + 0x1c) + iVar7);

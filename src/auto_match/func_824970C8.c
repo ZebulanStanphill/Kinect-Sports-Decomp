@@ -31,7 +31,7 @@ extern unsigned int fStack_24;
 extern unsigned int fStack_28;
 extern int fn_824973B0();
 extern int fn_8254EEB8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_2c;
 
 
@@ -72,7 +72,7 @@ void fn_824970C8(int param_1,int param_2)
   if (piVar8 != (int *)*(int *)(param_1 + 0x2c)) {
     if (*(int *)(param_1 + 0x58) == 0) {
       if (*(int *)(*(int *)(param_1 + 0x54) + 4) != 0) {
-        fn_8254EEB8((double)lbl_821CC160,(double)lbl_821CC160,*(int *)(param_1 + 0x54),
+        fn_8254EEB8((double)ltcg_pool_0_0f,(double)ltcg_pool_0_0f,*(int *)(param_1 + 0x54),
                           *(undefined4 *)((int)piVar8 + 0x14));
       }
       *(undefined4 *)(param_1 + 0x58) = 1;

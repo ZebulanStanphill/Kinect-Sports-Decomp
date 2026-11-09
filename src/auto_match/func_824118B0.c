@@ -44,7 +44,7 @@ extern int fn_82864898();
 extern int fn_82864988();
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 extern unsigned int uStack_98;
 extern unsigned int uStack_9c;
@@ -112,7 +112,7 @@ void fn_824118B0(double param_1,int param_2)
   uVar13 = (ulonglong)*(uint *)(*(int *)(param_2 + 0x28) + 0x380);
   uVar10 = 0;
   uVar11 = (ulonglong)*(uint *)(*(int *)(param_2 + 0x28) + 900);
-  dVar20 = (double)lbl_821CC160;
+  dVar20 = (double)ltcg_pool_0_0f;
   bVar6 = true;
   if (((uVar13 == uVar11) || (iVar8 == 7)) || (iVar8 == 8)) {
     if (dVar20 < (double)*(float *)(param_2 + 0x10)) {

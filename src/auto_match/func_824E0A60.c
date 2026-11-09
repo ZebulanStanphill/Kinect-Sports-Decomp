@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 /* WARNING: Removing unreachable block (ram,0x824e0a90) */
@@ -37,9 +37,9 @@ void fn_824E0A60(int param_1)
   undefined4 uVar2;
   int iVar3;
   
-  uVar2 = lbl_821CC160;
+  uVar2 = ltcg_pool_0_0f;
   iVar1 = *(int *)(param_1 + 8);
-  *(undefined4 *)(param_1 + 0x1c) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x1c) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x18) = uVar2;
   if (iVar1 != *(int *)(param_1 + 0xc)) {
     for (iVar3 = iVar1; iVar3 != *(int *)(param_1 + 0xc); iVar3 = iVar3 + 8) {

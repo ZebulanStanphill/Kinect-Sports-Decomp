@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_824A74A0();
 extern int fn_824A7540();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_824A7310(int param_1)
@@ -53,7 +53,7 @@ undefined8 fn_824A7310(int param_1)
   if (((pfVar4 == (float *)0x0) || (iVar3 = fn_824A74A0(param_1), iVar3 == 0)) ||
      (iVar3 = fn_824A7540(param_1), iVar3 != 0)) {
     uVar2 = 0;
-    fVar1 = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
   }
   else {
     uVar2 = 1;

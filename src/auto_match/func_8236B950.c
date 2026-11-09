@@ -29,7 +29,7 @@ extern int fn_8229F758();
 extern int fn_8229F858();
 extern int fn_8229FF28();
 extern float lbl_82005748;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8236B950(double param_1,int param_2,undefined8 param_3,undefined8 param_4,
@@ -40,7 +40,7 @@ void fn_8236B950(double param_1,int param_2,undefined8 param_3,undefined8 param_
   
   iVar1 = *(int *)(**(int **)(param_2 + 0x4b0) + 0xd4);
   fn_8229FF28(*(undefined4 *)(iVar1 + 0xc));
-  fn_8229F758((double)lbl_821CC160,(double)(longlong)(int)param_1,
+  fn_8229F758((double)ltcg_pool_0_0f,(double)(longlong)(int)param_1,
                     (double)(longlong)
                             (int)((float)(param_1 - (double)(longlong)(int)param_1) * lbl_82005748),
                     *(undefined4 *)(iVar1 + 0xc));

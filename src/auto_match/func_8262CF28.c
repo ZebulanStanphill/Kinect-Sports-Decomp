@@ -5,7 +5,6 @@ typedef struct { Node_8262CF28 *prev; Node_8262CF28 *next; Body_8262CF28 body; }
 typedef struct { char pad[0x304]; Node_8262CF28 *head; } Owner_8262CF28;
 typedef struct { int pad0; int pad1; int flag; int key; int pad2; float val; } Req_8262CF28;
 extern int fn_82522ED8(l);
-extern float lbl_821CC160;
 
 char fn_8262CF28(Owner_8262CF28 *o, Req_8262CF28 *r)
 {
@@ -20,7 +19,7 @@ found:
   while (b != 0) {
     if (b->key == r->key) {
       Link_8262CF28 *l;
-      if (r->val != lbl_821CC160) return 0;
+      if (r->val != 0.0f) return 0;
       l = (Link_8262CF28 *)((char *)b - 8);
       if (l->prev != 0) l->prev->next = l->next;
       if (l->next != 0) l->next->prev = l->prev;

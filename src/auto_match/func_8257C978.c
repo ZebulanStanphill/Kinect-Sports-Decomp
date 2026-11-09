@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_821CC160;
 extern float lbl_8327F880[];
 
 typedef struct Obj_8257C978 Obj_8257C978;
@@ -63,7 +62,7 @@ void fn_8257C978(int param_1)
     n = *(unsigned int *)(n + 4);
     o->vt->f18(o, ctx);
   }
-  step = lbl_821CC160;
+  step = 0.0f;
   if (*(float *)((char *)ctx + 0x838) <= step) {
     step = *(float *)((char *)ctx + 0x820) * lbl_8327F880[5];
   }

@@ -34,7 +34,7 @@ extern int fn_8263A508();
 extern int fn_8263DE70();
 extern int fn_82645110();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B37C;
 extern unsigned int lbl_8326B390;
@@ -73,7 +73,7 @@ void fn_82545E20(ulonglong param_1)
   uRam8326af54 = 1;
   fn_8263A1B8(lbl_8320A898,0,lbl_8326B37C);
   fn_8263A508(lbl_8320A898,lbl_8326B390);
-  dVar4 = (double)lbl_821CC160;
+  dVar4 = (double)ltcg_pool_0_0f;
   if ((param_1 & 0xffffffff) != 0) {
     uVar2 = uRam8326b428 >> 8 & 0xff;
     fn_8263DE70(dVar4,lbl_8320A898,0,0,param_1,

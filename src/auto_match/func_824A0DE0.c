@@ -35,7 +35,7 @@ extern int fn_824A1078();
 extern int fn_82528BF8();
 extern int fn_8265C9E0();
 extern unsigned int lbl_821A8C90;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined8 fn_824A0DE0(int *param_1,int param_2,int *param_3,int param_4,int param_5)
@@ -108,7 +108,7 @@ undefined8 fn_824A0DE0(int *param_1,int param_2,int *param_3,int param_4,int par
     }
     *(undefined4 *)(param_2 + 0x4c) = uVar5;
     if (!bVar1) {
-      *(undefined4 *)(param_2 + 0x80) = lbl_821CC160;
+      *(undefined4 *)(param_2 + 0x80) = ltcg_pool_0_0f;
     }
   }
   return 0;

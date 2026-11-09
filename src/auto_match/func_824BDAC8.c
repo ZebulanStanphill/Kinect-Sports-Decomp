@@ -44,7 +44,7 @@ extern int fn_82864898();
 extern int fn_82864988();
 extern unsigned int lbl_82191350;
 extern unsigned int lbl_821C0618;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265988;
 extern unsigned int lbl_832659CD;
 extern unsigned int *lbl_8327F848;
@@ -76,9 +76,9 @@ void fn_824BDAC8(longlong param_1,int param_2,int param_3,int param_4)
   piVar3 = (int *)param_1;
   piVar3[0x14] = param_4;
   piVar3[0x36] = 0;
-  dVar9 = (double)lbl_821CC160;
+  dVar9 = (double)ltcg_pool_0_0f;
   uStack_b0 = (ulonglong)(((U64)(uStack_b0) >> 32) & 0xFFFFFFFF);
-  piVar3[0x37] = (int)lbl_821CC160;
+  piVar3[0x37] = (int)ltcg_pool_0_0f;
   do {
     if (in_RESERVE != '\0') {
       uVar7 = storeWordConditionalIndexed(0,0,param_1 + 0xe0);

@@ -32,7 +32,7 @@ extern int fn_8227EB10();
 extern int fn_8227F020();
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_30;
 
 
@@ -66,7 +66,7 @@ void fn_8227EE60(double param_1,int param_2,int *param_3)
       dVar7 = (double)fVar1;
       *(float *)(param_2 + 0x50) = fVar1;
       dVar6 = (double)*(float *)(param_2 + 0x54);
-      dVar9 = (double)lbl_821CC160;
+      dVar9 = (double)ltcg_pool_0_0f;
       dVar5 = (double)lbl_82005748;
       if (*(float *)(&lbl_821954D8 +
                     ((uint)(byte)((dVar7 < dVar9) << 2) | (uint)(NAN(dVar7) || NAN(dVar9)) << 2)) <

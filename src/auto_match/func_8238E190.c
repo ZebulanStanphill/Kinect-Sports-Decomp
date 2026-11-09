@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8229EEA0();
 extern unsigned int lbl_821917B0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8238E190(int param_1)
@@ -42,7 +42,7 @@ void fn_8238E190(int param_1)
   fn_8229EEA0(*(undefined4 *)(*(int *)(*(int *)(param_1 + 8) + 0xd4) + 0x10));
   iVar2 = *(int *)(*(int *)(param_1 + 8) + 0x664);
   fVar1 = *(float *)(iVar2 + 0x200);
-  if (lbl_821CC160 < fVar1) {
+  if (ltcg_pool_0_0f < fVar1) {
     iVar3 = *(int *)(iVar2 + 0x1ec);
     if (*(int *)(iVar3 + 4) != 0) {
       *(undefined4 *)(iVar3 + 0x1cc) = *(undefined4 *)(iVar2 + 0x210);

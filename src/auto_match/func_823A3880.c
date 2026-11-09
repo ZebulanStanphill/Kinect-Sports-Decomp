@@ -39,7 +39,6 @@ extern void fn_823980B0(E_823A3880 *, int, int);
 extern char *fn_8249ABC0();
 extern void fn_8249D980(int, int);
 extern float lbl_821917A8[];
-extern float lbl_821CC160;
 
 void fn_823A3880(O_823A3880 *o)
 {
@@ -47,7 +46,7 @@ void fn_823A3880(O_823A3880 *o)
   float c;
   char *r;
 
-  c = lbl_821CC160;
+  c = 0.0f;
   o->f0c = c;
   if (o->f14 == 1) {
     fn_823980B0(o->e, 0, 0);

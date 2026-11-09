@@ -36,7 +36,7 @@ extern unsigned int iStack_64;
 extern unsigned int iStack_68;
 extern unsigned int iStack_b0;
 extern unsigned int lbl_82193AF0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8328D41C;
 extern unsigned int uStack_58;
 extern unsigned int uStack_5c;
@@ -88,7 +88,7 @@ code_r0x82436724:
   }
   else {
     alStack_c0[0] = (longlong)param_5;
-    if ((float)alStack_c0[0] * lbl_82193AF0 <= lbl_821CC160) goto code_r0x82436724;
+    if ((float)alStack_c0[0] * lbl_82193AF0 <= ltcg_pool_0_0f) goto code_r0x82436724;
     iVar1 = *(int *)(param_1 + 0x40);
     iVar4 = (int)(((float)alStack_c0[0] * lbl_82193AF0 - *(float *)(iVar1 + 0x108)) /
                  *(float *)(iVar1 + 0x10c));

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C0814;
 extern unsigned int lbl_831C0818;
 extern unsigned int lbl_831C081C;
@@ -42,13 +42,13 @@ undefined8 fn_8259F600(int param_1)
   undefined8 *puVar1;
   
   if (lbl_831C0820 == lbl_831C0824) {
-    if (((lbl_831C0814 != lbl_821CC160) && (lbl_831C0818 != lbl_821CC160)) &&
-       (lbl_831C081C != lbl_821CC160)) {
+    if (((lbl_831C0814 != ltcg_pool_0_0f) && (lbl_831C0818 != ltcg_pool_0_0f)) &&
+       (lbl_831C081C != ltcg_pool_0_0f)) {
       return 1;
     }
   }
-  else if (((lbl_831C0814 != lbl_821CC160) && (lbl_831C0818 != lbl_821CC160)) &&
-          (lbl_831C081C != lbl_821CC160)) {
+  else if (((lbl_831C0814 != ltcg_pool_0_0f) && (lbl_831C0818 != ltcg_pool_0_0f)) &&
+          (lbl_831C081C != ltcg_pool_0_0f)) {
     if (*(int *)(&lbl_83296C80 + param_1 * 0xb0) == 0) {
       puVar1 = &lbl_83296890;
     }

@@ -30,7 +30,7 @@ extern unsigned int *auStack_58;
 extern unsigned int iStack_5c;
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_60;
 
 
@@ -120,14 +120,14 @@ void fn_824A5348(int param_1,int *param_2)
   }
   fVar1 = *(float *)(param_1 + 0x6c) - fVar1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
-    fVar1 = lbl_821CC160;
+                ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+    fVar1 = ltcg_pool_0_0f;
   }
   fVar8 = lbl_82005748;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar1 - lbl_82005748 < lbl_821CC160) << 2) |
-                (uint)(NAN(fVar1 - lbl_82005748) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                ((uint)(byte)((fVar1 - lbl_82005748 < ltcg_pool_0_0f) << 2) |
+                (uint)(NAN(fVar1 - lbl_82005748) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
     fVar8 = fVar1;
   }
   *(float *)(param_1 + 0x6c) = fVar8;

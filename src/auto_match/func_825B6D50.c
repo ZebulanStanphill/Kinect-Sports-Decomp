@@ -30,7 +30,7 @@ extern int fn_825B6EE0();
 extern int fn_8260BA88();
 extern unsigned int lbl_821954CC;
 extern float lbl_821954D0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
@@ -49,7 +49,7 @@ void fn_825B6D50(int param_1,int param_2,undefined8 param_3)
   uint uStack_44;
   float fStack_2c;
   
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   puVar2 = &uStack_48;
   lVar3 = 2;
   uStack_48 = *(uint *)(*(int *)(param_1 + 0x34) * 0x28 + param_1 + 0x34 + 0x10);

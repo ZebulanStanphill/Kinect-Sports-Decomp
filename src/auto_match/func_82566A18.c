@@ -32,7 +32,7 @@ extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_82196750;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83296AE0;
 extern V16 loadVectorLeftIndexed128();
 
@@ -61,7 +61,7 @@ void fn_82566A18(double param_1,double param_2,uint *param_3,longlong param_4,in
   undefined4 in_vr77;
   
   iVar6 = fn_82522DF8(param_4 * 0x30 + 0x160);
-  dVar7 = (double)lbl_821CC160;
+  dVar7 = (double)ltcg_pool_0_0f;
   dVar8 = dVar7;
   if (*(float *)(&lbl_821954D8 +
                 ((uint)(byte)((param_1 < dVar7) << 2) | (uint)(NAN(param_1) || NAN(dVar7)) << 2)) <

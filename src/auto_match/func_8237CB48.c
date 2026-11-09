@@ -41,7 +41,7 @@ extern int fn_82809CB0();
 extern unsigned int iStack_3c;
 extern unsigned int iStack_40;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CB374;
 extern unsigned int lbl_831D1CA8;
 extern unsigned int lbl_831D267C;
@@ -122,7 +122,7 @@ LAB_8237cc50:
     }
   }
   fn_824D2AE8(uVar5 - 0x40,param_2 + 0x24c);
-  dVar10 = (double)lbl_821CC160;
+  dVar10 = (double)ltcg_pool_0_0f;
   if ((iStack_40 != 0) && (*(int *)(iStack_40 + 0xa0) != 0)) {
     puVar4 = (undefined4 *)(iStack_40 + 0x20U & 0xfffffff0);
     in_register_00010000 = *puVar4;

@@ -42,7 +42,7 @@ extern unsigned int iStack_1ec;
 extern unsigned int iStack_1f4;
 extern unsigned int iStack_1fc;
 extern unsigned int lbl_82193A34;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 undefined4 ** fn_823AF8F8(undefined4 **param_1,int param_2)
@@ -119,7 +119,7 @@ LAB_823afa3c:
     if (*piVar9 == 0) {
       if (bVar8) {
         dVar11 = (double)(float)piVar9[1];
-        if ((double)lbl_821CC160 < dVar11) {
+        if ((double)ltcg_pool_0_0f < dVar11) {
           iVar3 = ((int *)*piVar2)[1];
           for (iVar10 = *(int *)*piVar2; iVar10 != iVar3; iVar10 = iVar10 + 0x20) {
             fVar1 = *(float *)(iVar10 + 0x10);

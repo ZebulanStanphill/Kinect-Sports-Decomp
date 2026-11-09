@@ -29,7 +29,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_823133E8();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorConditionalSelect();
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
@@ -56,7 +56,7 @@ fn_82313080(double param_1,int param_2,undefined8 param_3,undefined8 param_4,int
   float fVar9;
   float afStack_40 [16];
   
-  fVar4 = lbl_821CC160;
+  fVar4 = ltcg_pool_0_0f;
   if (*(int *)(param_2 + 0x24) == 0) {
     iVar5 = fn_823133E8(param_3,param_4,param_5,param_2 + 0x10);
     fVar4 = lbl_821CA460;
@@ -80,10 +80,10 @@ fn_82313080(double param_1,int param_2,undefined8 param_3,undefined8 param_4,int
     if (*(int *)(param_2 + 0x28) != 0) {
       fVar8 = (float)((double)*(float *)(param_2 + 0x28) - param_1);
       fVar1 = -fVar8;
-      fVar9 = lbl_821CC160;
+      fVar9 = ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar1 < lbl_821CC160) << 2) |
-                    (uint)(NAN(fVar1) || NAN(lbl_821CC160)) << 2)) < 0.0) {
+                    ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
+                    (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar9 = fVar8;
       }
       *(float *)(param_2 + 0x28) = fVar9;

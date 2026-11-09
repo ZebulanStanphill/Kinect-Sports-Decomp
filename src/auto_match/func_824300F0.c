@@ -34,7 +34,7 @@ extern unsigned int lbl_821917A8;
 extern unsigned int lbl_82191F78;
 extern unsigned int lbl_821962C0;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4D40;
 extern unsigned int lbl_831E4D44;
 extern unsigned int uStack_28;
@@ -172,7 +172,7 @@ void fn_824300F0(undefined8 param_1,int param_2)
     puVar8 = &lbl_821917A8;
     dVar10 = (double)*(float *)(iVar5 + 0x90);
     dVar9 = (double)fn_82539560((double)*(float *)(param_2 + 0x220),(double)lbl_831E4D40,
-                                 (double)lbl_831E4D44,(double)lbl_821CC160,(double)lbl_82191F78);
+                                 (double)lbl_831E4D44,(double)ltcg_pool_0_0f,(double)lbl_82191F78);
     dVar11 = (double)lbl_821CA460;
     *(float *)(iVar5 + 0x90) =
          (float)((double)(float)((double)(float)(dVar11 - dVar9) - dVar10) *

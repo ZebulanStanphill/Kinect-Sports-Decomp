@@ -52,7 +52,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_82195738;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B4D8;
 
 
@@ -102,7 +102,7 @@ void fn_825E20F8(undefined8 param_1,longlong param_2,ulonglong param_3,undefined
   float fStack_84;
   
   iVar7 = fn_82F6A540();
-  dVar17 = (double)lbl_821CC160;
+  dVar17 = (double)ltcg_pool_0_0f;
   uVar22 = extraout_f1;
   fn_8261E600(param_2,0xffffffff831bf528);
   fn_8255CFD0(param_6,param_2 + 0x240);

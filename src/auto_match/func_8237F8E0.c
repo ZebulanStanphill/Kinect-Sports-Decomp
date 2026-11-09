@@ -36,7 +36,7 @@ extern int fn_82562A28();
 extern int fn_82562FD8();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorMergeHighWord();
 extern V16 vectorMergeLowWord();
 extern V16 vectorMultiplyAddFloatingPoint();
@@ -86,8 +86,8 @@ undefined8 * fn_8237F8E0(undefined8 *param_1,longlong param_2)
   undefined1 auStack_60 [32];
   undefined1 auStack_40 [48];
   
-  uVar5 = lbl_821CC160;
-  *(undefined4 *)param_1 = lbl_821CC160;
+  uVar5 = ltcg_pool_0_0f;
+  *(undefined4 *)param_1 = ltcg_pool_0_0f;
   *(undefined4 *)((int)param_1 + 4) = uVar5;
   fn_82562A28(auStack_60,param_2 + 0x20);
   fn_82562FD8(auStack_a0);

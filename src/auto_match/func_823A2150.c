@@ -58,7 +58,7 @@ extern int fn_8288B760();
 extern unsigned int iStack_2098;
 extern unsigned int iStack_20c8;
 extern unsigned int lbl_821917B0;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uRam831ca688;
 extern unsigned int uStack_20ac;
 extern unsigned int uStack_20e0;
@@ -120,8 +120,8 @@ void fn_823A2150(int param_1)
   }
   iVar9 = *(int *)(param_1 + 8);
   iVar2 = *(int *)(iVar9 + 0xcc);
-  dVar17 = (double)lbl_821CC160;
-  *(float *)(param_1 + 0x20) = lbl_821CC160;
+  dVar17 = (double)ltcg_pool_0_0f;
+  *(float *)(param_1 + 0x20) = ltcg_pool_0_0f;
   *(undefined4 *)(param_1 + 0x14) = 0;
   *(undefined4 *)(param_1 + 0x1c) = 0;
   *(undefined4 *)(param_1 + 0x18) = 0;

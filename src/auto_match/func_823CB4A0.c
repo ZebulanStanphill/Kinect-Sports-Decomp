@@ -41,7 +41,7 @@ extern unsigned int lbl_821916FC;
 extern unsigned int lbl_82193E50;
 extern unsigned int lbl_82195628;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831D2F84;
 extern unsigned int lbl_831D2FA0;
 
@@ -145,7 +145,7 @@ void fn_823CB4A0(undefined8 param_1,int param_2,int param_3,undefined4 *param_4,
     dVar12 = (double)(float)(dVar15 * dVar11);
     dVar13 = (double)(float)((double)fStack_98 * dVar11);
     fVar27 = (float)(dVar16 * (double)(float)(dVar16 * dVar11));
-    dVar18 = (double)lbl_821CC160;
+    dVar18 = (double)ltcg_pool_0_0f;
     dVar11 = (double)(float)(dVar14 * (double)(float)(dVar16 * dVar11));
     dVar19 = (double)(float)(dVar13 * dVar15 - dVar11);
     fVar24 = (float)((double)fStack_98 * dVar13);
@@ -248,7 +248,7 @@ void fn_823CB4A0(undefined8 param_1,int param_2,int param_3,undefined4 *param_4,
       fStack_98 = (float)dVar17;
       dVar17 = (double)fn_82809D40(-dVar18,dVar19);
       fStack_a0 = (float)dVar17;
-      fStack_9c = lbl_821CC160;
+      fStack_9c = ltcg_pool_0_0f;
     }
     else {
       dVar17 = (double)fn_82809D40((double)((float)(dVar11 * dVar16) + (float)(dVar14 * dVar12)),

@@ -35,7 +35,7 @@ extern unsigned int lbl_82195D50;
 extern unsigned int lbl_82195D54;
 extern unsigned int lbl_82195D58;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000030;
 
 
@@ -201,7 +201,7 @@ fn_826078B0(double param_1,double param_2,undefined8 param_3,double param_4,int 
       puVar14 = puVar14 + 0x20;
     } while (iVar11 < piVar6[1]);
   }
-  dVar17 = (double)lbl_821CC160;
+  dVar17 = (double)ltcg_pool_0_0f;
   if ((param_4 <= dVar17) || ((in_r10 & 2) != 0)) {
     param_4 = (double)(*(float *)(puVar5 + 4) / *(float *)(puVar5 + 8));
   }

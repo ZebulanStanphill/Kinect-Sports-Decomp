@@ -31,7 +31,7 @@ extern int fn_82529A38();
 extern int fn_82587AC0();
 extern int fn_825D9FB0();
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326F968;
 extern unsigned int lbl_8326F96C;
 
@@ -56,7 +56,7 @@ bool fn_8261D908(double param_1,int param_2,undefined8 param_3,float *param_4)
   fVar2 = *(float *)(param_2 + 0xb3c) + *param_4;
   *param_4 = fVar2;
   bVar6 = false;
-  dVar8 = (double)lbl_821CC160;
+  dVar8 = (double)ltcg_pool_0_0f;
   dVar7 = (double)(lbl_821CA460 / (float)(longlong)((int)((-(uint)bVar3 & 0xfffffff6) + 0x3c) >> 1))
   ;
   dVar1 = (double)fVar2 - dVar7;

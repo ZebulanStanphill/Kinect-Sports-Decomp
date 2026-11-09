@@ -32,7 +32,7 @@ extern int fn_8251F720();
 extern unsigned int lbl_821AD208;
 extern unsigned int lbl_821AD20C;
 extern unsigned int lbl_821C2424;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_34;
 
 
@@ -50,7 +50,7 @@ fn_822CC860(undefined4 *param_1,undefined4 param_2,int *param_3,undefined4 param
   undefined ***pppuStack_30;
   
   param_1[2] = param_2;
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   *param_1 = &lbl_821AD208;
   param_1[3] = uVar1;
   param_1[4] = 0;

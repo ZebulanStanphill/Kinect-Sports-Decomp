@@ -60,7 +60,7 @@ extern unsigned int lbl_8218EC08;
 extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_821956BC;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C3124;
 extern unsigned int lbl_831C3128;
 extern unsigned int lbl_831C312C;
@@ -215,7 +215,7 @@ LAB_824f7364:
     }
     if (*(int *)(iVar9 + 0x2b4) == 4) goto LAB_824f7364;
   }
-  dVar19 = (double)lbl_821CC160;
+  dVar19 = (double)ltcg_pool_0_0f;
   lVar17 = 3;
   uVar15 = (ulonglong)*(uint *)(iVar9 + 0x2b4);
   uVar16 = (ulonglong)*(uint *)(iVar9 + 0x2b0);
@@ -261,7 +261,7 @@ LAB_824f7364:
   }
   if ((!bVar6) || (!bVar7)) {
     dVar20 = (double)(fVar1 / (float)(dVar22 * dVar18));
-    *(float *)(iVar9 + 0x2e0) = lbl_821CC160;
+    *(float *)(iVar9 + 0x2e0) = ltcg_pool_0_0f;
     if (dVar20 < dVar19) {
       dVar20 = -dVar20;
     }

@@ -32,7 +32,7 @@ extern int fn_8257F5C0();
 extern int fn_828389E0();
 extern int fn_8284C850();
 extern int fn_8284C858();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorRotateLeftImmediateMaskInsert128();
@@ -56,7 +56,7 @@ void fn_825E4D88(double param_1,undefined8 param_2,undefined8 param_3,undefined8
   undefined1 auVar4 [16];
   undefined1 in_vr13 [16];
   
-  uVar1 = lbl_821CC160;
+  uVar1 = ltcg_pool_0_0f;
   uVar2 = ZEXT48(&stack0x00000000);
   fn_8284C858();
   fn_8284C850(param_2);

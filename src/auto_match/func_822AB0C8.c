@@ -33,7 +33,7 @@ extern int fn_82526C70();
 extern int fn_8265C9E0();
 extern int memcpy();
 extern unsigned int lbl_82002B04;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_5c;
 
 
@@ -55,7 +55,7 @@ int fn_822AB0C8(double param_1,int param_2,undefined8 param_3,undefined8 param_4
     *(int *)(param_2 + 4) = iVar3;
     *(int *)iVar3 = iVar3;
     *(int *)(*(int *)(param_2 + 4) + 4) = *(int *)(param_2 + 4);
-    uVar4 = lbl_821CC160;
+    uVar4 = ltcg_pool_0_0f;
     *(int *)(*(int *)(param_2 + 4) + 8) = *(int *)(param_2 + 4);
     *(undefined1 *)(*(int *)(param_2 + 4) + 0x14) = 1;
     *(undefined1 *)(*(int *)(param_2 + 4) + 0x15) = 1;

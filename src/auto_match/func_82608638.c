@@ -30,7 +30,7 @@ extern unsigned int *auStack_40;
 extern unsigned int *auStack_50;
 extern int fn_82605EC0();
 extern int fn_82D93128();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83297070;
 extern unsigned int stack0x00000000;
 extern U64 storeVectorElementWordIndexed();
@@ -88,7 +88,7 @@ void fn_82608638(int *param_1,longlong param_2)
   if ((uVar8 & 0xffffffff) != 0) {
     fn_82605EC0(uVar8,uVar7 - 0x40);
   }
-  if (lbl_821CC160 < (float)param_1[0x45]) {
+  if (ltcg_pool_0_0f < (float)param_1[0x45]) {
     param_1[0x44] = 1;
     puVar4 = (undefined4 *)((uint)(auStack_50 + iVar6) & 0xfffffff0);
     uVar10 = puVar4[1];

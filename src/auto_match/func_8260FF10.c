@@ -29,7 +29,7 @@ extern unsigned int *auStack_20;
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_40;
 extern int fn_82552F88();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern V16 loadVectorLeftIndexed128();
 
 
@@ -79,7 +79,7 @@ void fn_8260FF10(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
     fn_82552F88(*(undefined4 *)((int)param_3 + 0x2c),auStack_40);
     fn_82552F88(*(undefined4 *)((int)param_3 + 0x48),auStack_20);
     fn_82552F88(*(undefined4 *)((int)param_3 + 0x4c),auStack_30);
-    fVar12 = lbl_821CC160;
+    fVar12 = ltcg_pool_0_0f;
     iVar8 = (int)param_3;
     loadVectorLeftIndexed128(param_3,0x50);
     puVar9 = (undefined4 *)((uint)(auStack_20 + in_r0) & 0xfffffff0);
@@ -92,11 +92,11 @@ void fn_8260FF10(int param_1,undefined8 param_2,undefined8 param_3,undefined8 pa
     fVar17 = pfVar10[1];
     fVar20 = pfVar10[2];
     fVar23 = pfVar10[3];
-    if (lbl_821CC160 < *(float *)(iVar8 + 0x30)) {
+    if (ltcg_pool_0_0f < *(float *)(iVar8 + 0x30)) {
       fVar1 = *(float *)(iVar8 + 0x34);
       uVar7 = *(undefined4 *)(iVar8 + 0x10);
       uVar18 = *(undefined4 *)(iVar8 + 0x44);
-      bVar14 = fVar1 <= lbl_821CC160;
+      bVar14 = fVar1 <= ltcg_pool_0_0f;
       uVar21 = *(undefined4 *)(iVar8 + 0x40);
       uVar24 = *(undefined4 *)(iVar8 + 0x3c);
       uVar2 = *(undefined4 *)(iVar8 + 0x38);

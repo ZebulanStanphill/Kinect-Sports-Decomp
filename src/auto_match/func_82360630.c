@@ -31,7 +31,6 @@ extern void fn_82273C88(Value_82360630 *v);
 extern int fn_82672C20(void *movie, const char *path, Value_82360630 *args, int n);
 extern double lbl_821954B0[];
 extern float lbl_821CA45C[];
-extern float lbl_821CC160;
 
 void fn_82360630(Obj_82360630 *self, unsigned int id, float a, float b)
 {
@@ -48,7 +47,7 @@ void fn_82360630(Obj_82360630 *self, unsigned int id, float a, float b)
     if (id != self->id)
         return;
 
-    zero = lbl_821CC160;
+    zero = 0.0f;
     d = lbl_821954B0[13];
     one = lbl_821CA45C[1];
 

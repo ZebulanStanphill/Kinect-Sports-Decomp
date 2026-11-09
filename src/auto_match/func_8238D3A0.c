@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822ABA88();
 extern unsigned int lbl_82192734;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_8238D3A0(int *param_1,ulonglong param_2)
@@ -60,7 +60,7 @@ void fn_8238D3A0(int *param_1,ulonglong param_2)
       *(float *)(iVar4 + 0x2fc) = (float)dVar7;
     } while ((uVar6 & 0xffffffff) < (ulonglong)uVar3);
   }
-  param_1[8] = lbl_821CC160;
+  param_1[8] = ltcg_pool_0_0f;
   return;
 }
 

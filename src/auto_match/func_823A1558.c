@@ -29,7 +29,7 @@ extern int fn_822A0AD8();
 extern int fn_822A0BC8();
 extern int fn_822ABA88();
 extern int fn_82399CB8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_823A1558(int param_1,undefined8 param_2,undefined8 param_3)
@@ -44,7 +44,7 @@ void fn_823A1558(int param_1,undefined8 param_2,undefined8 param_3)
   int *piVar7;
   
   iVar4 = *(int *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 0x1c) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x1c) = ltcg_pool_0_0f;
   if (iVar4 == 10) {
     iVar4 = *(int *)(param_1 + 8);
     uVar3 = (ulonglong)*(uint *)(*(int *)(iVar4 + 0x2e0) + 0x50);

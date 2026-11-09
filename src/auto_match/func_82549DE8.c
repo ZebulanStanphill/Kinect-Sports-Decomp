@@ -30,7 +30,7 @@ extern int fn_82809868();
 extern int fn_8284EF60();
 extern unsigned int lbl_82193E2C;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8329618C;
 
 
@@ -45,8 +45,8 @@ void fn_82549DE8(double param_1,int param_2,undefined8 param_3,undefined8 param_
   
   if (*(int *)(param_2 + 0x78) == 0) {
     *(undefined4 *)(param_2 + 0x70) = 0;
-    fVar1 = lbl_821CC160;
-    *(float *)(param_2 + 0x68) = lbl_821CC160;
+    fVar1 = ltcg_pool_0_0f;
+    *(float *)(param_2 + 0x68) = ltcg_pool_0_0f;
     *(float *)(param_2 + 100) = fVar1;
   }
   else {
@@ -54,7 +54,7 @@ void fn_82549DE8(double param_1,int param_2,undefined8 param_3,undefined8 param_
       fVar1 = (float)((double)(lbl_821CA460 / *(float *)(param_2 + 0x74)) * param_1 +
                      (double)*(float *)(param_2 + 0x6c));
       if (lbl_821CA460 <= fVar1) {
-        fVar1 = lbl_821CC160;
+        fVar1 = ltcg_pool_0_0f;
       }
       *(float *)(param_2 + 0x6c) = fVar1;
                     /* WARNING: Subroutine does not return */

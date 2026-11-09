@@ -9,7 +9,6 @@ extern void fn_82517DC8(void *p);
 extern void fn_825ACAC8(void *p);
 extern char lbl_821AD0A8[];
 extern char lbl_821AD0F4[];
-extern float lbl_821CC160;
 
 typedef struct {
   void *vt;
@@ -32,7 +31,7 @@ Obj_822CA318 *fn_822CA318(Obj_822CA318 *s)
   s->vt2 = lbl_821AD0F4;
   fn_825ACAC8(s->sub);
   s->value = 0;
-  s->f = lbl_821CC160;
+  s->f = 0.0f;
   s->b82 = 0;
   s->b83 = 0;
   s->vec = __VMXGetReg(77);

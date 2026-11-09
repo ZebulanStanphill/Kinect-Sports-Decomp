@@ -31,7 +31,7 @@ extern int fn_822ABA88();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831CCF70;
 extern unsigned int lbl_831CCF74;
 
@@ -143,7 +143,7 @@ double fn_822F2A08(int param_1)
   puVar2[1] = uVar12;
   puVar2[2] = uVar13;
   puVar2[3] = uVar14;
-  fVar3 = lbl_821CC160;
+  fVar3 = ltcg_pool_0_0f;
   puVar1 = (undefined4 *)((int)afStack_50 + in_r0 & 0xfffffff0);
   *puVar1 = uVar19;
   puVar1[1] = uVar20;

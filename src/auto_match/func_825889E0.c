@@ -32,7 +32,7 @@ extern unsigned int fStack_58;
 extern int fn_82588280();
 extern int fn_825E4A78();
 extern int fn_825E4CA8();
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8326B8E8;
 extern unsigned int lbl_8326B8F0;
 extern unsigned int uRam8326b858;
@@ -53,9 +53,9 @@ void fn_825889E0(undefined8 param_1,int param_2,undefined8 param_3,undefined8 pa
   float fStack_54;
   undefined8 auStack_50 [10];
   
-  dVar4 = (double)lbl_821CC160;
-  fStack_58 = lbl_821CC160;
-  uStack_60 = ((((U64)(uStack_60)) & (~(((U64)0xFFFFFFFF) << 0))) | ((((U64)(lbl_821CC160)) & ((U64)0xFFFFFFFF)) << 0));
+  dVar4 = (double)ltcg_pool_0_0f;
+  fStack_58 = ltcg_pool_0_0f;
+  uStack_60 = ((((U64)(uStack_60)) & (~(((U64)0xFFFFFFFF) << 0))) | ((((U64)(ltcg_pool_0_0f)) & ((U64)0xFFFFFFFF)) << 0));
   dVar3 = (double)fn_825E4A78(param_2,param_7,param_1,param_4,&fStack_58,&uStack_60);
   uVar1 = (uint)param_1 & 0xffff;
   fStack_54 = (float)((double)(*param_6 + (((U64)(uStack_60) >> 0) & 0xFFFFFFFF)) - dVar3);

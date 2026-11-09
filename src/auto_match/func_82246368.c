@@ -29,7 +29,6 @@ extern int fn_82250A18();
 extern float *fn_82292AE8();
 extern int fn_82512B70(void *);
 extern int fn_825132E0(void *);
-extern float lbl_821CC160;
 extern unsigned int lbl_8219793C;
 extern unsigned int lbl_832975B0;
 
@@ -46,7 +45,7 @@ void fn_82246368(Obj_82246368 *param_1)
 
   param_1->vt = &lbl_8219793C;
   pf = fn_82292AE8();
-  if (pf[0x5c / 4] == lbl_821CC160) {
+  if (pf[0x5c / 4] == 0.0f) {
     pf[0x5c / 4] = 100.0f;
   }
   iVar1 = lbl_832975B0;

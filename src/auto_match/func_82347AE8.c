@@ -42,7 +42,7 @@ extern unsigned int lbl_821922D0;
 extern unsigned int lbl_821929B0;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C78F0;
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -90,7 +90,7 @@ void fn_82347AE8(double param_1,int param_2,undefined8 param_3,undefined8 param_
     iVar8 = *(int *)(*(int *)(iVar8 + 0x1d4) * 4 + *(int *)(iVar8 + 0x1c4));
   }
   iVar7 = (*(int **)(param_2 + 0xc))[1];
-  dVar13 = (double)lbl_821CC160;
+  dVar13 = (double)ltcg_pool_0_0f;
   if ((iVar7 != 9) && (iVar7 != 10)) {
     if (iVar7 == 0xc) {
       fn_823419C0(dVar13,param_1,param_2);

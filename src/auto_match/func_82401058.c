@@ -2,7 +2,6 @@ extern void fn_822315A0(unsigned);
 extern void fn_82366A98(unsigned *);
 extern void fn_825708F0(unsigned, unsigned);
 extern int lbl_821B7B38[];
-extern float lbl_821CC160;
 extern unsigned lbl_8327F844;
 
 void fn_82401058(unsigned *param_1)
@@ -22,7 +21,7 @@ void fn_82401058(unsigned *param_1)
   base = lbl_8327F844;
   if (lbl_8327F844 != 0) {
     p = (char *)(base + 0x14);
-    f = lbl_821CC160;
+    f = 0.0f;
     n = 2;
     do {
       *(float *)(p + 0xa4) = f;

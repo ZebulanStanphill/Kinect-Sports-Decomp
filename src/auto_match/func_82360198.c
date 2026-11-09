@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82193B04;
 extern unsigned int lbl_821CA460;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
@@ -76,7 +76,7 @@ code_r0x823602c4:
     return;
   }
   *(float *)(param_1 + 0x2c98) = fVar1;
-  *(undefined4 *)(param_1 + 0x2c94) = lbl_821CC160;
+  *(undefined4 *)(param_1 + 0x2c94) = ltcg_pool_0_0f;
   return;
 }
 

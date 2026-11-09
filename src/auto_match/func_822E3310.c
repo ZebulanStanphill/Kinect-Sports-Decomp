@@ -35,7 +35,7 @@ extern int fn_82374520();
 extern int fn_8288B760();
 extern unsigned int iStack_3c;
 extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CC160;
+extern unsigned int ltcg_pool_0_0f;
 
 
 void fn_822E3310(double param_1,int param_2)
@@ -89,7 +89,7 @@ LAB_822e33fc:
   fVar1 = (float)((double)*(float *)(param_2 + 0x38) - param_1);
   *(float *)(param_2 + 0x38) = fVar1;
   *(undefined4 *)(param_2 + 0x2c) = 0;
-  if ((fVar1 <= lbl_821CC160) && (((int)lVar7 == 0 || (*(int *)(param_2 + 0x34) != 0)))) {
+  if ((fVar1 <= ltcg_pool_0_0f) && (((int)lVar7 == 0 || (*(int *)(param_2 + 0x34) != 0)))) {
     *(undefined4 *)(param_2 + 0x38) = lbl_8218E8E8;
     if ((*(int *)(param_2 + 0x34) == 0) &&
        (iVar5 = fn_822CFA38(*(undefined4 *)(param_2 + 0x14),0), iVar5 == 0)) {
