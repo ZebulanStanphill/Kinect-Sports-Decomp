@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82F53A20();
+typedef struct { unsigned char b[0x14]; float f14; unsigned char c[4]; } Blob_824A5CA8;
+typedef struct { char pad[0x48]; Blob_824A5CA8 data; } Src_824A5CA8;
+typedef struct { void *vt; char pad[0x38]; Blob_824A5CA8 data; float f58; int f5c; } Obj_824A5CA8;
+extern void fn_82F53A20(void *, void *);
+extern void *fn_8265C9E0(unsigned);
+extern char lbl_821BF758[];
 
-
-undefined8 fn_824A5CA8(undefined8 param_1)
-
+Obj_824A5CA8 *fn_824A5CA8(Src_824A5CA8 *src)
 {
-  longlong lVar1;
-  
-  lVar1 = fn_8265C9E0(0x60);
-  if (lVar1 != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F53A20(lVar1,param_1);
+  Obj_824A5CA8 *p = (Obj_824A5CA8 *)fn_8265C9E0(0x60);
+  if (p != 0) {
+    fn_82F53A20(p, src);
+    p->vt = lbl_821BF758;
+    p->data = src->data;
+    p->f58 = src->data.f14;
+    p->f5c = 0;
+    return p;
   }
   return 0;
 }
-

@@ -1,60 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C53960();
-extern int fn_82C53970();
-extern int fn_82C80360();
+typedef struct {
+    char pad[0x24];
+    int w0, h0, w1, h1;
+    char pad2[0x130 - 0x34];
+    void *buf0;
+    void *buf1;
+} Obj_82C814F8;
+extern void *fn_82C53960(unsigned int size, unsigned int flags);
+extern void fn_82C53970(void *p);
+extern unsigned int fn_82C80360(Obj_82C814F8 *o, int w, int h);
 
-
-ulonglong fn_82C814F8(int param_1)
-
+int fn_82C814F8(Obj_82C814F8 *o)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  
-  if (*(int *)(param_1 + 0x130) != 0) {
-    fn_82C53970();
-    *(undefined4 *)(param_1 + 0x130) = 0;
-  }
-  if (*(int *)(param_1 + 0x134) != 0) {
-    fn_82C53970();
-    *(undefined4 *)(param_1 + 0x134) = 0;
-  }
-  uVar1 = fn_82C80360(param_1,*(undefined4 *)(param_1 + 0x24),*(undefined4 *)(param_1 + 0x28));
-  uVar2 = fn_82C80360(param_1,*(undefined4 *)(param_1 + 0x2c),*(undefined4 *)(param_1 + 0x30));
-  uVar3 = fn_82C53960(uVar1,0);
-  *(int *)(param_1 + 0x130) = (int)uVar3;
-  if ((uVar3 & 0xffffffff) != 0) {
-    lVar4 = fn_82C53960(uVar2,0);
-    *(int *)(param_1 + 0x134) = (int)lVar4;
-    uVar3 = (ulonglong)(lVar4 != 0);
-  }
-  return uVar3;
+    unsigned int s0, s1;
+    if (o->buf0 != 0) {
+        fn_82C53970(o->buf0);
+        o->buf0 = 0;
+    }
+    if (o->buf1 != 0) {
+        fn_82C53970(o->buf1);
+        o->buf1 = 0;
+    }
+    s0 = fn_82C80360(o, o->w0, o->h0);
+    s1 = fn_82C80360(o, o->w1, o->h1);
+    o->buf0 = fn_82C53960(s0, 0);
+    if (o->buf0 == 0) {
+        return 0;
+    }
+    o->buf1 = fn_82C53960(s1, 0);
+    return o->buf1 != 0;
 }
-

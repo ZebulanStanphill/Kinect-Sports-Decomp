@@ -1,51 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Open-addressing hash set findIndex (Scaleform-style HashSetBase::findIndexCore)
+   with the hash value cached in each entry; the key is reached through a pointer. */
+typedef struct Entry_82769E90 { int next; unsigned int hash; unsigned int key; int rest[2]; } Entry_82769E90;
+typedef struct Table_82769E90 { unsigned int count; unsigned int mask; Entry_82769E90 e[1]; } Table_82769E90;
+typedef struct Hash_82769E90 { Table_82769E90 *table; } Hash_82769E90;
+typedef struct Ref_82769E90 { const unsigned int *v; } Ref_82769E90;
 
-
-int fn_82769E90(int *param_1,undefined4 *param_2,int param_3)
-
+int fn_82769E90(Hash_82769E90 *m, const Ref_82769E90 *key, unsigned int hashValue)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = param_3 * 0x14 + *param_1;
-  piVar3 = (int *)(iVar2 + 8);
-  if ((*piVar3 != -2) && (iVar1 = param_3, *(int *)(iVar2 + 0xc) == param_3)) {
-    while( true ) {
-      if ((piVar3[1] == param_3) && (piVar3[2] == *(int *)*param_2)) {
-        return iVar1;
-      }
-      iVar1 = *piVar3;
-      if (iVar1 == -1) break;
-      piVar3 = (int *)(iVar1 * 0x14 + *param_1 + 8);
-    }
+  int index = hashValue;
+  Entry_82769E90 *e = &m->table->e[index];
+  if (e->next == -2)
+    return -1;
+  if (e->hash != hashValue)
+    return -1;
+  for (;;) {
+    if (e->hash == hashValue && e->key == *key->v)
+      return index;
+    index = e->next;
+    if (index == -1)
+      return -1;
+    e = &m->table->e[index];
   }
-  return -1;
 }
-

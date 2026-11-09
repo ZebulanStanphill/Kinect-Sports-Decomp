@@ -1,37 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+/* Clears a 0x3c0-byte buffer and the two word pairs after it. The second pair is
+   addressed first and the first one derived from it (p - 1), which leaves the
+   original's dead addi of the second pair's address. */
+typedef struct Pair_824F0B20 { int first; int second; } Pair_824F0B20;
+extern void fn_82A1EFC0(void *, int, int);
 
-
-void fn_824F0B20(longlong param_1)
-
+void fn_824F0B20(char *self)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x16e0,0,0x3c0);
+  Pair_824F0B20 *p;
+  Pair_824F0B20 *q;
+  fn_82A1EFC0(self + 0x16e0, 0, 0x3c0);
+  p = (Pair_824F0B20 *)(self + 0x1aa8);
+  q = p - 1;
+  q->first = 0;
+  q->second = 0;
+  p->first = 0;
+  p->second = 0;
 }
-

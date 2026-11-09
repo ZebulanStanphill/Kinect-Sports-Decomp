@@ -1,37 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
+typedef struct Inner_823DF6A8 { int *pair; } Inner_823DF6A8;
+typedef struct Inner2_823DF6A8 { int pad[3]; int *pair; } Inner2_823DF6A8;
+typedef struct Obj_823DF6A8 { int pad[2]; Inner2_823DF6A8 *inner; } Obj_823DF6A8;
+extern void fn_822AF138(int, int);
 
-
-void fn_823DF6A8(int param_1)
-
+void fn_823DF6A8(Obj_823DF6A8 *self)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(**(undefined4 **)(*(int *)(param_1 + 8) + 0xc),5);
+  fn_822AF138(self->inner->pair[0], 5);
+  fn_822AF138(self->inner->pair[1], 5);
 }
-

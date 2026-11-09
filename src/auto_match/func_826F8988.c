@@ -1,36 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Inner_826F8988 {
+    int pad[10];
+    int state; /* +0x28 */
+} Inner_826F8988;
 
-bool fn_826F8988(int param_1)
+typedef struct Outer_826F8988 {
+    int pad[5];
+    Inner_826F8988 *inner; /* +0x14 */
+} Outer_826F8988;
 
+int fn_826F8988(Outer_826F8988 *self)
 {
-  sync(1);
-  return *(int *)(*(int *)(param_1 + 0x14) + 0x28) == 1;
+    int state = self->inner->state;
+    __lwsync();
+    return state == 1;
 }
-

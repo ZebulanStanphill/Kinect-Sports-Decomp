@@ -1,39 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82815220();
-extern int fn_82816600();
+extern void fn_82816D18(void);
+extern void fn_82816D20(void);
+extern void fn_82816D50(void);
+extern void fn_82815220(void (*a)(void), void (*b)(void), void *c, void (*d)(void), void *e);
+extern int fn_82816600(const char *name, void *unused, void *data, unsigned int size, int flags);
 
-
-void fn_82816DC8(undefined8 param_1,undefined8 param_2)
-
+int fn_82816DC8(void *data, unsigned int size)
 {
-  fn_82815220(0xffffffff82816d18,0xffffffff82816d20,0,0xffffffff82816d50,0);
-  fn_82816600(0xffffffff8201e0f0,0,param_1,param_2,1);
-  return;
+    fn_82815220(fn_82816D18, fn_82816D20, 0, fn_82816D50, 0);
+    return fn_82816600("memoryFile", 0, data, size, 1);
 }
-
