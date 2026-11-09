@@ -158231,11 +158231,12 @@
           "/O2"
         ]
       },
-      "auto_match/func_828EEC18.c": {
-        "status": "NonMatching",
+      "auto_match/func_828EEC18.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_828EEFD8.c": {
         "status": "Matching",

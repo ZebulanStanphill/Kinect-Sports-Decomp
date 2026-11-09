@@ -103049,7 +103049,7 @@ auto_match/func_828EEB88.cpp:
 	.pdata      start:0x82206EB0 end:0x82206EB8
 	.text       start:0x828EEB88 end:0x828EEC18
 
-auto_match/func_828EEC18.c:
+auto_match/func_828EEC18.cpp:
 	.pdata      start:0x82206EB8 end:0x82206EC0
 	.text       start:0x828EEC18 end:0x828EEFD8
 
