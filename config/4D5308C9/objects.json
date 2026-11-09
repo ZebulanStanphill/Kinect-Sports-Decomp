@@ -5118,10 +5118,11 @@
           "/QVMXReserve"
         ]
       },
-      "auto_match/func_82236F58.c": {
-        "status": "NonMatching",
+      "auto_match/func_82236F58.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/QVMXReserve"
         ]
       },
       "auto_match/func_82237058.c": {
@@ -31599,8 +31600,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82393778.c": {
-        "status": "NonMatching",
+      "auto_match/func_82393778.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -31644,8 +31645,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82393980.c": {
-        "status": "NonMatching",
+      "auto_match/func_82393980.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -38988,8 +38989,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_823FEB80.c": {
-        "status": "NonMatching",
+      "auto_match/func_823FEB80.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -39074,8 +39075,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_823FEFF8.c": {
-        "status": "NonMatching",
+      "auto_match/func_823FEFF8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -66729,8 +66730,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82595690.c": {
-        "status": "NonMatching",
+      "auto_match/func_82595690.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -146552,11 +146553,12 @@
           "/O2"
         ]
       },
-      "auto_match/func_82892F98.c": {
-        "status": "NonMatching",
+      "auto_match/func_82892F98.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82893070.cpp": {
         "status": "Matching",
@@ -152943,11 +152945,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_828C4110.c": {
-        "status": "NonMatching",
+      "auto_match/func_828C4110.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_828C41E8.c": {
         "status": "Matching",
