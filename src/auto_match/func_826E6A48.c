@@ -1,38 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* 64-bit tell of a stream object: widens the 32-bit position that the vtable slot 4 method
+   (fn_826E6A30) returns. */
+typedef struct Stream_826E6A48 Stream_826E6A48;
 
+typedef struct StreamVt_826E6A48 {
+    void *slots[4];
+    int (*tell)(Stream_826E6A48 *self);
+} StreamVt_826E6A48;
 
-undefined4 fn_826E6A48(int *param_1)
+struct Stream_826E6A48 {
+    StreamVt_826E6A48 *vt;
+};
 
+__int64 fn_826E6A48(Stream_826E6A48 *self)
 {
-  undefined4 uVar1;
-  
-  uVar1 = (**(code **)(*param_1 + 0x10))();
-  return uVar1;
+    return self->vt->tell(self);
 }
-

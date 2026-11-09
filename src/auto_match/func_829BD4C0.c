@@ -1,65 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Corresponds to libjpeg 6b jdphuff.c process_restart (open-source IJG libjpeg), in D3DX's copy;
+   a second libjpeg copy with int boolean and a different cinfo layout. */
+typedef int boolean;
 
+typedef struct Cinfo_829BD4C0 Cinfo_829BD4C0;
 
-undefined8 fn_829BD4C0(int param_1)
+typedef struct Marker_829BD4C0 {
+    int pad0[2];
+    boolean (*read_restart_marker)(Cinfo_829BD4C0 *cinfo); /* 0x08 */
+    int pad1[3];
+    unsigned int discarded_bytes;                      /* 0x18 */
+} Marker_829BD4C0;
 
+typedef struct Saved_829BD4C0 {
+    unsigned int EOBRUN;                               /* 0x14 */
+    int last_dc_val[4];                                /* 0x18 */
+} Saved_829BD4C0;
+
+typedef struct Entropy_829BD4C0 {
+    int pad0[2];
+    boolean insufficient_data;                         /* 0x08 */
+    int pad2;                                          /* 0x0c */
+    int bits_left;                                     /* 0x10 */
+    Saved_829BD4C0 saved;                              /* 0x14 */
+    unsigned int restarts_to_go;                       /* 0x28 */
+} Entropy_829BD4C0;
+
+struct Cinfo_829BD4C0 {
+    char pad0[0x118];
+    unsigned int restart_interval;                     /* 0x118 */
+    char pad1[0x14c - 0x11c];
+    int comps_in_scan;                                 /* 0x14c */
+    char pad2[0x1a4 - 0x150];
+    int unread_marker;                                 /* 0x1a4 */
+    char pad3[0x1bc - 0x1a8];
+    Marker_829BD4C0 *marker;                           /* 0x1bc */
+    Entropy_829BD4C0 *entropy;                         /* 0x1c0 */
+};
+
+boolean fn_829BD4C0(Cinfo_829BD4C0 *cinfo)
 {
-  int iVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  undefined4 *puVar4;
-  int iVar5;
-  
-  iVar1 = *(int *)(param_1 + 0x1c0);
-  uVar2 = *(uint *)(iVar1 + 0x10);
-  *(uint *)(*(int *)(param_1 + 0x1bc) + 0x18) =
-       ((int)uVar2 >> 3) + (uint)((int)uVar2 < 0 && (uVar2 & 7) != 0) +
-       *(int *)(*(int *)(param_1 + 0x1bc) + 0x18);
-  *(undefined4 *)(iVar1 + 0x10) = 0;
-  uVar3 = (**(code **)(*(int *)(param_1 + 0x1bc) + 8))();
-  if ((int)uVar3 != 0) {
-    iVar5 = 0;
-    if (0 < *(int *)(param_1 + 0x14c)) {
-      puVar4 = (undefined4 *)(iVar1 + 0x14);
-      do {
-        iVar5 = iVar5 + 1;
-        puVar4 = puVar4 + 1;
-        *puVar4 = 0;
-      } while (iVar5 < *(int *)(param_1 + 0x14c));
-    }
-    *(undefined4 *)(iVar1 + 0x14) = 0;
-    *(undefined4 *)(iVar1 + 0x28) = *(undefined4 *)(param_1 + 0x118);
-    if (*(int *)(param_1 + 0x1a4) == 0) {
-      *(undefined4 *)(iVar1 + 8) = 0;
-    }
-    uVar3 = 1;
-  }
-  return uVar3;
-}
+    Entropy_829BD4C0 *entropy = cinfo->entropy;
+    int ci;
 
+    cinfo->marker->discarded_bytes += entropy->bits_left / 8;
+    entropy->bits_left = 0;
+
+    if (!(*cinfo->marker->read_restart_marker)(cinfo))
+        return 0;
+
+    for (ci = 0; ci < cinfo->comps_in_scan; ci++)
+        entropy->saved.last_dc_val[ci] = 0;
+    entropy->saved.EOBRUN = 0;
+
+    entropy->restarts_to_go = cinfo->restart_interval;
+
+    if (cinfo->unread_marker == 0)
+        entropy->insufficient_data = 0;
+
+    return 1;
+}

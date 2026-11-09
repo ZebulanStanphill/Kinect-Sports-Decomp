@@ -1,50 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B9630();
-extern int fn_8265C9E0();
+/* Lazily creates the object cached at +0x7c: allocates 0x2c bytes and constructs it with
+   fn_822B9630(mem, field +0x14, &self->+0x198), then returns the cached pointer. */
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_822B9630(void *mem, void *arg, void *data);
 
+typedef struct Obj_822B67F8 {
+    char pad0[0x14];
+    void *arg;            /* 0x14 */
+    char pad18[0x64];
+    void *inst;           /* 0x7c */
+    char pad80[0x118];
+    char data[4];         /* 0x198 */
+} Obj_822B67F8;
 
-undefined4 fn_822B67F8(int param_1)
-
+void *fn_822B67F8(Obj_822B67F8 *o)
 {
-  ulonglong uVar1;
-  undefined4 uVar2;
-  
-  if (*(int *)(param_1 + 0x7c) == 0) {
-    uVar1 = fn_8265C9E0(0x2c);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar2 = 0;
+    if (o->inst == 0) {
+        void *mem = fn_8265C9E0(0x2c);
+        o->inst = mem ? fn_822B9630(mem, o->arg, o->data) : 0;
     }
-    else {
-      uVar2 = fn_822B9630(uVar1,*(undefined4 *)(param_1 + 0x14),param_1 + 0x198);
-    }
-    *(undefined4 *)(param_1 + 0x7c) = uVar2;
-  }
-  return *(undefined4 *)(param_1 + 0x7c);
+    return o->inst;
 }
-

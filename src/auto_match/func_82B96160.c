@@ -1,57 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B8FDD0();
+typedef struct {
+    char pad0[0x10];
+    int convert;          /* 0x10 */
+    char pad14[0xc];
+    char *data;           /* 0x20 */
+    char pad24[0x3c];
+    int strideX;          /* 0x60 */
+    int strideY;          /* 0x64 */
+    unsigned int count;   /* 0x68 */
+} S_82B96160;
 
+extern float *fn_82B8FDD0(S_82B96160 *s, float *src);
 
-void fn_82B96160(int param_1,int param_2,int param_3,int param_4)
-
+void fn_82B96160(S_82B96160 *s, int x, int y, float *src)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  if (*(int *)(param_1 + 0x10) != 0) {
-    param_4 = fn_82B8FDD0(param_1,param_4);
-  }
-  uVar1 = 0;
-  if (*(int *)(param_1 + 0x68) != 0) {
-    puVar3 = (undefined4 *)(param_4 + -0xc);
-    puVar2 = (undefined4 *)
-             (*(int *)(param_1 + 0x60) * param_2 + *(int *)(param_1 + 100) * param_3 +
-              *(int *)(param_1 + 0x20) + -4);
-    do {
-      uVar1 = uVar1 + 1;
-      puVar2[1] = puVar3[3];
-      puVar3 = puVar3 + 4;
-      puVar2 = puVar2 + 2;
-      *puVar2 = *puVar3;
-    } while (uVar1 < *(uint *)(param_1 + 0x68));
-  }
-  return;
-}
+    float *dst;
+    unsigned int i;
 
+    if (s->convert != 0) {
+        src = fn_82B8FDD0(s, src);
+    }
+    dst = (float *)(s->data + s->strideX * x + s->strideY * y);
+    for (i = 0; i < s->count; i++, dst += 2) {
+        dst[0] = src[i * 4];
+        dst[1] = src[i * 4 + 1];
+    }
+}

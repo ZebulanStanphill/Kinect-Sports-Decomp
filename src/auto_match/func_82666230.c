@@ -1,73 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265D468();
-extern int fn_8265D5A8();
-extern int fn_82666CE0();
-extern int fn_82666D30();
-extern int fn_82667870();
-extern unsigned int uStack0000001c;
+/* vector<12-byte element>::push_back (unoptimised: /O1 /Og-): when the value lives inside the vector,
+   its index is taken before a possible reallocation and the element re-read afterwards. */
+typedef struct { int v[3]; } Elem_82666230;
+typedef struct Vec_82666230 { Elem_82666230 *first, *last, *end; } Vec_82666230;
 
+extern void fn_8265D468(Vec_82666230 *, Elem_82666230 *, Elem_82666230 *);
+extern Elem_82666230 *fn_8265D5A8(Elem_82666230 *);
+extern void fn_82666D30(Vec_82666230 *, int);
+extern void fn_82667870(void *, Elem_82666230 *, Elem_82666230 *);
+extern unsigned char fn_82666CE0(Vec_82666230 *, Elem_82666230 *);
 
-void fn_82666230(uint *param_1,undefined4 param_2)
-
+void fn_82666230(Vec_82666230 *v, Elem_82666230 *val)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  char cVar4;
-  int iVar3;
-  uint *puStack00000014;
-  undefined4 uStack0000001c;
-  
-  puStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uVar2 = fn_8265D5A8(param_2);
-  cVar4 = fn_82666CE0(puStack00000014,uVar2);
-  if (cVar4 == '\0') {
-    if (puStack00000014[1] == puStack00000014[2]) {
-      fn_82666D30(puStack00000014,1);
-    }
-    fn_8265D468(puStack00000014,puStack00000014[1],puStack00000014[1]);
-    uVar2 = fn_8265D5A8(uStack0000001c);
-    fn_82667870(puStack00000014 + 3,puStack00000014[1],uVar2);
-    puStack00000014[1] = puStack00000014[1] + 0xc;
+  if (fn_82666CE0(v, fn_8265D5A8(val))) {
+    int idx = fn_8265D5A8(val) - v->first;
+    if (v->last == v->end)
+      fn_82666D30(v, 1);
+    fn_8265D468(v, v->last, v->last);
+    fn_82667870((char *)v + 0xc, v->last, fn_8265D5A8(v->first + idx));
+    v->last = v->last + 1;
+  } else {
+    if (v->last == v->end)
+      fn_82666D30(v, 1);
+    fn_8265D468(v, v->last, v->last);
+    fn_82667870((char *)v + 0xc, v->last, fn_8265D5A8(val));
+    v->last = v->last + 1;
   }
-  else {
-    iVar3 = fn_8265D5A8(uStack0000001c);
-    uVar1 = *puStack00000014;
-    if (puStack00000014[1] == puStack00000014[2]) {
-      fn_82666D30(puStack00000014,1);
-    }
-    fn_8265D468(puStack00000014,puStack00000014[1],puStack00000014[1]);
-    uVar2 = fn_8265D5A8((ulonglong)*puStack00000014 +
-                         (ulonglong)(uint)((int)(iVar3 - uVar1) / 0xc) * 0xc);
-    fn_82667870(puStack00000014 + 3,puStack00000014[1],uVar2);
-    puStack00000014[1] = puStack00000014[1] + 0xc;
-  }
-  return;
 }
-

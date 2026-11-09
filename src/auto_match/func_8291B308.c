@@ -1,46 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82919538();
+typedef struct Node_8291B308 { int pad[9]; struct Node_8291B308 *next; } Node_8291B308;
+extern int fn_82919538(Node_8291B308 *, int, int, int, int);
 
 
-undefined8 fn_8291B308(undefined8 param_1,undefined8 param_2,uint param_3,undefined8 param_4)
-
+static int notNull(Node_8291B308 *p) { if (p) return 1; return 0; }
+int fn_8291B308(int a, int b, unsigned c, int d)
 {
-  undefined8 uVar1;
-  
-  param_3 = ~param_3;
-  do {
-    uVar1 = fn_82919538(param_3,param_2,param_4,1,0);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    param_3 = *(uint *)(param_3 + 0x24);
-  } while (param_3 != 0);
+  Node_8291B308 *p = (Node_8291B308 *)~c;
+  int r;
+  for (;;) {
+    r = fn_82919538(p, b, d, 1, 0);
+    if (r < 0) return r;
+    p = p->next;
+    if (!notNull(p)) break;
+  }
   return 0;
 }
-

@@ -1,70 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *, const void *, unsigned int);
 
+struct Buf_8223FED8;
+typedef struct VT_8223FED8 {
+  void *s0;
+  void *s1;
+  void *s2;
+  int (*overflow)(struct Buf_8223FED8 *self, int c);
+} VT_8223FED8;
+typedef struct Buf_8223FED8 {
+  VT_8223FED8 *vt;
+  char pad4[0x24 - 4];
+  char **pfirst;
+  char pad28[0x34 - 0x28];
+  int *pcount;
+} Buf_8223FED8;
 
-longlong fn_8223FED8(int *param_1,longlong param_2,ulonglong param_3)
-
+__int64 fn_8223FED8(Buf_8223FED8 *self, const char *s, __int64 count)
 {
-  int iVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  
-  lVar2 = 0;
-  while( true ) {
-    while( true ) {
-      if ((longlong)param_3 < 1) {
-        return lVar2;
-      }
-      if (*(int *)param_1[9] == 0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = *(int *)param_1[0xd];
-      }
-      uVar3 = (ulonglong)iVar1;
-      if ((longlong)uVar3 < 1) break;
-      if ((longlong)param_3 < (longlong)uVar3) {
-        uVar3 = param_3;
-      }
-      fn_82F68CC0(*(int *)param_1[9],param_2,uVar3 & 0xffffffff);
-      param_2 = (uVar3 & 0xffffffff) + param_2;
-      lVar2 = uVar3 + lVar2;
-      param_3 = param_3 - uVar3;
-      *(int *)param_1[0xd] = *(int *)param_1[0xd] - (int)uVar3;
-      *(int *)param_1[9] = *(int *)param_1[9] + (int)uVar3;
-    }
-    iVar1 = (**(code **)(*param_1 + 0xc))(param_1,*(undefined1 *)param_2);
-    if (iVar1 == -1) break;
-    param_2 = param_2 + 1;
-    lVar2 = lVar2 + 1;
-    param_3 = param_3 - 1;
-  }
-  return lVar2;
-}
+  __int64 done = 0;
+  __int64 avail;
+  int n;
 
+  while (count > 0) {
+    if (*self->pfirst != 0) { n = *self->pcount; } else { n = 0; }
+    avail = n;
+    if (avail > 0) {
+      if (count < avail) avail = count;
+      memcpy(*self->pfirst, s, (unsigned int)avail);
+      s += (int)avail;
+      done += avail;
+      count -= avail;
+      *self->pcount -= (int)avail;
+      *self->pfirst += (int)avail;
+    } else {
+      if (self->vt->overflow(self, (unsigned char)*s) == -1) break;
+      s++;
+      done++;
+      count--;
+    }
+  }
+  return done;
+}

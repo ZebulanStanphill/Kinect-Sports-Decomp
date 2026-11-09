@@ -1,74 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
+/* Reads one record (a vector, an int, a bool, a float and an int) from five typed sources
+   through their slot 5 Get method and, for a non-zero offset, stores each value at that
+   byte offset into the matching column array. */
+typedef __declspec(passinreg) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Src_823F94E0 Src_823F94E0;
+typedef struct SrcVtbl_823F94E0 {
+    void *f[5];
+    void (*Get)(Src_823F94E0 *self, int key, void *out);
+} SrcVtbl_823F94E0;
+struct Src_823F94E0 {
+    SrcVtbl_823F94E0 *vt;
+};
 
-void fn_823F94E0(int param_1,undefined8 param_2,int param_3)
+typedef struct Obj_823F94E0 {
+    char pad0[8];
+    char *vecs;
+    char *a;
+    char *b;
+    char *c;
+    char *d;
+    Src_823F94E0 *s0;
+    int pad20;
+    Src_823F94E0 *s1;
+    int pad28;
+    Src_823F94E0 *s2;
+    int pad30;
+    Src_823F94E0 *s3;
+    int pad38;
+    Src_823F94E0 *s4;
+} Obj_823F94E0;
 
+void fn_823F94E0(Obj_823F94E0 *o, int key, unsigned int off)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  int in_r0;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined1 auStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined1 auStack_30 [16];
-  
-  (**(code **)(**(int **)(param_1 + 0x1c) + 0x14))(*(int **)(param_1 + 0x1c),param_2,auStack_30);
-  (**(code **)(**(int **)(param_1 + 0x24) + 0x14))(*(int **)(param_1 + 0x24),param_2,&uStack_3c);
-  (**(code **)(**(int **)(param_1 + 0x2c) + 0x14))(*(int **)(param_1 + 0x2c),param_2,&auStack_40);
-  (**(code **)(**(int **)(param_1 + 0x34) + 0x14))(*(int **)(param_1 + 0x34),param_2,&uStack_38);
-  (**(code **)(**(int **)(param_1 + 0x3c) + 0x14))(*(int **)(param_1 + 0x3c),param_2,&uStack_34);
-  if (param_3 != 0) {
-    puVar2 = (undefined4 *)((uint)(auStack_30 + in_r0) & 0xfffffff0);
-    uVar4 = puVar2[1];
-    uVar5 = puVar2[2];
-    uVar6 = puVar2[3];
-    puVar3 = (undefined4 *)(*(int *)(param_1 + 8) + param_3 & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar4;
-    puVar3[2] = uVar5;
-    puVar3[3] = uVar6;
-    *(undefined4 *)(*(int *)(param_1 + 0xc) + param_3) = uStack_3c;
-    *(undefined1 *)(*(int *)(param_1 + 0x10) + param_3) = auStack_40;
-    iVar1 = *(int *)(param_1 + 0x18);
-    *(undefined4 *)(*(int *)(param_1 + 0x14) + param_3) = uStack_38;
-    *(undefined4 *)(iVar1 + param_3) = uStack_34;
-  }
-  return;
-}
+    __vector4 v;
+    int a;
+    unsigned char b;
+    float c;
+    int d;
 
+    o->s0->vt->Get(o->s0, key, &v);
+    o->s1->vt->Get(o->s1, key, &a);
+    o->s2->vt->Get(o->s2, key, &b);
+    o->s3->vt->Get(o->s3, key, &c);
+    o->s4->vt->Get(o->s4, key, &d);
+    if (off != 0) {
+        *(__vector4 *)(o->vecs + off) = v;
+        *(int *)(o->a + off) = a;
+        *(unsigned char *)(o->b + off) = b;
+        *(float *)(o->c + off) = c;
+        *(int *)(o->d + off) = d;
+    }
+}
