@@ -1,17 +1,10 @@
 #ifndef GAME_ELEMENT_828E7D48_H
 #define GAME_ELEMENT_828E7D48_H
 
-// Placeholder for the element type of a std::set whose range erase is func_828E8448.
-// Only the node pointers matter to the code; named after an address until the
-// real element type is known. The name appears in the mangled symbols.
-
-struct Element_828E7D48 {
-    unsigned key;
-};
-
-inline bool operator<(const Element_828E7D48 &a, const Element_828E7D48 &b)
-{
-    return a.key < b.key;
-}
+// Placeholder for the element type of the std::set whose _Insert(bool, _Nodeptr,
+// _Nodeptr) is func_828E7D48 (which defines the full type: a 16-byte value with
+// a std::tr1::shared_ptr at 0x8). No unit includes this header any more; the
+// range erase func_828E8448 that used it belongs to the set of
+// Element_828E7248 (game/Element_828E7248.h).
 
 #endif

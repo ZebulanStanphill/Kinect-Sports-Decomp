@@ -10,9 +10,9 @@ extern "C" __declspec(noreturn) void fn_82F622E0(const char *message);
 #undef _Xlength_error
 #undef _Xout_of_range
 
-#include "game/Element_828E7D48.h"
+#include "game/Element_828E7248.h"
 
-typedef std::set<Element_828E7D48> Set;
+typedef std::set<Element_828E7248> Set;
 typedef Set::_Mybase Tree;
 
 template <> Tree::iterator Tree::erase(const_iterator, const_iterator);
