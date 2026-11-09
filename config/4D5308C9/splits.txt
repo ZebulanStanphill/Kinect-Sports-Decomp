@@ -39378,7 +39378,7 @@ auto_match/func_82511C60.c:
 	.pdata      start:0x821EDBA0 end:0x821EDBA8
 	.text       start:0x82511C60 end:0x82511CAC
 
-auto_match/func_82511CB0.c:
+auto_match/func_82511CB0.cpp:
 	.pdata      start:0x821EDBA8 end:0x821EDBB0
 	.text       start:0x82511CB0 end:0x825120A0
 
