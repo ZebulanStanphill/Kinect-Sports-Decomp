@@ -1,40 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* NOTE: symbols.txt splits this function in two: fn_827B5D18 (size 0x8) is
+   its loop-closing `bne` + `blr`. This source is the whole function; only the
+   symbol boundary keeps it below 100%. */
+typedef struct Node827B5CF8 {
+    struct Node827B5CF8 *prev;
+    struct Node827B5CF8 *next;
+    char pad8[0x18];
+    unsigned short flags;
+} Node827B5CF8;
 
+typedef struct List827B5CF8 {
+    char pad0[0x30];
+    Node827B5CF8 head;
+} List827B5CF8;
 
-void fn_827B5CF8(int param_1)
-
+void fn_827B5CF8(List827B5CF8 *list)
 {
-  int iVar1;
-  
-  for (iVar1 = *(int *)(param_1 + 0x34); iVar1 != param_1 + 0x30; iVar1 = *(int *)(iVar1 + 4)) {
-    *(ushort *)(iVar1 + 0x20) = *(ushort *)(iVar1 + 0x20) & 0x7fff;
-  }
-  return;
-}
+    Node827B5CF8 *n;
 
+    for (n = list->head.next; n != &list->head; n = n->next) {
+        n->flags &= 0x7fff;
+    }
+}

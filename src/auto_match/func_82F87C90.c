@@ -31,24 +31,18 @@ extern unsigned int uStack_21;
 byte * fn_82F87C90(byte *param_1,byte *param_2)
 
 {
-  byte bVar1;
+  unsigned int bVar1;
   byte bVar2;
   undefined1 *puVar3;
-  longlong lVar4;
-  undefined1 uStack_21;
+  int lVar4;
+  byte *cursor=param_2;
   byte abStack_20 [32];
   
-  puVar3 = &uStack_21;
-  lVar4 = 0x20;
-  do {
-    puVar3 = puVar3 + 1;
-    *puVar3 = 0;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
+  for (lVar4=0; lVar4<32; ++lVar4) abStack_20[lVar4]=0;
   bVar1 = *param_2;
   while (bVar1 != 0) {
-    param_2 = param_2 + 1;
-    bVar2 = *param_2;
+    cursor = cursor + 1;
+    bVar2 = *cursor;
     abStack_20[bVar1 >> 3] = (byte)(1 << (bVar1 & 7)) | abStack_20[bVar1 >> 3];
     bVar1 = bVar2;
   }
