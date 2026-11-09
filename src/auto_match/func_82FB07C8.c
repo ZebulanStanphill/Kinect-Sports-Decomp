@@ -1,38 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Slot 8 of vtable lbl_8216D2D0. */
+typedef struct Obj_82FB07C8 Obj_82FB07C8;
+typedef struct ObjVtbl_82FB07C8 {
+    void *slots[40];
+    void (*slot40)(Obj_82FB07C8 *self, int enabled);
+} ObjVtbl_82FB07C8;
+struct Obj_82FB07C8 {
+    ObjVtbl_82FB07C8 *vt;
+};
 
+typedef struct Msg_82FB07C8 {
+    int value;
+    int field_4;
+    void *pending;
+} Msg_82FB07C8;
 
-undefined8 fn_82FB07C8(int *param_1,int *param_2)
-
+int fn_82FB07C8(Obj_82FB07C8 *self, Msg_82FB07C8 *msg)
 {
-  if (param_2[2] == 0) {
-    (**(code **)(*param_1 + 0xa0))(param_1,*param_2 == 1);
-  }
-  return 1;
+    if (msg->pending == 0) {
+        int enabled = 0;
+        if (msg->value == 1) {
+            enabled = 1;
+        }
+        self->vt->slot40(self, enabled);
+    }
+    return 1;
 }
-

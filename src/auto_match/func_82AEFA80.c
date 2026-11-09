@@ -1,49 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82AEFA80 {
+    int field_0;
+    int field_4;
+    unsigned int flags_hi : 18;
+    unsigned int kind : 7;
+    unsigned int flags_lo : 7;
+} Obj_82AEFA80;
 
-
-undefined8 fn_82AEFA80(int param_1)
-
+static __forceinline unsigned char IsValidKind(unsigned int kind)
 {
-  bool bVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  
-  uVar2 = *(uint *)(param_1 + 8) >> 7 & 0x7f;
-  if ((uVar2 == 0) || (bVar1 = true, 0x66 < uVar2)) {
-    bVar1 = false;
-  }
-  if (!bVar1) {
-    return 0;
-  }
-  if ((uVar2 == 0x60) || (uVar3 = 1, uVar2 == 0x61)) {
-    uVar3 = 0;
-  }
-  return uVar3;
+    return kind >= 1 && kind <= 0x66;
 }
 
+unsigned char fn_82AEFA80(Obj_82AEFA80 *p)
+{
+    unsigned int kind = p->kind;
+    if (!IsValidKind(kind)) {
+        return 0;
+    }
+    return kind != 0x60 && kind != 0x61;
+}

@@ -1,107 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
+/* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg (as in
+   func_82603640.cpp). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+__vector4 __VMXGetReg(int n);
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_b0;
-extern int fn_822315A0();
-extern int fn_82250D10();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_bc;
-extern unsigned int uStack_c0;
-
-
-void fn_823EAF68(int *param_1,undefined8 param_2)
-
+struct If_823EAF68;
+typedef struct { void *s0; void (*f1)(struct If_823EAF68 *, void *); void *s2, *s3; void (*f4)(struct If_823EAF68 *, void *, void *); void (*f5)(struct If_823EAF68 *, void *, void *); } Vt_823EAF68;
+typedef struct If_823EAF68 { Vt_823EAF68 *vt; } If_823EAF68;
+typedef struct { int pad[4]; If_823EAF68 *g; } Sub2_823EAF68;
+typedef struct { char pad0[0x38]; Sub2_823EAF68 s2; char pad1[0x68 - 0x4c]; If_823EAF68 *h; } Sub_823EAF68;
+typedef struct { char pad[0xcd0]; Sub_823EAF68 sub; } Obj_823EAF68;
+typedef struct { Obj_823EAF68 *o; } Param_823EAF68;
+typedef struct { void *first; void *second; } Pair_823EAF68;
+typedef struct { char head[0x50]; __vector4 a; __vector4 b; __vector4 c; int d; } Msg_823EAF68;
+extern void fn_822315A0(void *);
+extern void fn_82250D10(void *);
+extern void fn_822D79D8(Pair_823EAF68 *, void *);
+extern void *fn_822D7FE0(void *);
+extern void *fn_8265C9E0(U32);
+extern void fn_828E2B28(void *, Pair_823EAF68 *);
+extern void fn_828E9D40(void *);
+extern void fn_828E9D90(void *);
+static __forceinline void Notify_823EAF68(Sub2_823EAF68 *t, void *buf)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  int in_r0;
-  int iVar5;
-  undefined8 uVar4;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  struct { undefined4 first; int second; } stack_pair_c0;
-
-  undefined1 auStack_b0 [80];
-  undefined1 auStack_60 [16];
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [48];
-  
-  iVar1 = *param_1;
-  iVar5 = fn_8265C9E0(0x28);
-  if (iVar5 == 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_822D7FE0();
-  }
-  stack_pair_c0.first = 0;
-  stack_pair_c0.second = 0;
-  fn_822D79D8(&stack_pair_c0.first,uVar4);
-  (**(code **)(**(int **)(iVar1 + 0xd38) + 0x10))(*(int **)(iVar1 + 0xd38),stack_pair_c0.first,param_2);
-  if (*(int *)(iVar1 + 0xd18) != 0) {
-    fn_828E9D90(stack_pair_c0.first);
-    fn_828E9D40(stack_pair_c0.first);
-    uVar3 = stack_pair_c0.first;
-    fn_82250D10(auStack_b0);
-    puVar2 = (undefined4 *)((uint)(auStack_60 + in_r0) & 0xfffffff0);
-    *puVar2 = in_register_000104d0;
-    puVar2[1] = in_register_000104d4;
-    puVar2[2] = in_register_000104d8;
-    puVar2[3] = in_vr77;
-    puVar2 = (undefined4 *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
-    *puVar2 = in_register_000104d0;
-    puVar2[1] = in_register_000104d4;
-    puVar2[2] = in_register_000104d8;
-    puVar2[3] = in_vr77;
-    puVar2 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
-    *puVar2 = in_register_000104d0;
-    puVar2[1] = in_register_000104d4;
-    puVar2[2] = in_register_000104d8;
-    puVar2[3] = in_vr77;
-    (**(code **)(**(int **)(iVar1 + 0xd38) + 0x14))(*(int **)(iVar1 + 0xd38),uVar3,auStack_b0);
-    if (*(int *)(iVar1 + 0xd18) != 0) {
-      (**(code **)(**(int **)(iVar1 + 0xd18) + 4))(*(int **)(iVar1 + 0xd18),auStack_b0);
-    }
-  }
-  fn_828E2B28(iVar1 + 0xcd0,&stack_pair_c0.first);
-  if (stack_pair_c0.second != 0) {
-    fn_822315A0();
-  }
-  return;
+  if (t->g != 0) t->g->vt->f1(t->g, buf);
 }
-
+void fn_823EAF68(Param_823EAF68 *p, void *arg)
+{
+  Obj_823EAF68 *o = p->o;
+  Sub_823EAF68 *s = &o->sub;
+  void *mem;
+  void *v;
+  Pair_823EAF68 pr;
+  Msg_823EAF68 buf;
+  mem = fn_8265C9E0(0x28);
+  if (mem != 0) v = fn_822D7FE0(mem); else v = 0;
+  pr.first = 0;
+  pr.second = 0;
+  fn_822D79D8(&pr, v);
+  s->h->vt->f4(s->h, pr.first, arg);
+  if (s->s2.g != 0) {
+    Sub2_823EAF68 *t;
+    void *f;
+    fn_828E9D90(pr.first);
+    fn_828E9D40(pr.first);
+    t = &s->s2;
+    f = pr.first;
+    fn_82250D10(&buf);
+    buf.a = __VMXGetReg(77);
+    buf.b = __VMXGetReg(77);
+    buf.c = __VMXGetReg(77);
+    s->h->vt->f5(s->h, f, &buf);
+    Notify_823EAF68(t, &buf);
+  }
+  fn_828E2B28(s, &pr);
+  if (pr.second != 0) fn_822315A0(pr.second);
+}
