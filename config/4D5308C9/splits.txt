@@ -97112,7 +97112,7 @@ auto_match/func_828A24F8.c:
 	.pdata      start:0x822047D0 end:0x822047D8
 	.text       start:0x828A24F8 end:0x828A255C
 
-auto_match/func_828A2560.c:
+auto_match/func_828A2560.cpp:
 	.pdata      start:0x822047D8 end:0x822047E0
 	.text       start:0x828A2560 end:0x828A2920
 
