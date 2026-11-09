@@ -46353,7 +46353,7 @@ auto_match/func_825ACF50.c:
 	.pdata      start:0x821F0C98 end:0x821F0CA0
 	.text       start:0x825ACF50 end:0x825AD304
 
-auto_match/func_825AD308.c:
+auto_match/func_825AD308.cpp:
 	.pdata      start:0x821F0CA0 end:0x821F0CA8
 	.text       start:0x825AD308 end:0x825AD4B8
 
