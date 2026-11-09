@@ -1,45 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACACA8();
-extern int fn_82ACBBF8();
-
-
-void fn_82ACC490(longlong param_1,ulonglong param_2)
-
+typedef union Key_82ACC490 { unsigned int bits; struct { unsigned int high : 28; unsigned int low : 4; } f; } Key_82ACC490;
+extern unsigned int fn_82ACACA8(void *, unsigned int, unsigned int);
+extern void fn_82ACBBF8(void *, unsigned int);
+void fn_82ACC490(char *self, unsigned int key)
 {
-  ulonglong uVar1;
-  
-  uVar1 = (param_2 & 0xffffffff) >> 2 & 0x3ffffffc;
-  uVar1 = fn_82ACACA8(param_1 + 4,uVar1,uVar1 + 3);
-  uVar1 = param_2 & ~uVar1 & 0xf;
-  if (uVar1 != 0) {
-    fn_82ACBBF8(param_1,param_2 & 0xfffffff0 | uVar1);
-  }
-  return;
+    unsigned int index = (key >> 2) & 0x3ffffffc;
+    unsigned int mask = fn_82ACACA8(self + 4, index, index + 3);
+    Key_82ACC490 result;
+    result.bits = (key & ~mask) & 15;
+    if (result.bits != 0) {
+        result.f.high = key >> 4;
+        fn_82ACBBF8(self, result.bits);
+    }
 }
-

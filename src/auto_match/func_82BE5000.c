@@ -1,45 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82BE5000(int param_1)
-
+typedef struct Child_82BE5000 Child_82BE5000;
+typedef struct VTable_82BE5000 { void *pad[5]; void (*method)(Child_82BE5000 *); } VTable_82BE5000;
+struct Child_82BE5000 { VTable_82BE5000 *vt; };
+typedef struct Obj_82BE5000 { int pad[2]; Child_82BE5000 *child; int status; } Obj_82BE5000;
+int fn_82BE5000(Obj_82BE5000 *self)
 {
-  undefined8 uVar1;
-  
-  if (*(int **)(param_1 + 8) == (int *)0x0) {
-    uVar1 = 400;
-    *(undefined4 *)(param_1 + 0xc) = 400;
-  }
-  else {
-    (**(code **)(**(int **)(param_1 + 8) + 0x14))();
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (self->child != 0) {
+        self->child->vt->method(self->child);
+        return 0;
+    } else {
+        self->status = 400;
+        return 400;
+    }
 }
-

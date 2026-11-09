@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82EE97B8(int param_1,uint param_2)
-
+typedef struct Link_82EE97B8 { struct Link_82EE97B8 *next, *prev; } Link_82EE97B8;
+typedef struct List_82EE97B8 { int unk; Link_82EE97B8 head; } List_82EE97B8;
+typedef struct Entry_82EE97B8 { Link_82EE97B8 link; int a,b; unsigned id; int found; } Entry_82EE97B8;
+typedef struct Owner_82EE97B8 { char pad[0x50]; char lock[0x1048]; List_82EE97B8 list; } Owner_82EE97B8;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+static __forceinline Link_82EE97B8 *first_82EE97B8(List_82EE97B8 *l) { return l->head.next != &l->head ? l->head.next : 0; }
+int fn_82EE97B8(Owner_82EE97B8 *self, unsigned id)
 {
-  uint *puVar1;
-  uint *puVar2;
-  
-  RtlEnterCriticalSection(param_1 + 0x50);
-  puVar1 = (uint *)(-(uint)(param_1 + 0x109cU != *(uint *)(param_1 + 0x109c)) &
-                   *(uint *)(param_1 + 0x109c));
-  if (puVar1 != (uint *)0x0) {
-    do {
-      puVar2 = (uint *)(-(uint)(param_1 + 0x109cU != *puVar1) & *puVar1);
-      if (puVar1[4] == param_2) {
-        puVar1[5] = 1;
-        break;
-      }
-      puVar1 = puVar2;
-    } while (puVar2 != (uint *)0x0);
-  }
-  RtlLeaveCriticalSection(param_1 + 0x50);
-  return 0;
+ Link_82EE97B8 *l;
+ RtlEnterCriticalSection(self->lock);
+ l = first_82EE97B8(&self->list);
+ while (l) {
+  Entry_82EE97B8 *e = (Entry_82EE97B8 *)l;
+  l = l->next != &self->list.head ? l->next : 0;
+  if (e->id == id) { e->found = 1; break; }
+ }
+ RtlLeaveCriticalSection(self->lock);
+ return 0;
 }
-

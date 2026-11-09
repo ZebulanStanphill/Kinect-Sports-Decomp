@@ -1,52 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B167E0();
-extern int fn_82B80CD0();
+typedef struct {
+    char pad[0x28];
+    unsigned int pad0 : 17;
+    unsigned int flag : 1;
+    unsigned int pad1 : 14;
+} Info_82B16A18;
 
+typedef struct {
+    char pad[0x94];
+    Info_82B16A18 *info;
+} Owner_82B16A18;
 
-void fn_82B16A18(uint *param_1,uint param_2)
+typedef struct {
+    Owner_82B16A18 *owner;
+} PageHeader_82B16A18;
 
+typedef struct {
+    char pad[0x14];
+    unsigned int pad0 : 22;
+    unsigned int types : 8;
+    unsigned int pad1 : 2;
+} Obj_82B16A18;
+
+extern double fn_82B167E0(Obj_82B16A18 *o, unsigned int idx);
+extern void fn_82B80CD0(double v, unsigned int type, int x);
+
+static __forceinline unsigned int GetType(Obj_82B16A18 *o, unsigned int idx)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  uint uVar3;
-  
-  uVar1 = *param_1;
-  if (((~(ulonglong)*(uint *)(*(int *)(*(int *)(param_1[3] & 0xfffff000) + 0x94) + 0x28) &
-       0xffffffff) >> 0xe & 1) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = (*(uint *)(param_1[3] + 0x14) >> 2 & 0xff) >>
-            (((uVar1 >> 5 & 0xff) >> ((param_2 & 0x1f) << 1) & 3) << 1) & 3;
-  }
-  uVar2 = fn_82B167E0();
-  fn_82B80CD0(uVar2,uVar3,uVar1 & 0x1f);
-  return;
+    if (!(unsigned char)!((PageHeader_82B16A18 *)((unsigned int)o & 0xfffff000))->owner->info->flag) {
+        return 0;
+    }
+    return (o->types >> (idx * 2)) & 3;
 }
-
+typedef struct Value_82B16A18 { unsigned int bits; int pad[2]; Obj_82B16A18 *object; } Value_82B16A18;
+void fn_82B16A18(Value_82B16A18 *p, unsigned int idx)
+{
+ unsigned int bits = p->bits;
+ Obj_82B16A18 *o = p->object;
+ unsigned int subindex = ((bits >> 5 & 0xff) >> (idx * 2)) & 3;
+ int x = bits & 0x1f;
+ unsigned int type = GetType(o, subindex);
+ double v = fn_82B167E0(o, subindex);
+ fn_82B80CD0(v, type, x);
+}

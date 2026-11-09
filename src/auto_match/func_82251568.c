@@ -1,45 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-
-
-void fn_82251568(int param_1,undefined8 param_2)
-
-{
-  undefined4 auStack_40 [4];
-  undefined1 auStack_30 [16];
-  
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_40);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,auStack_30);
-  if (*(int *)(param_1 + 0x60) != 0) {
-    (**(code **)(**(int **)(param_1 + 0x60) + 4))(*(int **)(param_1 + 0x60),auStack_40[0]);
-  }
-  return;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+void fn_82251568(int object, long long value) {
+ int first;
+ __vector4 second;
+ int *base = (int *)(object + 0x50);
+ int *receiver;
+ receiver=(int *)base[6];
+ (*(void (**)(int *,long long,void *))(*(int *)receiver+0x14))(receiver,value,&first);
+ receiver=(int *)base[8];
+ (*(void (**)(int *,long long,void *))(*(int *)receiver+0x14))(receiver,value,&second);
+ if (*(int **)(base+4)!=0) {
+  (*(void (**)(int *,int,__vector4))(*(int *)*(int **)(base+4)+4))(*(int **)(base+4),first,second);
+ }
 }
-

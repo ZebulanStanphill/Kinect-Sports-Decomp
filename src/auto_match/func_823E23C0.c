@@ -1,55 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823E2338();
-extern int fn_823E2B98();
-extern int fn_8265CA20();
-extern unsigned int lbl_821B6A74;
-
-
-void fn_823E23C0(undefined4 *param_1)
-
-{
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  *param_1 = &lbl_821B6A74;
-  puVar2 = *(undefined4 **)(param_1[2] + 4);
-  while (*(char *)((int)puVar2 + 0x85) == '\0') {
-    fn_823E2B98(param_1 + 1,puVar2[2]);
-    puVar1 = (undefined4 *)*puVar2;
-    fn_8265CA20(puVar2);
-    puVar2 = puVar1;
-  }
-  *(undefined4 *)(param_1[2] + 4) = param_1[2];
-  *(undefined4 *)param_1[2] = param_1[2];
-  *(undefined4 *)(param_1[2] + 8) = param_1[2];
-  param_1[3] = 0;
-  fn_823E2338();
-  return;
+extern unsigned lbl_821B6A74;
+extern void fn_823E2B98(unsigned *,unsigned);
+extern void fn_823E2338(unsigned *);
+extern void fn_8265CA20(void *);
+void fn_823E23C0(unsigned *p) {
+ unsigned *node, *next;
+ unsigned *tree=p+1;
+ p[0]=(unsigned)&lbl_821B6A74;
+ node=*(unsigned **)(tree[1]+4);
+ while(*((unsigned char *)node+0x85)==0) {
+  fn_823E2B98(tree,node[2]);
+  next=(unsigned *)node[0];
+  fn_8265CA20(node);
+  node=next;
+ }
+ *(unsigned *)(tree[1]+4)=tree[1];
+ *(unsigned *)tree[1]=tree[1];
+ *(unsigned *)(tree[1]+8)=tree[1];
+ tree[2]=0;
+ fn_823E2338(tree);
 }
-

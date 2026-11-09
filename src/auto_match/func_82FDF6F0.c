@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821AAD20;
+
 
 
 undefined8 fn_82FDF6F0(float *param_1,float *param_2)
 
 {
-  if (*param_1 - *param_2 < lbl_821AAD20) {
+  if (*param_1 - *param_2 < 0.0f) {
     return 0xffffffffffffffff;
   }
-  if (lbl_821AAD20 < *param_1 - *param_2) {
+  if (0.0f < *param_1 - *param_2) {
     return 1;
   }
   return 0;

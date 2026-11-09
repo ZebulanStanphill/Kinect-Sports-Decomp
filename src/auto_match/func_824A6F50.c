@@ -1,44 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824A6B70();
-extern int fn_824A7028();
-
-
-void fn_824A6F50(int *param_1)
-
+typedef struct Obj_824A6F50 Obj_824A6F50;
+typedef struct VTable_824A6F50 { void *pad[9]; void (*method)(Obj_824A6F50 *); } VTable_824A6F50;
+struct Obj_824A6F50 { VTable_824A6F50 *vt; int pad[14]; struct State_824A6F50 *state; };
+struct State_824A6F50 { int pad[15]; int active; };
+extern void fn_824A7028(Obj_824A6F50 *);
+extern void fn_824A6B70(Obj_824A6F50 *);
+void fn_824A6F50(Obj_824A6F50 *self)
 {
-  if (*(int *)(param_1[0xf] + 0x3c) == 0) {
-    (**(code **)(*param_1 + 0x24))(param_1);
-  }
-  else {
-    fn_824A7028();
-    fn_824A6B70(param_1);
-  }
-  return;
+    if (self->state->active != 0) {
+        fn_824A7028(self);
+        fn_824A6B70(self);
+    } else {
+        self->vt->method(self);
+    }
 }
-
