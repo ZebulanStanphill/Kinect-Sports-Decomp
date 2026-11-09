@@ -1,62 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82681838();
-extern int fn_826944C8();
-extern int fn_82695128();
-extern int fn_82695468();
-extern int fn_826954C0();
-
-
-void fn_827101C0(int param_1)
-
+typedef struct Ref_827101C0 { int a, b, count; } Ref_827101C0;
+typedef struct { Ref_827101C0 *p; } Handle_827101C0;
+typedef struct { int v0; int ctx; char *data; } Object_827101C0;
+extern unsigned char fn_82695468(Object_827101C0 *, int);
+extern void fn_826954C0(Object_827101C0 *, const char *, int, int);
+extern Handle_827101C0 *fn_82695128(Handle_827101C0 *, void *);
+extern void fn_82681838(int, Handle_827101C0 *);
+extern void fn_826944C8(Ref_827101C0 *);
+extern char lbl_82005EA4[];
+void fn_827101C0(Object_827101C0 *o)
 {
-  char cVar2;
-  undefined8 uVar1;
-  longlong lVar3;
-  int aiStack_20 [4];
-  
-  cVar2 = fn_82695468(param_1,8);
-  if (cVar2 == '\0') {
-    fn_826954C0(param_1,0xffffffff82005ea4,0,0);
-  }
-  else {
-    lVar3 = (ulonglong)*(uint *)(param_1 + 8) - 0x10;
-    if ((ulonglong)*(uint *)(param_1 + 8) == 0) {
-      lVar3 = 0;
+    if (!fn_82695468(o, 8)) {
+        fn_826954C0(o, lbl_82005EA4, 0, 0);
+    } else {
+        Handle_827101C0 tmp;
+        char *p = o->data ? o->data - 0x10 : 0;
+        Ref_827101C0 *r;
+        fn_82681838(o->ctx, fn_82695128(&tmp, p + 0x30));
+        r = tmp.p;
+        if (--r->count == 0) fn_826944C8(r);
     }
-    uVar1 = fn_82695128(aiStack_20,lVar3 + 0x30);
-    fn_82681838(*(undefined4 *)(param_1 + 4),uVar1);
-    lVar3 = (ulonglong)*(uint *)(aiStack_20[0] + 8) - 1;
-    *(int *)(aiStack_20[0] + 8) = (int)lVar3;
-    if (lVar3 == 0) {
-      fn_826944C8(aiStack_20[0]);
-    }
-  }
-  return;
 }
-

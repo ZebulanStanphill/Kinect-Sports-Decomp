@@ -1,42 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-int fn_82F52BC0(int param_1,int param_2)
-
-{
-  if (*(int **)(param_1 + 8) == (int *)0x0) {
-    param_2 = 0;
-  }
-  else {
-    (**(code **)(**(int **)(param_1 + 8) + 0xc))();
-    *(int *)(param_2 + 8) = *(int *)(param_2 + 8) + 1;
-  }
-  return param_2;
+typedef struct Obj_82F52BC0 Obj_82F52BC0;
+typedef struct Vt_82F52BC0 { void *slots[3]; void (*f)(Obj_82F52BC0 *); } Vt_82F52BC0;
+struct Obj_82F52BC0 { Vt_82F52BC0 *vt; };
+typedef struct Owner_82F52BC0 { int a,b; Obj_82F52BC0 *obj; } Owner_82F52BC0;
+typedef struct Output_82F52BC0 { int a,b,count; } Output_82F52BC0;
+Output_82F52BC0 *fn_82F52BC0(Owner_82F52BC0 *self,Output_82F52BC0 *out) {
+ if (self->obj!=0) {
+ self->obj->vt->f(self->obj);
+ ++out->count;
+ return out;
+ }
+ return 0;
 }
-

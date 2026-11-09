@@ -1,79 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_822315A0();
-extern int fn_82250D10();
-extern int fn_822D79D8();
-extern int fn_822D7FE0();
-extern int fn_8265C9E0();
-extern int fn_828E2B28();
-extern int fn_828E9D40();
-extern int fn_828E9D90();
-extern unsigned int iStack_74;
-extern unsigned int stack0x0000001f;
-extern unsigned int uStack0000001f;
-extern unsigned int uStack_78;
+typedef struct Buffer_823F0A30 { unsigned words[19]; } Buffer_823F0A30;
+extern void fn_82250D10(Buffer_823F0A30 *);
 
+extern void *fn_8265C9E0(int);
+extern void *fn_822D7FE0(void *);
+extern void fn_822D79D8(void *, void *);
+extern void fn_828E9D90(int);
+extern void fn_828E9D40(int);
+extern void fn_828E2B28(void *, void *);
+extern void fn_822315A0(void *);
 
-void fn_823F0A30(int param_1,undefined1 param_2,undefined8 param_3)
+struct Itf_823F0A30;
+typedef struct VT_823F0A30 {
+  int p0;
+  void (*f4)(struct Itf_823F0A30 *, unsigned char, Buffer_823F0A30 *);
+  int p8, pc;
+  void (*f10)(struct Itf_823F0A30 *, int, void *);
+  void (*f14)(struct Itf_823F0A30 *, int, void *);
+} VT_823F0A30;
+typedef struct Itf_823F0A30 { VT_823F0A30 *vt; } Itf_823F0A30;
+typedef struct Obj_823F0A30 {
+  char pad[0x48];
+  Itf_823F0A30 *i48;
+  char pad2[0x68 - 0x4c];
+  Itf_823F0A30 *i68;
+  int p6c;
+  Itf_823F0A30 *i70;
+} Obj_823F0A30;
+typedef struct Pair_823F0A30 { int first; void *second; } Pair_823F0A30;
 
+void fn_823F0A30(Obj_823F0A30 *o, unsigned char a, Buffer_823F0A30 *v)
 {
-  int iVar2;
-  undefined8 uVar1;
-  undefined1 uStack0000001f;
-  struct { undefined4 first; int second; } stack_pair_78;
-
-  undefined1 auStack_70 [80];
-  
-  uStack0000001f = param_2;
-  iVar2 = fn_8265C9E0(0x28);
-  if (iVar2 == 0) {
-    uVar1 = 0;
+  void *mem;
+  void *p;
+  Pair_823F0A30 pair;
+  unsigned char t1;
+  Buffer_823F0A30 t2;
+  int x;
+  mem = fn_8265C9E0(0x28);
+  if (mem != 0) p = fn_822D7FE0(mem); else p = 0;
+  pair.first = 0;
+  pair.second = 0;
+  fn_822D79D8(&pair, p);
+  o->i68->vt->f10(o->i68, pair.first, &a);
+  o->i70->vt->f10(o->i70, pair.first, v);
+  if (o->i48 != 0) {
+    fn_828E9D90(pair.first);
+    fn_828E9D40(pair.first);
+    x = pair.first;
+    fn_82250D10(&t2);
+    o->i68->vt->f14(o->i68, x, &t1);
+    o->i70->vt->f14(o->i70, x, &t2);
+    if (o->i48 != 0) o->i48->vt->f4(o->i48, t1, &t2);
   }
-  else {
-    uVar1 = fn_822D7FE0();
-  }
-  stack_pair_78.first = 0;
-  stack_pair_78.second = 0;
-  fn_822D79D8(&stack_pair_78.first,uVar1);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
-            (*(int **)(param_1 + 0x68),stack_pair_78.first,&stack0x0000001f);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))(*(int **)(param_1 + 0x70),stack_pair_78.first,param_3);
-  if (*(int *)(param_1 + 0x48) != 0) {
-    fn_828E9D90(stack_pair_78.first);
-    fn_828E9D40(stack_pair_78.first);
-                    /* WARNING: Subroutine does not return */
-    fn_82250D10(auStack_70);
-  }
-  fn_828E2B28(param_1,&stack_pair_78.first);
-  if (stack_pair_78.second != 0) {
-    fn_822315A0();
-  }
-  return;
+  fn_828E2B28(o, &pair);
+  if (pair.second != 0) fn_822315A0(pair.second);
 }
-
