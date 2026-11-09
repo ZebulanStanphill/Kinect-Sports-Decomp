@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
 typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1c;
-extern int fn_82BA0310();
-extern unsigned int uStack_20;
 
+typedef struct Outs_82B7BCC0 {
+    unsigned int result;
+    unsigned char extra[4];
+} Outs_82B7BCC0;
 
-undefined4 fn_82B7BCC0(int param_1)
+extern unsigned char fn_82BA0310();
 
+unsigned int fn_82B7BCC0(int param_1)
 {
-  char cVar1;
-  undefined4 uStack_20;
-  undefined1 auStack_1c [1];
-  
-  cVar1 = fn_82BA0310(*(undefined4 *)(param_1 + 0xab0));
-  (**(code **)(**(int **)(param_1 + 0x5d0) + 0xc))
-            (*(int **)(param_1 + 0x5d0),cVar1 == '\0',2,1,&uStack_20,auStack_1c);
-  return uStack_20;
-}
+    __int64 cVar1;
+    Outs_82B7BCC0 outs;
 
+    cVar1 = fn_82BA0310(*(unsigned int *)(param_1 + 0xab0));
+    (*(code *)(**(int **)(param_1 + 0x5d0) + 0xc))
+              (*(int **)(param_1 + 0x5d0), cVar1 == 0, 2, 1, &outs.result, outs.extra);
+    return outs.result;
+}

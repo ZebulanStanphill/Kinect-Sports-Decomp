@@ -27,28 +27,41 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8302BBA8();
 
+struct Obj_8303D598;
 
-void fn_8303D598(int param_1,int *param_2)
+typedef struct Vtbl_8303D598 {
+  void *slots[0x2a];
+  void (*fn)(struct Obj_8303D598 *, unsigned int, int);
+} Vtbl_8303D598;
 
+typedef struct Obj_8303D598 {
+  Vtbl_8303D598 *vt;
+  int pad[2];
+  unsigned int id;
+} Obj_8303D598;
+
+typedef struct Owner_8303D598 {
+  int pad[5];
+  unsigned int flags;
+  int pad2;
+  unsigned int *begin;
+  unsigned int *end;
+} Owner_8303D598;
+
+void fn_8303D598(Owner_8303D598 *param_1, Obj_8303D598 *param_2)
 {
-  uint uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int *piVar4;
-  
-  piVar4 = *(int **)(param_1 + 0x1c);
-  if (piVar4 != *(int **)(param_1 + 0x20)) {
+  unsigned int bits;
+  unsigned int *it;
+
+  it = param_1->begin;
+  if (it != param_1->end) {
     do {
-      if (*piVar4 == param_2[3]) {
+      if (*it == param_2->id) {
         return;
       }
-      piVar4 = piVar4 + 1;
-    } while (piVar4 != *(int **)(param_1 + 0x20));
+      it = it + 1;
+    } while (it != param_1->end);
   }
-  uVar1 = *(uint *)(param_1 + 0x14);
-  iVar2 = *param_2;
-  uVar3 = fn_8302BBA8();
-  (**(code **)(iVar2 + 0xa8))(param_2,uVar1 >> 3 & 0x1f,uVar3);
-  return;
+  bits = (param_1->flags >> 3) & 0x1f;
+  param_2->vt->fn(param_2, bits, fn_8302BBA8());
 }
-

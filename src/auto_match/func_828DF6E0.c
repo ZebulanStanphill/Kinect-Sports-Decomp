@@ -1,48 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828DF3F0();
-extern int fn_828E0270();
+typedef struct Tree_828DF6E0 {
+    int unk0;
+    unsigned int head;
+} Tree_828DF6E0;
 
+typedef struct Iter_828DF6E0 {
+    unsigned int node;
+} Iter_828DF6E0;
 
-undefined4 * fn_828DF6E0(undefined4 *param_1,int param_2,undefined8 param_3)
+extern unsigned int fn_828DF3F0(Tree_828DF6E0 *tree, void *key);
+extern unsigned char fn_828E0270(void *key, void *nodeKey);
 
+Iter_828DF6E0 *fn_828DF6E0(Iter_828DF6E0 *result, Tree_828DF6E0 *tree, void *key)
 {
-  ulonglong uVar1;
-  char cVar2;
-  
-  uVar1 = fn_828DF3F0(param_2,param_3);
-  if (((uVar1 & 0xffffffff) == (ulonglong)*(uint *)(param_2 + 4)) ||
-     (cVar2 = fn_828E0270(param_3,uVar1 + 0xc), cVar2 != '\0')) {
-    *param_1 = *(undefined4 *)(param_2 + 4);
-  }
-  else {
-    *param_1 = (int)uVar1;
-  }
-  return param_1;
-}
+    Iter_828DF6E0 it;
+    Iter_828DF6E0 end;
+    Iter_828DF6E0 *p;
 
+    it.node = fn_828DF3F0(tree, key);
+    if (it.node == tree->head || fn_828E0270(key, (void *)(it.node + 0xc)) != 0) {
+        end.node = tree->head;
+        p = &end;
+    } else {
+        p = &it;
+    }
+    *result = *p;
+    return result;
+}

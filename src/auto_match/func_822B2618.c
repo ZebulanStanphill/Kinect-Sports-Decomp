@@ -1,77 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_8223C478();
-extern int fn_8223C610();
-extern int fn_8233EBE0();
-extern int fn_8265CA20();
-extern int fn_828E9D28();
-extern int fn_828E9DB8();
-extern unsigned int iStack_48;
-extern unsigned int lbl_821AC8D4;
-extern unsigned int lbl_821AC910;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_4c;
+typedef void (*VFunc_822B2618)(void *self, void *arg);
 
+typedef struct Reader_822B2618 {
+    unsigned char state[16];
+    unsigned char *ptr;
+    int flag;
+    void *alloc;
+    int f1;
+    int f2;
+} Reader_822B2618;
 
-void fn_822B2618(int *param_1,undefined8 param_2,int param_3)
+extern unsigned int lbl_821AC910[];
+extern unsigned int lbl_821AC8D4[];
 
+extern void fn_828E9D28(Reader_822B2618 *r, unsigned char *p, int n);
+extern void fn_8223C610(Reader_822B2618 *r, unsigned int bits, int a, int b);
+extern void fn_8223C478(Reader_822B2618 *r, unsigned int bits, int a);
+extern void fn_828E9DB8(Reader_822B2618 *r, unsigned int value, unsigned int bits);
+extern void fn_8233EBE0(int *obj, unsigned char *buf);
+extern void fn_8265CA20(void *p);
+
+void fn_822B2618(int *param_1, unsigned int param_2, int param_3)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [16];
-  undefined1 *puStack_50;
-  undefined4 uStack_4c;
-  int iStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
-  
-  uVar1 = *(uint *)(&lbl_821AC910 + param_3 * 4);
-  (**(code **)(*param_1 + 0x40))(param_1,auStack_70);
-  puStack_50 = auStack_70 + (uVar1 >> 3);
-  iStack_48 = 0;
-  uStack_44 = 0;
-  uStack_40 = 0;
-  uStack_4c = 5;
-  fn_828E9D28(auStack_60,puStack_50,5);
-  if ((uVar1 & 7) != 0) {
-    fn_8223C610(auStack_60,uVar1 & 7,0,0);
-  }
-  uVar2 = *(undefined4 *)(&lbl_821AC8D4 + param_3 * 4);
-  fn_8223C478(auStack_60,uVar2,0);
-  fn_828E9DB8(auStack_60,param_2,uVar2);
-  fn_8233EBE0(param_1,auStack_70);
-  if (iStack_48 != 0) {
-    fn_8265CA20();
-  }
-  return;
-}
+    unsigned char buf[16];
+    Reader_822B2618 r;
+    unsigned int bytes;
+    unsigned int rem;
+    unsigned int width;
 
+    bytes = lbl_821AC910[param_3] >> 3;
+    rem = lbl_821AC910[param_3] & 7;
+    (*(VFunc_822B2618 *)(*param_1 + 0x40))(param_1, buf);
+    r.ptr = buf + bytes;
+    r.alloc = 0;
+    r.f1 = 0;
+    r.f2 = 0;
+    r.flag = 5;
+    fn_828E9D28(&r, r.ptr, 5);
+    if (rem != 0) {
+        fn_8223C610(&r, rem, 0, 0);
+    }
+    width = lbl_821AC8D4[param_3];
+    fn_8223C478(&r, width, 0);
+    fn_828E9DB8(&r, param_2, width);
+    fn_8233EBE0(param_1, buf);
+    if (r.alloc != 0) {
+        fn_8265CA20(r.alloc);
+    }
+}

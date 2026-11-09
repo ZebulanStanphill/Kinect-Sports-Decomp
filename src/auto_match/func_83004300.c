@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83004268();
+typedef struct Pair { unsigned int key; int value; } Pair;
+typedef struct Vec { Pair *begin; Pair *end; } Vec;
+extern Pair *fn_83004268(Vec *v);
 
+static __forceinline int neq(Pair *a, Pair *b) { return a != b; }
 
-int * fn_83004300(undefined4 *param_1,int param_2,int param_3)
-
+static __forceinline int *find(Vec *v, unsigned int key)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  for (piVar2 = (int *)*param_1; (piVar2 != (int *)param_1[1] && (*piVar2 != param_2));
-      piVar2 = piVar2 + 2) {
-  }
-  piVar2 = (int *)(-(uint)((int *)param_1[1] != piVar2) & (uint)(piVar2 + 1));
-  if (piVar2 == (int *)0x0) {
-    piVar1 = (int *)fn_83004268();
-    if (piVar1 != (int *)0x0) {
-      piVar2 = piVar1 + 1;
-      *piVar1 = param_2;
-      piVar1[1] = param_3;
+    Pair *it;
+    for (it = v->begin; it != v->end; it++) {
+        if (it->key == key)
+            break;
     }
-  }
-  else {
-    *piVar2 = param_3;
-  }
-  return piVar2;
+    return neq(it, v->end) ? &it->value : 0;
 }
 
+int *fn_83004300(Vec *v, unsigned int key, int value)
+{
+    Pair *p;
+    int *r;
+
+    r = find(v, key);
+    if (r != 0) {
+        *r = value;
+    } else if ((p = fn_83004268(v)) != 0) {
+        p->key = key;
+        p->value = value;
+        return &p->value;
+    }
+    return r;
+}

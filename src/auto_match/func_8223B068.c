@@ -1,47 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82240DB8();
-extern int fn_8265C9E0();
-extern int memset();
-extern unsigned int lbl_821971A0;
+typedef struct Table_8223B068 {
+    int mask;
+    unsigned char *buf;
+    int capacity;
+} Table_8223B068;
 
+typedef struct Obj_8223B068 {
+    void *vtable;
+    int field4;
+    Table_8223B068 table;
+} Obj_8223B068;
 
-void fn_8223B068(undefined4 *param_1)
+extern char lbl_821971A0[];
+extern void fn_82240DB8(Obj_8223B068 *self);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *memset(void *dst, int c, unsigned int n);
 
+static __forceinline void Table_init(Table_8223B068 *t)
 {
-  undefined8 uVar1;
-  
-  fn_82240DB8();
-  *param_1 = &lbl_821971A0;
-  param_1[2] = 7;
-  param_1[4] = 0x19;
-  uVar1 = fn_8265C9E0(0x19);
-                    /* WARNING: Subroutine does not return */
-  memset(uVar1,0,0x19);
+    unsigned char *p;
+    t->mask = 7;
+    t->capacity = 25;
+    p = (unsigned char *)fn_8265C9E0(25);
+    memset(p, 0, 25);
+    t->buf = p;
 }
 
+Obj_8223B068 *fn_8223B068(Obj_8223B068 *self)
+{
+    fn_82240DB8(self);
+    self->vtable = lbl_821971A0;
+    Table_init(&self->table);
+    return self;
+}
