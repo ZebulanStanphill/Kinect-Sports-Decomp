@@ -96658,7 +96658,7 @@ auto_match/func_8289E3C8.cpp:
 	.pdata      start:0x82204558 end:0x82204560
 	.text       start:0x8289E3C8 end:0x8289E440
 
-auto_match/func_8289E440.c:
+auto_match/func_8289E440.cpp:
 	.pdata      start:0x82204560 end:0x82204568
 	.text       start:0x8289E440 end:0x8289E800
 

@@ -147887,11 +147887,12 @@
           "/O2"
         ]
       },
-      "auto_match/func_8289E440.c": {
-        "status": "NonMatching",
+      "auto_match/func_8289E440.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8289E800.c": {
         "status": "NonMatching",
