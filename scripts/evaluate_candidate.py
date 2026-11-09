@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 from lab_paths import LAB as DEFAULT_LAB
 sys.path.insert(0, str(ROOT / "tools"))
+import coff_rename  # noqa: E402
 import ltcg_obj  # noqa: E402
 
 VC_DEFINES = ["/D_HAS_EXCEPTIONS=0", "/D_ALLOCA_S_MARKER_SIZE=8", "/D_JBLEN=64", "/D_JBTYPE=double"]
@@ -109,6 +110,9 @@ def main() -> int:
                         help="wibo that can run link.exe /LTCG (default: $WIBO_LTCG, then as for the compiler)")
     parser.add_argument("--vc-include", type=Path,
                         help="Visual C++ 2010 VC/include, for --ltcg units marked vc_include")
+    parser.add_argument("--pool-alias", action="append", metavar="COMPILED=ORIGINAL",
+                        help="rename a symbol of the compiled candidate, as objects.json pool_aliases "
+                        "does in the build (repeatable); default: the function's configured pool_aliases")
     args = parser.parse_args()
     address = int(args.address, 16)
     stem = f"{address:08X}"
@@ -154,6 +158,18 @@ def main() -> int:
     report["compile_exit_code"] = result.returncode
     report["compiler_output"] = result.stdout[-4000:]
     if result.returncode == 0:
+        aliases = dict(a.split("=", 1) for a in args.pool_alias or [])
+        if args.pool_alias is None:
+            for suffix in (".c", ".cpp"):
+                try:
+                    aliases = unit_config(f"auto_match/func_{stem}{suffix}").get("pool_aliases") or {}
+                    break
+                except SystemExit:
+                    continue
+        if aliases:
+            obj = work / "candidate.obj"
+            obj.write_bytes(coff_rename.rename(obj.read_bytes(), aliases, strict=False))
+            report["pool_aliases"] = aliases
         diff_path = work / "diff.json"
         diff = subprocess.run(
             [str(objdiff), "diff", "-1", str(original), "-2", "candidate.obj",

@@ -318,6 +318,13 @@ for (lib, lib_config) in objects.items():
                     obj_config["source"] = f"{path}.needs-vc-include"
                     vc_skipped += 1
 
+            aliases = obj_config.get("pool_aliases")
+            if aliases is not None and not (
+                isinstance(aliases, dict)
+                and all(isinstance(k, str) and isinstance(v, str) for k, v in aliases.items())
+            ):
+                sys.exit(f"{path}: pool_aliases must map compiled symbol names to original ones")
+
             if "cflags" in obj_config:
                 object_cflags = obj_config["cflags"]
                 if isinstance(object_cflags, str):

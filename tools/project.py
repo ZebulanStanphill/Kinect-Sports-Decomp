@@ -65,6 +65,10 @@ class Object:
             # link.exe /LTCG by tools/ltcg_obj.py
             "ltcg_units": None,
             "mw_version": None,
+            # {compiled symbol: original symbol}: renamed in the unit's object after
+            # compiling (tools/coff_rename.py), e.g. a literal's __real@ constant to
+            # the link-time code generation pool copy the original refers to
+            "pool_aliases": None,
             "progress_category": None,
             "scratch_preset_id": None,
             "shift_jis": None,
@@ -737,6 +741,18 @@ def generate_build_ninja(
         config.ltcg_wrapper,
         transform_dep,
     ]
+    # Units with objects.json "pool_aliases": the compiler's object is renamed
+    # into the unit's object by tools/coff_rename.py.
+    coff_rename = config.tools_dir / "coff_rename.py"
+    if any(obj.options.get("pool_aliases") for obj in objects.values()):
+        n.comment("Symbol aliases (objects.json pool_aliases)")
+        n.rule(
+            name="pool_alias",
+            command=f"$python {coff_rename} $in $out $aliases",
+            description="ALIAS $out",
+        )
+        n.newline()
+
     if any(obj.options.get("ltcg_units") is not None for obj in objects.values()):
         n.comment("MSVC build with link-time code generation")
         n.rule(
@@ -990,16 +1006,36 @@ def generate_build_ninja(
                 build_implcit = mwcc_extab_implicit
                 variables["extab_padding"] = "".join(f"{i:02x}" for i in obj.options["extab_padding"])
             n.comment(f"{obj.name}: {lib_name} (linked {obj.completed})")
+            # With pool_aliases, the compiler writes to build/<version>/alias/
+            # and the renamed object goes to the usual path.
+            aliases = obj.options["pool_aliases"]
+            compiled_path = obj.src_obj_path
+            if aliases:
+                base_name = Path(obj.name).with_suffix("")
+                compiled_path = build_path / "alias" / f"{base_name}.obj"
             if obj.options["ltcg_units"] is not None:
-                ltcg_build(obj, src_path, all_cflags)
+                ltcg_build(obj, src_path, all_cflags, compiled_path)
             else:
                 n.build(
-                    outputs=obj.src_obj_path,
+                    outputs=compiled_path,
                     rule=build_rule,
                     inputs=src_path,
                     variables=variables,
                     implicit=build_implcit,
                     order_only="pre-compile",
+                )
+            if aliases:
+                n.build(
+                    outputs=obj.src_obj_path,
+                    rule="pool_alias",
+                    inputs=compiled_path,
+                    variables={
+                        "aliases": ninja_syntax.escape(" ".join(
+                            shlex.quote(f"{old}={new}") if not is_windows() else f'"{old}={new}"'
+                            for old, new in sorted(aliases.items())
+                        )),
+                    },
+                    implicit=coff_rename,
                 )
 
             # Add ctx build rule
@@ -1044,8 +1080,7 @@ def generate_build_ninja(
                 return [flag[1:-1] if len(flag) > 1 and flag[0] == flag[-1] == '"' else flag]
             return shlex.split(flag)
 
-        def ltcg_build(obj: Object, src_path: Path, all_cflags: List[str]) -> None:
-            assert obj.src_obj_path is not None
+        def ltcg_build(obj: Object, src_path: Path, all_cflags: List[str], out_path: Path) -> None:
             others = []
             implicit: List[Optional[Path]] = [*ltcg_implicit, compilers_implicit or compiler_path / "cl.exe"]
             for name in obj.options["ltcg_units"]:
@@ -1063,7 +1098,7 @@ def generate_build_ninja(
                 "wrapper": str(config.ltcg_wrapper) if config.ltcg_wrapper else None,
                 "cl": str(compilers_dir / obj.options["mw_version"] / "cl.exe"),
                 "link": str(compilers_dir / str(config.linker_version) / "link.exe"),
-                "out": obj.src_obj_path.as_posix(),
+                "out": out_path.as_posix(),
                 "work": (build_path / "ltcg" / Path(obj.name).with_suffix("")).as_posix(),
                 "unit": {
                     "name": obj.name,
@@ -1073,7 +1108,7 @@ def generate_build_ninja(
                 "others": others,
             }
             n.build(
-                outputs=obj.src_obj_path,
+                outputs=out_path,
                 rule="ltcg",
                 inputs=src_path,
                 variables={
