@@ -1,45 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_82837D98();
+extern void fn_82837D98(void *, int, void **);
 
+typedef struct Owner_822B98A8 {
+    char pad[0xb0];
+    void **slot;
+} Owner_822B98A8;
 
-undefined4 fn_822B98A8(int param_1)
+typedef struct Obj_822B98A8 {
+    int pad0[2];
+    Owner_822B98A8 *owner;
+    int padc[7];
+    char *f28;
+} Obj_822B98A8;
 
+void *fn_822B98A8(Obj_822B98A8 *p)
 {
-  undefined4 auStack_10;
-  
-  if (*(int *)(param_1 + 0x28) == 0) {
-    auStack_10 = **(undefined4 **)(*(int *)(param_1 + 8) + 0xb0);
-  }
-  else {
-    fn_82837D98(*(undefined4 *)(*(int *)(param_1 + 0x28) + 0x14),0,&auStack_10);
-  }
-  return auStack_10;
+    void *r;
+    char *v = p->f28;
+    if (v) {
+        fn_82837D98(*(void **)(v + 0x14), 0, &r);
+        return r;
+    }
+    return *p->owner->slot;
 }
-

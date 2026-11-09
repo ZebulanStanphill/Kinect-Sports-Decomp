@@ -1,43 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uRam8320a798;
-extern unsigned int uRam8320a79c;
-extern unsigned int uRam8320a7a0;
-extern unsigned int uRam8320a7a4;
+typedef int (*Open)(void *, const char *);
+typedef int (*Read)(void *, int, void *);
+typedef int (*Close)(void *);
+typedef struct {
+    void *context;
+    Open open;
+    Read read;
+    Close close;
+} Callbacks;
 
+extern Callbacks lbl_8320A798;
 
-void fn_8282DF08(void)
-
+static __forceinline void setCallbacks_8282DF08(void *context, Open open, Read read, Close close)
 {
-  uRam8320a798 = 0;
-  uRam8320a79c = 0;
-  uRam8320a7a0 = 0;
-  uRam8320a7a4 = 0;
-  return;
+    lbl_8320A798.context = context;
+    lbl_8320A798.open = open;
+    lbl_8320A798.read = read;
+    lbl_8320A798.close = close;
 }
 
+void fn_8282DF08(void)
+{
+    setCallbacks_8282DF08(0, 0, 0, 0);
+}

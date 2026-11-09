@@ -1,54 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F66778();
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+#ifndef _VA_LIST_DEFINED
+typedef char *va_list;
+#define _VA_LIST_DEFINED
+#endif
 
+void __cdecl __va_start(va_list *ap, ...);
+int fn_82F66778(char *buf, unsigned int size, unsigned int count, const char *fmt, void *locale, va_list ap);
 
-void fn_82F64068(void)
-
+int fn_82F64068(char *buf, unsigned int size, unsigned int count, const char *fmt, ...)
 {
-  undefined8 in_r7;
-  undefined8 in_r8;
-  undefined8 in_r9;
-  undefined8 in_r10;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  
-  uStack00000030 = in_r7;
-  uStack00000038 = in_r8;
-  uStack00000040 = in_r9;
-  uStack00000048 = in_r10;
-  fn_82F66778();
-  return;
+    va_list ap;
+    __va_start(&ap, fmt);
+    return fn_82F66778(buf, size, count, fmt, 0, ap);
 }
-

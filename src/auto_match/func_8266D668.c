@@ -1,60 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8256E1D8();
-extern int fn_8266D210();
+/* std::_Merge_backward (VC10) for a 12-byte element whose first two words are copied with
+   fn_8256E1D8 and whose third word is the unsigned sort key; the tail is finished with the
+   backward copy fn_8266D210. */
+typedef struct {
+    int a;
+    int b;
+    unsigned int key;
+} Elem_8266D668;
 
+extern void fn_8256E1D8(Elem_8266D668 *dest, int a, int b);
+extern Elem_8266D668 *fn_8266D210(Elem_8266D668 *first, Elem_8266D668 *last, Elem_8266D668 *dest);
 
-void fn_8266D668(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
-                  int param_5)
-
+Elem_8266D668 *fn_8266D668(Elem_8266D668 *first1, Elem_8266D668 *last1,
+                           Elem_8266D668 *first2, Elem_8266D668 *last2, Elem_8266D668 *dest)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  int iVar4;
-  
-  while ((puVar2 = param_4, puVar1 = param_3, param_1 != param_2 &&
-         (puVar2 = param_2, puVar1 = param_1, param_3 != param_4))) {
-    iVar4 = param_5 + -0xc;
-    if ((uint)param_4[-1] < (uint)param_2[-1]) {
-      fn_8256E1D8(iVar4,param_2[-3],param_2[-2]);
-      uVar3 = param_2[-1];
-      param_2 = param_2 + -3;
+    for (;;) {
+        if (first1 == last1) {
+            return fn_8266D210(first2, last2, dest);
+        } else if (first2 == last2) {
+            return fn_8266D210(first1, last1, dest);
+        } else if ((--last2)->key < (--last1)->key) {
+            --dest;
+            fn_8256E1D8(dest, last1->a, last1->b);
+            dest->key = last1->key;
+            ++last2;
+        } else {
+            --dest;
+            fn_8256E1D8(dest, last2->a, last2->b);
+            dest->key = last2->key;
+            ++last1;
+        }
     }
-    else {
-      fn_8256E1D8(iVar4,param_4[-3],param_4[-2]);
-      uVar3 = param_4[-1];
-      param_4 = param_4 + -3;
-    }
-    *(undefined4 *)(param_5 + -4) = uVar3;
-    param_5 = iVar4;
-  }
-  fn_8266D210(puVar1,puVar2,param_5);
-  return;
 }
-

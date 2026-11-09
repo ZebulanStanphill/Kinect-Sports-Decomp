@@ -1,53 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern unsigned int lbl_821BAC2C;
-extern unsigned int *lbl_8327658C;
+/* Returns the singleton lbl_8327658C, creating it on first use: allocates 0x24 bytes with the global
+   operator new (fn_8265C9E0) and runs the inlined constructor (vtable lbl_821BAC2C). */
+typedef struct {
+    void *vtable;
+    int pad4[2];
+    int fC;
+    int f10;
+    int f14;
+    unsigned char f18;
+    unsigned char f19;
+    unsigned char pad1A[6];
+    int f20;
+} Object_8245AE18;
 
+extern char lbl_821BAC2C[];
+extern Object_8245AE18 *lbl_8327658C;
+extern void *fn_8265C9E0(unsigned int size);
 
-void fn_8245AE18(void)
-
+Object_8245AE18 *fn_8245AE18(void)
 {
-  if (lbl_8327658C == (undefined4 *)0x0) {
-    lbl_8327658C = (undefined4 *)fn_8265C9E0(0x24);
-    if (lbl_8327658C == (undefined4 *)0x0) {
-      lbl_8327658C = (undefined4 *)0x0;
+    if (lbl_8327658C == 0) {
+        Object_8245AE18 *object = (Object_8245AE18 *)fn_8265C9E0(0x24);
+        if (object != 0) {
+            object->fC = 0;
+            object->vtable = lbl_821BAC2C;
+            object->f10 = 0;
+            object->f14 = 0;
+            object->f18 = 0;
+            object->f19 = 0;
+            object->f20 = 0;
+        } else {
+            object = 0;
+        }
+        lbl_8327658C = object;
     }
-    else {
-      lbl_8327658C[3] = 0;
-      *lbl_8327658C = &lbl_821BAC2C;
-      lbl_8327658C[4] = 0;
-      lbl_8327658C[5] = 0;
-      *(undefined1 *)(lbl_8327658C + 6) = 0;
-      *(undefined1 *)((int)lbl_8327658C + 0x19) = 0;
-      lbl_8327658C[8] = 0;
-    }
-  }
-  return;
+    return lbl_8327658C;
 }
-

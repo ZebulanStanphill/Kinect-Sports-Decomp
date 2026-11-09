@@ -1,41 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF5200();
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void __stdcall RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void __stdcall RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern int fn_82FF5200(void *p, void *key);
 
-
-bool fn_82FF50F0(longlong param_1,undefined8 param_2)
-
+unsigned char fn_82FF50F0(char *self, void *key)
 {
-  longlong lVar1;
-  
-  RtlEnterCriticalSection(param_1 + 0x88);
-  lVar1 = fn_82FF5200(param_1 + 4,param_2);
-  RtlLeaveCriticalSection(param_1 + 0x88);
-  return lVar1 != 0;
+    unsigned char found;
+    RtlEnterCriticalSection((RTL_CRITICAL_SECTION *)(self + 0x88));
+    found = fn_82FF5200(self + 4, key) != 0;
+    RtlLeaveCriticalSection((RTL_CRITICAL_SECTION *)(self + 0x88));
+    return found;
 }
-

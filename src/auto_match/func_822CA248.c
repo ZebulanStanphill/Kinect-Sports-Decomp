@@ -1,62 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517D50();
-extern int fn_825ACAC8();
-extern unsigned int lbl_821AD0A8;
-extern unsigned int lbl_821AD0F4;
-extern unsigned int lbl_821CC160;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
+__vector4 __VMXGetReg(int n);
 
-undefined4 * fn_822CA248(undefined4 *param_1,undefined8 param_2)
+extern void fn_82517D50(void *p, int a, int b);
+extern void fn_825ACAC8(void *p);
+extern char lbl_821AD0A8[];
+extern char lbl_821AD0F4[];
+extern float lbl_821CC160;
 
+typedef struct {
+  void *vt;
+  char pad04[0x64];
+  void *vt2;
+  char pad6c[0x14];
+  unsigned char b80, b81, b82, b83;
+  unsigned char b84;
+  char pad85[0xb];
+  __vector4 vec;
+  float f;
+  char sub[0x18];
+  int value;
+} Obj_822CA248;
+
+Obj_822CA248 *fn_822CA248(Obj_822CA248 *s, int a)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  
-  fn_82517D50(param_1,param_2,10);
-  *param_1 = &lbl_821AD0A8;
-  param_1[0x1a] = &lbl_821AD0F4;
-  fn_825ACAC8(param_1 + 0x29);
-  param_1[0x2f] = 0;
-  uVar2 = lbl_821CC160;
-  *(undefined1 *)((int)param_1 + 0x82) = 0;
-  param_1[0x28] = uVar2;
-  *(undefined1 *)((int)param_1 + 0x83) = 0;
-  puVar1 = (undefined4 *)((uint)(param_1 + 0x24) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(undefined1 *)(param_1 + 0x21) = 0;
-  return param_1;
+  fn_82517D50(s, a, 10);
+  s->vt = lbl_821AD0A8;
+  s->vt2 = lbl_821AD0F4;
+  fn_825ACAC8(s->sub);
+  s->value = 0;
+  s->f = lbl_821CC160;
+  s->b82 = 0;
+  s->b83 = 0;
+  s->vec = __VMXGetReg(77);
+  s->b84 = 0;
+  return s;
 }
-

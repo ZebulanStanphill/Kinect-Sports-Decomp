@@ -1,82 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_28;
-extern int fn_822315A0();
-extern int fn_82517978();
-extern int fn_82F4FF20();
-extern int fn_82F57338();
-extern int fn_82F5A690();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
-extern U64 storeWordConditionalIndexed();
-
-
-undefined8 fn_82F52348(int param_1,undefined8 param_2)
-
+/* Same shape as fn_82F52520: looks up a shared pointer through the object's inner record,
+   evaluates fn_82F5A690 (float result) on it, then releases both reference counts. */
+typedef struct { int *vt; int pad4; long count; } Rc_82F52348;
+typedef struct { int pad0; Rc_82F52348 *rep; } It_82F52348;
+typedef struct { int px; int *rep; } SP_82F52348;
+typedef struct { int p0; } In_82F52348;
+typedef struct { int pad0; In_82F52348 *in; } Obj_82F52348;
+extern long _InterlockedDecrement(long *);
+extern int *fn_82F57338(It_82F52348 *, int);
+extern void fn_82517978(SP_82F52348 *, int, int, int);
+extern int fn_82F4FF20(int);
+extern float fn_82F5A690(int, int);
+extern void fn_822315A0(int *);
+float fn_82F52348(Obj_82F52348 *o, int arg)
 {
-  uint uVar1;
-  undefined4 *puVar3;
-  undefined8 uVar2;
-  longlong lVar4;
-  longlong lVar5;
-  uint *puVar6;
-  char in_RESERVE;
-  byte in_cr0;
-  undefined4 uStack_30;
-  int iStack_2c;
-  undefined1 auStack_28 [4];
-  int *piStack_24;
-  
-  puVar3 = (undefined4 *)fn_82F57338(auStack_28,**(undefined4 **)(param_1 + 4));
-  uStack_30 = 0;
-  iStack_2c = 0;
-  fn_82517978(&uStack_30,*puVar3,puVar3[1],0);
-  uVar2 = fn_82F4FF20(param_2);
-  uVar2 = fn_82F5A690(uStack_30,uVar2);
-  if (iStack_2c != 0) {
-    fn_822315A0();
+  It_82F52348 it;
+  SP_82F52348 sp;
+  int *r;
+  float res;
+  r = fn_82F57338(&it, o->in->p0);
+  sp.px = 0;
+  sp.rep = 0;
+  fn_82517978(&sp, r[0], r[1], 0);
+  res = fn_82F5A690(sp.px, fn_82F4FF20(arg));
+  if (sp.rep != 0) {
+    fn_822315A0(sp.rep);
   }
-  if (ZEXT48(piStack_24) != 0) {
-    lVar5 = ZEXT48(piStack_24) + 8;
-    do {
-      puVar6 = (uint *)lVar5;
-      lVar4 = (ulonglong)*puVar6 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar4,0,lVar5);
-        *puVar6 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar4 == 0) {
-      (**(code **)(*piStack_24 + 4))();
+  if (it.rep != 0) {
+    Rc_82F52348 *c = it.rep;
+    if (_InterlockedDecrement(&c->count) == 0) {
+      ((void (*)(Rc_82F52348 *))(c->vt[1]))(c);
     }
   }
-  return uVar2;
+  return res;
 }
-
