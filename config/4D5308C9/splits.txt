@@ -102729,7 +102729,7 @@ auto_match/func_828EAF40.cpp:
 	.pdata      start:0x82206D08 end:0x82206D10
 	.text       start:0x828EAF40 end:0x828EAFD4
 
-auto_match/func_828EAFD8.c:
+auto_match/func_828EAFD8.cpp:
 	.pdata      start:0x82206D10 end:0x82206D18
 	.text       start:0x828EAFD8 end:0x828EB138
 

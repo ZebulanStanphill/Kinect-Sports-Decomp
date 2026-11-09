@@ -157697,11 +157697,13 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_828EAFD8.c": {
-        "status": "NonMatching",
+      "auto_match/func_828EAFD8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
-        ]
+          "/O2",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
       "auto_match/func_828EB138.c": {
         "status": "NonMatching",
@@ -157785,7 +157787,8 @@
         "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_828EBA58.c": {
         "status": "NonMatching",
