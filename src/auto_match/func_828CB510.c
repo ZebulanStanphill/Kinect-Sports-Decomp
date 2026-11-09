@@ -1,52 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828B5580();
-extern unsigned int lbl_82026458;
-extern unsigned int lbl_82026478;
+typedef struct Callback_828CB510 {
+    int data[2];
+} Callback_828CB510;
 
+typedef struct Obj_828CB510 {
+    void *vt;
+    int f4;
+    int f8;
+    int fc;
+    Callback_828CB510 callback;
+} Obj_828CB510;
 
-undefined4 * fn_828CB510(undefined4 *param_1,int param_2)
+extern char lbl_82026478[];
+extern char lbl_82026458[];
+extern Callback_828CB510 *fn_828B5580(Callback_828CB510 *self, const Callback_828CB510 *other);
 
+Obj_828CB510 *fn_828CB510(Obj_828CB510 *o, Obj_828CB510 *src)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)(param_2 + 4);
-  if (param_2 == 0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  uVar1 = *puVar2;
-  *param_1 = &lbl_82026478;
-  param_1[1] = uVar1;
-  param_1[2] = *(undefined4 *)(param_2 + 8);
-  param_1[3] = *(undefined4 *)(param_2 + 0xc);
-  *param_1 = &lbl_82026458;
-  fn_828B5580(param_1 + 4,param_2 + 0x10);
-  return param_1;
-}
+    int v = *(src != 0 ? &src->f4 : 0);
 
+    o->vt = lbl_82026478;
+    o->f4 = v;
+    o->f8 = src->f8;
+    o->fc = src->fc;
+    o->vt = lbl_82026458;
+    fn_828B5580(&o->callback, &src->callback);
+    return o;
+}

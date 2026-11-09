@@ -1,51 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Open-addressing hash set findIndex (Scaleform-style HashSetBase::findIndexCore) with the
+   hash value cached in each entry; entries hold node pointers compared by their key field. */
+typedef struct Node_826DAAC0 {
+    int pad0;
+    int pad4;
+    int key;
+} Node_826DAAC0;
 
+typedef struct Entry_826DAAC0 {
+    int next;
+    unsigned int hash;
+    Node_826DAAC0 *value;
+} Entry_826DAAC0;
 
-int fn_826DAAC0(int *param_1,int *param_2,int param_3)
+typedef struct Table_826DAAC0 {
+    int entryCount;
+    unsigned int sizeMask;
+    Entry_826DAAC0 entries[1];
+} Table_826DAAC0;
 
+typedef struct Hash_826DAAC0 {
+    Table_826DAAC0 *table;
+} Hash_826DAAC0;
+
+int fn_826DAAC0(Hash_826DAAC0 *h, Node_826DAAC0 **key, unsigned int hashValue)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar2 = param_3 * 0xc + *param_1;
-  piVar3 = (int *)(iVar2 + 8);
-  if ((*piVar3 != -2) && (iVar1 = param_3, *(int *)(iVar2 + 0xc) == param_3)) {
-    while( true ) {
-      if ((piVar3[1] == param_3) && (*(int *)(piVar3[2] + 8) == *(int *)(*param_2 + 8))) {
-        return iVar1;
-      }
-      iVar1 = *piVar3;
-      if (iVar1 == -1) break;
-      piVar3 = (int *)(iVar1 * 0xc + *param_1 + 8);
+    int index = hashValue;
+    Entry_826DAAC0 *e = &h->table->entries[index];
+    if (e->next == -2 || e->hash != (unsigned int)index) {
+        return -1;
     }
-  }
-  return -1;
+    for (;;) {
+        if (e->hash == hashValue && e->value->key == (*key)->key) {
+            return index;
+        }
+        index = e->next;
+        if (index == -1) {
+            break;
+        }
+        e = &h->table->entries[index];
+    }
+    return -1;
 }
-

@@ -1,43 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Iface_826934C8 Iface_826934C8;
+typedef struct Iface_826934C8Vtbl {
+    void *slot[8];
+    int (*Method20)(Iface_826934C8 *self);
+} Iface_826934C8Vtbl;
+struct Iface_826934C8 {
+    Iface_826934C8Vtbl *vt;
+};
 
+typedef struct Obj_826934C8 {
+    int pad[2];
+    int inner;
+} Obj_826934C8;
 
-undefined8 fn_826934C8(int param_1)
-
+int fn_826934C8(Obj_826934C8 *self)
 {
-  undefined8 uVar1;
-  
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x826934e0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x20))();
-    return uVar1;
-  }
-  return 0x1001;
+    int inner = self->inner;
+    if (inner != 0) {
+        return ((Iface_826934C8 *)inner)->vt->Method20((Iface_826934C8 *)inner);
+    }
+    return 0x1001;
 }
-
