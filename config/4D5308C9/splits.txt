@@ -95883,7 +95883,7 @@ auto_match/func_82893070.cpp:
 	.pdata      start:0x82204070 end:0x82204078
 	.text       start:0x82893070 end:0x82893138
 
-auto_match/func_82893138.c:
+auto_match/func_82893138.cpp:
 	.pdata      start:0x82204078 end:0x82204080
 	.text       start:0x82893138 end:0x82893530
 

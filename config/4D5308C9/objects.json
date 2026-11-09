@@ -146619,11 +146619,12 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_82893138.c": {
-        "status": "NonMatching",
+      "auto_match/func_82893138.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_82893530.cpp": {
         "status": "Matching",
