@@ -25354,7 +25354,7 @@ auto_match/func_823F6238.cpp:
 	.pdata      start:0x821E7E58 end:0x821E7E60
 	.text       start:0x823F6238 end:0x823F62D4
 
-auto_match/func_823F62D8.c:
+auto_match/func_823F62D8.cpp:
 	.pdata      start:0x821E7E60 end:0x821E7E68
 	.text       start:0x823F62D8 end:0x823F6428
 
