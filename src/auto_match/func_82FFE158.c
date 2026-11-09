@@ -25,45 +25,25 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_82FFDF98();
+typedef struct Node_82FFE158 { struct Node_82FFE158 *next; unsigned key; int value; } Node_82FFE158;
 
+int *fn_82FFDF98(int *table, unsigned key, unsigned bucket);
 
-undefined4 * fn_82FFE158(undefined4 *param_1,ulonglong param_2)
-
+static __forceinline int *Find_82FFE158(int *table, unsigned key, unsigned bucket)
 {
-  undefined4 uVar1;
-  ulonglong uVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  longlong lVar5;
-  
-  uVar2 = (param_2 & 0xffffffff) * 0x8421085 >> 0x20;
-  uVar2 = ((param_2 - uVar2 & 0xffffffff) >> 1) + uVar2 >> 4;
-  lVar5 = param_2 - ((uVar2 & 0x7ffffff) * 0x20 - uVar2);
-  puVar4 = *(undefined4 **)((int)((lVar5 + 1U & 0xffffffff) << 2) + (int)param_1);
-  do {
-    if (puVar4 == (undefined4 *)0x0) {
-fn_82FFDF98:
-      puVar4 = (undefined4 *)fn_82FA5060(*param_1,0xc);
-      if (puVar4 != (undefined4 *)0x0) {
-        iVar3 = (int)((lVar5 + 1U & 0xffffffff) << 2);
-        uVar1 = *(undefined4 *)(iVar3 + (int)param_1);
-        puVar4[1] = (int)param_2;
-        *puVar4 = uVar1;
-        *(undefined4 **)(iVar3 + (int)param_1) = puVar4;
-        param_1[0x20] = param_1[0x20] + 1;
-        puVar4 = puVar4 + 2;
-      }
-      return puVar4;
-    }
-    if ((ulonglong)(uint)puVar4[1] == (param_2 & 0xffffffff)) {
-      if (puVar4 != (undefined4 *)0xfffffff8) {
-        return puVar4 + 2;
-      }
-      goto fn_82FFDF98;
-    }
-    puVar4 = (undefined4 *)*puVar4;
-  } while( true );
+  Node_82FFE158 *n = ((Node_82FFE158 **)table)[bucket + 1];
+
+  while (n != 0) {
+    if (n->key == key) return &n->value;
+    n = n->next;
+  }
+  return 0;
 }
 
+int *fn_82FFE158(int *table, unsigned key)
+{
+  unsigned bucket = key % 31;
+  int *p = Find_82FFE158(table, key, bucket);
+  if (p != 0) return p;
+  return fn_82FFDF98(table, key, bucket);
+}

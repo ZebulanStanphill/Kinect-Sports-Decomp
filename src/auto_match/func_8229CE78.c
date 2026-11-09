@@ -1,48 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273CD8();
-extern int fn_82A1EFC0();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+extern void fn_82273C88(void *v);
+extern void fn_82273CD8(void *v, int type);
+extern void fn_82A1EFC0(void *self, int a, int b);
+extern void fn_82672C20(void *movie, const char *path, void *args, int count);
 
+typedef struct {
+  char pad[8];
+  void *movie;
+} Obj_8229CE78;
 
-void fn_8229CE78(undefined8 param_1,int param_2)
-
+void fn_8229CE78(Obj_8229CE78 *self, int mode)
 {
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  double dStack_28;
-  
-  uStack_30 = 0;
-  uStack_2c = 0;
-  fn_82273CD8(&uStack_30,3);
-  dStack_28 = (double)(longlong)param_2;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1,0,8);
-}
+  struct { unsigned int a, b; double d; } args;
 
+  args.a = 0;
+  args.b = 0;
+  fn_82273CD8(&args, 3);
+  args.d = (double)mode;
+  fn_82A1EFC0(self, 0, 8);
+  fn_82672C20(self->movie, "_root.handIconMngr.setDisplayMode", &args, 1);
+  fn_82273C88(&args);
+}

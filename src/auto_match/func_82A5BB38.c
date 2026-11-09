@@ -1,67 +1,67 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A3FF60();
-extern int fn_82A4F4E0();
-extern int fn_82A5B680();
-extern int fn_82A5C760();
-extern int fn_82A77458();
+typedef struct LockVt_82A5BB38 LockVt_82A5BB38;
+typedef struct Lock_82A5BB38 {
+    LockVt_82A5BB38 *vt;
+} Lock_82A5BB38;
 
+struct LockVt_82A5BB38 {
+    void *f0;
+    void *f4;
+    void (*Lock)(Lock_82A5BB38 *self);
+    void *fc;
+    void *f10;
+    void (*Unlock)(Lock_82A5BB38 *self);
+};
 
-longlong fn_82A5BB38(int param_1,longlong param_2)
+typedef struct Obj_82A5BB38 {
+    unsigned int f0;
+    unsigned int f4;
+    unsigned int f8;
+    Lock_82A5BB38 *lock;   /* 0x0c */
+    unsigned int f10;
+    unsigned int f14;      /* 0x14 */
+    unsigned int f18;      /* 0x18 */
+    unsigned int pad1c[30];
+    unsigned int f94;      /* 0x94 */
+} Obj_82A5BB38;
 
+typedef struct Item_82A5BB38 {
+    unsigned int flag;     /* 0x0 */
+    unsigned int count;    /* 0x4 */
+    unsigned int type;     /* 0x8 */
+    void *owner;           /* 0xc */
+} Item_82A5BB38;
+
+extern char lbl_83219D50[];
+extern Item_82A5BB38 *fn_82A3FF60(void *pool, unsigned int size, unsigned int tag, unsigned int flags);
+extern void fn_82A4F4E0(Item_82A5BB38 *p);
+extern int fn_82A5B680(void *list, unsigned int n);
+extern int fn_82A5C760(unsigned int q, Item_82A5BB38 *p);
+extern void fn_82A77458(unsigned int a);
+
+int fn_82A5BB38(Obj_82A5BB38 *o, unsigned int n)
 {
-  int iVar1;
-  uint *puVar2;
-  longlong lVar3;
-  
-  (**(code **)(**(int **)(param_1 + 0xc) + 8))();
-  lVar3 = 0;
-  iVar1 = fn_82A5B680(param_1 + 4U,param_2);
-  if (iVar1 == 0) {
-    puVar2 = (uint *)fn_82A3FF60(0xffffffff83219d50,0x10,0x20970006,0);
-    if (puVar2 == (uint *)0x0) {
-      lVar3 = -0x7ff8fff2;
-    }
-    else {
-      puVar2[1] = (uint)param_2;
-      puVar2[3] = param_1 + 4U;
-      puVar2[2] = 8;
-      *puVar2 = (uint)(param_2 != 0);
-      lVar3 = fn_82A5C760(*(undefined4 *)(param_1 + 0x14),puVar2);
-      if (lVar3 < 0) {
-        fn_82A4F4E0(puVar2);
-      }
-    }
-  }
-  else {
-    fn_82A77458(*(undefined4 *)(param_1 + 0x94));
-  }
-  (**(code **)(**(int **)(param_1 + 0xc) + 0x14))();
-  return lVar3;
-}
+    int hr;
+    Item_82A5BB38 *p;
 
+    o->lock->vt->Lock(o->lock);
+    hr = 0;
+    if (fn_82A5B680((char *)o + 4, n) != 0) {
+        fn_82A77458(o->f94);
+    } else {
+        p = fn_82A3FF60(lbl_83219D50, 0x10, 0x20970006, 0);
+        if (p == 0) {
+            hr = (int)0x8007000E;
+        } else {
+            p->count = n;
+            p->owner = (char *)o + 4;
+            p->type = 8;
+            p->flag = n != 0;
+            hr = fn_82A5C760(o->f14, p);
+            if (hr < 0) {
+                fn_82A4F4E0(p);
+            }
+        }
+    }
+    o->lock->vt->Unlock(o->lock);
+    return hr;
+}

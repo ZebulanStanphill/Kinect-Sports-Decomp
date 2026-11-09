@@ -1,42 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82055E58;
-extern unsigned int lbl_82056E58;
+/* Corresponds to zlib 1.1.4 inftrees.c inflate_trees_fixed (open-source zlib), in D3DX's
+   copy. lbl_82056E58 is inffixed.h's fixed_td; fixed_tl (512 entries) ends where it starts,
+   but the game's symbols do not split fixed_tl out, so it is reached as lbl_82056E58 - 512. */
+typedef struct inflate_huft_s { unsigned char exop; unsigned char bits; unsigned short pad; unsigned int base; } inflate_huft;
+extern inflate_huft lbl_82056E58[];
 
-
-undefined8
-d3dx_inflate_trees_fixed(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4)
-
+int d3dx_inflate_trees_fixed(unsigned int *bl, unsigned int *bd, inflate_huft **tl, inflate_huft **td)
 {
-  *param_1 = 9;
-  *param_2 = 5;
-  *param_3 = &lbl_82055E58;
-  *param_4 = &lbl_82056E58;
+  *bl = 9;
+  *bd = 5;
+  *tl = lbl_82056E58 - 512;
+  *td = lbl_82056E58;
   return 0;
 }
-

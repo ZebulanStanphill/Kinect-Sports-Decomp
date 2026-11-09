@@ -1,91 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int fStack_74;
-extern unsigned int fStack_78;
-extern unsigned int fStack_7c;
-extern unsigned int fStack_80;
-extern int fn_8268CC00();
-extern int fn_8268CEC0();
-extern int fn_8268D280();
-extern int fn_8269A240();
-extern int fn_826F6FA8();
-extern unsigned int lbl_8200571C;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_64;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+typedef struct Rect_826FA208 Rect_826FA208;
+struct Rect_826FA208 { float x, y, w, h; };
 
+typedef struct Mat23_826FA208 Mat23_826FA208;
+struct Mat23_826FA208 {
+    float m[6];
+};
 
-undefined4 * fn_826FA208(undefined4 *param_1,int param_2,float *param_3,undefined8 param_4)
+typedef struct Obj_826FA208 Obj_826FA208;
+struct Obj_826FA208 {
+    char pad[0xe8];
+    Mat23_826FA208 xform;
+};
 
+void *fn_826F6FA8(Obj_826FA208 *o, int idx);
+void fn_8268CC00(Mat23_826FA208 *m);
+void fn_8269A240(void *a, Mat23_826FA208 *m);
+void fn_8268CEC0(Mat23_826FA208 *m, const Mat23_826FA208 *b);
+void fn_8268D280(const Mat23_826FA208 *m, Rect_826FA208 *out, const Rect_826FA208 *in);
+
+Rect_826FA208 *fn_826FA208(Rect_826FA208 *out, Obj_826FA208 *o, const float *p, const Mat23_826FA208 *xf)
 {
-  float fVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
-  struct { float first; float second; } stack_pair_80;
+    void *node;
+    Mat23_826FA208 tmp;
+    Mat23_826FA208 m;
+    Rect_826FA208 r;
 
-  float fStack_78;
-  float fStack_74;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
-
-  undefined4 uStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined1 auStack_50 [48];
-
-  uVar3 = fn_826F6FA8(param_2,0);
-  fn_8268CC00(auStack_50);
-  fn_8269A240(uVar3,auStack_50);
-  stack_pair_70.first = *(undefined4 *)(param_2 + 0xe8);
-  stack_pair_70.second = *(undefined4 *)(param_2 + 0xec);
-  uStack_68 = *(undefined4 *)(param_2 + 0xf0);
-  uStack_64 = *(undefined4 *)(param_2 + 0xf4);
-  uStack_60 = *(undefined4 *)(param_2 + 0xf8);
-  uStack_5c = *(undefined4 *)(param_2 + 0xfc);
-  fn_8268CEC0(&stack_pair_70.first,param_4);
-  fn_8268CEC0(&stack_pair_70.first,auStack_50);
-  uVar2 = lbl_821AAD20;
-  fVar1 = lbl_8200571C;
-  fStack_78 = param_3[2];
-  fStack_74 = param_3[3];
-  stack_pair_80.first = *param_3 * lbl_8200571C;
-  stack_pair_80.second = param_3[1] * lbl_8200571C;
-  *param_1 = lbl_821AAD20;
-  fStack_78 = fStack_78 * fVar1;
-  param_1[1] = uVar2;
-  fStack_74 = fStack_74 * fVar1;
-  param_1[2] = uVar2;
-  param_1[3] = uVar2;
-  fn_8268D280(&stack_pair_70.first,param_1,&stack_pair_80.first);
-  return param_1;
+    node = fn_826F6FA8(o, 0);
+    fn_8268CC00(&tmp);
+    fn_8269A240(node, &tmp);
+    m.m[0] = o->xform.m[0];
+    m.m[1] = o->xform.m[1];
+    m.m[2] = o->xform.m[2];
+    m.m[3] = o->xform.m[3];
+    m.m[4] = o->xform.m[4];
+    m.m[5] = o->xform.m[5];
+    fn_8268CEC0(&m, xf);
+    fn_8268CEC0(&m, &tmp);
+    r.x = p[0] * 20.0f;
+    r.y = p[1] * 20.0f;
+    r.w = p[2] * 20.0f;
+    r.h = p[3] * 20.0f;
+    out->x = 0.0f;
+    out->y = 0.0f;
+    out->w = 0.0f;
+    out->h = 0.0f;
+    fn_8268D280(&m, out, &r);
+    return out;
 }

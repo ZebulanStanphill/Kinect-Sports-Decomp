@@ -1,62 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_4e;
-extern int fn_822E8430();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AD588;
-extern unsigned int uStack_50;
+/* make_shared-style allocation: ref-count block (vtable, uses, weak) followed by
+   the object at +0xc, constructed by fn_822E8430; returns the shared_ptr pair. */
+extern void fn_822E8430(void *obj, int a, int b, const short *c, const short *d, float e);
+extern void *fn_8265C9E0(unsigned int);
+extern char lbl_821AD588[];
 
+struct CB_822E7DC8 { void *vt; int uses; int weak; int obj[7]; };
 
-undefined4 *
-fn_822E7DC8(undefined4 *param_1,undefined4 *param_2,undefined8 param_3,undefined4 *param_4,
-             undefined4 *param_5,float *param_6)
-
+void **fn_822E7DC8(void **param_1, int *a, int b, int *c, int *d, float *e)
 {
-  undefined4 *puVar1;
-  undefined2 uStack_50;
-  undefined2 auStack_4e;
-  
-  puVar1 = (undefined4 *)fn_8265C9E0(0x28);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    puVar1[1] = 1;
-    *puVar1 = &lbl_821AD588;
-    puVar1[2] = 1;
-    if (puVar1 + 3 != (undefined4 *)0x0) {
-      uStack_50 = (undefined2)*param_5;
-      auStack_4e = (undefined2)*param_4;
-      fn_822E8430((double)*param_6,puVar1 + 3,*param_2,param_3,&auStack_4e,&uStack_50);
+    struct CB_822E7DC8 *cb = (struct CB_822E7DC8 *)fn_8265C9E0(0x28);
+    if (cb) {
+        cb->uses = 1;
+        cb->vt = lbl_821AD588;
+        cb->weak = 1;
+        if (cb->obj) {
+            short sd = (short)*d;
+            short sc = (short)*c;
+            fn_822E8430(cb->obj, *a, b, &sc, &sd, *e);
+        }
+    } else {
+        cb = 0;
     }
-  }
-  param_1[1] = puVar1;
-  *param_1 = puVar1 + 3;
-  return param_1;
+    param_1[1] = cb;
+    param_1[0] = cb->obj;
+    return param_1;
 }
-

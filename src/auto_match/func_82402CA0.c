@@ -1,37 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359558();
+extern unsigned int fn_82359558(int, int);
 
+typedef struct Obj_82402CA0 {
+    char pad0[0x10];
+    int id;               /* +0x10 */
+    char pad14[0x240 - 0x14];
+    int table;            /* +0x240 */
+    char pad244[0x288 - 0x244];
+    int matchA;           /* +0x288 */
+    int matchB;           /* +0x28c */
+} Obj_82402CA0;
 
-void fn_82402CA0(int param_1)
-
+void fn_82402CA0(Obj_82402CA0 *self, unsigned int value)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82359558(*(undefined4 *)(param_1 + 0x240),*(undefined4 *)(param_1 + 0x10));
+    if (value == fn_82359558(self->table, self->id)) {
+        self->matchA = 0;
+    } else {
+        self->matchB = 0;
+    }
 }
-

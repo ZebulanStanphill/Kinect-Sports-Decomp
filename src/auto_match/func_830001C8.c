@@ -1,37 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_830001C8 Obj_830001C8;
 
+typedef struct Vtbl_830001C8 {
+    void *pad0[18];
+    void (*f48)(Obj_830001C8 *self, float f, int a, int b, int c);
+} Vtbl_830001C8;
 
-undefined8 fn_830001C8(double param_1,int *param_2,undefined8 param_3)
+struct Obj_830001C8 {
+    Vtbl_830001C8 *vt;
+    int pad04[21];
+    float f58;
+    float f5c;
+};
 
+int fn_830001C8(Obj_830001C8 *self, float v)
 {
-  param_2[0x17] = (int)(float)param_1;
-  (**(code **)(*param_2 + 0x48))(param_2,param_3,0x15,0,0);
-  return 1;
+    self->f5c = v;
+    self->vt->f48(self, v, 0x15, 0, 0);
+    return 1;
 }
-

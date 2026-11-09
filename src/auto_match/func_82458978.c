@@ -1,42 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359BB0();
-extern int fn_82815130();
+extern void fn_82359BB0(void *);
+extern void fn_82815130(void *);
 
+typedef struct Pair_82458978 {
+    unsigned int a[4];      /* +0x00 */
+    unsigned int b[4];      /* +0x10 */
+} Pair_82458978;
 
-void fn_82458978(longlong param_1)
+typedef struct Inner_82458978 {
+    unsigned int pad0[2];
+    Pair_82458978 pair;     /* +0x08 */
+    unsigned int pad28[(0xe0 - 0x28) / 4];
+    unsigned int c[4];      /* +0xe0 */
+    unsigned int d[4];      /* +0xf0 */
+    unsigned int e[4];      /* +0x100 */
+} Inner_82458978;
 
+typedef struct Owner_82458978 {
+    unsigned int pad[3];
+    Inner_82458978 inner;   /* +0xc */
+} Owner_82458978;
+
+void fn_82458978(Owner_82458978 *self)
 {
-  fn_82359BB0(param_1 + 0x10c);
-  fn_82359BB0(param_1 + 0xfc);
-  fn_82359BB0(param_1 + 0xec);
-  fn_82815130(param_1 + 0x24);
-  fn_82815130(param_1 + 0x14);
-  return;
-}
+    Inner_82458978 *inner = &self->inner;
+    Pair_82458978 *pair;
 
+    fn_82359BB0(inner->e);
+    fn_82359BB0(inner->d);
+    fn_82359BB0(inner->c);
+    pair = &inner->pair;
+    fn_82815130(pair->b);
+    fn_82815130(pair->a);
+}
