@@ -140009,11 +140009,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_8286AB68.c": {
-        "status": "NonMatching",
+      "auto_match/func_8286AB68.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8286AC88.c": {
         "status": "Matching",
@@ -140128,7 +140129,8 @@
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8286B568.c": {
         "status": "NonMatching",

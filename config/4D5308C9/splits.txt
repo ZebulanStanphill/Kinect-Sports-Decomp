@@ -91979,7 +91979,7 @@ auto_match/func_8286AB10.c:
 	.pdata      start:0x82202A18 end:0x82202A20
 	.text       start:0x8286AB10 end:0x8286AB68
 
-auto_match/func_8286AB68.c:
+auto_match/func_8286AB68.cpp:
 	.pdata      start:0x82202A20 end:0x82202A28
 	.text       start:0x8286AB68 end:0x8286AC88
 
