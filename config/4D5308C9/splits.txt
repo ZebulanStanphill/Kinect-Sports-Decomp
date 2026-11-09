@@ -102155,7 +102155,7 @@ auto_match/func_828E3F60.cpp:
 	.pdata      start:0x82206950 end:0x82206958
 	.text       start:0x828E3F60 end:0x828E4160
 
-auto_match/func_828E4160.c:
+auto_match/func_828E4160.cpp:
 	.pdata      start:0x82206958 end:0x82206960
 	.text       start:0x828E4160 end:0x828E4530
 
