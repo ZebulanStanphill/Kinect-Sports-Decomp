@@ -172472,7 +172472,7 @@ auto_match/func_82F58028.c:
 	.pdata      start:0x82220FF0 end:0x82220FF8
 	.text       start:0x82F58028 end:0x82F583E0
 
-auto_match/func_82F583E0.c:
+auto_match/func_82F583E0.cpp:
 	.pdata      start:0x82220FF8 end:0x82221000
 	.text       start:0x82F583E0 end:0x82F58508
 

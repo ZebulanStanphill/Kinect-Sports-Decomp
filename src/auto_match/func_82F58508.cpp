@@ -1,14 +1,15 @@
 // std::_Tree<Traits>::_Insert(const_iterator, _Nodeptr) from Visual C++ 2010's
-// <xtree>: links an allocated node into a std::set next to the hint _Where if
-// it belongs there, and otherwise through _Linsert. Element_8251F0E8 is a
-// placeholder for the game's 32-byte value type, ordered by its first word.
+// <xtree>, for the std::set<Element_82F57E00> whose _Linsert is
+// func_82F583E0.cpp and _Insert(bool, _Nodeptr, _Nodeptr) func_82F57E00.cpp:
+// links an allocated node into the set next to the hint _Where if it belongs
+// there, and otherwise through _Linsert(node, false). Element_82F57E00 is a
+// placeholder for the game's 20-byte value type, ordered by its first word.
 //
-// _Insert(bool, _Nodeptr, _Nodeptr) is defined by func_8251F0E8.cpp. _Linsert
-// and the iterator decrement and increment stay calls to fn_8251EFD0,
-// fn_8251F2B0 and fn_825503E0 (the linker folded the iterator functions with
-// other trees' ones). The game was built with link-time code generation, which
-// knew that the iterator functions only change the iterator they are given;
-// __declspec(noalias) tells the compiler the same.
+// The iterator decrement and increment stay calls to fn_82830D60 and
+// fn_82518FF0 (the linker folded them with other trees' ones). The game was
+// built with link-time code generation, which knew that the iterator functions
+// only change the iterator they are given; __declspec(noalias) tells the
+// compiler the same.
 namespace std {
 extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
 }
@@ -16,8 +17,11 @@ extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
 #include <set>
 #undef _Xlength_error
 
+extern "C" void *fn_82F57D98(void *self, int flags);
+
 struct Element_82F57E00 {
     unsigned int data[5];
+    ~Element_82F57E00() { fn_82F57D98(this, 0); }
 };
 
 inline bool operator<(const Element_82F57E00 &a, const Element_82F57E00 &b)
@@ -27,17 +31,9 @@ inline bool operator<(const Element_82F57E00 &a, const Element_82F57E00 &b)
 
 typedef std::set<Element_82F57E00> Set;
 typedef Set::_Mybase Tree;
-typedef Tree::_Node Node;
 typedef std::_Tree_unchecked_const_iterator<Tree::_Mybase> Unchecked;
 
-// The pair _Linsert returns, as fn_8251EFD0 fills it in.
-struct Linserted {
-    Node *node;
-    bool inserted;
-};
-
 extern "C" {
-Linserted *fn_82F583E0(Linserted *result, Tree *self, Node *node, bool leftish);
 __declspec(noalias) void fn_82830D60(Unchecked *it);
 __declspec(noalias) void fn_82518FF0(Unchecked *it);
 }
@@ -54,13 +50,7 @@ template <> __forceinline Unchecked &Unchecked::operator++()
     return *this;
 }
 
-template <> __forceinline Tree::_Pairib Tree::_Linsert(_Nodeptr node, bool leftish)
-{
-    Linserted result;
-    Linserted *done = fn_82F583E0(&result, this, node, leftish);
-    return _Pairib(iterator(done->node, this), done->inserted);
-}
-
+template <> Tree::_Pairib Tree::_Linsert(_Nodeptr, bool);
 template <> Tree::iterator Tree::_Insert(bool, _Nodeptr, _Nodeptr);
 
 template Tree::iterator Tree::_Insert(const_iterator, _Nodeptr);
