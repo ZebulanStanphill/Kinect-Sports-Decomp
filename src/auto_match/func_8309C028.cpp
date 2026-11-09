@@ -3,7 +3,6 @@
 // line and already has its C++ name in the original object).
 // - Havok code: needs "/O2 /QVMXReserve" (v0/v13 vector registers; flag file).
 // - hkpShapeRayCastOutput's reset stores m_shapeKeyIndex before m_shapeKeys[0] (the store order shows it).
-// - m_hitFraction's 1.0f is lbl_82002AE0 (Matching units reference it, so no __real@3f800000 rename).
 // - The ray conversion fn_8309BE28 (a leaf) is in the same file in the original, and the compiler used what it
 //   knew about it: with only a declaration the registers of the mask-table load after the call differ
 //   (n -> r10 instead of r5). So a static, not inlined copy of it is defined here (its code is close to the
@@ -26,13 +25,12 @@ typedef hkUint32 hkpShapeKey;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
 class hkpCollidable;
 
-extern "C" const float lbl_82002AE0;   // 1.0f
 
 struct hkpShapeRayCastCollectorOutput {
     HK_FORCE_INLINE hkpShapeRayCastCollectorOutput() { reset(); }
     HK_FORCE_INLINE void reset()
     {
-        m_hitFraction = lbl_82002AE0;
+        m_hitFraction = 1.0f;
         m_extraInfo = -1;
     }
     hkVector4 m_normal;     // +0x0

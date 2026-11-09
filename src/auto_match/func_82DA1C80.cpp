@@ -2,9 +2,7 @@
 // hkpPulleyConstraintData.cpp), /O2 /QVMXReserve (flag file). It keeps its fn_ name (the constructor
 // body runs through MSVC's explicit self->C::C() call, which has no placement-new null check).
 // The atoms' constructors store their types (3 = SET_LOCAL_TRANSLATIONS, 20 = PULLEY); the body zeroes
-// the four pivots and sets the rope length 0.0f and the leverage 1.0f. Both floats are literals: the
-// game's 1.0f is lbl_82002AE0 (the linker merged __real@3f800000 into it, and Matching units reference
-// it), so it is a static constant with that name; a plain extern is reloaded after the stores.
+// the four pivots and sets the rope length 0.0f and the leverage 1.0f. Both floats are literals.
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -14,7 +12,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
 // The game's 1.0f keeps its lbl_ name (see above).
-static const float lbl_82002AE0 = 1.0f;
 
 class hkVector4 {
 public:
@@ -62,7 +59,7 @@ public:
         m_atoms.m_pulley.m_fixedPivotAinWorld.setZero4();
         m_atoms.m_pulley.m_fixedPivotBinWorld.setZero4();
         m_atoms.m_pulley.m_ropeLength = 0.0f;
-        m_atoms.m_pulley.m_leverageOnBodyB = lbl_82002AE0;
+        m_atoms.m_pulley.m_leverageOnBodyB = 1.0f;
     }
 
     struct Atoms {

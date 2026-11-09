@@ -6,8 +6,8 @@
 // read as undefined registers (`vxor v11,v11,v11`, no stack load): MSVC keeps an uninitialized local
 // in its stack slot only when it is read in the entry block.
 // The lin0Limit assignments must come before lin0Soft's (order of the constant loads).
-// 1.0f is lbl_82002AE0 and 0.5f lbl_82002C5C (Matching units reference them): a static constant and a
-// selectany definition (two statics would share one base register). -0.5f is renamed __real@bf000000.
+// 1.0f is a literal; 0.5f is lbl_82002C5C (Matching units reference it), a selectany definition. -0.5f is
+// renamed __real@bf000000.
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -16,7 +16,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 } __vector4;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-static const float lbl_82002AE0 = 1.0f;
 extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkVector4 {
@@ -39,9 +38,9 @@ public:
     HK_FORCE_INLINE void setIdentity()
     {
         setZero();
-        m_col0(0) = lbl_82002AE0;
-        m_col1(1) = lbl_82002AE0;
-        m_col2(2) = lbl_82002AE0;
+        m_col0(0) = 1.0f;
+        m_col1(1) = 1.0f;
+        m_col2(2) = 1.0f;
     }
     hkVector4 m_col0, m_col1, m_col2;
 };

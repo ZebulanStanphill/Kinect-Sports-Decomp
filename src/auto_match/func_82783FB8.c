@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_82002AE0;
 
 
 
@@ -37,8 +36,8 @@ void fn_82783FB8(int param_1,float *param_2,float *param_3,float *param_4,float 
   uint uVar3;
   float *pfVar4;
   
-  fVar1 = lbl_82002AE0;
-  *param_2 = lbl_82002AE0;
+  fVar1 = 1.0f;
+  *param_2 = 1.0f;
   fVar2 = 0.0f;
   *param_3 = fVar1;
   *param_4 = fVar2;

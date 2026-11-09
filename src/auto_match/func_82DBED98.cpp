@@ -4,9 +4,8 @@
 // or 0 if nothing was hit. Havok code: /O2 /QVMXReserve (flag file); keeps its fn_ name.
 //
 // The 1.0f of hkMatrix3::setIdentity and HK_REAL_MAX are literals in the original, whose loads
-// the scheduler is free to move; the game's copies are lbl_82002AE0 and lbl_82134508, which
-// Matching C units reference, so they are declared here as known constants (selectany). As a
-// plain extern, 1.0f's load is scheduled later and the unit stalls at 57%.
+// the scheduler is free to move. The game's copy of HK_REAL_MAX is lbl_82134508, which Matching C
+// units reference, so it is declared here as a known constant (selectany).
 #include "havok/hkBase.h"
 #include "havok/hkpShape.h"
 #include "havok/hkpCollisionFilter.h"
@@ -18,7 +17,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 typedef __vector4 hkQuadReal;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 extern "C" __declspec(selectany) const hkReal lbl_82134508 = 3.40282e+38f;   // HK_REAL_MAX
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
@@ -43,9 +41,9 @@ public:
     HK_FORCE_INLINE void setIdentity()
     {
         setZero();
-        m_col0(0) = lbl_82002AE0;
-        m_col1(1) = lbl_82002AE0;
-        m_col2(2) = lbl_82002AE0;
+        m_col0(0) = 1.0f;
+        m_col1(1) = 1.0f;
+        m_col2(2) = 1.0f;
     }
     hkVector4 m_col0, m_col1, m_col2;
 };

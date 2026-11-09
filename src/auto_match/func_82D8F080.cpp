@@ -42,7 +42,6 @@ public:
 };
 
 extern "C" const float lbl_82131F88[];   // hkUFloat8 -> hkReal table
-extern "C" const float lbl_82002AE0;     // 1.0f
 
 class hkUFloat8 {
 public:
@@ -278,7 +277,7 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
                 if (world)
                     time = fn_82D80A40(world);
                 else
-                    time = lbl_82002AE0 / invDeltaTime + oldMotion.m_motionState.m_sweptTransform.getBaseTime();
+                    time = 1.0f / invDeltaTime + oldMotion.m_motionState.m_sweptTransform.getBaseTime();
                 fn_83081390(time, &newMotion->m_motionState);
             }
         }

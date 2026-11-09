@@ -14,7 +14,6 @@ __vector4 __vspltw(__vector4 a, unsigned int i);
 }
 // The source's literals 1.0f and -HK_REAL_MAX, folded by the linker into the game's copies. Defined here so the
 // compiler knows they are read-only and schedules their loads like literals.
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 extern "C" __declspec(selectany) const float lbl_82134504 = -3.40282e+38f;
 
 class hkVector4 {
@@ -173,7 +172,7 @@ HK_FORCE_INLINE hkpExtendedMeshShape::TrianglesSubpart::TrianglesSubpart() : Sub
 hkpExtendedMeshShape::hkpExtendedMeshShape(hkReal radius, int numBitsForSubpartIndex)
     : hkpShapeCollection(HK_SHAPE_EXTENDED_MESH, COLLECTION_EXTENDED_MESH)
 {
-    m_scaling.setAll(lbl_82002AE0);
+    m_scaling.setAll(1.0f);
     m_defaultCollisionFilterInfo = 0;
     m_triangleRadius = radius;
     m_numBitsForSubpartIndex = numBitsForSubpartIndex;

@@ -7,7 +7,6 @@ extern int fn_8280A5E8(float);
 extern void fn_82810328(void *a, void *b, void *out);
 extern void fn_828106A0(void *);
 extern void fn_8281CAE8(void *xf, void *in, void *out);
-extern float lbl_82002AE0;
 
 int fn_827EA490(void *param_1, void *param_2, void *param_3, float *param_4, void *param_5,
                 void *param_6, float param_7, void *param_8)
@@ -23,7 +22,7 @@ int fn_827EA490(void *param_1, void *param_2, void *param_3, float *param_4, voi
         fn_827EF608(&L.m, &L.v0, &L.v0);
         fn_827EF608(&L.m, &L.v1, &L.v1);
         fn_828106A0(L.buf);
-        return fn_827E9A68(&L.v1, &L.v0, L.buf, lbl_82002AE0, L.buf, param_7, param_8);
+        return fn_827E9A68(&L.v1, &L.v0, L.buf, 1.0f, L.buf, param_7, param_8);
     }
     return 0;
 }

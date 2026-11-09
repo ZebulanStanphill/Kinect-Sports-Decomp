@@ -5,13 +5,11 @@
 //
 // The original uses literals, whose loads the compiler schedules above the base stores.
 // 0.6f and 0.1f * HK_REAL_EPSILON have only non-Matching references and are renamed to their
-// __real@ names; 1.0f is the game's lbl_82002AE0, which Matching C units reference, so it is
-// declared here as a known constant (as in func_83096D00.cpp).
+// __real@ names; symbols.txt already names 1.0f __real@3f800000.
 #include "havok/hkBase.h"
 
 #define HK_REAL_EPSILON 1.192092896e-07f
 
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 
 class hkpConstraintData;
 
@@ -80,7 +78,7 @@ public:
 hkpStiffSpringChainData::hkpStiffSpringChainData()
 {
     m_tau = 0.6f;
-    m_damping = lbl_82002AE0;
+    m_damping = 1.0f;
     m_cfm = 0.1f * HK_REAL_EPSILON;
     m_atoms.m_bridgeAtom.init(this);
 }

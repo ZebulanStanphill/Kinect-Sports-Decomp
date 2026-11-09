@@ -12,7 +12,6 @@
 // lbl_s. Declaring those with their values lets the compiler treat them as constants and
 // schedule their loads the way the original does.
 extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 
 class hkpShape;
 
@@ -99,7 +98,7 @@ public:
 hkpEntity::hkpEntity(const hkpShape *shape)
     : hkpWorldObject(shape, BROAD_PHASE_ENTITY)
 {
-    m_damageMultiplier = lbl_82002AE0;
+    m_damageMultiplier = 1.0f;
     m_storageIndex = hkUint16(-1);
     m_simulationIsland = HK_NULL;
     m_extendedListeners = HK_NULL;

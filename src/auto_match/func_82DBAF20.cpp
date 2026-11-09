@@ -40,7 +40,6 @@ public:
     hkInt16 m_value;
 };
 
-extern "C" const float lbl_82002AE0;   // 1.0f
 
 // hkMotionState::initMotionState(const hkVector4 &, const hkQuaternion &) is out of line (fn_830824B8).
 class hkMotionState;

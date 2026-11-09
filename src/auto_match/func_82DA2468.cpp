@@ -8,9 +8,7 @@
 // writes 1.0f to the diagonal through hkVector4::operator().
 //
 // The original uses the literal 1.0f, whose load (one lfs for all six stores) the scheduler places
-// freely; the game's copy of that constant is lbl_82002AE0, which Matching C units reference, so it
-// cannot be renamed to __real@3f800000. A static const definition schedules like the literal; an
-// extern or __declspec(selectany) one does not. Built with /O2 /QVMXReserve.
+// freely. Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -21,7 +19,6 @@ typedef __vector4 hkQuadReal;
 
 extern "C" __vector4 __vxor(__vector4, __vector4);
 
-static const hkReal lbl_82002AE0 = 1.0f;
 
 class hkVector4 {
 public:
@@ -40,9 +37,9 @@ public:
         m_col0 = zero;
         m_col1 = zero;
         m_col2 = zero;
-        m_col0(0) = lbl_82002AE0;
-        m_col1(1) = lbl_82002AE0;
-        m_col2(2) = lbl_82002AE0;
+        m_col0(0) = 1.0f;
+        m_col1(1) = 1.0f;
+        m_col2(2) = 1.0f;
     }
 
     hkVector4 m_col0, m_col1, m_col2;

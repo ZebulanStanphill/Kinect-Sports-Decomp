@@ -149,10 +149,9 @@ public:
 	int m_elementsInUse;
 };
 
-// Linker-folded float constants. 0.2f, 0.4f, 0.05f, 200.0f and 2.0f are plain literals: the compiler names
-// them __real@..., which is what the original refers to (symbols.txt for 200.0f and 2.0f, the rename
-// map for the others). 1.0f is still lbl_82002AE0, which Matching C units use.
-extern "C" const float lbl_82002AE0;   // 1.0f
+// Linker-folded float constants. 0.2f, 0.4f, 0.05f, 200.0f, 2.0f and 1.0f are plain literals: the compiler
+// names them __real@..., which is what the original refers to (symbols.txt for 200.0f, 2.0f and 1.0f, the
+// rename map for the others).
 
 class hkpFirstPersonGun : public hkReferencedObject {
 public:
@@ -191,7 +190,7 @@ extern "C" void fn_82DF21A0(hkpMountedBallGun *self, hkpWorld *world, const hkTr
 	ci.m_motionType = 2;
 	ci.m_mass = self->m_bulletMass;
 	ci.m_restitution = 0.2f;
-	ci.m_friction = lbl_82002AE0;
+	ci.m_friction = 1.0f;
 	fn_82DEA600(ci.m_shape, self->m_bulletMass * 2.0f, ci);
 	ci.m_mass = self->m_bulletMass;
 	ci.m_linearDamping = 0.0f;

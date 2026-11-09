@@ -13,7 +13,6 @@ typedef struct Obj_82C2CFE8 {
     Elem_82C2CFE8 *elems;
 } Obj_82C2CFE8;
 
-extern float lbl_82002AE0;
 
 int fn_82C2CFE8(Obj_82C2CFE8 *p, float *out, unsigned short n)
 {
@@ -23,7 +22,7 @@ int fn_82C2CFE8(Obj_82C2CFE8 *p, float *out, unsigned short n)
     short j;
 
     k = 0;
-    scale = lbl_82002AE0 / (float)(1 << (p->shift - 1));
+    scale = 1.0f / (float)(1 << (p->shift - 1));
     for (i = 0; i < n; i++) {
         for (j = 0; j < p->count; j++) {
             out[k++] = p->elems[j].data[i] * scale;

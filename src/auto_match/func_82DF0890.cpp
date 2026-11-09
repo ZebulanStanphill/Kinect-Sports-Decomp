@@ -27,7 +27,6 @@ public:
 };
 
 extern "C" {
-__declspec(selectany) extern const float lbl_82002AE0 = 1.0f;
 __declspec(selectany) extern const float lbl_82134508 = 3.40282e+38f;     // HK_REAL_MAX
 __declspec(selectany) extern const float lbl_82057518 = 1.192092896e-07f; // HK_REAL_EPSILON
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -36,7 +35,7 @@ extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
 // Makes the configured names the compiler's constant-pool entries for these values (see above).
 void linearCastSphere_bindConstants(float *out)
 {
-    out[0] = lbl_82002AE0;
+    out[0] = 1.0f;
     out[1] = lbl_82134508;
     out[2] = lbl_82057518;
 }

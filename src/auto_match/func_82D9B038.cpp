@@ -1,8 +1,5 @@
-// hkpBallSocketChainData::hkpBallSocketChainData(). The original used float literals; the
-// game's 1.0f is lbl_82002AE0 (renaming it is blocked by Matching C units), so it is declared
-// as a known constant (as in func_83096D00) to let the compiler schedule its load like a literal's.
+// hkpBallSocketChainData::hkpBallSocketChainData(). The original used float literals.
 #include "havok/hkBase.h"
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 class hkpConstraintData;
 extern "C" void fn_82D9FE70(void *atom, hkpConstraintData *data);   // hkpBridgeAtom::init
 
@@ -38,7 +35,7 @@ public:
 };
 
 hkpBallSocketChainData::hkpBallSocketChainData()
-	: m_tau(0.6f), m_damping(lbl_82002AE0), m_cfm(1.1920929e-08f), m_maxErrorDistance(0.1f)
+	: m_tau(0.6f), m_damping(1.0f), m_cfm(1.1920929e-08f), m_maxErrorDistance(0.1f)
 {
 	m_atoms.m_bridgeAtom.init(this);
 }

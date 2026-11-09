@@ -22,7 +22,6 @@ extern void fn_826C6368(Obj_827544C0 *p);
 extern void fn_8267BE38(void *p);
 extern void fn_82687270(void *p);
 extern void fn_8267C4F0(void *p);
-extern float lbl_82002AE0;
 
 void fn_827544C0(Owner_827544C0 *owner)
 {
@@ -59,7 +58,7 @@ void fn_827544C0(Owner_827544C0 *owner)
         p->f8 = 0;
         p->refcount = 1;
         fn_8268C210(&p->fc);
-        p->f10 = lbl_82002AE0;
+        p->f10 = 1.0f;
         if (b != 0) {
             fn_8267C4C8(b);
         }

@@ -14,7 +14,6 @@ typedef struct {
     float step;
 } Obj_8275EB28;
 
-extern float lbl_82002AE0;
 
 void fn_8275EB28(Obj_8275EB28 *o, Src_8275EB28 *src)
 {
@@ -24,5 +23,5 @@ void fn_8275EB28(Obj_8275EB28 *o, Src_8275EB28 *src)
     o->rect = *r;
     o->count = 0;
     o->second = r->b;
-    o->step = (src->flags & 2) ? 0.05f : lbl_82002AE0;
+    o->step = (src->flags & 2) ? 0.05f : 1.0f;
 }

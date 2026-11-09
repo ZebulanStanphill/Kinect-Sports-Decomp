@@ -10,7 +10,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-static const float lbl_82002AE0 = 1.0f;
 
 class hkVector4 {
 public:
@@ -32,9 +31,9 @@ public:
     HK_FORCE_INLINE void setIdentity()
     {
         setZero();
-        m_col0(0) = lbl_82002AE0;
-        m_col1(1) = lbl_82002AE0;
-        m_col2(2) = lbl_82002AE0;
+        m_col0(0) = 1.0f;
+        m_col1(1) = 1.0f;
+        m_col2(2) = 1.0f;
     }
     hkVector4 m_col0, m_col1, m_col2;
 };

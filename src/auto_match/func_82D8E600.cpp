@@ -4,13 +4,7 @@
 //
 // Havok writes literals. Vector literals become __vmx@ constants and float literals __real@ constants:
 // the rename map gives the game's lbl_ copies of them (referenced by no Matching unit) those names, and
-// symbols.txt already names 0.6f, 0.1f and 200.0f that way. 1.0f is the exception: Matching C units
-// reference lbl_82002AE0, so it keeps its name. Literals are materialized from the first constant
-// object with that value the compiler has seen in the unit, so lbl_82002AE0 is defined (selectany,
-// like __real@ constants) and used once in hkpWorldCinfo_bindConstants before the constructor: the
-// constructor's 1.0f literals then load from lbl_82002AE0 and schedule like literals (one load, no
-// aliasing with the stores). Using the lbl_ object directly in the constructor reloads it per use;
-// a plain extern declaration blocks the scheduler.
+// symbols.txt already names 0.6f, 0.1f, 200.0f and 1.0f that way.
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
@@ -52,16 +46,6 @@ public:
         this->m_pntr = e;
     }
 };
-
-extern "C" {
-__declspec(selectany) extern const float lbl_82002AE0 = 1.0f;
-}
-
-// Makes the configured name the compiler's constant-pool entry for 1.0f (see above).
-void hkpWorldCinfo_bindConstants(float *out)
-{
-    out[0] = lbl_82002AE0;
-}
 
 
 class hkpWorldCinfo : public hkReferencedObject {

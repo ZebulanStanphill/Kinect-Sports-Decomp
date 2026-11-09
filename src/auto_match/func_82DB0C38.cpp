@@ -16,7 +16,6 @@ struct hkMonitorStream { char *m_start; hkMonitorStreamCommand *m_end; char *m_c
 extern "C" {
 hkMonitorStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern const float lbl_82002AE0;
 }
 static HK_FORCE_INLINE void timerBeginList(const char *name, const char *split)
 {
@@ -129,7 +128,7 @@ extern "C" void fn_82DB0C38(hkpAabbTreeWorldManager *self, const char *input, ch
     }
     timerMark("StInactiveTree");
     if (self->m_hasInactiveTree) {
-        fn_82D378E8(self->m_inactiveTree, input, input + 0x10, &aabbRaycaster, lbl_82002AE0);
+        fn_82D378E8(self->m_inactiveTree, input, input + 0x10, &aabbRaycaster, 1.0f);
     }
     timerMark("lt");
 }

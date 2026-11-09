@@ -7,7 +7,6 @@ extern "C" {
  __vector4 __vsubfp(__vector4,__vector4);
  __vector4 __vmulfp(__vector4,__vector4);
  __vector4 __lvlx(const void *,unsigned);
- extern const float lbl_82002AE0;
 }
 class hkVector4 { public:
  HK_FORCE_INLINE void operator=(const hkVector4 &v) { q=v.q; }
@@ -19,7 +18,7 @@ class hkRotation { public:
  HK_FORCE_INLINE void setIdentity() {
   hkVector4 zero; zero.setZero();
   col[0]=zero; col[1]=zero; col[2]=zero;
-  col[0].q.f[0]=lbl_82002AE0; col[1].q.f[1]=lbl_82002AE0; col[2].q.f[2]=lbl_82002AE0;
+  col[0].q.f[0]=1.0f; col[1].q.f[1]=1.0f; col[2].q.f[2]=1.0f;
  }
  hkVector4 col[3];
 };

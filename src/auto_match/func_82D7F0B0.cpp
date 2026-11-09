@@ -1,11 +1,9 @@
 // finishLoadedObjecthkpKeyframedRigidMotion: hkpKeyframedRigidMotion's hkTypeInfo finish function (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok).
 // hkpMotion (Physics/Dynamics/Motion/hkpMotion.h) and its subclasses (RTTI). Its finish constructor sets
-// m_gravityFactor (an hkHalf at +0x11e) to 1.0f when finishing. The game's 1.0f constant is lbl_82002AE0 (the
-// linker merged __real@3f800000 into it), so it is named here; copying it to a float local keeps the
-// stack copy that hkHalf::operator=(const hkReal &) reads as an int.
+// m_gravityFactor (an hkHalf at +0x11e) to 1.0f when finishing; copying the literal to a float local keeps
+// the stack copy that hkHalf::operator=(const hkReal &) reads as an int.
 #include "havok/hkBase.h"
 
-extern "C" const float lbl_82002AE0;   // 1.0f
 
 class hkHalf {
 public:
@@ -25,7 +23,7 @@ public:
     {
         if (flag.m_finishing)
         {
-            hkReal one = lbl_82002AE0;
+            hkReal one = 1.0f;
             m_gravityFactor = one;
         }
     }

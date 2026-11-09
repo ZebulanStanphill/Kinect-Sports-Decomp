@@ -126932,7 +126932,7 @@
         ]
       },
       "auto_match/func_82810A50.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -214081,7 +214081,10 @@
         "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "pool_aliases": {
+          "real_1_0f": "__real@3f800000"
+        }
       },
       "auto_match/func_82CF0998.c": {
         "status": "Matching",
@@ -217892,7 +217895,7 @@
       "auto_match/func_82D0AEE8.c": {
         "status": "NonMatching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82D0AFD8.c": {

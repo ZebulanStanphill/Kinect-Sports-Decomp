@@ -4,8 +4,7 @@
 // It keeps its fn_ name (func_82DBEF20, a clone function a C unit can match, calls it), so the constructor is
 // inline and run by MSVC's explicit constructor call (placement new would add a null check).
 // The 1.0f is a literal in the original (its load is scheduled above the base stores and copied to a temporary
-// for hkUFloat8's const hkReal &); the game's copy is lbl_82002AE0, which Matching units reference, so it is a
-// static constant with that name.
+// for hkUFloat8's const hkReal &).
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -15,7 +14,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 typedef __vector4 hkQuadReal;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-static const float lbl_82002AE0 = 1.0f;   // the game's 1.0f (Matching units reference it)
 extern "C" const float lbl_82134508;      // HK_REAL_MAX
 
 class hkVector4 {
@@ -62,7 +60,7 @@ struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom {
 
 struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
     hkpBallSocketConstraintAtom()
-        : hkpConstraintAtom(TYPE_BALL_SOCKET), m_bodiesToNotify(0), m_velocityStabilizationFactor(+lbl_82002AE0),
+        : hkpConstraintAtom(TYPE_BALL_SOCKET), m_bodiesToNotify(0), m_velocityStabilizationFactor(1.0f),
           m_maxImpulse(lbl_82134508) {}
     hkUint8 m_bodiesToNotify;                  // +0x2
     hkUFloat8 m_velocityStabilizationFactor;   // +0x3

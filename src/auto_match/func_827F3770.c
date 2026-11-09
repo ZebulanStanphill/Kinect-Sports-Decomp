@@ -39,7 +39,6 @@ extern void fn_827F6BA0(Obj_827F3770 *p, unsigned short v);
 extern void fn_827F6AC0(Obj_827F3770 *p, int v);
 extern void fn_827FA1F0(Obj_827F3770 *p, int v);
 extern void fn_827F9AB0(Obj_827F3770 *p, int v);
-extern float lbl_82002AE0;
 
 void *memset(void *dst, int c, unsigned int n);
 
@@ -62,7 +61,7 @@ Obj_827F3770 *fn_827F3770(Obj_827F3770 *p, void *src)
     b = p->b;
     memset(p->a, 0, 0x20);
     memset(b, 0, 0x20);
-    f = lbl_82002AE0;
+    f = 1.0f;
     b[3] = f;
     p->a[3] = f;
     return p;

@@ -1,9 +1,8 @@
 #include "havok/hkBase.h"
-extern "C" const float lbl_82002AE0;
 class hkpWorldCinfo : public hkReferencedObject {
 public:
  HK_FORCE_INLINE hkpWorldCinfo(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {
-  if(f.m_finishing && value==0.0f) value=lbl_82002AE0;
+  if(f.m_finishing && value==0.0f) value=1.0f;
  }
  char pad[0x1c];float value;
 };

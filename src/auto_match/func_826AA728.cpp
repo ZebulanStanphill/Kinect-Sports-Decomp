@@ -16,7 +16,6 @@ void fn_826A9040(Hash_826AA728 *);
 void fn_826BE4B8(Hash_826AA728 *);
 void fn_826AB548(Hash_826AA728 *, void *, void *, int);
 double fn_82F65E20(float);
-extern float lbl_82002AE0;
 extern float lbl_8200561C;
 }
 struct Hash_826AA728 {
@@ -38,7 +37,7 @@ void Hash_826AA728::setRawCapacity(void *heap, U32 n)
         cap = 8;
       } else {
         double lg = fn_82F65E20((float)(n - 1));
-        int sh = (int)((float)lg * lbl_8200561C + lbl_82002AE0);
+        int sh = (int)((float)lg * lbl_8200561C + 1.0f);
         cap = 1 << sh;
       }
       tag = 0x143;

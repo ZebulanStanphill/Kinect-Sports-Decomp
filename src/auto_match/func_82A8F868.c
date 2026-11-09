@@ -16,7 +16,6 @@ typedef struct Dst_82A8F868 {
 
 extern void fn_82A8DC48(void *, void *, int, int, void *);
 extern void fn_82A8FDF8(void *, Src_82A8F868 *, int, int, Dst_82A8F868 *);
-extern float lbl_82002AE0;
 
 void fn_82A8F868(char *a, Src_82A8F868 *s, int c, int d, Dst_82A8F868 *dst)
 {
@@ -24,5 +23,5 @@ void fn_82A8F868(char *a, Src_82A8F868 *s, int c, int d, Dst_82A8F868 *dst)
   int t2 = s->f64 + s->f60 + s->f5c;
   fn_82A8FDF8(a, s, c, d, dst);
   fn_82A8DC48(a + 8, (char *)s + 0x68, c, t2 + t1 + d, (char *)dst + 0x20);
-  dst->f2c = lbl_82002AE0;
+  dst->f2c = 1.0f;
 }

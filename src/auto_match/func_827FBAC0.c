@@ -7,7 +7,6 @@ extern void fn_827F6950(Obj_827FBAC0 *, Mat_827FBAC0 **);
 extern int fn_828116B8(unsigned char *, unsigned);
 extern void fn_8280D8E0(Mat_827FBAC0 *, Mat_827FBAC0 *, void *);
 extern void fn_8280E180(Mat_827FBAC0 *, void *, Mat_827FBAC0 *, float);
-extern float lbl_82002AE0;
 
 void fn_827FBAC0(Obj_827FBAC0 *a, Obj_827FBAC0 *b, Obj_827FBAC0 *c, float t)
 {
@@ -25,7 +24,7 @@ void fn_827FBAC0(Obj_827FBAC0 *a, Obj_827FBAC0 *b, Obj_827FBAC0 *c, float t)
   fn_827F6950(b, &I.pb);
   fn_827F6950(c, &I.pc);
   if (n != 0) {
-    one = lbl_82002AE0;
+    one = 1.0f;
     i = 0;
     do {
       if (fn_828116B8(I.flags, i) != 0) {

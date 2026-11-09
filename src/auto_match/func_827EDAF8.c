@@ -32,7 +32,6 @@ extern int fn_8280A5E8(float);
 extern void fn_82810328(void *, void *, void *);
 extern void fn_828106A0(void *);
 extern void fn_8281CB50(void *, void *, void *, int);
-extern float lbl_82002AE0;
 
 typedef struct V3_827EDAF8 { float x, y, z; } V3_827EDAF8;
 
@@ -50,7 +49,7 @@ int fn_827EDAF8(void *param_1, void *param_2, void *param_3, void *param_4, floa
     fn_827EF608(L.m, &L.v[0], &L.v[0]);
     fn_827EF608(L.m, &L.v[1], &L.v[1]);
     fn_827EF608(L.m, &L.v[2], &L.v[2]);
-    return fn_827ECE88(L.buf, lbl_82002AE0, &L.v[0], &L.v[1], &L.v[2], L.buf + 16);
+    return fn_827ECE88(L.buf, 1.0f, &L.v[0], &L.v[1], &L.v[2], L.buf + 16);
   }
   return 0;
 }

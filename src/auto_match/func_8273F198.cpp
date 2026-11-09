@@ -17,7 +17,6 @@ void fn_8273F300(Hash_8273F198 *, void *, void *, U32);
 void fn_8273CEF0(Hash_8273F198 *);
 void fn_8273E988(Hash_8273F198 *);
 double fn_82F65E20(float);
-extern float lbl_82002AE0;
 extern float lbl_8200561C;
 }
 struct Hash_8273F198 {
@@ -36,7 +35,7 @@ void Hash_8273F198::setRawCapacity(void *heap, U32 n)
       cap = 8;
     } else {
       double lg = fn_82F65E20((float)(n - 1));
-      int sh = (int)((float)lg * lbl_8200561C + lbl_82002AE0);
+      int sh = (int)((float)lg * lbl_8200561C + 1.0f);
       cap = 1 << sh;
     }
     tag = 0x143;

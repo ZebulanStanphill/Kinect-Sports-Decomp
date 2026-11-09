@@ -1,8 +1,7 @@
 // Ray cast through the kd-tree and the AABB tree (self: +0xc AABB tree, +0x10 kd-tree, +0x24 use AABB tree).
-// lbl_82002AE0 is the linker-folded 1.0f; a local keeps it in f31 across the calls like the original's literal.
+// A local keeps the 1.0f in f31 across the calls, as in the original.
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionFilter.h"
-extern "C" float lbl_82002AE0;
 class __declspec(align(16)) hkVector4 { public: float m_quad[4]; };
 struct hkpWorldRayCastInput { hkVector4 m_from; hkVector4 m_to; };
 class hkpRayHitCollector;
@@ -74,7 +73,7 @@ extern "C" void fn_82DB0A00(Self *self, const hkpWorldRayCastInput &input, const
 	caster.m_collector = collector;
 	caster.m_filter = filter;
 	caster.m_shapeFilter = filter;
-	hkReal one = lbl_82002AE0;
+	hkReal one = 1.0f;
 	hkpWorldRayCastOutput output(one);
 	caster.m_output = &output;
 	if (self->m_kdTree) {

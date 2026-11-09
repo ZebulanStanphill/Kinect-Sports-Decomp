@@ -5,13 +5,10 @@
 // Members: an hkpShapeRayCastInput at +0x40 (its constructor clears m_filterInfo and
 // m_rayShapeCollectionFilter), the early-out fraction (1.0f) at +0x1c, a flag at +0x20 and a
 // pointer at +0x70, the last three set in the body.
-// The source used the literal 1.0f; the game's copy of that constant is lbl_82002AE0, declared
-// here with its value so the compiler schedules its load as the original does (plain extern:
-// load after the member constructor's stores, 83%).
+// The source used the literal 1.0f.
 #include "havok/hkBase.h"
 
 extern "C" void fn_8265CA20(void *p);   // global operator delete
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 
 struct __declspec(align(16)) hkVector4 { hkReal m_quad[4]; };
 
@@ -71,7 +68,7 @@ public:
 
 hkCpuWorldRayCastCollector::hkCpuWorldRayCastCollector()
 {
-    m_earlyOutHitFraction = lbl_82002AE0;
+    m_earlyOutHitFraction = 1.0f;
     m_result = HK_NULL;
     m_hit = false;
 }

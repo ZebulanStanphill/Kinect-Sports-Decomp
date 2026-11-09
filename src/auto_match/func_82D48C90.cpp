@@ -3,12 +3,9 @@
 // setUseCachedAabb(true) (fn_82D48570), both out of line under their fn_ names. RTTI: hkpConvexShape at +0,
 // hkpShapeContainer at +0x14. Built with /O2 (flag file).
 // m_minDistanceToUseConvexHullForGetClosestPoints is the literal 1.0f, whose load the compiler schedules
-// above the m_childShapes stores (it knows the constant cannot change); the game's copy of that constant is
-// lbl_82002AE0 (the linker merged __real@3f800000 into it), so it is declared here as a known constant (as in
-// func_83096D00.cpp).
+// above the m_childShapes stores (it knows the constant cannot change).
 #include "havok/hkBase.h"
 
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 
 // hkpShape, hkpShapeContainer and hkpShapeCollection as in havok/hkpShape.h, declared here because the
 // unit needs constructors the shared header does not declare.
@@ -127,7 +124,7 @@ public:
 hkpConvexListShape::hkpConvexListShape(const hkpConvexShape *const *shapeArray, int numShapes)
     : hkpConvexShape(hkpShapeType(0x17), 0.0f)
 {
-    m_minDistanceToUseConvexHullForGetClosestPoints = lbl_82002AE0;
+    m_minDistanceToUseConvexHullForGetClosestPoints = 1.0f;
     setShapes(shapeArray, numShapes);
     setUseCachedAabb(true);
 }

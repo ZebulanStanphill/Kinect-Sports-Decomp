@@ -3,9 +3,8 @@
 // The name with an int second parameter is the one func_82D48058.cpp (Matching) already calls.
 // m_heightfieldType is an hkEnum<HeightFieldType, hkUint8> constructed in the initialiser list: a plain
 // hkUint8 member (initialiser or body) schedules its store before the base class stores.
-// The game's 1.0f, -1.0f and 0.5f keep their lbl_ names (Matching units reference them): 1.0f is a
-// static constant (it stays in f0 across the stores), the other two are selectany definitions (each
-// gets its own lis; three statics would share one base register).
+// 1.0f and -1.0f are literals. The game's 0.5f keeps its lbl_ name (Matching units reference it) and
+// is defined here as selectany.
 #include "havok/hkpShape.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -19,7 +18,6 @@ __vector4 __lvlx(const void *, int);
 float fn_8307F168();
 }
 
-static const float lbl_82002AE0 = 1.0f;
 extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 union hkQuadRealUnion {
@@ -91,7 +89,7 @@ hkpSampledHeightFieldShape::hkpSampledHeightFieldShape(const hkpSampledHeightFie
     m_zRes = ci.m_zRes;
     m_useProjectionBasedHeight = ci.m_useProjectionBasedHeight;
 
-    m_extents.set(ci.m_xRes - lbl_82002AE0, ci.m_maxHeight - ci.m_minHeight, ci.m_zRes - lbl_82002AE0);
+    m_extents.set(ci.m_xRes - 1.0f, ci.m_maxHeight - ci.m_minHeight, ci.m_zRes - 1.0f);
     m_extents.mul4(ci.m_scale);
 
     if (ci.m_minHeight > ci.m_maxHeight)
@@ -105,7 +103,7 @@ hkpSampledHeightFieldShape::hkpSampledHeightFieldShape(const hkpSampledHeightFie
     }
 
     m_intToFloatScale = ci.m_scale;
-    m_floatToIntScale.set(lbl_82002AE0 / ci.m_scale(0), lbl_82002AE0 / ci.m_scale(1), lbl_82002AE0 / ci.m_scale(2));
+    m_floatToIntScale.set(1.0f / ci.m_scale(0), 1.0f / ci.m_scale(1), 1.0f / ci.m_scale(2));
 
     hkVector4 offset;
     offset.setMul4(fn_8307F168(), m_intToFloatScale);

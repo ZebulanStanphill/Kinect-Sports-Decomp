@@ -10,7 +10,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-static const float lbl_82002AE0 = 1.0f;
 
 class hkVector4 {
 public:
@@ -94,12 +93,12 @@ hkpVehicleData::hkpVehicleData()
     m_chassisOrientation.setZero();
     m_torqueRollFactor = 0.0f;
     m_torquePitchFactor = 0.0f;
-    m_torqueYawFactor = lbl_82002AE0;
+    m_torqueYawFactor = 1.0f;
     m_extraTorqueFactor = 0.0f;
     m_maxVelocityForPositionalFriction = 10.0f;
-    m_chassisUnitInertiaYaw = lbl_82002AE0;
-    m_chassisUnitInertiaRoll = lbl_82002AE0;
-    m_chassisUnitInertiaPitch = lbl_82002AE0;
+    m_chassisUnitInertiaYaw = 1.0f;
+    m_chassisUnitInertiaRoll = 1.0f;
+    m_chassisUnitInertiaPitch = 1.0f;
     m_frictionEqualizer = 0.0f;
     m_normalClippingAngleCos = 0.1f;
     m_chassisFrictionInertiaInvDiag.setZero4();

@@ -3,8 +3,7 @@
 // The atoms' constructors set the atom types; the body sets both local transforms to identity and the
 // constrained axis to 0. It keeps its fn_ name (func_82DBF2A0, a clone function a C unit can match, calls it),
 // so the constructor is inline and run by MSVC's explicit constructor call.
-// The 1.0f is a literal in the original (loaded once for all six diagonal stores); the game's copy is
-// lbl_82002AE0, which Matching units reference, so it is a static constant with that name.
+// The 1.0f is a literal in the original (loaded once for all six diagonal stores).
 #include "havok/hkBase.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
@@ -14,7 +13,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 typedef __vector4 hkQuadReal;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-static const float lbl_82002AE0 = 1.0f;   // the game's 1.0f (Matching units reference it)
 
 class hkVector4 {
 public:
@@ -37,9 +35,9 @@ public:
     HK_FORCE_INLINE void setIdentity()
     {
         setZero();
-        m_col0(0) = lbl_82002AE0;
-        m_col1(1) = lbl_82002AE0;
-        m_col2(2) = lbl_82002AE0;
+        m_col0(0) = 1.0f;
+        m_col1(1) = 1.0f;
+        m_col2(2) = 1.0f;
     }
     hkVector4 m_col0, m_col1, m_col2;
 };

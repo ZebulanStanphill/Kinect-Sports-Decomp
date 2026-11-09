@@ -1,7 +1,7 @@
 // hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &, const hkVector4 &, hkReal, hkReal, hkReal, hkpRigidBody *,
 // const hkArray<mouseSpringAppliedCallback> *) (Physics/Utilities/Actions/MouseSpring/hkpMouseSpringAction.cpp), /O2 /QVMXReserve.
-// 250.0f is a literal (the rename map names the game's copy __real@437a0000); 1.0f (lbl_82002AE0) and HK_REAL_MAX
-// (lbl_82134508) keep their names because Matching units reference them. hkpCollisionInput's members are hkPadSpu
+// 250.0f and 1.0f are literals (the rename map names the game's copy of 250.0f __real@437a0000); HK_REAL_MAX
+// (lbl_82134508) keeps its name because Matching units reference it. hkpCollisionInput's members are hkPadSpu
 // wrappers, so its implicit copy moves m_tolerance through integer registers; the closest-points function is
 // looked up before the input copy and the collector are built.
 #include "havok/hkBase.h"
@@ -11,7 +11,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
     unsigned int vector4_u32[4];
 } __vector4;
 
-static const float lbl_82002AE0 = 1.0f;   // the game's 1.0f (Matching units reference it)
 extern "C" const float lbl_82134508;      // HK_REAL_MAX (Matching units reference it)
 
 class hkVector4 {
@@ -299,7 +298,7 @@ hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &positionInRbLocal, c
     hkpWorld *world = rb->getWorld();
     m_shapeKey = HK_INVALID_SHAPE_KEY;
     if (world) {
-        hkpSphereShape sphere(lbl_82002AE0);
+        hkpSphereShape sphere(1.0f);
         hkTransform transform(hkTransform::getIdentity().getRotation(), mousePositionInWorld);
         hkpCollidable sphereCollidable(&sphere, &transform);
 

@@ -1,6 +1,5 @@
 extern void *memcpy(void *, const void *, unsigned int);
 extern void *fn_82BE50B0(void *, int);
-extern float lbl_82002AE0;
 extern float lbl_820069B4;
 extern float lbl_8201DCBC;
 typedef struct { char pad[0x20]; float f20; char pad2[0x3c]; int f60; } T;
@@ -13,7 +12,7 @@ int fn_82BEFA58(A *a, B *b, R *c)
   T *t;
   R *r;
   float lim;
-  if (c->f20 < lbl_820069B4) c->f20 = lbl_82002AE0;
+  if (c->f20 < lbl_820069B4) c->f20 = 1.0f;
   t = b->t;
   r = fn_82BE50B0(t, 1);
   if (a->q != 0) lim = a->q->f60; else lim = a->f5c;

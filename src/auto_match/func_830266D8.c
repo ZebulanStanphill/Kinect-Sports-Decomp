@@ -6,7 +6,6 @@ typedef struct {
 } S_830266D8;
 extern void fn_82FA5190(int, void *);
 extern int lbl_831BC770;
-extern float lbl_82002AE0;
 void fn_830266D8(S_830266D8 *param_1, int *param_2)
 {
   float t;
@@ -14,7 +13,7 @@ void fn_830266D8(S_830266D8 *param_1, int *param_2)
   if (param_1->f74 != 0) fn_82FA5190(lbl_831BC770, param_1->f74);
   param_1->f60 = 0;
   param_1->f6e = 0;
-  t = lbl_82002AE0;
+  t = 1.0f;
   param_1->f6c = 0;
   param_1->f7c = t;
   param_1->f68 = 0x2b;

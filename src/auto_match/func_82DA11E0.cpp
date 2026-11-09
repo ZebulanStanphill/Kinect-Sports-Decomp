@@ -5,14 +5,11 @@
 //
 // The original uses literals, whose loads the compiler schedules above the base stores. 0.6f,
 // 0.1f * HK_REAL_EPSILON and 0.1f have only non-Matching references and are renamed to their __real@ names;
-// 1.0f is the game's lbl_82002AE0, which Matching C units reference, so it keeps that name as a static constant,
-// which gives the literal's code (a selectany definition, as in func_82DA5A58.cpp, loads it twice here; an extern
-// is reloaded after the stores).
+// symbols.txt already names 1.0f __real@3f800000.
 #include "havok/hkBase.h"
 
 #define HK_REAL_EPSILON 1.192092896e-07f
 
-static const float lbl_82002AE0 = 1.0f;
 
 class hkpConstraintData;
 
@@ -95,12 +92,12 @@ public:
 hkpPoweredChainData::hkpPoweredChainData()
 {
     m_tau = 0.6f;
-    m_damping = lbl_82002AE0;
+    m_damping = 1.0f;
 
     m_cfmLinAdd = 0.1f * HK_REAL_EPSILON;
-    m_cfmLinMul = lbl_82002AE0;
+    m_cfmLinMul = 1.0f;
     m_cfmAngAdd = 0.1f * HK_REAL_EPSILON;
-    m_cfmAngMul = lbl_82002AE0;
+    m_cfmAngMul = 1.0f;
 
     m_maxErrorDistance = 0.1f;
 

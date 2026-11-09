@@ -2,12 +2,9 @@
 // hkAabbTreeQueryUtils<...>::Collector interfaces (RTTI order and offsets), then five pointers and
 // the early-out hit fraction (1.0f) at +0x24.
 // The original source used the literal 1.0f, whose load the compiler schedules above the vtable
-// stores (it knows the constant cannot change); the game's copy of that constant is lbl_82002AE0.
-// A plain extern lbl_82002AE0 keeps the load below the vtable stores; renaming it to
-// __real@3f800000 is blocked by Matching C units, so it is declared here as a known constant.
+// stores (it knows the constant cannot change).
 #include "havok/hkBase.h"
 
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
 
 struct hkAabbTreeData {
     struct hkAabbTreeAabb;
@@ -43,7 +40,7 @@ public:
 
 hkpAabbTreeCollidableRaycaster::hkpAabbTreeCollidableRaycaster()
 {
-    m_earlyOutHitFraction = lbl_82002AE0;
+    m_earlyOutHitFraction = 1.0f;
     m_a = 0;
     m_b = 0;
     m_c = 0;

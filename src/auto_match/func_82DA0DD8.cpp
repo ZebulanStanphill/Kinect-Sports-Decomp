@@ -1,9 +1,7 @@
 // hkpPositionConstraintMotor::hkpPositionConstraintMotor(hkReal) (hkpPositionConstraintMotor.cpp), /O2.
 // The constants are literals: 1e6f/-1e6f are configured as __real@49742400/__real@c9742400, and the rename map
 // names the game's copies of 0.8f and 2.0f (lbl_820579A8, lbl_82005344) __real@3f4ccccd/__real@40000000.
-// 1.0f is lbl_82002AE0, which Matching units reference, so it keeps that name: a static constant with it gives
-// the literal's code (an extern is reloaded after the stores; a second such static in .rdata would be
-// addressed from the first one's address).
+// symbols.txt already names 1.0f __real@3f800000.
 
 // hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer type.
 template <typename ENUM, typename STORAGE>
@@ -18,7 +16,6 @@ public:
 #include "havok/hkBase.h"
 
 // The game's 1.0f (see above).
-static const float lbl_82002AE0 = 1.0f;
 
 // hkpConstraintMotor (Physics/Dynamics/Constraint/Motor/hkpConstraintMotor.h): hkReferencedObject,
 // then hkEnum<MotorType, hkInt8> m_type (+0x8). Vtable slot 3 (+0xC) is clone().
@@ -78,7 +75,7 @@ hkpPositionConstraintMotor::hkpPositionConstraintMotor(hkReal currentPosition)
     m_type = TYPE_POSITION;
     setMaxForce(1e6f);
     m_tau = 0.8f;
-    m_damping = lbl_82002AE0;
-    m_constantRecoveryVelocity = lbl_82002AE0;
+    m_damping = 1.0f;
+    m_constantRecoveryVelocity = 1.0f;
     m_proportionalRecoveryVelocity = 2.0f;
 }
