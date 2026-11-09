@@ -55734,11 +55734,11 @@ auto_match/func_82674FB8.cpp:
 	.pdata      start:0x821F49D0 end:0x821F49D8
 	.text       start:0x82674FB8 end:0x8267503C
 
-auto_match/func_82675040.c:
+auto_match/func_82675040.cpp:
 	.pdata      start:0x821F49D8 end:0x821F49E0
 	.text       start:0x82675040 end:0x826752B0
 
-auto_match/func_826752B0.c:
+auto_match/func_826752B0.cpp:
 	.pdata      start:0x821F49E0 end:0x821F49E8
 	.text       start:0x826752B0 end:0x82675308
 
@@ -55746,7 +55746,7 @@ auto_match/func_82675308.c:
 	.pdata      start:0x821F49E8 end:0x821F49F0
 	.text       start:0x82675308 end:0x826753F0
 
-auto_match/func_826753F0.c:
+auto_match/func_826753F0.cpp:
 	.pdata      start:0x821F49F0 end:0x821F49F8
 	.text       start:0x826753F0 end:0x82675498
 
