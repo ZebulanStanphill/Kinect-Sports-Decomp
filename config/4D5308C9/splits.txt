@@ -97357,7 +97357,7 @@ auto_match/func_828A6468.c:
 	.pdata      start:0x822049B0 end:0x822049B8
 	.text       start:0x828A6468 end:0x828A64DC
 
-auto_match/func_828A64E0.c:
+auto_match/func_828A64E0.cpp:
 	.pdata      start:0x822049B8 end:0x822049C0
 	.text       start:0x828A64E0 end:0x828A68B0
 
