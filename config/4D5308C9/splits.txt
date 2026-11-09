@@ -96443,7 +96443,7 @@ auto_match/func_8289B660.cpp:
 	.pdata      start:0x82204428 end:0x82204430
 	.text       start:0x8289B660 end:0x8289B6F4
 
-auto_match/func_8289B6F8.c:
+auto_match/func_8289B6F8.cpp:
 	.pdata      start:0x82204430 end:0x82204438
 	.text       start:0x8289B6F8 end:0x8289BB08
 
@@ -96451,7 +96451,7 @@ auto_match/func_8289BB08.cpp:
 	.pdata      start:0x82204438 end:0x82204440
 	.text       start:0x8289BB08 end:0x8289BBE4
 
-auto_match/func_8289BBE8.c:
+auto_match/func_8289BBE8.cpp:
 	.pdata      start:0x82204440 end:0x82204448
 	.text       start:0x8289BBE8 end:0x8289BC58
 
