@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8A9B0(void *);
-extern int fn_82F8BB40(void *);
-extern void *fn_827D3AA8(void *, unsigned int, unsigned int);
-extern void fn_827D3AB0(void *, void *);
-extern char *lbl_82018A44[];
+extern int deflateEnd(void *);
+extern int deflateReset(void *);
+extern void *zcalloc(void *, unsigned int, unsigned int);
+extern void zcfree(void *, void *);
+extern char *z_errmsg[];
 
 typedef struct ZStream_82F8BCA8 {
   int pad0[6];
@@ -75,7 +75,7 @@ typedef struct DState_82F8BCA8 {
   int pad16a8[(0x16c0 - 0x16a8) / 4];
 } DState_82F8BCA8;
 
-int fn_82F8BCA8(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, int memLevel,
+int deflateInit2_(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, int memLevel,
                 int strategy, const char *version, unsigned int stream_size)
 {
   DState_82F8BCA8 *s;
@@ -91,10 +91,10 @@ int fn_82F8BCA8(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, i
   strm->msg = 0;
   if (strm->zalloc == 0) {
     strm->opaque = 0;
-    strm->zalloc = fn_827D3AA8;
+    strm->zalloc = zcalloc;
   }
   if (strm->zfree == 0) {
-    strm->zfree = fn_827D3AB0;
+    strm->zfree = zcfree;
   }
   if (level == -1) {
     level = 6;
@@ -137,8 +137,8 @@ int fn_82F8BCA8(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, i
   s->pending_buf_size = s->lit_bufsize * 4;
   if (s->window == 0 || s->prev == 0 || s->head == 0 || s->pending_buf == 0) {
     s->status = 666;
-    strm->msg = lbl_82018A44[6];
-    fn_82F8A9B0(strm);
+    strm->msg = z_errmsg[6];
+    deflateEnd(strm);
     return -4;
   }
   s->level = level;
@@ -146,5 +146,5 @@ int fn_82F8BCA8(ZStream_82F8BCA8 *strm, int level, int method, int windowBits, i
   s->d_buf = overlay + s->lit_bufsize / 2;
   s->l_buf = s->pending_buf + 3 * s->lit_bufsize;
   s->method = (unsigned char)method;
-  return fn_82F8BB40(strm);
+  return deflateReset(strm);
 }

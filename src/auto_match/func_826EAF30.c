@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_826EA560();
-extern int fn_827BDB08();
-extern int fn_827BE428();
-extern int fn_827BE938();
-extern int fn_827BF2B8();
-extern int fn_827BF3F0();
+extern int jpeg_std_error();
+extern int jpeg_start_compress();
+extern int jpeg_set_quality();
+extern int jpeg_set_defaults();
+extern int jpeg_CreateCompress();
 extern unsigned int lbl_8200D878;
 
 
@@ -44,17 +44,17 @@ fn_826EAF30(undefined4 *param_1,undefined8 param_2,undefined4 param_3,undefined4
   
   *param_1 = &lbl_8200D878;
   puVar2 = param_1 + 2;
-  uVar1 = fn_827BDB08(param_1 + 0x5c);
+  uVar1 = jpeg_std_error(param_1 + 0x5c);
   param_1[2] = uVar1;
-  fn_827BF3F0(puVar2,0x3e,0x168);
+  jpeg_CreateCompress(puVar2,0x3e,0x168);
   fn_826EA560(puVar2,param_2);
   param_1[9] = param_3;
   param_1[10] = param_4;
   param_1[0xb] = 3;
   param_1[0xc] = 2;
-  fn_827BF2B8(puVar2);
-  fn_827BE938(puVar2,param_5,1);
-  fn_827BE428(puVar2,1);
+  jpeg_set_defaults(puVar2);
+  jpeg_set_quality(puVar2,param_5,1);
+  jpeg_start_compress(puVar2,1);
   return param_1;
 }
 

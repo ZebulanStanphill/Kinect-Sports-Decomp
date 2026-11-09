@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C0738();
+extern int d3dx_adler32();
 extern int memcpy();
 
 
-void fn_829B7AB0(int *param_1)
+void d3dx_fill_window(int *param_1)
 
 {
   uint uVar1;
@@ -110,7 +110,7 @@ LAB_829b7b04:
       iVar6 = (int)uVar11;
       piVar2[1] = uVar5 - iVar6;
       if (*(int *)(piVar2[7] + 0x18) == 0) {
-        iVar7 = fn_829C0738(piVar2[0xc],*piVar2,uVar11);
+        iVar7 = d3dx_adler32(piVar2[0xc],*piVar2,uVar11);
         piVar2[0xc] = iVar7;
       }
       memcpy((ulonglong)uVar8 + (ulonglong)uVar3 + (ulonglong)uVar4,*piVar2,uVar11);

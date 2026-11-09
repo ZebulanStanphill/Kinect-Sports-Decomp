@@ -16,7 +16,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829AFB90(png_row_infop row_info, png_bytep row,
+png_do_gamma(png_row_infop row_info, png_bytep row,
    png_bytep gamma_table, png_uint_16pp gamma_16_table,
    int gamma_shift)
 {

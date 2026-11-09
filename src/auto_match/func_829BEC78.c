@@ -7,7 +7,7 @@ typedef struct Decomp_829BEC78 {
   char pad74[0x13c - 0x74];
   int max_v_samp_factor;
 } Decomp_829BEC78;
-extern void fn_829B77B8(JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row,
+extern void d3dx_jcopy_sample_rows(JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row,
                         int num_rows, unsigned int num_cols);
 
 void fn_829BEC78(Decomp_829BEC78 *cinfo, void *compptr, JSAMPARRAY input_data, JSAMPARRAY *output_data_ptr)
@@ -28,7 +28,7 @@ void fn_829BEC78(Decomp_829BEC78 *cinfo, void *compptr, JSAMPARRAY input_data, J
       *outptr++ = invalue;
       *outptr++ = invalue;
     }
-    fn_829B77B8(output_data, outrow, output_data, outrow + 1, 1, cinfo->output_width);
+    d3dx_jcopy_sample_rows(output_data, outrow, output_data, outrow + 1, 1, cinfo->output_width);
     inrow++;
     outrow += 2;
   }

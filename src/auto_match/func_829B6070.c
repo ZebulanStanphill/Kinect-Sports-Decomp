@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B5D78();
-extern int fn_829B5E58();
+extern int d3dx_alloc_sarray();
+extern int d3dx_alloc_barray();
 extern int fn_829BAB08();
 extern int fn_829BAC50();
 
@@ -84,7 +84,7 @@ void fn_829B6070(int param_1)
         else {
           piVar2[4] = iVar5;
         }
-        iVar5 = fn_829B5D78(param_1,1,piVar2[2],piVar2[4]);
+        iVar5 = d3dx_alloc_sarray(param_1,1,piVar2[2],piVar2[4]);
         *piVar2 = iVar5;
         piVar2[5] = *(int *)(iVar1 + 0x50);
         piVar2[6] = 0;
@@ -106,7 +106,7 @@ void fn_829B6070(int param_1)
         else {
           piVar2[4] = iVar5;
         }
-        iVar5 = fn_829B5E58(param_1,1,piVar2[2],piVar2[4]);
+        iVar5 = d3dx_alloc_barray(param_1,1,piVar2[2],piVar2[4]);
         *piVar2 = iVar5;
         piVar2[5] = *(int *)(iVar1 + 0x50);
         piVar2[6] = 0;

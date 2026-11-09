@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B7838();
-extern int fn_829B78F8();
-extern int fn_829B7AB0();
-extern int fn_829C1D98();
+extern int d3dx_flush_pending();
+extern int d3dx_longest_match();
+extern int d3dx_fill_window();
+extern int d3dx__tr_flush_block();
 extern unsigned int lbl_82055790;
 extern unsigned int lbl_82055890;
 extern unsigned int lbl_82055990;
@@ -52,7 +52,7 @@ byte fn_829B7E88(int *param_1,longlong param_2)
   do {
     uVar7 = param_1[0x1b];
     if (uVar7 < 0x106) {
-      fn_829B7AB0(param_1);
+      d3dx_fill_window(param_1);
       uVar7 = param_1[0x1b];
       iVar5 = (int)param_2;
       if ((uVar7 < 0x106) && (iVar5 == 0)) {
@@ -66,10 +66,10 @@ byte fn_829B7E88(int *param_1,longlong param_2)
         else {
           lVar6 = (ulonglong)(uint)param_1[0xc] + (ulonglong)uVar10;
         }
-        fn_829C1D98(param_1,lVar6,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar10,
+        d3dx__tr_flush_block(param_1,lVar6,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar10,
                           iVar5 == 4);
         param_1[0x15] = param_1[0x19];
-        fn_829B7838(*param_1);
+        d3dx_flush_pending(*param_1);
         if (*(int *)(*param_1 + 0x10) != 0) {
           if (iVar5 != 4) {
             return 1;
@@ -90,7 +90,7 @@ byte fn_829B7E88(int *param_1,longlong param_2)
     }
     if (((uVar10 != 0) && (param_1[0x19] - uVar10 <= param_1[9] - 0x106U)) && (param_1[0x20] != 2))
     {
-      iVar5 = fn_829B78F8(param_1,uVar10);
+      iVar5 = d3dx_longest_match(param_1,uVar10);
       param_1[0x16] = iVar5;
     }
     if ((uint)param_1[0x16] < 3) {
@@ -159,9 +159,9 @@ LAB_829b81a8:
       else {
         lVar6 = (ulonglong)uVar7 + (ulonglong)(uint)param_1[0xc];
       }
-      fn_829C1D98(param_1,lVar6,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar7,0);
+      d3dx__tr_flush_block(param_1,lVar6,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar7,0);
       param_1[0x15] = param_1[0x19];
-      fn_829B7838(*param_1);
+      d3dx_flush_pending(*param_1);
       if (*(int *)(*param_1 + 0x10) == 0) {
         return 0;
       }

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_829B7838(int param_1)
+void d3dx_flush_pending(int param_1)
 
 {
   int iVar1;

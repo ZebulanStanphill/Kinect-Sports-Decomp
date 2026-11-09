@@ -25,7 +25,7 @@ typedef struct {
   void *p;
 } Mgr;
 
-void fn_827C9040(Cinfo *param_1, Mgr *param_2)
+void jpeg_open_backing_store(Cinfo *param_1, Mgr *param_2)
 {
   void *p;
 

@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F641F8();
-extern int fn_82F68BF0();
+extern int free();
+extern int malloc();
 extern int memcpy();
 extern int memset();
 
@@ -50,7 +50,7 @@ void fn_82ED24C0(int param_1,byte *param_2)
   uVar9 = ((ulonglong)*(uint *)(param_1 + 0x4024) + 1 & 0xffffffff) >> 1;
   uVar3 = ((ulonglong)uVar2 + 1 & 0xffffffff) >> 1;
   iVar8 = (int)uVar3 * (int)uVar9;
-  puVar7 = (undefined1 *)fn_82F68BF0(iVar8 * 3);
+  puVar7 = (undefined1 *)malloc(iVar8 * 3);
   if (puVar7 != (undefined1 *)0x0) {
     puVar10 = puVar7;
     if ((int)uVar9 != 0) {
@@ -82,12 +82,12 @@ void fn_82ED24C0(int param_1,byte *param_2)
     memcpy(puVar10 + iVar8,param_2 + iVar8,iVar8);
     uVar2 = *(int *)(param_1 + 0x4024) + 1U >> 1;
     uVar6 = *(int *)(param_1 + 0x4020) + 1U >> 1;
-    iVar8 = fn_82F68BF0(((longlong)(int)uVar6 * (longlong)(int)uVar2 & 0x3fffffffU) << 2);
+    iVar8 = malloc(((longlong)(int)uVar6 * (longlong)(int)uVar2 & 0x3fffffffU) << 2);
     if (iVar8 != 0) {
                     /* WARNING: Subroutine does not return */
       memset(*(undefined4 *)(param_1 + 0xc),0,((int)uVar2 >> 3) * ((int)uVar6 >> 3) * 4);
     }
-    fn_82F641F8(puVar7);
+    free(puVar7);
   }
   return;
 }

@@ -46,22 +46,22 @@ typedef struct deflate_state_829B7CB8 {
 #define MAX_DIST(s) ((s)->w_size - MIN_LOOKAHEAD)
 
 
-extern void fn_829B7AB0(deflate_state *);
-extern void fn_829B7838(z_stream *);
-extern void fn_829C1D98(deflate_state *, charf *, ulg, int);
+extern void d3dx_fill_window(deflate_state *);
+extern void d3dx_flush_pending(z_stream *);
+extern void d3dx__tr_flush_block(deflate_state *, charf *, ulg, int);
 
 #define FLUSH_BLOCK_ONLY(s, eof) { \
-   fn_829C1D98(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), \
+   d3dx__tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), \
                 (ulg)((long)s->strstart - s->block_start), (eof)); \
    s->block_start = s->strstart; \
-   fn_829B7838(s->strm); \
+   d3dx_flush_pending(s->strm); \
 }
 #define FLUSH_BLOCK(s, eof) { \
    FLUSH_BLOCK_ONLY(s, eof); \
    if (s->strm->avail_out == 0) return (eof) ? 2 : 0; \
 }
 
-int fn_829B7CB8(deflate_state *s, int flush)
+int d3dx_deflate_stored(deflate_state *s, int flush)
 {
     ulg max_block_size = 0xffff;
     ulg max_start;
@@ -72,7 +72,7 @@ int fn_829B7CB8(deflate_state *s, int flush)
 
     for (;;) {
         if (s->lookahead <= 1) {
-            fn_829B7AB0(s);
+            d3dx_fill_window(s);
             if (s->lookahead == 0 && flush == 0) return 0;
             if (s->lookahead == 0) break;
         }

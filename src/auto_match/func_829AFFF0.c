@@ -23,7 +23,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829AFFF0(png_row_infop row_info, png_bytep row,
+png_do_expand_palette(png_row_infop row_info, png_bytep row,
    png_colorp palette, png_bytep trans, int num_trans)
 {
    int shift, value;

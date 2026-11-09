@@ -31,7 +31,7 @@ extern unsigned int *auStack_50;
 extern int fn_82A1E0C0();
 extern int fn_82D7E470();
 extern void _invalid_parameter_noinfo(void);
-extern int fn_82F641F8();
+extern int free();
 extern int *_errno(void);
 extern int fn_82F682B0();
 extern int fn_82F6E1C8();
@@ -70,7 +70,7 @@ uint fn_82F6A6C8(undefined8 param_1,undefined8 param_2,uint param_3,undefined4 p
       }
       uVar3 = fn_82A1F470();
     }
-    fn_82F641F8(iVar2);
+    free(iVar2);
     if ((uVar3) != 0) {
       fn_82F682B0(uVar3);
     }

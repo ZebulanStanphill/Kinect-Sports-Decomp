@@ -25,17 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C0BE8();
-extern int fn_829C1260();
-extern int fn_829C1510();
-extern int fn_829C1940();
-extern int fn_829C1C10();
-extern unsigned int lbl_820551BC;
+extern int d3dx_scan_tree();
+extern int d3dx_send_all_trees();
+extern int d3dx_compress_block();
+extern int d3dx_build_tree();
+extern int d3dx__tr_stored_block();
+extern unsigned int d3dx_bl_order;
 extern unsigned int lbl_82055298;
 extern unsigned int lbl_82055718;
 
 
-void fn_829C1D98(int param_1,ulonglong param_2,longlong param_3,undefined8 param_4)
+void d3dx__tr_flush_block(int param_1,ulonglong param_2,longlong param_3,undefined8 param_4)
 
 {
   int iVar1;
@@ -84,14 +84,14 @@ LAB_829c1ecc:
       } while (lVar6 != 0);
       *(char *)(param_1 + 0x1c) = -(((uVar5 & 0xffffffff) >> 2 < uVar9) + -1);
     }
-    lVar6 = fn_829C1940(param_1,param_1 + 0xb10);
-    iVar1 = fn_829C1940(lVar6,lVar6 + 0xb1c);
-    iVar1 = fn_829C0BE8(iVar1,iVar1 + 0x8c,*(undefined4 *)(iVar1 + 0xb14));
-    lVar6 = fn_829C0BE8(iVar1,iVar1 + 0x980,*(undefined4 *)(iVar1 + 0xb20));
-    param_1 = fn_829C1940(lVar6,lVar6 + 0xb28);
+    lVar6 = d3dx_build_tree(param_1,param_1 + 0xb10);
+    iVar1 = d3dx_build_tree(lVar6,lVar6 + 0xb1c);
+    iVar1 = d3dx_scan_tree(iVar1,iVar1 + 0x8c,*(undefined4 *)(iVar1 + 0xb14));
+    lVar6 = d3dx_scan_tree(iVar1,iVar1 + 0x980,*(undefined4 *)(iVar1 + 0xb20));
+    param_1 = d3dx_build_tree(lVar6,lVar6 + 0xb28);
     lVar6 = 0x12;
     do {
-      if (*(short *)((uint)(byte)(&lbl_820551BC)[(int)lVar6] * 4 + param_1 + 0xa76) != 0) break;
+      if (*(short *)((uint)(byte)(&d3dx_bl_order)[(int)lVar6] * 4 + param_1 + 0xa76) != 0) break;
       lVar6 = lVar6 + -1;
     } while (2 < (int)lVar6);
     lVar10 = lVar6 * 3 + (ulonglong)*(uint *)(param_1 + 0x16a0);
@@ -145,15 +145,15 @@ LAB_829c1ecc:
         *(int *)(param_1 + 0x16b4) = iVar2 + -0xd;
         *(short *)(param_1 + 0x16b0) = (short)((uVar11 & 0xffff) >> (0x10U - iVar2 & 0x3f));
       }
-      param_1 = fn_829C1260(param_1,(ulonglong)*(uint *)(param_1 + 0xb14) + 1,
+      param_1 = d3dx_send_all_trees(param_1,(ulonglong)*(uint *)(param_1 + 0xb14) + 1,
                               (ulonglong)*(uint *)(param_1 + 0xb20) + 1,lVar6 + 1);
       puVar4 = (undefined *)(param_1 + 0x980);
       puVar3 = (undefined *)(param_1 + 0x8c);
     }
-    iVar2 = fn_829C1510(param_1,puVar3,puVar4);
+    iVar2 = d3dx_compress_block(param_1,puVar3,puVar4);
   }
   else {
-    iVar2 = fn_829C1C10(param_1,param_2,param_3,param_4);
+    iVar2 = d3dx__tr_stored_block(param_1,param_2,param_3,param_4);
   }
   puVar12 = (undefined2 *)(iVar2 + 0x88);
   lVar6 = 0x11e;

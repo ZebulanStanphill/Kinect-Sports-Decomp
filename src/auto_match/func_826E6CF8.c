@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827D1B48();
+extern int inflateReset();
 
 
 void fn_826E6CF8(undefined4 *param_1)
@@ -35,7 +35,7 @@ void fn_826E6CF8(undefined4 *param_1)
   
   *(undefined1 *)(param_1 + 0x11) = 0;
   param_1[0x12] = 0;
-  iVar1 = fn_827D1B48(param_1 + 1);
+  iVar1 = inflateReset(param_1 + 1);
   if (iVar1 == 0) {
     param_1[1] = 0;
     param_1[2] = 0;

@@ -16,7 +16,7 @@ typedef struct {
 } z_stream_826E6BC8;
 extern void *fn_826E6BB0(void *opaque, unsigned int items, unsigned int size);
 extern void fn_826E6BC0(void *opaque, void *address);
-extern int fn_827D1D48(z_stream_826E6BC8 *strm, const char *version, int stream_size);
+extern int inflateInit_(z_stream_826E6BC8 *strm, const char *version, int stream_size);
 
 int fn_826E6BC8(z_stream_826E6BC8 *strm, void *opaque, unsigned char *out, unsigned int outSize)
 {
@@ -30,5 +30,5 @@ int fn_826E6BC8(z_stream_826E6BC8 *strm, void *opaque, unsigned char *out, unsig
     strm->data_type = 0;
     strm->adler = 0;
     strm->reserved = 0;
-    return fn_827D1D48(strm, "1.2.3", 0x38);
+    return inflateInit_(strm, "1.2.3", 0x38);
 }

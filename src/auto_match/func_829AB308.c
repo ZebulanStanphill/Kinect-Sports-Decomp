@@ -25,9 +25,9 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned fn_829B5140(unsigned);
+extern unsigned d3dx_crc32(unsigned);
 
-void fn_829AB308(char *param_1)
+void png_calculate_crc(char *param_1)
 {
   int ok = 1;
   if ((*(unsigned char *)(param_1 + 0x60c) & 0x20) != 0) {
@@ -37,5 +37,5 @@ void fn_829AB308(char *param_1)
   } else if ((*(unsigned *)(param_1 + 0x55c) & 0x800) != 0) {
     ok = 0;
   }
-  if (ok) *(unsigned *)(param_1 + 0x600) = fn_829B5140(*(unsigned *)(param_1 + 0x600));
+  if (ok) *(unsigned *)(param_1 + 0x600) = d3dx_crc32(*(unsigned *)(param_1 + 0x600));
 }

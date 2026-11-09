@@ -73,7 +73,7 @@ struct jpeg_memory_mgr {
 
   long max_alloc_chunk;
 };
-extern long fn_827C8EF8 (j_common_ptr cinfo, long min_bytes_needed, long max_bytes_needed, long already_allocated);
+extern long jpeg_mem_available (j_common_ptr cinfo, long min_bytes_needed, long max_bytes_needed, long already_allocated);
 typedef struct backing_store_struct * backing_store_ptr;
 typedef struct backing_store_struct {
 
@@ -84,7 +84,7 @@ typedef struct backing_store_struct {
   FILE * temp_file;
   char temp_name[64];
 } backing_store_info;
-extern void fn_827C9040 (j_common_ptr cinfo, backing_store_ptr info, long total_bytes_needed);
+extern void jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info, long total_bytes_needed);
 typedef union small_pool_struct * small_pool_ptr;
 typedef union small_pool_struct {
   struct {
@@ -148,14 +148,14 @@ struct jvirt_barray_control {
   backing_store_info b_s_info;
 };
 JSAMPARRAY
-fn_827C0B88 (j_common_ptr cinfo, int pool_id,
+alloc_sarray (j_common_ptr cinfo, int pool_id,
 	      JDIMENSION samplesperrow, JDIMENSION numrows);
 JBLOCKARRAY
-fn_827C0C68 (j_common_ptr cinfo, int pool_id,
+alloc_barray (j_common_ptr cinfo, int pool_id,
 	      JDIMENSION blocksperrow, JDIMENSION numrows);
 
 void
-fn_827C0E80 (j_common_ptr cinfo)
+realize_virt_arrays (j_common_ptr cinfo)
 
 {
   my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
@@ -186,7 +186,7 @@ fn_827C0E80 (j_common_ptr cinfo)
   if (space_per_minheight <= 0)
     return;
 
-  avail_mem = fn_827C8EF8(cinfo, space_per_minheight, maximum_space,
+  avail_mem = jpeg_mem_available(cinfo, space_per_minheight, maximum_space,
 				 mem->total_space_allocated);
 
   if (avail_mem >= maximum_space)
@@ -207,13 +207,13 @@ fn_827C0E80 (j_common_ptr cinfo)
       } else {
 
 	sptr->rows_in_mem = (JDIMENSION) (max_minheights * sptr->maxaccess);
-	fn_827C9040(cinfo, & sptr->b_s_info,
+	jpeg_open_backing_store(cinfo, & sptr->b_s_info,
 				(long) sptr->rows_in_array *
 				(long) sptr->samplesperrow *
 				(long) ((size_t) sizeof(JSAMPLE)));
 	sptr->b_s_open = 1;
       }
-      sptr->mem_buffer = fn_827C0B88(cinfo, 1,
+      sptr->mem_buffer = alloc_sarray(cinfo, 1,
 				      sptr->samplesperrow, sptr->rows_in_mem);
       sptr->rowsperchunk = mem->last_rowsperchunk;
       sptr->cur_start_row = 0;
@@ -231,13 +231,13 @@ fn_827C0E80 (j_common_ptr cinfo)
       } else {
 
 	bptr->rows_in_mem = (JDIMENSION) (max_minheights * bptr->maxaccess);
-	fn_827C9040(cinfo, & bptr->b_s_info,
+	jpeg_open_backing_store(cinfo, & bptr->b_s_info,
 				(long) bptr->rows_in_array *
 				(long) bptr->blocksperrow *
 				(long) ((size_t) sizeof(JBLOCK)));
 	bptr->b_s_open = 1;
       }
-      bptr->mem_buffer = fn_827C0C68(cinfo, 1,
+      bptr->mem_buffer = alloc_barray(cinfo, 1,
 				      bptr->blocksperrow, bptr->rows_in_mem);
       bptr->rowsperchunk = mem->last_rowsperchunk;
       bptr->cur_start_row = 0;

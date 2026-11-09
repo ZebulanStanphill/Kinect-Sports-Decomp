@@ -26,8 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F67CF8();
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 
 
 void fn_82831868(undefined8 param_1,undefined8 param_2)
@@ -38,8 +38,8 @@ void fn_82831868(undefined8 param_1,undefined8 param_2)
   
   iVar2 = fn_82F67CF8(param_1,8,1,param_2);
   if (iVar2 != 1) {
-    lVar1 = fn_82F6AB08();
-    fn_82F6CE40(lVar1 + 0x40,"sectionDb error while writing non-relocation group\n");
+    lVar1 = __iob_func();
+    fprintf(lVar1 + 0x40,"sectionDb error while writing non-relocation group\n");
   }
   return;
 }

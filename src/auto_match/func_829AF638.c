@@ -24,7 +24,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829AF638(png_row_infop row_info, png_bytep row, png_color_8p sig_bits)
+png_do_unshift(png_row_infop row_info, png_bytep row, png_color_8p sig_bits)
 {
    ;
    if (

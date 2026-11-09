@@ -29,11 +29,11 @@ extern unsigned int *auStack_7c;
 extern int fn_82A2A108();
 extern int fn_82A2A288();
 extern int fn_82F63BA0();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F68240();
 extern int fn_82F68278();
 extern int fn_82F682B0();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int fn_82F855A8();
 extern unsigned int lbl_8329F60C;
 extern unsigned int lbl_8329F620;
@@ -89,7 +89,7 @@ LAB_82f7bcdc:
             if (uVar14 < 4) {
               uVar14 = 4;
             }
-            pbVar4 = (byte *)fn_82F68BF0(uVar14);
+            pbVar4 = (byte *)malloc(uVar14);
             if (pbVar4 == (byte *)0x0) {
               puVar3 = (undefined4 *)fn_82F68240();
               *puVar3 = 0xc;
@@ -280,7 +280,7 @@ LAB_82f7c22c:
           iVar6 = -1;
 LAB_82f7c234:
           if (pbVar4 != param_2) {
-            fn_82F641F8(pbVar4);
+            free(pbVar4);
           }
           if (iVar6 == -2) {
             return iVar9;

@@ -29,8 +29,8 @@ typedef struct z_stream_s {
 } z_stream;
 typedef z_stream  *z_streamp;
 typedef struct inflate_blocks_state  inflate_blocks_statef;
-extern int fn_829C2330 ( inflate_blocks_statef *, z_streamp , int);
-extern void fn_829C2180 ( inflate_blocks_statef *, z_streamp , uLongf *);
+extern int d3dx_inflate_blocks ( inflate_blocks_statef *, z_streamp , int);
+extern void d3dx_inflate_blocks_reset ( inflate_blocks_statef *, z_streamp , uLongf *);
 struct inflate_blocks_state {int dummy;};
 typedef enum {
       METHOD,
@@ -68,7 +68,7 @@ struct internal_state {
 
 };
 
-int  fn_829B8A30(z, f)
+int  d3dx_inflate(z, f)
 z_streamp z;
 int f;
 {
@@ -139,7 +139,7 @@ int f;
       z->state->sub.marker = 0;
       return (-2);
     case BLOCKS:
-      r = fn_829C2330(z->state->blocks, z, r);
+      r = d3dx_inflate_blocks(z->state->blocks, z, r);
       if (r == (-3))
       {
         z->state->mode = BAD;
@@ -151,7 +151,7 @@ int f;
       if (r != 1)
         return r;
       r = f;
-      fn_829C2180(z->state->blocks, z, &z->state->sub.check.was);
+      d3dx_inflate_blocks_reset(z->state->blocks, z, &z->state->sub.check.was);
       if (z->state->nowrap)
       {
         z->state->mode = DONE;

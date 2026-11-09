@@ -115,7 +115,7 @@ struct jvirt_barray_control {
 };
 
 void
-fn_827C1188 (j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing)
+do_barray_io (j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing)
 
 {
   long bytesperrow, file_offset, byte_count, rows, thisrow, i;

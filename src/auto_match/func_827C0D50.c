@@ -1,4 +1,4 @@
-extern void *fn_827C08B0(void *cinfo, int pool_id, unsigned int size);
+extern void *alloc_small(void *cinfo, int pool_id, unsigned int size);
 
 typedef struct jpeg_common_struct_827C0D50 *j_common_ptr_827C0D50;
 struct jpeg_error_mgr_827C0D50 {
@@ -34,7 +34,7 @@ struct jpeg_common_struct_827C0D50 {
   struct my_memory_mgr_827C0D50 *mem;
 };
 
-void fn_827C0D50(struct jpeg_common_struct_827C0D50 *cinfo, int pool_id, unsigned char pre_zero,
+void request_virt_sarray(struct jpeg_common_struct_827C0D50 *cinfo, int pool_id, unsigned char pre_zero,
                  unsigned int samplesperrow, unsigned int numrows, unsigned int maxaccess)
 {
   struct my_memory_mgr_827C0D50 *mem = cinfo->mem;
@@ -44,7 +44,7 @@ void fn_827C0D50(struct jpeg_common_struct_827C0D50 *cinfo, int pool_id, unsigne
     cinfo->err->msg_parm.i[0] = pool_id;
     (*cinfo->err->error_exit)(cinfo);
   }
-  result = (struct jvirt_sarray_control_827C0D50 *)fn_827C08B0(cinfo, pool_id, 0x78);
+  result = (struct jvirt_sarray_control_827C0D50 *)alloc_small(cinfo, pool_id, 0x78);
   result->mem_buffer = 0;
   result->rows_in_array = numrows;
   result->samplesperrow = samplesperrow;

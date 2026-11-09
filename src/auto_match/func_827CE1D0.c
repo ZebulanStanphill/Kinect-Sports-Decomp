@@ -288,7 +288,7 @@ struct jpeg_marker_writer {
   void (*write_marker_header) (j_compress_ptr cinfo, int marker, unsigned int datalen);
   void (*write_marker_byte) (j_compress_ptr cinfo, int val);
 };
-extern long fn_827C1AC8 (long a, long b);
+extern long jround_up (long a, long b);
 typedef struct {
   struct jpeg_c_coef_controller pub;
 
@@ -303,10 +303,10 @@ typedef struct {
 } my_coef_controller;
 typedef my_coef_controller * my_coef_ptr;
 void
-fn_827CE0C8 (j_compress_ptr cinfo, J_BUF_MODE pass_mode);
+start_pass_coef (j_compress_ptr cinfo, J_BUF_MODE pass_mode);
 
 void
-fn_827CE1D0 (j_compress_ptr cinfo, boolean need_full_buffer)
+jinit_c_coef_controller (j_compress_ptr cinfo, boolean need_full_buffer)
 {
   my_coef_ptr coef;
 
@@ -314,7 +314,7 @@ fn_827CE1D0 (j_compress_ptr cinfo, boolean need_full_buffer)
     (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, 1,
 				((size_t) sizeof(my_coef_controller)));
   cinfo->coef = (struct jpeg_c_coef_controller *) coef;
-  coef->pub.start_pass = fn_827CE0C8;
+  coef->pub.start_pass = start_pass_coef;
 
   if (need_full_buffer) {
 
@@ -325,9 +325,9 @@ fn_827CE1D0 (j_compress_ptr cinfo, boolean need_full_buffer)
 	 ci++, compptr++) {
       coef->whole_image[ci] = (*cinfo->mem->request_virt_barray)
 	((j_common_ptr) cinfo, 1, 0,
-	 (JDIMENSION) fn_827C1AC8((long) compptr->width_in_blocks,
+	 (JDIMENSION) jround_up((long) compptr->width_in_blocks,
 				(long) compptr->h_samp_factor),
-	 (JDIMENSION) fn_827C1AC8((long) compptr->height_in_blocks,
+	 (JDIMENSION) jround_up((long) compptr->height_in_blocks,
 				(long) compptr->v_samp_factor),
 	 (JDIMENSION) compptr->v_samp_factor);
     }

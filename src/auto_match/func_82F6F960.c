@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1BB18();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F6E1C8();
 extern unsigned int lbl_8216A9E0;
 extern unsigned int lbl_831BB900;
@@ -54,7 +54,7 @@ undefined4 * _getptd_noexit(void)
       else {
         iVar3 = KeTlsSetValue(lbl_831BB900,puVar4);
         if (iVar3 == 0) {
-          fn_82F641F8(puVar4);
+          free(puVar4);
           puVar4 = (undefined4 *)0x0;
         }
         else {

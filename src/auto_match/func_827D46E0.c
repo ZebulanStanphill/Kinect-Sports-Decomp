@@ -1,6 +1,6 @@
-extern char lbl_82018BA0[];
+extern char crc_table[];
 
 void *fn_827D46E0(void)
 {
-    return lbl_82018BA0;
+    return crc_table;
 }

@@ -7,7 +7,7 @@ extern int fn_826EA040();
 extern int fn_826EA050();
 extern int fn_826EA110();
 extern int fn_826EA1E8();
-extern int fn_827BD550();
+extern int jpeg_resync_to_restart();
 
 typedef struct Obj_826EA2B8 {
     unsigned int f0;
@@ -37,7 +37,7 @@ Obj_826EA2B8 *fn_826EA2B8(Obj_826EA2B8 *self, unsigned int p)
     self->cb8 = (void *)fn_826EA040;
     self->cbC = (void *)fn_826EA110;
     self->cb10 = (void *)fn_826EA1E8;
-    self->cb14 = (void *)fn_827BD550;
+    self->cb14 = (void *)jpeg_resync_to_restart;
     self->cb18 = (void *)fn_826EA050;
     return self;
 }

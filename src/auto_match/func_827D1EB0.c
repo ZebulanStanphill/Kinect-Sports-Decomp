@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827D1D80();
-extern int fn_827D3AB8();
-extern int fn_827D3EC0();
-extern int fn_827D4370();
-extern int fn_827D4EF8();
+extern int updatewindow();
+extern int inflate_fast();
+extern int inflate_table();
+extern int adler32();
+extern int crc32();
 extern int fn_82F68CC0();
 extern unsigned int iStack0000001c;
 extern unsigned int lbl_82017F20;
@@ -44,7 +44,7 @@ extern unsigned int uStack_ec;
 extern unsigned int uStack_f0;
 
 
-ulonglong fn_827D1EB0(int *param_1,int param_2)
+ulonglong inflate(int *param_1,int param_2)
 
 {
   byte bVar1;
@@ -161,7 +161,7 @@ ulonglong fn_827D1EB0(int *param_1,int param_2)
             pcVar16 = pcStack_d8;
             if (puVar2[9] < uVar10) goto code_r0x827d335c;
             puVar2[5] = 1 << (int)uVar10;
-            uVar4 = fn_827D4370(0,0,0);
+            uVar4 = adler32(0,0,0);
             uVar13 = (uint)uVar22;
             puVar2[6] = uVar4;
             uVar22 = 0;
@@ -170,11 +170,11 @@ ulonglong fn_827D1EB0(int *param_1,int param_2)
             uVar4 = 0;
             goto code_r0x827d21a0;
           }
-          uVar13 = fn_827D4EF8(0,0,0);
+          uVar13 = crc32(0,0,0);
           puVar2[6] = uVar13;
           uStack_eb = 0x8b;
           uStack_ec = 0x1f;
-          uVar13 = fn_827D4EF8(puVar2[6],&uStack_ec,2);
+          uVar13 = crc32(puVar2[6],&uStack_ec,2);
           puVar2[6] = uVar13;
           uVar22 = 0;
           *puVar2 = 1;
@@ -198,7 +198,7 @@ ulonglong fn_827D1EB0(int *param_1,int param_2)
             if ((puVar2[4] & 0x200) != 0) {
               uStack_eb = (undefined1)(uVar22 >> 8);
               uStack_ec = (undefined1)uVar22;
-              uVar13 = fn_827D4EF8(puVar2[6],&uStack_ec,2);
+              uVar13 = crc32(puVar2[6],&uStack_ec,2);
               puVar2[6] = uVar13;
             }
             uVar22 = 0;
@@ -226,7 +226,7 @@ code_r0x827d226c:
             uStack_ec = (undefined1)uVar22;
             uStack_eb = (undefined1)(uVar22 >> 8);
             uStack_ea = (undefined1)(uVar22 >> 0x10);
-            uVar13 = fn_827D4EF8(puVar2[6],&uStack_ec,4);
+            uVar13 = crc32(puVar2[6],&uStack_ec,4);
             puVar2[6] = uVar13;
           }
           uVar22 = 0;
@@ -269,7 +269,7 @@ code_r0x827d226c:
             puVar2[0xf] = uVar4;
             return 2;
           }
-          uVar13 = fn_827D4370(0,0,0);
+          uVar13 = adler32(0,0,0);
           puVar2[6] = uVar13;
           param_1[0xc] = uVar13;
           *puVar2 = 0xb;
@@ -409,7 +409,7 @@ code_r0x827d2878:
           puVar2[0x13] = (uint)(puVar2 + 0x14c);
           puVar2[0x1b] = (uint)(puVar2 + 0x14c);
           puVar2[0x15] = 7;
-          uStack_e4 = fn_827D3EC0(0,puVar2 + 0x1c,0x13,puVar2 + 0x1b,puVar2 + 0x15,
+          uStack_e4 = inflate_table(0,puVar2 + 0x1c,0x13,puVar2 + 0x1b,puVar2 + 0x15,
                                         puVar2 + 0xbc);
           pcVar16 = pcStack_c4;
           if (uStack_e4 != 0) goto code_r0x827d335c;
@@ -516,13 +516,13 @@ code_r0x827d2c88:
             puVar21 = puVar2 + 0x1b;
             puVar2[0x1b] = (uint)(puVar2 + 0x14c);
             puVar2[0x15] = 9;
-            uStack_e4 = fn_827D3EC0(1,puVar2 + 0x1c,puVar2[0x18],puVar21,puVar2 + 0x15,
+            uStack_e4 = inflate_table(1,puVar2 + 0x1c,puVar2[0x18],puVar21,puVar2 + 0x15,
                                           puVar2 + 0xbc);
             pcVar16 = pcStack_c0;
             if (uStack_e4 == 0) {
               puVar2[0x16] = 6;
               puVar2[0x14] = *puVar21;
-              uStack_e4 = fn_827D3EC0(2,(puVar2[0x18] + 0x38) * 2 + (int)puVar2,puVar2[0x19],
+              uStack_e4 = inflate_table(2,(puVar2[0x18] + 0x38) * 2 + (int)puVar2,puVar2[0x19],
                                             puVar21,puVar2 + 0x16,puVar2 + 0xbc);
               pcVar16 = pcStack_bc;
               if (uStack_e4 != 0) goto code_r0x827d335c;
@@ -535,7 +535,7 @@ code_r0x827d2d64:
                 param_1[1] = uVar17;
                 puVar2[0xe] = (uint)uVar22;
                 puVar2[0xf] = uVar4;
-                fn_827D3AB8(param_1,uVar7);
+                inflate_fast(param_1,uVar7);
                 puVar19 = (undefined1 *)param_1[3];
                 uVar20 = param_1[4];
                 pbVar18 = (byte *)*param_1;
@@ -786,10 +786,10 @@ code_r0x827d28d4:
             puVar2[7] = iVar6 + puVar2[7];
             if (iVar6 != 0) {
               if (puVar2[4] == 0) {
-                uVar7 = fn_827D4370(puVar2[6],(int)puVar19 - iVar6);
+                uVar7 = adler32(puVar2[6],(int)puVar19 - iVar6);
               }
               else {
-                uVar7 = fn_827D4EF8();
+                uVar7 = crc32();
               }
               puVar2[6] = uVar7;
               param_1[0xc] = uVar7;
@@ -851,7 +851,7 @@ code_r0x827d33ac:
         if ((puVar2[4] & 0x200) != 0) {
           uStack_eb = (undefined1)(uVar22 >> 8);
           uStack_ec = (undefined1)uVar22;
-          uVar13 = fn_827D4EF8(puVar2[6],&uStack_ec,2);
+          uVar13 = crc32(puVar2[6],&uStack_ec,2);
           puVar2[6] = uVar13;
         }
         uVar22 = 0;
@@ -878,7 +878,7 @@ code_r0x827d2358:
           if ((puVar2[4] & 0x200) != 0) {
             uStack_eb = (undefined1)(uVar22 >> 8);
             uStack_ec = (undefined1)uVar22;
-            uVar13 = fn_827D4EF8(puVar2[6],&uStack_ec,2);
+            uVar13 = crc32(puVar2[6],&uStack_ec,2);
             puVar2[6] = uVar13;
           }
           uVar22 = 0;
@@ -904,7 +904,7 @@ code_r0x827d237c:
               fn_82F68CC0(*(int *)(uVar14 + 0x10) + iVar6,pbVar18,uVar13);
             }
             if ((puVar2[4] & 0x200) != 0) {
-              uVar13 = fn_827D4EF8(puVar2[6],pbVar18,uVar15);
+              uVar13 = crc32(puVar2[6],pbVar18,uVar15);
               puVar2[6] = uVar13;
             }
             uVar17 = uVar17 - uVar15;
@@ -936,7 +936,7 @@ code_r0x827d2434:
             }
           } while ((bVar1 != 0) && (uVar13 < uVar17));
           if ((puVar2[4] & 0x200) != 0) {
-            uVar15 = fn_827D4EF8(puVar2[6],pbVar18,uVar13);
+            uVar15 = crc32(puVar2[6],pbVar18,uVar13);
             puVar2[6] = uVar15;
           }
           uVar17 = uVar17 - uVar13;
@@ -962,7 +962,7 @@ code_r0x827d33bc:
             puVar2[0xe] = uVar5;
             puVar2[0xf] = uVar4;
             if (((puVar2[10] != 0) || (((int)*puVar2 < 0x18 && (uVar7 != param_1[4])))) &&
-               (iVar6 = fn_827D1D80(param_1,uVar7), iVar6 != 0)) {
+               (iVar6 = updatewindow(param_1,uVar7), iVar6 != 0)) {
               *puVar2 = 0x1c;
               return 0xfffffffffffffffc;
             }
@@ -973,10 +973,10 @@ code_r0x827d33bc:
             puVar2[7] = iVar23 + puVar2[7];
             if ((puVar2[2] != 0) && (iVar23 != 0)) {
               if (puVar2[4] == 0) {
-                uVar7 = fn_827D4370(puVar2[6],param_1[3] - iVar23,iVar23);
+                uVar7 = adler32(puVar2[6],param_1[3] - iVar23,iVar23);
               }
               else {
-                uVar7 = fn_827D4EF8();
+                uVar7 = crc32();
               }
               puVar2[6] = uVar7;
               param_1[0xc] = uVar7;
@@ -1003,7 +1003,7 @@ code_r0x827d33bc:
             }
           } while ((bVar1 != 0) && (uVar13 < uVar17));
           if ((puVar2[4] & 0x200) != 0) {
-            uVar15 = fn_827D4EF8(puVar2[6],pbVar18,uVar13);
+            uVar15 = crc32(puVar2[6],pbVar18,uVar13);
             puVar2[6] = uVar15;
           }
           uVar17 = uVar17 - uVar13;
@@ -1018,7 +1018,7 @@ code_r0x827d2668:
             *(uint *)(puVar2[8] + 0x2c) = (int)puVar2[4] >> 9 & 1;
             *(undefined4 *)(puVar2[8] + 0x30) = 1;
           }
-          uVar5 = fn_827D4EF8(0,0,0);
+          uVar5 = crc32(0,0,0);
           puVar2[6] = uVar5;
           uVar13 = 0xb;
           param_1[0xc] = uVar5;

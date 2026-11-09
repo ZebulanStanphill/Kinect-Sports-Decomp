@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82D7E470();
 extern int fn_82F68240();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F7C468();
 extern int fn_82F7C9A0();
 extern int fn_82F85678();
@@ -78,8 +78,8 @@ LAB_82f70780:
     param_2[1] = 0;
     param_2[3] = uVar8 & 0xffffffef | 2;
     if (((uVar8 & 0x10c) == 0) &&
-       (((iVar4 = fn_82F6AB08(), param_2 != (uint *)(iVar4 + 0x20) &&
-         (iVar4 = fn_82F6AB08(), param_2 != (uint *)(iVar4 + 0x40))) ||
+       (((iVar4 = __iob_func(), param_2 != (uint *)(iVar4 + 0x20) &&
+         (iVar4 = __iob_func(), param_2 != (uint *)(iVar4 + 0x40))) ||
         (iVar4 = fn_82D7E470(uVar1), iVar4 == 0)))) {
       fn_82F857F8(param_2);
     }

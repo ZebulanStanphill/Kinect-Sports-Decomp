@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8216AC48;
+extern unsigned int extra_lbits;
 extern unsigned int lbl_8216ACD0;
 extern unsigned int lbl_8216B28F;
 extern unsigned int lbl_8216B390;
-extern unsigned int lbl_8216B490;
+extern unsigned int _length_code;
 extern unsigned int lbl_8216B590;
 extern unsigned int lbl_8216B608;
 
 
-void fn_82F8CBB8(int param_1,int param_2,int param_3)
+void compress_block(int param_1,int param_2,int param_3)
 
 {
   byte bVar1;
@@ -85,9 +85,9 @@ LAB_82f8cf34:
         }
       }
       else {
-        iVar8 = (uint)(byte)(&lbl_8216B490)[bVar1] * 4;
+        iVar8 = (uint)(byte)(&_length_code)[bVar1] * 4;
         uVar2 = *(ushort *)(iVar8 + param_2 + 0x406);
-        uVar3 = *(ushort *)(((byte)(&lbl_8216B490)[bVar1] + 0x101) * 4 + param_2);
+        uVar3 = *(ushort *)(((byte)(&_length_code)[bVar1] + 0x101) * 4 + param_2);
         if ((int)(0x10 - (uint)uVar2) < (int)uVar7) {
           uVar7 = (uint)uVar3 << (uVar7 & 0x3f) | (uint)*(ushort *)(param_1 + 0x16b8);
           *(short *)(param_1 + 0x16b8) = (short)uVar7;
@@ -103,7 +103,7 @@ LAB_82f8cf34:
           *(uint *)(param_1 + 0x16bc) = uVar7 + uVar2;
           *(ushort *)(param_1 + 0x16b8) = uVar3 << (uVar7 & 0x3f) | *(ushort *)(param_1 + 0x16b8);
         }
-        iVar9 = *(int *)(&lbl_8216AC48 + iVar8);
+        iVar9 = *(int *)(&extra_lbits + iVar8);
         if (iVar9 != 0) {
           uVar7 = *(uint *)(param_1 + 0x16bc);
           uVar6 = (uint)bVar1 - *(int *)(&lbl_8216B590 + iVar8);

@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BE778();
+extern int jpeg_add_quant_table();
 
 
 extern char lbl_82017830[];
 extern char lbl_82017730[];
-void fn_827BE8A0(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void jpeg_set_linear_quality(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  fn_827BE778(param_1,0,lbl_82017830,param_2,param_3);
-  fn_827BE778(param_1,1,lbl_82017730,param_2,param_3);
+  jpeg_add_quant_table(param_1,0,lbl_82017830,param_2,param_3);
+  jpeg_add_quant_table(param_1,1,lbl_82017730,param_2,param_3);
   return;
 }
 

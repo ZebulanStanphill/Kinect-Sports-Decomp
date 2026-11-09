@@ -33,7 +33,7 @@ struct Cinfo_829B5278 {
   char pad_150[0x68];
   Master_829B5278 *master;
 };
-extern int fn_829B7760(int, int);
+extern int d3dx_jdiv_round_up(int, int);
 
 void fn_829B5278(Cinfo_829B5278 *c)
 {
@@ -75,14 +75,14 @@ void fn_829B5278(Cinfo_829B5278 *c)
   p = c->comp;
   for (ci = 0; ci < c->ncomp; ci++, p++) {
     p->dct = 8;
-    p->wib = fn_829B7760(p->h * c->width, c->max_h * 8);
-    p->hib = fn_829B7760(p->v * c->height, c->max_v * 8);
-    p->dw = fn_829B7760(p->h * c->width, c->max_h);
-    p->dh = fn_829B7760(p->v * c->height, c->max_v);
+    p->wib = d3dx_jdiv_round_up(p->h * c->width, c->max_h * 8);
+    p->hib = d3dx_jdiv_round_up(p->v * c->height, c->max_v * 8);
+    p->dw = d3dx_jdiv_round_up(p->h * c->width, c->max_h);
+    p->dh = d3dx_jdiv_round_up(p->v * c->height, c->max_v);
     p->needed = 1;
     p->tbl = 0;
   }
-  c->rows = fn_829B7760(c->height, c->max_v * 8);
+  c->rows = d3dx_jdiv_round_up(c->height, c->max_v * 8);
   if (c->nscans < c->ncomp || c->progressive != 0) {
     c->master->flag = 1;
   } else {

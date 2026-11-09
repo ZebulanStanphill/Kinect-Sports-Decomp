@@ -18,9 +18,9 @@ typedef struct {
   jerr_829B5C58 *err;
   mem_829B5C58 *mem;
 } cinfo_829B5C58;
-extern void *fn_829BAA90(cinfo_829B5C58 *, unsigned int);
+extern void *d3dx_jpeg_get_large(cinfo_829B5C58 *, unsigned int);
 
-void *fn_829B5C58(cinfo_829B5C58 *cinfo, int pool_id, unsigned int sizeofobject)
+void *d3dx_alloc_large(cinfo_829B5C58 *cinfo, int pool_id, unsigned int sizeofobject)
 {
   mem_829B5C58 *mem = cinfo->mem;
   small_hdr_829B5C58 *hdr_ptr;
@@ -37,7 +37,7 @@ void *fn_829B5C58(cinfo_829B5C58 *cinfo, int pool_id, unsigned int sizeofobject)
     cinfo->err->msg_parm.i[0] = pool_id;
     (*cinfo->err->error_exit)(cinfo);
   }
-  hdr_ptr = (small_hdr_829B5C58 *)fn_829BAA90(cinfo, sizeofobject + 16);
+  hdr_ptr = (small_hdr_829B5C58 *)d3dx_jpeg_get_large(cinfo, sizeofobject + 16);
   if (hdr_ptr == 0) {
     cinfo->err->msg_code = 0x36;
     cinfo->err->msg_parm.i[0] = 4;

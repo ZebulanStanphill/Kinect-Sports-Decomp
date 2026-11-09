@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B77B8();
+extern int d3dx_jcopy_sample_rows();
 
 
 void fn_829BEB38(int param_1,int param_2,int *param_3,undefined4 *param_4)
@@ -76,7 +76,7 @@ void fn_829BEB38(int param_1,int param_2,int *param_3,undefined4 *param_4)
         } while (uVar9 < uVar5);
       }
       if (1 < bVar2) {
-        fn_829B77B8(puVar4,iVar12,puVar4,iVar12 + 1,uVar10 - 1,*(undefined4 *)(param_1 + 0x70));
+        d3dx_jcopy_sample_rows(puVar4,iVar12,puVar4,iVar12 + 1,uVar10 - 1,*(undefined4 *)(param_1 + 0x70));
       }
       iVar12 = iVar12 + uVar10;
       param_3 = param_3 + 1;

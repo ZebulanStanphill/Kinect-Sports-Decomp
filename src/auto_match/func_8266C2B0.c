@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_8266C340();
-extern int fn_82F641F8();
+extern int free();
 extern unsigned int iStack00000014;
 extern unsigned int lbl_831E7B18;
 extern int (*lbl_831E7B28)();
@@ -43,7 +43,7 @@ void fn_8266C2B0(int param_1)
   }
   if (lbl_831E7B18 == 0) {
     if (lbl_831E7B28 == (code *)0x0) {
-      fn_82F641F8(iStack00000014);
+      free(iStack00000014);
     }
     else {
       (*lbl_831E7B28)(iStack00000014);

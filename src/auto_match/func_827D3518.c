@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int fn_827D3518(unsigned int param_1)
+int inflateEnd(unsigned int param_1)
 
 {
   if (((param_1 != 0) && (*(void **)(param_1 + 0x1c) != 0)) &&

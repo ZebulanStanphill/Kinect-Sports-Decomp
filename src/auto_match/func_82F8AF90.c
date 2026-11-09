@@ -46,22 +46,22 @@ typedef struct deflate_state_82F8AF90 {
 #define MAX_DIST(s) ((s)->w_size - MIN_LOOKAHEAD)
 
 
-extern void fn_82F8AD98(deflate_state *);
-extern void fn_82F89D68(z_stream *);
-extern void fn_82F8D808(deflate_state *, charf *, ulg, int);
+extern void fill_window(deflate_state *);
+extern void flush_pending(z_stream *);
+extern void _tr_flush_block(deflate_state *, charf *, ulg, int);
 
 #define FLUSH_BLOCK_ONLY(s, eof) { \
-   fn_82F8D808(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), \
+   _tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), \
                 (ulg)((long)s->strstart - s->block_start), (eof)); \
    s->block_start = s->strstart; \
-   fn_82F89D68(s->strm); \
+   flush_pending(s->strm); \
 }
 #define FLUSH_BLOCK(s, eof) { \
    FLUSH_BLOCK_ONLY(s, eof); \
    if (s->strm->avail_out == 0) return (eof) ? 2 : 0; \
 }
 
-int fn_82F8AF90(deflate_state *s, int flush)
+int deflate_stored(deflate_state *s, int flush)
 {
     ulg max_block_size = 0xffff;
     ulg max_start;
@@ -72,7 +72,7 @@ int fn_82F8AF90(deflate_state *s, int flush)
 
     for (;;) {
         if (s->lookahead <= 1) {
-            fn_82F8AD98(s);
+            fill_window(s);
             if (s->lookahead == 0 && flush == 0) return 0;
             if (s->lookahead == 0) break;
         }

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_200;
 extern unsigned int *auStack_24c;
 extern int fn_82F63BA0();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F66A80();
 extern int fn_82F66AA0();
 extern int fn_82F66AC0();
@@ -381,7 +381,7 @@ LAB_82f7e140:
       *puVar5 = 0xc;
 LAB_82f7f148:
       if (aiStack_248[0] == 1) {
-        fn_82F641F8(puStack_258);
+        free(puStack_258);
       }
       if ((int)uVar25 == -1) {
         if (uStack_250 != 0) {

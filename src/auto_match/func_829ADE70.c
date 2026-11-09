@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
 
 
-void fn_829ADE70(int *param_1)
+void d3dx_output_message(int *param_1)
 
 {
   undefined1 auStack_d0 [192];

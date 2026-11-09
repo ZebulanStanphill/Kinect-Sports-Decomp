@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F64698();
 extern int fn_82F71CD0();
 extern unsigned int lbl_8326338C;
@@ -47,9 +47,9 @@ void fn_82F645F0(int param_1)
       piVar1 = lbl_83263390;
     } while (*lbl_83263390 != *(int *)(param_1 + 4));
     piVar2[1] = lbl_83263390[1];
-    fn_82F641F8();
+    free();
 LAB_82f64664:
-    fn_82F641F8(*(undefined4 *)(param_1 + 4));
+    free(*(undefined4 *)(param_1 + 4));
     *(undefined4 *)(param_1 + 4) = 0;
   }
   fn_82F64698();

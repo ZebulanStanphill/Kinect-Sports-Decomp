@@ -165,7 +165,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_82F8C3B8 (s, tree, max_code)
+void send_tree (s, tree, max_code)
     deflate_state *s;
     ct_data *tree;
     int max_code;

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B0F38();
+extern int png_read_data();
 
 
 typedef struct Obj_829B8FB8 {
@@ -50,7 +50,7 @@ unsigned int fn_829B8FB8(Obj_829B8FB8 *o)
   } else {
     on = (o->f55c & 0x800) ? 0 : on;
   }
-  fn_829B0F38(o, b, 4);
+  png_read_data(o, b, 4);
   if (on) {
     on = (((b[0] * 0x100 + b[1]) * 0x100 + b[2]) * 0x100 + b[3]) != o->f600;
   } else {

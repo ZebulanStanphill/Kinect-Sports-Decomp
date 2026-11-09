@@ -38,7 +38,7 @@ typedef struct deflate_state_82F8AAE8 {
 #define MIN_LOOKAHEAD (258 + 3 + 1)
 #define MAX_DIST(s) ((s)->w_size - MIN_LOOKAHEAD)
 
-uInt fn_82F8AAE8(deflate_state *s, IPos cur_match)
+uInt longest_match(deflate_state *s, IPos cur_match)
 {
     unsigned chain_length = s->max_chain_length;
     register Bytef *scan = s->window + s->strstart;

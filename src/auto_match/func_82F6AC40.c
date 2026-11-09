@@ -1,4 +1,4 @@
-extern void fn_82F641F8(int code);
+extern void free(int code);
 extern void fn_82F6BF88(void);
 extern void fn_82F81830(void);
 extern char _exitflag;
@@ -10,5 +10,5 @@ void fn_82F6AC40(void)
     if (_exitflag) {
         fn_82F81830();
     }
-    fn_82F641F8(lbl_8329F734);
+    free(lbl_8329F734);
 }

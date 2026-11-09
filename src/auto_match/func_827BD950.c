@@ -16,7 +16,7 @@ struct jpeg_common_struct {
     struct jpeg_error_mgr *err;
 };
 
-void fn_827BD950(j_common_ptr cinfo, int msg_level)
+void emit_message(j_common_ptr cinfo, int msg_level)
 {
     struct jpeg_error_mgr *err = cinfo->err;
 

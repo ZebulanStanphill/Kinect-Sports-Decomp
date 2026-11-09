@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F691F0();
 
 
-void fn_827C36D8(int *param_1,char param_2,int param_3,int *param_4)
+void jpeg_make_d_derived_tbl(int *param_1,char param_2,int param_3,int *param_4)
 
 {
   char cVar1;

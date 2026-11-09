@@ -45,7 +45,7 @@ extern unsigned int uStack00000048;
 extern unsigned int uStack_40;
 
 
-ulonglong fn_82F6CE40(int param_1,longlong param_2,undefined8 param_3,undefined8 param_4,
+ulonglong fprintf(int param_1,longlong param_2,undefined8 param_3,undefined8 param_4,
                        undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
 
 {

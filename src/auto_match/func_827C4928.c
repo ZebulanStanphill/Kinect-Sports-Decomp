@@ -39,9 +39,9 @@ typedef struct {
   char pad17c[0x1c];
   Ctx_827C4928 *ctx;
 } Obj_827C4928;
-extern unsigned char fn_827C3A38(Rd_827C4928 *, int, int, int);
-extern unsigned char fn_827C43E0();
-int fn_827C4928(Obj_827C4928 *p, unsigned short **out)
+extern unsigned char jpeg_fill_bit_buffer(Rd_827C4928 *, int, int, int);
+extern unsigned char process_restart();
+int decode_mcu_DC_refine(Obj_827C4928 *p, unsigned short **out)
 {
   int sh = p->f_178;
   Ctx_827C4928 *c = p->ctx;
@@ -50,7 +50,7 @@ int fn_827C4928(Obj_827C4928 *p, unsigned short **out)
   int bits, cnt;
   int i;
   mask = 1 << sh;
-  if (p->f_fc != 0 && c->left == 0 && fn_827C43E0() == 0) {
+  if (p->f_fc != 0 && c->left == 0 && process_restart() == 0) {
     return 0;
   }
   i = 0;
@@ -63,7 +63,7 @@ int fn_827C4928(Obj_827C4928 *p, unsigned short **out)
     do {
       unsigned short *dst = out[i];
       if (cnt < 1) {
-        if (fn_827C3A38(&s, bits, cnt, 1) == 0) {
+        if (jpeg_fill_bit_buffer(&s, bits, cnt, 1) == 0) {
           return 0;
         }
         bits = s.bits;

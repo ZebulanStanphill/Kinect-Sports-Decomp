@@ -231,7 +231,7 @@ struct jpeg_memory_mgr {
 
   long max_alloc_chunk;
 };
-extern void fn_827BEAC8 (j_compress_ptr cinfo, J_COLOR_SPACE colorspace);
+extern void jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace);
 typedef enum {
 	JBUF_PASS_THRU,
 
@@ -421,26 +421,26 @@ JWRN_TOO_MUCH_DATA ,
 } J_MESSAGE_CODE;
 
 void
-fn_827BF240 (j_compress_ptr cinfo)
+jpeg_default_colorspace (j_compress_ptr cinfo)
 {
   switch (cinfo->in_color_space) {
   case JCS_GRAYSCALE:
-    fn_827BEAC8(cinfo, JCS_GRAYSCALE);
+    jpeg_set_colorspace(cinfo, JCS_GRAYSCALE);
     break;
   case JCS_RGB:
-    fn_827BEAC8(cinfo, JCS_YCbCr);
+    jpeg_set_colorspace(cinfo, JCS_YCbCr);
     break;
   case JCS_YCbCr:
-    fn_827BEAC8(cinfo, JCS_YCbCr);
+    jpeg_set_colorspace(cinfo, JCS_YCbCr);
     break;
   case JCS_CMYK:
-    fn_827BEAC8(cinfo, JCS_CMYK);
+    jpeg_set_colorspace(cinfo, JCS_CMYK);
     break;
   case JCS_YCCK:
-    fn_827BEAC8(cinfo, JCS_YCCK);
+    jpeg_set_colorspace(cinfo, JCS_YCCK);
     break;
   case JCS_UNKNOWN:
-    fn_827BEAC8(cinfo, JCS_UNKNOWN);
+    jpeg_set_colorspace(cinfo, JCS_UNKNOWN);
     break;
   default:
     ((cinfo)->err->msg_code = (JERR_BAD_IN_COLORSPACE), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));

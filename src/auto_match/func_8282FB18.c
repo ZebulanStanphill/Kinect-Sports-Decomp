@@ -30,8 +30,8 @@ extern int fn_828252D0();
 extern int fn_828252E8();
 extern int fn_82832368();
 extern int fn_82F678C8();
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 
 
 undefined8 fn_8282FB18(undefined8 param_1,int param_2)
@@ -60,7 +60,7 @@ undefined8 fn_8282FB18(undefined8 param_1,int param_2)
         iVar4 = fn_82F678C8(uVar1,1,*(undefined4 *)(iVar5 + *(int *)(param_2 + 0x3c4)),param_1);
         iVar3 = *(int *)(param_2 + 0x3c4);
         if (iVar4 != *(int *)(iVar5 + iVar3)) {
-          lVar2 = fn_82F6AB08();
+          lVar2 = __iob_func();
           uVar1 = 0xffffffff8201ef50;
           goto LAB_8282fb68;
         }
@@ -81,10 +81,10 @@ undefined8 fn_8282FB18(undefined8 param_1,int param_2)
     uVar1 = 0;
   }
   else {
-    lVar2 = fn_82F6AB08();
+    lVar2 = __iob_func();
     uVar1 = 0xffffffff8201ef08;
 LAB_8282fb68:
-    fn_82F6CE40(lVar2 + 0x40,uVar1);
+    fprintf(lVar2 + 0x40,uVar1);
     uVar1 = 5;
   }
   return uVar1;

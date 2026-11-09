@@ -25,15 +25,15 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829AB308();
-extern int fn_829B0F38();
+extern int png_calculate_crc();
+extern int png_read_data();
 
 
-void fn_829B8F80(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void png_crc_read(undefined8 param_1,undefined8 param_2,undefined8 param_3)
 
 {
-  fn_829B0F38();
-  fn_829AB308(param_1,param_2,param_3);
+  png_read_data();
+  png_calculate_crc(param_1,param_2,param_3);
   return;
 }
 

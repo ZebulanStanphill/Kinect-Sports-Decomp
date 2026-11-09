@@ -25,14 +25,14 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BE508();
+extern int jpeg_write_scanlines();
 
 
 void fn_826EB028(longlong param_1,undefined4 param_2)
 
 {
   
-  fn_827BE508(param_1 + 8,&param_2,1);
+  jpeg_write_scanlines(param_1 + 8,&param_2,1);
   return;
 }
 

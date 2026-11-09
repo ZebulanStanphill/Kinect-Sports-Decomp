@@ -165,7 +165,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_82F8C050(s, desc)
+void gen_bitlen(s, desc)
     deflate_state *s;
     tree_desc *desc;
 {

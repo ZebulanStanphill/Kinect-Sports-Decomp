@@ -30,7 +30,7 @@ extern int fn_826EA070();
 extern int fn_826EA0C0();
 extern int fn_826EA350();
 extern int fn_826EA5C8();
-extern int fn_827BDB08();
+extern int jpeg_std_error();
 extern unsigned int lbl_8200D84C;
 extern unsigned int lbl_831E7E64;
 
@@ -49,7 +49,7 @@ undefined4 * fn_826EAC58(undefined4 *param_1,undefined8 param_2,undefined8 param
   puVar4 = param_1 + 0x6e;
   *(undefined1 *)((int)param_1 + 0x309) = 0;
   *(undefined1 *)(param_1 + 0xc2) = 0;
-  uVar1 = fn_827BDB08(puVar4);
+  uVar1 = jpeg_std_error(puVar4);
   puVar3 = param_1 + 2;
   *puVar4 = (undefined4)fn_826EA5C8;
   param_1[2] = uVar1;

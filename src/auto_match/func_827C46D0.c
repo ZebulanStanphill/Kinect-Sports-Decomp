@@ -25,20 +25,20 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C3A38();
-extern int fn_827C3B98();
-extern int fn_827C43E0();
+extern int jpeg_fill_bit_buffer();
+extern int jpeg_huff_decode();
+extern int process_restart();
 extern unsigned int iStack_80;
 extern unsigned int iStack_88;
-extern unsigned int lbl_82017AE8;
-extern unsigned int lbl_82017CA8;
+extern unsigned int jpeg_natural_order;
+extern unsigned int extend_test;
 extern unsigned int lbl_82017CE8;
 extern unsigned int uStack_84;
 extern unsigned int uStack_8c;
 extern unsigned int uStack_90;
 
 
-undefined8 fn_827C46D0(int param_1,int *param_2)
+undefined8 decode_mcu_AC_first(int param_1,int *param_2)
 
 {
   int iVar1;
@@ -68,7 +68,7 @@ undefined8 fn_827C46D0(int param_1,int *param_2)
   iVar2 = *(int *)(param_1 + 0x170);
   uVar3 = *(uint *)(param_1 + 0x178);
   if (((*(int *)(param_1 + 0xfc) == 0) || (*(int *)(iVar1 + 0x28) != 0)) ||
-     (cVar11 = fn_827C43E0(), cVar11 != '\0')) {
+     (cVar11 = process_restart(), cVar11 != '\0')) {
     if (*(char *)(iVar1 + 8) == '\0') {
       if (*(int *)(iVar1 + 0x14) == 0) {
         uVar16 = *(uint *)(param_1 + 0x16c);
@@ -83,14 +83,14 @@ undefined8 fn_827C46D0(int param_1,int *param_2)
         iStack_80 = param_1;
         while ((int)uVar16 <= iVar2) {
           if ((int)uVar13 < 8) {
-            cVar11 = fn_827C3A38(&stack_pair_90.first,iVar12,uVar13,0);
+            cVar11 = jpeg_fill_bit_buffer(&stack_pair_90.first,iVar12,uVar13,0);
             if (cVar11 == '\0') goto LAB_827c4714;
             uVar13 = (ulonglong)uStack_84;
             iVar12 = iStack_88;
             if (7 < (int)uStack_84) goto LAB_827c47b8;
             uVar9 = 1;
 LAB_827c47ec:
-            uVar10 = fn_827C3B98(&stack_pair_90.first,iVar12,uVar13,iVar5,uVar9);
+            uVar10 = jpeg_huff_decode(&stack_pair_90.first,iVar12,uVar13,iVar5,uVar9);
             if ((int)uVar10 < 0) goto LAB_827c4714;
             uVar13 = (ulonglong)uStack_84;
             iVar12 = iStack_88;
@@ -114,7 +114,7 @@ LAB_827c47b8:
               iVar14 = 1 << (uVar16 & 0x3f);
               if (uVar16 != 0) {
                 if ((int)uVar13 < (int)uVar16) {
-                  cVar11 = fn_827C3A38(&stack_pair_90.first,iVar12,uVar13,lVar17);
+                  cVar11 = jpeg_fill_bit_buffer(&stack_pair_90.first,iVar12,uVar13,lVar17);
                   if (cVar11 == '\0') goto LAB_827c4714;
                   uVar13 = (ulonglong)uStack_84;
                   iVar12 = iStack_88;
@@ -130,7 +130,7 @@ LAB_827c47b8:
           else {
             uVar15 = lVar17 + uVar15;
             if ((int)uVar13 < (int)uVar8) {
-              cVar11 = fn_827C3A38(&stack_pair_90.first,iVar12,uVar13,uVar8);
+              cVar11 = jpeg_fill_bit_buffer(&stack_pair_90.first,iVar12,uVar13,uVar8);
               if (cVar11 == '\0') goto LAB_827c4714;
               uVar13 = (ulonglong)uStack_84;
               iVar12 = iStack_88;
@@ -138,10 +138,10 @@ LAB_827c47b8:
             uVar13 = uVar13 - uVar8;
             iVar6 = (int)((uVar10 & 0xf) << 2);
             uVar16 = (1 << (int)uVar8) - 1U & iVar12 >> ((uint)uVar13 & 0x3f);
-            if ((int)uVar16 < *(int *)(&lbl_82017CA8 + iVar6)) {
+            if ((int)uVar16 < *(int *)(&extend_test + iVar6)) {
               uVar16 = *(int *)(&lbl_82017CE8 + iVar6) + uVar16;
             }
-            *(short *)(*(int *)(&lbl_82017AE8 + (int)((uVar15 & 0xffffffff) << 2)) * 2 + iVar4) =
+            *(short *)(*(int *)(&jpeg_natural_order + (int)((uVar15 & 0xffffffff) << 2)) * 2 + iVar4) =
                  (short)(uVar16 << (uVar3 & 0x3f));
           }
           uVar15 = uVar15 + 1;

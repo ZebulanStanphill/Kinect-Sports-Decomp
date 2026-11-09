@@ -25,17 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8C290();
-extern int fn_82F8C908();
-extern int fn_82F8CBB8();
-extern int fn_82F8D088();
-extern int fn_82F8D350();
-extern unsigned int lbl_8216ACBC;
+extern int scan_tree();
+extern int send_all_trees();
+extern int compress_block();
+extern int build_tree();
+extern int _tr_stored_block();
+extern unsigned int bl_order;
 extern unsigned int lbl_8216AD98;
 extern unsigned int lbl_8216B218;
 
 
-void fn_82F8D808(int *param_1,ulonglong param_2,ulonglong param_3,undefined8 param_4)
+void _tr_flush_block(int *param_1,ulonglong param_2,ulonglong param_3,undefined8 param_4)
 
 {
   int iVar1;
@@ -76,14 +76,14 @@ LAB_82f8d944:
       }
       *(uint *)(*param_1 + 0x2c) = (uint)LZCOUNT(iVar1 + -0x20) >> 5;
     }
-    lVar5 = fn_82F8D088(param_1,param_1 + 0x2c6);
-    iVar1 = fn_82F8D088(lVar5,lVar5 + 0xb24);
-    iVar1 = fn_82F8C290(iVar1,iVar1 + 0x94,*(undefined4 *)(iVar1 + 0xb1c));
-    lVar5 = fn_82F8C290(iVar1,iVar1 + 0x988,*(undefined4 *)(iVar1 + 0xb28));
-    param_1 = (int *)fn_82F8D088(lVar5,lVar5 + 0xb30);
+    lVar5 = build_tree(param_1,param_1 + 0x2c6);
+    iVar1 = build_tree(lVar5,lVar5 + 0xb24);
+    iVar1 = scan_tree(iVar1,iVar1 + 0x94,*(undefined4 *)(iVar1 + 0xb1c));
+    lVar5 = scan_tree(iVar1,iVar1 + 0x988,*(undefined4 *)(iVar1 + 0xb28));
+    param_1 = (int *)build_tree(lVar5,lVar5 + 0xb30);
     lVar5 = 0x12;
     do {
-      if (*(short *)((int)param_1 + (uint)(byte)(&lbl_8216ACBC)[(int)lVar5] * 4 + 0xa7e) != 0)
+      if (*(short *)((int)param_1 + (uint)(byte)(&bl_order)[(int)lVar5] * 4 + 0xa7e) != 0)
       break;
       lVar5 = lVar5 + -1;
     } while (2 < (int)lVar5);
@@ -138,15 +138,15 @@ LAB_82f8d944:
         param_1[0x5af] = iVar2 + -0xd;
         *(short *)(param_1 + 0x5ae) = (short)((uVar10 & 0xffff) >> (0x10U - iVar2 & 0x3f));
       }
-      param_1 = (int *)fn_82F8C908(param_1,(ulonglong)(uint)param_1[0x2c7] + 1,
+      param_1 = (int *)send_all_trees(param_1,(ulonglong)(uint)param_1[0x2c7] + 1,
                                      (ulonglong)(uint)param_1[0x2ca] + 1,lVar5 + 1);
       piVar3 = param_1 + 0x262;
       piVar6 = param_1 + 0x25;
     }
-    iVar2 = fn_82F8CBB8(param_1,piVar6,piVar3);
+    iVar2 = compress_block(param_1,piVar6,piVar3);
   }
   else {
-    iVar2 = fn_82F8D350(param_1,param_2,param_3,param_4);
+    iVar2 = _tr_stored_block(param_1,param_2,param_3,param_4);
   }
   puVar11 = (undefined2 *)(iVar2 + 0x90);
   lVar5 = 0x11e;

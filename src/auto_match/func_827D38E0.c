@@ -52,7 +52,7 @@ typedef struct {
   char pad1[0x38 - 0x2c];
 } zs_827D38E0;
 
-int fn_827D38E0(zs_827D38E0 *dest, zs_827D38E0 *source)
+int inflateCopy(zs_827D38E0 *dest, zs_827D38E0 *source)
 {
   state_827D38E0 *state;
   state_827D38E0 *copy;

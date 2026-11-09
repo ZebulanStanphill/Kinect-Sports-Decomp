@@ -37,7 +37,7 @@ struct Cinfo_827C43E0 {
     Entropy_827C43E0 *entropy;                         /* 0x198 */
 };
 
-boolean fn_827C43E0(Cinfo_827C43E0 *cinfo)
+boolean process_restart(Cinfo_827C43E0 *cinfo)
 {
     Entropy_827C43E0 *entropy = cinfo->entropy;
     int ci;

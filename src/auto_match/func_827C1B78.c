@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_827C1B78(int param_1)
+undefined8 use_merged_upsample(int param_1)
 
 {
   int iVar1;

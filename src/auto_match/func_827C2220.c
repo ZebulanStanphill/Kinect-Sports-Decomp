@@ -502,7 +502,7 @@ typedef struct {
 typedef my_decomp_master * my_master_ptr;
 
 void
-fn_827C2220 (j_decompress_ptr cinfo)
+prepare_for_output_pass (j_decompress_ptr cinfo)
 {
   my_master_ptr master = (my_master_ptr) cinfo->master;
 

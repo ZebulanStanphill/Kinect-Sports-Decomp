@@ -165,7 +165,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_82F8BF60(s, tree, k)
+void pqdownheap(s, tree, k)
     deflate_state *s;
     ct_data *tree;
     int k;

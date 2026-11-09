@@ -30,7 +30,7 @@ extern int fn_82A1F2B8();
 extern int fn_82F63BA0();
 extern int fn_82F68240();
 extern int fn_82F68CC0();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F6BB98();
 extern int fn_82F70748();
 extern int fn_82F7C468();
@@ -58,9 +58,9 @@ ulonglong fn_82F67A88(ulonglong param_1,ulonglong param_2,ulonglong param_3,int 
        (((param_1 & 0xffffffff) != 0 &&
         (trapWord(6,param_2,0), (param_3 & 0xffffffff) <= 0xffffffff / (param_2 & 0xffffffff))))) {
       uVar9 = (longlong)(int)param_2 * (longlong)(int)param_3;
-      iVar5 = fn_82F6AB08();
+      iVar5 = __iob_func();
       if ((param_4 == (int *)(iVar5 + 0x20)) ||
-         (iVar5 = fn_82F6AB08(), param_4 == (int *)(iVar5 + 0x40))) {
+         (iVar5 = __iob_func(), param_4 == (int *)(iVar5 + 0x40))) {
         uVar11 = uVar9 & 0xffffffff;
         while (uVar11 != 0) {
           uVar11 = uVar9;

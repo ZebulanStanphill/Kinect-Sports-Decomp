@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
 extern int fn_82A2B528();
 extern int fn_82F63BA0();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F66FA8();
 extern int fn_82F68240();
-extern int fn_82F68BF0();
-extern int fn_82F6AB08();
+extern int malloc();
+extern int __iob_func();
 extern int fn_82F6E8A0();
 extern int fn_82F70238();
 extern int fn_82F7AB20();
@@ -117,9 +117,9 @@ ulonglong fn_82F7AC58(ulonglong param_1,ushort *param_2,undefined8 param_3,ulong
   lVar24 = 0;
   bVar4 = false;
   if (((param_1 & 0xffffffff) != 0) && (param_2 != (ushort *)0x0)) {
-    lVar17 = fn_82F6AB08();
+    lVar17 = __iob_func();
     if (((param_1 & 0xffffffff) == (lVar17 + 0x20U & 0xffffffff)) ||
-       (lVar17 = fn_82F6AB08(), (param_1 & 0xffffffff) == (lVar17 + 0x40U & 0xffffffff))) {
+       (lVar17 = __iob_func(), (param_1 & 0xffffffff) == (lVar17 + 0x40U & 0xffffffff))) {
       uVar29 = fn_82F70238(uVar16 - 0x4a0,0x200,param_2,param_4);
       if ((int)uVar29 == -1) {
         uVar29 = 0x1ff;
@@ -504,7 +504,7 @@ code_r0x82f7b1c4:
     }
     if (0xa3 < (int)uVar27) {
       lVar17 = uVar27 + 0x15d;
-      uVar31 = fn_82F68BF0(lVar17);
+      uVar31 = malloc(lVar17);
       iStack_8b4 = (int)uVar31;
       if ((uVar31 & 0xffffffff) == 0) {
         uVar27 = 0xa3;
@@ -592,7 +592,7 @@ LAB_82f7b600:
   }
 LAB_82f7b644:
   if (iStack_8b4 != 0) {
-    fn_82F641F8();
+    free();
     iStack_8b4 = 0;
   }
 LAB_82f7b65c:

@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_120;
-extern int fn_829B7810();
+extern int d3dx_jcopy_block_row();
 extern unsigned int iStack00000014;
 extern unsigned int iStack_140;
 extern unsigned int iStack_148;
@@ -182,7 +182,7 @@ longlong fn_829BBE00(int param_1,int *param_2)
             do {
               psVar16 = psVar16 + 0x40;
               psVar22 = psVar22 + 0x40;
-              fn_829B7810(psVar25,auStack_120,1);
+              d3dx_jcopy_block_row(psVar25,auStack_120,1);
               iVar31 = iVar30;
               iVar29 = iVar28;
               iVar35 = iVar34;

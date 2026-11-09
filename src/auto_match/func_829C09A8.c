@@ -147,7 +147,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_829C09A8(s, desc)
+void d3dx_gen_bitlen(s, desc)
     deflate_state *s;
     tree_desc *desc;
 {

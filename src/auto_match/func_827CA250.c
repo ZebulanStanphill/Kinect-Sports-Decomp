@@ -359,7 +359,7 @@ struct jpeg_color_quantizer {
   void (*finish_pass) (j_decompress_ptr cinfo);
   void (*new_color_map) (j_decompress_ptr cinfo);
 };
-extern void fn_827C1AF8 (JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row, int num_rows, JDIMENSION num_cols);
+extern void jcopy_sample_rows (JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row, int num_rows, JDIMENSION num_cols);
 typedef void (*upsample1_ptr) (j_decompress_ptr cinfo, jpeg_component_info * compptr, JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr);
 typedef struct {
   struct jpeg_upsampler pub;
@@ -379,7 +379,7 @@ typedef struct {
 typedef my_upsampler * my_upsample_ptr;
 
 void
-fn_827CA250 (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+int_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
 	      JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
 {
   my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
@@ -408,7 +408,7 @@ fn_827CA250 (j_decompress_ptr cinfo, jpeg_component_info * compptr,
     }
 
     if (v_expand > 1) {
-      fn_827C1AF8(output_data, outrow, output_data, outrow+1,
+      jcopy_sample_rows(output_data, outrow, output_data, outrow+1,
 			v_expand-1, cinfo->output_width);
     }
     inrow++;

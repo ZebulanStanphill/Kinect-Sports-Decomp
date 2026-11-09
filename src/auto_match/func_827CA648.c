@@ -25,16 +25,16 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1AC8();
-extern int fn_827CA0E8();
-extern int fn_827CA100();
+extern int jround_up();
+extern int start_pass_upsample();
+extern int sep_upsample();
 extern int fn_827CA238();
-extern int fn_827CA240();
-extern int fn_827CA250();
-extern int fn_827CA328();
-extern int fn_827CA390();
-extern int fn_827CA430();
-extern int fn_827CA500();
+extern int noop_upsample();
+extern int int_upsample();
+extern int h2v1_upsample();
+extern int h2v2_upsample();
+extern int h2v1_fancy_upsample();
+extern int h2v2_fancy_upsample();
 
 
 void fn_827CA648(int *param_1)
@@ -65,8 +65,8 @@ void fn_827CA648(int *param_1)
   
   puVar10 = (undefined4 *)(**(code **)param_1[1])(param_1,1,0xa0);
   param_1[0x68] = (int)puVar10;
-  *puVar10 = fn_827CA0E8;
-  puVar10[1] = fn_827CA100;
+  *puVar10 = start_pass_upsample;
+  puVar10[1] = sep_upsample;
   *(undefined1 *)(puVar10 + 2) = 0;
   if (*(char *)((int)param_1 + 0x10a) != '\0') {
     *(undefined4 *)(*param_1 + 0x14) = 0x19;
@@ -102,7 +102,7 @@ void fn_827CA648(int *param_1)
       trapWord(5,uVar12,0xffff);
       if (*(char *)(piVar21 + 3) == '\0') {
         bVar8 = false;
-        pcVar19 = fn_827CA240;
+        pcVar19 = noop_upsample;
 LAB_827ca81c:
         *puVar22 = pcVar19;
       }
@@ -115,19 +115,19 @@ LAB_827ca81c:
         if (uVar3 << 1 == uVar5) {
           if (uVar1 == uVar6) {
             if ((bVar7) && (2 < (uint)piVar21[1])) {
-              pcVar19 = fn_827CA430;
+              pcVar19 = h2v1_fancy_upsample;
             }
             else {
-              pcVar19 = fn_827CA328;
+              pcVar19 = h2v1_upsample;
             }
             goto LAB_827ca81c;
           }
           if ((uVar3 << 1 != uVar5) || (uVar1 << 1 != uVar6)) goto LAB_827ca824;
           if ((!bVar7) || ((uint)piVar21[1] < 3)) {
-            pcVar19 = fn_827CA390;
+            pcVar19 = h2v2_upsample;
             goto LAB_827ca81c;
           }
-          *puVar22 = fn_827CA500;
+          *puVar22 = h2v2_fancy_upsample;
           *(undefined1 *)(puVar10 + 2) = 1;
         }
         else {
@@ -146,7 +146,7 @@ LAB_827ca824:
             if (lVar15 == 0) {
               trapWord(6,uVar17,0);
               trapWord(6,uVar18,0);
-              *puVar22 = fn_827CA250;
+              *puVar22 = int_upsample;
               *(char *)((int)puVar10 + iVar20 + 0x8c) = (char)((int)uVar5 / (int)uVar3);
               trapWord(5,uVar17 & ~((((ulonglong)uVar5 & 0x7fffffff) << 1 |
                                     (ulonglong)(uVar5 >> 0x1f)) - 1),0xffff);
@@ -164,7 +164,7 @@ LAB_827ca8dc:
       if (bVar8) {
         iVar2 = param_1[1];
         iVar4 = param_1[0x45];
-        uVar9 = fn_827C1AC8(param_1[0x17],param_1[0x44]);
+        uVar9 = jround_up(param_1[0x17],param_1[0x44]);
         uVar11 = (**(code **)(iVar2 + 8))(param_1,1,uVar9,iVar4);
         puVar22[-10] = uVar11;
       }

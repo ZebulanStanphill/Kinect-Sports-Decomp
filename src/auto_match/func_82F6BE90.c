@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F6AC80();
 extern int fn_82F6BC30();
 extern int fn_82F6BCB0();
@@ -42,9 +42,9 @@ ulonglong fn_82F6BE90(ulonglong param_1)
   undefined4 uStack00000014;
   
   uStack00000014 = (undefined4)param_1;
-  lVar1 = fn_82F6AB08();
+  lVar1 = __iob_func();
   if (((param_1 & 0xffffffff) == (lVar1 + 0x20U & 0xffffffff)) ||
-     (lVar1 = fn_82F6AB08(), (param_1 & 0xffffffff) == (lVar1 + 0x40U & 0xffffffff))) {
+     (lVar1 = __iob_func(), (param_1 & 0xffffffff) == (lVar1 + 0x40U & 0xffffffff))) {
     uVar2 = 0;
   }
   else if ((param_1 & 0xffffffff) == 0) {

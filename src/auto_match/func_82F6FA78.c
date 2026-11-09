@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern void fn_82F641F8(void *);
+extern void free(void *);
 extern char lbl_8216A9E0[];
 
 typedef struct Obj_82F6FA78 {
@@ -47,14 +47,14 @@ typedef struct Obj_82F6FA78 {
 void fn_82F6FA78(Obj_82F6FA78 *p)
 {
   if (p != 0) {
-    if (p->f24 != 0) fn_82F641F8(p->f24);
-    if (p->f2c != 0) fn_82F641F8(p->f2c);
-    if (p->f34 != 0) fn_82F641F8(p->f34);
-    if (p->f3c != 0) fn_82F641F8(p->f3c);
-    if (p->f40 != 0) fn_82F641F8(p->f40);
-    if (p->f44 != 0) fn_82F641F8(p->f44);
-    if (p->f48 != 0) fn_82F641F8(p->f48);
-    if (p->f5c != lbl_8216A9E0) fn_82F641F8(p->f5c);
-    fn_82F641F8(p);
+    if (p->f24 != 0) free(p->f24);
+    if (p->f2c != 0) free(p->f2c);
+    if (p->f34 != 0) free(p->f34);
+    if (p->f3c != 0) free(p->f3c);
+    if (p->f40 != 0) free(p->f40);
+    if (p->f44 != 0) free(p->f44);
+    if (p->f48 != 0) free(p->f48);
+    if (p->f5c != lbl_8216A9E0) free(p->f5c);
+    free(p);
   }
 }

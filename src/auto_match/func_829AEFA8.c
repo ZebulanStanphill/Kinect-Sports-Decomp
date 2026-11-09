@@ -310,10 +310,10 @@ struct png_struct_def
 
    png_byte empty_plte_permitted;
 };
-extern void fn_829AB128 (png_structp png_ptr, png_const_charp message);
+extern void png_warning (png_structp png_ptr, png_const_charp message);
 
 png_uint_32
-fn_829AEFA8(png_structp png_ptr, png_infop info_ptr,
+png_get_IHDR(png_structp png_ptr, png_infop info_ptr,
    png_uint_32 *width, png_uint_32 *height, int *bit_depth,
    int *color_type, int *interlace_type, int *compression_type,
    int *filter_type)
@@ -349,7 +349,7 @@ fn_829AEFA8(png_structp png_ptr, png_infop info_ptr,
       rowbytes_per_pixel = (pixel_depth + 7) >> 3;
       if ((*width > ((png_uint_32)0x7fffffffL)/rowbytes_per_pixel))
       {
-         fn_829AB128(png_ptr,
+         png_warning(png_ptr,
             "Width too large for libpng to process image data.");
       }
       return (1);

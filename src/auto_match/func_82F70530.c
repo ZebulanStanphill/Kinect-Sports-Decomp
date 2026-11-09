@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A29158();
 extern int fn_82A2A360();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F681D0();
 extern int _errno();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int fn_82F800C8();
 extern int iRam83263614;
 
@@ -45,11 +45,11 @@ longlong realloc(ulonglong param_1,ulonglong param_2)
   undefined4 uVar5;
   
   if ((param_1 & 0xffffffff) == 0) {
-    lVar1 = fn_82F68BF0(param_2);
+    lVar1 = malloc(param_2);
   }
   else {
     if ((param_2 & 0xffffffff) == 0) {
-      fn_82F641F8(param_1);
+      free(param_1);
     }
     else {
       do {

@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 #define ZEXT48(x) ((U64)((U32)(x)))
 extern int fn_82A2B528();
 extern int fn_82F63BA0();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F66FA8();
 extern int fn_82F68240();
-extern int fn_82F68BF0();
-extern int fn_82F6AB08();
+extern int malloc();
+extern int __iob_func();
 extern int fn_82F6E8A0();
 extern int fn_82F70238();
 extern int fn_82F7AB20();
@@ -123,9 +123,9 @@ LAB_82f7a100:
     uVar16 = 0xffffffffffffffff;
   }
   else {
-    lVar17 = fn_82F6AB08();
+    lVar17 = __iob_func();
     if (((param_1 & 0xffffffff) == (lVar17 + 0x20U & 0xffffffff)) ||
-       (lVar17 = fn_82F6AB08(), (param_1 & 0xffffffff) == (lVar17 + 0x40U & 0xffffffff))) {
+       (lVar17 = __iob_func(), (param_1 & 0xffffffff) == (lVar17 + 0x40U & 0xffffffff))) {
       uVar16 = fn_82F70238(uVar15 - 0x4a0,0x200,param_2,param_4);
       if ((int)uVar16 == -1) {
         uVar16 = 0x1ff;
@@ -294,7 +294,7 @@ LAB_82f7a3b8:
               }
               if (0xa3 < (int)uVar26) {
                 lVar17 = uVar26 + 0x15d;
-                uVar30 = fn_82F68BF0(lVar17);
+                uVar30 = malloc(lVar17);
                 iStack_8b0 = (int)uVar30;
                 if ((uVar30 & 0xffffffff) == 0) {
                   uVar26 = 0xa3;
@@ -384,7 +384,7 @@ LAB_82f7aa60:
             }
 LAB_82f7aaa4:
             if (iStack_8b0 != 0) {
-              fn_82F641F8();
+              free();
               iStack_8b0 = 0;
             }
 LAB_82f7aabc:

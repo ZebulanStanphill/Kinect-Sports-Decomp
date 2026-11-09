@@ -501,7 +501,7 @@ typedef struct {
   int look_nbits[1<<8];
   UINT8 look_sym[1<<8];
 } d_derived_tbl;
-extern void fn_827C36D8
+extern void jpeg_make_d_derived_tbl
 	(j_decompress_ptr cinfo, boolean isDC, int tblno, d_derived_tbl ** pdtbl);
 typedef INT32 bit_buf_type;
 typedef struct {
@@ -531,7 +531,7 @@ typedef struct {
 typedef huff_entropy_decoder * huff_entropy_ptr;
 
 void
-fn_827C41C0 (j_decompress_ptr cinfo)
+start_pass_huff_decoder (j_decompress_ptr cinfo)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
   int ci, blkn, dctbl, actbl;
@@ -546,9 +546,9 @@ fn_827C41C0 (j_decompress_ptr cinfo)
     dctbl = compptr->dc_tbl_no;
     actbl = compptr->ac_tbl_no;
 
-    fn_827C36D8(cinfo, 1, dctbl,
+    jpeg_make_d_derived_tbl(cinfo, 1, dctbl,
 			    & entropy->dc_derived_tbls[dctbl]);
-    fn_827C36D8(cinfo, 0, actbl,
+    jpeg_make_d_derived_tbl(cinfo, 0, actbl,
 			    & entropy->ac_derived_tbls[actbl]);
 
     entropy->saved.last_dc_val[ci] = 0;

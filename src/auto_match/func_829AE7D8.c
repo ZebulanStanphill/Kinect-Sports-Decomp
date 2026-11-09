@@ -29,13 +29,13 @@ extern unsigned int *auStack_50;
 extern int fn_829AB0F0();
 extern int fn_829AB2C8();
 extern int fn_829B0D78();
-extern int fn_829B0F38();
+extern int png_read_data();
 extern int fn_829B5120();
-extern int fn_829B8A30();
-extern int fn_829B8F80();
+extern int d3dx_inflate();
+extern int png_crc_read();
 extern int fn_829B9120();
 extern int fn_829B9380();
-extern int fn_829B96C0();
+extern int png_read_filter_row();
 extern int fn_829B98E0();
 extern int fn_829B9AF0();
 extern int fn_829B9B60();
@@ -125,11 +125,11 @@ LAB_829aea50:
       if (*(int *)(param_1 + 0x5fc) == 0) {
         do {
           fn_829B9B60(param_1,0);
-          fn_829B0F38(param_1,auStack_50,4);
+          png_read_data(param_1,auStack_50,4);
           uVar4 = fn_829B9AF0(param_1,auStack_50);
           *(undefined4 *)(param_1 + 0x5fc) = uVar4;
           fn_829AB2C8(param_1);
-          fn_829B8F80(param_1,(byte *)(param_1 + 0x60c),4);
+          png_crc_read(param_1,(byte *)(param_1 + 0x60c),4);
           pbVar8 = &lbl_82052410;
           pbVar9 = (byte *)(param_1 + 0x60c);
           do {
@@ -149,10 +149,10 @@ LAB_829aea50:
       if (*(uint *)(param_1 + 0x5fc) < *(uint *)(param_1 + 0x5a0)) {
         *(uint *)(param_1 + 0x568) = *(uint *)(param_1 + 0x5fc);
       }
-      fn_829B8F80(param_1,*(undefined4 *)(param_1 + 0x59c),*(undefined4 *)(param_1 + 0x568));
+      png_crc_read(param_1,*(undefined4 *)(param_1 + 0x59c),*(undefined4 *)(param_1 + 0x568));
       *(int *)(param_1 + 0x5fc) = *(int *)(param_1 + 0x5fc) - *(int *)(param_1 + 0x568);
     }
-    iVar5 = fn_829B8A30(param_1 + 0x564,1);
+    iVar5 = d3dx_inflate(param_1 + 0x564,1);
     if (iVar5 == 1) {
       if (((*(int *)(param_1 + 0x574) != 0) || (*(int *)(param_1 + 0x568) != 0)) ||
          (*(int *)(param_1 + 0x5fc) != 0)) {
@@ -178,7 +178,7 @@ LAB_829aea50:
   *(int *)(param_1 + 0x5f4) =
        (int)(((longlong)(int)(uint)*(byte *)(param_1 + 0x619) * (longlong)*(int *)(param_1 + 0x5d0)
               + 7U & 0xffffffff) >> 3);
-  fn_829B96C0(param_1,param_1 + 0x5f0,*(undefined1 **)(param_1 + 0x5dc) + 1,
+  png_read_filter_row(param_1,param_1 + 0x5f0,*(undefined1 **)(param_1 + 0x5dc) + 1,
                   (ulonglong)*(uint *)(param_1 + 0x5d8) + 1,**(undefined1 **)(param_1 + 0x5dc));
   fn_829B5120(param_1,*(undefined4 *)(param_1 + 0x5d8),*(undefined4 *)(param_1 + 0x5dc),
                   (ulonglong)*(uint *)(param_1 + 0x5c8) + 1);

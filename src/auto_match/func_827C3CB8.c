@@ -399,7 +399,7 @@ typedef struct {
 typedef huff_entropy_decoder * huff_entropy_ptr;
 
 boolean
-fn_827C3CB8 (j_decompress_ptr cinfo)
+process_restart (j_decompress_ptr cinfo)
 {
   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
   int ci;

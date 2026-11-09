@@ -39,10 +39,10 @@ typedef struct jvirt_barray_control {
     ((cinfo)->err->msg_code = (code), \
      (*(cinfo)->err->error_exit)((j_common_ptr)(cinfo)))
 
-extern void fn_827C1188(j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing);
-extern void fn_827C1B68(void *target, size_t bytestozero);
+extern void do_barray_io(j_common_ptr cinfo, jvirt_barray_ptr ptr, boolean writing);
+extern void jzero_far(void *target, size_t bytestozero);
 
-JBLOCKARRAY fn_827C1458(j_common_ptr cinfo, jvirt_barray_ptr ptr,
+JBLOCKARRAY access_virt_barray(j_common_ptr cinfo, jvirt_barray_ptr ptr,
                         JDIMENSION start_row, JDIMENSION num_rows,
                         boolean writable)
 {
@@ -58,7 +58,7 @@ JBLOCKARRAY fn_827C1458(j_common_ptr cinfo, jvirt_barray_ptr ptr,
         if (!ptr->b_s_open)
             ERREXIT(cinfo, JERR_VIRTUAL_BUG);
         if (ptr->dirty) {
-            fn_827C1188(cinfo, ptr, 1);
+            do_barray_io(cinfo, ptr, 1);
             ptr->dirty = 0;
         }
         if (start_row > ptr->cur_start_row) {
@@ -71,7 +71,7 @@ JBLOCKARRAY fn_827C1458(j_common_ptr cinfo, jvirt_barray_ptr ptr,
                 ltemp = 0;
             ptr->cur_start_row = (JDIMENSION)ltemp;
         }
-        fn_827C1188(cinfo, ptr, 0);
+        do_barray_io(cinfo, ptr, 0);
     }
     if (ptr->first_undef_row < end_row) {
         if (ptr->first_undef_row < start_row) {
@@ -88,7 +88,7 @@ JBLOCKARRAY fn_827C1458(j_common_ptr cinfo, jvirt_barray_ptr ptr,
             undef_row -= ptr->cur_start_row;
             end_row -= ptr->cur_start_row;
             while (undef_row < end_row) {
-                fn_827C1B68((void *)ptr->mem_buffer[undef_row], bytesperrow);
+                jzero_far((void *)ptr->mem_buffer[undef_row], bytesperrow);
                 undef_row++;
             }
         } else {

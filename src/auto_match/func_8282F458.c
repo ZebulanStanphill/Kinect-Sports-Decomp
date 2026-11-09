@@ -28,8 +28,8 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_828184A8();
 extern int fn_82F672D8();
 extern int fn_82F678C8();
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 extern unsigned int uStack_2c;
 
 
@@ -78,26 +78,26 @@ undefined8 fn_8282F458(int param_1,undefined8 param_2)
           uVar4 = 0;
         }
         else {
-          lVar3 = fn_82F6AB08();
-          fn_82F6CE40(lVar3 + 0x40,0xffffffff8201ee3c);
+          lVar3 = __iob_func();
+          fprintf(lVar3 + 0x40,0xffffffff8201ee3c);
           uVar4 = 4;
         }
       }
       else {
-        lVar3 = fn_82F6AB08();
-        fn_82F6CE40(lVar3 + 0x40,0xffffffff8201ee78,(char *)(param_1 + 4),0xffffffff8201ee2c);
+        lVar3 = __iob_func();
+        fprintf(lVar3 + 0x40,0xffffffff8201ee78,(char *)(param_1 + 4),0xffffffff8201ee2c);
         uVar4 = 3;
       }
     }
     else {
-      lVar3 = fn_82F6AB08();
-      fn_82F6CE40(lVar3 + 0x40,0xffffffff8201edd0,acStack_30,0xffffffff8201edc8);
+      lVar3 = __iob_func();
+      fprintf(lVar3 + 0x40,0xffffffff8201edd0,acStack_30,0xffffffff8201edc8);
       uVar4 = 2;
     }
   }
   else {
-    lVar3 = fn_82F6AB08();
-    fn_82F6CE40(lVar3 + 0x40,0xffffffff8201ed88);
+    lVar3 = __iob_func();
+    fprintf(lVar3 + 0x40,0xffffffff8201ed88);
     uVar4 = 5;
   }
   return uVar4;

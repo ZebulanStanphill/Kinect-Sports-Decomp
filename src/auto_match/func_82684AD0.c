@@ -30,8 +30,8 @@ extern int fn_82684A58();
 extern int fn_826E6BC8();
 extern int fn_826E7A08();
 extern int fn_826E7B08();
-extern int fn_827D1EB0();
-extern int fn_827D3518();
+extern int inflate();
+extern int inflateEnd();
 extern unsigned int uStack_4c;
 
 
@@ -49,7 +49,7 @@ void fn_82684AD0(undefined8 param_1,int param_2)
     do {
       puStack_50 = auStack_70;
       uStack_4c = fn_826E7A08(param_2,auStack_70,0x20);
-      uVar2 = fn_827D1EB0(&puStack_50,2);
+      uVar2 = inflate(&puStack_50,2);
       if ((int)uVar2 == 1) goto LAB_82684b84;
     } while ((int)uVar2 == 0);
     fn_82684A58(param_2,0xffffffff82005a6c,uVar2);
@@ -64,7 +64,7 @@ LAB_82684b84:
                                   (ulonglong)*(uint *)(param_2 + 0x2c)) - (ulonglong)uStack_4c);
       }
     }
-    lVar1 = fn_827D3518(&puStack_50);
+    lVar1 = inflateEnd(&puStack_50);
     if (lVar1 == 0) {
       return;
     }

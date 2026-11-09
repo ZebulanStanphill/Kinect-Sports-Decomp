@@ -34,7 +34,7 @@ extern unsigned int lbl_82055A90;
 extern unsigned int lbl_82055B08;
 
 
-void fn_829C1510(int param_1,int param_2,int param_3)
+void d3dx_compress_block(int param_1,int param_2,int param_3)
 
 {
   byte bVar1;

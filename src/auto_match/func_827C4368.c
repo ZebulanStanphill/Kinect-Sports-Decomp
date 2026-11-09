@@ -1,5 +1,5 @@
-extern void fn_827C3D60(void);
-extern void fn_827C41C0(void);
+extern void decode_mcu(void);
+extern void start_pass_huff_decoder(void);
 
 typedef struct jpeg_memory_mgr {
     void *(*alloc_small)(void *cinfo, int pool_id, unsigned int sizeofobject);
@@ -21,15 +21,15 @@ typedef struct jpeg_decompress_struct {
     huff_entropy_decoder *entropy;
 } jpeg_decompress_struct;
 
-void fn_827C4368(jpeg_decompress_struct *cinfo)
+void jinit_huff_decoder(jpeg_decompress_struct *cinfo)
 {
     huff_entropy_decoder *entropy;
     int i;
 
     entropy = (huff_entropy_decoder *)(*cinfo->mem->alloc_small)(cinfo, 1, sizeof(huff_entropy_decoder));
     cinfo->entropy = entropy;
-    entropy->start_pass = fn_827C41C0;
-    entropy->decode_mcu = fn_827C3D60;
+    entropy->start_pass = start_pass_huff_decoder;
+    entropy->decode_mcu = decode_mcu;
     for (i = 0; i < 4; i++) {
         entropy->dc_derived_tbls[i] = entropy->ac_derived_tbls[i] = 0;
     }

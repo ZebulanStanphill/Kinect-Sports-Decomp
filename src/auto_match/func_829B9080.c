@@ -310,15 +310,15 @@ struct png_struct_def
 
    png_byte empty_plte_permitted;
 };
-extern void fn_829AB140 (png_structp png_ptr, png_const_charp error);
+extern void png_chunk_error (png_structp png_ptr, png_const_charp error);
 
 void
-fn_829B9080(png_structp png_ptr, png_bytep chunk_name)
+png_check_chunk_name(png_structp png_ptr, png_bytep chunk_name)
 {
    ;
    if (((chunk_name[0]) < 41 || (chunk_name[0]) > 122 || ((chunk_name[0]) > 90 && (chunk_name[0]) < 97)) || ((chunk_name[1]) < 41 || (chunk_name[1]) > 122 || ((chunk_name[1]) > 90 && (chunk_name[1]) < 97)) ||
        ((chunk_name[2]) < 41 || (chunk_name[2]) > 122 || ((chunk_name[2]) > 90 && (chunk_name[2]) < 97)) || ((chunk_name[3]) < 41 || (chunk_name[3]) > 122 || ((chunk_name[3]) > 90 && (chunk_name[3]) < 97)))
    {
-      fn_829AB140(png_ptr, "invalid chunk type");
+      png_chunk_error(png_ptr, "invalid chunk type");
    }
 }

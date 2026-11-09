@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68BF0();
+extern int malloc();
 extern unsigned int lbl_83263398;
 
 
@@ -36,7 +36,7 @@ void fn_82F857F8(undefined4 *param_1)
   uint uVar2;
   
   lbl_83263398 = lbl_83263398 + 1;
-  iVar1 = fn_82F68BF0(0x1000);
+  iVar1 = malloc(0x1000);
   param_1[2] = iVar1;
   if (iVar1 == 0) {
     uVar2 = param_1[3] | 4;

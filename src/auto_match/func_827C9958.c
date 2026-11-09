@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827D0358();
-extern int fn_827D0658();
-extern int fn_827D0888();
-extern int fn_827D0CE8();
+extern int jpeg_idct_4x4();
+extern int jpeg_idct_2x2();
+extern int jpeg_idct_islow();
+extern int jpeg_idct_ifast();
 extern int fn_827D10A0();
 extern unsigned int lbl_82017E38;
 extern unsigned int lbl_82017EB0;
@@ -72,22 +72,22 @@ LAB_827c9a68:
       }
       else {
         if (iVar8 == 2) {
-          pcVar14 = fn_827D0658;
+          pcVar14 = jpeg_idct_2x2;
           goto LAB_827c9a68;
         }
         if (iVar8 == 4) {
-          pcVar14 = fn_827D0358;
+          pcVar14 = jpeg_idct_4x4;
           goto LAB_827c9a68;
         }
         if (iVar8 == 8) {
           uVar2 = param_1[0x11];
           if (uVar2 == 0) {
-            pcVar14 = fn_827D0888;
+            pcVar14 = jpeg_idct_islow;
             goto LAB_827c9a68;
           }
           if (uVar2 == 1) {
             uVar15 = 1;
-            pcVar14 = fn_827D0CE8;
+            pcVar14 = jpeg_idct_ifast;
           }
           else {
             if (2 < uVar2) {

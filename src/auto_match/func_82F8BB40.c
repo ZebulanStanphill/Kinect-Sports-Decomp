@@ -25,13 +25,13 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827D4370();
-extern int fn_827D4EF8();
+extern int adler32();
+extern int crc32();
 extern int fn_82F691F0();
-extern int fn_82F8CFE8();
+extern int _tr_init();
 
 
-undefined8 fn_82F8BB40(int param_1)
+undefined8 deflateReset(int param_1)
 
 {
   int iVar1;
@@ -51,14 +51,14 @@ undefined8 fn_82F8BB40(int param_1)
       }
       *(uint *)(iVar1 + 4) = (-(uint)(*(int *)(iVar1 + 0x18) != 0) & 0xffffffb9) + 0x71;
       if (*(int *)(iVar1 + 0x18) == 2) {
-        uVar2 = fn_827D4EF8();
+        uVar2 = crc32();
       }
       else {
-        uVar2 = fn_827D4370(0,0,0);
+        uVar2 = adler32(0,0,0);
       }
       *(undefined4 *)(param_1 + 0x30) = uVar2;
       *(undefined4 *)(iVar1 + 0x28) = 0;
-      fn_82F8CFE8(iVar1);
+      _tr_init(iVar1);
       *(int *)(iVar1 + 0x3c) = *(int *)(iVar1 + 0x2c) << 1;
       *(undefined2 *)(*(int *)(iVar1 + 0x4c) * 2 + *(int *)(iVar1 + 0x44) + -2) = 0;
                     /* WARNING: Subroutine does not return */

@@ -56,10 +56,10 @@ typedef struct my_memory_mgr {
     long total_space_allocated;
 } my_memory_mgr, *my_mem_ptr;
 
-extern void fn_827C8EE0(j_common_ptr cinfo, void *object, size_t sizeofobject);
-extern void fn_827C8EF0(j_common_ptr cinfo, void *object, size_t sizeofobject);
+extern void jpeg_free_small(j_common_ptr cinfo, void *object, size_t sizeofobject);
+extern void jpeg_free_large(j_common_ptr cinfo, void *object, size_t sizeofobject);
 
-void fn_827C1650(j_common_ptr cinfo, int pool_id)
+void free_pool(j_common_ptr cinfo, int pool_id)
 {
     my_mem_ptr mem = cinfo->mem;
     small_pool_ptr shdr_ptr;
@@ -100,7 +100,7 @@ void fn_827C1650(j_common_ptr cinfo, int pool_id)
         space_freed = lhdr_ptr->hdr.bytes_used +
                       lhdr_ptr->hdr.bytes_left +
                       sizeof(large_pool_hdr);
-        fn_827C8EF0(cinfo, (void *)lhdr_ptr, space_freed);
+        jpeg_free_large(cinfo, (void *)lhdr_ptr, space_freed);
         mem->total_space_allocated -= space_freed;
         lhdr_ptr = next_lhdr_ptr;
     }
@@ -113,7 +113,7 @@ void fn_827C1650(j_common_ptr cinfo, int pool_id)
         space_freed = shdr_ptr->hdr.bytes_used +
                       shdr_ptr->hdr.bytes_left +
                       sizeof(small_pool_hdr);
-        fn_827C8EE0(cinfo, (void *)shdr_ptr, space_freed);
+        jpeg_free_small(cinfo, (void *)shdr_ptr, space_freed);
         mem->total_space_allocated -= space_freed;
         shdr_ptr = next_shdr_ptr;
     }

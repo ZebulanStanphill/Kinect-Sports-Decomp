@@ -29,7 +29,7 @@ typedef struct { char pad[4]; int status; void *pending_buf; char pad2[0x38 - 0x
 typedef struct z_stream_s {
   char pad[0x1c]; DS *state; void *zalloc; void (*zfree)(void *, void *); void *opaque;
 } z_stream;
-int fn_82F8A9B0(z_stream *strm)
+int deflateEnd(z_stream *strm)
 {
   int status;
   if (strm == 0 || strm->state == 0) return -2;

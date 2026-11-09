@@ -16,7 +16,7 @@ typedef struct Obj_826E6D78 {
     char pad4c[0x858 - 0x4c];
     char buf[0x1000];
 } Obj_826E6D78;
-extern int fn_827D1EB0(Z_826E6D78 *z, int flush);
+extern int inflate(Z_826E6D78 *z, int flush);
 
 int fn_826E6D78(Obj_826E6D78 *o, void *out, unsigned int want)
 {
@@ -32,7 +32,7 @@ int fn_826E6D78(Obj_826E6D78 *o, void *out, unsigned int want)
         o->z.next_in = o->buf;
         o->z.avail_in = r;
     }
-    r = fn_827D1EB0(&o->z, 2);
+    r = inflate(&o->z, 2);
     if (r == 1) { o->eof = 1; break; }
     if (r != 0) { o->err = 1; break; }
 } while (o->z.avail_out != 0);

@@ -99,7 +99,7 @@ extern int  gzdirect (gzFile file);
 extern int     gzclose (gzFile file);
 extern const char *  gzerror (gzFile file, int *errnum);
 extern void  gzclearerr (gzFile file);
-extern uLong  fn_827D4370 (uLong adler, const Bytef *buf, uInt len);
+extern uLong  adler32 (uLong adler, const Bytef *buf, uInt len);
 extern uLong  adler32_combine (uLong adler1, uLong adler2, long len2);
 extern uLong  crc32   (uLong crc, const Bytef *buf, uInt len);
 extern uLong  crc32_combine (uLong crc1, uLong crc2, long len2);
@@ -231,18 +231,18 @@ struct inflate_state {
 };
 void inflate_fast (z_streamp strm, unsigned start);
 static void fixedtables (struct inflate_state  *state);
-int fn_827D1D80 (z_streamp strm, unsigned out);
+int updatewindow (z_streamp strm, unsigned out);
 static unsigned syncsearch (unsigned  *have, unsigned char  *buf, unsigned len);
 int  inflateReset();
 int  inflatePrime();
 int  inflateInit2_();
 int  inflateInit_();
 static void fixedtables();
-int fn_827D1D80();
+int updatewindow();
 int  inflate();
 int  inflateEnd();
 
-int  fn_827D35A0(strm, dictionary, dictLength)
+int  inflateSetDictionary(strm, dictionary, dictLength)
 z_streamp strm;
 const Bytef *dictionary;
 uInt dictLength;
@@ -256,13 +256,13 @@ uInt dictLength;
         return (-2);
 
     if (state->mode == DICT) {
-        id = fn_827D4370(0L, 0, 0);
-        id = fn_827D4370(id, dictionary, dictLength);
+        id = adler32(0L, 0, 0);
+        id = adler32(id, dictionary, dictLength);
         if (id != state->check)
             return (-3);
     }
 
-    if (fn_827D1D80(strm, strm->avail_out)) {
+    if (updatewindow(strm, strm->avail_out)) {
         state->mode = MEM;
         return (-4);
     }

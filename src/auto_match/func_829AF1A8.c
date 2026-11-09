@@ -14,7 +14,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829AF1A8(png_row_infop row_info, png_bytep row)
+png_do_swap(png_row_infop row_info, png_bytep row)
 {
    ;
    if (

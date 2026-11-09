@@ -30,11 +30,11 @@ extern unsigned int *auStack_4bc;
 extern unsigned int *auStack_4d8;
 extern int fn_82A1F2B8();
 extern int fn_82F63BA0();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F66FA8();
 extern int fn_82F68240();
-extern int fn_82F68BF0();
-extern int fn_82F6AB08();
+extern int malloc();
+extern int __iob_func();
 extern int fn_82F6E8A0();
 extern int fn_82F6EDE8();
 extern int fn_82F70920();
@@ -143,8 +143,8 @@ ulonglong fn_82F709B8(int param_1,char *param_2,undefined8 param_3,ulonglong *pa
     if ((puVar26[0x28] & 1) != 0) goto LAB_82f709f8;
   }
   if (param_2 != (char *)0x0) {
-    iVar19 = fn_82F6AB08();
-    if ((param_1 == iVar19 + 0x20) || (iVar19 = fn_82F6AB08(), param_1 == iVar19 + 0x40)) {
+    iVar19 = __iob_func();
+    if ((param_1 == iVar19 + 0x20) || (iVar19 = __iob_func(), param_1 == iVar19 + 0x40)) {
       uVar33 = fn_82F6EDE8(&stack0x00000000 + -0x2a0,0x200,param_2,param_4);
       if ((int)uVar33 == -1) {
         uVar33 = 0x1ff;
@@ -323,7 +323,7 @@ LAB_82f70d6c:
           }
           if (0xa3 < iVar32) {
             iVar19 = iVar32 + 0x15d;
-            psVar20 = (short *)fn_82F68BF0(iVar19);
+            psVar20 = (short *)malloc(iVar19);
             psVar34 = psVar20;
             if (psVar20 == (short *)0x0) {
               iVar32 = 0xa3;
@@ -409,7 +409,7 @@ LAB_82f71430:
         }
 LAB_82f71474:
         if (psVar20 != (short *)0x0) {
-          fn_82F641F8(psVar20);
+          free(psVar20);
           psVar20 = (short *)0x0;
         }
 LAB_82f71488:

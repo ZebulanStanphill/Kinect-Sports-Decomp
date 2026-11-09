@@ -16,7 +16,7 @@ typedef struct ComponentInfo_827CA500 {
   JDIMENSION downsampled_width;
 } ComponentInfo_827CA500;
 
-void fn_827CA500(DecompressInfo_827CA500 *cinfo, ComponentInfo_827CA500 *compptr,
+void h2v2_fancy_upsample(DecompressInfo_827CA500 *cinfo, ComponentInfo_827CA500 *compptr,
                  JSAMPARRAY input_data, JSAMPARRAY *output_data_ptr)
 {
   JSAMPARRAY output_data = *output_data_ptr;

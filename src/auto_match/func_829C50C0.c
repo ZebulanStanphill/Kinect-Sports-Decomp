@@ -30,7 +30,7 @@ extern unsigned int lbl_82056E58;
 
 
 undefined8
-fn_829C50C0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4)
+d3dx_inflate_trees_fixed(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4)
 
 {
   *param_1 = 9;

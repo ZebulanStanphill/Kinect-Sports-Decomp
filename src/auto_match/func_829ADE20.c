@@ -8,12 +8,12 @@ struct Obj {
     ObjVtbl *vtbl;
 };
 
-extern void fn_829B6D10(Obj *o);
+extern void d3dx_jpeg_destroy(Obj *o);
 extern void fn_82A1F2B8(const char *fmt, ...);
 
-void fn_829ADE20(Obj *o)
+void d3dx_error_exit(Obj *o)
 {
     o->vtbl->fn8(o);
-    fn_829B6D10(o);
+    d3dx_jpeg_destroy(o);
     fn_82A1F2B8("[XAPI RETURN VALUE] 1\n");
 }

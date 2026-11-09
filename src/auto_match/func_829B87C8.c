@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C2180();
+extern int d3dx_inflate_blocks_reset();
 
 
-int fn_829B87C8(unsigned int param_1)
+int d3dx_inflateReset(unsigned int param_1)
 
 {
   uint *puVar1;
@@ -42,7 +42,7 @@ int fn_829B87C8(unsigned int param_1)
     *(undefined4 *)(param_1 + 8) = 0;
     *(undefined4 *)(param_1 + 0x18) = 0;
     *puVar1 = puVar1[3] != 0 ? 7 : 0;
-    fn_829C2180(*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x14),param_1,0);
+    d3dx_inflate_blocks_reset(*(undefined4 *)(*(int *)(param_1 + 0x1c) + 0x14),param_1,0);
     return 0;
   }
   return (int)uVar2;

@@ -24,7 +24,7 @@ typedef struct Vba {
     boolean b_s_open;
 } Vba;
 extern void fn_829B6388(j_common_ptr, Vba *, boolean);
-extern void fn_829B7828(void *, unsigned int);
+extern void d3dx_jzero_far(void *, unsigned int);
 
 void **fn_829B6658(j_common_ptr cinfo, Vba *ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable)
 {
@@ -69,7 +69,7 @@ void **fn_829B6658(j_common_ptr cinfo, Vba *ptr, JDIMENSION start_row, JDIMENSIO
       undef_row -= ptr->cur_start_row;
       end_row -= ptr->cur_start_row;
       while (undef_row < end_row) {
-        fn_829B7828(ptr->mem_buffer[undef_row], bytesperrow);
+        d3dx_jzero_far(ptr->mem_buffer[undef_row], bytesperrow);
         undef_row++;
       }
     } else {

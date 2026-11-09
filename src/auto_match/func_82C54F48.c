@@ -28,7 +28,7 @@ extern int fn_82BA02A8(unsigned, void *);
 extern int fn_82C53970(unsigned);
 extern int fn_82C563B0(unsigned, unsigned);
 extern int fn_82CBBD70(void *);
-extern int fn_82F641F8(void *);
+extern int free(void *);
 extern void *memset(void *, int, unsigned);
 
 typedef struct { unsigned *data; unsigned cap; unsigned n; } Stk_82C54F48;
@@ -90,6 +90,6 @@ void fn_82C54F48(Obj_82C54F48 *p)
       p->f0 = 0;
     }
     fn_82BA02A8(p->ctx + 8, p);
-    fn_82F641F8(p);
+    free(p);
   }
 }

@@ -1,14 +1,14 @@
 extern void fn_829AB0F0(void *, const char *);
-extern void fn_829AF1A8(void *, unsigned char *);
-extern void fn_829AF1E8(void *, unsigned char *);
-extern void fn_829AF4C8(void *, unsigned char *);
-extern void fn_829AF638(void *, unsigned char *, void *);
-extern void fn_829AF870(void *, unsigned char *);
+extern void png_do_swap(void *, unsigned char *);
+extern void png_do_bgr(void *, unsigned char *);
+extern void png_do_unpack(void *, unsigned char *);
+extern void png_do_unshift(void *, unsigned char *, void *);
+extern void png_do_chop(void *, unsigned char *);
 extern void fn_829AF8C8(void *, unsigned char *, unsigned short, unsigned int);
-extern void fn_829AFB90(void *, unsigned char *, unsigned int, unsigned int, unsigned int);
-extern void fn_829AFFF0(void *, unsigned char *, unsigned int, unsigned int, unsigned short);
-extern void fn_829B0290(void *, unsigned char *, void *);
-extern void fn_829B0738(void *, unsigned char *, unsigned int, unsigned int);
+extern void png_do_gamma(void *, unsigned char *, unsigned int, unsigned int, unsigned int);
+extern void png_do_expand_palette(void *, unsigned char *, unsigned int, unsigned int, unsigned short);
+extern void png_do_expand(void *, unsigned char *, void *);
+extern void png_do_dither(void *, unsigned char *, unsigned int, unsigned int);
 
 typedef struct RowInfo_829B0D78 {
     unsigned int width;
@@ -53,39 +53,39 @@ void fn_829B0D78(Png_829B0D78 *p)
     }
     if (p->transformations & 0x1000) {
         if (p->row_info.color_type == 3) {
-            fn_829AFFF0(&p->row_info, p->row_buf + 1, p->f604, p->f65c, p->num_trans);
+            png_do_expand_palette(&p->row_info, p->row_buf + 1, p->f604, p->f65c, p->num_trans);
         } else {
             if (p->num_trans != 0)
-                fn_829B0290(&p->row_info, p->row_buf + 1, p->c660);
+                png_do_expand(&p->row_info, p->row_buf + 1, p->c660);
             else
-                fn_829B0290(&p->row_info, p->row_buf + 1, 0);
+                png_do_expand(&p->row_info, p->row_buf + 1, 0);
         }
     }
     if ((p->transformations & 0x2000) && p->c616 != 3) {
-        fn_829AFB90(&p->row_info, p->row_buf + 1, p->f638, p->f644, p->f62c);
+        png_do_gamma(&p->row_info, p->row_buf + 1, p->f638, p->f644, p->f62c);
     }
     if (p->transformations & 0x400) {
-        fn_829AF870(&p->row_info, p->row_buf + 1);
+        png_do_chop(&p->row_info, p->row_buf + 1);
     }
     if (p->transformations & 0x40) {
-        fn_829B0738(&p->row_info, p->row_buf + 1, p->f674, p->f678);
+        png_do_dither(&p->row_info, p->row_buf + 1, p->f674, p->f678);
         if (p->row_info.rowbytes == 0) {
             fn_829AB0F0(p, "png_do_dither returned rowbytes=0");
         }
     }
     if (p->transformations & 8) {
-        fn_829AF638(&p->row_info, p->row_buf + 1, p->c655);
+        png_do_unshift(&p->row_info, p->row_buf + 1, p->c655);
     }
     if (p->transformations & 4) {
-        fn_829AF4C8(&p->row_info, p->row_buf + 1);
+        png_do_unpack(&p->row_info, p->row_buf + 1);
     }
     if (p->transformations & 1) {
-        fn_829AF1E8(&p->row_info, p->row_buf + 1);
+        png_do_bgr(&p->row_info, p->row_buf + 1);
     }
     if (p->transformations & 0x8000) {
         fn_829AF8C8(&p->row_info, p->row_buf + 1, p->s61e, p->f55c);
     }
     if (p->transformations & 0x10) {
-        fn_829AF1A8(&p->row_info, p->row_buf + 1);
+        png_do_swap(&p->row_info, p->row_buf + 1);
     }
 }

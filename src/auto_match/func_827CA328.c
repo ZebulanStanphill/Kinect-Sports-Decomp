@@ -361,7 +361,7 @@ struct jpeg_color_quantizer {
 };
 
 void
-fn_827CA328 (j_decompress_ptr cinfo, jpeg_component_info * compptr,
+h2v1_upsample (j_decompress_ptr cinfo, jpeg_component_info * compptr,
 	       JSAMPARRAY input_data, JSAMPARRAY * output_data_ptr)
 {
   JSAMPARRAY output_data = *output_data_ptr;

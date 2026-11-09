@@ -26,10 +26,10 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63C78();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F64818();
 extern int fn_82F664B0();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int fn_82F71CD0();
 extern int fn_82F78020();
 extern unsigned int iStack00000014;
@@ -65,11 +65,11 @@ undefined4 fn_82F646C8(int param_1,int param_2)
     }
     fn_82F71CD0(0xe);
     if ((*(int *)(param_1 + 4) == 0) &&
-       (puVar4 = (undefined4 *)fn_82F68BF0(8), puVar4 != (undefined4 *)0x0)) {
-      uVar2 = fn_82F68BF0(pcVar6 + 1);
+       (puVar4 = (undefined4 *)malloc(8), puVar4 != (undefined4 *)0x0)) {
+      uVar2 = malloc(pcVar6 + 1);
       *(int *)(param_1 + 4) = (int)uVar2;
       if ((uVar2 & 0xffffffff) == 0) {
-        fn_82F641F8(puVar4);
+        free(puVar4);
       }
       else {
         iVar5 = fn_82F664B0(uVar2,pcVar6 + 1,pcVar3);
@@ -82,7 +82,7 @@ undefined4 fn_82F646C8(int param_1,int param_2)
         *(undefined4 **)(param_2 + 4) = puVar4;
       }
     }
-    fn_82F641F8(pcVar3);
+    free(pcVar3);
     fn_82F64818();
   }
   return *(undefined4 *)(param_1 + 4);

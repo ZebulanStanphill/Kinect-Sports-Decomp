@@ -21,7 +21,7 @@ typedef struct z_stream_s {
     deflate_state *state;
 } z_stream;
 
-void fn_82F89D68(z_stream *strm)
+void flush_pending(z_stream *strm)
 {
     unsigned len = strm->state->pending;
 

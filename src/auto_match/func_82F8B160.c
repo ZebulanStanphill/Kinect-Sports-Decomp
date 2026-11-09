@@ -157,22 +157,22 @@ typedef struct internal_state {
     int bi_valid;
 
 }  deflate_state;
-void fn_82F8D808  (deflate_state *s, charf *buf, ulg stored_len, int eof);
-extern const uch lbl_8216B490[];
-extern const uch lbl_8216B290[];
+void _tr_flush_block  (deflate_state *s, charf *buf, ulg stored_len, int eof);
+extern const uch _length_code[];
+extern const uch _dist_code[];
 typedef enum {
     need_more,
     block_done,
     finish_started,
     finish_done
 } block_state;
-void fn_82F8AD98    (deflate_state *s);
-void fn_82F89D68  (z_streamp strm);
-uInt fn_82F8AAE8  (deflate_state *s, IPos cur_match);
-uInt fn_82F8ACA0 (deflate_state *s, IPos cur_match);
+void fill_window    (deflate_state *s);
+void flush_pending  (z_streamp strm);
+uInt longest_match  (deflate_state *s, IPos cur_match);
+uInt longest_match_fast (deflate_state *s, IPos cur_match);
 struct static_tree_desc_s {int dummy;};
 
-block_state fn_82F8B160(s, flush)
+block_state deflate_fast(s, flush)
     deflate_state *s;
     int flush;
 {
@@ -182,7 +182,7 @@ block_state fn_82F8B160(s, flush)
     for (;;) {
 
         if (s->lookahead < (258+3+1)) {
-            fn_82F8AD98(s);
+            fill_window(s);
             if (s->lookahead < (258+3+1) && flush == 0) {
                 return need_more;
             }
@@ -196,16 +196,16 @@ block_state fn_82F8B160(s, flush)
         if (hash_head != 0 && s->strstart - hash_head <= ((s)->w_size-(258+3+1))) {
 
             if (s->strategy != 2 && s->strategy != 3) {
-                s->match_length = fn_82F8AAE8 (s, hash_head);
+                s->match_length = longest_match (s, hash_head);
             } else if (s->strategy == 3 && s->strstart - hash_head == 1) {
-                s->match_length = fn_82F8ACA0 (s, hash_head);
+                s->match_length = longest_match_fast (s, hash_head);
             }
 
         }
         if (s->match_length >= 3) {
             ;
 
-            { uch len = (s->match_length - 3); ush dist = (s->strstart - s->match_start); s->d_buf[s->last_lit] = dist; s->l_buf[s->last_lit++] = len; dist--; s->dyn_ltree[lbl_8216B490[len]+256+1].fc.freq++; s->dyn_dtree[((dist) < 256 ? lbl_8216B290[dist] : lbl_8216B290[256+((dist)>>7)])].fc.freq++; bflush = (s->last_lit == s->lit_bufsize-1); };
+            { uch len = (s->match_length - 3); ush dist = (s->strstart - s->match_start); s->d_buf[s->last_lit] = dist; s->l_buf[s->last_lit++] = len; dist--; s->dyn_ltree[_length_code[len]+256+1].fc.freq++; s->dyn_dtree[((dist) < 256 ? _dist_code[dist] : _dist_code[256+((dist)>>7)])].fc.freq++; bflush = (s->last_lit == s->lit_bufsize-1); };
 
             s->lookahead -= s->match_length;
 
@@ -233,8 +233,8 @@ block_state fn_82F8B160(s, flush)
             s->lookahead--;
             s->strstart++;
         }
-        if (bflush) { { fn_82F8D808(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (0)); s->block_start = s->strstart; fn_82F89D68(s->strm); ; }; if (s->strm->avail_out == 0) return (0) ? finish_started : need_more; };
+        if (bflush) { { _tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (0)); s->block_start = s->strstart; flush_pending(s->strm); ; }; if (s->strm->avail_out == 0) return (0) ? finish_started : need_more; };
     }
-    { { fn_82F8D808(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (flush == 4)); s->block_start = s->strstart; fn_82F89D68(s->strm); ; }; if (s->strm->avail_out == 0) return (flush == 4) ? finish_started : need_more; };
+    { { _tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (flush == 4)); s->block_start = s->strstart; flush_pending(s->strm); ; }; if (s->strm->avail_out == 0) return (flush == 4) ? finish_started : need_more; };
     return flush == 4 ? finish_done : block_done;
 }

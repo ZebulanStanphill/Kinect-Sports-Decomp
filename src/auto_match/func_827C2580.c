@@ -25,22 +25,22 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1F78();
-extern int fn_827C2220();
-extern int fn_827C2460();
+extern int master_selection();
+extern int prepare_for_output_pass();
+extern int finish_output_pass();
 
 
-void fn_827C2580(int param_1)
+void jinit_master_decompress(int param_1)
 
 {
   undefined4 *puVar1;
   
   puVar1 = (undefined4 *)(*(code *)*(int *)(param_1 + 4))(param_1,1,0x1c);
   *(undefined4 **)(param_1 + 0x180) = puVar1;
-  *puVar1 = fn_827C2220;
-  puVar1[1] = fn_827C2460;
+  *puVar1 = prepare_for_output_pass;
+  puVar1[1] = finish_output_pass;
   *(undefined1 *)(puVar1 + 2) = 0;
-  fn_827C1F78(param_1);
+  master_selection(param_1);
   return;
 }
 

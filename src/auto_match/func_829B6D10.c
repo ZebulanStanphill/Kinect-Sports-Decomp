@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829B6D10(int param_1)
+void d3dx_jpeg_destroy(int param_1)
 
 {
   if (*(unsigned int *)(param_1 + 4) != 0) {

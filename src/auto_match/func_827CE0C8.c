@@ -27,11 +27,11 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_827CDA40();
 extern int fn_827CDA90();
-extern int fn_827CDCE0();
-extern int fn_827CDEB0();
+extern int compress_output();
+extern int compress_first_pass();
 
 
-void fn_827CE0C8(int param_1,int param_2)
+void start_pass_coef(int param_1,int param_2)
 
 {
   int iVar1;
@@ -53,7 +53,7 @@ void fn_827CE0C8(int param_1,int param_2)
       *(undefined4 *)(*piVar2 + 0x14) = 4;
       (**(code **)*piVar2)();
     }
-    pcVar3 = fn_827CDCE0;
+    pcVar3 = compress_output;
   }
   else {
     if (param_2 != 3) {
@@ -65,7 +65,7 @@ void fn_827CE0C8(int param_1,int param_2)
       *(undefined4 *)(*piVar2 + 0x14) = 4;
       (**(code **)*piVar2)();
     }
-    pcVar3 = fn_827CDEB0;
+    pcVar3 = compress_first_pass;
   }
   *(code **)(iVar1 + 4) = pcVar3;
   return;

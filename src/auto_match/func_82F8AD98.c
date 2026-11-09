@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827D4370();
-extern int fn_827D4EF8();
+extern int adler32();
+extern int crc32();
 extern int fn_82F68CC0();
 
 
-void fn_82F8AD98(int *param_1)
+void fill_window(int *param_1)
 
 {
   uint uVar1;
@@ -100,12 +100,12 @@ void fn_82F8AD98(int *param_1)
       iVar6 = (int)uVar11;
       piVar2[1] = uVar5 - iVar6;
       if (*(int *)(piVar2[7] + 0x18) == 1) {
-        iVar7 = fn_827D4370(piVar2[0xc],*piVar2,uVar11);
+        iVar7 = adler32(piVar2[0xc],*piVar2,uVar11);
 LAB_82f8aef8:
         piVar2[0xc] = iVar7;
       }
       else if (*(int *)(piVar2[7] + 0x18) == 2) {
-        iVar7 = fn_827D4EF8(piVar2[0xc],*piVar2,uVar11);
+        iVar7 = crc32(piVar2[0xc],*piVar2,uVar11);
         goto LAB_82f8aef8;
       }
       fn_82F68CC0((ulonglong)uVar8 + (ulonglong)uVar3 + (ulonglong)uVar4,*piVar2,uVar11);

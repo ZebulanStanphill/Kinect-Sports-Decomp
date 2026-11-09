@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F641F8();
+extern int free();
 extern unsigned int lbl_8329F620;
 
 
@@ -46,7 +46,7 @@ void fn_82F7F2A0(void)
           uVar2 = uVar2 + 0x48;
         } while (uVar2 < uVar1 + 0x900);
       }
-      fn_82F641F8();
+      free();
       *puVar3 = 0;
     }
     puVar3 = puVar3 + 1;

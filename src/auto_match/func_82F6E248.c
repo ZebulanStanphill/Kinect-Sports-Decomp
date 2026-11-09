@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63BA0();
 extern int fn_82F68240();
-extern int fn_82F68BF0();
+extern int malloc();
 
 
 uint fn_82F6E248(uint param_1,uint param_2)
@@ -47,7 +47,7 @@ uint fn_82F6E248(uint param_1,uint param_2)
       *puVar1 = 0xc;
       return 0;
     }
-    iVar2 = fn_82F68BF0(uVar3);
+    iVar2 = malloc(uVar3);
     if (iVar2 != 0) {
       uVar3 = iVar2 + param_2 + 3 & ~(param_2 - 1);
       *(int *)(uVar3 - 4) = iVar2;

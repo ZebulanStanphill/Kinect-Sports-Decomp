@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_828252D8();
-extern int fn_82F641F8();
+extern int free();
 
 
 void fn_8282BDD0(int param_1)
@@ -54,7 +54,7 @@ void fn_8282BDD0(int param_1)
   if (*(unsigned int *)(param_1 + 300) != 0) {
     fn_828252D8(*(unsigned int *)(param_1 + 300));
   }
-  fn_82F641F8(*(undefined4 *)(param_1 + 0xcc));
+  free(*(undefined4 *)(param_1 + 0xcc));
   piVar4 = (unsigned int *)(param_1 + 0xb8);
   lVar1 = 3;
   do {

@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_829AB0F0();
-extern int fn_829AB128();
+extern int png_warning();
 extern int fn_829AB250();
-extern int fn_829AB308();
-extern int fn_829AE220();
-extern int fn_829B0F38();
+extern int png_calculate_crc();
+extern int png_set_PLTE();
+extern int png_read_data();
 extern int fn_829B9B60();
 extern unsigned int uStack_3e;
 extern unsigned int uStack_3f;
@@ -76,8 +76,8 @@ LAB_829b9f90:
       puVar6 = (undefined1 *)(iVar3 + -1);
       lVar5 = lVar7;
       do {
-        fn_829B0F38(param_1,&uStack_40,3);
-        fn_829AB308(param_1,&uStack_40,3);
+        png_read_data(param_1,&uStack_40,3);
+        png_calculate_crc(param_1,&uStack_40,3);
         lVar5 = lVar5 + -1;
         puVar6[1] = uStack_40;
         puVar6[2] = uStack_3f;
@@ -88,11 +88,11 @@ LAB_829b9f90:
     fn_829B9B60(param_1,0);
     *(int *)(param_1 + 0x604) = iVar3;
     *(short *)(param_1 + 0x608) = (short)iVar1;
-    fn_829AE220(param_1,param_2,iVar3,lVar7);
+    png_set_PLTE(param_1,param_2,iVar3,lVar7);
     if ((((*(char *)(param_1 + 0x616) == '\x03') && (param_2 != 0)) &&
         ((*(uint *)(param_2 + 8) & 0x10) != 0)) &&
        (*(ushort *)(param_1 + 0x608) < *(ushort *)(param_1 + 0x60a))) {
-      fn_829AB128(param_1,0xffffffff82054d1c);
+      png_warning(param_1,0xffffffff82054d1c);
       *(undefined2 *)(param_1 + 0x60a) = *(undefined2 *)(param_1 + 0x608);
     }
   }
@@ -106,7 +106,7 @@ LAB_829b9f90:
     }
     uVar4 = 0xffffffff82054d74;
 LAB_829b9f64:
-    fn_829AB128(param_1,uVar4);
+    png_warning(param_1,uVar4);
     fn_829B9B60(param_1,param_3);
   }
   return;

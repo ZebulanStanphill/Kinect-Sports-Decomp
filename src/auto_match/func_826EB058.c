@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BFFF8();
+extern int jpeg_write_coefficients();
 
 
 void fn_826EB058(longlong param_1)
 
 {
-  fn_827BFFF8(param_1 + 8);
+  jpeg_write_coefficients(param_1 + 8);
   return;
 }

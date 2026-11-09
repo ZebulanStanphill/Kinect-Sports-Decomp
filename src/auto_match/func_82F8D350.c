@@ -55,7 +55,7 @@ static __forceinline void copy_block(deflate_state_82F8D350 *s, Byte *buf, unsig
     }
 }
 
-void fn_82F8D350(deflate_state_82F8D350 *s, Byte *buf, ulg stored_len, int last)
+void _tr_stored_block(deflate_state_82F8D350 *s, Byte *buf, ulg stored_len, int last)
 {
     send_bits(s, (0 << 1) + last, 3);
     copy_block(s, buf, (unsigned)stored_len, 1);

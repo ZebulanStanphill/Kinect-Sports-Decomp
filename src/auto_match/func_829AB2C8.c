@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B5140();
+extern int d3dx_crc32();
 
 
 void fn_829AB2C8(int param_1)
@@ -33,7 +33,7 @@ void fn_829AB2C8(int param_1)
 {
   undefined4 uVar1;
   
-  uVar1 = fn_829B5140(0,0,0);
+  uVar1 = d3dx_crc32(0,0,0);
   *(undefined4 *)(param_1 + 0x600) = uVar1;
   return;
 }

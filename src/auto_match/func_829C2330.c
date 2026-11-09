@@ -44,13 +44,13 @@ struct inflate_huft_s {
   uInt base;
 
 };
-extern int fn_829C4E20 ( uIntf *, uIntf *, inflate_huft *  *, inflate_huft *, z_streamp);
-extern int fn_829C4F00 ( uInt, uInt, uIntf *, uIntf *, uIntf *, inflate_huft *  *, inflate_huft *  *, inflate_huft *, z_streamp);
-extern int fn_829C50C0 ( uIntf *, uIntf *, inflate_huft *  *, inflate_huft *  *, z_streamp);
+extern int d3dx_inflate_trees_bits ( uIntf *, uIntf *, inflate_huft *  *, inflate_huft *, z_streamp);
+extern int d3dx_inflate_trees_dynamic ( uInt, uInt, uIntf *, uIntf *, uIntf *, inflate_huft *  *, inflate_huft *  *, inflate_huft *, z_streamp);
+extern int d3dx_inflate_trees_fixed ( uIntf *, uIntf *, inflate_huft *  *, inflate_huft *  *, z_streamp);
 typedef struct inflate_codes_state  inflate_codes_statef;
-extern inflate_codes_statef *fn_829C42D8 ( uInt, uInt, inflate_huft *, inflate_huft *, z_streamp );
-extern int fn_829C4338 ( inflate_blocks_statef *, z_streamp , int);
-extern void fn_829C4968 ( inflate_codes_statef *, z_streamp );
+extern inflate_codes_statef *d3dx_inflate_codes_new ( uInt, uInt, inflate_huft *, inflate_huft *, z_streamp );
+extern int d3dx_inflate_codes ( inflate_blocks_statef *, z_streamp , int);
+extern void d3dx_inflate_codes_free ( inflate_codes_statef *, z_streamp );
 typedef enum {
       TYPE,
       LENS,
@@ -94,13 +94,13 @@ struct inflate_blocks_state {
   uLong check;
 
 };
-extern uInt lbl_82057048[17];
-extern int fn_829C50F0 ( inflate_blocks_statef *, z_streamp , int);
+extern uInt d3dx_inflate_mask[17];
+extern int d3dx_inflate_flush ( inflate_blocks_statef *, z_streamp , int);
 struct internal_state      {int dummy;};
 struct inflate_codes_state {int dummy;};
-extern const uInt lbl_82055BE8[];
+extern const uInt d3dx_border[];
 
-int fn_829C2330(s, z, r)
+int d3dx_inflate_blocks(s, z, r)
 inflate_blocks_statef *s;
 z_streamp z;
 int r;
@@ -118,7 +118,7 @@ int r;
   while (1) switch (s->mode)
   {
     case TYPE:
-      {while(k<(3)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+      {while(k<(3)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
       t = (uInt)b & 7;
       s->last = t & 1;
       switch (t >> 1)
@@ -136,12 +136,12 @@ int r;
             uInt bl, bd;
             inflate_huft *tl, *td;
 
-            fn_829C50C0(&bl, &bd, &tl, &td, z);
-            s->sub.decode.codes = fn_829C42D8(bl, bd, tl, td, z);
+            d3dx_inflate_trees_fixed(&bl, &bd, &tl, &td, z);
+            s->sub.decode.codes = d3dx_inflate_codes_new(bl, bd, tl, td, z);
             if (s->sub.decode.codes == 0)
             {
               r = (-4);
-              {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+              {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
             }
           }
           {b>>=(3);k-=(3);}
@@ -157,17 +157,17 @@ int r;
           s->mode = BAD;
           z->msg = (char*)"invalid block type";
           r = (-3);
-          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       }
       break;
     case LENS:
-      {while(k<(32)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+      {while(k<(32)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
       if ((((~b) >> 16) & 0xffff) != (b & 0xffff))
       {
         s->mode = BAD;
         z->msg = (char*)"invalid stored block lengths";
         r = (-3);
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       }
       s->sub.left = (uInt)b & 0xffff;
       b = k = 0;
@@ -176,8 +176,8 @@ int r;
       break;
     case STORED:
       if (n == 0)
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
-      {if(m==0){{if(q==s->end&&s->read!=s->window){q=s->window;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} if(m==0){{{s->write=q;} r=fn_829C50F0(s,z,r); {q=s->write;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} {if(q==s->end&&s->read!=s->window){q=s->window;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} if(m==0) {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}}}r=0;}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
+      {if(m==0){{if(q==s->end&&s->read!=s->window){q=s->window;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} if(m==0){{{s->write=q;} r=d3dx_inflate_flush(s,z,r); {q=s->write;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} {if(q==s->end&&s->read!=s->window){q=s->window;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}} if(m==0) {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}}}r=0;}
       t = s->sub.left;
       if (t > n) t = n;
       if (t > m) t = m;
@@ -190,7 +190,7 @@ int r;
       s->mode = s->last ? DRY : TYPE;
       break;
     case TABLE:
-      {while(k<(14)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+      {while(k<(14)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
       s->sub.trees.table = t = (uInt)b & 0x3fff;
 
       if ((t & 0x1f) > 29 || ((t >> 5) & 0x1f) > 29)
@@ -198,13 +198,13 @@ int r;
         s->mode = BAD;
         z->msg = (char*)"too many length or distance symbols";
         r = (-3);
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       }
       t = 258 + (t & 0x1f) + ((t >> 5) & 0x1f);
       if ((s->sub.trees.blens = (uIntf*)(*((z)->zalloc))((z)->opaque, (t), (sizeof(uInt)))) == 0)
       {
         r = (-4);
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       }
       {b>>=(14);k-=(14);}
       s->sub.trees.index = 0;
@@ -213,14 +213,14 @@ int r;
     case BTREE:
       while (s->sub.trees.index < 4 + (s->sub.trees.table >> 10))
       {
-        {while(k<(3)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
-        s->sub.trees.blens[lbl_82055BE8[s->sub.trees.index++]] = (uInt)b & 7;
+        {while(k<(3)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+        s->sub.trees.blens[d3dx_border[s->sub.trees.index++]] = (uInt)b & 7;
         {b>>=(3);k-=(3);}
       }
       while (s->sub.trees.index < 19)
-        s->sub.trees.blens[lbl_82055BE8[s->sub.trees.index++]] = 0;
+        s->sub.trees.blens[d3dx_border[s->sub.trees.index++]] = 0;
       s->sub.trees.bb = 7;
-      t = fn_829C4E20(s->sub.trees.blens, &s->sub.trees.bb,
+      t = d3dx_inflate_trees_bits(s->sub.trees.blens, &s->sub.trees.bb,
                              &s->sub.trees.tb, s->hufts, z);
       if (t != 0)
       {
@@ -230,7 +230,7 @@ int r;
           (*((z)->zfree))((z)->opaque, (voidpf)(s->sub.trees.blens));
           s->mode = BAD;
         }
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       }
       s->sub.trees.index = 0;
       ;
@@ -243,8 +243,8 @@ int r;
         uInt i, j, c;
 
         t = s->sub.trees.bb;
-        {while(k<(t)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
-        h = s->sub.trees.tb + ((uInt)b & lbl_82057048[t]);
+        {while(k<(t)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+        h = s->sub.trees.tb + ((uInt)b & d3dx_inflate_mask[t]);
         t = h->word.what.Bits;
         c = h->base;
         if (c < 16)
@@ -256,9 +256,9 @@ int r;
         {
           i = c == 18 ? 7 : c - 14;
           j = c == 18 ? 11 : 3;
-          {while(k<(t + i)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
+          {while(k<(t + i)){{if(n)r=0;else {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}};b|=((uLong)(n--,*p++))<<k;k+=8;}}
           {b>>=(t);k-=(t);}
-          j += (uInt)b & lbl_82057048[i];
+          j += (uInt)b & d3dx_inflate_mask[i];
           {b>>=(i);k-=(i);}
           i = s->sub.trees.index;
           t = s->sub.trees.table;
@@ -269,7 +269,7 @@ int r;
             s->mode = BAD;
             z->msg = (char*)"invalid bit length repeat";
             r = (-3);
-            {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+            {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
           }
           c = c == 16 ? s->sub.trees.blens[i - 1] : 0;
           do {
@@ -287,7 +287,7 @@ int r;
         bl = 9;
         bd = 6;
         t = s->sub.trees.table;
-        t = fn_829C4F00(257 + (t & 0x1f), 1 + ((t >> 5) & 0x1f),
+        t = d3dx_inflate_trees_dynamic(257 + (t & 0x1f), 1 + ((t >> 5) & 0x1f),
                                   s->sub.trees.blens, &bl, &bd, &tl, &td,
                                   s->hufts, z);
         if (t != 0)
@@ -298,13 +298,13 @@ int r;
             s->mode = BAD;
           }
           r = t;
-          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
         }
         ;
-        if ((c = fn_829C42D8(bl, bd, tl, td, z)) == 0)
+        if ((c = d3dx_inflate_codes_new(bl, bd, tl, td, z)) == 0)
         {
           r = (-4);
-          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+          {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
         }
         s->sub.decode.codes = c;
       }
@@ -312,10 +312,10 @@ int r;
       s->mode = CODES;
     case CODES:
       {{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}}
-      if ((r = fn_829C4338(s, z, r)) != 1)
-        return fn_829C50F0(s, z, r);
+      if ((r = d3dx_inflate_codes(s, z, r)) != 1)
+        return d3dx_inflate_flush(s, z, r);
       r = 0;
-      fn_829C4968(s->sub.decode.codes, z);
+      d3dx_inflate_codes_free(s->sub.decode.codes, z);
       {{p=z->next_in;n=z->avail_in;b=s->bitb;k=s->bitk;} {q=s->write;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}}
       ;
       if (!s->last)
@@ -325,18 +325,18 @@ int r;
       }
       s->mode = DRY;
     case DRY:
-      {{s->write=q;} r=fn_829C50F0(s,z,r); {q=s->write;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}}
+      {{s->write=q;} r=d3dx_inflate_flush(s,z,r); {q=s->write;m=(uInt)(uInt)(q<s->read?s->read-q-1:s->end-q);}}
       if (s->read != s->write)
-        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+        {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
       s->mode = DONE;
     case DONE:
       r = 1;
-      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
     case BAD:
       r = (-3);
-      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
     default:
       r = (-2);
-      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return fn_829C50F0(s,z,r);}
+      {{{s->bitb=b;s->bitk=k;} {z->avail_in=n;z->total_in+=p-z->next_in;z->next_in=p;} {s->write=q;}} return d3dx_inflate_flush(s,z,r);}
   }
 }

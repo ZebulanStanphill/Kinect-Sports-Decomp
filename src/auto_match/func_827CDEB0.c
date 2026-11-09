@@ -288,7 +288,7 @@ struct jpeg_marker_writer {
   void (*write_marker_header) (j_compress_ptr cinfo, int marker, unsigned int datalen);
   void (*write_marker_byte) (j_compress_ptr cinfo, int val);
 };
-extern void fn_827C1B68 (void  * target, size_t bytestozero);
+extern void jzero_far (void  * target, size_t bytestozero);
 typedef struct {
   struct jpeg_c_coef_controller pub;
 
@@ -302,11 +302,11 @@ typedef struct {
   jvirt_barray_ptr whole_image[10];
 } my_coef_controller;
 typedef my_coef_controller * my_coef_ptr;
-boolean fn_827CDCE0
+boolean compress_output
     (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
 
 boolean
-fn_827CDEB0 (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
+compress_first_pass (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 {
   my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
   JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
@@ -348,7 +348,7 @@ fn_827CDEB0 (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
       if (ndummy > 0) {
 
 	thisblockrow += blocks_across;
-	fn_827C1B68((void  *) thisblockrow, ndummy * ((size_t) sizeof(JBLOCK)));
+	jzero_far((void  *) thisblockrow, ndummy * ((size_t) sizeof(JBLOCK)));
 	lastDC = thisblockrow[-1][0];
 	for (bi = 0; bi < ndummy; bi++) {
 	  thisblockrow[bi][0] = lastDC;
@@ -363,7 +363,7 @@ fn_827CDEB0 (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 	   block_row++) {
 	thisblockrow = buffer[block_row];
 	lastblockrow = buffer[block_row-1];
-	fn_827C1B68((void  *) thisblockrow,
+	jzero_far((void  *) thisblockrow,
 		  (size_t) (blocks_across * ((size_t) sizeof(JBLOCK))));
 	for (MCUindex = 0; MCUindex < MCUs_across; MCUindex++) {
 	  lastDC = lastblockrow[h_samp_factor-1][0];
@@ -377,5 +377,5 @@ fn_827CDEB0 (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
     }
   }
 
-  return fn_827CDCE0(cinfo, input_buf);
+  return compress_output(cinfo, input_buf);
 }

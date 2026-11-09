@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
-extern int fn_82F8BF60();
-extern int fn_82F8C050();
+extern int pqdownheap();
+extern int gen_bitlen();
 
 
-void fn_82F8D088(int param_1,undefined4 *param_2)
+void build_tree(int param_1,undefined4 *param_2)
 
 {
   int iVar1;
@@ -105,7 +105,7 @@ void fn_82F8D088(int param_1,undefined4 *param_2)
   uVar13 = *(uint *)(param_1 + 0x1450);
   for (lVar17 = (longlong)((int)uVar13 >> 1) + (ulonglong)((int)uVar13 < 0 && (uVar13 & 1) != 0);
       0 < (int)lVar17; lVar17 = lVar17 + -1) {
-    param_1 = fn_82F8BF60(param_1,puVar18,lVar17);
+    param_1 = pqdownheap(param_1,puVar18,lVar17);
   }
   iVar1 = param_1 + 0x1458;
   puVar9 = puVar18 + iVar7 * 2;
@@ -114,7 +114,7 @@ void fn_82F8D088(int param_1,undefined4 *param_2)
     uVar3 = *(undefined4 *)((*(int *)(param_1 + 0x1450) + 0x2d7) * 4 + param_1);
     *(int *)(param_1 + 0x1450) = *(int *)(param_1 + 0x1450) + -1;
     *(undefined4 *)(param_1 + 0xb60) = uVar3;
-    iVar6 = fn_82F8BF60(param_1,puVar18,1);
+    iVar6 = pqdownheap(param_1,puVar18,1);
     iVar12 = *(int *)(iVar6 + 0xb60);
     iVar2 = *(int *)(iVar6 + 0x1454);
     *(int *)(iVar6 + 0x1454) = iVar2 + -1;
@@ -133,12 +133,12 @@ void fn_82F8D088(int param_1,undefined4 *param_2)
     puVar9 = puVar9 + 2;
     *(int *)(iVar6 + 0xb60) = iVar7;
     iVar7 = iVar7 + 1;
-    param_1 = fn_82F8BF60(iVar6,puVar18,1);
+    param_1 = pqdownheap(iVar6,puVar18,1);
   } while (1 < *(int *)(param_1 + 0x1450));
   iVar7 = *(int *)(param_1 + 0x1454);
   *(int *)(param_1 + 0x1454) = iVar7 + -1;
   *(undefined4 *)((iVar7 + 0x2d6) * 4 + param_1) = *(undefined4 *)(param_1 + 0xb60);
-  iVar7 = fn_82F8C050(param_1,param_2);
+  iVar7 = gen_bitlen(param_1,param_2);
   uVar14 = 0;
   puVar9 = auStack_70;
   psVar10 = (short *)(iVar7 + 0xb3a);

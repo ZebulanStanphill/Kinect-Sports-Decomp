@@ -30,8 +30,8 @@ extern int fn_828223C8();
 extern int fn_82822F60();
 extern int fn_828252E8();
 extern int fn_82F678C8();
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 extern unsigned int iStack_48;
 extern unsigned int uStack_40;
 
@@ -59,8 +59,8 @@ undefined8 fn_8282FCF0(undefined8 param_1,int param_2)
     do {
       iVar2 = fn_82F678C8(aiStack_50,0x14,1,param_1);
       if (iVar2 != 1) {
-        lVar1 = fn_82F6AB08();
-        fn_82F6CE40(lVar1 + 0x40,0xffffffff8201ef98);
+        lVar1 = __iob_func();
+        fprintf(lVar1 + 0x40,0xffffffff8201ef98);
         return 5;
       }
       if (iVar3 != aiStack_50[0]) {

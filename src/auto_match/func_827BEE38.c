@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 
 
 undefined4 *
-fn_827BEE38(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
+fill_a_scan(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
              undefined4 param_5,undefined4 param_6)
 
 {

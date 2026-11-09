@@ -147,7 +147,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_829C0D10 (s, tree, max_code)
+void d3dx_send_tree (s, tree, max_code)
     deflate_state *s;
     ct_data *tree;
     int max_code;

@@ -158,7 +158,7 @@ typedef struct internal_state {
 }  deflate_state;
 struct static_tree_desc_s {int dummy;};
 
-uInt fn_82F8ACA0(s, cur_match)
+uInt longest_match_fast(s, cur_match)
     deflate_state *s;
     IPos cur_match;
 {

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-int * fn_827BEEA0(int *param_1,longlong param_2,int param_3,int param_4)
+int * fill_dc_scans(int *param_1,longlong param_2,int param_3,int param_4)
 
 {
   int iVar1;

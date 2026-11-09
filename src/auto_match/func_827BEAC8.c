@@ -420,7 +420,7 @@ JWRN_TOO_MUCH_DATA ,
 } J_MESSAGE_CODE;
 
 void
-fn_827BEAC8 (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
+jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
 {
   jpeg_component_info * compptr;
   int ci;

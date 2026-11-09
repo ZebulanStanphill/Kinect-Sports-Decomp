@@ -34,8 +34,8 @@ extern int fn_82C561E8();
 extern int fn_82C56398();
 extern int fn_82CBBD68();
 extern int fn_82CBBD70();
-extern int fn_82F641F8();
-extern int fn_82F68BF0();
+extern int free();
+extern int malloc();
 extern int memset();
 
 
@@ -52,7 +52,7 @@ int * fn_82C55F20(longlong param_1,int param_2,int param_3)
   int *piVar8;
   longlong lVar9;
   
-  piVar2 = (int *)fn_82F68BF0(0x28);
+  piVar2 = (int *)malloc(0x28);
   if (piVar2 != (int *)0x0) {
     piVar7 = piVar2 + -1;
     lVar9 = 10;
@@ -137,7 +137,7 @@ LAB_82c56158:
       }
       fn_82CBBD70(piVar7);
     }
-    fn_82F641F8(piVar2);
+    free(piVar2);
   }
   return (int *)0x0;
 }

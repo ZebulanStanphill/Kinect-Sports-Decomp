@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6C420();
 
 
-void fn_829B0F38(int param_1)
+void png_read_data(int param_1)
 
 {
   if (*(code **)(param_1 + 0x550) != (code *)0x0) {

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82E20270();
 extern int fn_82F67988();
-extern int fn_82F6CE40();
+extern int fprintf();
 
 
 void fn_82E20A98(int param_1)
@@ -38,12 +38,12 @@ void fn_82E20A98(int param_1)
   
   if ((*(char *)(param_1 + 2) == '\0') &&
      (lVar2 = fn_82E20270("UploadControl.dat","w",1), lVar2 != 0)) {
-    fn_82F6CE40(lVar2,"%d\n",*(undefined4 *)(param_1 + 4));
+    fprintf(lVar2,"%d\n",*(undefined4 *)(param_1 + 4));
     for (puVar1 = *(undefined4 **)(param_1 + 0xc); puVar1 != (undefined4 *)0x0;
         puVar1 = (undefined4 *)*puVar1) {
-      fn_82F6CE40(lVar2,"%s\n",puVar1[1]);
-      fn_82F6CE40(lVar2,"%s\n",puVar1[2]);
-      fn_82F6CE40(lVar2,"%s\n",puVar1[3]);
+      fprintf(lVar2,"%s\n",puVar1[1]);
+      fprintf(lVar2,"%s\n",puVar1[2]);
+      fprintf(lVar2,"%s\n",puVar1[3]);
     }
     fn_82F67988(lVar2);
   }

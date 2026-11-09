@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B7788();
+extern int d3dx_jround_up();
 extern int fn_829BE9D0();
 extern int fn_829BE9E8();
 extern int fn_829BEB20();
@@ -148,7 +148,7 @@ LAB_829bf158:
 LAB_829bf20c:
         iVar5 = param_1[1];
         iVar6 = param_1[0x4f];
-        uVar8 = fn_829B7788(param_1[0x1c],param_1[0x4e]);
+        uVar8 = d3dx_jround_up(param_1[0x1c],param_1[0x4e]);
         uVar10 = (**(code **)(iVar5 + 8))(param_1,1,uVar8,iVar6);
         puVar18[-10] = uVar10;
       }

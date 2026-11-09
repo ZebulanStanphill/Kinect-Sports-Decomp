@@ -51,7 +51,7 @@ struct Cinfo_827CA100 {
   Cconvert_827CA100 *cconvert;
 };
 
-void fn_827CA100(Cinfo_827CA100 *cinfo, void ***input_buf, unsigned *in_row_group_ctr,
+void sep_upsample(Cinfo_827CA100 *cinfo, void ***input_buf, unsigned *in_row_group_ctr,
                  unsigned in_row_groups_avail, void **output_buf, unsigned *out_row_ctr,
                  unsigned out_rows_avail)
 {

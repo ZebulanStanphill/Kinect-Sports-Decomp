@@ -28,13 +28,13 @@ struct jvirt_sarray_control {
 };
 typedef struct jvirt_sarray_control *jvirt_sarray_ptr;
 
-extern void fn_827C10A8(j_common_ptr cinfo, jvirt_sarray_ptr ptr, int writing);
-extern void fn_827C1B68(void *target, unsigned int bytestozero);
+extern void do_sarray_io(j_common_ptr cinfo, jvirt_sarray_ptr ptr, int writing);
+extern void jzero_far(void *target, unsigned int bytestozero);
 
 #define ERREXIT(cinfo, code) \
   ((cinfo)->err->msg_code = (code), (*(cinfo)->err->error_exit)(cinfo))
 
-JSAMPARRAY fn_827C1268(j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable)
+JSAMPARRAY access_virt_sarray(j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable)
 {
   JDIMENSION end_row = start_row + num_rows;
   JDIMENSION undef_row;
@@ -46,7 +46,7 @@ JSAMPARRAY fn_827C1268(j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION star
     if (!ptr->b_s_open)
       ERREXIT(cinfo, 0x45);
     if (ptr->dirty) {
-      fn_827C10A8(cinfo, ptr, 1);
+      do_sarray_io(cinfo, ptr, 1);
       ptr->dirty = 0;
     }
     if (start_row > ptr->cur_start_row) {
@@ -59,7 +59,7 @@ JSAMPARRAY fn_827C1268(j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION star
         ltemp = 0;
       ptr->cur_start_row = (JDIMENSION) ltemp;
     }
-    fn_827C10A8(cinfo, ptr, 0);
+    do_sarray_io(cinfo, ptr, 0);
   }
   if (ptr->first_undef_row < end_row) {
     if (ptr->first_undef_row < start_row) {
@@ -76,7 +76,7 @@ JSAMPARRAY fn_827C1268(j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION star
       undef_row -= ptr->cur_start_row;
       end_row -= ptr->cur_start_row;
       while (undef_row < end_row) {
-        fn_827C1B68((void *) ptr->mem_buffer[undef_row], bytesperrow);
+        jzero_far((void *) ptr->mem_buffer[undef_row], bytesperrow);
         undef_row++;
       }
     } else {

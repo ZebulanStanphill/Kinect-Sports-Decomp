@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C4980();
+extern int d3dx_huft_build();
 
 
 undefined8
-fn_829C4E20(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_4,int param_5)
+d3dx_inflate_trees_bits(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_4,int param_5)
 
 {
   longlong lVar1;
@@ -40,7 +40,7 @@ fn_829C4E20(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_
   if (lVar1 == 0) {
     return 0xfffffffffffffffc;
   }
-  uVar2 = fn_829C4980(param_1,0x13,0x13,0,0,param_3,param_2,param_4);
+  uVar2 = d3dx_huft_build(param_1,0x13,0x13,0,0,param_3,param_2,param_4);
   if ((int)uVar2 == -3) {
     pcVar3 = "oversubscribed dynamic bit lengths tree";
   }

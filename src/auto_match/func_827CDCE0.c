@@ -29,7 +29,7 @@ extern int fn_827CDA40();
 extern unsigned int uStack_64;
 
 
-undefined8 fn_827CDCE0(int param_1)
+undefined8 compress_output(int param_1)
 
 {
   int iVar1;

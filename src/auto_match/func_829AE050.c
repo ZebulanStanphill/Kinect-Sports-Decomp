@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829AE050(int *param_1)
+void d3dx_reset_error_mgr(int *param_1)
 
 {
   *(undefined4 *)(*param_1 + 0x6c) = 0;

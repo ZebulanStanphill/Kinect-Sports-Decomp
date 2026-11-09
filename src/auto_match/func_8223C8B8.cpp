@@ -2,8 +2,8 @@
 // when _Ctype._Delfl is set, then the inline ~ctype_base/~facet store the facet vtable.
 // The explicit specialisation's inline destructor cannot be instantiated from <locale>, so the
 // classes are declared here with VC10's layout and the destructor is defined out of line.
-// fn_82F641F8 is the CRT free; fn_8265CAA0 is the array operator delete.
-extern "C" void fn_82F641F8(void *p);
+// free is the CRT free; fn_8265CAA0 is the array operator delete.
+extern "C" void free(void *p);
 extern "C" void fn_8265CAA0(void *p);
 
 namespace std {
@@ -40,7 +40,7 @@ protected:
 __forceinline ctype<char>::~ctype()
 {
     if (_Ctype._Delfl > 0)
-        fn_82F641F8((void *)_Ctype._Table);
+        free((void *)_Ctype._Table);
     else if (_Ctype._Delfl < 0)
         fn_8265CAA0((void *)_Ctype._Table);
 }

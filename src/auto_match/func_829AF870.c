@@ -7,7 +7,7 @@ typedef struct png_row_info {
     unsigned char pixel_depth;
 } png_row_info;
 
-void fn_829AF870(png_row_info *row_info, unsigned char *row)
+void png_do_chop(png_row_info *row_info, unsigned char *row)
 {
     if (row_info->bit_depth == 16) {
         unsigned char *sp = row;

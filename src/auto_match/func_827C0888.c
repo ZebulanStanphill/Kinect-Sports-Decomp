@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_827C0888(int *param_1,undefined4 param_2)
+void out_of_memory(int *param_1,undefined4 param_2)
 
 {
   *(undefined4 *)(*param_1 + 0x14) = 0x36;

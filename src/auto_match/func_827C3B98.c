@@ -512,23 +512,23 @@ typedef struct {
 
   j_decompress_ptr cinfo;
 } bitread_working_state;
-extern boolean fn_827C3A38
+extern boolean jpeg_fill_bit_buffer
 	(bitread_working_state * state, register bit_buf_type get_buffer, register int bits_left, int nbits);
 
 int
-fn_827C3B98 (bitread_working_state * state,
+jpeg_huff_decode (bitread_working_state * state,
 		  register bit_buf_type get_buffer, register int bits_left,
 		  d_derived_tbl * htbl, int min_bits)
 {
   register int l = min_bits;
   register INT32 code;
 
-  { if (bits_left < (l)) { if (! fn_827C3A38(&(*state),get_buffer,bits_left,l)) { return -1; } get_buffer = (*state).get_buffer; bits_left = (*state).bits_left; } };
+  { if (bits_left < (l)) { if (! jpeg_fill_bit_buffer(&(*state),get_buffer,bits_left,l)) { return -1; } get_buffer = (*state).get_buffer; bits_left = (*state).bits_left; } };
   code = (((int) (get_buffer >> (bits_left -= (l)))) & ((1<<(l))-1));
 
   while (code > htbl->maxcode[l]) {
     code <<= 1;
-    { if (bits_left < (1)) { if (! fn_827C3A38(&(*state),get_buffer,bits_left,1)) { return -1; } get_buffer = (*state).get_buffer; bits_left = (*state).bits_left; } };
+    { if (bits_left < (1)) { if (! jpeg_fill_bit_buffer(&(*state),get_buffer,bits_left,1)) { return -1; } get_buffer = (*state).get_buffer; bits_left = (*state).bits_left; } };
     code |= (((int) (get_buffer >> (bits_left -= (1)))) & ((1<<(1))-1));
     l++;
   }

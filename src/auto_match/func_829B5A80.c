@@ -25,11 +25,11 @@ typedef struct {
   jerr_829B5A80 *err;
   mem_829B5A80 *mem;
 } cinfo_829B5A80;
-extern void *fn_829BAA90(cinfo_829B5A80 *, unsigned int);
+extern void *d3dx_jpeg_get_large(cinfo_829B5A80 *, unsigned int);
 /* first_pool_slop[2] followed by extra_pool_slop[2] */
-extern const unsigned int lbl_820548A8[4];
+extern const unsigned int d3dx_first_pool_slop[4];
 
-void *fn_829B5A80(cinfo_829B5A80 *cinfo, int pool_id, unsigned int sizeofobject)
+void *d3dx_alloc_small(cinfo_829B5A80 *cinfo, int pool_id, unsigned int sizeofobject)
 {
   mem_829B5A80 *mem = cinfo->mem;
   small_hdr_829B5A80 *hdr_ptr, *prev_hdr_ptr;
@@ -60,13 +60,13 @@ void *fn_829B5A80(cinfo_829B5A80 *cinfo, int pool_id, unsigned int sizeofobject)
   if (hdr_ptr == 0) {
     min_request = sizeofobject + sizeof(small_hdr_829B5A80);
     if (prev_hdr_ptr == 0)
-      slop = lbl_820548A8[pool_id];
+      slop = d3dx_first_pool_slop[pool_id];
     else
-      slop = (lbl_820548A8 + 2)[pool_id];
+      slop = (d3dx_first_pool_slop + 2)[pool_id];
     if (slop > (unsigned int)(1000000000 - min_request))
       slop = (unsigned int)(1000000000 - min_request);
     for (;;) {
-      hdr_ptr = (small_hdr_829B5A80 *)fn_829BAA90(cinfo, min_request + slop);
+      hdr_ptr = (small_hdr_829B5A80 *)d3dx_jpeg_get_large(cinfo, min_request + slop);
       if (hdr_ptr != 0)
         break;
       slop /= 2;

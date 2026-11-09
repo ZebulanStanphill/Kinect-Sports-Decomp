@@ -276,12 +276,12 @@ struct jvirt_barray_control {
   backing_store_info b_s_info;
 };
 void *
-fn_827C08B0 (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+alloc_small (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
 void  *
-fn_827C0A70 (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+alloc_large (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
 
 JSAMPARRAY
-fn_827C0B88 (j_common_ptr cinfo, int pool_id,
+alloc_sarray (j_common_ptr cinfo, int pool_id,
 	      JDIMENSION samplesperrow, JDIMENSION numrows)
 
 {
@@ -301,13 +301,13 @@ fn_827C0B88 (j_common_ptr cinfo, int pool_id,
     rowsperchunk = numrows;
   mem->last_rowsperchunk = rowsperchunk;
 
-  result = (JSAMPARRAY) fn_827C08B0(cinfo, pool_id,
+  result = (JSAMPARRAY) alloc_small(cinfo, pool_id,
 				    (size_t) (numrows * ((size_t) sizeof(JSAMPROW))));
 
   currow = 0;
   while (currow < numrows) {
     rowsperchunk = ((rowsperchunk) < (numrows - currow) ? (rowsperchunk) : (numrows - currow));
-    workspace = (JSAMPROW) fn_827C0A70(cinfo, pool_id,
+    workspace = (JSAMPROW) alloc_large(cinfo, pool_id,
 	(size_t) ((size_t) rowsperchunk * (size_t) samplesperrow
 		  * ((size_t) sizeof(JSAMPLE))));
     for (i = rowsperchunk; i > 0; i--) {

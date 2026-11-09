@@ -32,7 +32,7 @@ extern int fn_826EA070();
 extern int fn_826EA0C0();
 extern int fn_826EA5C8();
 extern int fn_826EA6A0();
-extern int fn_827BDB08();
+extern int jpeg_std_error();
 extern unsigned int lbl_8200D84C;
 extern unsigned int lbl_831E7E64;
 extern unsigned int uStack_48;
@@ -61,7 +61,7 @@ undefined4 * fn_826EA6F8(undefined4 *param_1)
   uStack_58 = 0;
   uStack_50 = 0;
   uStack_48 = 0;
-  uVar2 = fn_827BDB08(puVar4);
+  uVar2 = jpeg_std_error(puVar4);
   param_1[0x6e] = fn_826EA5C8;
   param_1[2] = uVar2;
   iVar3 = fn_826EA070(param_1 + 2,puVar4);

@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BB508();
-extern int fn_827C19D0();
+extern int jpeg_read_header();
+extern int jpeg_destroy();
 extern int fn_82F6C150();
 extern unsigned int iStack00000014;
 
@@ -46,13 +46,13 @@ undefined8 fn_826EA808(int param_1)
     iVar1 = iStack00000014;
     if (iVar3 == 0) {
       if (*(int *)(iStack00000014 + 0x1c) != 0xca) {
-        fn_827BB508(iStack00000014 + 8,1);
+        jpeg_read_header(iStack00000014 + 8,1);
       }
       uVar4 = 1;
       uVar2 = 1;
     }
     else {
-      fn_827C19D0(iStack00000014 + 8);
+      jpeg_destroy(iStack00000014 + 8);
       uVar4 = 0;
       uVar2 = 0;
       *(undefined1 *)(iVar1 + 0x309) = 1;

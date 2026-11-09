@@ -26,10 +26,10 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_829AB0F0();
-extern int fn_829AB128();
-extern int fn_829AB308();
+extern int png_warning();
+extern int png_calculate_crc();
 extern int fn_829AE270();
-extern int fn_829B0F38();
+extern int png_read_data();
 extern int fn_829B9B60();
 extern unsigned int lbl_82005730;
 extern unsigned int lbl_82054E10;
@@ -63,32 +63,32 @@ void fn_829BA2F8(int param_1,int param_2,ulonglong param_3)
       }
     }
     else {
-      fn_829AB128(param_1,0xffffffff82054ed0);
+      png_warning(param_1,0xffffffff82054ed0);
     }
   }
   if ((param_3 & 0xffffffff) == 1) {
-    fn_829B0F38(param_1,&abStack_30,1);
-    fn_829AB308(param_1,&abStack_30,1);
+    png_read_data(param_1,&abStack_30,1);
+    png_calculate_crc(param_1,&abStack_30,1);
     iVar2 = fn_829B9B60(param_1,0);
     if (iVar2 != 0) {
       return;
     }
     if (3 < abStack_30) {
-      fn_829AB128(param_1,0xffffffff82054ea4);
+      png_warning(param_1,0xffffffff82054ea4);
       return;
     }
     if (((*(uint *)(param_2 + 8) & 1) != 0) &&
        (lbl_82054E10 <
         ABS(((double)(*(float *)(param_1 + 0x630) * lbl_82054EA0) + lbl_82005730) - lbl_82054E18)))
     {
-      fn_829AB128(param_1,0xffffffff82054dd8);
+      png_warning(param_1,0xffffffff82054dd8);
     }
     fn_829AE270(param_1,param_2,abStack_30);
     return;
   }
   uVar3 = 0xffffffff82054f00;
 LAB_829ba354:
-  fn_829AB128(param_1,uVar3);
+  png_warning(param_1,uVar3);
   fn_829B9B60(param_1,param_3);
   return;
 }

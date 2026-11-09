@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_3c;
 extern int fn_82A2B528();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F70748();
 extern int fn_82F7C468();
 extern int fn_82F85978();
@@ -47,9 +47,9 @@ ulonglong fn_82F859B0(ulonglong param_1,int *param_2)
   int iStack_40;
   undefined1 auStack_3c [60];
   
-  iVar1 = fn_82F6AB08();
+  iVar1 = __iob_func();
   if ((param_2 == (int *)(iVar1 + 0x20)) ||
-     (iVar1 = fn_82F6AB08(), param_2 == (int *)(iVar1 + 0x40))) {
+     (iVar1 = __iob_func(), param_2 == (int *)(iVar1 + 0x40))) {
     iStack_40 = (uint)(ushort)param_1 << 0x10;
     fn_82A2B528(&iStack_40);
   }

@@ -26,9 +26,9 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82A2A360();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F68240();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int fn_82F6CB58();
 extern int fn_82F706C0();
 extern int fn_82F706F0();
@@ -55,7 +55,7 @@ undefined4 fn_82F71B90(int param_1)
     fn_82F6CB58(0xff);
   }
   if ((&lbl_831BB940)[param_1 * 2] == 0) {
-    lVar1 = fn_82F68BF0(0x1c);
+    lVar1 = malloc(0x1c);
     if (lVar1 == 0) {
       puVar3 = (undefined4 *)fn_82F68240();
       uStack_30 = 0;
@@ -66,7 +66,7 @@ undefined4 fn_82F71B90(int param_1)
       if ((&lbl_831BB940)[param_1 * 2] == 0) {
         iVar2 = fn_82F71A70(lVar1,4000);
         if (iVar2 == 0) {
-          fn_82F641F8(lVar1);
+          free(lVar1);
           puVar3 = (undefined4 *)fn_82F68240();
           *puVar3 = 0xc;
           uStack_30 = 0;
@@ -76,7 +76,7 @@ undefined4 fn_82F71B90(int param_1)
         }
       }
       else {
-        fn_82F641F8(lVar1);
+        free(lVar1);
       }
       fn_82F71CA0();
     }

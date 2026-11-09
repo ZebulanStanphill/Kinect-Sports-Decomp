@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_360;
 extern int _invalid_parameter_noinfo();
 extern int fn_82F63C78();
-extern int fn_82F641F8();
+extern int free();
 extern int isdigit();
 extern int isxdigit();
 extern int _errno();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int memset();
 extern int fn_82F6E8A0();
 extern int fn_82F6ECF8();
@@ -308,10 +308,10 @@ LAB_82f846cc:
             *puVar9 = 0xc;
 LAB_82f854c0:
             if (iStack_374 == 1) {
-              fn_82F641F8(iStack_388);
+              free(iStack_388);
             }
             if (iStack_39c == 1) {
-              fn_82F641F8(puStack_3a8);
+              free(puStack_3a8);
             }
             goto LAB_82f854e8;
           }
@@ -521,7 +521,7 @@ code_r0x82f85278:
             uStack_3a0 = uStack_3a0 + 1;
             lVar27 = ((ulonglong)stack_pair_398.first + 1 & 0x7fffffff) * 2;
             *(undefined2 *)((int)((uVar8 & 0xffffffff) << 1) + (int)puStack_3a8) = 0;
-            lVar26 = fn_82F68BF0(lVar27);
+            lVar26 = malloc(lVar27);
             if (lVar26 != 0) {
               iVar11 = fn_82F6ECF8(0,lVar26,lVar27,puVar25,lVar27 + -1);
               if ((iVar11 != 0) && ((iVar11 == 0x16 || (iVar11 == 0x22)))) {
@@ -529,7 +529,7 @@ code_r0x82f85278:
                 fn_82F63C78(0,0,0,0,0);
               }
               (*(code *)ppuStack_370[7])((longlong)cVar20 + -1,plStack_3a4,lVar26,ppuStack_378);
-              fn_82F641F8(lVar26);
+              free(lVar26);
               break;
             }
             goto LAB_82f854c0;
@@ -754,7 +754,7 @@ code_r0x82f84fc4:
         case 0x7b:
           puStack0000001c = puStack0000001c + 1;
           if (iStack_388 == 0) {
-            iStack_388 = fn_82F68BF0(0x2000);
+            iStack_388 = malloc(0x2000);
             if (iStack_388 == 0) goto LAB_82f854c0;
             iStack_374 = 1;
           }

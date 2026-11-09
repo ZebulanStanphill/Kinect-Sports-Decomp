@@ -25,12 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8BCA8();
+extern int deflateInit2_();
 
 
-void fn_82F8BF40(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+void deflateInit_(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
 
 {
-  fn_82F8BCA8(param_1,param_2,8,0xf,8,0,param_3,param_4);
+  deflateInit2_(param_1,param_2,8,0xf,8,0,param_3,param_4);
   return;
 }

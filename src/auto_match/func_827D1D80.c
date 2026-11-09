@@ -239,7 +239,7 @@ int  inflateInit2_();
 int  inflateInit_();
 static void fixedtables();
 
-int fn_827D1D80(strm, out)
+int updatewindow(strm, out)
 z_streamp strm;
 unsigned out;
 {

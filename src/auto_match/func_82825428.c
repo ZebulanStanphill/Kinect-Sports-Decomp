@@ -37,7 +37,7 @@ extern int fn_828282D8();
 extern int fn_82829B70();
 extern int fn_828351A0();
 extern int fn_8286D2C8();
-extern int fn_82F641F8();
+extern int free();
 
 
 void fn_82825428(int param_1)
@@ -56,7 +56,7 @@ void fn_82825428(int param_1)
     fn_82829B70(aiStack_30);
     fn_828282D8(aiStack_30);
     if (aiStack_30 != 0) {
-      fn_82F641F8();
+      free();
     }
   }
   while( true ) {
@@ -67,10 +67,10 @@ void fn_82825428(int param_1)
       fn_82826050(*(int *)(aiStack_30 + 0x28),1);
     }
     if (*(int *)(aiStack_30 + 8) != 0) {
-      fn_82F641F8();
+      free();
     }
     if (aiStack_30 != 0) {
-      fn_82F641F8(aiStack_30);
+      free(aiStack_30);
     }
   }
   if (*(int *)(param_1 + 0x304) != 0) {
@@ -86,7 +86,7 @@ void fn_82825428(int param_1)
     fn_8265CA20(puVar1);
   }
   if (*(int *)(param_1 + 0x3c4) != 0) {
-    fn_82F641F8();
+    free();
   }
   piVar2 = *(int **)(param_1 + 0x3bc);
   uVar3 = 0;
@@ -94,7 +94,7 @@ void fn_82825428(int param_1)
     iVar4 = 0;
     do {
       if (*(int *)(*piVar2 + iVar4) != 0) {
-        fn_82F641F8();
+        free();
       }
       piVar2 = *(int **)(param_1 + 0x3bc);
       uVar3 = uVar3 + 1;
@@ -111,9 +111,9 @@ void fn_82825428(int param_1)
   }
   fn_828253D0(param_1);
   if (*(int *)(param_1 + 0x2e4) != 0) {
-    fn_82F641F8();
+    free();
   }
-  fn_82F641F8(param_1);
+  free(param_1);
   return;
 }
 

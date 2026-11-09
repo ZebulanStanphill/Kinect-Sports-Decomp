@@ -29,7 +29,7 @@ extern int fn_82BA02A8();
 extern int fn_82C53970();
 extern int fn_82C563B8();
 extern int fn_82CBBD70();
-extern int fn_82F641F8();
+extern int free();
 
 
 void fn_82C550F0(int *param_1)
@@ -84,7 +84,7 @@ void fn_82C550F0(int *param_1)
       *param_1 = 0;
     }
     fn_82BA02A8((ulonglong)(uint)param_1[9] + 8,param_1);
-    fn_82F641F8(param_1);
+    free(param_1);
   }
   return;
 }

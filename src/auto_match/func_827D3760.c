@@ -26,8 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
-extern int fn_827D1B48();
-extern int fn_827D36E8();
+extern int inflateReset();
+extern int syncsearch();
 extern unsigned int uStack_31;
 
 
@@ -70,9 +70,9 @@ undefined8 fn_827D3760(int *param_1)
       } while (7 < iVar3 - 8U);
     }
     piVar1[0x1a] = 0;
-    fn_827D36E8(piVar1 + 0x1a,auStack_30,lVar4);
+    syncsearch(piVar1 + 0x1a,auStack_30,lVar4);
   }
-  iVar3 = fn_827D36E8(piVar1 + 0x1a,*param_1,param_1[1]);
+  iVar3 = syncsearch(piVar1 + 0x1a,*param_1,param_1[1]);
   iVar5 = param_1[2] + iVar3;
   *param_1 = *param_1 + iVar3;
   param_1[1] = param_1[1] - iVar3;
@@ -81,7 +81,7 @@ undefined8 fn_827D3760(int *param_1)
     return 0xfffffffffffffffd;
   }
   iVar3 = param_1[5];
-  fn_827D1B48(param_1);
+  inflateReset(param_1);
   param_1[2] = iVar5;
   param_1[5] = iVar3;
   *piVar1 = 0xb;

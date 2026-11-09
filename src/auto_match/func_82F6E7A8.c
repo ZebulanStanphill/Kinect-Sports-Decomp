@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63BA0();
 extern int fn_82F68240();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F6ACF0();
 extern int fn_82F6E870();
 extern int fn_82F709B8();
@@ -74,13 +74,13 @@ ulonglong fn_82F6E7A8(longlong param_1,undefined8 param_2,undefined8 param_3,und
     uVar1 = 0xffffffffffffffff;
   }
   else {
-    lVar2 = fn_82F6AB08();
+    lVar2 = __iob_func();
     fn_82F6ACF0(1,lVar2 + 0x20);
-    lVar2 = fn_82F6AB08();
+    lVar2 = __iob_func();
     uVar3 = fn_82F816D0(lVar2 + 0x20);
-    lVar2 = fn_82F6AB08();
+    lVar2 = __iob_func();
     uVar5 = fn_82F709B8(lVar2 + 0x20,param_1,0,&stack0x00000018);
-    lVar2 = fn_82F6AB08();
+    lVar2 = __iob_func();
     fn_82F817C0(uVar3,lVar2 + 0x20);
     fn_82F6E870();
     uVar1 = (ulonglong)uVar5;

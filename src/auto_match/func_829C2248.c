@@ -31,7 +31,7 @@ typedef struct z_stream_s {
 typedef z_stream  *z_streamp;
 typedef uLong ( *check_func) (uLong check, const Bytef *buf, uInt len);
 typedef struct inflate_blocks_state  inflate_blocks_statef;
-extern void fn_829C2180 ( inflate_blocks_statef *, z_streamp , uLongf *);
+extern void d3dx_inflate_blocks_reset ( inflate_blocks_statef *, z_streamp , uLongf *);
 typedef struct inflate_huft_s  inflate_huft;
 struct inflate_huft_s {
   union {
@@ -91,7 +91,7 @@ struct inflate_blocks_state {
 struct internal_state      {int dummy;};
 struct inflate_codes_state {int dummy;};
 
-inflate_blocks_statef *fn_829C2248(z, c, w)
+inflate_blocks_statef *d3dx_inflate_blocks_new(z, c, w)
 z_streamp z;
 check_func c;
 uInt w;
@@ -116,6 +116,6 @@ uInt w;
   s->checkfn = c;
   s->mode = TYPE;
   ;
-  fn_829C2180(s, z, 0);
+  d3dx_inflate_blocks_reset(s, z, 0);
   return s;
 }

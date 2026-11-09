@@ -26,8 +26,8 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_826EA560();
-extern int fn_827BDB08();
-extern int fn_827BF3F0();
+extern int jpeg_std_error();
+extern int jpeg_CreateCompress();
 extern unsigned int lbl_8200D878;
 
 
@@ -37,9 +37,9 @@ undefined4 * fn_826EB0C0(undefined4 *param_1,undefined8 param_2)
   undefined4 uVar1;
   
   *param_1 = &lbl_8200D878;
-  uVar1 = fn_827BDB08(param_1 + 0x5c);
+  uVar1 = jpeg_std_error(param_1 + 0x5c);
   param_1[2] = uVar1;
-  fn_827BF3F0(param_1 + 2,0x3e,0x168);
+  jpeg_CreateCompress(param_1 + 2,0x3e,0x168);
   fn_826EA560(param_1 + 2,param_2);
   return param_1;
 }

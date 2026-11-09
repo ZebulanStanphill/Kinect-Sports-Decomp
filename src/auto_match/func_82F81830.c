@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F67988();
 extern int fn_82F71CD0();
 extern int fn_82F818F0();
@@ -55,7 +55,7 @@ int fn_82F81830(void)
         uStack_40 = iVar3;
       }
       if (0x13 < iVar4) {
-        fn_82F641F8(*(undefined4 *)(iVar1 + lbl_8329F734));
+        free(*(undefined4 *)(iVar1 + lbl_8329F734));
         *(undefined4 *)(iVar1 + lbl_8329F734) = 0;
       }
     }

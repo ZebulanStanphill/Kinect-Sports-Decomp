@@ -38,7 +38,7 @@ struct jpeg_decompress_struct {
     struct jpeg_color_quantizer *cquantize;
 };
 
-void fn_827C24B0(j_decompress_ptr cinfo)
+void jpeg_new_colormap(j_decompress_ptr cinfo)
 {
     struct my_decomp_master *master = cinfo->master;
 

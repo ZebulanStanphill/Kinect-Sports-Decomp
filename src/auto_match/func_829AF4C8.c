@@ -16,7 +16,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829AF4C8(png_row_infop row_info, png_bytep row)
+png_do_unpack(png_row_infop row_info, png_bytep row)
 {
    ;
 

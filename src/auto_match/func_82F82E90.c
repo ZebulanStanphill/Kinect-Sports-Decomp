@@ -29,7 +29,7 @@ extern unsigned int *auStack_30;
 extern int fn_82A2A7D0();
 extern int fn_82D7E470();
 extern int fn_82F63C78();
-extern int fn_82F641F8();
+extern int free();
 extern int fn_82F71CD0();
 extern int fn_82F82D58();
 extern int fn_82F82DA8();
@@ -85,7 +85,7 @@ void fn_82F82E90(void)
   lbl_831BC084 = 0xffffffff;
   lbl_831BC078 = 0xffffffff;
   if (iRam832636d8 != 0) {
-    fn_82F641F8();
+    free();
     iRam832636d8 = 0;
   }
   iVar1 = fn_82A2A7D0(0xffffffff83263628);

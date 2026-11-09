@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8C3B8();
-extern unsigned int lbl_8216ACBC;
+extern int send_tree();
+extern unsigned int bl_order;
 
 
-void fn_82F8C908(int param_1,longlong param_2,longlong param_3,longlong param_4)
+void send_all_trees(int param_1,longlong param_2,longlong param_3,longlong param_4)
 
 {
   longlong lVar1;
@@ -100,7 +100,7 @@ void fn_82F8C908(int param_1,longlong param_2,longlong param_3,longlong param_4)
   if (0 < iVar4) {
     do {
       uVar2 = *(uint *)(param_1 + 0x16bc);
-      uVar6 = *(ushort *)((uint)(byte)(&lbl_8216ACBC)[iVar5] * 4 + param_1 + 0xa7e);
+      uVar6 = *(ushort *)((uint)(byte)(&bl_order)[iVar5] * 4 + param_1 + 0xa7e);
       if ((int)uVar2 < 0xe) {
         *(uint *)(param_1 + 0x16bc) = uVar2 + 3;
         uVar6 = uVar6 << (uVar2 & 0x3f) | *(ushort *)(param_1 + 0x16b8);
@@ -122,8 +122,8 @@ void fn_82F8C908(int param_1,longlong param_2,longlong param_3,longlong param_4)
       param_4 = param_4 + -1;
     } while (param_4 != 0);
   }
-  lVar1 = fn_82F8C3B8(param_1,param_1 + 0x94,param_2 + -1);
-  fn_82F8C3B8(lVar1,lVar1 + 0x988,param_3 + -1);
+  lVar1 = send_tree(param_1,param_1 + 0x94,param_2 + -1);
+  send_tree(lVar1,lVar1 + 0x988,param_3 + -1);
   return;
 }
 

@@ -310,11 +310,11 @@ struct png_struct_def
 
    png_byte empty_plte_permitted;
 };
-extern void fn_829AB128 (png_structp png_ptr, png_const_charp message);
+extern void png_warning (png_structp png_ptr, png_const_charp message);
 
 void
 
-fn_829B96C0
+png_read_filter_row
    (png_structp png_ptr, png_row_infop row_info, png_bytep row,
    png_bytep prev_row, int filter)
 {
@@ -416,7 +416,7 @@ fn_829B96C0
          break;
       }
       default:
-         fn_829AB128(png_ptr, "Ignoring bad adaptive filter type");
+         png_warning(png_ptr, "Ignoring bad adaptive filter type");
          *row=0;
          break;
    }

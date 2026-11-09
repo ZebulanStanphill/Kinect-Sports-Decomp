@@ -7,7 +7,7 @@ typedef struct {
 } jpeg_scan_info;
 
 jpeg_scan_info *
-fn_827BEE60 (jpeg_scan_info * scanptr, int ncomps,
+fill_scans (jpeg_scan_info * scanptr, int ncomps,
 	    int Ss, int Se, int Ah, int Al)
 
 {

@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C4E40();
+extern int start_pass_phuff_decoder();
 
 
-void fn_827C5128(int param_1)
+void jinit_phuff_decoder(int param_1)
 
 {
   undefined4 *puVar1;
@@ -38,7 +38,7 @@ void fn_827C5128(int param_1)
   
   puVar1 = (undefined4 *)((code)**(undefined4 **)(param_1 + 4))(param_1,1,0x40);
   *(undefined4 **)(param_1 + 0x198) = puVar1;
-  *puVar1 = fn_827C4E40;
+  *puVar1 = start_pass_phuff_decoder;
   { int n; unsigned *sub=puVar1+0xb;for(n=0;n<4;++n)sub[n]=0; }
   iVar2 = ((code)**(undefined4 **)(param_1 + 4))(param_1,1,*(int *)(param_1 + 0x24) << 8);
   *(int *)(param_1 + 0x8c) = iVar2;

@@ -14,7 +14,7 @@ typedef struct png_row_info_struct
 typedef png_row_info  * png_row_infop;
 
 void
-fn_829B0738(png_row_infop row_info, png_bytep row,
+png_do_dither(png_row_infop row_info, png_bytep row,
     png_bytep palette_lookup, png_bytep dither_lookup)
 {
    png_bytep sp, dp;

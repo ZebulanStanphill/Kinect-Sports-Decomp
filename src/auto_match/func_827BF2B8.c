@@ -40,11 +40,11 @@ typedef struct Cinfo {
   unsigned short Y_density;
 } Cinfo;
 
-extern void fn_827BE8A0(Cinfo *, int, int);
+extern void jpeg_set_linear_quality(Cinfo *, int, int);
 extern void fn_827BEA30(Cinfo *);
-extern void fn_827BF240(Cinfo *);
+extern void jpeg_default_colorspace(Cinfo *);
 
-void fn_827BF2B8(Cinfo *cinfo)
+void jpeg_set_defaults(Cinfo *cinfo)
 {
   int i;
 
@@ -56,7 +56,7 @@ void fn_827BF2B8(Cinfo *cinfo)
   if (cinfo->comp_info == 0)
     cinfo->comp_info = (*cinfo->mem->alloc_small)(cinfo, 0, 0x348);
   cinfo->data_precision = 8;
-  fn_827BE8A0(cinfo, 0x32, 1);
+  jpeg_set_linear_quality(cinfo, 0x32, 1);
   fn_827BEA30(cinfo);
   for (i = 0; i < 16; i++) {
     cinfo->arith_dc_L[i] = 0;
@@ -80,5 +80,5 @@ void fn_827BF2B8(Cinfo *cinfo)
   cinfo->density_unit = 0;
   cinfo->X_density = 1;
   cinfo->Y_density = 1;
-  fn_827BF240(cinfo);
+  jpeg_default_colorspace(cinfo);
 }

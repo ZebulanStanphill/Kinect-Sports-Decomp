@@ -276,12 +276,12 @@ struct jvirt_barray_control {
   backing_store_info b_s_info;
 };
 void *
-fn_827C08B0 (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+alloc_small (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
 void  *
-fn_827C0A70 (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+alloc_large (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
 
 JBLOCKARRAY
-fn_827C0C68 (j_common_ptr cinfo, int pool_id,
+alloc_barray (j_common_ptr cinfo, int pool_id,
 	      JDIMENSION blocksperrow, JDIMENSION numrows)
 
 {
@@ -301,13 +301,13 @@ fn_827C0C68 (j_common_ptr cinfo, int pool_id,
     rowsperchunk = numrows;
   mem->last_rowsperchunk = rowsperchunk;
 
-  result = (JBLOCKARRAY) fn_827C08B0(cinfo, pool_id,
+  result = (JBLOCKARRAY) alloc_small(cinfo, pool_id,
 				     (size_t) (numrows * ((size_t) sizeof(JBLOCKROW))));
 
   currow = 0;
   while (currow < numrows) {
     rowsperchunk = ((rowsperchunk) < (numrows - currow) ? (rowsperchunk) : (numrows - currow));
-    workspace = (JBLOCKROW) fn_827C0A70(cinfo, pool_id,
+    workspace = (JBLOCKROW) alloc_large(cinfo, pool_id,
 	(size_t) ((size_t) rowsperchunk * (size_t) blocksperrow
 		  * ((size_t) sizeof(JBLOCK))));
     for (i = rowsperchunk; i > 0; i--) {

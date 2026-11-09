@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63F40();
 
 
-void fn_829ADF30(int *param_1,undefined8 param_2)
+void d3dx_format_message(int *param_1,undefined8 param_2)
 
 {
   char cVar1;

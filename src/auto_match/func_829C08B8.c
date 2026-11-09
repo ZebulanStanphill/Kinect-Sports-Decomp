@@ -147,7 +147,7 @@ struct static_tree_desc_s {
     int     max_length;
 };
 
-void fn_829C08B8(s, tree, k)
+void d3dx_pqdownheap(s, tree, k)
     deflate_state *s;
     ct_data *tree;
     int k;

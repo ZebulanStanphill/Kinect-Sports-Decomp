@@ -305,7 +305,7 @@ typedef struct {
 typedef my_fdct_controller * my_fdct_ptr;
 
 void
-fn_827CE568 (j_compress_ptr cinfo, jpeg_component_info * compptr,
+forward_DCT (j_compress_ptr cinfo, jpeg_component_info * compptr,
 	     JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
 	     JDIMENSION start_row, JDIMENSION start_col,
 	     JDIMENSION num_blocks)

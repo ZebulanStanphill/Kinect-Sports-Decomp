@@ -15,7 +15,7 @@ struct inflate_huft_s {
 
 };
 
-int fn_829C4980(b, n, s, d, e, t, m, hp, hn, v)
+int d3dx_huft_build(b, n, s, d, e, t, m, hp, hn, v)
 uIntf *b;
 uInt n;
 uInt s;

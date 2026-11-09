@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_827D1BC8(uint param_1,uint param_2,uint param_3)
+undefined8 inflatePrime(uint param_1,uint param_2,uint param_3)
 
 {
   uint iVar1;

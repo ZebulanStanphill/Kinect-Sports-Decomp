@@ -25,24 +25,24 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern void fn_829ADE20(void);
-extern void fn_829ADE70(void);
-extern void fn_829ADEA0(void);
-extern void fn_829ADF30(void);
-extern void fn_829AE050(void);
-extern char lbl_82052100[];
+extern void d3dx_error_exit(void);
+extern void d3dx_output_message(void);
+extern void d3dx_emit_message(void);
+extern void d3dx_format_message(void);
+extern void d3dx_reset_error_mgr(void);
+extern char d3dx_jpeg_std_message_table[];
 
 typedef struct S { void *f0, *f4, *f8, *fc, *f10; int f14; char pad[0x68 - 0x18]; int f68, f6c; void *f70; int f74, f78, f7c, f80; } S;
 
-void fn_829AE068(S *p)
+void d3dx_jpeg_std_error(S *p)
 {
-  p->f0 = (void *)fn_829ADE20;
-  p->f4 = (void *)fn_829ADEA0;
-  p->f8 = (void *)fn_829ADE70;
-  p->fc = (void *)fn_829ADF30;
-  p->f10 = (void *)fn_829AE050;
+  p->f0 = (void *)d3dx_error_exit;
+  p->f4 = (void *)d3dx_emit_message;
+  p->f8 = (void *)d3dx_output_message;
+  p->fc = (void *)d3dx_format_message;
+  p->f10 = (void *)d3dx_reset_error_mgr;
   p->f68 = 0;
-  p->f70 = lbl_82052100;
+  p->f70 = d3dx_jpeg_std_message_table;
   p->f6c = 0;
   p->f14 = 0;
   p->f74 = 0x7b;

@@ -25,11 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C0D10();
-extern unsigned int lbl_820551BC;
+extern int d3dx_send_tree();
+extern unsigned int d3dx_bl_order;
 
 
-void fn_829C1260(int param_1,longlong param_2,longlong param_3,longlong param_4)
+void d3dx_send_all_trees(int param_1,longlong param_2,longlong param_3,longlong param_4)
 
 {
   longlong lVar1;
@@ -100,7 +100,7 @@ void fn_829C1260(int param_1,longlong param_2,longlong param_3,longlong param_4)
   if (0 < iVar4) {
     do {
       uVar2 = *(uint *)(param_1 + 0x16b4);
-      uVar6 = *(ushort *)((uint)(byte)(&lbl_820551BC)[iVar5] * 4 + param_1 + 0xa76);
+      uVar6 = *(ushort *)((uint)(byte)(&d3dx_bl_order)[iVar5] * 4 + param_1 + 0xa76);
       if ((int)uVar2 < 0xe) {
         *(uint *)(param_1 + 0x16b4) = uVar2 + 3;
         uVar6 = uVar6 << (uVar2 & 0x3f) | *(ushort *)(param_1 + 0x16b0);
@@ -122,8 +122,8 @@ void fn_829C1260(int param_1,longlong param_2,longlong param_3,longlong param_4)
       param_4 = param_4 + -1;
     } while (param_4 != 0);
   }
-  lVar1 = fn_829C0D10(param_1,param_1 + 0x8c,param_2 + -1);
-  fn_829C0D10(lVar1,lVar1 + 0x980,param_3 + -1);
+  lVar1 = d3dx_send_tree(param_1,param_1 + 0x8c,param_2 + -1);
+  d3dx_send_tree(lVar1,lVar1 + 0x980,param_3 + -1);
   return;
 }
 

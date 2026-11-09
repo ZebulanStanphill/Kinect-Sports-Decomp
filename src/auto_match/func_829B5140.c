@@ -4,9 +4,9 @@ typedef unsigned int   uInt;
 typedef unsigned long  uLong;
 typedef Byte   Bytef;
 typedef uLong  uLongf;
-extern const uLongf lbl_820544A8[256];
+extern const uLongf d3dx_crc_table[256];
 
-uLong  fn_829B5140(crc, buf, len)
+uLong  d3dx_crc32(crc, buf, len)
     uLong crc;
     const Bytef *buf;
     uInt len;
@@ -16,11 +16,11 @@ uLong  fn_829B5140(crc, buf, len)
     crc = crc ^ 0xffffffffL;
     while (len >= 8)
     {
-      crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;;; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;;;;
+      crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;;; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);; crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;;;;
       len -= 8;
     }
     if (len) do {
-      crc = lbl_820544A8[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;
+      crc = d3dx_crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);;
     } while (--len);
     return crc ^ 0xffffffffL;
 }

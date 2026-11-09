@@ -8,9 +8,9 @@ typedef struct Decompress_827CA390 {
   char pad60[0x114 - 0x60];
   int max_v_samp_factor;
 } Decompress_827CA390;
-extern void fn_827C1AF8(JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row, int num_rows, unsigned int num_cols);
+extern void jcopy_sample_rows(JSAMPARRAY input_array, int source_row, JSAMPARRAY output_array, int dest_row, int num_rows, unsigned int num_cols);
 
-void fn_827CA390(Decompress_827CA390 *cinfo, void *compptr, JSAMPARRAY input_data, JSAMPARRAY *output_data_ptr)
+void h2v2_upsample(Decompress_827CA390 *cinfo, void *compptr, JSAMPARRAY input_data, JSAMPARRAY *output_data_ptr)
 {
   JSAMPARRAY output_data = *output_data_ptr;
   register JSAMPROW inptr, outptr;
@@ -28,7 +28,7 @@ void fn_827CA390(Decompress_827CA390 *cinfo, void *compptr, JSAMPARRAY input_dat
       *outptr++ = invalue;
       *outptr++ = invalue;
     }
-    fn_827C1AF8(output_data, outrow, output_data, outrow+1,
+    jcopy_sample_rows(output_data, outrow, output_data, outrow+1,
 		      1, cinfo->output_width);
     inrow++;
     outrow += 2;

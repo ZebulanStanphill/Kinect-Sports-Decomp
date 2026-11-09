@@ -32,10 +32,10 @@ typedef struct Common_827C08B0 {
     MemMgr_827C08B0 *mem;
 } Common_827C08B0;
 
-extern void *fn_827C8ED8(Common_827C08B0 *cinfo, size_t_827C08B0 sizeofobject);
-extern size_t_827C08B0 lbl_82017AD8[];
+extern void *jpeg_get_small(Common_827C08B0 *cinfo, size_t_827C08B0 sizeofobject);
+extern size_t_827C08B0 first_pool_slop[];
 
-void *fn_827C08B0(Common_827C08B0 *cinfo, int pool_id, size_t_827C08B0 sizeofobject)
+void *alloc_small(Common_827C08B0 *cinfo, int pool_id, size_t_827C08B0 sizeofobject)
 {
     MemMgr_827C08B0 *mem = cinfo->mem;
     SmallPool_827C08B0 *hdr_ptr;
@@ -67,13 +67,13 @@ void *fn_827C08B0(Common_827C08B0 *cinfo, int pool_id, size_t_827C08B0 sizeofobj
     if (hdr_ptr == 0) {
         min_request = sizeofobject + sizeof(SmallPool_827C08B0);
         if (prev_hdr_ptr == 0)
-            slop = lbl_82017AD8[pool_id];
+            slop = first_pool_slop[pool_id];
         else
-            slop = lbl_82017AD8[pool_id + 2];
+            slop = first_pool_slop[pool_id + 2];
         if (slop > (size_t_827C08B0)(1000000000 - min_request))
             slop = (size_t_827C08B0)(1000000000 - min_request);
         for (;;) {
-            hdr_ptr = (SmallPool_827C08B0 *)fn_827C8ED8(cinfo, min_request + slop);
+            hdr_ptr = (SmallPool_827C08B0 *)jpeg_get_small(cinfo, min_request + slop);
             if (hdr_ptr != 0)
                 break;
             slop /= 2;

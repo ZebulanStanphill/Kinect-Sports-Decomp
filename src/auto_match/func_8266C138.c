@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CF50();
 extern int fn_8266C340();
 extern int fn_82A29A38();
-extern int fn_82F68BF0();
+extern int malloc();
 extern int _CxxThrowException();
 extern unsigned int iStack00000014;
 extern unsigned int iStack_18;
@@ -54,7 +54,7 @@ int fn_8266C138(int param_1)
   iStack00000014 = param_1;
   if (lbl_831E7B18 == 0) {
     if (lbl_831E7B24 == (code *)0x0) {
-      iStack_20 = fn_82F68BF0(param_1);
+      iStack_20 = malloc(param_1);
     }
     else {
       iStack_20 = (*lbl_831E7B24)(param_1);

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827C1B68();
+extern int jzero_far();
 extern int fn_827CDA40();
 
 
@@ -94,7 +94,7 @@ undefined8 fn_827CDA90(int param_1,int param_2)
                              (longlong)iVar5 * (longlong)(int)uVar16,uVar20);
                   uVar9 = (ulonglong)*(uint *)(iVar3 + 0x34);
                   if ((int)uVar4 < (int)*(uint *)(iVar3 + 0x34)) {
-                    fn_827C1B68(*(undefined4 *)
+                    jzero_far(*(undefined4 *)
                                      ((int)((uVar20 + lVar19 + 6 & 0xffffffff) << 2) + iVar1),
                                     (uVar9 - uVar20 & 0x1ffffff) << 7);
                     uVar9 = (ulonglong)*(uint *)(iVar3 + 0x34);
@@ -112,7 +112,7 @@ undefined8 fn_827CDA90(int param_1,int param_2)
                   }
                 }
                 else {
-                  fn_827C1B68(*(undefined4 *)((int)((lVar19 + 6U & 0xffffffff) << 2) + iVar1),
+                  jzero_far(*(undefined4 *)((int)((lVar19 + 6U & 0xffffffff) << 2) + iVar1),
                                   (uVar9 & 0x1ffffff) << 7);
                   uVar9 = (ulonglong)*(uint *)(iVar3 + 0x34);
                   lVar7 = 0;

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63C78();
 extern int fn_82F664B0();
-extern int fn_82F68BF0();
+extern int malloc();
 
 
 longlong fn_82F6E2F0(char *param_1)
@@ -45,7 +45,7 @@ longlong fn_82F6E2F0(char *param_1)
       pcVar4 = pcVar4 + 1;
     } while (cVar1 != '\0');
     iVar3 = (int)pcVar4 - (int)param_1;
-    lVar2 = fn_82F68BF0(iVar3);
+    lVar2 = malloc(iVar3);
     if (lVar2 != 0) {
       iVar3 = fn_82F664B0(lVar2,iVar3,param_1);
       if (iVar3 == 0) {

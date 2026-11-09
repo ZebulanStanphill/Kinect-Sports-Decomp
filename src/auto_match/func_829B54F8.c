@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829B7760();
+extern int d3dx_jdiv_round_up();
 
 
 void fn_829B54F8(int *param_1)
@@ -68,9 +68,9 @@ void fn_829B54F8(int *param_1)
       *(undefined4 *)(*param_1 + 0x1c) = 4;
       (**(code **)*param_1)(param_1);
     }
-    iVar3 = fn_829B7760(param_1[7],param_1[0x4e] << 3);
+    iVar3 = d3dx_jdiv_round_up(param_1[7],param_1[0x4e] << 3);
     param_1[0x58] = iVar3;
-    iVar3 = fn_829B7760(param_1[8],param_1[0x4f] << 3);
+    iVar3 = d3dx_jdiv_round_up(param_1[8],param_1[0x4f] << 3);
     iVar6 = 0;
     param_1[0x59] = iVar3;
     param_1[0x5a] = 0;

@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829AB128(int param_1)
+void png_warning(int param_1)
 
 {
   if (*(code **)(param_1 + 0x544) == (code *)0x0) {

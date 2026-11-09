@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829C4980();
+extern int d3dx_huft_build();
 
 
-longlong fn_829C4F00(ulonglong param_1,undefined8 param_2,longlong param_3,int *param_4,
+longlong d3dx_inflate_trees_dynamic(ulonglong param_1,undefined8 param_2,longlong param_3,int *param_4,
                       int *param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
 
 {
@@ -43,11 +43,11 @@ longlong fn_829C4F00(ulonglong param_1,undefined8 param_2,longlong param_3,int *
   if (lVar1 == 0) {
     return -4;
   }
-  lVar2 = fn_829C4980(param_3,param_1,0x101,0xffffffff82055c68,0xffffffff82055ce8,param_6,param_4,
+  lVar2 = d3dx_huft_build(param_3,param_1,0x101,0xffffffff82055c68,0xffffffff82055ce8,param_6,param_4,
                         param_8);
   if (lVar2 == 0) {
     if (*param_4 != 0) {
-      lVar2 = fn_829C4980((param_1 & 0x3fffffff) * 4 + param_3,param_2,0,0xffffffff82055d68,
+      lVar2 = d3dx_huft_build((param_1 & 0x3fffffff) * 4 + param_3,param_2,0,0xffffffff82055d68,
                             0xffffffff82055de0,param_7,param_5,param_8);
       if (lVar2 == 0) {
         if ((*param_5 != 0) || ((param_1 & 0xffffffff) < 0x102)) {

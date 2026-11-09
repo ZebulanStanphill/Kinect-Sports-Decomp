@@ -76,30 +76,30 @@ struct Cinfo_827C1F78 {
   void *cquantize;                              /* 0x1a8 */
 };
 
-extern boolean fn_827C1B78(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827C1C40(struct Cinfo_827C1F78 *cinfo);
+extern boolean use_merged_upsample(struct Cinfo_827C1F78 *cinfo);
+extern void jpeg_calc_output_dimensions(struct Cinfo_827C1F78 *cinfo);
 extern void fn_827C1EC0(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827C3578(struct Cinfo_827C1F78 *cinfo, int need_full_buffer);
-extern void fn_827C4368(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827C5128(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827C9818(struct Cinfo_827C1F78 *cinfo, int b);
+extern void jinit_d_coef_controller(struct Cinfo_827C1F78 *cinfo, int need_full_buffer);
+extern void jinit_huff_decoder(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_phuff_decoder(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_d_main_controller(struct Cinfo_827C1F78 *cinfo, int b);
 extern void fn_827C9BB0(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827CA008(struct Cinfo_827C1F78 *cinfo, boolean b);
+extern void jinit_d_post_controller(struct Cinfo_827C1F78 *cinfo, boolean b);
 extern void fn_827CA648(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827CAD40(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827CB520(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827CC900(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827CD708(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_color_deconverter(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_merged_upsampler(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_2pass_quantizer(struct Cinfo_827C1F78 *cinfo);
+extern void jinit_1pass_quantizer(struct Cinfo_827C1F78 *cinfo);
 
-void fn_827C1F78(struct Cinfo_827C1F78 *cinfo)
+void master_selection(struct Cinfo_827C1F78 *cinfo)
 {
   struct my_decomp_master_827C1F78 *master = cinfo->master;
 
-  fn_827C1C40(cinfo);
+  jpeg_calc_output_dimensions(cinfo);
   fn_827C1EC0(cinfo);
 
   master->pass_number = 0;
-  master->using_merged_upsample = fn_827C1B78(cinfo);
+  master->using_merged_upsample = use_merged_upsample(cinfo);
   master->quantizer_1pass = 0;
   master->quantizer_2pass = 0;
 
@@ -127,23 +127,23 @@ void fn_827C1F78(struct Cinfo_827C1F78 *cinfo)
     }
 
     if (cinfo->enable_1pass_quant) {
-      fn_827CD708(cinfo);
+      jinit_1pass_quantizer(cinfo);
       master->quantizer_1pass = cinfo->cquantize;
     }
     if (cinfo->enable_2pass_quant || cinfo->enable_external_quant) {
-      fn_827CC900(cinfo);
+      jinit_2pass_quantizer(cinfo);
       master->quantizer_2pass = cinfo->cquantize;
     }
   }
 
   if (!cinfo->raw_data_out) {
     if (master->using_merged_upsample) {
-      fn_827CB520(cinfo);
+      jinit_merged_upsampler(cinfo);
     } else {
-      fn_827CAD40(cinfo);
+      jinit_color_deconverter(cinfo);
       fn_827CA648(cinfo);
     }
-    fn_827CA008(cinfo, cinfo->enable_2pass_quant);
+    jinit_d_post_controller(cinfo, cinfo->enable_2pass_quant);
   }
 
   fn_827C9BB0(cinfo);
@@ -152,16 +152,16 @@ void fn_827C1F78(struct Cinfo_827C1F78 *cinfo)
     (*cinfo->err->error_exit)(cinfo);
   } else {
     if (cinfo->progressive_mode) {
-      fn_827C5128(cinfo);
+      jinit_phuff_decoder(cinfo);
     } else {
-      fn_827C4368(cinfo);
+      jinit_huff_decoder(cinfo);
     }
   }
 
-  fn_827C3578(cinfo, cinfo->inputctl->has_multiple_scans || cinfo->buffered_image);
+  jinit_d_coef_controller(cinfo, cinfo->inputctl->has_multiple_scans || cinfo->buffered_image);
 
   if (!cinfo->raw_data_out)
-    fn_827C9818(cinfo, 0);
+    jinit_d_main_controller(cinfo, 0);
 
   (*cinfo->mem->realize_virt_arrays)(cinfo);
   (*cinfo->inputctl->start_input_pass)(cinfo);

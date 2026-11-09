@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_829ADEA0(int *param_1,int param_2)
+void d3dx_emit_message(int *param_1,int param_2)
 
 {
   int iVar1;

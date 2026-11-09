@@ -29,8 +29,8 @@ extern unsigned int *auStack_40;
 extern int fn_829AB0F0();
 extern int fn_829AB1D8();
 extern int fn_829AB2C8();
-extern int fn_829B0F38();
-extern int fn_829B8F80();
+extern int png_read_data();
+extern int png_crc_read();
 extern int fn_829B9AF0();
 extern int fn_829B9C58();
 extern int fn_829B9F20();
@@ -66,7 +66,7 @@ void fn_829AE470(int param_1,longlong param_2)
   uVar9 = (ulonglong)*(byte *)(param_1 + 0x61c);
   if (uVar9 < 8) {
     lVar8 = -uVar9 + 8;
-    fn_829B0F38(param_1,uVar9 + param_2 + 0x20,lVar8);
+    png_read_data(param_1,uVar9 + param_2 + 0x20,lVar8);
     *(undefined1 *)(param_1 + 0x61c) = 8;
     iVar3 = fn_829AB1D8(param_2 + 0x20,uVar9,lVar8);
     if (iVar3 != 0) {
@@ -84,10 +84,10 @@ LAB_829ae4f4:
   }
   pbVar10 = (byte *)(param_1 + 0x60c);
 LAB_829ae510:
-  fn_829B0F38(param_1,auStack_40,4);
+  png_read_data(param_1,auStack_40,4);
   uVar4 = fn_829B9AF0(param_1,auStack_40);
   fn_829AB2C8(param_1);
-  fn_829B8F80(param_1,pbVar10,4);
+  png_crc_read(param_1,pbVar10,4);
   pbVar6 = &lbl_82052408;
   pbVar7 = pbVar10;
   do {

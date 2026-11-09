@@ -26,10 +26,10 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_829AB0F0();
-extern int fn_829AB128();
-extern int fn_829AB308();
+extern int png_warning();
+extern int png_calculate_crc();
 extern int fn_829AE2A0();
-extern int fn_829B0F38();
+extern int png_read_data();
 extern int fn_829B5088();
 extern int fn_829B9B60();
 
@@ -55,7 +55,7 @@ LAB_829ba498:
     cVar1 = *(char *)(param_1 + 0x616);
     if (cVar1 == '\x03') {
       if ((*(uint *)(param_1 + 0x558) & 2) == 0) {
-        fn_829AB128(param_1,0xffffffff82054fc8);
+        png_warning(param_1,0xffffffff82054fc8);
       }
       if (((param_3 & 0xffffffff) <= (ulonglong)*(ushort *)(param_1 + 0x608)) &&
          ((param_3 & 0xffffffff) < 0x101)) {
@@ -63,12 +63,12 @@ LAB_829ba498:
           uVar2 = fn_829B5088(param_1,param_3);
           *(int *)(param_1 + 0x65c) = (int)uVar2;
           *(uint *)(param_1 + 0x55c) = *(uint *)(param_1 + 0x55c) | 0x2000;
-          fn_829B0F38(param_1,uVar2,param_3);
-          fn_829AB308(param_1,uVar2,param_3);
+          png_read_data(param_1,uVar2,param_3);
+          png_calculate_crc(param_1,uVar2,param_3);
           *(short *)(param_1 + 0x60a) = (short)param_3;
           goto LAB_829ba648;
         }
-        fn_829AB128(param_1,0xffffffff82054fb0);
+        png_warning(param_1,0xffffffff82054fb0);
         param_3 = 0;
         goto LAB_829ba68c;
       }
@@ -77,8 +77,8 @@ LAB_829ba498:
     else {
       if (cVar1 == '\x02') {
         if ((param_3 & 0xffffffff) == 6) {
-          fn_829B0F38(param_1,&bStack_40,6);
-          fn_829AB308(param_1,&bStack_40,6);
+          png_read_data(param_1,&bStack_40,6);
+          png_calculate_crc(param_1,&bStack_40,6);
           *(undefined2 *)(param_1 + 0x60a) = 1;
           *(ushort *)(param_1 + 0x662) = (ushort)bStack_40 * 0x100 + (ushort)bStack_3f;
           *(ushort *)(param_1 + 0x664) = (ushort)bStack_3e * 0x100 + (ushort)bStack_3d;
@@ -99,8 +99,8 @@ LAB_829ba648:
           goto LAB_829ba684;
         }
         if ((param_3 & 0xffffffff) == 2) {
-          fn_829B0F38(param_1,&bStack_38,2);
-          fn_829AB308(param_1,&bStack_38,2);
+          png_read_data(param_1,&bStack_38,2);
+          png_calculate_crc(param_1,&bStack_38,2);
           *(undefined2 *)(param_1 + 0x60a) = 1;
           *(ushort *)(param_1 + 0x668) = (ushort)bStack_38 * 0x100 + (ushort)bStack_37;
           goto LAB_829ba648;
@@ -117,7 +117,7 @@ LAB_829ba648:
     uVar2 = 0xffffffff82054f98;
   }
 LAB_829ba684:
-  fn_829AB128(param_1,uVar2);
+  png_warning(param_1,uVar2);
 LAB_829ba68c:
   fn_829B9B60(param_1,param_3);
   return;

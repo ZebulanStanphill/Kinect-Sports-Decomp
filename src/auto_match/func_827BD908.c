@@ -26,18 +26,18 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 
 
-void fn_827BD908(int *param_1)
+void output_message(int *param_1)
 
 {
   int lVar1;
   undefined1 auStack_d0 [192];
   
   (*(code *)(*param_1 + 0xc))(param_1,auStack_d0);
-  fn_82F6CE40(fn_82F6AB08() + 0x40,"%s\n",auStack_d0);
+  fprintf(__iob_func() + 0x40,"%s\n",auStack_d0);
   return;
 }
 

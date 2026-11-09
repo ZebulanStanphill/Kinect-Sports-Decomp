@@ -27,8 +27,8 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82830110();
 extern int fn_82F678C8();
-extern int fn_82F6AB08();
-extern int fn_82F6CE40();
+extern int __iob_func();
+extern int fprintf();
 
 
 undefined8 fn_8282FC60(undefined8 param_1,int param_2)
@@ -42,8 +42,8 @@ undefined8 fn_8282FC60(undefined8 param_1,int param_2)
   uVar3 = fn_82F678C8(**(undefined4 **)(param_2 + 0x388),0x20,*(undefined4 *)(param_2 + 0xa0),
                        param_1);
   if (uVar3 < *(uint *)(param_2 + 0xa0)) {
-    lVar1 = fn_82F6AB08();
-    fn_82F6CE40(lVar1 + 0x40,"sectionDb Error: Symbol file symbol data did not read correctly\n");
+    lVar1 = __iob_func();
+    fprintf(lVar1 + 0x40,"sectionDb Error: Symbol file symbol data did not read correctly\n");
     uVar2 = 5;
   }
   else {

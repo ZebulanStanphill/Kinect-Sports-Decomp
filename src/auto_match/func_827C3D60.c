@@ -26,20 +26,20 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
-extern int fn_827C3A38();
-extern int fn_827C3B98();
-extern int fn_827C3CB8();
+extern int jpeg_fill_bit_buffer();
+extern int jpeg_huff_decode();
+extern int process_restart();
 extern unsigned int iStack_80;
 extern unsigned int iStack_88;
-extern unsigned int lbl_82017AE8;
-extern unsigned int lbl_82017C28;
+extern unsigned int jpeg_natural_order;
+extern unsigned int extend_test;
 extern unsigned int lbl_82017C68;
 extern unsigned int uStack_84;
 extern unsigned int uStack_8c;
 extern unsigned int uStack_90;
 
 
-undefined8 fn_827C3D60(int param_1,int *param_2)
+undefined8 decode_mcu(int param_1,int *param_2)
 
 {
   int iVar1;
@@ -68,7 +68,7 @@ undefined8 fn_827C3D60(int param_1,int *param_2)
   
   iVar1 = *(int *)(param_1 + 0x198);
   if (((*(int *)(param_1 + 0xfc) == 0) || (*(int *)(iVar1 + 0x24) != 0)) ||
-     (cVar10 = fn_827C3CB8(), cVar10 != '\0')) {
+     (cVar10 = process_restart(), cVar10 != '\0')) {
     if (*(char *)(iVar1 + 8) == '\0') {
       uVar2 = *(undefined4 *)(iVar1 + 0x14);
       auStack_a0[1] = *(undefined4 *)(iVar1 + 0x18);
@@ -88,14 +88,14 @@ undefined8 fn_827C3D60(int param_1,int *param_2)
           iVar16 = piVar15[-10];
           iVar4 = *piVar15;
           if ((int)uVar12 < 8) {
-            cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,0);
+            cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,0);
             if (cVar10 == '\0') goto LAB_827c3d9c;
             uVar12 = (ulonglong)uStack_84;
             iVar11 = iStack_88;
             if (7 < (int)uStack_84) goto LAB_827c3e68;
             uVar8 = 1;
 LAB_827c3e9c:
-            uVar9 = fn_827C3B98(&uStack_90,iVar11,uVar12,iVar16,uVar8);
+            uVar9 = jpeg_huff_decode(&uStack_90,iVar11,uVar12,iVar16,uVar8);
             if ((longlong)uVar9 < 0) goto LAB_827c3d9c;
             uVar12 = (ulonglong)uStack_84;
             iVar11 = iStack_88;
@@ -114,7 +114,7 @@ LAB_827c3e68:
           uVar17 = (uint)uVar9;
           if (uVar17 != 0) {
             if ((int)uVar12 < (int)uVar17) {
-              cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,uVar9);
+              cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,uVar9);
               if (cVar10 == '\0') goto LAB_827c3d9c;
               uVar12 = (ulonglong)uStack_84;
               iVar11 = iStack_88;
@@ -123,7 +123,7 @@ LAB_827c3e68:
             iVar16 = (int)((uVar9 & 0xffffffff) << 2);
             uVar9 = (ulonglong)(uint)(1 << (uVar17 & 0x3f)) - 1 &
                     (longlong)(iVar11 >> ((uint)uVar12 & 0x3f));
-            if ((int)uVar9 < *(int *)(&lbl_82017C28 + iVar16)) {
+            if ((int)uVar9 < *(int *)(&extend_test + iVar16)) {
               uVar9 = *(uint *)(&lbl_82017C68 + iVar16) + uVar9;
             }
           }
@@ -136,14 +136,14 @@ LAB_827c3e68:
           if (*(char *)(iVar13 + iVar1 + 0xa2) == '\0') {
             do {
               if ((int)uVar12 < 8) {
-                cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,0);
+                cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,0);
                 if (cVar10 == '\0') goto LAB_827c3d9c;
                 uVar12 = (ulonglong)uStack_84;
                 iVar11 = iStack_88;
                 if (7 < (int)uStack_84) goto LAB_827c40a0;
                 uVar8 = 1;
 LAB_827c40d4:
-                uVar9 = fn_827C3B98(&uStack_90,iVar11,uVar12,iVar4,uVar8);
+                uVar9 = jpeg_huff_decode(&uStack_90,iVar11,uVar12,iVar4,uVar8);
                 if ((int)uVar9 < 0) goto LAB_827c3d9c;
                 uVar12 = (ulonglong)uStack_84;
                 iVar11 = iStack_88;
@@ -168,7 +168,7 @@ LAB_827c40a0:
               else {
                 iVar16 = iVar16 + iVar5;
                 if ((int)uVar12 < (int)uVar7) {
-                  cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,uVar7);
+                  cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,uVar7);
                   if (cVar10 == '\0') goto LAB_827c3d9c;
                   uVar12 = (ulonglong)uStack_84;
                   iVar11 = iStack_88;
@@ -181,14 +181,14 @@ LAB_827c40a0:
           else {
             do {
               if ((int)uVar12 < 8) {
-                cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,0);
+                cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,0);
                 if (cVar10 == '\0') goto LAB_827c3d9c;
                 uVar12 = (ulonglong)uStack_84;
                 iVar11 = iStack_88;
                 if (7 < (int)uStack_84) goto LAB_827c3f88;
                 uVar8 = 1;
 LAB_827c3fbc:
-                uVar9 = fn_827C3B98(&uStack_90,iVar11,uVar12,iVar4,uVar8);
+                uVar9 = jpeg_huff_decode(&uStack_90,iVar11,uVar12,iVar4,uVar8);
                 if ((int)uVar9 < 0) goto LAB_827c3d9c;
                 uVar12 = (ulonglong)uStack_84;
                 iVar11 = iStack_88;
@@ -213,7 +213,7 @@ LAB_827c3f88:
               else {
                 iVar16 = iVar16 + iVar5;
                 if ((int)uVar12 < (int)uVar7) {
-                  cVar10 = fn_827C3A38(&uStack_90,iVar11,uVar12,uVar7);
+                  cVar10 = jpeg_fill_bit_buffer(&uStack_90,iVar11,uVar12,uVar7);
                   if (cVar10 == '\0') goto LAB_827c3d9c;
                   uVar12 = (ulonglong)uStack_84;
                   iVar11 = iStack_88;
@@ -221,10 +221,10 @@ LAB_827c3f88:
                 uVar12 = uVar12 - uVar7;
                 iVar5 = (int)((uVar9 & 0xf) << 2);
                 uVar17 = (1 << (int)uVar7) - 1U & iVar11 >> ((uint)uVar12 & 0x3f);
-                if ((int)uVar17 < *(int *)(&lbl_82017C28 + iVar5)) {
+                if ((int)uVar17 < *(int *)(&extend_test + iVar5)) {
                   uVar17 = *(int *)(&lbl_82017C68 + iVar5) + uVar17;
                 }
-                puVar3[*(int *)(&lbl_82017AE8 + iVar16 * 4)] = (short)uVar17;
+                puVar3[*(int *)(&jpeg_natural_order + iVar16 * 4)] = (short)uVar17;
               }
               iVar16 = iVar16 + 1;
             } while (iVar16 < 0x40);

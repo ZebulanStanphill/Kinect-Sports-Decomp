@@ -44,7 +44,7 @@ struct cinfo_829BB5A8 {
   struct { int p0; int (*decode_mcu)(cinfo_829BB5A8 *, void **); } *entropy;  /* 0x1c0 */
   struct { int p0; idct_fn_829BB5A8 inverse_DCT[10]; } *idct;  /* 0x1c4 */
 };
-extern void fn_829B7828(void *, unsigned);
+extern void d3dx_jzero_far(void *, unsigned);
 
 int fn_829BB5A8(cinfo_829BB5A8 *cinfo, unsigned char ***output_buf)
 {
@@ -60,7 +60,7 @@ int fn_829BB5A8(cinfo_829BB5A8 *cinfo, unsigned char ***output_buf)
 
   for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row; yoffset++) {
     for (MCU_col_num = coef->MCU_ctr; MCU_col_num <= last_MCU_col; MCU_col_num++) {
-      fn_829B7828(coef->MCU_buffer[0], cinfo->blocks_in_MCU << 7);
+      d3dx_jzero_far(coef->MCU_buffer[0], cinfo->blocks_in_MCU << 7);
       if (!cinfo->entropy->decode_mcu(cinfo, coef->MCU_buffer)) {
         coef->MCU_vert_offset = yoffset;
         coef->MCU_ctr = MCU_col_num;

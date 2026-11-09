@@ -26,19 +26,19 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_84;
-extern int fn_827C3A38();
-extern int fn_827C3B98();
-extern int fn_827C43E0();
+extern int jpeg_fill_bit_buffer();
+extern int jpeg_huff_decode();
+extern int process_restart();
 extern unsigned int iStack_90;
 extern unsigned int iStack_98;
-extern unsigned int lbl_82017CA8;
+extern unsigned int extend_test;
 extern unsigned int lbl_82017CE8;
 extern unsigned int uStack_94;
 extern unsigned int uStack_9c;
 extern unsigned int uStack_a0;
 
 
-undefined8 fn_827C4488(int param_1,undefined4 *param_2)
+undefined8 decode_mcu_DC_first(int param_1,undefined4 *param_2)
 
 {
   int iVar1;
@@ -69,7 +69,7 @@ undefined8 fn_827C4488(int param_1,undefined4 *param_2)
   iVar1 = *(int *)(param_1 + 0x198);
   uVar2 = *(uint *)(param_1 + 0x178);
   if (((*(int *)(param_1 + 0xfc) == 0) || (*(int *)(iVar1 + 0x28) != 0)) ||
-     (cVar8 = fn_827C43E0(), cVar8 != '\0')) {
+     (cVar8 = process_restart(), cVar8 != '\0')) {
     if (*(char *)(iVar1 + 8) == '\0') {
       puVar11 = auStack_84;
       puVar12 = (undefined4 *)(iVar1 + 0x10);
@@ -94,14 +94,14 @@ undefined8 fn_827C4488(int param_1,undefined4 *param_2)
           iVar13 = *(int *)((*(int *)(*(int *)((iVar3 + 0x4a) * 4 + param_1) + 0x14) + 0xb) * 4 +
                            iVar1);
           if ((int)uVar10 < 8) {
-            cVar8 = fn_827C3A38(&stack_pair_a0.first,iVar9,uVar10,0);
+            cVar8 = jpeg_fill_bit_buffer(&stack_pair_a0.first,iVar9,uVar10,0);
             if (cVar8 == '\0') goto LAB_827c44c8;
             uVar10 = (ulonglong)uStack_94;
             iVar9 = iStack_98;
             if (7 < (int)uStack_94) goto LAB_827c4594;
             uVar6 = 1;
 LAB_827c45c8:
-            uVar7 = fn_827C3B98(&stack_pair_a0.first,iVar9,uVar10,iVar13,uVar6);
+            uVar7 = jpeg_huff_decode(&stack_pair_a0.first,iVar9,uVar10,iVar13,uVar6);
             if ((longlong)uVar7 < 0) goto LAB_827c44c8;
             uVar10 = (ulonglong)uStack_94;
             iVar9 = iStack_98;
@@ -120,7 +120,7 @@ LAB_827c4594:
           uVar16 = (uint)uVar7;
           if (uVar16 != 0) {
             if ((int)uVar10 < (int)uVar16) {
-              cVar8 = fn_827C3A38(&stack_pair_a0.first,iVar9,uVar10,uVar7);
+              cVar8 = jpeg_fill_bit_buffer(&stack_pair_a0.first,iVar9,uVar10,uVar7);
               if (cVar8 == '\0') goto LAB_827c44c8;
               uVar10 = (ulonglong)uStack_94;
               iVar9 = iStack_98;
@@ -129,7 +129,7 @@ LAB_827c4594:
             iVar13 = (int)((uVar7 & 0xffffffff) << 2);
             uVar7 = (ulonglong)(uint)(1 << (uVar16 & 0x3f)) - 1 &
                     (longlong)(iVar9 >> ((uint)uVar10 & 0x3f));
-            if ((int)uVar7 < *(int *)(&lbl_82017CA8 + iVar13)) {
+            if ((int)uVar7 < *(int *)(&extend_test + iVar13)) {
               uVar7 = *(uint *)(&lbl_82017CE8 + iVar13) + uVar7;
             }
           }

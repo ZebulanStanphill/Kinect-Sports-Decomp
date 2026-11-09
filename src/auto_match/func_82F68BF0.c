@@ -35,7 +35,7 @@ extern int fn_82F800C8();
 extern int lbl_83263614;
 
 
-void *fn_82F68BF0(unsigned int param_1)
+void *malloc(unsigned int param_1)
 
 {
   int iVar3;

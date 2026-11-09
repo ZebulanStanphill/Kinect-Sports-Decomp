@@ -40,7 +40,7 @@ extern int fn_82F143A8();
 extern int fn_82F15538();
 extern int fn_82F174E0();
 extern int fn_82F17D48();
-extern int fn_82F641F8();
+extern int free();
 extern int iRam83248e50;
 extern int iRam83248e88;
 extern unsigned int lbl_82005710;
@@ -584,19 +584,19 @@ LAB_82e877b0:
     }
   }
   if (*(int *)(param_1 + 0x7af8) != 0) {
-    fn_82F641F8();
+    free();
   }
   if (*(int *)(param_1 + 0x7afc) != 0) {
-    fn_82F641F8();
+    free();
   }
   if (*(int *)(param_1 + 0x7b04) != 0) {
-    fn_82F641F8();
+    free();
   }
   if (*(int *)(param_1 + 0x7b00) != 0) {
-    fn_82F641F8();
+    free();
   }
   if (*(int *)(param_1 + 0x7b08) != 0) {
-    fn_82F641F8();
+    free();
   }
   return;
 }

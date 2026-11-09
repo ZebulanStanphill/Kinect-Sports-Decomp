@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82F8D4D8(int param_1)
+void _tr_align(int param_1)
 
 {
   uint uVar1;

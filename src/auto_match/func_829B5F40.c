@@ -32,7 +32,7 @@ typedef struct { void (*error_exit)(void *); int pad[4]; int msg_code; int msg_p
 typedef struct { err_829B5F40 *err; char *mem_unused; } cinfo_829B5F40;
 typedef struct { char *head; } pool_829B5F40;
 typedef struct { int f0; int f4; int f8; int fc; char p10[0x10]; int f20; int p24; int f28; int f2c; } blk_829B5F40;
-extern blk_829B5F40 *fn_829B5A80(void *, int, int);
+extern blk_829B5F40 *d3dx_alloc_small(void *, int, int);
 
 void fn_829B5F40(cinfo_829B5F40 *param_1, int param_2, int param_3, int param_4, int param_5, int param_6)
 {
@@ -44,7 +44,7 @@ void fn_829B5F40(cinfo_829B5F40 *param_1, int param_2, int param_3, int param_4,
     param_1->err->msg_parm_i0 = param_2;
     param_1->err->error_exit(param_1);
   }
-  b = fn_829B5A80(param_1, param_2, 0x248);
+  b = d3dx_alloc_small(param_1, param_2, 0x248);
   b->f4 = param_5;
   b->f0 = 0;
   b->f8 = param_4;

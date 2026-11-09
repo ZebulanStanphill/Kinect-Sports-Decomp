@@ -29,7 +29,7 @@ extern unsigned int *auStack_30;
 extern int fn_8223F5A0();
 extern int fn_82F62680();
 extern int fn_82F626D0();
-extern int fn_82F641F8();
+extern int free();
 
 
 void fn_82F62870(int param_1)
@@ -55,7 +55,7 @@ void fn_82F62870(int param_1)
       }
     } while (iVar3 != 0);
   }
-  fn_82F641F8(*(undefined4 *)(param_1 + 8));
+  free(*(undefined4 *)(param_1 + 8));
   fn_82F626D0(auStack_30);
   return;
 }

@@ -26,9 +26,9 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_829AB0F0();
-extern int fn_829AB308();
+extern int png_calculate_crc();
 extern int fn_829AE100();
-extern int fn_829B0F38();
+extern int png_read_data();
 extern int fn_829B9B60();
 
 
@@ -60,8 +60,8 @@ void fn_829B9C58(int param_1,undefined8 param_2,int param_3)
     fn_829AB0F0(param_1,0xffffffff82054cf4);
   }
   *(uint *)(param_1 + 0x558) = *(uint *)(param_1 + 0x558) | 1;
-  fn_829B0F38(param_1,&bStack_60,0xd);
-  fn_829AB308(param_1,&bStack_60,0xd);
+  png_read_data(param_1,&bStack_60,0xd);
+  png_calculate_crc(param_1,&bStack_60,0xd);
   fn_829B9B60(param_1,0);
   uVar3 = (((uint)bStack_5c * 0x100 + (uint)bStack_5b) * 0x100 + (uint)bStack_5a) * 0x100 +
           (uint)bStack_59;

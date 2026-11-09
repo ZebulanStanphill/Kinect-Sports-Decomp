@@ -25,17 +25,17 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_829AB140();
-extern int fn_829B9080();
+extern int png_chunk_error();
+extern int png_check_chunk_name();
 extern int fn_829B9B60();
 
 
 void fn_829BA6A0(int param_1,unsigned int param_2,undefined8 param_3)
 
 {
-  fn_829B9080(param_1,param_1 + 0x60c);
+  png_check_chunk_name(param_1,param_1 + 0x60c);
   if (((*(byte *)(param_1 + 0x60c) & 0x20) != 0) ||
-     (fn_829AB140(param_1,"unknown critical chunk"), param_2 != 0)) {
+     (png_chunk_error(param_1,"unknown critical chunk"), param_2 != 0)) {
     if ((*(uint *)(param_1 + 0x558) & 4) != 0) {
       *(uint *)(param_1 + 0x558) = *(uint *)(param_1 + 0x558) | 8;
     }

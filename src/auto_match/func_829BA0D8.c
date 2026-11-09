@@ -6,7 +6,7 @@ typedef struct png_struct_def {
 typedef png_struct *png_structp;
 typedef void *png_infop;
 extern void fn_829AB0F0(png_structp png_ptr, const char *msg);
-extern void fn_829AB128(png_structp png_ptr, const char *msg);
+extern void png_warning(png_structp png_ptr, const char *msg);
 extern int fn_829B9B60(png_structp png_ptr, png_uint_32 skip);
 
 #define PNG_HAVE_IHDR 0x01
@@ -29,7 +29,7 @@ void fn_829BA0D8(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    if (length != 0)
    {
-      fn_829AB128(png_ptr, "Incorrect IEND chunk length");
+      png_warning(png_ptr, "Incorrect IEND chunk length");
    }
    fn_829B9B60(png_ptr, length);
 }

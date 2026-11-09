@@ -1,9 +1,9 @@
-extern void fn_827BD8D0(void);
-extern void fn_827BD908(void);
-extern void fn_827BD950(void);
-extern void fn_827BD9D0(void);
-extern void fn_827BDAF0(void);
-extern const char *const lbl_82017538[];
+extern void error_exit(void);
+extern void output_message(void);
+extern void emit_message(void);
+extern void format_message(void);
+extern void reset_error_mgr(void);
+extern const char *const jpeg_std_message_table[];
 
 struct jpeg_error_mgr {
   void (*error_exit)(void);
@@ -25,19 +25,19 @@ struct jpeg_error_mgr {
   int last_addon_message;
 };
 
-struct jpeg_error_mgr *fn_827BDB08(struct jpeg_error_mgr *err)
+struct jpeg_error_mgr *jpeg_std_error(struct jpeg_error_mgr *err)
 {
-  err->error_exit = fn_827BD8D0;
-  err->emit_message = fn_827BD950;
-  err->output_message = fn_827BD908;
-  err->format_message = fn_827BD9D0;
-  err->reset_error_mgr = fn_827BDAF0;
+  err->error_exit = error_exit;
+  err->emit_message = emit_message;
+  err->output_message = output_message;
+  err->format_message = format_message;
+  err->reset_error_mgr = reset_error_mgr;
 
   err->trace_level = 0;
   err->num_warnings = 0;
   err->msg_code = 0;
 
-  err->jpeg_message_table = lbl_82017538;
+  err->jpeg_message_table = jpeg_std_message_table;
   err->last_jpeg_message = 0x7c - 1;
 
   err->addon_message_table = 0;

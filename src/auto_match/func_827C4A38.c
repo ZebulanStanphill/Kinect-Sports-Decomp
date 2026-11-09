@@ -360,7 +360,7 @@ struct jpeg_color_quantizer {
   void (*finish_pass) (j_decompress_ptr cinfo);
   void (*new_color_map) (j_decompress_ptr cinfo);
 };
-extern const int lbl_82017AE8[];
+extern const int jpeg_natural_order[];
 typedef enum {
 
 JMSG_NOMESSAGE ,
@@ -517,9 +517,9 @@ typedef struct {
 
   j_decompress_ptr cinfo;
 } bitread_working_state;
-extern boolean fn_827C3A38
+extern boolean jpeg_fill_bit_buffer
 	(bitread_working_state * state, register bit_buf_type get_buffer, register int bits_left, int nbits);
-extern int fn_827C3B98
+extern int jpeg_huff_decode
 	(bitread_working_state * state, register bit_buf_type get_buffer, register int bits_left, d_derived_tbl * htbl, int min_bits);
 typedef struct {
   unsigned int EOBRUN;
@@ -539,10 +539,10 @@ typedef struct {
 } phuff_entropy_decoder;
 typedef phuff_entropy_decoder * phuff_entropy_ptr;
 boolean
-fn_827C43E0 (j_decompress_ptr cinfo);
+process_restart (j_decompress_ptr cinfo);
 
 boolean
-fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+decode_mcu_AC_refine (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 {
   phuff_entropy_ptr entropy = (phuff_entropy_ptr) cinfo->entropy;
   int Se = cinfo->Se;
@@ -559,7 +559,7 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 
   if (cinfo->restart_interval) {
     if (entropy->restarts_to_go == 0)
-      if (! fn_827C43E0(cinfo))
+      if (! process_restart(cinfo))
 	return 0;
   }
 
@@ -577,13 +577,13 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 
     if (EOBRUN == 0) {
       for (; k <= Se; k++) {
-	{ register int nb, look; if (bits_left < 8) { if (! fn_827C3A38(&br_state,get_buffer,bits_left, 0)) {goto undoit;} get_buffer = br_state.get_buffer; bits_left = br_state.bits_left; if (bits_left < 8) { nb = 1; goto label3; } } look = (((int) (get_buffer >> (bits_left - (8)))) & ((1<<(8))-1)); if ((nb = tbl->look_nbits[look]) != 0) { (bits_left -= (nb)); s = tbl->look_sym[look]; } else { nb = 8+1; label3: if ((s=fn_827C3B98(&br_state,get_buffer,bits_left,tbl,nb)) < 0) { goto undoit; } get_buffer = br_state.get_buffer; bits_left = br_state.bits_left; } };
+	{ register int nb, look; if (bits_left < 8) { if (! jpeg_fill_bit_buffer(&br_state,get_buffer,bits_left, 0)) {goto undoit;} get_buffer = br_state.get_buffer; bits_left = br_state.bits_left; if (bits_left < 8) { nb = 1; goto label3; } } look = (((int) (get_buffer >> (bits_left - (8)))) & ((1<<(8))-1)); if ((nb = tbl->look_nbits[look]) != 0) { (bits_left -= (nb)); s = tbl->look_sym[look]; } else { nb = 8+1; label3: if ((s=jpeg_huff_decode(&br_state,get_buffer,bits_left,tbl,nb)) < 0) { goto undoit; } get_buffer = br_state.get_buffer; bits_left = br_state.bits_left; } };
 	r = s >> 4;
 	s &= 15;
 	if (s) {
 	  if (s != 1)
 	    ((cinfo)->err->msg_code = (JWRN_HUFF_BAD_CODE), (*(cinfo)->err->emit_message) ((j_common_ptr) (cinfo), -1));
-	  { if (bits_left < (1)) { if (! fn_827C3A38(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
+	  { if (bits_left < (1)) { if (! jpeg_fill_bit_buffer(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
 	  if ((((int) (get_buffer >> (bits_left -= (1)))) & ((1<<(1))-1)))
 	    s = p1;
 	  else
@@ -592,7 +592,7 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 	  if (r != 15) {
 	    EOBRUN = 1 << r;
 	    if (r) {
-	      { if (bits_left < (r)) { if (! fn_827C3A38(&(br_state),get_buffer,bits_left,r)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
+	      { if (bits_left < (r)) { if (! jpeg_fill_bit_buffer(&(br_state),get_buffer,bits_left,r)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
 	      r = (((int) (get_buffer >> (bits_left -= (r)))) & ((1<<(r))-1));
 	      EOBRUN += r;
 	    }
@@ -602,9 +602,9 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 	}
 
 	do {
-	  thiscoef = *block + lbl_82017AE8[k];
+	  thiscoef = *block + jpeg_natural_order[k];
 	  if (*thiscoef != 0) {
-	    { if (bits_left < (1)) { if (! fn_827C3A38(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
+	    { if (bits_left < (1)) { if (! jpeg_fill_bit_buffer(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
 	    if ((((int) (get_buffer >> (bits_left -= (1)))) & ((1<<(1))-1))) {
 	      if ((*thiscoef & p1) == 0) {
 		if (*thiscoef >= 0)
@@ -620,7 +620,7 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
 	  k++;
 	} while (k <= Se);
 	if (s) {
-	  int pos = lbl_82017AE8[k];
+	  int pos = jpeg_natural_order[k];
 
 	  (*block)[pos] = (JCOEF) s;
 
@@ -632,9 +632,9 @@ fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
     if (EOBRUN > 0) {
 
       for (; k <= Se; k++) {
-	thiscoef = *block + lbl_82017AE8[k];
+	thiscoef = *block + jpeg_natural_order[k];
 	if (*thiscoef != 0) {
-	  { if (bits_left < (1)) { if (! fn_827C3A38(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
+	  { if (bits_left < (1)) { if (! jpeg_fill_bit_buffer(&(br_state),get_buffer,bits_left,1)) { goto undoit; } get_buffer = (br_state).get_buffer; bits_left = (br_state).bits_left; } };
 	  if ((((int) (get_buffer >> (bits_left -= (1)))) & ((1<<(1))-1))) {
 	    if ((*thiscoef & p1) == 0) {
 	      if (*thiscoef >= 0)

@@ -1,5 +1,5 @@
 extern void fn_8265C990(void *p, unsigned int flags);
-extern void fn_82F641F8(void *p);
+extern void free(void *p);
 
 typedef struct {
     char pad0[0x40];
@@ -16,7 +16,7 @@ void fn_82F2CB10(Obj *o)
         o->f80 = 0;
     }
     if (o->f7c != 0) {
-        fn_82F641F8(o->f7c);
+        free(o->f7c);
         o->f7c = 0;
     }
     o->f40 = 1;

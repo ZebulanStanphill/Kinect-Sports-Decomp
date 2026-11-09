@@ -50,7 +50,7 @@ typedef struct Decomp_829B6EA8 {
   int min_DCT_scaled_size;       /* 0x140 */
 } Decomp_829B6EA8;
 
-extern long fn_829B7760(long a, long b);
+extern long d3dx_jdiv_round_up(long a, long b);
 extern int fn_829B6DE0(Decomp_829B6EA8 *cinfo);
 
 void fn_829B6EA8(Decomp_829B6EA8 *cinfo)
@@ -65,16 +65,16 @@ void fn_829B6EA8(Decomp_829B6EA8 *cinfo)
   }
 
   if (cinfo->scale_num * 8 <= cinfo->scale_denom) {
-    cinfo->output_width = (unsigned int)fn_829B7760((long)cinfo->image_width, 8L);
-    cinfo->output_height = (unsigned int)fn_829B7760((long)cinfo->image_height, 8L);
+    cinfo->output_width = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_width, 8L);
+    cinfo->output_height = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_height, 8L);
     cinfo->min_DCT_scaled_size = 1;
   } else if (cinfo->scale_num * 4 <= cinfo->scale_denom) {
-    cinfo->output_width = (unsigned int)fn_829B7760((long)cinfo->image_width, 4L);
-    cinfo->output_height = (unsigned int)fn_829B7760((long)cinfo->image_height, 4L);
+    cinfo->output_width = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_width, 4L);
+    cinfo->output_height = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_height, 4L);
     cinfo->min_DCT_scaled_size = 2;
   } else if (cinfo->scale_num * 2 <= cinfo->scale_denom) {
-    cinfo->output_width = (unsigned int)fn_829B7760((long)cinfo->image_width, 2L);
-    cinfo->output_height = (unsigned int)fn_829B7760((long)cinfo->image_height, 2L);
+    cinfo->output_width = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_width, 2L);
+    cinfo->output_height = (unsigned int)d3dx_jdiv_round_up((long)cinfo->image_height, 2L);
     cinfo->min_DCT_scaled_size = 4;
   } else {
     cinfo->output_width = cinfo->image_width;
@@ -96,11 +96,11 @@ void fn_829B6EA8(Decomp_829B6EA8 *cinfo)
 
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
     compptr->downsampled_width = (unsigned int)
-      fn_829B7760((long)cinfo->image_width *
+      d3dx_jdiv_round_up((long)cinfo->image_width *
                   (long)(compptr->h_samp_factor * compptr->DCT_scaled_size),
                   (long)(cinfo->max_h_samp_factor * 8));
     compptr->downsampled_height = (unsigned int)
-      fn_829B7760((long)cinfo->image_height *
+      d3dx_jdiv_round_up((long)cinfo->image_height *
                   (long)(compptr->v_samp_factor * compptr->DCT_scaled_size),
                   (long)(cinfo->max_v_samp_factor * 8));
   }

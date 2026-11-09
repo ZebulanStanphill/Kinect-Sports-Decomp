@@ -26,11 +26,11 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
-extern int fn_829C08B8();
-extern int fn_829C09A8();
+extern int d3dx_pqdownheap();
+extern int d3dx_gen_bitlen();
 
 
-void fn_829C1940(int param_1,undefined4 *param_2)
+void d3dx_build_tree(int param_1,undefined4 *param_2)
 
 {
   byte bVar1;
@@ -107,7 +107,7 @@ void fn_829C1940(int param_1,undefined4 *param_2)
   uVar15 = *(uint *)(param_1 + 0x1448);
   for (lVar19 = (longlong)((int)uVar15 >> 1) + (ulonglong)((int)uVar15 < 0 && (uVar15 & 1) != 0);
       0 < (int)lVar19; lVar19 = lVar19 + -1) {
-    param_1 = fn_829C08B8(param_1,puVar20,lVar19);
+    param_1 = d3dx_pqdownheap(param_1,puVar20,lVar19);
   }
   iVar3 = param_1 + 0x1450;
   puVar11 = puVar20 + iVar9 * 2;
@@ -116,7 +116,7 @@ void fn_829C1940(int param_1,undefined4 *param_2)
     uVar5 = *(undefined4 *)((*(int *)(param_1 + 0x1448) + 0x2d5) * 4 + param_1);
     *(int *)(param_1 + 0x1448) = *(int *)(param_1 + 0x1448) + -1;
     *(undefined4 *)(param_1 + 0xb58) = uVar5;
-    iVar8 = fn_829C08B8(param_1,puVar20,1);
+    iVar8 = d3dx_pqdownheap(param_1,puVar20,1);
     iVar14 = *(int *)(iVar8 + 0xb58);
     iVar4 = *(int *)(iVar8 + 0x144c);
     *(int *)(iVar8 + 0x144c) = iVar4 + -1;
@@ -137,12 +137,12 @@ void fn_829C1940(int param_1,undefined4 *param_2)
     puVar11 = puVar11 + 2;
     *(int *)(iVar8 + 0xb58) = iVar9;
     iVar9 = iVar9 + 1;
-    param_1 = fn_829C08B8(iVar8,puVar20,1,bVar2,bVar1);
+    param_1 = d3dx_pqdownheap(iVar8,puVar20,1,bVar2,bVar1);
   } while (1 < *(int *)(param_1 + 0x1448));
   iVar9 = *(int *)(param_1 + 0x144c);
   *(int *)(param_1 + 0x144c) = iVar9 + -1;
   *(undefined4 *)((iVar9 + 0x2d4) * 4 + param_1) = *(undefined4 *)(param_1 + 0xb58);
-  iVar9 = fn_829C09A8(param_1,param_2);
+  iVar9 = d3dx_gen_bitlen(param_1,param_2);
   uVar16 = 0;
   puVar11 = auStack_70;
   psVar12 = (short *)(iVar9 + 0xb32);

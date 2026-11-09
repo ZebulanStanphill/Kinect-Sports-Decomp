@@ -75,7 +75,7 @@ struct jpeg_memory_mgr {
 };
 
 void
-fn_827BD9D0 (j_common_ptr cinfo, char * buffer)
+format_message (j_common_ptr cinfo, char * buffer)
 {
   struct jpeg_error_mgr * err = cinfo->err;
   int msg_code = err->msg_code;

@@ -25,8 +25,8 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F641F8();
-extern int fn_82F68BF0();
+extern int free();
+extern int malloc();
 extern int fn_82F6ACF0();
 extern int fn_82F6AD80();
 extern int fn_82F71A70();
@@ -69,12 +69,12 @@ LAB_82f7ba88:
     }
     iVar5 = iVar4 * 4;
     if (*(int *)(iVar5 + lbl_8329F734) == 0) {
-      iVar4 = fn_82F68BF0(0x3c);
+      iVar4 = malloc(0x3c);
       *(int *)(iVar5 + iVar3) = iVar4;
       if (iVar4 != 0) {
         iVar4 = fn_82F71A70((ulonglong)*(uint *)(iVar5 + lbl_8329F734) + 0x20,4000);
         if (iVar4 == 0) {
-          fn_82F641F8(*(undefined4 *)(iVar5 + lbl_8329F734));
+          free(*(undefined4 *)(iVar5 + lbl_8329F734));
           *(undefined4 *)(iVar5 + lbl_8329F734) = 0;
         }
         else {

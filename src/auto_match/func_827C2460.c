@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 
 
-void fn_827C2460(int param_1)
+void finish_output_pass(int param_1)
 
 {
   int iVar1;

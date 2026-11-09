@@ -501,7 +501,7 @@ typedef struct {
   int look_nbits[1<<8];
   UINT8 look_sym[1<<8];
 } d_derived_tbl;
-extern void fn_827C36D8
+extern void jpeg_make_d_derived_tbl
 	(j_decompress_ptr cinfo, boolean isDC, int tblno, d_derived_tbl ** pdtbl);
 typedef INT32 bit_buf_type;
 typedef struct {
@@ -525,13 +525,13 @@ typedef struct {
   d_derived_tbl * ac_derived_tbl;
 } phuff_entropy_decoder;
 typedef phuff_entropy_decoder * phuff_entropy_ptr;
-boolean fn_827C4488 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
-boolean fn_827C46D0 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
-boolean fn_827C4928 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
-boolean fn_827C4A38 (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+boolean decode_mcu_DC_first (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+boolean decode_mcu_AC_first (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+boolean decode_mcu_DC_refine (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+boolean decode_mcu_AC_refine (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
 
 void
-fn_827C4E40 (j_decompress_ptr cinfo)
+start_pass_phuff_decoder (j_decompress_ptr cinfo)
 {
   phuff_entropy_ptr entropy = (phuff_entropy_ptr) cinfo->entropy;
   boolean is_DC_band, bad;
@@ -579,14 +579,14 @@ fn_827C4E40 (j_decompress_ptr cinfo)
 
   if (cinfo->Ah == 0) {
     if (is_DC_band)
-      entropy->pub.decode_mcu = fn_827C4488;
+      entropy->pub.decode_mcu = decode_mcu_DC_first;
     else
-      entropy->pub.decode_mcu = fn_827C46D0;
+      entropy->pub.decode_mcu = decode_mcu_AC_first;
   } else {
     if (is_DC_band)
-      entropy->pub.decode_mcu = fn_827C4928;
+      entropy->pub.decode_mcu = decode_mcu_DC_refine;
     else
-      entropy->pub.decode_mcu = fn_827C4A38;
+      entropy->pub.decode_mcu = decode_mcu_AC_refine;
   }
 
   for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
@@ -595,12 +595,12 @@ fn_827C4E40 (j_decompress_ptr cinfo)
     if (is_DC_band) {
       if (cinfo->Ah == 0) {
 	tbl = compptr->dc_tbl_no;
-	fn_827C36D8(cinfo, 1, tbl,
+	jpeg_make_d_derived_tbl(cinfo, 1, tbl,
 				& entropy->derived_tbls[tbl]);
       }
     } else {
       tbl = compptr->ac_tbl_no;
-      fn_827C36D8(cinfo, 0, tbl,
+      jpeg_make_d_derived_tbl(cinfo, 0, tbl,
 			      & entropy->derived_tbls[tbl]);
 
       entropy->ac_derived_tbl = entropy->derived_tbls[tbl];

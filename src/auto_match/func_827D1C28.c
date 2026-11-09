@@ -58,11 +58,11 @@ struct inflate_state {
     code codes[2048];
 };
 
-extern void *fn_827D3AA8(void *opaque, unsigned int items, unsigned int size);
-extern void fn_827D3AB0(void *opaque, void *address);
-extern int fn_827D1B48(z_stream *strm);
+extern void *zcalloc(void *opaque, unsigned int items, unsigned int size);
+extern void zcfree(void *opaque, void *address);
+extern int inflateReset(z_stream *strm);
 
-int fn_827D1C28(z_stream *strm, int windowBits, const char *version, int stream_size)
+int inflateInit2_(z_stream *strm, int windowBits, const char *version, int stream_size)
 {
     struct inflate_state *state;
 
@@ -73,10 +73,10 @@ int fn_827D1C28(z_stream *strm, int windowBits, const char *version, int stream_
     strm->msg = 0;
     if (strm->zalloc == (alloc_func)0) {
         strm->opaque = (void *)0;
-        strm->zalloc = fn_827D3AA8;
+        strm->zalloc = zcalloc;
     }
     if (strm->zfree == (free_func)0)
-        strm->zfree = fn_827D3AB0;
+        strm->zfree = zcfree;
     state = (struct inflate_state *)(*strm->zalloc)(strm->opaque, 1, sizeof(struct inflate_state));
     if (state == 0)
         return -4;
@@ -96,5 +96,5 @@ int fn_827D1C28(z_stream *strm, int windowBits, const char *version, int stream_
     }
     state->wbits = (unsigned)windowBits;
     state->window = 0;
-    return fn_827D1B48(strm);
+    return inflateReset(strm);
 }

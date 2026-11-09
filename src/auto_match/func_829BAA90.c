@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C940();
 
 
-uint fn_829BAA90(undefined8 param_1,longlong param_2)
+uint d3dx_jpeg_get_large(undefined8 param_1,longlong param_2)
 
 {
   uint uVar1;

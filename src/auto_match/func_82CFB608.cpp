@@ -1,11 +1,11 @@
 // hkStdioStreamWriter::hkStdioStreamWriter (hkStdioStreamWriter.cpp): a
 // writer over the CRT's stderr (2) or stdout (anything else), which it does
-// not own. fn_82F6AB08 is the CRT's __iob_func (FILE is 0x20 bytes).
+// not own. __iob_func is the CRT's __iob_func (FILE is 0x20 bytes).
 #include "havok/hkBase.h"
 
 // CRT functions; they keep their fn_ names because Matching C units call them.
 extern "C" {
-char *fn_82F6AB08(void);   // __iob_func
+char *__iob_func(void);   // __iob_func
 }
 
 class hkStreamWriter : public hkReferencedObject {
@@ -32,7 +32,7 @@ hkStdioStreamWriter::hkStdioStreamWriter(int stdStream)
 {
     m_owns = false;
     if (stdStream == 2)
-        m_handle = fn_82F6AB08() + 0x40;   // stderr
+        m_handle = __iob_func() + 0x40;   // stderr
     else
-        m_handle = fn_82F6AB08() + 0x20;   // stdout
+        m_handle = __iob_func() + 0x20;   // stdout
 }

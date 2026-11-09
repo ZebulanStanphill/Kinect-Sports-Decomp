@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BE778();
+extern int jpeg_add_quant_table();
 
 
-void fn_827BE938(undefined8 param_1,longlong param_2,undefined8 param_3)
+void jpeg_set_quality(undefined8 param_1,longlong param_2,undefined8 param_3)
 
 {
   longlong lVar1;
@@ -46,8 +46,8 @@ void fn_827BE938(undefined8 param_1,longlong param_2,undefined8 param_3)
   else {
     lVar1 = (100U - param_2 & 0x7fffffff) << 1;
   }
-  fn_827BE778(param_1,0,0xffffffff82017830,lVar1,param_3);
-  fn_827BE778(param_1,1,0xffffffff82017730,lVar1,param_3);
+  jpeg_add_quant_table(param_1,0,0xffffffff82017830,lVar1,param_3);
+  jpeg_add_quant_table(param_1,1,0xffffffff82017730,lVar1,param_3);
   return;
 }
 

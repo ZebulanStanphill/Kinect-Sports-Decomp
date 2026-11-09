@@ -29,7 +29,7 @@ extern int fn_8267C4C8();
 extern int fn_8267C4F0();
 extern int fn_826E6BB0();
 extern int fn_826E6BC0();
-extern int fn_827D1D48();
+extern int inflateInit_();
 
 
 int * fn_826E6C18(int *param_1,int *param_2)
@@ -60,7 +60,7 @@ int * fn_826E6C18(int *param_1,int *param_2)
   param_1[0xc] = 0;
   param_1[0xd] = 0;
   param_1[0xe] = 0;
-  iVar1 = fn_827D1D48(param_1 + 1,0xffffffff8200d654,0x38);
+  iVar1 = inflateInit_(param_1 + 1,0xffffffff8200d654,0x38);
   if (iVar1 == 0) {
     param_1[0x15] = 0;
     param_1[0x14] = 0;

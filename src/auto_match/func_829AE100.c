@@ -21,7 +21,7 @@ typedef struct png_info_829AE100 {
 } png_info_829AE100;
 
 extern void fn_829AB0F0(void *png_ptr, const char *message);
-extern void fn_829AB128(void *png_ptr, const char *message);
+extern void png_warning(void *png_ptr, const char *message);
 
 void fn_829AE100(void *png_ptr, png_info_829AE100 *info_ptr, png_uint_32 width, png_uint_32 height,
                  int bit_depth, int color_type, int interlace_type, int compression_type, int filter_type)
@@ -51,7 +51,7 @@ void fn_829AE100(void *png_ptr, png_info_829AE100 *info_ptr, png_uint_32 width, 
 
     /* check for overflow */
     if (width > (png_uint_32)0x7fffffffL / ((info_ptr->pixel_depth + 7) >> 3)) {
-        fn_829AB128(png_ptr, "Width too large to process image data; rowbytes will overflow.");
+        png_warning(png_ptr, "Width too large to process image data; rowbytes will overflow.");
         info_ptr->rowbytes = (png_size_t)0;
     } else
         info_ptr->rowbytes = (info_ptr->width * info_ptr->pixel_depth + 7) >> 3;

@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern char lbl_831BC604[];
+extern char static_l_desc[];
 
 typedef struct { unsigned short freq; unsigned short code; } ct_data_82F8CFE8;
 typedef struct { ct_data_82F8CFE8 *dyn_tree; int max_code; void *stat_desc; } tree_desc_82F8CFE8;
@@ -49,13 +49,13 @@ typedef struct deflate_state_82F8CFE8 {
   int bi_valid;
 } deflate_state_82F8CFE8;
 
-void fn_82F8CFE8(deflate_state_82F8CFE8 *s)
+void _tr_init(deflate_state_82F8CFE8 *s)
 {
   int n;
   s->l_desc.dyn_tree = s->dyn_ltree;
-  s->l_desc.stat_desc = lbl_831BC604;
-  s->d_desc.stat_desc = (lbl_831BC604 + 0x14);
-  s->bl_desc.stat_desc = (lbl_831BC604 + 0x28);
+  s->l_desc.stat_desc = static_l_desc;
+  s->d_desc.stat_desc = (static_l_desc + 0x14);
+  s->bl_desc.stat_desc = (static_l_desc + 0x28);
   s->bi_buf = 0;
   s->d_desc.dyn_tree = s->dyn_dtree;
   s->bl_desc.dyn_tree = s->bl_tree;

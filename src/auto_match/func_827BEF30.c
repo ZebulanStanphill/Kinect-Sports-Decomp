@@ -25,10 +25,10 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_827BEEA0();
+extern int fill_dc_scans();
 
 
-void fn_827BEF30(int *param_1)
+void jpeg_simple_progression(int *param_1)
 
 {
   uint uVar1;
@@ -72,7 +72,7 @@ LAB_827befac:
   param_1[0x2a] = iVar4;
   param_1[0x2b] = iVar2;
   if ((uVar1 == 3) && (param_1[0x10] == 3)) {
-    puVar3 = (undefined4 *)fn_827BEEA0(iVar2,3,0,1);
+    puVar3 = (undefined4 *)fill_dc_scans(iVar2,3,0,1);
     uVar5 = 1;
     puVar3[6] = 5;
     *puVar3 = 1;
@@ -104,7 +104,7 @@ LAB_827befac:
     puVar3[0x2a] = 0x3f;
     puVar3[0x2b] = 2;
     puVar3[0x2c] = 1;
-    puVar3 = (undefined4 *)fn_827BEEA0(puVar3 + 0x2d);
+    puVar3 = (undefined4 *)fill_dc_scans(puVar3 + 0x2d);
     *puVar3 = uVar5;
     puVar3[1] = 2;
     puVar3[5] = uVar5;
@@ -125,7 +125,7 @@ LAB_827befac:
     puVar3[0x1a] = 0;
   }
   else {
-    puVar3 = (undefined4 *)fn_827BEEA0(iVar2,uVar6,0,1);
+    puVar3 = (undefined4 *)fill_dc_scans(iVar2,uVar6,0,1);
     uVar5 = 1;
     iVar4 = 0;
     uVar8 = uVar6;
@@ -172,7 +172,7 @@ LAB_827befac:
         uVar8 = uVar8 - 1;
       } while (uVar8 != 0);
     }
-    iVar4 = fn_827BEEA0(puVar3,uVar6,1,0);
+    iVar4 = fill_dc_scans(puVar3,uVar6,1,0);
     iVar2 = 0;
     if (0 < (int)uVar1) {
       puVar3 = (undefined4 *)(iVar4 + -4);

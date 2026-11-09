@@ -22,14 +22,14 @@ typedef struct {
   JQUANT_TBL *quant_tbl_ptrs[4];
 } jpeg_compress_struct;
 
-extern JQUANT_TBL *fn_827C1A20(void *cinfo);
+extern JQUANT_TBL *jpeg_alloc_quant_table(void *cinfo);
 
 #define ERREXIT1(cinfo,code,p1)  \
   ((cinfo)->err->msg_code = (code), \
    (cinfo)->err->msg_parm.i[0] = (p1), \
    (*(cinfo)->err->error_exit) ((void *) (cinfo)))
 
-void fn_827BE778(jpeg_compress_struct *cinfo, int which_tbl,
+void jpeg_add_quant_table(jpeg_compress_struct *cinfo, int which_tbl,
                  const unsigned int *basic_table, int scale_factor,
                  boolean force_baseline)
 {
@@ -46,7 +46,7 @@ void fn_827BE778(jpeg_compress_struct *cinfo, int which_tbl,
   qtblptr = &cinfo->quant_tbl_ptrs[which_tbl];
 
   if (*qtblptr == 0)
-    *qtblptr = fn_827C1A20(cinfo);
+    *qtblptr = jpeg_alloc_quant_table(cinfo);
 
   for (i = 0; i < 64; i++) {
     temp = ((long)basic_table[i] * scale_factor + 50L) / 100L;

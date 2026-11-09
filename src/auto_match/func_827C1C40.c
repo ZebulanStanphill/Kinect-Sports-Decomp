@@ -359,7 +359,7 @@ struct jpeg_color_quantizer {
   void (*finish_pass) (j_decompress_ptr cinfo);
   void (*new_color_map) (j_decompress_ptr cinfo);
 };
-extern long fn_827C1AA0 (long a, long b);
+extern long jdiv_round_up (long a, long b);
 typedef enum {
 
 JMSG_NOMESSAGE ,
@@ -491,10 +491,10 @@ JWRN_TOO_MUCH_DATA ,
   JMSG_LASTMSGCODE
 } J_MESSAGE_CODE;
 boolean
-fn_827C1B78 (j_decompress_ptr cinfo);
+use_merged_upsample (j_decompress_ptr cinfo);
 
 void
-fn_827C1C40 (j_decompress_ptr cinfo)
+jpeg_calc_output_dimensions (j_decompress_ptr cinfo)
 
 {
 
@@ -507,23 +507,23 @@ fn_827C1C40 (j_decompress_ptr cinfo)
   if (cinfo->scale_num * 8 <= cinfo->scale_denom) {
 
     cinfo->output_width = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_width, 8L);
+      jdiv_round_up((long) cinfo->image_width, 8L);
     cinfo->output_height = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_height, 8L);
+      jdiv_round_up((long) cinfo->image_height, 8L);
     cinfo->min_DCT_scaled_size = 1;
   } else if (cinfo->scale_num * 4 <= cinfo->scale_denom) {
 
     cinfo->output_width = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_width, 4L);
+      jdiv_round_up((long) cinfo->image_width, 4L);
     cinfo->output_height = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_height, 4L);
+      jdiv_round_up((long) cinfo->image_height, 4L);
     cinfo->min_DCT_scaled_size = 2;
   } else if (cinfo->scale_num * 2 <= cinfo->scale_denom) {
 
     cinfo->output_width = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_width, 2L);
+      jdiv_round_up((long) cinfo->image_width, 2L);
     cinfo->output_height = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_height, 2L);
+      jdiv_round_up((long) cinfo->image_height, 2L);
     cinfo->min_DCT_scaled_size = 4;
   } else {
 
@@ -549,11 +549,11 @@ fn_827C1C40 (j_decompress_ptr cinfo)
        ci++, compptr++) {
 
     compptr->downsampled_width = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_width *
+      jdiv_round_up((long) cinfo->image_width *
 		    (long) (compptr->h_samp_factor * compptr->DCT_scaled_size),
 		    (long) (cinfo->max_h_samp_factor * 8));
     compptr->downsampled_height = (JDIMENSION)
-      fn_827C1AA0((long) cinfo->image_height *
+      jdiv_round_up((long) cinfo->image_height *
 		    (long) (compptr->v_samp_factor * compptr->DCT_scaled_size),
 		    (long) (cinfo->max_v_samp_factor * 8));
   }
@@ -578,7 +578,7 @@ fn_827C1C40 (j_decompress_ptr cinfo)
   cinfo->output_components = (cinfo->quantize_colors ? 1 :
 			      cinfo->out_color_components);
 
-  if (fn_827C1B78(cinfo))
+  if (use_merged_upsample(cinfo))
     cinfo->rec_outbuf_height = cinfo->max_v_samp_factor;
   else
     cinfo->rec_outbuf_height = 1;

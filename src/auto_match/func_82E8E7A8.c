@@ -33,7 +33,7 @@ extern int fn_82EFE7C0();
 extern int fn_82F04DC0();
 extern int fn_82F04E20();
 extern int fn_82F65E20();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int iRam83248e5c;
 extern unsigned int lbl_82002C40;
 extern unsigned int lbl_82005710;
@@ -120,7 +120,7 @@ void fn_82E8E7A8(int param_1,int param_2,undefined4 param_3,undefined4 param_4,u
                   3) + *(int *)(*(int *)(param_1 + 0x1ebc) + 4);
   if (*(int *)(param_1 + 0x6f98) != 0) {
     if (iRam83248e5c == 0) {
-      iRam83248e5c = fn_82F6AB08();
+      iRam83248e5c = __iob_func();
       iRam83248e5c = iRam83248e5c + 0x40;
     }
     *(int *)(param_1 + 0x75d0) = *(int *)(param_1 + 0x75cc) + *(int *)(param_1 + 0x75d0);

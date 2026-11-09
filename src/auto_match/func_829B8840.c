@@ -27,10 +27,10 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 typedef struct Buffer { char pad[20]; void *owner; } Buffer;
 typedef struct State { char pad[28]; Buffer *buffer; unsigned x; void (*release)(void *,Buffer *); void *arg; } State;
-extern void fn_829C2B80(void *,State *);
-int fn_829B8840(State *s) {
+extern void d3dx_inflate_blocks_free(void *,State *);
+int d3dx_inflateEnd(State *s) {
  if (!s || !s->buffer || !s->release) return -2;
- if (s->buffer->owner) fn_829C2B80(s->buffer->owner,s);
+ if (s->buffer->owner) d3dx_inflate_blocks_free(s->buffer->owner,s);
  s->release(s->arg,s->buffer);
  s->buffer=0;
  return 0;

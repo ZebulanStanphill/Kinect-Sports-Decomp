@@ -18,7 +18,7 @@ typedef struct C_827C3A38 {
 typedef struct State_827C3A38 {
   const JOCTET *next_input_byte; unsigned bytes_in_buffer; int get_buffer; int bits_left; C_827C3A38 *cinfo;
 } State_827C3A38;
-int fn_827C3A38(State_827C3A38 *state, int get_buffer, int bits_left, int nbits)
+int jpeg_fill_bit_buffer(State_827C3A38 *state, int get_buffer, int bits_left, int nbits)
 {
   const JOCTET *next_input_byte = state->next_input_byte;
   unsigned bytes_in_buffer = state->bytes_in_buffer;

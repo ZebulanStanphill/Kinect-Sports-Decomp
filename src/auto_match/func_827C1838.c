@@ -11,46 +11,46 @@ typedef struct Mem_827C1838 {
   unsigned long total_space_allocated;
   int pad;
 } Mem_827C1838;
-extern void fn_827C08B0(void);
-extern void fn_827C0A70(void);
-extern void fn_827C0B88(void);
-extern void fn_827C0C68(void);
-extern void fn_827C0D50(void);
-extern void fn_827C0DE8(void);
-extern void fn_827C0E80(void);
-extern void fn_827C1268(void);
-extern void fn_827C1458(void);
-extern void fn_827C1650(void);
-extern void fn_827C17D0(void);
-extern void *fn_827C8ED8(Cinfo_827C1838 *, unsigned);
+extern void alloc_small(void);
+extern void alloc_large(void);
+extern void alloc_sarray(void);
+extern void alloc_barray(void);
+extern void request_virt_sarray(void);
+extern void request_virt_barray(void);
+extern void realize_virt_arrays(void);
+extern void access_virt_sarray(void);
+extern void access_virt_barray(void);
+extern void free_pool(void);
+extern void self_destruct(void);
+extern void *jpeg_get_small(Cinfo_827C1838 *, unsigned);
 extern long fn_827C90E0(void);
-extern void fn_827C90F0(Cinfo_827C1838 *);
+extern void jpeg_mem_term(Cinfo_827C1838 *);
 
-void fn_827C1838(Cinfo_827C1838 *cinfo)
+void jinit_memory_mgr(Cinfo_827C1838 *cinfo)
 {
   Mem_827C1838 *mem;
   long max_to_use;
   int pool;
   cinfo->mem = 0;
   max_to_use = fn_827C90E0();
-  mem = (Mem_827C1838 *)fn_827C8ED8(cinfo, sizeof(Mem_827C1838));
+  mem = (Mem_827C1838 *)jpeg_get_small(cinfo, sizeof(Mem_827C1838));
   if (mem == 0) {
-    fn_827C90F0(cinfo);
+    jpeg_mem_term(cinfo);
     cinfo->err->msg_code = 0x36;
     cinfo->err->parm = 0;
     (*cinfo->err->error_exit)(cinfo);
   }
-  mem->fn[0] = fn_827C08B0;
-  mem->fn[1] = fn_827C0A70;
-  mem->fn[2] = fn_827C0B88;
-  mem->fn[3] = fn_827C0C68;
-  mem->fn[4] = fn_827C0D50;
-  mem->fn[5] = fn_827C0DE8;
-  mem->fn[6] = fn_827C0E80;
-  mem->fn[7] = fn_827C1268;
-  mem->fn[8] = fn_827C1458;
-  mem->fn[9] = fn_827C1650;
-  mem->fn[10] = fn_827C17D0;
+  mem->fn[0] = alloc_small;
+  mem->fn[1] = alloc_large;
+  mem->fn[2] = alloc_sarray;
+  mem->fn[3] = alloc_barray;
+  mem->fn[4] = request_virt_sarray;
+  mem->fn[5] = request_virt_barray;
+  mem->fn[6] = realize_virt_arrays;
+  mem->fn[7] = access_virt_sarray;
+  mem->fn[8] = access_virt_barray;
+  mem->fn[9] = free_pool;
+  mem->fn[10] = self_destruct;
   mem->max_memory_to_use = max_to_use;
   mem->max_alloc_chunk = 1000000000L;
   for (pool = 1; pool >= 0; pool--) {

@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_82D7E470();
 extern int _errno();
-extern int fn_82F6AB08();
+extern int __iob_func();
 extern int fn_82F7C468();
 extern int fn_82F7C9A0();
 extern int fn_82F85678();
@@ -73,8 +73,8 @@ undefined2 fn_82F88C00(undefined2 param_1,uint *param_2)
       param_2[1] = 0;
       param_2[3] = uVar8 & 0xffffffef | 2;
       if (((uVar8 & 0x10c) == 0) &&
-         (((iVar4 = fn_82F6AB08(), param_2 != (uint *)(iVar4 + 0x20) &&
-           (iVar4 = fn_82F6AB08(), param_2 != (uint *)(iVar4 + 0x40))) ||
+         (((iVar4 = __iob_func(), param_2 != (uint *)(iVar4 + 0x20) &&
+           (iVar4 = __iob_func(), param_2 != (uint *)(iVar4 + 0x40))) ||
           (iVar4 = fn_82D7E470(uVar1), iVar4 == 0)))) {
         fn_82F857F8(param_2);
       }

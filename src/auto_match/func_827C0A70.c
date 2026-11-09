@@ -50,7 +50,7 @@ typedef struct jcommon_827C0A70 {
   jerr_827C0A70 *err;
   jmem_827C0A70 *mem;
 } jcommon_827C0A70;
-extern void *fn_827C8EE8(jcommon_827C0A70 *, unsigned int);
+extern void *jpeg_get_large(jcommon_827C0A70 *, unsigned int);
 
 #define ERREXIT1(cinfo, code, p1) \
   ((cinfo)->err->msg_code = (code), (cinfo)->err->msg_parm.i[0] = (p1), \
@@ -61,7 +61,7 @@ static void out_of_memory(jcommon_827C0A70 *cinfo, int which)
   ERREXIT1(cinfo, 0x36, which);
 }
 
-void *fn_827C0A70(jcommon_827C0A70 *cinfo, int pool_id, unsigned int sizeofobject)
+void *alloc_large(jcommon_827C0A70 *cinfo, int pool_id, unsigned int sizeofobject)
 {
   jmem_827C0A70 *mem = cinfo->mem;
   large_hdr_827C0A70 *hdr_ptr;
@@ -74,7 +74,7 @@ void *fn_827C0A70(jcommon_827C0A70 *cinfo, int pool_id, unsigned int sizeofobjec
     sizeofobject += 8 - odd_bytes;
   if (pool_id < 0 || pool_id >= 2)
     ERREXIT1(cinfo, 14, pool_id);
-  hdr_ptr = (large_hdr_827C0A70 *)fn_827C8EE8(cinfo, sizeofobject + 16);
+  hdr_ptr = (large_hdr_827C0A70 *)jpeg_get_large(cinfo, sizeofobject + 16);
   if (hdr_ptr == 0)
     out_of_memory(cinfo, 4);
   mem->total_space_allocated += sizeofobject + 16;

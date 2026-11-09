@@ -1,7 +1,7 @@
 extern int fn_829AB2C0();
 extern int fn_829AB368();
 extern int fn_829B50F8();
-extern int fn_829B8840();
+extern int d3dx_inflateEnd();
 extern void *memcpy(void *, const void *, unsigned);
 extern void *memset(void *, int, unsigned);
 typedef struct { unsigned char b[0x540]; } Hdr_829AECC8;
@@ -40,7 +40,7 @@ void fn_829AECC8(unsigned char *o, unsigned a, unsigned b)
     }
     fn_829B50F8(o, *(unsigned *)(o + 0x644));
   }
-  fn_829B8840(o + 0x564);
+  d3dx_inflateEnd(o + 0x564);
   save = *(Hdr_829AECC8 *)o;
   {
     unsigned w0 = *(unsigned *)(o + 0x540);

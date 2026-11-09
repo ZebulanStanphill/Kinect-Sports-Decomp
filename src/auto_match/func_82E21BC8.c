@@ -25,7 +25,7 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82F89D60();
+extern int compress();
 extern unsigned int stack0x00000034;
 extern unsigned int uStack00000034;
 
@@ -37,7 +37,7 @@ longlong fn_82E21BC8(undefined8 param_1,undefined8 param_2,undefined8 param_3,ui
   uint uStack00000034;
   
   uStack00000034 = param_5;
-  fn_82F89D60(param_4 + 1,&stack0x00000034,param_2,param_3);
+  compress(param_4 + 1,&stack0x00000034,param_2,param_3);
   *param_4 = uStack00000034;
   return (ulonglong)uStack00000034 + 4;
 }

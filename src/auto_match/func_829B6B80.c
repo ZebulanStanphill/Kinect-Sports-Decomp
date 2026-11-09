@@ -34,10 +34,10 @@ typedef struct my_memory_mgr_829B6B80 {
     int pad50;
 } my_memory_mgr_829B6B80;
 
-extern void fn_829B5A80(void);
-extern void fn_829B5C58(void);
-extern void fn_829B5D78(void);
-extern void fn_829B5E58(void);
+extern void d3dx_alloc_small(void);
+extern void d3dx_alloc_large(void);
+extern void d3dx_alloc_sarray(void);
+extern void d3dx_alloc_barray(void);
 extern void fn_829B5F40(void);
 extern void fn_829B5FD8(void);
 extern void fn_829B6070(void);
@@ -45,7 +45,7 @@ extern void fn_829B6468(void);
 extern void fn_829B6658(void);
 extern void fn_829B6850(void);
 extern void fn_829B69D8(void);
-extern void *fn_829BAA90(jpeg_common_struct *, int);
+extern void *d3dx_jpeg_get_large(jpeg_common_struct *, int);
 extern int fn_829BACF0(jpeg_common_struct *);
 extern void fn_82BA02A8(jpeg_common_struct *);
 
@@ -57,7 +57,7 @@ void fn_829B6B80(jpeg_common_struct *cinfo)
 
     cinfo->mem = 0;
     max_to_use = fn_829BACF0(cinfo);
-    mem = (my_memory_mgr_829B6B80 *)fn_829BAA90(cinfo, sizeof(my_memory_mgr_829B6B80));
+    mem = (my_memory_mgr_829B6B80 *)d3dx_jpeg_get_large(cinfo, sizeof(my_memory_mgr_829B6B80));
     if (mem == 0) {
         fn_82BA02A8(cinfo);
         cinfo->err->msg_code = 0x36;
@@ -65,10 +65,10 @@ void fn_829B6B80(jpeg_common_struct *cinfo)
         (*cinfo->err->error_exit)(cinfo);
     }
     mem->max_memory_to_use = max_to_use;
-    mem->alloc_small = fn_829B5A80;
-    mem->alloc_large = fn_829B5C58;
-    mem->alloc_sarray = fn_829B5D78;
-    mem->alloc_barray = fn_829B5E58;
+    mem->alloc_small = d3dx_alloc_small;
+    mem->alloc_large = d3dx_alloc_large;
+    mem->alloc_sarray = d3dx_alloc_sarray;
+    mem->alloc_barray = d3dx_alloc_barray;
     mem->request_virt_sarray = fn_829B5F40;
     mem->request_virt_barray = fn_829B5FD8;
     mem->realize_virt_arrays = fn_829B6070;

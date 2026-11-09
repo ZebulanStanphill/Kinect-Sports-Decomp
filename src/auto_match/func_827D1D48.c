@@ -27,12 +27,12 @@ typedef struct z_stream_s {
     uLong   reserved;
 } z_stream;
 typedef z_stream  *z_streamp;
-extern int  fn_827D1C28 (z_streamp strm, int windowBits, const char *version, int stream_size);
+extern int  inflateInit2_ (z_streamp strm, int windowBits, const char *version, int stream_size);
 
-int  fn_827D1D48(strm, version, stream_size)
+int  inflateInit_(strm, version, stream_size)
 z_streamp strm;
 const char *version;
 int stream_size;
 {
-    return fn_827D1C28(strm, 15, version, stream_size);
+    return inflateInit2_(strm, 15, version, stream_size);
 }

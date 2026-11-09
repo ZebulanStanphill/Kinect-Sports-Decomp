@@ -28,11 +28,11 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_829AB0F0();
 extern int fn_829AB2C8();
-extern int fn_829AB308();
-extern int fn_829B0F38();
+extern int png_calculate_crc();
+extern int png_read_data();
 extern int fn_829B5130();
-extern int fn_829B87C8();
-extern int fn_829B8A30();
+extern int d3dx_inflateReset();
+extern int d3dx_inflate();
 extern int fn_829B9B60();
 extern unsigned int lbl_82054B24;
 extern unsigned int lbl_82054B40;
@@ -101,13 +101,13 @@ LAB_829ba880:
           pbVar10 = (byte *)(param_1 + 0x60c);
           do {
             fn_829B9B60(param_1,0);
-            fn_829B0F38(param_1,&bStack_4c,4);
+            png_read_data(param_1,&bStack_4c,4);
             *(uint *)(param_1 + 0x5fc) =
                  (((uint)bStack_4c * 0x100 + (uint)bStack_4b) * 0x100 + (uint)bStack_4a) * 0x100 +
                  (uint)bStack_49;
             fn_829AB2C8(param_1);
-            fn_829B0F38(param_1,pbVar10,4);
-            fn_829AB308(param_1,pbVar10,4);
+            png_read_data(param_1,pbVar10,4);
+            png_calculate_crc(param_1,pbVar10,4);
             pbVar6 = &lbl_82054B94;
             pbVar8 = pbVar10;
             do {
@@ -129,11 +129,11 @@ LAB_829ba880:
           *(uint *)(param_1 + 0x568) = *(uint *)(param_1 + 0x5fc);
         }
         uVar3 = *(undefined4 *)(param_1 + 0x568);
-        fn_829B0F38(param_1,uVar2,uVar3);
-        fn_829AB308(param_1,uVar2,uVar3);
+        png_read_data(param_1,uVar2,uVar3);
+        png_calculate_crc(param_1,uVar2,uVar3);
         *(int *)(param_1 + 0x5fc) = *(int *)(param_1 + 0x5fc) - *(int *)(param_1 + 0x568);
       }
-      iVar4 = fn_829B8A30(param_1 + 0x564,1);
+      iVar4 = d3dx_inflate(param_1 + 0x564,1);
       if (iVar4 != 1) {
         if (iVar4 != 0) {
           uVar5 = (ulonglong)*(uint *)(param_1 + 0x57c);
@@ -158,7 +158,7 @@ LAB_829ba880:
     if ((*(int *)(param_1 + 0x5fc) != 0) || (*(int *)(param_1 + 0x568) != 0)) {
       fn_829AB0F0(param_1,0xffffffff82055018);
     }
-    fn_829B87C8(param_1 + 0x564);
+    d3dx_inflateReset(param_1 + 0x564);
     *(uint *)(param_1 + 0x558) = *(uint *)(param_1 + 0x558) | 8;
   }
   return;
