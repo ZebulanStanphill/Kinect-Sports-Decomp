@@ -1,70 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CEA160();
-extern int fn_82CEA280();
-extern int fn_82E0E240();
-extern int fn_82E1BD60();
+typedef struct { unsigned int *owner; int next; } Entry_82E1B0A8;
+typedef struct { Entry_82E1B0A8 *entries; int pad[2]; char hash[4]; } Map_82E1B0A8;
+typedef struct { char pad[0x10]; int heap; } Ctx_82E1B0A8;
+extern int fn_82CEA280(void *hash, unsigned int key, unsigned int def);
+extern void fn_82CEA160(void *hash, int heap, unsigned int key, int index);
+extern int fn_82E1BD60(Map_82E1B0A8 *m);
+extern Ctx_82E1B0A8 *fn_82CE5410(void);
+extern void fn_82E0E240(Map_82E1B0A8 *m, unsigned int key, int index);
 
-
-void fn_82E1B0A8(int *param_1,ulonglong param_2,uint *param_3)
-
+void fn_82E1B0A8(Map_82E1B0A8 *m, unsigned int key, unsigned int *owner)
 {
-  int iVar1;
-  undefined4 uVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  ulonglong uVar5;
-  
-  uVar5 = (ulonglong)*param_3;
-  if ((uVar5 != 0) && (iVar1 = fn_82CEA280(param_1 + 3,uVar5,0xffffffffffffffff), iVar1 != -1)) {
-    do {
-      puVar4 = (undefined4 *)(iVar1 * 8 + *param_1);
-      if ((uint *)*puVar4 == param_3) {
-        if ((param_2 & 0xffffffff) == uVar5) {
-          return;
+    unsigned int old = *owner;
+    int i;
+    if (old != 0) {
+        i = fn_82CEA280(m->hash, old, 0xffffffff);
+        while (i != 0xffffffff) {
+            Entry_82E1B0A8 *e = &m->entries[i];
+            if (e->owner == owner) {
+                if (key == old) {
+                    return;
+                }
+                fn_82E0E240(m, old, i);
+                break;
+            }
+            i = e->next;
         }
-        fn_82E0E240(param_1,uVar5);
-        break;
-      }
-      iVar1 = puVar4[1];
-    } while (iVar1 != -1);
-  }
-  if ((param_2 & 0xffffffff) != 0) {
-    uVar2 = fn_82CEA280(param_1 + 3,param_2,0xffffffffffffffff);
-    iVar1 = fn_82E1BD60(param_1);
-    puVar4 = (undefined4 *)(iVar1 * 8 + *param_1);
-    *puVar4 = param_3;
-    puVar4[1] = uVar2;
-    iVar3 = fn_82CE5410();
-    fn_82CEA160(param_1 + 3,*(undefined4 *)(iVar3 + 0x10),param_2,iVar1);
-  }
-  *param_3 = (uint)param_2;
-  return;
+    }
+    if (key != 0) {
+        int head = fn_82CEA280(m->hash, key, 0xffffffff);
+        int n = fn_82E1BD60(m);
+        Entry_82E1B0A8 *e = &m->entries[n];
+        e->owner = owner;
+        e->next = head;
+        { Ctx_82E1B0A8 *ctx = fn_82CE5410(); fn_82CEA160(m->hash, ctx->heap, key, n); }
+    }
+    *owner = key;
 }
-

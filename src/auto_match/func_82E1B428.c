@@ -1,141 +1,125 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_88;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_98;
-extern unsigned int *auStack_a0;
-extern int fn_82CE52E0();
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CEAB00();
-extern int fn_82CEAC20();
-extern int fn_82CEAC28();
-extern int fn_82CEB3D8();
-extern int fn_82CFC288();
-extern int fn_82CFFC80();
-extern int fn_82CFFD70();
-extern int fn_82CFFD78();
-extern int fn_82CFFDD8();
-extern int fn_82CFFDE8();
-extern int fn_82CFFEB8();
-extern int fn_82CFFF50();
-extern int fn_82E1A8D0();
-extern int fn_82E1A9D8();
-extern int fn_82E1B0A8();
-extern int fn_82E1B190();
+typedef struct Ctx_82E1B428 {
+    char pad[0x10];
+    void *alloc;
+} Ctx_82E1B428;
+typedef struct Sub_82E1B428 {
+    int a;
+    int b;
+    int c;
+} Sub_82E1B428;
+typedef struct Elem_82E1B428 {
+    void *obj;
+    Sub_82E1B428 sub;
+} Elem_82E1B428;
+typedef struct Array_82E1B428 {
+    Elem_82E1B428 *data;
+    int size;
+    int capAndFlags;
+} Array_82E1B428;
+typedef struct Var_82E1B428 {
+    void *obj;
+    void *klass;
+} Var_82E1B428;
+typedef struct Span_82E1B428 {
+    void *data;
+    int count;
+} Span_82E1B428;
+extern char lbl_8323AE68[];
+extern Ctx_82E1B428 *fn_82CE5410(void);
+extern void fn_82CE6310(void *alloc, Array_82E1B428 *arr, int n, int elemSize);
+extern void fn_82CEAB00(Sub_82E1B428 *sub, void *alloc, int a);
+extern void *fn_82CE52E0(void *alloc, int size);
+extern void *fn_82CEAC28(void *p);
+extern void *fn_82CEAC20(void *p);
+extern void *fn_82CFC288(void *p);
+extern void fn_82CFFF50(Var_82E1B428 *out, void *obj, void *klass);
+extern void fn_82CFFC80(Var_82E1B428 *out, Var_82E1B428 *v, const char *name);
+extern void *fn_82CFFD70(Var_82E1B428 *v);
+extern void **fn_82CFFD78(Var_82E1B428 *v, int i);
+extern int *fn_82CFFDD8(Var_82E1B428 *v, int i);
+extern int *fn_82CFFDE8(Var_82E1B428 *v, int i);
+extern Span_82E1B428 *fn_82CFFEB8(Var_82E1B428 *v, int i);
+extern void fn_82E1B0A8(void *map, void *key, void *value);
+extern void *fn_82E1A8D0(Array_82E1B428 *arr, void *data, int count);
+extern void *fn_82E1B190(Array_82E1B428 *arr, void *mdata, int mcount, void *edata, void *enums, int ecount,
+                         Sub_82E1B428 *sub, void *map);
+extern void *fn_82E1A9D8(Array_82E1B428 *arr, void *p, void *defaults);
+extern void fn_82CEB3D8(void *obj, void *klass, void *name, int a, int b, int numIfaces, void *enums,
+                        int numEnums, void *members, int numMembers, void *defaults, int c, int flags, int d);
 
-
-int fn_82E1B428(int *param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4)
-
+void *fn_82E1B428(Array_82E1B428 *arr, void *src, void *klass, void *map)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  longlong lVar4;
-  int iVar8;
-  int iVar9;
-  undefined8 uVar5;
-  undefined8 uVar6;
-  undefined4 *puVar10;
-  undefined4 *puVar11;
-  undefined8 uVar7;
-  longlong lVar12;
-  int *piVar13;
-  undefined1 auStack_a0 [8];
-  undefined1 auStack_98 [8];
-  undefined1 auStack_90 [8];
-  undefined1 auStack_88 [8];
-  undefined1 auStack_80 [8];
-  undefined1 auStack_78 [8];
-  undefined1 auStack_70 [8];
-  undefined1 auStack_68 [104];
-  
-  iVar8 = fn_82CE5410();
-  uVar1 = param_1[1];
-  lVar12 = (ulonglong)uVar1 + 1;
-  iVar9 = (int)lVar12;
-  if ((int)(param_1[2] & 0x3fffffffU) < iVar9) {
-    lVar4 = ((ulonglong)(uint)param_1[2] & 0x3fffffff) << 1;
-    if (iVar9 < (int)lVar4) {
-      lVar12 = lVar4;
-    }
-    fn_82CE6310(*(undefined4 *)(iVar8 + 0x10),param_1,lVar12,0x10);
-  }
-  iVar8 = param_1[1] * 0x10 + *param_1;
-  if (iVar8 != 0) {
-    *(undefined4 *)(iVar8 + 4) = 0;
-    *(undefined4 *)(iVar8 + 8) = 0;
-    *(undefined4 *)(iVar8 + 0xc) = 0xffffffff;
-    iVar9 = fn_82CE5410();
-    fn_82CEAB00(iVar8 + 4,*(undefined4 *)(iVar9 + 0x10),0);
-  }
-  piVar13 = (int *)(uVar1 * 0x10 + *param_1);
-  param_1[1] = param_1[1] + 1;
-  iVar8 = fn_82CE5410();
-  iVar8 = fn_82CE52E0(*(undefined4 *)(iVar8 + 0x10),0x30);
-  *piVar13 = iVar8;
-  iVar8 = fn_82CEAC28(param_2);
-  if (iVar8 != 0) {
-    fn_82CFFF50(auStack_98,*piVar13,0xffffffff8323ae68);
-    fn_82CFFC80(auStack_90,auStack_98,0xffffffff821307c4);
-    uVar5 = fn_82CFFD70(auStack_90);
-    uVar6 = fn_82CEAC28(param_2);
-    fn_82E1B0A8(param_4,uVar6,uVar5);
-  }
-  fn_82CFFF50(auStack_a0,param_2,0xffffffff8323ae68);
-  if ((param_3 & 0xffffffff) == 0) {
-    param_3 = fn_82CEAC20(param_2);
-  }
-  uVar5 = fn_82CFC288(param_3);
-  fn_82CFFC80(auStack_88,auStack_a0,0xffffffff8213078c);
-  puVar10 = (undefined4 *)fn_82CFFEB8(auStack_88,0);
-  uVar6 = fn_82E1A8D0(param_1,*puVar10,puVar10[1]);
-  fn_82CFFC80(auStack_80,auStack_a0,0xffffffff8213077c);
-  puVar11 = (undefined4 *)fn_82CFFEB8(auStack_80,0);
-  fn_82E1B190(param_1,*puVar11,puVar11[1],*puVar10,uVar6,puVar10[1],piVar13 + 1,param_4);
-  fn_82CFFC80(auStack_78,auStack_a0,0xffffffff82130770);
-  puVar11 = (undefined4 *)fn_82CFFD78(auStack_78,0);
-  fn_82E1A9D8(param_1,param_2,*puVar11);
-  iVar8 = *piVar13;
-  if (iVar8 != 0) {
-    fn_82CFFC80(auStack_70,auStack_a0,0xffffffff8213075c);
-    fn_82CFFC80(auStack_68,auStack_a0,0xffffffff8213079c);
-    fn_82CFFDE8(auStack_70,0);
-    puVar11 = (undefined4 *)fn_82CFFDD8(auStack_68,0);
-    uVar2 = puVar10[1];
-    uVar3 = *puVar11;
-    uVar7 = fn_82CEAC28(param_2);
-    fn_82CEB3D8(iVar8,uVar5,uVar7,0,0,uVar3,uVar6,uVar2);
-  }
-  return *piVar13;
-}
+    void *alloc;
+    int oldSize;
+    Ctx_82E1B428 *ctx;
+    int n;
+    int cap;
+    Elem_82E1B428 *e;
+    void *cls;
+    Span_82E1B428 *enums;
+    Span_82E1B428 *members;
+    void *enumsObj;
+    void *membersObj;
+    void *defaultsObj;
+    void *obj;
+    int *flags;
+    int *ifaces;
+    Var_82E1B428 v88;
+    Var_82E1B428 v90;
+    Var_82E1B428 v80;
+    Var_82E1B428 v98;
+    Var_82E1B428 va0;
+    Var_82E1B428 va8;
+    Var_82E1B428 vb0;
+    Var_82E1B428 vb8;
 
+    alloc = fn_82CE5410()->alloc;
+    oldSize = arr->size;
+    n = oldSize + 1;
+    cap = arr->capAndFlags & 0x3fffffff;
+    if (cap < n) {
+        cap *= 2;
+        fn_82CE6310(alloc, arr, n < cap ? cap : n, 0x10);
+    }
+    e = &arr->data[arr->size];
+    if (e != 0) {
+        e->sub.a = 0;
+        e->sub.b = 0;
+        e->sub.c = -1;
+        ctx = fn_82CE5410();
+        fn_82CEAB00(&e->sub, ctx->alloc, 0);
+    }
+    e = &arr->data[oldSize];
+    arr->size++;
+    e->obj = fn_82CE52E0(fn_82CE5410()->alloc, 0x30);
+    if (fn_82CEAC28(src) != 0) {
+        fn_82CFFF50(&v88, e->obj, lbl_8323AE68);
+        fn_82CFFC80(&v90, &v88, "parent");
+        fn_82E1B0A8(map, fn_82CEAC28(src), fn_82CFFD70(&v90));
+    }
+    fn_82CFFF50(&v80, src, lbl_8323AE68);
+    if (klass != 0) {
+        cls = fn_82CFC288(klass);
+    } else {
+        cls = fn_82CFC288(fn_82CEAC20(src));
+    }
+    fn_82CFFC80(&v98, &v80, "declaredEnums");
+    enums = fn_82CFFEB8(&v98, 0);
+    enumsObj = fn_82E1A8D0(arr, enums->data, enums->count);
+    fn_82CFFC80(&va0, &v80, "declaredMembers");
+    members = fn_82CFFEB8(&va0, 0);
+    membersObj = fn_82E1B190(arr, members->data, members->count, enums->data, enumsObj, enums->count,
+                             &e->sub, map);
+    fn_82CFFC80(&va8, &v80, "defaults");
+    defaultsObj = fn_82E1A9D8(arr, src, *fn_82CFFD78(&va8, 0));
+    obj = e->obj;
+    if (obj != 0) {
+        fn_82CFFC80(&vb0, &v80, "flags");
+        fn_82CFFC80(&vb8, &v80, "numImplementedInterfaces");
+        flags = fn_82CFFDE8(&vb0, 0);
+        ifaces = fn_82CFFDD8(&vb8, 0);
+        fn_82CEB3D8(obj, cls, fn_82CEAC28(src), 0, 0, *ifaces, enumsObj, enums->count, membersObj,
+                    members->count, defaultsObj, 0, *flags, 0);
+    }
+    return e->obj;
+}

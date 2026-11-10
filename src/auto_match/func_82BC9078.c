@@ -1,52 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B7BD28();
-extern int fn_82BC0088();
+typedef struct { int heap; int a; int b; int c; } Node_82BC9078;
+typedef struct { char pad[0xc]; char *ctx; } Self_82BC9078;
+typedef struct { unsigned capacity; unsigned size; int **data; } List_82BC9078;
+extern Node_82BC9078 *fn_82B7BD28(int heap, int size);
+/* grows the list to hold index i and returns &l->data[i] */
+extern int **fn_82BC0088(List_82BC9078 *l, unsigned i);
 
-
-undefined8
-fn_82BC9078(int param_1,undefined4 param_2,undefined4 *param_3,undefined4 param_4,
-             undefined8 param_5,int param_6)
-
+/* The list's element accessor: in range reads the slot, otherwise grows.
+   Called with i == l->size the range test folds away, but the merged result
+   keeps its own register (mr r11, r3 after the call). */
+static __forceinline int **at_82BC9078(List_82BC9078 *l, unsigned i)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  uVar1 = *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x5b0);
-  puVar2 = (undefined4 *)fn_82B7BD28(uVar1,0x10);
-  *puVar2 = uVar1;
-  puVar2[1] = param_2;
-  puVar2[2] = *param_3;
-  puVar2[3] = param_4;
-  puVar3 = (undefined4 *)fn_82BC0088(param_6,*(undefined4 *)(param_6 + 4));
-  *puVar3 = puVar2 + 1;
-  *param_3 = 0xffffffff;
-  return param_5;
+  int **e;
+  if (i < l->size) e = &l->data[i];
+  else e = fn_82BC0088(l, i);
+  return e;
 }
 
+int fn_82BC9078(Self_82BC9078 *s, int a, int *b, int c, int ret, List_82BC9078 *l)
+{
+  int heap = *(int *)(s->ctx + 0x5b0);
+  Node_82BC9078 *n = fn_82B7BD28(heap, 0x10);
+  n->heap = heap;
+  n->a = a;
+  n->b = *b;
+  n->c = c;
+  *at_82BC9078(l, l->size) = &n->a;
+  *b = -1;
+  return ret;
+}

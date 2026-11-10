@@ -1,79 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { char pad[0x86c]; void (*cb86c)(char *, int, int, int); void (*cb870)(char *, int, int, int); } Ctx_82F214A0;
 
-
-void fn_82F214A0(int param_1,longlong param_2,ulonglong param_3,undefined8 param_4,
-                  longlong param_5,int param_6,int param_7)
-
+void fn_82F214A0(Ctx_82F214A0 *c, char *base, int stride, int arg, int cnt, int a, int b)
 {
-  longlong lVar1;
-  int iVar3;
-  longlong lVar2;
-  longlong lVar4;
-  
-  lVar1 = 8;
-  lVar4 = (param_3 & 0x1fffffff) * 8 + param_2;
-  iVar3 = 4;
-  if (param_6 != 0) {
-    lVar1 = 0xc;
-    iVar3 = 0;
+  char *p = base + stride * 8;
+  int w = 8;
+  int k = 4;
+  char *q;
+  int i;
+  if (a != 0) {
+    w = 12;
+    k = 0;
   }
-  if (param_7 == 0) {
-    (**(code **)(param_1 + 0x86c))(lVar4,param_3,param_4,4);
-    lVar4 = lVar4 + 4;
+  if (b != 0) {
+    w -= 4;
+  } else {
+    c->cb86c(p, stride, arg, 4);
+    p += 4;
   }
-  else {
-    lVar1 = lVar1 + -4;
-  }
-  lVar2 = (longlong)iVar3 * (longlong)(int)param_3 + param_2 + 3;
-  if (param_7 == 0) {
-    param_5 = param_5 + -1;
-    if (0 < param_5) {
-      lVar2 = lVar2 - lVar4;
-      do {
-        (**(code **)(param_1 + 0x86c))(lVar4,param_3,param_4,8);
-        (**(code **)(param_1 + 0x870))(lVar2 + lVar4,param_3,param_4,lVar1);
-        param_5 = param_5 + -1;
-        lVar4 = lVar4 + 8;
-      } while (param_5 != 0);
+  q = base + k * stride + 3;
+  if (b == 0) {
+    for (i = 0; i < cnt - 1; i++) {
+      c->cb86c(p, stride, arg, 8);
+      c->cb870(q, stride, arg, w);
+      p += 8;
+      q += 8;
     }
-    (**(code **)(param_1 + 0x86c))(lVar4,param_3,param_4,4);
-  }
-  else {
-    param_5 = param_5 + -1;
-    if (0 < param_5) {
-      do {
-        (**(code **)(param_1 + 0x870))(lVar2,param_3,param_4,lVar1);
-        param_5 = param_5 + -1;
-        lVar2 = lVar2 + 8;
-      } while (param_5 != 0);
+  } else {
+    for (i = 0; i < cnt - 1; i++) {
+      c->cb870(q, stride, arg, w);
+      q += 8;
     }
   }
-  return;
+  if (b == 0) {
+    c->cb86c(p, stride, arg, 4);
+  }
 }
-
