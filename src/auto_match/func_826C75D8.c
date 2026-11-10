@@ -31,15 +31,16 @@ extern int fn_82703C40();
 bool fn_826C75D8(int *param_1,undefined8 param_2,int *param_3)
 
 {
-  char cVar1;
+  unsigned char cVar1;
   
-  cVar1 = (**(code **)(*param_1 + 0x114))();
-  if (cVar1 != '\0') {
-    (**(code **)(*param_3 + 0x70))(param_3);
-    (**(code **)(*param_1 + 0x40))(param_1);
+  cVar1 = (*(code *)(*param_1 + 0x114))(param_1,param_2,param_3);
+  if (cVar1 == '\0') return 0;
+  {
+    (*(code *)(*param_3 + 0x70))(param_3);
+    (*(code *)(*param_1 + 0x40))(param_1);
     fn_82703C40();
     *(uint *)(param_1[0x28] + 0xb00) = *(uint *)(param_1[0x28] + 0xb00) | 0x400;
   }
-  return cVar1 != '\0';
+  return 1;
 }
 

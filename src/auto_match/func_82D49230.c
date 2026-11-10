@@ -1,78 +1,86 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_230;
-extern unsigned int lbl_82132BC4;
-extern unsigned int lbl_82134504;
+typedef struct ProfTls_82D49230 {
+    int unk0;
+    void **cur;
+    int unk8;
+    void **end;
+} ProfTls_82D49230;
+
+typedef struct Param3_82D49230 {
+    int unk0;
+    int unk4;
+    int f8;
+} Param3_82D49230;
+
+struct Shape_82D49230;
+
+typedef struct ShapeArgs_82D49230 {
+    struct Shape_82D49230 *shape;
+    int id;
+    int f8;
+    Param3_82D49230 *p3;
+} ShapeArgs_82D49230;
+
+typedef struct ShapeVt_82D49230 {
+    void *s0[3];
+    float (*Project)(struct Shape_82D49230 *self, void *direction);
+} ShapeVt_82D49230;
+
+typedef struct Shape_82D49230 {
+    ShapeVt_82D49230 *vt;
+} Shape_82D49230;
+
+struct Iter_82D49230;
+
+typedef struct IterVt_82D49230 {
+    void *s0[2];
+    int (*First)(struct Iter_82D49230 *self);
+    int (*Next)(struct Iter_82D49230 *self, int id);
+    void *s10;
+    Shape_82D49230 *(*Get)(struct Iter_82D49230 *self, int id, void *buf);
+} IterVt_82D49230;
+
+typedef struct Iter_82D49230 {
+    IterVt_82D49230 *vt;
+} Iter_82D49230;
+
+typedef struct Owner_82D49230 {
+    int unk[4];
+    Iter_82D49230 iter;
+} Owner_82D49230;
+
 extern unsigned int lbl_8323B4A0;
+void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
 
-
-double fn_82D49230(int param_1,undefined8 param_2)
-
+extern float lbl_82134504;
+float fn_82D49230(Owner_82D49230 *self, void *direction)
 {
-  undefined4 *puVar1;
-  int iVar3;
-  undefined8 uVar2;
-  int *piVar4;
-  int *piVar5;
-  double dVar6;
-  double dVar7;
-  undefined1 auStack_230 [560];
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "TthkpShapeCollection::getMaximumProjection";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  piVar5 = (int *)(param_1 + 0x10);
-  dVar7 = (double)lbl_82134504;
-  uVar2 = (**(code **)(*piVar5 + 8))(piVar5);
-  iVar3 = (int)uVar2;
-  while (iVar3 != -1) {
-    piVar4 = (int *)(**(code **)(*piVar5 + 0x14))(piVar5,uVar2,auStack_230);
-    dVar6 = (double)(**(code **)(*piVar4 + 0xc))(piVar4,param_2);
-    if ((float)(dVar7 - dVar6) < 0.0) {
-      dVar7 = dVar6;
+    ProfTls_82D49230 *t;
+    void **p;
+    Iter_82D49230 *it;
+    int id;
+    float result;
+    unsigned char buf[512];
+    t = (ProfTls_82D49230 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "TthkpShapeCollection::getMaximumProjection";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
     }
-    uVar2 = (**(code **)(*piVar5 + 0xc))(piVar5,uVar2);
-    iVar3 = (int)uVar2;
-  }
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
-  }
-  return dVar7;
+    it = &self->iter;
+    result = lbl_82134504;
+    for (id = it->vt->First(it); id != -1; id = it->vt->Next(it,id)) {
+        Shape_82D49230 *shape = it->vt->Get(it,id,buf);
+        float value = shape->vt->Project(shape,direction);
+        result = (float)(result - value) >= 0.0f ? result : value;
+    }
+    t = (ProfTls_82D49230 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "Et";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+    return result;
 }
-

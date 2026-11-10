@@ -35,13 +35,14 @@ void fn_822517B8(int param_1,undefined8 param_2)
 {
   undefined1 auStack_80 [16];
   undefined1 auStack_70 [80];
+  int *base = (int *)(param_1 + 0x50);
   
   fn_82250D10(auStack_70);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_80);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,auStack_70);
-  if (*(int *)(param_1 + 0x60) != 0) {
-    (**(code **)(**(int **)(param_1 + 0x60) + 4))
-              (*(int **)(param_1 + 0x60),auStack_80[0],auStack_70);
+  (*(code *)(**(int **)(param_1 + 0x68) + 0x14))(*(int **)(param_1 + 0x68),param_2,auStack_80);
+  (*(code *)(**(int **)(param_1 + 0x70) + 0x14))(*(int **)(param_1 + 0x70),param_2,auStack_70);
+  if (*(int **)(base+4) != 0) {
+    (*(code *)(**(int **)((int)(base+4)) + 4))
+              (*(int **)((int)(base+4)),auStack_80[0],auStack_70);
   }
   return;
 }

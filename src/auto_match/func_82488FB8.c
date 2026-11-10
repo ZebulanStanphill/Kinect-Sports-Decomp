@@ -1,50 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82231540();
+typedef struct Rep_82488FB8 Rep_82488FB8;
+typedef struct SP_82488FB8 {
+    void *ptr;
+    Rep_82488FB8 *rep;
+} SP_82488FB8;
+typedef struct Vec_82488FB8 {
+    SP_82488FB8 *first;
+    SP_82488FB8 *last;
+} Vec_82488FB8;
+extern void fn_822315A0(Rep_82488FB8 *r);
+extern void fn_82231540(SP_82488FB8 *first, SP_82488FB8 *last);
 
+static __forceinline void swapRep(Rep_82488FB8 **a, Rep_82488FB8 **b) { Rep_82488FB8 *t = *a; *a = *b; *b = t; }
+static __forceinline void swapPtr(void **a, void **b) { void *t = *a; *a = *b; *b = t; }
 
-/* WARNING: Removing unreachable block (ram,0x82488fe4) */
-/* WARNING: Removing unreachable block (ram,0x82488fec) */
-/* WARNING: Removing unreachable block (ram,0x82489000) */
-/* WARNING: Removing unreachable block (ram,0x82489018) */
-/* WARNING: Removing unreachable block (ram,0x8248902c) */
-/* WARNING: Removing unreachable block (ram,0x82489030) */
-
-void fn_82488FB8(int *param_1)
-
+static __forceinline SP_82488FB8 *moveRange(SP_82488FB8 *first, SP_82488FB8 *last, SP_82488FB8 *dest)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  if (iVar1 != param_1[1]) {
-    fn_82231540(iVar1,param_1[1]);
-    param_1[1] = iVar1;
-  }
-  return;
+    for (; first != last; first++, dest++) {
+        SP_82488FB8 tmp;
+        Rep_82488FB8 *old;
+        tmp.ptr = 0;
+        tmp.rep = 0;
+        if (&tmp != first) {
+            swapRep(&tmp.rep, &first->rep);
+            swapPtr(&tmp.ptr, &first->ptr);
+        }
+        old = dest->rep;
+        dest->rep = tmp.rep;
+        dest->ptr = tmp.ptr;
+        if (old != 0) {
+            fn_822315A0(old);
+        }
+    }
+    return dest;
 }
 
+static __forceinline void eraseRange(Vec_82488FB8 *v, SP_82488FB8 *first, SP_82488FB8 *last)
+{
+    if (first != last) {
+        SP_82488FB8 *p = moveRange(last, v->last, first);
+        fn_82231540(p, v->last);
+        v->last = p;
+    }
+}
+
+void fn_82488FB8(Vec_82488FB8 *v)
+{
+    eraseRange(v, v->first, v->last);
+}

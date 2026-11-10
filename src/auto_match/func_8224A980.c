@@ -1,90 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82248C08();
-extern int fn_8240D928();
-
-
-ulonglong fn_8224A980(int param_1,undefined8 param_2)
-
-{
-  int *piVar1;
-  int iVar3;
-  int iVar4;
-  ulonglong uVar2;
-  uint uVar5;
-  uint *puVar6;
-  
-  if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = (**(code **)(**(int **)(param_1 + 0x20) + 0x10))();
-  }
-  piVar1 = *(int **)(param_1 + 0x20);
-  if (iVar3 == 0) {
-    if (piVar1 == (int *)0x0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))();
-    }
-    if (iVar3 == 0) {
-      uVar2 = fn_82248C08(param_1);
-      return uVar2;
-    }
-    if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = (**(code **)(**(int **)(param_1 + 0x20) + 0x14))();
-    }
-    iVar4 = fn_8240D928(param_2);
-    uVar5 = *(uint *)(iVar3 + 0x24);
-    iVar3 = iVar3 + 0xc;
-  }
-  else {
-    if (piVar1 == (int *)0x0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = (**(code **)(*piVar1 + 0x10))();
-    }
-    iVar4 = fn_8240D928(param_2);
-    uVar5 = *(uint *)(iVar3 + 0x20);
-    iVar3 = iVar3 + 8;
-  }
-  iVar4 = (iVar4 + 2) * 4;
-  if (uVar5 < 5) {
-    puVar6 = (uint *)(iVar4 + iVar3);
-  }
-  else {
-    puVar6 = *(uint **)(iVar4 + iVar3);
-  }
-  return (ulonglong)*puVar6;
+typedef struct Iface_8224A980 Iface_8224A980;
+typedef struct Vtable_8224A980 { void *pad[4]; char *(*get10)(Iface_8224A980 *); char *(*get14)(Iface_8224A980 *); } Vtable_8224A980;
+struct Iface_8224A980 { Vtable_8224A980 *vt; };
+typedef struct Object_8224A980 { char pad[0x20]; Iface_8224A980 *src; } Object_8224A980;
+extern int fn_8240D928(int);
+static __forceinline char *Get10(Object_8224A980 *o) { if (o->src != 0) return o->src->vt->get10(o->src); return 0; }
+static __forceinline char *Get14(Object_8224A980 *o) { if (o->src != 0) return o->src->vt->get14(o->src); return 0; }
+static __forceinline char *Access(char *base, int index) {
+    unsigned cap = *(unsigned *)(base+0x18);
+    return cap <= 4 ? base + (index+2)*4 : *(char **)(base+(index+2)*4);
 }
-
+extern unsigned fn_82248C08(Object_8224A980 *);
+unsigned fn_8224A980(Object_8224A980 *o, int idx) {
+    char *base;
+    if (Get10(o) != 0) {
+        base = Get10(o);
+        return *(unsigned *)Access(base+8, fn_8240D928(idx));
+    }
+    if (Get14(o) != 0) {
+        base = Get14(o);
+        return *(unsigned *)Access(base+12, fn_8240D928(idx));
+    }
+    return fn_82248C08(o);
+}

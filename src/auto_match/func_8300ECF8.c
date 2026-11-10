@@ -1,59 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8300EFE8();
+typedef struct { uint key; uint cnt; uint pad; } E_8300ECF8;
+typedef struct { E_8300ECF8 *begin; E_8300ECF8 *end; int pad; int cs[1]; } Obj_8300ECF8;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern unsigned fn_8300EFE8(Obj_8300ECF8 *, uint);
 
+static __inline int Found(Obj_8300ECF8 *m, E_8300ECF8 *p) { return p != m->end; }
+static __inline uint *Get(Obj_8300ECF8 *m, E_8300ECF8 *p) { return Found(m, p) ? &p->cnt : 0; }
 
-undefined8 fn_8300ECF8(undefined4 *param_1,ulonglong param_2)
-
+int fn_8300ECF8(Obj_8300ECF8 *o, uint key)
 {
-  int iVar1;
-  uint *puVar2;
-  int *piVar3;
-  undefined4 *puVar4;
-  
-  puVar4 = param_1 + 3;
-  RtlEnterCriticalSection(puVar4);
-  for (puVar2 = (uint *)*param_1;
-      (puVar2 != (uint *)param_1[1] && ((ulonglong)*puVar2 != (param_2 & 0xffffffff)));
-      puVar2 = puVar2 + 3) {
-  }
-  piVar3 = (int *)(-(uint)((uint *)param_1[1] != puVar2) & (uint)(puVar2 + 1));
-  if (piVar3 == (int *)0x0) {
-    iVar1 = fn_8300EFE8(param_1,param_2);
-    if (iVar1 == 0) {
-      RtlLeaveCriticalSection(puVar4);
-      return 0x34;
+    E_8300ECF8 *e;
+    uint *cnt;
+    void *cs = o->cs;
+    RtlEnterCriticalSection(cs);
+    for (e = o->begin; e != o->end && e->key != key; e++) {
     }
-  }
-  else {
-    *piVar3 = *piVar3 + 1;
-  }
-  RtlLeaveCriticalSection(puVar4);
-  return 1;
+    cnt = Get(o, e);
+    if (cnt != 0) {
+        *cnt = *cnt + 1;
+    } else if (fn_8300EFE8(o, key) == 0) {
+        RtlLeaveCriticalSection(cs);
+        return 0x34;
+    }
+    RtlLeaveCriticalSection(cs);
+    return 1;
 }
-

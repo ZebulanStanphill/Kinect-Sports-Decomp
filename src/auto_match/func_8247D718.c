@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_825521F0();
-extern unsigned int lbl_82191FB0;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_10;
+typedef struct Out_8247D718 {
+    int data[4];
+    int count;
+} Out_8247D718;
 
+extern float ltcg_pool_0_0f;
+extern float lbl_82191EA0[];
+extern void fn_825521F0(void *param_1, void *param_2, Out_8247D718 *out, float a, float b);
 
-void fn_8247D718(undefined8 param_1,undefined8 param_2)
-
+void fn_8247D718(void *param_1, void *param_2)
 {
-  undefined1 auStack_20 [16];
-  undefined4 uStack_10;
-  
-  uStack_10 = 0;
-  fn_825521F0((double)ltcg_pool_0_0f,(double)lbl_82191FB0,param_1,param_2,auStack_20);
-  return;
-}
+    Out_8247D718 out;
 
+    out.count = 0;
+    fn_825521F0(param_1, param_2, &out, ltcg_pool_0_0f, lbl_82191EA0[0x44]);
+}
