@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
-extern int fn_8223AAC0();
+extern unsigned char fn_8223AAC0(unsigned);
 extern int fn_82381BC0();
 extern int fn_823AA970();
 extern int fn_8265C9E0();
@@ -36,62 +36,35 @@ extern int fn_828BE208();
 extern unsigned int lbl_82027360;
 extern unsigned int lbl_82027368;
 
+typedef struct Pair_828E5A80 { unsigned obj,rc; } Pair_828E5A80;
+static __forceinline void WeakCopy_828E5A80(Pair_828E5A80 *d,Pair_828E5A80 *s) {
+ unsigned r,p; d->obj=0;d->rc=0;r=s->rc;p=s->obj;
+ if(r!=0 && fn_8223AAC0(r)) { if(d->rc!=0)fn_822315A0(d->rc);d->rc=r;d->obj=p; }
+}
+
+static __forceinline unsigned *Make_828E5A80(unsigned *p,Pair_828E5A80 *a,Pair_828E5A80 *b) {
+ fn_828BDDA0(p);p[0]=(unsigned)&lbl_82027368;p[20]=(unsigned)&lbl_82027360;
+ WeakCopy_828E5A80((Pair_828E5A80 *)(p+32),a);WeakCopy_828E5A80((Pair_828E5A80 *)(p+34),b);return p;
+}
 
 void fn_828E5A80(int param_1,undefined4 *param_2)
-
 {
   int *piVar1;
-  int iVar2;
   undefined4 uVar3;
-  int iVar4;
   undefined4 *puVar6;
-  char cVar7;
-  undefined8 uVar5;
-  int aiStack_60;
-  
+  unsigned it;
+
   piVar1 = *(int **)(*(int *)(param_1 + 4) + 0x210);
-  aiStack_60 = *piVar1;
-  if ((int *)aiStack_60 != piVar1) {
+  it = *piVar1;
+  if ((int *)it != piVar1) {
     do {
-      iVar4 = aiStack_60;
-      puVar6 = (undefined4 *)fn_8265C9E0(0x90);
-      if (puVar6 == (undefined4 *)0x0) {
-        puVar6 = (undefined4 *)0x0;
-      }
-      else {
-        fn_828BDDA0();
-        *puVar6 = &lbl_82027368;
-        puVar6[0x14] = &lbl_82027360;
-        puVar6[0x20] = 0;
-        puVar6[0x21] = 0;
-        iVar2 = *(int *)(param_1 + 0xc);
-        uVar3 = *(undefined4 *)(param_1 + 8);
-        if ((iVar2 != 0) && (cVar7 = fn_8223AAC0(iVar2), cVar7 != '\0')) {
-          if (puVar6[0x21] != 0) {
-            fn_822315A0();
-          }
-          puVar6[0x21] = iVar2;
-          puVar6[0x20] = uVar3;
-        }
-        puVar6[0x22] = 0;
-        puVar6[0x23] = 0;
-        iVar2 = param_2[1];
-        uVar3 = *param_2;
-        if ((iVar2 != 0) && (cVar7 = fn_8223AAC0(iVar2), cVar7 != '\0')) {
-          if (puVar6[0x23] != 0) {
-            fn_822315A0();
-          }
-          puVar6[0x23] = iVar2;
-          puVar6[0x22] = uVar3;
-        }
-      }
-      fn_82886518(puVar6,0xffffffffffffffff,0xffffffffffffffff);
+      { unsigned *mem=(unsigned *)fn_8265C9E0(0x90);
+      puVar6=mem ? Make_828E5A80(mem,(Pair_828E5A80 *)(param_1+8),(Pair_828E5A80 *)param_2) : 0; }
+      fn_82886518(puVar6,-1,-1);
       uVar3 = *(undefined4 *)(param_1 + 4);
-      uVar5 = fn_823AA970(*(undefined4 *)(iVar4 + 0x10));
-      fn_828BE208(uVar3,puVar6,uVar5,0);
-      fn_82381BC0(&aiStack_60);
-    } while (aiStack_60 != *(int *)(*(int *)(param_1 + 4) + 0x210));
+      fn_828BE208(uVar3,puVar6,fn_823AA970(*(undefined4 *)(it + 0x10)),0);
+      fn_82381BC0(&it);
+    } while (it != *(int *)(*(int *)(param_1 + 4) + 0x210));
   }
   return;
 }
-
