@@ -1,52 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { U64 key, value; } Entry_82CEA748;
+typedef struct { Entry_82CEA748 *table; int pad; unsigned mask; } Map_82CEA748;
+static __forceinline int live(U64 k) { if (k != (U64)-1) return 1; return 0; }
 
-
-undefined8 fn_82CEA748(int *param_1,longlong param_2,undefined8 param_3)
-
+U64 fn_82CEA748(Map_82CEA748 *m, U64 key, U64 def)
 {
-  int iVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  if (0 < param_1[2]) {
-    uVar2 = ((uint)param_2 >> 4) * -0x61c8864f;
-    while( true ) {
-      uVar2 = uVar2 & param_1[2];
-      iVar1 = uVar2 * 0x10;
-      lVar3 = *(longlong *)(iVar1 + *param_1);
-      if (lVar3 == -1) break;
-      if (lVar3 == param_2) {
-        return *(undefined8 *)(iVar1 + *param_1 + 8);
-      }
-      uVar2 = uVar2 + 1;
+  unsigned mask = m->mask;
+  unsigned i;
+  if ((int)mask > 0) {
+    i = (((unsigned)key >> 4) * 0x9e3779b1) & mask;
+    for (;;) {
+      U64 k = m->table[i].key;
+      if (!live(k)) break;
+      if (k == key) return m->table[i].value;
+      i = (i + 1) & mask;
     }
   }
-  return param_3;
+  return def;
 }
-

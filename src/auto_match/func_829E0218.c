@@ -1,39 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+typedef struct { char data[0x6f40]; int count; char pad6f44[0xc]; int used; char pad6f54[0xc]; } Block_829E0218;
+typedef struct { char pad0[0x1320]; Block_829E0218 block; char sub[1]; } Obj_829E0218;
+extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
+extern void fn_829E01B0(void *sub);
 
-
-void fn_829E0218(int param_1)
-
+void fn_829E0218(Obj_829E0218 *self)
 {
-  *(undefined4 *)(param_1 + 0x8270) = 0;
-  *(undefined4 *)(param_1 + 0x8260) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x1320,0,0x6f40);
+  Block_829E0218 *b = &self->block;
+  b->used = 0;
+  b->count = 0;
+  fn_82A1EFC0(b->data, 0, 0x6f40);
+  fn_829E01B0(self->sub);
 }
-
