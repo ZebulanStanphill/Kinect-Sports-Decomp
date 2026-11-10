@@ -1,53 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82250A18();
-extern int fn_8242C1B8();
-extern int fn_8242E3E0();
-extern unsigned int lbl_832975B0;
-
-
-undefined8 fn_82436070(int param_1)
-
-{
-  int iVar1;
-  
-  iVar1 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar1 = fn_82250A18();
-  }
-  if (*(char *)(iVar1 + 4) == '\0') {
-    if (((*(undefined4 **)(param_1 + 0x40))[0x67] == 0) &&
-       (iVar1 = fn_8242E3E0(**(undefined4 **)(param_1 + 0x40)), iVar1 == 0)) {
-      return 0;
-    }
-    return 1;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_8242C1B8(**(undefined4 **)(param_1 + 0x40));
+struct Sub_82436070;
+typedef struct SubVt_82436070 {
+  int pad[15];
+  unsigned char (*f3c)(struct Sub_82436070 *);
+} SubVt_82436070;
+typedef struct Sub_82436070 {
+  SubVt_82436070 *vt;
+} Sub_82436070;
+typedef struct Ctx_82436070 {
+  int pad[0x162];
+  Sub_82436070 sub;
+} Ctx_82436070;
+struct Mgr_82436070;
+typedef struct MgrVt_82436070 {
+  int pad[2];
+  Ctx_82436070 *(*f8)(struct Mgr_82436070 *);
+} MgrVt_82436070;
+typedef struct Mgr_82436070 {
+  MgrVt_82436070 *vt;
+} Mgr_82436070;
+typedef struct Cfg_82436070 {
+  int pad;
+  char enabled;
+} Cfg_82436070;
+typedef struct Inner_82436070 {void *owner;int pad[102];int flag;} Inner_82436070;
+typedef struct Obj_82436070 {char pad[0x40];Inner_82436070 *inner;} Obj_82436070;
+typedef struct Owner_82436070 {char pad[0x168];Mgr_82436070 *mgr;} Owner_82436070;
+extern Cfg_82436070 *fn_82250A18(void);
+extern Cfg_82436070 *lbl_832975B0;
+extern Owner_82436070 *fn_8242C1B8(void *);
+extern int fn_8242E3E0(void *);
+unsigned fn_82436070(Obj_82436070 *o) {
+ Cfg_82436070 *c=lbl_832975B0?lbl_832975B0:fn_82250A18();
+ Mgr_82436070 *m; Sub_82436070 *s;
+ if(c->enabled && (m=fn_8242C1B8(o->inner->owner)->mgr)!=0) {
+  s=&m->vt->f8(m)->sub;return s->vt->f3c(s)!=0;
+ }
+ if(o->inner->flag==0 && fn_8242E3E0(o->inner->owner)==0)return 0;
+ return 1;
 }
-

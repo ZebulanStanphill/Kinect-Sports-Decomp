@@ -1,45 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined4 * fn_826EF830(undefined4 *param_1,int param_2,undefined8 param_3)
-
-{
-  int *piVar1;
-  
-  piVar1 = *(int **)(param_2 + 0x18);
-  if (piVar1 == (int *)0x0) {
-    *param_1 = 0;
-    param_1[1] = 0;
-  }
-  else {
-    (**(code **)(*piVar1 + 8))(param_1,piVar1,param_2 + 0xc,param_3);
-  }
-  return param_1;
+typedef struct Pair_826EF830 {unsigned a,b;} Pair_826EF830;
+typedef struct Obj_826EF830 Obj_826EF830;
+typedef struct Vt_826EF830 {void *f0,*f4;Pair_826EF830 *(*f8)(Pair_826EF830 *,Obj_826EF830 *,void *,unsigned);} Vt_826EF830;
+struct Obj_826EF830 {Vt_826EF830 *vt;};
+typedef struct Context_826EF830 {char pad[0x18];Obj_826EF830 *ptr;} Context_826EF830;
+Pair_826EF830 *fn_826EF830(Pair_826EF830 *out,Context_826EF830 *o,unsigned arg) {
+ if(o->ptr){o->ptr->vt->f8(out,o->ptr,(char *)o+12,arg);return out;}
+ out->a=0;out->b=0;return out;
 }
-

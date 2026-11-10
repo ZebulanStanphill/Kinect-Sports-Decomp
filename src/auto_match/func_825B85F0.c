@@ -1,60 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822733C8();
-extern int fn_8265CA20();
-extern unsigned int lbl_83297038;
-extern unsigned int uRam8329703c;
-
-
-/* WARNING: Removing unreachable block (ram,0x825b8674) */
-/* WARNING: Removing unreachable block (ram,0x825b867c) */
-
-void fn_825B85F0(void)
-
-{
-  char cVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  cVar1 = *(char *)((int)*(int **)(lbl_83297038 + 4) + 0x11);
-  piVar3 = *(int **)(lbl_83297038 + 4);
-  while (cVar1 == '\0') {
-    fn_822733C8(0xffffffff83297034,piVar3[2]);
-    piVar2 = (int *)*piVar3;
-    fn_8265CA20(piVar3);
-    piVar3 = piVar2;
-    cVar1 = *(char *)((int)piVar2 + 0x11);
-  }
-  *(int *)(lbl_83297038 + 4) = lbl_83297038;
-  *(int *)lbl_83297038 = lbl_83297038;
-  *(int *)(lbl_83297038 + 8) = lbl_83297038;
-  uRam8329703c = 0;
-  fn_8265CA20(lbl_83297038);
-  return;
+typedef struct Node_825B85F0 { struct Node_825B85F0 *left, *parent, *right; char pad[5]; unsigned char nil; } Node_825B85F0;
+typedef struct Tree_825B85F0 { int allocator; Node_825B85F0 *head; unsigned count; int pad; } Tree_825B85F0;
+extern Tree_825B85F0 lbl_83297034;
+extern void fn_822733C8(Tree_825B85F0 *, Node_825B85F0 *);
+extern void fn_8265CA20(void *);
+extern void fn_8259BDA8(Node_825B85F0 **);
+extern void fn_825B86B8(void *, Node_825B85F0 *);
+static __forceinline void erase_825B85F0(Tree_825B85F0 *tree,unsigned first,unsigned last) {
+ char tmp[4];
+ if(first==(unsigned)tree->head->left && last==(unsigned)tree->head) {
+  Node_825B85F0 *p=tree->head->parent;
+  while(!p->nil){Node_825B85F0 *q;fn_822733C8(tree,p->right);q=p->left;fn_8265CA20(p);p=q;}
+  tree->head->parent=tree->head;tree->head->left=tree->head;tree->head->right=tree->head;tree->count=0;
+ }else while(first!=last){Node_825B85F0 *p=(Node_825B85F0 *)first;fn_8259BDA8((Node_825B85F0 **)&first);fn_825B86B8(tmp,p);}
 }
-
+void fn_825B85F0(void) {
+ Node_825B85F0 *first=lbl_83297034.head->left;
+ Node_825B85F0 *last=lbl_83297034.head;
+ erase_825B85F0(&lbl_83297034,(unsigned)first,(unsigned)last);
+ fn_8265CA20(lbl_83297034.head);
+}

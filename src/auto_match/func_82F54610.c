@@ -25,14 +25,28 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
+extern void *fn_825B1970(unsigned);
 
 
-void fn_82F54610(undefined4 *param_1)
+undefined4 * fn_82F54610(undefined4 *param_1)
 
 {
+  int *piVar1;
+  undefined8 *puVar2;
+  struct Pair { int a,b; } z;
+  
   *param_1 = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82522D98(8);
+  puVar2 = (undefined8 *)fn_825B1970(8);
+  z.a = 0; z.b = 0;
+  *param_1 = puVar2;
+  if (puVar2 != (undefined8 *)0x0) {
+    *(struct Pair *)puVar2 = z;
+  }
+  *(undefined4 **)*param_1 = param_1;
+  param_1[1] = 0;
+  param_1[2] = 0;
+  param_1[3] = 0;
+  param_1[4] = 0;
+  return param_1;
 }
 
