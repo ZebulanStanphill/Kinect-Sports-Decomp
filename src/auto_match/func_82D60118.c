@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82D60118(undefined4 *param_1,undefined8 param_2)
-
+typedef struct Target_82D60118 Target_82D60118;
+typedef struct Obj_82D60118 Obj_82D60118;
+typedef struct { void *pad[5]; void (*set)(Target_82D60118 *, unsigned short, unsigned __int64); } TargetVt_82D60118;
+struct Target_82D60118 { TargetVt_82D60118 *vt; };
+typedef struct { void (*destroy)(Obj_82D60118 *, int); } ObjVt_82D60118;
+struct Obj_82D60118 { ObjVt_82D60118 *vt; int pad; Target_82D60118 *target; unsigned short *ids; int count; };
+void fn_82D60118(Obj_82D60118 *p, unsigned __int64 value)
 {
-  ulonglong uVar1;
-  int iVar2;
-  
-  uVar1 = (ulonglong)(uint)param_1[4];
-  if (0 < (int)param_1[4]) {
-    iVar2 = 0;
-    do {
-      if (*(short *)(param_1[3] + iVar2) != -1) {
-        (**(code **)(*(int *)param_1[2] + 0x14))
-                  ((int *)param_1[2],*(short *)(param_1[3] + iVar2),param_2);
-      }
-      uVar1 = uVar1 - 1;
-      iVar2 = iVar2 + 2;
-    } while (uVar1 != 0);
-  }
-  (**(code **)*param_1)(param_1,1);
-  return;
+    int i;
+    int n = p->count;
+    for (i = 0; i < n; i++) {
+        if (p->ids[i] != 0xffff) p->target->vt->set(p->target, p->ids[i], value);
+    }
+    p->vt->destroy(p, 1);
 }
-
