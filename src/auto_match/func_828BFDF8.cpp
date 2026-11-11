@@ -1,3 +1,23 @@
+namespace std {
+extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
+}
+#define _Xlength_error fn_82F622A8
+#define STDEXT_EXCEPTION_H
+#define _Allocate _Allocate_vc
+#include <set>
+#undef _Allocate
+#undef _Xlength_error
+
+struct Element_822AC640 {
+    int data[2];
+};
+
+typedef std::set<Element_822AC640> Set;
+typedef Set::_Mybase Tree;
+typedef Tree::_Node Node;
+
+template <> Tree::_Pairib Tree::_Linsert(_Nodeptr, bool);
+
 #include "stdext/xmemory.h"
 
 struct GNode {
@@ -78,7 +98,6 @@ void fn_82886738(int n, void *f1, void *f2);
 void fn_82887C70(int a, int b, int c, unsigned char d, unsigned char e);
 void fn_82887FF8(int a, int f);
 int fn_828C8898(void *p, int a);
-void fn_8243CE60(LPairib *ret, LTree *t, LNode *n, int leftish);
 void fn_828C6480(void *obj, LTree *t, int x);
 void fn_8251ED38(GMap *m, GNode *root);
 void fn_82825F40(LIt *ret, LTree *t, LNode *first, LNode *last);
@@ -135,8 +154,7 @@ extern "C" void fn_828BFDF8(void *param_1)
             pv->key = k;
             pv->val = v;
         }
-        LPairib ret;
-        fn_8243CE60(&ret, &tree, nn, 0);
+        ((Tree *)&tree)->_Linsert((Node *)nn, false);
         fn_825503E0(&it);
         n = it.p;
     }

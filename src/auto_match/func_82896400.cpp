@@ -13,8 +13,31 @@
 // The game was built with link-time code generation, which inlined more than
 // the compiler does by itself; /d2inlS1000 lets it inline as much.
 
+namespace std {
+extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
+}
+#define _Xlength_error fn_82F622A8
+#include <deque>
 #include <map>
+#include <set>
+#undef _Xlength_error
 #include "game/Allocator_825089A0.h"
+
+// The element type of func_82894E98.cpp's set, whose hinted _Insert this
+// map's _Insert is.
+struct Item_82892488 {
+    char data;
+};
+
+struct Element_82892488 {
+    unsigned int key;
+    std::deque<Item_82892488, Allocator_825089A0<Item_82892488, 0> > items;
+};
+
+typedef std::set<Element_82892488, std::less<Element_82892488>, Allocator_825089A0<Element_82892488, 0> > Set;
+typedef Set::_Mybase SetTree;
+
+template <> SetTree::iterator SetTree::_Insert(SetTree::const_iterator, _Nodeptr);
 
 struct Deque_82896400;
 
@@ -59,8 +82,6 @@ typedef Tree::_Mybase TreeVal;
 
 extern "C" {
 Tree::_Nodeptr fn_82896158(TreeVal *self, const Value *value);
-Tree::iterator *fn_82894E98(Tree::iterator *result, Tree *self,
-    Tree::const_iterator where, Tree::_Nodeptr node);
 }
 
 template <>
@@ -73,13 +94,11 @@ __forceinline TreeVal::_Nodeptr TreeVal::_Buynode<Value>(Value &&value)
 template <>
 __forceinline Tree::iterator Tree::_Insert(const_iterator where, _Nodeptr node)
 {
-    union Result {
-        char data[sizeof(iterator)];
-    };
-    Result storage;
-    iterator *result = (iterator *)&storage;
-    fn_82894E98(result, this, where, node);
-    return *result;
+    SetTree *set = reinterpret_cast<SetTree *>(this);
+    SetTree::iterator at = set->_Insert(
+        SetTree::const_iterator(reinterpret_cast<SetTree::_Nodeptr>(where._Ptr), set),
+        reinterpret_cast<SetTree::_Nodeptr>(node));
+    return iterator(reinterpret_cast<_Nodeptr>(at._Ptr), this);
 }
 
 extern "C" Deque_82896400 *fn_82896400(Map *self, const unsigned int *key)
