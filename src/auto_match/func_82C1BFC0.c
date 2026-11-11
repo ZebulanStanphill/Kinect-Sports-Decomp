@@ -1,92 +1,106 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C2B580();
-extern int fn_82C2B590();
-extern int memset();
+typedef struct {
+    unsigned first;
+    int pad04[0x15c / 4 - 1 + 1];
+    int f160;
+    int pad164[(0x174 - 0x164) / 4];
+    unsigned **a174;
+    unsigned **a178;
+} Obj_82C1BFC0;
 
+extern void *fn_82C2B580(int);
+extern void fn_82C2B590(void *);
+extern int fn_82C1B730(int, int, int, int, unsigned **, unsigned **);
+extern double fn_82F655D8(double, double);
+extern void *memset(void *, int, unsigned);
 
-undefined8 fn_82C1BFC0(int *param_1)
-
+int fn_82C1BFC0(Obj_82C1BFC0 *self, int *src, int cols, int a4, int rows, int a6)
 {
-  ulonglong in_r7;
-  undefined8 uVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  int iVar4;
+    int hr = 0;
+    int i;
+    int j;
+    float one;
 
-  if ((param_1 == (int *)0x0) || (*param_1 == 0)) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    if (param_1[0x5d] != 0) {
-      if (0 < (int)in_r7) {
-        iVar4 = 0;
-        uVar3 = in_r7;
-        do {
-          if (*(int *)(iVar4 + param_1[0x5d]) != 0) {
-            fn_82C2B590(*(int *)(iVar4 + param_1[0x5d]));
-            *(undefined4 *)(iVar4 + param_1[0x5d]) = 0;
-          }
-          uVar3 = uVar3 - 1;
-          iVar4 = iVar4 + 4;
-        } while (uVar3 != 0);
-      }
-      if (param_1[0x5d] != 0) {
-        fn_82C2B590();
-        param_1[0x5d] = 0;
-      }
+    if (self == 0 || self->first == 0) {
+        hr = 0x80070057;
+        goto done;
     }
-    if (param_1[0x5e] != 0) {
-      if (0 < (int)in_r7) {
-        iVar4 = 0;
-        uVar3 = in_r7;
-        do {
-          if (*(int *)(iVar4 + param_1[0x5e]) != 0) {
-            fn_82C2B590(*(int *)(iVar4 + param_1[0x5e]));
-            *(undefined4 *)(iVar4 + param_1[0x5e]) = 0;
-          }
-          uVar3 = uVar3 - 1;
-          iVar4 = iVar4 + 4;
-        } while (uVar3 != 0);
-      }
-      if (param_1[0x5e] != 0) {
-        fn_82C2B590();
-        param_1[0x5e] = 0;
-      }
+    if (self->a174 != 0) {
+        for (i = 0; i < rows; i++) {
+            if (self->a174[i] != 0) {
+                fn_82C2B590(self->a174[i]);
+                self->a174[i] = 0;
+            }
+        }
+        if (self->a174 != 0) {
+            fn_82C2B590(self->a174);
+            self->a174 = 0;
+        }
     }
-    lVar2 = (in_r7 & 0x3fffffff) << 2;
-    uVar3 = fn_82C2B580(lVar2);
-    param_1[0x5d] = (int)uVar3;
-    if ((uVar3 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-      memset(uVar3,0,lVar2);
+    if (self->a178 != 0) {
+        for (i = 0; i < rows; i++) {
+            if (self->a178[i] != 0) {
+                fn_82C2B590(self->a178[i]);
+                self->a178[i] = 0;
+            }
+        }
+        if (self->a178 != 0) {
+            fn_82C2B590(self->a178);
+            self->a178 = 0;
+        }
     }
-    uVar1 = 0xffffffff8007000e;
-  }
-  return uVar1;
+    self->a174 = (unsigned **)fn_82C2B580(rows * 4);
+    if (self->a174 == 0) {
+        hr = 0x8007000e;
+        goto done;
+    }
+    memset(self->a174, 0, rows * 4);
+    for (i = 0; i < rows; i++) {
+        self->a174[i] = (unsigned *)fn_82C2B580(cols * 4);
+        if (self->a174[i] == 0) {
+            hr = 0x8007000e;
+            goto done;
+        }
+        memset(self->a174[i], 0, cols * 4);
+    }
+    self->a178 = (unsigned **)fn_82C2B580(rows * 4);
+    if (self->a178 == 0) {
+        hr = 0x8007000e;
+        goto done;
+    }
+    memset(self->a178, 0, rows * 4);
+    for (i = 0; i < rows; i++) {
+        self->a178[i] = (unsigned *)fn_82C2B580(cols * 4);
+        if (self->a178[i] == 0) {
+            hr = 0x8007000e;
+            goto done;
+        }
+        memset(self->a178[i], 0, cols * 4);
+    }
+    if (src != 0) {
+        for (i = 0; i < rows; i++) {
+            for (j = 0; j < cols; j++) {
+                if (src[j * rows + i] == (int)0x80000000) {
+                    ((float *)self->a174[i])[j] = 0.0f;
+                } else {
+                    ((float *)self->a174[i])[j] =
+                        (float)fn_82F655D8(10.0, (double)src[j * rows + i] * (0.05 / 65536.0));
+                }
+            }
+        }
+        goto done;
+    }
+    if (self->f160 != 0) {
+        hr = fn_82C1B730(cols, a4, rows, a6, self->a174, self->a178);
+        goto done;
+    }
+    if (rows != cols) {
+        hr = 0x80040000;
+        goto done;
+    }
+    one = 1.0f;
+    for (i = 0; i < rows; i++) {
+        ((float *)self->a174[i])[i] = one;
+    }
+done:
+    return hr;
 }
