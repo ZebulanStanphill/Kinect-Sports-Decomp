@@ -12,7 +12,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 } __vector4;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkVector4 {
 public:
@@ -64,7 +63,7 @@ public:
 
 HK_FORCE_INLINE hkpMouseSpringAction::hkpMouseSpringAction(hkpRigidBody *rb)
     : hkpUnaryAction(rb),
-      m_springDamping(lbl_82002C5C),
+      m_springDamping(0.5f),
       m_springElasticity(0.3f),
       m_maxRelativeForce(250.0f),
       m_objectDamping(0.95f)

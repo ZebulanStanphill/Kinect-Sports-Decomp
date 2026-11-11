@@ -1,5 +1,4 @@
 #include "havok/hkBase.h"
-extern "C" const float lbl_82057518;
 class __declspec(align(16)) hkKdTreeCastCollector { public: virtual ~hkKdTreeCastCollector() {} char pad[0x7c]; float fraction; hkKdTreeCastCollector(float f):fraction(f){} };
 class hkpKdTreeWorldLinearCaster : public hkKdTreeCastCollector { public: hkpKdTreeWorldLinearCaster(float f):hkKdTreeCastCollector(f){} };
 extern "C" void fn_83096B20(hkpKdTreeWorldLinearCaster *, void*, void*, void*, void*, void*, void*, void*, void*);
@@ -17,7 +16,7 @@ template<class A> class __declspec(align(16)) hkpAabbTreeWorldLinearCaster
 };
 extern "C" void fn_830970B8(hkpAabbTreeWorldLinearCaster<hkAabbTreeAabb16>*,void*,void*,void*,void*,void*,void*,void*,void*);
 extern "C" void fn_82DB0DD0(World *world,void*a,void*b,void*c,void*d,void*e,void*f,void*g) {
- const float maxFraction=lbl_82057518;
+ const float maxFraction=1.1920929e-07f;
  if(world->tree) { hkpKdTreeWorldLinearCaster caster(maxFraction); fn_83096B20(&caster,world->tree,a,b,c,d,e,f,g); }
  if(world->hasAabb) { hkpAabbTreeWorldLinearCaster<hkAabbTreeAabb16> caster(maxFraction); fn_830970B8(&caster,world->aabbTree,a,b,c,d,e,f,g); }
 }

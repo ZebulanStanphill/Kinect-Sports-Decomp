@@ -30,7 +30,6 @@ extern unsigned int *auStack_464;
 extern unsigned int *auStack_490;
 extern unsigned int *auStack_4a0;
 extern int fn_82CE5410();
-extern float lbl_82002C5C;
 extern unsigned int lbl_8202CF7C;
 extern unsigned int lbl_8323B4A0;
 extern unsigned int uStack_468;
@@ -66,7 +65,7 @@ void fn_82D87FB8(int param_1,int *param_2,int *param_3,undefined8 param_4)
     *(undefined4 **)(iVar4 + 4) = puVar1 + 4;
   }
   (**(code **)(*(int *)*param_2 + 0x1c))
-            (-(double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * lbl_82002C5C - (float)param_3[2]),
+            (-(double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * 0.5f - (float)param_3[2]),
              (int *)*param_2,param_2[2]);
   puStack_470 = auStack_464;
   uStack_468 = 0x80000080;

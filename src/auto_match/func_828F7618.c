@@ -138,7 +138,6 @@ extern unsigned int lbl_82005730;
 extern unsigned int lbl_82005758;
 extern unsigned int lbl_8200E890;
 extern unsigned int lbl_820105A0;
-extern unsigned int lbl_82015618;
 extern float lbl_8202DDF8;
 extern unsigned int lbl_8202DE58;
 extern unsigned int lbl_8202DE60;

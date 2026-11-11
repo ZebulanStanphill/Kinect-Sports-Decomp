@@ -34,7 +34,6 @@ extern int fn_827856F0();
 extern int fn_82F6A530();
 extern int fn_82F6A57C();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 
 
 void fn_82785768(undefined8 param_1,float *param_2,float *param_3,undefined8 param_4,
@@ -100,8 +99,8 @@ void fn_82785768(undefined8 param_1,float *param_2,float *param_3,undefined8 par
   dVar22 = (double)(fVar7 * fVar14);
   dVar20 = (double)(fVar7 * fVar4);
   dVar18 = (double)(fVar7 * fVar3);
-  dVar24 = (double)(((float)(dVar16 - dVar19) + (float)(dVar21 - dVar23)) * lbl_82002C5C);
-  dVar25 = (double)(((float)(dVar18 - dVar17) + (float)(dVar22 - dVar20)) * lbl_82002C5C);
+  dVar24 = (double)(((float)(dVar16 - dVar19) + (float)(dVar21 - dVar23)) * 0.5f);
+  dVar25 = (double)(((float)(dVar18 - dVar17) + (float)(dVar22 - dVar20)) * 0.5f);
   if (param_6 == 0) {
     cVar1 = *(char *)((int)param_5 + 0x36);
     cVar2 = *(char *)((int)param_5 + 0x37);

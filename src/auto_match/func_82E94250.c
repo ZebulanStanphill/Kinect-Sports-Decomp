@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F655D8();
-extern float lbl_82002C5C;
 extern unsigned int lbl_82005758;
 extern unsigned int lbl_821AAD20;
 
@@ -98,14 +97,14 @@ LAB_82e943bc:
         *(float *)(param_2 + 0x786c) = fVar10;
         *(float *)(param_2 + 0x7868) =
              (fVar8 * *(float *)(param_2 + 0x7864) + fVar7 * *(float *)(param_2 + 0x7860)) *
-             lbl_82002C5C;
+             0.5f;
         return;
       }
       if (fVar10 <= fVar9) {
         return;
       }
       *(float *)(param_2 + 0x7868) = fVar10;
-      *(float *)(param_2 + 0x786c) = (fVar6 + fVar4) * lbl_82002C5C;
+      *(float *)(param_2 + 0x786c) = (fVar6 + fVar4) * 0.5f;
       return;
     }
   }

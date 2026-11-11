@@ -27,7 +27,6 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82BFFF08();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_821AAD20;
 
 
@@ -54,13 +53,13 @@ undefined8 fn_82C001C0(int param_1)
   fVar5 = (float)*(uint *)(param_1 + 0x80);
   if (fVar3 / fVar2 <= fVar4 / fVar5) {
     fVar4 = (fVar5 * fVar3) / fVar4;
-    fVar5 = (fVar2 - fVar4) * lbl_82002C5C;
+    fVar5 = (fVar2 - fVar4) * 0.5f;
     fVar2 = fVar4 + fVar5;
     fVar3 = lbl_821AAD20;
   }
   else {
     fVar4 = ((fVar4 * fVar2) / fVar5) / *(float *)(param_1 + 0x8c);
-    fVar3 = (fVar1 - fVar4) * lbl_82002C5C;
+    fVar3 = (fVar1 - fVar4) * 0.5f;
     fVar1 = fVar3 + fVar4;
     fVar5 = lbl_821AAD20;
   }

@@ -27,7 +27,6 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 #define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
 #define CONCAT21(h,l) ((U32)((((U16)(h)) << 8) | ((U8)(l))))
-extern float lbl_82057518;
 
 
 double fn_82A67308(undefined1 *param_1)
@@ -35,6 +34,6 @@ double fn_82A67308(undefined1 *param_1)
 {
   return (double)((float)(longlong)
                          ((int)((uint)CONCAT21(CONCAT11(param_1[2],param_1[1]),*param_1) << 8) >> 8)
-                 * lbl_82057518);
+                 * 1.1920929e-07f);
 }
 

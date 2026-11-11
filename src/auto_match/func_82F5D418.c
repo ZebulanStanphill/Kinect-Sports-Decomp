@@ -35,7 +35,6 @@ extern int fn_82F593D8();
 extern int memcpy();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
-extern float lbl_82002C5C;
 extern unsigned int lbl_82005748;
 extern unsigned int lbl_820570E0;
 extern unsigned int lbl_820570E8;
@@ -80,7 +79,7 @@ void fn_82F5D418(undefined8 param_1,double param_2,double param_3)
     dVar4 = (double)fn_82F593C8();
   }
   if (dVar4 != dVar9) {
-    dVar6 = (double)((float)(dVar4 + dVar6) * lbl_82002C5C);
+    dVar6 = (double)((float)(dVar4 + dVar6) * 0.5f);
   }
   uVar3 = 0;
   dVar9 = (double)lbl_82005748;

@@ -20,7 +20,6 @@ __vector4 __lvlx(const void *, int);
 }
 
 // The game's 0.5f keeps its lbl_ name (Matching units reference it).
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkSimdReal {
 public:
@@ -76,7 +75,7 @@ hkpConvexVerticesShape::hkpConvexVerticesShape(hkFourTransposedPoints *rotatedVe
 {
     hkpConvexVerticesShape *self = this;
     self->m_aabbHalfExtents.setSub4(aabb.m_max, aabb.m_min);
-    self->m_aabbHalfExtents.mul4(lbl_82002C5C);
+    self->m_aabbHalfExtents.mul4(0.5f);
     self->m_aabbCenter.setAdd4(aabb.m_min, aabb.m_max);
-    self->m_aabbCenter.mul4(lbl_82002C5C);
+    self->m_aabbCenter.mul4(0.5f);
 }

@@ -18,7 +18,6 @@ __vector4 __lvlx(const void *, int);
 float fn_8307F168();
 }
 
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 union hkQuadRealUnion {
     __vector4 q;
@@ -99,7 +98,7 @@ hkpSampledHeightFieldShape::hkpSampledHeightFieldShape(const hkpSampledHeightFie
     }
     else
     {
-        m_heightCenter = (ci.m_minHeight + ci.m_maxHeight) * ci.m_scale(1) * lbl_82002C5C;
+        m_heightCenter = (ci.m_minHeight + ci.m_maxHeight) * ci.m_scale(1) * 0.5f;
     }
 
     m_intToFloatScale = ci.m_scale;

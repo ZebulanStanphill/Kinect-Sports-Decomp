@@ -5,7 +5,7 @@
 // hkpCollidable's constructor is out of line in the game (fn_8253D7A8).
 //
 // The original uses the literals HK_REAL_EPSILON and HK_REAL_MAX, whose loads the scheduler is free
-// to move; the game's copies are lbl_82057518 and lbl_82134508, which Matching C units reference, so
+// to move; the game's copies are __real@34000000 and lbl_82134508, which Matching C units reference, so
 // they are declared here as known constants (as in func_83096D00.cpp). Built with /QVMXReserve
 // (the vector copies use v0/v13).
 #include "havok/hkBase.h"
@@ -24,7 +24,6 @@ public:
 };
 class hkTransform { public: hkVector4 m_rotation[3]; hkVector4 m_translation; };
 
-extern "C" __declspec(selectany) const hkReal lbl_82057518 = 1.192092896e-07f;   // HK_REAL_EPSILON
 extern "C" __declspec(selectany) const hkReal lbl_82134508 = 3.40282e+38f;   // HK_REAL_MAX
 
 class hkpShape;
@@ -86,7 +85,7 @@ public:
 };
 
 struct hkpLinearCastInput {
-    HK_FORCE_INLINE hkpLinearCastInput() : m_maxExtraPenetration(lbl_82057518), m_startPointTolerance(lbl_82057518) {}
+    HK_FORCE_INLINE hkpLinearCastInput() : m_maxExtraPenetration(1.1920929e-07f), m_startPointTolerance(1.1920929e-07f) {}
     hkVector4 m_to;
     hkReal m_maxExtraPenetration;
     hkReal m_startPointTolerance;

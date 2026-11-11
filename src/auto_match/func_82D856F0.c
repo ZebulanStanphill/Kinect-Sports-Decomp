@@ -47,7 +47,6 @@ extern unsigned int iStack_b4;
 extern unsigned int iStack_c0;
 extern unsigned int iStack_c4;
 extern unsigned int iStack_d0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_8202CF7C;
 extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_8323B4A0;
@@ -156,7 +155,7 @@ void fn_82D856F0(int param_1,int *param_2,ulonglong param_3,int param_4)
           *(byte *)((int)puVar6 + 0x26) = *(byte *)((int)puVar6 + 0x26) & 0xf;
         }
       }
-      dVar15 = (double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * lbl_82002C5C);
+      dVar15 = (double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * 0.5f);
       if (0 < (int)uVar9) {
         dVar16 = (double)lbl_821AAD20;
         uVar13 = param_3;

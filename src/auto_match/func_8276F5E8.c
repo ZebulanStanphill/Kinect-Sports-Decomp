@@ -31,7 +31,6 @@ extern int fn_827B3C10();
 extern int fn_827B44F8();
 extern int fn_827B4A50();
 extern int fn_82F68918();
-extern float lbl_82002C5C;
 extern unsigned int lbl_820151B8;
 extern float lbl_820151BC;
 
@@ -55,7 +54,7 @@ void fn_8276F5E8(int param_1,int param_2,int *param_3)
                             (*(int **)(*param_3 + 0xc),param_3[1],0);
   if (piVar3 != (int *)0x0) {
     (**(code **)(*piVar3 + 0x18))
-              ((double)((lbl_820151B8 / (float)(longlong)*(int *)(param_1 + 0xc)) * lbl_82002C5C),
+              ((double)((lbl_820151B8 / (float)(longlong)*(int *)(param_1 + 0xc)) * 0.5f),
                piVar3,param_1 + 0x100);
     iVar5 = param_1 + 0x94;
     fn_827B3C10(iVar5);

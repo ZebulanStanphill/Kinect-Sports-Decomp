@@ -11,7 +11,6 @@
 // __real@3ecccccd, which is what the plain literal produces; the 0.5f and 1.0f copies are still
 // lbl_s. Declaring those with their values lets the compiler treat them as constants and
 // schedule their loads the way the original does.
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkpShape;
 
@@ -23,7 +22,7 @@ public:
 };
 
 struct hkpMaterial {
-    HK_FORCE_INLINE hkpMaterial() : m_friction(lbl_82002C5C), m_restitution(0.4f) {}
+    HK_FORCE_INLINE hkpMaterial() : m_friction(0.5f), m_restitution(0.4f) {}
     hkInt8 m_responseType;
     hkInt16 m_rollingFrictionMultiplier;
     hkReal m_friction;

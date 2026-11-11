@@ -28,7 +28,6 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_24;
 extern unsigned int fStack_28;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_8200D4C0;
 extern unsigned int lbl_820540D4;
 extern unsigned int lbl_820540D8;
@@ -134,11 +133,11 @@ void fn_829B0FC8(float *param_1,float *param_2,float *param_3,longlong param_4)
       fVar3 = (fVar2 - fVar9) * ((float)(uVar12 - 1) / (fVar10 - fVar9));
       if (lbl_821AAD20 < fVar3) {
         if (fVar3 < (float)(uVar12 - 1)) {
-          uVar15 = (int)(fVar3 + lbl_82002C5C);
+          uVar15 = (int)(fVar3 + 0.5f);
         }
         else {
           uVar15 = uVar12 - 1;
-          if ((uVar12 == 6) && ((fVar10 + lbl_82002AE0) * lbl_82002C5C <= fVar2)) goto LAB_829b11d8;
+          if ((uVar12 == 6) && ((fVar10 + lbl_82002AE0) * 0.5f <= fVar2)) goto LAB_829b11d8;
         }
 LAB_829b11a8:
         if (uVar15 < uVar12) {
@@ -150,7 +149,7 @@ LAB_829b11a8:
           fVar6 = fVar4 * (afStack_40[uVar15] - fVar2) + fVar6;
         }
       }
-      else if ((uVar12 != 6) || (fVar9 * lbl_82002C5C < fVar2)) {
+      else if ((uVar12 != 6) || (fVar9 * 0.5f < fVar2)) {
         uVar15 = 0;
         goto LAB_829b11a8;
       }

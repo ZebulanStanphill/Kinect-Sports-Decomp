@@ -32,7 +32,6 @@ extern unsigned int fStack_58;
 extern unsigned int fStack_5c;
 extern unsigned int fStack_60;
 extern int fn_82D401F8();
-extern float lbl_82002C5C;
 extern unsigned int lbl_821AAD20;
 extern unsigned int uStack_44;
 extern unsigned int uStack_48;
@@ -69,7 +68,7 @@ void fn_82E00530(int param_1,int param_2,ulonglong param_3,undefined8 param_4)
   pfVar6 = (float *)(*(int *)(*(int *)(param_2 + 0x1c) + 0x8c) +
                     (iVar4 + ((uint)param_3 & 0xff) * 4) * 8);
   fStack_60 = *pfVar6;
-  fStack_58 = pfVar6[2] * lbl_82002C5C;
+  fStack_58 = pfVar6[2] * 0.5f;
   uStack_54 = lbl_821AAD20;
   uStack_50 = lbl_821AAD20;
   uStack_48 = lbl_821AAD20;
@@ -77,7 +76,7 @@ void fn_82E00530(int param_1,int param_2,ulonglong param_3,undefined8 param_4)
   uStack_44 = lbl_821AAD20;
   fStack_5c = (*(float *)(*(int *)(*(int *)(param_2 + 0x34) + 8) +
                           (iVar4 + ((uint)param_3 & 0xff) * 2) * 0x10 + 0x20) + fStack_60) *
-              lbl_82002C5C;
+              0.5f;
   puVar2 = (undefined4 *)((int)&fStack_60 + in_r0 & 0xfffffff0);
   uVar7 = puVar2[1];
   uVar8 = puVar2[2];

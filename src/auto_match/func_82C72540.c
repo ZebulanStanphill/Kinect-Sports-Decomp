@@ -28,7 +28,6 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A538();
 extern int fn_82F6A584();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_82005344;
 extern unsigned int lbl_82005730;
 extern unsigned int lbl_820FC3F8;
@@ -80,7 +79,7 @@ void fn_82C72540(undefined8 param_1,double param_2,double param_3)
     dVar24 = -param_3;
     dVar25 = extraout_f1 + lbl_82005730;
     dVar27 = dVar24 * lbl_820FC420;
-    dVar26 = (double)((float)((double)(float)(dVar24 * lbl_820FC418) + param_3) * lbl_82002C5C);
+    dVar26 = (double)((float)((double)(float)(dVar24 * lbl_820FC418) + param_3) * 0.5f);
     fVar11 = (float)(longlong)(int)(extraout_f1 + lbl_82005730);
     dVar21 = (double)(float)(dVar26 - (double)(float)(param_3 * lbl_820FC430));
     fVar1 = (float)((double)(float)(dVar26 - param_3) + param_2);

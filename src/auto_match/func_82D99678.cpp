@@ -6,7 +6,7 @@
 // read as undefined registers (`vxor v11,v11,v11`, no stack load): MSVC keeps an uninitialized local
 // in its stack slot only when it is read in the entry block.
 // The lin0Limit assignments must come before lin0Soft's (order of the constant loads).
-// 1.0f is a literal; 0.5f is lbl_82002C5C (Matching units reference it), a selectany definition. -0.5f is
+// 1.0f is a literal; 0.5f is __real@3f000000 (Matching units reference it), a selectany definition. -0.5f is
 // renamed __real@bf000000.
 #include "havok/hkBase.h"
 
@@ -16,7 +16,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 } __vector4;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkVector4 {
 public:
@@ -141,7 +140,7 @@ hkpWheelConstraintData::hkpWheelConstraintData()
     HK_CONSTRAINT_FILL_PADDING_WITH_ZERO(atoms.m_lin2, atoms.m_steeringBase);
     m_atoms.m_lin0Limit.m_axisIndex = 0;
     m_atoms.m_lin0Limit.m_min = -0.5f;
-    m_atoms.m_lin0Limit.m_max = lbl_82002C5C;
+    m_atoms.m_lin0Limit.m_max = 0.5f;
     m_atoms.m_lin0Soft.m_axisIndex = 0;
     m_atoms.m_lin0Soft.m_tau = 0.0f;
     m_atoms.m_lin0Soft.m_damping = 0.0f;

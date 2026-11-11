@@ -77,7 +77,7 @@ void fn_82D93120(hkpMotion *, int);
 void fn_82D8B4B8(int, const hkVector4 &, const hkQuaternion &, float, const hkMatrix3 &, const hkVector4 &, float, float, hkpMotion *);
 void fn_82D8B2F8(hkpMotion *, int, unsigned int, unsigned char, unsigned char, unsigned char);
 unsigned char fn_83095E98(const hkpShape *);
-extern float lbl_82002C5C, lbl_82134508;
+extern float lbl_82134508;
 }
 class hkpRigidBody;
 extern "C" { void fn_82D89BD8(hkpRigidBody *); void fn_82D8B400(hkpRigidBody *, const hkpShape *, hkVector4 *); }
@@ -165,7 +165,7 @@ extern "C" hkpRigidBody *fn_82D8C258(hkpRigidBody *self, const hkpRigidBodyCinfo
         fn_82D8B400(self, self->m_shape, &extents);
         if (self->m_allowedPenetrationDepth <= 0.0f) {
             float m = min2(min2(extents.v[0], extents.v[1]), extents.v[2]);
-            if (m < lbl_82002C5C) self->m_allowedPenetrationDepth = m * 0.2f;
+            if (m < 0.5f) self->m_allowedPenetrationDepth = m * 0.2f;
             else self->m_allowedPenetrationDepth = 0.1f;
         }
     }

@@ -25,12 +25,11 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_82057518;
 
 
 double fn_82A67350(int *param_1)
 
 {
-  return (double)((float)(longlong)(*param_1 >> 8) * lbl_82057518);
+  return (double)((float)(longlong)(*param_1 >> 8) * 1.1920929e-07f);
 }
 

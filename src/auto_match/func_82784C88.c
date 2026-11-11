@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_821AAD20;
 
 
@@ -70,8 +69,8 @@ void fn_82784C88(int param_1,float *param_2)
   param_2[8] = fVar4;
   param_2[9] = fVar1 * *(float *)(param_1 + 0xc);
   param_2[10] = fVar2 * *(float *)(param_1 + 0xc);
-  fVar6 = lbl_82002C5C;
-  fVar4 = (fVar3 + fVar5) * lbl_82002C5C;
+  fVar6 = 0.5f;
+  fVar4 = (fVar3 + fVar5) * 0.5f;
   param_2[0xb] = fVar5 * *(float *)(param_1 + 0xc);
   param_2[0xc] = fVar3 * *(float *)(param_1 + 0xc);
   param_2[5] = fVar4;

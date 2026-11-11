@@ -1,5 +1,5 @@
 typedef struct { int f0; int f4; char *f8; } Obj_83059018;
-extern double lbl_82005710, lbl_820105A0, lbl_820FC2C8, lbl_82028820, lbl_820153F0, lbl_82015618, lbl_820288B8;
+extern double lbl_82005710, lbl_820105A0, lbl_820FC2C8, lbl_82028820, lbl_820153F0, lbl_820288B8;
 extern void fn_8305BDE0(int a);
 extern double fn_8305BD60(double a);
 
@@ -11,7 +11,7 @@ void fn_83059018(Obj_83059018 *o, int unused, unsigned kind, double x)
     case 1: base = lbl_82005710; cap = lbl_820FC2C8; break;
     case 2: base = lbl_82005710; cap = lbl_82028820; break;
     case 3: base = lbl_82005710; cap = lbl_820153F0; break;
-    case 4: base = lbl_82005710; cap = lbl_82015618; break;
+    case 4: base = lbl_82005710; cap = 10.0; break;
     case 5: base = lbl_82005710; cap = lbl_820288B8; break;
     }
     if (x > cap)

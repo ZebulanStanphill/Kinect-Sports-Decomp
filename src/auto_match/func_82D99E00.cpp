@@ -1,6 +1,6 @@
 // hkpShapePhantom::setTransform(const hkTransform &transform) (Havok 2010,
 // Physics/Dynamics/Phantom/hkpShapePhantom.cpp). Havok code, /O2 (flag file).
-// 0.5f is lbl_82002C5C (Matching units reference it), a selectany definition.
+// 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
 #include "havok/hkpShape.h"
 
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
@@ -8,7 +8,6 @@ typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
 } __vector4;
 typedef __vector4 hkQuadReal;
 
-extern "C" __declspec(selectany) const float lbl_82002C5C = 0.5f;
 
 class hkVector4 {
 public:
@@ -62,7 +61,7 @@ HK_FORCE_INLINE void hkpShapePhantom::setTransform(const hkTransform &transform)
     m_transform = transform;
     if (m_world) {
         hkAabb aabb;
-        m_shape->getAabb(transform, m_world->getCollisionInput()->m_tolerance * lbl_82002C5C, aabb);
+        m_shape->getAabb(transform, m_world->getCollisionInput()->m_tolerance * 0.5f, aabb);
         updateBroadPhase(aabb);
     }
 }

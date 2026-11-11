@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_82186E74;
 extern unsigned int lbl_821AAD20;
 
@@ -44,8 +43,8 @@ double fn_828B9180(int param_1)
   afStack_10[2] = lbl_82002AE0;
   afStack_10[0] = lbl_821AAD20;
   afStack_10[1] =
-       ((*(float *)(param_1 + 0xac) + *(float *)(param_1 + 0xb4)) * lbl_82002C5C +
-       *(float *)(param_1 + 0xb0)) * lbl_82002C5C;
+       ((*(float *)(param_1 + 0xac) + *(float *)(param_1 + 0xb4)) * 0.5f +
+       *(float *)(param_1 + 0xb0)) * 0.5f;
   if (lbl_821AAD20 <= afStack_10[1]) {
     pfVar1 = afStack_10 + 1;
   }

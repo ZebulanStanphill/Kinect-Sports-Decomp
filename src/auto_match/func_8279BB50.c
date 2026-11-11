@@ -34,7 +34,6 @@ extern int fn_82799CA8();
 extern int fn_8279A810();
 extern int fn_827A84D0();
 extern int memcpy();
-extern float lbl_82002C5C;
 extern unsigned int lbl_82005730;
 extern unsigned int lbl_82015B38;
 extern unsigned int lbl_821AAD20;
@@ -295,7 +294,7 @@ LAB_8279bc70:
       puVar5[6] = uVar1;
     }
     uVar16 = param_1[0x12];
-    dVar20 = (double)(((float)param_1[0xb6] - (float)(longlong)param_1[0x23]) * lbl_82002C5C -
+    dVar20 = (double)(((float)param_1[0xb6] - (float)(longlong)param_1[0x23]) * 0.5f -
                      (float)(longlong)
                             (int)(((int)uVar16 >> 1) + (uint)((int)uVar16 < 0 && (uVar16 & 1) != 0))
                      );

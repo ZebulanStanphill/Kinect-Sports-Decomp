@@ -32,7 +32,6 @@ extern int fn_82810558();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_82005344;
 extern float lbl_82021540;
 extern unsigned int lbl_821AAD20;
@@ -101,7 +100,7 @@ void fn_827E8C48(undefined8 param_1,double param_2,double param_3,double param_4
       if (dVar14 <= dVar13) {
         dVar13 = dVar14;
       }
-      dVar13 = (double)((float)(dVar13 / dVar17) * lbl_82002C5C);
+      dVar13 = (double)((float)(dVar13 / dVar17) * 0.5f);
     }
     if ((dVar16 <= dVar13) && (dVar13 <= dVar15)) {
       fn_82810558(dVar13,param_12,param_11,param_8,auStack_70);

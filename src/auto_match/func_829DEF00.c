@@ -29,7 +29,6 @@ extern int fn_829DEAE0();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_821A7F10;
 
 
@@ -93,9 +92,9 @@ void fn_829DEF00(undefined8 param_1,double param_2,double param_3,double param_4
           param_4 = (double)(float)((double)(float)(param_5 - param_3) * dVar24 + param_2);
         }
         iVar3 = *(int *)(iVar7 + 0xc);
-        fVar4 = (float)(param_3 + param_5) * lbl_82002C5C;
+        fVar4 = (float)(param_3 + param_5) * 0.5f;
         dVar23 = (double)fVar4;
-        iVar9 = (int)(longlong)((float)(param_2 + param_4) * lbl_82002C5C);
+        iVar9 = (int)(longlong)((float)(param_2 + param_4) * 0.5f);
         uVar1 = *(ushort *)
                  ((uint)((byte)(&lbl_821A7F10)[*(uint *)(iVar10 + 0x10) & 0x3f] >> 3) * iVar15 +
                   *(int *)(iVar10 + 0x14) * iVar17 + iVar3);

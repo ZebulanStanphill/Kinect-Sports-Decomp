@@ -35,7 +35,6 @@ extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82005344;
-extern float lbl_8200D8DC;
 extern unsigned int lbl_821AAD20;
 
 
@@ -207,7 +206,7 @@ void fn_82786A30(undefined8 param_1,float *param_2,float *param_3,float *param_4
       }
       *(float *)(iVar4 + 0x68) = fVar7;
     }
-    if (*(float *)(iVar4 + 0x28) * lbl_8200D8DC < param_3[4] - param_4[0x1b]) {
+    if (*(float *)(iVar4 + 0x28) * 0.0625f < param_3[4] - param_4[0x1b]) {
       if (*(char *)(param_3 + 0xe) != '\0') {
         fStack_a8 = *(float *)(iVar4 + 0x14);
         fStack_b0 = param_4[0x10] + *param_2;
@@ -390,7 +389,7 @@ void fn_82786A30(undefined8 param_1,float *param_2,float *param_3,float *param_4
       }
       *(float *)(iVar4 + 0x6c) = fVar7;
     }
-    if (*(float *)(iVar4 + 0x28) * lbl_8200D8DC < param_3[3] - param_4[0x19]) {
+    if (*(float *)(iVar4 + 0x28) * 0.0625f < param_3[3] - param_4[0x19]) {
       if (*(char *)(param_3 + 0xe) != '\0') {
         fStack_a8 = *(float *)(iVar4 + 0x10);
         fStack_b0 = *param_2 - param_4[4];

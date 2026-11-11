@@ -13,8 +13,7 @@ unsigned char fn_8289AB78(void *);
 void fn_828E09C8(void *);
 void fn_828E0390(Owner_828E1D08 *, int);
 void fn_828E0DE0(Owner_828E1D08 *, int);
-extern float lbl_82027070;
-static unsigned char timedOut(Owner_828E1D08 *self) { float deadline=self->time+lbl_82027070; return fn_825089A0()->vf08()>deadline; }
+static unsigned char timedOut(Owner_828E1D08 *self) { float deadline=self->time+15.0f; return fn_825089A0()->vf08()>deadline; }
 static void setState(Owner_828E1D08 *self, int state) { self->time=fn_825089A0()->vf08(); self->state=state; }
 void fn_828E1D08(Owner_828E1D08 *self) {
     if (!fn_828ACCE8(self->service)) {

@@ -32,7 +32,6 @@ extern int fn_82F6A510();
 extern int fn_82F6A55C();
 extern unsigned int lbl_8200133C;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_8200DBB4;
 extern unsigned int lbl_8201546C;
 extern unsigned int lbl_82054148;
@@ -109,7 +108,7 @@ void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 p
   fVar35 = lbl_8205414C;
   fVar34 = lbl_82054148;
   fVar33 = lbl_8201546C;
-  fVar32 = lbl_82002C5C;
+  fVar32 = 0.5f;
   fVar31 = lbl_8200133C;
   if (iVar40 == 3) {
     pfVar47 = (float *)&lbl_8205415C;
@@ -166,9 +165,9 @@ void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 p
     do {
       iVar7 = (int)lVar38;
       lVar38 = lVar38 + 0x10;
-      fVar8 = (*(float *)lVar38 - (fVar14 + fVar4) * lbl_82002C5C) * fVar18 * fVar1 +
-              (*(float *)(iVar7 + 0xc) - (fVar15 + fVar25) * lbl_82002C5C) * fVar18 * fVar3 +
-              (*(float *)(iVar7 + 8) - (fVar13 + fStack_110) * lbl_82002C5C) * fVar18 * fVar27;
+      fVar8 = (*(float *)lVar38 - (fVar14 + fVar4) * 0.5f) * fVar18 * fVar1 +
+              (*(float *)(iVar7 + 0xc) - (fVar15 + fVar25) * 0.5f) * fVar18 * fVar3 +
+              (*(float *)(iVar7 + 8) - (fVar13 + fStack_110) * 0.5f) * fVar18 * fVar27;
       fVar16 = fVar8 * fVar8 + fVar16;
       lVar48 = lVar48 + -1;
     } while (lVar48 != 0);

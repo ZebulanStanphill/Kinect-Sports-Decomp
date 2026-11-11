@@ -52,7 +52,6 @@ extern unsigned int iStack_dc;
 extern unsigned int iStack_e0;
 extern unsigned int iStack_ec;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_832179FC;
 extern unsigned int lbl_83217B88;
 extern unsigned int uStack_c4;
@@ -135,10 +134,10 @@ fn_829D63E0(int param_1,undefined8 param_2,int param_3,undefined8 param_4,undefi
     aiStack_120 = 4;
     if (bVar5 == 0) {
       piVar7 = &iStack_e0;
-      iStack_e0 = (int)((lbl_82002AE0 - *(float *)(iVar4 + 0x8f04c)) * lbl_82002C5C *
+      iStack_e0 = (int)((lbl_82002AE0 - *(float *)(iVar4 + 0x8f04c)) * 0.5f *
                        (float)(uVar10 & 0xffffffff));
       iStack_d8 = (int)uVar10 - iStack_e0;
-      iStack_dc = (int)((lbl_82002AE0 - *(float *)(iVar4 + 0x8f050)) * lbl_82002C5C * (float)uVar1);
+      iStack_dc = (int)((lbl_82002AE0 - *(float *)(iVar4 + 0x8f050)) * 0.5f * (float)uVar1);
       lStack_118 = (longlong)iStack_dc;
       iStack_d4 = uVar1 - iStack_dc;
     }

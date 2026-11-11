@@ -1,4 +1,3 @@
-extern float lbl_82057518;
 extern int fn_82F6E7A8(const char *, ...);
 extern double fabs(double);
 typedef struct { char pad[8]; } A_83059838;
@@ -17,7 +16,7 @@ int fn_83059838(Obj_83059838 *o, float *y, int n)
   if (y == 0) return 0;
   if (n != 0x329) return 0;
   ok = 1;
-  t = lbl_82057518;
+  t = 1.1920929e-07f;
   m = (float *)(o->b->mem + 0xca4);
   i = 0;
   p = y;

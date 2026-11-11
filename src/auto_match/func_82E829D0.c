@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005730;
-extern float lbl_82015618;
 extern unsigned int lbl_820FBB20;
 extern unsigned int lbl_8215F5F8;
 extern unsigned int lbl_8215F60C;
@@ -89,7 +88,7 @@ LAB_82e82a98:
   if (*(int *)(param_1 + 0x1dac) == 3) {
     dVar7 = *(double *)(param_1 + 0x1ed8);
     iVar4 = (int)*(double *)(param_1 + 0x1ed0) * 10000;
-    if (*(double *)(param_1 + 0x1ed0) * lbl_82015618 < dVar7) goto LAB_82e82b40;
+    if (*(double *)(param_1 + 0x1ed0) * 10.0 < dVar7) goto LAB_82e82b40;
   }
   else {
     dVar7 = *(double *)(param_1 + 0x1ed0);

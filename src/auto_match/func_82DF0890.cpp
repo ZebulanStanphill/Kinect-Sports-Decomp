@@ -28,7 +28,6 @@ public:
 
 extern "C" {
 __declspec(selectany) extern const float lbl_82134508 = 3.40282e+38f;     // HK_REAL_MAX
-__declspec(selectany) extern const float lbl_82057518 = 1.192092896e-07f; // HK_REAL_EPSILON
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
 }
 
@@ -37,7 +36,7 @@ void linearCastSphere_bindConstants(float *out)
 {
     out[0] = 1.0f;
     out[1] = lbl_82134508;
-    out[2] = lbl_82057518;
+    out[2] = 1.1920929e-07f;
 }
 
 #define HK_REAL_MAX 3.40282e+38f

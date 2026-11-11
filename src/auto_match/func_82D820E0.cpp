@@ -5,7 +5,6 @@ struct TimerEntry { const char *name; unsigned int time, unused; };
 struct TimerStream { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; };
 extern "C" TimerStream *KeTlsGetValue(unsigned int);
 extern "C" unsigned int lbl_8323B4A0;
-extern "C" float lbl_82057518;
 static HK_FORCE_INLINE void timer(const char *name) {
  TimerStream *stream=KeTlsGetValue(lbl_8323B4A0);
  if (stream->current < stream->end) {
@@ -25,7 +24,7 @@ struct World { char pad[0x58]; void *bp; TreeManager *tree; char pad60[0x18]; Co
 class hkpBroadPhaseCastCollector { public: virtual ~hkpBroadPhaseCastCollector() {} };
 class hkpWorldLinearCaster : public hkpBroadPhaseCastCollector {
 public:
- hkpWorldLinearCaster() { tol = lbl_82057518; }
+ hkpWorldLinearCaster() { tol = 1.1920929e-07f; }
  char pad[0x7c]; float tol;
  char tail[0xc];
 };

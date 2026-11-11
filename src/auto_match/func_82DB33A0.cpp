@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
-extern "C" const float lbl_82057518;
-class __declspec(align(16)) hkKdTreeCastCollector { public: virtual ~hkKdTreeCastCollector() {} char pad[0x7c]; float fraction; hkKdTreeCastCollector():fraction(lbl_82057518){} };
+class __declspec(align(16)) hkKdTreeCastCollector { public: virtual ~hkKdTreeCastCollector() {} char pad[0x7c]; float fraction; hkKdTreeCastCollector():fraction(1.1920929e-07f){} };
 class hkpKdTreeWorldLinearCaster : public hkKdTreeCastCollector {};
 extern "C" void fn_83096B20(hkpKdTreeWorldLinearCaster *, void*, void*, void*, void*, void*, void*, void*, void*);
 struct World { char pad[0x10]; void *tree; };

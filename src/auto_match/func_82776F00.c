@@ -27,7 +27,6 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned char fn_827747B0(int,int,int);
 extern int fn_82776E60();
-extern float lbl_82002C5C;
 
 extern unsigned int lbl_831568D0[];
 
@@ -57,7 +56,7 @@ LAB_8277705c:
     uVar7 = 0;
     if (*(unsigned *)(iVar1 + 0x14) > 0) {
       iVar8 = 0;
-      dVar10 = lbl_82002C5C;
+      dVar10 = 0.5f;
       do {
         iVar4 = *(int *)(iVar1 + 0x10) + iVar8;
         if (((bVar9) && (*(unsigned *)(iVar4 + 0xc) != 0)) && (*(byte *)(iVar4 + 6) != 0)) {

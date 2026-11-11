@@ -5,7 +5,6 @@ typedef struct Obj_82FBC550 {
 } Obj_82FBC550;
 
 extern double fn_82F655D8(double, double);
-extern double lbl_82015618;
 
 int fn_82FBC550(Obj_82FBC550 *o, short id, void *v)
 {
@@ -27,7 +26,7 @@ int fn_82FBC550(Obj_82FBC550 *o, short id, void *v)
         o->f10 = *(float *)v;
         break;
     case 4:
-        o->f14 = (float)fn_82F655D8(lbl_82015618, *(float *)v * 0.05f);
+        o->f14 = (float)fn_82F655D8(10.0, *(float *)v * 0.05f);
         break;
     case 5:
         o->b18 = *(unsigned char *)v;

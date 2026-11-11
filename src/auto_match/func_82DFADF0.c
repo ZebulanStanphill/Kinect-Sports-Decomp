@@ -1,1 +1,1 @@
-extern float lbl_82002C5C; float fn_82DFADF0(char *p,float x) { float t=*(float *)(p+0x14) * *(float *)(p+0xc) * *(float *)(p+8); t*=x; t*=x; return t*lbl_82002C5C; }
+ float fn_82DFADF0(char *p,float x) { float t=*(float *)(p+0x14) * *(float *)(p+0xc) * *(float *)(p+8); t*=x; t*=x; return t*0.5f; }

@@ -35,7 +35,6 @@ extern int fn_82F59BB0();
 extern int fn_82F59C30();
 extern unsigned int lbl_8200133C;
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C5C;
 extern unsigned int lbl_82015468;
 extern unsigned int lbl_8201DD74;
 extern unsigned int lbl_821AAD20;
@@ -70,7 +69,7 @@ double fn_82F5A3A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,unde
     fVar2 = in_stack_00000060 * in_stack_00000050 * lbl_8200133C - fRam831bafc4;
     fVar1 = (lbl_82002AE0 - in_stack_00000060) * in_stack_00000050 + fRam831bafc4;
     if ((fStack_90 < fVar2) || (fVar1 < fStack_90)) {
-      fVar3 = (fVar1 + fVar2) * lbl_82002C5C + lbl_8201DD74;
+      fVar3 = (fVar1 + fVar2) * 0.5f + lbl_8201DD74;
       if (fVar2 <= fStack_90) {
         if (fVar1 < fStack_90) {
           fVar5 = (fStack_90 - fVar3) / (fVar1 - fVar3);
@@ -86,7 +85,7 @@ double fn_82F5A3A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,unde
     fVar2 = in_stack_00000064 * in_stack_00000054 * lbl_8200133C - fRam831bafc4;
     fVar3 = (lbl_82002AE0 - in_stack_00000064) * in_stack_00000054 + fRam831bafc4;
     if ((fStack_8c < fVar2) || (fVar3 < fStack_8c)) {
-      fVar4 = (fVar3 + fVar2) * lbl_82002C5C + lbl_8201DD74;
+      fVar4 = (fVar3 + fVar2) * 0.5f + lbl_8201DD74;
       if (fVar2 <= fStack_8c) {
         if (fVar3 < fStack_8c) {
           fVar1 = (fStack_8c - fVar4) / (fVar3 - fVar4);
@@ -102,7 +101,7 @@ double fn_82F5A3A0(undefined8 param_1,undefined8 param_2,undefined8 param_3,unde
     fVar3 = in_stack_00000068 * in_stack_00000058 * lbl_8200133C - fRam831bafc4;
     fVar4 = (lbl_82002AE0 - in_stack_00000068) * in_stack_00000058 + fRam831bafc4;
     if ((fStack_88 < fVar3) || (fVar4 < fStack_88)) {
-      fVar6 = (fVar4 + fVar3) * lbl_82002C5C + lbl_8201DD74;
+      fVar6 = (fVar4 + fVar3) * 0.5f + lbl_8201DD74;
       if (fVar3 <= fStack_88) {
         if (fVar4 < fStack_88) {
           fVar2 = (fStack_88 - fVar6) / (fVar4 - fVar6);

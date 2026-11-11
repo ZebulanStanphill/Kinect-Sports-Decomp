@@ -5,9 +5,8 @@
 #include "havok/hkBase.h"
 
 // HK_REAL_EPSILON. The source used the literal (whose load the compiler schedules freely); the game's copy of
-// that constant is lbl_82057518, and a static constant with that name gives the same code (a plain extern is
+// that constant is __real@34000000, and a static constant with that name gives the same code (a plain extern is
 // reloaded after each store, a selectany definition schedules its address differently).
-static const float lbl_82057518 = 1.1920928955078125e-07f;
 
 class hkpCollidable;
 class hkpCollidableAddedEvent;
@@ -128,8 +127,8 @@ public:
     };
     HK_FORCE_INLINE hkpVehicleLinearCastWheelCollide()
     {
-        m_maxExtraPenetration = lbl_82057518;
-        m_startPointTolerance = lbl_82057518;
+        m_maxExtraPenetration = 1.1920929e-07f;
+        m_startPointTolerance = 1.1920929e-07f;
         m_alreadyUsed = false;
         m_type = LINEAR_CAST_WHEEL_COLLIDE;
     }

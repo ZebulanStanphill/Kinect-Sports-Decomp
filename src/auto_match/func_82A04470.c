@@ -25,7 +25,6 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_82002C5C;
 extern unsigned int lbl_82015D08;
 extern unsigned int lbl_8201DFF4;
 extern unsigned int lbl_82021538;
@@ -49,9 +48,9 @@ double fn_82A04470(int param_1,int param_2)
     case 0x17:
     case 0x18:
       if (*(float *)(param_1 + 0x40a0) != lbl_821AAD20) {
-        dVar3 = (double)((*(float *)(param_1 + 0x40a0) / fVar1) * lbl_82002C5C);
+        dVar3 = (double)((*(float *)(param_1 + 0x40a0) / fVar1) * 0.5f);
         if ((float)(dVar3 / dVar2) < lbl_820579A8) {
-          return (double)((float)(dVar3 + dVar2) * lbl_82002C5C);
+          return (double)((float)(dVar3 + dVar2) * 0.5f);
         }
         if ((float)(dVar3 / dVar2) < lbl_8201DFF4) {
           return dVar3;
@@ -63,7 +62,7 @@ double fn_82A04470(int param_1,int param_2)
     case 0x1b:
     case 0x1c:
       if (*(float *)(param_1 + 0x40a8) != lbl_821AAD20) {
-        dVar3 = (double)((*(float *)(param_1 + 0x40a8) / fVar1) * lbl_82002C5C);
+        dVar3 = (double)((*(float *)(param_1 + 0x40a8) / fVar1) * 0.5f);
         fVar1 = lbl_820579A8;
         if ((param_2 != 7) && (param_2 != 10)) {
           fVar1 = lbl_8201DFF4;
@@ -76,10 +75,10 @@ double fn_82A04470(int param_1,int param_2)
     case 0x19:
     case 0x1a:
       if ((*(float *)(param_1 + 0x40b0) != lbl_821AAD20) &&
-         (dVar3 = (double)((*(float *)(param_1 + 0x40b0) / fVar1) * lbl_82002C5C),
+         (dVar3 = (double)((*(float *)(param_1 + 0x40b0) / fVar1) * 0.5f),
          lbl_82015D08 < (float)(dVar3 / dVar2))) {
 LAB_82a0460c:
-        return (double)((float)(dVar3 + dVar2) * lbl_82002C5C);
+        return (double)((float)(dVar3 + dVar2) * 0.5f);
       }
       break;
     case 0x15:
@@ -87,7 +86,7 @@ LAB_82a0460c:
       if (*(float *)(param_1 + 0x40d8) != lbl_821AAD20) {
         dVar3 = (double)(*(float *)(param_1 + 0x40d8) / fVar1);
         if ((float)(dVar3 / dVar2) < lbl_820579A8) {
-          return (double)((float)(dVar3 + dVar2) * lbl_82002C5C);
+          return (double)((float)(dVar3 + dVar2) * 0.5f);
         }
         if ((float)(dVar3 / dVar2) < lbl_82021538) {
           return dVar3;

@@ -30,7 +30,6 @@ extern unsigned int *auStack_464;
 extern unsigned int *auStack_490;
 extern unsigned int *auStack_4a0;
 extern int fn_82CE5410();
-extern float lbl_82002C5C;
 extern unsigned int lbl_8202CF7C;
 extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_8323B4A0;
@@ -68,7 +67,7 @@ void fn_82D881F0(int param_1,int *param_2,int *param_3,int param_4)
     puVar1[1] = (int)uVar2;
     *(undefined4 **)(iVar4 + 4) = puVar1 + 4;
   }
-  dVar11 = -(double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * lbl_82002C5C - (float)param_3[2]);
+  dVar11 = -(double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * 0.5f - (float)param_3[2]);
   dVar10 = (double)lbl_821AAD20;
   if (-dVar11 < 0.0) {
     dVar10 = dVar11;
