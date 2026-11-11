@@ -7941,7 +7941,7 @@ auto_match/func_82281EB0.c:
 auto_match/func_82281ED8.c:
 	.text       start:0x82281ED8 end:0x82281EFC
 
-auto_match/func_82281F00.c:
+auto_match/func_82281F00.cpp:
 	.pdata      start:0x821E0538 end:0x821E0540
 	.text       start:0x82281F00 end:0x822820E0
 
