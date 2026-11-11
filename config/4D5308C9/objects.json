@@ -18935,9 +18935,13 @@
         ]
       },
       "auto_match/func_822CDC98.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822CEE40.c",
+          "auto_match/func_822ABA88.cpp"
         ]
       },
       "auto_match/func_822CDCF8.c": "MISSING",
@@ -22757,9 +22761,12 @@
       "auto_match/func_823098A0.c": "MISSING",
       "auto_match/func_823099E8.c": "MISSING",
       "auto_match/func_8230A4F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822ABA88.cpp"
         ]
       },
       "auto_match/func_8230A5A0.c": "MISSING",
@@ -70528,9 +70535,12 @@
         ]
       },
       "auto_match/func_825D9988.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82592340.c"
         ]
       },
       "auto_match/func_825D9A40.c": "MISSING",
@@ -211738,10 +211748,13 @@
           "/O1"
         ]
       },
-      "auto_match/func_82CE38A0.c": {
-        "status": "NonMatching",
+      "auto_match/func_82CE38A0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82CE3488.cpp"
         ]
       },
       "auto_match/func_82CE38F0.cpp": {
@@ -327187,7 +327200,12 @@
       "auto_match/func_82E3BF28.c": "MISSING",
       "auto_match/func_82F68A98.c": "MISSING",
       "auto_match/func_824FB738.c": "MISSING",
-      "auto_match/func_82592340.c": "MISSING",
+      "auto_match/func_82592340.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1"
+        ]
+      },
       "auto_match/func_82C751C0.c": "MISSING",
       "auto_match/func_82FE7B00.c": "MISSING",
       "auto_match/func_82A6AD30.c": "MISSING",
