@@ -1,0 +1,35 @@
+#include "havok/hkBase.h"
+class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
+class hkpBvTreeAgent { public: static hkpCollisionAgent* createBvBvAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
+template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
+extern "C" void fn_82D56190();
+extern "C" void fn_82D54F10();
+extern "C" void fn_82D560E8();
+extern "C" void fn_82D58028();
+extern "C" void fn_82D57DB8();
+extern "C" void fn_82D57B60();
+struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
+extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
+extern "C" void fn_82D582A0(void *dispatcher) { AgentFuncs a,b,c;
+a.create = (void*)fn_82D56190;
+a.penetrations = (void*)hkpSymmetricAgent<hkpBvTreeAgent>::staticGetPenetrations;
+a.closest = (void*)hkpSymmetricAgent<hkpBvTreeAgent>::staticGetClosestPoints;
+a.cast = (void*)fn_82D54F10;
+a.flipped = 1;
+a.predictive = 1;
+fn_82D59158(dispatcher,&a,8,-1);
+b.create = (void*)fn_82D560E8;
+b.penetrations = (void*)fn_82D58028;
+b.closest = (void*)fn_82D57DB8;
+b.cast = (void*)fn_82D57B60;
+b.flipped = 0;
+b.predictive = 1;
+fn_82D59158(dispatcher,&b,-1,8);
+c.create = (void*)hkpBvTreeAgent::createBvBvAgent;
+c.penetrations = (void*)fn_82D58028;
+c.closest = (void*)fn_82D57DB8;
+c.cast = (void*)fn_82D57B60;
+c.flipped = 0;
+c.predictive = 1;
+fn_82D59158(dispatcher,&c,8,8);
+}
