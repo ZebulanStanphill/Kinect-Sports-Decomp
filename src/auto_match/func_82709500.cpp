@@ -4,7 +4,7 @@
 // inside the loop as in the original.
 struct Key_82709500 { char pad[0xc]; unsigned int hash; };
 struct Value_82709500 { Key_82709500 *key; char rest[20]; };
-extern "C" void fn_82705A70(void *m, void *a, int n);
+struct Hash_82705A70 { void setRawCapacity(void *heap, unsigned int n); };
 extern "C" void fn_82704318(void *dst, const void *src);
 extern "C" void fn_82704B60(void *dst, const void *src);
 extern "C" void fn_82702BF0(void *dst, const void *src);
@@ -25,7 +25,7 @@ struct Table_82709500 { unsigned int EntryCount; unsigned int SizeMask; };
 struct Hash_82709500 {
   Table_82709500 *pTable;
   Entry_82709500 &E(unsigned int index) { return ((Entry_82709500 *)(pTable + 1))[index]; }
-  void setRawCapacity(void *a, unsigned int n) { fn_82705A70(this, a, n); }
+  void setRawCapacity(void *a, unsigned int n) { ((Hash_82705A70 *)this)->setRawCapacity(a, n); }
   void CheckExpand(void *a) {
     if (pTable == 0)
       setRawCapacity(a, 8);
