@@ -1,45 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831BB90C;
+extern const char *fn_82F70430(int category, const char *locale);
 
-
-undefined * fn_82F62A10(undefined *param_1)
-
+const char *fn_82F62A10(const char *self)
 {
-  char *pcVar1;
-  
-  pcVar1 = *(char **)(param_1 + 0x14);
-  if (pcVar1 == (char *)0x0) {
-    return param_1;
-  }
-  if (((pcVar1 != (char *)0x0) && (*pcVar1 != '\0')) && ((*pcVar1 != 'C' || (pcVar1[1] != '\0')))) {
-    return (undefined *)0x0;
-  }
-  return &lbl_831BB90C;
-}
+    const char *name = *(const char **)(self + 0x14);
 
+    if (name == 0) {
+        return self;
+    }
+    return fn_82F70430(0, name);
+}
