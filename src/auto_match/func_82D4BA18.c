@@ -25,7 +25,6 @@ typedef struct Obj_82D4BA18 {
     __vector4 origin;       // 0x20, w = scale
 } Obj_82D4BA18;
 
-extern const float lbl_820E1150;
 
 void fn_82DCB000(Query_82D4BA18 *query, void *tree, const Aabb_82D4BA18 *aabb, void *out);
 
@@ -43,7 +42,7 @@ void fn_82D4BA18(Obj_82D4BA18 *self, const Aabb_82D4BA18 *aabb, void *out)
     __vector4 mx;
     const __vector4 *origin = &self->origin;
 
-    SetAll(&ext, lbl_820E1150 / origin->vector4_f32[3]);
+    SetAll(&ext, 16777216.0f / origin->vector4_f32[3]);
     mx = __vaddfp(*origin, ext);
     clipped.min = __vmaxfp(*origin, aabb->min);
     clipped.max = __vminfp(mx, aabb->max);

@@ -29,7 +29,6 @@ extern int fn_82DDFC50();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82005340;
 extern unsigned int lbl_82005344;
-extern float lbl_820E1150;
 extern unsigned int uStack_10;
 extern unsigned int uStack_14;
 extern unsigned int uStack_18;
@@ -71,7 +70,7 @@ void fn_82DE0C30(int param_1,int param_2,undefined4 *param_3,undefined4 param_4)
   puVar2[3] = uVar10;
   *(undefined1 *)(param_1 + 0xc0) = 0;
   *(undefined4 *)(param_1 + 0xb0) = *param_3;
-  fVar3 = *(float *)(param_1 + 0x10) * lbl_820E1150;
+  fVar3 = *(float *)(param_1 + 0x10) * 16777216.0f;
   *(undefined4 *)(param_1 + 0xb4) = param_3[1];
   *(undefined4 *)(param_1 + 0xb8) = param_3[2];
   fVar5 = lbl_82005344;

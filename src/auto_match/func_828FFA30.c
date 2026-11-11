@@ -134,7 +134,6 @@ extern int fn_82F6F278();
 extern int iRam00000010;
 extern unsigned int lbl_82002C40;
 extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005730;
 extern unsigned int lbl_82005758;
 extern unsigned int lbl_8200E890;
 extern unsigned int lbl_820105A0;

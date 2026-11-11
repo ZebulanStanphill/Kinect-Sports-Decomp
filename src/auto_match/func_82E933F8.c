@@ -30,7 +30,6 @@ extern int fn_82E91630();
 extern int fn_82F00330();
 extern float lbl_82002C40;
 extern unsigned int lbl_82005710;
-extern float lbl_82005730;
 extern unsigned int lbl_82005758;
 extern float lbl_820105A0;
 extern float lbl_82015408;
@@ -107,7 +106,7 @@ undefined8 fn_82E933F8(int param_1,int param_2)
         }
         else {
           *(double *)(param_1 + 0x7720) =
-               (*(double *)(param_1 + 0x7718) + *(double *)(param_1 + 0x7720)) * lbl_82005730;
+               (*(double *)(param_1 + 0x7718) + *(double *)(param_1 + 0x7720)) * 0.5;
         }
         *(undefined4 *)(param_1 + 0x7730) = 1;
         *(double *)(param_1 + 0x7728) = (double)(longlong)*(int *)(param_1 + 0x2a4);

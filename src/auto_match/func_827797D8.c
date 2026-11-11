@@ -31,7 +31,6 @@ extern int fn_82F65E18();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82005710;
-extern float lbl_82005730;
 extern unsigned int lbl_82005758;
 extern unsigned int lbl_82015428;
 extern float lbl_82015430;
@@ -63,7 +62,7 @@ void fn_827797D8(undefined8 param_1,double param_2,double param_3)
   }
   if ((dVar2 != param_2) || (dVar3 = lbl_82005710, param_2 != param_3)) {
     dVar3 = dVar2 - param_2;
-    dVar3 = (double)fn_82F65E18((((dVar3 + dVar2) - param_3) * lbl_82005730) /
+    dVar3 = (double)fn_82F65E18((((dVar3 + dVar2) - param_3) * 0.5) /
                                  SQRT((dVar2 - param_3) * (param_2 - param_3) + dVar3 * dVar3));
     if (param_2 <= param_3) {
       dVar3 = lbl_82015428 - dVar3;
