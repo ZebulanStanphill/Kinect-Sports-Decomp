@@ -1,53 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82AB15D0();
-extern int fn_82B9A4B0();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_8316E580;
+typedef void (*Cb_82B9E6C0)(void *ctx, const char *fmt, ...);
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void fn_82B9A4B0(float v, void *buf);
+extern int lbl_8316E480[];
 
-
-undefined8
-fn_82B9E6C0(ulonglong param_1,undefined8 param_2,undefined4 *param_3,code *param_4,
-             ulonglong param_5)
-
+int fn_82B9E6C0(void *obj, int index, float *out, Cb_82B9E6C0 cb, void *ctx)
 {
-  undefined1 auStack_50 [32];
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    param_1 = fn_82AB15D0(param_1,0xffffffff820d2ea4,0xffffffff820d2ff0,0xffffffff820ddb08,
-                                0x10a1);
+  char buf[32];
+  float v;
+  if (obj == 0) {
+    fn_82AB15D0(obj, "Assertion failed: %s (%s:%u)", "pAS_Object", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compilertossm.cpp", 0x10a1);
   }
-  *param_3 = lbl_821AAD20;
-  if ((param_4 != (code *)0x0) && ((param_5 & 0xffffffff) != 0)) {
-    fn_82B9A4B0(param_1,auStack_50);
-    (*param_4)(param_5,0xffffffff820ddc6c,lbl_8316E580,0x40,param_2,auStack_50);
+  v = 0.0f;
+  *out = v;
+  if (cb != 0 && ctx != 0) {
+    fn_82B9A4B0(v, buf);
+    cb(ctx, "%s (%d) %d : %s\n", lbl_8316E480[64], 0x40, index, buf);
   }
   return 1;
 }
-

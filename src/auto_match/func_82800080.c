@@ -1,44 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83156B0C;
+struct Entry_82800080 {
+    char pad[0x1c];
+    int (*fn)(char *b);
+    void *next;
+};
 
+extern struct Entry_82800080 lbl_83156AF0[];
 
-undefined8 fn_82800080(int param_1)
-
+int fn_82800080(char *b)
 {
-  undefined8 uVar1;
-  
-  if ((code *)(&lbl_83156B0C)[(uint)*(ushort *)(param_1 + 0x16) * 9] != (code *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x828000a4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (*(code *)(&lbl_83156B0C)[(uint)*(ushort *)(param_1 + 0x16) * 9])();
-    return uVar1;
-  }
-  return 0;
+    int (*f)(char *b) = lbl_83156AF0[*(unsigned short *)(b + 0x16)].fn;
+    if (f)
+        return f(b);
+    return 0;
 }
-

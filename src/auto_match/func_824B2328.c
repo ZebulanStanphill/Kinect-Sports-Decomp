@@ -1,77 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Elem_824B2328 { unsigned char data[0x30]; } Elem_824B2328;
+typedef struct Buf_824B2328 {
+    Elem_824B2328 *buff;
+    Elem_824B2328 *end;
+    Elem_824B2328 *first;
+    Elem_824B2328 *last;
+} Buf_824B2328;
+typedef struct Iter_824B2328 { Buf_824B2328 *b; Elem_824B2328 *it; } Iter_824B2328;
 
-
-int * fn_824B2328(int *param_1,longlong param_2)
-
+static __forceinline Elem_824B2328 *sub_824B2328(const Buf_824B2328 *b, Elem_824B2328 *p, int n)
 {
-  int iVar1;
-  int *piVar2;
-  longlong lVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar5 = (int)param_2;
-  if (iVar5 < 1) {
-    if (-1 < iVar5) {
-      return param_1;
-    }
-    lVar3 = -param_2;
-    if (lVar3 < 1) {
-      if (-1 < (int)lVar3) {
-        return param_1;
-      }
-      fn_824B2328(param_1,param_2);
-      return param_1;
-    }
-    piVar2 = (int *)*param_1;
-    if ((piVar2[1] - param_1[1]) / 0x30 <= (int)lVar3) {
-      lVar3 = lVar3 - (piVar2[1] - *piVar2) / 0x30;
-    }
-    iVar5 = (int)lVar3 * 0x30 + param_1[1];
-    param_1[1] = iVar5;
-    if (iVar5 != piVar2[3]) {
-      return param_1;
-    }
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = param_1[1];
-    if (iVar4 == 0) {
-      iVar4 = *(int *)(*param_1 + 0xc);
-    }
-    iVar1 = *(int *)*param_1;
-    if ((iVar4 - iVar1) / 0x30 < iVar5) {
-      param_2 = param_2 - (((int *)*param_1)[1] - iVar1) / 0x30;
-    }
-    iVar4 = iVar4 + (int)param_2 * -0x30;
-  }
-  param_1[1] = iVar4;
-  return param_1;
+    return p - (n > p - b->buff ? n - (b->end - b->buff) : n);
 }
 
+static __forceinline Elem_824B2328 *add_824B2328(const Buf_824B2328 *b, Elem_824B2328 *p, int n)
+{
+    return p + (n < b->end - p ? n : n - (b->end - b->buff));
+}
+
+Iter_824B2328 *fn_824B2328(Iter_824B2328 *self, int n)
+{
+    if (n > 0) {
+        self->it = sub_824B2328(self->b, self->it == 0 ? self->b->last : self->it, n);
+    } else if (n < 0) {
+        n = -n;
+        if (n > 0) {
+            self->it = add_824B2328(self->b, self->it, n);
+            if (self->it == self->b->last)
+                self->it = 0;
+        } else if (n < 0) {
+            fn_824B2328(self, -n);
+        }
+    }
+    return self;
+}

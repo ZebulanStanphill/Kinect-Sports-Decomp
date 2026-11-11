@@ -1,43 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83015838();
-extern unsigned int lbl_83264300;
-
-
-undefined8 fn_82FEB670(undefined8 param_1,undefined1 *param_2)
-
-{
-  undefined1 uVar1;
-  
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  uVar1 = fn_83015838(lbl_83264300,param_1);
-  *param_2 = uVar1;
-  RtlLeaveCriticalSection(0xffffffff8326434c);
-  return 1;
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *);
+extern RTL_CRITICAL_SECTION lbl_8326434C;
+extern void *lbl_83264300;
+extern unsigned char fn_83015838(void *,void *);
+int fn_82FEB670(void *a, unsigned char *out) {
+ RtlEnterCriticalSection(&lbl_8326434C);
+ *out=fn_83015838(lbl_83264300,a);
+ RtlLeaveCriticalSection(&lbl_8326434C);
+ return 1;
 }
-
