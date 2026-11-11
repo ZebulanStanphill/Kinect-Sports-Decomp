@@ -27667,7 +27667,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_8235F928.c": "MISSING",
+      "auto_match/func_8235F928.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82526C70.c"
+        ]
+      },
       "auto_match/func_8235FA10.c": {
         "status": "Matching",
         "extra_cflags": [
@@ -75342,7 +75351,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_82631488.c": "MISSING",
+      "auto_match/func_82631488.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_82631450.c"
+        ]
+      },
       "auto_match/func_82631578.c": {
         "status": "Matching",
         "extra_cflags": [
