@@ -35,7 +35,6 @@ extern int fn_827A9228();
 extern unsigned int iStack_60;
 extern unsigned int iStack_64;
 extern unsigned int lbl_820153EC;
-extern float lbl_82015BE0;
 extern unsigned int lbl_820885C8;
 extern unsigned int uStack_c8;
 
@@ -117,7 +116,7 @@ undefined8 fn_827A1B60(int param_1,float *param_2,ulonglong param_3)
         }
         (**(code **)(**(int **)(iVar15 + 0xc) + 0x30))(*(int **)(iVar15 + 0xc),uVar10,param_2);
         if ((puStack_b0[3] & 0x100) != 0) {
-          param_2[2] = (param_2[2] - *param_2) * lbl_82015BE0 + *param_2;
+          param_2[2] = (param_2[2] - *param_2) * 0.333333343f + *param_2;
         }
         fVar1 = *param_2;
         fVar2 = param_2[2];

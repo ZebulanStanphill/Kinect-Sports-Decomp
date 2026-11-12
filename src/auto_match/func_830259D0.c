@@ -1,9 +1,8 @@
 #include <math.h>
-extern float lbl_82015BE0; /* 1/3 */
 
 void fn_830259D0(float a, float b, float *out)
 {
-    float third = lbl_82015BE0;
+    float third = 0.333333343f;
     float s = (2.0f - a * 2.0f) * third;
     float t = 1.0f - a;
     float r = 1.0f - (s + third);

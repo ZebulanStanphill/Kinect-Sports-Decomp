@@ -30,7 +30,6 @@ extern double sqrt(double);
 extern int fn_829DBE60();
 extern int fn_829DDF00();
 extern unsigned int lbl_82002C5C;
-extern float lbl_82015BE0;
 extern float lbl_820579A8;
 
 
@@ -46,7 +45,7 @@ void fn_829DE2A8(int *param_1,undefined8 param_2,int *param_3,undefined8 param_4
                (float)(longlong)((param_1[0x11] - param_1[9]) * (param_1[0x11] - param_1[9]))) *
           lbl_820579A8;
   fVar1 = fVar2 + lbl_82002C5C;
-  *param_3 = (int)((float)(longlong)(param_1[4] + param_1[2] + *param_1) * lbl_82015BE0 -
+  *param_3 = (int)((float)(longlong)(param_1[4] + param_1[2] + *param_1) * 0.333333343f -
                   fVar2 * lbl_82002C5C);
   param_3[1] = param_1[5];
   param_3[2] = (int)fVar1 + *param_3;
