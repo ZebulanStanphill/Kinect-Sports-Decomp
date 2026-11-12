@@ -193632,7 +193632,7 @@ auto_match/func_830A6CF0.c:
 auto_match/func_830A6CF8.c:
 	.text       start:0x830A6CF8 end:0x830A6D10
 
-auto_match/func_830A6D10.c:
+auto_match/func_830A6D10.cpp:
 	.pdata      start:0x82228F40 end:0x82228F48
 	.text       start:0x830A6D10 end:0x830A6E4C
 
