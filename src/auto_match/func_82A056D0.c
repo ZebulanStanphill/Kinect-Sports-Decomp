@@ -26,7 +26,6 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8201546C;
-extern float lbl_8207F494;
 extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_8315CD38;
 
@@ -77,7 +76,7 @@ code_r0x82a05734:
       fVar1 = *(float *)(iVar4 + iVar5);
     }
     else {
-      fVar2 = *(float *)(iVar4 + iVar5) * lbl_8207F494;
+      fVar2 = *(float *)(iVar4 + iVar5) * 0.7f;
       if (fVar1 < fVar2) {
         fVar1 = fVar2;
       }
@@ -90,7 +89,7 @@ code_r0x82a05734:
     dVar11 = (double)*(float *)(iVar4 + iVar5);
   }
   else {
-    dVar12 = (double)(*(float *)(iVar4 + iVar5) * lbl_8207F494);
+    dVar12 = (double)(*(float *)(iVar4 + iVar5) * 0.7f);
     if (dVar11 < dVar12) {
       dVar11 = dVar12;
     }
@@ -108,8 +107,8 @@ code_r0x82a05734:
         }
         else {
           dVar12 = (double)pfVar7[2];
-          if ((double)pfVar7[2] < (double)(*pfVar7 * lbl_8207F494)) {
-            dVar12 = (double)(*pfVar7 * lbl_8207F494);
+          if ((double)pfVar7[2] < (double)(*pfVar7 * 0.7f)) {
+            dVar12 = (double)(*pfVar7 * 0.7f);
           }
         }
         if (dVar11 <= dVar12) {
@@ -120,8 +119,8 @@ code_r0x82a05734:
         }
         else {
           dVar12 = (double)pfVar7[5];
-          if ((double)pfVar7[5] < (double)(pfVar7[3] * lbl_8207F494)) {
-            dVar12 = (double)(pfVar7[3] * lbl_8207F494);
+          if ((double)pfVar7[5] < (double)(pfVar7[3] * 0.7f)) {
+            dVar12 = (double)(pfVar7[3] * 0.7f);
           }
         }
         if (dVar11 <= dVar12) {
@@ -132,8 +131,8 @@ code_r0x82a05734:
         }
         else {
           dVar12 = (double)pfVar7[8];
-          if ((double)pfVar7[8] < (double)(pfVar7[6] * lbl_8207F494)) {
-            dVar12 = (double)(pfVar7[6] * lbl_8207F494);
+          if ((double)pfVar7[8] < (double)(pfVar7[6] * 0.7f)) {
+            dVar12 = (double)(pfVar7[6] * 0.7f);
           }
         }
         if (dVar11 <= dVar12) {
@@ -144,8 +143,8 @@ code_r0x82a05734:
         }
         else {
           dVar12 = (double)pfVar7[0xb];
-          if ((double)pfVar7[0xb] < (double)(pfVar7[9] * lbl_8207F494)) {
-            dVar12 = (double)(pfVar7[9] * lbl_8207F494);
+          if ((double)pfVar7[0xb] < (double)(pfVar7[9] * 0.7f)) {
+            dVar12 = (double)(pfVar7[9] * 0.7f);
           }
         }
         if (dVar11 <= dVar12) {
@@ -165,8 +164,8 @@ code_r0x82a05734:
         }
         else {
           dVar12 = (double)pfVar7[2];
-          if ((double)pfVar7[2] < (double)(*pfVar7 * lbl_8207F494)) {
-            dVar12 = (double)(*pfVar7 * lbl_8207F494);
+          if ((double)pfVar7[2] < (double)(*pfVar7 * 0.7f)) {
+            dVar12 = (double)(*pfVar7 * 0.7f);
           }
         }
         if (dVar11 <= dVar12) {
@@ -177,8 +176,8 @@ code_r0x82a05734:
       } while (lVar9 != 0);
     }
   }
-  if (dVar11 < (double)(fVar1 * lbl_8207F494)) {
-    return (double)(fVar1 * lbl_8207F494);
+  if (dVar11 < (double)(fVar1 * 0.7f)) {
+    return (double)(fVar1 * 0.7f);
   }
   return dVar11;
 }
