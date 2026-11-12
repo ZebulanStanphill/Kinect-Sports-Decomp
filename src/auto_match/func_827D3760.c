@@ -1,90 +1,273 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int inflateReset();
-extern int syncsearch();
-extern unsigned int uStack_31;
+/* Corresponds to zlib 1.2.3 inflate.c inflateSync (open-source zlib 1.2.3): the upstream function with the declarations it uses, preprocessed (from km/libmatch.py's inflate unit), symbols renamed to the game's. */
+typedef unsigned char  Byte;
+typedef unsigned int   uInt;
+typedef unsigned long  uLong;
+typedef Byte   Bytef;
+typedef char   charf;
+typedef int    intf;
+typedef uInt   uIntf;
+typedef uLong  uLongf;
+typedef void const *voidpc;
+typedef void    *voidpf;
+typedef void       *voidp;
+typedef voidpf (*alloc_func) (voidpf opaque, uInt items, uInt size);
+typedef void   (*free_func)  (voidpf opaque, voidpf address);
+struct internal_state;
+typedef struct z_stream_s {
+    Bytef    *next_in;
+    uInt     avail_in;
+    uLong    total_in;
 
+    Bytef    *next_out;
+    uInt     avail_out;
+    uLong    total_out;
 
-undefined8 fn_827D3760(int *param_1)
+    char     *msg;
+    struct internal_state  *state;
 
+    alloc_func zalloc;
+    free_func  zfree;
+    voidpf     opaque;
+
+    int     data_type;
+    uLong   adler;
+    uLong   reserved;
+} z_stream;
+typedef z_stream  *z_streamp;
+typedef struct gz_header_s {
+    int     text;
+    uLong   time;
+    int     xflags;
+    int     os;
+    Bytef   *extra;
+    uInt    extra_len;
+    uInt    extra_max;
+    Bytef   *name;
+    uInt    name_max;
+    Bytef   *comment;
+    uInt    comm_max;
+    int     hcrc;
+    int     done;
+
+} gz_header;
+typedef gz_header  *gz_headerp;
+extern const char *  zlibVersion (void);
+extern int  deflate (z_streamp strm, int flush);
+extern int  deflateEnd (z_streamp strm);
+extern int  inflateEnd (z_streamp strm);
+extern int  deflateSetDictionary (z_streamp strm, const Bytef *dictionary, uInt dictLength);
+extern int  deflateCopy (z_streamp dest, z_streamp source);
+extern int  deflateReset (z_streamp strm);
+extern int  deflateParams (z_streamp strm, int level, int strategy);
+extern int  deflateTune (z_streamp strm, int good_length, int max_lazy, int nice_length, int max_chain);
+extern uLong  deflateBound (z_streamp strm, uLong sourceLen);
+extern int  deflatePrime (z_streamp strm, int bits, int value);
+extern int  deflateSetHeader (z_streamp strm, gz_headerp head);
+extern int  inflateSetDictionary (z_streamp strm, const Bytef *dictionary, uInt dictLength);
+extern int  inflateSync (z_streamp strm);
+extern int  inflateCopy (z_streamp dest, z_streamp source);
+extern int  inflateReset (z_streamp strm);
+extern int  inflatePrime (z_streamp strm, int bits, int value);
+extern int  inflateGetHeader (z_streamp strm, gz_headerp head);
+typedef unsigned (*in_func) (void  *, unsigned char  *  *);
+typedef int (*out_func) (void  *, unsigned char  *, unsigned);
+extern int  inflateBack (z_streamp strm, in_func in, void  *in_desc, out_func out, void  *out_desc);
+extern int  inflateBackEnd (z_streamp strm);
+extern uLong  zlibCompileFlags (void);
+extern int  compress (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen);
+extern int  compress2 (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen, int level);
+extern uLong  compressBound (uLong sourceLen);
+extern int  uncompress (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen);
+typedef voidp gzFile;
+extern gzFile  gzopen  (const char *path, const char *mode);
+extern gzFile  gzdopen  (int fd, const char *mode);
+extern int  gzsetparams (gzFile file, int level, int strategy);
+extern int     gzread  (gzFile file, voidp buf, unsigned len);
+extern int     gzwrite (gzFile file, voidpc buf, unsigned len);
+extern int    gzprintf (gzFile file, const char *format, ...);
+extern int  gzputs (gzFile file, const char *s);
+extern char *  gzgets (gzFile file, char *buf, int len);
+extern int     gzputc (gzFile file, int c);
+extern int     gzgetc (gzFile file);
+extern int     gzungetc (int c, gzFile file);
+extern int     gzflush (gzFile file, int flush);
+extern long     gzseek (gzFile file, long offset, int whence);
+extern int     gzrewind (gzFile file);
+extern long     gztell (gzFile file);
+extern int  gzeof (gzFile file);
+extern int  gzdirect (gzFile file);
+extern int     gzclose (gzFile file);
+extern const char *  gzerror (gzFile file, int *errnum);
+extern void  gzclearerr (gzFile file);
+extern uLong  adler32 (uLong adler, const Bytef *buf, uInt len);
+extern uLong  adler32_combine (uLong adler1, uLong adler2, long len2);
+extern uLong  crc32   (uLong crc, const Bytef *buf, uInt len);
+extern uLong  crc32_combine (uLong crc1, uLong crc2, long len2);
+extern int  deflateInit_ (z_streamp strm, int level, const char *version, int stream_size);
+extern int  inflateInit_ (z_streamp strm, const char *version, int stream_size);
+extern int  deflateInit2_ (z_streamp strm, int level, int method, int windowBits, int memLevel, int strategy, const char *version, int stream_size);
+extern int  inflateInit2_ (z_streamp strm, int windowBits, const char *version, int stream_size);
+extern int  inflateBackInit_ (z_streamp strm, int windowBits, unsigned char  *window, const char *version, int stream_size);
+extern const char   *  zError           (int);
+extern int             inflateSyncPoint (z_streamp z);
+extern const uLongf *  get_crc_table    (void);
+typedef unsigned int size_t;
+typedef int ptrdiff_t;
+typedef unsigned short wchar_t;
+void *memcpy(void *d, const void *s, size_t n);
+void *memmove(void *d, const void *s, size_t n);
+void *memset(void *d, int c, size_t n);
+int memcmp(const void *a, const void *b, size_t n);
+size_t strlen(const char *s);
+char *strcpy(char *d, const char *s);
+char *strncpy(char *d, const char *s, size_t n);
+char *strcat(char *d, const char *s);
+int strcmp(const char *a, const char *b);
+int strncmp(const char *a, const char *b, size_t n);
+char *strchr(const char *s, int c);
+char *strrchr(const char *s, int c);
+char *strerror(int e);
+void *malloc(size_t n);
+void *calloc(size_t n, size_t m);
+void *realloc(void *p, size_t n);
+void free(void *p);
+void exit(int code);
+void abort(void);
+char *getenv(const char *name);
+int abs(int x);
+long labs(long x);
+long strtol(const char *s, char **e, int b);
+int atoi(const char *s);
+extern int errno;
+typedef unsigned char  uch;
+typedef uch  uchf;
+typedef unsigned short ush;
+typedef ush  ushf;
+typedef unsigned long  ulg;
+extern const char * const z_errmsg[10];
+voidpf zcalloc (voidpf opaque, unsigned items, unsigned size);
+void   zcfree  (voidpf opaque, voidpf ptr);
+typedef struct {
+    unsigned char op;
+    unsigned char bits;
+    unsigned short val;
+} code;
+typedef enum {
+    CODES,
+    LENS,
+    DISTS
+} codetype;
+extern int inflate_table (codetype type, unsigned short  *lens, unsigned codes, code  *  *table, unsigned  *bits, unsigned short  *work);
+typedef enum {
+    HEAD,
+    FLAGS,
+    TIME,
+    OS,
+    EXLEN,
+    EXTRA,
+    NAME,
+    COMMENT,
+    HCRC,
+    DICTID,
+    DICT,
+        TYPE,
+        TYPEDO,
+        STORED,
+        COPY,
+        TABLE,
+        LENLENS,
+        CODELENS,
+            LEN,
+            LENEXT,
+            DIST,
+            DISTEXT,
+            MATCH,
+            LIT,
+    CHECK,
+    LENGTH,
+    DONE,
+    BAD,
+    MEM,
+    SYNC
+} inflate_mode;
+struct inflate_state {
+    inflate_mode mode;
+    int last;
+    int wrap;
+    int havedict;
+    int flags;
+    unsigned dmax;
+    unsigned long check;
+    unsigned long total;
+    gz_headerp head;
+
+    unsigned wbits;
+    unsigned wsize;
+    unsigned whave;
+    unsigned write;
+    unsigned char  *window;
+
+    unsigned long hold;
+    unsigned bits;
+
+    unsigned length;
+    unsigned offset;
+
+    unsigned extra;
+
+    code const  *lencode;
+    code const  *distcode;
+    unsigned lenbits;
+    unsigned distbits;
+
+    unsigned ncode;
+    unsigned nlen;
+    unsigned ndist;
+    unsigned have;
+    code  *next;
+    unsigned short lens[320];
+    unsigned short work[288];
+    code codes[2048];
+};
+void inflate_fast (z_streamp strm, unsigned start);
+int inflateReset (z_streamp strm);
+unsigned syncsearch (unsigned  *have, unsigned char  *buf, unsigned len);
+
+int fn_827D3760(strm)
+z_streamp strm;
 {
-  int *piVar1;
-  uint uVar2;
-  int iVar3;
-  longlong lVar4;
-  int iVar5;
-  uint uVar6;
-  undefined1 *puVar7;
-  undefined1 uStack_31;
-  undefined1 auStack_30 [48];
-  
-  if ((param_1 == (int *)0x0) || (piVar1 = (int *)param_1[7], piVar1 == (int *)0x0)) {
-    return 0xfffffffffffffffe;
-  }
-  if ((param_1[1] == 0) && ((uint)piVar1[0xf] < 8)) {
-    return 0xfffffffffffffffb;
-  }
-  if (*piVar1 != 0x1d) {
-    lVar4 = 0;
-    uVar2 = piVar1[0xf] & 7;
-    *piVar1 = 0x1d;
-    uVar6 = piVar1[0xf] - uVar2;
-    piVar1[0xe] = piVar1[0xe] << uVar2;
-    piVar1[0xf] = uVar6;
-    if (7 < uVar6) {
-      puVar7 = &uStack_31;
-      do {
-        iVar3 = piVar1[0xf];
-        lVar4 = lVar4 + 1;
-        uVar2 = piVar1[0xe];
-        piVar1[0xf] = iVar3 - 8U;
-        piVar1[0xe] = uVar2 >> 8;
-        puVar7 = puVar7 + 1;
-        *puVar7 = (char)uVar2;
-      } while (7 < iVar3 - 8U);
-    }
-    piVar1[0x1a] = 0;
-    syncsearch(piVar1 + 0x1a,auStack_30,lVar4);
-  }
-  iVar3 = syncsearch(piVar1 + 0x1a,*param_1,param_1[1]);
-  iVar5 = param_1[2] + iVar3;
-  *param_1 = *param_1 + iVar3;
-  param_1[1] = param_1[1] - iVar3;
-  param_1[2] = iVar5;
-  if (piVar1[0x1a] != 4) {
-    return 0xfffffffffffffffd;
-  }
-  iVar3 = param_1[5];
-  inflateReset(param_1);
-  param_1[2] = iVar5;
-  param_1[5] = iVar3;
-  *piVar1 = 0xb;
-  return 0;
-}
+    unsigned len;
+    unsigned long in, out;
+    unsigned char buf[4];
+    struct inflate_state  *state;
 
+    if (strm == 0 || strm->state == 0) return (-2);
+    state = (struct inflate_state  *)strm->state;
+    if (strm->avail_in == 0 && state->bits < 8) return (-5);
+
+    if (state->mode != SYNC) {
+        state->mode = SYNC;
+        state->hold <<= state->bits & 7;
+        state->bits -= state->bits & 7;
+        len = 0;
+        while (state->bits >= 8) {
+            buf[len++] = (unsigned char)(state->hold);
+            state->hold >>= 8;
+            state->bits -= 8;
+        }
+        state->have = 0;
+        syncsearch(&(state->have), buf, len);
+    }
+
+    len = syncsearch(&(state->have), strm->next_in, strm->avail_in);
+    strm->avail_in -= len;
+    strm->next_in += len;
+    strm->total_in += len;
+
+    if (state->have != 4) return (-3);
+    in = strm->total_in;  out = strm->total_out;
+    inflateReset(strm);
+    strm->total_in = in;  strm->total_out = out;
+    state->mode = TYPE;
+    return 0;
+}
