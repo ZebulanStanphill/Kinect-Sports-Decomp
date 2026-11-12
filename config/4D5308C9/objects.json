@@ -36778,12 +36778,36 @@
           "__real@00000000": "ltcg_pool_0_0f"
         }
       },
-      "auto_match/func_823DCA68.c": "MISSING",
+      "auto_match/func_823DCA68.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_823DC6E8.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "ltcg_pool_0_0f"
+        }
+      },
       "auto_match/func_823DCB88.c": "MISSING",
       "auto_match/func_823DCC60.c": "MISSING",
       "auto_match/func_823DCD90.c": "MISSING",
       "auto_match/func_823DCEE8.c": "MISSING",
-      "auto_match/func_823DD108.c": "MISSING",
+      "auto_match/func_823DD108.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82532658.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "ltcg_pool_0_0f"
+        }
+      },
       "auto_match/func_823DD220.c": "MISSING",
       "auto_match/func_823DD4B8.c": {
         "status": "Matching",
