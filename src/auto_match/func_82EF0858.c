@@ -1,94 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EEFC00();
-extern int fn_82F64CE0();
-extern int memcpy();
-extern unsigned int iStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
+typedef struct Script_82EF0858 {
+    unsigned int time;
+    unsigned short typeIndex;
+    unsigned short pad;
+    unsigned int len;
+    unsigned short *str;
+} Script_82EF0858;
 
+typedef struct Obj_82EF0858 {
+    unsigned char pad0[0x48];
+    unsigned char scripts[0x1ac - 0x48];
+    unsigned int scriptCount;
+} Obj_82EF0858;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern int fn_82EEFC00(void *list, unsigned int index, Script_82EF0858 **out);
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
-undefined8
-fn_82EF0858(int param_1,uint param_2,undefined4 *param_3,undefined2 *param_4,undefined2 *param_5,
-             ushort *param_6)
-
+int fn_82EF0858(Obj_82EF0858 *self, unsigned short index, unsigned int *time, unsigned short *typeIndex,
+                unsigned short *buf, unsigned short *size)
 {
-  undefined4 uVar1;
-  int iVar2;
-  longlong lVar3;
-  undefined8 uVar4;
-  ulonglong uVar5;
-  undefined4 * apuStack_50;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  int iStack_34;
-  
-  if ((((((param_2 & 0xffff) < *(uint *)(param_1 + 0x1ac)) && (param_3 != (undefined4 *)0x0)) &&
-       (param_4 != (undefined2 *)0x0)) && (param_6 != (ushort *)0x0)) &&
-     ((*param_6 == 0 || (param_5 != (undefined2 *)0x0)))) {
-    fn_82EEFC00(param_1 + 0x48,param_2 & 0xffff,&apuStack_50);
-    uVar1 = apuStack_50[1];
-    uStack_38 = apuStack_50[2];
-    iVar2 = apuStack_50[3];
-    uStack_3c = ((((U64)(uStack_3c)) & (~(((U64)0xFFFF) << 0))) | ((((U64)((undefined2)((uint)uVar1 >> 0x10))) & ((U64)0xFFFF)) << 0));
-    *param_3 = *apuStack_50;
-    *param_4 = (((U64)(uStack_3c) >> 0) & 0xFFFF);
-    uStack_3c = uVar1;
-    iStack_34 = iVar2;
-    if (iVar2 == 0) {
-      uVar5 = 1;
-    }
-    else {
-      lVar3 = fn_82F64CE0(iVar2);
-      uVar5 = lVar3 + 1U & 0xffff;
-    }
-    if ((*param_6 < uVar5) && (param_5 != (undefined2 *)0x0)) {
-      *param_6 = (ushort)uVar5;
-      uVar4 = 0xffffffffc00d36b1;
-    }
-    else {
-      *param_6 = (ushort)uVar5;
-      if (iVar2 == 0) {
-        if (param_5 != (undefined2 *)0x0) {
-          *param_5 = 0;
-        }
-      }
-      else if (param_5 != (undefined2 *)0x0) {
-        memcpy(param_5,iVar2,uVar5 << 1);
-      }
-      uVar4 = 0;
-    }
-  }
-  else {
-    uVar4 = 0xffffffff80070057;
-  }
-  return uVar4;
-}
+    Script_82EF0858 *p;
+    Script_82EF0858 e;
+    unsigned short *str;
+    unsigned short len;
 
+    if (index >= self->scriptCount) {
+        return 0x80070057;
+    }
+    if (time == 0 || typeIndex == 0 || size == 0 || (*size != 0 && buf == 0)) {
+        return 0x80070057;
+    }
+    fn_82EEFC00(self->scripts, index, &p);
+    e = *p;
+    str = e.str;
+    *time = e.time;
+    *typeIndex = e.typeIndex;
+    if (str != 0) {
+        len = (unsigned short)(fn_82F64CE0(str) + 1);
+    } else {
+        len = 1;
+    }
+    if (*size < len && buf != 0) {
+        *size = len;
+        return 0xC00D36B1;
+    }
+    *size = len;
+    if (str != 0) {
+        if (buf != 0) {
+            memcpy(buf, str, len * 2);
+        }
+    } else if (buf != 0) {
+        *buf = 0;
+    }
+    return 0;
+}
