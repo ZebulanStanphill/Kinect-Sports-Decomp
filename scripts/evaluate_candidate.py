@@ -31,13 +31,14 @@ def symbol_name(address: int) -> str:
 
 
 def grouped_object(address: int):
-    """Original object of the grouped unit (auto_match/file_*.c) whose .text range
-    contains the address, if any."""
+    """Original object of the multi-function unit whose .text range contains the
+    address, if any: a source file grouped under its address (auto_match/file_*.c) or
+    under its original name (such as Scaleform/jpeg-6b/jdapimin.c)."""
     text = (ROOT / "config/4D5308C9/splits.txt").read_text(encoding="utf-8")
-    for match in re.finditer(r"(?m)^auto_match/(file_[0-9A-F]+)\.(?:c|cpp):\n((?:\t.*\n)+)", text):
+    for match in re.finditer(r"(?m)^(?!auto_match/func_)(\S+)\.(?:c|cpp):\n((?:\t.*\n)+)", text):
         rng = re.search(r"\.text\s+start:0x([0-9A-Fa-f]+)\s+end:0x([0-9A-Fa-f]+)", match.group(2))
         if rng and int(rng.group(1), 16) <= address < int(rng.group(2), 16):
-            return ROOT / "build/4D5308C9/obj/auto_match" / f"{match.group(1)}.obj"
+            return ROOT / "build/4D5308C9/obj" / f"{match.group(1)}.obj"
     return None
 
 
@@ -122,7 +123,7 @@ def main() -> int:
         original = ROOT / "build/4D5308C9/obj/compiler_probe/add.obj"
     if not original.is_file():
         # a function grouped with the rest of its source file: pass the whole
-        # grouped source (src/auto_match/file_*.c) as the candidate
+        # grouped source (src/auto_match/file_*.c or a named file) as the candidate
         original = grouped_object(address) or original
     if not original.is_file():
         parser.error(f"Missing isolated original object: {original}; run scripts/isolate_functions.py first")

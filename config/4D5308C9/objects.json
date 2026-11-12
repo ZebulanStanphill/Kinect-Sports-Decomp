@@ -117450,7 +117450,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827BAED0.c": {
+      "Scaleform/jpeg-6b/jdapimin.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117458,7 +117458,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827BB5D0.c": {
+      "Scaleform/jpeg-6b/jdmarker.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117502,7 +117502,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827BDB78.c": {
+      "Scaleform/jpeg-6b/jdapistd.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117510,7 +117510,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827BE1C8.c": {
+      "Scaleform/jpeg-6b/jdtrans.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117518,7 +117518,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827BE428.c": {
+      "Scaleform/jpeg-6b/jcapistd.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117604,7 +117604,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827BF3F0.c": {
+      "Scaleform/jpeg-6b/jcapimin.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117612,7 +117612,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827BF930.c": {
+      "Scaleform/jpeg-6b/jctrans.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117620,7 +117620,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C00B0.c": {
+      "Scaleform/jpeg-6b/jdinput.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117718,7 +117718,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827C1968.c": {
+      "Scaleform/jpeg-6b/jcomapi.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117726,7 +117726,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C1AA0.c": {
+      "Scaleform/jpeg-6b/jutils.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117782,7 +117782,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827C25F0.c": {
+      "Scaleform/jpeg-6b/jdcoefct.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117874,7 +117874,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827C51F8.c": {
+      "Scaleform/jpeg-6b/jcinit.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117882,7 +117882,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C5308.c": {
+      "Scaleform/jpeg-6b/jcmarker.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117890,7 +117890,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C5E70.c": {
+      "Scaleform/jpeg-6b/jchuff.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117898,7 +117898,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C70D0.c": {
+      "Scaleform/jpeg-6b/jcphuff.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117906,7 +117906,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827C7FC0.c": {
+      "Scaleform/jpeg-6b/jcmaster.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117974,7 +117974,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827C90F8.c": {
+      "Scaleform/jpeg-6b/jdmainct.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -117994,7 +117994,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827C9C50.c": {
+      "Scaleform/jpeg-6b/jdpostct.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118062,7 +118062,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827CA938.c": {
+      "Scaleform/jpeg-6b/jdcolor.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118070,7 +118070,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CAF58.c": {
+      "Scaleform/jpeg-6b/jdmerge.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118078,7 +118078,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CB600.c": {
+      "Scaleform/jpeg-6b/jquant2.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118086,7 +118086,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CCAE0.c": {
+      "Scaleform/jpeg-6b/jquant1.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118094,7 +118094,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CD810.c": {
+      "Scaleform/jpeg-6b/jcmainct.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118156,7 +118156,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827CE9B8.c": {
+      "Scaleform/jpeg-6b/jcprepct.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118164,7 +118164,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CF0B8.c": {
+      "Scaleform/jpeg-6b/jcsample.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118172,7 +118172,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827CFBC0.c": {
+      "Scaleform/jpeg-6b/jccolor.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118180,7 +118180,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827D0358.c": {
+      "Scaleform/jpeg-6b/jidctred.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118188,7 +118188,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827D0888.c": {
+      "Scaleform/jpeg-6b/jidctint.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118196,7 +118196,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827D0CE8.c": {
+      "Scaleform/jpeg-6b/jidctfst.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118210,7 +118210,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827D1500.c": {
+      "Scaleform/jpeg-6b/jfdctint.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118218,7 +118218,7 @@
           "/GF"
         ]
       },
-      "auto_match/file_827D1788.c": {
+      "Scaleform/jpeg-6b/jfdctfst.c": {
         "status": "Matching",
         "extra_cflags": [
           "/Ox",
@@ -118322,14 +118322,14 @@
           "/O1"
         ]
       },
-      "auto_match/file_827D3A80.c": {
+      "zlib-1.2.3/zutil.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Gy-"
         ]
       },
-      "auto_match/file_827D3AB8.c": {
+      "zlib-1.2.3/inffast.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
@@ -118337,7 +118337,7 @@
         ]
       },
       "auto_match/func_827D3EC0.c": "MISSING",
-      "auto_match/file_827D4370.c": {
+      "zlib-1.2.3/adler32.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
@@ -118350,7 +118350,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_827D46F0.c": {
+      "zlib-1.2.3/crc32.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
@@ -168152,7 +168152,7 @@
           "/O2"
         ]
       },
-      "auto_match/file_829B7760.c": {
+      "D3DX/jpeg-6b/jutils.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -168746,7 +168746,7 @@
           "/O2"
         ]
       },
-      "auto_match/file_829C0738.c": {
+      "D3DX/zlib-1.1.4/adler32.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -168878,7 +168878,7 @@
           "/O2"
         ]
       },
-      "auto_match/file_829C42D8.c": {
+      "D3DX/zlib-1.1.4/infcodes.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -168908,13 +168908,13 @@
           "/O1"
         ]
       },
-      "auto_match/file_829C50F0.c": {
+      "D3DX/zlib-1.1.4/infutil.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
-      "auto_match/file_829C5258.c": {
+      "D3DX/zlib-1.1.4/inffast.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -273220,7 +273220,7 @@
           "/O1"
         ]
       },
-      "auto_match/file_82F89CA8.c": {
+      "zlib-1.2.3/compress.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",

@@ -43,8 +43,21 @@ functions that the library code calls are named after those calls: `malloc`, `fr
 ## How the units relate to upstream
 
 Where the game's functions from one upstream `.c` file form one contiguous range, in
-upstream order, that range is one unit, `src/auto_match/file_<address>.c`. It holds the
-upstream file as published, with only these changes:
+upstream order, that range is one unit, named after the upstream file in a folder for
+its copy:
+
+| Copy | Folder |
+| --- | --- |
+| Scaleform GFx's libjpeg 6b | `src/Scaleform/jpeg-6b/` |
+| the game's zlib 1.2.3 | `src/zlib-1.2.3/` |
+| D3DX's libjpeg 6b | `src/D3DX/jpeg-6b/` |
+| D3DX's zlib 1.1.4 | `src/D3DX/zlib-1.1.4/` |
+
+The file names are upstream's. The folders were chosen for this project, after the
+owners above; the original build paths are not known. Library functions that are not
+yet part of such a unit are still single-function units in `src/auto_match/`.
+
+Each of these units holds the upstream file as published, with only these changes:
 
 * its include lines point at `include/<library>-<version>/`;
 * functions the game lacks are under `#if 0` (the linker dropped them);
