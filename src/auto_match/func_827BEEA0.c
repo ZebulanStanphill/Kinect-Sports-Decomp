@@ -1,74 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Corresponds to libjpeg 6b jcparam.c fill_dc_scans (open-source IJG libjpeg 6b), with fill_scans inlined. */
+typedef struct {
+  int comps_in_scan;
+  int component_index[4];
+  int Ss, Se;
+  int Ah, Al;
+} jpeg_scan_info;
 
-
-int * fill_dc_scans(int *param_1,longlong param_2,int param_3,int param_4)
-
+static __forceinline jpeg_scan_info *
+fill_scans (jpeg_scan_info * scanptr, int ncomps,
+	    int Ss, int Se, int Ah, int Al)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  iVar1 = (int)param_2;
-  if (iVar1 < 5) {
-    *param_1 = iVar1;
-    iVar2 = 0;
-    piVar3 = param_1;
-    if (0 < iVar1) {
-      do {
-        piVar3[1] = iVar2;
-        iVar2 = iVar2 + 1;
-        param_2 = param_2 + -1;
-        piVar3 = piVar3 + 1;
-      } while (param_2 != 0);
-    }
-    param_1[7] = param_3;
-    param_1[8] = param_4;
-    param_1[6] = 0;
-    param_1[5] = 0;
-    param_1 = param_1 + 9;
+  int ci;
+
+  for (ci = 0; ci < ncomps; ci++) {
+    scanptr->comps_in_scan = 1;
+    scanptr->component_index[0] = ci;
+    scanptr->Ss = Ss;
+    scanptr->Se = Se;
+    scanptr->Ah = Ah;
+    scanptr->Al = Al;
+    scanptr++;
   }
-  else {
-    iVar2 = 0;
-    if (0 < iVar1) {
-      do {
-        param_1[1] = iVar2;
-        param_1[7] = param_3;
-        iVar2 = iVar2 + 1;
-        *param_1 = 1;
-        param_1[5] = 0;
-        param_1[6] = 0;
-        param_1[8] = param_4;
-        param_1 = param_1 + 9;
-        param_2 = param_2 + -1;
-      } while (param_2 != 0);
-    }
-  }
-  return param_1;
+  return scanptr;
 }
 
+jpeg_scan_info *
+fill_dc_scans (jpeg_scan_info * scanptr, int ncomps, int Ah, int Al)
+{
+  int ci;
+
+  if (ncomps <= 4) {
+    scanptr->comps_in_scan = ncomps;
+    for (ci = 0; ci < ncomps; ci++)
+      scanptr->component_index[ci] = ci;
+    scanptr->Ss = scanptr->Se = 0;
+    scanptr->Ah = Ah;
+    scanptr->Al = Al;
+    scanptr++;
+  } else {
+    scanptr = fill_scans(scanptr, ncomps, 0, 0, Ah, Al);
+  }
+  return scanptr;
+}

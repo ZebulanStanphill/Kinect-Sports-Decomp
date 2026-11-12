@@ -1,78 +1,117 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63F40();
+/* Corresponds to libjpeg 6b jerror.c format_message (open-source IJG libjpeg 6b), D3DX's copy. Generated from the Scaleform copy's unit: the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
+typedef int boolean;
+typedef unsigned int size_t;
+int fn_82F63F40(char *b, const char *fmt, ...);
+typedef unsigned char JSAMPLE;
+typedef short JCOEF;
+typedef unsigned int JDIMENSION;
+typedef JSAMPLE  *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JCOEF JBLOCK[64];
+typedef JBLOCK  *JBLOCKROW;
+typedef JBLOCKROW *JBLOCKARRAY;
+struct jpeg_common_struct {
+  struct jpeg_error_mgr * err; struct jpeg_memory_mgr * mem; struct jpeg_progress_mgr * progress; void * client_data; boolean is_decompressor; int global_state;
 
+};
+typedef struct jpeg_common_struct * j_common_ptr;
+struct jpeg_error_mgr {
 
-void d3dx_format_message(int *param_1,undefined8 param_2)
+  void (*error_exit) (j_common_ptr cinfo);
 
+  void (*emit_message) (j_common_ptr cinfo, int msg_level);
+
+  void (*output_message) (j_common_ptr cinfo);
+
+  void (*format_message) (j_common_ptr cinfo, char * buffer);
+
+  void (*reset_error_mgr) (j_common_ptr cinfo);
+
+  int msg_code;
+
+  union {
+    int i[8];
+    char s[80];
+  } msg_parm;
+
+  int trace_level;
+
+  long num_warnings;
+
+  const char * const * jpeg_message_table;
+  int last_jpeg_message;
+
+  const char * const * addon_message_table;
+  int first_addon_message;
+  int last_addon_message;
+};
+struct jpeg_progress_mgr {
+  void (*progress_monitor) (j_common_ptr cinfo);
+
+  long pass_counter;
+  long pass_limit;
+  int completed_passes;
+  int total_passes;
+};
+typedef struct jvirt_sarray_control * jvirt_sarray_ptr;
+typedef struct jvirt_barray_control * jvirt_barray_ptr;
+struct jpeg_memory_mgr {
+
+  void * (*alloc_small) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  void  * (*alloc_large) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  JSAMPARRAY (*alloc_sarray) (j_common_ptr cinfo, int pool_id, JDIMENSION samplesperrow, JDIMENSION numrows);
+  JBLOCKARRAY (*alloc_barray) (j_common_ptr cinfo, int pool_id, JDIMENSION blocksperrow, JDIMENSION numrows);
+  jvirt_sarray_ptr (*request_virt_sarray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION samplesperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  jvirt_barray_ptr (*request_virt_barray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION blocksperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  void (*realize_virt_arrays) (j_common_ptr cinfo);
+  JSAMPARRAY (*access_virt_sarray) (j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  JBLOCKARRAY (*access_virt_barray) (j_common_ptr cinfo, jvirt_barray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  void (*free_pool) (j_common_ptr cinfo, int pool_id);
+  void (*self_destruct) (j_common_ptr cinfo);
+
+  long max_memory_to_use;
+
+  long max_alloc_chunk;
+};
+
+void
+d3dx_format_message (j_common_ptr cinfo, char * buffer)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  char *pcVar4;
-  char *pcVar5;
-  
-  iVar2 = *param_1;
-  iVar3 = *(int *)(iVar2 + 0x14);
-  if ((iVar3 < 1) || (*(int *)(iVar2 + 0x74) < iVar3)) {
-    if ((*(int *)(iVar2 + 0x78) != 0) &&
-       ((*(int *)(iVar2 + 0x7c) <= iVar3 && (iVar3 <= *(int *)(iVar2 + 0x80))))) {
-      pcVar4 = *(char **)((iVar3 - *(int *)(iVar2 + 0x7c)) * 4 + *(int *)(iVar2 + 0x78));
-      goto LAB_829adfa4;
-    }
-  }
-  else {
-    pcVar4 = *(char **)(*(int *)(iVar2 + 0x70) + iVar3 * 4);
-LAB_829adfa4:
-    if (pcVar4 != (char *)0x0) goto LAB_829adfb8;
-  }
-  *(int *)(iVar2 + 0x18) = iVar3;
-  pcVar4 = (char *)**(undefined4 **)(iVar2 + 0x70);
-LAB_829adfb8:
-  cVar1 = *pcVar4;
-  pcVar5 = pcVar4;
-  do {
-    if (cVar1 == '\0') {
-LAB_829adfe8:
-      fn_82F63F40(param_2,pcVar4,*(undefined4 *)(iVar2 + 0x18),*(undefined4 *)(iVar2 + 0x1c),
-                        *(undefined4 *)(iVar2 + 0x20),*(undefined4 *)(iVar2 + 0x24),
-                        *(undefined4 *)(iVar2 + 0x28),*(undefined4 *)(iVar2 + 0x2c));
-      return;
-    }
-    pcVar5 = pcVar5 + 1;
-    if (cVar1 == '%') {
-      if (*pcVar5 == 's') {
-        fn_82F63F40(param_2,pcVar4,iVar2 + 0x18);
-        return;
-      }
-      goto LAB_829adfe8;
-    }
-    cVar1 = *pcVar5;
-  } while( true );
-}
+  struct jpeg_error_mgr * err = cinfo->err;
+  int msg_code = err->msg_code;
+  const char * msgtext = ((void *)0);
+  const char * msgptr;
+  char ch;
+  boolean isstring;
 
+  if (msg_code > 0 && msg_code <= err->last_jpeg_message) {
+    msgtext = err->jpeg_message_table[msg_code];
+  } else if (err->addon_message_table != ((void *)0) &&
+	     msg_code >= err->first_addon_message &&
+	     msg_code <= err->last_addon_message) {
+    msgtext = err->addon_message_table[msg_code - err->first_addon_message];
+  }
+
+  if (msgtext == ((void *)0)) {
+    err->msg_parm.i[0] = msg_code;
+    msgtext = err->jpeg_message_table[0];
+  }
+
+  isstring = 0;
+  msgptr = msgtext;
+  while ((ch = *msgptr++) != '\0') {
+    if (ch == '%') {
+      if (*msgptr == 's') isstring = 1;
+      break;
+    }
+  }
+
+  if (isstring)
+    fn_82F63F40(buffer, msgtext, err->msg_parm.s);
+  else
+    fn_82F63F40(buffer, msgtext,
+	    err->msg_parm.i[0], err->msg_parm.i[1],
+	    err->msg_parm.i[2], err->msg_parm.i[3],
+	    err->msg_parm.i[4], err->msg_parm.i[5],
+	    err->msg_parm.i[6], err->msg_parm.i[7]);
+}

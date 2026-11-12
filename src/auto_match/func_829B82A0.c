@@ -1,208 +1,233 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int d3dx_flush_pending();
-extern int d3dx_longest_match();
-extern int d3dx_fill_window();
-extern int d3dx__tr_flush_block();
-extern unsigned int lbl_82055790;
-extern unsigned int lbl_82055890;
-extern unsigned int lbl_82055990;
+/* Corresponds to zlib 1.1.4 deflate.c deflate_slow (open-source zlib 1.1.4, D3DX's copy): the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
+typedef unsigned char  Byte;
+typedef unsigned int   uInt;
+typedef unsigned long  uLong;
+typedef Byte   Bytef;
+typedef void  *voidpf;
+typedef voidpf (*alloc_func) (voidpf opaque, uInt items, uInt size);
+typedef void   (*free_func)  (voidpf opaque, voidpf address);
+typedef struct z_stream_s {
+    Bytef    *next_in;
+    uInt     avail_in;
+    uLong    total_in;
 
+    Bytef    *next_out;
+    uInt     avail_out;
+    uLong    total_out;
 
-byte fn_829B82A0(int *param_1,longlong param_2)
+    char     *msg;
+    struct internal_state  *state;
 
+    alloc_func zalloc;
+    free_func  zfree;
+    voidpf     opaque;
+
+    int     data_type;
+    uLong   adler;
+    uLong   reserved;
+} z_stream;
+typedef z_stream  *z_streamp;
+extern uLong  d3dx_adler32 (uLong adler, const Bytef *buf, uInt len);
+typedef unsigned int size_t;
+void *memcpy(void *d, const void *s, size_t n);
+typedef unsigned char  uch;
+typedef uch  uchf;
+typedef unsigned short ush;
+typedef ush  ushf;
+typedef unsigned long  ulg;
+typedef struct ct_data_s {
+    union {
+        ush  freq;
+        ush  code;
+    } fc;
+    union {
+        ush  dad;
+        ush  len;
+    } dl;
+}  ct_data;
+typedef struct static_tree_desc_s  static_tree_desc;
+typedef struct tree_desc_s {
+    ct_data *dyn_tree;
+    int     max_code;
+    static_tree_desc *stat_desc;
+}  tree_desc;
+typedef ush Pos;
+typedef Pos  Posf;
+typedef unsigned IPos;
+typedef struct internal_state {
+    z_streamp strm;
+    int   status;
+    Bytef *pending_buf;
+    ulg   pending_buf_size;
+    Bytef *pending_out;
+    int   pending;
+    int   noheader;
+    Byte  data_type;
+    Byte  method;
+    int   last_flush;
+
+    uInt  w_size;
+    uInt  w_bits;
+    uInt  w_mask;
+
+    Bytef *window;
+
+    ulg window_size;
+
+    Posf *prev;
+
+    Posf *head;
+
+    uInt  ins_h;
+    uInt  hash_size;
+    uInt  hash_bits;
+    uInt  hash_mask;
+
+    uInt  hash_shift;
+
+    long block_start;
+
+    uInt match_length;
+    IPos prev_match;
+    int match_available;
+    uInt strstart;
+    uInt match_start;
+    uInt lookahead;
+
+    uInt prev_length;
+
+    uInt max_chain_length;
+
+    uInt max_lazy_match;
+
+    int level;
+    int strategy;
+
+    uInt good_match;
+
+    int nice_match;
+
+    struct ct_data_s dyn_ltree[(2*(256+1+29)+1)];
+    struct ct_data_s dyn_dtree[2*30+1];
+    struct ct_data_s bl_tree[2*19+1];
+
+    struct tree_desc_s l_desc;
+    struct tree_desc_s d_desc;
+    struct tree_desc_s bl_desc;
+
+    ush bl_count[15+1];
+
+    int heap[2*(256+1+29)+1];
+    int heap_len;
+    int heap_max;
+
+    uch depth[2*(256+1+29)+1];
+
+    uchf *l_buf;
+
+    uInt  lit_bufsize;
+
+    uInt last_lit;
+
+    ushf *d_buf;
+
+    ulg opt_len;
+    ulg static_len;
+    uInt matches;
+    int last_eob_len;
+
+    ush bi_buf;
+
+    int bi_valid;
+
+}  deflate_state;
+struct static_tree_desc_s {int dummy;};
+typedef char  charf;
+typedef enum {
+    need_more,
+    block_done,
+    finish_started,
+    finish_done
+} block_state;
+
+extern const uch lbl_82055790[];
+extern const uch lbl_82055990[];
+void d3dx_fill_window (deflate_state *s);
+void d3dx_flush_pending (z_streamp strm);
+uInt d3dx_longest_match (deflate_state *s, IPos cur_match);
+ulg d3dx__tr_flush_block (deflate_state *s, charf *buf, ulg stored_len, int eof);
+
+block_state fn_829B82A0(s, flush)
+    deflate_state *s;
+    int flush;
 {
-  byte bVar1;
-  ushort uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  longlong lVar8;
-  uint uVar9;
-  uint uVar10;
-  int iVar11;
-  uint uVar12;
-  
-  uVar12 = 0;
-LAB_829b82d8:
-  do {
-    uVar10 = param_1[0x1b];
-    if (uVar10 < 0x106) {
-      d3dx_fill_window(param_1);
-      uVar10 = param_1[0x1b];
-      iVar7 = (int)param_2;
-      if ((uVar10 < 0x106) && (iVar7 == 0)) {
-        return 0;
-      }
-      if (uVar10 == 0) {
-        if (param_1[0x18] != 0) {
-          bVar1 = *(byte *)(param_1[0x19] + param_1[0xc] + -1);
-          *(undefined2 *)(param_1[0x5a6] * 2 + param_1[0x5a7]) = 0;
-          iVar11 = bVar1 + 0x23;
-          *(byte *)(param_1[0x5a4] + param_1[0x5a6]) = bVar1;
-          param_1[0x5a6] = param_1[0x5a6] + 1;
-          *(short *)(param_1 + iVar11) = *(short *)(param_1 + iVar11) + 1;
-          param_1[0x18] = 0;
-        }
-        uVar12 = param_1[0x15];
-        if ((int)uVar12 < 0) {
-          lVar8 = 0;
-        }
-        else {
-          lVar8 = (ulonglong)(uint)param_1[0xc] + (ulonglong)uVar12;
-        }
-        d3dx__tr_flush_block(param_1,lVar8,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar12,
-                          iVar7 == 4);
-        param_1[0x15] = param_1[0x19];
-        d3dx_flush_pending(*param_1);
-        if (*(int *)(*param_1 + 0x10) != 0) {
-          if (iVar7 != 4) {
-            return 1;
-          }
-          return 3;
-        }
-        return -(param_2 == 4) & 2;
-      }
-    }
-    if (2 < uVar10) {
-      uVar12 = (param_1[0x10] << (param_1[0x14] & 0x3fU) ^
-               (uint)*(byte *)(param_1[0xc] + param_1[0x19] + 2)) & param_1[0x13];
-      param_1[0x10] = uVar12;
-      uVar2 = *(ushort *)(uVar12 * 2 + param_1[0xf]);
-      uVar12 = (uint)uVar2;
-      *(ushort *)((param_1[0xb] & param_1[0x19]) * 2 + param_1[0xe]) = uVar2;
-      *(short *)(param_1[0x10] * 2 + param_1[0xf]) = (short)param_1[0x19];
-    }
-    uVar10 = param_1[0x16];
-    param_1[0x16] = 2;
-    param_1[0x1c] = uVar10;
-    param_1[0x17] = param_1[0x1a];
-    if (((uVar12 != 0) && (uVar10 < (uint)param_1[0x1e])) &&
-       (param_1[0x19] - uVar12 <= param_1[9] - 0x106U)) {
-      if (param_1[0x20] != 2) {
-        iVar7 = d3dx_longest_match(param_1,uVar12);
-        param_1[0x16] = iVar7;
-      }
-      if (((uint)param_1[0x16] < 6) &&
-         ((param_1[0x20] == 1 ||
-          ((param_1[0x16] == 3 && (0x1000 < (uint)(param_1[0x19] - param_1[0x1a]))))))) {
-        param_1[0x16] = 2;
-      }
-    }
-    uVar10 = param_1[0x1c];
-    if ((uVar10 < 3) || (uVar10 < (uint)param_1[0x16])) {
-      if (param_1[0x18] == 0) {
-        param_1[0x18] = 1;
-        param_1[0x1b] = param_1[0x1b] + -1;
-        param_1[0x19] = param_1[0x19] + 1;
-        goto LAB_829b82d8;
-      }
-      bVar1 = *(byte *)(param_1[0x19] + param_1[0xc] + -1);
-      *(undefined2 *)(param_1[0x5a6] * 2 + param_1[0x5a7]) = 0;
-      iVar7 = bVar1 + 0x23;
-      *(byte *)(param_1[0x5a4] + param_1[0x5a6]) = bVar1;
-      param_1[0x5a6] = param_1[0x5a6] + 1;
-      *(short *)(param_1 + iVar7) = *(short *)(param_1 + iVar7) + 1;
-      if (param_1[0x5a6] == param_1[0x5a5] + -1) {
-        uVar10 = param_1[0x15];
-        if ((int)uVar10 < 0) {
-          lVar8 = 0;
-        }
-        else {
-          lVar8 = (ulonglong)uVar10 + (ulonglong)(uint)param_1[0xc];
-        }
-        d3dx__tr_flush_block(param_1,lVar8,(ulonglong)(uint)param_1[0x19] - (ulonglong)uVar10,0);
-        param_1[0x15] = param_1[0x19];
-        d3dx_flush_pending(*param_1);
-      }
-      param_1[0x19] = param_1[0x19] + 1;
-      param_1[0x1b] = param_1[0x1b] + -1;
-      iVar7 = *(int *)(*param_1 + 0x10);
-    }
-    else {
-      iVar7 = param_1[0x19];
-      iVar11 = param_1[0x1b];
-      uVar9 = (iVar7 - param_1[0x17]) + 0xffff;
-      uVar6 = (uVar9 & 0xffff) + 0xffff & 0xffff;
-      *(short *)(param_1[0x5a6] * 2 + param_1[0x5a7]) = (short)uVar9;
-      *(char *)(param_1[0x5a4] + param_1[0x5a6]) = (char)(uVar10 + 0xfd);
-      param_1[0x5a6] = param_1[0x5a6] + 1;
-      *(short *)(param_1 + (byte)(&lbl_82055990)[uVar10 + 0xfd & 0xff] + 0x124) =
-           *(short *)(param_1 + (byte)(&lbl_82055990)[uVar10 + 0xfd & 0xff] + 0x124) + 1;
-      if (uVar6 < 0x100) {
-        bVar1 = (&lbl_82055790)[uVar6];
-      }
-      else {
-        bVar1 = (&lbl_82055890)[uVar6 >> 7];
-      }
-      *(short *)(param_1 + bVar1 + 0x260) = *(short *)(param_1 + bVar1 + 0x260) + 1;
-      iVar3 = param_1[0x5a6];
-      iVar4 = param_1[0x5a5];
-      param_1[0x1b] = (param_1[0x1b] - param_1[0x1c]) + 1;
-      param_1[0x1c] = param_1[0x1c] + -2;
-      do {
-        iVar5 = param_1[0x19];
-        uVar10 = iVar5 + 1;
-        param_1[0x19] = uVar10;
-        if (iVar5 + 1U <= (iVar7 + iVar11) - 3U) {
-          uVar12 = (param_1[0x10] << (param_1[0x14] & 0x3fU) ^
-                   (uint)*(byte *)(param_1[0xc] + uVar10 + 2)) & param_1[0x13];
-          param_1[0x10] = uVar12;
-          uVar2 = *(ushort *)(uVar12 * 2 + param_1[0xf]);
-          uVar12 = (uint)uVar2;
-          *(ushort *)((param_1[0xb] & uVar10) * 2 + param_1[0xe]) = uVar2;
-          *(short *)(param_1[0x10] * 2 + param_1[0xf]) = (short)param_1[0x19];
-        }
-        uVar10 = param_1[0x1c];
-        param_1[0x1c] = (int)((ulonglong)uVar10 - 1);
-      } while ((ulonglong)uVar10 - 1 != 0);
-      uVar10 = param_1[0x19];
-      param_1[0x18] = 0;
-      param_1[0x16] = 2;
-      param_1[0x19] = (int)((ulonglong)uVar10 + 1);
-      if (iVar4 + -1 != iVar3) goto LAB_829b82d8;
-      uVar6 = param_1[0x15];
-      if ((int)uVar6 < 0) {
-        lVar8 = 0;
-      }
-      else {
-        lVar8 = (ulonglong)(uint)param_1[0xc] + (ulonglong)uVar6;
-      }
-      d3dx__tr_flush_block(param_1,lVar8,((ulonglong)uVar10 + 1) - (ulonglong)uVar6,0);
-      param_1[0x15] = param_1[0x19];
-      d3dx_flush_pending(*param_1);
-      iVar7 = *(int *)(*param_1 + 0x10);
-    }
-    if (iVar7 == 0) {
-      return 0;
-    }
-  } while( true );
-}
+    IPos hash_head = 0;
+    int bflush;
 
+    for (;;) {
+        if (s->lookahead < (258+3+1)) {
+            d3dx_fill_window(s);
+            if (s->lookahead < (258+3+1) && flush == 0) {
+                return need_more;
+            }
+            if (s->lookahead == 0) break;
+        }
+
+        if (s->lookahead >= 3) {
+            ((s->ins_h = (((s->ins_h)<<s->hash_shift) ^ (s->window[(s->strstart) + (3-1)])) & s->hash_mask), s->prev[(s->strstart) & s->w_mask] = hash_head = s->head[s->ins_h], s->head[s->ins_h] = (Pos)(s->strstart));
+        }
+
+        s->prev_length = s->match_length, s->prev_match = s->match_start;
+        s->match_length = 3-1;
+
+        if (hash_head != 0 && s->prev_length < s->max_lazy_match &&
+            s->strstart - hash_head <= ((s)->w_size-(258+3+1))) {
+            if (s->strategy != 2) {
+                s->match_length = d3dx_longest_match (s, hash_head);
+            }
+
+            if (s->match_length <= 5 && (s->strategy == 1 ||
+                 (s->match_length == 3 &&
+                  s->strstart - s->match_start > 4096))) {
+                s->match_length = 3-1;
+            }
+        }
+        if (s->prev_length >= 3 && s->match_length <= s->prev_length) {
+            uInt max_insert = s->strstart + s->lookahead - 3;
+
+            { uch len = (s->prev_length - 3); ush dist = (s->strstart -1 - s->prev_match); s->d_buf[s->last_lit] = dist; s->l_buf[s->last_lit++] = len; dist--; s->dyn_ltree[lbl_82055990[len]+256+1].fc.freq++; s->dyn_dtree[(uch)((dist) < 256 ? lbl_82055790[dist] : lbl_82055790[256+((dist)>>7)])].fc.freq++; bflush = (s->last_lit == s->lit_bufsize-1); };
+
+            s->lookahead -= s->prev_length-1;
+            s->prev_length -= 2;
+            do {
+                if (++s->strstart <= max_insert) {
+                    ((s->ins_h = (((s->ins_h)<<s->hash_shift) ^ (s->window[(s->strstart) + (3-1)])) & s->hash_mask), s->prev[(s->strstart) & s->w_mask] = hash_head = s->head[s->ins_h], s->head[s->ins_h] = (Pos)(s->strstart));
+                }
+            } while (--s->prev_length != 0);
+            s->match_available = 0;
+            s->match_length = 3-1;
+            s->strstart++;
+
+            if (bflush) { { d3dx__tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (0)); s->block_start = s->strstart; d3dx_flush_pending(s->strm); ; }; if (s->strm->avail_out == 0) return (0) ? finish_started : need_more; };
+
+        } else if (s->match_available) {
+            { uch cc = (s->window[s->strstart-1]); s->d_buf[s->last_lit] = 0; s->l_buf[s->last_lit++] = cc; s->dyn_ltree[cc].fc.freq++; bflush = (s->last_lit == s->lit_bufsize-1); };
+            if (bflush) {
+                { d3dx__tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (0)); s->block_start = s->strstart; d3dx_flush_pending(s->strm); ; };
+            }
+            s->strstart++;
+            s->lookahead--;
+            if (s->strm->avail_out == 0) return need_more;
+        } else {
+            s->match_available = 1;
+            s->strstart++;
+            s->lookahead--;
+        }
+    }
+    if (s->match_available) {
+        { uch cc = (s->window[s->strstart-1]); s->d_buf[s->last_lit] = 0; s->l_buf[s->last_lit++] = cc; s->dyn_ltree[cc].fc.freq++; bflush = (s->last_lit == s->lit_bufsize-1); };
+        s->match_available = 0;
+    }
+    { { d3dx__tr_flush_block(s, (s->block_start >= 0L ? (charf *)&s->window[(unsigned)s->block_start] : (charf *)0), (ulg)((long)s->strstart - s->block_start), (flush == 4)); s->block_start = s->strstart; d3dx_flush_pending(s->strm); ; }; if (s->strm->avail_out == 0) return (flush == 4) ? finish_started : need_more; };
+    return flush == 4 ? finish_done : block_done;
+}

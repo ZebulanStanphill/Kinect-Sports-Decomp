@@ -1,120 +1,372 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int d3dx_alloc_sarray();
-extern int d3dx_alloc_barray();
-extern int fn_829BAB08();
-extern int fn_829BAC50();
+/* Corresponds to libjpeg 6b jmemmgr.c realize_virt_arrays (open-source IJG libjpeg 6b): the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's; this second copy of the library builds boolean as int. */
+typedef int boolean;
+typedef unsigned int size_t;
+typedef struct _FILE FILE;
+typedef unsigned char JSAMPLE;
+typedef short JCOEF;
+typedef unsigned int JDIMENSION;
+typedef JSAMPLE  *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JCOEF JBLOCK[64];
+typedef JBLOCK  *JBLOCKROW;
+typedef JBLOCKROW *JBLOCKARRAY;
+struct jpeg_common_struct {
+  struct jpeg_error_mgr * err; struct jpeg_memory_mgr * mem; struct jpeg_progress_mgr * progress; void * client_data; boolean is_decompressor; int global_state;
 
+};
+typedef struct jpeg_common_struct * j_common_ptr;
+struct jpeg_error_mgr {
 
-void fn_829B6070(int param_1)
+  void (*error_exit) (j_common_ptr cinfo);
 
+  void (*emit_message) (j_common_ptr cinfo, int msg_level);
+
+  void (*output_message) (j_common_ptr cinfo);
+
+  void (*format_message) (j_common_ptr cinfo, char * buffer);
+
+  void (*reset_error_mgr) (j_common_ptr cinfo);
+
+  int msg_code;
+
+  union {
+    int i[8];
+    char s[80];
+  } msg_parm;
+
+  int trace_level;
+
+  long num_warnings;
+
+  const char * const * jpeg_message_table;
+  int last_jpeg_message;
+
+  const char * const * addon_message_table;
+  int first_addon_message;
+  int last_addon_message;
+};
+struct jpeg_progress_mgr {
+  void (*progress_monitor) (j_common_ptr cinfo);
+
+  long pass_counter;
+  long pass_limit;
+  int completed_passes;
+  int total_passes;
+};
+typedef struct jvirt_sarray_control * jvirt_sarray_ptr;
+typedef struct jvirt_barray_control * jvirt_barray_ptr;
+struct jpeg_memory_mgr {
+
+  void * (*alloc_small) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  void  * (*alloc_large) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  JSAMPARRAY (*alloc_sarray) (j_common_ptr cinfo, int pool_id, JDIMENSION samplesperrow, JDIMENSION numrows);
+  JBLOCKARRAY (*alloc_barray) (j_common_ptr cinfo, int pool_id, JDIMENSION blocksperrow, JDIMENSION numrows);
+  jvirt_sarray_ptr (*request_virt_sarray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION samplesperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  jvirt_barray_ptr (*request_virt_barray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION blocksperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  void (*realize_virt_arrays) (j_common_ptr cinfo);
+  JSAMPARRAY (*access_virt_sarray) (j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  JBLOCKARRAY (*access_virt_barray) (j_common_ptr cinfo, jvirt_barray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  void (*free_pool) (j_common_ptr cinfo, int pool_id);
+  void (*self_destruct) (j_common_ptr cinfo);
+
+  long max_memory_to_use;
+
+  long max_alloc_chunk;
+};
+typedef enum {
+
+JMSG_NOMESSAGE ,
+
+JERR_ARITH_NOTIMPL ,
+JERR_BAD_ALIGN_TYPE ,
+JERR_BAD_ALLOC_CHUNK ,
+JERR_BAD_BUFFER_MODE ,
+JERR_BAD_COMPONENT_ID ,
+JERR_BAD_DCT_COEF ,
+JERR_BAD_DCTSIZE ,
+JERR_BAD_HUFF_TABLE ,
+JERR_BAD_IN_COLORSPACE ,
+JERR_BAD_J_COLORSPACE ,
+JERR_BAD_LENGTH ,
+JERR_BAD_LIB_VERSION ,
+JERR_BAD_MCU_SIZE ,
+JERR_BAD_POOL_ID ,
+JERR_BAD_PRECISION ,
+JERR_BAD_PROGRESSION ,
+JERR_BAD_PROG_SCRIPT ,
+JERR_BAD_SAMPLING ,
+JERR_BAD_SCAN_SCRIPT ,
+JERR_BAD_STATE ,
+JERR_BAD_STRUCT_SIZE ,
+JERR_BAD_VIRTUAL_ACCESS ,
+JERR_BUFFER_SIZE ,
+JERR_CANT_SUSPEND ,
+JERR_CCIR601_NOTIMPL ,
+JERR_COMPONENT_COUNT ,
+JERR_CONVERSION_NOTIMPL ,
+JERR_DAC_INDEX ,
+JERR_DAC_VALUE ,
+JERR_DHT_INDEX ,
+JERR_DQT_INDEX ,
+JERR_EMPTY_IMAGE ,
+JERR_EMS_READ ,
+JERR_EMS_WRITE ,
+JERR_EOI_EXPECTED ,
+JERR_FILE_READ ,
+JERR_FILE_WRITE ,
+JERR_FRACT_SAMPLE_NOTIMPL ,
+JERR_HUFF_CLEN_OVERFLOW ,
+JERR_HUFF_MISSING_CODE ,
+JERR_IMAGE_TOO_BIG ,
+JERR_INPUT_EMPTY ,
+JERR_INPUT_EOF ,
+JERR_MISMATCHED_QUANT_TABLE ,
+JERR_MISSING_DATA ,
+JERR_MODE_CHANGE ,
+JERR_NOTIMPL ,
+JERR_NOT_COMPILED ,
+JERR_NO_BACKING_STORE ,
+JERR_NO_HUFF_TABLE ,
+JERR_NO_IMAGE ,
+JERR_NO_QUANT_TABLE ,
+JERR_NO_SOI ,
+JERR_OUT_OF_MEMORY ,
+JERR_QUANT_COMPONENTS ,
+JERR_QUANT_FEW_COLORS ,
+JERR_QUANT_MANY_COLORS ,
+JERR_SOF_DUPLICATE ,
+JERR_SOF_NO_SOS ,
+JERR_SOF_UNSUPPORTED ,
+JERR_SOI_DUPLICATE ,
+JERR_SOS_NO_SOF ,
+JERR_TFILE_CREATE ,
+JERR_TFILE_READ ,
+JERR_TFILE_SEEK ,
+JERR_TFILE_WRITE ,
+JERR_TOO_LITTLE_DATA ,
+JERR_UNKNOWN_MARKER ,
+JERR_VIRTUAL_BUG ,
+JERR_WIDTH_OVERFLOW ,
+JERR_XMS_READ ,
+JERR_XMS_WRITE ,
+JMSG_COPYRIGHT ,
+JMSG_VERSION ,
+JTRC_16BIT_TABLES ,
+JTRC_ADOBE ,
+JTRC_APP0 ,
+JTRC_APP14 ,
+JTRC_DAC ,
+JTRC_DHT ,
+JTRC_DQT ,
+JTRC_DRI ,
+JTRC_EMS_CLOSE ,
+JTRC_EMS_OPEN ,
+JTRC_EOI ,
+JTRC_HUFFBITS ,
+JTRC_JFIF ,
+JTRC_JFIF_BADTHUMBNAILSIZE ,
+JTRC_JFIF_EXTENSION ,
+JTRC_JFIF_THUMBNAIL ,
+JTRC_MISC_MARKER ,
+JTRC_PARMLESS_MARKER ,
+JTRC_QUANTVALS ,
+JTRC_QUANT_3_NCOLORS ,
+JTRC_QUANT_NCOLORS ,
+JTRC_QUANT_SELECTED ,
+JTRC_RECOVERY_ACTION ,
+JTRC_RST ,
+JTRC_SMOOTH_NOTIMPL ,
+JTRC_SOF ,
+JTRC_SOF_COMPONENT ,
+JTRC_SOI ,
+JTRC_SOS ,
+JTRC_SOS_COMPONENT ,
+JTRC_SOS_PARAMS ,
+JTRC_TFILE_CLOSE ,
+JTRC_TFILE_OPEN ,
+JTRC_THUMB_JPEG ,
+JTRC_THUMB_PALETTE ,
+JTRC_THUMB_RGB ,
+JTRC_UNKNOWN_IDS ,
+JTRC_XMS_CLOSE ,
+JTRC_XMS_OPEN ,
+JWRN_ADOBE_XFORM ,
+JWRN_BOGUS_PROGRESSION ,
+JWRN_EXTRANEOUS_DATA ,
+JWRN_HIT_MARKER ,
+JWRN_HUFF_BAD_CODE ,
+JWRN_JFIF_MAJOR ,
+JWRN_JPEG_EOF ,
+JWRN_MUST_RESYNC ,
+JWRN_NOT_SEQUENTIAL ,
+JWRN_TOO_MUCH_DATA ,
+
+  JMSG_LASTMSGCODE
+} J_MESSAGE_CODE;
+typedef struct backing_store_struct * backing_store_ptr;
+typedef struct backing_store_struct {
+
+  void (*read_backing_store) (j_common_ptr cinfo, backing_store_ptr info, void  * buffer_address, long file_offset, long byte_count);
+  void (*write_backing_store) (j_common_ptr cinfo, backing_store_ptr info, void  * buffer_address, long file_offset, long byte_count);
+  void (*close_backing_store) (j_common_ptr cinfo, backing_store_ptr info);
+
+  FILE * temp_file;
+  char temp_name[64];
+} backing_store_info;
+typedef union small_pool_struct * small_pool_ptr;
+typedef union small_pool_struct {
+  struct {
+    small_pool_ptr next;
+    size_t bytes_used;
+    size_t bytes_left;
+  } hdr;
+  double dummy;
+} small_pool_hdr;
+typedef union large_pool_struct  * large_pool_ptr;
+typedef union large_pool_struct {
+  struct {
+    large_pool_ptr next;
+    size_t bytes_used;
+    size_t bytes_left;
+  } hdr;
+  double dummy;
+} large_pool_hdr;
+typedef struct {
+  struct jpeg_memory_mgr pub;
+
+  small_pool_ptr small_list[2];
+  large_pool_ptr large_list[2];
+
+  jvirt_sarray_ptr virt_sarray_list;
+  jvirt_barray_ptr virt_barray_list;
+
+  long total_space_allocated;
+
+  JDIMENSION last_rowsperchunk;
+} my_memory_mgr;
+typedef my_memory_mgr * my_mem_ptr;
+struct jvirt_sarray_control {
+  JSAMPARRAY mem_buffer;
+  JDIMENSION rows_in_array;
+  JDIMENSION samplesperrow;
+  JDIMENSION maxaccess;
+  JDIMENSION rows_in_mem;
+  JDIMENSION rowsperchunk;
+  JDIMENSION cur_start_row;
+  JDIMENSION first_undef_row;
+  boolean pre_zero;
+  boolean dirty;
+  boolean b_s_open;
+  jvirt_sarray_ptr next;
+  backing_store_info b_s_info;
+};
+struct jvirt_barray_control {
+  JBLOCKARRAY mem_buffer;
+  JDIMENSION rows_in_array;
+  JDIMENSION blocksperrow;
+  JDIMENSION maxaccess;
+  JDIMENSION rows_in_mem;
+  JDIMENSION rowsperchunk;
+  JDIMENSION cur_start_row;
+  JDIMENSION first_undef_row;
+  boolean pre_zero;
+  boolean dirty;
+  boolean b_s_open;
+  jvirt_barray_ptr next;
+  backing_store_info b_s_info;
+};
+JSAMPARRAY
+d3dx_alloc_sarray (j_common_ptr cinfo, int pool_id,
+	      JDIMENSION samplesperrow, JDIMENSION numrows);
+JBLOCKARRAY
+d3dx_alloc_barray (j_common_ptr cinfo, int pool_id,
+	      JDIMENSION blocksperrow, JDIMENSION numrows);
+long fn_829BAB08 (j_common_ptr cinfo, long min_bytes_needed, long max_bytes_needed, long already_allocated);
+void fn_829BAC50 (j_common_ptr cinfo, backing_store_ptr info, long total_bytes_needed);
+
+void
+fn_829B6070 (j_common_ptr cinfo)
 {
-  int iVar1;
-  int *piVar2;
-  uint uVar3;
-  ulonglong uVar4;
-  int iVar5;
-  longlong lVar6;
-  int iVar7;
-  ulonglong uVar8;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  uVar8 = 0;
-  lVar6 = 0;
-  for (piVar2 = *(int **)(iVar1 + 0x44); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[0xb]) {
-    if (*piVar2 == 0) {
-      uVar8 = (longlong)piVar2[3] * (longlong)piVar2[2] + uVar8;
-      lVar6 = (longlong)piVar2[1] * (longlong)piVar2[2] + lVar6;
-    }
-  }
-  for (piVar2 = *(int **)(iVar1 + 0x48); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[0xb]) {
-    if (*piVar2 == 0) {
-      uVar8 = ((longlong)piVar2[3] * (longlong)piVar2[2] & 0x1ffffffU) * 0x80 + uVar8;
-      lVar6 = ((longlong)piVar2[1] * (longlong)piVar2[2] & 0x1ffffffU) * 0x80 + lVar6;
-    }
-  }
-  if (0 < (int)uVar8) {
-    uVar4 = fn_829BAB08(param_1,uVar8,lVar6,*(undefined4 *)(iVar1 + 0x4c));
-    if ((int)uVar4 < (int)lVar6) {
-      iVar7 = (int)uVar4 / (int)uVar8;
-      trapWord(6,uVar8,0);
-      trapWord(5,uVar8 & ~(((uVar4 & 0x7fffffff) << 1 | (uVar4 & 0xffffffff) >> 0x1f) - 1),0xffff);
-      if (iVar7 < 1) {
-        iVar7 = 1;
-      }
-    }
-    else {
-      iVar7 = 1000000000;
-    }
-    for (piVar2 = *(int **)(iVar1 + 0x44); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[0xb]) {
-      if (*piVar2 == 0) {
-        iVar5 = piVar2[1];
-        uVar3 = piVar2[3];
-        trapWord(6,(ulonglong)uVar3,0);
-        if (iVar7 < (int)((iVar5 - 1U) / uVar3 + 1)) {
-          piVar2[4] = uVar3 * iVar7;
-          fn_829BAC50(param_1,piVar2 + 0xc,(longlong)piVar2[2] * (longlong)iVar5);
-          piVar2[10] = 1;
-        }
-        else {
-          piVar2[4] = iVar5;
-        }
-        iVar5 = d3dx_alloc_sarray(param_1,1,piVar2[2],piVar2[4]);
-        *piVar2 = iVar5;
-        piVar2[5] = *(int *)(iVar1 + 0x50);
-        piVar2[6] = 0;
-        piVar2[7] = 0;
-        piVar2[9] = 0;
-      }
-    }
-    for (piVar2 = *(int **)(iVar1 + 0x48); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[0xb]) {
-      if (*piVar2 == 0) {
-        iVar5 = piVar2[1];
-        uVar3 = piVar2[3];
-        trapWord(6,(ulonglong)uVar3,0);
-        if (iVar7 < (int)((iVar5 - 1U) / uVar3 + 1)) {
-          piVar2[4] = uVar3 * iVar7;
-          fn_829BAC50(param_1,piVar2 + 0xc,
-                            ((longlong)piVar2[2] * (longlong)iVar5 & 0x1ffffffU) << 7);
-          piVar2[10] = 1;
-        }
-        else {
-          piVar2[4] = iVar5;
-        }
-        iVar5 = d3dx_alloc_barray(param_1,1,piVar2[2],piVar2[4]);
-        *piVar2 = iVar5;
-        piVar2[5] = *(int *)(iVar1 + 0x50);
-        piVar2[6] = 0;
-        piVar2[7] = 0;
-        piVar2[9] = 0;
-      }
-    }
-  }
-  return;
-}
+  my_mem_ptr mem = (my_mem_ptr) cinfo->mem;
+  long space_per_minheight, maximum_space, avail_mem;
+  long minheights, max_minheights;
+  jvirt_sarray_ptr sptr;
+  jvirt_barray_ptr bptr;
 
+  space_per_minheight = 0;
+  maximum_space = 0;
+  for (sptr = mem->virt_sarray_list; sptr != 0; sptr = sptr->next) {
+    if (sptr->mem_buffer == 0) {
+      space_per_minheight += (long) sptr->maxaccess *
+			     (long) sptr->samplesperrow * ((size_t) sizeof(JSAMPLE));
+      maximum_space += (long) sptr->rows_in_array *
+		       (long) sptr->samplesperrow * ((size_t) sizeof(JSAMPLE));
+    }
+  }
+  for (bptr = mem->virt_barray_list; bptr != 0; bptr = bptr->next) {
+    if (bptr->mem_buffer == 0) {
+      space_per_minheight += (long) bptr->maxaccess *
+			     (long) bptr->blocksperrow * ((size_t) sizeof(JBLOCK));
+      maximum_space += (long) bptr->rows_in_array *
+		       (long) bptr->blocksperrow * ((size_t) sizeof(JBLOCK));
+    }
+  }
+
+  if (space_per_minheight <= 0)
+    return;
+
+  avail_mem = fn_829BAB08(cinfo, space_per_minheight, maximum_space,
+				 mem->total_space_allocated);
+
+  if (avail_mem >= maximum_space)
+    max_minheights = 1000000000L;
+  else {
+    max_minheights = avail_mem / space_per_minheight;
+    if (max_minheights <= 0)
+      max_minheights = 1;
+  }
+
+  for (sptr = mem->virt_sarray_list; sptr != 0; sptr = sptr->next) {
+    if (sptr->mem_buffer == 0) {
+      minheights = ((long) sptr->rows_in_array - 1L) / sptr->maxaccess + 1L;
+      if (minheights <= max_minheights) {
+	sptr->rows_in_mem = sptr->rows_in_array;
+      } else {
+	sptr->rows_in_mem = (JDIMENSION) (max_minheights * sptr->maxaccess);
+	fn_829BAC50(cinfo, & sptr->b_s_info,
+				(long) sptr->rows_in_array *
+				(long) sptr->samplesperrow *
+				(long) ((size_t) sizeof(JSAMPLE)));
+	sptr->b_s_open = 1;
+      }
+      sptr->mem_buffer = d3dx_alloc_sarray(cinfo, 1,
+				      sptr->samplesperrow, sptr->rows_in_mem);
+      sptr->rowsperchunk = mem->last_rowsperchunk;
+      sptr->cur_start_row = 0;
+      sptr->first_undef_row = 0;
+      sptr->dirty = 0;
+    }
+  }
+
+  for (bptr = mem->virt_barray_list; bptr != 0; bptr = bptr->next) {
+    if (bptr->mem_buffer == 0) {
+      minheights = ((long) bptr->rows_in_array - 1L) / bptr->maxaccess + 1L;
+      if (minheights <= max_minheights) {
+	bptr->rows_in_mem = bptr->rows_in_array;
+      } else {
+	bptr->rows_in_mem = (JDIMENSION) (max_minheights * bptr->maxaccess);
+	fn_829BAC50(cinfo, & bptr->b_s_info,
+				(long) bptr->rows_in_array *
+				(long) bptr->blocksperrow *
+				(long) ((size_t) sizeof(JBLOCK)));
+	bptr->b_s_open = 1;
+      }
+      bptr->mem_buffer = d3dx_alloc_barray(cinfo, 1,
+				      bptr->blocksperrow, bptr->rows_in_mem);
+      bptr->rowsperchunk = mem->last_rowsperchunk;
+      bptr->cur_start_row = 0;
+      bptr->first_undef_row = 0;
+      bptr->dirty = 0;
+    }
+  }
+}

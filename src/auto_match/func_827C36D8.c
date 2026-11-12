@@ -1,139 +1,590 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+/* Corresponds to libjpeg 6b jdhuff.c jpeg_make_d_derived_tbl (open-source IJG libjpeg 6b): the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
+typedef unsigned char boolean;
+typedef unsigned int size_t;
+typedef unsigned char JSAMPLE;
+typedef short JCOEF;
+typedef unsigned char JOCTET;
+typedef unsigned char UINT8;
+typedef unsigned short UINT16;
+typedef long INT32;
+typedef unsigned int JDIMENSION;
+typedef JSAMPLE  *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef JCOEF JBLOCK[64];
+typedef JBLOCK  *JBLOCKROW;
+typedef JBLOCKROW *JBLOCKARRAY;
+typedef JCOEF  *JCOEFPTR;
+typedef struct {
 
+  UINT16 quantval[64];
 
-void jpeg_make_d_derived_tbl(int *param_1,char param_2,int param_3,int *param_4)
+  boolean sent_table;
+} JQUANT_TBL;
+typedef struct {
 
+  UINT8 bits[17];
+
+  UINT8 huffval[256];
+
+  boolean sent_table;
+} JHUFF_TBL;
+typedef struct {
+
+  int component_id;
+  int component_index;
+  int h_samp_factor;
+  int v_samp_factor;
+  int quant_tbl_no;
+
+  int dc_tbl_no;
+  int ac_tbl_no;
+
+  JDIMENSION width_in_blocks;
+  JDIMENSION height_in_blocks;
+
+  int DCT_scaled_size;
+
+  JDIMENSION downsampled_width;
+  JDIMENSION downsampled_height;
+
+  boolean component_needed;
+
+  int MCU_width;
+  int MCU_height;
+  int MCU_blocks;
+  int MCU_sample_width;
+  int last_col_width;
+  int last_row_height;
+
+  JQUANT_TBL * quant_table;
+
+  void * dct_table;
+} jpeg_component_info;
+typedef struct jpeg_marker_struct  * jpeg_saved_marker_ptr;
+struct jpeg_marker_struct {
+  jpeg_saved_marker_ptr next;
+  UINT8 marker;
+  unsigned int original_length;
+  unsigned int data_length;
+  JOCTET  * data;
+
+};
+typedef enum {
+	JCS_UNKNOWN,
+	JCS_GRAYSCALE,
+	JCS_RGB,
+	JCS_YCbCr,
+	JCS_CMYK,
+	JCS_YCCK
+} J_COLOR_SPACE;
+typedef enum {
+	JDCT_ISLOW,
+	JDCT_IFAST,
+	JDCT_FLOAT
+} J_DCT_METHOD;
+typedef enum {
+	JDITHER_NONE,
+	JDITHER_ORDERED,
+	JDITHER_FS
+} J_DITHER_MODE;
+struct jpeg_common_struct {
+  struct jpeg_error_mgr * err; struct jpeg_memory_mgr * mem; struct jpeg_progress_mgr * progress; void * client_data; boolean is_decompressor; int global_state;
+
+};
+typedef struct jpeg_common_struct * j_common_ptr;
+typedef struct jpeg_decompress_struct * j_decompress_ptr;
+struct jpeg_decompress_struct {
+  struct jpeg_error_mgr * err; struct jpeg_memory_mgr * mem; struct jpeg_progress_mgr * progress; void * client_data; boolean is_decompressor; int global_state;
+
+  struct jpeg_source_mgr * src;
+
+  JDIMENSION image_width;
+  JDIMENSION image_height;
+  int num_components;
+  J_COLOR_SPACE jpeg_color_space;
+
+  J_COLOR_SPACE out_color_space;
+
+  unsigned int scale_num, scale_denom;
+
+  double output_gamma;
+
+  boolean buffered_image;
+  boolean raw_data_out;
+
+  J_DCT_METHOD dct_method;
+  boolean do_fancy_upsampling;
+  boolean do_block_smoothing;
+
+  boolean quantize_colors;
+
+  J_DITHER_MODE dither_mode;
+  boolean two_pass_quantize;
+  int desired_number_of_colors;
+
+  boolean enable_1pass_quant;
+  boolean enable_external_quant;
+  boolean enable_2pass_quant;
+
+  JDIMENSION output_width;
+  JDIMENSION output_height;
+  int out_color_components;
+  int output_components;
+
+  int rec_outbuf_height;
+
+  int actual_number_of_colors;
+  JSAMPARRAY colormap;
+
+  JDIMENSION output_scanline;
+
+  int input_scan_number;
+  JDIMENSION input_iMCU_row;
+
+  int output_scan_number;
+  JDIMENSION output_iMCU_row;
+
+  int (*coef_bits)[64];
+
+  JQUANT_TBL * quant_tbl_ptrs[4];
+
+  JHUFF_TBL * dc_huff_tbl_ptrs[4];
+  JHUFF_TBL * ac_huff_tbl_ptrs[4];
+
+  int data_precision;
+
+  jpeg_component_info * comp_info;
+
+  boolean progressive_mode;
+  boolean arith_code;
+
+  UINT8 arith_dc_L[16];
+  UINT8 arith_dc_U[16];
+  UINT8 arith_ac_K[16];
+
+  unsigned int restart_interval;
+
+  boolean saw_JFIF_marker;
+
+  UINT8 JFIF_major_version;
+  UINT8 JFIF_minor_version;
+  UINT8 density_unit;
+  UINT16 X_density;
+  UINT16 Y_density;
+  boolean saw_Adobe_marker;
+  UINT8 Adobe_transform;
+
+  boolean CCIR601_sampling;
+
+  jpeg_saved_marker_ptr marker_list;
+
+  int max_h_samp_factor;
+  int max_v_samp_factor;
+
+  int min_DCT_scaled_size;
+
+  JDIMENSION total_iMCU_rows;
+
+  JSAMPLE * sample_range_limit;
+
+  int comps_in_scan;
+  jpeg_component_info * cur_comp_info[4];
+
+  JDIMENSION MCUs_per_row;
+  JDIMENSION MCU_rows_in_scan;
+
+  int blocks_in_MCU;
+  int MCU_membership[10];
+
+  int Ss, Se, Ah, Al;
+
+  int unread_marker;
+
+  struct jpeg_decomp_master * master;
+  struct jpeg_d_main_controller * main;
+  struct jpeg_d_coef_controller * coef;
+  struct jpeg_d_post_controller * post;
+  struct jpeg_input_controller * inputctl;
+  struct jpeg_marker_reader * marker;
+  struct jpeg_entropy_decoder * entropy;
+  struct jpeg_inverse_dct * idct;
+  struct jpeg_upsampler * upsample;
+  struct jpeg_color_deconverter * cconvert;
+  struct jpeg_color_quantizer * cquantize;
+};
+struct jpeg_error_mgr {
+
+  void (*error_exit) (j_common_ptr cinfo);
+
+  void (*emit_message) (j_common_ptr cinfo, int msg_level);
+
+  void (*output_message) (j_common_ptr cinfo);
+
+  void (*format_message) (j_common_ptr cinfo, char * buffer);
+
+  void (*reset_error_mgr) (j_common_ptr cinfo);
+
+  int msg_code;
+
+  union {
+    int i[8];
+    char s[80];
+  } msg_parm;
+
+  int trace_level;
+
+  long num_warnings;
+
+  const char * const * jpeg_message_table;
+  int last_jpeg_message;
+
+  const char * const * addon_message_table;
+  int first_addon_message;
+  int last_addon_message;
+};
+struct jpeg_progress_mgr {
+  void (*progress_monitor) (j_common_ptr cinfo);
+
+  long pass_counter;
+  long pass_limit;
+  int completed_passes;
+  int total_passes;
+};
+struct jpeg_source_mgr {
+  const JOCTET * next_input_byte;
+  size_t bytes_in_buffer;
+
+  void (*init_source) (j_decompress_ptr cinfo);
+  boolean (*fill_input_buffer) (j_decompress_ptr cinfo);
+  void (*skip_input_data) (j_decompress_ptr cinfo, long num_bytes);
+  boolean (*resync_to_restart) (j_decompress_ptr cinfo, int desired);
+  void (*term_source) (j_decompress_ptr cinfo);
+};
+typedef struct jvirt_sarray_control * jvirt_sarray_ptr;
+typedef struct jvirt_barray_control * jvirt_barray_ptr;
+struct jpeg_memory_mgr {
+
+  void * (*alloc_small) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  void  * (*alloc_large) (j_common_ptr cinfo, int pool_id, size_t sizeofobject);
+  JSAMPARRAY (*alloc_sarray) (j_common_ptr cinfo, int pool_id, JDIMENSION samplesperrow, JDIMENSION numrows);
+  JBLOCKARRAY (*alloc_barray) (j_common_ptr cinfo, int pool_id, JDIMENSION blocksperrow, JDIMENSION numrows);
+  jvirt_sarray_ptr (*request_virt_sarray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION samplesperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  jvirt_barray_ptr (*request_virt_barray) (j_common_ptr cinfo, int pool_id, boolean pre_zero, JDIMENSION blocksperrow, JDIMENSION numrows, JDIMENSION maxaccess);
+  void (*realize_virt_arrays) (j_common_ptr cinfo);
+  JSAMPARRAY (*access_virt_sarray) (j_common_ptr cinfo, jvirt_sarray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  JBLOCKARRAY (*access_virt_barray) (j_common_ptr cinfo, jvirt_barray_ptr ptr, JDIMENSION start_row, JDIMENSION num_rows, boolean writable);
+  void (*free_pool) (j_common_ptr cinfo, int pool_id);
+  void (*self_destruct) (j_common_ptr cinfo);
+
+  long max_memory_to_use;
+
+  long max_alloc_chunk;
+};
+typedef boolean (*jpeg_marker_parser_method) (j_decompress_ptr cinfo);
+typedef enum {
+	JBUF_PASS_THRU,
+
+	JBUF_SAVE_SOURCE,
+	JBUF_CRANK_DEST,
+	JBUF_SAVE_AND_PASS
+} J_BUF_MODE;
+struct jpeg_decomp_master {
+  void (*prepare_for_output_pass) (j_decompress_ptr cinfo);
+  void (*finish_output_pass) (j_decompress_ptr cinfo);
+
+  boolean is_dummy_pass;
+};
+struct jpeg_input_controller {
+  int (*consume_input) (j_decompress_ptr cinfo);
+  void (*reset_input_controller) (j_decompress_ptr cinfo);
+  void (*start_input_pass) (j_decompress_ptr cinfo);
+  void (*finish_input_pass) (j_decompress_ptr cinfo);
+
+  boolean has_multiple_scans;
+  boolean eoi_reached;
+};
+struct jpeg_d_main_controller {
+  void (*start_pass) (j_decompress_ptr cinfo, J_BUF_MODE pass_mode);
+  void (*process_data) (j_decompress_ptr cinfo, JSAMPARRAY output_buf, JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+};
+struct jpeg_d_coef_controller {
+  void (*start_input_pass) (j_decompress_ptr cinfo);
+  int (*consume_data) (j_decompress_ptr cinfo);
+  void (*start_output_pass) (j_decompress_ptr cinfo);
+  int (*decompress_data) (j_decompress_ptr cinfo, JSAMPIMAGE output_buf);
+
+  jvirt_barray_ptr *coef_arrays;
+};
+struct jpeg_d_post_controller {
+  void (*start_pass) (j_decompress_ptr cinfo, J_BUF_MODE pass_mode);
+  void (*post_process_data) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr, JDIMENSION in_row_groups_avail, JSAMPARRAY output_buf, JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+};
+struct jpeg_marker_reader {
+  void (*reset_marker_reader) (j_decompress_ptr cinfo);
+
+  int (*read_markers) (j_decompress_ptr cinfo);
+
+  jpeg_marker_parser_method read_restart_marker;
+
+  boolean saw_SOI;
+  boolean saw_SOF;
+  int next_restart_num;
+  unsigned int discarded_bytes;
+};
+struct jpeg_entropy_decoder {
+  void (*start_pass) (j_decompress_ptr cinfo);
+  boolean (*decode_mcu) (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+
+  boolean insufficient_data;
+};
+typedef void (*inverse_DCT_method_ptr) (j_decompress_ptr cinfo, jpeg_component_info * compptr, JCOEFPTR coef_block, JSAMPARRAY output_buf, JDIMENSION output_col);
+struct jpeg_inverse_dct {
+  void (*start_pass) (j_decompress_ptr cinfo);
+
+  inverse_DCT_method_ptr inverse_DCT[10];
+};
+struct jpeg_upsampler {
+  void (*start_pass) (j_decompress_ptr cinfo);
+  void (*upsample) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr, JDIMENSION in_row_groups_avail, JSAMPARRAY output_buf, JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+
+  boolean need_context_rows;
+};
+struct jpeg_color_deconverter {
+  void (*start_pass) (j_decompress_ptr cinfo);
+  void (*color_convert) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf, JDIMENSION input_row, JSAMPARRAY output_buf, int num_rows);
+};
+struct jpeg_color_quantizer {
+  void (*start_pass) (j_decompress_ptr cinfo, boolean is_pre_scan);
+  void (*color_quantize) (j_decompress_ptr cinfo, JSAMPARRAY input_buf, JSAMPARRAY output_buf, int num_rows);
+  void (*finish_pass) (j_decompress_ptr cinfo);
+  void (*new_color_map) (j_decompress_ptr cinfo);
+};
+typedef struct {
+
+  INT32 maxcode[18];
+
+  INT32 valoffset[17];
+
+  JHUFF_TBL *pub;
+
+  int look_nbits[1<<8];
+  UINT8 look_sym[1<<8];
+} d_derived_tbl;
+typedef enum {
+
+JMSG_NOMESSAGE ,
+
+JERR_ARITH_NOTIMPL ,
+JERR_BAD_ALIGN_TYPE ,
+JERR_BAD_ALLOC_CHUNK ,
+JERR_BAD_BUFFER_MODE ,
+JERR_BAD_COMPONENT_ID ,
+JERR_BAD_DCT_COEF ,
+JERR_BAD_DCTSIZE ,
+JERR_BAD_HUFF_TABLE ,
+JERR_BAD_IN_COLORSPACE ,
+JERR_BAD_J_COLORSPACE ,
+JERR_BAD_LENGTH ,
+JERR_BAD_LIB_VERSION ,
+JERR_BAD_MCU_SIZE ,
+JERR_BAD_POOL_ID ,
+JERR_BAD_PRECISION ,
+JERR_BAD_PROGRESSION ,
+JERR_BAD_PROG_SCRIPT ,
+JERR_BAD_SAMPLING ,
+JERR_BAD_SCAN_SCRIPT ,
+JERR_BAD_STATE ,
+JERR_BAD_STRUCT_SIZE ,
+JERR_BAD_VIRTUAL_ACCESS ,
+JERR_BUFFER_SIZE ,
+JERR_CANT_SUSPEND ,
+JERR_CCIR601_NOTIMPL ,
+JERR_COMPONENT_COUNT ,
+JERR_CONVERSION_NOTIMPL ,
+JERR_DAC_INDEX ,
+JERR_DAC_VALUE ,
+JERR_DHT_INDEX ,
+JERR_DQT_INDEX ,
+JERR_EMPTY_IMAGE ,
+JERR_EMS_READ ,
+JERR_EMS_WRITE ,
+JERR_EOI_EXPECTED ,
+JERR_FILE_READ ,
+JERR_FILE_WRITE ,
+JERR_FRACT_SAMPLE_NOTIMPL ,
+JERR_HUFF_CLEN_OVERFLOW ,
+JERR_HUFF_MISSING_CODE ,
+JERR_IMAGE_TOO_BIG ,
+JERR_INPUT_EMPTY ,
+JERR_INPUT_EOF ,
+JERR_MISMATCHED_QUANT_TABLE ,
+JERR_MISSING_DATA ,
+JERR_MODE_CHANGE ,
+JERR_NOTIMPL ,
+JERR_NOT_COMPILED ,
+JERR_NO_BACKING_STORE ,
+JERR_NO_HUFF_TABLE ,
+JERR_NO_IMAGE ,
+JERR_NO_QUANT_TABLE ,
+JERR_NO_SOI ,
+JERR_OUT_OF_MEMORY ,
+JERR_QUANT_COMPONENTS ,
+JERR_QUANT_FEW_COLORS ,
+JERR_QUANT_MANY_COLORS ,
+JERR_SOF_DUPLICATE ,
+JERR_SOF_NO_SOS ,
+JERR_SOF_UNSUPPORTED ,
+JERR_SOI_DUPLICATE ,
+JERR_SOS_NO_SOF ,
+JERR_TFILE_CREATE ,
+JERR_TFILE_READ ,
+JERR_TFILE_SEEK ,
+JERR_TFILE_WRITE ,
+JERR_TOO_LITTLE_DATA ,
+JERR_UNKNOWN_MARKER ,
+JERR_VIRTUAL_BUG ,
+JERR_WIDTH_OVERFLOW ,
+JERR_XMS_READ ,
+JERR_XMS_WRITE ,
+JMSG_COPYRIGHT ,
+JMSG_VERSION ,
+JTRC_16BIT_TABLES ,
+JTRC_ADOBE ,
+JTRC_APP0 ,
+JTRC_APP14 ,
+JTRC_DAC ,
+JTRC_DHT ,
+JTRC_DQT ,
+JTRC_DRI ,
+JTRC_EMS_CLOSE ,
+JTRC_EMS_OPEN ,
+JTRC_EOI ,
+JTRC_HUFFBITS ,
+JTRC_JFIF ,
+JTRC_JFIF_BADTHUMBNAILSIZE ,
+JTRC_JFIF_EXTENSION ,
+JTRC_JFIF_THUMBNAIL ,
+JTRC_MISC_MARKER ,
+JTRC_PARMLESS_MARKER ,
+JTRC_QUANTVALS ,
+JTRC_QUANT_3_NCOLORS ,
+JTRC_QUANT_NCOLORS ,
+JTRC_QUANT_SELECTED ,
+JTRC_RECOVERY_ACTION ,
+JTRC_RST ,
+JTRC_SMOOTH_NOTIMPL ,
+JTRC_SOF ,
+JTRC_SOF_COMPONENT ,
+JTRC_SOI ,
+JTRC_SOS ,
+JTRC_SOS_COMPONENT ,
+JTRC_SOS_PARAMS ,
+JTRC_TFILE_CLOSE ,
+JTRC_TFILE_OPEN ,
+JTRC_THUMB_JPEG ,
+JTRC_THUMB_PALETTE ,
+JTRC_THUMB_RGB ,
+JTRC_UNKNOWN_IDS ,
+JTRC_XMS_CLOSE ,
+JTRC_XMS_OPEN ,
+JWRN_ADOBE_XFORM ,
+JWRN_BOGUS_PROGRESSION ,
+JWRN_EXTRANEOUS_DATA ,
+JWRN_HIT_MARKER ,
+JWRN_HUFF_BAD_CODE ,
+JWRN_JFIF_MAJOR ,
+JWRN_JPEG_EOF ,
+JWRN_MUST_RESYNC ,
+JWRN_NOT_SEQUENTIAL ,
+JWRN_TOO_MUCH_DATA ,
+
+  JMSG_LASTMSGCODE
+} J_MESSAGE_CODE;
+extern void * memset (void * dest, int c, size_t count);
+
+void
+jpeg_make_d_derived_tbl (j_decompress_ptr cinfo, boolean isDC, int tblno,
+			 d_derived_tbl ** pdtbl)
 {
-  char cVar1;
-  byte bVar2;
-  int iVar3;
-  int *piVar4;
-  int iVar5;
-  char *pcVar6;
-  int iVar7;
-  ulonglong uVar8;
-  uint uVar10;
-  longlong lVar9;
-  int iVar11;
-  char acStack_571 [269];
-  int aiStack_464 [281];
-  
-  if ((param_3 < 0) || (3 < param_3)) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x32;
-    *(int *)(*param_1 + 0x18) = param_3;
-    (**(code **)*param_1)(param_1);
-  }
-  iVar5 = param_3 + 0x28;
-  if (param_2 == '\0') {
-    iVar5 = param_3 + 0x2c;
-  }
-  iVar5 = param_1[iVar5];
-  if (iVar5 == 0) {
-    *(undefined4 *)(*param_1 + 0x14) = 0x32;
-    *(int *)(*param_1 + 0x18) = param_3;
-    (**(code **)*param_1)(param_1);
-  }
-  if (*param_4 == 0) {
-    iVar3 = (**(code **)param_1[1])(param_1,1,0x590);
-    *param_4 = iVar3;
-  }
-  param_4 = (int *)*param_4;
-  iVar3 = 0;
-  iVar7 = 1;
-  param_4[0x23] = iVar5;
-  do {
-    bVar2 = *(byte *)(iVar7 + iVar5);
-    uVar10 = (uint)bVar2;
-    if (0x100 < (int)((uint)bVar2 + iVar3)) {
-      *(undefined4 *)(*param_1 + 0x14) = 8;
-      (**(code **)*param_1)(param_1);
-    }
-    if (bVar2 != 0) {
-      iVar11 = uVar10 + iVar3;
-      pcVar6 = acStack_571 + iVar3;
-      do {
-        pcVar6 = pcVar6 + 1;
-        *pcVar6 = (char)iVar7;
-        uVar10 = uVar10 - 1;
-        iVar3 = iVar11;
-      } while (uVar10 != 0);
-    }
-    iVar7 = iVar7 + 1;
-  } while (iVar7 < 0x11);
-  uVar8 = 0;
-  acStack_571[iVar3 + 1] = '\0';
-  iVar3 = 0;
-  lVar9 = (longlong)acStack_571[1];
-  if (lVar9 != 0) {
-    do {
-      pcVar6 = acStack_571 + iVar3 + 1;
-      uVar10 = (uint)lVar9;
-      if ((int)*pcVar6 == uVar10) {
-        piVar4 = aiStack_464 + iVar3;
-        do {
-          pcVar6 = pcVar6 + 1;
-          cVar1 = *pcVar6;
-          iVar3 = iVar3 + 1;
-          piVar4 = piVar4 + 1;
-          *piVar4 = (int)uVar8;
-          uVar8 = uVar8 + 1;
-        } while ((int)cVar1 == uVar10);
-      }
-      if (1 << (uVar10 & 0x3f) <= (int)uVar8) {
-        *(undefined4 *)(*param_1 + 0x14) = 8;
-        (**(code **)*param_1)(param_1);
-      }
-      uVar8 = (uVar8 & 0x7fffffff) << 1;
-      lVar9 = lVar9 + 1;
-    } while (acStack_571[iVar3 + 1] != '\0');
-  }
-  iVar7 = 0;
-  iVar3 = 1;
-  lVar9 = 0x10;
-  piVar4 = param_4;
-  do {
-    if (*(char *)(iVar3 + iVar5) == '\0') {
-      iVar11 = -1;
-    }
-    else {
-      piVar4[0x13] = iVar7 - aiStack_464[iVar7 + 1];
-      iVar7 = (uint)*(byte *)(iVar3 + iVar5) + iVar7;
-      iVar11 = aiStack_464[iVar7];
-    }
-    piVar4[1] = iVar11;
-    iVar3 = iVar3 + 1;
-    lVar9 = lVar9 + -1;
-    piVar4 = piVar4 + 1;
-  } while (lVar9 != 0);
-  param_4[0x11] = 0xfffff;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_4 + 0x24,0,0x400);
-}
+  JHUFF_TBL *htbl;
+  d_derived_tbl *dtbl;
+  int p, i, l, si, numsymbols;
+  int lookbits, ctr;
+  char huffsize[257];
+  unsigned int huffcode[257];
+  unsigned int code;
 
+  if (tblno < 0 || tblno >= 4)
+    ((cinfo)->err->msg_code = (JERR_NO_HUFF_TABLE), (cinfo)->err->msg_parm.i[0] = (tblno), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
+  htbl =
+    isDC ? cinfo->dc_huff_tbl_ptrs[tblno] : cinfo->ac_huff_tbl_ptrs[tblno];
+  if (htbl == ((void *)0))
+    ((cinfo)->err->msg_code = (JERR_NO_HUFF_TABLE), (cinfo)->err->msg_parm.i[0] = (tblno), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
+
+  if (*pdtbl == ((void *)0))
+    *pdtbl = (d_derived_tbl *)
+      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, 1,
+				  ((size_t) sizeof(d_derived_tbl)));
+  dtbl = *pdtbl;
+  dtbl->pub = htbl;
+
+  p = 0;
+  for (l = 1; l <= 16; l++) {
+    i = (int) htbl->bits[l];
+    if (i < 0 || p + i > 256)
+      ((cinfo)->err->msg_code = (JERR_BAD_HUFF_TABLE), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
+    while (i--)
+      huffsize[p++] = (char) l;
+  }
+  huffsize[p] = 0;
+  numsymbols = p;
+
+  code = 0;
+  si = huffsize[0];
+  p = 0;
+  while (huffsize[p]) {
+    while (((int) huffsize[p]) == si) {
+      huffcode[p++] = code;
+      code++;
+    }
+    if (((INT32) code) >= (((INT32) 1) << si))
+      ((cinfo)->err->msg_code = (JERR_BAD_HUFF_TABLE), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
+    code <<= 1;
+    si++;
+  }
+
+  p = 0;
+  for (l = 1; l <= 16; l++) {
+    if (htbl->bits[l]) {
+      dtbl->valoffset[l] = (INT32) p - (INT32) huffcode[p];
+      p += htbl->bits[l];
+      dtbl->maxcode[l] = huffcode[p-1];
+    } else {
+      dtbl->maxcode[l] = -1;
+    }
+  }
+  dtbl->maxcode[17] = 0xFFFFFL;
+
+  memset((void *)(dtbl->look_nbits), 0, (size_t)(((size_t) sizeof(dtbl->look_nbits))));
+
+  p = 0;
+  for (l = 1; l <= 8; l++) {
+    for (i = 1; i <= (int) htbl->bits[l]; i++, p++) {
+      lookbits = huffcode[p] << (8-l);
+      for (ctr = 1 << (8-l); ctr > 0; ctr--) {
+	dtbl->look_nbits[lookbits] = l;
+	dtbl->look_sym[lookbits] = htbl->huffval[p];
+	lookbits++;
+      }
+    }
+  }
+
+  if (isDC) {
+    for (i = 0; i < numsymbols; i++) {
+      int sym = htbl->huffval[i];
+      if (sym < 0 || sym > 15)
+	((cinfo)->err->msg_code = (JERR_BAD_HUFF_TABLE), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
+    }
+  }
+}

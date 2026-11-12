@@ -1,43 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8262F658();
+/* Corresponds to libpng 1.0.5 pngmem.c png_destroy_struct (open-source libpng 1.0.5), as altered by D3DX:
+   free() is replaced by fn_8265C990 (struct_ptr, 0x24810000), the tagged free that its png_malloc's
+   allocator fn_8265C940 pairs with. */
+typedef void  * png_voidp;
 
+extern void fn_8265C990(png_voidp ptr, unsigned long attributes);
 
-void fn_829B5070(ulonglong param_1)
-
+void
+fn_829B5070(png_voidp struct_ptr)
 {
-  code *pcVar1;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    return;
-  }
-  pcVar1 = (code *)fn_8262F658();
-  (*pcVar1)(param_1,0x24810000);
-  return;
+   if (struct_ptr != ((void *)0))
+   {
+      fn_8265C990(struct_ptr, 0x24810000);
+   }
 }
-

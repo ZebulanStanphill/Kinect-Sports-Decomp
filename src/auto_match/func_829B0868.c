@@ -1,204 +1,430 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829B5088();
-extern int fn_82F655D8();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82005730;
-extern unsigned int lbl_82005758;
-extern unsigned int lbl_82005F78;
-extern unsigned int lbl_82052590;
-extern unsigned int lbl_82052598;
-extern unsigned int lbl_820525A0;
-extern unsigned int lbl_820525A8;
-extern unsigned int lbl_820525B0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_71;
-extern unsigned int uStack_7a;
+/* Corresponds to libpng 1.0.5 pngrtran.c png_build_gamma_table (open-source libpng 1.0.5); D3DX built libpng without PNG_READ_BACKGROUND/bKGD/RGB_TO_GRAY and the user-transform options, with the Xbox 360 jmp_buf. */
+typedef unsigned char  Byte;
+typedef unsigned int   uInt;
+typedef unsigned long  uLong;
+typedef Byte   Bytef;
+typedef void  *voidpf;
+typedef voidpf (*alloc_func) (voidpf opaque, uInt items, uInt size);
+typedef void   (*free_func)  (voidpf opaque, voidpf address);
+typedef struct z_stream_s {
+    Bytef    *next_in;
+    uInt     avail_in;
+    uLong    total_in;
 
+    Bytef    *next_out;
+    uInt     avail_out;
+    uLong    total_out;
 
-void fn_829B0868(void)
+    char     *msg;
+    struct internal_state  *state;
 
+    alloc_func zalloc;
+    free_func  zfree;
+    voidpf     opaque;
+
+    int     data_type;
+    uLong   adler;
+    uLong   reserved;
+} z_stream;
+struct internal_state {int dummy;};
+typedef unsigned int size_t;
+typedef double jmp_buf[168]; /* Xbox 360 jmp_buf: 0x540 bytes (png_error reads error_fn at 0x540) */
+void *memset(void *d, const void *s, size_t n);
+typedef unsigned long png_uint_32;
+typedef long png_int_32;
+typedef unsigned short png_uint_16;
+typedef unsigned char png_byte;
+typedef size_t png_size_t;
+typedef void             * png_voidp;
+typedef png_byte         * png_bytep;
+typedef png_uint_16      * png_uint_16p;
+typedef const char   * png_const_charp;
+typedef char             * png_charp;
+typedef png_uint_16      *  * png_uint_16pp;
+typedef char             *  * png_charpp;
+typedef struct png_color_struct
 {
-  byte bVar1;
-  uint uVar2;
-  int iVar3;
-  undefined4 uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  longlong lVar7;
-  ulonglong uVar8;
-  uint uVar9;
-  int iVar10;
-  int iVar11;
-  uint uVar12;
-  int iVar13;
-  bool bVar14;
-  double dVar15;
-  double dVar16;
-  double dVar17;
-  double dVar18;
-  double dVar19;
-  undefined2 uStack_7a;
-  undefined1 uStack_71;
-  
-  iVar3 = fn_82F6A548();
-  dVar16 = (double)*(float *)(iVar3 + 0x630);
-  if (dVar16 != (double)lbl_821AAD20) {
-    if (*(byte *)(iVar3 + 0x617) < 9) {
-      dVar17 = lbl_82005758;
-      if (lbl_82005F78 < (double)*(float *)(iVar3 + 0x634)) {
-        dVar17 = lbl_82005758 / (double)(float)((double)*(float *)(iVar3 + 0x634) * dVar16);
-      }
-      uVar4 = fn_829B5088(iVar3,0x100);
-      *(undefined4 *)(iVar3 + 0x638) = uVar4;
-      iVar10 = 0;
-      dVar16 = lbl_82005730;
-      dVar19 = lbl_820525B0;
-      dVar18 = lbl_820525A8;
-      do {
-        dVar15 = (double)fn_82F655D8((double)(longlong)iVar10 * dVar18,dVar17);
-        uStack_71 = (undefined1)(longlong)(dVar15 * dVar19 + dVar16);
-        *(undefined1 *)(*(int *)(iVar3 + 0x638) + iVar10) = uStack_71;
-        iVar10 = iVar10 + 1;
-      } while (iVar10 < 0x100);
-    }
-    else {
-      if ((*(byte *)(iVar3 + 0x616) & 2) == 0) {
-        uVar8 = (ulonglong)*(byte *)(iVar3 + 0x653);
-      }
-      else {
-        bVar1 = *(byte *)(iVar3 + 0x650);
-        if (*(byte *)(iVar3 + 0x650) < *(byte *)(iVar3 + 0x651)) {
-          bVar1 = *(byte *)(iVar3 + 0x651);
-        }
-        uVar8 = (ulonglong)bVar1;
-        if (bVar1 < *(byte *)(iVar3 + 0x652)) {
-          uVar8 = (ulonglong)*(byte *)(iVar3 + 0x652);
-        }
-      }
-      uVar5 = 0x10 - uVar8;
-      if ((int)uVar8 == 0) {
-        uVar5 = 0;
-      }
-      if (((*(uint *)(iVar3 + 0x560) & 0x400) != 0) && ((int)uVar5 < 5)) {
-        uVar5 = 5;
-      }
-      if (8 < (int)uVar5) {
-        uVar5 = 8;
-      }
-      uVar5 = ((uVar5 & 0xffffffff) >> 0x1f) - 1 & uVar5;
-      uVar2 = (uint)uVar5;
-      uVar9 = 8 - uVar2;
-      bVar14 = lbl_82005F78 < (double)*(float *)(iVar3 + 0x634);
-      *(uint *)(iVar3 + 0x62c) = uVar2 & 0xff;
-      uVar12 = 1 << (uVar9 & 0x3f);
-      uVar8 = (ulonglong)uVar12;
-      dVar17 = lbl_82005758;
-      if (bVar14) {
-        dVar17 = lbl_82005758 / (double)(float)((double)*(float *)(iVar3 + 0x634) * dVar16);
-      }
-      dVar16 = lbl_82005758;
-      uVar4 = fn_829B5088(iVar3,uVar12 << 2);
-      *(undefined4 *)(iVar3 + 0x644) = uVar4;
-      if ((*(uint *)(iVar3 + 0x560) & 0x480) == 0) {
-        iVar10 = 0;
-        if (0 < (int)uVar12) {
-          iVar11 = 0;
-          dVar16 = lbl_82052590;
-          dVar19 = lbl_82052598;
-          dVar18 = lbl_82005730;
-          do {
-            uVar4 = fn_829B5088(iVar3,0x200);
-            iVar13 = 0;
-            *(undefined4 *)(iVar11 + *(int *)(iVar3 + 0x644)) = uVar4;
-            uVar8 = ((longlong)*(int *)((int)((uVar5 & 0xffffffff) << 2) + -0x7cea3de4) *
-                     (longlong)iVar10 & 0xffffffffU) >> 4;
-            do {
-              dVar15 = (double)fn_82F655D8((double)(uVar8 & 0xffffffff) * dVar19,dVar17);
-              uVar8 = uVar8 + 0x100;
-              uStack_7a = (undefined2)(longlong)(dVar15 * dVar16 + dVar18);
-              *(undefined2 *)(*(int *)(iVar11 + *(int *)(iVar3 + 0x644)) + iVar13) = uStack_7a;
-              iVar13 = iVar13 + 2;
-            } while (iVar13 < 0x200);
-            iVar10 = iVar10 + 1;
-            iVar11 = iVar11 + 4;
-          } while (iVar10 < (int)uVar12);
-        }
-      }
-      else {
-        if (0 < (int)uVar12) {
-          iVar10 = 0;
-          do {
-            uVar4 = fn_829B5088(iVar3,0x200);
-            uVar8 = uVar8 - 1;
-            *(undefined4 *)(iVar10 + *(int *)(iVar3 + 0x644)) = uVar4;
-            iVar10 = iVar10 + 4;
-          } while (uVar8 != 0);
-        }
-        dVar16 = dVar16 / dVar17;
-        uVar8 = ((ulonglong)uVar12 & 0xffffff) << 8;
-        uVar5 = 0;
-        iVar10 = 0;
-        dVar18 = (double)uVar8;
-        dVar17 = lbl_820525A0;
-        dVar19 = lbl_82005730;
-        do {
-          dVar15 = (double)fn_82F655D8(((double)(longlong)iVar10 + dVar19) * dVar17,dVar16);
-          uVar6 = (longlong)(dVar15 * dVar18) & 0xffffffff;
-          if ((uVar5 & 0xffffffff) <= uVar6) {
-            lVar7 = (uVar6 - uVar5) + 1;
-            do {
-              uVar6 = (longlong)(0xff >> (uVar2 & 0x3f)) & uVar5;
-              uVar12 = (uint)uVar5;
-              uVar5 = uVar5 + 1;
-              *(ushort *)
-               (*(int *)((int)((uVar6 & 0xffffffff) << 2) + *(int *)(iVar3 + 0x644)) +
-               (uVar12 >> (uVar9 & 0x3f)) * 2) = (ushort)iVar10 << 8 | (ushort)iVar10;
-              lVar7 = lVar7 + -1;
-            } while (lVar7 != 0);
-          }
-          iVar10 = iVar10 + 1;
-        } while (iVar10 < 0x100);
-        if ((uVar5 & 0xffffffff) < uVar8) {
-          do {
-            uVar6 = (longlong)(0xff >> (uVar2 & 0x3f)) & uVar5;
-            uVar12 = (uint)uVar5;
-            uVar5 = uVar5 + 1;
-            *(undefined2 *)
-             (*(int *)((int)((uVar6 & 0xffffffff) << 2) + *(int *)(iVar3 + 0x644)) +
-             (uVar12 >> (uVar9 & 0x3f)) * 2) = 0xffff;
-          } while ((uVar5 & 0xffffffff) < uVar8);
-        }
-      }
-    }
-  }
-  fn_82F6A594();
-  return;
-}
+   png_byte red;
+   png_byte green;
+   png_byte blue;
+} png_color;
+typedef png_color  * png_colorp;
+typedef struct png_color_16_struct
+{
+   png_byte index;
+   png_uint_16 red;
+   png_uint_16 green;
+   png_uint_16 blue;
+   png_uint_16 gray;
+} png_color_16;
+typedef struct png_color_8_struct
+{
+   png_byte red;
+   png_byte green;
+   png_byte blue;
+   png_byte gray;
+   png_byte alpha;
+} png_color_8;
+typedef struct png_text_struct
+{
+   int compression;
+   png_charp key;
+   png_charp text;
+   png_size_t text_length;
+} png_text;
+typedef png_text  * png_textp;
+typedef struct png_time_struct
+{
+   png_uint_16 year;
+   png_byte month;
+   png_byte day;
+   png_byte hour;
+   png_byte minute;
+   png_byte second;
+} png_time;
+typedef struct png_info_struct
+{
 
+   png_uint_32 width;
+   png_uint_32 height;
+   png_uint_32 valid;
+   png_uint_32 rowbytes;
+   png_colorp palette;
+   png_uint_16 num_palette;
+   png_uint_16 num_trans;
+   png_byte bit_depth;
+   png_byte color_type;
+   png_byte compression_type;
+   png_byte filter_type;
+   png_byte interlace_type;
+
+   png_byte channels;
+   png_byte pixel_depth;
+   png_byte spare_byte;
+   png_byte signature[8];
+
+   float gamma;
+
+   png_byte srgb_intent;
+
+   int num_text;
+   int max_text;
+   png_textp text;
+
+   png_time mod_time;
+
+   png_color_8 sig_bit;
+
+   png_bytep trans;
+   png_color_16 trans_values;
+
+   png_color_16 background;
+
+   png_uint_32 x_offset;
+   png_uint_32 y_offset;
+   png_byte offset_unit_type;
+
+   png_uint_32 x_pixels_per_unit;
+   png_uint_32 y_pixels_per_unit;
+   png_byte phys_unit_type;
+
+   png_uint_16p hist;
+
+   float x_white;
+   float y_white;
+   float x_red;
+   float y_red;
+   float x_green;
+   float y_green;
+   float x_blue;
+   float y_blue;
+
+   png_charp pcal_purpose;
+   png_int_32 pcal_X0;
+   png_int_32 pcal_X1;
+   png_charp pcal_units;
+   png_charpp pcal_params;
+   png_byte pcal_type;
+   png_byte pcal_nparams;
+} png_info;
+typedef png_info  * png_infop;
+typedef struct png_row_info_struct
+{
+   png_uint_32 width;
+   png_uint_32 rowbytes;
+   png_byte color_type;
+   png_byte bit_depth;
+   png_byte channels;
+   png_byte pixel_depth;
+} png_row_info;
+typedef png_row_info  * png_row_infop;
+typedef struct png_struct_def png_struct;
+typedef png_struct  * png_structp;
+typedef void (*png_error_ptr) (png_structp, png_const_charp);
+typedef void (*png_rw_ptr) (png_structp, png_bytep, png_size_t);
+typedef void (*png_flush_ptr) (png_structp);
+typedef void (*png_read_status_ptr) (png_structp, png_uint_32, int);
+typedef void (*png_write_status_ptr) (png_structp, png_uint_32, int);
+typedef void (*png_progressive_info_ptr) (png_structp, png_infop);
+typedef void (*png_progressive_end_ptr) (png_structp, png_infop);
+typedef void (*png_progressive_row_ptr) (png_structp, png_bytep, png_uint_32, int);
+typedef void (*png_user_transform_ptr) (png_structp, png_row_infop, png_bytep);
+struct png_struct_def
+{
+   jmp_buf jmpbuf;
+
+   png_error_ptr error_fn;
+   png_error_ptr warning_fn;
+   png_voidp error_ptr;
+   png_rw_ptr write_data_fn;
+   png_rw_ptr read_data_fn;
+   png_voidp io_ptr;
+
+
+   png_uint_32 mode;
+   png_uint_32 flags;
+   png_uint_32 transformations;
+
+   z_stream zstream;
+   png_bytep zbuf;
+   png_size_t zbuf_size;
+   int zlib_level;
+   int zlib_method;
+   int zlib_window_bits;
+   int zlib_mem_level;
+   int zlib_strategy;
+
+   png_uint_32 width;
+   png_uint_32 height;
+   png_uint_32 num_rows;
+   png_uint_32 usr_width;
+   png_uint_32 rowbytes;
+   png_uint_32 irowbytes;
+   png_uint_32 iwidth;
+   png_uint_32 row_number;
+   png_bytep prev_row;
+   png_bytep row_buf;
+   png_bytep sub_row;
+   png_bytep up_row;
+   png_bytep avg_row;
+   png_bytep paeth_row;
+   png_row_info row_info;
+
+   png_uint_32 idat_size;
+   png_uint_32 crc;
+   png_colorp palette;
+   png_uint_16 num_palette;
+   png_uint_16 num_trans;
+   png_byte chunk_name[5];
+   png_byte compression;
+   png_byte filter;
+   png_byte interlaced;
+   png_byte pass;
+   png_byte do_filter;
+   png_byte color_type;
+   png_byte bit_depth;
+   png_byte usr_bit_depth;
+   png_byte pixel_depth;
+   png_byte channels;
+   png_byte usr_channels;
+   png_byte sig_bytes;
+
+   png_uint_16 filler;
+
+
+   png_flush_ptr output_flush_fn;
+   png_uint_32 flush_dist;
+   png_uint_32 flush_rows;
+
+   int gamma_shift;
+   float gamma;
+   float screen_gamma;
+
+   png_bytep gamma_table;
+   png_bytep gamma_from_1;
+   png_bytep gamma_to_1;
+   png_uint_16pp gamma_16_table;
+   png_uint_16pp gamma_16_from_1;
+   png_uint_16pp gamma_16_to_1;
+
+   png_color_8 sig_bit;
+
+   png_color_8 shift;
+
+   png_bytep trans;
+   png_color_16 trans_values;
+   png_read_status_ptr read_row_fn;
+   png_write_status_ptr write_row_fn;
+
+   png_progressive_info_ptr info_fn;
+   png_progressive_row_ptr row_fn;
+   png_progressive_end_ptr end_fn;
+   png_bytep save_buffer_ptr;
+   png_bytep save_buffer;
+   png_bytep current_buffer_ptr;
+   png_bytep current_buffer;
+   png_uint_32 push_length;
+   png_uint_32 skip_length;
+   png_size_t save_buffer_size;
+   png_size_t save_buffer_max;
+   png_size_t buffer_size;
+   png_size_t current_buffer_size;
+   int process_mode;
+   int cur_palette;
+
+   png_size_t current_text_size;
+   png_size_t current_text_left;
+   png_charp current_text;
+   png_charp current_text_ptr;
+
+   png_bytep palette_lookup;
+   png_bytep dither_index;
+
+   png_uint_16p hist;
+
+   png_byte heuristic_method;
+   png_byte num_prev_filters;
+   png_bytep prev_filters;
+   png_uint_16p filter_weights;
+   png_uint_16p inv_filter_weights;
+   png_uint_16p filter_costs;
+   png_uint_16p inv_filter_costs;
+
+   png_charp time_buffer;
+
+   png_byte rgb_to_gray_status;
+   png_byte rgb_to_gray_red_coeff;
+   png_byte rgb_to_gray_green_coeff;
+   png_byte rgb_to_gray_blue_coeff;
+
+   png_byte empty_plte_permitted;
+};
+extern png_voidp fn_829B5088 (png_structp png_ptr, png_uint_32 size);
+extern double fn_82F655D8 (double x, double y);
+extern const int lbl_8315C21C[];
+
+void
+fn_829B0868(png_structp png_ptr)
+{
+  if(png_ptr->gamma != 0.0)
+  {
+   if (png_ptr->bit_depth <= 8)
+   {
+      int i;
+      double g;
+
+      if (png_ptr->screen_gamma > .000001)
+         g = 1.0 / (png_ptr->gamma * png_ptr->screen_gamma);
+      else
+         g = 1.0;
+
+      png_ptr->gamma_table = (png_bytep)fn_829B5088(png_ptr,
+         (png_uint_32)256);
+
+      for (i = 0; i < 256; i++)
+      {
+         png_ptr->gamma_table[i] = (png_byte)(fn_82F655D8((double)i / 255.0,
+            g) * 255.0 + .5);
+      }
+
+   }
+   else
+   {
+      double g;
+      int i, j, shift, num;
+      int sig_bit;
+      png_uint_32 ig;
+
+      if (png_ptr->color_type & 2)
+      {
+         sig_bit = (int)png_ptr->sig_bit.red;
+         if ((int)png_ptr->sig_bit.green > sig_bit)
+            sig_bit = png_ptr->sig_bit.green;
+         if ((int)png_ptr->sig_bit.blue > sig_bit)
+            sig_bit = png_ptr->sig_bit.blue;
+      }
+      else
+      {
+         sig_bit = (int)png_ptr->sig_bit.gray;
+      }
+
+      if (sig_bit > 0)
+         shift = 16 - sig_bit;
+      else
+         shift = 0;
+
+      if (png_ptr->transformations & 0x0400)
+      {
+         if (shift < (16 - 11))
+            shift = (16 - 11);
+      }
+
+      if (shift > 8)
+         shift = 8;
+      if (shift < 0)
+         shift = 0;
+
+      png_ptr->gamma_shift = (png_byte)shift;
+
+      num = (1 << (8 - shift));
+
+      if (png_ptr->screen_gamma > .000001)
+         g = 1.0 / (png_ptr->gamma * png_ptr->screen_gamma);
+      else
+         g = 1.0;
+
+      png_ptr->gamma_16_table = (png_uint_16pp)fn_829B5088(png_ptr,
+         (png_uint_32)(num * sizeof (png_uint_16p)));
+
+      if (png_ptr->transformations & (0x0400 | 0x0080))
+      {
+         double fin, fout;
+         png_uint_32 last, max;
+
+         for (i = 0; i < num; i++)
+         {
+            png_ptr->gamma_16_table[i] = (png_uint_16p)fn_829B5088(png_ptr,
+               (png_uint_32)(256 * sizeof (png_uint_16)));
+         }
+
+         g = 1.0 / g;
+         last = 0;
+         for (i = 0; i < 256; i++)
+         {
+            fout = ((double)i + 0.5) / 256.0;
+            fin = fn_82F655D8(fout, g);
+            max = (png_uint_32)(fin * (double)((png_uint_32)num << 8));
+            while (last <= max)
+            {
+               png_ptr->gamma_16_table[(int)(last & (0xff >> shift))]
+                  [(int)(last >> (8 - shift))] = (png_uint_16)(
+                  (png_uint_16)i | ((png_uint_16)i << 8));
+               last++;
+            }
+         }
+         while (last < ((png_uint_32)num << 8))
+         {
+            png_ptr->gamma_16_table[(int)(last & (0xff >> shift))]
+               [(int)(last >> (8 - shift))] = (png_uint_16)65535L;
+            last++;
+         }
+      }
+      else
+      {
+         for (i = 0; i < num; i++)
+         {
+            png_ptr->gamma_16_table[i] = (png_uint_16p)fn_829B5088(png_ptr,
+               (png_uint_32)(256 * sizeof (png_uint_16)));
+
+            ig = (((png_uint_32)i * (png_uint_32)lbl_8315C21C[shift]) >> 4);
+            for (j = 0; j < 256; j++)
+            {
+               png_ptr->gamma_16_table[i][j] =
+                  (png_uint_16)(fn_82F655D8((double)(ig + ((png_uint_32)j << 8)) /
+                     65535.0, g) * 65535.0 + .5);
+            }
+         }
+      }
+   }
+ }
+}

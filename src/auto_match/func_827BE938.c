@@ -1,53 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int jpeg_add_quant_table();
+/* Corresponds to libjpeg 6b jcparam.c jpeg_set_quality (open-source IJG libjpeg 6b), with jpeg_quality_scaling inlined. */
 
+typedef unsigned char boolean;
+typedef struct jpeg_compress_struct * j_compress_ptr;
 
-void jpeg_set_quality(undefined8 param_1,longlong param_2,undefined8 param_3)
+extern void jpeg_set_linear_quality (j_compress_ptr cinfo, int scale_factor,
+                                     boolean force_baseline);
 
+static __forceinline int
+jpeg_quality_scaling (int quality)
 {
-  longlong lVar1;
-  
-  if ((int)param_2 < 1) {
-    param_2 = 1;
-  }
-  if (100 < (int)param_2) {
-    param_2 = 100;
-  }
-  if ((int)param_2 < 0x32) {
-    trapWord(6,param_2,0);
-    lVar1 = (longlong)(5000 / (int)param_2);
-  }
-  else {
-    lVar1 = (100U - param_2 & 0x7fffffff) << 1;
-  }
-  jpeg_add_quant_table(param_1,0,0xffffffff82017830,lVar1,param_3);
-  jpeg_add_quant_table(param_1,1,0xffffffff82017730,lVar1,param_3);
-  return;
+  if (quality <= 0) quality = 1;
+  if (quality > 100) quality = 100;
+
+  if (quality < 50)
+    quality = 5000 / quality;
+  else
+    quality = 200 - quality*2;
+
+  return quality;
 }
 
+void
+jpeg_set_quality (j_compress_ptr cinfo, int quality, boolean force_baseline)
+{
+  quality = jpeg_quality_scaling(quality);
+
+  jpeg_set_linear_quality(cinfo, quality, force_baseline);
+}
