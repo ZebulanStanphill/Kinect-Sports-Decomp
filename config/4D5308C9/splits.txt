@@ -193391,7 +193391,7 @@ auto_match/func_8309EE78.c:
 	.pdata      start:0x82228DC8 end:0x82228DD0
 	.text       start:0x8309EE78 end:0x8309EED8
 
-auto_match/func_8309EED8.c:
+auto_match/func_8309EED8.cpp:
 	.pdata      start:0x82228DD0 end:0x82228DD8
 	.text       start:0x8309EED8 end:0x8309EFEC
 
