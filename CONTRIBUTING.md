@@ -10,7 +10,7 @@ On Windows, use `py` where these instructions say `python3`. In PowerShell, end 
 
 ## Work on a function
 
-Choose a function in `src/auto_match/` whose entry in `config/4D5308C9/objects.json` is `NonMatching`. Work on a separate branch so others can work on different functions at the same time. Read its C, the corresponding assembly in `build/4D5308C9/asm/auto_match/`, and its object in objdiff.
+Choose a function in `src/auto_match/` whose entry in `config/4D5308C9/objects.json` is `NonMatching`. Work on a separate branch so others can work on different functions at the same time. Read its C, the corresponding assembly in `build/4D5308C9/asm/auto_match/`, and its object in objdiff. If [docs/source_files.tsv](docs/source_files.tsv) lists the function, it names the original source file; the other functions of that file were built with the same flags and share its types and helpers ([docs/source_files.md](docs/source_files.md)).
 
 Build the original object once, then compile and compare just your function as you iterate:
 
