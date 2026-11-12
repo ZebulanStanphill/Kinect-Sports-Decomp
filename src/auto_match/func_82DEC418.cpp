@@ -39,7 +39,6 @@ public:
 
 extern "C" void fn_82CEAB00(void *map, hkMemoryAllocator *alloc, int numElements);   // hkMapBase<hkUlong, hkUlong>::reserve
 extern "C" void fn_82D8A058(hkpEntity *entity, hkpContactListener *cl);              // hkpEntity::addContactListener
-extern "C" const float lbl_82134508;                                                  // HK_REAL_MAX
 
 // Only what LimitContactImpulseUtil touches.
 class hkpEntity {

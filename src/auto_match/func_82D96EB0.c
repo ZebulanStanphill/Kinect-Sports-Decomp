@@ -14,7 +14,6 @@ typedef struct Obj_82D96EB0 {
 } Obj_82D96EB0;
 
 extern void fn_82CE5458(void *dst, const void *src);
-extern float lbl_82134508;
 
 static __forceinline void Sub_init_82D96EB0(Sub_82D96EB0 *s, float v)
 {
@@ -28,6 +27,6 @@ Obj_82D96EB0 *fn_82D96EB0(Obj_82D96EB0 *param_1)
     param_1->f0 = 2;
     param_1->f90 = 0xc;
     Sub_init_82D96EB0(&param_1->s, 1.0f);
-    param_1->f98 = lbl_82134508;
+    param_1->f98 = 3.40282e+38f;
     return param_1;
 }

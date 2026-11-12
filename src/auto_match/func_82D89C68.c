@@ -1,6 +1,5 @@
 extern void fn_82D907E8(int a, struct Node *n);
 extern void fn_82D92868(int a, struct Node *n);
-static const float lbl_82134508 = 3.40282e+38f;
 
 typedef struct Item {
     char pad[0x1dc];
@@ -56,8 +55,8 @@ void fn_82D89C68(Ctx *c)
             do {
                 Item *it = *pp++;
                 i++;
-                it->a = lbl_82134508;
-                it->b = lbl_82134508;
+                it->a = 3.40282e+38f;
+                it->b = 3.40282e+38f;
             } while (i < n->count);
         }
         fn_82D907E8(c->owner, n);

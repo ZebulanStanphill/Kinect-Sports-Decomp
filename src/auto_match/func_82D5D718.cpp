@@ -2,11 +2,11 @@
 typedef __declspec(passinreg) union __vector4 {float f[4];unsigned int u[4];} __vector4;
 extern "C" __vector4 __vxor(__vector4,__vector4);
 struct __declspec(align(16)) hkVector4 {__vector4 q;};
-extern "C" {extern const float lbl_82134508;extern const hkVector4 lbl_8209AB20;}
+extern "C" {extern const hkVector4 lbl_8209AB20;}
 struct Input {unsigned __int64 prefix[10];hkVector4 path;unsigned __int64 suffix[2];};
 class hkpCdPointCollector {public:virtual void addCdPoint(const void*);float early;};
 class hkpSymmetricAgentFlipCastCollector:public hkpCdPointCollector {public:
- HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &v,void *target){early=lbl_82134508;path.q=v.q;collector=target;}
+ HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &v,void *target){early=3.40282e+38f;path.q=v.q;collector=target;}
  hkVector4 path;void *collector;
 };
 extern "C" void fn_82D5C4B0(void*,void*,Input*,hkpCdPointCollector*,hkpCdPointCollector*);

@@ -5,10 +5,10 @@
 // job's header, and the job is handed back with hkJobQueue::finishJobAndGetNextJob (fn_82CE8E78).
 //
 // HK_REAL_MAX: the original uses the literal 3.40282e+38f, loaded once into f31 and kept across the
-// calls; the game's copy of that constant is lbl_82134508, which Matching C units reference. A literal
+// calls; the game's copy of that constant is __real@7f7fffee, which Matching C units reference. A literal
 // gets the name of the first constant with its value that the compiler meets in the unit, so
-// lbl_82134508 is defined here (selectany) and read by the function below, compiled first; the literal
-// in fn_82DC39A0 then loads lbl_82134508 and still keeps it in f31.
+// __real@7f7fffee is defined here (selectany) and read by the function below, compiled first; the literal
+// in fn_82DC39A0 then loads __real@7f7fffee and still keeps it in f31.
 //
 // Status: 100% at /O2 (Havok code; flag file). Commutative operand order (add/lwzx) follows the
 // order in which named locals are declared: the sector size is one local `sectorSize`, declared
@@ -136,9 +136,8 @@ struct hkpProcessCdPoint {
 };
 
 #define HK_REAL_MAX 3.40282e+38f
-extern "C" __declspec(selectany) const float lbl_82134508 = HK_REAL_MAX;
-// Compiled first: makes lbl_82134508 the name of the HK_REAL_MAX literal in this unit.
-extern "C" float hkRealMaxPoolAnchor_82DC39A0() { return lbl_82134508; }
+// Compiled first: makes __real@7f7fffee the name of the HK_REAL_MAX literal in this unit.
+extern "C" float hkRealMaxPoolAnchor_82DC39A0() { return 3.40282e+38f; }
 struct hkpProcessCollisionOutput {
     HK_FORCE_INLINE hkpProcessCollisionOutput(class hkpConstraintOwner *owner) : m_constraintOwner(owner)
     {

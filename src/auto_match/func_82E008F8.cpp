@@ -5,7 +5,7 @@
 // hkpCollidable's constructor is out of line in the game (fn_8253D7A8).
 //
 // The original uses the literals HK_REAL_EPSILON and HK_REAL_MAX, whose loads the scheduler is free
-// to move; the game's copies are __real@34000000 and lbl_82134508, which Matching C units reference, so
+// to move; the game's copies are __real@34000000 and __real@7f7fffee, which Matching C units reference, so
 // they are declared here as known constants (as in func_83096D00.cpp). Built with /QVMXReserve
 // (the vector copies use v0/v13).
 #include "havok/hkBase.h"
@@ -24,7 +24,6 @@ public:
 };
 class hkTransform { public: hkVector4 m_rotation[3]; hkVector4 m_translation; };
 
-extern "C" __declspec(selectany) const hkReal lbl_82134508 = 3.40282e+38f;   // HK_REAL_MAX
 
 class hkpShape;
 class hkpCollidable;
@@ -61,10 +60,10 @@ public:
 class hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = lbl_82134508; }
+    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = 3.40282e+38f; }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
     hkReal m_earlyOutDistance;
 };
 
@@ -76,7 +75,7 @@ public:
     HK_FORCE_INLINE virtual void reset()
     {
         m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(lbl_82134508);
+        m_hitPoint.m_contact.setDistance(3.40282e+38f);
         hkpCdPointCollector::reset();
     }
     HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }

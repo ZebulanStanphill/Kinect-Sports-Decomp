@@ -37,7 +37,6 @@ public:
 
 extern "C" void fn_82CEAB00(void *map, hkMemoryAllocator *alloc, int numElements);   // hkMapBase<hkUlong, hkUlong>::reserve
 extern "C" void fn_82D8A058(hkpEntity *entity, hkpContactListener *cl);              // hkpEntity::addContactListener
-extern "C" const float lbl_82134508;                                                  // HK_REAL_MAX
 
 // Only what LimitContactImpulseUtil touches.
 class hkpEntity {
@@ -95,7 +94,7 @@ hkpBreakOffPartsUtil::LimitContactImpulseUtil::LimitContactImpulseUtil(hkpBreakO
     : m_entity(entity)
 {
     m_maxImpulse.m_value = 0xff;
-    m_maxImpulseFactor = lbl_82134508;
+    m_maxImpulseFactor = 3.40282e+38f;
     entity->m_limitContactImpulseUtilAndFlag = this;
     entity->addContactListener(this);
 }

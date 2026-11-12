@@ -300122,11 +300122,7 @@
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
-        ],
-        "pool_aliases": {
-          "__real@7f7fffee": "lbl_82134508",
-          "__real@ff7fffee": "lbl_82134504"
-        }
+        ]
       },
       "auto_match/func_8307EC30.c": {
         "status": "NonMatching",

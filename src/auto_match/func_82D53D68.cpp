@@ -14,12 +14,11 @@ class hkVector4 { public:
 
 class hkpCdBody; struct hkpLinearCastCollisionInput { unsigned __int64 data[10]; hkVector4 path; unsigned __int64 extra[2]; };
 class hkpCdPointCollector { public: virtual ~hkpCdPointCollector() {} virtual void addCdPoint(const void *); virtual void reset(); float distance; };
-extern "C" const float lbl_82134508;
 extern "C" const __vector4 lbl_8209AB20;
 class hkpSymmetricAgentFlipCastCollector: public hkpCdPointCollector {
 public:
  HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE,hkpSymmetricAgentFlipCastCollector);
- HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &p,hkpCdPointCollector &c) { distance=lbl_82134508; path=p; target=&c; }
+ HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &p,hkpCdPointCollector &c) { distance=3.40282e+38f; path=p; target=&c; }
  virtual void addCdPoint(const void *);
  hkVector4 path; hkpCdPointCollector *target;
 };

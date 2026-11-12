@@ -1,7 +1,7 @@
 // hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldShape *)
 // (Physics/Collide/Shape/HeightField/CompressedSampledHeightField/hkpCompressedSampledHeightFieldShape.cpp), /O2 /QVMXReserve.
-// HK_REAL_MAX and -HK_REAL_MAX are lbl_82134508/lbl_82134504 (Matching units reference them, so they keep
-// their names); 1.0f / 65535.0f is a literal (the rename map names the game's copy __real@37800080).
+// HK_REAL_MAX and -HK_REAL_MAX are literals (__real@7f7fffee, __real@ff7fffee); 1.0f / 65535.0f is a
+// literal too (__real@37800080).
 // The array is reached through a local reference, which places the address computation as in the original.
 #include "havok/hkpShape.h"
 
@@ -12,8 +12,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 
 extern "C" double __fsel(double a, double b, double c);
 extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
-extern "C" const float lbl_82134508;   // HK_REAL_MAX
-extern "C" const float lbl_82134504;   // -HK_REAL_MAX
 
 class hkVector4 {
 public:
@@ -108,8 +106,8 @@ hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const
     hkArray<hkUint16> &storage = m_storage;
     setSize(storage, m_xRes * m_zRes);
 
-    hkReal maxv = lbl_82134504;
-    hkReal minv = lbl_82134508;
+    hkReal minv = 3.40282e+38f;
+    hkReal maxv = -3.40282e+38f;
     for (int z = 0; z < m_zRes; z++) {
         for (int x = 0; x < m_xRes; x++) {
             hkReal h = hf->getHeightAt(x, z);

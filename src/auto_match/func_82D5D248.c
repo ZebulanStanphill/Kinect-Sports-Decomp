@@ -1,4 +1,3 @@
-extern float lbl_82134508;
 
 typedef struct {
     int unk0;
@@ -18,5 +17,5 @@ static void Obj_setValue(Obj *o, float v)
 void fn_82D5D248(Obj *o)
 {
     o->count = 0;
-    Obj_setValue(o, lbl_82134508);
+    Obj_setValue(o, 3.40282e+38f);
 }

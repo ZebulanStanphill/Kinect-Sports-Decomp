@@ -10,8 +10,7 @@ struct Contact {hkVector4 position,normal;};
 struct hkpCdPoint {Contact contact;const hkpCdBody *a,*b;};
 class hkpCdBodyPairCollector {public:hkpCdBodyPairCollector():early(false){} virtual ~hkpCdBodyPairCollector(){} virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);hkBool early;};
 class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {public:virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);};
-extern "C" const float lbl_82134508;
-class hkpCdPointCollector {public:hkpCdPointCollector():distance(lbl_82134508){}hkpCdPointCollector(float d):distance(d){}virtual ~hkpCdPointCollector(){} virtual void addCdPoint(const hkpCdPoint&);float distance;};
+class hkpCdPointCollector {public:hkpCdPointCollector():distance(3.40282e+38f){}hkpCdPointCollector(float d):distance(d){}virtual ~hkpCdPointCollector(){} virtual void addCdPoint(const hkpCdPoint&);float distance;};
 class hkpSymmetricAgentFlipCollector : public hkpCdPointCollector {public:hkpSymmetricAgentFlipCollector(hkpCdPointCollector &c):collector(c){}hkpSymmetricAgentFlipCollector(hkpCdPointCollector&c,float d):hkpCdPointCollector(d),collector(c){}virtual void addCdPoint(const hkpCdPoint&);hkpCdPointCollector &collector;};
 class hkpClosestCdPointCollector : public hkpCdPointCollector {public:hkpClosestCdPointCollector(float d):hkpCdPointCollector(){rootA=0;contact.normal.m_quad.f[3]=d;distance=d;}virtual void addCdPoint(const hkpCdPoint&);Contact contact;const hkpCdBody *rootA,*rootB;unsigned keyA,keyB;};
 extern "C" void fn_82D74E60(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&);
@@ -22,7 +21,7 @@ extern "C" void fn_82D5C0E0(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisi
  {hkpFlagCdBodyPairCollector flag;fn_82D74E60(a,b,i,flag);
  if(flag.early){timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out);fn_82D6BE30(b,a,i,flip);}
  else {
- float inf=lbl_82134508;hkpClosestCdPointCollector c(inf);fn_82D75010(a,b,i,c);
+ float inf=3.40282e+38f;hkpClosestCdPointCollector c(inf);fn_82D75010(a,b,i,c);
  if(c.rootA) {
  if(c.contact.normal.m_quad.f[3] > *(float *)(b.shape+0x18)) {
  hkpCdPoint p;p.a=&a;p.b=&b;p.contact.position=c.contact.position;p.contact.normal=c.contact.normal;out.addCdPoint(p);

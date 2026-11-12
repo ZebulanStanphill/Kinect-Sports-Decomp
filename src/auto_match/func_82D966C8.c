@@ -25,13 +25,12 @@ typedef signed short S16;
 typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
-extern float lbl_82134508;
 
 
 void fn_82D966C8(int param_1,char param_2,undefined4 *param_3)
 
 {
-  if ((param_2 == '\0') && (*(float *)(param_1 + 0x44) == lbl_82134508)) {
+  if ((param_2 == '\0') && (*(float *)(param_1 + 0x44) == 3.40282e+38f)) {
     *param_3 = 0;
     param_3[1] = 0;
     return;

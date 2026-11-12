@@ -14,7 +14,6 @@ struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
 class hkpCdBodyPairCollector;
 
-extern "C" const float lbl_82134508;   // HK_REAL_MAX
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
     float vector4_f32[4];
@@ -49,7 +48,7 @@ public:
     hkpCdPointCollector() { reset(); }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
 
     hkReal m_earlyOutDistance;   // +0x4
 };

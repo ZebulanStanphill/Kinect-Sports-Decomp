@@ -14,7 +14,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 typedef __vector4 hkQuadReal;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-extern "C" const float lbl_82134508;      // HK_REAL_MAX
 
 class hkVector4 {
 public:
@@ -61,7 +60,7 @@ struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom {
 struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
     hkpBallSocketConstraintAtom()
         : hkpConstraintAtom(TYPE_BALL_SOCKET), m_bodiesToNotify(0), m_velocityStabilizationFactor(1.0f),
-          m_maxImpulse(lbl_82134508) {}
+          m_maxImpulse(3.40282e+38f) {}
     hkUint8 m_bodiesToNotify;                  // +0x2
     hkUFloat8 m_velocityStabilizationFactor;   // +0x3
     hkReal m_maxImpulse;                       // +0x4

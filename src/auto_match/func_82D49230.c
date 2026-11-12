@@ -52,7 +52,6 @@ extern unsigned int lbl_8323B4A0;
 void *KeTlsGetValue(unsigned int index);
 unsigned __int64 __mftb(void);
 
-extern float lbl_82134504;
 float fn_82D49230(Owner_82D49230 *self, void *direction)
 {
     ProfTls_82D49230 *t;
@@ -69,7 +68,7 @@ float fn_82D49230(Owner_82D49230 *self, void *direction)
         t->cur = p + 3;
     }
     it = &self->iter;
-    result = lbl_82134504;
+    result = -3.40282e+38f;
     for (id = it->vt->First(it); id != -1; id = it->vt->Next(it,id)) {
         Shape_82D49230 *shape = it->vt->Get(it,id,buf);
         float value = shape->vt->Project(shape,direction);

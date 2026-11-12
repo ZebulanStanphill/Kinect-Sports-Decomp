@@ -14,7 +14,6 @@ struct hkpLinearCastCollisionInput;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
 
-extern "C" const float lbl_82134508;   // HK_REAL_MAX
 
 class hkpCdBodyPairCollector {
 public:
@@ -33,7 +32,7 @@ public:
     hkpCdPointCollector() { reset(); }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
 
     hkReal m_earlyOutDistance;   // +0x4
 };

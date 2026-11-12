@@ -4,7 +4,7 @@
 // or 0 if nothing was hit. Havok code: /O2 /QVMXReserve (flag file); keeps its fn_ name.
 //
 // The 1.0f of hkMatrix3::setIdentity and HK_REAL_MAX are literals in the original, whose loads
-// the scheduler is free to move. The game's copy of HK_REAL_MAX is lbl_82134508, which Matching C
+// the scheduler is free to move. The game's copy of HK_REAL_MAX is __real@7f7fffee, which Matching C
 // units reference, so it is declared here as a known constant (selectany).
 #include "havok/hkBase.h"
 #include "havok/hkpShape.h"
@@ -17,7 +17,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 typedef __vector4 hkQuadReal;
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
-extern "C" __declspec(selectany) const hkReal lbl_82134508 = 3.40282e+38f;   // HK_REAL_MAX
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
 class hkVector4 {
@@ -110,10 +109,10 @@ public:
 class hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = lbl_82134508; }
+    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = 3.40282e+38f; }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
     hkReal m_earlyOutDistance;
 };
 
@@ -125,7 +124,7 @@ public:
     HK_FORCE_INLINE virtual void reset()
     {
         m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(lbl_82134508);
+        m_hitPoint.m_contact.setDistance(3.40282e+38f);
         hkpCdPointCollector::reset();
     }
     HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }

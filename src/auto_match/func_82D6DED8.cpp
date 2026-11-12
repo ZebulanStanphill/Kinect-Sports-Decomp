@@ -2,7 +2,7 @@
 extern "C" unsigned __int64 __mftb();
 struct Record { const char *name; unsigned time,pad; };
 struct Monitor { int pad; Record *next; int pad2; Record *end; };
-extern "C" { Monitor *KeTlsGetValue(unsigned); extern unsigned lbl_8323B4A0; extern float lbl_82134508; }
+extern "C" { Monitor *KeTlsGetValue(unsigned); extern unsigned lbl_8323B4A0;  }
 static HK_FORCE_INLINE void beginList() {
  Monitor *m=KeTlsGetValue(lbl_8323B4A0); Record *p=m->next;
  if(p<m->end) {p->name="LthkpBvAgent"; ((const char **)p)[3]="StcheckBvShape"; p->time=(unsigned)__mftb();m->next=(Record *)((char *)p+16);}
@@ -27,8 +27,8 @@ struct Input { Dispatcher *dispatcher; int pad[4]; int predictive; };
 struct BvAgent { void *vptr; int pad; void *mgr; Agent *bv; Agent *child; };
 class hkpCdBodyPairCollector { public: hkpCdBodyPairCollector(){} virtual void add(const Body &,const Body &); virtual ~hkpCdBodyPairCollector(){} hkBool early; };
 class hkpFlagCdBodyPairCollector:public hkpCdBodyPairCollector {public:hkpFlagCdBodyPairCollector(){early=false;}virtual void add(const Body &,const Body &);};
-class hkpCdPointCollector { public: hkpCdPointCollector():distance(lbl_82134508){} virtual void add(void *);virtual ~hkpCdPointCollector(){} float distance; };
-class __declspec(align(16)) hkpSimpleClosestContactCollector: public hkpCdPointCollector {public: hkpSimpleClosestContactCollector():hit(false),fraction(lbl_82134508){}virtual void add(void *);bool hit;char pad[35];float fraction;};
+class hkpCdPointCollector { public: hkpCdPointCollector():distance(3.40282e+38f){} virtual void add(void *);virtual ~hkpCdPointCollector(){} float distance; };
+class __declspec(align(16)) hkpSimpleClosestContactCollector: public hkpCdPointCollector {public: hkpSimpleClosestContactCollector():hit(false),fraction(3.40282e+38f){}virtual void add(void *);bool hit;char pad[35];float fraction;};
 static HK_FORCE_INLINE Agent *createChild(const Body &a,const Body &b,const Input &input,void *mgr) {
  int typeA=a.shape->type;int typeB=b.shape->type;
  Dispatcher *d=input.dispatcher;

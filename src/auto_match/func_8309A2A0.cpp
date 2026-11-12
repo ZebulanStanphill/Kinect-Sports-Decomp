@@ -2,12 +2,11 @@
 // Physics/Collide/Query/Multithreaded/CollisionQuery). Each command's closest points are
 // collected into a stack buffer by an hkpFixedBufferCdPointCollector and copied out, either
 // to the command's own buffer or to a slot of a shared buffer reserved with an atomic add.
-// HK_REAL_MAX is lbl_82134508 (the linker merged the literal into it); copying it into a
+// HK_REAL_MAX is __real@7f7fffee (the linker merged the literal into it); copying it into a
 // local keeps it in f31 across the loop as the literal did.
 #include "havok/hkBase.h"
 #include "havok/hkpShape.h"
 
-extern "C" const float lbl_82134508; // HK_REAL_MAX
 
 class hkpCdPoint;
 struct hkpCollisionInput;
@@ -122,7 +121,7 @@ extern "C" void fn_8309A2A0(const hkpPairGetClosestPointsJob *job, const hkpColl
     input.m_filter = collisionInput->m_filter;
     input.m_tolerance = job->m_tolerance;
 
-    hkReal earlyOut = lbl_82134508;
+    hkReal earlyOut = 3.40282e+38f;
     hkpRootCdPoint buffer[16];
     hkpFixedBufferCdPointCollector collector(buffer, 1, earlyOut);
 

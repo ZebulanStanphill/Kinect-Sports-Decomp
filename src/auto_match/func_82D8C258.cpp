@@ -77,7 +77,6 @@ void fn_82D93120(hkpMotion *, int);
 void fn_82D8B4B8(int, const hkVector4 &, const hkQuaternion &, float, const hkMatrix3 &, const hkVector4 &, float, float, hkpMotion *);
 void fn_82D8B2F8(hkpMotion *, int, unsigned int, unsigned char, unsigned char, unsigned char);
 unsigned char fn_83095E98(const hkpShape *);
-extern float lbl_82134508;
 }
 class hkpRigidBody;
 extern "C" { void fn_82D89BD8(hkpRigidBody *); void fn_82D8B400(hkpRigidBody *, const hkpShape *, hkVector4 *); }
@@ -141,7 +140,7 @@ extern "C" hkpRigidBody *fn_82D8C258(hkpRigidBody *self, const hkpRigidBodyCinfo
         fn_82D93120(fm, 1);
         self->m_motionState = &self->getRigidMotion()->m_motionState;
         depth = info.m_allowedPenetrationDepth;
-        if (depth <= 0.0f) depth = lbl_82134508;
+        if (depth <= 0.0f) depth = 3.40282e+38f;
     } else {
         fn_82D8B4B8(info.m_motionType, info.m_position, info.m_rotation, info.m_mass, info.m_inertiaTensor, info.m_centerOfMass, info.m_maxLinearVelocity, info.m_maxAngularVelocity, self->getRigidMotion());
         fn_82D93120(self->getRigidMotion(), info.m_solverDeactivation);

@@ -14,7 +14,6 @@ __vector4 __vspltw(__vector4 a, unsigned int i);
 }
 // The source's literals 1.0f and -HK_REAL_MAX, folded by the linker into the game's copies. Defined here so the
 // compiler knows they are read-only and schedules their loads like literals.
-extern "C" __declspec(selectany) const float lbl_82134504 = -3.40282e+38f;
 
 class hkVector4 {
 public:
@@ -177,7 +176,7 @@ hkpExtendedMeshShape::hkpExtendedMeshShape(hkReal radius, int numBitsForSubpartI
     m_triangleRadius = radius;
     m_numBitsForSubpartIndex = numBitsForSubpartIndex;
     m_weldingType = hkpWeldingUtility::WELDING_TYPE_NONE;
-    m_aabbHalfExtents.setAll(lbl_82134504);
+    m_aabbHalfExtents.setAll(-3.40282e+38f);
     m_aabbCenter.setZero4();
     m_cachedNumChildShapes = 0;
 }

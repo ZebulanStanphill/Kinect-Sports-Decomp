@@ -1,7 +1,7 @@
 // hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &, const hkVector4 &, hkReal, hkReal, hkReal, hkpRigidBody *,
 // const hkArray<mouseSpringAppliedCallback> *) (Physics/Utilities/Actions/MouseSpring/hkpMouseSpringAction.cpp), /O2 /QVMXReserve.
 // 250.0f and 1.0f are literals (the rename map names the game's copy of 250.0f __real@437a0000); HK_REAL_MAX
-// (lbl_82134508) keeps its name because Matching units reference it. hkpCollisionInput's members are hkPadSpu
+// (__real@7f7fffee) keeps its name because Matching units reference it. hkpCollisionInput's members are hkPadSpu
 // wrappers, so its implicit copy moves m_tolerance through integer registers; the closest-points function is
 // looked up before the input copy and the collector are built.
 #include "havok/hkBase.h"
@@ -11,7 +11,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
     unsigned int vector4_u32[4];
 } __vector4;
 
-extern "C" const float lbl_82134508;      // HK_REAL_MAX (Matching units reference it)
 
 class hkVector4 {
 public:
@@ -119,7 +118,7 @@ public:
     HK_FORCE_INLINE hkpCdPointCollector() { reset(); }
     HK_FORCE_INLINE virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point);
-    HK_FORCE_INLINE void reset() { m_earlyOutDistance = lbl_82134508; }
+    HK_FORCE_INLINE void reset() { m_earlyOutDistance = 3.40282e+38f; }
     hkReal m_earlyOutDistance;   // +0x4
 };
 
@@ -131,7 +130,7 @@ public:
     HK_FORCE_INLINE void reset()
     {
         m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(lbl_82134508);
+        m_hitPoint.m_contact.setDistance(3.40282e+38f);
         hkpCdPointCollector::reset();
     }
     HK_FORCE_INLINE hkBool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }

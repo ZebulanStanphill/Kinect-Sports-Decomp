@@ -14,7 +14,7 @@
 // them, for example fn_82D6EC40 registers fn_82D6EBD0 with hkpSymmetricAgent<hkpBvAgent>'s statics).
 // The collectors are interfaces without base class and with Havok's non-virtual class allocator; their
 // constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
-// HK_REAL_MAX constant is lbl_82134508 (3.40282e38f).
+// HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpShape.h"
 
 class hkpCdPoint;
@@ -28,7 +28,6 @@ struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
 typedef int hkBool32;
 
-extern "C" const float lbl_82134508;   // HK_REAL_MAX
 
 // hkVector4 holds a VMX register (hkQuadReal is the XDK's __vector4); setNeg4 flips the sign bits with
 // __vxor and the sign-mask constant lbl_8209AB20 (0x80000000 x 4). Copy construction is bitwise (the inputs
@@ -184,7 +183,7 @@ public:
     hkpCdPointCollector() { reset(); }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
 
     hkReal m_earlyOutDistance;   // +0x4
 };

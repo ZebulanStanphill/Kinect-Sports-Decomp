@@ -14,8 +14,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-extern "C" __declspec(selectany) const float lbl_82134504 = -3.40282e+38f;
-extern "C" __declspec(selectany) const float lbl_82134508 = 3.40282e+38f;
 
 class hkVector4 {
 public:
@@ -136,8 +134,8 @@ HK_FORCE_INLINE hkpPrismaticConstraintData::hkpPrismaticConstraintData()
 
     m_atoms.m_linLimit.m_axisIndex = 0;
     m_atoms.m_friction.m_frictionAxis = 0;
-    m_atoms.m_linLimit.m_min = lbl_82134504;
-    m_atoms.m_linLimit.m_max = lbl_82134508;
+    m_atoms.m_linLimit.m_min = -3.40282e+38f;
+    m_atoms.m_linLimit.m_max = 3.40282e+38f;
     m_atoms.m_friction.m_maxFrictionForce = 0.0f;
     m_atoms.m_motor.m_isEnabled = false;
     m_atoms.m_motor.m_targetPosition = 0.0f;

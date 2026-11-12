@@ -2,7 +2,7 @@
 // hkpBvTreeAgent.cpp), /O2 /QVMXReserve (flag file): the hkpCollisionAgent base, an empty
 // m_collisionPartners array, then both corners of m_cachedAabb set to HK_REAL_MAX (hkVector4::setAll
 // stores the float into the quad and splats it).
-// HK_REAL_MAX is a literal: the game's copy is lbl_82134508, which Matching units reference, so it is a
+// HK_REAL_MAX is a literal: the game's copy is __real@7f7fffee, which Matching units reference, so it is a
 // static constant with that name (an extern is reloaded after the array stores).
 #include "havok/hkBase.h"
 
@@ -13,7 +13,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 extern "C" __vector4 __vspltw(__vector4 a, unsigned int b);
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-static const float lbl_82134508 = 3.40282e+38f;
 
 class hkVector4 {
 public:
@@ -61,6 +60,6 @@ public:
 
 hkpBvTreeAgent::hkpBvTreeAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr)
 {
-    m_cachedAabb.m_max.setAll(lbl_82134508);
-    m_cachedAabb.m_min.setAll(lbl_82134508);
+    m_cachedAabb.m_max.setAll(3.40282e+38f);
+    m_cachedAabb.m_min.setAll(3.40282e+38f);
 }

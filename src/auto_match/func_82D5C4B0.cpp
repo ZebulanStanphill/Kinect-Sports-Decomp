@@ -11,7 +11,6 @@ struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
 typedef int hkBool32;
 
-extern "C" const float lbl_82134508;   // HK_REAL_MAX
 
 // hkVector4 holds a VMX register (hkQuadReal is the XDK's __vector4); setNeg4 flips the sign bits with
 // __vxor and the sign-mask constant lbl_8209AB20 (0x80000000 x 4). Copy construction is bitwise (the inputs
@@ -167,7 +166,7 @@ public:
     hkpCdPointCollector() { reset(); }
     virtual ~hkpCdPointCollector() {}
     virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = lbl_82134508; }
+    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
 
     hkReal m_earlyOutDistance;   // +0x4
 };
@@ -193,7 +192,7 @@ public: virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);
 };
 class hkpSimpleClosestContactCollector : public hkpCdPointCollector {
 public:
- hkpSimpleClosestContactCollector() : m_hasHit(false) { m_distance=lbl_82134508; m_earlyOutDistance=lbl_82134508; }
+ hkpSimpleClosestContactCollector() : m_hasHit(false) { m_distance=3.40282e+38f; m_earlyOutDistance=3.40282e+38f; }
  virtual void addCdPoint(const hkpCdPoint&);
  hkBool m_hasHit; char pad[0x23]; float m_distance; char tail[0x8];
 };

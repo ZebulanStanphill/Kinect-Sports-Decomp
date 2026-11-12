@@ -34,7 +34,6 @@ typedef hkUint32 hkpShapeKey;
 // hkArray stores. Declaring it as a plain extern makes the compiler reload it
 // after the vector stores; defining it (selectany, like a __real@ constant) keeps
 // the configured name and the original's code.
-extern "C" __declspec(selectany) const float lbl_82134508 = 3.40282e+38f;
 
 struct hkMotionState {
     char m_transformAndSweptTransform[0xA0];
@@ -79,8 +78,8 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     HK_FORCE_INLINE hkpBvTreeAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr)
     {
-        m_cachedAabb.m_max.setAll(lbl_82134508);
-        m_cachedAabb.m_min.setAll(lbl_82134508);
+        m_cachedAabb.m_max.setAll(3.40282e+38f);
+        m_cachedAabb.m_min.setAll(3.40282e+38f);
     }
     virtual ~hkpBvTreeAgent();
 

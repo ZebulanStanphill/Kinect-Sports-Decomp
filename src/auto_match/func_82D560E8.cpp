@@ -6,7 +6,7 @@
 // sets both corners to HK_REAL_MAX with hkVector4::setAll (store the float, then splat it).
 //
 // The original uses the literal HK_REAL_MAX (one lfs for both setAll calls); the game's copy of that
-// constant is lbl_82134508, which Matching C units reference, so it is declared as a known constant.
+// constant is __real@7f7fffee, which Matching C units reference, so it is declared as a known constant.
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 
@@ -18,7 +18,6 @@ typedef __vector4 hkQuadReal;
 
 extern "C" __vector4 __vspltw(__vector4, unsigned int);
 
-extern "C" __declspec(selectany) const hkReal lbl_82134508 = 3.40282e+38f;   // HK_REAL_MAX
 
 class hkVector4 {
 public:
@@ -53,8 +52,8 @@ class hkpBvTreeAgent : public hkpCollisionAgent {
 public:
     HK_FORCE_INLINE hkpBvTreeAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr)
     {
-        m_cachedAabb.m_max.setAll(lbl_82134508);
-        m_cachedAabb.m_min.setAll(lbl_82134508);
+        m_cachedAabb.m_max.setAll(3.40282e+38f);
+        m_cachedAabb.m_min.setAll(3.40282e+38f);
     }
 
     hkArray<hkpBvAgentEntryInfo *> m_collisionPartners;   // +0xc

@@ -1,5 +1,4 @@
 #include "havok/hkBase.h"
-extern "C" float lbl_82134508, lbl_82134504;
 struct Aabb { float data[8]; Aabb() {} };
 class Shape { public: virtual void f0(); virtual void f1(); virtual void f2(); virtual Aabb getAabb() const; };
 namespace hkgpMesh {
@@ -13,7 +12,7 @@ public:
  unsigned char hasOutput, hit, flag, extra;
  CollideShapeTriangle(void *d,const Shape *s,float t,unsigned char f,bool o,unsigned char e) :
  meshData(d),shape(s) {
- distance=lbl_82134508; hit=0; epsilon=lbl_82134504; extra=e; value=0.0f; tolerance=t; flag=f; hasOutput=o;
+ distance=3.40282e+38f; hit=0; epsilon=-3.40282e+38f; extra=e; value=0.0f; tolerance=t; flag=f; hasOutput=o;
  }
 };
 }
