@@ -37,7 +37,7 @@ typedef struct Obj_822B69A0 {
 } Obj_822B69A0;
 
 /* Rotates the vector held in v71 by the object's orientation: conj(q) * (v, 0) * q. */
-void fn_822B69A0(__vector4 *out, const Obj_822B69A0 *obj)
+__vector4 *fn_822B69A0(__vector4 *out, const Obj_822B69A0 *obj)
 {
     __vector4 signMask, a, c, r, q;
 
@@ -49,4 +49,5 @@ void fn_822B69A0(__vector4 *out, const Obj_822B69A0 *obj)
     c = __vrlimi(__vxor(q, signMask), q, 1, 0);
     r = QuaternionMultiply(c, a, signMask);
     *out = QuaternionMultiply(r, q, signMask);
+    return out;
 }
