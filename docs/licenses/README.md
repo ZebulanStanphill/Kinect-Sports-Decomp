@@ -57,6 +57,14 @@ The file names are upstream's. The folders were chosen for this project, after t
 owners above; the original build paths are not known. Library functions that are not
 yet part of such a unit are still single-function units in `src/auto_match/`.
 
+Where a file's code reaches one of its static tables from another table's address
+(MSVC loads the first table's address and adds the distance, with no relocation of its
+own), the unit also owns those tables' `.rdata` range in `splits.txt`, as the upstream
+object did: `jdhuff.c` and `jdphuff.c` (`extend_test`, `extend_offset`), `jmemmgr.c`
+(`first_pool_slop`, `extra_pool_slop`), and zlib 1.2.3's `inflate.c` (`fixedtables`'
+`lenfix` and `distfix`, and `inflate`'s `order`) and `inftrees.c` (`inflate_table`'s `lbase`, `lext`,
+`dbase` and `dext`). `symbols.txt` gives each of these tables its own symbol.
+
 Each of these units holds the upstream file as published, with only these changes:
 
 * its include lines point at `include/<library>-<version>/`;

@@ -77483,64 +77483,10 @@ Scaleform/jpeg-6b/jdinput.c:
 	.pdata      start:0x821FDB38 end:0x821FDB70
 	.text       start:0x827C00B0 end:0x827C0888
 
-auto_match/func_827C0888.c:
-	.text       start:0x827C0888 end:0x827C08AC
-
-auto_match/func_827C08B0.c:
-	.pdata      start:0x821FDB70 end:0x821FDB78
-	.text       start:0x827C08B0 end:0x827C0A6C
-
-auto_match/func_827C0A70.c:
-	.pdata      start:0x821FDB78 end:0x821FDB80
-	.text       start:0x827C0A70 end:0x827C0B84
-
-auto_match/func_827C0B88.c:
-	.pdata      start:0x821FDB80 end:0x821FDB88
-	.text       start:0x827C0B88 end:0x827C0C64
-
-auto_match/func_827C0C68.c:
-	.pdata      start:0x821FDB88 end:0x821FDB90
-	.text       start:0x827C0C68 end:0x827C0D4C
-
-auto_match/func_827C0D50.c:
-	.pdata      start:0x821FDB90 end:0x821FDB98
-	.text       start:0x827C0D50 end:0x827C0DE4
-
-auto_match/func_827C0DE8.c:
-	.pdata      start:0x821FDB98 end:0x821FDBA0
-	.text       start:0x827C0DE8 end:0x827C0E7C
-
-auto_match/func_827C0E80.c:
-	.pdata      start:0x821FDBA0 end:0x821FDBA8
-	.text       start:0x827C0E80 end:0x827C10A8
-
-auto_match/func_827C10A8.c:
-	.pdata      start:0x821FDBA8 end:0x821FDBB0
-	.text       start:0x827C10A8 end:0x827C1184
-
-auto_match/func_827C1188.c:
-	.pdata      start:0x821FDBB0 end:0x821FDBB8
-	.text       start:0x827C1188 end:0x827C1268
-
-auto_match/func_827C1268.c:
-	.pdata      start:0x821FDBB8 end:0x821FDBC0
-	.text       start:0x827C1268 end:0x827C1458
-
-auto_match/func_827C1458.c:
-	.pdata      start:0x821FDBC0 end:0x821FDBC8
-	.text       start:0x827C1458 end:0x827C164C
-
-auto_match/func_827C1650.c:
-	.pdata      start:0x821FDBC8 end:0x821FDBD0
-	.text       start:0x827C1650 end:0x827C17CC
-
-auto_match/func_827C17D0.c:
-	.pdata      start:0x821FDBD0 end:0x821FDBD8
-	.text       start:0x827C17D0 end:0x827C1838
-
-auto_match/func_827C1838.c:
-	.pdata      start:0x821FDBD8 end:0x821FDBE0
-	.text       start:0x827C1838 end:0x827C1964
+Scaleform/jpeg-6b/jmemmgr.c:
+	.rdata      start:0x82017AD8 end:0x82017AE8
+	.pdata      start:0x821FDB70 end:0x821FDBE0
+	.text       start:0x827C0888 end:0x827C1964
 
 Scaleform/jpeg-6b/jcomapi.c:
 	.pdata      start:0x821FDBE0 end:0x821FDC00
@@ -77585,61 +77531,15 @@ Scaleform/jpeg-6b/jdcoefct.c:
 	.pdata      start:0x821FDC40 end:0x821FDC78
 	.text       start:0x827C25F0 end:0x827C36D8
 
-auto_match/func_827C36D8.c:
-	.pdata      start:0x821FDC78 end:0x821FDC80
-	.text       start:0x827C36D8 end:0x827C3A34
+Scaleform/jpeg-6b/jdhuff.c:
+	.rdata      start:0x82017C28 end:0x82017CA8
+	.pdata      start:0x821FDC78 end:0x821FDCB0
+	.text       start:0x827C36D8 end:0x827C43E0
 
-auto_match/func_827C3A38.c:
-	.pdata      start:0x821FDC80 end:0x821FDC88
-	.text       start:0x827C3A38 end:0x827C3B98
-
-auto_match/func_827C3B98.c:
-	.pdata      start:0x821FDC88 end:0x821FDC90
-	.text       start:0x827C3B98 end:0x827C3CB4
-
-auto_match/func_827C3CB8.c:
-	.pdata      start:0x821FDC90 end:0x821FDC98
-	.text       start:0x827C3CB8 end:0x827C3D5C
-
-auto_match/func_827C3D60.c:
-	.pdata      start:0x821FDC98 end:0x821FDCA0
-	.text       start:0x827C3D60 end:0x827C41BC
-
-auto_match/func_827C41C0.c:
-	.pdata      start:0x821FDCA0 end:0x821FDCA8
-	.text       start:0x827C41C0 end:0x827C4364
-
-auto_match/func_827C4368.c:
-	.pdata      start:0x821FDCA8 end:0x821FDCB0
-	.text       start:0x827C4368 end:0x827C43E0
-
-auto_match/func_827C43E0.c:
-	.pdata      start:0x821FDCB0 end:0x821FDCB8
-	.text       start:0x827C43E0 end:0x827C4488
-
-auto_match/func_827C4488.c:
-	.pdata      start:0x821FDCB8 end:0x821FDCC0
-	.text       start:0x827C4488 end:0x827C46CC
-
-auto_match/func_827C46D0.c:
-	.pdata      start:0x821FDCC0 end:0x821FDCC8
-	.text       start:0x827C46D0 end:0x827C4924
-
-auto_match/func_827C4928.c:
-	.pdata      start:0x821FDCC8 end:0x821FDCD0
-	.text       start:0x827C4928 end:0x827C4A38
-
-auto_match/func_827C4A38.c:
-	.pdata      start:0x821FDCD0 end:0x821FDCD8
-	.text       start:0x827C4A38 end:0x827C4E40
-
-auto_match/func_827C4E40.c:
-	.pdata      start:0x821FDCD8 end:0x821FDCE0
-	.text       start:0x827C4E40 end:0x827C5128
-
-auto_match/func_827C5128.c:
-	.pdata      start:0x821FDCE0 end:0x821FDCE8
-	.text       start:0x827C5128 end:0x827C51F8
+Scaleform/jpeg-6b/jdphuff.c:
+	.rdata      start:0x82017CA8 end:0x82017D28
+	.pdata      start:0x821FDCB0 end:0x821FDCE8
+	.text       start:0x827C43E0 end:0x827C51F8
 
 Scaleform/jpeg-6b/jcinit.c:
 	.pdata      start:0x821FDCE8 end:0x821FDCF0
@@ -77840,56 +77740,10 @@ Scaleform/jpeg-6b/jfdctfst.c:
 auto_match/func_827D1970.c:
 	.text       start:0x827D1970 end:0x827D1B44
 
-auto_match/func_827D1B48.c:
-	.text       start:0x827D1B48 end:0x827D1BC8
-
-auto_match/func_827D1BC8.c:
-	.text       start:0x827D1BC8 end:0x827D1C28
-
-auto_match/func_827D1C28.c:
-	.pdata      start:0x821FE1B8 end:0x821FE1C0
-	.text       start:0x827D1C28 end:0x827D1D48
-
-auto_match/func_827D1D48.c:
-	.text       start:0x827D1D48 end:0x827D1D58
-
-auto_match/func_827D1D58.c:
-	.text       start:0x827D1D58 end:0x827D1D80
-
-auto_match/func_827D1D80.c:
-	.pdata      start:0x821FE1C0 end:0x821FE1C8
-	.text       start:0x827D1D80 end:0x827D1EB0
-
-auto_match/func_827D1EB0.c:
-	.rdata      start:0x820187C8 end:0x82018804
-	.pdata      start:0x821FE1C8 end:0x821FE1D0
-	.text       start:0x827D1EB0 end:0x827D3514
-
-auto_match/func_827D3518.c:
-	.pdata      start:0x821FE1D0 end:0x821FE1D8
-	.text       start:0x827D3518 end:0x827D35A0
-
-auto_match/func_827D35A0.c:
-	.pdata      start:0x821FE1D8 end:0x821FE1E0
-	.text       start:0x827D35A0 end:0x827D36A4
-
-auto_match/func_827D36A8.c:
-	.text       start:0x827D36A8 end:0x827D36E4
-
-auto_match/func_827D36E8.c:
-	.pdata      start:0x821FE1E0 end:0x821FE1E8
-	.text       start:0x827D36E8 end:0x827D3760
-
-auto_match/func_827D3760.c:
-	.pdata      start:0x821FE1E8 end:0x821FE1F0
-	.text       start:0x827D3760 end:0x827D389C
-
-auto_match/func_827D38A0.c:
-	.text       start:0x827D38A0 end:0x827D38E0
-
-auto_match/func_827D38E0.c:
-	.pdata      start:0x821FE1F0 end:0x821FE1F8
-	.text       start:0x827D38E0 end:0x827D3A6C
+zlib-1.2.3/inflate.c:
+	.rdata      start:0x82017F20 end:0x82018804
+	.pdata      start:0x821FE1B8 end:0x821FE1F8
+	.text       start:0x827D1B48 end:0x827D3A6C
 
 auto_match/func_827D3A70.c:
 	.text       start:0x827D3A70 end:0x827D3A7C
@@ -77901,7 +77755,8 @@ zlib-1.2.3/inffast.c:
 	.pdata      start:0x821FE1F8 end:0x821FE200
 	.text       start:0x827D3AB8 end:0x827D3EC0
 
-auto_match/func_827D3EC0.c:
+zlib-1.2.3/inftrees.c:
+	.rdata      start:0x82018A70 end:0x82018BA0
 	.pdata      start:0x821FE200 end:0x821FE208
 	.text       start:0x827D3EC0 end:0x827D4370
 
