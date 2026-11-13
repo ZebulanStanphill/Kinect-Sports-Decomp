@@ -6,6 +6,11 @@
 // mathSpringBase_c's (shared by the three vtables) and declared without
 // signatures; 0x30 is the destructor and 0x34 the update. Field names are
 // placeholders.
+//
+// The constructors take an R1::Soundscape::AudioVariant_c (class name from its
+// vtable's RTTI) and copy it into the member at 0x34. That class is not declared
+// yet: the member is storage of its size (0x24) whose constructor and destructor
+// call AudioVariant_c's copy constructor and destructor by the names C units use.
 
 #ifndef R1_SOUNDSCAPE_MATHS_SPRING_H
 #define R1_SOUNDSCAPE_MATHS_SPRING_H
@@ -17,11 +22,22 @@ float fn_82809CB0(float x); // fabsf
 float fn_82879EB0(float *pos, float target, float *vel, float k, float c, float dt, float unk);
 float fn_82879FB0(float *pos, float target, float *vel, float k, float c, float dt, float unk);
 float fn_8287C0A8(float a, float b); // the angle variant's distance from a to b
+void fn_82292780(void *self, const void *other); // AudioVariant_c::AudioVariant_c(const AudioVariant_c &)
+void fn_82864898(void *self);                    // AudioVariant_c::~AudioVariant_c()
 }
 
 namespace R1 {
 namespace Soundscape {
+
+class AudioVariant_c;
+
 namespace Maths {
+
+struct AudioVariantStorage_82292780 {
+    __forceinline AudioVariantStorage_82292780(const AudioVariant_c &other) { fn_82292780(this, &other); }
+    __forceinline ~AudioVariantStorage_82292780() { fn_82864898(this); }
+    int data[9];
+};
 
 class Spring_i {
 public:
@@ -42,6 +58,7 @@ public:
 
 class mathSpringBase_c : public Spring_i {
 public:
+    mathSpringBase_c(const AudioVariant_c &name, float position, float target, float stiffness);
     virtual void vf00();
     virtual void vf04();
     virtual void vf08();
@@ -69,16 +86,19 @@ public:
     unsigned char unk28;  // limit the target
     float unk2C;          // last step
     float unk30;
+    AudioVariantStorage_82292780 unk34; // the AudioVariant_c the spring was created with
 };
 
 class mathSpring_c : public mathSpringBase_c {
 public:
+    mathSpring_c(const AudioVariant_c &name, float position, float target, float stiffness);
     virtual ~mathSpring_c();
     virtual float vf34(float dt);
 };
 
 class mathSpringAngle_c : public mathSpringBase_c {
 public:
+    mathSpringAngle_c(const AudioVariant_c &name, float position, float target, float stiffness);
     virtual ~mathSpringAngle_c();
     virtual float vf34(float dt);
 };

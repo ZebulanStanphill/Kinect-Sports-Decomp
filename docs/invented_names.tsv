@@ -1,7 +1,13 @@
 address	class	method	symbol
+0x82282330	Vcall_82282330	(virtual call thunk)	??_9Vcall_82282330@@$BM@AA
 0x82282340	Vcall_82282340	(virtual call thunk)	??_9Vcall_82282340@@$B3AA
+0x82282350	Vcall_82282350	(virtual call thunk)	??_9Vcall_82282350@@$B7AA
+0x8233C258	Obj_8233C258	(destructor)	??1Obj_8233C258@@QAA@XZ
 0x82406328	Vcall_82406328	(virtual call thunk)	??_9Vcall_82406328@@$BCA@AA
+0x8242F308	Vcall_8242F308	(virtual call thunk)	??_9Vcall_8242F308@@$BII@AA
 0x82463770	Vcall_82463770	(virtual call thunk)	??_9Vcall_82463770@@$BBA@AA
+0x82463780	Vcall_82463780	(virtual call thunk)	??_9Vcall_82463780@@$BBE@AA
+0x82463790	Vcall_82463790	(virtual call thunk)	??_9Vcall_82463790@@$BBI@AA
 0x824925D0	Struct_824925D0	(constructor)	??0Struct_824925D0@@QAA@ABU0@@Z
 0x824C8960	Object_824C8960	(constructor)	??0Object_824C8960@@QAA@HHABV?$function@$$A6AXXZ@tr1@std@@ABV?$vector@T__vector4@@V?$allocator@T__vector4@@@std@@@3@@Z
 0x82510100	Object_82510100	(constructor)	??0Object_82510100@@QAA@HABV?$function@$$A6AXXZ@tr1@std@@ABV?$vector@UElement_82510100@@V?$allocator@UElement_82510100@@@std@@@3@@Z
@@ -70,9 +76,22 @@ address	class	method	symbol
 0x827B6080	V_827B6080	Grow	?Grow@V_827B6080@@QAAXI@Z
 0x827BA438	V_827BA438	Grow	?Grow@V_827BA438@@QAAXI@Z
 0x8288B2D8	Unit_8288B2D8	get	?get@Unit_8288B2D8@@QAAII@Z
+0x828D1378	Obj_828D1378	(constructor)	??0Obj_828D1378@@QAA@ABU0@@Z
+0x828E4E68	Obj_828E4E68	(destructor)	??1Obj_828E4E68@@QAA@XZ
+0x82940B48	Vcall_82940B48	(virtual call thunk)	??_9Vcall_82940B48@@$BCFI@AA
+0x82940B58	Vcall_82940B58	(virtual call thunk)	??_9Vcall_82940B58@@$BCHI@AA
+0x82940B68	Vcall_82940B68	(virtual call thunk)	??_9Vcall_82940B68@@$BCGM@AA
+0x82940B78	Vcall_82940B78	(virtual call thunk)	??_9Vcall_82940B78@@$BCHM@AA
+0x82940B88	Vcall_82940B88	(virtual call thunk)	??_9Vcall_82940B88@@$BCGA@AA
+0x82940B98	Vcall_82940B98	(virtual call thunk)	??_9Vcall_82940B98@@$BCHA@AA
+0x82940BA8	Vcall_82940BA8	(virtual call thunk)	??_9Vcall_82940BA8@@$BCIA@AA
+0x82940BB8	Vcall_82940BB8	(virtual call thunk)	??_9Vcall_82940BB8@@$BCGE@AA
+0x82940BC8	Vcall_82940BC8	(virtual call thunk)	??_9Vcall_82940BC8@@$BCHE@AA
+0x82940BD8	Vcall_82940BD8	(virtual call thunk)	??_9Vcall_82940BD8@@$BCIE@AA
 0x829576E0	Owner_829576E0	Contains	?Contains@Owner_829576E0@@QAAHI@Z
 0x829B3860	Obj_829B3860	Walk	?Walk@Obj_829B3860@@QAAXHH@Z
 0x829B3900	Obj_829B3860	Collect	?Collect@Obj_829B3860@@QAAXHH@Z
+0x82ABE0E8	Node_82ABE0E8	GetValue	?GetValue@Node_82ABE0E8@@QAAIPAX@Z
 0x82B51F48	Ctx_82B51F48	Method_82B51F48	?Method_82B51F48@Ctx_82B51F48@@QAAIPAXIII0@Z
 0x82BEEB88	V3_82BEEB88	add	?add@V3_82BEEB88@@QBA?AU1@ABU1@@Z
 0x82CD26A0	Obj_82CD26A0	Build	?Build@Obj_82CD26A0@@QAAXXZ

@@ -1,4 +1,6 @@
-#include "stdext/xmemory.h"
+#include "game/OStringStreamObject_8223DCC8.h"
+
+extern "C" void *fn_8265C9E0(unsigned int size);
 
 struct String {
     int data[7];
@@ -29,6 +31,17 @@ struct Impl {
     int pad;
     Functor f;
 };
+
+template <> __forceinline Impl *std::_Allocate(size_t count, Impl *)
+{
+    void *ptr = 0;
+    if (count <= 0)
+        count = 0;
+    else if ((size_t)-1 / sizeof(Impl) < count
+             || (ptr = fn_8265C9E0(count * sizeof(Impl))) == 0)
+        stdext::bad_alloc(0)._Raise();
+    return (Impl *)ptr;
+}
 
 struct Owner {
     char pad[0x118];
@@ -66,7 +79,6 @@ void fn_822403C8(String *, void *);
 void fn_822402F8(String *, String *);
 void fn_82230300(String *, int, int);
 void fn_82511668(Holder *, Function *);
-void fn_8223DCC8(OStream *);
 void fn_8232E248(Obj *);
 extern char lbl_821B07D4[];
 extern char lbl_821B07E8[];
@@ -117,6 +129,6 @@ extern "C" Obj *fn_8232DEA0(Obj *self, int p2, int p3, Owner *owner, const Strin
         fn.impl = impl;
         fn_82511668(&self->holder, &fn);
     }
-    fn_8223DCC8(&ss);
+    DestroyOStringStream_8223DCC8(&ss);
     return self;
 }

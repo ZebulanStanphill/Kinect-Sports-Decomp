@@ -1,9 +1,12 @@
 #include "stdext/xmemory.h"
+#include "game/Vcall_8242F308.h"
 
 struct Obj;
 
+// Pointer to a member of a class with more than one base: the function (here the
+// virtual-call thunk of slot 34) and the this adjustment.
 struct PMF {
-    void *fn;
+    void (Vcall_8242F308::*fn)();
     int adj;
 };
 
@@ -129,7 +132,6 @@ void fn_82528E38(void *p, int id, void (*fn)(), int);
 void fn_82359C18(Func *f);
 void *fn_8225C590(void);
 void fn_8225DBF8(void *p, Func *f);
-void fn_8242F308();
 void fn_8242A7F0();
 extern void *lbl_821B8F30[];
 extern void *lbl_821B904C[];
@@ -217,7 +219,7 @@ extern "C" Obj *fn_8242AB58(Obj *self, Param *param)
         {
             Bind bd;
             PMF pm;
-            pm.fn = (void *)fn_8242F308;
+            pm.fn = &Vcall_8242F308::f;
             pm.adj = 0;
             bd.pmf = pm;
             bd.obj = self;
