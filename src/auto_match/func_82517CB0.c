@@ -1,46 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517FF0();
-extern int fn_828E6748();
-extern unsigned int lbl_821C287C;
+extern void fn_82517FF0(void);
+extern void fn_828E6748(void *fn);
+extern char lbl_821C287C[];
 
+typedef struct Function_82517CB0 {
+    void *vt;
+    void (*pf)(void);
+    int pad[2];
+    struct Function_82517CB0 *impl;
+} Function_82517CB0;
 
-void fn_82517CB0(void)
-
+static __forceinline Function_82517CB0 *Function_82517CB0_ConstructImpl(Function_82517CB0 *f, void (*pf)(void))
 {
-  undefined **ppuStack_20;
-  code *pcStack_1c;
-  undefined ***pppuStack_10;
-  
-  pcStack_1c = fn_82517FF0;
-  pppuStack_10 = &ppuStack_20;
-  ppuStack_20 = &lbl_821C287C;
-  fn_828E6748(&ppuStack_20);
-  return;
+    f->pf = pf;
+    f->vt = lbl_821C287C;
+    return f;
 }
 
+void fn_82517CB0(void)
+{
+    Function_82517CB0 fn;
+    void (*pf)(void) = fn_82517FF0;
+    fn.impl = pf == 0 ? 0 : Function_82517CB0_ConstructImpl(&fn, pf);
+    fn_828E6748(&fn);
+}

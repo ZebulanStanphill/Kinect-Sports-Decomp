@@ -1,49 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct E_8303E4F0 { int f0; unsigned char b; } E_8303E4F0;
+typedef struct S_8303E4F0 { int f0; E_8303E4F0 *begin; E_8303E4F0 *end; } S_8303E4F0;
 
-
-longlong fn_8303E4F0(int param_1)
-
+unsigned int fn_8303E4F0(S_8303E4F0 *s)
 {
-  byte *pbVar1;
-  longlong lVar2;
-  int iVar3;
-  
-  iVar3 = *(int *)(param_1 + 4);
-  lVar2 = 0;
-  if (iVar3 == *(int *)(param_1 + 8)) {
-    return lVar2;
-  }
-  do {
-    pbVar1 = (byte *)(iVar3 + 4);
-    iVar3 = iVar3 + 8;
-    lVar2 = (ulonglong)*pbVar1 + lVar2;
-  } while (iVar3 != *(int *)(param_1 + 8));
-  return lVar2;
+    unsigned int sum = 0;
+    E_8303E4F0 *it;
+    for (it = s->begin; it != s->end; it++)
+        sum += it->b;
+    return sum;
 }
-

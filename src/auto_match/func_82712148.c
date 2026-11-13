@@ -1,49 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826F62D0();
-extern int fn_82711940();
+typedef struct Self_82712148 Self_82712148;
 
+typedef struct Holder_82712148 {
+    void *target;
+} Holder_82712148;
 
-undefined8 fn_82712148(int *param_1,undefined8 param_2)
+typedef struct Vt_82712148 {
+    void *slots[30];
+    void (*handle)(Self_82712148 *self, void *msg);  /* 0x78 */
+} Vt_82712148;
 
+struct Self_82712148 {
+    Vt_82712148 *vt;
+    int pad[2];
+    Holder_82712148 *holder;  /* 0x0c */
+};
+
+extern unsigned char fn_82711940(Self_82712148 *self);
+extern void fn_826F62D0(void *target, void *msg);
+
+int fn_82712148(Self_82712148 *self, void *msg)
 {
-  char cVar1;
-  
-  cVar1 = fn_82711940();
-  if (cVar1 == '\0') {
-    if (*(int *)param_1[3] == 0) {
-      return 0;
+    if (fn_82711940(self)) {
+        self->vt->handle(self, msg);
+        return 1;
     }
-    fn_826F62D0(*(int *)param_1[3],param_2);
-  }
-  else {
-    (**(code **)(*param_1 + 0x78))(param_1,param_2);
-  }
-  return 1;
+    if (self->holder->target != 0) {
+        fn_826F62D0(self->holder->target, msg);
+        return 1;
+    }
+    return 0;
 }
-

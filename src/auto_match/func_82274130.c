@@ -1,84 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_48;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_82672C20();
-extern unsigned int iStack_44;
-extern unsigned int uStack_50;
+typedef struct Var_82274130 {
+    int a;
+    int b;
+    union {
+        double d;
+        int i;
+    } u;
+} Var_82274130;
 
+typedef struct Ref_82274130 {
+    void *p;
+    void *rc;
+} Ref_82274130;
 
-void fn_82274130(undefined8 param_1,int param_2,int param_3)
+extern void fn_82273CD8(Var_82274130 *, int);
+extern void fn_82273C88(Var_82274130 *);
+extern Ref_82274130 *fn_82279C58(Ref_82274130 *, void *);
+extern void fn_82672C20(void *, const char *, Var_82274130 *, int);
+extern void fn_822315A0(void *);
 
+void fn_82274130(void *self, int n, int m)
 {
-  undefined4 *puVar1;
-  undefined1 *puVar2;
-  longlong lVar3;
-  undefined8 uStack_50;
-  undefined1 auStack_48 [4];
-  int iStack_44;
-  undefined1 auStack_40 [8];
-  double dStack_38;
-  undefined1 auStack_30 [8];
-  double dStack_28;
-  undefined1 auStack_20 [16];
-  
-  puVar1 = (undefined4 *)((int)&uStack_50 + 4);
-  lVar3 = 2;
-  do {
-    puVar1[3] = 0;
-    puVar1 = puVar1 + 4;
-    *puVar1 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  fn_82273CD8(auStack_40,3);
-  uStack_50 = (longlong)param_2;
-  dStack_38 = (double)uStack_50;
-  fn_82273CD8(auStack_30,3);
-  uStack_50 = (longlong)param_3;
-  dStack_28 = (double)uStack_50;
-  puVar1 = (undefined4 *)fn_82279C58(auStack_48,param_1);
-  fn_82672C20(*puVar1,0xffffffff821a7fd4,auStack_40,2);
-  if (iStack_44 != 0) {
-    fn_822315A0();
-  }
-  puVar2 = auStack_20;
-  lVar3 = 1;
-  do {
-    puVar2 = puVar2 + -0x10;
-    fn_82273C88(puVar2);
-    lVar3 = lVar3 + -1;
-  } while (-1 < lVar3);
-  return;
-}
+    Var_82274130 v[2];
+    Ref_82274130 r;
+    Var_82274130 *p;
+    int i;
 
+    for (i = 0; i < 2; i++) { v[i].a = 0; v[i].b = 0; }
+    fn_82273CD8(&v[0], 3); v[0].u.d = (double)n;
+    fn_82273CD8(&v[1], 3); v[1].u.d = (double)m;
+    fn_82672C20(fn_82279C58(&r, self)->p, "_root.setOverlayIcon", v, 2);
+    if (r.rc != 0) {
+        fn_822315A0(r.rc);
+    }
+    p = v + 2; i = 1; do { p--; fn_82273C88(p); } while (--i >= 0);
+}

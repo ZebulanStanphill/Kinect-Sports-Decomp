@@ -1,47 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82B6E130();
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
 
+typedef struct ArrayStateMap_82B6F100 {
+    unsigned int base;
+    unsigned int stride;
+    unsigned int uMaxCount;
+} ArrayStateMap_82B6F100;
 
-void fn_82B6F100(int param_1,uint param_2,uint param_3)
+typedef struct ASObject_82B6F100 {
+    unsigned char pad[0x48];
+    unsigned int uNumArrayStates;
+    unsigned int unk4c[2];
+    ArrayStateMap_82B6F100 *pArrayStateMap;
+} ASObject_82B6F100;
 
+extern float fn_82B6E130(ASObject_82B6F100 *pAS_Object, unsigned int eState);
+
+float fn_82B6F100(ASObject_82B6F100 *pAS_Object, unsigned int eArrayState, unsigned int uIndex)
 {
-  uint *puVar1;
-  
-  if (*(uint *)(param_1 + 0x48) <= param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d30a0,0xffffffff820d3000,0x29e);
-  }
-  if (*(uint *)(param_2 * 0xc + *(int *)(param_1 + 0x54) + 8) <= param_3) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d3058,0xffffffff820d3000,0x29e);
-  }
-  puVar1 = (uint *)(param_2 * 0xc + *(int *)(param_1 + 0x54));
-  fn_82B6E130(param_1,(longlong)(int)puVar1[1] * (longlong)(int)param_3 + (ulonglong)*puVar1);
-  return;
+    if (!(eArrayState < pAS_Object->uNumArrayStates))
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "(SSM_UINT32)eArrayState < pAS_Object->ASMapInfo.uNumArrayStates",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h", 0x29e);
+    if (!(uIndex < pAS_Object->pArrayStateMap[eArrayState].uMaxCount))
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "uIndex < pAS_Object->ASMapInfo.pArrayStateMap[eArrayState].uMaxCount",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\inc\\Internal_AS.h", 0x29e);
+    return fn_82B6E130(pAS_Object, pAS_Object->pArrayStateMap[eArrayState].base + pAS_Object->pArrayStateMap[eArrayState].stride * uIndex);
 }
-

@@ -1,42 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82860ED0 {
+  char pad[0xe4];
+  float v[6];
+} Obj_82860ED0;
 
-
-void fn_82860ED0(int param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4,
-                  undefined4 *param_5,undefined4 *param_6,undefined4 *param_7)
-
+void fn_82860ED0(const Obj_82860ED0 *o, float *a, float *b, float *c, float *d, float *e, float *f)
 {
-  *param_2 = *(undefined4 *)(param_1 + 0xe4);
-  *param_3 = *(undefined4 *)(param_1 + 0xe8);
-  *param_4 = *(undefined4 *)(param_1 + 0xec);
-  *param_5 = *(undefined4 *)(param_1 + 0xf0);
-  *param_6 = *(undefined4 *)(param_1 + 0xf4);
-  *param_7 = *(undefined4 *)(param_1 + 0xf8);
-  return;
+  *a = o->v[0];
+  *b = o->v[1];
+  *c = o->v[2];
+  *d = o->v[3];
+  *e = o->v[4];
+  *f = o->v[5];
 }
-

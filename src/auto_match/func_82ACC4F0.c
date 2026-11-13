@@ -1,47 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82ACACA8();
-extern int fn_82ACADA8();
+typedef struct Obj_82ACC4F0 { int f0; char set[4]; } Obj_82ACC4F0;
+extern unsigned int fn_82ACACA8(void *set, unsigned int first, unsigned int last);
+extern void fn_82ACADA8(void *set, unsigned int first, unsigned int last, unsigned int mask);
 
-
-void fn_82ACC4F0(longlong param_1,ulonglong param_2)
-
+static __forceinline void Release_82ACC4F0(void *set, unsigned int v)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  
-  uVar2 = (param_2 & 0xffffffff) >> 2 & 0x3ffffffc;
-  uVar2 = fn_82ACACA8(param_1 + 4,uVar2,uVar2 + 3);
-  uVar2 = uVar2 & param_2 & 0xf;
-  if (uVar2 != 0) {
-    uVar1 = (param_2 & 0xfffffff0) >> 2;
-    fn_82ACADA8(param_1 + 4,uVar1,uVar1 + 3,uVar2);
-  }
-  return;
+  unsigned int first = (v >> 4) * 4;
+  fn_82ACADA8(set, first, first + 3, v & 0xf);
 }
 
+void fn_82ACC4F0(Obj_82ACC4F0 *o, unsigned int v)
+{
+  unsigned int first = (v >> 4) * 4;
+  unsigned int m = fn_82ACACA8(o->set, first, first + 3) & v & 0xf;
+  if (m != 0) {
+    Release_82ACC4F0(o->set, (m & 0xf) | (v & ~0xfu));
+  }
+}

@@ -1,53 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82F34540(int param_1,uint param_2,undefined4 *param_3)
-
+typedef struct Unk Unk;
+typedef struct {
+    int (*QueryInterface)(Unk *self, void *iid, void **out);
+    unsigned long (*AddRef)(Unk *self);
+    unsigned long (*Release)(Unk *self);
+} UnkVtbl;
+struct Unk { UnkVtbl *vt; };
+typedef struct { void *vt; int pad; unsigned int count; Unk **items; } Self_82F34540;
+int fn_82F34540(Self_82F34540 *self, unsigned int idx, Unk **out)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  
-  if (param_3 == (undefined4 *)0x0) {
-    uVar2 = 0xffffffff80004003;
-  }
-  else if (param_2 < *(uint *)(param_1 + 8)) {
-    if ((*(int *)(param_1 + 0xc) != 0) &&
-       (piVar1 = *(int **)(param_2 * 4 + *(int *)(param_1 + 0xc)), piVar1 != (int *)0x0)) {
-      *param_3 = piVar1;
-      (**(code **)(*piVar1 + 4))();
-      return 0;
+    int hr = 0;
+    if (out == 0) {
+        hr = 0x80004003;
+    } else if (idx >= self->count) {
+        hr = 0xC00D36B9;
+    } else if (self->items != 0 && self->items[idx] != 0) {
+        *out = self->items[idx];
+        (*out)->vt->AddRef(*out);
+    } else {
+        hr = 0x80004005;
     }
-    uVar2 = 0xffffffff80004005;
-  }
-  else {
-    uVar2 = 0xffffffffc00d36b9;
-  }
-  return uVar2;
+    return hr;
 }
-

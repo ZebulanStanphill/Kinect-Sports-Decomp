@@ -1,64 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define XLT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\translator\\xltconvert.cpp", line)
 
-undefined4 *
-fn_82B77DA0(undefined8 param_1,code *param_2,int param_3,int param_4,int param_5,int param_6)
+typedef void *(*AllocFn_82B77DA0)(void *context, unsigned int size);
+typedef void (*FreeFn_82B77DA0)(void *context, void *p);
 
+typedef struct Translator_82B77DA0 {
+    void *context;
+    AllocFn_82B77DA0 AllocateSysMem;
+    FreeFn_82B77DA0 FreeSysMem;
+    void *registry;
+    void *texServer;
+    void *shaderStore;
+} Translator_82B77DA0;
+
+Translator_82B77DA0 *fn_82B77DA0(void *context, AllocFn_82B77DA0 AllocateSysMem,
+                                 FreeFn_82B77DA0 FreeSysMem, void *shaderStore,
+                                 void *texServer, void *registry)
 {
-  undefined4 *puVar1;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820da3b8,0x3f23);
-  }
-  if (param_3 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820da3b8,0x3f24);
-  }
-  if (param_4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820daaec,0xffffffff820da3b8,0x3f25);
-  }
-  if (param_5 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820daae0,0xffffffff820da3b8,0x3f26);
-  }
-  if (param_6 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820daad4,0xffffffff820da3b8,0x3f27);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0x18);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820daac4,0xffffffff820da3b8,0x3f2e);
-  }
-  puVar1[1] = param_2;
-  puVar1[2] = param_3;
-  puVar1[5] = param_4;
-  puVar1[3] = param_6;
-  puVar1[4] = param_5;
-  *puVar1 = (int)param_1;
-  return puVar1;
-}
+    Translator_82B77DA0 *pNewTranslator;
 
+    XLT_ASSERT(AllocateSysMem, 0x3f23);
+    XLT_ASSERT(FreeSysMem, 0x3f24);
+    XLT_ASSERT(shaderStore, 0x3f25);
+    XLT_ASSERT(texServer, 0x3f26);
+    XLT_ASSERT(registry, 0x3f27);
+    pNewTranslator = (Translator_82B77DA0 *)AllocateSysMem(context, sizeof(Translator_82B77DA0));
+    XLT_ASSERT(pNewTranslator, 0x3f2e);
+    pNewTranslator->AllocateSysMem = AllocateSysMem;
+    pNewTranslator->FreeSysMem = FreeSysMem;
+    pNewTranslator->shaderStore = shaderStore;
+    pNewTranslator->registry = registry;
+    pNewTranslator->texServer = texServer;
+    pNewTranslator->context = context;
+    return pNewTranslator;
+}

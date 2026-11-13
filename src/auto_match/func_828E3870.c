@@ -1,49 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828EA790();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+/* Destroys the objects held by a range of tree nodes: deletes each node's value through
+   its deleting destructor (vtable slot 0, flag 1); fn_828EA790 advances the iterator. */
+typedef struct Value_828E3870 Value_828E3870;
+typedef struct ValueVt_828E3870 {
+    void (*destroy)(Value_828E3870 *self, int flags);
+} ValueVt_828E3870;
+struct Value_828E3870 {
+    ValueVt_828E3870 *vt;
+};
 
+typedef struct Node_828E3870 {
+    struct Node_828E3870 *left;
+    struct Node_828E3870 *parent;
+    struct Node_828E3870 *right;
+    int key;
+    Value_828E3870 *value;      /* 0x10 */
+} Node_828E3870;
 
-void fn_828E3870(undefined8 param_1,int param_2,int param_3)
+extern void fn_828EA790(Node_828E3870 **it);
 
+void fn_828E3870(void *self, Node_828E3870 *first, Node_828E3870 *last)
 {
-  undefined4 *puVar1;
-  int iStack0000001c;
-  
-  iStack0000001c = param_2;
-  while (iStack0000001c != param_3) {
-    puVar1 = *(undefined4 **)(iStack0000001c + 0x10);
-    if (puVar1 != (undefined4 *)0x0) {
-      (**(code **)*puVar1)(puVar1,1);
+    for (; first != last; fn_828EA790(&first)) {
+        Value_828E3870 *v = first->value;
+        if (v != 0) {
+            v->vt->destroy(v, 1);
+        }
     }
-    fn_828EA790(&stack0x0000001c);
-  }
-  return;
 }
-

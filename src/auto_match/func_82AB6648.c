@@ -1,48 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB4C70();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LL_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp", line)
 
-void fn_82AB6648(int param_1,ulonglong param_2)
+#define SSM_NULL 0
 
+typedef struct ListItem_82AB6648 {
+    void *data;
+    struct ListItem_82AB6648 *pPrev;
+    struct ListItem_82AB6648 *pNext;
+} ListItem_82AB6648;
+
+typedef struct ObjList_82AB6648 {
+    void *pMemMgr;
+    unsigned int unk4[3];
+    ListItem_82AB6648 *pSentinel;
+    unsigned int size;
+    unsigned int valid;
+} ObjList_82AB6648;
+
+extern void fn_82AB4C70(ListItem_82AB6648 *pItem);
+
+void fn_82AB6648(ObjList_82AB6648 *pObjList, ListItem_82AB6648 *pItem)
 {
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6b0c,0xffffffff820d68b0,0xd91);
-  }
-  if ((param_2 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69a4,0xffffffff820d68b0,0xd92);
-  }
-  if ((param_2 & 0xffffffff) == (ulonglong)*(uint *)(param_1 + 0x10)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6b18,0xffffffff820d68b0,0xd95);
-  }
-  fn_82AB4C70(param_2);
-  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + -1;
-  return;
+    LL_ASSERT(pObjList, 0xd91);
+    LL_ASSERT(pItem, 0xd92);
+    LL_ASSERT(pItem != pObjList->pSentinel, 0xd95);
+    fn_82AB4C70(pItem);
+    pObjList->size--;
 }
-

@@ -1,60 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack0000001c;
-extern int fn_823599A8();
-extern int fn_82359C18();
-extern unsigned int lbl_821B2C74;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
-extern unsigned int uStack_1c;
+/* Builds a std::tr1::function on the stack around a bound functor {vtable lbl_821B2C74,
+   id, &value, &extra} (small-object storage: the manager pointer at +0x10 points back to
+   the functor) and passes it to fn_823599A8; fn_82359C18 destroys it. */
+typedef struct Functor_823637D8 {
+    const void *vt;
+    int id;
+    float *value;
+    int *extra;
+} Functor_823637D8;
 
+typedef struct Function_823637D8 {
+    Functor_823637D8 impl;
+    Functor_823637D8 *mgr;
+} Function_823637D8;
 
-void fn_823637D8(double param_1,undefined8 param_2,undefined8 param_3,undefined4 param_4)
+extern const void *lbl_821B2C74[];
+extern void fn_823599A8(int id, Function_823637D8 *fn);
+extern void fn_82359C18(Function_823637D8 *fn);
 
+void fn_823637D8(int id, float value, int extra)
 {
-  float fStack0000001c;
-  undefined4 uStack00000024;
-  undefined **ppuStack_20;
-  undefined4 uStack_1c;
-  undefined1 *puStack_18;
-  undefined1 *puStack_14;
-  undefined ***pppuStack_10;
-  
-  puStack_18 = (undefined1 *)&stack0x0000001c;
-  fStack0000001c = (float)param_1;
-  puStack_14 = (undefined1 *)&stack0x00000024;
-  uStack_1c = (undefined4)param_2;
-  pppuStack_10 = &ppuStack_20;
-  ppuStack_20 = &lbl_821B2C74;
-  uStack00000024 = param_4;
-  fn_823599A8(param_2,&ppuStack_20);
-  fn_82359C18(&ppuStack_20);
-  return;
-}
+    Function_823637D8 fn;
 
+    fn.impl.vt = lbl_821B2C74;
+    fn.impl.id = id;
+    fn.impl.value = &value;
+    fn.impl.extra = &extra;
+    fn.mgr = &fn.impl;
+    fn_823599A8(id, &fn);
+    fn_82359C18(&fn);
+}

@@ -1,59 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B1B90();
-extern int fn_82899120();
-extern unsigned int iStack_1c;
-extern unsigned int uStack_14;
-extern unsigned int uStack_20;
+/* The XDK's ppcintrinsics.h defines __lwsync() as this __emit. */
+void __emit(unsigned int);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Node { struct Node *next; struct Node *prev; } Node;
+typedef struct Lock { int a, b; int held; } Lock;
+typedef struct Owner { int a; Lock lock; } Owner;
+typedef struct Entry { Node *next; Node *prev; Owner *owner; } Entry;
+typedef struct Guard { Lock *l; } Guard;
+typedef struct Item_8289B1F8 { int value; Entry entry; } Item_8289B1F8;
+extern void fn_822B1B90(Guard *g, Lock *lock);
+extern Entry *fn_82899120(Entry *e, Owner *owner);
 
-void fn_8289B1F8(undefined8 param_1,undefined4 *param_2,undefined4 *param_3)
-
+static __forceinline void Entry_Unlink(Entry *e)
 {
-  int aiStack_30;
-  undefined4 uStack_20;
-  int iStack_1c;
-  int *piStack_18;
-  uint uStack_14;
-  
-  uStack_20 = *param_3;
-  fn_82899120(&iStack_1c,param_3[3]);
-  if (param_2 != (undefined4 *)0x0) {
-    *param_2 = uStack_20;
-    fn_82899120(param_2 + 1,uStack_14);
+  Guard g;
+  if (e->owner) {
+    fn_822B1B90(&g, &e->owner->lock);
+    e->next->prev = e->prev;
+    e->prev->next = e->next;
+    __lwsync();
+    g.l->held = 0;
   }
-  if ((ulonglong)uStack_14 != 0) {
-    fn_822B1B90(&aiStack_30,(ulonglong)uStack_14 + 4);
-    *(int **)(iStack_1c + 4) = piStack_18;
-    *piStack_18 = iStack_1c;
-    sync(1);
-    *(undefined4 *)(aiStack_30 + 8) = 0;
-  }
-  return;
 }
 
+void fn_8289B1F8(void *al, Item_8289B1F8 *dst, const Item_8289B1F8 *src)
+{
+  Item_8289B1F8 t;
+  t.value = src->value;
+  fn_82899120(&t.entry, src->entry.owner);
+  if (dst != 0) {
+    dst->value = t.value;
+    fn_82899120(&dst->entry, t.entry.owner);
+  }
+  Entry_Unlink(&t.entry);
+}

@@ -1,61 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_824060E8();
-extern int fn_82406510();
-extern int fn_8265C9E0();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef struct Tmp_82406190 { unsigned char d[16]; } Tmp_82406190;
+
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_824060E8(Tmp_82406190 *tmp, void *a);
+extern void fn_82406510(void *obj, void *a, unsigned int b, __vector4 v1, __vector4 v2);
 extern unsigned int lbl_821A8D8C;
 
-
-undefined4 * fn_82406190(undefined4 *param_1,undefined8 param_2,undefined4 *param_3)
-
+static unsigned int *ctor(unsigned int *p, void *a, unsigned int *b, __vector4 *v1, __vector4 *v2)
 {
-  undefined4 uVar1;
-  undefined4 *puVar3;
-  undefined8 uVar2;
-  undefined1 auStack_70 [64];
-  
-  puVar3 = (undefined4 *)fn_8265C9E0(0x60);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    puVar3[1] = 1;
-    *puVar3 = &lbl_821A8D8C;
-    puVar3[2] = 1;
-    if (puVar3 + 4 != (undefined4 *)0x0) {
-      uVar1 = *param_3;
-      uVar2 = fn_824060E8(auStack_70,param_2);
-      fn_82406510(puVar3 + 4,uVar2,uVar1);
-    }
-  }
-  param_1[1] = puVar3;
-  *param_1 = puVar3 + 4;
-  return param_1;
+    Tmp_82406190 tmp;
+
+    p[1] = 1;
+    p[0] = (unsigned int)&lbl_821A8D8C;
+    p[2] = 1;
+    if (p + 4)
+        fn_82406510(p + 4, fn_824060E8(&tmp, a), *b, *v1, *v2);
+    return p;
 }
 
+unsigned int *fn_82406190(unsigned int *out, void *a, unsigned int *b, __vector4 *v1, __vector4 *v2)
+{
+    unsigned int *p = (unsigned int *)fn_8265C9E0(0x60);
+    p = p ? ctor(p, a, b, v1, v2) : 0;
+    out[1] = (unsigned int)p;
+    out[0] = (unsigned int)(p + 4);
+    return out;
+}

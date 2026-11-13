@@ -1,98 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern unsigned int lbl_8214C2F0;
-extern unsigned int lbl_8214C300;
-extern unsigned int lbl_8214C310;
-extern unsigned int lbl_8214C320;
-extern unsigned int lbl_8214C330;
+extern int memcmp(const void *, const void *, unsigned);
+extern char lbl_8214C2F0[];
+extern char lbl_8214C300[];
+extern char lbl_8214C310[];
+extern char lbl_8214C320[];
+typedef struct Guid_82E54B00 { unsigned int d[4]; } Guid_82E54B00;
+typedef struct Obj_82E54B00 { char pad[8]; char lock[0x3c]; Guid_82E54B00 id; } Obj_82E54B00;
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
 
-
-undefined8 fn_82E54B00(int param_1,byte *param_2)
-
+int fn_82E54B00(Obj_82E54B00 *o, const Guid_82E54B00 *id)
 {
-  byte bVar1;
-  byte bVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  
-  pbVar4 = &lbl_8214C2F0;
-  pbVar3 = param_2;
-  do {
-    bVar1 = *pbVar4;
-    bVar2 = *pbVar3;
-    if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-    pbVar4 = pbVar4 + 1;
-    pbVar3 = pbVar3 + 1;
-  } while (pbVar4 != &lbl_8214C300);
-  if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-    pbVar4 = &lbl_8214C300;
-    pbVar3 = param_2;
-    do {
-      bVar1 = *pbVar4;
-      bVar2 = *pbVar3;
-      if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-      pbVar4 = pbVar4 + 1;
-      pbVar3 = pbVar3 + 1;
-    } while (pbVar4 != &lbl_8214C310);
-    if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-      pbVar4 = &lbl_8214C310;
-      pbVar3 = param_2;
-      do {
-        bVar1 = *pbVar4;
-        bVar2 = *pbVar3;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-        pbVar4 = pbVar4 + 1;
-        pbVar3 = pbVar3 + 1;
-      } while (pbVar4 != (byte *)&lbl_8214C320);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-        pbVar4 = (byte *)&lbl_8214C320;
-        pbVar3 = param_2;
-        do {
-          bVar1 = *pbVar4;
-          bVar2 = *pbVar3;
-          if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-          pbVar4 = pbVar4 + 1;
-          pbVar3 = pbVar3 + 1;
-        } while (pbVar4 != (byte *)&lbl_8214C330);
-        if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-          return 0xffffffff80070057;
-        }
-      }
-    }
-  }
-  fn_82E50CB8(param_1 + 8);
-  *(undefined4 *)(param_1 + 0x44) = *(undefined4 *)param_2;
-  *(undefined4 *)(param_1 + 0x48) = *(undefined4 *)(param_2 + 4);
-  *(undefined4 *)(param_1 + 0x4c) = *(undefined4 *)(param_2 + 8);
-  *(undefined4 *)(param_1 + 0x50) = *(undefined4 *)(param_2 + 0xc);
-  fn_82E50F10(param_1 + 8);
+  if (memcmp(lbl_8214C2F0, id, 16) != 0 && memcmp(lbl_8214C300, id, 16) != 0 &&
+      memcmp(lbl_8214C310, id, 16) != 0 && memcmp(lbl_8214C320, id, 16) != 0)
+    return 0x80070057;
+  fn_82E50CB8(o->lock);
+  o->id = *id;
+  fn_82E50F10(o->lock);
   return 0;
 }
-

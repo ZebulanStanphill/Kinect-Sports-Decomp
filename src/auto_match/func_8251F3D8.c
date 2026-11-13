@@ -1,47 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265BF48();
+typedef struct {
+    union { char buf[16]; char *ptr; } bx;
+    unsigned int size;
+    unsigned int res;
+} String_8251F3D8;
+extern unsigned fn_8265BF48(const char *, int);
 
-
-ulonglong fn_8251F3D8(undefined8 param_1,undefined4 *param_2)
-
+unsigned fn_8251F3D8(void *self, const String_8251F3D8 *s)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  
-  if (0xf < (uint)param_2[5]) {
-    param_2 = (undefined4 *)*param_2;
-  }
-  uVar1 = fn_8265BF48(param_2,0);
-  uVar2 = (uVar1 & 0xffffffff) >> 0x18;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0x7a;
-  }
-  return uVar2;
+    unsigned k = fn_8265BF48(s->res >= 16 ? s->bx.ptr : s->bx.buf, 0);
+    return k ? k >> 24 : 0x7a;
 }
-

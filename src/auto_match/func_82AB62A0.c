@@ -1,51 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB4B88();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LL_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp", line)
 
-void fn_82AB62A0(int param_1,ulonglong param_2)
+#define SSM_NULL 0
 
+typedef struct ListItem_82AB62A0 {
+    void *data;
+    struct ListItem_82AB62A0 *pPrev;
+    struct ListItem_82AB62A0 *pNext;
+} ListItem_82AB62A0;
+
+typedef struct ObjList_82AB62A0 {
+    void *pMemMgr;
+    unsigned int unk4[3];
+    ListItem_82AB62A0 *pSentinel;
+    unsigned int size;
+    unsigned int valid;
+} ObjList_82AB62A0;
+
+extern void fn_82AB4B88(ListItem_82AB62A0 *pItem, ListItem_82AB62A0 *pNewItem);
+
+void fn_82AB62A0(ObjList_82AB62A0 *pObjList, ListItem_82AB62A0 *pItem)
 {
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6b0c,0xffffffff820d68b0,0xc21);
-  }
-  if ((param_2 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69a4,0xffffffff820d68b0,0xc22);
-  }
-  if ((param_2 & 0xffffffff) == (ulonglong)*(uint *)(param_1 + 0x10)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6b18,0xffffffff820d68b0,0xc23);
-  }
-  fn_82AB4B88(*(undefined4 *)(param_1 + 0x10),param_2);
-  if (*(int *)(param_1 + 0x14) == 0) {
-    *(int *)(*(int *)(param_1 + 0x10) + 8) = (int)param_2;
-  }
-  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 1;
-  return;
+    LL_ASSERT(pObjList, 0xc21);
+    LL_ASSERT(pItem, 0xc21 + 1);
+    LL_ASSERT(pItem != pObjList->pSentinel, 0xc21 + 2);
+    fn_82AB4B88(pObjList->pSentinel, pItem);
+    if (pObjList->size == 0)
+        pObjList->pSentinel->pNext = pItem;
+    pObjList->size++;
 }
-

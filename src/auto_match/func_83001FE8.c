@@ -1,65 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern unsigned int lbl_8217D040;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_831BC768;
+typedef struct Obj_83001FE8 {
+  void *vt; float f[12];
+} Obj_83001FE8;
+typedef struct Host_83001FE8 { char pad[0x68]; Obj_83001FE8 *o; } Host_83001FE8;
+extern Obj_83001FE8 *fn_82FA5060(void *, int);
+extern void *lbl_831BC768;
+extern char lbl_8217D040[];
 
-
-bool fn_83001FE8(int param_1)
-
+static __forceinline Obj_83001FE8 *Obj_ctor(Obj_83001FE8 *p)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  if (*(int *)(param_1 + 0x68) == 0) {
-    puVar2 = (undefined4 *)fn_82FA5060(lbl_831BC768,0x34);
-    uVar1 = lbl_821AAD20;
-    if (puVar2 == (undefined4 *)0x0) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    else {
-      *puVar2 = &lbl_8217D040;
-      puVar2[1] = uVar1;
-      puVar2[2] = uVar1;
-      puVar2[3] = uVar1;
-      puVar2[4] = uVar1;
-      puVar2[5] = uVar1;
-      puVar2[6] = uVar1;
-      puVar2[7] = uVar1;
-      puVar2[8] = uVar1;
-      puVar2[9] = uVar1;
-      puVar2[10] = uVar1;
-      puVar2[0xb] = uVar1;
-      puVar2[0xc] = uVar1;
-    }
-    *(undefined4 **)(param_1 + 0x68) = puVar2;
-  }
-  return *(int *)(param_1 + 0x68) != 0;
+  p->vt = lbl_8217D040;
+  p->f[0] = 0.0f;
+  p->f[1] = 0.0f;
+  p->f[2] = 0.0f;
+  p->f[3] = 0.0f;
+  p->f[4] = 0.0f;
+  p->f[5] = 0.0f;
+  p->f[6] = 0.0f;
+  p->f[7] = 0.0f;
+  p->f[8] = 0.0f;
+  p->f[9] = 0.0f;
+  p->f[10] = 0.0f;
+  p->f[11] = 0.0f;
+  return p;
 }
 
+unsigned char fn_83001FE8(Host_83001FE8 *h)
+{
+  if (h->o == 0) {
+    Obj_83001FE8 *p = fn_82FA5060(lbl_831BC768, 0x34);
+    h->o = p != 0 ? Obj_ctor(p) : 0;
+  }
+  return h->o != 0;
+}
