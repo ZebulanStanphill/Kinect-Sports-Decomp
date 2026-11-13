@@ -1,47 +1,67 @@
-extern "C" long _InterlockedExchangeAdd(long *, long);
-extern "C" void __emit(unsigned);
+// Runs a queued request: asks fn_826F35B0 for the request's text, hands a
+// copy of it to the listener, marks the request done and releases the text.
+#include "game/String_8268C510.h"
+
+extern "C" void __emit(unsigned int);
 #define __lwsync() __emit(0x7C2004AC)
-extern "C" void fn_8267BE38(void *);
-extern "C" void fn_8268B330(void *);
-extern "C" void fn_8268C510(void *, unsigned);
-extern "C" void fn_8268C750(void *, void *);
-extern "C" void fn_826D7220(void *);
-extern "C" void fn_826F35B0(void *, void *, void *);
 
-struct Dst_826F8AF0 {
-  virtual void v0();
-  virtual void Call(void *, int);
+struct Request_826F8AF0 {
+    int kind;
+    int first;
+    int second;
 };
-struct Inner_826F8AF0 { char pad[8]; int x8; };
-struct Mid_826F8AF0 { char pad[8]; Inner_826F8AF0 *x8; };
+
+struct Listener_826F8AF0 {
+    virtual void vf00();
+    virtual void Call(const String_8268C510 *text, int context);
+};
+
+struct Inner_826F8AF0 {
+    char pad[8];
+    int context;
+};
+
+struct Source_826F8AF0 {
+    char pad[8];
+    Inner_826F8AF0 *inner;
+};
+
 struct Obj_826F8AF0 {
-  char pad[0x10];
-  Mid_826F8AF0 *x10;
-  int x14;
-  int x18;
-  Dst_826F8AF0 *x1c;
-  int x20;
+    char pad[0x10];
+    Source_826F8AF0 *source;
+    int second;
+    int first;
+    Listener_826F8AF0 *listener;
+    int done;
 };
 
-extern "C" void fn_826F8AF0(Obj_826F8AF0 *o)
+extern "C" {
+void fn_8268B330(unsigned int *text);
+void fn_8268C750(int *dst, int *src);
+void fn_826D7220(Request_826F8AF0 *request);
+void fn_826F35B0(Source_826F8AF0 *source, unsigned int *text, Request_826F8AF0 *request);
+}
+
+extern "C" void fn_826F8AF0(Obj_826F8AF0 *self)
 {
-  struct { unsigned a50; unsigned a54; int a58; int a5c; int a60; } L;
-  long n;
-  unsigned obj;
-  L.a58 = 5;
-  fn_8268C750(&L.a5c, &o->x18);
-  fn_8268C750(&L.a60, &o->x14);
-  fn_8268B330(&L.a50);
-  fn_826F35B0(o->x10, &L.a50, &L.a58);
-  fn_8268C510(&L.a54, (L.a50 & ~3u) + 8);
-  o->x1c->Call(&L.a54, o->x10->x8->x8);
-  obj = L.a54 & ~3u;
-  n = _InterlockedExchangeAdd((long *)(obj + 4), -1);
-  if (n - 1 == 0) fn_8267BE38((void *)obj);
-  __lwsync();
-  o->x20 = 1;
-  obj = L.a50 & ~3u;
-  n = _InterlockedExchangeAdd((long *)(obj + 4), -1);
-  if (n - 1 == 0) fn_8267BE38((void *)obj);
-  fn_826D7220(&L.a58);
+    unsigned int result;
+    Request_826F8AF0 request;
+    StringData_8268C510 *data;
+
+    request.kind = 5;
+    fn_8268C750(&request.first, &self->first);
+    fn_8268C750(&request.second, &self->second);
+    fn_8268B330(&result);
+    fn_826F35B0(self->source, &result, &request);
+    {
+        String_8268C510 text(((StringData_8268C510 *)(result & ~3u))->text);
+        self->listener->Call(&text, self->source->inner->context);
+    }
+    __lwsync();
+    self->done = 1;
+    data = (StringData_8268C510 *)(result & ~3u);
+    if (_InterlockedExchangeAdd(&data->refs, -1) - 1 == 0) {
+        fn_8267BE38(data);
+    }
+    fn_826D7220(&request);
 }
