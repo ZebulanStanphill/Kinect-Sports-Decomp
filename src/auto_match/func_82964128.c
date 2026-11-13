@@ -1,46 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829301D0();
-extern int fn_82934160();
+typedef struct Node_82964128 { char pad[0x78]; struct Node_82964128 *next; } Node_82964128;
+typedef struct Ctx_82964128 { void *f0; Node_82964128 *freeList; void *heap; } Ctx_82964128;
+extern Ctx_82964128 *fn_82934160(void);
+extern void *fn_829301D0(void *heap, unsigned int size, int align);
 
-
-void fn_82964128(undefined8 param_1)
-
+Node_82964128 *fn_82964128(unsigned int size)
 {
-  int iVar1;
-  
-  iVar1 = fn_82934160();
-  if (*(int *)(iVar1 + 4) == 0) {
-    fn_829301D0(*(undefined4 *)(iVar1 + 8),param_1,0x10);
-  }
-  else {
-    *(undefined4 *)(iVar1 + 4) = *(undefined4 *)(*(int *)(iVar1 + 4) + 0x78);
-  }
-  return;
+    Ctx_82964128 *ctx = fn_82934160();
+    Node_82964128 *n = ctx->freeList;
+    if (n != 0) {
+        ctx->freeList = n->next;
+    } else {
+        n = (Node_82964128 *)fn_829301D0(ctx->heap, size, 0x10);
+    }
+    return n;
 }
-

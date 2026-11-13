@@ -1,41 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+// Kinect Sports retail 4D5308C9, function 0x82F71D30 (100 bytes).
+// Releases every node of a singly linked free list through the owner callback at +4
+// (the current node is kept at +0xc while the callback runs).
 
+typedef struct Node_82F71D30 { struct Node_82F71D30 *next; } Node_82F71D30;
+typedef struct {
+    int unk0;
+    void (*release)(Node_82F71D30 *n);
+    Node_82F71D30 *head;
+    Node_82F71D30 *cur;
+} Pool_82F71D30;
 
-void fn_82F71D30(int param_1)
-
+void fn_82F71D30(Pool_82F71D30 *p)
 {
-  if (*(int *)(param_1 + 4) != 0) {
-    while (*(int *)(param_1 + 0xc) = *(int *)(param_1 + 8), *(int *)(param_1 + 8) != 0) {
-      *(undefined4 *)(param_1 + 8) = **(undefined4 **)(param_1 + 0xc);
-      (**(code **)(param_1 + 4))(*(undefined4 **)(param_1 + 0xc));
+    if (p->release != 0) {
+        while ((p->cur = p->head) != 0) {
+            p->head = p->cur->next;
+            p->release(p->cur);
+        }
     }
-  }
-  return;
 }
-

@@ -1,51 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+extern float lbl_821CA45C[];
 extern unsigned int lbl_83265A28;
 
-
-void fn_8235FD70(int param_1,int param_2,int param_3)
-
+static __forceinline float rnd(void)
 {
-  float fVar1;
-  
-  if (param_2 == *(int *)(param_1 + 0x2b20)) {
-    fVar1 = ltcg_pool_0_0f;
-    if (param_3 != 0) {
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      fVar1 = (*(float *)(param_1 + 0xb30) - *(float *)(param_1 + 0xb2c)) *
-              ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) +
-              *(float *)(param_1 + 0xb2c);
-    }
-    *(float *)(param_1 + 0x2c04) = fVar1;
-    return;
-  }
-  return;
+    union { unsigned int i; float f; } value;
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    value.i = lbl_83265A28 & 0x7fffff | 0x3f800000;
+    return value.f - lbl_821CA45C[1];
 }
 
+typedef struct Obj_8235FD70 {
+    char pad0[0xb2c];
+    float base;
+    float cur;
+    char pad1[0x2b20 - 0xb34];
+    unsigned int id;
+    char pad2[0x2c04 - 0x2b24];
+    float value;
+} Obj_8235FD70;
+
+void fn_8235FD70(Obj_8235FD70 *o, unsigned int id, int randomise)
+{
+    if (id == o->id) {
+        float v;
+        if (randomise != 0) {
+            float base = o->base;
+            float cur = o->cur;
+            v = base + (cur - base) * rnd();
+        } else {
+            v = 0.0f;
+        }
+        o->value = v;
+    }
+}

@@ -1,55 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct LargeBlockAllocator_82D02960 {
+    void *vt;
+    int m_a, m_b, m_c;
+    void *m_top;
+    int m_e;
+    void *m_bins[32];
+    void *m_server;
+    int m_g;
+    int m_h;
+    void *m_next, *m_prev;
+    int m_other[4];
+    int m_last, m_end;
+} LargeBlockAllocator_82D02960;
 
-
-void fn_82D02960(int param_1)
-
+void fn_82D02960(LargeBlockAllocator_82D02960 *self)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  
-  *(undefined4 *)(param_1 + 0xc0) = 0;
-  *(undefined4 *)(param_1 + 0xbc) = 0;
-  puVar1 = (undefined4 *)(param_1 + 0x14);
-  *(undefined4 *)(param_1 + 8) = 0;
-  lVar2 = 0x20;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  *(undefined4 *)(param_1 + 0x9c) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(int *)(param_1 + 0xa8) = param_1 + 0xa4;
-  *(undefined4 *)(param_1 + 0xa0) = 3;
-  *(int *)(param_1 + 0x10) = param_1 + 0x9c;
-  *(int *)(param_1 + 0xa4) = param_1 + 0xa4;
-  return;
+    int i;
+    self->m_end = 0;
+    self->m_last = 0;
+    self->m_b = 0;
+    self->m_c = 0;
+    for (i = 0; i < 32; ++i) self->m_bins[i] = 0;
+    self->m_prev = &self->m_next;
+    self->m_h = 3;
+    self->m_g = 0;
+    self->m_top = &self->m_g;
+    self->m_e = 0;
+    self->m_next = &self->m_next;
 }
-

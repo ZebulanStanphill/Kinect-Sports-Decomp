@@ -1,66 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8289FA30();
-extern int fn_828A6468();
-extern int fn_828A6C40();
-extern int fn_828E3AF0();
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+// Kinect Sports retail 4D5308C9, function 0x828A6E70 (172 bytes).
+// map<Key, int>::operator[] (fn_828DFCD0 shape) where Key is {int id; optional<int> opt;}:
+// lower_bound (fn_828E3AF0), compare (fn_8289FA30), else build the pair {key, 0},
+// allocate the node (fn_828A6468) and insert it (fn_828A6C40). Returns &value.
 
+typedef struct {
+    unsigned char initialized;
+    int value;
+} Optional_828A6E70;
 
-longlong fn_828A6E70(int param_1,undefined4 *param_2)
+typedef struct {
+    int id;
+    Optional_828A6E70 opt;
+} Key_828A6E70;
 
+typedef struct {
+    Key_828A6E70 first;
+    int second;
+} Pair_828A6E70;
+
+typedef struct Node_828A6E70 {
+    struct Node_828A6E70 *left;
+    struct Node_828A6E70 *parent;
+    struct Node_828A6E70 *right;
+    Pair_828A6E70 kv;
+} Node_828A6E70;
+
+typedef struct {
+    int f0;
+    Node_828A6E70 *head;
+    int size;
+} Map_828A6E70;
+
+typedef struct {
+    Node_828A6E70 *node;
+} Iter_828A6E70;
+
+extern Node_828A6E70 *fn_828E3AF0(Map_828A6E70 *m, const Key_828A6E70 *key);
+extern unsigned char fn_8289FA30(const Key_828A6E70 *a, const Key_828A6E70 *b);
+extern Node_828A6E70 *fn_828A6468(Map_828A6E70 *m, const Pair_828A6E70 *val);
+extern void fn_828A6C40(Iter_828A6E70 *out, Map_828A6E70 *m, Node_828A6E70 *where, Node_828A6E70 *nn);
+
+int *fn_828A6E70(Map_828A6E70 *m, const Key_828A6E70 *key)
 {
-  ulonglong uVar1;
-  char cVar3;
-  undefined8 uVar2;
-  uint auStack_40 [4];
-  undefined4 uStack_30;
-  undefined1 uStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  
-  uVar1 = fn_828E3AF0();
-  if (((uVar1 & 0xffffffff) == (ulonglong)*(uint *)(param_1 + 4)) ||
-     (cVar3 = fn_8289FA30(param_2,uVar1 + 0xc), cVar3 != '\0')) {
-    uStack_30 = *param_2;
-    uStack_2c = *(char *)(param_2 + 1) != '\0';
-    if ((bool)uStack_2c) {
-      uStack_28 = param_2[2];
-    }
-    uStack_24 = 0;
-    uVar2 = fn_828A6468(param_1,&uStack_30);
-    fn_828A6C40(auStack_40,param_1,uVar1,uVar2);
-    uVar1 = (ulonglong)auStack_40[0];
-  }
-  return uVar1 + 0x18;
-}
+    Node_828A6E70 *n;
+    Iter_828A6E70 it;
+    Pair_828A6E70 p;
 
+    n = fn_828E3AF0(m, key);
+    if (n == m->head || fn_8289FA30(key, &n->kv.first)) {
+        p.first.id = key->id;
+        p.first.opt.initialized = 0;
+        if (key->opt.initialized) {
+            p.first.opt.value = key->opt.value;
+            p.first.opt.initialized = 1;
+        }
+        p.second = 0;
+        fn_828A6C40(&it, m, n, fn_828A6468(m, &p));
+        n = it.node;
+    }
+    return &n->kv.second;
+}

@@ -1,53 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5190();
-
-
-void fn_83016D40(undefined4 *param_1)
-
+typedef struct Node_83016D40 { struct Node_83016D40 *next; } Node_83016D40;
+typedef struct Table_83016D40 { void *heap; Node_83016D40 *buckets[0xc1]; int count; } Table_83016D40;
+extern void fn_82FA5190(void *heap, Node_83016D40 *n);
+void fn_83016D40(Table_83016D40 *t)
 {
-  undefined4 *puVar1;
-  longlong lVar2;
-  undefined4 *puVar3;
-  
-  lVar2 = 0xc1;
-  puVar3 = param_1;
-  do {
-    puVar1 = (undefined4 *)puVar3[1];
-    while (puVar1 != (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)*puVar1;
-      fn_82FA5190(*param_1);
+    int i;
+    for (i = 0; i < 0xc1; i++) {
+        Node_83016D40 *n = t->buckets[i];
+        while (n != 0) {
+            Node_83016D40 *next = n->next;
+            fn_82FA5190(t->heap, n);
+            n = next;
+        }
+        t->buckets[i] = 0;
     }
-    lVar2 = lVar2 + -1;
-    puVar3 = puVar3 + 1;
-    *puVar3 = 0;
-  } while (lVar2 != 0);
-  param_1[0xc2] = 0;
-  return;
+    t->count = 0;
 }
-

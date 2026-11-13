@@ -1,56 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern U64 storeWordConditionalIndexed();
+typedef struct CRITICAL_SECTION_82A37B08 { int words[7]; } CRITICAL_SECTION_82A37B08;
 
+extern void RtlEnterCriticalSection(CRITICAL_SECTION_82A37B08 *cs);
+extern void RtlLeaveCriticalSection(CRITICAL_SECTION_82A37B08 *cs);
+extern int NtClearEvent(void *handle);
+extern long _InterlockedIncrement(long *p);
 
-void fn_82A37B08(longlong param_1)
+typedef struct Obj_82A37B08 {
+    char pad0[0x10];
+    CRITICAL_SECTION_82A37B08 lock;
+    void *event;
+    long count;
+} Obj_82A37B08;
 
+void fn_82A37B08(Obj_82A37B08 *o)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint *puVar3;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  RtlEnterCriticalSection(param_1 + 0x10);
-  do {
-    puVar3 = (uint *)(param_1 + 0x30);
-    lVar2 = (ulonglong)*puVar3 + 1;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(lVar2,0,param_1 + 0x30);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((int)lVar2 == 1) {
-    NtClearEvent(*(undefined4 *)((int)param_1 + 0x2c));
-  }
-  RtlLeaveCriticalSection(param_1 + 0x10);
-  return;
+    RtlEnterCriticalSection(&o->lock);
+    if (_InterlockedIncrement(&o->count) == 1)
+        NtClearEvent(o->event);
+    RtlLeaveCriticalSection(&o->lock);
 }
-

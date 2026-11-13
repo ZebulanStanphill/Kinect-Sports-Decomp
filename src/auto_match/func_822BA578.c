@@ -1,61 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B5CE8();
-extern int fn_82359C18();
-extern int fn_8251FA58();
-extern int fn_8265CA20();
-extern unsigned int lbl_821ACB04;
+extern char lbl_821ACB04[];
+extern void fn_8251FA58(void *p);
+extern void fn_8265CA20(void *p);
+extern void fn_82359C18(void *f);
+extern void fn_822B5CE8(void *self);
 
+typedef struct Vec_822BA578 { void *first, *last, *end; } Vec_822BA578;
+typedef struct Sub_822BA578 {
+    unsigned char func[0x60];
+    Vec_822BA578 vec;
+} Sub_822BA578;
+typedef struct Obj_822BA578 {
+    void *vt;
+    char pad4[0x220];
+    void *p224;
+    int pad228;
+    void *p22c;
+    void *p230;
+    char pad234[0x318 - 0x234];
+    Sub_822BA578 sub;
+} Obj_822BA578;
 
-void fn_822BA578(undefined4 *param_1)
-
+void fn_822BA578(Obj_822BA578 *self)
 {
-  *param_1 = &lbl_821ACB04;
-  if (param_1[0x89] != 0) {
-    fn_8251FA58();
-    param_1[0x89] = 0;
-  }
-  if (param_1[0x8b] != 0) {
-    fn_8251FA58();
-    param_1[0x8b] = 0;
-  }
-  if (param_1[0x8c] != 0) {
-    fn_8251FA58();
-    param_1[0x8c] = 0;
-  }
-  if (param_1[0xde] != 0) {
-    fn_8265CA20();
-  }
-  param_1[0xde] = 0;
-  param_1[0xdf] = 0;
-  param_1[0xe0] = 0;
-  fn_82359C18(param_1 + 0xc6);
-  fn_822B5CE8(param_1);
-  return;
+    Sub_822BA578 *s;
+    self->vt = lbl_821ACB04;
+    if (self->p224 != 0) {
+        fn_8251FA58(self->p224);
+        self->p224 = 0;
+    }
+    if (self->p22c != 0) {
+        fn_8251FA58(self->p22c);
+        self->p22c = 0;
+    }
+    if (self->p230 != 0) {
+        fn_8251FA58(self->p230);
+        self->p230 = 0;
+    }
+    s = &self->sub;
+    if (s->vec.first != 0) {
+        fn_8265CA20(s->vec.first);
+    }
+    s->vec.first = 0;
+    s->vec.last = 0;
+    s->vec.end = 0;
+    fn_82359C18(s);
+    fn_822B5CE8(self);
 }
-

@@ -1,42 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+// Kinect Sports retail 4D5308C9, function 0x82B7F370 (100 bytes).
+// compiledprogram.cpp: runs the translation-buffer callback {context, fn} on itself,
+// asserting pTranslationBuffers (line 0x180). Always returns 0.
+
 extern int fn_82AB15D0();
 
+typedef struct TranslationBuffers_82B7F370 {
+    void *context;
+    void (*callback)(void *context, struct TranslationBuffers_82B7F370 *self);
+} TranslationBuffers_82B7F370;
 
-undefined8 fn_82B7F370(undefined4 *param_1)
+#define FILE_82B7F370 "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledprogram.cpp"
 
+int fn_82B7F370(TranslationBuffers_82B7F370 *pTranslationBuffers)
 {
-  if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dbc60,0xffffffff820dbba0,0x180);
-  }
-  else {
-    (*(code *)param_1[1])(*param_1,param_1);
-  }
-  return 0;
+    if (pTranslationBuffers != 0) {
+        pTranslationBuffers->callback(pTranslationBuffers->context, pTranslationBuffers);
+    } else {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pTranslationBuffers", FILE_82B7F370, 0x180);
+    }
+    return 0;
 }
-

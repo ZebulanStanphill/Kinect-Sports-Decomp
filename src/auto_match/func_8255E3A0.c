@@ -1,51 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8255E320();
+typedef struct Item_8255E3A0 Item_8255E3A0;
 
+typedef struct ItemVtbl_8255E3A0 {
+    void *slots[5];
+    int (*getId)(Item_8255E3A0 *self);
+} ItemVtbl_8255E3A0;
 
-bool fn_8255E3A0(int param_1,undefined8 param_2,undefined8 param_3)
+struct Item_8255E3A0 {
+    ItemVtbl_8255E3A0 *vt;
+};
 
+typedef struct Owner_8255E3A0 {
+    char pad0[0x1b4];
+    Item_8255E3A0 *item;
+} Owner_8255E3A0;
+
+typedef struct Obj_8255E3A0 {
+    char pad0[0x8c0];
+    Owner_8255E3A0 *owner;
+} Obj_8255E3A0;
+
+extern void fn_8255E320(Obj_8255E3A0 *o, int id, int arg);
+
+static __forceinline int getId(Obj_8255E3A0 *o)
 {
-  bool bVar1;
-  int *piVar2;
-  undefined8 uVar3;
-  
-  if ((*(int *)(param_1 + 0x8c0) == 0) ||
-     (piVar2 = *(int **)(*(int *)(param_1 + 0x8c0) + 0x1b4), piVar2 == (int *)0x0)) {
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-    uVar3 = (**(code **)(*piVar2 + 0x14))();
-  }
-  bVar1 = (int)uVar3 != -1;
-  if (bVar1) {
-    fn_8255E320(param_1,uVar3,param_3);
-  }
-  return bVar1;
+    Item_8255E3A0 *item;
+    if (o->owner != 0 && (item = o->owner->item) != 0)
+        return item->vt->getId(item);
+    return -1;
 }
 
+int fn_8255E3A0(Obj_8255E3A0 *o, int unused, int arg)
+{
+    int id = getId(o);
+    if (id == -1)
+        return 0;
+    fn_8255E320(o, id, arg);
+    return 1;
+}

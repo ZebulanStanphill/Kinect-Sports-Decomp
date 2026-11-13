@@ -1,37 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memset();
+extern void *memset(void *dst, int c, unsigned int n);
 
+typedef struct Obj_82A399F8 {
+    char pad0[0xa18];
+    unsigned char a[0xcb8 - 0xa18];
+    unsigned char b[0x2b14 - 0xcb8];
+    unsigned char c[0x2db4 - 0x2b14];
+    unsigned char d[0x2eb5 - 0x2db4];
+    unsigned char count;
+} Obj_82A399F8;
 
-void fn_82A399F8(int param_1)
-
+void fn_82A399F8(Obj_82A399F8 *o)
 {
-                    /* WARNING: Subroutine does not return */
-  memset(param_1 + 0xa18,0,((ulonglong)*(byte *)(param_1 + 0x2eb5) + 0x20) * 8);
+    memset(o->a, 0, (o->count + 0x20) * 8);
+    memset(o->c, 0, (o->count + 0x20) * 8);
+    memset(o->b, 0, 0xf9);
+    memset(o->d, 0, 0xf9);
 }
-

@@ -1,47 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct FuncImpl_828E2A80 FuncImpl_828E2A80;
 
+typedef struct FuncImplVtbl_828E2A80 {
+    void *slots[3];
+    void (*deleteThis)(FuncImpl_828E2A80 *self, int deallocate);
+} FuncImplVtbl_828E2A80;
 
-void fn_828E2A80(int *param_1)
+struct FuncImpl_828E2A80 {
+    FuncImplVtbl_828E2A80 *vt;
+};
 
+typedef struct Function_828E2A80 {
+    double space[2];
+    FuncImpl_828E2A80 *impl;
+} Function_828E2A80;
+
+typedef struct Obj_828E2A80 {
+    Function_828E2A80 a;
+    Function_828E2A80 b;
+} Obj_828E2A80;
+
+static __forceinline void Function_828E2A80_Tidy(Function_828E2A80 *f)
 {
-  int *piVar1;
-  
-  piVar1 = (int *)param_1[10];
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,param_1 + 6 != piVar1);
-    param_1[10] = 0;
-  }
-  piVar1 = (int *)param_1[4];
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,param_1 != piVar1);
-    param_1[4] = 0;
-  }
-  return;
+    if (f->impl != 0) {
+        f->impl->vt->deleteThis(f->impl, f->impl != (FuncImpl_828E2A80 *)f);
+        f->impl = 0;
+    }
 }
 
+void fn_828E2A80(Obj_828E2A80 *o)
+{
+    Function_828E2A80_Tidy(&o->b);
+    Function_828E2A80_Tidy(&o->a);
+}

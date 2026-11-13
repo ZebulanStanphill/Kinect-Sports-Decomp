@@ -1,72 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D1EE70();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_82D1EF88(int param_1,int param_2)
+typedef struct Node_82D1EF88 {
+    struct Node_82D1EF88 *next;
+    char pad4[0xc];
+    __vector4 v;
+} Node_82D1EF88;
 
+typedef struct Obj_82D1EF88 Obj_82D1EF88;
+struct Obj_82D1EF88_vt { void (*destroy)(Obj_82D1EF88 *self, int flags); };
+struct Obj_82D1EF88 { struct Obj_82D1EF88_vt *vt; };
+
+typedef struct World_82D1EF88 {
+    char pad0[0x14];
+    Node_82D1EF88 *first;
+    char pad18[0x7b8 - 0x18];
+    Obj_82D1EF88 *f7b8;
+} World_82D1EF88;
+
+extern void fn_82D1EE70(World_82D1EF88 *w);
+
+void fn_82D1EF88(World_82D1EF88 *w, const __vector4 *scale)
 {
-  undefined4 *puVar1;
-  float *pfVar2;
-  float *pfVar3;
-  float *pfVar4;
-  int in_r0;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  
-  for (puVar1 = *(undefined4 **)(param_1 + 0x14); puVar1 != (undefined4 *)0x0;
-      puVar1 = (undefined4 *)*puVar1) {
-    pfVar2 = (float *)(in_r0 + param_2 & 0xfffffff0);
-    fVar5 = pfVar2[1];
-    fVar6 = pfVar2[2];
-    fVar7 = pfVar2[3];
-    pfVar3 = (float *)((int)puVar1 + in_r0 + 0x10 & 0xfffffff0);
-    fVar8 = pfVar3[1];
-    fVar9 = pfVar3[2];
-    fVar10 = pfVar3[3];
-    pfVar4 = (float *)((int)puVar1 + in_r0 + 0x10 & 0xfffffff0);
-    *pfVar4 = *pfVar3 * *pfVar2;
-    pfVar4[1] = fVar8 * fVar5;
-    pfVar4[2] = fVar9 * fVar6;
-    pfVar4[3] = fVar10 * fVar7;
-  }
-  fn_82D1EE70(param_1);
-  puVar1 = *(undefined4 **)(param_1 + 0x7b8);
-  if (puVar1 == (undefined4 *)0x0) {
-    *(undefined4 *)(param_1 + 0x7b8) = 0;
-    return;
-  }
-  (**(code **)*puVar1)(puVar1,1);
-  *(undefined4 *)(param_1 + 0x7b8) = 0;
-  return;
-}
+    Node_82D1EF88 *n;
+    Obj_82D1EF88 *o;
 
+    for (n = w->first; n != 0; n = n->next) {
+        __vector4 *p = &n->v;
+        *p = __vmulfp(*p, *scale);
+    }
+    fn_82D1EE70(w);
+    o = w->f7b8;
+    if (o != 0) {
+        o->vt->destroy(o, 1);
+    }
+    w->f7b8 = 0;
+}

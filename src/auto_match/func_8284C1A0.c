@@ -1,47 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8284A5D8();
-extern int fn_8284BFC0();
-extern unsigned int uStack00000014;
-extern unsigned int uStack0000001c;
+extern void *fn_8284A5D8(void *self);
+extern void fn_8284BFC0(void *al, void *p, void *val);
+extern void fn_8265CA20(void *p);
 
-
-uint fn_8284C1A0(uint param_1,undefined4 param_2)
-
+/* _Buynode shape: allocate, construct the value; the catch-all deallocate is
+   dead without EH (_TRY_BEGIN/_CATCH_ALL expand to `{` / `} if (0) {`). */
+void *fn_8284C1A0(char *self, void *val)
 {
-  uint uVar1;
-  uint uStack00000014;
-  undefined4 uStack0000001c;
-  
-  uStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uVar1 = fn_8284A5D8(param_1);
-  fn_8284BFC0((ulonglong)uStack00000014 + 0xd,(ulonglong)uVar1 + 0xc,uStack0000001c);
-  return uVar1;
+    char *node = (char *)fn_8284A5D8(self);
+    {
+        fn_8284BFC0(self + 0xd, node + 0xc, val);
+    }
+    if (0) {
+        fn_8265CA20(node);
+    }
+    return node;
 }
-

@@ -1,48 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824B42A0();
-extern int fn_82F63108();
+typedef struct Impl_82F53B80 Impl_82F53B80;
+typedef struct Self_82F53B80 Self_82F53B80;
+typedef struct ImplVt_82F53B80 { void *f0; void (*Do_call)(Impl_82F53B80 *, Self_82F53B80 *); } ImplVt_82F53B80;
+struct Impl_82F53B80 { ImplVt_82F53B80 *vt; };
+typedef struct Func_82F53B80 { char buf[0x10]; Impl_82F53B80 *impl; } Func_82F53B80;
+struct Self_82F53B80 { int f0, f4; Func_82F53B80 cb; int pad1c; unsigned __int64 time; };
+extern unsigned __int64 fn_824B42A0(void);
+extern __declspec(noreturn) void fn_82F63108(void);
 
-
-void fn_82F53B80(int param_1)
-
+void fn_82F53B80(Self_82F53B80 *self)
 {
-  undefined8 uVar1;
-  
-  uVar1 = fn_824B42A0();
-  *(undefined8 *)(param_1 + 0x20) = uVar1;
-  if (*(int *)(param_1 + 0x18) != 0) {
-    if (*(int *)(param_1 + 0x18) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
+    self->time = fn_824B42A0();
+    if (self->cb.impl != 0) {
+        Func_82F53B80 *f = &self->cb;
+        if (f->impl == 0) {
+            fn_82F63108();
+        }
+        f->impl->vt->Do_call(f->impl, self);
     }
-    (**(code **)(**(int **)(param_1 + 0x18) + 4))(*(int **)(param_1 + 0x18),param_1);
-  }
-  return;
 }
-

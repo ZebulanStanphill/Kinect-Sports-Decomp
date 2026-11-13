@@ -1,46 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_82800838();
+// Kinect Sports retail 4D5308C9, function 0x827F71B0 (72 bytes).
+// Returns whether the named value exists: the inlined fn_827F6A78 lookup (value or -1, signed) compared with -1.
 
+extern unsigned int fn_82800838(void *object, unsigned int kind, const char *name, unsigned int *value);
 
-longlong fn_827F71B0(undefined8 param_1,undefined8 param_2)
-
+static __forceinline int GetValue_827F71B0(void *object, const char *name)
 {
-  int iVar1;
-  ulonglong uVar2;
-  uint auStack_10;
-  
-  iVar1 = fn_82800838(param_1,1,param_2,&auStack_10);
-  uVar2 = (ulonglong)auStack_10;
-  if (iVar1 == 0) {
-    uVar2 = 0xffffffffffffffff;
-  }
-  return (uVar2 + 1) - (uVar2 + (uVar2 + 1 == 0));
+    unsigned int value;
+    unsigned int found = fn_82800838(object, 1, name, &value);
+    return found ? value : -1;
 }
 
+int fn_827F71B0(void *object, const char *name)
+{
+    return GetValue_827F71B0(object, name) != -1;
+}

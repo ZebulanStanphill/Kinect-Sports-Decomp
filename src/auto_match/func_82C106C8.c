@@ -1,47 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+// Kinect Sports retail 4D5308C9, function 0x82C106C8 (72 bytes).
+// Clears entry i (< 0x7f) of a 12-byte {used, a, b} table; counterpart of fn_82C105F0.
 
+typedef struct E { int used; int a; int b; } E;
 
-undefined8 fn_82C106C8(int param_1,int param_2)
-
+int fn_82C106C8(E *e, int i)
 {
-  undefined4 *puVar1;
-  
-  if (param_1 == 0) {
-    return 0;
-  }
-  if (0x7e < param_2) {
-    return 0xffffffff80070057;
-  }
-  puVar1 = (undefined4 *)(param_2 * 0xc + param_1);
-  *puVar1 = 0;
-  puVar1[1] = 0;
-  puVar1[2] = 0;
-  return 0;
+    int hr = 0;
+    if (e != 0) {
+        if (i >= 0x7f) {
+            hr = 0x80070057;
+        } else {
+            E *p = &e[i];
+            p->used = 0;
+            p->a = 0;
+            p->b = 0;
+        }
+    }
+    return hr;
 }
-

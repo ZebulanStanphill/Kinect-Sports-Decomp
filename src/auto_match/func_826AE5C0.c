@@ -1,52 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826824B0();
-extern int fn_826944C8();
+typedef struct Pair_826ADCE8 {
+    void *a;
+    void *b;
+    unsigned char flags;
+} Pair_826ADCE8;
 
+typedef struct Owner_826AE5C0 {
+    char pad0[8];
+    int refs;
+} Owner_826AE5C0;
 
-void fn_826AE5C0(int *param_1)
+typedef struct Obj_826AE5C0 {
+    Owner_826AE5C0 *owner;
+    Pair_826ADCE8 pair;
+} Obj_826AE5C0;
 
+extern void fn_826824B0(void *p);
+extern void fn_826944C8(Owner_826AE5C0 *owner);
+
+static __forceinline void Pair_826ADCE8_Destroy(Pair_826ADCE8 *p)
 {
-  longlong lVar1;
-  
-  if (((*(byte *)(param_1 + 3) & 2) == 0) && (param_1[1] != 0)) {
-    fn_826824B0();
-  }
-  param_1[1] = 0;
-  if (((*(byte *)(param_1 + 3) & 1) == 0) && (param_1[2] != 0)) {
-    fn_826824B0();
-  }
-  param_1[2] = 0;
-  lVar1 = (ulonglong)*(uint *)(*param_1 + 8) - 1;
-  *(int *)(*param_1 + 8) = (int)lVar1;
-  if (lVar1 == 0) {
-    fn_826944C8();
-  }
-  return;
+    if ((p->flags & 2) == 0 && p->a != 0) {
+        fn_826824B0(p->a);
+    }
+    p->a = 0;
+    if ((p->flags & 1) == 0 && p->b != 0) {
+        fn_826824B0(p->b);
+    }
+    p->b = 0;
 }
 
+void fn_826AE5C0(Obj_826AE5C0 *o)
+{
+    Owner_826AE5C0 *owner;
+    Pair_826ADCE8_Destroy(&o->pair);
+    owner = o->owner;
+    if (--owner->refs == 0) {
+        fn_826944C8(owner);
+    }
+}

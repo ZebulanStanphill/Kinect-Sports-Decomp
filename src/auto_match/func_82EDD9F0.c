@@ -1,37 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EDD678();
+// Kinect Sports retail 4D5308C9, function 0x82EDD9F0 (100 bytes).
+// Wrapper of the 14-argument surface blit/convert fn_82EDD678: passes the source surface's
+// pitch fields (+4, +8) and zeros for the optional rectangles.
 
+typedef struct {
+    int unk0;
+    int f4;
+    int f8;
+} Surface_82EDD9F0;
 
-void fn_82EDD9F0(void)
+extern void fn_82EDD678(Surface_82EDD9F0 *src, void *dst, int w, int h, int a5, int a6, int a7, int a8,
+                        int a9, int a10, int a11, int a12, int a13, int a14);
 
+void fn_82EDD9F0(Surface_82EDD9F0 *src, void *dst, int w, int h, int a, int b)
 {
-  fn_82EDD678();
-  return;
+    fn_82EDD678(src, dst, w, h, 0, 0, src->f4, src->f8, 0, 0, w, h, a, b);
 }
-

@@ -1,47 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828EB518();
-extern unsigned int lbl_83265988;
+typedef struct Obj_8251C4B8 Obj_8251C4B8;
+typedef struct Vt_8251C4B8 {
+    void *slots[17];
+    unsigned int (*GetPlayer)(Obj_8251C4B8 *self);
+} Vt_8251C4B8;
+struct Obj_8251C4B8 {
+    Vt_8251C4B8 *vt;
+};
 
+extern void *lbl_83265988;
+extern void *fn_828EB518(unsigned int index);
 
-bool fn_8251C4B8(int *param_1)
-
+unsigned char fn_8251C4B8(Obj_8251C4B8 *self)
 {
-  int iVar2;
-  ulonglong uVar1;
-  
-  iVar2 = (**(code **)(*param_1 + 0x44))();
-  if (iVar2 == 0xff) {
-    uVar1 = (ulonglong)lbl_83265988;
-  }
-  else {
-    uVar1 = fn_828EB518();
-  }
-  return uVar1 != 0;
+    unsigned int index = self->vt->GetPlayer(self);
+    void *p;
+    if (index == 0xff)
+        p = lbl_83265988;
+    else
+        p = fn_828EB518(index);
+    return p != 0;
 }
-
