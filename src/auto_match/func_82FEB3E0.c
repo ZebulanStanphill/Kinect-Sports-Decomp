@@ -1,46 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FE89F8();
-extern int fn_82FF6520();
-extern unsigned int lbl_832642E8;
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *);
+extern RTL_CRITICAL_SECTION lbl_8326434C;
+extern void *lbl_832642E8;
+extern void *fn_82FE89F8(const char *);
+extern int fn_82FF6520(void *, void *);
 
-
-undefined8 fn_82FEB3E0(undefined8 param_1,undefined4 *param_2)
-
+int fn_82FEB3E0(const char *name, int *out)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = fn_82FE89F8();
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  uVar2 = fn_82FF6520(lbl_832642E8,uVar1);
-  *param_2 = uVar2;
-  RtlLeaveCriticalSection(0xffffffff8326434c);
-  return 1;
+    void *key = fn_82FE89F8(name);
+    RtlEnterCriticalSection(&lbl_8326434C);
+    *out = fn_82FF6520(lbl_832642E8, key);
+    RtlLeaveCriticalSection(&lbl_8326434C);
+    return 1;
 }
-

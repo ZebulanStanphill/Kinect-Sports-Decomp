@@ -1,60 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8262F6B8();
-extern U64 storeWordConditionalIndexed();
+extern long _InterlockedDecrement(long *);
+extern void fn_8262F6B8(void *);
 
+typedef struct Obj_8262FEC8 {
+    unsigned int flags;
+    long refs;
+    char pad[0x10];
+    struct Obj_8262FEC8 *child;
+} Obj_8262FEC8;
 
-ulonglong fn_8262FEC8(longlong param_1)
-
+unsigned fn_8262FEC8(Obj_8262FEC8 *p)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  uint *puVar3;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  do {
-    puVar3 = (uint *)(param_1 + 4);
-    uVar2 = (ulonglong)*puVar3 - 1;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar2,0,param_1 + 4);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
+    unsigned n = _InterlockedDecrement(&p->refs);
+    if (n == 0) {
+        if ((p->flags & 0xf) == 4 && (p->flags & 0x40000000) != 0) {
+            fn_8262FEC8(p->child);
+        }
+        fn_8262F6B8(p);
+        n = 0;
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar1 = *(uint *)param_1;
-    if (((uVar1 & 0xf) == 4) && ((uVar1 & 0x40000000) != 0)) {
-      fn_8262FEC8(((uint *)param_1)[6]);
-    }
-    fn_8262F6B8(param_1);
-    uVar2 = 0;
-  }
-  return uVar2;
+    return n;
 }
-

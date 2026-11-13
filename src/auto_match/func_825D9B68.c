@@ -1,53 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82592340();
-extern int fn_825D9B50();
-extern int fn_825D9BF0();
-extern int fn_825D9C60();
-extern int fn_825DA5D0();
-extern int fn_82BA02A8();
-extern unsigned int lbl_8329E92C;
+typedef void (*Func_825D9B68)(void);
+typedef struct { Func_825D9B68 f[13]; } Table_825D9B68;
+extern void fn_82592340(Table_825D9B68 *self);
+extern void fn_825D9B50(void);
+extern void fn_825D9BF0(void);
+extern void fn_82BA02A8(void);
+extern void fn_825DA5D0(void);
+extern void fn_825D9C60(void);
+extern Table_825D9B68 lbl_8329E8F8;
+extern unsigned char lbl_8329E92C;
 
-
-void fn_825D9B68(void)
-
+Table_825D9B68 *fn_825D9B68(void)
 {
-  undefined4 *puVar1;
-  
-  if (lbl_8329E92C == '\0') {
-    puVar1 = (undefined4 *)fn_82592340(0xffffffff8329e8f8);
-    *puVar1 = fn_825D9B50;
-    puVar1[1] = fn_825D9BF0;
-    puVar1[2] = fn_82BA02A8;
-    puVar1[3] = fn_825DA5D0;
-    puVar1[5] = fn_825D9C60;
-    lbl_8329E92C = '\x01';
+  if (!lbl_8329E92C) {
+    fn_82592340(&lbl_8329E8F8);
+    lbl_8329E8F8.f[0] = fn_825D9B50;
+    lbl_8329E8F8.f[1] = fn_825D9BF0;
+    lbl_8329E8F8.f[2] = fn_82BA02A8;
+    lbl_8329E8F8.f[3] = fn_825DA5D0;
+    lbl_8329E8F8.f[5] = fn_825D9C60;
+    lbl_8329E92C = 1;
   }
-  return;
+  return &lbl_8329E8F8;
 }
-

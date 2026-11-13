@@ -1,52 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int ltcg_pool_0_0f;
+/* Resets two floats and clears the vector<Pair> at +8 (erase(begin(), end()) inlined). */
+typedef struct Pair_824E0A60 { int a; int b; } Pair_824E0A60;
+typedef struct Vec_824E0A60 { Pair_824E0A60 *first; Pair_824E0A60 *last; } Vec_824E0A60;
+typedef struct Obj_824E0A60 {
+  char pad0[8];
+  Vec_824E0A60 items;
+  char pad10[8];
+  float f18;
+  float f1c;
+} Obj_824E0A60;
 
-
-/* WARNING: Removing unreachable block (ram,0x824e0a90) */
-
-void fn_824E0A60(int param_1)
-
+static __forceinline Pair_824E0A60 *copy_824E0A60(Pair_824E0A60 *s, Pair_824E0A60 *e, Pair_824E0A60 *d)
 {
-  int iVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  uVar2 = ltcg_pool_0_0f;
-  iVar1 = *(int *)(param_1 + 8);
-  *(undefined4 *)(param_1 + 0x1c) = ltcg_pool_0_0f;
-  *(undefined4 *)(param_1 + 0x18) = uVar2;
-  if (iVar1 != *(int *)(param_1 + 0xc)) {
-    for (iVar3 = iVar1; iVar3 != *(int *)(param_1 + 0xc); iVar3 = iVar3 + 8) {
-    }
-    *(int *)(param_1 + 0xc) = iVar1;
-    return;
+  for (; s != e; s++, d++) {
+    *d = *s;
   }
-  return;
+  return d;
 }
 
+static __forceinline void destroy_824E0A60(Pair_824E0A60 *p, Pair_824E0A60 *e)
+{
+  for (; p != e; p++)
+    ;
+}
+
+static __forceinline void erase_824E0A60(Vec_824E0A60 *v, Pair_824E0A60 *first, Pair_824E0A60 *last)
+{
+  if (first != last) {
+    Pair_824E0A60 *p = copy_824E0A60(last, v->last, first);
+    destroy_824E0A60(p, v->last);
+    v->last = p;
+  }
+}
+
+static __forceinline void clear_824E0A60(Vec_824E0A60 *v) { erase_824E0A60(v, v->first, v->last); }
+void fn_824E0A60(Obj_824E0A60 *o)
+{
+  o->f1c = 0.0f;
+  o->f18 = 0.0f;
+  clear_824E0A60(&o->items);
+}

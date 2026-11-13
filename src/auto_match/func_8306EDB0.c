@@ -1,51 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern V16 vectorConditionalSelect();
-extern V16 vectorConvertFromSignedFixedPoint128();
-extern V16 vectorMultiplyAddFloatingPoint();
-extern V16 vectorNegativeMultiplySubtractFloatingPoint();
-extern V16 vectorSplatImmediateSignedWord128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltisw(int value);
+__vector4 __vcfsx(__vector4 v, int shift);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+__vector4 __vrsqrtefp(__vector4 v);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
+__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
 
-void fn_8306EDB0(void)
-
+__vector4 fn_8306EDB0(__vector4 v)
 {
-  undefined1 in_vs32 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar1 [16];{ V16 _vt0 = vectorSplatImmediateSignedWord128(1); memcpy(auVar1, &_vt0, 16); }
-  vectorSplatImmediateSignedWord128(0);
-  vectorConvertFromSignedFixedPoint128(auVar1,1);{ V16 _vt1 = vectorNegativeMultiplySubtractFloatingPoint(in_vs44,in_vs43,in_vs42); memcpy(auVar1, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs32,auVar1,in_vs32); memcpy(auVar1, &_vt2, 16); }
-  vectorConditionalSelect(auVar1,in_vs45,in_vs41);
-  return;
-}
+    __vector4 d, h, rsq, rt, mask, rcp, zero, result;
 
+    d = __vmsum3fp(v, v);
+    h = __vspltisw(1);
+    zero = __vspltisw(0);
+    h = __vcfsx(h, 1);
+    rsq = __vrsqrtefp(d);
+    rt = __vmulfp(d, h);
+    mask = __vcmpeqfp(d, zero);
+    rcp = __vmulfp(rsq, rsq);
+    h = __vnmsubfp(rt, rcp, h);
+    rsq = __vmaddfp(rsq, h, rsq);
+    result = __vmulfp(v, rsq);
+    return __vsel(result, d, mask);
+}

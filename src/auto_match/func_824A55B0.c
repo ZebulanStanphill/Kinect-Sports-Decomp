@@ -1,76 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_82F53A20();
-extern unsigned int lbl_821BF71C;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
+__vector4 __VMXGetReg(int);
+typedef struct { int v[5]; } Block_824A55B0;
+typedef struct Src_824A55B0 {
+  int pad[18];
+  Block_824A55B0 data;
+} Src_824A55B0;
+typedef struct Obj_824A55B0 {
+  void *vt;
+  int base[14];
+  Block_824A55B0 data;
+  __vector4 v50;
+  float f60;
+  int f64;
+  int f68;
+  int pad6c;
+  int f70;
+  int pad74[3];
+} Obj_824A55B0;
 
+extern void *fn_8265C9E0(unsigned);
+extern void fn_82F53A20(void *, void *);
+extern char lbl_821BF71C[];
 
-undefined4 * fn_824A55B0(int param_1)
-
+Obj_824A55B0 *fn_824A55B0(Src_824A55B0 *src)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  longlong lVar5;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  
-  puVar2 = (undefined4 *)fn_8265C9E0(0x80);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
+  Obj_824A55B0 *p = (Obj_824A55B0 *)fn_8265C9E0(0x80);
+  if (p != 0) {
+    fn_82F53A20(p, src);
+    p->vt = lbl_821BF71C;
+    p->data = src->data;
+    p->v50 = __VMXGetReg(77);
+    p->f60 = 0.0f;
+    p->f64 = 0;
+    p->f70 = 0;
+    p->f68 = 0;
+    return p;
   }
-  else {
-    fn_82F53A20(puVar2,param_1);
-    puVar4 = (undefined4 *)(param_1 + 0x44);
-    *puVar2 = &lbl_821BF71C;
-    puVar3 = puVar2 + 0xe;
-    lVar5 = 5;
-    do {
-      puVar4 = puVar4 + 1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = *puVar4;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    puVar2[0x19] = 0;
-    uVar1 = ltcg_pool_0_0f;
-    puVar2[0x1c] = 0;
-    puVar2[0x18] = uVar1;
-    puVar2[0x1a] = 0;
-    puVar4 = (undefined4 *)((uint)(puVar2 + 0x14) & 0xfffffff0);
-    *puVar4 = in_register_000104d0;
-    puVar4[1] = in_register_000104d4;
-    puVar4[2] = in_register_000104d8;
-    puVar4[3] = in_vr77;
-  }
-  return puVar2;
+  return 0;
 }
-

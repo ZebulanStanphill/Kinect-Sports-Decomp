@@ -1,90 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D2B950();
-
-
-undefined4 * fn_82D2D320(undefined4 *param_1,int param_2)
-
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+  float vector4_f32[4];
+} __vector4;
+typedef struct Node_82D2D320 {
+  struct Node_82D2D320 *next;
+  struct Node_82D2D320 *prev;
+  int pad8[2];
+  __vector4 a;
+  __vector4 b;
+  __vector4 c;
+  int d, e;
+} Node_82D2D320;
+typedef struct Pool_82D2D320 {
+  char pad[0xa00];
+  Node_82D2D320 *free;
+  int used;
+} Pool_82D2D320;
+typedef struct List_82D2D320 {
+  Pool_82D2D320 **pool;
+  int ready;
+  int f8;
+  Node_82D2D320 *head;
+  int count;
+} List_82D2D320;
+extern Pool_82D2D320 *fn_82D2B950(List_82D2D320 *);
+Node_82D2D320 *fn_82D2D320(List_82D2D320 *l, Node_82D2D320 *src)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  int iVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  
-  if (param_1[1] != 0) {
-    iVar4 = *(int *)*param_1;
-    if (*(int *)(iVar4 + 0xa00) != 0) goto LAB_82d2d364;
+  Pool_82D2D320 *pool;
+  Node_82D2D320 *n;
+  if (l->ready == 0 || (pool = *l->pool, pool->free == 0)) {
+    pool = fn_82D2B950(l);
   }
-  iVar4 = fn_82D2B950(param_1);
-LAB_82d2d364:
-  puVar1 = *(undefined4 **)(iVar4 + 0xa00);
-  uVar5 = *puVar1;
-  *(int *)(iVar4 + 0xa04) = *(int *)(iVar4 + 0xa04) + 1;
-  *(undefined4 *)(iVar4 + 0xa00) = uVar5;
-  puVar2 = (undefined4 *)(param_2 + 0x10U & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (undefined4 *)((uint)(puVar1 + 4) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  puVar2 = (undefined4 *)(param_2 + 0x20U & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (undefined4 *)((uint)(puVar1 + 8) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  puVar2 = (undefined4 *)(param_2 + 0x30U & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (undefined4 *)((uint)(puVar1 + 0xc) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  puVar1[0x10] = *(undefined4 *)(param_2 + 0x40);
-  puVar1[0x11] = *(undefined4 *)(param_2 + 0x44);
-  puVar1[1] = 0;
-  *puVar1 = param_1[3];
-  if (param_1[3] != 0) {
-    *(undefined4 **)(param_1[3] + 4) = puVar1;
+  n = pool->free;
+  pool->free = n->next;
+  pool->used++;
+  n->a = src->a;
+  n->b = src->b;
+  n->c = src->c;
+  n->d = src->d;
+  n->e = src->e;
+  n->prev = 0;
+  n->next = l->head;
+  if (l->head != 0) {
+    l->head->prev = n;
   }
-  param_1[3] = puVar1;
-  param_1[4] = param_1[4] + 1;
-  return puVar1;
+  l->head = n;
+  l->count++;
+  return n;
 }
-

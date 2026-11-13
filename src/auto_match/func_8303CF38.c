@@ -1,46 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8302BBA8();
-extern unsigned int lbl_821AAD20;
+// Kinect Sports retail 4D5308C9, function 0x8303CF38 (84 bytes).
+// Forwards to vtable slot 0xB4 of dev with 0, 0.0f, bits 3..7 of the word at o+0x14 and fn_8302BBA8(o).
+typedef void (*Fn_8303CF38)(void *dev, int a, int b, float f, unsigned int bits, int c);
 
+struct Dev_8303CF38 {
+    Fn_8303CF38 *vt;
+};
 
-void fn_8303CF38(int param_1,int *param_2,undefined8 param_3,undefined8 param_4)
+extern int fn_8302BBA8(int o);
 
+void fn_8303CF38(int o, struct Dev_8303CF38 *dev, int a)
 {
-  uint uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  uVar1 = *(uint *)(param_1 + 0x14);
-  iVar2 = *param_2;
-  uVar3 = fn_8302BBA8();
-  (**(code **)(iVar2 + 0xb4))
-            ((double)lbl_821AAD20,param_2,param_3,0,param_4,uVar1 >> 3 & 0x1f,uVar3);
-  return;
+    unsigned int bits = (*(unsigned int *)(o + 0x14) >> 3) & 0x1f;
+    dev->vt[0xB4 / 4](dev, a, 0, 0.0f, bits, fn_8302BBA8(o));
 }
-
