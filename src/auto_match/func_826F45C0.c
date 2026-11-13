@@ -1,62 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826D69D0();
+typedef struct Pool_826F45C0 {
+    char *cur;
+    unsigned int left;
+} Pool_826F45C0;
 
+typedef struct Owner_826F45C0 {
+    char pad0[8];
+    Pool_826F45C0 pool;
+} Owner_826F45C0;
 
-undefined4 * fn_826F45C0(int param_1)
+typedef struct Node_826F45C0 {
+    int field[9];
+} Node_826F45C0;
 
+extern void *fn_826D69D0(Pool_826F45C0 *pool, unsigned int size);
+
+static __forceinline void *Alloc(Pool_826F45C0 *pool, unsigned int size)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  puVar1 = (undefined4 *)(param_1 + 8);
-  if (*(uint *)(param_1 + 0xc) < 0x24) {
-    puVar2 = (undefined4 *)fn_826D69D0(puVar1,0x24);
-  }
-  else {
-    puVar2 = (undefined4 *)*puVar1;
-    *(uint *)(param_1 + 0xc) = *(uint *)(param_1 + 0xc) - 0x24;
-    *puVar1 = puVar2 + 9;
-  }
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar2 = 0;
-    puVar2[1] = 0;
-    puVar2[2] = 0;
-    puVar2[3] = 0;
-    puVar2[4] = 0;
-    puVar2[5] = 0;
-    puVar2[6] = 0;
-    puVar2[7] = 0;
-    puVar2[8] = 0;
-  }
-  return puVar2;
+    char *mem;
+
+    if (pool->left >= size) {
+        mem = pool->cur;
+        pool->left -= size;
+        pool->cur = mem + size;
+    } else {
+        mem = (char *)fn_826D69D0(pool, size);
+    }
+    return mem;
 }
 
+static __forceinline Node_826F45C0 *Init(Node_826F45C0 *node)
+{
+    node->field[0] = 0;
+    node->field[1] = 0;
+    node->field[2] = 0;
+    node->field[3] = 0;
+    node->field[4] = 0;
+    node->field[5] = 0;
+    node->field[6] = 0;
+    node->field[7] = 0;
+    node->field[8] = 0;
+    return node;
+}
+
+Node_826F45C0 *fn_826F45C0(Owner_826F45C0 *self)
+{
+    Node_826F45C0 *node = (Node_826F45C0 *)Alloc(&self->pool, sizeof(Node_826F45C0));
+
+    return node ? Init(node) : 0;
+}

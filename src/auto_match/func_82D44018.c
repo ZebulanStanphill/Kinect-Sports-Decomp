@@ -1,62 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int lbl_821AAD20;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorAddFloatingPoint();
+/* hkpConvexShape::getCentre (vtable slot 0x44, folded for hkpConvexListShape, hkpConvexTransformShapeBase
+   and hkpConvexPieceShape): the centre of the shape's AABB in the identity transform. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-void fn_82D44018(int *param_1,int param_2,undefined8 param_3)
+typedef struct Aabb_82D44018 {
+    __vector4 min;
+    __vector4 max;
+} Aabb_82D44018;
 
+struct Shape_82D44018;
+typedef struct ShapeVt_82D44018 {
+    void *slot[7];
+    void (*getAabb)(struct Shape_82D44018 *self, const void *transform, float tolerance, Aabb_82D44018 *out);
+} ShapeVt_82D44018;
+
+typedef struct Shape_82D44018 {
+    ShapeVt_82D44018 *vt;
+} Shape_82D44018;
+
+extern char lbl_8323B1D0[];
+
+static __forceinline __vector4 Splat(float value)
 {
-  float *pfVar1;
-  undefined8 in_r0;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
-  float in_register_000100a0;
-  float in_register_000100a4;
-  float in_register_000100a8;
-  float in_vr10;
-  float in_register_000100c0;
-  float in_register_000100c4;
-  float in_register_000100c8;
-  float in_vr12;
-  undefined1 auStack_30 [32];
-  
-  (**(code **)(*param_1 + 0x1c))((double)lbl_821AAD20,param_1,0xffffffff8323b1d0,param_3,auStack_30)
-  ;
-  vectorAddFloatingPoint(in_vs32,in_vs45);
-  loadVectorLeftIndexed128(in_r0,0xffffffff82002c5c);
-  pfVar1 = (float *)((int)in_r0 + param_2 & 0xfffffff0);
-  *pfVar1 = in_register_000100c0 * in_register_000100a0;
-  pfVar1[1] = in_register_000100c4 * in_register_000100a4;
-  pfVar1[2] = in_register_000100c8 * in_register_000100a8;
-  pfVar1[3] = in_vr12 * in_vr10;
-  return;
+    return __vspltw(__lvlx(&value, 0), 0);
 }
 
+void fn_82D44018(Shape_82D44018 *self, __vector4 *centre)
+{
+    Aabb_82D44018 aabb;
+
+    self->vt->getAabb(self, lbl_8323B1D0, 0.0f, &aabb);
+    *centre = __vmulfp(__vaddfp(aabb.max, aabb.min), Splat(0.5f));
+}

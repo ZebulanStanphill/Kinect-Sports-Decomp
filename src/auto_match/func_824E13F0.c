@@ -1,51 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824CCAE8();
-extern int fn_824CCFC8();
-extern int fn_824CEC28();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct { char pad0[0x60]; float time; } Timer_824E13F0;
+typedef struct { char pad0[0xfc]; Timer_824E13F0 *timer; } Obj_824E13F0;
+extern int fn_824CCFC8(Obj_824E13F0 *o);
+extern void fn_824CEC28(Obj_824E13F0 *o);
+extern void fn_824CCAE8(Obj_824E13F0 *o, float dt);
 
-
-void fn_824E13F0(double param_1,int param_2)
-
+void fn_824E13F0(Obj_824E13F0 *o, float dt)
 {
-  int iVar1;
-  
-  fn_824CEC28();
-  fn_824CCAE8(param_1,param_2);
-  iVar1 = fn_824CCFC8(param_2);
-  if (iVar1 == 0) {
-    *(undefined4 *)(*(int *)(param_2 + 0xfc) + 0x60) = ltcg_pool_0_0f;
-  }
-  else {
-    *(float *)(*(int *)(param_2 + 0xfc) + 0x60) =
-         (float)(param_1 + (double)*(float *)(*(int *)(param_2 + 0xfc) + 0x60));
-  }
-  return;
+    fn_824CEC28(o);
+    fn_824CCAE8(o, dt);
+    if (fn_824CCFC8(o) != 0) {
+        o->timer->time = dt + o->timer->time;
+    } else {
+        o->timer->time = 0.0f;
+    }
 }
-

@@ -1,37 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
+typedef struct Block_825A23C0 {
+    unsigned short count;
+    unsigned short stride;
+    char *begin;
+    char *cur;
+    char *end;
+} Block_825A23C0;
 
+extern void *fn_82522D98(unsigned int size);
 
-void fn_825A23C0(int param_1,int param_2)
-
+Block_825A23C0 *fn_825A23C0(int count, int stride)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82522D98((longlong)param_1 * (longlong)param_2 + 0x10);
+    int size = count * stride;
+    Block_825A23C0 *b = (Block_825A23C0 *)fn_82522D98(size + sizeof(Block_825A23C0));
+    char *data;
+    b->count = count;
+    if (stride == 0)
+        stride = 10;
+    b->stride = stride;
+    data = (char *)(b + 1);
+    b->begin = data;
+    b->cur = data;
+    b->end = data + size;
+    return b;
 }
-

@@ -1,96 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82F68CC0();
-extern unsigned int lbl_82196750;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+void *memcpy(void *dst, const void *src, unsigned int size);
 
-void fn_8236C428(longlong param_1)
+typedef struct State_8236C428 {
+    __vector4 v0;   /* 0x00 */
+    __vector4 v10;  /* 0x10 */
+    __vector4 v20;  /* 0x20 */
+    __vector4 v30;  /* 0x30 */
+    float f40;      /* 0x40 */
+    int i44;        /* 0x44 */
+    float f48;      /* 0x48 */
+    int i4c;        /* 0x4c */
+    int i50;        /* 0x50 */
+    unsigned int i54;      /* 0x54 */
+    int i58;        /* 0x58 */
+    int i5c;        /* 0x5c */
+    int i60;        /* 0x60 */
+    int pad64[3];
+} State_8236C428;
 
+typedef struct Obj_8236C428 {
+    char pad[0xd90];
+    State_8236C428 state;
+} Obj_8236C428;
+
+extern const __vector4 lbl_82196750;
+
+static __forceinline void Store(__vector4 *d, __vector4 v)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [16];
-  undefined1 auStack_50 [16];
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  
-  puVar1 = (undefined4 *)((uint)(auStack_60 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  puVar1 = (undefined4 *)((uint)(&lbl_82196750 + in_r0) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)((uint)(auStack_80 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  uStack_3c = 0;
-  uStack_30 = 0xffffffff;
-  uStack_40 = ltcg_pool_0_0f;
-  uStack_2c = 0xffffffff;
-  uStack_38 = ltcg_pool_0_0f;
-  uStack_24 = 0;
-  uStack_20 = 0;
-  fn_82F68CC0(param_1 + 0xd90,auStack_80,0x70);
-  return;
+    *d = v;
 }
 
+void fn_8236C428(Obj_8236C428 *self)
+{
+    State_8236C428 s;
+
+    Store(&s.v20, __VMXGetReg(77));
+    s.v0 = lbl_82196750;
+    Store(&s.v30, __VMXGetReg(77));
+    s.i44 = 0;
+    s.i50 = -1;
+    s.f40 = 0.0f;
+    s.i54 = 0xffffffff;
+    s.f48 = 0.0f;
+    s.i5c = 0;
+    s.i60 = 0;
+    self->state = s;
+}

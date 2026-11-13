@@ -1,84 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82636580();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Writer_82636230 {
+    char pad0[0x4dbc];
+    int status;
+} Writer_82636230;
 
+typedef struct Stream_82636230 {
+    int f0;
+    int f4;
+    int f8;
+    int headerSize;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int dataSize;
+    int f24;
+} Stream_82636230;
 
-longlong fn_82636230(int param_1)
+extern int fn_82636580(Writer_82636230 *self, Stream_82636230 *stream);
 
+int fn_82636230(Writer_82636230 *self)
 {
-  longlong lVar1;
-  int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+    Stream_82636230 stream;
+    int headerSize;
+    int dataSize;
 
-  undefined4 uStack_38;
-  uint uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  uint uStack_20;
-  undefined4 uStack_1c;
-  
-  if (*(int *)(param_1 + 0x4dbc) < 0) {
-    lVar1 = 0;
-  }
-  else {
-    stack_pair_40.first = 0;
-    uVar4 = 0;
-    stack_pair_40.second = 0;
-    uVar3 = 0;
-    uStack_38 = 0;
-    uStack_34 = 0;
-    uStack_30 = 0;
-    uStack_2c = 0;
-    uStack_28 = 0;
-    uStack_24 = 0;
-    uStack_20 = 0;
-    uStack_1c = 0;
-    iVar2 = fn_82636580(param_1,&stack_pair_40.first);
-    if (-1 < iVar2) {
-      uVar4 = (ulonglong)uStack_20;
-      uVar3 = (ulonglong)uStack_34;
+    if (self->status < 0) {
+        return 0;
     }
-    lVar1 = uVar3 + uVar4;
-  }
-  return lVar1;
+    stream.f0 = 0;
+    stream.f4 = 0;
+    stream.f8 = 0;
+    stream.headerSize = 0;
+    stream.f10 = 0;
+    stream.f14 = 0;
+    stream.f18 = 0;
+    stream.f1c = 0;
+    stream.dataSize = 0;
+    stream.f24 = 0;
+    dataSize = 0;
+    headerSize = 0;
+    if (fn_82636580(self, &stream) >= 0) {
+        dataSize = stream.dataSize;
+        headerSize = stream.headerSize;
+    }
+    return headerSize + dataSize;
 }
-

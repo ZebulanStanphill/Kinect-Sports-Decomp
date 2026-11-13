@@ -1,46 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Shape_82D535D8 {
+    char pad0[0xc];
+    int type;
+    unsigned char flag;
+    char pad11[7];
+    void *a;
+    char pad1c[0x18];
+    void *b;
+} Shape_82D535D8;
 
+typedef struct Holder_82D535D8 {
+    Shape_82D535D8 *shape;
+} Holder_82D535D8;
 
-undefined4 fn_82D535D8(int *param_1)
-
+void *fn_82D535D8(Holder_82D535D8 *self)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  if (*(int *)(iVar1 + 0xc) == 8) {
-    if (*(char *)(iVar1 + 0x10) == '\x01') {
-      return *(undefined4 *)(iVar1 + 0x18);
+    Shape_82D535D8 *s = self->shape;
+    switch (s->type) {
+    case 8:
+        if (s->flag == 1)
+            return s->a;
+        break;
+    case 10:
+        return s->b;
     }
-  }
-  else if (*(int *)(iVar1 + 0xc) == 10) {
-    return *(undefined4 *)(iVar1 + 0x34);
-  }
-  return 0;
+    return 0;
 }
-

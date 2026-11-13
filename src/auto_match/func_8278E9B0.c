@@ -1,60 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F643F8();
-extern float lbl_82011628;
+typedef struct Src_8278E9B0 {
+    unsigned char mode;
+    unsigned char b1;
+    unsigned char b2;
+    unsigned char b3;
+    unsigned short h4;
+    unsigned short h6;
+    union {
+        unsigned int w8;
+        unsigned char b8;
+    } u8;
+} Src_8278E9B0;
 
+typedef struct Dial_8278E9B0 {
+    char pad0[8];
+    unsigned char b8;
+    unsigned char b9;
+    unsigned char bA;
+    unsigned char bB;
+    unsigned char bC;
+    unsigned char bD;
+    unsigned char bE;
+    unsigned char bF;
+    unsigned short h10;
+    unsigned short h12;
+    unsigned short h14;
+    unsigned short h16;
+    unsigned int w18;
+} Dial_8278E9B0;
 
-void fn_8278E9B0(int param_1,byte *param_2)
+extern void fn_8272C070(void *dial);
 
+void fn_8278E9B0(Dial_8278E9B0 *self, Src_8278E9B0 *src)
 {
-  byte bVar1;
-  
-  bVar1 = *param_2;
-  if ((bVar1 & 0xf) == 1) {
-    *(byte *)(param_1 + 8) = param_2[1];
-    *(byte *)(param_1 + 9) = param_2[2];
-    *(byte *)(param_1 + 10) = param_2[3];
-    return;
-  }
-  if (((bVar1 & 0xf) != 0) && ((bVar1 & 0xf) != 2)) {
-    return;
-  }
-  *(byte *)(param_1 + 0xb) = bVar1 & 0xf0;
-  *(byte *)(param_1 + 0xc) = param_2[1];
-  *(byte *)(param_1 + 0xd) = param_2[2];
-  *(byte *)(param_1 + 0xe) = param_2[3];
-  *(byte *)(param_1 + 0xf) = param_2[8];
-  *(undefined2 *)(param_1 + 0x10) = *(undefined2 *)(param_2 + 4);
-  *(undefined2 *)(param_1 + 0x12) = *(undefined2 *)(param_2 + 6);
-  *(undefined2 *)(param_1 + 0x14) = 0;
-  *(undefined2 *)(param_1 + 0x16) = 0;
-  *(undefined4 *)(param_1 + 0x18) = *(undefined4 *)(param_2 + 8);
-                    /* WARNING: Subroutine does not return */
-  fn_82F643F8((double)((float)(longlong)*(short *)(param_1 + 0x10) * lbl_82011628));
-}
+    unsigned int kind = src->mode & 0xf;
 
+    if (kind == 1) {
+        self->b8 = src->b1;
+        self->b9 = src->b2;
+        self->bA = src->b3;
+        return;
+    }
+    if (kind != 0 && kind != 2) {
+        return;
+    }
+    self->bB = src->mode & 0xf0;
+    self->bC = src->b1;
+    self->bD = src->b2;
+    self->bE = src->b3;
+    self->bF = src->u8.b8;
+    self->h10 = src->h4;
+    self->h12 = src->h6;
+    self->h14 = 0;
+    self->h16 = 0;
+    self->w18 = src->u8.w8;
+    fn_8272C070(self);
+}

@@ -1,66 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_826C59F8();
-extern int fn_826C84C8();
+typedef struct Sprite_826C87E0 Sprite_826C87E0;
 
+typedef struct Fn_826C87E0 {
+    char pad[0x18];
+    int ctx;
+    int argc;
+} Fn_826C87E0;
 
-void fn_826C87E0(int param_1)
+extern Sprite_826C87E0 *fn_826C59F8(Fn_826C87E0 *self);
+extern void *fn_826957D0(Fn_826C87E0 *self, int index);
+extern double fn_826972E0(void *arg, int ctx);
+extern void fn_826C84C8(Sprite_826C87E0 *s, float a, float b, float c, float d);
 
+void fn_826C87E0(Fn_826C87E0 *self)
 {
-  undefined4 uVar1;
-  longlong lVar2;
-  undefined8 uVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  
-  lVar2 = fn_826C59F8();
-  if ((lVar2 != 0) && (3 < *(int *)(param_1 + 0x1c))) {
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    uVar3 = fn_826957D0(param_1,0);
-    dVar4 = (double)fn_826972E0(uVar3,uVar1);
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    dVar7 = (double)(float)dVar4;
-    uVar3 = fn_826957D0(param_1,1);
-    dVar4 = (double)fn_826972E0(uVar3,uVar1);
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    dVar6 = (double)(float)dVar4;
-    uVar3 = fn_826957D0(param_1,2);
-    dVar4 = (double)fn_826972E0(uVar3,uVar1);
-    uVar1 = *(undefined4 *)(param_1 + 0x18);
-    dVar5 = (double)(float)dVar4;
-    uVar3 = fn_826957D0(param_1,3);
-    dVar4 = (double)fn_826972E0(uVar3,uVar1);
-    fn_826C84C8(dVar7,dVar6,dVar5,(double)(float)dVar4,lVar2);
-  }
-  return;
-}
+    Sprite_826C87E0 *s;
+    float a;
+    float b;
+    float c;
+    float d;
 
+    s = fn_826C59F8(self);
+    if (s != 0 && self->argc >= 4) {
+        a = (float)fn_826972E0(fn_826957D0(self, 0), self->ctx);
+        b = (float)fn_826972E0(fn_826957D0(self, 1), self->ctx);
+        c = (float)fn_826972E0(fn_826957D0(self, 2), self->ctx);
+        d = (float)fn_826972E0(fn_826957D0(self, 3), self->ctx);
+        fn_826C84C8(s, a, b, c, d);
+    }
+}

@@ -1,50 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8315C880;
-extern unsigned int lbl_8315C890;
-extern unsigned int lbl_8315C8A0;
-extern unsigned int lbl_8315C8B0;
-extern unsigned int lbl_8315C8C0;
-extern unsigned int lbl_83218BA0;
-extern unsigned int lbl_83218BA4;
-extern unsigned int lbl_83218BA8;
-extern unsigned int lbl_83218BAC;
-extern unsigned int lbl_83218BB0;
-
+extern float lbl_8315C878[4];
+extern float lbl_8315C888[4];
+extern float lbl_8315C898[4];
+extern float lbl_8315C8A8[4];
+extern float lbl_8315C8B8[4];
+extern float lbl_83218BA0[5];
 
 void fn_83129AD8(void)
-
 {
-  lbl_83218BA0 = lbl_8315C880;
-  lbl_83218BA4 = lbl_8315C890;
-  lbl_83218BA8 = lbl_8315C8A0;
-  lbl_83218BAC = lbl_8315C8B0;
-  lbl_83218BB0 = lbl_8315C8C0;
-  return;
+    lbl_83218BA0[0] = lbl_8315C878[2];
+    lbl_83218BA0[1] = lbl_8315C888[2];
+    lbl_83218BA0[2] = lbl_8315C898[2];
+    lbl_83218BA0[3] = lbl_8315C8A8[2];
+    lbl_83218BA0[4] = lbl_8315C8B8[2];
 }
-

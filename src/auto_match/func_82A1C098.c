@@ -1,46 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct XOverlapped_82A1C098 {
+    unsigned int internalLow;
+    unsigned int internalHigh;
+    unsigned int internalContext;
+    void *event;
+    void *completionRoutine;
+    unsigned int completionContext;
+    unsigned int extendedError;
+} XOverlapped_82A1C098;
 
+extern unsigned int fn_82A1F470(void); /* GetLastError */
 
-int fn_82A1C098(int *param_1)
+#define ERROR_IO_INCOMPLETE 996
+#define ERROR_IO_PENDING 997
 
+unsigned int fn_82A1C098(XOverlapped_82A1C098 *ov)
 {
-  int in_r13;
-  
-  if (param_1 != (int *)0x0) {
-    if (*param_1 == 0x3e5) {
-      return 0x3e4;
-    }
-    return param_1[6];
-  }
-  if (*(int *)(in_r13 + 0x150) == 0) {
-    return *(int *)(*(int *)(in_r13 + 0x100) + 0x160);
-  }
-  return 0;
+    unsigned int r = ERROR_IO_INCOMPLETE;
+    if (ov == 0)
+        return fn_82A1F470();
+    if (ov->internalLow != ERROR_IO_PENDING)
+        r = ov->extendedError;
+    return r;
 }
-

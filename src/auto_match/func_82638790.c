@@ -1,40 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Device_82638790 {
+    char pad0[0x10];
+    unsigned __int64 dirty10;
+    char pad18[0x28dc - 0x18];
+    unsigned int bits;
+    char pad28e0[0x2f04 - 0x28e0];
+    unsigned int value;
+    char pad2f08[0x3148 - 0x2f08];
+    int enabled;
+} Device_82638790;
 
-
-void fn_82638790(int param_1,uint param_2)
-
+static __forceinline void orq_82638790(unsigned __int64 *p, unsigned __int64 m)
 {
-  *(uint *)(param_1 + 0x2f04) = param_2;
-  *(uint *)(param_1 + 0x28dc) =
-       *(uint *)(param_1 + 0x28dc) & 0xfffffff0 |
-       -(uint)(*(int *)(param_1 + 0x3148) != 0) & param_2 & 0xf;
-  *(ulonglong *)(param_1 + 0x10) = *(ulonglong *)(param_1 + 0x10) | 0x2000000000;
-  return;
+    *p |= m;
 }
 
+void fn_82638790(Device_82638790 *d, unsigned int v)
+{
+    unsigned int bits;
+
+    d->value = v;
+    bits = d->bits;
+    d->bits = (bits & 0xfffffff0) | ((d->enabled ? v : 0) & 0xf);
+    orq_82638790(&d->dirty10, 0x2000000000);
+}

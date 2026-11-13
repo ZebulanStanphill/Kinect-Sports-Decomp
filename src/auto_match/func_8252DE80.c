@@ -1,75 +1,79 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct A_8252DE80 {
+    unsigned char active;    /* 0x00 */
+    float f4;                /* 0x04 */
+    float f8;                /* 0x08 */
+    float fc;                /* 0x0c */
+    float f10;               /* 0x10 */
+    float f14;               /* 0x14 */
+    float f18;               /* 0x18 */
+    float f1c;               /* 0x1c */
+    int i20;                 /* 0x20 */
+    float f24;               /* 0x24 */
+    float f28;               /* 0x28 */
+} A_8252DE80;
 
+typedef struct B_8252DE80 {
+    int i0;                  /* 0x00 */
+    int i4;                  /* 0x04 */
+    int i8;                  /* 0x08 */
+    float fc;                /* 0x0c */
+    float f10;               /* 0x10 */
+    int i14;                 /* 0x14 */
+    float f18;               /* 0x18 */
+    float f1c;               /* 0x1c */
+    int i20;                 /* 0x20 */
+    int i24;                 /* 0x24 */
+    int i28;                 /* 0x28 */
+} B_8252DE80;
 
-void fn_8252DE80(int param_1)
+typedef struct Obj_8252DE80 {
+    char pad0[0x40];
+    A_8252DE80 a[2];         /* 0x40 */
+    B_8252DE80 b[2];         /* 0x98 */
+    int if0;                 /* 0xf0 */
+    int if4;                 /* 0xf4 */
+    float ff8;               /* 0xf8 */
+    float ffc;               /* 0xfc */
+    float f100;              /* 0x100 */
+    float f104;              /* 0x104 */
+    float f108;              /* 0x108 */
+    float f10c;              /* 0x10c */
+    float f110;              /* 0x110 */
+    float f114;              /* 0x114 */
+} Obj_8252DE80;
 
+void fn_8252DE80(Obj_8252DE80 *self)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  
-  uVar1 = ltcg_pool_0_0f;
-  puVar2 = (undefined4 *)(param_1 + 0x94);
-  lVar3 = 2;
-  do {
-    puVar2[-0x14] = uVar1;
-    *(undefined1 *)(puVar2 + -0x15) = 0;
-    puVar2[-0x13] = uVar1;
-    puVar2[-0xd] = 0;
-    puVar2[-0x12] = uVar1;
-    puVar2[2] = 0;
-    puVar2[-0x11] = uVar1;
-    puVar2[1] = 0;
-    puVar2[-0x10] = uVar1;
-    puVar2[-0xf] = uVar1;
-    puVar2[-0xe] = uVar1;
-    puVar2[-0xc] = uVar1;
-    puVar2[-0xb] = uVar1;
-    puVar2[7] = uVar1;
-    puVar2[8] = uVar1;
-    puVar2[4] = uVar1;
-    puVar2[5] = uVar1;
-    puVar2 = puVar2 + 0xb;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  *(undefined4 *)(param_1 + 0x100) = uVar1;
-  *(undefined4 *)(param_1 + 0xf0) = 0;
-  *(undefined4 *)(param_1 + 0x10c) = uVar1;
-  *(undefined4 *)(param_1 + 0xf4) = 0;
-  *(undefined4 *)(param_1 + 0x110) = uVar1;
-  *(undefined4 *)(param_1 + 0x108) = uVar1;
-  *(undefined4 *)(param_1 + 0x114) = uVar1;
-  *(undefined4 *)(param_1 + 0x104) = uVar1;
-  *(undefined4 *)(param_1 + 0xfc) = uVar1;
-  *(undefined4 *)(param_1 + 0xf8) = uVar1;
-  return;
-}
+    int i;
 
+    for (i = 0; i < 2; i++) {
+        self->a[i].active = 0;
+        self->a[i].f4 = 0.0f;
+        self->a[i].f8 = 0.0f;
+        self->a[i].fc = 0.0f;
+        self->a[i].f10 = 0.0f;
+        self->a[i].f14 = 0.0f;
+        self->a[i].f18 = 0.0f;
+        self->a[i].f1c = 0.0f;
+        self->a[i].i20 = 0;
+        self->a[i].f24 = 0.0f;
+        self->a[i].f28 = 0.0f;
+        self->b[i].i4 = 0;
+        self->b[i].i0 = 0;
+        self->b[i].f18 = 0.0f;
+        self->b[i].f1c = 0.0f;
+        self->b[i].fc = 0.0f;
+        self->b[i].f10 = 0.0f;
+        self->b[i].i28 = 0;
+    }
+    self->f100 = 0.0f;
+    self->if0 = 0;
+    self->f10c = 0.0f;
+    self->if4 = 0;
+    self->f110 = 0.0f;
+    self->f108 = 0.0f;
+    self->f114 = 0.0f;
+    self->f104 = 0.0f;
+    self->ffc = 0.0f;
+    self->ff8 = 0.0f;
+}

@@ -1,52 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA6EF8();
-extern int fn_82FA6FB0();
-extern int fn_82FA6EF8();
-extern int fn_82FB01E8();
-extern unsigned int lbl_83264230;
+typedef struct Msg_82FAF930 {
+    unsigned int type;      /* 0x00 */
+    unsigned int a;         /* 0x04 */
+    unsigned int b;         /* 0x08 */
+    unsigned char data[9];  /* 0x0c */
+    unsigned char flag15;   /* 0x15 */
+    unsigned char flag16;   /* 0x16 */
+} Msg_82FAF930;
 
+extern void *lbl_83264230;
+extern int fn_82FA6EF8(void *mgr, void *self, unsigned int id, void *data, unsigned int extra);
+extern int fn_82FA6FB0(void *mgr, void *self, unsigned int id, void *data);
+extern int fn_82FA7040(void *mgr, void *self, unsigned int id, void *data, unsigned char flag);
+extern void fn_82FB01E8(void *self, Msg_82FAF930 *msg);
 
-void fn_82FAF930(undefined8 param_1,uint *param_2)
-
+void fn_82FAF930(void *self, Msg_82FAF930 *msg)
 {
-  uint uVar1;
-
-  uVar1 = *param_2;
-  if (uVar1 == 0) {
-    fn_82FA6EF8(lbl_83264230,param_1,param_2[1],param_2 + 3,param_2[2]);
-  }
-  else if (uVar1 == 1) {
-    fn_82FA6FB0(lbl_83264230,param_1,param_2[1],param_2 + 3);
-  }
-  else if (uVar1 < 3) {
-    fn_82FA6EF8(lbl_83264230,param_1,param_2[1],param_2 + 3,*(undefined1 *)((int)param_2 + 0x16));
-  }
-  fn_82FB01E8(param_1,param_2);
-  return;
+    switch (msg->type) {
+    case 0:
+        fn_82FA6EF8(lbl_83264230, self, msg->a, msg->data, msg->b);
+        break;
+    case 1:
+        fn_82FA6FB0(lbl_83264230, self, msg->a, msg->data);
+        break;
+    case 2:
+        fn_82FA7040(lbl_83264230, self, msg->a, msg->data, msg->flag16);
+        break;
+    }
+    fn_82FB01E8(self, msg);
 }

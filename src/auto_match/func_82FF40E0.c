@@ -1,44 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF18E8();
+typedef struct Node_82FF40E0 {
+    char pad0[0x14];
+    struct Node_82FF40E0 *next;
+    char pad18[0x58];
+    unsigned int id;
+} Node_82FF40E0;
 
+typedef struct Owner_82FF40E0 {
+    char pad0[0x7c];
+    Node_82FF40E0 *first;
+} Owner_82FF40E0;
 
-void fn_82FF40E0(undefined8 param_1,int param_2,undefined8 param_3,int param_4,undefined8 param_5,
-                  undefined8 param_6)
+extern void fn_82FF18E8(Node_82FF40E0 *node, float t, void *arg, unsigned char flag);
 
+void fn_82FF40E0(Owner_82FF40E0 *self, float t, unsigned int id, void *arg, unsigned char flag)
 {
-  int iVar1;
-  
-  for (iVar1 = *(int *)(param_2 + 0x7c); iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x14)) {
-    if ((param_4 == 0) || (*(int *)(iVar1 + 0x70) == param_4)) {
-      fn_82FF18E8(param_1,iVar1,param_3,param_5,param_6);
-    }
-  }
-  return;
-}
+    Node_82FF40E0 *node;
+    unsigned char all = id == 0;
 
+    for (node = self->first; node != 0; node = node->next) {
+        if (all || node->id == id) {
+            fn_82FF18E8(node, t, arg, flag);
+        }
+    }
+}

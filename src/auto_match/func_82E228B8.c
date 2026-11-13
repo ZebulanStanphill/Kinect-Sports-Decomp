@@ -1,36 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_82E228B8 Obj_82E228B8;
 
+typedef struct Vtbl_82E228B8 {
+    void *slots[9];
+    void (*apply)(Obj_82E228B8 *self, int a, int b, int c, int d, int e, int f, int g, int h, int i);
+} Vtbl_82E228B8;
 
-void fn_82E228B8(int *param_1,undefined8 param_2)
+struct Obj_82E228B8 {
+    Vtbl_82E228B8 *vt;
+};
 
+void fn_82E228B8(Obj_82E228B8 *self, int a)
 {
-  (**(code **)(*param_1 + 0x24))(param_1,param_2,0xd,0x33,6,0x17,0xf,0x25);
-  return;
+    self->vt->apply(self, a, 0xd, 0x33, 6, 0x17, 0xf, 0x25, 0x3c, 0x16);
 }
-

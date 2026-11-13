@@ -1,50 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+struct Elem_824547D0;
+typedef struct ElemVt_824547D0 {
+    void (*dtor)(struct Elem_824547D0 *e, int flags);
+} ElemVt_824547D0;
 
-/* WARNING: Removing unreachable block (ram,0x824547f8) */
-/* WARNING: Removing unreachable block (ram,0x82454800) */
+typedef struct Elem_824547D0 {
+    ElemVt_824547D0 *vt;
+    int a;
+    int b;
+    int c;
+    __vector4 v;
+    float f;
+    unsigned char g;
+} Elem_824547D0;
 
-void fn_824547D0(int *param_1)
+typedef struct Vec_824547D0 {
+    Elem_824547D0 *first;
+    Elem_824547D0 *last;
+} Vec_824547D0;
 
+static __forceinline void Assign_824547D0(Elem_824547D0 *d, const Elem_824547D0 *s)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = (undefined4 *)*param_1;
-  if (puVar1 != (undefined4 *)param_1[1]) {
-    puVar2 = (undefined4 *)param_1[1];
-    for (puVar3 = puVar1; puVar3 != puVar2; puVar3 = puVar3 + 0xc) {
-      (**(code **)*puVar3)(puVar3,0);
-    }
-    param_1[1] = (int)puVar1;
-  }
-  return;
+    d->a = s->a;
+    d->b = s->b;
+    d->c = s->c;
+    d->v = s->v;
+    d->f = s->f;
+    d->g = s->g;
 }
 
+static __forceinline Elem_824547D0 *Move_824547D0(Elem_824547D0 *src, Elem_824547D0 *end, Elem_824547D0 *dst)
+{
+    for (; src != end; src++, dst++) {
+        Assign_824547D0(dst, src);
+    }
+    return dst;
+}
+
+static __forceinline void Erase_824547D0(Vec_824547D0 *v, Elem_824547D0 *first, Elem_824547D0 *last)
+{
+    Elem_824547D0 *end;
+    Elem_824547D0 *dst;
+    Elem_824547D0 *p;
+
+    if (first != last) {
+        end = v->last;
+        dst = Move_824547D0(last, end, first);
+        end = v->last;
+        for (p = dst; p != end; p++) {
+            p->vt->dtor(p, 0);
+        }
+        v->last = dst;
+    }
+}
+
+void fn_824547D0(Vec_824547D0 *v)
+{
+    Erase_824547D0(v, v->first, v->last);
+}

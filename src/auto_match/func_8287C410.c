@@ -1,38 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F64318();
-extern unsigned int lbl_82002C5C;
+typedef struct Vec3_8287C410 {
+    float x;
+    float y;
+    float z;
+} Vec3_8287C410;
 
+typedef struct Quat_8287C410 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quat_8287C410;
 
-void fn_8287C410(double param_1)
+extern double fn_82F64318(double x); /* sin */
+extern double fn_82F643F8(double x); /* cos */
 
+void fn_8287C410(const Vec3_8287C410 *axis, float angle, Quat_8287C410 *out)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82F64318((double)(float)(param_1 * (double)lbl_82002C5C));
-}
+    float halfAngle = 0.5f * angle;
+    float s = (float)fn_82F64318(halfAngle);
 
+    out->w = (float)fn_82F643F8(halfAngle);
+    out->x = axis->x * s;
+    out->y = axis->y * s;
+    out->z = axis->z * s;
+}

@@ -1,74 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Info_82335DF0 {
+    char name[0x40];
+    int id;             /* 0x40 */
+    float weight;       /* 0x44 */
+    char label[0x40];   /* 0x48 */
+    float f88;
+    float f8c;
+    float f90;
+    float f94;
+    float f98;
+    float f9c;
+    float fa0;
+    float fa4;
+    float fa8;
+    float fac;
+    float fb0;
+    float fb4;
+    float fb8;
+    float fbc;
+    float fc0;
+    float fc4;
+    float fc8;
+    float fcc;
+    float fd0;
+} Info_82335DF0;
 
-
-void fn_82335DF0(undefined1 *param_1,int param_2)
-
+void fn_82335DF0(Info_82335DF0 *dst, const Info_82335DF0 *src)
 {
-  undefined1 *puVar1;
-  int iVar2;
-  longlong lVar3;
-  
-  lVar3 = 0x40;
-  puVar1 = param_1;
-  do {
-    *puVar1 = puVar1[param_2 - (int)param_1];
-    puVar1 = puVar1 + 1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  iVar2 = 0;
-  *(undefined4 *)(param_1 + 0x40) = *(undefined4 *)(param_2 + 0x40);
-  *(undefined4 *)(param_1 + 0x44) = *(undefined4 *)(param_2 + 0x44);
-  lVar3 = 0x40;
-  do {
-    param_1[iVar2 + 0x48] = *(undefined1 *)(param_2 + 0x48 + iVar2);
-    iVar2 = iVar2 + 1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  *(undefined4 *)(param_1 + 0x88) = *(undefined4 *)(param_2 + 0x88);
-  *(undefined4 *)(param_1 + 0x8c) = *(undefined4 *)(param_2 + 0x8c);
-  *(undefined4 *)(param_1 + 0x90) = *(undefined4 *)(param_2 + 0x90);
-  *(undefined4 *)(param_1 + 0x94) = *(undefined4 *)(param_2 + 0x94);
-  *(undefined4 *)(param_1 + 0x98) = *(undefined4 *)(param_2 + 0x98);
-  *(undefined4 *)(param_1 + 0x9c) = *(undefined4 *)(param_2 + 0x9c);
-  *(undefined4 *)(param_1 + 0xa0) = *(undefined4 *)(param_2 + 0xa0);
-  *(undefined4 *)(param_1 + 0xa4) = *(undefined4 *)(param_2 + 0xa4);
-  *(undefined4 *)(param_1 + 0xa8) = *(undefined4 *)(param_2 + 0xa8);
-  *(undefined4 *)(param_1 + 0xac) = *(undefined4 *)(param_2 + 0xac);
-  *(undefined4 *)(param_1 + 0xb0) = *(undefined4 *)(param_2 + 0xb0);
-  *(undefined4 *)(param_1 + 0xb4) = *(undefined4 *)(param_2 + 0xb4);
-  *(undefined4 *)(param_1 + 0xb8) = *(undefined4 *)(param_2 + 0xb8);
-  *(undefined4 *)(param_1 + 0xbc) = *(undefined4 *)(param_2 + 0xbc);
-  *(undefined4 *)(param_1 + 0xc0) = *(undefined4 *)(param_2 + 0xc0);
-  *(undefined4 *)(param_1 + 0xc4) = *(undefined4 *)(param_2 + 0xc4);
-  *(undefined4 *)(param_1 + 200) = *(undefined4 *)(param_2 + 200);
-  *(undefined4 *)(param_1 + 0xcc) = *(undefined4 *)(param_2 + 0xcc);
-  *(undefined4 *)(param_1 + 0xd0) = *(undefined4 *)(param_2 + 0xd0);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 0x40; i++) {
+        dst->name[i] = src->name[i];
+    }
+    dst->id = src->id;
+    dst->weight = src->weight;
+    for (i = 0; i < 0x40; i++) {
+        dst->label[i] = src->label[i];
+    }
+    dst->f88 = src->f88;
+    dst->f8c = src->f8c;
+    dst->f90 = src->f90;
+    dst->f94 = src->f94;
+    dst->f98 = src->f98;
+    dst->f9c = src->f9c;
+    dst->fa0 = src->fa0;
+    dst->fa4 = src->fa4;
+    dst->fa8 = src->fa8;
+    dst->fac = src->fac;
+    dst->fb0 = src->fb0;
+    dst->fb4 = src->fb4;
+    dst->fb8 = src->fb8;
+    dst->fbc = src->fbc;
+    dst->fc0 = src->fc0;
+    dst->fc4 = src->fc4;
+    dst->fc8 = src->fc8;
+    dst->fcc = src->fcc;
+    dst->fd0 = src->fd0;
+}

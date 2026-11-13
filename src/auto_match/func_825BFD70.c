@@ -1,67 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82A1EFC0();
-extern unsigned int iStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Msg_825BFD70 {
+    int type;
+    int size;
+    int arg;
+    int result;
+    __vector4 value;
+} Msg_825BFD70;
 
-int fn_825BFD70(int *param_1,int param_2,undefined4 param_3)
+typedef struct Obj_825BFD70 Obj_825BFD70;
+typedef struct ObjVt_825BFD70 {
+    void *s[3];
+    void (*send)(Obj_825BFD70 *self, Msg_825BFD70 *msg);   /* 0x0c */
+} ObjVt_825BFD70;
+struct Obj_825BFD70 {
+    ObjVt_825BFD70 *vt;
+};
 
+typedef struct Target_825BFD70 {
+    char pad[0x34];
+    int id;
+} Target_825BFD70;
+
+extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+
+int fn_825BFD70(Obj_825BFD70 *self, Target_825BFD70 *target, int arg, __vector4 value)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  struct { undefined4 first; int second; } stack_pair_48;
+    Msg_825BFD70 msg;
+    int id = target->id;
 
-  undefined1 auStack_40 [24];
-  
-  stack_pair_48.second = *(int *)(param_2 + 0x34);
-  if (stack_pair_48.second == -2) {
-    fn_82A1EFC0(&stack_pair_48.first,0,0x18);
-    uStack_50 = 0x1e;
-    uStack_4c = 0x20;
-    puVar1 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
-    *puVar1 = in_register_00010010;
-    puVar1[1] = in_register_00010014;
-    puVar1[2] = in_register_00010018;
-    puVar1[3] = in_vr1;
-    stack_pair_48.second = -1;
-    stack_pair_48.first = param_3;
-    (**(code **)(*param_1 + 0xc))(param_1,&uStack_50);
-  }
-  return stack_pair_48.second;
+    if (id == -2) {
+        fn_82A1EFC0(&msg.arg, 0, sizeof(msg) - 8);
+        msg.type = 0x1e;
+        msg.size = sizeof(msg);
+        msg.value = value;
+        msg.result = -1;
+        msg.arg = arg;
+        self->vt->send(self, &msg);
+        id = msg.result;
+    }
+    return id;
 }
-
