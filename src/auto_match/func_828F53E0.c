@@ -1,33 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_828F53E0(undefined8 param_1,undefined4 *param_2,undefined4 *param_3)
+unsigned __int64 fn_828F53E0(unsigned __int64 param_1,unsigned int *param_2,unsigned int *param_3)
 
 {
   char cVar1;
@@ -38,11 +14,11 @@ undefined8 fn_828F53E0(undefined8 param_1,undefined4 *param_2,undefined4 *param_
   int iVar6;
   char *pcVar7;
   int iVar8;
-  byte *pbVar9;
+  unsigned char *pbVar9;
   char *pcVar10;
   int iVar11;
-  byte *pbVar12;
-  uint uVar13;
+  unsigned char *pbVar12;
+  unsigned int uVar13;
   bool bVar14;
   
   pcVar7 = (char *)*param_3;
@@ -155,10 +131,10 @@ LAB_828f5504:
             } while (iVar5 != 0);
           }
           if (!bVar14) {
-            pbVar9 = *(byte **)(iVar8 + 0x18);
-            pbVar12 = *(byte **)(iVar11 + 0x18);
+            pbVar9 = *(unsigned char **)(iVar8 + 0x18);
+            pbVar12 = *(unsigned char **)(iVar11 + 0x18);
             do {
-              iVar6 = (uint)*pbVar12 - (uint)*pbVar9;
+              iVar6 = (unsigned int)*pbVar12 - (unsigned int)*pbVar9;
               if (*pbVar12 == 0) break;
               pbVar12 = pbVar12 + 1;
               pbVar9 = pbVar9 + 1;
@@ -167,10 +143,10 @@ LAB_828f5504:
           break;
         case 10:
         case 0xb:
-          pbVar9 = *(byte **)(iVar8 + 0x18);
-          pbVar12 = *(byte **)(iVar11 + 0x18);
+          pbVar9 = *(unsigned char **)(iVar8 + 0x18);
+          pbVar12 = *(unsigned char **)(iVar11 + 0x18);
           do {
-            iVar6 = (uint)*pbVar12 - (uint)*pbVar9;
+            iVar6 = (unsigned int)*pbVar12 - (unsigned int)*pbVar9;
             if (*pbVar12 == 0) break;
             pbVar12 = pbVar12 + 1;
             pbVar9 = pbVar9 + 1;
@@ -180,7 +156,7 @@ LAB_828f5504:
           uVar13 = 1;
           goto LAB_828f5658;
         }
-        uVar13 = (uint)LZCOUNT(iVar6) >> 5;
+        uVar13 = (unsigned int)LZCOUNT(iVar6) >> 5;
 LAB_828f5658:
         if (uVar13 == 0) {
           return 0;

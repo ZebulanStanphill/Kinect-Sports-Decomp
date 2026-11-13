@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_827F9E08();
 extern int fn_82800E98();
 extern int fn_82800EC0();
@@ -33,27 +6,27 @@ extern unsigned int iStack_5c;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_82801600(undefined8 param_1,undefined8 param_2,undefined8 param_3,ushort *param_4,
-                  float *param_5,ulonglong param_6,int param_7,undefined8 param_8,uint param_9)
+void fn_82801600(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned short *param_4,
+                  float *param_5,unsigned __int64 param_6,int param_7,unsigned __int64 param_8,unsigned int param_9)
 
 {
   int iVar1;
   int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
   double dVar5;
   double dVar6;
-  ushort in_stack_00000056;
+  unsigned short in_stack_00000056;
   int iStack_5c;
   float *pfStack_58;
   
-  uVar3 = (longlong)(int)(param_9 & 0xffff) * (longlong)(int)(uint)in_stack_00000056;
+  uVar3 = (__int64)(int)(param_9 & 0xffff) * (__int64)(int)(unsigned int)in_stack_00000056;
   iVar2 = fn_827F9E08();
   if (iVar2 != 0) {
     if (iVar2 != 1) goto LAB_8280168c;
-    pfStack_58 = (float *)(*(int *)(param_7 + 8) * (uint)*param_4 * 4 + *(int *)(param_4 + 2));
+    pfStack_58 = (float *)(*(int *)(param_7 + 8) * (unsigned int)*param_4 * 4 + *(int *)(param_4 + 2));
   }
-  iStack_5c = *(int *)(param_7 + 4) * (uint)*param_4 * 4 + *(int *)(param_4 + 2);
+  iStack_5c = *(int *)(param_7 + 4) * (unsigned int)*param_4 * 4 + *(int *)(param_4 + 2);
 LAB_8280168c:
   iVar2 = fn_827F9E08(param_2);
   if (iVar2 == 0) {

@@ -1,36 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1E7D8();
 extern int fn_82CE3440();
 
 
-undefined8
-fn_82CE2A00(undefined4 *param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, uint param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 in_stack_00000054, undefined4 in_stack_0000005c, undefined4 in_stack_00000064, undefined4 in_stack_0000006c, undefined4 in_stack_00000074, undefined4 in_stack_0000007c, undefined4 in_stack_00000084, uint in_stack_0000008c)
+unsigned __int64
+fn_82CE2A00(unsigned int *param_1, unsigned int param_2, unsigned int param_3, unsigned int param_4, unsigned int param_5, unsigned int param_6, unsigned int param_7, unsigned int param_8, unsigned int in_stack_00000054, unsigned int in_stack_0000005c, unsigned int in_stack_00000064, unsigned int in_stack_0000006c, unsigned int in_stack_00000074, unsigned int in_stack_0000007c, unsigned int in_stack_00000084, unsigned int in_stack_0000008c)
 
 {
   int iVar1;
@@ -62,10 +35,10 @@ fn_82CE2A00(undefined4 *param_1, undefined4 param_2, undefined4 param_3, undefin
   fn_82CE3440(param_1 + 0xd,in_stack_0000006c,in_stack_00000074,0,1);
   param_1[0x12] = in_stack_0000008c;
   if (in_stack_0000008c != 0) {
-    if (*(uint *)(in_stack_0000008c + 0xc) != 0) {
-      fn_82A1E7D8(*(uint *)(in_stack_0000008c + 0xc));
+    if (*(unsigned int *)(in_stack_0000008c + 0xc) != 0) {
+      fn_82A1E7D8(*(unsigned int *)(in_stack_0000008c + 0xc));
     }
-    *(undefined4 *)param_1[0x12] = 0x3e5;
+    *(unsigned int *)param_1[0x12] = 0x3e5;
   }
   return 0;
 }

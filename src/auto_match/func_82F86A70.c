@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_14a0;
 extern unsigned int *auStack_a60;
 extern int memcpy();
@@ -32,12 +5,12 @@ extern int _SaveUnwindContext();
 extern unsigned int uStack_a58;
 
 
-void _UnwindNestedFrames(undefined8 param_1,int param_2,undefined8 param_3)
+void _UnwindNestedFrames(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
 
 {
-  undefined1 auStack_14a0 [2624];
-  undefined1 auStack_a60 [8];
-  undefined4 uStack_a58;
+  unsigned char auStack_14a0 [2624];
+  unsigned char auStack_a60 [8];
+  unsigned int uStack_a58;
   
   memcpy(auStack_14a0,param_3,0xa40);
   RtlCaptureContext(auStack_a60);
@@ -46,7 +19,7 @@ void _UnwindNestedFrames(undefined8 param_1,int param_2,undefined8 param_3)
   RtlUnwind(param_1,0xffffffff82f86ad4,param_2,0);
   memcpy(param_3,auStack_14a0,0xa40);
   _SaveUnwindContext(0);
-  *(uint *)(param_2 + 4) = *(uint *)(param_2 + 4) & 0xfffffffd;
+  *(unsigned int *)(param_2 + 4) = *(unsigned int *)(param_2 + 4) & 0xfffffffd;
   return;
 }
 

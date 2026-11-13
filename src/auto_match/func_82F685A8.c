@@ -1,57 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int _invalid_parameter_noinfo();
 extern int _errno();
 
 
-undefined4 fn_82F685A8(ulonglong param_1,char *param_2,uint param_3,ulonglong param_4,int param_5)
+unsigned int fn_82F685A8(unsigned __int64 param_1,char *param_2,unsigned int param_3,unsigned __int64 param_4,int param_5)
 
 {
   char *pcVar1;
-  undefined4 *puVar2;
-  uint uVar3;
+  unsigned int *puVar2;
+  unsigned int uVar3;
   char *pcVar4;
-  uint uVar5;
-  ulonglong uVar6;
+  unsigned int uVar5;
+  unsigned __int64 uVar6;
   char cVar7;
   char *pcVar8;
-  undefined4 uVar9;
+  unsigned int uVar9;
   
-  uVar3 = (uint)param_4;
+  uVar3 = (unsigned int)param_4;
   if (param_2 == (char *)0x0) {
-    puVar2 = (undefined4 *)_errno();
+    puVar2 = (unsigned int *)_errno();
     *puVar2 = 0x16;
     _invalid_parameter_noinfo();
     return 0x16;
   }
   if (param_3 == 0) {
 LAB_82f685e0:
-    puVar2 = (undefined4 *)_errno();
+    puVar2 = (unsigned int *)_errno();
     uVar9 = 0x16;
   }
   else {
@@ -64,13 +37,13 @@ LAB_82f685e0:
         *param_2 = '-';
         param_1 = -param_1;
       }
-      uVar5 = (uint)(param_5 != 0);
+      uVar5 = (unsigned int)(param_5 != 0);
       pcVar1 = pcVar4;
       do {
         pcVar8 = pcVar1;
         trapWord(6,param_4,0);
-        uVar6 = param_1 - (longlong)(int)((param_1 & 0xffffffff) / (param_4 & 0xffffffff)) *
-                          (longlong)(int)uVar3;
+        uVar6 = param_1 - (__int64)(int)((param_1 & 0xffffffff) / (param_4 & 0xffffffff)) *
+                          (__int64)(int)uVar3;
         param_1 = (param_1 & 0xffffffff) / (param_4 & 0xffffffff);
         trapWord(6,param_4,0);
         cVar7 = (char)uVar6;
@@ -96,7 +69,7 @@ LAB_82f685e0:
       }
       *param_2 = '\0';
     }
-    puVar2 = (undefined4 *)_errno();
+    puVar2 = (unsigned int *)_errno();
     uVar9 = 0x22;
   }
   *puVar2 = uVar9;

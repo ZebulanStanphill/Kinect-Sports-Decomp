@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *fStack_48;
 extern unsigned int fStack_4c;
 extern unsigned int fStack_6c;
@@ -46,24 +19,24 @@ extern unsigned int uStack_60;
 extern unsigned int uStack_64;
 
 
-undefined8
-fn_829E32C0(double param_1,double param_2,int param_3,undefined8 param_4,undefined8 param_5,
-             undefined4 *param_6)
+unsigned __int64
+fn_829E32C0(double param_1,double param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+             unsigned int *param_6)
 
 {
   float fVar1;
-  uint uVar2;
+  unsigned int uVar2;
   float fVar3;
   float fVar4;
-  undefined8 uVar5;
-  longlong lVar6;
-  undefined4 uVar7;
+  unsigned __int64 uVar5;
+  __int64 lVar6;
+  unsigned int uVar7;
   struct { float first; float second; } stack_pair_70;
 
   int iStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_60;
-  undefined8 uStack_58;
+  unsigned int uStack_64;
+  unsigned int uStack_60;
+  unsigned __int64 uStack_58;
   int iStack_50;
   float fStack_4c;
   float fStack_48;
@@ -80,15 +53,15 @@ fn_829E32C0(double param_1,double param_2,int param_3,undefined8 param_4,undefin
   fStack_4c = lbl_8201EBA4;
   iStack_50 = 0;
   fStack_48 = lbl_8201FBB0;
-  uVar5 = fn_829E3C40(*(undefined4 *)(param_3 + 8),&stack_pair_70.first);
+  uVar5 = fn_829E3C40(*(unsigned int *)(param_3 + 8),&stack_pair_70.first);
   if ((int)uVar5 < 0) {
     return uVar5;
   }
   lVar6 = fn_829DB740();
-  uVar2 = *(uint *)(param_3 + 0x68);
+  uVar2 = *(unsigned int *)(param_3 + 0x68);
   *(int *)(param_3 + 0x68) = (int)lVar6;
-  lVar6 = (ulonglong)uVar2 - lVar6;
-  if ((lVar6 == lVar6 + -1 + (ulonglong)(lVar6 == 0)) && (iStack_50 != 2)) {
+  lVar6 = (unsigned __int64)uVar2 - lVar6;
+  if ((lVar6 == lVar6 + -1 + (unsigned __int64)(lVar6 == 0)) && (iStack_50 != 2)) {
     if (iStack_68 != 0) {
       fVar1 = *(float *)(param_3 + 0x10);
       fVar4 = fVar1;
@@ -106,12 +79,12 @@ fn_829E32C0(double param_1,double param_2,int param_3,undefined8 param_4,undefin
         }
         if (fVar4 < fVar3 * lbl_82005344) {
           fn_82F68CC0(param_3 + 0x10,&stack_pair_70.first,0x30);
-          *(undefined4 *)(param_3 + 0x74) = lbl_82057AB8;
+          *(unsigned int *)(param_3 + 0x74) = lbl_82057AB8;
           goto LAB_829e3474;
         }
       }
-      *(undefined1 *)(param_3 + 0x78) = 0;
-      *(undefined4 *)(param_3 + 0x74) = lbl_82057AB0;
+      *(unsigned char *)(param_3 + 0x78) = 0;
+      *(unsigned int *)(param_3 + 0x74) = lbl_82057AB0;
       *param_6 = 5;
       return 0;
     }
@@ -119,7 +92,7 @@ fn_829E32C0(double param_1,double param_2,int param_3,undefined8 param_4,undefin
       *(float *)(param_3 + 0x70) = (float)param_2;
       fn_82F68CC0(param_3 + 0x10,&stack_pair_70.first,0x30);
 LAB_829e3474:
-      *(undefined1 *)(param_3 + 0x78) = 1;
+      *(unsigned char *)(param_3 + 0x78) = 1;
       *param_6 = 0;
       return 0;
     }
@@ -135,7 +108,7 @@ LAB_829e3474:
   *param_6 = uVar7;
 LAB_829e34a4:
   *(float *)(param_3 + 0x70) = (float)param_1;
-  *(undefined1 *)(param_3 + 0x78) = 0;
+  *(unsigned char *)(param_3 + 0x78) = 0;
   return 0;
 }
 

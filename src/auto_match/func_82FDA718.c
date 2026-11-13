@@ -1,49 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005344;
 extern unsigned int lbl_8207F25C;
 extern unsigned int lbl_820BC500;
 extern unsigned int lbl_8216DFE4;
 
 
-undefined8 fn_82FDA718(int *param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4)
+unsigned __int64 fn_82FDA718(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  undefined8 uVar5;
+  unsigned __int64 uVar5;
   
   iVar2 = lbl_8207F25C;
   iVar1 = lbl_82005344;
   if ((param_4 & 0xffffffff) == 0) {
-    *(undefined1 *)(param_1 + 5) = 1;
+    *(unsigned char *)(param_1 + 5) = 1;
     iVar4 = lbl_8216DFE4;
     iVar3 = lbl_820BC500;
     param_1[1] = iVar2;
@@ -54,7 +27,7 @@ undefined8 fn_82FDA718(int *param_1,undefined8 param_2,undefined8 param_3,ulongl
   }
                     /* WARNING: Could not recover jumptable at 0x82fda77c. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  uVar5 = (**(code **)(*param_1 + 0x14))(param_1,param_3,param_4);
+  uVar5 = (**(int (***)())(*param_1 + 0x14))(param_1,param_3,param_4);
   return uVar5;
 }
 

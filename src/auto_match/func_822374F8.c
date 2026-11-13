@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_110;
 extern unsigned int *auStack_140;
 extern unsigned int *auStack_160;
@@ -55,31 +28,31 @@ extern unsigned int uStack_124;
 extern unsigned int uStack_12c;
 
 
-undefined8 fn_822374F8(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+unsigned __int64 fn_822374F8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
   double dVar4;
   double dVar5;
   double dVar6;
-  undefined1 auStack_160 [8];
+  unsigned char auStack_160 [8];
   struct { float first; float second; } stack_pair_158;
 
   float fStack_150;
-  undefined1 auStack_140 [16];
+  unsigned char auStack_140 [16];
   int iStack_130;
-  undefined4 uStack_12c;
+  unsigned int uStack_12c;
   int iStack_128;
-  undefined4 uStack_124;
-  undefined4 uStack_120;
-  undefined1 auStack_110 [32];
-  undefined1 auStack_f0 [4];
-  undefined1 auStack_ec [204];
+  unsigned int uStack_124;
+  unsigned int uStack_120;
+  unsigned char auStack_110 [32];
+  unsigned char auStack_f0 [4];
+  unsigned char auStack_ec [204];
   
   iStack_130 = param_4 + 8;
-  if (4 < *(uint *)(param_4 + 0xc)) {
+  if (4 < *(unsigned int *)(param_4 + 0xc)) {
     iStack_130 = *(int *)(param_4 + 8);
   }
   iStack_128 = 0;

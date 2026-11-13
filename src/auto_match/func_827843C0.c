@@ -1,16 +1,14 @@
-typedef unsigned int uint;
-
 typedef struct Pt { float x, y; } Pt;
 typedef struct Owner { int f0, f4, f8, fc, f10; Pt **blocks; } Owner;
-typedef struct Range { Owner *owner; uint count; uint start; } Range;
+typedef struct Range { Owner *owner; unsigned int count; unsigned int start; } Range;
 
 void fn_827843C0(Range *param_1, float *param_2, float *param_3, float *param_4, float *param_5)
 {
-  uint i;
+  unsigned int i;
   Pt *p;
 
   for (i = 0; i < param_1->count; i++) {
-    uint idx = i + param_1->start;
+    unsigned int idx = i + param_1->start;
     p = &param_1->owner->blocks[idx >> 8][idx & 0xff];
     if (p->x < *param_2) {
       *param_2 = p->x;

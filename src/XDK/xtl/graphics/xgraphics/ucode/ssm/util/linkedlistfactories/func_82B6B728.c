@@ -1,4 +1,3 @@
-typedef unsigned int U32;
 extern void fn_82AB15D0(int level, const char *fmt, ...);
 extern void fn_82B6B0C8(void *pool);
 
@@ -7,9 +6,9 @@ extern void fn_82B6B0C8(void *pool);
 
 typedef struct OLF_82B6B728 {
     void *context;
-    void *(*AllocateSysMem)(void *context, U32 size);
+    void *(*AllocateSysMem)(void *context, unsigned int size);
     void (*FreeSysMem)(void *context, void *p);
-    U32 numAcquiredLists;
+    unsigned int numAcquiredLists;
     void *listPool;
     void *itemPool;
 } OLF_82B6B728;

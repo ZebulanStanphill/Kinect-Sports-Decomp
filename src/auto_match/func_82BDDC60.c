@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float fRam832241f8;
 extern float fRam832241fc;
 extern float fRam83224200;
@@ -60,7 +33,7 @@ void fn_82BDDC60(void)
   float fVar16;
   float fVar17;
   float fVar18;
-  undefined4 uVar19;
+  unsigned int uVar19;
   int iVar20;
   float *pfVar21;
   int iVar22;
@@ -76,16 +49,16 @@ void fn_82BDDC60(void)
   float fVar32;
   float *pfVar33;
   float *pfVar34;
-  longlong in_r6;
-  ulonglong in_r7;
-  longlong lVar35;
-  longlong in_r8;
+  __int64 in_r6;
+  unsigned __int64 in_r7;
+  __int64 lVar35;
+  __int64 in_r8;
   float *pfVar36;
-  longlong lVar37;
-  longlong lVar38;
-  longlong lVar39;
+  __int64 lVar37;
+  __int64 lVar38;
+  __int64 lVar39;
   float *pfVar40;
-  longlong lVar41;
+  __int64 lVar41;
   
   fn_82F6A52C();
   if (((in_r7 & 7) == 0) && ((int)in_r7 == 0x140)) {
@@ -126,7 +99,7 @@ void fn_82BDDC60(void)
       fVar1 = fVar1 * fVar11;
       fVar4 = *pfVar23;
       fVar28 = fVar18 * fVar10;
-      uVar19 = *(undefined4 *)(iVar25 + (int)pfVar36);
+      uVar19 = *(unsigned int *)(iVar25 + (int)pfVar36);
       fVar5 = pfVar24[0xa0];
       fVar6 = *pfVar21;
       fVar32 = pfVar24[-1] * fVar9;
@@ -162,7 +135,7 @@ void fn_82BDDC60(void)
       pfVar40 = pfVar40 + -2;
       fVar15 = *pfVar40;
       lVar39 = lVar39 + 8;
-      *(undefined4 *)lVar39 = uVar19;
+      *(unsigned int *)lVar39 = uVar19;
       lVar41 = lVar41 + -1;
     } while (lVar41 != 0);
     fn_82F6A578(0);

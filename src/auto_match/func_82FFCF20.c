@@ -1,42 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FFCAC8();
 extern unsigned int lbl_832642E0;
 
 
-void fn_82FFCF20(undefined8 param_1)
+void fn_82FFCF20(unsigned __int64 param_1)
 
 {
   int *piVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
+  unsigned int uVar5;
   int *piVar6;
   
   iVar2 = lbl_832642E0;
@@ -53,13 +27,13 @@ void fn_82FFCF20(undefined8 param_1)
   }
   do {
     while (piVar6[7] != 0) {
-      (**(code **)(*piVar6 + 4))(piVar6);
+      (**(int (***)())(*piVar6 + 4))(piVar6);
       fn_82FFCAC8(param_1,piVar6,1);
       piVar1 = (int *)piVar6[2];
       while ((piVar1 == (int *)0x0 && (uVar5 = uVar5 + 1, uVar5 < 0xc1))) {
         piVar1 = *(int **)(uVar5 * 4 + iVar4);
       }
-      (**(code **)(*piVar6 + 8))(piVar6);
+      (**(int (***)())(*piVar6 + 8))(piVar6);
       piVar6 = piVar1;
 joined_r0x82ffcf8c:
       if (piVar6 == (int *)0x0) {

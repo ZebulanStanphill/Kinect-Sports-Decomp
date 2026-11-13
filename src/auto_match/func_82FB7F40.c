@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 typedef struct Obj { void **vtbl; } Obj;
 typedef struct Item { int *a; int b; Obj *c; } Item;
 typedef struct Vec { int pad; Item *begin; Item *end; } Vec;

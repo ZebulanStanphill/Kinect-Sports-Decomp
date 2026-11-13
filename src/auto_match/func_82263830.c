@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 extern unsigned char *fn_8225F670(void);
 extern int fn_8225FD88(int);
 extern int fn_8225FDE0(int, int);

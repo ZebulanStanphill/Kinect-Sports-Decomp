@@ -1,23 +1,22 @@
-typedef unsigned int uint;
 extern void fn_8282AFD0(void *);
 
 typedef struct {
   char pad0[0x34];
   int x34;
-  uint x38;
+  unsigned int x38;
   char pad1[0x2b8 - 0x3c];
-  uint x2b8;
-  uint x2bc;
-  uint x2c0;
-  uint x2c4;
+  unsigned int x2b8;
+  unsigned int x2bc;
+  unsigned int x2c0;
+  unsigned int x2c4;
   char pad2[0x3e8 - 0x2c8];
   unsigned char x3e8;
 } Obj;
 
 typedef struct {
   char pad[0x14];
-  uint x14;
-  uint x18;
+  unsigned int x14;
+  unsigned int x18;
 } Arg;
 
 void fn_8282B068(Obj *p, Arg *a)

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern int fn_82F63BA0();
 extern int fn_82F68240();
@@ -33,19 +9,19 @@ extern unsigned int lbl_83263398;
 extern unsigned int lbl_832636E4;
 
 
-undefined4 * fn_82F7B700(undefined8 param_1,byte *param_2,undefined8 param_3,undefined4 *param_4)
+unsigned int * fn_82F7B700(unsigned __int64 param_1,unsigned char *param_2,unsigned __int64 param_3,unsigned int *param_4)
 
 {
-  byte bVar1;
+  unsigned char bVar1;
   bool bVar2;
   bool bVar3;
-  undefined4 *puVar4;
+  unsigned int *puVar4;
   int iVar5;
   bool bVar6;
-  ulonglong uVar7;
-  longlong lVar8;
-  uint uVar9;
-  undefined4 auStack_30 [12];
+  unsigned __int64 uVar7;
+  __int64 lVar8;
+  unsigned int uVar9;
+  unsigned int auStack_30 [12];
   
   bVar3 = false;
   bVar2 = false;
@@ -72,7 +48,7 @@ LAB_82f7b788:
 LAB_82f7b8b8:
   param_2 = param_2 + 1;
   bVar1 = *param_2;
-  lVar8 = (longlong)(char)bVar1;
+  lVar8 = (__int64)(char)bVar1;
   if ((lVar8 == 0) || (!bVar6)) goto LAB_82f7b8d0;
   if (bVar1 < 0x54) {
     if (bVar1 == 0x53) {
@@ -152,12 +128,12 @@ LAB_82f7b8ac:
 LAB_82f7b8d0:
   while ((int)lVar8 == 0x20) {
     param_2 = param_2 + 1;
-    lVar8 = (longlong)(char)*param_2;
+    lVar8 = (__int64)(char)*param_2;
   }
   if ((int)lVar8 == 0) {
     iVar5 = fn_82F84100(auStack_30,param_1,uVar7,param_3,0x180);
     if (iVar5 != 0) {
-      return (undefined4 *)0x0;
+      return (unsigned int *)0x0;
     }
     lbl_83263398 = lbl_83263398 + 1;
     param_4[3] = uVar9;
@@ -169,9 +145,9 @@ LAB_82f7b8d0:
     return param_4;
   }
 LAB_82f7b754:
-  puVar4 = (undefined4 *)fn_82F68240();
+  puVar4 = (unsigned int *)fn_82F68240();
   *puVar4 = 0x16;
   fn_82F63BA0();
-  return (undefined4 *)0x0;
+  return (unsigned int *)0x0;
 }
 

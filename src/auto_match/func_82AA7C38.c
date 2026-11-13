@@ -1,52 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1F248();
 extern int fn_82AA75B8();
 extern int fn_82AA7718();
 extern int fn_82AA79C0();
 
 
-void fn_82AA7C38(ulonglong param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4,
-                  ulonglong param_5)
+void fn_82AA7C38(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5)
 
 {
-  ulonglong uVar1;
+  unsigned __int64 uVar1;
   bool bVar2;
   bool bVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
-  ulonglong uVar6;
-  uint uVar7;
-  ulonglong uVar8;
-  longlong lVar9;
+  unsigned __int64 uVar6;
+  unsigned int uVar7;
+  unsigned __int64 uVar8;
+  __int64 lVar9;
   
   iVar5 = (int)param_4;
-  uVar6 = (ulonglong)(iVar5 >> 0x1f);
+  uVar6 = (unsigned __int64)(iVar5 >> 0x1f);
   uVar1 = (param_3 & 0xffffffff) >> 0x10;
   uVar6 = (param_4 ^ uVar6) - uVar6;
   if ((param_5 & 0xffffffff) == 0) {
@@ -56,9 +32,9 @@ void fn_82AA7C38(ulonglong param_1,ulonglong param_2,ulonglong param_3,ulonglong
     return;
   }
   uVar8 = param_2;
-  if (-1 < (longlong)(param_1 - param_2 ^ param_4)) {
+  if (-1 < (__int64)(param_1 - param_2 ^ param_4)) {
     param_4 = -param_4;
-    lVar9 = (longlong)((int)param_5 + -1) * (longlong)iVar5;
+    lVar9 = (__int64)((int)param_5 + -1) * (__int64)iVar5;
     param_1 = lVar9 + param_1;
     uVar8 = lVar9 + param_2;
   }

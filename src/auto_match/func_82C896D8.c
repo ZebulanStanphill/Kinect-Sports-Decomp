@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82C89170();
 extern unsigned int iStack0000003c;
 extern unsigned int lbl_820FD928;
@@ -38,48 +11,48 @@ extern unsigned int lbl_820FD92F;
 extern unsigned int lbl_821063CC;
 
 
-void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4,short *param_5,
+void fn_82C896D8(int *param_1,unsigned int param_2,unsigned char *param_3,int param_4,short *param_5,
                   int param_6)
 
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  byte bVar4;
-  byte bVar5;
-  byte bVar6;
-  byte bVar7;
-  byte bVar8;
-  byte bVar9;
-  byte bVar10;
-  byte bVar11;
-  byte bVar12;
-  byte bVar13;
-  byte bVar14;
-  byte bVar15;
-  byte bVar16;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned char bVar3;
+  unsigned char bVar4;
+  unsigned char bVar5;
+  unsigned char bVar6;
+  unsigned char bVar7;
+  unsigned char bVar8;
+  unsigned char bVar9;
+  unsigned char bVar10;
+  unsigned char bVar11;
+  unsigned char bVar12;
+  unsigned char bVar13;
+  unsigned char bVar14;
+  unsigned char bVar15;
+  unsigned char bVar16;
   short sVar17;
-  ushort uVar18;
-  ushort *puVar19;
-  ushort *puVar20;
+  unsigned short uVar18;
+  unsigned short *puVar19;
+  unsigned short *puVar20;
   short *psVar21;
   int iVar22;
   int iVar23;
   int iVar24;
   int iVar25;
   int iVar26;
-  ushort *puVar27;
-  uint uVar28;
-  byte *pbVar29;
-  byte *pbVar31;
+  unsigned short *puVar27;
+  unsigned int uVar28;
+  unsigned char *pbVar29;
+  unsigned char *pbVar31;
   int iVar32;
-  longlong lVar30;
+  __int64 lVar30;
   int iVar33;
   int iVar34;
   int iVar35;
-  undefined1 *puVar36;
+  unsigned char *puVar36;
   short *psVar37;
-  ushort *puVar38;
+  unsigned short *puVar38;
   char *pcVar39;
   int iVar40;
   int iVar41;
@@ -87,9 +60,9 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
   int iVar43;
   int iVar44;
   int iVar45;
-  uint uVar46;
+  unsigned int uVar46;
   int iVar47;
-  longlong lVar48;
+  __int64 lVar48;
   int iStack0000003c;
   
   if (param_1[3] == 0) {
@@ -99,40 +72,40 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       fn_82C89170(param_1);
       psVar37 = param_5 + -1;
       lVar48 = 8;
-      puVar38 = (ushort *)&lbl_821063CC;
-      puVar27 = (ushort *)(param_1[10] + -2);
+      puVar38 = (unsigned short *)&lbl_821063CC;
+      puVar27 = (unsigned short *)(param_1[10] + -2);
       do {
-        puVar19 = (ushort *)param_1[0xb];
+        puVar19 = (unsigned short *)param_1[0xb];
         puVar27 = puVar27 + 1;
         uVar18 = *puVar27;
-        *param_3 = *(undefined1 *)
-                    (((int)((uint)*puVar19 * (uint)puVar38[2] + (uint)puVar38[3] * (uint)uVar18 +
+        *param_3 = *(unsigned char *)
+                    (((int)((unsigned int)*puVar19 * (unsigned int)puVar38[2] + (unsigned int)puVar38[3] * (unsigned int)uVar18 +
                            0x8000) >> 0x10) + (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)
-                      (((int)((uint)puVar19[1] * (uint)puVar38[4] + (uint)puVar38[5] * (uint)uVar18
+        param_3[1] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[1] * (unsigned int)puVar38[4] + (unsigned int)puVar38[5] * (unsigned int)uVar18
                              + 0x8000) >> 0x10) + (int)psVar37[2] + *param_1);
-        uVar46 = (uint)uVar18;
-        param_3[2] = *(undefined1 *)
-                      (((int)((uint)puVar19[2] * (uint)puVar38[6] + puVar38[7] * uVar46 + 0x8000) >>
+        uVar46 = (unsigned int)uVar18;
+        param_3[2] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[2] * (unsigned int)puVar38[6] + puVar38[7] * uVar46 + 0x8000) >>
                        0x10) + (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)
-                      (((int)((uint)puVar19[3] * (uint)puVar38[8] + puVar38[9] * uVar46 + 0x8000) >>
+        param_3[3] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[3] * (unsigned int)puVar38[8] + puVar38[9] * uVar46 + 0x8000) >>
                        0x10) + (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)
-                      (((int)((uint)puVar19[4] * (uint)puVar38[10] + puVar38[0xb] * uVar46 + 0x8000)
+        param_3[4] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[4] * (unsigned int)puVar38[10] + puVar38[0xb] * uVar46 + 0x8000)
                        >> 0x10) + (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)
-                      (((int)((uint)puVar19[5] * (uint)puVar38[0xc] + puVar38[0xd] * uVar46 + 0x8000
+        param_3[5] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[5] * (unsigned int)puVar38[0xc] + puVar38[0xd] * uVar46 + 0x8000
                              ) >> 0x10) + (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)
-                      (((int)((uint)puVar19[6] * (uint)puVar38[0xe] +
-                              (uint)puVar38[0xf] * (uint)uVar18 + 0x8000) >> 0x10) + (int)psVar37[7]
+        param_3[6] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[6] * (unsigned int)puVar38[0xe] +
+                              (unsigned int)puVar38[0xf] * (unsigned int)uVar18 + 0x8000) >> 0x10) + (int)psVar37[7]
                       + *param_1);
         puVar20 = puVar38 + 0x11;
         puVar38 = puVar38 + 0x10;
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)
-                      (((int)((uint)puVar19[7] * (uint)*puVar38 + (uint)*puVar20 * (uint)uVar18 +
+        param_3[7] = *(unsigned char *)
+                      (((int)((unsigned int)puVar19[7] * (unsigned int)*puVar38 + (unsigned int)*puVar20 * (unsigned int)uVar18 +
                              0x8000) >> 0x10) + (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
@@ -143,23 +116,23 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       pcVar39 = "\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0e\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f";
       lVar48 = 8;
       do {
-        *param_3 = *(undefined1 *)
-                    ((uint)*(byte *)((int)*pcVar39 + param_1[6]) + (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[1] + param_1[6]) + (int)psVar37[2] + *param_1);
-        param_3[2] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[2] + param_1[6]) + (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[3] + param_1[6]) + (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[4] + param_1[6]) + (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[5] + param_1[6]) + (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[6] + param_1[6]) + (int)psVar37[7] + *param_1);
+        *param_3 = *(unsigned char *)
+                    ((unsigned int)*(unsigned char *)((int)*pcVar39 + param_1[6]) + (int)psVar37[1] + *param_1);
+        param_3[1] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[1] + param_1[6]) + (int)psVar37[2] + *param_1);
+        param_3[2] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[2] + param_1[6]) + (int)psVar37[3] + *param_1);
+        param_3[3] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[3] + param_1[6]) + (int)psVar37[4] + *param_1);
+        param_3[4] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[4] + param_1[6]) + (int)psVar37[5] + *param_1);
+        param_3[5] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[5] + param_1[6]) + (int)psVar37[6] + *param_1);
+        param_3[6] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[6] + param_1[6]) + (int)psVar37[7] + *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)
-                      ((uint)*(byte *)((int)pcVar39[7] + param_1[6]) + (int)*psVar37 + *param_1);
+        param_3[7] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)pcVar39[7] + param_1[6]) + (int)*psVar37 + *param_1);
         pcVar39 = pcVar39 + 2;
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
@@ -172,15 +145,15 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       do {
         iVar35 = param_1[6] + iVar32;
         iVar32 = iVar32 + 1;
-        *param_3 = *(undefined1 *)((uint)*(byte *)(iVar35 + 1) + (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)((uint)*(byte *)(iVar35 + 2) + (int)psVar37[2] + *param_1);
-        param_3[2] = *(undefined1 *)((uint)*(byte *)(iVar35 + 3) + (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)((uint)*(byte *)(iVar35 + 4) + (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)((uint)*(byte *)(iVar35 + 5) + (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)((uint)*(byte *)(iVar35 + 6) + (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)((uint)*(byte *)(iVar35 + 7) + (int)psVar37[7] + *param_1);
+        *param_3 = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 1) + (int)psVar37[1] + *param_1);
+        param_3[1] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 2) + (int)psVar37[2] + *param_1);
+        param_3[2] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 3) + (int)psVar37[3] + *param_1);
+        param_3[3] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 4) + (int)psVar37[4] + *param_1);
+        param_3[4] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 5) + (int)psVar37[5] + *param_1);
+        param_3[5] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 6) + (int)psVar37[6] + *param_1);
+        param_3[6] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 7) + (int)psVar37[7] + *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)((uint)*(byte *)(iVar35 + 8) + (int)*psVar37 + *param_1);
+        param_3[7] = *(unsigned char *)((unsigned int)*(unsigned char *)(iVar35 + 8) + (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
       } while (lVar48 != 0);
@@ -191,22 +164,22 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       lVar48 = 8;
       do {
         iVar32 = iVar32 + 1;
-        pbVar29 = (byte *)((iVar32 >> 1) + param_1[6]);
-        *param_3 = *(undefined1 *)((uint)*pbVar29 + (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)((uint)pbVar29[1] + (int)psVar37[2] + *param_1);
-        param_3[2] = *(undefined1 *)((uint)pbVar29[2] + (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)((uint)pbVar29[3] + (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)((uint)pbVar29[4] + (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)((uint)pbVar29[5] + (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)((uint)pbVar29[6] + (int)psVar37[7] + *param_1);
+        pbVar29 = (unsigned char *)((iVar32 >> 1) + param_1[6]);
+        *param_3 = *(unsigned char *)((unsigned int)*pbVar29 + (int)psVar37[1] + *param_1);
+        param_3[1] = *(unsigned char *)((unsigned int)pbVar29[1] + (int)psVar37[2] + *param_1);
+        param_3[2] = *(unsigned char *)((unsigned int)pbVar29[2] + (int)psVar37[3] + *param_1);
+        param_3[3] = *(unsigned char *)((unsigned int)pbVar29[3] + (int)psVar37[4] + *param_1);
+        param_3[4] = *(unsigned char *)((unsigned int)pbVar29[4] + (int)psVar37[5] + *param_1);
+        param_3[5] = *(unsigned char *)((unsigned int)pbVar29[5] + (int)psVar37[6] + *param_1);
+        param_3[6] = *(unsigned char *)((unsigned int)pbVar29[6] + (int)psVar37[7] + *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)((uint)pbVar29[7] + (int)*psVar37 + *param_1);
+        param_3[7] = *(unsigned char *)((unsigned int)pbVar29[7] + (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
       } while (lVar48 != 0);
       break;
     case 4:
-      pbVar29 = (byte *)param_1[6];
+      pbVar29 = (unsigned char *)param_1[6];
       psVar37 = param_5 + -1;
       lVar48 = 8;
       bVar15 = pbVar29[0x10];
@@ -226,30 +199,30 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       bVar7 = pbVar29[0x17];
       bVar8 = pbVar29[7];
       do {
-        *param_3 = *(undefined1 *)
-                    ((int)psVar37[1] + ((int)((uint)bVar15 + (uint)bVar9 + 1) >> 1 & 0xffU) +
+        *param_3 = *(unsigned char *)
+                    ((int)psVar37[1] + ((int)((unsigned int)bVar15 + (unsigned int)bVar9 + 1) >> 1 & 0xffU) +
                     *param_1);
-        param_3[1] = *(undefined1 *)
-                      ((int)psVar37[2] + ((int)((uint)bVar10 + (uint)bVar11 + 1) >> 1 & 0xffU) +
+        param_3[1] = *(unsigned char *)
+                      ((int)psVar37[2] + ((int)((unsigned int)bVar10 + (unsigned int)bVar11 + 1) >> 1 & 0xffU) +
                       *param_1);
-        param_3[2] = *(undefined1 *)
-                      ((int)psVar37[3] + ((int)((uint)bVar12 + (uint)bVar13 + 1) >> 1 & 0xffU) +
+        param_3[2] = *(unsigned char *)
+                      ((int)psVar37[3] + ((int)((unsigned int)bVar12 + (unsigned int)bVar13 + 1) >> 1 & 0xffU) +
                       *param_1);
-        param_3[3] = *(undefined1 *)
-                      ((int)psVar37[4] + ((int)((uint)bVar14 + (uint)bVar16 + 1) >> 1 & 0xffU) +
+        param_3[3] = *(unsigned char *)
+                      ((int)psVar37[4] + ((int)((unsigned int)bVar14 + (unsigned int)bVar16 + 1) >> 1 & 0xffU) +
                       *param_1);
-        param_3[4] = *(undefined1 *)
-                      ((int)psVar37[5] + ((int)((uint)bVar2 + (uint)bVar1 + 1) >> 1 & 0xffU) +
+        param_3[4] = *(unsigned char *)
+                      ((int)psVar37[5] + ((int)((unsigned int)bVar2 + (unsigned int)bVar1 + 1) >> 1 & 0xffU) +
                       *param_1);
-        param_3[5] = *(undefined1 *)
-                      ((int)psVar37[6] + ((int)((uint)bVar3 + (uint)bVar4 + 1) >> 1 & 0xffU) +
+        param_3[5] = *(unsigned char *)
+                      ((int)psVar37[6] + ((int)((unsigned int)bVar3 + (unsigned int)bVar4 + 1) >> 1 & 0xffU) +
                       *param_1);
-        param_3[6] = *(undefined1 *)
-                      ((int)psVar37[7] + ((int)((uint)bVar5 + (uint)bVar6 + 1) >> 1 & 0xffU) +
+        param_3[6] = *(unsigned char *)
+                      ((int)psVar37[7] + ((int)((unsigned int)bVar5 + (unsigned int)bVar6 + 1) >> 1 & 0xffU) +
                       *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)
-                      ((int)*psVar37 + ((int)((uint)bVar7 + (uint)bVar8 + 1) >> 1 & 0xffU) +
+        param_3[7] = *(unsigned char *)
+                      ((int)*psVar37 + ((int)((unsigned int)bVar7 + (unsigned int)bVar8 + 1) >> 1 & 0xffU) +
                       *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
@@ -261,25 +234,25 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       do {
         lVar48 = 8;
         if (iVar32 < 1) {
-          lVar30 = (ulonglong)((uint)-iVar32 >> 1) + 1;
+          lVar30 = (unsigned __int64)((unsigned int)-iVar32 >> 1) + 1;
           lVar48 = 8 - lVar30;
           iVar35 = iVar32;
           do {
             psVar21 = psVar37 + 1;
             psVar37 = psVar37 + 1;
-            pbVar29 = (byte *)(param_1[5] + iVar35);
+            pbVar29 = (unsigned char *)(param_1[5] + iVar35);
             iVar35 = iVar35 + 2;
-            *param_3 = *(undefined1 *)((uint)*pbVar29 + (int)*psVar21 + *param_1);
+            *param_3 = *(unsigned char *)((unsigned int)*pbVar29 + (int)*psVar21 + *param_1);
             param_3 = param_3 + 1;
             lVar30 = lVar30 + -1;
           } while (lVar30 != 0);
         }
         if (0 < (int)lVar48) {
-          pbVar29 = (byte *)(param_1[6] + -1);
+          pbVar29 = (unsigned char *)(param_1[6] + -1);
           do {
             psVar37 = psVar37 + 1;
             pbVar29 = pbVar29 + 1;
-            *param_3 = *(undefined1 *)((uint)*pbVar29 + (int)*psVar37 + *param_1);
+            *param_3 = *(unsigned char *)((unsigned int)*pbVar29 + (int)*psVar37 + *param_1);
             param_3 = param_3 + 1;
             lVar48 = lVar48 + -1;
           } while (lVar48 != 0);
@@ -293,17 +266,17 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       psVar37 = param_5 + -1;
       lVar48 = 8;
       do {
-        pbVar29 = (byte *)(param_1[6] - iVar32);
+        pbVar29 = (unsigned char *)(param_1[6] - iVar32);
         iVar32 = iVar32 + 1;
-        *param_3 = *(undefined1 *)((uint)pbVar29[-1] + (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)((uint)*pbVar29 + (int)psVar37[2] + *param_1);
-        param_3[2] = *(undefined1 *)((uint)pbVar29[1] + (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)((uint)pbVar29[2] + (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)((uint)pbVar29[3] + (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)((uint)pbVar29[4] + (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)((uint)pbVar29[5] + (int)psVar37[7] + *param_1);
+        *param_3 = *(unsigned char *)((unsigned int)pbVar29[-1] + (int)psVar37[1] + *param_1);
+        param_3[1] = *(unsigned char *)((unsigned int)*pbVar29 + (int)psVar37[2] + *param_1);
+        param_3[2] = *(unsigned char *)((unsigned int)pbVar29[1] + (int)psVar37[3] + *param_1);
+        param_3[3] = *(unsigned char *)((unsigned int)pbVar29[2] + (int)psVar37[4] + *param_1);
+        param_3[4] = *(unsigned char *)((unsigned int)pbVar29[3] + (int)psVar37[5] + *param_1);
+        param_3[5] = *(unsigned char *)((unsigned int)pbVar29[4] + (int)psVar37[6] + *param_1);
+        param_3[6] = *(unsigned char *)((unsigned int)pbVar29[5] + (int)psVar37[7] + *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)((uint)pbVar29[6] + (int)*psVar37 + *param_1);
+        param_3[7] = *(unsigned char *)((unsigned int)pbVar29[6] + (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
       } while (lVar48 != 0);
@@ -313,14 +286,14 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       psVar37 = param_5;
       do {
         if (0 < (int)uVar46) {
-          pbVar29 = (byte *)((param_1[5] - uVar46) + -1);
+          pbVar29 = (unsigned char *)((param_1[5] - uVar46) + -1);
           uVar28 = uVar46;
           do {
-            *param_3 = *(undefined1 *)((int)*psVar37 + (uint)pbVar29[1] + *param_1);
+            *param_3 = *(unsigned char *)((int)*psVar37 + (unsigned int)pbVar29[1] + *param_1);
             psVar21 = psVar37 + 1;
             pbVar29 = pbVar29 + 1;
             psVar37 = psVar37 + 2;
-            param_3[1] = *(undefined1 *)((int)*psVar21 + (uint)*pbVar29 + *param_1);
+            param_3[1] = *(unsigned char *)((int)*psVar21 + (unsigned int)*pbVar29 + *param_1);
             param_3 = param_3 + 2;
             uVar28 = uVar28 - 1;
           } while (uVar28 != 0);
@@ -329,17 +302,17 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
         psVar37 = psVar37 + 1;
         iVar32 = (uVar46 & 0x7fffffff) * -2 + 7;
         puVar36 = param_3 + 1;
-        *param_3 = *(undefined1 *)((uint)*(byte *)param_1[5] + (int)sVar17 + *param_1);
-        bVar15 = *(byte *)(param_1[6] + -1);
+        *param_3 = *(unsigned char *)((unsigned int)*(unsigned char *)param_1[5] + (int)sVar17 + *param_1);
+        bVar15 = *(unsigned char *)(param_1[6] + -1);
         if (0 < iVar32) {
-          pbVar29 = (byte *)(param_1[6] + -1);
+          pbVar29 = (unsigned char *)(param_1[6] + -1);
           do {
-            uVar28 = (uint)bVar15;
+            uVar28 = (unsigned int)bVar15;
             pbVar29 = pbVar29 + 1;
             bVar15 = *pbVar29;
             sVar17 = *psVar37;
             psVar37 = psVar37 + 1;
-            *puVar36 = *(undefined1 *)(((int)(bVar15 + uVar28 + 1) >> 1) + (int)sVar17 + *param_1);
+            *puVar36 = *(unsigned char *)(((int)(bVar15 + uVar28 + 1) >> 1) + (int)sVar17 + *param_1);
             puVar36 = puVar36 + 1;
             iVar32 = iVar32 + -1;
           } while (iVar32 != 0);
@@ -350,40 +323,40 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       if ((int)uVar46 < 8) {
         iVar32 = 8 - uVar46;
         do {
-          pbVar29 = (byte *)(param_1[5] - uVar46);
+          pbVar29 = (unsigned char *)(param_1[5] - uVar46);
           uVar46 = uVar46 + 1;
-          *param_3 = *(undefined1 *)((int)*psVar37 + (uint)*pbVar29 + *param_1);
-          param_3[1] = *(undefined1 *)((int)psVar37[1] + (uint)*pbVar29 + *param_1);
-          param_3[2] = *(undefined1 *)((uint)pbVar29[1] + (int)psVar37[2] + *param_1);
-          param_3[3] = *(undefined1 *)((uint)pbVar29[1] + (int)psVar37[3] + *param_1);
-          param_3[4] = *(undefined1 *)((int)psVar37[4] + (uint)pbVar29[2] + *param_1);
-          param_3[5] = *(undefined1 *)((int)psVar37[5] + (uint)pbVar29[2] + *param_1);
-          param_3[6] = *(undefined1 *)((int)psVar37[6] + (uint)pbVar29[3] + *param_1);
+          *param_3 = *(unsigned char *)((int)*psVar37 + (unsigned int)*pbVar29 + *param_1);
+          param_3[1] = *(unsigned char *)((int)psVar37[1] + (unsigned int)*pbVar29 + *param_1);
+          param_3[2] = *(unsigned char *)((unsigned int)pbVar29[1] + (int)psVar37[2] + *param_1);
+          param_3[3] = *(unsigned char *)((unsigned int)pbVar29[1] + (int)psVar37[3] + *param_1);
+          param_3[4] = *(unsigned char *)((int)psVar37[4] + (unsigned int)pbVar29[2] + *param_1);
+          param_3[5] = *(unsigned char *)((int)psVar37[5] + (unsigned int)pbVar29[2] + *param_1);
+          param_3[6] = *(unsigned char *)((int)psVar37[6] + (unsigned int)pbVar29[3] + *param_1);
           psVar21 = psVar37 + 7;
           psVar37 = psVar37 + 8;
-          param_3[7] = *(undefined1 *)((int)*psVar21 + (uint)pbVar29[3] + *param_1);
+          param_3[7] = *(unsigned char *)((int)*psVar21 + (unsigned int)pbVar29[3] + *param_1);
           param_3 = param_3 + param_4;
           iVar32 = iVar32 + -1;
         } while (iVar32 != 0);
       }
       break;
     case 8:
-      pbVar29 = (byte *)param_1[5];
-      pbVar31 = (byte *)(param_1[1] + -2);
+      pbVar29 = (unsigned char *)param_1[5];
+      pbVar31 = (unsigned char *)(param_1[1] + -2);
       psVar37 = param_5 + -1;
       lVar48 = 8;
       do {
         pbVar29 = pbVar29 + -1;
-        iVar32 = (int)((uint)*pbVar31 + (uint)*pbVar29 + 1) >> 1;
-        *param_3 = *(undefined1 *)((int)psVar37[1] + *param_1 + iVar32);
-        param_3[1] = *(undefined1 *)((int)psVar37[2] + *param_1 + iVar32);
-        param_3[2] = *(undefined1 *)((int)psVar37[3] + *param_1 + iVar32);
-        param_3[3] = *(undefined1 *)((int)psVar37[4] + *param_1 + iVar32);
-        param_3[4] = *(undefined1 *)((int)psVar37[5] + *param_1 + iVar32);
-        param_3[5] = *(undefined1 *)((int)psVar37[6] + *param_1 + iVar32);
-        param_3[6] = *(undefined1 *)((int)psVar37[7] + *param_1 + iVar32);
+        iVar32 = (int)((unsigned int)*pbVar31 + (unsigned int)*pbVar29 + 1) >> 1;
+        *param_3 = *(unsigned char *)((int)psVar37[1] + *param_1 + iVar32);
+        param_3[1] = *(unsigned char *)((int)psVar37[2] + *param_1 + iVar32);
+        param_3[2] = *(unsigned char *)((int)psVar37[3] + *param_1 + iVar32);
+        param_3[3] = *(unsigned char *)((int)psVar37[4] + *param_1 + iVar32);
+        param_3[4] = *(unsigned char *)((int)psVar37[5] + *param_1 + iVar32);
+        param_3[5] = *(unsigned char *)((int)psVar37[6] + *param_1 + iVar32);
+        param_3[6] = *(unsigned char *)((int)psVar37[7] + *param_1 + iVar32);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)((int)*psVar37 + *param_1 + iVar32);
+        param_3[7] = *(unsigned char *)((int)*psVar37 + *param_1 + iVar32);
         param_3 = param_3 + param_4;
         pbVar31 = pbVar31 + param_1[2];
         lVar48 = lVar48 + -1;
@@ -394,30 +367,30 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
       lVar48 = 8;
       iVar32 = 0;
       do {
-        *param_3 = *(undefined1 *)
-                    ((uint)*(byte *)((int)(char)(&lbl_820FD928)[iVar32] + param_1[5]) +
+        *param_3 = *(unsigned char *)
+                    ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD928)[iVar32] + param_1[5]) +
                      (int)psVar37[1] + *param_1);
-        param_3[1] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD929)[iVar32] + param_1[5]) +
+        param_3[1] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD929)[iVar32] + param_1[5]) +
                        (int)psVar37[2] + *param_1);
-        param_3[2] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92A)[iVar32] + param_1[5]) +
+        param_3[2] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92A)[iVar32] + param_1[5]) +
                        (int)psVar37[3] + *param_1);
-        param_3[3] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92B)[iVar32] + param_1[5]) +
+        param_3[3] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92B)[iVar32] + param_1[5]) +
                        (int)psVar37[4] + *param_1);
-        param_3[4] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92C)[iVar32] + param_1[5]) +
+        param_3[4] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92C)[iVar32] + param_1[5]) +
                        (int)psVar37[5] + *param_1);
-        param_3[5] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92D)[iVar32] + param_1[5]) +
+        param_3[5] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92D)[iVar32] + param_1[5]) +
                        (int)psVar37[6] + *param_1);
-        param_3[6] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92E)[iVar32] + param_1[5]) +
+        param_3[6] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92E)[iVar32] + param_1[5]) +
                        (int)psVar37[7] + *param_1);
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)
-                      ((uint)*(byte *)((int)(char)(&lbl_820FD92F)[iVar32] + param_1[5]) +
+        param_3[7] = *(unsigned char *)
+                      ((unsigned int)*(unsigned char *)((int)(char)(&lbl_820FD92F)[iVar32] + param_1[5]) +
                        (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
@@ -427,88 +400,88 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
     case 10:
       iVar32 = param_1[6];
       psVar37 = param_5 + -1;
-      pbVar29 = (byte *)param_1[5];
+      pbVar29 = (unsigned char *)param_1[5];
       lVar48 = 8;
-      bVar15 = *(byte *)(iVar32 + 6);
-      bVar9 = *(byte *)(iVar32 + 3);
-      bVar10 = *(byte *)(iVar32 + 5);
-      bVar11 = *(byte *)(iVar32 + 7);
-      bVar12 = *(byte *)(iVar32 + 2);
-      bVar13 = *(byte *)(iVar32 + 4);
-      bVar14 = *(byte *)(iVar32 + 1);
+      bVar15 = *(unsigned char *)(iVar32 + 6);
+      bVar9 = *(unsigned char *)(iVar32 + 3);
+      bVar10 = *(unsigned char *)(iVar32 + 5);
+      bVar11 = *(unsigned char *)(iVar32 + 7);
+      bVar12 = *(unsigned char *)(iVar32 + 2);
+      bVar13 = *(unsigned char *)(iVar32 + 4);
+      bVar14 = *(unsigned char *)(iVar32 + 1);
       do {
         pbVar29 = pbVar29 + -1;
         bVar16 = *pbVar29;
-        *param_3 = *(undefined1 *)((int)psVar37[1] + *param_1 + ((int)((uint)bVar16 * 8 + 4) >> 3));
-        param_3[1] = *(undefined1 *)
-                      ((int)psVar37[2] + *param_1 + ((int)(bVar14 + 4 + (uint)bVar16 * 7) >> 3));
-        param_3[2] = *(undefined1 *)
+        *param_3 = *(unsigned char *)((int)psVar37[1] + *param_1 + ((int)((unsigned int)bVar16 * 8 + 4) >> 3));
+        param_3[1] = *(unsigned char *)
+                      ((int)psVar37[2] + *param_1 + ((int)(bVar14 + 4 + (unsigned int)bVar16 * 7) >> 3));
+        param_3[2] = *(unsigned char *)
                       ((int)psVar37[3] + *param_1 +
-                      ((int)((bVar12 + 2) * 2 + (uint)bVar16 * 6) >> 3));
-        param_3[3] = *(undefined1 *)
+                      ((int)((bVar12 + 2) * 2 + (unsigned int)bVar16 * 6) >> 3));
+        param_3[3] = *(unsigned char *)
                       ((int)psVar37[4] + *param_1 +
-                      ((int)((uint)bVar9 + (uint)bVar9 * 2 + 4 + (uint)bVar16 * 5) >> 3));
-        param_3[4] = *(undefined1 *)
+                      ((int)((unsigned int)bVar9 + (unsigned int)bVar9 * 2 + 4 + (unsigned int)bVar16 * 5) >> 3));
+        param_3[4] = *(unsigned char *)
                       ((int)psVar37[5] + *param_1 +
-                      ((int)((bVar13 + 1) * 4 + (uint)bVar16 * 4) >> 3));
-        param_3[5] = *(undefined1 *)
+                      ((int)((bVar13 + 1) * 4 + (unsigned int)bVar16 * 4) >> 3));
+        param_3[5] = *(unsigned char *)
                       ((int)psVar37[6] + *param_1 +
-                      ((int)((uint)bVar10 + (uint)bVar10 * 4 + 4 + (uint)bVar16 * 3) >> 3));
-        param_3[6] = *(undefined1 *)
+                      ((int)((unsigned int)bVar10 + (unsigned int)bVar10 * 4 + 4 + (unsigned int)bVar16 * 3) >> 3));
+        param_3[6] = *(unsigned char *)
                       ((int)psVar37[7] + *param_1 +
-                      ((int)((uint)bVar15 * 6 + 4 + (uint)bVar16 * 2) >> 3));
+                      ((int)((unsigned int)bVar15 * 6 + 4 + (unsigned int)bVar16 * 2) >> 3));
         psVar37 = psVar37 + 8;
-        param_3[7] = *(undefined1 *)
-                      (((int)(((((uint)bVar11 * 8 - (uint)bVar11) + 4) - (uint)bVar16) +
-                             (uint)bVar16 * 2) >> 3) + (int)*psVar37 + *param_1);
+        param_3[7] = *(unsigned char *)
+                      (((int)(((((unsigned int)bVar11 * 8 - (unsigned int)bVar11) + 4) - (unsigned int)bVar16) +
+                             (unsigned int)bVar16 * 2) >> 3) + (int)*psVar37 + *param_1);
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
       } while (lVar48 != 0);
       break;
     case 0xb:
-      pbVar31 = (byte *)param_1[6];
+      pbVar31 = (unsigned char *)param_1[6];
       psVar37 = param_5 + -1;
-      pbVar29 = (byte *)param_1[5];
+      pbVar29 = (unsigned char *)param_1[5];
       iVar45 = 0;
       lVar48 = 8;
-      iVar32 = (uint)*pbVar31 << 3;
-      iVar35 = (uint)pbVar31[1] << 3;
-      iVar26 = (uint)pbVar31[2] << 3;
-      iVar25 = (uint)pbVar31[3] << 3;
-      iVar23 = (uint)pbVar31[5] << 3;
-      iVar24 = (uint)pbVar31[4] << 3;
-      iVar22 = (uint)pbVar31[6] << 3;
-      iVar47 = (uint)pbVar31[7] << 3;
+      iVar32 = (unsigned int)*pbVar31 << 3;
+      iVar35 = (unsigned int)pbVar31[1] << 3;
+      iVar26 = (unsigned int)pbVar31[2] << 3;
+      iVar25 = (unsigned int)pbVar31[3] << 3;
+      iVar23 = (unsigned int)pbVar31[5] << 3;
+      iVar24 = (unsigned int)pbVar31[4] << 3;
+      iVar22 = (unsigned int)pbVar31[6] << 3;
+      iVar47 = (unsigned int)pbVar31[7] << 3;
       do {
         pbVar29 = pbVar29 + -1;
-        pbVar31 = (byte *)param_1[6];
-        iVar33 = (uint)*pbVar29 * iVar45 + 4;
+        pbVar31 = (unsigned char *)param_1[6];
+        iVar33 = (unsigned int)*pbVar29 * iVar45 + 4;
         iVar44 = iVar32 + iVar33;
         iVar43 = iVar35 + iVar33;
         iVar42 = iVar25 + iVar33;
         iVar41 = iVar24 + iVar33;
         iVar40 = iVar23 + iVar33;
         iVar34 = iVar47 + iVar33;
-        iVar32 = iVar32 - (uint)*pbVar31;
-        *param_3 = *(undefined1 *)((int)psVar37[1] + *param_1 + (iVar44 >> 3));
-        iVar35 = iVar35 - (uint)pbVar31[1];
-        param_3[1] = *(undefined1 *)((int)psVar37[2] + *param_1 + (iVar43 >> 3));
+        iVar32 = iVar32 - (unsigned int)*pbVar31;
+        *param_3 = *(unsigned char *)((int)psVar37[1] + *param_1 + (iVar44 >> 3));
+        iVar35 = iVar35 - (unsigned int)pbVar31[1];
+        param_3[1] = *(unsigned char *)((int)psVar37[2] + *param_1 + (iVar43 >> 3));
         bVar15 = pbVar31[2];
-        param_3[2] = *(undefined1 *)((int)psVar37[3] + *param_1 + (iVar26 + iVar33 >> 3));
-        iVar26 = iVar26 - (uint)bVar15;
-        iVar25 = iVar25 - (uint)pbVar31[3];
-        param_3[3] = *(undefined1 *)((int)psVar37[4] + *param_1 + (iVar42 >> 3));
-        iVar24 = iVar24 - (uint)pbVar31[4];
-        param_3[4] = *(undefined1 *)((int)psVar37[5] + *param_1 + (iVar41 >> 3));
-        iVar23 = iVar23 - (uint)pbVar31[5];
-        param_3[5] = *(undefined1 *)((int)psVar37[6] + *param_1 + (iVar40 >> 3));
+        param_3[2] = *(unsigned char *)((int)psVar37[3] + *param_1 + (iVar26 + iVar33 >> 3));
+        iVar26 = iVar26 - (unsigned int)bVar15;
+        iVar25 = iVar25 - (unsigned int)pbVar31[3];
+        param_3[3] = *(unsigned char *)((int)psVar37[4] + *param_1 + (iVar42 >> 3));
+        iVar24 = iVar24 - (unsigned int)pbVar31[4];
+        param_3[4] = *(unsigned char *)((int)psVar37[5] + *param_1 + (iVar41 >> 3));
+        iVar23 = iVar23 - (unsigned int)pbVar31[5];
+        param_3[5] = *(unsigned char *)((int)psVar37[6] + *param_1 + (iVar40 >> 3));
         bVar15 = pbVar31[6];
-        param_3[6] = *(undefined1 *)((int)psVar37[7] + *param_1 + (iVar22 + iVar33 >> 3));
-        iVar22 = iVar22 - (uint)bVar15;
+        param_3[6] = *(unsigned char *)((int)psVar37[7] + *param_1 + (iVar22 + iVar33 >> 3));
+        iVar22 = iVar22 - (unsigned int)bVar15;
         psVar37 = psVar37 + 8;
-        iVar47 = iVar47 - (uint)pbVar31[7];
+        iVar47 = iVar47 - (unsigned int)pbVar31[7];
         iVar45 = iVar45 + 1;
-        param_3[7] = *(undefined1 *)((int)*psVar37 + *param_1 + (iVar34 >> 3));
+        param_3[7] = *(unsigned char *)((int)*psVar37 + *param_1 + (iVar34 >> 3));
         param_3 = param_3 + param_4;
         lVar48 = lVar48 + -1;
       } while (lVar48 != 0);
@@ -519,15 +492,15 @@ void fn_82C896D8(int *param_1,undefined4 param_2,undefined1 *param_3,int param_4
     psVar37 = param_5 + -1;
     lVar48 = 8;
     do {
-      *param_3 = *(undefined1 *)((int)psVar37[1] + *param_1 + iVar32);
-      param_3[1] = *(undefined1 *)((int)psVar37[2] + *param_1 + iVar32);
-      param_3[2] = *(undefined1 *)((int)psVar37[3] + *param_1 + iVar32);
-      param_3[3] = *(undefined1 *)((int)psVar37[4] + *param_1 + iVar32);
-      param_3[4] = *(undefined1 *)((int)psVar37[5] + *param_1 + iVar32);
-      param_3[5] = *(undefined1 *)((int)psVar37[6] + *param_1 + iVar32);
-      param_3[6] = *(undefined1 *)((int)psVar37[7] + *param_1 + iVar32);
+      *param_3 = *(unsigned char *)((int)psVar37[1] + *param_1 + iVar32);
+      param_3[1] = *(unsigned char *)((int)psVar37[2] + *param_1 + iVar32);
+      param_3[2] = *(unsigned char *)((int)psVar37[3] + *param_1 + iVar32);
+      param_3[3] = *(unsigned char *)((int)psVar37[4] + *param_1 + iVar32);
+      param_3[4] = *(unsigned char *)((int)psVar37[5] + *param_1 + iVar32);
+      param_3[5] = *(unsigned char *)((int)psVar37[6] + *param_1 + iVar32);
+      param_3[6] = *(unsigned char *)((int)psVar37[7] + *param_1 + iVar32);
       psVar37 = psVar37 + 8;
-      param_3[7] = *(undefined1 *)((int)*psVar37 + *param_1 + iVar32);
+      param_3[7] = *(unsigned char *)((int)*psVar37 + *param_1 + iVar32);
       param_3 = param_3 + param_4;
       lVar48 = lVar48 + -1;
     } while (lVar48 != 0);

@@ -1,11 +1,10 @@
-typedef unsigned int uint;
 extern void fn_82F0F9A0(void *, int);
 extern void fn_82F23A50(void *);
 extern void fn_82F23C88(void *);
 
 struct Ent { int pad; int v[6]; char rest[0x114 - 0x1c]; };
 struct S {
-  char pad0[0x2d8]; uint count;
+  char pad0[0x2d8]; unsigned int count;
   char pad1[0x630 - 0x2dc]; int x630;
   char pad2[0xaf0 - 0x634]; int state;
   char pad3[0x1e54 - 0xaf4]; struct Ent *ents;
@@ -13,7 +12,7 @@ struct S {
 
 void fn_82F23CE8(struct S *p)
 {
-  uint i;
+  unsigned int i;
   int j;
   struct Ent *e;
 

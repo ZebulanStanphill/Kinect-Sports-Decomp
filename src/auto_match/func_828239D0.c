@@ -1,37 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82823728();
 extern int fn_82823848();
 extern int fn_82825030();
 extern int fn_82825230();
 
 
-undefined8 fn_828239D0(int *param_1,undefined8 param_2,int param_3,int *param_4)
+unsigned __int64 fn_828239D0(int *param_1,unsigned __int64 param_2,int param_3,int *param_4)
 
 {
   char cVar1;
@@ -42,32 +18,32 @@ undefined8 fn_828239D0(int *param_1,undefined8 param_2,int param_3,int *param_4)
   int iVar6;
   int iVar7;
   int iVar8;
-  undefined8 uVar9;
-  uint uVar10;
+  unsigned __int64 uVar9;
+  unsigned int uVar10;
   int iVar11;
-  longlong lVar12;
-  longlong lVar13;
-  longlong lVar14;
-  longlong lVar15;
-  longlong lVar16;
+  __int64 lVar12;
+  __int64 lVar13;
+  __int64 lVar14;
+  __int64 lVar15;
+  __int64 lVar16;
   int iVar17;
   int iVar18;
-  longlong lVar19;
+  __int64 lVar19;
   int iVar20;
-  longlong lVar21;
-  uint uVar22;
-  longlong lVar23;
-  longlong lVar24;
+  __int64 lVar21;
+  unsigned int uVar22;
+  __int64 lVar23;
+  __int64 lVar24;
   char *pcVar25;
-  longlong lVar26;
+  __int64 lVar26;
   
   iVar3 = *param_4;
   lVar19 = 0;
-  *(undefined4 *)*param_1 = 0;
+  *(unsigned int *)*param_1 = 0;
   lVar14 = 0;
   lVar16 = 0;
   pcVar25 = (char *)(*param_4 + param_3);
-  uVar10 = *(uint *)(*param_1 + 8);
+  uVar10 = *(unsigned int *)(*param_1 + 8);
   lVar15 = 0;
   lVar23 = 0;
   if (0 < (int)uVar10) {
@@ -79,7 +55,7 @@ undefined8 fn_828239D0(int *param_1,undefined8 param_2,int param_3,int *param_4)
         lVar24 = lVar19;
         do {
           lVar14 = fn_82825030(param_2,param_1[2],param_1[3],
-                                     (ulonglong)(uint)param_1[4] + lVar19,(ulonglong)uVar10 - lVar19
+                                     (unsigned __int64)(unsigned int)param_1[4] + lVar19,(unsigned __int64)uVar10 - lVar19
                                      ,0,param_1[3],param_1[8]);
           iVar20 = (int)lVar14;
           iVar17 = (int)lVar19;
@@ -101,7 +77,7 @@ undefined8 fn_828239D0(int *param_1,undefined8 param_2,int param_3,int *param_4)
           }
           lVar19 = lVar19 + 1;
           lVar21 = lVar21 + 1;
-          uVar10 = *(uint *)(*param_1 + 8);
+          uVar10 = *(unsigned int *)(*param_1 + 8);
         } while ((int)lVar19 < (int)uVar10);
       }
       iVar20 = (int)lVar19;
@@ -223,8 +199,8 @@ LAB_82823e00:
         lVar12 = lVar16;
         if (0 < lVar16) {
           do {
-            *(undefined1 *)(*(int *)(*param_1 + 4) + param_1[5] + iVar7) =
-                 *(undefined1 *)(param_1[4] + iVar7 + iVar18 + iVar17);
+            *(unsigned char *)(*(int *)(*param_1 + 4) + param_1[5] + iVar7) =
+                 *(unsigned char *)(param_1[4] + iVar7 + iVar18 + iVar17);
             iVar7 = iVar7 + 1;
             lVar12 = lVar12 + -1;
           } while (lVar12 != 0);
@@ -238,7 +214,7 @@ LAB_82823e00:
         lVar15 = -lVar21;
         lVar23 = -lVar19;
       }
-      uVar10 = *(uint *)(*param_1 + 8);
+      uVar10 = *(unsigned int *)(*param_1 + 8);
       lVar16 = lVar24;
     } while (iVar20 < (int)uVar10);
   }
@@ -251,7 +227,7 @@ LAB_82823e00:
         if ((*pcVar25 == '\x02') || (*pcVar25 == '\x01')) {
           bVar5 = false;
         }
-        fn_82825230(*(undefined4 *)(pcVar25 + 1),pcVar25 + 1);
+        fn_82825230(*(unsigned int *)(pcVar25 + 1),pcVar25 + 1);
         iVar7 = iVar7 + 1;
         pcVar25 = pcVar25 + 5;
       } while (iVar7 < *(int *)*param_1);

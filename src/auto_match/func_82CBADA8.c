@@ -1,48 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82CBADA8(longlong param_1,ulonglong param_2,int param_3,int param_4,short *param_5,
-                  short *param_6,uint param_7,int param_8)
+void fn_82CBADA8(__int64 param_1,unsigned __int64 param_2,int param_3,int param_4,short *param_5,
+                  short *param_6,unsigned int param_7,int param_8)
 
 {
   short sVar1;
   short sVar2;
   short sVar3;
   short sVar4;
-  byte *pbVar5;
+  unsigned char *pbVar5;
   int iVar6;
-  longlong lVar7;
+  __int64 lVar7;
   int iVar8;
   int iVar9;
-  longlong lVar10;
+  __int64 lVar10;
   int iVar11;
-  longlong lVar12;
+  __int64 lVar12;
   int in_stack_00000054;
   short asStack_2a0 [336];
   
@@ -57,15 +28,15 @@ void fn_82CBADA8(longlong param_1,ulonglong param_2,int param_3,int param_4,shor
     lVar12 = 0xb;
     lVar7 = lVar10;
     do {
-      pbVar5 = (byte *)lVar7;
+      pbVar5 = (unsigned char *)lVar7;
       iVar9 = iVar11 + iVar6;
       iVar6 = iVar6 + 1;
       lVar7 = lVar7 + 1;
       asStack_2a0[iVar9] =
-           (short)((int)((uint)pbVar5[(int)((param_2 & 0xffffffff) << 1)] * (int)sVar2 +
-                         (uint)pbVar5[(int)param_2 + (int)((param_2 & 0xffffffff) << 1)] *
-                         (int)sVar1 + (uint)pbVar5[(int)param_2] * (int)sVar3 +
-                         (uint)*pbVar5 * (int)sVar4 + param_8) >> (param_7 & 0x3f));
+           (short)((int)((unsigned int)pbVar5[(int)((param_2 & 0xffffffff) << 1)] * (int)sVar2 +
+                         (unsigned int)pbVar5[(int)param_2 + (int)((param_2 & 0xffffffff) << 1)] *
+                         (int)sVar1 + (unsigned int)pbVar5[(int)param_2] * (int)sVar3 +
+                         (unsigned int)*pbVar5 * (int)sVar4 + param_8) >> (param_7 & 0x3f));
       lVar12 = lVar12 + -1;
     } while (lVar12 != 0);
     iVar11 = iVar11 + 0x23;

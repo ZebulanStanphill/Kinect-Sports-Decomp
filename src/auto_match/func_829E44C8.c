@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_60;
 extern unsigned int fStack_64;
 extern unsigned int fStack_68;
@@ -43,29 +16,29 @@ extern unsigned int uStack_70;
 extern unsigned int uStack_74;
 
 
-void fn_829E44C8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9)
+void fn_829E44C8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
+                  unsigned __int64 param_9)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
   int iVar5;
-  undefined8 uVar4;
-  undefined4 uVar6;
+  unsigned __int64 uVar4;
+  unsigned int uVar6;
   double extraout_f1;
   double dVar7;
   double dVar8;
   double dVar9;
   float *in_stack_0000005c;
-  undefined4 *in_stack_00000064;
-  undefined4 *in_stack_0000006c;
-  undefined4 *in_stack_00000074;
+  unsigned int *in_stack_00000064;
+  unsigned int *in_stack_0000006c;
+  unsigned int *in_stack_00000074;
   float *in_stack_0000007c;
   float *in_stack_00000084;
   int aiStack_80 [3];
-  struct { undefined4 first; undefined4 second; } stack_pair_74;
+  struct { unsigned int first; unsigned int second; } stack_pair_74;
 
   float fStack_6c;
   float fStack_68;
@@ -78,7 +51,7 @@ void fn_829E44C8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   if (-1 < (int)uVar4) {
     uVar4 = fn_829E60D0((double)*(float *)(iVar5 + 0x88),(double)*(float *)(iVar5 + 0xe4),
                               iVar5 + 0x24,iVar5 + 8,param_6,
-                              (longlong)*(int *)(iVar5 + 0x78) * (longlong)*(int *)(iVar5 + 0x7c),
+                              (__int64)*(int *)(iVar5 + 0x78) * (__int64)*(int *)(iVar5 + 0x7c),
                               param_7,&fStack_64,*(int *)(iVar5 + 0x7c),&stack_pair_74.first);
     if (((-1 < (int)uVar4) &&
         (uVar4 = fn_829E5A78(iVar5 + 0x24,aiStack_80 + 2,aiStack_80), -1 < (int)uVar4)) &&
@@ -102,7 +75,7 @@ void fn_829E44C8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
               fVar2 = fVar3;
             }
             *(float *)(iVar5 + 0x84) = fVar2;
-            *(undefined4 *)(iVar5 + 0x94) = 0;
+            *(unsigned int *)(iVar5 + 0x94) = 0;
             *(float *)(iVar5 + 0x98) = (float)dVar8;
             *(float *)(iVar5 + 0x9c) = (float)dVar7;
           }

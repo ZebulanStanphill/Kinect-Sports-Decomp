@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82DA1B98();
 extern int fn_82F96108();
 extern int fn_82F96398();
@@ -36,19 +9,19 @@ extern unsigned int uStack00000034;
 extern unsigned int uStack0000003f;
 
 
-undefined4
-fn_82F95E70(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-             undefined4 param_5,undefined1 param_6)
+unsigned int
+fn_82F95E70(unsigned int param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4,
+             unsigned int param_5,unsigned char param_6)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
-  uint uStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined4 uStack0000002c;
-  undefined4 uStack00000034;
-  undefined1 uStack0000003f;
+  unsigned int uStack00000014;
+  unsigned int uStack0000001c;
+  unsigned int uStack00000024;
+  unsigned int uStack0000002c;
+  unsigned int uStack00000034;
+  unsigned char uStack0000003f;
   
   uStack00000014 = param_1;
   uStack0000001c = param_2;
@@ -56,7 +29,7 @@ fn_82F95E70(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_
   uStack0000002c = param_4;
   uStack00000034 = param_5;
   uStack0000003f = param_6;
-  uVar1 = fn_82F96108((ulonglong)param_1 + 1,1,0);
+  uVar1 = fn_82F96108((unsigned __int64)param_1 + 1,1,0);
   iVar2 = fn_82DA1B98(0x18,uVar1);
   if (iVar2 != 0) {
     fn_82F96398(iVar2,uStack0000001c,uStack00000024,uStack0000002c,uStack00000034,uStack0000003f);

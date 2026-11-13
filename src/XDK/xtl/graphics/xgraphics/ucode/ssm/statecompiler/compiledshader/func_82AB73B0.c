@@ -1,13 +1,12 @@
-typedef unsigned int U32;
 typedef struct {
     void *heap;
-    void *(*alloc)(void *heap, U32 size);
+    void *(*alloc)(void *heap, unsigned int size);
     char pad[0x988 - 8];
     void *stateList;   /* 0x988 */
 } CS_82AB73B0;
 typedef struct {
     int eState;
-    U32 value;
+    unsigned int value;
 } StateValue_82AB73B0;
 extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
 extern void fn_82AB6368(void *list, void *item);
@@ -18,7 +17,7 @@ extern void fn_82AB6368(void *list, void *item);
 #define CS_ASSERT(e, line) \
   if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledshader.cpp", line)
 
-int fn_82AB73B0(CS_82AB73B0 *pCS, int eState, U32 value)
+int fn_82AB73B0(CS_82AB73B0 *pCS, int eState, unsigned int value)
 {
   StateValue_82AB73B0 *pValue;
   CS_ASSERT(pCS, 0x44c);

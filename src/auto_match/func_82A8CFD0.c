@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_3c;
 extern int fn_82F68CC0();
 extern unsigned int lbl_82005344;
@@ -52,7 +25,7 @@ float * fn_82A8CFD0(double param_1,float *param_2,int param_3,float *param_4)
   dVar10 = (double)(float)((double)param_4[1] * param_1);
   fVar6 = (float)(iVar3 + -1);
   dVar11 = (double)*(float *)(param_3 + 0x5968);
-  dVar12 = (double)(float)((double)(uint)fVar6 / dVar11);
+  dVar12 = (double)(float)((double)(unsigned int)fVar6 / dVar11);
   fn_82F68CC0(param_2,param_4,0x20);
   fVar4 = param_4[4];
   fVar2 = *param_4;
@@ -74,7 +47,7 @@ float * fn_82A8CFD0(double param_1,float *param_2,int param_3,float *param_4)
       }
       *param_2 = (float)dVar9;
     }
-    fStack_3c = (float)(longlong)(dVar8 * dVar11);
+    fStack_3c = (float)(__int64)(dVar8 * dVar11);
   }
   else {
     dVar10 = (double)lbl_821AAD20;
@@ -91,9 +64,9 @@ float * fn_82A8CFD0(double param_1,float *param_2,int param_3,float *param_4)
         dVar7 = (double)(float)((double)*param_2 + dVar12);
         *param_2 = (float)((double)*param_2 + dVar12);
       } while (dVar7 < dVar10);
-      fStack_3c = (float)(longlong)(dVar7 * dVar11);
-      if ((uint)fStack_3c <= iVar3 - 1U) {
-        fStack_3c = (float)(longlong)(dVar7 * dVar11);
+      fStack_3c = (float)(__int64)(dVar7 * dVar11);
+      if ((unsigned int)fStack_3c <= iVar3 - 1U) {
+        fStack_3c = (float)(__int64)(dVar7 * dVar11);
         fVar6 = fStack_3c;
       }
       goto LAB_82a8d18c;
@@ -110,17 +83,17 @@ float * fn_82A8CFD0(double param_1,float *param_2,int param_3,float *param_4)
           dVar7 = (double)(float)((double)*param_2 - dVar12);
           *param_2 = (float)((double)*param_2 - dVar12);
         } while (dVar12 <= dVar7);
-        fStack_3c = (float)(longlong)(dVar7 * dVar11);
-        if ((uint)fStack_3c <= iVar3 - 1U) {
-          fStack_3c = (float)(longlong)(dVar7 * dVar11);
+        fStack_3c = (float)(__int64)(dVar7 * dVar11);
+        if ((unsigned int)fStack_3c <= iVar3 - 1U) {
+          fStack_3c = (float)(__int64)(dVar7 * dVar11);
           fVar6 = fStack_3c;
         }
       }
       goto LAB_82a8d18c;
     }
-    fStack_3c = (float)(longlong)(dVar7 * dVar11);
+    fStack_3c = (float)(__int64)(dVar7 * dVar11);
   }
-  if ((uint)fStack_3c <= iVar3 - 1U) {
+  if ((unsigned int)fStack_3c <= iVar3 - 1U) {
     fVar6 = fStack_3c;
   }
 LAB_82a8d18c:

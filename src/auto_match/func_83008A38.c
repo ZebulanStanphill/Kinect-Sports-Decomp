@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_54;
 extern unsigned int fStack_58;
 extern int fn_82FF5400();
@@ -37,18 +10,18 @@ extern unsigned int uStack_4c;
 extern unsigned int uStack_5c;
 
 
-void fn_83008A38(double param_1,undefined8 param_2,undefined4 *param_3,undefined8 param_4,
-                  ulonglong param_5,undefined8 param_6,undefined8 param_7)
+void fn_83008A38(double param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
 
 {
-  undefined4 uVar1;
-  undefined4 *puStack_60;
-  undefined4 uStack_5c;
+  unsigned int uVar1;
+  unsigned int *puStack_60;
+  unsigned int uStack_5c;
   float fStack_58;
   float fStack_54;
   int iStack_50;
-  undefined4 uStack_4c;
-  undefined1 uStack_48;
+  unsigned int uStack_4c;
+  unsigned char uStack_48;
   
   if (param_3[2] != 0) {
     fStack_54 = (float)param_1;
@@ -67,10 +40,10 @@ void fn_83008A38(double param_1,undefined8 param_2,undefined4 *param_3,undefined
       param_1 = (double)fStack_54;
     }
     if (((double)fStack_58 == param_1) || (iStack_50 = (int)param_7, iStack_50 == 0)) {
-      (**(code **)*param_3)(param_3,0x10000);
+      (**(int (***)())*param_3)(param_3,0x10000);
     }
     else {
-      uStack_4c = (undefined4)param_6;
+      uStack_4c = (unsigned int)param_6;
       uStack_5c = 0x10000;
       uStack_48 = 1;
       puStack_60 = param_3;

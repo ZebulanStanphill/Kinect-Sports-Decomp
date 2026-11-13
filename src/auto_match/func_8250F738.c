@@ -1,59 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8250FDA0();
 
 
-uint * fn_8250F738(uint *param_1,undefined8 *param_2,undefined8 *param_3)
+unsigned int * fn_8250F738(unsigned int *param_1,unsigned __int64 *param_2,unsigned __int64 *param_3)
 
 {
   int iVar1;
-  undefined8 *puVar2;
-  undefined8 *puVar4;
-  undefined8 uVar3;
-  undefined8 *puVar5;
-  undefined8 *puVar6;
-  undefined8 *puVar7;
-  undefined8 *puVar8;
-  uint uVar9;
-  undefined8 *puVar10;
-  undefined8 uVar11;
-  undefined8 uVar12;
-  undefined8 uVar13;
+  unsigned __int64 *puVar2;
+  unsigned __int64 *puVar4;
+  unsigned __int64 uVar3;
+  unsigned __int64 *puVar5;
+  unsigned __int64 *puVar6;
+  unsigned __int64 *puVar7;
+  unsigned __int64 *puVar8;
+  unsigned int uVar9;
+  unsigned __int64 *puVar10;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  unsigned __int64 uVar13;
   
   puVar5 = param_3 + -4;
   uVar9 = (int)param_3 - (int)param_2 >> 5;
   iVar1 = (int)puVar5 - (int)param_2 >> 5;
   puVar10 = param_2 + (((int)param_3 - (int)param_2 >> 6) +
-                      (uint)((int)uVar9 < 0 && (uVar9 & 1) != 0)) * 4;
+                      (unsigned int)((int)uVar9 < 0 && (uVar9 & 1) != 0)) * 4;
   puVar4 = param_2;
   if (0x28 < iVar1) {
     uVar9 = iVar1 + 1;
-    uVar9 = ((int)uVar9 >> 3) + (uint)((int)uVar9 < 0 && (uVar9 & 7) != 0);
+    uVar9 = ((int)uVar9 >> 3) + (unsigned int)((int)uVar9 < 0 && (uVar9 & 7) != 0);
     fn_8250FDA0(param_2,param_2 + uVar9 * 4,param_2 + uVar9 * 8);
     fn_8250FDA0(puVar10 + (uVar9 & 0x7ffffff) * -4,puVar10,puVar10 + uVar9 * 4);
     fn_8250FDA0(puVar5 + (uVar9 & 0x3ffffff) * -8,puVar5 + (uVar9 & 0x7ffffff) * -4,puVar5);
@@ -127,8 +101,8 @@ joined_r0x8250f8e4:
     }
     if (puVar5 == param_2) {
       if (puVar4 == param_3) {
-        *param_1 = (uint)puVar2;
-        param_1[1] = (uint)puVar8;
+        *param_1 = (unsigned int)puVar2;
+        param_1[1] = (unsigned int)puVar8;
         return param_1;
       }
       if (puVar8 != puVar4) {

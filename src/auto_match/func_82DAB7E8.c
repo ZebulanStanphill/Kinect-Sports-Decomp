@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82DAD000();
 extern int fn_82DAE118();
 extern unsigned int iStack_28;
@@ -44,27 +17,27 @@ extern unsigned int uStack_48;
 extern unsigned int uStack_50;
 
 
-void fn_82DAB7E8(undefined4 param_1,int param_2,undefined4 param_3)
+void fn_82DAB7E8(unsigned int param_1,int param_2,unsigned int param_3)
 
 {
-  struct { undefined4 first; int second; } stack_pair_50;
+  struct { unsigned int first; int second; } stack_pair_50;
 
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned int uStack_40;
   int iStack_3c;
   int iStack_38;
-  undefined1 uStack_34;
-  undefined1 uStack_33;
-  undefined1 uStack_32;
+  unsigned char uStack_34;
+  unsigned char uStack_33;
+  unsigned char uStack_32;
   int iStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_2c;
   int iStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
+  unsigned int uStack_24;
+  unsigned int uStack_20;
   
   stack_pair_50.second = *(int *)(param_2 + 0xc);
-  uStack_48 = *(undefined4 *)(param_2 + 0x10);
+  uStack_48 = *(unsigned int *)(param_2 + 0x10);
   iStack_3c = param_2 + 0x50;
   iStack_30 = param_2 + 4;
   iStack_38 = param_2 + 0x18;
@@ -78,7 +51,7 @@ void fn_82DAB7E8(undefined4 param_1,int param_2,undefined4 param_3)
   uStack_20 = 0;
   uStack_44 = param_1;
   uStack_2c = param_3;
-  fn_82DAE118(*(undefined4 *)(stack_pair_50.second + 8),&stack_pair_50.first);
+  fn_82DAE118(*(unsigned int *)(stack_pair_50.second + 8),&stack_pair_50.first);
   stack_pair_50.first = 0;
   if (*(short *)(*(int *)(param_2 + 0xc) + 0x204) != 0) {
     fn_82DAD000(*(int *)(param_2 + 0xc),&stack_pair_50.first);

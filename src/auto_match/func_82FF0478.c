@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define _uStack00000028 ((*(U64*)&uStack00000028))
+#define _uStack00000028 ((*(unsigned __int64*)&uStack00000028))
 extern unsigned int fStack_54;
 extern unsigned int fStack_58;
 extern int fn_82FF5400();
@@ -43,24 +16,24 @@ extern unsigned int uStack_50;
 extern unsigned int uStack_5c;
 
 
-void fn_82FF0478(int *param_1,char param_2,undefined8 param_3,undefined8 param_4,ulonglong param_5
+void fn_82FF0478(int *param_1,char param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5
                   )
 
 {
   float fVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   int iVar3;
-  byte bVar4;
+  unsigned char bVar4;
   int *piVar5;
-  undefined4 uStack00000028;
-  undefined4 uStack0000002c;
+  unsigned int uStack00000028;
+  unsigned int uStack0000002c;
   int *piStack_60;
-  undefined4 uStack_5c;
+  unsigned int uStack_5c;
   float fStack_58;
   float fStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined1 uStack_48;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned char uStack_48;
   
   _uStack00000028 = param_4;
   RtlEnterCriticalSection(0xffffffff83264558);
@@ -72,12 +45,12 @@ void fn_82FF0478(int *param_1,char param_2,undefined8 param_3,undefined8 param_4
   }
   if (iVar3 == 0) {
     if (param_2 == '\0') {
-      bVar4 = *(byte *)((int)param_1 + 0xd7);
+      bVar4 = *(unsigned char *)((int)param_1 + 0xd7);
     }
     else {
-      bVar4 = *(byte *)((int)param_1 + 0xd6);
+      bVar4 = *(unsigned char *)((int)param_1 + 0xd6);
     }
-    uStack_5c = (undefined4)param_3;
+    uStack_5c = (unsigned int)param_3;
     piVar5 = param_1 + 3;
     param_5 = param_5 & 0xff;
     fStack_58 = (float)bVar4 * lbl_8216CBF0 * lbl_82005328 - lbl_8216CBF0;
@@ -93,16 +66,16 @@ void fn_82FF0478(int *param_1,char param_2,undefined8 param_3,undefined8 param_4
     iVar3 = fn_82FF59A8(lbl_832642F4,&piStack_60,1,0);
     if (param_2 == '\0') {
       param_1[0x17] = iVar3;
-      bVar4 = (byte)(param_5 << 6) & 0x40 | *(byte *)(param_1 + 0x18) & 0xbf;
+      bVar4 = (unsigned char)(param_5 << 6) & 0x40 | *(unsigned char *)(param_1 + 0x18) & 0xbf;
     }
     else {
       param_1[0x16] = iVar3;
-      bVar4 = (byte)(param_5 << 7) | *(byte *)(param_1 + 0x18) & 0x7f;
+      bVar4 = (unsigned char)(param_5 << 7) | *(unsigned char *)(param_1 + 0x18) & 0x7f;
     }
-    *(byte *)(param_1 + 0x18) = bVar4;
-    (**(code **)(*param_1 + 0x38))(param_1,0xe,uVar2);
+    *(unsigned char *)(param_1 + 0x18) = bVar4;
+    (**(int (***)())(*param_1 + 0x38))(param_1,0xe,uVar2);
     if (iVar3 == 0) {
-      (**(code **)*piVar5)((double)fStack_54,piVar5,uStack_5c);
+      (**(int (***)())*piVar5)((double)fStack_54,piVar5,uStack_5c);
       RtlLeaveCriticalSection(0xffffffff83264558);
       return;
     }

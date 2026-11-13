@@ -1,31 +1,4 @@
 extern char lbl_8326434C[];
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA5190();
 extern int fn_8301A7B8();
 extern float lbl_82005328;
@@ -36,27 +9,27 @@ extern unsigned int lbl_832642EC;
 unsigned int fn_82FEB6C0(unsigned int param_1,int param_2,float *param_3,float *param_4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   float fVar2;
-  undefined4 uVar3;
-  undefined4 *puVar5;
+  unsigned int uVar3;
+  unsigned int *puVar5;
   unsigned int uVar4;
   
   RtlEnterCriticalSection(lbl_8326434C);
-  puVar5 = (undefined4 *)fn_8301A7B8(lbl_832642EC,param_1);
-  if (puVar5 == (undefined4 *)0x0) {
+  puVar5 = (unsigned int *)fn_8301A7B8(lbl_832642EC,param_1);
+  if (puVar5 == (unsigned int *)0x0) {
     RtlLeaveCriticalSection(lbl_8326434C);
     return 0xf;
   }
   {
     fVar2 = lbl_82005328;
-    *param_3 = (float)*(byte *)((int)puVar5 + param_2 + 0x40) * lbl_82005328;
-    *param_4 = (float)*(byte *)((int)puVar5 + param_2 + 0x48) * fVar2;
+    *param_3 = (float)*(unsigned char *)((int)puVar5 + param_2 + 0x40) * lbl_82005328;
+    *param_4 = (float)*(unsigned char *)((int)puVar5 + param_2 + 0x48) * fVar2;
     uVar1 = puVar5[0x17];
     puVar5[0x17] = (int)uVar1 - 1;
     if ((int)puVar5[0x17] <= 0) {
       uVar3 = lbl_831BC768;
-      (*(code *)*puVar5)(puVar5,0);
+      (*(int (**)())*puVar5)(puVar5,0);
       fn_82FA5190(uVar3,puVar5);
     }
     RtlLeaveCriticalSection(lbl_8326434C);

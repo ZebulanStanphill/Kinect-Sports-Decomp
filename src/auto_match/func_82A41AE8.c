@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 struct list {
   char pad[0x7c];
 };
@@ -7,11 +5,11 @@ struct list {
 struct obj {
   struct list a;
   struct list b;
-  uint tag;
+  unsigned int tag;
   void *buf;
 };
 
-extern void fn_8265C990(void *p, uint tag);
+extern void fn_8265C990(void *p, unsigned int tag);
 extern void *fn_82A40C90(struct list *l);
 extern void fn_82A41248(struct list *l);
 extern void fn_82A4F4E0(void *p);

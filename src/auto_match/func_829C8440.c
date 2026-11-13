@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_829C81E8();
 extern int fn_829C9BA0();
 extern int fn_82F68CC0();
@@ -39,17 +12,17 @@ extern unsigned int lbl_83215A2C;
 extern unsigned int lbl_83215A30;
 
 
-ulonglong fn_829C8440(int param_1,int param_2)
+unsigned __int64 fn_829C8440(int param_1,int param_2)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
   int iVar4;
   
   uVar2 = KfAcquireSpinLock(0xffffffff8321506c);
   if (param_2 != 0) {
-    *(undefined4 *)(&lbl_8321582C + param_1 * 0x184) = 1;
+    *(unsigned int *)(&lbl_8321582C + param_1 * 0x184) = 1;
   }
   iVar4 = param_1 * 0x184;
   if ((((*(int *)(&lbl_8321582C + iVar4) == 0) || (*(int *)(&lbl_832156AC + iVar4) != 0)) ||
@@ -59,7 +32,7 @@ ulonglong fn_829C8440(int param_1,int param_2)
   }
   else {
     iVar1 = *(int *)(iVar4 + -0x7cdea7d8);
-    *(undefined4 *)(&lbl_8321582C + iVar4) = 0;
+    *(unsigned int *)(&lbl_8321582C + iVar4) = 0;
     fn_82F68CC0(iVar1 * 0x5c + iVar4 + -0x7cdea898,&lbl_8321570C + iVar4,0x5c);
     lbl_83215A30 = 1;
     KfReleaseSpinLock(0xffffffff8321506c,uVar2);
@@ -73,7 +46,7 @@ ulonglong fn_829C8440(int param_1,int param_2)
       uVar2 = 0;
     }
     else if ((int)uVar2 < 0) {
-      *(undefined4 *)(&lbl_8321582C + iVar4) = 1;
+      *(unsigned int *)(&lbl_8321582C + iVar4) = 1;
       lbl_83215A30 = 0;
     }
     uVar3 = RtlNtStatusToDosError(uVar2);

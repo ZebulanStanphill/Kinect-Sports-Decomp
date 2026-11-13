@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_34;
 extern unsigned int fStack_20;
 extern unsigned int fStack_24;
@@ -42,14 +16,14 @@ void fn_824970C8(int param_1,int param_2)
   int *piVar2;
   int iVar3;
   int iVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar5;
   int *piVar6;
-  undefined4 *puVar7;
+  unsigned int *puVar7;
   int *piVar8;
-  longlong lVar9;
+  __int64 lVar9;
   int aiStack_40 [3];
-  undefined4 auStack_34 [2];
-  undefined4 uStack_2c;
+  unsigned int auStack_34 [2];
+  unsigned int uStack_2c;
   float fStack_28;
   float fStack_24;
   float fStack_20;
@@ -73,13 +47,13 @@ void fn_824970C8(int param_1,int param_2)
     if (*(int *)(param_1 + 0x58) == 0) {
       if (*(int *)(*(int *)(param_1 + 0x54) + 4) != 0) {
         fn_8254EEB8((double)ltcg_pool_0_0f,(double)ltcg_pool_0_0f,*(int *)(param_1 + 0x54),
-                          *(undefined4 *)((int)piVar8 + 0x14));
+                          *(unsigned int *)((int)piVar8 + 0x14));
       }
-      *(undefined4 *)(param_1 + 0x58) = 1;
+      *(unsigned int *)(param_1 + 0x58) = 1;
     }
     else {
       puVar7 = auStack_34;
-      puVar5 = (undefined4 *)((int)piVar8 + 0x14);
+      puVar5 = (unsigned int *)((int)piVar8 + 0x14);
       lVar9 = 5;
       do {
         puVar5 = puVar5 + 1;

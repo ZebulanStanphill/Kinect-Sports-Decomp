@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1EFC0();
 extern int fn_82BD62B8();
 extern int fn_82BD66F0();
@@ -33,7 +6,7 @@ extern unsigned int lbl_8208E090;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void fn_82BD9170(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 param_4,int param_5
+void fn_82BD9170(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4,int param_5
                   )
 
 {
@@ -42,24 +15,24 @@ void fn_82BD9170(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 p
   int iVar3;
   int iVar4;
   float *pfVar5;
-  undefined2 *puVar6;
-  uint uVar7;
-  undefined2 *puVar8;
+  unsigned short *puVar6;
+  unsigned int uVar7;
+  unsigned short *puVar8;
   float *pfVar9;
-  uint uVar10;
-  uint *puVar11;
+  unsigned int uVar10;
+  unsigned int *puVar11;
   int *piVar12;
-  longlong lVar13;
+  __int64 lVar13;
   double dVar14;
   
   if (*(int *)(*(int *)(param_1 + 0x20) + 0x44) != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 0x20) + 0x48) = 1;
+    *(unsigned int *)(*(int *)(param_1 + 0x20) + 0x48) = 1;
     if (param_3[1] == 0) {
       uVar10 = 0;
       piVar12 = (int *)(param_1 + 0x834);
       do {
         iVar4 = *(int *)((int)piVar12 + *(int *)(param_1 + 0x20) + (-0x7e4 - param_1));
-        if (((iVar4 != 0) && ((*(uint *)(iVar4 + 0xd0) & 4) != 0)) &&
+        if (((iVar4 != 0) && ((*(unsigned int *)(iVar4 + 0xd0) & 4) != 0)) &&
            (iVar4 = fn_82BD62B8(iVar4), iVar4 != 0x70000000)) {
                     /* WARNING: Subroutine does not return */
           fn_82A1EFC0((uVar10 + *piVar12) * 0xac + param_1 + 0x24,0,0xac);
@@ -72,19 +45,19 @@ void fn_82BD9170(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 p
     else if (param_3[1] == 1) {
       pfVar9 = (float *)*param_3;
       uVar10 = 0;
-      puVar11 = (uint *)(param_1 + 0x834);
+      puVar11 = (unsigned int *)(param_1 + 0x834);
       iVar4 = param_1 + 0x28;
       dVar14 = (double)lbl_8208E090;
       do {
         iVar2 = *(int *)((int)puVar11 + *(int *)(param_1 + 0x20) + (-0x7e4 - param_1));
-        if (((iVar2 == 0) || ((*(uint *)(iVar2 + 0xd0) & 4) == 0)) ||
+        if (((iVar2 == 0) || ((*(unsigned int *)(iVar2 + 0xd0) & 4) == 0)) ||
            (iVar3 = fn_82BD62B8(iVar2), iVar3 == 0x70000000)) {
           *puVar11 = 0;
         }
         else {
           fVar1 = *(float *)(iVar2 + 0xc4);
           uVar7 = 0;
-          puVar8 = (undefined2 *)((uVar10 + *puVar11) * 0xac + param_1 + 0x24);
+          puVar8 = (unsigned short *)((uVar10 + *puVar11) * 0xac + param_1 + 0x24);
           pfVar5 = pfVar9;
           if (param_3[2] != 0) {
             do {
@@ -101,14 +74,14 @@ void fn_82BD9170(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 p
               *puVar8 = (short)iVar3;
               puVar8 = puVar8 + 1;
               pfVar5 = pfVar5 + 4;
-            } while (uVar7 < (uint)param_3[2]);
+            } while (uVar7 < (unsigned int)param_3[2]);
           }
           uVar7 = *puVar11;
           *puVar11 = uVar7 + 1;
           if (2 < uVar7 + 1) {
             *puVar11 = 0;
-            puVar6 = (undefined2 *)(iVar4 + -4);
-            puVar8 = (undefined2 *)(iVar4 + -4);
+            puVar6 = (unsigned short *)(iVar4 + -4);
+            puVar8 = (unsigned short *)(iVar4 + -4);
             lVar13 = 0x80;
             do {
               puVar8 = puVar8 + 2;
@@ -125,10 +98,10 @@ void fn_82BD9170(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 p
         iVar4 = iVar4 + 0x204;
       } while (uVar10 < 0xc);
     }
-    *(undefined4 *)(*(int *)(param_1 + 0x20) + 0x48) = 0;
+    *(unsigned int *)(*(int *)(param_1 + 0x20) + 0x48) = 0;
   }
-  *(undefined4 *)(param_5 + 8) = param_3[2];
-  *(undefined4 *)(param_5 + 4) = param_3[1];
+  *(unsigned int *)(param_5 + 8) = param_3[2];
+  *(unsigned int *)(param_5 + 4) = param_3[1];
   return;
 }
 

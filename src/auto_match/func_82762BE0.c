@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern unsigned int fStack_1c;
 extern unsigned int fStack_54;
@@ -53,19 +26,19 @@ extern unsigned int uStack_80;
 void fn_82762BE0(int param_1,int param_2)
 
 {
-  uint uStack_80;
-  uint uStack_7c;
+  unsigned int uStack_80;
+  unsigned int uStack_7c;
   float fStack_78;
   float fStack_74;
-  longlong lStack_70;
+  __int64 lStack_70;
   float fStack_60;
   float fStack_5c;
   float fStack_58;
   float fStack_54;
   char cStack_50;
-  undefined1 auStack_40 [4];
-  uint uStack_3c;
-  uint uStack_38;
+  unsigned char auStack_40 [4];
+  unsigned int uStack_3c;
+  unsigned int uStack_38;
   int iStack_34;
   int iStack_30;
   int iStack_24;
@@ -74,10 +47,10 @@ void fn_82762BE0(int param_1,int param_2)
   
   fn_8275FE18(auStack_40,param_1);
   fn_8275FFC0(param_1,&fStack_78,&uStack_7c,&uStack_80);
-  lStack_70 = (longlong)iStack_30;
-  fn_82784708((double)((float)(longlong)iStack_34 * fStack_1c),
-                    (double)((float)lStack_70 * fStack_1c),param_2,(ulonglong)(uint)fStack_78 - 1,
-                    (ulonglong)uStack_7c - 1,(ulonglong)uStack_80 - 1);
+  lStack_70 = (__int64)iStack_30;
+  fn_82784708((double)((float)(__int64)iStack_34 * fStack_1c),
+                    (double)((float)lStack_70 * fStack_1c),param_2,(unsigned __int64)(unsigned int)fStack_78 - 1,
+                    (unsigned __int64)uStack_7c - 1,(unsigned __int64)uStack_80 - 1);
   while (uStack_3c < uStack_38) {
     fn_8275E678(auStack_40,&fStack_60,0);
     if (cStack_50 == '\0') {

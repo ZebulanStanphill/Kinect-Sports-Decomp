@@ -1,15 +1,13 @@
-typedef unsigned int uint;
-
 typedef struct {
-  uint a : 5;
-  uint b : 5;
-  uint pad0 : 22;
-  uint c : 1;
-  uint pad1 : 1;
-  uint d : 1;
-  uint pad2 : 29;
-  uint pad3 : 6;
-  uint e : 26;
+  unsigned int a : 5;
+  unsigned int b : 5;
+  unsigned int pad0 : 22;
+  unsigned int c : 1;
+  unsigned int pad1 : 1;
+  unsigned int d : 1;
+  unsigned int pad2 : 29;
+  unsigned int pad3 : 6;
+  unsigned int e : 26;
   int pad4[9];
   int dirty;
   int pad5[11];
@@ -17,12 +15,12 @@ typedef struct {
 
 typedef struct { int pad[2]; Entry *entries; } Table;
 
-int fn_82A455C8(Table *t, int idx, uint val)
+int fn_82A455C8(Table *t, int idx, unsigned int val)
 {
   Entry *e;
   int ret;
-  uint b;
-  uint n;
+  unsigned int b;
+  unsigned int n;
 
   e = t->entries + idx;
   ret = 1;

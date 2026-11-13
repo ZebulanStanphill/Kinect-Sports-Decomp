@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82161138;
 extern unsigned int lbl_82161150;
 
@@ -38,7 +11,7 @@ void fn_82F02E20(int param_1,int param_2,int param_3,int param_4,int param_5,int
   int iVar3;
   int iVar4;
   int iVar5;
-  undefined1 *puVar6;
+  unsigned char *puVar6;
   int iVar7;
   int iVar8;
   int iVar9;
@@ -56,10 +29,10 @@ void fn_82F02E20(int param_1,int param_2,int param_3,int param_4,int param_5,int
     do {
       iVar8 = 0;
       if (0 < iVar5) {
-        puVar6 = (undefined1 *)(param_2 + -1);
+        puVar6 = (unsigned char *)(param_2 + -1);
         do {
           puVar6 = puVar6 + 1;
-          *(undefined1 *)(iVar8 + iVar9) = *puVar6;
+          *(unsigned char *)(iVar8 + iVar9) = *puVar6;
           iVar8 = iVar8 + iVar3;
           iVar5 = *(int *)(param_1 + 0x548);
         } while (iVar8 < iVar5);
@@ -77,10 +50,10 @@ void fn_82F02E20(int param_1,int param_2,int param_3,int param_4,int param_5,int
     do {
       iVar7 = 0;
       if (0 < iVar5) {
-        puVar6 = (undefined1 *)(param_3 + -1);
+        puVar6 = (unsigned char *)(param_3 + -1);
         do {
           puVar6 = puVar6 + 1;
-          *(undefined1 *)(iVar7 + iVar9) = *puVar6;
+          *(unsigned char *)(iVar7 + iVar9) = *puVar6;
           iVar7 = iVar7 + iVar3;
           iVar5 = *(int *)(param_1 + 0x554);
         } while (iVar7 < iVar5);
@@ -98,10 +71,10 @@ void fn_82F02E20(int param_1,int param_2,int param_3,int param_4,int param_5,int
     do {
       iVar9 = 0;
       if (0 < iVar7) {
-        puVar6 = (undefined1 *)(param_4 + -1);
+        puVar6 = (unsigned char *)(param_4 + -1);
         do {
           puVar6 = puVar6 + 1;
-          *(undefined1 *)(iVar9 + iVar5) = *puVar6;
+          *(unsigned char *)(iVar9 + iVar5) = *puVar6;
           iVar9 = iVar9 + iVar3;
           iVar7 = *(int *)(param_1 + 0x554);
         } while (iVar9 < iVar7);
@@ -112,15 +85,15 @@ void fn_82F02E20(int param_1,int param_2,int param_3,int param_4,int param_5,int
     } while (iVar4 < *(int *)(param_1 + 0x55c));
   }
   if (iVar3 == 2) {
-    (**(code **)(param_1 + 0x820))
-              (param_5,param_6,param_7,iVar2,*(undefined4 *)(param_1 + 0x548),
-               *(undefined4 *)(param_1 + 0x550),*(undefined4 *)(param_1 + 0x554));
+    (**(int (***)())(param_1 + 0x820))
+              (param_5,param_6,param_7,iVar2,*(unsigned int *)(param_1 + 0x548),
+               *(unsigned int *)(param_1 + 0x550),*(unsigned int *)(param_1 + 0x554));
   }
   if (iVar2 == 2) {
-    (**(code **)(param_1 + 0x824))
-              (param_5,param_6,param_7,*(undefined4 *)(param_1 + 0x548),
-               *(undefined4 *)(param_1 + 0x550),*(undefined4 *)(param_1 + 0x554),
-               *(undefined4 *)(param_1 + 0x55c),*(undefined4 *)(param_1 + 0x564));
+    (**(int (***)())(param_1 + 0x824))
+              (param_5,param_6,param_7,*(unsigned int *)(param_1 + 0x548),
+               *(unsigned int *)(param_1 + 0x550),*(unsigned int *)(param_1 + 0x554),
+               *(unsigned int *)(param_1 + 0x55c),*(unsigned int *)(param_1 + 0x564));
   }
   return;
 }

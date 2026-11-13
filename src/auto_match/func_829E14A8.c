@@ -1,16 +1,15 @@
-typedef unsigned int uint;
 typedef struct { char d[0xd4d0]; } Elem;
 typedef struct { int a; int pad; char b[8]; Elem e[8]; } Out;
 typedef struct { char pad[0xc]; unsigned short id; } Ctx;
-extern uint *fn_829E0C20(Ctx *c, unsigned short id);
+extern unsigned int *fn_829E0C20(Ctx *c, unsigned short id);
 extern void fn_82A1DDC0(void *d, void *s, int n);
 extern int fn_829E13E0(Elem *e, Ctx *ctx, unsigned short id);
 
 int fn_829E14A8(Out *out, Ctx *ctx)
 {
-  uint *hdr;
+  unsigned int *hdr;
   int hr;
-  uint i;
+  unsigned int i;
   unsigned short *p;
 
   if (ctx->id == 0) {

@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_60;
@@ -41,22 +15,22 @@ extern V16 loadVectorLeftIndexed128();
 extern V16 vectorSubtractFloatingPoint();
 
 
-undefined1 *
-fn_82DCC2C0(undefined1 *param_1,int param_2,undefined4 param_3,int param_4,int param_5,
-             undefined4 param_6)
+unsigned char *
+fn_82DCC2C0(unsigned char *param_1,int param_2,unsigned int param_3,int param_4,int param_5,
+             unsigned int param_6)
 
 {
   char cVar1;
   char *pcVar2;
   float *pfVar3;
   int iVar4;
-  undefined4 *puVar5;
-  undefined4 *puVar6;
-  undefined8 in_r0;
-  ulonglong uVar7;
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
+  unsigned int *puVar5;
+  unsigned int *puVar6;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar7;
+  unsigned char in_vs43 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
   float fVar8;
   float fVar9;
   float fVar10;
@@ -65,25 +39,25 @@ fn_82DCC2C0(undefined1 *param_1,int param_2,undefined4 param_3,int param_4,int p
   float in_register_00010084;
   float in_register_00010088;
   float in_vr8;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
   float fVar15;
   float fVar16;
   float fVar17;
   float fVar18;
-  undefined1 auStack_60 [16];
-  undefined4 uStack_50;
+  unsigned char auStack_60 [16];
+  unsigned int uStack_50;
   float fStack_4c;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [48];
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned char auStack_40 [16];
+  unsigned char auStack_30 [48];
   
   uVar7 = ZEXT48(&stack0x00000000);
-  *(undefined4 *)(param_2 + 0x58) = param_6;
+  *(unsigned int *)(param_2 + 0x58) = param_6;
   iVar4 = (int)in_r0;
-  pfVar3 = (float *)((uint)(auStack_60 + iVar4) & 0xfffffff0);
+  pfVar3 = (float *)((unsigned int)(auStack_60 + iVar4) & 0xfffffff0);
   fVar8 = *pfVar3;
   fVar9 = pfVar3[1];
   fVar10 = pfVar3[2];
@@ -91,9 +65,9 @@ fn_82DCC2C0(undefined1 *param_1,int param_2,undefined4 param_3,int param_4,int p
   *(int *)(param_2 + 0x10) = param_4;
   fVar15 = lbl_82002AE0;
   *(float *)(param_2 + 0x54) = lbl_82002AE0;
-  *(undefined4 *)(param_2 + 100) = param_3;
+  *(unsigned int *)(param_2 + 100) = param_3;
   pcVar2 = *(char **)(param_4 + 0x20);
-  pfVar3 = (float *)((uint)(auStack_60 + iVar4) & 0xfffffff0);
+  pfVar3 = (float *)((unsigned int)(auStack_60 + iVar4) & 0xfffffff0);
   *pfVar3 = fVar8;
   pfVar3[1] = fVar9;
   pfVar3[2] = fVar10;
@@ -105,18 +79,18 @@ fn_82DCC2C0(undefined1 *param_1,int param_2,undefined4 param_3,int param_4,int p
   fVar16 = pfVar3[1];
   fVar17 = pfVar3[2];
   fVar18 = pfVar3[3];
-  puVar5 = (undefined4 *)(iVar4 + param_5 & 0xfffffff0);
+  puVar5 = (unsigned int *)(iVar4 + param_5 & 0xfffffff0);
   uVar12 = puVar5[1];
   uVar13 = puVar5[2];
   uVar14 = puVar5[3];
   vectorSubtractFloatingPoint(in_vs44,in_vs45);
   vectorSubtractFloatingPoint(in_vs43,in_vs45);
-  puVar6 = (undefined4 *)(iVar4 + param_2 + 0x20 & 0xfffffff0);
+  puVar6 = (unsigned int *)(iVar4 + param_2 + 0x20 & 0xfffffff0);
   *puVar6 = *puVar5;
   puVar6[1] = uVar12;
   puVar6[2] = uVar13;
   puVar6[3] = uVar14;
-  puVar5 = (undefined4 *)(iVar4 + param_5 + 0x10 & 0xfffffff0);
+  puVar5 = (unsigned int *)(iVar4 + param_5 + 0x10 & 0xfffffff0);
   uVar12 = puVar5[1];
   uVar13 = puVar5[2];
   uVar14 = puVar5[3];
@@ -124,39 +98,39 @@ fn_82DCC2C0(undefined1 *param_1,int param_2,undefined4 param_3,int param_4,int p
   loadVectorLeftIndexed128(in_r0,uVar7 - 0x4c);
   uStack_48 = 0;
   uStack_50 = 0;
-  puVar6 = (undefined4 *)(param_2 + 0x30U & 0xfffffff0);
+  puVar6 = (unsigned int *)(param_2 + 0x30U & 0xfffffff0);
   *puVar6 = *puVar5;
   puVar6[1] = uVar12;
   puVar6[2] = uVar13;
   puVar6[3] = uVar14;
-  *(undefined4 *)(param_2 + 0x40) = *(undefined4 *)(param_5 + 0x20);
+  *(unsigned int *)(param_2 + 0x40) = *(unsigned int *)(param_5 + 0x20);
   uStack_44 = 0;
-  *(undefined4 *)(param_2 + 0x44) = *(undefined4 *)(param_5 + 0x24);
-  *(undefined1 *)(param_2 + 0x50) = 0;
-  pfVar3 = (float *)((uint)(auStack_40 + iVar4) & 0xfffffff0);
+  *(unsigned int *)(param_2 + 0x44) = *(unsigned int *)(param_5 + 0x24);
+  *(unsigned char *)(param_2 + 0x50) = 0;
+  pfVar3 = (float *)((unsigned int)(auStack_40 + iVar4) & 0xfffffff0);
   *pfVar3 = fVar8;
   pfVar3[1] = fVar9;
   pfVar3[2] = fVar10;
   pfVar3[3] = fVar11;
   cVar1 = *pcVar2;
-  pfVar3 = (float *)((uint)(auStack_30 + iVar4) & 0xfffffff0);
+  pfVar3 = (float *)((unsigned int)(auStack_30 + iVar4) & 0xfffffff0);
   *pfVar3 = fVar15;
   pfVar3[1] = fVar16;
   pfVar3[2] = fVar17;
   pfVar3[3] = fVar18;
-  pfVar3 = (float *)((uint)(auStack_40 + iVar4) & 0xfffffff0);
+  pfVar3 = (float *)((unsigned int)(auStack_40 + iVar4) & 0xfffffff0);
   *pfVar3 = fVar8 * in_register_00010080;
   pfVar3[1] = fVar9 * in_register_00010084;
   pfVar3[2] = fVar10 * in_register_00010088;
   pfVar3[3] = fVar11 * in_vr8;
-  pfVar3 = (float *)((uint)(auStack_30 + iVar4) & 0xfffffff0);
+  pfVar3 = (float *)((unsigned int)(auStack_30 + iVar4) & 0xfffffff0);
   *pfVar3 = fVar15 * in_register_00010080;
   pfVar3[1] = fVar16 * in_register_00010084;
   pfVar3[2] = fVar17 * in_register_00010088;
   pfVar3[3] = fVar18 * in_vr8;
-  *(uint *)(param_2 + 0x68) = -(uint)(cVar1 == '\r');
+  *(unsigned int *)(param_2 + 0x68) = -(unsigned int)(cVar1 == '\r');
   fn_82DCB1A8(param_2,uVar7 - 0x60,pcVar2,uVar7 - 0x40,0);
-  *param_1 = *(undefined1 *)(param_2 + 0x50);
+  *param_1 = *(unsigned char *)(param_2 + 0x50);
   return param_1;
 }
 

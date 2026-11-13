@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_230;
 extern int fn_82F65350();
 extern int memcpy();
 
 
-void fn_82424C80(ulonglong param_1,ulonglong param_2)
+void fn_82424C80(unsigned __int64 param_1,unsigned __int64 param_2)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  uint uVar3;
-  longlong lVar4;
-  ulonglong uVar5;
-  uint uVar6;
-  undefined1 auStack_230 [496];
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned int uVar3;
+  __int64 lVar4;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
+  unsigned char auStack_230 [496];
   
   uVar6 = 2;
   uVar5 = param_1;
@@ -59,7 +33,7 @@ void fn_82424C80(ulonglong param_1,ulonglong param_2)
         uVar3 = uVar3 << 0xf | 0x7fff;
       } while (uVar3 < uVar6);
     }
-    lVar4 = (uVar1 - (longlong)(int)((uVar1 & 0xffffffff) / (ulonglong)uVar6) * (longlong)(int)uVar6
+    lVar4 = (uVar1 - (__int64)(int)((uVar1 & 0xffffffff) / (unsigned __int64)uVar6) * (__int64)(int)uVar6
             ) * 0x1f0 + param_1;
     memcpy(auStack_230,uVar5,0x1f0);
     memcpy(uVar5,lVar4,0x1f0);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_90;
 extern unsigned int *auStack_b0;
@@ -53,11 +26,11 @@ extern unsigned int lbl_82196080;
 extern unsigned int lbl_831BCC88;
 
 
-void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5)
+void fn_8306FEC0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   float *pfVar2;
   float *pfVar3;
   float *pfVar4;
@@ -67,31 +40,31 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   float fVar7;
   float fVar8;
   float fVar9;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
+  unsigned int in_register_00010010;
+  unsigned int in_register_00010014;
   float fVar10;
-  undefined4 in_register_00010018;
+  unsigned int in_register_00010018;
   float fVar11;
-  undefined4 in_vr1;
+  unsigned int in_vr1;
   float fVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
   float fVar17;
   float fVar18;
   float fVar19;
   float fVar20;
-  undefined1 auStack_c0 [16];
-  undefined1 auStack_b0 [16];
+  unsigned char auStack_c0 [16];
+  unsigned char auStack_b0 [16];
   float fStack_a0;
   float fStack_9c;
   float fStack_98;
   float fStack_94;
-  undefined1 auStack_90 [4];
+  unsigned char auStack_90 [4];
   float fStack_8c;
   float fStack_88;
-  undefined1 auStack_80 [128];
+  unsigned char auStack_80 [128];
   
   fn_82F6DA24();
   fn_83075D30(auStack_b0);
@@ -105,13 +78,13 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   fn_830760D0();
   fn_830760D0();
   fn_8306ED30();
-  puVar1 = (undefined4 *)((int)&fStack_a0 + in_r0 & 0xfffffff0);
+  puVar1 = (unsigned int *)((int)&fStack_a0 + in_r0 & 0xfffffff0);
   *puVar1 = in_register_00010010;
   puVar1[1] = in_register_00010014;
   puVar1[2] = in_register_00010018;
   puVar1[3] = in_vr1;
   fn_8306ED30();
-  puVar1 = (undefined4 *)((uint)(auStack_90 + in_r0) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_90 + in_r0) & 0xfffffff0);
   *puVar1 = uVar13;
   puVar1[1] = uVar14;
   puVar1[2] = uVar15;
@@ -123,7 +96,7 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
     dVar6 = (double)fn_8306EA28((double)fStack_88,-(double)fStack_8c);
     if (dVar5 < (double)(float)((double)lbl_831BCC88 + dVar6)) {
       fn_8306ED30();
-      pfVar2 = (float *)((uint)(auStack_80 + in_r0) & 0xfffffff0);
+      pfVar2 = (float *)((unsigned int)(auStack_80 + in_r0) & 0xfffffff0);
       fVar17 = *pfVar2;
       fVar18 = pfVar2[1];
       fVar19 = pfVar2[2];
@@ -135,7 +108,7 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
       fStack_98 = (float)dVar5;
       fStack_9c = (float)dVar5;
       fStack_a0 = (float)dVar5;
-      pfVar2 = (float *)((uint)(auStack_b0 + in_r0) & 0xfffffff0);
+      pfVar2 = (float *)((unsigned int)(auStack_b0 + in_r0) & 0xfffffff0);
       fVar7 = pfVar2[1];
       fVar8 = pfVar2[2];
       fVar9 = pfVar2[3];
@@ -143,7 +116,7 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
       fVar10 = pfVar3[1];
       fVar11 = pfVar3[2];
       fVar12 = pfVar3[3];
-      pfVar4 = (float *)((uint)(auStack_c0 + in_r0) & 0xfffffff0);
+      pfVar4 = (float *)((unsigned int)(auStack_c0 + in_r0) & 0xfffffff0);
       *pfVar4 = fVar17 * *pfVar3 + *pfVar2;
       pfVar4[1] = fVar18 * fVar10 + fVar7;
       pfVar4[2] = fVar19 * fVar11 + fVar8;
@@ -155,7 +128,7 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
       fn_8306EDB0();
       dVar6 = (double)fn_8306E948((double)lbl_831BCC88);
       fStack_a0 = (float)(dVar6 * dVar5);
-      pfVar2 = (float *)((uint)(auStack_c0 + in_r0) & 0xfffffff0);
+      pfVar2 = (float *)((unsigned int)(auStack_c0 + in_r0) & 0xfffffff0);
       fVar10 = pfVar2[1];
       fVar11 = pfVar2[2];
       fVar12 = pfVar2[3];
@@ -163,7 +136,7 @@ void fn_8306FEC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
       fVar7 = pfVar3[1];
       fVar8 = pfVar3[2];
       fVar9 = pfVar3[3];
-      pfVar4 = (float *)((uint)(auStack_c0 + in_r0) & 0xfffffff0);
+      pfVar4 = (float *)((unsigned int)(auStack_c0 + in_r0) & 0xfffffff0);
       *pfVar4 = fVar17 * *pfVar3 + *pfVar2;
       pfVar4[1] = fVar18 * fVar7 + fVar10;
       pfVar4[2] = fVar19 * fVar8 + fVar11;

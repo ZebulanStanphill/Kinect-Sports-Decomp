@@ -1,42 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_820D5CC0;
 extern unsigned int lbl_820D5CD0;
 
 
-void fn_82AA9100(int *param_1,int *param_2,int param_3,uint param_4,int param_5,int param_6,
+void fn_82AA9100(int *param_1,int *param_2,int param_3,unsigned int param_4,int param_5,int param_6,
                   int param_7)
 
 {
-  byte *pbVar1;
+  unsigned char *pbVar1;
   int *piVar2;
   int *piVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
   int *piVar6;
   int *piVar7;
@@ -48,7 +21,7 @@ void fn_82AA9100(int *param_1,int *param_2,int param_3,uint param_4,int param_5,
   iVar9 = 0;
   piVar6 = param_2;
   if (0 < (int)param_4) {
-    lVar4 = (((ulonglong)param_4 - 1 & 0xffffffff) >> 4) + 1;
+    lVar4 = (((unsigned __int64)param_4 - 1 & 0xffffffff) >> 4) + 1;
     piVar3 = param_1;
     do {
       iVar5 = *piVar6;
@@ -74,15 +47,15 @@ void fn_82AA9100(int *param_1,int *param_2,int param_3,uint param_4,int param_5,
       piVar7 = piVar6;
       do {
         iVar8 = *piVar7;
-        param_1[((byte)(&lbl_820D5CC0)[iVar5] >> 4) * param_4 + ((byte)(&lbl_820D5CC0)[iVar5] & 0xf)
+        param_1[((unsigned char)(&lbl_820D5CC0)[iVar5] >> 4) * param_4 + ((unsigned char)(&lbl_820D5CC0)[iVar5] & 0xf)
                 + iVar9] = iVar8;
         if (param_6 != 0) {
-          *(int *)(((uint)((byte)(&lbl_820D5CC0)[iVar5] >> 6) * (param_5 >> 2) +
-                   ((int)(((byte)(&lbl_820D5CC0)[iVar5] & 0xf) + iVar9) >> 2)) * 4 + param_3) =
+          *(int *)(((unsigned int)((unsigned char)(&lbl_820D5CC0)[iVar5] >> 6) * (param_5 >> 2) +
+                   ((int)(((unsigned char)(&lbl_820D5CC0)[iVar5] & 0xf) + iVar9) >> 2)) * 4 + param_3) =
                iVar8 + 2 >> 2;
         }
         iVar5 = iVar5 + 1;
-        piVar7 = piVar7 + ((int)param_4 >> 4) + (uint)((int)param_4 < 0 && (param_4 & 0xf) != 0);
+        piVar7 = piVar7 + ((int)param_4 >> 4) + (unsigned int)((int)param_4 < 0 && (param_4 & 0xf) != 0);
         lVar4 = lVar4 + -1;
       } while (lVar4 != 0);
       piVar6 = piVar6 + 1;

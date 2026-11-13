@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_829D76B8();
 extern int fn_829DFF40();
 extern int fn_829E00C0();
@@ -32,7 +8,7 @@ extern unsigned int lbl_832179FC;
 extern unsigned int *lbl_83217A00;
 
 
-void fn_829D85D8(undefined4 *param_1)
+void fn_829D85D8(unsigned int *param_1)
 
 {
   int iVar1;
@@ -41,7 +17,7 @@ void fn_829D85D8(undefined4 *param_1)
   int iVar4;
   char cVar5;
   int iVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int *piVar8;
   int iVar9;
   int iVar10;
@@ -76,16 +52,16 @@ LAB_829d8634:
           cVar5 = '\0';
         }
         else {
-          cVar5 = (**(code **)(*lbl_83217A00 + 0x20))(lbl_83217A00,*param_1,param_1[7],param_1 + 6);
+          cVar5 = (**(int (***)())(*lbl_83217A00 + 0x20))(lbl_83217A00,*param_1,param_1[7],param_1 + 6);
         }
         if (cVar5 == '\0') {
           param_1[6] = param_1[5];
           fn_829E00C0(iVar6 + 0x249b0,iVar10);
-          *(undefined4 *)(iVar1 + 8) = 1;
-          *(undefined1 *)(iVar3 + 0x24975) = 1;
+          *(unsigned int *)(iVar1 + 8) = 1;
+          *(unsigned char *)(iVar3 + 0x24975) = 1;
           param_1[1] = param_1[1] & 0xfffffffe;
           if (lbl_83217A00 != (int *)0x0) {
-            (**(code **)(*lbl_83217A00 + 8))(lbl_83217A00,param_1[5],param_1[3]);
+            (**(int (***)())(*lbl_83217A00 + 8))(lbl_83217A00,param_1[5],param_1[3]);
           }
         }
       }

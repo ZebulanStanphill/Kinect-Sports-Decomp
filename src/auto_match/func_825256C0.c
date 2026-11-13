@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct {
   char pad[0xb6c];
   void *slots[4];
@@ -7,13 +5,13 @@ typedef struct {
 } Self;
 
 extern void fn_82524968(Self *);
-extern void fn_82524D30(Self *, uint);
+extern void fn_82524D30(Self *, unsigned int);
 extern void *fn_827EF640(int);
 extern void *fn_827F0298(void *, void *, int, int);
 
-void *fn_825256C0(Self *param_1, uint *param_2)
+void *fn_825256C0(Self *param_1, unsigned int *param_2)
 {
-  uint i;
+  unsigned int i;
   void *mem;
   void *obj;
 

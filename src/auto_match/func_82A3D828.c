@@ -1,34 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A3D700();
 
 
-void fn_82A3D828(int param_1,longlong param_2,undefined2 *param_3,int param_4,int param_5,
+void fn_82A3D828(int param_1,__int64 param_2,unsigned short *param_3,int param_4,int param_5,
                   char param_6)
 
 {
@@ -38,21 +12,21 @@ void fn_82A3D828(int param_1,longlong param_2,undefined2 *param_3,int param_4,in
   short sVar5;
   short *psVar4;
   int iVar6;
-  longlong lVar7;
+  __int64 lVar7;
   short asStack_60 [48];
   
   while( true ) {
     iVar6 = (int)param_2;
     *(int *)(param_1 + 0x2518) = iVar6;
-    *(undefined2 **)(param_1 + 0x990) = param_3;
+    *(unsigned short **)(param_1 + 0x990) = param_3;
     *(int *)(param_1 + 0x998) = param_4;
-    *(undefined1 *)(param_1 + 0x251e) = 0;
-    *(undefined2 *)(param_1 + 0x251c) = 0;
-    *(undefined2 *)(param_1 + 0x99e) = 0;
+    *(unsigned char *)(param_1 + 0x251e) = 0;
+    *(unsigned short *)(param_1 + 0x251c) = 0;
+    *(unsigned short *)(param_1 + 0x99e) = 0;
     if (0 < iVar6) {
       iVar2 = 0;
       do {
-        *(undefined1 *)(iVar2 + *(int *)(param_1 + 0x998)) = 0;
+        *(unsigned char *)(iVar2 + *(int *)(param_1 + 0x998)) = 0;
         if (param_3[iVar2] != 0) {
           sVar5 = *(short *)(param_1 + 0x251c) + 1;
           *(short *)(param_1 + 0x251c) = sVar5;
@@ -64,7 +38,7 @@ void fn_82A3D828(int param_1,longlong param_2,undefined2 *param_3,int param_4,in
     }
     if (1 < *(short *)(param_1 + 0x251c)) break;
     if (*(short *)(param_1 + 0x251c) == 0) {
-      *(undefined2 *)(*(short *)(param_1 + 0x99e) * 2 + param_5) = 0;
+      *(unsigned short *)(*(short *)(param_1 + 0x99e) * 2 + param_5) = 0;
       return;
     }
     if (*(short *)(param_1 + 0x99e) == 0) {

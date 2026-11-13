@@ -1,5 +1,4 @@
-typedef unsigned int uint;
-void *memcpy(void *d, const void *s, uint n);
+void *memcpy(void *d, const void *s, unsigned int n);
 
 typedef struct Lock Lock;
 typedef struct {
@@ -20,7 +19,7 @@ typedef struct {
 typedef struct Obj Obj;
 typedef struct {
   char pad[0x60];
-  int (*write)(Obj *, uint, void *, int);
+  int (*write)(Obj *, unsigned int, void *, int);
 } ObjVT;
 
 struct Obj {
@@ -31,7 +30,7 @@ struct Obj {
   void *buf;
 };
 
-int fn_82A50630(Obj *p, uint n, void *src, int d)
+int fn_82A50630(Obj *p, unsigned int n, void *src, int d)
 {
   int hr;
   p->owner->lock.vt->lock(&p->owner->lock);

@@ -1,15 +1,14 @@
-typedef unsigned int uint;
 extern int fn_82AB15D0();
 
-int fn_82B6C280(int param_1, int param_2, uint param_3, uint *param_4, uint *param_5)
+int fn_82B6C280(int param_1, int param_2, unsigned int param_3, unsigned int *param_4, unsigned int *param_5)
 {
-    uint i;
-    uint start;
-    uint n;
-    uint *p;
+    unsigned int i;
+    unsigned int start;
+    unsigned int n;
+    unsigned int *p;
 
     if (*(int *)(param_1 + 0x10) == 0) {
-        n = *(uint *)(param_1 + 0x4a4);
+        n = *(unsigned int *)(param_1 + 0x4a4);
         start = 0;
     }
     else {
@@ -22,7 +21,7 @@ int fn_82B6C280(int param_1, int param_2, uint param_3, uint *param_4, uint *par
     }
     i = start;
     if (start < n) {
-        p = (uint *)(start * 0x24 + param_1 + 0x1c);
+        p = (unsigned int *)(start * 0x24 + param_1 + 0x1c);
         do {
             if (p[-1] != 1) {
                 fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pFetchBlock->bIsUsed == SSM_TRUE",

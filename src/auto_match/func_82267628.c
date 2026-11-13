@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 extern void *fn_8265C9E0(unsigned int size);
 extern int fn_822651E0(void *mem, int a, int b, int c, int d, int e);
 extern void fn_822676A0(int self, int obj, int a);

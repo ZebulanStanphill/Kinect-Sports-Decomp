@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831C0814;
 extern unsigned int lbl_831C0818;
@@ -36,10 +9,10 @@ extern unsigned int lbl_83296C20;
 extern unsigned int lbl_83296C80;
 
 
-undefined8 fn_8259F600(int param_1)
+unsigned __int64 fn_8259F600(int param_1)
 
 {
-  undefined8 *puVar1;
+  unsigned __int64 *puVar1;
   
   if (lbl_831C0820 == lbl_831C0824) {
     if (((lbl_831C0814 != ltcg_pool_0_0f) && (lbl_831C0818 != ltcg_pool_0_0f)) &&
@@ -53,7 +26,7 @@ undefined8 fn_8259F600(int param_1)
       puVar1 = &lbl_83296890;
     }
     else {
-      puVar1 = (undefined8 *)(&lbl_83296C20 + param_1 * 0xb0);
+      puVar1 = (unsigned __int64 *)(&lbl_83296C20 + param_1 * 0xb0);
     }
     if (-(*(float *)(puVar1 + 6) * *(float *)(puVar1 + 2) +
          *(float *)(puVar1 + 7) * *(float *)(puVar1 + 3) +

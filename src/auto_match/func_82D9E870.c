@@ -1,32 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int fStack_5c;
 extern unsigned int fStack_60;
 extern unsigned int fStack_84;
@@ -45,11 +18,11 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_68;
 extern unsigned int uStack_90;
-extern U64 storeVectorElementWordIndexed();
+extern unsigned __int64 storeVectorElementWordIndexed();
 
 
-void fn_82D9E870(undefined8 param_1,int *param_2,undefined4 *param_3,int param_4,int param_5,
-                  int param_6,undefined4 *param_7)
+void fn_82D9E870(unsigned __int64 param_1,int *param_2,unsigned int *param_3,int param_4,int param_5,
+                  int param_6,unsigned int *param_7)
 
 {
   float fVar1;
@@ -58,25 +31,25 @@ void fn_82D9E870(undefined8 param_1,int *param_2,undefined4 *param_3,int param_4
   int iVar4;
   int iVar5;
   int iVar6;
-  undefined4 *puVar7;
-  undefined4 *puVar8;
+  unsigned int *puVar7;
+  unsigned int *puVar8;
   float fVar9;
   int in_r0;
-  ulonglong uVar10;
+  unsigned __int64 uVar10;
   double dVar11;
   double dVar12;
   double dVar13;
-  undefined1 in_vs42 [16];
-  undefined1 in_vs44 [16];
-  undefined4 uVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
+  unsigned char in_vs42 [16];
+  unsigned char in_vs44 [16];
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
   float fStack_a0;
-  undefined8 uStack_90;
+  unsigned __int64 uStack_90;
   float fStack_88;
   float fStack_84;
   int iStack_6c;
-  undefined8 uStack_68;
+  unsigned __int64 uStack_68;
   float fStack_60;
   float fStack_5c;
   
@@ -92,12 +65,12 @@ void fn_82D9E870(undefined8 param_1,int *param_2,undefined4 *param_3,int param_4
   dVar12 = (double)pfVar3[2];
   iVar6 = *(int *)(iVar2 * 4 + *(int *)(param_4 + 0x34));
   uVar14 = storeVectorElementWordIndexed(in_vs44,0,uVar10 - 0x90);
-  *(undefined4 *)(uVar10 - 0x90) = uVar14;
+  *(unsigned int *)(uVar10 - 0x90) = uVar14;
   uVar14 = storeVectorElementWordIndexed(in_vs42,0,uVar10 - 0xa0);
-  *(undefined4 *)(uVar10 - 0xa0) = uVar14;
-  uStack_90 = ((((U64)(uStack_90)) & (~(((U64)0xFFFFFFFF) << 0))) | ((((U64)((float)(iVar2 >> 0x1f))) & ((U64)0xFFFFFFFF)) << 0));
-  dVar11 = (double)(((U64)(uStack_90) >> 0) & 0xFFFFFFFF);
-  uStack_90 = (longlong)iVar2;
+  *(unsigned int *)(uVar10 - 0xa0) = uVar14;
+  uStack_90 = ((((unsigned __int64)(uStack_90)) & (~(((unsigned __int64)0xFFFFFFFF) << 0))) | ((((unsigned __int64)((float)(iVar2 >> 0x1f))) & ((unsigned __int64)0xFFFFFFFF)) << 0));
+  dVar11 = (double)(((unsigned __int64)(uStack_90) >> 0) & 0xFFFFFFFF);
+  uStack_90 = (__int64)iVar2;
   dVar11 = (double)fn_82CECE68(-dVar11,-(double)fStack_a0);
   fVar9 = lbl_821AAD20;
   fVar1 = (float)(dVar11 + (double)lbl_8201DD74);
@@ -114,11 +87,11 @@ void fn_82D9E870(undefined8 param_1,int *param_2,undefined4 *param_3,int param_4
   uStack_90 = CONCAT44(*pfVar3,fVar1);
   dVar13 = (double)lbl_821AAD20;
   fStack_84 = lbl_821AAD20;
-  puVar7 = (undefined4 *)((int)&uStack_90 + in_r0 & 0xfffffff0);
+  puVar7 = (unsigned int *)((int)&uStack_90 + in_r0 & 0xfffffff0);
   uVar14 = puVar7[1];
   uVar15 = puVar7[2];
   uVar16 = puVar7[3];
-  puVar8 = (undefined4 *)(in_r0 + (int)pfVar3 & 0xfffffff0);
+  puVar8 = (unsigned int *)(in_r0 + (int)pfVar3 & 0xfffffff0);
   *puVar8 = *puVar7;
   puVar8[1] = uVar14;
   puVar8[2] = uVar15;
@@ -127,7 +100,7 @@ void fn_82D9E870(undefined8 param_1,int *param_2,undefined4 *param_3,int param_4
     uVar14 = *param_7;
     uStack_68 = CONCAT44(fVar9,fVar9);
     fn_8309FC40((iVar4 + 5) * 0x10 + param_5,param_6,uVar14,uVar10 - 0x70);
-    uStack_68 = *(undefined8 *)(*(int *)(param_5 + 0xb8) * 8 + iVar5);
+    uStack_68 = *(unsigned __int64 *)(*(int *)(param_5 + 0xb8) * 8 + iVar5);
     fStack_5c = -(float)(dVar12 * (double)lbl_82015468 + dVar11);
     fStack_60 = (float)dVar13;
     iStack_6c = param_6;

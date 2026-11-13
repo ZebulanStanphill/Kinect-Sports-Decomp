@@ -1,31 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int fStack_10c;
 extern unsigned int fStack_110;
 extern int fn_82F6A510();
@@ -45,7 +21,7 @@ extern unsigned int lbl_8316EAE4;
 extern unsigned int lbl_8316EAE8;
 
 
-void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 param_4)
+void fn_82BBDEA0(unsigned __int64 param_1,float *param_2,__int64 param_3,unsigned __int64 param_4)
 
 {
   float fVar1;
@@ -85,24 +61,24 @@ void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 p
   float fVar35;
   float fVar36;
   float *pfVar37;
-  longlong lVar38;
-  undefined4 uVar39;
+  __int64 lVar38;
+  unsigned int uVar39;
   int iVar40;
-  uint uVar41;
-  ulonglong uVar42;
+  unsigned int uVar41;
+  unsigned __int64 uVar42;
   float *pfVar43;
-  ulonglong uVar44;
+  unsigned __int64 uVar44;
   float *pfVar45;
-  undefined4 *puVar46;
+  unsigned int *puVar46;
   float *pfVar47;
-  longlong lVar48;
+  __int64 lVar48;
   float fStack_110;
   float fStack_10c;
   float afStack_108 [2];
   float afStack_100 [64];
   
   iVar40 = (int)param_4;
-  uVar39 = (undefined4)((ulonglong)param_4 >> 0x20);
+  uVar39 = (unsigned int)((unsigned __int64)param_4 >> 0x20);
   pfVar37 = (float *)fn_82F6A510();
   fVar36 = lbl_821AAD20;
   fVar35 = lbl_8205414C;
@@ -116,7 +92,7 @@ void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 p
   }
   else {
     pfVar47 = (float *)&lbl_820E118C;
-    puVar46 = (undefined4 *)&lbl_820E117C;
+    puVar46 = (unsigned int *)&lbl_820E117C;
   }
   lVar38 = param_3 + 8;
   lVar48 = 0x10;
@@ -239,7 +215,7 @@ void fn_82BBDEA0(undefined8 param_1,float *param_2,longlong param_3,undefined8 p
                   (*(float *)(iVar7 + 0xc) - fVar25) * fVar27 * fVar3;
           uVar44 = uVar42;
           if (fVar5 < fVar15) {
-            uVar44 = (ulonglong)(uint)(int)(fVar5 + fVar32);
+            uVar44 = (unsigned __int64)(unsigned int)(int)(fVar5 + fVar32);
           }
           iVar30 = (int)((uVar44 & 0xffffffff) << 2);
           lVar38 = lVar38 + 0x10;

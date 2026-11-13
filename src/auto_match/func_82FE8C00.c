@@ -1,25 +1,22 @@
-typedef unsigned short U16;
-typedef unsigned int U32;
-
 typedef struct Event_82FE8C00 {
     unsigned char pad0[2];
-    U16 type;
-    U32 param;
-    U32 first;
-    U32 second;
-    U32 rest[8];
+    unsigned short type;
+    unsigned int param;
+    unsigned int first;
+    unsigned int second;
+    unsigned int rest[8];
 } Event_82FE8C00;
 
-extern U32 lbl_832642E4;
-extern U32 fn_82FE89F8(U32 a);
-extern U32 fn_8300F108(void);
-extern U32 fn_8300F208(U32 ctx, Event_82FE8C00 *ev, U16 size);
+extern unsigned int lbl_832642E4;
+extern unsigned int fn_82FE89F8(unsigned int a);
+extern unsigned int fn_8300F108(void);
+extern unsigned int fn_8300F208(unsigned int ctx, Event_82FE8C00 *ev, unsigned short size);
 
-U32 fn_82FE8C00(U32 param_1, U32 param_2, U32 param_3)
+unsigned int fn_82FE8C00(unsigned int param_1, unsigned int param_2, unsigned int param_3)
 {
     Event_82FE8C00 ev;
-    U32 a;
-    U32 b;
+    unsigned int a;
+    unsigned int b;
 
     a = fn_82FE89F8(param_1);
     b = fn_82FE89F8(param_2);
@@ -28,7 +25,7 @@ U32 fn_82FE8C00(U32 param_1, U32 param_2, U32 param_3)
         ev.first = a;
         ev.type = 4;
         ev.second = b;
-        return fn_8300F208(lbl_832642E4, &ev, (U16)fn_8300F108());
+        return fn_8300F208(lbl_832642E4, &ev, (unsigned short)fn_8300F108());
     }
     return 0xf;
 }

@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8225C590();
 extern int fn_8225F160();
 extern unsigned int lbl_821BD7A8;
@@ -32,7 +6,7 @@ extern unsigned int lbl_821BD814;
 extern unsigned int lbl_821BD81C;
 
 
-undefined8 fn_824803B0(int param_1)
+unsigned __int64 fn_824803B0(int param_1)
 
 {
   bool bVar1;
@@ -42,15 +16,15 @@ undefined8 fn_824803B0(int param_1)
   char *pcVar5;
   int iVar6;
   int iVar7;
-  byte *pbVar8;
-  byte bVar10;
-  uint uVar9;
+  unsigned char *pbVar8;
+  unsigned char bVar10;
+  unsigned int uVar9;
   char cVar11;
-  byte bVar13;
-  uint uVar12;
+  unsigned char bVar13;
+  unsigned int uVar12;
   char cVar14;
-  byte *pbVar15;
-  undefined8 uVar16;
+  unsigned char *pbVar15;
+  unsigned __int64 uVar16;
   
   uVar16 = 0;
   pcVar2 = strstr((char *)(*(int *)(param_1 + 0x48) + 0x234),"_mini");
@@ -58,7 +32,7 @@ undefined8 fn_824803B0(int param_1)
   pcVar4 = strstr((char *)(*(int *)(param_1 + 0x48) + 0x234),"athletics");
   pcVar5 = strstr((char *)(*(int *)(param_1 + 0x48) + 0x34),"party");
   iVar6 = fn_8225F160();
-  *(undefined4 *)(iVar6 + 0x30) = 0;
+  *(unsigned int *)(iVar6 + 0x30) = 0;
   iVar6 = fn_8225F160();
   iVar6 = *(int *)(iVar6 + 0x5c);
   iVar7 = fn_8225C590();
@@ -71,7 +45,7 @@ undefined8 fn_824803B0(int param_1)
   if (pcVar5 != pcVar5 + ((pcVar5 == (char *)0x0) - 1)) {
     iVar6 = *(int *)(param_1 + 0x48);
     bVar10 = 0x74;
-    pbVar15 = (byte *)(iVar6 + 0x334);
+    pbVar15 = (unsigned char *)(iVar6 + 0x334);
     bVar13 = *pbVar15;
     if (bVar13 == 0x74) {
       bVar13 = 0x74;
@@ -95,32 +69,32 @@ undefined8 fn_824803B0(int param_1)
             iVar7 = 0;
             goto LAB_82480524;
           }
-          uVar9 = (uint)pbVar8[(int)&lbl_821BD814 - (int)pbVar15];
+          uVar9 = (unsigned int)pbVar8[(int)&lbl_821BD814 - (int)pbVar15];
           bVar13 = *pbVar8;
-          uVar12 = (uint)bVar13;
+          uVar12 = (unsigned int)bVar13;
         } while (uVar12 == uVar9);
       }
       iVar7 = bVar13 - uVar9;
 LAB_82480524:
-      pbVar8 = (byte *)0x821bd807;
+      pbVar8 = (unsigned char *)0x821bd807;
       do {
-        bVar1 = pbVar15 == (byte *)(iVar6 + 0x434U);
-        if ((byte *)(iVar6 + 0x434U) <= pbVar15) goto LAB_82480554;
+        bVar1 = pbVar15 == (unsigned char *)(iVar6 + 0x434U);
+        if ((unsigned char *)(iVar6 + 0x434U) <= pbVar15) goto LAB_82480554;
         pbVar8 = pbVar8 + 1;
         bVar13 = *pbVar8;
         *pbVar15 = bVar13;
         pbVar15 = pbVar15 + 1;
       } while (bVar13 != 0);
-      bVar1 = pbVar15 == (byte *)(iVar6 + 0x434);
+      bVar1 = pbVar15 == (unsigned char *)(iVar6 + 0x434);
 LAB_82480554:
       if (bVar1) {
         pbVar15[-1] = 0;
       }
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 8) = 2;
+      *(unsigned int *)(iVar6 + 8) = 2;
       iVar6 = fn_8225F160();
       uVar16 = 1;
-      *(uint *)(iVar6 + 0x5c) = ((uint)LZCOUNT((uint)LZCOUNT(iVar7) >> 5) >> 5) + 1;
+      *(unsigned int *)(iVar6 + 0x5c) = ((unsigned int)LZCOUNT((unsigned int)LZCOUNT(iVar7) >> 5) >> 5) + 1;
     }
     goto LAB_82480970;
   }
@@ -145,7 +119,7 @@ LAB_824806e0:
         iVar6 = fn_8225F160();
         if (*(int *)(iVar6 + 0x5c) < 2) {
           iVar6 = fn_8225F160();
-          *(undefined4 *)(iVar6 + 8) = 3;
+          *(unsigned int *)(iVar6 + 8) = 3;
           pcVar2 = "";
           iVar6 = *(int *)(param_1 + 0x48);
           pcVar4 = (char *)(iVar6 + 0x334);
@@ -160,7 +134,7 @@ LAB_824806e0:
         }
         else {
           iVar6 = fn_8225F160();
-          *(undefined4 *)(iVar6 + 8) = 1;
+          *(unsigned int *)(iVar6 + 8) = 1;
           iVar6 = *(int *)(param_1 + 0x48);
           pcVar4 = (char *)(iVar6 + 0x334);
           pcVar2 = "";
@@ -182,7 +156,7 @@ LAB_82480774:
         uVar16 = 1;
       }
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 0x30) = 1;
+      *(unsigned int *)(iVar6 + 0x30) = 1;
       goto LAB_82480970;
     }
     cVar11 = *pcVar2;
@@ -212,7 +186,7 @@ LAB_82480774:
     if (cVar14 == cVar11) {
 LAB_82480828:
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 0x5c) = 1;
+      *(unsigned int *)(iVar6 + 0x5c) = 1;
     }
     else {
       cVar14 = *pcVar2;
@@ -255,18 +229,18 @@ LAB_82480828:
           }
           if (cVar14 != cVar11) {
             iVar6 = fn_8225F160();
-            *(undefined4 *)(iVar6 + 0x5c) = 4;
+            *(unsigned int *)(iVar6 + 0x5c) = 4;
             goto LAB_8248092c;
           }
         }
       }
 LAB_82480924:
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 0x5c) = 2;
+      *(unsigned int *)(iVar6 + 0x5c) = 2;
     }
 LAB_8248092c:
     iVar6 = fn_8225F160();
-    *(undefined4 *)(iVar6 + 8) = 2;
+    *(unsigned int *)(iVar6 + 8) = 2;
     iVar6 = *(int *)(param_1 + 0x48);
     pcVar4 = (char *)(iVar6 + 0x334);
     pcVar2 = "";
@@ -298,7 +272,7 @@ LAB_824805e4:
     iVar6 = fn_8225F160();
     if (*(int *)(iVar6 + 0x5c) < 2) {
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 8) = 3;
+      *(unsigned int *)(iVar6 + 8) = 3;
       iVar6 = *(int *)(param_1 + 0x48);
       pcVar4 = (char *)(iVar6 + 0x334);
       pcVar2 = "";
@@ -313,7 +287,7 @@ LAB_824805e4:
     }
     else {
       iVar6 = fn_8225F160();
-      *(undefined4 *)(iVar6 + 8) = 1;
+      *(unsigned int *)(iVar6 + 8) = 1;
       iVar6 = *(int *)(param_1 + 0x48);
       pcVar4 = (char *)(iVar6 + 0x334);
       pcVar2 = "";

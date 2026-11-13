@@ -1,41 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int memcpy();
 
 
-void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, undefined8 unused_arg_9, int in_stack_0000005c, undefined8 unused_arg_11, int in_stack_0000006c, uint in_stack_00000074, int in_stack_0000007c, uint in_stack_00000084, int in_stack_0000008c)
+void fn_82ED5AA0(unsigned __int64 param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, unsigned __int64 unused_arg_9, int in_stack_0000005c, unsigned __int64 unused_arg_11, int in_stack_0000006c, unsigned int in_stack_00000074, int in_stack_0000007c, unsigned int in_stack_00000084, int in_stack_0000008c)
 
 {
   int iVar1;
-  undefined1 *puVar2;
-  undefined1 *puVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  unsigned char *puVar2;
+  unsigned char *puVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
 
 
@@ -45,7 +18,7 @@ void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int 
 
   
   if (in_stack_0000008c == 0) {
-    uVar4 = (ulonglong)in_stack_00000074;
+    uVar4 = (unsigned __int64)in_stack_00000074;
     if (0 < (int)in_stack_00000074) {
       do {
         memcpy(param_2,param_5,param_8);
@@ -54,7 +27,7 @@ void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int 
         param_2 = param_2 + param_8;
       } while (uVar4 != 0);
     }
-    uVar5 = (ulonglong)in_stack_00000084;
+    uVar5 = (unsigned __int64)in_stack_00000084;
     uVar4 = uVar5;
     if (0 < (int)in_stack_00000084) {
       do {
@@ -74,13 +47,13 @@ void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int 
     }
   }
   else {
-    uVar4 = (ulonglong)in_stack_00000074;
+    uVar4 = (unsigned __int64)in_stack_00000074;
     iVar1 = param_2 + param_8 + -1;
     if (0 < (int)in_stack_00000074) {
       do {
         if (param_8 != 0) {
-          puVar2 = (undefined1 *)(iVar1 + 1);
-          puVar3 = (undefined1 *)(param_5 + -1);
+          puVar2 = (unsigned char *)(iVar1 + 1);
+          puVar3 = (unsigned char *)(param_5 + -1);
           iVar6 = param_8;
           do {
             puVar3 = puVar3 + 1;
@@ -94,14 +67,14 @@ void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int 
         iVar1 = iVar1 + param_8;
       } while (uVar4 != 0);
     }
-    uVar5 = (ulonglong)in_stack_00000084;
+    uVar5 = (unsigned __int64)in_stack_00000084;
     iVar1 = param_3 + in_stack_0000005c + -1;
     uVar4 = uVar5;
     if (0 < (int)in_stack_00000084) {
       do {
         if (in_stack_0000005c != 0) {
-          puVar2 = (undefined1 *)(iVar1 + 1);
-          puVar3 = (undefined1 *)(param_6 + -1);
+          puVar2 = (unsigned char *)(iVar1 + 1);
+          puVar3 = (unsigned char *)(param_6 + -1);
           iVar6 = in_stack_0000005c;
           do {
             puVar3 = puVar3 + 1;
@@ -119,8 +92,8 @@ void fn_82ED5AA0(undefined8 param_1, int param_2, int param_3, int param_4, int 
     if (0 < (int)in_stack_00000084) {
       do {
         if (in_stack_0000005c != 0) {
-          puVar2 = (undefined1 *)(iVar1 + 1);
-          puVar3 = (undefined1 *)(param_7 + -1);
+          puVar2 = (unsigned char *)(iVar1 + 1);
+          puVar3 = (unsigned char *)(param_7 + -1);
           iVar6 = in_stack_0000005c;
           do {
             puVar3 = puVar3 + 1;

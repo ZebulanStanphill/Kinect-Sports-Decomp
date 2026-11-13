@@ -1,55 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_820A6CF8;
 extern unsigned int lbl_820A6D14;
 extern unsigned int lbl_820A6D30;
 
 
-int fn_82A7C3F0(byte *param_1,ulonglong param_2,undefined2 *param_3,int param_4,ulonglong param_5)
+int fn_82A7C3F0(unsigned char *param_1,unsigned __int64 param_2,unsigned short *param_3,int param_4,unsigned __int64 param_5)
 
 {
-  byte *pbVar1;
-  byte *pbVar2;
-  byte bVar3;
+  unsigned char *pbVar1;
+  unsigned char *pbVar2;
+  unsigned char bVar3;
   int iVar4;
   int iVar5;
   int iVar6;
-  uint uVar7;
-  byte *pbVar8;
+  unsigned int uVar7;
+  unsigned char *pbVar8;
   int iVar9;
   int iVar10;
   int iVar11;
-  undefined2 *puVar12;
+  unsigned short *puVar12;
   int iVar13;
-  longlong lVar14;
+  __int64 lVar14;
   int iVar15;
   int iVar16;
-  ulonglong uVar17;
+  unsigned __int64 uVar17;
   int iVar18;
   int iVar19;
   int iVar20;
@@ -67,19 +40,19 @@ int fn_82A7C3F0(byte *param_1,ulonglong param_2,undefined2 *param_3,int param_4,
         }
         pbVar1 = param_1 + 1;
         param_2 = param_2 - uVar17;
-        iVar11 = *(int *)(&lbl_820A6CF8 + (uint)*param_1 * 4);
-        iVar4 = *(int *)(&lbl_820A6D14 + (uint)*param_1 * 4);
-        iVar5 = *(int *)(&lbl_820A6CF8 + (uint)*pbVar1 * 4);
-        iVar13 = (uint)param_1[3] * 0x100 + (uint)param_1[2];
-        iVar20 = (uint)param_1[5] * 0x100 + (uint)param_1[4];
-        iVar15 = (uint)param_1[9] * 0x100 + (uint)param_1[8];
+        iVar11 = *(int *)(&lbl_820A6CF8 + (unsigned int)*param_1 * 4);
+        iVar4 = *(int *)(&lbl_820A6D14 + (unsigned int)*param_1 * 4);
+        iVar5 = *(int *)(&lbl_820A6CF8 + (unsigned int)*pbVar1 * 4);
+        iVar13 = (unsigned int)param_1[3] * 0x100 + (unsigned int)param_1[2];
+        iVar20 = (unsigned int)param_1[5] * 0x100 + (unsigned int)param_1[4];
+        iVar15 = (unsigned int)param_1[9] * 0x100 + (unsigned int)param_1[8];
         pbVar2 = param_1 + 0xc;
-        iVar18 = (uint)param_1[0xb] * 0x100 + (uint)param_1[10];
-        iVar19 = (uint)param_1[7] * 0x100 + (uint)param_1[6];
+        iVar18 = (unsigned int)param_1[0xb] * 0x100 + (unsigned int)param_1[10];
+        iVar19 = (unsigned int)param_1[7] * 0x100 + (unsigned int)param_1[6];
         pbVar8 = param_1 + 0xd;
         param_1 = param_1 + 0xe;
-        iVar16 = (uint)*pbVar8 * 0x100 + (uint)*pbVar2;
-        iVar6 = *(int *)(&lbl_820A6D14 + (uint)*pbVar1 * 4);
+        iVar16 = (unsigned int)*pbVar8 * 0x100 + (unsigned int)*pbVar2;
+        iVar6 = *(int *)(&lbl_820A6D14 + (unsigned int)*pbVar1 * 4);
         *puVar12 = (short)iVar18;
         puVar12[1] = (short)iVar16;
         puVar12[2] = (short)iVar19;

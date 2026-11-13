@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_829B1720();
 extern unsigned int lbl_82002C5C;
 extern unsigned int lbl_8200D8DC;
@@ -33,26 +6,26 @@ extern unsigned int lbl_820288E0;
 extern unsigned int lbl_82054184;
 
 
-uint fn_829B2710(undefined8 param_1,float *param_2,undefined8 param_3)
+unsigned int fn_829B2710(unsigned __int64 param_1,float *param_2,unsigned __int64 param_3)
 
 {
   int iVar1;
   float fVar2;
   float fVar3;
   float fVar4;
-  uint uVar5;
+  unsigned int uVar5;
   float fVar6;
   float fVar7;
   float fVar8;
   float fVar9;
   float fVar10;
-  uint uVar11;
+  unsigned int uVar11;
   float *pfVar12;
-  longlong *plVar13;
+  __int64 *plVar13;
   float *pfVar14;
   float *pfVar15;
-  longlong lVar16;
-  longlong lStack_168;
+  __int64 lVar16;
+  __int64 lStack_168;
   float afStack_15c [15];
   float afStack_120 [60];
   
@@ -83,9 +56,9 @@ uint fn_829B2710(undefined8 param_1,float *param_2,undefined8 param_3)
       *pfVar12 = pfVar15[-2];
       pfVar12[1] = fVar4;
       iVar1 = (int)(fVar3 + fVar2 + fVar6);
-      lStack_168 = (longlong)iVar1;
-      *(float *)(((int)afStack_120 - (int)param_2) + (int)pfVar15) = (float)(longlong)iVar1;
-      fVar2 = (fVar3 + fVar2) - (float)(longlong)iVar1;
+      lStack_168 = (__int64)iVar1;
+      *(float *)(((int)afStack_120 - (int)param_2) + (int)pfVar15) = (float)(__int64)iVar1;
+      fVar2 = (fVar3 + fVar2) - (float)(__int64)iVar1;
       if (uVar5 != 3) {
         *pfVar14 = fVar2 * fVar10 + *pfVar14;
       }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_68;
 extern unsigned int *auStack_70;
@@ -40,31 +13,31 @@ extern int fn_82CFFEC8();
 extern int fn_82E09F28();
 
 
-void fn_82E0AAF0(undefined8 param_1,longlong param_2,undefined8 param_3,longlong param_4)
+void fn_82E0AAF0(unsigned __int64 param_1,__int64 param_2,unsigned __int64 param_3,__int64 param_4)
 
 {
-  longlong lVar1;
-  longlong lVar2;
+  __int64 lVar1;
+  __int64 lVar2;
   int iVar7;
   int iVar8;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  undefined8 uVar5;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int *piVar9;
-  longlong lVar6;
-  uint uVar10;
-  longlong lVar11;
-  undefined1 auStack_70 [8];
-  undefined1 auStack_68 [8];
-  undefined1 auStack_60 [96];
+  __int64 lVar6;
+  unsigned int uVar10;
+  __int64 lVar11;
+  unsigned char auStack_70 [8];
+  unsigned char auStack_68 [8];
+  unsigned char auStack_60 [96];
   
   lVar11 = 0;
   iVar7 = fn_82CEAF18(param_3);
   if (0 < iVar7) {
     do {
       iVar7 = fn_82CEAF20(param_3,lVar11);
-      if (((*(ushort *)(iVar7 + 0x10) >> 10 & 1) == 0) &&
-         (uVar10 = (uint)*(byte *)(iVar7 + 0xc), uVar10 - 0x16 < 6)) {
+      if (((*(unsigned short *)(iVar7 + 0x10) >> 10 & 1) == 0) &&
+         (uVar10 = (unsigned int)*(unsigned char *)(iVar7 + 0xc), uVar10 - 0x16 < 6)) {
         if (uVar10 == 0x16) {
 LAB_82e0abf4:
           lVar1 = param_2;

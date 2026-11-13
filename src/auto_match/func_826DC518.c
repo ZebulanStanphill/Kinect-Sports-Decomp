@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_90;
 extern int fn_8267B848();
@@ -41,27 +15,27 @@ extern unsigned int lbl_82005928;
 extern unsigned int lbl_8200C610;
 extern unsigned int lbl_8200C628;
 extern unsigned int lbl_831E7E64;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-undefined4 *
-fn_826DC518(undefined4 *param_1,int param_2,ulonglong param_3,ulonglong param_4,undefined8 param_5
-             ,undefined8 param_6,ulonglong param_7,undefined8 param_8)
+unsigned int *
+fn_826DC518(unsigned int *param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5
+             ,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  longlong lVar6;
-  uint *puVar7;
-  ulonglong uVar8;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  __int64 lVar6;
+  unsigned int *puVar7;
+  unsigned __int64 uVar8;
   char in_RESERVE;
-  byte in_cr0;
-  undefined4 in_stack_00000054;
-  uint auStack_90 [4];
-  uint auStack_80 [32];
+  unsigned char in_cr0;
+  unsigned int in_stack_00000054;
+  unsigned int auStack_90 [4];
+  unsigned int auStack_80 [32];
   
   uVar5 = 0;
   param_1[2] = 0;
@@ -75,9 +49,9 @@ fn_826DC518(undefined4 *param_1,int param_2,ulonglong param_3,ulonglong param_4,
   param_1[7] = 0;
   uVar3 = param_7;
   if ((param_7 & 0xffffffff) == 0) {
-    uVar2 = fn_8270C6B0(((ulonglong)*(uint *)(*(int *)(param_2 + 0x20) + 0x24) & 0xfffffffc) + 8);
+    uVar2 = fn_8270C6B0(((unsigned __int64)*(unsigned int *)(*(int *)(param_2 + 0x20) + 0x24) & 0xfffffffc) + 8);
     fn_8268C590(auStack_90,0xffffffff8200c6cc,uVar2,0xffffffff8200c4f8);
-    auStack_80[0] = (uint)((ulonglong)param_5 >> 0x10) & 0x1000;
+    auStack_80[0] = (unsigned int)((unsigned __int64)param_5 >> 0x10) & 0x1000;
     auStack_80[2] = 0x1000;
     auStack_80[3] = 0x1000;
     auStack_80[5] = 0;
@@ -85,11 +59,11 @@ fn_826DC518(undefined4 *param_1,int param_2,ulonglong param_3,ulonglong param_4,
     auStack_80[1] = 0x10;
     auStack_80[4] = 0xffffffff;
     auStack_80[7] = in_stack_00000054;
-    uVar3 = fn_8267C2D8(lbl_831E7E64,((ulonglong)auStack_90[0] & 0xfffffffc) + 8,auStack_80);
-    lVar6 = ((ulonglong)auStack_90[0] & 0xfffffffc) + 4;
+    uVar3 = fn_8267C2D8(lbl_831E7E64,((unsigned __int64)auStack_90[0] & 0xfffffffc) + 8,auStack_80);
+    lVar6 = ((unsigned __int64)auStack_90[0] & 0xfffffffc) + 4;
     do {
-      puVar7 = (uint *)lVar6;
-      uVar8 = (ulonglong)*puVar7;
+      puVar7 = (unsigned int *)lVar6;
+      uVar8 = (unsigned __int64)*puVar7;
       if (in_RESERVE != '\0') {
         uVar1 = storeWordConditionalIndexed(uVar8 - 1,0,lVar6);
         *puVar7 = uVar1;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern int fn_829D4C60();
 extern int fn_829D5BF8();
@@ -42,21 +15,21 @@ extern unsigned int uStack_7c;
 extern unsigned int uStack_80;
 
 
-longlong fn_829D6A90(undefined4 param_1,uint *param_2)
+__int64 fn_829D6A90(unsigned int param_1,unsigned int *param_2)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  uint uVar4;
-  longlong lVar5;
-  uint uStack_80;
-  uint uStack_7c;
-  undefined1 auStack_70 [4];
-  uint uStack_6c;
-  uint uStack_68;
-  uint uStack_60;
-  uint uStack_5c;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar4;
+  __int64 lVar5;
+  unsigned int uStack_80;
+  unsigned int uStack_7c;
+  unsigned char auStack_70 [4];
+  unsigned int uStack_6c;
+  unsigned int uStack_68;
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
   
   switch(param_1) {
   case 0x2c002:
@@ -65,7 +38,7 @@ longlong fn_829D6A90(undefined4 param_1,uint *param_2)
     DbgPrint(0xffffffff82057544,param_1);
     return -0x7fff0001;
   case 0x2c006:
-    uVar3 = (ulonglong)param_2[2];
+    uVar3 = (unsigned __int64)param_2[2];
     if ((param_2[2] & 1) == 0) {
       uVar3 = uVar3 | 1;
     }
@@ -87,10 +60,10 @@ code_r0x829d6b04:
     return lVar5;
   case 0x2c00a:
     lVar5 = 0;
-    uVar4 = *(uint *)(lbl_832179FC + 0x8f048);
+    uVar4 = *(unsigned int *)(lbl_832179FC + 0x8f048);
     break;
   case 0x2c00b:
-    *(undefined4 *)(lbl_832179FC + 0x8f4fc) = 1;
+    *(unsigned int *)(lbl_832179FC + 0x8f4fc) = 1;
     sync(0);
     return 0;
   case 0x2c00e:
@@ -111,7 +84,7 @@ code_r0x829d6b04:
         param_2[2] = uStack_68;
         param_2[3] = uStack_60;
         param_2[4] = uStack_5c;
-        param_2[5] = *(uint *)(iVar1 + 100);
+        param_2[5] = *(unsigned int *)(iVar1 + 100);
       }
       RtlLeaveCriticalSection(0xffffffff8315c428);
     }

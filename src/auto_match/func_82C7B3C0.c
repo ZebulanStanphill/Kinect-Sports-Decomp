@@ -1,32 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82C7B3C0(int param_1,int param_2,int param_3,int param_4)
 
 {
@@ -44,13 +15,13 @@ void fn_82C7B3C0(int param_1,int param_2,int param_3,int param_4)
   int iVar12;
   short *psVar13;
   int iVar14;
-  undefined2 *puVar15;
+  unsigned short *puVar15;
   int iVar16;
   int iVar17;
-  undefined2 *puVar18;
-  longlong lVar19;
+  unsigned short *puVar18;
+  __int64 lVar19;
   
-  puVar18 = (undefined2 *)(param_4 * 8 + param_1);
+  puVar18 = (unsigned short *)(param_4 * 8 + param_1);
   psVar13 = (short *)(param_3 + -2);
   lVar19 = 8;
   puVar15 = puVar18;

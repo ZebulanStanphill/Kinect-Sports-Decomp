@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_180;
 extern int main();
 extern int UnhandledExceptionFilter();
@@ -47,13 +23,13 @@ void mainCRTStartup(void)
   bool bVar1;
   int iVar3;
   char *pcVar4;
-  undefined8 uVar2;
-  undefined4 *puVar5;
+  unsigned __int64 uVar2;
+  unsigned int *puVar5;
   char cVar6;
   char *pcVar7;
-  longlong lVar8;
-  longlong lVar9;
-  undefined4 auStack_180 [20];
+  __int64 lVar8;
+  __int64 lVar9;
+  unsigned int auStack_180 [20];
   char acStack_130 [304];
   
   lbl_8329F724 = 0xffffffff;
@@ -68,7 +44,7 @@ void mainCRTStartup(void)
   _rtinit();
   _cinit(1);
   if (lbl_83219D30 == 0) {
-    puVar5 = (undefined4 *)0x0;
+    puVar5 = (unsigned int *)0x0;
     lVar9 = 0;
   }
   else {
@@ -80,7 +56,7 @@ void mainCRTStartup(void)
       while( true ) {
         cVar6 = *pcVar4;
         while( true ) {
-          lVar8 = (longlong)cVar6;
+          lVar8 = (__int64)cVar6;
           if ((lVar8 == 0) || ((cVar6 != ' ' && (cVar6 != '\t')))) break;
           *pcVar7 = '\0';
           pcVar7 = pcVar7 + 1;
@@ -102,7 +78,7 @@ void mainCRTStartup(void)
           }
           pcVar4 = pcVar4 + 1;
           cVar6 = *pcVar4;
-          lVar8 = (longlong)cVar6;
+          lVar8 = (__int64)cVar6;
         } while ((lVar8 != 0) && ((bVar1 || ((cVar6 != ' ' && (cVar6 != '\t'))))));
         if ((cVar6 == '\0') || (0x10 < (int)lVar9)) break;
       }

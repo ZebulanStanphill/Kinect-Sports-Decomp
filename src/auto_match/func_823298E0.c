@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8223A9E0();
 extern int fn_8232A988();
 extern int fn_823B4900();
@@ -34,20 +7,20 @@ extern unsigned int uStack_30;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void fn_823298E0(undefined8 param_1,undefined8 param_2,float *param_3)
+void fn_823298E0(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3)
 
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  longlong lVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar1;
+  __int64 lVar2;
+  __int64 lVar3;
+  __int64 lVar4;
+  unsigned __int64 uVar5;
   double dVar6;
-  undefined8 uStack_30;
+  unsigned __int64 uStack_30;
   
   uVar1 = fn_823B4900(param_2,0x21,0,0);
-  uStack_30 = ((((U64)(uStack_30)) & (~(((U64)0xFFFFFFFF) << 32))) | ((((U64)((((U64)(uStack_30) >> 32) & 0xFFFFFFFF) & 0xffffff)) & ((U64)0xFFFFFFFF)) << 32));
-  uStack_30 = (ulonglong)(((U64)(uStack_30) >> 32) & 0xFFFFFFFF);
+  uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF) & 0xffffff)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
+  uStack_30 = (unsigned __int64)(((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
   fn_8232A988(&uStack_30,uVar1 >> 0x20 & 1,0,1);
   fn_8232A988(&uStack_30,uVar1 >> 0x18 & 0xff,1,8);
   fn_8232A988(&uStack_30,uVar1 & 0xffffff,9,0x18);

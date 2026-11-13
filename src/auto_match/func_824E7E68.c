@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_2c;
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_34;
@@ -50,25 +23,25 @@ extern int fn_82A1EFC0();
 extern unsigned int uStack_60;
 
 
-void fn_824E7E68(undefined4 *param_1)
+void fn_824E7E68(unsigned int *param_1)
 
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  undefined4 uStack_60;
-  undefined1 auStack_5c [4];
-  undefined1 auStack_58 [4];
-  undefined1 auStack_54 [4];
-  undefined1 auStack_50 [4];
-  undefined1 auStack_4c [4];
-  undefined1 auStack_48 [4];
-  undefined1 auStack_44 [4];
-  undefined1 auStack_40 [4];
-  undefined1 auStack_3c [4];
-  undefined1 auStack_38 [4];
-  undefined1 auStack_34 [4];
-  undefined1 auStack_30 [4];
-  undefined1 auStack_2c [44];
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
+  unsigned int uStack_60;
+  unsigned char auStack_5c [4];
+  unsigned char auStack_58 [4];
+  unsigned char auStack_54 [4];
+  unsigned char auStack_50 [4];
+  unsigned char auStack_4c [4];
+  unsigned char auStack_48 [4];
+  unsigned char auStack_44 [4];
+  unsigned char auStack_40 [4];
+  unsigned char auStack_3c [4];
+  unsigned char auStack_38 [4];
+  unsigned char auStack_34 [4];
+  unsigned char auStack_30 [4];
+  unsigned char auStack_2c [44];
   
   fn_82520158(0xffffffff821c1708,&uStack_60,0);
   fn_82520158(0xffffffff821c172c,auStack_5c,0);

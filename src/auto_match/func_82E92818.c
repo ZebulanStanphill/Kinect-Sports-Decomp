@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E91F20();
 extern int fn_82E927B8();
 extern unsigned int lbl_82005344;
@@ -36,7 +12,7 @@ extern unsigned int lbl_821AAD20;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void fn_82E92818(double param_1,double param_2,double param_3,double param_4,undefined4 *param_5)
+void fn_82E92818(double param_1,double param_2,double param_3,double param_4,unsigned int *param_5)
 
 {
   int iVar1;
@@ -59,7 +35,7 @@ void fn_82E92818(double param_1,double param_2,double param_3,double param_4,und
   param_5[0x21] = iVar5;
   param_5[iVar5 + 10] = (float)ABS(param_2);
   if (param_5[1] == 0) {
-    param_5 = (undefined4 *)fn_82E91F20();
+    param_5 = (unsigned int *)fn_82E91F20();
     param_1 = extraout_f1;
   }
   if (param_5[1] == 0) {
@@ -119,11 +95,11 @@ void fn_82E92818(double param_1,double param_2,double param_3,double param_4,und
   bVar2 = false;
   if ((dVar6 < dVar7) &&
      ((3 < (int)param_5[8] ||
-      (bVar2 = true, -(float)(dVar8 / (double)(longlong)(int)param_5[8]) <= lbl_8207F248)))) {
+      (bVar2 = true, -(float)(dVar8 / (double)(__int64)(int)param_5[8]) <= lbl_8207F248)))) {
     bVar2 = false;
   }
   if (((int)param_5[9] < 4) &&
-     (lbl_8207F248 < (float)(dVar6 - dVar8) / (float)(longlong)(int)param_5[9])) {
+     (lbl_8207F248 < (float)(dVar6 - dVar8) / (float)(__int64)(int)param_5[9])) {
     bVar4 = true;
   }
   if ((int)param_5[1] < (int)param_5[2]) {

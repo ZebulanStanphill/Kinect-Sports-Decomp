@@ -1,47 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82EEDD00();
 extern int fn_82F41CE0();
 
 
-longlong fn_82EEDF48(int param_1,int *param_2)
+__int64 fn_82EEDF48(int param_1,int *param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int *piVar2;
   int iVar3;
-  longlong lVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
+  __int64 lVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
   int *piStack_50;
   int aiStack_4c [19];
   
-  uVar1 = *(uint *)(param_1 + 0x70);
+  uVar1 = *(unsigned int *)(param_1 + 0x70);
   piStack_50 = (int *)0x0;
   lVar4 = 0;
   aiStack_4c[0] = 0;
@@ -64,7 +37,7 @@ longlong fn_82EEDF48(int param_1,int *param_2)
           }
           if (((*(int *)(aiStack_4c[0] + 8) == 0) &&
               (*(short *)(aiStack_4c[0] + 0x14) == *(short *)(piVar2 + 5))) &&
-             (iVar3 = fn_82F41CE0(*(undefined4 *)(aiStack_4c[0] + 0x18),piVar2[6]), iVar3 != 0))
+             (iVar3 = fn_82F41CE0(*(unsigned int *)(aiStack_4c[0] + 0x18),piVar2[6]), iVar3 != 0))
           {
             piVar2[2] = 1;
             break;
@@ -73,7 +46,7 @@ longlong fn_82EEDF48(int param_1,int *param_2)
         } while ((uVar6 & 0xffffffff) < (uVar5 & 0xffffffff));
       }
       uVar5 = uVar5 + 1;
-      if ((ulonglong)uVar1 <= (uVar5 & 0xffffffff)) {
+      if ((unsigned __int64)uVar1 <= (uVar5 & 0xffffffff)) {
         return lVar4;
       }
     }

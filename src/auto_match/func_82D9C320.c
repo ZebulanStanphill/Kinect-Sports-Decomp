@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct Allocator_82D9C320 Allocator_82D9C320;
 
 typedef struct AllocatorVt_82D9C320 {

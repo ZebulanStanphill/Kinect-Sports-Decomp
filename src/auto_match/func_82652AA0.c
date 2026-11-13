@@ -1,41 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8264D6C0();
 extern int fn_8265C940();
 extern int fn_8265C990();
 
 
-undefined8 fn_82652AA0(int param_1)
+unsigned __int64 fn_82652AA0(int param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined4 *puVar3;
+  unsigned __int64 uVar1;
+  unsigned int *puVar3;
   int iVar4;
   int iVar5;
   
@@ -58,11 +31,11 @@ LAB_82652adc:
     iVar2 = 0;
     iVar5 = 0;
     do {
-      puVar3 = (undefined4 *)(*(int *)(param_1 + 0x5560) + iVar5);
+      puVar3 = (unsigned int *)(*(int *)(param_1 + 0x5560) + iVar5);
       iVar4 = iVar2 + *(int *)(param_1 + 0x555c);
-      if (puVar3 == (undefined4 *)0x0) {
-        puVar3 = (undefined4 *)fn_8265C940(0x10,0x24800000);
-        if (puVar3 != (undefined4 *)0x0) goto LAB_82652b30;
+      if (puVar3 == (unsigned int *)0x0) {
+        puVar3 = (unsigned int *)fn_8265C940(0x10,0x24800000);
+        if (puVar3 != (unsigned int *)0x0) goto LAB_82652b30;
       }
       else {
 LAB_82652b30:
@@ -77,7 +50,7 @@ LAB_82652b30:
         else {
           puVar3[1] = iVar4;
         }
-        fn_8264D6C0((ulonglong)(uint)puVar3[1],(ulonglong)(uint)puVar3[1] + 0x1e0,0);
+        fn_8264D6C0((unsigned __int64)(unsigned int)puVar3[1],(unsigned __int64)(unsigned int)puVar3[1] + 0x1e0,0);
         puVar3[2] = param_1;
         *puVar3 = 1;
         puVar3[3] = 0;

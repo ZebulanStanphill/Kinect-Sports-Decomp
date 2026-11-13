@@ -1,19 +1,17 @@
-typedef unsigned int undefined4;
-typedef unsigned __int64 undefined8;
-extern void fn_82366908(undefined4 *, undefined8, undefined8);
-extern undefined4 lbl_821B7B38;
+extern void fn_82366908(unsigned int *, unsigned __int64, unsigned __int64);
+extern unsigned int lbl_821B7B38;
 extern float ltcg_pool_0_0f;
 
-undefined4 *
-fn_82400E48(undefined4 *param_1,undefined4 param_2,undefined8 param_3,undefined4 *param_4)
+unsigned int *
+fn_82400E48(unsigned int *param_1,unsigned int param_2,unsigned __int64 param_3,unsigned int *param_4)
 
 {
   float fVar1;
   const char *str = "Boxing Camera";
 
-  fn_82366908(param_1,param_3,(undefined8)str);
+  fn_82366908(param_1,param_3,(unsigned __int64)str);
   param_1[0x90] = param_2;
-  *param_1 = (undefined4)&lbl_821B7B38;
+  *param_1 = (unsigned int)&lbl_821B7B38;
   param_1[0x91] = 0;
   param_1[0x92] = 0;
   param_1[0x93] = 0;

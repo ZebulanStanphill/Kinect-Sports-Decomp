@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int iStack_100;
 
 
@@ -34,37 +7,37 @@ void fn_82F27150(int param_1,int param_2,int param_3,int param_4,int param_5,int
 {
   short sVar1;
   int iVar2;
-  byte *pbVar3;
-  undefined1 *puVar4;
+  unsigned char *pbVar3;
+  unsigned char *puVar4;
   int *piVar5;
-  byte *pbVar6;
+  unsigned char *pbVar6;
   int iVar7;
   short *psVar8;
-  byte *pbVar9;
+  unsigned char *pbVar9;
   int iVar10;
-  byte *pbVar11;
+  unsigned char *pbVar11;
   int iVar12;
-  byte *pbVar13;
-  byte *pbVar14;
-  byte *pbVar15;
-  undefined1 *puVar16;
-  undefined1 *puVar17;
-  undefined1 *puVar18;
-  longlong lVar19;
+  unsigned char *pbVar13;
+  unsigned char *pbVar14;
+  unsigned char *pbVar15;
+  unsigned char *puVar16;
+  unsigned char *puVar17;
+  unsigned char *puVar18;
+  __int64 lVar19;
   int aiStack_120 [8];
   int iStack_100;
   
   param_6 = param_6 * 4;
   psVar8 = (short *)(param_6 + -0x7ce46628);
-  pbVar14 = (byte *)(param_2 * 6 + param_1);
-  pbVar3 = (byte *)(param_2 * 8 + param_1);
-  pbVar15 = (byte *)(param_2 * 7 + param_1);
-  pbVar13 = (byte *)(param_2 * 5 + param_1);
-  pbVar11 = (byte *)(param_2 * 4 + param_1);
-  pbVar9 = (byte *)(param_2 * 3 + param_1);
-  puVar4 = (undefined1 *)(param_4 * 2 + param_3);
+  pbVar14 = (unsigned char *)(param_2 * 6 + param_1);
+  pbVar3 = (unsigned char *)(param_2 * 8 + param_1);
+  pbVar15 = (unsigned char *)(param_2 * 7 + param_1);
+  pbVar13 = (unsigned char *)(param_2 * 5 + param_1);
+  pbVar11 = (unsigned char *)(param_2 * 4 + param_1);
+  pbVar9 = (unsigned char *)(param_2 * 3 + param_1);
+  puVar4 = (unsigned char *)(param_4 * 2 + param_3);
   iVar7 = 0;
-  pbVar6 = (byte *)(param_1 + param_2);
+  pbVar6 = (unsigned char *)(param_1 + param_2);
   do {
     pbVar14 = pbVar14 + 1;
     pbVar15 = pbVar15 + 1;
@@ -76,18 +49,18 @@ void fn_82F27150(int param_1,int param_2,int param_3,int param_4,int param_5,int
     iVar12 = (int)*(short *)(param_5 * 4 + -0x7ce46626);
     iVar10 = (int)sVar1;
     lVar19 = 2;
-    iStack_100 = (uint)pbVar6[param_2 * 7] * iVar10 + (uint)*pbVar3 * iVar12;
-    aiStack_120[6] = (uint)pbVar6[param_2 * 5] * (int)sVar1 + (uint)*pbVar14 * iVar12;
-    aiStack_120[5] = (uint)pbVar6[param_2 * 4] * (int)sVar1 + (uint)*pbVar13 * iVar12;
+    iStack_100 = (unsigned int)pbVar6[param_2 * 7] * iVar10 + (unsigned int)*pbVar3 * iVar12;
+    aiStack_120[6] = (unsigned int)pbVar6[param_2 * 5] * (int)sVar1 + (unsigned int)*pbVar14 * iVar12;
+    aiStack_120[5] = (unsigned int)pbVar6[param_2 * 4] * (int)sVar1 + (unsigned int)*pbVar13 * iVar12;
     iVar2 = param_4 * 4;
-    aiStack_120[1] = (uint)pbVar6[1] * iVar12 + (uint)*pbVar6 * iVar10;
-    aiStack_120[2] = (uint)pbVar6[param_2] * iVar10 + (uint)pbVar6[param_2 + 1] * iVar12;
-    aiStack_120[3] = (uint)pbVar6[param_2 * 2] * iVar10 + (uint)*pbVar9 * iVar12;
+    aiStack_120[1] = (unsigned int)pbVar6[1] * iVar12 + (unsigned int)*pbVar6 * iVar10;
+    aiStack_120[2] = (unsigned int)pbVar6[param_2] * iVar10 + (unsigned int)pbVar6[param_2 + 1] * iVar12;
+    aiStack_120[3] = (unsigned int)pbVar6[param_2 * 2] * iVar10 + (unsigned int)*pbVar9 * iVar12;
     piVar5 = aiStack_120 + 1;
-    puVar18 = (undefined1 *)(iVar7 + param_3);
+    puVar18 = (unsigned char *)(iVar7 + param_3);
     puVar16 = puVar4 + param_4 * -3;
-    aiStack_120[4] = (uint)pbVar6[param_2 * 3] * iVar10 + (uint)*pbVar11 * iVar12;
-    aiStack_120[7] = (uint)pbVar6[param_2 * 6] * iVar10 + (uint)*pbVar15 * iVar12;
+    aiStack_120[4] = (unsigned int)pbVar6[param_2 * 3] * iVar10 + (unsigned int)*pbVar11 * iVar12;
+    aiStack_120[7] = (unsigned int)pbVar6[param_2 * 6] * iVar10 + (unsigned int)*pbVar15 * iVar12;
     puVar17 = puVar4;
     do {
       iVar10 = *piVar5;

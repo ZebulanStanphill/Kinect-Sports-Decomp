@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int _initterm();
 extern int fn_82F6CD94();
 extern int _lock();
@@ -39,7 +12,7 @@ extern unsigned int lbl_8329F728;
 void doexit(int param_1,int param_2)
 
 {
-  code *pcVar1;
+  int (**pcVar1)();
   int iVar2;
   int *piVar3;
   int *piVar4;
@@ -55,8 +28,8 @@ void doexit(int param_1,int param_2)
       iVar2 = -0x7cda0000;
       KeBugCheck(0);
     }
-    *(undefined4 *)(iVar2 + 0x33b0) = 1;
-    lbl_832633AC = (undefined1)param_2;
+    *(unsigned int *)(iVar2 + 0x33b0) = 1;
+    lbl_832633AC = (unsigned char)param_2;
     if (param_1 == 0) {
       piVar4 = lbl_8329F728;
       piVar5 = lbl_8329F728;
@@ -66,7 +39,7 @@ void doexit(int param_1,int param_2)
         while (piVar6 = piVar6 + -1, piVar4 <= piVar6) {
           if (*piVar6 != 0) {
             if (piVar6 < piVar4) break;
-            pcVar1 = (code *)*piVar6;
+            pcVar1 = (int (**)())*piVar6;
             *piVar6 = 0;
             (*pcVar1)();
             if ((piVar5 != lbl_8329F728) || (piVar3 != lbl_8329F724)) {

@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_80;
 extern unsigned int fStack_3c;
 extern unsigned int fStack_40;
@@ -35,25 +8,25 @@ extern int fn_830A4688();
 extern unsigned int uStack_88;
 
 
-void fn_830A17D8(ulonglong param_1,float *param_2,int *param_3)
+void fn_830A17D8(unsigned __int64 param_1,float *param_2,int *param_3)
 
 {
-  undefined2 uVar1;
-  ushort uVar2;
-  ushort *puVar3;
+  unsigned short uVar1;
+  unsigned short uVar2;
+  unsigned short *puVar3;
   short *psVar4;
   int iVar5;
   float fVar6;
   int iVar7;
-  ulonglong uVar8;
-  longlong lVar9;
-  undefined8 *puVar10;
+  unsigned __int64 uVar8;
+  __int64 lVar9;
+  unsigned __int64 *puVar10;
   float *pfVar12;
-  longlong lVar11;
-  ulonglong uVar13;
-  longlong lVar14;
-  undefined8 uStack_88;
-  undefined1 auStack_80 [32];
+  __int64 lVar11;
+  unsigned __int64 uVar13;
+  __int64 lVar14;
+  unsigned __int64 uStack_88;
+  unsigned char auStack_80 [32];
   float fStack_60;
   float fStack_40;
   float fStack_3c;
@@ -67,23 +40,23 @@ void fn_830A17D8(ulonglong param_1,float *param_2,int *param_3)
   do {
     pfVar12 = pfVar12 + 2;
     puVar10 = puVar10 + 1;
-    *puVar10 = *(undefined8 *)pfVar12;
+    *puVar10 = *(unsigned __int64 *)pfVar12;
     lVar14 = lVar14 + -1;
   } while (lVar14 != 0);
-  uVar1 = *(undefined2 *)(iVar5 + 0x12);
+  uVar1 = *(unsigned short *)(iVar5 + 0x12);
   fStack_60 = param_2[8] * fStack_3c;
   fStack_40 = param_2[0x10] * fStack_3c;
   fStack_3c = param_2[0x11] * fStack_3c;
   do {
-    puVar3 = *(ushort **)((int)param_1 + 0x14);
+    puVar3 = *(unsigned short **)((int)param_1 + 0x14);
     param_1 = ZEXT48(puVar3);
   } while (0x16 < *puVar3);
   uVar2 = puVar3[2];
   uVar13 = 0;
-  uVar8 = (ulonglong)*(byte *)(puVar3 + 5);
-  lVar14 = (ulonglong)puVar3[3] * 0x20 + param_1 + 0x30;
+  uVar8 = (unsigned __int64)*(unsigned char *)(puVar3 + 5);
+  lVar14 = (unsigned __int64)puVar3[3] * 0x20 + param_1 + 0x30;
   if (3 < uVar2) {
-    lVar9 = (((ulonglong)uVar2 - 4 & 0xffffffff) >> 2) + 1;
+    lVar9 = (((unsigned __int64)uVar2 - 4 & 0xffffffff) >> 2) + 1;
     lVar11 = param_1 + 0x6c;
     uVar13 = lVar9 * 4 & 0xfffffffc;
     do {
@@ -118,7 +91,7 @@ void fn_830A17D8(ulonglong param_1,float *param_2,int *param_3)
       lVar9 = lVar9 + -1;
     } while (lVar9 != 0);
   }
-  if ((int)uVar13 < (int)(uint)uVar2) {
+  if ((int)uVar13 < (int)(unsigned int)uVar2) {
     lVar9 = uVar2 - uVar13;
     lVar14 = lVar14 + 0x10;
     lVar11 = (uVar13 & 0x7ffffff) * 0x20 + param_1 + 0x4c;

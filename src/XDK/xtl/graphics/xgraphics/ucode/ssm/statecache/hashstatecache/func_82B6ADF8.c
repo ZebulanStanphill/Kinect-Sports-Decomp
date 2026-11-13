@@ -1,4 +1,3 @@
-typedef unsigned int U32;
 extern void fn_82AB15D0(int level, const char *fmt, ...);
 extern void *fn_82B6E9E0(void *hashTable);
 extern void fn_82B6D6E8(void *factory, void *pProgramKey);
@@ -9,11 +8,11 @@ extern void fn_82B6E6D0(void *hashTable);
 
 typedef struct StateCache_82B6ADF8 {
     void *context;
-    void *(*AllocateSysMem)(void *context, U32 size);
+    void *(*AllocateSysMem)(void *context, unsigned int size);
     void (*FreeSysMem)(void *context, void *p);
-    U32 pad0c;
+    unsigned int pad0c;
     void *factory;    /* 0x10 */
-    U32 pad14;
+    unsigned int pad14;
     void *hashTable;  /* 0x18 */
 } StateCache_82B6ADF8;
 

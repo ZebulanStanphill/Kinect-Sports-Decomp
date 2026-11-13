@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 struct Iface_82A1E658 {
   void *slot0;
   int (*fn4)(void);

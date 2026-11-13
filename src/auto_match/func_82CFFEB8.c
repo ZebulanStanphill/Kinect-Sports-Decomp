@@ -1,8 +1,4 @@
-typedef unsigned int uint;
-typedef unsigned long long ulonglong;
-typedef long long longlong;
-
-longlong fn_82CFFEB8(uint *base, ulonglong index)
+__int64 fn_82CFFEB8(unsigned int *base, unsigned __int64 index)
 {
-    return (index & 0x1fffffff) * 8 + (ulonglong)*base;
+    return (index & 0x1fffffff) * 8 + (unsigned __int64)*base;
 }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_140;
 extern unsigned int *auStack_b0;
@@ -52,42 +25,42 @@ extern unsigned int uStack_e0;
 extern unsigned int uStack_e8;
 
 
-void fn_823EB9E0(int param_1,code *param_2,undefined4 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined2 param_8)
+void fn_823EB9E0(int param_1,int (**param_2)(),unsigned int param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned short param_8)
 
 {
   int in_r0;
-  undefined4 *puVar2;
-  longlong lVar1;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  undefined8 uStack00000048;
-  undefined8 uStack00000050;
-  undefined8 uStack00000058;
-  undefined4 in_stack_0000006c;
-  undefined4 in_stack_00000074;
-  code *pcStack_150;
-  undefined4 uStack_14c;
-  undefined **ppuStack_148;
-  undefined4 uStack_144;
-  undefined1 auStack_140 [16];
-  undefined4 *puStack_130;
-  undefined8 uStack_120;
-  undefined4 uStack_118;
-  code *pcStack_110;
-  undefined4 uStack_108;
-  undefined1 auStack_100 [24];
-  undefined8 uStack_e8;
-  undefined8 uStack_e0;
-  undefined8 uStack_d8;
-  undefined2 uStack_d0;
-  undefined4 uStack_c0;
-  undefined1 auStack_b0 [176];
+  unsigned int *puVar2;
+  __int64 lVar1;
+  unsigned int in_register_00010010;
+  unsigned int in_register_00010014;
+  unsigned int in_register_00010018;
+  unsigned int in_vr1;
+  unsigned __int64 uStack00000048;
+  unsigned __int64 uStack00000050;
+  unsigned __int64 uStack00000058;
+  unsigned int in_stack_0000006c;
+  unsigned int in_stack_00000074;
+  int (**pcStack_150)();
+  unsigned int uStack_14c;
+  unsigned char **ppuStack_148;
+  unsigned int uStack_144;
+  unsigned char auStack_140 [16];
+  unsigned int *puStack_130;
+  unsigned __int64 uStack_120;
+  unsigned int uStack_118;
+  int (**pcStack_110)();
+  unsigned int uStack_108;
+  unsigned char auStack_100 [24];
+  unsigned __int64 uStack_e8;
+  unsigned __int64 uStack_e0;
+  unsigned __int64 uStack_d8;
+  unsigned short uStack_d0;
+  unsigned int uStack_c0;
+  unsigned char auStack_b0 [176];
   
-  uStack_118 = *(undefined4 *)(param_1 + 4);
-  puVar2 = (undefined4 *)((uint)(auStack_100 + in_r0) & 0xfffffff0);
+  uStack_118 = *(unsigned int *)(param_1 + 4);
+  puVar2 = (unsigned int *)((unsigned int)(auStack_100 + in_r0) & 0xfffffff0);
   *puVar2 = in_register_00010010;
   puVar2[1] = in_register_00010014;
   puVar2[2] = in_register_00010018;
@@ -106,14 +79,14 @@ void fn_823EB9E0(int param_1,code *param_2,undefined4 param_3,undefined8 param_4
   uStack_d8 = param_7;
   uStack_d0 = param_8;
   fn_82F68CC0(auStack_b0,in_stack_00000074,0x60);
-  puVar2 = (undefined4 *)fn_8265C9E0(0xe0);
-  if (puVar2 != (undefined4 *)0x0) {
+  puVar2 = (unsigned int *)fn_8265C9E0(0xe0);
+  if (puVar2 != (unsigned int *)0x0) {
     *puVar2 = &lbl_821B7894;
     fn_82F68CC0(puVar2 + 4,&uStack_120,0xd0);
     pcStack_150 = param_2;
     uStack_14c = param_3;
     puStack_130 = puVar2;
-    lVar1 = fn_823F05B8((ulonglong)*(uint *)(param_1 + 4) + 0xa18,&pcStack_150);
+    lVar1 = fn_823F05B8((unsigned __int64)*(unsigned int *)(param_1 + 4) + 0xa18,&pcStack_150);
     fn_8227CB30(lVar1 + 0x18,auStack_140);
     fn_82359C18(auStack_140);
     return;

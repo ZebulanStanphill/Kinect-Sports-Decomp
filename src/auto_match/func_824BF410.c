@@ -1,42 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82471140();
 
 
-void fn_824BF410(int *param_1,int *param_2,ulonglong param_3,undefined8 param_4,uint param_5,
-                  uint param_6)
+void fn_824BF410(int *param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned int param_5,
+                  unsigned int param_6)
 
 {
   int iVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
   int iVar7;
   int iVar8;
@@ -81,14 +54,14 @@ void fn_824BF410(int *param_1,int *param_2,ulonglong param_3,undefined8 param_4,
       }
     }
     else if (iVar6 != 0) {
-      uVar3 = (ulonglong)param_5 / (param_3 & 0xffffffff);
-      uVar2 = (ulonglong)param_6 / (param_3 & 0xffffffff);
+      uVar3 = (unsigned __int64)param_5 / (param_3 & 0xffffffff);
+      uVar2 = (unsigned __int64)param_6 / (param_3 & 0xffffffff);
       uVar4 = uVar3;
       uVar5 = uVar2;
       do {
         while ((uVar4 & 0xffffffff) != 0) {
 LAB_824bf524:
-          if (((uVar5 & 0xffffffff) == 0) || (*(uint *)(iVar8 + 8) < *(uint *)(iVar7 + 8))) {
+          if (((uVar5 & 0xffffffff) == 0) || (*(unsigned int *)(iVar8 + 8) < *(unsigned int *)(iVar7 + 8))) {
             fn_82471140(param_4,iVar8);
             uVar4 = uVar4 - 1;
             iVar8 = iVar8 + 0x28;

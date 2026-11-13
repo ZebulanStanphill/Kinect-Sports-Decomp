@@ -1,24 +1,20 @@
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-
-int fn_82690288(U8 *p, U32 size, U32 shift, U32 align)
+int fn_82690288(unsigned char *p, unsigned int size, unsigned int shift, unsigned int align)
 {
-    U32 start;
-    U32 d;
-    U32 n;
-    U32 bytes;
+    unsigned int start;
+    unsigned int d;
+    unsigned int n;
+    unsigned int bytes;
 
     bytes = size << shift;
-    start = ((U32)p + align) & ~align;
-    d = start - (U32)p;
+    start = ((unsigned int)p + align) & ~align;
+    d = start - (unsigned int)p;
     while (d != 0 && d < 0x10) {
         d += align + 1;
         start += align + 1;
     }
-    n = *(U16 *)(p + 0xc);
+    n = *(unsigned short *)(p + 0xc);
     if (n >= 0x21) {
-        n = *(U32 *)(p + 0x10);
+        n = *(unsigned int *)(p + 0x10);
     }
-    return (U32)p + (n << shift) >= start + bytes;
+    return (unsigned int)p + (n << shift) >= start + bytes;
 }

@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern int fn_82520218();
 extern int fn_82F65FE0();
 extern unsigned int lbl_82191418;
@@ -59,13 +33,13 @@ extern void *memcpy(void *, const void *, unsigned int);
 void fn_825996B0(void)
 
 {
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar1;
-  undefined1 in_vr0 [16];
-  undefined1 in_vr11 [16];
-  undefined1 auVar2 [16];
-  undefined1 in_vr12 [16];
-  undefined1 in_vr13 [16];
+  unsigned char in_vr0 [16];
+  unsigned char in_vr11 [16];
+  unsigned char auVar2 [16];
+  unsigned char in_vr12 [16];
+  unsigned char in_vr13 [16];
   
   fn_82F65FE0(0xffffffff831c14c8,0x33,8,0xffffffff8255c2d8);
   loadVectorLeftIndexed128(0xffffffff821ca45c,4);
@@ -76,7 +50,7 @@ void fn_825996B0(void)
   lbl_8327F66C = 0;
   lbl_8327F674 = 0;
   lbl_8327F678 = 0;lbl_8326C200 = (vectorRotateLeftImmediateMaskInsert128(in_vr0,auVar2,3,2).lo);
-  if (lbl_8327F648 != (code *)0x0) {
+  if (lbl_8327F648 != (int (**)())0x0) {
     lbl_8327F674 = (*lbl_8327F648)();
   }
   lbl_8327F67C = 0;

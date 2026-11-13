@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_58;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_68;
@@ -43,31 +16,31 @@ extern unsigned int stack0x00000000;
 extern unsigned int uStack00000044;
 
 
-undefined8
-fn_8256C480(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4,ulonglong param_5
-             ,int param_6,undefined8 param_7)
+unsigned __int64
+fn_8256C480(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5
+             ,int param_6,unsigned __int64 param_7)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  undefined1 *puVar3;
-  undefined4 uVar4;
+  unsigned char *puVar3;
+  unsigned int uVar4;
   int iVar5;
-  undefined4 uStack00000044;
-  undefined1 auStack_70 [8];
-  undefined1 auStack_68 [8];
-  undefined4 auStack_60 [2];
-  undefined1 auStack_58 [4];
+  unsigned int uStack00000044;
+  unsigned char auStack_70 [8];
+  unsigned char auStack_68 [8];
+  unsigned int auStack_60 [2];
+  unsigned char auStack_58 [4];
   int iStack_54;
   
-  uStack00000044 = (undefined4)param_7;
-  puVar1 = (undefined4 *)
-           fn_8256DCE0(&stack0x00000000 + -0x58,*(undefined4 *)(param_2 + 0x2c4),
+  uStack00000044 = (unsigned int)param_7;
+  puVar1 = (unsigned int *)
+           fn_8256DCE0(&stack0x00000000 + -0x58,*(unsigned int *)(param_2 + 0x2c4),
                              &stack0x00000000 + -0x60,&stack0x00000000 + -0x68,
                              &stack0x00000000 + -0x70,param_1,&stack0x00000000 + 0x44);
   uVar4 = 0;
   iVar5 = 0;
-  if ((undefined4 *)(&stack0x00000000 + -0x60) != puVar1) {
+  if ((unsigned int *)(&stack0x00000000 + -0x60) != puVar1) {
     iVar5 = puVar1[1];
     puVar1[1] = 0;
     uVar4 = *puVar1;

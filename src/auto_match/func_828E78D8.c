@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8289DD28();
 extern int fn_828E5F60();
 extern int fn_828E6160();
@@ -32,18 +5,18 @@ extern int fn_828E6F48();
 extern int fn_828E7708();
 
 
-undefined4 * fn_828E78D8(undefined4 *param_1,int param_2,int *param_3,longlong param_4)
+unsigned int * fn_828E78D8(unsigned int *param_1,int param_2,int *param_3,__int64 param_4)
 
 {
   int *piVar1;
   char cVar3;
-  undefined4 *puVar2;
-  longlong lVar4;
+  unsigned int *puVar2;
+  __int64 lVar4;
   int *apiStack_50 [4];
   
   lVar4 = param_4 + 0xc;
   if (*(int *)(param_2 + 8) == 0) {
-    fn_828E6F48(param_1,param_2,1,*(undefined4 *)(param_2 + 4),param_4);
+    fn_828E6F48(param_1,param_2,1,*(unsigned int *)(param_2 + 4),param_4);
   }
   else {
     piVar1 = *(int **)(param_2 + 4);
@@ -55,9 +28,9 @@ undefined4 * fn_828E78D8(undefined4 *param_1,int param_2,int *param_3,longlong p
       }
     }
     else if (param_3 == piVar1) {
-      cVar3 = fn_828E6160(param_2,(ulonglong)(uint)piVar1[2] + 0xc,lVar4);
+      cVar3 = fn_828E6160(param_2,(unsigned __int64)(unsigned int)piVar1[2] + 0xc,lVar4);
       if (cVar3 != '\0') {
-        fn_828E6F48(param_1,param_2,0,*(undefined4 *)(*(int *)(param_2 + 4) + 8),param_4);
+        fn_828E6F48(param_1,param_2,0,*(unsigned int *)(*(int *)(param_2 + 4) + 8),param_4);
         return param_1;
       }
     }
@@ -90,7 +63,7 @@ undefined4 * fn_828E78D8(undefined4 *param_1,int param_2,int *param_3,longlong p
         return param_1;
       }
     }
-    puVar2 = (undefined4 *)fn_828E7708(apiStack_50,param_2,param_4,0);
+    puVar2 = (unsigned int *)fn_828E7708(apiStack_50,param_2,param_4,0);
     *param_1 = *puVar2;
   }
   return param_1;

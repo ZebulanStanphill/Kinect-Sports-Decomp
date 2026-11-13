@@ -1,40 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82FB9EF0(double param_1,undefined4 *param_2,undefined8 param_3,ulonglong param_4)
+void fn_82FB9EF0(double param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   float *pfVar2;
   float *pfVar3;
-  uint uVar5;
-  longlong lVar4;
+  unsigned int uVar5;
+  __int64 lVar4;
   float *pfVar6;
   float *pfVar7;
   float *pfVar8;
@@ -43,14 +14,14 @@ void fn_82FB9EF0(double param_1,undefined4 *param_2,undefined8 param_3,ulonglong
     return;
   }
   pfVar3 = (float *)*param_2;
-  uVar1 = *(ushort *)(param_2 + 3);
-  pfVar6 = pfVar3 + *(ushort *)((int)param_2 + 0xe);
+  uVar1 = *(unsigned short *)(param_2 + 3);
+  pfVar6 = pfVar3 + *(unsigned short *)((int)param_2 + 0xe);
   pfVar2 = pfVar6 + -3;
   do {
     if (pfVar3 < pfVar6) {
       uVar5 = (int)pfVar6 + (3 - (int)pfVar3);
       pfVar7 = pfVar3;
-      if (3 < (int)(((int)uVar5 >> 2) + (uint)((int)uVar5 < 0 && (uVar5 & 3) != 0))) {
+      if (3 < (int)(((int)uVar5 >> 2) + (unsigned int)((int)uVar5 < 0 && (uVar5 & 3) != 0))) {
         do {
           *pfVar7 = (float)((double)*pfVar7 * param_1);
           pfVar7[1] = (float)((double)pfVar7[1] * param_1);
@@ -61,7 +32,7 @@ void fn_82FB9EF0(double param_1,undefined4 *param_2,undefined8 param_3,ulonglong
       }
       if (pfVar7 < pfVar6) {
         pfVar8 = pfVar7 + -1;
-        lVar4 = (ulonglong)((uint)((int)pfVar6 + (-1 - (int)pfVar7)) >> 2) + 1;
+        lVar4 = (unsigned __int64)((unsigned int)((int)pfVar6 + (-1 - (int)pfVar7)) >> 2) + 1;
         do {
           pfVar7 = pfVar8 + 1;
           pfVar8 = pfVar8 + 1;

@@ -1,38 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F64988();
 
 
-undefined8
-fn_8229E6D8(int param_1,undefined8 param_2,char *param_3,undefined8 param_4,undefined8 param_5)
+unsigned __int64
+fn_8229E6D8(int param_1,unsigned __int64 param_2,char *param_3,unsigned __int64 param_4,unsigned __int64 param_5)
 
 {
-  longlong lVar1;
+  __int64 lVar1;
   int iVar2;
   char *pcVar3;
   char cVar4;
@@ -54,7 +27,7 @@ fn_8229E6D8(int param_1,undefined8 param_2,char *param_3,undefined8 param_4,unde
   }
   if (cVar5 == cVar4) {
 LAB_8229e740:
-    lVar1 = (ulonglong)*(uint *)(param_1 + 4) + 4;
+    lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 4) + 4;
   }
   else {
     cVar5 = 'o';
@@ -72,7 +45,7 @@ LAB_8229e740:
       return 1;
     }
 LAB_8229e7a0:
-    lVar1 = (ulonglong)*(uint *)(param_1 + 4) + 0x204;
+    lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 4) + 0x204;
   }
   fn_82F64988(param_4,param_5,lVar1);
   return 0;

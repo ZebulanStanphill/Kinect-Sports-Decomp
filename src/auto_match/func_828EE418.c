@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
 extern int fn_8265CA20();
 extern int fn_828EC900();
@@ -43,12 +16,12 @@ extern int memcpy();
 void fn_828EE418(int *param_1)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
   char cVar4;
   int *piVar5;
-  longlong lVar6;
+  __int64 lVar6;
   int aiStack_50;
   
   fn_828ED050();
@@ -58,25 +31,25 @@ void fn_828EE418(int *param_1)
     if (iVar2 == 0) {
       memcpy(param_1 + 0x34,param_1 + 5,0x3c);
       memcpy(param_1 + 5,param_1 + 0x25,0x3c);
-      *(undefined1 *)((int)param_1 + 0x129) = 1;
+      *(unsigned char *)((int)param_1 + 0x129) = 1;
     }
     else {
-      *(undefined1 *)((int)param_1 + 0x129) = 0;
+      *(unsigned char *)((int)param_1 + 0x129) = 0;
     }
-    *(undefined1 *)(param_1 + 0x4a) = 0;
+    *(unsigned char *)(param_1 + 0x4a) = 0;
   }
   if ((*(char *)(param_1 + 0x59) != '\0') && (param_1[0x5a] != 0x3e5)) {
     iVar2 = fn_82A1E740(param_1 + 0x5a,0,0);
     if (iVar2 == 0) {
-      *(undefined1 *)((int)param_1 + 0x13a) = *(undefined1 *)(param_1 + 0x56);
-      *(undefined1 *)((int)param_1 + 0x13b) = *(undefined1 *)((int)param_1 + 0x159);
-      *(undefined1 *)(param_1 + 0x4f) = *(undefined1 *)((int)param_1 + 0x15a);
-      *(undefined1 *)((int)param_1 + 0x13d) = *(undefined1 *)((int)param_1 + 0x15b);
+      *(unsigned char *)((int)param_1 + 0x13a) = *(unsigned char *)(param_1 + 0x56);
+      *(unsigned char *)((int)param_1 + 0x13b) = *(unsigned char *)((int)param_1 + 0x159);
+      *(unsigned char *)(param_1 + 0x4f) = *(unsigned char *)((int)param_1 + 0x15a);
+      *(unsigned char *)((int)param_1 + 0x13d) = *(unsigned char *)((int)param_1 + 0x15b);
       param_1[0x50] = param_1[0x57];
       param_1[0x51] = param_1[0x58];
     }
-    *(undefined1 *)(param_1 + 0x59) = 0;
-    (**(code **)(*param_1 + 0x2c))(param_1);
+    *(unsigned char *)(param_1 + 0x59) = 0;
+    (**(int (***)())(*param_1 + 0x2c))(param_1);
     fn_828EE1B8(param_1);
   }
   iVar2 = param_1[2];
@@ -112,9 +85,9 @@ LAB_828ee568:
     param_1[0x4b] = 0;
     param_1[0x4c] = 0;
     fn_82A1E658(param_1[0x16]);
-    *(undefined1 *)(param_1 + 0x6a) = 0;
+    *(unsigned char *)(param_1 + 0x6a) = 0;
     param_1[0x16] = -1;
-    *(undefined1 *)(param_1 + 0x61) = 0;
+    *(unsigned char *)(param_1 + 0x61) = 0;
     param_1[0x62] = 0;
   }
   param_1[2] = 0;
@@ -127,7 +100,7 @@ LAB_828ee648:
   if (param_1[0x6b] == 0) {
     if ((*(char *)(param_1 + 0x6a) != '\0') && (cVar4 = fn_828ED1A0(param_1), cVar4 == '\0')) {
       aiStack_50 = 0;
-      fn_82CE1828(param_1[0x16],0,*(undefined8 *)(param_1 + 0x6e),&aiStack_50,0,0);
+      fn_82CE1828(param_1[0x16],0,*(unsigned __int64 *)(param_1 + 0x6e),&aiStack_50,0,0);
       param_1[0x6c] = aiStack_50;
       iVar2 = fn_8265C9E0();
       param_1[0x6d] = iVar2;
@@ -138,7 +111,7 @@ LAB_828ee648:
       param_1[0x74] = 0;
       param_1[0x75] = 0;
       param_1[0x76] = 0;
-      iVar2 = fn_82CE1828(param_1[0x16],0,*(undefined8 *)(param_1 + 0x6e),&aiStack_50,
+      iVar2 = fn_82CE1828(param_1[0x16],0,*(unsigned __int64 *)(param_1 + 0x6e),&aiStack_50,
                                 param_1[0x6d],param_1 + 0x70);
       if (iVar2 == 0x3e5) {
         param_1[0x6b] = 1;
@@ -147,7 +120,7 @@ LAB_828ee648:
         param_1[0x6b] = 3;
       }
     }
-    *(undefined1 *)(param_1 + 0x6a) = 0;
+    *(unsigned char *)(param_1 + 0x6a) = 0;
   }
   else if ((param_1[0x6b] == 1) && (param_1[0x70] != 0x3e5)) {
     iVar2 = fn_82A1C098(param_1 + 0x70);

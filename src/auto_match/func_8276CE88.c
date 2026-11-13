@@ -1,31 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
+#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
 extern int fn_8267BE38();
 extern int fn_827673B0();
 extern int fn_8276AB50();
@@ -39,21 +15,21 @@ extern unsigned int uStack_6c;
 
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
-undefined8 fn_8276CE88(undefined8 param_1,int *param_2)
+unsigned __int64 fn_8276CE88(unsigned __int64 param_1,int *param_2)
 
 {
   bool bVar1;
   int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  undefined2 uVar6;
-  uint uVar7;
-  undefined2 uStack_6c;
-  undefined2 uStack_6a;
-  struct { undefined4 first; undefined4 second; } stack_pair_68;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned short uVar6;
+  unsigned int uVar7;
+  unsigned short uStack_6c;
+  unsigned short uStack_6a;
+  struct { unsigned int first; unsigned int second; } stack_pair_68;
 
-  undefined4 uStack_60;
+  unsigned int uStack_60;
   
   stack_pair_68.first = 0;
   uStack_60 = 0;
@@ -62,7 +38,7 @@ undefined8 fn_8276CE88(undefined8 param_1,int *param_2)
   uVar7 = 0;
   bVar1 = false;
   uVar5 = 0;
-  iVar2 = (**(code **)(*param_2 + 0x38))(param_2);
+  iVar2 = (**(int (***)())(*param_2 + 0x38))(param_2);
   if (iVar2 != 0) {
     iVar2 = 0;
     uVar6 = 0;
@@ -70,40 +46,40 @@ undefined8 fn_8276CE88(undefined8 param_1,int *param_2)
       uVar4 = iVar2 + param_2[0xf];
       uVar3 = uVar4 + 1;
       if (bVar1) {
-        if (uVar7 == CONCAT11(*(undefined1 *)
+        if (uVar7 == CONCAT11(*(unsigned char *)
                                (*(int *)((uVar3 >> 10 & 0x3ffffc) + *(int *)(param_2[0xd] + 0xc)) +
                                (uVar3 & 0xfff)),
-                              *(undefined1 *)
+                              *(unsigned char *)
                                (*(int *)((uVar4 >> 10 & 0x3ffffc) + *(int *)(param_2[0xd] + 0xc)) +
                                (uVar4 & 0xfff))) - 1) goto LAB_8276cf2c;
-        uStack_6a = (undefined2)uVar7;
+        uStack_6a = (unsigned short)uVar7;
         uStack_6c = uVar6;
         fn_8276AB50(&stack_pair_68.first,&uStack_6c);
         bVar1 = false;
       }
       else {
         bVar1 = true;
-        uVar6 = CONCAT11(*(undefined1 *)
+        uVar6 = CONCAT11(*(unsigned char *)
                           (*(int *)((uVar3 >> 10 & 0x3ffffc) + *(int *)(param_2[0xd] + 0xc)) +
                           (uVar3 & 0xfff)),
-                         *(undefined1 *)
+                         *(unsigned char *)
                           (*(int *)((uVar4 >> 10 & 0x3ffffc) + *(int *)(param_2[0xd] + 0xc)) +
                           (uVar4 & 0xfff)));
 LAB_8276cf2c:
         uVar5 = uVar5 + 1;
         iVar2 = iVar2 + 8;
-        uVar7 = (uint)CONCAT11(*(undefined1 *)
+        uVar7 = (unsigned int)CONCAT11(*(unsigned char *)
                                 (*(int *)((uVar4 + 1 >> 10 & 0x3ffffc) +
                                          *(int *)(param_2[0xd] + 0xc)) + (uVar4 + 1 & 0xfff)),
-                               *(undefined1 *)
+                               *(unsigned char *)
                                 (*(int *)((uVar4 >> 10 & 0x3ffffc) + *(int *)(param_2[0xd] + 0xc)) +
                                 (uVar4 & 0xfff)));
       }
-      uVar3 = (**(code **)(*param_2 + 0x38))(param_2);
+      uVar3 = (**(int (***)())(*param_2 + 0x38))(param_2);
     } while (uVar5 < uVar3);
   }
   if (bVar1) {
-    uStack_6a = (undefined2)uVar7;
+    uStack_6a = (unsigned short)uVar7;
     uStack_6c = uVar6;
     fn_8276AB50(&stack_pair_68.first,&uStack_6c);
   }

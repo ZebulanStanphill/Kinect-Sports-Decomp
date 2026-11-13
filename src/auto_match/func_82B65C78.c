@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
 extern int fn_8265CA20();
 extern int fn_82B657B8();
@@ -67,26 +40,26 @@ void fn_82B65C78(void)
   float fVar30;
   float fVar31;
   int *piVar34;
-  undefined8 uVar32;
+  unsigned __int64 uVar32;
   int iVar35;
   int iVar36;
   int iVar37;
-  longlong lVar33;
+  __int64 lVar33;
   float *pfVar38;
   int iVar39;
   float *pfVar40;
   float *pfVar41;
   int iVar42;
-  ulonglong uVar43;
+  unsigned __int64 uVar43;
   int iVar44;
   int iVar45;
-  ulonglong uVar46;
+  unsigned __int64 uVar46;
   int iVar47;
   int iVar48;
   int iVar49;
-  uint uVar50;
+  unsigned int uVar50;
   int *piVar51;
-  undefined4 *puVar52;
+  unsigned int *puVar52;
   int iVar53;
   int iVar54;
   int iVar55;
@@ -95,32 +68,32 @@ void fn_82B65C78(void)
   int iVar58;
   
   piVar34 = (int *)fn_82F6A530();
-  uVar43 = (ulonglong)(uint)piVar34[2];
+  uVar43 = (unsigned __int64)(unsigned int)piVar34[2];
   pfVar38 = (float *)0x0;
   iVar39 = 0;
   if ((piVar34[2] & 0xffU) != 3) {
     uVar32 = 0xffffffff80004005;
     goto LAB_82b661cc;
   }
-  iVar35 = fn_82B657B8(*(undefined4 *)(*piVar34 + 0x68),*(undefined4 *)(piVar34[1] + 0x68),
+  iVar35 = fn_82B657B8(*(unsigned int *)(*piVar34 + 0x68),*(unsigned int *)(piVar34[1] + 0x68),
                          (~uVar43 & 0xffffffff) >> 0x10 & 1);
-  iVar36 = fn_82B657B8(*(undefined4 *)(*piVar34 + 0x6c),*(undefined4 *)(piVar34[1] + 0x6c),
+  iVar36 = fn_82B657B8(*(unsigned int *)(*piVar34 + 0x6c),*(unsigned int *)(piVar34[1] + 0x6c),
                          (~uVar43 & 0xffffffff) >> 0x11 & 1);
-  iVar37 = fn_82B657B8(*(undefined4 *)(*piVar34 + 0x70),*(undefined4 *)(piVar34[1] + 0x70),
+  iVar37 = fn_82B657B8(*(unsigned int *)(*piVar34 + 0x70),*(unsigned int *)(piVar34[1] + 0x70),
                          (~uVar43 & 0xffffffff) >> 0x12 & 1);
   if (((iVar35 == 0) || (iVar36 == 0)) || (iVar37 == 0)) {
 LAB_82b66198:
     uVar32 = 0xffffffff8007000e;
   }
   else {
-    lVar33 = ((ulonglong)*(uint *)(piVar34[1] + 0x68) & 0xfffffff) << 4;
-    if (0xfffffff < *(uint *)(piVar34[1] + 0x68)) {
+    lVar33 = ((unsigned __int64)*(unsigned int *)(piVar34[1] + 0x68) & 0xfffffff) << 4;
+    if (0xfffffff < *(unsigned int *)(piVar34[1] + 0x68)) {
       lVar33 = -1;
     }
     pfVar38 = (float *)fn_8265C9E0(lVar33);
     if (pfVar38 == (float *)0x0) goto LAB_82b66198;
-    lVar33 = ((ulonglong)*(uint *)(*piVar34 + 0x68) & 0x3ffffff) << 6;
-    if (0xfffffff < ((ulonglong)*(uint *)(*piVar34 + 0x68) & 0x3fffffff) << 2) {
+    lVar33 = ((unsigned __int64)*(unsigned int *)(*piVar34 + 0x68) & 0x3ffffff) << 6;
+    if (0xfffffff < ((unsigned __int64)*(unsigned int *)(*piVar34 + 0x68) & 0x3fffffff) << 2) {
       lVar33 = -1;
     }
     iVar39 = fn_8265C9E0(lVar33);
@@ -132,7 +105,7 @@ LAB_82b66198:
     iVar55 = iVar54 * 0x20 + iVar39;
     iVar54 = iVar54 * 0x30 + iVar39;
     if (*(int *)(iVar44 + 0x70) != 0) {
-      puVar52 = (undefined4 *)(iVar37 + 8);
+      puVar52 = (unsigned int *)(iVar37 + 8);
       iVar58 = iVar39;
       do {
         uVar46 = 0;
@@ -158,16 +131,16 @@ LAB_82b66198:
                 iVar55 = iVar53;
               }
               else {
-                (**(code **)(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,puVar52[-2],iVar58);
-                (**(code **)(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,*puVar52,iVar55);
+                (**(int (***)())(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,puVar52[-2],iVar58);
+                (**(int (***)())(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,*puVar52,iVar55);
                 iVar47 = iVar44;
               }
             }
             iVar44 = *piVar51;
             iVar48 = iVar49;
             if (iVar44 != iVar49) {
-              (**(code **)(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,puVar52[-2],iVar56);
-              (**(code **)(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,*puVar52,iVar54);
+              (**(int (***)())(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,puVar52[-2],iVar56);
+              (**(int (***)())(*(int *)*piVar34 + 4))((int *)*piVar34,iVar44,*puVar52,iVar54);
               iVar48 = iVar44;
             }
             if (*(int *)(piVar34[1] + 0x68) != 0) {
@@ -238,19 +211,19 @@ LAB_82b66198:
                              ((fVar17 * fVar2 + fVar15 * fVar1) * fVar4 +
                              (fVar13 * fVar2 + fVar11 * fVar1) * fVar3) * fVar5;
                 pfVar41 = pfVar41 + 4;
-              } while (uVar50 < *(uint *)(piVar34[1] + 0x68));
+              } while (uVar50 < *(unsigned int *)(piVar34[1] + 0x68));
             }
-            (**(code **)(*(int *)piVar34[1] + 8))((int *)piVar34[1],uVar46,uVar43,pfVar38);
+            (**(int (***)())(*(int *)piVar34[1] + 8))((int *)piVar34[1],uVar46,uVar43,pfVar38);
             iVar44 = piVar34[1];
             uVar46 = uVar46 + 1;
             piVar51 = piVar51 + 4;
             iVar57 = iVar56;
             iVar53 = iVar54;
-          } while ((uVar46 & 0xffffffff) < (ulonglong)*(uint *)(iVar44 + 0x6c));
+          } while ((uVar46 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar44 + 0x6c));
         }
         uVar43 = uVar43 + 1;
         puVar52 = puVar52 + 4;
-      } while ((uVar43 & 0xffffffff) < (ulonglong)*(uint *)(iVar44 + 0x70));
+      } while ((uVar43 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar44 + 0x70));
     }
     uVar32 = 0;
   }

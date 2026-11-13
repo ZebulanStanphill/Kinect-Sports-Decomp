@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_8201EB08;
@@ -45,7 +18,7 @@ extern unsigned int lbl_8201EB70;
 extern unsigned int lbl_8201EB78;
 
 
-void fn_8280A668(undefined8 param_1,float *param_2,float *param_3)
+void fn_8280A668(unsigned __int64 param_1,float *param_2,float *param_3)
 
 {
   double dVar1;
@@ -65,7 +38,7 @@ void fn_8280A668(undefined8 param_1,float *param_2,float *param_3)
   if (dVar2 < 0.0) {
     dVar8 = (double)lbl_8201EB28;
   }
-  dVar5 = (double)(longlong)(lbl_8201EB08 * dVar1);
+  dVar5 = (double)(__int64)(lbl_8201EB08 * dVar1);
   dVar9 = -(lbl_8201EB38 * dVar5 - -(lbl_8201EB30 * dVar5 - dVar1));
   dVar6 = -(lbl_8201EB38 * (dVar5 - (double)lbl_8201EB2C) -
            -(lbl_8201EB30 * (dVar5 - (double)lbl_8201EB2C) - dVar1));
@@ -77,7 +50,7 @@ void fn_8280A668(undefined8 param_1,float *param_2,float *param_3)
   dVar6 = (dVar7 + (((((((lbl_8201EB78 * dVar3 + lbl_8201EB70) * dVar3 + lbl_8201EB68) * dVar3 +
                        lbl_8201EB60) * dVar3 + lbl_8201EB58) * dVar3 + lbl_8201EB50) * dVar3 +
                     lbl_8201EB48) * dVar3 + lbl_8201EB40) * dVar3) * dVar6;
-  if (((longlong)dVar5 & 1U) != 0) {
+  if (((__int64)dVar5 & 1U) != 0) {
     dVar9 = -dVar9;
     dVar6 = -dVar6;
   }

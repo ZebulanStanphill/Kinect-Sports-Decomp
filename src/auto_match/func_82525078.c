@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 extern void fn_82A1F238(void *p);
 
 typedef struct Entry_82525078 {

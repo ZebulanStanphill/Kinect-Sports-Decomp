@@ -1,9 +1,7 @@
-typedef unsigned __int64 U64;
-
 typedef struct Target Target;
 typedef struct {
   void *f0, *f4, *f8, *fc, *f10;
-  void (*f14)(Target *t, unsigned short id, U64 v);
+  void (*f14)(Target *t, unsigned short id, unsigned __int64 v);
 } TargetVtbl;
 struct Target {
   TargetVtbl *vt;
@@ -21,7 +19,7 @@ struct Self {
   int count;
 };
 
-void fn_82D59CB0(Self *self, U64 v)
+void fn_82D59CB0(Self *self, unsigned __int64 v)
 {
   int i;
 

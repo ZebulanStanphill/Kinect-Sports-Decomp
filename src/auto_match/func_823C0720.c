@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern float fRam831d19d0;
 extern float fRam831d19dc;
@@ -34,7 +7,7 @@ extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
 
 
-undefined8 fn_823C0720(double param_1,int param_2)
+unsigned __int64 fn_823C0720(double param_1,int param_2)
 
 {
   float fVar1;
@@ -51,7 +24,7 @@ undefined8 fn_823C0720(double param_1,int param_2)
     *(float *)(param_2 + 0x47c) = fVar1;
     if ((*(int *)(param_2 + 0x488) == 0) &&
        ((lbl_821CA460 - fVar1 / fVar2) * *(float *)(param_2 + 0x478) < fRam831d19dc)) {
-      *(undefined4 *)(param_2 + 0x488) = 1;
+      *(unsigned int *)(param_2 + 0x488) = 1;
     }
     if (fVar2 <= *(float *)(param_2 + 0x47c)) {
       *(float *)(param_2 + 0x47c) = fVar2;
@@ -67,8 +40,8 @@ undefined8 fn_823C0720(double param_1,int param_2)
         fVar2 = *(float *)(param_2 + 0xe40) - fRam831d19d0;
         fVar1 = *(float *)(param_2 + 0xe40);
         if (*(float *)(&lbl_821954D8 +
-                      ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
-                      (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+                      ((unsigned int)(unsigned char)((fVar2 < ltcg_pool_0_0f) << 2) |
+                      (unsigned int)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
           fVar1 = fRam831d19d0;
         }
       }

@@ -1,6 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned int undefined4;
-
 typedef struct Pair_8223A4D8 {
     int a;
     int b;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
 extern int fn_8268CC00();
 extern int fn_8268CD40();
@@ -55,20 +28,20 @@ void fn_8270D8E0(void)
   float fVar7;
   float fVar8;
   int iVar9;
-  undefined1 uVar10;
+  unsigned char uVar10;
   double dVar11;
   double dVar12;
   double dVar13;
   double dVar14;
   double dVar15;
   double dVar16;
-  undefined4 uStack_f0;
-  undefined4 uStack_ec;
-  undefined4 uStack_e8;
-  undefined4 uStack_e4;
-  undefined4 uStack_e0;
-  undefined4 uStack_dc;
-  undefined1 auStack_d0 [208];
+  unsigned int uStack_f0;
+  unsigned int uStack_ec;
+  unsigned int uStack_e8;
+  unsigned int uStack_e4;
+  unsigned int uStack_e0;
+  unsigned int uStack_dc;
+  unsigned char auStack_d0 [208];
   
   iVar9 = fn_82F6A510();
   if ((((*(float *)(iVar9 + 0x30) != lbl_82002AE0) || (*(float *)(iVar9 + 0x34) != lbl_821AAD20)) ||
@@ -76,15 +49,15 @@ void fn_8270D8E0(void)
      (uVar10 = 1, *(float *)(iVar9 + 0x40) != lbl_82002AE0)) {
     uVar10 = 0;
   }
-  *(undefined1 *)(iVar9 + 0x5c) = uVar10;
+  *(unsigned char *)(iVar9 + 0x5c) = uVar10;
   fn_8268CC00(&uStack_f0);
   fn_8268CD40(&uStack_f0,iVar9 + 0x18);
-  *(undefined4 *)(iVar9 + 0x70) = uStack_f0;
-  *(undefined4 *)(iVar9 + 0x74) = uStack_ec;
-  *(undefined4 *)(iVar9 + 0x78) = uStack_e8;
-  *(undefined4 *)(iVar9 + 0x7c) = uStack_e4;
-  *(undefined4 *)(iVar9 + 0x80) = uStack_e0;
-  *(undefined4 *)(iVar9 + 0x84) = uStack_dc;
+  *(unsigned int *)(iVar9 + 0x70) = uStack_f0;
+  *(unsigned int *)(iVar9 + 0x74) = uStack_ec;
+  *(unsigned int *)(iVar9 + 0x78) = uStack_e8;
+  *(unsigned int *)(iVar9 + 0x7c) = uStack_e4;
+  *(unsigned int *)(iVar9 + 0x80) = uStack_e0;
+  *(unsigned int *)(iVar9 + 0x84) = uStack_dc;
   fn_8268CC00(auStack_d0);
   fn_8268CD40(auStack_d0,iVar9 + 0x30);
   fn_8268CF60(iVar9 + 0x70,auStack_d0);

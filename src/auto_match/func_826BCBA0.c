@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int INFINITY;
 extern int fn_826BC900();
 extern int fn_826BCA20();
@@ -33,13 +9,13 @@ extern int fn_82F664B0();
 extern unsigned int lbl_8200831C;
 
 
-char * fn_826BCBA0(double param_1,undefined8 param_2,char *param_3,undefined8 param_4,int param_5)
+char * fn_826BCBA0(double param_1,unsigned __int64 param_2,char *param_3,unsigned __int64 param_4,int param_5)
 
 {
   char cVar1;
   bool bVar2;
-  ulonglong uVar3;
-  undefined8 uVar4;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
   int iVar5;
   char *pcVar6;
   
@@ -50,11 +26,11 @@ char * fn_826BCBA0(double param_1,undefined8 param_2,char *param_3,undefined8 pa
       iVar5 = 0xe;
     }
     param_5 = 10;
-    uVar3 = (ulonglong)*(uint *)(&lbl_8200831C + iVar5 * 4);
+    uVar3 = (unsigned __int64)*(unsigned int *)(&lbl_8200831C + iVar5 * 4);
   }
-  if (((ulonglong)param_1 & 0x7ff0000000000000) == 0x7ff0000000000000) {
-    if ((((ulonglong)param_1 & 0x7ff0000000000000) != 0x7ff0000000000000) ||
-       (bVar2 = true, ((ulonglong)param_1 & 0xfffffffffffff) == 0)) {
+  if (((unsigned __int64)param_1 & 0x7ff0000000000000) == 0x7ff0000000000000) {
+    if ((((unsigned __int64)param_1 & 0x7ff0000000000000) != 0x7ff0000000000000) ||
+       (bVar2 = true, ((unsigned __int64)param_1 & 0xfffffffffffff) == 0)) {
       bVar2 = false;
     }
     if (bVar2) {
@@ -74,7 +50,7 @@ char * fn_826BCBA0(double param_1,undefined8 param_2,char *param_3,undefined8 pa
   else {
     iVar5 = (int)param_1;
     if (param_5 == 10) {
-      if ((double)(longlong)iVar5 == param_1) {
+      if ((double)(__int64)iVar5 == param_1) {
         param_3 = (char *)fn_826BCA20(iVar5,param_3,param_4);
       }
       else {

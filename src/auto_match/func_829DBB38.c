@@ -1,5 +1,3 @@
-typedef unsigned int U32;
-
 typedef struct Globals_829DBB38 {
     char pad0[0x28];
     void *a;

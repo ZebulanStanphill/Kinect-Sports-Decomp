@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E47870();
 extern int fn_82F64D08();
 
 
-undefined8 fn_82E48028(longlong param_1,undefined8 param_2,short *param_3,undefined4 *param_4)
+unsigned __int64 fn_82E48028(__int64 param_1,unsigned __int64 param_2,short *param_3,unsigned int *param_4)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   short sVar3;
   short *psVar4;
   int iVar5;
-  longlong lVar6;
-  byte *pbVar7;
-  byte *pbVar8;
-  undefined4 uVar9;
-  byte *pbVar10;
+  __int64 lVar6;
+  unsigned char *pbVar7;
+  unsigned char *pbVar8;
+  unsigned int uVar9;
+  unsigned char *pbVar10;
   bool bVar11;
   
   RtlEnterCriticalSection(param_1 + 4);
@@ -61,36 +35,36 @@ joined_r0x82e48100:
         bVar11 = *(int *)(psVar4 + 4) == *(int *)(param_3 + 4);
       }
       else if (sVar3 == 0x15) {
-        bVar11 = *(longlong *)(psVar4 + 4) == *(longlong *)(param_3 + 4);
+        bVar11 = *(__int64 *)(psVar4 + 4) == *(__int64 *)(param_3 + 4);
       }
       else if (sVar3 == 0x1f) {
-        iVar5 = fn_82F64D08(*(undefined4 *)(psVar4 + 4),*(undefined4 *)(param_3 + 4));
+        iVar5 = fn_82F64D08(*(unsigned int *)(psVar4 + 4),*(unsigned int *)(param_3 + 4));
         bVar11 = iVar5 == 0;
       }
       else if (sVar3 == 0x48) {
-        pbVar7 = *(byte **)(psVar4 + 4);
-        pbVar10 = *(byte **)(param_3 + 4);
+        pbVar7 = *(unsigned char **)(psVar4 + 4);
+        pbVar10 = *(unsigned char **)(param_3 + 4);
         pbVar8 = pbVar7 + 0x10;
         do {
           bVar1 = *pbVar7;
           bVar2 = *pbVar10;
-          if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
+          if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
           pbVar7 = pbVar7 + 1;
           pbVar10 = pbVar10 + 1;
         } while (pbVar7 != pbVar8);
-        bVar11 = (int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0;
+        bVar11 = (int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0;
       }
       else {
         if (sVar3 != 0x1011) goto LAB_82e480ac;
         iVar5 = *(int *)(psVar4 + 4);
         if (iVar5 != *(int *)(param_3 + 4)) goto LAB_82e48180;
-        pbVar7 = *(byte **)(param_3 + 6);
+        pbVar7 = *(unsigned char **)(param_3 + 6);
         lVar6 = 0;
-        pbVar10 = *(byte **)(psVar4 + 6);
+        pbVar10 = *(unsigned char **)(psVar4 + 6);
         if (iVar5 != 0) {
           pbVar8 = pbVar10 + iVar5;
           do {
-            lVar6 = (ulonglong)*pbVar10 - (ulonglong)*pbVar7;
+            lVar6 = (unsigned __int64)*pbVar10 - (unsigned __int64)*pbVar7;
             if (lVar6 != 0) break;
             pbVar10 = pbVar10 + 1;
             pbVar7 = pbVar7 + 1;

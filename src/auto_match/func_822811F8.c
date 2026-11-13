@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_8218E8E8;
@@ -55,28 +28,28 @@ extern unsigned int ltcg_pool_0_0f;
 void fn_822811F8(void)
 
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 uVar11;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
-  undefined4 uVar17;
-  undefined4 uVar18;
-  undefined4 uVar19;
-  undefined4 *puVar20;
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
+  unsigned int uVar17;
+  unsigned int uVar18;
+  unsigned int uVar19;
+  unsigned int *puVar20;
   
-  puVar20 = (undefined4 *)fn_82F6A548();
+  puVar20 = (unsigned int *)fn_82F6A548();
   puVar20[0x16] = lbl_8218E8E8;
   uVar19 = ltcg_pool_0_0f;
   uVar18 = lbl_821CA460;
@@ -103,12 +76,12 @@ void fn_822811F8(void)
   puVar20[5] = uVar5;
   puVar20[6] = uVar8;
   puVar20[7] = uVar19;
-  *(undefined8 *)(puVar20 + 2) = uVar1;
+  *(unsigned __int64 *)(puVar20 + 2) = uVar1;
   puVar20[10] = uVar9;
   puVar20[0xb] = uVar10;
-  *(ulonglong *)(puVar20 + 8) = CONCAT44(uVar18,uVar18);
+  *(unsigned __int64 *)(puVar20 + 8) = CONCAT44(uVar18,uVar18);
   puVar20[0xc] = uVar8;
-  *(ulonglong *)(puVar20 + 0xe) = CONCAT44(uVar4,uVar18);
+  *(unsigned __int64 *)(puVar20 + 0xe) = CONCAT44(uVar4,uVar18);
   puVar20[0xd] = uVar11;
   puVar20[0x10] = uVar12;
   puVar20[0x11] = uVar13;

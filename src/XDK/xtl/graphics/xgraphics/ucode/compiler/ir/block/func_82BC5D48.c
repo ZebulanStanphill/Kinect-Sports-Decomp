@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 extern int fn_82B7BEB0();
 extern int fn_82BBFD60();
@@ -39,17 +15,17 @@ void fn_82BC5D48(int param_1)
 
 {
   int iVar1;
-  undefined4 *puVar2;
+  unsigned int *puVar2;
   int iVar3;
   int iVar4;
   bool bVar5;
   int iVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int iVar8;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
+  struct { unsigned int first; unsigned int second; } stack_pair_70;
 
-  undefined4 uStack_68;
-  undefined4 uStack_64;
+  unsigned int uStack_68;
+  unsigned int uStack_64;
   
   iVar1 = *(int *)(param_1 + 0xa4);
   do {
@@ -60,9 +36,9 @@ void fn_82BC5D48(int param_1)
       if ((iVar6 != iVar1) && (*(int *)(*(int *)(iVar6 + 0x3c) + 4) == 0)) {
         fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff82196f10,0xffffffff820e4b68,0x22f);
         iVar8 = 0;
-        for (uVar7 = 1; uVar7 <= *(uint *)(*(int *)(iVar6 + 0x38) + 4); uVar7 = uVar7 + 1) {
+        for (uVar7 = 1; uVar7 <= *(unsigned int *)(*(int *)(iVar6 + 0x38) + 4); uVar7 = uVar7 + 1) {
           iVar4 = *(int *)(*(int *)(*(int *)(iVar6 + 0x38) + 8) + iVar8);
-          puVar2 = *(undefined4 **)(iVar4 + 0x3c);
+          puVar2 = *(unsigned int **)(iVar4 + 0x3c);
           stack_pair_70.first = *puVar2;
           stack_pair_70.second = puVar2[1];
           uStack_68 = puVar2[2];

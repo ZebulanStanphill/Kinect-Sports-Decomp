@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8246B178();
 extern int fn_8246B2A8();
 extern unsigned int ltcg_pool_0_0f;
@@ -33,21 +6,21 @@ extern unsigned int ltcg_pool_0_0f;
 void fn_8245FF08(int param_1)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  undefined8 uVar4;
-  ulonglong uVar5;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
+  __int64 lVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   
-  uVar1 = *(uint *)(*(int *)(param_1 + 0x50) + 0x34);
-  uVar5 = (ulonglong)uVar1;
+  uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x50) + 0x34);
+  uVar5 = (unsigned __int64)uVar1;
   if ((uVar1 != 0) && (*(int *)(*(int *)(param_1 + 0x50) + 0x74) != 0)) {
     if ((*(float *)(*(int *)(param_1 + 0x3c) + 0x110) == ltcg_pool_0_0f) &&
        (*(float *)(*(int *)(param_1 + 0x3c) + 0x22c) == ltcg_pool_0_0f)) {
       uVar4 = 0xffffffff831c6e00;
       uVar2 = fn_8246B178(uVar5 + 0x68,3,0xffffffff831c6e00);
       fn_8246B2A8(uVar5,uVar2);
-      uVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x50) + 0x74);
+      uVar5 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x50) + 0x74);
       lVar3 = uVar5 + 0x68;
     }
     else if (*(float *)(*(int *)(param_1 + 0x3c) + 0x110) <=
@@ -57,14 +30,14 @@ void fn_8245FF08(int param_1)
         uVar4 = 0xffffffff831c6cac;
         uVar2 = fn_8246B178(uVar5 + 0x74,3,0xffffffff831c6cac);
         fn_8246B2A8(uVar5,uVar2);
-        uVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x50) + 0x74);
+        uVar5 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x50) + 0x74);
         lVar3 = uVar5 + 0x74;
       }
       else {
         uVar2 = fn_8246B178(uVar5 + 0x68,3,0xffffffff831c6e00);
         fn_8246B2A8(uVar5,uVar2);
         uVar4 = 0xffffffff831c6cac;
-        uVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x50) + 0x74);
+        uVar5 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x50) + 0x74);
         lVar3 = uVar5 + 0x74;
       }
     }
@@ -72,7 +45,7 @@ void fn_8245FF08(int param_1)
       uVar2 = fn_8246B178(uVar5 + 0x74,3,0xffffffff831c6cac);
       fn_8246B2A8(uVar5,uVar2);
       uVar4 = 0xffffffff831c6e00;
-      uVar5 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x50) + 0x74);
+      uVar5 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x50) + 0x74);
       lVar3 = uVar5 + 0x68;
     }
     uVar2 = fn_8246B178(lVar3,3,uVar4);

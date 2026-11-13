@@ -1,31 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorAddFloatingPoint();
@@ -38,15 +15,15 @@ void fn_824D4480(int param_1,int param_2,int param_3,int param_4,int param_5)
   int *piVar1;
   float *pfVar2;
   bool bVar3;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar4;
   int iVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
   int iVar9;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs45 [16];
   float in_register_000100d0;
   float in_register_000100d4;
   float in_register_000100d8;
@@ -56,10 +33,10 @@ void fn_824D4480(int param_1,int param_2,int param_3,int param_4,int param_5)
   float in_register_000104d8;
   float in_vr77;
   
-  uVar7 = (ulonglong)*(uint *)(param_2 + 0x11c);
+  uVar7 = (unsigned __int64)*(unsigned int *)(param_2 + 0x11c);
   piVar1 = *(int **)(param_2 + 0x110);
   iVar9 = 0;
-  uVar8 = *(uint *)(param_2 + 0x120) + uVar7;
+  uVar8 = *(unsigned int *)(param_2 + 0x120) + uVar7;
   while( true ) {
     if (((uVar7 & 0xffffffff) == (uVar8 & 0xffffffff)) || (bVar3 = true, param_4 <= iVar9)) {
       bVar3 = false;
@@ -71,8 +48,8 @@ void fn_824D4480(int param_1,int param_2,int param_3,int param_4,int param_5)
         iVar4 = *piVar1;
       }
       uVar6 = uVar7;
-      if ((ulonglong)*(uint *)(iVar4 + 8) <= (uVar7 & 0xffffffff)) {
-        uVar6 = uVar7 - *(uint *)(iVar4 + 8);
+      if ((unsigned __int64)*(unsigned int *)(iVar4 + 8) <= (uVar7 & 0xffffffff)) {
+        uVar6 = uVar7 - *(unsigned int *)(iVar4 + 8);
       }
       iVar5 = param_3 + 0x2e;
       iVar4 = *(int *)((int)((uVar6 & 0xffffffff) << 2) + *(int *)(iVar4 + 4));
@@ -82,8 +59,8 @@ void fn_824D4480(int param_1,int param_2,int param_3,int param_4,int param_5)
         iVar4 = *piVar1;
       }
       uVar6 = uVar7;
-      if ((ulonglong)*(uint *)(iVar4 + 8) <= (uVar7 & 0xffffffff)) {
-        uVar6 = uVar7 - *(uint *)(iVar4 + 8);
+      if ((unsigned __int64)*(unsigned int *)(iVar4 + 8) <= (uVar7 & 0xffffffff)) {
+        uVar6 = uVar7 - *(unsigned int *)(iVar4 + 8);
       }
       iVar5 = param_3 + 0x20;
       iVar4 = *(int *)(*(int *)(iVar4 + 4) + (int)((uVar6 & 0xffffffff) << 2));

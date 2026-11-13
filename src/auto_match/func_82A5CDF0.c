@@ -1,6 +1,4 @@
-typedef int (*code)();
-
-typedef struct Lock { code *vt; } Lock;
+typedef struct Lock { int (**vt)(); } Lock;
 typedef struct Obj { char pad[4]; char sub[8]; Lock *lock; } Obj;
 
 extern int fn_82A5C650(void *a, int b, int c);

@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_70;
 extern unsigned int fStack_6c;
 extern unsigned int fStack_7c;
@@ -44,28 +18,28 @@ extern void *memcpy(void *, const void *, unsigned int);
 /* WARNING: Removing unreachable block (ram,0x8261f288) */
 /* WARNING: Removing unreachable block (ram,0x8261f2d8) */
 
-undefined8
-fn_8261F100(double param_1,int param_2,undefined8 param_3,undefined8 param_4,float *param_5)
+unsigned __int64
+fn_8261F100(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,float *param_5)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  undefined4 *puVar3;
-  undefined8 in_r0;
-  ulonglong uVar4;
+  unsigned int *puVar3;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar4;
   int iVar5;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   double dVar7;
-  undefined1 in_vr0 [16];
-  undefined1 auVar8 [16];
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 uVar11;
-  undefined1 in_vr12 [16];
-  undefined1 auVar12 [16];
-  undefined1 in_vr13 [16];
+  unsigned char in_vr0 [16];
+  unsigned char auVar8 [16];
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned char in_vr12 [16];
+  unsigned char auVar12 [16];
+  unsigned char in_vr13 [16];
   float fStack_7c;
-  undefined1 auStack_70 [4];
+  unsigned char auStack_70 [4];
   float fStack_6c;
 
   uVar4 = ZEXT48(&stack0x00000000);
@@ -74,11 +48,11 @@ fn_8261F100(double param_1,int param_2,undefined8 param_3,undefined8 param_4,flo
   }
   else {
     iVar2 = (int)param_3;
-    puVar1 = (undefined4 *)((int)in_r0 + iVar2 & 0xfffffff0);
+    puVar1 = (unsigned int *)((int)in_r0 + iVar2 & 0xfffffff0);
     uVar9 = puVar1[1];
     uVar10 = puVar1[2];
     uVar11 = puVar1[3];
-    puVar3 = (undefined4 *)((uint)(auStack_70 + (int)in_r0) & 0xfffffff0);
+    puVar3 = (unsigned int *)((unsigned int)(auStack_70 + (int)in_r0) & 0xfffffff0);
     *puVar3 = *puVar1;
     puVar3[1] = uVar9;
     puVar3[2] = uVar10;

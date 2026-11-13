@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_823DA348();
 extern int fn_823DA6E0();
 extern int fn_823DA900();
@@ -38,26 +11,26 @@ extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
 
 
-void fn_823DA180(ulonglong param_1,ulonglong param_2,ulonglong param_3,undefined8 param_4)
+void fn_823DA180(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
-  uint uVar1;
-  longlong lVar2;
-  longlong lVar3;
+  unsigned int uVar1;
+  __int64 lVar2;
+  __int64 lVar3;
   int iVar5;
-  longlong lVar4;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  undefined4 *puVar8;
-  undefined4 *puVar9;
-  uint uStack_70;
-  uint uStack_6c;
-  undefined4 uStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_60;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
+  __int64 lVar4;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned int *puVar8;
+  unsigned int *puVar9;
+  unsigned int uStack_70;
+  unsigned int uStack_6c;
+  unsigned int uStack_68;
+  unsigned int uStack_64;
+  unsigned int uStack_60;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
   
   lVar2 = param_2 - param_1;
   uVar1 = (int)lVar2 / 0xc;
@@ -68,11 +41,11 @@ void fn_823DA180(ulonglong param_1,ulonglong param_2,ulonglong param_3,undefined
       param_2 = uVar6;
       if (iVar5 < 1) break;
       fn_823DA348(&uStack_70,param_1,uVar6,param_4);
-      param_3 = (longlong)(iVar5 >> 1) + (ulonglong)(iVar5 < 0 && (param_3 & 1) != 0);
-      param_3 = (longlong)((int)param_3 >> 1) + (ulonglong)((int)param_3 < 0 && (param_3 & 1) != 0)
+      param_3 = (__int64)(iVar5 >> 1) + (unsigned __int64)(iVar5 < 0 && (param_3 & 1) != 0);
+      param_3 = (__int64)((int)param_3 >> 1) + (unsigned __int64)((int)param_3 < 0 && (param_3 & 1) != 0)
                 + param_3;
-      uVar7 = (ulonglong)uStack_6c;
-      param_2 = (ulonglong)uStack_70;
+      uVar7 = (unsigned __int64)uStack_6c;
+      param_2 = (unsigned __int64)uStack_70;
       if ((int)(uStack_70 - (int)param_1) / 0xc < (int)((int)uVar6 - uStack_6c) / 0xc) {
         fn_823DA180(param_1,param_2,param_3,param_4);
         param_2 = uVar6;
@@ -89,12 +62,12 @@ void fn_823DA180(ulonglong param_1,ulonglong param_2,ulonglong param_3,undefined
       if ((int)uVar1 < 2) {
         return;
       }
-      lVar4 = (longlong)((int)uVar1 >> 1) + (ulonglong)((int)uVar1 < 0 && (uVar1 & 1) != 0);
+      lVar4 = (__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
       if (0 < lVar4) {
         lVar3 = lVar4 * 0xc + param_1;
         do {
           lVar3 = lVar3 + -0xc;
-          puVar8 = (undefined4 *)lVar3;
+          puVar8 = (unsigned int *)lVar3;
           uStack_68 = *puVar8;
           lVar4 = lVar4 + -1;
           uStack_64 = puVar8[1];
@@ -107,11 +80,11 @@ void fn_823DA180(ulonglong param_1,ulonglong param_2,ulonglong param_3,undefined
       }
       lVar4 = param_2 - 0xc;
       do {
-        puVar8 = (undefined4 *)lVar4;
+        puVar8 = (unsigned int *)lVar4;
         uStack_58 = *puVar8;
         uStack_54 = puVar8[1];
         uStack_50 = puVar8[2];
-        puVar9 = (undefined4 *)param_1;
+        puVar9 = (unsigned int *)param_1;
         *puVar8 = *puVar9;
         puVar8[1] = puVar9[1];
         puVar8[2] = puVar9[2];

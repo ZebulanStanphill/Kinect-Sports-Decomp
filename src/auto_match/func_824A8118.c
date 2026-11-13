@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_164;
 extern unsigned int *auStack_50;
 extern int fn_82230040();
@@ -49,17 +22,17 @@ void fn_824A8118(int **param_1)
   int *piVar4;
   int **ppiVar5;
   int *piVar6;
-  uint uVar7;
-  uint uVar8;
+  unsigned int uVar7;
+  unsigned int uVar8;
   int iVar9;
-  longlong lVar10;
-  undefined1 *puVar11;
+  __int64 lVar10;
+  unsigned char *puVar11;
   int *piStack_190;
   int *piStack_18c;
-  undefined **ppuStack_180;
+  unsigned char **ppuStack_180;
   int *apiStack_17c [6];
-  undefined1 auStack_164 [276];
-  undefined1 auStack_50 [80];
+  unsigned char auStack_164 [276];
+  unsigned char auStack_50 [80];
   
   if ((int *)0x1 < param_1[1]) {
     piStack_18c = (int *)0x0;
@@ -100,7 +73,7 @@ void fn_824A8118(int **param_1)
       **(int **)(iVar2 + 4) = iVar9;
       **(int **)(iVar9 + 4) = (int)piVar1;
       iVar3 = *(int *)(iVar9 + 4);
-      *(undefined4 *)(iVar9 + 4) = *(undefined4 *)(iVar2 + 4);
+      *(unsigned int *)(iVar9 + 4) = *(unsigned int *)(iVar2 + 4);
       *(int *)(iVar2 + 4) = piVar1[1];
       piVar1[1] = iVar3;
       if (uVar7 == 0) {

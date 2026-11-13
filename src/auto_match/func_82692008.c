@@ -1,54 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern int fn_826914F8();
 extern unsigned int lbl_831E7E60;
 
 
-undefined4 fn_82692008(int param_1,int param_2)
+unsigned int fn_82692008(int param_1,int param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int *piVar2;
   int iVar3;
   int *piVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  undefined4 uVar9;
-  undefined1 auStack_30 [48];
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
+  unsigned int uVar9;
+  unsigned char auStack_30 [48];
   
-  uVar5 = (ulonglong)lbl_831E7E60;
+  uVar5 = (unsigned __int64)lbl_831E7E60;
   RtlEnterCriticalSection(uVar5 + 0x2c4);
-  uVar1 = param_2 + 1 << (*(uint *)(param_1 + 0xc) & 0x3f);
-  uVar8 = (ulonglong)uVar1;
-  uVar6 = ((ulonglong)uVar1 & 0x3fffffff) << 2;
+  uVar1 = param_2 + 1 << (*(unsigned int *)(param_1 + 0xc) & 0x3f);
+  uVar8 = (unsigned __int64)uVar1;
+  uVar6 = ((unsigned __int64)uVar1 & 0x3fffffff) << 2;
   if (uVar6 < 0x1001) {
     uVar6 = 0x1000;
   }
@@ -58,8 +31,8 @@ undefined4 fn_82692008(int param_1,int param_2)
   }
   else {
     trapWord(6,uVar8,0);
-    uVar7 = (ulonglong)*(uint *)(iVar3 + 0x1c);
-    uVar6 = *(uint *)(iVar3 + 0x18) / uVar8;
+    uVar7 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x1c);
+    uVar6 = *(unsigned int *)(iVar3 + 0x18) / uVar8;
     piVar4 = (int *)(param_2 * 8 + param_1 + 0x1b4);
     if ((int)uVar6 != 0) {
       do {
@@ -74,7 +47,7 @@ undefined4 fn_82692008(int param_1,int param_2)
       } while (uVar6 != 0);
     }
     *(int *)(param_1 + 0x210) = *(int *)(iVar3 + 0x18) + *(int *)(param_1 + 0x210);
-    uVar9 = *(undefined4 *)(iVar3 + 0x1c);
+    uVar9 = *(unsigned int *)(iVar3 + 0x1c);
   }
   RtlLeaveCriticalSection(uVar5 + 0x2c4);
   return uVar9;

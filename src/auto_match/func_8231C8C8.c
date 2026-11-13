@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_24;
 extern unsigned int fStack_28;
 extern unsigned int fStack_2c;
@@ -42,15 +15,15 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
-undefined8 fn_8231C8C8(undefined8 param_1,int param_2,float *param_3,float *param_4,int param_5)
+unsigned __int64 fn_8231C8C8(unsigned __int64 param_1,int param_2,float *param_3,float *param_4,int param_5)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
-  uint uVar4;
+  unsigned int uVar4;
   float fVar5;
-  uint uVar6;
+  unsigned int uVar6;
   float fStack_40;
   float fStack_3c;
   float fStack_38;
@@ -61,7 +34,7 @@ undefined8 fn_8231C8C8(undefined8 param_1,int param_2,float *param_3,float *para
   float fStack_24;
   
   uVar4 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  uVar6 = (uint)(((float)(uVar4 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_82192F70);
+  uVar6 = (unsigned int)(((float)(uVar4 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_82192F70);
   if (param_5 != 0) {
     uVar6 = uVar6 & 0xfffffffe;
   }
@@ -105,7 +78,7 @@ undefined8 fn_8231C8C8(undefined8 param_1,int param_2,float *param_3,float *para
   fStack_40 = (float)(lbl_83265A28 & 0x7fffff | 0x3f800000);
   if ((ltcg_pool_0_0f < fStack_38 * (fVar2 - lbl_821CA460) + fVar1) &&
      ((fStack_34 - fStack_3c) * (fStack_40 - lbl_821CA460) + fStack_3c < ltcg_pool_0_0f)) {
-    *(undefined4 *)(param_2 + 0x2b0) = 1;
+    *(unsigned int *)(param_2 + 0x2b0) = 1;
   }
   fn_8231CB88(param_1);
   return param_1;

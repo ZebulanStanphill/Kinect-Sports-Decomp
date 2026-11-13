@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_140;
 extern unsigned int *auStack_80;
@@ -57,10 +30,10 @@ void fn_8284E9E0(double param_1,int param_2,int param_3,int param_4)
   double dVar7;
   double dVar8;
   double dVar9;
-  undefined1 auStack_140 [64];
-  undefined1 auStack_100 [64];
-  undefined1 auStack_c0 [64];
-  undefined1 auStack_80 [64];
+  unsigned char auStack_140 [64];
+  unsigned char auStack_100 [64];
+  unsigned char auStack_c0 [64];
+  unsigned char auStack_80 [64];
   
   if (*(float **)(param_4 + 0xbc) == (float *)0x0) {
     fVar1 = (float)((double)*(float *)(param_4 + 0xdc) * param_1 +
@@ -69,11 +42,11 @@ LAB_8284ea44:
     *(float *)(param_4 + 0x84) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x10) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x10) == (int (**)())0x0) {
       fVar1 = **(float **)(param_4 + 0xbc);
       goto LAB_8284ea44;
     }
-    dVar6 = (double)(**(code **)(param_3 + 0x10))();
+    dVar6 = (double)(**(int (***)())(param_3 + 0x10))();
     *(float *)(param_4 + 0x84) = (float)dVar6;
   }
   if (*(float **)(param_4 + 0xc0) == (float *)0x0) {
@@ -83,11 +56,11 @@ LAB_8284ea84:
     *(float *)(param_4 + 0x88) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x14) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x14) == (int (**)())0x0) {
       fVar1 = **(float **)(param_4 + 0xc0);
       goto LAB_8284ea84;
     }
-    dVar6 = (double)(**(code **)(param_3 + 0x14))();
+    dVar6 = (double)(**(int (***)())(param_3 + 0x14))();
     *(float *)(param_4 + 0x88) = (float)dVar6;
   }
   dVar6 = (double)lbl_82002C5C;
@@ -98,12 +71,12 @@ LAB_8284eae8:
     *(float *)(param_4 + 0x8c) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x18) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x18) == (int (**)())0x0) {
       fVar1 = ((float)((double)**(float **)(param_4 + 0xc4) + dVar6) - *(float *)(param_4 + 0xb8)) *
               *(float *)(param_4 + 0xb4);
       goto LAB_8284eae8;
     }
-    dVar7 = (double)(**(code **)(param_3 + 0x18))();
+    dVar7 = (double)(**(int (***)())(param_3 + 0x18))();
     *(float *)(param_4 + 0x8c) = (float)dVar7;
   }
   if (*(float **)(param_4 + 0xd0) == (float *)0x0) {
@@ -113,11 +86,11 @@ LAB_8284eb28:
     *(float *)(param_4 + 0x98) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x1c) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x1c) == (int (**)())0x0) {
       fVar1 = **(float **)(param_4 + 0xd0);
       goto LAB_8284eb28;
     }
-    dVar7 = (double)(**(code **)(param_3 + 0x1c))();
+    dVar7 = (double)(**(int (***)())(param_3 + 0x1c))();
     *(float *)(param_4 + 0x98) = (float)dVar7;
   }
   if (*(float **)(param_4 + 200) == (float *)0x0) {
@@ -127,11 +100,11 @@ LAB_8284eb68:
     *(float *)(param_4 + 0x90) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x20) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x20) == (int (**)())0x0) {
       fVar1 = **(float **)(param_4 + 200);
       goto LAB_8284eb68;
     }
-    dVar7 = (double)(**(code **)(param_3 + 0x20))();
+    dVar7 = (double)(**(int (***)())(param_3 + 0x20))();
     *(float *)(param_4 + 0x90) = (float)dVar7;
   }
   if (*(float **)(param_4 + 0xcc) == (float *)0x0) {
@@ -141,11 +114,11 @@ LAB_8284eba8:
     *(float *)(param_4 + 0x94) = fVar1;
   }
   else {
-    if (*(code **)(param_3 + 0x24) == (code *)0x0) {
+    if (*(int (***)())(param_3 + 0x24) == (int (**)())0x0) {
       fVar1 = **(float **)(param_4 + 0xcc);
       goto LAB_8284eba8;
     }
-    dVar7 = (double)(**(code **)(param_3 + 0x24))();
+    dVar7 = (double)(**(int (***)())(param_3 + 0x24))();
     *(float *)(param_4 + 0x94) = (float)dVar7;
   }
   fVar3 = lbl_82005344;

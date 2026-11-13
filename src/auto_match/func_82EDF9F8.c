@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82EDEBE8();
 
 
@@ -35,13 +9,13 @@ void fn_82EDF9F8(int *param_1)
   int iVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
-  ulonglong uVar6;
+  unsigned int uVar5;
+  unsigned __int64 uVar6;
   int iVar7;
   bool bVar8;
   
   iVar1 = *param_1;
-  uVar6 = (ulonglong)*(uint *)(iVar1 + 0x10);
+  uVar6 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x10);
   if (uVar6 < 0x41595557) {
     if (uVar6 == 0x41595556) goto LAB_82edfb68;
     if (0x3131564e < uVar6) {
@@ -83,7 +57,7 @@ LAB_82edfb68:
   else if (uVar6 == 0x54323459) goto LAB_82edfb68;
 LAB_82edfb6c:
   iVar2 = param_1[1];
-  uVar6 = (ulonglong)*(uint *)(iVar2 + 0x10);
+  uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x10);
   if (uVar6 < 0x3259555a) {
     if (uVar6 == 0x32595559) goto LAB_82edfbec;
     if (uVar6 < 0x31313451) {
@@ -124,9 +98,9 @@ LAB_82edfbf0:
     param_1[0xe21] = 1;
   }
   param_1[0xe2c] = *(int *)(iVar1 + 4);
-  uVar5 = (int)*(uint *)(iVar1 + 8) >> 0x1f;
-  param_1[0xe2d] = (*(uint *)(iVar1 + 8) ^ uVar5) - uVar5;
-  uVar5 = *(uint *)(iVar1 + 0x10);
+  uVar5 = (int)*(unsigned int *)(iVar1 + 8) >> 0x1f;
+  param_1[0xe2d] = (*(unsigned int *)(iVar1 + 8) ^ uVar5) - uVar5;
+  uVar5 = *(unsigned int *)(iVar1 + 0x10);
   if (uVar5 < 0x3231565a) {
     if (uVar5 == 0x32315659) {
 LAB_82edfcec:
@@ -153,7 +127,7 @@ LAB_82edfc94:
     bVar8 = (int)uVar5 < 0 && (uVar5 & 3) != 0;
     iVar7 = (int)uVar5 >> 2;
 LAB_82edfc9c:
-    param_1[0xe2e] = iVar7 + (uint)bVar8;
+    param_1[0xe2e] = iVar7 + (unsigned int)bVar8;
   }
 LAB_82edfca4:
   if ((*(int *)(iVar2 + 0x10) == 0) || (*(int *)(iVar2 + 0x10) == 3)) {
@@ -167,9 +141,9 @@ LAB_82edfca4:
     param_1[0xe22] = 1;
   }
   param_1[0xe23] = *(int *)(iVar2 + 4);
-  uVar5 = (int)*(uint *)(iVar2 + 8) >> 0x1f;
-  param_1[0xe24] = (*(uint *)(iVar2 + 8) ^ uVar5) - uVar5;
-  uVar6 = (ulonglong)*(uint *)(iVar2 + 0x10);
+  uVar5 = (int)*(unsigned int *)(iVar2 + 8) >> 0x1f;
+  param_1[0xe24] = (*(unsigned int *)(iVar2 + 8) ^ uVar5) - uVar5;
+  uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x10);
   if (uVar6 < 0x3231564f) {
     if (uVar6 == 0x3231564e) {
       param_1[0xe25] = param_1[0xe23];
@@ -186,7 +160,7 @@ LAB_82edfd74:
     if (!bVar8) goto LAB_82edfd88;
   }
   uVar5 = param_1[0xe23];
-  param_1[0xe25] = ((int)uVar5 >> 1) + (uint)((int)uVar5 < 0 && (uVar5 & 1) != 0);
+  param_1[0xe25] = ((int)uVar5 >> 1) + (unsigned int)((int)uVar5 < 0 && (uVar5 & 1) != 0);
 LAB_82edfd88:
   iVar7 = param_1[0xe4a];
   if (iVar7 == 0) {

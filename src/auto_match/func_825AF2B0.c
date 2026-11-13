@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern unsigned int fStack_60;
@@ -47,23 +21,23 @@ extern unsigned int uStack_68;
 extern unsigned int uStack_70;
 
 
-void fn_825AF2B0(undefined8 param_1,float *param_2)
+void fn_825AF2B0(unsigned __int64 param_1,float *param_2)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   char cVar2;
-  ulonglong *puVar3;
-  uint uVar5;
-  ulonglong uVar4;
-  ulonglong uVar6;
+  unsigned __int64 *puVar3;
+  unsigned int uVar5;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar6;
   bool bVar7;
   double dVar8;
   double dVar9;
   double dVar10;
   double dVar11;
   double dVar12;
-  ulonglong uStack_70;
-  ulonglong uStack_68;
+  unsigned __int64 uStack_70;
+  unsigned __int64 uStack_68;
   float fStack_60;
   
   uVar1 = fn_82F6A544();
@@ -72,14 +46,14 @@ void fn_825AF2B0(undefined8 param_1,float *param_2)
     uVar5 = lbl_832993D0 | 1;
     lbl_832993D0 = uVar5;
     dVar8 = (double)fn_82F6B030(0x2000);
-    lbl_83297A30 = (ulonglong)SQRT(dVar8);
+    lbl_83297A30 = (unsigned __int64)SQRT(dVar8);
     uStack_70 = lbl_83297A30;
   }
   if ((uVar5 & 2) == 0) {
     lbl_832993D0 = uVar5 | 2;
     lbl_832993C8 = lbl_83297A30 * lbl_83297A30;
   }
-  uStack_68 = *(ulonglong *)param_2;
+  uStack_68 = *(unsigned __int64 *)param_2;
   dVar10 = (double)param_2[1];
   dVar12 = (double)ltcg_pool_0_0f;
   fStack_60 = param_2[2];
@@ -110,7 +84,7 @@ void fn_825AF2B0(undefined8 param_1,float *param_2)
   dVar12 = dVar12 / dVar9;
   dVar10 = (double)fn_82F6B030(lbl_83297A30);
   uStack_68 = uVar4 - 1;
-  uStack_70 = (ulonglong)((lbl_82195528 - dVar8 / dVar9) * dVar10);
+  uStack_70 = (unsigned __int64)((lbl_82195528 - dVar8 / dVar9) * dVar10);
   puVar3 = &uStack_68;
   if (uStack_70 <= uVar4 - 1) {
     puVar3 = &uStack_70;
@@ -119,9 +93,9 @@ void fn_825AF2B0(undefined8 param_1,float *param_2)
   uVar4 = uVar6 * 2;
   dVar8 = (double)fn_82F6B030(uVar4 + 1);
   uStack_70 = uVar4;
-  uStack_68 = (longlong)(dVar8 * dVar12);
+  uStack_68 = (__int64)(dVar8 * dVar12);
   puVar3 = &uStack_70;
-  if ((ulonglong)(longlong)(dVar8 * dVar12) <= uVar4) {
+  if ((unsigned __int64)(__int64)(dVar8 * dVar12) <= uVar4) {
     puVar3 = &uStack_68;
   }
   uVar4 = *puVar3;

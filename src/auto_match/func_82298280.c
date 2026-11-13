@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern int fn_822985B0();
 extern int fn_82299288();
@@ -39,20 +12,20 @@ extern unsigned int iStack_80;
 extern unsigned int ltcg_pool_0_0f;
 
 
-void fn_82298280(undefined4 *param_1)
+void fn_82298280(unsigned int *param_1)
 
 {
   int iVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   char cVar4;
-  undefined4 uVar3;
+  unsigned int uVar3;
   int *piVar5;
   int *piVar6;
-  undefined4 *puVar7;
+  unsigned int *puVar7;
   int iStack_80;
   int iStack_7c;
   int aiStack_78 [2];
-  undefined1 auStack_70 [112];
+  unsigned char auStack_70 [112];
   
   piVar6 = param_1 + 0x13;
   piVar5 = param_1 + 0x12;
@@ -85,9 +58,9 @@ void fn_82298280(undefined4 *param_1)
     }
     puVar7 = param_1 + 0x21;
     if ((int *)param_1[0x21] != (int *)0x0) {
-      cVar4 = (**(code **)(*(int *)param_1[0x21] + 4))();
+      cVar4 = (**(int (***)())(*(int *)param_1[0x21] + 4))();
       if (cVar4 == '\0') {
-        (*(code *)**(undefined4 **)*puVar7)();
+        (*(int (**)())**(unsigned int **)*puVar7)();
       }
       fn_82536288(puVar7);
     }

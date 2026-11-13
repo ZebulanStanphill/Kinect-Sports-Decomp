@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_82270AC0();
 extern int fn_82472370();
@@ -51,7 +24,7 @@ void fn_82472120(double param_1,int *param_2)
   float fVar1;
   char cVar3;
   int iVar2;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   double dVar5;
   double dVar6;
   double dVar7;
@@ -65,7 +38,7 @@ void fn_82472120(double param_1,int *param_2)
       dVar7 = (double)((float)(dVar5 + (double)lbl_831D394C) - lbl_821955F4);
       fVar1 = (float)(dVar5 + (double)lbl_831D394C);
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar7 < dVar6) << 2) | (uint)(NAN(dVar7) || NAN(dVar6)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar7 < dVar6) << 2) | (unsigned int)(NAN(dVar7) || NAN(dVar6)) << 2)) <
           0.0) {
         fVar1 = lbl_821955F4;
       }
@@ -87,7 +60,7 @@ void fn_82472120(double param_1,int *param_2)
     dVar7 = -(double)(float)((double)(float)param_2[0x3cd] - param_1);
     dVar5 = dVar6;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((dVar7 < dVar6) << 2) | (uint)(NAN(dVar7) || NAN(dVar6)) << 2)) <
+                  ((unsigned int)(unsigned char)((dVar7 < dVar6) << 2) | (unsigned int)(NAN(dVar7) || NAN(dVar6)) << 2)) <
         0.0) {
       dVar5 = (double)(float)((double)(float)param_2[0x3cd] - param_1);
     }
@@ -106,7 +79,7 @@ void fn_82472120(double param_1,int *param_2)
       dVar6 = -(double)(float)((double)(float)param_2[0x3cd] - param_1);
       dVar5 = dVar7;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar6 < dVar7) << 2) | (uint)(NAN(dVar6) || NAN(dVar7)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar6 < dVar7) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar7)) << 2)) <
           0.0) {
         dVar5 = (double)(float)((double)(float)param_2[0x3cd] - param_1);
       }

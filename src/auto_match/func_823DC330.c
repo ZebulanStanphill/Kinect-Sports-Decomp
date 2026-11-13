@@ -1,30 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
 extern unsigned int *auStack_e4;
 extern unsigned int *auStack_f0;
@@ -45,41 +22,41 @@ extern void *memcpy(void *, const void *, unsigned int);
 
 /* WARNING: Type propagation algorithm not settling */
 
-void fn_823DC330(int param_1,uint param_2,int param_3,uint param_4,int param_5)
+void fn_823DC330(int param_1,unsigned int param_2,int param_3,unsigned int param_4,int param_5)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   float *pfVar2;
   bool bVar3;
   int iVar4;
   double dVar5;
-  undefined8 in_r0;
-  uint *puVar6;
-  uint uVar7;
-  uint *puVar8;
-  uint *puVar9;
-  uint *puVar10;
-  uint *puVar11;
-  uint *puVar12;
+  unsigned __int64 in_r0;
+  unsigned int *puVar6;
+  unsigned int uVar7;
+  unsigned int *puVar8;
+  unsigned int *puVar9;
+  unsigned int *puVar10;
+  unsigned int *puVar11;
+  unsigned int *puVar12;
   int iVar13;
-  uint uVar14;
-  uint *puVar15;
+  unsigned int uVar14;
+  unsigned int *puVar15;
   double dVar16;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs45 [16];
   float fVar17;
   float fVar18;
-  undefined4 auStack_f0 [3];
-  uint auStack_e4 [9];
-  undefined4 uStack_c0;
-  undefined4 uStack_bc;
-  undefined4 uStack_b8;
-  undefined4 uStack_b4;
-  undefined4 uStack_b0;
-  undefined4 uStack_ac;
-  undefined4 uStack_a8;
-  undefined4 uStack_a4;
-  uint auStack_a0 [8];
+  unsigned int auStack_f0 [3];
+  unsigned int auStack_e4 [9];
+  unsigned int uStack_c0;
+  unsigned int uStack_bc;
+  unsigned int uStack_b8;
+  unsigned int uStack_b4;
+  unsigned int uStack_b0;
+  unsigned int uStack_ac;
+  unsigned int uStack_a8;
+  unsigned int uStack_a4;
+  unsigned int auStack_a0 [8];
   double dStack_80;
   
   iVar13 = param_3;
@@ -225,7 +202,7 @@ LAB_823dc628:
   if (puVar8 != puVar12) {
     iVar4 = 4 - (int)puVar8;
     do {
-      *puVar8 = *(uint *)((int)puVar6 + iVar4 + (int)puVar8);
+      *puVar8 = *(unsigned int *)((int)puVar6 + iVar4 + (int)puVar8);
       puVar8 = puVar8 + 1;
     } while (puVar8 != puVar12);
   }
@@ -242,7 +219,7 @@ LAB_823dc660:
     if (param_1 == param_3) {
       if (uVar14 != 0) {
         puVar10 = auStack_e4 + 0x10;
-        puVar12 = (uint *)(param_5 + -4);
+        puVar12 = (unsigned int *)(param_5 + -4);
         do {
           puVar10 = puVar10 + 1;
           uVar1 = *puVar10;
@@ -256,7 +233,7 @@ LAB_823dc660:
     }
     else if (uVar14 != 0) {
       puVar10 = auStack_e4 + 0x10;
-      puVar12 = (uint *)(param_5 + -4);
+      puVar12 = (unsigned int *)(param_5 + -4);
       do {
         puVar10 = puVar10 + 1;
         puVar12[1] = *puVar10;

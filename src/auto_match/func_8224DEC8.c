@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_f30;
 extern int fn_8225C590();
 extern int fn_8225DB68();
@@ -46,21 +22,21 @@ bool fn_8224DEC8(int *param_1,int *param_2)
 
 {
   int iVar3;
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar4;
-  longlong lVar2;
+  __int64 lVar2;
   bool bVar5;
-  longlong lVar6;
-  uint uVar7;
-  longlong *plVar8;
+  __int64 lVar6;
+  unsigned int uVar7;
+  __int64 *plVar8;
   struct { int first; int second; } stack_pair_f60;
 
-  undefined8 uStack_f58;
-  undefined **ppuStack_f50;
+  unsigned __int64 uStack_f58;
+  unsigned char **ppuStack_f50;
   int *piStack_f4c;
-  undefined ***pppuStack_f40;
-  uint auStack_f30 [2];
-  longlong alStack_f28 [481];
+  unsigned char ***pppuStack_f40;
+  unsigned int auStack_f30 [2];
+  __int64 alStack_f28 [481];
   
   iVar3 = fn_8225F160();
   stack_pair_f60.first = *(int *)(iVar3 + 0x38);
@@ -84,9 +60,9 @@ LAB_8224df30:
   }
   else {
     if (iVar3 == 1) {
-      uStack_f58 = (**(code **)(*param_2 + 0x48))(param_2);
+      uStack_f58 = (**(int (***)())(*param_2 + 0x48))(param_2);
       stack_pair_f60.second = 0;
-      uVar1 = (**(code **)(*param_1 + 0x44))(param_1);
+      uVar1 = (**(int (***)())(*param_1 + 0x44))(param_1);
       fn_82A1BFB0(uVar1,&uStack_f58,1,&stack_pair_f60.second,0);
       if (stack_pair_f60.second == 0) goto LAB_8224df30;
     }
@@ -96,8 +72,8 @@ LAB_8224df30:
       plVar8 = alStack_f28;
       do {
         lVar6 = *plVar8;
-        lVar2 = (**(code **)(*param_1 + 0x48))(param_1);
-        if ((lVar6 == lVar2) && ((*(uint *)((int)plVar8 + 0x24) & 2) != 0)) goto LAB_8224df30;
+        lVar2 = (**(int (***)())(*param_1 + 0x48))(param_1);
+        if ((lVar6 == lVar2) && ((*(unsigned int *)((int)plVar8 + 0x24) & 2) != 0)) goto LAB_8224df30;
         uVar7 = uVar7 + 1;
         plVar8 = plVar8 + 0xf;
       } while (uVar7 < auStack_f30[0]);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 extern int fn_82539560();
 extern int fn_82F6A548();
@@ -40,15 +13,15 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_831BCB9C;
 
 
-void fn_830746F8(undefined8 param_1,undefined8 param_2)
+void fn_830746F8(unsigned __int64 param_1,unsigned __int64 param_2)
 
 {
   float *pfVar1;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar2;
   int iVar3;
   int iVar4;
-  longlong lVar5;
+  __int64 lVar5;
   int *piVar6;
   int iVar7;
   int *piVar8;
@@ -58,10 +31,10 @@ void fn_830746F8(undefined8 param_1,undefined8 param_2)
   double dVar11;
   double dVar12;
   double dVar13;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
   float in_register_000103e0;
   float in_register_000103e4;
   float in_register_000103e8;
@@ -74,7 +47,7 @@ void fn_830746F8(undefined8 param_1,undefined8 param_2)
   float fVar15;
   float fVar16;
   float fVar17;
-  undefined1 auStack_90 [144];
+  unsigned char auStack_90 [144];
   
   iVar2 = fn_82F6A548();
   iVar4 = 0;
@@ -138,7 +111,7 @@ LAB_8307480c:
     pfVar1[3] = in_vr63;
     iVar2 = iVar2 + 0x10;
   } while ((int)lVar5 < 0x14);
-  fn_82539560((double)(longlong)iVar4,(double)lbl_82021540,(double)lbl_82015BD4,dVar12,
+  fn_82539560((double)(__int64)iVar4,(double)lbl_82021540,(double)lbl_82015BD4,dVar12,
                (double)lbl_821AAD20);
   fn_82F6A594();
   return;

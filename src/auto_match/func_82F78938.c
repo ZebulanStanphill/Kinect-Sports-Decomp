@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int RaiseException();
 extern int fn_82F688E8();
 extern int _statfp();
@@ -32,21 +5,21 @@ extern unsigned int stack0x00000014;
 extern unsigned int uStack_50;
 
 
-void fn_82F78938(uint *param_1,uint *param_2,ulonglong param_3,uint param_4,uint *param_5,
-                  uint *param_6,int param_7)
+void fn_82F78938(unsigned int *param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned int param_4,unsigned int *param_5,
+                  unsigned int *param_6,int param_7)
 
 {
-  ulonglong uVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  uint *puStack00000014;
-  uint uStack_50;
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
+  unsigned int *puStack00000014;
+  unsigned int uStack_50;
   
   param_1[1] = 0;
   param_1[2] = 0;
   param_1[3] = 0;
   if ((param_3 & 0x10) == 0) {
-    uVar3 = (ulonglong)uStack_50;
+    uVar3 = (unsigned __int64)uStack_50;
   }
   else {
     uVar3 = 0xffffffffc000008f;
@@ -115,10 +88,10 @@ LAB_82f78b70:
   puStack00000014[8] = puStack00000014[8] | 0x80000000;
   if (param_7 == 0) {
     puStack00000014[8] = puStack00000014[8] & 0x87ffffff | 0x8000000;
-    *(undefined8 *)(puStack00000014 + 4) = *(undefined8 *)param_5;
+    *(unsigned __int64 *)(puStack00000014 + 4) = *(unsigned __int64 *)param_5;
     puStack00000014[0x18] = puStack00000014[0x18] | 0x80000000;
     puStack00000014[0x18] = puStack00000014[0x18] & 0x87ffffff | 0x8000000;
-    *(undefined8 *)(puStack00000014 + 0x14) = *(undefined8 *)param_6;
+    *(unsigned __int64 *)(puStack00000014 + 0x14) = *(unsigned __int64 *)param_6;
   }
   else {
     puStack00000014[8] = puStack00000014[8] & 0x87ffffff;
@@ -161,7 +134,7 @@ LAB_82f78b70:
   *param_2 = uVar2;
 LAB_82f78d1c:
   if (param_7 == 0) {
-    *(undefined8 *)param_6 = *(undefined8 *)(puStack00000014 + 0x14);
+    *(unsigned __int64 *)param_6 = *(unsigned __int64 *)(puStack00000014 + 0x14);
   }
   else {
     *param_6 = puStack00000014[0x14];

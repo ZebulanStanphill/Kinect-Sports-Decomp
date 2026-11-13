@@ -1,17 +1,16 @@
-typedef unsigned int uint;
-extern uint fn_82AE6B08();
+extern unsigned int fn_82AE6B08();
 
 typedef struct {
   int f0;
-  uint next;
-  uint count;
+  unsigned int next;
+  unsigned int count;
   int fc;
   int data[1];
 } Node;
 
 typedef struct {
   int f0;
-  uint first;
+  unsigned int first;
 } Q;
 
 typedef struct {
@@ -22,8 +21,8 @@ typedef struct {
 int fn_82AE6CC0(S *p)
 {
   Q *q = p->q;
-  uint idx;
-  uint n;
+  unsigned int idx;
+  unsigned int n;
   if (q != 0 && (idx = fn_82AE6B08(q)) != 0xffffffff && (idx & 1) == 0) {
     n = q->first;
     idx = idx + 1;

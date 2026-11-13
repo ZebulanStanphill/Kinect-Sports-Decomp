@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 typedef struct Msg_83014310 {
     unsigned char hdr[2];
     unsigned short type;
@@ -22,7 +20,7 @@ void fn_83014310(int *param_1)
     RtlLeaveCriticalSection(param_1 + 7);
     if (isTwo) {
         msg.type = 0x17;
-        (*(code *)(*param_1 + 4))(param_1);
+        (*(int (**)())(*param_1 + 4))(param_1);
         msg.src = param_1;
         msg.val = 6;
         fn_8300F208(lbl_832642E4, &msg, (unsigned short)fn_8300F1A0());

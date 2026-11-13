@@ -1,5 +1,3 @@
-typedef unsigned __int64 U64;
-
 typedef struct Stream_82F47D20 Stream_82F47D20;
 typedef struct StreamVt_82F47D20 {
     void *slot0[5];
@@ -12,7 +10,7 @@ struct Stream_82F47D20 {
 typedef struct Obj_82F47D20 Obj_82F47D20;
 typedef struct ObjVt_82F47D20 {
     void *slot0[6];
-    int (*GetEnd)(Obj_82F47D20 *self, U64 *end);
+    int (*GetEnd)(Obj_82F47D20 *self, unsigned __int64 *end);
     void *slot7[13];
     int (*Check)(Obj_82F47D20 *self);
 } ObjVt_82F47D20;
@@ -30,7 +28,7 @@ struct Obj_82F47D20 {
     int f20;
     int f24;                /* 0x24 */
     int f28;
-    U64 *f2c;               /* 0x2c */
+    unsigned __int64 *f2c;               /* 0x2c */
     int f30;                /* 0x30 */
     int f34;
     int f38;
@@ -39,7 +37,7 @@ struct Obj_82F47D20 {
     int f44;
     unsigned int f48;       /* 0x48 */
     int f4c;
-    U64 f50;                /* 0x50 */
+    unsigned __int64 f50;                /* 0x50 */
     int f58;                /* 0x58 */
     unsigned int f5c;       /* 0x5c */
 };
@@ -55,9 +53,9 @@ int fn_82F47D20(Obj_82F47D20 *o, Stream_82F47D20 *s, unsigned int off, unsigned 
     unsigned int remain;
     unsigned int i;
     unsigned int v;
-    U64 *p;
-    U64 t;
-    U64 delta;
+    unsigned __int64 *p;
+    unsigned __int64 t;
+    unsigned __int64 delta;
     int hr;
 
     if (o->f10 == 0) {

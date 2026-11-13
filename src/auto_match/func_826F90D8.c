@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_82002AE0;
@@ -49,7 +25,7 @@ void fn_826F90D8(void)
   float fVar7;
   float fVar8;
   float fVar9;
-  uint uVar10;
+  unsigned int uVar10;
   int iVar11;
   float fVar12;
   float fVar13;
@@ -85,16 +61,16 @@ void fn_826F90D8(void)
     *(float *)(iVar20 + 0xac) = fVar18;
     goto LAB_826f9644;
   }
-  uVar10 = *(uint *)(iVar20 + 0xc0);
+  uVar10 = *(unsigned int *)(iVar20 + 0xc0);
   iVar11 = *(int *)(*(int *)(*(int *)(*(int *)(iVar20 + 0x6c) + 0x1c) + 0xc) + 0x20);
   fVar12 = *(float *)(iVar11 + 0x38) - *(float *)(iVar11 + 0x30);
   fVar13 = *(float *)(iVar11 + 0x3c) - *(float *)(iVar11 + 0x34);
-  fVar14 = (float)(longlong)(*(int *)(iVar20 + 0x88) + *(int *)(iVar20 + 0x80)) * lbl_8200571C -
-           (float)(longlong)*(int *)(iVar20 + 0x80) * lbl_8200571C;
-  fVar15 = (float)(longlong)(*(int *)(iVar20 + 0x8c) + *(int *)(iVar20 + 0x84)) * lbl_8200571C -
-           (float)(longlong)*(int *)(iVar20 + 0x84) * lbl_8200571C;
+  fVar14 = (float)(__int64)(*(int *)(iVar20 + 0x88) + *(int *)(iVar20 + 0x80)) * lbl_8200571C -
+           (float)(__int64)*(int *)(iVar20 + 0x80) * lbl_8200571C;
+  fVar15 = (float)(__int64)(*(int *)(iVar20 + 0x8c) + *(int *)(iVar20 + 0x84)) * lbl_8200571C -
+           (float)(__int64)*(int *)(iVar20 + 0x84) * lbl_8200571C;
   if (uVar10 == 0) {
-    uVar10 = *(uint *)(iVar20 + 0xc4);
+    uVar10 = *(unsigned int *)(iVar20 + 0xc4);
     fVar15 = *(float *)(iVar20 + 0xa0) * fVar15;
     fVar14 = *(float *)(iVar20 + 0xa0) * *(float *)(iVar20 + 0xa4) * fVar14;
     if (uVar10 < 9) {
@@ -108,7 +84,7 @@ void fn_826F90D8(void)
             *pfVar21 = lbl_821AAD20;
             fVar12 = fVar13 * lbl_82002C5C - fVar15 * lbl_82002C5C;
 LAB_826f9584:
-            fVar13 = (float)(longlong)((int)(fVar12 * fVar16) * 0x14);
+            fVar13 = (float)(__int64)((int)(fVar12 * fVar16) * 0x14);
           }
           else {
             if (uVar10 == 4) {
@@ -131,10 +107,10 @@ LAB_826f9464:
               fVar13 = fVar13 - fVar15;
             }
             else if (uVar10 == 0) {
-              fVar13 = (float)(longlong)
+              fVar13 = (float)(__int64)
                               ((int)((fVar13 * lbl_82002C5C - fVar15 * lbl_82002C5C) * lbl_82005718)
                               * 0x14);
-              *pfVar21 = (float)(longlong)
+              *pfVar21 = (float)(__int64)
                                 ((int)((fVar12 * lbl_82002C5C - fVar14 * lbl_82002C5C) *
                                       lbl_82005718) * 0x14);
             }
@@ -149,7 +125,7 @@ LAB_826f9464:
         *(float *)(iVar20 + 0xcc) = fVar13 - fVar15;
         fVar12 = fVar12 * lbl_82002C5C - fVar14 * lbl_82002C5C;
       }
-      *pfVar21 = (float)(longlong)((int)(fVar12 * fVar16) * 0x14);
+      *pfVar21 = (float)(__int64)((int)(fVar12 * fVar16) * 0x14);
     }
 LAB_826f9590:
     *(float *)(iVar20 + 0xd0) = fVar14 + *pfVar21;
@@ -237,8 +213,8 @@ LAB_826f9644:
   *(float *)(iVar20 + 0xf8) = fVar18;
   *(float *)(iVar20 + 0xe8) = fVar18;
   *(float *)(iVar20 + 0xf4) = fVar17;
-  fVar17 = (float)(longlong)*(int *)(iVar20 + 0x88) / (*(float *)(iVar20 + 0xd0) - *pfVar21);
-  fVar16 = (float)(longlong)*(int *)(iVar20 + 0x8c) /
+  fVar17 = (float)(__int64)*(int *)(iVar20 + 0x88) / (*(float *)(iVar20 + 0xd0) - *pfVar21);
+  fVar16 = (float)(__int64)*(int *)(iVar20 + 0x8c) /
            (*(float *)(iVar20 + 0xd4) - *(float *)(iVar20 + 0xcc));
   *(float *)(iVar20 + 0xf4) = fVar16 * *(float *)(iVar20 + 0xf4);
   *(float *)(iVar20 + 0xf8) = fVar16 * fVar18;
@@ -246,8 +222,8 @@ LAB_826f9644:
   *(float *)(iVar20 + 0xec) = fVar17 * *(float *)(iVar20 + 0xec);
   *(float *)(iVar20 + 0xf0) = fVar17 * *(float *)(iVar20 + 0xf0);
   *(float *)(iVar20 + 0xfc) = fVar16 * *(float *)(iVar20 + 0xfc);
-  *(float *)(iVar20 + 0xf0) = (float)(longlong)*(int *)(iVar20 + 0x80) + *(float *)(iVar20 + 0xf0);
-  *(float *)(iVar20 + 0xfc) = (float)(longlong)*(int *)(iVar20 + 0x84) + *(float *)(iVar20 + 0xfc);
+  *(float *)(iVar20 + 0xf0) = (float)(__int64)*(int *)(iVar20 + 0x80) + *(float *)(iVar20 + 0xf0);
+  *(float *)(iVar20 + 0xfc) = (float)(__int64)*(int *)(iVar20 + 0x84) + *(float *)(iVar20 + 0xfc);
   if ((((fVar1 != *pfVar21) || (fVar4 != *(float *)(iVar20 + 0xd0))) ||
       (fVar3 != *(float *)(iVar20 + 0xcc))) || (bVar22 = false, fVar5 != *(float *)(iVar20 + 0xd4)))
   {
@@ -257,7 +233,7 @@ LAB_826f9644:
      (((fVar6 != *(float *)(iVar20 + 0xbc) ||
        ((fVar7 != *(float *)(iVar20 + 0xb0) || (fVar8 != *(float *)(iVar20 + 0xb4))))) ||
       (fVar9 != *(float *)(iVar20 + 0xac))))) {
-    *(uint *)(iVar20 + 0xb00) = *(uint *)(iVar20 + 0xb00) | 0x400;
+    *(unsigned int *)(iVar20 + 0xb00) = *(unsigned int *)(iVar20 + 0xb00) | 0x400;
   }
   fn_82F6A58C();
   return;

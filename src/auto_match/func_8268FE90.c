@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct Obj_8268FE90 {
     unsigned char pad[0x19c];
     unsigned int count;   /* 0x19c */

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_240;
 extern int fn_82422A88();
 extern int fn_82422F08();
@@ -36,16 +9,16 @@ extern unsigned int lbl_821B8B38;
 extern unsigned int ltcg_pool_0_0f;
 
 
-undefined4 * fn_82427FA8(undefined4 *param_1,int *param_2,undefined4 param_3,undefined4 param_4)
+unsigned int * fn_82427FA8(unsigned int *param_1,int *param_2,unsigned int param_3,unsigned int param_4)
 
 {
   int iVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  undefined4 uVar4;
-  longlong lVar5;
-  ulonglong uVar6;
-  undefined1 auStack_240 [512];
+  __int64 lVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar4;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
+  unsigned char auStack_240 [512];
   
   param_1[1] = param_3;
   param_1[2] = param_4;
@@ -76,8 +49,8 @@ undefined4 * fn_82427FA8(undefined4 *param_1,int *param_2,undefined4 param_3,und
     }
     fn_8251FA58(lVar2);
   }
-  param_1[7] = (float)(longlong)*param_2;
-  param_1[8] = (float)(longlong)param_2[1];
+  param_1[7] = (float)(__int64)*param_2;
+  param_1[8] = (float)(__int64)param_2[1];
   param_1[9] = param_2[2];
   param_1[10] = param_2[9];
   param_1[0xb] = param_2[10];

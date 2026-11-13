@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 typedef void (*cb_t)(int, void *);
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
@@ -12,7 +11,7 @@ typedef struct {
     char pad10[0x10];
     cb_t m_20;
     int m_24;
-    uint m_28;
+    unsigned int m_28;
 } Entry;
 
 extern Entry *fn_82FF5200(void *, int);

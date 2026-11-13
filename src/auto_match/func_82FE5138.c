@@ -1,35 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8200533C;
 extern unsigned int lbl_8217BA98;
 
 
-void fn_82FE5138(uint *param_1,int param_2,int param_3,int param_4,ulonglong param_5)
+void fn_82FE5138(unsigned int *param_1,int param_2,int param_3,int param_4,unsigned __int64 param_5)
 
 {
   float fVar1;
@@ -38,19 +11,19 @@ void fn_82FE5138(uint *param_1,int param_2,int param_3,int param_4,ulonglong par
   float fVar4;
   float fVar5;
   float fVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
   float fVar10;
   float *pfVar11;
   float fVar12;
   float *pfVar13;
-  uint uVar14;
-  uint uVar15;
+  unsigned int uVar14;
+  unsigned int uVar15;
   float *pfVar16;
   float *pfVar17;
-  uint uVar18;
-  uint uVar19;
+  unsigned int uVar18;
+  unsigned int uVar19;
   
   fVar12 = lbl_8200533C;
   uVar15 = param_1[2];
@@ -89,11 +62,11 @@ void fn_82FE5138(uint *param_1,int param_2,int param_3,int param_4,ulonglong par
       uVar8 = param_1[3];
       *(float *)(param_1[7] + uVar19 * 4) = fVar4 + fVar10 + fVar6;
       uVar9 = param_1[6];
-      uVar15 = -(uint)(uVar7 != uVar15 + 1) & uVar15 + 1;
-      uVar14 = -(uint)(uVar8 != uVar14 + 1) & uVar14 + 1;
+      uVar15 = -(unsigned int)(uVar7 != uVar15 + 1) & uVar15 + 1;
+      uVar14 = -(unsigned int)(uVar8 != uVar14 + 1) & uVar14 + 1;
       *(float *)(param_1[10] + uVar18 * 4) = fVar1 + fVar10 + fVar6;
-      uVar19 = -(uint)(uVar9 != uVar19 + 1) & uVar19 + 1;
-      uVar18 = -(uint)(param_1[9] != uVar18 + 1) & uVar18 + 1;
+      uVar19 = -(unsigned int)(uVar9 != uVar19 + 1) & uVar19 + 1;
+      uVar18 = -(unsigned int)(param_1[9] != uVar18 + 1) & uVar18 + 1;
       param_5 = param_5 - 1;
     } while (param_5 != 0);
   }
@@ -105,10 +78,10 @@ void fn_82FE5138(uint *param_1,int param_2,int param_3,int param_4,ulonglong par
   fVar3 = fVar3 + lbl_8217BA98;
   fVar4 = fVar4 + lbl_8217BA98;
   fVar1 = fVar1 + lbl_8217BA98;
-  param_1[0xf] = (uint)((fVar2 + lbl_8217BA98) - lbl_8217BA98);
-  param_1[0x12] = (uint)(fVar3 - fVar12);
-  param_1[0x15] = (uint)(fVar4 - fVar12);
-  param_1[0xc] = (uint)(fVar1 - fVar12);
+  param_1[0xf] = (unsigned int)((fVar2 + lbl_8217BA98) - lbl_8217BA98);
+  param_1[0x12] = (unsigned int)(fVar3 - fVar12);
+  param_1[0x15] = (unsigned int)(fVar4 - fVar12);
+  param_1[0xc] = (unsigned int)(fVar1 - fVar12);
   return;
 }
 

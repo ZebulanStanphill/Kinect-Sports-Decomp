@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_822520E8();
 extern int fn_822D79D8();
@@ -48,20 +21,20 @@ extern unsigned int uStack00000060;
 extern unsigned int uStack_20;
 
 
-void fn_823F17E0(int param_1, undefined4 param_2, undefined4 param_3, undefined8 param_4, undefined8 param_5, undefined8 param_6, undefined8 param_7, undefined8 param_8, undefined8 unused_arg_9, undefined8 unused_arg_10, undefined8 unused_arg_11, undefined8 unused_arg_12, undefined8 unused_arg_13, undefined8 unused_arg_14, undefined4 in_stack_00000084)
+void fn_823F17E0(int param_1, unsigned int param_2, unsigned int param_3, unsigned __int64 param_4, unsigned __int64 param_5, unsigned __int64 param_6, unsigned __int64 param_7, unsigned __int64 param_8, unsigned __int64 unused_arg_9, unsigned __int64 unused_arg_10, unsigned __int64 unused_arg_11, unsigned __int64 unused_arg_12, unsigned __int64 unused_arg_13, unsigned __int64 unused_arg_14, unsigned int in_stack_00000084)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  undefined8 uStack00000050;
-  undefined8 uStack00000058;
-  undefined8 uStack00000060;
+  unsigned __int64 uVar1;
+  unsigned int uStack0000001c;
+  unsigned int uStack00000024;
+  unsigned __int64 uStack00000040;
+  unsigned __int64 uStack00000048;
+  unsigned __int64 uStack00000050;
+  unsigned __int64 uStack00000058;
+  unsigned __int64 uStack00000060;
 
-  struct { undefined4 first; int second; } stack_pair_20;
+  struct { unsigned int first; int second; } stack_pair_20;
 
   
   uStack0000001c = param_2;
@@ -81,15 +54,15 @@ void fn_823F17E0(int param_1, undefined4 param_2, undefined4 param_3, undefined8
   stack_pair_20.first = 0;
   stack_pair_20.second = 0;
   fn_822D79D8(&stack_pair_20.first,uVar1);
-  (**(code **)(**(int **)(param_1 + 0x68) + 0x10))
+  (**(int (***)())(**(int **)(param_1 + 0x68) + 0x10))
             (*(int **)(param_1 + 0x68),stack_pair_20.first,&stack0x0000001c);
-  (**(code **)(**(int **)(param_1 + 0x70) + 0x10))
+  (**(int (***)())(**(int **)(param_1 + 0x70) + 0x10))
             (*(int **)(param_1 + 0x70),stack_pair_20.first,&stack0x00000024);
-  (**(code **)(**(int **)(param_1 + 0x78) + 0x10))
+  (**(int (***)())(**(int **)(param_1 + 0x78) + 0x10))
             (*(int **)(param_1 + 0x78),stack_pair_20.first,&stack0x00000030);
-  (**(code **)(**(int **)(param_1 + 0x80) + 0x10))
+  (**(int (***)())(**(int **)(param_1 + 0x80) + 0x10))
             (*(int **)(param_1 + 0x80),stack_pair_20.first,&stack0x00000040);
-  (**(code **)(**(int **)(param_1 + 0x88) + 0x10))
+  (**(int (***)())(**(int **)(param_1 + 0x88) + 0x10))
             (*(int **)(param_1 + 0x88),stack_pair_20.first,in_stack_00000084);
   if (*(int *)(param_1 + 0x48) != 0) {
     fn_828E9D90(stack_pair_20.first);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_14;
 extern int fn_8265CF50();
 extern int fn_8265CF70();
@@ -41,19 +14,19 @@ extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
 
-longlong fn_82665348(int param_1,int param_2)
+__int64 fn_82665348(int param_1,int param_2)
 
 {
   int iVar3;
-  undefined4 *puVar4;
-  undefined8 uVar1;
-  longlong lVar2;
+  unsigned int *puVar4;
+  unsigned __int64 uVar1;
+  __int64 lVar2;
   int iStack00000014;
   int iStack0000001c;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+  struct { unsigned int first; unsigned int second; } stack_pair_20;
 
   int iStack_18;
-  undefined1 auStack_14 [20];
+  unsigned char auStack_14 [20];
   
   iStack00000014 = param_1;
   iStack0000001c = param_2;
@@ -62,10 +35,10 @@ longlong fn_82665348(int param_1,int param_2)
     thunk_FUN_82a2b748(0x15);
     return -1;
   }
-  puVar4 = (undefined4 *)fn_82668D40(auStack_14,0xffffffff831e7b08);
+  puVar4 = (unsigned int *)fn_82668D40(auStack_14,0xffffffff831e7b08);
   stack_pair_20.first = *puVar4;
-  puVar4 = (undefined4 *)fn_8265FA58(&stack_pair_20.first,0);
-  puVar4 = (undefined4 *)fn_8265CF50(0xffffffff831e7a74,*puVar4);
+  puVar4 = (unsigned int *)fn_8265FA58(&stack_pair_20.first,0);
+  puVar4 = (unsigned int *)fn_8265CF50(0xffffffff831e7a74,*puVar4);
   stack_pair_20.second = *puVar4;
   if (iStack00000014 != 0) {
     iVar3 = fn_8265DED8(stack_pair_20.second);

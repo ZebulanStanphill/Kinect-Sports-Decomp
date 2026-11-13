@@ -1,60 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AA66A8();
 extern int fn_82ADEDB8();
 
 
-void fn_82ADF478(int param_1,int param_2,ulonglong param_3)
+void fn_82ADF478(int param_1,int param_2,unsigned __int64 param_3)
 
 {
-  ulonglong *puVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  uint uVar5;
-  ulonglong *puVar6;
+  unsigned __int64 *puVar1;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned int uVar5;
+  unsigned __int64 *puVar6;
   int iVar7;
-  uint uVar8;
+  unsigned int uVar8;
   int iVar9;
-  longlong lVar10;
+  __int64 lVar10;
   
-  uVar5 = *(uint *)(param_1 + 0x318);
+  uVar5 = *(unsigned int *)(param_1 + 0x318);
   if (uVar5 == 0) {
     uVar5 = 0x20;
   }
-  if ((ulonglong)uVar5 <= (param_3 & 0xffffffff)) {
+  if ((unsigned __int64)uVar5 <= (param_3 & 0xffffffff)) {
                     /* WARNING: Subroutine does not return */
     fn_82AA66A8(param_1,0xdec);
   }
-  uVar5 = *(uint *)(param_2 + 0x10);
-  uVar8 = *(uint *)(param_2 + 8) >> 1 & 0xf;
+  uVar5 = *(unsigned int *)(param_2 + 0x10);
+  uVar8 = *(unsigned int *)(param_2 + 8) >> 1 & 0xf;
   uVar2 = uVar5 & 0xffff;
-  *(uint *)(param_2 + 0x10) = uVar5 | 0x100000;
+  *(unsigned int *)(param_2 + 0x10) = uVar5 | 0x100000;
   uVar5 = uVar2 + (uVar5 >> 0x10 & 7);
   if (uVar2 < uVar5) {
     iVar9 = uVar2 * 0x28;
@@ -70,7 +43,7 @@ void fn_82ADF478(int param_1,int param_2,ulonglong param_3)
       uVar4 = 0;
       do {
         if ((uVar3 & 0xffffffff) != (0x1fU - LZCOUNT(uVar5) & 0xffffffff)) {
-          puVar6 = (ulonglong *)(*(int *)(param_1 + 0x2a4) + iVar9);
+          puVar6 = (unsigned __int64 *)(*(int *)(param_1 + 0x2a4) + iVar9);
           lVar10 = 4;
           do {
             puVar1 = puVar6 + 1;

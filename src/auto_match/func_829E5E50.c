@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_829E5AB0();
 extern int fn_829E5DD0();
 extern unsigned int lbl_82002C2C;
@@ -33,18 +6,18 @@ extern unsigned int lbl_82057B94;
 extern unsigned int lbl_821AAD20;
 
 
-undefined8
-fn_829E5E50(double param_1,double param_2,int *param_3,undefined8 param_4,int param_5,
-             undefined8 param_6,undefined8 param_7,float *param_8,int *param_9,int *param_10)
+unsigned __int64
+fn_829E5E50(double param_1,double param_2,int *param_3,unsigned __int64 param_4,int param_5,
+             unsigned __int64 param_6,unsigned __int64 param_7,float *param_8,int *param_9,int *param_10)
 
 {
   float fVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   char cVar3;
   int iVar4;
   float *pfVar5;
   int iVar6;
-  longlong lVar7;
+  __int64 lVar7;
   double dVar8;
   double dVar9;
   double extraout_f1;
@@ -60,7 +33,7 @@ fn_829E5E50(double param_1,double param_2,int *param_3,undefined8 param_4,int pa
       iVar4 = 0;
     }
     else {
-      iVar4 = (-(uint)(dVar8 < param_1) & 2) + 1;
+      iVar4 = (-(unsigned int)(dVar8 < param_1) & 2) + 1;
     }
     pfVar5 = (float *)(*(int *)(iVar6 + 4) + -4);
     lVar7 = 5;
@@ -81,7 +54,7 @@ fn_829E5E50(double param_1,double param_2,int *param_3,undefined8 param_4,int pa
       }
       cVar3 = fn_829E5DD0(dVar9,param_3);
       if (cVar3 == '\0') {
-        iVar6 = ((uint)LZCOUNT((uint)(lbl_82005344 < (float)(dVar8 / extraout_f1))) >> 5 ^ 1) + 1;
+        iVar6 = ((unsigned int)LZCOUNT((unsigned int)(lbl_82005344 < (float)(dVar8 / extraout_f1))) >> 5 ^ 1) + 1;
       }
       else {
         iVar6 = 0;

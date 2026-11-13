@@ -1,40 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82AF5458(undefined8 param_1,uint param_2,uint param_3)
+void fn_82AF5458(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3)
 
 {
   int *piVar1;
-  uint *puVar2;
+  unsigned int *puVar2;
   int *piVar3;
-  uint *puVar4;
-  uint uVar5;
+  unsigned int *puVar4;
+  unsigned int uVar5;
   
   piVar1 = *(int **)(param_2 + 0x20);
   piVar3 = (int *)(param_2 + 0x20);
@@ -42,7 +16,7 @@ void fn_82AF5458(undefined8 param_1,uint param_2,uint param_3)
     if (piVar1 == (int *)0x0) {
       return;
     }
-    puVar2 = (uint *)*piVar1;
+    puVar2 = (unsigned int *)*piVar1;
     uVar5 = 0;
     if ((*puVar2 & 0x1fff) != 0) {
       puVar4 = puVar2 + 6;

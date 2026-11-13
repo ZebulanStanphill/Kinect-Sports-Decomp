@@ -1,5 +1,3 @@
-typedef unsigned __int64 U64;
-
 extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
 
@@ -31,8 +29,8 @@ typedef struct Obj_83053588 {
     char pad70[4];
     Bits_83053588 f74;
     char pad78[8];
-    U64 f80;
-    U64 f88;
+    unsigned __int64 f80;
+    unsigned __int64 f88;
     char pad90[0xc];
     unsigned f9c;
     char pada0[0x10];
@@ -40,7 +38,7 @@ typedef struct Obj_83053588 {
 } Obj_83053588;
 
 extern void fn_83050528(Obj_83053588 *p, int a);
-extern unsigned fn_83053F30(Obj_83053588 *p, unsigned a, U64 off, unsigned size,
+extern unsigned fn_83053F30(Obj_83053588 *p, unsigned a, unsigned __int64 off, unsigned size,
                             unsigned flag, int *count, unsigned char *done);
 
 unsigned fn_83053588(Obj_83053588 *p, unsigned param_2, void **param_3)
@@ -50,7 +48,7 @@ unsigned fn_83053588(Obj_83053588 *p, unsigned param_2, void **param_3)
     unsigned avail;
     unsigned size;
     unsigned char fits;
-    U64 off;
+    unsigned __int64 off;
     unsigned r;
     int count;
     unsigned char done;
@@ -61,11 +59,11 @@ unsigned fn_83053588(Obj_83053588 *p, unsigned param_2, void **param_3)
     if (fl.d == 0 && (unsigned char)fl.f != 0) {
         if ((p->f9c & 0x1000000) != 0) {
             p->f9c &= 0xfeffffff;
-            p->f80 = (U64)(unsigned)(p->f6c * p->f20) + p->f88;
+            p->f80 = (unsigned __int64)(unsigned)(p->f6c * p->f20) + p->f88;
         }
         remaining = p->f68 - p->fb0;
         avail = p->f60->f84;
-        off = (U64)(unsigned)(p->f6c * p->f20) + p->f88 + p->fb0;
+        off = (unsigned __int64)(unsigned)(p->f6c * p->f20) + p->f88 + p->fb0;
         fits = remaining <= avail;
         size = avail;
         if (fits) {

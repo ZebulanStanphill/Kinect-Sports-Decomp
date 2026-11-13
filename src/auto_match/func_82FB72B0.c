@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern int fn_82FB6438();
 extern int fn_82FB7070();
@@ -43,26 +16,26 @@ extern unsigned int uStack_64;
 int fn_82FB72B0(int param_1)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  undefined4 uVar5;
-  uint *puVar6;
-  uint *puVar7;
-  longlong lVar8;
-  undefined1 auStack_70 [12];
-  undefined4 uStack_64;
-  undefined4 uStack_60;
-  struct { uint first; undefined4 second; } stack_pair_5c;
+  unsigned int uVar5;
+  unsigned int *puVar6;
+  unsigned int *puVar7;
+  __int64 lVar8;
+  unsigned char auStack_70 [12];
+  unsigned int uStack_64;
+  unsigned int uStack_60;
+  struct { unsigned int first; unsigned int second; } stack_pair_5c;
 
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  ushort uStack_44;
-  undefined4 uStack_40;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned short uStack_44;
+  unsigned int uStack_40;
   
-  uVar1 = *(undefined4 *)(param_1 + 0x6c);
+  uVar1 = *(unsigned int *)(param_1 + 0x6c);
   if (*(char *)(param_1 + 0x74) == '\0') {
     iVar4 = 0;
   }
@@ -73,37 +46,37 @@ int fn_82FB72B0(int param_1)
       uVar5 = 0;
     }
     else {
-      uVar5 = *(undefined4 *)(*(int *)(*(int *)(iVar4 + 0x40) + 0x60) + 0xc);
+      uVar5 = *(unsigned int *)(*(int *)(*(int *)(iVar4 + 0x40) + 0x60) + 0xc);
     }
-    iVar3 = fn_82FB6438(*(undefined4 *)(param_1 + 0x58),uVar5,uVar1);
+    iVar3 = fn_82FB6438(*(unsigned int *)(param_1 + 0x58),uVar5,uVar1);
     iVar2 = *(int *)(iVar3 + 0x30);
     if (iVar2 == 0) {
       iVar4 = fn_82FB7070(param_1,iVar3,iVar4,uVar1,0);
     }
     else {
-      uStack_64 = *(undefined4 *)(iVar3 + 0xc);
-      uStack_60 = *(undefined4 *)(iVar3 + 0x10);
-      stack_pair_5c.first = *(uint *)(iVar3 + 0x14);
+      uStack_64 = *(unsigned int *)(iVar3 + 0xc);
+      uStack_60 = *(unsigned int *)(iVar3 + 0x10);
+      stack_pair_5c.first = *(unsigned int *)(iVar3 + 0x14);
       uStack_40 = 0;
-      stack_pair_5c.second = *(undefined4 *)(iVar2 + 4);
-      uStack_54 = *(undefined4 *)(iVar2 + 8);
-      uStack_50 = *(undefined4 *)(iVar2 + 0xc);
+      stack_pair_5c.second = *(unsigned int *)(iVar2 + 4);
+      uStack_54 = *(unsigned int *)(iVar2 + 8);
+      uStack_50 = *(unsigned int *)(iVar2 + 0xc);
       uStack_4c = 0;
-      uStack_44 = (ushort)((uint)(*(undefined4 **)(iVar3 + 0x30))[7] >> 0x1f) << 0xc |
+      uStack_44 = (unsigned short)((unsigned int)(*(unsigned int **)(iVar3 + 0x30))[7] >> 0x1f) << 0xc |
                   uStack_44 & 0xfff;
-      iVar4 = fn_82FB7070(param_1,auStack_70,iVar4,**(undefined4 **)(iVar3 + 0x30),0);
+      iVar4 = fn_82FB7070(param_1,auStack_70,iVar4,**(unsigned int **)(iVar3 + 0x30),0);
       if (iVar4 != 0) {
         if (*(int *)(iVar4 + 0x40) == 0) {
-          iVar4 = (**(code **)(*(int *)(param_1 + 0x40) + 0x10))(param_1 + 0x40);
+          iVar4 = (**(int (***)())(*(int *)(param_1 + 0x40) + 0x10))(param_1 + 0x40);
         }
         else {
           iVar2 = *(int *)(iVar3 + 0x30);
           puVar6 = &stack_pair_5c.first;
-          puVar7 = (uint *)(iVar3 + 0x14);
+          puVar7 = (unsigned int *)(iVar3 + 0x14);
           lVar8 = 6;
-          uStack_64 = *(undefined4 *)(iVar2 + 0x14);
-          uStack_60 = *(undefined4 *)(iVar2 + 0x18);
-          stack_pair_5c.first = *(uint *)(iVar2 + 0x1c) >> 4 & 0x4000000 | stack_pair_5c.first & 0x3ffffff | 0x38000000;
+          uStack_64 = *(unsigned int *)(iVar2 + 0x14);
+          uStack_60 = *(unsigned int *)(iVar2 + 0x18);
+          stack_pair_5c.first = *(unsigned int *)(iVar2 + 0x1c) >> 4 & 0x4000000 | stack_pair_5c.first & 0x3ffffff | 0x38000000;
           do {
             puVar7 = puVar7 + 1;
             puVar6 = puVar6 + 1;

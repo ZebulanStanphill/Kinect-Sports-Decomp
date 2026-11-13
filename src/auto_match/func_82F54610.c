@@ -1,48 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern void *fn_825B1970(unsigned);
 
 
-undefined4 * fn_82F54610(undefined4 *param_1)
+unsigned int * fn_82F54610(unsigned int *param_1)
 
 {
   int *piVar1;
-  undefined8 *puVar2;
+  unsigned __int64 *puVar2;
   struct Pair { int a,b; } z;
   
   *param_1 = 0;
-  puVar2 = (undefined8 *)fn_825B1970(8);
+  puVar2 = (unsigned __int64 *)fn_825B1970(8);
   z.a = 0; z.b = 0;
   *param_1 = puVar2;
-  if (puVar2 != (undefined8 *)0x0) {
+  if (puVar2 != (unsigned __int64 *)0x0) {
     *(struct Pair *)puVar2 = z;
   }
-  *(undefined4 **)*param_1 = param_1;
+  *(unsigned int **)*param_1 = param_1;
   param_1[1] = 0;
   param_1[2] = 0;
   param_1[3] = 0;

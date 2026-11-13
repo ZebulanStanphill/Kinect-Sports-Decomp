@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int lbl_8218E8FC;
 extern unsigned int lbl_8219131C;
@@ -53,25 +26,25 @@ void fn_8254A870(double param_1,double param_2,double param_3)
   dVar2 = (double)ltcg_pool_0_0f;
   dVar6 = param_1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((dVar3 < dVar2) << 2) | (uint)(NAN(dVar3) || NAN(dVar2)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((dVar3 < dVar2) << 2) | (unsigned int)(NAN(dVar3) || NAN(dVar2)) << 2)) < 0.0)
   {
     dVar6 = param_2;
   }
   dVar5 = param_2;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((dVar3 < dVar2) << 2) | (uint)(NAN(dVar3) || NAN(dVar2)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((dVar3 < dVar2) << 2) | (unsigned int)(NAN(dVar3) || NAN(dVar2)) << 2)) < 0.0)
   {
     dVar5 = param_1;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)(((double)(float)(dVar6 - param_3) < dVar2) << 2) |
-                (uint)(NAN((double)(float)(dVar6 - param_3)) || NAN(dVar2)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)(((double)(float)(dVar6 - param_3) < dVar2) << 2) |
+                (unsigned int)(NAN((double)(float)(dVar6 - param_3)) || NAN(dVar2)) << 2)) < 0.0) {
     dVar6 = param_3;
   }
   dVar4 = param_3;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)(((double)(float)(dVar5 - param_3) < dVar2) << 2) |
-                (uint)(NAN((double)(float)(dVar5 - param_3)) || NAN(dVar2)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)(((double)(float)(dVar5 - param_3) < dVar2) << 2) |
+                (unsigned int)(NAN((double)(float)(dVar5 - param_3)) || NAN(dVar2)) << 2)) < 0.0) {
     dVar4 = dVar5;
   }
   *in_r8 = (float)dVar6;

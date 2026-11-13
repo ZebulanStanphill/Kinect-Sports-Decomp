@@ -1,52 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT22(h,l) ((U32)((((U16)(h)) << 16) | ((U16)(l))))
+#define CONCAT22(h,l) ((unsigned int)((((unsigned short)(h)) << 16) | ((unsigned short)(l))))
 extern int fn_82643A48();
 
 
 void fn_8264DD40(int param_1,int param_2)
 
 {
-  undefined2 *puVar1;
+  unsigned short *puVar1;
   int iVar2;
   int iVar3;
   int *piVar4;
-  undefined2 *puVar5;
-  longlong lVar6;
+  unsigned short *puVar5;
+  __int64 lVar6;
   
   iVar2 = fn_82643A48(param_1,0x585);
-  *(undefined4 *)(iVar2 + 4) = 0x11921;
+  *(unsigned int *)(iVar2 + 4) = 0x11921;
   iVar3 = 0;
-  puVar5 = (undefined2 *)(param_2 + 0x3fe);
-  *(undefined4 *)(iVar2 + 8) = 1;
+  puVar5 = (unsigned short *)(param_2 + 0x3fe);
+  *(unsigned int *)(iVar2 + 8) = 1;
   lVar6 = 0x80;
-  *(undefined4 *)(iVar2 + 0xc) = 0;
-  *(undefined4 *)(iVar2 + 0x10) = 0x1927;
+  *(unsigned int *)(iVar2 + 0xc) = 0;
+  *(unsigned int *)(iVar2 + 0x10) = 0x1927;
   piVar4 = (int *)(iVar2 + 0x14);
   *piVar4 = 7;
   do {

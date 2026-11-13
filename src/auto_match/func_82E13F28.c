@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_58;
 extern unsigned int *auStack_74;
 extern unsigned int *auStack_90;
@@ -50,27 +23,27 @@ extern unsigned int uStack_b0;
 extern unsigned int uStack_b4;
 
 
-undefined8
-fn_82E13F28(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8 param_4)
+unsigned __int64
+fn_82E13F28(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int *piVar3;
   int *piVar4;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int iVar5;
   int *piVar6;
   int *piStack_b8;
-  undefined4 uStack_b4;
-  uint uStack_b0;
-  undefined1 auStack_a0 [16];
-  undefined1 auStack_90 [16];
-  undefined **ppuStack_80;
-  undefined2 uStack_7a;
-  undefined4 uStack_78;
-  undefined1 auStack_74 [20];
-  undefined ** appuStack_60;
-  undefined1 auStack_58 [16];
+  unsigned int uStack_b4;
+  unsigned int uStack_b0;
+  unsigned char auStack_a0 [16];
+  unsigned char auStack_90 [16];
+  unsigned char **ppuStack_80;
+  unsigned short uStack_7a;
+  unsigned int uStack_78;
+  unsigned char auStack_74 [20];
+  unsigned char ** appuStack_60;
+  unsigned char auStack_58 [16];
   int *piStack_48;
   
   piStack_b8 = (int *)0x0;
@@ -87,22 +60,22 @@ fn_82E13F28(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8
   ppuStack_80 = &lbl_8214A5D0;
   fn_82D00388(auStack_74,0);
   ppuStack_80 = &lbl_8214B244;
-  for (puVar1 = param_2; puVar1 != (undefined4 *)0x0; puVar1 = (undefined4 *)puVar1[3]) {
+  for (puVar1 = param_2; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[3]) {
     if (puVar1[2] != 0) {
       fn_82E09B50(&ppuStack_80);
     }
     fn_82E12520(&appuStack_60,*puVar1);
   }
-  (**(code **)(*piVar3 + 0x30))(piVar3,auStack_58);
-  (**(code **)(*piVar4 + 0x24))(piVar4,&ppuStack_80);
-  for (puVar1 = param_2; puVar1 != (undefined4 *)0x0; puVar1 = (undefined4 *)puVar1[3]) {
+  (**(int (***)())(*piVar3 + 0x30))(piVar3,auStack_58);
+  (**(int (***)())(*piVar4 + 0x24))(piVar4,&ppuStack_80);
+  for (puVar1 = param_2; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[3]) {
     piVar4 = (int *)puVar1[1];
     if (piVar4 != (int *)0x0) {
       piVar6 = piVar4 + 3;
       iVar5 = *piVar6;
       while (iVar5 != 0) {
         if (*piVar4 == -1) {
-          uVar2 = (**(code **)(*piVar3 + 0x10))(piVar3,*piVar6);
+          uVar2 = (**(int (***)())(*piVar3 + 0x10))(piVar3,*piVar6);
           iVar5 = fn_82CEB868(uVar2,0);
           *piVar4 = iVar5;
         }
@@ -112,7 +85,7 @@ fn_82E13F28(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8
             uVar2 = 0;
           }
           else {
-            uVar2 = (**(code **)(*piStack_48 + 0x10))(piStack_48,uVar2);
+            uVar2 = (**(int (***)())(*piStack_48 + 0x10))(piStack_48,uVar2);
           }
           iVar5 = fn_82CEB868(uVar2,0);
           piVar4[1] = iVar5;
@@ -143,7 +116,7 @@ fn_82E13F28(undefined8 param_1,undefined4 *param_2,undefined8 param_3,undefined8
   iVar5 = fn_82CE5410();
   uStack_b4 = 0;
   if ((uStack_b0 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar5 + 0xc) + 0x10))
+    (**(int (***)())(**(int **)(iVar5 + 0xc) + 0x10))
               (*(int **)(iVar5 + 0xc),piStack_b8,uStack_b0 & 0x3fffffff,4);
   }
   return 0;

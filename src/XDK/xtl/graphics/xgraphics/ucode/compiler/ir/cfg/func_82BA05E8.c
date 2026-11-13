@@ -1,4 +1,3 @@
-typedef unsigned int U32;
 extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 #define IRINST_ASSERT(e, line) \
     if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
@@ -10,12 +9,12 @@ typedef struct Context_82BA05E8 {
 } Context_82BA05E8;
 
 typedef struct IRInst_82BA05E8 {
-    U32 pad0[5];
+    unsigned int pad0[5];
     int numInputs;               /* 0x14 */
-    U32 pad18[(0xe4 - 0x18) / 4];
-    U32 flagsHi : 22;            /* 0xe4 */
-    U32 hasPartialWriteInput : 1;
-    U32 flagsLo : 9;
+    unsigned int pad18[(0xe4 - 0x18) / 4];
+    unsigned int flagsHi : 22;            /* 0xe4 */
+    unsigned int hasPartialWriteInput : 1;
+    unsigned int flagsLo : 9;
     void *inputs[(0x3b8 - 0xe8) / 4]; /* 0xe8 */
     Context_82BA05E8 *context;   /* 0x3b8 */
 } IRInst_82BA05E8;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_823DB9B0();
 extern int fn_82672C20();
@@ -51,14 +24,14 @@ void fn_823DB7C8(double param_1,int param_2)
       dVar4 = -dVar5;
       dVar6 = dVar3;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar4 < dVar3) << 2) | (uint)(NAN(dVar4) || NAN(dVar3)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar4 < dVar3) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar3)) << 2)) <
           0.0) {
         dVar6 = dVar5;
       }
       *(float *)(param_2 + 0x30) = (float)dVar6;
       if (dVar6 == dVar3) {
         *(float *)(param_2 + 0x24) = fVar2;
-        *(undefined4 *)(param_2 + 0x20) = 1;
+        *(unsigned int *)(param_2 + 0x20) = 1;
         *(float *)(param_2 + 0x28) = lbl_821CA460;
       }
     }
@@ -71,7 +44,7 @@ void fn_823DB7C8(double param_1,int param_2)
       dVar4 = -dVar5;
       dVar6 = dVar3;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar4 < dVar3) << 2) | (uint)(NAN(dVar4) || NAN(dVar3)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar4 < dVar3) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar3)) << 2)) <
           0.0) {
         dVar6 = dVar5;
       }
@@ -88,7 +61,7 @@ void fn_823DB7C8(double param_1,int param_2)
     dVar4 = -dVar5;
     dVar6 = dVar3;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((dVar4 < dVar3) << 2) | (uint)(NAN(dVar4) || NAN(dVar3)) << 2)) <
+                  ((unsigned int)(unsigned char)((dVar4 < dVar3) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar3)) << 2)) <
         0.0) {
       dVar6 = dVar5;
     }
@@ -98,10 +71,10 @@ LAB_823db910:
     if (*(int *)(param_2 + 0x20) != 0) {
       iVar1 = *(int *)(param_2 + 0x44);
       if ((*(int *)(iVar1 + 0x34) != 0) && (*(int *)(iVar1 + 0x38) == 0)) {
-        *(undefined4 *)(iVar1 + 0x38) = 1;
-        fn_82672C20(*(undefined4 *)(iVar1 + 0x3c),0xffffffff821a8498,0,0);
+        *(unsigned int *)(iVar1 + 0x38) = 1;
+        fn_82672C20(*(unsigned int *)(iVar1 + 0x3c),0xffffffff821a8498,0,0);
       }
-      *(undefined4 *)(param_2 + 0x20) = 0;
+      *(unsigned int *)(param_2 + 0x20) = 0;
     }
   }
 LAB_823db988:

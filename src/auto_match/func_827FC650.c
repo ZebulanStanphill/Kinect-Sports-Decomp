@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
 extern unsigned int *auStack_a8;
 extern unsigned int fStack_94;
@@ -38,27 +11,27 @@ extern unsigned int uStack_ac;
 extern unsigned int uStack_b0;
 
 
-void fn_827FC650(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void fn_827FC650(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   float *pfVar1;
   int iVar2;
   float *pfVar3;
-  undefined4 *puVar4;
-  undefined8 in_r0;
-  undefined8 uVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
-  uint uVar12;
+  unsigned int *puVar4;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
+  unsigned int uVar12;
   double extraout_f1;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
   float fVar17;
   float fVar18;
   float fVar19;
@@ -79,15 +52,15 @@ void fn_827FC650(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   float fVar34;
   float fVar35;
   float fVar36;
-  uint uStack_b0;
-  uint uStack_ac;
-  uint auStack_a8 [2];
-  undefined1 auStack_a0 [12];
+  unsigned int uStack_b0;
+  unsigned int uStack_ac;
+  unsigned int auStack_a8 [2];
+  unsigned char auStack_a0 [12];
   float fStack_94;
   
   uVar5 = fn_82F6DA1C();
   fStack_94 = (float)extraout_f1;
-  fVar33 = *(float *)(((uint)(auStack_a0 + (int)in_r0) & 0xfffffff0) + 0xc);
+  fVar33 = *(float *)(((unsigned int)(auStack_a0 + (int)in_r0) & 0xfffffff0) + 0xc);
   fVar34 = fVar33;
   fVar35 = fVar33;
   fVar36 = fVar33;
@@ -96,20 +69,20 @@ void fn_827FC650(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   fn_827F6950(uVar5,&uStack_ac);
   fn_827F6950(param_2,auStack_a8);
   fn_827F6950(param_3,&uStack_b0);
-  uVar9 = (ulonglong)uStack_ac;
+  uVar9 = (unsigned __int64)uStack_ac;
   dataCacheBlockTouch(uVar9);
-  uVar8 = (ulonglong)auStack_a8[0];
+  uVar8 = (unsigned __int64)auStack_a8[0];
   dataCacheBlockTouch(uVar8);
   dataCacheBlockTouch(uVar9 + 0x80);
   dataCacheBlockTouch(uVar8 + 0x80);
-  uVar11 = (ulonglong)uStack_b0;
+  uVar11 = (unsigned __int64)uStack_b0;
   uVar10 = uVar11 + 0x7f & 0xffffff80;
   uVar7 = (uVar6 * 0x30 - uVar10) + uVar11;
   if (((0x7f < (int)uVar7) && (uVar11 != uVar9)) && (uVar11 != uVar8)) {
     fn_82A1D9A8(uVar10,0,uVar7 & 0xffffff80);
-    uVar9 = (ulonglong)uStack_ac;
-    uVar8 = (ulonglong)auStack_a8[0];
-    uVar11 = (ulonglong)uStack_b0;
+    uVar9 = (unsigned __int64)uStack_ac;
+    uVar8 = (unsigned __int64)auStack_a8[0];
+    uVar11 = (unsigned __int64)uStack_b0;
   }
   uVar12 = 0x80;
   if (uVar6 != 0) {
@@ -141,13 +114,13 @@ void fn_827FC650(undefined8 param_1,undefined8 param_2,undefined8 param_3)
       fVar18 = pfVar3[1] - fVar26;
       fVar19 = pfVar3[2] - fVar27;
       fVar20 = pfVar3[3] - fVar28;
-      puVar4 = (undefined4 *)((int)in_r0 + iVar2 & 0xfffffff0);
+      puVar4 = (unsigned int *)((int)in_r0 + iVar2 & 0xfffffff0);
       uVar13 = *puVar4;
       uVar14 = puVar4[1];
       uVar15 = puVar4[2];
       uVar16 = puVar4[3];
       fn_8250D648();
-      puVar4 = (undefined4 *)((int)in_r0 + (int)uVar11 & 0xfffffff0);
+      puVar4 = (unsigned int *)((int)in_r0 + (int)uVar11 & 0xfffffff0);
       *puVar4 = uVar13;
       puVar4[1] = uVar14;
       puVar4[2] = uVar15;
@@ -164,12 +137,12 @@ void fn_827FC650(undefined8 param_1,undefined8 param_2,undefined8 param_3)
       pfVar1[1] = fVar34 * fVar18 + fVar26;
       pfVar1[2] = fVar35 * fVar19 + fVar27;
       pfVar1[3] = fVar36 * fVar20 + fVar28;
-      uVar8 = (ulonglong)auStack_a8[0] + 0x30;
-      uVar9 = (ulonglong)uStack_ac + 0x30;
-      auStack_a8[0] = (uint)uVar8;
-      uVar11 = (ulonglong)uStack_b0 + 0x30;
-      uStack_ac = (uint)uVar9;
-      uStack_b0 = (uint)uVar11;
+      uVar8 = (unsigned __int64)auStack_a8[0] + 0x30;
+      uVar9 = (unsigned __int64)uStack_ac + 0x30;
+      auStack_a8[0] = (unsigned int)uVar8;
+      uVar11 = (unsigned __int64)uStack_b0 + 0x30;
+      uStack_ac = (unsigned int)uVar9;
+      uStack_b0 = (unsigned int)uVar11;
     } while (uVar10 < uVar6);
   }
   fn_82F6DCB4();

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float fRam831c668c;
 extern int fn_82475290();
 extern int fn_82475788();
@@ -41,17 +14,17 @@ void fn_82474C00(int param_1)
 
 {
   int iVar1;
-  byte bVar2;
-  byte bVar3;
+  unsigned char bVar2;
+  unsigned char bVar3;
   int iVar4;
   int *piVar5;
   int iVar6;
-  undefined8 uVar7;
+  unsigned __int64 uVar7;
   float *pfVar8;
   int iVar9;
   int *piVar10;
-  longlong lVar11;
-  longlong lVar12;
+  __int64 lVar11;
+  __int64 lVar12;
   int *piVar13;
   int *piVar14;
   double dVar15;
@@ -67,7 +40,7 @@ void fn_82474C00(int param_1)
       if (iVar1 == 0) {
         uVar7 = 3;
       }
-      uVar7 = fn_82547C80((ulonglong)*(uint *)(*piVar13 + 0x8c0) + 0xd0,0,uVar7);
+      uVar7 = fn_82547C80((unsigned __int64)*(unsigned int *)(*piVar13 + 0x8c0) + 0xd0,0,uVar7);
       fn_82547C80(uVar7,1,0);
     }
     lVar11 = lVar11 + -1;
@@ -90,7 +63,7 @@ void fn_82474C00(int param_1)
     else {
       piVar5 = (int *)fn_82F4EBE8();
     }
-    if ((piVar5 != (int *)0x0) && (iVar6 = (**(code **)(*piVar5 + 4))(), iVar6 != 0)) {
+    if ((piVar5 != (int *)0x0) && (iVar6 = (**(int (***)())(*piVar5 + 4))(), iVar6 != 0)) {
       iVar9 = *(int *)(iVar9 + 0x20) * 8 + iVar1;
       dVar15 = dVar16;
       if (*(int *)(iVar9 + 8) != 0) {
@@ -109,7 +82,7 @@ void fn_82474C00(int param_1)
   if (((-1 < iVar9) &&
       (iVar4 = *(int *)(*(int *)(((iVar9 == 0) + 5) * 4 + iVar4) + 0x20), -1 < iVar4)) &&
      ((iVar4 < 2 && (piVar13 = *(int **)((iVar4 + 1) * 8 + iVar1), piVar13 != (int *)0x0)))) {
-    (**(code **)(*piVar13 + 0x24))();
+    (**(int (***)())(*piVar13 + 0x24))();
   }
   *(float *)(param_1 + 0xa0) = (float)dVar16;
   if (iVar9 < 0) {
@@ -117,17 +90,17 @@ void fn_82474C00(int param_1)
     do {
       if (*piVar14 != 0) {
         lVar12 = fn_82475290(lVar11);
-        fn_8252CAF8(*(undefined4 *)*piVar14,2,lVar12 != 0);
-        fn_8252CAF8(*(undefined4 *)*piVar14,3,(int)lVar12 == 0);
-        fn_8252CAF8(*(undefined4 *)*piVar14,1,0);
+        fn_8252CAF8(*(unsigned int *)*piVar14,2,lVar12 != 0);
+        fn_8252CAF8(*(unsigned int *)*piVar14,3,(int)lVar12 == 0);
+        fn_8252CAF8(*(unsigned int *)*piVar14,1,0);
       }
       iVar4 = lbl_8327F844;
       lVar11 = lVar11 + 1;
       piVar14 = piVar14 + 6;
     } while ((int)lVar11 < 2);
     if (lbl_8327F844 != 0) {
-      *(undefined4 *)(lbl_8327F844 + 0xf0) = 0;
-      *(undefined4 *)(iVar4 + 0xf4) = 0;
+      *(unsigned int *)(lbl_8327F844 + 0xf0) = 0;
+      *(unsigned int *)(iVar4 + 0xf4) = 0;
     }
     bVar2 = 0;
     pfVar8 = (float *)(param_1 + 0x58);
@@ -140,7 +113,7 @@ void fn_82474C00(int param_1)
       pfVar8 = pfVar8 + 6;
       lVar11 = lVar11 + -1;
     } while (lVar11 != 0);
-    iVar4 = (-(uint)bVar2 & 5) + 9;
+    iVar4 = (-(unsigned int)bVar2 & 5) + 9;
   }
   else {
     fn_82475788(dVar17,param_1,lVar11);

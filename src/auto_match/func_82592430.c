@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_825279F8();
 extern int fn_82528948();
@@ -43,18 +16,18 @@ extern int fn_8288B760();
 extern int fn_828904D8();
 
 
-void fn_82592430(int param_1,undefined8 param_2)
+void fn_82592430(int param_1,unsigned __int64 param_2)
 
 {
   int iVar1;
   char cVar2;
-  ulonglong uVar3;
-  longlong lVar4;
-  ulonglong uVar5;
-  uint *puVar6;
-  longlong lVar7;
+  unsigned __int64 uVar3;
+  __int64 lVar4;
+  unsigned __int64 uVar5;
+  unsigned int *puVar6;
+  __int64 lVar7;
   float afStack_60 [4];
-  undefined1 auStack_50 [80];
+  unsigned char auStack_50 [80];
   
   iVar1 = fn_825279F8();
   if ((iVar1 != 0) && (iVar1 != 3)) {
@@ -65,7 +38,7 @@ void fn_82592430(int param_1,undefined8 param_2)
   uVar3 = 1;
   lVar7 = 0;
   lVar4 = -0x7cd7f460;
-  puVar6 = (uint *)(param_1 + 0x1e0);
+  puVar6 = (unsigned int *)(param_1 + 0x1e0);
   do {
     iVar1 = fn_825602B8(lVar7);
     if (iVar1 != 0) {
@@ -93,9 +66,9 @@ void fn_82592430(int param_1,undefined8 param_2)
        && (*(int *)(param_1 + 0x20) != 0)) {
       cVar2 = fn_8288B760();
       if ((cVar2 != '\0') &&
-         (cVar2 = (**(code **)(**(int **)(param_1 + 0x20) + 0x3c))(), cVar2 != '\0')) {
-        (**(code **)(**(int **)(param_1 + 0x20) + 0x54))();
-        fn_828904D8(*(undefined4 *)(param_1 + 0x20));
+         (cVar2 = (**(int (***)())(**(int **)(param_1 + 0x20) + 0x3c))(), cVar2 != '\0')) {
+        (**(int (***)())(**(int **)(param_1 + 0x20) + 0x54))();
+        fn_828904D8(*(unsigned int *)(param_1 + 0x20));
       }
     }
   }

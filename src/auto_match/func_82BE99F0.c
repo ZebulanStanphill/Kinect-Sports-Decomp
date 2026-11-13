@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern unsigned int *auStack_60;
@@ -46,19 +19,19 @@ void fn_82BE99F0(void)
   int iVar7;
   float *pfVar8;
   double dVar9;
-  undefined1 auStack_60 [40];
+  unsigned char auStack_60 [40];
   
   if (lbl_8322B22C != 0) {
     fn_82BEEC68(auStack_60,lbl_8322B22C + 0x18,lbl_8322B22C + 0x58);
     iVar5 = fn_82BEEC58(auStack_60,0);
-    *(undefined4 *)(lbl_8322B22C + 0xd4) = *(undefined4 *)(iVar5 + 8);
+    *(unsigned int *)(lbl_8322B22C + 0xd4) = *(unsigned int *)(iVar5 + 8);
     iVar5 = fn_82BEEC58(auStack_60,1);
-    *(undefined4 *)(lbl_8322B22C + 0xd8) = *(undefined4 *)(iVar5 + 8);
+    *(unsigned int *)(lbl_8322B22C + 0xd8) = *(unsigned int *)(iVar5 + 8);
     iVar5 = fn_82BEEC58(auStack_60,2);
-    *(undefined4 *)(lbl_8322B22C + 0xdc) = *(undefined4 *)(iVar5 + 8);
+    *(unsigned int *)(lbl_8322B22C + 0xdc) = *(unsigned int *)(iVar5 + 8);
     iVar6 = fn_82BEEC58(auStack_60,3);
     iVar5 = lbl_8322B22C;
-    *(undefined4 *)(lbl_8322B22C + 0xe0) = *(undefined4 *)(iVar6 + 8);
+    *(unsigned int *)(lbl_8322B22C + 0xe0) = *(unsigned int *)(iVar6 + 8);
     fVar2 = *(float *)(iVar5 + 0xd4);
     fVar3 = *(float *)(iVar5 + 0xdc);
     fVar4 = *(float *)(iVar5 + 0xd8);

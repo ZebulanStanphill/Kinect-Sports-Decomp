@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_160;
 extern unsigned int *auStack_20;
 extern unsigned int *auStack_270;
@@ -46,22 +19,22 @@ extern unsigned int uStack_168;
 extern unsigned int uStack_18;
 
 
-undefined4 fn_8266B700(uint param_1,int param_2,int param_3)
+unsigned int fn_8266B700(unsigned int param_1,int param_2,int param_3)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
   int *piVar4;
-  uint uStack00000014;
+  unsigned int uStack00000014;
   int iStack0000001c;
   int iStack00000024;
-  undefined1 auStack_270 [260];
+  unsigned char auStack_270 [260];
   int iStack_16c;
-  undefined4 uStack_168;
-  undefined1 auStack_160 [288];
-  undefined1 auStack_20 [8];
-  struct { undefined4 first; undefined4 second; } stack_pair_18;
+  unsigned int uStack_168;
+  unsigned char auStack_160 [288];
+  unsigned char auStack_20 [8];
+  struct { unsigned int first; unsigned int second; } stack_pair_18;
 
   
   uStack00000014 = param_1;
@@ -74,17 +47,17 @@ undefined4 fn_8266B700(uint param_1,int param_2,int param_3)
     thunk_FUN_82a2b748(0x57);
   }
   else {
-    iVar1 = fn_82F69B70((ulonglong)param_1 + 0xc);
+    iVar1 = fn_82F69B70((unsigned __int64)param_1 + 0xc);
     if (iVar1 == 0) {
       thunk_FUN_82a2b748(0x139f);
     }
     else {
-      iVar1 = fn_82F69B70((ulonglong)uStack00000014 + 0xc);
+      iVar1 = fn_82F69B70((unsigned __int64)uStack00000014 + 0xc);
       iVar2 = fn_82F69B70(iStack0000001c);
       iVar3 = fn_82F69B70(iStack00000024);
       if (iVar1 + iVar2 + iVar3 + 3U < 0x105) {
         iStack_16c = fn_8266C020(auStack_270,0xffffffff8200289c,
-                                       (ulonglong)uStack00000014 + 0xc,iStack00000024,iStack0000001c
+                                       (unsigned __int64)uStack00000014 + 0xc,iStack00000024,iStack0000001c
                                       );
         if (iStack_16c < 1) {
           fn_8266C340(0xffffffff820015c0,0xffffffff82002790,0xe7,0xffffffff82001940);

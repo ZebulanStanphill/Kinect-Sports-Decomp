@@ -1,13 +1,12 @@
-typedef unsigned int uint;
 typedef struct Entry { unsigned short a, b; } Entry;
-typedef struct Obj { char pad[0x48]; char sub[0x254 - 0x48]; uint n; } Obj;
-extern int fn_82EE1048(void *, uint, Entry **);
+typedef struct Obj { char pad[0x48]; char sub[0x254 - 0x48]; unsigned int n; } Obj;
+extern int fn_82EE1048(void *, unsigned int, Entry **);
 extern int fn_82EE1848(Obj *, unsigned short);
 
 int fn_82EE1C28(Obj *o, unsigned short *b, unsigned short *a, unsigned short idx)
 {
   unsigned short count = 0;
-  uint i;
+  unsigned int i;
   for (i = 0; i < o->n; i++) {
     Entry *p;
     Entry *e;

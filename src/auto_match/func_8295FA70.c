@@ -1,48 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8295D318();
 extern int fn_8295F950();
 
 
-undefined8
-fn_8295FA70(int *param_1,undefined8 param_2,int *param_3,int *param_4,uint param_5,uint param_6)
+unsigned __int64
+fn_8295FA70(int *param_1,unsigned __int64 param_2,int *param_3,int *param_4,unsigned int param_5,unsigned int param_6)
 
 {
   int iVar1;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  uint uVar4;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar4;
   int *piVar5;
   int *piVar7;
-  ulonglong uVar6;
+  unsigned __int64 uVar6;
   int *piVar8;
   int iVar9;
-  uint uVar10;
+  unsigned int uVar10;
   bool bVar11;
   int aiStack_80 [4];
   int aiStack_70 [28];
@@ -88,7 +63,7 @@ fn_8295FA70(int *param_1,undefined8 param_2,int *param_3,int *param_4,uint param
       if (param_5 != 0) {
         uVar10 = param_5;
         do {
-          uVar6 = (ulonglong)*(uint *)(*(int *)(*piVar5 * 4 + param_1[5]) + 0x10);
+          uVar6 = (unsigned __int64)*(unsigned int *)(*(int *)(*piVar5 * 4 + param_1[5]) + 0x10);
           if ((uVar3 & 0xffffffff) <= uVar6) {
             uVar3 = uVar6 + 1;
           }
@@ -96,7 +71,7 @@ fn_8295FA70(int *param_1,undefined8 param_2,int *param_3,int *param_4,uint param
           uVar10 = uVar10 - 1;
         } while (uVar10 != 0);
       }
-      uVar2 = (**(code **)(*param_1 + 0x154))(param_1,param_1[0x40],aiStack_70,uVar3,0,0);
+      uVar2 = (**(int (***)())(*param_1 + 0x154))(param_1,param_1[0x40],aiStack_70,uVar3,0,0);
       if ((int)uVar2 < 0) {
         return uVar2;
       }

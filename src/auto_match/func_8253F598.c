@@ -1,14 +1,13 @@
-typedef unsigned int uint;
 extern int fn_8253D898();
-extern void fn_825A7BE8(int, uint, float, int);
-extern void fn_825A7F68(int, uint, int);
+extern void fn_825A7BE8(int, unsigned int, float, int);
+extern void fn_825A7F68(int, unsigned int, int);
 extern void fn_825A88B8(int);
 extern float lbl_821922C0[];
 
 void fn_8253F598(int param_1)
 {
   float fVar1;
-  uint iVar2;
+  unsigned int iVar2;
 
   fn_8253D898();
   iVar2 = *(int *)(param_1 + 0x7c0);
@@ -23,7 +22,7 @@ void fn_8253F598(int param_1)
     }
     fn_825A7F68(param_1 + 0x600, iVar2, param_1);
   }
-  if ((*(int *)(param_1 + 0x8c0) != 0) && ((*(uint *)(param_1 + 2000) & 8) != 0)) {
+  if ((*(int *)(param_1 + 0x8c0) != 0) && ((*(unsigned int *)(param_1 + 2000) & 8) != 0)) {
     fn_825A88B8(param_1);
   }
 }

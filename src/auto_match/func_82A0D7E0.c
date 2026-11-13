@@ -1,35 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005C88;
 
 
-int fn_82A0D7E0(double param_1,undefined8 param_2,int param_3,longlong param_4,undefined8 param_5,
-                 uint param_6,uint param_7,uint param_8)
+int fn_82A0D7E0(double param_1,unsigned __int64 param_2,int param_3,__int64 param_4,unsigned __int64 param_5,
+                 unsigned int param_6,unsigned int param_7,unsigned int param_8)
 
 {
   float fVar1;
@@ -37,9 +10,9 @@ int fn_82A0D7E0(double param_1,undefined8 param_2,int param_3,longlong param_4,u
   int in_r0;
   int iVar3;
   double dVar4;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs36 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs36 [16];
   float in_register_000103e0;
   float in_register_000103e4;
   float in_register_000103e8;
@@ -51,8 +24,8 @@ int fn_82A0D7E0(double param_1,undefined8 param_2,int param_3,longlong param_4,u
   iVar3 = 0;
   dVar4 = (double)lbl_82005C88;
   do {
-    if (((*(ushort *)(param_3 + 0xe) & param_7) == param_6) &&
-       (*(ushort *)(param_3 + 0xc) != param_8)) {
+    if (((*(unsigned short *)(param_3 + 0xe) & param_7) == param_6) &&
+       (*(unsigned short *)(param_3 + 0xc) != param_8)) {
       altv207_13(in_vs32,in_vs36);
       altv207_13(in_vs32,in_vs35);
       fVar1 = (in_register_000103e0 - in_register_000103f0) *

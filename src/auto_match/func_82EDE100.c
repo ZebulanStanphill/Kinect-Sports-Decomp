@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern unsigned int lbl_8202EE40;
@@ -67,10 +40,10 @@ void fn_82EDE100(void)
   double dVar15;
   double dVar16;
   int iVar17;
-  longlong lVar18;
+  __int64 lVar18;
   int iVar19;
   int *piVar20;
-  longlong lVar21;
+  __int64 lVar21;
   double dVar22;
   double dVar23;
   
@@ -98,7 +71,7 @@ void fn_82EDE100(void)
   lVar21 = 0x100;
   if (*(int *)(iVar17 + 0x3880) == 0) {
     do {
-      lVar18 = (longlong)iVar19;
+      lVar18 = (__int64)iVar19;
       iVar19 = iVar19 + 0x10000;
       dVar22 = (double)lVar18;
       piVar20[-0x3ff] = (int)(dVar22 * dVar14);
@@ -117,7 +90,7 @@ void fn_82EDE100(void)
   }
   else {
     do {
-      lVar18 = (longlong)iVar19;
+      lVar18 = (__int64)iVar19;
       iVar19 = iVar19 + 0x10000;
       dVar23 = (double)lVar18;
       piVar20[-0x3ff] = (int)(dVar23 * dVar10);

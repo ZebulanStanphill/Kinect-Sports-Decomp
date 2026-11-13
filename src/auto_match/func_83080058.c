@@ -1,49 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-int fn_83080058(uint *param_1,longlong param_2,uint *param_3,longlong param_4,uint *param_5,
+int fn_83080058(unsigned int *param_1,__int64 param_2,unsigned int *param_3,__int64 param_4,unsigned int *param_5,
                  int param_6,int *param_7)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint *puVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  longlong lVar10;
-  uint *puVar11;
-  uint *puVar12;
-  uint *puVar13;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int *puVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  __int64 lVar10;
+  unsigned int *puVar11;
+  unsigned int *puVar12;
+  unsigned int *puVar13;
   
   puVar13 = param_5 + param_6 * 2;
   *param_7 = 0;

@@ -1,10 +1,8 @@
-typedef unsigned int uint;
-
 void *memset(void *dst, int val, unsigned int size);
 
 typedef struct Msg_82C02D00 {
-    uint id;
-    uint words[6];
+    unsigned int id;
+    unsigned int words[6];
 } Msg_82C02D00;
 
 struct Obj_82C02D00;
@@ -18,7 +16,7 @@ typedef struct Obj_82C02D00 {
     Vtbl_82C02D00 *vt;
 } Obj_82C02D00;
 
-void fn_82C02D00(Obj_82C02D00 *param_1, uint param_2)
+void fn_82C02D00(Obj_82C02D00 *param_1, unsigned int param_2)
 {
     Msg_82C02D00 msg;
 

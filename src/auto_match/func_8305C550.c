@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 typedef struct Node_8305C550 {
     int pad[8];
     struct Node_8305C550 *left;   /* 0x20 */
@@ -14,7 +12,7 @@ typedef struct Tree_8305C550 {
 
 extern int fn_83066788(Node_8305C550 *node, int arg, float value);
 
-static __forceinline U8 isLeaf(Node_8305C550 *n)
+static __forceinline unsigned char isLeaf(Node_8305C550 *n)
 {
     return n->left == 0 && n->right == 0;
 }

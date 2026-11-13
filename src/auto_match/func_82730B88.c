@@ -1,11 +1,10 @@
-typedef unsigned int uint;
 typedef struct { int pad; int refs; } Ref;
 typedef struct { int a; int b; Ref *r; int c; int d; } Elem;
-typedef struct { Elem *data; uint count; } Vec;
-extern void fn_82730B00(Vec *v, uint n);
-extern void *memmove(void *d, const void *s, uint n);
+typedef struct { Elem *data; unsigned int count; } Vec;
+extern void fn_82730B00(Vec *v, unsigned int n);
+extern void *memmove(void *d, const void *s, unsigned int n);
 
-void fn_82730B88(Vec *v, uint idx, Elem *src)
+void fn_82730B88(Vec *v, unsigned int idx, Elem *src)
 {
     Elem *e;
     int a;

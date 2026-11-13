@@ -1,9 +1,8 @@
-typedef unsigned int uint;
 extern void fn_8291F7E0(void *, void *);
-static uint SW(uint v) { return (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24); }
-void fn_8291F908(uint *d, uint *s)
+static unsigned int SW(unsigned int v) { return (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24); }
+void fn_8291F908(unsigned int *d, unsigned int *s)
 {
-  uint *p;
+  unsigned int *p;
   int i;
   
   d[0] = SW(s[0]);
@@ -15,7 +14,7 @@ void fn_8291F908(uint *d, uint *s)
   d[6] = SW(s[6]);
   p = s + 7;
   { int off = (int)d - (int)s;
-  for (i = 0; i < 11; i++) { *(uint *)(off + (int)p) = SW(*p); p++; } }
+  for (i = 0; i < 11; i++) { *(unsigned int *)(off + (int)p) = SW(*p); p++; } }
   fn_8291F7E0(d + 0x12, s + 0x12);
   d[26] = SW(s[26]);
   d[27] = SW(s[27]);

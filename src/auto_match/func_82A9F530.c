@@ -1,9 +1,8 @@
-typedef unsigned int uint;
 extern int fn_82A9A428();
 extern int fn_82A9D3D8();
 extern int fn_82A9ECB8();
 
-struct Vec { char *data; uint count; uint cap; };
+struct Vec { char *data; unsigned int count; unsigned int cap; };
 struct Obj { char pad[0x28]; int x28; };
 struct Node { char pad[8]; struct Obj *obj; struct Node *next; };
 struct Inner14 { char pad[0x18]; int x18; };
@@ -12,7 +11,7 @@ struct B { char pad[0x14]; struct Inner14 *p14; struct Inner18 *p18; char pad2[0
 struct A { char pad[0x6c]; struct Vec *vec; char pad2[0x90 - 0x70]; int hr; };
 struct Entry { int a; int b; int c; };
 
-int fn_82A9F530(struct A *a, uint idx, struct B *b)
+int fn_82A9F530(struct A *a, unsigned int idx, struct B *b)
 {
   int *hr = &a->hr;
   struct Entry *e;
@@ -23,7 +22,7 @@ int fn_82A9F530(struct A *a, uint idx, struct B *b)
   {
     struct Vec *v = a->vec;
     if (v->count <= idx) {
-      uint cnt = idx + 1;
+      unsigned int cnt = idx + 1;
       if (cnt > v->cap) fn_82A9A428(v, cnt, hr);
       v->count = cnt;
       if (*hr < 0) return *hr;

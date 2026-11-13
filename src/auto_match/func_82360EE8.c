@@ -1,10 +1,9 @@
-typedef unsigned int uint;
 extern int fn_823BC1B8();
-extern uint *fn_8265C9E0(int);
-extern uint lbl_821B28C4;
+extern unsigned int *fn_8265C9E0(int);
+extern unsigned int lbl_821B28C4;
 
 typedef struct {
-  uint a, b, c, d, e, f;
+  unsigned int a, b, c, d, e, f;
 } Zeroed;
 
 static void Zeroed_init(Zeroed *z)
@@ -17,13 +16,13 @@ static void Zeroed_init(Zeroed *z)
   z->f = 0;
 }
 
-uint *fn_82360EE8(uint *param_1)
+unsigned int *fn_82360EE8(unsigned int *param_1)
 {
-  uint *p;
+  unsigned int *p;
   p = fn_8265C9E0(0x48);
   if (p != 0) {
     fn_823BC1B8(p, param_1);
-    *p = (uint)&lbl_821B28C4;
+    *p = (unsigned int)&lbl_821B28C4;
     Zeroed_init((Zeroed *)(p + 12));
     return p;
   }

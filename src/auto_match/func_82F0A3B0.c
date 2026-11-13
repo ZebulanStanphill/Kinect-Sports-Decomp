@@ -1,33 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82F0A3B0(short *param_1,ulonglong param_2,int param_3)
+void fn_82F0A3B0(short *param_1,unsigned __int64 param_2,int param_3)
 
 {
   short sVar1;
@@ -38,24 +12,24 @@ void fn_82F0A3B0(short *param_1,ulonglong param_2,int param_3)
   short sVar6;
   short sVar7;
   short sVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   short *psVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
   short sVar14;
-  ulonglong uVar13;
+  unsigned __int64 uVar13;
   short sVar15;
-  undefined2 *puVar16;
-  ulonglong uVar17;
-  ulonglong uVar18;
-  ulonglong uVar19;
-  ulonglong uVar20;
-  ulonglong uVar21;
-  ulonglong uVar22;
-  uint uVar23;
-  ulonglong uVar24;
+  unsigned short *puVar16;
+  unsigned __int64 uVar17;
+  unsigned __int64 uVar18;
+  unsigned __int64 uVar19;
+  unsigned __int64 uVar20;
+  unsigned __int64 uVar21;
+  unsigned __int64 uVar22;
+  unsigned int uVar23;
+  unsigned __int64 uVar24;
   short sVar25;
-  longlong lVar26;
+  __int64 lVar26;
   int aiStack_150 [12];
   short asStack_120 [15];
   short sStack_102;
@@ -89,21 +63,21 @@ void fn_82F0A3B0(short *param_1,ulonglong param_2,int param_3)
     sVar6 = *(short *)((int)((param_2 + (param_2 & 0x7fffffff) * 2 & 0xffffffff) << 1) +
                       (int)param_1);
     sVar8 = *param_1;
-    uVar24 = (ulonglong)(short)(sVar25 - sVar14);
-    uVar19 = (longlong)(short)(sVar1 + sVar7) + (longlong)(short)(sVar2 + sVar15);
-    uVar17 = (longlong)(short)(sVar1 + sVar7) - (longlong)(short)(sVar2 + sVar15);
-    uVar20 = (longlong)(short)(sVar8 + sVar6) + (longlong)(short)(sVar25 + sVar14);
-    uVar18 = (longlong)(short)(sVar8 + sVar6) - (longlong)(short)(sVar25 + sVar14);
-    uVar21 = (ulonglong)(short)(sVar8 - sVar6);
-    uVar22 = (ulonglong)(short)(sVar1 - sVar7);
+    uVar24 = (unsigned __int64)(short)(sVar25 - sVar14);
+    uVar19 = (__int64)(short)(sVar1 + sVar7) + (__int64)(short)(sVar2 + sVar15);
+    uVar17 = (__int64)(short)(sVar1 + sVar7) - (__int64)(short)(sVar2 + sVar15);
+    uVar20 = (__int64)(short)(sVar8 + sVar6) + (__int64)(short)(sVar25 + sVar14);
+    uVar18 = (__int64)(short)(sVar8 + sVar6) - (__int64)(short)(sVar25 + sVar14);
+    uVar21 = (unsigned __int64)(short)(sVar8 - sVar6);
+    uVar22 = (unsigned __int64)(short)(sVar1 - sVar7);
     sVar8 = sVar8 - sVar7;
     sVar6 = sVar6 - sVar1;
-    uVar11 = (ulonglong)sVar8;
+    uVar11 = (unsigned __int64)sVar8;
     sVar14 = sVar14 - sVar2;
     sVar25 = sVar25 - sVar15;
-    uVar9 = (ulonglong)sVar6;
-    uVar12 = (ulonglong)sVar14;
-    uVar13 = (ulonglong)sVar25;
+    uVar9 = (unsigned __int64)sVar6;
+    uVar12 = (unsigned __int64)sVar14;
+    uVar13 = (unsigned __int64)sVar25;
     *psVar10 = (short)((short)((short)((uVar19 + (uVar19 & 0x7fffffff) * 2 & 0xffffffff) << 2) +
                               (short)((uVar20 + (uVar20 & 0x7fffffff) * 2 & 0xffffffff) << 2)) + 4
                       >> 5);
@@ -139,7 +113,7 @@ void fn_82F0A3B0(short *param_1,ulonglong param_2,int param_3)
   lVar26 = 8;
   uVar23 = 0;
   psVar10 = &sStack_102;
-  puVar16 = (undefined2 *)(param_3 + 0x30);
+  puVar16 = (unsigned short *)(param_3 + 0x30);
   do {
     sVar25 = *(short *)(((int)asStack_f0 - param_3) + (int)puVar16);
     sVar8 = psVar10[-0xf];
@@ -150,21 +124,21 @@ void fn_82F0A3B0(short *param_1,ulonglong param_2,int param_3)
     sVar1 = *(short *)((int)asStack_120 + (0x10 - param_3) + (int)puVar16);
     sVar2 = *(short *)(((int)asStack_e0 - param_3) + (int)puVar16);
     sVar6 = *(short *)(((int)asStack_120 - param_3) + (int)puVar16);
-    uVar24 = (ulonglong)(short)(sVar15 - sVar7);
-    uVar19 = (longlong)(short)(sVar1 + sVar2) + (longlong)(short)(sVar14 + sVar25);
-    uVar17 = (longlong)(short)(sVar1 + sVar2) - (longlong)(short)(sVar14 + sVar25);
-    uVar20 = (longlong)(short)(sVar8 + sVar6) + (longlong)(short)(sVar15 + sVar7);
-    uVar18 = (longlong)(short)(sVar8 + sVar6) - (longlong)(short)(sVar15 + sVar7);
-    uVar21 = (ulonglong)(short)(sVar8 - sVar6);
-    uVar22 = (ulonglong)(short)(sVar1 - sVar2);
+    uVar24 = (unsigned __int64)(short)(sVar15 - sVar7);
+    uVar19 = (__int64)(short)(sVar1 + sVar2) + (__int64)(short)(sVar14 + sVar25);
+    uVar17 = (__int64)(short)(sVar1 + sVar2) - (__int64)(short)(sVar14 + sVar25);
+    uVar20 = (__int64)(short)(sVar8 + sVar6) + (__int64)(short)(sVar15 + sVar7);
+    uVar18 = (__int64)(short)(sVar8 + sVar6) - (__int64)(short)(sVar15 + sVar7);
+    uVar21 = (unsigned __int64)(short)(sVar8 - sVar6);
+    uVar22 = (unsigned __int64)(short)(sVar1 - sVar2);
     sVar7 = sVar7 - sVar14;
     sVar15 = sVar15 - sVar25;
     sVar8 = sVar8 - sVar2;
     sVar6 = sVar6 - sVar1;
-    uVar11 = (ulonglong)sVar7;
-    uVar12 = (ulonglong)sVar15;
-    uVar13 = (ulonglong)sVar8;
-    uVar9 = (ulonglong)sVar6;
+    uVar11 = (unsigned __int64)sVar7;
+    uVar12 = (unsigned __int64)sVar15;
+    uVar13 = (unsigned __int64)sVar8;
+    uVar9 = (unsigned __int64)sVar6;
     iVar5 = aiStack_150[uVar23 & 3];
     iVar3 = aiStack_150[iVar5 + 4];
     iVar4 = aiStack_150[iVar5 + 5];

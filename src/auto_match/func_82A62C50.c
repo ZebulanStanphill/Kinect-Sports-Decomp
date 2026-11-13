@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_3c;
 extern unsigned int fStack_40;
 extern unsigned int fStack_5c;
@@ -42,16 +16,16 @@ void fn_82A62C50(int *param_1)
   short sVar5;
   int iVar6;
   int iVar7;
-  uint uVar8;
+  unsigned int uVar8;
   int iVar9;
   float *pfVar10;
-  longlong lVar11;
-  ulonglong uVar12;
-  uint uVar13;
+  __int64 lVar11;
+  unsigned __int64 uVar12;
+  unsigned int uVar13;
   int iVar14;
   short *psVar15;
   float *pfVar17;
-  ulonglong uVar16;
+  unsigned __int64 uVar16;
   float afStack_70 [4];
   float fStack_60;
   float fStack_5c;
@@ -62,7 +36,7 @@ void fn_82A62C50(int *param_1)
   iVar6 = *param_1;
   iVar7 = param_1[1];
   uVar8 = param_1[5];
-  uVar12 = (ulonglong)(uint)param_1[6];
+  uVar12 = (unsigned __int64)(unsigned int)param_1[6];
   iVar9 = param_1[8];
   if (param_1[9] != 0) {
     uVar12 = 1;
@@ -154,16 +128,16 @@ LAB_82a62ee0:
       psVar15 = (short *)(iVar6 + 4);
       lVar11 = 0;
       do {
-        fVar4 = *(float *)((int)afStack_70 + (int)lVar11) * (float)(longlong)psVar15[-2];
+        fVar4 = *(float *)((int)afStack_70 + (int)lVar11) * (float)(__int64)psVar15[-2];
         if (iVar9 == 0) {
           pfVar17[-2] = fVar4;
         }
         else {
           pfVar17[-2] = pfVar17[-2] + fVar4;
         }
-        uVar16 = -(ulonglong)(uVar16 + 1 < uVar12) & uVar16 + 1;
+        uVar16 = -(unsigned __int64)(uVar16 + 1 < uVar12) & uVar16 + 1;
         fVar4 = *(float *)((int)afStack_70 + (int)((uVar16 & 0xffffffff) << 2)) *
-                (float)(longlong)psVar15[-1];
+                (float)(__int64)psVar15[-1];
         if (iVar9 == 0) {
           pfVar17[-1] = fVar4;
         }
@@ -171,9 +145,9 @@ LAB_82a62ee0:
           pfVar17[-1] = pfVar17[-1] + fVar4;
         }
         uVar16 = uVar16 + 1;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
         fVar4 = *(float *)((int)afStack_70 + (int)((uVar16 & 0xffffffff) << 2)) *
-                (float)(longlong)*psVar15;
+                (float)(__int64)*psVar15;
         if (iVar9 == 0) {
           *pfVar17 = fVar4;
         }
@@ -181,9 +155,9 @@ LAB_82a62ee0:
           *pfVar17 = *pfVar17 + fVar4;
         }
         uVar16 = uVar16 + 1;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
         fVar4 = *(float *)((int)afStack_70 + (int)((uVar16 & 0xffffffff) << 2)) *
-                (float)(longlong)psVar15[1];
+                (float)(__int64)psVar15[1];
         if (iVar9 == 0) {
           pfVar17[1] = fVar4;
         }
@@ -194,7 +168,7 @@ LAB_82a62ee0:
         uVar13 = uVar13 + 4;
         psVar15 = psVar15 + 4;
         pfVar17 = pfVar17 + 4;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
         lVar11 = (uVar16 & 0xffffffff) << 2;
       } while (uVar13 < uVar8 - 3);
     }
@@ -204,7 +178,7 @@ LAB_82a62ee0:
       psVar15 = (short *)(uVar13 * 2 + iVar6);
       do {
         fVar4 = *(float *)((int)afStack_70 + (int)((uVar16 & 0xffffffff) << 2)) *
-                (float)(longlong)*psVar15;
+                (float)(__int64)*psVar15;
         if (iVar9 == 0) {
           *pfVar17 = fVar4;
         }
@@ -213,7 +187,7 @@ LAB_82a62ee0:
         }
         psVar15 = psVar15 + 1;
         pfVar17 = pfVar17 + 1;
-        uVar16 = -(ulonglong)(uVar16 + 1 < uVar12) & uVar16 + 1;
+        uVar16 = -(unsigned __int64)(uVar16 + 1 < uVar12) & uVar16 + 1;
         iVar14 = iVar14 + -1;
       } while (iVar14 != 0);
     }
@@ -227,7 +201,7 @@ LAB_82a62ee0:
         iVar14 = (int)((uVar16 & 0x3fffffff) << 2);
         fVar4 = *(float *)((int)afStack_70 + iVar14);
         *(float *)((int)afStack_70 + iVar14) = *(float *)((int)afStack_50 + iVar14) + fVar4;
-        fVar4 = (float)(longlong)sVar5 * fVar4;
+        fVar4 = (float)(__int64)sVar5 * fVar4;
         if (iVar9 == 0) {
           pfVar17[-2] = fVar4;
         }
@@ -235,11 +209,11 @@ LAB_82a62ee0:
           pfVar17[-2] = pfVar17[-2] + fVar4;
         }
         sVar5 = psVar15[-1];
-        uVar16 = -(ulonglong)(uVar16 + 1 < uVar12) & uVar16 + 1;
+        uVar16 = -(unsigned __int64)(uVar16 + 1 < uVar12) & uVar16 + 1;
         iVar14 = (int)((uVar16 & 0x3fffffff) << 2);
         fVar4 = *(float *)((int)afStack_70 + iVar14);
         *(float *)((int)afStack_70 + iVar14) = *(float *)((int)afStack_50 + iVar14) + fVar4;
-        fVar4 = (float)(longlong)sVar5 * fVar4;
+        fVar4 = (float)(__int64)sVar5 * fVar4;
         if (iVar9 == 0) {
           pfVar17[-1] = fVar4;
         }
@@ -248,11 +222,11 @@ LAB_82a62ee0:
         }
         sVar5 = *psVar15;
         uVar16 = uVar16 + 1;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
         iVar14 = (int)((uVar16 & 0x3fffffff) << 2);
         fVar4 = *(float *)((int)afStack_70 + iVar14);
         *(float *)((int)afStack_70 + iVar14) = *(float *)((int)afStack_50 + iVar14) + fVar4;
-        fVar4 = (float)(longlong)sVar5 * fVar4;
+        fVar4 = (float)(__int64)sVar5 * fVar4;
         if (iVar9 == 0) {
           *pfVar17 = fVar4;
         }
@@ -261,11 +235,11 @@ LAB_82a62ee0:
         }
         sVar5 = psVar15[1];
         uVar16 = uVar16 + 1;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
         iVar14 = (int)((uVar16 & 0x3fffffff) << 2);
         fVar4 = *(float *)((int)afStack_70 + iVar14);
         *(float *)((int)afStack_70 + iVar14) = *(float *)((int)afStack_50 + iVar14) + fVar4;
-        fVar4 = (float)(longlong)sVar5 * fVar4;
+        fVar4 = (float)(__int64)sVar5 * fVar4;
         if (iVar9 == 0) {
           pfVar17[1] = fVar4;
         }
@@ -276,7 +250,7 @@ LAB_82a62ee0:
         uVar13 = uVar13 + 4;
         psVar15 = psVar15 + 4;
         pfVar17 = pfVar17 + 4;
-        uVar16 = -(ulonglong)(uVar16 < uVar12) & uVar16;
+        uVar16 = -(unsigned __int64)(uVar16 < uVar12) & uVar16;
       } while (uVar13 < uVar8 - 3);
     }
     if (uVar13 < uVar8) {
@@ -288,7 +262,7 @@ LAB_82a62ee0:
         iVar6 = (int)((uVar16 & 0x3fffffff) << 2);
         fVar4 = *(float *)((int)afStack_70 + iVar6);
         *(float *)((int)afStack_70 + iVar6) = *(float *)((int)afStack_50 + iVar6) + fVar4;
-        fVar4 = (float)(longlong)sVar5 * fVar4;
+        fVar4 = (float)(__int64)sVar5 * fVar4;
         if (iVar9 == 0) {
           *pfVar17 = fVar4;
         }
@@ -297,7 +271,7 @@ LAB_82a62ee0:
         }
         psVar15 = psVar15 + 1;
         pfVar17 = pfVar17 + 1;
-        uVar16 = -(ulonglong)(uVar16 + 1 < uVar12) & uVar16 + 1;
+        uVar16 = -(unsigned __int64)(uVar16 + 1 < uVar12) & uVar16 + 1;
         iVar14 = iVar14 + -1;
       } while (iVar14 != 0);
     }

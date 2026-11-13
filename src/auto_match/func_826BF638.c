@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern int fn_8267B890();
 extern int fn_82681728();
@@ -38,29 +11,29 @@ extern unsigned int iStack_74;
 extern unsigned int iStack_78;
 
 
-void fn_826BF638(undefined8 param_1,int param_2,uint *param_3,int *param_4,undefined8 param_5)
+void fn_826BF638(unsigned __int64 param_1,int param_2,unsigned int *param_3,int *param_4,unsigned __int64 param_5)
 
 {
   int iVar2;
-  ulonglong uVar1;
-  longlong lVar3;
+  unsigned __int64 uVar1;
+  __int64 lVar3;
   int iVar4;
   int *piVar5;
   int aiStack_80 [2];
   struct { int first; int second; } stack_pair_78;
 
-  byte bStack_70;
-  undefined1 auStack_60 [48];
+  unsigned char bStack_70;
+  unsigned char auStack_60 [48];
   
   iVar2 = fn_826B14D8(*param_3,7);
   if (iVar2 != 0) {
-    *(uint *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1U & 0x8fffffff;
+    *(unsigned int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1U & 0x8fffffff;
   }
   iVar4 = 0;
   if (*param_4 != 0) {
     piVar5 = param_4;
     do {
-      uVar1 = fn_8267B890(*(undefined4 *)(*param_3 + 0x288),0x34,0);
+      uVar1 = fn_8267B890(*(unsigned int *)(*param_3 + 0x288),0x34,0);
       if ((uVar1 & 0xffffffff) == 0) {
         stack_pair_78.first = 0;
       }
@@ -70,10 +43,10 @@ void fn_826BF638(undefined8 param_1,int param_2,uint *param_3,int *param_4,undef
       bStack_70 = 0;
       stack_pair_78.second = 0;
       fn_82695750(auStack_60,&stack_pair_78.first);
-      fn_82681728(aiStack_80,(ulonglong)*param_3 + 0x254,*piVar5);
-      (**(code **)(*(int *)(param_2 + 0x10) + 0x28))
+      fn_82681728(aiStack_80,(unsigned __int64)*param_3 + 0x254,*piVar5);
+      (**(int (***)())(*(int *)(param_2 + 0x10) + 0x28))
                 ((int *)(param_2 + 0x10),param_3,aiStack_80,auStack_60,param_5);
-      lVar3 = (ulonglong)*(uint *)(aiStack_80[0] + 8) - 1;
+      lVar3 = (unsigned __int64)*(unsigned int *)(aiStack_80[0] + 8) - 1;
       *(int *)(aiStack_80[0] + 8) = (int)lVar3;
       if (lVar3 == 0) {
         fn_826944C8(aiStack_80[0]);

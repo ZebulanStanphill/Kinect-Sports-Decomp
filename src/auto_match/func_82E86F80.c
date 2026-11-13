@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8215F67C;
 extern unsigned int lbl_8215F68C;
 extern unsigned int lbl_8215F6B0;
@@ -42,16 +15,16 @@ void fn_82E86F80(int param_1)
   int iVar6;
   int iVar7;
   int *piVar8;
-  longlong lVar9;
+  __int64 lVar9;
   int iVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar11;
   int iVar12;
   int iVar13;
   int iVar14;
   int iVar15;
   int aiStack_70 [28];
   
-  if (*(uint *)(param_1 + 0xa1c) != 0) {
+  if (*(unsigned int *)(param_1 + 0xa1c) != 0) {
     aiStack_70[2] = *(int *)(param_1 + 0x2d0) * 2;
     aiStack_70[1] = 1;
     aiStack_70[0] = 0;
@@ -61,8 +34,8 @@ void fn_82E86F80(int param_1)
     aiStack_70[3] = aiStack_70[2] + 1;
     iVar12 = 0;
     iVar4 = 0;
-    if (0 < (int)*(uint *)(param_1 + 0x2d4)) {
-      uVar11 = (ulonglong)*(uint *)(param_1 + 0x2d4);
+    if (0 < (int)*(unsigned int *)(param_1 + 0x2d4)) {
+      uVar11 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2d4);
       iVar15 = 0;
       do {
         iVar7 = 0;
@@ -102,8 +75,8 @@ void fn_82E86F80(int param_1)
         iVar15 = *(int *)(param_1 + 0x2d0) * 4 + iVar15;
       } while (uVar11 != 0);
     }
-    uVar11 = (ulonglong)*(uint *)(param_1 + 0xa1c) - 1;
-    if (-1 < (longlong)uVar11) {
+    uVar11 = (unsigned __int64)*(unsigned int *)(param_1 + 0xa1c) - 1;
+    if (-1 < (__int64)uVar11) {
       lVar9 = (uVar11 & 0x3fffffff) << 2;
       do {
         *(int *)(param_1 + 0xa1c) = (int)uVar11;
@@ -116,7 +89,7 @@ void fn_82E86F80(int param_1)
         }
         uVar11 = uVar11 - 1;
         lVar9 = lVar9 + -4;
-      } while (-1 < (longlong)uVar11);
+      } while (-1 < (__int64)uVar11);
     }
     iVar12 = *(int *)(param_1 + 0xa1c);
     if (*(int *)(param_1 + 0xa40) < *(int *)(param_1 + 0xa1c)) {

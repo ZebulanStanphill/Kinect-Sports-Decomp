@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct Arr_82D05200 {
     void *data;
     int size;
@@ -10,7 +8,7 @@ extern void fn_82CE7E00(Arr_82D05200 *a, void *p);
 extern void *fn_82CFBE40(unsigned int n);
 extern void fn_82CFC050(void *dst, unsigned int n, void *src);
 
-Arr_82D05200 *fn_82D05200(Arr_82D05200 *a, uint *src)
+Arr_82D05200 *fn_82D05200(Arr_82D05200 *a, unsigned int *src)
 {
     unsigned int n;
 

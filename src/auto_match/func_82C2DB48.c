@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_82A6B4B0();
@@ -55,8 +29,8 @@ extern unsigned int lbl_8208ED80;
 extern unsigned int lbl_8208ED98;
 
 
-void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 param_4,
-                  longlong param_5)
+void fn_82C2DB48(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
+                  __int64 param_5)
 
 {
   float fVar1;
@@ -65,15 +39,15 @@ void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 par
   int iVar5;
   int iVar6;
   double *pdVar7;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   int iVar8;
-  longlong lVar9;
-  ulonglong uVar10;
-  longlong lVar11;
-  longlong lVar12;
-  ulonglong uVar13;
-  longlong lVar14;
-  ulonglong uVar15;
+  __int64 lVar9;
+  unsigned __int64 uVar10;
+  __int64 lVar11;
+  __int64 lVar12;
+  unsigned __int64 uVar13;
+  __int64 lVar14;
+  unsigned __int64 uVar15;
   double *pdVar16;
   double dVar17;
   double dVar18;
@@ -118,7 +92,7 @@ void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 par
       do {
         if ((int)uVar13 != 0) {
                     /* WARNING: Subroutine does not return */
-          fn_82F64318((double)(longlong)(int)((uVar13 & 0xffffffff) << 1) * dVar19);
+          fn_82F64318((double)(__int64)(int)((uVar13 & 0xffffffff) << 1) * dVar19);
         }
         *(double *)((iVar6 - (int)pdVar7) + (int)pdVar16) = dVar28 / dVar27;
         *pdVar16 = dVar23;
@@ -149,7 +123,7 @@ void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 par
                    *(double *)((int)((uVar10 & 0xffffffff) << 3) + iVar6) + *pdVar16;
       }
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8(((double)(longlong)(int)lVar12 / (double)(longlong)iVar8) * dVar19);
+      fn_82F643F8(((double)(__int64)(int)lVar12 / (double)(__int64)iVar8) * dVar19);
     }
     uVar4 = lbl_82015618;
     dVar19 = (double)fn_82F655D8(lbl_82015618,lbl_820570B0);
@@ -189,7 +163,7 @@ void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 par
       dVar18 = (double)(float)(dVar20 * dVar26 * dVar23 + dVar28);
     }
     *(float *)(iVar5 + 0x8c) = (float)dVar18;
-    dVar25 = (double)(longlong)param_3;
+    dVar25 = (double)(__int64)param_3;
     fVar1 = (float)(dVar20 / dVar17) * lbl_8208ED70;
     dVar22 = (double)fVar1;
     dVar24 = (double)lbl_8200D898;
@@ -205,7 +179,7 @@ void fn_82C2DB48(undefined8 param_1,ulonglong param_2,int param_3,undefined8 par
     dVar25 = dVar25 * lbl_82005730;
     *(float *)(iVar5 + 0x74) = (float)(dVar28 - dVar20);
     dVar20 = (double)fn_82F64A40(dVar23 / dVar25);
-    *(undefined4 *)(iVar5 + 0x70) = *(undefined4 *)(iVar5 + 0x6c);
+    *(unsigned int *)(iVar5 + 0x70) = *(unsigned int *)(iVar5 + 0x6c);
     fVar1 = lbl_82002AE0;
     *(float *)(iVar5 + 0x78) = lbl_82002AE0 - *(float *)(iVar5 + 0x74);
     *(float *)(iVar5 + 0x7c) = (float)(dVar28 - dVar20);

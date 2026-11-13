@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_68;
 extern int fn_82E3BF28();
 extern int fn_82E3C5F8();
@@ -42,33 +15,33 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-longlong fn_82E3EEB0(int param_1,ulonglong param_2,ulonglong param_3,undefined8 param_4)
+__int64 fn_82E3EEB0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
-  ushort uVar1;
-  undefined2 uVar2;
-  ulonglong uVar3;
-  undefined4 *puVar4;
+  unsigned short uVar1;
+  unsigned short uVar2;
+  unsigned __int64 uVar3;
+  unsigned int *puVar4;
   int iVar5;
-  longlong lVar6;
+  __int64 lVar6;
   int *piStack_70;
-  undefined4 *puStack_6c;
-  undefined1 auStack_68 [8];
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
+  unsigned int *puStack_6c;
+  unsigned char auStack_68 [8];
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined2 uStack_50;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned short uStack_50;
   
   if (((param_2 & 0xffffffff) == 0) || ((param_3 & 0xffffffff) == 0)) {
     lVar6 = -0x7fffbffd;
   }
   else {
-    uVar1 = *(ushort *)(param_1 + 0xbc);
-    if ((uint)uVar1 < *(uint *)(param_1 + 0xb8)) {
-      *(ushort *)(param_1 + 0xbc) = uVar1 + 1;
-      fn_82E3C5F8(param_1 + 0x78,(uint)uVar1,&puStack_6c);
-      uVar2 = *(undefined2 *)puStack_6c;
+    uVar1 = *(unsigned short *)(param_1 + 0xbc);
+    if ((unsigned int)uVar1 < *(unsigned int *)(param_1 + 0xb8)) {
+      *(unsigned short *)(param_1 + 0xbc) = uVar1 + 1;
+      fn_82E3C5F8(param_1 + 0x78,(unsigned int)uVar1,&puStack_6c);
+      uVar2 = *(unsigned short *)puStack_6c;
       stack_pair_60.second = lbl_8202E61C;
       uStack_58 = lbl_8202E620;
       stack_pair_60.first = lbl_8202E618;
@@ -76,14 +49,14 @@ longlong fn_82E3EEB0(int param_1,ulonglong param_2,ulonglong param_3,undefined8 
       uStack_50 = uVar2;
       uVar3 = fn_82E50BE8(0x70,0,0,0,0);
       if ((uVar3 & 0xffffffff) == 0) {
-        puVar4 = (undefined4 *)0x0;
+        puVar4 = (unsigned int *)0x0;
       }
       else {
-        puVar4 = (undefined4 *)
-                 fn_82E6F550(uVar3,param_2,uVar2,param_3,param_4,*(undefined4 *)(param_1 + 0x54)
-                                 ,*(uint *)(param_1 + 0x44) & 4);
+        puVar4 = (unsigned int *)
+                 fn_82E6F550(uVar3,param_2,uVar2,param_3,param_4,*(unsigned int *)(param_1 + 0x54)
+                                 ,*(unsigned int *)(param_1 + 0x44) & 4);
       }
-      if (puVar4 == (undefined4 *)0x0) {
+      if (puVar4 == (unsigned int *)0x0) {
         lVar6 = -0x7ff8fff2;
       }
       else {
@@ -94,14 +67,14 @@ longlong fn_82E3EEB0(int param_1,ulonglong param_2,ulonglong param_3,undefined8 
           lVar6 = fn_82E3E5A8(param_1 + 0x1ac,&stack_pair_60.first,&puStack_6c);
         }
         else {
-          lVar6 = (**(code **)(*piStack_70 + 0x1c))(piStack_70,puVar4);
+          lVar6 = (**(int (***)())(*piStack_70 + 0x1c))(piStack_70,puVar4);
         }
         if (-1 < lVar6) {
-          puVar4 = (undefined4 *)0x0;
-          *(uint *)(param_1 + 0x68) = *(uint *)(param_1 + 0x68) | 1;
+          puVar4 = (unsigned int *)0x0;
+          *(unsigned int *)(param_1 + 0x68) = *(unsigned int *)(param_1 + 0x68) | 1;
         }
-        if (puVar4 != (undefined4 *)0x0) {
-          (**(code **)*puVar4)(puVar4,1);
+        if (puVar4 != (unsigned int *)0x0) {
+          (**(int (***)())*puVar4)(puVar4,1);
         }
       }
     }

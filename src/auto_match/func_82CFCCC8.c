@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 typedef void *(*vfn)();
 
 typedef struct Str {
@@ -8,7 +7,7 @@ typedef struct Str {
 } Str;
 
 extern int fn_82CE5410(void);
-extern void *memcpy(void *dst, const void *src, uint n);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
 Str *fn_82CFCCC8(Str *param_1, Str *param_2, char param_3, char param_4, int param_5)
 {

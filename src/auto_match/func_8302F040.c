@@ -1,22 +1,20 @@
-typedef unsigned int uint;
-
 typedef struct Node_8302F040 {
     struct Node_8302F040 *next;
-    uint key;
-    uint value;
+    unsigned int key;
+    unsigned int value;
 } Node_8302F040;
 
 typedef struct {
     char pad0[8];
-    uint count;
+    unsigned int count;
     char padc[0x18 - 0xc];
     Node_8302F040 *head;
 } Obj_8302F040;
 
-extern int fn_8302EE08(void *outer, uint *value);
-extern void fn_8302EE80(void *outer, uint *value);
+extern int fn_8302EE08(void *outer, unsigned int *value);
+extern void fn_8302EE80(void *outer, unsigned int *value);
 
-int fn_8302F040(Obj_8302F040 *o, uint key, unsigned char now)
+int fn_8302F040(Obj_8302F040 *o, unsigned int key, unsigned char now)
 {
     int r = 1;
     Node_8302F040 *p;

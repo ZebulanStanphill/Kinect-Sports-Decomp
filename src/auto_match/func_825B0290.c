@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8251F720();
 extern int fn_82569C38();
 extern int fn_82569CF8();
@@ -39,23 +15,23 @@ int fn_825B0290(int param_1,int *param_2,int param_3)
 {
   char cVar1;
   char cVar2;
-  uint uVar3;
+  unsigned int uVar3;
   bool bVar4;
   int iVar5;
   char *pcVar6;
   int iVar7;
-  uint uVar8;
+  unsigned int uVar8;
   int iVar9;
   int iVar10;
   char *pcVar11;
   char *pcVar12;
   int iVar13;
-  undefined4 *puVar14;
+  unsigned int *puVar14;
   int iVar15;
   int iStack_40;
   int aiStack_3c;
   
-  puVar14 = (undefined4 *)(*param_2 + param_3);
+  puVar14 = (unsigned int *)(*param_2 + param_3);
   iVar5 = *(int *)(*param_2 + param_3);
   if ((iVar5 == 0) || (iVar5 = strncmp(iVar5,0xffffffff821c81b4,9), iVar5 != 0)) {
     return 0;
@@ -80,7 +56,7 @@ LAB_825b0390:
           pcVar6 = (char *)0x0;
           iVar15 = *(int *)(*(int *)(iVar10 + 4) + 0x34);
           if (iVar15 == 0) goto LAB_825b0474;
-          uVar3 = *(uint *)(*(int *)(iVar10 + 4) + 0x2c);
+          uVar3 = *(unsigned int *)(*(int *)(iVar10 + 4) + 0x2c);
           uVar8 = 0;
           if (uVar3 == 0) goto LAB_825b0474;
           iVar7 = 0;
@@ -106,11 +82,11 @@ LAB_825b0390:
   if (*(int *)(iVar5 + 0x2c) == 0) {
     return iVar5;
   }
-  *(uint *)(aiStack_3c + 0x2c) = *(uint *)(aiStack_3c + 0x2c) & 0xffffffc3 | 4;
+  *(unsigned int *)(aiStack_3c + 0x2c) = *(unsigned int *)(aiStack_3c + 0x2c) & 0xffffffc3 | 4;
   return iVar5;
 LAB_825b040c:
   do {
-    if (((undefined4 *)(iVar7 + iVar15))[1] != 0) {
+    if (((unsigned int *)(iVar7 + iVar15))[1] != 0) {
       pcVar12 = *(char **)(iVar7 + iVar15);
       pcVar11 = *(char **)param_2[0xc];
       do {

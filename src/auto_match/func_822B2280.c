@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int *auStack_40;
 extern int fn_822B1D80();
 extern int fn_822B2618();
@@ -41,28 +14,28 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_7c;
 
 
-ulonglong fn_822B2280(int param_1,ulonglong param_2)
+unsigned __int64 fn_822B2280(int param_1,unsigned __int64 param_2)
 
 {
-  ulonglong uVar1;
+  unsigned __int64 uVar1;
   char cVar6;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int iVar5;
-  longlong lVar3;
-  ulonglong uVar4;
+  __int64 lVar3;
+  unsigned __int64 uVar4;
   int *piVar7;
   int *piVar8;
-  undefined **ppuStack_80;
-  undefined8 uStack_7c;
-  undefined ***pppuStack_70;
-  undefined **ppuStack_60;
-  undefined8 uStack_5c;
-  undefined ***pppuStack_50;
-  undefined1 auStack_40 [64];
+  unsigned char **ppuStack_80;
+  unsigned __int64 uStack_7c;
+  unsigned char ***pppuStack_70;
+  unsigned char **ppuStack_60;
+  unsigned __int64 uStack_5c;
+  unsigned char ***pppuStack_50;
+  unsigned char auStack_40 [64];
   
   piVar8 = (int *)(param_1 + 0x30);
-  uVar1 = (**(code **)(*(int *)(param_1 + 0x30) + 0x3c))(piVar8);
-  cVar6 = fn_8288B760(*(undefined4 *)(param_1 + 0x10));
+  uVar1 = (**(int (***)())(*(int *)(param_1 + 0x30) + 0x3c))(piVar8);
+  cVar6 = fn_8288B760(*(unsigned int *)(param_1 + 0x10));
   if (cVar6 != '\0') {
     pppuStack_50 = &ppuStack_60;
     uStack_5c = CONCAT44((int)uVar1,param_1);
@@ -87,7 +60,7 @@ ulonglong fn_822B2280(int param_1,ulonglong param_2)
                     /* WARNING: Subroutine does not return */
           fn_82F63108();
         }
-        uVar1 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+        uVar1 = (**(int (***)())(**(int **)(param_1 + 0x28) + 4))();
       }
     }
     fn_82359C18(&ppuStack_80);
@@ -101,7 +74,7 @@ ulonglong fn_822B2280(int param_1,ulonglong param_2)
                     /* WARNING: Subroutine does not return */
       fn_82F63108();
     }
-    iVar5 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+    iVar5 = (**(int (***)())(**(int **)(param_1 + 0x28) + 4))();
   }
   for (piVar7 = *(int **)(param_1 + 300);
       (piVar7 != *(int **)(param_1 + 0x130) && (*piVar7 != iVar5)); piVar7 = piVar7 + 1) {
@@ -110,19 +83,19 @@ ulonglong fn_822B2280(int param_1,ulonglong param_2)
     return param_2;
   }
   if (*(char *)(param_1 + 0x13c) != '\0') {
-    iVar5 = (**(code **)(*piVar8 + 0x3c))(piVar8);
+    iVar5 = (**(int (***)())(*piVar8 + 0x3c))(piVar8);
     if (iVar5 == *(int *)(param_1 + 0x140)) {
       if (*(int *)(param_1 + 0x28) == 0) {
         return 0;
       }
       if (*(int *)(param_1 + 0x28) != 0) {
-        uVar1 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+        uVar1 = (**(int (***)())(**(int **)(param_1 + 0x28) + 4))();
         return uVar1;
       }
                     /* WARNING: Subroutine does not return */
       fn_82F63108();
     }
-    *(undefined1 *)(param_1 + 0x13c) = 0;
+    *(unsigned char *)(param_1 + 0x13c) = 0;
   }
   iVar5 = param_1 + 0x84;
   fn_822B26F8(iVar5,0,0);
@@ -137,7 +110,7 @@ ulonglong fn_822B2280(int param_1,ulonglong param_2)
                     /* WARNING: Subroutine does not return */
         fn_82F63108();
       }
-      uVar4 = (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+      uVar4 = (**(int (***)())(**(int **)(param_1 + 0x28) + 4))();
     }
     uVar2 = 1;
     if ((uVar4 & 0xffffffff) == (uVar1 & 0xffffffff)) goto LAB_822b252c;
@@ -149,7 +122,7 @@ LAB_822b252c:
                     /* WARNING: Subroutine does not return */
       fn_82F63108();
     }
-    (**(code **)(**(int **)(param_1 + 0x28) + 4))();
+    (**(int (***)())(**(int **)(param_1 + 0x28) + 4))();
   }
   fn_822B2618(iVar5,uVar1,0);
   fn_822B2618(iVar5,uVar2,1);

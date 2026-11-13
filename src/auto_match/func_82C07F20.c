@@ -1,38 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82C07F20(int param_1,longlong param_2,undefined4 *param_3,int *param_4)
+unsigned __int64 fn_82C07F20(int param_1,__int64 param_2,unsigned int *param_3,int *param_4)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
-  ulonglong uVar3;
+  unsigned __int64 uVar3;
   
   iVar2 = (int)param_2;
   uVar1 = 0;
@@ -58,7 +29,7 @@ undefined8 fn_82C07F20(int param_1,longlong param_2,undefined4 *param_3,int *par
       if (iVar2 != 0x90020) {
         return 0xffffffff805000b2;
       }
-      *(undefined4 **)(param_1 + 0x30) = param_3;
+      *(unsigned int **)(param_1 + 0x30) = param_3;
       return uVar1;
     }
     uVar3 = param_2 - 0x90040;
@@ -73,14 +44,14 @@ undefined8 fn_82C07F20(int param_1,longlong param_2,undefined4 *param_3,int *par
         return uVar1;
       }
       if (param_2 - 0x90070U == 0) {
-        *(undefined4 *)(param_1 + 0x28) = param_3[2] * param_3[1];
+        *(unsigned int *)(param_1 + 0x28) = param_3[2] * param_3[1];
         return uVar1;
       }
       if ((param_2 - 0x90070U & 0xffffffff) != 0x10) {
         return 0xffffffff805000b2;
       }
-      if (param_3 == *(undefined4 **)(*(int *)(param_1 + 0x48) + 0x228)) {
-        *(undefined4 **)(param_1 + 0x2c) = param_3;
+      if (param_3 == *(unsigned int **)(*(int *)(param_1 + 0x48) + 0x228)) {
+        *(unsigned int **)(param_1 + 0x2c) = param_3;
         return uVar1;
       }
       return 0xffffffff805000b7;

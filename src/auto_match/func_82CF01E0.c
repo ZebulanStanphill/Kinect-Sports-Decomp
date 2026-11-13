@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_130;
 extern int fn_82CEDE90();
 extern int fn_82CFBB60();
@@ -32,46 +5,46 @@ extern float lbl_82005748;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_82CF01E0(double param_1,undefined8 param_2,undefined8 param_3,float *param_4)
+void fn_82CF01E0(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,float *param_4)
 
 {
-  ushort uVar1;
-  ushort uVar2;
+  unsigned short uVar1;
+  unsigned short uVar2;
   float *pfVar3;
-  longlong lVar4;
-  undefined1 auStack_130 [240];
+  __int64 lVar4;
+  unsigned char auStack_130 [240];
   
-  uVar1 = *(ushort *)(param_4 + 8);
+  uVar1 = *(unsigned short *)(param_4 + 8);
   pfVar3 = param_4 + 8;
   uVar2 = 0;
   if ((uVar1 != 0) && (uVar1 != 0)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)((int)param_4 + 0x22);
+  uVar1 = *(unsigned short *)((int)param_4 + 0x22);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)(param_4 + 9);
+  uVar1 = *(unsigned short *)(param_4 + 9);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)((int)param_4 + 0x26);
+  uVar1 = *(unsigned short *)((int)param_4 + 0x26);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)(param_4 + 10);
+  uVar1 = *(unsigned short *)(param_4 + 10);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)((int)param_4 + 0x2a);
+  uVar1 = *(unsigned short *)((int)param_4 + 0x2a);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)(param_4 + 0xb);
+  uVar1 = *(unsigned short *)(param_4 + 0xb);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }
-  uVar1 = *(ushort *)((int)param_4 + 0x2e);
+  uVar1 = *(unsigned short *)((int)param_4 + 0x2e);
   if ((uVar1 != 0) && (uVar2 < uVar1)) {
     uVar2 = uVar1;
   }

@@ -1,63 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_b0;
 extern unsigned int *auStack_d0;
 extern unsigned int *auStack_e0;
 extern int fn_826367A8();
 
 
-undefined8
-fn_82636938(int param_1,undefined8 param_2,int param_3,uint param_4,int param_5,int param_6,
-             ulonglong param_7,code *param_8)
+unsigned __int64
+fn_82636938(int param_1,unsigned __int64 param_2,int param_3,unsigned int param_4,int param_5,int param_6,
+             unsigned __int64 param_7,int (**param_8)())
 
 {
-  uint uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   bool bVar3;
   bool bVar4;
   int iVar5;
-  undefined8 uVar6;
-  uint uVar7;
+  unsigned __int64 uVar6;
+  unsigned int uVar7;
   int iVar8;
   int iVar9;
-  uint *puVar10;
-  uint *puVar11;
-  uint *puVar12;
-  uint *puVar13;
-  uint uVar14;
-  uint *puVar15;
-  uint uVar16;
-  undefined4 in_stack_00000054;
-  uint auStack_e0 [4];
-  uint auStack_d0 [8];
-  uint auStack_b0 [44];
+  unsigned int *puVar10;
+  unsigned int *puVar11;
+  unsigned int *puVar12;
+  unsigned int *puVar13;
+  unsigned int uVar14;
+  unsigned int *puVar15;
+  unsigned int uVar16;
+  unsigned int in_stack_00000054;
+  unsigned int auStack_e0 [4];
+  unsigned int auStack_d0 [8];
+  unsigned int auStack_b0 [44];
   
-  auStack_e0[0] = (uint)param_2;
+  auStack_e0[0] = (unsigned int)param_2;
   uVar6 = 0;
   uVar16 = 0;
   uVar14 = 0;
@@ -77,12 +53,12 @@ fn_82636938(int param_1,undefined8 param_2,int param_3,uint param_4,int param_5,
     if (uVar1 <= uVar16) {
       return 0xffffffff80004005;
     }
-    puVar13 = (uint *)((uVar16 / 0xc) * 0xc + iVar5);
+    puVar13 = (unsigned int *)((uVar16 / 0xc) * 0xc + iVar5);
     auStack_d0[0] = *puVar13;
     puVar15 = auStack_d0 + uVar7 * 2;
-    auStack_d0[1] = (uint)*(ushort *)((int)puVar13 + 6);
-    auStack_d0[2] = puVar13[2] << 0x10 | (uint)*(ushort *)(puVar13 + 1);
-    auStack_d0[3] = (uint)*(ushort *)(puVar13 + 2);
+    auStack_d0[1] = (unsigned int)*(unsigned short *)((int)puVar13 + 6);
+    auStack_d0[2] = puVar13[2] << 0x10 | (unsigned int)*(unsigned short *)(puVar13 + 1);
+    auStack_d0[3] = (unsigned int)*(unsigned short *)(puVar13 + 2);
     if (((param_7 & 1) != 0) &&
        (uVar6 = (*param_8)(1,uVar16 / 6,puVar15,in_stack_00000054), (int)uVar6 < 0)) {
       return uVar6;
@@ -108,17 +84,17 @@ code_r0x82636c04:
       break;
     case 3:
     case 0xd:
-      if ((uint)((1 << (uVar1 >> 2 & 0x1f) & *(uint *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
+      if ((unsigned int)((1 << (uVar1 >> 2 & 0x1f) & *(unsigned int *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
           (uVar1 >> 10 & 1)) goto code_r0x82636a6c;
       break;
     case 4:
     case 0xe:
-      if ((uint)((1 << (uVar1 >> 2 & 0x1f) & *(uint *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
+      if ((unsigned int)((1 << (uVar1 >> 2 & 0x1f) & *(unsigned int *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
           (uVar1 >> 10 & 1)) goto code_r0x82636c04;
       break;
     case 7:
       uVar7 = *puVar15;
-      if ((*(uint *)((uVar7 >> 0xe & 0x7c) + param_6) & 0xff) != 0) {
+      if ((*(unsigned int *)((uVar7 >> 0xe & 0x7c) + param_6) & 0xff) != 0) {
         iVar8 = iVar8 + 1;
         puVar12 = puVar12 + 1;
         if (3 < iVar8) goto code_r0x82636ac4;
@@ -134,7 +110,7 @@ code_r0x82636b74:
         uVar7 = *puVar15;
         uVar2 = *puVar12;
         *puVar12 = uVar2 + 1;
-        if (uVar2 + 1 < (*(uint *)((uVar7 >> 0xe & 0x7c) + param_6) & 0xff)) goto code_r0x82636b74;
+        if (uVar2 + 1 < (*(unsigned int *)((uVar7 >> 0xe & 0x7c) + param_6) & 0xff)) goto code_r0x82636b74;
         iVar8 = iVar8 + -1;
         puVar12 = puVar12 + -1;
         break;
@@ -146,7 +122,7 @@ code_r0x82636ac4:
     case 9:
       uVar7 = *puVar15;
       if ((((uVar7 & 0x2000) != 0) || ((uVar7 & 0x4000) != 0)) ||
-         ((uint)((1 << (uVar1 >> 2 & 0x1f) & *(uint *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
+         ((unsigned int)((1 << (uVar1 >> 2 & 0x1f) & *(unsigned int *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
           (uVar1 >> 10 & 1))) {
         iVar9 = iVar9 + 1;
         puVar11 = puVar10 + 1;
@@ -168,7 +144,7 @@ code_r0x82636ac4:
       uVar7 = *puVar15;
       if (((uVar7 & 0x2000) != 0) ||
          (((uVar7 & 0x4000) == 0 &&
-          ((uint)((1 << (uVar1 >> 2 & 0x1f) & *(uint *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
+          ((unsigned int)((1 << (uVar1 >> 2 & 0x1f) & *(unsigned int *)((uVar1 >> 5 & 0x1c) + param_5)) != 0) ==
            (uVar1 >> 10 & 1))))) goto code_r0x82636b74;
       break;
     default:

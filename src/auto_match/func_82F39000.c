@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_160;
 extern int fn_82E2D9C0();
 extern int fn_82E58AC8();
@@ -48,28 +22,28 @@ extern unsigned int uStack_70;
 extern unsigned int uStack_74;
 
 
-longlong fn_82F39000(int param_1)
+__int64 fn_82F39000(int param_1)
 
 {
   int *piVar1;
-  longlong lVar2;
+  __int64 lVar2;
   int iVar3;
   int iVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  longlong lVar7;
-  uint uStack_170;
-  undefined4 *puStack_16c;
-  undefined4 uStack_168;
-  undefined4 uStack_164;
-  ulonglong auStack_160 [2];
-  struct { undefined4 first; undefined4 second; } stack_pair_150;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  __int64 lVar7;
+  unsigned int uStack_170;
+  unsigned int *puStack_16c;
+  unsigned int uStack_168;
+  unsigned int uStack_164;
+  unsigned __int64 auStack_160 [2];
+  struct { unsigned int first; unsigned int second; } stack_pair_150;
 
-  undefined4 uStack_148;
-  undefined4 uStack_74;
-  undefined4 uStack_70;
-  undefined4 uStack_6c;
-  undefined4 uStack_68;
+  unsigned int uStack_148;
+  unsigned int uStack_74;
+  unsigned int uStack_70;
+  unsigned int uStack_6c;
+  unsigned int uStack_68;
   
   stack_pair_150.first = 0;
   stack_pair_150.second = 0;
@@ -80,25 +54,25 @@ longlong fn_82F39000(int param_1)
   uStack_6c = 0;
   uStack_70 = 0;
   uStack_74 = 0;
-  lVar2 = fn_82E58CA8(&stack_pair_150.first,*(undefined4 *)(param_1 + 0x70),0);
+  lVar2 = fn_82E58CA8(&stack_pair_150.first,*(unsigned int *)(param_1 + 0x70),0);
   if (-1 < lVar2) {
-    uVar5 = (ulonglong)*(uint *)(param_1 + 0x70);
+    uVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x70);
     lVar7 = uVar5 - 1;
     if (-1 < lVar7) {
       do {
         fn_82F377E8(param_1 + 8,lVar7,&puStack_16c);
         piVar1 = (int *)*puStack_16c;
         uStack_170 = 0;
-        (**(code **)(*piVar1 + 0x20))(piVar1,&uStack_170);
+        (**(int (***)())(*piVar1 + 0x20))(piVar1,&uStack_170);
         if (uStack_170 != 0) {
           auStack_160[0] = 0;
-          lVar2 = (**(code **)(*piVar1 + 0x14))(piVar1,0,auStack_160);
+          lVar2 = (**(int (***)())(*piVar1 + 0x14))(piVar1,0,auStack_160);
           if (lVar2 < 0) break;
           if (0xffffffff < (uVar6 & 0xffffffff) + auStack_160[0]) {
             lVar2 = 1;
             goto LAB_82f39240;
           }
-          if (((ulonglong)*(uint *)(param_1 + 0x70) < (uVar5 & 0xffffffff)) ||
+          if (((unsigned __int64)*(unsigned int *)(param_1 + 0x70) < (uVar5 & 0xffffffff)) ||
              (iVar3 = fn_82F37AA8(param_1 + 8,lVar7), iVar3 < 0)) {
             lVar2 = -0x7fff0001;
             goto LAB_82f39240;
@@ -107,7 +81,7 @@ longlong fn_82F39000(int param_1)
           iVar3 = fn_82E58AC8(&stack_pair_150.first,piVar1);
           if (iVar3 == 0) {
             lVar2 = -0x7ff8fff2;
-            (**(code **)(*piVar1 + 8))(piVar1);
+            (**(int (***)())(*piVar1 + 8))(piVar1);
             break;
           }
           iVar4 = iVar4 + 1;
@@ -125,7 +99,7 @@ longlong fn_82F39000(int param_1)
       uStack_170 = 0;
       lVar2 = fn_82F384C0(param_1,&uStack_170);
       if (-1 < lVar2) {
-        uVar5 = (ulonglong)uStack_170;
+        uVar5 = (unsigned __int64)uStack_170;
         fn_82F377E8(param_1 + 8,uVar5,&puStack_16c);
         lVar2 = fn_82F40450(*puStack_16c,uVar6);
         if (-1 < lVar2) {

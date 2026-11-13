@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_11c;
 extern int fn_82635D20();
 extern int fn_82635DB8();
@@ -35,22 +8,22 @@ extern unsigned int iStack_8c;
 extern unsigned int uStack_120;
 
 
-void fn_82AA10A0(undefined8 param_1,undefined8 param_2,int param_3)
+void fn_82AA10A0(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
 
 {
   int iVar1;
   int iVar2;
-  byte bVar3;
-  uint uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  uint uVar7;
+  unsigned char bVar3;
+  unsigned int uVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned int uVar7;
   int iVar8;
   int iVar9;
-  uint uVar10;
+  unsigned int uVar10;
   int *piVar11;
-  uint uStack_120;
-  uint auStack_11c [3];
+  unsigned int uStack_120;
+  unsigned int auStack_11c [3];
   int aiStack_110 [17];
   int aiStack_cc [16];
   int iStack_8c;
@@ -86,7 +59,7 @@ void fn_82AA10A0(undefined8 param_1,undefined8 param_2,int param_3)
               uVar10 = 0;
             }
             fn_82A9FA90(piVar11[-8],piVar11[-0xc],iVar1,iVar2,&uStack_120,auStack_11c);
-            uVar4 = ((uint)bVar3 << 4 | uStack_120 & 0xf) << 4 | auStack_11c[0] & 0xf;
+            uVar4 = ((unsigned int)bVar3 << 4 | uStack_120 & 0xf) << 4 | auStack_11c[0] & 0xf;
             iVar9 = iVar1;
             iVar8 = iVar2;
           }

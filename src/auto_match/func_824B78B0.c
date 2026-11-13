@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 typedef struct S8225 { int pad[6]; int f18; int f1c; int f20; int f24; int f28; } S8225;
 extern S8225 *fn_8225F160();
@@ -42,16 +15,16 @@ extern int fn_828EA5F8();
 extern int fn_828EA610();
 
 
-void fn_824B78B0(undefined8 param_1,undefined1 param_2,undefined4 param_3,undefined2 param_4,
-                  undefined2 param_5,undefined2 param_6)
+void fn_824B78B0(unsigned __int64 param_1,unsigned char param_2,unsigned int param_3,unsigned short param_4,
+                  unsigned short param_5,unsigned short param_6)
 
 {
   int iVar1;
   S8225 *s;
   unsigned char cVar3;
   int iVar2;
-  undefined1 uVar4;
-  undefined2 auStack_50;
+  unsigned char uVar4;
+  unsigned short auStack_50;
   
   s = fn_8225F160();
   s->f18 = 1;
@@ -68,13 +41,13 @@ void fn_824B78B0(undefined8 param_1,undefined1 param_2,undefined4 param_3,undefi
       if (iVar2 != 0) {
         fn_8245AF50(iVar1,0x11);
         if (*(int *)(iVar1 + 0x14) == 0) {
-          *(undefined4 *)(iVar1 + 0x14) = 1;
+          *(unsigned int *)(iVar1 + 0x14) = 1;
         }
         uVar4 = fn_823AB478(param_1);
         fn_8245B050(iVar1,uVar4,4);
         fn_8245B050(iVar1,param_2,4);
         fn_8245B100(iVar1);
-        auStack_50 = (undefined2)param_3;
+        auStack_50 = (unsigned short)param_3;
         fn_8245B168(iVar1,&auStack_50,2);
         auStack_50 = param_4;
         fn_8245B168(iVar1,&auStack_50,2);

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FEC058();
 extern int fn_82FEC0E0();
 extern int fn_82FEC400();
@@ -37,10 +13,10 @@ void fn_83009970(int param_1,int *param_2)
 {
   bool bVar1;
   int iVar2;
-  uint uVar3;
+  unsigned int uVar3;
   int iVar4;
   
-  *(undefined1 *)(param_2 + 2) = 1;
+  *(unsigned char *)(param_2 + 2) = 1;
   if (*param_2 == 0) {
     iVar4 = *(int *)(param_1 + 0x28);
     if (iVar4 != 0) {
@@ -62,7 +38,7 @@ LAB_830099cc:
         fn_82FEC058();
         return;
       }
-      fn_82FEC400((double)(float)param_2[4],*(undefined4 *)(param_1 + 0xc));
+      fn_82FEC400((double)(float)param_2[4],*(unsigned int *)(param_1 + 0xc));
       return;
     }
   }
@@ -87,14 +63,14 @@ LAB_83009a4c:
         fn_82FEC0E0();
         return;
       }
-      fn_82FEC570((double)(float)param_2[4],*(undefined4 *)(param_1 + 0xc));
+      fn_82FEC570((double)(float)param_2[4],*(unsigned int *)(param_1 + 0xc));
       return;
     }
   }
   iVar4 = *(int *)(param_1 + 0x48);
   if (iVar4 != *(int *)(param_1 + 0x4c)) {
     do {
-      (**(code **)(**(int **)(iVar4 + 4) + 0x34))(*(int **)(iVar4 + 4),param_2);
+      (**(int (***)())(**(int **)(iVar4 + 4) + 0x34))(*(int **)(iVar4 + 4),param_2);
       iVar4 = iVar4 + 8;
     } while (iVar4 != *(int *)(param_1 + 0x4c));
   }

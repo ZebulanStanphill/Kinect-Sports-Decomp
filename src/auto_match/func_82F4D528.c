@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1DD38();
 extern unsigned int iStack_44;
 extern unsigned int lbl_83261824;
@@ -38,14 +11,14 @@ void fn_82F4D528(void)
 {
   int iVar1;
   int *piVar2;
-  uint uVar3;
+  unsigned int uVar3;
   int iVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar5;
   int *piVar6;
   int iVar7;
   int *piVar8;
   int iVar9;
-  longlong lVar10;
+  __int64 lVar10;
   int iStack_44;
   int aiStack_40 [8];
   int aiStack_20 [8];
@@ -53,7 +26,7 @@ void fn_82F4D528(void)
   piVar6 = &iStack_44;
   uVar3 = 0;
   lVar10 = 6;
-  puVar5 = (undefined4 *)0x832616b4;
+  puVar5 = (unsigned int *)0x832616b4;
   do {
     piVar6 = piVar6 + 1;
     *piVar6 = 0;
@@ -63,7 +36,7 @@ void fn_82F4D528(void)
   lVar10 = 6;
   do {
     puVar5 = puVar5 + 0x70;
-    *(undefined4 *)((int)aiStack_20 + iVar7) = *puVar5;
+    *(unsigned int *)((int)aiStack_20 + iVar7) = *puVar5;
     iVar7 = iVar7 + 4;
     lVar10 = lVar10 + -1;
   } while (lVar10 != 0);

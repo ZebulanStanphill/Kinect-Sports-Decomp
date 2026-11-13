@@ -1,19 +1,16 @@
-typedef unsigned int undefined4;
-typedef unsigned __int64 undefined8;
-
 unsigned int XMsgSystemProcessCall(unsigned int app, unsigned int msg,
                                    void *buf, unsigned int size);
 
 typedef struct {
-    undefined4 a;
-    undefined4 b;
-    undefined4 c;
-    undefined4 d;
-    undefined8 e;
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+    unsigned __int64 e;
 } MsgArgs_82A2B028;
 
-void fn_82A2B028(undefined4 param_1, undefined4 param_2, undefined4 param_3,
-                 undefined4 param_4, undefined8 param_5)
+void fn_82A2B028(unsigned int param_1, unsigned int param_2, unsigned int param_3,
+                 unsigned int param_4, unsigned __int64 param_5)
 {
     MsgArgs_82A2B028 args;
 

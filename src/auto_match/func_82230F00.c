@@ -1,6 +1,4 @@
 typedef unsigned char bool;
-#define true 1
-#define false 0
 
 typedef struct Obj_82230F00 {
     char pad0[0x58];

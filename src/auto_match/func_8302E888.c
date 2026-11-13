@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8302E258();
 extern int fn_8302E258();
 extern int fn_83032B40();
@@ -39,25 +13,25 @@ extern unsigned int uStack_3c;
 extern unsigned int uStack_40;
 
 
-undefined8 fn_8302E888(int param_1,int *param_2)
+unsigned __int64 fn_8302E888(int param_1,int *param_2)
 
 {
   bool bVar1;
   int iVar2;
   int iVar4;
-  undefined8 uVar3;
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  unsigned __int64 uVar3;
+  unsigned int uStack_40;
+  unsigned int uStack_3c;
+  struct { unsigned int first; unsigned int second; } stack_pair_30;
 
-  undefined4 *puStack_28;
-  undefined1 uStack_24;
-  undefined1 uStack_23;
+  unsigned int *puStack_28;
+  unsigned char uStack_24;
+  unsigned char uStack_23;
   int iStack_20;
-  undefined4 uStack_1c;
+  unsigned int uStack_1c;
 
-  *(undefined1 *)(param_1 + 0x122) = 1;
-  if ((*(byte *)(param_1 + 0x11f) & 2) == 0) {
+  *(unsigned char *)(param_1 + 0x122) = 1;
+  if ((*(unsigned char *)(param_1 + 0x11f) & 2) == 0) {
     uVar3 = fn_8302E258(param_1,param_2);
   }
   else if (*param_2 == 0) {

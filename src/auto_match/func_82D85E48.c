@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern unsigned int *auStack_70;
 extern int fn_82CE4118();
@@ -50,42 +23,42 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_68;
 
 
-void fn_82D85E48(int param_1,int *param_2,uint param_3)
+void fn_82D85E48(int param_1,int *param_2,unsigned int param_3)
 
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  uint uVar3;
+  unsigned int *puVar1;
+  unsigned __int64 uVar2;
+  unsigned int uVar3;
   int iVar4;
   int *piVar5;
-  uint uVar6;
-  longlong lVar7;
+  unsigned int uVar6;
+  __int64 lVar7;
   int *piVar8;
-  undefined1 auStack_70 [4];
+  unsigned char auStack_70 [4];
   int *piStack_6c;
-  undefined2 uStack_68;
-  struct { int first; uint second; } stack_pair_60;
+  unsigned short uStack_68;
+  struct { int first; unsigned int second; } stack_pair_60;
 
-  uint uStack_58;
+  unsigned int uStack_58;
   int iStack_54;
-  struct { int first; uint second; } stack_pair_50;
+  struct { int first; unsigned int second; } stack_pair_50;
 
-  uint uStack_48;
+  unsigned int uStack_48;
   int iStack_44;
 
   if (0 < (int)param_3) {
     if (*(int *)(param_1 + 0x94) == 0) {
-      *(undefined4 *)(param_1 + 0x94) = 1;
+      *(unsigned int *)(param_1 + 0x94) = 1;
       iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar1 = *(undefined4 **)(iVar4 + 4);
-      if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+      puVar1 = *(unsigned int **)(iVar4 + 4);
+      if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
         *puVar1 = "LtRemEntities";
         puVar1[3] = "StInit+CallBck";
         uVar2 = TBLr;
         puVar1[1] = (int)uVar2;
-        *(undefined4 **)(iVar4 + 4) = puVar1 + 4;
+        *(unsigned int **)(iVar4 + 4) = puVar1 + 4;
       }
-      (**(code **)(**(int **)(param_1 + 8) + 0x20))
+      (**(int (***)())(**(int **)(param_1 + 8) + 0x20))
                 (*(int **)(param_1 + 8),param_2,param_3,param_1,1);
       stack_pair_60.first = 0;
       stack_pair_60.second = 0;
@@ -111,65 +84,65 @@ void fn_82D85E48(int param_1,int *param_2,uint param_3)
       if (uVar6 != 0) {
         stack_pair_60.second = uVar3;
         iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(undefined4 **)(iVar4 + 4);
-        if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+        puVar1 = *(unsigned int **)(iVar4 + 4);
+        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
           *puVar1 = "StBroadPhase";
           uVar2 = TBLr;
           puVar1[1] = (int)uVar2;
-          *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
         }
         stack_pair_50.first = 0;
         stack_pair_50.second = 0;
         uStack_48 = 0x80000000;
-        uVar6 = *(uint *)(param_1 + 0x338);
+        uVar6 = *(unsigned int *)(param_1 + 0x338);
         piVar5 = (int *)fn_82CE5410();
         uStack_48 = uVar6 | 0x80000000;
         stack_pair_50.first = *piVar5;
         *piVar5 = (uVar6 * 8 + 0x7f & 0xffffff80) + stack_pair_50.first;
         iStack_44 = stack_pair_50.first;
-        (**(code **)(**(int **)(param_1 + 0x58) + 0x20))
+        (**(int (***)())(**(int **)(param_1 + 0x58) + 0x20))
                   (*(int **)(param_1 + 0x58),&stack_pair_60.first,&stack_pair_50.first);
         iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(undefined4 **)(iVar4 + 4);
-        if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+        puVar1 = *(unsigned int **)(iVar4 + 4);
+        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
           *puVar1 = "StDelAgents";
           uVar2 = TBLr;
           puVar1[1] = (int)uVar2;
-          *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
         }
-        fn_830885D0(*(undefined4 *)(param_1 + 100),stack_pair_50.first,stack_pair_50.second);
+        fn_830885D0(*(unsigned int *)(param_1 + 100),stack_pair_50.first,stack_pair_50.second);
         iVar4 = iStack_44;
-        stack_pair_50.second = -(uint)(stack_pair_50.first != iStack_44) & stack_pair_50.second;
+        stack_pair_50.second = -(unsigned int)(stack_pair_50.first != iStack_44) & stack_pair_50.second;
         piVar5 = (int *)fn_82CE5410();
         *piVar5 = iVar4;
         iVar4 = fn_82CE5410();
         stack_pair_50.second = 0;
         if ((uStack_48 & 0x80000000) == 0) {
-          (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+          (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
                     (*(int **)(iVar4 + 0x10),stack_pair_50.first,uStack_48 & 0x3fffffff,8);
         }
         stack_pair_50.first = 0;
         uStack_48 = 0x80000000;
       }
       iVar4 = iStack_54;
-      stack_pair_60.second = -(uint)(stack_pair_60.first != iStack_54) & stack_pair_60.second;
+      stack_pair_60.second = -(unsigned int)(stack_pair_60.first != iStack_54) & stack_pair_60.second;
       piVar5 = (int *)fn_82CE5410();
       *piVar5 = iVar4;
       iVar4 = fn_82CE5410();
       stack_pair_60.second = 0;
       if ((uStack_58 & 0x80000000) == 0) {
-        (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+        (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
                   (*(int **)(iVar4 + 0x10),stack_pair_60.first,uStack_58 & 0x3fffffff,4);
       }
       stack_pair_60.first = 0;
       uStack_58 = 0x80000000;
       iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar1 = *(undefined4 **)(iVar4 + 4);
-      if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+      puVar1 = *(unsigned int **)(iVar4 + 4);
+      if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
         *puVar1 = "StRemoveCb";
         uVar2 = TBLr;
         puVar1[1] = (int)uVar2;
-        *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+        *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
       }
       for (; param_2 != piVar8; param_2 = param_2 + 1) {
         fn_82DAD8A8(param_1,*param_2);
@@ -179,36 +152,36 @@ void fn_82D85E48(int param_1,int *param_2,uint param_3)
           fn_82D40590(*param_2 + 0x30);
         }
         if (*(short *)((int *)*param_2 + 1) == 0) {
-          (**(code **)(*(int *)*param_2 + 0x14))();
+          (**(int (***)())(*(int *)*param_2 + 0x14))();
         }
         fn_82CE4118(*param_2);
       }
       iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar1 = *(undefined4 **)(iVar4 + 4);
-      if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+      puVar1 = *(unsigned int **)(iVar4 + 4);
+      if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
         *puVar1 = &lbl_8202CF7C;
         uVar2 = TBLr;
         puVar1[1] = (int)uVar2;
-        *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+        *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
       }
-      lVar7 = (ulonglong)*(uint *)(param_1 + 0x94) - 1;
+      lVar7 = (unsigned __int64)*(unsigned int *)(param_1 + 0x94) - 1;
       *(int *)(param_1 + 0x94) = (int)lVar7;
       if ((lVar7 == 0) && (*(char *)(param_1 + 0x9c) == '\0')) {
         if (*(int *)(param_1 + 0x8c) != 0) {
-          *(undefined4 *)(param_1 + 0x8c) = 0;
-          fn_82DA6BA8(*(undefined4 *)(param_1 + 0x88));
+          *(unsigned int *)(param_1 + 0x8c) = 0;
+          fn_82DA6BA8(*(unsigned int *)(param_1 + 0x88));
         }
         if ((*(int *)(param_1 + 0xa4) == 1) && (*(int *)(param_1 + 0x90) != 0)) {
-          *(undefined4 *)(param_1 + 0x90) = 0;
-          fn_82DA6A58(*(undefined4 *)(param_1 + 0x88));
+          *(unsigned int *)(param_1 + 0x90) = 0;
+          fn_82DA6A58(*(unsigned int *)(param_1 + 0x88));
         }
       }
     }
     else {
-      uStack_68 = (undefined2)param_3;
+      uStack_68 = (unsigned short)param_3;
       auStack_70[0] = 7;
       piStack_6c = param_2;
-      fn_82DA6530(*(undefined4 *)(param_1 + 0x88),auStack_70);
+      fn_82DA6530(*(unsigned int *)(param_1 + 0x88),auStack_70);
     }
   }
   return;

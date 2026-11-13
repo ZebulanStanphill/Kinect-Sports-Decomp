@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float lbl_82005748;
 extern unsigned int lbl_8207F418;
 extern unsigned int lbl_821AAD20;
@@ -35,7 +8,7 @@ void fn_82A04650(int param_1,float *param_2)
 {
   float fVar1;
   float fVar2;
-  uint uVar3;
+  unsigned int uVar3;
   float fVar4;
   float *pfVar5;
   float *pfVar6;
@@ -44,10 +17,10 @@ void fn_82A04650(int param_1,float *param_2)
   float fVar9;
   int *piVar10;
   int iVar11;
-  uint uVar12;
+  unsigned int uVar12;
   int iVar13;
   float *pfVar14;
-  longlong lVar15;
+  __int64 lVar15;
   
   pfVar14 = param_2 + -1;
   lVar15 = 10;
@@ -64,7 +37,7 @@ void fn_82A04650(int param_1,float *param_2)
   piVar10 = (int *)&lbl_8207F418;
   lVar15 = 0x1f;
   do {
-    uVar3 = *(uint *)(param_1 + -0x20);
+    uVar3 = *(unsigned int *)(param_1 + -0x20);
     iVar11 = param_1 + -0x10c;
     uVar12 = 0;
     fVar1 = fVar9;
@@ -93,15 +66,15 @@ void fn_82A04650(int param_1,float *param_2)
     if (*piVar10 != 0) {
       param_2[5] = param_2[5] + fVar1;
     }
-    if (*(uint *)(param_1 + -0x28) < 8) {
-      fVar1 = *(float *)(*(uint *)(param_1 + -0x28) * 0x10 + iVar11 + 0xfc);
+    if (*(unsigned int *)(param_1 + -0x28) < 8) {
+      fVar1 = *(float *)(*(unsigned int *)(param_1 + -0x28) * 0x10 + iVar11 + 0xfc);
       param_2[1] = fVar1 + param_2[1];
       if (*piVar10 != 0) {
         param_2[6] = fVar1 + param_2[6];
       }
       fVar2 = fVar9;
-      if (*(uint *)(param_1 + -0x24) < 8) {
-        fVar2 = *(float *)(*(uint *)(param_1 + -0x24) * 0x10 + iVar11 + 0xfc);
+      if (*(unsigned int *)(param_1 + -0x24) < 8) {
+        fVar2 = *(float *)(*(unsigned int *)(param_1 + -0x24) * 0x10 + iVar11 + 0xfc);
       }
       param_2[3] = param_2[3] + fVar2 + fVar1;
       if (*piVar10 != 0) {

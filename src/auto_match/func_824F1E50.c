@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_44;
@@ -47,33 +20,33 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-void fn_824F1E50(undefined4 *param_1,undefined4 *param_2)
+void fn_824F1E50(unsigned int *param_1,unsigned int *param_2)
 
 {
-  undefined8 uVar1;
-  undefined4 uVar3;
-  undefined8 uVar2;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined1 auStack_58 [4];
-  undefined1 auStack_54 [4];
-  undefined1 auStack_50 [4];
-  undefined1 auStack_4c [4];
-  undefined1 auStack_48 [4];
-  undefined1 auStack_44 [4];
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [16];
+  unsigned __int64 uVar1;
+  unsigned int uVar3;
+  unsigned __int64 uVar2;
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
+  unsigned char auStack_58 [4];
+  unsigned char auStack_54 [4];
+  unsigned char auStack_50 [4];
+  unsigned char auStack_4c [4];
+  unsigned char auStack_48 [4];
+  unsigned char auStack_44 [4];
+  unsigned char auStack_40 [16];
+  unsigned char auStack_30 [16];
   
   param_1[1] = param_2;
   *param_1 = &lbl_821C1E18;
-  if (param_2 == (undefined4 *)0x0) {
+  if (param_2 == (unsigned int *)0x0) {
     param_1[2] = 0;
   }
   else {
     param_1[2] = *param_2;
   }
   param_1[3] = 0;
-  *(undefined1 *)(param_1 + 0x1d) = 0;
+  *(unsigned char *)(param_1 + 0x1d) = 0;
   param_1[4] = 0;
   fn_82520158(0xffffffff821c1a74,&uStack_5c,0);
   fn_82520158(0xffffffff821c1a9c,&uStack_60,0);

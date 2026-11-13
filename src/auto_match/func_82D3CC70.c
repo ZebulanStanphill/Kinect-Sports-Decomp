@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern unsigned int lbl_82138380;
 extern unsigned int lbl_82138390;
@@ -59,45 +32,45 @@ extern unsigned int lbl_821383FC;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82D3CC70(int param_1,undefined8 param_2)
+unsigned __int64 fn_82D3CC70(int param_1,unsigned __int64 param_2)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar4;
+  unsigned int *puVar5;
   float *pfVar6;
   int iVar7;
   int in_r0;
   float fVar8;
-  undefined4 uVar9;
+  unsigned int uVar9;
   float fVar10;
-  undefined4 uVar11;
+  unsigned int uVar11;
   float fVar12;
-  undefined4 uVar13;
+  unsigned int uVar13;
   float fVar14;
   float fVar15;
   float fVar16;
   float fVar17;
   float fVar18;
-  undefined1 auStack_40 [64];
+  unsigned char auStack_40 [64];
   
-  puVar4 = (undefined4 *)(param_1 + 0x20U & 0xfffffff0);
+  puVar4 = (unsigned int *)(param_1 + 0x20U & 0xfffffff0);
   uVar9 = puVar4[1];
   uVar11 = puVar4[2];
   uVar13 = puVar4[3];
-  puVar5 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+  puVar5 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
   *puVar5 = *puVar4;
   puVar5[1] = uVar9;
   puVar5[2] = uVar11;
   puVar5[3] = uVar13;
-  pfVar6 = (float *)((uint)(&lbl_82138380 + in_r0) & 0xfffffff0);
+  pfVar6 = (float *)((unsigned int)(&lbl_82138380 + in_r0) & 0xfffffff0);
   fVar15 = *pfVar6;
   fVar16 = pfVar6[1];
   fVar17 = pfVar6[2];
   fVar18 = pfVar6[3];
-  pfVar6 = (float *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+  pfVar6 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
   fVar8 = *pfVar6;
   fVar10 = pfVar6[1];
   fVar12 = pfVar6[2];

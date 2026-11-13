@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern float lbl_820155AC;
@@ -33,7 +6,7 @@ extern unsigned int lbl_820155B8;
 extern unsigned int lbl_820155C8;
 
 
-void fn_82788C30(undefined8 param_1,float *param_2,int param_3,ulonglong param_4,float *param_5)
+void fn_82788C30(unsigned __int64 param_1,float *param_2,int param_3,unsigned __int64 param_4,float *param_5)
 
 {
   float fVar1;
@@ -44,8 +17,8 @@ void fn_82788C30(undefined8 param_1,float *param_2,int param_3,ulonglong param_4
   float fVar6;
   float fVar7;
   float fVar8;
-  uint uVar9;
-  uint uVar10;
+  unsigned int uVar9;
+  unsigned int uVar10;
   float fVar11;
   int iVar12;
   float fVar13;
@@ -58,8 +31,8 @@ void fn_82788C30(undefined8 param_1,float *param_2,int param_3,ulonglong param_4
   iVar12 = (int)((param_4 & 0xffffffff) << 2);
   fVar1 = param_5[1];
   fVar2 = *param_5;
-  uVar9 = *(uint *)((*(int *)((int)&lbl_820155B4 + iVar12) + 3) * 4 + param_3);
-  uVar10 = *(uint *)((*(int *)((int)&lbl_820155B8 + iVar12) + 3) * 4 + param_3);
+  uVar9 = *(unsigned int *)((*(int *)((int)&lbl_820155B4 + iVar12) + 3) * 4 + param_3);
+  uVar10 = *(unsigned int *)((*(int *)((int)&lbl_820155B8 + iVar12) + 3) * 4 + param_3);
   pfVar16 = (float *)(*(int *)((uVar9 >> 6 & 0x3fffffc) + *(int *)(iVar14 + 0xc)) +
                      (uVar9 & 0xff) * 0xc);
   fVar3 = *pfVar16;

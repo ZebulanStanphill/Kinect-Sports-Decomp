@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int fStack_110;
 extern unsigned int fStack_144;
 extern unsigned int fStack_148;
@@ -93,77 +67,77 @@ extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
+void fn_8226E5B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar13;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned int uVar12;
+  unsigned int uVar13;
   int iVar14;
-  undefined8 in_r0;
-  ulonglong uVar15;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar15;
   int iVar16;
-  ulonglong uVar17;
+  unsigned __int64 uVar17;
   double dVar18;
   double dVar19;
-  undefined1 in_vr0 [16];
-  undefined1 auVar20 [16];
-  undefined1 in_vr11 [16];
-  undefined1 in_vr12 [16];
-  undefined1 in_vr13 [16];
-  undefined1 auVar21 [16];
-  struct { undefined4 first; undefined4 second; } stack_pair_1a0;
+  unsigned char in_vr0 [16];
+  unsigned char auVar20 [16];
+  unsigned char in_vr11 [16];
+  unsigned char in_vr12 [16];
+  unsigned char in_vr13 [16];
+  unsigned char auVar21 [16];
+  struct { unsigned int first; unsigned int second; } stack_pair_1a0;
 
-  undefined4 uStack_198;
-  undefined4 uStack_194;
-  undefined4 uStack_190;
-  undefined4 uStack_18c;
+  unsigned int uStack_198;
+  unsigned int uStack_194;
+  unsigned int uStack_190;
+  unsigned int uStack_18c;
   float fStack_188;
-  undefined4 uStack_184;
+  unsigned int uStack_184;
   float fStack_180;
-  undefined4 uStack_17c;
+  unsigned int uStack_17c;
   float fStack_178;
-  undefined4 uStack_174;
-  undefined4 uStack_170;
-  undefined4 uStack_16c;
+  unsigned int uStack_174;
+  unsigned int uStack_170;
+  unsigned int uStack_16c;
   float fStack_168;
   float fStack_164;
-  undefined4 uStack_160;
+  unsigned int uStack_160;
   float fStack_15c;
   float fStack_158;
-  undefined4 uStack_154;
+  unsigned int uStack_154;
   float fStack_150;
   float fStack_14c;
   float fStack_148;
   float fStack_144;
-  undefined4 uStack_140;
-  undefined4 uStack_13c;
-  undefined4 uStack_138;
-  undefined4 uStack_134;
-  undefined4 uStack_130;
-  undefined4 uStack_12c;
-  undefined4 uStack_128;
-  undefined4 uStack_124;
-  undefined4 uStack_120;
-  undefined4 uStack_11c;
-  undefined4 uStack_118;
-  undefined4 uStack_114;
+  unsigned int uStack_140;
+  unsigned int uStack_13c;
+  unsigned int uStack_138;
+  unsigned int uStack_134;
+  unsigned int uStack_130;
+  unsigned int uStack_12c;
+  unsigned int uStack_128;
+  unsigned int uStack_124;
+  unsigned int uStack_120;
+  unsigned int uStack_11c;
+  unsigned int uStack_118;
+  unsigned int uStack_114;
   float fStack_110;
   float fStack_fc;
-  undefined4 uStack_e8;
+  unsigned int uStack_e8;
   float fStack_e4;
   float fStack_d8;
-  undefined4 uStack_d4;
+  unsigned int uStack_d4;
 
   uVar15 = ZEXT48(&stack0x00000000);
   iVar16 = fn_82F6A534();
@@ -174,22 +148,22 @@ void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
   uStack_194 = 0x2d0;
   fn_8263E9F0(dVar19,lbl_8320A898,4,uVar15 - 0x1a0,0,0,0xffffffff8326af8c,uVar15 - 0x1a0,0);
   iVar14 = lbl_8320A898;
-  uVar10 = *(uint *)(lbl_8320A898 + 0x2ef8);
-  uVar11 = *(uint *)(lbl_8320A898 + 0x2efc);
-  uVar12 = *(uint *)(lbl_8320A898 + 0x2f14);
-  uVar13 = *(uint *)(lbl_8320A898 + 0x2f04);
-  *(undefined4 *)(lbl_8320A898 + 0x2f14) = 0;
-  *(uint *)(iVar14 + 0x2934) = *(uint *)(iVar14 + 0x2934) & 0xfffffffd;
-  *(ulonglong *)(iVar14 + 0x10) = *(ulonglong *)(iVar14 + 0x10) | 0x20800;
+  uVar10 = *(unsigned int *)(lbl_8320A898 + 0x2ef8);
+  uVar11 = *(unsigned int *)(lbl_8320A898 + 0x2efc);
+  uVar12 = *(unsigned int *)(lbl_8320A898 + 0x2f14);
+  uVar13 = *(unsigned int *)(lbl_8320A898 + 0x2f04);
+  *(unsigned int *)(lbl_8320A898 + 0x2f14) = 0;
+  *(unsigned int *)(iVar14 + 0x2934) = *(unsigned int *)(iVar14 + 0x2934) & 0xfffffffd;
+  *(unsigned __int64 *)(iVar14 + 0x10) = *(unsigned __int64 *)(iVar14 + 0x10) | 0x20800;
   fn_82637B30(lbl_8320A898,1);
   fn_82637CE0(lbl_8320A898,4);
   fn_82637C50(lbl_8320A898,0);
   iVar14 = lbl_8320A898;
-  *(undefined4 *)(lbl_8320A898 + 0x2f04) = 7;
-  uVar17 = (ulonglong)lbl_8327F8A0;
-  *(uint *)(iVar14 + 0x28dc) =
-       *(uint *)(iVar14 + 0x28dc) & 0xfffffff0 | -(uint)(*(int *)(iVar14 + 0x3148) != 0) & 7;
-  *(ulonglong *)(iVar14 + 0x10) = *(ulonglong *)(iVar14 + 0x10) | 0x2000000000;
+  *(unsigned int *)(lbl_8320A898 + 0x2f04) = 7;
+  uVar17 = (unsigned __int64)lbl_8327F8A0;
+  *(unsigned int *)(iVar14 + 0x28dc) =
+       *(unsigned int *)(iVar14 + 0x28dc) & 0xfffffff0 | -(unsigned int)(*(int *)(iVar14 + 0x3148) != 0) & 7;
+  *(unsigned __int64 *)(iVar14 + 0x10) = *(unsigned __int64 *)(iVar14 + 0x10) | 0x2000000000;
   fn_82F68CC0(uVar15 - 400,uVar17 + 0xa880,0x40);
   fn_82F68CC0(uVar15 - 0x110,uVar17 + 0xa900,0x40);
   iVar14 = lbl_8320A898;
@@ -244,10 +218,10 @@ void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
   fn_8263CBB0(lbl_8320A898,0,param_2,0x80000000);
   fn_8263CBB0(lbl_8320A898,1,0xffffffff8326af8c,0x40000000);
   iVar14 = lbl_8320A898;
-  *(undefined4 *)(lbl_8320A898 + 0x2ed8) = 0;
-  *(ulonglong *)(iVar14 + 0x10) = *(ulonglong *)(iVar14 + 0x10) | 0x80000;
-  fn_82631920(lbl_8320A898,*(undefined4 *)(iVar16 + 0x290));
-  fn_82631578(lbl_8320A898,*(undefined4 *)(iVar16 + 0x294));
+  *(unsigned int *)(lbl_8320A898 + 0x2ed8) = 0;
+  *(unsigned __int64 *)(iVar14 + 0x10) = *(unsigned __int64 *)(iVar14 + 0x10) | 0x80000;
+  fn_82631920(lbl_8320A898,*(unsigned int *)(iVar16 + 0x290));
+  fn_82631578(lbl_8320A898,*(unsigned int *)(iVar16 + 0x294));
   fStack_188 = (float)dVar18;
   fStack_180 = (float)dVar19;
   fStack_178 = (float)dVar19;
@@ -262,20 +236,20 @@ void fn_8226E5B8(undefined8 param_1,undefined8 param_2,undefined4 *param_3)
   uStack_174 = lbl_82193B00;
   fn_82640058(lbl_8320A898,8,3,uVar15 - 400,0x10);
   iVar14 = lbl_8320A898;
-  *(uint *)(lbl_8320A898 + 0x2f14) = uVar12;
-  *(uint *)(iVar14 + 0x2934) =
-       (-(uint)(*(int *)(iVar14 + 0x3158) != 0) & uVar12 & 1) << 1 |
-       *(uint *)(iVar14 + 0x2934) & 0xfffffffd;
-  *(ulonglong *)(iVar14 + 0x10) = *(ulonglong *)(iVar14 + 0x10) | 0x20800;
+  *(unsigned int *)(lbl_8320A898 + 0x2f14) = uVar12;
+  *(unsigned int *)(iVar14 + 0x2934) =
+       (-(unsigned int)(*(int *)(iVar14 + 0x3158) != 0) & uVar12 & 1) << 1 |
+       *(unsigned int *)(iVar14 + 0x2934) & 0xfffffffd;
+  *(unsigned __int64 *)(iVar14 + 0x10) = *(unsigned __int64 *)(iVar14 + 0x10) | 0x20800;
   fn_82637B30(lbl_8320A898,uVar11 >> 0x1f);
   fn_82637CE0(lbl_8320A898,uVar10 >> 8 & 0x1f);
   fn_82637C50(lbl_8320A898,uVar10 & 0x1f);
   iVar14 = lbl_8320A898;
-  *(uint *)(lbl_8320A898 + 0x2f04) = uVar13;
-  *(uint *)(iVar14 + 0x28dc) =
-       *(uint *)(iVar14 + 0x28dc) & 0xfffffff0 |
-       -(uint)(*(int *)(iVar14 + 0x3148) != 0) & uVar13 & 0xf;
-  *(ulonglong *)(iVar14 + 0x10) = *(ulonglong *)(iVar14 + 0x10) | 0x2000000000;
+  *(unsigned int *)(lbl_8320A898 + 0x2f04) = uVar13;
+  *(unsigned int *)(iVar14 + 0x28dc) =
+       *(unsigned int *)(iVar14 + 0x28dc) & 0xfffffff0 |
+       -(unsigned int)(*(int *)(iVar14 + 0x3148) != 0) & uVar13 & 0xf;
+  *(unsigned __int64 *)(iVar14 + 0x10) = *(unsigned __int64 *)(iVar14 + 0x10) | 0x2000000000;
   fn_8263CBB0(lbl_8320A898,0,0,0x80000000);
   fn_8263CBB0(lbl_8320A898,1,0,0x40000000);
   fn_82F6A580();

@@ -1,48 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int memset();
 
 
-void fn_82A81528(int param_1,longlong param_2,longlong param_3,int *param_4,int *param_5,
+void fn_82A81528(int param_1,__int64 param_2,__int64 param_3,int *param_4,int *param_5,
                   int param_6,short param_7)
 
 {
   int *piVar1;
   int iVar3;
-  ulonglong uVar2;
-  longlong lVar4;
+  unsigned __int64 uVar2;
+  __int64 lVar4;
   int iVar5;
-  longlong lVar6;
-  longlong lVar7;
+  __int64 lVar6;
+  __int64 lVar7;
   int *piVar9;
-  ulonglong uVar8;
+  unsigned __int64 uVar8;
   int iVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar11;
   int iVar12;
   
   uVar11 = 0;
@@ -70,7 +43,7 @@ void fn_82A81528(int param_1,longlong param_2,longlong param_3,int *param_4,int 
         else {
           iVar10 = 0;
           iVar3 = 0;
-          lVar7 = (longlong)*(short *)(param_1 + 0xa8);
+          lVar7 = (__int64)*(short *)(param_1 + 0xa8);
           if (0 < *(short *)(param_1 + 0xa8)) {
             lVar4 = (uVar11 & 0x3fffffff) * 4 + param_2;
             lVar6 = param_3 + (uVar11 & 0x3fffffff) * -4;
@@ -108,7 +81,7 @@ void fn_82A81528(int param_1,longlong param_2,longlong param_3,int *param_4,int 
           iVar12 = 0;
           iVar3 = 0;
           do {
-            if ((longlong)(uVar8 + 1) < 0) {
+            if ((__int64)(uVar8 + 1) < 0) {
               iVar5 = 0;
             }
             else {
@@ -129,7 +102,7 @@ void fn_82A81528(int param_1,longlong param_2,longlong param_3,int *param_4,int 
           } while ((int)uVar2 < param_7 + -1);
         }
         if ((int)uVar2 < (int)param_7) {
-          if ((longlong)((uVar11 - uVar2) - 1) < 0) {
+          if ((__int64)((uVar11 - uVar2) - 1) < 0) {
             iVar10 = 0;
           }
           else {

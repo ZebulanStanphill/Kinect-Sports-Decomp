@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82789468(int *param_1,longlong param_2,longlong param_3,uint *param_4,int param_5)
+__int64 fn_82789468(int *param_1,__int64 param_2,__int64 param_3,unsigned int *param_4,int param_5)
 
 {
-  uint uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  uint *puVar4;
+  unsigned int uVar1;
+  __int64 lVar2;
+  __int64 lVar3;
+  unsigned int *puVar4;
   bool bVar5;
   
   if (0 < param_3 - param_2) {
     lVar3 = param_3 - param_2;
     do {
-      lVar2 = (longlong)((int)lVar3 >> 1);
-      uVar1 = *(uint *)((int)((lVar2 + param_2 & 0xffffffffU) << 2) + *param_1);
-      puVar4 = (uint *)(*(int *)((uVar1 >> 8 & 0xfffffc) + *(int *)(param_5 + 0xc)) +
+      lVar2 = (__int64)((int)lVar3 >> 1);
+      uVar1 = *(unsigned int *)((int)((lVar2 + param_2 & 0xffffffffU) << 2) + *param_1);
+      puVar4 = (unsigned int *)(*(int *)((uVar1 >> 8 & 0xfffffc) + *(int *)(param_5 + 0xc)) +
                        (uVar1 & 0x3ff) * 0xc);
       uVar1 = *puVar4;
       if (uVar1 == *param_4) {

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern unsigned int fStack_54;
@@ -47,19 +20,19 @@ extern unsigned int lbl_83297910;
 extern unsigned int lbl_83297920;
 
 
-void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
+void fn_825ABCB8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   float fVar1;
   float fVar2;
   int iVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar4;
+  unsigned int *puVar5;
   int in_r0;
   int *piVar7;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   float *pfVar8;
-  uint uVar9;
+  unsigned int uVar9;
   double dVar10;
   double dVar11;
   double dVar12;
@@ -70,17 +43,17 @@ void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
   double dVar17;
   double dVar18;
   double dVar19;
-  undefined4 uVar20;
-  undefined4 uVar21;
-  undefined4 uVar22;
-  undefined4 in_register_000104b0;
-  undefined4 in_register_000104b4;
-  undefined4 in_register_000104b8;
-  undefined4 in_vr75;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
+  unsigned int uVar20;
+  unsigned int uVar21;
+  unsigned int uVar22;
+  unsigned int in_register_000104b0;
+  unsigned int in_register_000104b4;
+  unsigned int in_register_000104b8;
+  unsigned int in_vr75;
+  unsigned int in_register_000104d0;
+  unsigned int in_register_000104d4;
+  unsigned int in_register_000104d8;
+  unsigned int in_vr77;
   float fStack_70;
   float fStack_6c;
   float fStack_68;
@@ -99,11 +72,11 @@ void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
       pfVar8 = (float *)0x0;
     }
     else {
-      puVar4 = (undefined4 *)(in_r0 + (int)param_3 & 0xfffffff0);
+      puVar4 = (unsigned int *)(in_r0 + (int)param_3 & 0xfffffff0);
       uVar20 = puVar4[1];
       uVar21 = puVar4[2];
       uVar22 = puVar4[3];
-      puVar5 = (undefined4 *)((int)&fStack_60 + in_r0 & 0xfffffff0);
+      puVar5 = (unsigned int *)((int)&fStack_60 + in_r0 & 0xfffffff0);
       *puVar5 = *puVar4;
       puVar5[1] = uVar20;
       puVar5[2] = uVar21;
@@ -147,7 +120,7 @@ void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
       uVar9 = lbl_83297920;
       if ((lbl_83297920 & 1) == 0) {
         uVar9 = lbl_83297920 | 1;
-        puVar4 = (undefined4 *)((int)&lbl_83297910 + in_r0 & 0xfffffff0);
+        puVar4 = (unsigned int *)((int)&lbl_83297910 + in_r0 & 0xfffffff0);
         lbl_83297920 = uVar9;
         *puVar4 = in_register_000104d0;
         puVar4[1] = in_register_000104d4;
@@ -156,22 +129,22 @@ void fn_825ABCB8(undefined8 param_1,undefined8 param_2,ulonglong param_3)
       }
       if ((uVar9 & 1) == 0) {
         lbl_83297920 = uVar9 | 1;
-        puVar4 = (undefined4 *)((int)&lbl_83297910 + in_r0 & 0xfffffff0);
+        puVar4 = (unsigned int *)((int)&lbl_83297910 + in_r0 & 0xfffffff0);
         *puVar4 = in_register_000104d0;
         puVar4[1] = in_register_000104d4;
         puVar4[2] = in_register_000104d8;
         puVar4[3] = in_vr77;
       }
       fn_82604A20(iVar3,param_2,param_3,0xffffffff83297910);
-      puVar4 = (undefined4 *)(iVar3 + 0x550U & 0xfffffff0);
+      puVar4 = (unsigned int *)(iVar3 + 0x550U & 0xfffffff0);
       *puVar4 = in_register_000104b0;
       puVar4[1] = in_register_000104b4;
       puVar4[2] = in_register_000104b8;
       puVar4[3] = in_vr75;
     }
-    (**(code **)(*piVar7 + 0x60))(piVar7);
+    (**(int (***)())(*piVar7 + 0x60))(piVar7);
     uVar6 = 1;
-    *(undefined1 *)(piVar7 + 0x49) = 1;
+    *(unsigned char *)(piVar7 + 0x49) = 1;
   }
   fn_82F6A594(uVar6);
   return;

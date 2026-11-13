@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_108;
 extern unsigned int *auStack_138;
 extern unsigned int *auStack_148;
@@ -71,13 +47,13 @@ extern unsigned int uStack_164;
 extern unsigned int uStack_168;
 
 
-void fn_827EEF48(undefined8 param_1,double param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9)
+void fn_827EEF48(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
+                  unsigned __int64 param_9)
 
 {
   bool bVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int iVar3;
   int iVar4;
   double extraout_f1;
@@ -86,21 +62,21 @@ void fn_827EEF48(undefined8 param_1,double param_2,undefined8 param_3,undefined8
   double dVar7;
   double dVar8;
   double dVar9;
-  undefined8 uVar10;
+  unsigned __int64 uVar10;
   double dVar11;
   double dVar12;
   double dVar13;
   double dVar14;
   double dVar15;
   float *in_stack_00000054;
-  undefined4 *in_stack_0000005c;
+  unsigned int *in_stack_0000005c;
   float fStack_170;
-  undefined4 uStack_168;
-  undefined4 uStack_164;
-  undefined4 uStack_160;
-  undefined1 auStack_158 [16];
-  undefined1 auStack_148 [16];
-  undefined1 auStack_138 [12];
+  unsigned int uStack_168;
+  unsigned int uStack_164;
+  unsigned int uStack_160;
+  unsigned char auStack_158 [16];
+  unsigned char auStack_148 [16];
+  unsigned char auStack_138 [12];
   float fStack_12c;
   float fStack_128;
   float fStack_124;
@@ -108,16 +84,16 @@ void fn_827EEF48(undefined8 param_1,double param_2,undefined8 param_3,undefined8
   float fStack_118;
   float fStack_114;
   float fStack_110;
-  undefined1 auStack_108 [16];
+  unsigned char auStack_108 [16];
   float fStack_f8;
   float fStack_f4;
   float fStack_f0;
   float fStack_e8;
   float fStack_e4;
   float fStack_e0;
-  undefined1 auStack_d8 [16];
-  undefined1 auStack_c8 [16];
-  undefined1 auStack_b8 [184];
+  unsigned char auStack_d8 [16];
+  unsigned char auStack_c8 [16];
+  unsigned char auStack_b8 [184];
   
   uVar2 = fn_82F6A52C();
   dVar8 = extraout_f1;

@@ -1,6 +1,3 @@
-typedef unsigned int undefined4;
-typedef int (*code)();
-
 extern int fn_8270C708(int param_1);
 
 typedef struct Vtbl_8270CE08 {

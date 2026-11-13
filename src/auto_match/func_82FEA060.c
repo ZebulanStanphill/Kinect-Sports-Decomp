@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern int fn_82F68CC0();
 extern int fn_82FAB9C0();
@@ -43,18 +16,18 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_5e;
 
 
-int fn_82FEA060(undefined8 param_1,undefined4 param_2,ulonglong param_3,ulonglong param_4,
-                 undefined8 param_5,ulonglong param_6)
+int fn_82FEA060(unsigned __int64 param_1,unsigned int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                 unsigned __int64 param_5,unsigned __int64 param_6)
 
 {
-  undefined2 uVar2;
+  unsigned short uVar2;
   int iVar1;
-  undefined1 auStack_60 [2];
-  undefined2 uStack_5e;
-  struct { undefined4 first; int second; } stack_pair_5c;
+  unsigned char auStack_60 [2];
+  unsigned short uStack_5e;
+  struct { unsigned int first; int second; } stack_pair_5c;
 
-  undefined8 uStack_54;
-  undefined4 uStack_4c;
+  unsigned __int64 uStack_54;
+  unsigned int uStack_4c;
   int iStack_44;
   
   uStack_5e = 1;
@@ -65,7 +38,7 @@ int fn_82FEA060(undefined8 param_1,undefined4 param_2,ulonglong param_3,ulonglon
   else {
     fn_82F68CC0(&uStack_54,param_6,0x10);
   }
-  iStack_44 = fn_82FAB9C0((ulonglong)lbl_832642E0 + 0x674,param_1);
+  iStack_44 = fn_82FAB9C0((unsigned __int64)lbl_832642E0 + 0x674,param_1);
   if (iStack_44 != 0) {
     lbl_83264348 = lbl_83264348 + 1;
     stack_pair_5c.first = param_2;
@@ -77,7 +50,7 @@ int fn_82FEA060(undefined8 param_1,undefined4 param_2,ulonglong param_3,ulonglon
         return stack_pair_5c.second;
       }
       iVar1 = fn_82FF4858(lbl_83264304,&stack_pair_5c.first,param_4,param_5,param_3,
-                                *(undefined4 *)(iStack_44 + 0xc));
+                                *(unsigned int *)(iStack_44 + 0xc));
       if (iVar1 == 1) {
         return stack_pair_5c.second;
       }

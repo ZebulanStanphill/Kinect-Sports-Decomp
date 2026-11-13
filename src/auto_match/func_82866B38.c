@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_120;
 extern unsigned int *auStack_140;
@@ -45,24 +18,24 @@ extern int fn_8286DA10();
 extern int fn_83013618();
 
 
-undefined8 fn_82866B38(void)
+unsigned __int64 fn_82866B38(void)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined1 auStack_1a0 [32];
-  undefined1 auStack_180 [32];
-  undefined1 auStack_160 [32];
-  undefined1 auStack_140 [32];
-  undefined1 auStack_120 [32];
-  undefined1 auStack_100 [32];
-  undefined1 auStack_e0 [32];
-  undefined1 auStack_c0 [32];
-  undefined1 auStack_a0 [32];
-  undefined1 auStack_80 [32];
-  undefined1 auStack_60 [32];
-  undefined1 auStack_40 [64];
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned char auStack_1a0 [32];
+  unsigned char auStack_180 [32];
+  unsigned char auStack_160 [32];
+  unsigned char auStack_140 [32];
+  unsigned char auStack_120 [32];
+  unsigned char auStack_100 [32];
+  unsigned char auStack_e0 [32];
+  unsigned char auStack_c0 [32];
+  unsigned char auStack_a0 [32];
+  unsigned char auStack_80 [32];
+  unsigned char auStack_60 [32];
+  unsigned char auStack_40 [64];
   
   uVar1 = fn_83013618(3,0,0x6c,0xffffffff82f97e20,0xffffffff82f986d0);
   if ((int)uVar1 != 1) {

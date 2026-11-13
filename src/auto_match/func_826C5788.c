@@ -1,19 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned short undefined2;
-typedef unsigned int undefined4;
-
 typedef struct Desc_826C5788 {
-  undefined4 first;   /* 0x00 */
-  undefined4 second;  /* 0x04 */
-  undefined2 s8;      /* 0x08 */
-  undefined1 bA;      /* 0x0a */
+  unsigned int first;   /* 0x00 */
+  unsigned int second;  /* 0x04 */
+  unsigned short s8;      /* 0x08 */
+  unsigned char bA;      /* 0x0a */
   signed char bB;     /* 0x0b */
-  undefined1 bC;      /* 0x0c */
-  undefined1 bD;      /* 0x0d */
-  undefined1 bE;      /* 0x0e */
-  undefined1 bF;      /* 0x0f */
-  undefined4 w10;     /* 0x10 */
-  undefined4 w14;     /* 0x14 */
+  unsigned char bC;      /* 0x0c */
+  unsigned char bD;      /* 0x0d */
+  unsigned char bE;      /* 0x0e */
+  unsigned char bF;      /* 0x0f */
+  unsigned int w10;     /* 0x10 */
+  unsigned int w14;     /* 0x14 */
 } Desc_826C5788;
 
 typedef void (*Fn_826C5788)(int *self, Desc_826C5788 *desc);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_821AAD20;
 
@@ -32,7 +5,7 @@ extern unsigned int lbl_821AAD20;
 void fn_82800C70(double param_1,float *param_2)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   float fVar2;
   double dVar3;
   double dVar4;
@@ -41,7 +14,7 @@ void fn_82800C70(double param_1,float *param_2)
   fVar2 = param_2[4];
   param_2[1] = *param_2;
   *param_2 = (float)param_1;
-  *(undefined2 *)((int)param_2 + 0x16) = 0;
+  *(unsigned short *)((int)param_2 + 0x16) = 0;
   if (fVar2 == 0.0) {
     if (param_1 < (double)lbl_82002AE0) {
       if ((double)lbl_821AAD20 <= param_1) {
@@ -55,7 +28,7 @@ void fn_82800C70(double param_1,float *param_2)
       sStack_a = (short)(int)param_1;
       *(short *)((int)param_2 + 0x16) = sStack_a;
     }
-    dVar3 = (double)(float)(param_1 - (double)(longlong)sStack_a);
+    dVar3 = (double)(float)(param_1 - (double)(__int64)sStack_a);
   }
   else if (fVar2 == 1.4013e-45) {
     dVar3 = (double)lbl_82002AE0;
@@ -73,7 +46,7 @@ void fn_82800C70(double param_1,float *param_2)
     *(short *)((int)param_2 + 0x16) = sStack_a;
   }
   else {
-    if (2 < (uint)fVar2) {
+    if (2 < (unsigned int)fVar2) {
       return;
     }
     dVar3 = (double)lbl_821AAD20;
@@ -86,11 +59,11 @@ void fn_82800C70(double param_1,float *param_2)
     if (param_1 <= dVar3) {
       *(short *)((int)param_2 + 0x16) = sStack_a + -1;
     }
-    uVar1 = *(ushort *)((int)param_2 + 0x16);
-    fVar2 = (float)(param_1 - (double)(longlong)(short)uVar1);
+    uVar1 = *(unsigned short *)((int)param_2 + 0x16);
+    fVar2 = (float)(param_1 - (double)(__int64)(short)uVar1);
     *param_2 = fVar2;
-    if ((longlong)(short)uVar1 ==
-        ((longlong)((int)(short)uVar1 >> 1) + (ulonglong)((short)uVar1 < 0 && (uVar1 & 1) != 0) &
+    if ((__int64)(short)uVar1 ==
+        ((__int64)((int)(short)uVar1 >> 1) + (unsigned __int64)((short)uVar1 < 0 && (uVar1 & 1) != 0) &
         0x7fffffff) << 1) {
       return;
     }

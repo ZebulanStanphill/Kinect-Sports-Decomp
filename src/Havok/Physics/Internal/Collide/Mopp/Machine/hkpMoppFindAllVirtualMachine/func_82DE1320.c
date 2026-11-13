@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int *auStack_240;
 extern unsigned int *auStack_258;
 extern int fn_82CE5410();
@@ -37,32 +10,32 @@ extern unsigned int *lbl_8323B464;
 extern unsigned int uStack_260;
 
 
-void fn_82DE1320(int *param_1,int *param_2,byte *param_3)
+void fn_82DE1320(int *param_1,int *param_2,unsigned char *param_3)
 
 {
-  byte bVar1;
-  byte *pbVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  undefined4 uVar6;
-  ulonglong in_r0;
+  unsigned char bVar1;
+  unsigned char *pbVar2;
+  unsigned char *pbVar3;
+  unsigned char *pbVar4;
+  unsigned char *pbVar5;
+  unsigned int uVar6;
+  unsigned __int64 in_r0;
   int iVar7;
   int iVar8;
-  ulonglong uVar9;
-  uint uVar10;
-  undefined8 uStack_260;
-  undefined1 auStack_258 [24];
-  undefined1 auStack_240 [576];
+  unsigned __int64 uVar9;
+  unsigned int uVar10;
+  unsigned __int64 uStack_260;
+  unsigned char auStack_258 [24];
+  unsigned char auStack_240 [576];
   
 LAB_82de134c:
   bVar1 = *param_3;
-  uVar9 = (ulonglong)bVar1;
+  uVar9 = (unsigned __int64)bVar1;
   if (0x6b < uVar9) {
 switchD_82de136c_caseD_8:
     fn_82CEE578(auStack_258,auStack_240,0x200);
     fn_82CEDB38(auStack_258,0xffffffff82142a88);
-    iVar7 = (**(code **)(*lbl_8323B464 + 0xc))
+    iVar7 = (**(int (***)())(*lbl_8323B464 + 0xc))
                       (lbl_8323B464,3,0x1298fedd,auStack_240,0xffffffff82142ddc,0xd3);
     if (iVar7 != 0) {
       trapWord(0x1f,in_r0,0x16);
@@ -70,7 +43,7 @@ switchD_82de136c_caseD_8:
                     /* WARNING: Subroutine does not return */
     fn_82CED958(auStack_258);
   }
-  in_r0 = (ulonglong)*(uint *)((uint)bVar1 * 4 + -0x7d21ec90);
+  in_r0 = (unsigned __int64)*(unsigned int *)((unsigned int)bVar1 * 4 + -0x7d21ec90);
   switch(bVar1) {
   case 0:
     goto switchD_82de136c_caseD_0;
@@ -84,10 +57,10 @@ switchD_82de136c_caseD_8:
     param_3 = param_3 + param_3[1] + 2;
     goto LAB_82de134c;
   case 6:
-    param_3 = param_3 + (uint)param_3[1] * 0x100 + (uint)param_3[2] + 3;
+    param_3 = param_3 + (unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2] + 3;
     goto LAB_82de134c;
   case 7:
-    param_3 = param_3 + ((uint)param_3[1] * 0x100 + (uint)param_3[2]) * 0x100 + (uint)param_3[3] + 4
+    param_3 = param_3 + ((unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2]) * 0x100 + (unsigned int)param_3[3] + 4
     ;
     goto LAB_82de134c;
   case 8:
@@ -118,30 +91,30 @@ switchD_82de136c_caseD_8:
   case 9:
     pbVar2 = param_3 + 1;
     if (param_2 != (int *)&uStack_260) {
-      uStack_260 = *(undefined8 *)param_2;
+      uStack_260 = *(unsigned __int64 *)param_2;
       param_2 = (int *)&uStack_260;
     }
     param_3 = param_3 + 2;
-    uStack_260 = CONCAT44((((U64)(uStack_260) >> 0) & 0xFFFFFFFF) + (uint)*pbVar2,(((U64)(uStack_260) >> 32) & 0xFFFFFFFF));
+    uStack_260 = CONCAT44((((unsigned __int64)(uStack_260) >> 0) & 0xFFFFFFFF) + (unsigned int)*pbVar2,(((unsigned __int64)(uStack_260) >> 32) & 0xFFFFFFFF));
     goto LAB_82de134c;
   case 10:
     pbVar2 = param_3 + 1;
     pbVar3 = param_3 + 2;
     if (param_2 != (int *)&uStack_260) {
-      uStack_260 = *(undefined8 *)param_2;
+      uStack_260 = *(unsigned __int64 *)param_2;
       param_2 = (int *)&uStack_260;
     }
     param_3 = param_3 + 3;
-    uStack_260 = CONCAT44((uint)*pbVar2 * 0x100 + (uint)*pbVar3 + (((U64)(uStack_260) >> 0) & 0xFFFFFFFF),(((U64)(uStack_260) >> 32) & 0xFFFFFFFF))
+    uStack_260 = CONCAT44((unsigned int)*pbVar2 * 0x100 + (unsigned int)*pbVar3 + (((unsigned __int64)(uStack_260) >> 0) & 0xFFFFFFFF),(((unsigned __int64)(uStack_260) >> 32) & 0xFFFFFFFF))
     ;
     goto LAB_82de134c;
   case 0xb:
     if (param_2 != (int *)&uStack_260) {
-      uStack_260 = *(undefined8 *)param_2;
+      uStack_260 = *(unsigned __int64 *)param_2;
       param_2 = (int *)&uStack_260;
     }
-    uStack_260 = CONCAT44((((uint)param_3[1] * 0x100 + (uint)param_3[2]) * 0x100 + (uint)param_3[3])
-                          * 0x100 + (uint)param_3[4],(((U64)(uStack_260) >> 32) & 0xFFFFFFFF));
+    uStack_260 = CONCAT44((((unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2]) * 0x100 + (unsigned int)param_3[3])
+                          * 0x100 + (unsigned int)param_3[4],(((unsigned __int64)(uStack_260) >> 32) & 0xFFFFFFFF));
     param_3 = param_3 + 5;
     goto LAB_82de134c;
   case 0x10:
@@ -167,7 +140,7 @@ switchD_82de136c_caseD_8:
   case 0x23:
   case 0x24:
   case 0x25:
-    param_3 = param_3 + (uint)param_3[5] * 0x100 + (uint)param_3[6] + 7;
+    param_3 = param_3 + (unsigned int)param_3[5] * 0x100 + (unsigned int)param_3[6] + 7;
     goto LAB_82de134c;
   case 0x26:
   case 0x27:
@@ -183,17 +156,17 @@ switchD_82de136c_caseD_8:
     uVar10 = bVar1 - 0x30;
     break;
   case 0x50:
-    uVar10 = (uint)param_3[1];
+    uVar10 = (unsigned int)param_3[1];
     break;
   case 0x51:
-    uVar10 = (uint)param_3[1] * 0x100 + (uint)param_3[2];
+    uVar10 = (unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2];
     break;
   case 0x52:
-    uVar10 = ((uint)param_3[1] * 0x100 + (uint)param_3[2]) * 0x100 + (uint)param_3[3];
+    uVar10 = ((unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2]) * 0x100 + (unsigned int)param_3[3];
     break;
   case 0x53:
-    uVar10 = (uint)param_3[3] * 0x100 + (uint)param_3[4] +
-             ((uint)param_3[1] * 0x100 + (uint)param_3[2]) * 0x10000;
+    uVar10 = (unsigned int)param_3[3] * 0x100 + (unsigned int)param_3[4] +
+             ((unsigned int)param_3[1] * 0x100 + (unsigned int)param_3[2]) * 0x10000;
     break;
   case 0x60:
   case 0x61:
@@ -201,7 +174,7 @@ switchD_82de136c_caseD_8:
   case 99:
     pbVar2 = param_3 + 1;
     param_3 = param_3 + 2;
-    *(uint *)(auStack_258 + (int)((uVar9 - 0x60 & 0xffffffff) << 2) + -4) = (uint)*pbVar2;
+    *(unsigned int *)(auStack_258 + (int)((uVar9 - 0x60 & 0xffffffff) << 2) + -4) = (unsigned int)*pbVar2;
     goto LAB_82de1700;
   case 100:
   case 0x65:
@@ -210,8 +183,8 @@ switchD_82de136c_caseD_8:
     pbVar2 = param_3 + 1;
     pbVar3 = param_3 + 2;
     param_3 = param_3 + 3;
-    *(uint *)(auStack_258 + (int)((uVar9 - 100 & 0xffffffff) << 2) + -4) =
-         (uint)*pbVar2 * 0x100 + (uint)*pbVar3;
+    *(unsigned int *)(auStack_258 + (int)((uVar9 - 100 & 0xffffffff) << 2) + -4) =
+         (unsigned int)*pbVar2 * 0x100 + (unsigned int)*pbVar3;
     goto LAB_82de1700;
   case 0x68:
   case 0x69:
@@ -222,15 +195,15 @@ switchD_82de136c_caseD_8:
     pbVar4 = param_3 + 3;
     pbVar5 = param_3 + 4;
     param_3 = param_3 + 5;
-    *(uint *)(auStack_258 + (int)((uVar9 - 0x68 & 0xffffffff) << 2) + -4) =
-         (((uint)*pbVar2 * 0x100 + (uint)*pbVar3) * 0x100 + (uint)*pbVar4) * 0x100 + (uint)*pbVar5;
+    *(unsigned int *)(auStack_258 + (int)((uVar9 - 0x68 & 0xffffffff) << 2) + -4) =
+         (((unsigned int)*pbVar2 * 0x100 + (unsigned int)*pbVar3) * 0x100 + (unsigned int)*pbVar4) * 0x100 + (unsigned int)*pbVar5;
 LAB_82de1700:
-    uVar6 = (((U64)(uStack_260) >> 32) & 0xFFFFFFFF);
+    uVar6 = (((unsigned __int64)(uStack_260) >> 32) & 0xFFFFFFFF);
     if (param_2 != (int *)&uStack_260) {
-      uStack_260 = *(undefined8 *)param_2;
+      uStack_260 = *(unsigned __int64 *)param_2;
       param_2 = (int *)&uStack_260;
     }
-    uStack_260 = CONCAT44((((U64)(uStack_260) >> 0) & 0xFFFFFFFF),uVar6);
+    uStack_260 = CONCAT44((((unsigned __int64)(uStack_260) >> 0) & 0xFFFFFFFF),uVar6);
     goto LAB_82de134c;
   }
   iVar7 = *param_2;
@@ -238,11 +211,11 @@ LAB_82de1700:
   iVar8 = fn_82CE5410();
   if (param_1[1] == (param_1[2] & 0x3fffffffU)) {
                     /* WARNING: Subroutine does not return */
-    fn_82CE63B0(*(undefined4 *)(iVar8 + 0x10),param_1,4);
+    fn_82CE63B0(*(unsigned int *)(iVar8 + 0x10),param_1,4);
   }
   iVar8 = param_1[1];
   param_1[1] = iVar8 + 1;
-  *(uint *)(iVar8 * 4 + *param_1) = iVar7 + uVar10;
+  *(unsigned int *)(iVar8 * 4 + *param_1) = iVar7 + uVar10;
 switchD_82de136c_caseD_0:
   return;
 }

@@ -1,11 +1,9 @@
-typedef unsigned int uint;
-
-extern uint fn_82DFF630(int param_1, int param_2, int param_3);
+extern unsigned int fn_82DFF630(int param_1, int param_2, int param_3);
 
 void fn_82DFF728(int param_1, int param_2, int param_3, int *param_4)
 {
-  uint n;
-  uint cnt;
+  unsigned int n;
+  unsigned int cnt;
   int cur;
 
   n = fn_82DFF630(param_1, param_2, param_3);

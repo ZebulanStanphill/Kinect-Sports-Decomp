@@ -1,49 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82EDF600(byte *param_1, int param_2, byte *param_3, int param_4, int param_5, int param_6, int param_7, int param_8, uint in_stack_00000054, uint in_stack_0000005c, int in_stack_00000064, int in_stack_0000006c)
+void fn_82EDF600(unsigned char *param_1, int param_2, unsigned char *param_3, int param_4, int param_5, int param_6, int param_7, int param_8, unsigned int in_stack_00000054, unsigned int in_stack_0000005c, int in_stack_00000064, int in_stack_0000006c)
 
 {
   int iVar1;
   int iVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  longlong lVar6;
-  byte *pbVar7;
+  unsigned char *pbVar3;
+  unsigned char *pbVar4;
+  unsigned char *pbVar5;
+  __int64 lVar6;
+  unsigned char *pbVar7;
   int iVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   int iVar10;
   int iVar11;
   int iVar12;
-  byte *pbVar13;
-  ulonglong uVar14;
+  unsigned char *pbVar13;
+  unsigned __int64 uVar14;
 
 
 
@@ -69,8 +40,8 @@ void fn_82EDF600(byte *param_1, int param_2, byte *param_3, int param_4, int par
   iVar10 = 2;
   iVar11 = 2;
 LAB_82edf670:
-  uVar9 = (ulonglong)in_stack_00000054;
-  lVar6 = (longlong)((int)in_stack_0000005c >> 1);
+  uVar9 = (unsigned __int64)in_stack_00000054;
+  lVar6 = (__int64)((int)in_stack_0000005c >> 1);
   if (0 < lVar6) {
     do {
       pbVar13 = param_1 + param_5;
@@ -83,11 +54,11 @@ LAB_82edf670:
           uVar14 = uVar9;
           pbVar5 = param_3;
           do {
-            *pbVar5 = (byte)((int)((uint)param_1[iVar1] + (uint)*param_1 + 1) >> 1);
+            *pbVar5 = (unsigned char)((int)((unsigned int)param_1[iVar1] + (unsigned int)*param_1 + 1) >> 1);
             pbVar7 = param_1 + iVar2;
             pbVar3 = param_1 + param_2;
             param_1 = param_1 + param_7;
-            pbVar5[param_4 - (int)param_3] = (byte)((int)((uint)*pbVar3 + (uint)*pbVar7 + 1) >> 1);
+            pbVar5[param_4 - (int)param_3] = (unsigned char)((int)((unsigned int)*pbVar3 + (unsigned int)*pbVar7 + 1) >> 1);
             pbVar5 = pbVar5 + param_8;
             uVar14 = uVar14 - 1;
           } while (uVar14 != 0);
@@ -99,14 +70,14 @@ LAB_82edf670:
           pbVar5 = pbVar13;
           pbVar7 = param_3;
           do {
-            *pbVar7 = (byte)((int)((uint)pbVar5[(int)param_1 - (int)pbVar13] +
-                                   (uint)pbVar5[(int)param_1 - (int)pbVar13] * 2 + (uint)*pbVar5 + 2
+            *pbVar7 = (unsigned char)((int)((unsigned int)pbVar5[(int)param_1 - (int)pbVar13] +
+                                   (unsigned int)pbVar5[(int)param_1 - (int)pbVar13] * 2 + (unsigned int)*pbVar5 + 2
                                   ) >> 2);
             pbVar3 = pbVar5 + (param_2 - (int)pbVar13);
             pbVar4 = pbVar5 + (iVar12 - (int)pbVar13);
             pbVar5 = pbVar5 + param_7;
             pbVar7[param_4 - (int)param_3] =
-                 (byte)((int)((uint)*pbVar3 + (uint)*pbVar3 * 2 + (uint)*pbVar4 + 2) >> 2);
+                 (unsigned char)((int)((unsigned int)*pbVar3 + (unsigned int)*pbVar3 * 2 + (unsigned int)*pbVar4 + 2) >> 2);
             pbVar7 = pbVar7 + param_8;
             uVar14 = uVar14 - 1;
           } while (uVar14 != 0);
@@ -120,13 +91,13 @@ LAB_82edf670:
           uVar14 = uVar9;
           pbVar5 = param_3;
           do {
-            *pbVar5 = (byte)((int)((uint)param_1[iVar1] + (uint)param_1[iVar1] * 2 + (uint)*param_1
+            *pbVar5 = (unsigned char)((int)((unsigned int)param_1[iVar1] + (unsigned int)param_1[iVar1] * 2 + (unsigned int)*param_1
                                   + 2) >> 2);
             pbVar7 = param_1 + param_2;
             pbVar3 = param_1 + iVar2;
             param_1 = param_1 + param_7;
             pbVar5[param_4 - (int)param_3] =
-                 (byte)((int)((uint)*pbVar3 + (uint)*pbVar3 * 2 + (uint)*pbVar7 + 2) >> 2);
+                 (unsigned char)((int)((unsigned int)*pbVar3 + (unsigned int)*pbVar3 * 2 + (unsigned int)*pbVar7 + 2) >> 2);
             pbVar5 = pbVar5 + param_8;
             uVar14 = uVar14 - 1;
           } while (uVar14 != 0);
@@ -139,13 +110,13 @@ LAB_82edf670:
         uVar14 = uVar9;
         pbVar5 = param_3;
         do {
-          *pbVar5 = (byte)((int)((uint)param_1[iVar1] * in_stack_0000006c +
-                                 (uint)*param_1 * in_stack_00000064 + iVar11) >> iVar10);
+          *pbVar5 = (unsigned char)((int)((unsigned int)param_1[iVar1] * in_stack_0000006c +
+                                 (unsigned int)*param_1 * in_stack_00000064 + iVar11) >> iVar10);
           pbVar7 = param_1 + param_2;
           pbVar3 = param_1 + iVar2;
           param_1 = param_1 + param_7;
           pbVar5[param_4 - (int)param_3] =
-               (byte)((int)((uint)*pbVar7 * in_stack_00000064 + (uint)*pbVar3 * in_stack_0000006c +
+               (unsigned char)((int)((unsigned int)*pbVar7 * in_stack_00000064 + (unsigned int)*pbVar3 * in_stack_0000006c +
                            iVar11) >> iVar10);
           pbVar5 = pbVar5 + param_8;
           uVar14 = uVar14 - 1;

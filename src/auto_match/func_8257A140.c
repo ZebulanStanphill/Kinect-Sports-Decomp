@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_120;
 extern unsigned int *auStack_230;
 extern unsigned int *auStack_440;
@@ -39,18 +12,18 @@ extern int fn_82F68320();
 extern int fn_82F68370();
 
 
-longlong fn_8257A140(undefined8 param_1)
+__int64 fn_8257A140(unsigned __int64 param_1)
 
 {
   char cVar1;
   int iVar3;
-  undefined4 *puVar4;
-  longlong lVar2;
+  unsigned int *puVar4;
+  __int64 lVar2;
   char *pcVar5;
-  undefined4 auStack_440 [3];
+  unsigned int auStack_440 [3];
   char acStack_431 [513];
-  undefined1 auStack_230 [272];
-  undefined1 auStack_120 [288];
+  unsigned char auStack_230 [272];
+  unsigned char auStack_120 [288];
   
   fn_82579C28();
   fn_8257A438(0xffffffff821c134c,auStack_230);
@@ -78,7 +51,7 @@ longlong fn_8257A140(undefined8 param_1)
   }
   else {
     auStack_440[0] = 0;
-    puVar4 = (undefined4 *)fn_82F68240();
+    puVar4 = (unsigned int *)fn_82F68240();
     fn_82F68150(auStack_120,0x100,*puVar4);
     lVar2 = 2;
   }

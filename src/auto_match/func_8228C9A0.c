@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 extern int fn_822315A0();
 extern int fn_82250A18();
@@ -52,21 +25,21 @@ extern unsigned int uStack_80;
 
 /* WARNING: Removing unreachable block (ram,0x8228c9dc) */
 
-undefined4 *
-fn_8228C9A0(undefined4 *param_1,undefined8 param_2,undefined4 param_3,undefined4 param_4,
-             undefined4 param_5,int param_6,undefined4 *param_7,undefined8 param_8)
+unsigned int *
+fn_8228C9A0(unsigned int *param_1,unsigned __int64 param_2,unsigned int param_3,unsigned int param_4,
+             unsigned int param_5,int param_6,unsigned int *param_7,unsigned __int64 param_8)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  undefined1 auStack_90 [4];
+  unsigned char auStack_90 [4];
   int iStack_8c;
-  struct { undefined4 first; undefined4 second; } stack_pair_80;
+  struct { unsigned int first; unsigned int second; } stack_pair_80;
 
-  undefined8 uStack_78;
-  undefined **ppuStack_70;
-  code *pcStack_6c;
-  undefined ***pppuStack_60;
+  unsigned __int64 uStack_78;
+  unsigned char **ppuStack_70;
+  int (**pcStack_6c)();
+  unsigned char ***pppuStack_60;
   
   pcStack_6c = fn_8248F4B8;
   pppuStack_60 = &ppuStack_70;
@@ -101,7 +74,7 @@ fn_8228C9A0(undefined4 *param_1,undefined8 param_2,undefined4 param_3,undefined4
   param_1[0x29] = param_1 + 0x4c;
   fn_82273CD8(&stack_pair_80.first,3);
   uStack_78 = lbl_82195518;
-  puVar1 = (undefined4 *)fn_82279C58(auStack_90,param_1);
+  puVar1 = (unsigned int *)fn_82279C58(auStack_90,param_1);
   fn_82672C20(*puVar1,0xffffffff821a9834,&stack_pair_80.first,1);
   if (iStack_8c != 0) {
     fn_822315A0();
@@ -111,7 +84,7 @@ fn_8228C9A0(undefined4 *param_1,undefined8 param_2,undefined4 param_3,undefined4
   if (lbl_832975B0 == 0) {
     iVar2 = fn_82250A18();
   }
-  *(undefined4 *)(iVar2 + 0x60) = 1;
+  *(unsigned int *)(iVar2 + 0x60) = 1;
   if ((param_6 != 0) && (param_1[99] == 0)) {
     fn_82279D28(param_1,1,1);
     param_1[99] = 1;

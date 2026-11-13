@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_60;
 extern int fn_82E4FE08();
@@ -39,19 +12,19 @@ extern unsigned int uStack_48;
 extern unsigned int uStack_50;
 
 
-longlong fn_82E80868(ushort *param_1)
+__int64 fn_82E80868(unsigned short *param_1)
 
 {
-  ushort uVar1;
-  ushort uVar2;
-  undefined8 *puVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  longlong lVar6;
-  uint auStack_60 [4];
-  undefined8 uStack_50;
-  undefined8 uStack_48;
-  undefined1 auStack_40 [64];
+  unsigned short uVar1;
+  unsigned short uVar2;
+  unsigned __int64 *puVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  __int64 lVar6;
+  unsigned int auStack_60 [4];
+  unsigned __int64 uStack_50;
+  unsigned __int64 uStack_48;
+  unsigned char auStack_40 [64];
   
   uVar1 = *param_1;
   uVar5 = 0;
@@ -65,9 +38,9 @@ longlong fn_82E80868(ushort *param_1)
     param_1[4] = 0;
     param_1[5] = 0;
     *param_1 = 0x100c;
-    puVar3 = (undefined8 *)fn_82E4FE08(0x10);
-    *(undefined8 **)(param_1 + 6) = puVar3;
-    if (puVar3 != (undefined8 *)0x0) {
+    puVar3 = (unsigned __int64 *)fn_82E4FE08(0x10);
+    *(unsigned __int64 **)(param_1 + 6) = puVar3;
+    if (puVar3 != (unsigned __int64 *)0x0) {
       *puVar3 = 0;
       puVar3[1] = 0;
       goto LAB_82e809f4;
@@ -80,7 +53,7 @@ longlong fn_82E80868(ushort *param_1)
       if (-1 < lVar6) {
         lVar6 = fn_82E7EC68(&uStack_50,auStack_60);
         if (-1 < lVar6) {
-          uVar4 = (ulonglong)auStack_60[0];
+          uVar4 = (unsigned __int64)auStack_60[0];
           lVar6 = fn_82E7F478(param_1,0xc,uVar4);
           if (-1 < lVar6) {
             if (uVar4 != 0) {

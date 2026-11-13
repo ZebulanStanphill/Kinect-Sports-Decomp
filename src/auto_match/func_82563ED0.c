@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int fStack_18;
 extern unsigned int fStack_1c;
@@ -35,7 +9,7 @@ extern V16 loadVectorLeftIndexed128();
 extern V16 vectorSubtractFloatingPoint();
 
 
-void fn_82563ED0(undefined8 param_1,float *param_2)
+void fn_82563ED0(unsigned __int64 param_1,float *param_2)
 
 {
   float fVar1;
@@ -44,8 +18,8 @@ void fn_82563ED0(undefined8 param_1,float *param_2)
   float *pfVar4;
   float fVar5;
   int in_r0;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs33 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs33 [16];
   float fVar6;
   float fVar7;
   float fVar8;
@@ -73,39 +47,39 @@ void fn_82563ED0(undefined8 param_1,float *param_2)
   pfVar4[3] = fVar8 * in_vr13;
   fVar6 = fStack_20 - -fVar1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar6 < fVar5) << 2) | (uint)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((fVar6 < fVar5) << 2) | (unsigned int)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
   {
     fStack_20 = -fVar1;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fStack_20 - fVar1 < fVar5) << 2) |
-                (uint)(NAN(fStack_20 - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)((fStack_20 - fVar1 < fVar5) << 2) |
+                (unsigned int)(NAN(fStack_20 - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
     fVar1 = fStack_20;
   }
   *param_2 = fVar1;
   fVar1 = *(float *)(iVar3 + 0x14);
   fVar6 = fStack_1c - -fVar1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar6 < fVar5) << 2) | (uint)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((fVar6 < fVar5) << 2) | (unsigned int)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
   {
     fStack_1c = -fVar1;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fStack_1c - fVar1 < fVar5) << 2) |
-                (uint)(NAN(fStack_1c - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)((fStack_1c - fVar1 < fVar5) << 2) |
+                (unsigned int)(NAN(fStack_1c - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
     fVar1 = fStack_1c;
   }
   param_2[1] = fVar1;
   fVar1 = *(float *)(iVar3 + 0x14);
   fVar6 = fStack_18 - -fVar1;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fVar6 < fVar5) << 2) | (uint)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((fVar6 < fVar5) << 2) | (unsigned int)(NAN(fVar6) || NAN(fVar5)) << 2)) < 0.0)
   {
     fStack_18 = -fVar1;
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((fStack_18 - fVar1 < fVar5) << 2) |
-                (uint)(NAN(fStack_18 - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)((fStack_18 - fVar1 < fVar5) << 2) |
+                (unsigned int)(NAN(fStack_18 - fVar1) || NAN(fVar5)) << 2)) < 0.0) {
     fVar1 = fStack_18;
   }
   param_2[2] = fVar1;

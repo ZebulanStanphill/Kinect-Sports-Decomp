@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_82250A18();
 extern int fn_8229BB18();
@@ -39,7 +12,7 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_832975B0;
 
 
-void fn_8229C368(double param_1,undefined4 *param_2)
+void fn_8229C368(double param_1,unsigned int *param_2)
 
 {
   float fVar1;
@@ -48,10 +21,10 @@ void fn_8229C368(double param_1,undefined4 *param_2)
   int *piVar4;
   int iVar5;
   int iVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar7;
   float *pfVar8;
-  uint uVar9;
-  ulonglong uVar10;
+  unsigned int uVar9;
+  unsigned __int64 uVar10;
   double dVar11;
   double dVar12;
   double dVar13;
@@ -79,8 +52,8 @@ void fn_8229C368(double param_1,undefined4 *param_2)
       uVar9 = 1;
       fVar2 = ltcg_pool_0_0f;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar1 < ltcg_pool_0_0f) << 2) |
-                    (uint)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
+                    (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar2 = (float)((double)(float)param_2[6] - param_1);
       }
       param_2[6] = fVar2;
@@ -123,9 +96,9 @@ LAB_8229c4b4:
       uVar10 = uVar10 + 1;
       piVar4 = piVar4 + 2;
     } while ((uVar10 & 0xffffffff) < 2);
-    uVar10 = -(((uVar7 & 0xffffffff) >> 0x1f) + (ulonglong)(uVar7 < 2));
+    uVar10 = -(((uVar7 & 0xffffffff) >> 0x1f) + (unsigned __int64)(uVar7 < 2));
 LAB_8229c524:
-    param_2[0x16] = (uint)((uVar10 & 0xffffffff) >> 0x1f) ^ 1;
+    param_2[0x16] = (unsigned int)((uVar10 & 0xffffffff) >> 0x1f) ^ 1;
     if (iVar6 == 0) {
       iVar6 = fn_82250A18();
     }
@@ -139,7 +112,7 @@ LAB_8229c5a4:
       uVar9 = 1;
       dVar11 = dVar13;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar12 < dVar13) << 2) | (uint)(NAN(dVar12) || NAN(dVar13)) << 2)
+                    ((unsigned int)(unsigned char)((dVar12 < dVar13) << 2) | (unsigned int)(NAN(dVar12) || NAN(dVar13)) << 2)
                     ) < 0.0) {
         dVar11 = (double)(float)((double)(float)param_2[6] - param_1);
       }

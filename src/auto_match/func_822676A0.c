@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82267EB0();
 extern int fn_8227E330();
 extern unsigned int iStack0000001c;
@@ -47,10 +20,10 @@ void fn_822676A0(int param_1,int param_2,int param_3)
   float fVar2;
   float fVar3;
   int iStack0000001c;
-  struct { undefined4 first; undefined4 second; } stack_pair_80;
+  struct { unsigned int first; unsigned int second; } stack_pair_80;
 
-  undefined8 uStack_78;
-  undefined8 uStack_70;
+  unsigned __int64 uStack_78;
+  unsigned __int64 uStack_70;
   
   fVar3 = lbl_821917B0;
   fVar1 = *(float *)(param_2 + 0xf8) * lbl_82193B00;
@@ -62,11 +35,11 @@ void fn_822676A0(int param_1,int param_2,int param_3)
   iStack0000001c = param_2;
   fn_82267EB0(param_1,&stack0x0000001c);
   uStack_78 = CONCAT44(lbl_82192734,lbl_82192734);
-  stack_pair_80.first = *(undefined4 *)(param_3 + 0x40);
-  stack_pair_80.second = *(undefined4 *)(param_3 + 0x44);
+  stack_pair_80.first = *(unsigned int *)(param_3 + 0x40);
+  stack_pair_80.second = *(unsigned int *)(param_3 + 0x44);
   uStack_70 = CONCAT44(ltcg_pool_0_0f,ltcg_pool_0_0f);
-  fn_8227E330(*(undefined4 *)(param_1 + 0x18),&stack_pair_80.first,param_1 + 0x24);
-  *(undefined4 *)(param_1 + 0x54) = 1;
+  fn_8227E330(*(unsigned int *)(param_1 + 0x18),&stack_pair_80.first,param_1 + 0x24);
+  *(unsigned int *)(param_1 + 0x54) = 1;
   return;
 }
 

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_70;
 extern unsigned int *auStack_80;
@@ -57,28 +30,28 @@ extern unsigned int lbl_821AAD20;
 /* WARNING: Removing unreachable block (ram,0x830624d8) */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_83062318(uint *param_1)
+unsigned __int64 fn_83062318(unsigned int *param_1)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar5;
-  longlong lVar2;
-  longlong lVar3;
-  undefined8 uVar4;
-  ulonglong uVar6;
+  __int64 lVar2;
+  __int64 lVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar6;
   int iVar7;
-  longlong lVar8;
-  uint *puVar9;
+  __int64 lVar8;
+  unsigned int *puVar9;
   double dVar10;
   double dVar11;
-  undefined1 auStack_80 [16];
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [96];
+  unsigned char auStack_80 [16];
+  unsigned char auStack_70 [16];
+  unsigned char auStack_60 [96];
   
   fn_83061BC8((double)lbl_821AAD20);
   fn_830621E8(param_1,0);
   iVar7 = 0;
-  puVar9 = (uint *)param_1[0xb];
+  puVar9 = (unsigned int *)param_1[0xb];
   if (0 < (int)param_1[6]) {
     dVar11 = (double)lbl_82142CE4;
     do {
@@ -87,8 +60,8 @@ undefined8 fn_83062318(uint *param_1)
         uVar1 = *puVar9;
         lVar2 = fn_83060DC8(puVar9,0);
         lVar3 = fn_83060DC8(puVar9,1);
-        uVar6 = (ulonglong)*param_1;
-        lVar8 = (ulonglong)uVar1 * 0xc + uVar6;
+        uVar6 = (unsigned __int64)*param_1;
+        lVar8 = (unsigned __int64)uVar1 * 0xc + uVar6;
         fn_82810328(lVar8,lVar2 * 0xc + uVar6,auStack_70);
         fn_82810328(lVar3 * 0xc + uVar6,lVar8,auStack_80);
         fn_82810240(auStack_70,auStack_80,auStack_60);

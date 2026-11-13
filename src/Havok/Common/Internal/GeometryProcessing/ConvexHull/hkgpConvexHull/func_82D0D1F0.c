@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_298;
 extern unsigned int fStack_2a0;
 extern int fn_82CED958();
@@ -38,7 +12,7 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int *lbl_8323B464;
 extern unsigned int stack0x00000000;
 extern unsigned int uStack_29c;
-extern U64 storeVectorElementWordIndexed();
+extern unsigned __int64 storeVectorElementWordIndexed();
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
@@ -48,19 +22,19 @@ void fn_82D0D1F0(int param_1,int param_2)
 
 {
   float fVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   float *pfVar3;
-  undefined8 in_r0;
-  ulonglong uVar4;
-  undefined8 uVar5;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
   int iVar7;
-  longlong lVar8;
-  longlong lVar9;
+  __int64 lVar8;
+  __int64 lVar9;
   double dVar10;
-  undefined1 in_vs32 [16];
-  undefined1 auVar11 [16];
-  undefined1 in_vs44 [16];
+  unsigned char in_vs32 [16];
+  unsigned char auVar11 [16];
+  unsigned char in_vs44 [16];
   float fVar12;
   float fVar13;
   float fVar14;
@@ -70,8 +44,8 @@ void fn_82D0D1F0(int param_1,int param_2)
   float in_register_000100b8;
   float in_vr11;
   float fStack_2a0;
-  undefined4 uStack_29c;
-  undefined4 auStack_298 [6];
+  unsigned int uStack_29c;
+  unsigned int auStack_298 [6];
   float afStack_280 [8];
   float afStack_260 [152];
   
@@ -79,11 +53,11 @@ void fn_82D0D1F0(int param_1,int param_2)
   iVar6 = *(int *)(param_1 + 8);
   if (*(char *)(iVar6 + 0x1b4) == '\0') {
     fn_82CEE578(uVar4 - 0x270,uVar4 - 0x220,0x200);
-    uVar2 = *(undefined4 *)(iVar6 + 0x1b0);
+    uVar2 = *(unsigned int *)(iVar6 + 0x1b0);
     uVar5 = fn_82CEDB38(uVar4 - 0x270,0xffffffff82134558);
     uVar5 = fn_82CEDCF0(uVar5,uVar2);
     fn_82CEDB38(uVar5,0xffffffff821c24f0);
-    iVar6 = (**(code **)(*lbl_8323B464 + 0xc))
+    iVar6 = (**(int (***)())(*lbl_8323B464 + 0xc))
                       (lbl_8323B464,3,0x79f9d887,uVar4 - 0x220,0xffffffff8213450c,0x14c);
     if (iVar6 != 0) {
       trapWord(0x1f,in_r0,0x16);
@@ -128,7 +102,7 @@ void fn_82D0D1F0(int param_1,int param_2)
     pfVar3[2] = fVar14;
     pfVar3[3] = fVar15;
     uVar2 = storeVectorElementWordIndexed(in_vs44,0,uVar4 - 0x2a0);
-    *(undefined4 *)(uVar4 - 0x2a0) = uVar2;
+    *(unsigned int *)(uVar4 - 0x2a0) = uVar2;
     if (fStack_2a0 != fVar1) {{ V16 _vt0 = loadVectorLeftIndexed128(in_r0,uVar4 - 0x28c); memcpy(in_vs44, &_vt0, 16); }
       pfVar3 = (float *)((int)in_r0 + param_2 & 0xfffffff0);
       *pfVar3 = fVar12 * in_register_000100b0;
@@ -138,8 +112,8 @@ void fn_82D0D1F0(int param_1,int param_2)
     }
     lVar8 = lVar8 + 4;{ V16 _vt1 = vectorSubtractFloatingPoint(in_vs32,in_vs44); memcpy(auVar11, &_vt1, 16); }
     uVar2 = storeVectorElementWordIndexed(auVar11,0,uVar4 - 0x29c);
-    *(undefined4 *)(uVar4 - 0x29c) = uVar2;
-    *(undefined4 *)(param_2 + 0xc) = uStack_29c;
+    *(unsigned int *)(uVar4 - 0x29c) = uVar2;
+    *(unsigned int *)(param_2 + 0xc) = uStack_29c;
     param_2 = param_2 + 0x10;
     lVar9 = lVar9 + -1;
   } while (lVar9 != 0);

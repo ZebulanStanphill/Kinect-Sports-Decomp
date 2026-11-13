@@ -1,30 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int fStack_68;
 extern unsigned int fStack_6c;
 extern unsigned int fStack_70;
@@ -37,7 +14,7 @@ extern V16 vectorMergeLowWord();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_8285E970(double param_1,int param_2,undefined8 param_3,int param_4,longlong param_5,
+void fn_8285E970(double param_1,int param_2,unsigned __int64 param_3,int param_4,__int64 param_5,
                   float *param_6,int param_7,int *param_8)
 
 {
@@ -54,16 +31,16 @@ void fn_8285E970(double param_1,int param_2,undefined8 param_3,int param_4,longl
   bool bVar10;
   double dVar11;
   double dVar12;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 auVar13 [16];
-  undefined1 auVar14 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar15 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar16 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char auVar13 [16];
+  unsigned char auVar14 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar15 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned char auVar16 [16];
   float fVar17;
   float fVar18;
   float fVar19;

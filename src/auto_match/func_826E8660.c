@@ -1,4 +1,3 @@
-typedef unsigned char undefined1;
 typedef unsigned char bool;
 
 extern int fn_8268B738();

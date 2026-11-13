@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 extern void *fn_8267B890(void *heap, int size, int flags);
 extern void fn_826824B0(void *obj);
 extern void fn_82696BC8(void *owner, void *obj);

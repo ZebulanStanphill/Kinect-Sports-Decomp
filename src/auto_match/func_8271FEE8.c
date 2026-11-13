@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_826824B0();
 extern int fn_82696330();
@@ -42,7 +15,7 @@ unsigned int fn_8271FEE8(int param_1,int *param_2,unsigned int param_3)
   unsigned int uVar1;
   int lVar5;
   int uVar6;
-  undefined1 auStack_40;
+  unsigned char auStack_40;
   
   if ((param_2 == (int *)0x0) || (param_3 == 0)) {
 LAB_8271fff4:
@@ -50,16 +23,16 @@ LAB_8271fff4:
   }
   else {
     auStack_40 = 0;
-    cVar4 = (*(code *)(*param_2 + 0x2c))
-                      (param_2,param_1 + 0x78,(unsigned int)*(uint *)(param_1 + 0x78) + 0x140,
+    cVar4 = (*(int (**)())(*param_2 + 0x2c))
+                      (param_2,param_1 + 0x78,(unsigned int)*(unsigned int *)(param_1 + 0x78) + 0x140,
                        &auStack_40);
     if (cVar4 != '\0') {
       iVar2 = fn_82696958(&auStack_40,param_1);
       if ((iVar2 != 0) &&
-         (iVar3 = (*(code *)(*(int *)(iVar2 + 0x10) + 8))(iVar2 + 0x10), (int)iVar3 == 7)) {
-        iVar3 = *(uint *)(iVar2 + 8);
+         (iVar3 = (*(int (**)())(*(int *)(iVar2 + 0x10) + 8))(iVar2 + 0x10), (int)iVar3 == 7)) {
+        iVar3 = *(unsigned int *)(iVar2 + 8);
         uVar6 = *(int *)(iVar2 + 0x38) - 1;
-        *(uint *)(iVar2 + 8) = (iVar3 + 1U) & 0x8fffffff;
+        *(unsigned int *)(iVar2 + 8) = (iVar3 + 1U) & 0x8fffffff;
         if (uVar6 >= 0) {
           lVar5 = uVar6 * 4;
           do {

@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_30;
 extern int fn_82535298();
 extern int fn_82536070();
@@ -35,20 +8,20 @@ extern unsigned int lbl_821B3ED0;
 extern unsigned int lbl_821B3F50;
 
 
-void fn_82384660(uint *param_1)
+void fn_82384660(unsigned int *param_1)
 
 {
-  uint uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar3;
-  ulonglong uVar4;
-  undefined8 uVar5;
-  uint uVar6;
-  uint uVar8;
-  undefined8 uVar7;
-  uint auStack_30 [12];
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
+  unsigned int uVar8;
+  unsigned __int64 uVar7;
+  unsigned int auStack_30 [12];
   
-  iVar3 = fn_8255AEF0((ulonglong)*param_1 + 0x81c,param_1 + 3);
+  iVar3 = fn_8255AEF0((unsigned __int64)*param_1 + 0x81c,param_1 + 3);
   if ((iVar3 != 0) && ((uVar1 = param_1[6], uVar1 < 0x1f || (param_1[7] < 0x1f)))) {
     uVar6 = uVar1;
     if (0x1d < (int)uVar1) {
@@ -80,7 +53,7 @@ void fn_82384660(uint *param_1)
     fn_82536070(0xffffffff821b4038,uVar7);
     auStack_30[0] = param_1[2];
     auStack_30[0] =
-         fn_82535298(auStack_30,*(undefined4 *)(*param_1 + 0x84c),0xffffffff83296bc0,
+         fn_82535298(auStack_30,*(unsigned int *)(*param_1 + 0x84c),0xffffffff83296bc0,
                            0xffffffff83296bd0);
     fn_82536288(auStack_30);
   }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_c0;
 extern unsigned int *auStack_d0;
 extern char cRam83297848;
@@ -59,15 +32,15 @@ extern unsigned int uRam8327f8ac;
 void fn_825587E8(void)
 
 {
-  undefined4 uVar3;
+  unsigned int uVar3;
   int iVar4;
-  longlong lVar1;
-  undefined8 uVar2;
-  undefined **ppuVar5;
-  undefined4 *puVar6;
-  undefined4 *puVar7;
-  undefined1 auStack_d0 [16];
-  undefined1 auStack_c0 [192];
+  __int64 lVar1;
+  unsigned __int64 uVar2;
+  unsigned char **ppuVar5;
+  unsigned int *puVar6;
+  unsigned int *puVar7;
+  unsigned char auStack_d0 [16];
+  unsigned char auStack_c0 [192];
   
   iVar4 = lbl_8320A898;
   if (cRam83297848 == '\0') {
@@ -75,7 +48,7 @@ void fn_825587E8(void)
       fn_82A1BB18();
     }
     uVar3 = fn_82A1BB18();
-    *(undefined4 *)(iVar4 + 0x2a88) = uVar3;
+    *(unsigned int *)(iVar4 + 0x2a88) = uVar3;
     uRam831c1104 = 0x3f800000;
     uRam831c1108 = 0x3f800000;
     uRam831c110c = 0x3f800000;
@@ -88,7 +61,7 @@ void fn_825587E8(void)
       fn_825B71D0();
       fn_8251FA58(lVar1);
     }
-    puVar7 = (undefined4 *)0x8327f8ac;
+    puVar7 = (unsigned int *)0x8327f8ac;
     ppuVar5 = &lbl_821906DC;
     do {
       fn_82526C70(auStack_c0,0x80,0xffffffff821c4580,*ppuVar5);
@@ -100,8 +73,8 @@ void fn_825587E8(void)
       fn_8251FA58(uVar2);
       ppuVar5 = ppuVar5 + 2;
     } while ((int)ppuVar5 < -0x7de6f80c);
-    puVar7 = (undefined4 *)0x8327f93c;
-    puVar6 = (undefined4 *)&lbl_82190414;
+    puVar7 = (unsigned int *)0x8327f93c;
+    puVar6 = (unsigned int *)&lbl_82190414;
     do {
       fn_82526C70(auStack_c0,0x80,0xffffffff821c4bc0,*puVar6);
       fn_82520158(auStack_c0,auStack_d0,0);

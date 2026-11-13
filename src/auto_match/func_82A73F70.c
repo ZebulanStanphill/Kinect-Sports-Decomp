@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 extern int fn_82A6D090();
 extern int memcpy();
@@ -34,26 +7,26 @@ extern unsigned int lbl_82002C5C;
 extern unsigned int lbl_820288CC;
 
 
-undefined8 fn_82A73F70(int *param_1)
+unsigned __int64 fn_82A73F70(int *param_1)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   int iVar2;
-  uint uVar3;
+  unsigned int uVar3;
   float *pfVar4;
   int iVar5;
-  uint uVar6;
-  undefined8 uVar7;
+  unsigned int uVar6;
+  unsigned __int64 uVar7;
   double dVar8;
   double dVar9;
   double dVar10;
-  uint auStack_90 [2];
-  longlong lStack_88;
+  unsigned int auStack_90 [2];
+  __int64 lStack_88;
 
   iVar2 = *param_1;
   auStack_90[0] = 0;
   uVar7 = 0;
-  uVar1 = *(ushort *)(iVar2 + 0x22);
+  uVar1 = *(unsigned short *)(iVar2 + 0x22);
   if (param_1[0x6d] != 4) {
     dVar8 = (double)lbl_820288CC;
     dVar9 = (double)lbl_82002C5C;
@@ -67,8 +40,8 @@ undefined8 fn_82A73F70(int *param_1)
           if ((int)uVar7 < 0) {
             return uVar7;
           }
-          param_1[0x6e] = (uint)(auStack_90[0] != 0);
-          param_1[0x6d] = (-(uint)(auStack_90[0] != 0) & 0xfffffffe) + 4;
+          param_1[0x6e] = (unsigned int)(auStack_90[0] != 0);
+          param_1[0x6d] = (-(unsigned int)(auStack_90[0] != 0) & 0xfffffffe) + 4;
         }
         else {
           if (uVar3 == 2) {
@@ -77,7 +50,7 @@ undefined8 fn_82A73F70(int *param_1)
             if ((int)uVar7 < 0) {
               return uVar7;
             }
-            param_1[0x6f] = (uint)(auStack_90[0] != 0);
+            param_1[0x6f] = (unsigned int)(auStack_90[0] != 0);
             if (auStack_90[0] != 0) {
               param_1[0x71] = 0;
               param_1[0x6d] = 3;
@@ -100,12 +73,12 @@ undefined8 fn_82A73F70(int *param_1)
             }
           }
           else {
-            uVar6 = (uint)uVar1;
+            uVar6 = (unsigned int)uVar1;
             if (uVar3 == 0) {
               param_1[0x73] = param_1[0x6e];
               if ((param_1[0x74] != 0) && (param_1[0x70] != 0)) {
                 memcpy(param_1[0x74],param_1[0x70],
-                             (longlong)(int)(uint)uVar1 * (longlong)(int)(uint)uVar1 * 4 &
+                             (__int64)(int)(unsigned int)uVar1 * (__int64)(int)(unsigned int)uVar1 * 4 &
                              0xfffffffc);
               }
               param_1[0x6e] = 0;
@@ -113,7 +86,7 @@ undefined8 fn_82A73F70(int *param_1)
               if (param_1[0x70] != 0) {
                     /* WARNING: Subroutine does not return */
                 memset(param_1[0x70],0,
-                             (longlong)(int)(uint)uVar1 * (longlong)(int)uVar6 * 4 & 0xfffffffc);
+                             (__int64)(int)(unsigned int)uVar1 * (__int64)(int)uVar6 * 4 & 0xfffffffc);
               }
               if (((2 < *(int *)(iVar2 + 0x3c)) && (1 < uVar1)) && (*(int *)(iVar2 + 0xb0) != 1)) {
                 param_1[0x6d] = 1;
@@ -129,7 +102,7 @@ undefined8 fn_82A73F70(int *param_1)
                 if ((auStack_90[0] & 8) != 0) {
                   auStack_90[0] = auStack_90[0] | 0xfffffff0;
                 }
-                lStack_88 = (longlong)(int)auStack_90[0];
+                lStack_88 = (__int64)(int)auStack_90[0];
                 *(float *)(param_1[0x71] * 4 + param_1[0x70]) = (float)((double)lStack_88 * dVar8);
                 iVar5 = param_1[0x71];
                 param_1[0x71] = iVar5 + 1;

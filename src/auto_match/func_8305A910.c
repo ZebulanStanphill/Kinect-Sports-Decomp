@@ -1,9 +1,7 @@
-typedef unsigned int uint;
-
-extern int fn_8305B970(uint *p, double d);
+extern int fn_8305B970(unsigned int *p, double d);
 extern double fn_8305BE58(double d);
 
-void fn_8305A910(uint *param_1)
+void fn_8305A910(unsigned int *param_1)
 {
   int iVar1;
 

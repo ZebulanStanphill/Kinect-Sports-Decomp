@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_20;
 extern unsigned int fStack_24;
 extern unsigned int fStack_28;
@@ -40,44 +14,44 @@ extern unsigned int lbl_82142CC0;
 extern unsigned int lbl_82142CC4;
 extern unsigned int lbl_821AAD20;
 extern unsigned int stack0x00000000;
-extern U64 storeVectorElementWordIndexed();
+extern unsigned __int64 storeVectorElementWordIndexed();
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-longlong fn_82DD8FF8(int param_1)
+__int64 fn_82DD8FF8(int param_1)
 
 {
   float fVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   float fVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  ulonglong uVar7;
-  longlong lVar8;
-  longlong lVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar7;
+  __int64 lVar8;
+  __int64 lVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
   int iVar12;
   int iVar13;
-  ulonglong uVar14;
+  unsigned __int64 uVar14;
   int iVar15;
-  longlong lVar16;
-  undefined1 in_vs32 [16];
-  undefined1 auVar17 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs37 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar18 [16];
-  undefined1 in_vs45 [16];
+  __int64 lVar16;
+  unsigned char in_vs32 [16];
+  unsigned char auVar17 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs37 [16];
+  unsigned char in_vs38 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar18 [16];
+  unsigned char in_vs45 [16];
   float fStack_40;
   float fStack_30;
   float fStack_2c;
   float fStack_28;
   float fStack_24;
-  undefined4 auStack_20 [4];
+  unsigned int auStack_20 [4];
   int iStack_10;
   
   fVar6 = lbl_821AAD20;
@@ -93,7 +67,7 @@ longlong fn_82DD8FF8(int param_1)
   fVar4 = lbl_82134508;
   do {{ V16 _vt0 = vectorSubtractFloatingPoint(in_vs32,in_vs45); memcpy(auVar18, &_vt0, 16); }
     uVar2 = storeVectorElementWordIndexed(in_vs43,0,uVar7 - 0x40);
-    *(undefined4 *)(uVar7 - 0x40) = uVar2;
+    *(unsigned int *)(uVar7 - 0x40) = uVar2;
     *(float *)lVar9 = fStack_40;
     if (fVar3 < fStack_40) {
       uVar14 = uVar11;
@@ -113,13 +87,13 @@ longlong fn_82DD8FF8(int param_1)
   fVar5 = fVar1 - *(float *)((int)((uVar10 + (uVar10 & 0x7fffffff) * 2 & 0xffffffff) << 4) + param_1
                             + 0x1c);
   iVar15 = 4;
-  *(undefined4 *)((int)auStack_20 + (int)((uVar14 & 0xffffffff) << 2)) = 1;
+  *(unsigned int *)((int)auStack_20 + (int)((uVar14 & 0xffffffff) << 2)) = 1;
   iVar12 = 0;
   lVar9 = uVar7 - 0x20;
   do {
     if (*(int *)lVar9 == 0) {{ V16 _vt1 = vectorSubtractFloatingPoint(in_vs45,in_vs32); memcpy(auVar18, &_vt1, 16); }
       uVar2 = storeVectorElementWordIndexed(in_vs43,0,uVar7 - 0x40);
-      *(undefined4 *)(uVar7 - 0x40) = uVar2;
+      *(unsigned int *)(uVar7 - 0x40) = uVar2;
       if (fVar3 < fStack_40) {
         fVar3 = fStack_40;
         iVar15 = iVar12;
@@ -140,7 +114,7 @@ longlong fn_82DD8FF8(int param_1)
       vectorSubtractFloatingPoint(auVar18,in_vs45);
       vectorSubtractFloatingPoint(in_vs37,in_vs38);
       uVar2 = storeVectorElementWordIndexed(in_vs35,0,uVar7 - 0x40);
-      *(undefined4 *)(uVar7 - 0x40) = uVar2;
+      *(unsigned int *)(uVar7 - 0x40) = uVar2;
       if (fVar3 < fStack_40) {
         fVar3 = fStack_40;
         iVar12 = iVar13;
@@ -160,7 +134,7 @@ longlong fn_82DD8FF8(int param_1)
     if (*(int *)lVar9 == 0) {
       vectorSubtractFloatingPoint(in_vs45,auVar17);
       uVar2 = storeVectorElementWordIndexed(in_vs43,0,uVar7 - 0x40);
-      *(undefined4 *)(uVar7 - 0x40) = uVar2;
+      *(unsigned int *)(uVar7 - 0x40) = uVar2;
       if (fVar3 < fStack_40) {
         fVar3 = fStack_40;
         iVar15 = iVar13;

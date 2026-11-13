@@ -1,67 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int stack0x00000010;
 extern unsigned int stack0xfffffff8;
 extern unsigned int uStack00000010;
 extern unsigned int uStack_10;
 
 
-undefined8 fn_82AC4830(ulonglong param_1,int *param_2,int param_3)
+unsigned __int64 fn_82AC4830(unsigned __int64 param_1,int *param_2,int param_3)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   int iVar3;
-  uint uVar4;
-  uint uVar5;
-  byte *pbVar6;
-  uint uVar7;
-  ulonglong *puVar8;
-  ulonglong uStack00000010;
-  ulonglong uStack_10;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned char *pbVar6;
+  unsigned int uVar7;
+  unsigned __int64 *puVar8;
+  unsigned __int64 uStack00000010;
+  unsigned __int64 uStack_10;
   
   uStack00000010 = param_1;
-  uStack00000010 = ((((U64)(uStack00000010)) & (~(((U64)0xFFFFFFFF) << 32))) | ((((U64)((uint)param_1)) & ((U64)0xFFFFFFFF)) << 32));
+  uStack00000010 = ((((unsigned __int64)(uStack00000010)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((unsigned int)param_1)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
   puVar8 = &uStack_10;
-  pbVar6 = (byte *)&stack0x00000010;
+  pbVar6 = (unsigned char *)&stack0x00000010;
   uStack_10 = param_1 & 0x70000f700;
   do {
-    bVar1 = *(byte *)puVar8;
+    bVar1 = *(unsigned char *)puVar8;
     bVar2 = *pbVar6;
-    if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-    puVar8 = (ulonglong *)((int)puVar8 + 1);
+    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
+    puVar8 = (unsigned __int64 *)((int)puVar8 + 1);
     pbVar6 = pbVar6 + 1;
-  } while (puVar8 != (ulonglong *)&stack0xfffffff8);
-  if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
+  } while (puVar8 != (unsigned __int64 *)&stack0xfffffff8);
+  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) != 0) {
     return 0xffffffff80004005;
   }
   iVar3 = *param_2;
-  uVar5 = (((U64)(uStack00000010) >> 32) & 0xFFFFFFFF) >> 9 & 3;
+  uVar5 = (((unsigned __int64)(uStack00000010) >> 32) & 0xFFFFFFFF) >> 9 & 3;
   uVar4 = param_2[iVar3 * 4 + 3];
   uVar7 = uVar4 & 0xffffefff;
   param_2[iVar3 * 4 + 3] = uVar7;

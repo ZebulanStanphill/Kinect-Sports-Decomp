@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_90;
 extern int fn_8253B818();
@@ -34,7 +8,7 @@ extern V16 vectorMergeLowWord();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_82555FF8(int *param_1,int param_2,int param_3,undefined8 param_4)
+void fn_82555FF8(int *param_1,int param_2,int param_3,unsigned __int64 param_4)
 
 {
   int *piVar1;
@@ -46,37 +20,37 @@ void fn_82555FF8(int *param_1,int param_2,int param_3,undefined8 param_4)
   float *pfVar7;
   float *pfVar8;
   int in_r0;
-  longlong lVar9;
+  __int64 lVar9;
   int iVar10;
   int iVar11;
   int iVar12;
   int iVar13;
   int *piVar14;
-  undefined1 in_vs32 [16];
-  undefined1 auVar15 [16];
-  undefined1 in_vs33 [16];
-  undefined1 in_vs34 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs36 [16];
-  undefined1 auVar16 [16];
-  undefined1 auVar17 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 auVar18 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 auVar19 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar20 [16];
-  undefined1 in_vs61 [16];
-  undefined1 in_vs62 [16];
-  undefined1 in_vs63 [16];
+  unsigned char in_vs32 [16];
+  unsigned char auVar15 [16];
+  unsigned char in_vs33 [16];
+  unsigned char in_vs34 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs36 [16];
+  unsigned char auVar16 [16];
+  unsigned char auVar17 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char auVar18 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs44 [16];
+  unsigned char auVar19 [16];
+  unsigned char in_vs45 [16];
+  unsigned char auVar20 [16];
+  unsigned char in_vs61 [16];
+  unsigned char in_vs62 [16];
+  unsigned char in_vs63 [16];
   float in_register_00010070;
   float in_register_00010074;
   float in_register_00010078;
   float in_vr7;
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [128];
+  unsigned char auStack_90 [16];
+  unsigned char auStack_80 [128];
   
   iVar12 = param_1[4];
   iVar10 = 0;
@@ -135,14 +109,14 @@ void fn_82555FF8(int *param_1,int param_2,int param_3,undefined8 param_4)
       do {
         piVar14 = (int *)(iVar11 + *param_1);
         piVar1 = *(int **)(*(int *)(iVar11 + *param_1) + 0x1b0);
-        (**(code **)(*piVar1 + 0x18))(piVar1,auStack_80);
+        (**(int (***)())(*piVar1 + 0x18))(piVar1,auStack_80);
         piVar1 = *(int **)(*piVar14 + 0x1b0);
-        (**(code **)(*piVar1 + 0x1c))(piVar1,auStack_90);
+        (**(int (***)())(*piVar1 + 0x1c))(piVar1,auStack_90);
         iVar13 = param_1[2] + iVar12;
-        fn_8253B818(*(undefined8 *)(param_1[2] + iVar12),*(undefined8 *)(iVar13 + 8),
-                     *(undefined8 *)(iVar13 + 0x10),*(undefined8 *)(iVar13 + 0x18),
-                     *(undefined8 *)(iVar13 + 0x20),*(undefined8 *)(iVar13 + 0x28),
-                     *(undefined8 *)(iVar13 + 0x30),*(undefined8 *)(iVar13 + 0x38));
+        fn_8253B818(*(unsigned __int64 *)(param_1[2] + iVar12),*(unsigned __int64 *)(iVar13 + 8),
+                     *(unsigned __int64 *)(iVar13 + 0x10),*(unsigned __int64 *)(iVar13 + 0x18),
+                     *(unsigned __int64 *)(iVar13 + 0x20),*(unsigned __int64 *)(iVar13 + 0x28),
+                     *(unsigned __int64 *)(iVar13 + 0x30),*(unsigned __int64 *)(iVar13 + 0x38));
         fn_82556908(piVar14,param_4);
         iVar10 = iVar10 + 1;
         iVar11 = iVar11 + 0x1a0;
@@ -154,9 +128,9 @@ void fn_82555FF8(int *param_1,int param_2,int param_3,undefined8 param_4)
   if (0 < param_1[1]) {
     iVar10 = 0;
     do {
-      lVar9 = (ulonglong)*(uint *)(iVar10 + *param_1) + 0x98;
+      lVar9 = (unsigned __int64)*(unsigned int *)(iVar10 + *param_1) + 0x98;
       if (lVar9 != 0) {
-        fn_82555FF8(lVar9,((uint *)(iVar10 + *param_1))[2],0,0);
+        fn_82555FF8(lVar9,((unsigned int *)(iVar10 + *param_1))[2],0,0);
       }
       iVar12 = iVar12 + 1;
       iVar10 = iVar10 + 0x1a0;

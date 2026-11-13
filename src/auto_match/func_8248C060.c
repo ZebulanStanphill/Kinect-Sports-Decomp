@@ -1,34 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int ltcg_pool_0_0f;
 
 
-undefined8 fn_8248C060(double param_1,int param_2,undefined4 param_3,int param_4)
+unsigned __int64 fn_8248C060(double param_1,int param_2,unsigned int param_3,int param_4)
 
 {
   float fVar1;
@@ -43,9 +17,9 @@ undefined8 fn_8248C060(double param_1,int param_2,undefined4 param_3,int param_4
       if (*(int *)(iVar5 + 0x2c) == param_4) {
         iVar4 = *(int *)(iVar5 + 8);
         iVar2 = *(int *)(iVar5 + 0xc);
-        *(undefined4 *)(iVar5 + 4) = param_3;
-        *(undefined4 *)(iVar5 + 0x28) = 0;
-        *(undefined4 *)(iVar5 + 0x44) = 0;
+        *(unsigned int *)(iVar5 + 4) = param_3;
+        *(unsigned int *)(iVar5 + 0x28) = 0;
+        *(unsigned int *)(iVar5 + 0x44) = 0;
         fVar1 = ltcg_pool_0_0f;
         *(float *)(iVar5 + 0x3c) = ltcg_pool_0_0f;
         if (iVar4 != iVar2) goto code_r0x8248c0d4;
@@ -65,11 +39,11 @@ code_r0x8248c0d4:
     if (param_1 <= (double)fVar1) break;
   }
   if (iVar4 != iVar2) {
-    *(undefined4 *)(iVar5 + 0x1c) = 1;
+    *(unsigned int *)(iVar5 + 0x1c) = 1;
   }
 code_r0x8248c114:
-  *(undefined4 *)(iVar5 + 0x48) = 1;
-  *(undefined4 *)(iVar5 + 0x24) = 0;
+  *(unsigned int *)(iVar5 + 0x48) = 1;
+  *(unsigned int *)(iVar5 + 0x24) = 0;
   return 1;
 }
 

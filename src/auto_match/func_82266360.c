@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern int fn_82266628();
 extern int fn_82266990();
 extern int fn_825279F8();
@@ -41,37 +15,37 @@ extern void *memcpy(void *, const void *, unsigned int);
 void fn_82266360(double param_1,int param_2)
 
 {
-  undefined4 *puVar1;
-  uint uVar2;
+  unsigned int *puVar1;
+  unsigned int uVar2;
   float *pfVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
   int iVar6;
   int iVar7;
-  undefined8 uVar8;
-  undefined8 uVar9;
-  undefined1 in_vs32 [16];
-  undefined1 auVar10 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar11;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned char in_vs32 [16];
+  unsigned char auVar10 [16];
+  unsigned char in_vs38 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar11;
   float fVar12;
-  undefined4 uVar13;
+  unsigned int uVar13;
   float fVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
+  unsigned int uVar15;
+  unsigned int uVar16;
   float fVar17;
   float fVar18;
-  undefined4 in_register_00010430;
-  undefined4 in_register_00010434;
-  undefined4 in_register_00010438;
-  undefined4 in_vr67;
+  unsigned int in_register_00010430;
+  unsigned int in_register_00010434;
+  unsigned int in_register_00010438;
+  unsigned int in_vr67;
   float fVar19;
   float fVar20;
   float fVar21;
@@ -82,7 +56,7 @@ void fn_82266360(double param_1,int param_2)
   if (9 < iVar7 - 1U) {
     return;
   }
-  uVar4 = (uint)(byte)(&lbl_82194FE7)[iVar7];
+  uVar4 = (unsigned int)(unsigned char)(&lbl_82194FE7)[iVar7];
   iVar5 = uVar4 * 4;
   switch(iVar7) {
   case 1:
@@ -107,12 +81,12 @@ void fn_82266360(double param_1,int param_2)
     fVar17 = (0.0 - fVar18) * (0.0 - fVar18) + (fVar12 - fVar19) * (fVar12 - fVar19) +
              (fVar14 - fVar20) * (fVar14 - fVar20);
     fVar12 = fVar12 * fVar12 + 0.0 + fVar14 * fVar14;
-    pfVar3 = (float *)((uint)(afStack_40 + uVar4) & 0xfffffff0);
+    pfVar3 = (float *)((unsigned int)(afStack_40 + uVar4) & 0xfffffff0);
     *pfVar3 = fVar17;
     pfVar3[1] = fVar17;
     pfVar3[2] = fVar17;
     pfVar3[3] = fVar17;
-    pfVar3 = (float *)((uint)(afStack_50 + uVar4) & 0xfffffff0);
+    pfVar3 = (float *)((unsigned int)(afStack_50 + uVar4) & 0xfffffff0);
     *pfVar3 = fVar12;
     pfVar3[1] = fVar12;
     pfVar3[2] = fVar12;
@@ -130,19 +104,19 @@ void fn_82266360(double param_1,int param_2)
     }
     else {{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs43,in_vs40,auVar10); memcpy(auVar10, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs42,auVar10); memcpy(auVar10, &_vt2, 16); }{ V16 _vt3 = vectorMultiplyAddFloatingPoint(in_vs38,in_vs41,auVar10); memcpy(auVar10, &_vt3, 16); }
       vectorConditionalSelect(auVar10,in_vs45,in_vs44);
-      puVar1 = (undefined4 *)(iVar5 + iVar7 + 0x70 & 0xfffffff0);
+      puVar1 = (unsigned int *)(iVar5 + iVar7 + 0x70 & 0xfffffff0);
       *puVar1 = in_register_00010430;
       puVar1[1] = in_register_00010434;
       puVar1[2] = in_register_00010438;
       puVar1[3] = in_vr67;
     }
-    puVar1 = (undefined4 *)(iVar5 + iVar7 + 0x70 & 0xfffffff0);
+    puVar1 = (unsigned int *)(iVar5 + iVar7 + 0x70 & 0xfffffff0);
     uVar11 = *puVar1;
     uVar13 = puVar1[1];
     uVar15 = puVar1[2];
     uVar16 = puVar1[3];
-    *(undefined4 *)(iVar7 + 0x170) = 0;
-    puVar1 = (undefined4 *)(iVar7 + 0x60U & 0xfffffff0);
+    *(unsigned int *)(iVar7 + 0x170) = 0;
+    puVar1 = (unsigned int *)(iVar7 + 0x60U & 0xfffffff0);
     *puVar1 = uVar11;
     puVar1[1] = uVar13;
     puVar1[2] = uVar15;
@@ -194,12 +168,12 @@ LAB_822664f4:
     vectorSubtractFloatingPoint(in_vs32,in_vs44);
     fVar17 = fVar17 * fVar17 + 0.0 + fVar18 * fVar18;
     fVar12 = fVar12 * fVar12 + 0.0 + fVar14 * fVar14;
-    pfVar3 = (float *)((uint)(afStack_40 + uVar4) & 0xfffffff0);
+    pfVar3 = (float *)((unsigned int)(afStack_40 + uVar4) & 0xfffffff0);
     *pfVar3 = fVar17;
     pfVar3[1] = fVar17;
     pfVar3[2] = fVar17;
     pfVar3[3] = fVar17;
-    pfVar3 = (float *)((uint)(afStack_50 + uVar4) & 0xfffffff0);
+    pfVar3 = (float *)((unsigned int)(afStack_50 + uVar4) & 0xfffffff0);
     *pfVar3 = fVar12;
     pfVar3[1] = fVar12;
     pfVar3[2] = fVar12;

@@ -1,53 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int _blkmov();
 extern int fn_82FF4A38();
 extern int fn_83014F10();
 extern unsigned int lbl_83264304;
 
 
-undefined4 fn_83014400(int param_1,int *param_2,int *param_3)
+unsigned int fn_83014400(int param_1,int *param_2,int *param_3)
 
 {
   int *piVar1;
-  undefined4 uVar3;
-  ulonglong uVar2;
-  ulonglong uVar4;
-  uint *puVar5;
+  unsigned int uVar3;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar4;
+  unsigned int *puVar5;
   
   if (*(int *)(param_1 + 0x3c) == 0) {
     uVar3 = 0;
   }
   else {
-    *(undefined4 *)(param_1 + 0x6c) = 0;
+    *(unsigned int *)(param_1 + 0x6c) = 0;
     RtlEnterCriticalSection(param_1 + 0x1c);
     if (*(int *)(param_1 + 0x38) != 0) {
-      puVar5 = (uint *)(param_1 + 0x10);
+      puVar5 = (unsigned int *)(param_1 + 0x10);
       if (*(int *)(param_1 + 0x14) != *(int *)(param_1 + 0x10)) {
         do {
           piVar1 = (int *)*puVar5;
@@ -60,21 +33,21 @@ undefined4 fn_83014400(int param_1,int *param_2,int *param_3)
             fn_83014F10(puVar5,0);
             break;
           }
-          uVar2 = (ulonglong)*puVar5;
-          uVar4 = (ulonglong)*(uint *)(param_1 + 0x14) - 0xc;
+          uVar2 = (unsigned __int64)*puVar5;
+          uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14) - 0xc;
           if (uVar2 < (uVar4 & 0xffffffff)) {
             _blkmov(uVar2,uVar2 + 0xc,
                          (((uVar4 - uVar2) - 1 & 0xffffffff) / 0xc + 1) * 0xc & 0xfffffffc);
           }
           *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + -0xc;
-          fn_82FF4A38(lbl_83264304,*(undefined4 *)(param_1 + 0x50),0,*param_3);
-        } while (*(uint *)(param_1 + 0x14) != *puVar5);
+          fn_82FF4A38(lbl_83264304,*(unsigned int *)(param_1 + 0x50),0,*param_3);
+        } while (*(unsigned int *)(param_1 + 0x14) != *puVar5);
       }
       if (*(int *)(param_1 + 0x6c) == 0) {
-        *(undefined4 *)(param_1 + 0x38) = 2;
+        *(unsigned int *)(param_1 + 0x38) = 2;
       }
     }
-    uVar3 = *(undefined4 *)(param_1 + 0x6c);
+    uVar3 = *(unsigned int *)(param_1 + 0x6c);
     RtlLeaveCriticalSection(param_1 + 0x1c);
   }
   return uVar3;

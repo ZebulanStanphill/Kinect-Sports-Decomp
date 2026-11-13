@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 extern int fn_82BA02A8();
 extern int fn_82BE5240();
@@ -45,27 +19,27 @@ extern unsigned int lbl_831751CC;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-ulonglong fn_82BF6230(int param_1)
+unsigned __int64 fn_82BF6230(int param_1)
 
 {
   int iVar1;
-  uint uVar3;
-  uint uVar4;
+  unsigned int uVar3;
+  unsigned int uVar4;
   int iVar5;
-  ulonglong uVar2;
+  unsigned __int64 uVar2;
   char cVar7;
-  uint uVar6;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  undefined8 uVar10;
-  undefined8 uVar11;
-  undefined8 uVar12;
-  undefined8 uVar13;
-  undefined8 uVar14;
-  undefined8 uVar15;
+  unsigned int uVar6;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  unsigned __int64 uVar13;
+  unsigned __int64 uVar14;
+  unsigned __int64 uVar15;
   double dVar16;
   double dVar17;
-  undefined2 auStack_90 [2];
+  unsigned short auStack_90 [2];
   int aiStack_8c [35];
   
   cVar7 = '\0';
@@ -96,17 +70,17 @@ ulonglong fn_82BF6230(int param_1)
           ;
         }
         if ((uVar2 & 0xffffffff) == 0) {
-          *(undefined4 *)(param_1 + 0x10) = 0;
+          *(unsigned int *)(param_1 + 0x10) = 0;
           fn_82BE5240(param_1,0x65,0xffffffff820ebb14);
         }
         if ((uVar9 & 0xffffffff) != 0) {
-          (*(code *)lbl_831751CC)(uVar9);
+          (*(int (**)())lbl_831751CC)(uVar9);
         }
         if ((uVar8 & 0xffffffff) != 0) {
-          (*(code *)lbl_831751CC)(uVar8);
+          (*(int (**)())lbl_831751CC)(uVar8);
         }
         if (aiStack_8c[0] != 0) {
-          (*(code *)lbl_831751CC)();
+          (*(int (**)())lbl_831751CC)();
         }
       }
       else {

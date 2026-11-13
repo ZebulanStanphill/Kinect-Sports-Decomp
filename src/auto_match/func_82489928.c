@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82489D60();
 extern int memmove();
 
@@ -34,9 +7,9 @@ void fn_82489928(int *param_1,int param_2)
 {
   int *piVar1;
   int iVar2;
-  uint uVar3;
+  unsigned int uVar3;
   int iVar4;
-  uint uVar5;
+  unsigned int uVar5;
   int *piVar6;
   int *piVar7;
   int aiStack_40;
@@ -60,13 +33,13 @@ void fn_82489928(int *param_1,int param_2)
       if (*(int *)(*(int *)(iVar4 + iVar2) + 0x14) == param_2) {
         iVar2 = *(int *)(uVar5 * 4 + iVar2);
         if ((*(int *)(iVar2 + 4) != 0) && (*(int *)(iVar2 + 4) != 3)) {
-          *(undefined4 *)(iVar2 + 0x24) = 1;
+          *(unsigned int *)(iVar2 + 0x24) = 1;
           return;
         }
         aiStack_40 = *(int *)(iVar2 + 0x14);
-        fn_82489D60((ulonglong)*(uint *)(iVar2 + 0x20) + 0x20,&aiStack_40);
-        *(undefined4 *)(iVar2 + 0x14) = 0xffffffff;
-        *(undefined4 *)(iVar2 + 4) = 0;
+        fn_82489D60((unsigned __int64)*(unsigned int *)(iVar2 + 0x20) + 0x20,&aiStack_40);
+        *(unsigned int *)(iVar2 + 0x14) = 0xffffffff;
+        *(unsigned int *)(iVar2 + 4) = 0;
         return;
       }
       uVar5 = uVar5 + 1;

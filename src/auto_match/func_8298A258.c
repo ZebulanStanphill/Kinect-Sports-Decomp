@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_828F8968();
 extern int fn_82980C18();
 extern int fn_829873C0();
@@ -58,23 +32,23 @@ extern unsigned int lbl_82196F18;
 extern unsigned int lbl_821AF754;
 
 
-longlong fn_8298A258(uint *param_1)
+__int64 fn_8298A258(unsigned int *param_1)
 
 {
   char cVar1;
-  byte bVar2;
+  unsigned char bVar2;
   char cVar3;
-  byte bVar4;
-  uint uVar5;
+  unsigned char bVar4;
+  unsigned int uVar5;
   int iVar6;
-  undefined8 uVar7;
-  byte *pbVar8;
+  unsigned __int64 uVar7;
+  unsigned char *pbVar8;
   char *pcVar9;
-  byte *pbVar10;
-  byte *pbVar11;
+  unsigned char *pbVar10;
+  unsigned char *pbVar11;
   char *pcVar12;
-  byte *pbVar13;
-  uint *puVar14;
+  unsigned char *pbVar13;
+  unsigned int *puVar14;
   
   puVar14 = param_1 + 10;
   do {
@@ -90,7 +64,7 @@ longlong fn_8298A258(uint *param_1)
     case 1:
       cVar1 = *(char *)((int)param_1 + 0x31);
       if (cVar1 == '\0') {
-        return (longlong)*(char *)(param_1 + 0xc);
+        return (__int64)*(char *)(param_1 + 0xc);
       }
       if (*(char *)((int)param_1 + 0x32) != '\0') {
         if (*(char *)((int)param_1 + 0x33) != '\0') {
@@ -136,7 +110,7 @@ longlong fn_8298A258(uint *param_1)
         }
         return 0x165;
       }
-      bVar2 = *(byte *)(param_1 + 0xc);
+      bVar2 = *(unsigned char *)(param_1 + 0xc);
       if (0x2f < bVar2) {
         if (bVar2 == 0x3c) {
           return 0x166;
@@ -192,7 +166,7 @@ longlong fn_8298A258(uint *param_1)
     case 8:
       return 0x17e;
     case 9:
-      pbVar13 = (byte *)param_1[0xc];
+      pbVar13 = (unsigned char *)param_1[0xc];
       pbVar8 = &lbl_8204E4EC;
       pbVar10 = &lbl_821AF754;
       switch(*pbVar13) {
@@ -478,7 +452,7 @@ LAB_8298c4ac:
   }
   pcVar9 = "using";
   do {
-    iVar6 = (uint)*pbVar13 - (uint)(byte)*pcVar9;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)(unsigned char)*pcVar9;
     if (*pbVar13 == 0) break;
     pbVar13 = pbVar13 + 1;
     pcVar9 = pcVar9 + 1;
@@ -1134,7 +1108,7 @@ LAB_8298b32c:
   }
   pcVar9 = "operator";
   do {
-    iVar6 = (uint)*pbVar13 - (uint)(byte)*pcVar9;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)(unsigned char)*pcVar9;
     if (*pbVar13 == 0) break;
     pbVar13 = pbVar13 + 1;
     pcVar9 = pcVar9 + 1;
@@ -1202,7 +1176,7 @@ LAB_8298b180:
   }
   pcVar9 = "mutable";
   do {
-    iVar6 = (uint)*pbVar13 - (uint)(byte)*pcVar9;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)(unsigned char)*pcVar9;
     if (*pbVar13 == 0) break;
     pbVar13 = pbVar13 + 1;
     pcVar9 = pcVar9 + 1;
@@ -1336,7 +1310,7 @@ LAB_8298aebc:
     pbVar10 = pbVar10 + 1;
     if (iVar6 != 0) break;
 LAB_8298ae3c:
-    iVar6 = (uint)*pbVar13 - (uint)*pbVar10;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)*pbVar10;
     if (*pbVar13 == 0) break;
   }
   goto LAB_8298ab28;
@@ -1390,7 +1364,7 @@ LAB_8298ad08:
   }
   pcVar9 = "friend";
   do {
-    iVar6 = (uint)*pbVar13 - (uint)(byte)*pcVar9;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)(unsigned char)*pcVar9;
     if (*pbVar13 == 0) break;
     pbVar13 = pbVar13 + 1;
     pcVar9 = pcVar9 + 1;
@@ -1506,7 +1480,7 @@ LAB_8298a9cc:
   }
   pcVar9 = "dynamic_cast";
   do {
-    iVar6 = (uint)*pbVar13 - (uint)(byte)*pcVar9;
+    iVar6 = (unsigned int)*pbVar13 - (unsigned int)(unsigned char)*pcVar9;
     if (*pbVar13 == 0) break;
     pbVar13 = pbVar13 + 1;
     pcVar9 = pcVar9 + 1;
@@ -2021,7 +1995,7 @@ LAB_8298a62c:
     return 0x106;
   }
 switchD_8298a50c_caseD_45:
-  iVar6 = fn_82F6DF30(*(undefined1 *)param_1[0xc]);
+  iVar6 = fn_82F6DF30(*(unsigned char *)param_1[0xc]);
   if (iVar6 == 0x61) {
     iVar6 = fn_82F65AC0(param_1[0xc],0xffffffff8204f050);
     if (iVar6 != 0) goto LAB_8298c8d8;
@@ -2057,6 +2031,6 @@ switchD_8298a50c_caseD_45:
   fn_82980C18(param_1,puVar14,0xc0e,uVar7);
 LAB_8298c8d8:
   iVar6 = fn_829873C0(param_1,0,puVar14,0,0,param_1[5],0,0);
-  return ((ulonglong)(iVar6 == 0) ^ 1) + 0x180;
+  return ((unsigned __int64)(iVar6 == 0) ^ 1) + 0x180;
 }
 

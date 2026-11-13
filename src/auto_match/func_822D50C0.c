@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 extern unsigned int *auStack_a8;
 extern unsigned int *auStack_b0;
@@ -39,27 +12,27 @@ extern unsigned int iStack_9c;
 extern unsigned int iStack_a0;
 
 
-void fn_822D50C0(undefined8 param_1,int param_2,undefined8 param_3,int param_4,int param_5,
+void fn_822D50C0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int param_4,int param_5,
                   int param_6)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  undefined4 *puVar5;
-  uint uVar6;
-  undefined1 auStack_b0 [8];
-  undefined1 auStack_a8 [8];
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned int *puVar5;
+  unsigned int uVar6;
+  unsigned char auStack_b0 [8];
+  unsigned char auStack_a8 [8];
   int iStack_a0;
   int iStack_9c;
-  undefined1 auStack_90 [144];
+  unsigned char auStack_90 [144];
   
-  fn_8255FD70(&iStack_a0,*(undefined4 *)(param_2 + 0x24),0xffffffff821ad78c);
+  fn_8255FD70(&iStack_a0,*(unsigned int *)(param_2 + 0x24),0xffffffff821ad78c);
   uVar6 = 0;
   uVar1 = iStack_9c - iStack_a0 >> 2;
   if (uVar1 != 0) {
-    puVar5 = (undefined4 *)(iStack_a0 + -4);
+    puVar5 = (unsigned int *)(iStack_a0 + -4);
     do {
       puVar5 = puVar5 + 1;
       fn_82230110(auStack_90,*puVar5);

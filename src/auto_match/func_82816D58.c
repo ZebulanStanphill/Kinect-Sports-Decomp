@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 extern void fn_82816C38(void);
 extern void fn_82816C98(void);
 extern void fn_82816CE8(void);

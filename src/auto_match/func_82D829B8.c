@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern int fn_82CE5410();
 extern int fn_82D82418();
 extern char *fn_82D82548();
@@ -14,7 +13,7 @@ int fn_82D829B8(int param_1)
   char auStack_20 [8];
 
   iVar1 = fn_82CE5410();
-  iVar1 = (*(code *)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0x44);
+  iVar1 = (*(int (**)())(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0x44);
   *(short *)(iVar1 + 4) = 0x44;
   iVar1 = fn_82D94B58();
   fn_82D82418(auStack_20,param_1,iVar1);

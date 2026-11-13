@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int *auStack_148;
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_98;
@@ -45,27 +18,27 @@ extern unsigned int uStack_d0;
 extern unsigned int uStack_dc;
 
 
-void fn_823EB430(int param_1,undefined8 param_2)
+void fn_823EB430(int param_1,unsigned __int64 param_2)
 
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  undefined1 auStack_148 [104];
-  code *pcStack_e0;
-  undefined4 uStack_dc;
-  undefined8 uStack_d0;
-  uint uStack_c8;
-  undefined4 uStack_c4;
-  undefined8 uStack_c0;
-  undefined8 uStack_b8;
-  undefined8 uStack_b0;
-  undefined8 uStack_a8;
-  undefined8 uStack_a0;
-  undefined1 auStack_98 [104];
-  undefined1 auStack_30 [24];
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned char auStack_148 [104];
+  int (**pcStack_e0)();
+  unsigned int uStack_dc;
+  unsigned __int64 uStack_d0;
+  unsigned int uStack_c8;
+  unsigned int uStack_c4;
+  unsigned __int64 uStack_c0;
+  unsigned __int64 uStack_b8;
+  unsigned __int64 uStack_b0;
+  unsigned __int64 uStack_a8;
+  unsigned __int64 uStack_a0;
+  unsigned char auStack_98 [104];
+  unsigned char auStack_30 [24];
   
-  uStack_c8 = *(uint *)(param_1 + 4);
-  uVar2 = (ulonglong)uStack_c8;
+  uStack_c8 = *(unsigned int *)(param_1 + 4);
+  uVar2 = (unsigned __int64)uStack_c8;
   uStack_dc = 0;
   pcStack_e0 = fn_823CFA50;
   uStack_d0 = 0x823cfa5000000000;

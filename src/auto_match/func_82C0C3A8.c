@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 void *memset(void *dst, int val, unsigned int size);
 
 typedef struct Msg_82C0C3A8 {
@@ -9,7 +7,7 @@ typedef struct Msg_82C0C3A8 {
 
 typedef void (*VFn_82C0C3A8)(void *self, Msg_82C0C3A8 *msg);
 
-void fn_82C0C3A8(int *param_1, uint param_2)
+void fn_82C0C3A8(int *param_1, unsigned int param_2)
 {
     Msg_82C0C3A8 m;
 

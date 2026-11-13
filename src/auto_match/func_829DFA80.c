@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_15c;
 extern unsigned int *auStack_160;
 extern unsigned int *auStack_200;
@@ -44,43 +17,43 @@ extern unsigned int lbl_832179FC;
 extern unsigned int uStack_2a0;
 
 
-undefined8
-fn_829DFA80(double param_1,undefined8 param_2,int param_3,undefined8 param_4,int param_5,
-             undefined8 param_6,undefined8 param_7,int param_8,undefined8 param_9)
+unsigned __int64
+fn_829DFA80(double param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5,
+             unsigned __int64 param_6,unsigned __int64 param_7,int param_8,unsigned __int64 param_9)
 
 {
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar1;
   char cVar3;
-  undefined8 uVar2;
-  undefined1 uVar4;
-  longlong lVar5;
-  undefined1 *puVar6;
-  undefined4 *puVar7;
-  undefined1 in_vs43 [16];
-  undefined1 in_vs56 [16];
-  undefined4 in_register_000103f0;
-  undefined4 in_register_000103f4;
-  undefined4 in_register_000103f8;
-  undefined4 in_vr63;
-  struct { undefined4 first; int second; } stack_pair_2a0;
+  unsigned __int64 uVar2;
+  unsigned char uVar4;
+  __int64 lVar5;
+  unsigned char *puVar6;
+  unsigned int *puVar7;
+  unsigned char in_vs43 [16];
+  unsigned char in_vs56 [16];
+  unsigned int in_register_000103f0;
+  unsigned int in_register_000103f4;
+  unsigned int in_register_000103f8;
+  unsigned int in_vr63;
+  struct { unsigned int first; int second; } stack_pair_2a0;
 
-  undefined1 auStack_290 [16];
-  undefined1 auStack_280 [64];
-  undefined1 auStack_240 [64];
-  undefined1 auStack_200 [160];
-  undefined1 auStack_160 [4];
-  undefined4 auStack_15c [55];
+  unsigned char auStack_290 [16];
+  unsigned char auStack_280 [64];
+  unsigned char auStack_240 [64];
+  unsigned char auStack_200 [160];
+  unsigned char auStack_160 [4];
+  unsigned int auStack_15c [55];
   
-  fn_82A94368(*(undefined4 *)(param_3 + 0x14),0,auStack_280);
-  fn_82A94368(*(undefined4 *)(param_5 + 0x14),0,auStack_240);
+  fn_82A94368(*(unsigned int *)(param_3 + 0x14),0,auStack_280);
+  fn_82A94368(*(unsigned int *)(param_5 + 0x14),0,auStack_240);
   puVar7 = auStack_15c;
   puVar6 = auStack_200;
   lVar5 = 0x14;
   do {
     fn_824DCB30(puVar7 + -1,puVar7,puVar7 + 1);
-    fn_829D3900(*(undefined4 *)(param_3 + 0x10),param_3 + 0x1c,puVar7[-1],*puVar7,
-                 *(undefined2 *)(puVar7 + 1),puVar6,puVar6 + 4);
+    fn_829D3900(*(unsigned int *)(param_3 + 0x10),param_3 + 0x1c,puVar7[-1],*puVar7,
+                 *(unsigned short *)(puVar7 + 1),puVar6,puVar6 + 4);
     iVar1 = (int)in_r0;
     lVar5 = lVar5 + -1;
     puVar6 = puVar6 + 8;
@@ -100,12 +73,12 @@ fn_829DFA80(double param_1,undefined8 param_2,int param_3,undefined8 param_4,int
     stack_pair_2a0.first = fn_82A1F2F8();
     uVar4 = fn_829DF810(auStack_160,auStack_280,param_4,param_3 + 0x1c,auStack_240,param_6,
                               auStack_290,param_8 + 0x2cc);
-    *(undefined1 *)(param_8 + 0x588) = uVar4;
+    *(unsigned char *)(param_8 + 0x588) = uVar4;
     fn_829D4800(&stack_pair_2a0.first);
     uVar2 = 0;
     altv207_13(in_vs56,in_vs43);
     *(float *)(param_8 + 0x58c) = (float)param_1;
-    puVar7 = (undefined4 *)(iVar1 + param_8 & 0xfffffff0);
+    puVar7 = (unsigned int *)(iVar1 + param_8 & 0xfffffff0);
     *puVar7 = in_register_000103f0;
     puVar7[1] = in_register_000103f4;
     puVar7[2] = in_register_000103f8;

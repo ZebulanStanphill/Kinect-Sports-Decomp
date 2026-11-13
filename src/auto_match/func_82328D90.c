@@ -1,5 +1,4 @@
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
-typedef int (*code)();
 extern void fn_822315A0(unsigned int);
 extern void fn_82255EA8(int, int, int);
 extern void fn_822D79D8(int *, int);
@@ -25,13 +24,13 @@ void fn_82328D90(int param_2, __vector4 v, float f, int a, int b, int obj, int c
   sp.first = 0;
   sp.second = 0;
   fn_822D79D8(&sp.first, raw);
-  (*(code *)(**(int **)(param_2 + 0x68) + 0x10))(*(int **)(param_2 + 0x68), sp.first, &v);
-  (*(code *)(**(int **)(param_2 + 0x70) + 0x10))(*(int **)(param_2 + 0x70), sp.first, &f);
-  (*(code *)(**(int **)(param_2 + 0x78) + 0x10))(*(int **)(param_2 + 0x78), sp.first, &a);
-  (*(code *)(**(int **)(param_2 + 0x80) + 0x10))(*(int **)(param_2 + 0x80), sp.first, &b);
-  (*(code *)(**(int **)(param_2 + 0x88) + 0x10))(*(int **)(param_2 + 0x88), sp.first, obj);
-  (*(code *)(**(int **)(param_2 + 0x90) + 0x10))(*(int **)(param_2 + 0x90), sp.first, &c);
-  (*(code *)(**(int **)(param_2 + 0x98) + 0x10))(*(int **)(param_2 + 0x98), sp.first, &d);
+  (*(int (**)())(**(int **)(param_2 + 0x68) + 0x10))(*(int **)(param_2 + 0x68), sp.first, &v);
+  (*(int (**)())(**(int **)(param_2 + 0x70) + 0x10))(*(int **)(param_2 + 0x70), sp.first, &f);
+  (*(int (**)())(**(int **)(param_2 + 0x78) + 0x10))(*(int **)(param_2 + 0x78), sp.first, &a);
+  (*(int (**)())(**(int **)(param_2 + 0x80) + 0x10))(*(int **)(param_2 + 0x80), sp.first, &b);
+  (*(int (**)())(**(int **)(param_2 + 0x88) + 0x10))(*(int **)(param_2 + 0x88), sp.first, obj);
+  (*(int (**)())(**(int **)(param_2 + 0x90) + 0x10))(*(int **)(param_2 + 0x90), sp.first, &c);
+  (*(int (**)())(**(int **)(param_2 + 0x98) + 0x10))(*(int **)(param_2 + 0x98), sp.first, &d);
   if (*(unsigned int *)(param_2 + 0x48) != 0) {
     fn_828E9D90(sp.first);
     fn_828E9D40(sp.first);

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_58;
 extern int fn_82ABDBE8();
 extern int fn_82B8D038();
@@ -32,31 +8,31 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-void fn_82B8E778(uint *param_1,uint *param_2,uint *param_3,uint *param_4,int param_5)
+void fn_82B8E778(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,int param_5)
 
 {
-  uint uVar1;
-  uint *puVar2;
+  unsigned int uVar1;
+  unsigned int *puVar2;
   bool bVar3;
   char cVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uStack_60;
-  uint uStack_5c;
-  uint auStack_58 [22];
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
+  unsigned int auStack_58 [22];
   
   uVar8 = *param_1 >> 5 & 0xff;
   uVar9 = *param_1 & 0x1f;
   uVar7 = param_1[3];
 LAB_82b8e7a8:
   do {
-    uVar5 = *(uint *)(uVar7 + 8) >> 7 & 0x7f;
+    uVar5 = *(unsigned int *)(uVar7 + 8) >> 7 & 0x7f;
     if (uVar5 == 3) {
-      puVar2 = *(uint **)(uVar7 + 0x2c);
-      cVar4 = fn_82ABDBE8(puVar2,*(undefined4 *)(uVar7 + 0x30));
+      puVar2 = *(unsigned int **)(uVar7 + 0x2c);
+      cVar4 = fn_82ABDBE8(puVar2,*(unsigned int *)(uVar7 + 0x30));
       if (cVar4 == '\0') {
 LAB_82b8e930:
         *param_2 = uVar7;
@@ -66,7 +42,7 @@ LAB_82b8e930:
       }
       uVar5 = *puVar2;
       uVar1 = puVar2[3];
-      if (((uVar5 & 0x18) != 0) || ((*(uint *)(uVar1 + 8) & 0x3f80) == 0x3b00)) goto LAB_82b8e930;
+      if (((uVar5 & 0x18) != 0) || ((*(unsigned int *)(uVar1 + 8) & 0x3f80) == 0x3b00)) goto LAB_82b8e930;
       uVar6 = uVar5 & 0x1f;
       if (((uVar5 & 0x18) == 0) || ((uVar9 & 0x18) == 0)) {
         if (((uVar5 & 2) != 0) && ((uVar9 & 1) != 0)) goto LAB_82b8e990;
@@ -85,13 +61,13 @@ LAB_82b8e990:
       }
       if ((!bVar3) ||
          ((param_5 != 0 &&
-          (((*(uint *)(*(int *)(uVar1 + 0x1c) + 0x4c) ^ *(uint *)(*(int *)(param_5 + 0x1c) + 0x4c))
+          (((*(unsigned int *)(*(int *)(uVar1 + 0x1c) + 0x4c) ^ *(unsigned int *)(*(int *)(param_5 + 0x1c) + 0x4c))
            & 0x7ffff) != 0)))) goto LAB_82b8e930;
     }
     else {
       if (uVar5 != 0x68) {
         if (uVar5 != 0x70) goto LAB_82b8e930;
-        cVar4 = fn_82B8D038(*(undefined4 *)(*(int *)((uint)param_1 & 0xfffff000) + 0x94),uVar7,
+        cVar4 = fn_82B8D038(*(unsigned int *)(*(int *)((unsigned int)param_1 & 0xfffff000) + 0x94),uVar7,
                               &uStack_60,auStack_58,&uStack_5c,param_5,0);
         if ((cVar4 == '\0') || (uStack_60 == 0)) goto LAB_82b8e930;
         if (((uStack_5c & 0x18) == 0) || ((uVar9 & 0x18) == 0)) {
@@ -127,9 +103,9 @@ LAB_82b8e818:
         goto LAB_82b8e7a8;
       }
       if (param_5 != 0) goto LAB_82b8e930;
-      uVar5 = **(uint **)(uVar7 + 0x2c);
-      uVar1 = (*(uint **)(uVar7 + 0x2c))[3];
-      if (((uVar5 & 0x18) != 0) || ((*(uint *)(uVar1 + 8) & 0x3f80) == 0x3b00)) goto LAB_82b8e930;
+      uVar5 = **(unsigned int **)(uVar7 + 0x2c);
+      uVar1 = (*(unsigned int **)(uVar7 + 0x2c))[3];
+      if (((uVar5 & 0x18) != 0) || ((*(unsigned int *)(uVar1 + 8) & 0x3f80) == 0x3b00)) goto LAB_82b8e930;
       uVar6 = uVar5 & 0x1f;
       if (((uVar5 & 0x18) == 0) || ((uVar9 & 0x18) == 0)) {
         if (((uVar5 & 2) != 0) && ((uVar9 & 1) != 0)) goto LAB_82b8e8f8;

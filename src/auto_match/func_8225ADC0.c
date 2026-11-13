@@ -1,13 +1,12 @@
-typedef unsigned int word;
 typedef void (*callback)(void *object, int flag);
 
-extern word *fn_8225AD50(void *storage);
+extern unsigned int *fn_8225AD50(void *storage);
 
-word *fn_8225ADC0(word *param_1)
+unsigned int *fn_8225ADC0(unsigned int *param_1)
 {
-    word saved_value;
-    word *replacement;
-    word *storage[4];
+    unsigned int saved_value;
+    unsigned int *replacement;
+    unsigned int *storage[4];
 
     replacement = fn_8225AD50(storage);
     saved_value = *replacement;

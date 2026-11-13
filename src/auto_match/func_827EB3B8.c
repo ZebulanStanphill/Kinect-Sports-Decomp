@@ -1,44 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005710;
 
 
-longlong fn_827EB3B8(int param_1,uint param_2,byte *param_3,float *param_4,float *param_5,
-                      byte *param_6)
+__int64 fn_827EB3B8(int param_1,unsigned int param_2,unsigned char *param_3,float *param_4,float *param_5,
+                      unsigned char *param_6)
 
 {
   double dVar1;
-  ulonglong uVar2;
-  uint uVar3;
+  unsigned __int64 uVar2;
+  unsigned int uVar3;
   float *pfVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
   double dVar8;
   double dVar9;
   double dVar10;
@@ -50,8 +23,8 @@ longlong fn_827EB3B8(int param_1,uint param_2,byte *param_3,float *param_4,float
   param_2 = param_2 & 0xff;
   uVar6 = 0;
   uVar7 = 0;
-  uVar3 = -(uint)(*param_6 < param_2) & (uint)*param_6;
-  uVar2 = (ulonglong)(uint)(0x80 >> (uVar3 & 0x3f)) & 0xff;
+  uVar3 = -(unsigned int)(*param_6 < param_2) & (unsigned int)*param_6;
+  uVar2 = (unsigned __int64)(unsigned int)(0x80 >> (uVar3 & 0x3f)) & 0xff;
   uVar5 = 0;
   if (param_2 != 0) {
     do {
@@ -96,11 +69,11 @@ longlong fn_827EB3B8(int param_1,uint param_2,byte *param_3,float *param_4,float
         }
         uVar6 = uVar5 | uVar6;
         if (uVar6 == 3) {
-          *param_6 = (byte)uVar3;
+          *param_6 = (unsigned char)uVar3;
           return 0;
         }
         if (uVar5 == 0) {
-          *param_3 = *param_3 & ~(byte)uVar2;
+          *param_3 = *param_3 & ~(unsigned char)uVar2;
         }
       }
       uVar3 = uVar3 + 1 & 0xff;
@@ -115,6 +88,6 @@ longlong fn_827EB3B8(int param_1,uint param_2,byte *param_3,float *param_4,float
       uVar5 = uVar6;
     } while (uVar7 < param_2);
   }
-  return ((ulonglong)LZCOUNT((uint)(uVar6 == 1)) >> 4 & 2) + (ulonglong)(uVar6 == 1);
+  return ((unsigned __int64)LZCOUNT((unsigned int)(uVar6 == 1)) >> 4 & 2) + (unsigned __int64)(uVar6 == 1);
 }
 

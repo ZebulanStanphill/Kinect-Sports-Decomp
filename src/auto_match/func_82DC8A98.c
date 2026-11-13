@@ -1,45 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82CE5410();
 
 
 void fn_82DC8A98(int *param_1,int *param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
   int *piVar3;
   int iVar4;
   int iVar5;
   int *piVar6;
   int *piVar7;
-  longlong lVar8;
+  __int64 lVar8;
   int *piVar9;
   int *piVar10;
   int *piVar11;
@@ -50,7 +24,7 @@ void fn_82DC8A98(int *param_1,int *param_2)
   if (piVar11 == piVar10) {
     return;
   }
-  lVar8 = (ulonglong)(uint)param_1[1] + (ulonglong)(uint)param_2[1];
+  lVar8 = (unsigned __int64)(unsigned int)param_1[1] + (unsigned __int64)(unsigned int)param_2[1];
   aiStack_40 = (int)lVar8;
   if (lVar8 == 0) {
     piVar3 = (int *)0x0;
@@ -58,7 +32,7 @@ void fn_82DC8A98(int *param_1,int *param_2)
   }
   else {
     iVar2 = fn_82CE5410();
-    piVar3 = (int *)(**(code **)(**(int **)(iVar2 + 0x10) + 0xc))
+    piVar3 = (int *)(**(int (***)())(**(int **)(iVar2 + 0x10) + 0xc))
                               (*(int **)(iVar2 + 0x10),&aiStack_40,0xc);
     iVar2 = aiStack_40;
     iVar5 = aiStack_40;
@@ -73,7 +47,7 @@ LAB_82dc8b08:
     if (piVar10 <= piVar11) {
 LAB_82dc8c1c:
       if (piVar7 < piVar6) {
-        lVar8 = (ulonglong)(uint)((int)piVar6 + (-1 - (int)piVar7)) / 0xc + 1;
+        lVar8 = (unsigned __int64)(unsigned int)((int)piVar6 + (-1 - (int)piVar7)) / 0xc + 1;
         do {
           lVar8 = lVar8 + -1;
           *piVar9 = *piVar7;
@@ -92,14 +66,14 @@ LAB_82dc8c1c:
       param_1[1] = 0;
       iVar2 = fn_82CE5410();
       if ((uVar1 & 0x80000000) == 0) {
-        (**(code **)(**(int **)(iVar2 + 0x10) + 0x10))
+        (**(int (***)())(**(int **)(iVar2 + 0x10) + 0x10))
                   (*(int **)(iVar2 + 0x10),iVar4,uVar1 & 0x3fffffff,0xc);
       }
       return;
     }
     if (piVar6 <= piVar7) {
       if (piVar11 < piVar10) {
-        lVar8 = (ulonglong)((uint)((int)piVar10 + (-1 - (int)piVar11)) >> 4) + 1;
+        lVar8 = (unsigned __int64)((unsigned int)((int)piVar10 + (-1 - (int)piVar11)) >> 4) + 1;
         do {
           lVar8 = lVar8 + -1;
           *piVar9 = *piVar11;
@@ -112,10 +86,10 @@ LAB_82dc8c1c:
       }
       goto LAB_82dc8c1c;
     }
-    if (CONCAT44(*(undefined4 *)(*(int *)(*piVar11 + 0x58) + 0xd4),
-                 *(undefined4 *)(*(int *)(*piVar11 + 0x5c) + 0xd4)) <
-        CONCAT44(*(undefined4 *)(*(int *)(*piVar7 + 0x58) + 0xd4),
-                 *(undefined4 *)(*(int *)(*piVar7 + 0x5c) + 0xd4))) {
+    if (CONCAT44(*(unsigned int *)(*(int *)(*piVar11 + 0x58) + 0xd4),
+                 *(unsigned int *)(*(int *)(*piVar11 + 0x5c) + 0xd4)) <
+        CONCAT44(*(unsigned int *)(*(int *)(*piVar7 + 0x58) + 0xd4),
+                 *(unsigned int *)(*(int *)(*piVar7 + 0x5c) + 0xd4))) {
       *piVar9 = *piVar11;
       piVar9[1] = piVar11[1];
       iVar4 = piVar11[2];

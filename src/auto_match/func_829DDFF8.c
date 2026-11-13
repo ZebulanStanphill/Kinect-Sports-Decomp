@@ -1,45 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_829DDFF8(int param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4)
+void fn_829DDFF8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
   int iVar1;
   int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  longlong lVar9;
-  longlong lVar10;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
+  __int64 lVar9;
+  __int64 lVar10;
   int iVar11;
   
   uVar3 = param_3 & 0xff;
@@ -67,17 +38,17 @@ void fn_829DDFF8(int param_1,ulonglong param_2,ulonglong param_3,ulonglong param
     iVar6 = (int)uVar5;
     iVar11 = (int)uVar3;
     if (iVar6 == iVar1) {
-      lVar10 = (longlong)(((iVar11 - (int)uVar4) * 0x3c) / iVar2);
+      lVar10 = (__int64)(((iVar11 - (int)uVar4) * 0x3c) / iVar2);
       lVar9 = lVar10 + 0x2d;
       if (lVar9 < 0) {
         lVar9 = lVar10 + 0x195;
       }
     }
     else if (iVar11 == iVar1) {
-      lVar9 = (longlong)((((int)uVar4 - iVar6) * 0x3c) / iVar2) + 0xa5;
+      lVar9 = (__int64)((((int)uVar4 - iVar6) * 0x3c) / iVar2) + 0xa5;
     }
     else {
-      lVar9 = (longlong)(((iVar6 - iVar11) * 0x3c) / iVar2) + 0x11d;
+      lVar9 = (__int64)(((iVar6 - iVar11) * 0x3c) / iVar2) + 0x11d;
     }
     iVar11 = (int)lVar9;
     if ((iVar11 < 0x13c) && (0x13 < iVar11)) {
@@ -104,9 +75,9 @@ void fn_829DDFF8(int param_1,ulonglong param_2,ulonglong param_3,ulonglong param
   }
   iVar11 = 0;
 LAB_829de148:
-  *(longlong *)(param_1 + 0x578) = *(longlong *)(param_1 + 0x578) + 1;
+  *(__int64 *)(param_1 + 0x578) = *(__int64 *)(param_1 + 0x578) + 1;
   iVar1 = ((iVar11 * 5 + (iVar2 * 5) / (iVar1 + 1)) * 5 + (iVar1 * 5 >> 8)) * 8;
-  *(longlong *)(iVar1 + param_1) = *(longlong *)(iVar1 + param_1) + 1;
+  *(__int64 *)(iVar1 + param_1) = *(__int64 *)(iVar1 + param_1) + 1;
   return;
 }
 

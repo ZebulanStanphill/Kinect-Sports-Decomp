@@ -1,5 +1,4 @@
-typedef unsigned int uint;
-void fn_82DA5940(int param_1, uint *param_2)
+void fn_82DA5940(int param_1, unsigned int *param_2)
 {
   int n;
   param_2[2] = 0;

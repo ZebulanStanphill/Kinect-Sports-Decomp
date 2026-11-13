@@ -1,57 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_820A6D30;
 
 
-int fn_82A7B550(byte *param_1,uint param_2,byte *param_3,int param_4,ulonglong param_5)
+int fn_82A7B550(unsigned char *param_1,unsigned int param_2,unsigned char *param_3,int param_4,unsigned __int64 param_5)
 
 {
-  ulonglong uVar1;
-  uint uVar2;
-  byte *pbVar3;
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
+  unsigned char *pbVar3;
   int iVar4;
-  byte *pbVar5;
+  unsigned char *pbVar5;
   int iVar6;
   int iVar7;
-  ulonglong uVar8;
+  unsigned __int64 uVar8;
   int iVar9;
   int iVar10;
   int iVar11;
-  uint uVar12;
+  unsigned int uVar12;
   int iVar13;
-  ulonglong uVar14;
+  unsigned __int64 uVar14;
   int iVar15;
   
   if ((param_2 == 0) || (param_4 == 0)) {
     iVar7 = 0;
   }
   else {
-    uVar14 = (ulonglong)(param_2 >> 1);
+    uVar14 = (unsigned __int64)(param_2 >> 1);
     pbVar3 = param_3;
     if (uVar14 != 0) {
       do {
@@ -138,7 +111,7 @@ int fn_82A7B550(byte *param_1,uint param_2,byte *param_3,int param_4,ulonglong p
           if (iVar13 < 0x10) {
             iVar13 = 0x10;
           }
-          *pbVar3 = (char)uVar2 << 4 | (byte)uVar12 & 0xf;
+          *pbVar3 = (char)uVar2 << 4 | (unsigned char)uVar12 & 0xf;
           pbVar3 = pbVar3 + 1;
           uVar8 = uVar8 - 1;
           iVar11 = iVar4;

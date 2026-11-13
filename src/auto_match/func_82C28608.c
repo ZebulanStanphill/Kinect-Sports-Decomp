@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82C27A68();
 extern int fn_82C27F48();
 extern int fn_82C280E8();
@@ -34,14 +7,14 @@ extern unsigned int iStack_48;
 extern unsigned int iStack_50;
 
 
-undefined8 fn_82C28608(int param_1,longlong *param_2,int *param_3,uint *param_4)
+unsigned __int64 fn_82C28608(int param_1,__int64 *param_2,int *param_3,unsigned int *param_4)
 
 {
   int iVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  longlong lVar4;
-  uint uVar5;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
+  __int64 lVar4;
+  unsigned int uVar5;
   int iStack_50;
   int *piStack_4c;
   int iStack_48;
@@ -83,18 +56,18 @@ undefined8 fn_82C28608(int param_1,longlong *param_2,int *param_3,uint *param_4)
             return uVar3;
           }
           if (iStack_50 == 0) {
-            *(longlong *)(iVar1 + 0x30) = lVar4;
-            *(undefined4 *)(iVar1 + 0x38) = 1;
-            uVar3 = (*(code *)**(undefined4 **)(iVar1 + 0x4c))(*(undefined4 **)(iVar1 + 0x4c));
+            *(__int64 *)(iVar1 + 0x30) = lVar4;
+            *(unsigned int *)(iVar1 + 0x38) = 1;
+            uVar3 = (*(int (**)())**(unsigned int **)(iVar1 + 0x4c))(*(unsigned int **)(iVar1 + 0x4c));
             if ((int)uVar3 < 0) {
               return uVar3;
             }
-            uVar3 = (**(code **)(*(int *)(iVar1 + 0x4c) + 4))(*(int *)(iVar1 + 0x4c),&iStack_48);
+            uVar3 = (**(int (***)())(*(int *)(iVar1 + 0x4c) + 4))(*(int *)(iVar1 + 0x4c),&iStack_48);
             if ((int)uVar3 < 0) {
               return uVar3;
             }
-            *(ulonglong *)(iVar1 + 0x28) =
-                 (ulonglong)*(uint *)(iStack_48 + 4) + *(longlong *)(iStack_48 + 8);
+            *(unsigned __int64 *)(iVar1 + 0x28) =
+                 (unsigned __int64)*(unsigned int *)(iStack_48 + 4) + *(__int64 *)(iStack_48 + 8);
             uVar3 = fn_82C27F48(param_1,iStack_48);
             if ((int)uVar3 < 0) {
               return uVar3;
@@ -106,19 +79,19 @@ undefined8 fn_82C28608(int param_1,longlong *param_2,int *param_3,uint *param_4)
           }
         }
         piStack_4c[1] = piStack_4c[1] + 1;
-        uVar5 = *(uint *)((int)param_2 + 0x1c);
-        lVar4 = *(longlong *)(*piStack_4c + 8);
-        uVar2 = *(uint *)(*piStack_4c + 4);
-        if (((ulonglong)uVar2 - *param_2) + lVar4 < (ulonglong)uVar5) {
+        uVar5 = *(unsigned int *)((int)param_2 + 0x1c);
+        lVar4 = *(__int64 *)(*piStack_4c + 8);
+        uVar2 = *(unsigned int *)(*piStack_4c + 4);
+        if (((unsigned __int64)uVar2 - *param_2) + lVar4 < (unsigned __int64)uVar5) {
           uVar5 = ((int)lVar4 - (int)*param_2) + uVar2;
         }
         *param_4 = uVar5;
-        *(uint *)((int)param_2 + 0x1c) = *(int *)((int)param_2 + 0x1c) - uVar5;
-        *param_3 = ((int)*param_2 - (int)*(undefined8 *)((int *)*piStack_4c + 2)) +
+        *(unsigned int *)((int)param_2 + 0x1c) = *(int *)((int)param_2 + 0x1c) - uVar5;
+        *param_3 = ((int)*param_2 - (int)*(unsigned __int64 *)((int *)*piStack_4c + 2)) +
                    *(int *)*piStack_4c;
         param_2[2] = *param_2;
-        *(undefined4 *)(param_2 + 1) = 1;
-        *param_2 = (ulonglong)*param_4 + *param_2;
+        *(unsigned int *)(param_2 + 1) = 1;
+        *param_2 = (unsigned __int64)*param_4 + *param_2;
         if (*(int *)((int)param_2 + 0x1c) != 0) {
           return uVar3;
         }

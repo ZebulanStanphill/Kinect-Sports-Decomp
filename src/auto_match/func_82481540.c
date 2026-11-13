@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 extern int fn_82281868(int a, int b, int c);
 extern int fn_822819E0(int a, int b);
 extern int fn_8229E090(int a, int b, int c);
@@ -19,7 +17,7 @@ void fn_82481540(int param_1, int param_2)
     else {
       obj = *(int *)(param_2 + 0x14);
       sub = obj + 100;
-      if (*(uint *)(obj + 0x10) != 0) {
+      if (*(unsigned int *)(obj + 0x10) != 0) {
         fn_82281868(obj, sub, 0);
       }
       else if (*(int *)(obj + 8) != 0) {

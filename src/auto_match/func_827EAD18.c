@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern unsigned int *auStack_b0;
 extern unsigned int fStack_100;
@@ -54,31 +27,31 @@ extern unsigned int uStack_ec;
 extern unsigned int uStack_f0;
 
 
-void fn_827EAD18(undefined4 *param_1,float *param_2,float *param_3,float *param_4)
+void fn_827EAD18(unsigned int *param_1,float *param_2,float *param_3,float *param_4)
 
 {
   double dVar1;
   struct { float first; float second; } stack_pair_100;
 
   float fStack_f8;
-  undefined4 uStack_f0;
-  undefined4 uStack_ec;
-  undefined4 uStack_e8;
+  unsigned int uStack_f0;
+  unsigned int uStack_ec;
+  unsigned int uStack_e8;
   float fStack_e4;
-  undefined4 uStack_e0;
-  undefined4 uStack_dc;
-  undefined4 uStack_d8;
+  unsigned int uStack_e0;
+  unsigned int uStack_dc;
+  unsigned int uStack_d8;
   float fStack_d4;
-  undefined4 uStack_d0;
-  undefined4 uStack_cc;
-  undefined4 uStack_c8;
+  unsigned int uStack_d0;
+  unsigned int uStack_cc;
+  unsigned int uStack_c8;
   float fStack_c4;
   float fStack_c0;
   float fStack_bc;
   float fStack_b8;
-  undefined4 uStack_b4;
-  undefined1 auStack_b0 [64];
-  undefined1 auStack_70 [112];
+  unsigned int uStack_b4;
+  unsigned char auStack_b0 [64];
+  unsigned char auStack_70 [112];
   
   dVar1 = (double)lbl_821AAD20;
   if ((double)*param_3 == dVar1) {

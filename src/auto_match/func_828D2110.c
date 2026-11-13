@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_58;
 extern int fn_82381BC0();
 extern int fn_823AA970();
@@ -64,32 +37,32 @@ extern unsigned int iStack_60;
 extern unsigned int stack0x00000044;
 
 
-ulonglong fn_828D2110(int param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4,
-                       undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
+unsigned __int64 fn_828D2110(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                       unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int *piVar6;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  undefined4 *puVar7;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int *puVar7;
   int iVar8;
-  undefined8 uVar4;
-  undefined8 uVar5;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar9;
   int *piVar10;
   char cVar11;
   int iStack00000044;
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
+  unsigned int in_stack_00000054;
+  unsigned int in_stack_0000005c;
   int iStack_60;
   char cStack_5c;
-  undefined1 auStack_58 [88];
+  unsigned char auStack_58 [88];
   
   iVar9 = (int)param_7;
   iStack00000044 = iVar9;
   piVar6 = (int *)fn_8289F2E0();
-  uVar2 = (**(code **)(*piVar6 + 0xc))();
+  uVar2 = (**(int (***)())(*piVar6 + 0xc))();
   fn_8289D8D0(param_1);
   if ((param_3 & 0xffffffff) < 4) {
     if ((int)param_3 == 0) {
@@ -103,7 +76,7 @@ ulonglong fn_828D2110(int param_1,undefined8 param_2,ulonglong param_3,undefined
         if (piVar6 != *(int **)(param_1 + 0x1e4)) {
           do {
             if (*piVar6 == iVar9) {
-              puVar7 = (undefined4 *)fn_828AF090(auStack_58,param_1 + 0x1e0);
+              puVar7 = (unsigned int *)fn_828AF090(auStack_58,param_1 + 0x1e0);
               piVar6 = (int *)*puVar7;
             }
             else {
@@ -197,26 +170,26 @@ ulonglong fn_828D2110(int param_1,undefined8 param_2,ulonglong param_3,undefined
         }
         cVar11 = fn_828ACCE8(param_1);
         if ((cVar11 == '\0') && (cVar11 = fn_828ACC80(param_1), cVar11 == '\0')) {
-          (**(code **)(*piVar6 + 0xc))(piVar6);
+          (**(int (***)())(*piVar6 + 0xc))(piVar6);
           fn_828AEBD8();
           return 1;
         }
-        (**(code **)(*piVar6 + 0xc))(piVar6);
+        (**(int (***)())(*piVar6 + 0xc))(piVar6);
         iVar9 = fn_82A4AAA8();
         if (iVar9 == 0) {
-          uVar2 = (**(code **)(*piVar6 + 0xc))(piVar6);
+          uVar2 = (**(int (***)())(*piVar6 + 0xc))(piVar6);
           fn_828AECC0(uVar2,1);
         }
       }
       else {
         iVar9 = fn_828ACBD0(param_1);
         if (iVar9 == 3) {
-          (**(code **)(*piVar6 + 0x14))(piVar6);
+          (**(int (***)())(*piVar6 + 0x14))(piVar6);
           fn_828ACDB8(param_1,4);
           iStack_60 = **(int **)(param_1 + 0x230);
           if ((int *)iStack_60 != *(int **)(param_1 + 0x230)) {
             do {
-              uVar1 = *(undefined4 *)(iStack_60 + 0x10);
+              uVar1 = *(unsigned int *)(iStack_60 + 0x10);
               cVar11 = fn_828AEC00(uVar1);
               if ((cVar11 != '\0') && (iVar9 = fn_82A4AAA8(uVar1), iVar9 == 0)) {
                 fn_828AECC0(uVar1,1);

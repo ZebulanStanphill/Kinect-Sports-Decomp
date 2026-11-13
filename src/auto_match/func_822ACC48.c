@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_e0;
 extern unsigned int *auStack_f0;
@@ -37,27 +10,27 @@ extern int fn_82526C10();
 extern unsigned int lbl_821AC494;
 
 
-ulonglong fn_822ACC48(undefined4 *param_1,undefined8 param_2,ulonglong param_3,ulonglong param_4)
+unsigned __int64 fn_822ACC48(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
   char cVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  undefined8 in_r0;
-  ulonglong uVar5;
+  unsigned int uVar2;
+  unsigned int *puVar3;
+  unsigned int *puVar4;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar5;
   int *piVar6;
   int iVar7;
   char *pcVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
   int *piVar11;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined1 auStack_100 [16];
-  undefined1 auStack_f0 [16];
-  undefined1 auStack_e0 [1];
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned char auStack_100 [16];
+  unsigned char auStack_f0 [16];
+  unsigned char auStack_e0 [1];
   char acStack_d0 [128];
   char acStack_50 [80];
   
@@ -82,16 +55,16 @@ ulonglong fn_822ACC48(undefined4 *param_1,undefined8 param_2,ulonglong param_3,u
         piVar11 = (int *)(piVar11[1] + (int)piVar11)) {
       if (*piVar11 == 2) {
         uVar2 = piVar11[2];
-        uVar5 = (ulonglong)uVar2;
+        uVar5 = (unsigned __int64)uVar2;
         if (uVar5 < (param_3 & 0xffffffff)) {
           fn_82507978(piVar11,auStack_100,auStack_f0);
           if ((param_4 & 0xffffffff) != 0) {
             iVar7 = fn_822B3058(auStack_e0,*param_1);
-            puVar3 = (undefined4 *)((int)in_r0 + iVar7 & 0xfffffff0);
+            puVar3 = (unsigned int *)((int)in_r0 + iVar7 & 0xfffffff0);
             uVar12 = puVar3[1];
             uVar13 = puVar3[2];
             uVar14 = puVar3[3];
-            puVar4 = (undefined4 *)(uVar2 * 0x10 + (int)param_4 & 0xfffffff0);
+            puVar4 = (unsigned int *)(uVar2 * 0x10 + (int)param_4 & 0xfffffff0);
             *puVar4 = *puVar3;
             puVar4[1] = uVar12;
             puVar4[2] = uVar13;

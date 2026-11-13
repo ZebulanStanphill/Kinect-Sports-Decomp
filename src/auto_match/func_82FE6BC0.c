@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_34;
 extern unsigned int *auStack_40;
 extern int fn_82A1DDC0();
@@ -36,20 +9,20 @@ extern unsigned int uStack_3c;
 extern unsigned int uStack_3e;
 
 
-undefined8 fn_82FE6BC0(undefined4 param_1,int *param_2,ulonglong param_3)
+unsigned __int64 fn_82FE6BC0(unsigned int param_1,int *param_2,unsigned __int64 param_3)
 
 {
-  undefined2 uVar2;
-  undefined8 uVar1;
+  unsigned short uVar2;
+  unsigned __int64 uVar1;
   int *piVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int *piVar6;
-  undefined1 auStack_40 [2];
-  undefined2 uStack_3e;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined1 auStack_34 [20];
+  unsigned char auStack_40 [2];
+  unsigned short uStack_3e;
+  unsigned int uStack_3c;
+  unsigned int uStack_38;
+  unsigned char auStack_34 [20];
   
   if (4 < (param_3 & 0xffffffff)) {
     return 0x1f;
@@ -75,7 +48,7 @@ undefined8 fn_82FE6BC0(undefined4 param_1,int *param_2,ulonglong param_3)
       } while ((uVar5 & 0xffffffff) < (param_3 - 1 & 0xffffffff));
     }
   }
-  uStack_38 = (undefined4)param_3;
+  uStack_38 = (unsigned int)param_3;
   uStack_3e = 0xd;
   uStack_3c = param_1;
   fn_82A1DDC0(auStack_34,param_2,(param_3 & 0x1fffffff) << 3);

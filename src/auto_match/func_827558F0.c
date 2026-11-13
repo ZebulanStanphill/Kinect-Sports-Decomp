@@ -1,16 +1,14 @@
-typedef unsigned int uint;
-
 extern void fn_8268B330(int param_1);
-extern void fn_8268B400(int param_1, uint c);
-extern uint fn_826BD078(int *cursor);
+extern void fn_8268B400(int param_1, unsigned int c);
+extern unsigned int fn_826BD078(int *cursor);
 
-int fn_827558F0(int param_1, int param_2, uint param_3, uint param_4, unsigned char param_5)
+int fn_827558F0(int param_1, int param_2, unsigned int param_3, unsigned int param_4, unsigned char param_5)
 {
-  uint c;
+  unsigned int c;
   int cursor;
 
   fn_8268B330(param_1);
-  cursor = (*(uint *)(param_2 + 0xc) & 0xfffffffc) + 8;
+  cursor = (*(unsigned int *)(param_2 + 0xc) & 0xfffffffc) + 8;
   for (; param_3 < param_4; ) {
     c = fn_826BD078(&cursor);
     if (c == 0) break;

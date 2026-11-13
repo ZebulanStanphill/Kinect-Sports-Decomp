@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AA66A8();
 extern int fn_82AE5040();
 extern int fn_82AE5400();
@@ -32,23 +5,23 @@ extern int fn_82AE5AC8();
 extern int fn_82AE5C40();
 
 
-ulonglong fn_82AE6910(undefined8 param_1,longlong param_2,longlong param_3)
+unsigned __int64 fn_82AE6910(unsigned __int64 param_1,__int64 param_2,__int64 param_3)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  uint uVar3;
-  ulonglong uVar4;
-  longlong lVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
-  longlong lVar13;
-  ulonglong uVar14;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned int uVar3;
+  unsigned __int64 uVar4;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  __int64 lVar13;
+  unsigned __int64 uVar14;
   
   uVar4 = 0;
   uVar11 = 0xffffffffffffffff;
@@ -59,7 +32,7 @@ ulonglong fn_82AE6910(undefined8 param_1,longlong param_2,longlong param_3)
     uVar2 = fn_82AE5C40(param_2,uVar4,param_3);
     if ((int)uVar2 == -1) break;
     uVar3 = fn_82AE5040(param_2 + 8,(uVar2 & 0x3fffffff) << 2);
-    if ((uVar3 == 0xffffffff) || (uVar4 = (ulonglong)(uVar3 >> 2), uVar3 >> 2 == 0xffffffff)) {
+    if ((uVar3 == 0xffffffff) || (uVar4 = (unsigned __int64)(uVar3 >> 2), uVar3 >> 2 == 0xffffffff)) {
       uVar4 = uVar12 + param_3;
     }
     uVar7 = uVar2 + param_3;
@@ -116,7 +89,7 @@ ulonglong fn_82AE6910(undefined8 param_1,longlong param_2,longlong param_3)
     lVar5 = 0;
     if (((uVar4 & 0xffffffff) < (uVar12 & 0xffffffff)) &&
        (uVar3 = fn_82AE5400(param_2,uVar4,1,4), uVar3 != 0xffffffff)) {
-      lVar5 = ((ulonglong)(uVar3 >> 4) + 3 & 0xfffffffc) - (ulonglong)(uVar3 >> 4);
+      lVar5 = ((unsigned __int64)(uVar3 >> 4) + 3 & 0xfffffffc) - (unsigned __int64)(uVar3 >> 4);
     }
     uVar9 = lVar5 + uVar14 + lVar13;
     if (((int)uVar11 == -1) || ((uVar9 & 0xffffffff) < (uVar10 & 0xffffffff))) {

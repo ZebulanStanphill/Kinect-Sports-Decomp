@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int fStack_18;
 extern unsigned int fStack_1c;
 extern unsigned int fStack_20;
@@ -46,8 +21,8 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
 {
   bool bVar1;
   bool bVar2;
-  uint uVar3;
-  uint uVar4;
+  unsigned int uVar3;
+  unsigned int uVar4;
   char cVar5;
   int iVar6;
   float fVar7;
@@ -56,20 +31,20 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
   float fVar10;
   float fVar11;
   float fVar12;
-  uint uVar13;
-  uint uVar14;
-  uint uVar15;
-  undefined8 in_r0;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned __int64 in_r0;
   int iVar16;
-  undefined1 auVar17 [16];
-  undefined1 in_vr8 [16];
-  undefined1 in_vr9 [16];
-  undefined1 in_vr10 [16];
-  undefined1 auVar18 [16];
-  undefined1 in_vr11 [16];
-  undefined1 auVar19 [16];
-  undefined1 in_vr12 [16];
-  undefined1 auVar20 [16];
+  unsigned char auVar17 [16];
+  unsigned char in_vr8 [16];
+  unsigned char in_vr9 [16];
+  unsigned char in_vr10 [16];
+  unsigned char auVar18 [16];
+  unsigned char in_vr11 [16];
+  unsigned char auVar19 [16];
+  unsigned char in_vr12 [16];
+  unsigned char auVar20 [16];
   float fStack_30;
   float fStack_2c;
   float fStack_28;
@@ -100,41 +75,41 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
   bVar2 = (int)lbl_831C08E4 < 0;
   uVar4 = lbl_831C08E4 & 1;
   iVar6 = (int)lbl_831C08E4 >> 1;
-  *param_5 = -(((int)lbl_831C08DC >> 1) + (uint)((int)lbl_831C08DC < 0 && (lbl_831C08DC & 1) != 0));
-  param_5[1] = -(iVar16 + (uint)(bVar1 && uVar3 != 0));
-  param_5[2] = -(iVar6 + (uint)(bVar2 && uVar4 != 0));
+  *param_5 = -(((int)lbl_831C08DC >> 1) + (unsigned int)((int)lbl_831C08DC < 0 && (lbl_831C08DC & 1) != 0));
+  param_5[1] = -(iVar16 + (unsigned int)(bVar1 && uVar3 != 0));
+  param_5[2] = -(iVar6 + (unsigned int)(bVar2 && uVar4 != 0));
   fVar11 = lbl_821CA460;
-  fVar8 = fStack_30 - (float)(longlong)*param_5;
+  fVar8 = fStack_30 - (float)(__int64)*param_5;
   if (fVar8 < fVar12) {
-    fVar10 = lbl_821CA460 / (float)(longlong)(int)uVar13;
+    fVar10 = lbl_821CA460 / (float)(__int64)(int)uVar13;
     fVar8 = fVar10 * fVar8 - lbl_821CA460;
   }
   else {
-    fVar10 = lbl_821CA460 / (float)(longlong)(int)uVar13;
+    fVar10 = lbl_821CA460 / (float)(__int64)(int)uVar13;
     fVar8 = fVar10 * fVar8;
   }
   *param_2 = (int)fVar8;
-  fVar8 = fStack_2c - (float)(longlong)param_5[1];
+  fVar8 = fStack_2c - (float)(__int64)param_5[1];
   if (fVar8 < fVar12) {
-    fVar9 = fVar11 / (float)(longlong)(int)uVar14;
+    fVar9 = fVar11 / (float)(__int64)(int)uVar14;
     fVar8 = fVar9 * fVar8 - fVar11;
   }
   else {
-    fVar9 = fVar11 / (float)(longlong)(int)uVar14;
+    fVar9 = fVar11 / (float)(__int64)(int)uVar14;
     fVar8 = fVar9 * fVar8;
   }
   param_2[1] = (int)fVar8;
-  fVar8 = fStack_28 - (float)(longlong)param_5[2];
+  fVar8 = fStack_28 - (float)(__int64)param_5[2];
   if (fVar8 < fVar12) {
-    fVar7 = fVar11 / (float)(longlong)(int)uVar15;
+    fVar7 = fVar11 / (float)(__int64)(int)uVar15;
     fVar8 = fVar7 * fVar8 - fVar11;
   }
   else {
-    fVar7 = fVar11 / (float)(longlong)(int)uVar15;
+    fVar7 = fVar11 / (float)(__int64)(int)uVar15;
     fVar8 = fVar7 * fVar8;
   }
   param_2[2] = (int)fVar8;
-  fVar8 = fStack_20 - (float)(longlong)*param_5;
+  fVar8 = fStack_20 - (float)(__int64)*param_5;
   if (fVar8 < fVar12) {
     fVar10 = fVar10 * fVar8 - fVar11;
   }
@@ -142,7 +117,7 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
     fVar10 = fVar10 * fVar8;
   }
   *param_3 = (int)fVar10;
-  fVar8 = fStack_1c - (float)(longlong)param_5[1];
+  fVar8 = fStack_1c - (float)(__int64)param_5[1];
   if (fVar8 < fVar12) {
     fVar9 = fVar9 * fVar8 - fVar11;
   }
@@ -150,7 +125,7 @@ void fn_8258B938(int param_1,int *param_2,int *param_3,int *param_4,int *param_5
     fVar9 = fVar9 * fVar8;
   }
   param_3[1] = (int)fVar9;
-  fVar8 = fStack_18 - (float)(longlong)param_5[2];
+  fVar8 = fStack_18 - (float)(__int64)param_5[2];
   if (fVar8 < fVar12) {
     fVar7 = fVar7 * fVar8 - fVar11;
   }

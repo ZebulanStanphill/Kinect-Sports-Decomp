@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int *auStack_70;
 extern int fn_82529320();
@@ -42,7 +15,7 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
-void fn_8261D008(int param_1,undefined8 param_2)
+void fn_8261D008(int param_1,unsigned __int64 param_2)
 
 {
   int iVar1;
@@ -50,7 +23,7 @@ void fn_8261D008(int param_1,undefined8 param_2)
   double dVar3;
   double dVar4;
   double dVar5;
-  undefined1 auStack_70 [48];
+  unsigned char auStack_70 [48];
   
   dVar5 = (double)ltcg_pool_0_0f;
   if (*(int *)(param_1 + 0xc5c) != 0) {
@@ -58,7 +31,7 @@ void fn_8261D008(int param_1,undefined8 param_2)
     dVar4 = -dVar2;
     dVar3 = dVar5;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((dVar4 < dVar5) << 2) | (uint)(NAN(dVar4) || NAN(dVar5)) << 2)) <
+                  ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) <
         0.0) {
       dVar3 = dVar2;
     }
@@ -72,8 +45,8 @@ void fn_8261D008(int param_1,undefined8 param_2)
     }
   }
   if (((*(int *)(param_1 + 0xb64) != 0) && (*(int *)(param_1 + 0xb10) == 0)) &&
-     ((*(uint *)(param_1 + 0x488) & 0x40) != 0)) {
-    fn_8261CB98(param_1,*(undefined4 *)(param_1 + 0x4c));
+     ((*(unsigned int *)(param_1 + 0x488) & 0x40) != 0)) {
+    fn_8261CB98(param_1,*(unsigned int *)(param_1 + 0x4c));
   }
   iVar1 = *(int *)(param_1 + 0xb10);
   if ((iVar1 != 0) && (*(int *)(param_1 + 0xb64) != 0)) {
@@ -87,7 +60,7 @@ void fn_8261D008(int param_1,undefined8 param_2)
     dVar4 = -dVar2;
     dVar3 = dVar5;
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((dVar4 < dVar5) << 2) | (uint)(NAN(dVar4) || NAN(dVar5)) << 2)) <
+                  ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) <
         0.0) {
       dVar3 = dVar2;
     }

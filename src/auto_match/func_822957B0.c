@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_c0;
 extern unsigned int *auStack_ce;
 extern int fn_82295AD0();
@@ -40,33 +14,33 @@ extern unsigned int uStack_d0;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8
-fn_822957B0(double param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,int param_5,
-             undefined8 param_6)
+unsigned __int64
+fn_822957B0(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5,
+             unsigned __int64 param_6)
 
 {
-  uint uVar1;
-  undefined1 uVar2;
-  longlong lVar3;
+  unsigned int uVar1;
+  unsigned char uVar2;
+  __int64 lVar3;
   int iVar4;
-  undefined1 *puVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
+  unsigned char *puVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
   bool bVar8;
-  undefined1 uStack_d0;
-  undefined1 uStack_cf;
-  undefined1 auStack_ce [14];
-  undefined1 auStack_c0 [192];
+  unsigned char uStack_d0;
+  unsigned char uStack_cf;
+  unsigned char auStack_ce [14];
+  unsigned char auStack_c0 [192];
   
-  lVar3 = *(longlong *)(param_5 + 0x18);
-  if ((lVar3 < 1) && ((*(uint *)(param_5 + 0x14) & 0x2000) == 0)) {
+  lVar3 = *(__int64 *)(param_5 + 0x18);
+  if ((lVar3 < 1) && ((*(unsigned int *)(param_5 + 0x14) & 0x2000) == 0)) {
     lVar3 = 6;
   }
   iVar4 = 0x24;
   if (lVar3 < 0x25) {
     iVar4 = (int)lVar3;
   }
-  uVar1 = *(uint *)(param_5 + 0x14);
+  uVar1 = *(unsigned int *)(param_5 + 0x14);
   uVar6 = 0;
   lVar3 = lVar3 - iVar4;
   uVar7 = 0;

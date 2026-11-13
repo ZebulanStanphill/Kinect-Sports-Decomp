@@ -4,41 +4,14 @@ typedef struct Obj {
  unsigned e,f,g,h,i,j,k,l,m,n,o;
  char rest[0xd0]; unsigned x,y,z,w;
 } Obj;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E58CA8();
 extern int fn_82E73FF8();
 extern unsigned int lbl_8215EF74;
 
 
 Obj *
-fn_82E74420(Obj *param_1,void *param_2,void *param_3,undefined4 param_4,
-             undefined8 param_5,undefined8 param_6,undefined2 param_7,undefined1 param_8, undefined4 in_stack_00000054, int *in_stack_0000005c)
+fn_82E74420(Obj *param_1,void *param_2,void *param_3,unsigned int param_4,
+             unsigned __int64 param_5,unsigned __int64 param_6,unsigned short param_7,unsigned char param_8, unsigned int in_stack_00000054, int *in_stack_0000005c)
 
 {
   int iVar1; const void * vtable = (const void *)&lbl_8215EF74;

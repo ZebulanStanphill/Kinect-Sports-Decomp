@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_82E3C590();
 extern int fn_82E4FE40();
@@ -38,22 +11,22 @@ extern int fn_82EE39D8();
 extern int fn_82EE3F30();
 
 
-int fn_82EE4800(int *param_1,uint *param_2)
+int fn_82EE4800(int *param_1,unsigned int *param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
-  uint uVar3;
+  unsigned int uVar3;
   int *piVar4;
-  uint uVar5;
-  void *uVar6;ushort counter;
+  unsigned int uVar5;
+  void *uVar6;unsigned short counter;
   int lVar7;
-  ushort auStack_50 [1];
+  unsigned short auStack_50 [1];
   
   if ((unsigned)param_1[3] == 0) {
     return -0x3ff2c94a;
   }
-  if (param_2 == (uint *)0x0) {
+  if (param_2 == (unsigned int *)0x0) {
     return -0x7ff8ffa9;
   }
   *param_2 = 0;
@@ -71,7 +44,7 @@ LAB_82ee4858:
     fn_82E576A8(param_1 + 8,piVar4);
     lVar7 = fn_82E57620(param_1 + 0x5d,piVar4);
     if ((lVar7 >= 0) && (lVar7 = fn_82E57738(auStack_50,piVar4), lVar7 >= 0)) {
-      uVar5 = (uint)auStack_50[0];
+      uVar5 = (unsigned int)auStack_50[0];
       uVar3 = (uVar5 + 0x15) * 2;
       if (uVar1 < uVar3) {*param_2=uVar3;lVar7=-0x3ff2c94f;goto done;}
       uVar6 = 0;
@@ -96,7 +69,7 @@ LAB_82ee4858:
             lVar7 = -0x7ff8fff2;
             break;
           }
-          counter = (ushort)(counter + 1);
+          counter = (unsigned short)(counter + 1);
         } while (counter < uVar5);
       }
       if ((int)lVar7 < 0) {

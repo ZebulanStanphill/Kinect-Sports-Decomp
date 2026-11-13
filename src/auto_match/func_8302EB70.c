@@ -1,12 +1,11 @@
-typedef unsigned int uint;
 typedef struct { int d[5]; } Elem;
-typedef struct { Elem *begin; Elem *end; uint cap; } Vec;
+typedef struct { Elem *begin; Elem *end; unsigned int cap; } Vec;
 extern unsigned char fn_8302EA88(Vec *, int);
 extern void fn_83032BB0(Elem *);
 
 Elem *fn_8302EB70(Vec *v)
 {
-  uint n;
+  unsigned int n;
   Elem *p;
 
   n = v->end - v->begin;

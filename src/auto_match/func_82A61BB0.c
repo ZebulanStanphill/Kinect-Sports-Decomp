@@ -1,38 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8201467C;
 
 
-void fn_82A61BB0(uint *param_1)
+void fn_82A61BB0(unsigned int *param_1)
 
 {
   float *pfVar1;
-  uint uVar2;
+  unsigned int uVar2;
   float fVar3;
   float fVar4;
   float fVar5;
@@ -46,16 +19,16 @@ void fn_82A61BB0(uint *param_1)
   float fVar13;
   float fVar14;
   float fVar15;
-  ulonglong uVar16;
-  ulonglong uVar17;
-  ulonglong uVar18;
+  unsigned __int64 uVar16;
+  unsigned __int64 uVar17;
+  unsigned __int64 uVar18;
   float *pfVar19;
   
   pfVar19 = (float *)param_1[2];
   pfVar1 = (float *)param_1[3];
-  uVar17 = (ulonglong)*param_1;
-  uVar18 = (ulonglong)param_1[1];
-  uVar16 = (ulonglong)param_1[5];
+  uVar17 = (unsigned __int64)*param_1;
+  uVar18 = (unsigned __int64)param_1[1];
+  uVar16 = (unsigned __int64)param_1[5];
   uVar2 = param_1[8];
   fVar3 = *pfVar19 * lbl_8201467C;
   fVar4 = pfVar19[1] * lbl_8201467C;
@@ -72,7 +45,7 @@ void fn_82A61BB0(uint *param_1)
     fVar14 = pfVar1[5] * lbl_8201467C;
     if (uVar16 != 0) {
       do {
-        fVar15 = (float)(longlong)*(short *)uVar17;
+        fVar15 = (float)(__int64)*(short *)uVar17;
         dataCacheBlockTouch(uVar17 + 0x1a);
         dataCacheBlockTouch(uVar18 + 0xd8);
         pfVar19 = (float *)uVar18;
@@ -108,7 +81,7 @@ void fn_82A61BB0(uint *param_1)
   }
   if (uVar16 != 0) {
     do {
-      fVar9 = (float)(longlong)*(short *)uVar17;
+      fVar9 = (float)(__int64)*(short *)uVar17;
       dataCacheBlockTouch(uVar17 + 0x1a);
       dataCacheBlockTouch(uVar18 + 0xd8);
       pfVar19 = (float *)uVar18;

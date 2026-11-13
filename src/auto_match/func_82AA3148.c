@@ -1,11 +1,9 @@
-typedef unsigned int uint;
-
-extern int fn_82AA2B30(uint *p1, uint p2, void *p3, void *p4, void *p5,
+extern int fn_82AA2B30(unsigned int *p1, unsigned int p2, void *p3, void *p4, void *p5,
                        void *p6, void *p7, void *p8, void *p9, void *p10);
-extern int fn_82AA27D8(uint *p1, uint p2, void *p3, void *p4, void *p5,
+extern int fn_82AA27D8(unsigned int *p1, unsigned int p2, void *p3, void *p4, void *p5,
                        void *p6, void *p7, void *p8, void *p9, void *p10);
 
-int fn_82AA3148(uint *param_1, uint param_2, void *param_3, void *param_4,
+int fn_82AA3148(unsigned int *param_1, unsigned int param_2, void *param_3, void *param_4,
                 void *param_5, void *param_6, void *param_7, void *param_8,
                 void *param_9, void *param_10)
 {

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AA66A8();
 extern int fn_82ACA4F0();
 extern int fn_82ACAD38();
@@ -32,31 +5,31 @@ extern int fn_82ACB228();
 extern int fn_82ACBB48();
 
 
-ulonglong fn_82ACBC68(int *param_1,undefined8 param_2,char param_3)
+unsigned __int64 fn_82ACBC68(int *param_1,unsigned __int64 param_2,char param_3)
 
 {
-  uint *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  longlong lVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
   
   uVar3 = fn_82ACB228(param_1,0,param_2,4);
   if ((int)uVar3 == -1) {
-    puVar1 = (uint *)param_1[1];
-    if ((~(uint)puVar1 & 1) == 0) {
+    puVar1 = (unsigned int *)param_1[1];
+    if ((~(unsigned int)puVar1 & 1) == 0) {
       uVar3 = 0x1f;
     }
     else {
-      uVar3 = ((ulonglong)*puVar1 & 0x7ffffff) * 0x20 - 1;
+      uVar3 = ((unsigned __int64)*puVar1 & 0x7ffffff) * 0x20 - 1;
     }
     if ((((uVar3 & 0xffffffff) >> 2) - 1 & 0xffffffff) < 0xff) {
-      if ((~(uint)puVar1 & 1) == 0) {
+      if ((~(unsigned int)puVar1 & 1) == 0) {
         lVar5 = 0x1f;
       }
       else {
-        lVar5 = ((ulonglong)*puVar1 & 0x7ffffff) * 0x20 + -1;
+        lVar5 = ((unsigned __int64)*puVar1 & 0x7ffffff) * 0x20 + -1;
       }
       fn_82ACBB48(param_1 + 1,lVar5 + 4);
       uVar3 = fn_82ACB228(param_1,0,param_2,4);

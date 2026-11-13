@@ -1,62 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_120;
 extern unsigned int *auStack_d0;
 
 
-undefined8 fn_829A4CA8(int param_1,uint *param_2,uint *param_3)
+unsigned __int64 fn_829A4CA8(int param_1,unsigned int *param_2,unsigned int *param_3)
 
 {
   bool bVar1;
-  uint uVar2;
+  unsigned int uVar2;
   int iVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
   int iVar6;
-  longlong lVar7;
-  longlong lVar8;
-  undefined8 uVar9;
-  longlong lVar10;
-  longlong lVar11;
-  ulonglong uVar12;
+  __int64 lVar7;
+  __int64 lVar8;
+  unsigned __int64 uVar9;
+  __int64 lVar10;
+  __int64 lVar11;
+  unsigned __int64 uVar12;
   int iVar13;
-  uint uVar14;
-  uint uVar15;
-  ulonglong uVar16;
-  longlong lVar17;
-  longlong lVar18;
-  longlong lVar19;
-  ulonglong uVar20;
-  ulonglong uVar21;
-  uint auStack_120 [20];
-  uint auStack_d0 [52];
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned __int64 uVar16;
+  __int64 lVar17;
+  __int64 lVar18;
+  __int64 lVar19;
+  unsigned __int64 uVar20;
+  unsigned __int64 uVar21;
+  unsigned int auStack_120 [20];
+  unsigned int auStack_d0 [52];
   
-  if (param_2 == (uint *)0x0) {
+  if (param_2 == (unsigned int *)0x0) {
 LAB_829a4cb8:
     uVar9 = 1;
   }
@@ -65,10 +39,10 @@ LAB_829a4cb8:
     if ((uVar2 & 0xfff00000) != 0) {
       iVar3 = *(int *)(param_1 + 0x80);
       uVar4 = *param_3;
-      uVar16 = (ulonglong)uVar2 & 0xfffff;
+      uVar16 = (unsigned __int64)uVar2 & 0xfffff;
       iVar13 = *(int *)(param_1 + 0x88);
       uVar14 = param_2[1];
-      uVar12 = (ulonglong)uVar4 & 0xfffff;
+      uVar12 = (unsigned __int64)uVar4 & 0xfffff;
       iVar5 = *(int *)(param_1 + 0x7c);
       uVar15 = param_3[1];
       auStack_120[iVar3] = 0;
@@ -86,9 +60,9 @@ LAB_829a4cb8:
       uVar21 = 0;
       if (uVar16 != 0) {
         iVar3 = *(int *)(param_1 + 0x10);
-        lVar7 = ((ulonglong)uVar2 & 0xfffff) * 4;
-        lVar17 = (-((longlong)(int)uVar12 * (longlong)(int)uVar20) & 0x3fffffffU) << 2;
-        lVar8 = ((ulonglong)uVar4 & 0xfffff) * 4;
+        lVar7 = ((unsigned __int64)uVar2 & 0xfffff) * 4;
+        lVar17 = (-((__int64)(int)uVar12 * (__int64)(int)uVar20) & 0x3fffffffU) << 2;
+        lVar8 = ((unsigned __int64)uVar4 & 0xfffff) * 4;
         lVar18 = 0;
         lVar19 = lVar17;
         do {
@@ -121,7 +95,7 @@ LAB_829a4cb8:
           }
           if ((uVar12 & 0xffffffff) == (uVar21 & 0xffffffff)) {
             iVar6 = *(int *)(param_1 + 0x88);
-            if (((iVar13 == iVar6) && (1 < *(uint *)(iVar5 + 0xc))) &&
+            if (((iVar13 == iVar6) && (1 < *(unsigned int *)(iVar5 + 0xc))) &&
                (uVar15 = uVar15 + 1, 3 < uVar15)) goto LAB_829a4cb8;
             if (iVar13 == *(int *)(param_1 + 0x80)) {
               iVar13 = *(int *)(param_1 + 0x80);
@@ -133,7 +107,7 @@ LAB_829a4eb0:
               auStack_120[iVar13] = auStack_120[iVar13] + 1;
             }
             else {
-              uVar2 = *(uint *)(*(int *)(iVar13 * 4 + iVar3) + 4);
+              uVar2 = *(unsigned int *)(*(int *)(iVar13 * 4 + iVar3) + 4);
               if ((uVar2 & 0x80) != 0) break;
               if ((uVar2 & 0x200) == 0) {
                 iVar13 = *(int *)(iVar5 + 4);

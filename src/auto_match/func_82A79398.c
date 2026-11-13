@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_e0;
 extern unsigned int iStack_f0;
 extern unsigned int lbl_820A6CF8;
@@ -38,7 +11,7 @@ extern unsigned int uStack_d0;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong param_5)
+int fn_82A79398(float *param_1,unsigned int param_2,unsigned char *param_3,int param_4,unsigned __int64 param_5)
 
 {
   float fVar1;
@@ -46,26 +19,26 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
   double dVar3;
   float *pfVar4;
   int iVar5;
-  byte *pbVar6;
+  unsigned char *pbVar6;
   int iVar7;
   int iVar10;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  ulonglong uVar11;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar11;
   int iVar12;
   int iVar13;
-  uint uVar14;
+  unsigned int uVar14;
   int *piVar15;
   int iVar16;
-  uint uVar17;
-  ulonglong uVar18;
-  longlong lVar19;
+  unsigned int uVar17;
+  unsigned __int64 uVar18;
+  __int64 lVar19;
   int aiStack_100 [4];
   int iStack_f0;
-  uint auStack_e0 [4];
-  uint uStack_d0;
-  uint uStack_cc;
-  uint uStack_c8;
+  unsigned int auStack_e0 [4];
+  unsigned int uStack_d0;
+  unsigned int uStack_cc;
+  unsigned int uStack_c8;
   int aiStack_c0 [48];
   
   dVar3 = lbl_820A6D70;
@@ -73,7 +46,7 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
     iVar5 = 0;
   }
   else {
-    uVar18 = (ulonglong)(param_2 >> 2);
+    uVar18 = (unsigned __int64)(param_2 >> 2);
     pbVar6 = param_3;
     if (uVar18 != 0) {
       do {
@@ -103,7 +76,7 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
         do {
           iVar5 = *(int *)(&lbl_820A6CF8 + uVar14);
           iVar13 = *(int *)(&lbl_820A6D14 + uVar14);
-          *(undefined4 *)((int)auStack_e0 + uVar14) = 0;
+          *(unsigned int *)((int)auStack_e0 + uVar14) = 0;
           iVar16 = aiStack_100[0] * iVar13 + aiStack_100[1] * iVar5 >> 8;
           iVar10 = iVar16 - aiStack_100[2];
           if (iVar16 <= aiStack_100[2]) {
@@ -286,7 +259,7 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
         if (auStack_e0[1] < auStack_e0[0]) {
           uVar14 = auStack_e0[1];
         }
-        uVar17 = (uint)(auStack_e0[1] < auStack_e0[0]);
+        uVar17 = (unsigned int)(auStack_e0[1] < auStack_e0[0]);
         if (auStack_e0[2] < uVar14) {
           uVar17 = 2;
           uVar14 = auStack_e0[2];
@@ -309,7 +282,7 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
         iVar5 = *(int *)(&lbl_820A6CF8 + uVar17 * 4);
         iVar13 = aiStack_c0[uVar17];
         iVar16 = *(int *)(&lbl_820A6D14 + uVar17 * 4);
-        *pbVar6 = (byte)uVar17;
+        *pbVar6 = (unsigned char)uVar17;
         *(short *)(pbVar6 + 1) = (short)iVar13;
         *(short *)(pbVar6 + 3) = (short)aiStack_100[1];
         *(short *)(pbVar6 + 5) = (short)aiStack_100[0];
@@ -378,7 +351,7 @@ int fn_82A79398(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
               iVar13 = 0x10;
             }
           }
-          *pbVar6 = (char)uVar14 << 4 | (byte)uVar17 & 0xf;
+          *pbVar6 = (char)uVar14 << 4 | (unsigned char)uVar17 & 0xf;
           pbVar6 = pbVar6 + 1;
           uVar11 = uVar9;
           param_1 = pfVar4;

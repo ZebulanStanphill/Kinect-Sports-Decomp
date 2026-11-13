@@ -1,27 +1,26 @@
-typedef unsigned int uint;
-extern uint *fn_83031708(uint **self, uint key);
+extern unsigned int *fn_83031708(unsigned int **self, unsigned int key);
 
 typedef struct {
     char pad[0xc4];
-    uint *map;
+    unsigned int *map;
 } Obj_83030AE8;
 
-static uint *find(uint **self, uint key)
+static unsigned int *find(unsigned int **self, unsigned int key)
 {
-    uint *p = *self;
+    unsigned int *p = *self;
     while (p) {
         if (p[1] == key)
             return p + 2;
-        p = (uint *)p[0];
+        p = (unsigned int *)p[0];
     }
     return 0;
 }
 
-int fn_83030AE8(Obj_83030AE8 *o, uint key)
+int fn_83030AE8(Obj_83030AE8 *o, unsigned int key)
 {
     int r = 1;
-    uint **m = &o->map;
-    uint *v = find(m, key);
+    unsigned int **m = &o->map;
+    unsigned int *v = find(m, key);
     if (v == 0) {
         v = fn_83031708(m, key);
         if (v == 0)

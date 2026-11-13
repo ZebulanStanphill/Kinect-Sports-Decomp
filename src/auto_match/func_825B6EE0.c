@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
@@ -46,17 +19,17 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F894;
 
 
-void fn_825B6EE0(undefined8 param_1,double param_2,undefined8 param_3,int param_4,
-                  undefined8 param_5,undefined8 param_6,longlong param_7)
+void fn_825B6EE0(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,int param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,__int64 param_7)
 
 {
   float fVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
+  unsigned int *puVar2;
+  unsigned int uVar3;
   float fVar4;
   int in_r0;
   int iVar5;
-  undefined8 *puVar6;
+  unsigned __int64 *puVar6;
   int iVar7;
   float *pfVar8;
   double extraout_f1;
@@ -73,10 +46,10 @@ void fn_825B6EE0(undefined8 param_1,double param_2,undefined8 param_3,int param_
   double dVar19;
   double dVar20;
   double dVar21;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
+  unsigned int in_register_000104d0;
+  unsigned int in_register_000104d4;
+  unsigned int in_register_000104d8;
+  unsigned int in_vr77;
   float afStack_50 [2];
   float fStack_48;
   
@@ -97,7 +70,7 @@ void fn_825B6EE0(undefined8 param_1,double param_2,undefined8 param_3,int param_
     if (fVar4 <= fVar1) {
       *(float *)(iVar7 + 8) = (float)extraout_f1;
       *(float *)(iVar7 + 0xc) = (float)param_2;
-      *(undefined4 *)(iVar7 + 4) = uVar3;
+      *(unsigned int *)(iVar7 + 4) = uVar3;
     }
   }
   dVar16 = (double)lbl_82195858;
@@ -130,14 +103,14 @@ void fn_825B6EE0(undefined8 param_1,double param_2,undefined8 param_3,int param_
   dVar16 = (double)SQRT((float)(dVar17 * dVar17 + (double)(float)(dVar9 * dVar9)));
   if (dVar16 != dVar10) {
     if (*(float *)((int)puVar6 +
-                  ((uint)(byte)(((double)(float)(dVar16 - dVar19) < dVar10) << 2) |
-                  (uint)(NAN((double)(float)(dVar16 - dVar19)) || NAN(dVar10)) << 2) + 0x28) < 0.0)
+                  ((unsigned int)(unsigned char)(((double)(float)(dVar16 - dVar19) < dVar10) << 2) |
+                  (unsigned int)(NAN((double)(float)(dVar16 - dVar19)) || NAN(dVar10)) << 2) + 0x28) < 0.0)
     {
       dVar16 = dVar19;
     }
     if (*(float *)((int)puVar6 +
-                  ((uint)(byte)(((double)(float)(dVar16 - dVar18) < dVar10) << 2) |
-                  (uint)(NAN((double)(float)(dVar16 - dVar18)) || NAN(dVar10)) << 2) + 0x28) < 0.0)
+                  ((unsigned int)(unsigned char)(((double)(float)(dVar16 - dVar18) < dVar10) << 2) |
+                  (unsigned int)(NAN((double)(float)(dVar16 - dVar18)) || NAN(dVar10)) << 2) + 0x28) < 0.0)
     {
       dVar18 = dVar16;
     }
@@ -145,7 +118,7 @@ void fn_825B6EE0(undefined8 param_1,double param_2,undefined8 param_3,int param_
       dVar10 = (double)fn_82809D40(dVar17,dVar9);
     }
     fn_8255A160(dVar10,dVar18);
-    puVar2 = (undefined4 *)((int)afStack_50 + in_r0 & 0xfffffff0);
+    puVar2 = (unsigned int *)((int)afStack_50 + in_r0 & 0xfffffff0);
     *puVar2 = in_register_000104d0;
     puVar2[1] = in_register_000104d4;
     puVar2[2] = in_register_000104d8;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a2e;
 extern int fn_8225C590();
 extern int fn_8225DB68();
@@ -48,24 +21,24 @@ extern unsigned int uStack_a30;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void fn_82291398(int param_1,uint param_2)
+void fn_82291398(int param_1,unsigned int param_2)
 
 {
   int iVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   int iVar4;
   char *pcVar5;
   int iVar6;
   char cVar7;
-  undefined8 uVar8;
+  unsigned __int64 uVar8;
   double dVar9;
   int aiStack_c60 [4];
-  undefined **ppuStack_c50;
+  unsigned char **ppuStack_c50;
   int *piStack_c4c;
-  undefined ***pppuStack_c40;
-  undefined2 uStack_a30;
-  undefined1 auStack_a2e [2606];
+  unsigned char ***pppuStack_c40;
+  unsigned short uStack_a30;
+  unsigned char auStack_a2e [2606];
   
   iVar6 = 0;
   uVar8 = 0xffffffff82196582;
@@ -98,9 +71,9 @@ void fn_82291398(int param_1,uint param_2)
     }
     fn_822912A8(param_1,iVar6);
     fn_82279CA0(param_1,1);
-    *(undefined4 *)(param_1 + 0x160) = 1;
+    *(unsigned int *)(param_1 + 0x160) = 1;
     dVar9 = (double)*(float *)(param_1 + 0x16c);
-    uVar2 = *(undefined4 *)(param_1 + 0x170);
+    uVar2 = *(unsigned int *)(param_1 + 0x170);
     pcVar5 = (char *)fn_8225F670();
     if (*pcVar5 != '\0') {
       iVar6 = fn_8225FDE0(0x69,1);

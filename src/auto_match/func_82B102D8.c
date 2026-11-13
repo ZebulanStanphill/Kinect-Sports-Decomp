@@ -1,9 +1,8 @@
-typedef unsigned int uint;
 extern void fn_82B0FD38(void *, void *);
 typedef struct Node Node;
 typedef struct Link Link;
-struct Node { Link *first; Link *links; uint bits; };
-struct Link { uint bits; Link *next; Link *other; Node *source; Node *target; };
+struct Node { Link *first; Link *links; unsigned int bits; };
+struct Link { unsigned int bits; Link *next; Link *other; Node *source; Node *target; };
 static int notNull(Link *p) { if (p) return 1; return 0; }
 void fn_82B102D8(void *ctx, Node *o) {
     Link *link;

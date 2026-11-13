@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82C10F68();
 extern int fn_82C10FD0();
 extern int fn_82C11038();
@@ -34,18 +10,18 @@ extern unsigned int iStack_5c;
 extern unsigned int uStack_58;
 
 
-void fn_82C122F8(int param_1,byte *param_2,undefined8 param_3)
+void fn_82C122F8(int param_1,unsigned char *param_2,unsigned __int64 param_3)
 
 {
-  uint uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   bool bVar3;
   int iVar4;
   int iVar5;
-  uint uVar6;
-  byte abStack_60 [4];
+  unsigned int uVar6;
+  unsigned char abStack_60 [4];
   int iStack_5c;
-  undefined4 uStack_58;
+  unsigned int uStack_58;
   int aiStack_54 [21];
   
   *param_2 = 0;
@@ -53,7 +29,7 @@ void fn_82C122F8(int param_1,byte *param_2,undefined8 param_3)
   iStack_5c = 0;
   aiStack_54[0] = 0;
   bVar3 = false;
-  iVar4 = fn_82C10F68(*(undefined4 *)(param_1 + 0x48),&uStack_58,&iStack_5c,abStack_60);
+  iVar4 = fn_82C10F68(*(unsigned int *)(param_1 + 0x48),&uStack_58,&iStack_5c,abStack_60);
   if (iVar4 != -0x7fafffea) {
     if (iVar4 < 0) {
       return;
@@ -64,12 +40,12 @@ void fn_82C122F8(int param_1,byte *param_2,undefined8 param_3)
       }
       uVar6 = 0;
       do {
-        uVar1 = *(uint *)((uVar6 + 1) * 4 + iStack_5c);
+        uVar1 = *(unsigned int *)((uVar6 + 1) * 4 + iStack_5c);
         if (uVar1 != 0) {
           bVar3 = true;
-          uVar2 = 1 << ((uint)abStack_60[0] + ((int)(uint)abStack_60[0] >> 5) * -0x20 & 0x3f);
-          if (((uVar1 & *(uint *)((uVar6 + 0x14) * 4 + param_1)) != uVar1) ||
-             ((*(uint *)(((abStack_60[0] >> 5) + 0x14) * 4 + param_1) & uVar2) == uVar2)) {
+          uVar2 = 1 << ((unsigned int)abStack_60[0] + ((int)(unsigned int)abStack_60[0] >> 5) * -0x20 & 0x3f);
+          if (((uVar1 & *(unsigned int *)((uVar6 + 0x14) * 4 + param_1)) != uVar1) ||
+             ((*(unsigned int *)(((abStack_60[0] >> 5) + 0x14) * 4 + param_1) & uVar2) == uVar2)) {
             bVar3 = false;
             goto LAB_82c12450;
           }
@@ -87,10 +63,10 @@ void fn_82C122F8(int param_1,byte *param_2,undefined8 param_3)
         }
       }
 LAB_82c12450:;} while ((*param_2 != abStack_60[0]) &&
-            (iVar4 = fn_82C10FD0(*(undefined4 *)(param_1 + 0x48),uStack_58,&iStack_5c,abStack_60),
+            (iVar4 = fn_82C10FD0(*(unsigned int *)(param_1 + 0x48),uStack_58,&iStack_5c,abStack_60),
             iVar4 != -0x7fafffea));
   }
-  fn_82C11038(*(undefined4 *)(param_1 + 0x48),uStack_58);
+  fn_82C11038(*(unsigned int *)(param_1 + 0x48),uStack_58);
   return;
 }
 

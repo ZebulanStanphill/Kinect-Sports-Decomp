@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C9E0();
 extern int fn_82F68918();
 extern int fn_82F6A524();
@@ -35,22 +8,22 @@ extern unsigned int lbl_8201DCB8;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_82B661E0(undefined8 param_1,uint param_2,int param_3)
+void fn_82B661E0(unsigned __int64 param_1,unsigned int param_2,int param_3)
 
 {
   int *piVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
   int *piVar4;
   int iVar5;
   int iVar6;
   int iVar7;
   int iVar8;
   int iVar9;
-  uint uVar10;
+  unsigned int uVar10;
   int iVar11;
   int iVar12;
-  ulonglong uVar13;
+  unsigned __int64 uVar13;
   double dVar14;
   double dVar15;
   double dVar16;
@@ -110,7 +83,7 @@ void fn_82B661E0(undefined8 param_1,uint param_2,int param_3)
             }
             dVar14 = (double)fn_82F68918(dVar28);
             iVar7 = (int)dVar14;
-            dVar14 = (double)(longlong)iVar7;
+            dVar14 = (double)(__int64)iVar7;
             if (dVar14 < dVar29) {
               iVar5 = iVar7 - param_2;
               iVar8 = iVar9;
@@ -151,7 +124,7 @@ void fn_82B661E0(undefined8 param_1,uint param_2,int param_3)
                 iVar7 = iVar7 + 1;
                 iVar5 = iVar5 + 1;
                 dVar26 = (double)(float)((double)(float)(dVar15 - dVar26) * dVar14 + dVar25);
-                dVar14 = (double)(longlong)iVar7;
+                dVar14 = (double)(__int64)iVar7;
                 iVar8 = iVar9;
               } while (dVar14 < dVar29);
             }

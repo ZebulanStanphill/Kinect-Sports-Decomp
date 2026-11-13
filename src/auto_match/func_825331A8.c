@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern int fn_825330A8();
 extern int fn_82630B08();
 extern unsigned int lbl_8320A898;
@@ -36,7 +10,7 @@ extern void *memcpy(void *, const void *, unsigned int);
 void fn_825331A8(int *param_1,int param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   float fVar2;
   float fVar3;
   float fVar4;
@@ -45,33 +19,33 @@ void fn_825331A8(int *param_1,int param_2)
   float *pfVar7;
   int in_r0;
   int iVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   int iVar10;
   int iVar12;
-  ulonglong uVar11;
-  ulonglong uVar13;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs33 [16];
-  undefined1 in_vs34 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs36 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 auVar14 [16];
-  undefined1 auVar15 [16];
-  undefined1 auVar16 [16];
-  undefined1 auVar17 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar18 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar19 [16];
-  undefined1 in_vs58 [16];
-  undefined1 in_vs59 [16];
-  undefined1 in_vs60 [16];
-  undefined1 in_vs61 [16];
-  undefined1 in_vs62 [16];
-  undefined1 in_vs63 [16];
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar13;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs33 [16];
+  unsigned char in_vs34 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs36 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char auVar14 [16];
+  unsigned char auVar15 [16];
+  unsigned char auVar16 [16];
+  unsigned char auVar17 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar18 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned char auVar19 [16];
+  unsigned char in_vs58 [16];
+  unsigned char in_vs59 [16];
+  unsigned char in_vs60 [16];
+  unsigned char in_vs61 [16];
+  unsigned char in_vs62 [16];
+  unsigned char in_vs63 [16];
   float fVar20;
   float fVar21;
   float fVar22;
@@ -96,8 +70,8 @@ void fn_825331A8(int *param_1,int param_2)
   vectorMergeHighWord(auVar14,auVar18);
   vectorMergeLowWord(auVar15,auVar19);
   vectorMergeLowWord(auVar14,auVar18);
-  uVar13 = (ulonglong)*(ushort *)(param_1 + 2);
-  if (*(ushort *)(param_1 + 2) != 0) {
+  uVar13 = (unsigned __int64)*(unsigned short *)(param_1 + 2);
+  if (*(unsigned short *)(param_1 + 2) != 0) {
     iVar12 = 0;
     uVar9 = uVar13;
     do {
@@ -165,21 +139,21 @@ void fn_825331A8(int *param_1,int param_2)
       pfVar5[3] = fVar4;
     } while (uVar9 != 0);
   }
-  uVar9 = (ulonglong)(uint)param_1[0x14];
+  uVar9 = (unsigned __int64)(unsigned int)param_1[0x14];
   if (uVar9 != 0) {
-    for (uVar11 = (ulonglong)(uint)param_1[0x14] & 0xffffff80;
+    for (uVar11 = (unsigned __int64)(unsigned int)param_1[0x14] & 0xffffff80;
         (uVar11 & 0xffffffff) < (uVar13 * 0x40 + uVar9 & 0xffffffff); uVar11 = uVar11 + 0x80) {
       dataCacheBlockFlush(uVar11);
     }
-    fn_82630B08(lbl_8320A898,uVar9,(ulonglong)*(ushort *)(param_1 + 2) << 6,0);
+    fn_82630B08(lbl_8320A898,uVar9,(unsigned __int64)*(unsigned short *)(param_1 + 2) << 6,0);
   }
   uVar1 = param_1[0x13];
-  for (uVar9 = (ulonglong)uVar1 & 0xffffff80;
-      (uVar9 & 0xffffffff) < (uVar13 * 0x40 + (ulonglong)uVar1 & 0xffffffff); uVar9 = uVar9 + 0x80)
+  for (uVar9 = (unsigned __int64)uVar1 & 0xffffff80;
+      (uVar9 & 0xffffffff) < (uVar13 * 0x40 + (unsigned __int64)uVar1 & 0xffffffff); uVar9 = uVar9 + 0x80)
   {
     dataCacheBlockFlush(uVar9);
   }
-  fn_82630B08(lbl_8320A898,(ulonglong)uVar1,(ulonglong)*(ushort *)(param_1 + 2) << 6,0);
+  fn_82630B08(lbl_8320A898,(unsigned __int64)uVar1,(unsigned __int64)*(unsigned short *)(param_1 + 2) << 6,0);
   return;
 }
 

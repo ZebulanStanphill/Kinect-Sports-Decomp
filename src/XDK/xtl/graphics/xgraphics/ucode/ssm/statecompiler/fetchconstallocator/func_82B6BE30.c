@@ -1,19 +1,18 @@
-typedef unsigned int uint;
 extern int fn_82AB15D0();
 
 #define FCA_ASSERT(e, line) if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
     "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp", line)
 #define E_FA_DECREMENTAL 1
 
-typedef void *(*AllocFn_82B6BE30)(void *context, uint size);
+typedef void *(*AllocFn_82B6BE30)(void *context, unsigned int size);
 typedef void (*FreeFn_82B6BE30)(void *context, void *p);
 
 typedef struct FetchBlock_82B6BE30 {
-    uint bIsUsed;
+    unsigned int bIsUsed;
     int kind;
-    uint count;
+    unsigned int count;
     int eType[3];
-    uint value[3];
+    unsigned int value[3];
 } FetchBlock_82B6BE30;
 
 typedef struct FCA_82B6BE30 {
@@ -27,7 +26,7 @@ typedef struct FCA_82B6BE30 {
     int f498;
     int f49c;
     int f4a0;
-    uint nUsed;
+    unsigned int nUsed;
 } FCA_82B6BE30;
 
 FCA_82B6BE30 *fn_82B6BE30(void *context, AllocFn_82B6BE30 AllocateSysMem, FreeFn_82B6BE30 FreeSysMem,

@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 typedef struct Ref_82747CA0 {
     int unk0;
     int unk4;
@@ -7,8 +5,8 @@ typedef struct Ref_82747CA0 {
 } Ref_82747CA0;
 
 typedef struct Variant_82747CA0 {
-    U8 type;
-    U8 pad1[7];
+    unsigned char type;
+    unsigned char pad1[7];
     int value;
     int padC;
 } Variant_82747CA0;
@@ -26,9 +24,9 @@ extern char lbl_820129FC[];
 extern char lbl_82011754[];
 
 extern void fn_82747B98(void);
-extern void fn_826BF638(void *a, void *b, int *c, void *d, U8 *e);
+extern void fn_826BF638(void *a, void *b, int *c, void *d, unsigned char *e);
 extern void fn_82681728(Ref_82747CA0 **out, int base, void *name);
-extern void fn_826C1FF8(void *a, int *b, Ref_82747CA0 **r, Variant_82747CA0 *v, U8 *f);
+extern void fn_826C1FF8(void *a, int *b, Ref_82747CA0 **r, Variant_82747CA0 *v, unsigned char *f);
 extern void fn_826944C8(Ref_82747CA0 *r);
 extern void fn_82696330(Variant_82747CA0 *v);
 
@@ -36,26 +34,26 @@ void **fn_82747CA0(void **param_1, int *param_2)
 {
     void **sub;
     Ref_82747CA0 *o;
-    U8 f0;
-    U8 f1;
+    unsigned char f0;
+    unsigned char f1;
     Ref_82747CA0 *r1;
     Variant_82747CA0 v1;
-    U8 f2;
+    unsigned char f2;
     Ref_82747CA0 *r2;
     Variant_82747CA0 v2;
-    U8 f3;
+    unsigned char f3;
     Ref_82747CA0 *r3;
     Variant_82747CA0 v3;
-    U8 f4;
+    unsigned char f4;
     Ref_82747CA0 *r4;
     Variant_82747CA0 v4;
-    U8 f5;
+    unsigned char f5;
     Ref_82747CA0 *r5;
     Variant_82747CA0 v5;
-    U8 f6;
+    unsigned char f6;
     Ref_82747CA0 *r6;
     Variant_82747CA0 v6;
-    U8 f7;
+    unsigned char f7;
     Ref_82747CA0 *r7;
     Variant_82747CA0 v7;
 

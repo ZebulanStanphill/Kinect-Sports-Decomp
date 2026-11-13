@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82161250;
 extern unsigned int lbl_82161260;
 extern unsigned int lbl_82161270;
@@ -89,30 +62,30 @@ extern unsigned int uStack_f4;
 extern unsigned int uStack_f6;
 
 
-void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
+void fn_82F0BE40(__int64 param_1,unsigned __int64 param_2,int param_3)
 
 {
-  undefined2 uVar1;
+  unsigned short uVar1;
   short *psVar2;
   short sVar3;
   int iVar4;
-  longlong lVar5;
-  ulonglong uVar6;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
   short sVar7;
   short sVar8;
   short sVar9;
   short sVar11;
-  ulonglong uVar10;
+  unsigned __int64 uVar10;
   short sVar12;
-  longlong lVar13;
+  __int64 lVar13;
   short *psVar14;
   int iVar15;
   short *psVar16;
   short sVar17;
-  longlong lVar18;
+  __int64 lVar18;
   short sVar19;
   short sVar20;
-  longlong lVar21;
+  __int64 lVar21;
   short sVar23;
   short sVar24;
   int iVar22;
@@ -120,72 +93,72 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
   short sVar26;
   short sVar27;
   short sVar28;
-  longlong lVar29;
-  longlong lVar30;
+  __int64 lVar29;
+  __int64 lVar30;
   short asStack_1a0 [5];
-  undefined2 uStack_196;
-  undefined2 uStack_194;
-  undefined2 uStack_192;
+  unsigned short uStack_196;
+  unsigned short uStack_194;
+  unsigned short uStack_192;
   short asStack_190 [8];
   short asStack_180 [5];
-  undefined2 uStack_176;
-  undefined2 uStack_174;
-  undefined2 uStack_172;
+  unsigned short uStack_176;
+  unsigned short uStack_174;
+  unsigned short uStack_172;
   short asStack_170 [5];
-  undefined2 uStack_166;
-  undefined2 uStack_164;
+  unsigned short uStack_166;
+  unsigned short uStack_164;
   short sStack_162;
   short asStack_160 [5];
-  undefined2 uStack_156;
-  undefined2 uStack_154;
-  undefined2 uStack_152;
+  unsigned short uStack_156;
+  unsigned short uStack_154;
+  unsigned short uStack_152;
   short asStack_150 [5];
-  undefined2 uStack_146;
-  undefined2 uStack_144;
-  undefined2 uStack_142;
+  unsigned short uStack_146;
+  unsigned short uStack_144;
+  unsigned short uStack_142;
   short asStack_140 [5];
-  undefined2 uStack_136;
-  undefined2 uStack_134;
+  unsigned short uStack_136;
+  unsigned short uStack_134;
   short sStack_132;
   short asStack_130 [5];
-  undefined2 uStack_126;
-  undefined2 uStack_124;
+  unsigned short uStack_126;
+  unsigned short uStack_124;
   short sStack_122;
   short asStack_120 [12];
-  undefined2 uStack_108;
-  undefined2 uStack_106;
-  undefined2 uStack_104;
+  unsigned short uStack_108;
+  unsigned short uStack_106;
+  unsigned short uStack_104;
   short sStack_102;
   short asStack_100 [4];
   short sStack_f8;
-  undefined2 uStack_f6;
-  undefined2 uStack_f4;
-  undefined2 uStack_f2;
+  unsigned short uStack_f6;
+  unsigned short uStack_f4;
+  unsigned short uStack_f2;
   short asStack_f0 [4];
-  undefined2 uStack_e8;
-  undefined2 uStack_e6;
-  undefined2 uStack_e4;
+  unsigned short uStack_e8;
+  unsigned short uStack_e6;
+  unsigned short uStack_e4;
   short sStack_e2;
   short asStack_e0 [4];
   short sStack_d8;
-  undefined2 uStack_d6;
-  undefined2 uStack_d4;
-  undefined2 uStack_d2;
+  unsigned short uStack_d6;
+  unsigned short uStack_d4;
+  unsigned short uStack_d2;
   short asStack_d0 [4];
-  undefined2 uStack_c8;
-  undefined2 uStack_c6;
-  undefined2 uStack_c4;
-  undefined2 uStack_c2;
+  unsigned short uStack_c8;
+  unsigned short uStack_c6;
+  unsigned short uStack_c4;
+  unsigned short uStack_c2;
   short asStack_c0 [4];
   short sStack_b8;
-  undefined2 uStack_b6;
-  undefined2 uStack_b4;
-  undefined2 uStack_b2;
+  unsigned short uStack_b6;
+  unsigned short uStack_b4;
+  unsigned short uStack_b2;
   short asStack_b0 [4];
-  undefined2 uStack_a8;
-  undefined2 uStack_a6;
-  undefined2 uStack_a4;
-  undefined2 uStack_a2;
+  unsigned short uStack_a8;
+  unsigned short uStack_a6;
+  unsigned short uStack_a4;
+  unsigned short uStack_a2;
   short *psStack_a0;
   short *psStack_9c;
   
@@ -215,8 +188,8 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar25 = *(short *)lVar21 + sVar24;
     sVar11 = sVar11 - sVar7;
     sVar24 = sVar24 - *(short *)lVar21;
-    lVar5 = (longlong)(short)(sVar26 + sVar27);
-    lVar29 = (longlong)(short)(sVar25 + sVar23);
+    lVar5 = (__int64)(short)(sVar26 + sVar27);
+    lVar29 = (__int64)(short)(sVar25 + sVar23);
     uVar10 = lVar29 + lVar5;
     uVar6 = lVar5 - lVar29;
     sVar17 = sVar24 + sVar11;
@@ -225,14 +198,14 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar11 = sVar11 - sVar24;
     sVar26 = sVar26 - sVar27;
     sVar23 = sVar23 - sVar25;
-    sVar7 = (short)(((longlong)sVar17 & 0xffffffffU) << 1) -
-            (sVar3 + (short)(((longlong)sVar3 & 0xffffffffU) << 1));
-    sVar12 = (short)(((longlong)sVar11 & 0xffffffffU) << 1) -
-             (sVar28 + (short)(((longlong)sVar28 & 0xffffffffU) << 1));
-    sVar8 = sVar17 + (short)(((longlong)sVar17 & 0xffffffffU) << 1) +
-            (short)(((longlong)sVar3 & 0xffffffffU) << 2);
-    sVar28 = sVar11 + (short)(((longlong)sVar11 & 0xffffffffU) << 1) +
-             (short)(((longlong)sVar28 & 0xffffffffU) << 2);
+    sVar7 = (short)(((__int64)sVar17 & 0xffffffffU) << 1) -
+            (sVar3 + (short)(((__int64)sVar3 & 0xffffffffU) << 1));
+    sVar12 = (short)(((__int64)sVar11 & 0xffffffffU) << 1) -
+             (sVar28 + (short)(((__int64)sVar28 & 0xffffffffU) << 1));
+    sVar8 = sVar17 + (short)(((__int64)sVar17 & 0xffffffffU) << 1) +
+            (short)(((__int64)sVar3 & 0xffffffffU) << 2);
+    sVar28 = sVar11 + (short)(((__int64)sVar11 & 0xffffffffU) << 1) +
+             (short)(((__int64)sVar28 & 0xffffffffU) << 2);
     sVar11 = sVar7 + sVar12;
     sVar7 = sVar7 - sVar12;
     *psVar16 = (short)((sVar28 + 1) * 4 - (int)sVar8 >> 3);
@@ -274,11 +247,11 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
   iVar15 = 0;
   lVar21 = 8;
   do {
-    uVar1 = *(undefined2 *)((int)asStack_120 + iVar15 + 0x10);
-    *(undefined2 *)((int)asStack_190 + iVar15) = *(undefined2 *)((int)asStack_120 + iVar15);
-    *(undefined2 *)((int)asStack_1a0 + iVar15) = uVar1;
-    *(undefined2 *)((int)asStack_170 + iVar15) = *(undefined2 *)((int)asStack_100 + iVar15);
-    *(undefined2 *)((int)asStack_180 + iVar15) = *(undefined2 *)((int)asStack_f0 + iVar15);
+    uVar1 = *(unsigned short *)((int)asStack_120 + iVar15 + 0x10);
+    *(unsigned short *)((int)asStack_190 + iVar15) = *(unsigned short *)((int)asStack_120 + iVar15);
+    *(unsigned short *)((int)asStack_1a0 + iVar15) = uVar1;
+    *(unsigned short *)((int)asStack_170 + iVar15) = *(unsigned short *)((int)asStack_100 + iVar15);
+    *(unsigned short *)((int)asStack_180 + iVar15) = *(unsigned short *)((int)asStack_f0 + iVar15);
     iVar15 = iVar15 + 2;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
@@ -309,11 +282,11 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
   iVar15 = 0;
   lVar21 = 8;
   do {
-    uVar1 = *(undefined2 *)((int)asStack_120 + iVar15 + 0x10);
-    *(undefined2 *)((int)asStack_130 + iVar15) = *(undefined2 *)((int)asStack_120 + iVar15);
-    *(undefined2 *)((int)asStack_140 + iVar15) = uVar1;
-    *(undefined2 *)((int)asStack_150 + iVar15) = *(undefined2 *)((int)asStack_100 + iVar15);
-    *(undefined2 *)((int)asStack_160 + iVar15) = *(undefined2 *)((int)asStack_f0 + iVar15);
+    uVar1 = *(unsigned short *)((int)asStack_120 + iVar15 + 0x10);
+    *(unsigned short *)((int)asStack_130 + iVar15) = *(unsigned short *)((int)asStack_120 + iVar15);
+    *(unsigned short *)((int)asStack_140 + iVar15) = uVar1;
+    *(unsigned short *)((int)asStack_150 + iVar15) = *(unsigned short *)((int)asStack_100 + iVar15);
+    *(unsigned short *)((int)asStack_160 + iVar15) = *(unsigned short *)((int)asStack_f0 + iVar15);
     iVar15 = iVar15 + 2;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
@@ -354,9 +327,9 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
   uStack_b4 = asStack_160[2];
   uStack_a2 = uStack_152;
   do {
-    uVar1 = *(undefined2 *)((int)asStack_190 + iVar15 + 8);
-    *(undefined2 *)(iVar15 + (int)asStack_120) = *(undefined2 *)(iVar15 + (int)asStack_190);
-    *(undefined2 *)((int)asStack_120 + iVar15 + 0x10) = uVar1;
+    uVar1 = *(unsigned short *)((int)asStack_190 + iVar15 + 8);
+    *(unsigned short *)(iVar15 + (int)asStack_120) = *(unsigned short *)(iVar15 + (int)asStack_190);
+    *(unsigned short *)((int)asStack_120 + iVar15 + 0x10) = uVar1;
     iVar15 = iVar15 + 2;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
@@ -387,8 +360,8 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
   asStack_120[7] = asStack_130[3];
   sStack_102 = sStack_122;
   do {
-    *(undefined2 *)((int)asStack_190 + iVar15) = *(undefined2 *)((int)asStack_120 + iVar15 + 0x10);
-    *(undefined2 *)((int)asStack_1a0 + iVar15) = *(undefined2 *)((int)asStack_120 + iVar15);
+    *(unsigned short *)((int)asStack_190 + iVar15) = *(unsigned short *)((int)asStack_120 + iVar15 + 0x10);
+    *(unsigned short *)((int)asStack_1a0 + iVar15) = *(unsigned short *)((int)asStack_120 + iVar15);
     iVar15 = iVar15 + 2;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
@@ -444,18 +417,18 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar9 = (short)((int)sVar28 + sVar28 * 2 + (int)sVar8 >> 2) + sVar17 * 2;
     sVar12 = *(short *)(&lbl_82161260 + iVar15);
     sVar3 = sVar28 * 2 - (short)((int)sVar17 + sVar17 * 2 + (int)sVar7 >> 2);
-    psVar16[-8] = (short)((uint)((int)sVar12 * (int)sVar9) >> 0x10) + sVar9;
+    psVar16[-8] = (short)((unsigned int)((int)sVar12 * (int)sVar9) >> 0x10) + sVar9;
     sVar8 = (short)((int)sVar25 + sVar25 * 2 + (int)sVar8 >> 2) + sVar20 * 2;
-    *psVar16 = (short)((uint)(iVar22 * sVar26) >> 0x10) + sVar26;
-    psVar16[0x10] = (short)((uint)((int)sVar11 * (int)sVar23) >> 0x10) + sVar23;
+    *psVar16 = (short)((unsigned int)(iVar22 * sVar26) >> 0x10) + sVar26;
+    psVar16[0x10] = (short)((unsigned int)((int)sVar11 * (int)sVar23) >> 0x10) + sVar23;
     sVar28 = sVar25 * 2 - (short)((int)sVar20 + sVar20 * 2 + (int)sVar7 >> 2);
-    psVar16[0x20] = (short)((uint)(iVar22 * sVar19) >> 0x10) + sVar19;
+    psVar16[0x20] = (short)((unsigned int)(iVar22 * sVar19) >> 0x10) + sVar19;
     iVar22 = (int)sVar24;
-    psVar16[8] = (short)((uint)(iVar22 * sVar3) >> 0x10) + sVar3;
-    psVar16[0x18] = (short)((uint)((int)sVar12 * (int)sVar8) >> 0x10) + sVar8;
-    psVar16[0x28] = (short)((uint)(iVar22 * sVar28) >> 0x10) + sVar28;
+    psVar16[8] = (short)((unsigned int)(iVar22 * sVar3) >> 0x10) + sVar3;
+    psVar16[0x18] = (short)((unsigned int)((int)sVar12 * (int)sVar8) >> 0x10) + sVar8;
+    psVar16[0x28] = (short)((unsigned int)(iVar22 * sVar28) >> 0x10) + sVar28;
     iVar15 = iVar15 + 2;
-    psVar16[-0x10] = (short)((uint)((int)sVar11 * (int)sVar27) >> 0x10) + sVar27;
+    psVar16[-0x10] = (short)((unsigned int)((int)sVar11 * (int)sVar27) >> 0x10) + sVar27;
     psVar16 = psVar16 + 1;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
@@ -482,16 +455,16 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar3 = sVar3 - sVar23;
     sVar23 = sVar28 + sVar12;
     sVar12 = sVar12 - sVar28;
-    *(short *)(iVar4 + 0x20) = (short)((uint)((int)sVar11 * (int)sVar25) >> 0x10) + sVar25;
+    *(short *)(iVar4 + 0x20) = (short)((unsigned int)((int)sVar11 * (int)sVar25) >> 0x10) + sVar25;
     *(short *)(iVar15 + param_3) =
-         (short)((uint)(((int)sVar7 + (int)sVar17) * (int)sVar11) >> 0x10) + sVar17;
+         (short)((unsigned int)(((int)sVar7 + (int)sVar17) * (int)sVar11) >> 0x10) + sVar17;
     sVar28 = *(short *)(&lbl_821612F0 + iVar15);
     sVar11 = ((short)((int)*(short *)(&lbl_82161340 + iVar15) + (int)sVar8 >> 2) + sVar3 * 2) -
              sVar8;
     sVar3 = ((short)((int)*(short *)(&lbl_82161330 + iVar15) + (int)sVar3 >> 2) + sVar8 * -2) -
             sVar3;
-    *(short *)(iVar4 + 0x40) = (short)((uint)((int)sVar28 * (int)sVar11) >> 0x10) + sVar11;
-    *(short *)(iVar15 + param_3 + 0x20) = (short)((uint)((int)sVar28 * (int)sVar3) >> 0x10) + sVar3;
+    *(short *)(iVar4 + 0x40) = (short)((unsigned int)((int)sVar28 * (int)sVar11) >> 0x10) + sVar11;
+    *(short *)(iVar15 + param_3 + 0x20) = (short)((unsigned int)((int)sVar28 * (int)sVar3) >> 0x10) + sVar3;
     sVar28 = *(short *)(&lbl_82161370 + iVar15);
     sVar8 = (sVar23 - (short)((int)*(short *)(&lbl_82161360 + iVar15) + (int)sVar23 >> 2)) + sVar26;
     sVar26 = (sVar23 - (short)((int)*(short *)(&lbl_82161350 + iVar15) + (int)sVar26 >> 1)) - sVar26
@@ -502,9 +475,9 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar8 = (short)((int)*(short *)(&lbl_821613A0 + iVar15) + (int)sVar11 >> 1) + sVar8 * 2;
     sVar11 = *(short *)(&lbl_821612E0 + iVar15);
     *(short *)(iVar4 + 0x50) =
-         (short)((uint)((int)*(short *)(&lbl_82161300 + iVar15) * (int)sVar8) >> 0x10) + sVar8;
+         (short)((unsigned int)((int)*(short *)(&lbl_82161300 + iVar15) * (int)sVar8) >> 0x10) + sVar8;
     sVar24 = ((short)((int)sVar28 + (int)sVar24 >> 1) - sVar12) + sVar24;
-    *(short *)(iVar4 + -0x10) = (short)((uint)((int)sVar11 * (int)sVar7) >> 0x10) + sVar7;
+    *(short *)(iVar4 + -0x10) = (short)((unsigned int)((int)sVar11 * (int)sVar7) >> 0x10) + sVar7;
     sVar28 = *(short *)(&lbl_82161300 + iVar15);
     psVar16 = (short *)(&lbl_821612E0 + iVar15);
     sVar11 = sVar26 + sVar24;
@@ -512,8 +485,8 @@ void fn_82F0BE40(longlong param_1,ulonglong param_2,int param_3)
     sVar7 = (short)((int)*(short *)(&lbl_821613B0 + iVar15) + (int)sVar11 >> 2) + sVar24;
     sVar11 = sVar11 - (short)((int)*(short *)(&lbl_821613C0 + iVar15) + (int)sVar24 >> 2);
     iVar15 = iVar15 + 2;
-    *(short *)(iVar4 + 0x30) = (short)((uint)((int)*psVar16 * (int)sVar11) >> 0x10) + sVar11;
-    *(short *)(iVar4 + 0x10) = (short)((uint)((int)sVar28 * (int)sVar7) >> 0x10) + sVar7;
+    *(short *)(iVar4 + 0x30) = (short)((unsigned int)((int)*psVar16 * (int)sVar11) >> 0x10) + sVar11;
+    *(short *)(iVar4 + 0x10) = (short)((unsigned int)((int)sVar28 * (int)sVar7) >> 0x10) + sVar7;
     lVar21 = lVar21 + -1;
   } while (lVar21 != 0);
   return;

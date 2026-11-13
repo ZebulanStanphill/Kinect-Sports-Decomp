@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern int fn_824CD030(int p);
 
 void fn_82308D48(int param_1)
@@ -17,7 +16,7 @@ void fn_82308D48(int param_1)
     if (iVar2 != 0) {
       iVar1 = *(int *)(iVar3 + 0xf4);
       if (iVar1 != 0) {
-        iVar3 = (*(code *)(*(int *)iVar1 + 8))(iVar1,auStack_30,auStack_38,auStack_3c,auStack_40);
+        iVar3 = (*(int (**)())(*(int *)iVar1 + 8))(iVar1,auStack_30,auStack_38,auStack_3c,auStack_40);
         *(int *)(param_1 + 0x44) = iVar3;
         if (iVar3 != 0) {
           *(int *)(*(int *)(param_1 + 0x10) + 0xf98) = 1;

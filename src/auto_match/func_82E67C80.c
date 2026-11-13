@@ -1,54 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E67238();
 extern int fn_82E67350();
 extern int fn_82F68CC0();
 
 
-undefined8
-fn_82E67C80(int *param_1,undefined4 *param_2,longlong param_3,int param_4,int *param_5,
-             int *param_6,ushort param_7,ushort *param_8)
+unsigned __int64
+fn_82E67C80(int *param_1,unsigned int *param_2,__int64 param_3,int param_4,int *param_5,
+             int *param_6,unsigned short param_7,unsigned short *param_8)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   int iVar4;
   int iVar5;
-  undefined8 uVar6;
-  longlong lVar7;
+  unsigned __int64 uVar6;
+  __int64 lVar7;
   int in_stack_00000054;
   
   iVar5 = *param_1;
   iVar4 = *(int *)(iVar5 + 0xc);
   uVar6 = 0;
   iVar2 = iVar4 >> 3;
-  lVar7 = (longlong)iVar2;
+  lVar7 = (__int64)iVar2;
   if ((param_1[10] == 1) || ((2 < *(int *)(iVar5 + 0x3c) && (*(int *)(iVar5 + 0x1b8) == 1)))) {
     if (in_stack_00000054 != 0) {
       *param_5 = 0;
@@ -75,14 +48,14 @@ fn_82E67C80(int *param_1,undefined4 *param_2,longlong param_3,int param_4,int *p
         *param_5 = iVar2;
         iVar5 = *(int *)param_2[7];
         *param_6 = iVar5;
-        if ((uint)param_2[0x32] <= (uint)(*(int *)param_2[8] + iVar5)) {
+        if ((unsigned int)param_2[0x32] <= (unsigned int)(*(int *)param_2[8] + iVar5)) {
           *param_6 = (*(int *)param_2[8] - param_2[0x32]) + iVar5;
-          param_2[0x32] = *(undefined4 *)param_2[8];
+          param_2[0x32] = *(unsigned int *)param_2[8];
         }
         *param_8 = *param_8 + 1;
       }
-      *(ulonglong *)(param_2 + 0x2e) =
-           (ulonglong)*(uint *)param_2[7] + *(longlong *)(param_2 + 0x2e);
+      *(unsigned __int64 *)(param_2 + 0x2e) =
+           (unsigned __int64)*(unsigned int *)param_2[7] + *(__int64 *)(param_2 + 0x2e);
       if (param_1[6] == 0) {
         fn_82E67350(param_2,param_1);
       }
@@ -113,15 +86,15 @@ fn_82E67C80(int *param_1,undefined4 *param_2,longlong param_3,int param_4,int *p
           *param_5 = *param_5 + iVar2;
           iVar5 = *(int *)param_2[7];
           *param_6 = iVar5;
-          if ((uint)param_2[0x32] <= (uint)(*(int *)param_2[8] + iVar5)) {
+          if ((unsigned int)param_2[0x32] <= (unsigned int)(*(int *)param_2[8] + iVar5)) {
             *param_6 = (*(int *)param_2[8] - param_2[0x32]) + iVar5;
-            param_2[0x32] = *(undefined4 *)param_2[8];
+            param_2[0x32] = *(unsigned int *)param_2[8];
           }
           param_6 = param_6 + 1;
           *param_8 = *param_8 + 1;
         }
-        *(ulonglong *)(param_2 + 0x2e) =
-             (ulonglong)*(uint *)param_2[7] + *(longlong *)(param_2 + 0x2e);
+        *(unsigned __int64 *)(param_2 + 0x2e) =
+             (unsigned __int64)*(unsigned int *)param_2[7] + *(__int64 *)(param_2 + 0x2e);
         if (param_1[6] == 0) {
           fn_82E67350(param_2,param_1);
         }
@@ -129,8 +102,8 @@ fn_82E67C80(int *param_1,undefined4 *param_2,longlong param_3,int param_4,int *p
         param_2[7] = param_2[7] + 4;
         param_2[0x11] = param_2[0x11] - iVar2;
         param_2[8] = param_2[8] + 4;
-        param_2[6] = (int)(lVar7 + (ulonglong)uVar1);
-        if ((lVar7 + (ulonglong)uVar1 & 0xffffffff) == (ulonglong)(uint)param_2[3]) {
+        param_2[6] = (int)(lVar7 + (unsigned __int64)uVar1);
+        if ((lVar7 + (unsigned __int64)uVar1 & 0xffffffff) == (unsigned __int64)(unsigned int)param_2[3]) {
           param_2[6] = *param_2;
           param_2[7] = param_2[1];
           param_2[8] = param_2[2];

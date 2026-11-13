@@ -1,32 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82C3DF08(int param_1,int *param_2,int *param_3,int param_4,int param_5)
 
 {
@@ -36,12 +7,12 @@ void fn_82C3DF08(int param_1,int *param_2,int *param_3,int param_4,int param_5)
   int *piVar4;
   int *piVar5;
   int *piVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int iVar8;
   int iVar9;
   int *piVar10;
   short *psVar11;
-  uint uVar12;
+  unsigned int uVar12;
   int iVar13;
   int *piVar14;
   int iVar15;
@@ -55,20 +26,20 @@ void fn_82C3DF08(int param_1,int *param_2,int *param_3,int param_4,int param_5)
   iVar17 = param_2[7];
   iVar16 = param_2[9];
   iVar13 = param_2[5] * 4 + param_2[6];
-  uVar12 = (uint)*(ushort *)(param_1 + 0x22);
-  if (*(ushort *)(param_1 + 0x22) != 0) {
+  uVar12 = (unsigned int)*(unsigned short *)(param_1 + 0x22);
+  if (*(unsigned short *)(param_1 + 0x22) != 0) {
     piVar14 = param_3;
     do {
       if (*(int *)((int)piVar14 + (param_4 - (int)param_3)) == 0) {
-        iVar8 = *param_2 * (uint)*(ushort *)(param_1 + 0x22) * 2;
-        uVar7 = (uint)*(ushort *)(param_1 + 0x22);
+        iVar8 = *param_2 * (unsigned int)*(unsigned short *)(param_1 + 0x22) * 2;
+        uVar7 = (unsigned int)*(unsigned short *)(param_1 + 0x22);
       }
       else {
         iVar8 = 0;
         iVar20 = 0;
         uVar12 = *param_2 * uVar12;
         iVar19 = 0;
-        iVar18 = ((int)uVar12 >> 1) + (uint)((int)uVar12 < 0 && (uVar12 & 1) != 0);
+        iVar18 = ((int)uVar12 >> 1) + (unsigned int)((int)uVar12 < 0 && (uVar12 & 1) != 0);
         iVar9 = 0;
         if (1 < iVar18) {
           piVar10 = (int *)(iVar13 + -8);
@@ -119,7 +90,7 @@ void fn_82C3DF08(int param_1,int *param_2,int *param_3,int param_4,int param_5)
         if (param_5 != 0) {
           *piVar14 = *piVar14 + iVar8;
         }
-        uVar12 = (uint)*(ushort *)(param_1 + 0x22);
+        uVar12 = (unsigned int)*(unsigned short *)(param_1 + 0x22);
         iVar8 = param_2[1] << 1;
         uVar7 = uVar12;
       }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_82E7E7E0();
 extern int fn_82E7E900();
@@ -38,22 +11,22 @@ extern unsigned int uStack_38;
 /* WARNING: Removing unreachable block (ram,0x82e80720) */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
-longlong fn_82E80668(ushort *param_1,undefined8 param_2,ushort *param_3)
+__int64 fn_82E80668(unsigned short *param_1,unsigned __int64 param_2,unsigned short *param_3)
 
 {
-  ushort uVar1;
-  undefined1 *puVar2;
-  longlong lVar3;
-  undefined1 *apuStack_50 [4];
-  undefined1 auStack_40 [8];
-  undefined8 uStack_38;
+  unsigned short uVar1;
+  unsigned char *puVar2;
+  __int64 lVar3;
+  unsigned char *apuStack_50 [4];
+  unsigned char auStack_40 [8];
+  unsigned __int64 uStack_38;
   
-  apuStack_50[0] = (undefined1 *)0x0;
+  apuStack_50[0] = (unsigned char *)0x0;
   uStack_38 = 0;
   if (*param_1 == 0) {
     lVar3 = -0x3ff2c917;
   }
-  else if ((param_3 == (ushort *)0x0) || (param_1 == param_3)) {
+  else if ((param_3 == (unsigned short *)0x0) || (param_1 == param_3)) {
     lVar3 = -0x7fffbffd;
   }
   else if ((*param_3 == 0) ||

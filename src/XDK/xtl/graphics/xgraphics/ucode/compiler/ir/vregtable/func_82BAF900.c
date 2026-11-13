@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_82BAF900(int param_1,int param_2)
+__int64 fn_82BAF900(int param_1,int param_2)
 
 {
-  uint uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
-  uint *puVar6;
+  unsigned int *puVar6;
   int *piVar7;
   int *piVar8;
-  uint *puVar9;
+  unsigned int *puVar9;
   bool bVar10;
   
   iVar3 = 0;
@@ -70,8 +46,8 @@ longlong fn_82BAF900(int param_1,int param_2)
       }
       if (bVar10) {
         iVar3 = (iVar5 + 0x70) * 8;
-        puVar6 = (uint *)(iVar3 + param_2);
-        puVar9 = (uint *)(iVar3 + param_1);
+        puVar6 = (unsigned int *)(iVar3 + param_2);
+        puVar9 = (unsigned int *)(iVar3 + param_1);
         uVar1 = *puVar6;
         uVar2 = *puVar9;
         if (uVar2 == uVar1) {
@@ -80,7 +56,7 @@ longlong fn_82BAF900(int param_1,int param_2)
         else {
           bVar10 = uVar1 <= uVar2;
         }
-        return (-(ulonglong)!bVar10 & 0xfffffffe) + 1;
+        return (-(unsigned __int64)!bVar10 & 0xfffffffe) + 1;
       }
       iVar5 = iVar5 + 1;
       piVar7 = piVar7 + 2;

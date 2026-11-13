@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_8267B890();
 extern int fn_826824B0(unsigned int);
@@ -41,22 +14,22 @@ void fn_82683150(int param_1,unsigned int param_2,unsigned int param_3,unsigned 
 {
   int iVar2;
   unsigned int uVar1;
-  uint uVar3;
-  struct { uint first; uint second; byte flags; } stack_pair_60;
+  unsigned int uVar3;
+  struct { unsigned int first; unsigned int second; unsigned char flags; } stack_pair_60;
 
 
-  undefined1 auStack_50 [16];
+  unsigned char auStack_50 [16];
   
-  iVar2 = (*(code *)(**(int **)(param_1 + 0x68) + 0x5c))(*(int **)(param_1 + 0x68));
+  iVar2 = (*(int (**)())(**(int **)(param_1 + 0x68) + 0x5c))(*(int **)(param_1 + 0x68));
   auStack_50[0] = 0;
-  uVar1 = fn_8267B890(*(undefined4 *)(*(int *)(iVar2 + 0x78) + 0x288),0x38,0);
+  uVar1 = fn_8267B890(*(unsigned int *)(*(int *)(iVar2 + 0x78) + 0x288),0x38,0);
   if (uVar1 != 0) {
     uVar3 = fn_82682AF0(uVar1,iVar2 + 0x78,param_3,param_4);
   } else { uVar3 = 0; }
   stack_pair_60.first = uVar3;
   stack_pair_60.flags = 0;
   if (uVar3 != 0) {
-    *(uint *)(uVar3 + 8) = *(int *)(uVar3 + 8) + 1U & 0x8fffffff;
+    *(unsigned int *)(uVar3 + 8) = *(int *)(uVar3 + 8) + 1U & 0x8fffffff;
   }
   stack_pair_60.second = 0;
   fn_826964E0(auStack_50,&stack_pair_60.first);

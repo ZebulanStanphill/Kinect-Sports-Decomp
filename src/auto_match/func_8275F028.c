@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8275CF90();
 extern int fn_82F6A538();
 extern int fn_82F6A584();
@@ -33,13 +6,13 @@ extern unsigned int lbl_82005344;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_8275F028(undefined8 param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,undefined8 param_7,undefined8 param_8)
+void fn_8275F028(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
+                  double param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
   float fVar1;
   float fVar2;
-  ulonglong uVar3;
+  unsigned __int64 uVar3;
   char cVar4;
   char cVar5;
   double dVar6;
@@ -80,7 +53,7 @@ void fn_8275F028(undefined8 param_1,double param_2,double param_3,double param_4
     }
     cVar4 = fn_8275CF90(dVar8,dVar6);
     cVar5 = fn_8275CF90(dVar7,param_2,dVar12,dVar11,dVar10,dVar9,param_7,param_8);
-    uVar3 = (ulonglong)(cVar4 != cVar5);
+    uVar3 = (unsigned __int64)(cVar4 != cVar5);
   }
   else {
     uVar3 = fn_8275CF90();

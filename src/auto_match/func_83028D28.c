@@ -1,8 +1,6 @@
-typedef unsigned int uint;
-
 typedef struct Obj_83028D28 {
   char pad[0x14];
-  uint flags;
+  unsigned int flags;
 } Obj_83028D28;
 
 typedef struct Entry_83028D28 {
@@ -16,12 +14,12 @@ typedef struct Owner_83028D28 {
   Entry_83028D28 *end;
 } Owner_83028D28;
 
-static __forceinline void SetFlag_83028D28(Obj_83028D28 *o, uint v)
+static __forceinline void SetFlag_83028D28(Obj_83028D28 *o, unsigned int v)
 {
   o->flags = (o->flags & 0xbfffffff) | ((v & 1) << 30);
 }
 
-void fn_83028D28(Owner_83028D28 *param_1, uint param_2)
+void fn_83028D28(Owner_83028D28 *param_1, unsigned int param_2)
 {
   Entry_83028D28 *e;
 

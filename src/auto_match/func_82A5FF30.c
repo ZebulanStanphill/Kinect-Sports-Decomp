@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A510();
 extern int fn_82F6A55C();
 
@@ -57,20 +30,20 @@ void fn_82A5FF30(void)
   float fVar23;
   float fVar24;
   float *pfVar25;
-  uint uVar26;
-  uint uVar27;
+  unsigned int uVar26;
+  unsigned int uVar27;
   float fVar28;
   float fVar29;
-  uint *puVar30;
-  longlong lVar31;
-  ulonglong uVar32;
+  unsigned int *puVar30;
+  __int64 lVar31;
+  unsigned __int64 uVar32;
   float *pfVar34;
-  ulonglong uVar33;
+  unsigned __int64 uVar33;
   
-  puVar30 = (uint *)fn_82F6A510();
+  puVar30 = (unsigned int *)fn_82F6A510();
   pfVar34 = (float *)puVar30[2];
   pfVar25 = (float *)puVar30[3];
-  uVar32 = (ulonglong)puVar30[1];
+  uVar32 = (unsigned __int64)puVar30[1];
   uVar26 = puVar30[5];
   uVar27 = puVar30[8];
   fVar1 = *pfVar34;
@@ -87,8 +60,8 @@ void fn_82A5FF30(void)
   fVar12 = pfVar34[0xb];
   if (pfVar25 == (float *)0x0) {
     if (uVar26 != 0) {
-      lVar31 = (ulonglong)(uVar26 - 1) / 6 + 1;
-      uVar33 = (ulonglong)*puVar30;
+      lVar31 = (unsigned __int64)(uVar26 - 1) / 6 + 1;
+      uVar33 = (unsigned __int64)*puVar30;
       do {
         pfVar34 = (float *)uVar33;
         dataCacheBlockTouch(uVar33 + 0x78);
@@ -131,8 +104,8 @@ void fn_82A5FF30(void)
     fVar23 = pfVar25[10];
     fVar24 = pfVar25[0xb];
     if (uVar26 != 0) {
-      lVar31 = (ulonglong)(uVar26 - 1) / 6 + 1;
-      uVar33 = (ulonglong)*puVar30;
+      lVar31 = (unsigned __int64)(uVar26 - 1) / 6 + 1;
+      uVar33 = (unsigned __int64)*puVar30;
       do {
         pfVar34 = (float *)uVar33;
         dataCacheBlockTouch(uVar33 + 0x78);

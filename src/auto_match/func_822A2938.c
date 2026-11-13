@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_10b8;
 extern unsigned int *auStack_10c0;
 extern unsigned int *auStack_10d0;
@@ -49,18 +22,18 @@ extern unsigned int uStack_10b0;
 extern unsigned int uStack_10b4;
 
 
-void fn_822A2938(undefined8 param_1)
+void fn_822A2938(unsigned __int64 param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined1 auStack_10d0 [4];
+  unsigned __int64 uVar1;
+  unsigned char auStack_10d0 [4];
   int iStack_10cc;
-  undefined1 auStack_10c0 [4];
+  unsigned char auStack_10c0 [4];
   int iStack_10bc;
-  undefined1 auStack_10b8 [4];
-  undefined4 uStack_10b4;
-  undefined4 uStack_10b0;
+  unsigned char auStack_10b8 [4];
+  unsigned int uStack_10b4;
+  unsigned int uStack_10b0;
   
   fn_8226D2A8(auStack_10c0);
   fn_822A2C28(param_1,lbl_831D1328);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern int fn_8306E7E8();
@@ -44,29 +17,29 @@ extern unsigned int lbl_82196080;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_83071FF8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void fn_83071FF8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   float *pfVar2;
   int iVar3;
-  longlong lVar4;
-  undefined4 *puVar5;
+  __int64 lVar4;
+  unsigned int *puVar5;
   float *pfVar6;
   double extraout_f1;
   double dVar7;
   double dVar8;
-  undefined8 uVar9;
+  unsigned __int64 uVar9;
   double dVar10;
   double dVar11;
   double dVar12;
   double dVar13;
   double dVar14;
   double dVar15;
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs59 [16];
-  undefined1 in_vs61 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs59 [16];
+  unsigned char in_vs61 [16];
   float fVar16;
   float fVar17;
   float fVar18;
@@ -95,7 +68,7 @@ void fn_83071FF8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
   dVar15 = (double)lbl_82002C5C;
   lVar4 = 2;
   do {
-    *(undefined1 *)(pfVar6 + 1) = 0;
+    *(unsigned char *)(pfVar6 + 1) = 0;
     altv207_13(in_vs42,in_vs61);
     altv207_13(in_vs43,in_vs59);
     fVar16 = in_register_000103e0 - in_register_000103f0;
@@ -111,7 +84,7 @@ void fn_83071FF8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
     if (dVar7 <= (double)lbl_82196080) {
       *pfVar6 = (float)dVar11;
       fn_8306ECA8();
-      pfVar2 = (float *)((uint)(pfVar6 + -4) & 0xfffffff0);
+      pfVar2 = (float *)((unsigned int)(pfVar6 + -4) & 0xfffffff0);
       *pfVar2 = fVar16;
       pfVar2[1] = fVar17;
       pfVar2[2] = fVar18;
@@ -126,10 +99,10 @@ void fn_83071FF8(undefined8 param_1,undefined8 param_2,undefined8 param_3)
         uVar9 = fn_83075D40(param_3);
         fn_8306E7E8(uVar9,dVar12);
         fn_83075D90(param_3,uVar1);
-        *(undefined1 *)(pfVar6 + 1) = 1;
+        *(unsigned char *)(pfVar6 + 1) = 1;
       }
       *pfVar6 = (float)dVar7;
-      pfVar2 = (float *)((uint)(pfVar6 + -4) & 0xfffffff0);
+      pfVar2 = (float *)((unsigned int)(pfVar6 + -4) & 0xfffffff0);
       *pfVar2 = fVar20;
       pfVar2[1] = fVar21;
       pfVar2[2] = fVar22;

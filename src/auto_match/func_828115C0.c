@@ -1,20 +1,17 @@
-typedef unsigned char U8;
-typedef unsigned int U32;
-
-int fn_828115C0(U8 *bits, U32 start, U32 count)
+int fn_828115C0(unsigned char *bits, unsigned int start, unsigned int count)
 {
-    U32 end;
-    U32 firstByte;
-    U32 lastByte;
-    U8 firstMask;
-    U8 lastMask;
-    U8 *p;
-    U32 n;
-    U32 i;
+    unsigned int end;
+    unsigned int firstByte;
+    unsigned int lastByte;
+    unsigned char firstMask;
+    unsigned char lastMask;
+    unsigned char *p;
+    unsigned int n;
+    unsigned int i;
 
     end = start + count - 1;
-    firstMask = (U8)((0x100 >> (start & 7)) - 1);
-    lastMask = (U8)~((1 << (7 - (end & 7))) - 1);
+    firstMask = (unsigned char)((0x100 >> (start & 7)) - 1);
+    lastMask = (unsigned char)~((1 << (7 - (end & 7))) - 1);
     firstByte = start >> 3;
     lastByte = end >> 3;
     p = bits + firstByte;

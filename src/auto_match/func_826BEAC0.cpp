@@ -4,14 +4,13 @@
 // through fn_826BF3C8, or frees the table when n is 0. Written as a member
 // function, as the game's was; the extern "C" version of the same body stops at
 // 99.9%. Hash_826BEAC0 is a placeholder for the unknown template class.
-typedef unsigned int U32;
-struct Hdr_826BEAC0 { U32 count; U32 mask; };
+struct Hdr_826BEAC0 { unsigned int count; unsigned int mask; };
 struct Ent_826BEAC0 { int hash; int pad; int val[2]; int pad2[4]; };
 struct Tab_826BEAC0 { Hdr_826BEAC0 h; Ent_826BEAC0 e[1]; };
 struct Hash_826BEAC0;
 extern "C" {
 void fn_8267BE38(void *);
-void *fn_8267BED0(void *, U32, U32 *);
+void *fn_8267BED0(void *, unsigned int, unsigned int *);
 void fn_826A7918(void *, int);
 void fn_826A9040(Hash_826BEAC0 *);
 void fn_826BE4B8(Hash_826BEAC0 *);
@@ -21,16 +20,16 @@ extern float lbl_8200561C;
 }
 struct Hash_826BEAC0 {
   Tab_826BEAC0 *t;
-  void setRawCapacity(void *heap, U32 n);
+  void setRawCapacity(void *heap, unsigned int n);
 };
 /* Scaleform HashSetBase<...>::setRawCapacity; the real template type is
    unknown, Hash_826BEAC0 is a placeholder name. */
-void Hash_826BEAC0::setRawCapacity(void *heap, U32 n)
+void Hash_826BEAC0::setRawCapacity(void *heap, unsigned int n)
 {
   {
     Hash_826BEAC0 nh;
-    U32 cap;
-    U32 tag;
+    unsigned int cap;
+    unsigned int tag;
     if (n == 0) {
       fn_826BE4B8(this);
     } else {
@@ -47,11 +46,11 @@ void Hash_826BEAC0::setRawCapacity(void *heap, U32 n)
       nh.t->h.count = 0;
       nh.t->h.mask = cap - 1;
       if (cap != 0) {
-        U32 i;
+        unsigned int i;
         for (i = 0; i < cap; i++) nh.t->e[i].hash = -2;
       }
       if (t != 0) {
-        U32 i, m;
+        unsigned int i, m;
         for (i = 0, m = t->h.mask; i <= m; i++) {
           Ent_826BEAC0 *e = &t->e[i];
           if (e->hash != -2) {

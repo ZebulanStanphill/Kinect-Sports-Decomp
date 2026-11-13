@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F655D8();
 extern int fn_82F68CC0();
 extern unsigned int lbl_82005710;
@@ -47,7 +20,7 @@ extern unsigned int lbl_82175440;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82FE2EA8(int *param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4)
+unsigned __int64 fn_82FE2EA8(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
   int iVar1;
@@ -57,10 +30,10 @@ undefined8 fn_82FE2EA8(int *param_1,undefined8 param_2,undefined8 param_3,ulongl
   int iVar5;
   int iVar6;
   int iVar7;
-  undefined8 uVar8;
+  unsigned __int64 uVar8;
   double dVar9;
-  undefined8 uVar10;
-  undefined8 uVar11;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
   
   iVar7 = lbl_82175400;
   iVar6 = lbl_821753F4;
@@ -106,7 +79,7 @@ undefined8 fn_82FE2EA8(int *param_1,undefined8 param_2,undefined8 param_3,ulongl
     param_1[0x17] = iVar3;
     param_1[0x15] = 0x17;
     iVar3 = lbl_821753DC;
-    *(undefined1 *)((int)param_1 + 0x91) = 1;
+    *(unsigned char *)((int)param_1 + 0x91) = 1;
     param_1[0x14] = (int)(float)dVar9;
     param_1[0x1b] = 8;
     param_1[0x18] = iVar1;
@@ -122,12 +95,12 @@ undefined8 fn_82FE2EA8(int *param_1,undefined8 param_2,undefined8 param_3,ulongl
     param_1[0x20] = 3;
     param_1[0x22] = 3;
     param_1[0x23] = 2;
-    *(undefined1 *)(param_1 + 0x24) = 0;
+    *(unsigned char *)(param_1 + 0x24) = 0;
     fn_82F68CC0(param_1 + 0x25,0xffffffff831bc73c,0x2c);
     uVar8 = 1;
   }
   else {
-    uVar8 = (**(code **)(*param_1 + 0x14))(param_1,param_3,param_4);
+    uVar8 = (**(int (***)())(*param_1 + 0x14))(param_1,param_3,param_4);
   }
   return uVar8;
 }

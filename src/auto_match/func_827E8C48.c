@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern unsigned int fStack_6c;
 extern int fn_82809558();
@@ -38,9 +11,9 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_831F13A8;
 
 
-void fn_827E8C48(undefined8 param_1,double param_2,double param_3,double param_4,double param_5,
-                  undefined8 param_6,undefined8 param_7,undefined8 param_8,undefined8 param_9,
-                  undefined8 param_10,undefined8 param_11,undefined8 param_12,float *param_13)
+void fn_827E8C48(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
+                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,unsigned __int64 param_9,
+                  unsigned __int64 param_10,unsigned __int64 param_11,unsigned __int64 param_12,float *param_13)
 
 {
   float fVar1;
@@ -54,14 +27,14 @@ void fn_827E8C48(undefined8 param_1,double param_2,double param_3,double param_4
   float *pfVar9;
   float fVar10;
   float fVar11;
-  undefined8 uVar12;
+  unsigned __int64 uVar12;
   double dVar13;
   double dVar14;
   double dVar15;
   double dVar16;
   double dVar17;
   double dVar18;
-  undefined1 auStack_70 [4];
+  unsigned char auStack_70 [4];
   float fStack_6c;
   
   dVar13 = (double)fn_82F6A540();

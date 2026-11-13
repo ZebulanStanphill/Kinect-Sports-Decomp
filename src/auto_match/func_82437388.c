@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8225F160();
 extern int fn_822ABA88();
 extern int fn_82436130();
@@ -36,11 +9,11 @@ void fn_82437388(int param_1)
 
 {
   int iVar1;
-  uint *puVar2;
-  uint uVar3;
+  unsigned int *puVar2;
+  unsigned int uVar3;
   int iVar5;
-  undefined8 uVar4;
-  uint uVar6;
+  unsigned __int64 uVar4;
+  unsigned int uVar6;
   int *piVar7;
   int iVar8;
   int iVar9;
@@ -49,7 +22,7 @@ void fn_82437388(int param_1)
   iVar5 = *(int *)(param_1 + 0x40);
   uVar6 = 0;
   iVar1 = *(int *)(iVar5 + 0x114);
-  puVar2 = *(uint **)(*(int *)(*(int *)(iVar5 + 4) + 0x40) + 0x208);
+  puVar2 = *(unsigned int **)(*(int *)(*(int *)(iVar5 + 4) + 0x40) + 0x208);
   uVar3 = *puVar2;
   if (uVar3 == 0) {
     uVar6 = puVar2[1];
@@ -91,7 +64,7 @@ void fn_82437388(int param_1)
       iVar9 = 0;
       do {
         piVar7 = *(int **)(**(int **)(iVar1 + 8) + iVar9);
-        uVar4 = fn_822ABA88(*(undefined4 *)(piVar7[4] * 4 + *piVar7),0);
+        uVar4 = fn_822ABA88(*(unsigned int *)(piVar7[4] * 4 + *piVar7),0);
         fn_82436130(&aiStack_40,param_1,uVar4);
         if (aiStack_40 != lbl_8328D41C) {
           if (*(int *)(*(int *)(param_1 + 0x40) + 0xf8) == 0) {

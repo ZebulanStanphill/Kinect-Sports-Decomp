@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1DDC0();
 extern int fn_82CD31A8();
 extern int fn_82CD4888();
@@ -33,17 +6,17 @@ extern int fn_82CD58C0();
 extern int memcpy();
 
 
-undefined8
+unsigned __int64
 fn_82CA2488(int *param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int in_stack_00000054, int in_stack_0000005c, int in_stack_00000064, int in_stack_0000006c, int in_stack_00000074)
 
 {
   short sVar1;
-  uint uVar2;
+  unsigned int uVar2;
   int iVar3;
-  uint uVar4;
-  undefined8 uVar5;
+  unsigned int uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
-  uint uVar7;
+  unsigned int uVar7;
 
 
 
@@ -61,8 +34,8 @@ fn_82CA2488(int *param_1, int param_2, int param_3, int param_4, int param_5, in
     iVar3 = *(int *)(*param_1 + 0x10);
   }
   else {
-    uVar7 = *(uint *)(param_2 + 4);
-    uVar2 = *(uint *)(param_2 + 8);
+    uVar7 = *(unsigned int *)(param_2 + 4);
+    uVar2 = *(unsigned int *)(param_2 + 8);
     sVar1 = *(short *)(param_2 + 0xe);
     iVar3 = *(int *)(param_2 + 0x10);
   }
@@ -82,15 +55,15 @@ fn_82CA2488(int *param_1, int param_2, int param_3, int param_4, int param_5, in
     if (param_7 < 0) {
       return 1;
     }
-    if (uVar7 < (uint)(param_4 + param_8)) {
+    if (uVar7 < (unsigned int)(param_4 + param_8)) {
       return 1;
     }
-    if ((uVar2 ^ (int)uVar2 >> 0x1f) - ((int)uVar2 >> 0x1f) < (uint)(param_5 + in_stack_00000054)) {
+    if ((uVar2 ^ (int)uVar2 >> 0x1f) - ((int)uVar2 >> 0x1f) < (unsigned int)(param_5 + in_stack_00000054)) {
       return 1;
     }
-    if ((uint)(param_6 + param_8) <= *(uint *)(param_3 + 4)) {
-      uVar4 = (int)*(uint *)(param_3 + 8) >> 0x1f;
-      if ((*(uint *)(param_3 + 8) ^ uVar4) - uVar4 < (uint)(param_7 + in_stack_00000054)) {
+    if ((unsigned int)(param_6 + param_8) <= *(unsigned int *)(param_3 + 4)) {
+      uVar4 = (int)*(unsigned int *)(param_3 + 8) >> 0x1f;
+      if ((*(unsigned int *)(param_3 + 8) ^ uVar4) - uVar4 < (unsigned int)(param_7 + in_stack_00000054)) {
         return 1;
       }
       if (param_1[0xe43] != param_4) {
@@ -172,7 +145,7 @@ fn_82CA2488(int *param_1, int param_2, int param_3, int param_4, int param_5, in
       }
       if (param_1[0xe4a] != in_stack_00000074) {
         param_1[0xe4a] = in_stack_00000074;
-        iVar6 = ((uint)LZCOUNT(iVar6 + -2) >> 5) + 1;
+        iVar6 = ((unsigned int)LZCOUNT(iVar6 + -2) >> 5) + 1;
       }
       if (param_1[0xe47] == in_stack_0000005c) {
         if (iVar6 != 2) {
@@ -190,18 +163,18 @@ fn_82CA2488(int *param_1, int param_2, int param_3, int param_4, int param_5, in
       uVar5 = fn_82CD4988(param_1);
       if ((int)uVar5 == 0) {
         if ((*(int *)(param_3 + 0x10) == 0) && (*(short *)(param_3 + 0xe) == 8)) {
-          fn_82A1DDC0((ulonglong)(uint)param_1[1] + 0x28,param_3 + 0x28,0x400);
+          fn_82A1DDC0((unsigned __int64)(unsigned int)param_1[1] + 0x28,param_3 + 0x28,0x400);
         }
         else if (*(int *)(param_3 + 0x10) == 3) {
-          memcpy((ulonglong)(uint)param_1[1] + 0x28,param_3 + 0x28,0xc);
+          memcpy((unsigned __int64)(unsigned int)param_1[1] + 0x28,param_3 + 0x28,0xc);
         }
         iVar6 = 1;
         if (*(int *)(param_3 + 8) < 0) {
           iVar6 = -1;
         }
-        uVar7 = *(uint *)(param_1[1] + 8);
+        uVar7 = *(unsigned int *)(param_1[1] + 8);
         uVar2 = (int)uVar7 >> 0x1f;
-        *(uint *)(param_1[1] + 8) = ((uVar7 ^ uVar2) - uVar2) * iVar6;
+        *(unsigned int *)(param_1[1] + 8) = ((uVar7 ^ uVar2) - uVar2) * iVar6;
         uVar5 = fn_82CD4888(param_1);
         if ((int)uVar5 == 0) {
           uVar5 = fn_82CD58C0(param_1);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_bc;
 extern unsigned int *auStack_e0;
@@ -47,25 +20,25 @@ extern unsigned int uStack_ec;
 extern unsigned int uStack_f0;
 
 
-undefined8 fn_828C2A50(undefined8 param_1,longlong param_2,char param_3)
+unsigned __int64 fn_828C2A50(unsigned __int64 param_1,__int64 param_2,char param_3)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  uint auStack_100 [4];
-  undefined4 uStack_f0;
-  uint uStack_ec;
-  uint auStack_e0;
-  undefined4 uStack_d0;
-  uint uStack_cc;
-  undefined *puStack_c0;
-  undefined1 auStack_bc [76];
-  undefined **appuStack_70 [28];
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned int auStack_100 [4];
+  unsigned int uStack_f0;
+  unsigned int uStack_ec;
+  unsigned int auStack_e0;
+  unsigned int uStack_d0;
+  unsigned int uStack_cc;
+  unsigned char *puStack_c0;
+  unsigned char auStack_bc [76];
+  unsigned char **appuStack_70 [28];
   
   puStack_c0 = &lbl_821AA8E0;
   appuStack_70[0] = &lbl_82020F40;
   fn_8223CD08(appuStack_70,auStack_bc,0);
-  *(undefined ***)(auStack_bc + *(int *)(puStack_c0 + 4) + -4) = &lbl_82021284;
+  *(unsigned char ***)(auStack_bc + *(int *)(puStack_c0 + 4) + -4) = &lbl_82021284;
   fn_8223CF38(auStack_bc,2);
   if (param_3 == '\0') {
     uVar1 = fn_828BBCD8(auStack_100,param_2 + 8,0);

@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern unsigned int lbl_82006848;
 
 
-void fn_82FDFDC8(int param_1,uint param_2,uint param_3,uint *param_4)
+void fn_82FDFDC8(int param_1,unsigned int param_2,unsigned int param_3,unsigned int *param_4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   bool bVar2;
   float fVar3;
-  uint *puVar4;
-  ulonglong uVar5;
-  uint uVar6;
+  unsigned int *puVar4;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
   
   fVar3 = lbl_82006848;
   uVar6 = 0;
@@ -47,7 +23,7 @@ void fn_82FDFDC8(int param_1,uint param_2,uint param_3,uint *param_4)
   }
 code_r0x82fdfdf8:
   puVar4 = param_4 + uVar6;
-  param_4[uVar6] = (uint)(longlong)(*(float *)(uVar6 * 4 + param_1) * fVar3 * (float)param_2);
+  param_4[uVar6] = (unsigned int)(__int64)(*(float *)(uVar6 * 4 + param_1) * fVar3 * (float)param_2);
   if (uVar6 != 0) {
     if ((*puVar4 & 1) == 0) {
       *puVar4 = *puVar4 + 1;
@@ -59,8 +35,8 @@ code_r0x82fdfdf8:
       if (3 < (int)SQRT((double)uVar1) + 1) {
         do {
           trapWord(6,uVar5,0);
-          if ((ulonglong)*puVar4 ==
-              (longlong)(int)((ulonglong)*puVar4 / (uVar5 & 0xffffffff)) * (longlong)(int)uVar5) {
+          if ((unsigned __int64)*puVar4 ==
+              (__int64)(int)((unsigned __int64)*puVar4 / (uVar5 & 0xffffffff)) * (__int64)(int)uVar5) {
             bVar2 = true;
             break;
           }
@@ -81,8 +57,8 @@ code_r0x82fdfdf8:
     if (3 < (int)SQRT((double)uVar1) + 1) {
       do {
         trapWord(6,uVar5,0);
-        if ((ulonglong)*param_4 ==
-            (longlong)(int)((ulonglong)*param_4 / (uVar5 & 0xffffffff)) * (longlong)(int)uVar5) {
+        if ((unsigned __int64)*param_4 ==
+            (__int64)(int)((unsigned __int64)*param_4 / (uVar5 & 0xffffffff)) * (__int64)(int)uVar5) {
           bVar2 = true;
           break;
         }

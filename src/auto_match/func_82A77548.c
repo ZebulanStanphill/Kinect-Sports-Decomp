@@ -1,46 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-void fn_82A77548(longlong param_1)
+void fn_82A77548(__int64 param_1)
 
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
+  unsigned int *puVar1;
+  unsigned int uVar2;
   int iVar3;
-  undefined4 *puVar4;
+  unsigned int *puVar4;
   char in_RESERVE;
-  byte in_cr0;
+  unsigned char in_cr0;
   
   do {
-    puVar4 = (undefined4 *)(param_1 + 0xf0);
-    puVar1 = (undefined4 *)*puVar4;
+    puVar4 = (unsigned int *)(param_1 + 0xf0);
+    puVar1 = (unsigned int *)*puVar4;
     if (in_RESERVE != '\0') {
       uVar2 = storeWordConditionalIndexed(0,0,param_1 + 0xf0);
       *puVar4 = uVar2;
@@ -53,13 +27,13 @@ void fn_82A77548(longlong param_1)
     puVar1[1] = 0;
   }
   else {
-    *puVar1 = *(undefined4 *)(*(int *)(iVar3 + 0xb8) + 4);
+    *puVar1 = *(unsigned int *)(*(int *)(iVar3 + 0xb8) + 4);
     puVar1[1] = *(int *)(iVar3 + 0xbc) - **(int **)(iVar3 + 0xb8);
   }
-  *(undefined8 *)(puVar1 + 2) = *(undefined8 *)(iVar3 + 200);
+  *(unsigned __int64 *)(puVar1 + 2) = *(unsigned __int64 *)(iVar3 + 200);
   sync(1);
   *puVar4 = puVar1;
-  *(undefined4 *)(iVar3 + 0xf8) = 1;
+  *(unsigned int *)(iVar3 + 0xf8) = 1;
   return;
 }
 

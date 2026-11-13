@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F64318();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
@@ -62,7 +35,7 @@ void fn_82C314C8(void)
       if ((sVar6 < 0x40) || (0x800 < sVar6)) {
 LAB_82c315b8:
                     /* WARNING: Subroutine does not return */
-        fn_82F64318((dVar4 / (double)(longlong)(int)sVar6) * dVar3);
+        fn_82F64318((dVar4 / (double)(__int64)(int)sVar6) * dVar3);
       }
       if (((int)sVar6 - 1U & (int)sVar6) != 0) goto LAB_82c315b8;
       pfVar1 = (float *)(&lbl_820FB718)[(int)sVar6 >> 7];

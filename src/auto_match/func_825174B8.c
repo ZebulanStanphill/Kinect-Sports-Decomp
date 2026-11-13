@@ -1,11 +1,10 @@
-typedef unsigned int U32;
 extern void fn_822315A0(void *p);
 extern void fn_82517608();
 extern void fn_82517978();
 
-typedef struct { U32 first; void *second; } Pair;
+typedef struct { unsigned int first; void *second; } Pair;
 
-U32 fn_825174B8(U32 param_1, U32 *param_2, U32 *param_3)
+unsigned int fn_825174B8(unsigned int param_1, unsigned int *param_2, unsigned int *param_3)
 {
   Pair b;
   Pair a;

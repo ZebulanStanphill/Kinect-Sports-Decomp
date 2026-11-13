@@ -10,13 +10,12 @@
 #include <memory>
 #include "game/Allocator_825089A0.h"
 
-typedef unsigned __int64 U64;
 
 struct Clock_828D0788 {
     virtual void vf00();
     virtual void vf04();
     virtual void vf08();
-    virtual U64 vf0C();
+    virtual unsigned __int64 vf0C();
 };
 
 struct Entry_828D0788 {
@@ -25,7 +24,7 @@ struct Entry_828D0788 {
     char pad9[0x73];
     int state;
     char pad80[0x10];
-    U64 time;
+    unsigned __int64 time;
 };
 
 typedef std::tr1::shared_ptr<Entry_828D0788> Ptr;

@@ -1,31 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82AD1270();
 extern int fn_82AD18C0();
 extern int fn_82AD1918();
@@ -40,23 +16,23 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int uStack_5c;
 
 
-bool fn_82B27340(undefined8 param_1,undefined8 param_2,int param_3,int *param_4,
-                  undefined4 *param_5,undefined8 param_6)
+bool fn_82B27340(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,int *param_4,
+                  unsigned int *param_5,unsigned __int64 param_6)
 
 {
   bool bVar1;
   int *piVar4;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  uint uVar5;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar5;
   int *piVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar7;
   int iStack_60;
-  uint uStack_5c;
+  unsigned int uStack_5c;
   int iStack_58;
   
   iStack_58 = 0;
-  uStack_5c = -(uint)((*(uint *)(param_3 + 4) & 1) == 0) & *(uint *)(param_3 + 4);
+  uStack_5c = -(unsigned int)((*(unsigned int *)(param_3 + 4) & 1) == 0) & *(unsigned int *)(param_3 + 4);
   uVar7 = 0;
   uVar5 = 0;
   iStack_60 = param_3;

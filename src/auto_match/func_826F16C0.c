@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826F0360();
 extern int fn_826F0540();
 extern unsigned int iStack_14;
@@ -40,13 +13,13 @@ extern unsigned int iStack_38;
 extern unsigned int iStack_3c;
 
 
-void fn_826F16C0(uint *param_1,int *param_2)
+void fn_826F16C0(unsigned int *param_1,int *param_2)
 
 {
   char cVar1;
   int iVar2;
   int *piVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
   char *pcStack_40;
   int iStack_3c;
@@ -71,8 +44,8 @@ void fn_826F16C0(uint *param_1,int *param_2)
   }
   cVar1 = *pcStack_40;
   if (cVar1 == ' ') {
-    *(byte *)((int)param_1 + 6) = *(byte *)((int)param_1 + 6) | 0x40;
-    uVar4 = (uint)(param_2[1] != 0);
+    *(unsigned char *)((int)param_1 + 6) = *(unsigned char *)((int)param_1 + 6) | 0x40;
+    uVar4 = (unsigned int)(param_2[1] != 0);
     iVar2 = param_2[1] - uVar4;
     piVar3 = &iStack_18;
     iVar5 = *param_2 + uVar4;
@@ -80,8 +53,8 @@ void fn_826F16C0(uint *param_1,int *param_2)
     iStack_14 = iVar2;
   }
   else if (cVar1 == '#') {
-    *(byte *)((int)param_1 + 6) = *(byte *)((int)param_1 + 6) | 0x10;
-    uVar4 = (uint)(param_2[1] != 0);
+    *(unsigned char *)((int)param_1 + 6) = *(unsigned char *)((int)param_1 + 6) | 0x10;
+    uVar4 = (unsigned int)(param_2[1] != 0);
     iVar2 = param_2[1] - uVar4;
     piVar3 = &iStack_20;
     iVar5 = *param_2 + uVar4;
@@ -89,8 +62,8 @@ void fn_826F16C0(uint *param_1,int *param_2)
     iStack_1c = iVar2;
   }
   else if (cVar1 == '+') {
-    *(byte *)((int)param_1 + 5) = *(byte *)((int)param_1 + 5) | 1;
-    uVar4 = (uint)(param_2[1] != 0);
+    *(unsigned char *)((int)param_1 + 5) = *(unsigned char *)((int)param_1 + 5) | 1;
+    uVar4 = (unsigned int)(param_2[1] != 0);
     iVar2 = param_2[1] - uVar4;
     piVar3 = &stack_pair_28.first;
     iVar5 = *param_2 + uVar4;
@@ -98,8 +71,8 @@ void fn_826F16C0(uint *param_1,int *param_2)
     stack_pair_28.second = iVar2;
   }
   else if (cVar1 == '-') {
-    *(byte *)((int)param_1 + 6) = *(byte *)((int)param_1 + 6) | 0x20;
-    uVar4 = (uint)(param_2[1] != 0);
+    *(unsigned char *)((int)param_1 + 6) = *(unsigned char *)((int)param_1 + 6) | 0x20;
+    uVar4 = (unsigned int)(param_2[1] != 0);
     iVar2 = param_2[1] - uVar4;
     piVar3 = &iStack_30;
     iVar5 = *param_2 + uVar4;
@@ -109,7 +82,7 @@ void fn_826F16C0(uint *param_1,int *param_2)
   else {
     if (cVar1 == '.') {
       *param_1 = *param_1 & 0x7ffffff;
-      uVar4 = (uint)(param_2[1] != 0);
+      uVar4 = (unsigned int)(param_2[1] != 0);
       param_2[1] = param_2[1] - uVar4;
       *param_2 = *param_2 + uVar4;
       iVar2 = fn_826F0360(param_2,*param_1 >> 0x1b,0x3a);
@@ -120,8 +93,8 @@ void fn_826F16C0(uint *param_1,int *param_2)
       fn_826F0540(param_1,&pcStack_40);
       return;
     }
-    *(byte *)(param_1 + 1) = *(byte *)(param_1 + 1) & 1 | 0x60;
-    uVar4 = (uint)(param_2[1] != 0);
+    *(unsigned char *)(param_1 + 1) = *(unsigned char *)(param_1 + 1) & 1 | 0x60;
+    uVar4 = (unsigned int)(param_2[1] != 0);
     iVar2 = param_2[1] - uVar4;
     piVar3 = &iStack_38;
     iVar5 = *param_2 + uVar4;

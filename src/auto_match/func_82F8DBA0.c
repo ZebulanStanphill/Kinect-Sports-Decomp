@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern int fn_82F6F870();
 extern int fn_82F8DD20();
@@ -42,21 +15,21 @@ extern unsigned int uStack0000002c;
 extern unsigned int uStack_2c;
 
 
-int fn_82F8DBA0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+int fn_82F8DBA0(unsigned int param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   int iVar6;
-  undefined8 uVar5;
-  undefined4 uStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined4 uStack0000002c;
-  undefined1 auStack_70 [52];
-  undefined4 uStack_2c;
+  unsigned __int64 uVar5;
+  unsigned int uStack00000014;
+  unsigned int uStack0000001c;
+  unsigned int uStack00000024;
+  unsigned int uStack0000002c;
+  unsigned char auStack_70 [52];
+  unsigned int uStack_2c;
   
   uVar1 = lbl_831BB8F0;
   uStack00000014 = param_1;

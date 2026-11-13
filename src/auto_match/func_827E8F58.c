@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_140;
 extern unsigned int *auStack_180;
@@ -77,19 +50,19 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_83156AA8;
 
 
-void fn_827E8F58(undefined8 param_1,double param_2,double param_3,double param_4)
+void fn_827E8F58(unsigned __int64 param_1,double param_2,double param_3,double param_4)
 
 {
   float fVar1;
   int iVar3;
   int iVar4;
-  undefined8 uVar2;
-  undefined1 *puVar5;
+  unsigned __int64 uVar2;
+  unsigned char *puVar5;
   float *pfVar6;
   float *in_r6;
   float *in_r7;
-  undefined8 in_r8;
-  undefined8 in_r9;
+  unsigned __int64 in_r8;
+  unsigned __int64 in_r9;
   double dVar7;
   double dVar8;
   double dVar9;
@@ -100,10 +73,10 @@ void fn_827E8F58(undefined8 param_1,double param_2,double param_3,double param_4
   double dVar14;
   double dVar15;
   float *in_stack_00000054;
-  undefined4 in_stack_0000005c;
+  unsigned int in_stack_0000005c;
   float *in_stack_00000064;
-  undefined1 auStack_268 [16];
-  undefined1 auStack_258 [16];
+  unsigned char auStack_268 [16];
+  unsigned char auStack_258 [16];
   float fStack_248;
   float fStack_244;
   float fStack_240;
@@ -113,24 +86,24 @@ void fn_827E8F58(undefined8 param_1,double param_2,double param_3,double param_4
   float fStack_228;
   float fStack_224;
   float fStack_220;
-  undefined1 auStack_218 [16];
+  unsigned char auStack_218 [16];
   float fStack_208;
   float fStack_204;
   float fStack_200;
-  undefined1 auStack_1f8 [16];
+  unsigned char auStack_1f8 [16];
   float fStack_1e8;
   float fStack_1e4;
-  undefined1 auStack_1d8 [4];
+  unsigned char auStack_1d8 [4];
   float fStack_1d4;
-  undefined1 auStack_1c8 [16];
-  undefined1 auStack_1b8 [4];
+  unsigned char auStack_1c8 [16];
+  unsigned char auStack_1b8 [4];
   float fStack_1b4;
-  undefined1 auStack_1a8 [16];
-  undefined1 auStack_198 [24];
-  undefined1 auStack_180 [64];
-  undefined1 auStack_140 [64];
-  undefined1 auStack_100 [64];
-  undefined1 auStack_c0 [192];
+  unsigned char auStack_1a8 [16];
+  unsigned char auStack_198 [24];
+  unsigned char auStack_180 [64];
+  unsigned char auStack_140 [64];
+  unsigned char auStack_100 [64];
+  unsigned char auStack_c0 [192];
   
   dVar7 = (double)fn_82F6A52C();
   fVar1 = lbl_821AAD20;

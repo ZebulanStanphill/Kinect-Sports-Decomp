@@ -1,37 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-longlong fn_82F98E98(uint *param_1)
+__int64 fn_82F98E98(unsigned int *param_1)
 
 {
   int iVar1;
-  uint uVar2;
+  unsigned int uVar2;
   
   uVar2 = param_1[1];
   if ((uVar2 & 8) == 0) {
@@ -41,7 +12,7 @@ longlong fn_82F98E98(uint *param_1)
   for (; uVar2 != 0; uVar2 = uVar2 - 1 & uVar2) {
     iVar1 = iVar1 + 1;
   }
-  return ((longlong)(int)(uint)*(ushort *)(param_1 + 3) * (longlong)(iVar1 + -1) & 0x3fffffffU) * 4
-         + (ulonglong)*param_1;
+  return ((__int64)(int)(unsigned int)*(unsigned short *)(param_1 + 3) * (__int64)(iVar1 + -1) & 0x3fffffffU) * 4
+         + (unsigned __int64)*param_1;
 }
 

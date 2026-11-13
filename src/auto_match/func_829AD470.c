@@ -1,52 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_829AD470(int *param_1)
+unsigned __int64 fn_829AD470(int *param_1)
 
 {
-  byte bVar1;
-  byte bVar2;
-  undefined4 *puVar3;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned int *puVar3;
   int iVar5;
-  undefined8 uVar4;
-  ulonglong uVar6;
-  byte *pbVar7;
-  longlong lVar8;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar6;
+  unsigned char *pbVar7;
+  __int64 lVar8;
   
-  puVar3 = (undefined4 *)param_1[6];
-  uVar6 = (ulonglong)(uint)puVar3[1];
-  pbVar7 = (byte *)*puVar3;
+  puVar3 = (unsigned int *)param_1[6];
+  uVar6 = (unsigned __int64)(unsigned int)puVar3[1];
+  pbVar7 = (unsigned char *)*puVar3;
   if (uVar6 == 0) {
-    iVar5 = (*(code *)puVar3[3])();
+    iVar5 = (*(int (**)())puVar3[3])();
     if (iVar5 != 0) {
-      pbVar7 = (byte *)*puVar3;
-      uVar6 = (ulonglong)(uint)puVar3[1];
+      pbVar7 = (unsigned char *)*puVar3;
+      uVar6 = (unsigned __int64)(unsigned int)puVar3[1];
       goto LAB_829ad4bc;
     }
 LAB_829ad4a8:
@@ -58,22 +29,22 @@ LAB_829ad4bc:
     uVar6 = uVar6 - 1;
     pbVar7 = pbVar7 + 1;
     if (uVar6 == 0) {
-      iVar5 = (*(code *)puVar3[3])(param_1);
+      iVar5 = (*(int (**)())puVar3[3])(param_1);
       if (iVar5 == 0) goto LAB_829ad4a8;
-      pbVar7 = (byte *)*puVar3;
-      uVar6 = (ulonglong)(uint)puVar3[1];
+      pbVar7 = (unsigned char *)*puVar3;
+      uVar6 = (unsigned __int64)(unsigned int)puVar3[1];
     }
     bVar2 = *pbVar7;
-    *(undefined4 *)(*param_1 + 0x14) = 0x5b;
-    lVar8 = (ulonglong)bVar2 + (ulonglong)bVar1 * 0x100 + -2;
+    *(unsigned int *)(*param_1 + 0x14) = 0x5b;
+    lVar8 = (unsigned __int64)bVar2 + (unsigned __int64)bVar1 * 0x100 + -2;
     *(int *)(*param_1 + 0x18) = param_1[0x69];
     iVar5 = (int)lVar8;
     *(int *)(*param_1 + 0x1c) = iVar5;
-    (**(code **)(*param_1 + 4))(param_1,1);
+    (**(int (***)())(*param_1 + 4))(param_1,1);
     *puVar3 = pbVar7 + 1;
     puVar3[1] = (int)uVar6 + -1;
     if (0 < iVar5) {
-      (**(code **)(param_1[6] + 0x10))(param_1,lVar8);
+      (**(int (***)())(param_1[6] + 0x10))(param_1,lVar8);
     }
     uVar4 = 1;
   }

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern unsigned int *auStack_78;
 extern unsigned int *auStack_80;
@@ -48,30 +24,30 @@ extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
 
 
-undefined4 fn_822E0550(int param_1,int *param_2)
+unsigned int fn_822E0550(int param_1,int *param_2)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int *piVar2;
   bool bVar3;
   int iVar6;
   int iVar7;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   int iVar8;
   int *piVar9;
-  undefined8 uVar5;
-  ulonglong uVar10;
-  uint uVar11;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar10;
+  unsigned int uVar11;
   double dVar12;
   double dVar13;
   float fStack_90;
   int iStack_8c;
   float afStack_88 [2];
-  undefined4 auStack_80 [2];
-  undefined1 auStack_78 [8];
-  undefined1 auStack_70 [112];
+  unsigned int auStack_80 [2];
+  unsigned char auStack_78 [8];
+  unsigned char auStack_70 [112];
   
-  uVar10 = (ulonglong)*(uint *)(param_1 + 0x14);
+  uVar10 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
   iVar6 = fn_822CEE40(uVar10);
   iVar8 = *(int *)((int)uVar10 + 0x274);
   auStack_80[0] = 0;
@@ -98,18 +74,18 @@ LAB_822e06dc:
       else {
         piVar9 = (int *)fn_82365BD8(auStack_78,param_2);
         fn_8228E658(param_1 + 0xb4,piVar9);
-        *(uint *)(param_1 + 0xa0) = uVar11;
-        *(undefined4 *)(param_1 + 0xa4) = 0;
-        *(undefined4 *)(param_1 + 0xac) = 0;
-        *(undefined4 *)(*piVar9 + 0xac) = 0;
+        *(unsigned int *)(param_1 + 0xa0) = uVar11;
+        *(unsigned int *)(param_1 + 0xa4) = 0;
+        *(unsigned int *)(param_1 + 0xac) = 0;
+        *(unsigned int *)(*piVar9 + 0xac) = 0;
         piVar2 = (int *)*piVar9;
         if (piVar2[0x833] != 0) {
-          fn_82560100((double)lbl_821CA460,*(undefined4 *)(*piVar2 + 0x4c),piVar2 + 0x833,
+          fn_82560100((double)lbl_821CA460,*(unsigned int *)(*piVar2 + 0x4c),piVar2 + 0x833,
                             *piVar2 + 0x50,0xffffffff821ca45c,0,0,0,0);
         }
         if (uVar11 == 0xb) {
-          fn_823727D8(*(undefined4 *)(param_1 + 0x10),
-                          *(undefined4 *)(*(int *)(param_1 + 0x14) + 0x2c));
+          fn_823727D8(*(unsigned int *)(param_1 + 0x10),
+                          *(unsigned int *)(*(int *)(param_1 + 0x14) + 0x2c));
         }
         if (piVar9[1] != 0) {
           fn_822315A0();
@@ -137,7 +113,7 @@ LAB_822e06d4:
     }
     uVar4 = fn_82365BD8(auStack_78,param_2);
     iVar8 = fn_822E0BE8(param_1,uVar4,6,&fStack_90,afStack_88,&iStack_8c,0,auStack_80);
-    if ((iVar8 == 0) || (iVar8 = fn_822CF260(*(undefined4 *)(param_1 + 0x14),1), iVar8 == 0))
+    if ((iVar8 == 0) || (iVar8 = fn_822CF260(*(unsigned int *)(param_1 + 0x14),1), iVar8 == 0))
     goto LAB_822e0858;
     if ((iRam831cd624 == 0) || (dVar13 <= (double)fStack_90)) {
       uVar11 = 9;
@@ -146,13 +122,13 @@ LAB_822e06d4:
     }
   }
   iVar8 = fn_82365BD8(auStack_78,param_2);
-  uVar1 = *(undefined4 *)(param_1 + 0x10);
+  uVar1 = *(unsigned int *)(param_1 + 0x10);
   uVar4 = fn_82365BD8(afStack_88,iVar8);
   fn_823754D8(uVar1,uVar4,1);
   if (*(int *)(iVar8 + 4) != 0) {
     fn_822315A0();
   }
-  *(undefined4 *)(param_1 + 0xbc) = 1;
+  *(unsigned int *)(param_1 + 0xbc) = 1;
 LAB_822e0858:
   if (param_2[1] != 0) {
     fn_822315A0();

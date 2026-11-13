@@ -1,7 +1,6 @@
-typedef unsigned int uint;
-typedef struct Pair { uint value,ref; } Pair;
-extern void fn_822315A0(uint);
-static void swapword(uint *a,uint *b) {uint t=*a;*a=*b;*b=t;}
+typedef struct Pair { unsigned int value,ref; } Pair;
+extern void fn_822315A0(unsigned int);
+static void swapword(unsigned int *a,unsigned int *b) {unsigned int t=*a;*a=*b;*b=t;}
 Pair *fn_8223A948(Pair *out,int callable,unsigned __int64 arg) {
  Pair tmp;Pair *p;
  p=(*(Pair *(**)(Pair *,unsigned __int64))(callable+4))(&tmp,arg);

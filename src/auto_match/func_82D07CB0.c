@@ -1,49 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82CE5410();
 extern int fn_82CE6310();
 extern int fn_82CFC050();
 
 
-void fn_82D07CB0(int param_1,short *param_2,ulonglong param_3,int param_4,int *param_5)
+void fn_82D07CB0(int param_1,short *param_2,unsigned __int64 param_3,int param_4,int *param_5)
 
 {
   short sVar1;
-  uint uVar2;
+  unsigned int uVar2;
   short sVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
   bool bVar6;
   short *psVar7;
-  longlong lVar8;
+  __int64 lVar8;
   int iVar9;
   short *psVar10;
-  longlong lVar11;
+  __int64 lVar11;
   int iVar12;
   
   iVar12 = (int)param_3;
@@ -54,11 +29,11 @@ void fn_82D07CB0(int param_1,short *param_2,ulonglong param_3,int param_4,int *p
     lVar8 = uVar2 + param_3;
     iVar9 = (int)lVar8;
     if ((int)(param_5[2] & 0x3fffffffU) < iVar9) {
-      lVar11 = ((ulonglong)(uint)param_5[2] & 0x3fffffff) << 1;
+      lVar11 = ((unsigned __int64)(unsigned int)param_5[2] & 0x3fffffff) << 1;
       if (iVar9 < (int)lVar11) {
         lVar8 = lVar11;
       }
-      fn_82CE6310(*(undefined4 *)(iVar5 + 0x10),param_5,lVar8,2);
+      fn_82CE6310(*(unsigned int *)(iVar5 + 0x10),param_5,lVar8,2);
     }
     psVar10 = (short *)(uVar2 * 2 + *param_5);
     param_5[1] = param_5[1] + iVar12;
@@ -78,14 +53,14 @@ void fn_82D07CB0(int param_1,short *param_2,ulonglong param_3,int param_4,int *p
     lVar11 = (param_3 - 2) + (param_3 - 2 & 0x7fffffff) * 2;
     iVar5 = fn_82CE5410();
     uVar2 = param_5[1];
-    lVar8 = (ulonglong)uVar2 + lVar11;
+    lVar8 = (unsigned __int64)uVar2 + lVar11;
     iVar9 = (int)lVar8;
     if ((int)(param_5[2] & 0x3fffffffU) < iVar9) {
-      lVar4 = ((ulonglong)(uint)param_5[2] & 0x3fffffff) << 1;
+      lVar4 = ((unsigned __int64)(unsigned int)param_5[2] & 0x3fffffff) << 1;
       if (iVar9 < (int)lVar4) {
         lVar8 = lVar4;
       }
-      fn_82CE6310(*(undefined4 *)(iVar5 + 0x10),param_5,lVar8,2);
+      fn_82CE6310(*(unsigned int *)(iVar5 + 0x10),param_5,lVar8,2);
     }
     bVar6 = false;
     psVar10 = (short *)(uVar2 * 2 + *param_5);

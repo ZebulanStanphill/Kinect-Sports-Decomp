@@ -1,17 +1,16 @@
-typedef unsigned int uint;
 typedef unsigned short wchar;
 
 typedef struct {
   wchar *data;
-  uint length;
-  uint capacity;
+  unsigned int length;
+  unsigned int capacity;
 } WStr;
 
-extern void *fn_8267B890(int heap, uint size, int flags);
-extern void *fn_8267BDA8(void *p, uint size);
-extern void *memcpy(void *dst, const void *src, uint n);
+extern void *fn_8267B890(int heap, unsigned int size, int flags);
+extern void *fn_8267BDA8(void *p, unsigned int size);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
-void fn_82790490(WStr *str, int ctx, const wchar *src, uint len)
+void fn_82790490(WStr *str, int ctx, const wchar *src, unsigned int len)
 {
   if (len == 0xffffffff) {
     len = 0;

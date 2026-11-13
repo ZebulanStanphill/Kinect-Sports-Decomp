@@ -1,39 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82C078F0(int param_1,uint *param_2,undefined2 *param_3)
+unsigned __int64 fn_82C078F0(int param_1,unsigned int *param_2,unsigned short *param_3)
 
 {
-  undefined2 uVar1;
-  uint uVar2;
+  unsigned short uVar1;
+  unsigned int uVar2;
   
-  switch(*(undefined4 *)(param_1 + 0x228)) {
+  switch(*(unsigned int *)(param_1 + 0x228)) {
   case 1:
     uVar1 = 0x10;
     uVar2 = 0x32595559;
@@ -87,10 +58,10 @@ LAB_82c07974:
   default:
     return 0xffffffff80070057;
   }
-  if (param_2 != (uint *)0x0) {
+  if (param_2 != (unsigned int *)0x0) {
     *param_2 = uVar2;
   }
-  if (param_3 != (undefined2 *)0x0) {
+  if (param_3 != (unsigned short *)0x0) {
     *param_3 = uVar1;
   }
   return 0;

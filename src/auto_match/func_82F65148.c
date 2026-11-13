@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define _uStack00000010 ((*(U64*)&uStack00000010))
+#define _uStack00000010 ((*(unsigned __int64*)&uStack00000010))
 extern unsigned int *auStack_40;
 extern int fn_82F6DF48();
 extern int fn_82F717E8();
@@ -40,18 +13,18 @@ extern unsigned int lbl_831BB918;
 extern unsigned int uStack00000010;
 
 
-double fn_82F65148(double param_1,undefined8 param_2,longlong param_3)
+double fn_82F65148(double param_1,unsigned __int64 param_2,__int64 param_3)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar3;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int iVar4;
   double dVar5;
   double extraout_f1;
-  ushort uStack00000010;
-  uint auStack_40 [2];
-  longlong lStack_38;
+  unsigned short uStack00000010;
+  unsigned int auStack_40 [2];
+  __int64 lStack_38;
   
   _uStack00000010 = param_1;
   uVar1 = fn_82F79400(0xf8,0xffffffffc007feff);
@@ -61,7 +34,7 @@ double fn_82F65148(double param_1,undefined8 param_2,longlong param_3)
     if (0 < iVar3) {
       if (iVar3 < 3) goto LAB_82f652fc;
       if (iVar3 == 3) {
-        lStack_38 = (longlong)iVar4;
+        lStack_38 = (__int64)iVar4;
         dVar5 = (double)fn_82F791B8(param_1,(double)lStack_38,0x19);
         return dVar5;
       }
@@ -81,7 +54,7 @@ LAB_82f652b8:
       goto LAB_82f651f4;
     }
 LAB_82f65258:
-    param_3 = (ulonglong)auStack_40[0] + param_3;
+    param_3 = (unsigned __int64)auStack_40[0] + param_3;
     iVar3 = (int)param_3;
     if (0xa00 < iVar3) goto LAB_82f65264;
     if (iVar3 < 0x401) {
@@ -107,8 +80,8 @@ LAB_82f65264:
   }
   uVar1 = 0x11;
 LAB_82f651f4:
-  lStack_38 = (longlong)iVar4;
-  dVar5 = (double)fn_82F79310(param_1,(double)(longlong)iVar4,dVar5,uVar1,0x19);
+  lStack_38 = (__int64)iVar4;
+  dVar5 = (double)fn_82F79310(param_1,(double)(__int64)iVar4,dVar5,uVar1,0x19);
   return dVar5;
 }
 

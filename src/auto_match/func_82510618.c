@@ -1,59 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82510BE8();
 
 
-undefined4 * fn_82510618(undefined4 *param_1,uint *param_2,uint *param_3)
+unsigned int * fn_82510618(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   int iVar5;
-  uint *puVar6;
-  uint *puVar7;
-  uint *puVar8;
-  uint *puVar9;
-  uint *puVar10;
-  uint *puVar11;
-  uint uVar12;
-  uint *puVar13;
+  unsigned int *puVar6;
+  unsigned int *puVar7;
+  unsigned int *puVar8;
+  unsigned int *puVar9;
+  unsigned int *puVar10;
+  unsigned int *puVar11;
+  unsigned int uVar12;
+  unsigned int *puVar13;
   
   puVar13 = param_3 + -4;
   uVar12 = (int)param_3 - (int)param_2 >> 4;
   iVar5 = (int)puVar13 - (int)param_2 >> 4;
   puVar8 = param_2 + (((int)param_3 - (int)param_2 >> 5) +
-                     (uint)((int)uVar12 < 0 && (uVar12 & 1) != 0)) * 4;
+                     (unsigned int)((int)uVar12 < 0 && (uVar12 & 1) != 0)) * 4;
   puVar7 = param_2;
   if (0x28 < iVar5) {
     uVar12 = iVar5 + 1;
-    uVar12 = ((int)uVar12 >> 3) + (uint)((int)uVar12 < 0 && (uVar12 & 7) != 0);
+    uVar12 = ((int)uVar12 >> 3) + (unsigned int)((int)uVar12 < 0 && (uVar12 & 7) != 0);
     fn_82510BE8(param_2,param_2 + uVar12 * 4,param_2 + uVar12 * 8);
     fn_82510BE8(puVar8 + (uVar12 & 0xfffffff) * -4,puVar8,puVar8 + uVar12 * 4);
     fn_82510BE8(puVar13 + (uVar12 & 0x7ffffff) * -8,puVar13 + (uVar12 & 0xfffffff) * -4,puVar13)

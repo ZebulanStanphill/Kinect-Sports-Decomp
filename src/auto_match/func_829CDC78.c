@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern unsigned int *auStack_50;
 extern int fn_829C9438();
@@ -44,7 +18,7 @@ extern unsigned int lbl_8321733C;
 extern unsigned int lbl_83217344;
 extern unsigned int lbl_832178DC;
 extern unsigned int uRam832154c8;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
@@ -52,17 +26,17 @@ extern U64 storeWordConditionalIndexed();
 void fn_829CDC78(int param_1)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
   int iVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
   int iVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar7;
   char in_RESERVE;
-  byte in_cr0;
-  undefined1 auStack_50 [8];
-  undefined *puStack_48;
+  unsigned char in_cr0;
+  unsigned char auStack_50 [8];
+  unsigned char *puStack_48;
   
   iVar5 = 0;
   iVar6 = 0;
@@ -80,8 +54,8 @@ void fn_829CDC78(int param_1)
       } while (!(bool)(in_cr0 >> 1 & 1));
       if (iVar5 != 0) {
         uVar1 = TBLr;
-        uRam832154c8 = (undefined4)uVar1;
-        uVar7 = (ulonglong)*(uint *)(iVar6 + 0x18);
+        uRam832154c8 = (unsigned int)uVar1;
+        uVar7 = (unsigned __int64)*(unsigned int *)(iVar6 + 0x18);
         *(int *)(iVar6 + 0x34) = iVar5;
         iRam83217330 = 1;
       }
@@ -100,7 +74,7 @@ void fn_829CDC78(int param_1)
       if (*(int *)(iVar3 + 0x78) == 1) {
         if (lbl_83217164 == 0) {
           fn_829CD3E8();
-          *(undefined4 *)(iVar5 + 0x114) = 0;
+          *(unsigned int *)(iVar5 + 0x114) = 0;
         }
         else {
           uVar7 = uVar7 << 0x20 | uVar7 & 0xfffffffffffffeff;
@@ -114,15 +88,15 @@ void fn_829CDC78(int param_1)
       uVar7 = (uVar7 & 0xfffffff9) << 0x20 | uVar7 & 0xfffffef9;
     }
     else {
-      uVar4 = *(uint *)(*(int *)(iVar5 + 0x114) + 0x68) >> 2;
+      uVar4 = *(unsigned int *)(*(int *)(iVar5 + 0x114) + 0x68) >> 2;
     }
-    fn_829F5230(*(uint *)(*(int *)(iVar5 + 0x110) + 0x68) >> 3,*(uint *)(iVar5 + 0x11c) >> 2,
-                    iVar5,uVar4,*(undefined4 *)(iVar6 + 0x20),*(undefined4 *)(iVar6 + 0x24),
-                    *(undefined4 *)(iVar6 + 0x28),*(undefined4 *)(iVar6 + 0x2c));
+    fn_829F5230(*(unsigned int *)(*(int *)(iVar5 + 0x110) + 0x68) >> 3,*(unsigned int *)(iVar5 + 0x11c) >> 2,
+                    iVar5,uVar4,*(unsigned int *)(iVar6 + 0x20),*(unsigned int *)(iVar6 + 0x24),
+                    *(unsigned int *)(iVar6 + 0x28),*(unsigned int *)(iVar6 + 0x2c));
   }
   uVar4 = 0;
   if (iVar5 != 0) {
-    uVar4 = (uint)(*(int *)(iVar5 + 0xd8) != 0);
+    uVar4 = (unsigned int)(*(int *)(iVar5 + 0xd8) != 0);
     if (*(int *)(iVar5 + 0xdc) != 0) {
       uVar4 = uVar4 | 2;
     }
@@ -131,7 +105,7 @@ void fn_829CDC78(int param_1)
     }
   }
   param_1 = param_1 * 0x28;
-  *(uint *)(param_1 + -0x7cde8cb8) = -(uint)(uVar7 != 0) & lbl_832178DC;
+  *(unsigned int *)(param_1 + -0x7cde8cb8) = -(unsigned int)(uVar7 != 0) & lbl_832178DC;
   *(int *)(param_1 + -0x7cde8cb4) = (int)uVar7;
   if ((uVar7 & 0x20) == 0) {
     iVar3 = 0;
@@ -140,7 +114,7 @@ void fn_829CDC78(int param_1)
     iVar3 = lbl_83217270 + 0xb4;
   }
   *(int *)(param_1 + -0x7cde8ca0) = iVar3;
-  *(uint *)(param_1 + -0x7cde8c9c) = uVar4;
+  *(unsigned int *)(param_1 + -0x7cde8c9c) = uVar4;
   fn_829C9438(&lbl_83217344 + param_1);
   if ((uVar7 & 0x20) != 0) {
     fn_82A2AFD8();

@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_825C2EB8();
 extern unsigned int lbl_821954D8;
@@ -33,15 +7,15 @@ extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
 
 
-bool fn_82594470(double param_1,longlong param_2)
+bool fn_82594470(double param_1,__int64 param_2)
 
 {
   float fVar1;
   float *pfVar2;
   float *pfVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
-  uint uVar6;
+  unsigned int uVar6;
   double dVar7;
   double dVar8;
   double extraout_f1;
@@ -69,14 +43,14 @@ bool fn_82594470(double param_1,longlong param_2)
       param_2 = fn_825C2EB8((double)(fVar1 / *pfVar2),param_2,pfVar3);
       dVar7 = extraout_f1;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((extraout_f1 < dVar11) << 2) |
-                    (uint)(NAN(extraout_f1) || NAN(dVar11)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)((extraout_f1 < dVar11) << 2) |
+                    (unsigned int)(NAN(extraout_f1) || NAN(dVar11)) << 2)) < 0.0) {
         dVar7 = dVar11;
       }
       dVar8 = dVar10;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)(((double)(float)(dVar7 - dVar10) < dVar11) << 2) |
-                    (uint)(NAN((double)(float)(dVar7 - dVar10)) || NAN(dVar11)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)(((double)(float)(dVar7 - dVar10) < dVar11) << 2) |
+                    (unsigned int)(NAN((double)(float)(dVar7 - dVar10)) || NAN(dVar11)) << 2)) < 0.0) {
         dVar8 = dVar7;
       }
       pfVar3 = (float *)lVar4;

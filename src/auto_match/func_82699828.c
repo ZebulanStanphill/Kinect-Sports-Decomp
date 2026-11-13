@@ -1,14 +1,13 @@
-typedef unsigned int uint;
 extern int fn_82698CC0();
 extern int fn_82699740();
 void *memmove(void *dst, const void *src, unsigned int n);
 
 typedef struct {
   int *data;
-  uint count;
+  unsigned int count;
 } Vec;
 
-void fn_82699828(Vec *v, uint idx, int *val)
+void fn_82699828(Vec *v, unsigned int idx, int *val)
 {
   int *p;
 

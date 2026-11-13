@@ -1,57 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_820A6D30;
 extern unsigned int lbl_820A6D70;
 
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int fn_82A7B9A8(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong param_5)
+int fn_82A7B9A8(float *param_1,unsigned int param_2,unsigned char *param_3,int param_4,unsigned __int64 param_5)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
-  ulonglong uVar4;
+  unsigned __int64 uVar4;
   double dVar5;
   float *pfVar6;
-  uint uVar7;
-  byte *pbVar8;
+  unsigned int uVar7;
+  unsigned char *pbVar8;
   int iVar9;
   int iVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar11;
   int iVar12;
   int iVar13;
   int iVar14;
   int iVar15;
-  uint uVar16;
+  unsigned int uVar16;
   int iVar17;
-  ulonglong uVar18;
+  unsigned __int64 uVar18;
   int iVar19;
   
   dVar5 = lbl_820A6D70;
@@ -59,7 +32,7 @@ int fn_82A7B9A8(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
     iVar15 = 0;
   }
   else {
-    uVar18 = (ulonglong)(param_2 >> 3);
+    uVar18 = (unsigned __int64)(param_2 >> 3);
     pbVar8 = param_3;
     if (uVar18 != 0) {
       do {
@@ -149,7 +122,7 @@ int fn_82A7B9A8(float *param_1,uint param_2,byte *param_3,int param_4,ulonglong 
           if (iVar17 < 0x10) {
             iVar17 = 0x10;
           }
-          *pbVar8 = (char)uVar7 << 4 | (byte)uVar16 & 0xf;
+          *pbVar8 = (char)uVar7 << 4 | (unsigned char)uVar16 & 0xf;
           pbVar8 = pbVar8 + 1;
           uVar11 = uVar11 - 1;
           iVar14 = iVar19;

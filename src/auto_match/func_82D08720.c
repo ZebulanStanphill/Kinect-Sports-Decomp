@@ -1,104 +1,78 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_90;
 extern unsigned int *auStack_a0;
 extern unsigned int fStack_b0;
 extern int fn_82D085B0();
 extern unsigned int lbl_82002AE0;
 extern unsigned int stack0x00000000;
-extern U64 storeVectorElementWordIndexed();
+extern unsigned __int64 storeVectorElementWordIndexed();
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorAddFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_82D08720(double param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  int param_5,undefined8 param_6,longlong param_7)
+void fn_82D08720(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  int param_5,unsigned __int64 param_6,__int64 param_7)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  undefined4 *puVar3;
+  unsigned int *puVar3;
   int iVar4;
   float *pfVar5;
   int iVar6;
-  undefined8 in_r0;
-  ulonglong uVar7;
-  longlong lVar8;
-  longlong lVar9;
-  longlong lVar10;
-  longlong lVar11;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar7;
+  __int64 lVar8;
+  __int64 lVar9;
+  __int64 lVar10;
+  __int64 lVar11;
   float *pfVar12;
   double dVar13;
   double dVar14;
   double dVar15;
   double dVar16;
-  undefined1 auVar17 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar18;
+  unsigned char auVar17 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar18;
   float fVar19;
-  undefined4 uVar20;
+  unsigned int uVar20;
   float fVar21;
-  undefined4 uVar22;
+  unsigned int uVar22;
   float fVar23;
   float in_register_000100c0;
   float fVar24;
   float fVar25;
-  undefined4 uVar26;
-  undefined4 uVar27;
-  undefined4 uVar28;
-  undefined4 uVar29;
+  unsigned int uVar26;
+  unsigned int uVar27;
+  unsigned int uVar28;
+  unsigned int uVar29;
   float fVar30;
   float fVar31;
   float fVar32;
   float fStack_b0;
-  undefined1 auStack_a0 [16];
-  undefined1 auStack_90 [144];
+  unsigned char auStack_a0 [16];
+  unsigned char auStack_90 [144];
   
   uVar7 = ZEXT48(&stack0x00000000);
   iVar2 = (int)in_r0;
-  puVar1 = (undefined4 *)(iVar2 + param_5 & 0xfffffff0);
+  puVar1 = (unsigned int *)(iVar2 + param_5 & 0xfffffff0);
   uVar18 = puVar1[1];
   uVar20 = puVar1[2];
   uVar22 = puVar1[3];
-  puVar3 = (undefined4 *)(param_5 + 0x10U & 0xfffffff0);
+  puVar3 = (unsigned int *)(param_5 + 0x10U & 0xfffffff0);
   uVar26 = *puVar3;
   uVar27 = puVar3[1];
   uVar28 = puVar3[2];
   uVar29 = puVar3[3];
-  puVar3 = (undefined4 *)((uint)(auStack_a0 + iVar2) & 0xfffffff0);
+  puVar3 = (unsigned int *)((unsigned int)(auStack_a0 + iVar2) & 0xfffffff0);
   *puVar3 = *puVar1;
   puVar3[1] = uVar18;
   puVar3[2] = uVar20;
   puVar3[3] = uVar22;
-  puVar1 = (undefined4 *)((uint)(auStack_90 + iVar2) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_90 + iVar2) & 0xfffffff0);
   *puVar1 = uVar26;
   puVar1[1] = uVar27;
   puVar1[2] = uVar28;
@@ -151,7 +125,7 @@ void fn_82D08720(double param_1,undefined8 param_2,undefined8 param_3,undefined8
   fVar24 = pfVar12[2];
   fVar25 = pfVar12[3];{ V16 _vt0 = vectorAddFloatingPoint(in_vs45,in_vs43); memcpy(auVar17, &_vt0, 16); }
   uVar18 = storeVectorElementWordIndexed(auVar17,0,uVar7 - 0xb0);
-  *(undefined4 *)(uVar7 - 0xb0) = uVar18;
+  *(unsigned int *)(uVar7 - 0xb0) = uVar18;
   if (dVar15 < (double)fStack_b0) {
     loadVectorLeftIndexed128(in_r0,uVar7 - 0xb0);
     pfVar12 = (float *)(iVar4 + iVar2 & 0xfffffff0);

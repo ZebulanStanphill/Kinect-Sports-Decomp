@@ -1,15 +1,13 @@
-typedef unsigned int uint;
-
 typedef struct Target_83058040 {
   char pad[0x24];
   float value;
 } Target_83058040;
 
 typedef struct Obj_83058040 {
-  uint count;
-  uint unk4;
+  unsigned int count;
+  unsigned int unk4;
   Target_83058040 *target;
-  uint data[1];
+  unsigned int data[1];
 } Obj_83058040;
 
 extern int fn_8305B970(void *p, double d);

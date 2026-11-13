@@ -1,14 +1,13 @@
-typedef unsigned int U32;
-typedef struct { char pad[0x100]; U32 *tab; } Obj_824BAF40;
-typedef struct { char pad[0x1c]; Obj_824BAF40 *o; int idx; U32 type; int flag; void *fn; int busy; int fail; } S_824BAF40;
+typedef struct { char pad[0x100]; unsigned int *tab; } Obj_824BAF40;
+typedef struct { char pad[0x1c]; Obj_824BAF40 *o; int idx; unsigned int type; int flag; void *fn; int busy; int fail; } S_824BAF40;
 extern unsigned char fn_828EA610(Obj_824BAF40 *);
 extern unsigned char fn_828EA5F8(Obj_824BAF40 *);
 extern unsigned char fn_82512508(Obj_824BAF40 *);
-extern int fn_824BB0C0(S_824BAF40 *, Obj_824BAF40 *, U32, int, int);
+extern int fn_824BB0C0(S_824BAF40 *, Obj_824BAF40 *, unsigned int, int, int);
 extern void fn_824BB600(void);
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
-void fn_824BAF40(S_824BAF40 *s, Obj_824BAF40 *o, U32 type, int a, int b)
+void fn_824BAF40(S_824BAF40 *s, Obj_824BAF40 *o, unsigned int type, int a, int b)
 {
   if (o != 0 && fn_828EA610(o) == 0 && fn_828EA5F8(o) != 0) {
     int extra = 0;

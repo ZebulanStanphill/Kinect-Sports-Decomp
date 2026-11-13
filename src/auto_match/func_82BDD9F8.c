@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82BE1368();
 extern int fn_82F6A530();
 extern int fn_82F6A57C();
@@ -38,8 +11,8 @@ extern unsigned int lbl_83224478;
 extern unsigned int lbl_8322447C;
 
 
-void fn_82BDD9F8(undefined8 param_1,undefined8 param_2,longlong param_3,longlong param_4,
-                  uint param_5,longlong param_6)
+void fn_82BDD9F8(unsigned __int64 param_1,unsigned __int64 param_2,__int64 param_3,__int64 param_4,
+                  unsigned int param_5,__int64 param_6)
 
 {
   float fVar1;
@@ -62,16 +35,16 @@ void fn_82BDD9F8(undefined8 param_1,undefined8 param_2,longlong param_3,longlong
   float fVar18;
   float fVar19;
   int iVar20;
-  undefined8 uVar21;
+  unsigned __int64 uVar21;
   float *pfVar22;
-  longlong lVar23;
+  __int64 lVar23;
   float *pfVar24;
   float *pfVar25;
-  longlong lVar26;
+  __int64 lVar26;
   float *pfVar27;
-  longlong lVar28;
+  __int64 lVar28;
   float *pfVar29;
-  longlong lVar30;
+  __int64 lVar30;
   
   uVar21 = fn_82F6A530();
   if (((param_5 & 7) == 0) && (param_5 == 0x140)) {

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern int fn_82A2AAA8();
 extern int fn_82A2B418();
@@ -33,7 +9,7 @@ extern unsigned int uStack_8e;
 extern unsigned int uStack_92;
 
 
-undefined8 fn_82A36078(short *param_1,longlong *param_2,longlong *param_3,char param_4)
+unsigned __int64 fn_82A36078(short *param_1,__int64 *param_2,__int64 *param_3,char param_4)
 
 {
   short sVar1;
@@ -45,7 +21,7 @@ undefined8 fn_82A36078(short *param_1,longlong *param_2,longlong *param_3,char p
   short sVar7;
   short sVar8;
   short sVar9;
-  longlong alStack_b0 [2];
+  __int64 alStack_b0 [2];
   short sStack_a0;
   short sStack_9e;
   short sStack_9c;
@@ -53,11 +29,11 @@ undefined8 fn_82A36078(short *param_1,longlong *param_2,longlong *param_3,char p
   short sStack_98;
   short sStack_96;
   short sStack_94;
-  undefined2 uStack_92;
+  unsigned short uStack_92;
   short sStack_90;
-  ushort uStack_8e;
-  ushort uStack_8a;
-  undefined1 auStack_80 [4];
+  unsigned short uStack_8e;
+  unsigned short uStack_8a;
+  unsigned char auStack_80 [4];
   short sStack_7c;
   short sStack_72;
   
@@ -70,10 +46,10 @@ undefined8 fn_82A36078(short *param_1,longlong *param_2,longlong *param_3,char p
       bVar4 = false;
       sVar8 = sStack_90;
       if (param_4 == '\0') {
-        if ((int)sVar2 < (int)(uint)uStack_8e) {
+        if ((int)sVar2 < (int)(unsigned int)uStack_8e) {
           sVar8 = sStack_90 + 1;
         }
-        else if ((int)sVar2 <= (int)(uint)uStack_8e) {
+        else if ((int)sVar2 <= (int)(unsigned int)uStack_8e) {
           bVar4 = true;
         }
       }
@@ -112,8 +88,8 @@ undefined8 fn_82A36078(short *param_1,longlong *param_2,longlong *param_3,char p
           return 0;
         }
         if ((!bVar4) ||
-           (((int)(uint)uStack_8a <= (int)sStack_9c &&
-            (((int)sStack_9c != (uint)uStack_8a || (*param_3 <= alStack_b0[0])))))) {
+           (((int)(unsigned int)uStack_8a <= (int)sStack_9c &&
+            (((int)sStack_9c != (unsigned int)uStack_8a || (*param_3 <= alStack_b0[0])))))) {
           *param_2 = alStack_b0[0];
           return 1;
         }

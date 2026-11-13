@@ -1,37 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-int fn_82A751F8(uint param_1,uint param_2,int param_3,ulonglong param_4)
+int fn_82A751F8(unsigned int param_1,unsigned int param_2,int param_3,unsigned __int64 param_4)
 
 {
-  ulonglong uVar1;
-  longlong lVar2;
+  unsigned __int64 uVar1;
+  __int64 lVar2;
   int iVar3;
   
   if ((((param_2 == 0) && (param_3 < 3)) || (3 < param_3)) || ((int)param_1 < 1)) {
@@ -90,12 +61,12 @@ LAB_82a75298:
     }
     iVar3 = 0x400;
   }
-  lVar2 = (longlong)((int)param_1 >> 1) + (ulonglong)((int)param_1 < 0 && (param_1 & 1) != 0);
-  uVar1 = ((lVar2 + (longlong)iVar3 * (longlong)(int)param_2 & 0xffffffffU) / (ulonglong)param_1 + 7
+  lVar2 = (__int64)((int)param_1 >> 1) + (unsigned __int64)((int)param_1 < 0 && (param_1 & 1) != 0);
+  uVar1 = ((lVar2 + (__int64)iVar3 * (__int64)(int)param_2 & 0xffffffffU) / (unsigned __int64)param_1 + 7
           & 0xffffffff) >> 3;
   if (uVar1 == 0) {
-    if (((longlong)iVar3 * (longlong)(int)param_2 & 0xffffffffU) != 0) goto LAB_82a75360;
-    uVar1 = (((longlong)iVar3 * (longlong)(int)param_1 + lVar2 & 0xffffffffU) / (ulonglong)param_1 +
+    if (((__int64)iVar3 * (__int64)(int)param_2 & 0xffffffffU) != 0) goto LAB_82a75360;
+    uVar1 = (((__int64)iVar3 * (__int64)(int)param_1 + lVar2 & 0xffffffffU) / (unsigned __int64)param_1 +
              7 & 0xffffffff) >> 3;
     param_2 = param_1;
   }
@@ -108,7 +79,7 @@ LAB_82a75298:
 LAB_82a75360:
   do {
     iVar3 = iVar3 << 1;
-  } while ((((longlong)iVar3 * (longlong)(int)param_2 + lVar2 & 0xffffffffU) / (ulonglong)param_1 +
+  } while ((((__int64)iVar3 * (__int64)(int)param_2 + lVar2 & 0xffffffffU) / (unsigned __int64)param_1 +
             7 & 0xfffffff8) == 0);
   return iVar3;
 }

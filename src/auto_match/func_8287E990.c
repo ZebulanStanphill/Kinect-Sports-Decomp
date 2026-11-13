@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int fStack_8c;
 extern int fn_825089A0();
 extern int fn_8287CA18();
@@ -46,11 +19,11 @@ void fn_8287E990(void)
   int *piVar1;
   int iVar3;
   int *piVar4;
-  ulonglong uVar2;
-  longlong lVar5;
+  unsigned __int64 uVar2;
+  __int64 lVar5;
   int iVar6;
   float *pfVar7;
-  ulonglong uVar8;
+  unsigned __int64 uVar8;
   double dVar9;
   double dVar10;
   double dVar11;
@@ -58,19 +31,19 @@ void fn_8287E990(void)
   int *piStack_90;
   float fStack_8c;
   float afStack_88 [2];
-  ulonglong uStack_80;
-  undefined8 uStack_78;
-  ulonglong uStack_70;
+  unsigned __int64 uStack_80;
+  unsigned __int64 uStack_78;
+  unsigned __int64 uStack_70;
   
   iVar3 = fn_82F6A548();
   piVar4 = (int *)fn_825089A0();
-  uVar2 = (**(code **)(*piVar4 + 0xc))();
-  lVar5 = *(longlong *)(iVar3 + 0x100);
-  *(ulonglong *)(iVar3 + 0x100) = uVar2;
-  *(ulonglong *)(iVar3 + 0x108) = uVar2 - lVar5;
+  uVar2 = (**(int (***)())(*piVar4 + 0xc))();
+  lVar5 = *(__int64 *)(iVar3 + 0x100);
+  *(unsigned __int64 *)(iVar3 + 0x100) = uVar2;
+  *(unsigned __int64 *)(iVar3 + 0x108) = uVar2 - lVar5;
   dVar9 = (double)lbl_821AAD20;
-  if (999 < uVar2 - *(longlong *)(iVar3 + 0xe8)) {
-    *(undefined1 *)(iVar3 + 0x110) = 0;
+  if (999 < uVar2 - *(__int64 *)(iVar3 + 0xe8)) {
+    *(unsigned char *)(iVar3 + 0x110) = 0;
     piStack_90 = (int *)**(int **)(iVar3 + 0xf4);
     if (piStack_90 != *(int **)(iVar3 + 0xf4)) {
       do {
@@ -85,7 +58,7 @@ void fn_8287E990(void)
     dVar11 = dVar9;
     dVar12 = dVar9;
     if (piVar1 != piVar4) {
-      uStack_80 = (ulonglong)*(uint *)(iVar3 + 0x114);
+      uStack_80 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x114);
       dVar10 = (double)uStack_80;
       piStack_90 = piVar1;
       do {
@@ -118,13 +91,13 @@ void fn_8287E990(void)
         piStack_90 = piVar1;
         if (piVar1 != piVar4) {
           do {
-            uStack_78 = (ulonglong)*(uint *)(iVar3 + 0x114);
+            uStack_78 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x114);
             if ((double)uStack_78 < (double)(float)piStack_90[0x2b]) {
-              uStack_70 = (ulonglong)*(uint *)(iVar3 + 0x118);
+              uStack_70 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x118);
               afStack_88[0] = (float)((double)(float)piStack_90[0x2b] - dVar11);
               fStack_8c = (float)uStack_78;
               pfVar7 = &fStack_8c;
-              uStack_80 = CONCAT44((float)uStack_70,(((U64)(uStack_80) >> 32) & 0xFFFFFFFF));
+              uStack_80 = CONCAT44((float)uStack_70,(((unsigned __int64)(uStack_80) >> 32) & 0xFFFFFFFF));
               if ((double)uStack_78 <= (double)afStack_88[0]) {
                 pfVar7 = afStack_88;
               }
@@ -138,7 +111,7 @@ void fn_8287E990(void)
         }
       }
     }
-    *(ulonglong *)(iVar3 + 0xe8) = uVar2;
+    *(unsigned __int64 *)(iVar3 + 0xe8) = uVar2;
   }
   piStack_90 = (int *)**(int **)(iVar3 + 0xf4);
   if (piStack_90 != *(int **)(iVar3 + 0xf4)) {
@@ -148,20 +121,20 @@ void fn_8287E990(void)
         piStack_90[0x30] = 0;
       }
       else {
-        uStack_70 = (uVar2 & 0xffffffff) - (*(ulonglong *)(piStack_90 + 0x34) & 0xffffffff) &
+        uStack_70 = (uVar2 & 0xffffffff) - (*(unsigned __int64 *)(piStack_90 + 0x34) & 0xffffffff) &
                     0xffffffff;
         dVar12 = (double)(float)((double)uStack_70 * dVar11) * (double)(float)piStack_90[0x2b] +
                  (double)(float)piStack_90[0x36];
         piStack_90[0x36] = (int)(float)dVar12;
-        uStack_78 = (ulonglong)dVar12;
+        uStack_78 = (unsigned __int64)dVar12;
         uStack_80 = uStack_78 & 0xffffffff;
-        piStack_90[0x30] = (((U64)(uStack_78) >> 32) & 0xFFFFFFFF);
+        piStack_90[0x30] = (((unsigned __int64)(uStack_78) >> 32) & 0xFFFFFFFF);
         piStack_90[0x36] = (int)((float)piStack_90[0x36] - (float)uStack_80);
-        if (2 < (uint)piStack_90[0x30]) {
+        if (2 < (unsigned int)piStack_90[0x30]) {
           piStack_90[0x30] = 2;
         }
       }
-      *(ulonglong *)(piStack_90 + 0x34) = uVar2;
+      *(unsigned __int64 *)(piStack_90 + 0x34) = uVar2;
       fn_8287CA18(&piStack_90);
     } while (piStack_90 != *(int **)(iVar3 + 0xf4));
   }

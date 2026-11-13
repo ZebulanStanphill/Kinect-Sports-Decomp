@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_82e;
 extern unsigned int *auStack_838;
 extern unsigned int *auStack_840;
@@ -49,13 +22,13 @@ void fn_822815C8(int param_1)
 {
   int iVar1;
   int iVar2;
-  undefined4 *puVar3;
+  unsigned int *puVar3;
   int *piVar4;
-  undefined1 auStack_840 [4];
+  unsigned char auStack_840 [4];
   int iStack_83c;
-  undefined1 auStack_838 [8];
-  undefined2 uStack_830;
-  undefined1 auStack_82e [2046];
+  unsigned char auStack_838 [8];
+  unsigned short uStack_830;
+  unsigned char auStack_82e [2046];
 
   if ((*(int *)(param_1 + 0x10) != 0) && (fn_822800E8(), *(int *)(param_1 + 0xc) != 0)) {
     iVar1 = *(int *)(param_1 + 0x10);
@@ -73,7 +46,7 @@ void fn_822815C8(int param_1)
                     /* WARNING: Subroutine does not return */
         fn_82528BF8(auStack_82e,0,0x7fe);
       }
-      *(undefined4 *)(param_1 + 0xc) = 0;
+      *(unsigned int *)(param_1 + 0xc) = 0;
     }
   }
   if (*(int *)(param_1 + 8) != 0) {
@@ -82,7 +55,7 @@ void fn_822815C8(int param_1)
       iVar2 = fn_8226FE40(iVar1);
       if ((iVar2 != 0) &&
          (piVar4 = *(int **)(param_1 + 0x14),
-         1 < (uint)((*(int *)(param_1 + 0x18) - (int)piVar4) / 0xc))) {
+         1 < (unsigned int)((*(int *)(param_1 + 0x18) - (int)piVar4) / 0xc))) {
         while ((piVar4 < *(int **)(param_1 + 0x18) && (*piVar4 != iVar1))) {
           fn_8226D6A0();
           fn_82356F98(auStack_840);
@@ -90,7 +63,7 @@ void fn_822815C8(int param_1)
           if (iStack_83c != 0) {
             fn_822315A0();
           }
-          puVar3 = (undefined4 *)fn_822820E0(auStack_838,(int *)(param_1 + 0x14),piVar4);
+          puVar3 = (unsigned int *)fn_822820E0(auStack_838,(int *)(param_1 + 0x14),piVar4);
           piVar4 = (int *)*puVar3;
         }
       }

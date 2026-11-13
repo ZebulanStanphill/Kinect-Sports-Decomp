@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_13c;
 extern unsigned int *auStack_140;
 extern int fn_82664D80();
@@ -49,26 +22,26 @@ extern unsigned int uStack_28;
 extern unsigned int uStack_2c;
 
 
-ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
+unsigned __int64 fn_82665110(int param_1,unsigned int param_2,int param_3,int param_4)
 
 {
-  ulonglong uVar1;
+  unsigned __int64 uVar1;
   int iVar3;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int iStack00000014;
-  undefined4 uStack0000001c;
+  unsigned int uStack0000001c;
   int iStack00000024;
   int iStack0000002c;
-  undefined1 auStack_140 [4];
-  undefined1 auStack_13c [268];
+  unsigned char auStack_140 [4];
+  unsigned char auStack_13c [268];
   int iStack_30;
-  uint uStack_2c;
-  uint uStack_28;
-  uint uStack_24;
-  uint uStack_20;
-  uint uStack_1c;
-  undefined1 *puStack_18;
-  undefined1 *puStack_14;
+  unsigned int uStack_2c;
+  unsigned int uStack_28;
+  unsigned int uStack_24;
+  unsigned int uStack_20;
+  unsigned int uStack_1c;
+  unsigned char *puStack_18;
+  unsigned char *puStack_14;
   
   iStack00000014 = param_1;
   uStack0000001c = param_2;
@@ -88,8 +61,8 @@ ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
     }
     else {
       fn_8266B1E8(auStack_140);
-      if (&stack0x00000000 == (undefined1 *)0x140) {
-        puStack_18 = (undefined1 *)0x0;
+      if (&stack0x00000000 == (unsigned char *)0x140) {
+        puStack_18 = (unsigned char *)0x0;
       }
       else {
         puStack_18 = auStack_13c;
@@ -98,11 +71,11 @@ ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
       if (iVar3 == 0) {
         uStack_2c = 0xffffffff;
         fn_826687F8(auStack_140);
-        uVar1 = (ulonglong)uStack_2c;
+        uVar1 = (unsigned __int64)uStack_2c;
       }
       else {
-        if (&stack0x00000000 == (undefined1 *)0x140) {
-          puStack_14 = (undefined1 *)0x0;
+        if (&stack0x00000000 == (unsigned char *)0x140) {
+          puStack_14 = (unsigned char *)0x0;
         }
         else {
           puStack_14 = auStack_13c;
@@ -113,7 +86,7 @@ ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
           thunk_FUN_82a2b748(0x70c);
           uStack_28 = 0xffffffff;
           fn_826687F8(auStack_140);
-          uVar1 = (ulonglong)uStack_28;
+          uVar1 = (unsigned __int64)uStack_28;
         }
         else {
           fn_82F92218(auStack_140);
@@ -123,7 +96,7 @@ ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
               thunk_FUN_82a2b748(0x7a);
               uStack_24 = 0xffffffff;
               fn_826687F8(auStack_140);
-              return (ulonglong)uStack_24;
+              return (unsigned __int64)uStack_24;
             }
             uVar2 = fn_82F92218(auStack_140);
             iStack_30 = fn_82F664B0(iStack00000024,iStack0000002c,uVar2);
@@ -134,12 +107,12 @@ ulonglong fn_82665110(int param_1,undefined4 param_2,int param_3,int param_4)
               thunk_FUN_82a2b748(0x54f);
               uStack_20 = 0xffffffff;
               fn_826687F8(auStack_140);
-              return (ulonglong)uStack_20;
+              return (unsigned __int64)uStack_20;
             }
           }
           uStack_1c = iVar3 + 1U;
           fn_826687F8(auStack_140);
-          uVar1 = (ulonglong)uStack_1c;
+          uVar1 = (unsigned __int64)uStack_1c;
         }
       }
     }

@@ -1,4 +1,3 @@
-typedef unsigned int undefined4;
 extern int *fn_82B7BD28(int heap, int size);
 extern unsigned int lbl_820DB520;
 

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82D59328();
 extern int fn_82D698D0();
 extern int fn_82D69910();
@@ -43,24 +16,24 @@ extern unsigned int uStack_54;
 extern unsigned int uStack_58;
 
 
-void fn_82D6A040(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+void fn_82D6A040(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
-  code *pcStack_70;
-  code *pcStack_6c;
-  code *pcStack_68;
-  code *pcStack_64;
-  code *pcStack_60;
-  code *pcStack_5c;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  code *pcStack_48;
-  code *pcStack_44;
-  undefined1 uStack_40;
-  undefined1 uStack_3f;
-  undefined1 uStack_3e;
+  int (**pcStack_70)();
+  int (**pcStack_6c)();
+  int (**pcStack_68)();
+  int (**pcStack_64)();
+  int (**pcStack_60)();
+  int (**pcStack_5c)();
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  int (**pcStack_48)();
+  int (**pcStack_44)();
+  unsigned char uStack_40;
+  unsigned char uStack_3f;
+  unsigned char uStack_3e;
   
   uStack_3f = 0;
   uStack_3e = 0;

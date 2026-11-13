@@ -1,4 +1,3 @@
-typedef unsigned __int64 U64;
 extern int fn_82F72E58();
 
 typedef struct {
@@ -24,8 +23,8 @@ Str *fn_82F73188(Str *s, __int64 n)
     n = -n;
   }
   do {
-    *--p = (char)((U64)n % 10) + '0';
-    n = (U64)n / 10;
+    *--p = (char)((unsigned __int64)n % 10) + '0';
+    n = (unsigned __int64)n / 10;
   } while (n != 0);
   if (neg)
     *--p = '-';

@@ -1,21 +1,18 @@
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-
 void *memcpy(void *dst, const void *src, unsigned int n);
 
 struct Obj_82E6EA58;
 
 typedef struct Vtbl_82E6EA58 {
     void *slots[25];
-    int (*Reserve)(struct Obj_82E6EA58 *self, U64 pos, unsigned int n);
+    int (*Reserve)(struct Obj_82E6EA58 *self, unsigned __int64 pos, unsigned int n);
 } Vtbl_82E6EA58;
 
 typedef struct Obj_82E6EA58 {
     Vtbl_82E6EA58 *vt;
     int pad04[5];
-    U64 f18;
+    unsigned __int64 f18;
     int pad20[4];
-    U64 f30;
+    unsigned __int64 f30;
     unsigned int f38;
     int f3c;
 } Obj_82E6EA58;

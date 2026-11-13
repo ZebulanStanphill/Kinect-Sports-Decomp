@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern double _seed_nan;
 extern int fn_826518E0();
@@ -67,41 +40,41 @@ double fn_82651F48(int param_1,int param_2)
 
 {
   float fVar1;
-  uint uVar2;
-  byte *pbVar3;
-  longlong lVar4;
+  unsigned int uVar2;
+  unsigned char *pbVar3;
+  __int64 lVar4;
   int iVar6;
-  longlong lVar5;
-  ulonglong uVar7;
-  uint uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  longlong lVar11;
+  __int64 lVar5;
+  unsigned __int64 uVar7;
+  unsigned int uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  __int64 lVar11;
   double dVar12;
   double dVar13;
   double dVar14;
-  ulonglong uStack_38;
+  unsigned __int64 uStack_38;
   
   switch(param_2) {
   case 0:
-    return (double)((float)*(uint *)(param_1 + 0x5520) * *(float *)(param_1 + 0x5530));
+    return (double)((float)*(unsigned int *)(param_1 + 0x5520) * *(float *)(param_1 + 0x5530));
   case 1:
-    if (*(uint *)(param_1 + 0x5520) != 0) {
-      return (double)(*(float *)(param_1 + 0x552c) / (float)*(uint *)(param_1 + 0x5520));
+    if (*(unsigned int *)(param_1 + 0x5520) != 0) {
+      return (double)(*(float *)(param_1 + 0x552c) / (float)*(unsigned int *)(param_1 + 0x5520));
     }
     break;
   case 2:
-    uVar8 = *(uint *)(param_1 + 0x4188);
+    uVar8 = *(unsigned int *)(param_1 + 0x4188);
     goto code_r0x82651ffc;
   case 3:
-    fVar1 = (float)*(uint *)(param_1 + 0x5548) / (float)*(uint *)(param_1 + 0x5520);
+    fVar1 = (float)*(unsigned int *)(param_1 + 0x5548) / (float)*(unsigned int *)(param_1 + 0x5520);
     goto code_r0x82652044;
   case 4:
-    uVar2 = *(uint *)(param_1 + 0x5520);
-    uVar8 = *(uint *)(param_1 + 0x554c);
+    uVar2 = *(unsigned int *)(param_1 + 0x5520);
+    uVar8 = *(unsigned int *)(param_1 + 0x554c);
     goto code_r0x82652090;
   case 5:
-    uVar2 = *(uint *)(param_1 + 0x5520);
+    uVar2 = *(unsigned int *)(param_1 + 0x5520);
     uVar8 = (uVar2 - *(int *)(param_1 + 0x554c)) - *(int *)(param_1 + 0x5548);
 code_r0x82652090:
     fVar1 = (float)uVar8 / (float)uVar2;
@@ -116,21 +89,21 @@ code_r0x82652044:
     }
     return dVar12;
   case 6:
-    uVar8 = *(uint *)(param_1 + 0x5550);
+    uVar8 = *(unsigned int *)(param_1 + 0x5550);
     iVar6 = *(int *)(param_1 + 0x2a90);
-    pbVar3 = (byte *)(((uVar8 + 1 & 7) + 0x10) * 4 + iVar6);
-    uVar10 = (ulonglong)pbVar3[3] << 0x18 | (ulonglong)pbVar3[2] << 0x10 | (ulonglong)pbVar3[1] << 8
-             | (ulonglong)*pbVar3;
-    pbVar3 = (byte *)(((uVar8 - 1 & 7) + 0x10) * 4 + iVar6);
-    uVar9 = (ulonglong)pbVar3[3] << 0x18 | (ulonglong)pbVar3[2] << 0x10 | (ulonglong)pbVar3[1] << 8
-            | (ulonglong)*pbVar3;
-    pbVar3 = (byte *)(((uVar8 & 7) + 0x10) * 4 + iVar6);
-    uVar7 = (ulonglong)pbVar3[3] << 0x18 | (ulonglong)pbVar3[2] << 0x10 | (ulonglong)pbVar3[1] << 8
-            | (ulonglong)*pbVar3;
+    pbVar3 = (unsigned char *)(((uVar8 + 1 & 7) + 0x10) * 4 + iVar6);
+    uVar10 = (unsigned __int64)pbVar3[3] << 0x18 | (unsigned __int64)pbVar3[2] << 0x10 | (unsigned __int64)pbVar3[1] << 8
+             | (unsigned __int64)*pbVar3;
+    pbVar3 = (unsigned char *)(((uVar8 - 1 & 7) + 0x10) * 4 + iVar6);
+    uVar9 = (unsigned __int64)pbVar3[3] << 0x18 | (unsigned __int64)pbVar3[2] << 0x10 | (unsigned __int64)pbVar3[1] << 8
+            | (unsigned __int64)*pbVar3;
+    pbVar3 = (unsigned char *)(((uVar8 & 7) + 0x10) * 4 + iVar6);
+    uVar7 = (unsigned __int64)pbVar3[3] << 0x18 | (unsigned __int64)pbVar3[2] << 0x10 | (unsigned __int64)pbVar3[1] << 8
+            | (unsigned __int64)*pbVar3;
     if (uVar10 == 0) {
       return (_seed_nan);
     }
-    *(uint *)(param_1 + 0x5550) = uVar8 + 2;
+    *(unsigned int *)(param_1 + 0x5550) = uVar8 + 2;
     if (uVar7 == 0) {
       return (_seed_nan);
     }
@@ -151,7 +124,7 @@ code_r0x82652044:
     iVar6 = fn_826518E0();
     if (iVar6 != 0) {
       lVar11 = lbl_83275B68 - lbl_83275DB8;
-      uStack_38 = (ulonglong)uRam83275d90;
+      uStack_38 = (unsigned __int64)uRam83275d90;
       lVar5 = lRam83275b70 - lRam83275dc0;
       if (param_2 == 7) {
         lVar5 = lVar5 - uStack_38;
@@ -258,7 +231,7 @@ joined_r0x826523f0:
     lVar11 = lbl_83275B68 - lbl_83275DB8;
     goto code_r0x82652330;
   case 0x11:
-    uVar8 = *(uint *)(param_1 + 0x5c10);
+    uVar8 = *(unsigned int *)(param_1 + 0x5c10);
 code_r0x82651ffc:
     return (double)uVar8;
   }

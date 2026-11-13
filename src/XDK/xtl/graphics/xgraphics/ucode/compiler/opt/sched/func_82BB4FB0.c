@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 extern int fn_82BD32C0();
 extern int fn_82BD32F8();
@@ -36,10 +10,10 @@ void fn_82BB4FB0(int *param_1,int *param_2)
   int *piVar1;
   int iVar2;
   char cVar3;
-  undefined8 uVar4;
-  longlong lVar5;
+  unsigned __int64 uVar4;
+  __int64 lVar5;
   int iVar6;
-  uint uVar7;
+  unsigned int uVar7;
   
   iVar6 = 0;
   if ((param_1[1] == 3) || (param_1[1] == 2)) {
@@ -51,19 +25,19 @@ void fn_82BB4FB0(int *param_1,int *param_2)
     do {
       iVar6 = iVar2;
       if (param_1[1] == 2) {
-        cVar3 = fn_82BD32C0(*(undefined4 *)(iVar6 + 0x28));
+        cVar3 = fn_82BD32C0(*(unsigned int *)(iVar6 + 0x28));
         if (cVar3 == '\0') goto LAB_82bb5048;
       }
       else {
 LAB_82bb5048:
         if (param_1[1] == 3) {
-          cVar3 = fn_82BD32F8(*(undefined4 *)(iVar6 + 0x28));
+          cVar3 = fn_82BD32F8(*(unsigned int *)(iVar6 + 0x28));
           if (cVar3 != '\0') goto LAB_82bb507c;
         }
         fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e00d0,0xffffffff820e0168,0x187);
       }
 LAB_82bb507c:
-      uVar7 = -((uint)(*(int *)(iVar6 + 0x3c) == 0) - (*(int *)(iVar6 + 0x3c) >> 0x1f)) & uVar7;
+      uVar7 = -((unsigned int)(*(int *)(iVar6 + 0x3c) == 0) - (*(int *)(iVar6 + 0x3c) >> 0x1f)) & uVar7;
       iVar2 = *(int *)(iVar6 + 0x40);
     } while (*(int *)(iVar6 + 0x40) != 0);
     if (uVar7 != 0) {
@@ -80,9 +54,9 @@ LAB_82bb507c:
   do {
     if (*param_2 != 0) {
       piVar1 = *(int **)(*param_2 + 0x28);
-      cVar3 = (**(code **)(*piVar1 + 0x14))(piVar1);
+      cVar3 = (**(int (***)())(*piVar1 + 0x14))(piVar1);
       if (cVar3 == '\0') {
-        cVar3 = (**(code **)(*piVar1 + 0x18))(piVar1);
+        cVar3 = (**(int (***)())(*piVar1 + 0x18))(piVar1);
         if (cVar3 != '\0') {
           if (param_1[1] == 3) {
             fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e00b8,0xffffffff820e0168,0x1b4);

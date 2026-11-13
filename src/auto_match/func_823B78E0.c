@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_44;
 extern unsigned int *auStack_70;
 extern int fn_82250928();
@@ -41,29 +15,29 @@ extern unsigned int uStack_50;
 extern unsigned int uStack_8c;
 
 
-void fn_823B78E0(int param_1,undefined4 param_2)
+void fn_823B78E0(int param_1,unsigned int param_2)
 
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
+  unsigned int *puVar1;
+  unsigned int *puVar2;
   char cVar3;
-  undefined4 * apuStack_a0;
-  undefined **ppuStack_90;
-  undefined4 uStack_8c;
-  undefined ***pppuStack_80;
-  undefined1 auStack_70 [16];
+  unsigned int * apuStack_a0;
+  unsigned char **ppuStack_90;
+  unsigned int uStack_8c;
+  unsigned char ***pppuStack_80;
+  unsigned char auStack_70 [16];
   int *piStack_60;
-  struct { undefined4 first; undefined4 second; } stack_pair_50;
+  struct { unsigned int first; unsigned int second; } stack_pair_50;
 
-  undefined4 uStack_48;
-  undefined4 auStack_44 [17];
+  unsigned int uStack_48;
+  unsigned int auStack_44 [17];
   
   pppuStack_80 = &ppuStack_90;
-  puVar1 = *(undefined4 **)(param_1 + 0x60);
+  puVar1 = *(unsigned int **)(param_1 + 0x60);
   ppuStack_90 = &lbl_821B5CB8;
-  puVar2 = (undefined4 *)*puVar1;
+  puVar2 = (unsigned int *)*puVar1;
   uStack_8c = param_2;
-  piStack_60 = (int *)(*(code *)lbl_821B5CB8)(&ppuStack_90,auStack_70);
+  piStack_60 = (int *)(*(int (**)())lbl_821B5CB8)(&ppuStack_90,auStack_70);
   apuStack_a0 = puVar2;
   while( true ) {
     puVar2 = apuStack_a0;
@@ -76,7 +50,7 @@ void fn_823B78E0(int param_1,undefined4 param_2)
                     /* WARNING: Subroutine does not return */
       fn_82F63108();
     }
-    cVar3 = (**(code **)(*piStack_60 + 4))(piStack_60,&stack_pair_50.first);
+    cVar3 = (**(int (***)())(*piStack_60 + 4))(piStack_60,&stack_pair_50.first);
     fn_823B9060(auStack_44);
     fn_8265CA20(auStack_44[0]);
     auStack_44[0] = 0;
@@ -85,7 +59,7 @@ void fn_823B78E0(int param_1,undefined4 param_2)
   }
   fn_82359C18(auStack_70);
   fn_82359C18(&ppuStack_90);
-  if (puVar2 != *(undefined4 **)(param_1 + 0x60)) {
+  if (puVar2 != *(unsigned int **)(param_1 + 0x60)) {
     fn_823B7FF8(&apuStack_a0,param_1 + 0x5c,puVar2);
   }
   return;

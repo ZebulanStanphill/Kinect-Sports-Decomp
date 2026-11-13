@@ -1,18 +1,16 @@
-typedef unsigned int uint;
-
 struct elem {
-  uint a;
-  uint b;
+  unsigned int a;
+  unsigned int b;
 };
 
 struct arr {
   struct elem *data;
-  uint cap;
-  uint count;
+  unsigned int cap;
+  unsigned int count;
 };
 
-extern void fn_8265C990(void *p, uint tag);
-extern void fn_82A3F9B8(uint v, void *ctx);
+extern void fn_8265C990(void *p, unsigned int tag);
+extern void fn_82A3F9B8(unsigned int v, void *ctx);
 
 void fn_82A3FBE0(struct arr *a, void *ctx)
 {

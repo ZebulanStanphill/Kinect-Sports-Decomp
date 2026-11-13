@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 extern int fn_82D5B190();
 extern int fn_82D5B200();
 extern int fn_82D5B228();
@@ -28,7 +26,7 @@ typedef struct Table_82D5B820 {
   Fn_82D5B820 f24;
   Fn_82D5B820 f28;
   Fn_82D5B820 f2C;
-  U8 f30;
+  unsigned char f30;
 } Table_82D5B820;
 
 void fn_82D5B820(Table_82D5B820 *t)

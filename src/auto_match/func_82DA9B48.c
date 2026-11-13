@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern int fn_82BA02A8();
 extern int fn_82CE4118();
@@ -56,52 +29,52 @@ extern unsigned int uStack_b4;
 extern unsigned int uStack_c0;
 
 
-void fn_82DA9B48(int param_1,undefined8 param_2,int *param_3)
+void fn_82DA9B48(int param_1,unsigned __int64 param_2,int *param_3)
 
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int *puVar1;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   int iVar4;
   int iVar5;
   int iVar6;
   int iVar7;
   int *piVar8;
   int iVar9;
-  uint uVar10;
-  uint uVar11;
-  ulonglong uVar12;
-  longlong lVar13;
-  ulonglong uVar14;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned __int64 uVar12;
+  __int64 lVar13;
+  unsigned __int64 uVar14;
   double dVar15;
-  undefined1 uStack_c0;
+  unsigned char uStack_c0;
   int *piStack_b8;
-  uint uStack_b4;
-  uint uStack_b0;
-  struct { int first; uint second; } stack_pair_a8;
+  unsigned int uStack_b4;
+  unsigned int uStack_b0;
+  struct { int first; unsigned int second; } stack_pair_a8;
 
-  uint uStack_a0;
-  struct { int first; uint second; } stack_pair_98;
+  unsigned int uStack_a0;
+  struct { int first; unsigned int second; } stack_pair_98;
 
-  uint uStack_90;
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  undefined4 uStack_80;
+  unsigned int uStack_90;
+  unsigned int uStack_88;
+  unsigned int uStack_84;
+  unsigned int uStack_80;
 
   iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
+  puVar1 = *(unsigned int **)(iVar4 + 4);
+  if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
     *puVar1 = "TtRecollide PSI";
     uVar3 = TBLr;
     puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
+    *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
   }
   *(int *)(*(int *)(param_1 + 0xc) + 0x94) = *(int *)(*(int *)(param_1 + 0xc) + 0x94) + 1;
   uStack_88 = 0;
   uStack_84 = 0;
   uStack_80 = 0xffffffff;
   iVar4 = fn_82CE5410();
-  fn_82CEAB00(&uStack_88,*(undefined4 *)(iVar4 + 0x10),0);
+  fn_82CEAB00(&uStack_88,*(unsigned int *)(iVar4 + 0x10),0);
   iVar4 = param_3[2];
   stack_pair_a8.first = 0;
   uVar14 = 0;
@@ -122,12 +95,12 @@ void fn_82DA9B48(int param_1,undefined8 param_2,int *param_3)
   if (iVar9 <= iVar4) {
     dVar15 = (double)lbl_821AAD20;
     do {
-      uVar11 = *(uint *)(iVar9 * 8 + *param_3 + 4);
+      uVar11 = *(unsigned int *)(iVar9 * 8 + *param_3 + 4);
       stack_pair_98.first = 0;
       stack_pair_98.second = 0;
       uStack_90 = 0x80000000;
       fn_83089E78(uVar11 + 0x10,&stack_pair_98.first);
-      uVar12 = (ulonglong)stack_pair_98.second;
+      uVar12 = (unsigned __int64)stack_pair_98.second;
       if (0 < (int)stack_pair_98.second) {
         iVar4 = 0;
         do {
@@ -146,11 +119,11 @@ void fn_82DA9B48(int param_1,undefined8 param_2,int *param_3)
                                   *(int *)(iVar7 + 0x14) ^ uVar11) + 0xcc);
               }
               iVar6 = fn_82CE5410();
-              fn_82CEA160(&uStack_88,*(undefined4 *)(iVar6 + 0x10),iVar7,1);
+              fn_82CEA160(&uStack_88,*(unsigned int *)(iVar6 + 0x10),iVar7,1);
               iVar6 = fn_82CE5410();
               if (stack_pair_a8.second == (uStack_a0 & 0x3fffffff)) {
                     /* WARNING: Subroutine does not return */
-                fn_82CE63B0(*(undefined4 *)(iVar6 + 0x10),&stack_pair_a8.first,8);
+                fn_82CE63B0(*(unsigned int *)(iVar6 + 0x10),&stack_pair_a8.first,8);
               }
               iVar6 = stack_pair_a8.second * 8;
               stack_pair_a8.second = stack_pair_a8.second + 1;
@@ -172,7 +145,7 @@ void fn_82DA9B48(int param_1,undefined8 param_2,int *param_3)
               iVar7 = fn_82CE5410();
               if (uStack_b4 == (uStack_b0 & 0x3fffffff)) {
                     /* WARNING: Subroutine does not return */
-                fn_82CE63B0(*(undefined4 *)(iVar7 + 0x10),&piStack_b8,0x18);
+                fn_82CE63B0(*(unsigned int *)(iVar7 + 0x10),&piStack_b8,0x18);
               }
               piVar8 = piStack_b8 + uStack_b4 * 6;
               if (piVar8 != (int *)0x0) {
@@ -218,7 +191,7 @@ LAB_82da9e8c:
       iVar4 = fn_82CE5410();
       stack_pair_98.second = 0;
       if ((uStack_90 & 0x80000000) == 0) {
-        (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+        (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
                   (*(int **)(iVar4 + 0x10),stack_pair_98.first,uStack_90 & 0x3fffffff,8);
       }
       stack_pair_98.first = 0;
@@ -247,7 +220,7 @@ LAB_82da9e8c:
   if (0 < (int)stack_pair_a8.second) {
     iVar7 = 0;
     do {
-      uVar2 = *(undefined4 *)(iVar7 + stack_pair_a8.first);
+      uVar2 = *(unsigned int *)(iVar7 + stack_pair_a8.first);
       iVar6 = 0;
       iVar5 = *(int *)(iVar7 + stack_pair_a8.first + 4);
       piVar8 = piStack_b8;
@@ -264,7 +237,7 @@ LAB_82da9e8c:
       iVar6 = fn_82CE5410();
       if (uStack_b4 == (uStack_b0 & 0x3fffffff)) {
                     /* WARNING: Subroutine does not return */
-        fn_82CE63B0(*(undefined4 *)(iVar6 + 0x10),&piStack_b8,0x18);
+        fn_82CE63B0(*(unsigned int *)(iVar6 + 0x10),&piStack_b8,0x18);
       }
       piVar8 = piStack_b8 + uStack_b4 * 6;
       if (piVar8 != (int *)0x0) {
@@ -293,13 +266,13 @@ LAB_82daa0dc:
       iVar9 = iVar9 + 1;
       iVar7 = iVar7 + 8;
       piVar8[3] = iVar5 + 1;
-      *(undefined4 *)(iVar5 * 4 + iVar4) = uVar2;
+      *(unsigned int *)(iVar5 * 4 + iVar4) = uVar2;
     } while (iVar9 < (int)stack_pair_a8.second);
   }
   fn_82DA8F88(param_1,iVar4,uVar14,piStack_b8,uStack_b4,
-                    *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x78),uStack_c0);
+                    *(unsigned int *)(*(int *)(param_1 + 0xc) + 0x78),uStack_c0);
   iVar9 = *(int *)(param_1 + 0xc);
-  lVar13 = (ulonglong)*(uint *)(iVar9 + 0x94) - 1;
+  lVar13 = (unsigned __int64)*(unsigned int *)(iVar9 + 0x94) - 1;
   *(int *)(iVar9 + 0x94) = (int)lVar13;
   if ((lVar13 == 0) && (*(char *)(iVar9 + 0x9c) == '\0')) {
     if (*(int *)(iVar9 + 0x8c) != 0) {
@@ -310,19 +283,19 @@ LAB_82daa0dc:
     }
   }
   iVar9 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar9 + 4);
-  if (puVar1 < *(undefined4 **)(iVar9 + 0xc)) {
+  puVar1 = *(unsigned int **)(iVar9 + 4);
+  if (puVar1 < *(unsigned int **)(iVar9 + 0xc)) {
     *puVar1 = &lbl_82132BC4;
     uVar3 = TBLr;
     puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar9 + 4) = puVar1 + 3;
+    *(unsigned int **)(iVar9 + 4) = puVar1 + 3;
   }
   piVar8 = (int *)fn_82CE5410();
   *piVar8 = iVar4;
   iVar4 = fn_82CE5410();
   uStack_b4 = 0;
   if ((uStack_b0 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
               (*(int **)(iVar4 + 0x10),piStack_b8,uStack_b0 & 0x3fffffff,0x18);
   }
   piStack_b8 = (int *)0x0;
@@ -330,13 +303,13 @@ LAB_82daa0dc:
   iVar4 = fn_82CE5410();
   stack_pair_a8.second = 0;
   if ((uStack_a0 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
               (*(int **)(iVar4 + 0x10),stack_pair_a8.first,uStack_a0 & 0x3fffffff,8);
   }
   stack_pair_a8.first = 0;
   uStack_a0 = 0x80000000;
   iVar4 = fn_82CE5410();
-  fn_82CEA4B8(&uStack_88,*(undefined4 *)(iVar4 + 0x10));
+  fn_82CEA4B8(&uStack_88,*(unsigned int *)(iVar4 + 0x10));
   fn_82BA02A8(&uStack_88);
   return;
 }

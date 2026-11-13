@@ -1,51 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82963958();
 extern int fn_8299A190();
 extern int memcpy();
 extern unsigned int iStack_464;
 
 
-undefined8 fn_8299A220(int param_1,int *param_2,ulonglong param_3)
+unsigned __int64 fn_8299A220(int param_1,int *param_2,unsigned __int64 param_3)
 
 {
   int iVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar2;
   int *piVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
-  uint uVar6;
+  unsigned int uVar6;
   int iVar7;
   int *piVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
   int *piVar11;
-  ulonglong uVar12;
+  unsigned __int64 uVar12;
   int iStack_464;
   int aiStack_460 [252];
   
@@ -62,15 +35,15 @@ undefined8 fn_8299A220(int param_1,int *param_2,ulonglong param_3)
             uVar6 = uVar6 + 1;
             piVar11 = (int *)(*(int *)(iVar5 + 0x10) + iVar7);
             iVar7 = iVar7 + 4;
-            *(uint *)(*(int *)(*piVar11 * 4 + *(int *)(param_1 + 0x14)) + 0x48) = uVar4;
-          } while (uVar6 < *(uint *)(iVar5 + 0xc));
+            *(unsigned int *)(*(int *)(*piVar11 * 4 + *(int *)(param_1 + 0x14)) + 0x48) = uVar4;
+          } while (uVar6 < *(unsigned int *)(iVar5 + 0xc));
         }
-        *(undefined4 *)(iVar5 + 0x1c) = 0;
-        *(undefined4 *)(iVar5 + 0x14) = 0;
+        *(unsigned int *)(iVar5 + 0x1c) = 0;
+        *(unsigned int *)(iVar5 + 0x14) = 0;
       }
       uVar4 = uVar4 + 1;
       piVar3 = piVar3 + 1;
-    } while ((ulonglong)uVar4 < (param_3 & 0xffffffff));
+    } while ((unsigned __int64)uVar4 < (param_3 & 0xffffffff));
   }
   uVar4 = 0;
   if (*(int *)(param_1 + 8) != 0) {
@@ -79,12 +52,12 @@ undefined8 fn_8299A220(int param_1,int *param_2,ulonglong param_3)
       iVar1 = *(int *)(iVar5 + *(int *)(param_1 + 0x14));
       iVar7 = *(int *)(iVar1 + 0x38);
       if (iVar7 != -1) {
-        *(undefined4 *)(iVar1 + 0x48) =
-             *(undefined4 *)(*(int *)(iVar7 * 4 + *(int *)(param_1 + 0x14)) + 0x48);
+        *(unsigned int *)(iVar1 + 0x48) =
+             *(unsigned int *)(*(int *)(iVar7 * 4 + *(int *)(param_1 + 0x14)) + 0x48);
       }
       uVar4 = uVar4 + 1;
       iVar5 = iVar5 + 4;
-    } while (uVar4 < *(uint *)(param_1 + 8));
+    } while (uVar4 < *(unsigned int *)(param_1 + 8));
   }
   uVar10 = 0;
   piVar3 = param_2;
@@ -122,7 +95,7 @@ undefined8 fn_8299A220(int param_1,int *param_2,ulonglong param_3)
             }
             uVar4 = uVar4 + 1;
             iVar7 = iVar7 + 4;
-          } while (uVar4 < *(uint *)(iVar5 + 4));
+          } while (uVar4 < *(unsigned int *)(iVar5 + 4));
         }
         uVar9 = fn_82963958(uVar12);
         *(int *)(iVar5 + 0x18) = (int)uVar9;

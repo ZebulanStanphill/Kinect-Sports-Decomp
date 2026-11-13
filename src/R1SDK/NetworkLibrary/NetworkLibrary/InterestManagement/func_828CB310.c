@@ -1,6 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned int uint;
-
 extern int fn_8251C390(void *scope, const char *file, int line);
 extern int fn_828CAB48(void *obj);
 extern int fn_829E53B0(void *scope);
@@ -11,7 +8,7 @@ extern char lbl_83214380[];
 
 char *fn_828CB310(void)
 {
-  undefined1 auStack_20[16];
+  unsigned char auStack_20[16];
 
   fn_8251C390(auStack_20, ".\\InterestManagement.cpp", 0x3d);
   if ((lbl_832143C0 & 1) == 0) {

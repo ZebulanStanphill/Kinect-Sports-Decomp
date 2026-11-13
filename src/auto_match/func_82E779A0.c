@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E39CE8();
 extern int fn_82E4FE40();
 extern int fn_82E763E8();
@@ -42,38 +18,38 @@ extern unsigned int uStack_9c;
 extern unsigned int uStack_ac;
 
 
-longlong fn_82E779A0(int param_1,short param_2,int *param_3,undefined2 *param_4,ushort *param_5,
-                      uint param_6)
+__int64 fn_82E779A0(int param_1,short param_2,int *param_3,unsigned short *param_4,unsigned short *param_5,
+                      unsigned int param_6)
 
 {
-  byte bVar1;
-  byte bVar2;
-  ushort uVar3;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned short uVar3;
   short *psVar4;
   int iVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar6;
   bool bVar7;
-  ushort *puVar8;
-  ulonglong uVar9;
-  byte *pbVar10;
-  byte *pbVar11;
-  ushort *puVar12;
-  ushort uVar13;
-  ushort *puVar14;
-  ulonglong uVar15;
-  longlong lVar17;
-  code *pcVar18;
+  unsigned short *puVar8;
+  unsigned __int64 uVar9;
+  unsigned char *pbVar10;
+  unsigned char *pbVar11;
+  unsigned short *puVar12;
+  unsigned short uVar13;
+  unsigned short *puVar14;
+  unsigned __int64 uVar15;
+  __int64 lVar17;
+  int (**pcVar18)();
   int iStack_b0;
-  uint uStack_ac;
-  ushort *apuStack_a8 [2];
-  byte abStack_a0 [4];
-  undefined4 uStack_9c;
-  undefined4 uStack_98;
-  undefined4 uStack_94;
-  ushort uStack_90;
-  undefined2 uVar16;
+  unsigned int uStack_ac;
+  unsigned short *apuStack_a8 [2];
+  unsigned char abStack_a0 [4];
+  unsigned int uStack_9c;
+  unsigned int uStack_98;
+  unsigned int uStack_94;
+  unsigned short uStack_90;
+  unsigned short uVar16;
   
-  if (((param_3 == (int *)0x0) || (param_4 == (undefined2 *)0x0)) || (param_5 == (ushort *)0x0)) {
+  if (((param_3 == (int *)0x0) || (param_4 == (unsigned short *)0x0)) || (param_5 == (unsigned short *)0x0)) {
     return -0x7fffbffd;
   }
   psVar4 = *(short **)(param_1 + 8);
@@ -81,12 +57,12 @@ longlong fn_82E779A0(int param_1,short param_2,int *param_3,undefined2 *param_4,
   uVar16 = 8;
   iStack_b0 = 0;
   lVar17 = 0;
-  puVar14 = (ushort *)((param_6 & 0xffff) + (int)param_5);
+  puVar14 = (unsigned short *)((param_6 & 0xffff) + (int)param_5);
   for (; apuStack_a8[0] = param_5, psVar4 != (short *)0x0; psVar4 = *(short **)(psVar4 + 4)) {
     if (*psVar4 == param_2) {
       iVar5 = *(int *)(psVar4 + 2);
       if (iVar5 != 0) {
-        uVar3 = *(ushort *)(iVar5 + 4);
+        uVar3 = *(unsigned short *)(iVar5 + 4);
         uVar13 = 0;
         if (uVar3 != 0) {
           goto LAB_82e77a58;
@@ -99,7 +75,7 @@ longlong fn_82E779A0(int param_1,short param_2,int *param_3,undefined2 *param_4,
 LAB_82e77a58:
   do {
     puVar8 = apuStack_a8[0];
-    uVar16 = (undefined2)uVar15;
+    uVar16 = (unsigned short)uVar15;
     bVar7 = false;
     uStack_9c = 0;
     uStack_98 = 0;
@@ -112,15 +88,15 @@ LAB_82e77a58:
     do {
       bVar1 = *pbVar11;
       bVar2 = *pbVar10;
-      if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
+      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
       pbVar11 = pbVar11 + 1;
       pbVar10 = pbVar10 + 1;
     } while (pbVar11 != &lbl_8214C2D0);
-    pcVar18 = *(code **)(*param_3 + 0x40);
-    if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
+    pcVar18 = *(int (***)())(*param_3 + 0x40);
+    if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
       lVar17 = (*pcVar18)(param_3,0xffffffff8215388c,&iStack_b0,&uStack_ac);
       if (lVar17 < 0) {
-        pcVar18 = *(code **)(*param_3 + 0x40);
+        pcVar18 = *(int (***)())(*param_3 + 0x40);
         goto LAB_82e77b00;
       }
     }
@@ -138,8 +114,8 @@ LAB_82e77b00:
       lVar17 = -0x3ff2c945;
       break;
     }
-    uVar9 = (ulonglong)uStack_90;
-    uVar6 = (ulonglong)uStack_ac & 0xffff;
+    uVar9 = (unsigned __int64)uStack_90;
+    uVar6 = (unsigned __int64)uStack_ac & 0xffff;
     if (uVar9 == 0xffff) {
       puVar12 = puVar8 + 1;
       lVar17 = 0;
@@ -148,7 +124,7 @@ LAB_82e77b00:
         lVar17 = -0x7fff0001;
       }
       else {
-        *puVar8 = (ushort)(((ulonglong)uStack_ac & 0xff) << 8) | (ushort)(uVar6 >> 8);
+        *puVar8 = (unsigned short)(((unsigned __int64)uStack_ac & 0xff) << 8) | (unsigned short)(uVar6 >> 8);
         apuStack_a8[0] = puVar12;
       }
       if ((int)lVar17 < 0) goto LAB_82e77c84;
@@ -179,7 +155,7 @@ LAB_82e77c44:
         lVar17 = -0x3ff2c945;
       }
     }
-    uVar16 = (undefined2)uVar15;
+    uVar16 = (unsigned short)uVar15;
     uVar13 = uVar13 + 1;
   } while (uVar13 < uVar3);
   if ((int)lVar17 < 0) goto LAB_82e77c84;

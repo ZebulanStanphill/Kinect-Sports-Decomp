@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82BFA4D0();
 extern unsigned int lbl_8322FCFC;
 extern unsigned int lbl_8322FD08;
@@ -43,13 +16,13 @@ extern unsigned int lbl_8322FD3C;
 extern unsigned int lbl_8322FD40;
 
 
-ulonglong fn_82BFA778(void)
+unsigned __int64 fn_82BFA778(void)
 
 {
-  ulonglong uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
-  undefined2 *puVar3;
-  longlong lVar4;
+  unsigned short *puVar3;
+  __int64 lVar4;
   
   if (lbl_8322FD18 == 0) {
     uVar1 = CurlOpenTitleBackingFile(0xffffffff8322fd18,0xffffffff8322fd10);
@@ -72,7 +45,7 @@ ulonglong fn_82BFA778(void)
         lVar4 = 0xffe;
         lbl_8322FD20 = 0;
         lbl_8322FD26 = 0;
-        puVar3 = (undefined2 *)0x8322bcf6;
+        puVar3 = (unsigned short *)0x8322bcf6;
         do {
           puVar3 = puVar3 + 1;
           *puVar3 = 0xffff;

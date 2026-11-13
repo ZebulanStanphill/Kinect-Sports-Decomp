@@ -1,35 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_10;
 extern unsigned int stack0x00000000;
-extern U64 storeVectorLeftIndexed128();
-extern U64 storeVectorRightIndexed128();
+extern unsigned __int64 storeVectorLeftIndexed128();
+extern unsigned __int64 storeVectorRightIndexed128();
 extern V16 vectorCompareEqualToFloatingPoint();
 extern V16 vectorConditionalSelect();
 extern V16 vectorConvertFromSignedFixedPoint128();
@@ -44,27 +18,27 @@ extern void *memcpy(void *, const void *, unsigned int);
 void fn_82A108B0(void)
 
 {
-  undefined4 *puVar1;
-  undefined8 in_r0;
-  undefined1 auVar2 [16];
-  undefined1 in_vs33 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs36 [16];
-  undefined1 in_vs37 [16];
-  undefined1 auVar3 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs43 [16];
-  undefined4 in_register_00010050;
-  undefined4 in_register_00010054;
-  undefined4 in_register_00010058;
-  undefined4 in_vr5;
-  undefined1 auVar4 [16];
-  undefined1 auVar5 [16];
-  undefined1 auStack_10 [16];{ V16 _vt0 = vectorSplatImmediateSignedWord128(0); memcpy(auVar5, &_vt0, 16); }{ V16 _vt1 = vectorReciprocalEstimateFloatingPoint(in_vs36); memcpy(auVar2, &_vt1, 16); }
+  unsigned int *puVar1;
+  unsigned __int64 in_r0;
+  unsigned char auVar2 [16];
+  unsigned char in_vs33 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs36 [16];
+  unsigned char in_vs37 [16];
+  unsigned char auVar3 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs43 [16];
+  unsigned int in_register_00010050;
+  unsigned int in_register_00010054;
+  unsigned int in_register_00010058;
+  unsigned int in_vr5;
+  unsigned char auVar4 [16];
+  unsigned char auVar5 [16];
+  unsigned char auStack_10 [16];{ V16 _vt0 = vectorSplatImmediateSignedWord128(0); memcpy(auVar5, &_vt0, 16); }{ V16 _vt1 = vectorReciprocalEstimateFloatingPoint(in_vs36); memcpy(auVar2, &_vt1, 16); }
   vectorUnpackD3D128(auVar5,4);
-  puVar1 = (undefined4 *)((uint)(auStack_10 + (int)in_r0) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_10 + (int)in_r0) & 0xfffffff0);
   *puVar1 = in_register_00010050;
   puVar1[1] = in_register_00010054;
   puVar1[2] = in_register_00010058;

@@ -1,11 +1,9 @@
-typedef unsigned int U32;
-
 typedef struct Obj_83022408 {
-    U32 w0;
-    U32 w1;
-    U32 w2;
+    unsigned int w0;
+    unsigned int w1;
+    unsigned int w2;
     float f;
-    U32 m[28];
+    unsigned int m[28];
 } Obj_83022408;
 
 Obj_83022408 *fn_83022408(Obj_83022408 *p)

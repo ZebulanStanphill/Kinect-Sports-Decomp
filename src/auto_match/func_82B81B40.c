@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82B806D8();
 extern int fn_82B808B0();
 extern int stricmp();
@@ -32,28 +5,28 @@ extern int fn_82F6A3F0();
 extern int fn_82F6B0C0();
 
 
-undefined8
-fn_82B81B40(undefined8 param_1, longlong param_2, longlong param_3, undefined4 *param_4, uint param_5, undefined8 param_6, undefined8 param_7, undefined8 param_8, undefined4 in_stack_00000054)
+unsigned __int64
+fn_82B81B40(unsigned __int64 param_1, __int64 param_2, __int64 param_3, unsigned int *param_4, unsigned int param_5, unsigned __int64 param_6, unsigned __int64 param_7, unsigned __int64 param_8, unsigned int in_stack_00000054)
 
 {
   int iVar2;
-  longlong lVar1;
+  __int64 lVar1;
   char cVar3;
-  undefined8 uVar4;
-  undefined4 *puVar5;
-  uint uVar6;
+  unsigned __int64 uVar4;
+  unsigned int *puVar5;
+  unsigned int uVar6;
 
-  undefined1 *in_stack_0000005c;
+  unsigned char *in_stack_0000005c;
   char * apcStack_60;
 
   uVar6 = 0;
   puVar5 = param_4;
   if (param_5 != 0) {
     do {
-      iVar2 = fn_82F6B0C0(param_2,*puVar5,(uint)puVar5[1] >> 0x1c);
+      iVar2 = fn_82F6B0C0(param_2,*puVar5,(unsigned int)puVar5[1] >> 0x1c);
       if (iVar2 == 0) {
         param_4 = param_4 + uVar6 * 3;
-        lVar1 = fn_82F6A3F0((ulonglong)((uint)param_4[1] >> 0x1c) + param_2,&apcStack_60,10);
+        lVar1 = fn_82F6A3F0((unsigned __int64)((unsigned int)param_4[1] >> 0x1c) + param_2,&apcStack_60,10);
         if (*apcStack_60 != '\0') {
           if ((param_4[1] & 0x1c000) != 0) {
             return 0;
@@ -75,7 +48,7 @@ fn_82B81B40(undefined8 param_1, longlong param_2, longlong param_3, undefined4 *
         if (cVar3 == '\0') {
           return 0;
         }
-        if (in_stack_0000005c != (undefined1 *)0x0) {
+        if (in_stack_0000005c != (unsigned char *)0x0) {
           *in_stack_0000005c = (char)param_6;
         }
         return 1;

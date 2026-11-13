@@ -1,49 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E9A930();
 extern unsigned int lbl_8215F864;
 extern unsigned int uStack_50;
 
 
-void fn_82EAA320(int param_1,uint *param_2,uint *param_3,uint *param_4,uint *param_5,int param_6)
+void fn_82EAA320(int param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,unsigned int *param_5,int param_6)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uStack_50;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uStack_50;
   
   if (param_6 != 0) {
     uStack_50 = *param_2;
@@ -64,8 +37,8 @@ LAB_82eaa354:
   uVar5 = param_3[1];
   uVar6 = param_3[2];
   uVar7 = param_3[3];
-  uVar8 = (uint)(uVar10 == 0x4000) + ((uint)LZCOUNT(uVar1 - 0x4000) >> 5) +
-          ((uint)LZCOUNT(uVar2 - 0x4000) >> 5) + (uint)(uVar3 == 0x4000);
+  uVar8 = (unsigned int)(uVar10 == 0x4000) + ((unsigned int)LZCOUNT(uVar1 - 0x4000) >> 5) +
+          ((unsigned int)LZCOUNT(uVar2 - 0x4000) >> 5) + (unsigned int)(uVar3 == 0x4000);
   if (2 < uVar8) goto LAB_82eaa354;
   if (uVar8 != 1) {
     if (uVar8 == 2) {
@@ -87,8 +60,8 @@ LAB_82eaa354:
         uVar8 = uVar10 + uVar8;
         uVar9 = uVar7 + uVar9;
       }
-      uStack_50 = ((int)uVar8 >> 1) + (uint)((int)uVar8 < 0 && (uVar8 & 1) != 0);
-      uVar8 = ((int)uVar9 >> 1) + (uint)((int)uVar9 < 0 && (uVar9 & 1) != 0);
+      uStack_50 = ((int)uVar8 >> 1) + (unsigned int)((int)uVar8 < 0 && (uVar8 & 1) != 0);
+      uVar8 = ((int)uVar9 >> 1) + (unsigned int)((int)uVar9 < 0 && (uVar9 & 1) != 0);
     }
     else {
       uStack_50 = fn_82E9A930();

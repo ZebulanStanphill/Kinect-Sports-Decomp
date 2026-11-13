@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 extern int fn_82A3F6F0(void *p);
 extern int fn_82A411B8(void *p);
 extern int fn_82A412D8(void *p);

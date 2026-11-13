@@ -1,4 +1,3 @@
-typedef unsigned int U32;
 struct If_823A7198;
 typedef struct { void *s0; void (*f1)(struct If_823A7198 *, void *); void *s2, *s3; void (*f4)(struct If_823A7198 *, void *, void *); void (*f5)(struct If_823A7198 *, void *, void *); } Vt_823A7198;
 typedef struct If_823A7198 { Vt_823A7198 *vt; } If_823A7198;
@@ -11,7 +10,7 @@ typedef struct { int pad0[2]; int one; char pad1[0x44 - 0xc]; int a44; void *a48
 extern void fn_822315A0(void *);
 extern void fn_822D79D8(Pair_823A7198 *, void *);
 extern void *fn_822D7FE0(void *);
-extern void *fn_8265C9E0(U32);
+extern void *fn_8265C9E0(unsigned int);
 extern void fn_828E2B28(void *, Pair_823A7198 *);
 extern void fn_828E9D40(void *);
 extern void fn_828E9D90(void *);

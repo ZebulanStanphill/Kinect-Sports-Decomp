@@ -1,9 +1,6 @@
-typedef unsigned char U8;
-typedef unsigned int U32;
-
 typedef struct {
-    U32 a;
-    U32 b;
+    unsigned int a;
+    unsigned int b;
 } Pair;
 
 typedef struct {
@@ -24,22 +21,22 @@ typedef struct {
 
 typedef struct {
     char pad0[0xc];
-    U32 f0c;
-    U32 f10;
-    U32 f14;
-    U32 f18;
-    U32 f1c;
-    U32 f20;
-    U32 f24;
-    U32 f28;
-    U32 f2c;
-    U8 f30;
+    unsigned int f0c;
+    unsigned int f10;
+    unsigned int f14;
+    unsigned int f18;
+    unsigned int f1c;
+    unsigned int f20;
+    unsigned int f24;
+    unsigned int f28;
+    unsigned int f2c;
+    unsigned char f30;
     char pad31[0x7];
-    U32 f38;
-    U32 f3c;
+    unsigned int f38;
+    unsigned int f3c;
 } Item;
 
-extern void fn_82BA9020(Item *item, U32 delta);
+extern void fn_82BA9020(Item *item, unsigned int delta);
 
 void fn_82BABBE0(Obj *param_1, Item *param_2, int param_3, Ctx *param_4)
 {

@@ -1,51 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_90;
 
 
-undefined8
-fn_8294A9F8(int param_1,uint *param_2,int *param_3,uint param_4,uint *param_5,uint *param_6,
+unsigned __int64
+fn_8294A9F8(int param_1,unsigned int *param_2,int *param_3,unsigned int param_4,unsigned int *param_5,unsigned int *param_6,
              int param_7,int param_8)
 
 {
   int iVar1;
-  uint uVar2;
+  unsigned int uVar2;
   int iVar3;
   int iVar4;
   bool bVar5;
-  uint uVar6;
-  uint uVar7;
+  unsigned int uVar6;
+  unsigned int uVar7;
   int iVar8;
-  uint uVar9;
-  uint *puVar10;
-  uint uVar11;
-  longlong lVar12;
-  uint auStack_90 [36];
+  unsigned int uVar9;
+  unsigned int *puVar10;
+  unsigned int uVar11;
+  __int64 lVar12;
+  unsigned int auStack_90 [36];
   
   uVar6 = *param_2;
   auStack_90[0] = 0;
@@ -107,7 +83,7 @@ fn_8294A9F8(int param_1,uint *param_2,int *param_3,uint param_4,uint *param_5,ui
                  (*(int *)(*(int *)(iVar3 * 4 + iVar1) + 0x3c) == 0)))))) {
               bVar5 = true;
               auStack_90[uVar7 + 4] = uVar11;
-              *(undefined4 *)((int)auStack_90 + iVar8) = 1;
+              *(unsigned int *)((int)auStack_90 + iVar8) = 1;
             }
             uVar11 = uVar11 + 1;
             iVar8 = iVar8 + 4;
@@ -136,7 +112,7 @@ fn_8294A9F8(int param_1,uint *param_2,int *param_3,uint param_4,uint *param_5,ui
     iVar1 = (int)param_5 - (int)param_6;
     lVar12 = 4;
     do {
-      uVar6 = *(uint *)(iVar1 + (int)param_6);
+      uVar6 = *(unsigned int *)(iVar1 + (int)param_6);
       if (uVar6 < 4) {
         uVar6 = auStack_90[uVar6 + 4];
       }

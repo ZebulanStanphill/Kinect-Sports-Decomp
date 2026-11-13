@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern int fn_82A5DAC0();
 extern int fn_82A5DB28();
@@ -34,19 +8,19 @@ extern int fn_82A5DFF8();
 extern int fn_82A5E128();
 
 
-byte fn_82A5F060(short *param_1)
+unsigned char fn_82A5F060(short *param_1)
 
 {
-  ushort uVar3;
+  unsigned short uVar3;
   int iVar2;
-  longlong lVar1;
-  uint uVar4;
+  __int64 lVar1;
+  unsigned int uVar4;
   short sVar5;
-  byte bVar6;
+  unsigned char bVar6;
   bool bVar7;
   bool bVar8;
   bool bVar9;
-  undefined1 auStack_60 [72];
+  unsigned char auStack_60 [72];
   
   bVar6 = 1;
   if (*param_1 != 0x165) {
@@ -67,11 +41,11 @@ byte fn_82A5F060(short *param_1)
     if ((*param_1 == -2) && (param_1[9] != 0x20)) {
       bVar7 = param_1[9] == 0 && bVar7;
     }
-    uVar4 = (uint)(ushort)param_1[1] * (uint)(ushort)param_1[7];
-    bVar8 = (longlong)((int)uVar4 >> 3) + (ulonglong)((int)uVar4 < 0 && (uVar4 & 7) != 0) ==
-            (ulonglong)(ushort)param_1[6];
-    bVar9 = (longlong)*(int *)(param_1 + 2) * (longlong)(int)(uint)(ushort)param_1[6] -
-            (ulonglong)*(uint *)(param_1 + 4) != 0;
+    uVar4 = (unsigned int)(unsigned short)param_1[1] * (unsigned int)(unsigned short)param_1[7];
+    bVar8 = (__int64)((int)uVar4 >> 3) + (unsigned __int64)((int)uVar4 < 0 && (uVar4 & 7) != 0) ==
+            (unsigned __int64)(unsigned short)param_1[6];
+    bVar9 = (__int64)*(int *)(param_1 + 2) * (__int64)(int)(unsigned int)(unsigned short)param_1[6] -
+            (unsigned __int64)*(unsigned int *)(param_1 + 4) != 0;
 code_r0x82a5f1c4:
     if (!(bool)(!bVar9 & bVar8 & bVar7)) {
 code_r0x82a5f1d8:
@@ -101,8 +75,8 @@ code_r0x82a5f1e8:
   }
 code_r0x82a5f208:
   if (*param_1 != -2) goto code_r0x82a5f25c;
-  if (0x15 < (ushort)param_1[8]) {
-    uVar4 = *(uint *)(param_1 + 10);
+  if (0x15 < (unsigned short)param_1[8]) {
+    uVar4 = *(unsigned int *)(param_1 + 10);
     if (uVar4 == 0) goto code_r0x82a5f25c;
     sVar5 = 0;
     do {

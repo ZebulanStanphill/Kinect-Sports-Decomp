@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_e0;
 extern int memcpy();
@@ -41,7 +15,7 @@ extern int fn_83033DC8();
 extern unsigned int iStack_f0;
 
 
-undefined8 fn_83031CB8(int param_1,int *param_2)
+unsigned __int64 fn_83031CB8(int param_1,int *param_2)
 
 {
   bool bVar1;
@@ -52,12 +26,12 @@ undefined8 fn_83031CB8(int param_1,int *param_2)
   int iVar6;
   int iVar7;
   int iVar8;
-  undefined8 uVar9;
+  unsigned __int64 uVar9;
   int aiStack_110 [4];
-  undefined1 auStack_100 [16];
+  unsigned char auStack_100 [16];
   int iStack_f0;
-  undefined1 auStack_e0 [120];
-  undefined1 *puStack_68;
+  unsigned char auStack_e0 [120];
+  unsigned char *puStack_68;
   
   iVar2 = *param_2;
   uVar9 = 1;
@@ -72,7 +46,7 @@ undefined8 fn_83031CB8(int param_1,int *param_2)
       if (iVar2 == 1) {
         fn_830339D8(auStack_100,puStack_68);
         if (iVar6 >> 3 == 1) {
-          iVar4 = fn_83033C70(param_1,*(undefined4 *)(puStack_68 + 0x10));
+          iVar4 = fn_83033C70(param_1,*(unsigned int *)(puStack_68 + 0x10));
           if (iVar4 != 0) {
             fn_83032B08();
           }
@@ -83,7 +57,7 @@ undefined8 fn_83031CB8(int param_1,int *param_2)
           }
 LAB_83031de4:
           puStack_68 = auStack_100;
-          uVar9 = (**(code **)(*piVar3 + 0x18))(piVar3,auStack_e0);
+          uVar9 = (**(int (***)())(*piVar3 + 0x18))(piVar3,auStack_e0);
         }
         else {
           iVar5 = fn_83032B40();
@@ -104,7 +78,7 @@ LAB_83031de4:
         fn_83033910(auStack_100);
       }
       else {
-        uVar9 = (**(code **)(*piVar3 + 0x18))(piVar3,auStack_e0);
+        uVar9 = (**(int (***)())(*piVar3 + 0x18))(piVar3,auStack_e0);
       }
       if ((int)uVar9 != 1) break;
       iVar8 = iVar8 + 8;

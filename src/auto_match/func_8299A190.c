@@ -1,16 +1,15 @@
-typedef unsigned int uint;
-extern void *fn_82963958(uint n);
-void *memcpy(void *d, const void *s, uint n);
+extern void *fn_82963958(unsigned int n);
+void *memcpy(void *d, const void *s, unsigned int n);
 
 typedef struct {
   char pad[0x1c];
-  uint count;
+  unsigned int count;
   int *data;
 } S;
 
 int fn_8299A190(S *p, int v)
 {
-  uint n = p->count;
+  unsigned int n = p->count;
   if ((n & 7) == 0) {
     int *m;
     if (n + 8 < n) {

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8260BD80();
 extern int fn_82A1DD38();
 extern unsigned int lbl_821956A4;
@@ -35,20 +11,20 @@ extern unsigned int lbl_8327F894;
 
 /* WARNING: Removing unreachable block (ram,0x8260bab4) */
 
-void fn_8260BA88(uint *param_1,undefined8 param_2)
+void fn_8260BA88(unsigned int *param_1,unsigned __int64 param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   float fVar2;
   bool bVar3;
   float fVar4;
   int iVar5;
-  undefined4 *puVar6;
-  uint uVar7;
+  unsigned int *puVar6;
+  unsigned int uVar7;
   int iVar8;
   float *pfVar9;
-  uint uVar10;
-  longlong lVar11;
+  unsigned int uVar10;
+  __int64 lVar11;
   double dVar12;
   double dVar13;
   
@@ -176,13 +152,13 @@ void fn_8260BA88(uint *param_1,undefined8 param_2)
   fVar4 = lbl_821956A4;
   if (uVar10 == 0) {
     if (((float)param_1[0x56] < lbl_821956A4) &&
-       (fVar2 = (float)param_1[0x56] + (float)puVar6[5], param_1[0x56] = (uint)fVar2, fVar4 <= fVar2
+       (fVar2 = (float)param_1[0x56] + (float)puVar6[5], param_1[0x56] = (unsigned int)fVar2, fVar4 <= fVar2
        )) {
-      param_1[0x56] = (uint)fVar4;
+      param_1[0x56] = (unsigned int)fVar4;
     }
   }
   else {
-    param_1[0x56] = (uint)(float)dVar13;
+    param_1[0x56] = (unsigned int)(float)dVar13;
   }
   return;
 }

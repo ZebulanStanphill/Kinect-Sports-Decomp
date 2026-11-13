@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_a0;
 extern int fn_8265C940();
@@ -46,32 +19,32 @@ extern unsigned int uStack_90;
 extern unsigned int uStack_98;
 
 
-longlong fn_828F7668(int param_1,int *param_2)
+__int64 fn_828F7668(int param_1,int *param_2)
 
 {
   char cVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   char *pcVar3;
   int *piVar4;
-  undefined4 *puVar7;
-  longlong lVar5;
-  ulonglong uVar6;
+  unsigned int *puVar7;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
   int iVar8;
   char *pcVar9;
   int *piVar10;
-  undefined1 auStack_a0 [8];
-  undefined8 uStack_98;
-  undefined8 uStack_90;
-  undefined8 uStack_88;
-  undefined1 auStack_80 [128];
+  unsigned char auStack_a0 [8];
+  unsigned __int64 uStack_98;
+  unsigned __int64 uStack_90;
+  unsigned __int64 uStack_88;
+  unsigned char auStack_80 [128];
   
-  uVar2 = *(undefined4 *)(param_1 + 0x278);
+  uVar2 = *(unsigned int *)(param_1 + 0x278);
   uStack_98 = 0;
   uStack_90 = 0;
   uStack_88 = 0;
-  puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-  if (puVar7 == (undefined4 *)0x0) {
-    puVar7 = (undefined4 *)0x0;
+  puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+  if (puVar7 == (unsigned int *)0x0) {
+    puVar7 = (unsigned int *)0x0;
   }
   else {
     puVar7[1] = 0;
@@ -80,12 +53,12 @@ longlong fn_828F7668(int param_1,int *param_2)
     puVar7[4] = 0;
     *puVar7 = "DIRECT3D";
   }
-  if (puVar7 != (undefined4 *)0x0) {
+  if (puVar7 != (unsigned int *)0x0) {
     lVar5 = fn_828F6C70(param_1,puVar7);
     if (lVar5 < 0) goto LAB_828f7aa0;
-    puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-    if (puVar7 == (undefined4 *)0x0) {
-      puVar7 = (undefined4 *)0x0;
+    puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+    if (puVar7 == (unsigned int *)0x0) {
+      puVar7 = (unsigned int *)0x0;
     }
     else {
       puVar7[1] = 0;
@@ -94,12 +67,12 @@ longlong fn_828F7668(int param_1,int *param_2)
       puVar7[4] = 0;
       *puVar7 = &lbl_82029538;
     }
-    if (puVar7 != (undefined4 *)0x0) {
+    if (puVar7 != (unsigned int *)0x0) {
       lVar5 = fn_828F6C70(param_1,puVar7);
       if (lVar5 < 0) goto LAB_828f7aa0;
-      puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-      if (puVar7 == (undefined4 *)0x0) {
-        puVar7 = (undefined4 *)0x0;
+      puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+      if (puVar7 == (unsigned int *)0x0) {
+        puVar7 = (unsigned int *)0x0;
       }
       else {
         puVar7[1] = 0;
@@ -108,13 +81,13 @@ longlong fn_828F7668(int param_1,int *param_2)
         puVar7[4] = 0;
         *puVar7 = "D3D10_COMPILER";
       }
-      if (puVar7 != (undefined4 *)0x0) {
+      if (puVar7 != (unsigned int *)0x0) {
         lVar5 = fn_828F6C70(param_1,puVar7);
         if (lVar5 < 0) goto LAB_828f7aa0;
-        uStack_98 = CONCAT44(2,(((U64)(uStack_98) >> 32) & 0xFFFFFFFF));
-        puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-        if (puVar7 == (undefined4 *)0x0) {
-          puVar7 = (undefined4 *)0x0;
+        uStack_98 = CONCAT44(2,(((unsigned __int64)(uStack_98) >> 32) & 0xFFFFFFFF));
+        puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+        if (puVar7 == (unsigned int *)0x0) {
+          puVar7 = (unsigned int *)0x0;
         }
         else {
           puVar7[1] = 0;
@@ -123,7 +96,7 @@ longlong fn_828F7668(int param_1,int *param_2)
           puVar7[4] = 0;
           *puVar7 = "HLSL_VERSION";
         }
-        if (puVar7 != (undefined4 *)0x0) {
+        if (puVar7 != (unsigned int *)0x0) {
           uVar6 = fn_82930318(0x30);
           if ((uVar6 & 0xffffffff) == 0) {
             iVar8 = 0;
@@ -135,10 +108,10 @@ longlong fn_828F7668(int param_1,int *param_2)
           if (iVar8 != 0) {
             lVar5 = fn_828F6C70(param_1,puVar7);
             if (lVar5 < 0) goto LAB_828f7aa0;
-            uStack_98 = CONCAT44(0xa00,(((U64)(uStack_98) >> 32) & 0xFFFFFFFF));
-            puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-            if (puVar7 == (undefined4 *)0x0) {
-              puVar7 = (undefined4 *)0x0;
+            uStack_98 = CONCAT44(0xa00,(((unsigned __int64)(uStack_98) >> 32) & 0xFFFFFFFF));
+            puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+            if (puVar7 == (unsigned int *)0x0) {
+              puVar7 = (unsigned int *)0x0;
             }
             else {
               puVar7[1] = 0;
@@ -147,7 +120,7 @@ longlong fn_828F7668(int param_1,int *param_2)
               puVar7[4] = 0;
               *puVar7 = "DIRECT3D_VERSION";
             }
-            if (puVar7 != (undefined4 *)0x0) {
+            if (puVar7 != (unsigned int *)0x0) {
               uVar6 = fn_82930318(0x30);
               if ((uVar6 & 0xffffffff) == 0) {
                 iVar8 = 0;
@@ -159,10 +132,10 @@ longlong fn_828F7668(int param_1,int *param_2)
               if (iVar8 != 0) {
                 lVar5 = fn_828F6C70(param_1,puVar7);
                 if (lVar5 < 0) goto LAB_828f7aa0;
-                uStack_98 = CONCAT44(0xa1d,(((U64)(uStack_98) >> 32) & 0xFFFFFFFF));
-                puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-                if (puVar7 == (undefined4 *)0x0) {
-                  puVar7 = (undefined4 *)0x0;
+                uStack_98 = CONCAT44(0xa1d,(((unsigned __int64)(uStack_98) >> 32) & 0xFFFFFFFF));
+                puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+                if (puVar7 == (unsigned int *)0x0) {
+                  puVar7 = (unsigned int *)0x0;
                 }
                 else {
                   puVar7[1] = 0;
@@ -171,7 +144,7 @@ longlong fn_828F7668(int param_1,int *param_2)
                   puVar7[4] = 0;
                   *puVar7 = "D3DX_VERSION";
                 }
-                if (puVar7 != (undefined4 *)0x0) {
+                if (puVar7 != (unsigned int *)0x0) {
                   uVar6 = fn_82930318(0x30);
                   if ((uVar6 & 0xffffffff) == 0) {
                     iVar8 = 0;
@@ -183,9 +156,9 @@ longlong fn_828F7668(int param_1,int *param_2)
                   if (iVar8 != 0) {
                     lVar5 = fn_828F6C70(param_1,puVar7);
                     if (lVar5 < 0) goto LAB_828f7aa0;
-                    puVar7 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-                    if (puVar7 == (undefined4 *)0x0) {
-                      puVar7 = (undefined4 *)0x0;
+                    puVar7 = (unsigned int *)fn_8265C940(0x14,0x24810000);
+                    if (puVar7 == (unsigned int *)0x0) {
+                      puVar7 = (unsigned int *)0x0;
                     }
                     else {
                       puVar7[1] = 0;
@@ -194,16 +167,16 @@ longlong fn_828F7668(int param_1,int *param_2)
                       puVar7[4] = 0;
                       *puVar7 = &lbl_820294EC;
                     }
-                    if (puVar7 != (undefined4 *)0x0) {
+                    if (puVar7 != (unsigned int *)0x0) {
                       lVar5 = fn_828F6C70(param_1,puVar7);
                       if (-1 < lVar5) {
-                        puVar7 = (undefined4 *)0x0;
+                        puVar7 = (unsigned int *)0x0;
                         lVar5 = fn_828F6D60(param_1,0xffffffff820294e4);
                         if ((-1 < lVar5) &&
                            (lVar5 = fn_828F6DE8(param_1,0xffffffff820294d8,200), -1 < lVar5)) {
                           if (param_2 != (int *)0x0) {
                             fn_828F9D68(auStack_80);
-                            *(undefined1 **)(param_1 + 0x278) = auStack_80;
+                            *(unsigned char **)(param_1 + 0x278) = auStack_80;
                             if (*param_2 != 0) {
                               piVar10 = param_2 + 1;
                               do {
@@ -248,8 +221,8 @@ longlong fn_828F7668(int param_1,int *param_2)
   }
   lVar5 = -0x7ff8fff2;
 LAB_828f7aa0:
-  *(undefined4 *)(param_1 + 0x278) = uVar2;
-  if (puVar7 != (undefined4 *)0x0) {
+  *(unsigned int *)(param_1 + 0x278) = uVar2;
+  if (puVar7 != (unsigned int *)0x0) {
     fn_828F59D0(puVar7,1);
   }
   return lVar5;

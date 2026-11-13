@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82BA02A8();
 extern int fn_82CE5410();
 extern int fn_82CE6310();
@@ -40,86 +13,86 @@ extern unsigned int uStack_60;
 void fn_82D21718(int param_1,int *param_2,char param_3)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined4 *puVar5;
-  undefined4 *puVar6;
-  undefined4 *puVar7;
-  ulonglong uVar8;
-  longlong lVar9;
-  undefined8 in_r0;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int *puVar5;
+  unsigned int *puVar6;
+  unsigned int *puVar7;
+  unsigned __int64 uVar8;
+  __int64 lVar9;
+  unsigned __int64 in_r0;
   int iVar10;
   int iVar11;
-  undefined4 uVar12;
-  longlong lVar13;
+  unsigned int uVar12;
+  __int64 lVar13;
   int iVar14;
-  undefined4 *puVar15;
-  undefined4 uVar16;
-  undefined4 uVar17;
-  struct { undefined4 first; uint second; } stack_pair_60;
+  unsigned int *puVar15;
+  unsigned int uVar16;
+  unsigned int uVar17;
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  undefined4 uStack_58;
+  unsigned int uStack_58;
   
   if (0 < *(int *)(param_1 + 0x30)) {
     uVar1 = param_2[1];
-    uVar2 = *(uint *)(param_1 + 0x18);
+    uVar2 = *(unsigned int *)(param_1 + 0x18);
     iVar10 = fn_82CE5410();
     uVar3 = param_2[1];
-    lVar13 = (ulonglong)uVar3 + (ulonglong)uVar2;
+    lVar13 = (unsigned __int64)uVar3 + (unsigned __int64)uVar2;
     iVar11 = (int)lVar13;
     if ((int)(param_2[2] & 0x3fffffffU) < iVar11) {
-      lVar9 = ((ulonglong)(uint)param_2[2] & 0x3fffffff) << 1;
+      lVar9 = ((unsigned __int64)(unsigned int)param_2[2] & 0x3fffffff) << 1;
       if (iVar11 < (int)lVar9) {
         lVar13 = lVar9;
       }
-      fn_82CE6310(*(undefined4 *)(iVar10 + 0x10),param_2,lVar13,0x10);
+      fn_82CE6310(*(unsigned int *)(iVar10 + 0x10),param_2,lVar13,0x10);
     }
     iVar10 = *param_2;
     param_2[1] = uVar2 + param_2[1];
-    uVar2 = *(uint *)(param_1 + 0x30);
+    uVar2 = *(unsigned int *)(param_1 + 0x30);
     iVar11 = fn_82CE5410();
     uVar4 = param_2[4];
-    lVar13 = (ulonglong)uVar4 + (ulonglong)uVar2;
+    lVar13 = (unsigned __int64)uVar4 + (unsigned __int64)uVar2;
     iVar14 = (int)lVar13;
     if ((int)(param_2[5] & 0x3fffffffU) < iVar14) {
-      lVar9 = ((ulonglong)(uint)param_2[5] & 0x3fffffff) << 1;
+      lVar9 = ((unsigned __int64)(unsigned int)param_2[5] & 0x3fffffff) << 1;
       if (iVar14 < (int)lVar9) {
         lVar13 = lVar9;
       }
-      fn_82CE6310(*(undefined4 *)(iVar11 + 0x10),param_2 + 3,lVar13,0x10);
+      fn_82CE6310(*(unsigned int *)(iVar11 + 0x10),param_2 + 3,lVar13,0x10);
     }
     stack_pair_60.first = 0;
     stack_pair_60.second = 0;
     param_2[4] = param_2[4] + uVar2;
     uStack_58 = 0xffffffff;
-    puVar15 = (undefined4 *)(uVar4 * 0x10 + param_2[3]);
+    puVar15 = (unsigned int *)(uVar4 * 0x10 + param_2[3]);
     iVar11 = fn_82CE5410();
-    fn_82CEAB00(&stack_pair_60.first,*(undefined4 *)(iVar11 + 0x10),0);
-    uVar2 = *(uint *)(param_1 + 0x18);
+    fn_82CEAB00(&stack_pair_60.first,*(unsigned int *)(iVar11 + 0x10),0);
+    uVar2 = *(unsigned int *)(param_1 + 0x18);
     iVar11 = fn_82CE5410();
-    fn_82CEAB00(&stack_pair_60.first,*(undefined4 *)(iVar11 + 0x10),(ulonglong)uVar2 + 1);
+    fn_82CEAB00(&stack_pair_60.first,*(unsigned int *)(iVar11 + 0x10),(unsigned __int64)uVar2 + 1);
     iVar10 = uVar3 * 0x10 + iVar10;
-    for (puVar5 = *(undefined4 **)(param_1 + 0x14); puVar5 != (undefined4 *)0x0;
-        puVar5 = (undefined4 *)*puVar5) {
-      uVar8 = (ulonglong)stack_pair_60.second;
+    for (puVar5 = *(unsigned int **)(param_1 + 0x14); puVar5 != (unsigned int *)0x0;
+        puVar5 = (unsigned int *)*puVar5) {
+      uVar8 = (unsigned __int64)stack_pair_60.second;
       iVar11 = fn_82CE5410();
-      fn_82CEA160(&stack_pair_60.first,*(undefined4 *)(iVar11 + 0x10),puVar5,
-                        (uVar8 & 0x7fffffff) + (ulonglong)uVar1);
-      puVar6 = (undefined4 *)((uint)(puVar5 + 4) & 0xfffffff0);
+      fn_82CEA160(&stack_pair_60.first,*(unsigned int *)(iVar11 + 0x10),puVar5,
+                        (uVar8 & 0x7fffffff) + (unsigned __int64)uVar1);
+      puVar6 = (unsigned int *)((unsigned int)(puVar5 + 4) & 0xfffffff0);
       uVar12 = puVar6[1];
       uVar16 = puVar6[2];
       uVar17 = puVar6[3];
-      puVar7 = (undefined4 *)((int)in_r0 + iVar10 & 0xfffffff0);
+      puVar7 = (unsigned int *)((int)in_r0 + iVar10 & 0xfffffff0);
       *puVar7 = *puVar6;
       puVar7[1] = uVar12;
       puVar7[2] = uVar16;
       puVar7[3] = uVar17;
       iVar10 = iVar10 + 0x10;
     }
-    for (puVar5 = *(undefined4 **)(param_1 + 0x2c); puVar5 != (undefined4 *)0x0;
-        puVar5 = (undefined4 *)*puVar5) {
+    for (puVar5 = *(unsigned int **)(param_1 + 0x2c); puVar5 != (unsigned int *)0x0;
+        puVar5 = (unsigned int *)*puVar5) {
       uVar12 = fn_82CEA280(&stack_pair_60.first,puVar5[2],0xffffffffffffffff);
       *puVar15 = uVar12;
       uVar12 = fn_82CEA280(&stack_pair_60.first,puVar5[3],0xffffffffffffffff);
@@ -135,7 +108,7 @@ void fn_82D21718(int param_1,int *param_2,char param_3)
       puVar15 = puVar15 + 4;
     }
     iVar10 = fn_82CE5410();
-    fn_82CEA4B8(&stack_pair_60.first,*(undefined4 *)(iVar10 + 0x10));
+    fn_82CEA4B8(&stack_pair_60.first,*(unsigned int *)(iVar10 + 0x10));
     fn_82BA02A8(&stack_pair_60.first);
   }
   return;

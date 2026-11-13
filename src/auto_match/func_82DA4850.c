@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern int fn_82CE5410();
 extern int fn_82D02610();
@@ -44,43 +17,43 @@ extern unsigned int uStack_88;
 extern unsigned int uStack_8c;
 
 
-void fn_82DA4850(int *param_1,ulonglong param_2,int param_3)
+void fn_82DA4850(int *param_1,unsigned __int64 param_2,int param_3)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   int iVar4;
   int *piVar5;
   int iVar6;
   char cVar8;
   int iVar7;
-  undefined4 *puVar9;
-  undefined4 *puVar10;
-  longlong lVar11;
+  unsigned int *puVar9;
+  unsigned int *puVar10;
+  __int64 lVar11;
   int iVar12;
-  ulonglong uVar13;
-  longlong lVar14;
+  unsigned __int64 uVar13;
+  __int64 lVar14;
   int aiStack_a0 [4];
-  struct { int first; uint second; } stack_pair_90;
+  struct { int first; unsigned int second; } stack_pair_90;
 
-  uint uStack_88;
+  unsigned int uStack_88;
   int iStack_84;
-  struct { int first; uint second; } stack_pair_80;
+  struct { int first; unsigned int second; } stack_pair_80;
 
-  uint uStack_78;
+  unsigned int uStack_78;
   int iStack_74;
 
   iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar10 = *(undefined4 **)(iVar4 + 4);
-  if (puVar10 < *(undefined4 **)(iVar4 + 0xc)) {
+  puVar10 = *(unsigned int **)(iVar4 + 4);
+  if (puVar10 < *(unsigned int **)(iVar4 + 0xc)) {
     *puVar10 = "LtBroadPhase";
     puVar10[3] = "StInitMem";
     uVar3 = TBLr;
     puVar10[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar10 + 4;
+    *(unsigned int **)(iVar4 + 4) = puVar10 + 4;
   }
-  uVar1 = *(uint *)(param_3 + 0x33c);
+  uVar1 = *(unsigned int *)(param_3 + 0x33c);
   stack_pair_80.first = 0;
   stack_pair_80.second = 0;
   uStack_78 = 0x80000000;
@@ -91,7 +64,7 @@ void fn_82DA4850(int *param_1,ulonglong param_2,int param_3)
   stack_pair_90.first = 0;
   stack_pair_90.second = 0;
   uStack_88 = 0x80000000;
-  uVar1 = *(uint *)(param_3 + 0x33c);
+  uVar1 = *(unsigned int *)(param_3 + 0x33c);
   iStack_74 = stack_pair_80.first;
   piVar5 = (int *)fn_82CE5410();
   uStack_88 = uVar1 | 0x80000000;
@@ -105,12 +78,12 @@ void fn_82DA4850(int *param_1,ulonglong param_2,int param_3)
   iVar7 = *piVar5;
   *piVar5 = ((int)((param_2 & 0xffffffff) << 2) + 0x7fU & 0xffffff80) + iVar7;
   iVar6 = KeTlsGetValue(lbl_8323B4A0);
-  puVar10 = *(undefined4 **)(iVar6 + 4);
-  if (puVar10 < *(undefined4 **)(iVar6 + 0xc)) {
+  puVar10 = *(unsigned int **)(iVar6 + 4);
+  if (puVar10 < *(unsigned int **)(iVar6 + 0xc)) {
     *puVar10 = "StCalcAabbs";
     uVar3 = TBLr;
     puVar10[1] = (int)uVar3;
-    *(undefined4 **)(iVar6 + 4) = puVar10 + 3;
+    *(unsigned int **)(iVar6 + 4) = puVar10 + 3;
   }
   lVar11 = param_2 - 1;
   if (-1 < lVar11) {
@@ -120,11 +93,11 @@ void fn_82DA4850(int *param_1,ulonglong param_2,int param_3)
       iVar2 = *param_1;
       *(int *)(iVar6 + (int)param_1) = iVar2 + 0x24;
       aiStack_a0[0] = iVar2;
-      if (*(uint *)(iVar2 + 0x40) < *(uint *)(iVar2 + 0x30)) {
-        fn_82DBA1E0(*(undefined4 *)(param_3 + 0x78),aiStack_a0,1);
+      if (*(unsigned int *)(iVar2 + 0x40) < *(unsigned int *)(iVar2 + 0x30)) {
+        fn_82DBA1E0(*(unsigned int *)(param_3 + 0x78),aiStack_a0,1);
       }
-      puVar10 = (undefined4 *)(iVar2 + 0x2c);
-      puVar9 = (undefined4 *)(iVar12 + -4);
+      puVar10 = (unsigned int *)(iVar2 + 0x2c);
+      puVar9 = (unsigned int *)(iVar12 + -4);
       lVar14 = 2;
       do {
         puVar9[1] = puVar10[1];
@@ -141,87 +114,87 @@ void fn_82DA4850(int *param_1,ulonglong param_2,int param_3)
     } while (-1 < lVar11);
   }
   iVar6 = KeTlsGetValue(lbl_8323B4A0);
-  puVar10 = *(undefined4 **)(iVar6 + 4);
-  if (puVar10 < *(undefined4 **)(iVar6 + 0xc)) {
+  puVar10 = *(unsigned int **)(iVar6 + 4);
+  if (puVar10 < *(unsigned int **)(iVar6 + 0xc)) {
     *puVar10 = "St3AxisSweep";
     uVar3 = TBLr;
     puVar10[1] = (int)uVar3;
-    *(undefined4 **)(iVar6 + 4) = puVar10 + 3;
+    *(unsigned int **)(iVar6 + 4) = puVar10 + 3;
   }
-  (**(code **)(**(int **)(param_3 + 0x58) + 0x2c))
+  (**(int (***)())(**(int **)(param_3 + 0x58) + 0x2c))
             (*(int **)(param_3 + 0x58),iVar7,iVar4,param_2,&stack_pair_80.first,&stack_pair_90.first);
   piVar5 = (int *)fn_82CE5410();
   *piVar5 = iVar7;
   piVar5 = (int *)fn_82CE5410();
   *piVar5 = iVar4;
-  if ((ulonglong)stack_pair_90.second + (ulonglong)stack_pair_80.second != 0) {
+  if ((unsigned __int64)stack_pair_90.second + (unsigned __int64)stack_pair_80.second != 0) {
     iVar4 = KeTlsGetValue(lbl_8323B4A0);
-    puVar10 = *(undefined4 **)(iVar4 + 4);
-    if (puVar10 < *(undefined4 **)(iVar4 + 0xc)) {
+    puVar10 = *(unsigned int **)(iVar4 + 4);
+    if (puVar10 < *(unsigned int **)(iVar4 + 0xc)) {
       *puVar10 = "StRemoveDup";
       uVar3 = TBLr;
       puVar10[1] = (int)uVar3;
-      *(undefined4 **)(iVar4 + 4) = puVar10 + 3;
+      *(unsigned int **)(iVar4 + 4) = puVar10 + 3;
     }
     fn_83088640(&stack_pair_80.first,&stack_pair_90.first);
     iVar4 = KeTlsGetValue(lbl_8323B4A0);
-    puVar10 = *(undefined4 **)(iVar4 + 4);
-    if (puVar10 < *(undefined4 **)(iVar4 + 0xc)) {
+    puVar10 = *(unsigned int **)(iVar4 + 4);
+    if (puVar10 < *(unsigned int **)(iVar4 + 0xc)) {
       *puVar10 = "StRemoveAgt";
       uVar3 = TBLr;
       puVar10[1] = (int)uVar3;
-      *(undefined4 **)(iVar4 + 4) = puVar10 + 3;
+      *(unsigned int **)(iVar4 + 4) = puVar10 + 3;
     }
-    fn_830885D0(*(undefined4 *)(param_3 + 100),stack_pair_90.first,stack_pair_90.second);
+    fn_830885D0(*(unsigned int *)(param_3 + 100),stack_pair_90.first,stack_pair_90.second);
     uVar1 = stack_pair_80.second;
-    uVar13 = (ulonglong)stack_pair_80.second;
+    uVar13 = (unsigned __int64)stack_pair_80.second;
     iVar4 = fn_82CE5410();
-    cVar8 = (**(code **)(**(int **)(iVar4 + 0x10) + 0x24))
+    cVar8 = (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x24))
                       (*(int **)(iVar4 + 0x10),
-                       (uVar13 + ((ulonglong)uVar1 & 0x3fffffff) * 4 & 0x1ffffff) << 7);
+                       (uVar13 + ((unsigned __int64)uVar1 & 0x3fffffff) * 4 & 0x1ffffff) << 7);
     if (cVar8 == '\0') {
       fn_82D02610(1);
     }
     else {
       iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar10 = *(undefined4 **)(iVar4 + 4);
-      if (puVar10 < *(undefined4 **)(iVar4 + 0xc)) {
+      puVar10 = *(unsigned int **)(iVar4 + 4);
+      if (puVar10 < *(unsigned int **)(iVar4 + 0xc)) {
         *puVar10 = "StAddAgt";
         uVar3 = TBLr;
         puVar10[1] = (int)uVar3;
-        *(undefined4 **)(iVar4 + 4) = puVar10 + 3;
+        *(unsigned int **)(iVar4 + 4) = puVar10 + 3;
       }
-      fn_83088518(*(undefined4 *)(param_3 + 100),stack_pair_80.first,stack_pair_80.second);
+      fn_83088518(*(unsigned int *)(param_3 + 100),stack_pair_80.first,stack_pair_80.second);
     }
   }
   iVar7 = KeTlsGetValue(lbl_8323B4A0);
   iVar4 = iStack_84;
-  puVar10 = *(undefined4 **)(iVar7 + 4);
-  if (puVar10 < *(undefined4 **)(iVar7 + 0xc)) {
+  puVar10 = *(unsigned int **)(iVar7 + 4);
+  if (puVar10 < *(unsigned int **)(iVar7 + 0xc)) {
     *puVar10 = &lbl_8202CF7C;
     uVar3 = TBLr;
     puVar10[1] = (int)uVar3;
-    *(undefined4 **)(iVar7 + 4) = puVar10 + 3;
+    *(unsigned int **)(iVar7 + 4) = puVar10 + 3;
   }
-  stack_pair_90.second = -(uint)(stack_pair_90.first != iStack_84) & stack_pair_90.second;
+  stack_pair_90.second = -(unsigned int)(stack_pair_90.first != iStack_84) & stack_pair_90.second;
   piVar5 = (int *)fn_82CE5410();
   *piVar5 = iVar4;
   iVar4 = fn_82CE5410();
   stack_pair_90.second = 0;
   if ((uStack_88 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
               (*(int **)(iVar4 + 0x10),stack_pair_90.first,uStack_88 & 0x3fffffff);
   }
   iVar4 = iStack_74;
   stack_pair_90.first = 0;
   uStack_88 = 0x80000000;
-  stack_pair_80.second = -(uint)(stack_pair_80.first != iStack_74) & stack_pair_80.second;
+  stack_pair_80.second = -(unsigned int)(stack_pair_80.first != iStack_74) & stack_pair_80.second;
   piVar5 = (int *)fn_82CE5410();
   *piVar5 = iVar4;
   iVar4 = fn_82CE5410();
   stack_pair_80.second = 0;
   if ((uStack_78 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar4 + 0x10) + 0x10))
+    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
               (*(int **)(iVar4 + 0x10),stack_pair_80.first,uStack_78 & 0x3fffffff,8);
   }
   return;

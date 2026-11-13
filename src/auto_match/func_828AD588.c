@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_a0;
@@ -45,26 +21,26 @@ extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
 
 
-longlong fn_828AD588(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                      undefined8 param_5,undefined8 param_6,undefined8 param_7)
+__int64 fn_828AD588(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                      unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   bool bVar2;
   char cVar4;
-  undefined8 uVar3;
-  longlong lVar5;
-  undefined1 auStack_a0 [4];
+  unsigned __int64 uVar3;
+  __int64 lVar5;
+  unsigned char auStack_a0 [4];
   char cStack_9c;
-  uint auStack_80 [4];
-  undefined4 uStack_70;
-  uint uStack_6c;
-  uint auStack_60 [4];
-  undefined4 uStack_50;
-  uint uStack_4c;
+  unsigned int auStack_80 [4];
+  unsigned int uStack_70;
+  unsigned int uStack_6c;
+  unsigned int auStack_60 [4];
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
   
   fn_828AC838(auStack_a0,param_4,param_5);
-  *(undefined1 *)(param_1 + 0x9c) = 1;
+  *(unsigned char *)(param_1 + 0x9c) = 1;
   if ((*(int *)(param_1 + 0xa0) != 1) || (bVar2 = true, *(int *)(param_1 + 0x8c) == 0)) {
     bVar2 = false;
   }
@@ -106,7 +82,7 @@ LAB_828ad634:
   }
   else {
     fn_828ADBE0(param_1,0,0,1,param_3,param_3,auStack_a0,0);
-    uVar1 = *(undefined4 *)(param_1 + 0x8c);
+    uVar1 = *(unsigned int *)(param_1 + 0x8c);
     uVar3 = fn_828A0B50(param_1);
     fn_828ECF48(uVar1,param_2,uVar3,param_6,param_7);
     fn_828ACDB8(param_1,1);

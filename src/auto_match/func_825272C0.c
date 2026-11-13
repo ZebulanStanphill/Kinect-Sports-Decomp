@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82522ED8();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_8218E8FC;
@@ -65,12 +38,12 @@ void fn_825272C0(int param_1)
   while (-1 < iVar3) {
     if (*(int *)(*(int *)(param_1 + 0x88c) * 0xc + iVar4) != 0) {
       fn_82522ED8();
-      *(undefined4 *)(*(int *)(param_1 + 0x88c) * 0xc + iVar4) = 0;
+      *(unsigned int *)(*(int *)(param_1 + 0x88c) * 0xc + iVar4) = 0;
     }
     iVar3 = *(int *)(param_1 + 0x88c) * 0xc + iVar4;
     if (*(int *)(iVar3 + 4) != 0) {
       fn_82522ED8();
-      *(undefined4 *)(iVar3 + 4) = 0;
+      *(unsigned int *)(iVar3 + 4) = 0;
     }
     iVar3 = *(int *)(param_1 + 0x88c) + -1;
     *(int *)(param_1 + 0x88c) = iVar3;
@@ -104,7 +77,7 @@ void fn_825272C0(int param_1)
   lbl_831C0838 = lbl_821954CC;
   lbl_831C083C = lbl_8218E8FC;
   lbl_831C0840 = lbl_8218E8E8;
-  if (lbl_8326AF34 != (code *)0x0) {
+  if (lbl_8326AF34 != (int (**)())0x0) {
     (*lbl_8326AF34)();
   }
   return;

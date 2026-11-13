@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int iRam8324ebb8;
 extern unsigned int lbl_821606D0;
 extern unsigned int lbl_821606D8;
@@ -48,13 +21,13 @@ void fn_82EFE340(void)
   double dVar5;
   double dVar6;
   double dVar7;
-  undefined2 *puVar8;
+  unsigned short *puVar8;
   int iVar9;
   double *pdVar10;
-  undefined1 uVar13;
+  unsigned char uVar13;
   int iVar11;
   double *pdVar12;
-  longlong lVar14;
+  __int64 lVar14;
   double dVar15;
   double dStack_48;
   double adStack_40 [4];
@@ -76,15 +49,15 @@ void fn_82EFE340(void)
       else {
         uVar13 = 0xff;
         if (iVar11 < 0x100) {
-          uVar13 = (undefined1)iVar11;
+          uVar13 = (unsigned char)iVar11;
         }
       }
-      *(undefined1 *)(lbl_8324E3B0 + iVar11) = uVar13;
+      *(unsigned char *)(lbl_8324E3B0 + iVar11) = uVar13;
       iVar11 = iVar11 + 1;
       lVar14 = lVar14 + -1;
     } while (lVar14 != 0);
     iVar11 = 0;
-    puVar8 = (undefined2 *)0x8324dbae;
+    puVar8 = (unsigned short *)0x8324dbae;
     lVar14 = 0x400;
     do {
       iVar9 = 0x7f;

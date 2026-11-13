@@ -1,67 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82F41ED8(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6)
 
 {
-  byte bVar1;
-  byte bVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  byte *pbVar7;
-  byte *pbVar8;
-  byte *pbVar9;
-  byte *pbVar10;
-  byte *pbVar11;
-  byte *pbVar12;
-  byte *pbVar13;
-  byte *pbVar14;
-  byte *pbVar15;
-  undefined1 *puVar16;
-  byte *pbVar17;
-  byte *pbVar18;
-  longlong lVar19;
-  byte *pbVar20;
-  longlong lVar21;
-  longlong lVar22;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned char *pbVar3;
+  unsigned char *pbVar4;
+  unsigned char *pbVar5;
+  unsigned char *pbVar6;
+  unsigned char *pbVar7;
+  unsigned char *pbVar8;
+  unsigned char *pbVar9;
+  unsigned char *pbVar10;
+  unsigned char *pbVar11;
+  unsigned char *pbVar12;
+  unsigned char *pbVar13;
+  unsigned char *pbVar14;
+  unsigned char *pbVar15;
+  unsigned char *puVar16;
+  unsigned char *pbVar17;
+  unsigned char *pbVar18;
+  __int64 lVar19;
+  unsigned char *pbVar20;
+  __int64 lVar21;
+  __int64 lVar22;
   
-  lVar19 = (longlong)(param_6 >> 2);
+  lVar19 = (__int64)(param_6 >> 2);
   if (0 < lVar19) {
-    lVar21 = ((ulonglong)(uint)(param_2 + 0xf >> 4) & 0x3fffffff) << 2;
+    lVar21 = ((unsigned __int64)(unsigned int)(param_2 + 0xf >> 4) & 0x3fffffff) << 2;
     do {
       if (0 < (int)lVar21) {
-        pbVar17 = (byte *)(param_1 + -1);
-        pbVar20 = (byte *)(param_1 + param_3 + 3);
-        pbVar18 = (byte *)(param_3 * 3 + param_1 + 2);
-        puVar16 = (undefined1 *)(param_4 + -1);
+        pbVar17 = (unsigned char *)(param_1 + -1);
+        pbVar20 = (unsigned char *)(param_1 + param_3 + 3);
+        pbVar18 = (unsigned char *)(param_3 * 3 + param_1 + 2);
+        puVar16 = (unsigned char *)(param_4 + -1);
         lVar22 = lVar21;
         do {
           pbVar3 = pbVar20 + (-2 - param_3);
@@ -83,10 +54,10 @@ void fn_82F41ED8(int param_1,int param_2,int param_3,int param_4,int param_5,int
           pbVar20 = pbVar20 + 4;
           pbVar18 = pbVar18 + 4;
           puVar16 = puVar16 + 1;
-          *puVar16 = (char)((int)((uint)*pbVar13 + (uint)*pbVar12 + (uint)*pbVar15 + (uint)bVar2 +
-                                 (uint)*pbVar9 + (uint)*pbVar10 + (uint)*pbVar11 + (uint)*pbVar14 +
-                                 (uint)*pbVar6 + (uint)*pbVar7 + (uint)*pbVar8 + (uint)bVar1 +
-                                 (uint)*pbVar3 + (uint)*pbVar4 + (uint)*pbVar5 + (uint)*pbVar17 + 8)
+          *puVar16 = (char)((int)((unsigned int)*pbVar13 + (unsigned int)*pbVar12 + (unsigned int)*pbVar15 + (unsigned int)bVar2 +
+                                 (unsigned int)*pbVar9 + (unsigned int)*pbVar10 + (unsigned int)*pbVar11 + (unsigned int)*pbVar14 +
+                                 (unsigned int)*pbVar6 + (unsigned int)*pbVar7 + (unsigned int)*pbVar8 + (unsigned int)bVar1 +
+                                 (unsigned int)*pbVar3 + (unsigned int)*pbVar4 + (unsigned int)*pbVar5 + (unsigned int)*pbVar17 + 8)
                            >> 4);
           lVar22 = lVar22 + -1;
         } while (lVar22 != 0);

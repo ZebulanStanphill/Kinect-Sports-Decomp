@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
@@ -46,9 +19,9 @@ void fn_824C83B8(int param_1)
 
 {
   int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined8 in_r0;
+  unsigned int *puVar2;
+  unsigned int *puVar3;
+  unsigned __int64 in_r0;
   int iVar4;
   int *piVar5;
   double dVar6;
@@ -57,11 +30,11 @@ void fn_824C83B8(int param_1)
   double dVar9;
   double dVar10;
   double dVar11;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined1 auStack_100 [16];
-  undefined1 auStack_f0 [168];
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned char auStack_100 [16];
+  unsigned char auStack_f0 [168];
   float fStack_48;
   
   iVar1 = *(int *)(param_1 + 0x10);
@@ -77,11 +50,11 @@ void fn_824C83B8(int param_1)
   do {
     iVar1 = *piVar5;
     if (iVar1 != 0) {
-      puVar2 = (undefined4 *)(iVar1 + 0x10U & 0xfffffff0);
+      puVar2 = (unsigned int *)(iVar1 + 0x10U & 0xfffffff0);
       uVar12 = puVar2[1];
       uVar13 = puVar2[2];
       uVar14 = puVar2[3];
-      puVar3 = (undefined4 *)((uint)(auStack_100 + (int)in_r0) & 0xfffffff0);
+      puVar3 = (unsigned int *)((unsigned int)(auStack_100 + (int)in_r0) & 0xfffffff0);
       *puVar3 = *puVar2;
       puVar3[1] = uVar12;
       puVar3[2] = uVar13;
@@ -90,7 +63,7 @@ void fn_824C83B8(int param_1)
       dVar8 = (double)(float)(dVar11 - dVar6);
       dVar7 = dVar11;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar8 < dVar9) << 2) | (uint)(NAN(dVar8) || NAN(dVar9)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar8 < dVar9) << 2) | (unsigned int)(NAN(dVar8) || NAN(dVar9)) << 2)) <
           0.0) {
         dVar7 = dVar6;
       }

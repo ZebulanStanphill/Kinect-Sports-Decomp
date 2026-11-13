@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_b0;
 extern unsigned int *auStack_c0;
 extern unsigned int *auStack_d0;
@@ -43,7 +17,7 @@ void fn_82D064E8(void)
   float *pfVar2;
   int iVar3;
   float *pfVar4;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   float *pfVar5;
   double extraout_f1;
   float in_register_00010000;
@@ -65,10 +39,10 @@ void fn_82D064E8(void)
   float fVar18;
   float fVar19;
   float fVar20;
-  undefined1 auStack_e0 [16];
-  undefined1 auStack_d0 [16];
-  undefined1 auStack_c0 [16];
-  undefined1 auStack_b0 [176];
+  unsigned char auStack_e0 [16];
+  unsigned char auStack_d0 [16];
+  unsigned char auStack_c0 [16];
+  unsigned char auStack_b0 [176];
   
   pfVar5 = (float *)fn_82F6A510();
   fVar6 = pfVar5[1];
@@ -99,22 +73,22 @@ void fn_82D064E8(void)
     return;
   }
   iVar3 = (int)in_r0;
-  pfVar2 = (float *)((uint)(auStack_b0 + iVar3) & 0xfffffff0);
+  pfVar2 = (float *)((unsigned int)(auStack_b0 + iVar3) & 0xfffffff0);
   fVar14 = *pfVar2;
   fVar15 = pfVar2[1];
   fVar16 = pfVar2[2];
   fVar17 = pfVar2[3];
-  pfVar2 = (float *)((uint)(auStack_e0 + iVar3) & 0xfffffff0);
+  pfVar2 = (float *)((unsigned int)(auStack_e0 + iVar3) & 0xfffffff0);
   fVar10 = *pfVar2;
   fVar11 = pfVar2[1];
   fVar12 = pfVar2[2];
   fVar13 = pfVar2[3];
-  pfVar2 = (float *)((uint)(auStack_d0 + iVar3) & 0xfffffff0);
+  pfVar2 = (float *)((unsigned int)(auStack_d0 + iVar3) & 0xfffffff0);
   fVar6 = *pfVar2;
   fVar7 = pfVar2[1];
   fVar8 = pfVar2[2];
   fVar9 = pfVar2[3];
-  pfVar2 = (float *)((uint)(auStack_c0 + iVar3) & 0xfffffff0);
+  pfVar2 = (float *)((unsigned int)(auStack_c0 + iVar3) & 0xfffffff0);
   fVar18 = pfVar2[1];
   fVar19 = pfVar2[2];
   fVar20 = pfVar2[3];

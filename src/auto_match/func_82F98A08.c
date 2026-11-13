@@ -1,35 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int memset();
 extern unsigned int lbl_82002AE0;
 
 
-void fn_82F98A08(int param_1,uint *param_2)
+void fn_82F98A08(int param_1,unsigned int *param_2)
 
 {
   float fVar1;
@@ -40,51 +13,51 @@ void fn_82F98A08(int param_1,uint *param_2)
   float fVar6;
   float fVar7;
   float fVar8;
-  ushort uVar9;
-  uint uVar10;
+  unsigned short uVar9;
+  unsigned int uVar10;
   float fVar11;
   float fVar12;
   float fVar13;
   float fVar14;
-  ulonglong uVar15;
+  unsigned __int64 uVar15;
   float fVar16;
   float *pfVar17;
-  ulonglong uVar18;
+  unsigned __int64 uVar18;
   float *pfVar19;
-  ulonglong uVar20;
-  undefined4 uVar21;
+  unsigned __int64 uVar20;
+  unsigned int uVar21;
   int iVar22;
-  ulonglong uVar23;
-  uint uVar24;
-  uint uVar25;
-  ulonglong uVar26;
-  ulonglong uVar27;
+  unsigned __int64 uVar23;
+  unsigned int uVar24;
+  unsigned int uVar25;
+  unsigned __int64 uVar26;
+  unsigned __int64 uVar27;
   float *pfVar28;
   float *pfVar29;
   
   fVar16 = lbl_82002AE0;
-  uVar9 = *(ushort *)(param_2 + 3);
+  uVar9 = *(unsigned short *)(param_2 + 3);
   fVar1 = *(float *)(param_1 + 0x10);
   fVar2 = *(float *)(param_1 + 0x30);
   fVar3 = *(float *)(param_1 + 0x34);
-  uVar27 = (ulonglong)*(ushort *)((int)param_2 + 0xe);
+  uVar27 = (unsigned __int64)*(unsigned short *)((int)param_2 + 0xe);
   fVar4 = *(float *)(param_1 + 0x14);
   fVar5 = *(float *)(param_1 + 0xc);
   fVar6 = *(float *)(param_1 + 0x38);
-  fVar14 = (float)(uint)uVar9;
+  fVar14 = (float)(unsigned int)uVar9;
   if (*(int *)(param_1 + 0x20) == 0) {
     uVar21 = 0;
   }
   else {
-    uVar24 = *(uint *)(param_1 + 0x24);
+    uVar24 = *(unsigned int *)(param_1 + 0x24);
     pfVar29 = *(float **)(param_1 + 0x1c);
-    uVar10 = *(uint *)(param_1 + 0x28);
+    uVar10 = *(unsigned int *)(param_1 + 0x28);
     uVar25 = *param_2;
     pfVar28 = pfVar29 + uVar24;
-    uVar26 = (ulonglong)*(uint *)(param_1 + 0x20);
+    uVar26 = (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
     do {
       uVar18 = 0;
-      uVar20 = (ulonglong)uVar24;
+      uVar20 = (unsigned __int64)uVar24;
       if (uVar27 != 0) {
         pfVar17 = (float *)(uVar25 - 4);
         fVar11 = fVar3;
@@ -112,20 +85,20 @@ void fn_82F98A08(int param_1,uint *param_2)
             uVar23 = uVar23 - 1;
             uVar15 = uVar23;
           }
-          if ((uVar20 & 0xffffffff) == (ulonglong)uVar10) {
+          if ((uVar20 & 0xffffffff) == (unsigned __int64)uVar10) {
             uVar20 = 0;
             pfVar19 = pfVar29;
           }
         } while ((uVar18 & 0xffffffff) < uVar27);
       }
-      uVar21 = (undefined4)uVar20;
+      uVar21 = (unsigned int)uVar20;
       uVar26 = uVar26 - 1;
-      uVar25 = (uint)uVar9 * 4 + uVar25;
+      uVar25 = (unsigned int)uVar9 * 4 + uVar25;
       pfVar29 = pfVar29 + uVar10;
       pfVar28 = pfVar28 + uVar10;
     } while (uVar26 != 0);
   }
-  *(undefined4 *)(param_1 + 0x24) = uVar21;
+  *(unsigned int *)(param_1 + 0x24) = uVar21;
   if (*(char *)(param_1 + 0x3e) == '\0') {
     return;
   }
@@ -139,7 +112,7 @@ void fn_82F98A08(int param_1,uint *param_2)
     iVar22 = iVar22 + 1;
   }
                     /* WARNING: Subroutine does not return */
-  memset(((longlong)(iVar22 + -1) * (longlong)(int)(uint)*(ushort *)(param_2 + 3) &
-               0x3fffffffU) * 4 + (ulonglong)*param_2,0,uVar27 << 2);
+  memset(((__int64)(iVar22 + -1) * (__int64)(int)(unsigned int)*(unsigned short *)(param_2 + 3) &
+               0x3fffffffU) * 4 + (unsigned __int64)*param_2,0,uVar27 << 2);
 }
 

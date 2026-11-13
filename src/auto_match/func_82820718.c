@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct Elem {
     unsigned char b[0x21];
 } Elem;
@@ -24,7 +22,7 @@ extern int fn_82820EF8(void *, int);
 void fn_82820718(Obj *param_1)
 {
     Info *info;
-    uint i;
+    unsigned int i;
     unsigned char *e;
     int *p;
     int n;

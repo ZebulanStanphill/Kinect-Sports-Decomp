@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822B7900();
 extern int fn_8235A170();
 extern int fn_8251F720();
@@ -37,18 +10,18 @@ extern int fn_8265CAA0();
 extern int fn_82A1DD38();
 
 
-undefined8 fn_8235B8A0(int param_1,undefined8 param_2,int param_3)
+unsigned __int64 fn_8235B8A0(int param_1,unsigned __int64 param_2,int param_3)
 
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
   int iVar3;
-  undefined4 * apuStack_40;
+  unsigned int * apuStack_40;
   
-  apuStack_40 = (undefined4 *)fn_8265C9E0(0x10);
+  apuStack_40 = (unsigned int *)fn_8265C9E0(0x10);
   iVar3 = 0;
-  if (apuStack_40 == (undefined4 *)0x0) {
-    apuStack_40 = (undefined4 *)0x0;
+  if (apuStack_40 == (unsigned int *)0x0) {
+    apuStack_40 = (unsigned int *)0x0;
   }
   else {
     *apuStack_40 = 0;
@@ -62,8 +35,8 @@ undefined8 fn_8235B8A0(int param_1,undefined8 param_2,int param_3)
     iVar3 = fn_8265CA60();
     fn_82A1DD38(iVar3,uVar1,uVar2);
   }
-  *(undefined4 *)(iVar3 + 0x24) = *(undefined4 *)(**(int **)(param_1 + 8) + param_3 * 4);
-  *(undefined4 **)(iVar3 + 0x28) = apuStack_40;
+  *(unsigned int *)(iVar3 + 0x24) = *(unsigned int *)(**(int **)(param_1 + 8) + param_3 * 4);
+  *(unsigned int **)(iVar3 + 0x28) = apuStack_40;
   *(int *)(iVar3 + 0x2c) = param_1;
   uVar2 = fn_8235A170();
   uVar2 = fn_822B7900(uVar2,iVar3);

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954E8;
@@ -33,11 +6,11 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
 
 
-void fn_8255FEE8(double param_1,int param_2,undefined4 *param_3,int param_4)
+void fn_8255FEE8(double param_1,int param_2,unsigned int *param_3,int param_4)
 
 {
   float fVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   float fVar3;
   double dVar4;
   
@@ -59,15 +32,15 @@ void fn_8255FEE8(double param_1,int param_2,undefined4 *param_3,int param_4)
   param_3[7] = 0x40;
   param_3[8] = uVar2;
   *param_3 = 0x4d697850;
-  param_3[1] = *(undefined4 *)(param_2 + 0x48);
+  param_3[1] = *(unsigned int *)(param_2 + 0x48);
   param_3[3] = (int)*(char *)(param_2 + 0x5a);
-  param_3[4] = *(undefined4 *)(param_2 + 0x54);
+  param_3[4] = *(unsigned int *)(param_2 + 0x54);
   param_3[6] = (int)*(char *)(param_2 + 0x58);
   param_3[7] = (int)*(char *)(param_2 + 0x59);
-  param_3[9] = *(undefined4 *)(param_2 + 0x44);
+  param_3[9] = *(unsigned int *)(param_2 + 0x44);
   param_3[0xc] = param_2;
   if (param_1 < dVar4) {
-    param_3[8] = *(undefined4 *)(param_2 + 0x50);
+    param_3[8] = *(unsigned int *)(param_2 + 0x50);
   }
   else {
     param_3[8] = (float)param_1;

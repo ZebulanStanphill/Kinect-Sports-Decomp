@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_6c;
 extern int fn_82C1E828();
 extern int fn_82C1E938();
@@ -33,32 +6,32 @@ extern int fn_82C1EAB8();
 
 /* WARNING: Type propagation algorithm not settling */
 
-ulonglong fn_82C229C0(int param_1,uint param_2)
+unsigned __int64 fn_82C229C0(int param_1,unsigned int param_2)
 
 {
   char cVar1;
   int *piVar2;
   int *piVar3;
-  byte bVar4;
-  ulonglong uVar5;
-  uint uVar6;
+  unsigned char bVar4;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
   int iVar7;
-  uint uVar8;
-  byte abStack_70 [4];
-  uint auStack_6c [27];
+  unsigned int uVar8;
+  unsigned char abStack_70 [4];
+  unsigned int auStack_6c [27];
   
   piVar2 = *(int **)(param_1 + 0x1c);
   auStack_6c[3] = 0;
   auStack_6c[2] = 0;
   uVar8 = 0;
   abStack_70[0] = 0;
-  uVar5 = (**(code **)(*piVar2 + 0xc))(*piVar2);
+  uVar5 = (**(int (***)())(*piVar2 + 0xc))(*piVar2);
   if ((int)uVar5 < 0) {
 LAB_82c22e0c:
     if ((uVar5 & 0xffffffff) == 0x80500001) {
-      uVar8 = *(uint *)(piVar2[1] + 8);
+      uVar8 = *(unsigned int *)(piVar2[1] + 8);
       piVar2[0x14] = 5;
-      *(ulonglong *)(piVar2 + 8) = (ulonglong)uVar8 + *(longlong *)(piVar2 + 6);
+      *(unsigned __int64 *)(piVar2 + 8) = (unsigned __int64)uVar8 + *(__int64 *)(piVar2 + 6);
     }
   }
   else {
@@ -70,7 +43,7 @@ LAB_82c22e0c:
         uVar8 = 1;
         uVar5 = fn_82C1E828(param_1,abStack_70,auStack_6c + 3,auStack_6c + 2,auStack_6c + 1);
         if (-1 < (int)uVar5) {
-          uVar6 = (uint)abStack_70[0];
+          uVar6 = (unsigned int)abStack_70[0];
           iVar7 = piVar3[3] + 1;
 LAB_82c22b0c:
           piVar3[8] = uVar6;
@@ -117,7 +90,7 @@ LAB_82c22b14:
         if (uVar8 <= param_2) {
           uVar5 = fn_82C1E828(param_1,abStack_70,auStack_6c + 3,auStack_6c + 2,auStack_6c + 1);
           if (-1 < (int)uVar5) {
-            uVar6 = (uint)abStack_70[0];
+            uVar6 = (unsigned int)abStack_70[0];
             iVar7 = piVar3[3] + 1;
 LAB_82c22c00:
             piVar3[10] = uVar6;
@@ -164,7 +137,7 @@ LAB_82c22c08:
           if (uVar8 <= param_2) {
             uVar5 = fn_82C1E828(param_1,abStack_70,auStack_6c + 3,auStack_6c + 2,auStack_6c + 1);
             if (-1 < (int)uVar5) {
-              uVar6 = (uint)abStack_70[0];
+              uVar6 = (unsigned int)abStack_70[0];
               iVar7 = piVar3[3] + 1;
 LAB_82c22cf4:
               piVar3[0xc] = uVar6;
@@ -215,8 +188,8 @@ LAB_82c22cfc:
                 piVar3[3] = piVar3[3] + 2;
                 if ((piVar3[1] == 0) || (*piVar3 == 0)) {
                   piVar3[0xe] = 0;
-                  *(undefined1 *)((int)piVar3 + 0x1a) = 0;
-                  *(undefined1 *)((int)piVar3 + 0x1b) = 0;
+                  *(unsigned char *)((int)piVar3 + 0x1a) = 0;
+                  *(unsigned char *)((int)piVar3 + 0x1b) = 0;
                   piVar3[0xf] = 1;
                   if (piVar3[2] == 0) goto LAB_82c22e0c;
                   auStack_6c[1] = 1;
@@ -225,10 +198,10 @@ LAB_82c22cfc:
                                           auStack_6c + 1);
                     if ((int)uVar5 < 0) goto LAB_82c22e0c;
                     bVar4 = abStack_70[0] >> 6;
-                    *(byte *)((int)piVar3 + 0x1a) = bVar4;
+                    *(unsigned char *)((int)piVar3 + 0x1a) = bVar4;
                     piVar3[0xe] = piVar3[3];
                     if ((bVar4 == 2) || (bVar4 == 1)) {
-                      *(byte *)((int)piVar3 + 0x1b) = bVar4;
+                      *(unsigned char *)((int)piVar3 + 0x1b) = bVar4;
                       piVar3[0xf] = abStack_70[0] & 0x3f;
                       if ((abStack_70[0] & 0x3f) != 0) {
                         piVar3[3] = piVar3[3] + 1;

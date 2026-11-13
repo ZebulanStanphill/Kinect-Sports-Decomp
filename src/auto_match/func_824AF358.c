@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern unsigned int fStack_58;
@@ -38,14 +13,14 @@ extern unsigned int lbl_831E4E38;
 extern V16 loadVectorLeftIndexed128();
 
 
-undefined8 fn_824AF358(int param_1)
+unsigned __int64 fn_824AF358(int param_1)
 
 {
   float fVar1;
   int iVar2;
   float *pfVar3;
   float fVar4;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar5;
   bool bVar6;
   float fVar7;
@@ -96,7 +71,7 @@ undefined8 fn_824AF358(int param_1)
     fVar8 = pfVar3[1];
     fVar9 = pfVar3[2];
     fVar10 = pfVar3[3];
-    pfVar3 = (float *)((uint)bVar6 * 0x10 + iVar5 & 0xfffffff0);
+    pfVar3 = (float *)((unsigned int)bVar6 * 0x10 + iVar5 & 0xfffffff0);
     fVar11 = *pfVar3;
     fVar12 = pfVar3[1];
     fVar13 = pfVar3[2];

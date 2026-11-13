@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 struct Rng_83127FE8 {
   unsigned int state[8];
   unsigned int count;

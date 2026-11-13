@@ -1,50 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_831769B8;
 
 
-void fn_830B8F48(undefined8 param_1,int param_2)
+void fn_830B8F48(unsigned __int64 param_1,int param_2)
 
 {
-  uint uVar2;
-  ulonglong uVar1;
+  unsigned int uVar2;
+  unsigned __int64 uVar1;
   bool bVar3;
-  uint uVar4;
-  ulonglong uVar5;
+  unsigned int uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
-  undefined1 *puVar7;
-  ulonglong uVar8;
+  unsigned char *puVar7;
+  unsigned __int64 uVar8;
   
   uVar4 = 0;
-  uVar2 = (uint)(*(ushort *)(param_2 + 0x34) >> 1);
-  uVar1 = (ulonglong)(*(ushort *)(param_2 + 0x32) >> 1);
+  uVar2 = (unsigned int)(*(unsigned short *)(param_2 + 0x34) >> 1);
+  uVar1 = (unsigned __int64)(*(unsigned short *)(param_2 + 0x32) >> 1);
   if (uVar2 != 0) {
-    puVar7 = (undefined1 *)(*(int *)(param_2 + 0x524) + -1);
+    puVar7 = (unsigned char *)(*(int *)(param_2 + 0x524) + -1);
     do {
       iVar6 = 0;
       if (uVar1 != 0) {
@@ -52,8 +26,8 @@ void fn_830B8F48(undefined8 param_1,int param_2)
         do {
           bVar3 = iVar6 == 0;
           iVar6 = iVar6 + 1;
-          uVar5 = *(ulonglong *)
-                   (&lbl_831769B8 + ((uint)bVar3 + ((uint)((ulonglong)LZCOUNT(uVar4) >> 4) & 2)) * 8
+          uVar5 = *(unsigned __int64 *)
+                   (&lbl_831769B8 + ((unsigned int)bVar3 + ((unsigned int)((unsigned __int64)LZCOUNT(uVar4) >> 4) & 2)) * 8
                    ) & 0xf0f0f0f0f0f;
           puVar7[1] = (char)uVar5;
           puVar7[2] = (char)(uVar5 >> 8);

@@ -1,65 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_83047D88(undefined4 *param_1,int *param_2)
+void fn_83047D88(unsigned int *param_1,int *param_2)
 
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  ushort uVar5;
-  ushort uVar6;
-  uint uVar7;
+  unsigned int *puVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned short uVar5;
+  unsigned short uVar6;
+  unsigned int uVar7;
   int iVar8;
-  uint uVar9;
-  longlong lVar10;
-  uint uVar12;
+  unsigned int uVar9;
+  __int64 lVar10;
+  unsigned int uVar12;
   int iVar13;
-  ulonglong uVar11;
-  undefined4 *puVar14;
-  uint uVar15;
-  uint uVar16;
-  uint uVar17;
-  undefined4 *puVar18;
+  unsigned __int64 uVar11;
+  unsigned int *puVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
+  unsigned int uVar17;
+  unsigned int *puVar18;
   
   uVar9 = 0;
-  uVar5 = *(ushort *)((int)param_2 + 0xe);
+  uVar5 = *(unsigned short *)((int)param_2 + 0xe);
   uVar7 = param_1[1];
   for (uVar15 = uVar7; uVar15 != 0; uVar15 = uVar15 - 1 & uVar15) {
     uVar9 = uVar9 + 1;
   }
   uVar15 = 0;
   if (uVar9 != 0) {
-    uVar6 = *(ushort *)(param_2 + 3);
+    uVar6 = *(unsigned short *)(param_2 + 3);
     iVar8 = *param_2;
-    param_1 = (undefined4 *)*param_1;
+    param_1 = (unsigned int *)*param_1;
     do {
       uVar17 = uVar15;
       if ((uVar7 & 8) != 0) {
@@ -79,7 +50,7 @@ void fn_83047D88(undefined4 *param_1,int *param_2)
         }
       }
       uVar11 = 0;
-      puVar18 = (undefined4 *)(uVar6 * uVar17 * 4 + iVar8);
+      puVar18 = (unsigned int *)(uVar6 * uVar17 * 4 + iVar8);
       puVar14 = param_1;
       if (3 < uVar5) {
         do {
@@ -95,9 +66,9 @@ void fn_83047D88(undefined4 *param_1,int *param_2)
           puVar18[2] = uVar3;
           puVar18[3] = uVar4;
           puVar18 = puVar18 + 4;
-        } while ((uVar11 & 0xffffffff) < ((ulonglong)uVar5 - 3 & 0xffffffff));
+        } while ((uVar11 & 0xffffffff) < ((unsigned __int64)uVar5 - 3 & 0xffffffff));
       }
-      if ((uVar11 & 0xffffffff) < (ulonglong)(uint)uVar5) {
+      if ((uVar11 & 0xffffffff) < (unsigned __int64)(unsigned int)uVar5) {
         lVar10 = uVar5 - uVar11;
         puVar18 = puVar18 + -1;
         puVar14 = puVar14 + -(uVar9 & 0x3fffffff);

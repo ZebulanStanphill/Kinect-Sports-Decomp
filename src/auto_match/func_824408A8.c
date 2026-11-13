@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_82809950();
 extern int fn_82F6A544();
@@ -36,7 +9,7 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 
 
-void fn_824408A8(undefined8 param_1,double param_2,double param_3)
+void fn_824408A8(unsigned __int64 param_1,double param_2,double param_3)
 
 {
   double dVar1;
@@ -52,8 +25,8 @@ void fn_824408A8(undefined8 param_1,double param_2,double param_3)
   dVar3 = (double)(float)(dVar6 / param_3);
   dVar4 = (double)lbl_831E4E38;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)(((double)(float)(dVar1 - param_3) < dVar5) << 2) |
-                (uint)(NAN((double)(float)(dVar1 - param_3)) || NAN(dVar5)) << 2)) < 0.0) {
+                ((unsigned int)(unsigned char)(((double)(float)(dVar1 - param_3) < dVar5) << 2) |
+                (unsigned int)(NAN((double)(float)(dVar1 - param_3)) || NAN(dVar5)) << 2)) < 0.0) {
     param_3 = dVar1;
   }
   dVar2 = (double)fn_82809950((double)(float)((double)(float)(param_3 * dVar3) * dVar4));
@@ -61,7 +34,7 @@ void fn_824408A8(undefined8 param_1,double param_2,double param_3)
   dVar4 = (double)(float)((double)lbl_82193CC0 - dVar3);
   dVar1 = (double)lbl_82193CC0;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((dVar4 < dVar5) << 2) | (uint)(NAN(dVar4) || NAN(dVar5)) << 2)) < 0.0)
+                ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) < 0.0)
   {
     dVar1 = dVar3;
   }

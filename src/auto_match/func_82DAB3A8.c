@@ -1,7 +1,5 @@
-typedef unsigned short ushort;
-
 typedef struct Msg_82DAB3A8 {
-    ushort id;        /* 0x00 */
+    unsigned short id;        /* 0x00 */
     int zero;         /* 0x04 */
     int a;            /* 0x08 */
     int b;            /* 0x0c */
@@ -15,7 +13,7 @@ typedef struct Msg_82DAB3A8 {
 extern int fn_82DAD368(int obj, Msg_82DAB3A8 *msg);
 extern int fn_82DAF0B0(int obj, Msg_82DAB3A8 *msg);
 
-void fn_82DAB3A8(int param_1, ushort param_2, int param_3)
+void fn_82DAB3A8(int param_1, unsigned short param_2, int param_3)
 {
     Msg_82DAB3A8 msg;
     int a;
@@ -30,10 +28,10 @@ void fn_82DAB3A8(int param_1, ushort param_2, int param_3)
     msg.owner = param_1;
     msg.arg = param_3;
     fn_82DAF0B0(*(int *)(param_1 + 0xc), &msg);
-    if (*(ushort *)(a + 0x204) != 0) {
+    if (*(unsigned short *)(a + 0x204) != 0) {
         fn_82DAD368(a, &msg);
     }
-    if (*(ushort *)(b + 0x204) != 0) {
+    if (*(unsigned short *)(b + 0x204) != 0) {
         fn_82DAD368(b, &msg);
     }
 }

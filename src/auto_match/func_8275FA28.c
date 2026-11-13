@@ -1,46 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8275FA28(int param_1,uint param_2,uint param_3,uint param_4)
+void fn_8275FA28(int param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
 
 {
-  byte bVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  uint uVar4;
-  byte bVar5;
+  unsigned char bVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int uVar4;
+  unsigned char bVar5;
   
-  bVar1 = *(byte *)(param_1 + 0x34);
-  *(uint *)(param_1 + 0x14) = param_2;
-  *(uint *)(param_1 + 0xc) = param_2;
-  *(uint *)(param_1 + 0x18) = param_3;
-  *(uint *)(param_1 + 0x10) = param_3;
+  bVar1 = *(unsigned char *)(param_1 + 0x34);
+  *(unsigned int *)(param_1 + 0x14) = param_2;
+  *(unsigned int *)(param_1 + 0xc) = param_2;
+  *(unsigned int *)(param_1 + 0x18) = param_3;
+  *(unsigned int *)(param_1 + 0x10) = param_3;
   if (bVar1 < param_4) {
     *(char *)(param_1 + 0x34) = (char)param_4;
     return;
@@ -52,15 +23,15 @@ void fn_8275FA28(int param_1,uint param_2,uint param_3,uint param_4)
     uVar2 = 0;
   }
   else {
-    uVar2 = (((ulonglong)param_2 ^ (longlong)((int)param_2 >> 0x1f)) -
-             (longlong)((int)param_2 >> 0x1f) & 0x7fffffff) << 1;
+    uVar2 = (((unsigned __int64)param_2 ^ (__int64)((int)param_2 >> 0x1f)) -
+             (__int64)((int)param_2 >> 0x1f) & 0x7fffffff) << 1;
   }
   if (param_3 == 0) {
     uVar3 = 0;
   }
   else {
-    uVar3 = (((ulonglong)param_3 ^ (longlong)((int)param_3 >> 0x1f)) -
-             (longlong)((int)param_3 >> 0x1f) & 0x7fffffff) << 1;
+    uVar3 = (((unsigned __int64)param_3 ^ (__int64)((int)param_3 >> 0x1f)) -
+             (__int64)((int)param_3 >> 0x1f) & 0x7fffffff) << 1;
   }
   uVar3 = uVar3 | uVar2;
   if (uVar3 < 0x8000) {
@@ -128,11 +99,11 @@ void fn_8275FA28(int param_1,uint param_2,uint param_3,uint param_4)
   else {
     uVar4 = 0x20 - (uVar3 < 0xffffffff80000000);
   }
-  bVar5 = (byte)uVar4;
-  if ((uVar4 & 0xff) <= (uint)bVar1) {
+  bVar5 = (unsigned char)uVar4;
+  if ((uVar4 & 0xff) <= (unsigned int)bVar1) {
     bVar5 = bVar1;
   }
-  *(byte *)(param_1 + 0x34) = bVar5;
+  *(unsigned char *)(param_1 + 0x34) = bVar5;
   return;
 }
 

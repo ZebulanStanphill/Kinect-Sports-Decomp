@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_28;
 extern int fn_822315A0();
 extern int fn_822D9678();
@@ -38,24 +12,24 @@ extern int fn_82F51468();
 extern int fn_82F52C20();
 extern unsigned int iStack_2c;
 extern unsigned int uStack_30;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
 void fn_824FC500(int *param_1)
 
 {
   int iVar1;
-  undefined4 *puVar2;
-  undefined8 uVar3;
-  longlong lVar4;
-  uint uVar5;
-  longlong lVar6;
-  uint *puVar7;
+  unsigned int *puVar2;
+  unsigned __int64 uVar3;
+  __int64 lVar4;
+  unsigned int uVar5;
+  __int64 lVar6;
+  unsigned int *puVar7;
   char in_RESERVE;
-  byte in_cr0;
-  undefined4 uStack_30;
+  unsigned char in_cr0;
+  unsigned int uStack_30;
   int iStack_2c;
-  undefined1 auStack_28 [4];
+  unsigned char auStack_28 [4];
   int *piStack_24;
   
   if (param_1[6] != 0) {
@@ -64,8 +38,8 @@ void fn_824FC500(int *param_1)
     if (ZEXT48(piStack_24) != 0) {
       lVar6 = ZEXT48(piStack_24) + 8;
       do {
-        puVar7 = (uint *)lVar6;
-        lVar4 = (ulonglong)*puVar7 - 1;
+        puVar7 = (unsigned int *)lVar6;
+        lVar4 = (unsigned __int64)*puVar7 - 1;
         if (in_RESERVE != '\0') {
           uVar5 = storeWordConditionalIndexed(lVar4,0,lVar6);
           *puVar7 = uVar5;
@@ -73,7 +47,7 @@ void fn_824FC500(int *param_1)
         }
       } while (!(bool)(in_cr0 >> 1 & 1));
       if ((int)lVar4 == 0) {
-        (**(code **)(*piStack_24 + 4))();
+        (**(int (***)())(*piStack_24 + 4))();
       }
     }
     fn_82F52C20(uStack_30,param_1[6],1);
@@ -93,7 +67,7 @@ void fn_824FC500(int *param_1)
       if (iVar1 + 0x10 == param_1[0x11]) {
         param_1[0x12] = param_1[0x10];
       }
-    } while (uVar5 < (uint)param_1[0x14]);
+    } while (uVar5 < (unsigned int)param_1[0x14]);
   }
   if (param_1[0x10] != 0) {
     fn_8265CA20();
@@ -109,31 +83,31 @@ void fn_824FC500(int *param_1)
     if (*(int *)(iVar1 + 0x60) != 0) {
       fn_8265CA20();
     }
-    *(undefined4 *)(iVar1 + 0x60) = 0;
-    *(undefined4 *)(iVar1 + 100) = 0;
-    *(undefined4 *)(iVar1 + 0x68) = 0;
+    *(unsigned int *)(iVar1 + 0x60) = 0;
+    *(unsigned int *)(iVar1 + 100) = 0;
+    *(unsigned int *)(iVar1 + 0x68) = 0;
     fn_82359C18(iVar1);
     fn_8265CA20(iVar1);
   }
-  puVar2 = (undefined4 *)param_1[5];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  puVar2 = (unsigned int *)param_1[5];
+  if (puVar2 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar2)(puVar2,1);
   }
-  puVar2 = (undefined4 *)param_1[4];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  puVar2 = (unsigned int *)param_1[4];
+  if (puVar2 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar2)(puVar2,1);
   }
-  puVar2 = (undefined4 *)param_1[3];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  puVar2 = (unsigned int *)param_1[3];
+  if (puVar2 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar2)(puVar2,1);
   }
-  puVar2 = (undefined4 *)param_1[2];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  puVar2 = (unsigned int *)param_1[2];
+  if (puVar2 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar2)(puVar2,1);
   }
-  puVar2 = (undefined4 *)param_1[1];
-  if (puVar2 != (undefined4 *)0x0) {
-    (**(code **)*puVar2)(puVar2,1);
+  puVar2 = (unsigned int *)param_1[1];
+  if (puVar2 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar2)(puVar2,1);
   }
   return;
 }

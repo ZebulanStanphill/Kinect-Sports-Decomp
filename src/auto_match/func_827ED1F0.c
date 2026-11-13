@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
 extern unsigned int fStack_100;
 extern unsigned int fStack_f8;
@@ -44,13 +17,13 @@ extern unsigned int lbl_820069B4;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_827ED1F0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6)
+void fn_827ED1F0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6)
 
 {
   float fVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   int iVar4;
   int iVar5;
   int iVar6;
@@ -74,15 +47,15 @@ void fn_827ED1F0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   float fStack_f8;
   float afStack_f0 [4];
   float afStack_e0 [4];
-  undefined4 auStack_d0 [4];
+  unsigned int auStack_d0 [4];
   float afStack_c0 [4];
   float afStack_b0 [4];
   float afStack_a0 [40];
   
   uVar3 = fn_82F6A530();
-  auStack_d0[0] = (undefined4)uVar3;
-  auStack_d0[1] = (undefined4)param_2;
-  auStack_d0[2] = (undefined4)param_3;
+  auStack_d0[0] = (unsigned int)uVar3;
+  auStack_d0[1] = (unsigned int)param_2;
+  auStack_d0[2] = (unsigned int)param_3;
   fn_82810328(param_5,param_4,afStack_b0);
   fn_82810328(param_6,param_4,afStack_a0);
   fn_82810240(afStack_b0,afStack_a0,&fStack_100);

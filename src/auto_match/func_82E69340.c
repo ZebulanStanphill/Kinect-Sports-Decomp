@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int iStack_d4;
 extern unsigned int iStack_dc;
 extern unsigned int iStack_e0;
@@ -63,7 +36,7 @@ void fn_82E69340(int *param_1)
   int iVar25;
   int iStack_e0;
   int iStack_dc;
-  uint uStack_d8;
+  unsigned int uStack_d8;
   int iStack_d4;
   
   fVar9 = lbl_821AAD20;
@@ -108,9 +81,9 @@ void fn_82E69340(int *param_1)
                 iVar16 = iVar18 + 8;
                 iVar3 = *(int *)(iVar18 + iVar2 + 4);
                 iVar12 = *(int *)(iVar16 + *(int *)(iVar1 + 0x158));
-                fVar7 = ((float)(longlong)(iVar11 - iVar15) *
+                fVar7 = ((float)(__int64)(iVar11 - iVar15) *
                         *(float *)((int)param_1 + iVar18 + 0xf984)) /
-                        (float)(longlong)(iVar3 - *(int *)(iVar18 + iVar2)) + fVar7;
+                        (float)(__int64)(iVar3 - *(int *)(iVar18 + iVar2)) + fVar7;
                 if (iVar13 <= iVar12) {
                   iVar12 = iVar13;
                 }
@@ -120,8 +93,8 @@ void fn_82E69340(int *param_1)
                 iVar11 = iVar18 + 0xf988;
                 iVar25 = iVar25 + 2;
                 iVar18 = iVar18 + 8;
-                fVar6 = ((float)(longlong)(iVar12 - iVar10) * *(float *)((int)param_1 + iVar11)) /
-                        (float)(longlong)(*(int *)(iVar16 + iVar2) - iVar3) + fVar6;
+                fVar6 = ((float)(__int64)(iVar12 - iVar10) * *(float *)((int)param_1 + iVar11)) /
+                        (float)(__int64)(*(int *)(iVar16 + iVar2) - iVar3) + fVar6;
               } while (iVar25 <= iVar17 + -1);
             }
             if (iVar25 <= iVar17) {
@@ -135,8 +108,8 @@ void fn_82E69340(int *param_1)
                 iVar13 = iVar24;
               }
               piVar14 = (int *)(iVar25 * 4 + *(int *)(iVar1 + 0x158));
-              fVar5 = ((float)(longlong)(iVar17 - iVar13) * (float)param_1[iVar25 + 0x3e61]) /
-                      (float)(longlong)(piVar14[1] - *piVar14);
+              fVar5 = ((float)(__int64)(iVar17 - iVar13) * (float)param_1[iVar25 + 0x3e61]) /
+                      (float)(__int64)(piVar14[1] - *piVar14);
             }
             fVar5 = fVar6 + fVar7 + fVar5;
             if (fVar8 <= fVar5) {

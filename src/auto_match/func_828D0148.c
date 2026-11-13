@@ -1,12 +1,10 @@
-typedef unsigned int uint;
-
-uint fn_828D0148(int param_1)
+unsigned int fn_828D0148(int param_1)
 {
-  const uint *p;
-  uint lo;
-  uint hi;
+  const unsigned int *p;
+  unsigned int lo;
+  unsigned int hi;
 
-  p = (uint *)(param_1 + 0xa8);
+  p = (unsigned int *)(param_1 + 0xa8);
   lo = 0x10000;
   hi = 0x80000;
   if (*p < lo) {

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_3c;
 extern int fn_825315E0();
 extern int fn_82544918();
@@ -52,23 +25,23 @@ extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
 
 
-void fn_82545E20(ulonglong param_1)
+void fn_82545E20(unsigned __int64 param_1)
 
 {
   int iVar1;
-  uint uVar2;
-  ulonglong uVar3;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   double dVar4;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned int uStack_40;
   float fStack_3c;
   
   lbl_83296BB8 = 1;
   fn_825315E0(lbl_8320A898);
-  *(undefined4 *)(lbl_8320A898 + 0x2ab0) = *(undefined4 *)(lbl_8320A898 + 0x2a9c);
+  *(unsigned int *)(lbl_8320A898 + 0x2ab0) = *(unsigned int *)(lbl_8320A898 + 0x2a9c);
   fn_82645110();
   uRam8326af54 = 1;
   fn_8263A1B8(lbl_8320A898,0,lbl_8326B37C);
@@ -90,10 +63,10 @@ void fn_82545E20(ulonglong param_1)
   uStack_44 = lbl_8326B434;
   fn_82639EA8(lbl_8320A898,&uStack_50);
   iVar1 = lbl_8320A898;
-  *(uint *)(lbl_8320A898 + 0x2934) = *(uint *)(lbl_8320A898 + 0x2934) & 0xffffff8f | 0x60;
-  uVar3 = *(ulonglong *)(iVar1 + 0x10);
-  *(ulonglong *)(iVar1 + 0x10) = uVar3 | 0x800;
-  *(ulonglong *)(iVar1 + 0x10) = uVar3 | 0x20800;
+  *(unsigned int *)(lbl_8320A898 + 0x2934) = *(unsigned int *)(lbl_8320A898 + 0x2934) & 0xffffff8f | 0x60;
+  uVar3 = *(unsigned __int64 *)(iVar1 + 0x10);
+  *(unsigned __int64 *)(iVar1 + 0x10) = uVar3 | 0x800;
+  *(unsigned __int64 *)(iVar1 + 0x10) = uVar3 | 0x20800;
   return;
 }
 

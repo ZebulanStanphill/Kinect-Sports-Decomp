@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_30;
 extern int fn_82248B90();
 extern int fn_8224EEE0();
@@ -34,23 +7,23 @@ extern unsigned int stack0x00000024;
 extern unsigned int uStack00000024;
 
 
-undefined4 * fn_8224ED20(undefined4 *param_1,int param_2,ulonglong param_3,uint *param_4)
+unsigned int * fn_8224ED20(unsigned int *param_1,int param_2,unsigned __int64 param_3,unsigned int *param_4)
 
 {
-  uint uStack00000024;
-  undefined1 auStack_30 [48];
+  unsigned int uStack00000024;
+  unsigned char auStack_30 [48];
   
-  uStack00000024 = (uint)param_3;
-  if (((param_3 & 0xffffffff) == (ulonglong)**(uint **)(param_2 + 4)) &&
-     (param_4 == *(uint **)(param_2 + 4))) {
+  uStack00000024 = (unsigned int)param_3;
+  if (((param_3 & 0xffffffff) == (unsigned __int64)**(unsigned int **)(param_2 + 4)) &&
+     (param_4 == *(unsigned int **)(param_2 + 4))) {
     fn_8224EEE0(param_2);
-    *param_1 = **(undefined4 **)(param_2 + 4);
+    *param_1 = **(unsigned int **)(param_2 + 4);
   }
   else {
     while ((param_3 & 0xffffffff) != ZEXT48(param_4)) {
       fn_82248B90(&stack0x00000024);
       fn_825ACF50(auStack_30,param_2,param_3);
-      param_3 = (ulonglong)uStack00000024;
+      param_3 = (unsigned __int64)uStack00000024;
     }
     *param_1 = (int)param_3;
   }

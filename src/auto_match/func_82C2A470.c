@@ -1,7 +1,5 @@
-typedef unsigned __int64 U64;
-
 typedef struct Node {
-    U64 key;
+    unsigned __int64 key;
     char pad[0x1c];
     struct Node *next;
     struct Node *prev;

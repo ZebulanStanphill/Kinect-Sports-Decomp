@@ -1,37 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8201467C;
 
 
-undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4)
+unsigned __int64 fn_830462A8(int *param_1,int *param_2,__int64 param_3,short *param_4)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   short sVar2;
   short sVar3;
   short sVar4;
@@ -39,26 +12,26 @@ undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4
   int iVar6;
   int iVar7;
   float fVar8;
-  undefined8 uVar9;
-  ulonglong uVar10;
-  uint uVar11;
-  uint uVar13;
-  longlong lVar12;
-  uint uVar15;
-  ulonglong uVar14;
-  uint uVar16;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned int uVar11;
+  unsigned int uVar13;
+  __int64 lVar12;
+  unsigned int uVar15;
+  unsigned __int64 uVar14;
+  unsigned int uVar16;
   float *pfVar17;
-  uint uVar18;
+  unsigned int uVar18;
   short *psVar19;
   int iVar20;
-  ulonglong uVar21;
-  ulonglong uVar22;
+  unsigned __int64 uVar21;
+  unsigned __int64 uVar22;
   short *psVar23;
-  uint uVar24;
+  unsigned int uVar24;
   
   fVar8 = lbl_8201467C;
-  uVar22 = (ulonglong)*(ushort *)((int)param_1 + 0xe);
-  uVar21 = param_3 - (ulonglong)*(uint *)(param_4 + 0xe);
+  uVar22 = (unsigned __int64)*(unsigned short *)((int)param_1 + 0xe);
+  uVar21 = param_3 - (unsigned __int64)*(unsigned int *)(param_4 + 0xe);
   uVar10 = uVar21;
   if (uVar22 <= (uVar21 & 0xffffffff)) {
     uVar10 = uVar22;
@@ -91,7 +64,7 @@ undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4
           uVar13 = uVar18 - 1;
         }
       }
-      uVar1 = *(ushort *)(param_2 + 3);
+      uVar1 = *(unsigned short *)(param_2 + 3);
       uVar14 = 0;
       iVar20 = *(int *)(param_4 + 0xe);
       iVar6 = *param_2;
@@ -107,10 +80,10 @@ undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4
           sVar4 = *psVar19;
           sVar5 = psVar19[uVar24];
           psVar19 = psVar19 + uVar24 + uVar24;
-          *pfVar17 = (float)(longlong)sVar2 * fVar8;
-          pfVar17[1] = (float)(longlong)sVar3 * fVar8;
-          pfVar17[2] = (float)(longlong)sVar4 * fVar8;
-          pfVar17[3] = (float)(longlong)sVar5 * fVar8;
+          *pfVar17 = (float)(__int64)sVar2 * fVar8;
+          pfVar17[1] = (float)(__int64)sVar3 * fVar8;
+          pfVar17[2] = (float)(__int64)sVar4 * fVar8;
+          pfVar17[3] = (float)(__int64)sVar5 * fVar8;
           pfVar17 = pfVar17 + 4;
         } while ((uVar14 & 0xffffffff) < (uVar10 - 3 & 0xffffffff));
       }
@@ -121,7 +94,7 @@ undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4
         do {
           psVar19 = psVar19 + uVar24;
           pfVar17 = pfVar17 + 1;
-          *pfVar17 = (float)(longlong)*psVar19 * fVar8;
+          *pfVar17 = (float)(__int64)*psVar19 * fVar8;
           lVar12 = lVar12 + -1;
         } while (lVar12 != 0);
       }
@@ -130,7 +103,7 @@ undefined8 fn_830462A8(int *param_1,int *param_2,longlong param_3,short *param_4
     } while (uVar18 < uVar24);
   }
   *(short *)((int)param_1 + 0xe) = *(short *)((int)param_1 + 0xe) - (short)uVar10;
-  *(short *)((int)param_2 + 0xe) = (short)uVar10 + (short)*(undefined4 *)(param_4 + 0xe);
+  *(short *)((int)param_2 + 0xe) = (short)uVar10 + (short)*(unsigned int *)(param_4 + 0xe);
   param_4[0x10] = 1;
   param_4[0x11] = 0;
   if ((uVar10 & 0xffffffff) == uVar22) {

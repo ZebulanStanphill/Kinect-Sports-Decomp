@@ -1,40 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_829E9FF8(int param_1,int param_2,int *param_3,longlong param_4,uint param_5,int param_6)
+void fn_829E9FF8(int param_1,int param_2,int *param_3,__int64 param_4,unsigned int param_5,int param_6)
 
 {
   int iVar1;
   float fVar2;
   float fVar3;
-  byte *pbVar4;
+  unsigned char *pbVar4;
   int iVar5;
   int iVar6;
   int iVar7;
@@ -61,7 +34,7 @@ void fn_829E9FF8(int param_1,int param_2,int *param_3,longlong param_4,uint para
           fVar2 = fVar3;
           if (0 < piVar8[1]) {
             pfVar12 = (float *)(piVar8[2] + -4);
-            pbVar4 = (byte *)((iVar5 + iVar6 + iVar1 + param_2) - iVar9);
+            pbVar4 = (unsigned char *)((iVar5 + iVar6 + iVar1 + param_2) - iVar9);
             do {
               pbVar4 = pbVar4 + iVar9;
               iVar7 = iVar7 + 1;
@@ -77,7 +50,7 @@ void fn_829E9FF8(int param_1,int param_2,int *param_3,longlong param_4,uint para
         } while (iVar5 < iVar9);
       }
       param_5 = param_5 + 1;
-      if ((uint)((param_3[3] - param_3[2]) / 0xc) <= param_5) {
+      if ((unsigned int)((param_3[3] - param_3[2]) / 0xc) <= param_5) {
         param_5 = 0;
         iVar11 = *param_3 + iVar11;
       }

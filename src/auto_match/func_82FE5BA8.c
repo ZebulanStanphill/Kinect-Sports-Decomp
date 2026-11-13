@@ -1,36 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A534();
 extern int fn_82F6A580();
 
 
-void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,undefined8 param_7,longlong param_8,longlong param_9)
+void fn_82FE5BA8(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
+                  double param_6,unsigned __int64 param_7,__int64 param_8,__int64 param_9)
 
 {
   double dVar1;
@@ -46,9 +19,9 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
   float *pfVar11;
   int iVar12;
   float *pfVar13;
-  uint uVar14;
+  unsigned int uVar14;
   float *pfVar16;
-  longlong lVar15;
+  __int64 lVar15;
   double dVar17;
   double extraout_f1;
   double dVar18;
@@ -60,7 +33,7 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
   double dVar24;
   double dVar25;
   double dVar26;
-  uint in_stack_0000005c;
+  unsigned int in_stack_0000005c;
   
   pfVar9 = (float *)fn_82F6A534();
   iVar12 = (int)param_9;
@@ -69,7 +42,7 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
     pfVar16 = pfVar9 + in_stack_0000005c;
     if (pfVar9 < pfVar16) {
       uVar14 = (int)pfVar16 + (3 - (int)pfVar9);
-      if (3 < (int)(((int)uVar14 >> 2) + (uint)((int)uVar14 < 0 && (uVar14 & 3) != 0))) {
+      if (3 < (int)(((int)uVar14 >> 2) + (unsigned int)((int)uVar14 < 0 && (uVar14 & 3) != 0))) {
         do {
           pfVar11 = (float *)param_8;
           fVar3 = pfVar11[1];
@@ -101,7 +74,7 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
       if (pfVar9 < pfVar16) {
         iVar10 = iVar10 - (int)pfVar9;
         iVar12 = iVar12 - (int)pfVar9;
-        lVar15 = (ulonglong)((uint)((int)pfVar16 + (-1 - (int)pfVar9)) >> 2) + 1;
+        lVar15 = (unsigned __int64)((unsigned int)((int)pfVar16 + (-1 - (int)pfVar9)) >> 2) + 1;
         do {
           *pfVar9 = (float)((double)*pfVar9 * param_2 +
                            (double)(float)((double)*(float *)(iVar12 + (int)pfVar9) * param_6 +
@@ -124,7 +97,7 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
     if (pfVar9 < pfVar16) {
       uVar14 = (int)pfVar16 + (3 - (int)pfVar9);
       dVar18 = extraout_f1;
-      if (3 < (int)(((int)uVar14 >> 2) + (uint)((int)uVar14 < 0 && (uVar14 & 3) != 0))) {
+      if (3 < (int)(((int)uVar14 >> 2) + (unsigned int)((int)uVar14 < 0 && (uVar14 & 3) != 0))) {
         do {
           dVar1 = dVar22 + param_3;
           pfVar11 = (float *)param_8;
@@ -166,7 +139,7 @@ void fn_82FE5BA8(undefined8 param_1,double param_2,double param_3,double param_4
       if (pfVar9 < pfVar16) {
         iVar12 = (int)param_9;
         pfVar11 = pfVar9 + -1;
-        lVar15 = (ulonglong)((uint)((int)pfVar16 + (-1 - (int)pfVar9)) >> 2) + 1;
+        lVar15 = (unsigned __int64)((unsigned int)((int)pfVar16 + (-1 - (int)pfVar9)) >> 2) + 1;
         do {
           dVar2 = (double)pfVar11[1] * dVar18;
           pfVar9 = (float *)param_9;

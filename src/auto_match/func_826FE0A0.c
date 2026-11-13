@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C498();
 extern int fn_8267C4C8();
 extern int fn_8267C4F0();
@@ -52,19 +28,19 @@ void fn_826FE0A0(int param_1)
 
 {
   int *piVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   bool bVar3;
-  longlong lVar4;
+  __int64 lVar4;
   char cVar9;
-  longlong lVar5;
+  __int64 lVar5;
   int iVar6;
-  uint uVar7;
-  uint uVar8;
-  undefined8 in_r7;
-  longlong lVar10;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned __int64 in_r7;
+  __int64 lVar10;
   int iVar11;
   int iVar12;
-  struct { undefined4 first; undefined4 second; } stack_pair_1b0;
+  struct { unsigned int first; unsigned int second; } stack_pair_1b0;
 
   int *piStack_1a8;
   int iStack_1a4;
@@ -82,31 +58,31 @@ void fn_826FE0A0(int param_1)
   if (*(int *)(param_1 + 0x60) != 0) {
     iVar12 = 0;
     do {
-      cVar9 = (**(code **)(**(int **)(iVar12 + *(int *)(param_1 + 0x5c) + 4) + 8))();
+      cVar9 = (**(int (***)())(**(int **)(iVar12 + *(int *)(param_1 + 0x5c) + 4) + 8))();
       if (cVar9 != '\0') {
         bVar3 = true;
         break;
       }
       uVar7 = uVar7 + 1;
       iVar12 = iVar12 + 8;
-    } while (uVar7 < *(uint *)(param_1 + 0x60));
+    } while (uVar7 < *(unsigned int *)(param_1 + 0x60));
   }
   if (bVar3) {
-    lVar5 = (ulonglong)*(uint *)(param_1 + 0x100) + 8;
-    if ((ulonglong)*(uint *)(param_1 + 0x100) == 0) {
+    lVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x100) + 8;
+    if ((unsigned __int64)*(unsigned int *)(param_1 + 0x100) == 0) {
       lVar5 = 0;
     }
     fn_8270D6C0((double)*(float *)(param_1 + 0xac),aiStack_1a0,lVar5,
-                      *(undefined4 *)(*(int *)(*(int *)(param_1 + 0x6c) + 0x14) + 0x18),
-                      (ulonglong)*(uint *)(*(int *)(param_1 + 0x6c) + 0x1c) + 0x18,in_r7,
+                      *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x6c) + 0x14) + 0x18),
+                      (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x6c) + 0x1c) + 0x18,in_r7,
                       param_1 + 0xe8,param_1 + 0xb70);
     if ((aiStack_1a0[0] == 0) || (*(int *)(aiStack_1a0[0] + 0xc) == 0)) {
       fn_8270D350(aiStack_1a0);
       lVar5 = fn_82693410();
-      lVar10 = (lVar5 - lVar4) + *(longlong *)(param_1 + 0xb68);
+      lVar10 = (lVar5 - lVar4) + *(__int64 *)(param_1 + 0xb68);
       goto LAB_826fe3b0;
     }
-    *(uint *)(param_1 + 0xb00) = *(uint *)(param_1 + 0xb00) | 2;
+    *(unsigned int *)(param_1 + 0xb00) = *(unsigned int *)(param_1 + 0xb00) | 2;
     if (iStack_18c != 0) {
       fn_8267C4C8();
     }
@@ -114,8 +90,8 @@ void fn_826FE0A0(int param_1)
       fn_8267C4F0();
     }
     *(int *)(param_1 + 0x108) = iStack_18c;
-    stack_pair_1b0.first = *(undefined4 *)(param_1 + 0x940);
-    (**(code **)(**(int **)(aiStack_1a0[0] + 0xc) + 0x18))
+    stack_pair_1b0.first = *(unsigned int *)(param_1 + 0x940);
+    (**(int (***)())(**(int **)(aiStack_1a0[0] + 0xc) + 0x18))
               ((double)*(float *)(param_1 + 200),(double)*(float *)(param_1 + 0xd0),
                (double)*(float *)(param_1 + 0xcc),(double)*(float *)(param_1 + 0xd4),
                *(int **)(aiStack_1a0[0] + 0xc),&stack_pair_1b0.first,param_1 + 0x78);
@@ -134,7 +110,7 @@ void fn_826FE0A0(int param_1)
             *(int *)(iVar12 + 4) = *(int *)(iVar12 + 4) + 1;
           }
           piVar1 = *(int **)(iVar11 + 0x10);
-          (**(code **)(*piVar1 + 0xc))(piVar1,*(undefined4 *)(aiStack_1a0[0] + 0xc));
+          (**(int (***)())(*piVar1 + 0xc))(piVar1,*(unsigned int *)(aiStack_1a0[0] + 0xc));
           fn_8267C498(piVar1);
           fn_827741E8(&piStack_1a8);
           cVar9 = fn_826A8E58(&piStack_1a8,&stack_pair_1b0.first);
@@ -145,20 +121,20 @@ void fn_826FE0A0(int param_1)
     if (*(int *)(param_1 + 0x60) != 0) {
       do {
         piVar1 = *(int **)(iVar6 + *(int *)(param_1 + 0x5c) + 4);
-        (**(code **)(*piVar1 + 0x60))(piVar1,aiStack_1a0);
+        (**(int (***)())(*piVar1 + 0x60))(piVar1,aiStack_1a0);
         uVar7 = uVar7 + 1;
         iVar6 = iVar6 + 8;
-      } while (uVar7 < *(uint *)(param_1 + 0x60));
+      } while (uVar7 < *(unsigned int *)(param_1 + 0x60));
     }
     fn_826F7AE0(param_1,aiStack_1a0);
     fn_826FCDB0(param_1,aiStack_1a0);
-    (**(code **)(**(int **)(aiStack_1a0[0] + 0xc) + 0x1c))();
-    *(uint *)(param_1 + 0xb00) = *(uint *)(param_1 + 0xb00) & 0xfffffffd;
+    (**(int (***)())(**(int **)(aiStack_1a0[0] + 0xc) + 0x1c))();
+    *(unsigned int *)(param_1 + 0xb00) = *(unsigned int *)(param_1 + 0xb00) & 0xfffffffd;
     fn_82685AA8(iStack_188);
     fn_82685680(iStack_188);
     iVar6 = fn_82685480(iStack_188);
     if (iVar6 != 0) {
-      uVar2 = *(undefined4 *)(iStack_188 + 0x10);
+      uVar2 = *(unsigned int *)(iStack_188 + 0x10);
       uVar7 = fn_82685480();
       uVar8 = fn_826EEB08(uVar2);
       if (uVar7 < uVar8) {
@@ -167,17 +143,17 @@ void fn_826FE0A0(int param_1)
     }
     fn_8270D350(aiStack_1a0);
     lVar10 = fn_82693410();
-    lVar5 = *(longlong *)(param_1 + 0xb68);
+    lVar5 = *(__int64 *)(param_1 + 0xb68);
     lVar10 = lVar10 - lVar4;
   }
   else {
     lVar5 = fn_82693410();
-    lVar10 = *(longlong *)(param_1 + 0xb68);
+    lVar10 = *(__int64 *)(param_1 + 0xb68);
     lVar5 = lVar5 - lVar4;
   }
   lVar10 = lVar10 + lVar5;
 LAB_826fe3b0:
-  *(longlong *)(param_1 + 0xb68) = lVar10;
+  *(__int64 *)(param_1 + 0xb68) = lVar10;
   return;
 }
 

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_e0;
 extern int fn_822315A0();
@@ -41,12 +14,12 @@ void fn_822A3918(int param_1,int param_2)
 {
   int iVar1;
   int *piVar2;
-  undefined1 *puVar3;
-  longlong lVar4;
-  undefined4 uStack_f0;
+  unsigned char *puVar3;
+  __int64 lVar4;
+  unsigned int uStack_f0;
   int aiStack_ec [3];
-  undefined1 auStack_e0 [80];
-  undefined1 auStack_40 [64];
+  unsigned char auStack_e0 [80];
+  unsigned char auStack_40 [64];
 
   piVar2 = aiStack_ec;
   lVar4 = 10;
@@ -69,14 +42,14 @@ void fn_822A3918(int param_1,int param_2)
   } while (lVar4 != 0);
   uStack_f0 = 0;
   aiStack_ec[0] = 0;
-  fn_82517978(&uStack_f0,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),0);
+  fn_82517978(&uStack_f0,*(unsigned int *)(param_1 + 4),*(unsigned int *)(param_1 + 8),0);
   fn_822315A0(uStack_f0,0xffffffff821ac068,0,auStack_e0,10,1);
   if (aiStack_ec[0] != 0) {
     fn_822315A0();
   }
   uStack_f0 = 0;
   aiStack_ec[0] = 0;
-  fn_82517978(&uStack_f0,*(undefined4 *)(param_1 + 4),*(undefined4 *)(param_1 + 8),0);
+  fn_82517978(&uStack_f0,*(unsigned int *)(param_1 + 4),*(unsigned int *)(param_1 + 8),0);
   fn_822315A0(uStack_f0,0xffffffff821ac088,0,0);
   if (aiStack_ec[0] != 0) {
     fn_822315A0();

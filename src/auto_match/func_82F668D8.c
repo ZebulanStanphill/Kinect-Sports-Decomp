@@ -1,43 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F63BA0();
 extern int fn_82F68240();
 
 
-undefined4 fn_82F668D8(char *param_1,int param_2,char *param_3,ulonglong param_4)
+unsigned int fn_82F668D8(char *param_1,int param_2,char *param_3,unsigned __int64 param_4)
 
 {
   char cVar1;
-  undefined4 *puVar2;
+  unsigned int *puVar2;
   int iVar3;
   int iVar4;
   char *pcVar5;
-  undefined4 uVar6;
+  unsigned int uVar6;
   
   if ((param_4 & 0xffffffff) == 0) {
     if (param_1 == (char *)0x0) {
@@ -50,7 +23,7 @@ undefined4 fn_82F668D8(char *param_1,int param_2,char *param_3,ulonglong param_4
   else if (param_1 == (char *)0x0) goto LAB_82f66928;
   if (param_2 == 0) {
 LAB_82f66928:
-    puVar2 = (undefined4 *)fn_82F68240();
+    puVar2 = (unsigned int *)fn_82F68240();
     *puVar2 = 0x16;
     fn_82F63BA0();
     return 0x16;
@@ -68,7 +41,7 @@ LAB_82f66928:
   } while (iVar3 != 0);
   if (iVar3 == 0) {
     *param_1 = '\0';
-    puVar2 = (undefined4 *)fn_82F68240();
+    puVar2 = (unsigned int *)fn_82F68240();
     uVar6 = 0x16;
     goto LAB_82f66994;
   }
@@ -105,7 +78,7 @@ LAB_82f66a10:
     return 0x50;
   }
   *param_1 = '\0';
-  puVar2 = (undefined4 *)fn_82F68240();
+  puVar2 = (unsigned int *)fn_82F68240();
   uVar6 = 0x22;
 LAB_82f66994:
   *puVar2 = uVar6;

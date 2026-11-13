@@ -1,39 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A21458();
 extern unsigned int lbl_83219B94;
 
 
-int * fn_82A22408(longlong param_1,char param_2,undefined4 *param_3)
+int * fn_82A22408(__int64 param_1,char param_2,unsigned int *param_3)
 
 {
   int *piVar1;
-  uint uVar2;
+  unsigned int uVar2;
   int iVar3;
   int *piVar4;
   int *piVar5;
@@ -60,13 +33,13 @@ LAB_82a225bc:
          (((uVar2 & 0x20) == 0 &&
           ((((uVar2 & 8) == 0 && ((piVar1[8] & 0x80000000U) == 0)) &&
            (*(char *)((int)piVar1 + 0x19) == param_2)))))) {
-        if (param_1 < (longlong)(ulonglong)(uint)piVar1[2]) {
+        if (param_1 < (__int64)(unsigned __int64)(unsigned int)piVar1[2]) {
           *param_3 = 1;
           iVar3 = lbl_83219B94;
         }
         else {
-          if (((piVar6 == (int *)0x0) || (*(byte *)(piVar1 + 6) < *(byte *)(piVar6 + 6))) ||
-             ((uint)piVar1[4] < (uint)piVar6[4])) {
+          if (((piVar6 == (int *)0x0) || (*(unsigned char *)(piVar1 + 6) < *(unsigned char *)(piVar6 + 6))) ||
+             ((unsigned int)piVar1[4] < (unsigned int)piVar6[4])) {
             piVar6 = piVar1;
           }
           if ((piVar4 == (int *)0x0) || ((piVar4[7] & 0xffffff00U) < (piVar6[7] & 0xffffff00U))) {
@@ -93,7 +66,7 @@ LAB_82a225bc:
         if ((piVar1[5] != 0) && (piVar7 == (int *)0x0)) {
           piVar7 = piVar1;
         }
-        if (param_1 < (longlong)(ulonglong)(uint)piVar1[2]) {
+        if (param_1 < (__int64)(unsigned __int64)(unsigned int)piVar1[2]) {
           *param_3 = 1;
           iVar3 = lbl_83219B94;
         }
@@ -112,11 +85,11 @@ LAB_82a225bc:
           if (((((uVar2 & 0x80) == 0) && ((uVar2 & 0x40) == 0)) && ((uVar2 & 0x20) == 0)) &&
              ((((uVar2 & 8) == 0 && ((piVar7[8] & 0x80000000U) == 0)) &&
               (*(char *)((int)piVar7 + 0x19) == param_2)))) {
-            if (param_1 < (longlong)(ulonglong)(uint)piVar7[2]) {
+            if (param_1 < (__int64)(unsigned __int64)(unsigned int)piVar7[2]) {
               *param_3 = 1;
               iVar3 = lbl_83219B94;
             }
-            else if ((uint)piVar4[4] <= (uint)piVar7[4]) goto LAB_82a22504;
+            else if ((unsigned int)piVar4[4] <= (unsigned int)piVar7[4]) goto LAB_82a22504;
           }
           piVar7 = (int *)*piVar7;
           piVar5 = (int *)(iVar3 + 0x2c);

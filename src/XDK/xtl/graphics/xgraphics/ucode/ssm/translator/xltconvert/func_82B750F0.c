@@ -1,44 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82B750F0(uint *param_1,uint *param_2,uint *param_3,undefined2 param_4,uint *param_5)
+void fn_82B750F0(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned short param_4,unsigned int *param_5)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  uint *puVar4;
-  longlong lVar5;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int *puVar3;
+  unsigned int *puVar4;
+  __int64 lVar5;
   
-  *(undefined2 *)((int)param_5 + 2) = 0x41;
+  *(unsigned short *)((int)param_5 + 2) = 0x41;
   *param_5 = *param_5 & 0xe000ffff;
-  *(undefined2 *)((int)param_5 + 6) = param_4;
+  *(unsigned short *)((int)param_5 + 6) = param_4;
   param_5[1] = param_5[1] & 0xff00ffff | 0x440000;
   puVar3 = param_5 + 2;
   uVar2 = *puVar3;
@@ -107,9 +78,9 @@ void fn_82B750F0(uint *param_1,uint *param_2,uint *param_3,undefined2 param_4,ui
     param_5 = puVar3;
     lVar5 = lVar5 + -1;
   } while (lVar5 != 0);
-  *(undefined2 *)((int)param_5 + 2) = 0x41;
+  *(unsigned short *)((int)param_5 + 2) = 0x41;
   *param_5 = *param_5 & 0xe000ffff;
-  *(undefined2 *)((int)param_5 + 6) = param_4;
+  *(unsigned short *)((int)param_5 + 6) = param_4;
   param_5[1] = param_5[1] & 0xff00ffff | 0x440000;
   param_5 = param_5 + 2;
   uVar2 = *param_5;
@@ -133,9 +104,9 @@ void fn_82B750F0(uint *param_1,uint *param_2,uint *param_3,undefined2 param_4,ui
   do {
     puVar3 = param_5 + 1;
     puVar4 = param_5 + 2;
-    *(undefined2 *)((int)param_5 + 6) = 0;
+    *(unsigned short *)((int)param_5 + 6) = 0;
     *puVar3 = *puVar3 & 0xff00ffff | 0x410000;
-    *(undefined1 *)puVar3 = 1;
+    *(unsigned char *)puVar3 = 1;
     if ((*param_2 & 7) == 4) {
       uVar2 = *puVar4 & 0xfffffff8;
     }

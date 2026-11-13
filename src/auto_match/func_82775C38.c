@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267ADA8();
 extern int fn_8268CC00();
 extern int fn_827B9178();
@@ -43,35 +16,35 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_831568D4;
 
 
-void fn_82775C38(undefined8 param_1,undefined4 param_2)
+void fn_82775C38(unsigned __int64 param_1,unsigned int param_2)
 
 {
   float fVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
+  unsigned int uVar2;
+  unsigned int uVar3;
   float fVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar5;
   char cVar6;
-  uint *puVar7;
-  uint uVar8;
-  longlong lVar9;
+  unsigned int *puVar7;
+  unsigned int uVar8;
+  __int64 lVar9;
   double dVar10;
   double dVar11;
   double dVar12;
   double dVar13;
   double dVar14;
   
-  puVar5 = (undefined4 *)fn_82F6A548();
+  puVar5 = (unsigned int *)fn_82F6A548();
   *puVar5 = param_2;
   uVar8 = 0;
   puVar5[1] = 0;
   puVar5[2] = &lbl_8201533C;
   puVar5[4] = &lbl_82015334;
-  *(undefined1 *)((int)puVar5 + 0x19) = 1;
-  *(undefined1 *)((int)puVar5 + 0x1a) = 1;
+  *(unsigned char *)((int)puVar5 + 0x19) = 1;
+  *(unsigned char *)((int)puVar5 + 0x1a) = 1;
   puVar5[7] = 1;
   puVar5[8] = 1;
-  *(undefined1 *)(puVar5 + 6) = 0;
+  *(unsigned char *)(puVar5 + 6) = 0;
   puVar5[0xd] = puVar5 + 9;
   puVar5[9] = 0;
   puVar5[10] = 0;
@@ -105,7 +78,7 @@ void fn_82775C38(undefined8 param_1,undefined4 param_2)
   puVar5[0x24a] = 0;
   fVar4 = lbl_821AAD20;
   dVar13 = (double)lbl_821AAD20;
-  *(undefined1 *)(puVar5 + 0x24b) = 0;
+  *(unsigned char *)(puVar5 + 0x24b) = 0;
   puVar5[0x24c] = fVar1;
   puVar5[0x24d] = uVar2;
   puVar5[0x24e] = 0;
@@ -122,7 +95,7 @@ void fn_82775C38(undefined8 param_1,undefined4 param_2)
   puVar5[600] = 0x80000001;
   puVar5[0x25b] = fVar4;
   puVar5[0x25c] = fVar4;
-  *(undefined1 *)(puVar5 + 0x25d) = 0;
+  *(unsigned char *)(puVar5 + 0x25d) = 0;
   puVar5[599] = 0x7fffffff;
   puVar5[0x25f] = uVar2;
   puVar5[0x25e] = fVar1;
@@ -142,7 +115,7 @@ void fn_82775C38(undefined8 param_1,undefined4 param_2)
   puVar5[0x26d] = fVar4;
   puVar5[0x268] = 0;
   puVar5[0x26e] = fVar4;
-  *(undefined1 *)(puVar5 + 0x26f) = 0;
+  *(unsigned char *)(puVar5 + 0x26f) = 0;
   puVar5[0x269] = 0x7fffffff;
   puVar5[0x271] = uVar3;
   puVar5[0x272] = uVar2;
@@ -159,7 +132,7 @@ void fn_82775C38(undefined8 param_1,undefined4 param_2)
   cVar6 = '\0';
   puVar5[0x276] = (float)dVar11;
   puVar5[0x277] = (float)dVar14;
-  puVar7 = (uint *)&lbl_831568D4;
+  puVar7 = (unsigned int *)&lbl_831568D4;
   puVar5[0x278] = (float)dVar13;
   puVar5[3] = puVar5;
   puVar5[5] = puVar5;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern int fn_82547CF0();
 extern unsigned int uStack_85;
@@ -35,30 +8,30 @@ extern unsigned int uStack_89;
 extern unsigned int uStack_8a;
 
 
-ulonglong fn_825480E0(int param_1,int param_2,uint param_3,uint param_4)
+unsigned __int64 fn_825480E0(int param_1,int param_2,unsigned int param_3,unsigned int param_4)
 
 {
-  ushort uVar1;
-  ushort uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
+  unsigned short uVar1;
+  unsigned short uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
   int iVar7;
-  longlong lVar8;
-  longlong lVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
+  __int64 lVar8;
+  __int64 lVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
   int iVar12;
   int iVar13;
-  byte abStack_90 [6];
-  undefined1 uStack_8a;
-  undefined1 uStack_89;
-  undefined1 uStack_88;
-  undefined1 uStack_87;
-  undefined1 uStack_86;
-  undefined1 uStack_85;
-  uint auStack_80 [32];
+  unsigned char abStack_90 [6];
+  unsigned char uStack_8a;
+  unsigned char uStack_89;
+  unsigned char uStack_88;
+  unsigned char uStack_87;
+  unsigned char uStack_86;
+  unsigned char uStack_85;
+  unsigned int auStack_80 [32];
   
   auStack_80[4] = 0;
   auStack_80[5] = 1;
@@ -70,25 +43,25 @@ ulonglong fn_825480E0(int param_1,int param_2,uint param_3,uint param_4)
   auStack_80[2] = 3;
   iVar12 = fn_82547CF0((int)param_3 >> 2,(int)param_4 >> 2,param_2 >> 2,8);
   iVar13 = iVar12 * 8 + param_1;
-  uVar2 = *(ushort *)(iVar12 * 8 + param_1);
-  uVar1 = *(ushort *)(iVar13 + 2);
-  uVar3 = (uint)(uVar2 >> 8);
-  uVar4 = (uint)(uVar2 >> 3);
-  abStack_90[0] = (byte)(uVar3 & 0xfffff8);
-  uVar5 = (uint)(uVar1 >> 8);
-  uVar6 = (uint)(uVar1 >> 3);
+  uVar2 = *(unsigned short *)(iVar12 * 8 + param_1);
+  uVar1 = *(unsigned short *)(iVar13 + 2);
+  uVar3 = (unsigned int)(uVar2 >> 8);
+  uVar4 = (unsigned int)(uVar2 >> 3);
+  abStack_90[0] = (unsigned char)(uVar3 & 0xfffff8);
+  uVar5 = (unsigned int)(uVar1 >> 8);
+  uVar6 = (unsigned int)(uVar1 >> 3);
   abStack_90[1] = (char)(uVar4 & 0xfc);
-  uVar10 = (ulonglong)uVar2 & 0x1f;
+  uVar10 = (unsigned __int64)uVar2 & 0x1f;
   lVar8 = uVar10 << 3;
   abStack_90[3] = (char)(uVar5 & 0xfffff8);
-  uVar11 = (ulonglong)uVar1 & 0x1f;
+  uVar11 = (unsigned __int64)uVar1 & 0x1f;
   lVar9 = uVar11 << 3;
   abStack_90[4] = (char)(uVar6 & 0xfc);
   abStack_90[2] = (char)lVar8;
   abStack_90[5] = (char)lVar9;
   iVar7 = (int)lVar8;
   iVar12 = (int)lVar9;
-  if ((ulonglong)uVar1 < (ulonglong)uVar2) {
+  if ((unsigned __int64)uVar1 < (unsigned __int64)uVar2) {
     uStack_8a = (char)(((uVar3 & 0xfffff8) * 2 + (uVar5 & 0xf8) + 1) / 3);
     uStack_87 = (char)(((uVar5 & 0xfffff8) * 2 + (uVar3 & 0xf8) + 1) / 3);
     uStack_89 = (char)(((uVar4 & 0xfc) * 2 + (uVar6 & 0xfc) + 1) / 3);
@@ -104,9 +77,9 @@ ulonglong fn_825480E0(int param_1,int param_2,uint param_3,uint param_4)
     uStack_88 = (char)(iVar12 + iVar7 + 1 >> 1);
     uStack_85 = 0xff;
   }
-  iVar13 = (*(byte *)(auStack_80[param_4 & 3] + iVar13 + 4) >>
+  iVar13 = (*(unsigned char *)(auStack_80[param_4 & 3] + iVar13 + 4) >>
             ((auStack_80[(param_3 & 3) + 4] & 0x1f) << 1) & 3) * 3;
-  return ((ulonglong)abStack_90[iVar13] << 8 | 0xff0000 | (ulonglong)abStack_90[iVar13 + 1]) << 8 |
-         (ulonglong)abStack_90[iVar13 + 2];
+  return ((unsigned __int64)abStack_90[iVar13] << 8 | 0xff0000 | (unsigned __int64)abStack_90[iVar13 + 1]) << 8 |
+         (unsigned __int64)abStack_90[iVar13 + 2];
 }
 

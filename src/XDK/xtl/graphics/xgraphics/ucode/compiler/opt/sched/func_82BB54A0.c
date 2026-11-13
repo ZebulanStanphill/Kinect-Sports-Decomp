@@ -1,4 +1,3 @@
-typedef unsigned int U32;
 extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 #define SCHED_ASSERT(e, line) \
     if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \

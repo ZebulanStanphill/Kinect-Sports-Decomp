@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 typedef struct Ent_82C08290 { char c; char pad[0x1f]; int f20; char pad1[0x38 - 0x24]; int f38; int f3c; int f40; int f44; int f48; int f4c; } Ent_82C08290;
 typedef struct Self_82C08290 { int pad0; struct Sub_82C08290 *sub; int f8; char pad[0x220 - 0xc]; int f220; char pad1[0x238 - 0x224]; int f238; int f23c; char pad2[0x260 - 0x240]; int f260; } Self_82C08290;
 typedef struct Sub_82C08290 { char pad[0x78]; int f78; int f7c; } Sub_82C08290;

@@ -1,13 +1,12 @@
 // Scaleform-style HashSetBase::setRawCapacity (0xc-byte entries), written as a
 // member function like func_826C11C0.cpp.
-typedef unsigned int U32;
-struct Hdr_826FDD68 { U32 count; U32 mask; };
+struct Hdr_826FDD68 { unsigned int count; unsigned int mask; };
 struct Ent_826FDD68 { int hash; int val[2]; };
 struct Tab_826FDD68 { Hdr_826FDD68 h; Ent_826FDD68 e[1]; };
 struct Hash_826FDD68;
 extern "C" {
 void fn_8267BE38(void *);
-void *fn_8267BED0(void *, U32, U32 *);
+void *fn_8267BED0(void *, unsigned int, unsigned int *);
 void fn_826F8490(void *, int);
 void fn_826FDAB8(Hash_826FDD68 *);
 void fn_826FEAA8(Hash_826FDD68 *, void *, void *, int);
@@ -20,13 +19,13 @@ extern float lbl_8200561C;
 namespace dtor { extern "C" void fn_826FDAB8(Hash_826FDD68 *); }
 struct Hash_826FDD68 {
   Tab_826FDD68 *t;
-  void setRawCapacity(void *heap, U32 n);
+  void setRawCapacity(void *heap, unsigned int n);
 };
-void Hash_826FDD68::setRawCapacity(void *heap, U32 n)
+void Hash_826FDD68::setRawCapacity(void *heap, unsigned int n)
 {
   Hash_826FDD68 nh;
-  U32 cap;
-  U32 tag;
+  unsigned int cap;
+  unsigned int tag;
   if (n == 0) {
     fn_826FDAB8(this);
   } else {
@@ -43,11 +42,11 @@ void Hash_826FDD68::setRawCapacity(void *heap, U32 n)
     nh.t->h.count = 0;
     nh.t->h.mask = cap - 1;
     if (cap != 0) {
-      U32 i;
+      unsigned int i;
       for (i = 0; i < cap; i++) nh.t->e[i].hash = -2;
     }
     if (t != 0) {
-      U32 i, m;
+      unsigned int i, m;
       for (i = 0, m = t->h.mask; i <= m; i++) {
         Ent_826FDD68 *e = &t->e[i];
         if (e->hash != -2) {

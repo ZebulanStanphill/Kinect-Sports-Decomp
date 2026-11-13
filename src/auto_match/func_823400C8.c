@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct Obj_823400C8 {
     int pad0;
     int v0;
@@ -11,7 +9,7 @@ typedef struct Obj_823400C8 {
 
 typedef struct Mode_8225F160 {
     int pad[5];
-    uint mode;
+    unsigned int mode;
 } Mode_8225F160;
 
 extern Mode_8225F160 *fn_8225F160();

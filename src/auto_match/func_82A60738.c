@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_3c;
 extern unsigned int fStack_40;
 extern unsigned int fStack_5c;
@@ -37,17 +11,17 @@ void fn_82A60738(int *param_1)
   bool bVar1;
   int iVar2;
   int iVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int iVar5;
-  longlong lVar6;
+  __int64 lVar6;
   float fVar7;
   int iVar8;
-  uint uVar9;
-  ulonglong uVar10;
+  unsigned int uVar9;
+  unsigned __int64 uVar10;
   float *pfVar11;
   int iVar12;
   float *pfVar14;
-  ulonglong uVar13;
+  unsigned __int64 uVar13;
   float afStack_70 [4];
   float fStack_60;
   float fStack_5c;
@@ -58,7 +32,7 @@ void fn_82A60738(int *param_1)
   iVar2 = *param_1;
   iVar3 = param_1[1];
   uVar4 = param_1[5];
-  uVar10 = (ulonglong)(uint)param_1[6];
+  uVar10 = (unsigned __int64)(unsigned int)param_1[6];
   iVar5 = param_1[8];
   if (param_1[9] != 0) {
     uVar10 = 1;
@@ -153,7 +127,7 @@ LAB_82a60900:
         else {
           pfVar11[-1] = pfVar11[-1] + fVar7;
         }
-        uVar13 = -(ulonglong)(uVar13 + 1 < uVar10) & uVar13 + 1;
+        uVar13 = -(unsigned __int64)(uVar13 + 1 < uVar10) & uVar13 + 1;
         fVar7 = *(float *)((int)afStack_70 + (int)((uVar13 & 0xffffffff) << 2)) *
                 *(float *)((iVar2 - iVar3) + (int)pfVar11);
         if (iVar5 == 0) {
@@ -163,7 +137,7 @@ LAB_82a60900:
           *pfVar11 = *pfVar11 + fVar7;
         }
         uVar13 = uVar13 + 1;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
         fVar7 = *(float *)((int)afStack_70 + (int)((uVar13 & 0xffffffff) << 2)) * pfVar14[-1];
         if (iVar5 == 0) {
           pfVar11[1] = fVar7;
@@ -172,7 +146,7 @@ LAB_82a60900:
           pfVar11[1] = pfVar11[1] + fVar7;
         }
         uVar13 = uVar13 + 1;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
         fVar7 = *(float *)((int)afStack_70 + (int)((uVar13 & 0xffffffff) << 2)) * *pfVar14;
         if (iVar5 == 0) {
           pfVar11[2] = fVar7;
@@ -184,7 +158,7 @@ LAB_82a60900:
         uVar9 = uVar9 + 4;
         pfVar11 = pfVar11 + 4;
         pfVar14 = pfVar14 + 4;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
         lVar6 = (uVar13 & 0xffffffff) << 2;
       } while (uVar9 < uVar4 - 3);
     }
@@ -201,7 +175,7 @@ LAB_82a60900:
           *pfVar14 = *pfVar14 + fVar7;
         }
         pfVar14 = pfVar14 + 1;
-        uVar13 = -(ulonglong)(uVar13 + 1 < uVar10) & uVar13 + 1;
+        uVar13 = -(unsigned __int64)(uVar13 + 1 < uVar10) & uVar13 + 1;
         iVar12 = iVar12 + -1;
       } while (iVar12 != 0);
     }
@@ -221,7 +195,7 @@ LAB_82a60900:
         else {
           pfVar14[-1] = pfVar14[-1] + fVar7;
         }
-        uVar13 = -(ulonglong)(uVar13 + 1 < uVar10) & uVar13 + 1;
+        uVar13 = -(unsigned __int64)(uVar13 + 1 < uVar10) & uVar13 + 1;
         iVar12 = (int)((uVar13 & 0x3fffffff) << 2);
         fVar7 = *(float *)((int)pfVar14 + (iVar2 - iVar3)) * *(float *)((int)afStack_70 + iVar12);
         *(float *)((int)afStack_70 + iVar12) =
@@ -233,7 +207,7 @@ LAB_82a60900:
           *pfVar14 = *pfVar14 + fVar7;
         }
         uVar13 = uVar13 + 1;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
         iVar12 = (int)((uVar13 & 0x3fffffff) << 2);
         fVar7 = pfVar11[-1] * *(float *)((int)afStack_70 + iVar12);
         *(float *)((int)afStack_70 + iVar12) =
@@ -245,7 +219,7 @@ LAB_82a60900:
           pfVar14[1] = pfVar14[1] + fVar7;
         }
         uVar13 = uVar13 + 1;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
         iVar12 = (int)((uVar13 & 0x3fffffff) << 2);
         fVar7 = *pfVar11 * *(float *)((int)afStack_70 + iVar12);
         *(float *)((int)afStack_70 + iVar12) =
@@ -260,7 +234,7 @@ LAB_82a60900:
         uVar9 = uVar9 + 4;
         pfVar14 = pfVar14 + 4;
         pfVar11 = pfVar11 + 4;
-        uVar13 = -(ulonglong)(uVar13 < uVar10) & uVar13;
+        uVar13 = -(unsigned __int64)(uVar13 < uVar10) & uVar13;
       } while (uVar9 < uVar4 - 3);
     }
     if (uVar9 < uVar4) {
@@ -278,7 +252,7 @@ LAB_82a60900:
           *pfVar14 = *pfVar14 + fVar7;
         }
         pfVar14 = pfVar14 + 1;
-        uVar13 = -(ulonglong)(uVar13 + 1 < uVar10) & uVar13 + 1;
+        uVar13 = -(unsigned __int64)(uVar13 + 1 < uVar10) & uVar13 + 1;
         iVar12 = iVar12 + -1;
       } while (iVar12 != 0);
     }

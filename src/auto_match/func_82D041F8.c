@@ -1,8 +1,6 @@
-typedef unsigned int uint;
-
 char *fn_82CFBEA0(char *s, char *sub);
 
-int fn_82D041F8(uint *param_1, char *param_2, int param_3)
+int fn_82D041F8(unsigned int *param_1, char *param_2, int param_3)
 {
   char *p;
 

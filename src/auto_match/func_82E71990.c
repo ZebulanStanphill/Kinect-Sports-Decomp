@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E6F498();
 extern int fn_82E70AB8();
 extern int fn_82E71048();
@@ -34,19 +7,19 @@ extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
 
 
-longlong fn_82E71990(int *param_1,ulonglong param_2,int param_3,undefined8 param_4,
-                      longlong *param_5,undefined8 *param_6)
+__int64 fn_82E71990(int *param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
+                      __int64 *param_5,unsigned __int64 *param_6)
 
 {
   int *piVar1;
-  longlong lVar2;
-  uint uStack_70;
-  uint uStack_6c;
+  __int64 lVar2;
+  unsigned int uStack_70;
+  unsigned int uStack_6c;
   int *piStack_68;
-  undefined4 uStack_64;
-  longlong alStack_60;
+  unsigned int uStack_64;
+  __int64 alStack_60;
   
-  if (param_5 == (longlong *)0x0) {
+  if (param_5 == (__int64 *)0x0) {
     lVar2 = -0x7fffbffd;
   }
   else {
@@ -55,13 +28,13 @@ longlong fn_82E71990(int *param_1,ulonglong param_2,int param_3,undefined8 param
       lVar2 = -0x3ff2c945;
     }
     else {
-      if (param_6 != (undefined8 *)0x0) {
+      if (param_6 != (unsigned __int64 *)0x0) {
         *param_6 = 0xffffffffffffffff;
       }
       uStack_6c = 0;
       piStack_68 = (int *)0x0;
       uStack_64 = 0;
-      lVar2 = (**(code **)(*param_1 + 8))(param_1,&uStack_6c);
+      lVar2 = (**(int (***)())(*param_1 + 8))(param_1,&uStack_6c);
       if (-1 < lVar2) {
         if (uStack_6c == 0) {
           lVar2 = -0x3ff2c945;
@@ -69,7 +42,7 @@ longlong fn_82E71990(int *param_1,ulonglong param_2,int param_3,undefined8 param
         else {
           alStack_60 = 0;
           param_2 = param_2 / uStack_6c;
-          trapDoubleWordImmediate(6,(ulonglong)uStack_6c,0);
+          trapDoubleWordImmediate(6,(unsigned __int64)uStack_6c,0);
           lVar2 = fn_82E71308(param_1,param_2,param_4,&alStack_60,&piStack_68,&uStack_64);
           piVar1 = piStack_68;
           if (-1 < lVar2) {
@@ -78,12 +51,12 @@ longlong fn_82E71990(int *param_1,ulonglong param_2,int param_3,undefined8 param
             if (-1 < lVar2) {
               if ((param_3 == 0) || ((int)param_4 != 3)) {
                 alStack_60 = 0;
-                lVar2 = (**(code **)(*piVar1 + 0x20))
-                                  (piVar1,*(undefined2 *)(param_1 + 2),param_4,&alStack_60);
+                lVar2 = (**(int (***)())(*piVar1 + 0x20))
+                                  (piVar1,*(unsigned short *)(param_1 + 2),param_4,&alStack_60);
                 if (-1 < lVar2) {
-                  *param_5 = (ulonglong)uStack_70 + alStack_60;
-                  if (param_6 != (undefined8 *)0x0) {
-                    lVar2 = fn_82E70AB8(param_1,param_2,(ulonglong)uStack_70,uStack_6c * 10000,
+                  *param_5 = (unsigned __int64)uStack_70 + alStack_60;
+                  if (param_6 != (unsigned __int64 *)0x0) {
+                    lVar2 = fn_82E70AB8(param_1,param_2,(unsigned __int64)uStack_70,uStack_6c * 10000,
                                           param_6);
                   }
                 }
@@ -94,7 +67,7 @@ longlong fn_82E71990(int *param_1,ulonglong param_2,int param_3,undefined8 param
             }
           }
           if (piVar1 != (int *)0x0) {
-            (**(code **)(*piVar1 + 8))(piVar1);
+            (**(int (***)())(*piVar1 + 8))(piVar1);
           }
         }
       }

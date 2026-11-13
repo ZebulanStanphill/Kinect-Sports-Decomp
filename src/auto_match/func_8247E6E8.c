@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_82248B90();
 extern int fn_8225F160();
@@ -40,20 +14,20 @@ extern unsigned int lbl_83265988;
 extern unsigned int lbl_83297810;
 
 
-byte fn_8247E6E8(int param_1)
+unsigned char fn_8247E6E8(int param_1)
 
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
   int iVar3;
   int iVar4;
-  ulonglong uVar5;
-  byte bVar6;
+  unsigned __int64 uVar5;
+  unsigned char bVar6;
   int iStack_2c;
   struct { int first; int second; } stack_pair_28;
 
   
-  uVar5 = (ulonglong)lbl_83297810;
+  uVar5 = (unsigned __int64)lbl_83297810;
   if (uVar5 == 0) {
     uVar5 = fn_82511928();
   }
@@ -66,14 +40,14 @@ byte fn_8247E6E8(int param_1)
     else {
       iVar3 = *(int *)(lbl_83265988 + 0xf0);
 LAB_8247e7e0:
-      bVar6 = *(byte *)(*(int *)(iVar3 + 8) + 8) >> 4 & 1;
+      bVar6 = *(unsigned char *)(*(int *)(iVar3 + 8) + 8) >> 4 & 1;
     }
     if (stack_pair_28.second != 0) {
       fn_822315A0();
     }
   }
   else {
-    uVar1 = *(undefined4 *)(stack_pair_28.first + 8);
+    uVar1 = *(unsigned int *)(stack_pair_28.first + 8);
     uVar2 = fn_828A12E8(uVar1);
     iVar3 = fn_8288F948(uVar2,1);
     iStack_2c = **(int **)(iVar3 + 4);

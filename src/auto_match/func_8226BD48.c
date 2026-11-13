@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_c0;
 extern unsigned int *auStack_d0;
@@ -74,21 +48,21 @@ void fn_8226BD48(void)
   float fVar1;
   int *piVar2;
   float *pfVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar4;
+  unsigned int *puVar5;
   float fVar6;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar7;
   int iVar8;
   int iVar9;
-  undefined1 uVar10;
-  uint uVar11;
+  unsigned char uVar10;
+  unsigned int uVar11;
   int *piVar12;
-  longlong lVar13;
+  __int64 lVar13;
   int iVar14;
-  longlong lVar15;
+  __int64 lVar15;
   int iVar16;
-  longlong lVar17;
+  __int64 lVar17;
   int iVar18;
   double dVar19;
   double extraout_f1;
@@ -99,11 +73,11 @@ void fn_8226BD48(void)
   double dVar24;
   double dVar25;
   double dVar26;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar27;
-  undefined4 uVar28;
-  undefined4 uVar29;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar27;
+  unsigned int uVar28;
+  unsigned int uVar29;
   float in_register_000104d0;
   float fVar30;
   float in_register_000104d4;
@@ -122,21 +96,21 @@ void fn_8226BD48(void)
   float fStack_110;
   float fStack_10c;
   float fStack_108;
-  undefined1 auStack_100 [4];
+  unsigned char auStack_100 [4];
   float fStack_fc;
   float fStack_f8;
   struct { float first; float second; } stack_pair_f0;
 
   float fStack_e8;
-  undefined1 auStack_e0 [16];
-  undefined1 auStack_d0 [16];
-  undefined1 auStack_c0 [192];
+  unsigned char auStack_e0 [16];
+  unsigned char auStack_d0 [16];
+  unsigned char auStack_c0 [192];
   
   iVar7 = fn_82F6A53C();
   dVar23 = (double)((float)(extraout_f1 * (double)lbl_82192754) * lbl_82193CF0);
   dVar25 = extraout_f1;
   dVar20 = (double)fn_82809A88((double)lbl_82191FB0);
-  *(undefined1 *)(iVar7 + 0x74) = 1;
+  *(unsigned char *)(iVar7 + 0x74) = 1;
   iVar16 = 0;
   dVar21 = (double)lbl_821CA460;
   if (0 < *(int *)(iVar7 + 0x44)) {
@@ -147,7 +121,7 @@ void fn_8226BD48(void)
       dVar24 = dVar21;
       dVar26 = dVar21;
       if (*(char *)(iVar7 + 0x148) == '\0') {
-        uVar11 = *(uint *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xe4);
+        uVar11 = *(unsigned int *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xe4);
         if ((uVar11 & 0x249249) == 0) {
           if (((uVar11 & 0xdb6db6) != 0) || ((uVar11 & 0x7f000000) != 0)) {
             dVar24 = (double)ltcg_pool_0_0f;
@@ -165,7 +139,7 @@ void fn_8226BD48(void)
       uVar11 = 0;
       stack_pair_f0.second = ltcg_pool_0_0f;
       fStack_e8 = ltcg_pool_0_0f;
-      pfVar3 = (float *)((uint)(auStack_100 + (int)in_r0) & 0xfffffff0);
+      pfVar3 = (float *)((unsigned int)(auStack_100 + (int)in_r0) & 0xfffffff0);
       *pfVar3 = in_register_000104d0;
       pfVar3[1] = in_register_000104d4;
       pfVar3[2] = in_register_000104d8;
@@ -179,20 +153,20 @@ void fn_8226BD48(void)
         do {
           iVar8 = *(int *)(iVar7 + 0x40) + iVar18;
           piVar2 = *(int **)(*piVar12 + iVar14);
-          if ((*(uint *)(iVar8 + 0xe4) & piVar2[6]) != 0) {
-            (**(code **)(*piVar2 + 8))(piVar2,iVar8 + 0x80,auStack_e0,auStack_d0,acStack_140);
+          if ((*(unsigned int *)(iVar8 + 0xe4) & piVar2[6]) != 0) {
+            (**(int (***)())(*piVar2 + 8))(piVar2,iVar8 + 0x80,auStack_e0,auStack_d0,acStack_140);
             iVar9 = (int)in_r0;
-            puVar4 = (undefined4 *)((int)&stack_pair_f0.first + iVar9 & 0xfffffff0);
+            puVar4 = (unsigned int *)((int)&stack_pair_f0.first + iVar9 & 0xfffffff0);
             uVar27 = puVar4[1];
             uVar28 = puVar4[2];
             uVar29 = puVar4[3];{ V16 _vt0 = vectorAddFloatingPoint(in_vs32,in_vs45); memcpy(in_vs32, &_vt0, 16); }
             iVar8 = *piVar12;
-            pfVar3 = (float *)((uint)(auStack_d0 + iVar9) & 0xfffffff0);
+            pfVar3 = (float *)((unsigned int)(auStack_d0 + iVar9) & 0xfffffff0);
             in_register_000104d0 = in_register_000104d0 + *pfVar3;
             in_register_000104d4 = in_register_000104d4 + pfVar3[1];
             in_register_000104d8 = in_register_000104d8 + pfVar3[2];
             in_vr77 = in_vr77 + pfVar3[3];
-            puVar5 = (undefined4 *)((int)&stack_pair_f0.first + iVar9 & 0xfffffff0);
+            puVar5 = (unsigned int *)((int)&stack_pair_f0.first + iVar9 & 0xfffffff0);
             *puVar5 = *puVar4;
             puVar5[1] = uVar27;
             puVar5[2] = uVar28;
@@ -211,14 +185,14 @@ void fn_8226BD48(void)
               iVar8 = *(int *)(iVar7 + 0x40) + iVar18;
               *(float *)(iVar8 + 0xc0) = (float)(dVar19 * dVar25 + (double)*(float *)(iVar8 + 0xc0))
               ;
-              iVar8 = (**(code **)(**(int **)(*piVar12 + iVar14) + 0x10))
+              iVar8 = (**(int (***)())(**(int **)(*piVar12 + iVar14) + 0x10))
                                 (&fStack_130,*(int **)(*piVar12 + iVar14),
                                  *(int *)(iVar7 + 0x40) + iVar18 + 0x80);
-              puVar4 = (undefined4 *)((int)in_r0 + iVar8 & 0xfffffff0);
+              puVar4 = (unsigned int *)((int)in_r0 + iVar8 & 0xfffffff0);
               uVar27 = puVar4[1];
               uVar28 = puVar4[2];
               uVar29 = puVar4[3];
-              puVar5 = (undefined4 *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xd0U & 0xfffffff0);
+              puVar5 = (unsigned int *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xd0U & 0xfffffff0);
               *puVar5 = *puVar4;
               puVar5[1] = uVar27;
               puVar5[2] = uVar28;
@@ -226,14 +200,14 @@ void fn_8226BD48(void)
               iVar8 = *(int *)(iVar7 + 0x40) + iVar18;
               if (*(float *)(iVar8 + 0xe8) < *(float *)(iVar8 + 0xc0)) {
                 *(float *)(iVar8 + 0xc0) = *(float *)(iVar8 + 0xe8);
-                *(undefined1 *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xe0) = 1;
+                *(unsigned char *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xe0) = 1;
               }
             }
           }
           uVar11 = uVar11 + 1;
           iVar14 = iVar14 + 4;
-        } while (uVar11 < (uint)(*(int *)(iVar7 + 0x10) - *piVar12 >> 2));
-        pfVar3 = (float *)((uint)(auStack_100 + (int)in_r0) & 0xfffffff0);
+        } while (uVar11 < (unsigned int)(*(int *)(iVar7 + 0x10) - *piVar12 >> 2));
+        pfVar3 = (float *)((unsigned int)(auStack_100 + (int)in_r0) & 0xfffffff0);
         *pfVar3 = in_register_000104d0;
         pfVar3[1] = in_register_000104d4;
         pfVar3[2] = in_register_000104d8;
@@ -243,7 +217,7 @@ void fn_8226BD48(void)
          (uVar10 = 1, *(char *)(*(int *)(iVar7 + 0x40) + iVar18 + 0xe0) == '\0')) {
         uVar10 = 0;
       }
-      *(undefined1 *)(iVar7 + 0x74) = uVar10;
+      *(unsigned char *)(iVar7 + 0x74) = uVar10;
       fVar6 = lbl_82193D10;
       iVar14 = *(int *)(iVar7 + 0x40) + iVar18;
       *(float *)(iVar14 + 0xa8) =
@@ -284,7 +258,7 @@ void fn_8226BD48(void)
       if (0 < *(int *)(iVar7 + 0x48)) {
         do {
           iVar16 = (int)lVar15;
-          lVar17 = (longlong)*(int *)(iVar7 + 0x48) * (longlong)iVar16 + lVar13;
+          lVar17 = (__int64)*(int *)(iVar7 + 0x48) * (__int64)iVar16 + lVar13;
           if ((-1 < lVar17) && (iVar18 = (int)lVar17, iVar18 < *(int *)(iVar7 + 0x44))) {
             iVar14 = (int)lVar13;
             fStack_12c = ltcg_pool_0_0f;
@@ -331,7 +305,7 @@ void fn_8226BD48(void)
             stack_pair_f0.first = ltcg_pool_0_0f;
             fStack_e8 = ltcg_pool_0_0f;
             fn_8280D9D8(&stack_pair_f0.first,auStack_100,
-                              lVar15 * 0xf0 + (ulonglong)*(uint *)(iVar7 + 0x40) + 0xb0);
+                              lVar15 * 0xf0 + (unsigned __int64)*(unsigned int *)(iVar7 + 0x40) + 0xb0);
           }
           lVar13 = lVar13 + 1;
         } while ((int)lVar13 < *(int *)(iVar7 + 0x48));

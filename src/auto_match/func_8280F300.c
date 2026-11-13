@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_40;
 extern unsigned int fStack_44;
 extern unsigned int fStack_48;
@@ -41,23 +14,23 @@ extern unsigned int lbl_83156DF2;
 void fn_8280F300(double param_1,double param_2,double param_3)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   double dVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  undefined8 uVar7;
+  unsigned __int64 uVar7;
   int in_r6;
-  uint in_r7;
+  unsigned int in_r7;
   int iVar8;
   float *pfVar9;
   double dVar10;
-  undefined8 uVar11;
-  undefined8 uVar12;
-  undefined8 extraout_f1;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  unsigned __int64 extraout_f1;
   double dVar13;
-  undefined8 uVar14;
+  unsigned __int64 uVar14;
   double dVar15;
   struct { float first; float second; } stack_pair_50;
 
@@ -91,23 +64,23 @@ void fn_8280F300(double param_1,double param_2,double param_3)
   bVar1 = (&lbl_83156DF1)[iVar8];
   fStack_40 = fStack_40 * afStack_3c;
   bVar2 = (&lbl_83156DF2)[iVar8];
-  pfVar9 = (float *)((uint)bVar1 * 4 + in_r6);
+  pfVar9 = (float *)((unsigned int)bVar1 * 4 + in_r6);
   if ((in_r7 & 8) == 0) {
-    *(float *)((uint)(byte)(&lbl_83156DF0)[iVar8] * 4 + in_r6) =
+    *(float *)((unsigned int)(unsigned char)(&lbl_83156DF0)[iVar8] * 4 + in_r6) =
          fStack_48 * stack_pair_50.second - fStack_44 * stack_pair_50.first;
     fVar6 = fStack_40 * stack_pair_50.second + fVar4 * stack_pair_50.first;
     fVar5 = fStack_44 * stack_pair_50.second - fStack_48 * stack_pair_50.first;
     stack_pair_50.second = fStack_40 * stack_pair_50.first + fVar4 * stack_pair_50.second;
   }
   else {
-    *(float *)((uint)(byte)(&lbl_83156DF0)[iVar8] * 4 + in_r6) = (fStack_48 + fStack_44) * stack_pair_50.second
+    *(float *)((unsigned int)(unsigned char)(&lbl_83156DF0)[iVar8] * 4 + in_r6) = (fStack_48 + fStack_44) * stack_pair_50.second
     ;
     fVar6 = (fStack_40 + fVar4) * stack_pair_50.first;
     fVar5 = (fStack_44 - fStack_48) * stack_pair_50.first;
     stack_pair_50.second = (fVar4 - fStack_40) * stack_pair_50.second;
   }
-  *(float *)((uint)bVar1 * 4 + in_r6) = fVar6;
-  *(float *)((uint)bVar2 * 4 + in_r6) = fVar5;
+  *(float *)((unsigned int)bVar1 * 4 + in_r6) = fVar6;
+  *(float *)((unsigned int)bVar2 * 4 + in_r6) = fVar5;
   *(float *)(in_r6 + 0xc) = stack_pair_50.second;
   if ((in_r7 & 4) != 0) {
     *pfVar9 = -*pfVar9;

@@ -1,12 +1,9 @@
-typedef unsigned int uint;
-typedef __int64 longlong;
-
 typedef struct Globals_82522140 {
     int state;                 /* 0x000 */
     char pad004[0x67C];        /* 0x004 */
     unsigned int value;        /* 0x680 */
     int field684;              /* 0x684 */
-    longlong field688;         /* 0x688 */
+    __int64 field688;         /* 0x688 */
     int field690;              /* 0x690 */
 } Globals_82522140;
 

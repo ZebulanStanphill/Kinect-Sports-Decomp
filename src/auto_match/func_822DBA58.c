@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_130;
 extern unsigned int *auStack_170;
 extern unsigned int *auStack_1b0;
@@ -57,7 +30,7 @@ extern unsigned int uStack_298;
 extern unsigned int uStack_2a8;
 
 
-int * fn_822DBA58(int *param_1,undefined4 *param_2,int *param_3)
+int * fn_822DBA58(int *param_1,unsigned int *param_2,int *param_3)
 
 {
   char *pcVar1;
@@ -65,36 +38,36 @@ int * fn_822DBA58(int *param_1,undefined4 *param_2,int *param_3)
   int iVar3;
   int iVar4;
   char *pcVar5;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   char *pcVar7;
   struct { int first; int second; } stack_pair_2b0;
 
-  uint uStack_2a8;
+  unsigned int uStack_2a8;
   int iStack_2a4;
   int aiStack_2a0;
-  uint uStack_298;
+  unsigned int uStack_298;
   int iStack_294;
   int aiStack_290;
-  uint uStack_288;
+  unsigned int uStack_288;
   int iStack_284;
-  undefined1 auStack_280 [12];
+  unsigned char auStack_280 [12];
   int iStack_274;
-  undefined4 auStack_270 [8];
+  unsigned int auStack_270 [8];
   char *pcStack_250;
   char *pcStack_24c;
   char *pcStack_248;
   char *pcStack_244;
-  undefined1 uStack_240;
-  undefined4 auStack_230 [8];
-  undefined4 uStack_210;
-  undefined4 uStack_20c;
-  undefined1 auStack_1f0 [64];
-  undefined1 auStack_1b0 [64];
-  undefined1 auStack_170 [64];
-  undefined1 auStack_130 [64];
-  undefined1 auStack_f0 [64];
-  undefined1 auStack_b0 [64];
-  undefined1 auStack_70 [112];
+  unsigned char uStack_240;
+  unsigned int auStack_230 [8];
+  unsigned int uStack_210;
+  unsigned int uStack_20c;
+  unsigned char auStack_1f0 [64];
+  unsigned char auStack_1b0 [64];
+  unsigned char auStack_170 [64];
+  unsigned char auStack_130 [64];
+  unsigned char auStack_f0 [64];
+  unsigned char auStack_b0 [64];
+  unsigned char auStack_70 [112];
 
   pcVar1 = (char *)*param_2;
   pcVar5 = pcVar1;
@@ -164,7 +137,7 @@ int * fn_822DBA58(int *param_1,undefined4 *param_2,int *param_3)
   fn_822DB5D0(&stack_pair_2b0.first);
   fn_822DBD60(auStack_1b0);
   fn_822DBD60(auStack_170);
-  if ((8 < (uint)param_3[2]) && (*param_3 != 0)) {
+  if ((8 < (unsigned int)param_3[2]) && (*param_3 != 0)) {
     fn_8265CAA0();
   }
   return param_1;

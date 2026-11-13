@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 extern int fn_82BD7170(int a, int b);
 extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
@@ -6,7 +5,7 @@ extern void RtlLeaveCriticalSection(void *cs);
 int fn_82BD4970(int param_1, int param_2)
 {
   int **p;
-  uint n;
+  unsigned int n;
   int i;
   int hr;
 
@@ -18,7 +17,7 @@ int fn_82BD4970(int param_1, int param_2)
       n++;
     }
   }
-  if (n > *(uint *)(param_1 + 0xc)) {
+  if (n > *(unsigned int *)(param_1 + 0xc)) {
     hr = 0x80004005;
   }
   else {

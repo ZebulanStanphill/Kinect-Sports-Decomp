@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_8267B890();
 extern int fn_8267BE38();
@@ -44,22 +17,22 @@ extern unsigned int lbl_831E7E64;
 void fn_826E24D0(int param_1)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   int *piVar4;
   int *piVar5;
-  undefined4 uVar6;
-  undefined1 *puVar7;
+  unsigned int uVar6;
+  unsigned char *puVar7;
   int iVar8;
-  uint uVar10;
-  longlong lVar9;
+  unsigned int uVar10;
+  __int64 lVar9;
   int iVar11;
   int iVar12;
-  undefined8 uVar13;
+  unsigned __int64 uVar13;
   int iVar14;
   int iVar15;
-  uint auStack_50 [20];
+  unsigned int auStack_50 [20];
   
   uVar10 = fn_826A6A38();
   iVar15 = *(int *)(param_1 + 0x314);
@@ -67,18 +40,18 @@ void fn_826E24D0(int param_1)
     iVar15 = param_1 + 0x28;
   }
   fn_826A9280(param_1 + 0x14,0xffffffff8200d010,uVar10 & 0xffff,
-                    ((ulonglong)*(uint *)(iVar15 + 0x34) - (ulonglong)*(uint *)(iVar15 + 0x30)) +
-                    (ulonglong)*(uint *)(iVar15 + 0x2c));
+                    ((unsigned __int64)*(unsigned int *)(iVar15 + 0x34) - (unsigned __int64)*(unsigned int *)(iVar15 + 0x30)) +
+                    (unsigned __int64)*(unsigned int *)(iVar15 + 0x2c));
   lVar9 = fn_826DF558(param_1);
   iVar15 = *(int *)(param_1 + 0x314);
   iVar12 = param_1 + 0x28;
   if (iVar15 != 0) {
     iVar12 = iVar15;
   }
-  uVar1 = *(uint *)(iVar12 + 0x34);
+  uVar1 = *(unsigned int *)(iVar12 + 0x34);
   iVar11 = 0;
-  uVar2 = *(uint *)(iVar12 + 0x30);
-  uVar3 = *(uint *)(iVar12 + 0x2c);
+  uVar2 = *(unsigned int *)(iVar12 + 0x30);
+  uVar3 = *(unsigned int *)(iVar12 + 0x2c);
   piVar4 = *(int **)(*(int *)(param_1 + 0x10) + 0x28);
   if (piVar4 == (int *)0x0) {
     uVar13 = 0xffffffff8200cfd0;
@@ -90,32 +63,32 @@ void fn_826E24D0(int param_1)
         iVar15 = param_1 + 0x28;
       }
       fn_826E7998(iVar15);
-      *(undefined1 *)(iVar15 + 0x38) = 1;
+      *(unsigned char *)(iVar15 + 0x38) = 1;
       iVar12 = *piVar5;
-      uVar6 = *(undefined4 *)(iVar15 + 0x10);
+      uVar6 = *(unsigned int *)(iVar15 + 0x10);
       uVar13 = fn_826DF848(param_1);
-      iVar11 = (**(code **)(iVar12 + 0x14))(piVar5,uVar6,uVar13);
+      iVar11 = (**(int (***)())(iVar12 + 0x14))(piVar5,uVar6,uVar13);
       iVar15 = *(int *)(param_1 + 0x314);
       if (iVar15 == 0) {
         iVar15 = param_1 + 0x28;
       }
-      fn_826E7B08(iVar15,((ulonglong)uVar1 - (ulonglong)uVar2) + (ulonglong)uVar3 + lVar9);
-      lVar9 = (longlong)*(int *)(iVar11 + 0x10) * (longlong)*(int *)(iVar11 + 0xc);
+      fn_826E7B08(iVar15,((unsigned __int64)uVar1 - (unsigned __int64)uVar2) + (unsigned __int64)uVar3 + lVar9);
+      lVar9 = (__int64)*(int *)(iVar11 + 0x10) * (__int64)*(int *)(iVar11 + 0xc);
       iVar12 = fn_8267B890(lbl_831E7E64,lVar9,0);
       iVar15 = *(int *)(param_1 + 0x314);
       if (iVar15 == 0) {
         iVar15 = param_1 + 0x28;
       }
-      (**(code **)(*piVar4 + 8))(piVar4,iVar15,iVar12,lVar9);
+      (**(int (***)())(*piVar4 + 8))(piVar4,iVar15,iVar12,lVar9);
       iVar15 = 0;
       if (0 < (int)lVar9) {
         iVar14 = 0;
         do {
-          puVar7 = (undefined1 *)(iVar15 + iVar12);
+          puVar7 = (unsigned char *)(iVar15 + iVar12);
           iVar15 = iVar15 + 1;
           iVar8 = *(int *)(iVar11 + 0x18) + iVar14;
           iVar14 = iVar14 + 4;
-          *(undefined1 *)(iVar8 + 3) = *puVar7;
+          *(unsigned char *)(iVar8 + 3) = *puVar7;
           lVar9 = lVar9 + -1;
         } while (lVar9 != 0);
       }

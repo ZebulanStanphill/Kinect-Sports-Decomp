@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_20;
 extern unsigned int *auStack_24;
 extern unsigned int *auStack_28;
@@ -38,28 +11,28 @@ extern int fn_82F96108();
 extern unsigned int uStack00000014;
 
 
-undefined4 fn_82F96550(uint param_1)
+unsigned int fn_82F96550(unsigned int param_1)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined1 *puVar3;
-  uint uStack00000014;
-  undefined1 auStack_28 [4];
-  undefined1 auStack_24 [4];
-  undefined1 auStack_20 [16];
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned char *puVar3;
+  unsigned int uStack00000014;
+  unsigned char auStack_28 [4];
+  unsigned char auStack_24 [4];
+  unsigned char auStack_20 [16];
   
   uStack00000014 = param_1;
-  uVar1 = fn_82F96108((ulonglong)param_1 + 1,1,0);
+  uVar1 = fn_82F96108((unsigned __int64)param_1 + 1,1,0);
   uVar2 = fn_8265D5A8(uVar1);
-  fn_82F93730((ulonglong)uStack00000014 + 2,uVar2,auStack_28);
+  fn_82F93730((unsigned __int64)uStack00000014 + 2,uVar2,auStack_28);
   uVar2 = fn_82F92208(uVar1);
-  fn_82F93730((ulonglong)uStack00000014 + 2,uVar2,auStack_24);
+  fn_82F93730((unsigned __int64)uStack00000014 + 2,uVar2,auStack_24);
   uVar2 = fn_82F953B8(uVar1);
-  fn_82F93730((ulonglong)uStack00000014 + 2,uVar2,auStack_20);
-  puVar3 = (undefined1 *)fn_82F95398(uVar1);
+  fn_82F93730((unsigned __int64)uStack00000014 + 2,uVar2,auStack_20);
+  puVar3 = (unsigned char *)fn_82F95398(uVar1);
   *puVar3 = 1;
-  puVar3 = (undefined1 *)fn_82F953A8(uVar1);
+  puVar3 = (unsigned char *)fn_82F953A8(uVar1);
   *puVar3 = 0;
   return uVar1;
 }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8262FDE8();
 extern int fn_82631C78();
 extern int fn_82645708();
@@ -56,26 +29,26 @@ void fn_829CDF10(void)
 
 {
   int iVar1;
-  longlong lVar2;
-  undefined *puVar3;
-  ulonglong uStack_a0;
-  undefined *puStack_98;
-  undefined8 uStack_90;
-  undefined8 uStack_88;
-  undefined8 uStack_80;
-  undefined8 uStack_78;
-  undefined8 uStack_70;
-  undefined8 uStack_60;
-  undefined8 uStack_58;
-  undefined8 uStack_50;
-  undefined8 uStack_48;
-  undefined8 uStack_40;
+  __int64 lVar2;
+  unsigned char *puVar3;
+  unsigned __int64 uStack_a0;
+  unsigned char *puStack_98;
+  unsigned __int64 uStack_90;
+  unsigned __int64 uStack_88;
+  unsigned __int64 uStack_80;
+  unsigned __int64 uStack_78;
+  unsigned __int64 uStack_70;
+  unsigned __int64 uStack_60;
+  unsigned __int64 uStack_58;
+  unsigned __int64 uStack_50;
+  unsigned __int64 uStack_48;
+  unsigned __int64 uStack_40;
   
   iVar1 = lbl_8321740C * 0x28;
   puVar3 = &lbl_83217344 + iVar1;
-  *(undefined4 *)(&lbl_83217368 + iVar1) = 0;
+  *(unsigned int *)(&lbl_83217368 + iVar1) = 0;
   sync(0);
-  uStack_a0 = (ulonglong)lbl_8321501C;
+  uStack_a0 = (unsigned __int64)lbl_8321501C;
   puStack_98 = puVar3;
   fn_829F5000(8,&uStack_a0,0xc);
   fn_8262FDE8(lbl_8321501C);
@@ -108,8 +81,8 @@ void fn_829CDF10(void)
   fn_82631C78(lbl_8321501C,0,0,0);
   fn_826458A0(lbl_8321501C,0,0xffffffff829c93e0,0);
   lbl_83215054 = fn_82645708(lbl_8321501C);
-  uStack_a0 = (ulonglong)lbl_8321501C;
-  puStack_98 = (undefined *)lbl_8321740C;
+  uStack_a0 = (unsigned __int64)lbl_8321501C;
+  puStack_98 = (unsigned char *)lbl_8321740C;
   fn_829F5000(9,&uStack_a0,0xc);
   return;
 }

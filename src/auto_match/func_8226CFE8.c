@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int fStack_14;
 extern unsigned int fStack_18;
 extern unsigned int fStack_1c;
@@ -40,7 +14,7 @@ extern V16 vectorMergeLowWord();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-undefined8 fn_8226CFE8(int param_1,float *param_2,float *param_3)
+unsigned __int64 fn_8226CFE8(int param_1,float *param_2,float *param_3)
 
 {
   float fVar1;
@@ -49,21 +23,21 @@ undefined8 fn_8226CFE8(int param_1,float *param_2,float *param_3)
   float fVar4;
   float fVar5;
   int in_r0;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   double dVar7;
   double dVar8;
   double dVar9;
   double dVar10;
-  undefined1 in_vs32 [16];
-  undefined1 auVar11 [16];
-  undefined1 auVar12 [16];
-  undefined1 auVar13 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar14 [16];
-  undefined1 in_vs44 [16];
-  undefined1 auVar15 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar16 [16];
+  unsigned char in_vs32 [16];
+  unsigned char auVar11 [16];
+  unsigned char auVar12 [16];
+  unsigned char auVar13 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar14 [16];
+  unsigned char in_vs44 [16];
+  unsigned char auVar15 [16];
+  unsigned char in_vs45 [16];
+  unsigned char auVar16 [16];
   float fStack_20;
   float fStack_1c;
   float fStack_18;

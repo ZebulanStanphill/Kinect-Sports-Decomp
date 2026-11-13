@@ -1,32 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82C7A648(short *param_1,int param_2,int param_3)
 
 {
@@ -39,14 +10,14 @@ void fn_82C7A648(short *param_1,int param_2,int param_3)
   short *psVar7;
   short *psVar8;
   int iVar9;
-  ulonglong uVar10;
+  unsigned __int64 uVar10;
   int iVar11;
   int iVar12;
   int iVar13;
   int iVar14;
   int iVar15;
   int iVar16;
-  longlong lVar17;
+  __int64 lVar17;
   
   iVar9 = 0;
   iVar11 = 0;
@@ -92,14 +63,14 @@ void fn_82C7A648(short *param_1,int param_2,int param_3)
       iVar9 = (iVar4 + iVar1) * 0xb5 + 0x80 >> 8;
       iVar13 = iVar13 + iVar14;
       iVar4 = (iVar1 - iVar4) * 0xb5 + 0x80 >> 8;
-      *psVar8 = (short)((uint)(iVar15 + iVar5) >> 8);
-      psVar8[1] = (short)((uint)(iVar9 + iVar2) >> 8);
-      psVar8[2] = (short)((uint)(iVar6 + iVar4) >> 8);
-      psVar8[3] = (short)((uint)(iVar12 + iVar13) >> 8);
-      psVar8[4] = (short)((uint)(iVar12 - iVar13) >> 8);
-      psVar8[5] = (short)((uint)(iVar6 - iVar4) >> 8);
-      psVar8[6] = (short)((uint)(iVar2 - iVar9) >> 8);
-      psVar8[7] = (short)((uint)(iVar5 - iVar15) >> 8);
+      *psVar8 = (short)((unsigned int)(iVar15 + iVar5) >> 8);
+      psVar8[1] = (short)((unsigned int)(iVar9 + iVar2) >> 8);
+      psVar8[2] = (short)((unsigned int)(iVar6 + iVar4) >> 8);
+      psVar8[3] = (short)((unsigned int)(iVar12 + iVar13) >> 8);
+      psVar8[4] = (short)((unsigned int)(iVar12 - iVar13) >> 8);
+      psVar8[5] = (short)((unsigned int)(iVar6 - iVar4) >> 8);
+      psVar8[6] = (short)((unsigned int)(iVar2 - iVar9) >> 8);
+      psVar8[7] = (short)((unsigned int)(iVar5 - iVar15) >> 8);
       iVar9 = iVar11;
     }
     iVar11 = iVar11 + 1;

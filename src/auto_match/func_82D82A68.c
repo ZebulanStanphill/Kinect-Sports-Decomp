@@ -1,4 +1,3 @@
-typedef int (*code)();
 typedef struct Msg_82D82A68 { unsigned char tag; int *obj; int value; } Msg_82D82A68;
 extern void fn_82DA6530(int, Msg_82D82A68 *);
 

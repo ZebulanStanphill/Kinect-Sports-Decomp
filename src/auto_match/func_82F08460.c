@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern unsigned int *auStack_150;
 extern unsigned int iStack_158;
 extern unsigned int iStack_15c;
@@ -37,19 +10,19 @@ extern unsigned int iStack_170;
 extern unsigned int uStack_154;
 
 
-void fn_82F08460(undefined8 param_1,undefined8 *param_2,int param_3,ulonglong param_4)
+void fn_82F08460(unsigned __int64 param_1,unsigned __int64 *param_2,int param_3,unsigned __int64 param_4)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  uint *puVar4;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar3;
+  unsigned int *puVar4;
   int iVar5;
   int *piVar6;
-  uint uVar8;
-  longlong lVar7;
-  ulonglong uVar9;
-  ulonglong uVar10;
+  unsigned int uVar8;
+  __int64 lVar7;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
   int iStack_170;
   int iStack_16c;
   int iStack_168;
@@ -57,8 +30,8 @@ void fn_82F08460(undefined8 param_1,undefined8 *param_2,int param_3,ulonglong pa
   int iStack_160;
   int iStack_15c;
   int iStack_158;
-  uint uStack_154;
-  uint auStack_150 [84];
+  unsigned int uStack_154;
+  unsigned int auStack_150 [84];
   
   uVar8 = 0;
   iVar5 = (int)param_4;
@@ -72,7 +45,7 @@ void fn_82F08460(undefined8 param_1,undefined8 *param_2,int param_3,ulonglong pa
       uVar10 = uVar10 - 1;
     } while (uVar10 != 0);
   }
-  lVar7 = (longlong)(iVar5 >> 2) + (ulonglong)(iVar5 < 0 && (param_4 & 3) != 0);
+  lVar7 = (__int64)(iVar5 >> 2) + (unsigned __int64)(iVar5 < 0 && (param_4 & 3) != 0);
   if (0 < lVar7) {
     puVar4 = &uStack_154;
     do {

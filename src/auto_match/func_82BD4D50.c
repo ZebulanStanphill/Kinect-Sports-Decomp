@@ -1,2 +1,1 @@
-typedef unsigned __int64 U64;
-void *fn_82BD4D50(char *p,U64 key) { unsigned n=*(unsigned *)(p+8), i=0; while(i<*(unsigned *)(p+8)) { if (key == **(U64 **)(p+0x60+i*4)) break; ++i; } if(i<n) return *(void **)(p+(i+0x18)*4); return 0; }
+void *fn_82BD4D50(char *p,unsigned __int64 key) { unsigned n=*(unsigned *)(p+8), i=0; while(i<*(unsigned *)(p+8)) { if (key == **(unsigned __int64 **)(p+0x60+i*4)) break; ++i; } if(i<n) return *(void **)(p+(i+0x18)*4); return 0; }

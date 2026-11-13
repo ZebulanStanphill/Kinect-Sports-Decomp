@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_40;
 extern int fn_8240DE60();
 extern int fn_82603CC0();
@@ -44,43 +18,43 @@ void fn_82603AA0(int param_1,int param_2)
   float fVar1;
   int iVar2;
   int iVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
+  unsigned int *puVar4;
+  unsigned int *puVar5;
   float *pfVar6;
   float *pfVar7;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   double dVar8;
   double dVar9;
   double dVar10;
   float fVar11;
   float fVar12;
   float fVar13;
-  undefined4 uVar14;
-  undefined4 uVar15;
-  undefined4 uVar16;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uVar16;
   float in_register_000104d0;
   float in_register_000104d4;
   float in_register_000104d8;
   float in_vr77;
-  undefined1 auStack_40 [64];
+  unsigned char auStack_40 [64];
   
   iVar2 = *(int *)(param_1 + 0x18);
   if (*(int *)(param_1 + 0x104) == 0) {
     iVar3 = *(int *)(param_1 + 0x120);
-    puVar4 = (undefined4 *)(iVar2 + 0x1b0U & 0xfffffff0);
+    puVar4 = (unsigned int *)(iVar2 + 0x1b0U & 0xfffffff0);
     uVar14 = puVar4[1];
     uVar15 = puVar4[2];
     uVar16 = puVar4[3];
-    puVar5 = (undefined4 *)(param_1 + 0x60U & 0xfffffff0);
+    puVar5 = (unsigned int *)(param_1 + 0x60U & 0xfffffff0);
     *puVar5 = *puVar4;
     puVar5[1] = uVar14;
     puVar5[2] = uVar15;
     puVar5[3] = uVar16;
-    puVar4 = (undefined4 *)(iVar2 + 0x1c0U & 0xfffffff0);
+    puVar4 = (unsigned int *)(iVar2 + 0x1c0U & 0xfffffff0);
     uVar14 = puVar4[1];
     uVar15 = puVar4[2];
     uVar16 = puVar4[3];
-    puVar5 = (undefined4 *)(param_1 + 0xe0U & 0xfffffff0);
+    puVar5 = (unsigned int *)(param_1 + 0xe0U & 0xfffffff0);
     *puVar5 = *puVar4;
     puVar5[1] = uVar14;
     puVar5[2] = uVar15;
@@ -113,7 +87,7 @@ void fn_82603AA0(int param_1,int param_2)
       fVar12 = pfVar6[2];
       fVar13 = pfVar6[3];
       loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x50);
-      pfVar7 = (float *)((uint)(auStack_40 + (int)in_r0) & 0xfffffff0);
+      pfVar7 = (float *)((unsigned int)(auStack_40 + (int)in_r0) & 0xfffffff0);
       *pfVar7 = *pfVar6 * in_register_000104d0;
       pfVar7[1] = fVar11 * in_register_000104d4;
       pfVar7[2] = fVar12 * in_register_000104d8;
@@ -128,11 +102,11 @@ void fn_82603AA0(int param_1,int param_2)
     dVar9 = (double)lbl_821916FC;
     dVar10 = (double)lbl_821CA460;
     if (*(int *)(param_1 + 0x10c) == 0) {
-      puVar4 = (undefined4 *)(iVar2 + 0x1b0U & 0xfffffff0);
+      puVar4 = (unsigned int *)(iVar2 + 0x1b0U & 0xfffffff0);
       uVar14 = puVar4[1];
       uVar15 = puVar4[2];
       uVar16 = puVar4[3];
-      puVar5 = (undefined4 *)(param_1 + 0x60U & 0xfffffff0);
+      puVar5 = (unsigned int *)(param_1 + 0x60U & 0xfffffff0);
       *puVar5 = *puVar4;
       puVar5[1] = uVar14;
       puVar5[2] = uVar15;
@@ -165,11 +139,11 @@ void fn_82603AA0(int param_1,int param_2)
       fn_82603CC0(param_1,param_2);
     }
     if (*(int *)(param_1 + 0x110) == 0) {
-      puVar4 = (undefined4 *)(iVar2 + 0x1c0U & 0xfffffff0);
+      puVar4 = (unsigned int *)(iVar2 + 0x1c0U & 0xfffffff0);
       uVar14 = puVar4[1];
       uVar15 = puVar4[2];
       uVar16 = puVar4[3];
-      puVar5 = (undefined4 *)(param_1 + 0xe0U & 0xfffffff0);
+      puVar5 = (unsigned int *)(param_1 + 0xe0U & 0xfffffff0);
       *puVar5 = *puVar4;
       puVar5[1] = uVar14;
       puVar5[2] = uVar15;

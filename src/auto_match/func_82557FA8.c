@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern unsigned int *auStack_80;
 extern int fn_82593FC8();
@@ -44,21 +17,21 @@ extern unsigned int uStack_60;
 void fn_82557FA8(void)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
   float *pfVar3;
-  longlong lVar4;
-  uint *puVar5;
+  __int64 lVar4;
+  unsigned int *puVar5;
   int *piVar6;
   double dVar7;
-  undefined1 auStack_80 [16];
-  undefined1 auStack_70 [16];
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
+  unsigned char auStack_80 [16];
+  unsigned char auStack_70 [16];
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
   float afStack_58 [7];
-  undefined4 uStack_3c;
+  unsigned int uStack_3c;
   
-  puVar5 = (uint *)&lbl_8218EFD4;
+  puVar5 = (unsigned int *)&lbl_8218EFD4;
   lbl_8326B4BC = 0;
   lVar4 = 0;
   do {
@@ -73,7 +46,7 @@ void fn_82557FA8(void)
   piVar6 = &lbl_8326B4C8;
   dVar7 = (double)ltcg_pool_0_0f;
   do {
-    puVar1 = (undefined4 *)*piVar6;
+    puVar1 = (unsigned int *)*piVar6;
     iVar2 = fn_82A1E850(*puVar1,auStack_80);
     if (iVar2 == 0) {
       fn_825B6D50(puVar1,auStack_80);
@@ -94,7 +67,7 @@ void fn_82557FA8(void)
       uStack_3c = 0;
       fn_8260BA88(puVar1 + 0xd,&uStack_60);
     }
-    fn_82594108(*(undefined4 *)*piVar6);
+    fn_82594108(*(unsigned int *)*piVar6);
     piVar6 = piVar6 + 1;
   } while ((int)piVar6 < -0x7cd94b28);
   return;

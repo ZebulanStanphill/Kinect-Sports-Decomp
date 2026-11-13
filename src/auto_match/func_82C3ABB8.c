@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A75588();
 extern int fn_82C30370();
 extern int fn_82C3A278();
@@ -33,16 +7,16 @@ extern int fn_82C3A858();
 extern int memset();
 
 
-undefined8 fn_82C3ABB8(int *param_1)
+unsigned __int64 fn_82C3ABB8(int *param_1)
 
 {
   short sVar1;
   int iVar2;
-  undefined4 *puVar3;
-  uint uVar4;
+  unsigned int *puVar3;
+  unsigned int uVar4;
   int iVar5;
   int iVar6;
-  undefined8 uVar7;
+  unsigned __int64 uVar7;
   int aiStack_80 [16];
   
   iVar2 = *param_1;
@@ -50,11 +24,11 @@ undefined8 fn_82C3ABB8(int *param_1)
   uVar7 = 0;
   if ((*(short *)(iVar2 + 0x22) == 1) && (*(int *)(iVar2 + 0x2e8) != 0)) {
     param_1[0x1d] = 1;
-    *(undefined4 *)(iVar2 + 0x23c) = 1;
-    puVar3 = (undefined4 *)param_1[0x1e];
+    *(unsigned int *)(iVar2 + 0x23c) = 1;
+    puVar3 = (unsigned int *)param_1[0x1e];
     *puVar3 = 1;
                     /* WARNING: Subroutine does not return */
-    memset(puVar3[1],0,(ulonglong)*(ushort *)(iVar2 + 0x22) << 2);
+    memset(puVar3[1],0,(unsigned __int64)*(unsigned short *)(iVar2 + 0x22) << 2);
   }
   iVar6 = param_1[0x16];
   do {
@@ -69,7 +43,7 @@ undefined8 fn_82C3ABB8(int *param_1)
         if ((int)uVar7 < 0) {
           return uVar7;
         }
-        param_1[0x18] = (uint)(aiStack_80[0] != 0);
+        param_1[0x18] = (unsigned int)(aiStack_80[0] != 0);
 LAB_82c3b06c:
         param_1[0x16] = 2;
       }
@@ -84,7 +58,7 @@ LAB_82c3b06c:
             return 0xffffffff80040002;
           }
         }
-        uVar7 = fn_82A75588(param_1 + 0x38,(ulonglong)(uint)param_1[0x17] + 3);
+        uVar7 = fn_82A75588(param_1 + 0x38,(unsigned __int64)(unsigned int)param_1[0x17] + 3);
         if ((int)uVar7 < 0) {
           return uVar7;
         }
@@ -102,7 +76,7 @@ LAB_82c3b06c:
         param_1[0x16] = 3;
         uVar4 = (iVar6 + -1) * iVar6;
         param_1[0x1a] = iVar6;
-        param_1[0x19] = ((int)uVar4 >> 1) + (uint)((int)uVar4 < 0 && (uVar4 & 1) != 0);
+        param_1[0x19] = ((int)uVar4 >> 1) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 1) != 0);
       }
       else if (uVar4 == 3) {
         iVar6 = param_1[0x1d] * 0x98 + param_1[0x1e];
@@ -164,9 +138,9 @@ LAB_82c3b06c:
                 iVar5 = 0;
                 do {
                   iVar6 = iVar6 + 1;
-                  *(undefined4 *)(iVar5 + param_1[2]) = 0;
+                  *(unsigned int *)(iVar5 + param_1[2]) = 0;
                   iVar5 = iVar5 + 8;
-                } while (iVar6 < (int)(uint)*(ushort *)(iVar2 + 0x22));
+                } while (iVar6 < (int)(unsigned int)*(unsigned short *)(iVar2 + 0x22));
               }
             }
           }
@@ -185,15 +159,15 @@ LAB_82c3b06c:
           iVar5 = 0;
           do {
             iVar6 = iVar6 + 1;
-            *(undefined4 *)(iVar5 + param_1[2]) = 0;
+            *(unsigned int *)(iVar5 + param_1[2]) = 0;
             iVar5 = iVar5 + 8;
-          } while (iVar6 < (int)(uint)*(ushort *)(iVar2 + 0x22));
+          } while (iVar6 < (int)(unsigned int)*(unsigned short *)(iVar2 + 0x22));
         }
         if (0 < *(short *)(iVar2 + 0x244)) {
-          puVar3 = (undefined4 *)param_1[0x1e];
+          puVar3 = (unsigned int *)param_1[0x1e];
           *puVar3 = 0;
                     /* WARNING: Subroutine does not return */
-          memset(puVar3[1],0,(ulonglong)*(ushort *)(iVar2 + 0x22) << 2);
+          memset(puVar3[1],0,(unsigned __int64)*(unsigned short *)(iVar2 + 0x22) << 2);
         }
         param_1[0x16] = 1;
       }

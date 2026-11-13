@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_8229B0E0();
 extern int fn_8229F5A8();
@@ -61,10 +36,10 @@ int fn_823C0268(double param_1,int *param_2)
   char cVar4;
   int iVar2;
   int iVar3;
-  longlong lVar5;
+  __int64 lVar5;
   bool bVar6;
   double dVar7;
-  undefined1 auStack_50 [80];
+  unsigned char auStack_50 [80];
   
   piVar1 = (int *)fn_82512C30();
   if (*piVar1 != 0) goto LAB_823c0688;
@@ -78,8 +53,8 @@ int fn_823C0268(double param_1,int *param_2)
           bVar6 = true;
         }
         else {
-          iVar3 = (**(code **)(*(int *)param_2[0x21] + 8))();
-          cVar4 = (**(code **)(*(int *)(iVar3 + 0x9c) + 0x3c))();
+          iVar3 = (**(int (***)())(*(int *)param_2[0x21] + 8))();
+          cVar4 = (**(int (***)())(*(int *)(iVar3 + 0x9c) + 0x3c))();
           bVar6 = cVar4 != '\0';
         }
         if (bVar6) {
@@ -95,17 +70,17 @@ int fn_823C0268(double param_1,int *param_2)
               }
               else if (cVar4 == '\x02') {
                 piVar1 = (int *)param_2[0x388];
-                fn_8229F5A8(*(undefined4 *)
+                fn_8229F5A8(*(unsigned int *)
                                    (*(int *)(**(int **)(*piVar1 + 0x4b0) + 0xd4) + 0xc));
                 iVar3 = *piVar1;
                 *(float *)(iVar3 + 0x1024) = (float)dVar7;
-                *(undefined4 *)(iVar3 + 0x1028) = 2;
+                *(unsigned int *)(iVar3 + 0x1028) = 2;
                 fn_823C4DD0();
-                fn_823CC298(*(undefined4 *)(*piVar1 + 0x4b8),7);
+                fn_823CC298(*(unsigned int *)(*piVar1 + 0x4b8),7);
               }
             }
             param_2[0x381] = 1;
-            *(undefined4 *)(param_2[0x24] + 0x510) = 1;
+            *(unsigned int *)(param_2[0x24] + 0x510) = 1;
           }
           param_2[0x382] = param_2[0x382] + -1;
           goto LAB_823c0444;
@@ -133,7 +108,7 @@ int fn_823C0268(double param_1,int *param_2)
   }
 LAB_823c0444:
   if (param_2[0x130] == 0) {
-    fn_8229B0E0(*(undefined4 *)(*(int *)param_2[300] + 0xd4));
+    fn_8229B0E0(*(unsigned int *)(*(int *)param_2[300] + 0xd4));
   }
   fn_8236AE80(param_2);
   fn_823C09D0(param_1);
@@ -165,24 +140,24 @@ LAB_823c0444:
     iVar3 = param_2[0x26c] * 0x84 + param_2[0x12f];
     *(float *)(iVar3 + 100) = (float)((double)*(float *)(iVar3 + 100) + param_1);
   }
-  fn_822B3488(dVar7,auStack_50,*(undefined4 *)(param_2[7] + 4));
+  fn_822B3488(dVar7,auStack_50,*(unsigned int *)(param_2[7] + 4));
   fn_824C8210(param_2[0x2a]);
-  fn_822B3128(auStack_50,*(undefined4 *)(param_2[7] + 4));
+  fn_822B3128(auStack_50,*(unsigned int *)(param_2[7] + 4));
   fn_823CC100(param_1,param_2[0x12e]);
   fn_82359420(param_1,param_2,param_2[0x3f8]);
-  iVar3 = (**(code **)(*param_2 + 0x98))(param_2,1);
+  iVar3 = (**(int (***)())(*param_2 + 0x98))(param_2,1);
   if (iVar3 != 0) {
-    *(undefined4 *)(param_2[300] + 0xe0) = 0;
-    (**(code **)(*param_2 + 0x90))(param_2,0);
+    *(unsigned int *)(param_2[300] + 0xe0) = 0;
+    (**(int (***)())(*param_2 + 0x90))(param_2,0);
   }
   if (param_2[899] == 2) {
-    fn_8229F618(*(undefined4 *)(*(int *)(*(int *)param_2[300] + 0xd4) + 0xc));
-    *(undefined4 *)(param_2[0x24] + 0x510) = 0;
+    fn_8229F618(*(unsigned int *)(*(int *)(*(int *)param_2[300] + 0xd4) + 0xc));
+    *(unsigned int *)(param_2[0x24] + 0x510) = 0;
     fn_823688D0(param_2);
   }
   iVar3 = fn_823C4E58(param_2);
   param_2[0x352] = iVar3;
-  *(undefined1 *)(param_2 + 0x361) = 0;
+  *(unsigned char *)(param_2 + 0x361) = 0;
   if (param_2[0x378] != -1) {
     param_2[0x37a] = (int)(float)((double)(float)param_2[0x37a] + param_1);
   }

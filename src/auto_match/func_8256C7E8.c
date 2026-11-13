@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_140;
 extern unsigned int *auStack_250;
 extern unsigned int *auStack_270;
@@ -61,28 +34,28 @@ extern unsigned int uStack_2d8;
 extern unsigned int uStack_2e0;
 
 
-void fn_8256C7E8(longlong param_1)
+void fn_8256C7E8(__int64 param_1)
 
 {
-  undefined8 uVar1;
-  longlong lVar2;
+  unsigned __int64 uVar1;
+  __int64 lVar2;
   int iVar4;
-  undefined8 uVar3;
-  struct { undefined4 first; int second; } stack_pair_2e0;
+  unsigned __int64 uVar3;
+  struct { unsigned int first; int second; } stack_pair_2e0;
 
-  undefined4 uStack_2d8;
+  unsigned int uStack_2d8;
   int iStack_2d4;
-  undefined4 uStack_2d0;
-  undefined4 uStack_2cc;
-  struct { undefined4 first; int second; } stack_pair_2c8;
+  unsigned int uStack_2d0;
+  unsigned int uStack_2cc;
+  struct { unsigned int first; int second; } stack_pair_2c8;
 
-  undefined4 uStack_2c0;
-  undefined4 uStack_2bc;
-  undefined4 auStack_2b8 [2];
-  undefined1 auStack_2b0 [64];
-  undefined1 auStack_270 [32];
-  undefined1 auStack_250 [272];
-  undefined1 auStack_140 [320];
+  unsigned int uStack_2c0;
+  unsigned int uStack_2bc;
+  unsigned int auStack_2b8 [2];
+  unsigned char auStack_2b0 [64];
+  unsigned char auStack_270 [32];
+  unsigned char auStack_250 [272];
+  unsigned char auStack_140 [320];
 
   uStack_2d0 = 0;
   RtlEnterCriticalSection(param_1 + 0x2c);
@@ -97,7 +70,7 @@ void fn_8256C7E8(longlong param_1)
   fn_82526C70(auStack_140,0x104,0xffffffff821c5380,auStack_250,0xffffffff821c5368,uVar1);
   iVar4 = *(int *)lbl_83156AA0;
   uVar1 = fn_82811400(auStack_270,4);
-  lVar2 = (**(code **)(iVar4 + 0xc))(lbl_83156AA0,0x68,uVar1);
+  lVar2 = (**(int (***)())(iVar4 + 0xc))(lbl_83156AA0,0x68,uVar1);
   if (lVar2 == 0) {
     uVar1 = 0;
   }

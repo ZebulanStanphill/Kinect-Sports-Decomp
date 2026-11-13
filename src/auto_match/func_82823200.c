@@ -1,41 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8320A778;
 
 
-void fn_82823200(uint *param_1,uint *param_2)
+void fn_82823200(unsigned int *param_1,unsigned int *param_2)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint *puVar3;
-  uint uVar4;
-  uint uVar5;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int *puVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
   
   uVar4 = lbl_8320A778;
   uVar1 = param_1[2];
@@ -52,8 +26,8 @@ void fn_82823200(uint *param_1,uint *param_2)
         *param_2 = 0;
       }
       if (*param_2 == 0) break;
-      puVar3 = (uint *)*param_2;
-      if ((uint *)(-(uint)(uVar4 != puVar3[2]) & puVar3[2]) != param_1) {
+      puVar3 = (unsigned int *)*param_2;
+      if ((unsigned int *)(-(unsigned int)(uVar4 != puVar3[2]) & puVar3[2]) != param_1) {
         return;
       }
       uVar1 = *puVar3;
@@ -62,7 +36,7 @@ void fn_82823200(uint *param_1,uint *param_2)
     }
     return;
   }
-  uVar2 = *(uint *)(uVar1 + 4);
+  uVar2 = *(unsigned int *)(uVar1 + 4);
   *param_2 = uVar2;
   if (uVar2 == uVar4) {
     *param_2 = 0;
@@ -75,7 +49,7 @@ void fn_82823200(uint *param_1,uint *param_2)
   }
   do {
     uVar5 = uVar2;
-    uVar1 = *(uint *)(uVar5 + 4);
+    uVar1 = *(unsigned int *)(uVar5 + 4);
     *param_2 = uVar1;
     if (uVar1 == uVar4) {
       *param_2 = 0;

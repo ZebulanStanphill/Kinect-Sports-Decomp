@@ -1,37 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005CCC;
 extern unsigned int lbl_821AAD20;
 extern unsigned int uStack_1;
 extern unsigned int uStack_9;
 
 
-void fn_8268D790(undefined1 *param_1,float *param_2,byte *param_3)
+void fn_8268D790(unsigned char *param_1,float *param_2,unsigned char *param_3)
 
 {
   float fVar1;
@@ -39,9 +12,9 @@ void fn_8268D790(undefined1 *param_1,float *param_2,byte *param_3)
   float fVar3;
   float fVar4;
   float fVar5;
-  undefined1 uVar6;
-  undefined1 uStack_9;
-  undefined1 uStack_1;
+  unsigned char uVar6;
+  unsigned char uStack_9;
+  unsigned char uStack_1;
   
   fVar1 = param_2[6] * (float)*param_3 + param_2[7];
   if (lbl_82005CCC <= fVar1) {
@@ -69,16 +42,16 @@ void fn_8268D790(undefined1 *param_1,float *param_2,byte *param_3)
   if (fVar5 < lbl_82005CCC) {
     fVar2 = fVar5;
   }
-  uStack_1 = (undefined1)(longlong)fVar1;
+  uStack_1 = (unsigned char)(__int64)fVar1;
   uVar6 = uStack_1;
-  uStack_1 = (undefined1)(longlong)fVar3;
+  uStack_1 = (unsigned char)(__int64)fVar3;
   if (fVar2 < 0.0) {
     fVar2 = lbl_821AAD20;
   }
   *param_1 = uVar6;
-  uStack_9 = (undefined1)(longlong)fVar4;
+  uStack_9 = (unsigned char)(__int64)fVar4;
   param_1[2] = uStack_1;
-  uStack_1 = (undefined1)(longlong)fVar2;
+  uStack_1 = (unsigned char)(__int64)fVar2;
   param_1[1] = uStack_1;
   param_1[3] = uStack_9;
   return;

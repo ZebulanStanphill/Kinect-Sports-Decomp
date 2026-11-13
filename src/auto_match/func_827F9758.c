@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_110;
 extern unsigned int *auStack_120;
 extern unsigned int *auStack_138;
@@ -49,28 +22,28 @@ extern int memcpy();
 extern unsigned int lbl_821AAD20;
 
 
-void fn_827F9758(undefined8 param_1,int param_2,int param_3,undefined8 param_4,undefined8 param_5,
-                  ulonglong param_6,undefined8 param_7,int param_8)
+void fn_827F9758(unsigned __int64 param_1,int param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+                  unsigned __int64 param_6,unsigned __int64 param_7,int param_8)
 
 {
-  longlong lVar1;
+  __int64 lVar1;
   int iVar2;
   double dVar3;
   double dVar4;
-  undefined1 auStack_160 [16];
-  undefined1 auStack_150 [12];
-  undefined1 auStack_144 [12];
-  undefined1 auStack_138 [24];
-  undefined1 auStack_120 [16];
-  undefined1 auStack_110 [64];
-  undefined1 auStack_d0 [64];
-  undefined1 auStack_90 [144];
+  unsigned char auStack_160 [16];
+  unsigned char auStack_150 [12];
+  unsigned char auStack_144 [12];
+  unsigned char auStack_138 [24];
+  unsigned char auStack_120 [16];
+  unsigned char auStack_110 [64];
+  unsigned char auStack_d0 [64];
+  unsigned char auStack_90 [144];
   
   fn_8281E128(auStack_160);
   dVar3 = (double)fn_8280A5D8(param_1);
   lVar1 = (param_6 & 0xffff) * 0x40;
-  memcpy(auStack_110,(ulonglong)*(uint *)(param_2 + 0xc) + lVar1,0x40);
-  memcpy(auStack_d0,(ulonglong)*(uint *)(param_3 + 0xc) + lVar1,0x40);
+  memcpy(auStack_110,(unsigned __int64)*(unsigned int *)(param_2 + 0xc) + lVar1,0x40);
+  memcpy(auStack_d0,(unsigned __int64)*(unsigned int *)(param_3 + 0xc) + lVar1,0x40);
   fn_8280CB70(param_4,auStack_110,auStack_110);
   fn_8280CB70(param_5,auStack_d0,auStack_d0);
   fn_8280CB58(auStack_110,auStack_150);

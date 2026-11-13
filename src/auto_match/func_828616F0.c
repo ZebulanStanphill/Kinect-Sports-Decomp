@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_30;
 extern unsigned int fStack_40;
 extern unsigned int fStack_50;
@@ -69,7 +42,7 @@ extern unsigned int uStack_9c;
 extern unsigned int uStack_a0;
 
 
-void fn_828616F0(float *param_1,undefined8 param_2,undefined8 param_3)
+void fn_828616F0(float *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   float fStack_e0;
@@ -86,29 +59,29 @@ void fn_828616F0(float *param_1,undefined8 param_2,undefined8 param_3)
   float fStack_ac;
   float fStack_a8;
   float fStack_a4;
-  undefined4 uStack_a0;
-  undefined4 uStack_9c;
-  undefined4 uStack_98;
-  undefined4 uStack_94;
-  undefined4 uStack_90;
+  unsigned int uStack_a0;
+  unsigned int uStack_9c;
+  unsigned int uStack_98;
+  unsigned int uStack_94;
+  unsigned int uStack_90;
   float fStack_8c;
   float fStack_88;
-  undefined4 uStack_84;
+  unsigned int uStack_84;
   float fStack_80;
   float fStack_78;
-  undefined4 uStack_74;
+  unsigned int uStack_74;
   float fStack_70;
-  undefined4 uStack_68;
+  unsigned int uStack_68;
   float fStack_64;
   float fStack_60;
-  undefined4 uStack_58;
+  unsigned int uStack_58;
   float fStack_54;
   float fStack_50;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
   float fStack_40;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
   float fStack_30;
   
   fn_8280A668((double)(*param_1 * lbl_82002C5C * lbl_8201DFF0),param_1,&fStack_e0,afStack_dc);

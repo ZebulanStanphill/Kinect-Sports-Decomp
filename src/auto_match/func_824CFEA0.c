@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_824A7310();
 extern int fn_824A73D8();
@@ -35,7 +11,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int ltcg_pool_0_0f;
 
 
-void fn_824CFEA0(int param_1,undefined4 *param_2,undefined4 *param_3,float *param_4,float *param_5
+void fn_824CFEA0(int param_1,unsigned int *param_2,unsigned int *param_3,float *param_4,float *param_5
                   )
 
 {
@@ -43,16 +19,16 @@ void fn_824CFEA0(int param_1,undefined4 *param_2,undefined4 *param_3,float *para
   bool bVar2;
   bool bVar3;
   bool bVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
+  unsigned int uVar5;
+  unsigned int uVar6;
   int iVar7;
   int iVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   double dVar10;
   double dVar11;
   double dVar12;
   
-  uVar9 = (ulonglong)*(uint *)(param_1 + 0xfc);
+  uVar9 = (unsigned __int64)*(unsigned int *)(param_1 + 0xfc);
   if (uVar9 == 0) {
     dVar12 = (double)ltcg_pool_0_0f;
     *param_4 = ltcg_pool_0_0f;
@@ -74,14 +50,14 @@ void fn_824CFEA0(int param_1,undefined4 *param_2,undefined4 *param_3,float *para
     uVar6 = fn_824A7540(uVar9);
   }
   if (*(int *)(param_1 + 0x3a4) != 0) {
-    *(undefined4 *)(param_1 + 0x3a4) = uVar5;
+    *(unsigned int *)(param_1 + 0x3a4) = uVar5;
     uVar5 = 0;
     if (*(int *)(param_1 + 0x3a4) == 0) {
       *(float *)(*(int *)((int)uVar9 + 0x3c) + 0x24) = (float)dVar12;
     }
   }
   if (*(int *)(param_1 + 0x1fb4) != 0) {
-    *(undefined4 *)(param_1 + 0x1fb4) = uVar6;
+    *(unsigned int *)(param_1 + 0x1fb4) = uVar6;
     uVar6 = 0;
     if (*(int *)(param_1 + 0x1fb4) == 0) {
       *(float *)(*(int *)(*(int *)(param_1 + 0xfc) + 0x3c) + 0x28) = (float)dVar12;
@@ -152,7 +128,7 @@ LAB_824d0044:
   }
   dVar10 = dVar12;
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((-dVar11 < dVar12) << 2) | (uint)(NAN(-dVar11) || NAN(dVar12)) << 2))
+                ((unsigned int)(unsigned char)((-dVar11 < dVar12) << 2) | (unsigned int)(NAN(-dVar11) || NAN(dVar12)) << 2))
       < 0.0) {
     dVar10 = dVar11;
   }
@@ -164,7 +140,7 @@ LAB_824d0044:
     dVar11 = (double)(*(float *)(iVar8 + 0x28) / *(float *)(iVar8 + 0x20));
   }
   if (*(float *)(&lbl_821954D8 +
-                ((uint)(byte)((-dVar11 < dVar12) << 2) | (uint)(NAN(-dVar11) || NAN(dVar12)) << 2))
+                ((unsigned int)(unsigned char)((-dVar11 < dVar12) << 2) | (unsigned int)(NAN(-dVar11) || NAN(dVar12)) << 2))
       < 0.0) {
     dVar12 = dVar11;
   }

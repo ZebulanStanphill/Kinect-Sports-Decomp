@@ -1,11 +1,10 @@
-typedef unsigned int uint;
 extern int fn_826FE988();
-void *memmove(void *d, const void *s, uint n);
+void *memmove(void *d, const void *s, unsigned int n);
 
 typedef struct { int a; int *rc; } Elem;
-typedef struct { Elem *data; uint size; } Vec;
+typedef struct { Elem *data; unsigned int size; } Vec;
 
-void fn_82702AF8(Vec *v, uint idx, Elem *src)
+void fn_82702AF8(Vec *v, unsigned int idx, Elem *src)
 {
   Elem *e;
   int *rc;

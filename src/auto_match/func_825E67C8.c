@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_58;
 extern unsigned int fStack_28;
 extern unsigned int fStack_2c;
@@ -41,15 +15,15 @@ extern V16 vectorAddFloatingPoint();
 extern V16 vectorSubtractFloatingPoint();
 
 
-undefined8 fn_825E67C8(undefined8 param_1,int param_2,undefined8 param_3)
+unsigned __int64 fn_825E67C8(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
 
 {
   float *pfVar1;
   int iVar2;
-  undefined8 in_r0;
-  undefined8 uVar3;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar3;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs45 [16];
   float fVar4;
   float fVar5;
   float fVar6;
@@ -58,9 +32,9 @@ undefined8 fn_825E67C8(undefined8 param_1,int param_2,undefined8 param_3)
   float in_register_000100c4;
   float in_register_000100c8;
   float in_vr12;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 auStack_58 [2];
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
+  unsigned int auStack_58 [2];
   float afStack_50 [4];
   float fStack_40;
   float fStack_3c;

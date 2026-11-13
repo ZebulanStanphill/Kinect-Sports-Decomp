@@ -1,12 +1,11 @@
-typedef unsigned int U32;
-extern U32 lbl_8202F170;
+extern unsigned int lbl_8202F170;
 
-void fn_82932548(U32 *param_1)
+void fn_82932548(unsigned int *param_1)
 {
   param_1[1] = 0xb;
   param_1[2] = 0;
   param_1[3] = 0;
-  param_1[0] = (U32)&lbl_8202F170;
+  param_1[0] = (unsigned int)&lbl_8202F170;
   param_1[4] = 0;
   param_1[5] = 0;
   param_1[10] = 0;

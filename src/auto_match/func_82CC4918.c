@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_821090E8;
 extern unsigned int lbl_821090EA;
 extern unsigned int lbl_821090EC;
@@ -32,41 +5,41 @@ extern unsigned int lbl_821090EE;
 extern unsigned int uStack_e2;
 
 
-void fn_82CC4918(longlong param_1,ulonglong param_2,int param_3,int param_4,int param_5,
-                  int param_6,uint param_7,uint param_8)
+void fn_82CC4918(__int64 param_1,unsigned __int64 param_2,int param_3,int param_4,int param_5,
+                  int param_6,unsigned int param_7,unsigned int param_8)
 
 {
   short sVar1;
   short sVar2;
   short sVar3;
   short sVar4;
-  uint uVar5;
-  uint uVar6;
-  byte *pbVar7;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned char *pbVar7;
   int iVar8;
-  undefined2 *puVar9;
+  unsigned short *puVar9;
   int iVar10;
-  longlong lVar11;
+  __int64 lVar11;
   short *psVar12;
-  ulonglong uVar13;
-  longlong lVar14;
-  longlong lVar15;
+  unsigned __int64 uVar13;
+  __int64 lVar14;
+  __int64 lVar15;
   int iVar16;
   int iVar17;
   int iVar18;
-  uint uVar19;
-  ulonglong uVar20;
-  longlong lVar21;
-  ulonglong uVar22;
-  undefined4 in_stack_00000054;
-  undefined2 uStack_e2;
+  unsigned int uVar19;
+  unsigned __int64 uVar20;
+  __int64 lVar21;
+  unsigned __int64 uVar22;
+  unsigned int in_stack_00000054;
+  unsigned short uStack_e2;
   short asStack_e0 [112];
   
   uVar5 = 1 << (param_8 + 3 & 0x3f);
-  uVar13 = (ulonglong)uVar5;
+  uVar13 = (unsigned __int64)uVar5;
   param_7 = param_7 & 0xff;
-  uVar6 = 1 << ((uint)LZCOUNT(in_stack_00000054) >> 5 & param_8) + 3;
-  uVar20 = (ulonglong)uVar6;
+  uVar6 = 1 << ((unsigned int)LZCOUNT(in_stack_00000054) >> 5 & param_8) + 3;
+  uVar20 = (unsigned __int64)uVar6;
   if (((param_8 != 0) && (param_8 != 1)) && (param_8 != 2)) {
     return;
   }
@@ -120,13 +93,13 @@ LAB_82cc4a30:
         lVar11 = lVar15;
         lVar21 = lVar14;
         do {
-          pbVar7 = (byte *)lVar11;
+          pbVar7 = (unsigned char *)lVar11;
           lVar11 = lVar11 + 1;
           puVar9 = puVar9 + 1;
-          *puVar9 = (short)((int)((uint)pbVar7[(int)((param_2 & 0xffffffff) << 1)] * (int)sVar2 +
-                                  (uint)pbVar7[(int)param_2 + (int)((param_2 & 0xffffffff) << 1)] *
-                                  (int)sVar1 + (uint)pbVar7[(int)param_2] * (int)sVar4 +
-                                  (uint)*pbVar7 * (int)sVar3 + iVar18) >> (uVar19 & 0x3f));
+          *puVar9 = (short)((int)((unsigned int)pbVar7[(int)((param_2 & 0xffffffff) << 1)] * (int)sVar2 +
+                                  (unsigned int)pbVar7[(int)param_2 + (int)((param_2 & 0xffffffff) << 1)] *
+                                  (int)sVar1 + (unsigned int)pbVar7[(int)param_2] * (int)sVar4 +
+                                  (unsigned int)*pbVar7 * (int)sVar3 + iVar18) >> (uVar19 & 0x3f));
           lVar21 = lVar21 + -1;
         } while (lVar21 != 0);
       }

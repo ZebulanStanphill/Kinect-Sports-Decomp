@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E5A160();
 extern int fn_82E5A170();
 extern int fn_82E5A180();
@@ -39,29 +12,29 @@ extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 
 
-undefined8 fn_82E5F1F0(int *param_1,ulonglong param_2)
+unsigned __int64 fn_82E5F1F0(int *param_1,unsigned __int64 param_2)
 
 {
-  longlong lVar1;
-  undefined8 uVar2;
+  __int64 lVar1;
+  unsigned __int64 uVar2;
   int iVar3;
-  undefined4 uVar4;
+  unsigned int uVar4;
   int aiStack_50;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned int uStack_40;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
   
   if ((param_1 == (int *)0x0) || ((param_2 & 0xffffffff) == 0)) {
     return 0xffffffff80004003;
   }
   aiStack_50 = 0;
-  lVar1 = (**(code **)(*param_1 + 0x3c))(param_1,0xffffffff8214c290,&uStack_38,0xc,&aiStack_50);
+  lVar1 = (**(int (***)())(*param_1 + 0x3c))(param_1,0xffffffff8214c290,&uStack_38,0xc,&aiStack_50);
   uVar4 = 0;
   if ((lVar1 < 0) || (uVar4 = uStack_38, aiStack_50 == 0xc)) {
-    iVar3 = (**(code **)(*param_1 + 0x3c))(param_1,0xffffffff8214c2a0,&uStack_48,0xc,&aiStack_50);
+    iVar3 = (**(int (***)())(*param_1 + 0x3c))(param_1,0xffffffff8214c2a0,&uStack_48,0xc,&aiStack_50);
     if (iVar3 < 0) {
       uStack_48 = uVar4;
       if ((int)lVar1 < 0) {

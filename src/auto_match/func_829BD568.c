@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_84;
 extern int fn_829BCB40();
 extern int fn_829BCCA8();
@@ -38,45 +11,45 @@ extern unsigned int uStack_9c;
 extern unsigned int uStack_a0;
 
 
-undefined8 fn_829BD568(int param_1,undefined4 *param_2)
+unsigned __int64 fn_829BD568(int param_1,unsigned int *param_2)
 
 {
   int iVar1;
-  uint uVar2;
+  unsigned int uVar2;
   int iVar3;
-  undefined2 *puVar4;
+  unsigned short *puVar4;
   int iVar5;
   int iVar7;
-  undefined8 uVar6;
-  uint uVar8;
+  unsigned __int64 uVar6;
+  unsigned int uVar8;
   int iVar9;
-  uint uVar10;
-  undefined4 *puVar11;
-  undefined4 *puVar12;
+  unsigned int uVar10;
+  unsigned int *puVar11;
+  unsigned int *puVar12;
   int iVar13;
   int *piVar14;
-  uint uVar15;
-  longlong lVar16;
-  struct { undefined4 first; undefined4 second; } stack_pair_a0;
+  unsigned int uVar15;
+  __int64 lVar16;
+  struct { unsigned int first; unsigned int second; } stack_pair_a0;
 
   int iStack_98;
-  uint uStack_94;
+  unsigned int uStack_94;
   int iStack_90;
-  undefined4 auStack_84 [2];
+  unsigned int auStack_84 [2];
   int aiStack_7c [31];
   
   iVar1 = *(int *)(param_1 + 0x1c0);
-  uVar2 = *(uint *)(param_1 + 0x1a0);
+  uVar2 = *(unsigned int *)(param_1 + 0x1a0);
   if (((*(int *)(param_1 + 0x118) == 0) || (*(int *)(iVar1 + 0x28) != 0)) ||
      (iVar7 = fn_829BD4C0(), iVar7 != 0)) {
     if (*(int *)(iVar1 + 8) == 0) {
       puVar12 = auStack_84;
-      puVar11 = (undefined4 *)(iVar1 + 0x10);
-      stack_pair_a0.first = **(undefined4 **)(param_1 + 0x18);
+      puVar11 = (unsigned int *)(iVar1 + 0x10);
+      stack_pair_a0.first = **(unsigned int **)(param_1 + 0x18);
       lVar16 = 5;
-      stack_pair_a0.second = (*(undefined4 **)(param_1 + 0x18))[1];
+      stack_pair_a0.second = (*(unsigned int **)(param_1 + 0x18))[1];
       iVar7 = *(int *)(iVar1 + 0xc);
-      uVar10 = *(uint *)(iVar1 + 0x10);
+      uVar10 = *(unsigned int *)(iVar1 + 0x10);
       do {
         puVar11 = puVar11 + 1;
         puVar12 = puVar12 + 1;
@@ -89,7 +62,7 @@ undefined8 fn_829BD568(int param_1,undefined4 *param_2)
         iStack_90 = param_1;
         do {
           iVar3 = *piVar14;
-          puVar4 = (undefined2 *)*param_2;
+          puVar4 = (unsigned short *)*param_2;
           iVar9 = *(int *)((*(int *)(*(int *)((iVar3 + 0x54) * 4 + param_1) + 0x14) + 0xb) * 4 +
                           iVar1);
           if ((int)uVar10 < 8) {
@@ -113,7 +86,7 @@ LAB_829bd67c:
               uVar6 = 9;
               goto LAB_829bd6b0;
             }
-            uVar8 = (uint)*(byte *)(uVar8 + iVar9 + 0x490);
+            uVar8 = (unsigned int)*(unsigned char *)(uVar8 + iVar9 + 0x490);
             uVar10 = uVar10 - iVar5;
           }
           uVar15 = 0;
@@ -136,12 +109,12 @@ LAB_829bd67c:
         } while (iVar13 < *(int *)(param_1 + 0x168));
       }
       puVar11 = auStack_84;
-      puVar12 = (undefined4 *)(iVar1 + 0x10);
+      puVar12 = (unsigned int *)(iVar1 + 0x10);
       lVar16 = 5;
-      **(undefined4 **)(param_1 + 0x18) = stack_pair_a0.first;
-      *(undefined4 *)(*(int *)(param_1 + 0x18) + 4) = stack_pair_a0.second;
+      **(unsigned int **)(param_1 + 0x18) = stack_pair_a0.first;
+      *(unsigned int *)(*(int *)(param_1 + 0x18) + 4) = stack_pair_a0.second;
       *(int *)(iVar1 + 0xc) = iVar7;
-      *(uint *)(iVar1 + 0x10) = uVar10;
+      *(unsigned int *)(iVar1 + 0x10) = uVar10;
       do {
         puVar11 = puVar11 + 1;
         puVar12 = puVar12 + 1;

@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int lbl_82134508;
 extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_8323B1A0;
@@ -40,28 +14,28 @@ void fn_82D11518(int param_1)
 
 {
   int *piVar1;
-  undefined4 *puVar2;
+  unsigned int *puVar2;
   int iVar3;
-  undefined4 *puVar4;
+  unsigned int *puVar4;
   float *pfVar5;
   float *pfVar6;
-  undefined4 uVar7;
-  undefined8 in_r0;
+  unsigned int uVar7;
+  unsigned __int64 in_r0;
   int iVar8;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar9;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar9;
   float fVar10;
-  undefined4 uVar11;
+  unsigned int uVar11;
   float fVar12;
-  undefined4 uVar13;
+  unsigned int uVar13;
   float fVar14;
-  undefined4 in_register_000100a0;
-  undefined4 in_register_000100a4;
-  undefined4 in_register_000100a8;
-  undefined4 in_vr10;
+  unsigned int in_register_000100a0;
+  unsigned int in_register_000100a4;
+  unsigned int in_register_000100a8;
+  unsigned int in_vr10;
   float in_register_000100c0;
   float in_register_000100c4;
   float in_register_000100c8;
@@ -73,11 +47,11 @@ void fn_82D11518(int param_1)
     return;
   }
   iVar3 = (int)in_r0;
-  puVar2 = (undefined4 *)((uint)(&lbl_8323B1A0 + iVar3) & 0xfffffff0);
+  puVar2 = (unsigned int *)((unsigned int)(&lbl_8323B1A0 + iVar3) & 0xfffffff0);
   uVar9 = puVar2[1];
   uVar11 = puVar2[2];
   uVar13 = puVar2[3];
-  puVar4 = (undefined4 *)(iVar3 + iVar8 & 0xfffffff0);
+  puVar4 = (unsigned int *)(iVar3 + iVar8 & 0xfffffff0);
   *puVar4 = *puVar2;
   puVar4[1] = uVar9;
   puVar4[2] = uVar11;
@@ -91,7 +65,7 @@ void fn_82D11518(int param_1)
       in_register_000100c8 = pfVar5[2];
       in_vr12 = pfVar5[3];{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs32,in_vs44,in_vs45); memcpy(in_vs32, &_vt0, 16); }
       vectorAddFloatingPoint(in_vs43,in_vs32);
-      puVar2 = (undefined4 *)(iVar3 + iVar8 & 0xfffffff0);
+      puVar2 = (unsigned int *)(iVar3 + iVar8 & 0xfffffff0);
       *puVar2 = in_register_000100a0;
       puVar2[1] = in_register_000100a4;
       puVar2[2] = in_register_000100a8;
@@ -111,7 +85,7 @@ void fn_82D11518(int param_1)
     pfVar6[2] = fVar12 * in_register_000100c8;
     pfVar6[3] = fVar14 * in_vr12;
   }
-  *(undefined4 *)(param_1 + 0x8c) = uVar7;
+  *(unsigned int *)(param_1 + 0x8c) = uVar7;
   return;
 }
 

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_98;
 extern int fn_8265C940();
@@ -40,23 +13,23 @@ extern unsigned int uStack_88;
 extern unsigned int uStack_90;
 
 
-ulonglong fn_82A251D0(undefined4 *param_1,int *param_2)
+unsigned __int64 fn_82A251D0(unsigned int *param_1,int *param_2)
 
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
+  unsigned int uVar1;
+  unsigned int *puVar2;
   int iVar3;
   int iVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar5;
   int aiStack_a0;
-  undefined1 auStack_98 [8];
-  undefined4 uStack_90;
-  undefined1 *puStack_8c;
-  undefined4 uStack_88;
-  undefined1 auStack_80 [80];
+  unsigned char auStack_98 [8];
+  unsigned int uStack_90;
+  unsigned char *puStack_8c;
+  unsigned int uStack_88;
+  unsigned char auStack_80 [80];
   
-  puVar2 = (undefined4 *)fn_8265C940(8,lbl_8315D2EC);
-  if (puVar2 == (undefined4 *)0x0) {
+  puVar2 = (unsigned int *)fn_8265C940(8,lbl_8315D2EC);
+  if (puVar2 == (unsigned int *)0x0) {
     uVar5 = 0xffffffff80640008;
   }
   else {
@@ -89,7 +62,7 @@ ulonglong fn_82A251D0(undefined4 *param_1,int *param_2)
     *param_2 = 1;
   }
 LAB_82a25300:
-  if (((uVar5 & 0xc0000000) == 0xc0000000) && (puVar2 != (undefined4 *)0x0)) {
+  if (((uVar5 & 0xc0000000) == 0xc0000000) && (puVar2 != (unsigned int *)0x0)) {
     fn_82A1CFC8();
     fn_8265C990(puVar2,lbl_8315D2EC);
   }

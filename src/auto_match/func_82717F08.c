@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_8268CC00();
 extern int fn_8268CEC0();
@@ -37,21 +10,21 @@ extern unsigned int uStack_3c;
 extern unsigned int uStack_40;
 
 
-undefined4 * fn_82717F08(undefined4 *param_1,int param_2,undefined4 *param_3,int param_4)
+unsigned int * fn_82717F08(unsigned int *param_1,int param_2,unsigned int *param_3,int param_4)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   int *piVar4;
-  undefined4 *puVar5;
-  undefined1 auStack_50 [16];
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  unsigned int *puVar5;
+  unsigned char auStack_50 [16];
+  struct { unsigned int first; unsigned int second; } stack_pair_40;
 
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
+  unsigned int uStack_2c;
   
   uVar1 = lbl_821AAD20;
   *param_1 = lbl_821AAD20;
@@ -67,9 +40,9 @@ undefined4 * fn_82717F08(undefined4 *param_1,int param_2,undefined4 *param_3,int
     uStack_34 = param_3[3];
     uStack_30 = param_3[4];
     uStack_2c = param_3[5];
-    fn_8268CEC0(&stack_pair_40.first,(ulonglong)*(uint *)(*(int *)(param_2 + 0xa4) + param_4) + 0x44);
+    fn_8268CEC0(&stack_pair_40.first,(unsigned __int64)*(unsigned int *)(*(int *)(param_2 + 0xa4) + param_4) + 0x44);
     piVar4 = *(int **)(*(int *)(param_2 + 0xa4) + param_4);
-    puVar5 = (undefined4 *)(**(code **)(*piVar4 + 0x28))(auStack_50,piVar4,&stack_pair_40.first);
+    puVar5 = (unsigned int *)(**(int (***)())(*piVar4 + 0x28))(auStack_50,piVar4,&stack_pair_40.first);
     uVar1 = puVar5[1];
     uVar2 = puVar5[2];
     uVar3 = puVar5[3];

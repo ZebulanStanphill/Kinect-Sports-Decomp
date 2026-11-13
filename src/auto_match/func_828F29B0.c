@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_c0;
 extern unsigned int *auStack_e0;
 extern int fn_8262FEC8();
@@ -45,56 +21,56 @@ extern unsigned int uStack_d0;
 extern unsigned int uStack_f0;
 
 
-ulonglong fn_828F29B0(ulonglong param_1,undefined8 param_2,ulonglong param_3,ulonglong param_4)
+unsigned __int64 fn_828F29B0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
   bool bVar1;
   int iVar3;
-  ulonglong uVar2;
-  uint uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
-  ulonglong uVar13;
-  ulonglong uVar14;
-  ulonglong uVar15;
-  ulonglong uVar16;
-  ulonglong uVar17;
-  uint uStack_f0;
-  undefined1 auStack_e0 [16];
-  uint uStack_d0;
-  uint uStack_cc;
-  uint uStack_c8;
-  undefined1 auStack_c0 [24];
-  uint uStack_a8;
-  uint uStack_a4;
+  unsigned __int64 uVar2;
+  unsigned int uVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  unsigned __int64 uVar13;
+  unsigned __int64 uVar14;
+  unsigned __int64 uVar15;
+  unsigned __int64 uVar16;
+  unsigned __int64 uVar17;
+  unsigned int uStack_f0;
+  unsigned char auStack_e0 [16];
+  unsigned int uStack_d0;
+  unsigned int uStack_cc;
+  unsigned int uStack_c8;
+  unsigned char auStack_c0 [24];
+  unsigned int uStack_a8;
+  unsigned int uStack_a4;
   
   if ((param_1 & 0xffffffff) == 0) {
     return 0xffffffff8876086c;
   }
   iVar3 = fn_8262FFB0(param_1);
   if (iVar3 == 3) {
-    uVar7 = (ulonglong)uStack_f0;
+    uVar7 = (unsigned __int64)uStack_f0;
     uVar6 = param_1;
 LAB_828f2a28:
-    uVar5 = (ulonglong)uStack_f0;
+    uVar5 = (unsigned __int64)uStack_f0;
   }
   else {
     if (iVar3 != 0x11) {
       if (iVar3 != 0x12) {
         return 0xffffffff8876086c;
       }
-      uVar6 = (ulonglong)uStack_f0;
+      uVar6 = (unsigned __int64)uStack_f0;
       uVar7 = param_1;
       goto LAB_828f2a28;
     }
-    uVar6 = (ulonglong)uStack_f0;
-    uVar7 = (ulonglong)uStack_f0;
+    uVar6 = (unsigned __int64)uStack_f0;
+    uVar7 = (unsigned __int64)uStack_f0;
     uVar5 = param_1;
   }
   if ((int)param_4 != -1) goto LAB_828f2a84;
@@ -135,7 +111,7 @@ LAB_828f2a84:
     uVar8 = param_4 << 0x20 | param_4 & 0xff9fffff;
   }
   uVar2 = fn_8263C538(param_1);
-  param_3 = -(ulonglong)(param_3 != 0xffffffffffffffff) & param_3;
+  param_3 = -(unsigned __int64)(param_3 != 0xffffffffffffffff) & param_3;
   if ((uVar2 & 0xffffffff) <= (param_3 & 0xffffffff)) {
     return 0xffffffff8876086c;
   }
@@ -153,13 +129,13 @@ LAB_828f2a84:
   uVar10 = 0;
   uVar14 = uVar13;
   if (uVar9 != 0) {
-    uVar17 = (ulonglong)uStack_f0;
+    uVar17 = (unsigned __int64)uStack_f0;
     do {
       if (iVar3 == 3) {
         uVar15 = fn_8263C550(uVar6,param_3);
         uVar14 = uVar15;
 LAB_828f2bf4:
-        uVar17 = -(ulonglong)(uVar14 == 0) & 0xffffffff8007000e;
+        uVar17 = -(unsigned __int64)(uVar14 == 0) & 0xffffffff8007000e;
       }
       else {
         if (iVar3 == 0x11) {
@@ -184,7 +160,7 @@ LAB_828f2d48:
           uVar13 = fn_8263C550(uVar6,uVar16);
           uVar14 = uVar13;
 LAB_828f2c64:
-          uVar17 = -(ulonglong)(uVar14 == 0) & 0xffffffff8007000e;
+          uVar17 = -(unsigned __int64)(uVar14 == 0) & 0xffffffff8007000e;
           uVar14 = uVar13;
         }
         else {

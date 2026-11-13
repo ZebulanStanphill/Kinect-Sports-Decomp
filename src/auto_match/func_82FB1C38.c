@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern void *fn_82FA5060();
 extern int fn_82FA9208();
 extern char *fn_82FB4390();
@@ -22,7 +21,7 @@ char *fn_82FB1C38(int param_1,__int64 param_2,__int64 param_3,__int64 param_4,
       fn_82FA9208(obj);
     }
     else {
-      (*(code *)(*(int *)(obj + 4) + 4))(obj + 4,0);
+      (*(int (**)())(*(int *)(obj + 4) + 4))(obj + 4,0);
       fn_82FA9208(obj);
       ret = 0;
     }

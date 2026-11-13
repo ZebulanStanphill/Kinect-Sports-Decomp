@@ -1,11 +1,9 @@
-typedef unsigned int uint;
+extern unsigned int fn_82A1E650(unsigned int h, unsigned int timeout);
+extern unsigned int fn_82A1F470(void);
 
-extern uint fn_82A1E650(uint h, uint timeout);
-extern uint fn_82A1F470(void);
-
-uint fn_82A1E740(uint *param_1, uint *param_2, int param_3)
+unsigned int fn_82A1E740(unsigned int *param_1, unsigned int *param_2, int param_3)
 {
-  uint r;
+  unsigned int r;
 
   if (*param_1 == 0x3e5) {
     if (param_3 == 0 || param_1[3] == 0) {

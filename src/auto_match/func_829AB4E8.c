@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82005758;
 
 
@@ -36,7 +9,7 @@ void fn_829AB4E8(int *param_1)
   int iVar3;
   int iVar4;
   int iVar5;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   
   iVar1 = param_1[9];
   if (iVar1 == 1) {
@@ -55,9 +28,9 @@ void fn_829AB4E8(int *param_1)
         param_1[10] = 5;
       }
       else {
-        *(undefined4 *)(*param_1 + 0x14) = 0x72;
-        *(uint *)(*param_1 + 0x18) = (uint)*(byte *)(param_1 + 0x4b);
-        (**(code **)(*param_1 + 4))(param_1,0xffffffffffffffff);
+        *(unsigned int *)(*param_1 + 0x14) = 0x72;
+        *(unsigned int *)(*param_1 + 0x18) = (unsigned int)*(unsigned char *)(param_1 + 0x4b);
+        (**(int (***)())(*param_1 + 4))(param_1,0xffffffffffffffff);
         param_1[0xb] = 4;
         param_1[10] = 5;
       }
@@ -82,8 +55,8 @@ void fn_829AB4E8(int *param_1)
       *(int *)(iVar5 + 0x1c) = iVar3;
       *(int *)(iVar5 + 0x18) = iVar1;
       *(int *)(iVar5 + 0x20) = iVar4;
-      *(undefined4 *)(*param_1 + 0x14) = 0x6f;
-      (**(code **)(*param_1 + 4))(param_1,1);
+      *(unsigned int *)(*param_1 + 0x14) = 0x6f;
+      (**(int (***)())(*param_1 + 4))(param_1,1);
       param_1[0xb] = 2;
       param_1[10] = 3;
       goto LAB_829ab6bc;
@@ -95,9 +68,9 @@ LAB_829ab664:
       goto LAB_829ab6bc;
     }
     if (*(char *)(param_1 + 0x4b) != '\x01') {
-      *(undefined4 *)(*param_1 + 0x14) = 0x72;
-      *(uint *)(*param_1 + 0x18) = (uint)*(byte *)(param_1 + 0x4b);
-      (**(code **)(*param_1 + 4))(param_1,0xffffffffffffffff);
+      *(unsigned int *)(*param_1 + 0x14) = 0x72;
+      *(unsigned int *)(*param_1 + 0x18) = (unsigned int)*(unsigned char *)(param_1 + 0x4b);
+      (**(int (***)())(*param_1 + 4))(param_1,0xffffffffffffffff);
       param_1[0xb] = 2;
       param_1[10] = 3;
       goto LAB_829ab6bc;
@@ -114,7 +87,7 @@ LAB_829ab6bc:
   param_1[0x12] = 0;
   uVar6 = lbl_82005758;
   param_1[0x13] = 1;
-  *(undefined8 *)(param_1 + 0xe) = uVar6;
+  *(unsigned __int64 *)(param_1 + 0xe) = uVar6;
   param_1[0x14] = 1;
   param_1[0x15] = 0;
   param_1[0x16] = 2;

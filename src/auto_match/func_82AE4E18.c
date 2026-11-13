@@ -1,48 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AA66A8();
 extern int fn_82ABDCF8();
 extern int fn_82F6A3F0();
 
 
-void fn_82AE4E18(int param_1,int param_2,int param_3,int *param_4,uint *param_5,
-                  undefined1 *param_6)
+void fn_82AE4E18(int param_1,int param_2,int param_3,int *param_4,unsigned int *param_5,
+                  unsigned char *param_6)
 
 {
   bool bVar1;
-  byte bVar2;
-  uint uVar3;
+  unsigned char bVar2;
+  unsigned int uVar3;
   int iVar4;
-  byte *pbVar5;
-  uint uVar6;
+  unsigned char *pbVar5;
+  unsigned int uVar6;
   char *apcStack_40 [16];
   
-  pbVar5 = *(byte **)(param_2 + 0x18);
+  pbVar5 = *(unsigned char **)(param_2 + 0x18);
   bVar2 = *pbVar5;
   if (bVar2 < 99) {
     if ((bVar2 == 0x62) || (bVar2 == 0x42)) {
@@ -51,7 +25,7 @@ void fn_82AE4E18(int param_1,int param_2,int param_3,int *param_4,uint *param_5,
         fn_82AA66A8(param_1,0x119d,pbVar5);
       }
       param_3 = 0;
-      uVar3 = -(uint)(((ulonglong)*(uint *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
+      uVar3 = -(unsigned int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
               0x80;
 LAB_82ae4fc8:
       uVar6 = 0x100;
@@ -81,7 +55,7 @@ LAB_82ae4f5c:
       }
       param_3 = 1;
       uVar6 = 0x20;
-      uVar3 = -(uint)(((ulonglong)*(uint *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
+      uVar3 = -(unsigned int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
               0x10;
       goto LAB_82ae4fcc;
     }

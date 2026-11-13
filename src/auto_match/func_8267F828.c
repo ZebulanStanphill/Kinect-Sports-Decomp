@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_bc;
 extern unsigned int *auStack_f0;
 extern int fn_8267BE38();
@@ -40,20 +14,20 @@ extern unsigned int uStack_100;
 extern unsigned int uStack_fc;
 
 
-undefined8 fn_8267F828(undefined8 param_1,undefined8 param_2,ulonglong param_3)
+unsigned __int64 fn_8267F828(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   char cVar3;
-  undefined8 uVar1;
-  ulonglong uVar2;
-  ulonglong uVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_100;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar4;
+  struct { unsigned int first; unsigned int second; } stack_pair_100;
 
-  undefined1 *puStack_f8;
-  undefined1 *puStack_f4;
-  undefined1 auStack_f0 [48];
-  undefined1 *puStack_c0;
-  undefined1 auStack_bc [108];
+  unsigned char *puStack_f8;
+  unsigned char *puStack_f4;
+  unsigned char auStack_f0 [48];
+  unsigned char *puStack_c0;
+  unsigned char auStack_bc [108];
   
   fn_8267E0E0(&puStack_c0,param_1,param_2);
   cVar3 = fn_8267E160(puStack_c0,param_2);
@@ -61,8 +35,8 @@ undefined8 fn_8267F828(undefined8 param_1,undefined8 param_2,ulonglong param_3)
     if ((param_3 & 0xffffffff) != 0) {
       fn_8267EEE0(auStack_f0,0,0);
       puStack_f8 = auStack_f0;
-      stack_pair_100.first = (undefined4)param_1;
-      stack_pair_100.second = (undefined4)param_2;
+      stack_pair_100.first = (unsigned int)param_1;
+      stack_pair_100.second = (unsigned int)param_2;
       puStack_f4 = puStack_c0;
       cVar3 = fn_8267ED80(&stack_pair_100.first,0xffffffff8267f7c0);
       if (cVar3 != '\0') {

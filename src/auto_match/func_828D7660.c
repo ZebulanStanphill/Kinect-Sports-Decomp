@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern int fn_828D5330();
 extern int fn_828D7598();
@@ -39,18 +12,18 @@ extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 
 
-int * fn_828D7660(int *param_1,undefined4 *param_2)
+int * fn_828D7660(int *param_1,unsigned int *param_2)
 
 {
-  undefined4 *puVar1;
-  undefined1 auStack_50 [8];
-  struct { undefined4 first; undefined4 second; } stack_pair_48;
+  unsigned int *puVar1;
+  unsigned char auStack_50 [8];
+  struct { unsigned int first; unsigned int second; } stack_pair_48;
 
   int iStack_40;
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
+  struct { unsigned int first; unsigned int second; } stack_pair_38;
 
   int iStack_30;
-  struct { undefined4 first; undefined4 second; } stack_pair_28;
+  struct { unsigned int first; unsigned int second; } stack_pair_28;
 
   int iStack_20;
 
@@ -64,7 +37,7 @@ int * fn_828D7660(int *param_1,undefined4 *param_2)
   iStack_20 = param_2[3];
   iStack_30 = param_2[4] + iStack_20;
   if (((int *)*param_1 != (int *)0x0) &&
-     (puVar1 = *(undefined4 **)*param_1, puVar1 != (undefined4 *)0x0)) {
+     (puVar1 = *(unsigned int **)*param_1, puVar1 != (unsigned int *)0x0)) {
     stack_pair_48.first = *puVar1;
   }
   stack_pair_28.first = stack_pair_38.first;

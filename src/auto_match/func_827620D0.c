@@ -1,5 +1,3 @@
-typedef unsigned __int64 U64;
-
 typedef struct Pair_827620D0 {
     int a;
     int b;
@@ -30,7 +28,7 @@ typedef struct Obj_827620D0 {
 } Obj_827620D0;
 
 extern void fn_8275E130(Pair_827620D0 *pair, int *a, int *b);
-extern void fn_8275FD58(U64 *out, Sub_827620D0 *s);
+extern void fn_8275FD58(unsigned __int64 *out, Sub_827620D0 *s);
 extern void fn_82760648(Sub_827620D0 *s);
 extern unsigned int lbl_8201489C;
 
@@ -38,7 +36,7 @@ Obj_827620D0 *fn_827620D0(Obj_827620D0 *p)
 {
     Sub_827620D0 *s;
     Pair_827620D0 *pp;
-    U64 tmp;
+    unsigned __int64 tmp;
 
     p->ref = 1;
     p->vt = &lbl_8201489C;
@@ -54,7 +52,7 @@ Obj_827620D0 *fn_827620D0(Obj_827620D0 *p)
         p->mode = 0;
         p->v = s->v;
         fn_8275FD58(&tmp, s);
-        *(U64 *)pp = tmp;
+        *(unsigned __int64 *)pp = tmp;
         fn_8275E130(pp, &p->c88, &p->c8c);
     }
     return p;

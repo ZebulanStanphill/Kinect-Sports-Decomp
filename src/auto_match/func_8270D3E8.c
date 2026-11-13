@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C4C8();
 extern int fn_8267C4F0();
 extern unsigned int iStack_4c;
@@ -35,8 +8,8 @@ extern unsigned int iStack_5c;
 extern unsigned int iStack_60;
 
 
-void fn_8270D3E8(double param_1,int *param_2,int *param_3,ulonglong param_4,int param_5,
-                  undefined8 param_6,int *param_7)
+void fn_8270D3E8(double param_1,int *param_2,int *param_3,unsigned __int64 param_4,int param_5,
+                  unsigned __int64 param_6,int *param_7)
 
 {
   int iVar1;
@@ -54,7 +27,7 @@ void fn_8270D3E8(double param_1,int *param_2,int *param_3,ulonglong param_4,int 
   iStack_54 = 0;
   iStack_50 = 0;
   iStack_4c = 0;
-  (**(code **)(*param_3 + 0x10))(param_3,&stack_pair_60.first,0xffffffff8200e7fc,6);
+  (**(int (***)())(*param_3 + 0x10))(param_3,&stack_pair_60.first,0xffffffff8200e7fc,6);
   iVar1 = stack_pair_60.first;
   if (*param_2 != 0) {
     fn_8267C4F0();

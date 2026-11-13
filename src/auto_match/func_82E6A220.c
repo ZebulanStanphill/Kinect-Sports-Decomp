@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82C2B580();
 extern int fn_82C2B590();
 extern int fn_82E69340();
@@ -38,7 +11,7 @@ extern unsigned int lbl_8209A9A8;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82E6A220(int *param_1)
+unsigned __int64 fn_82E6A220(int *param_1)
 
 {
   int iVar1;
@@ -47,12 +20,12 @@ undefined8 fn_82E6A220(int *param_1)
   float fVar4;
   float fVar5;
   int iVar7;
-  undefined8 uVar6;
-  undefined4 *puVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar6;
+  unsigned int *puVar8;
+  unsigned __int64 uVar9;
   int iVar10;
-  undefined4 *puVar11;
-  uint uVar12;
+  unsigned int *puVar11;
+  unsigned int uVar12;
   int iVar13;
   int iVar14;
   int *piVar15;
@@ -66,7 +39,7 @@ undefined8 fn_82E6A220(int *param_1)
   int iVar23;
   
   iVar1 = *param_1;
-  puVar11 = (undefined4 *)param_1[0x1df8];
+  puVar11 = (unsigned int *)param_1[0x1df8];
   iVar13 = param_1[0x1df9];
   iVar22 = 0;
   iVar21 = *(int *)(iVar1 + 0x158);
@@ -108,7 +81,7 @@ undefined8 fn_82E6A220(int *param_1)
           puVar8 = puVar11;
           piVar17 = piVar15;
           do {
-            *(undefined4 *)((iVar13 - (int)puVar11) + (int)puVar8) = 0;
+            *(unsigned int *)((iVar13 - (int)puVar11) + (int)puVar8) = 0;
             *puVar8 = 0x1d;
             iVar10 = (int)uVar9;
             iVar14 = piVar17[-1] * iVar10;
@@ -159,17 +132,17 @@ undefined8 fn_82E6A220(int *param_1)
         iVar20 = *(int *)(iVar1 + 0x50);
         iVar22 = *(int *)(iVar1 + 0xfc);
         iVar23 = *(int *)(iVar1 + 0x158);
-        *(undefined4 *)(iVar21 + param_1[15999]) = *(undefined4 *)(iVar21 + *(int *)(iVar1 + 0x154))
+        *(unsigned int *)(iVar21 + param_1[15999]) = *(unsigned int *)(iVar21 + *(int *)(iVar1 + 0x154))
         ;
         piVar17 = (int *)(iVar13 + iVar23);
         iVar23 = 0;
-        fVar2 = ((float)(longlong)(1 << (uVar12 & 0x3f)) * (float)(longlong)iVar20) /
-                (float)(longlong)iVar22;
+        fVar2 = ((float)(__int64)(1 << (uVar12 & 0x3f)) * (float)(__int64)iVar20) /
+                (float)(__int64)iVar22;
         iVar20 = *(int *)(iVar21 + *(int *)(iVar1 + 0x154));
         piVar15 = piVar17;
         if (0 < iVar20) {
           do {
-            if (fVar3 < (float)(longlong)*piVar15 * fVar2) {
+            if (fVar3 < (float)(__int64)*piVar15 * fVar2) {
               *(int *)(iVar21 + param_1[15999]) = iVar23;
               break;
             }
@@ -178,13 +151,13 @@ undefined8 fn_82E6A220(int *param_1)
           } while (iVar23 < iVar20);
         }
         iVar22 = 0;
-        *(undefined4 *)(iVar21 + param_1[16000]) = *(undefined4 *)(iVar21 + *(int *)(iVar1 + 0x154))
+        *(unsigned int *)(iVar21 + param_1[16000]) = *(unsigned int *)(iVar21 + *(int *)(iVar1 + 0x154))
         ;
         iVar20 = *(int *)(iVar21 + *(int *)(iVar1 + 0x154));
         piVar15 = piVar17;
         if (0 < iVar20) {
           do {
-            if (fVar4 < (float)(longlong)*piVar15 * fVar2) {
+            if (fVar4 < (float)(__int64)*piVar15 * fVar2) {
               *(int *)(iVar21 + param_1[16000]) = iVar22;
               break;
             }
@@ -193,12 +166,12 @@ undefined8 fn_82E6A220(int *param_1)
           } while (iVar22 < iVar20);
         }
         iVar22 = 0;
-        *(undefined4 *)(iVar21 + param_1[0x3e81]) =
-             *(undefined4 *)(iVar21 + *(int *)(iVar1 + 0x154));
+        *(unsigned int *)(iVar21 + param_1[0x3e81]) =
+             *(unsigned int *)(iVar21 + *(int *)(iVar1 + 0x154));
         iVar20 = *(int *)(iVar21 + *(int *)(iVar1 + 0x154));
         if (0 < iVar20) {
           do {
-            if (fVar5 < (float)(longlong)*piVar17 * fVar2) {
+            if (fVar5 < (float)(__int64)*piVar17 * fVar2) {
               *(int *)(iVar21 + param_1[0x3e81]) = iVar22;
               break;
             }

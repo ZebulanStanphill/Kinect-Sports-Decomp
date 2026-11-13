@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_82F655D8();
@@ -52,11 +25,11 @@ void fn_82BE0810(void)
   int iVar2;
   int iVar3;
   float *pfVar4;
-  longlong lVar5;
+  __int64 lVar5;
   double dVar6;
   double dVar7;
   double dVar8;
-  undefined8 uVar9;
+  unsigned __int64 uVar9;
   double dVar10;
   
   fn_82F6A548();
@@ -68,7 +41,7 @@ void fn_82BE0810(void)
   uVar9 = lbl_82015618;
   dVar10 = lbl_820E8890;
   do {
-    dVar6 = (double)fn_82F655D8(uVar9,(double)(longlong)(iVar2 + -0x18) * dVar10);
+    dVar6 = (double)fn_82F655D8(uVar9,(double)(__int64)(iVar2 + -0x18) * dVar10);
     *(float *)(iVar3 + -0x7cd61120) = (float)dVar6;
     iVar2 = iVar2 + 1;
     fVar1 = SQRT((float)dVar6);
@@ -80,7 +53,7 @@ void fn_82BE0810(void)
   pfVar4 = (float *)0x8329ecc0;
   dVar6 = lbl_82005730;
   do {
-    dVar7 = (double)fn_82F655D8(uVar9,((double)(longlong)(iVar2 + -0x18) + dVar6) * dVar10);
+    dVar7 = (double)fn_82F655D8(uVar9,((double)(__int64)(iVar2 + -0x18) + dVar6) * dVar10);
     *pfVar4 = (float)dVar7;
     dVar7 = lbl_820A6D70;
     pfVar4 = pfVar4 + 1;
@@ -90,7 +63,7 @@ void fn_82BE0810(void)
   lVar5 = 8;
   do {
     *(int *)(iVar2 + -0x7cd61360) =
-         (int)(dVar7 / ((double)(longlong)*(int *)(&lbl_83175050 + iVar2) + dVar8) + dVar8);
+         (int)(dVar7 / ((double)(__int64)*(int *)(&lbl_83175050 + iVar2) + dVar8) + dVar8);
     iVar2 = iVar2 + 4;
     lVar5 = lVar5 + -1;
   } while (lVar5 != 0);

@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-typedef int (*code)();
 extern int *fn_82FF8ED8(int, int);
 extern int *fn_82FAB9C0(int, int);
 extern void fn_82FF86A8(int);
@@ -34,9 +32,9 @@ int fn_82FFAC60(int param_1, int param_2, int param_3)
     if (piVar3 == 0) {
       uVar4 = 2;
     } else {
-      uVar4 = (*(code)(*(int *)(*piVar3 + 0x154)))(piVar3, puVar2, *(int *)(param_2 + 4));
+      uVar4 = (*(int (*)())(*(int *)(*piVar3 + 0x154)))(piVar3, puVar2, *(int *)(param_2 + 4));
       if (uVar4 != 1) {
-        (*(code)(*(int *)(*piVar3 + 8)))(piVar3);
+        (*(int (*)())(*(int *)(*piVar3 + 8)))(piVar3);
       }
     }
     RtlLeaveCriticalSection(lbl_8326434C);

@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 extern void fn_822B5CE8(void *);
 extern void fn_822C16B8(void *);
 extern void fn_82359C18(void *);

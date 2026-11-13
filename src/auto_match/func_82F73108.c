@@ -1,4 +1,3 @@
-typedef unsigned __int64 U64;
 extern int fn_82F72E58();
 
 typedef struct {
@@ -7,7 +6,7 @@ typedef struct {
   unsigned char c;
 } Str;
 
-Str *fn_82F73108(Str *s, U64 n)
+Str *fn_82F73108(Str *s, unsigned __int64 n)
 {
   char buf[21];
   char *p;

@@ -1,37 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_80;
 extern int fn_828F0AE0();
 
 
-longlong fn_828F0B58(undefined8 param_1,undefined8 param_2,char *param_3,ulonglong param_4,
-                      undefined4 *param_5,undefined4 *param_6,undefined4 *param_7,
-                      undefined1 *param_8)
+__int64 fn_828F0B58(unsigned __int64 param_1,unsigned __int64 param_2,char *param_3,unsigned __int64 param_4,
+                      unsigned int *param_5,unsigned int *param_6,unsigned int *param_7,
+                      unsigned char *param_8)
 
 {
   bool bVar1;
@@ -40,17 +16,17 @@ longlong fn_828F0B58(undefined8 param_1,undefined8 param_2,char *param_3,ulonglo
   int *piVar4;
   int **ppiVar5;
   int *piVar6;
-  longlong lVar7;
+  __int64 lVar7;
   int *piStack_90;
   int *piStack_8c;
   int *piStack_88;
   char *pcStack_84;
-  undefined1 auStack_80 [64];
+  unsigned char auStack_80 [64];
   
   piStack_88 = (int *)0x0;
   piStack_90 = (int *)0x0;
   piStack_8c = (int *)0x0;
-  if (param_8 == (undefined1 *)0x0) {
+  if (param_8 == (unsigned char *)0x0) {
     lVar7 = 8;
     ppiVar3 = &piStack_88;
     do {
@@ -79,27 +55,27 @@ longlong fn_828F0B58(undefined8 param_1,undefined8 param_2,char *param_3,ulonglo
     piVar6 = piStack_8c;
     piVar4 = piStack_88;
     if (-1 < lVar7) {
-      if (param_7 != (undefined4 *)0x0) {
+      if (param_7 != (unsigned int *)0x0) {
         *param_7 = piStack_8c;
         piVar6 = (int *)0x0;
       }
-      if (param_5 != (undefined4 *)0x0) {
+      if (param_5 != (unsigned int *)0x0) {
         *param_5 = piStack_88;
         piVar4 = (int *)0x0;
       }
     }
-    if (param_6 != (undefined4 *)0x0) {
+    if (param_6 != (unsigned int *)0x0) {
       piStack_90 = (int *)0x0;
       *param_6 = piVar2;
     }
     if (piVar4 != (int *)0x0) {
-      (**(code **)(*piVar4 + 8))();
+      (**(int (***)())(*piVar4 + 8))();
     }
     if (piVar6 != (int *)0x0) {
-      (**(code **)(*piVar6 + 8))(piVar6);
+      (**(int (***)())(*piVar6 + 8))(piVar6);
     }
     if (piStack_90 != (int *)0x0) {
-      (**(code **)(*piStack_90 + 8))(piStack_90);
+      (**(int (***)())(*piStack_90 + 8))(piStack_90);
     }
   }
   return lVar7;

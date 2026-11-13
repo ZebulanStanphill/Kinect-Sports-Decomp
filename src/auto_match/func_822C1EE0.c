@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822C5B18();
 extern int fn_82359C18();
 extern unsigned int lbl_821A8D8C;
@@ -35,25 +8,25 @@ extern unsigned int uStack_88;
 extern unsigned int uStack_8c;
 
 
-undefined4 *
-fn_822C1EE0(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4,
-             undefined4 *param_5,undefined4 param_6,undefined4 param_7,undefined4 param_8)
+unsigned int *
+fn_822C1EE0(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned int *param_4,
+             unsigned int *param_5,unsigned int param_6,unsigned int param_7,unsigned int param_8)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 *in_stack_00000054;
-  undefined4 *in_stack_0000005c;
-  undefined **ppuStack_90;
-  undefined4 uStack_8c;
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  undefined ***pppuStack_80;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int *in_stack_00000054;
+  unsigned int *in_stack_0000005c;
+  unsigned char **ppuStack_90;
+  unsigned int uStack_8c;
+  unsigned int uStack_88;
+  unsigned int uStack_84;
+  unsigned char ***pppuStack_80;
   
   param_1[1] = 1;
   *param_1 = &lbl_821A8D8C;
   param_1[2] = 1;
-  if (param_1 + 4 != (undefined4 *)0x0) {
+  if (param_1 + 4 != (unsigned int *)0x0) {
     uVar1 = *param_5;
     uStack_8c = *in_stack_00000054;
     uStack_88 = in_stack_00000054[1];

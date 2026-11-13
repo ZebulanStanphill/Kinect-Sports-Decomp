@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6DCE0();
 extern int fn_82F6EDE8();
 extern int iRam83160580;
@@ -49,21 +22,21 @@ extern unsigned int uStack00000048;
 /* WARNING: Removing unreachable block (ram,0x82ab16e8) */
 /* WARNING: Removing unreachable block (ram,0x82ab1630) */
 
-undefined4 fn_82AB6770(int *param_1)
+unsigned int fn_82AB6770(int *param_1)
 
 {
   int *piVar1;
   char *pcVar2;
-  longlong lVar3;
-  undefined4 uVar4;
-  undefined8 in_r8;
+  __int64 lVar3;
+  unsigned int uVar4;
+  unsigned __int64 in_r8;
   int iVar5;
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
+  unsigned __int64 uStack00000020;
+  unsigned __int64 uStack00000028;
+  unsigned __int64 uStack00000030;
+  unsigned __int64 uStack00000038;
+  unsigned __int64 uStack00000040;
+  unsigned __int64 uStack00000048;
   char *apcStack_50 [20];
   
   if (param_1 == (int *)0x0) {
@@ -73,7 +46,7 @@ undefined4 fn_82AB6770(int *param_1)
     uStack00000040 = 0xffffffff820d0000;
     uStack00000048 = 0xffffffff820d0000;
     uStack00000038 = in_r8;
-    if (lbl_83223C68 != (code *)0x0) {
+    if (lbl_83223C68 != (int (**)())0x0) {
       if (iRam83160580 == 0) {
         return 0;
       }
@@ -87,8 +60,8 @@ undefined4 fn_82AB6770(int *param_1)
         uVar4 = (*lbl_83223C68)(lbl_83223C64,0xffffffff820d5f14,0x83223858,&stack0x00000020);
         return uVar4;
       }
-      if ((((iRam83160580 == 2) && (lbl_83223C58 != (code *)0x0)) && (lbl_83223C60 != (code *)0x0))
-         && (lbl_83223C5C != (code *)0x0)) {
+      if ((((iRam83160580 == 2) && (lbl_83223C58 != (int (**)())0x0)) && (lbl_83223C60 != (int (**)())0x0))
+         && (lbl_83223C5C != (int (**)())0x0)) {
         lVar3 = (*lbl_83223C58)(lbl_83223C64,0xffffffff820d5f08,2);
         pcVar2 = (char *)0x83223858;
         if (lVar3 == 0) {

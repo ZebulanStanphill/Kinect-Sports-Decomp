@@ -1,33 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_829975C8(int param_1)
+unsigned __int64 fn_829975C8(int param_1)
 
 {
   int *piVar1;
@@ -36,14 +12,14 @@ undefined8 fn_829975C8(int param_1)
   int iVar4;
   bool bVar5;
   bool bVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int iVar8;
   int iVar9;
   int iVar10;
   int *piVar11;
-  uint uVar12;
+  unsigned int uVar12;
   int iVar13;
-  uint uVar14;
+  unsigned int uVar14;
   int *piVar15;
   
   iVar8 = *(int *)(param_1 + 0x228);
@@ -60,7 +36,7 @@ undefined8 fn_829975C8(int param_1)
         return 0;
       }
       piVar11 = (int *)piVar2[2];
-      if ((*(uint *)(*(int *)(*(int *)(uVar12 + (int)piVar11) * 4 + *(int *)(param_1 + 0x14)) + 0x3c
+      if ((*(unsigned int *)(*(int *)(*(int *)(uVar12 + (int)piVar11) * 4 + *(int *)(param_1 + 0x14)) + 0x3c
                     ) & 0x1f0000) != 0) {
         return 0;
       }
@@ -86,7 +62,7 @@ undefined8 fn_829975C8(int param_1)
                 }
                 uVar7 = uVar7 + 1;
                 iVar13 = iVar13 + 4;
-              } while (uVar7 < (uint)piVar3[3]);
+              } while (uVar7 < (unsigned int)piVar3[3]);
             }
             if (bVar6) break;
           }
@@ -95,12 +71,12 @@ undefined8 fn_829975C8(int param_1)
         } while (uVar14 < iVar8 - 1U);
       }
       if (*(short *)(param_1 + 0xca) == 0x104) {
-        if ((uVar14 < *(uint *)(param_1 + 0x4c)) && (uVar14 != 0)) {
+        if ((uVar14 < *(unsigned int *)(param_1 + 0x4c)) && (uVar14 != 0)) {
           bVar5 = false;
         }
       }
       else {
-        bVar5 = (bool)(*(uint *)(param_1 + 0x4c) <= uVar14 & bVar5);
+        bVar5 = (bool)(*(unsigned int *)(param_1 + 0x4c) <= uVar14 & bVar5);
       }
       if (!bVar6) {
         return 0;
@@ -118,12 +94,12 @@ undefined8 fn_829975C8(int param_1)
               do {
                 iVar4 = *(int *)(*(int *)(iVar9 + piVar3[4]) * 4 + *(int *)(param_1 + 0x14));
                 if ((*(int *)(iVar4 + 4) == *(int *)(param_1 + 0x88)) &&
-                   (*(uint *)(iVar4 + 0x10) == uVar12)) {
+                   (*(unsigned int *)(iVar4 + 0x10) == uVar12)) {
                   bVar5 = (bool)(*(int *)(iVar4 + 0xc) != 0 & bVar5);
                 }
                 uVar14 = uVar14 + 1;
                 iVar9 = iVar9 + 4;
-              } while (uVar14 < (uint)piVar3[3]);
+              } while (uVar14 < (unsigned int)piVar3[3]);
             }
             uVar14 = 0;
             if (piVar3[1] != 0) {
@@ -131,12 +107,12 @@ undefined8 fn_829975C8(int param_1)
               do {
                 iVar4 = *(int *)(*(int *)(iVar9 + piVar3[2]) * 4 + *(int *)(param_1 + 0x14));
                 if ((*(int *)(iVar4 + 4) == *(int *)(param_1 + 0x88)) &&
-                   (*(uint *)(iVar4 + 0x10) == uVar12)) {
+                   (*(unsigned int *)(iVar4 + 0x10) == uVar12)) {
                   bVar5 = (bool)(*(int *)(iVar4 + 0xc) != 0 & bVar5);
                 }
                 uVar14 = uVar14 + 1;
                 iVar9 = iVar9 + 4;
-              } while (uVar14 < (uint)piVar3[1]);
+              } while (uVar14 < (unsigned int)piVar3[1]);
             }
           }
           piVar15 = piVar15 + 1;
@@ -158,13 +134,13 @@ undefined8 fn_829975C8(int param_1)
               iVar10 = 0;
               do {
                 if (*(int *)(iVar10 + piVar1[4]) == *(int *)(uVar12 + piVar2[2])) {
-                  *(undefined4 *)
+                  *(unsigned int *)
                    (*(int *)(*(int *)(iVar10 + piVar1[4]) * 4 + *(int *)(param_1 + 0x14)) + 0xc) = 0
                   ;
                 }
                 uVar7 = uVar7 + 1;
                 iVar10 = iVar10 + 4;
-              } while (uVar7 < (uint)piVar1[3]);
+              } while (uVar7 < (unsigned int)piVar1[3]);
             }
             uVar14 = uVar14 + 1;
             iVar8 = iVar8 + 4;

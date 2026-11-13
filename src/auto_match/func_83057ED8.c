@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_8305BD60();
@@ -48,15 +22,15 @@ extern unsigned int lbl_8217E358;
 extern unsigned int lbl_8217E360;
 
 
-void fn_83057ED8(undefined8 param_1,undefined8 param_2)
+void fn_83057ED8(unsigned __int64 param_1,unsigned __int64 param_2)
 
 {
   bool bVar1;
-  longlong lVar2;
-  undefined4 *puVar4;
-  undefined8 uVar3;
-  undefined4 uVar5;
-  uint uVar6;
+  __int64 lVar2;
+  unsigned int *puVar4;
+  unsigned __int64 uVar3;
+  unsigned int uVar5;
+  unsigned int uVar6;
   double extraout_f1;
   double dVar7;
   double dVar8;
@@ -64,9 +38,9 @@ void fn_83057ED8(undefined8 param_1,undefined8 param_2)
   double dVar10;
   double dStack_40;
   
-  uVar6 = (uint)param_2;
-  uVar5 = (undefined4)((ulonglong)param_2 >> 0x20);
-  puVar4 = (undefined4 *)fn_82F6A548();
+  uVar6 = (unsigned int)param_2;
+  uVar5 = (unsigned int)((unsigned __int64)param_2 >> 0x20);
+  puVar4 = (unsigned int *)fn_82F6A548();
   dVar8 = dStack_40;
   dVar10 = dStack_40;
   if (uVar6 < 6) {

@@ -1,34 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int fStack_10;
 extern unsigned int stack0x00000000;
-extern U64 storeVectorElementWordIndexed();
+extern unsigned __int64 storeVectorElementWordIndexed();
 extern V16 loadVectorLeftIndexed128();
 extern V16 vectorMultiplyAddFloatingPoint();
 extern V16 vectorNegativeMultiplySubtractFloatingPoint();
@@ -37,24 +11,24 @@ extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-undefined8 fn_82CEC0E0(double param_1,int param_2)
+unsigned __int64 fn_82CEC0E0(double param_1,int param_2)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   float *pfVar2;
   int iVar3;
-  undefined8 in_r0;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  undefined1 in_vs32 [16];
-  undefined1 auVar6 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar7 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 in_vs61 [16];
-  undefined1 in_vs63 [16];
+  unsigned __int64 in_r0;
+  unsigned int *puVar4;
+  unsigned int *puVar5;
+  unsigned char in_vs32 [16];
+  unsigned char auVar6 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar7 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned char in_vs61 [16];
+  unsigned char in_vs63 [16];
   float fVar8;
   float fVar9;
   float fVar10;
@@ -73,8 +47,8 @@ undefined8 fn_82CEC0E0(double param_1,int param_2)
   float in_vr10;
   float fStack_10;
   
-  puVar5 = (undefined4 *)(param_2 + 0x20);
-  puVar4 = (undefined4 *)(param_2 + 0x10);
+  puVar5 = (unsigned int *)(param_2 + 0x20);
+  puVar4 = (unsigned int *)(param_2 + 0x10);
   iVar3 = (int)in_r0;
   pfVar2 = (float *)(iVar3 + (int)puVar5 & 0xfffffff0);
   fVar8 = *pfVar2;
@@ -88,7 +62,7 @@ undefined8 fn_82CEC0E0(double param_1,int param_2)
   fVar15 = pfVar2[3];
   vectorSubtractFloatingPoint(in_vs61,in_vs63);
   uVar1 = storeVectorElementWordIndexed(in_vs44,0,ZEXT48(&stack0x00000000) - 0x10);
-  *(undefined4 *)(ZEXT48(&stack0x00000000) - 0x10) = uVar1;
+  *(unsigned int *)(ZEXT48(&stack0x00000000) - 0x10) = uVar1;
   if ((float)((double)(float)(param_1 * param_1) * param_1) < ABS(fStack_10)) {{ V16 _vt0 = vectorReciprocalEstimateFloatingPoint(in_vs44); memcpy(auVar6, &_vt0, 16); }
     vectorSubtractFloatingPoint(in_vs45,in_vs43);
     vectorSubtractFloatingPoint(in_vs32,in_vs40);
@@ -114,14 +88,14 @@ undefined8 fn_82CEC0E0(double param_1,int param_2)
     pfVar2[2] = in_register_000100a8 * fVar10;
     pfVar2[3] = in_register_000100a4 * fVar11;
     uVar1 = *puVar4;
-    *puVar4 = *(undefined4 *)(param_2 + 4);
-    *(undefined4 *)(param_2 + 4) = uVar1;
+    *puVar4 = *(unsigned int *)(param_2 + 4);
+    *(unsigned int *)(param_2 + 4) = uVar1;
     uVar1 = *puVar5;
-    *puVar5 = *(undefined4 *)(param_2 + 8);
-    *(undefined4 *)(param_2 + 8) = uVar1;
-    uVar1 = *(undefined4 *)(param_2 + 0x24);
-    *(undefined4 *)(param_2 + 0x24) = *(undefined4 *)(param_2 + 0x18);
-    *(undefined4 *)(param_2 + 0x18) = uVar1;
+    *puVar5 = *(unsigned int *)(param_2 + 8);
+    *(unsigned int *)(param_2 + 8) = uVar1;
+    uVar1 = *(unsigned int *)(param_2 + 0x24);
+    *(unsigned int *)(param_2 + 0x24) = *(unsigned int *)(param_2 + 0x18);
+    *(unsigned int *)(param_2 + 0x18) = uVar1;
     return 0;
   }
   return 1;

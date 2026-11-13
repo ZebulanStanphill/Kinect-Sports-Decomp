@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82381BC0();
 extern int fn_823AA970();
 extern int fn_8265C9E0();
@@ -52,26 +28,26 @@ void fn_828DAC60(int param_1)
   int *piVar1;
   int *piVar2;
   int iVar3;
-  undefined4 uVar4;
+  unsigned int uVar4;
   bool bVar5;
-  byte bVar6;
+  unsigned char bVar6;
   char cVar14;
-  ulonglong uVar7;
-  uint *puVar12;
-  longlong lVar8;
+  unsigned __int64 uVar7;
+  unsigned int *puVar12;
+  __int64 lVar8;
   int iVar13;
-  ulonglong uVar9;
-  undefined8 uVar10;
-  undefined8 uVar11;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
   bool bVar15;
-  uint uVar16;
-  uint uVar17;
+  unsigned int uVar16;
+  unsigned int uVar17;
   int iVar18;
   int iVar19;
   int iStack_80;
   int aiStack_7c;
   
-  cVar14 = fn_828ACCE8(*(undefined4 *)(param_1 + 8));
+  cVar14 = fn_828ACCE8(*(unsigned int *)(param_1 + 8));
   if (cVar14 != '\0') {
     uVar7 = fn_828D2EE0(param_1);
     bVar5 = false;
@@ -88,7 +64,7 @@ LAB_828dac9c:
     cVar14 = fn_828D31A8(param_1);
     if (cVar14 != '\0') {
       bVar5 = false;
-      puVar12 = (uint *)fn_828EDED8(*(undefined4 *)(*(int *)(param_1 + 8) + 0x8c));
+      puVar12 = (unsigned int *)fn_828EDED8(*(unsigned int *)(*(int *)(param_1 + 8) + 0x8c));
       piVar1 = *(int **)(*(int *)(param_1 + 8) + 0x200);
       aiStack_7c = *piVar1;
       if ((int *)aiStack_7c != piVar1) {
@@ -111,13 +87,13 @@ LAB_828dac9c:
                     iVar18 = 0;
                     do {
                       iVar3 = *(int *)(iVar19 + 0x10);
-                      lVar8 = (**(code **)(*piVar2 + 0x48))(piVar2);
-                      if (*(longlong *)(iVar18 + iVar3) == lVar8) {
+                      lVar8 = (**(int (***)())(*piVar2 + 0x48))(piVar2);
+                      if (*(__int64 *)(iVar18 + iVar3) == lVar8) {
                         bVar6 = 1;
                       }
                       uVar17 = uVar17 + 1;
                       iVar18 = iVar18 + 8;
-                    } while (uVar17 < *(uint *)(iVar19 + 0xc));
+                    } while (uVar17 < *(unsigned int *)(iVar19 + 0xc));
                   }
                   uVar16 = uVar16 + 1;
                   iVar13 = iVar13 + 0x18;
@@ -129,7 +105,7 @@ LAB_828dac9c:
           }
           if (!bVar15) {
             bVar5 = true;
-            uVar7 = (**(code **)(*piVar1 + 0xc))(piVar1);
+            uVar7 = (**(int (***)())(*piVar1 + 0xc))(piVar1);
             if ((uVar7 & 0xffffffff) == 0) goto LAB_828dacdc;
             iVar13 = fn_82A4AAA8();
             if (iVar13 != 2) {
@@ -137,7 +113,7 @@ LAB_828dac9c:
               iStack_80 = *piVar1;
               if ((int *)iStack_80 != piVar1) {
                 do {
-                  uVar4 = *(undefined4 *)(iStack_80 + 0x10);
+                  uVar4 = *(unsigned int *)(iStack_80 + 0x10);
                   uVar9 = fn_8265C9E0(0x90);
                   if ((uVar9 & 0xffffffff) == 0) {
                     uVar10 = 0;
@@ -148,7 +124,7 @@ LAB_828dac9c:
                   }
                   fn_82886518(uVar10,0xffffffffffffffff,0xffffffffffffffff);
                   uVar11 = fn_82897BD0(uVar4);
-                  fn_828BE158(*(undefined4 *)(param_1 + 8),uVar10,uVar11,0);
+                  fn_828BE158(*(unsigned int *)(param_1 + 8),uVar10,uVar11,0);
                   fn_82381BC0(&iStack_80);
                 } while (iStack_80 != *(int *)(*(int *)(param_1 + 8) + 0x230));
               }

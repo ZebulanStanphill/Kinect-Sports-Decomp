@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
@@ -39,13 +15,13 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831E4E38;
 
 
-undefined8 fn_825DEE10(double param_1,double param_2,int *param_3)
+unsigned __int64 fn_825DEE10(double param_1,double param_2,int *param_3)
 
 {
   float fVar1;
   float fVar2;
   bool bVar3;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   int iVar5;
   int iVar6;
   float *pfVar7;
@@ -68,8 +44,8 @@ undefined8 fn_825DEE10(double param_1,double param_2,int *param_3)
     dVar11 = (double)pfVar7[-0x395];
     fVar2 = (float)((double)*(float *)(param_3[0x10] + 0x4c) - param_2);
     if (*(float *)(&lbl_821954D8 +
-                  ((uint)(byte)((fVar2 < ltcg_pool_0_0f) << 2) |
-                  (uint)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+                  ((unsigned int)(unsigned char)((fVar2 < ltcg_pool_0_0f) << 2) |
+                  (unsigned int)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
       fVar2 = ltcg_pool_0_0f;
     }
     *(float *)(param_3[0x10] + 0x4c) = fVar2;
@@ -107,7 +83,7 @@ undefined8 fn_825DEE10(double param_1,double param_2,int *param_3)
     }
     *(float *)(iVar8 + 0x90) =
          (float)(((double)(float)(dVar10 * (double)lbl_82195590) -
-                 (double)(longlong)(dVar10 * (double)lbl_82195590)) * lbl_821955A0);
+                 (double)(__int64)(dVar10 * (double)lbl_82195590)) * lbl_821955A0);
   }
   else {
     uVar4 = 1;

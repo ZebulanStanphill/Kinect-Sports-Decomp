@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_b0;
 extern unsigned int fStack_c4;
 extern unsigned int fStack_c8;
@@ -46,14 +22,14 @@ extern unsigned int lbl_82014898;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_82762358(undefined8 param_1,float *param_2)
+void fn_82762358(unsigned __int64 param_1,float *param_2)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
   bool bVar4;
-  undefined8 uVar5;
+  unsigned __int64 uVar5;
   double dVar6;
   double dVar7;
   double dVar8;
@@ -74,7 +50,7 @@ void fn_82762358(undefined8 param_1,float *param_2)
   float fStack_c8;
   float fStack_c4;
   char cStack_c0;
-  undefined1 auStack_b0 [32];
+  unsigned char auStack_b0 [32];
   char cStack_90;
   
   uVar5 = fn_82F6A544();
@@ -119,8 +95,8 @@ void fn_82762358(undefined8 param_1,float *param_2)
         }
         while( true ) {
           param_2[3] = (float)dVar6;
-          if ((*(byte *)(aiStack_d8[0] + 0x20) == 1) ||
-             (bVar4 = false, (*(byte *)(aiStack_d8[0] + 0x20) & 0x80) == 0)) {
+          if ((*(unsigned char *)(aiStack_d8[0] + 0x20) == 1) ||
+             (bVar4 = false, (*(unsigned char *)(aiStack_d8[0] + 0x20) & 0x80) == 0)) {
             bVar4 = true;
           }
           if (bVar4) break;

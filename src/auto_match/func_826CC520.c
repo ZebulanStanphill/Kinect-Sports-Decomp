@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern unsigned int fStack_74;
 extern unsigned int fStack_78;
@@ -47,7 +23,7 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-float * fn_826CC520(float *param_1,int param_2,undefined4 *param_3)
+float * fn_826CC520(float *param_1,int param_2,unsigned int *param_3)
 
 {
   float fVar1;
@@ -59,7 +35,7 @@ float * fn_826CC520(float *param_1,int param_2,undefined4 *param_3)
   bool bVar7;
   float *pfVar8;
   int iVar9;
-  ulonglong uVar10;
+  unsigned __int64 uVar10;
   double dVar11;
   struct { float first; float second; } stack_pair_90;
 
@@ -69,16 +45,16 @@ float * fn_826CC520(float *param_1,int param_2,undefined4 *param_3)
   float fStack_7c;
   float fStack_78;
   float fStack_74;
-  undefined1 auStack_70 [16];
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
+  unsigned char auStack_70 [16];
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
 
   stack_pair_90.first = lbl_821AAD20;
-  uVar10 = (ulonglong)*(uint *)(param_2 + 0xac);
+  uVar10 = (unsigned __int64)*(unsigned int *)(param_2 + 0xac);
   dVar11 = (double)lbl_821AAD20;
   *param_1 = lbl_821AAD20;
   stack_pair_90.second = stack_pair_90.first;
@@ -100,7 +76,7 @@ float * fn_826CC520(float *param_1,int param_2,undefined4 *param_3)
         uStack_50 = param_3[4];
         uStack_4c = param_3[5];
         fn_8268CEC0(&stack_pair_60.first,piVar3 + 0x11);
-        pfVar8 = (float *)(**(code **)(*piVar3 + 0x28))(auStack_70,piVar3,&stack_pair_60.first);
+        pfVar8 = (float *)(**(int (***)())(*piVar3 + 0x28))(auStack_70,piVar3,&stack_pair_60.first);
         fStack_88 = pfVar8[2];
         stack_pair_90.first = *pfVar8;
         fStack_84 = pfVar8[3];

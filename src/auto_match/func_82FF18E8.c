@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82FF0250();
 extern int fn_82FF2248();
 extern int fn_82FF22B8();
@@ -36,22 +9,22 @@ extern unsigned int uStack_44;
 extern unsigned int uStack_48;
 
 
-void fn_82FF18E8(double param_1,int param_2,undefined8 param_3,undefined8 *param_4,char param_5)
+void fn_82FF18E8(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 *param_4,char param_5)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
   int aiStack_50;
-  struct { undefined4 first; uint second; } stack_pair_48;
+  struct { unsigned int first; unsigned int second; } stack_pair_48;
 
   
   if (param_5 != '\0') {
-    uVar1 = *(uint *)((int)param_4 + 4);
-    stack_pair_48.first = *(undefined4 *)param_4;
+    uVar1 = *(unsigned int *)((int)param_4 + 4);
+    stack_pair_48.first = *(unsigned int *)param_4;
     stack_pair_48.second = ~uVar1 & 0x80000000 | stack_pair_48.second & 0x3fffffff;
     uVar2 = CONCAT44(stack_pair_48.first,stack_pair_48.second);
     fn_82FF2248(&aiStack_50,param_2 + 0x1c,uVar2);
-    if ((-(uint)(*(int *)(param_2 + 0x20) != aiStack_50) & aiStack_50 + 8U) != 0) {
+    if ((-(unsigned int)(*(int *)(param_2 + 0x20) != aiStack_50) & aiStack_50 + 8U) != 0) {
       if ((uVar1 & 0x80000000) != 0) {
         return;
       }
@@ -59,7 +32,7 @@ void fn_82FF18E8(double param_1,int param_2,undefined8 param_3,undefined8 *param
     }
   }
   if ((param_1 == (double)lbl_82005CCC) &&
-     ((param_5 == '\0' || ((*(uint *)((int)param_4 + 4) & 0x80000000) != 0)))) {
+     ((param_5 == '\0' || ((*(unsigned int *)((int)param_4 + 4) & 0x80000000) != 0)))) {
     fn_82FF2248(&aiStack_50,param_2 + 0x1c,*param_4);
     if (aiStack_50 != *(int *)(param_2 + 0x20)) {
       fn_82FF22B8(&stack_pair_48.first,param_2 + 0x1c,&aiStack_50);

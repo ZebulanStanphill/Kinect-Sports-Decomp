@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82D01948();
 extern int fn_82D03E40();
 extern unsigned int iStack_64;
@@ -48,10 +24,10 @@ void fn_82CF8848(int param_1,int param_2)
   int iVar8;
   struct { int first; int second; } stack_pair_70;
 
-  undefined4 uStack_68;
+  unsigned int uStack_68;
   int iStack_64;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
   
   iVar4 = param_1 + 4;
   RtlEnterCriticalSection(iVar4);
@@ -71,10 +47,10 @@ void fn_82CF8848(int param_1,int param_2)
       uStack_5c = 0;
       piVar1 = (int *)*piVar5;
       fn_82D01948(piVar1,&stack_pair_70.first);
-      if ((*piVar1 != 0) || (bVar2 = false, (uint)piVar1[8] < (uint)piVar1[9])) {
+      if ((*piVar1 != 0) || (bVar2 = false, (unsigned int)piVar1[8] < (unsigned int)piVar1[9])) {
         bVar2 = true;
       }
-      if ((bVar2) && (*(uint *)(param_2 + 0x14) < (uint)piVar1[1])) {
+      if ((bVar2) && (*(unsigned int *)(param_2 + 0x14) < (unsigned int)piVar1[1])) {
         *(int *)(param_2 + 0x14) = piVar1[1];
       }
       iVar8 = iVar8 + 1;
@@ -86,10 +62,10 @@ void fn_82CF8848(int param_1,int param_2)
   }
   *(int *)(param_2 + 4) = (*(int *)(param_2 + 4) - iVar3) + iVar6;
   *(int *)(param_2 + 0xc) = *(int *)(param_2 + 0xc) + iVar7;
-  *(undefined4 *)(param_2 + 8) = *(undefined4 *)(param_1 + 0x24);
-  iVar3 = (**(code **)(**(int **)(param_1 + 0x28) + 0x18))();
+  *(unsigned int *)(param_2 + 8) = *(unsigned int *)(param_1 + 0x24);
+  iVar3 = (**(int (***)())(**(int **)(param_1 + 0x28) + 0x18))();
   if (iVar3 == -1) {
-    *(undefined4 *)(param_2 + 0x10) = 0xffffffff;
+    *(unsigned int *)(param_2 + 0x10) = 0xffffffff;
     RtlLeaveCriticalSection(iVar4);
   }
   else {

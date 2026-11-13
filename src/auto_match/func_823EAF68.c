@@ -5,7 +5,6 @@ typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
 } __vector4;
 
 __vector4 __VMXGetReg(int n);
-typedef unsigned int U32;
 struct If_823EAF68;
 typedef struct { void *s0; void (*f1)(struct If_823EAF68 *, void *); void *s2, *s3; void (*f4)(struct If_823EAF68 *, void *, void *); void (*f5)(struct If_823EAF68 *, void *, void *); } Vt_823EAF68;
 typedef struct If_823EAF68 { Vt_823EAF68 *vt; } If_823EAF68;
@@ -19,7 +18,7 @@ extern void fn_822315A0(void *);
 extern void fn_82250D10(void *);
 extern void fn_822D79D8(Pair_823EAF68 *, void *);
 extern void *fn_822D7FE0(void *);
-extern void *fn_8265C9E0(U32);
+extern void *fn_8265C9E0(unsigned int);
 extern void fn_828E2B28(void *, Pair_823EAF68 *);
 extern void fn_828E9D40(void *);
 extern void fn_828E9D90(void *);

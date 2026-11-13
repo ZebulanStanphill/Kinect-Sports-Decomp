@@ -1,13 +1,11 @@
-typedef unsigned int uint;
-
 typedef struct Entry {
-  uint flags;
+  unsigned int flags;
   int pad[3];
 } Entry;
 
-int fn_82CE39C8(Entry *entries, uint index)
+int fn_82CE39C8(Entry *entries, unsigned int index)
 {
-  uint v;
+  unsigned int v;
 
   if (index >= 0x40) {
     return 0x80070057;

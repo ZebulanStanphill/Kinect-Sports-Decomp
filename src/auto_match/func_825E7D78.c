@@ -1,11 +1,10 @@
-typedef unsigned int U32;
-typedef struct Node_825E7D78 { struct Node_825E7D78 *next; struct Node_825E7D78 *prev; U32 key; } Node_825E7D78;
-typedef struct { int pad0; Node_825E7D78 *head; U32 size; int pad[6]; U32 buckets; float maxload; } Map_825E7D78;
-extern void fn_82587028(Map_825E7D78 *, U32);
+typedef struct Node_825E7D78 { struct Node_825E7D78 *next; struct Node_825E7D78 *prev; unsigned int key; } Node_825E7D78;
+typedef struct { int pad0; Node_825E7D78 *head; unsigned int size; int pad[6]; unsigned int buckets; float maxload; } Map_825E7D78;
+extern void fn_82587028(Map_825E7D78 *, unsigned int);
 extern void fn_825E7BF0(void *, Map_825E7D78 *, void *, Node_825E7D78 *);
 void fn_825E7D78(Map_825E7D78 *m)
 {
-  U32 n = m->buckets;
+  unsigned int n = m->buckets;
   __int64 tmp;
   if (m->maxload < (float)m->size / (float)n) {
     int i = 0;

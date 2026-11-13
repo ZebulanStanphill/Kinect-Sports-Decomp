@@ -1,51 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AF5618();
 extern int fn_82AF71C8();
 extern int fn_82AFF398();
 extern int fn_82F65FE0();
 
 
-longlong fn_82B092B8(undefined8 param_1,undefined8 param_2,int param_3,uint param_4,uint param_5,
-                      undefined8 param_6,undefined8 param_7,undefined8 param_8)
+__int64 fn_82B092B8(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned int param_4,unsigned int param_5,
+                      unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
   bool bVar1;
-  uint uVar2;
+  unsigned int uVar2;
   char cVar5;
   int iVar4;
-  longlong lVar3;
+  __int64 lVar3;
   int iVar6;
-  longlong lVar7;
+  __int64 lVar7;
   int *piVar8;
-  uint uVar9;
+  unsigned int uVar9;
   int iVar10;
-  uint uVar11;
+  unsigned int uVar11;
   
   if (param_4 != 0) {
     piVar8 = (int *)(param_3 + -4);
@@ -56,7 +32,7 @@ longlong fn_82B092B8(undefined8 param_1,undefined8 param_2,int param_3,uint para
         iVar6 = *(int *)(iVar10 + 0xc);
         cVar5 = fn_82AF5618(iVar6);
         if (cVar5 != '\0') break;
-        uVar9 = *(uint *)(iVar6 + 8);
+        uVar9 = *(unsigned int *)(iVar6 + 8);
         uVar2 = uVar9 >> 7 & 0x7f;
         if ((uVar2 < 0x20) || (bVar1 = true, 0x52 < uVar2)) {
           bVar1 = false;

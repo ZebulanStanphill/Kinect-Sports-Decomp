@@ -1,25 +1,23 @@
 typedef unsigned char bool;
-typedef unsigned int uint;
-typedef unsigned short ushort;
 
 typedef struct Sub {
-  uint flags;
+  unsigned int flags;
   int f4;
-  ushort f8;
-  ushort fa;
+  unsigned short f8;
+  unsigned short fa;
 } Sub;
 
 typedef struct Node {
   struct Node *next;
   int f4;
-  uint f8;
-  uint fc;
+  unsigned int f8;
+  unsigned int fc;
   Sub sub;
   int f1c;
-  uint f20;
+  unsigned int f20;
   int f24;
   int f28;
-  uint f2c;
+  unsigned int f2c;
 } Node;
 
 static bool eq2(Sub *a, Sub *b)

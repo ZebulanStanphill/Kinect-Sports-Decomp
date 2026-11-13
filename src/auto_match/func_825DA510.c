@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_5a5;
 extern unsigned int *auStack_5f0;
 extern int fn_82529320();
@@ -43,12 +16,12 @@ void fn_825DA510(int param_1)
 
 {
   int iVar2;
-  undefined8 uVar1;
-  undefined1 uStack_5f9;
-  undefined1 auStack_5f0 [75];
-  undefined1 auStack_5a5 [1421];
-  undefined1 uStack_18;
-  undefined4 uStack_14;
+  unsigned __int64 uVar1;
+  unsigned char uStack_5f9;
+  unsigned char auStack_5f0 [75];
+  unsigned char auStack_5a5 [1421];
+  unsigned char uStack_18;
+  unsigned int uStack_14;
   
   fn_82592430();
   if ((*(int *)(param_1 + 400) == 0) ||
@@ -62,7 +35,7 @@ void fn_825DA510(int param_1)
     if (ltcg_pool_0_0f < *(float *)(param_1 + 0xb60)) {
       fn_825D9FB0(auStack_5f0,param_1);
       uStack_14 = 0;
-      uStack_5f9 = (undefined1)(longlong)*(float *)(param_1 + 0x1fc);
+      uStack_5f9 = (unsigned char)(__int64)*(float *)(param_1 + 0x1fc);
       uStack_18 = uStack_5f9;
       uVar1 = fn_82587AC0(auStack_5a5);
       fn_82529A38(uVar1,auStack_5f0,0);

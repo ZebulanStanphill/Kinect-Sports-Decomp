@@ -1,10 +1,7 @@
-typedef unsigned short ushort;
-typedef unsigned char byte;
-
 typedef struct State {
-    ushort v[4];
-    byte idx;
-    byte mode;
+    unsigned short v[4];
+    unsigned char idx;
+    unsigned char mode;
 } State;
 
 void fn_82D68BD0(State *s, int *flags)

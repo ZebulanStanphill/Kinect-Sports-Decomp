@@ -1,43 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8204DD00;
 extern unsigned int lbl_8204DD04;
 
 
-undefined8 fn_8297F800(undefined8 param_1,int param_2,int param_3,int *param_4)
+unsigned __int64 fn_8297F800(unsigned __int64 param_1,int param_2,int param_3,int *param_4)
 
 {
   bool bVar1;
   int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
   int iVar7;
   int iVar8;
   int iVar9;
@@ -52,12 +27,12 @@ undefined8 fn_8297F800(undefined8 param_1,int param_2,int param_3,int *param_4)
     *param_4 = iVar8;
     return 0;
   }
-  uVar6 = *(uint *)(&lbl_8204DD00 + iVar8 * 8);
-  if (*(uint *)(&lbl_8204DD00 + iVar8 * 8) <= *(uint *)(&lbl_8204DD00 + iVar2 * 8)) {
-    uVar6 = *(uint *)(&lbl_8204DD00 + iVar2 * 8);
+  uVar6 = *(unsigned int *)(&lbl_8204DD00 + iVar8 * 8);
+  if (*(unsigned int *)(&lbl_8204DD00 + iVar8 * 8) <= *(unsigned int *)(&lbl_8204DD00 + iVar2 * 8)) {
+    uVar6 = *(unsigned int *)(&lbl_8204DD00 + iVar2 * 8);
   }
-  uVar3 = *(uint *)(&lbl_8204DD04 + iVar2 * 8);
-  uVar4 = *(uint *)(&lbl_8204DD04 + iVar8 * 8);
+  uVar3 = *(unsigned int *)(&lbl_8204DD04 + iVar2 * 8);
+  uVar4 = *(unsigned int *)(&lbl_8204DD04 + iVar8 * 8);
   uVar5 = uVar4 & uVar3;
   if ((uVar5 & 1) != 0) {
     iVar8 = 0;
@@ -119,7 +94,7 @@ LAB_8297fa34:
       goto LAB_8297f8fc;
     }
     if ((((iVar8 != 1) || ((uVar3 & 4) == 0)) || ((uVar3 & 1) != 0)) &&
-       ((((uint)LZCOUNT(iVar2 + -1) >> 5 == 0 || ((uVar4 & 4) == 0)) || ((uVar4 & 1) != 0)))) {
+       ((((unsigned int)LZCOUNT(iVar2 + -1) >> 5 == 0 || ((uVar4 & 4) == 0)) || ((uVar4 & 1) != 0)))) {
       if (uVar6 == 0) {
         iVar9 = 2;
       }

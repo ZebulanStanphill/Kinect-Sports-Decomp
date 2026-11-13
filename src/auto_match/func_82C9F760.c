@@ -1,87 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned char bRam00000000;
 extern unsigned char bRam00000001;
 extern unsigned int uStack_b4;
 
 
-void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *param_5, byte *param_6, byte *param_7, byte *param_8, int in_stack_00000054, int in_stack_0000005c, int in_stack_00000064)
+void fn_82C9F760(int param_1, unsigned char *param_2, int param_3, int param_4, unsigned char *param_5, unsigned char *param_6, unsigned char *param_7, unsigned char *param_8, int in_stack_00000054, int in_stack_0000005c, int in_stack_00000064)
 
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  byte bVar4;
-  byte bVar5;
-  byte bVar6;
-  byte bVar7;
-  byte bVar8;
-  byte bVar9;
-  byte bVar10;
-  byte bVar11;
-  byte bVar12;
-  uint uVar13;
-  uint uVar14;
-  uint uVar15;
-  byte *pbVar16;
-  byte *pbVar17;
-  byte bVar19;
-  byte *pbVar18;
-  ulonglong uVar20;
-  byte *pbVar21;
-  byte bVar22;
-  byte bVar23;
-  longlong lVar24;
-  byte bVar26;
-  byte *pbVar25;
-  byte *pbVar27;
-  byte *pbVar28;
-  byte bVar29;
-  byte bVar30;
-  byte bVar31;
-  byte bVar32;
-  byte *pbStack00000024;
-  byte *pbStack0000002c;
-  byte *pbStack0000003c;
-  byte *pbStack00000044;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned char bVar3;
+  unsigned char bVar4;
+  unsigned char bVar5;
+  unsigned char bVar6;
+  unsigned char bVar7;
+  unsigned char bVar8;
+  unsigned char bVar9;
+  unsigned char bVar10;
+  unsigned char bVar11;
+  unsigned char bVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned char *pbVar16;
+  unsigned char *pbVar17;
+  unsigned char bVar19;
+  unsigned char *pbVar18;
+  unsigned __int64 uVar20;
+  unsigned char *pbVar21;
+  unsigned char bVar22;
+  unsigned char bVar23;
+  __int64 lVar24;
+  unsigned char bVar26;
+  unsigned char *pbVar25;
+  unsigned char *pbVar27;
+  unsigned char *pbVar28;
+  unsigned char bVar29;
+  unsigned char bVar30;
+  unsigned char bVar31;
+  unsigned char bVar32;
+  unsigned char *pbStack00000024;
+  unsigned char *pbStack0000002c;
+  unsigned char *pbStack0000003c;
+  unsigned char *pbStack00000044;
 
 
 
-  byte *pbStack_dc;
-  uint uStack_b4;
+  unsigned char *pbStack_dc;
+  unsigned int uStack_b4;
   
-  uVar13 = *(uint *)(param_1 + 0x88);
+  uVar13 = *(unsigned int *)(param_1 + 0x88);
   uVar15 = uVar13 + 1 >> 1;
   pbVar16 = param_5 + uVar15;
   uVar14 = (int)uVar13 >> 2;
   pbStack_dc = param_2;
   if (in_stack_00000064 != 0) {
-    lVar24 = (longlong)(int)uVar14;
+    lVar24 = (__int64)(int)uVar14;
     in_stack_00000054 = 1;
     if (0 < lVar24) {
       do {
@@ -107,7 +81,7 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
         *pbVar16 = bVar2 & 0xc0 |
                    (char)bVar29 >> 2 & 0x30U | (char)bVar19 >> 4 & 0xcU | (char)bVar26 >> 6 & 3U;
         *param_2 = (((bVar2 & 0xfc) << 2 | bVar29 & 0xf) & 0x3c) << 2 |
-                   (byte)((int)(bVar26 & 0xc) >> 2) | bVar19 & 0xc;
+                   (unsigned char)((int)(bVar26 & 0xc) >> 2) | bVar19 & 0xc;
         bVar26 = param_8[0x10];
         param_5[1] = bVar4 & 0xc0 |
                      (char)bVar22 >> 6 & 3U | (char)bVar32 >> 4 & 0xcU | (char)bVar30 >> 2 & 0x30U;
@@ -118,7 +92,7 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
                      (char)bVar1 >> 2 & 0x30U | (char)bVar31 >> 4 & 0xcU | (char)bVar23 >> 6 & 3U;
         bVar30 = param_8[5];
         param_2[1] = (((bVar3 & 0xfc) << 2 | bVar1 & 0xf) & 0x3c) << 2 |
-                     (byte)((int)(bVar23 & 0xc) >> 2) | bVar31 & 0xc;
+                     (unsigned char)((int)(bVar23 & 0xc) >> 2) | bVar31 & 0xc;
         *param_6 = bVar5 & 0xc0 |
                    (char)bVar6 >> 6 & 3U | (char)bVar26 >> 4 & 0xcU | (char)bVar8 >> 2 & 0x30U;
         pbVar16 = pbVar16 + 2;
@@ -142,7 +116,7 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
       if ((uVar13 & 2) == 2) {
         bVar32 = (char)*pbVar28 >> 4 & 0xcU | (char)param_8[7] >> 6 & 3U | bVar32;
         bVar30 = (char)param_8[9] >> 6 & 3U | (char)param_8[8] >> 4 & 0xcU | bVar30;
-        bVar29 = (byte)((int)(param_8[9] & 0xc) >> 2) | param_8[8] & 0xc | bVar29;
+        bVar29 = (unsigned char)((int)(param_8[9] & 0xc) >> 2) | param_8[8] & 0xc | bVar29;
         bVar26 = (char)param_8[10] >> 2 & 0x30U | bVar26;
         bVar19 = (char)param_8[0xb] >> 2 & 0x30U | bVar19;
         pbVar28 = param_8 + 0xc;
@@ -181,9 +155,9 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
   }
   if (in_stack_00000054 < in_stack_0000005c) {
     uStack_b4 = in_stack_0000005c - in_stack_00000054;
-    uVar20 = (ulonglong)(int)uVar14;
-    pbVar28 = (byte *)(param_3 + -1);
-    pbVar27 = (byte *)(param_4 + -1);
+    uVar20 = (unsigned __int64)(int)uVar14;
+    pbVar28 = (unsigned char *)(param_3 + -1);
+    pbVar27 = (unsigned char *)(param_4 + -1);
     param_6 = param_6 + -1;
     param_7 = param_7 + -1;
     param_8 = param_8 + -1;
@@ -219,35 +193,35 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
           bVar11 = param_8[0x18];
           bVar12 = param_8[0x11];
           bRam00000000 = (((bVar1 & 0xfc) << 2 | bVar22 & 0xf) & 0x3c) << 2 |
-                         (byte)((int)(bVar30 & 0xc) >> 2) | bVar32 & 0xc;
+                         (unsigned char)((int)(bVar30 & 0xc) >> 2) | bVar32 & 0xc;
           param_5[1] = bVar4 & 0xc0 |
                        (char)bVar2 >> 2 & 0x30U | (char)bVar23 >> 4 & 0xcU | (char)bVar31 >> 6 & 3U;
           *pbStack_dc = (((bVar3 & 0xfc) << 2 | bVar29 & 0xf) & 0x3c) << 2 |
-                        (byte)((int)(bVar26 & 0xc) >> 2) | bVar19 & 0xc;
+                        (unsigned char)((int)(bVar26 & 0xc) >> 2) | bVar19 & 0xc;
           bVar26 = param_8[0x17];
           bVar19 = param_8[6];
           pbVar21 = param_5 + 2;
           bVar29 = param_8[0xc];
           bVar30 = param_8[0x12];
           pbStack00000024[1] =
-               (((bVar9 & 0xfc) << 2 | bVar10 & 0xf) & 0x3c) << 2 | (byte)((int)(bVar26 & 0xc) >> 2)
+               (((bVar9 & 0xfc) << 2 | bVar10 & 0xf) & 0x3c) << 2 | (unsigned char)((int)(bVar26 & 0xc) >> 2)
                | bVar12 & 0xc;
           pbStack0000002c[1] =
                (((bVar19 & 0xfc) << 2 | bVar29 & 0xf) & 0x3c) << 2 |
-               (byte)((int)(bVar11 & 0xc) >> 2) | bVar30 & 0xc;
+               (unsigned char)((int)(bVar11 & 0xc) >> 2) | bVar30 & 0xc;
           pbStack_dc[1] =
-               (((bVar4 & 0xfc) << 2 | bVar2 & 0xf) & 0x3c) << 2 | (byte)((int)(bVar31 & 0xc) >> 2)
+               (((bVar4 & 0xfc) << 2 | bVar2 & 0xf) & 0x3c) << 2 | (unsigned char)((int)(bVar31 & 0xc) >> 2)
                | bVar23 & 0xc;
           pbStack_dc = pbStack_dc + 2;
           bRam00000001 = (((bVar8 & 0xfc) << 2 | bVar7 & 0xf) & 0x3c) << 2 |
-                         (byte)((int)(bVar5 & 0xc) >> 2) | bVar6 & 0xc;
+                         (unsigned char)((int)(bVar5 & 0xc) >> 2) | bVar6 & 0xc;
           pbStack0000003c[1] =
                bVar9 & 0xc0 |
                (char)bVar10 >> 2 & 0x30U | (char)bVar12 >> 4 & 0xcU | (char)bVar26 >> 6 & 3U;
           param_6 = pbStack0000003c + 1;
-          pbVar16 = (byte *)0x2;
+          pbVar16 = (unsigned char *)0x2;
           pbVar28 = pbStack00000024 + 1;
-          pbVar17 = (byte *)0x2;
+          pbVar17 = (unsigned char *)0x2;
           pbVar27 = pbStack0000002c + 1;
           param_7 = pbStack00000044 + 1;
           param_8 = param_8 + 0x18;
@@ -274,9 +248,9 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
         bVar19 = (param_8[6] & 0xc) << 4;
         pbVar25 = param_8 + 6;
         if ((uVar13 & 2) == 2) {
-          bVar29 = (byte)((int)(param_8[8] & 0xc) >> 2) | param_8[7] & 0xc | bVar29;
-          bVar31 = (char)param_8[10] >> 6 & 3U | (byte)((int)(uint)param_8[9] >> 4) & 0xfc | bVar31;
-          bVar30 = (byte)((int)(param_8[10] & 0xc) >> 2) | param_8[9] & 0xc | bVar30;
+          bVar29 = (unsigned char)((int)(param_8[8] & 0xc) >> 2) | param_8[7] & 0xc | bVar29;
+          bVar31 = (char)param_8[10] >> 6 & 3U | (unsigned char)((int)(unsigned int)param_8[9] >> 4) & 0xfc | bVar31;
+          bVar30 = (unsigned char)((int)(param_8[10] & 0xc) >> 2) | param_8[9] & 0xc | bVar30;
           bVar26 = (param_8[0xb] & 0xc) << 2 | bVar26;
           bVar19 = (param_8[0xc] & 0xc) << 2 | bVar19;
           bVar32 = (char)param_8[8] >> 6 & 3U | (char)param_8[7] >> 4 & 0xcU | bVar32;
@@ -327,11 +301,11 @@ void fn_82C9F760(int param_1, byte *param_2, int param_3, int param_4, byte *par
         param_8 = pbVar25;
       }
       pbStack_dc = pbVar17;
-      uVar20 = (ulonglong)uStack_b4;
+      uVar20 = (unsigned __int64)uStack_b4;
       pbVar16 = param_5 + uVar15;
-      uStack_b4 = (uint)(uVar20 - 1);
+      uStack_b4 = (unsigned int)(uVar20 - 1);
       if (uVar20 - 1 == 0) break;
-      uVar20 = (ulonglong)uVar14;
+      uVar20 = (unsigned __int64)uVar14;
     }
   }
   return;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267B890();
 extern int fn_8267C4F0();
 extern int fn_82686CA8();
@@ -40,17 +13,17 @@ extern unsigned int uStack_34;
 extern unsigned int uStack_3c;
 
 
-ulonglong fn_8276A958(undefined8 param_1,undefined8 param_2,int *param_3,undefined8 param_4)
+unsigned __int64 fn_8276A958(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3,unsigned __int64 param_4)
 
 {
   int iVar3;
-  ulonglong uVar1;
-  ulonglong uVar2;
-  ulonglong uVar4;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar4;
   int iStack_40;
-  undefined4 uStack_3c;
+  unsigned int uStack_3c;
   int *piStack_38;
-  undefined4 uStack_34;
+  unsigned int uStack_34;
   
   fn_8276A8D0(&piStack_38,param_1,param_2,param_3);
   uVar4 = 0;
@@ -61,7 +34,7 @@ ulonglong fn_8276A958(undefined8 param_1,undefined8 param_2,int *param_3,undefin
     uVar4 = fn_82686CA8(&iStack_40);
     goto LAB_8276aa44;
   }
-  uVar1 = (**(code **)(*param_3 + 4))(param_3,param_1,param_2);
+  uVar1 = (**(int (***)())(*param_3 + 4))(param_3,param_1,param_2);
   if (uVar1 == 0) {
 LAB_8276aa14:
     fn_82687570(uStack_3c,0xffffffff82196582);
@@ -85,7 +58,7 @@ LAB_8276aa44:
     fn_8267C4F0(uStack_3c);
   }
   if (piStack_38 != (int *)0x0) {
-    (**(code **)(*piStack_38 + 8))(piStack_38,uStack_34);
+    (**(int (***)())(*piStack_38 + 8))(piStack_38,uStack_34);
   }
   return uVar4;
 }

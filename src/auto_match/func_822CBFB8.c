@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822CC748();
 extern int fn_82517978();
 extern int fn_8266F628();
@@ -33,22 +6,22 @@ extern unsigned int uStack_2c;
 extern unsigned int uStack_30;
 
 
-void fn_822CBFB8(undefined4 *param_1,byte *param_2,undefined8 param_3,undefined8 param_4,
-                  ulonglong param_5)
+void fn_822CBFB8(unsigned int *param_1,unsigned char *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5)
 
 {
   int iVar1;
-  byte *pbVar2;
-  ulonglong uVar3;
+  unsigned char *pbVar2;
+  unsigned __int64 uVar3;
   char *pcVar4;
-  byte bVar5;
-  ulonglong uVar6;
-  byte bVar7;
-  byte bVar8;
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  unsigned char bVar5;
+  unsigned __int64 uVar6;
+  unsigned char bVar7;
+  unsigned char bVar8;
+  struct { unsigned int first; unsigned int second; } stack_pair_30;
 
   
-  uVar6 = (ulonglong)*param_2;
+  uVar6 = (unsigned __int64)*param_2;
   uVar3 = 0x6d;
   if (uVar6 == 0x6d) {
     uVar6 = 0x6d;
@@ -56,8 +29,8 @@ void fn_822CBFB8(undefined4 *param_1,byte *param_2,undefined8 param_3,undefined8
     do {
       pbVar2 = pbVar2 + 1;
       if (uVar6 == 0) goto LAB_822cc01c;
-      param_5 = (ulonglong)pbVar2[(int)"markerIsDirty" - (int)param_2];
-      uVar6 = (ulonglong)*pbVar2;
+      param_5 = (unsigned __int64)pbVar2[(int)"markerIsDirty" - (int)param_2];
+      uVar6 = (unsigned __int64)*pbVar2;
       uVar3 = param_5;
     } while (uVar6 == param_5);
   }

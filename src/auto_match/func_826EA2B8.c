@@ -1,6 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned int undefined4;
-
 extern int fn_8267C4C8(unsigned int p);
 extern int fn_8267C4F0(unsigned int p);
 extern int fn_826EA040();

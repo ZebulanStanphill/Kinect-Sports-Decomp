@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack00000054;
 extern unsigned int fStack00000074;
 extern unsigned int fStack0000007c;
@@ -52,19 +25,19 @@ extern unsigned int uStack0000006c;
 extern unsigned int uStack_20;
 
 
-void fn_823913F0(double param_1,double param_2,double param_3,int param_4,undefined8 param_5,
-                  undefined4 param_6,undefined4 param_7,undefined4 param_8)
+void fn_823913F0(double param_1,double param_2,double param_3,int param_4,unsigned __int64 param_5,
+                  unsigned int param_6,unsigned int param_7,unsigned int param_8)
 
 {
   int iVar2;
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   float fStack00000054;
-  undefined4 uStack0000005c;
-  undefined4 uStack00000064;
-  undefined4 uStack0000006c;
+  unsigned int uStack0000005c;
+  unsigned int uStack00000064;
+  unsigned int uStack0000006c;
   float fStack00000074;
   float fStack0000007c;
-  struct { undefined4 first; int second; } stack_pair_20;
+  struct { unsigned int first; int second; } stack_pair_20;
 
   
   fStack00000054 = (float)param_1;
@@ -83,23 +56,23 @@ void fn_823913F0(double param_1,double param_2,double param_3,int param_4,undefi
   stack_pair_20.first = 0;
   stack_pair_20.second = 0;
   fn_822D79D8(&stack_pair_20.first,uVar1);
-  (**(code **)(**(int **)(param_4 + 0x68) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x68) + 0x10))
             (*(int **)(param_4 + 0x68),stack_pair_20.first,&stack0x00000020);
-  (**(code **)(**(int **)(param_4 + 0x70) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x70) + 0x10))
             (*(int **)(param_4 + 0x70),stack_pair_20.first,&stack0x00000030);
-  (**(code **)(**(int **)(param_4 + 0x78) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x78) + 0x10))
             (*(int **)(param_4 + 0x78),stack_pair_20.first,&stack0x00000040);
-  (**(code **)(**(int **)(param_4 + 0x80) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x80) + 0x10))
             (*(int **)(param_4 + 0x80),stack_pair_20.first,&stack0x00000054);
-  (**(code **)(**(int **)(param_4 + 0x88) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x88) + 0x10))
             (*(int **)(param_4 + 0x88),stack_pair_20.first,&stack0x0000005c);
-  (**(code **)(**(int **)(param_4 + 0x90) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x90) + 0x10))
             (*(int **)(param_4 + 0x90),stack_pair_20.first,&stack0x00000064);
-  (**(code **)(**(int **)(param_4 + 0x98) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0x98) + 0x10))
             (*(int **)(param_4 + 0x98),stack_pair_20.first,&stack0x0000006c);
-  (**(code **)(**(int **)(param_4 + 0xa0) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0xa0) + 0x10))
             (*(int **)(param_4 + 0xa0),stack_pair_20.first,&stack0x00000074);
-  (**(code **)(**(int **)(param_4 + 0xa8) + 0x10))
+  (**(int (***)())(**(int **)(param_4 + 0xa8) + 0x10))
             (*(int **)(param_4 + 0xa8),stack_pair_20.first,&stack0x0000007c);
   if (*(int *)(param_4 + 0x48) != 0) {
     fn_828E9D90(stack_pair_20.first);

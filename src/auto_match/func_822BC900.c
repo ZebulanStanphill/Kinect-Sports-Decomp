@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822B7068();
 extern int fn_822C72E0();
 extern int fn_8234C320();
@@ -32,12 +5,12 @@ extern int fn_825275B0();
 extern unsigned int ltcg_pool_0_0f;
 
 
-void fn_822BC900(int param_1,undefined8 param_2,int param_3)
+void fn_822BC900(int param_1,unsigned __int64 param_2,int param_3)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
-  byte bVar3;
+  unsigned char bVar3;
   int iVar4;
   int iVar5;
   double dVar6;
@@ -45,8 +18,8 @@ void fn_822BC900(int param_1,undefined8 param_2,int param_3)
   iVar5 = param_3 * 0x40 + param_1;
   dVar6 = (double)ltcg_pool_0_0f;
   *(float *)(iVar5 + 0x1ac) = ltcg_pool_0_0f;
-  *(undefined4 *)(iVar5 + 0x1a0) = 0;
-  *(undefined4 *)(iVar5 + 0x1b0) = 0;
+  *(unsigned int *)(iVar5 + 0x1a0) = 0;
+  *(unsigned int *)(iVar5 + 0x1b0) = 0;
   iVar4 = *(int *)(param_1 + 0x24);
   bVar3 = -(*(int *)(**(int **)(param_1 + 0x238) + 0xc4c) != 0) & 3;
   if (((bVar3 < 3) || (*(int *)(*(int *)(param_1 + 0x23c) + 0x13c) == 0)) ||
@@ -64,7 +37,7 @@ void fn_822BC900(int param_1,undefined8 param_2,int param_3)
       else {
         uVar1 = 0xffffffff821acae4;
       }
-      fn_822C72E0(*(undefined4 *)(*(int *)(param_1 + 0x114) + 0x20),uVar1);
+      fn_822C72E0(*(unsigned int *)(*(int *)(param_1 + 0x114) + 0x20),uVar1);
     }
     goto LAB_822bc9d4;
   }
@@ -72,8 +45,8 @@ void fn_822BC900(int param_1,undefined8 param_2,int param_3)
 LAB_822bc9d4:
   if (iVar4 != 0) {
     iVar4 = param_3 * 0x1c10 + iVar4;
-    *(undefined4 *)(iVar4 + 0x398) = *(undefined4 *)(iVar5 + 0x1ac);
-    *(undefined4 *)(iVar4 + 0x394) = 0;
+    *(unsigned int *)(iVar4 + 0x398) = *(unsigned int *)(iVar5 + 0x1ac);
+    *(unsigned int *)(iVar4 + 0x394) = 0;
   }
   iVar4 = *(int *)(param_1 + 0x118);
   if (param_3 == 1) {

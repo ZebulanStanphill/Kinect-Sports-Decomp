@@ -1,8 +1,7 @@
-typedef unsigned char U8; typedef unsigned short U16;
-typedef struct { U8 a[5]; U8 b; U8 c[2]; } Data;
+typedef struct { unsigned char a[5]; unsigned char b; unsigned char c[2]; } Data;
 typedef struct { int tag; Data d; } Entry;
 typedef struct { unsigned count; Entry *heap; int pad[2]; Entry inl[16]; } Arr;
-typedef struct { char p0[5]; U8 key; char p6[2]; U16 idx; char pa[6]; int sel; char p14[0x10]; Arr arr; } Obj;
+typedef struct { char p0[5]; unsigned char key; char p6[2]; unsigned short idx; char pa[6]; int sel; char p14[0x10]; Arr arr; } Obj;
 int fn_826F06A8(Obj *o)
 {
   unsigned i = o->idx;

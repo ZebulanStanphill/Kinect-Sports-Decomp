@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_40;
 extern unsigned int fStack_44;
 extern unsigned int fStack_48;
@@ -38,25 +11,25 @@ extern unsigned int lbl_83156DF1;
 extern unsigned int lbl_83156DF2;
 
 
-void fn_8280F490(double param_1,double param_2,double param_3,uint param_4)
+void fn_8280F490(double param_1,double param_2,double param_3,unsigned int param_4)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   double dVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  undefined8 uVar7;
+  unsigned __int64 uVar7;
   int in_r7;
   int iVar8;
   float *pfVar9;
   double dVar10;
-  undefined8 uVar11;
-  undefined8 uVar12;
-  undefined8 extraout_f1;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  unsigned __int64 extraout_f1;
   double dVar13;
-  undefined8 uVar14;
+  unsigned __int64 uVar14;
   double dVar15;
   float fStack_50;
   float fStack_4c;
@@ -90,23 +63,23 @@ void fn_8280F490(double param_1,double param_2,double param_3,uint param_4)
   bVar1 = (&lbl_83156DF1)[iVar8];
   fStack_40 = fStack_40 * afStack_3c[0];
   bVar2 = (&lbl_83156DF2)[iVar8];
-  pfVar9 = (float *)((uint)bVar1 * 4 + in_r7);
+  pfVar9 = (float *)((unsigned int)bVar1 * 4 + in_r7);
   if ((param_4 & 8) == 0) {
-    *(float *)((uint)(byte)(&lbl_83156DF0)[iVar8] * 4 + in_r7) =
+    *(float *)((unsigned int)(unsigned char)(&lbl_83156DF0)[iVar8] * 4 + in_r7) =
          fStack_48 * fStack_4c - fStack_44 * fStack_50;
     fVar6 = fStack_40 * fStack_4c + fVar4 * fStack_50;
     fVar5 = fStack_44 * fStack_4c - fStack_48 * fStack_50;
     fStack_4c = fStack_40 * fStack_50 + fVar4 * fStack_4c;
   }
   else {
-    *(float *)((uint)(byte)(&lbl_83156DF0)[iVar8] * 4 + in_r7) = (fStack_48 + fStack_44) * fStack_4c
+    *(float *)((unsigned int)(unsigned char)(&lbl_83156DF0)[iVar8] * 4 + in_r7) = (fStack_48 + fStack_44) * fStack_4c
     ;
     fVar6 = (fStack_40 + fVar4) * fStack_50;
     fVar5 = (fStack_44 - fStack_48) * fStack_50;
     fStack_4c = (fVar4 - fStack_40) * fStack_4c;
   }
-  *(float *)((uint)bVar1 * 4 + in_r7) = fVar6;
-  *(float *)((uint)bVar2 * 4 + in_r7) = fVar5;
+  *(float *)((unsigned int)bVar1 * 4 + in_r7) = fVar6;
+  *(float *)((unsigned int)bVar2 * 4 + in_r7) = fVar5;
   *(float *)(in_r7 + 0xc) = fStack_4c;
   if ((param_4 & 4) != 0) {
     *pfVar9 = -*pfVar9;

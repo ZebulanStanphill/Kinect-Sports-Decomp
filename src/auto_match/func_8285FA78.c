@@ -1,23 +1,20 @@
-typedef unsigned char byte;
-typedef unsigned short ushort;
-typedef unsigned int uint;
 typedef struct Node { char pad[0x44]; struct Node *child; } Node;
-extern void *fn_82862338(Node *,void *,uint);
+extern void *fn_82862338(Node *,void *,unsigned int);
 extern void *fn_82862150(void *,void *);
-void fn_8285FA78(Node *self,void *context,byte **out)
+void fn_8285FA78(Node *self,void *context,unsigned char **out)
 {
   Node *node=self->child;
   if (node) {
-    uint i=0;
-    byte *p=*out;
-    if (*(uint *)((char *)node+0x44)>0) {
+    unsigned int i=0;
+    unsigned char *p=*out;
+    if (*(unsigned int *)((char *)node+0x44)>0) {
       do {
         void *item=fn_82862338(node,context,i);
         void *value=fn_82862150(item,context);
         i++;
-        *p=~((0x100 >> *(ushort *)((char *)value+8)) + 0xff);
+        *p=~((0x100 >> *(unsigned short *)((char *)value+8)) + 0xff);
         p++;
-      } while(i < *(uint *)((char *)node+0x44));
+      } while(i < *(unsigned int *)((char *)node+0x44));
     }
     *out=p;
   }

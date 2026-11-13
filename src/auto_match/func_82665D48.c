@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_28;
 extern int fn_82667720();
 extern int fn_8266C340();
@@ -38,30 +11,30 @@ extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
 
 
-undefined8 fn_82665D48(char *param_1,undefined2 *param_2)
+unsigned __int64 fn_82665D48(char *param_1,unsigned short *param_2)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
   char *pcStack00000014;
-  undefined2 *puStack0000001c;
-  undefined2 auStack_28 [2];
-  undefined2 *puStack_24;
-  undefined4 uStack_20;
-  uint uStack_1c;
-  uint uStack_18;
-  undefined2 *puStack_14;
-  undefined2 *puStack_10;
-  undefined2 *puStack_c;
+  unsigned short *puStack0000001c;
+  unsigned short auStack_28 [2];
+  unsigned short *puStack_24;
+  unsigned int uStack_20;
+  unsigned int uStack_1c;
+  unsigned int uStack_18;
+  unsigned short *puStack_14;
+  unsigned short *puStack_10;
+  unsigned short *puStack_c;
   
   pcStack00000014 = param_1;
   puStack0000001c = param_2;
-  if ((param_1 == (char *)0x0) || (param_2 == (undefined2 *)0x0)) {
+  if ((param_1 == (char *)0x0) || (param_2 == (unsigned short *)0x0)) {
     fn_8266C340(0xffffffff820015c0,0xffffffff82001e74,1000,0xffffffff82002690);
   }
-  if ((pcStack00000014 == (char *)0x0) || (puStack0000001c == (undefined2 *)0x0)) {
+  if ((pcStack00000014 == (char *)0x0) || (puStack0000001c == (unsigned short *)0x0)) {
     thunk_FUN_82a2b748(0x57);
     uVar1 = 0;
   }

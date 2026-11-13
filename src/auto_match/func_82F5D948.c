@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_120;
 extern unsigned int *auStack_d0;
 extern int fn_824B4288();
@@ -45,23 +18,23 @@ extern unsigned int uStack_110;
 extern unsigned int uStack_118;
 
 
-void fn_82F5D948(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4)
+void fn_82F5D948(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
 
 {
-  longlong lVar1;
-  longlong lVar2;
+  __int64 lVar1;
+  __int64 lVar2;
   int iVar3;
   int iVar4;
   int iVar5;
   int iVar6;
-  byte *pbVar7;
-  undefined1 auStack_120 [4];
+  unsigned char *pbVar7;
+  unsigned char auStack_120 [4];
   int iStack_11c;
-  ulonglong uStack_118;
-  ulonglong uStack_110;
-  ulonglong uStack_108;
-  longlong lStack_100;
-  undefined1 auStack_d0 [24];
+  unsigned __int64 uStack_118;
+  unsigned __int64 uStack_110;
+  unsigned __int64 uStack_108;
+  __int64 lStack_100;
+  unsigned char auStack_d0 [24];
   int iStack_b8;
   int iStack_b4;
   
@@ -72,7 +45,7 @@ void fn_82F5D948(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
     fn_8263C7D8(param_2,0,auStack_120,0,0);
     if (iStack_b4 != 0) {
       iVar3 = 0;
-      lVar2 = (ulonglong)(iStack_b4 - 1) / 6 + 1;
+      lVar2 = (unsigned __int64)(iStack_b4 - 1) / 6 + 1;
       do {
         iVar4 = 0;
         if (iStack_b8 != 0) {
@@ -80,11 +53,11 @@ void fn_82F5D948(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
           do {
             iVar6 = iVar3 + iVar4;
             iVar4 = iVar4 + 6;
-            pbVar7 = (byte *)(iVar6 * 4 + iStack_11c);
-            uStack_118 = (ulonglong)pbVar7[2];
-            uStack_110 = (ulonglong)*pbVar7;
-            uStack_108 = (ulonglong)pbVar7[1];
-            lStack_100 = (longlong)
+            pbVar7 = (unsigned char *)(iVar6 * 4 + iStack_11c);
+            uStack_118 = (unsigned __int64)pbVar7[2];
+            uStack_110 = (unsigned __int64)*pbVar7;
+            uStack_108 = (unsigned __int64)pbVar7[1];
+            lStack_100 = (__int64)
                          (((float)uStack_110 * lbl_82005328 * lbl_820AA96C +
                           (float)uStack_118 * lbl_82005328 * lbl_82186E74 +
                           (float)uStack_108 * lbl_82005328 * lbl_8208DE08) * lbl_82005CCC);

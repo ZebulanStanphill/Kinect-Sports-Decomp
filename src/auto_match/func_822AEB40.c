@@ -1,48 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_430;
 extern int memcpy();
 
 
-void fn_822AEB40(longlong param_1,ulonglong param_2,undefined8 param_3,int *param_4,int *param_5,
-                  int *param_6,undefined4 *param_7,undefined4 *param_8)
+void fn_822AEB40(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4,int *param_5,
+                  int *param_6,unsigned int *param_7,unsigned int *param_8)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
-  undefined4 uVar3;
-  ulonglong uVar4;
-  undefined4 *in_stack_00000054;
-  undefined1 auStack_430 [976];
+  unsigned int uVar3;
+  unsigned __int64 uVar4;
+  unsigned int *in_stack_00000054;
+  unsigned char auStack_430 [976];
   
   iVar2 = (int)param_1;
-  uVar1 = *(uint *)((int)((param_2 + 0x236d & 0xffffffff) << 2) + iVar2);
-  uVar4 = (ulonglong)uVar1;
+  uVar1 = *(unsigned int *)((int)((param_2 + 0x236d & 0xffffffff) << 2) + iVar2);
+  uVar4 = (unsigned __int64)uVar1;
   if (uVar1 == 0xffffffff) {
     uVar4 = param_2;
   }
@@ -58,8 +31,8 @@ void fn_822AEB40(longlong param_1,ulonglong param_2,undefined8 param_3,int *para
   uVar3 = 1;
 code_r0x822aec08:
   *param_7 = uVar3;
-  *param_8 = *(undefined4 *)((int)((uVar4 + 8999 & 0xffffffff) << 2) + iVar2);
-  *in_stack_00000054 = *(undefined4 *)((int)((uVar4 + 0x234a & 0xffffffff) << 2) + iVar2);
+  *param_8 = *(unsigned int *)((int)((uVar4 + 8999 & 0xffffffff) << 2) + iVar2);
+  *in_stack_00000054 = *(unsigned int *)((int)((uVar4 + 0x234a & 0xffffffff) << 2) + iVar2);
   return;
 }
 

@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8315D3D8;
 
 
-ulonglong fn_82A364F0(uint param_1,byte *param_2,longlong param_3,byte *param_4,int param_5)
+unsigned __int64 fn_82A364F0(unsigned int param_1,unsigned char *param_2,__int64 param_3,unsigned char *param_4,int param_5)
 
 {
-  byte bVar1;
-  byte bVar2;
-  uint uVar4;
-  ulonglong uVar3;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned int uVar4;
+  unsigned __int64 uVar3;
   int iVar5;
-  uint uVar6;
-  uint uVar7;
+  unsigned int uVar6;
+  unsigned int uVar7;
   
   uVar4 = 0;
-  if ((((param_2 == (byte *)0x0) || (param_4 == (byte *)0x0)) || (iVar5 = (int)param_3, iVar5 < -1))
+  if ((((param_2 == (unsigned char *)0x0) || (param_4 == (unsigned char *)0x0)) || (iVar5 = (int)param_3, iVar5 < -1))
      || (param_5 < -1)) {
     thunk_FUN_82a2b748(0x57);
     uVar3 = 0;
@@ -60,8 +33,8 @@ ulonglong fn_82A364F0(uint param_1,byte *param_2,longlong param_3,byte *param_4,
       if (bVar2 == 0) {
         return 3;
       }
-      uVar6 = *(uint *)(&lbl_8315D3D8 + (uint)bVar1 * 4);
-      uVar7 = *(uint *)(&lbl_8315D3D8 + (uint)bVar2 * 4);
+      uVar6 = *(unsigned int *)(&lbl_8315D3D8 + (unsigned int)bVar1 * 4);
+      uVar7 = *(unsigned int *)(&lbl_8315D3D8 + (unsigned int)bVar2 * 4);
       if ((~param_1 >> 0xc & 1) == 0) {
 LAB_82a365f4:
         if ((param_1 & 4) == 0) {
@@ -122,11 +95,11 @@ LAB_82a3660c:
     }
     if (param_5 == 0) {
 LAB_82a36668:
-      uVar3 = (ulonglong)*(uint *)(uVar4 * 4 + -0x7cea2828);
+      uVar3 = (unsigned __int64)*(unsigned int *)(uVar4 * 4 + -0x7cea2828);
     }
     else {
 LAB_82a3669c:
-      uVar3 = (-(ulonglong)(param_3 != 0) & 0xfffffffe) + 3;
+      uVar3 = (-(unsigned __int64)(param_3 != 0) & 0xfffffffe) + 3;
     }
   }
   return uVar3;

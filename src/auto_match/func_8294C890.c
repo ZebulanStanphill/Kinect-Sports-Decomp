@@ -1,31 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_8294AC48();
 extern int fn_829632A0();
 extern int fn_829632F0();
@@ -41,10 +17,10 @@ extern unsigned int stack0x00000000;
 
 /* WARNING: Removing unreachable block (ram,0x8294cec8) */
 
-longlong fn_8294C890(int param_1,int *param_2,undefined8 param_3,undefined4 *param_4)
+__int64 fn_8294C890(int param_1,int *param_2,unsigned __int64 param_3,unsigned int *param_4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
@@ -54,24 +30,24 @@ longlong fn_8294C890(int param_1,int *param_2,undefined8 param_3,undefined4 *par
   int iVar8;
   int iVar9;
   int iVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
-  longlong lVar13;
-  longlong lVar14;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
+  __int64 lVar13;
+  __int64 lVar14;
   bool bVar15;
   bool bVar16;
   bool bVar17;
   bool bVar18;
-  ulonglong uVar19;
-  longlong lVar20;
+  unsigned __int64 uVar19;
+  __int64 lVar20;
   int iVar21;
   int iVar22;
   int iVar23;
-  ulonglong uVar24;
-  longlong lVar25;
+  unsigned __int64 uVar24;
+  __int64 lVar25;
   int iVar26;
-  ulonglong uVar27;
-  ulonglong uVar28;
+  unsigned __int64 uVar27;
+  unsigned __int64 uVar28;
   int aiStack_170 [4];
   int aiStack_160 [4];
   int aiStack_150 [4];
@@ -79,8 +55,8 @@ longlong fn_8294C890(int param_1,int *param_2,undefined8 param_3,undefined4 *par
   
   uVar19 = ZEXT48(&stack0x00000000);
   iVar22 = 0;
-  uVar1 = **(uint **)(param_1 + 0x104);
-  uVar12 = (ulonglong)uVar1;
+  uVar1 = **(unsigned int **)(param_1 + 0x104);
+  uVar12 = (unsigned __int64)uVar1;
   uVar11 = uVar12 & 0xfffff;
   if ((uVar1 & 0xfff00000) != 0x30000000) {
     return 1;
@@ -92,7 +68,7 @@ longlong fn_8294C890(int param_1,int *param_2,undefined8 param_3,undefined4 *par
   lVar20 = 0;
   if ((uVar1 & 0xfffff) == 0) {
 LAB_8294cb54:
-    lVar20 = fn_8294AC48(param_1,*(undefined4 *)(param_1 + 0x104),0xffffffff82035ff0,uVar19 - 0xd0
+    lVar20 = fn_8294AC48(param_1,*(unsigned int *)(param_1 + 0x104),0xffffffff82035ff0,uVar19 - 0xd0
                            ,uVar19 - 400,uVar19 - 0x170,uVar19 - 0x180,uVar11);
     if (lVar20 != 0) {
       return lVar20;
@@ -121,7 +97,7 @@ LAB_8294cb54:
             iVar10 = *(int *)(iVar8 * 4 + iVar23);
             if ((((iVar21 == iVar8) || (iVar2 = *(int *)(iVar10 + 0x38), iVar2 == iVar5)) ||
                 ((iVar21 != -1 && (iVar21 == iVar2)))) &&
-               (((*(uint *)(iVar9 + 0x3c) ^ 0x80000) == *(uint *)(iVar10 + 0x3c) && (iVar3 == iVar4)
+               (((*(unsigned int *)(iVar9 + 0x3c) ^ 0x80000) == *(unsigned int *)(iVar10 + 0x3c) && (iVar3 == iVar4)
                 ))) {
               bVar15 = true;
 LAB_8294ccfc:
@@ -132,10 +108,10 @@ LAB_8294ccfc:
                  (((((iVar21 = *(int *)(iVar6 + 0x38), iVar21 != iVar4 &&
                      (*(int *)(iVar7 + 0x38) != iVar3)) &&
                     ((iVar21 == -1 || (iVar21 != *(int *)(iVar7 + 0x38))))) ||
-                   ((*(uint *)(iVar6 + 0x3c) ^ 0x80000) != *(uint *)(iVar7 + 0x3c))) &&
-                  ((((*(uint *)(*(int *)(*(int *)(iVar6 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) &
+                   ((*(unsigned int *)(iVar6 + 0x3c) ^ 0x80000) != *(unsigned int *)(iVar7 + 0x3c))) &&
+                  ((((*(unsigned int *)(*(int *)(*(int *)(iVar6 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) &
                      0x100) == 0 ||
-                    ((*(uint *)(*(int *)(*(int *)(iVar7 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) &
+                    ((*(unsigned int *)(*(int *)(*(int *)(iVar7 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) &
                      0x100) == 0)) || (*(double *)(iVar7 + 0x20) != -*(double *)(iVar6 + 0x20)))))))
               {
                 bVar15 = false;
@@ -181,14 +157,14 @@ LAB_8294cdc0:
               if (lVar20 < 0) goto LAB_8294cd58;
             }
           }
-          lVar20 = fn_829632F0(iVar22,*(undefined4 *)(param_1 + 0x104));
+          lVar20 = fn_829632F0(iVar22,*(unsigned int *)(param_1 + 0x104));
           if (lVar20 < 0) goto LAB_8294cd58;
           lVar13 = (uVar12 & 0xfffff) * 4;
-          memcpy(*(undefined4 *)(iVar22 + 0x10),
-                       *(undefined4 *)(*(int *)(param_1 + 0x104) + 0x10),lVar13);
-          memcpy(*(undefined4 *)(iVar22 + 8),(uVar28 & 0xfffffff) * 0x10 + (uVar19 - 0x170),
+          memcpy(*(unsigned int *)(iVar22 + 0x10),
+                       *(unsigned int *)(*(int *)(param_1 + 0x104) + 0x10),lVar13);
+          memcpy(*(unsigned int *)(iVar22 + 8),(uVar28 & 0xfffffff) * 0x10 + (uVar19 - 0x170),
                        lVar13);
-          memcpy(lVar13 + (ulonglong)*(uint *)(iVar22 + 8),
+          memcpy(lVar13 + (unsigned __int64)*(unsigned int *)(iVar22 + 8),
                        (uVar19 - 0x160) + (uVar28 & 0xfffffff) * -0x10,lVar13);
           iVar21 = *(int *)(param_1 + 0x14);
           iVar23 = *(int *)(**(int **)(iVar22 + 8) * 4 + iVar21);
@@ -229,7 +205,7 @@ LAB_8294cd58:
       iVar23 = *(int *)(*(int *)(param_1 + 0x104) + 8);
       iVar26 = *(int *)(*(int *)(iVar23 + (int)lVar25) * 4 + *(int *)(param_1 + 0x14));
       iVar23 = *(int *)(*(int *)(iVar3 + iVar23) * 4 + *(int *)(param_1 + 0x14));
-      if (((((*(uint *)(*(int *)(*(int *)(iVar26 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x100)
+      if (((((*(unsigned int *)(*(int *)(*(int *)(iVar26 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x100)
              == 0) || (*(double *)(iVar26 + 0x20) != lbl_82005710)) || (*(int *)(iVar26 + 8) != -1))
          || (iVar26 = *(int *)(*(int *)(param_1 + 0x104) + 8),
             *(int *)(iVar26 + iVar3) != *(int *)(iVar26 + iVar21))) {
@@ -238,7 +214,7 @@ LAB_8294cd58:
       else {
         bVar15 = true;
       }
-      if ((((*(uint *)(*(int *)(*(int *)(iVar23 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x100)
+      if ((((*(unsigned int *)(*(int *)(*(int *)(iVar23 + 4) * 4 + *(int *)(param_1 + 0x10)) + 4) & 0x100)
             == 0) || (*(double *)(iVar23 + 0x20) != lbl_82005710)) ||
          ((*(int *)(iVar23 + 8) != -1 ||
           (iVar23 = *(int *)(*(int *)(param_1 + 0x104) + 8),
@@ -277,20 +253,20 @@ LAB_8294cd58:
 LAB_8294caa4:
         lVar20 = fn_82963A30(iVar22,uVar19 & 0xfff00000 | uVar11,lVar14,uVar11,0);
         if ((-1 < lVar20) &&
-           (lVar20 = fn_829632F0(iVar22,*(undefined4 *)(param_1 + 0x104)), -1 < lVar20)) {
-          memcpy(*(undefined4 *)(iVar22 + 0x10),
-                       *(undefined4 *)(*(int *)(param_1 + 0x104) + 0x10),lVar13);
-          memcpy(*(undefined4 *)(iVar22 + 8),*(undefined4 *)(*(int *)(param_1 + 0x104) + 8),
+           (lVar20 = fn_829632F0(iVar22,*(unsigned int *)(param_1 + 0x104)), -1 < lVar20)) {
+          memcpy(*(unsigned int *)(iVar22 + 0x10),
+                       *(unsigned int *)(*(int *)(param_1 + 0x104) + 0x10),lVar13);
+          memcpy(*(unsigned int *)(iVar22 + 8),*(unsigned int *)(*(int *)(param_1 + 0x104) + 8),
                        lVar13);
           if (bVar15) {
-            lVar20 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x104) + 8) + lVar13;
+            lVar20 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x104) + 8) + lVar13;
           }
           else {
-            lVar20 = (uVar12 & 0xfffff) * 8 + (ulonglong)*(uint *)(*(int *)(param_1 + 0x104) + 8);
+            lVar20 = (uVar12 & 0xfffff) * 8 + (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x104) + 8);
           }
-          memcpy(lVar13 + (ulonglong)*(uint *)(iVar22 + 8),lVar20,lVar13);
+          memcpy(lVar13 + (unsigned __int64)*(unsigned int *)(iVar22 + 8),lVar20,lVar13);
 code_r0x8294cb34:
-          lVar20 = fn_82963D50(*(undefined4 *)
+          lVar20 = fn_82963D50(*(unsigned int *)
                                       (*(int *)(param_1 + 0x100) * 4 + *(int *)(param_1 + 0x18)),
                                      iVar22);
         }

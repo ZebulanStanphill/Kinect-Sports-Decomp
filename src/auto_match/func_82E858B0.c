@@ -1,43 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8215F560;
 extern unsigned int lbl_8215F5C0;
 extern unsigned int lbl_831B5DF8;
 
 
-longlong fn_82E858B0(int param_1,uint param_2,uint param_3)
+__int64 fn_82E858B0(int param_1,unsigned int param_2,unsigned int param_3)
 
 {
-  undefined *puVar1;
+  unsigned char *puVar1;
   int iVar2;
   
   if (*(int *)(param_1 + 0x7b38) != 0) {
-    return (longlong)(int)(uint)(byte)(&lbl_831B5DF8)[param_2] * (longlong)(int)(param_3 & 0xffff) *
+    return (__int64)(int)(unsigned int)(unsigned char)(&lbl_831B5DF8)[param_2] * (__int64)(int)(param_3 & 0xffff) *
            2;
   }
   iVar2 = (param_2 ^ (int)param_2 >> 0x1f) - ((int)param_2 >> 0x1f);
@@ -53,6 +26,6 @@ longlong fn_82E858B0(int param_1,uint param_2,uint param_3)
     }
     puVar1 = &lbl_8215F560;
   }
-  return (longlong)(int)(param_3 & 0xffff) * (longlong)(int)(uint)(byte)puVar1[iVar2] * 2;
+  return (__int64)(int)(param_3 & 0xffff) * (__int64)(int)(unsigned int)(unsigned char)puVar1[iVar2] * 2;
 }
 

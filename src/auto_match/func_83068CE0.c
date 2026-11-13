@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_88;
 extern unsigned int *auStack_a4;
 extern unsigned int *auStack_c0;
@@ -46,13 +21,13 @@ extern unsigned int lbl_8200533C;
 extern unsigned int lbl_821AAD20;
 
 
-bool fn_83068CE0(int *param_1,undefined8 param_2,float *param_3,undefined8 param_4)
+bool fn_83068CE0(int *param_1,unsigned __int64 param_2,float *param_3,unsigned __int64 param_4)
 
 {
   int iVar1;
-  longlong lVar2;
-  longlong lVar3;
-  undefined1 *puVar4;
+  __int64 lVar2;
+  __int64 lVar3;
+  unsigned char *puVar4;
   int iVar5;
   int iVar6;
   float *pfVar7;
@@ -68,14 +43,14 @@ bool fn_83068CE0(int *param_1,undefined8 param_2,float *param_3,undefined8 param
   float fStack_104;
   float fStack_100;
   float fStack_fc;
-  longlong lStack_f0;
-  longlong lStack_e8;
-  longlong lStack_e0;
-  longlong lStack_d8;
+  __int64 lStack_f0;
+  __int64 lStack_e8;
+  __int64 lStack_e0;
+  __int64 lStack_d8;
   float afStack_d0 [4];
-  undefined1 auStack_c0 [28];
-  undefined1 auStack_a4 [28];
-  undefined1 auStack_88 [56];
+  unsigned char auStack_c0 [28];
+  unsigned char auStack_a4 [28];
+  unsigned char auStack_88 [56];
   
   fn_83067128(&stack_pair_110.first);
   for (iVar5 = *param_1; iVar5 != 0; iVar5 = *(int *)(iVar5 + 4)) {
@@ -115,14 +90,14 @@ LAB_83068e78:
       if ((iVar8 == 0) || (iVar6 == 0)) goto LAB_83068e78;
       acStack_120[iVar5] = '\x01';
       if (iVar8 < iVar6) {
-        lVar3 = (longlong)iVar8;
-        lVar2 = (longlong)iVar6;
+        lVar3 = (__int64)iVar8;
+        lVar2 = (__int64)iVar6;
         lStack_f0 = lVar3;
         lStack_e8 = lVar2;
       }
       else {
-        lVar3 = (longlong)iVar6;
-        lVar2 = (longlong)iVar8;
+        lVar3 = (__int64)iVar6;
+        lVar2 = (__int64)iVar8;
         lStack_e0 = lVar2;
         lStack_d8 = lVar3;
       }

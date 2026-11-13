@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_90;
 extern unsigned int fStack_3c;
@@ -50,13 +23,13 @@ extern unsigned int uStack_74;
 extern unsigned int uStack_78;
 
 
-void fn_827618C8(undefined8 param_1,float *param_2)
+void fn_827618C8(unsigned __int64 param_1,float *param_2)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
-  uint uVar4;
+  unsigned int uVar4;
   double dVar5;
   double dVar6;
   double dVar7;
@@ -74,17 +47,17 @@ void fn_827618C8(undefined8 param_1,float *param_2)
   float fStack_a8;
   float fStack_a4;
   char cStack_a0;
-  undefined1 auStack_90 [4];
-  byte *pbStack_8c;
-  uint uStack_78;
-  uint uStack_74;
-  undefined1 auStack_60 [4];
-  uint uStack_5c;
-  uint uStack_58;
+  unsigned char auStack_90 [4];
+  unsigned char *pbStack_8c;
+  unsigned int uStack_78;
+  unsigned int uStack_74;
+  unsigned char auStack_60 [4];
+  unsigned int uStack_5c;
+  unsigned int uStack_58;
   int iStack_54;
   int iStack_50;
-  byte *pbStack_44;
-  byte *pbStack_40;
+  unsigned char *pbStack_44;
+  unsigned char *pbStack_40;
   float fStack_3c;
   
   fVar2 = lbl_82014898;
@@ -105,8 +78,8 @@ void fn_827618C8(undefined8 param_1,float *param_2)
       }
       else {
         fn_8275FE18(auStack_60,auStack_90);
-        dVar9 = (double)((float)(longlong)iStack_50 * fStack_3c);
-        dVar10 = (double)((float)(longlong)iStack_54 * fStack_3c);
+        dVar9 = (double)((float)(__int64)iStack_50 * fStack_3c);
+        dVar10 = (double)((float)(__int64)iStack_54 * fStack_3c);
         dVar5 = (double)*param_2;
         if (dVar10 <= (double)*param_2) {
           dVar5 = dVar10;
@@ -223,7 +196,7 @@ void fn_827618C8(undefined8 param_1,float *param_2)
           }
         }
         pbStack_8c = pbStack_44;
-        if (pbStack_44 == (byte *)0x0) {
+        if (pbStack_44 == (unsigned char *)0x0) {
           pbStack_8c = pbStack_40;
         }
         uStack_78 = uVar4 + 1;

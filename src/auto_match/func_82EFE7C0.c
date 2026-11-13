@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82EFE560();
 extern int fn_82EFE610();
 extern unsigned int lbl_82002C40;
@@ -52,13 +25,13 @@ void fn_82EFE7C0(int param_1)
 {
   int iVar1;
   int iVar2;
-  uint uVar3;
+  unsigned int uVar3;
   int iVar4;
   double dVar5;
   int iVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar7;
   int iVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   int iVar10;
   int iVar11;
   double dVar12;
@@ -66,21 +39,21 @@ void fn_82EFE7C0(int param_1)
   double extraout_f1;
   double dVar14;
   
-  if (*(longlong *)(param_1 + 0x2e0) == 1) {
+  if (*(__int64 *)(param_1 + 0x2e0) == 1) {
     return;
   }
   iVar2 = *(int *)(param_1 + 0x2a4);
   *(double *)(param_1 + 0x1f68) = *(double *)(param_1 + 0x2b0);
   *(int *)(param_1 + 0x1f5c) = iVar2;
   dVar12 = lbl_82005758;
-  *(undefined4 *)(param_1 + 0x1f60) = *(undefined4 *)(param_1 + 0x590);
-  if (dVar12 < ABS(*(double *)(param_1 + 0x2b0) - (double)(longlong)iVar2)) {
-    *(double *)(param_1 + 0x2b0) = (double)(longlong)iVar2;
+  *(unsigned int *)(param_1 + 0x1f60) = *(unsigned int *)(param_1 + 0x590);
+  if (dVar12 < ABS(*(double *)(param_1 + 0x2b0) - (double)(__int64)iVar2)) {
+    *(double *)(param_1 + 0x2b0) = (double)(__int64)iVar2;
   }
-  uVar9 = (ulonglong)*(uint *)(param_1 + 0x1f50);
+  uVar9 = (unsigned __int64)*(unsigned int *)(param_1 + 0x1f50);
   dVar14 = *(double *)(param_1 + 0x2b0);
-  uVar7 = (ulonglong)*(uint *)(param_1 + 8000);
-  uVar3 = *(uint *)(param_1 + 0x1f10);
+  uVar7 = (unsigned __int64)*(unsigned int *)(param_1 + 8000);
+  uVar3 = *(unsigned int *)(param_1 + 0x1f10);
   dVar13 = (double)fn_82EFE610(dVar14,param_1,uVar7,uVar3 - uVar9,uVar7 - uVar9,uVar9);
   iVar8 = (int)uVar7;
   iVar6 = fn_82EFE560(dVar14);
@@ -94,7 +67,7 @@ void fn_82EFE7C0(int param_1)
   dVar5 = lbl_82005730;
   iVar10 = 0;
   iVar1 = (int)(dVar14 + lbl_82005730);
-  dVar12 = dVar12 - (double)(longlong)(int)uVar3 / (double)(longlong)iVar8;
+  dVar12 = dVar12 - (double)(__int64)(int)uVar3 / (double)(__int64)iVar8;
   if ((lbl_8215F6E0 <= dVar12) || (*(int *)(iVar6 + 0x1f58) != 0)) {
     iVar10 = 0xc;
   }
@@ -171,17 +144,17 @@ void fn_82EFE7C0(int param_1)
   if ((iVar4 <= iVar8) && (iVar11 = iVar10, iVar1 < iVar10)) {
     iVar11 = iVar1;
   }
-  if (((iVar11 < 9) && (iVar11 != iVar4)) && (ABS(dVar14 - (double)(longlong)iVar11) < dVar5)) {
+  if (((iVar11 < 9) && (iVar11 != iVar4)) && (ABS(dVar14 - (double)(__int64)iVar11) < dVar5)) {
     iVar11 = (int)(dVar14 + lbl_8202DCE0);
     if (iVar11 < 1) {
       iVar11 = 1;
     }
-    else if (ABS(dVar14 - ((double)(longlong)iVar11 + dVar5)) < lbl_8202DCE0) {
-      *(undefined4 *)(iVar6 + 0x590) = 1;
+    else if (ABS(dVar14 - ((double)(__int64)iVar11 + dVar5)) < lbl_8202DCE0) {
+      *(unsigned int *)(iVar6 + 0x590) = 1;
       goto LAB_82efeb08;
     }
   }
-  *(undefined4 *)(iVar6 + 0x590) = 0;
+  *(unsigned int *)(iVar6 + 0x590) = 0;
 LAB_82efeb08:
   if ((*(int *)(iVar6 + 0x1f58) != 0) &&
      (iVar8 = 0x16 - (*(int *)(iVar6 + 0x1ee0) * 0xe) / 100, iVar11 <= iVar8)) {
@@ -200,10 +173,10 @@ LAB_82efeb08:
   }
   if (dVar14 < *(double *)(iVar6 + 0x1f68)) {
     *(double *)(iVar6 + 0x2b0) = *(double *)(iVar6 + 0x1f68);
-    *(undefined4 *)(iVar6 + 0x2a4) = *(undefined4 *)(iVar6 + 0x1f5c);
-    *(undefined4 *)(iVar6 + 0x590) = *(undefined4 *)(iVar6 + 0x1f60);
+    *(unsigned int *)(iVar6 + 0x2a4) = *(unsigned int *)(iVar6 + 0x1f5c);
+    *(unsigned int *)(iVar6 + 0x590) = *(unsigned int *)(iVar6 + 0x1f60);
   }
-  *(undefined4 *)(iVar6 + 0x2a0) = *(undefined4 *)(iVar6 + 0x2a4);
+  *(unsigned int *)(iVar6 + 0x2a0) = *(unsigned int *)(iVar6 + 0x2a4);
   return;
 }
 

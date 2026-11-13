@@ -1,6 +1,4 @@
-typedef unsigned int U32;
-typedef unsigned short U16;
-typedef struct { char pad[0x22]; U16 n; char pad1[0x244 - 0x24]; U16 n2; char pad2[2]; U16 *list; } Hdr_82A73710;
+typedef struct { char pad[0x22]; unsigned short n; char pad1[0x244 - 0x24]; unsigned short n2; char pad2[2]; unsigned short *list; } Hdr_82A73710;
 typedef struct { int val; int pad; } Ent_82A73710;
 typedef struct { int count; int *arr; char pad[0x98 - 8]; } Slot_82A73710;
 typedef struct {
@@ -16,7 +14,7 @@ typedef struct {
   char bits[1];
 } Ctx_82A73710;
 extern int fn_82A6D090(void *, int, int *);
-extern void *memset(void *, int, U32);
+extern void *memset(void *, int, unsigned int);
 int fn_82A73710(Ctx_82A73710 *c)
 {
   Hdr_82A73710 *h = c->hdr;

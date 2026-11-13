@@ -1,46 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-longlong fn_82526CC0(longlong param_1,longlong param_2)
+__int64 fn_82526CC0(__int64 param_1,__int64 param_2)
 
 {
-  byte bVar1;
-  ulonglong uVar2;
-  uint uVar3;
-  uint uVar4;
+  unsigned char bVar1;
+  unsigned __int64 uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   char *pcVar8;
-  longlong lVar5;
-  longlong lVar6;
-  longlong lVar7;
-  byte *pbVar9;
+  __int64 lVar5;
+  __int64 lVar6;
+  __int64 lVar7;
+  unsigned char *pbVar9;
   int iVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar11;
   
   lVar5 = param_1;
   do {
@@ -61,7 +32,7 @@ longlong fn_82526CC0(longlong param_1,longlong param_2)
       uVar11 = uVar2;
       if (uVar2 != 0) {
         do {
-          pbVar9 = (byte *)lVar7;
+          pbVar9 = (unsigned char *)lVar7;
           bVar1 = *pbVar9;
           lVar7 = lVar7 + 1;
           uVar4 = bVar1 & 0xdf;

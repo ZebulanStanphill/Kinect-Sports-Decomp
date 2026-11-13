@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern ulonglong fn_826417C8();
+extern unsigned __int64 fn_826417C8();
 extern int fn_82641B60();
 extern int fn_82641C20();
 extern int fn_82641DA0();
 extern int fn_82641EF8();
-extern ulonglong fn_82642F50();
+extern unsigned __int64 fn_82642F50();
 extern int fn_82647258();
 
 
-void fn_8263E790(ulonglong *param_1)
+void fn_8263E790(unsigned __int64 *param_1)
 
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  ulonglong lVar3;
-  ulonglong uVar4;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned __int64 lVar3;
+  unsigned __int64 uVar4;
   
   uVar1 = param_1[4];
   uVar2 = param_1[3];
@@ -59,7 +32,7 @@ void fn_8263E790(ulonglong *param_1)
       uVar4 = fn_82642F50(param_1,uVar4);
     }
     if ((param_1[5] & uVar4) != 0) {
-      uVar4 = fn_826417C8(param_1,uVar4,*(undefined4 *)(param_1 + 0x528));
+      uVar4 = fn_826417C8(param_1,uVar4,*(unsigned int *)(param_1 + 0x528));
     }
     if ((uVar4 & 0xfff) != 0) {
       fn_82641B60(param_1,uVar4 << 0x34,0x2200,(int)param_1 + 0x2934);
@@ -98,7 +71,7 @@ void fn_8263E790(ulonglong *param_1)
       fn_82641B60(param_1,uVar1 << 0x1a,0x2300,param_1 + 0x537);
     }
     if ((uVar1 & 0xc000000000000000) != 0) {
-      if (((*(byte *)(param_1 + 0x558) & 0x80) != 0) || ((*(byte *)(param_1 + 0x558) & 0x40) != 0))
+      if (((*(unsigned char *)(param_1 + 0x558) & 0x80) != 0) || ((*(unsigned char *)(param_1 + 0x558) & 0x40) != 0))
       {
         fn_82647258(param_1);
       }

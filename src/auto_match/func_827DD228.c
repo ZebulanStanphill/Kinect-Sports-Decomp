@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_3c;
 extern int fn_827D9ED0();
 extern int fn_827D9ED8();
@@ -38,34 +11,34 @@ extern int fn_82A29FE0();
 extern unsigned int uStack_40;
 
 
-undefined8 fn_827DD228(undefined8 param_1,undefined4 *param_2)
+unsigned __int64 fn_827DD228(unsigned __int64 param_1,unsigned int *param_2)
 
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
+  unsigned int uVar1;
+  unsigned int *puVar2;
+  unsigned int uVar3;
   int iVar7;
-  longlong lVar4;
-  longlong lVar5;
-  undefined8 uVar6;
-  undefined4 uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  uint uStack_40;
-  undefined1 auStack_3c [1];
+  __int64 lVar4;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
+  unsigned int uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned int uStack_40;
+  unsigned char auStack_3c [1];
   
   uVar1 = *param_2;
-  puVar2 = (undefined4 *)param_2[7];
+  puVar2 = (unsigned int *)param_2[7];
   iVar7 = fn_827D9ED8(uVar1);
   puVar2[2] = iVar7 + param_2[3];
   lVar4 = fn_827E4210(param_1);
   uVar3 = param_2[4];
   lVar5 = fn_827E4210(param_1);
-  uVar9 = lVar4 + ((ulonglong)uVar3 - 1) & ~(lVar5 - 1U);
+  uVar9 = lVar4 + ((unsigned __int64)uVar3 - 1) & ~(lVar5 - 1U);
   uVar6 = fn_827D9ED0(uVar1);
   fn_82A29D80(uVar6,&uStack_40);
-  uVar10 = (uint)puVar2[2] + uVar9;
-  if ((ulonglong)uStack_40 < (uVar10 & 0xffffffff)) {
+  uVar10 = (unsigned int)puVar2[2] + uVar9;
+  if ((unsigned __int64)uStack_40 < (uVar10 & 0xffffffff)) {
     uVar6 = fn_827D9ED0(uVar1);
     iVar7 = fn_82A29B68(uVar6,uVar10,0,0);
     if (iVar7 == -1) goto LAB_827dd2c0;

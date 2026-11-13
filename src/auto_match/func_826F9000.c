@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_64;
 extern unsigned int fStack_68;
 extern int fn_8268CC00();
@@ -52,22 +25,22 @@ void fn_826F9000(int *param_1,char param_2)
   float fVar1;
   int *piVar2;
   int iVar3;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
+  struct { unsigned int first; unsigned int second; } stack_pair_70;
 
   struct { float first; float second; } stack_pair_68;
 
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned int uStack_40;
+  unsigned int uStack_3c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
+  unsigned int uStack_2c;
 
   *(char *)(param_1 + 1) = param_2;
   if (param_2 == '\0') {
@@ -84,9 +57,9 @@ void fn_826F9000(int *param_1,char param_2)
       uStack_30 = uStack_50;
       uStack_2c = uStack_4c;
     }
-    iVar3 = (**(code **)(*piVar2 + 0x40))(piVar2);
-    stack_pair_70.second = *(undefined4 *)(iVar3 + 0x95c);
-    stack_pair_70.first = *(undefined4 *)(iVar3 + 0x958);
+    iVar3 = (**(int (***)())(*piVar2 + 0x40))(piVar2);
+    stack_pair_70.second = *(unsigned int *)(iVar3 + 0x95c);
+    stack_pair_70.first = *(unsigned int *)(iVar3 + 0x958);
     fn_8268D008(&uStack_40,&stack_pair_68.first,&stack_pair_70.first);
     fVar1 = (float)piVar2[0x16];
     param_1[6] = (int)((float)piVar2[0x13] - stack_pair_68.first);

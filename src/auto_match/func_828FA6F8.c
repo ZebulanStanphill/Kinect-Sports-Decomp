@@ -1,24 +1,23 @@
-typedef unsigned int uint;
 extern int fn_8265C990();
 
 typedef struct S {
-  uint count;
-  uint f4;
-  uint *arr;
-  uint fc;
-  uint *list;
-  uint f14;
-  uint f18;
-  uint f1c;
+  unsigned int count;
+  unsigned int f4;
+  unsigned int *arr;
+  unsigned int fc;
+  unsigned int *list;
+  unsigned int f14;
+  unsigned int f18;
+  unsigned int f1c;
 } S;
 
 int fn_828FA6F8(S *param_1)
 {
-  uint i;
-  uint *next;
+  unsigned int i;
+  unsigned int *next;
 
   while (param_1->list != 0) {
-    next = (uint *)*param_1->list;
+    next = (unsigned int *)*param_1->list;
     fn_8265C990(param_1->list, 0x24810000);
     param_1->list = next;
   }

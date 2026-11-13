@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_8200571C;
 extern unsigned int lbl_8200D898;
@@ -110,22 +83,22 @@ extern unsigned int lbl_8214F874;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82E35B70(int *param_1)
+unsigned __int64 fn_82E35B70(int *param_1)
 
 {
   float fVar1;
-  ushort uVar2;
+  unsigned short uVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
+  unsigned int uVar5;
   float fVar6;
   float fVar7;
-  undefined *puVar8;
-  ulonglong uVar9;
+  unsigned char *puVar8;
+  unsigned __int64 uVar9;
   int iVar10;
-  undefined *puVar11;
-  undefined *puVar12;
-  undefined *puVar13;
+  unsigned char *puVar11;
+  unsigned char *puVar12;
+  unsigned char *puVar13;
   int iVar14;
   
   iVar10 = lbl_82021540;
@@ -184,13 +157,13 @@ code_r0x82e35c48:
     param_1[0x1da2] = iVar10;
   }
   uVar5 = param_1[0x1de7];
-  uVar9 = (longlong)((int)uVar5 >> 2) + (ulonglong)((int)uVar5 < 0 && (uVar5 & 3) != 0);
+  uVar9 = (__int64)((int)uVar5 >> 2) + (unsigned __int64)((int)uVar5 < 0 && (uVar5 & 3) != 0);
   iVar10 = (int)uVar9;
   param_1[0x1de8] = iVar10;
   iVar14 = (int)uVar5 / iVar10;
   param_1[0x1de9] = iVar14;
   trapWord(6,uVar9,0);
-  trapWord(5,uVar9 & ~((((ulonglong)uVar5 & 0x7fffffff) << 1 | (ulonglong)(uVar5 >> 0x1f)) - 1),
+  trapWord(5,uVar9 & ~((((unsigned __int64)uVar5 & 0x7fffffff) << 1 | (unsigned __int64)(uVar5 >> 0x1f)) - 1),
            0xffff);
   if (*(int *)(iVar3 + 0x50) < 0x5623) {
     iVar4 = iVar14 << 4;
@@ -199,12 +172,12 @@ code_r0x82e35c48:
     iVar4 = iVar14 << 3;
   }
   param_1[0x1dea] = iVar4 + iVar14;
-  uVar2 = *(ushort *)(iVar3 + 0x6e);
+  uVar2 = *(unsigned short *)(iVar3 + 0x6e);
   param_1[0x1da7] = 4;
   iVar4 = 5 << (uVar2 - 0x10 & 0x3f);
   param_1[0x1da5] = 4;
   fVar7 = lbl_82002AE0;
-  fVar6 = (float)(longlong)((param_1[0x1dea] - iVar14) * iVar10 * iVar4 * iVar4);
+  fVar6 = (float)(__int64)((param_1[0x1dea] - iVar14) * iVar10 * iVar4 * iVar4);
   param_1[0x1deb] = (int)fVar6;
   param_1[0x1dec] = (int)(fVar7 / fVar6);
   if (*(int *)(iVar3 + 0x50) == 0xac44) {

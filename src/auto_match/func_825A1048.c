@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_825A1198();
 extern int fn_8262E510();
 extern int fn_82818440();
@@ -37,24 +10,24 @@ extern unsigned int uStack_50;
 extern unsigned int uStack_54;
 
 
-undefined8
-fn_825A1048(int *param_1,char *param_2,undefined2 *param_3,undefined8 param_4,int param_5)
+unsigned __int64
+fn_825A1048(int *param_1,char *param_2,unsigned short *param_3,unsigned __int64 param_4,int param_5)
 
 {
-  ushort uVar4;
+  unsigned short uVar4;
   short *psVar2;
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar3;
-  uint uVar5;
-  undefined4 *puVar6;
+  unsigned int uVar5;
+  unsigned int *puVar6;
   char *pcVar7;
   char cVar8;
   char cVar9;
   struct { int first; int second; } stack_pair_60;
 
   int iStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
   
   uStack_54 = 0;
   uStack_50 = 0;
@@ -63,10 +36,10 @@ fn_825A1048(int *param_1,char *param_2,undefined2 *param_3,undefined8 param_4,in
   iStack_58 = (*(int *)(stack_pair_60.first + 4) + 1) * 6 + stack_pair_60.second;
   uVar4 = fn_82818440(param_2);
   iVar3 = 0;
-  if (*(ushort *)(param_1 + 2) != 0) {
-    puVar6 = (undefined4 *)param_1[1];
+  if (*(unsigned short *)(param_1 + 2) != 0) {
+    puVar6 = (unsigned int *)param_1[1];
     do {
-      if (uVar4 == *(ushort *)(puVar6 + 1)) {
+      if (uVar4 == *(unsigned short *)(puVar6 + 1)) {
         cVar8 = *param_2;
         cVar9 = *(char *)*puVar6;
         if (cVar8 == cVar9) {
@@ -80,15 +53,15 @@ fn_825A1048(int *param_1,char *param_2,undefined2 *param_3,undefined8 param_4,in
         }
         if (cVar8 == cVar9) {
 LAB_825a1124:
-          uVar4 = *(ushort *)(param_1[1] + iVar3 * 8 + 6);
+          uVar4 = *(unsigned short *)(param_1[1] + iVar3 * 8 + 6);
           break;
         }
       }
       iVar3 = iVar3 + 1;
       puVar6 = puVar6 + 2;
-    } while (iVar3 < (int)(uint)*(ushort *)(param_1 + 2));
+    } while (iVar3 < (int)(unsigned int)*(unsigned short *)(param_1 + 2));
   }
-  uVar5 = (uint)uVar4;
+  uVar5 = (unsigned int)uVar4;
   psVar2 = (short *)fn_8262E510(&stack_pair_60.first);
   if ((*psVar2 == 0) || (uVar5 == 0xffffffff)) {
     uVar1 = 0;

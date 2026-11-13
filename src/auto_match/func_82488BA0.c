@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822314E8();
 extern int fn_822315A0();
 extern int fn_82248AE8();
@@ -49,17 +25,17 @@ extern unsigned int lbl_83297810;
 extern unsigned int uStack_38;
 
 
-void fn_82488BA0(undefined4 *param_1)
+void fn_82488BA0(unsigned int *param_1)
 
 {
   bool bVar1;
   bool bVar2;
   int iVar3;
   char cVar4;
-  ulonglong uVar5;
-  uint uVar6;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
   int *piVar7;
-  longlong lVar8;
+  __int64 lVar8;
   int iStack_60;
   int iStack_5c;
   int iStack_58;
@@ -69,7 +45,7 @@ void fn_82488BA0(undefined4 *param_1)
   int iStack_48;
   struct { int first; int second; } stack_pair_40;
 
-  undefined4 uStack_38;
+  unsigned int uStack_38;
   int aiStack_30 [4];
 
   if ((param_1[1] != 0) && (param_1[2] == 0)) {
@@ -89,7 +65,7 @@ void fn_82488BA0(undefined4 *param_1)
         lVar8 = lVar8 + -1;
       } while (lVar8 != 0);
       if (uVar6 < 2) {
-        uVar5 = (ulonglong)lbl_83297810;
+        uVar5 = (unsigned __int64)lbl_83297810;
         if (uVar5 == 0) {
           uVar5 = fn_82511928();
         }
@@ -106,8 +82,8 @@ void fn_82488BA0(undefined4 *param_1)
             cVar4 = '\0';
           }
           else {
-            iVar3 = (**(code **)(**(int **)(iStack_58 + 0x38) + 8))();
-            cVar4 = (**(code **)(*(int *)(iVar3 + 0x198) + 0x3c))();
+            iVar3 = (**(int (***)())(**(int **)(iStack_58 + 0x38) + 8))();
+            cVar4 = (**(int (***)())(*(int *)(iVar3 + 0x198) + 0x3c))();
           }
           if (cVar4 == '\0') {
             aiStack_30[0] = 0;

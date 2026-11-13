@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_7c;
 extern int fn_82FA5190();
 extern int fn_83016C18();
@@ -37,20 +10,20 @@ extern int fn_8301A128();
 extern unsigned int lbl_831BC768;
 
 
-undefined8
-fn_83018DD8(int param_1,ulonglong param_2,int param_3,int param_4,int param_5,undefined8 param_6,
-             ulonglong param_7,ulonglong param_8)
+unsigned __int64
+fn_83018DD8(int param_1,unsigned __int64 param_2,int param_3,int param_4,int param_5,unsigned __int64 param_6,
+             unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int *piVar2;
   int iVar3;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   int *piVar5;
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
+  unsigned int in_stack_00000054;
+  unsigned int in_stack_0000005c;
   int *piStack_80;
-  undefined1 auStack_7c [1];
+  unsigned char auStack_7c [1];
   
   iVar3 = param_1 + 0x720;
   RtlEnterCriticalSection(iVar3);
@@ -58,7 +31,7 @@ fn_83018DD8(int param_1,ulonglong param_2,int param_3,int param_4,int param_5,un
   if ((param_2 & 0xffffffff) != 0) {
     for (piVar2 = *(int **)(param_1 + 0x6a0); piVar2 != (int *)0x0; piVar2 = (int *)*piVar2) {
       puVar1 = piVar2 + 1;
-      if (((ulonglong)(uint)piVar2[1] == (param_2 & 0xffffffff)) && (piVar2[2] == param_4)) {
+      if (((unsigned __int64)(unsigned int)piVar2[1] == (param_2 & 0xffffffff)) && (piVar2[2] == param_4)) {
         if (piVar2 != (int *)0xfffffffc) {
           piVar5 = (int *)piVar2[5];
           goto joined_r0x83018ea0;
@@ -66,8 +39,8 @@ fn_83018DD8(int param_1,ulonglong param_2,int param_3,int param_4,int param_5,un
         break;
       }
     }
-    puVar1 = (undefined4 *)fn_83019CF8(param_1 + 0x6a0);
-    if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (unsigned int *)fn_83019CF8(param_1 + 0x6a0);
+    if (puVar1 == (unsigned int *)0x0) {
       RtlLeaveCriticalSection(iVar3);
       return 0x34;
     }

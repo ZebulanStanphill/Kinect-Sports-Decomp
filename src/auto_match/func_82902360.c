@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82F6DFB0();
@@ -34,13 +7,13 @@ extern unsigned int lbl_82005F78;
 extern unsigned int lbl_8200E890;
 
 
-void fn_82902360(undefined8 param_1,ulonglong param_2,double *param_3)
+void fn_82902360(unsigned __int64 param_1,unsigned __int64 param_2,double *param_3)
 
 {
-  uint uVar1;
-  uint *puVar2;
+  unsigned int uVar1;
+  unsigned int *puVar2;
   int iVar4;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   double dVar5;
   double dVar6;
   double dVar7;
@@ -50,7 +23,7 @@ void fn_82902360(undefined8 param_1,ulonglong param_2,double *param_3)
   
   iVar4 = fn_82F6A548();
   dVar5 = lbl_82005710;
-  puVar2 = *(uint **)(*(int *)(*(int *)(iVar4 + 8) + 0x14) + (int)((param_2 & 0xffffffff) << 2));
+  puVar2 = *(unsigned int **)(*(int *)(*(int *)(iVar4 + 8) + 0x14) + (int)((param_2 & 0xffffffff) << 2));
   uVar1 = *puVar2;
   if ((uVar1 & 0x100) == 0) {
     if ((uVar1 & 0x80) == 0) {
@@ -115,7 +88,7 @@ void fn_82902360(undefined8 param_1,ulonglong param_2,double *param_3)
         if ((dVar8 == dVar5) || (dVar8 == dVar6)) {
           *puVar2 = uVar1 | 0x81;
         }
-        if (ABS(dVar8 - (double)(longlong)(int)dVar8) < lbl_82005F78) {
+        if (ABS(dVar8 - (double)(__int64)(int)dVar8) < lbl_82005F78) {
           *puVar2 = *puVar2 | 2;
         }
       }

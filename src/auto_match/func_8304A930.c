@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 extern void fn_83049F40(void *p);
 extern int fn_8304A158(void *p);
 extern int fn_8304A3A8(void *p);
@@ -24,7 +22,7 @@ typedef struct Voice {
 } Voice;
 
 typedef struct Iface {
-    code *vtbl;
+    int (**vtbl)();
 } Iface;
 
 typedef struct Obj {

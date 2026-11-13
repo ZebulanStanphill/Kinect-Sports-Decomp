@@ -1,38 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-ulonglong fn_82CAB2D8(longlong param_1, longlong param_2, longlong param_3, longlong param_4, longlong param_5, longlong param_6, longlong param_7, longlong param_8, uint in_stack_00000054)
+unsigned __int64 fn_82CAB2D8(__int64 param_1, __int64 param_2, __int64 param_3, __int64 param_4, __int64 param_5, __int64 param_6, __int64 param_7, __int64 param_8, unsigned int in_stack_00000054)
 
 {
-  longlong lVar1;
-  longlong lVar2;
-  longlong lVar3;
+  __int64 lVar1;
+  __int64 lVar2;
+  __int64 lVar3;
 
   
   lVar1 = param_8;
@@ -67,7 +38,7 @@ ulonglong fn_82CAB2D8(longlong param_1, longlong param_2, longlong param_3, long
   if (((int)lVar2 <= (int)param_7) && (lVar3 = lVar2, (int)lVar1 < (int)param_7)) {
     lVar1 = param_7;
   }
-  return ((~((ulonglong)in_stack_00000054 ^ lVar1 - lVar3) & 0xffffffff) >> 0x1f) +
-         (ulonglong)((ulonglong)in_stack_00000054 <= (ulonglong)(lVar1 - lVar3)) & 1;
+  return ((~((unsigned __int64)in_stack_00000054 ^ lVar1 - lVar3) & 0xffffffff) >> 0x1f) +
+         (unsigned __int64)((unsigned __int64)in_stack_00000054 <= (unsigned __int64)(lVar1 - lVar3)) & 1;
 }
 

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82193D04;
 extern unsigned int lbl_82195738;
 extern unsigned int ltcg_pool_0_0f;
@@ -33,11 +6,11 @@ extern unsigned int lbl_8326B4D8;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-uint fn_826200B0(int param_1,int param_2,int param_3,int param_4,int param_5)
+unsigned int fn_826200B0(int param_1,int param_2,int param_3,int param_4,int param_5)
 
 {
   float fVar1;
-  uint uVar2;
+  unsigned int uVar2;
   
   if (param_3 != 0) {
     fVar1 = ltcg_pool_0_0f;
@@ -57,32 +30,32 @@ uint fn_826200B0(int param_1,int param_2,int param_3,int param_4,int param_5)
     else {
       if (param_4 == 3) {
         if (param_5 == 0) {
-          return *(uint *)(param_1 + 0x1d4);
+          return *(unsigned int *)(param_1 + 0x1d4);
         }
-        return *(uint *)(param_1 + 0x1e4);
+        return *(unsigned int *)(param_1 + 0x1e4);
       }
       if (param_4 == 4) {
         if (lbl_8326B4D8 == 0) {
-          uVar2 = *(uint *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
-                  *(uint *)(param_2 + 0x10);
+          uVar2 = *(unsigned int *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
+                  *(unsigned int *)(param_2 + 0x10);
         }
         else {
           uVar2 = 0;
         }
-        return (uint)(uVar2 != 0);
+        return (unsigned int)(uVar2 != 0);
       }
       if (param_4 == 5) {
         if (lbl_8326B4D8 == 0) {
-          uVar2 = *(uint *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
-                  *(uint *)(param_2 + 0x10);
+          uVar2 = *(unsigned int *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
+                  *(unsigned int *)(param_2 + 0x10);
         }
         else {
           uVar2 = 0;
         }
         if (uVar2 == 0) {
           if (lbl_8326B4D8 == 0) {
-            uVar2 = *(uint *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
-                    *(uint *)(param_2 + 0x14);
+            uVar2 = *(unsigned int *)(*(int *)(param_3 + 0x10) * 0x28 + param_3 + 0x1c) &
+                    *(unsigned int *)(param_2 + 0x14);
           }
           else {
             uVar2 = 0;

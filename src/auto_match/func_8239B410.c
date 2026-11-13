@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_240;
 extern unsigned int *auStack_440;
 extern int fn_8229D418();
@@ -42,28 +18,28 @@ void fn_8239B410(int param_1)
   int iVar2;
   bool bVar3;
   int iVar6;
-  undefined8 uVar4;
-  longlong lVar5;
+  unsigned __int64 uVar4;
+  __int64 lVar5;
   int iVar7;
-  uint uVar8;
-  undefined1 *puVar9;
-  undefined1 auStack_440 [512];
-  undefined1 auStack_240 [576];
+  unsigned int uVar8;
+  unsigned char *puVar9;
+  unsigned char auStack_440 [512];
+  unsigned char auStack_240 [576];
   
   if (*(int *)(param_1 + 0x178) != 0) {
     return;
   }
-  iVar6 = (**(code **)(**(int **)(param_1 + 0x2e0) + 0x34))();
+  iVar6 = (**(int (***)())(**(int **)(param_1 + 0x2e0) + 0x34))();
   piVar1 = *(int **)(param_1 + 0x2e0);
   iVar2 = piVar1[3];
-  uVar4 = (**(code **)(*piVar1 + 0x80))(piVar1);
+  uVar4 = (**(int (***)())(*piVar1 + 0x80))(piVar1);
   iVar7 = **(int **)(param_1 + 8);
   piVar1 = *(int **)(iVar2 * 4 + iVar7);
-  lVar5 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),uVar4);
-  iVar7 = fn_822AA770(*(undefined4 *)(iVar6 * 4 + iVar7));
+  lVar5 = fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),uVar4);
+  iVar7 = fn_822AA770(*(unsigned int *)(iVar6 * 4 + iVar7));
   if (iVar7 != 0) {
     if (*(int *)(iVar7 + 0x168) == 0) {
-      uVar8 = *(uint *)(iVar7 + 0x16c);
+      uVar8 = *(unsigned int *)(iVar7 + 0x16c);
     }
     else {
       uVar8 = fn_8288B760();
@@ -74,7 +50,7 @@ void fn_8239B410(int param_1)
   }
   bVar3 = false;
 LAB_8239b4d0:
-  iVar7 = (**(code **)(**(int **)(param_1 + 0x2e0) + 0x90))();
+  iVar7 = (**(int (***)())(**(int **)(param_1 + 0x2e0) + 0x90))();
   if (!bVar3) {
     return;
   }
@@ -101,8 +77,8 @@ LAB_8239b4d0:
     puVar9 = auStack_440;
   }
   fn_8229D418(iVar2,lVar5 + 0x30,puVar9);
-  *(undefined4 *)(iVar2 + 0x10) = lbl_821917B0;
-  *(undefined4 *)(iVar2 + 0xc) = 1;
+  *(unsigned int *)(iVar2 + 0x10) = lbl_821917B0;
+  *(unsigned int *)(iVar2 + 0xc) = 1;
   return;
 }
 

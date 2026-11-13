@@ -1,36 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_830236D8(int param_1,uint *param_2)
+void fn_830236D8(int param_1,unsigned int *param_2)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   int iVar2;
   float fVar3;
   float fVar4;
@@ -38,13 +9,13 @@ void fn_830236D8(int param_1,uint *param_2)
   float fVar6;
   float fVar7;
   float *pfVar8;
-  uint uVar9;
-  uint uVar11;
-  longlong lVar10;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs43 [16];
+  unsigned int uVar9;
+  unsigned int uVar11;
+  __int64 lVar10;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs43 [16];
   float in_register_000103d0;
   float in_register_000103d4;
   float in_register_000103d8;
@@ -58,24 +29,24 @@ void fn_830236D8(int param_1,uint *param_2)
   float in_register_000103f8;
   float in_vr63;
   
-  uVar1 = *(ushort *)((int)param_2 + 0xe);
-  uVar9 = *(ushort *)(param_1 + 0x3c) + 1;
-  iVar2 = *(int *)((*(ushort *)(param_1 + 0x3c) + 0x10) * 4 + param_1);
+  uVar1 = *(unsigned short *)((int)param_2 + 0xe);
+  uVar9 = *(unsigned short *)(param_1 + 0x3c) + 1;
+  iVar2 = *(int *)((*(unsigned short *)(param_1 + 0x3c) + 0x10) * 4 + param_1);
   *(short *)(param_1 + 0x3c) = (short)uVar9;
   if ((uVar9 & 0xffff) == 2) {
-    *(undefined2 *)(param_1 + 0x3c) = 0;
+    *(unsigned short *)(param_1 + 0x3c) = 0;
   }
   *(short *)(param_1 + 0x48) = *(short *)(param_1 + 0x48) + 1;
   uVar9 = *param_2;
   if (uVar9 == 0) {
     return;
   }
-  uVar11 = *(int *)(param_1 + 0x24) * (uint)uVar1 * 4 + uVar9;
+  uVar11 = *(int *)(param_1 + 0x24) * (unsigned int)uVar1 * 4 + uVar9;
   if (uVar11 <= uVar9) {
     return;
   }
   iVar2 = iVar2 - uVar9;
-  lVar10 = (ulonglong)((uVar11 - uVar9) - 1 >> 4) + 1;
+  lVar10 = (unsigned __int64)((uVar11 - uVar9) - 1 >> 4) + 1;
   altv207_13(in_vs39,in_vs40);
   altv207_13(in_vs32,in_vs39);
   do {

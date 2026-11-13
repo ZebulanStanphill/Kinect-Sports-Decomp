@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_5c;
 extern unsigned int fStack_68;
 extern int fn_82554260();
@@ -48,32 +21,32 @@ extern unsigned int uStack_6c;
 extern unsigned int uStack_70;
 
 
-undefined8 fn_825077E8(undefined4 *param_1,undefined8 param_2,undefined4 param_3)
+unsigned __int64 fn_825077E8(unsigned int *param_1,unsigned __int64 param_2,unsigned int param_3)
 
 {
-  undefined4 uVar2;
-  ulonglong uVar1;
+  unsigned int uVar2;
+  unsigned __int64 uVar1;
   int iVar3;
   double dVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
+  struct { unsigned int first; unsigned int second; } stack_pair_70;
 
   float fStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_60;
+  unsigned int uStack_64;
+  unsigned int uStack_60;
   float fStack_5c;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned int uStack_40;
+  unsigned int uStack_3c;
   
   iVar3 = param_1[0x51];
   dVar4 = (double)ltcg_pool_0_0f;
   if (iVar3 == 0) {
-    uVar2 = (**(code **)(*(int *)*param_1 + 0x4c))();
+    uVar2 = (**(int (***)())(*(int *)*param_1 + 0x4c))();
     param_1[0x50] = uVar2;
     uVar1 = fn_827F04B0(0x1a0);
     if ((uVar1 & 0xffffffff) == 0) {

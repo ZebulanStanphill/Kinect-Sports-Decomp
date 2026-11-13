@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern unsigned int fStack_90;
 extern unsigned int fStack_94;
@@ -56,7 +29,7 @@ void fn_824E6D50(void)
 
 {
   int iVar1;
-  undefined4 *puVar2;
+  unsigned int *puVar2;
   int iVar3;
   int iVar4;
   double extraout_f1;
@@ -65,15 +38,15 @@ void fn_824E6D50(void)
   double dVar7;
   double dVar8;
   double dVar9;
-  undefined4 uStack_d0;
+  unsigned int uStack_d0;
   float fStack_cc;
   float fStack_c8;
   float fStack_c4;
-  undefined4 uStack_c0;
-  undefined4 uStack_bc;
-  undefined4 uStack_b4;
-  undefined4 uStack_b0;
-  undefined4 uStack_ac;
+  unsigned int uStack_c0;
+  unsigned int uStack_bc;
+  unsigned int uStack_b4;
+  unsigned int uStack_b0;
+  unsigned int uStack_ac;
   float fStack_a4;
   float fStack_a0;
   float fStack_98;
@@ -100,25 +73,25 @@ void fn_824E6D50(void)
       dVar7 = (double)(float)(dVar7 / (double)*(float *)(iVar4 + 0x14c));
       uStack_d0 = 1;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((dVar7 < dVar9) << 2) | (uint)(NAN(dVar7) || NAN(dVar9)) << 2)) <
+                    ((unsigned int)(unsigned char)((dVar7 < dVar9) << 2) | (unsigned int)(NAN(dVar7) || NAN(dVar9)) << 2)) <
           0.0) {
         dVar7 = dVar9;
       }
       dVar5 = dVar8;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)(((double)(float)(dVar7 - dVar8) < dVar9) << 2) |
-                    (uint)(NAN((double)(float)(dVar7 - dVar8)) || NAN(dVar9)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)(((double)(float)(dVar7 - dVar8) < dVar9) << 2) |
+                    (unsigned int)(NAN((double)(float)(dVar7 - dVar8)) || NAN(dVar9)) << 2)) < 0.0) {
         dVar5 = dVar7;
       }
       if (dVar8 <= dVar5) {
         fn_82F68CC0(&uStack_d0,iVar4 + 0xe0,0x68);
-        *(undefined4 *)(iVar4 + 0x148) = 0;
+        *(unsigned int *)(iVar4 + 0x148) = 0;
         if (*(int *)(iVar4 + 0x178) != 0) {
           if (*(int *)(iVar4 + 0x178) == 0) {
                     /* WARNING: Subroutine does not return */
             fn_82F63108();
           }
-          (**(code **)(**(int **)(iVar4 + 0x178) + 4))(*(int **)(iVar4 + 0x178),iVar3);
+          (**(int (***)())(**(int **)(iVar4 + 0x178) + 4))(*(int **)(iVar4 + 0x178),iVar3);
         }
       }
       else {
@@ -146,11 +119,11 @@ void fn_824E6D50(void)
         fStack_90 = (float)((double)(float)((double)*(float *)(iVar4 + 0x120) -
                                            (double)*(float *)(iVar4 + 0xb8)) * dVar5 +
                            (double)*(float *)(iVar4 + 0xb8));
-        uStack_c0 = fn_824E6C20(*(undefined4 *)(iVar4 + 0x88),*(undefined4 *)(iVar4 + 0xf0));
-        uStack_bc = fn_824E6C20(*(undefined4 *)(iVar4 + 0x8c),*(undefined4 *)(iVar4 + 0xf4));
-        uStack_b4 = fn_824E6C20(*(undefined4 *)(iVar4 + 0x94),*(undefined4 *)(iVar4 + 0xfc));
-        uStack_b0 = fn_824E6C20(*(undefined4 *)(iVar4 + 0x98),*(undefined4 *)(iVar4 + 0x100));
-        uStack_ac = fn_824E6C20(*(undefined4 *)(iVar4 + 0x9c),*(undefined4 *)(iVar4 + 0x104));
+        uStack_c0 = fn_824E6C20(*(unsigned int *)(iVar4 + 0x88),*(unsigned int *)(iVar4 + 0xf0));
+        uStack_bc = fn_824E6C20(*(unsigned int *)(iVar4 + 0x8c),*(unsigned int *)(iVar4 + 0xf4));
+        uStack_b4 = fn_824E6C20(*(unsigned int *)(iVar4 + 0x94),*(unsigned int *)(iVar4 + 0xfc));
+        uStack_b0 = fn_824E6C20(*(unsigned int *)(iVar4 + 0x98),*(unsigned int *)(iVar4 + 0x100));
+        uStack_ac = fn_824E6C20(*(unsigned int *)(iVar4 + 0x9c),*(unsigned int *)(iVar4 + 0x104));
       }
       fn_8252DDF0(&uStack_d0,iVar3);
     }

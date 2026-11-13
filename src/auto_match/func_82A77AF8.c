@@ -1,32 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82A77AF8(int *param_1,unsigned param_2)
 
 {
@@ -37,15 +8,15 @@ void fn_82A77AF8(int *param_1,unsigned param_2)
     *(unsigned __int64 *)(param_1+0x32) = 0;
     param_1[0x30] = 0;
     if ((int *)param_1[2] != (int *)0x0) {
-      (*(code *)(*(int *)param_1[2] + 0x1c))((void *)param_1[2]);
+      (*(int (**)())(*(int *)param_1[2] + 0x1c))((void *)param_1[2]);
     }
     if ((int *)param_1[0x3f] != (int *)0x0) {
-      (*(code *)(*(int *)param_1[0x3f] + 0x1c))((void *)param_1[0x3f]);
+      (*(int (**)())(*(int *)param_1[0x3f] + 0x1c))((void *)param_1[0x3f]);
     }
     piVar1 = (int *)param_1[0x2e];
     if (piVar1 != (int *)0x0) {
       param_1[0x2f] = piVar1[4] + *piVar1;
-      if ((uint)(*piVar1 + piVar1[4]) < (uint)(piVar1[7] + piVar1[6] + *piVar1)) {
+      if ((unsigned int)(*piVar1 + piVar1[4]) < (unsigned int)(piVar1[7] + piVar1[6] + *piVar1)) {
         iVar2 = piVar1[8];
       }
       else {
@@ -55,7 +26,7 @@ void fn_82A77AF8(int *param_1,unsigned param_2)
     }
   }
   if ((param_2 & 0x20) != 0) {
-    iVar2 = (*(code *)(*param_1 + 8))(param_1);
+    iVar2 = (*(int (**)())(*param_1 + 8))(param_1);
     if (iVar2 != 0) {
       param_1[0x1f] = 1;
     }
@@ -63,7 +34,7 @@ void fn_82A77AF8(int *param_1,unsigned param_2)
   else { param_1[0x1f]=0; param_1[0x1d]=1; }
   piVar1 = (int *)param_1[0x42];
   if (piVar1 != (int *)0x0) {
-    (*(code *)(*piVar1 + 4))(piVar1,param_2);
+    (*(int (**)())(*piVar1 + 4))(piVar1,param_2);
   }
   return;
 }

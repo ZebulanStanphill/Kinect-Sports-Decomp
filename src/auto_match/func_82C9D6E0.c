@@ -1,72 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-int fn_82C9D6E0(int param_1,uint param_2,uint param_3)
+int fn_82C9D6E0(int param_1,unsigned int param_2,unsigned int param_3)
 
 {
-  byte bVar1;
-  uint uVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  byte *pbVar7;
-  byte *pbVar8;
-  byte *pbVar9;
-  byte *pbVar10;
-  byte *pbVar11;
-  byte *pbVar12;
-  byte *pbVar13;
-  byte *pbVar14;
-  byte *pbVar15;
-  byte *pbVar16;
-  byte *pbVar17;
-  byte *pbVar18;
-  byte *pbVar19;
-  byte *pbVar20;
-  byte *pbVar21;
-  byte *pbVar22;
-  byte *pbVar23;
-  byte *pbVar24;
-  byte *pbVar25;
+  unsigned char bVar1;
+  unsigned int uVar2;
+  unsigned char *pbVar3;
+  unsigned char *pbVar4;
+  unsigned char *pbVar5;
+  unsigned char *pbVar6;
+  unsigned char *pbVar7;
+  unsigned char *pbVar8;
+  unsigned char *pbVar9;
+  unsigned char *pbVar10;
+  unsigned char *pbVar11;
+  unsigned char *pbVar12;
+  unsigned char *pbVar13;
+  unsigned char *pbVar14;
+  unsigned char *pbVar15;
+  unsigned char *pbVar16;
+  unsigned char *pbVar17;
+  unsigned char *pbVar18;
+  unsigned char *pbVar19;
+  unsigned char *pbVar20;
+  unsigned char *pbVar21;
+  unsigned char *pbVar22;
+  unsigned char *pbVar23;
+  unsigned char *pbVar24;
+  unsigned char *pbVar25;
   int iVar26;
   int iVar27;
-  byte *pbVar28;
-  byte *pbVar29;
-  longlong lVar30;
+  unsigned char *pbVar28;
+  unsigned char *pbVar29;
+  __int64 lVar30;
   
   lVar30 = 2;
   iVar27 = param_2 * 4;
-  pbVar28 = (byte *)((param_2 + 2) * 3 + param_1);
+  pbVar28 = (unsigned char *)((param_2 + 2) * 3 + param_1);
   iVar26 = 0;
-  pbVar25 = (byte *)(param_1 + (param_2 & 0x3fffffff) * -4 + 6);
-  pbVar29 = (byte *)(param_1 + param_2 + 6);
+  pbVar25 = (unsigned char *)(param_1 + (param_2 & 0x3fffffff) * -4 + 6);
+  pbVar29 = (unsigned char *)(param_1 + param_2 + 6);
   do {
     pbVar3 = pbVar29 + (-6 - param_2);
     pbVar4 = pbVar29 + (-5 - param_2);
@@ -93,21 +64,21 @@ int fn_82C9D6E0(int param_1,uint param_2,uint param_3)
     pbVar23 = pbVar29 + (param_2 - 5);
     pbVar24 = pbVar29 + (param_2 - 4);
     pbVar29 = pbVar29 + iVar27;
-    iVar26 = (uint)pbVar28[-6] + (uint)pbVar28[-5] + (uint)pbVar28[-4] + (uint)pbVar28[-3] +
-             (uint)pbVar28[-2] + (uint)pbVar28[-1] + (uint)pbVar28[1] + (uint)*pbVar28 +
-             (uint)*pbVar11 + (uint)*pbVar10 + (uint)*pbVar14 + (uint)*pbVar17 + (uint)*pbVar20 +
-             (uint)*pbVar22 + (uint)*pbVar23 + (uint)*pbVar24 +
-             (uint)*pbVar7 + (uint)*pbVar6 + (uint)*pbVar9 + (uint)*pbVar13 + (uint)*pbVar16 +
-             (uint)*pbVar19 + (uint)*pbVar21 + (uint)bVar1 +
-             (uint)*pbVar3 + (uint)*pbVar4 + (uint)*pbVar5 + (uint)*pbVar8 + (uint)*pbVar12 +
-             (uint)*pbVar15 + (uint)*pbVar18 + (uint)*pbVar25 + iVar26;
+    iVar26 = (unsigned int)pbVar28[-6] + (unsigned int)pbVar28[-5] + (unsigned int)pbVar28[-4] + (unsigned int)pbVar28[-3] +
+             (unsigned int)pbVar28[-2] + (unsigned int)pbVar28[-1] + (unsigned int)pbVar28[1] + (unsigned int)*pbVar28 +
+             (unsigned int)*pbVar11 + (unsigned int)*pbVar10 + (unsigned int)*pbVar14 + (unsigned int)*pbVar17 + (unsigned int)*pbVar20 +
+             (unsigned int)*pbVar22 + (unsigned int)*pbVar23 + (unsigned int)*pbVar24 +
+             (unsigned int)*pbVar7 + (unsigned int)*pbVar6 + (unsigned int)*pbVar9 + (unsigned int)*pbVar13 + (unsigned int)*pbVar16 +
+             (unsigned int)*pbVar19 + (unsigned int)*pbVar21 + (unsigned int)bVar1 +
+             (unsigned int)*pbVar3 + (unsigned int)*pbVar4 + (unsigned int)*pbVar5 + (unsigned int)*pbVar8 + (unsigned int)*pbVar12 +
+             (unsigned int)*pbVar15 + (unsigned int)*pbVar18 + (unsigned int)*pbVar25 + iVar26;
     pbVar28 = pbVar28 + iVar27;
     lVar30 = lVar30 + -1;
   } while (lVar30 != 0);
   uVar2 = iVar26 + 4 >> 3;
-  trapWord(6,(ulonglong)param_3,0);
-  trapWord(5,(ulonglong)param_3 &
-             ~((((ulonglong)uVar2 & 0x7fffffff) << 1 | (ulonglong)(uVar2 >> 0x1f)) - 1),0xffff);
+  trapWord(6,(unsigned __int64)param_3,0);
+  trapWord(5,(unsigned __int64)param_3 &
+             ~((((unsigned __int64)uVar2 & 0x7fffffff) << 1 | (unsigned __int64)(uVar2 >> 0x1f)) - 1),0xffff);
   return (int)uVar2 / (int)param_3;
 }
 

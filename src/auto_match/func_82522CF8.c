@@ -1,4 +1,3 @@
-typedef unsigned char undefined1;
 extern int fn_82A277E0();
 extern int fn_82A28568();
 extern unsigned int lbl_83297854;

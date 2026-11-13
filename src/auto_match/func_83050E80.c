@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-typedef unsigned __int64 U64;
 extern void fn_83050528(int, int);
 extern void fn_83055EF8(int, int);
 
@@ -12,11 +10,11 @@ void fn_83050E80(int param_1, int param_2)
     uVar2 = 4;
   }
   else {
-    if (((*(uint *)(param_1 + 0x74) & 0x10000000) == 0) &&
-       (*(uint *)(param_1 + 0x94) != *(uint *)(param_1 + 0x68))) goto LAB_83050eec;
+    if (((*(unsigned int *)(param_1 + 0x74) & 0x10000000) == 0) &&
+       (*(unsigned int *)(param_1 + 0x94) != *(unsigned int *)(param_1 + 0x68))) goto LAB_83050eec;
     uVar2 = 1;
-    *(U64 *)(param_1 + 0x88) =
-         *(U64 *)(param_1 + 0x80) - (uint)(*(uint *)(param_1 + 0x6c) * *(uint *)(param_1 + 0x20));
+    *(unsigned __int64 *)(param_1 + 0x88) =
+         *(unsigned __int64 *)(param_1 + 0x80) - (unsigned int)(*(unsigned int *)(param_1 + 0x6c) * *(unsigned int *)(param_1 + 0x20));
   }
   fn_83050528(param_1, uVar2);
 LAB_83050eec:

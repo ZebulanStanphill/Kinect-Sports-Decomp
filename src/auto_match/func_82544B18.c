@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_20;
 extern unsigned int *auStack_30;
 extern unsigned int *auStack_40;
@@ -40,43 +14,43 @@ extern V16 vectorMergeLowWord();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_82544B18(undefined8 param_1,int param_2,int param_3)
+void fn_82544B18(unsigned __int64 param_1,int param_2,int param_3)
 
 {
   float *pfVar1;
   float *pfVar2;
   float *pfVar3;
   int in_r0;
-  undefined8 *puVar4;
-  undefined8 *puVar5;
-  undefined1 in_vs32 [16];
-  undefined1 auVar6 [16];
-  undefined1 in_vs33 [16];
-  undefined1 in_vs34 [16];
-  undefined1 in_vs35 [16];
-  undefined1 in_vs36 [16];
-  undefined1 in_vs37 [16];
-  undefined1 auVar7 [16];
-  undefined1 in_vs38 [16];
-  undefined1 auVar8 [16];
-  undefined1 in_vs39 [16];
-  undefined1 auVar9 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 auVar10 [16];
-  undefined1 auVar11 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 auVar12 [16];
-  undefined1 in_vs44 [16];
-  undefined1 auVar13 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar14 [16];
-  undefined1 auVar15 [16];
-  undefined1 in_vs60 [16];
-  undefined1 in_vs61 [16];
-  undefined1 in_vs62 [16];
-  undefined1 in_vs63 [16];
+  unsigned __int64 *puVar4;
+  unsigned __int64 *puVar5;
+  unsigned char in_vs32 [16];
+  unsigned char auVar6 [16];
+  unsigned char in_vs33 [16];
+  unsigned char in_vs34 [16];
+  unsigned char in_vs35 [16];
+  unsigned char in_vs36 [16];
+  unsigned char in_vs37 [16];
+  unsigned char auVar7 [16];
+  unsigned char in_vs38 [16];
+  unsigned char auVar8 [16];
+  unsigned char in_vs39 [16];
+  unsigned char auVar9 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char auVar10 [16];
+  unsigned char auVar11 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
+  unsigned char auVar12 [16];
+  unsigned char in_vs44 [16];
+  unsigned char auVar13 [16];
+  unsigned char in_vs45 [16];
+  unsigned char auVar14 [16];
+  unsigned char auVar15 [16];
+  unsigned char in_vs60 [16];
+  unsigned char in_vs61 [16];
+  unsigned char in_vs62 [16];
+  unsigned char in_vs63 [16];
   float fVar16;
   float fVar17;
   float fVar18;
@@ -95,14 +69,14 @@ void fn_82544B18(undefined8 param_1,int param_2,int param_3)
   float fVar24;
   float in_vr10;
   float fVar25;
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [16];
-  undefined1 auStack_30 [16];
-  undefined1 auStack_20 [16];
+  unsigned char auStack_50 [16];
+  unsigned char auStack_40 [16];
+  unsigned char auStack_30 [16];
+  unsigned char auStack_20 [16];
   
   if (param_2 == 0) {
     puVar5 = &lbl_83296890;
-    puVar4 = (undefined8 *)(&lbl_83296BE0 + param_3 * 0x2c);
+    puVar4 = (unsigned __int64 *)(&lbl_83296BE0 + param_3 * 0x2c);
     if ((&lbl_83296C80)[param_3 * 0x2c] == 0) {
       puVar4 = &lbl_832968D0;
     }
@@ -131,22 +105,22 @@ void fn_82544B18(undefined8 param_1,int param_2,int param_3)
              *(float *)((int)puVar5 + 0x34) * in_register_00010064 +
              *(float *)(puVar5 + 7) * in_register_00010068 + *(float *)((int)puVar5 + 0x3c) * in_vr6
     ;{ V16 _vt6 = vectorMergeHighWord(auVar13,in_vs36); memcpy(auVar6, &_vt6, 16); }{ V16 _vt7 = vectorMergeHighWord(in_vs62,in_vs63); memcpy(auVar9, &_vt7, 16); }{ V16 _vt8 = vectorMergeHighWord(in_vs37,in_vs41); memcpy(auVar15, &_vt8, 16); }{ V16 _vt9 = vectorMergeHighWord(in_vs34,in_vs35); memcpy(auVar13, &_vt9, 16); }{ V16 _vt10 = vectorMergeHighWord(auVar11,in_vs60); memcpy(auVar11, &_vt10, 16); }{ V16 _vt11 = vectorMergeHighWord(in_vs44,in_vs61); memcpy(auVar12, &_vt11, 16); }{ V16 _vt12 = vectorMergeHighWord(in_vs43,auVar10); memcpy(auVar14, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(in_vs39,in_vs33); memcpy(auVar10, &_vt13, 16); }{ V16 _vt14 = vectorMergeHighWord(auVar6,auVar15); memcpy(auVar6, &_vt14, 16); }{ V16 _vt15 = vectorMergeHighWord(auVar12,auVar9); memcpy(auVar12, &_vt15, 16); }{ V16 _vt16 = vectorMergeHighWord(auVar14,auVar11); memcpy(auVar9, &_vt16, 16); }{ V16 _vt17 = vectorMergeHighWord(auVar10,auVar13); memcpy(auVar10, &_vt17, 16); }
-    pfVar1 = (float *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar16;
     pfVar1[1] = fVar17;
     pfVar1[2] = fVar18;
     pfVar1[3] = fVar19;
-    pfVar1 = (float *)((uint)(auStack_30 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar25;
     pfVar1[1] = fVar25;
     pfVar1[2] = fVar25;
     pfVar1[3] = fVar25;
-    pfVar1 = (float *)((uint)(auStack_20 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar20;
     pfVar1[1] = fVar20;
     pfVar1[2] = fVar20;
     pfVar1[3] = fVar20;
-    pfVar1 = (float *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar21;
     pfVar1[1] = fVar21;
     pfVar1[2] = fVar21;
@@ -159,7 +133,7 @@ void fn_82544B18(undefined8 param_1,int param_2,int param_3)
     }
     pfVar1 = (float *)(in_r0 + (int)puVar5 & 0xfffffff0);
     pfVar2 = (float *)(in_r0 + param_2 & 0xfffffff0);
-    puVar4 = (undefined8 *)(&lbl_83296BE0 + param_3 * 0x2c);{ V16 _vt18 = vectorMergeHighWord(in_vs32,in_vs43); memcpy(auVar10, &_vt18, 16); }{ V16 _vt19 = vectorMergeHighWord(in_vs44,in_vs42); memcpy(auVar9, &_vt19, 16); }{ V16 _vt20 = vectorMergeLowWord(in_vs32,in_vs43); memcpy(auVar6, &_vt20, 16); }
+    puVar4 = (unsigned __int64 *)(&lbl_83296BE0 + param_3 * 0x2c);{ V16 _vt18 = vectorMergeHighWord(in_vs32,in_vs43); memcpy(auVar10, &_vt18, 16); }{ V16 _vt19 = vectorMergeHighWord(in_vs44,in_vs42); memcpy(auVar9, &_vt19, 16); }{ V16 _vt20 = vectorMergeLowWord(in_vs32,in_vs43); memcpy(auVar6, &_vt20, 16); }
     pfVar3 = (float *)(param_2 + 0x30U & 0xfffffff0);{ V16 _vt21 = vectorMergeLowWord(in_vs44,in_vs42); memcpy(auVar13, &_vt21, 16); }
     vectorMergeHighWord(auVar10,auVar9);{ V16 _vt22 = vectorMergeLowWord(auVar10,auVar9); memcpy(auVar11, &_vt22, 16); }{ V16 _vt23 = vectorMergeHighWord(auVar6,auVar13); memcpy(auVar10, &_vt23, 16); }
     vectorMergeLowWord(auVar6,auVar13);
@@ -184,22 +158,22 @@ void fn_82544B18(undefined8 param_1,int param_2,int param_3)
     fVar17 = fVar17 * fVar20 + fVar17 * fVar21 + fVar17 * fVar22 + fVar17 * fVar23;
     fVar25 = fVar18 * fVar20 + fVar18 * fVar21 + fVar18 * fVar22 + fVar18 * fVar23;
     fVar20 = fVar16 * fVar20 + fVar16 * fVar21 + fVar16 * fVar22 + fVar16 * fVar23;{ V16 _vt43 = vectorMergeHighWord(auVar11,in_vs36); memcpy(auVar14, &_vt43, 16); }{ V16 _vt44 = vectorMergeHighWord(auVar7,auVar6); memcpy(auVar6, &_vt44, 16); }{ V16 _vt45 = vectorMergeHighWord(in_vs34,in_vs35); memcpy(auVar11, &_vt45, 16); }{ V16 _vt46 = vectorMergeHighWord(auVar14,auVar6); memcpy(auVar6, &_vt46, 16); }{ V16 _vt47 = vectorMergeHighWord(in_vs62,in_vs63); memcpy(auVar14, &_vt47, 16); }{ V16 _vt48 = vectorMergeHighWord(auVar13,auVar8); memcpy(auVar13, &_vt48, 16); }{ V16 _vt49 = vectorMergeHighWord(auVar15,in_vs33); memcpy(auVar7, &_vt49, 16); }{ V16 _vt50 = vectorMergeHighWord(auVar9,in_vs61); memcpy(auVar15, &_vt50, 16); }
-    pfVar1 = (float *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar19;
     pfVar1[1] = fVar19;
     pfVar1[2] = fVar19;
     pfVar1[3] = fVar19;{ V16 _vt51 = vectorMergeHighWord(auVar12,auVar10); memcpy(auVar9, &_vt51, 16); }{ V16 _vt52 = vectorMergeHighWord(auVar7,auVar11); memcpy(auVar10, &_vt52, 16); }{ V16 _vt53 = vectorMergeHighWord(auVar15,auVar14); memcpy(auVar12, &_vt53, 16); }{ V16 _vt54 = vectorMergeHighWord(auVar9,auVar13); memcpy(auVar9, &_vt54, 16); }
-    pfVar1 = (float *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar17;
     pfVar1[1] = fVar17;
     pfVar1[2] = fVar17;
     pfVar1[3] = fVar17;
-    pfVar1 = (float *)((uint)(auStack_30 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar25;
     pfVar1[1] = fVar25;
     pfVar1[2] = fVar25;
     pfVar1[3] = fVar25;
-    pfVar1 = (float *)((uint)(auStack_20 + in_r0) & 0xfffffff0);
+    pfVar1 = (float *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
     *pfVar1 = fVar20;
     pfVar1[1] = fVar20;
     pfVar1[2] = fVar20;
@@ -212,22 +186,22 @@ void fn_82544B18(undefined8 param_1,int param_2,int param_3)
   vectorMergeLowWord(auVar11,auVar13);
   vectorMergeHighWord(auVar6,auVar9);
   vectorMergeLowWord(auVar6,auVar9);
-  pfVar1 = (float *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
+  pfVar1 = (float *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
   *pfVar1 = fVar25;
   pfVar1[1] = fVar25;
   pfVar1[2] = fVar25;
   pfVar1[3] = fVar25;
-  pfVar1 = (float *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+  pfVar1 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
   *pfVar1 = fVar20;
   pfVar1[1] = fVar20;
   pfVar1[2] = fVar20;
   pfVar1[3] = fVar20;
-  pfVar1 = (float *)((uint)(auStack_30 + in_r0) & 0xfffffff0);
+  pfVar1 = (float *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
   *pfVar1 = fVar24;
   pfVar1[1] = fVar24;
   pfVar1[2] = fVar24;
   pfVar1[3] = fVar24;
-  pfVar1 = (float *)((uint)(auStack_20 + in_r0) & 0xfffffff0);
+  pfVar1 = (float *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
   *pfVar1 = fVar16;
   pfVar1[1] = fVar17;
   pfVar1[2] = fVar18;

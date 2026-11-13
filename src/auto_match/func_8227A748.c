@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 typedef struct Value_8227A748 {
     unsigned int a;
     unsigned int b;
@@ -17,7 +15,7 @@ extern void fn_82273C88(Value_8227A748 *v);
 extern void fn_82273CD8(Value_8227A748 *v, int type);
 extern void fn_82672C20(void *movie, const char *name, Value_8227A748 *args, int count);
 
-void fn_8227A748(Obj_8227A748 *param_1, undefined4 param_2)
+void fn_8227A748(Obj_8227A748 *param_1, unsigned int param_2)
 {
     Value_8227A748 v;
 

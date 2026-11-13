@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
 extern unsigned int *auStack_c0;
 extern int fn_822A3450();
@@ -37,28 +13,28 @@ extern unsigned int lbl_821AA630;
 extern unsigned int lbl_821AA634;
 
 
-void fn_82426000(undefined8 param_1,int param_2,undefined8 param_3,int *param_4)
+void fn_82426000(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int *param_4)
 
 {
   int iVar1;
   int *piVar2;
-  longlong lVar3;
+  __int64 lVar3;
   char cVar4;
-  undefined8 uVar5;
-  undefined *puVar6;
-  undefined *puVar7;
+  unsigned __int64 uVar5;
+  unsigned char *puVar6;
+  unsigned char *puVar7;
   int iVar8;
   int *piVar9;
   bool bVar10;
   int iVar11;
-  longlong lVar12;
+  __int64 lVar12;
   int iVar13;
-  ulonglong uVar14;
-  longlong lVar15;
-  ulonglong uVar16;
-  uint uVar17;
-  undefined1 auStack_c0 [32];
-  undefined1 auStack_a0 [160];
+  unsigned __int64 uVar14;
+  __int64 lVar15;
+  unsigned __int64 uVar16;
+  unsigned int uVar17;
+  unsigned char auStack_c0 [32];
+  unsigned char auStack_a0 [160];
   
   iVar8 = *(int *)(param_2 + 8);
   uVar16 = 1;
@@ -73,7 +49,7 @@ void fn_82426000(undefined8 param_1,int param_2,undefined8 param_3,int *param_4)
       iVar13 = 0;
       uVar14 = uVar16;
       do {
-        lVar3 = fn_82415090(*(undefined4 *)(iVar13 + *(int *)(iVar8 + 4)));
+        lVar3 = fn_82415090(*(unsigned int *)(iVar13 + *(int *)(iVar8 + 4)));
         uVar14 = uVar14 - 1;
         lVar12 = lVar3 + lVar12;
         iVar13 = iVar13 + 4;
@@ -155,7 +131,7 @@ LAB_82426194:
   lVar15 = 0;
   uVar17 = 0;
   do {
-    lVar12 = fn_82415090(*(undefined4 *)(uVar17 + *(int *)(iVar8 + 4)));
+    lVar12 = fn_82415090(*(unsigned int *)(uVar17 + *(int *)(iVar8 + 4)));
     uVar17 = uVar17 + 4;
     lVar15 = lVar12 + lVar15;
   } while (uVar17 < 0x28);

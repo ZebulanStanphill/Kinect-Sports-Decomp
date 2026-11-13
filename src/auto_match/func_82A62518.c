@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_a4;
 extern unsigned int fStack_a8;
 extern int fn_82F6A510();
@@ -36,8 +9,8 @@ void fn_82A62518(void)
 
 {
   float *pfVar1;
-  uint uVar2;
-  uint uVar3;
+  unsigned int uVar2;
+  unsigned int uVar3;
   float fVar4;
   float fVar5;
   float fVar6;
@@ -89,19 +62,19 @@ void fn_82A62518(void)
   float fVar52;
   float fVar53;
   float fVar54;
-  uint *puVar55;
-  longlong lVar56;
-  ulonglong uVar57;
+  unsigned int *puVar55;
+  __int64 lVar56;
+  unsigned __int64 uVar57;
   float *pfVar58;
   short *psVar60;
-  ulonglong uVar59;
+  unsigned __int64 uVar59;
   float fStack_a8;
   float fStack_a4;
   
-  puVar55 = (uint *)fn_82F6A510();
+  puVar55 = (unsigned int *)fn_82F6A510();
   pfVar58 = (float *)puVar55[2];
   pfVar1 = (float *)puVar55[3];
-  uVar57 = (ulonglong)puVar55[1];
+  uVar57 = (unsigned __int64)puVar55[1];
   uVar2 = puVar55[5];
   uVar3 = puVar55[8];
   fStack_a8 = pfVar58[0x16] * lbl_8201467C;
@@ -130,14 +103,14 @@ void fn_82A62518(void)
   fVar25 = pfVar58[0x14] * lbl_8201467C;
   if (pfVar1 == (float *)0x0) {
     if (uVar2 != 0) {
-      lVar56 = (ulonglong)(uVar2 - 1 >> 2) + 1;
-      uVar59 = (ulonglong)*puVar55;
+      lVar56 = (unsigned __int64)(uVar2 - 1 >> 2) + 1;
+      uVar59 = (unsigned __int64)*puVar55;
       do {
         psVar60 = (short *)uVar59;
-        fVar27 = (float)(longlong)*psVar60;
-        fVar26 = (float)(longlong)psVar60[1];
-        fVar28 = (float)(longlong)psVar60[2];
-        fVar29 = (float)(longlong)psVar60[3];
+        fVar27 = (float)(__int64)*psVar60;
+        fVar26 = (float)(__int64)psVar60[1];
+        fVar28 = (float)(__int64)psVar60[2];
+        fVar29 = (float)(__int64)psVar60[3];
         dataCacheBlockTouch(uVar59 + 0x20);
         dataCacheBlockTouch(uVar57 + 0xd8);
         fVar31 = fVar29 * fVar17 + fVar28 * fVar6;
@@ -197,14 +170,14 @@ void fn_82A62518(void)
     fVar48 = pfVar1[0x16] * lbl_8201467C;
     fVar49 = pfVar1[0x17] * lbl_8201467C;
     if (uVar2 != 0) {
-      lVar56 = (ulonglong)(uVar2 - 1 >> 2) + 1;
-      uVar59 = (ulonglong)*puVar55;
+      lVar56 = (unsigned __int64)(uVar2 - 1 >> 2) + 1;
+      uVar59 = (unsigned __int64)*puVar55;
       do {
         psVar60 = (short *)uVar59;
-        fVar51 = (float)(longlong)*psVar60;
-        fVar52 = (float)(longlong)psVar60[2];
-        fVar50 = (float)(longlong)psVar60[1];
-        fVar53 = (float)(longlong)psVar60[3];
+        fVar51 = (float)(__int64)*psVar60;
+        fVar52 = (float)(__int64)psVar60[2];
+        fVar50 = (float)(__int64)psVar60[1];
+        fVar53 = (float)(__int64)psVar60[3];
         dataCacheBlockTouch(uVar59 + 0x20);
         dataCacheBlockTouch(uVar57 + 0xd8);
         fVar54 = fVar53 * fVar17 + fVar52 * fVar6;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_100;
 extern unsigned int *auStack_90;
 extern unsigned int *auStack_b0;
@@ -49,29 +22,29 @@ extern unsigned int uStack_10c;
 extern unsigned int uStack_110;
 
 
-undefined8
-fn_82580A78(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6)
+unsigned __int64
+fn_82580A78(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+             unsigned __int64 param_5,unsigned __int64 param_6)
 
 {
   int iVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
-  longlong lVar4;
-  undefined8 uVar5;
-  undefined4 uStack_110;
-  undefined4 uStack_10c;
-  undefined4 uStack_108;
-  undefined4 uStack_104;
-  undefined4 auStack_100 [4];
-  undefined1 auStack_f0 [64];
-  undefined1 auStack_b0 [32];
-  undefined1 auStack_90 [144];
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
+  __int64 lVar4;
+  unsigned __int64 uVar5;
+  unsigned int uStack_110;
+  unsigned int uStack_10c;
+  unsigned int uStack_108;
+  unsigned int uStack_104;
+  unsigned int auStack_100 [4];
+  unsigned char auStack_f0 [64];
+  unsigned char auStack_b0 [32];
+  unsigned char auStack_90 [144];
   
   uStack_110 = 0;
   iVar1 = *(int *)lbl_83156AA0;
   uVar3 = fn_82811400(auStack_b0,4);
-  lVar4 = (**(code **)(iVar1 + 0xc))(lbl_83156AA0,0x68,uVar3);
+  lVar4 = (**(int (***)())(iVar1 + 0xc))(lbl_83156AA0,0x68,uVar3);
   if (lVar4 == 0) {
     uVar3 = 0;
   }

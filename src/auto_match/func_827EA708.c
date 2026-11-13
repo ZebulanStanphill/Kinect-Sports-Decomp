@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern unsigned int *auStack_70;
 extern unsigned int *auStack_80;
@@ -49,30 +22,30 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_831F13B4;
 
 
-void fn_827EA708(undefined8 param_1, double param_2, undefined8 param_3, undefined8 param_4, undefined8 param_5, undefined8 param_6, undefined8 param_7, undefined8 param_8, undefined8 param_9, undefined8 param_10, undefined8 unused_arg_11, undefined8 unused_arg_12, undefined4 in_stack_00000074)
+void fn_827EA708(unsigned __int64 param_1, double param_2, unsigned __int64 param_3, unsigned __int64 param_4, unsigned __int64 param_5, unsigned __int64 param_6, unsigned __int64 param_7, unsigned __int64 param_8, unsigned __int64 param_9, unsigned __int64 param_10, unsigned __int64 unused_arg_11, unsigned __int64 unused_arg_12, unsigned int in_stack_00000074)
 
 {
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
   double extraout_f1;
   double dVar3;
   double dVar4;
   double dVar5;
   double dVar6;
-  undefined4 in_stack_00000054;
-  undefined4 in_stack_0000005c;
+  unsigned int in_stack_00000054;
+  unsigned int in_stack_0000005c;
   float *in_stack_0000006c;
 
-  undefined1 auStack_f0 [16];
-  undefined1 auStack_e0 [16];
-  undefined1 auStack_d0 [16];
-  undefined1 auStack_c0 [16];
-  undefined1 auStack_b0 [16];
-  undefined1 auStack_a0 [16];
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [16];
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [1];
+  unsigned char auStack_f0 [16];
+  unsigned char auStack_e0 [16];
+  unsigned char auStack_d0 [16];
+  unsigned char auStack_c0 [16];
+  unsigned char auStack_b0 [16];
+  unsigned char auStack_a0 [16];
+  unsigned char auStack_90 [16];
+  unsigned char auStack_80 [16];
+  unsigned char auStack_70 [16];
+  unsigned char auStack_60 [1];
 
   uVar1 = fn_82F6A548();
   dVar5 = extraout_f1;

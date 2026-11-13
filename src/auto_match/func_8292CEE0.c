@@ -1,48 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82925600();
 extern int fn_82B8FD40();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_8200DD28;
 
 
-void fn_8292CEE0(int param_1,int param_2,int param_3,longlong param_4)
+void fn_8292CEE0(int param_1,int param_2,int param_3,__int64 param_4)
 
 {
-  ushort uVar1;
+  unsigned short uVar1;
   float fVar2;
   float *pfVar3;
   float fVar4;
   float fVar5;
-  uint uVar7;
-  longlong lVar6;
-  uint uVar8;
-  ushort *puVar9;
+  unsigned int uVar7;
+  __int64 lVar6;
+  unsigned int uVar8;
+  unsigned short *puVar9;
   
   fVar5 = lbl_8200DD28;
   fVar4 = lbl_82002AE0;
@@ -50,8 +23,8 @@ void fn_8292CEE0(int param_1,int param_2,int param_3,longlong param_4)
           *(int *)(param_1 + 0x20);
   uVar7 = *(int *)(param_1 + 0x68) * 2 + uVar8;
   if (uVar8 < uVar7) {
-    puVar9 = (ushort *)(uVar8 - 2);
-    lVar6 = (ulonglong)((uVar7 - uVar8) - 1 >> 1) + 1;
+    puVar9 = (unsigned short *)(uVar8 - 2);
+    lVar6 = (unsigned __int64)((uVar7 - uVar8) - 1 >> 1) + 1;
     do {
       puVar9 = puVar9 + 1;
       uVar1 = *puVar9;
@@ -66,11 +39,11 @@ void fn_8292CEE0(int param_1,int param_2,int param_3,longlong param_4)
     } while (lVar6 != 0);
   }
   if (*(int *)(param_1 + 0x18) != 0) {
-    param_1 = fn_82B8FD40(param_1,param_4 + ((ulonglong)*(uint *)(param_1 + 0x68) & 0xfffffff) *
+    param_1 = fn_82B8FD40(param_1,param_4 + ((unsigned __int64)*(unsigned int *)(param_1 + 0x68) & 0xfffffff) *
                                              -0x10);
   }
   if (*(int *)(param_1 + 0x10) != 0) {
-    fn_82925600(param_1,param_4 + ((ulonglong)*(uint *)(param_1 + 0x68) & 0xfffffff) * -0x10);
+    fn_82925600(param_1,param_4 + ((unsigned __int64)*(unsigned int *)(param_1 + 0x68) & 0xfffffff) * -0x10);
   }
   return;
 }

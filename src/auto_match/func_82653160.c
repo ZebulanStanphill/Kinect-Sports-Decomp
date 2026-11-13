@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_660;
 extern unsigned int fStack_67c;
 extern int fn_8263A1B8();
@@ -41,28 +14,28 @@ extern unsigned int uStack_68c;
 extern unsigned int uStack_690;
 
 
-undefined8 fn_82653160(int param_1,undefined4 *param_2)
+unsigned __int64 fn_82653160(int param_1,unsigned int *param_2)
 
 {
-  ulonglong uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  uint uVar7;
+  unsigned __int64 uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
   short sVar8;
   int iVar11;
-  undefined8 uVar9;
-  longlong lVar10;
-  ulonglong uVar12;
+  unsigned __int64 uVar9;
+  __int64 lVar10;
+  unsigned __int64 uVar12;
   short *psVar13;
-  uint uVar14;
-  uint uVar15;
-  undefined4 uStack_690;
-  undefined4 uStack_68c;
+  unsigned int uVar14;
+  unsigned int uVar15;
+  unsigned int uStack_690;
+  unsigned int uStack_68c;
   float fStack_67c;
-  undefined1 auStack_660 [1022];
+  unsigned char auStack_660 [1022];
   short asStack_262 [265];
   
   uVar15 = param_2[0x10];
@@ -103,10 +76,10 @@ LAB_826531fc:
   }
   VdQueryVideoMode(&uStack_690);
   fStack_67c = fStack_67c + lbl_8218E8E8;
-  *(undefined4 *)(param_1 + 0x5500) = uStack_690;
-  *(undefined4 *)(param_1 + 0x5508) = uStack_690;
-  *(int *)(param_1 + 0x550c) = (int)(longlong)fStack_67c;
-  *(undefined4 *)(param_1 + 0x5504) = uStack_68c;
+  *(unsigned int *)(param_1 + 0x5500) = uStack_690;
+  *(unsigned int *)(param_1 + 0x5508) = uStack_690;
+  *(int *)(param_1 + 0x550c) = (int)(__int64)fStack_67c;
+  *(unsigned int *)(param_1 + 0x5504) = uStack_68c;
   if (param_2[0xf] == 0) {
     iVar11 = fn_8263C7F0(uVar2,uVar3,1,1,0,uVar15,0,3);
     if (iVar11 != 0) {
@@ -132,7 +105,7 @@ LAB_826532a0:
     }
     memcpy(param_1 + 0x35bc,param_2,0x7c);
     if ((uVar15 & 0x3ffc0000) != 0x24900000) {
-      *(uint *)(param_1 + 0x35fc) = uVar7 | 0x28280100;
+      *(unsigned int *)(param_1 + 0x35fc) = uVar7 | 0x28280100;
     }
     fn_82655F40(param_1,param_2 + 0x18);
     if ((uVar14 == 7) || (uVar14 == 0x36)) {
@@ -171,7 +144,7 @@ LAB_826532a0:
       fn_8263A8C8(param_1,auStack_660);
     }
     uVar9 = 1;
-    *(undefined4 *)(param_1 + 0x421c) = 0xffffffff;
+    *(unsigned int *)(param_1 + 0x421c) = 0xffffffff;
   }
   return uVar9;
 }

@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82CA8498();
 extern int fn_82CAAA10();
 
@@ -35,13 +9,13 @@ void fn_82C84080(int param_1,int param_2)
   int iVar1;
   int iVar2;
   int iVar3;
-  uint *puVar4;
+  unsigned int *puVar4;
   bool bVar5;
   bool bVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int iVar8;
-  uint *puVar9;
-  uint uVar10;
+  unsigned int *puVar9;
+  unsigned int uVar10;
   
   if (param_2 == 0) {
     fn_82CA8498(param_1,0);
@@ -70,7 +44,7 @@ void fn_82C84080(int param_1,int param_2)
         do {
           uVar10 = 0;
           if (*(int *)(param_1 + 0x88) != 0) {
-            puVar9 = (uint *)(iVar8 * 0x18 + iVar2 * iVar1 * 0x18 + iVar3 + -0x18);
+            puVar9 = (unsigned int *)(iVar8 * 0x18 + iVar2 * iVar1 * 0x18 + iVar3 + -0x18);
             do {
               iVar8 = iVar8 + 1;
               puVar4 = puVar9 + 6;
@@ -78,14 +52,14 @@ void fn_82C84080(int param_1,int param_2)
               bVar5 = uVar10 == 0;
               uVar10 = uVar10 + 1;
               puVar9 = puVar9 + 6;
-              *puVar9 = (uint)((((ulonglong)LZCOUNT((*(int *)(param_1 + 0x8c) + -1) - uVar7) >> 4 &
-                                 2 | (ulonglong)bVar6) << 2 |
-                               (ulonglong)bVar5 | (ulonglong)LZCOUNT(uVar7) >> 4 & 2) << 0xc) |
+              *puVar9 = (unsigned int)((((unsigned __int64)LZCOUNT((*(int *)(param_1 + 0x8c) + -1) - uVar7) >> 4 &
+                                 2 | (unsigned __int64)bVar6) << 2 |
+                               (unsigned __int64)bVar5 | (unsigned __int64)LZCOUNT(uVar7) >> 4 & 2) << 0xc) |
                         *puVar4 & 0xffff0fff;
-            } while (uVar10 < *(uint *)(param_1 + 0x88));
+            } while (uVar10 < *(unsigned int *)(param_1 + 0x88));
           }
           uVar7 = uVar7 + 1;
-        } while (uVar7 < *(uint *)(param_1 + 0x8c));
+        } while (uVar7 < *(unsigned int *)(param_1 + 0x8c));
       }
     }
   }

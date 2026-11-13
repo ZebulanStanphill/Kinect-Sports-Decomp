@@ -1,11 +1,10 @@
-typedef unsigned int uint;
 typedef struct { int a; int b; } Elem;
-typedef struct { Elem *begin; Elem *end; uint cap; } Pool;
+typedef struct { Elem *begin; Elem *end; unsigned int cap; } Pool;
 extern unsigned char fn_8300E258(Pool *p, int n);
 
 Elem *fn_8300E328(Pool *p)
 {
-  uint n;
+  unsigned int n;
   Elem *e;
 
   n = p->end - p->begin;

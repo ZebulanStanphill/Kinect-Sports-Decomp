@@ -1,35 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_829DEF00();
 extern unsigned int lbl_8200D8C4;
 
 
-undefined8 fn_829DF4B0(int param_1,int *param_2,int *param_3)
+unsigned __int64 fn_829DF4B0(int param_1,int *param_2,int *param_3)
 
 {
   int iVar1;
@@ -45,7 +18,7 @@ undefined8 fn_829DF4B0(int param_1,int *param_2,int *param_3)
   
   fVar5 = lbl_8200D8C4;
   fVar4 = 0.5f;
-  fVar3 = (float)(longlong)(param_2[0x30] - param_2[0x24]) * 0.5f;
+  fVar3 = (float)(__int64)(param_2[0x30] - param_2[0x24]) * 0.5f;
   *(float *)(param_1 + 0x18) = fVar3;
   if (fVar5 < fVar3) {
     iVar10 = param_2[0x24];
@@ -70,7 +43,7 @@ undefined8 fn_829DF4B0(int param_1,int *param_2,int *param_3)
       iVar9 = iVar2;
     }
     *param_3 = (int)(-(*(float *)(param_1 + 0x10) * *(float *)(param_1 + 0x18) -
-                      (float)(longlong)iVar9) + fVar4);
+                      (float)(__int64)iVar9) + fVar4);
     iVar10 = param_2[0x27];
     iVar1 = param_2[0x24];
     iVar7 = iVar1;
@@ -93,7 +66,7 @@ undefined8 fn_829DF4B0(int param_1,int *param_2,int *param_3)
       iVar9 = iVar2;
     }
     param_3[2] = (int)(*(float *)(param_1 + 0x10) * *(float *)(param_1 + 0x18) +
-                       (float)(longlong)iVar9 + fVar4);
+                       (float)(__int64)iVar9 + fVar4);
     iVar10 = param_2[0x25];
     if (param_2[0x31] <= param_2[0x25]) {
       iVar10 = param_2[0x31];
@@ -132,13 +105,13 @@ undefined8 fn_829DF4B0(int param_1,int *param_2,int *param_3)
     if (iVar10 <= param_3[3]) {
       param_3[3] = iVar10 + -1;
     }
-    cVar6 = fn_829DEF00((double)(longlong)*param_2,(double)(longlong)param_2[0x24],
-                          (double)(longlong)param_2[0x25],(double)(longlong)param_2[0x27],
-                          (double)(longlong)param_2[0x28],param_1);
+    cVar6 = fn_829DEF00((double)(__int64)*param_2,(double)(__int64)param_2[0x24],
+                          (double)(__int64)param_2[0x25],(double)(__int64)param_2[0x27],
+                          (double)(__int64)param_2[0x28],param_1);
     if ((cVar6 != '\0') &&
-       (cVar6 = fn_829DEF00((double)(longlong)*param_2,(double)(longlong)param_2[0x30],
-                              (double)(longlong)param_2[0x31],(double)(longlong)param_2[0x33],
-                              (double)(longlong)param_2[0x34],param_1), cVar6 != '\0')) {
+       (cVar6 = fn_829DEF00((double)(__int64)*param_2,(double)(__int64)param_2[0x30],
+                              (double)(__int64)param_2[0x31],(double)(__int64)param_2[0x33],
+                              (double)(__int64)param_2[0x34],param_1), cVar6 != '\0')) {
       return 1;
     }
   }

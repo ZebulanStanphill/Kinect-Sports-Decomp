@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_14;
 extern unsigned int fStack_18;
 extern unsigned int fStack_1c;
@@ -65,10 +38,10 @@ extern unsigned int uStack_84;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void fn_82547968(double param_1,double param_2,undefined8 param_3)
+void fn_82547968(double param_1,double param_2,unsigned __int64 param_3)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
   double dVar3;
   double dVar4;
@@ -76,7 +49,7 @@ void fn_82547968(double param_1,double param_2,undefined8 param_3)
   struct { float first; float second; } stack_pair_90;
 
   float fStack_88;
-  undefined4 uStack_84;
+  unsigned int uStack_84;
   float fStack_80;
   float fStack_7c;
   float fStack_78;
@@ -144,10 +117,10 @@ void fn_82547968(double param_1,double param_2,undefined8 param_3)
   iVar2 = fn_826311B8(param_3,0,&stack_pair_90.first,8,0xc000000000000000);
   *(float *)(iVar2 + 0x180c) = (float)dVar3;
   uVar1 = lbl_82195A0C;
-  *(undefined4 *)(iVar2 + 0x1800) = lbl_82195A0C;
-  *(undefined4 *)(iVar2 + 0x1804) = uVar1;
-  *(undefined4 *)(iVar2 + 0x1808) = uVar1;
-  *(ulonglong *)(iVar2 + 8) = *(ulonglong *)(iVar2 + 8) | 0x2000000000000000;
+  *(unsigned int *)(iVar2 + 0x1800) = lbl_82195A0C;
+  *(unsigned int *)(iVar2 + 0x1804) = uVar1;
+  *(unsigned int *)(iVar2 + 0x1808) = uVar1;
+  *(unsigned __int64 *)(iVar2 + 8) = *(unsigned __int64 *)(iVar2 + 8) | 0x2000000000000000;
   return;
 }
 

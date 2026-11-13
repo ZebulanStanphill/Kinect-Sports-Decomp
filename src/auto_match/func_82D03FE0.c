@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_154;
 extern unsigned int *auStack_180;
 extern int fn_82A1E658();
@@ -47,30 +20,30 @@ extern unsigned int uStack_1e0;
 extern unsigned int uStack_1f0;
 
 
-undefined8 fn_82D03FE0(undefined8 param_1,undefined8 param_2)
+unsigned __int64 fn_82D03FE0(unsigned __int64 param_1,unsigned __int64 param_2)
 
 {
   int iVar3;
-  ulonglong uVar1;
-  undefined8 uVar2;
-  undefined4 uStack_1f0;
-  undefined4 uStack_1e0;
+  unsigned __int64 uVar1;
+  unsigned __int64 uVar2;
+  unsigned int uStack_1f0;
+  unsigned int uStack_1e0;
   int iStack_1dc;
-  undefined4 uStack_1b0;
-  uint uStack_1ac;
-  uint auStack_180 [5];
-  longlong lStack_16c;
-  undefined1 auStack_154 [340];
+  unsigned int uStack_1b0;
+  unsigned int uStack_1ac;
+  unsigned int auStack_180 [5];
+  __int64 lStack_16c;
+  unsigned char auStack_154 [340];
   
   fn_82CE7EE0(&uStack_1e0);
   fn_82D05178(&uStack_1b0,param_1);
-  if (0 < (longlong)((ulonglong)uStack_1ac - 1)) {
+  if (0 < (__int64)((unsigned __int64)uStack_1ac - 1)) {
     fn_82D047D8(&uStack_1b0,0x5c,0x2f,1);
     iVar3 = fn_82D04570(&uStack_1b0,0xffffffff821aa630);
     if (iVar3 == 0) {
       fn_82D04C78(&uStack_1b0,0xffffffff821aa630);
     }
-    (*(code *)lbl_8317F4E4)(uStack_1b0,&uStack_1e0);
+    (*(int (**)())lbl_8317F4E4)(uStack_1b0,&uStack_1e0);
   }
   fn_82CE7E68(&uStack_1b0);
   uVar1 = fn_82A1F4F8(uStack_1e0);

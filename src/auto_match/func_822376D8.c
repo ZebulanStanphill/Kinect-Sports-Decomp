@@ -1,35 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT21(h,l) ((U32)((((U16)(h)) << 8) | ((U8)(l))))
-#define CONCAT41(h,l) ((U64)((((U32)(h)) << 8) | ((U8)(l))))
-#define CONCAT51(h,l) ((U64)((((U64)(h)) << 8) | ((U8)(l))))
-#define CONCAT61(h,l) ((U64)((((U64)(h)) << 8) | ((U8)(l))))
-#define CONCAT71(h,l) ((U64)((((U64)(h)) << 8) | ((U8)(l))))
+#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT41(h,l) ((unsigned __int64)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT51(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT61(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT71(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
 extern unsigned int *auStack_50;
 extern unsigned int *auStack_80;
 extern int fn_82230300();
@@ -42,23 +15,23 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-undefined8
-fn_822376D8(undefined8 param_1,undefined8 param_2,undefined4 param_3,undefined8 param_4,
-             undefined1 param_5,undefined1 param_6,undefined1 param_7,undefined1 param_8)
+unsigned __int64
+fn_822376D8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,
+             unsigned char param_5,unsigned char param_6,unsigned char param_7,unsigned char param_8)
 
 {
-  undefined8 uVar1;
-  undefined1 auStack_80 [32];
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
+  unsigned __int64 uVar1;
+  unsigned char auStack_80 [32];
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  undefined8 uStack_58;
-  undefined1 auStack_50 [28];
-  code *pcStack_34;
-  code *pcStack_30;
+  unsigned __int64 uStack_58;
+  unsigned char auStack_50 [28];
+  int (**pcStack_34)();
+  int (**pcStack_30)();
   
   uVar1 = fn_8223B688(auStack_80,param_4);
-  stack_pair_60.first = (undefined4)param_2;
-  uStack_58 = CONCAT71(CONCAT61(CONCAT51(CONCAT41((uint)CONCAT21(0x101,param_5) << 8,1),param_6),
+  stack_pair_60.first = (unsigned int)param_2;
+  uStack_58 = CONCAT71(CONCAT61(CONCAT51(CONCAT41((unsigned int)CONCAT21(0x101,param_5) << 8,1),param_6),
                                 param_7),param_8);
   stack_pair_60.second = param_3;
   fn_8223B688(auStack_50,uVar1);

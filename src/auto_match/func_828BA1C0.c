@@ -1,21 +1,16 @@
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-
 extern void *fn_8265CA60(unsigned int size);
-extern int fn_82F64840(U16 *dst, unsigned int dstCount, const U16 *src, unsigned int count);
+extern int fn_82F64840(unsigned short *dst, unsigned int dstCount, const unsigned short *src, unsigned int count);
 extern void *memcpy(void *dst, const void *src, unsigned int size);
 extern unsigned int lbl_82025404;
 
 typedef struct Raw_828BA1C0 {
-    U64 lo;
-    U64 hi;
+    unsigned __int64 lo;
+    unsigned __int64 hi;
 } Raw_828BA1C0;
 
 typedef struct Fields_828BA1C0 {
-    U8 type;
-    U8 pad[7];
+    unsigned char type;
+    unsigned char pad[7];
     unsigned int count;
     void *data;
 } Fields_828BA1C0;
@@ -59,9 +54,9 @@ Obj_828BA1C0 *fn_828BA1C0(Obj_828BA1C0 *p, Value_828BA1C0 *src)
         n = p->val.f.count;
         if (n != 0 && src->f.data != 0) {
             p->val.f.data = fn_8265CA60(n <= 0x7fffffff ? n * 2 : 0xffffffff);
-            fn_82F64840((U16 *)p->val.f.data, p->val.f.count, (const U16 *)src->f.data,
+            fn_82F64840((unsigned short *)p->val.f.data, p->val.f.count, (const unsigned short *)src->f.data,
                         p->val.f.count - 1);
-            ((U16 *)p->val.f.data)[p->val.f.count - 1] = 0;
+            ((unsigned short *)p->val.f.data)[p->val.f.count - 1] = 0;
             return p;
         }
     } else if (p->kind == 6) {

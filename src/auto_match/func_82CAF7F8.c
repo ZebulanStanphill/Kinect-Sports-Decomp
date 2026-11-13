@@ -1,5 +1,3 @@
-typedef unsigned int undefined4;
-
 int __cdecl abs(int);
 
 typedef struct Ctx_82CAF7F8 {
@@ -8,7 +6,7 @@ typedef struct Ctx_82CAF7F8 {
 } Ctx_82CAF7F8;
 
 short *fn_82CAF7F8(Ctx_82CAF7F8 *ctx, short **tab, int a, int b, int c,
-                   undefined4 *out)
+                   unsigned int *out)
 {
     short *p = tab[a];
     short *q = tab[b + 2];

@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern unsigned int fn_825154B8();
 extern int fn_825156F8();
 
@@ -11,5 +10,5 @@ void fn_82515090(int param_1)
   uVar1 = *(int *)(param_1 + 0x28);
   uVar2 = fn_825154B8();
   iVar3 = fn_825156F8(uVar2, uVar1);
-  (*(code *)(iVar3 + 0x2c))(param_1);
+  (*(int (**)())(iVar3 + 0x2c))(param_1);
 }

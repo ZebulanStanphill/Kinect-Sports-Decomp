@@ -1,36 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F691F0();
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 
 
-void fn_82C18678(undefined8 param_1,longlong param_2,longlong param_3,longlong param_4)
+void fn_82C18678(unsigned __int64 param_1,__int64 param_2,__int64 param_3,__int64 param_4)
 
 {
   float fVar1;
@@ -54,7 +27,7 @@ void fn_82C18678(undefined8 param_1,longlong param_2,longlong param_3,longlong p
   float *pfVar19;
   int *piVar20;
   int iVar21;
-  longlong lVar22;
+  __int64 lVar22;
   int iVar23;
   float *pfVar24;
   
@@ -65,10 +38,10 @@ void fn_82C18678(undefined8 param_1,longlong param_2,longlong param_3,longlong p
       iVar23 = 6;
     }
     iVar21 = (int)param_3;
-    if ((*(ushort *)(*piVar20 + 0x22) == 6) && (iVar23 == 2)) {
+    if ((*(unsigned short *)(*piVar20 + 0x22) == 6) && (iVar23 == 2)) {
       lVar22 = 0;
       pfVar19 = *(float **)piVar20[0x5d];
-      pfVar24 = (float *)((undefined4 *)piVar20[0x5d])[1];
+      pfVar24 = (float *)((unsigned int *)piVar20[0x5d])[1];
       fVar1 = *pfVar19;
       fVar2 = pfVar19[1];
       fVar3 = pfVar19[2];
@@ -165,7 +138,7 @@ void fn_82C18678(undefined8 param_1,longlong param_2,longlong param_3,longlong p
         return;
       }
     }
-    else if ((int)(uint)*(ushort *)(*piVar20 + 0x22) < iVar23) {
+    else if ((int)(unsigned int)*(unsigned short *)(*piVar20 + 0x22) < iVar23) {
       if (-1 < iVar21 + -1) {
                     /* WARNING: Subroutine does not return */
         fn_82F691F0(piVar20[0x60],0,iVar23 << 2);

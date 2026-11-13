@@ -1,33 +1,6 @@
 extern char *pcRam8327f70c;
 extern char *pcRam8327f718;
 extern char *pcRam8327fbc4;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_70;
 extern int fn_82230040();
 extern int fn_822315A0();
@@ -141,19 +114,19 @@ void fn_82558278(void)
 {
   int *piVar2;
   int iVar3;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  undefined8 uVar1;
-  undefined8 *puVar6;
+  unsigned int *puVar4;
+  unsigned int uVar5;
+  unsigned __int64 uVar1;
+  unsigned __int64 *puVar6;
   double dVar7;
-  undefined4 uStack_90;
-  undefined4 uStack_8c;
-  undefined **ppuStack_88;
-  undefined4 uStack_84;
+  unsigned int uStack_90;
+  unsigned int uStack_8c;
+  unsigned char **ppuStack_88;
+  unsigned int uStack_84;
   struct { int first; int second; } stack_pair_80;
 
-  undefined4 uStack_78;
-  undefined1 auStack_70 [64];
+  unsigned int uStack_78;
+  unsigned char auStack_70 [64];
 
   fn_824E2730();
   if (lbl_83281124 == (int *)0x0) {
@@ -197,34 +170,34 @@ void fn_82558278(void)
   if (*lbl_832767CC == 0) {
     fn_825228E0(lbl_832767CC);
   }
-  puVar4 = (undefined4 *)fn_8265C9E0(4);
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
+  puVar4 = (unsigned int *)fn_8265C9E0(4);
+  if (puVar4 == (unsigned int *)0x0) {
+    puVar4 = (unsigned int *)0x0;
   }
   else {
     *puVar4 = &lbl_821C2D54;
   }
   fn_82811038(0xffffffff8320a3e0,puVar4);
   fn_827D9490(piVar2 + 0x41);
-  puVar4 = (undefined4 *)fn_8265C9E0(8);
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
+  puVar4 = (unsigned int *)fn_8265C9E0(8);
+  if (puVar4 == (unsigned int *)0x0) {
+    puVar4 = (unsigned int *)0x0;
   }
   else {
     fn_82811058(puVar4);
     *puVar4 = &lbl_821C2D78;
   }
   fn_82811038(0xffffffff832116f8,puVar4);
-  puVar4 = (undefined4 *)fn_8265C9E0(4);
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
+  puVar4 = (unsigned int *)fn_8265C9E0(4);
+  if (puVar4 == (unsigned int *)0x0) {
+    puVar4 = (unsigned int *)0x0;
   }
   else {
     *puVar4 = &lbl_821C2D38;
   }
   fn_827D94B0(puVar4);
   puVar4 = &lbl_8327F7F0;
-  puVar6 = (undefined8 *)&lbl_82190890;
+  puVar6 = (unsigned __int64 *)&lbl_82190890;
   do {
     uVar5 = fn_82A1EF78(*puVar6);
     puVar4[4] = uVar5;
@@ -250,7 +223,7 @@ void fn_82558278(void)
   pcRam8327f70c = fn_82599020;
   fn_82580410();
   iVar3 = 1;
-  puVar4 = (undefined4 *)0x8326f5c4;
+  puVar4 = (unsigned int *)0x8326f5c4;
   do {
     if ((&lbl_8218ECBC)[iVar3] != '\0') {
       uVar1 = fn_82A1E0C0(0,0,0xffffffff8259a340,iVar3,4,puVar4 + 1);
@@ -280,9 +253,9 @@ void fn_82558278(void)
   if (stack_pair_80.second != 0) {
     fn_822315A0();
   }
-  puVar4 = (undefined4 *)fn_8265C9E0(0x14);
-  if (puVar4 == (undefined4 *)0x0) {
-    lbl_832767B8 = (undefined4 *)0x0;
+  puVar4 = (unsigned int *)fn_8265C9E0(0x14);
+  if (puVar4 == (unsigned int *)0x0) {
+    lbl_832767B8 = (unsigned int *)0x0;
   }
   else {
     *puVar4 = 0;
@@ -296,10 +269,10 @@ void fn_82558278(void)
   puVar6 = &lbl_83296890;
   fn_82561778(0xffffffff83296960,0xffffffff821c3a0c,0);
   if (iRam8326b4b8 == 0) {
-    *(undefined4 *)((int)puVar6 + 0x13c) = 0;
-    *(undefined4 *)(puVar6 + 0x34) = 1;
+    *(unsigned int *)((int)puVar6 + 0x13c) = 0;
+    *(unsigned int *)(puVar6 + 0x34) = 1;
   }
-  *(undefined4 *)(puVar6 + 100) = 1;
+  *(unsigned int *)(puVar6 + 100) = 1;
   fn_82530620();
   pcRam8327fbc4 = "incubation";
   fn_82559228();

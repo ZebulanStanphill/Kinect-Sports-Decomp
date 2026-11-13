@@ -1,67 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_2c;
 extern int fn_8267BE38();
 extern int fn_8268C510();
 extern int fn_826BCE08();
 extern int fn_826D9828();
 extern unsigned int iStack_24;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-undefined8 fn_826DB430(undefined8 param_1,byte *param_2,int *param_3,char param_4)
+unsigned __int64 fn_826DB430(unsigned __int64 param_1,unsigned char *param_2,int *param_3,char param_4)
 
 {
-  uint uVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  uint *puVar4;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
+  __int64 lVar3;
+  unsigned int *puVar4;
   bool bVar5;
-  byte *pbVar7;
-  ulonglong uVar6;
-  byte bVar8;
+  unsigned char *pbVar7;
+  unsigned __int64 uVar6;
+  unsigned char bVar8;
   char in_RESERVE;
-  byte bVar9;
+  unsigned char bVar9;
   double dVar10;
-  byte *pbStack_30;
-  uint auStack_2c [2];
+  unsigned char *pbStack_30;
+  unsigned int auStack_2c [2];
   int iStack_24;
   
-  if ((param_2 != (byte *)0x0) && (bVar8 = *param_2, bVar8 != 0)) {
+  if ((param_2 != (unsigned char *)0x0) && (bVar8 = *param_2, bVar8 != 0)) {
     bVar9 = (param_4 == '\0') << 1;
     if (param_4 == '\0') {
 LAB_826db500:
-      pbStack_30 = (byte *)fn_8268C510(auStack_2c,param_2);
+      pbStack_30 = (unsigned char *)fn_8268C510(auStack_2c,param_2);
       uVar2 = fn_826D9828(param_1,&pbStack_30,param_3);
-      lVar3 = ((ulonglong)auStack_2c[0] & 0xfffffffc) + 4;
+      lVar3 = ((unsigned __int64)auStack_2c[0] & 0xfffffffc) + 4;
       do {
-        puVar4 = (uint *)lVar3;
-        uVar6 = (ulonglong)*puVar4;
+        puVar4 = (unsigned int *)lVar3;
+        uVar6 = (unsigned __int64)*puVar4;
         if (in_RESERVE != '\0') {
           uVar1 = storeWordConditionalIndexed(uVar6 - 1,0,lVar3);
           *puVar4 = uVar1;
@@ -88,9 +64,9 @@ LAB_826db500:
       bVar8 = *pbVar7;
       bVar9 = (bVar8 == 0) << 1;
     } while (bVar8 != 0);
-    pbStack_30 = (byte *)0x0;
+    pbStack_30 = (unsigned char *)0x0;
     dVar10 = (double)fn_826BCE08(param_2,&pbStack_30);
-    iStack_24 = (int)(longlong)dVar10;
+    iStack_24 = (int)(__int64)dVar10;
     if ((pbStack_30 != param_2) && (*pbStack_30 == 0)) {
       *param_3 = iStack_24 + -1;
       return 1;

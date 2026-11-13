@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
 extern int fn_82266DD8();
 extern int fn_82286EA8();
@@ -36,16 +9,16 @@ extern int fn_8265C9E0();
 extern int fn_82A81CC0();
 
 
-void fn_82289580(undefined4 *param_1)
+void fn_82289580(unsigned int *param_1)
 
 {
   char *pcVar2;
   char cVar4;
-  ulonglong uVar1;
-  undefined4 uVar3;
-  undefined8 uVar5;
-  undefined8 uVar6;
-  undefined1 auStack_a0 [144];
+  unsigned __int64 uVar1;
+  unsigned int uVar3;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned char auStack_a0 [144];
   
   if (param_1[0x184] != 0) {
     fn_82286EA8();
@@ -55,7 +28,7 @@ void fn_82289580(undefined4 *param_1)
     uVar5 = 0;
   }
   else {
-    cVar4 = fn_82A81CC0((ulonglong)(uint)param_1[0x47c] + 0x844);
+    cVar4 = fn_82A81CC0((unsigned __int64)(unsigned int)param_1[0x47c] + 0x844);
     if (cVar4 != '\x01') {
       uVar6 = 1;
       uVar5 = 0;

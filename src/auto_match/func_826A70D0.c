@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8268B610();
 
 
-void fn_826A70D0(byte *param_1,int param_2,undefined8 param_3)
+void fn_826A70D0(unsigned char *param_1,int param_2,unsigned __int64 param_3)
 
 {
-  byte bVar1;
-  uint uVar2;
-  uint uVar3;
-  byte *pbVar4;
+  unsigned char bVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned char *pbVar4;
   int iVar5;
   int iVar6;
-  byte *pbVar7;
-  byte *pbVar8;
-  byte abStack_130 [255];
-  byte abStack_31 [49];
+  unsigned char *pbVar7;
+  unsigned char *pbVar8;
+  unsigned char abStack_130 [255];
+  unsigned char abStack_31 [49];
   
   pbVar4 = abStack_130;
   pbVar8 = param_1;
@@ -63,11 +36,11 @@ LAB_826a71b0:
 code_r0x826a712c:
   bVar1 = *pbVar7;
   if ((bVar1 < 0x61) || (uVar3 = bVar1 - 0x20, 0x7a < bVar1)) {
-    uVar3 = (uint)bVar1;
+    uVar3 = (unsigned int)bVar1;
   }
   bVar1 = pbVar8[2];
   if ((bVar1 < 0x61) || (uVar2 = bVar1 - 0x20, 0x7a < bVar1)) {
-    uVar2 = (uint)bVar1;
+    uVar2 = (unsigned int)bVar1;
   }
   iVar5 = uVar3 - 0x30;
   pbVar7 = pbVar8 + 3;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_6c;
 extern unsigned int fStack_70;
 extern int fn_826EBD10();
@@ -40,8 +13,8 @@ extern unsigned int lbl_82015458;
 extern unsigned int lbl_821AAD20;
 
 
-void fn_8277A4D8(undefined8 param_1,longlong param_2,float *param_3,float *param_4,
-                  undefined8 param_5,int param_6)
+void fn_8277A4D8(unsigned __int64 param_1,__int64 param_2,float *param_3,float *param_4,
+                  unsigned __int64 param_5,int param_6)
 
 {
   float *pfVar1;
@@ -54,7 +27,7 @@ void fn_8277A4D8(undefined8 param_1,longlong param_2,float *param_3,float *param
   double dVar7;
   float fStack_70;
   float fStack_6c;
-  longlong lStack_68;
+  __int64 lStack_68;
   
   iVar2 = fn_82F6A540();
   dVar7 = (double)((float)((double)*param_3 - (double)*param_4) *
@@ -71,7 +44,7 @@ void fn_8277A4D8(undefined8 param_1,longlong param_2,float *param_3,float *param
     fStack_70 = (float)((double)*param_3 - dVar6);
     fStack_6c = (float)((double)param_3[1] - dVar7);
     iVar2 = (int)(dVar5 / (double)((float)dVar3 * lbl_82005344));
-    lStack_68 = (longlong)(iVar2 + 1);
+    lStack_68 = (__int64)(iVar2 + 1);
     dVar3 = (double)(float)((double)(float)(dVar5 / (double)lStack_68) + dVar4);
     fn_826EBD10(param_2 + 8,&fStack_70);
     *(int *)((int)pfVar1[10] + 4) = *(int *)((int)pfVar1[10] + 4) + 1;

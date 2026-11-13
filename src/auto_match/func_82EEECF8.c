@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E4FE40();
 extern int fn_82E50BE8();
 extern int fn_82EED968();
@@ -35,10 +9,10 @@ extern int fn_82F41938();
 extern int fn_82F41B20();
 
 
-longlong fn_82EEECF8(int *param_1)
+__int64 fn_82EEECF8(int *param_1)
 
 {
-  longlong lVar1;
+  __int64 lVar1;
   int iVar2;
   int *piVar3;
   int iVar4;
@@ -48,7 +22,7 @@ longlong fn_82EEECF8(int *param_1)
   piVar3 = (int *)0x0;
   fn_82EEDEA0();
   aiStack_50[0] = 0;
-  lVar1 = (**(code **)(*param_1 + 0x20))(param_1,aiStack_50);
+  lVar1 = (**(int (***)())(*param_1 + 0x20))(param_1,aiStack_50);
   if (-1 < lVar1) {
     iVar4 = 0;
     if (0 < aiStack_50[0]) {
@@ -65,8 +39,8 @@ longlong fn_82EEECF8(int *param_1)
           break;
         }
         *piVar3 = iVar4;
-        *(undefined2 *)(piVar3 + 1) = 0;
-        lVar1 = (**(code **)(*param_1 + 0x24))(param_1,0x20100,piVar3);
+        *(unsigned short *)(piVar3 + 1) = 0;
+        lVar1 = (**(int (***)())(*param_1 + 0x24))(param_1,0x20100,piVar3);
         if (lVar1 < 0) break;
         fn_82F41B20(piVar3);
         fn_82E4FE40(piVar3);
@@ -93,7 +67,7 @@ LAB_82eeef40:
             }
             *(short *)(piVar3 + 1) = sVar5;
             *piVar3 = iVar4;
-            lVar1 = (**(code **)(*param_1 + 0x24))(param_1,0x30200,piVar3);
+            lVar1 = (**(int (***)())(*param_1 + 0x24))(param_1,0x30200,piVar3);
             iVar2 = (int)lVar1;
             if (iVar2 == -0x3ff2c174) {
               fn_82F41B20(piVar3);
@@ -130,7 +104,7 @@ LAB_82eeef5c:
       lVar1 = fn_82EEDF48(param_1,0);
       if (-1 < lVar1) {
         param_1[0x1d] = 1;
-        lVar1 = (**(code **)(*param_1 + 4))(param_1);
+        lVar1 = (**(int (***)())(*param_1 + 4))(param_1);
       }
     }
 LAB_82eeef8c:

@@ -1,4 +1,3 @@
-typedef int (*code)();
 typedef struct O82E4AC98 {
   void *vt[3];
   char pad0[0x94 - 0xc];
@@ -42,7 +41,7 @@ void fn_82E4AC98(O82E4AC98 *p)
   }
   p->ab8 = 0;
   if (p->abc != 0) {
-    (*(code *)(*(int *)p->abc + 8))(p->abc);
+    (*(int (**)())(*(int *)p->abc + 8))(p->abc);
     p->abc = 0;
   }
   fn_82E50EA0((char *)p + 0x58);

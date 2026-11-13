@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
 extern int fn_82A71E30();
 extern unsigned int lbl_82002C5C;
@@ -36,42 +9,42 @@ extern unsigned int uStack_d8;
 
 /* WARNING: Type propagation algorithm not settling */
 
-undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint param_5)
+unsigned __int64 fn_82A72458(int param_1,int param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5)
 
 {
   float fVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   float *pfVar5;
   int iVar6;
-  uint uVar7;
-  ulonglong uVar8;
-  undefined4 uVar9;
-  longlong lVar10;
+  unsigned int uVar7;
+  unsigned __int64 uVar8;
+  unsigned int uVar9;
+  __int64 lVar10;
   int *piVar11;
-  longlong lVar12;
+  __int64 lVar12;
   int iVar14;
-  ulonglong uVar13;
-  uint uVar15;
+  unsigned __int64 uVar13;
+  unsigned int uVar15;
   float *pfVar16;
   int iVar17;
-  uint uVar18;
+  unsigned int uVar18;
   int iVar19;
-  ulonglong uVar20;
-  ulonglong uVar21;
-  uint *puVar22;
-  ulonglong uVar23;
+  unsigned __int64 uVar20;
+  unsigned __int64 uVar21;
+  unsigned int *puVar22;
+  unsigned __int64 uVar23;
   int iVar24;
-  ulonglong uVar25;
+  unsigned __int64 uVar25;
   double dVar26;
   double dVar27;
   double dVar28;
   double dVar29;
   double dVar30;
   double dVar31;
-  undefined8 uStack_d8;
-  uint auStack_d0 [52];
+  unsigned __int64 uStack_d8;
+  unsigned int auStack_d0 [52];
   
   iVar14 = *(int *)(param_1 + 0x11c);
   if (param_4 != 0) {
@@ -89,10 +62,10 @@ undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint pa
         uVar20 = 0x100000;
       }
       else {
-        uVar20 = (ulonglong)(uint)(&lbl_8321A3C0)[param_3 & 0xff];
+        uVar20 = (unsigned __int64)(unsigned int)(&lbl_8321A3C0)[param_3 & 0xff];
       }
-      uVar2 = *(uint *)(param_1 + 0x78);
-      uVar21 = (ulonglong)uVar2;
+      uVar2 = *(unsigned int *)(param_1 + 0x78);
+      uVar21 = (unsigned __int64)uVar2;
       if (0 < (int)uVar2) {
         iVar6 = 0;
         iVar24 = 0;
@@ -100,13 +73,13 @@ undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint pa
         do {
           iVar17 = iVar24 + *(int *)(iVar14 + 0x140);
           iVar24 = iVar24 + 0x6f0;
-          *(undefined4 *)(iVar6 + *(int *)(param_2 + 0x184)) = *(undefined4 *)(iVar17 + 0x3c);
+          *(unsigned int *)(iVar6 + *(int *)(param_2 + 0x184)) = *(unsigned int *)(iVar17 + 0x3c);
           iVar6 = iVar6 + 4;
           uVar25 = uVar25 - 1;
         } while (uVar25 != 0);
       }
-      lVar12 = (longlong)((int)param_5 >> 8) +
-               (ulonglong)((int)param_5 < 0 && (param_5 & 0xff) != 0);
+      lVar12 = (__int64)((int)param_5 >> 8) +
+               (unsigned __int64)((int)param_5 < 0 && (param_5 & 0xff) != 0);
       if ((int)lVar12 < 2) {
         lVar12 = 2;
       }
@@ -133,9 +106,9 @@ undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint pa
           do {
             puVar22 = puVar22 + 1;
             uVar3 = puVar22[-1];
-            uVar25 = (ulonglong)uVar3;
+            uVar25 = (unsigned __int64)uVar3;
             uVar4 = *puVar22;
-            uVar23 = (ulonglong)uVar4;
+            uVar23 = (unsigned __int64)uVar4;
             dVar27 = dVar31;
             if (0 < (int)uVar2) {
               piVar11 = *(int **)(param_2 + 0x184);
@@ -223,20 +196,20 @@ undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint pa
             }
             else {
               iVar6 = iVar19 * 4;
-              lVar10 = (longlong)(int)uVar20;
+              lVar10 = (__int64)(int)uVar20;
               if (*(int *)(*(int *)(param_1 + 0xc4) + iVar6) == 0) {
-                uVar9 = *(undefined4 *)(*(int *)(param_1 + 0x118) + iVar6);
-                uVar8 = (longlong)(int)(*(int *)(*(int *)(param_1 + 0xc0) + iVar6) * lVar10 >> 0x14)
+                uVar9 = *(unsigned int *)(*(int *)(param_1 + 0x118) + iVar6);
+                uVar8 = (__int64)(int)(*(int *)(*(int *)(param_1 + 0xc0) + iVar6) * lVar10 >> 0x14)
                 ;
               }
               else {
-                uVar9 = *(undefined4 *)(*(int *)(param_1 + 0x118) + iVar6);
-                uVar7 = (uint)(iVar14 * lVar10 >> 0x14);
+                uVar9 = *(unsigned int *)(*(int *)(param_1 + 0x118) + iVar6);
+                uVar7 = (unsigned int)(iVar14 * lVar10 >> 0x14);
                 iVar14 = ((int)uVar7 >> 0xd) * 4;
-                uVar8 = (longlong)
+                uVar8 = (__int64)
                         (int)((((int)(*(int *)(*(int *)(*(int *)(param_1 + 0x108) + iVar6) + iVar14)
                                      * (uVar7 & 0x1fff)) >>
-                               (*(uint *)(*(int *)(param_1 + 0x128) + iVar6) & 0x3f)) +
+                               (*(unsigned int *)(*(int *)(param_1 + 0x128) + iVar6) & 0x3f)) +
                               *(int *)(*(int *)(*(int *)(param_1 + 0x104) + iVar6) + iVar14)) *
                               lVar10 >> 0x14);
               }
@@ -272,7 +245,7 @@ undefined8 fn_82A72458(int param_1,int param_2,uint param_3,uint param_4,uint pa
               uVar18 = uVar18 + 1;
               uVar7 = iVar17 - 1U >> (uVar18 & 0x3f);
             }
-            uStack_d8 = (longlong)iVar6;
+            uStack_d8 = (__int64)iVar6;
             fVar1 = (float)((double)uStack_d8 * dVar29);
             if (0 < (int)uVar2) {
               piVar11 = *(int **)(param_2 + 0x184);

@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 extern int fn_82417D18();
 extern int fn_82536590();
 
@@ -7,7 +6,7 @@ typedef struct Sub {
     int f4;
     int f8;
     int fc;
-    uint f10;
+    unsigned int f10;
 } Sub;
 
 typedef struct S2 {
@@ -16,7 +15,7 @@ typedef struct S2 {
     char pad34[0x40 - 0x34];
     int f40;
     char pad44[0x184 - 0x44];
-    uint f184;
+    unsigned int f184;
 } S2;
 
 void fn_82428E10(int param_1, S2 *param_2)
@@ -35,7 +34,7 @@ void fn_82428E10(int param_1, S2 *param_2)
     param_2->f40 = 0;
     *(int *)(*(int *)(param_1 + 8) + 0x108) = 1;
     iVar1 = *(int *)(*(int *)(param_1 + 8) + 0xa0);
-    if (iVar1 == 0 || *(uint *)(iVar1 + 0x40) != 1) {
+    if (iVar1 == 0 || *(unsigned int *)(iVar1 + 0x40) != 1) {
         fn_82536590(*(int *)(param_1 + 8) + 0x14ec, 0);
     }
 }

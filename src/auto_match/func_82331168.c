@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82330AD8();
 extern int fn_82520780();
 extern int fn_825279F8();
@@ -41,43 +15,43 @@ extern V16 vectorMultiplyAddFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-undefined4 *
-fn_82331168(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             float *param_5,float *param_6,undefined8 param_7,undefined8 param_8)
+unsigned int *
+fn_82331168(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+             float *param_5,float *param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
-  undefined4 *puVar1;
-  uint uVar2;
+  unsigned int *puVar1;
+  unsigned int uVar2;
   int in_r0;
   int iVar3;
   int iVar4;
-  uint uVar5;
+  unsigned int uVar5;
   double dVar6;
   double dVar7;
   double dVar8;
   double dVar9;
-  undefined1 in_vs32 [16];
-  undefined1 auVar10 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar11;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  undefined4 in_register_00010430;
-  undefined4 in_register_00010434;
-  undefined4 in_register_00010438;
-  undefined4 in_vr67;
+  unsigned char in_vs32 [16];
+  unsigned char auVar10 [16];
+  unsigned char in_vs38 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar11;
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar14;
+  unsigned int in_register_00010010;
+  unsigned int in_register_00010014;
+  unsigned int in_register_00010018;
+  unsigned int in_vr1;
+  unsigned int in_register_00010430;
+  unsigned int in_register_00010434;
+  unsigned int in_register_00010438;
+  unsigned int in_vr67;
   
   fn_82330AD8(param_1,param_2,param_4,param_3,param_7,param_8);
   *param_1 = &lbl_821B097C;
@@ -87,14 +61,14 @@ fn_82331168(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   dVar8 = (double)lbl_8218E8E8;
   uVar2 = uVar5 & 0x7fffff;
   lbl_83265A28 = uVar5 * 0x19660d + 0x3c6ef35f;
-  *(ulonglong *)(param_1 + 0x29) =
+  *(unsigned __int64 *)(param_1 + 0x29) =
        CONCAT44((param_6[1] - *param_6) *
                 (float)((double)(float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - dVar9) + *param_6,
                 (param_6[3] - param_6[2]) * (float)((double)(float)(uVar2 | 0x3f800000) - dVar9) +
                 param_6[2]);
   uVar5 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
   lbl_83265A28 = uVar5 * 0x19660d + 0x3c6ef35f;
-  *(ulonglong *)(param_1 + 0x2b) =
+  *(unsigned __int64 *)(param_1 + 0x2b) =
        CONCAT44((param_5[1] - *param_5) *
                 (float)((double)(float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - dVar9) + *param_5,
                 (param_5[1] - *param_5) *
@@ -119,7 +93,7 @@ fn_82331168(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   iVar3 = param_1[4];
   iVar4 = fn_825279F8(iVar3);
   if ((iVar4 == 0) || (iVar4 == 3)) {
-    puVar1 = (undefined4 *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
+    puVar1 = (unsigned int *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
     *puVar1 = in_register_00010010;
     puVar1[1] = in_register_00010014;
     puVar1[2] = in_register_00010018;
@@ -127,19 +101,19 @@ fn_82331168(undefined4 *param_1,undefined8 param_2,undefined8 param_3,undefined8
   }
   else {{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs43,in_vs40,in_vs32); memcpy(auVar10, &_vt0, 16); }{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs42,auVar10); memcpy(auVar10, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs38,in_vs41,auVar10); memcpy(auVar10, &_vt2, 16); }
     vectorConditionalSelect(auVar10,in_vs45,in_vs44);
-    puVar1 = (undefined4 *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
+    puVar1 = (unsigned int *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
     *puVar1 = in_register_00010430;
     puVar1[1] = in_register_00010434;
     puVar1[2] = in_register_00010438;
     puVar1[3] = in_vr67;
   }
-  puVar1 = (undefined4 *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
+  puVar1 = (unsigned int *)(in_r0 + iVar3 + 0x70 & 0xfffffff0);
   uVar11 = *puVar1;
   uVar12 = puVar1[1];
   uVar13 = puVar1[2];
   uVar14 = puVar1[3];
-  *(undefined4 *)(iVar3 + 0x170) = 0;
-  puVar1 = (undefined4 *)(iVar3 + 0x60U & 0xfffffff0);
+  *(unsigned int *)(iVar3 + 0x170) = 0;
+  puVar1 = (unsigned int *)(iVar3 + 0x60U & 0xfffffff0);
   *puVar1 = uVar11;
   puVar1[1] = uVar12;
   puVar1[2] = uVar13;

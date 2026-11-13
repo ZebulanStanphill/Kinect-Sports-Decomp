@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_4c;
 extern unsigned int *auStack_70;
 extern int fn_82230110();
@@ -49,19 +22,19 @@ void fn_82849D18(int param_1)
 {
   int iStack00000014;
   int iStack_80;
-  undefined4 *puStack_7c;
-  undefined1 auStack_70 [28];
+  unsigned int *puStack_7c;
+  unsigned char auStack_70 [28];
   struct { int first; int second; } stack_pair_54;
 
-  undefined1 auStack_4c [4];
-  undefined4 *puStack_48;
-  undefined4 *puStack_44;
+  unsigned char auStack_4c [4];
+  unsigned int *puStack_48;
+  unsigned int *puStack_44;
   int iStack_1c;
   int iStack_18;
-  undefined4 uStack_14;
+  unsigned int uStack_14;
   
   iStack00000014 = param_1;
-  fn_82230110(auStack_70,*(undefined4 *)(param_1 + 0x20));
+  fn_82230110(auStack_70,*(unsigned int *)(param_1 + 0x20));
   fn_8284A7C0(&iStack_80,lbl_832112EC,auStack_70);
   fn_82230300(auStack_70,1,0);
   iStack_18 = lbl_832112EC;
@@ -69,14 +42,14 @@ void fn_82849D18(int param_1)
   iStack_1c = stack_pair_54.first;
   fn_82BA02A8(&stack_pair_54.first,lbl_832112EC);
   if (stack_pair_54.first != iStack_80) {
-    puStack_7c = *(undefined4 **)(iStack_80 + 0x28);
+    puStack_7c = *(unsigned int **)(iStack_80 + 0x28);
     puStack_7c[1] = puStack_7c[1] + -1;
     if (puStack_7c[1] == 0) {
       stack_pair_54.second = iStack_80;
       fn_8284ADC8(auStack_4c,lbl_832112EC,iStack_80);
       puStack_44 = puStack_7c;
       puStack_48 = puStack_7c;
-      if (puStack_7c != (undefined4 *)0x0) {
+      if (puStack_7c != (unsigned int *)0x0) {
         uStack_14 = *puStack_7c;
         fn_8265CAA0(uStack_14);
         fn_8265CA20(puStack_48);

@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
@@ -48,42 +22,42 @@ extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_825D4D38(double param_1,undefined8 param_2,undefined8 param_3,undefined8 *param_4,
-                  undefined8 param_5,undefined4 param_6,undefined4 param_7,undefined8 param_8)
+void fn_825D4D38(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 *param_4,
+                  unsigned __int64 param_5,unsigned int param_6,unsigned int param_7,unsigned __int64 param_8)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  undefined4 *puVar3;
-  undefined8 in_r0;
-  ulonglong uVar4;
+  unsigned int *puVar3;
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar4;
   int iVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined1 in_vr0 [16];
-  undefined4 uVar8;
-  undefined1 in_vr2 [16];
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 uVar11;
-  undefined1 in_vr11 [16];
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar15;
-  undefined4 uVar16;
-  undefined1 in_vr12 [16];
-  undefined1 auVar14 [16];
-  undefined4 uVar17;
-  undefined4 uVar18;
-  undefined4 uVar19;
-  undefined4 uVar20;
-  undefined1 in_vr13 [16];
-  undefined4 uVar21;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned char in_vr0 [16];
+  unsigned int uVar8;
+  unsigned char in_vr2 [16];
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned char in_vr11 [16];
+  unsigned int uVar12;
+  unsigned int uVar13;
+  unsigned int uVar15;
+  unsigned int uVar16;
+  unsigned char in_vr12 [16];
+  unsigned char auVar14 [16];
+  unsigned int uVar17;
+  unsigned int uVar18;
+  unsigned int uVar19;
+  unsigned int uVar20;
+  unsigned char in_vr13 [16];
+  unsigned int uVar21;
   float fStack0000002c;
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [16];
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [64];
+  unsigned char auStack_70 [16];
+  unsigned char auStack_60 [16];
+  unsigned char auStack_50 [16];
+  unsigned char auStack_40 [64];
   
   uVar4 = ZEXT48(&stack0x00000000);
   fStack0000002c = (float)param_1;
@@ -91,43 +65,43 @@ void fn_825D4D38(double param_1,undefined8 param_2,undefined8 param_3,undefined8
   loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);
   vectorRotateLeftImmediateMaskInsert128(in_vr13,in_vr0,4,3);{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr12,in_vr11,4,3); memcpy(auVar14, &_vt0, 16); }
   vectorRotateLeftImmediateMaskInsert128(in_vr2,auVar14,3,2);
-  iVar5 = fn_8257F5C0(uVar4 - 0x70,*param_4,(ulonglong)*(uint *)(param_4 + 1) << 0x20);
+  iVar5 = fn_8257F5C0(uVar4 - 0x70,*param_4,(unsigned __int64)*(unsigned int *)(param_4 + 1) << 0x20);
   iVar2 = (int)in_r0;
-  puVar1 = (undefined4 *)(iVar2 + iVar5 & 0xfffffff0);
+  puVar1 = (unsigned int *)(iVar2 + iVar5 & 0xfffffff0);
   uVar6 = puVar1[1];
   uVar7 = puVar1[2];
   uVar8 = puVar1[3];
-  puVar3 = (undefined4 *)(iVar5 + 0x10U & 0xfffffff0);
+  puVar3 = (unsigned int *)(iVar5 + 0x10U & 0xfffffff0);
   uVar18 = *puVar3;
   uVar19 = puVar3[1];
   uVar20 = puVar3[2];
   uVar21 = puVar3[3];
-  puVar3 = (undefined4 *)(iVar5 + 0x20U & 0xfffffff0);
+  puVar3 = (unsigned int *)(iVar5 + 0x20U & 0xfffffff0);
   uVar13 = *puVar3;
   uVar15 = puVar3[1];
   uVar16 = puVar3[2];
   uVar17 = puVar3[3];
-  puVar3 = (undefined4 *)(iVar5 + 0x30U & 0xfffffff0);
+  puVar3 = (unsigned int *)(iVar5 + 0x30U & 0xfffffff0);
   uVar9 = *puVar3;
   uVar10 = puVar3[1];
   uVar11 = puVar3[2];
   uVar12 = puVar3[3];
-  puVar3 = (undefined4 *)((uint)(auStack_70 + iVar2) & 0xfffffff0);
+  puVar3 = (unsigned int *)((unsigned int)(auStack_70 + iVar2) & 0xfffffff0);
   *puVar3 = *puVar1;
   puVar3[1] = uVar6;
   puVar3[2] = uVar7;
   puVar3[3] = uVar8;
-  puVar1 = (undefined4 *)((uint)(auStack_60 + iVar2) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_60 + iVar2) & 0xfffffff0);
   *puVar1 = uVar18;
   puVar1[1] = uVar19;
   puVar1[2] = uVar20;
   puVar1[3] = uVar21;
-  puVar1 = (undefined4 *)((uint)(auStack_50 + iVar2) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_50 + iVar2) & 0xfffffff0);
   *puVar1 = uVar13;
   puVar1[1] = uVar15;
   puVar1[2] = uVar16;
   puVar1[3] = uVar17;
-  puVar1 = (undefined4 *)((uint)(auStack_40 + iVar2) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)(auStack_40 + iVar2) & 0xfffffff0);
   *puVar1 = uVar9;
   puVar1[1] = uVar10;
   puVar1[2] = uVar11;

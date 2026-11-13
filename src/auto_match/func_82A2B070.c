@@ -1,6 +1,3 @@
-typedef unsigned int undefined4;
-typedef unsigned __int64 undefined8;
-
 typedef struct {
     unsigned int a;
     unsigned int b;

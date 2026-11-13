@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_4c;
 extern int fn_823AAD90();
 extern int fn_828D45F8();
@@ -32,17 +5,17 @@ extern int fn_82C03470();
 extern int fn_82C0B678();
 
 
-undefined8 fn_82C038E0(int *param_1,ulonglong param_2,uint *param_3)
+unsigned __int64 fn_82C038E0(int *param_1,unsigned __int64 param_2,unsigned int *param_3)
 
 {
   int iVar2;
-  uint uVar3;
-  longlong lVar1;
-  ulonglong uVar4;
-  undefined8 uVar5;
+  unsigned int uVar3;
+  __int64 lVar1;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int *piStack00000014;
-  uint *puStack00000024;
-  undefined1 auStack_4c [12];
+  unsigned int *puStack00000024;
+  unsigned char auStack_4c [12];
   
   uVar5 = 0;
   *param_3 = 0;
@@ -50,7 +23,7 @@ undefined8 fn_82C038E0(int *param_1,ulonglong param_2,uint *param_3)
   puStack00000024 = param_3;
   iVar2 = fn_828D45F8(param_1 + 0x1f);
   uVar3 = fn_823AAD90(param_1 + 0x1f);
-  uVar4 = (longlong)(int)(uVar3 >> 3) * (longlong)iVar2;
+  uVar4 = (__int64)(int)(uVar3 >> 3) * (__int64)iVar2;
   trapWord(6,uVar4,0);
   if ((param_2 & 0xffffffff) / (uVar4 & 0xffffffff) < 0x10) {
     uVar5 = 0xffffffff80004005;
@@ -83,8 +56,8 @@ undefined8 fn_82C038E0(int *param_1,ulonglong param_2,uint *param_3)
   }
   if ((-1 < (int)uVar5) && (*param_3 != 0)) {
     iVar2 = *(int *)param_1[0xc];
-    lVar1 = (**(code **)(*param_1 + 0x74))(param_1);
-    uVar5 = (**(code **)(iVar2 + 0x48))(param_1[0xc],lVar1 + (ulonglong)*param_3);
+    lVar1 = (**(int (***)())(*param_1 + 0x74))(param_1);
+    uVar5 = (**(int (***)())(iVar2 + 0x48))(param_1[0xc],lVar1 + (unsigned __int64)*param_3);
   }
   return uVar5;
 }

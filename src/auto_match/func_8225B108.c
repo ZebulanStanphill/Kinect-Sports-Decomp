@@ -1,31 +1,7 @@
 extern int *piRam83276538;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_260;
 extern unsigned int *auStack_280;
 extern int fn_8225AF70();
@@ -48,33 +24,33 @@ extern unsigned int lbl_8327F894;
 extern unsigned int lbl_83283E40;
 extern unsigned int uStack_26c;
 extern unsigned int uStack_270;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
 void fn_8225B108(void)
 
 {
-  undefined4 uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   float fVar3;
   int *piVar4;
   int iVar5;
   char cVar7;
   int iVar6;
-  uint uVar9;
-  ulonglong uVar8;
-  uint *puVar10;
+  unsigned int uVar9;
+  unsigned __int64 uVar8;
+  unsigned int *puVar10;
   int iVar11;
-  uint uVar12;
+  unsigned int uVar12;
   int iVar13;
   bool bVar14;
   char in_RESERVE;
-  byte bVar15;
-  undefined4 auStack_280 [4];
-  undefined4 uStack_270;
-  undefined4 uStack_26c;
+  unsigned char bVar15;
+  unsigned int auStack_280 [4];
+  unsigned int uStack_270;
+  unsigned int uStack_26c;
   char *pcStack_268;
-  undefined1 auStack_260 [496];
+  unsigned char auStack_260 [496];
 
   if (piRam83276538 == (int *)0x0) {
     iVar5 = fn_8265C9E0(0x14);
@@ -150,12 +126,12 @@ LAB_8225b338:
           bVar14 = false;
         }
         else {
-          uVar8 = (ulonglong)lbl_832767C8;
+          uVar8 = (unsigned __int64)lbl_832767C8;
           do {
-            puVar10 = (uint *)(uVar8 + 0xa0);
+            puVar10 = (unsigned int *)(uVar8 + 0xa0);
             uVar9 = *puVar10;
             if (in_RESERVE != '\0') {
-              uVar2 = storeWordConditionalIndexed((ulonglong)uVar9,0,uVar8 + 0xa0);
+              uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar9,0,uVar8 + 0xa0);
               *puVar10 = uVar2;
               bVar15 = 2;
             }
@@ -170,12 +146,12 @@ LAB_8225b338:
         bVar14 = *(int *)(iVar13 + 0x118) == 0;
         bVar15 = bVar14 << 1;
         if (!bVar14) {
-          uVar8 = (ulonglong)lbl_832767C8;
+          uVar8 = (unsigned __int64)lbl_832767C8;
           do {
-            puVar10 = (uint *)(uVar8 + 0xa0);
+            puVar10 = (unsigned int *)(uVar8 + 0xa0);
             uVar9 = *puVar10;
             if (in_RESERVE != '\0') {
-              uVar2 = storeWordConditionalIndexed((ulonglong)uVar9,0,uVar8 + 0xa0);
+              uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar9,0,uVar8 + 0xa0);
               *puVar10 = uVar2;
               bVar15 = 2;
             }
@@ -187,14 +163,14 @@ LAB_8225b338:
                (bVar14 = *(char *)(iVar13 + 0xd8) == '\0', bVar15 = bVar14 << 1, bVar14)) {
               fn_82F64840(auStack_260,0x104,0xffffffff831d0a6c,0x103);
               auStack_280[0] = lbl_83283E40;
-              uVar1 = *(undefined4 *)(iVar13 + 0x10c);
+              uVar1 = *(unsigned int *)(iVar13 + 0x10c);
               iVar6 = fn_8251FE10(auStack_280,auStack_260,uVar1,0,iVar13);
               bVar15 = (iVar6 == 0) << 1;
               if (iVar6 == 0) {
                 fn_82522ED8(uVar1);
               }
-              *(undefined4 *)(iVar13 + 0x118) = 0;
-              *(undefined4 *)(iVar13 + 0x10c) = 0;
+              *(unsigned int *)(iVar13 + 0x118) = 0;
+              *(unsigned int *)(iVar13 + 0x10c) = 0;
             }
           }
         }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_60;
 extern int fn_82DAC508();
 extern int fn_82DAD288();
@@ -41,25 +14,25 @@ extern unsigned int uStack_8c;
 extern unsigned int uStack_90;
 
 
-int fn_82DAB970(double param_1,int *param_2,undefined4 param_3,undefined4 param_4,
-                 undefined4 param_5,int param_6,undefined8 param_7,undefined4 param_8,
-                 undefined4 param_9)
+int fn_82DAB970(double param_1,int *param_2,unsigned int param_3,unsigned int param_4,
+                 unsigned int param_5,int param_6,unsigned __int64 param_7,unsigned int param_8,
+                 unsigned int param_9)
 
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 *in_stack_00000054;
-  undefined4 in_stack_0000005c;
-  struct { undefined4 first; undefined4 second; } stack_pair_90;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int *in_stack_00000054;
+  unsigned int in_stack_0000005c;
+  struct { unsigned int first; unsigned int second; } stack_pair_90;
 
-  undefined4 uStack_88;
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
+  unsigned int uStack_88;
+  unsigned int uStack_80;
+  unsigned int uStack_7c;
+  unsigned int uStack_78;
+  unsigned int uStack_74;
   int iStack_70;
   int *piStack_6c;
-  undefined4 uStack_68;
+  unsigned int uStack_68;
   int iStack_64;
   float fStack_60;
   
@@ -85,7 +58,7 @@ int fn_82DAB970(double param_1,int *param_2,undefined4 param_3,undefined4 param_
     fn_82DAD288(uVar2,&stack_pair_90.first);
   }
   if (iStack_70 == 1) {
-    (**(code **)(*param_2 + 0x20))(param_2,*(undefined4 *)(param_6 + 4),in_stack_0000005c);
+    (**(int (***)())(*param_2 + 0x20))(param_2,*(unsigned int *)(param_6 + 4),in_stack_0000005c);
   }
   else {
     *in_stack_00000054 = uStack_74;

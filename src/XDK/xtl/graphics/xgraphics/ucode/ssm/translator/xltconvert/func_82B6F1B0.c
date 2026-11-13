@@ -1,43 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 extern int fn_82B6EB98();
 extern unsigned int iStack_3c;
 extern unsigned int uStack_40;
 
 
-void fn_82B6F1B0(int param_1,uint param_2)
+void fn_82B6F1B0(int param_1,unsigned int param_2)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
-  struct { uint first; int second; } stack_pair_40;
+  struct { unsigned int first; int second; } stack_pair_40;
 
   
   iVar1 = *(int *)(param_1 + 0x1c);
@@ -65,10 +38,10 @@ void fn_82B6F1B0(int param_1,uint param_2)
     }
   }
   stack_pair_40.second = iVar3;
-  *(undefined4 *)(iVar2 + iVar1) = 1;
+  *(unsigned int *)(iVar2 + iVar1) = 1;
 LAB_82b6f24c:
   stack_pair_40.first = param_2;
-  fn_82B6EB98(param_1,iVar1 + 0x3360,*(undefined4 *)(iVar1 + 0xc),1,&stack_pair_40.first);
+  fn_82B6EB98(param_1,iVar1 + 0x3360,*(unsigned int *)(iVar1 + 0xc),1,&stack_pair_40.first);
   *(int *)(iVar1 + 0x336c) = *(int *)(iVar1 + 0x336c) + 1;
   return;
 }

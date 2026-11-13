@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_82FFB818();
 extern int fn_82FFE5B8();
 extern int fn_82FFE7A0();
@@ -34,14 +7,14 @@ extern unsigned int iStack_74;
 extern unsigned int iStack_78;
 
 
-longlong fn_82FFBEF8(longlong param_1,int param_2,int param_3)
+__int64 fn_82FFBEF8(__int64 param_1,int param_2,int param_3)
 
 {
   char cVar1;
   int *piVar2;
-  longlong lVar3;
-  uint uVar4;
-  longlong lVar5;
+  __int64 lVar3;
+  unsigned int uVar4;
+  __int64 lVar5;
   int iVar6;
   int *piVar7;
   char acStack_80 [8];
@@ -69,8 +42,8 @@ longlong fn_82FFBEF8(longlong param_1,int param_2,int param_3)
             iStack_74 = piVar7[2];
             iStack_78 = piVar7[1] + param_2;
             lVar3 = fn_82FFE5B8(piVar2 + 2,param_3,CONCAT44(iStack_78,iStack_74));
-            lVar3 = ((-(ulonglong)(lVar3 != 0) & 0xfffffffd) << 0x20 |
-                    -(ulonglong)(lVar3 != 0) & 0xffffffcd) + 0x34;
+            lVar3 = ((-(unsigned __int64)(lVar3 != 0) & 0xfffffffd) << 0x20 |
+                    -(unsigned __int64)(lVar3 != 0) & 0xffffffcd) + 0x34;
             if ((int)lVar3 == 1) {
               if (cVar1 != '\0') goto LAB_82ffbfec;
               goto LAB_82ffbff8;
@@ -87,9 +60,9 @@ LAB_82ffbff8:
         uVar4 = uVar4 + 1;
         iVar6 = iVar6 + 0xc;
         *(int *)(param_3 + 0x20) = *(int *)(param_3 + 0x20) + 1;
-      } while (uVar4 < *(uint *)(param_3 + 0x24));
+      } while (uVar4 < *(unsigned int *)(param_3 + 0x24));
     }
-    if (*(uint *)(param_3 + 0x24) == uVar4) {
+    if (*(unsigned int *)(param_3 + 0x24) == uVar4) {
       return 1;
     }
     if ((int)lVar3 == 1) {

@@ -3,14 +3,13 @@
 // re-add loop comes from `this` being numbered after the explicit parameters,
 // so the extern "C" version stops at 99.89%. Hash_826C11C0 is a placeholder for
 // the unknown template class.
-typedef unsigned int U32;
-struct Hdr_826C11C0 { U32 count; U32 mask; };
+struct Hdr_826C11C0 { unsigned int count; unsigned int mask; };
 struct Ent_826C11C0 { int hash; int pad; int val[10]; };
 struct Tab_826C11C0 { Hdr_826C11C0 h; Ent_826C11C0 e[1]; };
 struct Hash_826C11C0;
 extern "C" {
 void fn_8267BE38(void *);
-void *fn_8267BED0(void *, U32, U32 *);
+void *fn_8267BED0(void *, unsigned int, unsigned int *);
 void fn_826C0018(void *, int);
 void fn_826C0840(Hash_826C11C0 *);
 void fn_826C1980(Hash_826C11C0 *, void *, void *, int);
@@ -20,13 +19,13 @@ extern float lbl_8200561C;
 }
 struct Hash_826C11C0 {
   Tab_826C11C0 *t;
-  void setRawCapacity(void *heap, U32 n);
+  void setRawCapacity(void *heap, unsigned int n);
 };
-void Hash_826C11C0::setRawCapacity(void *heap, U32 n)
+void Hash_826C11C0::setRawCapacity(void *heap, unsigned int n)
 {
   Hash_826C11C0 nh;
-  U32 cap;
-  U32 tag;
+  unsigned int cap;
+  unsigned int tag;
   if (n == 0) {
     fn_826C0840(this);
   } else {
@@ -43,11 +42,11 @@ void Hash_826C11C0::setRawCapacity(void *heap, U32 n)
     nh.t->h.count = 0;
     nh.t->h.mask = cap - 1;
     if (cap != 0) {
-      U32 i;
+      unsigned int i;
       for (i = 0; i < cap; i++) nh.t->e[i].hash = -2;
     }
     if (t != 0) {
-      U32 i, m;
+      unsigned int i, m;
       for (i = 0, m = t->h.mask; i <= m; i++) {
         Ent_826C11C0 *e = &t->e[i];
         if (e->hash != -2) {

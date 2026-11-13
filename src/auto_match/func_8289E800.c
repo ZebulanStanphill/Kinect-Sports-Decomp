@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CA20();
 extern int fn_8289DE40();
 extern int fn_8289E038();
@@ -33,15 +7,15 @@ extern int fn_82F622E0();
 extern unsigned int stack0x00000024;
 
 
-undefined4 * fn_8289E800(undefined4 *param_1,int param_2,int *param_3)
+unsigned int * fn_8289E800(unsigned int *param_1,int param_2,int *param_3)
 
 {
   bool bVar1;
   char cVar2;
-  undefined1 uVar3;
+  unsigned char uVar3;
   int *piVar4;
   int iVar5;
-  undefined4 *puVar6;
+  unsigned int *puVar6;
   int *piVar7;
   int *piVar8;
   int *piVar9;
@@ -77,7 +51,7 @@ undefined4 * fn_8289E800(undefined4 *param_1,int param_2,int *param_3)
         *(int **)(*(int *)(param_2 + 4) + 4) = piStack00000024;
       }
       else {
-        puVar6 = (undefined4 *)param_3[1];
+        puVar6 = (unsigned int *)param_3[1];
         if ((int *)*puVar6 == param_3) {
           *puVar6 = piStack00000024;
         }
@@ -86,9 +60,9 @@ undefined4 * fn_8289E800(undefined4 *param_1,int param_2,int *param_3)
         }
       }
       piStack00000024[1] = param_3[1];
-      uVar3 = *(undefined1 *)(piStack00000024 + 4);
-      *(undefined1 *)(piStack00000024 + 4) = *(undefined1 *)(param_3 + 4);
-      *(undefined1 *)(param_3 + 4) = uVar3;
+      uVar3 = *(unsigned char *)(piStack00000024 + 4);
+      *(unsigned char *)(piStack00000024 + 4) = *(unsigned char *)(param_3 + 4);
+      *(unsigned char *)(param_3 + 4) = uVar3;
       goto LAB_8289e9fc;
     }
   }
@@ -108,7 +82,7 @@ undefined4 * fn_8289E800(undefined4 *param_1,int param_2,int *param_3)
   else {
     piVar11[2] = (int)piVar10;
   }
-  if ((int *)**(undefined4 **)(param_2 + 4) == param_3) {
+  if ((int *)**(unsigned int **)(param_2 + 4) == param_3) {
     piVar9 = piVar11;
     if (*(char *)((int)piVar10 + 0x11) == '\0') {
       cVar2 = *(char *)(*piVar10 + 0x11);
@@ -120,7 +94,7 @@ undefined4 * fn_8289E800(undefined4 *param_1,int param_2,int *param_3)
         piVar9 = piVar7;
       }
     }
-    **(undefined4 **)(param_2 + 4) = piVar9;
+    **(unsigned int **)(param_2 + 4) = piVar9;
   }
   iVar5 = *(int *)(param_2 + 4);
   if (*(int **)(iVar5 + 8) == param_3) {
@@ -148,33 +122,33 @@ LAB_8289e9fc:
         if (piVar10 == piVar9) {
           piVar9 = (int *)piVar11[2];
           if (*(char *)(piVar9 + 4) == '\0') {
-            *(undefined1 *)(piVar9 + 4) = 1;
-            *(undefined1 *)(piVar11 + 4) = 0;
+            *(unsigned char *)(piVar9 + 4) = 1;
+            *(unsigned char *)(piVar11 + 4) = 0;
             fn_8289E038(param_2,piVar11);
             piVar9 = (int *)piVar11[2];
           }
           if (*(char *)((int)piVar9 + 0x11) == '\0') {
             if ((*(char *)(*piVar9 + 0x10) != '\x01') || (*(char *)(piVar9[2] + 0x10) != '\x01')) {
               if (*(char *)(piVar9[2] + 0x10) == '\x01') {
-                *(undefined1 *)(*piVar9 + 0x10) = 1;
-                *(undefined1 *)(piVar9 + 4) = 0;
+                *(unsigned char *)(*piVar9 + 0x10) = 1;
+                *(unsigned char *)(piVar9 + 4) = 0;
                 fn_8289DE40(param_2,piVar9);
                 piVar9 = (int *)piVar11[2];
               }
-              *(undefined1 *)(piVar9 + 4) = *(undefined1 *)(piVar11 + 4);
-              *(undefined1 *)(piVar11 + 4) = 1;
-              *(undefined1 *)(piVar9[2] + 0x10) = 1;
+              *(unsigned char *)(piVar9 + 4) = *(unsigned char *)(piVar11 + 4);
+              *(unsigned char *)(piVar11 + 4) = 1;
+              *(unsigned char *)(piVar9[2] + 0x10) = 1;
               fn_8289E038(param_2,piVar11);
               break;
             }
 LAB_8289eb28:
-            *(undefined1 *)(piVar9 + 4) = 0;
+            *(unsigned char *)(piVar9 + 4) = 0;
           }
         }
         else {
           if (*(char *)(piVar9 + 4) == '\0') {
-            *(undefined1 *)(piVar9 + 4) = 1;
-            *(undefined1 *)(piVar11 + 4) = 0;
+            *(unsigned char *)(piVar9 + 4) = 1;
+            *(unsigned char *)(piVar11 + 4) = 0;
             fn_8289DE40(param_2,piVar11);
             piVar9 = (int *)*piVar11;
           }
@@ -182,14 +156,14 @@ LAB_8289eb28:
             if ((*(char *)(piVar9[2] + 0x10) == '\x01') && (*(char *)(*piVar9 + 0x10) == '\x01'))
             goto LAB_8289eb28;
             if (*(char *)(*piVar9 + 0x10) == '\x01') {
-              *(undefined1 *)(piVar9[2] + 0x10) = 1;
-              *(undefined1 *)(piVar9 + 4) = 0;
+              *(unsigned char *)(piVar9[2] + 0x10) = 1;
+              *(unsigned char *)(piVar9 + 4) = 0;
               fn_8289E038(param_2,piVar9);
               piVar9 = (int *)*piVar11;
             }
-            *(undefined1 *)(piVar9 + 4) = *(undefined1 *)(piVar11 + 4);
-            *(undefined1 *)(piVar11 + 4) = 1;
-            *(undefined1 *)(*piVar9 + 0x10) = 1;
+            *(unsigned char *)(piVar9 + 4) = *(unsigned char *)(piVar11 + 4);
+            *(unsigned char *)(piVar11 + 4) = 1;
+            *(unsigned char *)(*piVar9 + 0x10) = 1;
             fn_8289DE40(param_2,piVar11);
             break;
           }
@@ -199,7 +173,7 @@ LAB_8289eb28:
         piVar11 = (int *)piVar11[1];
       } while (bVar1);
     }
-    *(undefined1 *)(piVar10 + 4) = 1;
+    *(unsigned char *)(piVar10 + 4) = 1;
   }
   fn_8265CA20(param_3);
   if (*(int *)(param_2 + 8) != 0) {

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82002C5C;
 extern unsigned int lbl_82005CCC;
@@ -61,11 +34,11 @@ void fn_82B98E70(int param_1)
   *(float *)(param_1 + 0x84) = fVar1;
   fVar8 = lbl_8202EE50;
   fVar7 = lbl_8202EE4C;
-  *(float *)(param_1 + 0x24) = (float)(longlong)(int)fVar4 * lbl_8202EE4C;
-  *(float *)(param_1 + 0x28) = (float)(longlong)(int)fVar3 * fVar8;
+  *(float *)(param_1 + 0x24) = (float)(__int64)(int)fVar4 * lbl_8202EE4C;
+  *(float *)(param_1 + 0x28) = (float)(__int64)(int)fVar3 * fVar8;
   *(float *)(param_1 + 0x2c) =
-       (float)(longlong)(int)(*(float *)(param_1 + 0x2c) * fVar6 + fVar5) * fVar7;
-  *(float *)(param_1 + 0x30) = (float)(longlong)(int)fVar2 * fVar1;
+       (float)(__int64)(int)(*(float *)(param_1 + 0x2c) * fVar6 + fVar5) * fVar7;
+  *(float *)(param_1 + 0x30) = (float)(__int64)(int)fVar2 * fVar1;
   return;
 }
 

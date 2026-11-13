@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F64318();
 extern int fn_82F643F8();
 extern int fn_82F655D8();
@@ -42,14 +15,14 @@ extern unsigned int lbl_82079FD0;
 extern unsigned int lbl_82175460;
 
 
-void fn_82FB9918(undefined8 param_1,int param_2,uint *param_3)
+void fn_82FB9918(unsigned __int64 param_1,int param_2,unsigned int *param_3)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
   float fVar4;
-  uint uVar5;
+  unsigned int uVar5;
   float fVar6;
   int iVar7;
   double dVar8;
@@ -57,7 +30,7 @@ void fn_82FB9918(undefined8 param_1,int param_2,uint *param_3)
   double dVar10;
   
   iVar7 = fn_82F6A548();
-  fVar3 = (float)*(uint *)(iVar7 + 0x48);
+  fVar3 = (float)*(unsigned int *)(iVar7 + 0x48);
   dVar8 = (double)(float)param_3[2];
   if ((double)(fVar3 * lbl_82079FD0) <= (double)(float)param_3[2]) {
     dVar8 = (double)(fVar3 * lbl_82079FD0);
@@ -89,13 +62,13 @@ void fn_82FB9918(undefined8 param_1,int param_2,uint *param_3)
         fn_82F655D8(lbl_82015618,(double)((float)param_3[1] * lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
         fn_82F64318((double)((float)(dVar8 * (double)lbl_82015468) /
-                                  (float)*(uint *)(iVar7 + 0x48)));
+                                  (float)*(unsigned int *)(iVar7 + 0x48)));
       }
       if (uVar5 == 5) {
         fn_82F655D8(lbl_82015618,(double)((float)param_3[1] * lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
         fn_82F64318((double)((float)(dVar8 * (double)lbl_82015468) /
-                                  (float)*(uint *)(iVar7 + 0x48)));
+                                  (float)*(unsigned int *)(iVar7 + 0x48)));
       }
       if (uVar5 != 0) {
                     /* WARNING: Subroutine does not return */

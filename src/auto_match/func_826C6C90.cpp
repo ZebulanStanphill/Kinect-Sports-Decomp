@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 struct Vec_82698FC8 {
     void Method_82698FC8(unsigned int a);
 };

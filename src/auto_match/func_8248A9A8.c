@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 extern void fn_8225F160(void);
 extern int fn_8225F3C0(void);
 

@@ -1,31 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_827EB7D0();
 extern int fn_827EC910();
 extern int fn_828094D0();
@@ -59,20 +35,20 @@ extern unsigned int uStack_f8;
 extern unsigned int uStack_fc;
 
 
-void fn_82862ED8(undefined8 param_1,double param_2,double param_3,undefined8 param_4,
-                  undefined8 param_5,longlong param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9,float *param_10,undefined8 param_11)
+void fn_82862ED8(unsigned __int64 param_1,double param_2,double param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,__int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
+                  unsigned __int64 param_9,float *param_10,unsigned __int64 param_11)
 
 {
   bool bVar1;
   bool bVar2;
   bool bVar3;
   float fVar4;
-  ulonglong uVar5;
-  undefined8 uVar6;
-  longlong lVar7;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  __int64 lVar7;
   int iVar9;
-  undefined8 uVar8;
+  unsigned __int64 uVar8;
   bool bVar10;
   double dVar11;
   double extraout_f1;
@@ -84,12 +60,12 @@ void fn_82862ED8(undefined8 param_1,double param_2,double param_3,undefined8 par
   double dVar17;
   double dVar18;
   double dVar19;
-  undefined4 in_stack_00000054;
+  unsigned int in_stack_00000054;
   float *in_stack_0000005c;
   float *in_stack_00000064;
-  undefined4 uStack_fc;
-  undefined4 uStack_f8;
-  undefined4 uStack_f4;
+  unsigned int uStack_fc;
+  unsigned int uStack_f8;
+  unsigned int uStack_f4;
   
   uVar5 = ZEXT48(&stack0x00000000);
   uVar6 = fn_82F6A534();

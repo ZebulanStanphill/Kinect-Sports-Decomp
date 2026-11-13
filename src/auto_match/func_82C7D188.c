@@ -1,8 +1,6 @@
-typedef int (*code)();
-
 typedef struct Node {
     struct Node *next;
-    code fn;
+    int (*fn)();
 } Node;
 
 int fn_82C7D188(Node **param_1)

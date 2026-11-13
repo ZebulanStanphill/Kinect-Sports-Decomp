@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267BC98();
 extern int fn_8267BE38();
 extern int fn_8267C488();
@@ -41,23 +15,23 @@ extern int fn_826EA050();
 extern int fn_82758FE8();
 extern int fn_8275F258();
 extern unsigned int lbl_8200C6D8;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-void fn_826DD218(undefined4 *param_1)
+void fn_826DD218(unsigned int *param_1)
 
 {
   int iVar1;
-  uint *puVar2;
-  ulonglong uVar3;
-  undefined4 *puVar4;
-  uint uVar5;
-  longlong lVar6;
+  unsigned int *puVar2;
+  unsigned __int64 uVar3;
+  unsigned int *puVar4;
+  unsigned int uVar5;
+  __int64 lVar6;
   char in_RESERVE;
-  byte in_cr0;
+  unsigned char in_cr0;
   
   *param_1 = &lbl_8200C6D8;
-  puVar4 = (undefined4 *)0x0;
+  puVar4 = (unsigned int *)0x0;
   if ((int)param_1[0x1d] < 2) {
     RtlEnterCriticalSection(param_1 + 0x2b);
     puVar4 = param_1;
@@ -66,19 +40,19 @@ void fn_826DD218(undefined4 *param_1)
   if (param_1[0x3d] != 0) {
     lVar6 = 0;
     do {
-      fn_82758FE8(lVar6 + (ulonglong)(uint)param_1[0x3c]);
+      fn_82758FE8(lVar6 + (unsigned __int64)(unsigned int)param_1[0x3c]);
       uVar5 = uVar5 + 1;
       lVar6 = lVar6 + 8;
-    } while (uVar5 < (uint)param_1[0x3d]);
+    } while (uVar5 < (unsigned int)param_1[0x3d]);
   }
   uVar5 = 0;
   if (param_1[0x40] != 0) {
     lVar6 = 0;
     do {
-      fn_82758FE8((ulonglong)(uint)param_1[0x3f] + lVar6);
+      fn_82758FE8((unsigned __int64)(unsigned int)param_1[0x3f] + lVar6);
       uVar5 = uVar5 + 1;
       lVar6 = lVar6 + 8;
-    } while (uVar5 < (uint)param_1[0x40]);
+    } while (uVar5 < (unsigned int)param_1[0x40]);
   }
   iVar1 = param_1[6];
   if (iVar1 != 0) {
@@ -92,7 +66,7 @@ void fn_826DD218(undefined4 *param_1)
   if (param_1[0x45] != 0) {
     fn_8267C498();
   }
-  if (puVar4 != (undefined4 *)0x0) {
+  if (puVar4 != (unsigned int *)0x0) {
     RtlLeaveCriticalSection(puVar4 + 0x2b);
   }
   fn_826DA0A0(param_1 + 0x43);
@@ -108,10 +82,10 @@ void fn_826DD218(undefined4 *param_1)
     fn_8267C4F0();
   }
   fn_826D6780(param_1 + 0x13);
-  lVar6 = ((ulonglong)(uint)param_1[9] & 0xfffffffc) + 4;
+  lVar6 = ((unsigned __int64)(unsigned int)param_1[9] & 0xfffffffc) + 4;
   do {
-    puVar2 = (uint *)lVar6;
-    uVar3 = (ulonglong)*puVar2;
+    puVar2 = (unsigned int *)lVar6;
+    uVar3 = (unsigned __int64)*puVar2;
     if (in_RESERVE != '\0') {
       uVar5 = storeWordConditionalIndexed(uVar3 - 1,0,lVar6);
       *puVar2 = uVar5;

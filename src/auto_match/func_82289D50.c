@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8225C590();
 extern int fn_8225DA18();
 extern int fn_82286080();
@@ -41,18 +17,18 @@ void fn_82289D50(int param_1)
   bool bVar2;
   bool bVar3;
   bool bVar4;
-  undefined8 uVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
   char cVar9;
   int iVar8;
-  longlong lVar7;
-  undefined4 uVar10;
+  __int64 lVar7;
+  unsigned int uVar10;
   
   iVar1 = *(int *)(param_1 + 8);
   if (*(int *)(param_1 + 4) == 0) {
     uVar10 = 8;
 LAB_82289eb4:
-    *(undefined4 *)(iVar1 + 0x604) = uVar10;
+    *(unsigned int *)(iVar1 + 0x604) = uVar10;
   }
   else {
     if (*(int *)(param_1 + 4) != 1) {
@@ -62,7 +38,7 @@ LAB_82289eb4:
     bVar3 = false;
     bVar4 = false;
     if (*(int *)(iVar1 + 0x6a8) == 0) {
-      uVar6 = fn_8225DA18(uVar5,*(undefined4 *)(iVar1 + 0x6ac));
+      uVar6 = fn_8225DA18(uVar5,*(unsigned int *)(iVar1 + 0x6ac));
       cVar9 = fn_82512508();
       if ((cVar9 != '\0') && (cVar9 = fn_828EA610(uVar6), cVar9 == '\0')) {
         bVar3 = true;
@@ -82,9 +58,9 @@ LAB_82289dd4:
     }
     iVar8 = 0;
     if ((*(int *)(*(int *)(iVar1 + 0x11f0) + 0x18b8) == 1) && (*(int *)(iVar1 + 0x6e8) == 0)) {
-      fn_8225DA18(uVar5,*(undefined4 *)(iVar1 + 0x6ec));
+      fn_8225DA18(uVar5,*(unsigned int *)(iVar1 + 0x6ec));
       lVar7 = fn_82286080();
-      iVar8 = (int)(lVar7 + -1) - ((int)lVar7 + -2 + (uint)(lVar7 + -1 == 0));
+      iVar8 = (int)(lVar7 + -1) - ((int)lVar7 + -2 + (unsigned int)(lVar7 + -1 == 0));
     }
     if (bVar3) {
       if (bVar4) {

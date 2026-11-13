@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82517978();
 extern int fn_827D50B8();
 extern int fn_827D5108();
@@ -34,14 +7,14 @@ extern unsigned int uStack_34;
 extern unsigned int uStack_38;
 
 
-void fn_827D5E00(int param_1,undefined4 *param_2)
+void fn_827D5E00(int param_1,unsigned int *param_2)
 
 {
   int *piVar1;
   int iVar3;
-  undefined8 uVar2;
-  code *pcVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_38;
+  unsigned __int64 uVar2;
+  int (**pcVar4)();
+  struct { unsigned int first; unsigned int second; } stack_pair_38;
 
   
   iVar3 = fn_827D50B8(param_2[3]);
@@ -50,7 +23,7 @@ void fn_827D5E00(int param_1,undefined4 *param_2)
     stack_pair_38.second = 0;
     piVar1 = *(int **)(param_1 + 0x2c4);
     fn_82517978(&stack_pair_38.first,param_2[3],param_2[4],0);
-    (**(code **)(*piVar1 + 0xc))(piVar1,&stack_pair_38.first);
+    (**(int (***)())(*piVar1 + 0xc))(piVar1,&stack_pair_38.first);
   }
   iVar3 = fn_827E27D8(param_2);
   if (iVar3 != 0) {
@@ -58,11 +31,11 @@ void fn_827D5E00(int param_1,undefined4 *param_2)
     stack_pair_38.second = 0;
     fn_82517978(&stack_pair_38.first,param_2[3],param_2[4],0);
     uVar2 = fn_827E27E0(param_2);
-    pcVar4 = (code *)fn_827E27D8(param_2);
+    pcVar4 = (int (**)())fn_827E27D8(param_2);
     (*pcVar4)(&stack_pair_38.first,uVar2);
   }
   fn_827D5108(param_2[3],3);
-  (**(code **)*param_2)(param_2,1);
+  (**(int (***)())*param_2)(param_2,1);
   return;
 }
 

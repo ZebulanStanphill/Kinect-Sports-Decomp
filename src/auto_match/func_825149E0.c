@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 extern unsigned char fn_828ACC40(int *p);
 extern unsigned char fn_828ACCB0(int *p);
 extern unsigned char fn_828ACCE8(int *p);

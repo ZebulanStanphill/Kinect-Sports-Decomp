@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_82358058();
 extern int fn_82397BA8();
@@ -46,10 +19,10 @@ extern unsigned int lbl_831D450C;
 
 /* WARNING: Removing unreachable block (ram,0x82395638) */
 
-void fn_82395588(undefined4 *param_1)
+void fn_82395588(unsigned int *param_1)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int *piVar2;
   int iVar3;
   int iVar4;
@@ -74,7 +47,7 @@ void fn_82395588(undefined4 *param_1)
     fn_8265CA20(iVar4);
   }
   fn_82552B50(param_1 + 0x91,1);
-  *(undefined4 *)param_1[0xb7] = 0;
+  *(unsigned int *)param_1[0xb7] = 0;
   iVar4 = param_1[0x7a];
   if (iVar4 != param_1[0x7b]) {
     for (iVar3 = iVar4; iVar3 != param_1[0x7b]; iVar3 = iVar3 + 0x20) {
@@ -86,15 +59,15 @@ void fn_82395588(undefined4 *param_1)
     param_1[0x67] = 0;
   }
   fn_82397BA8(param_1);
-  puVar1 = (undefined4 *)param_1[0xb8];
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+  puVar1 = (unsigned int *)param_1[0xb8];
+  if (puVar1 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar1)(puVar1,1);
   }
   param_1[0xb8] = 0;
   param_1[0x85] = 0;
   param_1[0x83] = param_1[0xaa];
-  if ((undefined4 *)param_1[0xb7] != (undefined4 *)0x0) {
-    *(undefined4 *)param_1[0xb7] = 0;
+  if ((unsigned int *)param_1[0xb7] != (unsigned int *)0x0) {
+    *(unsigned int *)param_1[0xb7] = 0;
     fn_8265CA20();
   }
   if (param_1[0x2ed] != 0) {
@@ -119,7 +92,7 @@ void fn_82395588(undefined4 *param_1)
   piVar2 = (int *)param_1[0x20c];
   piVar5 = (int *)*piVar2;
   *piVar2 = (int)piVar2;
-  *(undefined4 *)(param_1[0x20c] + 4) = param_1[0x20c];
+  *(unsigned int *)(param_1[0x20c] + 4) = param_1[0x20c];
   param_1[0x20d] = 0;
   if (piVar5 != (int *)param_1[0x20c]) {
     do {

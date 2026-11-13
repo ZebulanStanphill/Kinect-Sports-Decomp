@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822315A0();
 extern int fn_8265C9E0();
 extern int fn_828A0B78();
@@ -38,17 +11,17 @@ extern unsigned int uStack_60;
 
 /* WARNING: Removing unreachable block (ram,0x828d0c38) */
 
-undefined4 *
-fn_828D0BE0(undefined4 *param_1,int param_2,char param_3,undefined8 param_4,undefined8 param_5,
-             undefined8 param_6)
+unsigned int *
+fn_828D0BE0(unsigned int *param_1,int param_2,char param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+             unsigned __int64 param_6)
 
 {
   char cVar3;
-  ulonglong uVar1;
-  undefined4 *puVar2;
+  unsigned __int64 uVar1;
+  unsigned int *puVar2;
   int *piVar4;
-  undefined4 uStack_60;
-  undefined4 *puStack_5c;
+  unsigned int uStack_60;
+  unsigned int *puStack_5c;
   
   piVar4 = *(int **)(param_2 + 0x14);
   if (piVar4 != *(int **)(param_2 + 0x18)) {
@@ -78,9 +51,9 @@ fn_828D0BE0(undefined4 *param_1,int param_2,char param_3,undefined8 param_4,unde
   else {
     uStack_60 = fn_828D0080(uVar1,(-(param_3 != '\0') & 7U) + 1,param_4,param_5,param_6);
   }
-  puStack_5c = (undefined4 *)fn_8265C9E0(0x10);
-  if (puStack_5c == (undefined4 *)0x0) {
-    puStack_5c = (undefined4 *)0x0;
+  puStack_5c = (unsigned int *)fn_8265C9E0(0x10);
+  if (puStack_5c == (unsigned int *)0x0) {
+    puStack_5c = (unsigned int *)0x0;
   }
   else {
     puStack_5c[3] = uStack_60;
@@ -95,9 +68,9 @@ fn_828D0BE0(undefined4 *param_1,int param_2,char param_3,undefined8 param_4,unde
   if (param_1 != &uStack_60) {
     param_1[1] = puStack_5c;
     *param_1 = uStack_60;
-    puVar2 = (undefined4 *)0x0;
+    puVar2 = (unsigned int *)0x0;
   }
-  if (puVar2 != (undefined4 *)0x0) {
+  if (puVar2 != (unsigned int *)0x0) {
     fn_822315A0();
   }
   return param_1;

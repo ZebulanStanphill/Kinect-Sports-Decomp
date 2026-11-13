@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_82A1EFC0();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
@@ -38,7 +12,7 @@ extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_832642D0;
 
 
-void fn_82FDAC20(undefined8 param_1,uint *param_2)
+void fn_82FDAC20(unsigned __int64 param_1,unsigned int *param_2)
 
 {
   float fVar1;
@@ -50,49 +24,49 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
   float fVar7;
   float fVar8;
   float fVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned int uVar12;
   int iVar13;
   bool bVar14;
   float fVar15;
   float fVar16;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar18;
-  ulonglong uVar17;
-  undefined4 *puVar19;
-  uint *puVar20;
-  ulonglong uVar21;
-  ulonglong uVar22;
-  ulonglong uVar23;
-  ulonglong uVar24;
-  longlong lVar25;
-  uint uVar26;
+  unsigned __int64 uVar17;
+  unsigned int *puVar19;
+  unsigned int *puVar20;
+  unsigned __int64 uVar21;
+  unsigned __int64 uVar22;
+  unsigned __int64 uVar23;
+  unsigned __int64 uVar24;
+  __int64 lVar25;
+  unsigned int uVar26;
   float *pfVar27;
   int iVar28;
   float *pfVar29;
-  ulonglong uVar30;
-  uint uVar32;
+  unsigned __int64 uVar30;
+  unsigned int uVar32;
   float *pfVar33;
-  ulonglong uVar31;
-  longlong lVar34;
-  ulonglong uVar35;
+  unsigned __int64 uVar31;
+  __int64 lVar34;
+  unsigned __int64 uVar35;
   float *pfVar37;
-  ulonglong uVar36;
-  longlong lVar38;
-  ulonglong uVar39;
-  ulonglong uVar40;
-  longlong lVar41;
-  ulonglong uVar42;
+  unsigned __int64 uVar36;
+  __int64 lVar38;
+  unsigned __int64 uVar39;
+  unsigned __int64 uVar40;
+  __int64 lVar41;
+  unsigned __int64 uVar42;
   double dVar43;
   double dVar44;
   double dVar45;
   double dVar46;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs51 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs42 [16];
+  unsigned char in_vs43 [16];
+  unsigned char in_vs51 [16];
   float in_register_00010390;
   float in_register_00010394;
   float in_register_00010398;
@@ -115,17 +89,17 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
   
   iVar18 = fn_82F6A548();
   pfStack_c8 = (float *)*param_2;
-  uVar10 = *(uint *)(iVar18 + 0x144);
-  uVar39 = (ulonglong)uVar10;
-  lVar38 = (ulonglong)*(ushort *)(param_2 + 3) * 4 + ZEXT48(pfStack_c8);
-  uVar11 = *(uint *)(iVar18 + 0x148);
-  uVar40 = (ulonglong)uVar11;
+  uVar10 = *(unsigned int *)(iVar18 + 0x144);
+  uVar39 = (unsigned __int64)uVar10;
+  lVar38 = (unsigned __int64)*(unsigned short *)(param_2 + 3) * 4 + ZEXT48(pfStack_c8);
+  uVar11 = *(unsigned int *)(iVar18 + 0x148);
+  uVar40 = (unsigned __int64)uVar11;
   lVar41 = 8;
-  puVar20 = (uint *)(iVar18 + 0x5c);
-  uVar17 = ((ulonglong)*(uint *)(iVar18 + 0xc) & 0x3fffffff) << 2;
+  puVar20 = (unsigned int *)(iVar18 + 0x5c);
+  uVar17 = ((unsigned __int64)*(unsigned int *)(iVar18 + 0xc) & 0x3fffffff) << 2;
   pfStack_cc = (float *)lVar38;
   do {
-    uVar21 = (ulonglong)*puVar20;
+    uVar21 = (unsigned __int64)*puVar20;
     uVar22 = uVar17;
     if (0x3ff < uVar17) {
       uVar22 = 0x400;
@@ -144,7 +118,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       } while (lVar25 != 0);
     }
     if ((uVar30 & 0xffffffff) < uVar22) {
-      uVar35 = (ulonglong)puVar20[-8] - (ulonglong)puVar20[-0x10];
+      uVar35 = (unsigned __int64)puVar20[-8] - (unsigned __int64)puVar20[-0x10];
       if ((uVar22 - uVar30 & 0xffffffff) <= (uVar35 & 0xffffffff)) {
         uVar35 = uVar22 - uVar30;
       }
@@ -161,11 +135,11 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
     lVar41 = lVar41 + -1;
     puVar20 = puVar20 + 1;
   } while (lVar41 != 0);
-  uVar17 = ((ulonglong)*(uint *)(iVar18 + 0xc) & 0x1fffffff) << 3;
-  puVar20 = (uint *)(iVar18 + 0x114);
+  uVar17 = ((unsigned __int64)*(unsigned int *)(iVar18 + 0xc) & 0x1fffffff) << 3;
+  puVar20 = (unsigned int *)(iVar18 + 0x114);
   lVar41 = 4;
   do {
-    uVar21 = (ulonglong)*puVar20;
+    uVar21 = (unsigned __int64)*puVar20;
     uVar22 = uVar17;
     if (0x3ff < uVar17) {
       uVar22 = 0x400;
@@ -184,7 +158,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       } while (lVar25 != 0);
     }
     if ((uVar30 & 0xffffffff) < uVar22) {
-      uVar35 = (ulonglong)puVar20[-4] - (ulonglong)puVar20[-8];
+      uVar35 = (unsigned __int64)puVar20[-4] - (unsigned __int64)puVar20[-8];
       if ((uVar22 - uVar30 & 0xffffffff) <= (uVar35 & 0xffffffff)) {
         uVar35 = uVar22 - uVar30;
       }
@@ -203,11 +177,11 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
   } while (lVar41 != 0);
   fVar1 = *(float *)(iVar18 + 0x158);
   fVar2 = *(float *)(*(int *)(iVar18 + 8) + 0x10);
-  *(undefined4 *)(iVar18 + 0x168) = 0;
+  *(unsigned int *)(iVar18 + 0x168) = 0;
   fVar4 = lbl_821AAD20;
   fVar3 = fVar2 - *(float *)(iVar18 + 0x164);
   *(float *)(iVar18 + 0x160) = fVar2;
-  *(int *)(iVar18 + 0x16c) = (int)(longlong)(ABS(fVar3) / fVar1);
+  *(int *)(iVar18 + 0x16c) = (int)(__int64)(ABS(fVar3) / fVar1);
   if (fVar3 <= fVar4) {
     fVar1 = -fVar1;
   }
@@ -216,39 +190,39 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
   fVar3 = fVar1 - *(float *)(iVar18 + 0x17c);
   fVar2 = *(float *)(iVar18 + 0x170);
   *(float *)(iVar18 + 0x178) = fVar1;
-  *(undefined4 *)(iVar18 + 0x180) = 0;
-  *(int *)(iVar18 + 0x184) = (int)(longlong)(ABS(fVar3) / fVar2);
+  *(unsigned int *)(iVar18 + 0x180) = 0;
+  *(int *)(iVar18 + 0x184) = (int)(__int64)(ABS(fVar3) / fVar2);
   if (fVar3 <= fVar4) {
     fVar2 = -fVar2;
   }
   *(float *)(iVar18 + 0x174) = fVar2;
   fVar1 = *(float *)(iVar18 + 0x188);
   fVar2 = *(float *)(*(int *)(iVar18 + 8) + 0xc);
-  *(undefined4 *)(iVar18 + 0x198) = 0;
+  *(unsigned int *)(iVar18 + 0x198) = 0;
   fVar3 = fVar2 - *(float *)(iVar18 + 0x194);
   *(float *)(iVar18 + 400) = fVar2;
-  *(int *)(iVar18 + 0x19c) = (int)(longlong)(ABS(fVar3) / fVar1);
+  *(int *)(iVar18 + 0x19c) = (int)(__int64)(ABS(fVar3) / fVar1);
   if (fVar3 <= fVar4) {
     fVar1 = -fVar1;
   }
   *(float *)(iVar18 + 0x18c) = fVar1;
   uVar12 = param_2[2];
-  uVar17 = (ulonglong)*(ushort *)((int)param_2 + 0xe);
+  uVar17 = (unsigned __int64)*(unsigned short *)((int)param_2 + 0xe);
   if (uVar12 == 0x11) {
     fVar1 = *(float *)(*(int *)(iVar18 + 8) + 8);
     if ((fVar1 != *(float *)(iVar18 + 0x1a4)) || (*(char *)(iVar18 + 0x1a8) == '\0')) {
       *(float *)(iVar18 + 0x1a4) = fVar1;
-      *(int *)(iVar18 + 0x1a0) = (int)(longlong)((float)*(uint *)(iVar18 + 0x14c) * fVar1);
+      *(int *)(iVar18 + 0x1a0) = (int)(__int64)((float)*(unsigned int *)(iVar18 + 0x14c) * fVar1);
     }
-    uVar22 = (ulonglong)*(uint *)(iVar18 + 0x1a0);
-    if ((*(ushort *)(param_2 + 3) - uVar17 & 0xffffffff) <= (ulonglong)*(uint *)(iVar18 + 0x1a0)) {
-      uVar22 = *(ushort *)(param_2 + 3) - uVar17;
+    uVar22 = (unsigned __int64)*(unsigned int *)(iVar18 + 0x1a0);
+    if ((*(unsigned short *)(param_2 + 3) - uVar17 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(iVar18 + 0x1a0)) {
+      uVar22 = *(unsigned short *)(param_2 + 3) - uVar17;
     }
     lVar41 = (uVar22 & 0x3fffffff) << 2;
     fn_82A1EFC0(uVar17 * 4 + ZEXT48(pfStack_c8),0,lVar41);
     fn_82A1EFC0(uVar17 * 4 + lVar38,0,lVar41);
     uVar17 = uVar22 + uVar17;
-    lVar38 = *(uint *)(iVar18 + 0x1a0) - uVar22;
+    lVar38 = *(unsigned int *)(iVar18 + 0x1a0) - uVar22;
     *(int *)(iVar18 + 0x1a0) = (int)lVar38;
     if (lVar38 != 0) {
       param_2[2] = 0x2d;
@@ -266,7 +240,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       }
       uVar30 = (uVar21 & 0xffffffff) >> 2;
       altv207_13(in_vs32,in_vs51);
-      pfVar37 = (float *)((uint)(&lbl_832642D0 + (int)in_r0) & 0xfffffff0);
+      pfVar37 = (float *)((unsigned int)(&lbl_832642D0 + (int)in_r0) & 0xfffffff0);
       *pfVar37 = in_register_000103f0;
       pfVar37[1] = in_register_000103f4;
       pfVar37[2] = in_register_000103f8;
@@ -288,7 +262,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         pfVar27[2] = (in_register_000103d8 + in_register_000103e8) * in_register_000103f8;
         pfVar27[3] = (in_vr61 + in_vr62) * in_vr63;
         uVar35 = uVar35 + 0x10;
-        uVar26 = (uint)uVar35;
+        uVar26 = (unsigned int)uVar35;
       }
       if ((uVar23 & 0xffffffff) != 0) {
         iVar28 = (int)pfVar33 - (int)pfVar37;
@@ -308,7 +282,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       if (uVar39 < (uVar35 & 0xffffffff)) {
         uVar26 = ((int)uVar35 - uVar10) + 3;
         uVar42 = uVar39;
-        if (3 < (int)(((int)uVar26 >> 2) + (uint)((int)uVar26 < 0 && (uVar26 & 3) != 0))) {
+        if (3 < (int)(((int)uVar26 >> 2) + (unsigned int)((int)uVar26 < 0 && (uVar26 & 3) != 0))) {
           do {
             pfVar37 = (float *)uVar42;
             fVar4 = *pfVar37;
@@ -345,14 +319,14 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       *(float *)(iVar18 + 0x13c) = fVar2;
       bVar14 = (int)uVar22 != 0;
       if (bVar14) {
-        puVar20 = (uint *)(iVar18 + 0x3c);
+        puVar20 = (unsigned int *)(iVar18 + 0x3c);
         lVar41 = 8;
-        uVar35 = ((ulonglong)*(uint *)(iVar18 + 0x10) & 0x3fffffff) * 4;
+        uVar35 = ((unsigned __int64)*(unsigned int *)(iVar18 + 0x10) & 0x3fffffff) * 4;
         do {
-          uVar23 = (ulonglong)*puVar20;
+          uVar23 = (unsigned __int64)*puVar20;
           uVar42 = puVar20[8] + uVar35;
           if (uVar23 <= (uVar42 & 0xffffffff)) {
-            uVar42 = (ulonglong)puVar20[-8];
+            uVar42 = (unsigned __int64)puVar20[-8];
           }
           uVar24 = uVar35;
           if (0x3ff < uVar35) {
@@ -395,10 +369,10 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       fVar1 = *(float *)(iVar18 + 0x9c);
       fVar2 = *(float *)(iVar18 + 0xbc);
       uVar26 = (int)pfVar33 - (int)pfVar37 >> 2;
-      uVar42 = (ulonglong)(int)uVar26;
+      uVar42 = (unsigned __int64)(int)uVar26;
       uVar35 = uVar21;
-      if (((ulonglong)uVar26 < (uVar21 & 0xffffffff)) &&
-         (uVar35 = uVar42, (ulonglong)uVar26 != (uVar21 & 0xffffffff))) {
+      if (((unsigned __int64)uVar26 < (uVar21 & 0xffffffff)) &&
+         (uVar35 = uVar42, (unsigned __int64)uVar26 != (uVar21 & 0xffffffff))) {
         uVar24 = 0;
         uVar35 = uVar39;
         uVar23 = uVar40;
@@ -429,7 +403,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
             uVar23 = uVar23 + 0x10;
           } while ((uVar24 & 0xffffffff) < (uVar42 - 3 & 0xffffffff));
         }
-        if ((uVar24 & 0xffffffff) < (ulonglong)uVar26) {
+        if ((uVar24 & 0xffffffff) < (unsigned __int64)uVar26) {
           lVar41 = uVar42 - uVar24;
           do {
             pfVar27 = (float *)uVar35;
@@ -447,8 +421,8 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
           pfVar37 = *(float **)(iVar18 + 0x1c);
         }
         uVar26 = (int)pfVar33 - (int)pfVar37 >> 2;
-        uVar24 = (longlong)(int)uVar26;
-        if ((uVar21 - uVar42 & 0xffffffff) <= (ulonglong)uVar26) {
+        uVar24 = (__int64)(int)uVar26;
+        if ((uVar21 - uVar42 & 0xffffffff) <= (unsigned __int64)uVar26) {
           uVar24 = uVar21 - uVar42;
         }
         uVar42 = 0;
@@ -509,7 +483,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
             uVar42 = uVar42 + 4;
             fVar6 = pfVar37[3];
             uVar23 = uVar23 + 0x10;
-            uVar26 = (uint)uVar23;
+            uVar26 = (unsigned int)uVar23;
             fVar7 = *(float *)((int)pfVar27 + (uVar10 - uVar11) + 4);
             fVar8 = fVar1 * *pfVar33 + *pfVar37 * fVar2;
             *pfVar37 = fVar8;
@@ -525,7 +499,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
             pfVar37 = pfVar37 + 4;
             pfVar27[3] = fVar3;
             uVar24 = uVar24 + 0x10;
-            uVar32 = (uint)uVar24;
+            uVar32 = (unsigned int)uVar24;
           } while ((uVar42 & 0xffffffff) < (uVar35 - 3 & 0xffffffff));
         }
         if ((uVar42 & 0xffffffff) < (uVar35 & 0xffffffff)) {
@@ -542,7 +516,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         }
       }
       *(float **)(iVar18 + 0x5c) = pfVar37;
-      puVar19 = (undefined4 *)(iVar18 + 0x40);
+      puVar19 = (unsigned int *)(iVar18 + 0x40);
       lVar41 = 7;
       do {
         pfVar37 = (float *)puVar19[8];
@@ -550,10 +524,10 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         pfVar33 = (float *)*puVar19;
         fVar2 = (float)puVar19[0x20];
         uVar26 = (int)pfVar33 - (int)pfVar37 >> 2;
-        uVar42 = (ulonglong)(int)uVar26;
+        uVar42 = (unsigned __int64)(int)uVar26;
         uVar35 = uVar21;
-        if (((ulonglong)uVar26 < (uVar21 & 0xffffffff)) &&
-           (uVar35 = uVar42, (ulonglong)uVar26 != (uVar21 & 0xffffffff))) {
+        if (((unsigned __int64)uVar26 < (uVar21 & 0xffffffff)) &&
+           (uVar35 = uVar42, (unsigned __int64)uVar26 != (uVar21 & 0xffffffff))) {
           uVar24 = 0;
           uVar35 = uVar39;
           uVar23 = uVar40;
@@ -585,7 +559,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               uVar23 = uVar23 + 0x10;
             } while ((uVar24 & 0xffffffff) < (uVar42 - 3 & 0xffffffff));
           }
-          if ((uVar24 & 0xffffffff) < (ulonglong)uVar26) {
+          if ((uVar24 & 0xffffffff) < (unsigned __int64)uVar26) {
             lVar34 = uVar42 - uVar24;
             do {
               pfVar27 = (float *)uVar35;
@@ -604,8 +578,8 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
             pfVar37 = (float *)puVar19[-8];
           }
           uVar26 = (int)pfVar33 - (int)pfVar37 >> 2;
-          uVar24 = (longlong)(int)uVar26;
-          if ((uVar21 - uVar42 & 0xffffffff) <= (ulonglong)uVar26) {
+          uVar24 = (__int64)(int)uVar26;
+          if ((uVar21 - uVar42 & 0xffffffff) <= (unsigned __int64)uVar26) {
             uVar24 = uVar21 - uVar42;
           }
           uVar42 = 0;
@@ -668,7 +642,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               fVar4 = pfVar27[3];
               uVar42 = uVar42 + 4;
               uVar23 = uVar23 + 0x10;
-              uVar26 = (uint)uVar23;
+              uVar26 = (unsigned int)uVar23;
               fVar5 = *pfVar33;
               fVar6 = pfVar33[1];
               fVar7 = pfVar33[2];
@@ -687,7 +661,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               pfVar33[2] = fVar7 + fVar15;
               pfVar33[3] = fVar8 + fVar3;
               uVar24 = uVar24 + 0x10;
-              uVar32 = (uint)uVar24;
+              uVar32 = (unsigned int)uVar24;
             } while ((uVar42 & 0xffffffff) < (uVar35 - 3 & 0xffffffff));
           }
           if ((uVar42 & 0xffffffff) < (uVar35 & 0xffffffff)) {
@@ -709,14 +683,14 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         puVar19 = puVar19 + 1;
       } while (lVar41 != 0);
       if (bVar14) {
-        puVar20 = (uint *)(iVar18 + 0x104);
+        puVar20 = (unsigned int *)(iVar18 + 0x104);
         lVar41 = 4;
-        uVar35 = ((ulonglong)*(uint *)(iVar18 + 0x10) & 0x1fffffff) * 8;
+        uVar35 = ((unsigned __int64)*(unsigned int *)(iVar18 + 0x10) & 0x1fffffff) * 8;
         do {
-          uVar23 = (ulonglong)*puVar20;
+          uVar23 = (unsigned __int64)*puVar20;
           uVar42 = puVar20[4] + uVar35;
           if (uVar23 <= (uVar42 & 0xffffffff)) {
-            uVar42 = (ulonglong)puVar20[-4];
+            uVar42 = (unsigned __int64)puVar20[-4];
           }
           uVar24 = uVar35;
           if (0x3ff < uVar35) {
@@ -756,7 +730,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       }
       pfVar37 = *(float **)(iVar18 + 0x114);
       pfVar33 = *(float **)(iVar18 + 0x104);
-      uVar35 = (ulonglong)((uint)((int)pfVar33 - (int)pfVar37 >> 2) >> 1);
+      uVar35 = (unsigned __int64)((unsigned int)((int)pfVar33 - (int)pfVar37 >> 2) >> 1);
       uVar42 = uVar21;
       if ((uVar35 < (uVar21 & 0xffffffff)) && (uVar42 = uVar35, uVar35 != (uVar21 & 0xffffffff))) {
         uVar42 = 0;
@@ -814,7 +788,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               pfVar37 = *(float **)(iVar18 + 0xf4);
             }
             uVar42 = uVar42 + uVar35;
-            uVar35 = (ulonglong)((uint)((int)pfVar33 - (int)pfVar37 >> 2) >> 1);
+            uVar35 = (unsigned __int64)((unsigned int)((int)pfVar33 - (int)pfVar37 >> 2) >> 1);
             if ((uVar21 - uVar42 & 0xffffffff) <= uVar35) {
               uVar35 = uVar21 - uVar42;
             }
@@ -875,7 +849,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       *(float **)(iVar18 + 0x114) = pfVar37;
       pfVar37 = *(float **)(iVar18 + 0x108);
       pfVar33 = *(float **)(iVar18 + 0x118);
-      uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+      uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
       uVar42 = uVar21;
       if ((uVar35 < (uVar21 & 0xffffffff)) && (uVar42 = uVar35, uVar35 != (uVar21 & 0xffffffff))) {
         uVar42 = 0;
@@ -933,7 +907,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               pfVar33 = *(float **)(iVar18 + 0xf8);
             }
             uVar42 = uVar42 + uVar35;
-            uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+            uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
             if ((uVar21 - uVar42 & 0xffffffff) <= uVar35) {
               uVar35 = uVar21 - uVar42;
             }
@@ -994,7 +968,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       *(float **)(iVar18 + 0x118) = pfVar33;
       pfVar37 = *(float **)(iVar18 + 0x10c);
       pfVar33 = *(float **)(iVar18 + 0x11c);
-      uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+      uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
       uVar42 = uVar21;
       if ((uVar35 < (uVar21 & 0xffffffff)) && (uVar42 = uVar35, uVar35 != (uVar21 & 0xffffffff))) {
         uVar42 = 0;
@@ -1052,7 +1026,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               pfVar33 = *(float **)(iVar18 + 0xfc);
             }
             uVar42 = uVar42 + uVar35;
-            uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+            uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
             if ((uVar21 - uVar42 & 0xffffffff) <= uVar35) {
               uVar35 = uVar21 - uVar42;
             }
@@ -1113,7 +1087,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       *(float **)(iVar18 + 0x11c) = pfVar33;
       pfVar37 = *(float **)(iVar18 + 0x110);
       pfVar33 = *(float **)(iVar18 + 0x120);
-      uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+      uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
       uVar42 = uVar21;
       if ((uVar35 < (uVar21 & 0xffffffff)) && (uVar42 = uVar35, uVar35 != (uVar21 & 0xffffffff))) {
         uVar42 = 0;
@@ -1171,7 +1145,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
               pfVar33 = *(float **)(iVar18 + 0x100);
             }
             uVar42 = uVar42 + uVar35;
-            uVar35 = (ulonglong)((uint)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
+            uVar35 = (unsigned __int64)((unsigned int)((int)pfVar37 - (int)pfVar33 >> 2) >> 1);
             if ((uVar21 - uVar42 & 0xffffffff) <= uVar35) {
               uVar35 = uVar21 - uVar42;
             }
@@ -1230,12 +1204,12 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         }
       }
       *(float **)(iVar18 + 0x120) = pfVar33;
-      if (*(uint *)(iVar18 + 0x198) < *(uint *)(iVar18 + 0x19c)) {
+      if (*(unsigned int *)(iVar18 + 0x198) < *(unsigned int *)(iVar18 + 0x19c)) {
         *(float *)(iVar18 + 0x194) = *(float *)(iVar18 + 0x18c) + *(float *)(iVar18 + 0x194);
-        *(uint *)(iVar18 + 0x198) = *(uint *)(iVar18 + 0x198) + 1;
+        *(unsigned int *)(iVar18 + 0x198) = *(unsigned int *)(iVar18 + 0x198) + 1;
       }
       else {
-        *(undefined4 *)(iVar18 + 0x194) = *(undefined4 *)(iVar18 + 400);
+        *(unsigned int *)(iVar18 + 0x194) = *(unsigned int *)(iVar18 + 400);
       }
       dVar46 = (double)*(float *)(iVar18 + 0x194);
       in_register_000103f0 = in_register_000103a0;
@@ -1250,7 +1224,7 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
       if (uVar40 < (uVar35 & 0xffffffff)) {
         uVar26 = ((int)uVar35 - uVar11) + 3;
         uVar42 = uVar40;
-        if (3 < (int)(((int)uVar26 >> 2) + (uint)((int)uVar26 < 0 && (uVar26 & 3) != 0))) {
+        if (3 < (int)(((int)uVar26 >> 2) + (unsigned int)((int)uVar26 < 0 && (uVar26 & 3) != 0))) {
           do {
             pfVar37 = (float *)uVar42;
             fVar1 = fVar2 * *pfVar37 + fVar3 * fVar1;
@@ -1276,20 +1250,20 @@ void fn_82FDAC20(undefined8 param_1,uint *param_2)
         }
       }
       *(float *)(iVar18 + 0x128) = fVar1;
-      if (*(uint *)(iVar18 + 0x168) < *(uint *)(iVar18 + 0x16c)) {
+      if (*(unsigned int *)(iVar18 + 0x168) < *(unsigned int *)(iVar18 + 0x16c)) {
         *(float *)(iVar18 + 0x164) = *(float *)(iVar18 + 0x15c) + *(float *)(iVar18 + 0x164);
-        *(uint *)(iVar18 + 0x168) = *(uint *)(iVar18 + 0x168) + 1;
+        *(unsigned int *)(iVar18 + 0x168) = *(unsigned int *)(iVar18 + 0x168) + 1;
       }
       else {
-        *(undefined4 *)(iVar18 + 0x164) = *(undefined4 *)(iVar18 + 0x160);
+        *(unsigned int *)(iVar18 + 0x164) = *(unsigned int *)(iVar18 + 0x160);
       }
       fVar1 = *(float *)(iVar18 + 0x164);
-      if (*(uint *)(iVar18 + 0x180) < *(uint *)(iVar18 + 0x184)) {
+      if (*(unsigned int *)(iVar18 + 0x180) < *(unsigned int *)(iVar18 + 0x184)) {
         *(float *)(iVar18 + 0x17c) = *(float *)(iVar18 + 0x174) + *(float *)(iVar18 + 0x17c);
-        *(uint *)(iVar18 + 0x180) = *(uint *)(iVar18 + 0x180) + 1;
+        *(unsigned int *)(iVar18 + 0x180) = *(unsigned int *)(iVar18 + 0x180) + 1;
       }
       else {
-        *(undefined4 *)(iVar18 + 0x17c) = *(undefined4 *)(iVar18 + 0x178);
+        *(unsigned int *)(iVar18 + 0x17c) = *(unsigned int *)(iVar18 + 0x178);
       }
       fVar2 = *(float *)(iVar18 + 0x17c);
       uVar21 = uVar21 + uVar30 * -4;

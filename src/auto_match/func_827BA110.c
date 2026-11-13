@@ -1,17 +1,15 @@
-typedef unsigned int uint;
-
 void fn_827BA110(int param_1)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint *puVar4;
-  uint uVar5;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int *puVar4;
+  unsigned int uVar5;
   short *psVar6;
   short *psVar7;
 
-  for (uVar3 = 0; uVar3 < *(uint *)(param_1 + 4); uVar3++) {
-      puVar4 = (uint *)(*(int *)((uVar3 >> 2 & 0x3ffffffc) + *(int *)(param_1 + 0x10)) +
+  for (uVar3 = 0; uVar3 < *(unsigned int *)(param_1 + 4); uVar3++) {
+      puVar4 = (unsigned int *)(*(int *)((uVar3 >> 2 & 0x3ffffffc) + *(int *)(param_1 + 0x10)) +
                        (uVar3 & 0xf) * 8);
       uVar1 = puVar4[1];
       if (2 < uVar1) {

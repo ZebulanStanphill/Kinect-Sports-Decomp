@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_a4;
 extern unsigned int fStack_a8;
 extern int fn_82F6A510();
@@ -85,21 +58,21 @@ void fn_82A60170(void)
   float fVar49;
   float fVar50;
   float *pfVar51;
-  uint uVar52;
-  uint uVar53;
+  unsigned int uVar52;
+  unsigned int uVar53;
   float fVar54;
-  uint *puVar55;
-  longlong lVar56;
-  ulonglong uVar57;
+  unsigned int *puVar55;
+  __int64 lVar56;
+  unsigned __int64 uVar57;
   float *pfVar59;
-  ulonglong uVar58;
+  unsigned __int64 uVar58;
   float fStack_a8;
   float fStack_a4;
   
-  puVar55 = (uint *)fn_82F6A510();
+  puVar55 = (unsigned int *)fn_82F6A510();
   pfVar59 = (float *)puVar55[2];
   pfVar51 = (float *)puVar55[3];
-  uVar57 = (ulonglong)puVar55[1];
+  uVar57 = (unsigned __int64)puVar55[1];
   uVar52 = puVar55[5];
   fVar1 = pfVar59[0x15];
   uVar53 = puVar55[8];
@@ -128,8 +101,8 @@ void fn_82A60170(void)
   fVar22 = pfVar59[0x14];
   if (pfVar51 == (float *)0x0) {
     if (uVar52 != 0) {
-      lVar56 = (ulonglong)(uVar52 - 1 >> 2) + 1;
-      uVar58 = (ulonglong)*puVar55;
+      lVar56 = (unsigned __int64)(uVar52 - 1 >> 2) + 1;
+      uVar58 = (unsigned __int64)*puVar55;
       do {
         pfVar59 = (float *)uVar58;
         fVar23 = *pfVar59;
@@ -195,8 +168,8 @@ void fn_82A60170(void)
     fVar42 = pfVar51[7];
     fVar43 = pfVar51[8];
     if (uVar52 != 0) {
-      lVar56 = (ulonglong)(uVar52 - 1 >> 2) + 1;
-      uVar58 = (ulonglong)*puVar55;
+      lVar56 = (unsigned __int64)(uVar52 - 1 >> 2) + 1;
+      uVar58 = (unsigned __int64)*puVar55;
       do {
         pfVar59 = (float *)uVar58;
         fVar44 = *pfVar59;

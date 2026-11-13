@@ -1,5 +1,3 @@
-typedef unsigned char undefined1;
-
 extern int fn_8251C390();
 extern int fn_828E2F58();
 extern int fn_829E53B0();
@@ -10,8 +8,8 @@ extern char lbl_8321449C[];
 
 void *fn_828E9220(void)
 {
-  undefined1 auStack_30[16];
-  undefined1 auStack_20[16];
+  unsigned char auStack_30[16];
+  unsigned char auStack_20[16];
 
   fn_8251C390(auStack_20,
               "D:\\Work\\R1SDK\\Olympus_testing\\NetworkLibrary\\NetworkLibrary\\NetworkWrapperAdditional\\Function\\FunctionNetObj.cpp",

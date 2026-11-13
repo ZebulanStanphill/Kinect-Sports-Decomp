@@ -1,15 +1,13 @@
-typedef int (*code)();
-
 extern int fn_82CA9FA0();
 extern int fn_82CAA210();
 extern int fn_82CAA590();
 extern int fn_82F42CC8();
 
 typedef struct FuncSet_82F02720 {
-    code a;
-    code b;
-    code c;
-    code d;
+    int (*a)();
+    int (*b)();
+    int (*c)();
+    int (*d)();
 } FuncSet_82F02720;
 
 typedef struct Obj_82F02720 {

@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8258B170();
 extern int fn_8258B3F8();
 extern int fn_826237C0();
@@ -39,33 +13,33 @@ void fn_8258AF18(int param_1,int param_2)
 {
   int iVar1;
   int iVar2;
-  undefined4 uVar3;
+  unsigned int uVar3;
   int iVar4;
   int iVar5;
   int iVar6;
-  uint uVar7;
-  uint uVar8;
-  undefined4 *puVar9;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int *puVar9;
   int iVar10;
   int *piVar11;
   int iVar12;
   int *piVar14;
-  ulonglong uVar13;
+  unsigned __int64 uVar13;
   int iVar15;
   int iVar16;
-  longlong lVar17;
+  __int64 lVar17;
   int *piVar18;
   int *piVar19;
-  uint *puVar20;
-  uint uStack_b0;
-  struct { uint first; int second; } stack_pair_ac;
+  unsigned int *puVar20;
+  unsigned int uStack_b0;
+  struct { unsigned int first; int second; } stack_pair_ac;
 
-  uint *puStack_a4;
+  unsigned int *puStack_a4;
   
   fn_8258B3F8(param_1 + 8,param_2,param_2 + 0x10,&uStack_b0,&stack_pair_ac.first);
-  puVar20 = (uint *)(param_2 + 0x20);
+  puVar20 = (unsigned int *)(param_2 + 0x20);
   puStack_a4 = puVar20;
-  fn_8258B170(param_1,param_2,puVar20,(uint *)(param_2 + 0x24));
+  fn_8258B170(param_1,param_2,puVar20,(unsigned int *)(param_2 + 0x24));
   uVar8 = uStack_b0;
   stack_pair_ac.second = *(int *)(param_1 + 0x24);
   iVar4 = (int)(uStack_b0 << 0xb | uStack_b0 >> 0x15) >> 0x16;
@@ -81,7 +55,7 @@ void fn_8258AF18(int param_1,int param_2)
     uStack_b0 = (iVar16 - iVar10) + 1;
     do {
       if (iVar4 <= iVar6) {
-        lVar17 = ((longlong)iVar6 - (longlong)iVar4) + 1;
+        lVar17 = ((__int64)iVar6 - (__int64)iVar4) + 1;
         piVar19 = (int *)((iVar2 * iVar4 + iVar15 + iVar5) * 4 + iVar1);
         do {
           if (iVar5 <= (int)uVar7) {
@@ -91,20 +65,20 @@ LAB_8258affc:
             piVar14 = (int *)*piVar18;
             if (piVar14 == (int *)0x0) {
 LAB_8258b068:
-              puVar9 = *(undefined4 **)(param_1 + 0x78);
-              if (puVar9 == *(undefined4 **)(param_1 + 0x7c)) {
-                *(undefined4 *)(param_1 + 0x7c) = 0;
+              puVar9 = *(unsigned int **)(param_1 + 0x78);
+              if (puVar9 == *(unsigned int **)(param_1 + 0x7c)) {
+                *(unsigned int *)(param_1 + 0x7c) = 0;
               }
               stack_pair_ac.first = uVar7;
-              if (puVar9 == (undefined4 *)0x0) {
-                puVar9 = (undefined4 *)
-                         fn_826237C0(param_1 + 0x4c,*(undefined4 *)(param_1 + 0x40),
-                                         *(undefined4 *)(param_1 + 0x48));
+              if (puVar9 == (unsigned int *)0x0) {
+                puVar9 = (unsigned int *)
+                         fn_826237C0(param_1 + 0x4c,*(unsigned int *)(param_1 + 0x40),
+                                         *(unsigned int *)(param_1 + 0x48));
               }
               else {
                 uVar3 = *puVar9;
                 *puVar9 = 0;
-                *(undefined4 *)(param_1 + 0x78) = uVar3;
+                *(unsigned int *)(param_1 + 0x78) = uVar3;
                 puVar9 = puVar9 + -1;
                 *(int *)(param_1 + 0x44) = *(int *)(param_1 + 0x44) + -1;
               }
@@ -144,13 +118,13 @@ LAB_8258b140:
           piVar19 = piVar19 + iVar2;
         } while (lVar17 != 0);
       }
-      uVar13 = (ulonglong)uStack_b0;
+      uVar13 = (unsigned __int64)uStack_b0;
       iVar15 = iVar15 + stack_pair_ac.second;
-      uStack_b0 = (uint)(uVar13 - 1);
+      uStack_b0 = (unsigned int)(uVar13 - 1);
     } while (uVar13 - 1 != 0);
   }
   *puVar20 = uVar8;
-  *(uint *)(param_2 + 0x24) = stack_pair_ac.first;
+  *(unsigned int *)(param_2 + 0x24) = stack_pair_ac.first;
   return;
 LAB_8258b0e4:
   piVar14[iVar12] = param_2;

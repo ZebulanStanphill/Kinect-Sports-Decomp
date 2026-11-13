@@ -1,8 +1,7 @@
-typedef unsigned int uint;
-void fn_82BD0910(uint **param_1)
+void fn_82BD0910(unsigned int **param_1)
 {
-  uint *p = *param_1;
-  uint i;
+  unsigned int *p = *param_1;
+  unsigned int i;
   for (i = 0; i < *p; i++) {
     p[i + 2] = 0;
   }

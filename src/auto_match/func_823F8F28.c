@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_48;
 extern int fn_822509A0();
 extern int fn_823FA9E8();
@@ -32,7 +5,7 @@ extern int fn_823FAB00();
 extern int fn_823FACD8();
 
 
-undefined4 * fn_823F8F28(undefined4 *param_1,int param_2,int *param_3,int param_4)
+unsigned int * fn_823F8F28(unsigned int *param_1,int param_2,int *param_3,int param_4)
 
 {
   char cVar1;
@@ -40,10 +13,10 @@ undefined4 * fn_823F8F28(undefined4 *param_1,int param_2,int *param_3,int param_
   int iVar3;
   int iVar4;
   int *piVar5;
-  undefined4 *puVar6;
-  undefined8 uVar7;
+  unsigned int *puVar6;
+  unsigned __int64 uVar7;
   int *apiStack_50 [2];
-  undefined1 auStack_48 [72];
+  unsigned char auStack_48 [72];
   
   apiStack_50[0] = (int *)0x0;
   if (*(int *)(param_2 + 8) == 0) {
@@ -68,7 +41,7 @@ undefined4 * fn_823F8F28(undefined4 *param_1,int param_2,int *param_3,int param_
         }
         else {
           if ((iVar3 <= iVar4) ||
-             ((apiStack_50[0] = param_3, puVar6 = (undefined4 *)fn_822509A0(apiStack_50),
+             ((apiStack_50[0] = param_3, puVar6 = (unsigned int *)fn_822509A0(apiStack_50),
               (int *)*puVar6 != piVar2 && (apiStack_50[0][4] <= iVar3)))) goto LAB_823f9074;
           cVar1 = *(char *)(param_3[2] + 0x49);
           piVar2 = param_3;
@@ -86,7 +59,7 @@ undefined4 * fn_823F8F28(undefined4 *param_1,int param_2,int *param_3,int param_
     }
     if (param_3[4] <= *(int *)(param_4 + 0x10)) {
 LAB_823f9074:
-      puVar6 = (undefined4 *)fn_823FA9E8(auStack_48,param_2,param_4);
+      puVar6 = (unsigned int *)fn_823FA9E8(auStack_48,param_2,param_4);
       *param_1 = *puVar6;
       return param_1;
     }

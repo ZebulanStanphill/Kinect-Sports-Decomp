@@ -1,32 +1,5 @@
 extern char *pcRam8326b7cc;
 extern unsigned int *puRam8328113c;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
 extern int fn_822933E8();
 extern int fn_8248F530();
@@ -63,16 +36,16 @@ extern unsigned int uStack_4c;
 void fn_824E29A8(void)
 
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
+  unsigned int uVar1;
+  unsigned __int64 uVar2;
   int iVar3;
   int iVar4;
-  undefined4 *puVar5;
-  ulonglong uVar6;
-  undefined1 auStack_60 [16];
-  struct { int first; undefined4 second; } stack_pair_50;
+  unsigned int *puVar5;
+  unsigned __int64 uVar6;
+  unsigned char auStack_60 [16];
+  struct { int first; unsigned int second; } stack_pair_50;
 
-  undefined4 uStack_48;
+  unsigned int uStack_48;
 
   uVar1 = lbl_8320A898;
   uVar2 = fn_8266EC60();
@@ -100,7 +73,7 @@ void fn_824E29A8(void)
   (&lbl_8326C018)[iVar4] = fn_8248F530;
   fn_82587910();
   uVar6 = 0x2a;
-  puVar5 = (undefined4 *)0x831c4eb0;
+  puVar5 = (unsigned int *)0x831c4eb0;
   do {
     puVar5 = puVar5 + 1;
     uVar1 = *puVar5;
@@ -115,9 +88,9 @@ void fn_824E29A8(void)
   uStack_48 = 0;
   fn_82508828(auStack_60,&stack_pair_50.first);
   uRam83281138 = fn_8251F720(auStack_60,0);
-  puRam8328113c = (undefined4 *)fn_8265C9E0(0x10);
-  if (puRam8328113c == (undefined4 *)0x0) {
-    puRam8328113c = (undefined4 *)0x0;
+  puRam8328113c = (unsigned int *)fn_8265C9E0(0x10);
+  if (puRam8328113c == (unsigned int *)0x0) {
+    puRam8328113c = (unsigned int *)0x0;
   }
   else {
     *puRam8328113c = 0;

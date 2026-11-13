@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_82F6A53C();
@@ -35,7 +9,7 @@ extern unsigned int lbl_820155B0;
 extern unsigned int lbl_820155B4;
 
 
-void fn_827888E8(undefined8 param_1,double param_2)
+void fn_827888E8(unsigned __int64 param_1,double param_2)
 
 {
   float fVar1;
@@ -47,9 +21,9 @@ void fn_827888E8(undefined8 param_1,double param_2)
   float fVar7;
   float fVar8;
   float fVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned int uVar12;
   int iVar13;
   float fVar14;
   float fVar15;
@@ -60,8 +34,8 @@ void fn_827888E8(undefined8 param_1,double param_2)
   float fVar20;
   int iVar21;
   int iVar22;
-  ulonglong in_r6;
-  ulonglong in_r7;
+  unsigned __int64 in_r6;
+  unsigned __int64 in_r7;
   int iVar23;
   float *in_r8;
   float *in_r9;
@@ -75,20 +49,20 @@ void fn_827888E8(undefined8 param_1,double param_2)
   iVar21 = fn_82F6A53C();
   iVar4 = *(int *)(iVar21 + 0x2c);
   iVar5 = *(int *)(iVar21 + 0xc);
-  uVar10 = *(uint *)(*(int *)(((uint)in_r6 >> 4 & 0xffffffc) + *(int *)(iVar21 + 0x48)) +
-                    ((uint)((in_r6 & 0xffffffff) << 2) & 0xfc));
-  uVar11 = *(uint *)(*(int *)(((uint)in_r7 >> 4 & 0xffffffc) + *(int *)(iVar21 + 0x48)) +
-                    ((uint)((in_r7 & 0xffffffff) << 2) & 0xfc));
-  uVar12 = *(uint *)(((&lbl_820155B4)[uVar10 & 3] + (uVar10 >> 2 & 0xff) * 0xf) * 4 +
+  uVar10 = *(unsigned int *)(*(int *)(((unsigned int)in_r6 >> 4 & 0xffffffc) + *(int *)(iVar21 + 0x48)) +
+                    ((unsigned int)((in_r6 & 0xffffffff) << 2) & 0xfc));
+  uVar11 = *(unsigned int *)(*(int *)(((unsigned int)in_r7 >> 4 & 0xffffffc) + *(int *)(iVar21 + 0x48)) +
+                    ((unsigned int)((in_r7 & 0xffffffff) << 2) & 0xfc));
+  uVar12 = *(unsigned int *)(((&lbl_820155B4)[uVar10 & 3] + (uVar10 >> 2 & 0xff) * 0xf) * 4 +
                     *(int *)((uVar10 >> 8 & 0xfffffc) + iVar4));
-  uVar10 = *(uint *)((*(int *)(&lbl_820155B0 + (uVar10 & 3) * 4) + (uVar10 >> 2 & 0xff) * 0xf) * 4 +
+  uVar10 = *(unsigned int *)((*(int *)(&lbl_820155B0 + (uVar10 & 3) * 4) + (uVar10 >> 2 & 0xff) * 0xf) * 4 +
                     *(int *)((uVar10 >> 8 & 0xfffffc) + iVar4));
   iVar22 = (uVar12 & 0xff) * 0xc;
   iVar21 = *(int *)((uVar12 >> 6 & 0x3fffffc) + iVar5);
   iVar13 = *(int *)((uVar10 >> 6 & 0x3fffffc) + iVar5);
   fVar14 = *(float *)(iVar21 + iVar22);
   iVar23 = (uVar10 & 0xff) * 0xc;
-  uVar10 = *(uint *)((*(int *)(&lbl_820155B0 + (uVar11 & 3) * 4) + (uVar11 >> 2 & 0xff) * 0xf) * 4 +
+  uVar10 = *(unsigned int *)((*(int *)(&lbl_820155B0 + (uVar11 & 3) * 4) + (uVar11 >> 2 & 0xff) * 0xf) * 4 +
                     *(int *)((uVar11 >> 8 & 0xfffffc) + iVar4));
   fVar15 = *(float *)(iVar13 + iVar23);
   iVar24 = (uVar10 & 0xff) * 0xc;
@@ -98,7 +72,7 @@ void fn_827888E8(undefined8 param_1,double param_2)
   fVar7 = *(float *)(iVar21 + iVar22 + 4);
   fVar8 = *(float *)(iVar16 + iVar24 + 4);
   fVar3 = fVar7 - fVar6;
-  uVar10 = *(uint *)(((&lbl_820155B4)[uVar11 & 3] + (uVar11 >> 2 & 0xff) * 0xf) * 4 +
+  uVar10 = *(unsigned int *)(((&lbl_820155B4)[uVar11 & 3] + (uVar11 >> 2 & 0xff) * 0xf) * 4 +
                     *(int *)((uVar11 >> 8 & 0xfffffc) + iVar4));
   iVar21 = (uVar10 & 0xff) * 0xc;
   iVar4 = *(int *)((uVar10 >> 6 & 0x3fffffc) + iVar5);

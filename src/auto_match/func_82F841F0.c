@@ -1,5 +1,3 @@
-typedef unsigned __int64 U64;
-
 extern void fn_82A1E228(void *p);
 extern unsigned int fn_82A1BB18(void);
 extern unsigned int fn_82A1F2F8(void);
@@ -8,7 +6,7 @@ extern unsigned int lbl_831BB8F0;
 extern unsigned int lbl_831BB8F4;
 
 typedef union {
-  U64 q;
+  unsigned __int64 q;
   unsigned int w[2];
 } Split64_82F841F0;
 

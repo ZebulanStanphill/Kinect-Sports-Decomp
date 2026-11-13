@@ -1,13 +1,12 @@
-typedef unsigned int uint;
 extern int fn_829DC6A8();
 extern int fn_829DD510();
 extern int fn_829DDEE8();
 
 int fn_829DFFC0(int param_1)
 {
-  if (*(uint *)(param_1 + 0x11f10) >= *(uint *)(fn_829DC6A8() + 0x34) &&
-      *(uint *)(param_1 + 0x8260) >= *(uint *)(fn_829DDEE8() + 0x1c) &&
-      *(uint *)(param_1 + 0x10) >= *(uint *)(fn_829DD510() + 0x14)) {
+  if (*(unsigned int *)(param_1 + 0x11f10) >= *(unsigned int *)(fn_829DC6A8() + 0x34) &&
+      *(unsigned int *)(param_1 + 0x8260) >= *(unsigned int *)(fn_829DDEE8() + 0x1c) &&
+      *(unsigned int *)(param_1 + 0x10) >= *(unsigned int *)(fn_829DD510() + 0x14)) {
     return 1;
   }
   return 0;

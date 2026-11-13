@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F68B6C();
 extern unsigned int lbl_82193AF0;
 extern unsigned int lbl_82195994;
@@ -40,7 +13,7 @@ void fn_8245FAD0(int param_1)
   float fVar4;
   float fVar5;
   float fVar6;
-  uint uVar7;
+  unsigned int uVar7;
   int iVar8;
   int iVar9;
   int *piVar10;
@@ -60,7 +33,7 @@ void fn_8245FAD0(int param_1)
       *(float *)(iVar8 + *piVar10 + 0x110) = fVar6;
       *(float *)(iVar8 + *piVar10 + 0x118) = fVar6;
       iVar8 = iVar8 + 0x11c;
-    } while (uVar7 < (uint)((*(int *)(param_1 + 0x40) - *piVar10) / 0x11c));
+    } while (uVar7 < (unsigned int)((*(int *)(param_1 + 0x40) - *piVar10) / 0x11c));
   }
   iVar8 = *piVar10;
   iVar9 = *(int *)(*(int *)(param_1 + 0x28) + 0x38);
@@ -102,7 +75,7 @@ code_r0x8245fc50:
   *(float *)(iVar8 + 0x120) = fVar2 + *(float *)(iVar8 + 0x120);
   *(float *)(iVar8 + 0x22c) = fVar2;
 code_r0x8245fc04:
-  *(undefined4 *)(param_1 + 0x60) = 1;
+  *(unsigned int *)(param_1 + 0x60) = 1;
   fn_82F68B6C(param_1,6);
   return;
 }

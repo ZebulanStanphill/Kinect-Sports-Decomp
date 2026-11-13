@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 extern unsigned char fn_82237E40(int *p);
 extern void fn_82237BF8(int *p, int *list);
 

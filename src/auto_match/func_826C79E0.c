@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern int fn_8267B890(int, int, int);
 extern int fn_8267BE38();
 
@@ -23,7 +22,7 @@ void fn_826C79E0(int *param_1, Q *param_2)
     *(unsigned char *)((int)param_1 + 0x66) |= 1;
   }
   if (changed) {
-    (*(code *)(*param_1 + 0x3c))(param_1);
+    (*(int (**)())(*param_1 + 0x3c))(param_1);
   }
   *(unsigned int *)(param_1[0x28] + 0xb00) |= 0x400;
 }

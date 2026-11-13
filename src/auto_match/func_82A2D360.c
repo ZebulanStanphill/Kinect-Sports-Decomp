@@ -1,55 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-undefined8 fn_82A2D360(short *param_1,int param_2,ushort *param_3)
+unsigned __int64 fn_82A2D360(short *param_1,int param_2,unsigned short *param_3)
 
 {
-  undefined2 *puVar1;
+  unsigned short *puVar1;
   bool bVar2;
-  uint uVar3;
-  undefined2 uVar4;
-  undefined2 *puVar5;
-  byte *pbVar6;
+  unsigned int uVar3;
+  unsigned short uVar4;
+  unsigned short *puVar5;
+  unsigned char *pbVar6;
   int iVar7;
   int iVar8;
-  byte *pbVar9;
-  byte *pbVar10;
+  unsigned char *pbVar9;
+  unsigned char *pbVar10;
   
-  pbVar9 = *(byte **)(param_3 + 2);
-  puVar1 = *(undefined2 **)(param_1 + 2);
+  pbVar9 = *(unsigned char **)(param_3 + 2);
+  puVar1 = *(unsigned short **)(param_1 + 2);
   bVar2 = false;
   pbVar6 = pbVar9 + *param_3;
   puVar5 = puVar1;
   if (pbVar9 < pbVar6) {
     iVar7 = (int)pbVar6 - (int)pbVar9;
     do {
-      uVar3 = (uint)*pbVar9;
+      uVar3 = (unsigned int)*pbVar9;
       pbVar10 = pbVar9 + 1;
       iVar8 = iVar7 + -1;
       if ((param_2 != 0) && (0x7f < uVar3)) {

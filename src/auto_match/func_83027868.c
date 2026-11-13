@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_14;
 extern unsigned int fStack_1c;
 extern unsigned int fStack_20;
@@ -35,15 +8,15 @@ extern unsigned int lbl_821AAD20;
 double fn_83027868(int param_1)
 
 {
-  ulonglong uVar1;
+  unsigned __int64 uVar1;
   float *pfVar2;
   int in_r0;
-  longlong lVar3;
+  __int64 lVar3;
   double dVar4;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs43 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs43 [16];
   float in_register_000103c0;
   float in_register_000103c4;
   float in_register_000103c8;
@@ -65,7 +38,7 @@ double fn_83027868(int param_1)
   float fStack_14;
   float afStack_10 [4];
   
-  uVar1 = (ulonglong)(*(ushort *)(param_1 + 0x2e) >> 0xd);
+  uVar1 = (unsigned __int64)(*(unsigned short *)(param_1 + 0x2e) >> 0xd);
   altv207_13(in_vs32,in_vs41);
   altv207_13(in_vs41,in_vs40);
   pfVar2 = (float *)((int)&fStack_20 + in_r0 & 0xfffffff0);

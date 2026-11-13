@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8227A358();
 extern int fn_8227B548();
 extern int fn_8227C308();
@@ -33,20 +6,20 @@ extern int fn_82526A20();
 extern unsigned int ltcg_pool_0_0f;
 
 
-int * fn_8227BDC8(int *param_1,longlong param_2,int param_3)
+int * fn_8227BDC8(int *param_1,__int64 param_2,int param_3)
 
 {
-  byte bVar1;
+  unsigned char bVar1;
   int iVar2;
   int *piVar3;
-  longlong lVar5;
+  __int64 lVar5;
   int *piVar6;
   int *piVar7;
   int *piVar8;
-  byte *pbVar4;
+  unsigned char *pbVar4;
   
-  pbVar4 = (byte *)param_2;
-  piVar3 = (int *)(uint)*pbVar4;
+  pbVar4 = (unsigned char *)param_2;
+  piVar3 = (int *)(unsigned int)*pbVar4;
   piVar6 = param_1;
   piVar8 = piVar3;
   piVar7 = (int *)0x61;
@@ -56,15 +29,15 @@ int * fn_8227BDC8(int *param_1,longlong param_2,int param_3)
     do {
       lVar5 = lVar5 + 1;
       if (piVar8 == (int *)0x0) goto LAB_8227be30;
-      piVar6 = (int *)(uint)((byte *)lVar5)[(int)"activeStateHasChanged" - (int)pbVar4];
-      piVar8 = (int *)(uint)*(byte *)lVar5;
+      piVar6 = (int *)(unsigned int)((unsigned char *)lVar5)[(int)"activeStateHasChanged" - (int)pbVar4];
+      piVar8 = (int *)(unsigned int)*(unsigned char *)lVar5;
       piVar7 = piVar6;
     } while (piVar8 == piVar6);
   }
   if (piVar8 == piVar7) {
 LAB_8227be30:
-    bVar1 = *(byte *)(param_3 + 8);
-    param_1[0x297] = (uint)bVar1;
+    bVar1 = *(unsigned char *)(param_3 + 8);
+    param_1[0x297] = (unsigned int)bVar1;
     if (bVar1 != 0) {
       param_1[0x298] = 1;
       param_1[0x292] = 3;
@@ -79,8 +52,8 @@ LAB_8227be30:
       do {
         lVar5 = lVar5 + 1;
         if (piVar8 == (int *)0x0) goto LAB_8227bea0;
-        piVar7 = (int *)(uint)((byte *)lVar5)[(int)"onLayoutReady" - (int)pbVar4];
-        piVar8 = (int *)(uint)*(byte *)lVar5;
+        piVar7 = (int *)(unsigned int)((unsigned char *)lVar5)[(int)"onLayoutReady" - (int)pbVar4];
+        piVar8 = (int *)(unsigned int)*(unsigned char *)lVar5;
         piVar6 = piVar7;
       } while (piVar8 == piVar7);
     }
@@ -89,7 +62,7 @@ LAB_8227bea0:
       param_1[0x292] = 1;
       param_1[0x293] = ltcg_pool_0_0f;
       fn_8227C308(param_1);
-      piVar6 = (int *)(**(code **)(*param_1 + 8))(param_1);
+      piVar6 = (int *)(**(int (***)())(*param_1 + 8))(param_1);
       if ((param_1[0x294] != 0) || (param_1[0x295] != 0)) {
         param_1[0x295] = 0;
         piVar6 = (int *)fn_8227B548(param_1);
@@ -104,8 +77,8 @@ LAB_8227bea0:
         do {
           lVar5 = lVar5 + 1;
           if (piVar8 == (int *)0x0) goto LAB_8227bf48;
-          piVar6 = (int *)(uint)((byte *)lVar5)[(int)"hasReachedHoldPosition" - (int)pbVar4];
-          piVar8 = (int *)(uint)*(byte *)lVar5;
+          piVar6 = (int *)(unsigned int)((unsigned char *)lVar5)[(int)"hasReachedHoldPosition" - (int)pbVar4];
+          piVar8 = (int *)(unsigned int)*(unsigned char *)lVar5;
           piVar7 = piVar6;
         } while (piVar8 == piVar6);
       }
@@ -128,8 +101,8 @@ LAB_8227bf48:
           do {
             lVar5 = lVar5 + 1;
             if (piVar3 == (int *)0x0) goto LAB_8227bfd0;
-            piVar8 = (int *)(uint)((byte *)lVar5)[(int)"hasReachedEnd" - (int)pbVar4];
-            piVar3 = (int *)(uint)*(byte *)lVar5;
+            piVar8 = (int *)(unsigned int)((unsigned char *)lVar5)[(int)"hasReachedEnd" - (int)pbVar4];
+            piVar3 = (int *)(unsigned int)*(unsigned char *)lVar5;
           } while (piVar3 == piVar8);
         }
         if (piVar3 == piVar8) {

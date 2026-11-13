@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_825315E0();
 extern int fn_825467B8();
 extern int fn_825611A8();
@@ -59,33 +33,33 @@ void fn_82546930(void)
 
 {
   bool bVar1;
-  undefined4 uStack_6c;
-  undefined4 uStack_64;
-  struct { undefined4 first; undefined4 second; } stack_pair_60;
+  unsigned int uStack_6c;
+  unsigned int uStack_64;
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  struct { unsigned int first; unsigned int second; } stack_pair_40;
 
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
+  unsigned int uStack_2c;
 
   if (uRam8326b480 != 0) {
     stack_pair_60.first = 0;
     stack_pair_60.second = 0;
-    uStack_6c = (undefined4)(longlong)*(float *)(lbl_8320A898 + 0x3220);
+    uStack_6c = (unsigned int)(__int64)*(float *)(lbl_8320A898 + 0x3220);
     uStack_38 = uStack_6c;
     uStack_58 = lbl_8326B430;
-    uStack_64 = (undefined4)(longlong)*(float *)(lbl_8320A898 + 0x3224);
+    uStack_64 = (unsigned int)(__int64)*(float *)(lbl_8320A898 + 0x3224);
     uStack_34 = uStack_64;
-    uStack_6c = (undefined4)(longlong)*(float *)(lbl_8320A898 + 0x3218);
-    uStack_50 = *(undefined4 *)(lbl_8320A898 + 0x3228);
-    uStack_64 = (undefined4)(longlong)*(float *)(lbl_8320A898 + 0x321c);
-    uStack_4c = *(undefined4 *)(lbl_8320A898 + 0x322c);
+    uStack_6c = (unsigned int)(__int64)*(float *)(lbl_8320A898 + 0x3218);
+    uStack_50 = *(unsigned int *)(lbl_8320A898 + 0x3228);
+    uStack_64 = (unsigned int)(__int64)*(float *)(lbl_8320A898 + 0x321c);
+    uStack_4c = *(unsigned int *)(lbl_8320A898 + 0x322c);
     uStack_54 = lbl_8326B434;
     stack_pair_40.first = uStack_6c;
     stack_pair_40.second = uStack_64;
@@ -98,7 +72,7 @@ void fn_82546930(void)
   fn_825467B8();
   bVar1 = iRam8326b47c != lbl_8326B478;
   lbl_8326B478 = iRam8326b47c;
-  uRam8326b480 = (uint)bVar1;
+  uRam8326b480 = (unsigned int)bVar1;
   if (bVar1) {
     fn_825611A8();
   }

@@ -1,12 +1,11 @@
-typedef unsigned short ushort;
 extern int *fn_82725DF0(int a, int b, int c, int d);
 
 typedef struct {
-    ushort pad : 9;
-    ushort b6 : 1;
-    ushort pad2 : 4;
-    ushort b1 : 1;
-    ushort b0 : 1;
+    unsigned short pad : 9;
+    unsigned short b6 : 1;
+    unsigned short pad2 : 4;
+    unsigned short b1 : 1;
+    unsigned short b0 : 1;
 } Flags;
 
 typedef struct {

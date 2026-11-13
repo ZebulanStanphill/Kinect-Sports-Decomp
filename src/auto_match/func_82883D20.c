@@ -1,13 +1,12 @@
-typedef unsigned int uint;
 extern void fn_8265CA20(void *p);
 
 typedef struct Entry { void *p; int a; int b; } Entry;
 typedef struct Queue {
   int f0;
   Entry **items;
-  uint cap;
-  uint head;
-  uint count;
+  unsigned int cap;
+  unsigned int head;
+  unsigned int count;
 } Queue;
 
 void fn_82883D20(Queue *q)

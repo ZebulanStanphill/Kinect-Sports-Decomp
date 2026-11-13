@@ -1,21 +1,19 @@
-typedef unsigned int uint;
-typedef __int64 longlong;
-extern int fn_82EE3630(void *p, uint i, int ***out);
+extern int fn_82EE3630(void *p, unsigned int i, int ***out);
 
 typedef struct {
     char pad0[0xc];
     void *m_c;
     char pad10[0x10];
-    longlong m_20;
+    __int64 m_20;
     char pad28[0x20];
     char m_48[0x68];
-    uint m_b0;
+    unsigned int m_b0;
 } S;
 
-int fn_82EE3930(S *param_1, longlong *param_2, longlong *param_3)
+int fn_82EE3930(S *param_1, __int64 *param_2, __int64 *param_3)
 {
-    longlong n;
-    uint i;
+    __int64 n;
+    unsigned int i;
     int **p;
 
     if (param_1->m_c == 0) {
@@ -24,7 +22,7 @@ int fn_82EE3930(S *param_1, longlong *param_2, longlong *param_3)
     n = 0x2a;
     for (i = 0; i < param_1->m_b0; i++) {
         fn_82EE3630(param_1->m_48, i, &p);
-        if (*(uint *)((char *)*p + 0x40) >= 1) {
+        if (*(unsigned int *)((char *)*p + 0x40) >= 1) {
             n += 2;
         }
     }

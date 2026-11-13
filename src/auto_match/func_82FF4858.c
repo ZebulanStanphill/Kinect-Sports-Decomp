@@ -1,6 +1,4 @@
-typedef unsigned int uint;
-typedef unsigned __int64 U64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
 
@@ -16,14 +14,14 @@ typedef struct {
   int f8;
   int fc;
   V16 f10;
-  uint f20;
+  unsigned int f20;
   int f24;
-  uint f28;
+  unsigned int f28;
 } Entry;
 
 extern Entry *fn_82FF5268(void *, int);
 
-int fn_82FF4858(char *param_1, Arg *param_2, uint param_3, int param_4, uint param_5, int param_6)
+int fn_82FF4858(char *param_1, Arg *param_2, unsigned int param_3, int param_4, unsigned int param_5, int param_6)
 {
   Entry *e;
   void *cs;

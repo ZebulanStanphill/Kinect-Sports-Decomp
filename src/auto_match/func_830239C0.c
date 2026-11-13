@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern void *fn_82FA5060();
 extern int fn_82FA5190();
 extern int fn_83023250();
@@ -19,7 +18,7 @@ int *fn_830239C0(void)
     }
     fn_83023908(p);
     heap = lbl_831BC770;
-    (*(code *)*p)(p, 0);
+    (*(int (**)())*p)(p, 0);
     fn_82FA5190(heap, p);
   }
   return 0;

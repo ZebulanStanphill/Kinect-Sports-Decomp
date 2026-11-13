@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float fRam832115f0;
 extern int fn_82F68B60();
 extern int fn_82F68B78();
@@ -32,21 +5,21 @@ extern int iRam832115e0;
 extern unsigned int lbl_82005710;
 
 
-longlong fn_8285F4C0(undefined8 param_1,ulonglong param_2,undefined8 param_3,byte *param_4)
+__int64 fn_8285F4C0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned char *param_4)
 
 {
-  byte bVar1;
+  unsigned char bVar1;
   float *pfVar2;
   double dVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar6;
   float *pfVar7;
   float *pfVar8;
-  ulonglong uVar9;
-  uint uVar10;
-  uint uVar11;
-  ulonglong uVar12;
+  unsigned __int64 uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned __int64 uVar12;
   double dVar13;
   double dVar14;
   double dVar15;
@@ -67,13 +40,13 @@ longlong fn_8285F4C0(undefined8 param_1,ulonglong param_2,undefined8 param_3,byt
     param_2 = param_2 & 0xff;
     uVar11 = 0;
     uVar12 = 0;
-    uVar9 = -(ulonglong)(*param_4 < param_2) & (ulonglong)*param_4;
-    uVar6 = (ulonglong)(uint)(0x80 >> ((uint)uVar9 & 0x3f)) & 0xff;
+    uVar9 = -(unsigned __int64)(*param_4 < param_2) & (unsigned __int64)*param_4;
+    uVar6 = (unsigned __int64)(unsigned int)(0x80 >> ((unsigned int)uVar9 & 0x3f)) & 0xff;
     uVar10 = 0;
     if (param_2 != 0) {
       do {
         uVar11 = uVar10;
-        bVar1 = *(byte *)param_3;
+        bVar1 = *(unsigned char *)param_3;
         if ((uVar6 & bVar1) != 0) {
           pfVar2 = (float *)((int)uVar9 * 0x10 + iVar5);
           dVar13 = (double)pfVar2[1];
@@ -115,11 +88,11 @@ longlong fn_8285F4C0(undefined8 param_1,ulonglong param_2,undefined8 param_3,byt
           }
           uVar11 = uVar10 | uVar11;
           if (uVar11 == 3) {
-            *param_4 = (byte)uVar9;
+            *param_4 = (unsigned char)uVar9;
             return 0;
           }
           if (uVar10 == 0) {
-            *(byte *)param_3 = bVar1 & ~(byte)uVar6;
+            *(unsigned char *)param_3 = bVar1 & ~(unsigned char)uVar6;
           }
         }
         uVar9 = uVar9 + 1 & 0xff;
@@ -134,7 +107,7 @@ longlong fn_8285F4C0(undefined8 param_1,ulonglong param_2,undefined8 param_3,byt
         uVar10 = uVar11;
       } while (uVar12 < param_2);
     }
-    return ((ulonglong)LZCOUNT((uint)(uVar11 == 1)) >> 4 & 2) + (ulonglong)(uVar11 == 1);
+    return ((unsigned __int64)LZCOUNT((unsigned int)(uVar11 == 1)) >> 4 & 2) + (unsigned __int64)(uVar11 == 1);
   }
   return 0;
 }

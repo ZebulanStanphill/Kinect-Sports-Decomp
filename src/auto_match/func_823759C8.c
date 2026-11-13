@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_822ABA88();
 extern unsigned int ltcg_pool_0_0f;
 
 
-undefined8 fn_823759C8(undefined8 param_1,int param_2)
+unsigned __int64 fn_823759C8(unsigned __int64 param_1,int param_2)
 
 {
   int *piVar1;
   int iVar2;
   int iVar3;
-  ulonglong uVar4;
-  undefined8 uVar5;
-  undefined4 uVar6;
-  ulonglong uVar7;
-  ulonglong uVar8;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  unsigned int uVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uVar8;
   double dVar9;
   
   iVar2 = (int)param_1;
@@ -55,25 +28,25 @@ undefined8 fn_823759C8(undefined8 param_1,int param_2)
       uVar4 = 0;
       piVar1 = *(int **)(**(int **)(iVar2 + 8) + iVar3 * 4);
       uVar8 = ZEXT48(piVar1);
-      uVar7 = (ulonglong)*(uint *)(*(int *)(piVar1[4] * 4 + *piVar1) + 8);
+      uVar7 = (unsigned __int64)*(unsigned int *)(*(int *)(piVar1[4] * 4 + *piVar1) + 8);
       if (uVar7 != 0) {
         dVar9 = (double)ltcg_pool_0_0f;
         do {
-          iVar3 = fn_822ABA88(*(undefined4 *)(((int *)uVar8)[4] * 4 + *(int *)uVar8));
+          iVar3 = fn_822ABA88(*(unsigned int *)(((int *)uVar8)[4] * 4 + *(int *)uVar8));
           iVar2 = (int)param_1;
           uVar4 = uVar4 + 1;
           *(float *)(iVar3 + 0x25c) = (float)dVar9;
-          *(undefined4 *)(iVar3 + 0x254) = 0x18;
-          uVar6 = (undefined4)uVar5;
-          *(undefined4 *)(iVar3 + 0x268) = uVar6;
-          *(undefined4 *)(iVar3 + 0x250) = 0x18;
-          *(undefined4 *)(iVar3 + 0x2ac) = uVar6;
+          *(unsigned int *)(iVar3 + 0x254) = 0x18;
+          uVar6 = (unsigned int)uVar5;
+          *(unsigned int *)(iVar3 + 0x268) = uVar6;
+          *(unsigned int *)(iVar3 + 0x250) = 0x18;
+          *(unsigned int *)(iVar3 + 0x2ac) = uVar6;
         } while ((uVar4 & 0xffffffff) < (uVar7 & 0xffffffff));
       }
     }
     *(int *)(iVar2 + 0x1f8) = param_2;
     uVar5 = 1;
-    *(undefined4 *)(iVar2 + 0x1fc) = uVar6;
+    *(unsigned int *)(iVar2 + 0x1fc) = uVar6;
   }
   return uVar5;
 }

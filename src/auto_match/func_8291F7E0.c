@@ -1,6 +1,5 @@
-typedef unsigned int uint;
-static uint sw(uint v) { return (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24); }
-void fn_8291F7E0(uint *d, uint *s)
+static unsigned int sw(unsigned int v) { return (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24); }
+void fn_8291F7E0(unsigned int *d, unsigned int *s)
 {
   d[0] = sw(s[0]);
   d[1] = sw(s[1]);

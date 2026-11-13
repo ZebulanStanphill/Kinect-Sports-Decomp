@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8267C498();
 extern int fn_826824B0();
 extern int fn_826944C8();
@@ -97,82 +70,82 @@ void fn_826D1050(int param_1)
 
 {
   int iVar1;
-  undefined4 uVar2;
-  undefined8 uVar3;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   char cVar6;
   int *piVar4;
-  undefined4 *puVar5;
-  longlong lVar7;
+  unsigned int *puVar5;
+  __int64 lVar7;
   int aiStack_120;
-  undefined4 uStack_10c;
-  undefined4 uStack_108;
-  undefined4 uStack_104;
-  struct { uint first; int second; } stack_pair_100;
+  unsigned int uStack_10c;
+  unsigned int uStack_108;
+  unsigned int uStack_104;
+  struct { unsigned int first; int second; } stack_pair_100;
 
-  byte bStack_f8;
-  struct { undefined4 first; undefined4 second; } stack_pair_f0;
+  unsigned char bStack_f8;
+  struct { unsigned int first; unsigned int second; } stack_pair_f0;
 
   int *piStack_e8;
-  undefined4 uStack_e4;
-  undefined4 uStack_dc;
-  undefined4 uStack_d8;
-  uint uStack_d4;
-  undefined4 uStack_d0;
-  undefined4 uStack_cc;
-  undefined1 uStack_c8;
-  undefined4 uStack_c0;
-  undefined4 uStack_bc;
-  undefined4 uStack_b8;
-  undefined4 uStack_b4;
-  undefined4 uStack_b0;
-  undefined4 uStack_ac;
+  unsigned int uStack_e4;
+  unsigned int uStack_dc;
+  unsigned int uStack_d8;
+  unsigned int uStack_d4;
+  unsigned int uStack_d0;
+  unsigned int uStack_cc;
+  unsigned char uStack_c8;
+  unsigned int uStack_c0;
+  unsigned int uStack_bc;
+  unsigned int uStack_b8;
+  unsigned int uStack_b4;
+  unsigned int uStack_b0;
+  unsigned int uStack_ac;
   int *piStack_a8;
-  undefined4 uStack_a4;
-  undefined4 uStack_a0;
-  undefined4 uStack_9c;
-  undefined2 uStack_98;
-  undefined1 uStack_96;
-  undefined1 uStack_95;
-  undefined1 uStack_94;
-  undefined1 uStack_93;
-  undefined4 uStack_90;
-  undefined4 uStack_8c;
-  undefined1 uStack_88;
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
-  undefined4 uStack_70;
-  undefined4 uStack_6c;
+  unsigned int uStack_a4;
+  unsigned int uStack_a0;
+  unsigned int uStack_9c;
+  unsigned short uStack_98;
+  unsigned char uStack_96;
+  unsigned char uStack_95;
+  unsigned char uStack_94;
+  unsigned char uStack_93;
+  unsigned int uStack_90;
+  unsigned int uStack_8c;
+  unsigned char uStack_88;
+  unsigned int uStack_80;
+  unsigned int uStack_7c;
+  unsigned int uStack_78;
+  unsigned int uStack_74;
+  unsigned int uStack_70;
+  unsigned int uStack_6c;
   int *piStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  uint uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined1 uStack_48;
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
+  unsigned int uStack_64;
+  unsigned int uStack_5c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned char uStack_48;
+  unsigned int uStack_40;
+  unsigned int uStack_3c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
 
   iVar1 = *(int *)(param_1 + 0x18);
-  uVar2 = *(undefined4 *)(iVar1 + 0x78);
+  uVar2 = *(unsigned int *)(iVar1 + 0x78);
   bStack_f8 = 0;
   stack_pair_100.first = 0;
   stack_pair_100.second = 0;
   uVar3 = fn_826957D0(param_1,0);
   fn_82696D38(&aiStack_120,uVar3,iVar1,0xffffffffffffffff,0);
   if (*(int *)(aiStack_120 + 0x10) != 0) {
-    cVar6 = fn_826B0F10(uVar2,(ulonglong)*(uint *)(param_1 + 0x18) + 0x78,&aiStack_120,
+    cVar6 = fn_826B0F10(uVar2,(unsigned __int64)*(unsigned int *)(param_1 + 0x18) + 0x78,&aiStack_120,
                               &stack_pair_100.first);
     if (cVar6 == '\0') {
-      piVar4 = (int *)fn_826BD928(*(undefined4 *)(param_1 + 8));
+      piVar4 = (int *)fn_826BD928(*(unsigned int *)(param_1 + 8));
       if (piVar4 != (int *)0x0) {
         piVar4[1] = piVar4[1] + 1;
       }
-      uStack_104 = (uint)(((U64)(uStack_104) >> 16) & 0xFFFF);
+      uStack_104 = (unsigned int)(((unsigned __int64)(uStack_104) >> 16) & 0xFFFF);
       if (piVar4 != (int *)0x0) {
         piVar4[1] = piVar4[1] + 1;
       }
@@ -192,21 +165,21 @@ void fn_826D1050(int param_1)
       uStack_54 = uStack_104;
       uStack_34 = 0;
       piStack_68 = piVar4;
-      uVar3 = (**(code **)(*piVar4 + 0x40))(piVar4);
+      uVar3 = (**(int (***)())(*piVar4 + 0x40))(piVar4);
       fn_826F75B8(&uStack_70,uVar3);
       puVar5 = &uStack_70;
     }
     else {
-      piVar4 = (int *)fn_826BD928(*(undefined4 *)(param_1 + 8));
+      piVar4 = (int *)fn_826BD928(*(unsigned int *)(param_1 + 8));
       if (piVar4 != (int *)0x0) {
         piVar4[1] = piVar4[1] + 1;
       }
-      lVar7 = (ulonglong)stack_pair_100.first + 0x10;
-      if ((ulonglong)stack_pair_100.first == 0) {
+      lVar7 = (unsigned __int64)stack_pair_100.first + 0x10;
+      if ((unsigned __int64)stack_pair_100.first == 0) {
         lVar7 = 0;
       }
       fn_8269A858(piVar4,lVar7);
-      uStack_104 = (uint)(((U64)(uStack_104) >> 16) & 0xFFFF);
+      uStack_104 = (unsigned int)(((unsigned __int64)(uStack_104) >> 16) & 0xFFFF);
       if (piVar4 != (int *)0x0) {
         piVar4[1] = piVar4[1] + 1;
       }
@@ -226,7 +199,7 @@ void fn_826D1050(int param_1)
       uStack_d4 = uStack_104;
       uStack_b4 = 0;
       piStack_e8 = piVar4;
-      uVar3 = (**(code **)(*piVar4 + 0x40))(piVar4);
+      uVar3 = (**(int (***)())(*piVar4 + 0x40))(piVar4);
       fn_826F75B8(&stack_pair_f0.first,uVar3);
       fn_826CECC8(&stack_pair_f0.first);
       piVar4[1] = piVar4[1] + 1;
@@ -249,14 +222,14 @@ void fn_826D1050(int param_1)
       piStack_a8 = piVar4;
       fn_826C3768(&uStack_90,&stack_pair_100.first);
       uStack_74 = 0;
-      uVar3 = (**(code **)(*piVar4 + 0x40))(piVar4);
+      uVar3 = (**(int (***)())(*piVar4 + 0x40))(piVar4);
       fn_826F75B8(&uStack_b0,uVar3);
       puVar5 = &uStack_b0;
     }
     fn_826CECC8(puVar5);
     fn_8267C498(piVar4);
   }
-  lVar7 = (ulonglong)*(uint *)(aiStack_120 + 8) - 1;
+  lVar7 = (unsigned __int64)*(unsigned int *)(aiStack_120 + 8) - 1;
   *(int *)(aiStack_120 + 8) = (int)lVar7;
   if (lVar7 == 0) {
     fn_826944C8(aiStack_120);

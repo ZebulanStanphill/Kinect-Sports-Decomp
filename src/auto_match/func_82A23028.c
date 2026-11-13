@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *__imp__XexExecutableModuleHandle;
 extern unsigned int *auStack_78;
 extern unsigned int *auStack_80;
@@ -44,32 +18,32 @@ extern unsigned int uStack_88;
 extern unsigned int uStack_90;
 
 
-undefined8 fn_82A23028(int param_1,int param_2)
+unsigned __int64 fn_82A23028(int param_1,int param_2)
 
 {
-  ushort uVar1;
-  undefined4 *puVar2;
-  ulonglong uVar3;
+  unsigned short uVar1;
+  unsigned int *puVar2;
+  unsigned __int64 uVar3;
   int *piVar5;
   int iVar6;
-  longlong lVar4;
-  uint uVar7;
-  ulonglong uVar8;
-  undefined8 uVar9;
-  ulonglong uVar10;
-  struct { undefined4 first; int second; } stack_pair_90;
+  __int64 lVar4;
+  unsigned int uVar7;
+  unsigned __int64 uVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  struct { unsigned int first; int second; } stack_pair_90;
 
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  uint auStack_80 [2];
-  uint auStack_78;
+  unsigned int uStack_88;
+  unsigned int uStack_84;
+  unsigned int auStack_80 [2];
+  unsigned int auStack_78;
   
   uVar9 = 0;
   uVar10 = 0;
   piVar5 = (int *)0x0;
   RtlEnterCriticalSection(0xffffffff83219ba0);
   RtlEnterCriticalSection(param_1);
-  uVar3 = fn_82A1F888(*(undefined4 *)(param_1 + 0x28),0);
+  uVar3 = fn_82A1F888(*(unsigned int *)(param_1 + 0x28),0);
   uVar8 = (uVar3 & 0xffffffff) >> 0x1e;
   if (uVar8 == 3) goto LAB_82a233a8;
   if (*(int *)(param_1 + 0x34) == 0) {
@@ -81,12 +55,12 @@ LAB_82a232f4:
     else {
       uStack_88 = 0;
       uStack_84 = 0;
-      puVar2 = *(undefined4 **)(param_1 + 0x28);
-      uVar3 = (**(code **)(lbl_83219B8C + 0x10))(*puVar2,0,0,0,auStack_80,piVar5,0x1000,&uStack_88);
+      puVar2 = *(unsigned int **)(param_1 + 0x28);
+      uVar3 = (**(int (***)())(lbl_83219B8C + 0x10))(*puVar2,0,0,0,auStack_80,piVar5,0x1000,&uStack_88);
       if ((int)uVar3 == 0x103) {
         uVar3 = NtWaitForSingleObjectEx(*puVar2,1,0,0);
         if (-1 < (int)uVar3) {
-          uVar3 = (ulonglong)auStack_80[0];
+          uVar3 = (unsigned __int64)auStack_80[0];
         }
       }
       uVar8 = (uVar3 & 0xffffffff) >> 0x1e;
@@ -98,13 +72,13 @@ LAB_82a23190:
           }
           else {
             iVar6 = RtlImageXexHeaderField
-                              (*(undefined4 *)(*__imp__XexExecutableModuleHandle + 0x58),0x40006);
-            if ((longlong)-(ulonglong)(iVar6 == 0) < 0) goto LAB_82a23190;
+                              (*(unsigned int *)(*__imp__XexExecutableModuleHandle + 0x58),0x40006);
+            if ((__int64)-(unsigned __int64)(iVar6 == 0) < 0) goto LAB_82a23190;
             iVar6 = *(int *)(iVar6 + 4);
           }
           if (piVar5[3] == iVar6) {
             fn_8265C990(piVar5,lbl_8315D2EC);
-            *(undefined4 *)(param_1 + 0x34) = 1;
+            *(unsigned int *)(param_1 + 0x34) = 1;
             goto LAB_82a231b4;
           }
         }
@@ -116,18 +90,18 @@ LAB_82a232fc:
   else {
 LAB_82a231b4:
     piVar5 = (int *)0x0;
-    *(undefined4 *)(param_1 + 0x20) = 0;
+    *(unsigned int *)(param_1 + 0x20) = 0;
     do {
       uVar10 = fn_8265C940(0x1000,lbl_8315D2EC);
       if (uVar10 == 0) goto LAB_82a232f4;
       stack_pair_90.first = 0;
-      puVar2 = *(undefined4 **)(param_1 + 0x28);
+      puVar2 = *(unsigned int **)(param_1 + 0x28);
       stack_pair_90.second = (*(int *)(param_1 + 0x20) + 1) * 0x1000;
-      uVar3 = (**(code **)(lbl_83219B8C + 0x10))(*puVar2,0,0,0,&auStack_78,uVar10,0x1000,&stack_pair_90.first);
+      uVar3 = (**(int (***)())(lbl_83219B8C + 0x10))(*puVar2,0,0,0,&auStack_78,uVar10,0x1000,&stack_pair_90.first);
       if ((int)uVar3 == 0x103) {
         uVar3 = NtWaitForSingleObjectEx(*puVar2,1,0,0);
         if (-1 < (int)uVar3) {
-          uVar3 = (ulonglong)auStack_78;
+          uVar3 = (unsigned __int64)auStack_78;
         }
       }
       uVar8 = (uVar3 & 0xffffffff) >> 0x1e;
@@ -135,21 +109,21 @@ LAB_82a231b4:
       iVar6 = fn_82A207C8(uVar10,0x1000,0x24,0);
       if (iVar6 == 0) goto LAB_82a232fc;
       if (*(int *)(param_1 + 0x20) == 0) {
-        uVar1 = *(ushort *)(iVar6 + 2);
-        if ((ulonglong)*(uint *)(param_1 + 0x24) < (ulonglong)uVar1) {
-          lVar4 = fn_8265C940((ulonglong)uVar1 << 2,lbl_8315D2EC);
+        uVar1 = *(unsigned short *)(iVar6 + 2);
+        if ((unsigned __int64)*(unsigned int *)(param_1 + 0x24) < (unsigned __int64)uVar1) {
+          lVar4 = fn_8265C940((unsigned __int64)uVar1 << 2,lbl_8315D2EC);
           if (lVar4 == 0) goto LAB_82a232f4;
-          fn_82A1DDC0(lVar4,*(undefined4 *)(param_1 + 0x1c),*(int *)(param_1 + 0x20) << 2);
-          fn_8265C990(*(undefined4 *)(param_1 + 0x1c),lbl_8315D2EC);
+          fn_82A1DDC0(lVar4,*(unsigned int *)(param_1 + 0x1c),*(int *)(param_1 + 0x20) << 2);
+          fn_8265C990(*(unsigned int *)(param_1 + 0x1c),lbl_8315D2EC);
           *(int *)(param_1 + 0x1c) = (int)lVar4;
-          *(uint *)(param_1 + 0x24) = (uint)uVar1;
+          *(unsigned int *)(param_1 + 0x24) = (unsigned int)uVar1;
         }
       }
       uVar10 = 0;
       *(int *)(*(int *)(param_1 + 0x20) * 4 + *(int *)(param_1 + 0x1c)) = iVar6;
       uVar7 = *(int *)(param_1 + 0x20) + 1;
-      *(uint *)(param_1 + 0x20) = uVar7;
-    } while (uVar7 < *(ushort *)(iVar6 + 2));
+      *(unsigned int *)(param_1 + 0x20) = uVar7;
+    } while (uVar7 < *(unsigned short *)(iVar6 + 2));
     *(int *)(param_1 + 0x2c) = param_1 + 0x2c;
     stack_pair_90.first = 0xffffffff;
     stack_pair_90.second = 0xffffffff;
@@ -166,15 +140,15 @@ LAB_82a231b4:
     while( true ) {
       iVar6 = fn_82A21608(param_1,&stack_pair_90.first);
       if (iVar6 == 0) break;
-      *(undefined1 *)(iVar6 + 0x1a) = 1;
-      *(uint *)(iVar6 + 0x1c) = *(uint *)(iVar6 + 0x1c) & 0xd1;
+      *(unsigned char *)(iVar6 + 0x1a) = 1;
+      *(unsigned int *)(iVar6 + 0x1c) = *(unsigned int *)(iVar6 + 0x1c) & 0xd1;
       fn_82A214B0(param_1);
     }
     RtlLeaveCriticalSection();
-    *(undefined4 *)(param_1 + 0x38) = 0;
+    *(unsigned int *)(param_1 + 0x38) = 0;
   }
-  puVar2 = *(undefined4 **)(param_1 + 0x28);
-  (**(code **)(lbl_83219B8C + 4))(*puVar2);
+  puVar2 = *(unsigned int **)(param_1 + 0x28);
+  (**(int (***)())(lbl_83219B8C + 4))(*puVar2);
   *puVar2 = 0xffffffff;
 LAB_82a233a8:
   RtlLeaveCriticalSection(param_1);

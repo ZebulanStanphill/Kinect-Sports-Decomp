@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int stack0x00000000;
 extern unsigned int stack0x00000010;
 extern unsigned int stack0x00000040;
@@ -40,11 +13,11 @@ extern unsigned int uStack00000040;
 extern unsigned int uStack00000048;
 
 
-void fn_8253B818(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
+void fn_8253B818(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   float fVar2;
   float fVar3;
   float fVar4;
@@ -52,19 +25,19 @@ void fn_8253B818(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   float *pfVar5;
   int iVar6;
   int iVar7;
-  longlong lVar8;
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 uVar11;
-  undefined4 uVar12;
-  undefined8 uStack00000010;
-  undefined8 uStack00000018;
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
+  __int64 lVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned int uVar11;
+  unsigned int uVar12;
+  unsigned __int64 uStack00000010;
+  unsigned __int64 uStack00000018;
+  unsigned __int64 uStack00000020;
+  unsigned __int64 uStack00000028;
+  unsigned __int64 uStack00000030;
+  unsigned __int64 uStack00000038;
+  unsigned __int64 uStack00000040;
+  unsigned __int64 uStack00000048;
   int in_stack_00000074;
   int in_stack_0000007c;
   
@@ -77,17 +50,17 @@ void fn_8253B818(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefi
   uStack00000048 = param_8;
   iVar6 = 0;
   uStack00000018 = param_2;
-  puVar1 = (undefined4 *)((uint)((int)&stack0x00000040 + in_r0) & 0xfffffff0);
+  puVar1 = (unsigned int *)((unsigned int)((int)&stack0x00000040 + in_r0) & 0xfffffff0);
   uVar9 = *puVar1;
   uVar10 = puVar1[1];
   uVar11 = puVar1[2];
   uVar12 = puVar1[3];
-  puVar1 = (undefined4 *)(in_r0 + in_stack_00000074 & 0xfffffff0);
+  puVar1 = (unsigned int *)(in_r0 + in_stack_00000074 & 0xfffffff0);
   *puVar1 = uVar9;
   puVar1[1] = uVar10;
   puVar1[2] = uVar11;
   puVar1[3] = uVar12;
-  puVar1 = (undefined4 *)(in_r0 + in_stack_0000007c & 0xfffffff0);
+  puVar1 = (unsigned int *)(in_r0 + in_stack_0000007c & 0xfffffff0);
   *puVar1 = uVar9;
   puVar1[1] = uVar10;
   puVar1[2] = uVar11;

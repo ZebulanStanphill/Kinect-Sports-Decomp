@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_44;
 extern unsigned int *auStack_68;
 extern unsigned int *auStack_80;
@@ -46,7 +20,7 @@ extern int fn_82F68CC0();
 extern unsigned int uStack_70;
 
 
-void fn_828D9620(int param_1,ulonglong param_2)
+void fn_828D9620(int param_1,unsigned __int64 param_2)
 
 {
   bool bVar1;
@@ -55,32 +29,32 @@ void fn_828D9620(int param_1,ulonglong param_2)
   int iVar4;
   int iVar5;
   char cVar7;
-  undefined8 uVar2;
-  longlong lVar8;
-  ulonglong uVar9;
-  undefined8 auStack_90 [2];
-  undefined1 auStack_80 [16];
-  undefined8 uStack_70;
-  undefined1 auStack_68 [36];
-  undefined1 auStack_44 [68];
+  unsigned __int64 uVar2;
+  __int64 lVar8;
+  unsigned __int64 uVar9;
+  unsigned __int64 auStack_90 [2];
+  unsigned char auStack_80 [16];
+  unsigned __int64 uStack_70;
+  unsigned char auStack_68 [36];
+  unsigned char auStack_44 [68];
   
-  cVar6 = fn_828B0528(*(undefined4 *)(param_1 + 0x14));
+  cVar6 = fn_828B0528(*(unsigned int *)(param_1 + 0x14));
   if ((cVar6 == '\0') || (piVar3 = (int *)fn_828B0488(param_1), piVar3 == (int *)0x0))
   goto LAB_828d97c4;
-  uVar9 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x14) + 0x8c);
-  iVar4 = (**(code **)(*piVar3 + 0xc))();
-  iVar5 = fn_828B0ED0((ulonglong)*(uint *)(iVar4 + 0x4c) + 0x38,0,0);
+  uVar9 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x14) + 0x8c);
+  iVar4 = (**(int (***)())(*piVar3 + 0xc))();
+  iVar5 = fn_828B0ED0((unsigned __int64)*(unsigned int *)(iVar4 + 0x4c) + 0x38,0,0);
   if (iVar5 == 3) {
     bVar1 = 0x1d4c < param_2;
   }
   else {
     if (iVar5 != 6) goto LAB_828d97c4;
-    lVar8 = (ulonglong)*(uint *)(iVar4 + 0x4c) + 0x98;
+    lVar8 = (unsigned __int64)*(unsigned int *)(iVar4 + 0x4c) + 0x98;
     iVar5 = fn_828D92C8(lVar8,0,0);
     if (iVar5 != 0) {
-      cVar6 = fn_828AD488(*(undefined4 *)(param_1 + 0x14));
+      cVar6 = fn_828AD488(*(unsigned int *)(param_1 + 0x14));
       if (cVar6 == '\0') {
-        cVar6 = fn_828AD0F8(*(undefined4 *)(param_1 + 0x14));
+        cVar6 = fn_828AD0F8(*(unsigned int *)(param_1 + 0x14));
         if (cVar6 != '\0') {
           fn_828D93E0(lVar8,auStack_90,auStack_80);
           uVar2 = fn_828AEBB8(iVar4);

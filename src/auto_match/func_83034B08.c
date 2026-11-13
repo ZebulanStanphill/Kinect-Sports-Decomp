@@ -1,6 +1,3 @@
-typedef unsigned int uint;
-typedef int (*code)();
-
 extern int fn_83018588();
 extern unsigned int lbl_832642E0;
 extern unsigned int lbl_832642FC;
@@ -11,15 +8,15 @@ typedef struct Obj_83034B08 {
     char *vt;
     int refs;
     struct Obj_83034B08 *next;
-    uint key;
+    unsigned int key;
 } Obj_83034B08;
 
 typedef struct Node_83034B08 {
     struct Node_83034B08 *next;
-    uint key;
+    unsigned int key;
 } Node_83034B08;
 
-static __forceinline Obj_83034B08 *Find_83034B08(uint key)
+static __forceinline Obj_83034B08 *Find_83034B08(unsigned int key)
 {
     int cs;
     Obj_83034B08 *p;
@@ -48,8 +45,8 @@ void fn_83034B08(int param_1)
         for (n = *head; n != 0; n = n->next) {
             p = Find_83034B08(n->key);
             if (p != 0) {
-                (*(code *)(p->vt + 0x60))(p, param_1);
-                (*(code *)(p->vt + 8))(p);
+                (*(int (**)())(p->vt + 0x60))(p, param_1);
+                (*(int (**)())(p->vt + 8))(p);
             }
         }
     }

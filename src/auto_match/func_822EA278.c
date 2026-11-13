@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_50;
 extern int fn_822315A0();
 extern int fn_8223AAC0();
@@ -39,38 +13,38 @@ extern unsigned int uStack_54;
 extern unsigned int uStack_58;
 extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-uint * fn_822EA278(uint *param_1,int param_2,undefined8 param_3,int param_4)
+unsigned int * fn_822EA278(unsigned int *param_1,int param_2,unsigned __int64 param_3,int param_4)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  uint uVar3;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   int iVar4;
   char cVar5;
-  longlong lVar6;
-  longlong lVar7;
-  uint *puVar8;
+  __int64 lVar6;
+  __int64 lVar7;
+  unsigned int *puVar8;
   char in_RESERVE;
-  byte in_cr0;
-  struct { uint first; uint second; } stack_pair_60;
+  unsigned char in_cr0;
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  uint uStack_58;
-  uint uStack_54;
-  undefined1 auStack_50 [4];
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned char auStack_50 [4];
   int *piStack_4c;
   
-  uVar1 = *(undefined4 *)(param_2 + 0x48);
-  uVar2 = *(undefined4 *)(param_2 + 0x44);
+  uVar1 = *(unsigned int *)(param_2 + 0x48);
+  uVar2 = *(unsigned int *)(param_2 + 0x44);
   fn_824060E8(&uStack_58,param_2 + 0x34);
   fn_822C7078(auStack_50,&uStack_58,uVar2,uVar1);
   stack_pair_60.first = 0;
-  fn_822EA970(&uStack_58,param_3,auStack_50,*(undefined4 *)(param_2 + 0x80),param_3,&stack_pair_60.first
+  fn_822EA970(&uStack_58,param_3,auStack_50,*(unsigned int *)(param_2 + 0x80),param_3,&stack_pair_60.first
                    );
   iVar4 = fn_82365BD8(&stack_pair_60.first,param_4);
-  fn_82376640((ulonglong)uStack_58 + 0x30,iVar4);
+  fn_82376640((unsigned __int64)uStack_58 + 0x30,iVar4);
   if (*(int *)(iVar4 + 4) != 0) {
     fn_822315A0();
   }
@@ -105,8 +79,8 @@ uint * fn_822EA278(uint *param_1,int param_2,undefined8 param_3,int param_4)
   if (ZEXT48(piStack_4c) != 0) {
     lVar7 = ZEXT48(piStack_4c) + 8;
     do {
-      puVar8 = (uint *)lVar7;
-      lVar6 = (ulonglong)*puVar8 - 1;
+      puVar8 = (unsigned int *)lVar7;
+      lVar6 = (unsigned __int64)*puVar8 - 1;
       if (in_RESERVE != '\0') {
         uVar3 = storeWordConditionalIndexed(lVar6,0,lVar7);
         *puVar8 = uVar3;
@@ -114,7 +88,7 @@ uint * fn_822EA278(uint *param_1,int param_2,undefined8 param_3,int param_4)
       }
     } while (!(bool)(in_cr0 >> 1 & 1));
     if ((int)lVar6 == 0) {
-      (**(code **)(*piStack_4c + 4))();
+      (**(int (***)())(*piStack_4c + 4))();
     }
   }
   if (*(int *)(param_4 + 4) != 0) {

@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 extern int fn_82CE6768();
 
 typedef struct Ctx_82D6AF68 {
@@ -26,5 +24,5 @@ void fn_82D6AF68(int param_1, int *param_2, int param_3, int param_4, int param_
   ctx.second = 0;
   ctx.first = first;
   obj = *(int **)(param_1 + 0xc);
-  (*(code *)(*(int *)obj + 0x14))(obj, &ctx, param_3, param_4, param_5, param_6);
+  (*(int (**)())(*(int *)obj + 0x14))(obj, &ctx, param_3, param_4, param_5, param_6);
 }

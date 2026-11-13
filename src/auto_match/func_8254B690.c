@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327FB00;
 extern unsigned int lbl_8327FB04;
@@ -40,18 +14,18 @@ extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_8254B690(double param_1,int param_2,int param_3,int param_4,undefined8 param_5,int param_6
+void fn_8254B690(double param_1,int param_2,int param_3,int param_4,unsigned __int64 param_5,int param_6
                   ,int param_7)
 
 {
   float fVar1;
   float fVar2;
-  uint uVar3;
-  uint uVar4;
+  unsigned int uVar3;
+  unsigned int uVar4;
   float *pfVar5;
-  undefined4 *puVar6;
-  undefined4 *puVar7;
-  undefined4 uVar8;
+  unsigned int *puVar6;
+  unsigned int *puVar7;
+  unsigned int uVar8;
   float fVar9;
   float fVar10;
   float fVar11;
@@ -68,11 +42,11 @@ void fn_8254B690(double param_1,int param_2,int param_3,int param_4,undefined8 p
   int iVar21;
   int *piVar22;
   int iVar23;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs44 [16];
-  undefined4 uVar24;
-  undefined4 uVar25;
-  undefined4 uVar26;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs44 [16];
+  unsigned int uVar24;
+  unsigned int uVar25;
+  unsigned int uVar26;
   float afStack_60 [4];
   float afStack_50 [20];
   
@@ -105,7 +79,7 @@ void fn_8254B690(double param_1,int param_2,int param_3,int param_4,undefined8 p
         pfVar5[3] = fVar2;
         fVar2 = (float)((double)afStack_50[0] * param_1);
         if ((fVar1 * fVar10 + fVar2 < fVar9) ||
-           ((*(byte *)(*(int *)(*(int *)(param_2 + 4) + 4) + iVar20 * 0x10 + 0xe) & 1) != 0)) {
+           ((*(unsigned char *)(*(int *)(*(int *)(param_2 + 4) + 4) + iVar20 * 0x10 + 0xe) & 1) != 0)) {
           iVar20 = piVar22[8];
           piVar22[8] = iVar20 + 1;
 LAB_8254b9ac:
@@ -143,55 +117,55 @@ LAB_8254b9ac:
         iVar19 = iVar20 * 0x10;
         iVar23 = *(int *)(iVar21 + 0x14) * 0x40 + *(int *)(param_2 + 0x8c);
         iVar20 = iVar20 * 0x40 + *(int *)(param_2 + 0x90);
-        puVar6 = (undefined4 *)(in_r0 + iVar23 & 0xfffffff0);
+        puVar6 = (unsigned int *)(in_r0 + iVar23 & 0xfffffff0);
         uVar24 = puVar6[1];
         uVar25 = puVar6[2];
         uVar26 = puVar6[3];
-        puVar7 = (undefined4 *)(in_r0 + iVar20 & 0xfffffff0);
+        puVar7 = (unsigned int *)(in_r0 + iVar20 & 0xfffffff0);
         *puVar7 = *puVar6;
         puVar7[1] = uVar24;
         puVar7[2] = uVar25;
         puVar7[3] = uVar26;
-        puVar6 = (undefined4 *)(iVar23 + 0x10U & 0xfffffff0);
+        puVar6 = (unsigned int *)(iVar23 + 0x10U & 0xfffffff0);
         uVar24 = puVar6[1];
         uVar25 = puVar6[2];
         uVar26 = puVar6[3];
-        puVar7 = (undefined4 *)(iVar20 + 0x10U & 0xfffffff0);
+        puVar7 = (unsigned int *)(iVar20 + 0x10U & 0xfffffff0);
         *puVar7 = *puVar6;
         puVar7[1] = uVar24;
         puVar7[2] = uVar25;
         puVar7[3] = uVar26;
-        puVar6 = (undefined4 *)(iVar23 + 0x20U & 0xfffffff0);
+        puVar6 = (unsigned int *)(iVar23 + 0x20U & 0xfffffff0);
         uVar24 = puVar6[1];
         uVar25 = puVar6[2];
         uVar26 = puVar6[3];
-        puVar7 = (undefined4 *)(iVar20 + 0x20U & 0xfffffff0);
+        puVar7 = (unsigned int *)(iVar20 + 0x20U & 0xfffffff0);
         *puVar7 = *puVar6;
         puVar7[1] = uVar24;
         puVar7[2] = uVar25;
         puVar7[3] = uVar26;
-        puVar6 = (undefined4 *)(iVar23 + 0x30U & 0xfffffff0);
+        puVar6 = (unsigned int *)(iVar23 + 0x30U & 0xfffffff0);
         uVar24 = puVar6[1];
         uVar25 = puVar6[2];
         uVar26 = puVar6[3];
-        puVar7 = (undefined4 *)(iVar20 + 0x30U & 0xfffffff0);
+        puVar7 = (unsigned int *)(iVar20 + 0x30U & 0xfffffff0);
         *puVar7 = *puVar6;
         puVar7[1] = uVar24;
         puVar7[2] = uVar25;
         puVar7[3] = uVar26;
         iVar20 = *(int *)(iVar21 + 0x18) * 0x18 + *(int *)(param_2 + 0x28);
         *(float *)(iVar19 + *(int *)(param_2 + 0x94)) =
-             (float)(longlong)
+             (float)(__int64)
                     (*(int *)(iVar20 + 8) * *(int *)(iVar21 + 0x1c) + *(int *)(iVar20 + 0xc));
         if (*(int *)(iVar21 + 0x28) < 0) {
-          *(undefined4 *)(iVar19 + *(int *)(param_2 + 0x94) + 8) = uVar8;
+          *(unsigned int *)(iVar19 + *(int *)(param_2 + 0x94) + 8) = uVar8;
         }
         else {
           iVar20 = *(int *)(iVar21 + 0x28) * 0x18 + *(int *)(param_2 + 0x28);
           *(float *)(iVar19 + *(int *)(param_2 + 0x94) + 4) =
-               (float)(longlong)
+               (float)(__int64)
                       (*(int *)(iVar20 + 8) * *(int *)(iVar21 + 0x20) + *(int *)(iVar20 + 0xc));
-          *(undefined4 *)(iVar19 + *(int *)(param_2 + 0x94) + 8) = *(undefined4 *)(iVar21 + 0x24);
+          *(unsigned int *)(iVar19 + *(int *)(param_2 + 0x94) + 8) = *(unsigned int *)(iVar21 + 0x24);
         }
         iVar18 = iVar18 + 1;
       } while (iVar18 < *(int *)(param_3 + 0x24));
@@ -220,7 +194,7 @@ LAB_8254b9ac:
         pfVar5[3] = fVar2;
         fVar2 = (float)((double)afStack_60[0] * param_1);
         if ((fVar1 * fVar10 + fVar2 < fVar9) ||
-           ((*(byte *)(*(int *)(*(int *)(param_2 + 4) + 4) + iVar20 * 0x10 + 0xe) & 1) != 0)) {
+           ((*(unsigned char *)(*(int *)(*(int *)(param_2 + 4) + 4) + iVar20 * 0x10 + 0xe) & 1) != 0)) {
           *(int *)(iVar21 + 8) = *(int *)(iVar21 + 8) + 1;
         }
         else if (fVar11 <= fVar1 * lbl_8327FB0C + fVar2) {

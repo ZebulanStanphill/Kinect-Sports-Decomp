@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern unsigned int __imp__VdGlobalDevice;
 extern unsigned int __imp__VdGlobalXamDevice;
@@ -37,27 +10,27 @@ extern unsigned int uStack_5c;
 extern unsigned int uStack_60;
 
 
-void fn_82647A70(ulonglong param_1)
+void fn_82647A70(unsigned __int64 param_1)
 
 {
   int *piVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  ulonglong uVar4;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
   int iVar7;
-  undefined8 uVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
   int iVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  uint uVar11;
-  ulonglong uVar12;
-  struct { uint first; undefined4 second; } stack_pair_60;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned int uVar11;
+  unsigned __int64 uVar12;
+  struct { unsigned int first; unsigned int second; } stack_pair_60;
 
-  uint uStack_58;
-  uint uStack_54;
-  undefined4 uStack_50;
-  uint uStack_4c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
   
   iVar7 = KeGetCurrentProcessType();
   piVar1 = __imp__VdGlobalDevice;
@@ -66,7 +39,7 @@ void fn_82647A70(ulonglong param_1)
   }
   iVar7 = *piVar1;
   uVar5 = KfAcquireSpinLock(iVar7 + 0x4220);
-  uVar9 = (ulonglong)*(uint *)(iVar7 + 0x550c);
+  uVar9 = (unsigned __int64)*(unsigned int *)(iVar7 + 0x550c);
   uVar12 = (param_1 & 0xffffffff) >> 8 & 0xf;
   *(int *)(iVar7 + 0x418c) = *(int *)(iVar7 + 0x418c) + 1;
   uVar4 = param_1 & 0xfffff000;
@@ -74,37 +47,37 @@ void fn_82647A70(ulonglong param_1)
     uVar9 = 0x3c;
   }
   uVar10 = TBLr;
-  uVar2 = *(uint *)(iVar7 + 0x417c);
+  uVar2 = *(unsigned int *)(iVar7 + 0x417c);
   uVar6 = KeQueryPerformanceFrequency();
   uVar6 = (uVar6 & 0xffffffff) / uVar9;
   trapWord(6,uVar9,0);
   trapWord(6,uVar6,0);
-  uVar9 = (((uVar10 & 0xffffffff) - (ulonglong)uVar2) * 100 & 0xffffffff) / uVar6 + 1;
+  uVar9 = (((uVar10 & 0xffffffff) - (unsigned __int64)uVar2) * 100 & 0xffffffff) / uVar6 + 1;
   if (100 < (uVar9 & 0xffffffff)) {
     uVar9 = 100;
   }
-  uVar2 = *(uint *)(iVar7 + 0x4178);
-  uVar10 = *(uint *)(iVar7 + 0x4180) + uVar12;
-  uVar11 = (uint)uVar10;
-  if ((((uVar10 & 0xffffffff) <= (ulonglong)uVar2) && (uVar11 = uVar2, uVar12 != 0)) &&
+  uVar2 = *(unsigned int *)(iVar7 + 0x4178);
+  uVar10 = *(unsigned int *)(iVar7 + 0x4180) + uVar12;
+  uVar11 = (unsigned int)uVar10;
+  if ((((uVar10 & 0xffffffff) <= (unsigned __int64)uVar2) && (uVar11 = uVar2, uVar12 != 0)) &&
      ((param_1 & 0xff) < (uVar9 & 0xffffffff))) {
     uVar11 = uVar2 + 1;
   }
-  if (*(code **)(iVar7 + 0x4170) != (code *)0x0) {
-    stack_pair_60.second = *(undefined4 *)(iVar7 + 0x418c);
-    stack_pair_60.first = (uint)(uVar4 != 0);
-    uStack_50 = (undefined4)uVar9;
+  if (*(int (***)())(iVar7 + 0x4170) != (int (**)())0x0) {
+    stack_pair_60.second = *(unsigned int *)(iVar7 + 0x418c);
+    stack_pair_60.first = (unsigned int)(uVar4 != 0);
+    uStack_50 = (unsigned int)uVar9;
     uStack_58 = uVar2;
-    uStack_54 = *(uint *)(iVar7 + 0x4180);
+    uStack_54 = *(unsigned int *)(iVar7 + 0x4180);
     uStack_4c = uVar11;
-    (**(code **)(iVar7 + 0x4170))(&stack_pair_60.first);
+    (**(int (***)())(iVar7 + 0x4170))(&stack_pair_60.first);
     uVar11 = uStack_4c;
   }
-  *(uint *)(iVar7 + 0x4180) = uVar11;
-  if ((uVar11 == *(uint *)(iVar7 + 0x4178)) || (*(int *)(iVar7 + 0x418c) == 1)) {
+  *(unsigned int *)(iVar7 + 0x4180) = uVar11;
+  if ((uVar11 == *(unsigned int *)(iVar7 + 0x4178)) || (*(int *)(iVar7 + 0x418c) == 1)) {
     *(int *)(iVar7 + 0x4190) = *(int *)(iVar7 + 0x4190) + 1;
     if (uVar4 == 0) {
-      *(undefined4 *)(*(int *)(iVar7 + 0x2a94) + 4) = 0;
+      *(unsigned int *)(*(int *)(iVar7 + 0x2a94) + 4) = 0;
     }
     else {
       enforceInOrderExecutionIO();
@@ -115,8 +88,8 @@ void fn_82647A70(ulonglong param_1)
     *(int *)(iVar7 + 0x5c2c) = (int)uVar3;
   }
   else {
-    iVar8 = (*(uint *)(iVar7 + 0x4218) & 0xf) * 8 + iVar7;
-    *(uint *)(iVar8 + 0x4198) = uVar11;
+    iVar8 = (*(unsigned int *)(iVar7 + 0x4218) & 0xf) * 8 + iVar7;
+    *(unsigned int *)(iVar8 + 0x4198) = uVar11;
     *(int *)(iVar8 + 0x4194) = (int)uVar4;
     *(int *)(iVar7 + 0x4218) = *(int *)(iVar7 + 0x4218) + 1;
   }

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_829DD678();
 extern int fn_829DD700();
@@ -34,7 +7,7 @@ extern unsigned int lbl_832179FC;
 extern unsigned int *lbl_83217A00;
 
 
-void fn_829DDC18(int param_1,int param_2,undefined4 *param_3,float *param_4)
+void fn_829DDC18(int param_1,int param_2,unsigned int *param_3,float *param_4)
 
 {
   float fVar1;
@@ -42,10 +15,10 @@ void fn_829DDC18(int param_1,int param_2,undefined4 *param_3,float *param_4)
   int iVar3;
   char cVar4;
   float *pfVar5;
-  undefined4 uVar6;
+  unsigned int uVar6;
   int *piVar7;
   double dVar8;
-  undefined1 auStack_40 [1];
+  unsigned char auStack_40 [1];
   
   *param_3 = 4;
   *param_4 = lbl_8200133C;
@@ -72,7 +45,7 @@ void fn_829DDC18(int param_1,int param_2,undefined4 *param_3,float *param_4)
     }
   }
   if (lbl_83217A00 != (int *)0x0) {
-    (**(code **)(*lbl_83217A00 + 0xc))((double)*param_4,lbl_83217A00,*param_3);
+    (**(int (***)())(*lbl_83217A00 + 0xc))((double)*param_4,lbl_83217A00,*param_3);
   }
   return;
 }

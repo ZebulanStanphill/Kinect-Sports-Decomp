@@ -1,17 +1,16 @@
-typedef unsigned int uint;
-typedef struct { uint key; uint cnt; uint pad; } E_8300EDB0;
+typedef struct { unsigned int key; unsigned int cnt; unsigned int pad; } E_8300EDB0;
 typedef struct { E_8300EDB0 *begin; E_8300EDB0 *end; int pad; int cs[1]; } Obj_8300EDB0;
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
-extern void fn_8301B2D0(Obj_8300EDB0 *, uint);
+extern void fn_8301B2D0(Obj_8300EDB0 *, unsigned int);
 
 static __inline int Found(Obj_8300EDB0 *m, E_8300EDB0 *p) { return p != m->end; }
-static __inline uint *Get(Obj_8300EDB0 *m, E_8300EDB0 *p) { return Found(m, p) ? &p->cnt : 0; }
+static __inline unsigned int *Get(Obj_8300EDB0 *m, E_8300EDB0 *p) { return Found(m, p) ? &p->cnt : 0; }
 
-void fn_8300EDB0(Obj_8300EDB0 *o, uint key)
+void fn_8300EDB0(Obj_8300EDB0 *o, unsigned int key)
 {
     E_8300EDB0 *e;
-    uint *cnt;
+    unsigned int *cnt;
     void *cs = o->cs;
     RtlEnterCriticalSection(cs);
     for (e = o->begin; e != o->end && e->key != key; e++) {

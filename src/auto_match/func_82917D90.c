@@ -1,4 +1,3 @@
-typedef unsigned int uint;
 extern void fn_8265C990(void *, int);
 extern void fn_8291AF48(void *, int);
 
@@ -14,7 +13,7 @@ typedef struct {
 
 void fn_82917D90(Obj *p)
 {
-  uint i;
+  unsigned int i;
   void *e;
 
   if (p->a38 != 0) {

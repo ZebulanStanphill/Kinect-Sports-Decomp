@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_a0;
 extern unsigned int *auStack_a8;
 extern unsigned int *auStack_b8;
@@ -63,46 +37,46 @@ extern unsigned int uStack_c0;
 
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
-void fn_828958A0(int param_1,undefined8 param_2)
+void fn_828958A0(int param_1,unsigned __int64 param_2)
 
 {
   int iVar3;
   int iVar4;
-  undefined8 uVar1;
-  longlong lVar2;
+  unsigned __int64 uVar1;
+  __int64 lVar2;
   int *piVar5;
   char cVar8;
   int iVar6;
-  undefined4 uVar7;
+  unsigned int uVar7;
   int iVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
+  unsigned __int64 uVar12;
   int iVar13;
-  uint uStack_c0;
-  undefined1 auStack_bc [4];
-  undefined1 auStack_b8 [8];
-  undefined **ppuStack_b0;
+  unsigned int uStack_c0;
+  unsigned char auStack_bc [4];
+  unsigned char auStack_b8 [8];
+  unsigned char **ppuStack_b0;
   int iStack_ac;
-  undefined1 auStack_a8 [4];
-  uint uStack_a4;
-  undefined1 auStack_a0 [8];
-  undefined4 uStack_98;
-  undefined **ppuStack_94;
+  unsigned char auStack_a8 [4];
+  unsigned int uStack_a4;
+  unsigned char auStack_a0 [8];
+  unsigned int uStack_98;
+  unsigned char **ppuStack_94;
   int iStack_90;
-  struct { undefined4 first; uint second; } stack_pair_8c;
+  struct { unsigned int first; unsigned int second; } stack_pair_8c;
 
   int iStack_84;
 
   iVar13 = param_1 + 0x494;
   iVar9 = 0;
   fn_828E9D40(iVar13);
-  uVar11 = (ulonglong)uStack_c0;
-  uVar10 = (ulonglong)uStack_c0;
+  uVar11 = (unsigned __int64)uStack_c0;
+  uVar10 = (unsigned __int64)uStack_c0;
   do {
     if (iVar9 == 0) {
 LAB_82895918:
-      uVar11 = fn_828B5700(*(undefined4 *)(param_1 + 0x6c),iVar13);
+      uVar11 = fn_828B5700(*(unsigned int *)(param_1 + 0x6c),iVar13);
     }
     else {
       iVar3 = fn_828E9DA8(iVar13);
@@ -130,7 +104,7 @@ LAB_828959c8:
         uVar10 = fn_828E9FF8(iVar13,2);
       }
     }
-    uVar1 = fn_828B57B0(*(undefined4 *)(param_1 + 0x6c),uVar11);
+    uVar1 = fn_828B57B0(*(unsigned int *)(param_1 + 0x6c),uVar11);
     iVar3 = fn_828E9DA8(iVar13);
     iVar4 = fn_828E9D90(iVar13);
     if (iVar3 - iVar4 < (int)uVar1) {
@@ -140,8 +114,8 @@ LAB_828959c8:
       uVar1 = fn_828E9FF8(iVar13,uVar1);
     }
     fn_828B5560(auStack_b8,uVar10,uVar11,uVar1);
-    lVar2 = fn_828A12E8(*(undefined4 *)(param_1 + 0x6c));
-    uStack_c0 = (uint)uVar11;
+    lVar2 = fn_828A12E8(*(unsigned int *)(param_1 + 0x6c));
+    uStack_c0 = (unsigned int)uVar11;
     piVar5 = (int *)fn_8288CD40(auStack_bc,lVar2 + 0x94,&uStack_c0);
     uVar12 = 0;
     iVar3 = *(int *)(*piVar5 + 0x40);
@@ -158,7 +132,7 @@ LAB_828959c8:
               iStack_ac = 9;
               uStack_a4 = 0;
               iVar4 = fn_828E9D90(iVar13);
-              (**(code **)(*piVar5 + 8))(piVar5,*(undefined4 *)(param_1 + 0x6c),iVar13,&ppuStack_b0)
+              (**(int (***)())(*piVar5 + 8))(piVar5,*(unsigned int *)(param_1 + 0x6c),iVar13,&ppuStack_b0)
               ;
               iVar6 = fn_828E9D90(iVar13);
               uVar7 = fn_82897B18(piVar5);
@@ -195,7 +169,7 @@ LAB_828959c8:
           }
         }
         uVar12 = uVar12 + 1;
-      } while ((uVar12 & 0xffffffff) < (ulonglong)*(uint *)(iVar3 + 8));
+      } while ((uVar12 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar3 + 8));
     }
     iVar9 = iVar9 + 1;
     iVar3 = fn_828E9D78(iVar13);

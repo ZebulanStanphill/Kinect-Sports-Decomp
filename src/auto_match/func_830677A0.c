@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_b0;
 extern int fn_82F66768();
 extern int fn_83065B90();
@@ -40,25 +13,25 @@ extern unsigned int uStack00000048;
 
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
-void fn_830677A0(int param_1,int param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5,
-                  undefined8 param_6,undefined8 param_7,undefined8 param_8)
+void fn_830677A0(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
 
 {
   int iVar1;
-  undefined1 *puVar2;
-  undefined1 *puVar3;
+  unsigned char *puVar2;
+  unsigned char *puVar3;
   int iVar4;
-  undefined8 uStack00000028;
-  undefined8 uStack00000030;
-  undefined8 uStack00000038;
-  undefined8 uStack00000040;
-  undefined8 uStack00000048;
-  undefined1 auStack_b0 [176];
+  unsigned __int64 uStack00000028;
+  unsigned __int64 uStack00000030;
+  unsigned __int64 uStack00000038;
+  unsigned __int64 uStack00000040;
+  unsigned __int64 uStack00000048;
+  unsigned char auStack_b0 [176];
   
   *(int *)(param_1 + 0x14) = param_2;
-  *(undefined4 *)(param_1 + 0x1c) = 0;
+  *(unsigned int *)(param_1 + 0x1c) = 0;
   *(int *)(param_1 + 0x18) = param_2 / *(int *)(param_1 + 0x10);
-  *(undefined4 *)(param_1 + 0x20) = 0;
+  *(unsigned int *)(param_1 + 0x20) = 0;
   uStack00000028 = param_4;
   uStack00000030 = param_5;
   uStack00000038 = param_6;
@@ -70,7 +43,7 @@ void fn_830677A0(int param_1,int param_2,undefined8 param_3,undefined8 param_4,u
   iVar1 = fn_82F66768(auStack_b0,0x80,param_3,&stack0x00000028);
   if (iVar1 < *(int *)(param_1 + 0xc)) {
     iVar1 = *(int *)(param_1 + 0xc) - iVar1;
-    puVar2 = (undefined1 *)fn_83065B90(iVar1 + 1);
+    puVar2 = (unsigned char *)fn_83065B90(iVar1 + 1);
     puVar3 = puVar2;
     if (0 < iVar1) {
       puVar3 = puVar2 + -1;

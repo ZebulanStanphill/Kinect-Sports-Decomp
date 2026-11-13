@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_8253FDC8();
 extern unsigned int stack0x00000000;
 extern V16 loadVectorLeftIndexed128();
@@ -40,28 +14,28 @@ void fn_8255ACE0(float *param_1)
 {
   float fVar1;
   float fVar2;
-  undefined8 in_r0;
-  ulonglong uVar3;
-  undefined8 uVar4;
-  undefined1 auVar5 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 auVar6 [16];
-  undefined1 auVar7 [16];
-  undefined1 in_vr0 [16];
-  undefined1 in_vr3 [16];
-  undefined1 in_vr4 [16];
-  undefined1 auVar8 [16];
-  undefined1 in_vr5 [16];
-  undefined1 in_vr11 [16];
-  undefined1 in_vr12 [16];
-  undefined1 auVar9 [16];
-  undefined1 auVar10 [16];
-  undefined1 in_vr13 [16];
-  undefined1 auVar11 [16];
+  unsigned __int64 in_r0;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned char auVar5 [16];
+  unsigned char in_vs38 [16];
+  unsigned char in_vs39 [16];
+  unsigned char in_vs40 [16];
+  unsigned char in_vs41 [16];
+  unsigned char in_vs42 [16];
+  unsigned char auVar6 [16];
+  unsigned char auVar7 [16];
+  unsigned char in_vr0 [16];
+  unsigned char in_vr3 [16];
+  unsigned char in_vr4 [16];
+  unsigned char auVar8 [16];
+  unsigned char in_vr5 [16];
+  unsigned char in_vr11 [16];
+  unsigned char in_vr12 [16];
+  unsigned char auVar9 [16];
+  unsigned char auVar10 [16];
+  unsigned char in_vr13 [16];
+  unsigned char auVar11 [16];
   
   uVar3 = ZEXT48(&stack0x00000000);
   fVar1 = param_1[1];

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1F2B8();
 extern int fn_82B64678();
 extern int fn_82B64808();
@@ -40,13 +13,13 @@ extern int fn_82B8FA18();
 extern int fn_82B99908();
 
 
-longlong fn_82B67470(int *param_1,int param_2,int param_3,uint param_4)
+__int64 fn_82B67470(int *param_1,int param_2,int param_3,unsigned int param_4)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar4;
-  longlong lVar2;
-  undefined8 uVar3;
+  __int64 lVar2;
+  unsigned __int64 uVar3;
   
   param_1[2] = param_4;
   *param_1 = 0;
@@ -56,10 +29,10 @@ longlong fn_82B67470(int *param_1,int param_2,int param_3,uint param_4)
     fn_82A1F2B8(0xffffffff821bab90);
     return -0x7789f794;
   }
-  *(uint *)(param_3 + 0x48) = param_4 & 0x200000;
-  *(uint *)(param_2 + 0x48) = param_4 & 0x400000;
-  *(uint *)(param_2 + 0x40) = param_4 & 0x80000;
-  *(uint *)(param_2 + 0x44) = param_4 & 0x100000;
+  *(unsigned int *)(param_3 + 0x48) = param_4 & 0x200000;
+  *(unsigned int *)(param_2 + 0x48) = param_4 & 0x400000;
+  *(unsigned int *)(param_2 + 0x40) = param_4 & 0x80000;
+  *(unsigned int *)(param_2 + 0x44) = param_4 & 0x100000;
   iVar4 = fn_82B99908(param_2);
   param_1[1] = iVar4;
   if (iVar4 == 0) {
@@ -91,14 +64,14 @@ LAB_82b675b8:
   fn_82A1F2B8(0xffffffff821bab90);
   lVar2 = -0x7fffbffb;
 LAB_82b675d8:
-  puVar1 = (undefined4 *)param_1[1];
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+  puVar1 = (unsigned int *)param_1[1];
+  if (puVar1 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar1)(puVar1,1);
     param_1[1] = 0;
   }
-  puVar1 = (undefined4 *)*param_1;
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
+  puVar1 = (unsigned int *)*param_1;
+  if (puVar1 != (unsigned int *)0x0) {
+    (**(int (***)())*puVar1)(puVar1,1);
     *param_1 = 0;
   }
   return lVar2;

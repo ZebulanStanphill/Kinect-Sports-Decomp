@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A510();
 extern int fn_82F6A55C();
 
@@ -59,19 +32,19 @@ void fn_82A5FC48(void)
   float fVar25;
   float fVar26;
   float *pfVar27;
-  uint uVar28;
-  uint uVar29;
+  unsigned int uVar28;
+  unsigned int uVar29;
   float fVar30;
-  uint *puVar31;
-  longlong lVar32;
-  ulonglong uVar33;
-  ulonglong uVar34;
+  unsigned int *puVar31;
+  __int64 lVar32;
+  unsigned __int64 uVar33;
+  unsigned __int64 uVar34;
   float *pfVar35;
   
-  puVar31 = (uint *)fn_82F6A510();
+  puVar31 = (unsigned int *)fn_82F6A510();
   pfVar35 = (float *)puVar31[2];
   pfVar27 = (float *)puVar31[3];
-  uVar34 = (ulonglong)puVar31[1];
+  uVar34 = (unsigned __int64)puVar31[1];
   uVar28 = puVar31[5];
   uVar29 = puVar31[8];
   fVar1 = *pfVar35;
@@ -88,8 +61,8 @@ void fn_82A5FC48(void)
   fVar12 = pfVar35[0xb];
   if (pfVar27 == (float *)0x0) {
     if (uVar28 != 0) {
-      lVar32 = (ulonglong)(uVar28 - 1 >> 1) + 1;
-      uVar33 = (ulonglong)*puVar31;
+      lVar32 = (unsigned __int64)(uVar28 - 1 >> 1) + 1;
+      uVar33 = (unsigned __int64)*puVar31;
       do {
         fVar13 = *(float *)uVar33;
         fVar25 = ((float *)uVar33)[1];
@@ -135,8 +108,8 @@ void fn_82A5FC48(void)
     fVar22 = pfVar27[10];
     fVar23 = pfVar27[0xb];
     if (uVar28 != 0) {
-      lVar32 = (ulonglong)(uVar28 - 1 >> 1) + 1;
-      uVar33 = (ulonglong)*puVar31;
+      lVar32 = (unsigned __int64)(uVar28 - 1 >> 1) + 1;
+      uVar33 = (unsigned __int64)*puVar31;
       do {
         fVar24 = *(float *)uVar33;
         fVar26 = ((float *)uVar33)[1];

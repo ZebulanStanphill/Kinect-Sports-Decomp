@@ -1,4 +1,3 @@
-typedef unsigned __int64 U64;
 typedef struct { int a; int b; } Pair;
 typedef struct Entry {
     char pad[0x28];
@@ -12,7 +11,7 @@ typedef struct { char pad[0x40]; Entry *entries; } Tbl;
 typedef struct { char pad[0x48]; Tbl *tbl; } P3;
 typedef struct { int x0; unsigned int n; int idx; int xc; int x10; } P2;
 typedef struct { int x0; int x4; } P1;
-extern void fn_82639F78(int a, unsigned int b, int c, int d, int e, U64 f);
+extern void fn_82639F78(int a, unsigned int b, int c, int d, int e, unsigned __int64 f);
 void fn_82853BC0(P1 *p1, P2 *p2, P3 *p3)
 {
     Entry *entries = p3->tbl->entries;

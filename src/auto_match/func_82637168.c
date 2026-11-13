@@ -1,14 +1,13 @@
-typedef unsigned int uint;
 typedef struct { int a; int b; } Item;
-typedef struct { Item *data; uint size; uint cap; } Vec;
-extern void *fn_8265C940(uint size, uint flags);
-extern void fn_8265C990(void *p, uint flags);
-extern void *memcpy(void *d, const void *s, uint n);
+typedef struct { Item *data; unsigned int size; unsigned int cap; } Vec;
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void fn_8265C990(void *p, unsigned int flags);
+extern void *memcpy(void *d, const void *s, unsigned int n);
 
 void fn_82637168(Vec *v, Item *item, int *hr)
 {
-  uint n;
-  uint cap;
+  unsigned int n;
+  unsigned int cap;
   Item *p;
 
   n = v->size + 1;

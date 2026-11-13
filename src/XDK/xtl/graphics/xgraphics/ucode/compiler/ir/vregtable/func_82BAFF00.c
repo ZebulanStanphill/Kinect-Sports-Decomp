@@ -1,34 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define _uStack00000020 ((*(U64*)&uStack00000020))
-#define _uStack00000028 ((*(U64*)&uStack00000028))
-#define _uStack00000030 ((*(U64*)&uStack00000030))
-#define _uStack00000038 ((*(U64*)&uStack00000038))
+#define _uStack00000020 ((*(unsigned __int64*)&uStack00000020))
+#define _uStack00000028 ((*(unsigned __int64*)&uStack00000028))
+#define _uStack00000030 ((*(unsigned __int64*)&uStack00000030))
+#define _uStack00000038 ((*(unsigned __int64*)&uStack00000038))
 extern int fn_82AB15D0();
 extern int fn_82BAF560();
 extern int fn_82BC0088();
@@ -53,38 +26,38 @@ extern unsigned int uStack_8c;
 extern unsigned int uStack_90;
 
 
-int fn_82BAFF00(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,undefined8 param_5,
-                 undefined8 param_6)
+int fn_82BAFF00(int *param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+                 unsigned __int64 param_6)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar3;
   int *piVar4;
   int iVar5;
   int iVar6;
-  undefined4 *puVar7;
-  undefined4 *puVar8;
-  undefined4 *puVar9;
-  longlong lVar10;
-  undefined4 uStack00000020;
-  undefined4 uStack00000024;
-  undefined4 uStack00000028;
-  undefined4 uStack0000002c;
-  undefined4 uStack00000030;
-  undefined4 uStack00000034;
-  undefined4 uStack00000038;
-  undefined4 uStack0000003c;
+  unsigned int *puVar7;
+  unsigned int *puVar8;
+  unsigned int *puVar9;
+  __int64 lVar10;
+  unsigned int uStack00000020;
+  unsigned int uStack00000024;
+  unsigned int uStack00000028;
+  unsigned int uStack0000002c;
+  unsigned int uStack00000030;
+  unsigned int uStack00000034;
+  unsigned int uStack00000038;
+  unsigned int uStack0000003c;
   int aiStack_a4 [4];
   int iStack_94;
-  undefined4 uStack_90;
-  undefined4 uStack_8c;
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
+  unsigned int uStack_90;
+  unsigned int uStack_8c;
+  unsigned int uStack_88;
+  unsigned int uStack_84;
+  unsigned int uStack_80;
+  unsigned int uStack_7c;
+  unsigned int uStack_78;
+  unsigned int uStack_74;
   
   _uStack00000020 = param_3;
   _uStack00000028 = param_4;
@@ -114,14 +87,14 @@ int fn_82BAFF00(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,u
   uStack_74 = uStack0000003c;
   do {
     if (iVar5 < param_2) {
-      *(undefined4 *)(iVar3 + param_1[7]) = 1;
-      puVar7 = (undefined4 *)((int)puVar8 + param_1[7] + (0x380 - (int)&uStack_90));
+      *(unsigned int *)(iVar3 + param_1[7]) = 1;
+      puVar7 = (unsigned int *)((int)puVar8 + param_1[7] + (0x380 - (int)&uStack_90));
       uVar1 = puVar8[1];
       *puVar7 = *puVar8;
       puVar7[1] = uVar1;
     }
     else {
-      *(undefined4 *)(iVar3 + param_1[7]) = 0;
+      *(unsigned int *)(iVar3 + param_1[7]) = 0;
     }
     iVar5 = iVar5 + 1;
     iVar3 = iVar3 + 4;
@@ -145,8 +118,8 @@ int fn_82BAFF00(int *param_1,int param_2,undefined8 param_3,undefined8 param_4,u
     }
     iVar6 = 0;
     puVar7 = &uStack_90;
-    puVar9 = (undefined4 *)(*piVar4 + 0x3a0);
-    puVar8 = (undefined4 *)(*piVar4 + 0x380);
+    puVar9 = (unsigned int *)(*piVar4 + 0x3a0);
+    puVar8 = (unsigned int *)(*piVar4 + 0x380);
     lVar10 = 4;
     do {
       if (iVar6 < param_2) {

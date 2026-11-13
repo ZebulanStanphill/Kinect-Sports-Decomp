@@ -1,46 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8265C940();
 extern int fn_8265C990();
 extern int fn_82A29A38();
 extern int memcpy();
 
 
-undefined8 fn_82AACC70(undefined4 *param_1,uint param_2)
+unsigned __int64 fn_82AACC70(unsigned int *param_1,unsigned int param_2)
 
 {
-  uint uVar1;
-  longlong lVar2;
-  undefined8 uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  unsigned int uVar1;
+  __int64 lVar2;
+  unsigned __int64 uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   
-  if (param_1 == (undefined4 *)0x0) {
+  if (param_1 == (unsigned int *)0x0) {
     fn_82A29A38();
   }
   if (param_1[1] == 0) {
@@ -56,21 +29,21 @@ LAB_82aacd44:
       uVar4 = 0x1000;
     }
     else {
-      uVar4 = (longlong)(int)param_1[1] * (longlong)(int)uVar1 + 0xfffU & 0xfffff000;
+      uVar4 = (__int64)(int)param_1[1] * (__int64)(int)uVar1 + 0xfffU & 0xfffff000;
     }
     do {
       uVar5 = uVar4 - 0x20;
-      if (((longlong)(int)param_1[1] * (longlong)(int)(param_2 + 1) & 0xffffffffU) <=
+      if (((__int64)(int)param_1[1] * (__int64)(int)(param_2 + 1) & 0xffffffffU) <=
           (uVar5 & 0xffffffff)) {
         lVar2 = fn_8265C940(uVar5,0x24870000);
         if (lVar2 != 0) {
           if (param_1[2] != 0) {
-            memcpy(lVar2,*param_1,(longlong)(int)param_1[1] * (longlong)(int)param_1[2]);
+            memcpy(lVar2,*param_1,(__int64)(int)param_1[1] * (__int64)(int)param_1[2]);
             fn_8265C990(*param_1,0x24870000);
           }
           *param_1 = (int)lVar2;
-          trapWord(6,(ulonglong)(uint)param_1[1],0);
-          param_1[2] = (int)((uVar5 & 0xffffffff) / (ulonglong)(uint)param_1[1]);
+          trapWord(6,(unsigned __int64)(unsigned int)param_1[1],0);
+          param_1[2] = (int)((uVar5 & 0xffffffff) / (unsigned __int64)(unsigned int)param_1[1]);
           goto LAB_82aacd44;
         }
         break;

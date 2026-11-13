@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_250;
 extern int fn_8229BA88();
 extern int fn_8229CAD0();
@@ -48,23 +21,23 @@ extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_260;
 
 
-void fn_8229B6C8(double param_1,double param_2,undefined4 *param_3,undefined8 param_4,
-                  undefined8 param_5,int param_6)
+void fn_8229B6C8(double param_1,double param_2,unsigned int *param_3,unsigned __int64 param_4,
+                  unsigned __int64 param_5,int param_6)
 
 {
   int iVar1;
   int *piVar2;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   float fVar4;
   int iVar5;
-  undefined4 uVar6;
+  unsigned int uVar6;
   float fVar7;
   float *pfVar8;
-  ulonglong uVar9;
+  unsigned __int64 uVar9;
   double dVar10;
-  struct { undefined4 first; int second; } stack_pair_260;
+  struct { unsigned int first; int second; } stack_pair_260;
 
-  undefined1 auStack_250 [496];
+  unsigned char auStack_250 [496];
   
   fn_8229BA88();
   uVar9 = 0;
@@ -145,14 +118,14 @@ void fn_8229B6C8(double param_1,double param_2,undefined4 *param_3,undefined8 pa
   }
   else {
     iVar5 = fn_8249ABC0();
-    *(undefined4 *)(**(int **)(iVar5 + 0x1c) + 0x10) = 1;
+    *(unsigned int *)(**(int **)(iVar5 + 0x1c) + 0x10) = 1;
     if (*(int *)(iVar5 + 0x70) != 0) {
       iVar5 = *(int *)(*(int *)(iVar5 + 0x70) + 0xd54);
       iVar1 = *(int *)(iVar5 + 0x14);
       if ((iVar1 != 0) && (*(int *)(iVar5 + 0x18) == 0)) {
         piVar2 = *(int **)(iVar1 + 0x18);
         if (piVar2 != (int *)0x0) {
-          (**(code **)(*piVar2 + 0x80))();
+          (**(int (***)())(*piVar2 + 0x80))();
         }
       }
     }

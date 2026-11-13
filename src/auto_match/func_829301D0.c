@@ -1,5 +1,4 @@
-typedef unsigned int uint;
-extern void *fn_8265C940(uint size, int flags);
+extern void *fn_8265C940(unsigned int size, int flags);
 
 typedef struct Block {
     struct Block *next;
@@ -8,16 +7,16 @@ typedef struct Block {
 typedef struct Pool {
     Block *head;
     int align;
-    uint used;
-    uint limit;
-    uint cap;
-    uint blockSize;
+    unsigned int used;
+    unsigned int limit;
+    unsigned int cap;
+    unsigned int blockSize;
 } Pool;
 
 void *fn_829301D0(Pool *p, int size, int align)
 {
-    uint end = ((p->used + align - 1) & ~(align - 1U)) + size;
-    uint n;
+    unsigned int end = ((p->used + align - 1) & ~(align - 1U)) + size;
+    unsigned int n;
     Block *blk;
     int a;
 

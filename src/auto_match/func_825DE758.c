@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+typedef struct { unsigned __int64 lo, hi; } V16;
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_8255A1C8();
 extern int fn_82A1DD38();
 extern unsigned int lbl_83297910;
@@ -35,21 +9,21 @@ extern V16 loadVectorLeftIndexed128();
 extern V16 vectorSubtractFloatingPoint();
 
 
-void fn_825DE758(int param_1,int param_2,int param_3,int param_4,int param_5,undefined8 param_6)
+void fn_825DE758(int param_1,int param_2,int param_3,int param_4,int param_5,unsigned __int64 param_6)
 
 {
-  uint uVar1;
-  undefined4 *puVar2;
+  unsigned int uVar1;
+  unsigned int *puVar2;
   int iVar3;
-  undefined4 *puVar4;
+  unsigned int *puVar4;
   float *pfVar5;
-  undefined8 in_r0;
-  uint uVar6;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs33 [16];
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
+  unsigned __int64 in_r0;
+  unsigned int uVar6;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs33 [16];
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
   float in_register_000100d0;
   float in_register_000100d4;
   float in_register_000100d8;
@@ -60,42 +34,42 @@ void fn_825DE758(int param_1,int param_2,int param_3,int param_4,int param_5,und
   float in_vr77;
   
   iVar3 = (int)in_r0;
-  puVar2 = (undefined4 *)(iVar3 + param_3 & 0xfffffff0);
+  puVar2 = (unsigned int *)(iVar3 + param_3 & 0xfffffff0);
   uVar7 = puVar2[1];
   uVar8 = puVar2[2];
   uVar9 = puVar2[3];
-  uVar1 = *(uint *)(param_1 + 0x310);
-  puVar4 = (undefined4 *)(param_1 + 0x3f0U & 0xfffffff0);
+  uVar1 = *(unsigned int *)(param_1 + 0x310);
+  puVar4 = (unsigned int *)(param_1 + 0x3f0U & 0xfffffff0);
   *puVar4 = *puVar2;
   puVar4[1] = uVar7;
   puVar4[2] = uVar8;
   puVar4[3] = uVar9;
-  puVar2 = (undefined4 *)(iVar3 + param_4 & 0xfffffff0);
+  puVar2 = (unsigned int *)(iVar3 + param_4 & 0xfffffff0);
   uVar7 = puVar2[1];
   uVar8 = puVar2[2];
   uVar9 = puVar2[3];
-  puVar4 = (undefined4 *)(param_1 + 0x420U & 0xfffffff0);
+  puVar4 = (unsigned int *)(param_1 + 0x420U & 0xfffffff0);
   *puVar4 = *puVar2;
   puVar4[1] = uVar7;
   puVar4[2] = uVar8;
   puVar4[3] = uVar9;
-  puVar2 = (undefined4 *)(iVar3 + param_5 & 0xfffffff0);
+  puVar2 = (unsigned int *)(iVar3 + param_5 & 0xfffffff0);
   uVar7 = puVar2[1];
   uVar8 = puVar2[2];
   uVar9 = puVar2[3];
-  puVar4 = (undefined4 *)(param_1 + 0x410U & 0xfffffff0);
+  puVar4 = (unsigned int *)(param_1 + 0x410U & 0xfffffff0);
   *puVar4 = *puVar2;
   puVar4[1] = uVar7;
   puVar4[2] = uVar8;
   puVar4[3] = uVar9;
   if ((uVar1 & 0x100) == 0) {
-    uVar6 = (uint)LZCOUNT(*(int *)(param_1 + 0x220) + -2) >> 5;
+    uVar6 = (unsigned int)LZCOUNT(*(int *)(param_1 + 0x220) + -2) >> 5;
   }
   else {
     uVar6 = 1;
   }
   if (((*(int *)(param_2 + 0xf28) == 0) && (*(int *)(param_2 + 0xf20) == 0)) &&
-     (*(uint *)(param_2 + 0xf2c) == uVar6)) {
+     (*(unsigned int *)(param_2 + 0xf2c) == uVar6)) {
     if ((((uVar1 & 0x100) == 0) && (*(int *)(param_1 + 0x220) != 2)) ||
        (*(int *)(param_1 + 0x1ac) == 0)) {
       fn_8255A1C8((double)*(float *)(param_2 + 0x70),(double)*(float *)(param_2 + 0x74),

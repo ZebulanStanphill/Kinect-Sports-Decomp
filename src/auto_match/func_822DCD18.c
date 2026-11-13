@@ -1,34 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822DD518();
 
 
-undefined4 * fn_822DCD18(undefined4 *param_1,char *param_2,char *param_3)
+unsigned int * fn_822DCD18(unsigned int *param_1,char *param_2,char *param_3)
 
 {
   char cVar1;
@@ -37,16 +11,16 @@ undefined4 * fn_822DCD18(undefined4 *param_1,char *param_2,char *param_3)
   char *pcVar4;
   char *pcVar5;
   char *pcVar6;
-  uint uVar7;
+  unsigned int uVar7;
   char *pcVar8;
   
   uVar7 = (int)param_3 - (int)param_2;
   pcVar8 = param_3 + -1;
-  pcVar4 = param_2 + ((int)uVar7 >> 1) + (uint)((int)uVar7 < 0 && (uVar7 & 1) != 0);
+  pcVar4 = param_2 + ((int)uVar7 >> 1) + (unsigned int)((int)uVar7 < 0 && (uVar7 & 1) != 0);
   pcVar3 = param_2;
   if (0x28 < (int)pcVar8 - (int)param_2) {
     uVar7 = ((int)pcVar8 - (int)param_2) + 1;
-    uVar7 = ((int)uVar7 >> 3) + (uint)((int)uVar7 < 0 && (uVar7 & 7) != 0);
+    uVar7 = ((int)uVar7 >> 3) + (unsigned int)((int)uVar7 < 0 && (uVar7 & 7) != 0);
     fn_822DD518(param_2,param_2 + uVar7,param_2 + uVar7 * 2);
     fn_822DD518((int)pcVar4 - uVar7,pcVar4,pcVar4 + uVar7);
     fn_822DD518(pcVar8 + (uVar7 & 0x7fffffff) * -2,pcVar8 + -uVar7,pcVar8);

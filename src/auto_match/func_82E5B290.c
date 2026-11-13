@@ -1,58 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_30;
 extern int fn_82E5AF48();
 extern int memcpy();
 
 
 int
-fn_82E5B290(int param_1,uint param_2,undefined4 *param_3,undefined2 *param_4,uint *param_5,
-             uint param_6)
+fn_82E5B290(int param_1,unsigned int param_2,unsigned int *param_3,unsigned short *param_4,unsigned int *param_5,
+             unsigned int param_6)
 
 {
-  uint lVar1;
+  unsigned int lVar1;
   int uVar2;
-  undefined4 *puVar3;
-  uint auStack_30;
-  uint n;
+  unsigned int *puVar3;
+  unsigned int auStack_30;
+  unsigned int n;
   
-  if (((param_3 == (undefined4 *)0x0) || (param_4 == (undefined2 *)0x0)) ||
-     ((param_2 & 0xffff) >= *(uint *)(param_1 + 0xf4))) {
+  if (((param_3 == (unsigned int *)0x0) || (param_4 == (unsigned short *)0x0)) ||
+     ((param_2 & 0xffff) >= *(unsigned int *)(param_1 + 0xf4))) {
     return 0x80070057;
   }
   lVar1 = fn_82E5AF48(param_1 + 0x8c,param_2 & 0xffff,&auStack_30);
-  puVar3 = (undefined4 *)(lVar1 ? auStack_30 : 0);
+  puVar3 = (unsigned int *)(lVar1 ? auStack_30 : 0);
   *param_3 = *puVar3;
   param_3[1] = puVar3[1];
   param_3[2] = puVar3[2];
   param_3[3] = puVar3[3];
-  *param_4 = *(undefined2 *)(puVar3 + 4);
-  if (param_5 == (uint *)0x0) {
+  *param_4 = *(unsigned short *)(puVar3 + 4);
+  if (param_5 == (unsigned int *)0x0) {
 LAB_82e5b360:
     uVar2 = 0;
   }

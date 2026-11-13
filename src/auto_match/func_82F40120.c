@@ -1,11 +1,9 @@
-typedef unsigned __int64 U64;
-
 typedef struct {
     int a, b, c;
     unsigned int n; /* 0xc */
 } S;
 
-int fn_82F40120(S *s, U64 *a, U64 *b)
+int fn_82F40120(S *s, unsigned __int64 *a, unsigned __int64 *b)
 {
     int hr = 0;
     if (s->n == 0)

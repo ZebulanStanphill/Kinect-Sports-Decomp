@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_54;
 extern int fn_822F78F0();
 extern int fn_822F7B80();
@@ -38,24 +11,24 @@ extern unsigned int uStack_58;
 
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
-void fn_822F77B0(undefined8 param_1,uint *param_2)
+void fn_822F77B0(unsigned __int64 param_1,unsigned int *param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int *piVar2;
   int *piVar3;
-  uint uVar4;
+  unsigned int uVar4;
   int *piVar5;
   float *pfVar6;
   float *pfVar7;
-  ulonglong uVar8;
-  longlong lVar9;
+  unsigned __int64 uVar8;
+  __int64 lVar9;
   double dVar10;
-  struct { undefined4 first; float second; } stack_pair_58;
+  struct { unsigned int first; float second; } stack_pair_58;
 
   int *piStack_50;
   int *piStack_4c;
-  undefined4 uStack_48;
+  unsigned int uStack_48;
   
   uVar1 = param_2[1];
   for (uVar4 = *param_2; uVar4 != uVar1; uVar4 = uVar4 + 0x14) {
@@ -67,8 +40,8 @@ void fn_822F77B0(undefined8 param_1,uint *param_2)
   uStack_48 = 0;
   fn_822F7FA0(&piStack_50,(int)(param_2[1] - *param_2) / 0x14);
   uVar4 = param_2[1];
-  for (uVar8 = (ulonglong)*param_2; piVar3 = piStack_4c, piVar2 = piStack_50,
-      (uVar8 & 0xffffffff) != (ulonglong)uVar4; uVar8 = uVar8 + 0x14) {
+  for (uVar8 = (unsigned __int64)*param_2; piVar3 = piStack_4c, piVar2 = piStack_50,
+      (uVar8 & 0xffffffff) != (unsigned __int64)uVar4; uVar8 = uVar8 + 0x14) {
     stack_pair_58.first = (int)uVar8;
     dVar10 = (double)fn_822F78F0(param_1,uVar8);
     stack_pair_58.second = (float)dVar10;

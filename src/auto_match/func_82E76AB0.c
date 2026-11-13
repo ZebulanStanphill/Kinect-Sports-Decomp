@@ -1,11 +1,10 @@
-typedef unsigned int uint;
 extern int fn_82EE5E28();
 extern int fn_82EE5F60();
 
-uint fn_82E76AB0(char *self, unsigned short *a, unsigned short *b, uint *outn, unsigned *outf)
+unsigned int fn_82E76AB0(char *self, unsigned short *a, unsigned short *b, unsigned int *outn, unsigned *outf)
 {
-  uint hr;
-  uint n;
+  unsigned int hr;
+  unsigned int n;
   unsigned next;
   unsigned char c;
   unsigned char cnt;

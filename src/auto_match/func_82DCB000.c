@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82DCA2F0();
 extern unsigned int iStack_48;
 extern unsigned int iStack_4c;
@@ -40,26 +13,26 @@ extern unsigned int uStack_3c;
 extern unsigned int uStack_40;
 
 
-void fn_82DCB000(undefined4 *param_1,int param_2,float *param_3,undefined4 param_4)
+void fn_82DCB000(unsigned int *param_1,int param_2,float *param_3,unsigned int param_4)
 
 {
   float fVar1;
   float fVar2;
-  byte *pbVar3;
+  unsigned char *pbVar3;
   int iVar5;
-  ulonglong uVar4;
+  unsigned __int64 uVar4;
   int iStack_60;
   int iStack_5c;
   int iStack_58;
   int iStack_50;
   int iStack_4c;
   int iStack_48;
-  undefined4 uStack_40;
-  undefined4 uStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_40;
+  unsigned int uStack_3c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
+  unsigned int uStack_2c;
   
   *param_1 = param_4;
   param_1[0xc] = param_2;
@@ -86,9 +59,9 @@ void fn_82DCB000(undefined4 *param_1,int param_2,float *param_3,undefined4 param
   iVar5 = (int)((param_3[6] - fVar2) * fVar1) + 1;
   param_1[6] = iVar5;
   iStack_58 = (iVar5 >> 0x10) + 1;
-  pbVar3 = *(byte **)(param_2 + 0x20);
-  uVar4 = (ulonglong)*pbVar3;
-  param_1[0xd] = -(uint)(uVar4 == 0xd);
+  pbVar3 = *(unsigned char **)(param_2 + 0x20);
+  uVar4 = (unsigned __int64)*pbVar3;
+  param_1[0xd] = -(unsigned int)(uVar4 == 0xd);
   fn_82DCA2F0(param_1,&iStack_60,pbVar3,0,uVar4 - 0xe);
   return;
 }

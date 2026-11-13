@@ -1,32 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
-#define CONCAT21(h,l) ((U32)((((U16)(h)) << 8) | ((U8)(l))))
+#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
 extern int fn_82A63B70();
 extern int fn_82A63B98();
 extern int fn_82A67290();
@@ -57,22 +30,22 @@ void fn_82A63BC8(void)
   float fVar7;
   float fVar8;
   float fVar9;
-  undefined4 *puVar10;
-  uint uVar11;
+  unsigned int *puVar10;
+  unsigned int uVar11;
   int *piVar12;
-  uint uVar13;
+  unsigned int uVar13;
   int *piVar14;
   int iVar15;
   int iVar16;
-  uint uVar17;
+  unsigned int uVar17;
   float *pfVar18;
   int iVar19;
   int iVar20;
-  uint uVar21;
-  uint uVar22;
-  uint uVar23;
+  unsigned int uVar21;
+  unsigned int uVar22;
+  unsigned int uVar23;
   float *pfVar24;
-  code *pcVar25;
+  int (**pcVar25)();
   int *piVar26;
   float *pfVar27;
   float *pfVar28;
@@ -83,7 +56,7 @@ void fn_82A63BC8(void)
   double dVar33;
   double dVar34;
   
-  puVar10 = (undefined4 *)fn_82F6A548();
+  puVar10 = (unsigned int *)fn_82F6A548();
   fVar9 = lbl_821AAD20;
   fVar8 = lbl_8208E088;
   fVar7 = lbl_8208E084;
@@ -109,7 +82,7 @@ void fn_82A63BC8(void)
   else if (iVar29 == 2) {
     iVar19 = 3;
     iVar20 = 3;
-    pcVar25 = (code *)&lbl_82A672C0;
+    pcVar25 = (int (**)())&lbl_82A672C0;
   }
   else {
     if (iVar29 == 3) {
@@ -119,11 +92,11 @@ void fn_82A63BC8(void)
       if (iVar29 == 4) {
         iVar19 = 3;
         iVar20 = 3;
-        pcVar25 = (code *)&lbl_82A67308;
+        pcVar25 = (int (**)())&lbl_82A67308;
         goto LAB_82a63c94;
       }
       if (iVar29 == 5) {
-        pcVar25 = (code *)&lbl_82A67350;
+        pcVar25 = (int (**)())&lbl_82A67350;
       }
       else {
         if (iVar29 == 0) {
@@ -132,7 +105,7 @@ void fn_82A63BC8(void)
           pcVar25 = fn_82A67290;
           goto LAB_82a63c94;
         }
-        pcVar25 = (code *)&lbl_82A67380;
+        pcVar25 = (int (**)())&lbl_82A67380;
       }
     }
     iVar19 = 4;
@@ -140,7 +113,7 @@ void fn_82A63BC8(void)
   }
 LAB_82a63c94:
   if (puVar10[3] == 0) {
-    uVar11 = (uint)puVar10[5] / uVar21;
+    uVar11 = (unsigned int)puVar10[5] / uVar21;
     uVar22 = 0;
     if (uVar11 != 0) {
       iVar20 = puVar10[2];
@@ -158,40 +131,40 @@ LAB_82a63c94:
               piVar12 = piVar26;
               do {
                 if (iVar29 == 1) {
-                  fVar2 = (float)(longlong)*(short *)piVar12 * *(float *)(iVar16 + 4) * fVar3 +
+                  fVar2 = (float)(__int64)*(short *)piVar12 * *(float *)(iVar16 + 4) * fVar3 +
                           fVar2;
                 }
                 else if (iVar29 == 2) {
-                  fVar2 = (float)(longlong)
-                                 ((int)((uint)CONCAT21(CONCAT11(*(undefined1 *)
+                  fVar2 = (float)(__int64)
+                                 ((int)((unsigned int)CONCAT21(CONCAT11(*(unsigned char *)
                                                                  ((int)piVar26 + iVar15 + 2),
-                                                                *(undefined1 *)
+                                                                *(unsigned char *)
                                                                  ((int)piVar26 + iVar15 + 1)),
-                                                       *(undefined1 *)(iVar15 + (int)piVar26)) << 8)
+                                                       *(unsigned char *)(iVar15 + (int)piVar26)) << 8)
                                  >> 0xc) * *(float *)(iVar16 + 4) * fVar7 + fVar2;
                 }
                 else if (iVar29 == 3) {
-                  fVar2 = (float)(longlong)(*piVar14 >> 0xc) * *(float *)(iVar16 + 4) * fVar7 +
+                  fVar2 = (float)(__int64)(*piVar14 >> 0xc) * *(float *)(iVar16 + 4) * fVar7 +
                           fVar2;
                 }
                 else if (iVar29 == 4) {
-                  fVar2 = (float)(longlong)
-                                 ((int)((uint)CONCAT21(CONCAT11(*(undefined1 *)
+                  fVar2 = (float)(__int64)
+                                 ((int)((unsigned int)CONCAT21(CONCAT11(*(unsigned char *)
                                                                  ((int)piVar26 + iVar15 + 2),
-                                                                *(undefined1 *)
+                                                                *(unsigned char *)
                                                                  ((int)piVar26 + iVar15 + 1)),
-                                                       *(undefined1 *)(iVar15 + (int)piVar26)) << 8)
+                                                       *(unsigned char *)(iVar15 + (int)piVar26)) << 8)
                                  >> 8) * *(float *)(iVar16 + 4) * fVar5 + fVar2;
                 }
                 else if (iVar29 == 5) {
-                  fVar2 = (float)(longlong)(*piVar14 >> 8) * *(float *)(iVar16 + 4) * fVar5 + fVar2;
+                  fVar2 = (float)(__int64)(*piVar14 >> 8) * *(float *)(iVar16 + 4) * fVar5 + fVar2;
                 }
                 else if (iVar29 == 0) {
-                  fVar2 = ((float)*(byte *)(uVar13 + (int)piVar26) - fVar4) * *(float *)(iVar16 + 4)
+                  fVar2 = ((float)*(unsigned char *)(uVar13 + (int)piVar26) - fVar4) * *(float *)(iVar16 + 4)
                           * fVar6 + fVar2;
                 }
                 else {
-                  fVar2 = (float)(longlong)*piVar14 * *(float *)(iVar16 + 4) * fVar8 + fVar2;
+                  fVar2 = (float)(__int64)*piVar14 * *(float *)(iVar16 + 4) * fVar8 + fVar2;
                 }
                 iVar16 = iVar16 + 4;
                 uVar13 = uVar13 + 1;
@@ -217,7 +190,7 @@ LAB_82a63c94:
     }
   }
   else {
-    uVar11 = (uint)puVar10[5] / uVar21;
+    uVar11 = (unsigned int)puVar10[5] / uVar21;
     uVar22 = 0;
     if (uVar11 != 0) {
       do {

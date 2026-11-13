@@ -1,10 +1,9 @@
-typedef unsigned int uint;
-extern uint fn_822B26F8(uint, int, uint);
+extern unsigned int fn_822B26F8(unsigned int, int, unsigned int);
 
-unsigned char fn_822B2AA8(uint *p, uint x)
+unsigned char fn_822B2AA8(unsigned int *p, unsigned int x)
 {
-  uint obj = p[2] + 0x84;
-  uint a = fn_822B26F8(obj, 0, x);
+  unsigned int obj = p[2] + 0x84;
+  unsigned int a = fn_822B26F8(obj, 0, x);
   unsigned char ok;
 
   fn_822B26F8(obj, 1, x);

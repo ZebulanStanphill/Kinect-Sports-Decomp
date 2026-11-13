@@ -1,12 +1,10 @@
-typedef unsigned int undefined4;
-
 extern unsigned int fn_8265C9E0(unsigned int size);
 extern unsigned int fn_8289F5F8(unsigned int *p, unsigned int v);
 extern unsigned int fn_828A0428(unsigned int mem, unsigned int a, unsigned int b);
 extern unsigned int fn_82BA02A8(unsigned int *p, unsigned int a, unsigned int b);
 extern unsigned int lbl_82024338;
 
-undefined4 * fn_828A0518(undefined4 *param_1, unsigned int param_2, unsigned int param_3)
+unsigned int * fn_828A0518(unsigned int *param_1, unsigned int param_2, unsigned int param_3)
 {
   unsigned int mem;
   unsigned int obj;

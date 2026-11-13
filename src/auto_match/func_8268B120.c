@@ -1,12 +1,11 @@
-typedef unsigned int uint;
-extern void fn_8268B0C0(uint *p, uint n);
-extern void fn_826BD398(void *buf, uint *len, void *src);
+extern void fn_8268B0C0(unsigned int *p, unsigned int n);
+extern void fn_826BD398(void *buf, unsigned int *len, void *src);
 void *memcpy(void *dst, const void *src, unsigned int n);
 
-void fn_8268B120(uint *param_1, void *param_2)
+void fn_8268B120(unsigned int *param_1, void *param_2)
 {
-    uint off;
-    uint len;
+    unsigned int off;
+    unsigned int len;
     char buf[10];
 
     off = param_1[1];

@@ -1,30 +1,6 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_822446D8();
 extern int fn_822449A8();
 extern int fn_82244A90();
@@ -40,15 +16,15 @@ void fn_822444F0(int *param_1)
 
 {
   bool bVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
+  unsigned int *puVar2;
+  unsigned int *puVar3;
   char cVar7;
-  uint uVar4;
-  undefined1 uVar8;
+  unsigned int uVar4;
+  unsigned char uVar8;
   int iVar5;
   int iVar6;
-  undefined8 uVar9;
-  undefined4 *apuStack_30 [12];
+  unsigned __int64 uVar9;
+  unsigned int *apuStack_30 [12];
   
   cVar7 = fn_822446D8();
   if (cVar7 == '\0') {
@@ -70,7 +46,7 @@ LAB_822446b8:
     if (uVar4 == 1) {
       if (*(char *)((int)param_1 + 0x96) == '\0') {
         uVar8 = fn_82244B58();
-        *(undefined1 *)((int)param_1 + 0x96) = uVar8;
+        *(unsigned char *)((int)param_1 + 0x96) = uVar8;
       }
       bVar1 = false;
       cVar7 = *(char *)(param_1[4] + 0x290);
@@ -108,17 +84,17 @@ LAB_82244588:
       cVar7 = fn_82244A90(param_1,2);
       if (cVar7 == '\0') goto LAB_822446c4;
       bVar1 = true;
-      puVar2 = *(undefined4 **)(param_1[4] + 0x220);
-      apuStack_30[0] = (undefined4 *)*puVar2;
+      puVar2 = *(unsigned int **)(param_1[4] + 0x220);
+      apuStack_30[0] = (unsigned int *)*puVar2;
       while (puVar3 = apuStack_30[0], apuStack_30[0] != puVar2) {
-        iVar6 = (**(code **)(*param_1 + 8))(param_1);
-        cVar7 = (**(code **)(*(int *)(iVar6 + 0x150) + 0x38))((int *)(iVar6 + 0x150),puVar3[4]);
+        iVar6 = (**(int (***)())(*param_1 + 8))(param_1);
+        cVar7 = (**(int (***)())(*(int *)(iVar6 + 0x150) + 0x38))((int *)(iVar6 + 0x150),puVar3[4]);
         if (cVar7 == '\0') {
           bVar1 = false;
           break;
         }
         fn_82381BC0(apuStack_30);
-        puVar2 = *(undefined4 **)(param_1[4] + 0x220);
+        puVar2 = *(unsigned int **)(param_1[4] + 0x220);
       }
       bVar1 = !bVar1;
 LAB_82244584:

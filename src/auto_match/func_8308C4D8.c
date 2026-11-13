@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 typedef struct {
   int f0;
   int f4;
@@ -22,7 +20,7 @@ typedef struct {
 typedef struct {
   Out *base;
   int n;
-  uint cap;
+  unsigned int cap;
 } Buf;
 
 extern int fn_82CE5410(void);

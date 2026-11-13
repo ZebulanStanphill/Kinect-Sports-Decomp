@@ -1,37 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8263FB88();
 extern unsigned int lbl_821916FC;
 extern unsigned int lbl_8320A898;
 
 
-void fn_825E4EB0(float *param_1,float *param_2,undefined8 param_3,float *param_4,float *param_5,
-                  uint param_6,undefined4 *param_7)
+void fn_825E4EB0(float *param_1,float *param_2,unsigned __int64 param_3,float *param_4,float *param_5,
+                  unsigned int param_6,unsigned int *param_7)
 
 {
   float fVar1;
@@ -45,9 +18,9 @@ void fn_825E4EB0(float *param_1,float *param_2,undefined8 param_3,float *param_4
   float fVar9;
   float *pfVar10;
   
-  if (param_7 == (undefined4 *)0x0) {
+  if (param_7 == (unsigned int *)0x0) {
     pfVar10 = (float *)fn_8263FB88(lbl_8320A898,0xd,4,0x14);
-    if ((longlong)-(ulonglong)(pfVar10 == (float *)0x0) < 0) {
+    if ((__int64)-(unsigned __int64)(pfVar10 == (float *)0x0) < 0) {
       return;
     }
   }
@@ -85,8 +58,8 @@ void fn_825E4EB0(float *param_1,float *param_2,undefined8 param_3,float *param_4
   pfVar10[0x10] = fVar5;
   pfVar10[0x12] = fVar1;
   pfVar10[0x13] = fVar6;
-  if (param_7 == (undefined4 *)0x0) {
-    *(undefined4 *)(lbl_8320A898 + 0x30) = *(undefined4 *)(lbl_8320A898 + 0x3554);
+  if (param_7 == (unsigned int *)0x0) {
+    *(unsigned int *)(lbl_8320A898 + 0x30) = *(unsigned int *)(lbl_8320A898 + 0x3554);
   }
   else {
     *param_7 = pfVar10 + 0x14;

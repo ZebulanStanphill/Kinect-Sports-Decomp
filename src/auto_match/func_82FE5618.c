@@ -1,34 +1,7 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int lbl_8217BA98;
 
 
-void fn_82FE5618(uint *param_1,int param_2,ulonglong param_3)
+void fn_82FE5618(unsigned int *param_1,int param_2,unsigned __int64 param_3)
 
 {
   float fVar1;
@@ -37,22 +10,22 @@ void fn_82FE5618(uint *param_1,int param_2,ulonglong param_3)
   float fVar4;
   float fVar5;
   float fVar6;
-  uint uVar7;
+  unsigned int uVar7;
   float fVar8;
   float fVar9;
-  ulonglong uVar10;
-  ulonglong uVar11;
+  unsigned __int64 uVar10;
+  unsigned __int64 uVar11;
   float *pfVar13;
-  longlong lVar12;
-  ulonglong uVar14;
+  __int64 lVar12;
+  unsigned __int64 uVar14;
   float *pfVar15;
   float *pfVar16;
-  ulonglong uVar17;
+  unsigned __int64 uVar17;
   
   fVar9 = lbl_8217BA98;
   uVar7 = param_1[2];
-  uVar14 = (ulonglong)uVar7;
-  uVar17 = (ulonglong)*param_1;
+  uVar14 = (unsigned __int64)uVar7;
+  uVar17 = (unsigned __int64)*param_1;
   pfVar13 = (float *)param_1[1];
   uVar11 = uVar17 - uVar14;
   pfVar16 = pfVar13 + uVar7 * 2;
@@ -132,7 +105,7 @@ void fn_82FE5618(uint *param_1,int param_2,ulonglong param_3)
       } while (lVar12 != 0);
     }
     uVar14 = uVar14 + uVar10;
-    param_1[2] = (uint)uVar14;
+    param_1[2] = (unsigned int)uVar14;
     if ((uVar14 & 0xffffffff) == uVar17) {
       param_1[2] = 0;
       uVar14 = 0;

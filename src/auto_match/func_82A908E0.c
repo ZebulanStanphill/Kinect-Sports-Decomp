@@ -1,10 +1,8 @@
-typedef unsigned int uint;
-
 typedef struct Plane_82A908E0 {
-  uint pad[10];
-  uint a;     /* 0x28 */
-  uint b;     /* 0x2c */
-  uint c;     /* 0x30 */
+  unsigned int pad[10];
+  unsigned int a;     /* 0x28 */
+  unsigned int b;     /* 0x2c */
+  unsigned int c;     /* 0x30 */
 } Plane_82A908E0;
 
 typedef struct Elem_82A908E0 {
@@ -12,31 +10,31 @@ typedef struct Elem_82A908E0 {
 } Elem_82A908E0;
 
 typedef struct Hdr_82A908E0 {
-  uint count;
-  uint pad;
+  unsigned int count;
+  unsigned int pad;
   Elem_82A908E0 e[1];
 } Hdr_82A908E0;
 
 typedef struct Out_82A908E0 {
-  uint v[12];
+  unsigned int v[12];
 } Out_82A908E0;
 
 typedef struct Obj_82A908E0 {
-  uint pad[4];
-  uint count;   /* 0x10 */
+  unsigned int pad[4];
+  unsigned int count;   /* 0x10 */
 } Obj_82A908E0;
 
-extern void fn_82A8F8E8(Obj_82A908E0 *o, Elem_82A908E0 *e, int a, uint offset, Out_82A908E0 *out);
+extern void fn_82A8F8E8(Obj_82A908E0 *o, Elem_82A908E0 *e, int a, unsigned int offset, Out_82A908E0 *out);
 
-static __forceinline uint PlaneSize_82A908E0(const Plane_82A908E0 *p)
+static __forceinline unsigned int PlaneSize_82A908E0(const Plane_82A908E0 *p)
 {
   return p->a + p->b + p->c;
 }
 
-void fn_82A908E0(Obj_82A908E0 *o, Hdr_82A908E0 *h, int param_3, uint offset, Out_82A908E0 *out)
+void fn_82A908E0(Obj_82A908E0 *o, Hdr_82A908E0 *h, int param_3, unsigned int offset, Out_82A908E0 *out)
 {
-  uint n;
-  uint i;
+  unsigned int n;
+  unsigned int i;
 
   n = (o->count < h->count) ? o->count : h->count;
   for (i = 0; i < n; i++) {

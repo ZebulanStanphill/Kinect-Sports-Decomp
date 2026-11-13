@@ -1,49 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-#define _iStack00000028 ((*(U64*)&iStack00000028))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
+#define _iStack00000028 ((*(unsigned __int64*)&iStack00000028))
 extern unsigned int iStack00000018;
 extern unsigned int iStack00000028;
 
 
-void fn_828D5268(ulonglong *param_1,ulonglong param_2,uint param_3,ulonglong param_4)
+void fn_828D5268(unsigned __int64 *param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  unsigned __int64 uVar7;
   int iVar8;
-  ulonglong uVar9;
-  longlong lVar10;
+  unsigned __int64 uVar9;
+  __int64 lVar10;
   int iStack00000018;
   int iStack00000028;
   
@@ -59,10 +32,10 @@ void fn_828D5268(ulonglong *param_1,ulonglong param_2,uint param_3,ulonglong par
     _iStack00000028 = param_4;
     do {
       uVar6 = uVar4;
-      if ((ulonglong)*(uint *)(iStack00000018 + 8) <= (uVar4 & 0xffffffff)) {
-        uVar6 = uVar4 - *(uint *)(iStack00000018 + 8);
+      if ((unsigned __int64)*(unsigned int *)(iStack00000018 + 8) <= (uVar4 & 0xffffffff)) {
+        uVar6 = uVar4 - *(unsigned int *)(iStack00000018 + 8);
       }
-      uVar5 = (ulonglong)*(uint *)(iVar3 + 8);
+      uVar5 = (unsigned __int64)*(unsigned int *)(iVar3 + 8);
       uVar7 = uVar9;
       if (uVar5 <= (uVar9 & 0xffffffff)) {
         uVar7 = uVar9 - uVar5;
@@ -71,16 +44,16 @@ void fn_828D5268(ulonglong *param_1,ulonglong param_2,uint param_3,ulonglong par
       iVar1 = *(int *)((int)((uVar6 & 0xffffffff) << 2) + *(int *)(iStack00000018 + 4));
       iVar2 = *(int *)((int)((uVar7 & 0xffffffff) << 2) + *(int *)(iVar3 + 4));
       lVar10 = 0x2a;
-      *(undefined4 *)(iVar2 + 4) = *(undefined4 *)(iVar1 + 4);
+      *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar1 + 4);
       do {
-        *(undefined1 *)(iVar2 + 8 + iVar8) = *(undefined1 *)(iVar1 + 8 + iVar8);
+        *(unsigned char *)(iVar2 + 8 + iVar8) = *(unsigned char *)(iVar1 + 8 + iVar8);
         iVar8 = iVar8 + 1;
         lVar10 = lVar10 + -1;
       } while (lVar10 != 0);
       uVar4 = uVar4 + 1;
       uVar9 = uVar9 + 1;
       _iStack00000028 = CONCAT44(iStack00000028,(int)uVar9);
-    } while ((uVar4 & 0xffffffff) != (ulonglong)param_3);
+    } while ((uVar4 & 0xffffffff) != (unsigned __int64)param_3);
     *param_1 = _iStack00000028;
   }
   return;

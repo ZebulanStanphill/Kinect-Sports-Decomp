@@ -1,13 +1,12 @@
-typedef unsigned int uint;
-extern void *fn_82E50BE8(uint,int,int,int,int);
+extern void *fn_82E50BE8(unsigned int,int,int,int,int);
 extern void fn_82E4FE40(void *);
-extern void *memcpy(void *,const void *,uint);
-typedef struct { int a; char *data; uint cap,len; } Buffer;
-int fn_82EF0F88(Buffer *p,const void *src,uint n){
+extern void *memcpy(void *,const void *,unsigned int);
+typedef struct { int a; char *data; unsigned int cap,len; } Buffer;
+int fn_82EF0F88(Buffer *p,const void *src,unsigned int n){
  if(n){
-  uint need=p->len+n;
+  unsigned int need=p->len+n;
   if(need>p->cap){
-   uint cap=need+0x400;
+   unsigned int cap=need+0x400;
    char *data=fn_82E50BE8(cap,0,0,0,0);
    if(!data)return 0x8007000e;
    if(p->data)memcpy(data,p->data,p->len);

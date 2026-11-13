@@ -1,31 +1,4 @@
 extern unsigned int *puRam83264404;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FECB70();
 extern int fn_82FECBF0();
 extern int fn_82FED298();
@@ -40,14 +13,14 @@ extern unsigned int lbl_83264400;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82FEDB28(undefined4 *param_1)
+unsigned __int64 fn_82FEDB28(unsigned int *param_1)
 
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  ulonglong uVar4;
-  undefined8 uVar5;
+  unsigned int uVar1;
+  unsigned int *puVar2;
+  unsigned int *puVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
   int iVar6;
   int *piVar7;
 
@@ -58,11 +31,11 @@ undefined8 fn_82FEDB28(undefined4 *param_1)
     uVar5 = fn_82FED298(uVar1,piVar7);
     iVar6 = (int)uVar5;
     if (iVar6 == 0x3f) {
-      puVar2 = (undefined4 *)*piVar7;
-      if (puVar2 != (undefined4 *)0x0) {
+      puVar2 = (unsigned int *)*piVar7;
+      if (puVar2 != (unsigned int *)0x0) {
         *puVar2 = 0;
         puVar3 = puVar2;
-        if (puRam83264404 != (undefined4 *)0x0) {
+        if (puRam83264404 != (unsigned int *)0x0) {
           *puRam83264404 = puVar2;
           puVar3 = lbl_83264400;
         }
@@ -78,18 +51,18 @@ undefined8 fn_82FEDB28(undefined4 *param_1)
       if (iVar6 != 0) {
         *(int *)(*piVar7 + 4) = lbl_832643D8;
         lbl_832643D8 = lbl_832643D8 + 1;
-        puVar2 = (undefined4 *)param_1[3];
-        puVar3 = (undefined4 *)*piVar7;
+        puVar2 = (unsigned int *)param_1[3];
+        puVar3 = (unsigned int *)*piVar7;
         *puVar3 = 0;
-        if ((undefined4 *)puVar2[1] == (undefined4 *)0x0) {
+        if ((unsigned int *)puVar2[1] == (unsigned int *)0x0) {
           *puVar2 = puVar3;
         }
         else {
-          *(undefined4 *)puVar2[1] = puVar3;
+          *(unsigned int *)puVar2[1] = puVar3;
         }
         puVar2[1] = puVar3;
         puVar2[2] = puVar2[2] + 1;
-        fn_83024E30((ulonglong)(uint)param_1[3] + 0x10);
+        fn_83024E30((unsigned __int64)(unsigned int)param_1[3] + 0x10);
         return 1;
       }
       uVar5 = 2;

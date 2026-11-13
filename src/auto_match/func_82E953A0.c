@@ -1,42 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F02778();
 extern int fn_82F11418();
 
 
-void fn_82E953A0(int param_1,longlong param_2,int param_3)
+void fn_82E953A0(int param_1,__int64 param_2,int param_3)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  undefined4 uVar5;
+  unsigned int uVar5;
   int iVar6;
   
   iVar3 = (int)param_2;
@@ -65,7 +38,7 @@ void fn_82E953A0(int param_1,longlong param_2,int param_3)
     uVar5 = 0;
   }
   iVar3 = iVar3 >> 4;
-  *(undefined4 *)(param_1 + 0x340) = uVar5;
+  *(unsigned int *)(param_1 + 0x340) = uVar5;
   *(int *)(param_1 + 0x2d0) = iVar3;
   iVar4 = 0x1800;
   if (0x17ff < iVar3 * 0x600) {

@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_828C9378();
 
 
-uint * fn_828C9518(uint *param_1,ulonglong *param_2,ulonglong *param_3)
+unsigned int * fn_828C9518(unsigned int *param_1,unsigned __int64 *param_2,unsigned __int64 *param_3)
 
 {
-  uint uVar1;
-  ulonglong *puVar2;
-  ulonglong *puVar3;
-  ulonglong *puVar4;
-  ulonglong uVar5;
-  ulonglong *puVar6;
-  ulonglong uVar7;
-  ulonglong *puVar8;
+  unsigned int uVar1;
+  unsigned __int64 *puVar2;
+  unsigned __int64 *puVar3;
+  unsigned __int64 *puVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 *puVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 *puVar8;
   
   uVar1 = (int)param_3 - (int)param_2 >> 3;
-  puVar8 = param_2 + ((int)param_3 - (int)param_2 >> 4) + (uint)((int)uVar1 < 0 && (uVar1 & 1) != 0)
+  puVar8 = param_2 + ((int)param_3 - (int)param_2 >> 4) + (unsigned int)((int)uVar1 < 0 && (uVar1 & 1) != 0)
   ;
   fn_828C9378(param_2,puVar8,param_3 + -1);
   puVar2 = puVar8 + 1;
@@ -74,8 +48,8 @@ joined_r0x828c95fc:
       }
       if (puVar3 == param_2) {
         if (puVar8 == param_3) {
-          *param_1 = (uint)puVar6;
-          param_1[1] = (uint)puVar2;
+          *param_1 = (unsigned int)puVar6;
+          param_1[1] = (unsigned int)puVar2;
           return param_1;
         }
         if (puVar2 != puVar8) {

@@ -1,34 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT11(h,l) ((U16)((((U8)(h)) << 8) | ((U8)(l))))
-#define CONCAT13(h,l) ((U32)((((U8)(h)) << 24) | ((U32)(l))))
-#define CONCAT21(h,l) ((U32)((((U16)(h)) << 8) | ((U8)(l))))
-#define CONCAT31(h,l) ((U32)((((U32)(h)) << 8) | ((U8)(l))))
+#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT13(h,l) ((unsigned int)((((unsigned char)(h)) << 24) | ((unsigned int)(l))))
+#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
+#define CONCAT31(h,l) ((unsigned int)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82F6A7A0();
@@ -40,45 +16,45 @@ extern unsigned int uStack_80;
 extern unsigned int uStack_92;
 
 
-void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
+void fn_8278F338(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
-  undefined1 uVar1;
-  undefined1 uVar2;
-  undefined1 uVar3;
-  undefined1 uVar4;
-  undefined1 uVar5;
-  undefined1 uVar6;
-  undefined1 uVar7;
-  byte bVar8;
+  unsigned char uVar1;
+  unsigned char uVar2;
+  unsigned char uVar3;
+  unsigned char uVar4;
+  unsigned char uVar5;
+  unsigned char uVar6;
+  unsigned char uVar7;
+  unsigned char bVar8;
   int iVar9;
   int iVar10;
-  ushort uVar11;
-  ushort uVar12;
-  ushort uVar13;
+  unsigned short uVar11;
+  unsigned short uVar12;
+  unsigned short uVar13;
   int iVar14;
   int iVar15;
-  undefined2 uVar16;
+  unsigned short uVar16;
   int *piVar17;
-  ulonglong uVar18;
+  unsigned __int64 uVar18;
   int iVar19;
-  ulonglong uVar20;
+  unsigned __int64 uVar20;
   int iVar21;
-  byte bVar22;
+  unsigned char bVar22;
   char cVar26;
-  undefined1 *puVar24;
-  byte bVar27;
-  byte *pbVar25;
-  longlong lVar23;
+  unsigned char *puVar24;
+  unsigned char bVar27;
+  unsigned char *pbVar25;
+  __int64 lVar23;
   bool bVar28;
-  ulonglong uVar29;
+  unsigned __int64 uVar29;
   double dVar30;
   double dVar31;
-  undefined8 uVar32;
+  unsigned __int64 uVar32;
   double dVar33;
   double dVar34;
-  undefined2 uStack_92;
-  undefined4 uStack_80;
+  unsigned short uStack_92;
+  unsigned int uStack_80;
   
   piVar17 = (int *)fn_82F6A548();
   if (piVar17[3] != 0) {
@@ -103,7 +79,7 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
       iVar10 = *piVar17;
       iVar19 = iVar9 + 1;
       piVar17[3] = 0;
-      bVar22 = *(byte *)(iVar10 + iVar9);
+      bVar22 = *(unsigned char *)(iVar10 + iVar9);
       piVar17[2] = iVar19;
       if (bVar22 < 8) {
         iVar14 = (int)param_2;
@@ -111,31 +87,31 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
         if (bVar22 == 1) {
           iVar19 = iVar10 + iVar19;
           piVar17[3] = 0;
-          uVar11 = CONCAT11(*(undefined1 *)(iVar19 + 3),*(undefined1 *)(iVar19 + 2));
-          uVar1 = *(undefined1 *)(iVar19 + 1);
+          uVar11 = CONCAT11(*(unsigned char *)(iVar19 + 3),*(unsigned char *)(iVar19 + 2));
+          uVar1 = *(unsigned char *)(iVar19 + 1);
           piVar17[2] = iVar9 + 5;
-          uVar18 = (ulonglong)uVar11;
+          uVar18 = (unsigned __int64)uVar11;
           if (0xf < uVar18) {
             uVar18 = 0xf;
           }
           piVar17[3] = 0;
           iVar19 = iVar10 + iVar9 + 5;
-          uVar4 = *(undefined1 *)(iVar19 + 1);
-          uVar12 = CONCAT11(*(undefined1 *)(iVar19 + 3),*(undefined1 *)(iVar19 + 2));
+          uVar4 = *(unsigned char *)(iVar19 + 1);
+          uVar12 = CONCAT11(*(unsigned char *)(iVar19 + 3),*(unsigned char *)(iVar19 + 2));
           piVar17[2] = iVar9 + 9;
-          uVar20 = (ulonglong)uVar12;
+          uVar20 = (unsigned __int64)uVar12;
           if (0xf < uVar20) {
             uVar20 = 0xf;
           }
           piVar17[3] = 0;
-          bVar22 = *(byte *)(iVar10 + iVar9 + 9);
+          bVar22 = *(unsigned char *)(iVar10 + iVar9 + 9);
           piVar17[2] = iVar9 + 10;
           if (((!bVar28) && ((param_2 & 0xffffffff) != 0)) && ((uVar29 & 0xffffffff) < 4)) {
-            pbVar25 = (byte *)(iVar15 * 0xc + iVar14);
+            pbVar25 = (unsigned char *)(iVar15 * 0xc + iVar14);
             uVar29 = uVar29 + 1;
             *pbVar25 = -(8 < (bVar22 & 0xf8)) & 0x80U | 1;
-            pbVar25[1] = (byte)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (byte)(uVar18 << 4);
-            pbVar25[2] = (byte)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (byte)(uVar20 << 4);
+            pbVar25[1] = (unsigned char)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (unsigned char)(uVar18 << 4);
+            pbVar25[2] = (unsigned char)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (unsigned char)(uVar20 << 4);
             pbVar25[3] = 0x10;
             pbVar25[4] = 0;
             pbVar25[5] = 0;
@@ -149,40 +125,40 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
         }
         else if (bVar22 == 2) {
           piVar17[3] = 0;
-          uVar1 = *(undefined1 *)(iVar10 + iVar19);
+          uVar1 = *(unsigned char *)(iVar10 + iVar19);
           piVar17[2] = iVar9 + 2;
           piVar17[3] = 0;
           iVar19 = iVar9 + 5 + iVar10;
-          uVar4 = *(undefined1 *)(iVar9 + 2 + iVar10);
+          uVar4 = *(unsigned char *)(iVar9 + 2 + iVar10);
           piVar17[2] = iVar9 + 3;
           piVar17[3] = 0;
-          uVar5 = *(undefined1 *)(iVar9 + 3 + iVar10);
+          uVar5 = *(unsigned char *)(iVar9 + 3 + iVar10);
           piVar17[2] = iVar9 + 4;
           piVar17[3] = 0;
-          uVar6 = *(undefined1 *)(iVar9 + 4 + iVar10);
+          uVar6 = *(unsigned char *)(iVar9 + 4 + iVar10);
           piVar17[2] = iVar9 + 5;
           piVar17[3] = 0;
           uStack_80 = CONCAT13(uVar6,CONCAT21(CONCAT11(uVar1,uVar4),uVar5));
-          uVar1 = *(undefined1 *)(iVar19 + 1);
-          uVar11 = CONCAT11(*(undefined1 *)(iVar19 + 3),*(undefined1 *)(iVar19 + 2));
+          uVar1 = *(unsigned char *)(iVar19 + 1);
+          uVar11 = CONCAT11(*(unsigned char *)(iVar19 + 3),*(unsigned char *)(iVar19 + 2));
           piVar17[2] = iVar9 + 9;
-          uVar18 = (ulonglong)uVar11;
+          uVar18 = (unsigned __int64)uVar11;
           if (0xf < uVar18) {
             uVar18 = 0xf;
           }
           piVar17[3] = 0;
           iVar21 = iVar9 + 9 + iVar10;
           iVar19 = iVar9 + 0xd;
-          uVar4 = *(undefined1 *)(iVar21 + 1);
-          uVar12 = CONCAT11(*(undefined1 *)(iVar21 + 3),*(undefined1 *)(iVar21 + 2));
+          uVar4 = *(unsigned char *)(iVar21 + 1);
+          uVar12 = CONCAT11(*(unsigned char *)(iVar21 + 3),*(unsigned char *)(iVar21 + 2));
           piVar17[2] = iVar19;
-          uVar20 = (ulonglong)uVar12;
+          uVar20 = (unsigned __int64)uVar12;
           if (0xf < uVar20) {
             uVar20 = 0xf;
           }
           piVar17[3] = 0;
-          bVar22 = *(byte *)(iVar10 + iVar19 + 1);
-          uVar5 = *(undefined1 *)(iVar10 + iVar19);
+          bVar22 = *(unsigned char *)(iVar10 + iVar19 + 1);
+          uVar5 = *(unsigned char *)(iVar10 + iVar19);
           piVar17[2] = iVar9 + 0xf;
           uVar13 = CONCAT11(bVar22,uVar5);
           if (0xf < bVar22) {
@@ -190,7 +166,7 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
           }
           piVar17[3] = 0;
           bVar27 = 0;
-          bVar8 = *(byte *)(iVar10 + iVar9 + 0xf);
+          bVar8 = *(unsigned char *)(iVar10 + iVar9 + 0xf);
           piVar17[2] = iVar9 + 0x10;
           if ((bVar8 & 0x40) != 0) {
             bVar27 = 0x20;
@@ -202,12 +178,12 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
             bVar27 = bVar27 | 0x80;
           }
           if (((!bVar28) && ((param_2 & 0xffffffff) != 0)) && ((uVar29 & 0xffffffff) < 4)) {
-            pbVar25 = (byte *)(iVar15 * 0xc + iVar14);
+            pbVar25 = (unsigned char *)(iVar15 * 0xc + iVar14);
             uVar29 = uVar29 + 1;
             *pbVar25 = bVar27 | 2;
-            pbVar25[1] = (byte)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (byte)(uVar18 << 4);
-            pbVar25[2] = (byte)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (byte)(uVar20 << 4);
-            pbVar25[3] = bVar22 << 4 | (byte)(uVar13 >> 4) & 0xf;
+            pbVar25[1] = (unsigned char)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (unsigned char)(uVar18 << 4);
+            pbVar25[2] = (unsigned char)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (unsigned char)(uVar20 << 4);
+            pbVar25[3] = bVar22 << 4 | (unsigned char)(uVar13 >> 4) & 0xf;
             pbVar25[4] = 0;
             pbVar25[5] = 0;
             pbVar25[6] = 0;
@@ -223,7 +199,7 @@ void fn_8278F338(undefined8 param_1,ulonglong param_2,ulonglong param_3)
             if (bVar22 == 4) {
 LAB_8278fa28:
               piVar17[3] = 0;
-              lVar23 = (ulonglong)*(byte *)(iVar10 + iVar19) * 5 + 0x13;
+              lVar23 = (unsigned __int64)*(unsigned char *)(iVar10 + iVar19) * 5 + 0x13;
               piVar17[2] = iVar9 + 2;
             }
             else {
@@ -234,51 +210,51 @@ LAB_8278fa28:
                 }
                 if (bVar22 == 0) {
                   piVar17[3] = 0;
-                  bVar22 = *(byte *)(iVar10 + iVar19);
+                  bVar22 = *(unsigned char *)(iVar10 + iVar19);
                   piVar17[2] = iVar9 + 2;
                   piVar17[3] = 0;
-                  uStack_80 = (uint)bVar22 << 0x10;
-                  uVar4 = *(undefined1 *)(iVar9 + 2 + iVar10);
+                  uStack_80 = (unsigned int)bVar22 << 0x10;
+                  uVar4 = *(unsigned char *)(iVar9 + 2 + iVar10);
                   piVar17[2] = iVar9 + 3;
                   piVar17[3] = 0;
                   iVar19 = iVar9 + 5 + iVar10;
-                  uVar5 = *(undefined1 *)(iVar9 + 3 + iVar10);
+                  uVar5 = *(unsigned char *)(iVar9 + 3 + iVar10);
                   piVar17[2] = iVar9 + 4;
                   piVar17[3] = 0;
-                  uVar6 = *(undefined1 *)(iVar9 + 4 + iVar10);
+                  uVar6 = *(unsigned char *)(iVar9 + 4 + iVar10);
                   piVar17[2] = iVar9 + 5;
                   piVar17[3] = 0;
-                  uStack_80 = CONCAT31((((U64)(uStack_80) >> 0) & 0xFFFFFF),uVar5);
-                  uVar1 = *(undefined1 *)(iVar19 + 1);
-                  uVar11 = CONCAT11(*(undefined1 *)(iVar19 + 3),*(undefined1 *)(iVar19 + 2));
-                  uStack_80 = CONCAT13(uVar6,(((U64)(uStack_80) >> 8) & 0xFFFFFF));
-                  uStack_80 = ((((U64)(uStack_80)) & (~(((U64)0xFFFF) << 16))) | ((((U64)(CONCAT11(uVar4,uVar5))) & ((U64)0xFFFF)) << 16));
+                  uStack_80 = CONCAT31((((unsigned __int64)(uStack_80) >> 0) & 0xFFFFFF),uVar5);
+                  uVar1 = *(unsigned char *)(iVar19 + 1);
+                  uVar11 = CONCAT11(*(unsigned char *)(iVar19 + 3),*(unsigned char *)(iVar19 + 2));
+                  uStack_80 = CONCAT13(uVar6,(((unsigned __int64)(uStack_80) >> 8) & 0xFFFFFF));
+                  uStack_80 = ((((unsigned __int64)(uStack_80)) & (~(((unsigned __int64)0xFFFF) << 16))) | ((((unsigned __int64)(CONCAT11(uVar4,uVar5))) & ((unsigned __int64)0xFFFF)) << 16));
                   piVar17[2] = iVar9 + 9;
-                  uVar18 = (ulonglong)uVar11;
+                  uVar18 = (unsigned __int64)uVar11;
                   if (0xf < uVar18) {
                     uVar18 = 0xf;
                   }
                   piVar17[3] = 0;
                   iVar19 = iVar9 + 9 + iVar10;
-                  uVar4 = *(undefined1 *)(iVar19 + 1);
-                  uVar12 = CONCAT11(*(undefined1 *)(iVar19 + 3),*(undefined1 *)(iVar19 + 2));
+                  uVar4 = *(unsigned char *)(iVar19 + 1);
+                  uVar12 = CONCAT11(*(unsigned char *)(iVar19 + 3),*(unsigned char *)(iVar19 + 2));
                   piVar17[2] = iVar9 + 0xd;
-                  uVar20 = (ulonglong)uVar12;
+                  uVar20 = (unsigned __int64)uVar12;
                   if (0xf < uVar20) {
                     uVar20 = 0xf;
                   }
-                  puVar24 = (undefined1 *)(iVar10 + iVar9 + 0xd);
+                  puVar24 = (unsigned char *)(iVar10 + iVar9 + 0xd);
                   piVar17[3] = 0;
                   uVar5 = puVar24[2];
                   uVar6 = *puVar24;
                   uVar2 = puVar24[3];
                   uVar3 = puVar24[1];
                   piVar17[2] = iVar9 + 0x11;
-                  dVar30 = (double)fn_82F6A7A0((double)(float)((double)(float)((double)(longlong)
+                  dVar30 = (double)fn_82F6A7A0((double)(float)((double)(float)((double)(__int64)
                                                                                         CONCAT31(
                                                   CONCAT21(CONCAT11(uVar2,uVar5),uVar3),uVar6) *
                                                   dVar34) * dVar33),uVar32);
-                  uStack_92 = (undefined2)(int)dVar30;
+                  uStack_92 = (unsigned short)(int)dVar30;
                   uVar16 = uStack_92;
                   if (piVar17[3] != 0) {
                     piVar17[2] = piVar17[2] + 1;
@@ -288,18 +264,18 @@ LAB_8278fa28:
                   piVar17[3] = 0;
                   iVar21 = iVar9 + 4;
                   iVar19 = iVar10 + iVar9;
-                  uVar3 = *(undefined1 *)(iVar10 + iVar9);
-                  uVar5 = *(undefined1 *)(iVar19 + 2);
-                  uVar6 = *(undefined1 *)(iVar19 + 3);
-                  uVar2 = *(undefined1 *)(iVar19 + 1);
+                  uVar3 = *(unsigned char *)(iVar10 + iVar9);
+                  uVar5 = *(unsigned char *)(iVar19 + 2);
+                  uVar6 = *(unsigned char *)(iVar19 + 3);
+                  uVar2 = *(unsigned char *)(iVar19 + 1);
                   piVar17[3] = 0;
                   piVar17[2] = iVar21;
-                  uVar7 = *(undefined1 *)(iVar21 + iVar10);
-                  bVar22 = *(byte *)(iVar21 + iVar10 + 1);
+                  uVar7 = *(unsigned char *)(iVar21 + iVar10);
+                  bVar22 = *(unsigned char *)(iVar21 + iVar10 + 1);
                   piVar17[2] = iVar9 + 6;
                   uVar13 = CONCAT11(bVar22,uVar7);
-                  uStack_92 = (undefined2)
-                              (int)((double)(float)((double)(longlong)
+                  uStack_92 = (unsigned short)
+                              (int)((double)(float)((double)(__int64)
                                                             CONCAT31(CONCAT21(CONCAT11(uVar6,uVar5),
                                                                               uVar2),uVar3) * dVar34
                                                    ) * dVar31);
@@ -307,7 +283,7 @@ LAB_8278fa28:
                     bVar22 = 0xf;
                   }
                   piVar17[3] = 0;
-                  bVar8 = *(byte *)(iVar10 + iVar9 + 6);
+                  bVar8 = *(unsigned char *)(iVar10 + iVar9 + 6);
                   piVar17[2] = iVar9 + 7;
                   bVar27 = 0;
                   if ((bVar8 & 0x40) != 0) {
@@ -320,14 +296,14 @@ LAB_8278fa28:
                     bVar27 = bVar27 | 0x80;
                   }
                   if (((!bVar28) && ((param_2 & 0xffffffff) != 0)) && ((uVar29 & 0xffffffff) < 4)) {
-                    pbVar25 = (byte *)(iVar15 * 0xc + iVar14);
+                    pbVar25 = (unsigned char *)(iVar15 * 0xc + iVar14);
                     uVar29 = uVar29 + 1;
                     *pbVar25 = bVar27;
-                    pbVar25[1] = (byte)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (byte)(uVar18 << 4);
-                    pbVar25[2] = (byte)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (byte)(uVar20 << 4);
-                    pbVar25[3] = bVar22 << 4 | (byte)(uVar13 >> 4) & 0xf;
-                    *(undefined2 *)(pbVar25 + 4) = uVar16;
-                    *(undefined2 *)(pbVar25 + 6) = uStack_92;
+                    pbVar25[1] = (unsigned char)(CONCAT21(uVar11,uVar1) >> 4) & 0xf | (unsigned char)(uVar18 << 4);
+                    pbVar25[2] = (unsigned char)(CONCAT21(uVar12,uVar4) >> 4) & 0xf | (unsigned char)(uVar20 << 4);
+                    pbVar25[3] = bVar22 << 4 | (unsigned char)(uVar13 >> 4) & 0xf;
+                    *(unsigned short *)(pbVar25 + 4) = uVar16;
+                    *(unsigned short *)(pbVar25 + 6) = uStack_92;
                     *(int *)(pbVar25 + 8) = uStack_80;
                   }
                   goto LAB_8278fa60;
@@ -335,12 +311,12 @@ LAB_8278fa28:
                 goto LAB_8278fa28;
               }
               piVar17[3] = 0;
-              bVar22 = *(byte *)(iVar10 + iVar19);
+              bVar22 = *(unsigned char *)(iVar10 + iVar19);
               piVar17[2] = iVar9 + 2;
               piVar17[3] = 0;
-              bVar8 = *(byte *)(iVar9 + 2 + iVar10);
+              bVar8 = *(unsigned char *)(iVar9 + 2 + iVar10);
               piVar17[2] = iVar9 + 3;
-              lVar23 = (longlong)(int)(uint)bVar8 * (longlong)(int)(uint)bVar22 * 4 + 0xd;
+              lVar23 = (__int64)(int)(unsigned int)bVar8 * (__int64)(int)(unsigned int)bVar22 * 4 + 0xd;
             }
             if (lVar23 == 0) goto LAB_8278fa60;
           }

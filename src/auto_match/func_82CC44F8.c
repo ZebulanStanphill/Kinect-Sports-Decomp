@@ -1,60 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82CC44F8(int param_1,int param_2,int param_3,int param_4,int param_5,short param_6,
-                  uint param_7,uint param_8)
+                  unsigned int param_7,unsigned int param_8)
 
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  byte bVar4;
-  byte bVar5;
-  byte bVar6;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned char bVar3;
+  unsigned char bVar4;
+  unsigned char bVar5;
+  unsigned char bVar6;
   short sVar7;
   short sVar8;
   int iVar9;
-  uint uVar10;
+  unsigned int uVar10;
   int iVar11;
-  longlong lVar12;
+  __int64 lVar12;
   short *psVar13;
   int iVar14;
-  ulonglong uVar15;
-  byte *pbVar16;
+  unsigned __int64 uVar15;
+  unsigned char *pbVar16;
   int iVar17;
-  undefined4 in_stack_00000054;
+  unsigned int in_stack_00000054;
   short sStack_c2;
   short asStack_c0 [96];
   
   iVar9 = 4 << (param_8 & 0x3f);
-  uVar10 = 1 << ((uint)LZCOUNT(in_stack_00000054) >> 5 & param_8) + 2;
-  uVar15 = (ulonglong)uVar10;
+  uVar10 = 1 << ((unsigned int)LZCOUNT(in_stack_00000054) >> 5 & param_8) + 2;
+  uVar15 = (unsigned __int64)uVar10;
   if (((param_8 == 0) || (param_8 == 1)) || (param_8 == 2)) {
     iVar11 = 8 - (param_7 & 0xff);
     asStack_c0[iVar9] = 0;
@@ -64,7 +35,7 @@ void fn_82CC44F8(int param_1,int param_2,int param_3,int param_4,int param_5,sho
         if (0 < iVar9) {
           psVar13 = &sStack_c2;
           iVar14 = (iVar9 - 1U >> 2) + 1;
-          pbVar16 = (byte *)(param_1 + 1);
+          pbVar16 = (unsigned char *)(param_1 + 1);
           iVar17 = iVar14 * 4;
           do {
             bVar1 = *pbVar16;
@@ -73,23 +44,23 @@ void fn_82CC44F8(int param_1,int param_2,int param_3,int param_4,int param_5,sho
             bVar4 = pbVar16[param_2];
             bVar5 = pbVar16[param_2 + 1];
             bVar6 = pbVar16[param_2 + 2];
-            psVar13[1] = ((ushort)pbVar16[param_2 + -1] - (ushort)pbVar16[-1]) * param_6 +
-                         (ushort)pbVar16[-1] * 4;
-            psVar13[2] = ((ushort)bVar4 - (ushort)bVar1) * param_6 + (ushort)bVar1 * 4;
-            psVar13[3] = ((ushort)bVar5 - (ushort)bVar2) * param_6 + (ushort)bVar2 * 4;
+            psVar13[1] = ((unsigned short)pbVar16[param_2 + -1] - (unsigned short)pbVar16[-1]) * param_6 +
+                         (unsigned short)pbVar16[-1] * 4;
+            psVar13[2] = ((unsigned short)bVar4 - (unsigned short)bVar1) * param_6 + (unsigned short)bVar1 * 4;
+            psVar13[3] = ((unsigned short)bVar5 - (unsigned short)bVar2) * param_6 + (unsigned short)bVar2 * 4;
             pbVar16 = pbVar16 + 4;
             psVar13 = psVar13 + 4;
-            *psVar13 = ((ushort)bVar6 - (ushort)bVar3) * param_6 + (ushort)bVar3 * 4;
+            *psVar13 = ((unsigned short)bVar6 - (unsigned short)bVar3) * param_6 + (unsigned short)bVar3 * 4;
             iVar14 = iVar14 + -1;
           } while (iVar14 != 0);
         }
         iVar14 = 0;
         asStack_c0[iVar17] =
-             ((ushort)*(byte *)(iVar17 + param_1 + param_2) - (ushort)*(byte *)(iVar17 + param_1)) *
-             param_6 + (ushort)*(byte *)(iVar17 + param_1) * 4;
+             ((unsigned short)*(unsigned char *)(iVar17 + param_1 + param_2) - (unsigned short)*(unsigned char *)(iVar17 + param_1)) *
+             param_6 + (unsigned short)*(unsigned char *)(iVar17 + param_1) * 4;
         if (0 < iVar9) {
           psVar13 = asStack_c0 + 1;
-          lVar12 = (ulonglong)(iVar9 - 1U >> 1) + 1;
+          lVar12 = (unsigned __int64)(iVar9 - 1U >> 1) + 1;
           do {
             sVar7 = *psVar13;
             sVar8 = psVar13[1];

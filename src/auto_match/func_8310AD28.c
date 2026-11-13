@@ -1,5 +1,3 @@
-typedef unsigned int uint;
-
 extern unsigned int fn_8265BF48(const char *name, int flags);
 extern unsigned int lbl_83283E3C[];
 

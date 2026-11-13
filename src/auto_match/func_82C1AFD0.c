@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82C1AE70();
 extern int fn_82F643F8();
 extern int fn_82F64F30();
@@ -58,24 +31,24 @@ extern unsigned int uStack_360;
 
 /* WARNING: Type propagation algorithm not settling */
 
-void fn_82C1AFD0(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4,
-                  longlong param_5)
+void fn_82C1AFD0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                  __int64 param_5)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
   float fVar4;
-  longlong lVar5;
-  ulonglong uVar6;
+  __int64 lVar5;
+  unsigned __int64 uVar6;
   int iVar7;
-  undefined4 *puVar8;
+  unsigned int *puVar8;
   int iVar10;
-  longlong lVar9;
-  ulonglong uVar11;
-  longlong lVar12;
+  __int64 lVar9;
+  unsigned __int64 uVar11;
+  __int64 lVar12;
   float *pfVar13;
-  longlong lVar14;
+  __int64 lVar14;
   int iVar15;
   int iVar16;
   int iVar17;
@@ -87,18 +60,18 @@ void fn_82C1AFD0(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
   double dVar23;
   double dVar24;
   float afStack_370 [4];
-  undefined4 uStack_360;
-  undefined4 uStack_35c;
-  undefined4 uStack_358;
-  undefined4 uStack_354;
-  undefined4 uStack_350;
-  undefined4 uStack_34c;
-  undefined4 uStack_348;
-  longlong lStack_340;
-  longlong lStack_338;
-  longlong lStack_330;
-  longlong lStack_328;
-  longlong lStack_320;
+  unsigned int uStack_360;
+  unsigned int uStack_35c;
+  unsigned int uStack_358;
+  unsigned int uStack_354;
+  unsigned int uStack_350;
+  unsigned int uStack_34c;
+  unsigned int uStack_348;
+  __int64 lStack_340;
+  __int64 lStack_338;
+  __int64 lStack_330;
+  __int64 lStack_328;
+  __int64 lStack_320;
   float afStack_314 [32];
   float afStack_294 [33];
   int aiStack_210 [32];
@@ -162,7 +135,7 @@ void fn_82C1AFD0(undefined8 param_1,ulonglong param_2,ulonglong param_3,ulonglon
     if ((param_2 & 0xffffffff) == 0x607) {
       if ((param_4 & 0xffffffff) == 0x37) {
 code_r0x82c1b3c4:
-        puVar8 = (undefined4 *)param_5;
+        puVar8 = (unsigned int *)param_5;
         iVar17 = puVar8[1];
         iVar16 = puVar8[2];
         iVar18 = puVar8[3];
@@ -303,10 +276,10 @@ code_r0x82c1b3c4:
               iVar15 = iVar18 + iVar16;
               iVar7 = iVar18 + 0xc;
               uVar6 = uVar6 + 4;
-              lStack_330 = (longlong)(int)(*(float *)(iVar18 + iVar16) * fVar4 * fVar3 + fVar1);
-              lStack_320 = (longlong)(int)(*(float *)(iVar16 + iVar7) * fVar4 * fVar3 + fVar1);
-              lStack_338 = (longlong)(int)(*(float *)(iVar15 + 4) * fVar4 * fVar3 + fVar1);
-              lStack_328 = (longlong)(int)(fVar4 * *(float *)(iVar16 + iVar7 + -4) * fVar3 + fVar1);
+              lStack_330 = (__int64)(int)(*(float *)(iVar18 + iVar16) * fVar4 * fVar3 + fVar1);
+              lStack_320 = (__int64)(int)(*(float *)(iVar16 + iVar7) * fVar4 * fVar3 + fVar1);
+              lStack_338 = (__int64)(int)(*(float *)(iVar15 + 4) * fVar4 * fVar3 + fVar1);
+              lStack_328 = (__int64)(int)(fVar4 * *(float *)(iVar16 + iVar7 + -4) * fVar3 + fVar1);
               *(float *)(iVar18 + iVar16) = (float)lStack_330 * fVar2;
               *(float *)(iVar16 + iVar7 + -4) = (float)lStack_328 * fVar2;
               iVar18 = iVar18 + 0x10;
@@ -319,7 +292,7 @@ code_r0x82c1b3c4:
             iVar16 = *(int *)param_5;
             lVar9 = (uVar6 & 0x3fffffff) << 2;
             do {
-              lStack_340 = (longlong)
+              lStack_340 = (__int64)
                            (int)(*(float *)(iVar16 + (int)lVar9) * (float)(dVar22 / dVar19) * fVar3
                                 + fVar1);
               *(float *)(iVar16 + (int)lVar9) = (float)lStack_340 * fVar2;

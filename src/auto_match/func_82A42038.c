@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A3FE48();
 extern int fn_82A41D10();
 extern int fn_82A5A1A8();
@@ -36,11 +9,11 @@ extern unsigned int lbl_820896F8;
 extern unsigned int lbl_82089708;
 
 
-undefined4 * fn_82A42038(undefined4 *param_1)
+unsigned int * fn_82A42038(unsigned int *param_1)
 
 {
   int iVar1;
-  undefined4 uVar2;
+  unsigned int uVar2;
   
   param_1[2] = &lbl_82089688;
   param_1[3] = 1;
@@ -79,7 +52,7 @@ undefined4 * fn_82A42038(undefined4 *param_1)
   param_1[0x68] = 0;
   uVar2 = lbl_82002AE0;
   iVar1 = param_1[0x67];
-  *(undefined4 *)(iVar1 + 8) = param_1[0x66];
+  *(unsigned int *)(iVar1 + 8) = param_1[0x66];
   param_1[0x66] = iVar1 + 4;
   param_1[0x71] = param_1 + 0x72;
   param_1[0x70] = 0;
@@ -89,7 +62,7 @@ undefined4 * fn_82A42038(undefined4 *param_1)
   param_1[0x79] = 1;
   param_1[0x72] = 0;
   iVar1 = param_1[0x71];
-  *(undefined4 *)(iVar1 + 8) = param_1[0x70];
+  *(unsigned int *)(iVar1 + 8) = param_1[0x70];
   param_1[0x70] = iVar1 + 4;
   param_1[0x7a] = 0;
   param_1[0x7b] = param_1 + 0x7c;
@@ -99,7 +72,7 @@ undefined4 * fn_82A42038(undefined4 *param_1)
   param_1[0x83] = 1;
   param_1[0x7c] = 0;
   iVar1 = param_1[0x7b];
-  *(undefined4 *)(iVar1 + 8) = param_1[0x7a];
+  *(unsigned int *)(iVar1 + 8) = param_1[0x7a];
   param_1[0x7a] = iVar1 + 4;
   param_1[0x84] = uVar2;
   param_1[0x85] = 0x10;
@@ -111,7 +84,7 @@ undefined4 * fn_82A42038(undefined4 *param_1)
   param_1[0x8f] = 1;
   param_1[0x88] = 0;
   iVar1 = param_1[0x87];
-  *(undefined4 *)(iVar1 + 8) = param_1[0x86];
+  *(unsigned int *)(iVar1 + 8) = param_1[0x86];
   param_1[0x86] = iVar1 + 4;
   fn_82A41D10(param_1 + 0x94);
   param_1[0xfa8] = 0;

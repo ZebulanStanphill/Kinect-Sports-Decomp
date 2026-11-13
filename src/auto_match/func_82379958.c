@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_44;
 extern unsigned int *auStack_60;
 extern int fn_82230110();
@@ -48,14 +23,14 @@ void fn_82379958(int *param_1,int *param_2)
 {
   bool bVar1;
   int aiStack_90;
-  struct { undefined4 first; undefined4 second; } stack_pair_80;
+  struct { unsigned int first; unsigned int second; } stack_pair_80;
 
-  undefined4 uStack_78;
-  struct { undefined4 first; undefined4 second; } stack_pair_70;
+  unsigned int uStack_78;
+  struct { unsigned int first; unsigned int second; } stack_pair_70;
 
-  undefined4 uStack_68;
-  undefined1 auStack_60 [28];
-  undefined1 auStack_44 [36];
+  unsigned int uStack_68;
+  unsigned char auStack_60 [28];
+  unsigned char auStack_44 [36];
 
   if (param_2 == (int *)0x0) {
     bVar1 = false;
@@ -78,13 +53,13 @@ void fn_82379958(int *param_1,int *param_2)
     uStack_68 = 0;
     if (param_1 + 8 == (int *)0x0) {
       aiStack_90 =
-           fn_825354B8(&aiStack_90,*(undefined4 *)(*(int *)(*param_1 + 0x4c) + 0x84c),
+           fn_825354B8(&aiStack_90,*(unsigned int *)(*(int *)(*param_1 + 0x4c) + 0x84c),
                              &stack_pair_70.first,&stack_pair_80.first);
     }
     else {
       aiStack_90 =
            fn_82535298(&aiStack_90,param_1 + 8,0,
-                             *(undefined4 *)(*(int *)(*param_1 + 0x4c) + 0x84c),&stack_pair_70.first,
+                             *(unsigned int *)(*(int *)(*param_1 + 0x4c) + 0x84c),&stack_pair_70.first,
                              &stack_pair_80.first);
     }
     fn_82536288(&aiStack_90);

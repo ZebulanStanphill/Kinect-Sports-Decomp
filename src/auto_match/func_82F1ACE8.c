@@ -1,68 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-ulonglong fn_82F1ACE8(int param_1,ulonglong param_2,int param_3,uint param_4)
+unsigned __int64 fn_82F1ACE8(int param_1,unsigned __int64 param_2,int param_3,unsigned int param_4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
   int iVar3;
-  ulonglong uVar4;
+  unsigned __int64 uVar4;
   int iVar5;
   int iVar6;
-  ulonglong uVar7;
-  longlong lVar8;
-  longlong lVar9;
-  ulonglong uVar10;
-  longlong lVar11;
+  unsigned __int64 uVar7;
+  __int64 lVar8;
+  __int64 lVar9;
+  unsigned __int64 uVar10;
+  __int64 lVar11;
   short *psVar12;
-  longlong lVar13;
+  __int64 lVar13;
   
   iVar6 = (int)param_2;
   if ((int)param_4 < 4) {
-    uVar1 = *(uint *)(param_1 + 0x2d0);
+    uVar1 = *(unsigned int *)(param_1 + 0x2d0);
     iVar2 = *(int *)(param_1 + 0x9f0);
-    uVar7 = (ulonglong)param_4 & 1;
+    uVar7 = (unsigned __int64)param_4 & 1;
     lVar9 = (param_2 & 0x7fffffff) * 2;
-    lVar13 = (longlong)(int)((param_4 & 2) + param_3 * 4) * (longlong)(int)uVar1 + uVar7 + lVar9;
+    lVar13 = (__int64)(int)((param_4 & 2) + param_3 * 4) * (__int64)(int)uVar1 + uVar7 + lVar9;
     iVar5 = (int)lVar13 * 2;
     iVar3 = iVar5 + iVar2;
     if (*(short *)(iVar5 + iVar2) == 0x4000) {
-      uVar4 = (ulonglong)uVar1 & 0x7fffffff;
+      uVar4 = (unsigned __int64)uVar1 & 0x7fffffff;
       if ((uVar7 + lVar9 == 0) || (lVar9 = 1, *(short *)(iVar3 + -2) != 0x4000)) {
         lVar9 = 0;
       }
       uVar10 = lVar9 << 1 | 1;
       if (((param_3 != 0) && (*(int *)(*(int *)(param_1 + 0x8d8) + param_3 * 4) == 0)) ||
          (1 < (int)param_4)) {
-        uVar10 = (ulonglong)
-                 LZCOUNT(*(ushort *)((int)((lVar13 + uVar4 * -2 & 0xffffffff) << 1) + iVar2) -
+        uVar10 = (unsigned __int64)
+                 LZCOUNT(*(unsigned short *)((int)((lVar13 + uVar4 * -2 & 0xffffffff) << 1) + iVar2) -
                          0x4000) >> 3 & 4 | uVar10;
       }
       if (((int)uVar10 != 7) ||
@@ -83,9 +54,9 @@ ulonglong fn_82F1ACE8(int param_1,ulonglong param_2,int param_3,uint param_4)
     }
   }
   else {
-    uVar1 = *(uint *)(param_1 + 0x2d0);
+    uVar1 = *(unsigned int *)(param_1 + 0x2d0);
     iVar2 = *(int *)(param_1 + 0x9f8);
-    lVar9 = (longlong)(int)uVar1 * (longlong)param_3 + param_2;
+    lVar9 = (__int64)(int)uVar1 * (__int64)param_3 + param_2;
     iVar5 = (int)lVar9 * 2;
     iVar3 = iVar5 + iVar2;
     if (*(short *)(iVar5 + iVar2) == 0x4000) {
@@ -94,7 +65,7 @@ ulonglong fn_82F1ACE8(int param_1,ulonglong param_2,int param_3,uint param_4)
         uVar7 = 3;
       }
       if ((param_3 != 0) && (*(int *)(*(int *)(param_1 + 0x8d8) + param_3 * 4) == 0)) {
-        psVar12 = (short *)((int)((lVar9 - (ulonglong)uVar1 & 0xffffffff) << 1) + iVar2);
+        psVar12 = (short *)((int)((lVar9 - (unsigned __int64)uVar1 & 0xffffffff) << 1) + iVar2);
         if (*psVar12 == 0x4000) {
           uVar7 = uVar7 | 4;
         }
@@ -107,7 +78,7 @@ ulonglong fn_82F1ACE8(int param_1,ulonglong param_2,int param_3,uint param_4)
       }
       if ((*(int *)(param_1 + 0x2d4) + -1 <= param_3) ||
          (lVar8 = 1,
-         *(short *)((int)(((ulonglong)uVar1 + lVar9 & 0xffffffff) << 1) + iVar2) != 0x4000)) {
+         *(short *)((int)(((unsigned __int64)uVar1 + lVar9 & 0xffffffff) << 1) + iVar2) != 0x4000)) {
         lVar8 = 0;
       }
       return lVar8 << 5 | lVar13 << 4 | uVar7;

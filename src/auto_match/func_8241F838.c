@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack00000020;
 extern int fn_82547C80();
 extern int fn_82809950();
@@ -39,9 +12,9 @@ void fn_8241F838(int *param_1,float *param_2,float *param_3)
 {
   int iVar1;
   int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
   double dVar6;
   double dVar7;
   double dVar8;
@@ -53,7 +26,7 @@ void fn_8241F838(int *param_1,float *param_2,float *param_3)
   dVar6 = (double)fn_82809950((double)lbl_82191208);
   iVar2 = *param_1;
   dVar6 = (double)(float)(dVar6 * (double)*(float *)(iVar1 + 0x29c));
-  uVar4 = *(uint *)(iVar2 + 0x670);
+  uVar4 = *(unsigned int *)(iVar2 + 0x670);
   iVar1 = *(int *)(iVar2 + 0x674);
   dVar8 = -(double)(float)((double)((float)(iVar1 - uVar4) * lbl_8218E8E8) * dVar6 -
                           (double)(float)param_1[0x74]);
@@ -77,11 +50,11 @@ void fn_8241F838(int *param_1,float *param_2,float *param_3)
     }
   }
   if (param_1 == *(int **)(iVar2 + 0x2b20)) {
-    fn_82547C80((ulonglong)**(uint **)(iVar2 + 0x2bf8) + 0xd0,uVar3 & 0xff,1);
+    fn_82547C80((unsigned __int64)**(unsigned int **)(iVar2 + 0x2bf8) + 0xd0,uVar3 & 0xff,1);
   }
   dVar7 = (double)lbl_821CA460;
-  *param_2 = (float)((double)(longlong)(int)uVar3 * dVar6 + dVar8);
-  *param_3 = (float)((double)(float)((double)(longlong)(int)uVar3 + dVar7) * dVar6 + dVar8);
+  *param_2 = (float)((double)(__int64)(int)uVar3 * dVar6 + dVar8);
+  *param_3 = (float)((double)(float)((double)(__int64)(int)uVar3 + dVar7) * dVar6 + dVar8);
   return;
 }
 

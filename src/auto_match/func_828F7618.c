@@ -6,34 +6,6 @@ typedef struct Compiler {
   int failed;
   int fatal;
 } Compiler;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
 #define SQRT(x) sqrt(x)
 typedef struct { char pad[0xbd8]; void *log; } Owner_828F7618;
 
@@ -98,18 +70,18 @@ extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
 extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
 extern int fn_828F6FA8();
 extern int fn_82981598();
-extern longlong fn_82981738();
+extern __int64 fn_82981738();
 extern int fn_82F68CC0();
 extern unsigned int stack0x00000000;
 extern void fn_82980D00(Compiler *c, int a, int b, const char *fmt, ...);
-extern longlong fn_82981738();
-extern void fn_82980C18(uint *p, void *loc, int code, const char *fmt, ...);
+extern __int64 fn_82981738();
+extern void fn_82980C18(unsigned int *p, void *loc, int code, const char *fmt, ...);
 extern double sqrt(double);
 extern int fn_8265C940();
 extern int fn_8265C990();
 extern int fn_8297FBF0();
 extern int fn_829803A8();
-extern longlong fn_829860E0();
+extern __int64 fn_829860E0();
 extern int fn_82F64318();
 extern int fn_82F643F8();
 extern int fn_82F64A40();
@@ -145,7 +117,7 @@ extern unsigned int uRam00000018;
 extern unsigned int uStack_a8;
 extern unsigned int uStack_b0;
 extern unsigned int uStack_b4;
-extern longlong fn_82981738();
+extern __int64 fn_82981738();
 extern int fn_828F6FA8();
 extern int fn_829301D0();
 extern int fn_82930318();

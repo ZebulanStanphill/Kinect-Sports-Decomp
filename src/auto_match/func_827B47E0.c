@@ -1,47 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_827B4730();
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern unsigned int lbl_8201435C;
 
 
-void fn_827B47E0(undefined8 param_1,double param_2,double param_3,double param_4,
-                  undefined8 param_5,int param_6)
+void fn_827B47E0(unsigned __int64 param_1,double param_2,double param_3,double param_4,
+                  unsigned __int64 param_5,int param_6)
 
 {
   int iVar1;
   int iVar2;
   int iVar3;
   int in_r9;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
   int *piVar7;
   double extraout_f1;
   double dVar8;
@@ -81,7 +54,7 @@ LAB_827b486c:
             *(int *)(iVar3 + 0x5c) = iVar2;
             *(int *)(iVar3 + 0x68) = iVar1;
             *(int *)(iVar3 + 0x60) = iVar1;
-            if (1 < (uint)piVar7[1]) {
+            if (1 < (unsigned int)piVar7[1]) {
               do {
                 uVar4 = piVar7[2] + uVar6;
                 fn_827B4730((double)(float)((double)*(float *)(*(int *)((uVar4 >> 6 & 0x3fffffc) +
@@ -93,7 +66,7 @@ LAB_827b486c:
                                                                  (uVar4 * 8 & 0x7f8) + 4) * param_2
                                              + param_4),iVar3);
                 uVar6 = uVar6 + 1;
-              } while (uVar6 < (uint)piVar7[1]);
+              } while (uVar6 < (unsigned int)piVar7[1]);
             }
             goto LAB_827b4938;
           }
@@ -129,7 +102,7 @@ LAB_827b4940:
       }
 LAB_827b4a30:
       uVar5 = uVar5 + 1;
-    } while (uVar5 < *(uint *)(param_6 + 0x18));
+    } while (uVar5 < *(unsigned int *)(param_6 + 0x18));
   }
   fn_82F6A590();
   return;

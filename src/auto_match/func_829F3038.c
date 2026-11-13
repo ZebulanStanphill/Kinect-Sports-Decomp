@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_829F2AA0();
 extern int fn_829F2E18();
 extern unsigned int iStack_9c;
@@ -41,7 +14,7 @@ extern unsigned int uStack_98;
 extern unsigned int uStack_a8;
 
 
-void fn_829F3038(undefined8 param_1,undefined8 param_2,int param_3,int param_4,int param_5)
+void fn_829F3038(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,int param_4,int param_5)
 
 {
   int iVar1;
@@ -56,31 +29,31 @@ void fn_829F3038(undefined8 param_1,undefined8 param_2,int param_3,int param_4,i
   int iVar10;
   int iVar11;
   int iVar12;
-  undefined4 uStack0000001c;
+  unsigned int uStack0000001c;
   int aiStack_c0 [2];
   int iStack_b8;
   int iStack_b4;
   struct { int first; int second; } stack_pair_b0;
 
-  undefined4 uStack_a8;
+  unsigned int uStack_a8;
   struct { int first; int second; } stack_pair_a0;
 
-  struct { undefined4 first; undefined4 second; } stack_pair_98;
+  struct { unsigned int first; unsigned int second; } stack_pair_98;
 
 
   iVar1 = *(int *)(param_4 + 0x5c);
   iVar2 = *(int *)(param_4 + 0x58);
-  uStack_a8 = *(undefined4 *)(param_4 + 0x60);
-  *(undefined4 *)(param_5 + 0x104) = 1;
+  uStack_a8 = *(unsigned int *)(param_4 + 0x60);
+  *(unsigned int *)(param_5 + 0x104) = 1;
   iVar6 = iVar1 + 1;
   stack_pair_98.first = 5;
   stack_pair_98.second = 6;
   iVar7 = param_3 + 0x144;
-  uStack0000001c = (undefined4)param_2;
+  uStack0000001c = (unsigned int)param_2;
   iVar3 = param_5;
   stack_pair_a0.first = iVar2;
   stack_pair_a0.second = iVar6;
-  fn_829F2AA0(param_1,param_2,*(undefined2 *)(param_3 + 0x144),0x500000006,CONCAT44(iVar2,iVar6));
+  fn_829F2AA0(param_1,param_2,*(unsigned short *)(param_3 + 0x144),0x500000006,CONCAT44(iVar2,iVar6));
   iVar5 = iVar2 + 1;
   stack_pair_98.first = 6;
   stack_pair_98.second = 5;

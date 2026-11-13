@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_240;
 extern int fn_8225B7C8();
 extern int fn_82521888();
@@ -37,31 +10,31 @@ extern unsigned int lbl_83283E3C;
 extern unsigned int uStack_248;
 extern unsigned int uStack_24c;
 extern unsigned int uStack_250;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-undefined8 fn_8225AF90(int param_1)
+unsigned __int64 fn_8225AF90(int param_1)
 
 {
-  uint uVar1;
-  uint uVar2;
+  unsigned int uVar1;
+  unsigned int uVar2;
   int iVar4;
   char cVar5;
-  undefined8 uVar3;
-  uint *puVar6;
+  unsigned __int64 uVar3;
+  unsigned int *puVar6;
   char in_RESERVE;
   double dVar7;
-  undefined4 uStack_250;
-  struct { undefined4 first; undefined4 second; } stack_pair_24c;
+  unsigned int uStack_250;
+  struct { unsigned int first; unsigned int second; } stack_pair_24c;
 
-  undefined1 auStack_240 [544];
+  unsigned char auStack_240 [544];
   
   iVar4 = fn_82521888(lbl_832767C8,param_1);
   if (iVar4 == 0) {
-    puVar6 = (uint *)((ulonglong)lbl_832767C8 + 0xa0);
+    puVar6 = (unsigned int *)((unsigned __int64)lbl_832767C8 + 0xa0);
     uVar1 = *puVar6;
     if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed((ulonglong)uVar1,0,(ulonglong)lbl_832767C8 + 0xa0);
+      uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,(unsigned __int64)lbl_832767C8 + 0xa0);
       *puVar6 = uVar2;
     }
     if (((((int)uVar1 < 1) && (*(int *)(param_1 + 0x110) != 0)) &&
@@ -82,7 +55,7 @@ undefined8 fn_8225AF90(int param_1)
     if (*(int *)(param_1 + 0x114) == 0) {
       *(float *)(param_1 + 0x104) = (float)dVar7;
     }
-    *(undefined4 *)(param_1 + 0x114) = 1;
+    *(unsigned int *)(param_1 + 0x114) = 1;
     uVar3 = 1;
   }
   return uVar3;

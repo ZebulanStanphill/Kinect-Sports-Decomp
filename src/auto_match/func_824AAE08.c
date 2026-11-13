@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_48;
 extern int fn_824AA258();
 extern int fn_824AAF18();
@@ -41,10 +14,10 @@ void fn_824AAE08(int param_1,int *param_2)
 
 {
   float fVar1;
-  uint uVar2;
+  unsigned int uVar2;
   float *pfVar3;
   int in_r0;
-  undefined8 uVar4;
+  unsigned __int64 uVar4;
   double extraout_f1;
   double dVar5;
   double dVar6;
@@ -54,13 +27,13 @@ void fn_824AAE08(int param_1,int *param_2)
   float in_register_00010450;
   float in_register_00010454;
   float in_register_00010458;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined1 auStack_48 [8];
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
+  unsigned char auStack_48 [8];
   float afStack_40 [10];
   
-  (**(code **)*param_2)(param_2,auStack_48,&uStack_4c);
-  (**(code **)(*param_2 + 4))(param_2,uStack_4c,&uStack_50);
+  (**(int (***)())*param_2)(param_2,auStack_48,&uStack_4c);
+  (**(int (***)())(*param_2 + 4))(param_2,uStack_4c,&uStack_50);
   uVar4 = fn_824AAF18(param_1,uStack_50);
   dVar9 = extraout_f1;
   dVar5 = (double)fn_824AB100(uVar4,uStack_50);
@@ -78,7 +51,7 @@ void fn_824AAE08(int param_1,int *param_2)
   pfVar3[3] = fVar1;
   dVar6 = (double)fn_82539560((double)afStack_40[0],dVar7,dVar6,dVar7,dVar8);
   *(float *)(param_1 + 0x48) =
-       (float)((double)(float)((double)(longlong)(int)dVar6 * dVar5) * dVar9);
+       (float)((double)(float)((double)(__int64)(int)dVar6 * dVar5) * dVar9);
   return;
 }
 

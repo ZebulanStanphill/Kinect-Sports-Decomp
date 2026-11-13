@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern float fRam831c3140;
 extern float fRam831c3148;
 extern unsigned int ltcg_pool_0_0f;
@@ -39,8 +12,8 @@ void fn_824FA188(int param_1,int param_2)
   float fVar2;
   float *pfVar3;
   int iVar5;
-  undefined4 uVar6;
-  longlong lVar4;
+  unsigned int uVar6;
+  __int64 lVar4;
   
   if ((lbl_831C3120 == 4) || (lbl_831C3120 == 5)) {
     iVar5 = -0x7ce2bd08;
@@ -58,16 +31,16 @@ code_r0x824fa1cc:
   }
   if (param_2 == 0) {
     param_2 = 1;
-    *(undefined4 *)(param_1 + 0x2d8) = 0xffffffff;
-    *(undefined4 *)(param_1 + 0x218) = lbl_831E4E38;
+    *(unsigned int *)(param_1 + 0x2d8) = 0xffffffff;
+    *(unsigned int *)(param_1 + 0x218) = lbl_831E4E38;
     goto code_r0x824fa2fc;
   }
   if (param_2 == 2) {
-    *(undefined4 *)(param_1 + 0x2d8) = 0xffffffff;
+    *(unsigned int *)(param_1 + 0x2d8) = 0xffffffff;
     goto code_r0x824fa2fc;
   }
   if (param_2 != 3) goto code_r0x824fa2fc;
-  *(undefined4 *)(param_1 + 0x2d8) = 0xffffffff;
+  *(unsigned int *)(param_1 + 0x2d8) = 0xffffffff;
   if (*(float *)(param_1 + 0x220) <= ltcg_pool_0_0f) {
     *(float *)(param_1 + 0x220) = -fVar1;
     lVar4 = 1;
@@ -100,7 +73,7 @@ code_r0x824fa1cc:
     if (*(int *)(param_1 + 0x2d8) == -1) {
       uVar6 = 0;
 code_r0x824fa2a4:
-      *(undefined4 *)(param_1 + 0x2d8) = uVar6;
+      *(unsigned int *)(param_1 + 0x2d8) = uVar6;
     }
   }
   if (*(float *)(param_1 + 0x21c) <= *(float *)(*(int *)(param_1 + 0x2d8) * 0x10 + param_1 + 700)) {

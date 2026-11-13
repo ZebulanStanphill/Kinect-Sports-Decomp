@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern int fn_82FA5190(unsigned int, unsigned int);
 extern int fn_82FB7F40();
 extern unsigned int lbl_831BC768;

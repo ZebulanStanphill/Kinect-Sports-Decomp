@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82230040();
 extern int fn_82266D28();
 extern int fn_8265C9E0();
@@ -38,17 +11,17 @@ extern unsigned int uStack_4c;
 extern unsigned int uStack_54;
 
 
-void fn_8249F8C0(undefined4 *param_1,undefined4 *param_2,undefined4 param_3)
+void fn_8249F8C0(unsigned int *param_1,unsigned int *param_2,unsigned int param_3)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
   int iVar4;
-  undefined **ppuStack_58;
-  undefined4 uStack_54;
-  undefined **ppuStack_50;
-  undefined4 uStack_4c;
+  unsigned char **ppuStack_58;
+  unsigned int uStack_54;
+  unsigned char **ppuStack_50;
+  unsigned int uStack_4c;
   
   *param_1 = &lbl_821BF148;
   param_1[0x13] = *param_2;
@@ -70,10 +43,10 @@ void fn_8249F8C0(undefined4 *param_1,undefined4 *param_2,undefined4 param_3)
   uVar3 = ltcg_pool_0_0f;
   uVar2 = lbl_82192480;
   uVar1 = lbl_821922D0;
-  *(undefined4 *)(param_1[0x19] + 4) = param_1[0x19];
-  *(undefined4 *)(param_1[0x19] + 8) = param_1[0x19];
-  *(undefined1 *)(param_1[0x19] + 0x14) = 1;
-  *(undefined1 *)(param_1[0x19] + 0x15) = 1;
+  *(unsigned int *)(param_1[0x19] + 4) = param_1[0x19];
+  *(unsigned int *)(param_1[0x19] + 8) = param_1[0x19];
+  *(unsigned char *)(param_1[0x19] + 0x14) = 1;
+  *(unsigned char *)(param_1[0x19] + 0x15) = 1;
   param_1[0x1f] = uVar2;
   param_1[0x20] = uVar1;
   param_1[0x1c] = 0;
@@ -85,10 +58,10 @@ void fn_8249F8C0(undefined4 *param_1,undefined4 *param_2,undefined4 param_3)
   if (iVar4 != 0) {
     param_1[0x23] = iVar4;
     *(int *)iVar4 = iVar4;
-    *(undefined4 *)(param_1[0x23] + 4) = param_1[0x23];
-    *(undefined4 *)(param_1[0x23] + 8) = param_1[0x23];
-    *(undefined1 *)(param_1[0x23] + 0x14) = 1;
-    *(undefined1 *)(param_1[0x23] + 0x15) = 1;
+    *(unsigned int *)(param_1[0x23] + 4) = param_1[0x23];
+    *(unsigned int *)(param_1[0x23] + 8) = param_1[0x23];
+    *(unsigned char *)(param_1[0x23] + 0x14) = 1;
+    *(unsigned char *)(param_1[0x23] + 0x15) = 1;
     param_1[1] = 0;
     param_1[2] = 0;
     param_1[3] = 0;

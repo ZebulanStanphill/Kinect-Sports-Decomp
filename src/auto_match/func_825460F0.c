@@ -1,31 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
+#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern unsigned int *auStack_b0;
 extern float fRam8326c224;
 extern int fn_8251F720();
@@ -49,13 +22,13 @@ void fn_825460F0(void)
 
 {
   int iVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
+  unsigned int uVar2;
+  unsigned int *puVar3;
+  unsigned int uVar4;
   int iVar5;
-  ulonglong uVar6;
+  unsigned __int64 uVar6;
   int iVar7;
-  longlong lVar8;
+  __int64 lVar8;
   double dVar9;
   double dVar10;
   double dVar11;
@@ -70,12 +43,12 @@ void fn_825460F0(void)
   double dVar20;
   double dVar21;
   double dVar22;
-  undefined1 auStack_b0 [176];
+  unsigned char auStack_b0 [176];
   
   iVar1 = fn_82F6A520();
   dVar9 = (double)ltcg_pool_0_0f;
   if (iRam8326b46c != 0) {
-    puVar3 = *(undefined4 **)(iVar1 + 0x1ac);
+    puVar3 = *(unsigned int **)(iVar1 + 0x1ac);
     uVar6 = ZEXT48(puVar3);
     iVar7 = puVar3[0xf];
     dVar22 = (double)(float)puVar3[3];
@@ -95,9 +68,9 @@ void fn_825460F0(void)
     dVar11 = (double)*(float *)(iVar5 + 0x70);
     dVar10 = (double)*(float *)(iVar5 + 0x74);
     fn_825B1E50(uVar6);
-    puVar3 = (undefined4 *)fn_825B1A20();
-    if (puVar3 != (undefined4 *)0x0) {
-      *(undefined4 **)(iVar1 + 0x1ac) = puVar3;
+    puVar3 = (unsigned int *)fn_825B1A20();
+    if (puVar3 != (unsigned int *)0x0) {
+      *(unsigned int **)(iVar1 + 0x1ac) = puVar3;
       if (iVar7 != 0) {
         puVar3[0xf] = 1;
         puVar3[1] = (float)dVar9;

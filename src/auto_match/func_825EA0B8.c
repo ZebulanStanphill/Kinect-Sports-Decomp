@@ -1,50 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_82BFE460();
 extern int fn_82BFE530();
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-ulonglong fn_825EA0B8(longlong param_1,int param_2,uint *param_3)
+unsigned __int64 fn_825EA0B8(__int64 param_1,int param_2,unsigned int *param_3)
 
 {
   int *piVar1;
-  uint uVar2;
-  uint uVar3;
+  unsigned int uVar2;
+  unsigned int uVar3;
   int iVar5;
-  ulonglong uVar4;
-  uint *puVar6;
-  longlong lVar7;
+  unsigned __int64 uVar4;
+  unsigned int *puVar6;
+  __int64 lVar7;
   int iVar8;
   char in_RESERVE;
-  byte in_cr0;
-  uint auStack_40 [16];
+  unsigned char in_cr0;
+  unsigned int auStack_40 [16];
   
   iVar8 = 0;
   lVar7 = param_1;
@@ -58,21 +33,21 @@ ulonglong fn_825EA0B8(longlong param_1,int param_2,uint *param_3)
         iVar5 = fn_82BFE460();
       }
       if (iVar5 == 0) {
-        uVar2 = *(uint *)(*(int *)(iVar8 * 4 + (int)param_1) + 4);
+        uVar2 = *(unsigned int *)(*(int *)(iVar8 * 4 + (int)param_1) + 4);
         *param_3 = uVar2;
         do {
-          puVar6 = (uint *)(param_1 + 0x20);
+          puVar6 = (unsigned int *)(param_1 + 0x20);
           if (in_RESERVE != '\0') {
             uVar3 = storeWordConditionalIndexed
-                              ((ulonglong)uVar2 + (ulonglong)*puVar6,0,param_1 + 0x20);
+                              ((unsigned __int64)uVar2 + (unsigned __int64)*puVar6,0,param_1 + 0x20);
             *puVar6 = uVar3;
             in_cr0 = 2;
           }
         } while (!(bool)(in_cr0 >> 1 & 1));
         auStack_40[0] = 0;
-        uVar4 = fn_82BFE530(*(undefined4 *)(*(int *)(iVar8 * 4 + (int)param_1) + 0x10),
+        uVar4 = fn_82BFE530(*(unsigned int *)(*(int *)(iVar8 * 4 + (int)param_1) + 0x10),
                                   auStack_40);
-        return ((uVar4 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)auStack_40[0];
+        return ((uVar4 & 0xffffffff) >> 0x1f) - 1 & (unsigned __int64)auStack_40[0];
       }
     }
     iVar8 = iVar8 + 1;

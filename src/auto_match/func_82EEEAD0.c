@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E4FE40();
 extern int fn_82E50BE8();
 extern int fn_82EEE070();
@@ -38,15 +11,15 @@ extern unsigned int uStack0000003c;
 extern unsigned int uStack00000044;
 
 
-longlong fn_82EEEAD0(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                      undefined8 param_5,undefined4 param_6,uint param_7,short *param_8)
+__int64 fn_82EEEAD0(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+                      unsigned __int64 param_5,unsigned int param_6,unsigned int param_7,short *param_8)
 
 {
   int iVar1;
   int iVar2;
-  longlong lVar3;
-  undefined4 uStack0000003c;
-  uint uStack00000044;
+  __int64 lVar3;
+  unsigned int uStack0000003c;
+  unsigned int uStack00000044;
   int in_stack_00000054;
   short asStack_60 [2];
   int aiStack_5c [23];
@@ -75,7 +48,7 @@ longlong fn_82EEEAD0(int *param_1,undefined8 param_2,undefined8 param_3,undefine
     *(short *)(iVar2 + 0x40) = (short)param_5;
     lVar3 = fn_82F41BD0(iVar2,param_3);
     if (-1 < lVar3) {
-      lVar3 = (**(code **)(*(int *)((int)param_1 + *(int *)(param_1[1] + 4) + 4) + 0x10))
+      lVar3 = (**(int (***)())(*(int *)((int)param_1 + *(int *)(param_1[1] + 4) + 4) + 0x10))
                         ((int)param_1 + *(int *)(param_1[1] + 4) + 4,param_4,&stack0x0000003c,
                          &stack0x00000044,aiStack_5c);
       iVar1 = in_stack_00000054;
@@ -84,11 +57,11 @@ longlong fn_82EEEAD0(int *param_1,undefined8 param_2,undefined8 param_3,undefine
           lVar3 = -0x7ff8ffa9;
         }
         else {
-          lVar3 = (**(code **)(*(int *)((int)param_1 + *(int *)(param_1[1] + 4) + 4) + 0x38))
+          lVar3 = (**(int (***)())(*(int *)((int)param_1 + *(int *)(param_1[1] + 4) + 4) + 0x38))
                             ((int)param_1 + *(int *)(param_1[1] + 4) + 4,param_3,param_2);
           if (-1 < lVar3) {
             if ((int)lVar3 == 1) {
-              lVar3 = (**(code **)(*param_1 + 0x28))(param_1,param_2,param_3,param_5);
+              lVar3 = (**(int (***)())(*param_1 + 0x28))(param_1,param_2,param_3,param_5);
               if (-1 < lVar3) {
                 if ((int)lVar3 != 0) goto LAB_82eeec5c;
                 lVar3 = -0x3ff2c94e;

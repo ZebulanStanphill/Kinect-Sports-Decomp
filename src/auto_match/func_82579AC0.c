@@ -1,49 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int lbl_82195530;
 extern unsigned int ltcg_pool_0_0f;
 extern V16 vectorSubtractFloatingPoint();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-int fn_82579AC0(double param_1,int param_2,undefined8 param_3,int param_4)
+int fn_82579AC0(double param_1,int param_2,unsigned __int64 param_3,int param_4)
 
 {
   int iVar1;
   float fVar2;
-  uint uVar3;
+  unsigned int uVar3;
   float *pfVar4;
   int in_r0;
   int iVar5;
-  longlong lVar6;
+  __int64 lVar6;
   int *piVar7;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
+  unsigned char in_vs32 [16];
+  unsigned char in_vs45 [16];
   float fVar8;
   float fVar9;
   float afStack_10 [4];
@@ -57,7 +31,7 @@ int fn_82579AC0(double param_1,int param_2,undefined8 param_3,int param_4)
   if (*(int **)(param_2 + 0x314) <= piVar7) {
     return iVar5;
   }
-  lVar6 = (ulonglong)((uint)((int)*(int **)(param_2 + 0x314) + (-1 - (int)piVar7)) >> 3) + 1;
+  lVar6 = (unsigned __int64)((unsigned int)((int)*(int **)(param_2 + 0x314) + (-1 - (int)piVar7)) >> 3) + 1;
   do {
     if ((param_4 == 0) || (piVar7[1] == param_4)) {
       iVar1 = *piVar7;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_9c;
 extern unsigned int fStack_b4;
 extern unsigned int fStack_c0;
@@ -66,46 +39,46 @@ extern unsigned int uStack_dc;
 extern unsigned int uStack_e0;
 
 
-void fn_82861380(undefined4 *param_1,undefined8 param_2,int param_3)
+void fn_82861380(unsigned int *param_1,unsigned __int64 param_2,int param_3)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int iVar2;
-  longlong lVar3;
+  __int64 lVar3;
   double dVar4;
-  struct { undefined4 first; undefined4 second; } stack_pair_e0;
+  struct { unsigned int first; unsigned int second; } stack_pair_e0;
 
   float fStack_d8;
-  undefined4 uStack_d4;
-  undefined4 uStack_d0;
+  unsigned int uStack_d4;
+  unsigned int uStack_d0;
   float fStack_cc;
-  undefined4 uStack_c8;
-  undefined4 uStack_c4;
+  unsigned int uStack_c8;
+  unsigned int uStack_c4;
   float fStack_c0;
-  undefined4 uStack_bc;
-  undefined4 uStack_b8;
+  unsigned int uStack_bc;
+  unsigned int uStack_b8;
   float fStack_b4;
-  undefined4 uStack_a4;
-  undefined4 uStack_a0;
+  unsigned int uStack_a4;
+  unsigned int uStack_a0;
   float fStack_9c;
-  struct { undefined4 first; undefined4 second; } stack_pair_98;
+  struct { unsigned int first; unsigned int second; } stack_pair_98;
 
-  undefined4 uStack_90;
-  undefined4 uStack_88;
-  undefined4 uStack_84;
-  undefined4 uStack_80;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
-  undefined4 uStack_70;
-  undefined4 uStack_68;
-  undefined4 uStack_64;
-  undefined4 uStack_60;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined4 uStack_40;
+  unsigned int uStack_90;
+  unsigned int uStack_88;
+  unsigned int uStack_84;
+  unsigned int uStack_80;
+  unsigned int uStack_78;
+  unsigned int uStack_74;
+  unsigned int uStack_70;
+  unsigned int uStack_68;
+  unsigned int uStack_64;
+  unsigned int uStack_60;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned int uStack_40;
 
   fStack_d8 = -(float)param_1[5];
   fStack_9c = -(float)param_1[4];

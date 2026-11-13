@@ -1,45 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_826D6630();
 extern int fn_82768B78();
 extern int fn_82F68CC0();
 
 
-void fn_82768C10(int param_1,ulonglong param_2)
+void fn_82768C10(int param_1,unsigned __int64 param_2)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   short sVar3;
   short sVar4;
-  undefined8 uVar2;
-  undefined8 uVar5;
+  unsigned __int64 uVar2;
+  unsigned __int64 uVar5;
   char *pcVar7;
-  undefined8 uVar6;
+  unsigned __int64 uVar6;
   char acStack_50 [8];
   char acStack_48 [72];
   
@@ -76,11 +49,11 @@ void fn_82768C10(int param_1,ulonglong param_2)
       if ((uVar1 >> 1 & 1) != 0) {
         uVar6 = 0xffffffff82014dc8;
       }
-      uVar2 = (**(code **)(**(int **)(param_1 + 0xc) + 0x3c))();
+      uVar2 = (**(int (***)())(**(int **)(param_1 + 0xc) + 0x3c))();
       fn_826D6630(param_2 + 0xc,0xffffffff82014d60,uVar2,uVar6,uVar5);
     }
-    *(undefined2 *)(param_1 + 0x28) = 0xffff;
-    *(undefined2 *)(param_1 + 0x2a) = 0xffff;
+    *(unsigned short *)(param_1 + 0x28) = 0xffff;
+    *(unsigned short *)(param_1 + 0x2a) = 0xffff;
   }
   else {
     *(short *)(param_1 + 0x28) = sVar4;

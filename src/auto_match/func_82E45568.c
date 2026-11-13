@@ -1,4 +1,3 @@
-typedef int (*code)();
 extern int fn_82E43898(void *);
 extern int fn_82E44F90(void *, unsigned int, unsigned int *);
 extern int fn_82E50EA0(void *);

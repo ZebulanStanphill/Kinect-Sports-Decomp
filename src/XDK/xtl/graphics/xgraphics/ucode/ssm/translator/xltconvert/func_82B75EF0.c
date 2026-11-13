@@ -1,64 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_82B75EF0(int param_1,uint *param_2,uint *param_3)
+void fn_82B75EF0(int param_1,unsigned int *param_2,unsigned int *param_3)
 
 {
   int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  undefined1 *puVar11;
-  uint *puVar12;
-  uint *puVar13;
-  longlong lVar14;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned char *puVar11;
+  unsigned int *puVar12;
+  unsigned int *puVar13;
+  __int64 lVar14;
   
   uVar10 = *param_2;
   iVar1 = *(int *)(param_1 + 0x1c);
-  puVar11 = (undefined1 *)((int)param_3 + -1);
+  puVar11 = (unsigned char *)((int)param_3 + -1);
   lVar14 = 0x20;
   do {
     puVar11 = puVar11 + 1;
     *puVar11 = 0;
     lVar14 = lVar14 + -1;
   } while (lVar14 != 0);
-  *(uint *)(iVar1 + 0x5b3c) = (uint)((uVar10 & 0x1fff0000) != 0);
-  *(undefined2 *)((int)param_3 + 2) = 0x41;
+  *(unsigned int *)(iVar1 + 0x5b3c) = (unsigned int)((uVar10 & 0x1fff0000) != 0);
+  *(unsigned short *)((int)param_3 + 2) = 0x41;
   *param_3 = *param_3 & 0xe000ffff;
   puVar12 = param_3 + 2;
-  *(short *)((int)param_3 + 6) = (short)*(undefined4 *)(iVar1 + 0x5b38);
+  *(short *)((int)param_3 + 6) = (short)*(unsigned int *)(iVar1 + 0x5b38);
   param_3[1] = param_3[1] & 0xff00ffff | 0x40000;
   *(short *)((int)param_3 + 10) = (short)param_2[4];
   uVar10 = *puVar12;

@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8284F9B8();
 extern int fn_8284FA10();
 extern int fn_8284FBD0();
@@ -38,11 +11,11 @@ extern unsigned int iStack_3c;
 void fn_82850350(int param_1,int param_2)
 
 {
-  uint iVar1;
-  undefined4 uVar2;
+  unsigned int iVar1;
+  unsigned int uVar2;
   int iVar3;
   int lVar4;
-  struct { code fn; int object; } callback;
+  struct { int (*fn)(); int object; } callback;
   
   iVar1 = *(int *)(param_1 + 0x90);
   if (iVar1 != 0) {
@@ -51,13 +24,13 @@ void fn_82850350(int param_1,int param_2)
   else {
     iVar3 = 0;
   }
-  uVar2 = *(undefined4 *)(iVar3 + 0x14);
-  if (*(uint *)(iVar3 + 0x10) == 0) {
+  uVar2 = *(unsigned int *)(iVar3 + 0x14);
+  if (*(unsigned int *)(iVar3 + 0x10) == 0) {
     callback.fn = fn_8284F9B8;
     callback.object = param_1;
     fn_8285A8F8(iVar1,uVar2,&callback);
   }
-  *(uint *)(iVar3 + 0x10) = *(uint *)(iVar3 + 0x10) + 1;
+  *(unsigned int *)(iVar3 + 0x10) = *(unsigned int *)(iVar3 + 0x10) + 1;
   fn_8284FBD0(iVar1,uVar2,param_1,param_2);
   lVar4 = 0;
   iVar3 = fn_8285A840(iVar1,uVar2);

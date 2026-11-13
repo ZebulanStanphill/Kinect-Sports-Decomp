@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_d0;
 extern int fn_822315A0();
 extern int fn_82273C88();
@@ -42,23 +16,23 @@ extern unsigned int uStack_dc;
 extern unsigned int uStack_e0;
 
 
-undefined4 *
-fn_82278BA0(undefined4 *param_1,undefined4 *param_2,int *param_3,char *param_4,undefined4 *param_5
-             ,undefined4 *param_6,undefined8 param_7)
+unsigned int *
+fn_82278BA0(unsigned int *param_1,unsigned int *param_2,int *param_3,char *param_4,unsigned int *param_5
+             ,unsigned int *param_6,unsigned __int64 param_7)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
+  unsigned int uVar1;
+  unsigned int uVar2;
+  unsigned int uVar3;
+  unsigned int uVar4;
   int iVar5;
   char cVar6;
   char *pcVar7;
   char cVar8;
-  struct { undefined4 first; undefined4 second; } stack_pair_e0;
+  struct { unsigned int first; unsigned int second; } stack_pair_e0;
 
-  undefined1 uStack_d8;
-  undefined1 auStack_d0 [192];
+  unsigned char uStack_d8;
+  unsigned char auStack_d0 [192];
   
   *param_1 = &lbl_821A8228;
   param_1[2] = 0;
@@ -74,7 +48,7 @@ fn_82278BA0(undefined4 *param_1,undefined4 *param_2,int *param_3,char *param_4,u
   param_1[0x8b] = uVar2;
   param_1[0x8c] = uVar3;
   param_1[0x8d] = uVar4;
-  *(undefined1 *)(param_1 + 0x96) = 0;
+  *(unsigned char *)(param_1 + 0x96) = 0;
   param_1[0x97] = 0;
   fn_822C5B18(param_1 + 0x98,param_7);
   pcVar7 = (char *)(param_1 + 6);
@@ -91,10 +65,10 @@ fn_82278BA0(undefined4 *param_1,undefined4 *param_2,int *param_3,char *param_4,u
   }
   param_1[0x17] = 0;
   param_1[0x18] = 0;
-  *(undefined1 *)(param_1 + 0x19) = 0;
-  *(undefined2 *)(param_1 + 0x29) = 0;
-  *(undefined2 *)(param_1 + 0x49) = 0;
-  *(undefined2 *)(param_1 + 0x69) = 0;
+  *(unsigned char *)(param_1 + 0x19) = 0;
+  *(unsigned short *)(param_1 + 0x29) = 0;
+  *(unsigned short *)(param_1 + 0x49) = 0;
+  *(unsigned short *)(param_1 + 0x69) = 0;
   do {
     if (param_3[1] == -1) {
       stack_pair_e0.first = 0;

@@ -1,12 +1,11 @@
-typedef unsigned int uint;
 typedef void (*Function)();
-typedef struct Node { Function *vt; uint refs; struct Node *next; uint id; } Node;
-typedef struct Link { struct Link *next; uint id; } Link;
+typedef struct Node { Function *vt; unsigned int refs; struct Node *next; unsigned int id; } Node;
+typedef struct Link { struct Link *next; unsigned int id; } Link;
 typedef struct { Function *vt; } Owner;
 extern char *lbl_832642E0;
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
-static Node *lookup(uint id)
+static Node *lookup(unsigned int id)
 {
   char *critical=lbl_832642E0+4;
   Node *node;

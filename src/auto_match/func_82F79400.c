@@ -1,69 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-uint fn_82F79400(void)
+unsigned int fn_82F79400(void)
 
 {
-  byte in_fp_fx;
-  byte in_fp_fex;
-  byte in_fp_vx;
-  byte in_fp_ox;
-  byte in_fp_ux;
-  byte in_fp_zx;
-  byte in_fp_xx;
-  byte in_fp_vxsnan;
-  byte in_fp_vxisi;
-  byte in_fp_vxidi;
-  byte in_fp_vxzdz;
-  byte in_fp_vximz;
-  byte in_fp_vxvc;
-  byte in_fp_fr;
-  byte in_fp_fi;
-  byte in_fp_c;
-  byte in_fp_cc0;
-  byte in_fp_cc1;
-  byte in_fp_cc2;
-  byte in_fp_cc3;
-  byte in_fp_reserve1;
-  byte in_fp_vxsoft;
-  byte in_fp_vxsqrt;
-  byte in_fp_vxcvi;
-  byte in_fp_ve;
-  byte in_fp_oe;
-  byte in_fp_ue;
-  byte in_fp_ze;
-  byte in_fp_xe;
-  byte in_fp_ni;
-  byte in_fp_rn0;
-  byte in_fp_rn1;
+  unsigned char in_fp_fx;
+  unsigned char in_fp_fex;
+  unsigned char in_fp_vx;
+  unsigned char in_fp_ox;
+  unsigned char in_fp_ux;
+  unsigned char in_fp_zx;
+  unsigned char in_fp_xx;
+  unsigned char in_fp_vxsnan;
+  unsigned char in_fp_vxisi;
+  unsigned char in_fp_vxidi;
+  unsigned char in_fp_vxzdz;
+  unsigned char in_fp_vximz;
+  unsigned char in_fp_vxvc;
+  unsigned char in_fp_fr;
+  unsigned char in_fp_fi;
+  unsigned char in_fp_c;
+  unsigned char in_fp_cc0;
+  unsigned char in_fp_cc1;
+  unsigned char in_fp_cc2;
+  unsigned char in_fp_cc3;
+  unsigned char in_fp_reserve1;
+  unsigned char in_fp_vxsoft;
+  unsigned char in_fp_vxsqrt;
+  unsigned char in_fp_vxcvi;
+  unsigned char in_fp_ve;
+  unsigned char in_fp_oe;
+  unsigned char in_fp_ue;
+  unsigned char in_fp_ze;
+  unsigned char in_fp_xe;
+  unsigned char in_fp_ni;
+  unsigned char in_fp_rn0;
+  unsigned char in_fp_rn1;
   
-  return (in_fp_rn1 & 1 | (uint)in_fp_fx << 0x1f | (in_fp_fex & 1) << 0x1e | (in_fp_vx & 1) << 0x1d
+  return (in_fp_rn1 & 1 | (unsigned int)in_fp_fx << 0x1f | (in_fp_fex & 1) << 0x1e | (in_fp_vx & 1) << 0x1d
           | (in_fp_ox & 1) << 0x1c | (in_fp_ux & 1) << 0x1b | (in_fp_zx & 1) << 0x1a |
           (in_fp_xx & 1) << 0x19 | (in_fp_vxsnan & 1) << 0x18 | (in_fp_vxisi & 1) << 0x17 |
           (in_fp_vxidi & 1) << 0x16 | (in_fp_vxzdz & 1) << 0x15 | (in_fp_vximz & 1) << 0x14 |

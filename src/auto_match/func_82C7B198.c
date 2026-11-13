@@ -1,32 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
 void fn_82C7B198(int param_1,int param_2,int param_3,int param_4)
 
 {
@@ -47,14 +18,14 @@ void fn_82C7B198(int param_1,int param_2,int param_3,int param_4)
   int iVar15;
   int iVar16;
   short *psVar17;
-  undefined2 *puVar18;
-  undefined2 *puVar19;
+  unsigned short *puVar18;
+  unsigned short *puVar19;
   int iVar20;
   int iVar21;
   int iVar22;
-  longlong lVar23;
+  __int64 lVar23;
   
-  puVar19 = (undefined2 *)(param_4 * 0x40 + param_1);
+  puVar19 = (unsigned short *)(param_4 * 0x40 + param_1);
   psVar17 = (short *)(param_3 + -0x10);
   lVar23 = 4;
   puVar18 = puVar19;
@@ -89,14 +60,14 @@ void fn_82C7B198(int param_1,int param_2,int param_3,int param_4)
     iVar13 = (iVar9 + iVar10) * 0xb5 + 0x80 >> 8;
     iVar21 = iVar21 + iVar22;
     iVar9 = (iVar10 - iVar9) * 0xb5 + 0x80 >> 8;
-    *puVar18 = (short)((uint)(iVar11 + iVar15) >> 8);
-    puVar18[1] = (short)((uint)(iVar13 + iVar16) >> 8);
-    puVar18[2] = (short)((uint)(iVar12 + iVar9) >> 8);
-    puVar18[3] = (short)((uint)(iVar20 + iVar21) >> 8);
-    puVar18[4] = (short)((uint)(iVar20 - iVar21) >> 8);
-    puVar18[5] = (short)((uint)(iVar12 - iVar9) >> 8);
-    puVar18[6] = (short)((uint)(iVar16 - iVar13) >> 8);
-    puVar18[7] = (short)((uint)(iVar15 - iVar11) >> 8);
+    *puVar18 = (short)((unsigned int)(iVar11 + iVar15) >> 8);
+    puVar18[1] = (short)((unsigned int)(iVar13 + iVar16) >> 8);
+    puVar18[2] = (short)((unsigned int)(iVar12 + iVar9) >> 8);
+    puVar18[3] = (short)((unsigned int)(iVar20 + iVar21) >> 8);
+    puVar18[4] = (short)((unsigned int)(iVar20 - iVar21) >> 8);
+    puVar18[5] = (short)((unsigned int)(iVar12 - iVar9) >> 8);
+    puVar18[6] = (short)((unsigned int)(iVar16 - iVar13) >> 8);
+    puVar18[7] = (short)((unsigned int)(iVar15 - iVar11) >> 8);
     puVar18 = puVar18 + param_2;
     lVar23 = lVar23 + -1;
   } while (lVar23 != 0);
@@ -109,10 +80,10 @@ void fn_82C7B198(int param_1,int param_2,int param_3,int param_4)
     iVar9 = ((int)psVar17[param_2] + (int)sVar1) * 0x5a8;
     iVar15 = ((int)sVar1 - (int)psVar17[param_2]) * 0x5a8;
     iVar11 = *psVar17 * 0x310 + psVar17[param_2 * 2] * -0x764;
-    *(short *)(iVar13 + (int)psVar17) = (short)((uint)(iVar9 + iVar10 + 0x8000) >> 0x10);
-    *psVar17 = (short)((uint)(iVar15 + iVar11 + 0x8000) >> 0x10);
-    psVar17[param_2] = (short)((uint)((iVar15 - iVar11) + 0x8000) >> 0x10);
-    psVar17[param_2 * 2] = (short)((uint)((iVar9 - iVar10) + 0x8000) >> 0x10);
+    *(short *)(iVar13 + (int)psVar17) = (short)((unsigned int)(iVar9 + iVar10 + 0x8000) >> 0x10);
+    *psVar17 = (short)((unsigned int)(iVar15 + iVar11 + 0x8000) >> 0x10);
+    psVar17[param_2] = (short)((unsigned int)((iVar15 - iVar11) + 0x8000) >> 0x10);
+    psVar17[param_2 * 2] = (short)((unsigned int)((iVar9 - iVar10) + 0x8000) >> 0x10);
     psVar17 = psVar17 + 1;
     lVar23 = lVar23 + -1;
   } while (lVar23 != 0);

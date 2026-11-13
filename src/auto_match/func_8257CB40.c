@@ -1,4 +1,3 @@
-typedef int (*code)();
 typedef struct Node {
   struct Node *next;
   int pad;
@@ -43,13 +42,13 @@ void fn_8257CB40(M *param_1, int param_2, unsigned char param_3)
   while (l != 0) {
     o = (int *)((char *)l - 0x38);
     l = l->next;
-    (*(code *)(*o + 0xc))(o, param_2);
+    (*(int (**)())(*o + 0xc))(o, param_2);
   }
   if (param_3) {
     for (n = param_1->head->next; n != param_1->head; n = n->next) {
       o = n->obj;
       if (o[2] != 0) {
-        (*(code *)(*o + 0x1c))(o, param_2);
+        (*(int (**)())(*o + 0x1c))(o, param_2);
       }
     }
   }

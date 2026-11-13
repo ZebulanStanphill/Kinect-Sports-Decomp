@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82A1DDC0();
 extern int memcpy();
 extern int memset();
@@ -41,40 +14,40 @@ extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
 
 
-void fn_82A4C548(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 param_4,
-                  undefined4 *param_5)
+void fn_82A4C548(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4,
+                  unsigned int *param_5)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   float fVar2;
-  undefined4 *puVar3;
+  unsigned int *puVar3;
   double dVar4;
   float afStack_60 [4];
-  struct { undefined4 first; undefined4 second; } stack_pair_50;
+  struct { unsigned int first; unsigned int second; } stack_pair_50;
 
   float *pfStack_48;
-  undefined4 uStack_44;
+  unsigned int uStack_44;
   int iStack_40;
   int iStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
+  unsigned int uStack_38;
+  unsigned int uStack_34;
+  unsigned int uStack_30;
+  unsigned int uStack_2c;
   
   if (param_3[1] != 0) {
-    puVar3 = (undefined4 *)(param_1 + 0x28);
+    puVar3 = (unsigned int *)(param_1 + 0x28);
     afStack_60[0] = *(float *)(param_1 + 0x38);
-    *(undefined4 *)(param_1 + 0x28) = *param_3;
+    *(unsigned int *)(param_1 + 0x28) = *param_3;
     fVar2 = lbl_82002AE0;
     uVar1 = *param_5;
     dVar4 = (double)lbl_82002AE0;
-    *(undefined4 *)(param_1 + 0x2c) = uVar1;
+    *(unsigned int *)(param_1 + 0x2c) = uVar1;
     if ((double)afStack_60[0] == dVar4) {
       if (*(int *)(param_1 + 0x3c) == 7) {
         fn_82A1DDC0(uVar1,*puVar3,*(int *)(param_1 + 0x40) << 2);
       }
       else {
-        uStack_38 = *(undefined4 *)(param_1 + 0x48);
+        uStack_38 = *(unsigned int *)(param_1 + 0x48);
         stack_pair_50.first = *puVar3;
         pfStack_48 = afStack_60;
         afStack_60[0] = fVar2;
@@ -85,33 +58,33 @@ void fn_82A4C548(int param_1,undefined8 param_2,undefined4 *param_3,undefined8 p
         iStack_40 = *(int *)(param_1 + 0x3c);
         iStack_3c = *(int *)(param_1 + 0x40);
         uStack_34 = uStack_38;
-        (**(code **)(param_1 + 0x54))(&stack_pair_50.first);
+        (**(int (***)())(param_1 + 0x54))(&stack_pair_50.first);
       }
-      if ((ulonglong)*(uint *)(param_1 + 0x44) != 0) {
-        memcpy(*(undefined4 *)(param_1 + 0x30),
-                     ((ulonglong)*(uint *)(param_1 + 0x44) - (ulonglong)*(uint *)(param_1 + 0x48) &
-                     0x3fffffff) * 4 + (ulonglong)*(uint *)(param_1 + 0x2c),
-                     *(uint *)(param_1 + 0x48) << 2);
-        memcpy(((ulonglong)*(uint *)(param_1 + 0x48) & 0x3fffffff) * 4 +
-                     (ulonglong)*(uint *)(param_1 + 0x30),
-                     ((ulonglong)*(uint *)(param_1 + 0x44) - (ulonglong)*(uint *)(param_1 + 0x48) &
-                     0x3fffffff) * 4 + (ulonglong)*(uint *)(param_1 + 0x2c));
+      if ((unsigned __int64)*(unsigned int *)(param_1 + 0x44) != 0) {
+        memcpy(*(unsigned int *)(param_1 + 0x30),
+                     ((unsigned __int64)*(unsigned int *)(param_1 + 0x44) - (unsigned __int64)*(unsigned int *)(param_1 + 0x48) &
+                     0x3fffffff) * 4 + (unsigned __int64)*(unsigned int *)(param_1 + 0x2c),
+                     *(unsigned int *)(param_1 + 0x48) << 2);
+        memcpy(((unsigned __int64)*(unsigned int *)(param_1 + 0x48) & 0x3fffffff) * 4 +
+                     (unsigned __int64)*(unsigned int *)(param_1 + 0x30),
+                     ((unsigned __int64)*(unsigned int *)(param_1 + 0x44) - (unsigned __int64)*(unsigned int *)(param_1 + 0x48) &
+                     0x3fffffff) * 4 + (unsigned __int64)*(unsigned int *)(param_1 + 0x2c));
       }
     }
     else {
-      (**(code **)(param_1 + 0x50))(puVar3);
+      (**(int (***)())(param_1 + 0x50))(puVar3);
       if (((double)*(float *)(param_1 + 0x5c) == dVar4) &&
          ((double)*(float *)(param_1 + 0x60) == dVar4)) {
-        *(undefined4 *)(param_1 + 0x4c) = 0;
-        *(undefined4 *)(param_1 + 0x34) = lbl_821AAD20;
+        *(unsigned int *)(param_1 + 0x4c) = 0;
+        *(unsigned int *)(param_1 + 0x34) = lbl_821AAD20;
       }
     }
-    trapWord(6,(ulonglong)*(uint *)(param_1 + 0x48),0);
-    param_5[2] = *(uint *)(param_1 + 0x44) / *(uint *)(param_1 + 0x48);
+    trapWord(6,(unsigned __int64)*(unsigned int *)(param_1 + 0x48),0);
+    param_5[2] = *(unsigned int *)(param_1 + 0x44) / *(unsigned int *)(param_1 + 0x48);
     param_5[1] = param_3[1];
     return;
   }
                     /* WARNING: Subroutine does not return */
-  memset(*(undefined4 *)(param_1 + 0x30),0,(ulonglong)*(uint *)(param_1 + 0x48) * 0xc);
+  memset(*(unsigned int *)(param_1 + 0x30),0,(unsigned __int64)*(unsigned int *)(param_1 + 0x48) * 0xc);
 }
 

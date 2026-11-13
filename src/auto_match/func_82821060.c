@@ -1,9 +1,8 @@
-typedef unsigned int uint;
-static __forceinline void swap_82821060(uint *p) {
- uint v = *p;
+static __forceinline void swap_82821060(unsigned int *p) {
+ unsigned int v = *p;
  *p = (v >> 24) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | (v << 24);
 }
-void fn_82821060(uint *p)
+void fn_82821060(unsigned int *p)
 {
  swap_82821060(p + 0);
  swap_82821060(p + 3);

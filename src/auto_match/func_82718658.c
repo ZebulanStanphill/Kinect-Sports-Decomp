@@ -1,35 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern unsigned int lbl_821AAD20;
 
 
-float * fn_82718658(float *param_1,int *param_2,undefined8 param_3,int param_4)
+float * fn_82718658(float *param_1,int *param_2,unsigned __int64 param_3,int param_4)
 
 {
   float fVar1;
@@ -42,8 +18,8 @@ float * fn_82718658(float *param_1,int *param_2,undefined8 param_3,int param_4)
   float *pfVar8;
   int iVar9;
   int iVar10;
-  ulonglong uVar11;
-  undefined1 auStack_50 [1];
+  unsigned __int64 uVar11;
+  unsigned char auStack_50 [1];
   
   fVar1 = lbl_821AAD20;
   iVar9 = param_2[0x27];
@@ -58,9 +34,9 @@ float * fn_82718658(float *param_1,int *param_2,undefined8 param_3,int param_4)
     do {
       iVar9 = *(int *)(iVar9 + 0x18) + iVar10;
       if (param_4 == 3) {
-        if ((*(byte *)(iVar9 + 0x48) & 1) == 0) goto LAB_827186c0;
+        if ((*(unsigned char *)(iVar9 + 0x48) & 1) == 0) goto LAB_827186c0;
 LAB_827186fc:
-        pfVar8 = (float *)(**(code **)(*param_2 + 0x13c))(auStack_50,param_2,param_3,uVar11);
+        pfVar8 = (float *)(**(int (***)())(*param_2 + 0x13c))(auStack_50,param_2,param_3,uVar11);
         fVar1 = *pfVar8;
         fVar2 = pfVar8[2];
         fVar3 = pfVar8[1];
@@ -102,17 +78,17 @@ LAB_827186fc:
       else {
 LAB_827186c0:
         if (param_4 == 2) {
-          if ((*(byte *)(iVar9 + 0x48) & 2) != 0) goto LAB_827186fc;
+          if ((*(unsigned char *)(iVar9 + 0x48) & 2) != 0) goto LAB_827186fc;
         }
         if (param_4 == 1) {
-          if ((*(byte *)(iVar9 + 0x48) & 4) != 0) goto LAB_827186fc;
+          if ((*(unsigned char *)(iVar9 + 0x48) & 4) != 0) goto LAB_827186fc;
         }
-        if ((param_4 == 0) && ((*(byte *)(iVar9 + 0x48) & 8) != 0)) goto LAB_827186fc;
+        if ((param_4 == 0) && ((*(unsigned char *)(iVar9 + 0x48) & 8) != 0)) goto LAB_827186fc;
       }
       iVar9 = param_2[0x27];
       uVar11 = uVar11 + 1;
       iVar10 = iVar10 + 0x4c;
-    } while ((uVar11 & 0xffffffff) < (ulonglong)*(uint *)(iVar9 + 0x1c));
+    } while ((uVar11 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar9 + 0x1c));
   }
   return param_1;
 }

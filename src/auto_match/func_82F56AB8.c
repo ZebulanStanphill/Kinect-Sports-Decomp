@@ -1,10 +1,9 @@
-typedef unsigned int U32;
-typedef struct { void *vt; U32 uses; U32 weak; U32 val; } Rep_82F56AB8;
-typedef struct { U32 val; Rep_82F56AB8 *rep; } Ptr_82F56AB8;
+typedef struct { void *vt; unsigned int uses; unsigned int weak; unsigned int val; } Rep_82F56AB8;
+typedef struct { unsigned int val; Rep_82F56AB8 *rep; } Ptr_82F56AB8;
 extern void fn_822315A0(Rep_82F56AB8 *);
-extern void *fn_8265C9E0(U32);
+extern void *fn_8265C9E0(unsigned int);
 extern char lbl_82196E94[];
-void fn_82F56AB8(Ptr_82F56AB8 *s, U32 v)
+void fn_82F56AB8(Ptr_82F56AB8 *s, unsigned int v)
 {
   Rep_82F56AB8 *mem = fn_8265C9E0(0x10); Rep_82F56AB8 *r;
   if (mem != 0) { mem->val = v; mem->uses = 1; mem->vt = lbl_82196E94; mem->weak = 1; r = mem; } else r = 0;

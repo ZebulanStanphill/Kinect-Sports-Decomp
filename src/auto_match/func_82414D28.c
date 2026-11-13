@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define NAN(x) ((x) != (x))
 extern int fn_8254EDB0();
 extern int fn_8254EEB8();
@@ -33,7 +7,7 @@ extern unsigned int lbl_821954D8;
 extern unsigned int ltcg_pool_0_0f;
 
 
-void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 param_4,int param_5,
+void fn_82414D28(int *param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5,
                   int param_6)
 
 {
@@ -43,7 +17,7 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
   int iVar4;
   float fVar5;
   float fVar6;
-  ulonglong uVar7;
+  unsigned __int64 uVar7;
   bool bVar8;
   
   fVar2 = ltcg_pool_0_0f;
@@ -64,13 +38,13 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
       bVar1 = NAN(ltcg_pool_0_0f);
       bVar8 = fVar2 < ltcg_pool_0_0f;
       param_1[0x45] = (int)ltcg_pool_0_0f;
-      if (*(float *)(&lbl_821954D8 + ((uint)(byte)(bVar8 << 2) | (uint)(NAN(fVar2) || bVar1) << 2))
+      if (*(float *)(&lbl_821954D8 + ((unsigned int)(unsigned char)(bVar8 << 2) | (unsigned int)(NAN(fVar2) || bVar1) << 2))
           < 0.0) {
         fVar2 = fVar3;
       }
       fVar5 = fVar2 - fVar6;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar5 < fVar3) << 2) | (uint)(NAN(fVar5) || NAN(fVar3)) << 2)) <
+                    ((unsigned int)(unsigned char)((fVar5 < fVar3) << 2) | (unsigned int)(NAN(fVar5) || NAN(fVar3)) << 2)) <
           0.0) {
         fVar6 = fVar2;
       }
@@ -80,26 +54,26 @@ void fn_82414D28(int *param_1,longlong param_2,undefined8 param_3,undefined8 par
       iVar4 = (int)((param_2 + 0x38U & 0xffffffff) << 2);
       fVar3 = *(float *)(iVar4 + (int)param_1) + (float)param_1[0x44];
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar3 < ltcg_pool_0_0f) << 2) |
-                    (uint)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
+                    (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar3 = ltcg_pool_0_0f;
       }
       fVar5 = lbl_82005748;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar3 - lbl_82005748 < ltcg_pool_0_0f) << 2) |
-                    (uint)(NAN(fVar3 - lbl_82005748) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
+                    ((unsigned int)(unsigned char)((fVar3 - lbl_82005748 < ltcg_pool_0_0f) << 2) |
+                    (unsigned int)(NAN(fVar3 - lbl_82005748) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
         fVar5 = fVar3;
       }
       param_1[0x44] = (int)fVar5;
       fVar3 = *(float *)(iVar4 + (int)param_1) + (float)param_1[0x43];
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar3 < fVar2) << 2) | (uint)(NAN(fVar3) || NAN(fVar2)) << 2)) <
+                    ((unsigned int)(unsigned char)((fVar3 < fVar2) << 2) | (unsigned int)(NAN(fVar3) || NAN(fVar2)) << 2)) <
           0.0) {
         fVar3 = fVar2;
       }
       fVar5 = fVar3 - fVar6;
       if (*(float *)(&lbl_821954D8 +
-                    ((uint)(byte)((fVar5 < fVar2) << 2) | (uint)(NAN(fVar5) || NAN(fVar2)) << 2)) <
+                    ((unsigned int)(unsigned char)((fVar5 < fVar2) << 2) | (unsigned int)(NAN(fVar5) || NAN(fVar2)) << 2)) <
           0.0) {
         fVar6 = fVar3;
       }

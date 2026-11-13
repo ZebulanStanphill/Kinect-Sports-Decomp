@@ -1,56 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
 #define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-longlong fn_829F9E30(int param_1,ulonglong param_2,ulonglong param_3,uint param_4,
-                      ulonglong param_5,ulonglong param_6,uint param_7)
+__int64 fn_829F9E30(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int param_4,
+                      unsigned __int64 param_5,unsigned __int64 param_6,unsigned int param_7)
 
 {
   bool bVar1;
   bool bVar2;
   int iVar3;
   int iVar4;
-  ulonglong uVar5;
+  unsigned __int64 uVar5;
   int iVar7;
-  ulonglong uVar6;
+  unsigned __int64 uVar6;
   int iVar9;
-  ulonglong uVar8;
-  longlong lVar10;
-  ulonglong uVar11;
-  longlong lVar12;
-  ulonglong uVar13;
-  longlong lVar14;
-  uint uVar15;
-  longlong lVar16;
-  uint uVar17;
-  ulonglong uVar18;
-  ulonglong uVar19;
-  longlong lVar20;
+  unsigned __int64 uVar8;
+  __int64 lVar10;
+  unsigned __int64 uVar11;
+  __int64 lVar12;
+  unsigned __int64 uVar13;
+  __int64 lVar14;
+  unsigned int uVar15;
+  __int64 lVar16;
+  unsigned int uVar17;
+  unsigned __int64 uVar18;
+  unsigned __int64 uVar19;
+  __int64 lVar20;
   
   lVar16 = 0;
   iVar3 = (int)param_2;
@@ -81,8 +57,8 @@ longlong fn_829F9E30(int param_1,ulonglong param_2,ulonglong param_3,uint param_
     }
     uVar13 = param_6 - uVar5;
     uVar18 = uVar6 - uVar8;
-    uVar11 = (ulonglong)((int)uVar13 >> 0x1f);
-    lVar20 = (longlong)((int)uVar18 >> 1) + (ulonglong)((int)uVar18 < 0 && (uVar18 & 1) != 0);
+    uVar11 = (unsigned __int64)((int)uVar13 >> 0x1f);
+    lVar20 = (__int64)((int)uVar18 >> 1) + (unsigned __int64)((int)uVar18 < 0 && (uVar18 & 1) != 0);
     uVar19 = 1;
     if ((int)param_6 <= (int)uVar5) {
       uVar19 = 0xffffffffffffffff;
@@ -102,7 +78,7 @@ longlong fn_829F9E30(int param_1,ulonglong param_2,ulonglong param_3,uint param_
           lVar12 = (uVar19 + (uVar19 & 0x3fffffff) * 4 & 0xfffffff) * 0x10 + lVar12;
           lVar20 = lVar20 + uVar18;
         }
-        uVar15 = (uint)*(ushort *)((int)((lVar14 + 0x1c3fU & 0xffffffff) << 4) + param_1 + 0xc);
+        uVar15 = (unsigned int)*(unsigned short *)((int)((lVar14 + 0x1c3fU & 0xffffffff) << 4) + param_1 + 0xc);
         if (uVar15 == uVar17) break;
         if (uVar15 == param_4) {
           bVar2 = true;

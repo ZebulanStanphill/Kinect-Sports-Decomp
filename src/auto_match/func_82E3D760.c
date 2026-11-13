@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_50;
 extern unsigned int *auStack_78;
 extern int fn_82E3ACD8();
@@ -39,34 +12,34 @@ extern unsigned int uStack00000020;
 extern unsigned int uStack00000028;
 
 
-undefined8
-fn_82E3D760(longlong param_1,undefined8 param_2,undefined8 param_3,undefined4 *param_4,
-             undefined4 *param_5)
+unsigned __int64
+fn_82E3D760(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4,
+             unsigned int *param_5)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   int *piVar3;
   int iVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  undefined8 uVar7;
-  undefined8 uStack00000020;
-  undefined8 uStack00000028;
+  unsigned char *pbVar5;
+  unsigned char *pbVar6;
+  unsigned __int64 uVar7;
+  unsigned __int64 uStack00000020;
+  unsigned __int64 uStack00000028;
   int * apiStack_80;
-  undefined1 auStack_78 [8];
-  byte abStack_70 [4];
+  unsigned char auStack_78 [8];
+  unsigned char abStack_70 [4];
   int iStack_6c;
   int iStack_68;
   int iStack_64;
-  byte abStack_60 [16];
-  undefined1 auStack_50 [32];
+  unsigned char abStack_60 [16];
+  unsigned char auStack_50 [32];
   
   uVar7 = 1;
-  if (param_4 != (undefined4 *)0x0) {
+  if (param_4 != (unsigned int *)0x0) {
     *param_4 = 0;
   }
-  if (param_5 != (undefined4 *)0x0) {
+  if (param_5 != (unsigned int *)0x0) {
     *param_5 = 0;
   }
   uStack00000020 = param_2;
@@ -88,15 +61,15 @@ fn_82E3D760(longlong param_1,undefined8 param_2,undefined8 param_3,undefined4 *p
       do {
         bVar1 = *pbVar6;
         bVar2 = *pbVar5;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
+        if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
         pbVar6 = pbVar6 + 1;
         pbVar5 = pbVar5 + 1;
       } while (pbVar6 != abStack_60);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
-        if (param_4 != (undefined4 *)0x0) {
-          (**(code **)(*apiStack_80 + 0xc))(apiStack_80,param_4);
+      if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
+        if (param_4 != (unsigned int *)0x0) {
+          (**(int (***)())(*apiStack_80 + 0xc))(apiStack_80,param_4);
         }
-        if (param_5 == (undefined4 *)0x0) {
+        if (param_5 == (unsigned int *)0x0) {
           return 0;
         }
         fn_82E6EEC0(piVar3,param_5,0);

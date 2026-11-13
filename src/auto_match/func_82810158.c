@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int fStack_40;
 extern unsigned int fStack_44;
 extern unsigned int fStack_48;
@@ -44,22 +17,22 @@ extern unsigned int lbl_83156DF2;
 void fn_82810158(double param_1,double param_2,double param_3)
 
 {
-  byte bVar1;
-  byte bVar2;
-  undefined8 uVar3;
+  unsigned char bVar1;
+  unsigned char bVar2;
+  unsigned __int64 uVar3;
   int in_r6;
-  uint uVar4;
-  uint in_r7;
+  unsigned int uVar4;
+  unsigned int in_r7;
   int iVar5;
   float *pfVar6;
   double dVar7;
   double dVar8;
-  undefined8 uVar9;
-  undefined8 uVar10;
-  undefined8 extraout_f1;
+  unsigned __int64 uVar9;
+  unsigned __int64 uVar10;
+  unsigned __int64 extraout_f1;
   double dVar11;
   double dVar12;
-  undefined8 uVar13;
+  unsigned __int64 uVar13;
   double dVar14;
   float fStack_50;
   float fStack_4c;
@@ -121,12 +94,12 @@ void fn_82810158(double param_1,double param_2,double param_3)
   iVar5 = uVar4 * 4;
   bVar1 = (&lbl_83156DF1)[iVar5];
   bVar2 = (&lbl_83156DF2)[iVar5];
-  pfVar6 = (float *)((uint)bVar1 * 4 + in_r6);
-  *(float *)((uint)(byte)(&lbl_83156DF0)[iVar5] * 4 + in_r6) =
+  pfVar6 = (float *)((unsigned int)bVar1 * 4 + in_r6);
+  *(float *)((unsigned int)(unsigned char)(&lbl_83156DF0)[iVar5] * 4 + in_r6) =
        fStack_48 * afStack_3c[0] * fStack_4c - fStack_40 * fStack_44 * fStack_50;
-  *(float *)((uint)bVar1 * 4 + in_r6) =
+  *(float *)((unsigned int)bVar1 * 4 + in_r6) =
        fStack_40 * afStack_3c[0] * fStack_4c + fStack_48 * fStack_44 * fStack_50;
-  *(float *)((uint)bVar2 * 4 + in_r6) =
+  *(float *)((unsigned int)bVar2 * 4 + in_r6) =
        fStack_40 * fStack_44 * fStack_4c - fStack_48 * afStack_3c[0] * fStack_50;
   *(float *)(in_r6 + 0xc) =
        fStack_40 * afStack_3c[0] * fStack_50 + fStack_48 * fStack_44 * fStack_4c;

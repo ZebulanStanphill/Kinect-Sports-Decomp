@@ -1,11 +1,10 @@
-typedef unsigned int U32;
-typedef struct { int pad[3]; U32 numAcquiredLists; void *pool; } OLF_82B6B3E8;
+typedef struct { int pad[3]; unsigned int numAcquiredLists; void *pool; } OLF_82B6B3E8;
 extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
-extern U32 fn_82AB59E8(void *);
+extern unsigned int fn_82AB59E8(void *);
 extern void fn_82AB53C0(void *);
-extern U32 fn_82D3B290(void);
+extern unsigned int fn_82D3B290(void);
 extern void fn_82B6B230(void *, void *);
-extern void *memset(void *, int, U32);
+extern void *memset(void *, int, unsigned int);
 void fn_82B6B3E8(OLF_82B6B3E8 *pOLF, void *pOList)
 {
   if (pOLF == 0) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pOLF", "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", 0xe0);

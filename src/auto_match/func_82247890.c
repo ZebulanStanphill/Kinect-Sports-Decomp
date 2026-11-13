@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern int fn_822315A0();
 extern int fn_82248AE8();
@@ -48,29 +21,29 @@ extern unsigned int uStack_38;
 void fn_82247890(int param_1)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
   char cVar3;
-  ulonglong uVar4;
-  undefined1 auStack_40 [4];
+  unsigned __int64 uVar4;
+  unsigned char auStack_40 [4];
   int iStack_3c;
-  uint uStack_38;
+  unsigned int uStack_38;
   int iStack_34;
   int iStack_30;
   int iStack_2c;
-  undefined4 uStack_28;
+  unsigned int uStack_28;
   
-  uVar1 = *(undefined4 *)(param_1 + 0x10);
-  uVar4 = (ulonglong)lbl_83297810;
+  uVar1 = *(unsigned int *)(param_1 + 0x10);
+  uVar4 = (unsigned __int64)lbl_83297810;
   if (uVar4 == 0) {
     uVar4 = fn_82511928();
   }
   fn_82513A80(auStack_40,uVar4,uVar1);
   fn_82522588(&uStack_38,auStack_40);
   iVar2 = fn_8225F160();
-  lbl_831D131C = ((uint)LZCOUNT(*(undefined4 *)(iVar2 + 8)) >> 5) + 5;
+  lbl_831D131C = ((unsigned int)LZCOUNT(*(unsigned int *)(iVar2 + 8)) >> 5) + 5;
   iVar2 = fn_8225F160();
-  lbl_831D1324 = *(undefined4 *)(iVar2 + 0xc);
+  lbl_831D1324 = *(unsigned int *)(iVar2 + 0xc);
   iStack_30 = 0;
   iStack_2c = 0;
   uStack_28 = 0;
@@ -82,7 +55,7 @@ void fn_82247890(int param_1)
     }
     iStack_2c = iVar2 + 8;
   }
-  fn_8251CF80((ulonglong)uStack_38 + 0x4c,1,&iStack_30);
+  fn_8251CF80((unsigned __int64)uStack_38 + 0x4c,1,&iStack_30);
   if (iStack_34 != 0) {
     fn_822315A0();
   }

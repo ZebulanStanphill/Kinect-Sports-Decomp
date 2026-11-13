@@ -1,5 +1,3 @@
-typedef unsigned char U8;
-
 extern int fn_82D74770();
 extern int fn_82D74788();
 extern int fn_82D747B0();
@@ -26,9 +24,9 @@ typedef struct Table_82D74958 {
   Fn_82D74958 f24;
   int f28;
   Fn_82D74958 f2C;
-  U8 f30;
-  U8 f31;
-  U8 f32;
+  unsigned char f30;
+  unsigned char f31;
+  unsigned char f32;
 } Table_82D74958;
 
 extern void fn_82D59328(void *self, Table_82D74958 *t, int a, int b);

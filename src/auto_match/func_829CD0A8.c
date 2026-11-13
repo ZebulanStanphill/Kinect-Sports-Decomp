@@ -1,30 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 #define TBLr 0
 extern int fn_829C9C30();
 extern int fn_829CCD78();
@@ -38,32 +13,32 @@ extern unsigned int *lbl_8321507C;
 extern unsigned int uRam832154c0;
 extern unsigned int uRam832172fc;
 extern unsigned int uStack_5c;
-extern U64 storeWordConditionalIndexed();
+extern unsigned __int64 storeWordConditionalIndexed();
 
 
-void fn_829CD0A8(int param_1,uint param_2,int param_3)
+void fn_829CD0A8(int param_1,unsigned int param_2,int param_3)
 
 {
   bool bVar1;
-  uint *puVar2;
-  uint uVar3;
-  undefined8 uVar4;
-  undefined8 uVar5;
-  ulonglong uVar6;
+  unsigned int *puVar2;
+  unsigned int uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
   int iVar7;
-  uint *puVar8;
+  unsigned int *puVar8;
   char in_RESERVE;
-  byte in_cr0;
-  struct { int first; uint second; } stack_pair_60;
+  unsigned char in_cr0;
+  struct { int first; unsigned int second; } stack_pair_60;
 
   
   uVar3 = uRam832154c0;
   bVar1 = false;
-  puVar8 = (uint *)0x0;
+  puVar8 = (unsigned int *)0x0;
   iRam832172f0 = iRam832172f0 + 1;
   uVar4 = TBLr;
   uVar5 = KfAcquireSpinLock(0xffffffff8321506c);
-  puVar2 = *(uint **)(param_1 + 0x10);
+  puVar2 = *(unsigned int **)(param_1 + 0x10);
   *puVar2 = 0;
   puVar2[1] = param_2;
   if ((-1 < (int)param_2) && (param_3 != 0x96000)) {
@@ -74,7 +49,7 @@ void fn_829CD0A8(int param_1,uint param_2,int param_3)
       puVar2[1] = 0xc0000206;
     }
   }
-  puVar2[0x17] = (uint)uVar4;
+  puVar2[0x17] = (unsigned int)uVar4;
   puVar2[0x18] = uVar3;
   puVar2[0x16] = puVar2[0x12];
   if ((int)puVar2[1] < 0) {
@@ -88,8 +63,8 @@ void fn_829CD0A8(int param_1,uint param_2,int param_3)
     stack_pair_60.second = 0;
     stack_pair_60.first = param_1;
     uVar6 = XamXStudioRequest(0x1004,&stack_pair_60.first);
-    uVar6 = ((uVar6 & 0xffffffff) >> 0x1f) - 1 & (ulonglong)stack_pair_60.second;
-    if (lbl_8321507C != (uint *)0x0) {
+    uVar6 = ((uVar6 & 0xffffffff) >> 0x1f) - 1 & (unsigned __int64)stack_pair_60.second;
+    if (lbl_8321507C != (unsigned int *)0x0) {
       *lbl_8321507C = *lbl_8321507C & 0xfffffffb;
       bVar1 = (*lbl_8321507C & 0x20) == 0x20;
       if ((*lbl_8321507C & 2) == 0) {
@@ -117,11 +92,11 @@ void fn_829CD0A8(int param_1,uint param_2,int param_3)
     KeSetEvent(0xffffffff83215024,1,0);
   }
   KfReleaseSpinLock(0xffffffff8321506c,uVar5);
-  if (puVar8 != (uint *)0x0) {
+  if (puVar8 != (unsigned int *)0x0) {
     fn_829C9C30(puVar8);
   }
   do {
-    uVar6 = (ulonglong)lbl_83215070;
+    uVar6 = (unsigned __int64)lbl_83215070;
     if (in_RESERVE != '\0') {
       lbl_83215070 = storeWordConditionalIndexed(uVar6 - 1,0,0xffffffff83215070);
       in_cr0 = 2;

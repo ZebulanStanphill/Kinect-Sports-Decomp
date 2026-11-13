@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E9AC18();
 extern int fn_82E9B140();
 extern int fn_82F26F98();
@@ -40,18 +13,18 @@ extern unsigned int uStack_ac;
 extern unsigned int uStack_bc;
 
 
-void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8 param_4, longlong param_5, undefined8 param_6, undefined8 param_7, undefined8 unused_arg_8, undefined8 unused_arg_9, int in_stack_0000005c, int in_stack_00000064, int in_stack_0000006c, int in_stack_00000074, int in_stack_0000007c, undefined8 unused_arg_15, undefined4 in_stack_0000008c, undefined8 unused_arg_17, undefined8 unused_arg_18, int in_stack_000000a4, uint in_stack_000000ac, uint in_stack_000000b4, undefined8 unused_arg_22, undefined8 unused_arg_23, int in_stack_000000cc, int in_stack_000000d4, uint in_stack_000000dc, uint in_stack_000000e4)
+void fn_82E9FBB0(int param_1, unsigned __int64 param_2, unsigned __int64 param_3, unsigned __int64 param_4, __int64 param_5, unsigned __int64 param_6, unsigned __int64 param_7, unsigned __int64 unused_arg_8, unsigned __int64 unused_arg_9, int in_stack_0000005c, int in_stack_00000064, int in_stack_0000006c, int in_stack_00000074, int in_stack_0000007c, unsigned __int64 unused_arg_15, unsigned int in_stack_0000008c, unsigned __int64 unused_arg_17, unsigned __int64 unused_arg_18, int in_stack_000000a4, unsigned int in_stack_000000ac, unsigned int in_stack_000000b4, unsigned __int64 unused_arg_22, unsigned __int64 unused_arg_23, int in_stack_000000cc, int in_stack_000000d4, unsigned int in_stack_000000dc, unsigned int in_stack_000000e4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   int iVar2;
-  uint uVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  ulonglong uVar6;
-  longlong lVar7;
-  undefined4 uStack0000001c;
-  uint uStack00000034;
+  unsigned int uVar3;
+  unsigned __int64 uVar4;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
+  __int64 lVar7;
+  unsigned int uStack0000001c;
+  unsigned int uStack00000034;
 
 
 
@@ -66,54 +39,54 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
 
 
   int *in_stack_000000ec;
-  undefined4 *in_stack_000000f4;
+  unsigned int *in_stack_000000f4;
   int *in_stack_000000fc;
   int iStack_c0;
-  uint uStack_bc;
+  unsigned int uStack_bc;
   int iStack_b8;
   int iStack_b4;
   int iStack_b0;
-  uint uStack_ac;
+  unsigned int uStack_ac;
   int iStack_a8;
-  undefined4 uStack_a4;
+  unsigned int uStack_a4;
   
-  uStack0000001c = (undefined4)param_2;
-  uVar6 = (ulonglong)in_stack_000000e4;
-  uVar5 = (ulonglong)in_stack_000000dc;
-  uVar3 = -(uint)(in_stack_0000007c != 0) & 2;
-  uStack00000034 = (uint)param_5;
+  uStack0000001c = (unsigned int)param_2;
+  uVar6 = (unsigned __int64)in_stack_000000e4;
+  uVar5 = (unsigned __int64)in_stack_000000dc;
+  uVar3 = -(unsigned int)(in_stack_0000007c != 0) & 2;
+  uStack00000034 = (unsigned int)param_5;
   iStack_a8 = 0;
   uStack_a4 = 0;
   if (in_stack_00000064 != 0) {
     if (in_stack_00000074 != 0) {
       if (in_stack_000000a4 == 1) {
-        (**(code **)(param_1 + 0x9b8))();
+        (**(int (***)())(param_1 + 0x9b8))();
       }
       else {
-        (**(code **)(param_1 + 0x9c0))
-                  ((param_5 - (ulonglong)*(uint *)(param_1 + 0x564)) + -1,
-                   (ulonglong)*(uint *)(param_1 + 0x564),in_stack_0000008c,0x10,0xfffffffffffffffe,
-                   0xfffffffffffffffe,in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+        (**(int (***)())(param_1 + 0x9c0))
+                  ((param_5 - (unsigned __int64)*(unsigned int *)(param_1 + 0x564)) + -1,
+                   (unsigned __int64)*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,0x10,0xfffffffffffffffe,
+                   0xfffffffffffffffe,in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
       }
       fn_82E9AC18(param_1,param_2,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc);
-      if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-        fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+        fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                           uVar5 - 1,uVar6 - 1,0);
         fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-        fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+        fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                           uVar5 - 1,uVar6 - 1,0);
         fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      iVar2 = fn_82E9B140(param_1,(ulonglong)in_stack_000000ac - 2,
-                            (ulonglong)in_stack_000000b4 - 2,uStack_bc,1);
+      iVar2 = fn_82E9B140(param_1,(unsigned __int64)in_stack_000000ac - 2,
+                            (unsigned __int64)in_stack_000000b4 - 2,uStack_bc,1);
       iStack_b8 = iVar2 + iStack_b8;
       if (in_stack_000000d4 != 0) {
         iStack_b8 = iStack_b8 + 1;
@@ -125,38 +98,38 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
         in_stack_0000005c = iVar2;
       }
     }
-    uVar1 = *(uint *)(param_1 + 0x564);
+    uVar1 = *(unsigned int *)(param_1 + 0x564);
     lVar7 = 0;
-    uVar4 = (ulonglong)uStack00000034;
+    uVar4 = (unsigned __int64)uStack00000034;
     do {
       if (in_stack_000000a4 == 1) {
-        (**(code **)(param_1 + 0x9b8))();
+        (**(int (***)())(param_1 + 0x9b8))();
       }
       else {
-        (**(code **)(param_1 + 0x9c0))
-                  (uVar4 - uVar1,*(undefined4 *)(param_1 + 0x564),in_stack_0000008c,0x10,lVar7,
-                   0xfffffffffffffffe,in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+        (**(int (***)())(param_1 + 0x9c0))
+                  (uVar4 - uVar1,*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,0x10,lVar7,
+                   0xfffffffffffffffe,in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
       }
       fn_82E9AC18(param_1,uStack0000001c,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc);
       iVar2 = (int)lVar7 >> 1;
-      if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-        fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
-                          (longlong)iVar2 + uVar5,uVar6 - 1,0);
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+        fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
+                          (__int64)iVar2 + uVar5,uVar6 - 1,0);
         fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-        fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
-                          (longlong)iVar2 + uVar5,uVar6 - 1,0);
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+        fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
+                          (__int64)iVar2 + uVar5,uVar6 - 1,0);
         fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      iVar2 = fn_82E9B140(param_1,lVar7 + (ulonglong)in_stack_000000ac,
-                            (ulonglong)in_stack_000000b4 - 2,uStack_bc,1);
+      iVar2 = fn_82E9B140(param_1,lVar7 + (unsigned __int64)in_stack_000000ac,
+                            (unsigned __int64)in_stack_000000b4 - 2,uStack_bc,1);
       iStack_b8 = iVar2 + iStack_b8;
       if (in_stack_000000d4 != 0) {
         iStack_b8 = iStack_b8 + 1;
@@ -170,34 +143,34 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
       lVar7 = lVar7 + 2;
     } while ((int)lVar7 <= (int)uVar3);
   }
-  uVar4 = (ulonglong)in_stack_000000b4;
+  uVar4 = (unsigned __int64)in_stack_000000b4;
   if (in_stack_00000074 != 0) {
     if (in_stack_000000a4 == 1) {
-      (**(code **)(param_1 + 0x9b8))();
+      (**(int (***)())(param_1 + 0x9b8))();
     }
     else {
-      (**(code **)(param_1 + 0x9c0))
-                ((ulonglong)uStack00000034 - 1,*(undefined4 *)(param_1 + 0x564),in_stack_0000008c,
-                 0x10,0xfffffffffffffffe,0,in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+      (**(int (***)())(param_1 + 0x9c0))
+                ((unsigned __int64)uStack00000034 - 1,*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,
+                 0x10,0xfffffffffffffffe,0,in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
     }
     fn_82E9AC18(param_1,uStack0000001c,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc);
-    if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-      fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+    if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+      fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                         uVar5 - 1,uVar6,0);
       fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
       iStack_c0 = iStack_b4 + iStack_c0;
       uStack_bc = uStack_ac | uStack_bc;
       iStack_b8 = iStack_b0 + iStack_b8;
     }
-    if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-      fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+    if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+      fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                         uVar5 - 1,uVar6,0);
       fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
       iStack_c0 = iStack_b4 + iStack_c0;
       uStack_bc = uStack_ac | uStack_bc;
       iStack_b8 = iStack_b0 + iStack_b8;
     }
-    iVar2 = fn_82E9B140(param_1,(ulonglong)in_stack_000000ac - 2,uVar4,uStack_bc,1);
+    iVar2 = fn_82E9B140(param_1,(unsigned __int64)in_stack_000000ac - 2,uVar4,uStack_bc,1);
     iStack_b8 = iVar2 + iStack_b8;
     if (in_stack_000000d4 != 0) {
       iStack_b8 = iStack_b8 + 1;
@@ -211,31 +184,31 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
   }
   if (in_stack_0000007c != 0) {
     if (in_stack_000000a4 == 1) {
-      (**(code **)(param_1 + 0x9b8))();
+      (**(int (***)())(param_1 + 0x9b8))();
     }
     else {
-      (**(code **)(param_1 + 0x9c0))
-                (uStack00000034,*(undefined4 *)(param_1 + 0x564),in_stack_0000008c,0x10,2,0,
-                 in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+      (**(int (***)())(param_1 + 0x9c0))
+                (uStack00000034,*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,0x10,2,0,
+                 in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
     }
     fn_82E9AC18(param_1,uStack0000001c,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc);
-    if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-      fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+    if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+      fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                         uVar5 + 1,uVar6,0);
       fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
       iStack_c0 = iStack_b4 + iStack_c0;
       uStack_bc = uStack_ac | uStack_bc;
       iStack_b8 = iStack_b0 + iStack_b8;
     }
-    if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-      fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+    if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+      fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                         uVar5 + 1,uVar6,0);
       fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
       iStack_c0 = iStack_b4 + iStack_c0;
       uStack_bc = uStack_ac | uStack_bc;
       iStack_b8 = iStack_b0 + iStack_b8;
     }
-    iVar2 = fn_82E9B140(param_1,(ulonglong)in_stack_000000ac + 2,uVar4,uStack_bc,1);
+    iVar2 = fn_82E9B140(param_1,(unsigned __int64)in_stack_000000ac + 2,uVar4,uStack_bc,1);
     iStack_b8 = iVar2 + iStack_b8;
     if (in_stack_000000d4 != 0) {
       iStack_b8 = iStack_b8 + 1;
@@ -250,31 +223,31 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
   if (in_stack_0000006c != 0) {
     if (in_stack_00000074 != 0) {
       if (in_stack_000000a4 == 1) {
-        (**(code **)(param_1 + 0x9b8))();
+        (**(int (***)())(param_1 + 0x9b8))();
       }
       else {
-        (**(code **)(param_1 + 0x9c0))
-                  ((ulonglong)uStack00000034 - 1,*(undefined4 *)(param_1 + 0x564),in_stack_0000008c,
-                   0x10,0xfffffffffffffffe,2,in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+        (**(int (***)())(param_1 + 0x9c0))
+                  ((unsigned __int64)uStack00000034 - 1,*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,
+                   0x10,0xfffffffffffffffe,2,in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
       }
       fn_82E9AC18(param_1,uStack0000001c,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc);
-      if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-        fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+        fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                           uVar5 - 1,uVar6 + 1,0);
         fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-        fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
+      if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+        fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
                           uVar5 - 1,uVar6 + 1,0);
         fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
         iStack_c0 = iStack_b4 + iStack_c0;
         uStack_bc = uStack_ac | uStack_bc;
         iStack_b8 = iStack_b0 + iStack_b8;
       }
-      iVar2 = fn_82E9B140(param_1,(ulonglong)in_stack_000000ac - 2,uVar4 + 2,uStack_bc,1);
+      iVar2 = fn_82E9B140(param_1,(unsigned __int64)in_stack_000000ac - 2,uVar4 + 2,uStack_bc,1);
       iStack_b8 = iVar2 + iStack_b8;
       if (in_stack_000000d4 != 0) {
         iStack_b8 = iStack_b8 + 1;
@@ -290,33 +263,33 @@ void fn_82E9FBB0(int param_1, undefined8 param_2, undefined8 param_3, undefined8
     if (-1 < (int)uVar3) {
       do {
         if (in_stack_000000a4 == 1) {
-          (**(code **)(param_1 + 0x9b8))();
+          (**(int (***)())(param_1 + 0x9b8))();
         }
         else {
-          (**(code **)(param_1 + 0x9c0))
-                    (uStack00000034,*(undefined4 *)(param_1 + 0x564),in_stack_0000008c,0x10,lVar7,2,
-                     in_stack_000000a4,*(undefined4 *)(param_1 + 0x618));
+          (**(int (***)())(param_1 + 0x9c0))
+                    (uStack00000034,*(unsigned int *)(param_1 + 0x564),in_stack_0000008c,0x10,lVar7,2,
+                     in_stack_000000a4,*(unsigned int *)(param_1 + 0x618));
         }
         fn_82E9AC18(param_1,uStack0000001c,0x10,in_stack_0000008c,0x10,0x10,0x10,in_stack_000000cc
                      );
         iVar2 = (int)lVar7 >> 1;
-        if ((*(uint *)(param_1 + 0x6dc4) & 1) != 0) {
-          fn_82F26F98(param_1,param_6,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
-                            (longlong)iVar2 + uVar5,uVar6 + 1,0);
+        if ((*(unsigned int *)(param_1 + 0x6dc4) & 1) != 0) {
+          fn_82F26F98(param_1,param_6,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
+                            (__int64)iVar2 + uVar5,uVar6 + 1,0);
           fn_82E9AC18(param_1,param_3,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
           iStack_c0 = iStack_b4 + iStack_c0;
           uStack_bc = uStack_ac | uStack_bc;
           iStack_b8 = iStack_b0 + iStack_b8;
         }
-        if ((*(uint *)(param_1 + 0x6dc4) & 2) != 0) {
-          fn_82F26F98(param_1,param_7,*(undefined4 *)(param_1 + 0x568),in_stack_0000008c,8,
-                            (longlong)iVar2 + uVar5,uVar6 + 1,0);
+        if ((*(unsigned int *)(param_1 + 0x6dc4) & 2) != 0) {
+          fn_82F26F98(param_1,param_7,*(unsigned int *)(param_1 + 0x568),in_stack_0000008c,8,
+                            (__int64)iVar2 + uVar5,uVar6 + 1,0);
           fn_82E9AC18(param_1,param_4,8,in_stack_0000008c,8,8,8,in_stack_000000cc);
           iStack_c0 = iStack_b4 + iStack_c0;
           uStack_bc = uStack_ac | uStack_bc;
           iStack_b8 = iStack_b0 + iStack_b8;
         }
-        iVar2 = fn_82E9B140(param_1,lVar7 + (ulonglong)in_stack_000000ac,uVar4 + 2,uStack_bc,1);
+        iVar2 = fn_82E9B140(param_1,lVar7 + (unsigned __int64)in_stack_000000ac,uVar4 + 2,uStack_bc,1);
         iStack_b8 = iVar2 + iStack_b8;
         if (in_stack_000000d4 != 0) {
           iStack_b8 = iStack_b8 + 1;

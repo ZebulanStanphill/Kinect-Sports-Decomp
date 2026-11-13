@@ -1,54 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
+#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_8278FED0();
 extern unsigned int iStack00000024;
 extern unsigned int stack0x00000024;
 
 
-undefined8 * fn_82791070(undefined8 *param_1,int param_2,ulonglong param_3,int *param_4)
+unsigned __int64 * fn_82791070(unsigned __int64 *param_1,int param_2,unsigned __int64 param_3,int *param_4)
 
 {
   int iVar1;
-  uint uVar2;
-  ulonglong uVar3;
+  unsigned int uVar2;
+  unsigned __int64 uVar3;
   int *piVar4;
   int iStack00000024;
   
   piVar4 = (int *)(param_2 + 0xc);
   iStack00000024 = (int)param_3;
-  uVar2 = fn_8278FED0(piVar4,0,*(undefined4 *)(param_2 + 0x10),&stack0x00000024,0xffffffff8278fb00
+  uVar2 = fn_8278FED0(piVar4,0,*(unsigned int *)(param_2 + 0x10),&stack0x00000024,0xffffffff8278fb00
                        );
-  if (uVar2 < *(uint *)(param_2 + 0x10)) {
+  if (uVar2 < *(unsigned int *)(param_2 + 0x10)) {
     iVar1 = *(int *)(uVar2 * 4 + *piVar4);
-    uVar3 = (ulonglong)*(uint *)(iVar1 + 0x1c);
+    uVar3 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x1c);
     if (((uVar3 <= (param_3 & 0xffffffff)) &&
-        ((param_3 & 0xffffffff) < (*(uint *)(iVar1 + 4) + uVar3 & 0xffffffff))) ||
+        ((param_3 & 0xffffffff) < (*(unsigned int *)(iVar1 + 4) + uVar3 & 0xffffffff))) ||
        (uVar3 == param_3)) {
       if (param_4 != (int *)0x0) {
         *param_4 = (int)param_3 - *(int *)(*(int *)(*piVar4 + uVar2 * 4) + 0x1c);
@@ -57,8 +30,8 @@ undefined8 * fn_82791070(undefined8 *param_1,int param_2,ulonglong param_3,int *
       return param_1;
     }
   }
-  *(undefined4 *)param_1 = 0;
-  *(undefined4 *)((int)param_1 + 4) = 0xffffffff;
+  *(unsigned int *)param_1 = 0;
+  *(unsigned int *)((int)param_1 + 4) = 0xffffffff;
   return param_1;
 }
 

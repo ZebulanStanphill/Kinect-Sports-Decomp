@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_78;
 extern unsigned int *auStack_88;
 extern unsigned int fStack_94;
@@ -49,28 +22,28 @@ extern unsigned int uStack_98;
 extern unsigned int uStack_9c;
 
 
-undefined8 fn_8285DB68(double param_1,undefined8 param_2,undefined8 param_3)
+unsigned __int64 fn_8285DB68(double param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   float fVar1;
   int iVar2;
   float *in_r7;
-  undefined8 uVar3;
+  unsigned __int64 uVar3;
   double dVar4;
-  undefined8 uVar5;
-  undefined8 uVar6;
+  unsigned __int64 uVar5;
+  unsigned __int64 uVar6;
   double dVar7;
-  undefined4 uStack_9c;
-  struct { undefined4 first; float second; } stack_pair_98;
+  unsigned int uStack_9c;
+  struct { unsigned int first; float second; } stack_pair_98;
 
-  undefined1 auStack_88 [16];
-  undefined1 auStack_78 [24];
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
+  unsigned char auStack_88 [16];
+  unsigned char auStack_78 [24];
+  unsigned int uStack_60;
+  unsigned int uStack_5c;
+  unsigned int uStack_58;
+  unsigned int uStack_54;
+  unsigned int uStack_50;
+  unsigned int uStack_4c;
   
   uStack_9c = 0;
   stack_pair_98.first = 0;

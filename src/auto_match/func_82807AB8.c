@@ -1,63 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
 typedef unsigned char bool;
-#define true 1
 #define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_828114A8();
 extern int fn_82811500();
 
 
-void fn_82807AB8(int param_1,int param_2,undefined1 *param_3,int param_4)
+void fn_82807AB8(int param_1,int param_2,unsigned char *param_3,int param_4)
 
 {
-  byte bVar1;
-  byte bVar2;
+  unsigned char bVar1;
+  unsigned char bVar2;
   bool bVar3;
-  ulonglong uVar4;
+  unsigned __int64 uVar4;
   int iVar5;
   int iVar6;
   int iVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  ulonglong uVar11;
-  longlong lVar12;
-  byte *pbVar13;
-  byte *pbVar14;
-  ulonglong uVar15;
+  unsigned int uVar8;
+  unsigned int uVar9;
+  unsigned int uVar10;
+  unsigned __int64 uVar11;
+  __int64 lVar12;
+  unsigned char *pbVar13;
+  unsigned char *pbVar14;
+  unsigned __int64 uVar15;
   
-  pbVar13 = *(byte **)(param_2 + 0xc);
+  pbVar13 = *(unsigned char **)(param_2 + 0xc);
   if (param_4 == 0) {
     uVar11 = 0;
     uVar10 = 0;
     iVar5 = 0;
     if (*(short *)(param_1 + 0x48) != 0) {
       do {
-        uVar9 = (uint)*(ushort *)(param_2 + 0x1e);
+        uVar9 = (unsigned int)*(unsigned short *)(param_2 + 0x1e);
         iVar6 = 0;
-        if (*(ushort *)(param_2 + 0x1e) != 0) {
+        if (*(unsigned short *)(param_2 + 0x1e) != 0) {
           do {
             pbVar14 = pbVar13 + 1;
             bVar1 = *pbVar13 & 3;
@@ -90,7 +65,7 @@ LAB_82807c84:
               uVar10 = uVar9;
             }
             if (7 < (int)uVar10) {
-              uVar15 = (ulonglong)(uVar10 >> 3);
+              uVar15 = (unsigned __int64)(uVar10 >> 3);
               uVar8 = uVar10 & 0xfffffff8;
               uVar10 = uVar10 - uVar8;
               uVar9 = uVar9 - uVar8;
@@ -103,10 +78,10 @@ LAB_82807c84:
               } while (uVar15 != 0);
             }
             iVar6 = iVar6 + 9;
-          } while (iVar6 < (int)(uint)*(ushort *)(param_2 + 0x1e));
+          } while (iVar6 < (int)(unsigned int)*(unsigned short *)(param_2 + 0x1e));
         }
         iVar5 = iVar5 + 1;
-      } while (iVar5 < (int)(uint)*(ushort *)(param_1 + 0x48));
+      } while (iVar5 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x48));
       if (uVar10 != 0) {
         *param_3 = (char)(uVar11 >> 0x18);
       }
@@ -119,10 +94,10 @@ LAB_82807c84:
       do {
         iVar6 = *(int *)(param_1 + 0x58);
         bVar3 = false;
-        if ((iVar6 == 0) || ((uint)*(ushort *)(iVar5 + iVar6) == (uint)lVar12)) {
+        if ((iVar6 == 0) || ((unsigned int)*(unsigned short *)(iVar5 + iVar6) == (unsigned int)lVar12)) {
           iVar5 = iVar5 + 2;
           iVar7 = 0;
-          if (*(ushort *)(param_2 + 0x1e) == 0) goto LAB_82807bb4;
+          if (*(unsigned short *)(param_2 + 0x1e) == 0) goto LAB_82807bb4;
           do {
             bVar1 = *pbVar13;
             pbVar14 = pbVar13 + 1;
@@ -144,7 +119,7 @@ LAB_82807c84:
 LAB_82807b90:
             pbVar13 = pbVar14;
             iVar7 = iVar7 + 9;
-          } while (iVar7 < (int)(uint)*(ushort *)(param_2 + 0x1e));
+          } while (iVar7 < (int)(unsigned int)*(unsigned short *)(param_2 + 0x1e));
           if (!bVar3) goto LAB_82807bb4;
           fn_828114A8(param_3,lVar12);
         }
@@ -155,7 +130,7 @@ LAB_82807bb4:
           }
         }
         lVar12 = lVar12 + 1;
-      } while ((int)lVar12 < (int)(uint)*(ushort *)(param_1 + 0x48));
+      } while ((int)lVar12 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x48));
     }
   }
   return;

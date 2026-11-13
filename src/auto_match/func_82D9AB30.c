@@ -1,39 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
 #define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 
 
-void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
+void fn_82D9AB30(unsigned short *param_1,int param_2,int *param_3)
 
 {
-  byte bVar1;
-  ushort uVar2;
+  unsigned char bVar1;
+  unsigned short uVar2;
   int iVar3;
-  ushort *puVar4;
+  unsigned short *puVar4;
   int iVar5;
   
   param_3[4] = (int)param_1;
@@ -44,7 +18,7 @@ void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
   param_3[3] = 0;
   if (*param_1 == 0x16) {
     uVar2 = param_1[2];
-    iVar3 = ((int)(uint)uVar2 >> 1) * 0x70 + ((uVar2 & 1) + (uVar2 & 1) * 2) * 0x10;
+    iVar3 = ((int)(unsigned int)uVar2 >> 1) * 0x70 + ((uVar2 & 1) + (uVar2 & 1) * 2) * 0x10;
     param_3[2] = uVar2 + 2;
     param_3[3] = uVar2 + 3;
     iVar5 = iVar3 + 0xa0;
@@ -58,7 +32,7 @@ void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
     param_3[3] = uVar2 + 4;
     return;
   }
-  puVar4 = (ushort *)((int)param_1 + param_2);
+  puVar4 = (unsigned short *)((int)param_1 + param_2);
   param_3[1] = 0x10;
   if (puVar4 <= param_1) {
     return;
@@ -66,9 +40,9 @@ void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
   do {
     uVar2 = *param_1;
     while (uVar2 < 0x1c) {
-      switch(*(undefined4 *)((uint)uVar2 * 4 + -0x7d26540c)) {
+      switch(*(unsigned int *)((unsigned int)uVar2 * 4 + -0x7d26540c)) {
       case 0x82d9ac64:
-        param_1 = (ushort *)((int)param_1 + 0xfU & 0xfffffff0);
+        param_1 = (unsigned short *)((int)param_1 + 0xfU & 0xfffffff0);
         uVar2 = *param_1;
         break;
       case 0x82d9ac7c:
@@ -114,11 +88,11 @@ void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
         param_3[3] = param_3[3] + 2;
         goto switchD_82d9abf0_caseD_82d9af1c;
       case 0x82d9adb0:
-        bVar1 = *(byte *)((int)param_1 + 3);
+        bVar1 = *(unsigned char *)((int)param_1 + 3);
         param_1 = param_1 + 2;
-        param_3[2] = param_3[2] + (uint)bVar1;
-        param_3[3] = param_3[3] + (uint)bVar1;
-        param_3[1] = (uint)bVar1 * 0x30 + param_3[1];
+        param_3[2] = param_3[2] + (unsigned int)bVar1;
+        param_3[3] = param_3[3] + (unsigned int)bVar1;
+        param_3[1] = (unsigned int)bVar1 * 0x30 + param_3[1];
         goto switchD_82d9abf0_caseD_82d9af1c;
       case 0x82d9adec:
         param_1 = param_1 + 8;
@@ -133,11 +107,11 @@ void fn_82D9AB30(ushort *param_1,int param_2,int *param_3)
         param_3[3] = param_3[3] + 1;
         goto switchD_82d9abf0_caseD_82d9af1c;
       case 0x82d9ae44:
-        bVar1 = *(byte *)(param_1 + 2);
+        bVar1 = *(unsigned char *)(param_1 + 2);
         param_1 = param_1 + 6;
-        param_3[2] = param_3[2] + (uint)bVar1;
-        param_3[3] = param_3[3] + (uint)bVar1 * 2;
-        param_3[1] = (uint)bVar1 * 0x30 + param_3[1];
+        param_3[2] = param_3[2] + (unsigned int)bVar1;
+        param_3[3] = param_3[3] + (unsigned int)bVar1 * 2;
+        param_3[1] = (unsigned int)bVar1 * 0x30 + param_3[1];
         goto switchD_82d9abf0_caseD_82d9af1c;
       case 0x82d9ae84:
         param_1 = param_1 + 10;

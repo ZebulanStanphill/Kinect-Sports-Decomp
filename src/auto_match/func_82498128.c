@@ -1,37 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_8248F8E8();
 extern int fn_824973B0();
 extern int fn_82497430();
 extern unsigned int lbl_821BEBB0;
 
 
-undefined4 * fn_82498128(undefined4 *param_1,int param_2,int *param_3,int *param_4)
+unsigned int * fn_82498128(unsigned int *param_1,int param_2,int *param_3,int *param_4)
 
 {
   int *piVar1;
@@ -45,7 +18,7 @@ undefined4 * fn_82498128(undefined4 *param_1,int param_2,int *param_3,int *param
     piVar2 = (int *)*piVar1;
     *piVar1 = (int)piVar1;
     *(int *)(*piVar4 + 4) = *piVar4;
-    *(undefined4 *)(param_2 + 8) = 0;
+    *(unsigned int *)(param_2 + 8) = 0;
     if (piVar2 != (int *)*piVar4) {
       do {
         piVar1 = (int *)*piVar2;
@@ -55,7 +28,7 @@ undefined4 * fn_82498128(undefined4 *param_1,int param_2,int *param_3,int *param
       } while (piVar1 != (int *)*piVar4);
     }
     fn_82497430(param_2,8);
-    *param_1 = *(undefined4 *)*piVar4;
+    *param_1 = *(unsigned int *)*piVar4;
   }
   else {
     while (piVar1 = param_3, piVar1 != param_4) {

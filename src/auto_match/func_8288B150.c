@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned char *fn_8288AE70(int, unsigned int *);
 extern void fn_8289EDA0(unsigned int,unsigned int,unsigned int *,unsigned char);
 extern int fn_828A1C98();
@@ -36,15 +9,15 @@ extern unsigned int uStack_18;
 extern unsigned int uStack_20;
 
 
-unsigned int fn_8288B150(int param_1,undefined4 param_2)
+unsigned int fn_8288B150(int param_1,unsigned int param_2)
 
 {
   char *pcVar1;
   int result;
 
-  undefined1 uStack_20;
+  unsigned char uStack_20;
   unsigned int iStack_1c;
-  struct { undefined4 first; undefined4 second; } stack_pair_18;
+  struct { unsigned int first; unsigned int second; } stack_pair_18;
 
   
 

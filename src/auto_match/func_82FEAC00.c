@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_4f;
 extern char cRam83264344;
 extern int fn_82F691F0();
@@ -53,16 +26,16 @@ extern unsigned int uRam8326432c;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82FEAC00(int param_1,undefined8 param_2)
+unsigned __int64 fn_82FEAC00(int param_1,unsigned __int64 param_2)
 
 {
   char cVar3;
-  undefined8 uVar1;
+  unsigned __int64 uVar1;
   int iVar2;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  longlong lVar6;
-  undefined1 auStack_4f [79];
+  unsigned int *puVar4;
+  unsigned int *puVar5;
+  __int64 lVar6;
+  unsigned char auStack_4f [79];
   
   lbl_831BC76C = 3;
   cVar3 = fn_82FA4EB8();
@@ -82,7 +55,7 @@ undefined8 fn_82FEAC00(int param_1,undefined8 param_2)
         uRam83264328 = 0;
       }
       else {
-        puVar5 = (undefined4 *)(param_1 + -4);
+        puVar5 = (unsigned int *)(param_1 + -4);
         puVar4 = &lbl_83264308;
         lVar6 = 8;
         do {

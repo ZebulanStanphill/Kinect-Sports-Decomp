@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int fStack_48;
 extern unsigned int fStack_4c;
 extern unsigned int fStack_50;
@@ -42,30 +16,30 @@ extern V16 vectorRotateLeftImmediateMaskInsert128();
 extern void *memcpy(void *, const void *, unsigned int);
 
 
-void fn_823DBBB0(int param_1,int param_2,int *param_3,undefined8 param_4,undefined8 param_5,
-                  undefined8 param_6,undefined8 param_7)
+void fn_823DBBB0(int param_1,int param_2,int *param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+                  unsigned __int64 param_6,unsigned __int64 param_7)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   float *pfVar2;
   float *pfVar3;
-  undefined8 in_r0;
+  unsigned __int64 in_r0;
   int iVar4;
-  undefined1 auVar5 [16];
-  undefined1 in_vs42 [16];
+  unsigned char auVar5 [16];
+  unsigned char in_vs42 [16];
   float fVar6;
   float fVar7;
-  undefined1 in_vr0 [16];
+  unsigned char in_vr0 [16];
   float fVar8;
   float in_register_00010010;
   float in_register_00010014;
   float in_register_00010018;
   float in_vr1;
-  undefined1 in_vr11 [16];
-  undefined1 auVar9 [16];
-  undefined1 in_vr12 [16];
-  undefined1 in_vr13 [16];
-  undefined1 auVar10 [16];
+  unsigned char in_vr11 [16];
+  unsigned char auVar9 [16];
+  unsigned char in_vr12 [16];
+  unsigned char in_vr13 [16];
+  unsigned char auVar10 [16];
   int aiStack_60 [2];
   float fStack_58;
   float fStack_54;
@@ -79,7 +53,7 @@ void fn_823DBBB0(int param_1,int param_2,int *param_3,undefined8 param_4,undefin
                             0xffffffff821cc160);
   if (iVar4 != 0) {
     if (((aiStack_60[0] == 1) || (aiStack_60[0] == 2)) || (aiStack_60[0] != 0)) {
-      fn_824CCD80(*(undefined4 *)(*param_3 + 0x10));
+      fn_824CCD80(*(unsigned int *)(*param_3 + 0x10));
       fn_824E94F0(-(double)(float)((double)fStack_58 * (double)lbl_8218E8E8 -
                                         (double)fStack_50),
                         -(double)(float)((double)fStack_54 * (double)lbl_8218E8E8 -
@@ -90,7 +64,7 @@ void fn_823DBBB0(int param_1,int param_2,int *param_3,undefined8 param_4,undefin
       fVar6 = pfVar2[1];
       fVar7 = pfVar2[2];
       fVar8 = pfVar2[3];
-      uVar1 = *(undefined4 *)(*param_3 + 0x10);
+      uVar1 = *(unsigned int *)(*param_3 + 0x10);
       pfVar3 = (float *)((int)&fStack_50 + (int)in_r0 & 0xfffffff0);
       *pfVar3 = *pfVar2 + in_register_00010010;
       pfVar3[1] = fVar6 + in_register_00010014;

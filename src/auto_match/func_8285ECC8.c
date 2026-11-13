@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_1240;
 extern unsigned int *auStack_1280;
 extern unsigned int *auStack_12c0;
@@ -60,29 +33,29 @@ extern unsigned int iStack_1390;
 extern unsigned int lbl_82002C5C;
 
 
-void fn_8285ECC8(int param_1,undefined8 param_2)
+void fn_8285ECC8(int param_1,unsigned __int64 param_2)
 
 {
   int iVar1;
   int iStack_1390;
-  undefined4 auStack_138c [6];
-  undefined1 auStack_1374 [4];
+  unsigned int auStack_138c [6];
+  unsigned char auStack_1374 [4];
   float fStack_1370;
   float fStack_136c;
   float fStack_1368;
   float fStack_1364;
-  undefined1 auStack_1360 [4];
-  undefined1 auStack_135c [4];
+  unsigned char auStack_1360 [4];
+  unsigned char auStack_135c [4];
   float fStack_1358;
   float fStack_1354;
   float fStack_1350;
   float fStack_134c;
-  undefined1 auStack_1330 [24];
-  undefined1 auStack_1318 [24];
-  undefined1 auStack_1300 [64];
-  undefined1 auStack_12c0 [64];
-  undefined1 auStack_1280 [64];
-  undefined1 auStack_1240 [4672];
+  unsigned char auStack_1330 [24];
+  unsigned char auStack_1318 [24];
+  unsigned char auStack_1300 [64];
+  unsigned char auStack_12c0 [64];
+  unsigned char auStack_1280 [64];
+  unsigned char auStack_1240 [4672];
   
   auStack_138c[0] = 0;
   iStack_1390 = 0;
@@ -105,7 +78,7 @@ void fn_8285ECC8(int param_1,undefined8 param_2)
       fStack_1350 = fStack_1370 + fStack_1358 + lbl_82002C5C;
       fStack_134c = fStack_136c + fStack_1364 * lbl_82002C5C + lbl_82002C5C;
                     /* WARNING: Subroutine does not return */
-      fn_82F691F0(*(undefined4 *)(iVar1 + 0xa8),0,*(undefined4 *)(param_1 + 0x58));
+      fn_82F691F0(*(unsigned int *)(iVar1 + 0xa8),0,*(unsigned int *)(param_1 + 0x58));
     }
   }
   else {

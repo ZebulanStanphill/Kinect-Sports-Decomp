@@ -1,5 +1,3 @@
-typedef int (*code)();
-
 typedef struct Obj_8301A938 Obj_8301A938;
 
 typedef struct {

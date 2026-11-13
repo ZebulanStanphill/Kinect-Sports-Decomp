@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FA5190();
 extern int fn_82FA9A38();
 extern int fn_82FAE2B8();
@@ -33,17 +6,17 @@ extern unsigned int lbl_831BC768;
 extern unsigned int uStack_40;
 
 
-int fn_82FAAC50(int param_1,undefined4 *param_2,undefined8 param_3,int *param_4)
+int fn_82FAAC50(int param_1,unsigned int *param_2,unsigned __int64 param_3,int *param_4)
 
 {
-  undefined4 uVar1;
+  unsigned int uVar1;
   int iVar2;
   int *piVar3;
   int iVar4;
   int iStack_50;
   int *piStack_48;
   int *piStack_44;
-  undefined4 uStack_40;
+  unsigned int uStack_40;
   
   *param_4 = 0;
   piStack_48 = (int *)0x0;
@@ -53,7 +26,7 @@ int fn_82FAAC50(int param_1,undefined4 *param_2,undefined8 param_3,int *param_4)
     uVar1 = 0;
   }
   else {
-    uVar1 = *(undefined4 *)(*(int *)(param_2[1] + 0x40) + 0x60);
+    uVar1 = *(unsigned int *)(*(int *)(param_2[1] + 0x40) + 0x60);
   }
   fn_82FAE2B8(uVar1,param_3,&piStack_48);
   if ((int)piStack_44 - (int)piStack_48 >> 2 == 0) {
@@ -67,7 +40,7 @@ int fn_82FAAC50(int param_1,undefined4 *param_2,undefined8 param_3,int *param_4)
     piVar3 = piStack_48;
     if (piStack_48 != piStack_44) {
       do {
-        iVar2 = fn_82FA9A38(param_2[1],*(undefined4 *)(param_1 + 8),*param_2,0,0,*piVar3,0,0);
+        iVar2 = fn_82FA9A38(param_2[1],*(unsigned int *)(param_1 + 8),*param_2,0,0,*piVar3,0,0);
         if ((iVar2 == 1) && ((iVar4 == 1 || (iStack_50 < *param_4)))) {
           *param_4 = iStack_50;
           iVar4 = 0;

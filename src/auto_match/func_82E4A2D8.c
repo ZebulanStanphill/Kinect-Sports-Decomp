@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82E49FA8();
 extern void *memcpy(void *, const void *, unsigned int);
 
 typedef struct {
   char pad0[0x20];
-  uint total;      /* 0x20 */
+  unsigned int total;      /* 0x20 */
   char pad24[0x18];
   char *dst;       /* 0x3c */
-  uint max;        /* 0x40 */
+  unsigned int max;        /* 0x40 */
   int pad44;
   char *src;       /* 0x48 */
   int pad4c;
   int pad50;
-  uint offset;     /* 0x54 */
+  unsigned int offset;     /* 0x54 */
 } Buf;
 
-int fn_82E4A2D8(char *param_1, uint *out, Buf *b)
+int fn_82E4A2D8(char *param_1, unsigned int *out, Buf *b)
 {
   int hr;
-  uint n;
+  unsigned int n;
 
   hr = 0;
   if (out == 0 || b == 0) {

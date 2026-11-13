@@ -1,30 +1,4 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_80;
 extern unsigned int fStack_30;
@@ -54,35 +28,35 @@ extern V16 vectorConditionalSelect();
 void fn_82444580(int param_1,int param_2)
 
 {
-  undefined4 *puVar1;
+  unsigned int *puVar1;
   int in_r0;
   int iVar2;
-  undefined4 *puVar3;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  undefined1 auStack_80 [16];
-  undefined4 uStack_70;
+  unsigned int *puVar3;
+  unsigned char in_vs32 [16];
+  unsigned char in_vs44 [16];
+  unsigned char in_vs45 [16];
+  unsigned int uVar4;
+  unsigned int uVar5;
+  unsigned int uVar6;
+  unsigned int uVar7;
+  unsigned int in_register_000104d0;
+  unsigned int in_register_000104d4;
+  unsigned int in_register_000104d8;
+  unsigned int in_vr77;
+  unsigned char auStack_80 [16];
+  unsigned int uStack_70;
   float fStack_6c;
   float fStack_68;
-  struct { undefined4 first; float second; } stack_pair_60;
+  struct { unsigned int first; float second; } stack_pair_60;
 
   float fStack_58;
-  undefined **ppuStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  undefined1 auStack_40 [16];
+  unsigned char **ppuStack_50;
+  unsigned int uStack_4c;
+  unsigned int uStack_48;
+  unsigned int uStack_44;
+  unsigned char auStack_40 [16];
   float fStack_30;
-  undefined1 uStack_2c;
+  unsigned char uStack_2c;
   
   iVar2 = *(int *)(param_1 + 0x14);
   if ((*(char *)(iVar2 + 0x2c) == '\0') || (*(int *)(iVar2 + 0xd4) != 0)) {
@@ -91,15 +65,15 @@ void fn_82444580(int param_1,int param_2)
       if (iVar2 == 0) {
         return;
       }
-      puVar3 = (undefined4 *)(*(int *)(param_1 + 4) + 8);
-      if (0xf < *(uint *)(*(int *)(param_1 + 4) + 0x1c)) {
-        puVar3 = (undefined4 *)*puVar3;
+      puVar3 = (unsigned int *)(*(int *)(param_1 + 4) + 8);
+      if (0xf < *(unsigned int *)(*(int *)(param_1 + 4) + 0x1c)) {
+        puVar3 = (unsigned int *)*puVar3;
       }
       fn_82526C70(&ppuStack_50,0x20,0xffffffff821b0c70,puVar3,0xffffffff821b9a08);
       stack_pair_60.first = lbl_831E4E38;
       fStack_58 = ltcg_pool_0_0f;
-      uVar4 = *(undefined4 *)(*(int *)(param_1 + 4) + 0x24);
-      puVar3 = (undefined4 *)((uint)(&lbl_8329EA20 + in_r0) & 0xfffffff0);
+      uVar4 = *(unsigned int *)(*(int *)(param_1 + 4) + 0x24);
+      puVar3 = (unsigned int *)((unsigned int)(&lbl_8329EA20 + in_r0) & 0xfffffff0);
       uVar5 = puVar3[1];
       uVar6 = puVar3[2];
       uVar7 = puVar3[3];
@@ -108,7 +82,7 @@ void fn_82444580(int param_1,int param_2)
       fStack_6c = ltcg_pool_0_0f;
       uStack_70 = lbl_831E4E38;
       stack_pair_60.second = ltcg_pool_0_0f;
-      puVar1 = (undefined4 *)((int)&uStack_70 + in_r0 & 0xfffffff0);
+      puVar1 = (unsigned int *)((int)&uStack_70 + in_r0 & 0xfffffff0);
       *puVar1 = *puVar3;
       puVar1[1] = uVar5;
       puVar1[2] = uVar6;
@@ -124,9 +98,9 @@ void fn_82444580(int param_1,int param_2)
     }
     else {
       iVar2 = *(int *)(*(int *)(param_2 + 0x174) + 0x5c);
-      uVar4 = *(undefined4 *)(*(int *)(iVar2 + 0x1d4) * 4 + *(int *)(iVar2 + 0x1c4));
+      uVar4 = *(unsigned int *)(*(int *)(iVar2 + 0x1d4) * 4 + *(int *)(iVar2 + 0x1c4));
     }
-    puVar3 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+    puVar3 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
     *puVar3 = in_register_000104d0;
     puVar3[1] = in_register_000104d4;
     puVar3[2] = in_register_000104d8;
@@ -141,12 +115,12 @@ void fn_82444580(int param_1,int param_2)
     if (iVar2 == 0) {
       return;
     }
-    *(undefined1 *)(*(int *)(param_1 + 0x14) + 0x2c) = 0;
-    puVar3 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
+    *(unsigned char *)(*(int *)(param_1 + 0x14) + 0x2c) = 0;
+    puVar3 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
     uVar4 = puVar3[1];
     uVar5 = puVar3[2];
     uVar6 = puVar3[3];
-    puVar1 = (undefined4 *)(*(int *)(param_1 + 0x14) + 0x80U & 0xfffffff0);
+    puVar1 = (unsigned int *)(*(int *)(param_1 + 0x14) + 0x80U & 0xfffffff0);
     *puVar1 = *puVar3;
     puVar1[1] = uVar4;
     puVar1[2] = uVar5;
@@ -162,17 +136,17 @@ void fn_82444580(int param_1,int param_2)
     if (iVar2 == 0) {
       return;
     }
-    puVar3 = (undefined4 *)((uint)(&lbl_8329EA20 + in_r0) & 0xfffffff0);
+    puVar3 = (unsigned int *)((unsigned int)(&lbl_8329EA20 + in_r0) & 0xfffffff0);
     uVar4 = puVar3[1];
     uVar5 = puVar3[2];
     uVar6 = puVar3[3];
     vectorConditionalSelect(in_vs32,in_vs45,in_vs44);
-    puVar1 = (undefined4 *)(*(int *)(param_1 + 0x14) + 0x80U & 0xfffffff0);
+    puVar1 = (unsigned int *)(*(int *)(param_1 + 0x14) + 0x80U & 0xfffffff0);
     *puVar1 = *puVar3;
     puVar1[1] = uVar4;
     puVar1[2] = uVar5;
     puVar1[3] = uVar6;
-    *(undefined1 *)(*(int *)(param_1 + 0x14) + 0x2c) = 0;
+    *(unsigned char *)(*(int *)(param_1 + 0x14) + 0x2c) = 0;
   }
   fn_824451C8(param_1,param_2,auStack_80[0]);
   return;

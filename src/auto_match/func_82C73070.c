@@ -1,30 +1,3 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82F67DE8();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82005730;
@@ -35,17 +8,17 @@ extern unsigned int lbl_821AAD20;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4)
+unsigned __int64 fn_82C73070(double param_1,double param_2,double param_3,int *param_4)
 
 {
-  uint uVar1;
+  unsigned int uVar1;
   float fVar2;
   float fVar3;
-  longlong lVar4;
+  __int64 lVar4;
   int iVar5;
   int iVar7;
-  longlong lVar6;
-  ulonglong uVar8;
+  __int64 lVar6;
+  unsigned __int64 uVar8;
   int iVar9;
   int iVar10;
   int iVar11;
@@ -58,24 +31,24 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
   
   if ((double)lbl_821AAD20 < param_3) {
     if (param_3 < (double)lbl_8202303C) {
-      dVar16 = (double)(float)((double)(longlong)param_4[1] / (double)(longlong)*param_4);
+      dVar16 = (double)(float)((double)(__int64)param_4[1] / (double)(__int64)*param_4);
       dVar15 = (double)fn_82F67DE8(param_3 * lbl_82005770);
       dVar14 = lbl_82005730;
       dVar15 = (double)(float)dVar15;
       if (dVar16 <= dVar15) {
-        dVar13 = -(double)(longlong)param_4[1];
+        dVar13 = -(double)(__int64)param_4[1];
       }
       else {
-        dVar13 = (double)(float)(-(double)(longlong)*param_4 * dVar15);
+        dVar13 = (double)(float)(-(double)(__int64)*param_4 * dVar15);
       }
       fVar2 = (float)(param_2 - dVar13);
-      dVar17 = (double)(float)((double)(longlong)(int)(param_1 + lbl_82005730) +
-                              -(double)(longlong)*param_4);
-      dVar13 = (double)(longlong)param_4[1];
-      if (param_2 <= (double)(longlong)param_4[1]) {
+      dVar17 = (double)(float)((double)(__int64)(int)(param_1 + lbl_82005730) +
+                              -(double)(__int64)*param_4);
+      dVar13 = (double)(__int64)param_4[1];
+      if (param_2 <= (double)(__int64)param_4[1]) {
         dVar13 = param_2;
       }
-      uVar1 = (uint)dVar13;
+      uVar1 = (unsigned int)dVar13;
       uVar8 = 0;
       if (3 < (int)uVar1) {
         iVar7 = 2;
@@ -84,23 +57,23 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           iVar12 = iVar7 + -1;
           iVar11 = iVar7 + 1;
           iVar9 = (int)uVar8;
-          lVar4 = (longlong)iVar7;
+          lVar4 = (__int64)iVar7;
           iVar5 = iVar10 + 0xc;
           uVar8 = uVar8 + 4;
           iVar7 = iVar7 + 4;
           *(int *)(iVar10 + param_4[5]) =
-               (int)((double)(float)((double)(float)((double)(longlong)iVar9 - param_2) * dVar15 +
+               (int)((double)(float)((double)(float)((double)(__int64)iVar9 - param_2) * dVar15 +
                                     param_1) + dVar14);
           iVar9 = iVar10 + param_4[5];
           iVar10 = iVar10 + 0x10;
           *(int *)(iVar9 + 4) =
-               (int)((double)(float)((double)(float)((double)(longlong)iVar12 - param_2) * dVar15 +
+               (int)((double)(float)((double)(float)((double)(__int64)iVar12 - param_2) * dVar15 +
                                     param_1) + dVar14);
           *(int *)(iVar5 + param_4[5] + -4) =
                (int)((double)(float)((double)(float)((double)lVar4 - param_2) * dVar15 + param_1) +
                     dVar14);
           *(int *)(iVar5 + param_4[5]) =
-               (int)((double)(float)((double)(float)((double)(longlong)iVar11 - param_2) * dVar15 +
+               (int)((double)(float)((double)(float)((double)(__int64)iVar11 - param_2) * dVar15 +
                                     param_1) + dVar14);
         } while ((int)uVar8 < (int)(uVar1 - 3));
       }
@@ -111,17 +84,17 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           iVar10 = (int)uVar8;
           uVar8 = uVar8 + 1;
           *(int *)((int)lVar6 + param_4[5]) =
-               (int)((double)(float)((double)(float)((double)(longlong)iVar10 - param_2) * dVar15 +
+               (int)((double)(float)((double)(float)((double)(__int64)iVar10 - param_2) * dVar15 +
                                     param_1) + dVar14);
           lVar6 = lVar6 + 4;
           lVar4 = lVar4 + -1;
         } while (lVar4 != 0);
       }
-      fVar3 = (float)(longlong)param_4[1];
-      if (fVar2 <= (float)(longlong)param_4[1]) {
+      fVar3 = (float)(__int64)param_4[1];
+      if (fVar2 <= (float)(__int64)param_4[1]) {
         fVar3 = fVar2;
       }
-      uVar1 = (uint)fVar3;
+      uVar1 = (unsigned int)fVar3;
       if ((int)uVar8 < (int)uVar1) {
         if (3 < (int)(uVar1 - (int)uVar8)) {
           lVar4 = (uVar8 & 0x3fffffff) << 2;
@@ -158,11 +131,11 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           iVar10 = param_4[1];
         } while ((int)uVar8 < iVar10);
       }
-      dVar17 = (double)(longlong)iVar10;
-      if (param_2 <= (double)(longlong)iVar10) {
+      dVar17 = (double)(__int64)iVar10;
+      if (param_2 <= (double)(__int64)iVar10) {
         dVar17 = param_2;
       }
-      uVar1 = (uint)dVar17;
+      uVar1 = (unsigned int)dVar17;
       uVar8 = 0;
       if (3 < (int)uVar1) {
         iVar7 = 0;
@@ -188,11 +161,11 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           lVar4 = lVar4 + -1;
         } while (lVar4 != 0);
       }
-      fVar3 = (float)(longlong)param_4[1];
-      if (fVar2 <= (float)(longlong)param_4[1]) {
+      fVar3 = (float)(__int64)param_4[1];
+      if (fVar2 <= (float)(__int64)param_4[1]) {
         fVar3 = fVar2;
       }
-      uVar1 = (uint)fVar3;
+      uVar1 = (unsigned int)fVar3;
       if ((int)uVar8 < (int)uVar1) {
         if (3 < (int)(uVar1 - (int)uVar8)) {
           dVar17 = (double)(float)(dVar13 / dVar15);
@@ -205,17 +178,17 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
             uVar8 = uVar8 + 4;
             lVar6 = lVar6 + 4;
             *(int *)(iVar7 + param_4[6]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar9 - param_2) * dVar17
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar9 - param_2) * dVar17
                                        - param_1) + dVar14);
             *(int *)(iVar7 + param_4[6] + 4) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)(iVar10 + -1) - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)(iVar10 + -1) - param_2) *
                                         dVar17 - param_1) + dVar14);
             *(int *)(iVar7 + 0xc + param_4[6] + -4) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar10 - param_2) * dVar17
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar10 - param_2) * dVar17
                                        - param_1) + dVar14);
             lVar4 = lVar4 + 0x10;
             *(int *)(iVar7 + 0xc + param_4[6]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)(iVar10 + 1) - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)(iVar10 + 1) - param_2) *
                                         dVar17 - param_1) + dVar14);
           } while ((int)uVar8 < (int)(uVar1 - 3));
         }
@@ -226,7 +199,7 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
             iVar10 = (int)uVar8;
             uVar8 = uVar8 + 1;
             *(int *)((int)lVar6 + param_4[6]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar10 - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar10 - param_2) *
                                         (double)(float)(dVar13 / dVar15) - param_1) + dVar14);
             lVar6 = lVar6 + 4;
             lVar4 = lVar4 + -1;
@@ -244,18 +217,18 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
         } while ((int)uVar8 < iVar10);
       }
       if (dVar16 <= dVar15) {
-        dVar16 = (double)(float)((double)(longlong)iVar10 / dVar15);
+        dVar16 = (double)(float)((double)(__int64)iVar10 / dVar15);
       }
       else {
-        dVar16 = (double)(longlong)*param_4;
+        dVar16 = (double)(__int64)*param_4;
       }
       fVar2 = (float)(param_2 - (double)(float)(dVar16 * dVar15));
-      dVar16 = (double)((float)(longlong)(int)(param_1 + dVar14) + (float)(longlong)*param_4);
-      fVar3 = (float)(longlong)iVar10;
-      if (fVar2 <= (float)(longlong)iVar10) {
+      dVar16 = (double)((float)(__int64)(int)(param_1 + dVar14) + (float)(__int64)*param_4);
+      fVar3 = (float)(__int64)iVar10;
+      if (fVar2 <= (float)(__int64)iVar10) {
         fVar3 = fVar2;
       }
-      uVar1 = (uint)fVar3;
+      uVar1 = (unsigned int)fVar3;
       uVar8 = 0;
       if (3 < (int)uVar1) {
         iVar7 = 0;
@@ -281,11 +254,11 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           lVar4 = lVar4 + -1;
         } while (lVar4 != 0);
       }
-      dVar17 = (double)(longlong)param_4[1];
-      if (param_2 <= (double)(longlong)param_4[1]) {
+      dVar17 = (double)(__int64)param_4[1];
+      if (param_2 <= (double)(__int64)param_4[1]) {
         dVar17 = param_2;
       }
-      uVar1 = (uint)dVar17;
+      uVar1 = (unsigned int)dVar17;
       if ((int)uVar8 < (int)uVar1) {
         if (3 < (int)(uVar1 - (int)uVar8)) {
           lVar4 = (uVar8 & 0x3fffffff) << 2;
@@ -318,17 +291,17 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           iVar10 = (int)uVar8;
           uVar8 = uVar8 + 1;
           *(int *)((int)lVar4 + param_4[7]) =
-               (int)((double)(float)((double)(float)((double)(longlong)iVar10 - param_2) * dVar15 +
+               (int)((double)(float)((double)(float)((double)(__int64)iVar10 - param_2) * dVar15 +
                                     param_1) + dVar14);
           lVar4 = lVar4 + 4;
           iVar10 = param_4[1];
         } while ((int)uVar8 < iVar10);
       }
-      fVar3 = (float)(longlong)iVar10;
-      if (fVar2 <= (float)(longlong)iVar10) {
+      fVar3 = (float)(__int64)iVar10;
+      if (fVar2 <= (float)(__int64)iVar10) {
         fVar3 = fVar2;
       }
-      uVar1 = (uint)fVar3;
+      uVar1 = (unsigned int)fVar3;
       uVar8 = 0;
       if (3 < (int)uVar1) {
         iVar7 = 0;
@@ -354,11 +327,11 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
           lVar4 = lVar4 + -1;
         } while (lVar4 != 0);
       }
-      dVar16 = (double)(longlong)param_4[1];
-      if (param_2 <= (double)(longlong)param_4[1]) {
+      dVar16 = (double)(__int64)param_4[1];
+      if (param_2 <= (double)(__int64)param_4[1]) {
         dVar16 = param_2;
       }
-      uVar1 = (uint)dVar16;
+      uVar1 = (unsigned int)dVar16;
       if ((int)uVar8 < (int)uVar1) {
         if (3 < (int)(uVar1 - (int)uVar8)) {
           dVar16 = (double)(float)(dVar13 / dVar15);
@@ -371,17 +344,17 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
             uVar8 = uVar8 + 4;
             lVar6 = lVar6 + 4;
             *(int *)(iVar7 + param_4[8]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar9 - param_2) * dVar16
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar9 - param_2) * dVar16
                                        - param_1) + dVar14);
             *(int *)(iVar7 + param_4[8] + 4) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)(iVar10 + -1) - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)(iVar10 + -1) - param_2) *
                                         dVar16 - param_1) + dVar14);
             *(int *)(iVar7 + 0xc + param_4[8] + -4) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar10 - param_2) * dVar16
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar10 - param_2) * dVar16
                                        - param_1) + dVar14);
             lVar4 = lVar4 + 0x10;
             *(int *)(iVar7 + 0xc + param_4[8]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)(iVar10 + 1) - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)(iVar10 + 1) - param_2) *
                                         dVar16 - param_1) + dVar14);
           } while ((int)uVar8 < (int)(uVar1 - 3));
         }
@@ -392,7 +365,7 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
             iVar10 = (int)uVar8;
             uVar8 = uVar8 + 1;
             *(int *)((int)lVar6 + param_4[8]) =
-                 (int)(-(double)(float)((double)(float)((double)(longlong)iVar10 - param_2) *
+                 (int)(-(double)(float)((double)(float)((double)(__int64)iVar10 - param_2) *
                                         (double)(float)(dVar13 / dVar15) - param_1) + dVar14);
             lVar6 = lVar6 + 4;
             lVar4 = lVar4 + -1;
@@ -415,7 +388,7 @@ undefined8 fn_82C73070(double param_1,double param_2,double param_3,int *param_4
         param_1 = param_1 + lbl_82005730;
         do {
           iVar10 = iVar10 + 1;
-          *(undefined4 *)(iVar7 + param_4[5]) = 0;
+          *(unsigned int *)(iVar7 + param_4[5]) = 0;
           *(int *)(param_4[6] + iVar7) = (int)param_1;
           *(int *)(param_4[7] + iVar7) = *param_4 + -1;
           *(int *)(iVar7 + param_4[8]) = (int)param_1;
