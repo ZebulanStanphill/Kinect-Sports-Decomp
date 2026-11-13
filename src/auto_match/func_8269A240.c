@@ -1,48 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268CEC0();
+typedef struct Xform_8269A240 {
+    float m[6];
+} Xform_8269A240;
 
+typedef struct Node_8269A240 {
+    char pad[0x20];
+    struct Node_8269A240 *parent;  /* 0x20 */
+    char pad24[0x44 - 0x24];
+    Xform_8269A240 local;          /* 0x44 */
+} Node_8269A240;
 
-void fn_8269A240(int param_1,undefined4 *param_2)
+extern void fn_8268CEC0(Xform_8269A240 *m, const Xform_8269A240 *other);
 
+static __forceinline void Xform_Copy_8269A240(Xform_8269A240 *d, const Xform_8269A240 *s)
 {
-  if (*(int *)(param_1 + 0x20) == 0) {
-    *param_2 = *(undefined4 *)(param_1 + 0x44);
-    param_2[1] = *(undefined4 *)(param_1 + 0x48);
-    param_2[2] = *(undefined4 *)(param_1 + 0x4c);
-    param_2[3] = *(undefined4 *)(param_1 + 0x50);
-    param_2[4] = *(undefined4 *)(param_1 + 0x54);
-    param_2[5] = *(undefined4 *)(param_1 + 0x58);
-  }
-  else {
-    ((int (*)())fn_8269A240)();
-    fn_8268CEC0(param_2,param_1 + 0x44);
-  }
-  return;
+    d->m[0] = s->m[0];
+    d->m[1] = s->m[1];
+    d->m[2] = s->m[2];
+    d->m[3] = s->m[3];
+    d->m[4] = s->m[4];
+    d->m[5] = s->m[5];
 }
 
+void fn_8269A240(Node_8269A240 *node, Xform_8269A240 *out)
+{
+    if (node->parent != 0) {
+        fn_8269A240(node->parent, out);
+        fn_8268CEC0(out, &node->local);
+    } else {
+        Xform_Copy_8269A240(out, &node->local);
+    }
+}

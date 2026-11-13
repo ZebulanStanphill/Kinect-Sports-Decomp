@@ -1,51 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8255A160();
-extern unsigned int lbl_821CA460;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* v77 is the game's reserved zero vector, read with __VMXGetReg. */
+__vector4 __VMXGetReg(int n);
 
-undefined8 fn_822AA718(undefined8 param_1,int *param_2)
+typedef struct Item_822AA718 {
+    char pad0[0x14];
+    float angle;
+} Item_822AA718;
 
+typedef struct List_822AA718 {
+    Item_822AA718 **items;
+    char pad4[0xc];
+    int index;
+} List_822AA718;
+
+extern const float lbl_821CA45C[2];
+extern __vector4 fn_8255A160(__vector4 origin, float angle, float radius);
+
+__vector4 *fn_822AA718(__vector4 *out, List_822AA718 *list)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  
-  fn_8255A160((double)*(float *)(*(int *)(param_2[4] * 4 + *param_2) + 0x14),
-                    (double)lbl_821CA460);
-  puVar1 = (undefined4 *)(in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  return param_1;
+    *out = fn_8255A160(__VMXGetReg(77), list->items[list->index]->angle, lbl_821CA45C[1]);
+    return out;
 }
-

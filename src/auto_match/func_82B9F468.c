@@ -1,61 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82B6B008();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define TT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\ternary.cpp", line)
 
-undefined4 * fn_82B9F468(undefined8 param_1,code *param_2,ulonglong param_3,undefined8 param_4)
+typedef void *(*AllocFn_82B9F468)(void *ctx, unsigned int size);
+typedef void (*FreeFn_82B9F468)(void *ctx, void *p);
 
+typedef struct Tree_82B9F468 {
+    void *root;
+    void *ctx;
+    AllocFn_82B9F468 AllocateSysMem;
+    FreeFn_82B9F468 FreeSysMem;
+    void *pMemoryMgr;
+    unsigned int f14;
+    unsigned int f18;
+} Tree_82B9F468;
+
+extern void *fn_82B6B008(void *heap, unsigned int size, AllocFn_82B9F468 alloc, FreeFn_82B9F468 free, void *ctx);
+
+Tree_82B9F468 *fn_82B9F468(void *ctx, AllocFn_82B9F468 AllocateSysMem, FreeFn_82B9F468 FreeSysMem, void *heap)
 {
-  undefined4 *puVar2;
-  ulonglong uVar1;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820dddc0,0x42);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820dddc0,0x43);
-  }
-  puVar2 = (undefined4 *)(*param_2)(param_1,0x1c);
-  if (puVar2 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dde30,0xffffffff820dddc0,0x46);
-  }
-  puVar2[1] = (int)param_1;
-  puVar2[2] = param_2;
-  *puVar2 = 0;
-  puVar2[5] = 0;
-  puVar2[6] = 0;
-  puVar2[3] = (int)param_3;
-  uVar1 = fn_82B6B008(param_4,0x14,param_2,param_3,param_1);
-  puVar2[4] = (int)uVar1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    fn_82AB15D0(uVar1,0xffffffff820d2ea4,0xffffffff820dde18,0xffffffff820dddc0,0x58);
-  }
-  return puVar2;
-}
+    Tree_82B9F468 *pNewTree;
 
+    TT_ASSERT(AllocateSysMem, 0x42);
+    TT_ASSERT(FreeSysMem, 0x43);
+    pNewTree = (Tree_82B9F468 *)AllocateSysMem(ctx, 0x1c);
+    TT_ASSERT(pNewTree, 0x46);
+ pNewTree->root = 0;
+ pNewTree->f14 = 0;
+ pNewTree->f18 = 0;
+ pNewTree->ctx = ctx;
+ pNewTree->AllocateSysMem = AllocateSysMem;
+ pNewTree->FreeSysMem = FreeSysMem;
+    pNewTree->pMemoryMgr = fn_82B6B008(heap, 0x14, AllocateSysMem, FreeSysMem, ctx);
+    TT_ASSERT(pNewTree->pMemoryMgr, 0x58);
+    return pNewTree;
+}

@@ -1,42 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68CC0();
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern void fn_8267C4F0(void *p);
 
+typedef struct Obj_826EA6A0 {
+    unsigned char data[0x1c];
+    void *ref;
+    unsigned char owned;
+} Obj_826EA6A0;
 
-/* WARNING: Removing unreachable block (ram,0x826ea6c8) */
-
-int fn_826EA6A0(int param_1,undefined8 param_2)
-
+static __forceinline void Reset(void **pr)
 {
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined4 *)(param_1 + 0x1c) = 0;
-  *(undefined1 *)(param_1 + 0x20) = 1;
-  fn_82F68CC0(param_1,param_2,0x1c);
-  return param_1;
+    if (*pr != 0)
+        fn_8267C4F0(*pr);
+    *pr = 0;
 }
 
+Obj_826EA6A0 *fn_826EA6A0(Obj_826EA6A0 *o, const void *src)
+{
+    o->ref = 0;
+    Reset(&o->ref);
+    o->owned = 1;
+    memcpy(o, src, 0x1c);
+    return o;
+}

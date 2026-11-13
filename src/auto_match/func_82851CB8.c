@@ -1,37 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned int);
+extern void fn_82857C40(void *self, void *arg);
+extern void fn_8280ACD8(void *p);
 
+typedef struct {
+    char pad0[0x84];
+    int f84;
+    int f88;
+    int f8c;
+    int f90;
+    int f94;
+    char pad98[0x118 - 0x98];
+    float f118;
+    int f11c;
+    char pad120[0x130 - 0x120];
+    char a130[0x40];
+    char a170[0x40];
+    char a1b0[0x6950 - 0x1b0];
+} Obj_82851CB8;
 
-void fn_82851CB8(undefined8 param_1)
-
+void fn_82851CB8(Obj_82851CB8 *self, void *arg)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1,0,0x6950);
+    memset(self, 0, sizeof(*self));
+    fn_82857C40(self, arg);
+    self->f8c = 0;
+    self->f118 = 1.0f;
+    self->f88 = 0xffff;
+    self->f84 = 3;
+    self->f90 = 8;
+    self->f94 = 0;
+    self->f11c = 0;
+    fn_8280ACD8(self->a170);
+    fn_8280ACD8(self->a130);
+    fn_8280ACD8(self->a1b0);
 }
-

@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8200E890;
-extern unsigned int lbl_821AAD20;
+extern double lbl_8200E890;
 
+typedef struct Obj_82E976C0 {
+    char pad0[0x7788];
+    __int64 count;
+    double scale;
+    char pad7798[0x7858 - 0x7798];
+    int a;
+    int b;
+    float v[4];
+} Obj_82E976C0;
 
-void fn_82E976C0(int param_1)
-
+void fn_82E976C0(Obj_82E976C0 *self)
 {
-  undefined8 uVar1;
-  undefined4 uVar2;
-  
-  *(undefined8 *)(param_1 + 0x7788) = 0;
-  uVar1 = lbl_8200E890;
-  *(undefined4 *)(param_1 + 0x7858) = 0;
-  uVar2 = lbl_821AAD20;
-  *(undefined4 *)(param_1 + 0x785c) = 0;
-  *(undefined8 *)(param_1 + 0x7790) = uVar1;
-  *(undefined4 *)(param_1 + 0x7860) = uVar2;
-  *(undefined4 *)(param_1 + 0x7864) = uVar2;
-  *(undefined4 *)(param_1 + 0x7868) = uVar2;
-  *(undefined4 *)(param_1 + 0x786c) = uVar2;
-  return;
+    self->count = 0; self->scale = lbl_8200E890;
+    self->a = 0;
+    self->b = 0;
+    
+    self->v[0] = 0.0f;
+    self->v[1] = 0.0f;
+    self->v[2] = 0.0f;
+    self->v[3] = 0.0f;
 }
-

@@ -1,85 +1,70 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82FAB9C0();
 extern int fn_82FF86A8();
 extern int fn_82FF8ED8();
 extern int fn_830080D8();
 extern int fn_8302C0F0();
 extern int fn_8302C2A0();
-extern unsigned int lbl_832642E0;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern char lbl_8326434C[];
 
+typedef struct Res_82FFE810 Res_82FFE810;
+typedef struct { void *s0; void *s1; void (*f8)(Res_82FFE810 *); } ResVt_82FFE810;
+struct Res_82FFE810 {
+    ResVt_82FFE810 *vt;
+    char pad[0x98];
+    unsigned int f9c_hi : 2;
+    unsigned int kind : 5;
+    unsigned int ready : 1;
+    unsigned int f9c_lo : 24;
+};
+typedef struct { char pad[4]; char sub[1]; } Global_82FFE810;
+extern Global_82FFE810 *lbl_832642E0;
 
-undefined8 fn_82FFE810(longlong param_1,int param_2,longlong param_3)
-
+int fn_82FFE810(char *a, char *b, char *c)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  undefined8 uVar4;
-  
-  uVar4 = 1;
-  puVar2 = (undefined4 *)fn_82FF8ED8(param_1 + 4,*(undefined4 *)(param_2 + 4));
-  if (puVar2 == (undefined4 *)0x0) {
+  int r;
+  int *key;
+  int k;
+  Res_82FFE810 *res;
+  Res_82FFE810 **slot;
+
+  a = a + 4;
+  r = 1;
+  key = (int *)fn_82FF8ED8(a, *(int *)(b + 4));
+  if (key == 0) {
     return 2;
   }
-  uVar1 = *puVar2;
-  piVar3 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,uVar1);
-  if (piVar3 == (int *)0x0) {
-    RtlEnterCriticalSection(0xffffffff8326434c);
-    piVar3 = (int *)fn_8302C0F0(uVar1);
-    if (piVar3 == (int *)0x0) {
-      uVar4 = 2;
-    }
-    else {
-      uVar4 = fn_8302C2A0(piVar3,puVar2,*(undefined4 *)(param_2 + 4),param_3,0);
-      if ((int)uVar4 != 1) {
-        (**(code **)(*piVar3 + 8))(piVar3);
+  k = *key;
+  res = (Res_82FFE810 *)fn_82FAB9C0(lbl_832642E0->sub, k);
+  if (res != 0) {
+    if (res->kind == 0 || (unsigned char)res->ready == 0) {
+      RtlEnterCriticalSection(lbl_8326434C);
+      r = fn_8302C2A0(res, key, *(int *)(b + 4), c, 1);
+      RtlLeaveCriticalSection(lbl_8326434C);
+      if (r != 1) {
+        res->vt->f8(res);
       }
     }
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-LAB_82ffe950:
-    if ((int)uVar4 != 1) goto LAB_82ffe96c;
+  } else {
+    RtlEnterCriticalSection(lbl_8326434C);
+    res = (Res_82FFE810 *)fn_8302C0F0(k);
+    if (res == 0) {
+      r = 2;
+    } else {
+      r = fn_8302C2A0(res, key, *(int *)(b + 4), c, 0);
+      if (r != 1) {
+        res->vt->f8(res);
+      }
+    }
+    RtlLeaveCriticalSection(lbl_8326434C);
   }
-  else if (((piVar3[0x27] & 0x3e000000U) == 0) || (((uint)piVar3[0x27] >> 0x18 & 1) == 0)) {
-    RtlEnterCriticalSection(0xffffffff8326434c);
-    uVar4 = fn_8302C2A0(piVar3,puVar2,*(undefined4 *)(param_2 + 4),param_3,1);
-    RtlLeaveCriticalSection(0xffffffff8326434c);
-    if ((int)uVar4 != 1) {
-      (**(code **)(*piVar3 + 8))(piVar3);
-      goto LAB_82ffe950;
+  if (r == 1) {
+    slot = (Res_82FFE810 **)fn_830080D8(c + 0x34);
+    if (slot != 0) {
+      *slot = res;
     }
   }
-  puVar2 = (undefined4 *)fn_830080D8(param_3 + 0x34);
-  if (puVar2 != (undefined4 *)0x0) {
-    *puVar2 = piVar3;
-  }
-LAB_82ffe96c:
-  fn_82FF86A8(param_1 + 4);
-  return uVar4;
+  fn_82FF86A8(a);
+  return r;
 }
-

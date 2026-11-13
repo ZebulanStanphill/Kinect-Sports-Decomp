@@ -1,65 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_829DD678();
-extern int fn_829DD980();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_829DDAF0 {
+    __vector4 v;
+} Vec_829DDAF0;
 
-void fn_829DDAF0(longlong param_1,longlong param_2)
+typedef struct Item_829DDAF0 {
+    int v[3];
+} Item_829DDAF0;
 
+typedef struct Out_829DDAF0 {
+    __vector4 head;
+    Item_829DDAF0 items[8];
+} Out_829DDAF0;
+
+typedef struct Elem_829DDAF0 {
+    char data[0x260];
+} Elem_829DDAF0;
+
+typedef struct Obj_829DDAF0 {
+    char pad0[0x18];
+    Elem_829DDAF0 elems[8];
+} Obj_829DDAF0;
+
+extern Vec_829DDAF0 fn_829DD678(Obj_829DDAF0 *self);
+extern void fn_829DD980(Elem_829DDAF0 *e, Item_829DDAF0 *out);
+
+void fn_829DDAF0(Obj_829DDAF0 *self, Out_829DDAF0 *out)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  longlong lVar2;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs35 [16];
-  undefined4 in_register_000103f0;
-  undefined4 in_register_000103f4;
-  undefined4 in_register_000103f8;
-  undefined4 in_vr63;
-  undefined1 auStack_30 [1];
-  
-  fn_829DD678(auStack_30,param_1);
-  altv207_13(in_vs32,in_vs35);
-  param_1 = param_1 + 0x18;
-  puVar1 = (undefined4 *)(in_r0 + (int)param_2 & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  param_2 = param_2 + 0x10;
-  lVar2 = 8;
-  do {
-    fn_829DD980(param_1,param_2);
-    lVar2 = lVar2 + -1;
-    param_2 = param_2 + 0xc;
-    param_1 = param_1 + 0x260;
-  } while (lVar2 != 0);
-  return;
+    int i;
+    out->head = fn_829DD678(self).v;
+    for (i = 0; i < 8; i++)
+        fn_829DD980(&self->elems[i], &out->items[i]);
 }
-

@@ -1,57 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821C09C4;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Impl_824C5930 { void *(**vt)(struct Impl_824C5930 *, void *); } Impl_824C5930;
+typedef struct { int pad[4]; Impl_824C5930 *impl; } Fn_824C5930;
+typedef struct {
+    void *vt;
+    int id;
+    Fn_824C5930 fn;
+    int pad1c;
+    float f20;
+    float f24;
+    float f28;
+} Obj_824C5930;
 
+extern void *lbl_821C09C4[];
 
-undefined4 *
-fn_824C5930(double param_1,double param_2,undefined4 *param_3,undefined4 param_4,int param_5)
-
+static __forceinline void Fn_Copy_824C5930(Fn_824C5930 *self, Fn_824C5930 *other)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  param_3[1] = param_4;
-  puVar2 = param_3 + 2;
-  *param_3 = &lbl_821C09C4;
-  if (*(int *)(param_5 + 0x10) == 0) {
-    param_3[6] = 0;
-  }
-  else {
-    if (*(int *)(param_5 + 0x10) != param_5) {
-      puVar2 = (undefined4 *)0x0;
+    if (other->impl == 0) {
+        self->impl = 0;
+    } else {
+        if (other->impl == (Impl_824C5930 *)other)
+            self->impl = (Impl_824C5930 *)(*other->impl->vt)(other->impl, self);
+        else
+            self->impl = (Impl_824C5930 *)(*other->impl->vt)(other->impl, 0);
     }
-    uVar1 = (**(code **)**(undefined4 **)(param_5 + 0x10))(*(undefined4 **)(param_5 + 0x10),puVar2);
-    param_3[6] = uVar1;
-  }
-  param_3[9] = (float)param_1;
-  param_3[10] = (float)param_2;
-  param_3[8] = ltcg_pool_0_0f;
-  return param_3;
 }
 
+Obj_824C5930 *fn_824C5930(Obj_824C5930 *self, int id, Fn_824C5930 *fn, float a, float b)
+{
+    self->id = id;
+    self->vt = lbl_821C09C4;
+    Fn_Copy_824C5930(&self->fn, fn);
+    self->f24 = a;
+    self->f28 = b;
+    self->f20 = 0.0f;
+    return self;
+}

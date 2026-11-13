@@ -1,120 +1,91 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT22(h,l) ((U32)((((U16)(h)) << 16) | ((U16)(l))))
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-#define _uStack_40 ((*(U64*)&uStack_40))
-extern unsigned int *auStack_30;
-extern int fn_82E57888();
-extern int fn_82F68CC0();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Guid_82F3F460 {
+    unsigned int Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+} Guid_82F3F460;
 
+typedef struct Obj_82F3F460 Obj_82F3F460;
 
-undefined8 fn_82F3F460(int *param_1,int param_2,uint param_3,uint *param_4)
+typedef struct ObjVtbl_82F3F460 {
+    void *f[5];
+    int (*GetSize)(Obj_82F3F460 *self, unsigned __int64 *a, unsigned __int64 *b);
+} ObjVtbl_82F3F460;
 
+struct Obj_82F3F460 {
+    ObjVtbl_82F3F460 *vt;
+    char pad4[8];
+    unsigned int ready;          /* 0x0c */
+    Guid_82F3F460 guid;          /* 0x10 */
+    unsigned __int64 size;       /* 0x20 */
+    char pad28[0x20];
+    unsigned short *data[5];     /* 0x48 */
+    unsigned short len[5];       /* 0x5c */
+};
+
+extern void fn_82E57888(unsigned char **cursor, unsigned short *src, unsigned int size);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+unsigned long _byteswap_ulong(unsigned long);
+unsigned short _byteswap_ushort(unsigned short);
+unsigned __int64 _byteswap_uint64(unsigned __int64);
+
+static __forceinline void WriteGuid(unsigned char *dst, const Guid_82F3F460 *src)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  uint uStack_40;
-  uint uStack_3c;
-  undefined8 uStack_38;
-  ulonglong auStack_30 [6];
-  
-  if (param_1[3] == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else if ((param_4 == (uint *)0x0) || ((param_3 != 0 && (param_2 == 0)))) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    (**(code **)(*param_1 + 0x14))(param_1,auStack_30,0);
-    if (auStack_30[0] < 0x100000000) {
-      *param_4 = (uint)auStack_30[0];
-      if (param_3 < (uint)auStack_30[0]) {
-        uVar1 = 0xffffffffc00d36b1;
-      }
-      else {
-        uStack_38 = *(undefined8 *)(param_1 + 6);
-        _uStack_40 = CONCAT44((uint)*(byte *)((int)param_1 + 0x13) << 0x18 |
-                              (uint)*(byte *)((int)param_1 + 0x12) << 0x10 |
-                              (uint)*(byte *)((int)param_1 + 0x11) << 8 |
-                              (uint)*(byte *)(param_1 + 4),
-                              CONCAT22(*(ushort *)(param_1 + 5) << 8 | *(ushort *)(param_1 + 5) >> 8
-                                       ,*(ushort *)((int)param_1 + 0x16) << 8 |
-                                        *(ushort *)((int)param_1 + 0x16) >> 8));
-        fn_82F68CC0(param_2,&uStack_40,0x10);
-        uVar2 = *(ulonglong *)(param_1 + 8);
-        uStack_3c = (uint)uVar2;
-        uStack_40 = (uint)(uVar2 >> 0x20);
-        *(ulonglong *)(param_2 + 0x10) =
-             ((uVar2 & 0xff) << 0x18 |
-             (uVar2 & 0xff00) << 8 |
-             (ulonglong)(uStack_3c >> 8) & 0xff00 | (ulonglong)(uStack_3c >> 0x18)) << 0x20 |
-             ((ulonglong)uStack_40 & 0xff) << 0x18 |
-             ((ulonglong)uStack_40 & 0xff00) << 8 |
-             (ulonglong)(uStack_40 >> 8) & 0xff00 | (ulonglong)(uStack_40 >> 0x18);
-        *(ushort *)(param_2 + 0x18) =
-             (ushort)(((ulonglong)*(ushort *)(param_1 + 0x17) & 0x7fff) << 9) |
-             (ushort)((((ulonglong)*(ushort *)(param_1 + 0x17) & 0x7fff) << 1) >> 8);
-        uVar2 = (ulonglong)*(ushort *)((int)param_1 + 0x5e) & 0x7fff;
-        *(ushort *)(param_2 + 0x1a) = (ushort)(uVar2 << 9) | (ushort)((uVar2 << 1) >> 8);
-        *(ushort *)(param_2 + 0x1c) =
-             (ushort)(((ulonglong)*(ushort *)(param_1 + 0x18) & 0x7fff) << 9) |
-             (ushort)((((ulonglong)*(ushort *)(param_1 + 0x18) & 0x7fff) << 1) >> 8);
-        uVar2 = (ulonglong)*(ushort *)((int)param_1 + 0x62) & 0x7fff;
-        *(ushort *)(param_2 + 0x1e) = (ushort)(uVar2 << 9) | (ushort)((uVar2 << 1) >> 8);
-        *(ushort *)(param_2 + 0x20) =
-             (ushort)(((ulonglong)*(ushort *)(param_1 + 0x19) & 0x7f) << 9) |
-             (ushort)(((ulonglong)*(ushort *)(param_1 + 0x19) & 0x7fff) >> 7);
-        _uStack_40 = CONCAT44(param_2 + 0x22,uStack_3c);
-        if (param_1[0x12] != 0) {
-          fn_82E57888(&uStack_40,param_1[0x12],(ulonglong)*(ushort *)(param_1 + 0x17) << 1);
-        }
-        if (param_1[0x13] != 0) {
-          fn_82E57888(&uStack_40,param_1[0x13],(ulonglong)*(ushort *)((int)param_1 + 0x5e) << 1);
-        }
-        if (param_1[0x14] != 0) {
-          fn_82E57888(&uStack_40,param_1[0x14],(ulonglong)*(ushort *)(param_1 + 0x18) << 1);
-        }
-        if (param_1[0x15] != 0) {
-          fn_82E57888(&uStack_40,param_1[0x15],(ulonglong)*(ushort *)((int)param_1 + 0x62) << 1);
-        }
-        if (param_1[0x16] != 0) {
-          fn_82E57888(&uStack_40,param_1[0x16],(ulonglong)*(ushort *)(param_1 + 0x19) << 1);
-        }
-        uVar1 = 0;
-      }
-    }
-    else {
-      uVar1 = 0xffffffffc00d3a9a;
-    }
-  }
-  return uVar1;
+    Guid_82F3F460 g;
+    g.Data1 = _byteswap_ulong(src->Data1);
+    g.Data2 = _byteswap_ushort(src->Data2);
+    g.Data3 = _byteswap_ushort(src->Data3);
+    memcpy(g.Data4, src->Data4, 8);
+    memcpy(dst, &g, 0x10);
 }
 
+int fn_82F3F460(Obj_82F3F460 *self, unsigned char *buf, unsigned int size, unsigned int *outSize)
+{
+    unsigned __int64 total;
+    unsigned char *p;
+    unsigned char *cur;
+
+    if (self->ready == 0) {
+        return 0xc00d36b6;
+    }
+    if (outSize == 0 || (size != 0 && buf == 0)) {
+        return 0x80070057;
+    }
+    self->vt->GetSize(self, &total, 0);
+    if (total >= 0x100000000ULL) {
+        return 0xc00d3a9a;
+    }
+    *outSize = (unsigned int)total;
+    if ((unsigned int)total > size) {
+        return 0xc00d36b1;
+    }
+    WriteGuid(buf, &self->guid);
+    p = buf + 0x10;
+    {
+        unsigned __int64 t = self->size;
+        *(unsigned __int64 *)p = _byteswap_uint64(t);
+    }
+    p += 8;
+    *(unsigned short *)p = _byteswap_ushort((unsigned short)(self->len[0] * 2));
+    p += 2;
+    *(unsigned short *)p = _byteswap_ushort((unsigned short)(self->len[1] * 2));
+    p += 2;
+    *(unsigned short *)p = _byteswap_ushort((unsigned short)(self->len[2] * 2));
+    p += 2;
+    *(unsigned short *)p = _byteswap_ushort((unsigned short)(self->len[3] * 2));
+    p += 2;
+    *(unsigned short *)p = _byteswap_ushort((unsigned short)(self->len[4] * 2));
+    p += 2;
+    cur = p;
+    if (self->data[0] != 0)
+        fn_82E57888(&cur, self->data[0], self->len[0] * 2);
+    if (self->data[1] != 0)
+        fn_82E57888(&cur, self->data[1], self->len[1] * 2);
+    if (self->data[2] != 0)
+        fn_82E57888(&cur, self->data[2], self->len[2] * 2);
+    if (self->data[3] != 0)
+        fn_82E57888(&cur, self->data[3], self->len[3] * 2);
+    if (self->data[4] != 0)
+        fn_82E57888(&cur, self->data[4], self->len[4] * 2);
+    return 0;
+}

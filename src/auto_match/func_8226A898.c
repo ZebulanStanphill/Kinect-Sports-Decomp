@@ -1,43 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Vec2_8226A898 {
+    float x, y;
+} Vec2_8226A898;
 
+typedef struct Obj_8226A898 {
+    char pad0[0x24];
+    Vec2_8226A898 dir;
+    float speed;
+    char pad30[8];
+    Vec2_8226A898 pos;
+    float d;
+} Obj_8226A898;
 
-void fn_8226A898(double param_1,int param_2)
-
+static __forceinline Vec2_8226A898 Scale(const Vec2_8226A898 *v, float s)
 {
-  float fVar1;
-  
-  fVar1 = (float)((double)*(float *)(param_2 + 0x2c) * param_1);
-  *(float *)(param_2 + 0x38) = fVar1 * *(float *)(param_2 + 0x24) + *(float *)(param_2 + 0x38);
-  *(float *)(param_2 + 0x3c) = *(float *)(param_2 + 0x3c) + *(float *)(param_2 + 0x28) * fVar1;
-  *(float *)(param_2 + 0x40) =
-       -(*(float *)(param_2 + 0x28) * *(float *)(param_2 + 0x3c) +
-        *(float *)(param_2 + 0x24) * *(float *)(param_2 + 0x38));
-  return;
+    Vec2_8226A898 r;
+    r.x = v->x * s;
+    r.y = v->y * s;
+    return r;
 }
 
+static __forceinline void Add(Vec2_8226A898 *out, const Vec2_8226A898 *a, const Vec2_8226A898 *b)
+{
+    out->x = a->x + b->x;
+    out->y = a->y + b->y;
+}
+static __forceinline float Dot(const Vec2_8226A898 *a, const Vec2_8226A898 *b)
+{
+    return a->x * b->x + a->y * b->y;
+}
+
+void fn_8226A898(Obj_8226A898 *o, float dt)
+{
+    Vec2_8226A898 t = Scale(&o->dir, o->speed * dt);
+    Add(&o->pos, &o->pos, &t);
+    o->d = -Dot(&o->dir, &o->pos);
+}

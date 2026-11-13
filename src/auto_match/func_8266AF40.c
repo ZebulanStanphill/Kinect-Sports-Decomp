@@ -1,61 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_8266AFA8();
-extern unsigned int uStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
-extern unsigned int uStack0000002c;
-extern unsigned int uStack00000034;
-extern unsigned int uStack0000003f;
+typedef struct Tag_8266AF40 { unsigned char b; } Tag_8266AF40;
 
+extern void fn_8266AFA8(void *first, void *last, void *dest, void *al, void *valty, Tag_8266AF40 tag);
 
-void fn_8266AF40(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5,undefined1 param_6)
-
+void fn_8266AF40(void *first, void *last, void *dest, void *al, void *valty, Tag_8266AF40 tag)
 {
-  undefined4 uStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined4 uStack0000002c;
-  undefined4 uStack00000034;
-  undefined1 uStack0000003f;
-  undefined1 auStack_10 [4];
-  undefined1 *puStack_c;
-  
-  puStack_c = auStack_10;
-  uStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uStack00000024 = param_3;
-  uStack0000002c = param_4;
-  uStack00000034 = param_5;
-  uStack0000003f = param_6;
-  fn_8266AFA8(param_1,param_2,param_3,param_4,0,0);
-  return;
+    Tag_8266AF40 t;
+    {
+        Tag_8266AF40 *p = &t;
+        p->b = 0;
+    }
+    fn_8266AFA8(first, last, dest, al, 0, t);
 }
-

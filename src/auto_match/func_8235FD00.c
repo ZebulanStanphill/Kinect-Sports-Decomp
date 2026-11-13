@@ -1,46 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822B70F0();
-extern int fn_822BBB08();
-extern unsigned int lbl_821CA460;
+typedef struct Owner_8235FD00 { char pad[0x620]; float f620; } Owner_8235FD00;
+typedef struct Self_8235FD00 { int pad; Owner_8235FD00 *owner; } Self_8235FD00;
+typedef struct Item_8235FD00 { char pad[0x24]; int f24; } Item_8235FD00;
 
+extern const float lbl_821CA45C[2];
+extern void fn_822BBB08(Item_8235FD00 *);
+extern void fn_822B70F0(Item_8235FD00 *, float, int);
 
-undefined8 fn_8235FD00(int param_1,int param_2)
-
+int fn_8235FD00(Self_8235FD00 *self, Item_8235FD00 *item)
 {
-  float fVar1;
-  
-  fn_822BBB08(param_2);
-  fVar1 = lbl_821CA460;
-  if (*(int *)(param_2 + 0x24) != 0) {
-    fVar1 = *(float *)(*(int *)(param_1 + 4) + 0x620);
-  }
-  fn_822B70F0((double)fVar1,param_2);
-  return 1;
+    fn_822BBB08(item);
+    if (item->f24 != 0) fn_822B70F0(item, self->owner->f620, 0);
+    else fn_822B70F0(item, lbl_821CA45C[1], 0);
+    return 1;
 }
-

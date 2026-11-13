@@ -1,42 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_830092C8 Obj_830092C8;
+typedef struct ObjVt_830092C8 {
+  void *slots[45];
+  void (*f)(Obj_830092C8 *, int, int, float, int, int);
+} ObjVt_830092C8;
+struct Obj_830092C8 { ObjVt_830092C8 *vt; int pad[8]; void *f24; };
 
-
-void fn_830092C8(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_830092C8(Obj_830092C8 *o, int a, int b)
 {
-  if (param_1[9] == 0) {
-    return;
-  }
-                    /* WARNING: Could not recover jumptable at 0x830092f8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(*param_1 + 0xb4))((double)lbl_821AAD20,param_1,0,0,param_4,param_2,param_3);
-  return;
+  if (o->f24 != 0)
+    o->vt->f(o, 0, 0, 0.0f, a, b);
 }
-

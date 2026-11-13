@@ -1,61 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8227FFA8();
-extern int fn_82286BF0();
-extern int fn_82359C18();
-extern int fn_8265CA20();
-extern unsigned int lbl_821BE838;
-extern unsigned int lbl_821BE91C;
+typedef struct Player_82487BA8 {
+    char pad0[0x7ac];
+    int f7ac;
+    int f7b0;
+} Player_82487BA8;
 
+typedef struct Member_82487BA8 {
+    char pad0[0x448];
+    Player_82487BA8 *player;   /* 0x448 */
+    void *other;               /* 0x44c */
+    int func;                  /* 0x450 */
+} Member_82487BA8;
 
-void fn_82487BA8(undefined4 *param_1)
+typedef struct Obj_82487BA8 {
+    char *vt;
+    int pad4[3];
+    Member_82487BA8 m;         /* 0x10 */
+} Obj_82487BA8;
 
+extern char lbl_821BE91C[], lbl_821BE838[];
+extern void fn_82286BF0(Player_82487BA8 *p);
+extern void fn_8227FFA8(void *p);
+extern void fn_8265CA20(void *p);
+extern void fn_82359C18(void *p);
+
+static __forceinline void Player_Stop(Player_82487BA8 *p)
 {
-  int iVar1;
-  
-  *param_1 = &lbl_821BE91C;
-  if (param_1[0x116] != 0) {
-    iVar1 = param_1[0x116];
-    *(undefined4 *)(iVar1 + 0x7b0) = 0;
-    *(undefined4 *)(iVar1 + 0x7ac) = 0;
-    iVar1 = param_1[0x116];
-    if (iVar1 != 0) {
-      fn_82286BF0(iVar1);
-      fn_8265CA20(iVar1);
-    }
-  }
-  iVar1 = param_1[0x117];
-  if (iVar1 != 0) {
-    fn_8227FFA8(iVar1);
-    fn_8265CA20(iVar1);
-  }
-  fn_82359C18(param_1 + 0x118);
-  *param_1 = &lbl_821BE838;
-  return;
+    p->f7ac = 0;
+    p->f7b0 = 0;
 }
 
+static __forceinline void Member_Dtor(Member_82487BA8 *m)
+{
+    if (m->player != 0) {
+        Player_82487BA8 *p;
+        Player_Stop(m->player);
+        p = m->player;
+        if (p != 0) {
+            fn_82286BF0(p);
+            fn_8265CA20(p);
+        }
+    }
+    if (m->other != 0) {
+        void *o = m->other;
+        fn_8227FFA8(o);
+        fn_8265CA20(o);
+    }
+    fn_82359C18(&m->func);
+}
+
+void fn_82487BA8(Obj_82487BA8 *self)
+{
+    self->vt = lbl_821BE91C;
+    Member_Dtor(&self->m);
+    self->vt = lbl_821BE838;
+}

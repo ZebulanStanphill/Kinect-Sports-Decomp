@@ -1,74 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
+typedef void (*cb_t)(uint, void *);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 extern int fn_82A1E7D8();
 extern int fn_82A1E810();
-extern int fn_82FF5200();
-extern unsigned int lbl_8208ED44;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+extern float lbl_8208ED44;
 
+typedef struct {
+    char pad0[8];
+    int m_8;
+    int m_c;
+    char pad10[0x10];
+    cb_t m_20;
+    int m_24;
+    uint m_28;
+} Entry_82FF4F40;
 
-void fn_82FF4F40(int param_1,undefined8 param_2,ulonglong param_3,uint *param_4)
+extern Entry_82FF4F40 *fn_82FF5200(void *, int);
 
+void fn_82FF4F40(char *param_1, int param_2, uint mask, uint *pos)
 {
-  code *pcVar1;
-  int iVar2;
-  int iVar3;
-  struct { undefined4 first; undefined4 second; } stack_pair_50;
+    struct { int a; int b; int c; uint d; float x; float y; } msg;
+    cb_t cb;
+    void *cs;
+    Entry_82FF4F40 *e;
 
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  float fStack_40;
-  float fStack_3c;
-  
-  iVar3 = param_1 + 0x88;
-  RtlEnterCriticalSection(iVar3);
-  iVar2 = fn_82FF5200(param_1 + 4,param_2);
-  pcVar1 = *(code **)(iVar2 + 0x20);
-  if ((pcVar1 == (code *)0x0) || ((*(uint *)(iVar2 + 0x28) & param_3) == 0)) {
-    RtlLeaveCriticalSection(iVar3);
-  }
-  else {
-    stack_pair_50.first = *(undefined4 *)(iVar2 + 0x24);
-    stack_pair_50.second = *(undefined4 *)(iVar2 + 0xc);
-    uStack_48 = (undefined4)param_2;
-    uStack_44 = (undefined4)param_3;
-    fStack_3c = (float)param_4[1] * lbl_8208ED44;
-    fStack_40 = (float)*param_4 * lbl_8208ED44;
-    fn_82A1E7D8(*(undefined4 *)(param_1 + 0xa4));
-    RtlLeaveCriticalSection(iVar3);
-    (*pcVar1)(param_3,&stack_pair_50.first);
-    fn_82A1E810(*(undefined4 *)(param_1 + 0xa4));
-  }
-  return;
+    cs = param_1 + 0x88;
+    RtlEnterCriticalSection(cs);
+    e = fn_82FF5200(param_1 + 4, param_2);
+    if (e->m_20 != 0 && (e->m_28 & mask) != 0) {
+        uint px = pos[0], py = pos[1];
+        int ta = e->m_24, tb = e->m_c;
+        cb = e->m_20;
+        msg.c = param_2;
+        msg.a = ta;
+        msg.b = tb;
+        msg.d = mask;
+        msg.y = (float)py * lbl_8208ED44;
+        msg.x = (float)px * lbl_8208ED44;
+        fn_82A1E7D8(*(int *)(param_1 + 0xa4));
+        RtlLeaveCriticalSection(cs);
+        cb(mask, &msg);
+        fn_82A1E810(*(int *)(param_1 + 0xa4));
+    } else {
+        RtlLeaveCriticalSection(cs);
+    }
 }
-

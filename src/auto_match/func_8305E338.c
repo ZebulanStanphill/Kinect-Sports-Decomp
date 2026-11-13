@@ -1,44 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82810280();
-extern int fn_8305E188();
-extern unsigned int lbl_831BCA50;
+typedef struct Vec_8305E338 {
+    float v[4];
+} Vec_8305E338;
 
+typedef struct Obj_8305E338 {
+    char pad0[0x34];
+    Vec_8305E338 pos;
+} Obj_8305E338;
 
-bool fn_8305E338(longlong param_1)
+extern float lbl_831BCA50;
+extern void fn_8305E188(Obj_8305E338 *self, Vec_8305E338 *out);
+extern float fn_82810280(Vec_8305E338 *a, Vec_8305E338 *b);
 
+unsigned char fn_8305E338(Obj_8305E338 *self)
 {
-  double dVar1;
-  undefined1 auStack_20 [16];
-  
-  fn_8305E188(param_1,auStack_20);
-  dVar1 = (double)fn_82810280(auStack_20,param_1 + 0x34);
-  return (double)lbl_831BCA50 < dVar1;
+    Vec_8305E338 p;
+    fn_8305E188(self, &p);
+    return fn_82810280(&p, &self->pos) > lbl_831BCA50;
 }
-

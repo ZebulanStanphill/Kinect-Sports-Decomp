@@ -1,54 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_828B3080 {
+  struct Node_828B3080 *left, *parent, *right;
+  int pad;
+  unsigned __int64 key;
+  unsigned char color;
+  unsigned char isnil;
+} Node_828B3080;
+typedef struct { int pad; Node_828B3080 *head; } Tree_828B3080;
 
-
-undefined4 * fn_828B3080(int param_1,ulonglong *param_2)
-
+static unsigned char less(Node_828B3080 *n, const unsigned __int64 *k)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar3 = *(undefined4 **)(param_1 + 4);
-  if (*(char *)((int)puVar3[1] + 0x19) == '\0') {
-    puVar1 = (undefined4 *)puVar3[1];
-    do {
-      if (*(ulonglong *)(puVar1 + 4) < *param_2) {
-        puVar2 = (undefined4 *)puVar1[2];
-      }
-      else {
-        puVar2 = (undefined4 *)*puVar1;
-        puVar3 = puVar1;
-      }
-      puVar1 = puVar2;
-    } while (*(char *)((int)puVar2 + 0x19) == '\0');
-    return puVar3;
-  }
-  return puVar3;
+  return n->key < *k;
 }
 
+Node_828B3080 *fn_828B3080(Tree_828B3080 *t, const unsigned __int64 *key)
+{
+  Node_828B3080 *where = t->head;
+  Node_828B3080 *node = where->parent;
+  while (node->isnil == 0) {
+    if (less(node, key)) {
+      node = node->right;
+    } else {
+      where = node;
+      node = node->left;
+    }
+  }
+  return where;
+}

@@ -1,65 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83175B5C;
+typedef int (*Fn_82C10CC0)(void *, void *, void *, void *);
+typedef struct { Fn_82C10CC0 fn; } Ent_82C10CC0;
+extern Ent_82C10CC0 *lbl_83175B5C[];
 
-
-ulonglong fn_82C10CC0(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
-
+int fn_82C10CC0(void *a, void *b, void *c, void *d)
 {
-  ulonglong uVar1;
-  byte bVar2;
-  code *pcVar3;
-  
-  pcVar3 = (code *)0x0;
-  uVar1 = 0xffffffff80500003;
-  bVar2 = 0;
+  Fn_82C10CC0 deferred;
+  char i;
+  int r;
+  r = 0x80500003;
+  deferred = 0;
+  i = 0;
   do {
-    if (*(code **)(&lbl_83175B5C)[(char)bVar2] != (code *)0x0) {
-      uVar1 = (**(code **)(&lbl_83175B5C)[(char)bVar2])(param_1,param_2,param_3,param_4);
-      if ((int)uVar1 < 0) {
-        if ((uVar1 & 0xffffffff) != 0x80500003) {
-          return uVar1;
+    if (lbl_83175B5C[i]->fn != 0) {
+      r = lbl_83175B5C[i]->fn(a, b, c, d);
+      if (r >= 0) {
+        if (r != 0x500000) {
+          return r;
         }
-      }
-      else {
-        if ((int)uVar1 != 0x500000) {
-          return uVar1;
+        if (deferred == 0) {
+          deferred = lbl_83175B5C[i]->fn;
         }
-        if (pcVar3 == (code *)0x0) {
-          pcVar3 = *(code **)(&lbl_83175B5C)[(char)bVar2];
+      } else {
+        if ((unsigned int)r != 0x80500003) {
+          return r;
         }
       }
     }
-    bVar2 = bVar2 + 1;
-  } while (bVar2 < 3);
-  if (pcVar3 != (code *)0x0) {
-    uVar1 = (*pcVar3)(param_1,param_2,param_3,param_4);
+    i = i + 1;
+  } while ((unsigned char)i < 3);
+  if (deferred != 0) {
+    r = deferred(a, b, c, d);
   }
-  return uVar1;
+  return r;
 }
-

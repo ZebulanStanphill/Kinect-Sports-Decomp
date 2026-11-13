@@ -1,54 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82B82D28();
+typedef struct Obj_82AF50F8 {
+    int f0;
+    int f4;
+    unsigned int pad8 : 10;
+    unsigned int count : 3;
+    unsigned int rest8 : 19;
+    int fc[4];
+    int f1c;
+    int f20[3];
+    void *items[8];
+} Obj_82AF50F8;
 
+extern void fn_82B82D28(void *item, int a, float *x, float *y, float *z, int f1c, int b, int c);
 
-void fn_82AF50F8(int param_1,longlong param_2,longlong param_3,longlong param_4)
-
+void fn_82AF50F8(Obj_82AF50F8 *o, float *x, float *y, float *z)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  ulonglong uVar3;
-  
-  uVar1 = *(uint *)(param_1 + 8) >> 0x13;
-  uVar3 = (ulonglong)uVar1 & 7;
-  if ((uVar1 & 7) != 0) {
-    puVar2 = (undefined4 *)(param_1 + 0x28);
-    param_4 = param_4 - param_3;
-    param_2 = param_2 - param_3;
-    do {
-      puVar2 = puVar2 + 1;
-      fn_82B82D28(*puVar2,0,param_2 + param_3,param_3,param_4 + param_3,
-                        *(undefined4 *)(param_1 + 0x1c),0,1);
-      uVar3 = uVar3 - 1;
-      param_3 = param_3 + 4;
-    } while (uVar3 != 0);
-  }
-  return;
+    unsigned int i;
+    unsigned int n = o->count;
+    for (i = 0; i < n; i++)
+        fn_82B82D28(o->items[i], 0, &x[i], &y[i], &z[i], o->f1c, 0, 1);
 }
-

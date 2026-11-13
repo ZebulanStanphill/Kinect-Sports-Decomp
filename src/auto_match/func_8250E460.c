@@ -1,52 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8255F1E0();
-extern int fn_827F0548();
-extern int fn_827F1080();
-extern int fn_827F38B0();
-extern int fn_827F38B8();
+typedef struct Sub_8250E460 {
+    char pad0[0x48];
+    int m48;                 /* 0x48 */
+} Sub_8250E460;
 
+typedef struct Obj_8250E460 {
+    char pad0[0x190];
+    int list190;             /* 0x190 */
+    char pad194[0x340 - 0x194];
+    int list340;             /* 0x340 */
+    char pad344[0x4f0 - 0x344];
+    Sub_8250E460 sub;        /* 0x4f0 */
+    char pad53c[0x5d8 - 0x53c];
+    void *ptr;               /* 0x5d8 */
+    void *rep;               /* 0x5dc */
+} Obj_8250E460;
 
-int fn_8250E460(int param_1,ulonglong param_2)
+extern void fn_822315A0(void *rep);
+extern void fn_827F38B0(int *p);
+extern void fn_827F38B8(Sub_8250E460 *s);
+extern void fn_8255F1E0(int *p);
+extern void fn_827F1080(Obj_8250E460 *o);
+extern void fn_827F0548(Obj_8250E460 *o);
 
+static __forceinline void Sub_Dtor(Sub_8250E460 *s)
 {
-  if (*(int *)(param_1 + 0x5dc) != 0) {
-    fn_822315A0();
-  }
-  fn_827F38B0(param_1 + 0x538);
-  fn_827F38B8(param_1 + 0x4f0);
-  fn_8255F1E0(param_1 + 0x340);
-  fn_8255F1E0(param_1 + 400);
-  fn_827F1080(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_827F0548(param_1);
-  }
-  return param_1;
+    fn_827F38B0(&s->m48);
+    fn_827F38B8(s);
 }
 
+Obj_8250E460 *fn_8250E460(Obj_8250E460 *o, unsigned int flags)
+{
+    if (o->rep != 0) {
+        fn_822315A0(o->rep);
+    }
+    Sub_Dtor(&o->sub);
+    fn_8255F1E0(&o->list340);
+    fn_8255F1E0(&o->list190);
+    fn_827F1080(o);
+    if (flags & 1) {
+        fn_827F0548(o);
+    }
+    return o;
+}

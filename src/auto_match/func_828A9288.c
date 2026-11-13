@@ -1,45 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828904D8();
-extern int fn_828C4240();
-extern int fn_828EA600();
+typedef struct Obj_828A9288 { struct ObjVt_828A9288 *vt; } Obj_828A9288;
+typedef struct ObjVt_828A9288 {
+    void *f0, *f4;
+    void *(*f8)(Obj_828A9288 *self, void *a, int b);
+} ObjVt_828A9288;
 
+extern unsigned char fn_828C4240(Obj_828A9288 *o);
+extern unsigned char fn_828EA600(void *o);
+extern void fn_828904D8(void *o);
 
-undefined8 fn_828A9288(int *param_1,undefined8 param_2,ulonglong param_3)
-
+void *fn_828A9288(Obj_828A9288 *self, void *a, int b)
 {
-  char cVar2;
-  undefined8 uVar1;
-  
-  cVar2 = fn_828C4240();
-  fn_828EA600(param_2);
-  uVar1 = (**(code **)(*param_1 + 8))(param_1,param_2,-(ulonglong)(cVar2 == '\0') & param_3);
-  fn_828904D8();
-  return uVar1;
+    void *r;
+    if (fn_828C4240(self) != 0)
+        b = 0;
+    fn_828EA600(a);
+    r = self->vt->f8(self, a, b);
+    fn_828904D8(r);
+    return r;
 }
-

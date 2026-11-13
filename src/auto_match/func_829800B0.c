@@ -1,63 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82930318();
-extern int fn_829304E0();
-extern int fn_829315D8();
+extern void *fn_82930318(int);
+extern void *fn_829304E0(void *, void *, int, const char *);
+extern void *fn_829315D8(void *, void *, void *);
 
+typedef struct { int pad[7]; int f1c; } State_829800B0;
+typedef struct { int pad[0x1e]; State_829800B0 *state; } Self_829800B0;
 
-int fn_829800B0(int param_1,undefined8 param_2,undefined8 param_3)
-
+void *fn_829800B0(Self_829800B0 *self, void *a, void *b)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int iVar3;
-  
-  *(undefined4 *)(*(int *)(param_1 + 0x78) + 0x1c) = 1;
-  uVar1 = fn_82930318(0x14);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_829304E0(uVar1,0,0,0xffffffff8204de78);
-  }
-  if (iVar2 != 0) {
-    uVar1 = fn_82930318(0x18);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = fn_829315D8(uVar1,param_2,param_3);
-    }
-    if (iVar3 != 0) {
-      *(int *)(iVar2 + 8) = iVar3;
-      return iVar2;
-    }
-  }
-  return 0;
-}
+  void *mem;
+  int *obj;
+  void *child;
 
+  self->state->f1c = 1;
+  mem = fn_82930318(0x14);
+  if (mem != 0) {
+    obj = (int *)fn_829304E0(mem, 0, 0, "Attributes");
+  } else {
+    obj = 0;
+  }
+  if (obj == 0) {
+    return 0;
+  }
+  mem = fn_82930318(0x18);
+  if (mem != 0) {
+    child = fn_829315D8(mem, a, b);
+  } else {
+    child = 0;
+  }
+  if (child == 0) {
+    return 0;
+  }
+  obj[2] = (int)child;
+  return obj;
+}

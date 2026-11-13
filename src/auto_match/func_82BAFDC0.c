@@ -1,57 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82B7BEB0();
-extern int fn_82BC05A8();
-extern int fn_82BC0618();
-extern int fn_82BC06D0();
+typedef struct Item_82BAFDC0 Item_82BAFDC0;
+typedef struct { void (*Delete)(Item_82BAFDC0 *self, int flags); } ItemVt_82BAFDC0;
+struct Item_82BAFDC0 { ItemVt_82BAFDC0 *vt; };
+typedef struct {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+    Item_82BAFDC0 *cur;
+    Item_82BAFDC0 *item;
+} Iter_82BAFDC0;
+typedef struct { int f0; char *list; } Self_82BAFDC0;
 
+extern void fn_82BC06D0(Iter_82BAFDC0 *it, char *list);
+extern void fn_82BC0618(Iter_82BAFDC0 *it);
+extern void fn_82BC05A8(char *list);
+extern void fn_82B7BEB0(void *heap, void *p);
 
-void fn_82BAFDC0(int param_1)
-
+void fn_82BAFDC0(Self_82BAFDC0 *self)
 {
-  int iVar1;
-  undefined1 auStack_30 [1];
-  undefined4 *puStack_20;
-  undefined4 *puStack_1c;
-  
-  fn_82BC06D0(auStack_30,*(undefined4 *)(param_1 + 4));
-  while( true ) {
-    puStack_1c = puStack_20;
-    if (puStack_20 == (undefined4 *)0x0) break;
-    (**(code **)*puStack_20)(puStack_20,1);
-    fn_82BC0618(auStack_30);
-  }
-  iVar1 = *(int *)(param_1 + 4);
-  if (iVar1 != 0) {
-    fn_82BC05A8(iVar1);
-    fn_82B7BEB0(*(undefined4 *)(iVar1 + -4),iVar1 + -4);
-  }
-  return;
+    Iter_82BAFDC0 it;
+    char *list;
+    fn_82BC06D0(&it, self->list);
+    while ((it.item = it.cur) != 0) {
+        it.item->vt->Delete(it.item, 1);
+        fn_82BC0618(&it);
+    }
+    list = self->list;
+    if (list != 0) {
+        fn_82BC05A8(list);
+        fn_82B7BEB0(*(void **)(list - 4), list - 4);
+    }
 }
-

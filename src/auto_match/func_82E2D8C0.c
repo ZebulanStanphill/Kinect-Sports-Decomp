@@ -1,57 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int iStack_2c;
+struct Com_82E2D8C0;
+typedef struct {
+  int (*f0)(struct Com_82E2D8C0 *, char *, void *);
+  void *f4;
+  int (*f8)(struct Com_82E2D8C0 *);
+  int (*fc)(struct Com_82E2D8C0 *, char *, void *);
+} ComVT_82E2D8C0;
+typedef struct Com_82E2D8C0 { ComVT_82E2D8C0 *vt; } Com_82E2D8C0;
+extern char lbl_82154C18[];
+extern char lbl_82154B18[];
+extern char lbl_820F8F08[];
 
-
-longlong fn_82E2D8C0(undefined8 param_1,undefined4 *param_2,undefined4 *param_3)
-
+int fn_82E2D8C0(void *self, Com_82E2D8C0 *src, int *out)
 {
-  longlong lVar1;
-  int *piStack_30;
-  int iStack_2c;
-  int aiStack_28;
-  
-  *param_3 = 0;
-  piStack_30 = (int *)0x0;
-  iStack_2c = 0;
-  aiStack_28 = 0;
-  lVar1 = (**(code **)*param_2)(param_2,0xffffffff82154c18,&piStack_30);
-  if (-1 < lVar1) {
-    lVar1 = (**(code **)(*piStack_30 + 0xc))(piStack_30,0xffffffff82154b18,&iStack_2c);
-    if (((-1 < lVar1) &&
-        (lVar1 = (**(code **)(*piStack_30 + 0xc))(piStack_30,0xffffffff820f8f08,&aiStack_28),
-        -1 < lVar1)) && ((iStack_2c != 0 || (aiStack_28 != 0)))) {
-      *param_3 = 1;
+  Com_82E2D8C0 *c;
+  unsigned int a;
+  unsigned int b;
+  int hr;
+  *out = 0;
+  c = 0;
+  a = 0;
+  b = 0;
+  hr = src->vt->f0(src, lbl_82154C18, &c);
+  if (hr >= 0) {
+    hr = c->vt->fc(c, lbl_82154B18, &a);
+    if (hr >= 0) {
+      hr = c->vt->fc(c, lbl_820F8F08, &b);
+      if (hr >= 0 && (a != 0 || b != 0)) {
+        *out = 1;
+      }
     }
   }
-  if (piStack_30 != (int *)0x0) {
-    (**(code **)(*piStack_30 + 8))();
+  if (c != 0) {
+    c->vt->f8(c);
   }
-  return lVar1;
+  return hr;
 }
-

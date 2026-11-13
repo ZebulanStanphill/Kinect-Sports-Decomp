@@ -1,72 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82021540;
-extern unsigned int lbl_821AAD20;
+typedef struct Tail_826EED50 {
+    int f2c;
+    int f30;
+    int f34;
+    int f38;
+    unsigned char f3c;
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+    int f50;
+    int f54;
+    int f58;
+    int f5c;
+} Tail_826EED50;
 
+typedef struct Desc_826EED50 {
+    int f00;
+    int f04;
+    int f08;
+    float f0c;
+    int f10;
+    int f14;
+    float f18;
+    float f1c;
+    float f20;
+    float f24;
+    float f28;
+    Tail_826EED50 tail;
+} Desc_826EED50;
 
-void fn_826EED50(undefined4 *param_1)
-
+static __forceinline void Tail_Clear(Tail_826EED50 *t)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  uVar4 = lbl_821AAD20;
-  uVar3 = lbl_82021540;
-  uVar2 = lbl_82002C5C;
-  param_1[1] = 2;
-  uVar1 = lbl_82002AE0;
-  *param_1 = 3;
-  param_1[3] = uVar3;
-  param_1[2] = 2;
-  param_1[6] = uVar4;
-  param_1[4] = 0;
-  param_1[7] = uVar4;
-  param_1[5] = 0;
-  param_1[8] = uVar2;
-  param_1[9] = uVar2;
-  param_1[10] = uVar1;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  *(undefined1 *)(param_1 + 0xf) = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  param_1[0x16] = 0;
-  param_1[0x17] = 0;
-  return;
+    t->f2c = 0;
+    t->f30 = 0;
+    t->f34 = 0;
+    t->f38 = 0;
+    t->f3c = 0;
+    t->f40 = 0;
+    t->f44 = 0;
+    t->f48 = 0;
+    t->f4c = 0;
+    t->f50 = 0;
+    t->f54 = 0;
+    t->f58 = 0;
+    t->f5c = 0;
 }
 
+void fn_826EED50(Desc_826EED50 *d)
+{
+    d->f00 = 3;
+    d->f04 = 2;
+    d->f08 = 2;
+    d->f0c = 4.0f;
+    d->f10 = 0;
+    d->f14 = 0;
+    d->f18 = 0.0f;
+    d->f1c = 0.0f;
+    d->f20 = 0.5f;
+    d->f24 = 0.5f;
+    d->f28 = 1.0f;
+    Tail_Clear(&d->tail);
+}

@@ -1,51 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E400();
-extern unsigned int lbl_821CA878;
+typedef struct FuncImpl_82605028 FuncImpl_82605028;
 
+typedef struct FuncImplVtbl_82605028 {
+    void *slots[3];
+    void (*deleteThis)(FuncImpl_82605028 *self, int deallocate);
+} FuncImplVtbl_82605028;
 
-void fn_82605028(undefined4 *param_1)
+struct FuncImpl_82605028 {
+    FuncImplVtbl_82605028 *vt;
+};
 
+typedef struct Function_82605028 {
+    double space[2];
+    FuncImpl_82605028 *impl;
+} Function_82605028;
+
+typedef struct Obj_82605028 {
+    char *vt;
+    char pad04[0x58 - 0x4];
+    Function_82605028 a;   /* 0x58 */
+    Function_82605028 b;   /* 0x70 */
+    char pad88[0xa0 - 0x88];
+    int sub;               /* 0xa0 */
+} Obj_82605028;
+
+extern char lbl_821CA878[];
+extern void fn_8251E400(void *p);
+
+static __forceinline void Function_82605028_Tidy(Function_82605028 *f)
 {
-  int *piVar1;
-  
-  *param_1 = &lbl_821CA878;
-  fn_8251E400(param_1 + 0x28);
-  piVar1 = (int *)param_1[0x20];
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,param_1 + 0x1c != piVar1);
-    param_1[0x20] = 0;
-  }
-  piVar1 = (int *)param_1[0x1a];
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 0xc))(piVar1,param_1 + 0x16 != piVar1);
-    param_1[0x1a] = 0;
-  }
-  return;
+    if (f->impl != 0) {
+        f->impl->vt->deleteThis(f->impl, f->impl != (FuncImpl_82605028 *)f);
+        f->impl = 0;
+    }
 }
 
+void fn_82605028(Obj_82605028 *o)
+{
+    o->vt = lbl_821CA878;
+    fn_8251E400(&o->sub);
+    Function_82605028_Tidy(&o->b);
+    Function_82605028_Tidy(&o->a);
+}
