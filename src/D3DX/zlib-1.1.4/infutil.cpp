@@ -1,11 +1,16 @@
 /* zlib 1.1.4 infutil.c (open-source; licence in docs/licenses/): the upstream file as built
-   into D3DX's zlib 1.1.4 (/O1). Unchanged except:
+   into D3DX's zlib 1.1.4 (/O1, as C++). Unchanged except:
    the include lines point at include/zlib-1.1.4/ and include/libc/
+   its owner compiled this copy as C++ (the game's code is what a C++ compile of the file
+   gives, not a C compile), so the file is inside extern "C" { } (the game's names for
+   it are C names) and, C++ having no K&R function definitions, each definition's
+   parameter declarations are written as a prototype, at upstream lines 23-26
    this is the game's second zlib copy: its names carry the prefix d3dx_ (an invented
    naming scheme, see docs/licenses/README.md), mapped below */
 #define inflate_flush d3dx_inflate_flush
 #define inflate_mask d3dx_inflate_mask
 
+extern "C" {
 /* inflate_util.c -- data and routines common to blocks and codes
  * Copyright (C) 1995-2002 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h 
@@ -28,10 +33,10 @@ uInt inflate_mask[17] = {
 
 
 /* copy as much as possible from the sliding window to the output area */
-int inflate_flush(s, z, r)
-inflate_blocks_statef *s;
-z_streamp z;
-int r;
+int inflate_flush(
+inflate_blocks_statef *s,
+z_streamp z,
+int r)
 {
   uInt n;
   Bytef *p;
@@ -92,4 +97,5 @@ int r;
 
   /* done */
   return r;
+}
 }

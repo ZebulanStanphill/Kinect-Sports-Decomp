@@ -1,6 +1,10 @@
 /* zlib 1.1.4 infcodes.c (open-source; licence in docs/licenses/): the upstream file as built
-   into D3DX's zlib 1.1.4 (/O1). Unchanged except:
+   into D3DX's zlib 1.1.4 (/O1, as C++). Unchanged except:
    the include lines point at include/zlib-1.1.4/ and include/libc/
+   its owner compiled this copy as C++ (the game's code is what a C++ compile of the file
+   gives, not a C compile), so the file is inside extern "C" { } (the game's names for
+   it are C names) and, C++ having no K&R function definitions, each definition's
+   parameter declarations are written as a prototype, at upstream lines 59-63, 81-84, 245-247
    this is the game's second zlib copy: its names carry the prefix d3dx_ (an invented
    naming scheme, see docs/licenses/README.md), mapped below */
 #define inflate_codes d3dx_inflate_codes
@@ -10,6 +14,7 @@
 #define inflate_flush d3dx_inflate_flush
 #define inflate_mask d3dx_inflate_mask
 
+extern "C" {
 /* infcodes.c -- process literals and length/distance pairs
  * Copyright (C) 1995-2002 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h 
@@ -68,11 +73,11 @@ struct inflate_codes_state {
 };
 
 
-inflate_codes_statef *inflate_codes_new(bl, bd, tl, td, z)
-uInt bl, bd;
-inflate_huft *tl;
-inflate_huft *td; /* need separate declaration for Borland C++ */
-z_streamp z;
+inflate_codes_statef *inflate_codes_new(
+uInt bl, uInt bd,
+inflate_huft *tl,
+inflate_huft *td, /* need separate declaration for Borland C++ */
+z_streamp z)
 {
   inflate_codes_statef *c;
 
@@ -90,10 +95,10 @@ z_streamp z;
 }
 
 
-int inflate_codes(s, z, r)
-inflate_blocks_statef *s;
-z_streamp z;
-int r;
+int inflate_codes(
+inflate_blocks_statef *s,
+z_streamp z,
+int r)
 {
   uInt j;               /* temporary storage */
   inflate_huft *t;      /* temporary pointer */
@@ -254,10 +259,11 @@ int r;
 }
 
 
-void inflate_codes_free(c, z)
-inflate_codes_statef *c;
-z_streamp z;
+void inflate_codes_free(
+inflate_codes_statef *c,
+z_streamp z)
 {
   ZFREE(z, c);
   Tracev((stderr, "inflate:       codes free\n"));
+}
 }

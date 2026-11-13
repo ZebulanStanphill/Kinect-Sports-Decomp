@@ -107464,24 +107464,9 @@ auto_match/func_829AEE18.c:
 	.pdata      start:0x82209460 end:0x82209468
 	.text       start:0x829AEE18 end:0x829AEEC0
 
-auto_match/func_829AEEC0.c:
-	.text       start:0x829AEEC0 end:0x829AEEE4
-
-auto_match/func_829AEEE8.c:
-	.text       start:0x829AEEE8 end:0x829AEF08
-
-auto_match/func_829AEF08.c:
-	.text       start:0x829AEF08 end:0x829AEF28
-
-auto_match/func_829AEF28.c:
-	.text       start:0x829AEF28 end:0x829AEF64
-
-auto_match/func_829AEF68.c:
-	.text       start:0x829AEF68 end:0x829AEFA4
-
-auto_match/func_829AEFA8.c:
+D3DX/libpng-1.0.5/pngget.c:
 	.pdata      start:0x82209468 end:0x82209470
-	.text       start:0x829AEFA8 end:0x829AF0B4
+	.text       start:0x829AEEC0 end:0x829AF0B4
 
 auto_match/func_829AF0C8.c:
 	.text       start:0x829AF0C8 end:0x829AF0E4
@@ -107724,7 +107709,7 @@ auto_match/func_829B50F8.c:
 auto_match/func_829B5130.c:
 	.text       start:0x829B5130 end:0x829B5140
 
-auto_match/func_829B5140.c:
+D3DX/zlib-1.1.4/crc32.cpp:
 	.pdata      start:0x822095B0 end:0x822095B8
 	.text       start:0x829B5140 end:0x829B5274
 
@@ -107858,42 +107843,14 @@ D3DX/jpeg-6b/jutils.c:
 	.pdata      start:0x822096A8 end:0x822096B0
 	.text       start:0x829B7760 end:0x829B7834
 
-auto_match/func_829B7838.c:
-	.pdata      start:0x822096B0 end:0x822096B8
-	.text       start:0x829B7838 end:0x829B78F4
+D3DX/zlib-1.1.4/deflate.cpp:
+	.pdata      start:0x822096B0 end:0x822096E0
+	.text       start:0x829B7838 end:0x829B87C8
 
-auto_match/func_829B78F8.c:
-	.pdata      start:0x822096B8 end:0x822096C0
-	.text       start:0x829B78F8 end:0x829B7AAC
-
-auto_match/func_829B7AB0.c:
-	.pdata      start:0x822096C0 end:0x822096C8
-	.text       start:0x829B7AB0 end:0x829B7CB4
-
-auto_match/func_829B7CB8.c:
-	.pdata      start:0x822096C8 end:0x822096D0
-	.text       start:0x829B7CB8 end:0x829B7E84
-
-auto_match/func_829B7E88.c:
-	.pdata      start:0x822096D0 end:0x822096D8
-	.text       start:0x829B7E88 end:0x829B829C
-
-auto_match/func_829B82A0.c:
-	.pdata      start:0x822096D8 end:0x822096E0
-	.text       start:0x829B82A0 end:0x829B87C8
-
-auto_match/func_829B87C8.c:
-	.pdata      start:0x822096E0 end:0x822096E8
-	.text       start:0x829B87C8 end:0x829B8840
-
-auto_match/func_829B8840.c:
-	.pdata      start:0x822096E8 end:0x822096F0
-	.text       start:0x829B8840 end:0x829B88C4
-
-auto_match/func_829B8A30.c:
+D3DX/zlib-1.1.4/inflate.cpp:
 	.rdata      start:0x82054B08 end:0x82054B24
-	.pdata      start:0x822096F8 end:0x82209700
-	.text       start:0x829B8A30 end:0x829B8F80
+	.pdata      start:0x822096E0 end:0x82209700
+	.text       start:0x829B87C8 end:0x829B8F80
 
 auto_match/func_829B8F80.c:
 	.pdata      start:0x82209700 end:0x82209708
@@ -108236,44 +108193,14 @@ auto_match/func_829C0658.c:
 	.pdata      start:0x82209948 end:0x82209950
 	.text       start:0x829C0658 end:0x829C0738
 
-D3DX/zlib-1.1.4/adler32.c:
+D3DX/zlib-1.1.4/adler32.cpp:
 	.pdata      start:0x82209950 end:0x82209958
 	.text       start:0x829C0738 end:0x829C08B8
 
-auto_match/func_829C08B8.c:
-	.pdata      start:0x82209958 end:0x82209960
-	.text       start:0x829C08B8 end:0x829C09A4
-
-auto_match/func_829C09A8.c:
-	.pdata      start:0x82209960 end:0x82209968
-	.text       start:0x829C09A8 end:0x829C0BE8
-
-auto_match/func_829C0BE8.c:
-	.pdata      start:0x82209968 end:0x82209970
-	.text       start:0x829C0BE8 end:0x829C0D10
-
-auto_match/func_829C0D10.c:
-	.pdata      start:0x82209970 end:0x82209978
-	.text       start:0x829C0D10 end:0x829C1260
-
-auto_match/func_829C1260.c:
-	.pdata      start:0x82209978 end:0x82209980
-	.text       start:0x829C1260 end:0x829C1510
-
-auto_match/func_829C1510.c:
-	.pdata      start:0x82209980 end:0x82209988
-	.text       start:0x829C1510 end:0x829C193C
-
-auto_match/func_829C1940.c:
-	.pdata      start:0x82209988 end:0x82209990
-	.text       start:0x829C1940 end:0x829C1C10
-
-auto_match/func_829C1C10.c:
-	.text       start:0x829C1C10 end:0x829C1D98
-
-auto_match/func_829C1D98.c:
-	.pdata      start:0x82209990 end:0x82209998
-	.text       start:0x829C1D98 end:0x829C2110
+D3DX/zlib-1.1.4/trees.cpp:
+	.rdata      start:0x82055148 end:0x82055B80
+	.pdata      start:0x82209958 end:0x82209998
+	.text       start:0x829C08B8 end:0x829C2110
 
 auto_match/func_829C2110.c:
 	.pdata      start:0x82209998 end:0x822099A0
@@ -108282,22 +108209,10 @@ auto_match/func_829C2110.c:
 auto_match/func_829C2170.c:
 	.text       start:0x829C2170 end:0x829C217C
 
-auto_match/func_829C2180.c:
-	.pdata      start:0x822099A0 end:0x822099A8
-	.text       start:0x829C2180 end:0x829C2248
-
-auto_match/func_829C2248.c:
-	.pdata      start:0x822099A8 end:0x822099B0
-	.text       start:0x829C2248 end:0x829C2330
-
-auto_match/func_829C2330.c:
-	.rdata      start:0x82055C38 end:0x82055C4C
-	.pdata      start:0x822099B0 end:0x822099B8
-	.text       start:0x829C2330 end:0x829C2B80
-
-auto_match/func_829C2B80.c:
-	.pdata      start:0x822099B8 end:0x822099C0
-	.text       start:0x829C2B80 end:0x829C2BFC
+D3DX/zlib-1.1.4/infblock.cpp:
+	.rdata      start:0x82055BE8 end:0x82055C4C
+	.pdata      start:0x822099A0 end:0x822099C0
+	.text       start:0x829C2180 end:0x829C2BFC
 
 auto_match/func_829C2C00.c:
 	.pdata      start:0x822099C0 end:0x822099C8
@@ -108322,7 +108237,7 @@ auto_match/func_829C3CC0.c:
 auto_match/func_829C4298.c:
 	.text       start:0x829C4298 end:0x829C42D4
 
-D3DX/zlib-1.1.4/infcodes.c:
+D3DX/zlib-1.1.4/infcodes.cpp:
 	.rdata      start:0x82055C50 end:0x82055C64
 	.pdata      start:0x822099E8 end:0x822099F8
 	.text       start:0x829C42D8 end:0x829C4980
@@ -108342,11 +108257,11 @@ auto_match/func_829C4F00.c:
 auto_match/func_829C50C0.c:
 	.text       start:0x829C50C0 end:0x829C50EC
 
-D3DX/zlib-1.1.4/infutil.c:
+D3DX/zlib-1.1.4/infutil.cpp:
 	.pdata      start:0x82209A10 end:0x82209A18
 	.text       start:0x829C50F0 end:0x829C5258
 
-D3DX/zlib-1.1.4/inffast.c:
+D3DX/zlib-1.1.4/inffast.cpp:
 	.pdata      start:0x82209A18 end:0x82209A20
 	.text       start:0x829C5258 end:0x829C5688
 

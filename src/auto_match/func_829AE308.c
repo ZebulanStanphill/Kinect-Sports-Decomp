@@ -34,7 +34,7 @@ extern int fn_829B4FF8();
 extern int fn_829B5070();
 extern int fn_829B5088();
 extern int fn_829B50F8();
-extern int fn_829B8A20();
+extern int d3dx_inflateInit_();
 extern int fn_82F6C150();
 extern unsigned int uStack0000001c;
 extern unsigned int uStack00000024;
@@ -77,7 +77,7 @@ int fn_829AE308(char *param_1,undefined4 param_2,undefined4 param_3,undefined4 p
   *(code **)(iVar1 + 0x584) = fn_829AB250;
   *(code **)(iVar1 + 0x588) = fn_829AB2C0;
   *(int *)(iVar1 + 0x58c) = iVar1;
-  iVar2 = fn_829B8A20(iVar1 + 0x564,0xffffffff8205247c,0x38);
+  iVar2 = d3dx_inflateInit_(iVar1 + 0x564,0xffffffff8205247c,0x38);
   if (iVar2 == -6) {
     uVar4 = 0xffffffff82052440;
   }

@@ -167842,37 +167842,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_829AEEC0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829AEEE8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829AEF08.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829AEF28.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829AEF68.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829AEFA8.c": {
+      "D3DX/libpng-1.0.5/pngget.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -168271,7 +168241,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_829B5140.c": {
+      "D3DX/zlib-1.1.4/crc32.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -168475,55 +168445,13 @@
           "/O2"
         ]
       },
-      "auto_match/func_829B7838.c": {
+      "D3DX/zlib-1.1.4/deflate.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
-      "auto_match/func_829B78F8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B7AB0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B7CB8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B7E88.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B82A0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B87C8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B8840.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829B8A30.c": {
+      "D3DX/zlib-1.1.4/inflate.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -169065,69 +168993,14 @@
           "/O2"
         ]
       },
-      "D3DX/zlib-1.1.4/adler32.c": {
+      "D3DX/zlib-1.1.4/adler32.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
-      "auto_match/func_829C08B8.c": {
+      "D3DX/zlib-1.1.4/trees.cpp": {
         "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C09A8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C0BE8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C0D10.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C1260.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ],
-        "ltcg_units": [
-          "auto_match/func_829C0D10.c"
-        ]
-      },
-      "auto_match/func_829C1510.c": {
-        "status": "NonMatching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C1940.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ],
-        "ltcg_units": [
-          "auto_match/func_829C09A8.c",
-          "auto_match/func_829C08B8.c"
-        ]
-      },
-      "auto_match/func_829C1C10.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C1D98.c": {
-        "status": "NonMatching",
         "extra_cflags": [
           "/O1"
         ]
@@ -169144,25 +169017,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_829C2180.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C2248.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C2330.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_829C2B80.c": {
+      "D3DX/zlib-1.1.4/infblock.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -169207,7 +169062,7 @@
           "/O2"
         ]
       },
-      "D3DX/zlib-1.1.4/infcodes.c": {
+      "D3DX/zlib-1.1.4/infcodes.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -169240,13 +169095,13 @@
           "/O1"
         ]
       },
-      "D3DX/zlib-1.1.4/infutil.c": {
+      "D3DX/zlib-1.1.4/infutil.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
       },
-      "D3DX/zlib-1.1.4/inffast.c": {
+      "D3DX/zlib-1.1.4/inffast.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"

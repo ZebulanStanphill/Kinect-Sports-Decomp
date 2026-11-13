@@ -26,3 +26,4 @@ int putc(int c, FILE *f);
 int printf(const char *format, ...);
 int fprintf(FILE *f, const char *format, ...);
 int sprintf(char *buf, const char *format, ...);
+int sscanf(const char *buf, const char *format, ...);

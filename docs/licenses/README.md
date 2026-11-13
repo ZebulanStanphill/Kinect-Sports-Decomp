@@ -19,8 +19,8 @@ This software is based in part on the work of the Independent JPEG Group.
 | libjpeg 6b, 0x827BAED0-0x827D196C | Scaleform GFx: called from the GFx image loaders at 0x826EA... | `/Ox /Os /GF` | upstream names |
 | zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1` | upstream names |
 | libjpeg 6b, 0x829ADEA0-0x829B7834 | D3DX: called from the D3DX texture-file loader, among D3DX's other code | `/O2` | `d3dx_` + upstream name |
-| zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1` | `d3dx_` + upstream name |
-| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0 | D3DX | | upstream names |
+| zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1`, as C++ | `d3dx_` + upstream name |
+| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0 | D3DX | `/O1` | upstream names |
 
 The flags are the ones the game's code matches with. The owners are inferred from callers
 and neighbouring code, not from any symbol. GFx's libjpeg was also built with `NO_GETENV`:
@@ -52,8 +52,12 @@ its copy:
 | the game's zlib 1.2.3 | `src/zlib-1.2.3/` |
 | D3DX's libjpeg 6b | `src/D3DX/jpeg-6b/` |
 | D3DX's zlib 1.1.4 | `src/D3DX/zlib-1.1.4/` |
+| D3DX's libpng 1.0.5 | `src/D3DX/libpng-1.0.5/` |
 
-The file names are upstream's. The folders were chosen for this project, after the
+The file names are upstream's, except that D3DX's zlib files end in `.cpp`: D3DX compiled
+that copy as C++, which only differs from a C compile in a few functions (`trees.c`,
+`deflate.c`), and this project's build chooses the language by extension. Those units add a
+prototype for each K&R definition and wrap the file in `extern "C"`, as their headers say. The folders were chosen for this project, after the
 owners above; the original build paths are not known. Library functions that are not
 yet part of such a unit are still single-function units in `src/auto_match/`.
 

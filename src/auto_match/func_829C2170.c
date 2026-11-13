@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8262F658();
 
 
-void fn_829C2170(undefined8 param_1,undefined8 param_2)
+void d3dx_zcfree(undefined8 param_1,undefined8 param_2)
 
 {
   code *pcVar1;

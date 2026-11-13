@@ -1,11 +1,16 @@
 /* zlib 1.1.4 inffast.c (open-source; licence in docs/licenses/): the upstream file as built
-   into D3DX's zlib 1.1.4 (/O1). Unchanged except:
+   into D3DX's zlib 1.1.4 (/O1, as C++). Unchanged except:
    the include lines point at include/zlib-1.1.4/ and include/libc/
+   its owner compiled this copy as C++ (the game's code is what a C++ compile of the file
+   gives, not a C compile), so the file is inside extern "C" { } (the game's names for
+   it are C names) and, C++ having no K&R function definitions, each definition's
+   parameter declarations are written as a prototype, at upstream lines 28-33
    this is the game's second zlib copy: its names carry the prefix d3dx_ (an invented
    naming scheme, see docs/licenses/README.md), mapped below */
 #define inflate_fast d3dx_inflate_fast
 #define inflate_mask d3dx_inflate_mask
 
+extern "C" {
 /* inffast.c -- process literals and length/distance pairs fast
  * Copyright (C) 1995-2002 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h 
@@ -33,12 +38,12 @@ struct inflate_codes_state {int dummy;}; /* for buggy compilers */
    at least ten.  The ten bytes are six bytes for the longest length/
    distance pair plus four bytes for overloading the bit buffer. */
 
-int inflate_fast(bl, bd, tl, td, s, z)
-uInt bl, bd;
-inflate_huft *tl;
-inflate_huft *td; /* need separate declaration for Borland C++ */
-inflate_blocks_statef *s;
-z_streamp z;
+int inflate_fast(
+uInt bl, uInt bd,
+inflate_huft *tl,
+inflate_huft *td, /* need separate declaration for Borland C++ */
+inflate_blocks_statef *s,
+z_streamp z)
 {
   inflate_huft *t;      /* temporary pointer */
   uInt e;               /* extra bits or operation */
@@ -188,4 +193,5 @@ z_streamp z;
   UNGRAB
   UPDATE
   return Z_OK;
+}
 }

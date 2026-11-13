@@ -1,10 +1,15 @@
 /* zlib 1.1.4 adler32.c (open-source; licence in docs/licenses/): the upstream file as built
-   into D3DX's zlib 1.1.4 (/O1). Unchanged except:
+   into D3DX's zlib 1.1.4 (/O1, as C++). Unchanged except:
    the include lines point at include/zlib-1.1.4/ and include/libc/
+   its owner compiled this copy as C++ (the game's code is what a C++ compile of the file
+   gives, not a C compile), so the file is inside extern "C" { } (the game's names for
+   it are C names) and, C++ having no K&R function definitions, each definition's
+   parameter declarations are written as a prototype, at upstream lines 21-24
    this is the game's second zlib copy: its names carry the prefix d3dx_ (an invented
    naming scheme, see docs/licenses/README.md), mapped below */
 #define adler32 d3dx_adler32
 
+extern "C" {
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2002 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h 
@@ -25,10 +30,10 @@
 #define DO16(buf)   DO8(buf,0); DO8(buf,8);
 
 /* ========================================================================= */
-uLong ZEXPORT adler32(adler, buf, len)
-    uLong adler;
-    const Bytef *buf;
-    uInt len;
+uLong ZEXPORT adler32(
+    uLong adler,
+    const Bytef *buf,
+    uInt len)
 {
     unsigned long s1 = adler & 0xffff;
     unsigned long s2 = (adler >> 16) & 0xffff;
@@ -52,4 +57,5 @@ uLong ZEXPORT adler32(adler, buf, len)
         s2 %= BASE;
     }
     return (s2 << 16) | s1;
+}
 }

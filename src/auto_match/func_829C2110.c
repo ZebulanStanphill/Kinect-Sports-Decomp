@@ -29,7 +29,7 @@ extern int fn_8265C940();
 extern int fn_82F691F0();
 
 
-undefined8 fn_829C2110(undefined8 param_1,int param_2,ulonglong param_3)
+undefined8 d3dx_zcalloc(undefined8 param_1,int param_2,ulonglong param_3)
 
 {
   undefined8 in_r0;
