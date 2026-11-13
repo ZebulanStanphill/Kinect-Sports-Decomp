@@ -1,52 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82692C90();
-extern unsigned int lbl_831F129C;
+typedef struct _RTL_CRITICAL_SECTION { int w[7]; } RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
 
+typedef struct Item_8267BDA8 Item_8267BDA8;
 
-undefined8 fn_8267BDA8(ulonglong param_1,undefined8 param_2)
+typedef struct Obj_8267BDA8 {
+    unsigned char pad[0x48];
+    RTL_CRITICAL_SECTION cs;
+    unsigned char locked;
+    void *impl;
+} Obj_8267BDA8;
 
+struct Item_8267BDA8 {
+    unsigned char pad[0x14];
+    Obj_8267BDA8 *obj;
+};
+
+typedef struct Dir_8267BDA8 {
+    int pad;
+    Item_8267BDA8 **items;
+} Dir_8267BDA8;
+
+extern Dir_8267BDA8 *lbl_831F129C;
+extern int fn_82692C90(void *impl, Item_8267BDA8 *item, unsigned int handle, int a);
+
+int fn_8267BDA8(unsigned int handle, int a)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  iVar2 = *(int *)(*(int *)(((uint)((param_1 & 0xffffffff) >> 0x11) & 0x7ff8) + lbl_831F129C + 4) +
-                  ((uint)((param_1 & 0xffffffff) >> 10) & 0x3fc));
-  iVar1 = *(int *)(iVar2 + 0x14);
-  if (*(char *)(iVar1 + 100) == '\0') {
-    uVar3 = fn_82692C90(*(undefined4 *)(iVar1 + 0x68),iVar2,param_1,param_2);
-  }
-  else {
-    RtlEnterCriticalSection(iVar1 + 0x48);
-    uVar3 = fn_82692C90(*(undefined4 *)(iVar1 + 0x68),iVar2,param_1,param_2);
-    RtlLeaveCriticalSection(iVar1 + 0x48);
-  }
-  return uVar3;
+    Item_8267BDA8 *item = lbl_831F129C[handle >> 20].items[(handle >> 12) & 0xff];
+    Obj_8267BDA8 *o = item->obj;
+    int r;
+    if (o->locked) {
+        RtlEnterCriticalSection(&o->cs);
+        r = fn_82692C90(o->impl, item, handle, a);
+        RtlLeaveCriticalSection(&o->cs);
+        return r;
+    }
+    return fn_82692C90(o->impl, item, handle, a);
 }
-

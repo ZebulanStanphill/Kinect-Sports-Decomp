@@ -1,53 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8302EE08();
-extern int fn_8302EE80();
 
+typedef struct Node_8302F040 {
+    struct Node_8302F040 *next;
+    uint key;
+    uint value;
+} Node_8302F040;
 
-undefined8 fn_8302F040(int param_1,int param_2,char param_3)
+typedef struct {
+    char pad0[8];
+    uint count;
+    char padc[0x18 - 0xc];
+    Node_8302F040 *head;
+} Obj_8302F040;
 
+extern int fn_8302EE08(void *outer, uint *value);
+extern void fn_8302EE80(void *outer, uint *value);
+
+int fn_8302F040(Obj_8302F040 *o, uint key, unsigned char now)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  
-  if (*(int *)(param_1 + 8) != 0) {
-    for (puVar1 = *(undefined4 **)(param_1 + 0x18); puVar1 != (undefined4 *)0x0;
-        puVar1 = (undefined4 *)*puVar1) {
-      if (puVar1[1] == param_2) {
-        if (param_3 == '\0') {
-          fn_8302EE80(param_1 + -0xac,puVar1 + 2);
-          return 1;
+    int r = 1;
+    Node_8302F040 *p;
+    if (o->count != 0) {
+        for (p = o->head; p != 0; p = p->next) {
+            if (p->key == key) {
+                if (now)
+                    r = fn_8302EE08((char *)o - 0xac, &p->value);
+                else
+                    fn_8302EE80((char *)o - 0xac, &p->value);
+                break;
+            }
         }
-        uVar2 = fn_8302EE08();
-        return uVar2;
-      }
     }
-  }
-  return 1;
+    return r;
 }
-

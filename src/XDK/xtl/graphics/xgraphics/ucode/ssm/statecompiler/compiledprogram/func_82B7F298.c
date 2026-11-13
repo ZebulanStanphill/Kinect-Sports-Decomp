@@ -1,51 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82F691F0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *memset(void *, int, unsigned int);
 
+#define CP_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledprogram.cpp", line)
 
-undefined8 fn_82B7F298(int param_1)
+typedef struct DeviceCI_82B7F298 {
+    char pad[0x10];
+    void *ctx;
+    void *(*AllocateSysMem)(void *ctx, unsigned int size);
+    void (*FreeSysMem)(void *ctx, void *p);
+} DeviceCI_82B7F298;
 
+typedef struct CP_TRANSLATION_BUFFERS_82B7F298 {
+    void *ctx;
+    void (*FreeSysMem)(void *ctx, void *p);
+    char rest[0x684 - 8];
+} CP_TRANSLATION_BUFFERS_82B7F298;
+
+CP_TRANSLATION_BUFFERS_82B7F298 *fn_82B7F298(DeviceCI_82B7F298 *pDeviceCI)
 {
-  longlong lVar1;
-  
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d923c,0xffffffff820dbba0,0x145);
-  }
-  if (*(int *)(param_1 + 0x14) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dbc44,0xffffffff820dbba0,0x146);
-  }
-  lVar1 = (**(code **)(param_1 + 0x14))(*(undefined4 *)(param_1 + 0x10),0x684);
-  if (lVar1 != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(lVar1,0,0x684);
-  }
-  fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dbc08,0xffffffff820dbba0,0x15c);
-  return 0;
-}
+    CP_TRANSLATION_BUFFERS_82B7F298 *pTB;
 
+    CP_ASSERT(pDeviceCI, 0x145);
+    CP_ASSERT(pDeviceCI->AllocateSysMem, 0x146);
+    pTB = (CP_TRANSLATION_BUFFERS_82B7F298 *)pDeviceCI->AllocateSysMem(pDeviceCI->ctx, sizeof(CP_TRANSLATION_BUFFERS_82B7F298));
+    if (pTB != 0) {
+        memset(pTB, 0, sizeof(CP_TRANSLATION_BUFFERS_82B7F298));
+        pTB->ctx = pDeviceCI->ctx;
+        pTB->FreeSysMem = pDeviceCI->FreeSysMem;
+        return pTB;
+    }
+    CP_ASSERT(!"Could not allocate the CP_TRANSLATION_BUFFERS structure", 0x15c);
+    return 0;
+}

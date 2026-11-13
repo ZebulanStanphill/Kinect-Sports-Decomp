@@ -1,65 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A4C390();
-extern unsigned int lbl_82089DA0;
+typedef struct Vt_82A4F578 { void *f0; unsigned long (*AddRef)(void *); } Vt_82A4F578;
+typedef struct Obj_82A4F578 { Vt_82A4F578 *vt; char pad[0x1c]; void *iface20; } Obj_82A4F578;
+extern int memcmp(const void *, const void *, unsigned);
+extern char lbl_82089DA0[];
+extern long fn_82A4C390(Obj_82A4F578 *self, const void *iid, void **out);
 
-
-undefined8 fn_82A4F578(int *param_1,byte *param_2,undefined4 *param_3)
-
+long fn_82A4F578(Obj_82A4F578 *self, const void *iid, void **out)
 {
-  byte bVar1;
-  byte bVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  int *piVar5;
-  undefined8 uVar6;
-  
-  uVar6 = 0;
-  pbVar4 = &lbl_82089DA0;
-  pbVar3 = param_2 + 0x10;
-  do {
-    bVar1 = *param_2;
-    bVar2 = *pbVar4;
-    if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-    param_2 = param_2 + 1;
-    pbVar4 = pbVar4 + 1;
-  } while (param_2 != pbVar3);
-  if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
-    piVar5 = param_1 + 8;
-    if (param_1 == (int *)0x0) {
-      piVar5 = (int *)0x0;
+    long hr = 0;
+    if (memcmp(iid, lbl_82089DA0, 16) == 0) {
+        *out = self ? &self->iface20 : 0;
+        self->vt->AddRef(self);
+    } else {
+        hr = fn_82A4C390(self, iid, out);
     }
-    *param_3 = piVar5;
-    (**(code **)(*param_1 + 4))();
-  }
-  else {
-    uVar6 = fn_82A4C390();
-  }
-  return uVar6;
+    return hr;
 }
-

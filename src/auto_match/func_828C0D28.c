@@ -1,53 +1,66 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
+typedef struct FuncImpl_828C0D28 FuncImpl_828C0D28;
 
+typedef struct FuncImplVtbl_828C0D28 {
+    void *slots[3];
+    void (*deleteThis)(FuncImpl_828C0D28 *self, int deallocate);
+} FuncImplVtbl_828C0D28;
 
-void fn_828C0D28(int param_1)
+struct FuncImpl_828C0D28 {
+    FuncImplVtbl_828C0D28 *vt;
+};
 
+typedef struct Function_828C0D28 {
+    double space[2];
+    FuncImpl_828C0D28 *impl;
+} Function_828C0D28;
+
+typedef struct SharedPtr_828C0D28 {
+    void *ptr;
+    void *rep;
+} SharedPtr_828C0D28;
+
+typedef struct Obj_828C0D28 {
+    char pad0[0x58];
+    Function_828C0D28 func;
+    SharedPtr_828C0D28 sp;
+} Obj_828C0D28;
+
+extern void fn_822315A0(void *rep);
+
+static __forceinline void Function_828C0D28_Tidy(Function_828C0D28 *f)
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x74);
-  *(undefined4 *)(param_1 + 0x74) = 0;
-  *(undefined4 *)(param_1 + 0x70) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  if (*(int *)(param_1 + 0x74) != 0) {
-    fn_822315A0();
-  }
-  piVar2 = *(int **)(param_1 + 0x68);
-  if (piVar2 != (int *)0x0) {
-    (**(code **)(*piVar2 + 0xc))(piVar2,(int *)(param_1 + 0x58) != piVar2);
-    *(undefined4 *)(param_1 + 0x68) = 0;
-  }
-  return;
+    if (f->impl != 0) {
+        f->impl->vt->deleteThis(f->impl, f->impl != (FuncImpl_828C0D28 *)f);
+        f->impl = 0;
+    }
 }
 
+static __forceinline void SwapPtr_828C0D28(void **a, void **b)
+{
+    void *t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void SharedPtr_828C0D28_Decref(SharedPtr_828C0D28 *s)
+{
+    if (s->rep != 0)
+        fn_822315A0(s->rep);
+}
+
+static __forceinline void SharedPtr_828C0D28_Reset(SharedPtr_828C0D28 *s)
+{
+    SharedPtr_828C0D28 tmp;
+    tmp.ptr = 0;
+    tmp.rep = 0;
+    SwapPtr_828C0D28(&s->rep, &tmp.rep);
+    SwapPtr_828C0D28(&s->ptr, &tmp.ptr);
+    SharedPtr_828C0D28_Decref(&tmp);
+}
+
+void fn_828C0D28(Obj_828C0D28 *o)
+{
+    SharedPtr_828C0D28_Reset(&o->sp);
+    SharedPtr_828C0D28_Decref(&o->sp);
+    Function_828C0D28_Tidy(&o->func);
+}

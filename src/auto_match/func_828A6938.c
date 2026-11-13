@@ -1,153 +1,102 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA20();
-extern int fn_8289DD28();
-extern int fn_8289FA30();
-extern int fn_828A6260();
+/* map<Key, int>::_Linsert(node, leftish) (VC10 <xtree>), Key = {int id; optional<int> opt;} as in
+   func_828A6E70. operator< is inlined in the search loop; the final check calls it out of line
+   (fn_8289FA30). _Insert is fn_828A6260, iterator operator-- is fn_8289DD28. */
+typedef struct {
+    unsigned char initialized;
+    int value;
+} Optional_828A6938;
 
+typedef struct {
+    int id;
+    Optional_828A6938 opt;
+} Key_828A6938;
 
-undefined4 *
-fn_828A6938(undefined4 *param_1,ulonglong param_2,ulonglong param_3,ulonglong param_4)
+typedef struct {
+    Key_828A6938 first;
+    int second;
+} Pair_828A6938;
 
+typedef struct Node_828A6938 {
+    struct Node_828A6938 *left;
+    struct Node_828A6938 *parent;
+    struct Node_828A6938 *right;
+    Pair_828A6938 kv;
+    char color;
+    char isnil;
+} Node_828A6938;
+
+typedef struct {
+    int f0;
+    Node_828A6938 *head;
+    unsigned int size;
+} Tree_828A6938;
+
+typedef struct {
+    Node_828A6938 *node;
+} Iter_828A6938;
+
+typedef struct {
+    Iter_828A6938 first;
+    unsigned char second;
+} Pairib_828A6938;
+
+extern Iter_828A6938 *fn_828A6260(Iter_828A6938 *out, Tree_828A6938 *tree, unsigned char addleft,
+    Node_828A6938 *where, Node_828A6938 *node);
+extern void fn_8289DD28(Iter_828A6938 *it);
+extern unsigned char fn_8289FA30(const Key_828A6938 *a, const Key_828A6938 *b);
+extern void fn_8265CA20(void *p);
+
+static __forceinline unsigned char OptLess(const Optional_828A6938 *x, const Optional_828A6938 *y)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined4 *puVar5;
-  undefined4 uVar6;
-  int iVar7;
-  ulonglong uVar8;
-  undefined4 *puVar9;
-  char cVar10;
-  ulonglong uVar11;
-  ulonglong uVar12;
-  ulonglong uVar13;
-  longlong lVar14;
-  undefined4 * apuStack_60;
-  
-  puVar9 = *(undefined4 **)((int)param_2 + 4);
-  lVar14 = 1;
-  iVar7 = (int)param_3;
-  uVar11 = param_2;
-  uVar12 = param_3;
-  if (*(char *)((int)puVar9[1] + 0x1d) == '\0') {
-    iVar1 = *(int *)(param_3 + 0xc);
-    uVar8 = param_4 & 0xff;
-    puVar5 = (undefined4 *)puVar9[1];
-    do {
-      puVar9 = puVar5;
-      iVar2 = puVar9[3];
-      if (uVar8 == 0) {
-        if (iVar1 < iVar2) {
-LAB_828a6a78:
-          lVar14 = 1;
-        }
-        else {
-          if (iVar1 <= iVar2) {
-            if (*(char *)(puVar9 + 4) == '\0') {
-              uVar13 = 0;
-            }
-            else if (*(char *)(iVar7 + 0x10) == '\0') {
-              uVar13 = 1;
-            }
-            else {
-              uVar3 = *(uint *)(iVar7 + 0x14);
-              uVar4 = puVar9[5];
-              param_4 = (ulonglong)uVar3 - (ulonglong)uVar4;
-              uVar12 = ~(ulonglong)(uVar4 ^ uVar3);
-              uVar11 = (uVar12 & 0xffffffff) >> 0x1f;
-              uVar13 = uVar11 + ((ulonglong)uVar4 <= (ulonglong)uVar3) & 1;
-            }
-            if (uVar13 != 0) goto LAB_828a6a78;
-          }
-          lVar14 = 0;
-        }
-      }
-      else if (iVar2 < iVar1) {
-LAB_828a6a00:
-        lVar14 = 0;
-      }
-      else {
-        if (iVar2 <= iVar1) {
-          if (*(char *)(iVar7 + 0x10) == '\0') {
-            uVar13 = 0;
-          }
-          else if (*(char *)(puVar9 + 4) == '\0') {
-            uVar13 = 1;
-          }
-          else {
-            uVar3 = puVar9[5];
-            uVar4 = *(uint *)(iVar7 + 0x14);
-            param_4 = (ulonglong)uVar3 - (ulonglong)uVar4;
-            uVar12 = ~(ulonglong)(uVar4 ^ uVar3);
-            uVar11 = (uVar12 & 0xffffffff) >> 0x1f;
-            uVar13 = uVar11 + ((ulonglong)uVar4 <= (ulonglong)uVar3) & 1;
-          }
-          if (uVar13 != 0) goto LAB_828a6a00;
-        }
-        lVar14 = 1;
-      }
-      if (lVar14 == 0) {
-        puVar5 = (undefined4 *)puVar9[2];
-      }
-      else {
-        puVar5 = (undefined4 *)*puVar9;
-      }
-    } while (*(char *)((int)puVar5 + 0x1d) == '\0');
-  }
-  apuStack_60 = puVar9;
-  if (lVar14 != 0) {
-    if (puVar9 == (undefined4 *)**(undefined4 **)((int)param_2 + 4)) {
-      puVar9 = (undefined4 *)fn_828A6260(&apuStack_60,param_2,1,puVar9,param_3);
-      uVar6 = *puVar9;
-      *(undefined1 *)(param_1 + 1) = 1;
-      *param_1 = uVar6;
-      return param_1;
-    }
-    fn_8289DD28(&apuStack_60,uVar11,uVar12,param_4);
-  }
-  puVar5 = apuStack_60;
-  cVar10 = fn_8289FA30(apuStack_60 + 3,param_3 + 0xc);
-  if (cVar10 == '\0') {
-    if (*(char *)(iVar7 + 0x10) != '\0') {
-      *(undefined1 *)(iVar7 + 0x10) = 0;
-    }
-    fn_8265CA20(param_3);
-    *param_1 = puVar5;
-    *(undefined1 *)(param_1 + 1) = 0;
-  }
-  else {
-    puVar9 = (undefined4 *)fn_828A6260(&apuStack_60,param_2,lVar14,puVar9,param_3);
-    uVar6 = *puVar9;
-    *(undefined1 *)(param_1 + 1) = 1;
-    *param_1 = uVar6;
-  }
-  return param_1;
+    return !y->initialized ? 0 : (!x->initialized ? 1 : x->value < y->value);
 }
 
+static __forceinline unsigned char KeyLess(const Key_828A6938 *a, const Key_828A6938 *b)
+{
+    return a->id < b->id || (!(b->id < a->id) && OptLess(&a->opt, &b->opt));
+}
+
+static __forceinline Node_828A6938 *Root(Tree_828A6938 *t) { return t->head->parent; }
+
+Pairib_828A6938 *fn_828A6938(Pairib_828A6938 *out, Tree_828A6938 *tree, Node_828A6938 *node, unsigned char leftish)
+{
+    const Key_828A6938 *val = &node->kv.first;
+    Node_828A6938 *parent = tree->head;
+    Node_828A6938 *cur = Root(tree);
+    unsigned char left = 1;
+    Node_828A6938 *prev;
+    Iter_828A6938 where;
+
+    while (!cur->isnil) {
+        parent = cur;
+        if (leftish)
+            left = !KeyLess(&cur->kv.first, val);
+        else
+            left = KeyLess(val, &cur->kv.first);
+        cur = left ? cur->left : cur->right;
+    }
+
+    prev = parent;
+    where.node = parent;
+    if (left) {
+        if (parent == tree->head->left) {
+            out->first = *fn_828A6260(&where, tree, 1, parent, node);
+            out->second = 1;
+            return out;
+        }
+        fn_8289DD28(&where);
+        prev = where.node;
+    }
+
+    if (fn_8289FA30(&prev->kv.first, val)) {
+        out->first = *fn_828A6260(&where, tree, left, parent, node);
+        out->second = 1;
+        return out;
+    }
+    if (node->kv.first.opt.initialized)
+        node->kv.first.opt.initialized = 0;
+    fn_8265CA20(node);
+    out->first.node = prev;
+    out->second = 0;
+    return out;
+}

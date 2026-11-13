@@ -1,103 +1,88 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB69F0();
-extern int fn_82AB6E00();
-extern int fn_82B7DE00();
-extern int fn_82B7F170();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define CP_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledprogram.cpp", line)
 
-undefined4 *
-fn_82B7FBF8(undefined8 param_1,code *param_2,ulonglong param_3,undefined4 param_4,
-             ulonglong param_5,ulonglong param_6,undefined8 param_7,undefined8 param_8)
+typedef void *(*AllocFn_82B7FBF8)(void *context, unsigned int size);
+typedef void (*FreeFn_82B7FBF8)(void *context, void *p);
 
+typedef struct CompiledProgram_82B7FBF8 {
+    void *context;
+    AllocFn_82B7FBF8 AllocateSysMem;
+    FreeFn_82B7FBF8 FreeSysMem;
+    void *pRegistry;
+    void *f10;
+    int type;
+    void *rs[6];
+    void *pCS1;
+    void *pCS0;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+} CompiledProgram_82B7FBF8;
+
+extern void *fn_82AB69F0(void *context, AllocFn_82B7FBF8 AllocateSysMem, FreeFn_82B7FBF8 FreeSysMem,
+                         void *pRegistry, void *pOListFactory, void *pIntListFactory,
+                         void *pObjListFactory, int f24);
+extern void fn_82AB6E00(void *pCS, int kind);
+extern void fn_82B7DE00(CompiledProgram_82B7FBF8 *pCP);
+extern void fn_82B7F170(CompiledProgram_82B7FBF8 *pCP);
+
+CompiledProgram_82B7FBF8 *fn_82B7FBF8(void *context, AllocFn_82B7FBF8 AllocateSysMem,
+                                      FreeFn_82B7FBF8 FreeSysMem, void *f10, void *pRegistry,
+                                      void *pOListFactory, void *pIntListFactory,
+                                      void *pObjListFactory, int type)
 {
-  undefined4 *puVar2;
-  ulonglong uVar1;
-  uint uVar3;
-  int *piVar4;
-  int in_stack_00000054;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820dbba0,0x4e);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820dbba0,0x4f);
-  }
-  if ((param_5 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6bdc,0xffffffff820dbba0,0x50);
-  }
-  if ((param_6 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6bcc,0xffffffff820dbba0,0x51);
-  }
-  puVar2 = (undefined4 *)(*param_2)(param_1,0x4c);
-  if (puVar2 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9f38,0xffffffff820dbba0,0x57);
-    return (undefined4 *)0x0;
-  }
-  puVar2[4] = param_4;
-  puVar2[0x12] = 1;
-  *puVar2 = (int)param_1;
-  uVar3 = 0;
-  puVar2[1] = param_2;
-  piVar4 = puVar2 + 6;
-  puVar2[2] = (int)param_3;
-  puVar2[3] = (int)param_5;
-  puVar2[5] = in_stack_00000054;
-  puVar2[0x10] = 0;
-  puVar2[0x11] = 0;
-  do {
-    uVar1 = (*param_2)(param_1,0xa0);
-    *piVar4 = (int)uVar1;
-    if ((uVar1 & 0xffffffff) == 0) {
-      fn_82AB15D0(uVar1,0xffffffff820d2ea4,0xffffffff820dbcf0,0xffffffff820dbba0,0x77);
-    }
-    if (*piVar4 == 0) goto LAB_82b7fe20;
-    uVar3 = uVar3 + 1;
-    piVar4 = piVar4 + 1;
-  } while (uVar3 < 6);
-  fn_82B7DE00(puVar2);
-  if (in_stack_00000054 != 2) {
-    uVar1 = fn_82AB69F0(param_1,param_2,param_3,param_5,param_6,param_7,param_8,0);
-    puVar2[0xd] = (int)uVar1;
-    if ((uVar1 & 0xffffffff) == 0) goto LAB_82b7fe20;
-    fn_82AB6E00(uVar1,0);
-  }
-  uVar1 = fn_82AB69F0(param_1,param_2,param_3,param_5,param_6,param_7,param_8,0);
-  puVar2[0xc] = (int)uVar1;
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_82AB6E00(uVar1,1);
-    puVar2[0xe] = 0;
-    puVar2[0xf] = 0;
-    return puVar2;
-  }
-LAB_82b7fe20:
-  fn_82B7F170(puVar2);
-  return (undefined4 *)0x0;
-}
+    CompiledProgram_82B7FBF8 *pCP;
+    unsigned int i;
 
+    CP_ASSERT(AllocateSysMem, 0x4e);
+    CP_ASSERT(FreeSysMem, 0x4f);
+    CP_ASSERT(pRegistry, 0x50);
+    CP_ASSERT(pOListFactory, 0x51);
+    pCP = (CompiledProgram_82B7FBF8 *)AllocateSysMem(context, sizeof(CompiledProgram_82B7FBF8));
+    if (pCP == 0) {
+        CP_ASSERT(pCP, 0x57);
+        return 0;
+    }
+    pCP->context = context;
+    pCP->AllocateSysMem = AllocateSysMem;
+    pCP->FreeSysMem = FreeSysMem;
+    pCP->pRegistry = pRegistry;
+    pCP->f10 = f10;
+    pCP->type = type;
+    pCP->f40 = 0;
+    pCP->f44 = 0;
+    pCP->f48 = 1;
+    for (i = 0; i < 6; i++) {
+        pCP->rs[i] = AllocateSysMem(context, 0xa0);
+        CP_ASSERT(pCP->rs[i], 0x77);
+        if (pCP->rs[i] == 0) {
+            fn_82B7F170(pCP);
+            return 0;
+        }
+    }
+    fn_82B7DE00(pCP);
+    if (type != 2) {
+        pCP->pCS0 = fn_82AB69F0(context, AllocateSysMem, FreeSysMem, pRegistry, pOListFactory,
+                                pIntListFactory, pObjListFactory, 0);
+        if (pCP->pCS0 == 0) {
+            fn_82B7F170(pCP);
+            return 0;
+        }
+        fn_82AB6E00(pCP->pCS0, 0);
+    }
+    pCP->pCS1 = fn_82AB69F0(context, AllocateSysMem, FreeSysMem, pRegistry, pOListFactory,
+                            pIntListFactory, pObjListFactory, 0);
+    if (pCP->pCS1 == 0) {
+            fn_82B7F170(pCP);
+            return 0;
+        }
+    fn_82AB6E00(pCP->pCS1, 1);
+    pCP->f38 = 0;
+    pCP->f3c = 0;
+    return pCP;
+}

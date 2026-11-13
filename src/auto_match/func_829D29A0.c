@@ -1,53 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_40;
-extern unsigned int uStack_18;
-extern unsigned int uStack_20;
+typedef struct Obj_829D29A0 { int f0; int f4; int f8; } Obj_829D29A0;
+typedef struct Req_829D29A0 {
+    Obj_829D29A0 *self;
+    int a;
+    int b;
+    int pad;
+    unsigned __int64 time;
+    int f8;
+    int *result;
+} Req_829D29A0;
+extern unsigned __int64 __mftb();
+extern int XamXStudioRequest(int code, void *req);
 
-
-void fn_829D29A0(int param_1)
-
+void fn_829D29A0(Obj_829D29A0 *self)
 {
-  undefined4 auStack_40 [4];
-  int aiStack_30 [4];
-  undefined8 uStack_20;
-  undefined4 uStack_18;
-  undefined4 *puStack_14;
-  
-  aiStack_30[1] = 0xab0;
-  aiStack_30[2] = 0x2dff;
-  uStack_20 = TBLr;
-  uStack_18 = *(undefined4 *)(param_1 + 8);
-  puStack_14 = auStack_40;
-  auStack_40[0] = 0;
-  aiStack_30[0] = param_1;
-  XamXStudioRequest(0x1401,aiStack_30);
-  return;
+    int result[4];
+    Req_829D29A0 r;
+    r.self = self;
+    r.a = 0xab0;
+    r.b = 0x2dff;
+    r.time = __mftb();
+    r.f8 = self->f8;
+    result[0] = 0;
+    r.result = result;
+    XamXStudioRequest(0x1401, &r);
 }
-

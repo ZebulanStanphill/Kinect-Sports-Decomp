@@ -1,54 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8315D2C4;
-extern unsigned int lbl_8315D2C8;
+typedef struct { int d[7]; } CritSec_82A1EA08;
+typedef struct Node_82A1EA08 {
+    struct Node_82A1EA08 *next;
+    struct Node_82A1EA08 *prev;
+} Node_82A1EA08;
 
+extern CritSec_82A1EA08 lbl_8315D2A8;
+extern Node_82A1EA08 lbl_8315D2C4;
+extern void RtlEnterCriticalSection(CritSec_82A1EA08 *cs);
+extern void RtlLeaveCriticalSection(CritSec_82A1EA08 *cs);
 
-void fn_82A1EA08(int *param_1,int param_2)
-
+void fn_82A1EA08(Node_82A1EA08 *node, int add)
 {
-  int iVar1;
-  int *piVar2;
-  
-  RtlEnterCriticalSection(0xffffffff8315d2a8);
-  if (param_2 == 0) {
-    iVar1 = *param_1;
-    piVar2 = (int *)param_1[1];
-    *piVar2 = iVar1;
-    *(int **)(iVar1 + 4) = piVar2;
-  }
-  else {
-    *param_1 = (int)&lbl_8315D2C4;
-    param_1[1] = (int)lbl_8315D2C8;
-    *(int **)lbl_8315D2C8 = param_1;
-    lbl_8315D2C8 = (undefined *)param_1;
-  }
-  RtlLeaveCriticalSection(0xffffffff8315d2a8);
-  return;
+    RtlEnterCriticalSection(&lbl_8315D2A8);
+    if (add != 0) {
+        Node_82A1EA08 *prev = lbl_8315D2C4.prev;
+        node->next = &lbl_8315D2C4;
+        node->prev = prev;
+        prev->next = node;
+        lbl_8315D2C4.prev = node;
+    } else {
+        Node_82A1EA08 *next = node->next;
+        Node_82A1EA08 *prev = node->prev;
+        prev->next = next;
+        next->prev = prev;
+    }
+    RtlLeaveCriticalSection(&lbl_8315D2A8);
 }
-

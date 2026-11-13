@@ -1,99 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_830B5DA8();
-extern unsigned int lbl_82132BC4;
+// Havok: AABB query wrapped in the "TtqueryAabb" timer scope. The tree query
+// (fn_830B5DA8) takes the AABB as origin + extent; a non-positive stack size
+// falls back to 0x80 (func_830B6200 is the sibling with a different collector).
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+
+typedef struct ProfTls_830B6118 {
+    int unk0;
+    void **cur;
+    int unk8;
+    void **end;
+} ProfTls_830B6118;
+
+typedef struct Query_830B6118 {
+    void *tree;             /* 0x00 */
+    int pad4[2];
+    int stackSize;          /* 0x0c */
+    int pad10[3];
+    void *root;             /* 0x1c */
+    int pad20[4];
+    __vector4 min;          /* 0x30 */
+    __vector4 max;          /* 0x40 */
+} Query_830B6118;
+
+extern void fn_830B5DA8(void *tree, void *root, const __vector4 *extent, const __vector4 *origin,
+                        void *a, int stackSize, void *b, void *c, void *d);
+
 extern unsigned int lbl_8323B4A0;
-extern V16 vectorSubtractFloatingPoint();
+void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
 
-
-void fn_830B6118(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+void fn_830B6118(Query_830B6118 *q, void *a, void *b)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined8 uVar4;
-  undefined4 *puVar5;
-  int in_r0;
-  int iVar6;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs45 [16];
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  undefined4 in_register_000100c0;
-  undefined4 in_register_000100c4;
-  undefined4 in_register_000100c8;
-  undefined4 in_vr12;
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [64];
-  
-  iVar6 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar6 + 4);
-  if (puVar1 < *(undefined4 **)(iVar6 + 0xc)) {
-    *puVar1 = "TtqueryAabb";
-    uVar4 = TBLr;
-    puVar1[1] = (int)uVar4;
-    *(undefined4 **)(iVar6 + 4) = puVar1 + 3;
-  }
-  iVar6 = param_1[3];
-  uVar2 = *param_1;
-  uVar3 = param_1[7];
-  puVar1 = (undefined4 *)((uint)(param_1 + 0xc) & 0xfffffff0);
-  uVar7 = puVar1[1];
-  uVar8 = puVar1[2];
-  uVar9 = puVar1[3];
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  puVar5 = (undefined4 *)((uint)(auStack_50 + in_r0) & 0xfffffff0);
-  *puVar5 = *puVar1;
-  puVar5[1] = uVar7;
-  puVar5[2] = uVar8;
-  puVar5[3] = uVar9;
-  puVar1 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_000100c0;
-  puVar1[1] = in_register_000100c4;
-  puVar1[2] = in_register_000100c8;
-  puVar1[3] = in_vr12;
-  if (iVar6 < 1) {
-    iVar6 = 0x80;
-  }
-  fn_830B5DA8(uVar2,uVar3,auStack_40,auStack_50,param_2,iVar6,param_3,0);
-  iVar6 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar6 + 4);
-  if (puVar1 < *(undefined4 **)(iVar6 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar4 = TBLr;
-    puVar1[1] = (int)uVar4;
-    *(undefined4 **)(iVar6 + 4) = puVar1 + 3;
-  }
-  return;
-}
+    ProfTls_830B6118 *t;
+    void **p;
 
+    t = (ProfTls_830B6118 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "TtqueryAabb";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+
+    {
+        void *tree = q->tree;
+        void *root = q->root;
+        __vector4 origin = q->min;
+        __vector4 extent = __vsubfp(q->max, q->min);
+        fn_830B5DA8(tree, root, &extent, &origin, a, q->stackSize > 0 ? q->stackSize : 0x80, b, 0, 0);
+    }
+
+    t = (ProfTls_830B6118 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "Et";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+}

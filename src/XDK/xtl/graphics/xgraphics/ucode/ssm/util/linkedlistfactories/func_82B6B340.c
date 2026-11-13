@@ -1,51 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB5278();
-extern int fn_82B6B128();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LLF_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlistfactories.cpp", line)
 
-longlong fn_82B6B340(undefined4 *param_1)
+typedef struct LF_82B6B340 {
+    void *f0;
+    void *f4;
+    void *f8;
+    unsigned int numAcquiredLists;
+    void *pool;
+    void *f14;
+} LF_82B6B340;
 
+extern void *fn_82B6B128(void *pool);
+extern void fn_82AB5278(void *list, void *a, void *b, void *c, void *d);
+
+void *fn_82B6B340(LF_82B6B340 *pOLF)
 {
-  longlong lVar1;
-  
-  if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d96e4,0xffffffff820d97e8,0xba);
-  }
-  lVar1 = fn_82B6B128(param_1[4]);
-  if (lVar1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69c0,0xffffffff820d97e8,0xc0);
-  }
-  else {
-    param_1[3] = param_1[3] + 1;
-    fn_82AB5278(lVar1,param_1[5],*param_1,param_1[1],param_1[2]);
-  }
-  return lVar1;
-}
+    void *pNewList;
 
+    LLF_ASSERT(pOLF, 0xba);
+    pNewList = fn_82B6B128(pOLF->pool);
+    LLF_ASSERT(pNewList, 0xc0);
+    if (pNewList != 0) {
+        pOLF->numAcquiredLists++;
+        fn_82AB5278(pNewList, pOLF->f14, pOLF->f0, pOLF->f4, pOLF->f8);
+    }
+    return pNewList;
+}

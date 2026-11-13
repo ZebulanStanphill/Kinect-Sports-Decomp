@@ -1,40 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82A1EFC0();
+typedef struct Msg_8253D630 {
+    int type;
+    int size;
+    int data[2];
+} Msg_8253D630;
+typedef struct Item_8253D630 {
+    char pad[0xc];
+    int id;
+} Item_8253D630;
+typedef struct Obj_8253D630 {
+    char pad0[0xb8];
+    void *fb8;
+    char pad1[0x208 - 0xbc];
+    void *f208;
+    char pad2[0x7fc - 0x20c];
+    char f7fc[4];
+} Obj_8253D630;
+extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void fn_8257C8F0(void *target, Msg_8253D630 *msg);
+extern void fn_8257E0B8(void *target, Msg_8253D630 *msg);
+extern void fn_82599A38(void *list, Item_8253D630 *item);
+extern void fn_825A39F0(void *target, Item_8253D630 *item);
 
-
-void fn_8253D630(void)
-
+void fn_8253D630(Obj_8253D630 *self, Item_8253D630 *item)
 {
-  undefined1 auStack_28 [16];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_28,0,8);
+    Msg_8253D630 m;
+    fn_82A1EFC0(m.data, 0, 8);
+    m.type = 0x4e;
+    m.size = 0x10;
+    if (item != 0) {
+        m.data[0] = item->id;
+        m.data[1] = (int)item;
+    }
+    fn_8257C8F0(self, &m);
+    fn_8257E0B8(self->fb8, &m);
+    fn_82599A38(self->f7fc, item);
+    if (item != 0) {
+        fn_825A39F0(self->f208, item);
+    }
 }
-

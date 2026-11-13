@@ -1,49 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB4A28();
-extern int fn_82AB6148();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LL_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp", line)
 
-int fn_82AB6210(undefined4 *param_1,undefined4 param_2)
+typedef struct ListItem_82AB6210 {
+    void *data;
+    struct ListItem_82AB6210 *pPrev;
+    struct ListItem_82AB6210 *pNext;
+    unsigned int value;
+} ListItem_82AB6210;
 
+typedef struct ObjList_82AB6210 {
+    void *pMemMgr;
+} ObjList_82AB6210;
+
+extern ListItem_82AB6210 *fn_82AB4A28(void *pMemMgr);
+extern void fn_82AB6148(ObjList_82AB6210 *pObjList, ListItem_82AB6210 *pItem);
+
+ListItem_82AB6210 *fn_82AB6210(ObjList_82AB6210 *pObjList, unsigned int value)
 {
-  int iVar1;
-  
-  if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6b0c,0xffffffff820d68b0,0xbfe);
-  }
-  iVar1 = fn_82AB4A28(*param_1);
-  if (iVar1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d68a4,0xffffffff820d68b0,0xc03);
-  }
-  *(undefined4 *)(iVar1 + 0xc) = param_2;
-  fn_82AB6148(param_1,iVar1);
-  return iVar1;
-}
+    ListItem_82AB6210 *pNewItem;
 
+    LL_ASSERT(pObjList, 0xbfe);
+    pNewItem = fn_82AB4A28(pObjList->pMemMgr);
+    LL_ASSERT(pNewItem, 0xc03);
+    pNewItem->value = value;
+    fn_82AB6148(pObjList, pNewItem);
+    return pNewItem;
+}

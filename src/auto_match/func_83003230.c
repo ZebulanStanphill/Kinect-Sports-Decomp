@@ -1,54 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83001CB8();
+typedef struct Entry_83003230 {
+    int a;
+    int b;
+    int c;
+} Entry_83003230;
 
+typedef struct Table_83003230 {
+    int header[3];
+    Entry_83003230 entries[1];
+} Table_83003230;
 
-void fn_83003230(int param_1,int param_2,undefined4 *param_3,undefined8 param_4)
+typedef struct Info_83003230 {
+    int a;
+    int b;
+    int value;
+    unsigned char flag;
+} Info_83003230;
 
+typedef struct Obj_83003230 Obj_83003230;
+
+typedef struct Delegate_83003230 {
+    void **vt;
+} Delegate_83003230;
+
+struct Obj_83003230 {
+    char pad0[0xc];
+    int value;
+    int delegate;
+    char pad14[0x28 - 0x14];
+    Table_83003230 *table;
+    char pad2c[0x3e - 0x2c];
+    unsigned char flags;
+};
+
+typedef void (*GetInfoFn_83003230)(Delegate_83003230 *self, int index, Info_83003230 *out, int arg);
+
+extern unsigned char fn_83001CB8(Obj_83003230 *self, int index, int arg);
+
+void fn_83003230(Obj_83003230 *self, int index, Info_83003230 *out, int arg)
 {
-  undefined1 uVar1;
-  
-  if (((*(byte *)(param_1 + 0x3e) & 0x80) == 0) && (*(int **)(param_1 + 0x10) != (int *)0x0)) {
-    (**(code **)(**(int **)(param_1 + 0x10) + 0xe8))();
-    return;
-  }
-  if (*(int *)(param_1 + 0x28) == 0) {
-    param_3[1] = 0;
-    *param_3 = 0xffffffff;
-    *(undefined1 *)(param_3 + 3) = 0;
-  }
-  else {
-    *param_3 = *(undefined4 *)(*(int *)(param_1 + 0x28) + param_2 * 0xc + 0xc);
-    param_3[1] = *(undefined4 *)(*(int *)(param_1 + 0x28) + param_2 * 0xc + 0x10);
-    uVar1 = fn_83001CB8(param_1,param_2,param_4);
-    *(undefined1 *)(param_3 + 3) = uVar1;
-  }
-  param_3[2] = *(undefined4 *)(param_1 + 0xc);
-  return;
+    if ((self->flags & 0x80) == 0 && self->delegate != 0) {
+        Delegate_83003230 *d = (Delegate_83003230 *)self->delegate;
+        ((GetInfoFn_83003230)d->vt[0xe8 / 4])(d, index, out, arg);
+        return;
+    }
+    if (self->table != 0) {
+        out->a = self->table->entries[index].a;
+        out->b = self->table->entries[index].b;
+        out->flag = fn_83001CB8(self, index, arg);
+    } else {
+        out->b = 0;
+        out->a = -1;
+        out->flag = 0;
+    }
+    out->value = self->value;
 }
-

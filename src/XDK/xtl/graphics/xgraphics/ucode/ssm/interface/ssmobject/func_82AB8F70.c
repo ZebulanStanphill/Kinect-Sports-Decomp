@@ -1,77 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB4D18();
-extern int fn_82AB85A8();
-extern int fn_82BA02A8();
-extern int fn_82F68CC0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *memcpy(void *, const void *, unsigned int);
 
+#define SSM_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\interface\\ssmobject.cpp", line)
 
-int fn_82AB8F70(ulonglong param_1,int param_2)
+typedef struct ClientInterface_82AB8F70 {
+    void *context;
+    int unk4;
+    void *GetCmdBuffSpace;
+    int unkC;
+    int unk10;
+    void *UpdateCmdBuffSpace;
+    void *CheckTSRetired;
+    void *ConvertToUASValues;
+} ClientInterface_82AB8F70;
 
+typedef struct Device_82AB8F70 {
+    int pad[4];
+    void *context;
+    void *(*AllocateSysMem)(void *context, unsigned int size);
+    void (*FreeSysMem)(void *context, void *p);
+} Device_82AB8F70;
+
+typedef struct SSMObject_82AB8F70 {
+    ClientInterface_82AB8F70 clientInterface;
+    void *hSSMDevice;
+    void *list;
+    int unk28;
+    int unk2C;
+} SSMObject_82AB8F70;
+
+extern Device_82AB8F70 *fn_82BA02A8(void *hSSMDevice);
+extern void *fn_82AB4D18(void *context, void *AllocateSysMem, void *FreeSysMem, int count);
+extern void fn_82AB85A8(void *hSSMDevice, SSMObject_82AB8F70 *obj);
+
+SSMObject_82AB8F70 *fn_82AB8F70(void *hSSMDevice, ClientInterface_82AB8F70 *pClientInterface)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d67c8,0xffffffff820d7400,0x84);
-  }
-  if (param_2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d73ec,0xffffffff820d7400,0x85);
-  }
-  if (((param_1 & 0xffffffff) != 0) && (param_2 != 0)) {
-    iVar1 = fn_82BA02A8(param_1);
-    iVar2 = (**(code **)(iVar1 + 0x14))(*(undefined4 *)(iVar1 + 0x10),0x30);
-    if (iVar2 != 0) {
-      *(int *)(iVar2 + 0x20) = (int)param_1;
-      *(undefined4 *)(iVar2 + 0x28) = 0;
-      *(undefined4 *)(iVar2 + 0x2c) = 0;
-      if (*(int *)(param_2 + 8) == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d73c8,0xffffffff820d7400,0xa9);
-      }
-      if (*(int *)(param_2 + 0x14) == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d73a0,0xffffffff820d7400,0xaa);
-      }
-      if (*(int *)(param_2 + 0x18) == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d737c,0xffffffff820d7400,0xab);
-      }
-      if (*(int *)(param_2 + 0x1c) == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d7354,0xffffffff820d7400,0xac);
-      }
-      fn_82F68CC0(iVar2,param_2,0x20);
-      uVar3 = fn_82AB4D18(*(undefined4 *)(iVar1 + 0x10),*(undefined4 *)(iVar1 + 0x14),
-                                *(undefined4 *)(iVar1 + 0x18),10);
-      *(undefined4 *)(iVar2 + 0x24) = uVar3;
-      fn_82AB85A8(param_1,iVar2);
-      return iVar2;
-    }
-  }
-  return 0;
-}
+    Device_82AB8F70 *pDevice;
+    SSMObject_82AB8F70 *pObj;
 
+    SSM_ASSERT(hSSMDevice, 0x84);
+    SSM_ASSERT(pClientInterface, 0x85);
+    if (hSSMDevice == 0 || pClientInterface == 0)
+        return 0;
+    pDevice = fn_82BA02A8(hSSMDevice);
+    pObj = (SSMObject_82AB8F70 *)pDevice->AllocateSysMem(pDevice->context, sizeof(SSMObject_82AB8F70));
+    if (pObj == 0)
+        return 0;
+    pObj->hSSMDevice = hSSMDevice;
+    pObj->unk28 = 0;
+    pObj->unk2C = 0;
+    SSM_ASSERT(pClientInterface->GetCmdBuffSpace, 0xa9);
+    SSM_ASSERT(pClientInterface->UpdateCmdBuffSpace, 0xaa);
+    SSM_ASSERT(pClientInterface->CheckTSRetired, 0xab);
+    SSM_ASSERT(pClientInterface->ConvertToUASValues, 0xac);
+    memcpy(&pObj->clientInterface, pClientInterface, sizeof(ClientInterface_82AB8F70));
+    pObj->list = fn_82AB4D18(pDevice->context, pDevice->AllocateSysMem, pDevice->FreeSysMem, 10);
+    fn_82AB85A8(hSSMDevice, pObj);
+    return pObj;
+}

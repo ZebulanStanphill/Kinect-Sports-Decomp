@@ -1,121 +1,85 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_3c;
-extern int fn_825279F8();
-extern int fn_82528948();
-extern int fn_8252A1B0();
-extern int fn_82F511A8();
-extern int fn_82F52188();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_40;
-extern V16 vectorConditionalSelect();
-extern V16 vectorMultiplyAddFloatingPoint();
-extern V16 vectorSubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __VMXGetReg(int n);
 
-void fn_82501190(int param_1)
+typedef struct Matrix_82501190 {
+    __vector4 r[4];
+} Matrix_82501190;
 
+typedef struct Frame_82501190 {
+    char pad0[0x50];
+    Matrix_82501190 world;  /* 0x50 */
+} Frame_82501190;
+
+typedef struct Vec3_82501190 {
+    float x, y, z;
+} Vec3_82501190;
+
+typedef struct Mover_82501190 {
+    char pad0[0x50];
+    __vector4 base;         /* 0x50 */
+    __vector4 previous;     /* 0x60 */
+    __vector4 target;       /* 0x70 */
+    char pad80[0xf0];
+    int moving;             /* 0x170 */
+    char pad174[0x44];
+    Frame_82501190 *frame;  /* 0x1b8 */
+    char pad1bc[0xb60 - 0x1bc];
+    void *handle;           /* 0xb60 */
+    char padb64[0xf80 - 0xb64];
+    __vector4 origin;       /* 0xf80 */
+} Mover_82501190;
+
+extern void fn_8252A1B0(Mover_82501190 *self, const void *v, int flag);
+extern int fn_825279F8(Mover_82501190 *self);
+extern void fn_82528948(Mover_82501190 *self);
+extern __vector4 *fn_82F52188(__vector4 *out, void *handle, int kind);
+extern void fn_82F511A8(void *handle, float *x, float *y, float *z, int kind);
+
+static __forceinline __vector4 Vector3Transform(__vector4 v, Matrix_82501190 m)
 {
-  float *pfVar1;
-  float *pfVar2;
-  undefined4 *puVar3;
-  int in_r0;
-  int iVar4;
-  undefined1 in_vs32 [16];
-  undefined1 auVar5 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar6 [16];
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 in_register_00010430;
-  undefined4 in_register_00010434;
-  undefined4 in_register_00010438;
-  undefined4 in_vr67;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  undefined4 uStack_40;
-  undefined1 auStack_3c [4];
-  undefined4 auStack_38 [2];
-  undefined1 auStack_30 [32];
-  
-  fn_82F52188(auStack_30,*(undefined4 *)(param_1 + 0xb60),2);
-  pfVar1 = (float *)(param_1 + 0xf80U & 0xfffffff0);{ V16 _vt0 = vectorSubtractFloatingPoint(in_vs45,in_vs32); memcpy(auVar5, &_vt0, 16); }
-  pfVar2 = (float *)(param_1 + 0x50U & 0xfffffff0);
-  fVar11 = *pfVar2 + *pfVar1;
-  fVar12 = pfVar2[1] + pfVar1[1];
-  fVar13 = pfVar2[2] + pfVar1[2];
-  fVar14 = pfVar2[3] + pfVar1[3];
-  iVar4 = fn_825279F8(param_1);
-  if ((iVar4 == 0) || (iVar4 == 3)) {
-    pfVar1 = (float *)(in_r0 + param_1 + 0x70 & 0xfffffff0);
-    *pfVar1 = fVar11;
-    pfVar1[1] = fVar12;
-    pfVar1[2] = fVar13;
-    pfVar1[3] = fVar14;
-  }
-  else {{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs43,in_vs38,in_vs45); memcpy(auVar6, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs42,auVar6); memcpy(auVar6, &_vt2, 16); }{ V16 _vt3 = vectorMultiplyAddFloatingPoint(in_vs40,in_vs41,auVar6); memcpy(auVar6, &_vt3, 16); }
-    vectorConditionalSelect(auVar6,auVar5,in_vs44);
-    puVar3 = (undefined4 *)(in_r0 + param_1 + 0x70 & 0xfffffff0);
-    *puVar3 = in_register_00010430;
-    puVar3[1] = in_register_00010434;
-    puVar3[2] = in_register_00010438;
-    puVar3[3] = in_vr67;
-  }
-  puVar3 = (undefined4 *)(in_r0 + param_1 + 0x70 & 0xfffffff0);
-  uVar7 = *puVar3;
-  uVar8 = puVar3[1];
-  uVar9 = puVar3[2];
-  uVar10 = puVar3[3];
-  *(undefined4 *)(param_1 + 0x170) = 0;
-  puVar3 = (undefined4 *)(param_1 + 0x60U & 0xfffffff0);
-  *puVar3 = uVar7;
-  puVar3[1] = uVar8;
-  puVar3[2] = uVar9;
-  puVar3[3] = uVar10;
-  fn_82528948(param_1);
-  fn_82F511A8(*(undefined4 *)(param_1 + 0xb60),&uStack_40,auStack_3c,auStack_38,2);
-  uStack_40 = ltcg_pool_0_0f;
-  auStack_38[0] = ltcg_pool_0_0f;
-  fn_8252A1B0(param_1,&uStack_40,0);
-  return;
+    __vector4 x, y, z, result;
+
+    z = __vspltw(v, 2);
+    y = __vspltw(v, 1);
+    x = __vspltw(v, 0);
+    result = __vmaddfp(m.r[2], z, m.r[3]);
+    result = __vmaddfp(y, m.r[1], result);
+    result = __vmaddfp(x, m.r[0], result);
+    return result;
 }
 
+void fn_82501190(Mover_82501190 *self)
+{
+    __vector4 pos;
+    __vector4 target;
+    Vec3_82501190 v;
+    int state;
+
+    fn_82F52188(&pos, self->handle, 2);
+    target = __vaddfp(self->base, __vsubfp(pos, self->origin));
+    state = fn_825279F8(self);
+    if (state != 0 && state != 3) {
+        __vector4 t, zero, mask;
+        t = Vector3Transform(target, self->frame->world);
+        mask = __VMXGetReg(67);
+        zero = __VMXGetReg(77);
+        self->target = __vsel(t, zero, mask);
+    } else {
+        self->target = target;
+    }
+    self->previous = self->target;
+    self->moving = 0;
+    fn_82528948(self);
+    fn_82F511A8(self->handle, &v.x, &v.y, &v.z, 2);
+    v.x = 0.0f;
+    v.z = 0.0f;
+    fn_8252A1B0(self, &v, 0);
+}

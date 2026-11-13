@@ -1,51 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB5818();
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern void fn_82AB5818(void *pOList, unsigned int key);
 
+#define HT_ASSERT(e, line) \
+  if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\hashtable.cpp", line)
 
-void fn_82B6E520(int *param_1,ulonglong param_2)
+typedef struct HashTable_82B6E520 {
+    void **buckets;
+    void *ctx;
+    int pad8;
+    void (*dealloc)(void *, void *);
+    void *owner;
+    unsigned int n;
+} HashTable_82B6E520;
 
+void fn_82B6E520(HashTable_82B6E520 *pHashTable, unsigned int key)
 {
-  uint uVar1;
-  int iVar2;
-  
-  if (param_1 == (int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da2f0,0xffffffff820da300,0x137);
-  }
-  uVar1 = param_1[5];
-  trapWord(6,(ulonglong)uVar1,0);
-  iVar2 = *(int *)((int)((param_2 - (longlong)(int)((param_2 & 0xffffffff) / (ulonglong)uVar1) *
-                                    (longlong)(int)uVar1 & 0xffffffff) << 2) + *param_1);
-  if (iVar2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a6c,0xffffffff820da300,0x13e);
-  }
-  fn_82AB5818(iVar2,param_2);
-  return;
+    void *pOList;
+    HT_ASSERT(pHashTable, 0x137);
+    pOList = pHashTable->buckets[key % pHashTable->n];
+    HT_ASSERT(pOList, 0x13e);
+    fn_82AB5818(pOList, key);
 }
-

@@ -1,46 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* hkMatrix3::transpose(): swaps the off-diagonal elements in place (columns are 16-byte hkVector4s). */
+typedef struct hkMatrix3_82CEBD88 {
+    float m_col[3][4];
+} hkMatrix3_82CEBD88;
 
-
-void fn_82CEBD88(int param_1)
-
+/* hkAlgorithm::swap */
+static __forceinline void swap_82CEBD88(float *x, float *y)
 {
-  undefined4 uVar1;
-  
-  uVar1 = *(undefined4 *)(param_1 + 0x10);
-  *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(param_1 + 4);
-  *(undefined4 *)(param_1 + 4) = uVar1;
-  uVar1 = *(undefined4 *)(param_1 + 0x20);
-  *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_1 + 8);
-  *(undefined4 *)(param_1 + 8) = uVar1;
-  uVar1 = *(undefined4 *)(param_1 + 0x24);
-  *(undefined4 *)(param_1 + 0x24) = *(undefined4 *)(param_1 + 0x18);
-  *(undefined4 *)(param_1 + 0x18) = uVar1;
-  return;
+    float t = *x;
+    *x = *y;
+    *y = t;
 }
 
+#define M(r, c) self->m_col[c][r]
+
+void fn_82CEBD88(hkMatrix3_82CEBD88 *self)
+{
+    swap_82CEBD88(&M(0, 1), &M(1, 0));
+    swap_82CEBD88(&M(0, 2), &M(2, 0));
+    swap_82CEBD88(&M(1, 2), &M(2, 1));
+}

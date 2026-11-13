@@ -1,50 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8270A8F8();
+extern void fn_8270A8F8(int a, int b, int c, int d, int e, int f, int g, int h, int mode);
 
-
-void fn_8268D6E0(void)
-
+void fn_8268D6E0(int a, int b, int c, int d, int e, int f, int g, int h, unsigned int mode)
 {
-  uint in_stack_00000054;
-  
-  if (in_stack_00000054 == 0) {
-    fn_8270A8F8();
-  }
-  else if (in_stack_00000054 == 1) {
-    fn_8270A8F8();
-  }
-  else if (in_stack_00000054 < 3) {
-    fn_8270A8F8();
-  }
-  else if (in_stack_00000054 == 3) {
-    fn_8270A8F8();
-  }
-  return;
+    switch (mode) {
+    case 0:
+        fn_8270A8F8(a, b, c, d, e, f, g, h, 0);
+        break;
+    case 1:
+        fn_8270A8F8(a, b, c, d, e, f, g, h, 1);
+        break;
+    case 2:
+        fn_8270A8F8(a, b, c, d, e, f, g, h, 2);
+        break;
+    case 3:
+        fn_8270A8F8(a, b, c, d, e, f, g, h, 3);
+        break;
+    }
 }
-
