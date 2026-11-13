@@ -1,53 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A396A8();
+typedef struct State_82A36AE8 {
+    unsigned char lock[0x2fec];
+    int a;
+    int b;
+    int c;
+    int d;
+    union {
+        unsigned char first;
+        int word;
+    } e;
+    int f;
+    int g;
+    int h;
+} State_82A36AE8;
 
+typedef struct Obj_82A36AE8 {
+    int pad0[2];
+    unsigned int flags;
+    int padc[2];
+    State_82A36AE8 state;
+} Obj_82A36AE8;
 
-undefined8 fn_82A36AE8(int param_1)
+extern void fn_82A396A8(State_82A36AE8 *state);
 
+int fn_82A36AE8(Obj_82A36AE8 *self)
 {
-  fn_82A396A8(param_1 + 0x14);
-  if ((*(uint *)(param_1 + 8) & 1) == 0) {
-    if ((*(uint *)(param_1 + 8) & 0x80000000) == 0) {
-      return 0;
-    }
-    *(undefined4 *)(param_1 + 0x3008) = 0;
-    *(undefined4 *)(param_1 + 0x3010) = 0;
-    *(undefined4 *)(param_1 + 0x3014) = 0;
-    *(undefined4 *)(param_1 + 0x3018) = 0;
-    *(undefined4 *)(param_1 + 0x301c) = 0;
-  }
-  else {
-    *(undefined1 *)(param_1 + 0x3010) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x300c) = 0;
-  *(undefined4 *)(param_1 + 0x3004) = 0;
-  *(undefined4 *)(param_1 + 0x3000) = 0;
-  return 0;
-}
+    State_82A36AE8 *s = &self->state;
 
+    fn_82A396A8(s);
+    if (self->flags & 1) {
+        s->e.first = 0;
+    } else if (self->flags & 0x80000000) {
+        s->c = 0;
+        s->e.word = 0;
+        s->f = 0;
+        s->g = 0;
+        s->h = 0;
+    } else {
+        return 0;
+    }
+    s->d = 0;
+    s->b = 0;
+    s->a = 0;
+    return 0;
+}

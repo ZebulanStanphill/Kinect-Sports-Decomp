@@ -1,54 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223C478();
-extern int fn_828E9DB8();
-extern int fn_828EA268();
+typedef struct List_828E3C70 List_828E3C70;
+typedef struct ListVtbl_828E3C70 {
+    void *slot0[3];
+    unsigned int (*count)(List_828E3C70 *self);
+} ListVtbl_828E3C70;
+struct List_828E3C70 {
+    ListVtbl_828E3C70 *vt;
+};
 
+typedef struct Source_828E3C70 Source_828E3C70;
+typedef struct SourceVtbl_828E3C70 {
+    void *slot0[7];
+    List_828E3C70 *(*list)(Source_828E3C70 *self);
+} SourceVtbl_828E3C70;
+struct Source_828E3C70 {
+    SourceVtbl_828E3C70 *vt;
+};
 
-void fn_828E3C70(int param_1,undefined8 param_2)
+typedef struct Self_828E3C70 {
+    char pad0[0x10];
+    Source_828E3C70 *source;
+    int pad14;
+    int value;
+} Self_828E3C70;
 
+extern int fn_828EA268(unsigned int maxValue);
+extern void fn_8223C478(void *stream, int bits, int flags);
+extern void fn_828E9DB8(void *stream, int value, int bits);
+
+void fn_828E3C70(Self_828E3C70 *self, void *stream)
 {
-  undefined4 uVar1;
-  int *piVar5;
-  ulonglong uVar2;
-  longlong lVar3;
-  undefined8 uVar4;
-  
-  piVar5 = (int *)(**(code **)(**(int **)(param_1 + 0x10) + 0x1c))();
-  uVar2 = (**(code **)(*piVar5 + 0xc))();
-  lVar3 = uVar2 - 1;
-  if ((uVar2 & 0xffffffff) == 0) {
-    lVar3 = 0;
-  }
-  uVar4 = fn_828EA268(lVar3);
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  fn_8223C478(param_2,uVar4,0);
-  fn_828E9DB8(param_2,uVar1,uVar4);
-  return;
-}
+    List_828E3C70 *list;
+    unsigned int count;
+    int bits;
+    int value;
 
+    list = self->source->vt->list(self->source);
+    count = list->vt->count(list);
+    bits = fn_828EA268(count != 0 ? count - 1 : 0);
+    value = self->value;
+    fn_8223C478(stream, bits, 0);
+    fn_828E9DB8(stream, value, bits);
+}

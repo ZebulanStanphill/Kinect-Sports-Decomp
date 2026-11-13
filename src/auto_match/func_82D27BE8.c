@@ -1,78 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82421E98();
-extern int fn_82D0CA60();
-extern int fn_82D27010();
-extern unsigned int lbl_821CE8A0;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Array_82D27BE8 {
+    void *data;
+    int size;
+    int capacityAndFlags;
+} Array_82D27BE8;
 
-void fn_82D27BE8(undefined8 param_1,undefined8 param_2)
+typedef struct ArrayPair_82D27BE8 {
+    Array_82D27BE8 a;
+    Array_82D27BE8 b;
+} ArrayPair_82D27BE8;
 
+extern void fn_82D0CA60(void *source, int index, ArrayPair_82D27BE8 *out);
+extern void fn_82D27010(void *self, ArrayPair_82D27BE8 *arg, const __vector4 *scale);
+extern void fn_82421E98(ArrayPair_82D27BE8 *pair);
+
+void fn_82D27BE8(void *self, void *source)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined1 auStack_40 [16];
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+    ArrayPair_82D27BE8 pair;
 
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  uStack_28 = 0x80000000;
-  uStack_24 = 0;
-  uStack_20 = 0;
-  uStack_1c = 0x80000000;
-  fn_82D0CA60(param_2,0,&stack_pair_30.first);
-  puVar1 = (undefined4 *)((uint)(&lbl_821CE8A0 + in_r0) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)((uint)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_82D27010(param_1,&stack_pair_30.first,auStack_40);
-  fn_82421E98(&stack_pair_30.first);
-  return;
+    pair.a.data = 0;
+    pair.a.size = 0;
+    pair.a.capacityAndFlags = 0x80000000;
+    pair.b.data = 0;
+    pair.b.size = 0;
+    pair.b.capacityAndFlags = 0x80000000;
+    fn_82D0CA60(source, 0, &pair);
+    {
+        __vector4 scale = { 1.0f, 1.0f, 1.0f, 0.0f };
+        fn_82D27010(self, &pair, &scale);
+    }
+    fn_82421E98(&pair);
 }
-

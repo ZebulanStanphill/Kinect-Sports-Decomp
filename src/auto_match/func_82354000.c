@@ -1,73 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_820;
-extern unsigned int *auStack_a20;
-extern unsigned int *auStack_a60;
-extern unsigned int *auStack_aa0;
-extern int fn_8229DCA8();
-extern int fn_8229E090();
-extern int fn_8229E410();
-extern int fn_82528BF8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821A8C90;
-extern unsigned int lbl_83276730;
+typedef struct Obj_82354000 {
+    void *prev;           /* 0x0 */
+    void *child;          /* 0x4 */
+} Obj_82354000;
 
+typedef struct Child_82354000 {
+    char pad0[0x41c];
+    void *vt;             /* 0x41c */
+    char pad1[0x434 - 0x420];
+} Child_82354000;
 
-void fn_82354000(int *param_1)
+extern int fn_8229DCA8(void *self, unsigned short *a, unsigned short *b,
+                       unsigned short *c, unsigned short *d, void *cb, void *owner,
+                       int x, int y);
+extern void fn_8229E090(void *p, int a, int b);
+extern void fn_8229E410(void *p);
+extern int fn_82528BF8(int mgr, const char *key, unsigned short *buf, int n,
+                       int a, int b);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82354368(void);
+extern char lbl_821A8C90[];
+extern int lbl_83276728[];
 
+static __forceinline void *create_82354000(unsigned short *a, unsigned short *b,
+                                           unsigned short *c, unsigned short *d,
+                                           Obj_82354000 *owner)
 {
-  int iVar1;
-  undefined1 auStack_aa0 [64];
-  undefined1 auStack_a60 [64];
-  undefined1 auStack_a20 [512];
-  undefined1 auStack_820 [2080];
-  
-  fn_82528BF8(lbl_83276730,0xffffffff82196330,auStack_a20,0x100,0,1);
-  fn_82528BF8(lbl_83276730,0xffffffff821b22f8,auStack_820,0x400,0,1);
-  fn_82528BF8(lbl_83276730,0xffffffff821a9468,auStack_aa0,0x20,0,1);
-  fn_82528BF8(lbl_83276730,0xffffffff821a9464,auStack_a60,0x20,0,1);
-  if (param_1[1] == 0) {
-    if (*param_1 != 0) {
-      fn_8229E090(*param_1,0,1);
-      *param_1 = 0;
+    Child_82354000 *p = (Child_82354000 *)fn_8265C9E0(0x434);
+    if (p != 0) {
+        p->vt = lbl_821A8C90;
+        fn_8229DCA8(p, a, b, c, d, (void *)fn_82354368, owner, 1, 0);
+        return p;
     }
-    iVar1 = fn_8265C9E0(0x434);
-    if (iVar1 == 0) {
-      iVar1 = 0;
-    }
-    else {
-      *(undefined ***)(iVar1 + 0x41c) = &lbl_821A8C90;
-      fn_8229DCA8(iVar1,auStack_a20,auStack_820,auStack_aa0,auStack_a60,0xffffffff82354368,
-                        param_1,1);
-    }
-    param_1[1] = iVar1;
-    fn_8229E410();
-  }
-  return;
+    return 0;
 }
 
+void fn_82354000(Obj_82354000 *self)
+{
+    unsigned short yes[0x20];
+    unsigned short no[0x20];
+    unsigned short caption[0x100];
+    unsigned short text[0x400];
+    void *p;
+
+    fn_82528BF8(lbl_83276728[2], "liveConnectError", caption, 0x100, 0, 1);
+    fn_82528BF8(lbl_83276728[2], "livechangesettingsprompt", text, 0x400, 0, 1);
+    fn_82528BF8(lbl_83276728[2], "yes", yes, 0x20, 0, 1);
+    fn_82528BF8(lbl_83276728[2], "no", no, 0x20, 0, 1);
+    if (self->child == 0) {
+        if (self->prev != 0) {
+            fn_8229E090(self->prev, 0, 1);
+            self->prev = 0;
+        }
+        p = create_82354000(caption, text, yes, no, self);
+        self->child = p;
+        fn_8229E410(p);
+    }
+}

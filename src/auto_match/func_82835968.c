@@ -1,39 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828315F0();
-extern int fn_82F691F0();
+#include <string.h>
 
+typedef struct { char pad[0x50]; unsigned char flags; } Ctx_82835968;
+typedef struct { char pad[0x10]; unsigned int size; } Info_82835968;
+typedef struct {
+    int f0;
+    int handle;
+    int f8;
+    int fc;
+    Info_82835968 *info;
+} Obj_82835968;
 
-void fn_82835968(int param_1,undefined8 param_2,undefined8 param_3)
+extern Ctx_82835968 *fn_828315F0(int handle);
+extern int fn_82F6A3F8(char *dst, unsigned int size, const char *src, unsigned int count);
+extern void fn_82820EF8(void *p, unsigned int size);
 
+void fn_82835968(Obj_82835968 *self, const char *src, char *out)
 {
-  fn_828315F0(*(undefined4 *)(param_1 + 4));
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_3,0,8);
+    Ctx_82835968 *ctx = fn_828315F0(self->handle);
+    unsigned int n;
+    memset(out, 0, 8);
+    n = self->info->size > 8 ? 8 : self->info->size;
+    if (n != 0) {
+        fn_82F6A3F8(out, 8, src, n);
+        if (ctx->flags & 1) {
+            fn_82820EF8(out, n);
+        }
+    }
 }
-

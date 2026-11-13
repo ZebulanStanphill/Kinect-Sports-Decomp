@@ -1,59 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82810208();
-extern int fn_82810328();
-extern int fn_828105C8();
-extern int fn_82812020();
-extern int fn_82812030();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct { float x, y, z; } V3_8281EF18;
 
+extern float fn_82812030(void *xf);
+extern V3_8281EF18 *fn_82812020(void *xf);
+extern void fn_828105C8(V3_8281EF18 *v, float x, float y, float z);
+extern void fn_82810208(V3_8281EF18 *a, V3_8281EF18 *b, void *out);
+extern void fn_82810328(V3_8281EF18 *a, V3_8281EF18 *b, void *out);
 
-void fn_8281EF18(longlong param_1,undefined8 param_2)
-
+void fn_8281EF18(char *self, void *xf)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
-
-  undefined4 uStack_38;
-  undefined1 auStack_30 [24];
-  
-  uVar2 = fn_82812030(param_2);
-  puVar1 = (undefined4 *)fn_82812020(param_2);
-  stack_pair_40.first = *puVar1;
-  stack_pair_40.second = puVar1[1];
-  uStack_38 = puVar1[2];
-  fn_828105C8(uVar2,uVar2,uVar2,auStack_30);
-  fn_82810208(&stack_pair_40.first,auStack_30,param_1 + 0xc);
-  fn_82810328(&stack_pair_40.first,auStack_30,param_1);
-  return;
+    float s = fn_82812030(xf);
+    V3_8281EF18 pos = *fn_82812020(xf);
+    V3_8281EF18 scale;
+    fn_828105C8(&scale, s, s, s);
+    fn_82810208(&pos, &scale, self + 0xc);
+    fn_82810328(&pos, &scale, self);
 }
-

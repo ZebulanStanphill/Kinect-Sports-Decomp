@@ -1,65 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E50BE8();
-extern unsigned int lbl_8215F300;
+typedef struct { void *vt; int f4, f8, fc, f10, f14; int refs; } Obj_82E81480;
+extern void *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
+extern char lbl_8215F300[];
 
-
-undefined8 fn_82E81480(undefined4 *param_1)
-
+static __forceinline Obj_82E81480 *construct_82E81480(Obj_82E81480 *o)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  
-  uVar2 = 0;
-  if (param_1 == (undefined4 *)0x0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    puVar1 = (undefined4 *)fn_82E50BE8(0x1c,0,0,0,0);
-    puVar3 = (undefined4 *)0x0;
-    if (puVar1 != (undefined4 *)0x0) {
-      puVar1[1] = 0;
-      puVar1[2] = 0;
-      puVar1[3] = 0;
-      puVar1[4] = 0;
-      puVar1[5] = 0;
-      *puVar1 = &lbl_8215F300;
-      puVar1[6] = 1;
-      puVar3 = puVar1;
-    }
-    if (puVar3 == (undefined4 *)0x0) {
-      uVar2 = 0xffffffff8007000e;
-    }
-    else {
-      *param_1 = puVar3;
-    }
-  }
-  return uVar2;
+    o->f4 = 0;
+    o->f8 = 0;
+    o->fc = 0;
+    o->f10 = 0;
+    o->f14 = 0;
+    o->vt = lbl_8215F300;
+    o->refs = 1;
+    return o;
 }
 
+int fn_82E81480(Obj_82E81480 **out)
+{
+    Obj_82E81480 *o = 0;
+    int hr = 0;
+    if (out == 0) {
+        hr = 0x80070057;
+    } else {
+        Obj_82E81480 *mem = fn_82E50BE8(sizeof(Obj_82E81480), 0, 0, 0, 0);
+        o = mem ? construct_82E81480(mem) : 0;
+        if (o == 0) {
+            hr = 0x8007000e;
+        } else {
+            *out = o;
+        }
+    }
+    return hr;
+}

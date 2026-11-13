@@ -1,49 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+typedef struct {
+    int f0;
+    int f4;
+    int pad08[2];
+    int f10[11];
+    int pad3c[6];
+    unsigned char block1[0xa4];
+    unsigned char block2[0xa4];
+} Desc_8241F200;
 
+typedef struct Sink_8241F200 Sink_8241F200;
+typedef struct {
+    void *f[4];
+    void (*Submit)(Sink_8241F200 *self, Desc_8241F200 *desc);
+} SinkVtbl_8241F200;
+struct Sink_8241F200 { SinkVtbl_8241F200 *vt; };
 
-void fn_8241F200(undefined8 param_1,int param_2)
+typedef struct {
+    int f0;
+    Sink_8241F200 *sink;
+} Obj_8241F200;
 
+extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+
+void fn_8241F200(Obj_8241F200 *self, Desc_8241F200 *desc)
 {
-  *(undefined4 *)(param_2 + 4) = 0;
-  *(undefined4 *)(param_2 + 0x10) = 0;
-  *(undefined4 *)(param_2 + 0x14) = 0;
-  *(undefined4 *)(param_2 + 0x18) = 0;
-  *(undefined4 *)(param_2 + 0x1c) = 0;
-  *(undefined4 *)(param_2 + 0x20) = 0;
-  *(undefined4 *)(param_2 + 0x24) = 0;
-  *(undefined4 *)(param_2 + 0x28) = 0;
-  *(undefined4 *)(param_2 + 0x2c) = 0;
-  *(undefined4 *)(param_2 + 0x30) = 0;
-  *(undefined4 *)(param_2 + 0x34) = 0;
-  *(undefined4 *)(param_2 + 0x38) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_2 + 0x54,0,0xa4);
+    desc->f4 = 0;
+    desc->f10[0] = 0;
+    desc->f10[1] = 0;
+    desc->f10[2] = 0;
+    desc->f10[3] = 0;
+    desc->f10[4] = 0;
+    desc->f10[5] = 0;
+    desc->f10[6] = 0;
+    desc->f10[7] = 0;
+    desc->f10[8] = 0;
+    desc->f10[9] = 0;
+    desc->f10[10] = 0;
+    fn_82A1EFC0(desc->block1, 0, sizeof(desc->block1));
+    fn_82A1EFC0(desc->block2, 0, sizeof(desc->block2));
+    self->sink->vt->Submit(self->sink, desc);
 }
-

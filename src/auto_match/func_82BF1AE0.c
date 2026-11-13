@@ -1,55 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE8C38();
-extern int fn_82BF0EB0();
+typedef struct Obj_82BF1AE0 Obj_82BF1AE0;
 
+typedef struct ObjVtbl_82BF1AE0 {
+    void *slot0;
+    void *(*get)(Obj_82BF1AE0 *self);
+} ObjVtbl_82BF1AE0;
 
-undefined8 fn_82BF1AE0(int param_1)
+struct Obj_82BF1AE0 {
+    ObjVtbl_82BF1AE0 *vt;
+};
 
+typedef struct Holder_82BF1AE0 {
+    int pad0[2];
+    Obj_82BF1AE0 *obj;
+} Holder_82BF1AE0;
+
+typedef struct Self_82BF1AE0 {
+    int pad0[4];
+    int state;
+    int pad14[6];
+    Holder_82BF1AE0 holder;
+    int pad38[11];
+    int count;
+} Self_82BF1AE0;
+
+extern void fn_82BF1A18(void);
+extern int fn_82BE8C38(void *target, void *callback);
+extern int fn_82BF0EB0(Self_82BF1AE0 *self);
+
+static __forceinline void *Get_82BF1AE0(Holder_82BF1AE0 *h)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  *(int *)(param_1 + 100) = *(int *)(param_1 + 100) + 1;
-  if (*(int *)(param_1 + 0x10) < 0x15) {
-    *(undefined4 *)(param_1 + 0x10) = 0x15;
-    if (*(int *)(param_1 + 0x34) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = (**(code **)(**(int **)(param_1 + 0x34) + 4))();
-    }
-    iVar2 = fn_82BE8C38(uVar1,0xffffffff82bf1a18);
-    if (iVar2 == 0) {
-      uVar1 = fn_82BF0EB0(param_1);
-      return uVar1;
-    }
-  }
-  return 0;
+    if (h->obj != 0)
+        return h->obj->vt->get(h->obj);
+    return 0;
 }
 
+int fn_82BF1AE0(Self_82BF1AE0 *self)
+{
+    self->count++;
+    if (self->state >= 0x15)
+        return 0;
+    self->state = 0x15;
+    if (fn_82BE8C38(Get_82BF1AE0(&self->holder), fn_82BF1A18) != 0)
+        return 0;
+    return fn_82BF0EB0(self);
+}

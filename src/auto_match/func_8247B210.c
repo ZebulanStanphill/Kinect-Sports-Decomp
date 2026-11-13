@@ -1,86 +1,109 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_82196E94;
+// std::map<unsigned int, weak_ptr<T>> lookup that returns a shared_ptr: lock() the stored weak
+// pointer when the key exists, otherwise return a shared_ptr owning a null pointer.
+extern void *fn_82365BD8(void *out, void *weak);
+extern void fn_822315A0(void *rep);
+extern void *fn_8265C9E0(unsigned int size);
+extern char lbl_82196E94[];
 
+typedef struct SharedPtr_8247B210 {
+  void *ptr;
+  void *rep;
+} SharedPtr_8247B210;
 
-undefined4 * fn_8247B210(undefined4 *param_1,int param_2,uint param_3)
+typedef struct Node_8247B210 {
+  struct Node_8247B210 *left;
+  struct Node_8247B210 *parent;
+  struct Node_8247B210 *right;
+  unsigned int key;
+  SharedPtr_8247B210 value;
+  char color;
+  char isnil;
+} Node_8247B210;
 
+typedef struct Tree_8247B210 {
+  int alloc;
+  Node_8247B210 *head;
+  unsigned int size;
+} Tree_8247B210;
+
+typedef struct It_8247B210 {
+  Node_8247B210 *p;
+} It_8247B210;
+
+typedef struct Obj_8247B210 {
+  int unk0;
+  Tree_8247B210 map;
+} Obj_8247B210;
+
+typedef struct RefCount_8247B210 {
+  void *vt;
+  int uses;
+  int weaks;
+  void *ptr;
+} RefCount_8247B210;
+
+static Node_8247B210 *Lbound(Tree_8247B210 *t, unsigned int key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 **ppuVar3;
-  undefined4 *puStack_30;
-  undefined4 *apuStack_2c [1];
-  
-  puVar1 = (undefined4 *)(*(undefined4 **)(param_2 + 8))[1];
-  puStack_30 = *(undefined4 **)(param_2 + 8);
-  while (puVar2 = puVar1, *(char *)((int)puVar2 + 0x19) == '\0') {
-    if ((uint)puVar2[3] < param_3) {
-      puVar1 = (undefined4 *)puVar2[2];
-    }
-    else {
-      puVar1 = (undefined4 *)*puVar2;
-      puStack_30 = puVar2;
+  Node_8247B210 *pnode = t->head->parent;
+  Node_8247B210 *wherenode = t->head;
+  while (!pnode->isnil) {
+    if (pnode->key < key) {
+      pnode = pnode->right;
+    } else {
+      wherenode = pnode;
+      pnode = pnode->left;
     }
   }
-  if ((puStack_30 == *(undefined4 **)(param_2 + 8)) || (param_3 < (uint)puStack_30[3])) {
-    apuStack_2c[0] = *(undefined4 **)(param_2 + 8);
-    ppuVar3 = apuStack_2c;
-  }
-  else {
-    ppuVar3 = &puStack_30;
-  }
-  if (ZEXT48(*ppuVar3) == (ulonglong)*(uint *)(param_2 + 8)) {
-    *param_1 = 0;
-    param_1[1] = 0;
-    puVar1 = (undefined4 *)fn_8265C9E0(0x10);
-    if (puVar1 == (undefined4 *)0x0) {
-      puVar1 = (undefined4 *)0x0;
-    }
-    else {
-      puVar1[3] = 0;
-      puVar1[1] = 1;
-      *puVar1 = &lbl_82196E94;
-      puVar1[2] = 1;
-    }
-    if (param_1[1] != 0) {
-      fn_822315A0();
-    }
-    param_1[1] = puVar1;
-    *param_1 = 0;
-  }
-  else {
-    fn_82365BD8(param_1,ZEXT48(*ppuVar3) + 0x10);
-  }
-  return param_1;
+  return wherenode;
 }
 
+static It_8247B210 End(Tree_8247B210 *t)
+{
+  It_8247B210 e;
+  e.p = t->head;
+  return e;
+}
+
+static It_8247B210 Find(Tree_8247B210 *t, unsigned int key)
+{
+  It_8247B210 where;
+  It_8247B210 e;
+  where.p = Lbound(t, key);
+  return *((where.p == t->head || key < where.p->key) ? (e = End(t), &e) : &where);
+}
+
+static __forceinline RefCount_8247B210 *NewRef(RefCount_8247B210 *rc, void *ptr)
+{
+  rc->uses = 1;
+  rc->weaks = 1;
+  rc->vt = lbl_82196E94;
+  rc->ptr = ptr;
+  return rc;
+}
+
+static __forceinline void Reset(SharedPtr_8247B210 *s, void *ptr, void *rep)
+{
+  if (s->rep != 0)
+    fn_822315A0(s->rep);
+  s->rep = rep;
+  s->ptr = ptr;
+}
+
+SharedPtr_8247B210 *fn_8247B210(SharedPtr_8247B210 *out, Obj_8247B210 *self, unsigned int key)
+{
+  It_8247B210 it;
+  RefCount_8247B210 *rc;
+  void *mem;
+
+  it = Find(&self->map, key);
+  if (it.p != self->map.head) {
+    fn_82365BD8(out, &it.p->value);
+  } else {
+    out->ptr = 0;
+    out->rep = 0;
+    mem = fn_8265C9E0(0x10);
+    rc = mem ? NewRef((RefCount_8247B210 *)mem, 0) : 0;
+    Reset(out, 0, rc);
+  }
+  return out;
+}

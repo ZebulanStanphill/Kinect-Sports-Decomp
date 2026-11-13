@@ -1,53 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82695370();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_826A7398();
-extern int fn_826FD490();
+typedef struct Parser_8271E440 {
+    char pad0[0x18];
+    int ctx;                  /* 0x18 */
+} Parser_8271E440;
 
+extern int fn_82695370(int value, int ctx);
+extern int fn_826957D0(Parser_8271E440 *p, int index);
+extern double fn_826972E0(int value, int ctx);
+extern void *fn_826A7398(int ctx);
+extern void fn_826FD490(void *target, int object, int count);
 
-void fn_8271E440(int param_1)
-
+void fn_8271E440(Parser_8271E440 *p)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  double dVar4;
-  
-  uVar2 = fn_826A7398(*(undefined4 *)(param_1 + 0x18));
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  uVar3 = fn_826957D0(param_1,1);
-  dVar4 = (double)fn_826972E0(uVar3,uVar1);
-  uVar1 = *(undefined4 *)(param_1 + 0x18);
-  uVar3 = fn_826957D0(param_1,0);
-  uVar3 = fn_82695370(uVar3,uVar1);
-  fn_826FD490(uVar2,uVar3,(int)dVar4);
-  return;
-}
+    void *target = fn_826A7398(p->ctx);
+    int count = (int)fn_826972E0(fn_826957D0(p, 1), p->ctx);
 
+    fn_826FD490(target, fn_82695370(fn_826957D0(p, 0), p->ctx), count);
+}

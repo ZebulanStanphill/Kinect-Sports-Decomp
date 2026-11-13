@@ -1,40 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8263CBB0();
+typedef struct Obj_82678F18 {
+    int pad0[4];
+    unsigned char active;
+    unsigned char pad11[0xd8 - 0x11];
+    void *handle;
+    unsigned char padDC[0x25c - 0xdc];
+    int value;
+} Obj_82678F18;
 
+extern void fn_8263CBB0(void *a, unsigned int b, void *c, unsigned __int64 mask);
+extern void fn_82677DD0(Obj_82678F18 *self);
+extern void fn_82647460(void *p);
 
-undefined8 fn_82678F18(int param_1)
-
+int fn_82678F18(Obj_82678F18 *self)
 {
-  if (*(char *)(param_1 + 0x10) != '\0') {
-                    /* WARNING: Subroutine does not return */
-    fn_8263CBB0(*(undefined4 *)(param_1 + 0xd8),0,0,0x80000000);
-  }
-  return 1;
+    if (self->active) {
+        fn_8263CBB0(self->handle, 0, 0, 0x80000000);
+        fn_8263CBB0(self->handle, 1, 0, 0x40000000);
+        fn_82677DD0(self);
+        fn_82647460(self->handle);
+        self->handle = 0;
+        self->value = 0;
+        self->active = 0;
+    }
+    return 1;
 }
-

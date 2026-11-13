@@ -1,69 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822FB198();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_823069B8(int param_1)
+typedef struct String_823069B8 {
+    char data[0x1c];
+} String_823069B8;
 
+typedef struct Anim_823069B8 {
+    char pad0[0xc0];
+    void *idleSet;
+} Anim_823069B8;
+
+typedef struct Owner_823069B8 {
+    char pad0[0x114];
+    Anim_823069B8 *anim;
+} Owner_823069B8;
+
+typedef struct Obj_823069B8 {
+    char pad0[0xc];
+    Owner_823069B8 *owner;
+    char pad10[0x70];
+    __vector4 v80;
+    __vector4 v90;
+    int fA0;
+    char padA4[0xc];
+    __vector4 vB0;
+    char padC0[0x10];
+    int fD0;
+    int fD4;
+    int fD8;
+    int fDC;
+} Obj_823069B8;
+
+extern void fn_82230110(String_823069B8 *s, const char *text);
+extern void fn_82230300(String_823069B8 *s, int a, int b);
+extern void fn_822FB198(void *set, String_823069B8 *name);
+
+static __forceinline void Store(__vector4 *d, __vector4 v)
 {
-  undefined4 *puVar1;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  undefined1 auStack_30 [32];
-  
-  puVar1 = (undefined4 *)(param_1 + 0x80U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(undefined4 *)(param_1 + 0xd0) = 0;
-  *(undefined4 *)(param_1 + 0xd4) = 0;
-  puVar1 = (undefined4 *)(param_1 + 0x90U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(undefined4 *)(param_1 + 0xa0) = 0;
-  puVar1 = (undefined4 *)(param_1 + 0xb0U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(undefined4 *)(param_1 + 0xd8) = 0xffffffff;
-  *(undefined4 *)(param_1 + 0xdc) = 0;
-  fn_82230110(auStack_30,0xffffffff821af0e0);
-  fn_822FB198(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0xc) + 0x114) + 0xc0),auStack_30);
-  fn_82230300(auStack_30,1,0);
-  return;
+    *d = v;
 }
 
+void fn_823069B8(Obj_823069B8 *self)
+{
+    String_823069B8 name;
+
+    Store(&self->v80, __VMXGetReg(77));
+    self->fD0 = 0;
+    self->fD4 = 0;
+    Store(&self->v90, __VMXGetReg(77));
+    self->fA0 = 0;
+    Store(&self->vB0, __VMXGetReg(77));
+    self->fD8 = -1;
+    self->fDC = 0;
+    fn_82230110(&name, "idleset_challenge");
+    fn_822FB198(self->owner->anim->idleSet, &name);
+    fn_82230300(&name, 1, 0);
+}

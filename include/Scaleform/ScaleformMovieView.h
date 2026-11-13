@@ -14,10 +14,6 @@
 
 extern "C" void *memcpy(void *dst, const void *src, unsigned int size);
 
-// 1.0f, pooled by the linker under this name; defined here (selectany) so the
-// compiler knows its value, as several Matching units do.
-extern "C" __declspec(selectany) const float lbl_82002AE0 = 1.0f;
-
 extern "C" {
 void *fn_8265C9E0(unsigned int size);
 void fn_8265CA20(void *block);
@@ -142,7 +138,7 @@ public:
             left = top = 0;
             width = height = 1;
             scissorLeft = scissorTop = scissorWidth = scissorHeight = 0;
-            scale = aspectRatio = lbl_82002AE0;
+            scale = aspectRatio = 1.0f;
             flags = 0;
         }
         __forceinline Viewport(const Viewport &o)

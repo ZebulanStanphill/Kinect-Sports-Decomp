@@ -1,55 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Stream_8270C708 Stream_8270C708;
+typedef struct {
+    void *f[9];
+    int (*Read)(Stream_8270C708 *s, void *buf, int size);
+    void *g[5];
+    __int64 (*Seek)(Stream_8270C708 *s, __int64 offset, int origin);
+} StreamVtbl_8270C708;
+struct Stream_8270C708 { StreamVtbl_8270C708 *vt; };
 
+typedef struct {
+    int f0;
+    int f4;
+    Stream_8270C708 *stream;
+    void *buffer;
+    int mode;
+    int count;
+    int pos;
+    int f1c;
+    __int64 offset;
+} Buffer_8270C708;
 
-void fn_8270C708(int param_1)
-
+void fn_8270C708(Buffer_8270C708 *self)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if (*(int *)(param_1 + 0x10) == 1) {
-    if (*(int *)(param_1 + 0x18) != *(int *)(param_1 + 0x14)) {
-      uVar1 = (**(code **)(**(int **)(param_1 + 8) + 0x3c))
-                        (*(int **)(param_1 + 8),*(int *)(param_1 + 0x14) - *(int *)(param_1 + 0x18),
-                         1);
-      *(undefined8 *)(param_1 + 0x20) = uVar1;
+    switch (self->mode) {
+    case 1:
+        if (self->pos - self->count != 0) {
+            self->offset = self->stream->vt->Seek(self->stream, self->count - self->pos, 1);
+        }
+        self->pos = 0;
+        self->count = 0;
+        break;
+    case 2: {
+        int n = self->stream->vt->Read(self->stream, self->buffer, self->count);
+        self->count = 0;
+        self->offset += n;
+        break;
     }
-    *(undefined4 *)(param_1 + 0x18) = 0;
-    *(undefined4 *)(param_1 + 0x14) = 0;
-  }
-  else if (*(int *)(param_1 + 0x10) == 2) {
-    iVar2 = (**(code **)(**(int **)(param_1 + 8) + 0x24))
-                      (*(int **)(param_1 + 8),*(undefined4 *)(param_1 + 0xc),
-                       *(undefined4 *)(param_1 + 0x14));
-    *(undefined4 *)(param_1 + 0x14) = 0;
-    *(longlong *)(param_1 + 0x20) = (longlong)iVar2 + *(longlong *)(param_1 + 0x20);
-  }
-  return;
+    }
 }
-

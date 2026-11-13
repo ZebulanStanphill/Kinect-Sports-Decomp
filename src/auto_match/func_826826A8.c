@@ -1,61 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267BED0();
-extern int fn_826EBE48();
+typedef struct { int w[4]; } Elem_826826A8;
 
+typedef struct Chunk_826826A8 {
+    Elem_826826A8 data[0x20];
+    struct Chunk_826826A8 *next;
+    int pad;
+} Chunk_826826A8;
 
-void fn_826826A8(uint *param_1)
+typedef struct {
+    Elem_826826A8 *cur;
+    Elem_826826A8 *begin;
+    Elem_826826A8 *end;
+    Elem_826826A8 *last;
+    int chunks[3];
+    Chunk_826826A8 *freeChunks;
+} Pool_826826A8;
 
+extern Chunk_826826A8 *fn_8267BED0(Pool_826826A8 *self, int size, int flags);
+extern void fn_826EBE48(int *list, Chunk_826826A8 **chunk);
+
+void fn_826826A8(Pool_826826A8 *self)
 {
-  uint uVar1;
-  uint uVar2;
-  uint auStack_20 [2];
-  
-  uVar2 = param_1[7];
-  if (uVar2 == 0) {
-    uVar2 = fn_8267BED0(param_1,0x208,0);
-  }
-  else {
-    param_1[7] = *(uint *)(uVar2 + 0x200);
-  }
-  if (uVar2 == 0) {
-    *param_1 = *param_1 - 0x10;
-  }
-  else {
-    auStack_20[0] = uVar2;
-    fn_826EBE48(param_1 + 4,auStack_20);
-    uVar1 = param_1[2];
-    param_1[1] = uVar2;
-    *param_1 = uVar2;
-    param_1[2] = uVar2 + 0x200;
-    param_1[3] = uVar1 - 0x10;
-  }
-  return;
+    Chunk_826826A8 *tmp;
+    Chunk_826826A8 *chunk = self->freeChunks;
+    if (chunk != 0) {
+        self->freeChunks = chunk->next;
+    } else {
+        chunk = fn_8267BED0(self, sizeof(Chunk_826826A8), 0);
+    }
+    tmp = chunk;
+    if (chunk != 0) {
+        fn_826EBE48(self->chunks, &tmp);
+        self->last = self->end - 1;
+        self->begin = chunk->data;
+        self->cur = chunk->data;
+        self->end = chunk->data + 0x20;
+    } else {
+        self->cur--;
+    }
 }
-

@@ -1,61 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828F4808();
-extern int fn_828F9C80();
-extern int fn_82930138();
-extern int fn_82F691F0();
+// Constructor: base init (fn_82930138), sub-object at +0x18, then the default state of the
+// fields and a zeroed 0x1fc-byte table at +0x78; finishes with the one-time global init
+// fn_82920448.
+#include <string.h>
 
+typedef struct Obj_828F5BD0 {
+    char pad0[0x18];
+    char sub18[0x24];       /* 0x18 */
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+    int f4c;
+    int f50;
+    int f54;
+    int f58;
+    int f5c;
+    int f60;
+    int f64;
+    int f68;
+    int f6c;
+    int f70;
+    int f74;
+    char table[0x1fc];      /* 0x78 */
+    int f274;
+    int f278;
+    int pad27c;
+    __int64 f280;
+    __int64 f288;
+    __int64 f290;
+    __int64 f298;
+    int f2a0;
+    int pad2a4;
+    int f2a8;
+    int pad2ac;
+    int f2b0;
+} Obj_828F5BD0;
 
-void fn_828F5BD0(int param_1)
+extern void fn_82930138(Obj_828F5BD0 *self, int a, int b);
+extern void fn_828F9C80(void *sub);
+extern void fn_828F4808(Obj_828F5BD0 *self);
+extern void fn_82920448(void);
 
+Obj_828F5BD0 *fn_828F5BD0(Obj_828F5BD0 *self)
 {
-  fn_82930138(param_1,0x100000,0x10000);
-  fn_828F9C80(param_1 + 0x18);
-  *(undefined4 *)(param_1 + 0x2a8) = 0;
-  fn_828F4808(param_1);
-  *(undefined4 *)(param_1 + 0x3c) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  *(undefined4 *)(param_1 + 0x48) = 0;
-  *(undefined4 *)(param_1 + 0x4c) = 1;
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  *(undefined4 *)(param_1 + 0x58) = 1;
-  *(undefined4 *)(param_1 + 0x5c) = 1;
-  *(undefined4 *)(param_1 + 0x60) = 1;
-  *(undefined4 *)(param_1 + 100) = 0;
-  *(undefined4 *)(param_1 + 0x68) = 0;
-  *(undefined4 *)(param_1 + 0x6c) = 0;
-  *(undefined4 *)(param_1 + 0x70) = 0;
-  *(undefined4 *)(param_1 + 0x74) = 0;
-  *(undefined4 *)(param_1 + 0x274) = 0;
-  *(undefined4 *)(param_1 + 0x278) = 0;
-  *(undefined4 *)(param_1 + 0x44) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 0x78,0,0x1fc);
+    fn_82930138(self, 0x100000, 0x10000);
+    fn_828F9C80(self->sub18);
+    self->f2a8 = 0;
+    fn_828F4808(self);
+    self->f3c = 0;
+    self->f40 = 0;
+    self->f48 = 0;
+    self->f4c = 1;
+    self->f50 = 0;
+    self->f54 = 0;
+    self->f58 = 1;
+    self->f5c = 1;
+    self->f60 = 1;
+    self->f64 = 0;
+    self->f68 = 0;
+    self->f6c = 0;
+    self->f70 = 0;
+    self->f74 = 0;
+    self->f274 = 0;
+    self->f278 = 0;
+    self->f44 = 0;
+    memset(self->table, 0, sizeof(self->table));
+    self->f280 = 0;
+    self->f288 = 0;
+    self->f290 = 0;
+    self->f298 = 0;
+    self->f2a0 = 1;
+    self->f2b0 = 0;
+    fn_82920448();
+    return self;
 }
-

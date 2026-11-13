@@ -1,60 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822CD140();
-extern int fn_82520780();
-extern int fn_82552788();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Entry_822CD0A8 {
+    char pad0[0x10];
+    unsigned int index;
+    char key[4];
+    float time;
+} Entry_822CD0A8;
 
+typedef struct Slot_822CD0A8 {
+    char data[0x18];
+} Slot_822CD0A8;
 
-void fn_822CD0A8(int param_1,int *param_2)
+typedef struct Table_822CD0A8 {
+    char pad0[0xa30];
+    Slot_822CD0A8 slots[1];
+} Table_822CD0A8;
 
+typedef struct Obj_822CD0A8 {
+    char pad0[8];
+    void *mgr;
+    char padC[0x14];
+    char list[0x10];
+    Table_822CD0A8 *table;
+} Obj_822CD0A8;
+
+typedef struct Result_822CD0A8 {
+    int a;
+    int b;
+    int c;
+} Result_822CD0A8;
+
+extern char lbl_83265A28[];
+extern int fn_82520780(void *clock, float time);
+extern void fn_82552788(void *mgr, Slot_822CD0A8 *slot, void *key, Table_822CD0A8 *table,
+                        unsigned int index, int a, int b, Result_822CD0A8 *out, void *list);
+extern void fn_822CD140(Result_822CD0A8 *r);
+
+void fn_822CD0A8(Obj_822CD0A8 *self, Entry_822CD0A8 **pentry)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
-  
-  iVar1 = *param_2;
-  iVar2 = fn_82520780((double)*(float *)(iVar1 + 0x18),0xffffffff83265a28);
-  if (iVar2 != 0) {
-    uStack_30 = 0;
-    uStack_2c = 0;
-    uStack_28 = 0;
-    fn_82552788(*(undefined4 *)(param_1 + 8),
-                      (ulonglong)*(uint *)(iVar1 + 0x10) * 0x18 +
-                      (ulonglong)*(uint *)(param_1 + 0x30) + 0xa30,iVar1 + 0x14,
-                      (ulonglong)*(uint *)(param_1 + 0x30),(ulonglong)*(uint *)(iVar1 + 0x10),0,0,
-                      &uStack_30);
-    fn_822CD140(&uStack_30);
-  }
-  return;
-}
+    Entry_822CD0A8 *e = *pentry;
 
+    if (fn_82520780(lbl_83265A28, e->time) != 0) {
+        Result_822CD0A8 r;
+        r.a = 0;
+        r.b = 0;
+        r.c = 0;
+        fn_82552788(self->mgr, &self->table->slots[e->index], e->key, self->table, e->index, 0, 0, &r,
+                    self->list);
+        fn_822CD140(&r);
+    }
+}

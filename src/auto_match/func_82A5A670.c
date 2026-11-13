@@ -1,54 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A5A300();
-extern U64 storeWordConditionalIndexed();
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern long _InterlockedIncrement(long *);
 
+typedef struct Item_82A5A670 {
+    char pad0[0x10];
+    long refs;
+} Item_82A5A670;
 
-void fn_82A5A670(int param_1,longlong param_2)
+typedef struct Holder_82A5A670 {
+    char pad0[0x20];
+    Item_82A5A670 *current;
+    char cs[0x1c];
+} Holder_82A5A670;
 
+extern void fn_82A5A300(Item_82A5A670 *item);
+
+void fn_82A5A670(Holder_82A5A670 *self, Item_82A5A670 *item)
 {
-  uint uVar1;
-  uint *puVar2;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  RtlEnterCriticalSection(param_1 + 0x24);
-  fn_82A5A300(*(undefined4 *)(param_1 + 0x20));
-  do {
-    puVar2 = (uint *)(param_2 + 0x10);
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed((ulonglong)*puVar2 + 1,0,param_2 + 0x10);
-      *puVar2 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  *(int *)(param_1 + 0x20) = (int)param_2;
-  RtlLeaveCriticalSection(param_1 + 0x24);
-  return;
+    RtlEnterCriticalSection((RTL_CRITICAL_SECTION *)self->cs);
+    fn_82A5A300(self->current);
+    _InterlockedIncrement(&item->refs);
+    self->current = item;
+    RtlLeaveCriticalSection((RTL_CRITICAL_SECTION *)self->cs);
 }
-

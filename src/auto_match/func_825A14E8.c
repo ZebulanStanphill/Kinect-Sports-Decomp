@@ -1,44 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82A1EFC0();
+typedef struct Event_825A14E8 {
+    int type;
+    int size;
+    struct { void *sender; int value; } data;
+} Event_825A14E8;
 
+typedef struct Owner_825A14E8 {
+    char pad[0x78];
+    char dispatcher[1];
+} Owner_825A14E8;
 
-void fn_825A14E8(int param_1)
+typedef struct Context_825A14E8 {
+    char pad[0x4c];
+    Owner_825A14E8 *owner;
+} Context_825A14E8;
 
+typedef struct Obj_825A14E8 {
+    Context_825A14E8 *context;
+    char pad[0x14];
+    int count;
+} Obj_825A14E8;
+
+extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void fn_8257C8F0(Owner_825A14E8 *owner, Event_825A14E8 *e);
+extern void fn_8257CB40(void *dispatcher, Event_825A14E8 *e, unsigned char all);
+
+void fn_825A14E8(Obj_825A14E8 *self)
 {
-  undefined1 auStack_28 [16];
-  
-  if (*(int *)(param_1 + 0x18) == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_28,0,8);
-  }
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
-  return;
+    if (self->count == 0) {
+        Owner_825A14E8 *owner = self->context->owner;
+        Event_825A14E8 e;
+        fn_82A1EFC0(&e.data, 0, 8);
+        e.type = 0x55;
+        e.size = 0x10;
+        e.data.sender = self;
+        e.data.value = 1;
+        fn_8257C8F0(owner, &e);
+        fn_8257CB40(owner->dispatcher, &e, 1);
+    }
+    self->count++;
 }
-

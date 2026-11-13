@@ -1,56 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
-extern int fn_822C71C8();
-extern int fn_8265CA20();
+typedef struct Elem_822FBBA0 { int a, b; } Elem_822FBBA0;
+typedef struct Vec_822FBBA0 { Elem_822FBBA0 *first; Elem_822FBBA0 *last; Elem_822FBBA0 *end; } Vec_822FBBA0;
+typedef struct Obj_822FBBA0 {
+    char pad0[0x54];
+    Vec_822FBBA0 v;
+    char pad60[0x70 - 0x60];
+    char s70[0x1c];
+    char pad8C[0xa0 - 0x8c];
+    char sA0[0x1c];
+    char sBC[0x1c];
+} Obj_822FBBA0;
+extern void fn_82230300(void *s, int built, int newsize);
+extern void fn_822C71C8(Obj_822FBBA0 *self);
+extern void fn_8265CA20(void *p);
 
-
-int fn_822FBBA0(int param_1,ulonglong param_2)
-
+Obj_822FBBA0 *fn_822FBBA0(Obj_822FBBA0 *self, unsigned int flags)
 {
-  int iVar1;
-  
-  fn_82230300(param_1 + 0xbc,1,0);
-  fn_82230300(param_1 + 0xa0,1,0);
-  fn_82230300(param_1 + 0x70,1,0);
-  iVar1 = *(int *)(param_1 + 0x54);
-  if (iVar1 != 0) {
-    for (; iVar1 != *(int *)(param_1 + 0x58); iVar1 = iVar1 + 8) {
-    }
-    fn_8265CA20();
-  }
-  *(undefined4 *)(param_1 + 0x54) = 0;
-  *(undefined4 *)(param_1 + 0x58) = 0;
-  *(undefined4 *)(param_1 + 0x5c) = 0;
-  fn_822C71C8(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
-}
+    Vec_822FBBA0 *v;
+    Elem_822FBBA0 *e;
 
+    fn_82230300(self->sBC, 1, 0);
+    fn_82230300(self->sA0, 1, 0);
+    fn_82230300(self->s70, 1, 0);
+    v = &self->v;
+    if (v->first != 0) {
+        for (e = v->first; e != v->last; e++) {
+        }
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+    fn_822C71C8(self);
+    if (flags & 1) {
+        fn_8265CA20(self);
+    }
+    return self;
+}

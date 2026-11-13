@@ -1,53 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82358E70();
-extern int fn_82359108();
-extern int fn_82359200();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Info_823C0938 {
+    char pad0[0x40];
+    unsigned int kind;
+} Info_823C0938;
 
+typedef struct Obj_823C0938 {
+    char pad0[0xa0];
+    Info_823C0938 *info;
+} Obj_823C0938;
 
-void fn_823C0938(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+extern int fn_82358E70(Obj_823C0938 *self, int *a, int *b);
+extern void fn_82359108(Obj_823C0938 *self, int a, int b, float f, void *arg);
+extern void fn_82359200(Obj_823C0938 *self, float f, void *arg);
 
+void fn_823C0938(Obj_823C0938 *self, void *arg)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    int a;
+    int b;
 
-  
-  if ((*(int *)(param_1 + 0xa0) == 0) || (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) != 1)) {
-    stack_pair_20.second = 0;
-    stack_pair_20.first = 0;
-    fn_82358E70(param_1,&stack_pair_20.second,&stack_pair_20.first);
-    fn_82359108((double)ltcg_pool_0_0f,param_1,stack_pair_20.second,stack_pair_20.first,param_4,param_2);
-  }
-  else {
-    fn_82359200((double)ltcg_pool_0_0f,param_1,param_2,param_2);
-  }
-  return;
+    if ((int)self->info != 0 && self->info->kind == 1) {
+        fn_82359200(self, 0.0f, arg);
+    } else {
+        a = 0;
+        b = 0;
+        fn_82358E70(self, &a, &b);
+        fn_82359108(self, a, b, 0.0f, arg);
+    }
 }
-

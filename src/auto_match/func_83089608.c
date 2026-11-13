@@ -1,105 +1,87 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_60;
-extern unsigned int iStack_4c;
-extern unsigned int lbl_82132BC4;
+// Havok ray cast wrapped in the "TtRayCastSimpl" timer scope: fills the collector state at self,
+// then casts a single ray (origin + strided array of one 16-byte target) through the shape's vtable.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef struct ProfTls_83089608 {
+    int unk0;
+    void **cur;
+    int unk8;
+    void **end;
+} ProfTls_83089608;
+
+typedef struct RayInput_83089608 {
+    __vector4 from;         /* 0x00 */
+    __vector4 to;           /* 0x10 */
+    unsigned char enable;   /* 0x20 */
+} RayInput_83089608;
+
+typedef struct Cast_83089608 {
+    __vector4 from;         /* 0x00 */
+    int count;              /* 0x10 */
+    __vector4 *to;          /* 0x14 */
+    int stride;             /* 0x18 */
+    int unk1c;              /* 0x1c */
+} Cast_83089608;
+
+typedef struct State_83089608 {
+    int unk0;
+    RayInput_83089608 *input;   /* 0x04 */
+    void *body;                 /* 0x08 */
+    void *collector;            /* 0x0c */
+    char pad10[0x24];
+    void *filter;               /* 0x34 */
+} State_83089608;
+
+struct Shape_83089608;
+typedef struct ShapeVt_83089608 {
+    void *slots[23];
+    void (*castRay)(struct Shape_83089608 *self, Cast_83089608 *cast, State_83089608 *state, int unk);
+} ShapeVt_83089608;
+
+typedef struct Shape_83089608 {
+    ShapeVt_83089608 *vt;
+} Shape_83089608;
+
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
 
-
-void fn_83089608(int param_1,int *param_2,int param_3,int param_4,undefined4 param_5)
-
+void fn_83089608(State_83089608 *self, Shape_83089608 *shape, RayInput_83089608 *input, char *owner,
+                 void *collector)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  undefined4 *puVar3;
-  int in_r0;
-  int iVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined1 auStack_60 [16];
-  undefined4 uStack_50;
-  int iStack_4c;
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = "TtRayCastSimpl";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  *(int *)(param_1 + 4) = param_3;
-  *(undefined4 *)(param_1 + 0xc) = param_5;
-  iVar4 = param_4 + 0x14;
-  if (param_4 == 0) {
-    iVar4 = 0;
-  }
-  *(int *)(param_1 + 8) = iVar4;
-  if (*(char *)(param_3 + 0x20) == '\0') {
-    *(undefined4 *)(param_1 + 0x34) = 0;
-  }
-  else {
-    iVar4 = param_4 + 0x10;
-    if (param_4 == 0) {
-      iVar4 = 0;
-    }
-    *(int *)(param_1 + 0x34) = iVar4;
-  }
-  puVar1 = (undefined4 *)(in_r0 + param_3 & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  iVar4 = *param_2;
-  iStack_4c = param_3 + 0x10;
-  puVar3 = (undefined4 *)((uint)(auStack_60 + in_r0) & 0xfffffff0);
-  *puVar3 = *puVar1;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  uStack_50 = 1;
-  uStack_48 = 0x10;
-  uStack_44 = 0;
-  (**(code **)(iVar4 + 0x5c))(param_2,auStack_60,param_1,0);
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  return;
-}
+    ProfTls_83089608 *t;
+    void **p;
+    Cast_83089608 cast;
 
+    t = (ProfTls_83089608 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "TtRayCastSimpl";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+
+    self->input = input;
+    self->collector = collector;
+    self->body = owner ? owner + 0x14 : 0;
+    if (input->enable)
+        self->filter = owner ? owner + 0x10 : 0;
+    else
+        self->filter = 0;
+    cast.from = input->from;
+    cast.count = 1;
+    cast.stride = 0x10;
+    cast.unk1c = 0;
+    cast.to = &input->to;
+    shape->vt->castRay(shape, &cast, self, 0);
+
+    t = (ProfTls_83089608 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "Et";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+}

@@ -1,59 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_82522ED8();
-extern unsigned int lbl_831D0968;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Owner_8225B898 {
+    char pad0[0x10c];
+    int value;
+    char pad110[8];
+    int dirty;
+} Owner_8225B898;
 
-void fn_8225B898(int param_1,int *param_2)
+typedef struct Item_8225B898 {
+    Owner_8225B898 *owner;
+    int value;
+} Item_8225B898;
 
+typedef struct Self_8225B898 {
+    int pad0;
+    void *ref;
+} Self_8225B898;
+
+extern long lbl_831D0968;
+extern void fn_82522ED8(Item_8225B898 *item);
+extern void fn_822315A0(void *ref);
+
+void fn_8225B898(Self_8225B898 *self, Item_8225B898 *item)
 {
-  char in_RESERVE;
-  byte in_cr0;
-  
-  if (param_2 == (int *)0x0) {
-    do {
-      if (in_RESERVE != '\0') {
-        lbl_831D0968 = storeWordConditionalIndexed((ulonglong)lbl_831D0968 - 1,0,0xffffffff831d0968)
-        ;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  else {
-    *(undefined4 *)(*param_2 + 0x118) = 1;
-    *(int *)(*param_2 + 0x10c) = param_2[1];
-    fn_82522ED8(param_2);
-  }
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
+    if (item != 0) {
+        item->owner->dirty = 1;
+        item->owner->value = item->value;
+        fn_82522ED8(item);
+    } else {
+        _InterlockedDecrement(&lbl_831D0968);
+    }
+    if (self->ref != 0)
+        fn_822315A0(self->ref);
 }
-

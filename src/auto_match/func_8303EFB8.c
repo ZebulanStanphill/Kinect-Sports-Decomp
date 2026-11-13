@@ -1,73 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAB9C0();
-extern int fn_8302BBA8();
-extern unsigned int lbl_832642E0;
-extern unsigned int uStack_3a;
-extern unsigned int uStack_3b;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Obj_8303EFB8 Obj_8303EFB8;
 
+typedef struct Desc_8303EFB8 {
+    int a;
+    int b;
+    int zero;
+    int value;
+    unsigned int index;
+    unsigned char flag0;
+    unsigned char flag1;
+    unsigned char mode;
+    char pad[9];
+} Desc_8303EFB8;
 
-undefined8 fn_8303EFB8(int param_1,undefined4 param_2,undefined4 param_3)
+typedef struct {
+    void *s0;
+    void *s1;
+    void (*Release)(Obj_8303EFB8 *self);
+    void *pad[4];
+    int (*Submit)(Obj_8303EFB8 *self, Desc_8303EFB8 *desc);
+} Vt_8303EFB8;
 
+struct Obj_8303EFB8 {
+    Vt_8303EFB8 *vt;
+};
+
+typedef struct Ctx_8303EFB8 {
+    char pad0[0x10];
+    int key;
+    unsigned int bits;
+    char pad18[0x10];
+    unsigned char mode;
+} Ctx_8303EFB8;
+
+extern Obj_8303EFB8 *fn_82FAB9C0(int id, int key);
+extern int fn_8302BBA8(Ctx_8303EFB8 *ctx);
+extern int lbl_832642E0;
+
+int fn_8303EFB8(Ctx_8303EFB8 *ctx, int a, int b)
 {
-  int *piVar2;
-  undefined8 uVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_50;
+    Obj_8303EFB8 *p;
+    Desc_8303EFB8 d;
+    int hr;
 
-  undefined4 uStack_48;
-  undefined4 uStack_44;
-  uint uStack_40;
-  undefined1 uStack_3c;
-  undefined1 uStack_3b;
-  undefined1 uStack_3a;
-  
-  piVar2 = (int *)fn_82FAB9C0((ulonglong)lbl_832642E0 + 4,*(undefined4 *)(param_1 + 0x10));
-  if (piVar2 == (int *)0x0) {
-    uVar1 = 0xf;
-  }
-  else {
-    uStack_3a = *(undefined1 *)(param_1 + 0x28);
-    uStack_40 = *(uint *)(param_1 + 0x14) >> 3 & 0x1f;
-    uStack_3c = 0;
-    uStack_3b = 0;
-    uStack_48 = 0;
-    stack_pair_50.first = param_2;
-    stack_pair_50.second = param_3;
-    uStack_44 = fn_8302BBA8(param_1);
-    uVar1 = (**(code **)(*piVar2 + 0x1c))(piVar2,&stack_pair_50.first);
-    (**(code **)(*piVar2 + 8))(piVar2);
-  }
-  return uVar1;
+    p = fn_82FAB9C0(lbl_832642E0 + 4, ctx->key);
+    if (p != 0) {
+        d.mode = ctx->mode;
+        d.index = (ctx->bits >> 3) & 0x1f;
+        d.flag0 = 0;
+        d.flag1 = 0;
+        d.a = a;
+        d.b = b;
+        d.zero = 0;
+        d.value = fn_8302BBA8(ctx);
+        hr = p->vt->Submit(p, &d);
+        p->vt->Release(p);
+        return hr;
+    }
+    return 0xf;
 }
-

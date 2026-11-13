@@ -1,59 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
-extern int fn_822F1290();
-extern int fn_822F1550();
-extern int fn_8288B760();
+typedef struct Owner_822F11A0 {
+    char pad0[0x110];
+    int handle;               /* 0x110 */
+    char pad1[0x168 - 0x114];
+    unsigned int source;      /* 0x168 */
+    int enabled;              /* 0x16c */
+} Owner_822F11A0;
 
+typedef struct Obj_822F11A0 {
+    char pad0[0xc];
+    Owner_822F11A0 *owner;    /* 0x0c */
+} Obj_822F11A0;
 
-void fn_822F11A0(undefined8 param_1,int param_2)
+extern int fn_822AF138(int handle, int state);
+extern int fn_822F1290(Obj_822F11A0 *self, float dt);
+extern int fn_822F1550(Obj_822F11A0 *self);
+extern unsigned char fn_8288B760(unsigned int source);
 
+void fn_822F11A0(Obj_822F11A0 *self, float dt)
 {
-  uint uVar1;
-  int iVar2;
-  
-  if (*(int *)(*(int *)(param_2 + 0xc) + 0x168) == 0) {
-    uVar1 = *(uint *)(*(int *)(param_2 + 0xc) + 0x16c);
-  }
-  else {
-    uVar1 = fn_8288B760();
-    uVar1 = uVar1 & 0xff;
-  }
-  if (uVar1 == 0) {
-    iVar2 = fn_822F1550(param_2);
-  }
-  else {
-    iVar2 = fn_822F1290(param_1);
-  }
-  if (iVar2 != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_822AF138(*(undefined4 *)(*(int *)(param_2 + 0xc) + 0x110),4);
-  }
-  return;
-}
+    int enabled;
+    int done;
+    unsigned int source = self->owner->source;
 
+    if (source != 0) {
+        enabled = fn_8288B760(source);
+    } else {
+        enabled = self->owner->enabled;
+    }
+    if (enabled != 0) {
+        done = fn_822F1290(self, dt);
+    } else {
+        done = fn_822F1550(self);
+    }
+    if (done != 0) {
+        fn_822AF138(self->owner->handle, 4);
+    }
+}
