@@ -10030,7 +10030,7 @@ auto_match/func_822A4F48.cpp:
 	.pdata      start:0x821E1438 end:0x821E1440
 	.text       start:0x822A4F48 end:0x822A51A0
 
-auto_match/func_822A51A0.c:
+auto_match/func_822A51A0.cpp:
 	.pdata      start:0x821E1440 end:0x821E1448
 	.text       start:0x822A51A0 end:0x822A53D4
 
@@ -32799,7 +32799,7 @@ auto_match/func_82488BA0.c:
 	.pdata      start:0x821EAE98 end:0x821EAEA0
 	.text       start:0x82488BA0 end:0x82488DB4
 
-auto_match/func_82488DB8.c:
+auto_match/func_82488DB8.cpp:
 	.pdata      start:0x821EAEA0 end:0x821EAEA8
 	.text       start:0x82488DB8 end:0x82488FB8
 
@@ -66696,7 +66696,7 @@ auto_match/func_827047D8.c:
 	.pdata      start:0x821F9298 end:0x821F92A0
 	.text       start:0x827047D8 end:0x82704A98
 
-auto_match/func_82704A98.c:
+auto_match/func_82704A98.cpp:
 	.pdata      start:0x821F92A0 end:0x821F92A8
 	.text       start:0x82704A98 end:0x82704B5C
 
@@ -99874,7 +99874,7 @@ auto_match/func_828CB670.c:
 auto_match/func_828CB6C8.c:
 	.text       start:0x828CB6C8 end:0x828CB720
 
-auto_match/func_828CB720.c:
+auto_match/func_828CB720.cpp:
 	.pdata      start:0x82205CF0 end:0x82205CF8
 	.text       start:0x828CB720 end:0x828CB7A4
 
@@ -147368,7 +147368,7 @@ auto_match/func_82D75398.c:
 	.pdata      start:0x82218828 end:0x82218830
 	.text       start:0x82D75398 end:0x82D75594
 
-auto_match/func_82D75598.c:
+auto_match/func_82D75598.cpp:
 	.pdata      start:0x82218830 end:0x82218838
 	.text       start:0x82D75598 end:0x82D756C0
 
@@ -152990,7 +152990,7 @@ auto_match/func_82DC2CB8.cpp:
 	.pdata      start:0x8221A1B8 end:0x8221A1C0
 	.text       start:0x82DC2CB8 end:0x82DC2E20
 
-auto_match/func_82DC2E20.c:
+auto_match/func_82DC2E20.cpp:
 	.pdata      start:0x8221A1C0 end:0x8221A1C8
 	.text       start:0x82DC2E20 end:0x82DC2F30
 
@@ -164522,7 +164522,7 @@ auto_match/func_82E7C870.c:
 	.pdata      start:0x8221E3E0 end:0x8221E3E8
 	.text       start:0x82E7C870 end:0x82E7C91C
 
-auto_match/func_82E7C920.c:
+auto_match/func_82E7C920.cpp:
 	.pdata      start:0x8221E3E8 end:0x8221E3F0
 	.text       start:0x82E7C920 end:0x82E7C9B8
 

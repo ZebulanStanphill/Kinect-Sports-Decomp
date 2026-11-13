@@ -1,43 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+struct Voice_82E74BA0;
+typedef struct VoiceVt_82E74BA0 {
+  void *slots[0x2d];
+  void (*GetState)(struct Voice_82E74BA0 *, unsigned int *);   /* 0xb4 */
+} VoiceVt_82E74BA0;
+typedef struct Voice_82E74BA0 { VoiceVt_82E74BA0 *vt; } Voice_82E74BA0;
 
+typedef struct Obj_82E74BA0 {
+  char pad[0x18];
+  unsigned int rate;      /* 0x18 */
+} Obj_82E74BA0;
 
-ulonglong fn_82E74BA0(int param_1,ulonglong param_2)
-
+unsigned __int64 fn_82E74BA0(Obj_82E74BA0 *o, Voice_82E74BA0 *v)
 {
-  int aiStack_20;
-  
-  if ((param_2 & 0xffffffff) != 0) {
-    aiStack_20 = 0;
-    (**(code **)(*(int *)param_2 + 0xb4))(param_2,&aiStack_20);
-    param_2 = (ulonglong)(uint)(aiStack_20 * 8000) / (ulonglong)*(uint *)(param_1 + 0x18);
-    trapWord(6,(ulonglong)*(uint *)(param_1 + 0x18),0);
-  }
-  return param_2;
+  unsigned int samples;
+  if (v == 0)
+    return 0;
+  samples = 0;
+  v->vt->GetState(v, &samples);
+  return samples * 8000 / o->rate;
 }
-

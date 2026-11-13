@@ -1,45 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F52A70();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_8200DFF4;
+typedef struct Obj_82F52E10 Obj_82F52E10;
 
+typedef struct Vtbl_82F52E10 {
+    void *pad[2];
+    void (*play)(Obj_82F52E10 *self, int a, void *key, unsigned int ms, int b, int c);
+    void *pad2[2];
+    void (*f14)(Obj_82F52E10 *self, int a);
+} Vtbl_82F52E10;
 
-void fn_82F52E10(double param_1,int param_2,undefined8 param_3)
+struct Obj_82F52E10 {
+    Vtbl_82F52E10 *vt;
+};
 
+typedef struct Self_82F52E10 {
+    int pad0;
+    int index;
+    Obj_82F52E10 *obj;
+} Self_82F52E10;
+
+extern void fn_82F52A70(Self_82F52E10 *self, void *key);
+
+void fn_82F52E10(Self_82F52E10 *self, void *key, float t)
 {
-  if (*(int *)(param_2 + 8) != 0) {
-    fn_82F52A70();
-    (**(code **)(**(int **)(param_2 + 8) + 8))
-              (*(int **)(param_2 + 8),1,param_3,
-               (longlong)(param_1 * (double)lbl_8200DFF4 + (double)lbl_82002C5C) & 0xffffffff,0,0);
-    (**(code **)(**(int **)(param_2 + 8) + 0x14))(*(int **)(param_2 + 8),0);
-  }
-  return;
+    if (self->obj != 0) {
+        fn_82F52A70(self, key);
+        self->obj->vt->play(self->obj, 1, key, (unsigned int)(t * 1000.0f + 0.5f), 0, 0);
+        self->obj->vt->f14(self->obj, 0);
+    }
 }
-

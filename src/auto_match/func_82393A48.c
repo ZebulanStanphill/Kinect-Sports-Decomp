@@ -1,53 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F69290();
-extern unsigned int lbl_82167FA8;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
+typedef struct Impl_82393A48 Impl_82393A48;
+struct Impl_82393A48 {
+    struct {
+        void *f0;
+        void (*call)(Impl_82393A48 *self, void *arg);
+    } *vt;
+};
 
+typedef struct {
+    char pad[0x10];
+    Impl_82393A48 *impl;
+    int pad14;
+} Func_82393A48;
 
-void fn_82393A48(int param_1)
+typedef struct {
+    Func_82393A48 func;   /* 0x00 */
+    char pad18[8];
+    char arg[4];          /* 0x20 */
+} Bound_82393A48;
 
+typedef struct {
+    char pad[0x10];
+    Bound_82393A48 bound; /* 0x10 */
+} Self_82393A48;
+
+extern __declspec(noreturn) void fn_82F63108(void);
+
+void fn_82393A48(Self_82393A48 *self)
 {
-  undefined **ppuStack_20;
-  undefined4 uStack_1c;
-  undefined1 uStack_18;
-  
-  if (*(int *)(param_1 + 0x20) == 0) {
-    uStack_1c = 0;
-    ppuStack_20 = &lbl_82167FA8;
-    uStack_18 = 0;
-                    /* WARNING: Subroutine does not return */
-    fn_82F69290(&ppuStack_20,0xffffffff821dda54);
-  }
-                    /* WARNING: Could not recover jumptable at 0x82393a70. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(code **)(**(int **)(param_1 + 0x20) + 4))(*(int **)(param_1 + 0x20),param_1 + 0x30);
-  return;
+    Bound_82393A48 *b = &self->bound;
+    if (b->func.impl == 0) {
+        fn_82F63108();
+    }
+    b->func.impl->vt->call(b->func.impl, b->arg);
 }
-

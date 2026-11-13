@@ -1,83 +1,81 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_80;
-extern int fn_8227FDA0();
-extern int fn_822C5B18();
-extern int fn_82359C18();
-extern int fn_8265C9E0();
-extern int fn_82F68CC0();
-extern unsigned int lbl_821BE91C;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uRam831d3e9c;
-extern unsigned int uRam831d3ea0;
-extern unsigned int uRam831d3eb8;
+extern void *fn_822C5B18(void *dst, void *src);
+extern void fn_82359C18(void *p);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_8227FDA0(void *mem, void *desc);
+extern char lbl_821BE91C[];
 
+typedef struct Desc_82487A48 {
+  int f0;
+  int f4;
+  int pad8[5];
+  int f1c;
+  int rest[0x20C / 4 - 8];
+} Desc_82487A48;
+extern Desc_82487A48 lbl_831D3E9C;
 
-undefined4 *
-fn_82487A48(undefined4 *param_1,undefined4 *param_2,undefined4 param_3,undefined4 param_4,
-             undefined4 param_5,undefined4 param_6,undefined8 param_7,undefined4 param_8)
+typedef struct Src_82487A48 {
+  int f0;
+  int f4;
+  int pad8[2];
+  int f10;
+  int rest[0x444 / 4 - 5];
+} Src_82487A48;
 
+typedef struct Sub_82487A48 {
+  int f0;
+  Src_82487A48 data;       /* 0x4 */
+  int f448;
+  void *f44c;
+  char handle[0x18];       /* 0x450 */
+  int f468;
+  int f46c;
+  int f470;
+  int f474;
+  int f478;
+} Sub_82487A48;
+
+typedef struct Obj_82487A48 {
+  void *vt;
+  int f4;
+  int f8;
+  float fc;
+  Sub_82487A48 sub;        /* 0x10 */
+  int f48c;
+  int f490;
+  int f494;
+} Obj_82487A48;
+
+Obj_82487A48 *fn_82487A48(Obj_82487A48 *o, Src_82487A48 *src, int p3, int p4, int p5, int p6, void *h, int p8)
 {
-  undefined8 uVar1;
-  ulonglong uVar2;
-  undefined4 uVar3;
-  undefined1 auStack_80 [128];
-  
-  param_1[3] = ltcg_pool_0_0f;
-  param_1[1] = 6;
-  param_1[2] = 0;
-  *param_1 = &lbl_821BE91C;
-  uVar1 = fn_822C5B18(auStack_80,param_7);
-  param_1[4] = 0;
-  fn_82F68CC0(param_1 + 5,param_2,0x444);
-  param_1[0x116] = 0;
-  param_1[0x117] = 0;
-  fn_822C5B18(param_1 + 0x118,uVar1);
-  param_1[0x11f] = param_4;
-  param_1[0x11e] = param_3;
-  param_1[0x120] = param_5;
-  param_1[0x121] = param_6;
-  param_1[0x122] = param_8;
-  uRam831d3ea0 = *param_2;
-  uRam831d3eb8 = param_2[1];
-  uRam831d3e9c = param_3;
-  uVar2 = fn_8265C9E0(0xa0);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_8227FDA0(uVar2,0xffffffff831d3e9c);
-  }
-  param_1[0x117] = uVar3;
-  fn_82359C18(uVar1);
-  param_1[0x124] = param_3;
-  param_1[0x125] = param_2[4];
-  fn_82359C18(param_7);
-  return param_1;
-}
+  char tmp[0x18];
+  void *t;
+  Sub_82487A48 *s;
+  void *mem;
 
+  o->fc = 0.0f;
+  o->f4 = 6;
+  o->f8 = 0;
+  o->vt = lbl_821BE91C;
+  t = fn_822C5B18(tmp, h);
+  s = &o->sub;
+  s->f0 = 0;
+  s->data = *src;
+  s->f448 = 0;
+  s->f44c = 0;
+  fn_822C5B18(s->handle, t);
+  s->f46c = p4;
+  s->f468 = p3;
+  s->f470 = p5;
+  s->f474 = p6;
+  s->f478 = p8;
+  lbl_831D3E9C.f0 = p3;
+  lbl_831D3E9C.f4 = src->f0;
+  lbl_831D3E9C.f1c = src->f4;
+  mem = fn_8265C9E0(0xa0);
+  s->f44c = mem ? fn_8227FDA0(mem, &lbl_831D3E9C) : 0;
+  fn_82359C18(t);
+  o->f490 = p3;
+  o->f494 = src->f10;
+  fn_82359C18(h);
+  return o;
+}

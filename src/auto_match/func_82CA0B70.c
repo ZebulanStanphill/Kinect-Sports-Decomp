@@ -1,56 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CA0A28();
-extern int fn_82CA0AC8();
+typedef struct Obj_82CA0B70 {
+    char pad0[0xcc];
+    int cc;
+    int d0;
+    int d4;
+    int d8;
+    char padDC[0xecc - 0xdc];
+    int ecc;
+    int ed0;
+    int ed4;
+    char padED8[0x3a0c - 0xed8];
+    int want;
+    int cur;
+} Obj_82CA0B70;
 
+extern void fn_82CA0A28(Obj_82CA0B70 *self, int a, int b, int c, int w, int h);
+extern void fn_82CA0AC8(Obj_82CA0B70 *self, int a, int b, int c, int w, int h);
 
-void fn_82CA0B70(int param_1)
-
+void fn_82CA0B70(Obj_82CA0B70 *self)
 {
-  if (*(int *)(param_1 + 0x3a10) == 0) {
-    if (*(int *)(param_1 + 0x3a0c) != 1) {
-      return;
-    }
-    fn_82CA0A28();
-  }
-  else {
-    if (*(int *)(param_1 + 0x3a10) != 1) {
-      return;
-    }
-    if (*(int *)(param_1 + 0x3a0c) != 0) {
-      return;
-    }
-    fn_82CA0AC8(param_1,*(undefined4 *)(param_1 + 0xecc),*(undefined4 *)(param_1 + 0xed0),
-                  *(undefined4 *)(param_1 + 0xed4),
-                  (longlong)*(int *)(param_1 + 0xd4) * (longlong)*(int *)(param_1 + 0xcc),
-                  (longlong)*(int *)(param_1 + 0xd8) * (longlong)*(int *)(param_1 + 0xd0));
-  }
-  *(undefined4 *)(param_1 + 0x3a10) = *(undefined4 *)(param_1 + 0x3a0c);
-  return;
-}
+    int w = self->d4 * self->cc;
+    int h = self->d8 * self->d0;
+    int a = self->ecc;
+    int b = self->ed0;
+    int c = self->ed4;
 
+    if (self->cur == 0) {
+        if (self->want == 1) {
+            fn_82CA0A28(self, a, b, c, w, h);
+            self->cur = self->want;
+        }
+    } else if (self->cur == 1) {
+        if (self->want == 0) {
+            fn_82CA0AC8(self, a, b, c, w, h);
+            self->cur = self->want;
+        }
+    }
+}

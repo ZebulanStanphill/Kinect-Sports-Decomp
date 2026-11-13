@@ -1,83 +1,62 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_18;
-extern int fn_822315A0();
-extern int fn_824CD030();
-extern int fn_824D2AE8();
-extern int fn_82F51468();
-extern int fn_82F52CD8();
-extern unsigned int iStack_1c;
-extern unsigned int uStack_20;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_824D7560 Rep_824D7560;
+typedef struct RepVt_824D7560 {
+    void (*destroy)(Rep_824D7560 *);
+    void (*deleteThis)(Rep_824D7560 *);
+} RepVt_824D7560;
+struct Rep_824D7560 {
+    RepVt_824D7560 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_824D7560(int param_1)
+typedef struct WeakPtr_824D7560 {
+    void *px;
+    Rep_824D7560 *rep;
+} WeakPtr_824D7560;
 
+typedef struct Ref_824D7560 {
+    void *handle;
+    void *owner;
+} Ref_824D7560;
+
+typedef struct Obj_824D7560 {
+    char pad0[0x20];
+    void *target;
+} Obj_824D7560;
+
+extern int fn_824CD030(Obj_824D7560 *o);
+extern WeakPtr_824D7560 *fn_82F51468(WeakPtr_824D7560 *out, void *target);
+extern void fn_824D2AE8(Ref_824D7560 *out, WeakPtr_824D7560 *w);
+extern void fn_82F52CD8(void *handle);
+extern void fn_822315A0(void *owner);
+
+static __forceinline void Decwref_824D7560(Rep_824D7560 *r)
 {
-  uint uVar1;
-  int iVar3;
-  undefined8 uVar2;
-  longlong lVar4;
-  longlong lVar5;
-  uint *puVar6;
-  char in_RESERVE;
-  byte bVar7;
-  undefined4 uStack_20;
-  int iStack_1c;
-  undefined1 auStack_18 [4];
-  int *piStack_14;
-  
-  iVar3 = fn_824CD030();
-  bVar7 = (iVar3 == 0) << 1;
-  if (iVar3 != 0) {
-    uVar2 = fn_82F51468(auStack_18,*(undefined4 *)(param_1 + 0x20));
-    fn_824D2AE8(&uStack_20,uVar2);
-    if (ZEXT48(piStack_14) != 0) {
-      lVar5 = ZEXT48(piStack_14) + 8;
-      do {
-        puVar6 = (uint *)lVar5;
-        lVar4 = (ulonglong)*puVar6 - 1;
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed(lVar4,0,lVar5);
-          *puVar6 = uVar1;
-          bVar7 = 2;
-        }
-      } while (!(bool)(bVar7 >> 1 & 1));
-      if ((int)lVar4 == 0) {
-        (**(code **)(*piStack_14 + 4))();
-      }
-    }
-    fn_82F52CD8(uStack_20);
-    if (iStack_1c != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+static __forceinline void Release_824D7560(Rep_824D7560 **p)
+{
+    if (*p != 0)
+        Decwref_824D7560(*p);
+}
+
+static __forceinline void Ref_Dtor_824D7560(Ref_824D7560 *r)
+{
+    fn_82F52CD8(r->handle);
+    if (r->owner != 0)
+        fn_822315A0(r->owner);
+}
+void fn_824D7560(Obj_824D7560 *o)
+{
+    if (fn_824CD030(o) != 0) {
+        Ref_824D7560 ref;
+        WeakPtr_824D7560 w;
+        fn_824D2AE8(&ref, fn_82F51468(&w, o->target));
+        Release_824D7560(&w.rep);
+        Ref_Dtor_824D7560(&ref);
+    }
+}

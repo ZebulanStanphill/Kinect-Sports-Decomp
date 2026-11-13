@@ -1,66 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_8289DF30 Rep_8289DF30;
+typedef struct RepVt_8289DF30 {
+    void (*dtor)(Rep_8289DF30 *);
+    void (*destroy)(Rep_8289DF30 *);
+    void (*deleteThis)(Rep_8289DF30 *);
+} RepVt_8289DF30;
+struct Rep_8289DF30 {
+    RepVt_8289DF30 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_8289DF30(longlong param_1)
-
+static __forceinline void Decwref_8289DF30(Rep_8289DF30 *r)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint *puVar3;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  do {
-    puVar3 = (uint *)(param_1 + 4);
-    lVar2 = (ulonglong)*puVar3 - 1;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(lVar2,0,param_1 + 4);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((int)lVar2 == 0) {
-    (**(code **)(*(int *)param_1 + 4))(param_1);
-    do {
-      puVar3 = (uint *)(param_1 + 8);
-      lVar2 = (ulonglong)*puVar3 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar2,0,param_1 + 8);
-        *puVar3 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar2 == 0) {
-      (**(code **)(*(int *)param_1 + 8))(param_1);
-    }
-  }
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+void fn_8289DF30(Rep_8289DF30 *r)
+{
+    if (_InterlockedDecrement(&r->uses) == 0) {
+        r->vt->destroy(r);
+        Decwref_8289DF30(r);
+    }
+}

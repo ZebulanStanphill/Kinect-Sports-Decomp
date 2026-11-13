@@ -1,47 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+#define SCHED_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\opt\\sched.cpp", line)
 
+typedef struct Reg_82BB54A0 {
+    char pad0[0x38];
+    int reg_num;     /* 0x38 */
+    char pad3c[0x50 - 0x3c];
+    int reg_type;    /* 0x50 */
+} Reg_82BB54A0;
 
-longlong fn_82BB54A0(int param_1)
-
+int fn_82BB54A0(Reg_82BB54A0 *r)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = *(uint *)(param_1 + 0x38);
-  uVar2 = *(uint *)(param_1 + 0x50);
-  if (0xffff < (int)uVar1) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e022c,0xffffffff820e0168,300);
-  }
-  if (0x7fff < (int)uVar2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0218,0xffffffff820e0168,0x12d);
-  }
-  return ((ulonglong)uVar2 & 0xffff) * 0x10000 + (ulonglong)uVar1;
+    int reg_num = r->reg_num;
+    int reg_type = r->reg_type;
+    SCHED_ASSERT(reg_num < (1<<16), 0x12c);
+    SCHED_ASSERT(reg_type < (1<<15), 0x12d);
+    return (reg_type << 16) + reg_num;
 }
-

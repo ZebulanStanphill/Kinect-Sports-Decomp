@@ -1,66 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C18B8();
-extern int fn_8251FA58();
-extern int fn_82552B50();
-extern int fn_8265CA20();
+typedef struct E8_822B5EC0 { int a, b; } E8_822B5EC0;
+typedef struct E12_822B5EC0 { int a, b, c; } E12_822B5EC0;
+typedef struct Vec8_822B5EC0 { E8_822B5EC0 *first; E8_822B5EC0 *last; E8_822B5EC0 *end; } Vec8_822B5EC0;
+typedef struct Vec12_822B5EC0 { E12_822B5EC0 *first; E12_822B5EC0 *last; E12_822B5EC0 *end; } Vec12_822B5EC0;
 
+typedef struct Obj_822B5EC0 {
+    void *handle;
+    int sub[10];
+    Vec12_822B5EC0 v12;
+    int pad38;
+    Vec8_822B5EC0 v8;
+    int pad48[3];
+    int sub54[1];
+} Obj_822B5EC0;
 
-int * fn_822B5EC0(int *param_1)
+extern void fn_82552B50(void *p, int a);
+extern void fn_8251FA58(void *h);
+extern void fn_822C18B8(void *p);
+extern void fn_8265CA20(void *p);
 
+static __forceinline void freeVec8(Vec8_822B5EC0 *v)
 {
-  int iVar1;
-  
-  fn_82552B50(param_1 + 1,1);
-  if (*param_1 != 0) {
-    fn_8251FA58();
-    *param_1 = 0;
-  }
-  fn_822C18B8(param_1 + 0x15);
-  iVar1 = param_1[0xf];
-  if (iVar1 != 0) {
-    for (; iVar1 != param_1[0x10]; iVar1 = iVar1 + 8) {
+    E8_822B5EC0 *e;
+    if (v->first != 0) {
+        for (e = v->first; e != v->last; e++) {
+        }
+        fn_8265CA20(v->first);
     }
-    fn_8265CA20();
-  }
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  iVar1 = param_1[0xb];
-  if (iVar1 != 0) {
-    for (; iVar1 != param_1[0xc]; iVar1 = iVar1 + 0xc) {
-    }
-    fn_8265CA20();
-  }
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  fn_8265CA20(param_1);
-  return param_1;
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
 }
-
+static __forceinline void freeVec12(Vec12_822B5EC0 *v)
+{
+    E12_822B5EC0 *e;
+    if (v->first != 0) {
+        for (e = v->first; e != v->last; e++) {
+        }
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+}
+Obj_822B5EC0 *fn_822B5EC0(Obj_822B5EC0 *o)
+{
+    fn_82552B50(o->sub, 1);
+    if (o->handle != 0) {
+        fn_8251FA58(o->handle);
+        o->handle = 0;
+    }
+    fn_822C18B8(o->sub54);
+    freeVec8(&o->v8);
+    freeVec12(&o->v12);
+    fn_8265CA20(o);
+    return o;
+}

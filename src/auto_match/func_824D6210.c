@@ -1,76 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_18;
-extern int fn_822315A0();
-extern int fn_824D2AE8();
-extern int fn_82F51468();
-extern int fn_82F52CD8();
-extern unsigned int iStack_1c;
-extern unsigned int uStack_20;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_824D6210 Rep_824D6210;
+typedef struct RepVt_824D6210 {
+    void (*destroy)(Rep_824D6210 *);
+    void (*deleteThis)(Rep_824D6210 *);
+} RepVt_824D6210;
+struct Rep_824D6210 {
+    RepVt_824D6210 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_824D6210(int param_1)
+typedef struct Ptr_824D6210 {
+    void *px;
+    Rep_824D6210 *rep;
+} Ptr_824D6210;
 
+typedef struct Obj_824D6210 {
+    char pad[0x20];
+    void *handle;          /* 0x20 */
+} Obj_824D6210;
+
+extern Ptr_824D6210 *fn_82F51468(Ptr_824D6210 *out, void *handle);
+extern Ptr_824D6210 *fn_824D2AE8(Ptr_824D6210 *out, Ptr_824D6210 *src);
+extern void fn_82F52CD8(void *p);
+extern void fn_822315A0(Rep_824D6210 *rep);
+
+static __forceinline void Decwref_824D6210(Rep_824D6210 *r)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  uint *puVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  undefined4 uStack_20;
-  int iStack_1c;
-  undefined1 auStack_18 [1];
-  int *piStack_14;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
+}
 
-  uVar2 = fn_82F51468(auStack_18,*(undefined4 *)(param_1 + 0x20));
-  fn_824D2AE8(&uStack_20,uVar2);
-  if (ZEXT48(piStack_14) != 0) {
-    lVar4 = ZEXT48(piStack_14) + 8;
-    do {
-      puVar5 = (uint *)lVar4;
-      lVar3 = (ulonglong)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar3,0,lVar4);
-        *puVar5 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar3 == 0) {
-      (**(code **)(*piStack_14 + 4))();
-    }
-  }
-  fn_82F52CD8(uStack_20);
-  if (iStack_1c != 0) {
-    fn_822315A0();
-  }
-  return;
+static __forceinline void Release_824D6210(Rep_824D6210 **p)
+{
+    if (*p != 0)
+        Decwref_824D6210(*p);
+}
+
+void fn_824D6210(Obj_824D6210 *o)
+{
+    Ptr_824D6210 sp;
+    Ptr_824D6210 wp;
+    void *h;
+
+    h = o->handle;
+    fn_824D2AE8(&sp, fn_82F51468(&wp, h));
+    Release_824D6210(&wp.rep);
+    fn_82F52CD8(sp.px);
+    if (sp.rep != 0)
+        fn_822315A0(sp.rep);
 }

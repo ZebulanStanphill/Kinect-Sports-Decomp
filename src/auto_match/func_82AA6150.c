@@ -1,54 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828F02C8();
-extern int fn_82F691F0();
-extern unsigned int iStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
+typedef struct State_82AA6150 {
+    char data[0x9b8];
+    void *a;
+    void *b;
+} State_82AA6150;
 
+typedef struct Obj_82AA6150 {
+    int pad0;
+    State_82AA6150 *state;
+} Obj_82AA6150;
 
-undefined8 fn_82AA6150(int param_1,undefined4 param_2,undefined4 param_3)
+extern void *fn_828F02C8(unsigned int size);
+extern void *memset(void *dst, int c, unsigned int n);
 
+long fn_82AA6150(Obj_82AA6150 *self, void *a, void *b)
 {
-  int iVar1;
-  int iStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  
-  iStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uStack00000024 = param_3;
-  iVar1 = fn_828F02C8(0x9c0);
-  if (iVar1 == 0) {
-    return 0xffffffff8007000e;
-  }
-  *(int *)(iStack00000014 + 4) = iVar1;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(iVar1,0,0x9c0);
+    State_82AA6150 *s = (State_82AA6150 *)fn_828F02C8(sizeof(State_82AA6150));
+    if (s == 0) {
+        return 0x8007000e;
+    }
+    self->state = s;
+    memset(s, 0, sizeof(State_82AA6150));
+    s->a = a;
+    s->b = b;
+    return 0;
 }
-

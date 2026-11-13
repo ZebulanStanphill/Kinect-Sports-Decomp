@@ -1,57 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern unsigned int lbl_83155188;
-extern U64 storeWordConditionalIndexed();
+extern long _InterlockedExchangeAdd(long *, long);
 
+typedef struct Buf_8268B368 {
+    unsigned int lenFlags;
+    long refs;
+    char data[4];
+} Buf_8268B368;
 
-void fn_8268B368(undefined8 param_1,undefined8 param_2,uint param_3,uint param_4)
+extern Buf_8268B368 lbl_83155184;
+extern Buf_8268B368 *fn_8267B890(void *heap, unsigned int size, int flags);
 
+Buf_8268B368 *fn_8268B368(void *self, void *heap, unsigned int len, unsigned int flags)
 {
-  uint *puVar1;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  if (param_3 == 0) {
-    do {
-      if (in_RESERVE != '\0') {
-        lbl_83155188 = storeWordConditionalIndexed((ulonglong)lbl_83155188 + 1,0,0xffffffff83155188)
-        ;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  else {
-    puVar1 = (uint *)fn_8267B890(param_2,param_3 + 0xc,0);
-    *(undefined1 *)((int)puVar1 + param_3 + 8) = 0;
-    puVar1[1] = 1;
-    *puVar1 = param_3 | param_4;
-  }
-  return;
-}
+    Buf_8268B368 *b;
 
+    if (len == 0) {
+        _InterlockedExchangeAdd(&lbl_83155184.refs, 1);
+        return &lbl_83155184;
+    }
+    b = fn_8267B890(heap, len + 0xc, 0);
+    b->data[len] = 0;
+    b->refs = 1;
+    b->lenFlags = len | flags;
+    return b;
+}

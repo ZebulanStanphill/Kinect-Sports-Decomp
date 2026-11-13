@@ -1,61 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E3C590();
-extern int fn_82EE3630();
+typedef struct Inner_82EE3E78 { char pad[0x40]; unsigned int count; } Inner_82EE3E78;
+typedef struct Obj_82EE3E78 {
+  char pad[0xc];
+  unsigned int f0c;
+  char pad10[0x48 - 0x10];
+  char tab[0xb0 - 0x48];
+  unsigned int count;
+} Obj_82EE3E78;
+extern void fn_82EE3630(char *, unsigned int, Inner_82EE3E78 ***);
+extern int fn_82E3C590(Inner_82EE3E78 *, void *, int);
 
-
-ulonglong fn_82EE3E78(int param_1,uint param_2,undefined8 param_3)
-
+int fn_82EE3E78(Obj_82EE3E78 *o, unsigned int a, void *b)
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  int * apiStack_30;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else {
-    param_2 = param_2 & 0xffff;
-    if (param_2 < *(uint *)(param_1 + 0xb0)) {
-      fn_82EE3630(param_1 + 0x48,param_2,&apiStack_30);
-      if (*(int *)(*apiStack_30 + 0x40) == 0) {
-        fn_82EE3630(param_1 + 0x48,param_2,&apiStack_30);
-        lVar2 = fn_82E3C590(*apiStack_30,param_3,0);
-        uVar1 = -(ulonglong)(lVar2 == 0) & 0xffffffff8007000e;
-      }
-      else {
-        uVar1 = 0xffffffffc00d3a9a;
-      }
-    }
-    else {
-      uVar1 = 0xffffffffc00d36d5;
+  Inner_82EE3E78 **pi;
+  if (o->f0c == 0) {
+    return 0xc00d36b6;
+  } else {
+    a = a & 0xffff;
+    if (a >= o->count) {
+      return 0xc00d36d5;
+    } else {
+      fn_82EE3630(o->tab, a, &pi);
+      if ((*pi)->count >= 1) return 0xc00d3a9a;
+      fn_82EE3630(o->tab, a, &pi);
+      return fn_82E3C590(*pi, b, 0) == 0 ? 0x8007000e : 0;
     }
   }
-  return uVar1;
 }
-

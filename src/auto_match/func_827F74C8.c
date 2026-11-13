@@ -1,41 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827F7210();
-extern int fn_82A1EFC0();
+typedef struct Mat_827F74C8 { float m[4][4]; } Mat_827F74C8;
+typedef struct Self_827F74C8 { int pad[3]; Mat_827F74C8 *mats; } Self_827F74C8;
 
+extern unsigned short fn_827F7210(Self_827F74C8 *self);
+extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
 
-void fn_827F74C8(int param_1)
-
+void fn_827F74C8(Self_827F74C8 *self)
 {
-  ulonglong uVar1;
-  
-  uVar1 = fn_827F7210();
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(*(undefined4 *)(param_1 + 0xc),0,(uVar1 & 0xffff) << 6);
-}
+    unsigned int n = fn_827F7210(self);
+    Mat_827F74C8 *mats = self->mats;
+    unsigned int i;
 
+    fn_82A1EFC0(mats, 0, n * sizeof(Mat_827F74C8));
+    for (i = 0; i < n; i++) {
+        mats[i].m[0][0] = 1.0f;
+        mats[i].m[1][1] = 1.0f;
+        mats[i].m[2][2] = 1.0f;
+        mats[i].m[3][3] = 1.0f;
+    }
+}

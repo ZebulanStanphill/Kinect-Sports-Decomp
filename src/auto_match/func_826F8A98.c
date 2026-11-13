@@ -1,45 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8268BA10();
-
-
-bool fn_826F8A98(int param_1,undefined8 param_2,undefined4 *param_3,undefined1 *param_4)
-
+#define __lwsync() __emit(0x7C2004AC)
+typedef struct Obj_826F8A98 {
+    char pad0[0x1c];
+    char value[4];
+    int key;
+    unsigned int state;
+    unsigned char flag;
+} Obj_826F8A98;
+extern void fn_8268BA10(void *dst, void *src);
+int fn_826F8A98(Obj_826F8A98 *o, void *dst, int *key, unsigned char *flag)
 {
-  bool bVar1;
-  
-  sync(1);
-  bVar1 = *(int *)(param_1 + 0x24) == 1;
-  if (bVar1) {
-    fn_8268BA10(param_2,param_1 + 0x1c);
-    *param_3 = *(undefined4 *)(param_1 + 0x20);
-    *param_4 = *(undefined1 *)(param_1 + 0x28);
-  }
-  return bVar1;
+    unsigned int state = o->state;
+    __lwsync();
+    if (state != 1) {
+        return 0;
+    }
+    fn_8268BA10(dst, o->value);
+    *key = o->key;
+    *flag = o->flag;
+    return 1;
 }
-

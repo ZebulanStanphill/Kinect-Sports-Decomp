@@ -1,53 +1,40 @@
-extern unsigned int *puRam83211620;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82859DE0();
-extern int fn_8285FA78();
-extern int fn_8285FB00();
-extern unsigned int uRam83211624;
-extern unsigned int uRam83211628;
-extern unsigned int uRam8321162c;
+typedef struct Self_8285FBC0 {
+    int pad[18];
+    int f48;
+    int f4c;
+} Self_8285FBC0;
 
+typedef struct Ctx_8285FBC0 {
+    int pad[21];
+    unsigned char *buf;
+} Ctx_8285FBC0;
 
-void fn_8285FBC0(int param_1,undefined8 param_2)
+typedef struct Writer_8285FBC0 {
+    unsigned char *buf;
+    int count;
+    int a;
+    int b;
+} Writer_8285FBC0;
 
+extern int lbl_832115D0[];
+extern Ctx_8285FBC0 *fn_82859DE0(void);
+extern void fn_8285FA78(Self_8285FBC0 *self, int arg, unsigned char **cursor);
+extern void fn_8285FB00(Self_8285FBC0 *self, int arg, unsigned char **cursor);
+
+void fn_8285FBC0(Self_8285FBC0 *self, int arg)
 {
-  int iVar1;
-  undefined1 * apuStack_30;
+    Writer_8285FBC0 *w = (Writer_8285FBC0 *)&lbl_832115D0[20];
+    unsigned char *buf = fn_82859DE0()->buf;
+    int b = self->f4c;
+    int a = self->f48;
+    unsigned char *cursor;
 
-  iVar1 = fn_82859DE0();
-  puRam83211620 = *(undefined1 **)(iVar1 + 0x54);
-  uRam8321162c = *(undefined4 *)(param_1 + 0x4c);
-  uRam83211628 = *(undefined4 *)(param_1 + 0x48);
-  apuStack_30 = puRam83211620 + 1;
-  uRam83211624 = 1;
-  *puRam83211620 = 0xfc;
-  fn_8285FA78(param_1,param_2,&apuStack_30);
-  fn_8285FB00(param_1,param_2,&apuStack_30);
-  return;
+    cursor = buf + 1;
+    w->count = 1;
+    w->a = a;
+    w->buf = buf;
+    w->b = b;
+    *buf = 0xfc;
+    fn_8285FA78(self, arg, &cursor);
+    fn_8285FB00(self, arg, &cursor);
 }

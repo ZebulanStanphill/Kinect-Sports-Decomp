@@ -1,65 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Request_82BEA2F0 {
+    char pad[0x10];
+    int status;        /* 0x10 */
+    char pad14[0x14];
+    char list[1];      /* 0x28 */
+} Request_82BEA2F0;
+
+extern void *fn_82BE56B0(unsigned int size);
+extern void *fn_82BEB628(void *mem, void *item);
+extern int fn_82BE52B8(void *list, void *node);
 extern int fn_82BE5240();
-extern int fn_82BE52B8();
-extern int fn_82BE56B0();
-extern int fn_82BEB628();
+extern char lbl_82196582[];
 
-
-undefined8 fn_82BEA2F0(int param_1,ulonglong param_2)
-
+int fn_82BEA2F0(Request_82BEA2F0 *r, void *item)
 {
-  ulonglong uVar1;
-  int iVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    uVar3 = 500;
-    uVar4 = 0xffffffff82196582;
-  }
-  else {
-    uVar1 = fn_82BE56B0(0xc);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = fn_82BEB628(uVar1,param_2);
-    }
-    if (iVar2 != 0) {
-      fn_82BE52B8(param_1 + 0x28);
-      return 0;
-    }
-    *(undefined4 *)(param_1 + 0x10) = 0;
-    uVar3 = 0x65;
-    uVar4 = 0xffffffff820eab38;
-  }
-  uVar3 = fn_82BE5240(param_1,uVar3,uVar4);
-  return uVar3;
-}
+    void *mem;
+    void *node;
 
+    if (item == 0)
+        return fn_82BE5240(r, 500, lbl_82196582);
+    mem = fn_82BE56B0(0xc);
+    if (mem != 0) {
+        node = fn_82BEB628(mem, item);
+    } else {
+        node = 0;
+    }
+    if (node == 0) {
+        r->status = 0;
+        return fn_82BE5240(r, 0x65, "CMassiveListNode in PreSubscriberAdd");
+    }
+    fn_82BE52B8(r->list, node);
+    return 0;
+}

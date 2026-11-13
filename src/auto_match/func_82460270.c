@@ -1,45 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832765BC;
-extern unsigned int lbl_832766D4;
-
-
-void fn_82460270(undefined4 param_1)
-
+typedef struct Mgr_82460270 { char pad0[0x678]; int dirty; } Mgr_82460270;
+typedef struct Sys_82460270 { char pad0[0x38]; Mgr_82460270 *mgr; } Sys_82460270;
+typedef struct Cfg_82460270 { char pad0[0x308]; int value; } Cfg_82460270;
+extern Sys_82460270 *lbl_832765BC;
+extern Cfg_82460270 *lbl_832766D4;
+void fn_82460270(int value)
 {
-  int iVar1;
-  
-  iVar1 = lbl_832766D4;
-  if (lbl_832765BC == 0) {
-    return;
-  }
-  *(undefined4 *)(*(int *)(lbl_832765BC + 0x38) + 0x678) = 1;
-  *(undefined4 *)(iVar1 + 0x308) = param_1;
-  return;
+    if (lbl_832765BC != 0) {
+        Mgr_82460270 *m = lbl_832765BC->mgr;
+        Cfg_82460270 *cfg = lbl_832766D4;
+        m->dirty = 1;
+        cfg->value = value;
+    }
 }
-

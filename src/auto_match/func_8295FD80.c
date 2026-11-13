@@ -1,55 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_1c;
-extern int fn_829548C8();
-extern int fn_8295D0A8();
-extern unsigned int uStack_20;
+typedef struct Obj_8295FD80 Obj_8295FD80;
+typedef struct {
+  void *pad[0x134 / 4];
+  int (*f134)(Obj_8295FD80 *);
+  void *pad138;
+  int (*f13c)(Obj_8295FD80 *, unsigned int, unsigned int, unsigned int);
+  void *pad140[2];
+  int (*f148)(Obj_8295FD80 *, unsigned int, unsigned int *, unsigned int *);
+} Vt_8295FD80;
+typedef struct { int pad[2]; unsigned int *index; } Sel_8295FD80;
+struct Obj_8295FD80 {
+  Vt_8295FD80 *vt;
+  int pad4[4];
+  unsigned int *table;      /* 0x14 */
+  char pad18[0x104 - 0x18];
+  Sel_8295FD80 *sel;        /* 0x104 */
+};
+extern int fn_8295D0A8(Obj_8295FD80 *, int);
+extern int fn_829548C8(Obj_8295FD80 *);
 
-
-undefined8 fn_8295FD80(int *param_1)
-
+int fn_8295FD80(Obj_8295FD80 *o)
 {
-  undefined8 uVar1;
-  undefined4 uStack_20;
-  undefined4 auStack_1c;
-  
-  uVar1 = fn_8295D0A8(param_1,0x26);
-  if ((-1 < (int)uVar1) &&
-     (uVar1 = (**(code **)(*param_1 + 0x148))
-                        (param_1,*(undefined4 *)(**(int **)(param_1[0x41] + 8) * 4 + param_1[5]),
-                         &auStack_1c,&uStack_20), -1 < (int)uVar1)) {
-    uVar1 = (**(code **)(*param_1 + 0x13c))(param_1,auStack_1c,0xe40000,uStack_20);
-    if ((-1 < (int)uVar1) &&
-       ((uVar1 = (**(code **)(*param_1 + 0x134))(param_1), -1 < (int)uVar1 &&
-        (uVar1 = fn_829548C8(param_1), -1 < (int)uVar1)))) {
-      uVar1 = 0;
+  unsigned int a, b;
+  int hr = fn_8295D0A8(o, 0x26);
+  if (hr >= 0) {
+    hr = o->vt->f148(o, o->table[*o->sel->index], &a, &b);
+    if (hr >= 0) {
+      hr = o->vt->f13c(o, a, 0xe40000, b);
+      if (hr >= 0) {
+        hr = o->vt->f134(o);
+        if (hr >= 0) {
+          hr = fn_829548C8(o);
+          if (hr >= 0) return 0;
+        }
+      }
     }
   }
-  return uVar1;
+  return hr;
 }
-

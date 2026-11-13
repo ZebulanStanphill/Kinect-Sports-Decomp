@@ -1,57 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82231540();
-extern int fn_8265CA20();
-extern unsigned int lbl_82026780;
-extern unsigned int lbl_8202679C;
-extern unsigned int uStack_30;
+typedef struct Elem_828D0700 Elem_828D0700;
 
+typedef struct VecObj_828D0700 {
+    Elem_828D0700 *first;
+    Elem_828D0700 *last;
+    Elem_828D0700 *end;
+    char alloc[4];
+} VecObj_828D0700;
 
-void fn_828D0700(undefined4 *param_1)
+typedef struct VecPod_828D0700 {
+    void *first;
+    void *last;
+    void *end;
+} VecPod_828D0700;
 
+typedef struct Obj_828D0700 {
+    void *vt;
+    VecPod_828D0700 base;
+    int pad10;
+    VecObj_828D0700 items;
+} Obj_828D0700;
+
+extern void fn_82231540(Elem_828D0700 *first, Elem_828D0700 *last, void *al, char tag);
+extern void fn_8265CA20(void *p);
+extern char lbl_8202679C[];
+extern char lbl_82026780[];
+static __forceinline void VecObj_Tidy(VecObj_828D0700 *v)
 {
-  undefined1 uStack_30;
-  
-  *param_1 = &lbl_8202679C;
-  if (param_1[5] != 0) {
-    fn_82231540(param_1[5],param_1[6],param_1 + 8,uStack_30);
-    fn_8265CA20(param_1[5]);
-  }
-  param_1[7] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  if (param_1[1] != 0) {
-    fn_8265CA20();
-  }
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  *param_1 = &lbl_82026780;
-  return;
+    char tag;
+    if (v->first != 0) {
+        fn_82231540(v->first, v->last, v->alloc, tag);
+        fn_8265CA20(v->first);
+    }
+    v->end = 0;
+    v->last = 0;
+    v->first = 0;
 }
 
+static __forceinline void VecPod_Tidy(VecPod_828D0700 *v)
+{
+    if (v->first != 0) {
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+}
+
+void fn_828D0700(Obj_828D0700 *o)
+{
+    o->vt = lbl_8202679C;
+    VecObj_Tidy(&o->items);
+    VecPod_Tidy(&o->base);
+    o->vt = lbl_82026780;
+}

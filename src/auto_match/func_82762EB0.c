@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_a0;
-extern int fn_82760648();
-extern int fn_827629D8();
-extern int fn_82783F98();
-extern int fn_827842B8();
+typedef struct Iter_82762EB0 {
+    unsigned char pad[0x20];
+    unsigned char state;
+    unsigned char rest[0x5F];
+} Iter_82762EB0;
 
+extern void fn_82760648(Iter_82762EB0 *it, unsigned char *a);
+extern void fn_827629D8(Iter_82762EB0 *it, unsigned char *sub);
+extern void fn_82783F98(unsigned char *sub, float f);
+extern void fn_827842B8(unsigned char *sub);
 
-void fn_82762EB0(undefined8 param_1,int param_2,int param_3)
-
+void fn_82762EB0(unsigned char *a, unsigned char *sub, float f)
 {
-  undefined1 auStack_a0 [32];
-  char cStack_80;
-  
-  fn_827842B8(param_3);
-  fn_82783F98(param_1,param_3);
-  *(byte *)(param_3 + 0x44) = *(byte *)(param_2 + 0x24) >> 3 & 1;
-  fn_82760648(auStack_a0,param_2);
-  while (cStack_80 != '\x01') {
-    fn_827629D8(auStack_a0,param_3);
-  }
-  return;
-}
+    Iter_82762EB0 it;
 
+    fn_827842B8(sub);
+    fn_82783F98(sub, f);
+    sub[0x44] = (a[0x24] >> 3) & 1;
+    fn_82760648(&it, a);
+    while (it.state != 1) {
+        fn_827629D8(&it, sub);
+    }
+}

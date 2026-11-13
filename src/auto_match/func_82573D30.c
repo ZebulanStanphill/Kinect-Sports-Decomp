@@ -1,52 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8252ACC0();
-extern int fn_825A14E8();
+typedef struct Sub_82573D30 {
+  char pad[0x18];
+  int count;
+} Sub_82573D30;
 
+typedef struct Obj_82573D30 {
+  char pad0[0x4c];
+  int arg;
+  char pad50[0x8a8 - 0x50];
+  int depth;
+  char pad8ac[0xb10 - 0x8ac];
+  Sub_82573D30 *sub;
+} Obj_82573D30;
 
-undefined8 fn_82573D30(int param_1)
+extern void fn_8252ACC0(Obj_82573D30 *o, int arg);
+extern void fn_825A14E8(Sub_82573D30 *s);
 
+int fn_82573D30(Obj_82573D30 *o)
 {
-  int iVar1;
-  longlong lVar2;
-  
-  fn_8252ACC0(param_1,*(undefined4 *)(param_1 + 0x4c));
-  iVar1 = *(int *)(param_1 + 0xb10);
-  if ((iVar1 != 0) && (*(uint *)(param_1 + 0x8a8) != 0)) {
-    lVar2 = (ulonglong)*(uint *)(param_1 + 0x8a8) - 1;
-    *(int *)(param_1 + 0x8a8) = (int)lVar2;
-    if (lVar2 == 0) {
-      *(int *)(iVar1 + 0x18) = *(int *)(iVar1 + 0x18) + -1;
-    }
-    else {
-      fn_825A14E8();
-    }
+  Sub_82573D30 *s;
+  fn_8252ACC0(o, o->arg);
+  s = o->sub;
+  if (s != 0 && o->depth != 0) {
+    if (--o->depth != 0)
+      fn_825A14E8(s);
+    else
+      s->count--;
   }
   return 1;
 }
-

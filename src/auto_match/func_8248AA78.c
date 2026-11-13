@@ -1,48 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8248BCC0();
+typedef struct Iface_8248AA78 Iface_8248AA78;
+typedef struct IfaceVt_8248AA78 {
+    void (*f0)(Iface_8248AA78 *self);
+} IfaceVt_8248AA78;
+struct Iface_8248AA78 {
+    IfaceVt_8248AA78 *vt;
+};
 
+typedef struct Obj_8248AA78 {
+    int pad0;
+    int f4;
+    int f8;
+    char padc[0x84 - 0xc];
+    Iface_8248AA78 *a;    /* 0x84 */
+    Iface_8248AA78 *b;    /* 0x88 */
+} Obj_8248AA78;
 
-undefined8 fn_8248AA78(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4)
+extern int fn_8248BCC0(Obj_8248AA78 *self, float dt, int arg);
 
+static __forceinline int IsBusy(Obj_8248AA78 *o)
 {
-  undefined8 uVar1;
-  
-  if ((*(int *)(param_2 + 4) == 0) || (*(int *)(param_2 + 8) != 0)) {
-    uVar1 = 0;
-  }
-  else {
-    (**(code **)**(undefined4 **)(param_2 + 0x84))();
-    if (*(undefined4 **)(param_2 + 0x88) != (undefined4 *)0x0) {
-      (**(code **)**(undefined4 **)(param_2 + 0x88))();
-    }
-    uVar1 = fn_8248BCC0(param_1,param_2,param_3,param_4);
-  }
-  return uVar1;
+    return o->f4 == 0 || o->f8 != 0;
 }
 
+int fn_8248AA78(Obj_8248AA78 *self, float dt, int arg)
+{
+    if (IsBusy(self))
+        return 0;
+    self->a->vt->f0(self->a);
+    if (self->b != 0)
+        self->b->vt->f0(self->b);
+    return fn_8248BCC0(self, dt, arg);
+}

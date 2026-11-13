@@ -1,68 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern unsigned int lbl_8202971C;
+typedef struct Obj_828F9A60 Obj_828F9A60;
+typedef struct {
+    void *slots[5];
+    void (*f14)(Obj_828F9A60 *, int);
+    int (*f18)(Obj_828F9A60 *, void *);
+} ObjVt_828F9A60;
+struct Obj_828F9A60 {
+    ObjVt_828F9A60 *vt;
+    int refs;
+    int f8;
+    int fc;
+};
+extern char lbl_8202971C[];
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
 
-
-longlong fn_828F9A60(undefined8 param_1,undefined4 *param_2)
-
+int fn_828F9A60(void *arg, Obj_828F9A60 **out)
 {
-  longlong lVar1;
-  int *piVar2;
-  
-  if (param_2 == (undefined4 *)0x0) {
-    lVar1 = -0x7789f794;
-  }
-  else {
-    piVar2 = (int *)fn_8265C940(0x10,0x24810000);
-    if (piVar2 == (int *)0x0) {
-      piVar2 = (int *)0x0;
-    }
-    else {
-      piVar2[3] = 0;
-      *piVar2 = (int)&lbl_8202971C;
-      piVar2[2] = 0;
-      piVar2[1] = 1;
-    }
-    if (piVar2 == (int *)0x0) {
-      lVar1 = -0x7ff8fff2;
-    }
-    else {
-      lVar1 = (**(code **)(*piVar2 + 0x18))(piVar2,param_1);
-      if (lVar1 < 0) {
-        (**(code **)(*piVar2 + 0x14))(piVar2,1);
-      }
-      else {
-        *param_2 = piVar2;
-        lVar1 = 0;
-      }
-    }
-  }
-  return lVar1;
-}
+    Obj_828F9A60 *mem;
+    Obj_828F9A60 *p;
+    int hr;
 
+    if (out == 0)
+        return 0x8876086c;
+    mem = (Obj_828F9A60 *)fn_8265C940(0x10, 0x24810000);
+    if (mem != 0) {
+        mem->fc = 0;
+        mem->vt = (ObjVt_828F9A60 *)lbl_8202971C;
+        mem->f8 = 0;
+        mem->refs = 1;
+        p = mem;
+    } else {
+        p = 0;
+    }
+    if (p == 0)
+        return 0x8007000E;
+    hr = p->vt->f18(p, arg);
+    if (hr < 0) {
+        p->vt->f14(p, 1);
+        return hr;
+    }
+    *out = p;
+    return 0;
+}
