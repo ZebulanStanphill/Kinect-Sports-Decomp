@@ -1,48 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_82EEADB0();
+typedef struct Info_82E75140 {
+    char pad0[0x18];
+    unsigned __int64 value;
+} Info_82E75140;
 
+typedef struct Obj_82E75140 {
+    char pad0[0x74];
+    Info_82E75140 *info;
+} Obj_82E75140;
 
-undefined8 fn_82E75140(int param_1)
+extern unsigned __int64 fn_82E74C08(Obj_82E75140 *o);
 
+unsigned __int64 fn_82E75140(Obj_82E75140 *o)
 {
-  int iVar1;
-  undefined8 auStack_10 [2];
-  
-  if (*(int *)(param_1 + 0x74) != 0) {
-    return *(undefined8 *)(*(int *)(param_1 + 0x74) + 0x18);
-  }
-  auStack_10[0] = 0;
-  if ((*(int *)(param_1 + 0x5c) != 0) &&
-     (iVar1 = fn_82EEADB0(*(int *)(param_1 + 0x5c),auStack_10), iVar1 < 0)) {
-    return 0;
-  }
-  return auStack_10[0];
+    if (o->info != 0) {
+        return o->info->value;
+    }
+    return fn_82E74C08(o);
 }
-

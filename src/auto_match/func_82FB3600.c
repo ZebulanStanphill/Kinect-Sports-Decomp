@@ -1,52 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FB36E8();
+typedef struct Node_82FB3600 {
+  struct Node_82FB3600 *next;
+  int pad4;
+  unsigned int key;
+} Node_82FB3600;
 
+typedef struct {
+  Node_82FB3600 *head;
+} List_82FB3600;
 
-void fn_82FB3600(int param_1,int param_2)
+typedef struct {
+  Node_82FB3600 *cur;
+  Node_82FB3600 *prev;
+} It_82FB3600;
 
+typedef struct {
+  int pad0;
+  List_82FB3600 list;
+} Obj_82FB3600;
+
+extern void fn_82FB36E8(List_82FB3600 *l, Node_82FB3600 *n, Node_82FB3600 *prev);
+
+void fn_82FB3600(Obj_82FB3600 *o, unsigned int key)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = *(undefined4 **)(param_1 + 4);
-  puVar3 = (undefined4 *)0x0;
-  while (puVar2 = puVar1, puVar2 != (undefined4 *)0x0) {
-    if (puVar2[2] == param_2) {
-      puVar1 = (undefined4 *)*puVar2;
-      fn_82FB36E8(param_1 + 4,puVar2,puVar3);
-    }
-    else {
-      puVar1 = (undefined4 *)*puVar2;
-      puVar3 = puVar2;
+  List_82FB3600 *l = &o->list;
+  It_82FB3600 it;
+  it.cur = l->head;
+  it.prev = 0;
+  while (it.cur != 0) {
+    if (it.cur->key == key) {
+      It_82FB3600 next;
+      next.cur = it.cur->next;
+      next.prev = it.prev;
+      fn_82FB36E8(l, it.cur, it.prev);
+      it = next;
+    } else {
+      it.prev = it.cur;
+      it.cur = it.cur->next;
     }
   }
-  return;
 }
-

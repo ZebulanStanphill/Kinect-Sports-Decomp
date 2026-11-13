@@ -1,65 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D80C18();
-extern int fn_82D80C30();
-extern int fn_82DADE90();
-extern int fn_82DBBDA8();
+typedef struct Inner_82D8EAD8 {
+    char pad[0x25];
+    unsigned char state : 2;
+    unsigned char rest : 6;
+} Inner_82D8EAD8;
+typedef struct Item_82D8EAD8 {
+    char pad[8];
+    Inner_82D8EAD8 *inner;
+} Item_82D8EAD8;
+typedef struct Obj_82D8EAD8 {
+    char pad0[0x8c];
+    int f8c;
+    int f90;
+    int f94;
+    int pad98;
+    unsigned char f9c;
+    char pad9d[0xa4 - 0x9d];
+    int fA4;
+    char padA8[0x148 - 0xa8];
+    int f148;
+} Obj_82D8EAD8;
+extern void fn_82D80C18(Obj_82D8EAD8 *o);
+extern void fn_82D80C30(Obj_82D8EAD8 *o);
+extern void fn_82DADE90(Obj_82D8EAD8 *o, Item_82D8EAD8 *p);
+extern void fn_82DBBDA8(Item_82D8EAD8 *p);
 
-
-void fn_82D8EAD8(int param_1,int param_2,int param_3)
-
+void fn_82D8EAD8(Obj_82D8EAD8 *o, Item_82D8EAD8 *p, int notify)
 {
-  longlong lVar1;
-  
-  *(byte *)(*(int *)(param_2 + 8) + 0x25) = *(byte *)(*(int *)(param_2 + 8) + 0x25) & 0x3f | 0x40;
-  if (*(int *)(param_1 + 0x94) == 0) {
-    *(undefined4 *)(param_1 + 0x94) = 1;
-    if ((param_3 != 0) && (*(int *)(param_1 + 0x148) != 0)) {
-      fn_82DADE90(param_1,param_2);
+    Inner_82D8EAD8 *in = p->inner;
+    in->state = 1;
+    if (o->f94 != 0) {
+        if (notify != 0 && o->f148 != 0) {
+            fn_82DADE90(o, p);
+        }
+        fn_82DBBDA8(p);
+        return;
     }
-    fn_82DBBDA8(param_2);
-    lVar1 = (ulonglong)*(uint *)(param_1 + 0x94) - 1;
-    *(int *)(param_1 + 0x94) = (int)lVar1;
-    if ((lVar1 == 0) && (*(char *)(param_1 + 0x9c) == '\0')) {
-      if (*(int *)(param_1 + 0x8c) != 0) {
-        fn_82D80C18(param_1);
-      }
-      if ((*(int *)(param_1 + 0xa4) == 1) && (*(int *)(param_1 + 0x90) != 0)) {
-        fn_82D80C30(param_1);
-      }
+    o->f94 = 1;
+    if (notify != 0 && o->f148 != 0) {
+        fn_82DADE90(o, p);
     }
-  }
-  else {
-    if ((param_3 != 0) && (*(int *)(param_1 + 0x148) != 0)) {
-      fn_82DADE90();
+    fn_82DBBDA8(p);
+    if (--o->f94 == 0 && o->f9c == 0) {
+        if (o->f8c != 0) {
+            fn_82D80C18(o);
+        }
+        if (o->fA4 == 1 && o->f90 != 0) {
+            fn_82D80C30(o);
+        }
     }
-    fn_82DBBDA8(param_2);
-  }
-  return;
 }
-

@@ -1,53 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct {
+  unsigned int first;
+  unsigned int second;
+  double value;
+} Value_822A0238;
 
+typedef struct {
+  int movie;
+  int pad[12];
+  int penaltyShown[1];
+} Obj_822A0238;
 
-void fn_822A0238(undefined4 *param_1,int param_2)
+extern void fn_82273CD8(Value_822A0238 *v, int type);
+extern void fn_82672C20(int obj, const char *path, Value_822A0238 *args, int count);
+extern void fn_82273C88(Value_822A0238 *v);
 
+void fn_822A0238(Obj_822A0238 *o, int player)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+  Value_822A0238 v;
 
-  double dStack_28;
-  
-  if (param_1[param_2 + 0xd] != 0) {
-    param_1[param_2 + 0xd] = 0;
-    stack_pair_30.first = 0;
-    stack_pair_30.second = 0;
-    fn_82273CD8(&stack_pair_30.first,3);
-    dStack_28 = (double)(longlong)(param_2 + 1);
-    fn_82672C20(*param_1,0xffffffff821abb18,&stack_pair_30.first,1);
-    fn_82273C88(&stack_pair_30.first);
+  if (o->penaltyShown[player] != 0) {
+    o->penaltyShown[player] = 0;
+    v.first = 0;
+    v.second = 0;
+    fn_82273CD8(&v, 3);
+    v.value = (double)(player + 1);
+    fn_82672C20(o->movie, "_root.mainCtrl.hideFalseStartPenalty", &v, 1);
+    fn_82273C88(&v);
   }
-  return;
 }
-

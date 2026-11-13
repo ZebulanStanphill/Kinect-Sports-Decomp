@@ -1,50 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+typedef struct Obj_823E9A60 {
+    char pad0[0x20];
+    unsigned char active;
+    char pad21[3];
+    int value;
+    char pad28[8];
+    __vector4 vec;
+    float time;
+} Obj_823E9A60;
 
-
-void fn_823E9A60(int param_1,undefined4 param_2)
-
+void fn_823E9A60(Obj_823E9A60 *o, int value, __vector4 vec)
 {
-  undefined4 *puVar1;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  
-  *(undefined4 *)(param_1 + 0x24) = param_2;
-  *(undefined1 *)(param_1 + 0x20) = 1;
-  *(undefined4 *)(param_1 + 0x40) = ltcg_pool_0_0f;
-  puVar1 = (undefined4 *)(param_1 + 0x30U & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  return;
+    o->value = value;
+    o->active = 1;
+    o->time = 0.0f;
+    o->vec = vec;
 }
-

@@ -1,55 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Storage_822DBCB8 { unsigned __int64 words[3]; } Storage_822DBCB8;
+typedef struct Functor_822DBCB8 { unsigned int handler, pad; Storage_822DBCB8 storage; } Functor_822DBCB8;
+typedef void Handler_822DBCB8(Storage_822DBCB8 *, Storage_822DBCB8 *, int);
+typedef struct Obj_822DBCB8 {
+  Functor_822DBCB8 func;
+  int a20;
+  int a24;
+  int a28;
+  int a2c;
+  unsigned char a30;
+} Obj_822DBCB8;
 
-
-uint * fn_822DBCB8(uint *param_1,uint *param_2)
-
+static __forceinline void FunctorCopy_822DBCB8(Functor_822DBCB8 *self, Functor_822DBCB8 *src)
 {
-  uint uVar1;
-  
-  *param_1 = 0;
-  uVar1 = *param_2;
-  if (uVar1 != 0) {
-    *param_1 = uVar1;
-    if ((uVar1 & 1) == 0) {
-      (**(code **)(uVar1 & 0xfffffffe))(param_2 + 2,param_1 + 2,0);
-    }
-    else {
-      *(undefined8 *)(param_1 + 2) = *(undefined8 *)(param_2 + 2);
-      *(undefined8 *)(param_1 + 4) = *(undefined8 *)(param_2 + 4);
-      *(undefined8 *)(param_1 + 6) = *(undefined8 *)(param_2 + 6);
-    }
+  unsigned int handler;
+  self->handler = 0;
+  handler = src->handler;
+  if (handler) {
+    self->handler = handler;
+    if (handler & 1) self->storage = src->storage;
+    else (**(Handler_822DBCB8 **)(handler & ~1U))(&src->storage, &self->storage, 0);
   }
-  param_1[8] = param_2[8];
-  param_1[9] = param_2[9];
-  param_1[10] = param_2[10];
-  param_1[0xb] = param_2[0xb];
-  *(undefined1 *)(param_1 + 0xc) = 0;
-  return param_1;
 }
 
+Obj_822DBCB8 *fn_822DBCB8(Obj_822DBCB8 *self, Obj_822DBCB8 *src)
+{
+  FunctorCopy_822DBCB8(&self->func, &src->func);
+  self->a20 = src->a20;
+  self->a24 = src->a24;
+  self->a28 = src->a28;
+  self->a2c = src->a2c;
+  self->a30 = 0;
+  return self;
+}

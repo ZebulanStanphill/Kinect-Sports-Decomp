@@ -1,47 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82A8CFD0();
-extern int fn_82F68CC0();
+typedef struct {
+    float v[8];
+} Value_82A8B7F8;
+typedef struct Obj_82A8B7F8 Obj_82A8B7F8;
+typedef struct {
+    void *slots[2];
+    long (*Validate)(Obj_82A8B7F8 *self);
+} ObjVt_82A8B7F8;
+struct Obj_82A8B7F8 {
+    ObjVt_82A8B7F8 *vt;
+    int pad[8];
+    int state;
+};
+extern Value_82A8B7F8 fn_82A8CFD0(int *state, Value_82A8B7F8 *out, float t);
 
-
-longlong fn_82A8B7F8(undefined8 param_1,int *param_2,undefined8 param_3,undefined8 param_4)
-
+long fn_82A8B7F8(Obj_82A8B7F8 *o, float t, Value_82A8B7F8 *out)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  undefined1 auStack_50 [80];
-  
-  lVar1 = (**(code **)(*param_2 + 8))();
-  if (-1 < lVar1) {
-    uVar2 = fn_82A8CFD0(param_1,auStack_50,param_2 + 9,param_4);
-    fn_82F68CC0(param_4,uVar2,0x20);
-  }
-  return lVar1;
+    long hr = o->vt->Validate(o);
+    if (hr >= 0) {
+        *out = fn_82A8CFD0(&o->state, out, t);
+    }
+    return hr;
 }
-

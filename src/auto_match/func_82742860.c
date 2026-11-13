@@ -1,68 +1,53 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_82741A50();
-extern int fn_82F643F8();
+typedef struct Parser_82742860 {
+    int a;
+    int b;
+    char *node;
+    char pad0c[0x18 - 0xc];
+    int ctx;
+    int count;
+} Parser_82742860;
 
+typedef struct Matrix_82742860 {
+    float a, b, tx;
+    float c, d, ty;
+} Matrix_82742860;
 
-void fn_82742860(int param_1)
+extern unsigned char fn_82695468(Parser_82742860 *p, int kind);
+extern void fn_826954C0(Parser_82742860 *p, const char *name, int a, int b);
+extern int fn_826957D0(Parser_82742860 *p, int index);
+extern double fn_826972E0(int arg, int ctx);
+extern void fn_82741A50(Matrix_82742860 *out, char *obj, int ctx);
+extern void fn_82741C18(char *obj, int ctx, Matrix_82742860 *m);
+extern void fn_8268CF60(Matrix_82742860 *m, Matrix_82742860 *r);
+extern double fn_82F643F8(double x);
+extern double fn_82F64318(double x);
 
+void fn_82742860(Parser_82742860 *param_1)
 {
-  undefined4 uVar1;
-  char cVar3;
-  undefined8 uVar2;
-  ulonglong uVar4;
-  double dVar5;
-  undefined1 auStack_50 [48];
-  
-  cVar3 = fn_82695468(param_1,0xf);
-  if (cVar3 == '\0') {
-    fn_826954C0(param_1,0xffffffff8200ef08,0,0);
-  }
-  else {
-    uVar4 = (ulonglong)*(uint *)(param_1 + 8) - 0x10;
-    if ((ulonglong)*(uint *)(param_1 + 8) == 0) {
-      uVar4 = 0;
-    }
-    if (((uVar4 & 0xffffffff) != 0) && (0 < *(int *)(param_1 + 0x1c))) {
-      uVar1 = *(undefined4 *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,0);
-      dVar5 = (double)fn_826972E0(uVar2,uVar1);
-      dVar5 = (double)(float)dVar5;
-      fn_82741A50(auStack_50,uVar4,*(undefined4 *)(param_1 + 0x18));
-                    /* WARNING: Subroutine does not return */
-      fn_82F643F8(dVar5);
-    }
-  }
-  return;
-}
+    char *obj;
+    float angle;
+    float c;
+    float s;
+    Matrix_82742860 r;
+    Matrix_82742860 m;
 
+    if (fn_82695468(param_1, 0xf) == 0) {
+        fn_826954C0(param_1, "Matrix", 0, 0);
+        return;
+    }
+    obj = param_1->node ? param_1->node - 0x10 : 0;
+    if (obj != 0 && param_1->count > 0) {
+        angle = (float)fn_826972E0(fn_826957D0(param_1, 0), param_1->ctx);
+        fn_82741A50(&m, obj, param_1->ctx);
+        c = (float)fn_82F643F8(angle);
+        s = (float)fn_82F64318(angle);
+        r.a = c;
+        r.b = -s;
+        r.tx = 0.0f;
+        r.c = s;
+        r.d = c;
+        r.ty = 0.0f;
+        fn_8268CF60(&m, &r);
+        fn_82741C18(obj, param_1->ctx, &m);
+    }
+}

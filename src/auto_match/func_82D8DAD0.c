@@ -1,47 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE4118();
-extern int fn_82D81528();
-extern int fn_82D81690();
+typedef struct {
+    void *vt;
+    int pad;
+} ListenerA_82D8DAD0;
+typedef struct {
+    void *vt;
+} ListenerB_82D8DAD0;
+typedef struct {
+    ListenerA_82D8DAD0 a;
+    ListenerB_82D8DAD0 b;
+    void *world;
+} Body_82D8DAD0;
+typedef struct {
+    void *vt;
+    int refs;
+    Body_82D8DAD0 body;
+} Obj_82D8DAD0;
+extern void fn_82D81690(void *world, ListenerA_82D8DAD0 *l);
+extern void fn_82D81528(void *world, ListenerB_82D8DAD0 *l);
+extern void fn_82CE4118(Obj_82D8DAD0 *o);
 
-
-void fn_82D8DAD0(uint param_1)
-
+static __forceinline Obj_82D8DAD0 *Outer(Body_82D8DAD0 *body)
 {
-  int iVar1;
-  
-  fn_82D81690(*(undefined4 *)(param_1 + 0xc),-(uint)(param_1 != 8) & param_1);
-  iVar1 = param_1 + 8;
-  if (param_1 == 8) {
-    iVar1 = 0;
-  }
-  fn_82D81528(*(undefined4 *)(param_1 + 0xc),iVar1);
-  fn_82CE4118(param_1 - 8);
-  return;
+    return (Obj_82D8DAD0 *)((char *)body - 8);
 }
 
+void fn_82D8DAD0(Body_82D8DAD0 *self)
+{
+    fn_82D81690(self->world, Outer(self) != 0 ? &self->a : 0);
+    fn_82D81528(self->world, Outer(self) != 0 ? &self->b : 0);
+    fn_82CE4118(Outer(self));
+}

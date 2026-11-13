@@ -1,60 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8217D1D4;
-extern unsigned int lbl_8217D1D8;
-extern unsigned int lbl_821968A4;
-extern unsigned int lbl_821AAD20;
-
-
-void fn_83034858(undefined4 *param_1,undefined4 param_2,undefined1 param_3)
-
+extern char lbl_8217D1D4[];
+extern char lbl_8217D1D8[];
+extern char lbl_821968A4[];
+typedef struct Base_83034858 { char *vt; } Base_83034858;
+typedef struct Obj_83034858 {
+    char *vt;
+    Base_83034858 b4;
+    int f8;
+    int fC[7];
+    float f28[5];
+    unsigned char f3C;
+    unsigned char f3D;
+} Obj_83034858;
+void fn_83034858(Obj_83034858 *o, int a, unsigned char b)
 {
-  undefined4 uVar1;
-  
-  param_1[1] = &lbl_821968A4;
-  uVar1 = lbl_821AAD20;
-  param_1[10] = lbl_821AAD20;
-  *param_1 = &lbl_8217D1D8;
-  param_1[0xb] = uVar1;
-  param_1[1] = &lbl_8217D1D4;
-  param_1[0xc] = uVar1;
-  param_1[2] = param_2;
-  param_1[0xd] = uVar1;
-  param_1[3] = 0;
-  param_1[0xe] = uVar1;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  *(undefined1 *)(param_1 + 0xf) = 0xff;
-  *(undefined1 *)((int)param_1 + 0x3d) = param_3;
-  return;
+    Base_83034858 *b4 = &o->b4;
+    b4->vt = lbl_821968A4;
+    o->f28[0] = 0.0f;
+    o->vt = lbl_8217D1D8;
+    o->f28[1] = 0.0f;
+    o->b4.vt = lbl_8217D1D4;
+    o->f28[2] = 0.0f;
+    o->f8 = a;
+    o->f28[3] = 0.0f;
+    o->fC[0] = 0;
+    o->f28[4] = 0.0f;
+    o->fC[1] = 0;
+    o->fC[2] = 0;
+    o->fC[3] = 0;
+    o->fC[4] = 0;
+    o->fC[5] = 0;
+    o->fC[6] = 0;
+    o->f3C = 0xff;
+    o->f3D = b;
 }
-

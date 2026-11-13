@@ -1,63 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D2B8D8();
-extern int fn_82D30C78();
-extern unsigned int lbl_8323B1A0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+  float vector4_f32[4];
+} __vector4;
 
+typedef struct Deletable_82D27C70 {
+  struct { void (*destroy)(struct Deletable_82D27C70 *, int); } *vt;
+} Deletable_82D27C70;
 
-void fn_82D27C70(int param_1)
+typedef struct {
+  char pad0[0x8];
+  char a[0x18];          /* 0x8 */
+  char b[0x20];          /* 0x20 */
+  char c[0x778];         /* 0x40 */
+  Deletable_82D27C70 *obj; /* 0x7b8 */
+  int pad7bc;
+  __vector4 v;           /* 0x7c0 */
+  unsigned char flag;    /* 0x7d0 */
+} Obj_82D27C70;
 
+extern __vector4 lbl_8323B1A0;
+extern void fn_82D30C78(void *p, int n);
+extern void fn_82D2B8D8(void *p);
+
+void fn_82D27C70(Obj_82D27C70 *o)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  
-  puVar1 = *(undefined4 **)(param_1 + 0x7b8);
-  if (puVar1 != (undefined4 *)0x0) {
-    (**(code **)*puVar1)(puVar1,1);
-  }
-  *(undefined4 *)(param_1 + 0x7b8) = 0;
-  fn_82D30C78(param_1 + 0x40,1);
-  puVar1 = (undefined4 *)((uint)(&lbl_8323B1A0 + in_r0) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x7c0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_82D2B8D8(param_1 + 8);
-  fn_82D2B8D8(param_1 + 0x20);
-  *(undefined1 *)(param_1 + 2000) = 0;
-  return;
+  if (o->obj != 0)
+    o->obj->vt->destroy(o->obj, 1);
+  o->obj = 0;
+  fn_82D30C78(o->c, 1);
+  o->v = lbl_8323B1A0;
+  fn_82D2B8D8(o->a);
+  fn_82D2B8D8(o->b);
+  o->flag = 0;
 }
-

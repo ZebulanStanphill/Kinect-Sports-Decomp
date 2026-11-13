@@ -1,62 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82F691F0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *memset(void *, int, unsigned int);
+extern void *memcpy(void *, const void *, unsigned int);
 
+#define TX_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\txserver.cpp", line)
 
-undefined8 fn_82B6DE98(int param_1,int param_2)
+typedef struct DevClientInterface_82B6DE98 {
+    char pad0[0x10];
+    void *context;
+    void *(*AllocateSysMem)(void *context, unsigned int size);
+    void (*FreeSysMem)(void *context, void *p);
+    void *(*AllocateVidMem)(void *context, unsigned int size);
+    void (*FreeVidMem)(void *context, void *p);
+    char pad24[0x24];
+} DevClientInterface_82B6DE98;
 
+typedef struct TxCreateInfo_82B6DE98 {
+    unsigned char data[0x20];
+} TxCreateInfo_82B6DE98;
+
+typedef struct TxServer_82B6DE98 {
+    int f0;
+    char pad4[0x94];
+    TxCreateInfo_82B6DE98 createInfo;       /* 0x98 */
+    char padb8[0x120];
+    DevClientInterface_82B6DE98 devClientInterface; /* 0x1d8 */
+} TxServer_82B6DE98;
+
+TxServer_82B6DE98 *fn_82B6DE98(TxCreateInfo_82B6DE98 *pTxCreateInfo, DevClientInterface_82B6DE98 *pDevClientInterface)
 {
-  longlong lVar1;
-  
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da21c,0xffffffff820da230,0x9d);
-  }
-  if (param_2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da208,0xffffffff820da230,0x9e);
-  }
-  if (*(int *)(param_2 + 0x14) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da1e4,0xffffffff820da230,0x9f);
-  }
-  if (*(int *)(param_2 + 0x18) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da1c4,0xffffffff820da230,0xa0);
-  }
-  if (*(int *)(param_2 + 0x1c) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da1a0,0xffffffff820da230,0xa1);
-  }
-  if (*(int *)(param_2 + 0x20) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da180,0xffffffff820da230,0xa2);
-  }
-  lVar1 = (**(code **)(param_2 + 0x14))(*(undefined4 *)(param_2 + 0x10),0x220);
-  if (lVar1 == 0) {
-    return 0;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(lVar1,0,0x220);
-}
+    TxServer_82B6DE98 *pServer;
 
+    TX_ASSERT(pTxCreateInfo, 0x9d);
+    TX_ASSERT(pDevClientInterface, 0x9e);
+    TX_ASSERT(pDevClientInterface->AllocateSysMem, 0x9f);
+    TX_ASSERT(pDevClientInterface->FreeSysMem, 0xa0);
+    TX_ASSERT(pDevClientInterface->AllocateVidMem, 0xa1);
+    TX_ASSERT(pDevClientInterface->FreeVidMem, 0xa2);
+
+    pServer = (TxServer_82B6DE98 *)pDevClientInterface->AllocateSysMem(pDevClientInterface->context, sizeof(TxServer_82B6DE98));
+    if (pServer == 0)
+        return 0;
+    memset(pServer, 0, sizeof(TxServer_82B6DE98));
+    pServer->f0 = 0;
+    pServer->createInfo = *pTxCreateInfo;
+    pServer->devClientInterface = *pDevClientInterface;
+    return pServer;
+}

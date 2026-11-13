@@ -1,46 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
+typedef struct Obj_83013D28 {
+    int pad0;
+    void *first;
+    void *last;
+    char padc[0x24];
+    char sub[4];
+} Obj_83013D28;
 
+extern void fn_82A1E968(void *p);
 
-int fn_83013D28(int param_1)
-
+void fn_83013D28(Obj_83013D28 *o)
 {
-  ulonglong uVar1;
-  
-  if (*(int *)(param_1 + 8) == *(int *)(param_1 + 4)) {
-    return param_1;
-  }
-  uVar1 = TBLr;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = TBLr;
-  }
-  *(ulonglong *)(param_1 + 0x30) = uVar1;
-  return 1;
+    if (o->last != o->first) {
+        fn_82A1E968(o->sub);
+    }
 }
-

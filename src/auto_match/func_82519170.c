@@ -1,58 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223B688();
+typedef struct Fn_82519170 Fn_82519170;
+typedef struct { Fn_82519170 *(*clone)(Fn_82519170 *, void *); } FnVt_82519170;
+struct Fn_82519170 { FnVt_82519170 *vt; };
+typedef struct { char pad[0x10]; Fn_82519170 *impl; } Func_82519170;
+typedef struct {
+  char name[0x1c];
+  int a1c;
+  int a20;
+  unsigned char a24;
+  char pad25[3];
+  int a28;
+  int a2c;
+  int a30;
+  int a34;
+  Func_82519170 func;
+} Obj_82519170;
+extern void fn_8223B688(void *dst, const void *src);
 
-
-int fn_82519170(int param_1,int param_2)
-
+Obj_82519170 *fn_82519170(Obj_82519170 *o, const Obj_82519170 *s)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  fn_8223B688();
-  iVar2 = param_1 + 0x38;
-  *(undefined4 *)(param_1 + 0x1c) = *(undefined4 *)(param_2 + 0x1c);
-  *(undefined4 *)(param_1 + 0x20) = *(undefined4 *)(param_2 + 0x20);
-  *(undefined1 *)(param_1 + 0x24) = *(undefined1 *)(param_2 + 0x24);
-  *(undefined4 *)(param_1 + 0x28) = *(undefined4 *)(param_2 + 0x28);
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(param_2 + 0x2c);
-  *(undefined4 *)(param_1 + 0x30) = *(undefined4 *)(param_2 + 0x30);
-  *(undefined4 *)(param_1 + 0x34) = *(undefined4 *)(param_2 + 0x34);
-  if (*(int *)(param_2 + 0x48) == 0) {
-    *(undefined4 *)(param_1 + 0x48) = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x48) != param_2 + 0x38) {
-      iVar2 = 0;
+  Func_82519170 *d;
+  const Func_82519170 *f;
+  fn_8223B688(o->name, s->name);
+  f = &s->func;
+  d = &o->func;
+  o->a1c = s->a1c;
+  o->a20 = s->a20;
+  o->a24 = s->a24;
+  o->a28 = s->a28;
+  o->a2c = s->a2c;
+  o->a30 = s->a30;
+  o->a34 = s->a34;
+  if (f->impl == 0) {
+    d->impl = 0;
+  } else {
+    if ((void *)f->impl == (void *)f) {
+      d->impl = f->impl->vt->clone(f->impl, d);
+    } else {
+      d->impl = f->impl->vt->clone(f->impl, 0);
     }
-    uVar1 = (**(code **)**(undefined4 **)(param_2 + 0x48))(*(undefined4 **)(param_2 + 0x48),iVar2);
-    *(undefined4 *)(param_1 + 0x48) = uVar1;
   }
-  return param_1;
+  return o;
 }
-

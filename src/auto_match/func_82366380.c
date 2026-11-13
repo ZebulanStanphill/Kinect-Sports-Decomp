@@ -1,37 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359558();
+typedef struct Obj_82366380 Obj_82366380;
+typedef struct ObjVtbl_82366380 {
+    void (*slot0)(Obj_82366380 *self);
+    void (*SetValue)(Obj_82366380 *self, float value, int flag);
+} ObjVtbl_82366380;
+struct Obj_82366380 {
+    ObjVtbl_82366380 *vt;
+};
+typedef struct { Obj_82366380 *obj; void *rc; } Ptr_82366380;
+typedef struct { char pad0[0x10]; int id; } Key_82366380;
+typedef struct {
+    void *vt;
+    void *table;
+    float *value;
+    int *flag;
+} Self_82366380;
 
+extern void *fn_82359558(void *table, int id);
+extern Ptr_82366380 *fn_82522588(Ptr_82366380 *out, Key_82366380 **key);
+extern void fn_822315A0(void *);
 
-void fn_82366380(int param_1,int *param_2)
-
+void fn_82366380(Self_82366380 *self, Key_82366380 **key)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82359558(*(undefined4 *)(param_1 + 4),*(undefined4 *)(*param_2 + 0x10));
+  if (fn_82359558(self->table, (*key)->id) != 0) {
+    Ptr_82366380 tmp;
+    Obj_82366380 *o = fn_82522588(&tmp, key)->obj;
+    o->vt->SetValue(o, *self->value, *self->flag);
+    if (tmp.rc != 0)
+      fn_822315A0(tmp.rc);
+  }
 }
-

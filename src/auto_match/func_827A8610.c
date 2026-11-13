@@ -1,37 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_827A8610(int param_1,undefined4 param_2)
-
+/* Stores the value at the start of the sub-object (S layout of func_827ABBA0) and sets its flag bit 0. */
+typedef struct Sub { int value; char pad[0x5c]; unsigned char flags; } Sub;
+typedef struct S { void *mem; int x4; int x8; int xc; void *x10; Sub sub; } S;
+void fn_827A8610(S *p, int v)
 {
-  *(undefined4 *)(param_1 + 0x14) = param_2;
-  *(byte *)(param_1 + 0x74) = *(byte *)(param_1 + 0x74) | 1;
-  return;
-}
+    Sub *s;
 
+    p->sub.value = v;
+    s = &p->sub;
+    s->flags |= 1;
+}

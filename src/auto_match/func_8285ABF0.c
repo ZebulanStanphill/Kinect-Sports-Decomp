@@ -1,38 +1,10 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83156E70;
+typedef struct A_8285ABF0 { char pad[0x4c]; void *f4c; } A_8285ABF0;
+typedef struct B_8285ABF0 { char pad[0x68]; char *base; } B_8285ABF0;
+typedef struct C_8285ABF0 { char pad[0x8]; int offset; } C_8285ABF0;
 
+extern int fn_828116B8(void *a, void *b);
 
-byte fn_8285ABF0(int param_1,int param_2,int param_3)
-
+int fn_8285ABF0(A_8285ABF0 *a, B_8285ABF0 *b, C_8285ABF0 *c)
 {
-  return (&lbl_83156E70)[*(uint *)(param_1 + 0x4c) & 7] &
-         *(byte *)((*(uint *)(param_1 + 0x4c) >> 3) +
-                  *(int *)(*(int *)(param_2 + 0x68) + *(int *)(param_3 + 8) + 0x2c));
+    return fn_828116B8(*(void **)(b->base + c->offset + 0x2c), a->f4c);
 }
-

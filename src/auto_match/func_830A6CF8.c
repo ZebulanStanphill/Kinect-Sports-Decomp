@@ -1,35 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Item_830A6CF8 {
+    char data[0x90];
+} Item_830A6CF8;
 
+typedef struct Table_830A6CF8 {
+    char pad0[0x20];
+    Item_830A6CF8 items[1];
+} Table_830A6CF8;
 
-longlong fn_830A6CF8(longlong param_1,ulonglong param_2)
-
+Item_830A6CF8 *fn_830A6CF8(Table_830A6CF8 *t, int index)
 {
-  return (param_2 + (param_2 & 0x1fffffff) * 8 & 0xfffffff) * 0x10 + param_1 + 0x20;
+    return &t->items[index];
 }
-

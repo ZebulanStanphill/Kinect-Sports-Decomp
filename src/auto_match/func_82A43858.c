@@ -1,53 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack0000001c;
-extern unsigned int lbl_820143E0;
-extern unsigned int stack0x0000001c;
-
-
-undefined8 fn_82A43858(double param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+typedef struct Lock_82A43858 { struct LockVt_82A43858 *vt; } Lock_82A43858;
+typedef struct LockVt_82A43858 { int pad[2]; void (*Enter)(Lock_82A43858 *); int pad2[2]; void (*Leave)(Lock_82A43858 *); } LockVt_82A43858;
+typedef struct Owner_82A43858 { char pad[0x2c]; Lock_82A43858 lock; } Owner_82A43858;
+typedef struct Prop_82A43858 { struct PropVt_82A43858 *vt; } Prop_82A43858;
+typedef struct PropVt_82A43858 { int pad[2]; int (*Set)(Prop_82A43858 *, int, int, void *, int); } PropVt_82A43858;
+typedef struct Obj_82A43858 { char pad[0x34]; Owner_82A43858 *owner; char pad2[0x58]; Prop_82A43858 *prop; char pad3[0x34]; float max; } Obj_82A43858;
+extern float lbl_820143E0;
+int fn_82A43858(Obj_82A43858 *o, float v, int key)
 {
-  undefined8 uVar1;
-  bool bVar2;
-  float fStack0000001c;
-  
-  fStack0000001c = (float)param_1;
-  (**(code **)(*(int *)(*(int *)(param_2 + 0x34) + 0x2c) + 8))(*(int *)(param_2 + 0x34) + 0x2c);
-  if ((fStack0000001c < lbl_820143E0) ||
-     ((*(float *)(param_2 + 200) < fStack0000001c &&
-      (bVar2 = fStack0000001c < lbl_820143E0, fStack0000001c = *(float *)(param_2 + 200), bVar2))))
-  {
-    fStack0000001c = lbl_820143E0;
-  }
-  uVar1 = (**(code **)(**(int **)(param_2 + 0x90) + 8))
-                    (*(int **)(param_2 + 0x90),1,param_4,&stack0x0000001c,4);
-  (**(code **)(*(int *)(*(int *)(param_2 + 0x34) + 0x2c) + 0x14))(*(int *)(param_2 + 0x34) + 0x2c);
-  return uVar1;
+  int r;
+  o->owner->lock.vt->Enter(&o->owner->lock);
+  v = v < lbl_820143E0 ? lbl_820143E0 : v > o->max ? (v < lbl_820143E0 ? lbl_820143E0 : o->max) : v;
+  r = o->prop->vt->Set(o->prop, 1, key, &v, 4);
+  o->owner->lock.vt->Leave(&o->owner->lock);
+  return r;
 }
-

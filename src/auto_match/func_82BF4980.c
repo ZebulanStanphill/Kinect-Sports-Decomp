@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5240();
-extern int fn_82BF43D0();
+typedef struct {
+  char pad0[0x10];
+  void *video;
+  int name;
+  int f18;
+  char pad1c[0xc];
+  unsigned short f28;
+  short pad2a;
+  float f2c;
+  float f30;
+} Obj_82BF4980;
 
+extern void *fn_82BE56B0(int n);
+extern void *fn_82BF43D0(void *mem, int name, int b, unsigned short c, float f, float g, int d, int e);
+extern void fn_82BE5240();
 
-ulonglong fn_82BF4980(int param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                       undefined8 param_5,undefined8 param_6)
-
+void *fn_82BF4980(Obj_82BF4980 *o, int arg)
 {
-  ulonglong uVar1;
-  
-  uVar1 = thunk_FUN_82be5550(0x68);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = 0;
+  void *m = fn_82BE56B0(0x68);
+  void *t;
+  if (m)
+    t = fn_82BF43D0(m, o->name, o->f18, o->f28, o->f2c, o->f30, 0x10, arg);
+  else
+    t = 0;
+  if (t == 0) {
+    fn_82BE5240(o, 0x65, "Dynamic CMassiveAdObjectVideo creation failed for IE: \"%s\"", o->name);
+    o->video = 0;
+    return 0;
   }
-  else {
-    uVar1 = fn_82BF43D0((double)*(float *)(param_1 + 0x2c),(double)*(float *)(param_1 + 0x30),
-                          uVar1,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),
-                          *(undefined2 *)(param_1 + 0x28),param_5,param_6,0x10,param_2);
-  }
-  if ((uVar1 & 0xffffffff) == 0) {
-    fn_82BE5240(param_1,0x65,0xffffffff820eb9d4,*(undefined4 *)(param_1 + 0x14));
-    uVar1 = 0;
-    *(undefined4 *)(param_1 + 0x10) = 0;
-  }
-  return uVar1;
+  return t;
 }
-

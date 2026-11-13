@@ -1,52 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8260D428();
+typedef struct {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+} String_827D9F40;
+typedef struct {
+    int pad0[5];
+    int kind;
+    int pad18[7];
+    String_827D9F40 name;
+} Item_827D9F40;
+extern int fn_8260D428(String_827D9F40 *s, unsigned int off, unsigned int n0, const char *ptr, unsigned int count);
 
-
-bool fn_827D9F40(int param_1,int param_2)
-
+static __forceinline const char *String_Ptr(String_827D9F40 *s)
 {
-  int iVar1;
-  bool bVar2;
-  undefined4 *puVar3;
-  
-  if (*(int *)(param_1 + 0x14) == *(int *)(param_2 + 0x14)) {
-    puVar3 = (undefined4 *)(param_2 + 0x34);
-    if (0xf < *(uint *)(param_2 + 0x48)) {
-      puVar3 = (undefined4 *)*puVar3;
-    }
-    iVar1 = fn_8260D428(param_1 + 0x34,0,*(undefined4 *)(param_1 + 0x44),puVar3,
-                         *(undefined4 *)(param_2 + 0x44));
-    bVar2 = iVar1 == 0;
-  }
-  else {
-    bVar2 = false;
-  }
-  return bVar2;
+    return 16 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+static __forceinline int String_Compare(String_827D9F40 *s, String_827D9F40 *r)
+{
+    unsigned int count = r->size;
+    return fn_8260D428(s, 0, s->size, String_Ptr(r), count);
+}
+
+unsigned char fn_827D9F40(Item_827D9F40 *a, Item_827D9F40 *b)
+{
+    if (a->kind != b->kind) {
+        return 0;
+    }
+    return String_Compare(&a->name, &b->name) == 0;
+}

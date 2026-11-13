@@ -1,72 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82E5AF48();
-extern unsigned int lbl_82154BD8;
-extern unsigned int lbl_82154BE8;
-
-
-longlong fn_82E5B608(int param_1)
-
+typedef struct { unsigned char id[16]; int f10; unsigned int size; } Ent_82E5B608;
+typedef struct { char pad[0x8c]; char tab[0x68]; unsigned count; } Obj_82E5B608;
+extern int fn_82E5AF48(void *, unsigned, Ent_82E5B608 **);
+extern unsigned char lbl_82154BD8[16];
+int memcmp(const void *a, const void *b, unsigned int n);
+static __forceinline Ent_82E5B608 *Get_82E5B608(int ok, Ent_82E5B608 *v) { return ok ? v : 0; }
+unsigned int fn_82E5B608(Obj_82E5B608 *o)
 {
-  byte bVar1;
-  byte bVar2;
-  longlong lVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  byte *pbVar6;
-  longlong lVar7;
-  ulonglong uVar8;
-  uint auStack_40 [16];
-  
-  lVar7 = 0;
-  uVar8 = 0;
-  if (*(int *)(param_1 + 0xf4) != 0) {
-    do {
-      lVar3 = fn_82E5AF48(param_1 + 0x8c,uVar8,auStack_40);
-      pbVar4 = (byte *)(-(uint)(lVar3 != 0) & auStack_40[0]);
-      pbVar6 = &lbl_82154BD8;
-      pbVar5 = pbVar4;
-      if (pbVar4 != (byte *)0x0) {
-        do {
-          bVar1 = *pbVar6;
-          bVar2 = *pbVar5;
-          if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-          pbVar6 = pbVar6 + 1;
-          pbVar5 = pbVar5 + 1;
-        } while (pbVar6 != &lbl_82154BE8);
-        if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-          lVar7 = (ulonglong)*(uint *)(pbVar4 + 0x14) + lVar7 + 0x16;
-        }
-      }
-      uVar8 = uVar8 + 1;
-    } while ((uVar8 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0xf4));
+  unsigned int total = 0;
+  unsigned i;
+  Ent_82E5B608 *e, *out;
+  for (i = 0; i < o->count; i++) {
+    int ok = fn_82E5AF48(o->tab, i, &out);
+    e = Get_82E5B608(ok, out);
+    if (e != 0 && memcmp(lbl_82154BD8, e, 16) != 0)
+      total += e->size + 0x16;
   }
-  return lVar7;
+  return total;
 }
-
