@@ -1,84 +1,62 @@
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_822AF138();
-extern int fn_822E5F48();
-extern int fn_822F09C0();
-extern int fn_82397F30();
-extern int fn_82536070();
-extern int fn_82536590();
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int lbl_83265A28;
+typedef struct Sp_822F0028 { int *px; int *rep; } Sp_822F0028;
+typedef struct Ctx_822F0028 { char pad[0xc]; int m0c; int m10; } Ctx_822F0028;
+typedef struct Ent_822F0028 { int pad[4]; int f10; } Ent_822F0028;
+extern void fn_822315A0(void *);
+extern __declspec(noreturn) void fn_822AF138(int, int);
+extern int **fn_822E5F48(Sp_822F0028 *, int);
+extern int fn_822F09C0(void *, int, float, float, float, int, int);
+extern int fn_82397F30(int);
+extern void fn_82536070(const char *, const char *);
+extern void fn_82536590(void *, int);
+extern int lbl_83265A28;
 
-
-void fn_822F0028(int param_1)
-
+void fn_822F0028(Ctx_822F0028 *self)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  double dVar5;
-  double dVar6;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned char auStack_48 [4];
-  int iStack_44;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned char auStack_38 [4];
-  int iStack_34;
-  
-  fn_822E5F48(auStack_38,*(unsigned int *)(param_1 + 0xc));
-  puVar1 = (unsigned int *)fn_822E5F48(auStack_40,*(unsigned int *)(param_1 + 0xc));
-  dVar6 = (double)*(float *)*puVar1;
-  piVar2 = (int *)fn_822E5F48(auStack_48,*(unsigned int *)(param_1 + 0xc));
-  dVar5 = (double)*(float *)(*piVar2 + 8);
-  piVar2 = (int *)fn_822E5F48(auStack_50,*(unsigned int *)(param_1 + 0xc));
+  Sp_822F0028 t38, t40, t48, t50;
+  int **p;
+  float d6, d5, d4;
+  int r;
+  int obj;
+  int code;
+  int w;
+  obj = ((Ent_822F0028 *)*fn_822E5F48(&t38, self->m0c))->f10;
+  d6 = *(float *)*fn_822E5F48(&t40, self->m0c);
+  d5 = *(float *)((char *)*fn_822E5F48(&t48, self->m0c) + 8);
+  p = fn_822E5F48(&t50, self->m0c);
+  d4 = *(float *)((char *)*p + 4);
   lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  iVar3 = fn_822F09C0((double)*(float *)(*piVar2 + 4),dVar5,dVar6,param_1);
-  if (iStack_4c != 0) {
-    fn_822315A0(iStack_4c);
-  }
-  if (iStack_44 != 0) {
-    fn_822315A0();
-  }
-  if (iStack_3c != 0) {
-    fn_822315A0();
-  }
-  if (iStack_34 != 0) {
-    fn_822315A0();
-  }
-  if (iVar3 == 0) {
+  r = fn_822F09C0(self, lbl_83265A28, d4, d5, d6, obj, 0);
+  if (t50.rep != 0)
+    fn_822315A0(t50.rep);
+  if (t48.rep != 0)
+    fn_822315A0(t48.rep);
+  if (t40.rep != 0)
+    fn_822315A0(t40.rep);
+  if (t38.rep != 0)
+    fn_822315A0(t38.rep);
+  if (r == 0)
     return;
+  w = self->m10;
+  if (*(int *)(w + 0x178) == 1 &&
+      (*(int *)(w + 0xa0) == 0 || *(unsigned *)(*(int *)(w + 0xa0) + 0x40) != 1) &&
+      *(int *)(w + 0xbd4) == 0) {
+    fn_82536070("music_minigame", "mini01");
+    fn_82536590((void *)(w + 0xbc8), 0);
+    *(int *)(w + 0xbd4) = 1;
   }
-  iVar3 = *(int *)(param_1 + 0x10);
-  if ((*(int *)(iVar3 + 0x178) == 1) &&
-     (((*(int *)(iVar3 + 0xa0) == 0 || (*(int *)(*(int *)(iVar3 + 0xa0) + 0x40) != 1)) &&
-      (*(int *)(iVar3 + 0xbd4) == 0)))) {
-    fn_82536070(0xffffffff821b34b4,0xffffffff821b34ac);
-    fn_82536590(iVar3 + 0xbc8,0);
-    *(unsigned int *)(iVar3 + 0xbd4) = 1;
-  }
-  if (*(int *)(*(int *)(param_1 + 0x10) + 0x178) == 2) {
-    uVar4 = 5;
-  }
-  else {
-    iVar3 = fn_82397F30();
-    if ((iVar3 != 0) && (iVar3 = *(int *)(param_1 + 0xc), *(int *)(iVar3 + 0x24) == 0)) {
-      uVar4 = 6;
-      goto LAB_822f01cc;
+  if (*(int *)(self->m10 + 0x178) != 2) {
+    if (fn_82397F30(self->m10) != 0) {
+      w = self->m0c;
+      if (*(int *)(w + 0x24) == 0) {
+        code = 6;
+        goto done;
+      }
     }
-    uVar4 = 7;
+    code = 7;
+  } else {
+    code = 5;
   }
-  iVar3 = *(int *)(param_1 + 0xc);
-LAB_822f01cc:
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(*(unsigned int *)(iVar3 + 0x110),uVar4);
+  w = self->m0c;
+done:
+  fn_822AF138(*(int *)(w + 0x110), code);
 }
-

@@ -1,58 +1,79 @@
-extern int fn_829301D0();
-extern int fn_82934160();
-extern unsigned int lbl_8202F11C;
+typedef struct Node_82931498 Node_82931498;
+typedef struct NodeVtbl_82931498 {
+    void *slot0;
+    Node_82931498 *(*Clone)(Node_82931498 *self);
+} NodeVtbl_82931498;
+struct Node_82931498 {
+    NodeVtbl_82931498 *vt;
+};
 
+typedef struct Obj_82931498 {
+    void *vtbl;
+    int type;
+    int field08;
+    int field0c;
+    Node_82931498 *a;
+    Node_82931498 *b;
+    int field18;
+    int field1c;
+    int field20;
+    Node_82931498 *c;
+} Obj_82931498;
 
-unsigned int * fn_82931498(int param_1)
+extern void **fn_82934160(void);
+extern Obj_82931498 *fn_829301D0(void *heap, int size, int align);
+extern char lbl_8202F11C[];
 
+static __forceinline Obj_82931498 *Construct(Obj_82931498 *o)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  
-  puVar1 = (unsigned int *)fn_82934160();
-  puVar1 = (unsigned int *)fn_829301D0(*puVar1,0x28,0x10);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[2] = 0;
-    puVar1[1] = 0x15;
-    *puVar1 = &lbl_8202F11C;
-    puVar1[3] = 0;
-    puVar1[4] = 0;
-    puVar1[5] = 0;
-    puVar1[6] = 0;
-    puVar1[7] = 0;
-    puVar1[8] = 0;
-    puVar1[9] = 0;
-  }
-  if (puVar1 != (unsigned int *)0x0) {
-    puVar1[7] = *(unsigned int *)(param_1 + 0x1c);
-    puVar1[6] = *(unsigned int *)(param_1 + 0x18);
-    puVar1[8] = *(unsigned int *)(param_1 + 0x20);
-    if (*(int **)(param_1 + 0x10) != (int *)0x0) {
-      iVar2 = (**(int (***)())(**(int **)(param_1 + 0x10) + 4))();
-      puVar1[4] = iVar2;
-      if (iVar2 == 0) {
-        return (unsigned int *)0x0;
-      }
-    }
-    if (*(int **)(param_1 + 0x14) != (int *)0x0) {
-      iVar2 = (**(int (***)())(**(int **)(param_1 + 0x14) + 4))();
-      puVar1[5] = iVar2;
-      if (iVar2 == 0) {
-        return (unsigned int *)0x0;
-      }
-    }
-    if (*(int **)(param_1 + 0x24) == (int *)0x0) {
-      return puVar1;
-    }
-    iVar2 = (**(int (***)())(**(int **)(param_1 + 0x24) + 4))();
-    puVar1[9] = iVar2;
-    if (iVar2 != 0) {
-      return puVar1;
-    }
-  }
-  return (unsigned int *)0x0;
+    o->type = 0x15;
+    o->field08 = 0;
+    o->vtbl = lbl_8202F11C;
+    o->field0c = 0;
+    o->a = 0;
+    o->b = 0;
+    o->field18 = 0;
+    o->field1c = 0;
+    o->field20 = 0;
+    o->c = 0;
+    return o;
 }
 
+Obj_82931498 *fn_82931498(Obj_82931498 *self)
+{
+    Obj_82931498 *mem = fn_829301D0(*fn_82934160(), 0x28, 0x10);
+    Obj_82931498 *o;
+
+    if (mem != 0) {
+        o = Construct(mem);
+    } else {
+        o = 0;
+    }
+    if (o == 0) {
+        return 0;
+    }
+    o->field1c = self->field1c;
+    o->field18 = self->field18;
+    o->field20 = self->field20;
+    if (self->a != 0) {
+        o->a = self->a->vt->Clone(self->a);
+        if (o->a == 0) {
+            goto fail;
+        }
+    }
+    if (self->b != 0) {
+        o->b = self->b->vt->Clone(self->b);
+        if (o->b == 0) {
+            goto fail;
+        }
+    }
+    if (self->c != 0) {
+        o->c = self->c->vt->Clone(self->c);
+        if (o->c == 0) {
+            goto fail;
+        }
+    }
+    return o;
+fail:
+    return 0;
+}

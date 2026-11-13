@@ -1,96 +1,54 @@
-extern int fn_82F20F70();
+typedef struct Decoder_82F24118 {
+    char pad000[0x564];
+    int lumaStride;
+    int chromaStride;
+    char pad56c[0x588 - 0x56c];
+    void *table;
+} Decoder_82F24118;
 
+extern void fn_82F20F70(Decoder_82F24118 *d, unsigned char *dst, unsigned int code, int stride, void *table);
 
-void fn_82F24118(int param_1, __int64 param_2, __int64 param_3, __int64 param_4, __int64 param_5, int param_6, int param_7, int param_8, int in_stack_00000054)
-
+void fn_82F24118(Decoder_82F24118 *d, unsigned char *y, unsigned char *u, unsigned char *v, int rows, int width,
+                 const unsigned char *codesY, const unsigned char *codesU, const unsigned char *codesV)
 {
-  unsigned char bVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned char *pbVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  __int64 lVar8;
-  __int64 lVar9;
+    int i;
+    int j;
+    unsigned char *dst;
+    unsigned int code;
+    const unsigned char *src;
 
-  
-  param_2 = param_2 + -5;
-  param_3 = param_3 + -5;
-  param_4 = param_4 + -5;
-  iVar4 = (int)param_5;
-  if (0 < iVar4) {
-    iVar3 = param_6 + 0x1f >> 5;
-    pbVar5 = (unsigned char *)(param_7 + -1);
-    do {
-      if (0 < iVar3) {
-        uVar2 = *(unsigned int *)(param_1 + 0x564);
-        lVar6 = (__int64)iVar3;
-        lVar8 = param_2;
-        do {
-          pbVar5 = pbVar5 + 1;
-          bVar1 = *pbVar5;
-          fn_82F20F70(param_1,lVar8,bVar1 >> 4,uVar2,*(unsigned int *)(param_1 + 0x588));
-          fn_82F20F70(param_1,((unsigned __int64)*(unsigned int *)(param_1 + 0x564) & 0xfffffff) * 0x10 + lVar8
-                          ,bVar1 & 0xf,*(unsigned int *)(param_1 + 0x564),*(unsigned int *)(param_1 + 0x588));
-          uVar2 = *(unsigned int *)(param_1 + 0x564);
-          lVar6 = lVar6 + -1;
-          lVar8 = ((unsigned __int64)uVar2 & 0x7ffffff) * 0x20 + lVar8;
-        } while (lVar6 != 0);
-      }
-      param_5 = param_5 + -1;
-      param_2 = param_2 + 8;
-    } while (param_5 != 0);
-  }
-  iVar4 = iVar4 >> 1;
-  lVar6 = (__int64)iVar4;
-  if (0 < lVar6) {
-    pbVar5 = (unsigned char *)(param_8 + -1);
-    iVar3 = (param_6 >> 1) + 0x1f >> 5;
-    lVar8 = lVar6;
-    do {
-      if (0 < iVar3) {
-        uVar2 = *(unsigned int *)(param_1 + 0x568);
-        lVar7 = (__int64)iVar3;
-        lVar9 = param_3;
-        do {
-          pbVar5 = pbVar5 + 1;
-          bVar1 = *pbVar5;
-          fn_82F20F70(param_1,lVar9,bVar1 >> 4,uVar2,*(unsigned int *)(param_1 + 0x588));
-          fn_82F20F70(param_1,((unsigned __int64)*(unsigned int *)(param_1 + 0x568) & 0xfffffff) * 0x10 + lVar9
-                          ,bVar1 & 0xf,*(unsigned int *)(param_1 + 0x568),*(unsigned int *)(param_1 + 0x588));
-          uVar2 = *(unsigned int *)(param_1 + 0x568);
-          lVar7 = lVar7 + -1;
-          lVar9 = ((unsigned __int64)uVar2 & 0x7ffffff) * 0x20 + lVar9;
-        } while (lVar7 != 0);
-      }
-      lVar8 = lVar8 + -1;
-      param_3 = param_3 + 8;
-    } while (lVar8 != 0);
-  }
-  if (0 < iVar4) {
-    pbVar5 = (unsigned char *)(in_stack_00000054 + -1);
-    iVar4 = (param_6 >> 1) + 0x1f >> 5;
-    do {
-      if (0 < iVar4) {
-        uVar2 = *(unsigned int *)(param_1 + 0x568);
-        lVar8 = (__int64)iVar4;
-        lVar7 = param_4;
-        do {
-          pbVar5 = pbVar5 + 1;
-          bVar1 = *pbVar5;
-          fn_82F20F70(param_1,lVar7,bVar1 >> 4,uVar2,*(unsigned int *)(param_1 + 0x588));
-          fn_82F20F70(param_1,((unsigned __int64)*(unsigned int *)(param_1 + 0x568) & 0xfffffff) * 0x10 + lVar7
-                          ,bVar1 & 0xf,*(unsigned int *)(param_1 + 0x568),*(unsigned int *)(param_1 + 0x588));
-          uVar2 = *(unsigned int *)(param_1 + 0x568);
-          lVar8 = lVar8 + -1;
-          lVar7 = ((unsigned __int64)uVar2 & 0x7ffffff) * 0x20 + lVar7;
-        } while (lVar8 != 0);
-      }
-      lVar6 = lVar6 + -1;
-      param_4 = param_4 + 8;
-    } while (lVar6 != 0);
-  }
-  return;
+    y -= 5;
+    u -= 5;
+    v -= 5;
+    src = codesY;
+    for (i = 0; i < rows; i++) {
+        dst = y + i * 8;
+        for (j = 0; j < (width + 31) >> 5; j++) {
+            code = *src++;
+            fn_82F20F70(d, dst, code >> 4, d->lumaStride, d->table);
+            fn_82F20F70(d, dst + d->lumaStride * 16, code & 0xf, d->lumaStride, d->table);
+            dst += d->lumaStride * 32;
+        }
+    }
+    rows >>= 1;
+    src = codesU;
+    for (i = 0; i < rows; i++) {
+        dst = u + i * 8;
+        for (j = 0; j < ((width >> 1) + 31) >> 5; j++) {
+            code = *src++;
+            fn_82F20F70(d, dst, code >> 4, d->chromaStride, d->table);
+            fn_82F20F70(d, dst + d->chromaStride * 16, code & 0xf, d->chromaStride, d->table);
+            dst += d->chromaStride * 32;
+        }
+    }
+    src = codesV;
+    for (i = 0; i < rows; i++) {
+        dst = v + i * 8;
+        for (j = 0; j < ((width >> 1) + 31) >> 5; j++) {
+            code = *src++;
+            fn_82F20F70(d, dst, code >> 4, d->chromaStride, d->table);
+            fn_82F20F70(d, dst + d->chromaStride * 16, code & 0xf, d->chromaStride, d->table);
+            dst += d->chromaStride * 32;
+        }
+    }
 }
-

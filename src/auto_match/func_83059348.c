@@ -1,33 +1,40 @@
-extern int _blkmov();
-extern int fn_8305B988();
-extern int fn_8305BB28();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8217E46C;
-extern unsigned int lbl_8217E470;
+typedef struct Target_83059348 {
+    char pad00[4];
+    float f4;
+    float f8;
+    char pad0c[0x1c];
+    float f28;
+    float f2c;
+    char pad30[0xbdc - 0x30];
+    float weights[1];
+} Target_83059348;
 
+typedef struct Params_83059348 {
+    unsigned int x;
+    int pad04;
+    Target_83059348 *target;
+    unsigned int sub[1];
+} Params_83059348;
 
-void fn_83059348(unsigned int *param_1)
+extern int fn_8305B988(unsigned int *sub, double x);
+extern int fn_8305BB28(unsigned int *sub, double x);
+extern float lbl_8217E46C;
+extern float lbl_8217E470;
 
+void fn_83059348(Params_83059348 *p)
 {
-  unsigned int uVar1;
-  int iVar2;
-  float *pfVar3;
-  unsigned int *puVar4;
-  
-  puVar4 = param_1 + 3;
-  *(unsigned int *)(param_1[2] + 8) = lbl_8217E470;
-  iVar2 = fn_8305BB28((double)*param_1,puVar4);
-  *(float *)(param_1[2] + 4) = (float)(__int64)iVar2;
-  *(unsigned int *)(param_1[2] + 0x28) = lbl_8217E46C;
-  iVar2 = fn_8305B988((double)*param_1,puVar4);
-  *(float *)(param_1[2] + 0x2c) = (float)(__int64)iVar2;
-  iVar2 = fn_8305B988((double)*param_1,puVar4);
-  uVar1 = param_1[2];
-  pfVar3 = (float *)(uVar1 + 0xbdc);
-  if (0 < iVar2) {
-    *pfVar3 = lbl_82002AE0 / (float)(__int64)iVar2;
-    _blkmov(uVar1 + 0xbe0,pfVar3,iVar2 * 4 + -4);
-  }
-  return;
+    int n;
+    int i;
+    float *w;
+    float v;
+    p->target->f8 = lbl_8217E470;
+    p->target->f4 = (float)fn_8305BB28(p->sub, (double)p->x);
+    p->target->f28 = lbl_8217E46C;
+    p->target->f2c = (float)fn_8305B988(p->sub, (double)p->x);
+    n = fn_8305B988(p->sub, (double)p->x);
+    w = p->target->weights;
+    v = 1.0f / (float)n;
+    for (i = 0; i < n; i++) {
+        w[i] = v;
+    }
 }
-

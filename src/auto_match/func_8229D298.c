@@ -1,62 +1,73 @@
-extern unsigned int *auStack_28;
-extern int fn_822315A0();
-extern int fn_823F2E20();
-extern int fn_82517978();
-extern int fn_82520158();
-extern int fn_8266EC60();
-extern int fn_8266EE08();
-extern int fn_8266F628();
-extern int fn_8266F640();
-extern int fn_8266F6A8();
-extern int fn_82673A28();
-extern int fn_82673BC0();
-extern unsigned int iStack_24;
-extern unsigned int iStack_2c;
-extern unsigned int lbl_821AB238;
-extern unsigned int lbl_821ABBA4;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_30;
+typedef struct Ref_8229D298 {
+    void *ptr;
+    void *ctrl;
+} Ref_8229D298;
 
+typedef struct Name_8229D298 {
+    int a;
+    int b;
+} Name_8229D298;
 
-unsigned int * fn_8229D298(unsigned int *param_1)
+typedef struct Obj_8229D298 {
+    void *vtbl;
+    Ref_8229D298 widget;
+    int field0c;
+    float field10;
+    int field14;
+    int field18;
+} Obj_8229D298;
 
+extern void fn_822315A0(void *ctrl);
+extern void fn_82291208(void);
+extern void fn_822A0790(void);
+extern void fn_823F2E20(Ref_8229D298 *dst, Ref_8229D298 *src);
+extern void fn_82517978(Ref_8229D298 *out, void *ptr, void *ctrl, int v);
+extern void fn_82520158(const char *name, Name_8229D298 *out, int v);
+extern void *fn_8266EC60(void);
+extern Ref_8229D298 *fn_8266EE08(Ref_8229D298 *out, void *mgr, Name_8229D298 *name, int a, int b, int c);
+extern void fn_8266F628(void *ptr, int v);
+extern void fn_8266F640(void *ptr, int v);
+extern void fn_8266F6A8(void *ptr, int v);
+extern void fn_82673A28(void *ptr, void (*cb)(void), Obj_8229D298 *ctx);
+extern void fn_82673BC0(void *ptr, void (*cb)(void), Obj_8229D298 *ctx);
+extern char lbl_821AB238[];
+extern char lbl_821ABBA4[];
+
+Obj_8229D298 *fn_8229D298(Obj_8229D298 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  struct { unsigned int first; int second; } stack_pair_30;
+    Ref_8229D298 *widget;
 
-  unsigned char auStack_28 [4];
-  int iStack_24;
-  
-  *param_1 = &lbl_821ABBA4;
-  param_1[1] = 0;
-  uVar1 = ltcg_pool_0_0f;
-  param_1[2] = 0;
-  param_1[4] = uVar1;
-  param_1[3] = 0;
-  puVar3 = param_1 + 1;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  fn_82520158(0xffffffff821aadd0,&stack_pair_30.first,0);
-  uVar2 = fn_8266EC60();
-  uVar2 = fn_8266EE08(auStack_28,uVar2,&stack_pair_30.first,0,1,0);
-  fn_823F2E20(puVar3,uVar2);
-  if (iStack_24 != 0) {
-    fn_822315A0();
-  }
-  fn_8266F640(*puVar3,1);
-  fn_8266F628(*puVar3,1);
-  fn_82673A28(*puVar3,0xffffffff822a0790,param_1);
-  fn_82673BC0(*puVar3,0xffffffff82291208,param_1);
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  *param_1 = &lbl_821AB238;
-  fn_82517978(&stack_pair_30.first,*puVar3,param_1[2],0);
-  fn_8266F6A8(stack_pair_30.first,0x10);
-  if (stack_pair_30.second != 0) {
-    fn_822315A0();
-  }
-  return param_1;
+    self->vtbl = lbl_821ABBA4;
+    widget = &self->widget;
+    widget->ptr = 0;
+    widget->ctrl = 0;
+    self->field10 = 0.0f;
+    self->field0c = 0;
+    self->field14 = 0;
+    self->field18 = 0;
+    {
+        Name_8229D298 name;
+        Ref_8229D298 tmp;
+        fn_82520158("ui_herocaption", &name, 0);
+        fn_823F2E20(widget, fn_8266EE08(&tmp, fn_8266EC60(), &name, 0, 1, 0));
+        if (tmp.ctrl != 0) {
+            fn_822315A0(tmp.ctrl);
+        }
+    }
+    fn_8266F640(widget->ptr, 1);
+    fn_8266F628(widget->ptr, 1);
+    fn_82673A28(widget->ptr, fn_822A0790, self);
+    fn_82673BC0(widget->ptr, fn_82291208, self);
+    {
+        Ref_8229D298 tmp2;
+        tmp2.ptr = 0;
+        tmp2.ctrl = 0;
+        self->vtbl = lbl_821AB238;
+        fn_82517978(&tmp2, widget->ptr, widget->ctrl, 0);
+        fn_8266F6A8(tmp2.ptr, 0x10);
+        if (tmp2.ctrl != 0) {
+            fn_822315A0(tmp2.ctrl);
+        }
+    }
+    return self;
 }
-

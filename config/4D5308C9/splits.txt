@@ -51238,7 +51238,7 @@ auto_match/func_82631D78.c:
 	.pdata      start:0x821F2F28 end:0x821F2F30
 	.text       start:0x82631D78 end:0x82631E64
 
-auto_match/func_82631E78.c:
+auto_match/func_82631E78.cpp:
 	.pdata      start:0x821F2F30 end:0x821F2F38
 	.text       start:0x82631E78 end:0x82631EFC
 
@@ -53724,7 +53724,7 @@ auto_match/func_82661898.c:
 	.pdata      start:0x821F3CB0 end:0x821F3CB8
 	.text       start:0x82661898 end:0x826619EC
 
-auto_match/func_826619F0.c:
+auto_match/func_826619F0.cpp:
 	.pdata      start:0x821F3CB8 end:0x821F3CC0
 	.text       start:0x826619F0 end:0x82661A48
 
@@ -63157,7 +63157,7 @@ auto_match/func_826D46F0.c:
 	.pdata      start:0x821F7AD8 end:0x821F7AE0
 	.text       start:0x826D46F0 end:0x826D5930
 
-auto_match/func_826D5930.c:
+auto_match/func_826D5930.cpp:
 	.pdata      start:0x821F7AE0 end:0x821F7AE8
 	.text       start:0x826D5930 end:0x826D5B6C
 
@@ -74426,7 +74426,7 @@ auto_match/func_82782B28.c:
 auto_match/func_82782CC8.c:
 	.text       start:0x82782CC8 end:0x82782CD0
 
-auto_match/func_82782CD0.c:
+auto_match/func_82782CD0.cpp:
 	.pdata      start:0x821FC528 end:0x821FC530
 	.text       start:0x82782CD0 end:0x82782D60
 
@@ -78937,7 +78937,7 @@ auto_match/func_827DEA68.c:
 auto_match/func_827DEA80.c:
 	.text       start:0x827DEA80 end:0x827DEA94
 
-auto_match/func_827DEAA8.c:
+auto_match/func_827DEAA8.cpp:
 	.pdata      start:0x821FECB8 end:0x821FECC0
 	.text       start:0x827DEAA8 end:0x827DEB0C
 
@@ -88405,7 +88405,7 @@ auto_match/func_8284C1A0.c:
 	.pdata      start:0x82201B18 end:0x82201B20
 	.text       start:0x8284C1A0 end:0x8284C1F8
 
-auto_match/func_8284C1F8.c:
+auto_match/func_8284C1F8.cpp:
 	.pdata      start:0x82201B20 end:0x82201B28
 	.text       start:0x8284C1F8 end:0x8284C288
 
@@ -158346,7 +158346,7 @@ auto_match/func_82E1A470.c:
 auto_match/func_82E1A4C0.c:
 	.text       start:0x82E1A4C0 end:0x82E1A540
 
-auto_match/func_82E1A540.c:
+auto_match/func_82E1A540.cpp:
 	.pdata      start:0x8221BCD8 end:0x8221BCE0
 	.text       start:0x82E1A540 end:0x82E1A684
 
