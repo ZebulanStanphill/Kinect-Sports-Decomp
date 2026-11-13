@@ -1,22 +1,21 @@
-extern int fn_82A30700();
+typedef struct Link_82A31620 { struct Link_82A31620 *next; struct Link_82A31620 *prev; } Link_82A31620;
+typedef struct { char pad0[0x35]; unsigned char flags; } Item_82A31620;
+typedef struct { Item_82A31620 *item; char pad4[0x44]; Link_82A31620 link; } Entry_82A31620;
+typedef struct { char pad0[0x80]; Link_82A31620 entries; } Self_82A31620;
 
+extern int fn_82A30700(Self_82A31620 *self, Item_82A31620 *item, int arg);
 
-unsigned __int64 fn_82A31620(int param_1)
-
+int fn_82A31620(Self_82A31620 *self)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  
-  puVar3 = *(unsigned int **)(param_1 + 0x80);
-  do {
-    if (puVar3 == (unsigned int *)(param_1 + 0x80)) {
-      return 0;
+  Link_82A31620 *n = self->entries.next;
+  while (n != &self->entries) {
+    Item_82A31620 *item = ((Entry_82A31620 *)((char *)n - 0x48))->item;
+    n = n->next;
+    if (item->flags & 0x10) {
+      int hr = fn_82A30700(self, item, 0);
+      if (hr < 0)
+        return hr;
     }
-    piVar1 = puVar3 + -0x12;
-    puVar3 = (unsigned int *)*puVar3;
-  } while (((*(unsigned char *)(*piVar1 + 0x35) & 0x10) == 0) ||
-          (uVar2 = fn_82A30700(param_1,*piVar1,0), -1 < (int)uVar2));
-  return uVar2;
+  }
+  return 0;
 }
-

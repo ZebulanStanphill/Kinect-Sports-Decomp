@@ -1,35 +1,36 @@
-extern int fn_8267B890();
-extern int fn_82695DA0();
-extern int fn_827A9810();
+typedef struct Array_826A2DA8 {
+    void **items;          /* 0x0 */
+    unsigned int count;    /* 0x4 */
+} Array_826A2DA8;
 
+typedef struct Obj_826A2DA8 {
+    char pad0[0x34];
+    Array_826A2DA8 children; /* 0x34 */
+} Obj_826A2DA8;
 
-void fn_826A2DA8(int param_1,unsigned __int64 param_2,int param_3)
+extern void fn_827A9810(Array_826A2DA8 *array, unsigned int count);
+extern void *fn_8267B890(void *pool, unsigned int size, int flags);
+extern void *fn_82695DA0(void *mem, void *src);
 
+void fn_826A2DA8(Obj_826A2DA8 *self, void *pool, Obj_826A2DA8 *src)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  fn_827A9810((int *)(param_1 + 0x34),*(unsigned int *)(param_3 + 0x38));
-  uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x38);
-  if (uVar3 != 0) {
-    iVar4 = 0;
-    do {
-      if (*(int *)(iVar4 + *(int *)(param_3 + 0x34)) != 0) {
-        uVar1 = fn_8267B890(param_2,0x10,0);
-        if ((uVar1 & 0xffffffff) == 0) {
-          uVar2 = 0;
-        }
-        else {
-          uVar2 = fn_82695DA0(uVar1,*(unsigned int *)(iVar4 + *(int *)(param_3 + 0x34)));
-        }
-        *(unsigned int *)(*(int *)(param_1 + 0x34) + iVar4) = uVar2;
-      }
-      uVar3 = uVar3 - 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar3 != 0);
-  }
-  return;
-}
+    Array_826A2DA8 *children = &self->children;
+    unsigned int count;
+    unsigned int remaining;
+    int offset;
 
+    fn_827A9810(children, src->children.count);
+    count = self->children.count;
+    if (count) {
+        offset = 0;
+        remaining = count;
+        do {
+            if (*(void **)(offset + (int)src->children.items) != 0) {
+                void *mem = fn_8267B890(pool, 0x10, 0);
+                *(void **)((int)children->items + offset) = mem ? fn_82695DA0(mem, *(void **)(offset + (int)src->children.items)) : 0;
+            }
+            remaining--;
+            offset += 4;
+        } while (remaining);
+    }
+}

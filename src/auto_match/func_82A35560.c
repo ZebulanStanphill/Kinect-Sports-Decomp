@@ -1,38 +1,39 @@
-extern unsigned int *auStack_80;
-extern int fn_82A34B08();
-extern int fn_82A34C78();
-extern int fn_82A34DC8();
-extern int fn_82A37768();
-extern unsigned int iStack_78;
+typedef struct { unsigned int type; int arg; void *event; char data[0x54]; } Cmd_82A35560;
+typedef struct {
+  char pad0[0x44];
+  void (*threadBegin)(const char *name);
+  void (*threadEnd)(void);
+  char pad4c[0x78];
+  char queue[4];
+} Self_82A35560;
 
+extern int fn_82A37768(void *queue, Cmd_82A35560 *cmd);
+extern void fn_82A34B08(Self_82A35560 *self, Cmd_82A35560 *cmd);
+extern void fn_82A34C78(Self_82A35560 *self, Cmd_82A35560 *cmd);
+extern void fn_82A34DC8(Self_82A35560 *self, Cmd_82A35560 *cmd);
+extern long NtSetEvent(void *event, long *previous);
 
-unsigned __int64 fn_82A35560(int param_1)
-
+int fn_82A35560(Self_82A35560 *self)
 {
-  int iVar1;
-  unsigned int auStack_80 [2];
-  int iStack_78;
-  
-  if (*(int (***)())(param_1 + 0x44) != (int (**)())0x0) {
-    (**(int (***)())(param_1 + 0x44))(0xffffffff820893a4);
+  Cmd_82A35560 cmd;
+  if (self->threadBegin != 0)
+    self->threadBegin("XctdDecompression");
+  while (fn_82A37768(self->queue, &cmd) != 0) {
+    switch (cmd.type) {
+    case 0:
+      fn_82A34B08(self, &cmd);
+      break;
+    case 1:
+      fn_82A34C78(self, &cmd);
+      break;
+    case 2:
+      fn_82A34DC8(self, &cmd);
+      break;
+    }
+    if (cmd.event != 0)
+      NtSetEvent(cmd.event, 0);
   }
-  while (iVar1 = fn_82A37768(param_1 + 0xc4,auStack_80), iVar1 != 0) {
-    if (auStack_80[0] == 0) {
-      fn_82A34B08(param_1,auStack_80);
-    }
-    else if (auStack_80[0] == 1) {
-      fn_82A34C78(param_1,auStack_80);
-    }
-    else if (auStack_80[0] < 3) {
-      fn_82A34DC8(param_1,auStack_80);
-    }
-    if (iStack_78 != 0) {
-      NtSetEvent(iStack_78,0);
-    }
-  }
-  if (*(int *)(param_1 + 0x44) != 0) {
-    (**(int (***)())(param_1 + 0x48))();
-  }
+  if (self->threadBegin != 0)
+    self->threadEnd();
   return 0;
 }
-

@@ -1,79 +1,46 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int fStack0000001c;
-extern int fn_82CEBE20();
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
 
-void fn_825A5420(double param_1,int param_2,unsigned __int64 param_3,unsigned int *param_4)
+typedef struct Matrix3_825A5420 {
+    __vector4 col[3];
+} Matrix3_825A5420;
 
+typedef struct State_825A5420 {
+    float a;                   /* 0x00 */
+    float b;                   /* 0x04 */
+    char pad8[8];
+    __vector4 v;               /* 0x10 */
+    Matrix3_825A5420 m;        /* 0x20 */
+} State_825A5420;
+
+typedef struct Self_825A5420 {
+    char pad0[0x18];
+    State_825A5420 *state;     /* 0x18 */
+} Self_825A5420;
+
+extern void fn_82CEBE20(Matrix3_825A5420 *m, const __vector4 *s);
+
+static __forceinline void Matrix3_copy(Matrix3_825A5420 *d, const Matrix3_825A5420 *s)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar5;
-  unsigned int in_register_00010000;
-  unsigned int in_ACC;
-  unsigned int in_register_00010008;
-  unsigned int in_vr0;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  float fStack0000001c;
-  
-  uVar5 = ZEXT48(&stack0x00000000);
-  puVar1 = *(unsigned int **)(param_2 + 0x18);
-  fStack0000001c = (float)param_1;
-  *param_4 = *puVar1;
-  param_4[1] = puVar1[1];
-  puVar2 = (unsigned int *)((unsigned int)(puVar1 + 4) & 0xfffffff0);
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  puVar3 = (unsigned int *)((unsigned int)(param_4 + 4) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar6;
-  puVar3[2] = uVar7;
-  puVar3[3] = uVar8;
-  iVar4 = (int)in_r0;
-  puVar2 = (unsigned int *)((int)puVar1 + iVar4 + 0x20 & 0xfffffff0);
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar4 + (int)(param_4 + 8) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar6;
-  puVar3[2] = uVar7;
-  puVar3[3] = uVar8;
-  puVar2 = (unsigned int *)((unsigned int)(puVar1 + 0xc) & 0xfffffff0);
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  puVar3 = (unsigned int *)((unsigned int)(param_4 + 0xc) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar6;
-  puVar3[2] = uVar7;
-  puVar3[3] = uVar8;
-  puVar1 = (unsigned int *)((unsigned int)(puVar1 + 0x10) & 0xfffffff0);
-  uVar6 = puVar1[1];
-  uVar7 = puVar1[2];
-  uVar8 = puVar1[3];
-  loadVectorLeftIndexed128(in_r0,uVar5 + 0x1c);
-  puVar2 = (unsigned int *)((unsigned int)(param_4 + 0x10) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar6;
-  puVar2[2] = uVar7;
-  puVar2[3] = uVar8;
-  param_4[1] = (float)param_1;
-  puVar1 = (unsigned int *)(iVar4 + (int)(uVar5 - 0x20) & 0xfffffff0);
-  *puVar1 = in_register_00010000;
-  puVar1[1] = in_ACC;
-  puVar1[2] = in_register_00010008;
-  puVar1[3] = in_vr0;
-  fn_82CEBE20(param_4 + 8,uVar5 - 0x20,param_4,uVar5 - 0x20,uVar5 + 0x1c);
-  return;
+    d->col[0] = s->col[0];
+    d->col[1] = s->col[1];
+    d->col[2] = s->col[2];
 }
 
+void fn_825A5420(Self_825A5420 *self, float scale, State_825A5420 *out)
+{
+    State_825A5420 *src = self->state;
+    __vector4 s;
+
+    out->a = src->a;
+    out->b = src->b;
+    out->v = src->v;
+    Matrix3_copy(&out->m, &src->m);
+    s = __vspltw(__lvlx(&scale, 0), 0);
+    out->b = scale;
+    fn_82CEBE20(&out->m, &s);
+}

@@ -1,34 +1,40 @@
-extern unsigned int *auStack_30;
-extern int fn_82D6F590();
-extern unsigned int lbl_83182A98;
+typedef struct Vec4_82D4D8F8 {
+    float v[4];
+} Vec4_82D4D8F8;
 
+typedef struct Triangle_82D4D8F8 {
+    int a;
+    int b;
+    int c;
+    int material;
+} Triangle_82D4D8F8;
 
-int fn_82D4D8F8(int param_1,int param_2)
+typedef struct Mesh_82D4D8F8 {
+    char pad0[0x8];
+    Vec4_82D4D8F8 *vertices;
+    char pad1[0x8];
+    Triangle_82D4D8F8 *triangles;
+    int numTriangles;
+} Mesh_82D4D8F8;
 
+typedef struct Result_82D4D8F8 {
+    char ok;
+} Result_82D4D8F8;
+
+extern float lbl_83182A98;
+extern Result_82D4D8F8 *fn_82D6F590(Result_82D4D8F8 *out, Vec4_82D4D8F8 *v0,
+                                    Vec4_82D4D8F8 *v1, Vec4_82D4D8F8 *v2,
+                                    float tolerance);
+
+int fn_82D4D8F8(Mesh_82D4D8F8 *mesh, int start)
 {
-  char *pcVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned char auStack_30 [48];
-  
-  param_2 = param_2 + 1;
-  if (param_2 < *(int *)(param_1 + 0x18)) {
-    iVar4 = param_2 * 0x10;
-    do {
-      uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-      puVar3 = (unsigned int *)(*(int *)(param_1 + 0x14) + iVar4);
-      pcVar1 = (char *)fn_82D6F590((double)lbl_83182A98,auStack_30,
-                                    ((unsigned __int64)*puVar3 & 0xfffffff) * 0x10 + uVar2,
-                                    ((unsigned __int64)puVar3[1] & 0xfffffff) * 0x10 + uVar2,
-                                    ((unsigned __int64)puVar3[2] & 0xfffffff) * 0x10 + uVar2);
-      if (*pcVar1 == '\0') {
-        return param_2;
-      }
-      param_2 = param_2 + 1;
-      iVar4 = iVar4 + 0x10;
-    } while (param_2 < *(int *)(param_1 + 0x18));
-  }
-  return -1;
+    int i;
+    for (i = start + 1; i < mesh->numTriangles; i++) {
+        Result_82D4D8F8 res;
+        Vec4_82D4D8F8 *verts = mesh->vertices;
+        if (fn_82D6F590(&res, &verts[mesh->triangles[i].a], &verts[mesh->triangles[i].b], &verts[mesh->triangles[i].c], lbl_83182A98)->ok == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
-

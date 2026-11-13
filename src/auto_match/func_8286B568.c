@@ -1,28 +1,16 @@
-extern int fn_8286B368();
+typedef struct Elem_8286B568 { int words[7]; } Elem_8286B568;
 
+extern void fn_8286B368(Elem_8286B568 *first, Elem_8286B568 *mid, Elem_8286B568 *last);
 
-void fn_8286B568(__int64 param_1,__int64 param_2,__int64 param_3)
-
+void fn_8286B568(Elem_8286B568 *first, Elem_8286B568 *mid, Elem_8286B568 *last)
 {
-  int iVar1;
-  unsigned int uVar3;
-  __int64 lVar2;
-  __int64 lVar4;
-  __int64 lVar5;
-  
-  iVar1 = ((int)param_3 - (int)param_1) / 0x1c;
-  if (0x28 < iVar1) {
-    uVar3 = iVar1 + 1;
-    lVar2 = (__int64)((int)uVar3 >> 3) + (unsigned __int64)((int)uVar3 < 0 && (uVar3 & 7) != 0);
-    lVar4 = lVar2 * 0x1c + param_1;
-    fn_8286B368(param_1,lVar4,lVar2 * 0x38 + param_1);
-    fn_8286B368(param_2 + lVar2 * -0x1c,param_2,lVar2 * 0x1c + param_2);
-    lVar5 = param_3 + lVar2 * -0x1c;
-    fn_8286B368(param_3 + lVar2 * -0x38,lVar5,param_3);
-    param_1 = lVar4;
-    param_3 = lVar5;
-  }
-  fn_8286B368(param_1,param_2,param_3);
-  return;
+    if (40 < last - first) {
+        int step = (last - first + 1) / 8;
+        fn_8286B368(first, first + step, first + 2 * step);
+        fn_8286B368(mid - step, mid, mid + step);
+        fn_8286B368(last - 2 * step, last - step, last);
+        fn_8286B368(first + step, mid, last - step);
+    } else {
+        fn_8286B368(first, mid, last);
+    }
 }
-

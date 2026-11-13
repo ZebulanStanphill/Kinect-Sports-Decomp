@@ -1,72 +1,52 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82CEBE20();
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+__vector4 __lvlx(const void *, int);
+__vector4 __vspltw(__vector4, int);
 
+typedef struct Rotation_82DE54E0 {
+    __vector4 col0;
+    __vector4 col1;
+    __vector4 col2;
+} Rotation_82DE54E0;
 
-void fn_82DE54E0(double param_1,int param_2,unsigned __int64 param_3,int param_4)
+typedef struct Transform_82DE54E0 {
+    Rotation_82DE54E0 rotation;
+    __vector4 translation;
+} Transform_82DE54E0;
 
+typedef struct Source_82DE54E0 {
+    float f0;
+    float duration;
+    char pad8[0x8];
+    __vector4 translation;
+    Rotation_82DE54E0 rotation;
+} Source_82DE54E0;
+
+typedef struct Out_82DE54E0 {
+    char pad0[0x50];
+    Transform_82DE54E0 transform;
+    float time;
+} Out_82DE54E0;
+
+static __forceinline void CopyRotation(Rotation_82DE54E0 *d, const Rotation_82DE54E0 *s)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int in_register_00010090;
-  unsigned int in_register_00010094;
-  unsigned int in_register_00010098;
-  unsigned int in_vr9;
-  
-  uVar4 = ZEXT48(&stack0x00000000);
-  *(float *)(param_4 + 0x90) = (float)param_1;
-  puVar1 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)(param_4 + 0x80U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  iVar3 = (int)in_r0;
-  puVar1 = (unsigned int *)(iVar3 + param_2 + 0x20 & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)(iVar3 + param_4 + 0x50 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)(param_2 + 0x30U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)(param_4 + 0x60U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)(param_2 + 0x40U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  loadVectorLeftIndexed128(in_r0,uVar4 - 0x30);
-  puVar2 = (unsigned int *)(param_4 + 0x70U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)(iVar3 + (int)(uVar4 - 0x20) & 0xfffffff0);
-  *puVar1 = in_register_00010090;
-  puVar1[1] = in_register_00010094;
-  puVar1[2] = in_register_00010098;
-  puVar1[3] = in_vr9;
-  fn_82CEBE20(param_4 + 0x50,uVar4 - 0x20,uVar4 - 0x20,uVar4 - 0x30);
-  return;
+    d->col0 = s->col0;
+    d->col1 = s->col1;
+    d->col2 = s->col2;
 }
 
+extern void fn_82CEBE20(void *target, const __vector4 *scale);
+
+void fn_82DE54E0(Source_82DE54E0 *self, float time, Out_82DE54E0 *out)
+{
+    __vector4 v;
+    float ratio;
+
+    ratio = time / self->duration;
+    out->time = time;
+    out->transform.translation = self->translation;
+    CopyRotation(&out->transform.rotation, &self->rotation);
+    v = __vspltw(__lvlx(&ratio, 0), 0);
+    fn_82CEBE20(&out->transform.rotation, &v);
+}

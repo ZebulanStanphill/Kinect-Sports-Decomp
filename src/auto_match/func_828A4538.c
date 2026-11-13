@@ -1,54 +1,36 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-
-
-unsigned int * fn_828A4538(int param_1,int *param_2)
-
+typedef struct Opt_828A4538 { unsigned char hasValue; int value; } Opt_828A4538;
+typedef struct Key_828A4538 { int id; Opt_828A4538 opt; } Key_828A4538;
+typedef struct Node_828A4538 {
+  struct Node_828A4538 *left, *parent, *right;
+  Key_828A4538 key;
+  int mapped;
+  char color;
+  unsigned char isnil;
+} Node_828A4538;
+typedef struct { int pad; Node_828A4538 *head; } Tree_828A4538;
+static unsigned char optLess(const Opt_828A4538 *a, const Opt_828A4538 *b)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar5;
-  
-  puVar4 = *(unsigned int **)(param_1 + 4);
-  if (*(char *)((int)puVar4[1] + 0x1d) != '\0') {
-    return puVar4;
-  }
-  puVar1 = (unsigned int *)puVar4[1];
-  do {
-    if (*param_2 < (int)puVar1[3]) {
-LAB_828a45b4:
-      bVar3 = true;
-    }
-    else {
-      if (*param_2 <= (int)puVar1[3]) {
-        uVar5 = 0;
-        if (*(char *)(puVar1 + 4) != '\0') {
-          if (*(char *)(param_2 + 1) == '\0') {
-            uVar5 = 1;
-          }
-          else {
-            uVar5 = ((~(unsigned __int64)(unsigned int)(puVar1[5] ^ param_2[2]) & 0xffffffff) >> 0x1f) +
-                    (unsigned __int64)((unsigned int)puVar1[5] <= (unsigned int)param_2[2]) & 1;
-          }
-        }
-        if (uVar5 != 0) goto LAB_828a45b4;
-      }
-      bVar3 = false;
-    }
-    if (bVar3) {
-      puVar2 = (unsigned int *)*puVar1;
-      puVar4 = puVar1;
-    }
-    else {
-      puVar2 = (unsigned int *)puVar1[2];
-    }
-    puVar1 = puVar2;
-    if (*(char *)((int)puVar2 + 0x1d) != '\0') {
-      return puVar4;
-    }
-  } while( true );
+  if (!b->hasValue)
+    return 0;
+  if (!a->hasValue)
+    return 1;
+  return a->value < b->value;
 }
-
+static unsigned char keyLess(const Key_828A4538 *a, const Key_828A4538 *b)
+{
+  return a->id < b->id || (!(b->id < a->id) && optLess(&a->opt, &b->opt));
+}
+Node_828A4538 *fn_828A4538(Tree_828A4538 *t, Key_828A4538 *key)
+{
+  Node_828A4538 *where = t->head;
+  Node_828A4538 *node = where->parent;
+  while (node->isnil == 0) {
+    if (keyLess(key, &node->key)) {
+      where = node;
+      node = node->left;
+    } else {
+      node = node->right;
+    }
+  }
+  return where;
+}

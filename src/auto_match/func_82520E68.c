@@ -1,27 +1,31 @@
-void fn_82520E68(int *param_1)
+typedef struct Obj_82520E68 Obj_82520E68;
 
+typedef struct ObjVt_82520E68 {
+    void (*f0)(Obj_82520E68 *);
+    void (*f1)(Obj_82520E68 *);
+    void (*f2)(Obj_82520E68 *);
+    void (*f3)(Obj_82520E68 *);
+    void (*f4)(Obj_82520E68 *);
+} ObjVt_82520E68;
+
+struct Obj_82520E68 {
+    ObjVt_82520E68 *vt;
+    int pad4;
+    unsigned int state;   /* 0x08 */
+};
+
+void fn_82520E68(Obj_82520E68 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  uVar1 = param_1[2];
-  if (uVar1 == 0) {
-    iVar2 = 4;
-  }
-  else {
-    if (uVar1 != 1) {
-      if (2 < uVar1) {
-        return;
-      }
-      param_1[2] = 3;
-                    /* WARNING: Could not recover jumptable at 0x82520e94. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-      (**(int (***)())(*param_1 + 0x10))();
-      return;
+    switch (self->state) {
+    case 0:
+        self->state = 4;
+        break;
+    case 1:
+        self->state = 3;
+        break;
+    case 2:
+        self->state = 3;
+        self->vt->f4(self);
+        break;
     }
-    iVar2 = 3;
-  }
-  param_1[2] = iVar2;
-  return;
 }
-

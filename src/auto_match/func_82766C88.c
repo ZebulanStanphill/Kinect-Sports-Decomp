@@ -1,25 +1,21 @@
-unsigned __int64 fn_82766C88(int param_1,int param_2)
+int strcmp(const char *, const char *);
 
+typedef struct Name_82766C88 {
+    int refs;
+    int f04;
+    char text[1];
+} Name_82766C88;
+
+typedef struct Key_82766C88 {
+    int f00;
+    int f04;
+    unsigned int c;
+    unsigned int name;
+    unsigned int d;
+} Key_82766C88;
+
+unsigned char fn_82766C88(Key_82766C88 *x, Key_82766C88 *y)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar5;
-  unsigned __int64 uVar4;
-  
-  pcVar3 = (char *)((*(unsigned int *)(param_2 + 0xc) & 0xfffffffc) + 8);
-  pcVar5 = (char *)((*(unsigned int *)(param_1 + 0xc) & 0xfffffffc) + 8);
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  if (((cVar1 != cVar2) || (*(int *)(param_1 + 8) != *(int *)(param_2 + 8))) ||
-     (uVar4 = 1, *(int *)(param_1 + 0x10) != *(int *)(param_2 + 0x10))) {
-    uVar4 = 0;
-  }
-  return uVar4;
+    return strcmp(((Name_82766C88 *)(x->name & ~3u))->text, ((Name_82766C88 *)(y->name & ~3u))->text) == 0 &&
+           x->c == y->c && x->d == y->d;
 }
-

@@ -1,20 +1,15 @@
-extern int fn_8288B760();
+typedef struct {
+  char pad0[0x14];
+  void *handler;
+  char pad18[0x10];
+  int state;
+} Self_824CD030;
 
+extern unsigned char fn_8288B760(void *handler);
 
-unsigned __int64 fn_824CD030(int param_1)
-
+int fn_824CD030(Self_824CD030 *self)
 {
-  char cVar2;
-  unsigned __int64 uVar1;
-  
-  if (*(int *)(param_1 + 0x14) == 0) {
-    uVar1 = ((~(unsigned __int64)*(unsigned int *)(param_1 + 0x28) & 0xffffffff) >> 0x1f) +
-            (unsigned __int64)(5 < (unsigned __int64)*(unsigned int *)(param_1 + 0x28)) & 1;
-  }
-  else {
-    cVar2 = fn_8288B760();
-    uVar1 = (unsigned __int64)(cVar2 != '\0');
-  }
-  return uVar1;
+  if (self->handler == 0)
+    return self->state < 6;
+  return fn_8288B760(self->handler) != 0;
 }
-

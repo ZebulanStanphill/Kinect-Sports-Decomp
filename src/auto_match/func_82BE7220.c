@@ -1,37 +1,33 @@
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5398();
-extern int fn_82BEA200();
-extern int fn_82BEA230();
+typedef struct { char data[8]; } Iter_82BE7220;
+typedef struct {
+  char pad0[0x14];
+  Iter_82BE7220 requests;
+  void *owner;
+  char pad20[0xc];
+  char lock[4];
+} Manager_82BE7220;
 
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
+extern void fn_82BE5340(Iter_82BE7220 *it);
+extern void fn_82BE5350(Iter_82BE7220 *it);
+extern void *fn_82BE5378(Iter_82BE7220 *it);
+extern void fn_82BE5398(Iter_82BE7220 *it, void *owner, int flag);
 
-unsigned __int64 fn_82BE7220(int param_1,int param_2)
-
+int fn_82BE7220(Manager_82BE7220 *self, void *request)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  
-  iVar2 = fn_82BEA200(param_1 + 0x2c,0xffffffff820e9890);
-  if (iVar2 == 0) {
-    uVar1 = 0x2c0;
-  }
-  else {
-    iVar2 = param_1 + 0x14;
-    fn_82BE5340(iVar2);
-    while (iVar3 = fn_82BE5378(iVar2), iVar3 != 0) {
-      if (iVar3 == param_2) {
-        fn_82BE5398(iVar2,*(unsigned int *)(param_1 + 0x1c),1);
-        uVar1 = 0;
-        goto LAB_82be72a8;
-      }
-      fn_82BE5350();
+  void *cur;
+  if (fn_82BEA200(self->lock, "CRequestManager::RemoveRequest") == 0)
+    return 0x2c0;
+  fn_82BE5340(&self->requests);
+  while ((cur = fn_82BE5378(&self->requests)) != 0) {
+    if (cur == request) {
+      fn_82BE5398(&self->requests, self->owner, 1);
+      fn_82BEA230(self->lock, "CRequestManager::RemoveRequest");
+      return 0;
     }
-    uVar1 = 0x2bf;
-LAB_82be72a8:
-    fn_82BEA230(param_1 + 0x2c,0xffffffff820e9890);
+    fn_82BE5350(&self->requests);
   }
-  return uVar1;
+  fn_82BEA230(self->lock, "CRequestManager::RemoveRequest");
+  return 0x2bf;
 }
-

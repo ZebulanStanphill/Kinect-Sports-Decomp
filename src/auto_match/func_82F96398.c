@@ -1,14 +1,25 @@
-unsigned int *
-fn_82F96398(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4,
-             unsigned __int64 *param_5,unsigned char param_6)
+typedef struct Pair_82F96398 {
+    unsigned int first;
+    unsigned int second;
+} Pair_82F96398;
 
+typedef struct Obj_82F96398 {
+    unsigned int a;          /* 0x00 */
+    unsigned int b;          /* 0x04 */
+    unsigned int c;          /* 0x08 */
+    Pair_82F96398 d;         /* 0x0c */
+    unsigned char flag;      /* 0x14 */
+    unsigned char done;      /* 0x15 */
+} Obj_82F96398;
+
+Obj_82F96398 *fn_82F96398(Obj_82F96398 *self, unsigned int a, unsigned int b, unsigned int c,
+                          const Pair_82F96398 *d, unsigned char flag)
 {
-  *param_1 = param_2;
-  param_1[1] = param_3;
-  param_1[2] = param_4;
-  *(unsigned __int64 *)(param_1 + 3) = *param_5;
-  *(unsigned char *)(param_1 + 5) = param_6;
-  *(unsigned char *)((int)param_1 + 0x15) = 0;
-  return param_1;
+    self->a = a;
+    self->b = b;
+    self->c = c;
+    self->d = *d;
+    self->flag = flag;
+    self->done = 0;
+    return self;
 }
-

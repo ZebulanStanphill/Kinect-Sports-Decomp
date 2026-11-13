@@ -1,26 +1,16 @@
-unsigned __int64 fn_8289FA30(int *param_1,int *param_2)
+typedef struct Opt_8289FA30 { unsigned char hasValue; int value; } Opt_8289FA30;
+typedef struct Key_8289FA30 { int id; Opt_8289FA30 opt; } Key_8289FA30;
 
+static __forceinline unsigned char optLess(const Opt_8289FA30 *a, const Opt_8289FA30 *b)
 {
-  unsigned __int64 uVar1;
-  
-  if (*param_1 < *param_2) {
-    return 1;
-  }
-  if (*param_1 <= *param_2) {
-    uVar1 = 0;
-    if (*(char *)(param_2 + 1) != '\0') {
-      if (*(char *)(param_1 + 1) == '\0') {
-        uVar1 = 1;
-      }
-      else {
-        uVar1 = ((~(unsigned __int64)(unsigned int)(param_2[2] ^ param_1[2]) & 0xffffffff) >> 0x1f) +
-                (unsigned __int64)((unsigned int)param_2[2] <= (unsigned int)param_1[2]) & 1;
-      }
-    }
-    if (uVar1 != 0) {
-      return 1;
-    }
-  }
-  return 0;
+    if (!b->hasValue)
+        return 0;
+    if (!a->hasValue)
+        return 1;
+    return a->value < b->value;
 }
 
+unsigned char fn_8289FA30(const Key_8289FA30 *a, const Key_8289FA30 *b)
+{
+    return a->id < b->id || (!(b->id < a->id) && optLess(&a->opt, &b->opt));
+}

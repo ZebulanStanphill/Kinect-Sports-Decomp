@@ -1,37 +1,33 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorMergeHighWord();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+__vector4 __vmrghw(__vector4 a, __vector4 b);
 
-void fn_82CEC7E0(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct Matrix3_82CEC7E0 {
+    __vector4 col[3];
+} Matrix3_82CEC7E0;
 
+extern const __vector4 lbl_82132D00;
+
+/* this = transpose(a) * b, column by column */
+void fn_82CEC7E0(Matrix3_82CEC7E0 *self, const Matrix3_82CEC7E0 *a, const Matrix3_82CEC7E0 *b)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned char in_vs32 [16];
-  unsigned char auVar4 [16];
-  unsigned char auVar5 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs41 [16];
-  unsigned int in_register_00010040;
-  unsigned int in_register_00010044;
-  unsigned int in_register_00010048;
-  unsigned int in_vr4;
-  
-  iVar2 = param_3 + 0x20;
-  lVar3 = 3;
-  do {{ V16 _vt0 = vectorMergeHighWord(in_vs41,in_vs32); memcpy(auVar5, &_vt0, 16); }{ V16 _vt1 = vectorMergeHighWord(in_vs39,in_vs40); memcpy(auVar4, &_vt1, 16); }
-    vectorMergeHighWord(auVar4,auVar5);
-    puVar1 = (unsigned int *)((param_1 - param_3) + iVar2 & 0xfffffff0);
-    *puVar1 = in_register_00010040;
-    puVar1[1] = in_register_00010044;
-    puVar1[2] = in_register_00010048;
-    puVar1[3] = in_vr4;
-    iVar2 = iVar2 + -0x10;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
-}
+    __vector4 c0 = a->col[0];
+    __vector4 c1 = a->col[1];
+    __vector4 c2 = a->col[2];
+    int i = 2;
 
+    do {
+        __vector4 d0, d1, d2, xz, yw, r;
+        d1 = __vmsum3fp(c1, b->col[i]);
+        d2 = __vmsum3fp(c2, b->col[i]);
+        d0 = __vmsum3fp(c0, b->col[i]);
+        yw = __vmrghw(d1, lbl_82132D00);
+        xz = __vmrghw(d0, d2);
+        r = __vmrghw(xz, yw);
+        self->col[i] = r;
+        i--;
+    } while (i >= 0);
+}

@@ -1,15 +1,19 @@
-void fn_82B8F130(unsigned __int64 param_1,int param_2,int param_3)
+typedef struct Node_82B8F130 Node_82B8F130;
+struct Node_82B8F130 {
+    int f0;
+    Node_82B8F130 *parent;
+    Node_82B8F130 *next;
+    Node_82B8F130 *firstChild;
+};
 
+void fn_82B8F130(void *self, Node_82B8F130 *node, Node_82B8F130 *newParent)
 {
-  int *piVar1;
-  
-  for (piVar1 = (int *)(*(int *)(param_2 + 4) + 0xc); *piVar1 != param_2;
-      piVar1 = (int *)(*piVar1 + 8)) {
-  }
-  *piVar1 = *(int *)(param_2 + 8);
-  *(int *)(param_2 + 4) = param_3;
-  *(unsigned int *)(param_2 + 8) = *(unsigned int *)(param_3 + 0xc);
-  *(int *)(param_3 + 0xc) = param_2;
-  return;
+    Node_82B8F130 **link = &node->parent->firstChild;
+    while (*link != node) {
+        link = &(*link)->next;
+    }
+    *link = node->next;
+    node->parent = newParent;
+    node->next = newParent->firstChild;
+    newParent->firstChild = node;
 }
-

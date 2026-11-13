@@ -1,45 +1,23 @@
-typedef unsigned char bool;
-extern int fn_82A1E658();
-extern int fn_82A1E6A0();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct {
+  int pad0[2];
+  long event;
+} Self_8259C7E8;
 
-unsigned __int64 fn_8259C7E8(__int64 param_1)
+extern long fn_82A1E6A0(void *attributes, int manualReset, int initialState, const char *name);
+extern int fn_82A1E658(long handle);
 
+long fn_8259C7E8(Self_8259C7E8 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar1 = *(unsigned int *)((int)param_1 + 8);
-  param_1 = param_1 + 8;
-  uVar3 = (unsigned __int64)uVar1;
-  if (uVar1 == 0) {
-    uVar3 = fn_82A1E6A0(0,0,0,0);
-    do {
-      puVar4 = (unsigned int *)param_1;
-      uVar1 = *puVar4;
-      if (uVar1 != 0) {
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-          *puVar4 = uVar2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar3,0,param_1);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar1 != 0) {
-      fn_82A1E658();
-      uVar3 = (unsigned __int64)uVar1;
-    }
+  long event = self->event;
+  if (event == 0) {
+    long created = fn_82A1E6A0(0, 0, 0, 0);
+    event = _InterlockedCompareExchange(&self->event, created, 0);
+    if (event == 0)
+      event = created;
+    else
+      fn_82A1E658(created);
   }
-  return uVar3;
+  return event;
 }
-

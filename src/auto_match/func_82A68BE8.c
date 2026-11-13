@@ -1,18 +1,16 @@
-void fn_82A68BE8(unsigned int param_1,unsigned int param_2,__int64 param_3,int *param_4)
-
+unsigned int fn_82A68BE8(unsigned short value, unsigned short unit, unsigned int size, unsigned int *padding)
 {
-  unsigned __int64 uVar1;
-  
-  if ((int)(param_1 & 0xffff) < (int)((param_2 & 0xffff) * 8 - (param_2 & 0xffff))) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = (__int64)(int)(((param_1 & 0xffff) << 1) / (param_2 & 0xffff)) + 0xfff4U & 0xffff;
-  }
-  if (param_4 == (int *)0x0) {
-    return;
-  }
-  *param_4 = (int)(((uVar1 + param_3) - 1 & 0xffffffff) / uVar1) * (int)uVar1 - (int)param_3;
-  return;
-}
+    unsigned short block;
+    unsigned int count;
 
+    if (value >= unit * 7) {
+        block = value * 2 / unit - 12;
+    } else {
+        block = 0;
+    }
+    count = (size + block - 1) / block;
+    if (padding != 0) {
+        *padding = block * ((size + block - 1) / block) - size;
+    }
+    return count;
+}

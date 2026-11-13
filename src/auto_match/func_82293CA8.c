@@ -1,89 +1,77 @@
-extern unsigned int *auStack_1030;
-extern unsigned int *auStack_1830;
-extern unsigned int *auStack_1840;
-extern unsigned int *auStack_1850;
-extern unsigned int *auStack_1860;
-extern unsigned int *auStack_830;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8229D5C0();
-extern int fn_822A0678();
-extern int fn_82358FD8();
-extern int fn_82517978();
-extern int fn_82528EE0();
-extern int fn_82672C20();
-extern unsigned int lbl_820E975C;
-extern unsigned int lbl_82193A10;
-extern unsigned int lbl_82193A14;
-extern unsigned int uStack_1870;
+typedef struct { int first; int second; void *p; int pad; } Arg_82293CA8;
+typedef struct { int movie; unsigned int ref; } Res_82293CA8;
+typedef struct Caption_82293CA8 {
+  int pad0;
+  int f4;
+  int f8;
+  int shown;
+  float time;
+  int busy;
+} Caption_82293CA8;
+typedef struct {
+  char pad0[0x14];
+  Caption_82293CA8 *caption;
+  int pad18;
+  int strings;
+} Self_82293CA8;
 
+extern void fn_82358FD8(int strings, unsigned short *buf, int size, const char *id);
+extern int fn_82528EE0(unsigned short *buf, int size, const unsigned short *fmt, ...);
+extern void fn_8229D5C0(Caption_82293CA8 *c, const void *a, const void *b, const void *d, int human, float time);
+extern int fn_822315A0(unsigned int ref);
+extern void fn_82273C88(Arg_82293CA8 *h);
+extern void fn_82273CD8(Arg_82293CA8 *h, int kind);
+extern int fn_822A0678(Caption_82293CA8 *c);
+extern int fn_82517978(Res_82293CA8 *res, int a, int b, int c);
+extern int fn_82672C20(int movie, const char *name, Arg_82293CA8 *args, int count);
+extern const char *lbl_821939D8[18];
+extern char lbl_820E975C[];
 
-void fn_82293CA8(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
-
+void fn_82293CA8(Self_82293CA8 *self, unsigned int count, const void *a, int human, float time)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned char *puVar3;
-  __int64 lVar4;
-  unsigned int uStack_1870;
-  int aiStack_186c [3];
-  unsigned char auStack_1860 [8];
-  unsigned char *puStack_1858;
-  unsigned char auStack_1850 [8];
-  unsigned char *puStack_1848;
-  unsigned char auStack_1840 [8];
-  unsigned char *puStack_1838;
-  unsigned char auStack_1830 [2048];
-  unsigned char auStack_1030 [2048];
-  unsigned char auStack_830 [2096];
-  
-  if ((param_3 & 0xffffffff) == 1) {
-    fn_82358FD8(*(unsigned int *)(param_2 + 0x1c),auStack_1830,0x400,
-                      lbl_82193A10);
-    fn_8229D5C0(param_1,*(unsigned int *)(param_2 + 0x14),param_4,auStack_1830,
-                      0xffffffff820e975c,param_5);
-  }
-  else {
-    fn_82358FD8(*(unsigned int *)(param_2 + 0x1c),auStack_1030,0x400,
-                      lbl_82193A14);
-    fn_82528EE0(auStack_830,0x400,auStack_1030,param_3);
-    iVar1 = *(int *)(param_2 + 0x14);
-    if (*(int *)(iVar1 + 0x14) == 0) {
-      piVar2 = aiStack_186c;
-      lVar4 = 3;
-      do {
-        piVar2[3] = 0;
-        piVar2 = piVar2 + 4;
-        *piVar2 = 0;
-        lVar4 = lVar4 + -1;
-      } while (lVar4 != 0);
-      fn_82273CD8(auStack_1860,5);
-      puStack_1858 = &lbl_820E975C;
-      fn_82273CD8(auStack_1850,5);
-      puStack_1848 = auStack_830;
-      fn_82273CD8(auStack_1840,5);
-      puStack_1838 = &lbl_820E975C;
-      uStack_1870 = 0;
-      aiStack_186c[0] = 0;
-      fn_82517978(&uStack_1870,*(unsigned int *)(iVar1 + 4),*(unsigned int *)(iVar1 + 8),0);
-      fn_82672C20(uStack_1870,0xffffffff821ab210,auStack_1860,3);
-      if (aiStack_186c[0] != 0) {
-        fn_822315A0();
-      }
-      fn_822A0678(iVar1);
-      *(float *)(iVar1 + 0x10) = (float)param_1;
-      puVar3 = auStack_1830;
-      *(unsigned int *)(iVar1 + 0xc) = 1;
-      lVar4 = 2;
-      do {
-        puVar3 = puVar3 + -0x10;
-        fn_82273C88(puVar3);
-        lVar4 = lVar4 + -1;
-      } while (-1 < lVar4);
-    }
-  }
-  return;
-}
+  Res_82293CA8 res;
+  Arg_82293CA8 items[3];
+  unsigned short name[0x400];
+  unsigned short fmt[0x400];
+  unsigned short text[0x400];
+  Caption_82293CA8 *c;
+  Arg_82293CA8 *p;
+  int i;
 
+  if (count == 1) {
+    fn_82358FD8(self->strings, name, 0x400, lbl_821939D8[14]);
+    fn_8229D5C0(self->caption, a, name, lbl_820E975C, human, time);
+    return;
+  }
+  fn_82358FD8(self->strings, fmt, 0x400, lbl_821939D8[15]);
+  fn_82528EE0(text, 0x400, fmt, count);
+  c = self->caption;
+  if (c->busy == 0) {
+    for (i = 0; i < 3; i++) {
+      items[i].first = 0;
+      items[i].second = 0;
+    }
+    fn_82273CD8(&items[0], 5);
+    items[0].p = lbl_820E975C;
+    fn_82273CD8(&items[1], 5);
+    items[1].p = text;
+    fn_82273CD8(&items[2], 5);
+    items[2].p = lbl_820E975C;
+    res.movie = 0;
+    res.ref = 0;
+    fn_82517978(&res, c->f4, c->f8, 0);
+    fn_82672C20(res.movie, "_root.setupAndDisplayAiWinnerCaption", items, 3);
+    if (res.ref != 0)
+      fn_822315A0(res.ref);
+    fn_822A0678(c);
+    c->time = time;
+    c->shown = 1;
+    p = items + 3;
+    i = 2;
+    do {
+      p--;
+      fn_82273C88(p);
+      i--;
+    } while (i >= 0);
+  }
+}

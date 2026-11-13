@@ -1,20 +1,20 @@
-void fn_824E24D0(double param_1,int param_2,unsigned char param_3)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Target_824E24D0 {
+    char pad000[0x960];
+    unsigned char active;       /* 0x960 */
+    unsigned char mode;         /* 0x961 */
+    char pad962[0xe];
+    __vector4 position;         /* 0x970 */
+    float time;                 /* 0x980 */
+} Target_824E24D0;
+
+void fn_824E24D0(Target_824E24D0 *self, unsigned char mode, float time, __vector4 position)
 {
-  unsigned int *puVar1;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  
-  *(float *)(param_2 + 0x980) = (float)param_1;
-  *(unsigned char *)(param_2 + 0x961) = param_3;
-  *(unsigned char *)(param_2 + 0x960) = 1;
-  puVar1 = (unsigned int *)(param_2 + 0x970U & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  return;
+    self->time = time;
+    self->mode = mode;
+    self->active = 1;
+    self->position = position;
 }
-

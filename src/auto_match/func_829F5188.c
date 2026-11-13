@@ -1,21 +1,12 @@
-extern int fn_829F8170();
-extern int iRam83218c38;
+extern void *lbl_83218C38;
+extern int fn_829F8170(void *ctx, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8,
+                       int a9, int a10, int a11, int a12, int a13, int a14, int a15, void *a16);
 
-
-unsigned __int64
-fn_829F5188(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
-
+int fn_829F5188(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8,
+                int a9, int a10, int a11, int a12, int a13, int a14, int a15, void *a16)
 {
-  unsigned __int64 uVar1;
-  int in_stack_0000008c;
-  
-  if ((in_stack_0000008c == 0) || (iRam83218c38 == 0)) {
-    uVar1 = 0x57;
-  }
-  else {
-    uVar1 = fn_829F8170(iRam83218c38,param_1,param_2,param_3,param_4,param_5,param_6,param_7);
-  }
-  return uVar1;
+    if (a16 == 0 || lbl_83218C38 == 0) {
+        return 0x57;
+    }
+    return fn_829F8170(lbl_83218C38, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16);
 }
-

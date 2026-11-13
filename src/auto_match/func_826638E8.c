@@ -1,60 +1,36 @@
-extern int fn_82297D98();
-extern int fn_8265DED8();
-extern int fn_82663848();
-extern int fn_82663A00();
-extern int fn_82663B70();
-extern int fn_82663C28();
-extern int fn_82663F28();
-extern unsigned int iStack00000014;
-extern unsigned int iStack0000001c;
-extern unsigned int lbl_821961F0;
-extern unsigned int uStack00000024;
-extern unsigned int uStack0000002c;
-extern unsigned int uStack_20;
+typedef struct WString_826638E8 {
+    unsigned short buf[8];
+    unsigned int size;
+    unsigned int capacity;
+} WString_826638E8;
 
+extern const unsigned int lbl_821961F0;
 
-int fn_826638E8(int param_1,int param_2,unsigned int param_3,unsigned int param_4)
+extern unsigned int fn_8265DED8(WString_826638E8 *self);
+extern void fn_82663F28(WString_826638E8 *self);
+extern WString_826638E8 *fn_82663C28(WString_826638E8 *self, unsigned int offset, unsigned int count);
+extern unsigned char fn_82663A00(WString_826638E8 *self, unsigned int size, int keep);
+extern unsigned short *fn_82663B70(WString_826638E8 *self);
+extern unsigned short *fn_82297D98(unsigned short *dst, const unsigned short *src, unsigned int count);
+extern void fn_82663848(WString_826638E8 *self, unsigned int size);
 
+WString_826638E8 *fn_826638E8(WString_826638E8 *self, WString_826638E8 *right, unsigned int offset, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar4;
-  int iVar5;
-  char cVar6;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  int iStack00000014;
-  int iStack0000001c;
-  unsigned int uStack00000024;
-  unsigned int uStack0000002c;
-  unsigned int uStack_20;
-  
-  iStack00000014 = param_1;
-  iStack0000001c = param_2;
-  uStack00000024 = param_3;
-  uStack0000002c = param_4;
-  uVar4 = fn_8265DED8(param_2);
-  if (uVar4 < uStack00000024) {
-    fn_82663F28(iStack00000014);
-  }
-  iVar5 = fn_8265DED8(iStack0000001c);
-  uStack_20 = iVar5 - uStack00000024;
-  if (uStack0000002c < uStack_20) {
-    uStack_20 = uStack0000002c;
-  }
-  if (iStack00000014 == iStack0000001c) {
-    fn_82663C28(iStack00000014,(unsigned __int64)uStack00000024 + (unsigned __int64)uStack_20,lbl_821961F0);
-    fn_82663C28(iStack00000014,0,uStack00000024);
-  }
-  else {
-    cVar6 = fn_82663A00(iStack00000014,uStack_20,0);
-    if (cVar6 != '\0') {
-      lVar2 = fn_82663B70(iStack0000001c);
-      uVar1 = (unsigned __int64)uStack00000024;
-      uVar3 = fn_82663B70(iStack00000014);
-      fn_82297D98(uVar3,lVar2 + (uVar1 & 0x7fffffff) * 2,uStack_20);
-      fn_82663848(iStack00000014,uStack_20);
-    }
-  }
-  return iStack00000014;
-}
+    unsigned int num;
 
+    if (fn_8265DED8(right) < offset) {
+        fn_82663F28(self);
+    }
+    num = fn_8265DED8(right) - offset;
+    if (count < num) {
+        num = count;
+    }
+    if (self == right) {
+        fn_82663C28(self, offset + num, lbl_821961F0);
+        fn_82663C28(self, 0, offset);
+    } else if (fn_82663A00(self, num, 0)) {
+        fn_82297D98(fn_82663B70(self), fn_82663B70(right) + offset, num);
+        fn_82663848(self, num);
+    }
+    return self;
+}

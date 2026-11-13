@@ -1,39 +1,32 @@
-extern int jpeg_read_coefficients();
-extern int jpeg_destroy();
-extern int setjmp();
-extern unsigned int iStack00000014;
+typedef double jmp_buf[168];
+int _setjmp(jmp_buf env);
+extern void *jpeg_read_coefficients(void *cinfo);
+extern void jpeg_destroy_decompress(void *cinfo);
 
+typedef struct Cinfo_826EA9C0 {
+    char pad0[0x18];
+} Cinfo_826EA9C0;
 
-unsigned __int64 fn_826EA9C0(int param_1,unsigned int *param_2)
+typedef struct Reader_826EA9C0 {
+    int pad0[2];
+    Cinfo_826EA9C0 cinfo;
+    char pad20[0x304 - 0x20];
+    jmp_buf *env;
+    unsigned char ready;
+    unsigned char failed;
+} Reader_826EA9C0;
 
+int fn_826EA9C0(Reader_826EA9C0 *self, void **coefficients)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iStack00000014;
-  unsigned int *puStack0000001c;
-  
-  if (*(char *)(param_1 + 0x309) == '\0') {
-    iStack00000014 = param_1;
-    puStack0000001c = param_2;
-    iVar3 = setjmp(*(unsigned int *)(param_1 + 0x304));
-    iVar1 = iStack00000014;
-    if (iVar3 == 0) {
-      uVar4 = jpeg_read_coefficients(iStack00000014 + 8);
-      *puStack0000001c = uVar4;
-      uVar2 = 1;
+    if (self->failed) {
+        return 0;
     }
-    else {
-      jpeg_destroy(iStack00000014 + 8);
-      *(unsigned char *)(iVar1 + 0x308) = 0;
-      uVar2 = 0;
-      *(unsigned char *)(iVar1 + 0x309) = 1;
+    if (_setjmp(*self->env)) {
+        jpeg_destroy_decompress(&self->cinfo);
+        self->ready = 0;
+        self->failed = 1;
+        return 0;
     }
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+    *coefficients = jpeg_read_coefficients(&self->cinfo);
+    return 1;
 }
-

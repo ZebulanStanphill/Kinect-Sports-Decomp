@@ -1,39 +1,41 @@
-extern int fn_82397F88();
-extern unsigned int lbl_831CD254;
-extern unsigned int lbl_831CD258;
-extern float lbl_831CD25C;
-extern unsigned int lbl_831CD260;
+typedef struct Params_822E54B0 {
+    char pad00[0x4];
+    float scale;        /* 0x04 */
+    float depth;        /* 0x08 */
+} Params_822E54B0;
 
+typedef struct Camera_822E54B0 {
+    char pad000[0x24];
+    int mode;                   /* 0x024 */
+    char pad028[0xd8];
+    float offset[4];            /* 0x100 */
+    char pad110[0x98];
+    Params_822E54B0 *params;    /* 0x1a8 */
+    char pad1ac[0x10];
+    void *target;               /* 0x1bc */
+    char pad1c0[0x110];
+    float zoom;                 /* 0x2d0 */
+} Camera_822E54B0;
 
-void fn_822E54B0(int param_1)
+extern float lbl_831CD218[];
 
+extern int fn_82397F88(void *target);
+
+void fn_822E54B0(Camera_822E54B0 *self)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x24) == 0) {
-    fVar1 = *(float *)(*(int *)(param_1 + 0x1a8) + 4);
-    uVar2 = *(unsigned int *)(*(int *)(param_1 + 0x1a8) + 8);
-    *(unsigned int *)(param_1 + 0x100) = lbl_831CD254;
-    uVar3 = lbl_831CD258;
-    *(float *)(param_1 + 0x108) = fVar1 * *(float *)(param_1 + 0x2d0);
-    *(unsigned int *)(param_1 + 0x10c) = uVar2;
-  }
-  else {
-    iVar4 = fn_82397F88(*(unsigned int *)(param_1 + 0x1bc));
-    uVar2 = lbl_831CD260;
-    if (iVar4 == 0) {
-      return;
+    if (self->mode == 0) {
+        float z = self->params->scale * self->zoom;
+        float w = self->params->depth;
+        self->offset[0] = lbl_831CD218[15];
+        self->offset[1] = lbl_831CD218[16];
+        self->offset[2] = z;
+        self->offset[3] = w;
+    } else if (fn_82397F88(self->target) != 0) {
+        float z = self->zoom * lbl_831CD218[17];
+        float w = lbl_831CD218[18];
+        self->offset[0] = lbl_831CD218[15];
+        self->offset[1] = lbl_831CD218[16];
+        self->offset[2] = z;
+        self->offset[3] = w;
     }
-    fVar1 = *(float *)(param_1 + 0x2d0) * lbl_831CD25C;
-    *(unsigned int *)(param_1 + 0x100) = lbl_831CD254;
-    uVar3 = lbl_831CD258;
-    *(float *)(param_1 + 0x108) = fVar1;
-    *(unsigned int *)(param_1 + 0x10c) = uVar2;
-  }
-  *(unsigned int *)(param_1 + 0x104) = uVar3;
-  return;
 }
-

@@ -1,22 +1,18 @@
-extern int fn_82F66368();
-extern int fn_82F6D460();
-extern unsigned int lbl_831751D0;
+extern void *(*lbl_831751D0)(unsigned int size);
+extern unsigned int fn_82F6D460(const char *str, unsigned int max);
+extern int fn_82F66368(char *dst, unsigned int size, const char *src, unsigned int count);
 
-
-__int64 fn_82BE19A0(unsigned __int64 param_1)
-
+char *fn_82BE19A0(const char *str)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  
-  if ((param_1 & 0xffffffff) != 0) {
-    lVar1 = fn_82F6D460(param_1,2000);
-    lVar2 = (*(int (**)())lbl_831751D0)(lVar1 + 1);
-    if (lVar2 != 0) {
-      fn_82F66368(lVar2,lVar1 + 1,param_1,lVar1);
-      return lVar2;
-    }
-  }
-  return 0;
-}
+    unsigned int size;
+    char *copy;
 
+    if (str == 0)
+        return 0;
+    size = fn_82F6D460(str, 2000) + 1;
+    copy = (char *)lbl_831751D0(size);
+    if (copy == 0)
+        return 0;
+    fn_82F66368(copy, size, str, size - 1);
+    return copy;
+}

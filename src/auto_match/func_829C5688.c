@@ -1,13 +1,12 @@
-extern int fn_82F65018();
+typedef struct Point_829C5688 {
+    int pad0;
+    int x;          /* 0x04 */
+    int y;          /* 0x08 */
+} Point_829C5688;
 
+extern double fn_82F65018(double y, double x);
 
-double fn_829C5688(int param_1)
-
+float fn_829C5688(Point_829C5688 *p)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_82F65018((double)(__int64)*(int *)(param_1 + 8),
-                               (double)(__int64)*(int *)(param_1 + 4));
-  return (double)(float)dVar1;
+    return (float)fn_82F65018((double)p->y, (double)p->x);
 }
-

@@ -1,32 +1,53 @@
-extern int fn_82A40B38();
-extern int fn_82A4F4E0();
-extern int fn_82A5C960();
+typedef struct {
+  int kind;
+  int pad4;
+  unsigned int state;
+  void *owner;
+  void *target;
+  void *source;
+} Item_82A5C9E0;
+typedef struct Node_82A5C9E0 {
+  Item_82A5C9E0 *item;
+  struct Node_82A5C9E0 *next;
+  struct Node_82A5C9E0 *prev;
+} Node_82A5C9E0;
+typedef struct {
+  char pad0[0xcc];
+  Node_82A5C9E0 *head;
+} List_82A5C9E0;
+typedef struct {
+  char pad0[8];
+  List_82A5C9E0 items;
+} Self_82A5C9E0;
 
+extern void fn_82A5C960(Self_82A5C9E0 *self);
+extern Item_82A5C9E0 *fn_82A40B38(List_82A5C9E0 *list, Node_82A5C9E0 *node);
+extern void fn_82A4F4E0(Item_82A5C9E0 *item);
 
-void fn_82A5C9E0(int param_1,int param_2)
-
+static __forceinline Item_82A5C9E0 *getNext(Node_82A5C9E0 **pos)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int *piVar3;
-  
-  fn_82A5C960();
-  puVar1 = *(unsigned int **)(param_1 + 0xd4);
-  while (puVar2 = puVar1, puVar2 != (unsigned int *)0x0) {
-    if (puVar2 == (unsigned int *)0x0) {
-      piVar3 = (int *)0x0;
-      puVar1 = puVar2;
-    }
-    else {
-      piVar3 = (int *)*puVar2;
-      puVar1 = (unsigned int *)puVar2[1];
-    }
-    if (((piVar3[3] == param_2) ||
-        ((*piVar3 == 2 && ((piVar3[5] == param_2 || (piVar3[4] == param_2)))))) &&
-       (fn_82A40B38(param_1 + 8,puVar2), piVar3[2] != 5)) {
-      fn_82A4F4E0(piVar3);
-    }
+  Node_82A5C9E0 *n = *pos;
+  if (n != 0) {
+    *pos = n->next;
+    return n->item;
   }
-  return;
+  return 0;
 }
 
+void fn_82A5C9E0(Self_82A5C9E0 *self, void *obj)
+{
+  Node_82A5C9E0 *pos;
+  Node_82A5C9E0 *cur;
+  Item_82A5C9E0 *item;
+  fn_82A5C960(self);
+  pos = self->items.head;
+  while (pos != 0) {
+    cur = pos;
+    item = getNext(&pos);
+    if (item->owner == obj || (item->kind == 2 && (item->source == obj || item->target == obj))) {
+      fn_82A40B38(&self->items, cur);
+      if (item->state != 5)
+        fn_82A4F4E0(item);
+    }
+  }
+}

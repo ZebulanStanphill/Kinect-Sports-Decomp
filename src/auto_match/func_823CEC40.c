@@ -1,82 +1,74 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_8227CB30();
-extern int fn_822EFBF0();
-extern int fn_82359C18();
-extern int fn_823D1F70();
-extern int fn_823F0828();
-extern unsigned int iStack_68;
-extern unsigned int iStack_74;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_64;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Self_823CEC40 Self_823CEC40;
+typedef struct Data_823CEC40 { int kind; __vector4 v; } Data_823CEC40;
+typedef struct Method_823CEC40 { void (*fn)(void); int adjust; } Method_823CEC40;
+typedef struct Bind_823CEC40 {
+    Method_823CEC40 method;
+    Self_823CEC40 *obj;
+    Data_823CEC40 data;
+} Bind_823CEC40;
+typedef struct Func_823CEC40 { int words[6]; } Func_823CEC40;
+typedef struct Sp_823CEC40 { void *px; void *rep; } Sp_823CEC40;
+typedef struct Target_823CEC40 { char *base; } Target_823CEC40;
+struct Self_823CEC40 {
+    char pad0[0x84];
+    void *target;
+    char pad88[0xb48 - 0x88];
+    int callbacks;
+};
+typedef struct Cfg_823CEC40 { int pad0; unsigned char enabled; } Cfg_823CEC40;
 
-void fn_823CEC40(int param_1,unsigned __int64 param_2)
+extern void fn_822315A0(void *rep);
+extern Cfg_823CEC40 *fn_82250A18(void);
+extern void fn_8227CB30(int *list, Func_823CEC40 *f);
+extern Sp_823CEC40 *fn_822EFBF0(Sp_823CEC40 *out, void *target);
+extern void fn_82359C18(Func_823CEC40 *f);
+extern void fn_823CED90(void);
+extern Func_823CEC40 *fn_823D1F70(Func_823CEC40 *out, Bind_823CEC40 b);
+extern void fn_823F0828(void *target, int kind, __vector4 v);
+extern Cfg_823CEC40 *lbl_832975B0;
 
+void fn_823CEC40(Self_823CEC40 *self, int kind, __vector4 v)
 {
-  int in_r0;
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int *puVar3;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned char auStack_78 [4];
-  int iStack_74;
-  unsigned char auStack_70 [8];
-  int iStack_68;
-  unsigned int uStack_64;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned __int64 uStack_58;
-  unsigned __int64 uStack_50;
-  unsigned __int64 uStack_48;
-  
-  iVar2 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar2 = fn_82250A18();
-  }
-  uStack_60 = (unsigned int)param_2;
-  iStack_68 = param_1;
-  if (*(char *)(iVar2 + 4) == '\0') {
-    puVar3 = (unsigned int *)((int)&uStack_50 + in_r0 & 0xfffffff0);
-    *puVar3 = in_register_00010010;
-    puVar3[1] = in_register_00010014;
-    puVar3[2] = in_register_00010018;
-    puVar3[3] = in_vr1;
-    uVar1 = fn_823D1F70(auStack_70,0x823ced9000000000,CONCAT44(param_1,uStack_64),
-                              CONCAT44(uStack_60,uStack_5c),uStack_58,uStack_50,uStack_48);
-    fn_8227CB30(param_1 + 0xb48,uVar1);
-    fn_82359C18(uVar1);
-  }
-  else {
-    iVar2 = *(int *)(param_1 + 0x84);
-    if (iVar2 != 0) {
-      puVar3 = (unsigned int *)((int)&uStack_50 + in_r0 & 0xfffffff0);
-      *puVar3 = in_register_00010010;
-      puVar3[1] = in_register_00010014;
-      puVar3[2] = in_register_00010018;
-      puVar3[3] = in_vr1;
-      uVar1 = fn_823D1F70(auStack_70,0x823ced9000000000,CONCAT44(param_1,uStack_64),
-                                CONCAT44(uStack_60,uStack_5c),uStack_58,uStack_50,uStack_48);
-      fn_8227CB30(param_1 + 0xb48,uVar1);
-      fn_82359C18(uVar1);
-      puVar3 = (unsigned int *)fn_822EFBF0(auStack_78,iVar2);
-      fn_823F0828((unsigned __int64)*(unsigned int *)*puVar3 + 0xa8,param_2);
-      if (iStack_74 != 0) {
-        fn_822315A0();
-      }
+    Cfg_823CEC40 *cfg;
+    Sp_823CEC40 sp;
+    cfg = lbl_832975B0 ? lbl_832975B0 : fn_82250A18();
+    if (cfg->enabled != 0) {
+        void *target = self->target;
+        if (target != 0) {
+            Func_823CEC40 f;
+            Func_823CEC40 *pf;
+            Bind_823CEC40 b;
+            Method_823CEC40 m;
+            b.obj = self;
+            m.adjust = 0;
+            m.fn = fn_823CED90;
+            b.method = m;
+            b.data.kind = kind;
+            b.data.v = v;
+            pf = fn_823D1F70(&f, b);
+            fn_8227CB30(&self->callbacks, pf);
+            fn_82359C18(pf);
+            fn_823F0828(((Target_823CEC40 *)fn_822EFBF0(&sp, target)->px)->base + 0xa8, kind, v);
+            if (sp.rep != 0)
+                fn_822315A0(sp.rep);
+        }
+    } else {
+        Func_823CEC40 f;
+        Func_823CEC40 *pf;
+        Bind_823CEC40 b;
+        Method_823CEC40 m;
+        b.obj = self;
+        m.adjust = 0;
+        m.fn = fn_823CED90;
+        b.method = m;
+        b.data.kind = kind;
+        b.data.v = v;
+        pf = fn_823D1F70(&f, b);
+        fn_8227CB30(&self->callbacks, pf);
+        fn_82359C18(pf);
     }
-  }
-  return;
 }
-

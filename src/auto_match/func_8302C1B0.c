@@ -1,33 +1,50 @@
-extern int fn_82FF3390();
-extern int fn_82FF33A8();
-extern int fn_82FF33C0();
+typedef struct Obj_8302C1B0 Obj_8302C1B0;
 
+typedef struct ObjVt_8302C1B0 {
+    char pad0[0xa0];
+    void (*setEnabled)(Obj_8302C1B0 *self, int enabled);   /* 0xa0 */
+} ObjVt_8302C1B0;
 
-unsigned __int64 fn_8302C1B0(int *param_1,unsigned int *param_2)
+struct Obj_8302C1B0 {
+    ObjVt_8302C1B0 *vt;
+    char pad4[0x14];
+    unsigned short count;      /* 0x18 */
+};
 
+typedef struct Msg_8302C1B0 {
+    int kind;                  /* 0x00 */
+    int pad4;
+    unsigned int id;           /* 0x08 */
+    char data[9];              /* 0x0c */
+    unsigned char flag;        /* 0x15 */
+} Msg_8302C1B0;
+
+extern int fn_82FF3390(Obj_8302C1B0 *self, int id, void *data, int flags);
+extern int fn_82FF33A8(Obj_8302C1B0 *self, int id, void *data, int flags);
+extern int fn_82FF33C0(Obj_8302C1B0 *self, int id, void *data, unsigned char flag, int flags);
+
+int fn_8302C1B0(Obj_8302C1B0 *self, Msg_8302C1B0 *msg)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_2[2] == 0) {
-    (**(int (***)())(*param_1 + 0xa0))(param_1,*param_2 == 1);
-  }
-  if (*(short *)(param_1 + 6) != 0) {
-    uVar1 = *param_2;
-    if (uVar1 == 0) {
-      uVar2 = fn_82FF3390(param_1,param_2[2],param_2 + 3,0);
-      return uVar2;
-    }
-    if (uVar1 == 1) {
-      uVar2 = fn_82FF33A8(param_1,param_2[2],param_2 + 3,0);
-      return uVar2;
-    }
-    if (uVar1 < 3) {
-      uVar2 = fn_82FF33C0(param_1,param_2[2],param_2 + 3,*(unsigned char *)((int)param_2 + 0x15),
-                                0);
-      return uVar2;
-    }
-  }
-  return 1;
-}
+    int result = 1;
 
+    if (msg->id == 0) {
+        int enabled = 0;
+        if (msg->kind == 1)
+            enabled = 1;
+        self->vt->setEnabled(self, enabled);
+    }
+    if (self->count != 0) {
+        switch ((unsigned int)msg->kind) {
+        case 0:
+            result = fn_82FF3390(self, msg->id, msg->data, 0);
+            break;
+        case 1:
+            result = fn_82FF33A8(self, msg->id, msg->data, 0);
+            break;
+        case 2:
+            result = fn_82FF33C0(self, msg->id, msg->data, msg->flag, 0);
+            break;
+        }
+    }
+    return result;
+}

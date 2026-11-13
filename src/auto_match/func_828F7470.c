@@ -1,90 +1,60 @@
-extern int fn_828F4C10();
-extern int fn_828F4E08();
-extern int fn_828F6790();
-extern int fn_828F6890();
-extern int fn_828FAB00();
-extern int fn_828FAF58();
-extern int fn_828FBB60();
+#include <string.h>
 
+typedef struct Obj_828F7470 {
+    char pad0[0x18];
+    char log[0x48 - 0x18];        /* 0x18 */
+    int seen;                     /* 0x48 */
+    int done;                     /* 0x4c */
+    char pad50[0x278 - 0x50];
+    int handle;                   /* 0x278 */
+    char pad27c[0x4];
+    int state;                    /* 0x280 */
+    char pad284[0x4];
+    char *name;                   /* 0x288 */
+    char pad28c[0x29c - 0x28c];
+    int flag;                     /* 0x29c */
+    int arg;                      /* 0x2a0 */
+} Obj_828F7470;
 
-unsigned __int64 fn_828F7470(int param_1)
+extern char lbl_820294CC[]; /* "pack_matrix" */
+extern char lbl_820294C4[]; /* "warning" */
+extern char lbl_820294C0[]; /* "def" */
+extern char lbl_820294B4[]; /* "ruledisable" */
 
+extern int fn_828FBB60(int handle, int arg, int *state);
+extern int fn_828FAF58(int handle, int x);
+extern int fn_828F4C10(Obj_828F7470 *o);
+extern int fn_828F4E08(Obj_828F7470 *o);
+extern int fn_828F6890(Obj_828F7470 *o);
+extern int fn_828F6790(Obj_828F7470 *o);
+extern void fn_828FAB00(void *log, int *a, int b, const char *fmt, ...);
+
+int fn_828F7470(Obj_828F7470 *o)
 {
-  char cVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  char *pcVar4;
-  char *pcVar5;
-  char *pcVar6;
-  int *piVar7;
-  
-  piVar7 = (int *)(param_1 + 0x280);
-  uVar3 = fn_828FBB60(*(unsigned int *)(param_1 + 0x278),*(unsigned int *)(param_1 + 0x2a0),piVar7
-                           );
-  if (-1 < (int)uVar3) {
-    if (*piVar7 == 9) {
-      pcVar6 = *(char **)(param_1 + 0x288);
-      *(unsigned int *)(param_1 + 0x48) = 1;
-      pcVar4 = "pack_matrix";
-      pcVar5 = pcVar6;
-      do {
-        cVar1 = *pcVar5;
-        cVar2 = *pcVar4;
-        if (cVar1 == '\0') break;
-        pcVar5 = pcVar5 + 1;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        uVar3 = fn_828F4C10(param_1);
-        return uVar3;
-      }
-      pcVar4 = "warning";
-      pcVar5 = pcVar6;
-      do {
-        cVar1 = *pcVar5;
-        cVar2 = *pcVar4;
-        if (cVar1 == '\0') break;
-        pcVar5 = pcVar5 + 1;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        uVar3 = fn_828F4E08(param_1);
-        return uVar3;
-      }
-      pcVar4 = "def";
-      pcVar5 = pcVar6;
-      do {
-        cVar1 = *pcVar5;
-        cVar2 = *pcVar4;
-        if (cVar1 == '\0') break;
-        pcVar5 = pcVar5 + 1;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        uVar3 = fn_828F6890(param_1);
-        return uVar3;
-      }
-      pcVar5 = "ruledisable";
-      do {
-        cVar1 = *pcVar6;
-        cVar2 = *pcVar5;
-        if (cVar1 == '\0') break;
-        pcVar6 = pcVar6 + 1;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        uVar3 = fn_828F6790(param_1);
-        return uVar3;
-      }
-      fn_828FAB00(param_1 + 0x18,piVar7,0xdf0,0xffffffff82029494);
-      *(unsigned int *)(param_1 + 0x29c) = 0;
-    }
-    if ((*piVar7 != 0xc) && (*piVar7 != 0xd)) {
-      fn_828FAF58(*(unsigned int *)(param_1 + 0x278),0);
-    }
-    uVar3 = 0;
-  }
-  *(unsigned int *)(param_1 + 0x4c) = 1;
-  return uVar3;
-}
+    int hr;
+    int *state = &o->state;
+    char *name;
 
+    hr = fn_828FBB60(o->handle, o->arg, state);
+    if (hr >= 0) {
+        if (*state == 9) {
+            name = o->name;
+            o->seen = 1;
+            if (strcmp(name, lbl_820294CC) == 0)
+                return fn_828F4C10(o);
+            if (strcmp(name, lbl_820294C4) == 0)
+                return fn_828F4E08(o);
+            if (strcmp(name, lbl_820294C0) == 0)
+                return fn_828F6890(o);
+            if (strcmp(name, lbl_820294B4) == 0)
+                return fn_828F6790(o);
+            fn_828FAB00(o->log, state, 0xdf0, "'%s' : unknown pragma ignored", name);
+            o->flag = 0;
+        }
+        if (*state != 0xc && *state != 0xd)
+            fn_828FAF58(o->handle, 0);
+        hr = 0;
+    }
+    o->done = 1;
+    return hr;
+}

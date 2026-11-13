@@ -1,34 +1,33 @@
-extern int fn_82CE5338();
-extern int fn_82CE5410();
-extern int fn_82CED330();
-extern int fn_82CED388();
-extern unsigned int lbl_8323B430;
+typedef struct StringPtr_82CED3E8 {
+    const char *stringAndFlag;
+} StringPtr_82CED3E8;
 
+typedef struct MemoryRouter_82CED3E8 {
+    char pad0[0x10];
+    void *heap;                    /* 0x10 */
+} MemoryRouter_82CED3E8;
 
-void fn_82CED3E8(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern const char *lbl_8323B430;
+extern MemoryRouter_82CED3E8 *fn_82CE5410(void);
+extern void fn_82CE5338(void *heap, void *p);
+extern char *fn_82CED330(const char *s);
+extern char *fn_82CED388(const char *s, int len);
 
+static __forceinline void Deallocate(void *p)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  uVar1 = *param_1;
-  if (((unsigned __int64)uVar1 & 0xfffffffe) != (param_2 & 0xffffffff)) {
-    if ((uVar1 & 1) == 1) {
-      iVar2 = fn_82CE5410();
-      fn_82CE5338(*(unsigned int *)(iVar2 + 0x10),(unsigned __int64)uVar1 - 1);
-    }
-    if ((param_2 & 0xffffffff) == 0) {
-      *param_1 = lbl_8323B430;
-    }
-    else if ((int)param_3 == -1) {
-      iVar2 = fn_82CED330();
-      *param_1 = iVar2 + 1;
-    }
-    else {
-      iVar2 = fn_82CED388(param_2,param_3);
-      *param_1 = iVar2 + 1;
-    }
-  }
-  return;
+    fn_82CE5338(fn_82CE5410()->heap, p);
 }
 
+void fn_82CED3E8(StringPtr_82CED3E8 *self, const char *string, int len)
+{
+    if ((const char *)((unsigned int)self->stringAndFlag & ~1u) != string) {
+        if (((unsigned int)self->stringAndFlag & 1) == 1) {
+            Deallocate((void *)(self->stringAndFlag - 1));
+        }
+        if (string != 0) {
+            self->stringAndFlag = (len == -1 ? fn_82CED330(string) : fn_82CED388(string, len)) + 1;
+        } else {
+            self->stringAndFlag = lbl_8323B430;
+        }
+    }
+}
