@@ -1,11 +1,15 @@
-extern unsigned int lbl_831C1CEC;
+typedef struct Entry_825521C8 {
+    unsigned int key;
+    unsigned int value;
+} Entry_825521C8;
 
+extern Entry_825521C8 lbl_831C1CE8[];
 
-void fn_825521C8(int param_1,int param_2)
-
+void fn_825521C8(char *object, int index)
 {
-  *(unsigned int *)(param_1 + 0x2ed8) = (&lbl_831C1CEC)[param_2 * 2];
-  *(unsigned __int64 *)(param_1 + 0x10) = *(unsigned __int64 *)(param_1 + 0x10) | 0x80000;
-  return;
-}
+    unsigned int *value_slot = (unsigned int *)(object + 0x2ed8);
+    unsigned __int64 *flags = (unsigned __int64 *)(object + 0x10);
 
+    *value_slot = lbl_831C1CE8[index].value;
+    *flags |= 0x80000u;
+}

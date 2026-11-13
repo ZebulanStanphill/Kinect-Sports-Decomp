@@ -1,34 +1,35 @@
-void fn_82441F60(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+
+typedef struct {
+    __vector4 v;
+} Vec_82441F60;
+
+typedef struct Body_82441F60 {
+    char pad0[0xd0];
+    __vector4 pos;      /* 0xd0 */
+} Body_82441F60;
+
+typedef struct Holder_82441F60 {
+    Body_82441F60 *body;
+} Holder_82441F60;
+
+typedef struct Obj_82441F60 {
+    int pad0;
+    Holder_82441F60 *holder;  /* 0x04 */
+} Obj_82441F60;
+
+Vec_82441F60 fn_82441F60(Obj_82441F60 *o)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  if (**(int **)(param_2 + 4) == 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-    *puVar1 = in_register_000104d0;
-    puVar1[1] = in_register_000104d4;
-    puVar1[2] = in_register_000104d8;
-    puVar1[3] = in_vr77;
-    return;
-  }
-  puVar1 = (unsigned int *)(**(int **)(param_2 + 4) + 0xd0U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
-}
+    Vec_82441F60 r;
+    int body = (int)o->holder->body;
 
+    if (body == 0)
+        r.v = __VMXGetReg(77);
+    else
+        r.v = ((Body_82441F60 *)body)->pos;
+    return r;
+}

@@ -1,48 +1,60 @@
-extern int fn_8267BE38();
-extern int fn_8267C540();
-extern int fn_82687270();
-extern int fn_8269A608();
-extern int fn_826A0A70();
-extern int fn_826BF548();
-extern unsigned int lbl_82005700;
-extern unsigned int lbl_82006850;
-extern unsigned int lbl_82006B48;
-extern unsigned int lbl_82006B9C;
-extern unsigned int lbl_82006BA8;
+typedef struct Shared_826A1370 {
+    int refs;
+    int owner;
+} Shared_826A1370;
 
+typedef struct Sub_826A1370 {
+    void *vt;
+} Sub_826A1370;
 
-void fn_826A1370(unsigned int *param_1)
+typedef struct Obj_826A1370 {
+    void *vt0;
+    int pad4[2];
+    void *vtC;
+    int pad10[22];
+    Sub_826A1370 sub;
+    int pad6c[4];
+    void *f7c;
+    Shared_826A1370 *shared;
+    void *f84;
+    char list[4];
+} Obj_826A1370;
 
+extern char lbl_82006BA8[];
+extern char lbl_82006B9C[];
+extern char lbl_82006B48[];
+extern char lbl_82006850[];
+extern char lbl_82005700[];
+extern void fn_8267BE38(void *p);
+extern void fn_826A0A70(void *list);
+extern void fn_8269A608(Shared_826A1370 *s);
+extern void fn_82687270(void *p);
+extern void fn_826BF548(Sub_826A1370 *sub);
+extern void fn_8267C540(Obj_826A1370 *self);
+
+void fn_826A1370(Obj_826A1370 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  
-  *param_1 = &lbl_82006BA8;
-  param_1[3] = &lbl_82006B9C;
-  param_1[0x1a] = &lbl_82006B48;
-  if (param_1[0x20] != 0) {
-    *(unsigned int *)(param_1[0x20] + 4) = 0;
-  }
-  if (param_1[0x21] != 0) {
-    fn_8267BE38();
-  }
-  fn_826A0A70(param_1 + 0x22);
-  puVar1 = (unsigned int *)param_1[0x20];
-  if (puVar1 != (unsigned int *)0x0) {
-    uVar2 = *puVar1;
-    *puVar1 = (unsigned int)((unsigned __int64)uVar2 - 1);
-    if ((__int64)((unsigned __int64)uVar2 - 1) < 1) {
-      fn_8269A608(puVar1);
-      fn_8267BE38(puVar1);
+    Shared_826A1370 *shared;
+    Shared_826A1370 *first = self->shared;
+    self->vt0 = lbl_82006BA8;
+    self->vtC = lbl_82006B9C;
+    self->sub.vt = lbl_82006B48;
+    if ((int)first != 0)
+        first->owner = 0;
+    if (self->f84 != 0)
+        fn_8267BE38(self->f84);
+    fn_826A0A70(self->list);
+    shared = self->shared;
+    if (shared != 0) {
+        if (--shared->refs <= 0) {
+            fn_8269A608(shared);
+            fn_8267BE38(shared);
+        }
     }
-  }
-  if (param_1[0x1f] != 0) {
-    fn_82687270();
-  }
-  fn_826BF548(param_1 + 0x1a);
-  *param_1 = &lbl_82006850;
-  param_1[3] = &lbl_82005700;
-  fn_8267C540(param_1);
-  return;
+    if (self->f7c != 0)
+        fn_82687270(self->f7c);
+    fn_826BF548(&self->sub);
+    self->vt0 = lbl_82006850;
+    self->vtC = lbl_82005700;
+    fn_8267C540(self);
 }
-

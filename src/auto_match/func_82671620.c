@@ -1,24 +1,33 @@
-void fn_82671620(unsigned int *param_1,int param_2,unsigned int *param_3)
+typedef struct Pair_82671620 {
+    int first;
+    int second;
+} Pair_82671620;
 
+typedef struct Vector_82671620 {
+    Pair_82671620 *begin;
+    Pair_82671620 *end;
+    Pair_82671620 *capacity;
+} Vector_82671620;
+
+static __forceinline void destroyRange(Pair_82671620 *first, Pair_82671620 *last)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  puVar2 = param_3;
-  while (puVar4 = puVar2 + 2, puVar4 != puVar1) {
-    *puVar2 = *puVar4;
-    puVar2[1] = puVar2[3];
-    puVar2 = puVar4;
-  }
-  iVar5 = *(int *)(param_2 + 4) + -8;
-  for (iVar3 = iVar5; iVar3 != *(int *)(param_2 + 4); iVar3 = iVar3 + 8) {
-  }
-  *(int *)(param_2 + 4) = iVar5;
-  *param_1 = param_3;
-  return;
+    for (; first != last; first++) {
+    }
 }
 
+Pair_82671620 **fn_82671620(Pair_82671620 **out, Vector_82671620 *vec, Pair_82671620 *where)
+{
+    Pair_82671620 *src;
+    Pair_82671620 *newEnd;
+    Pair_82671620 *last = vec->end;
+    Pair_82671620 *dst = where;
+    for (src = where + 1; src != last; src++, dst++) {
+        dst->first = src->first;
+        dst->second = src->second;
+    }
+    newEnd = vec->end - 1;
+    destroyRange(newEnd, vec->end);
+    vec->end = newEnd;
+    *out = where;
+    return out;
+}

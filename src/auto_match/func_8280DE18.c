@@ -1,26 +1,26 @@
-extern int fn_828095F8();
-extern int fn_8280A550();
-extern unsigned int lbl_821AAD20;
+typedef struct Quat_8280DE18 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quat_8280DE18;
 
+extern float fn_828095F8(float x);
+extern float fn_8280A550(float x);
 
-void fn_8280DE18(float *param_1,float *param_2)
-
+void fn_8280DE18(const Quat_8280DE18 *q, Quat_8280DE18 *out)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  
-  dVar2 = (double)lbl_821AAD20;
-  dVar3 = (double)(param_1[2] * param_1[2] + *param_1 * *param_1 + param_1[1] * param_1[1]);
-  if (dVar2 < dVar3) {
-    dVar1 = (double)fn_828095F8((double)param_1[3]);
-    dVar3 = (double)fn_8280A550(dVar3);
-    dVar3 = (double)(float)(dVar3 * dVar1);
-  }
-  param_2[3] = (float)dVar2;
-  *param_2 = (float)((double)*param_1 * dVar3);
-  param_2[1] = (float)((double)param_1[1] * dVar3);
-  param_2[2] = (float)(dVar3 * (double)param_1[2]);
-  return;
-}
+    float x2 = q->x * q->x;
+    float y2 = q->y * q->y;
+    float z2 = q->z * q->z;
+    float scale = x2 + y2 + z2;
 
+    if (scale > 0.0f) {
+        float angle = fn_828095F8(q->w);
+        scale = fn_8280A550(scale) * angle;
+    }
+    out->w = 0.0f;
+    out->x = scale * q->x;
+    out->y = scale * q->y;
+    out->z = scale * q->z;
+}

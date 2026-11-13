@@ -1,21 +1,19 @@
-extern int fn_82809D40();
-extern unsigned int lbl_82195680;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+double fabs(double);
 
-double fn_8255A070(void)
+extern const float lbl_821954B0[0x28a];
+extern float fn_82809D40(float x, float z);
 
+float fn_8255A070(__vector4 v)
 {
-  double dVar1;
-  float in_register_00010010;
-  float in_register_00010018;
-  
-  if ((lbl_82195680 < ABS(in_register_00010010)) || (lbl_82195680 < ABS(in_register_00010018))) {
-    dVar1 = (double)fn_82809D40();
-  }
-  else {
-    dVar1 = (double)ltcg_pool_0_0f;
-  }
-  return dVar1;
-}
+    float x = v.vector4_f32[0];
+    float z = v.vector4_f32[2];
 
+    if (fabs(x) > lbl_821954B0[0x74] || fabs(z) > lbl_821954B0[0x74]) {
+        return fn_82809D40(x, z);
+    }
+    return 0.0f;
+}

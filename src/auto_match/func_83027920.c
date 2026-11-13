@@ -1,24 +1,15 @@
-extern int fn_8301E4B8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_820145F8;
-extern unsigned int lbl_821AAD20;
+extern float fn_8301E4B8(float x);
+extern const float lbl_820145F8;
 
-
-double fn_83027920(double param_1)
-
+float fn_83027920(float x)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar2 = (double)lbl_821AAD20;
-  if (param_1 <= dVar2) {
-    dVar2 = (double)fn_8301E4B8();
-    return dVar2;
-  }
-  dVar1 = (double)fn_8301E4B8(-param_1);
-  if (dVar2 < dVar1) {
-    return (double)(float)((double)lbl_82002AE0 / dVar1);
-  }
-  return (double)lbl_820145F8;
-}
+    float y;
 
+    if (x > 0.0f) {
+        y = fn_8301E4B8(-x);
+        if (y > 0.0f)
+            return 1.0f / y;
+        return lbl_820145F8;
+    }
+    return fn_8301E4B8(x);
+}

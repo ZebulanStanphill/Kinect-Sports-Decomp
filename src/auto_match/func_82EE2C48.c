@@ -1,35 +1,51 @@
-extern int fn_82E275D0();
-extern int fn_82E2D068();
+typedef struct Obj_82EE2C48 Obj_82EE2C48;
 
+typedef struct {
+    int (*query)(Obj_82EE2C48 *self, char *iid, void *out);
+    void *s1;
+    int (*release)(Obj_82EE2C48 *self);
+    void *s3[0x60 / 4 - 3];
+    int (*f60)(Obj_82EE2C48 *self, char *a, char *b);
+} Vt_82EE2C48;
 
-__int64 fn_82EE2C48(int param_1,unsigned int *param_2)
+struct Obj_82EE2C48 {
+    Vt_82EE2C48 *vt;
+};
 
+typedef struct Header_82EE2C48 {
+    char pad0[0x10];
+    unsigned short length;
+} Header_82EE2C48;
+
+extern char lbl_82153478[];
+extern char lbl_821537A8[];
+extern char lbl_821531C8[];
+extern int fn_82E2D068(Obj_82EE2C48 **out);
+extern int fn_82E275D0(Obj_82EE2C48 *obj, Header_82EE2C48 *header, int size);
+
+int fn_82EE2C48(Header_82EE2C48 *header, void **out)
 {
-  __int64 lVar1;
-  int * apiStack_30;
-  
-  *param_2 = 0;
-  apiStack_30 = (int *)0x0;
-  lVar1 = fn_82E2D068(&apiStack_30);
-  if (-1 < lVar1) {
-    if (apiStack_30 == (int *)0x0) {
-      return -0x7fff0001;
+    int hr;
+    Obj_82EE2C48 *obj;
+    *out = 0;
+    obj = 0;
+    hr = fn_82E2D068(&obj);
+    if (hr >= 0) {
+        if (obj == 0) {
+            hr = 0x8000ffff;
+        } else {
+            if (header != 0) {
+                hr = fn_82E275D0(obj, header, header->length + 0x12);
+                if (hr >= 0)
+                    hr = obj->vt->query(obj, lbl_821531C8, out);
+            } else {
+                hr = obj->vt->f60(obj, lbl_82153478, lbl_821537A8);
+                if (hr >= 0)
+                    hr = obj->vt->query(obj, lbl_821531C8, out);
+            }
+        }
     }
-    if (param_1 == 0) {
-      lVar1 = (**(int (***)())(*apiStack_30 + 0x60))
-                        (apiStack_30,0xffffffff82153478,0xffffffff821537a8);
-    }
-    else {
-      lVar1 = fn_82E275D0(apiStack_30,param_1,(unsigned __int64)*(unsigned short *)(param_1 + 0x10) + 0x12
-                               );
-    }
-    if (-1 < lVar1) {
-      lVar1 = (**(int (***)())*apiStack_30)(apiStack_30,0xffffffff821531c8,param_2);
-    }
-  }
-  if (apiStack_30 != (int *)0x0) {
-    (**(int (***)())(*apiStack_30 + 8))();
-  }
-  return lVar1;
+    if (obj != 0)
+        obj->vt->release(obj);
+    return hr;
 }
-

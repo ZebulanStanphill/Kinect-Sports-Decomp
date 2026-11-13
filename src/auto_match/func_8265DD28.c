@@ -1,27 +1,16 @@
-extern int fn_8265DDA0();
-extern unsigned int iStack00000014;
-extern unsigned int uStack0000001c;
+typedef struct String_8265DD28 {
+    char buf[16];
+    unsigned int size;
+    unsigned int res;
+} String_8265DD28;
 
+extern char *fn_8265DDA0(String_8265DD28 *self);
 
-unsigned __int64 fn_8265DD28(int param_1,unsigned int param_2)
-
+unsigned char fn_8265DD28(String_8265DD28 *self, const char *ptr)
 {
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar1;
-  int iStack00000014;
-  unsigned int uStack0000001c;
-  
-  if (((param_2 == 0) ||
-      (iStack00000014 = param_1, uStack0000001c = param_2, uVar2 = fn_8265DDA0(param_1),
-      uStack0000001c < uVar2)) ||
-     (iVar3 = fn_8265DDA0(iStack00000014),
-     (unsigned int)(iVar3 + *(int *)(iStack00000014 + 0x10)) <= uStack0000001c)) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 1;
-  }
-  return uVar1;
+    if (ptr == 0 || ptr < fn_8265DDA0(self) || fn_8265DDA0(self) + self->size <= ptr) {
+        return 0;
+    } else {
+        return 1;
+    }
 }
-

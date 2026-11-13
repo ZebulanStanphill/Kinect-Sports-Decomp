@@ -1,36 +1,27 @@
-void fn_82F53B20(int param_1,unsigned __int64 *param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct State_82F53B20 {
+    __int64 id;
+    int c, d;
+    __vector4 v0;
+    __vector4 v1;
+} State_82F53B20;
+
+typedef struct Obj_82F53B20 {
+    char pad[0x30];
+    State_82F53B20 state;
+} Obj_82F53B20;
+
+void fn_82F53B20(Obj_82F53B20 *self, State_82F53B20 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  if (param_2 == (unsigned __int64 *)0x0) {
-    return;
-  }
-  *param_2 = *(unsigned __int64 *)(param_1 + 0x30);
-  *(unsigned int *)(param_2 + 1) = *(unsigned int *)(param_1 + 0x38);
-  *(unsigned int *)((int)param_2 + 0xc) = *(unsigned int *)(param_1 + 0x3c);
-  puVar1 = (unsigned int *)(param_1 + 0x40U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 2) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_1 + 0x50U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
+    if (out == 0) {
+        return;
+    }
+    out->id = self->state.id;
+    out->c = self->state.c;
+    out->d = self->state.d;
+    out->v0 = self->state.v0;
+    out->v1 = self->state.v1;
 }
-

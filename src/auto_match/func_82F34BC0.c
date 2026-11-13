@@ -1,48 +1,67 @@
-extern unsigned int *auStack_30;
-extern int fn_82E59440();
-extern int fn_82E72520();
+typedef struct IUnk_82F34BC0 IUnk_82F34BC0;
 
+typedef struct Vtbl_82F34BC0 {
+    int (*QueryInterface)(IUnk_82F34BC0 *self, void *iid, IUnk_82F34BC0 **out);
+    unsigned long (*AddRef)(IUnk_82F34BC0 *self);
+    unsigned long (*Release)(IUnk_82F34BC0 *self);
+    void *slot3;
+    int (*Get)(IUnk_82F34BC0 *self, void *id, int flags, IUnk_82F34BC0 **out);
+} Vtbl_82F34BC0;
 
-__int64 fn_82F34BC0(int param_1)
+struct IUnk_82F34BC0 {
+    Vtbl_82F34BC0 *vt;
+};
 
+typedef struct Obj_82F34BC0 {
+    char pad0[0xc];
+    void *source;
+    char pad10[0x128];
+    unsigned short count;
+} Obj_82F34BC0;
+
+extern char lbl_820ED018[];
+extern char lbl_82154C58[];
+extern char lbl_82154C18[];
+extern char lbl_821549E8[];
+
+extern int fn_82E59440(void *src, void *a, void *b, IUnk_82F34BC0 **out);
+extern int fn_82E72520(IUnk_82F34BC0 *p, unsigned short *out);
+
+int fn_82F34BC0(Obj_82F34BC0 *self)
 {
-  __int64 lVar1;
-  unsigned short uVar2;
-  unsigned short auStack_30;
-  int *piStack_2c;
-  int *piStack_28;
-  int *apiStack_24 [1];
-  
-  auStack_30 = 0;
-  piStack_2c = (int *)0x0;
-  piStack_28 = (int *)0x0;
-  apiStack_24[0] = (int *)0x0;
-  uVar2 = *(unsigned short *)(param_1 + 0x138);
-  if (*(unsigned short *)(param_1 + 0x138) == 0) {
-    lVar1 = fn_82E59440(*(unsigned int *)(param_1 + 0xc),0xffffffff820ed018,0xffffffff82154c58,
-                              &piStack_2c);
-    if (((-1 < lVar1) &&
-        (lVar1 = (**(int (***)())*piStack_2c)(piStack_2c,0xffffffff82154c18,&piStack_28), -1 < lVar1))
-       && (lVar1 = (**(int (***)())(*piStack_28 + 0x10))(piStack_28,0xffffffff821549e8,0,apiStack_24),
-          -1 < lVar1)) {
-      lVar1 = fn_82E72520(apiStack_24[0],&auStack_30);
-    }
-    if (piStack_2c != (int *)0x0) {
-      (**(int (***)())(*piStack_2c + 8))();
-      piStack_2c = (int *)0x0;
-    }
-    if (piStack_28 != (int *)0x0) {
-      (**(int (***)())(*piStack_28 + 8))();
-      piStack_28 = (int *)0x0;
-    }
-    if (apiStack_24[0] != (int *)0x0) {
-      (**(int (***)())(*apiStack_24[0] + 8))();
-    }
-    uVar2 = auStack_30;
-    if ((int)lVar1 < 0) {
-      return 0x22;
-    }
-  }
-  return (unsigned __int64)uVar2 * 4 + 0x22;
-}
+    unsigned short count = 0;
+    IUnk_82F34BC0 *p0 = 0;
+    IUnk_82F34BC0 *p1 = 0;
+    IUnk_82F34BC0 *p2 = 0;
+    int hr;
+    int size = 0x22;
+    unsigned short n = self->count;
 
+    if (n == 0) {
+        hr = fn_82E59440(self->source, lbl_820ED018, lbl_82154C58, &p0);
+        if (hr >= 0) {
+            hr = p0->vt->QueryInterface(p0, lbl_82154C18, &p1);
+            if (hr >= 0) {
+                hr = p1->vt->Get(p1, lbl_821549E8, 0, &p2);
+                if (hr >= 0)
+                    hr = fn_82E72520(p2, &count);
+            }
+        }
+        if (p0 != 0) {
+            p0->vt->Release(p0);
+            p0 = 0;
+        }
+        if (p1 != 0) {
+            p1->vt->Release(p1);
+            p1 = 0;
+        }
+        if (p2 != 0)
+            p2->vt->Release(p2);
+        if (hr < 0)
+            goto done;
+        n = count;
+    }
+    size = n * 4 + 0x22;
+done:
+    return size;
+}

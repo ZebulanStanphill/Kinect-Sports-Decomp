@@ -1,75 +1,59 @@
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct Obj_82F48230 Obj_82F48230;
 
+typedef struct ObjVtbl_82F48230 {
+    void *f[6];
+    int (*GetSize)(Obj_82F48230 *self, unsigned __int64 *size);
+    void *g[13];
+    int (*HasExtra)(Obj_82F48230 *self);
+} ObjVtbl_82F48230;
 
-unsigned __int64 fn_82F48230(int *param_1,unsigned int *param_2,unsigned int param_3,unsigned int *param_4)
+struct Obj_82F48230 {
+    ObjVtbl_82F48230 *vt;
+    char pad4[0x14];
+    unsigned short count;          /* 0x18 */
+    char pad1a[0xa];
+    unsigned int id;               /* 0x24 */
+    unsigned int flags;            /* 0x28 */
+    unsigned __int64 *items;       /* 0x2c */
+    char pad30[0x28];
+    unsigned short extra;          /* 0x58 */
+};
 
+unsigned long _byteswap_ulong(unsigned long);
+unsigned short _byteswap_ushort(unsigned short);
+unsigned __int64 _byteswap_uint64(unsigned __int64);
+
+int fn_82F48230(Obj_82F48230 *self, unsigned char *buf, unsigned int size, unsigned int *outSize)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned __int64 *puVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uStack_40;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  
-  if ((param_1[10] & 1U) == 0) {
-    if ((param_4 == (unsigned int *)0x0) || ((param_3 != 0 && (param_2 == (unsigned int *)0x0)))) {
-      uVar1 = 0xffffffff80070057;
-    }
-    else {
-      uStack_40 = 0;
-      uVar1 = (**(int (***)())(*param_1 + 0x18))(param_1,&uStack_40);
-      if (-1 < (int)uVar1) {
-        if (uStack_40 < 0x100000000) {
-          *param_4 = (unsigned int)uStack_40;
-          if (param_3 < (unsigned int)uStack_40) {
-            uVar1 = 0xffffffffc00d36b1;
-          }
-          else {
-            puVar5 = param_2 + 1;
-            *param_2 = (unsigned int)*(unsigned char *)((int)param_1 + 0x27) << 0x18 |
-                       (unsigned int)*(unsigned char *)((int)param_1 + 0x26) << 0x10 |
-                       (unsigned int)*(unsigned char *)((int)param_1 + 0x25) << 8 | (unsigned int)*(unsigned char *)(param_1 + 9);
-            iVar2 = (**(int (***)())(*param_1 + 0x50))(param_1);
-            if (iVar2 != 0) {
-              *(unsigned short *)puVar5 =
-                   *(unsigned short *)(param_1 + 0x16) << 8 | *(unsigned short *)(param_1 + 0x16) >> 8;
-              puVar5 = (unsigned int *)((int)param_2 + 6);
-            }
-            if (*(short *)(param_1 + 6) != 0) {
-              uVar4 = 0;
-              puVar3 = (unsigned __int64 *)(puVar5 + -2);
-              do {
-                iVar2 = uVar4 * 8;
-                uVar4 = uVar4 + 1 & 0xffff;
-                uVar1 = *(unsigned __int64 *)(iVar2 + param_1[0xb]);
-                uStack_34 = (unsigned int)uVar1;
-                uStack_38 = (unsigned int)(uVar1 >> 0x20);
-                puVar3 = puVar3 + 1;
-                *puVar3 = ((uVar1 & 0xff) << 0x18 |
-                          (uVar1 & 0xff00) << 8 |
-                          (unsigned __int64)(uStack_34 >> 8) & 0xff00 | (unsigned __int64)(uStack_34 >> 0x18)) <<
-                          0x20 | ((unsigned __int64)uStack_38 & 0xff) << 0x18 |
-                                 ((unsigned __int64)uStack_38 & 0xff00) << 8 |
-                                 (unsigned __int64)(uStack_38 >> 8) & 0xff00 |
-                                 (unsigned __int64)(uStack_38 >> 0x18);
-              } while (uVar4 < *(unsigned short *)(param_1 + 6));
-            }
-            uVar1 = -(unsigned __int64)((param_1[10] & 1U) != 0) & 0xffffffff80004001;
-          }
-        }
-        else {
-          uVar1 = 0xffffffffc00d3a9a;
-        }
-      }
-    }
-  }
-  else {
-    uVar1 = 0xffffffff80004001;
-  }
-  return uVar1;
-}
+    unsigned __int64 total;
+    unsigned char *p;
+    unsigned short i;
+    int hr;
+    union { unsigned __int64 q; unsigned int w[2]; } u;
 
+    if (self->flags & 1)
+        return 0x80004001;
+    if (outSize == 0 || (size != 0 && buf == 0))
+        return 0x80070057;
+    total = 0;
+    hr = self->vt->GetSize(self, &total);
+    if (hr < 0)
+        return hr;
+    if (total >= 0x100000000ULL)
+        return 0xc00d3a9a;
+    *outSize = (unsigned int)total;
+    if (size < (unsigned int)total)
+        return 0xc00d36b1;
+    *(unsigned int *)buf = _byteswap_ulong(self->id);
+    p = buf + 4;
+    if (self->vt->HasExtra(self) != 0) {
+        *(unsigned short *)p = _byteswap_ushort(self->extra);
+        p += 2;
+    }
+    for (i = 0; i < self->count; i++) {
+        u.q = self->items[i];
+        *(unsigned __int64 *)p = ((unsigned __int64)_byteswap_ulong(u.w[1]) << 32) | _byteswap_ulong(u.w[0]);
+        p += 8;
+    }
+    return (self->flags & 1) ? 0x80004001 : 0;
+}

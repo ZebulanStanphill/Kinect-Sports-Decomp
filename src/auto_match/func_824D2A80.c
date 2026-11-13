@@ -1,34 +1,43 @@
-extern int fn_823BF078();
-extern int fn_82F4DA20();
-extern int fn_82F4ECF8();
-extern int fn_82F50D98();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Handle_824D2A80 {
+    int id;
+} Handle_824D2A80;
 
-void fn_824D2A80(int param_1,int param_2)
+typedef struct Part_824D2A80 {
+    char pad0[0x50];
+    __vector4 pos;      /* 0x50 */
+    int pad60;
+    float scale;        /* 0x64 */
+} Part_824D2A80;
 
+typedef struct Owner_824D2A80 {
+    Handle_824D2A80 handle; /* 0x00 */
+    char pad4[0xd0 - 4];
+    Part_824D2A80 part; /* 0xd0 */
+} Owner_824D2A80;
+
+typedef struct Out_824D2A80 {
+    char pad0[0x180];
+    __vector4 pos;      /* 0x180 */
+    float scale;        /* 0x190 */
+} Out_824D2A80;
+
+extern int fn_82F4DA20(int kind);
+extern void fn_82F50D98(Handle_824D2A80 handle);
+extern int fn_82F4ECF8(void);
+extern void fn_823BF078(Out_824D2A80 *out, int a, int b);
+
+void fn_824D2A80(Part_824D2A80 *part, Out_824D2A80 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  uVar3 = fn_82F4DA20(2);
-  fn_82F50D98(*(unsigned int *)(param_1 + -0xd0));
-  uVar4 = fn_82F4ECF8();
-  fn_823BF078(param_2,uVar3,uVar4);
-  puVar1 = (unsigned int *)(param_1 + 0x50U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)(param_2 + 0x180U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  *(unsigned int *)(param_2 + 400) = *(unsigned int *)(param_1 + 100);
-  return;
-}
+    Owner_824D2A80 *owner = (Owner_824D2A80 *)((char *)part - 0xd0);
+    int a = fn_82F4DA20(2);
+    Handle_824D2A80 h = owner->handle;
 
+    fn_82F50D98(h);
+    fn_823BF078(out, a, fn_82F4ECF8());
+    out->pos = part->pos;
+    out->scale = part->scale;
+}

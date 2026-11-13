@@ -1,52 +1,58 @@
+typedef struct Value_82744268 {
+    char data[24];
+} Value_82744268;
+
+typedef struct Point_82744268 {
+    double x;
+    double y;
+} Point_82744268;
+
+typedef struct Args_82744268 {
+    int unk0;
+    int unk4;
+    unsigned int base;
+    char padc[0xc];
+    int context;
+    int count;
+} Args_82744268;
+
 extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int *auStack_30;
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_82695DA0();
-extern int fn_82696330();
-extern int fn_826972E0();
-extern int fn_82743808();
-extern int fn_82743888();
-extern int fn_82743CD8();
+extern unsigned char fn_82695468(Args_82744268 *args, int type);
+extern void fn_826954C0(Args_82744268 *args, const char *typeName, int a, int b);
+extern unsigned int fn_826957D0(Args_82744268 *args, int index);
+extern void fn_82695DA0(Value_82744268 *value, unsigned int src);
+extern double fn_826972E0(Value_82744268 *value, int context);
+extern void fn_82696330(Value_82744268 *value);
+extern void fn_82743CD8(unsigned int obj, int context, Point_82744268 *out);
+extern void fn_82743888(unsigned int obj, int context, Point_82744268 *in);
+extern void fn_82743808(unsigned int obj, int context, char *def);
+extern char lbl_831F12E8[];
 
-
-void fn_82744268(int param_1)
-
+void fn_82744268(Args_82744268 *args)
 {
-  char cVar2;
-  unsigned __int64 uVar1;
-  __int64 lVar3;
-  double dVar4;
-  double dStack_40;
-  double dStack_38;
-  unsigned char auStack_30 [24];
-  
-  cVar2 = fn_82695468(param_1,0x10);
-  if (cVar2 == '\0') {
-    fn_826954C0(param_1,0xffffffff8200ef00,0,0);
-  }
-  else {
-    lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 8) - 0x10;
-    if ((unsigned __int64)*(unsigned int *)(param_1 + 8) == 0) {
-      lVar3 = 0;
+    unsigned int base;
+    unsigned int obj;
+    Value_82744268 value;
+    Point_82744268 pt;
+    double scale;
+    if (!fn_82695468(args, 0x10)) {
+        fn_826954C0(args, "Point", 0, 0);
+    } else {
+        base = args->base;
+        if (base)
+            obj = base - 0x10;
+        else
+            obj = 0;
+        if (args->count > 0) {
+            fn_82695DA0(&value, fn_826957D0(args, 0));
+            fn_82743CD8(obj, args->context, &pt);
+            scale = fn_826972E0(&value, args->context) / sqrt(pt.y * pt.y + pt.x * pt.x);
+            pt.x = pt.x * scale;
+            pt.y = pt.y * scale;
+            fn_82743888(obj, args->context, &pt);
+            fn_82696330(&value);
+        } else {
+            fn_82743808(obj, args->context + 0x78, lbl_831F12E8);
+        }
     }
-    if (*(int *)(param_1 + 0x1c) < 1) {
-      fn_82743808(lVar3,(unsigned __int64)*(unsigned int *)(param_1 + 0x18) + 0x78,0xffffffff831f12e8);
-    }
-    else {
-      uVar1 = fn_826957D0(param_1,0);
-      fn_82695DA0(auStack_30,uVar1);
-      fn_82743CD8(lVar3,*(unsigned int *)(param_1 + 0x18),&dStack_40);
-      dVar4 = (double)fn_826972E0(auStack_30,*(unsigned int *)(param_1 + 0x18));
-      dVar4 = dVar4 / SQRT(dStack_40 * dStack_40 + dStack_38 * dStack_38);
-      dStack_40 = dStack_40 * dVar4;
-      dStack_38 = dStack_38 * dVar4;
-      fn_82743888(lVar3,*(unsigned int *)(param_1 + 0x18),&dStack_40);
-      fn_82696330(auStack_30);
-    }
-  }
-  return;
 }
-

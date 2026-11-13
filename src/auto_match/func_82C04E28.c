@@ -1,6 +1,10 @@
-__int64 fn_82C04E28(int param_1)
+typedef struct Obj_82C04E28 {
+    char pad[0x30];
+    unsigned int end;     /* 0x30 */
+    unsigned int cur;     /* 0x34 */
+} Obj_82C04E28;
 
+int fn_82C04E28(Obj_82C04E28 *self)
 {
-  return -((unsigned __int64)(*(unsigned int *)(param_1 + 0x34) < *(unsigned int *)(param_1 + 0x30)) - 1);
+    return self->cur >= self->end;
 }
-

@@ -1,18 +1,14 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_8226ACE8 {
+    char pad0[0x24];
+    float rate;     /* 0x24 */
+    char pad28[8];
+    float value;    /* 0x30 */
+} Obj_8226ACE8;
 
-
-void fn_8226ACE8(double param_1,int param_2)
-
+/* Decays value by rate * dt, clamped at zero. */
+void fn_8226ACE8(Obj_8226ACE8 *self, float dt)
 {
-  float fVar1;
-  
-  fVar1 = -(float)((double)*(float *)(param_2 + 0x24) * param_1 - (double)*(float *)(param_2 + 0x30)
-                  );
-  *(float *)(param_2 + 0x30) = fVar1;
-  if (ltcg_pool_0_0f <= fVar1) {
-    return;
-  }
-  *(float *)(param_2 + 0x30) = ltcg_pool_0_0f;
-  return;
+    self->value -= self->rate * dt;
+    if (self->value < 0.0f)
+        self->value = 0.0f;
 }
-

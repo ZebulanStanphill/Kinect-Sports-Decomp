@@ -1,31 +1,52 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define _uStack_20 ((*(unsigned __int64*)&uStack_20))
-extern int fn_826F6C28();
-extern unsigned int iStack_1c;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005CCC;
-extern unsigned int uStack_20;
+typedef struct Color_826F81F0 {
+  unsigned char a;
+  unsigned char b;
+  unsigned char c;
+  unsigned char d;
+} Color_826F81F0;
 
+typedef struct Target_826F81F0 Target_826F81F0;
+typedef struct TargetVt_826F81F0 {
+  char pad[0xa0];
+  float (*getAlpha)(Target_826F81F0 *self);
+} TargetVt_826F81F0;
+struct Target_826F81F0 {
+  TargetVt_826F81F0 *vt;
+  char pad[0xb00 - 4];
+  unsigned int pad31 : 14;
+  unsigned int colorSet : 1; /* 0x20000, set by fn_826F6C28 */
+  unsigned int pad0 : 17;
+};
 
-void fn_826F81F0(int param_1,int *param_2)
+typedef struct Source_826F81F0 Source_826F81F0;
+typedef struct SourceVt_826F81F0 {
+  char pad[0x40];
+  Target_826F81F0 *(*getTarget)(Source_826F81F0 *self);
+} SourceVt_826F81F0;
+struct Source_826F81F0 {
+  SourceVt_826F81F0 *vt;
+  char pad[0x1a8 - 4];
+  int disabled;
+};
 
+typedef struct Self_826F81F0 {
+  int pad0;
+  Color_826F81F0 color;
+} Self_826F81F0;
+
+extern float lbl_82005CCC;
+extern void fn_826F6C28(Target_826F81F0 *target, Color_826F81F0 *color);
+
+void fn_826F81F0(Self_826F81F0 *self, Source_826F81F0 *src)
 {
-  int iVar1;
-  int *piVar2;
-  double dVar3;
-  unsigned int uStack_20;
-  int iStack_1c;
-  
-  if (param_2[0x6a] == 0) {
-    piVar2 = (int *)(**(int (***)())(*param_2 + 0x40))(param_2);
-    if (((unsigned int)piVar2[0x2c0] >> 0x11 & 1) == 0) {
-      dVar3 = (double)(**(int (***)())(*piVar2 + 0xa0))();
-      iVar1 = (int)(dVar3 * (double)lbl_82005CCC + (double)lbl_82002C5C);
-      *(char *)(param_1 + 4) = (char)iVar1;
-      _uStack_20 = CONCAT44(*(unsigned int *)(param_1 + 4),iVar1);
-      fn_826F6C28(piVar2,&uStack_20);
+  Target_826F81F0 *t;
+  Color_826F81F0 c;
+  if (src->disabled == 0) {
+    t = src->vt->getTarget(src);
+    if ((unsigned char)t->colorSet == 0) {
+      self->color.a = (unsigned char)(int)(t->vt->getAlpha(t) * lbl_82005CCC + 0.5f);
+      c = self->color;
+      fn_826F6C28(t, &c);
     }
   }
-  return;
 }
-

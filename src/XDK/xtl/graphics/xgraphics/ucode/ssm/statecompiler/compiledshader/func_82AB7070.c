@@ -1,36 +1,33 @@
-extern int fn_82AB15D0();
-extern int fn_82F68CC0();
+typedef struct Code_82AB7070 {
+  unsigned int dwCodeSizeInDwords;
+  unsigned int f4;
+  unsigned int code[1];
+} Code_82AB7070;
+typedef struct {
+  void *heap;
+  void *(*alloc)(void *heap, unsigned int size);
+  char pad[0x2c - 8];
+  Code_82AB7070 *pCode;
+} CS_82AB7070;
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern void *memcpy(void *, const void *, unsigned int);
 
+#define CS_ASSERT(e, line) \
+  if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledshader.cpp", line)
 
-unsigned __int64 fn_82AB7070(unsigned int *param_1,unsigned int param_2,unsigned __int64 param_3)
-
+int fn_82AB7070(CS_82AB7070 *pCS, unsigned int dwCodeSizeInDwords, const void *pCode)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  __int64 lVar3;
-  
-  lVar3 = ((unsigned __int64)param_2 & 0x3fffffff) * 4;
-  if (param_1 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d683c,0xffffffff820d6be8,0x226);
+  unsigned int size = dwCodeSizeInDwords * 4;
+  CS_ASSERT(pCS, 0x226);
+  pCS->pCode = (Code_82AB7070 *)pCS->alloc(pCS->heap, size + 8);
+  if (pCS->pCode == 0) {
+    CS_ASSERT(!"Could not allocate Shader Code", 0x22d);
+    return 0x10;
   }
-  puVar2 = (unsigned int *)(*(int (**)())param_1[1])(*param_1,lVar3 + 8);
-  param_1[0xb] = puVar2;
-  if (puVar2 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6cd8,0xffffffff820d6be8,0x22d);
-    uVar1 = 0x10;
-  }
-  else {
-    *puVar2 = param_2;
-    ((unsigned int *)param_1[0xb])[1] = *(unsigned int *)param_1[0xb];
-    if ((unsigned __int64)*(unsigned int *)param_1[0xb] != ((unsigned __int64)*(unsigned int *)param_1[0xb] / 3) * 3) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6cac,0xffffffff820d6be8,0x233);
-    }
-    if (0x3fff < *(unsigned int *)param_1[0xb]) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6c84,0xffffffff820d6be8,0x234);
-    }
-    fn_82F68CC0((unsigned __int64)(unsigned int)param_1[0xb] + 8,param_3,lVar3);
-    uVar1 = 0;
-  }
-  return uVar1;
+  pCS->pCode->dwCodeSizeInDwords = dwCodeSizeInDwords;
+  pCS->pCode->f4 = pCS->pCode->dwCodeSizeInDwords;
+  CS_ASSERT((pCS->pCode->dwCodeSizeInDwords % 3) == 0, 0x233);
+  CS_ASSERT(pCS->pCode->dwCodeSizeInDwords < 16384, 0x234);
+  memcpy(pCS->pCode->code, pCode, size);
+  return 0;
 }
-

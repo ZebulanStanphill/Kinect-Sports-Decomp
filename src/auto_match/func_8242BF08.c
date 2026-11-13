@@ -1,9 +1,7 @@
-extern unsigned int lbl_82193AF0;
+extern const float lbl_82193AD8[];
 
-
-double fn_8242BF08(unsigned __int64 param_1,unsigned int param_2)
-
+/* Converts a value in hundredths to a float (lbl_82193AD8[6] is 0.01f). */
+float fn_8242BF08(void *self, unsigned int value)
 {
-  return (double)((float)param_2 * lbl_82193AF0);
+    return (float)value * lbl_82193AD8[6];
 }
-

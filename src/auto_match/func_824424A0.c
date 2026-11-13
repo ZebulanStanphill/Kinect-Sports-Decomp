@@ -1,41 +1,45 @@
-extern int fn_825327A8();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct State_824424A0 {
+    int mode;
+    float time;
+    char pad8[0x28 - 8];
+    unsigned char surface;  /* 0x28 */
+} State_824424A0;
 
+typedef struct Self_824424A0 {
+    int x0;
+    int *anim;              /* 0x04 */
+    State_824424A0 *state;  /* 0x08 */
+} Self_824424A0;
 
-void fn_824424A0(int param_1,int param_2)
+extern void fn_825327A8(int anim, const char *name);
 
+void fn_824424A0(Self_824424A0 *self, int mode)
 {
-  unsigned char bVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_2 == **(int **)(param_1 + 8)) {
-    return;
-  }
-  if (param_2 == 1) {
-    uVar2 = 0xffffffff821b998c;
-  }
-  else if (param_2 == 2) {
-    uVar2 = 0xffffffff821b999c;
-  }
-  else {
-    if (param_2 != 3) goto LAB_82442544;
-    bVar1 = *(unsigned char *)(*(int **)(param_1 + 8) + 10);
-    if (bVar1 < 2) {
-LAB_82442518:
-      uVar2 = 0xffffffff821b99d0;
+    if (mode == self->state->mode) {
+        return;
     }
-    else if (bVar1 < 4) {
-      uVar2 = 0xffffffff821b99c0;
+    switch (mode) {
+    case 1:
+        fn_825327A8(*self->anim, "measuringguyrun");
+        break;
+    case 2:
+        fn_825327A8(*self->anim, "measuringguywalk");
+        break;
+    case 3:
+        switch (self->state->surface) {
+        case 2:
+        case 3:
+            fn_825327A8(*self->anim, "stickitintrack");
+            break;
+        case 7:
+            fn_825327A8(*self->anim, "stickitinsand");
+            break;
+        default:
+            fn_825327A8(*self->anim, "stickitingrass");
+            break;
+        }
+        break;
     }
-    else {
-      if (bVar1 != 7) goto LAB_82442518;
-      uVar2 = 0xffffffff821b99b0;
-    }
-  }
-  fn_825327A8(**(unsigned int **)(param_1 + 4),uVar2);
-LAB_82442544:
-  **(int **)(param_1 + 8) = param_2;
-  *(unsigned int *)(*(int *)(param_1 + 8) + 4) = ltcg_pool_0_0f;
-  return;
+    self->state->mode = mode;
+    self->state->time = 0.0f;
 }
-

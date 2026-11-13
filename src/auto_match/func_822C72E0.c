@@ -1,85 +1,118 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8260D428();
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Str_822C72E0 {
+    union {
+        char *p;
+        char buf[16];
+    } u;
+    unsigned int size;
+    unsigned int cap;
+    int alloc;
+} Str_822C72E0;
 
+typedef struct Value_822C72E0 {
+    int data[7];
+} Value_822C72E0;
 
-unsigned __int64 fn_822C72E0(int param_1,unsigned __int64 param_2)
+typedef struct Node_822C72E0 {
+    struct Node_822C72E0 *left;
+    struct Node_822C72E0 *parent;
+    struct Node_822C72E0 *right;
+    Str_822C72E0 key;
+    Value_822C72E0 value;
+    char color;
+    char isnil;
+} Node_822C72E0;
 
+typedef struct Tree_822C72E0 {
+    int pad;
+    Node_822C72E0 *head;
+    unsigned int size;
+} Tree_822C72E0;
+
+typedef struct Target_822C72E0 Target_822C72E0;
+typedef struct TargetVt_822C72E0 {
+    void *slot0;
+    void (*apply)(Target_822C72E0 *self, Value_822C72E0 *value);
+} TargetVt_822C72E0;
+struct Target_822C72E0 {
+    TargetVt_822C72E0 *vt;
+};
+
+typedef struct RefCount_822C72E0 RefCount_822C72E0;
+
+typedef struct Self_822C72E0 {
+    char pad0[0x28];
+    Target_822C72E0 *targetPtr;
+    RefCount_822C72E0 *targetRep;
+    char pad30[0x10];
+    Tree_822C72E0 map;
+} Self_822C72E0;
+
+extern void fn_82230110(Str_822C72E0 *s, const char *text);
+extern void fn_82230300(Str_822C72E0 *s, int built, unsigned int newSize);
+extern unsigned char fn_8223AAC0(RefCount_822C72E0 *rep);
+extern void fn_822315A0(RefCount_822C72E0 *rep);
+extern int fn_8260D428(Str_822C72E0 *, int, unsigned int, const char *, unsigned int);
+
+static __forceinline const char *cstr(Str_822C72E0 *s)
 {
-  int *piVar1;
-  char cVar4;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int ****ppppuVar5;
-  unsigned int *puVar6;
-  unsigned int **ppuVar7;
-  int *piVar8;
-  int iVar9;
-  unsigned int *puStack_70;
-  unsigned int *apuStack_6c [3];
-  unsigned int ***apppuStack_60 [4];
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  
-  iVar3 = *(int *)(param_1 + 0x2c);
-  piVar1 = *(int **)(param_1 + 0x28);
-  iVar9 = 0;
-  piVar8 = (int *)0x0;
-  if ((iVar3 != 0) && (cVar4 = fn_8223AAC0(iVar3), cVar4 != '\0')) {
-    iVar9 = iVar3;
-    piVar8 = piVar1;
-  }
-  fn_82230110(apppuStack_60,param_2);
-  puStack_70 = *(unsigned int **)(param_1 + 0x44);
-  puVar6 = (unsigned int *)(*(unsigned int **)(param_1 + 0x44))[1];
-  while (*(char *)((int)puVar6 + 0x45) == '\0') {
-    ppppuVar5 = (unsigned int ****)apppuStack_60[0];
-    if (uStack_4c < 0x10) {
-      ppppuVar5 = apppuStack_60;
-    }
-    iVar3 = fn_8260D428(puVar6 + 3,0,puVar6[7],ppppuVar5,uStack_50);
-    if (iVar3 < 0) {
-      puVar6 = (unsigned int *)puVar6[2];
-    }
-    else {
-      puStack_70 = puVar6;
-      puVar6 = (unsigned int *)*puVar6;
-    }
-  }
-  if (puStack_70 != *(unsigned int **)(param_1 + 0x44)) {
-    puVar6 = puStack_70 + 3;
-    if (0xf < (unsigned int)puStack_70[8]) {
-      puVar6 = (unsigned int *)*puVar6;
-    }
-    iVar3 = fn_8260D428(apppuStack_60,0,uStack_50,puVar6,puStack_70[7]);
-    if (-1 < iVar3) {
-      ppuVar7 = &puStack_70;
-      goto LAB_822c73e4;
-    }
-  }
-  apuStack_6c[0] = *(unsigned int **)(param_1 + 0x44);
-  ppuVar7 = apuStack_6c;
-LAB_822c73e4:
-  puVar6 = *ppuVar7;
-  fn_82230300(apppuStack_60,1,0);
-  if (ZEXT48(puVar6) == (unsigned __int64)*(unsigned int *)(param_1 + 0x44)) {
-    if (iVar9 != 0) {
-      fn_822315A0(iVar9);
-    }
-    uVar2 = 0;
-  }
-  else {
-    (**(int (***)())(*piVar8 + 4))(piVar8,ZEXT48(puVar6) + 0x28);
-    if (iVar9 != 0) {
-      fn_822315A0(iVar9);
-    }
-    uVar2 = 1;
-  }
-  return uVar2;
+    return s->cap >= 0x10 ? s->u.p : s->u.buf;
 }
 
+static __forceinline int cmp(Str_822C72E0 *a, Str_822C72E0 *b)
+{
+    unsigned int len = b->size;
+    const char *p = cstr(b);
+    return fn_8260D428(a, 0, a->size, p, len);
+}
+
+static __forceinline Node_822C72E0 *find(Tree_822C72E0 *t, Str_822C72E0 *key)
+{
+    Node_822C72E0 *res = t->head;
+    Node_822C72E0 *n = res->parent;
+    Node_822C72E0 **pp;
+    Node_822C72E0 *tmp;
+    Node_822C72E0 *endn;
+    while (n->isnil == 0) {
+        Str_822C72E0 *k = &n->key;
+        if (cmp(k, key) < 0) {
+            n = n->right;
+        } else {
+            res = n;
+            n = n->left;
+        }
+    }
+    tmp = res;
+    if (res != t->head && cmp(key, &res->key) >= 0) {
+        pp = &tmp;
+    } else {
+        endn = t->head;
+        pp = &endn;
+    }
+    return *pp;
+}
+
+int fn_822C72E0(Self_822C72E0 *self, const char *name)
+{
+    RefCount_822C72E0 *otherRep = self->targetRep;
+    Target_822C72E0 *otherPtr = self->targetPtr;
+    Target_822C72E0 *ptr = 0;
+    RefCount_822C72E0 *rep = 0;
+    Str_822C72E0 key;
+    Node_822C72E0 *it;
+    if (otherRep != 0 && fn_8223AAC0(otherRep)) {
+        rep = otherRep;
+        ptr = otherPtr;
+    }
+    fn_82230110(&key, name);
+    it = find(&self->map, &key);
+    fn_82230300(&key, 1, 0);
+    if (it != self->map.head) {
+        ptr->vt->apply(ptr, &it->value);
+        if (rep != 0)
+            fn_822315A0(rep);
+        return 1;
+    }
+    if (rep != 0)
+        fn_822315A0(rep);
+    return 0;
+}

@@ -1,31 +1,43 @@
-extern int fn_826D69D0();
-extern int fn_826E3078();
+typedef struct Pool_826E3B90 {
+    char *cur;
+    unsigned int left;
+} Pool_826E3B90;
 
+typedef struct Arena_826E3B90 {
+    char pad0[8];
+    Pool_826E3B90 pool;
+} Arena_826E3B90;
 
-unsigned __int64 fn_826E3B90(int param_1)
+typedef struct Owner_826E3B90 {
+    char pad0[0x20];
+    Arena_826E3B90 *arena;
+} Owner_826E3B90;
 
+typedef struct Node_826E3B90 {
+    int field[7];
+} Node_826E3B90;
+
+extern Node_826E3B90 *fn_826E3078(Node_826E3B90 *node);
+
+extern void *fn_826D69D0(Pool_826E3B90 *pool, unsigned int size);
+
+static __forceinline void *Alloc(Pool_826E3B90 *pool, unsigned int size)
 {
-  int iVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  int *piVar4;
-  
-  iVar1 = *(int *)(param_1 + 0x20);
-  piVar4 = (int *)(iVar1 + 8);
-  if (*(unsigned int *)(iVar1 + 0xc) < 0x1c) {
-    iVar3 = fn_826D69D0(piVar4,0x1c);
-  }
-  else {
-    iVar3 = *piVar4;
-    *(unsigned int *)(iVar1 + 0xc) = *(unsigned int *)(iVar1 + 0xc) - 0x1c;
-    *piVar4 = iVar3 + 0x1c;
-  }
-  if (iVar3 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_826E3078();
-  }
-  return uVar2;
+    void *mem;
+
+    if (pool->left >= size) {
+        mem = pool->cur;
+        pool->left -= size;
+        pool->cur += size;
+    } else {
+        mem = fn_826D69D0(pool, size);
+    }
+    return mem;
 }
 
+Node_826E3B90 *fn_826E3B90(Owner_826E3B90 *self)
+{
+    Node_826E3B90 *node = (Node_826E3B90 *)Alloc(&self->arena->pool, sizeof(Node_826E3B90));
+
+    return node ? fn_826E3078(node) : 0;
+}

@@ -1,42 +1,51 @@
-extern int fn_82A3FF60();
-extern int fn_82A4F4E0();
-extern int fn_82A761F8();
-extern int fn_82A76260();
-extern unsigned int lbl_82089670;
+typedef struct Obj_82A76478 {
+    void *vt;
+    int pad4[7];
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+    int limit;
+    int f34;
+    int pad38[3];
+} Obj_82A76478;
 
+extern char lbl_83219D50[];
+extern char lbl_82089670[];
+extern void *fn_82A3FF60(void *heap, int size, int tag, int flags);
+extern int fn_82A76260(Obj_82A76478 *obj, void *a, void *b, void *c);
+extern void fn_82A761F8(Obj_82A76478 *obj);
+extern void fn_82A4F4E0(void *p);
 
-__int64 fn_82A76478(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4)
-
+static __forceinline Obj_82A76478 *construct(Obj_82A76478 *o)
 {
-  unsigned int *puVar1;
-  __int64 lVar2;
-  
-  puVar1 = (unsigned int *)fn_82A3FF60(0xffffffff83219d50,0x44,0x20970006,0);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[8] = 0;
-    *puVar1 = &lbl_82089670;
-    puVar1[9] = 0;
-    puVar1[10] = 0;
-    puVar1[0xb] = 0;
-    puVar1[0xc] = 0x7fffffff;
-    puVar1[0xd] = 0;
-  }
-  if (puVar1 == (unsigned int *)0x0) {
-    lVar2 = -0x7ff8fff2;
-  }
-  else {
-    lVar2 = fn_82A76260(puVar1,param_1,param_2,param_3);
-    if (lVar2 < 0) {
-      fn_82A761F8(puVar1);
-      fn_82A4F4E0(puVar1);
-    }
-    else {
-      *param_4 = puVar1;
-    }
-  }
-  return lVar2;
+    o->f20 = 0;
+    o->vt = lbl_82089670;
+    o->f24 = 0;
+    o->f28 = 0;
+    o->f2c = 0;
+    o->limit = 0x7fffffff;
+    o->f34 = 0;
+    return o;
 }
 
+int fn_82A76478(void *a, void *b, void *c, Obj_82A76478 **out)
+{
+    Obj_82A76478 *o;
+    void *m;
+    int hr;
+    m = fn_82A3FF60(lbl_83219D50, 0x44, 0x20970006, 0);
+    o = m != 0 ? construct((Obj_82A76478 *)m) : 0;
+    if (o == 0) {
+        hr = 0x8007000e;
+    } else {
+        hr = fn_82A76260(o, a, b, c);
+        if (hr >= 0) {
+            *out = o;
+        } else {
+            fn_82A761F8(o);
+            fn_82A4F4E0(o);
+        }
+    }
+    return hr;
+}

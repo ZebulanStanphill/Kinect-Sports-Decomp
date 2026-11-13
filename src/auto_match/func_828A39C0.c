@@ -1,46 +1,62 @@
-extern int fn_828A2E00();
-extern int fn_828A34C0();
-extern unsigned int iStack_28;
-extern unsigned int iStack_38;
-extern unsigned int iStack_48;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Proxy_828A39C0 {
+    struct Deque_828A39C0 *cont;
+    void *firstiter;
+} Proxy_828A39C0;
 
+typedef struct Deque_828A39C0 {
+    Proxy_828A39C0 *proxy;
+    void *map;
+    unsigned int mapsize;
+    unsigned int off;
+    unsigned int size;
+} Deque_828A39C0;
 
-void fn_828A39C0(int param_1,unsigned int param_2)
+typedef struct It_828A39C0 {
+    Proxy_828A39C0 *proxy;
+    void *nextiter;
+    unsigned int off;
+} It_828A39C0;
 
+typedef struct Obj_828A39C0 {
+    char pad0[0x240];
+    Deque_828A39C0 items;   /* 0x240 */
+} Obj_828A39C0;
+
+/* std::remove(first, last, value) */
+extern It_828A39C0 *fn_828A2E00(It_828A39C0 *out, It_828A39C0 *first, It_828A39C0 *last, void **value);
+/* deque::erase(where) */
+extern It_828A39C0 *fn_828A34C0(It_828A39C0 *out, Deque_828A39C0 *self, It_828A39C0 *where);
+
+static __forceinline void Adopt_828A39C0(It_828A39C0 *it, const Deque_828A39C0 *parent)
 {
-  unsigned int uStack0000001c;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  int iStack_48;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  int iStack_38;
-  int *apiStack_30 [2];
-  int iStack_28;
-  
-  iStack_38 = *(int *)(param_1 + 0x24c);
-  uStack_50 = *(unsigned int *)(param_1 + 0x240);
-  uStack_4c = 0;
-  uStack_3c = 0;
-  iStack_48 = *(int *)(param_1 + 0x250) + iStack_38;
-  uStack0000001c = param_2;
-  uStack_40 = uStack_50;
-  fn_828A2E00(apiStack_30,&uStack_40,&uStack_50,&stack0x0000001c);
-  if (iStack_28 != *(int *)(param_1 + 0x250) + *(int *)(param_1 + 0x24c)) {
-    uStack_50 = 0;
-    uStack_4c = 0;
-    if ((apiStack_30[0] != (int *)0x0) && ((unsigned int *)*apiStack_30[0] != (unsigned int *)0x0)) {
-      uStack_50 = *(unsigned int *)*apiStack_30[0];
-    }
-    iStack_48 = iStack_28;
-    fn_828A34C0(apiStack_30,param_1 + 0x240,&uStack_50);
-  }
-  return;
+    if (parent != 0)
+        it->proxy = parent->proxy;
 }
 
+static __forceinline void Copy_828A39C0(It_828A39C0 *it, const It_828A39C0 *right)
+{
+    it->proxy = 0;
+    it->nextiter = 0;
+    if (it->proxy != right->proxy)
+        Adopt_828A39C0(it, right->proxy->cont);
+    it->off = right->off;
+}
+
+/* it = std::remove(items.begin(), items.end(), value); if (it != items.end()) items.erase(it); */
+void fn_828A39C0(Obj_828A39C0 *self, void *value)
+{
+    Deque_828A39C0 *d = &self->items;
+    It_828A39C0 last, first, it;
+
+    first.off = d->off;
+    last.proxy = d->proxy;
+    last.nextiter = 0;
+    last.off = d->off + d->size;
+    first.proxy = d->proxy;
+    first.nextiter = 0;
+    fn_828A2E00(&it, &first, &last, &value);
+    if (it.off != d->off + d->size) {
+        Copy_828A39C0(&last, &it);
+        fn_828A34C0(&it, d, &last);
+    }
+}

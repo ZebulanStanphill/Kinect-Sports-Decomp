@@ -1,31 +1,28 @@
-extern unsigned int *auStack_20;
-extern int fn_82AA66A8();
-extern int fn_82B45A50();
+typedef struct Arg_82B45C18 {
+    int pad0;
+    int type;
+    int value;
+    void *extra;
+} Arg_82B45C18;
 
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code);
+extern unsigned char fn_82B45A50(void *ctx, int value, unsigned char *out);
 
-unsigned char fn_82B45C18(unsigned __int64 param_1,int param_2)
-
+unsigned char fn_82B45C18(void *ctx, Arg_82B45C18 *arg)
 {
-  char cVar1;
-  unsigned char auStack_20;
-  
-  if (param_2 == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0xe19);
-  }
-  if (*(int *)(param_2 + 4) != 1) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0x12c1);
-  }
-  if (*(int *)(param_2 + 0xc) != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0xe19);
-  }
-  cVar1 = fn_82B45A50(param_1,*(unsigned int *)(param_2 + 8),&auStack_20);
-  if (cVar1 == '\0') {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0xe19);
-  }
-  return auStack_20;
-}
+    unsigned char result;
 
+    if (arg == 0) {
+        fn_82AA66A8(ctx, 0xe19);
+    }
+    if (arg->type == 1) {
+        if (arg->extra != 0) {
+            fn_82AA66A8(ctx, 0xe19);
+        }
+        if (!fn_82B45A50(ctx, arg->value, &result)) {
+            fn_82AA66A8(ctx, 0xe19);
+        }
+        return result;
+    }
+    fn_82AA66A8(ctx, 0x12c1);
+}

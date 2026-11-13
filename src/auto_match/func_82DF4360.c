@@ -1,23 +1,39 @@
-void fn_82DF4360(double param_1,int param_2)
+typedef struct Item_82DF4360 {
+    struct ItemVt_82DF4360 *vt;
+    int pad4[2];
+    unsigned char flags;
+    char padD[7];
+    float time;
+} Item_82DF4360;
 
+typedef struct ItemVt_82DF4360 {
+    void *slot[3];
+    void (*fire)(Item_82DF4360 *self);
+} ItemVt_82DF4360;
+
+typedef struct Owner_82DF4360 {
+    char pad0[0x2c];
+    Item_82DF4360 **items;
+    int count;
+} Owner_82DF4360;
+
+static __forceinline void Fire(Item_82DF4360 *item)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_2 + 0x30);
-  if (0 < (int)*(unsigned int *)(param_2 + 0x30)) {
-    iVar3 = 0;
-    do {
-      piVar1 = *(int **)(*(int *)(param_2 + 0x2c) + iVar3);
-      if ((param_1 < (double)(float)piVar1[5]) && ((*(unsigned char *)(piVar1 + 3) & 1) == 0)) {
-        (**(int (***)())(*piVar1 + 0xc))();
-        *(unsigned char *)(piVar1 + 3) = *(unsigned char *)(piVar1 + 3) | 1;
-      }
-      uVar2 = uVar2 - 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 != 0);
-  }
-  return;
+    unsigned char *flags = &item->flags;
+    item->vt->fire(item);
+    *flags |= 1;
 }
 
+void fn_82DF4360(Owner_82DF4360 *owner, float t)
+{
+    Owner_82DF4360 *self = owner;
+    int i;
+    int n = self->count;
+
+    for (i = 0; i < n; i++) {
+        Item_82DF4360 *item = self->items[i];
+        if (item->time > t && (item->flags & 1) == 0) {
+            Fire(item);
+        }
+    }
+}

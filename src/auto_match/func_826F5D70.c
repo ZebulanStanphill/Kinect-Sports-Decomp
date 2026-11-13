@@ -1,16 +1,15 @@
-__int64 fn_826F5D70(int param_1,unsigned int *param_2)
+typedef struct Obj_826F5D70 {
+    char pad0[0x50];
+    int current;    /* 0x50 */
+    int pad54;
+    int next;       /* 0x58 */
+} Obj_826F5D70;
 
+/* Hands out the next id; optionally returns the previous current id. */
+int fn_826F5D70(Obj_826F5D70 *self, int *previous)
 {
-  __int64 lVar1;
-  unsigned int uVar2;
-  
-  if (param_2 != (unsigned int *)0x0) {
-    *param_2 = *(unsigned int *)(param_1 + 0x50);
-  }
-  lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x58) + 1;
-  uVar2 = (unsigned int)lVar1;
-  *(unsigned int *)(param_1 + 0x58) = uVar2;
-  *(unsigned int *)(param_1 + 0x50) = uVar2;
-  return lVar1;
+    if (previous != 0)
+        *previous = self->current;
+    self->current = ++self->next;
+    return self->current;
 }
-

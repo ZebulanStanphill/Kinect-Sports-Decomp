@@ -1,22 +1,18 @@
-extern int fn_826310E0();
+extern void fn_826310E0(void *a, unsigned int offset, void *c, unsigned int size, unsigned __int64 mask);
 
-
-unsigned __int64
-fn_82918268(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,float *param_4,unsigned __int64 param_5)
-
+/* Converts size * 4 ints to floats, then forwards the int data with the dword mask of [offset, offset + size). */
+int fn_82918268(void *a, unsigned int offset, int *src, float *dst, unsigned int size)
 {
-  __int64 lVar1;
-  
-  lVar1 = (param_5 & 0x3fffffff) << 2;
-  if ((param_5 & 0x3fffffff) != 0) {
-    param_3 = param_3 - (int)param_4;
-    do {
-      *param_4 = (float)(__int64)*(int *)(param_3 + (int)param_4);
-      param_4 = param_4 + 1;
-      lVar1 = lVar1 + -1;
-    } while (lVar1 != 0);
-  }
-  fn_826310E0();
-  return 0;
-}
+    unsigned int n = size * 4;
+    unsigned int i;
+    unsigned int first;
+    unsigned int last;
 
+    for (i = 0; i != n; i++)
+        dst[i] = (float)src[i];
+    first = offset >> 2;
+    last = (offset + size - 1) >> 2;
+    fn_826310E0(a, offset, src, size,
+          (unsigned __int64)((__int64)0x8000000000000000ULL >> (last - first)) >> first);
+    return 0;
+}
