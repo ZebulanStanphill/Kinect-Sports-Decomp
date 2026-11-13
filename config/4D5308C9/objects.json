@@ -25662,7 +25662,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_82334668.c": "MISSING",
+      "auto_match/func_82334668.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "pool_aliases": {
+          "__real@00000000": "ltcg_pool_0_0f"
+        }
+      },
       "auto_match/func_82334868.c": {
         "status": "NonMatching",
         "extra_cflags": [
@@ -44613,7 +44622,17 @@
           "/O1"
         ]
       },
-      "auto_match/func_82444F08.c": "MISSING",
+      "auto_match/func_82444F08.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "pool_aliases": {
+          "__real@00000000": "ltcg_pool_0_0f",
+          "__real@40000000": "lbl_821916FC"
+        }
+      },
       "auto_match/func_82445100.c": {
         "status": "NonMatching",
         "extra_cflags": [
@@ -54099,7 +54118,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_824B44C8.c": "MISSING",
+      "auto_match/func_824B44C8.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "pool_aliases": {
+          "__real@3727c5ac": "lbl_8218EC10"
+        }
+      },
       "auto_match/func_824B46C0.c": {
         "status": "NonMatching",
         "extra_cflags": [
@@ -172638,7 +172666,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_829F10C8.c": "MISSING",
+      "auto_match/func_829F10C8.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1"
+        ]
+      },
       "auto_match/func_829F12C8.c": {
         "status": "NonMatching",
         "extra_cflags": [
@@ -241560,7 +241593,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_82DE52A0.c": "MISSING",
+      "auto_match/func_82DE52A0.cpp": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O2",
+          "/QVMXReserve"
+        ],
+        "pool_aliases": {
+          "__real@37480000": "lbl_82145204"
+        }
+      },
       "auto_match/func_82DE54A0.c": {
         "status": "NonMatching",
         "extra_cflags": [

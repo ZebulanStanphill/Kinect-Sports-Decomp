@@ -154466,7 +154466,7 @@ auto_match/func_82DE5138.c:
 auto_match/func_82DE51D8.c:
 	.text       start:0x82DE51D8 end:0x82DE529C
 
-auto_match/func_82DE52A0.c:
+auto_match/func_82DE52A0.cpp:
 	.pdata      start:0x8221A830 end:0x8221A838
 	.text       start:0x82DE52A0 end:0x82DE54A0
 
